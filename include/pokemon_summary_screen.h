@@ -4,6 +4,7 @@
 #include "main.h"
 #include "config/summary_screen.h"
 #include "constants/move_relearner.h"
+#include "swsh_summary_screen.h"
 
 extern u8 gLastViewedMonIndex;
 
@@ -40,6 +41,12 @@ enum PokemonSummaryScreenPage
     PSS_PAGE_SKILLS,
     PSS_PAGE_BATTLE_MOVES,
     PSS_PAGE_CONTEST_MOVES,
+#if SWSH_SUMMARY_SCREEN
+#if SWSH_SUMMARY_SHOW_CONTEST_PAGES
+    PSS_PAGE_CONDITIONS,
+#endif
+    PSS_PAGE_MEMO,
+#endif
     PSS_PAGE_COUNT,
 };
 

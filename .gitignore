@@ -69,3 +69,6 @@ __pycache__
 
 # Pokemon World working docs (plans, reviews) — kept local
 docs/
+
+# SDD scratch (not part of the hack)
+.superpowers/

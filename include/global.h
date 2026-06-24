@@ -261,6 +261,13 @@ struct Pokevial
 };
 #endif // POKEVIAL_FEATURE
 
+#if QUEST_MENU
+#include "constants/quests.h"
+#define QUEST_FLAGS_COUNT ROUND_BITS_TO_BYTES(QUEST_COUNT)
+#define SUB_FLAGS_COUNT ROUND_BITS_TO_BYTES(SUB_QUEST_COUNT)
+#define QUEST_STATES 5 // Number of different quest states tracked in the saveblock
+#endif // QUEST_MENU
+
 struct SaveBlock3
 {
 #if OW_USE_FAKE_RTC
@@ -282,6 +289,10 @@ struct SaveBlock3
 #if POKEVIAL_FEATURE
     struct Pokevial pokevial;
 #endif
+#if QUEST_MENU
+    u8 questData[QUEST_FLAGS_COUNT * QUEST_STATES];
+    u8 subQuests[SUB_FLAGS_COUNT];
+#endif // QUEST_MENU
 }; /* max size 1624 bytes */
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;

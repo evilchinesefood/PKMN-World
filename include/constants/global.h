@@ -31,6 +31,7 @@
 #include "config/pokemon.h"
 #include "config/pokevial.h"
 #include "config/qol_field_moves.h"
+#include "config/quests.h"
 #include "config/summary_screen.h"
 #include "config/swsh_item_menu.h"
 #include "config/swsh_party_menu.h"

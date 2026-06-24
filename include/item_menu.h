@@ -4,6 +4,7 @@
 #include "item.h"
 #include "main.h"
 #include "menu_helpers.h"
+#include "swsh_item_menu.h"
 
 enum {
     ITEMMENULOCATION_FIELD,
@@ -34,6 +35,16 @@ enum {
     ITEMWIN_QUANTITY,
     ITEMWIN_QUANTITY_WIDE,
     ITEMWIN_MONEY,
+#if SWSH_ITEM_MENU
+    ITEMWIN_SELL_PRICE,
+    ITEMWIN_SELL_QUANTITY,
+#endif
+#if SWSH_ITEM_MENU_ACTION_IN_BAG
+    ITEMWIN_PP_MOVE_SELECT,
+    ITEMWIN_LEVEL_UP_STATS,
+    ITEMWIN_ROTOM_CATALOG,
+    ITEMWIN_ZYGARDE_CUBE,
+#endif
     ITEMWIN_COUNT
 };
 
@@ -71,7 +82,12 @@ extern struct BagPosition gBagPosition;
 struct BagMenu
 {
     MainCallback newScreenCallback;
+#if SWSH_ITEM_MENU
+    u8 mainTilemapBuffer[BG_SCREEN_SIZE];
+    u8 scrollingBgTilemapBuffer[BG_SCREEN_SIZE];
+#else
     u8 tilemapBuffer[BG_SCREEN_SIZE];
+#endif
     u8 spriteIds[ITEMMENUSPRITE_COUNT];
     u8 windowIds[ITEMWIN_COUNT];
     u8 toSwapPos;
@@ -91,6 +107,9 @@ struct BagMenu
     u8 unused2[14];
     u8 ALIGNED(4) pocketNameBuffer[32][32];
     u8 unused3[4];
+#if SWSH_ITEM_MENU
+    u8 partyMonIconSpriteIds[PARTY_SIZE];
+#endif
 };
 
 extern struct BagMenu *gBagMenu;

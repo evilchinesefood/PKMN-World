@@ -29,6 +29,7 @@
 #include "config/overworld.h"
 #include "config/pokemon.h"
 #include "config/summary_screen.h"
+#include "config/swsh_item_menu.h"
 #include "config/swsh_party_menu.h"
 #include "config/wild_encounter.h"
 

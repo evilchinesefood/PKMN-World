@@ -141,5 +141,12 @@ void DisplayItemMessageOnField(u8 taskId, const u8 *string, TaskFunc callback);
 void CloseItemMessage(u8 taskId);
 void ItemMenu_RotomCatalog(u8 taskId);
 void SortItemsInBag(struct BagPocket *pocket, enum BagSortOptions type);
+#if I_KEY_ITEM_WHEEL
+u16 GetRegisteredItem(u32 slot);
+void SetRegisteredItem(u32 slot, u16 item);
+s32 RegisteredItemIndex(u16 item);
+u32 CountRegisteredItems(void);
+void SwapRegisteredBikeMultiSlot(void);
+#endif //I_KEY_ITEM_WHEEL
 
 #endif //GUARD_ITEM_MENU_H

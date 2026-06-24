@@ -11,6 +11,7 @@
 #include "data.h"
 #include "decompress.h"
 #include "event_data.h"
+#include "event_object_lock.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
 #include "field_player_avatar.h"
@@ -326,6 +327,10 @@ static void CancelToss(u8);
 static void ConfirmSell(u8);
 static void CancelSell(u8);
 static void Task_FadeAndCloseBagMenuIfMulch(u8 taskId);
+#if I_KEY_ITEM_WHEEL
+static void Task_KeyItemWheel(u8 taskId);
+static void Task_RegisterUsingDpad(u8 taskId);
+#endif //I_KEY_ITEM_WHEEL
 #if SWSH_ITEM_MENU_ACTION_IN_BAG
 static void BagMenu_DrawPartySlots(void);
 static void BagMenu_SetPartySlotPalette(u8 slot, u8 pal);
@@ -709,6 +714,141 @@ static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate = {
 };
 
 static const u8 sRegisteredSelect_Gfx[]         = INCGFX_U8("graphics/bag/swsh/select_button.png", ".4bpp");
+#if I_KEY_ITEM_WHEEL
+// Tag immune to blending; doesn't conflict with the TAG_* values above
+#define PAL_TAG_KEY_ITEM_WHEEL  0x9000
+// Per-slot registered indicators (one per D-Pad direction); index by RegisteredItemIndex
+static const u8 sRegisterUp_Gfx[]    = INCGFX_U8("graphics/bag/swsh/select_button_up.png", ".4bpp");
+static const u8 sRegisterRight_Gfx[] = INCGFX_U8("graphics/bag/swsh/select_button_right.png", ".4bpp");
+static const u8 sRegisterDown_Gfx[]  = INCGFX_U8("graphics/bag/swsh/select_button_down.png", ".4bpp");
+static const u8 sRegisterLeft_Gfx[]  = INCGFX_U8("graphics/bag/swsh/select_button_left.png", ".4bpp");
+static const u8 *const sRegisteredDir_Gfx[MAX_REGISTERED_ITEMS] = {sRegisterUp_Gfx, sRegisterRight_Gfx, sRegisterDown_Gfx, sRegisterLeft_Gfx};
+// Rotating box sprite for the overworld wheel
+static const u32 sKeyItemBoxGfx[] = INCGFX_U32("graphics/bag/swsh/key_item_box.png", ".4bpp");
+static const u16 sKeyItemBoxPal[] = INCGFX_U16("graphics/bag/swsh/key_item_box.png", ".gbapal");
+static const struct SpritePalette sSpritePalette_KeyItemBox = {
+    .data = sKeyItemBoxPal,
+    .tag = PAL_TAG_KEY_ITEM_WHEEL,
+};
+static const struct SpriteFrameImage sPicTable_KeyItemBox[] = {
+    obj_frame_tiles(sKeyItemBoxGfx),
+};
+static const struct OamData sOam_KeyItemBox = {
+    .shape = SPRITE_SHAPE(32x32),
+    .size = SPRITE_SIZE(32x32),
+    .priority = 1,
+    .objMode = ST_OAM_OBJ_BLEND,
+    .affineMode = ST_OAM_AFFINE_DOUBLE,
+};
+static const struct OamData sOam_KeyItemBoxWin = {
+    .shape = SPRITE_SHAPE(32x32),
+    .size = SPRITE_SIZE(32x32),
+    .priority = 1,
+    .objMode = ST_OAM_OBJ_WINDOW,
+    .affineMode = ST_OAM_AFFINE_OFF,
+};
+static const union AnimCmd sSpriteAnim_KeyItemBox[] = {
+    ANIMCMD_FRAME(0, 0),
+    ANIMCMD_END
+};
+static const union AnimCmd *const sSpriteAnimTable_KeyItemBox[] = {
+    sSpriteAnim_KeyItemBox
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBox0[] = {
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBox1[] = {
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0xC0, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBox2[] = {
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x80, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBox3[] = {
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x40, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBoxGrow0[] = {
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0, 0),
+    AFFINEANIMCMD_FRAME(0xC0, 0xC0, 0, 0),
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x120, 0, 0),
+    AFFINEANIMCMD_FRAME(0x120, 0x120, 0, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x110, 0, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBoxGrow1[] = {
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0xC0, 0xC0, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x120, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0x120, 0x120, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x110, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0xC0, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0xC0, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBoxGrow2[] = {
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0xC0, 0xC0, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x120, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0x120, 0x120, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x110, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x80, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x80, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd sAffineAnim_KeyItemBoxGrow3[] = {
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0xC0, 0xC0, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0xE0, 0xE0, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x120, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0x120, 0x120, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0x110, 0x110, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x40, 0),
+    AFFINEANIMCMD_FRAME(0x100, 0x100, 0x40, 0),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd *const sAffineAnims_KeyItemBox[] = {
+    sAffineAnim_KeyItemBox0,
+    sAffineAnim_KeyItemBox1,
+    sAffineAnim_KeyItemBox2,
+    sAffineAnim_KeyItemBox3,
+    sAffineAnim_KeyItemBoxGrow0,
+    sAffineAnim_KeyItemBoxGrow1,
+    sAffineAnim_KeyItemBoxGrow2,
+    sAffineAnim_KeyItemBoxGrow3,
+};
+static const struct SpriteTemplate sSpriteTemplate_KeyItemBox = {
+    .tileTag = PAL_TAG_KEY_ITEM_WHEEL,
+    .paletteTag = PAL_TAG_KEY_ITEM_WHEEL,
+    .oam = &sOam_KeyItemBox,
+    .anims = sSpriteAnimTable_KeyItemBox,
+    .images = sPicTable_KeyItemBox,
+    .affineAnims = sAffineAnims_KeyItemBox,
+    .callback = SpriteCallbackDummy,
+};
+static const struct SpriteTemplate sSpriteTemplate_KeyItemBoxWin = {
+    .tileTag = PAL_TAG_KEY_ITEM_WHEEL,
+    .paletteTag = PAL_TAG_KEY_ITEM_WHEEL,
+    .oam = &sOam_KeyItemBoxWin,
+    .anims = sSpriteAnimTable_KeyItemBox,
+    .images = sPicTable_KeyItemBox,
+    .affineAnims = sAffineAnims_KeyItemBox,
+    .callback = SpriteCallbackDummy,
+};
+static const u8 sKeyItemBoxXPos[MAX_REGISTERED_ITEMS] = {(DISPLAY_WIDTH / 2), (DISPLAY_WIDTH / 2) + 32, (DISPLAY_WIDTH / 2), (DISPLAY_WIDTH / 2) - 32};
+static const u8 sKeyItemBoxYPos[MAX_REGISTERED_ITEMS] = {(DISPLAY_HEIGHT / 2) - 32, (DISPLAY_HEIGHT / 2), (DISPLAY_HEIGHT / 2) + 32, (DISPLAY_HEIGHT / 2)};
+#endif //I_KEY_ITEM_WHEEL
 static const u32 sBagScreen_Gfx[]               = INCGFX_U32("graphics/bag/swsh/tiles.png", ".4bpp.smol");
 static const u16 sBagScreen_Pal[]               = INCGFX_U16("graphics/bag/swsh/tiles.png", ".gbapal");
 static const u32 sBagScreen_BG2TileMap[]        = INCGFX_U32("graphics/bag/swsh/bg2.bin", ".smolTM");
@@ -1557,6 +1697,10 @@ static EWRAM_DATA struct BagItemUseState *sBagItemUseState = NULL;
 static EWRAM_DATA struct BagMailGiveState *sBagMailGiveState = NULL;
 static EWRAM_DATA struct BagFusionState *sBagFusionState = NULL;
 #endif
+#if I_KEY_ITEM_WHEEL
+// Holds the palette of the wheel's 4th (clockwise) item so the HBlank callback can scanline-copy it into place
+static EWRAM_DATA ALIGNED(4) u16 sKeyItemWheelExtraPalette[16] = {0};
+#endif //I_KEY_ITEM_WHEEL
 
 void ResetBagScrollPositions(void)
 {
@@ -2362,8 +2506,14 @@ static void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
         else
         {
             // Print registered icon
+#if I_KEY_ITEM_WHEEL
+            s32 regSlot;
+            if (itemSlot.itemId != ITEM_NONE && (regSlot = RegisteredItemIndex(itemSlot.itemId)) >= 0)
+                BlitBitmapToWindow(windowId, sRegisteredDir_Gfx[regSlot], 98, y + 4, 24, 16);
+#else
             if (gSaveBlock1Ptr->registeredItem != ITEM_NONE && gSaveBlock1Ptr->registeredItem == itemSlot.itemId)
                 BlitBitmapToWindow(windowId, sRegisteredSelect_Gfx, 102, y + 4, 16, 16);
+#endif //I_KEY_ITEM_WHEEL
         }
 
         if (isHovered)
@@ -3229,7 +3379,11 @@ static void OpenContextMenu(u8 taskId)
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_KeyItemsPocket);
                 memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_KeyItemsPocket, sizeof(sContextMenuItems_KeyItemsPocket));
+#if I_KEY_ITEM_WHEEL
+                if (RegisteredItemIndex(gSpecialVar_ItemId) >= 0)
+#else
                 if (gSaveBlock1Ptr->registeredItem == gSpecialVar_ItemId)
+#endif //I_KEY_ITEM_WHEEL
                     gBagMenu->contextMenuItemsBuffer[1] = ACTION_DESELECT;
                 if (gSpecialVar_ItemId == ITEM_MACH_BIKE || gSpecialVar_ItemId == ITEM_ACRO_BIKE || gSpecialVar_ItemId == ITEM_BICYCLE)
                 {
@@ -3529,6 +3683,79 @@ static void Task_RemoveItemFromBag(u8 taskId)
     }
 }
 
+#if I_KEY_ITEM_WHEEL
+// Returns [1-4] based on D-Pad input, or 0 otherwise. If check, requires that slot to hold an item.
+static u32 DpadInputToRegisteredItemIndex(bool32 check)
+{
+    u32 i = 0;
+    if (JOY_NEW(DPAD_UP))
+        i = 1;
+    else if (JOY_NEW(DPAD_RIGHT))
+        i = 2;
+    else if (JOY_NEW(DPAD_DOWN))
+        i = 3;
+    else if (JOY_NEW(DPAD_LEFT))
+        i = 4;
+    if (i && check && GetRegisteredItem(i - 1) == ITEM_NONE)
+        i = 0;
+    return i;
+}
+
+static void RefreshBagAfterRegister(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u16 *scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    u16 *cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+    DestroyListMenuTask(tListTaskId, scrollPos, cursorPos);
+    LoadBagItemListBuffers(gBagPosition.pocket);
+    tListTaskId = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
+    ScheduleBgCopyTilemapToVram(1);
+    ItemMenu_Cancel(taskId);
+}
+
+// Waits for a D-Pad direction, then registers gSpecialVar_ItemId to that slot.
+static void Task_RegisterUsingDpad(u8 taskId)
+{
+    u32 i;
+    if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        ItemMenu_Cancel(taskId);
+        return;
+    }
+    i = DpadInputToRegisteredItemIndex(FALSE);
+    if (i == 0)
+        return;
+    PlaySE(SE_SELECT);
+    SetRegisteredItem(i - 1, gSpecialVar_ItemId);
+    RefreshBagAfterRegister(taskId);
+}
+
+static void ItemMenu_Register(u8 taskId)
+{
+    s32 index = RegisteredItemIndex(gSpecialVar_ItemId);
+    u32 count = CountRegisteredItems();
+
+    // Already registered: deselect it.
+    if (index >= 0)
+    {
+        SetRegisteredItem(index, ITEM_NONE);
+        RefreshBagAfterRegister(taskId);
+        return;
+    }
+    // Nothing registered yet: register to slot 0 with no prompt.
+    if (count == 0)
+    {
+        SetRegisteredItem(0, gSpecialVar_ItemId);
+        RefreshBagAfterRegister(taskId);
+        return;
+    }
+    // Otherwise prompt for which slot (D-Pad direction).
+    FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
+    BagMenu_Print(WIN_DESCRIPTION, FONT_NORMAL, gText_PressAnyDpadKey, 3, 1, 0, 0, 0, COLORID_NORMAL);
+    gTasks[taskId].func = Task_RegisterUsingDpad;
+}
+#else
 static void ItemMenu_Register(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -3545,6 +3772,7 @@ static void ItemMenu_Register(u8 taskId)
     ScheduleBgCopyTilemapToVram(1);
     ItemMenu_Cancel(taskId);
 }
+#endif //I_KEY_ITEM_WHEEL
 
 static void ItemMenu_Give(u8 taskId)
 {
@@ -3673,6 +3901,178 @@ static void Task_ItemContext_GiveToPC(u8 taskId)
 
 #define tUsingRegisteredKeyItem data[3] // See usage in item_use.c
 
+#if I_KEY_ITEM_WHEEL
+// Scanline-copies the 4th (clockwise) item's palette into BG palette slot 13 mid-frame,
+// so it shows correctly even when the screen is blend-darkened (flash caves / weather).
+static void HBlankCB_KeyItemWheel(void)
+{
+    u32 vCount = REG_VCOUNT;
+    if (vCount >= DISPLAY_HEIGHT)
+    {
+        sKeyItemWheelExtraPalette[0] = 0;
+        return;
+    }
+    if (vCount >= 64 && sKeyItemWheelExtraPalette[0] == 0)
+    {
+        CpuFastCopy(sKeyItemWheelExtraPalette, (void *)(BG_PLTT + PLTT_ID(13) * 2), PLTT_SIZE_4BPP);
+        sKeyItemWheelExtraPalette[0] = 0x8000;
+    }
+}
+
+#define tState data[0]
+// MAX_REGISTERED_ITEMS box sprites, then their OBJWIN twins, then the icon windows
+#define tBoxSprite (data + 1)
+#define tBoxWinSprite (data + 1 + MAX_REGISTERED_ITEMS)
+#define tIconWindow (data + 1 + 2 * MAX_REGISTERED_ITEMS)
+
+static void FreeKeyItemWheelGfx(s16 *data)
+{
+    u32 i;
+    FreeSpriteTilesByTag(PAL_TAG_KEY_ITEM_WHEEL);
+    FreeSpritePaletteByTag(PAL_TAG_KEY_ITEM_WHEEL);
+    for (i = 0; i < 2 * MAX_REGISTERED_ITEMS; i++)
+    {
+        struct Sprite *sprite;
+        if (tBoxSprite[i] >= MAX_SPRITES)
+            continue;
+        sprite = &gSprites[tBoxSprite[i]];
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+    for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
+    {
+        if (tIconWindow[i] == WINDOW_NONE)
+            continue;
+        FillWindowPixelBuffer(tIconWindow[i], 0);
+        ClearWindowTilemap(tIconWindow[i]);
+        CopyWindowToVram(tIconWindow[i], COPYWIN_MAP);
+        RemoveWindow(tIconWindow[i]);
+    }
+    SetHBlankCallback(NULL);
+    DisableInterrupts(INTR_FLAG_HBLANK);
+}
+
+static void Task_KeyItemWheel(u8 taskId)
+{
+    u32 i, j;
+    s16 *data = gTasks[taskId].data;
+    switch (tState)
+    {
+    case 0:
+        LoadSpritePalette(&sSpritePalette_KeyItemBox);
+        LoadSpriteSheetByTemplate(&sSpriteTemplate_KeyItemBox, 0, 0);
+        for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
+        {
+            u16 regItem = GetRegisteredItem(i);
+            tBoxSprite[i] = j = CreateSprite(&sSpriteTemplate_KeyItemBox, sKeyItemBoxXPos[i], sKeyItemBoxYPos[i], 0);
+            if (j < MAX_SPRITES)
+                StartSpriteAffineAnim(&gSprites[j], i);
+            tBoxWinSprite[i] = MAX_SPRITES;
+            tIconWindow[i] = WINDOW_NONE;
+            if (regItem == ITEM_NONE || !CheckBagHasItem(regItem, 1))
+                continue;
+            tIconWindow[i] = j = AddWindowParameterized(0, sKeyItemBoxXPos[i] / 8 - 2, sKeyItemBoxYPos[i] / 8 - 2, 4, 4, i == 3 ? 13 : 13 + i, 16 * (i + 9));
+            if (j == WINDOW_NONE)
+                continue;
+            PutWindowTilemap(j);
+            BlitItemIconToWindow(regItem, j, 4, 4, i == 3 ? sKeyItemWheelExtraPalette : NULL);
+            CopyWindowToVram(j, COPYWIN_FULL);
+        }
+        SetHBlankCallback(HBlankCB_KeyItemWheel);
+        EnableInterrupts(INTR_FLAG_HBLANK);
+        PlaySE(SE_WIN_OPEN);
+        // In dark caves, spawn OBJWIN sprites so the boxes show through the flash window
+        tState = (gSaveBlock1Ptr->flashLevel > 1) ? 4 : 1;
+        break;
+    case 1: // process input
+        if (JOY_NEW(B_BUTTON) || JOY_NEW(SELECT_BUTTON))
+        {
+            PlaySE(SE_SELECT);
+            tState = 3;
+            break;
+        }
+        i = DpadInputToRegisteredItemIndex(TRUE);
+        if (i == 0 || tBoxSprite[i - 1] >= MAX_SPRITES)
+            break;
+        gSpecialVar_ItemId = GetRegisteredItem(i - 1);
+        PlaySE(SE_SELECT);
+        StartSpriteAffineAnim(&gSprites[tBoxSprite[i - 1]], i + 4 - 1);
+        data[15] = tBoxSprite[i - 1];
+        tState = 2;
+        break;
+    case 2:
+        if (!gSprites[data[15]].affineAnimEnded)
+            break;
+        FreeKeyItemWheelGfx(data);
+        i = CreateTask(GetItemFieldFunc(gSpecialVar_ItemId), 8);
+        gTasks[i].tUsingRegisteredKeyItem = TRUE;
+        DestroyTask(taskId);
+        break;
+    case 3:
+        FreeKeyItemWheelGfx(data);
+        ScriptUnfreezeObjectEvents();
+        UnlockPlayerFieldControls();
+        DestroyTask(taskId);
+        break;
+    case 4:
+        // Enable sprites to be shown inside WINOBJ
+        SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
+        SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_OBJ);
+        for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
+            tBoxWinSprite[i] = CreateSprite(&sSpriteTemplate_KeyItemBoxWin, sKeyItemBoxXPos[i], sKeyItemBoxYPos[i], 0);
+        tState = 1;
+        break;
+    }
+}
+
+#undef tState
+#undef tBoxSprite
+#undef tBoxWinSprite
+#undef tIconWindow
+
+bool8 UseRegisteredKeyItemOnField(void)
+{
+    u32 taskId;
+    u32 count;
+    ItemUseFunc func = NULL;
+
+    if (InUnionRoom() == TRUE || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InBattlePike() || InMultiPartnerRoom() == TRUE)
+        return FALSE;
+    HideMapNamePopUpWindow();
+    ChangeBgY_ScreenOff(0, 0, BG_COORD_SET);
+    count = CountRegisteredItems();
+    if (count > 1)
+    {
+        func = Task_KeyItemWheel;
+    }
+    else if (count == 1)
+    {
+        s32 index = RegisteredItemIndex(ITEM_NONE);
+        u16 regItem = (index >= 0) ? GetRegisteredItem(index) : ITEM_NONE;
+        if (regItem != ITEM_NONE && CheckBagHasItem(regItem, 1) == TRUE)
+        {
+            gSpecialVar_ItemId = regItem;
+            func = GetItemFieldFunc(regItem);
+        }
+        else if (index >= 0)
+        {
+            SetRegisteredItem(index, ITEM_NONE);
+        }
+    }
+    if (func)
+    {
+        LockPlayerFieldControls();
+        FreezeObjectEvents();
+        PlayerFreeze();
+        StopPlayerAvatar();
+        taskId = CreateTask(func, 8);
+        gTasks[taskId].tUsingRegisteredKeyItem = TRUE;
+        return TRUE;
+    }
+    ScriptContext_SetupScript(EventScript_SelectWithoutRegisteredItem);
+    return TRUE;
+}
+#else
 bool8 UseRegisteredKeyItemOnField(void)
 {
     u8 taskId;
@@ -3702,6 +4102,7 @@ bool8 UseRegisteredKeyItemOnField(void)
     ScriptContext_SetupScript(EventScript_SelectWithoutRegisteredItem);
     return TRUE;
 }
+#endif //I_KEY_ITEM_WHEEL
 
 #undef tUsingRegisteredKeyItem
 

@@ -510,15 +510,15 @@ void CompactPCItems(void)
 
 void SwapRegisteredBike(void)
 {
+#if I_KEY_ITEM_WHEEL
+    SwapRegisteredBikeMultiSlot();
+#else
     switch (gSaveBlock1Ptr->registeredItem)
     {
-    case ITEM_MACH_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_ACRO_BIKE;
-        break;
-    case ITEM_ACRO_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_MACH_BIKE;
-        break;
+    case ITEM_MACH_BIKE: gSaveBlock1Ptr->registeredItem = ITEM_ACRO_BIKE; break;
+    case ITEM_ACRO_BIKE: gSaveBlock1Ptr->registeredItem = ITEM_MACH_BIKE; break;
     }
+#endif //I_KEY_ITEM_WHEEL
 }
 
 void CompactItemsInBagPocket(enum Pocket pocketId)
@@ -988,3 +988,60 @@ bool32 IsItemShopCriteriaFulfilled(u32 itemId)
 
     return func(SanitizeItemId(itemId));
 }
+
+#if I_KEY_ITEM_WHEEL
+// Key item wheel: slot 0 reuses the vanilla registeredItem; slots 1..N-1 live in registeredItemsExtra[].
+u16 GetRegisteredItem(u32 slot)
+{
+    if (slot == 0)
+        return gSaveBlock1Ptr->registeredItem;
+    return gSaveBlock1Ptr->registeredItemsExtra[slot - 1];
+}
+
+void SetRegisteredItem(u32 slot, u16 item)
+{
+    if (slot == 0)
+        gSaveBlock1Ptr->registeredItem = item;
+    else
+        gSaveBlock1Ptr->registeredItemsExtra[slot - 1] = item;
+}
+
+// If passed ITEM_NONE, returns the first registered slot's index; otherwise the slot holding item, or -1.
+s32 RegisteredItemIndex(u16 item)
+{
+    s32 i;
+    for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
+    {
+        u16 regItem = GetRegisteredItem(i);
+        if (regItem != ITEM_NONE && (item == ITEM_NONE || regItem == item))
+            return i;
+    }
+    return -1;
+}
+
+// Counts registered items still present in the Bag (HEAD-commit guard).
+u32 CountRegisteredItems(void)
+{
+    u32 i;
+    u32 count = 0;
+    for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
+    {
+        u16 regItem = GetRegisteredItem(i);
+        if (regItem == ITEM_NONE)
+            continue;
+        if (!CheckBagHasItem(regItem, 1))
+            continue;
+        count++;
+    }
+    return count;
+}
+
+void SwapRegisteredBikeMultiSlot(void)
+{
+    s32 index;
+    if ((index = RegisteredItemIndex(ITEM_ACRO_BIKE)) >= 0)
+        SetRegisteredItem(index, ITEM_MACH_BIKE);
+    else if ((index = RegisteredItemIndex(ITEM_MACH_BIKE)) >= 0)
+        SetRegisteredItem(index, ITEM_ACRO_BIKE);
+}
+#endif //I_KEY_ITEM_WHEEL

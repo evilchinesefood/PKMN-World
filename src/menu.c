@@ -50,7 +50,11 @@ struct Menu
     bool8 APressMuted;
 };
 
+#if I_KEY_ITEM_WHEEL
+u16 AddWindowParameterized(u8, u8, u8, u8, u8, u8, u16); // un-static for the key item wheel
+#else
 static u16 AddWindowParameterized(u8, u8, u8, u8, u8, u8, u16);
+#endif //I_KEY_ITEM_WHEEL
 static void WindowFunc_DrawStandardFrame(u8, u8, u8, u8, u8, u8);
 static void WindowFunc_DrawSignFrame(u8, u8, u8, u8, u8, u8);
 static inline void *GetWindowFunc_DialogueFrame(void);

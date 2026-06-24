@@ -7,6 +7,10 @@
 #include "malloc.h"
 #include "move.h"
 #include "sprite.h"
+#if I_KEY_ITEM_WHEEL
+#include "palette.h"
+#include "window.h"
+#endif //I_KEY_ITEM_WHEEL
 #include "constants/items.h"
 
 // EWRAM vars
@@ -119,6 +123,29 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, enum Item itemId)
         return spriteId;
     }
 }
+
+#if I_KEY_ITEM_WHEEL
+// Blits an item icon into a window. If paletteDest is non-NULL, the icon's
+// 16-color palette is copied there (for scanline-driven loads); otherwise it
+// is loaded into the window's BG palette slot. Returns 16 on alloc failure, 0 on success.
+u8 BlitItemIconToWindow(enum Item itemId, u8 windowId, u16 x, u16 y, void *paletteDest)
+{
+    if (!AllocItemIconTemporaryBuffers())
+        return 16;
+
+    DecompressDataWithHeaderWram(GetItemIconPic(itemId), gItemIconDecompressionBuffer);
+    CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
+    BlitBitmapToWindow(windowId, gItemIcon4x4Buffer, x, y, 32, 32);
+
+    if (paletteDest)
+        CpuFastCopy(GetItemIconPalette(itemId), paletteDest, PLTT_SIZE_4BPP);
+    else
+        LoadPalette(GetItemIconPalette(itemId), BG_PLTT_ID(gWindows[windowId].window.paletteNum), PLTT_SIZE_4BPP);
+
+    FreeItemIconTemporaryBuffers();
+    return 0;
+}
+#endif //I_KEY_ITEM_WHEEL
 
 u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, enum Item itemId)
 {

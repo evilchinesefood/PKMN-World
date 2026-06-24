@@ -10,6 +10,9 @@ bool8 AllocItemIconTemporaryBuffers(void);
 void FreeItemIconTemporaryBuffers(void);
 void CopyItemIconPicTo4x4Buffer(const void *src, void *dest);
 u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, enum Item itemId);
+#if I_KEY_ITEM_WHEEL
+u8 BlitItemIconToWindow(enum Item itemId, u8 windowId, u16 x, u16 y, void *paletteDest);
+#endif //I_KEY_ITEM_WHEEL
 u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, enum Item itemId);
 const void *GetItemIconPic(enum Item itemId);
 const u16 *GetItemIconPalette(enum Item itemId);

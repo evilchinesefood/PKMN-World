@@ -66,8 +66,15 @@ EWRAM_DATA bool8 gDisableTextPrinters = 0;
 EWRAM_DATA TextFlags gTextFlags = {0};
 IWRAM_DATA struct TextGlyph gCurGlyph = {0};
 
+#if SWSH_MESSAGE_BOX
+static const u8 sDownArrowTiles[] = INCGFX_U8("graphics/fonts/swsh/down_arrow.png", ".4bpp");
+static const u8 sDarkDownArrowTiles[] = INCGFX_U8("graphics/fonts/swsh/down_arrow_alt.png", ".4bpp");
+#else
 static const u8 sDownArrowTiles[] = INCGFX_U8("graphics/fonts/down_arrow.png", ".4bpp");
 static const u8 sDarkDownArrowTiles[] = INCGFX_U8("graphics/fonts/down_arrow_alt.png", ".4bpp");
+#endif
+// Restore original __LINE__ numbering so the FALSE build is byte-identical (asserts use __LINE__).
+#line 71
 static const u8 sUnusedFRLGBlankedDownArrow[] = INCGFX_U8("graphics/fonts/unused_frlg_blanked_down_arrow.png", ".4bpp");
 static const u8 sUnusedFRLGDownArrow[] = INCGFX_U8("graphics/fonts/unused_frlg_down_arrow.png", ".4bpp");
 static const u8 sDownArrowYCoords[] = { 0, 1, 2, 1 };
@@ -1184,11 +1191,21 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
         }
         else
         {
+#if SWSH_MESSAGE_BOX
+            u16 arrowX = (gWindows[textPrinter->printerTemplate.windowId].window.width * 8) - 8;
+            u16 arrowY = (gWindows[textPrinter->printerTemplate.windowId].window.height * 8) - 16;
+#endif
+
             FillWindowPixelRect(
                 textPrinter->printerTemplate.windowId,
                 textPrinter->printerTemplate.color.background << 4 | textPrinter->printerTemplate.color.background,
+#if SWSH_MESSAGE_BOX
+                arrowX,
+                arrowY,
+#else
                 textPrinter->printerTemplate.currentX,
                 textPrinter->printerTemplate.currentY,
+#endif
                 8,
                 16);
 
@@ -1210,8 +1227,13 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
                 sDownArrowYCoords[textPrinter->downArrowYPosIdx],
                 8,
                 16,
+#if SWSH_MESSAGE_BOX
+                arrowX,
+                arrowY,
+#else
                 textPrinter->printerTemplate.currentX,
                 textPrinter->printerTemplate.currentY,
+#endif
                 8,
                 16);
             CopyWindowToVram(textPrinter->printerTemplate.windowId, COPYWIN_GFX);
@@ -1224,16 +1246,28 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
 
 void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
 {
+#if SWSH_MESSAGE_BOX
+    u16 arrowX = (gWindows[textPrinter->printerTemplate.windowId].window.width * 8) - 8;
+    u16 arrowY = (gWindows[textPrinter->printerTemplate.windowId].window.height * 8) - 16;
+#endif
+
     FillWindowPixelRect(
         textPrinter->printerTemplate.windowId,
         textPrinter->printerTemplate.color.background << 4 | textPrinter->printerTemplate.color.background,
+#if SWSH_MESSAGE_BOX
+        arrowX,
+        arrowY,
+#else
         textPrinter->printerTemplate.currentX,
         textPrinter->printerTemplate.currentY,
+#endif
         8,
         16);
     CopyWindowToVram(textPrinter->printerTemplate.windowId, COPYWIN_GFX);
 }
 
+// Restore original __LINE__ numbering so the FALSE build is byte-identical (asserts use __LINE__).
+#line 1237
 bool32 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 {
     if (textPrinter->autoScrollDelay == NUM_FRAMES_AUTO_SCROLL_DELAY)

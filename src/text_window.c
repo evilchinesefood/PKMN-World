@@ -53,7 +53,11 @@ static const u16 sTextWindowFrame20_Pal[] = INCGFX_U16("graphics/text_window/20.
 
 static const u16 sTextWindowPalettes[][16] =
 {
+#if SWSH_MESSAGE_BOX
+    INCGFX_U16("graphics/text_window/swsh/message_box.png", ".gbapal"),
+#else
     INCGFX_U16("graphics/text_window/message_box.png", ".gbapal"),
+#endif
     INCGFX_U16("graphics/text_window/text_pal1.pal", ".gbapal"),
     INCGFX_U16("graphics/text_window/text_pal2.pal", ".gbapal"),
     INCGFX_U16("graphics/text_window/text_pal3.pal", ".gbapal"),
@@ -98,7 +102,11 @@ const struct TilesPal *GetWindowFrameTilesPal(u8 id)
 
 void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
+#if SWSH_MESSAGE_BOX
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gMessageBox_Gfx, 0x320, destOffset);
+#else
     LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gMessageBox_Gfx, 0x1C0, destOffset);
+#endif
     LoadPalette(GetOverworldTextboxPalettePtr(), palOffset, PLTT_SIZE_4BPP);
 }
 

@@ -75,7 +75,12 @@ static EWRAM_DATA bool8 sScheduledBgCopiesToVram[4] = {FALSE};
 static EWRAM_DATA u16 sTempTileDataBufferIdx = 0;
 static EWRAM_DATA void *sTempTileDataBuffer[0x20] = {NULL};
 
+#if SWSH_MESSAGE_BOX
+const u16 gStandardMenuPalette[] = INCGFX_U16("graphics/interface/swsh/std_menu.pal", ".gbapal");
+const u8 sMessageBoxTilemap[] = INCBIN_U8("graphics/text_window/message_box.bin");
+#else
 const u16 gStandardMenuPalette[] = INCGFX_U16("graphics/interface/std_menu.pal", ".gbapal");
+#endif
 
 static const struct WindowTemplate sStandardTextBox_WindowTemplates[] =
 {
@@ -83,7 +88,11 @@ static const struct WindowTemplate sStandardTextBox_WindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 15,
+#if SWSH_MESSAGE_BOX
+        .width = 26,
+#else
         .width = 27,
+#endif
         .height = 4,
         .paletteNum = 15,
         .baseBlock = 0x194
@@ -256,11 +265,31 @@ void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
 
 static void WindowFunc_RedrawDialogueFrame(u8 bg, u8 left, u8 top, u8 width, u8 height, u8 paletteNum)
 {
+#if SWSH_MESSAGE_BOX
+    // left edge (3 tiles wide, cols 0-2, top row only)
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 0, 0, 7, 6,
+                                  left - 2, top - 1, 3, 1,
+                                  DLG_WINDOW_PALETTE_NUM, DLG_WINDOW_BASE_TILE_NUM, 0);
+
+    // middle (col 3, repeated for width)
+    for (u32 i = left + 1; i < left + width; i++)
+    {
+        CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 3, 0, 7, 6,
+                                      i, top - 1, 1, 1,
+                                      DLG_WINDOW_PALETTE_NUM, DLG_WINDOW_BASE_TILE_NUM, 0);
+    }
+
+    // right edge (3 tiles wide, cols 4-6, top row only)
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 4, 0, 7, 6,
+                                  left + width - 1, top - 1, 3, 1,
+                                  DLG_WINDOW_PALETTE_NUM, DLG_WINDOW_BASE_TILE_NUM, 0);
+#else
     FillMenuTilemapBufferRect(bg,  1, left - 2,         top - 1,         1, 1);
     FillMenuTilemapBufferRect(bg,  3, left - 1,         top - 1,         1, 1);
     FillMenuTilemapBufferRect(bg,  4, left,             top - 1, width - 1, 1);
     FillMenuTilemapBufferRect(bg,  5, left + width - 1, top - 1,         1, 1);
     FillMenuTilemapBufferRect(bg,  6, left + width,     top - 1,         1, 1);
+#endif
 }
 
 void RedrawDialogueFrame(void)
@@ -315,6 +344,25 @@ static void WindowFunc_DrawStandardFrame(u8 bg, u8 left, u8 top, u8 width, u8 he
 
 static void WindowFunc_DrawDialogueFrame(u8 bg, u8 left, u8 top, u8 width, u8 height, u8 paletteNum)
 {
+#if SWSH_MESSAGE_BOX
+    // left edge (3 tiles wide, cols 0-2, full height)
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 0, 0, 7, 6,
+                                  left - 2, top - 1, 3, 6,
+                                  DLG_WINDOW_PALETTE_NUM, DLG_WINDOW_BASE_TILE_NUM, 0);
+
+    // middle (col 3, repeated for width)
+    for (u32 i = left + 1; i < left + width; i++)
+    {
+        CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 3, 0, 7, 6,
+                                      i, top - 1, 1, 6,
+                                      DLG_WINDOW_PALETTE_NUM, DLG_WINDOW_BASE_TILE_NUM, 0);
+    }
+
+    // right edge (3 tiles wide, cols 4-6, full height)
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 4, 0, 7, 6,
+                                  left + width - 1, top - 1, 3, 6,
+                                  DLG_WINDOW_PALETTE_NUM, DLG_WINDOW_BASE_TILE_NUM, 0);
+#else
     FillMenuTilemapBufferRect(bg,  1, left - 2,         top - 1,         1, 1);
     FillMenuTilemapBufferRect(bg,  3, left - 1,         top - 1,         1, 1);
     FillMenuTilemapBufferRect(bg,  4, left,             top - 1, width - 1, 1);
@@ -328,6 +376,7 @@ static void WindowFunc_DrawDialogueFrame(u8 bg, u8 left, u8 top, u8 width, u8 he
     FillMenuTilemapBufferRect(bg, BG_TILE_V_FLIP(4), left,             top + height, width - 1, 1);
     FillMenuTilemapBufferRect(bg, BG_TILE_V_FLIP(5), left + width - 1, top + height,         1, 1);
     FillMenuTilemapBufferRect(bg, BG_TILE_V_FLIP(6), left + width,     top + height,         1, 1);
+#endif
 }
 
 static void WindowFunc_ClearStdWindowAndFrame(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
@@ -462,11 +511,38 @@ void EraseFieldMessageBox(bool8 copyToVram)
         CopyBgTilemapBufferToVram(0);
 }
 
+#if SWSH_MESSAGE_BOX
+static void WindowFunc_DrawDialogFrameWithCustomTileAndPalette(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
+{
+    // left edge (3 tiles wide, cols 0-2, full height)
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 0, 0, 7, 6,
+                                  tilemapLeft - 2, tilemapTop - 1, 3, 6,
+                                  sPaletteNum, sTileNum, 0);
+
+    // middle (col 3, repeated for width)
+    for (u32 i = tilemapLeft + 1; i < tilemapLeft + width; i++)
+    {
+        CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 3, 0, 7, 6,
+                                      i, tilemapTop - 1, 1, 6,
+                                      sPaletteNum, sTileNum, 0);
+    }
+
+    // right edge (3 tiles wide, cols 4-6, full height)
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 4, 0, 7, 6,
+                                  tilemapLeft + width - 1, tilemapTop - 1, 3, 6,
+                                  sPaletteNum, sTileNum, 0);
+}
+#endif
+
 void DrawDialogFrameWithCustomTileAndPalette(u8 windowId, bool8 copyToVram, u16 tileNum, u8 paletteNum)
 {
     sTileNum = tileNum;
     sPaletteNum = paletteNum;
+#if SWSH_MESSAGE_BOX
+    CallWindowFunction(windowId, WindowFunc_DrawDialogFrameWithCustomTileAndPalette);
+#else
     CallWindowFunction(windowId, WindowFunc_DrawDialogueFrame);
+#endif
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
     if (copyToVram == TRUE)
@@ -477,13 +553,19 @@ void DrawDialogFrameWithCustomTile(u8 windowId, bool8 copyToVram, u16 tileNum)
 {
     sTileNum = tileNum;
     sPaletteNum = GetWindowAttribute(windowId, WINDOW_PALETTE_NUM);
+#if SWSH_MESSAGE_BOX
+    CallWindowFunction(windowId, WindowFunc_DrawDialogFrameWithCustomTileAndPalette);
+#else
     CallWindowFunction(windowId, WindowFunc_DrawDialogueFrame);
+#endif
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
     if (copyToVram == TRUE)
         CopyWindowToVram(windowId, COPYWIN_FULL);
 }
 
+// Restore original __LINE__ numbering so the FALSE build is byte-identical (Alloc embeds __LINE__).
+#line 487
 void ClearDialogWindowAndFrameToTransparent(u8 windowId, bool8 copyToVram)
 {
     // The palette slot doesn't matter, since the tiles are transparent.

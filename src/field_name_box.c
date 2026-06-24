@@ -20,7 +20,13 @@
 static EWRAM_INIT u8 sNameboxWindowId = WINDOW_NONE;
 EWRAM_DATA const u8 *gSpeakerName = NULL;
 
+#if SWSH_MESSAGE_BOX
+static const u32 sNameBoxDefaultGfx[] = INCGFX_U32("graphics/text_window/swsh/name_box.png", ".4bpp");
+#else
 static const u32 sNameBoxDefaultGfx[] = INCGFX_U32("graphics/text_window/name_box.png", ".4bpp");
+#endif
+// Restore original __LINE__ numbering so the FALSE build is byte-identical (Alloc embeds __LINE__).
+#line 24
 static const u32 sNameBoxPokenavGfx[] = INCGFX_U32("graphics/pokenav/name_box.png", ".4bpp");
 
 static void DestroyNameboxFrame(void);
@@ -64,8 +70,13 @@ void PrepareNamebox(u32 tileNum)
     struct WindowTemplate template =
     {
         .bg = 0,
+#if SWSH_MESSAGE_BOX
+        .tilemapLeft = 3,
+        .tilemapTop = 12,
+#else
         .tilemapLeft = 2,
         .tilemapTop = 13,
+#endif
         .width = winWidth,
         .height = OW_NAME_BOX_DEFAULT_HEIGHT,
         .paletteNum = matchCall ? 14 : DLG_WINDOW_PALETTE_NUM,
@@ -84,7 +95,11 @@ void PrepareNamebox(u32 tileNum)
     }
 
     union TextColor savedTextColors = SaveTextColors();
+#if SWSH_MESSAGE_BOX
+    AddTextPrinterParameterized3(sNameboxWindowId, fontId, strX, 5, colors, 0, strbuf);
+#else
     AddTextPrinterParameterized3(sNameboxWindowId, fontId, strX, 0, colors, TEXT_SKIP_DRAW, strbuf);
+#endif
     RestoreTextColors(savedTextColors);
     Free(strbuf);
 }
@@ -136,10 +151,18 @@ void FillNamebox(void)
 
     for (u32 i = 0; i < winSize; i++)
     {
+#if SWSH_MESSAGE_BOX
+        #define TILE(x) (8 * (x))
+        CopyToWindowPixelBuffer(sNameboxWindowId, &gfx[TILE(2)],  TILE_SIZE_4BPP, i);
+        CopyToWindowPixelBuffer(sNameboxWindowId, &gfx[TILE(7)],  TILE_SIZE_4BPP, i + winSize);
+        CopyToWindowPixelBuffer(sNameboxWindowId, &gfx[TILE(12)], TILE_SIZE_4BPP, i + winSize * 2);
+        #undef TILE
+#else
         #define TILE(x) (8 * x)
         CopyToWindowPixelBuffer(sNameboxWindowId, &gfx[TILE(1)], TILE_SIZE_4BPP, i);
         CopyToWindowPixelBuffer(sNameboxWindowId, &gfx[TILE(4)], TILE_SIZE_4BPP, i + winSize);
         #undef TILE
+#endif
     }
 }
 
@@ -166,6 +189,23 @@ void ClearNamebox(u32 windowId, bool32 copyToVram)
 
 static void WindowFunc_DrawNamebox(u32 bg, u32 L, u32 T, u32 w, u32 h, u32 p, u32 tileNum)
 {
+#if SWSH_MESSAGE_BOX
+    // left edge (2 tiles wide, at L-2 and L-1)
+    FillBgTilemapBufferRect(bg, tileNum + 0,  L - 2, T,     1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 1,  L - 1, T,     1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 5,  L - 2, T + 1, 1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 6,  L - 1, T + 1, 1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 10, L - 2, T + 2, 1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 11, L - 1, T + 2, 1, 1, p);
+
+    // right edge (2 tiles wide, at L+w and L+w+1)
+    FillBgTilemapBufferRect(bg, tileNum + 3,  L + w,     T,     1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 4,  L + w + 1, T,     1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 8,  L + w,     T + 1, 1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 9,  L + w + 1, T + 1, 1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 13, L + w,     T + 2, 1, 1, p);
+    FillBgTilemapBufferRect(bg, tileNum + 14, L + w + 1, T + 2, 1, 1, p);
+#else
     // left-most
     FillBgTilemapBufferRect(bg, tileNum,     L - 1, T,     1, 1, p);
     FillBgTilemapBufferRect(bg, tileNum + 3, L - 1, T + 1, 1, 1, p);
@@ -173,11 +213,16 @@ static void WindowFunc_DrawNamebox(u32 bg, u32 L, u32 T, u32 w, u32 h, u32 p, u3
     // right-most
     FillBgTilemapBufferRect(bg, tileNum + 2, L + w, T,     1, 1, p);
     FillBgTilemapBufferRect(bg, tileNum + 5, L + w, T + 1, 1, 1, p);
+#endif
 }
 
 static void WindowFunc_ClearNamebox(u8 bg, u8 L, u8 T, u8 w, u8 h, u8 p)
 {
+#if SWSH_MESSAGE_BOX
+    FillBgTilemapBufferRect(bg, 0, L - 2, T, w + 4, h, 0); // clear window + 2 tiles on each side
+#else
     FillBgTilemapBufferRect(bg, 0, L - 1, T, w + 2, h, 0); // palette doesn't matter
+#endif
 }
 
 void SetSpeaker(struct ScriptContext *ctx)

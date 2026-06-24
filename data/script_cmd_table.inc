@@ -256,6 +256,11 @@ gScriptCmdTable::
 #if POKEVIAL_FEATURE
 	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmd_pokevial                                         @ 0xe7
 #endif
+#if QUEST_MENU
+	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmd_questmenu                                        @ 0xe8
+	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmd_subquestmenu                                     @ 0xe9
+	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmd_returnqueststate                                 @ 0xea
+#endif
 
 	.if ALLOCATE_SCRIPT_CMD_TABLE
 gScriptCmdTableEnd::

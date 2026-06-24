@@ -29,6 +29,7 @@
 #include "config/name_box.h"
 #include "config/overworld.h"
 #include "config/pokemon.h"
+#include "config/pokevial.h"
 #include "config/summary_screen.h"
 #include "config/swsh_item_menu.h"
 #include "config/swsh_party_menu.h"

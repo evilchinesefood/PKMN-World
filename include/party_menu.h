@@ -151,6 +151,11 @@ bool32 SetUpFieldMove_Waterfall(void);
 bool32 SetUpFieldMove_Dive(void);
 bool32 SetUpFieldMove_RockClimb(void);
 
+#if POKEVIAL_FEATURE
+void ItemUseCB_UsePokevial(u8 taskId, TaskFunc task);
+void InitPartyMenuForPokevialFromField(u8 taskId);
+#endif
+
 #if TESTING
 s8 Test_UpdatePartySelectionSingleLayout(s8 slotId, s8 movementDir, bool8 chooseHalf, u8 lastSelectedSlot);
 #endif

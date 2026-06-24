@@ -639,3 +639,8 @@ gSpecials::
 	def_special UpdateTrainerCardPhotoIcons
 	def_special StickerManGetBragFlags
 	def_special CheckAddCoins
+#if POKEVIAL_FEATURE
+	def_special PokevialGetDose
+	def_special PokevialGetSize
+	def_special PokevialRefill
+#endif

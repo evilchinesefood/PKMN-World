@@ -253,6 +253,14 @@ struct NPCFollower
 #include "constants/items.h"
 #define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
 
+#if POKEVIAL_FEATURE
+struct Pokevial
+{
+    u8 size : 4;
+    u8 dose : 4;
+};
+#endif // POKEVIAL_FEATURE
+
 struct SaveBlock3
 {
 #if OW_USE_FAKE_RTC
@@ -270,6 +278,9 @@ struct SaveBlock3
     u8 dexNavChain;
 #if APRICORN_TREE_COUNT > 0
     u8 apricornTrees[NUM_APRICORN_TREE_BYTES];
+#endif
+#if POKEVIAL_FEATURE
+    struct Pokevial pokevial;
 #endif
 }; /* max size 1624 bytes */
 

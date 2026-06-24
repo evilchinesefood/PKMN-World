@@ -12,6 +12,9 @@
 #include "window.h"
 #endif //I_KEY_ITEM_WHEEL
 #include "constants/items.h"
+#if POKEVIAL_FEATURE
+#include "pokevial.h"
+#endif
 
 // EWRAM vars
 EWRAM_DATA u8 *gItemIconDecompressionBuffer = NULL;
@@ -196,6 +199,10 @@ const void *GetItemIconPic(enum Item itemId)
             return gItemIcon_HM;
         return gItemIcon_TM;
     }
+#if POKEVIAL_FEATURE
+    if (itemId == ITEM_POKEVIAL)
+        return PokevialGetDoseIcon();
+#endif
 
     return gItemsInfo[itemId].iconPic;
 }

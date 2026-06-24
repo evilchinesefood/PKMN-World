@@ -15832,6 +15832,24 @@ const struct ItemInfo gItemsInfo[] =
         .iconPic = gItemIcon_PokeshiDoll,
         .iconPalette = gItemIconPalette_PokeshiDoll,
     },
+
+#if POKEVIAL_FEATURE
+    [ITEM_POKEVIAL] =
+    {
+        .name = ITEM_NAME("Pokévial"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Restores all\n"
+            "POKéMON to full\n"
+            "health."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Pokevial,
+        .iconPic = gItemIcon_Pokevial,
+        .iconPalette = gItemIconPalette_Pokevial,
+    },
+#endif // POKEVIAL_FEATURE
 };
 
 #undef ITEM_NAME

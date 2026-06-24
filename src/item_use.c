@@ -48,6 +48,10 @@
 #include "constants/item_effects.h"
 #include "constants/items.h"
 #include "constants/songs.h"
+#if POKEVIAL_FEATURE
+#include "tv.h"
+#include "pokevial.h"
+#endif
 
 static void SetUpItemUseCallback(u8);
 static void FieldCB_UseItemOnField(void);
@@ -81,6 +85,16 @@ static void SetDistanceOfClosestHiddenItem(u8, s16, s16);
 static void CB2_OpenPokeblockFromBag(void);
 static void ItemUseOnFieldCB_Honey(u8 taskId);
 static bool32 IsValidLocationForVsSeeker(void);
+#if POKEVIAL_FEATURE
+static void UsePokevialFieldYes(u8 taskId);
+static void Task_UsePokevialFieldYes(u8 taskId);
+static void UsePokevialFieldNo(u8 taskId);
+static void UsePokevialYesNo(u8);
+static void UsePokevialYes(u8);
+static void PokevialPrintPartyHealed(bool32 isPlayerUsingRegisteredKeyItem, u8 taskId);
+static void PokevialPrintDosesAndConfirmMessage(u32 currentDoses, bool32 isPlayerUsingRegisteredKeyItem, u8 taskId);
+static void PokevialPrintNoDosesMessage(bool32 isPlayerUsingRegisteredKeyItem, u8 taskId);
+#endif
 
 static const u8 sText_CantDismountBike[] = _("You can't dismount your BIKE here.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNearby[] = _("Huh?\nThe ITEMFINDER's responding!\pThere's an item buried around here!{PAUSE_UNTIL_PRESS}");
@@ -1651,5 +1665,125 @@ void ItemUseOutOfBattle_TownMap(u8 taskId)
         gTasks[taskId].func = ItemUseOnFieldCB_TownMap;
     }
 }
+
+#if POKEVIAL_FEATURE
+static const struct YesNoFuncTable sUsePokevialYesNoFuncTable =
+{
+    .yesFunc = UsePokevialYes,
+    .noFunc = CloseItemMessage,
+};
+
+static const struct YesNoFuncTable sYesNoTable_PokevialFieldFuncTable =
+{
+    .yesFunc = UsePokevialFieldYes,
+    .noFunc = UsePokevialFieldNo,
+};
+
+static void UsePokevialYesNo(u8 taskId)
+{
+    BagMenu_YesNo(taskId, ITEMWIN_YESNO_HIGH, &sUsePokevialYesNoFuncTable);
+}
+
+static void UsePokevialFieldYesNo(u8 taskId)
+{
+    DisplayYesNoMenuDefaultYes();
+    DoYesNoFuncWithChoice(taskId, &sYesNoTable_PokevialFieldFuncTable);
+}
+
+static void UsePokevialYes(u8 taskId)
+{
+    if (POKEVIAL_SKIP_CUTSCENE)
+    {
+        Pokevial_HealPlayerParty();
+        PokevialDoseDown(VIAL_STANDARD_DOSE);
+        PokevialPrintPartyHealed(FALSE, taskId);
+    }
+    else
+    {
+        gItemUseCB = ItemUseCB_UsePokevial;
+        SetUpItemUseCallback(taskId);
+    }
+}
+
+static void UsePokevialFieldYes(u8 taskId)
+{
+    LockPlayerFieldControls();
+    if (POKEVIAL_SKIP_CUTSCENE)
+    {
+        Pokevial_HealPlayerParty();
+        PokevialDoseDown(VIAL_STANDARD_DOSE);
+        PokevialPrintPartyHealed(TRUE, taskId);
+    }
+    else
+    {
+        FadeScreen(FADE_TO_BLACK, 0);
+        CreateTask(Task_UsePokevialFieldYes, 1);
+    }
+}
+
+static void Task_UsePokevialFieldYes(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        InitPartyMenuForPokevialFromField(taskId);
+        DestroyTask(taskId);
+    }
+}
+
+static void UsePokevialFieldNo(u8 taskId)
+{
+    ClearDialogWindowAndFrame(0, FALSE);
+    DestroyTask(taskId);
+    ScriptContext_Enable();
+}
+
+static void PokevialPrintPartyHealed(bool32 isPlayerUsingRegisteredKeyItem, u8 taskId)
+{
+    StringExpandPlaceholders(gStringVar4, gText_YourPkmnWereRestored);
+
+    if (isPlayerUsingRegisteredKeyItem)
+        DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+    else
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
+}
+
+static void PokevialPrintDosesAndConfirmMessage(u32 currentDoses, bool32 isPlayerUsingRegisteredKeyItem, u8 taskId)
+{
+    u32 numDigits = CountDigits(currentDoses);
+
+    ConvertIntToDecimalStringN(gStringVar2, currentDoses, STR_CONV_MODE_LEFT_ALIGN, numDigits);
+    StringExpandPlaceholders(gStringVar4, gText_PokevialHasDoses);
+
+    if (isPlayerUsingRegisteredKeyItem)
+        DisplayItemMessageOnField(taskId, gStringVar4, UsePokevialFieldYesNo);
+    else
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, UsePokevialYesNo);
+}
+
+static void PokevialPrintNoDosesMessage(bool32 isPlayerUsingRegisteredKeyItem, u8 taskId)
+{
+    StringCopy(gStringVar2, gText_PokemonCenter);
+    StringExpandPlaceholders(gStringVar4, gText_PokevialIsEmpty);
+
+    if (isPlayerUsingRegisteredKeyItem)
+        DisplayItemMessageOnField(taskId, gStringVar4, Task_CloseCantUseKeyItemMessage);
+    else
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
+}
+
+void ItemUseOutOfBattle_Pokevial(u8 taskId)
+{
+    u32 currentDoses = PokevialGetDose();
+    bool32 isPlayerUsingRegisteredKeyItem = gTasks[taskId].tUsingRegisteredKeyItem;
+
+    CopyItemName(ITEM_POKEVIAL, gStringVar1);
+
+    if (currentDoses > EMPTY_VIAL)
+        PokevialPrintDosesAndConfirmMessage(currentDoses, isPlayerUsingRegisteredKeyItem, taskId);
+    else
+        PokevialPrintNoDosesMessage(isPlayerUsingRegisteredKeyItem, taskId);
+}
+#endif // POKEVIAL_FEATURE
 
 #undef tUsingRegisteredKeyItem

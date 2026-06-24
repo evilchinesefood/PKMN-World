@@ -1181,3 +1181,9 @@ const u8 gText_Volcanobadge[] = _("VOLCANOBADGE");
 const u8 gText_Earthbadge[] = _("EARTHBADGE");
 const u8 gText_OakImportantToGetToKnowPokemonThroughly[] = _("OAK: It's important to get to know\nyour POKéMON thoroughly.\p");
 const u8 gText_OakThisIsListOfPokemon[] = _("This is a list of your POKéMON,\n{PLAYER}.\pOpen this to check the skills\nand moves of your POKéMON.\pYou also choose POKéMON here if\nyou want to use an item on one.{PAUSE_UNTIL_PRESS}");
+
+#if POKEVIAL_FEATURE
+const u8 gText_PokevialHasDoses[] = _("The {STR_VAR_1} has {STR_VAR_2} doses remaining.\nUse the {STR_VAR_1}?");
+const u8 gText_PokevialIsEmpty[] = _("The {STR_VAR_1} is empty!\nRefill it by healing at a {STR_VAR_2}.{PAUSE_UNTIL_PRESS}");
+const u8 gText_YourPkmnWereRestored[] = _("Your POKéMON were restored\nto full health.{PAUSE_UNTIL_PRESS}");
+#endif // POKEVIAL_FEATURE

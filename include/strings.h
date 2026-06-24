@@ -2156,5 +2156,10 @@ extern const u8 gText_OakThisIsListOfPokemon[];
 extern const u8 gText_Boy[];
 extern const u8 gText_Girl[];
 
+#if POKEVIAL_FEATURE
+extern const u8 gText_PokevialHasDoses[];
+extern const u8 gText_PokevialIsEmpty[];
+extern const u8 gText_YourPkmnWereRestored[];
+#endif // POKEVIAL_FEATURE
 
 #endif // GUARD_STRINGS_H

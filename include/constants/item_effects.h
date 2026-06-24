@@ -93,7 +93,10 @@ enum ItemEffectType
     ITEM_EFFECT_PP_UP,
     ITEM_EFFECT_PP_MAX,
     ITEM_EFFECT_HEAL_PP,
-    ITEM_EFFECT_NONE
+    ITEM_EFFECT_NONE,
+#if POKEVIAL_FEATURE
+    ITEM_EFFECT_POKEVIAL,
+#endif
 };
 
 #define ITEM_FRIENDSHIP_MAPSEC_BONUS  1   // The amount of bonus friendship gained when an item is used on a Pokémon whose met location matches the current map section.

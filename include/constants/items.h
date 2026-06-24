@@ -1052,6 +1052,10 @@ enum __attribute__((packed)) Item
     ITEM_TATSUGIRINITE = 872,
     ITEM_GLIMMORANITE = 873,
 
+#if POKEVIAL_FEATURE
+    ITEM_POKEVIAL = 874, // Pokevial
+#endif
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

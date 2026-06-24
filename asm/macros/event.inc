@@ -2949,3 +2949,56 @@
 	getbraillestringwidth \text
 	call EventScript_BrailleCursorWaitButton
 	.endm
+
+#if POKEVIAL_FEATURE
+	@ Checks or manipulates the size or dose of the Pokevial.
+	@ When parameter is empty, it assumes VIAL_SIZE.
+	@ When amount is empty, it assumes 1.
+	.macro pokevial mode:req, parameter=VIAL_SIZE, amount=1
+	.byte SCR_OP_POKEVIAL
+	.byte \mode
+	.byte \parameter
+	.byte \amount
+	.endm
+
+	@ Gets the current number of doses in the Pokevial and stores it to VAR_0x8006
+	.macro pokevialgetdose
+	specialvar VAR_0x8006, PokevialGetDose
+	.endm
+
+	@ Gets the current size of the Pokevial and stores it to VAR_0x8006
+	.macro pokevialgetsize
+	specialvar VAR_0x8006, PokevialGetSize
+	.endm
+
+	@ Increases the size of the Pokevial by 1, capped at VIAL_MAX_SIZE
+	.macro pokevialincreasesize
+	pokevial VIAL_INCREASE VIAL_SIZE 1
+	.endm
+
+	@ Adds 1 dose to the Pokevial, capped at the current size
+	.macro pokevialadddose
+	pokevial VIAL_ADD VIAL_DOSE VIAL_STANDARD_DOSE
+	.endm
+
+	@ Decreases the size of the Pokevial by 1, floored at VIAL_MIN_SIZE
+	.macro pokevialdecreasesize
+	pokevial VIAL_DECREASE VIAL_SIZE 1
+	.endm
+
+	@ Removes 1 dose from the Pokevial, floored at EMPTY_VIAL
+	.macro pokevialremovedose
+	pokevial VIAL_REMOVE VIAL_DOSE VIAL_STANDARD_DOSE
+	.endm
+
+	@ Refills the vial so doses equals size, outputs success to VAR_RESULT
+	.macro pokevialrefill
+	specialvar VAR_RESULT, PokevialRefill
+	.endm
+
+	@ A combination of pokevialincreasesize and pokevialrefill
+	.macro pokevialreward
+	pokevial VIAL_INCREASE VIAL_SIZE 1
+	specialvar VAR_RESULT, PokevialRefill
+	.endm
+#endif // POKEVIAL_FEATURE

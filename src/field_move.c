@@ -3,13 +3,19 @@
 #include "field_move.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
+#include "item.h"
 #include "party_menu.h"
 #include "constants/field_move.h"
+#include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 
 static bool32 IsFieldMoveUnlocked_Cut(void)
 {
+#if QOL_FIELD_MOVES_ITEM_GATE
+    if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_CUT].toolItemId, 1))
+        return TRUE;
+#endif
     if (IS_FRLG)
         return FlagGet(FLAG_BADGE02_GET);
 
@@ -26,6 +32,10 @@ static bool32 IsFieldMoveUnlocked_Flash(void)
 
 static bool32 IsFieldMoveUnlocked_RockSmash(void)
 {
+#if QOL_FIELD_MOVES_ITEM_GATE
+    if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_ROCK_SMASH].toolItemId, 1))
+        return TRUE;
+#endif
     if (IS_FRLG)
         return FlagGet(FLAG_BADGE06_GET);
 
@@ -34,11 +44,19 @@ static bool32 IsFieldMoveUnlocked_RockSmash(void)
 
 static bool32 IsFieldMoveUnlocked_Strength(void)
 {
+#if QOL_FIELD_MOVES_ITEM_GATE
+    if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_STRENGTH].toolItemId, 1))
+        return TRUE;
+#endif
     return FlagGet(FLAG_BADGE04_GET);
 }
 
 static bool32 IsFieldMoveUnlocked_Surf(void)
 {
+#if QOL_FIELD_MOVES_ITEM_GATE
+    if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_SURF].toolItemId, 1))
+        return TRUE;
+#endif
     return FlagGet(FLAG_BADGE05_GET);
 }
 
@@ -52,11 +70,19 @@ static bool32 IsFieldMoveUnlocked_Fly(void)
 
 static bool32 IsFieldMoveUnlocked_Dive(void)
 {
+#if QOL_FIELD_MOVES_ITEM_GATE
+    if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_DIVE].toolItemId, 1))
+        return TRUE;
+#endif
     return FlagGet(FLAG_BADGE07_GET);
 }
 
 static bool32 IsFieldMoveUnlocked_Waterfall(void)
 {
+#if QOL_FIELD_MOVES_ITEM_GATE
+    if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_WATERFALL].toolItemId, 1))
+        return TRUE;
+#endif
     if (IS_FRLG)
         return FlagGet(FLAG_BADGE07_GET);
 
@@ -111,6 +137,9 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .isUnlockedFunc = IsFieldMoveUnlocked_Cut,
         .moveID = MOVE_CUT,
         .partyMsgID = PARTY_MSG_NOTHING_TO_CUT,
+#if QOL_FIELD_MOVES_ITEM_GATE
+        .toolItemId = ITEM_CUT_TOOL,
+#endif
     },
 
     [FIELD_MOVE_FLASH] =
@@ -127,6 +156,9 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .isUnlockedFunc = IsFieldMoveUnlocked_RockSmash,
         .moveID = MOVE_ROCK_SMASH,
         .partyMsgID = PARTY_MSG_CANT_USE_HERE,
+#if QOL_FIELD_MOVES_ITEM_GATE
+        .toolItemId = ITEM_ROCK_SMASH_TOOL,
+#endif
     },
 
     [FIELD_MOVE_STRENGTH] =
@@ -135,6 +167,9 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .isUnlockedFunc = IsFieldMoveUnlocked_Strength,
         .moveID = MOVE_STRENGTH,
         .partyMsgID = PARTY_MSG_CANT_USE_HERE,
+#if QOL_FIELD_MOVES_ITEM_GATE
+        .toolItemId = ITEM_STRENGTH_TOOL,
+#endif
     },
 
     [FIELD_MOVE_SURF] =
@@ -143,6 +178,9 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .isUnlockedFunc = IsFieldMoveUnlocked_Surf,
         .moveID = MOVE_SURF,
         .partyMsgID = PARTY_MSG_CANT_SURF_HERE,
+#if QOL_FIELD_MOVES_ITEM_GATE
+        .toolItemId = ITEM_SURF_TOOL,
+#endif
     },
 
     [FIELD_MOVE_FLY] =
@@ -159,6 +197,9 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .isUnlockedFunc = IsFieldMoveUnlocked_Dive,
         .moveID = MOVE_DIVE,
         .partyMsgID = PARTY_MSG_CANT_USE_HERE,
+#if QOL_FIELD_MOVES_ITEM_GATE
+        .toolItemId = ITEM_DIVE_TOOL,
+#endif
     },
 
     [FIELD_MOVE_WATERFALL] =
@@ -167,6 +208,9 @@ const struct FieldMoveInfo gFieldMoveInfo[FIELD_MOVES_COUNT] =
         .isUnlockedFunc = IsFieldMoveUnlocked_Waterfall,
         .moveID = MOVE_WATERFALL,
         .partyMsgID = PARTY_MSG_CANT_USE_HERE,
+#if QOL_FIELD_MOVES_ITEM_GATE
+        .toolItemId = ITEM_WATERFALL_TOOL,
+#endif
     },
 
     [FIELD_MOVE_TELEPORT] =

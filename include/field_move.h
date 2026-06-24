@@ -10,6 +10,9 @@ struct FieldMoveInfo
     bool32 (*isUnlockedFunc)(void);
     u16 moveID;
     u8 partyMsgID;
+#if QOL_FIELD_MOVES_ITEM_GATE
+    u16 toolItemId;
+#endif
 };
 
 extern const struct FieldMoveInfo gFieldMoveInfo[];

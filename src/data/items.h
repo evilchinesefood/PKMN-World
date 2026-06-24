@@ -15850,6 +15850,104 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Pokevial,
     },
 #endif // POKEVIAL_FEATURE
+
+#if QOL_FIELD_MOVES_ITEM_GATE
+    [ITEM_CUT_TOOL] =
+    {
+        .name = ITEM_NAME("Cut Tool"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A tool that can\n"
+            "cut small trees\n"
+            "blocking a path."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SecretKey,
+        .iconPalette = gItemIconPalette_SecretKey,
+    },
+
+    [ITEM_SURF_TOOL] =
+    {
+        .name = ITEM_NAME("Surf Tool"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A tool that lets\n"
+            "you surf across\n"
+            "bodies of water."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SecretKey,
+        .iconPalette = gItemIconPalette_SecretKey,
+    },
+
+    [ITEM_ROCK_SMASH_TOOL] =
+    {
+        .name = ITEM_NAME("Rock-Smash Tool"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A tool that smashes\n"
+            "cracked rocks\n"
+            "blocking a path."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SecretKey,
+        .iconPalette = gItemIconPalette_SecretKey,
+    },
+
+    [ITEM_STRENGTH_TOOL] =
+    {
+        .name = ITEM_NAME("Strength Tool"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A tool that lets\n"
+            "you move large\n"
+            "boulders in caves."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SecretKey,
+        .iconPalette = gItemIconPalette_SecretKey,
+    },
+
+    [ITEM_WATERFALL_TOOL] =
+    {
+        .name = ITEM_NAME("Waterfall Tool"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A tool that lets\n"
+            "you climb\n"
+            "waterfalls."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SecretKey,
+        .iconPalette = gItemIconPalette_SecretKey,
+    },
+
+    [ITEM_DIVE_TOOL] =
+    {
+        .name = ITEM_NAME("Dive Tool"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A tool that lets\n"
+            "you dive to the\n"
+            "seafloor."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SecretKey,
+        .iconPalette = gItemIconPalette_SecretKey,
+    },
+#endif // QOL_FIELD_MOVES_ITEM_GATE
 };
 
 #undef ITEM_NAME

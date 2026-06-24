@@ -1056,6 +1056,15 @@ enum __attribute__((packed)) Item
     ITEM_POKEVIAL = 874, // Pokevial
 #endif
 
+#if QOL_FIELD_MOVES_ITEM_GATE
+    ITEM_CUT_TOOL,
+    ITEM_SURF_TOOL,
+    ITEM_ROCK_SMASH_TOOL,
+    ITEM_STRENGTH_TOOL,
+    ITEM_WATERFALL_TOOL,
+    ITEM_DIVE_TOOL,
+#endif
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

@@ -1,3 +1,4 @@
+#include "constants/global.h"
 #include "config/general.h"
 #include "config/battle.h"
 #include "constants/battle.h"

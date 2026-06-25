@@ -1,8 +1,23 @@
 #ifndef GUARD_CONSTANTS_GLOBAL_INC
 #define GUARD_CONSTANTS_GLOBAL_INC
 
+// Temporarily remove cpp TRUE/FALSE macros so that ".set TRUE, 1" is passed
+// through to GAS as a symbol assignment rather than being macro-expanded.
+// Immediately restore them so subsequent #if guards in the same cpp pass work.
+#ifdef TRUE
+#undef TRUE
 	.set TRUE, 1
+#define TRUE 1
+#else
+	.set TRUE, 1
+#endif
+#ifdef FALSE
+#undef FALSE
 	.set FALSE, 0
+#define FALSE 0
+#else
+	.set FALSE, 0
+#endif
 
 	.set NULL, 0
 

@@ -255,11 +255,17 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_GETBRAILLESTRINGWIDTH         ScrCmd_getbraillestringwidth,       requests_effects=1  @ 0xe6
 #if POKEVIAL_FEATURE
 	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmd_pokevial                                         @ 0xe7
+#else
+	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmd_nop                                              @ 0xe7
 #endif
 #if QUEST_MENU
 	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmd_questmenu                                        @ 0xe8
 	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmd_subquestmenu                                     @ 0xe9
 	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmd_returnqueststate                                 @ 0xea
+#else
+	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmd_nop                                              @ 0xe8
+	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmd_nop                                              @ 0xe9
+	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmd_nop                                              @ 0xea
 #endif
 
 	.if ALLOCATE_SCRIPT_CMD_TABLE

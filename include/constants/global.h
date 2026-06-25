@@ -1,6 +1,18 @@
 #ifndef GUARD_CONSTANTS_GLOBAL_H
 #define GUARD_CONSTANTS_GLOBAL_H
 
+// Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
+// (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate
+// correctly during asm preprocessing. global.inc handles the .set conflict via
+// #undef before each .set and #define restoration after. In C translation units
+// gba/defines.h already defines these; the #ifndef guards prevent redefinition.
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+
 // You can use the ENABLED_ON_RELEASE and DISABLED_ON_RELEASE macros to
 // control whether a feature is enabled or disabled when making a release build.
 //

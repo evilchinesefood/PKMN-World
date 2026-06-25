@@ -1,6 +1,12 @@
 import re
 
 SCR_CMD_PAT = re.compile(r"^[ \t]*script_cmd_table_entry\s+(SCR_OP_\w+).*?ScrCmd_.*")
+COND_PAT    = re.compile(r"^\s*#\s*(if|ifdef|ifndef|else|endif)\b")
+
+# The table uses #if FEATURE / <entries> / #else / <same-count nop entries> / #endif
+# so that every slot is always present (unconditional slots, conditional handlers).
+# We count only the #if-branch entries to get canonical opcode values; #else branches
+# have identical entry counts (same slots) so we skip them during counting.
 
 def main():
     output = [
@@ -13,9 +19,30 @@ def main():
          "{"
     ]
 
+    # Stack of (in_if_branch: bool) — True means we are inside a #if branch (count),
+    # False means we are inside a #else branch (skip).
+    branch_stack = []
+
+    def active():
+        # Active when not inside any #else block at any nesting level.
+        return all(branch_stack)
+
     with open("data/script_cmd_table.inc", "r") as f:
         ctr = 0
         for line in f.readlines():
+            if m := re.match(COND_PAT, line):
+                kind = m.group(1)
+                if kind in ("if", "ifdef", "ifndef"):
+                    branch_stack.append(True)   # entering #if branch — count
+                elif kind == "else":
+                    if branch_stack:
+                        branch_stack[-1] = False  # switch to #else branch — skip
+                elif kind == "endif":
+                    if branch_stack:
+                        branch_stack.pop()
+                continue
+            if not active():
+                continue
             if match := re.search(SCR_CMD_PAT, line):
                 new_line = "    " + match.group(1) + f" = 0x{ctr:X},"
                 output.append(new_line)

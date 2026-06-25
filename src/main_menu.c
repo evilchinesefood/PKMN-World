@@ -1163,9 +1163,12 @@ enum
 {
     REGION_PICK_HOENN,
     REGION_PICK_KANTO,
-    REGION_PICK_JOHTO, // placeholder, not selectable
-    REGION_PICK_COUNT,
+    REGION_PICK_JOHTO, // placeholder: drawn greyed but NOT cursor-selectable
+    REGION_PICK_ROW_COUNT,
 };
+
+// Only Hoenn/Kanto are reachable by the cursor; Johto is a greyed label below.
+#define REGION_PICK_SELECTABLE 2
 
 static const u8 sText_RegionSelectJohto[] = _("JOHTO");
 
@@ -1175,7 +1178,7 @@ static const struct WindowTemplate sRegionSelectWindow =
     .tilemapLeft = 3,
     .tilemapTop = 2,
     .width = 8,
-    .height = REGION_PICK_COUNT * 2,
+    .height = REGION_PICK_ROW_COUNT * 2,
     .paletteNum = STD_WINDOW_PALETTE_NUM,
     .baseBlock = 0x16D,
 };
@@ -1200,7 +1203,7 @@ static void Task_RegionSelect(u8 taskId)
     AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 33, sTextColor_RegionDisabled, TEXT_SKIP_DRAW, sText_RegionSelectJohto);
     PutWindowTilemap(windowId);
     CopyWindowToVram(windowId, COPYWIN_FULL);
-    InitMenuInUpperLeftCornerNormal(windowId, REGION_PICK_COUNT, 0);
+    InitMenuInUpperLeftCornerNormal(windowId, REGION_PICK_SELECTABLE, 0);
     gTasks[taskId].func = Task_HandleRegionSelectInput;
 }
 
@@ -1212,10 +1215,8 @@ static void Task_HandleRegionSelectInput(u8 taskId)
     {
     case MENU_NOTHING_CHOSEN:
         return;
-    case REGION_PICK_JOHTO:
-        // Placeholder, not yet playable. (Menu_ProcessInputNoWrap already beeped.)
-        return;
     case MENU_B_PRESSED:
+        // Back to the main menu; only the picker window was added, free it.
         PlaySE(SE_SELECT);
         ClearStdWindowAndFrameToTransparent(gTasks[taskId].tRegionWinId, TRUE);
         RemoveWindow(gTasks[taskId].tRegionWinId);
@@ -1230,9 +1231,11 @@ static void Task_HandleRegionSelectInput(u8 taskId)
         return;
     case REGION_PICK_HOENN:
     default:
+        // Birch speech reinitializes windows via InitWindows, so free the
+        // main-menu + picker buffers first (matches the original NEW_GAME path).
         SetStartRegion(REGION_HOENN);
-        ClearStdWindowAndFrameToTransparent(gTasks[taskId].tRegionWinId, TRUE);
-        RemoveWindow(gTasks[taskId].tRegionWinId);
+        FreeAllWindowBuffers();
+        sCurrItemAndOptionMenuCheck = 0;
         gPlttBufferUnfaded[0] = RGB_BLACK;
         gPlttBufferFaded[0] = RGB_BLACK;
         gTasks[taskId].func = Task_NewGameBirchSpeech_Init;

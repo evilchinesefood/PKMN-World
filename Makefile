@@ -7,7 +7,9 @@ MAP_VERSION  ?= emerald
 # ALL_REGIONS=1 : Emerald-base build that merges every region's maps (region merge).
 # Keeps GAME_VERSION=EMERALD (IS_FRLG=0) but stops mapjson from filtering out
 # non-Hoenn maps/layouts, and includes the FRLG map scripts via --defsym ALL_REGIONS=1.
-ALL_REGIONS  ?= 0
+# Always-on: the game is always the unified 3-region build. Override with ALL_REGIONS=0
+# only for debugging the legacy single-region path.
+ALL_REGIONS  ?= 1
 
 ifeq (firered, $(or $(BUILD), $(MAKECMDGOALS)))
   	GAME_VERSION 	:= FIRERED

@@ -1,6 +1,152 @@
-## Credits ✨
+# Pokémon World — Credits
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/en/reference/emoji-key/)):
+**Pokémon World** is a private GBA ROM hack built on
+[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
+It bundles a curated set of features ported from several community projects on top
+of that engine. This file credits everyone whose work makes the project possible —
+the project lead, the base engine and its contributors, and the authors of every
+feature merged in from other ROM-hack bases.
+
+If you build on Pokémon World, please carry these credits forward, and credit
+**RHH (Rom Hacking Hideout)** for the underlying engine.
+
+---
+
+## Project lead
+
+- **David A.** ([@evilchinesefood](https://github.com/evilchinesefood)) — author and
+  lead developer of Pokémon World. Project integration, feature porting/merging,
+  configuration, and ongoing development.
+  Repo: [evilchinesefood/PKMN-World](https://github.com/evilchinesefood/PKMN-World).
+
+---
+
+## Base engine
+
+Pokémon World is built on:
+
+- **[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion)** by
+  **RHH (Rom Hacking Hideout)** and its many contributors — the feature-rich base that
+  provides modern battle mechanics, Pokémon, abilities, items, moves, and the bulk of
+  the quality-of-life systems. Pokémon World tracks upstream ~v1.16.x.
+- **[pret/pokeemerald](https://github.com/pret/pokeemerald)** by **pret** — the original
+  Pokémon Emerald decompilation that pokeemerald-expansion (and therefore this project)
+  is built on top of.
+
+The full list of pokeemerald-expansion contributors is preserved in the
+[pokeemerald-expansion contributors](#pokeemerald-expansion-contributors) table below.
+
+---
+
+## Merged-in features & their sources
+
+Every feature below is included in Pokémon World behind a config flag (most default-off).
+Credit goes to the original authors and the bases they were ported from.
+
+### Sword/Shield UI suite — montmoguri/pokeemerald-expansion
+
+The full SwSh-style interface — party menu, summary screen, PC storage system, bag/item
+menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
+`OW_POPUP_GENERATION`) — was ported from
+**[montmoguri/pokeemerald-expansion](https://github.com/montmoguri/pokeemerald-expansion)**.
+
+- **Montblanc** ([montmoguri](https://github.com/montmoguri)) — primary author of the
+  SwSh UI suite and of the **comfy_anim** shared animation library that drives its
+  spring/easing animations. (Confirmed via the project's git history and the
+  `Montblanc note:` author comment retained in `src/swsh_summary_screen.c`.)
+- **LOuroboros** and **FosterProgramming** — additional contributions to the SwSh UI
+  branches in that repo.
+- Built on top of the **pokeemerald-expansion** menu/storage/overworld systems (RHH and
+  contributors, credited above).
+
+### Quests system — PokemonSanFran/pokeemerald
+
+The quest menu UI, quest script commands, start-menu hook, SaveBlock3 quest schema, and
+complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in
+**[PokemonSanFran/pokeemerald](https://github.com/PokemonSanFran/pokeemerald)**.
+
+- **psf / Pokémon San Fran** ([pkmnsnfrn](https://github.com/pkmnsnfrn) ·
+  [linktr.ee/pkmnsnfrn](https://linktr.ee/pkmnsnfrn)) — original author of the quests
+  feature (the "unbound-quest-menu" work).
+- **RubyRaven6** ("Mudskipper" / [Ruby](https://github.com/RubyRaven6)) and **Evan** —
+  additional quest fixes and changes in that repo.
+- The quest menu itself derives from **FireRed** quest-menu code, **ported from FireRed
+  by ghoulslash** (per the attribution comment retained in `src/quests.c`). That lineage
+  traces back to the Pokémon Unbound / Complete FireRed Upgrade quest menu by
+  **[Skeli](https://github.com/Skeli789)**
+  ([Complete-Fire-Red-Upgrade](https://github.com/Skeli789/Complete-Fire-Red-Upgrade)).
+
+### comfy_anim shared animation library
+
+- **Montblanc** ([montmoguri](https://github.com/montmoguri)) — introduced and authored
+  in the montmoguri/pokeemerald-expansion SwSh work; brought into Pokémon World as the
+  shared easing/spring animation layer the SwSh UI depends on.
+
+### ORAS key-item registration wheel (`I_KEY_ITEM_WHEEL`)
+
+- ORAS-style SELECT registration wheel allowing up to four key items registered to the
+  D-Pad. Mechanic from **Pokémon Omega Ruby / Alpha Sapphire**, implemented on the
+  pokeemerald-expansion item/registered-item system (RHH and contributors).
+
+### Pokevial refillable party-heal key item (`POKEVIAL_FEATURE`)
+
+- Refillable party-heal vial key item, integrated with the SwSh party menu. Implemented
+  on the pokeemerald-expansion item and party-menu systems (RHH and contributors).
+
+### QOL HM / field-move item gate (`QOL_FIELD_MOVES_ITEM_GATE`)
+
+- Minimal HM / field-move item-gate behavior, gating field moves behind item possession.
+  Implemented on the pokeemerald-expansion field-move system (RHH and contributors).
+
+### Followers, day/night & lighting
+
+- **aarant — Ariel A** ([aarant](https://github.com/aarant)) — overworld followers and
+  day/night/lighting work. These systems are now largely part of upstream
+  pokeemerald-expansion, but the original branch work is credited here.
+
+---
+
+## Upcoming / planned sources (NOT yet merged)
+
+These are referenced for the planned region merge and are **not** present in the current
+build. They are listed only so future credit is not lost — do not treat them as included.
+
+- **[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
+  ("Pokémon Heart & Soul") — planned source for the Johto region.
+- **[evilchinesefood/FireRedDavesVersion](https://github.com/evilchinesefood/FireRedDavesVersion)**
+  — planned Kanto story reference (FRLG maps are bundled but currently inert).
+
+See [docs/RegionMergePlan.md](docs/RegionMergePlan.md) for the planned Hoenn + Kanto + Johto merge.
+
+---
+
+## Other Credits
+
+### Mega Evolution Overworld Sprite Credits
+
+- [princess-phoenix](https://www.deviantart.com/princess-phoenix)
+- [larryturbo](https://www.deviantart.com/larryturbo)
+- [kidkatt](https://www.deviantart.com/kidkatt)
+
+## Resources
+
+- [Sugimori Palettes and Sprites](https://www.pokecommunity.com/showthread.php?t=336945)
+- [DS Style Gen VI Sprites](https://www.pokecommunity.com/showthread.php?t=314422)
+- [Gen VII and Beyond Sprites](https://www.pokecommunity.com/showthread.php?t=368703)
+- Some icons ripped from [Pokemon Gaia](https://www.pokecommunity.com/showthread.php?t=326118)
+- [Data Files](https://www.pokecommunity.com/showthread.php?t=417909)
+- [Complete FireRed Upgrade](https://github.com/Skeli789/Complete-Fire-Red-Upgrade)
+- [pokeemerald](https://github.com/pret/pokeemerald/)
+
+---
+
+## pokeemerald-expansion contributors
+
+The table below is the upstream
+[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion) all-contributors
+list, preserved verbatim as required attribution for the RHH team. It follows the
+[all-contributors](https://github.com/all-contributors/allcontributors.org) specification
+([emoji key](https://allcontributors.org/en/reference/emoji-key/)).
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -120,19 +266,5 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/e
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 This project follows the [all-contributors](https://github.com/all-contributors/allcontributors.org) specification. Contributions of any kind welcome!
-
-## Other Credits
-### Mega Evolution Overworld Sprite Credits:
-- [princess-phoenix](https://www.deviantart.com/princess-phoenix)
-- [larryturbo](https://www.deviantart.com/larryturbo)
-- [kidkatt](https://www.deviantart.com/kidkatt)
-
-## Resources
-- [Sugimori Palettes and Sprites](https://www.pokecommunity.com/showthread.php?t=336945)
-- [DS Style Gen VI Sprites](https://www.pokecommunity.com/showthread.php?t=314422)
-- [Gen VII and Beyond Sprites](https://www.pokecommunity.com/showthread.php?t=368703)
-- Some icons ripped from [Pokemon Gaia](https://www.pokecommunity.com/showthread.php?t=326118)
-- [Data Files](https://www.pokecommunity.com/showthread.php?t=417909)
-- [Complete FireRed Upgrade](https://github.com/Skeli789/Complete-Fire-Red-Upgrade)
-- [pokeemerald](https://github.com/pret/pokeemerald/)

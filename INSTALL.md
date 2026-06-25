@@ -1,185 +1,205 @@
-# Instructions
-Install instructions for each supported operating system can be found in their respective directories under `docs/install/`.
-Lines to those can be found under each heading.
-This file only contains a short introduction to each supported system.
-If you run into trouble, ask for help on Discord (see [README.md](README.md)).
+# Installing & Building Pokémon World
 
-After completing the install instructions for your OS, proceed to [Building pokeemerald-expansion](#building-pokeemerald-expansion).
+This file is the complete, self-contained setup and build guide for **Pokémon World** — a
+private GBA ROM-hack built on [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 
-## Windows
-**Windows needs one of the systems to build the project**
+This repository **is** the project. You do not clone anything else: building it produces the
+ROM `pokemonworld.gba` at the repository root.
 
-**A note of caution**: As Windows 7 and Windows 8 are officially unsupported by Microsoft, some maintainers are unwilling to maintain the Windows 7/8 instructions. Thus, these instructions may break in the future with fixes taking longer than fixes to the Windows 10/11 instructions.
+- **Output ROM:** `pokemonworld.gba` (ROM header title `POKEMON WRLD`, game code `BPEE`)
+- **Toolchain:** modern only — `arm-none-eabi-gcc` + newlib. **agbcc is not used.**
 
-On Windows, the project can be built using the following systems:
-- WSL2, fastest
-- WSL1, 7 times slower than WSL2
-- Msys2, 20 times slower than WSL2
-- Cygwin, 30 timer slower than WSL2
+For a project overview see [README.md](README.md); for the feature set inherited from the
+expansion see [FEATURES.md](FEATURES.md).
 
-**NOTE**: Only WSL systems are recommended.
+## 1. Prerequisites
 
-[WSL Install instructions](docs/install/windows/WSL.md)
+This is a **modern-toolchain-only** build. You need the GNU Arm bare-metal toolchain plus the
+usual build utilities. The recommended environment is **WSL2** on Windows (the dev environment
+is aarch64 WSL); native Linux and macOS work too.
 
-[Msys2 Install instructions](docs/install/windows/MSYS2.md)
+Required:
 
-[Cygwin Install instructions](docs/install/windows/CYGWIN.md)
+- `arm-none-eabi-gcc` — the Arm bare-metal C compiler
+- `arm-none-eabi` **binutils** — `arm-none-eabi-as`, `-ld`, `-objcopy`, `-objdump`
+- **newlib** for `arm-none-eabi` — provides `libc.a` and `libnosys.a` (required to link the
+  modern target)
+- `make`
+- a host `gcc` / `g++` (used to compile the build tools in `tools/`)
+- `python3`
+- `libpng` (development headers) — for the graphics tools
+- `git`
 
-## Linux
-The project can be built on any Linux distribution.
-Distributions with instructions:
-- [Ubuntu](docs/install/linux/UBUNTU.md)
-- [Debian](docs/install/linux/DEBIAN.md)
-- [Arch Linux](docs/install/linux/ARCH_LINUX.md)
-- [NixOS](docs/install/linux/NIXOS.md)
-- [Fedora](docs/install/linux/FEDORA.md)
+You do **not** need devkitARM or agbcc.
 
-Other distributions have to infer what to do from [general instructions](docs/install/linux/OTHERS.md).
+### Windows (WSL2)
 
-## Mac
-Some extra considerations exist to get the testing system working.
+1. Install WSL2 with a Linux distribution (Ubuntu is fine):
 
-[Mac instructions](docs/install/mac/MAC_OS.md)
+   ```console
+   wsl --install
+   ```
 
-## ChromeOS
-Only tested on x86_64 based systems.
+2. Open the WSL shell and follow the **Linux (Debian/Ubuntu)** steps below from inside it.
 
-[Chrome OS instructions](docs/install/chromeos/CHROME_OS.md)
+> WSL2 is strongly recommended. WSL1, Msys2, and Cygwin are progressively (much) slower and are
+> not supported here.
 
-# Building pokeemerald-expansion
-Follow these steps to build `pokeemerald-expansion`.
-1. Navigate to the directory you want to keep the project in, be aware of any system specific limitations.
-2. Download `pokeemerald-expansion` with `git`
+### Linux (Debian / Ubuntu)
 
-    ```console
-    git clone https://github.com/rh-hideout/pokeemerald-expansion
-    ```
-3. Navigate to the newly downloaded project.
+```console
+sudo apt update
+sudo apt install -y build-essential binutils-arm-none-eabi gcc-arm-none-eabi \
+    libnewlib-arm-none-eabi git libpng-dev python3
+```
 
-    ```console
-    cd pokeemerald-expansion
-    ```
-4. Build the project.
+`gcc-arm-none-eabi` pulls in the compiler and binutils; `libnewlib-arm-none-eabi` provides
+`libc.a` / `libnosys.a` for the modern link.
 
-    ```console
-    make
-    ```
-5. If everything worked correctly, something very similar to this should be seen.
+### Linux (Arch)
 
-    ```console
-    arm-none-eabi-ld: warning: ../../pokeemerald.elf has a LOAD segment with RWX permissions
-    Memory region         Used Size  Region Size  %age Used
-               EWRAM:      243354 B       256 KB     92.83%
-               IWRAM:       30492 B        32 KB     93.05%
-                 ROM:    26072244 B        32 MB     77.70%
-    cd build/modern && arm-none-eabi-ld  -T ../../ld_script_modern.ld --print-memory-usage -o ../../pokeemerald.elf <objs> <libs> | cat
-    tools/gbafix/gbafix pokeemerald.elf -t"POKEMON EMER" -cBPEE -m01 -r0 --silent
-    arm-none-eabi-objcopy -O binary pokeemerald.elf pokeemerald.gba
-    tools/gbafix/gbafix pokeemerald.gba -p --silent
-    ```
-    And the build ROM will be in the directory as `pokeemerald.gba`.
+```console
+sudo pacman -S --needed base-devel arm-none-eabi-gcc arm-none-eabi-binutils \
+    arm-none-eabi-newlib git libpng python
+```
 
-# Building guidance
+### Linux (Fedora)
 
-## Parallel builds
+```console
+sudo dnf install -y make gcc gcc-c++ arm-none-eabi-gcc-cs arm-none-eabi-newlib \
+    git libpng-devel python3
+```
 
-See [the GNU docs](https://www.gnu.org/software/make/manual/html_node/Parallel.html) and [this Stack Exchange thread](https://unix.stackexchange.com/questions/208568) for more information.
+### macOS
 
-To speed up building, first get the value of `nproc` by running the following command:
+```console
+brew install make gcc python3 libpng git
+brew install --cask gcc-arm-embedded   # arm-none-eabi-gcc + binutils + newlib
+```
+
+### Verify the toolchain is on PATH
+
+```console
+arm-none-eabi-gcc --version
+make --version
+python3 --version
+```
+
+If `arm-none-eabi-gcc` is found, you are ready to build.
+
+### Alternative: user-space toolchain (no system install / no root)
+
+If you can't (or don't want to) install the toolchain system-wide, you can drop an
+`arm-none-eabi` toolchain into your home directory and put it on `PATH` only for the build.
+This project is known to build cleanly with a user-space toolchain laid out under
+`~/.local/arm-none-eabi/`:
+
+```console
+PATH=~/.local/arm-none-eabi/usr/bin:$PATH make -j$(nproc)
+```
+
+This is the same as the standard build below — it just prepends the user-space toolchain to
+`PATH` for that one command, so no `sudo` is required. See
+[Overriding the toolchain](#overriding-the-toolchain) for the `TOOLCHAIN` variable as another
+way to point the build at a toolchain in a non-default location.
+
+## 2. Building
+
+From the repository root:
+
+```console
+make -j$(nproc)         # build pokemonworld.gba (the default target)
+make -j$(nproc) check   # build, then run the battle-engine test suite (test/)
+make clean              # remove build artifacts
+make debug              # build pokemonworld.elf with debug symbols + debug-friendly optimization
+```
+
+`make` with no target builds the ROM. `make check` adds the test runner (the `test/` battle
+mechanics suite). `make debug` produces an ELF with `-Og -g` for use in a debugger.
+
+> `-j$(nproc)` runs a parallel build using all CPU cores. See
+> [Parallel builds](#parallel-builds) if `nproc` isn't available (e.g. macOS).
+
+### Expected output
+
+When the link step runs you'll see a memory-usage readout, followed by the `gbafix` /
+`objcopy` lines that stamp and emit the ROM. It looks roughly like this (exact byte counts
+will drift as the project changes):
+
+```console
+arm-none-eabi-ld: warning: ../../pokemonworld.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      243xxx B       256 KB     ~93%
+           IWRAM:       30xxx B        32 KB     ~93%
+             ROM:    26xxxxxx B        32 MB     ~78%
+cd build/modern && arm-none-eabi-ld  -T ../../ld_script_modern.ld --print-memory-usage -o ../../pokemonworld.elf <objs> <libs> | cat
+tools/gbafix/gbafix pokemonworld.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokemonworld.elf pokemonworld.gba
+tools/gbafix/gbafix pokemonworld.gba -p --silent
+```
+
+On success the finished ROM is written to the repository root as **`pokemonworld.gba`**
+(a 32 MB / 33,554,432-byte file). The `ROM:` line of the memory readout is worth watching —
+the ROM region is capped at 32 MB, so the percentage there is the project's headroom budget.
+
+## 3. Building guidance
+
+### Parallel builds
+
+To speed up the build, pass `-j` with your core count. Get the count with:
+
 ```console
 nproc
 ```
-Builds can then be sped up by running the following command:
+
+then build with, for example:
+
 ```console
-make -j<output of nproc>
+make -j8
 ```
-Replace `<output of nproc>` with the number that the `nproc` command returned.
 
-`nproc` is not available on macOS. The alternative is `sysctl -n hw.ncpu` ([relevant Stack Overflow thread](https://stackoverflow.com/questions/1715580)).
+`make -j$(nproc)` does both in one line. `nproc` is not available on macOS — use
+`sysctl -n hw.ncpu` instead, e.g. `make -j$(sysctl -n hw.ncpu)`.
 
-### Other toolchains
+See the [GNU make parallel-build docs](https://www.gnu.org/software/make/manual/html_node/Parallel.html)
+for details.
 
-To build using a toolchain other than devkitARM, override the `TOOLCHAIN` environment variable with the path to your toolchain, which must contain the subdirectory `bin`.
+### Overriding the toolchain
+
+By default the build uses `arm-none-eabi-*` binaries found on `PATH`. To build with a toolchain
+in a non-standard location, set the `TOOLCHAIN` environment variable to a directory that
+contains a `bin` subdirectory:
+
 ```console
-make TOOLCHAIN="/path/to/toolchain/here
+make TOOLCHAIN="/path/to/toolchain"
 ```
-The following is an example:
+
+For example:
+
 ```console
 make TOOLCHAIN="/usr/local/arm-none-eabi"
 ```
-To compile the `modern` target with this toolchain, the subdirectories `lib`, `include`, and `arm-none-eabi` must also be present.
 
-### Building with debug info
+For the modern target the toolchain directory must also contain the `lib`, `include`, and
+`arm-none-eabi` subdirectories.
 
-To build **pokeemerald.elf** with debug symbols and debug-compatible optimization under a modern toolchain:
-```console
-make debug
-```
+### Pulling upstream expansion updates (optional)
 
-# Choosing a branch
-**pokeemerald-expansion** has different branches that users can decide to use.
+This is a single, private, master-only project — there are no project branches to choose
+between. If you ever want to pull in newer pokeemerald-expansion changes, add RH-Hideout as a
+remote and merge from it (expect to resolve conflicts):
 
-## Latest Patch
-This option will have all officially released expansion functionality and bugfixes.
-
-## `master`
-The `master` branch has all of the functionality from "Latest Patch", as well as any bugfixes that have been discovered since that release.
-
-## `upcoming`
-The `master` branch has all of the functionality from "Latest Patch", as well as any functionality that has been added since that release.
-
-The bugfixes on `master` are occasionally merged into `upcoming`, but there is no official cadence.
-
-# Migrating from pokeemerald
-
-1. Set RHH as a git remote
 ```console
 git remote add RHH https://github.com/rh-hideout/pokeemerald-expansion
+git pull RHH master
 ```
 
-2. Pull your desired branch
-There are three different options to pull from.
-```console
-git pull RHH master # if you've chosen to use the upcoming branch, replace the word master with upcoming.
-# If you've chosen the latest patch, replace the word master with expansion
-# If you've chosen Latest Patch, replace the word master with expansion/1.11.0 where 1.11.0 is replaced with whatever the latest released version is.
-```
+## 4. Useful additional tools
 
-If you are not on the latest version of pret's pokeemerald, you should expect some merge conflicts that you'll need to resolve. Once complete, you'll be using **pokeemerald-expansion**.
+These are optional editors/tools that pair well with a pokeemerald-based project:
 
-# Updating pokeemerald-expansion
-
-1. Set RHH as a git remote
-```console
-git remote add RHH https://github.com/rh-hideout/pokeemerald-expansion
-```
-
-2. Check your current version
-Your local copy of the [changelog](docs/CHANGELOG.md) will be updated with the version your repo is on.
-
-3. Select a target version
-We recommend incrementally updating to the next version using the following order below.
-If you are on a version older than 1.6.2, you should target 1.6.2..
-    * 1.6.2
-    * 1.7.4
-    * 1.8.3
-    * 1.9.4
-    * 1.10.3
-
-For example, if your version is 1.7.0, you should update to 1.7.4.
-
-4. Pull the target version
-```console
-git pull RHH expansion/X.Y.Z # Replace X, Y and Z with the target version, such as `1.9.3`, `master`, or `upcoming`.
-```
-
-You may have merge conflicts that you need to resolve.
-
-If you targeted a specific version that is not the latest version listed on the [tags](https://github.com/rh-hideout/pokeemerald-expansion/tags) page, you should repeat steps 3 and 4 until you are.
-
-# Useful additional tools
-
-* [porymap](https://github.com/huderlem/porymap) for viewing and editing maps
-* [porytiles](https://github.com/grunt-lucas/porytiles) for add new metatiles for maps
-* [poryscript](https://github.com/huderlem/poryscript) for scripting ([VS Code extension](https://marketplace.visualstudio.com/items?itemName=karathan.poryscript))
-* [Tilemap Studio](https://github.com/Rangi42/tilemap-studio) for viewing and editing tilemaps
+- [porymap](https://github.com/huderlem/porymap) — viewing and editing maps
+- [poryscript](https://github.com/huderlem/poryscript) — scripting
+  ([VS Code extension](https://marketplace.visualstudio.com/items?itemName=karathan.poryscript))
+- [Tilemap Studio](https://github.com/Rangi42/tilemap-studio) — viewing and editing tilemaps
+- [porytiles](https://github.com/grunt-lucas/porytiles) — adding new metatiles for maps

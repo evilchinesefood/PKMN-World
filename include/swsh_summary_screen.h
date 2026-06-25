@@ -4,7 +4,7 @@
 #include "main.h"
 
 // turn on and off the SwSh summary screen
-#define SWSH_SUMMARY_SCREEN                           FALSE
+#define SWSH_SUMMARY_SCREEN                           TRUE
 
 // constants
 #define SWSH_MAX_MOVE_DESCRIPTION_LENGTH              100       // this only needs to be updated if you use auto-formatting
@@ -19,16 +19,16 @@
 #define SWSH_SUMMARY_SHOW_FRIENDSHIP                  TRUE      // show a heart that fills up to indicate friendship value
 #define SWSH_SUMMARY_SWSH_STATUS_ICONS                TRUE      // use Gen 8 style status icons instead of default ones.
 #define SWSH_SUMMARY_SWSH_TYPE_ICONS                  TRUE      // use Gen 8 style type icons instead of the default ones
-#define SWSH_SUMMARY_SWSH_TYPE_ICONS_SV_PAL           FALSE     // use Scarlet/Violet palette for type icons
+#define SWSH_SUMMARY_SWSH_TYPE_ICONS_SV_PAL           TRUE     // use Scarlet/Violet palette for type icons
                                                                 // out of the box the vanilla icons don't fit well, this is mostly a compatibility
 #define SWSH_SUMMARY_SCROLLING_BG                     TRUE      // enables scrolling animated background
-#define SWSH_SUMMARY_BG_BLEND                         FALSE     // enables alpha blending for the main UI (semi-transparency)
+#define SWSH_SUMMARY_BG_BLEND                         TRUE     // enables alpha blending for the main UI (semi-transparency)
 #define SWSH_SUMMARY_MON_IDLE_ANIMS                   TRUE      // loops the mon animations regularly as an "idle" anim
 #define SWSH_SUMMARY_MON_SHADOWS                      TRUE      // displays a shadow for the mon sprite
 #define SWSH_SUMMARY_SHOW_CONTEST_PAGES               TRUE      // enables conditions and contest moves pages
-#define SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL               FALSE     // show dynamax level
-#define SWSH_SUMMARY_SHOW_GIGANTAMAX                  FALSE     // show gigantamax icon
-#define SWSH_SUMMARY_SHOW_TERA_TYPE                   FALSE     // show tera type icons
+#define SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL               TRUE     // show dynamax level
+#define SWSH_SUMMARY_SHOW_GIGANTAMAX                  TRUE     // show gigantamax icon
+#define SWSH_SUMMARY_SHOW_TERA_TYPE                   TRUE     // show tera type icons
 
 // Looking for configs for renaming mons and relearning moves? Those use the standard expansion configs
 // P_SUMMARY_SCREEN_RENAME and P_SUMMARY_SCREEN_MOVE_RELEARNER in include/config/pokemon.h

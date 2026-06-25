@@ -3994,6 +3994,8 @@ static void Task_KeyItemWheel(u8 taskId)
         i = DpadInputToRegisteredItemIndex(TRUE);
         if (i == 0 || tBoxSprite[i - 1] >= MAX_SPRITES)
             break;
+        if (CheckBagHasItem(GetRegisteredItem(i - 1), 1) != TRUE)
+            break;
         gSpecialVar_ItemId = GetRegisteredItem(i - 1);
         PlaySE(SE_SELECT);
         StartSpriteAffineAnim(&gSprites[tBoxSprite[i - 1]], i + 4 - 1);

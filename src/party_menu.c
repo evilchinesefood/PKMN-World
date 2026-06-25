@@ -8697,8 +8697,7 @@ void ItemUseCB_UsePokevial(u8 taskId, TaskFunc task)
 
 static void PokevialStartVariablesAndRun(u8 taskId, TaskFunc task)
 {
-    if (gPartyMenu.slotId == 1)
-        sPartyMenuInternal->tHadEffect = FALSE;
+    sPartyMenuInternal->tHadEffect = FALSE;
 
     sPartyMenuInternal->tUsedOnSlot = FALSE;
     sPartyMenuInternal->tLastSlotUsed = gPartyMenu.slotId;

@@ -3,7 +3,7 @@
 
 // Master flag for the Sword/Shield message + name box port. When FALSE the build is
 // byte-identical vanilla (code and graphics); when TRUE it uses the SwSh message/name box.
-#define SWSH_MESSAGE_BOX              FALSE
+#define SWSH_MESSAGE_BOX              TRUE
 
 #define OW_FLAG_SUPPRESS_NAME_BOX   0  // If this flag is set, any namebox (whether its from a macro or a code) will not show up until this flag is unset.
 

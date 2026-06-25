@@ -2844,9 +2844,12 @@ static void FreeResources(void)
 	try_free(sBg1TilemapBuffer);
 	try_free(sListMenuItems);
 
-	for (i = QUEST_ARRAY_COUNT; i > -1; i--)
+	if (questNameArray != NULL)
 	{
-		try_free(questNameArray[i]);
+		for (i = QUEST_ARRAY_COUNT; i > -1; i--)
+		{
+			try_free(questNameArray[i]);
+		}
 	}
 
 	try_free(questNameArray);

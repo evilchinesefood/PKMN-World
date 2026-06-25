@@ -1,7 +1,7 @@
 #ifndef GUARD_CONFIG_SWSH_ITEM_MENU_H
 #define GUARD_CONFIG_SWSH_ITEM_MENU_H
 
-#define SWSH_ITEM_MENU                    FALSE  // Use SwSh bag menu
+#define SWSH_ITEM_MENU                    TRUE  // Use SwSh bag menu
 
 #define SWSH_ITEM_MENU_TMHM_CONTEST_INFO  (SWSH_ITEM_MENU && TRUE)  // Show contest info for TMs/HMs in the item menu
 #define SWSH_ITEM_MENU_BERRY_INFO         TRUE  // Show berry info in the item menu

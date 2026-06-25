@@ -2552,7 +2552,7 @@ static void PatchPageIndicatorIcons(void)
 static void FreeSummaryScreen(void)
 {
     FreeAllWindowBuffers();
-    Free(sMonSummaryScreen);
+    FREE_AND_SET_NULL(sMonSummaryScreen);
 }
 
 static void BeginCloseSummaryScreen(u8 taskId)
@@ -5234,7 +5234,8 @@ static void CreateSheenSparkleSprites(void)
     struct SpritePalette pal;
     u8 sheen = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SHEEN);
     u8 count = GET_NUM_CONDITION_SPARKLES(sheen);
-    u16 i, firstSpriteId = 0;
+    u16 i, firstSpriteId = 0, lastCreated = 0;
+    bool32 anyCreated = FALSE;
     struct Sprite **sparkles = sMonSummaryScreen->conditionSparkles;
 
     LoadConditionSparkle(&sheet, &pal);
@@ -5251,6 +5252,8 @@ static void CreateSheenSparkleSprites(void)
                 sparkles[i - 1]->sNextSparkleSpriteId = spriteId;
             else
                 firstSpriteId = spriteId;
+            lastCreated = i;
+            anyCreated = TRUE;
         }
         else
         {
@@ -5258,7 +5261,10 @@ static void CreateSheenSparkleSprites(void)
         }
     }
 
-    sparkles[count]->sNextSparkleSpriteId = firstSpriteId;
+    // Close the circular chain on the last sprite actually created, not the
+    // expected slot `count`, which may be uninitialized if creation bailed early.
+    if (anyCreated)
+        sparkles[lastCreated]->sNextSparkleSpriteId = firstSpriteId;
     InitSummarySparkles(count, sparkles);
 }
 
@@ -5325,7 +5331,8 @@ static void CreateMaxConditionSparkles(void)
     {
         u8 arrId = SPRITE_ARR_ID_MAX_COND_SPARKLE + i;
         sMonSummaryScreen->spriteIds[arrId] = SPRITE_NONE;
-        if (GetMonData(&sMonSummaryScreen->currentMon, sConditionMonData[i]) == MAX_CONDITION)
+        if (GetMonData(&sMonSummaryScreen->currentMon, sConditionMonData[i]) == MAX_CONDITION
+            && sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_CONTEST_CATEGORY + i] < MAX_SPRITES)
         {
             struct Sprite *icon = &gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_CONTEST_CATEGORY + i]];
             u8 spriteId = CreateSprite(&sSpriteTemplate_MaxCondSparkle,

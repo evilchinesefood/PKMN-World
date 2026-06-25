@@ -463,6 +463,15 @@ static void Task_MapNamePopUpWindow(u8 taskId)
                 task->tPrintTimer = 1;
             }
 
+            if (task->tComfyAnimId >= NUM_COMFY_ANIMS)
+            {
+                // Comfy anim pool was exhausted; snap onscreen without animating.
+                SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+                task->tState = STATE_WAIT;
+                gTasks[gPopupTaskId].tOnscreenTimer = 0;
+                break;
+            }
+
             TryAdvanceComfyAnim(&gComfyAnims[task->tComfyAnimId]);
             s32 xOffset = ReadComfyAnimValueSmooth(&gComfyAnims[task->tComfyAnimId]);
             SetGpuReg(REG_OFFSET_BG0HOFS, xOffset);
@@ -508,14 +517,34 @@ static void Task_MapNamePopUpWindow(u8 taskId)
                 struct ComfyAnimEasingConfig config;
                 InitComfyAnimConfig_Easing(&config);
                 config.durationFrames = 12;
-                s32 currentPos = ReadComfyAnimValueSmooth(&gComfyAnims[task->tComfyAnimId]);
+                s32 currentPos = (task->tComfyAnimId < NUM_COMFY_ANIMS)
+                    ? ReadComfyAnimValueSmooth(&gComfyAnims[task->tComfyAnimId])
+                    : 0;
                 config.from = Q_24_8(currentPos);
                 config.to = Q_24_8(-POPUP_OFFSCREEN_X);
                 config.easingFunc = ComfyAnimEasing_EaseInOutCubic;
                 config.delayFrames = 0;
-                ReleaseComfyAnim(task->tComfyAnimId);
+                if (task->tComfyAnimId < NUM_COMFY_ANIMS)
+                    ReleaseComfyAnim(task->tComfyAnimId);
                 task->tComfyAnimId = CreateComfyAnim_Easing(&config);
                 task->tPrintTimer = 2;
+            }
+
+            if (task->tComfyAnimId >= NUM_COMFY_ANIMS)
+            {
+                // Comfy anim pool was exhausted; snap offscreen without animating.
+                SetGpuReg(REG_OFFSET_BG0HOFS, -POPUP_OFFSCREEN_X);
+                if (task->tIncomingPopUp)
+                {
+                    task->tState = STATE_PRINT;
+                    task->tPrintTimer = 0;
+                    task->tIncomingPopUp = FALSE;
+                }
+                else
+                {
+                    task->tState = STATE_ERASE;
+                }
+                return;
             }
 
             TryAdvanceComfyAnim(&gComfyAnims[task->tComfyAnimId]);

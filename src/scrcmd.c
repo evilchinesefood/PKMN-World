@@ -3592,4 +3592,17 @@ bool8 ScrCmd_subquestmenu(struct ScriptContext *ctx)
 
     return TRUE;
 }
+
+#if OW_QUEST_BRANCHING
+bool8 ScrCmd_updatequest(struct ScriptContext *ctx)
+{
+    u8 questId = VarGet(ScriptReadByte(ctx));
+    u32 varId = QuestMenu_GetQuestVariableId(questId);
+    u32 varValue = QuestMenu_GetQuestVariable(questId);
+
+    VarSet(varId, varValue + 1);
+
+    return FALSE;
+}
+#endif // OW_QUEST_BRANCHING
 #endif // QUEST_MENU

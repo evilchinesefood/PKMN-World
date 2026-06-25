@@ -39,6 +39,16 @@ struct SubQuest
 struct SideQuest
 {
 	const u8 *name;
+#if OW_QUEST_BRANCHING
+	const u8 *desc[OW_QUEST_MAX_STATES];
+	const u8 *donedesc;
+	const u8 *map[OW_QUEST_MAX_STATES];
+	const u16 sprite[OW_QUEST_MAX_STATES];
+    const u8 spritetype[OW_QUEST_MAX_STATES];
+	const struct SubQuest *subquests;
+	const u8 numSubquests;
+	const u16 questVariable;
+#else
 	const u8 *desc;
 	const u8 *donedesc;
 	const u8 *map;
@@ -46,7 +56,8 @@ struct SideQuest
     const u8 spritetype;
 	const struct SubQuest *subquests;
 	const u8 numSubquests;
-}; 
+#endif
+};
 
 enum QuestCases
 {
@@ -72,6 +83,10 @@ enum QuestCases
 void QuestMenu_Init(u8 a0, MainCallback callback);
 u8 QuestMenu_GetSetSubquestState(u8 quest, u8 caseId, u8 childQuest);
 u8 QuestMenu_GetSetQuestState(u8 quest, u8 caseId);
+#if OW_QUEST_BRANCHING
+u32 QuestMenu_GetQuestVariableId(u8 quest);
+u32 QuestMenu_GetQuestVariable(u8 quest);
+#endif
 void Task_QuestMenu_OpenFromStartMenu(u8);
 void QuestMenu_CopyQuestName(u8 *dst, u8 questId);
 void QuestMenu_CopySubquestName(u8 *dst, u8 parentId, u8 childId);

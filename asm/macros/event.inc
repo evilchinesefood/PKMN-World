@@ -2136,6 +2136,18 @@
     subquestmenu QUEST_MENU_CHECK_COMPLETE \parent \child
     call_if_eq VAR_RESULT, FALSE, \dest
     .endm
+
+#if OW_QUEST_BRANCHING
+    @ Advances the complex quest's branch variable to its next state.
+    .macro updatequest questId:req
+    .byte SCR_OP_UPDATEQUEST
+    .byte \questId
+    playse SE_PIN
+    msgbox gText_QuestUpdate, MSGBOX_SIGN
+    waitse
+    openquestmenu
+    .endm
+#endif // OW_QUEST_BRANCHING
 #endif // QUEST_MENU
 
 @ Supplementary

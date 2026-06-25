@@ -2108,6 +2108,7 @@ extern const u8 gText_Beauty3[];
 extern const u8 gText_QuestAnnounce[];
 extern const u8 gText_QuestComplete[];
 extern const u8 gText_QuestActive[];
+extern const u8 gText_QuestUpdate[];
 
 //names
 extern const u8 gText_SideQuestName_1[];

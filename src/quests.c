@@ -35,6 +35,7 @@
 #include "pokemon_icon.h"
 
 #include "random.h"
+#include "complex_quests.h"
 
 #if QUEST_MENU
 
@@ -145,6 +146,10 @@ static void PrintQuestLocation(s32 questId);
 static void GenerateQuestFlavorText(s32 questId);
 static void UpdateQuestFlavorText(s32 questId);
 static void PrintQuestFlavorText(s32 questId);
+#if OW_QUEST_BRANCHING
+static const u8 *GetQuestDesc(s32 questId);
+static const u8 *GetQuestLocation(s32 questId);
+#endif
 
 static bool8 IsQuestUnlocked(s32 questId);
 static bool8 IsQuestActiveState(s32 questId);
@@ -157,6 +162,10 @@ static void DetermineSpriteType(s32 questId);
 static void QuestMenu_CreateSprite(u16 itemId, u8 idx, u8 spriteType);
 static void ResetSpriteState(void);
 static void QuestMenu_DestroySprite(u8 idx);
+#if OW_QUEST_BRANCHING
+static u32 GetQuestSprite(s32 questId);
+static u32 GetQuestSpriteType(s32 questId);
+#endif
 
 static void GenerateStateAndPrint(u8 windowId, u32 itemId, u8 y);
 static u8 GenerateSubquestState(u8 questId);
@@ -560,7 +569,13 @@ static const struct SubQuest sSubQuests2[QUEST_2_SUB_COUNT] =
 ////////////////////////BEGIN QUEST CUSTOMIZATION//////////////////////////////
 
 //Declaration of side quest structures. Edits to quests are made here.
+#if OW_QUEST_BRANCHING
+// Branching ON: per-state arrays. Single-state quests wrap their scalars in {}
+// (a 1-element initializer of a MAX_STATES array) and default questVariable to 0.
+#define side_quest(n, d, dd, m, s, st, sq, ns) {.name = n, .desc = {d}, .donedesc = dd, .map = {m}, .sprite = {s}, .spritetype = {st}, .subquests = sq, .numSubquests = ns, .questVariable = 0}
+#else
 #define side_quest(n, d, dd, m, s, st, sq, ns) {.name = n, .desc = d, .donedesc = dd, .map = m, .sprite = s, .spritetype = st, .subquests = sq, .numSubquests = ns}
+#endif
 static const struct SideQuest sSideQuests[QUEST_COUNT] =
 {
 	side_quest(
@@ -583,6 +598,36 @@ static const struct SideQuest sSideQuests[QUEST_COUNT] =
 	      sSubQuests1,
 	      QUEST_1_SUB_COUNT
 	),
+#if OW_QUEST_BRANCHING
+	// Sample branching quest: desc/location/sprite vary by VAR_UNUSED_0x4083.
+	{
+		.name = gText_SideQuestName_3,
+		.desc = {
+			gComplexQuest_Quest3Desc_1,
+			gComplexQuest_Quest3Desc_2,
+			gComplexQuest_Quest3Desc_3,
+		},
+		.donedesc = gText_SideQuestDoneDesc_3,
+		.map = {
+			gComplexQuest_Quest3Map_1,
+			gComplexQuest_Quest3Map_2,
+			gComplexQuest_Quest3Map_3,
+		},
+		.sprite = {
+			OBJ_EVENT_GFX_WALLY,
+			OBJ_EVENT_GFX_WALLY,
+			OBJ_EVENT_GFX_WALLY,
+		},
+		.spritetype = {
+			OBJECT,
+			OBJECT,
+			OBJECT,
+		},
+		.subquests = sSubQuests2,
+		.numSubquests = QUEST_2_SUB_COUNT,
+		.questVariable = VAR_UNUSED_0x4083,
+	},
+#else
 	side_quest(
 	      gText_SideQuestName_3,
 	      gText_SideQuestDesc_3,
@@ -593,6 +638,7 @@ static const struct SideQuest sSideQuests[QUEST_COUNT] =
 	      sSubQuests2,
 	      QUEST_2_SUB_COUNT
 	),
+#endif
 	side_quest(
 	      gText_SideQuestName_4,
 	      gText_SideQuestDesc_4,
@@ -2007,7 +2053,11 @@ void GenerateQuestLocation(s32 questId)
 {
 	if (!IsSubquestMode())
 	{
+#if OW_QUEST_BRANCHING
+		StringCopy(gStringVar2, GetQuestLocation(questId));
+#else
 		StringCopy(gStringVar2, sSideQuests[questId].map);
+#endif
 	}
 	else
 	{
@@ -2061,13 +2111,39 @@ void GenerateQuestFlavorText(s32 questId)
 }
 void UpdateQuestFlavorText(s32 questId)
 {
+#if OW_QUEST_BRANCHING
+	StringExpandPlaceholders(gStringVar1, GetQuestDesc(questId));
+#else
 	StringCopy(gStringVar1, sSideQuests[questId].desc);
+#endif
 }
 void PrintQuestFlavorText(s32 questId)
 {
 	QuestMenu_AddTextPrinterParameterized(1, 2, gStringVar3, 40, 19, 5, 0, 0,
 	                                      4);
 }
+
+#if OW_QUEST_BRANCHING
+static const u8 *GetQuestLocation(s32 questId)
+{
+	u32 qvar = VarGet(sSideQuests[questId].questVariable);
+
+	if (qvar >= OW_QUEST_MAX_STATES || sSideQuests[questId].map[qvar] == NULL)
+		qvar = 0;
+
+	return sSideQuests[questId].map[qvar];
+}
+
+static const u8 *GetQuestDesc(s32 questId)
+{
+	u32 qvar = VarGet(sSideQuests[questId].questVariable);
+
+	if (qvar >= OW_QUEST_MAX_STATES || sSideQuests[questId].desc[qvar] == NULL)
+		qvar = 0;
+
+	return sSideQuests[questId].desc[qvar];
+}
+#endif
 
 bool8 IsSubquestCompletedState(s32 questId)
 {
@@ -2149,8 +2225,13 @@ void DetermineSpriteType(s32 questId)
 
 	if (IsSubquestMode() == FALSE)
 	{
+#if OW_QUEST_BRANCHING
+		spriteId = GetQuestSprite(questId);
+		spriteType = GetQuestSpriteType(questId);
+#else
 		spriteId = sSideQuests[questId].sprite;
 		spriteType = sSideQuests[questId].spritetype;
+#endif
 
 		QuestMenu_CreateSprite(spriteId, sStateDataPtr->spriteIconSlot,
 		                       spriteType);
@@ -2244,6 +2325,29 @@ static void QuestMenu_DestroySprite(u8 idx)
 		}
 	}
 }
+
+#if OW_QUEST_BRANCHING
+static u32 GetQuestSprite(s32 questId)
+{
+	u32 qvar = VarGet(sSideQuests[questId].questVariable);
+
+	if (qvar >= OW_QUEST_MAX_STATES || sSideQuests[questId].sprite[qvar] == 0)
+		qvar = 0;
+
+	return sSideQuests[questId].sprite[qvar];
+}
+
+static u32 GetQuestSpriteType(s32 questId)
+{
+	u32 qvar = VarGet(sSideQuests[questId].questVariable);
+
+	if (qvar >= OW_QUEST_MAX_STATES || sSideQuests[questId].spritetype[qvar] == 0)
+		qvar = 0;
+
+	return sSideQuests[questId].spritetype[qvar];
+}
+#endif
+
 static void GenerateStateAndPrint(u8 windowId, u32 questId,
                                   u8 y)
 {
@@ -2810,5 +2914,17 @@ void QuestMenu_ResetMenuSaveData(void)
 	memset(&gSaveBlock3Ptr->subQuests, 0,
 	       sizeof(gSaveBlock3Ptr->subQuests));
 }
+
+#if OW_QUEST_BRANCHING
+u32 QuestMenu_GetQuestVariableId(u8 quest)
+{
+	return sSideQuests[quest].questVariable;
+}
+
+u32 QuestMenu_GetQuestVariable(u8 quest)
+{
+	return VarGet(QuestMenu_GetQuestVariableId(quest));
+}
+#endif
 
 #endif // QUEST_MENU

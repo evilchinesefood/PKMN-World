@@ -1195,6 +1195,9 @@ const u8 gText_YourPkmnWereRestored[] = _("Your POKéMON were restored\nto full 
 const u8 gText_QuestAnnounce[] = _("The quest '{STR_VAR_1}'\nis now {STR_VAR_2}.");
 const u8 gText_QuestComplete[] =_("complete");
 const u8 gText_QuestActive[] =_("active");
+#if OW_QUEST_BRANCHING
+const u8 gText_QuestUpdate[] = _("The quest '{STR_VAR_1}'\nhas been updated!");
+#endif
 
 //names
 const u8 gText_SideQuestName_1[] = _("Side Quest 1");

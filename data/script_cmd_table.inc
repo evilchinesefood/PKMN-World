@@ -267,6 +267,11 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmd_nop                                              @ 0xe9
 	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmd_nop                                              @ 0xea
 #endif
+#if OW_QUEST_BRANCHING
+	script_cmd_table_entry SCR_OP_UPDATEQUEST                   ScrCmd_updatequest                                      @ 0xeb
+#else
+	script_cmd_table_entry SCR_OP_UPDATEQUEST                   ScrCmd_nop                                              @ 0xeb
+#endif
 
 	.if ALLOCATE_SCRIPT_CMD_TABLE
 gScriptCmdTableEnd::

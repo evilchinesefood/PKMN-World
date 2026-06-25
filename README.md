@@ -70,12 +70,8 @@ conventions.
 
 ### Documentation
 
-- `docs/` — project documentation:
-  - `CodebaseOverview.md` — architecture and codebase overview.
-  - `RegionMergePlan.md` — the planned (not-yet-merged) three-region merge: native Hoenn +
-    bundled Kanto (FRLG maps) + Johto (to be ported).
-  - `DeepReviewPort.md` — deep review of the ported features.
-  - `InitialSettingsReview.md` — review of the engine's config toggles.
+- Internal planning and review docs (architecture overview, region-merge roadmap, port
+  reviews) are kept locally under `docs/` and are **not** tracked in this repository.
 - [FEATURES.md](FEATURES.md) — feature list.
 - [INSTALL.md](INSTALL.md) — setup and build instructions.
 - [CREDITS.md](CREDITS.md) — credits.

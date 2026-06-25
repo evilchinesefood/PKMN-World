@@ -98,12 +98,6 @@ complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in
 - Minimal HM / field-move item-gate behavior, gating field moves behind item possession.
   Implemented on the pokeemerald-expansion field-move system (RHH and contributors).
 
-### Followers, day/night & lighting
-
-- **aarant — Ariel A** ([aarant](https://github.com/aarant)) — overworld followers and
-  day/night/lighting work. These systems are now largely part of upstream
-  pokeemerald-expansion, but the original branch work is credited here.
-
 ---
 
 ## Upcoming / planned sources (NOT yet merged)
@@ -116,7 +110,7 @@ build. They are listed only so future credit is not lost — do not treat them a
 - **[evilchinesefood/FireRedDavesVersion](https://github.com/evilchinesefood/FireRedDavesVersion)**
   — planned Kanto story reference (FRLG maps are bundled but currently inert).
 
-See [docs/RegionMergePlan.md](docs/RegionMergePlan.md) for the planned Hoenn + Kanto + Johto merge.
+Full credit will be added when the planned Hoenn + Kanto + Johto region merge lands.
 
 ---
 

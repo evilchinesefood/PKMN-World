@@ -173,8 +173,7 @@ the [all-contributors](https://allcontributors.org/) spec for the credits table 
   [PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS).
   FireRed story reference: `evilchinesefood/FireRedDavesVersion`. The binding constraint is
   IWRAM (~2.2 KB free), then ROM headroom (~6.7 MB after tileset deduplication); region
-  transitions would be scripted warps (ferry/train), not live map connections. See
-  [docs/RegionMergePlan.md](docs/RegionMergePlan.md).
+  transitions would be scripted warps (ferry/train), not live map connections.
 
 ## Inherited from pokeemerald-expansion
 

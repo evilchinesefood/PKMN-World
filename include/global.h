@@ -626,7 +626,12 @@ struct SaveBlock2
              //u16 padding1:4;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
+#if ALL_REGIONS
+    /*0x90*/ u8 startRegion;        // enum Region; 0 = REGION_NONE until chosen at New Game
+    /*0x91*/ u8 filler_91[0x7];
+#else
     /*0x90*/ u8 filler_90[0x8];
+#endif
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
     /*0xA8*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
@@ -1230,8 +1235,10 @@ struct SaveBlock1
     u32 towerChallengeId;
     struct TrainerTower trainerTower[NUM_TOWER_CHALLENGE_TYPES];
 #endif //FREE_TRAINER_TOWER
-#if IS_FRLG
+#if IS_FRLG || ALL_REGIONS
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
+#endif
+#if IS_FRLG
     struct DaycareMon route5DayCareMon;
 #endif
     // sizeof: 0x3???

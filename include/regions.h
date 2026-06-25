@@ -18,4 +18,16 @@ static inline enum Region GetCurrentRegion(void)
     return GetRegionForSectionId(gMapHeader.regionMapSectionId);
 }
 
+#if ALL_REGIONS
+static inline enum Region GetStartRegion(void)
+{
+    return gSaveBlock2Ptr->startRegion ? gSaveBlock2Ptr->startRegion : REGION_HOENN;
+}
+
+static inline void SetStartRegion(enum Region r)
+{
+    gSaveBlock2Ptr->startRegion = r;
+}
+#endif // ALL_REGIONS
+
 #endif // GUARD_REGIONS_H

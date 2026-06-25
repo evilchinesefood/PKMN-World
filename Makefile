@@ -4,6 +4,11 @@ GAME_CODE    ?= BPEE
 BUILD_NAME   ?= emerald
 MAP_VERSION  ?= emerald
 
+# ALL_REGIONS=1 : Emerald-base build that merges every region's maps (region merge).
+# Keeps GAME_VERSION=EMERALD (IS_FRLG=0) but stops mapjson from filtering out
+# non-Hoenn maps/layouts, and includes the FRLG map scripts via --defsym ALL_REGIONS=1.
+ALL_REGIONS  ?= 0
+
 ifeq (firered, $(or $(BUILD), $(MAKECMDGOALS)))
   	GAME_VERSION 	:= FIRERED
 	TITLE       	:= POKEMON FIRE
@@ -17,6 +22,10 @@ ifeq (leafgreen, $(or $(BUILD), $(MAKECMDGOALS)))
 	GAME_CODE   	:= BPGE
 	BUILD_NAME  	:= leafgreen
 	MAP_VERSION 	:= firered
+else
+ifeq ($(ALL_REGIONS),1)
+	MAP_VERSION 	:= allregions
+endif
 endif
 endif
 
@@ -145,7 +154,7 @@ TEST_BUILDDIR = $(OBJ_DIR)/$(TEST_SUBDIR)
 SHELL := bash -o pipefail
 
 # Set flags for tools
-ASFLAGS := -mcpu=arm7tdmi -march=armv4t -meabi=5 --defsym MODERN=1 --defsym $(GAME_VERSION)=1
+ASFLAGS := -mcpu=arm7tdmi -march=armv4t -meabi=5 --defsym MODERN=1 --defsym $(GAME_VERSION)=1 --defsym ALL_REGIONS=$(ALL_REGIONS)
 
 INCLUDE_DIRS := include
 INCLUDE_CPP_ARGS := $(INCLUDE_DIRS:%=-iquote %)

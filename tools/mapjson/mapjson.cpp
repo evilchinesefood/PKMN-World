@@ -34,6 +34,7 @@ using json11::Json;
 #include <filesystem>
 
 string version;
+bool allRegions; // ALL_REGIONS merge: include every region's maps/layouts (no exclusion)
 // System directory separator
 string sep;
 
@@ -740,8 +741,9 @@ void process_groups(string groups_filepath, vector<string> &map_filepaths, strin
         }
         string map_name = json_to_string(map_data, "name");
 
-        if ((version == "emerald" && region != "REGION_HOENN")
-         || (version == "firered" && region != "REGION_KANTO")) {
+        if (!allRegions
+         && ((version == "emerald" && region != "REGION_HOENN")
+          || (version == "firered" && region != "REGION_KANTO"))) {
             invalid_maps.push_back(map_name);
         }
     }
@@ -780,8 +782,9 @@ string generate_layout_headers_text(Json layouts_data) {
             else if (version == "firered")
                 layout_version = "frlg";
         }
-        if ((version == "emerald" && layout_version != "emerald")
-         || (version == "firered" && layout_version != "frlg"))
+        if (!allRegions
+         && ((version == "emerald" && layout_version != "emerald")
+          || (version == "firered" && layout_version != "frlg")))
             continue;
         string layoutName = json_to_string(layout, "name");
         string border_label = layoutName + "_Border";
@@ -838,7 +841,7 @@ string generate_layouts_table_text(Json layouts_data) {
             else if (version == "firered")
                 layout_version = "frlg";
         }
-        if ((version == "emerald" && layout_version != "emerald") || (version == "firered" && layout_version != "frlg")) {
+        if (!allRegions && ((version == "emerald" && layout_version != "emerald") || (version == "firered" && layout_version != "frlg"))) {
             text << "\t.4byte NULL\n";
         } else {
             string layout_name = json_to_string(layout, "name", true);
@@ -932,8 +935,13 @@ int main(int argc, char *argv[]) {
 
     char *version_arg = argv[2];
     version = string(version_arg);
+    // "allregions" = Emerald-base build that includes every region's maps (region merge).
+    if (version == "allregions") {
+        allRegions = true;
+        version = "emerald";
+    }
     if (version != "emerald" && version != "ruby" && version != "firered")
-        FATAL_ERROR("ERROR: <game-version> must be 'emerald', 'firered', or 'ruby'.\n");
+        FATAL_ERROR("ERROR: <game-version> must be 'emerald', 'firered', 'ruby', or 'allregions'.\n");
 
     char *mode_arg = argv[1];
     string mode(mode_arg);

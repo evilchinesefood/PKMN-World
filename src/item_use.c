@@ -1717,7 +1717,7 @@ static void UsePokevialFieldYes(u8 taskId)
     else
     {
         FadeScreen(FADE_TO_BLACK, 0);
-        CreateTask(Task_UsePokevialFieldYes, 1);
+        gTasks[taskId].func = Task_UsePokevialFieldYes;
     }
 }
 

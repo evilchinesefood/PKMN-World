@@ -17,7 +17,7 @@ Route30_OnFrame::
 Route30_EventScript_Boy::
 	lock
 	faceplayer
-	goto_if_set FLAG_ADVENTURE_STARTED, Route30_EventScript_Boy2
+	goto_if_set FLAG_JOHTO_ADVENTURE_STARTED, Route30_EventScript_Boy2
 	msgbox Route30_Text_YoungsterDirectionsToMrPokemon, MSGBOX_DEFAULT
 	closemessage
 	release

@@ -24,7 +24,7 @@ NewBarkTown_PlayersHouse_1F_EventScript_Mom::
 	lock
 	faceplayer
 	goto_if_set FLAG_MOM_VISITED, NewBarkTown_PlayersHouse_1F_EventScript_Mom_Regular
-	goto_if_set FLAG_ADVENTURE_STARTED, NewBarkTown_PlayersHouse_1F_MomEventScript_GoodLuck
+	goto_if_set FLAG_JOHTO_ADVENTURE_STARTED, NewBarkTown_PlayersHouse_1F_MomEventScript_GoodLuck
 	msgbox NewBarkTown_PlayersHouse_1F_Text_MomHurryUpElmIsWaiting, MSGBOX_DEFAULT
 	applymovement LOCALID_MOM, NewBarkTown_PlayersHouse_1F_MovementFaceLeft
 	waitmovement 0

@@ -39,7 +39,7 @@ Route29_Text_PressAorB:
 Route29_EventScript_OldMan::
 	lock
 	faceplayer
-	goto_if_set FLAG_ADVENTURE_STARTED, Route29_EventScript_OldMan2
+	goto_if_set FLAG_JOHTO_ADVENTURE_STARTED, Route29_EventScript_OldMan2
 	msgbox Route29_Text_OldMan1, MSGBOX_DEFAULT
 	closemessage
 	release

@@ -393,7 +393,7 @@ NewBarkTown_Lab_EventScript_PoliceYes::
 	setvar VAR_NEWBARK_TOWN_STATE, 4
 	setflag FLAG_HIDE_MOMS_FRIEND
 	clearflag FLAG_HIDE_MOMS_FRIEND2
-	setflag FLAG_ADVENTURE_STARTED
+	setflag FLAG_JOHTO_ADVENTURE_STARTED
 	setflag FLAG_EXP_SHARE
 	removeitem ITEM_MYSTERY_EGG
 	end

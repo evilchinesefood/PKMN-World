@@ -5,6 +5,7 @@
 #include "constants/opponents.h"
 #include "constants/rematches.h"
 #include "constants/region_flags.h"
+#include "constants/johto_flags.h"
 
 
 // Temporary Flags

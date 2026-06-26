@@ -1163,12 +1163,14 @@ enum
 {
     REGION_PICK_HOENN,
     REGION_PICK_KANTO,
-    REGION_PICK_JOHTO, // placeholder: drawn greyed but NOT cursor-selectable
+    REGION_PICK_JOHTO,
     REGION_PICK_ROW_COUNT,
 };
 
-// Only Hoenn/Kanto are reachable by the cursor; Johto is a greyed label below.
-#define REGION_PICK_SELECTABLE 2
+// Region merge (Johto port, TEMPORARY): Johto is now cursor-selectable so the
+// starting-area slice is reachable from a new game. Lane R owns the final intro;
+// revert to 2 (Johto greyed) once the real Johto first-visit flow lands.
+#define REGION_PICK_SELECTABLE 3
 
 static const u8 sText_RegionSelectJohto[] = _("JOHTO");
 
@@ -1200,7 +1202,7 @@ static void Task_RegionSelect(u8 taskId)
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 1, sTextColor_RegionEnabled, TEXT_SKIP_DRAW, gText_Hoenn);
     AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 17, sTextColor_RegionEnabled, TEXT_SKIP_DRAW, gText_Kanto);
-    AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 33, sTextColor_RegionDisabled, TEXT_SKIP_DRAW, sText_RegionSelectJohto);
+    AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 33, sTextColor_RegionEnabled, TEXT_SKIP_DRAW, sText_RegionSelectJohto);
     PutWindowTilemap(windowId);
     CopyWindowToVram(windowId, COPYWIN_FULL);
     InitMenuInUpperLeftCornerNormal(windowId, REGION_PICK_SELECTABLE, 0);
@@ -1228,6 +1230,17 @@ static void Task_HandleRegionSelectInput(u8 taskId)
         FreeAllWindowBuffers();
         sCurrItemAndOptionMenuCheck = 0;
         StartNewGameSceneFrlg();
+        return;
+    case REGION_PICK_JOHTO:
+        // Region merge (Johto port, TEMPORARY): route a Johto new game through the
+        // Hoenn-style Birch speech, which ends at WarpToTruck -> New Bark Town (see
+        // new_game.c). Lane R replaces this with the real Johto first-visit intro.
+        SetStartRegion(REGION_JOHTO);
+        FreeAllWindowBuffers();
+        sCurrItemAndOptionMenuCheck = 0;
+        gPlttBufferUnfaded[0] = RGB_BLACK;
+        gPlttBufferFaded[0] = RGB_BLACK;
+        gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
         return;
     case REGION_PICK_HOENN:
     default:

@@ -644,3 +644,8 @@ gSpecials::
 	def_special PokevialGetSize
 	def_special PokevialRefill
 #endif
+
+	@ Region merge (Johto port): specials referenced by Johto starting-area scripts.
+	def_special NameRival
+	def_special CheckTogepi
+	def_special IsNuzlockeNicknamingActive

@@ -1069,6 +1069,12 @@ enum __attribute__((packed)) Item
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };
 
+// Region merge (Johto port): the HnS Mystery Egg is a one-time story key item that
+// the New Bark lab script only ever removeitem's. Alias it to an existing key item
+// (ITEM_LETTER) so it has a valid item-table entry without growing ITEMS_COUNT. A
+// later pass can promote it to a dedicated item if it needs unique behavior.
+#define ITEM_MYSTERY_EGG ITEM_LETTER
+
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
 // Its icon is defined at ITEMS_COUNT as the "return to field" arrow
 #define ITEM_LIST_END 0xFFFF

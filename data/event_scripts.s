@@ -78,6 +78,7 @@
 #include "constants/pokevial.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/event.inc"
+	.include "asm/macros/johto_compat.inc"
 	.include "constants/constants.inc"
 
 	.section script_data, "aw", %progbits
@@ -1022,6 +1023,21 @@ gStdScripts_End::
 	.include "data/maps/SixIsland_WaterPath_House1_Frlg/scripts.inc"
 	.include "data/maps/SixIsland_WaterPath_House2_Frlg/scripts.inc"
 	.include "data/maps/SevenIsland_SevaultCanyon_House_Frlg/scripts.inc"
+
+	.include "data/maps/NewBarkTown/scripts.inc"
+	.include "data/maps/CherrygroveCity/scripts.inc"
+	.include "data/maps/Route29/scripts.inc"
+	.include "data/maps/Route30/scripts.inc"
+	.include "data/maps/NewBarkTown_Lab/scripts.inc"
+	.include "data/maps/NewBarkTown_House1/scripts.inc"
+	.include "data/maps/NewBarkTown_House2/scripts.inc"
+	.include "data/maps/NewBarkTown_PlayersHouse_1F/scripts.inc"
+	.include "data/maps/NewBarkTown_PlayersHouse_2F/scripts.inc"
+	.include "data/maps/CherrygroveCity_PokemonCenter/scripts.inc"
+	.include "data/maps/CherrygroveCity_Mart/scripts.inc"
+	.include "data/maps/CherrygroveCity_House1/scripts.inc"
+	.include "data/maps/CherrygroveCity_House2/scripts.inc"
+	.include "data/maps/CherrygroveCity_House3/scripts.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"

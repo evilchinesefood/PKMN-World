@@ -3,6 +3,7 @@
 
 #include "constants/vars_frlg.h"
 #include "constants/region_vars.h"
+#include "constants/johto_vars.h"
 
 #define VARS_START 0x4000
 

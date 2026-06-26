@@ -140,6 +140,11 @@ static void WarpToTruck(void)
 #if ALL_REGIONS
     if (GetStartRegion() == REGION_KANTO)
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
+    // Region merge (Johto port, TEMPORARY): land a Johto new game in New Bark Town so
+    // the starting-area slice is reachable/verifiable. The real Johto first-visit intro
+    // is owned by Lane R; this branch is the slice's stand-in until then.
+    else if (GetStartRegion() == REGION_JOHTO)
+        SetWarpDestination(MAP_GROUP(MAP_NEW_BARK_TOWN), MAP_NUM(MAP_NEW_BARK_TOWN), WARP_ID_NONE, -1, -1);
     else
         SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
 #else

@@ -1079,4 +1079,8 @@
 #define METATILE_RSMossdeepGym_Switch_Down           0x239
 #define METATILE_RSMossdeepGym_Switch_Up             0x238
 
+// Region merge (Johto port): metatile labels used by Johto starting-area scripts.
+// gTileset_House_Lab (the New Bark lab broken window after the theft).
+#define METATILE_R26_21_Broken_Window                0x32B
+
 #endif // GUARD_METATILE_LABELS_H

@@ -1543,3 +1543,93 @@ const struct Tileset gTileset_HallOfFame =
 };
 
 #endif // IS_FRLG || ALL_REGIONS (FRLG)
+
+// === Region merge: Johto starting-area slice tilesets (always-on) ===
+const struct Tileset gTileset_Johto_General =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Johto_General,
+    .palettes = gTilesetPalettes_Johto_General,
+    .metatiles = gMetatiles_Johto_General,
+    .metatileAttributes = gMetatileAttributes_Johto_General,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Johto_Building =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Johto_Building,
+    .palettes = gTilesetPalettes_Johto_Building,
+    .metatiles = gMetatiles_Johto_Building,
+    .metatileAttributes = gMetatileAttributes_Johto_Building,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_NewBarkTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_NewBarkTown,
+    .palettes = gTilesetPalettes_NewBarkTown,
+    .metatiles = gMetatiles_NewBarkTown,
+    .metatileAttributes = gMetatileAttributes_NewBarkTown,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_CherrygroveCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_CherrygroveCity,
+    .palettes = gTilesetPalettes_CherrygroveCity,
+    .metatiles = gMetatiles_CherrygroveCity,
+    .metatileAttributes = gMetatileAttributes_CherrygroveCity,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Kanto_PokemonCenter =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Kanto_PokemonCenter,
+    .palettes = gTilesetPalettes_Kanto_PokemonCenter,
+    .metatiles = gMetatiles_Kanto_PokemonCenter,
+    .metatileAttributes = gMetatileAttributes_Kanto_PokemonCenter,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_JohtoMart =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoMart,
+    .palettes = gTilesetPalettes_JohtoMart,
+    .metatiles = gMetatiles_JohtoMart,
+    .metatileAttributes = gMetatileAttributes_JohtoMart,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_House_Lab =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_House_Lab,
+    .palettes = gTilesetPalettes_House_Lab,
+    .metatiles = gMetatiles_House_Lab,
+    .metatileAttributes = gMetatileAttributes_House_Lab,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_PlayersHouse =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_PlayersHouse,
+    .palettes = gTilesetPalettes_PlayersHouse,
+    .metatiles = gMetatiles_PlayersHouse,
+    .metatileAttributes = gMetatileAttributes_PlayersHouse,
+    .callback = NULL,
+};
+

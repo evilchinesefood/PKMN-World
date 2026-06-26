@@ -801,22 +801,31 @@ string generate_layout_headers_text(Json layouts_data) {
              << "\t.4byte " << blockdata_label << "\n"
              << "\t.4byte " << json_to_string(layout, "primary_tileset") << "\n"
              << "\t.4byte " << json_to_string(layout, "secondary_tileset") << "\n";
+        // isFrlg: only true FRLG layouts use the u32 FRLG metatile-attribute format.
+        // Johto uses Emerald-format u16 attributes (see isJohto below), so isFrlg = FALSE.
         if (layout_version == "frlg")
             text << "\t.byte TRUE\n";
         else
             text << "\t.byte FALSE\n";
 
+        // borderWidth, borderHeight
         if (layout_version == "frlg")
         {
             text << "\t.byte " << json_to_string(layout, "border_width") << "\n"
-                 << "\t.byte " << json_to_string(layout, "border_height") << "\n"
-                 << "\t.byte 0\n";
+                 << "\t.byte " << json_to_string(layout, "border_height") << "\n";
         }
         else
         {
-            text << "\t.2byte 0\n"
-                 << "\t.byte 0\n";
+            text << "\t.2byte 0\n";
         }
+
+        // isJohto (formerly padding): selects the Johto tileset regime — FRLG-sized
+        // primaries (640 tiles/metatiles, 7 pals) with Emerald-format u16 attributes.
+        if (layout_version == "johto")
+            text << "\t.byte TRUE\n";
+        else
+            text << "\t.byte 0\n";
+
         text << "\n";
     }
 

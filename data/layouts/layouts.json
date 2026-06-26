@@ -9332,7 +9332,8 @@
       "primary_tileset": "gTileset_Johto_General",
       "secondary_tileset": "gTileset_NewBarkTown",
       "border_filepath": "data/layouts/Route29/border.bin",
-      "blockdata_filepath": "data/layouts/Route29/map.bin"
+      "blockdata_filepath": "data/layouts/Route29/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_CHERRYGROVE_CITY",
@@ -9342,7 +9343,8 @@
       "primary_tileset": "gTileset_Johto_General",
       "secondary_tileset": "gTileset_CherrygroveCity",
       "border_filepath": "data/layouts/CherrygroveCity/border.bin",
-      "blockdata_filepath": "data/layouts/CherrygroveCity/map.bin"
+      "blockdata_filepath": "data/layouts/CherrygroveCity/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_NEW_BARK_TOWN",
@@ -9352,7 +9354,8 @@
       "primary_tileset": "gTileset_Johto_General",
       "secondary_tileset": "gTileset_NewBarkTown",
       "border_filepath": "data/layouts/NewBarkTown/border.bin",
-      "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
+      "blockdata_filepath": "data/layouts/NewBarkTown/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_ROUTE30",
@@ -9362,7 +9365,8 @@
       "primary_tileset": "gTileset_Johto_General",
       "secondary_tileset": "gTileset_CherrygroveCity",
       "border_filepath": "data/layouts/Route30/border.bin",
-      "blockdata_filepath": "data/layouts/Route30/map.bin"
+      "blockdata_filepath": "data/layouts/Route30/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_CHERRYGROVE_CITY_POKEMON_CENTER",
@@ -9372,7 +9376,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_Kanto_PokemonCenter",
       "border_filepath": "data/layouts/CherrygroveCity_PokemonCenter/border.bin",
-      "blockdata_filepath": "data/layouts/CherrygroveCity_PokemonCenter/map.bin"
+      "blockdata_filepath": "data/layouts/CherrygroveCity_PokemonCenter/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_CHERRYGROVE_CITY_MART",
@@ -9382,7 +9387,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_JohtoMart",
       "border_filepath": "data/layouts/CherrygroveCity_Mart/border.bin",
-      "blockdata_filepath": "data/layouts/CherrygroveCity_Mart/map.bin"
+      "blockdata_filepath": "data/layouts/CherrygroveCity_Mart/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_NEW_BARK_TOWN_LAB",
@@ -9392,7 +9398,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_House_Lab",
       "border_filepath": "data/layouts/NewBarkTown_Lab/border.bin",
-      "blockdata_filepath": "data/layouts/NewBarkTown_Lab/map.bin"
+      "blockdata_filepath": "data/layouts/NewBarkTown_Lab/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_NEW_BARK_TOWN_HOUSE2",
@@ -9402,7 +9409,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_House_Lab",
       "border_filepath": "data/layouts/NewBarkTown_House2/border.bin",
-      "blockdata_filepath": "data/layouts/NewBarkTown_House2/map.bin"
+      "blockdata_filepath": "data/layouts/NewBarkTown_House2/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_NEW_BARK_TOWN_HOUSE1",
@@ -9412,7 +9420,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_House_Lab",
       "border_filepath": "data/layouts/NewBarkTown_House1/border.bin",
-      "blockdata_filepath": "data/layouts/NewBarkTown_House1/map.bin"
+      "blockdata_filepath": "data/layouts/NewBarkTown_House1/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_NEW_BARK_TOWN_PLAYERS_HOUSE_1F",
@@ -9422,7 +9431,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_PlayersHouse",
       "border_filepath": "data/layouts/NewBarkTown_PlayersHouse_1F/border.bin",
-      "blockdata_filepath": "data/layouts/NewBarkTown_PlayersHouse_1F/map.bin"
+      "blockdata_filepath": "data/layouts/NewBarkTown_PlayersHouse_1F/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_NEW_BARK_TOWN_PLAYERS_HOUSE_2F",
@@ -9432,7 +9442,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_PlayersHouse",
       "border_filepath": "data/layouts/NewBarkTown_PlayersHouse_2F/border.bin",
-      "blockdata_filepath": "data/layouts/NewBarkTown_PlayersHouse_2F/map.bin"
+      "blockdata_filepath": "data/layouts/NewBarkTown_PlayersHouse_2F/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_CHERRYGROVE_CITY_HOUSE1",
@@ -9442,7 +9453,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_House_Lab",
       "border_filepath": "data/layouts/CherrygroveCity_House1/border.bin",
-      "blockdata_filepath": "data/layouts/CherrygroveCity_House1/map.bin"
+      "blockdata_filepath": "data/layouts/CherrygroveCity_House1/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_CHERRYGROVE_CITY_HOUSE2",
@@ -9452,7 +9464,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_House_Lab",
       "border_filepath": "data/layouts/CherrygroveCity_House2/border.bin",
-      "blockdata_filepath": "data/layouts/CherrygroveCity_House2/map.bin"
+      "blockdata_filepath": "data/layouts/CherrygroveCity_House2/map.bin",
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_CHERRYGROVE_CITY_HOUSE3",
@@ -9462,7 +9475,8 @@
       "primary_tileset": "gTileset_Johto_Building",
       "secondary_tileset": "gTileset_House_Lab",
       "border_filepath": "data/layouts/CherrygroveCity_House3/border.bin",
-      "blockdata_filepath": "data/layouts/CherrygroveCity_House3/map.bin"
+      "blockdata_filepath": "data/layouts/CherrygroveCity_House3/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

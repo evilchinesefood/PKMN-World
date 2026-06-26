@@ -119,7 +119,7 @@ struct MapLayout
     bool8 isFrlg;
     u8 borderWidth;
     u8 borderHeight;
-    u8 padding;
+    bool8 isJohto; // Johto tileset regime: FRLG-sized primaries (640/640/7) but Emerald-format u16 metatile attributes (HnS is pokeemerald-based). Was: padding.
 };
 
 struct BackupMapLayout

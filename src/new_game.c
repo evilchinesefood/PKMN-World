@@ -192,6 +192,11 @@ void NewGameInitData(void)
     ClearAllMail();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
+#if ALL_REGIONS
+    // Region merge: stamp the save format; intro-done / travel-pass bits and the
+    // per-region var/flag banks default clear (SaveBlock3 zeroed by ClearSav3 above).
+    gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
+#endif
     InitPlayerTrainerId();
     PlayTimeCounter_Reset();
     ClearPokedexFlags();

@@ -186,12 +186,32 @@ u16 *GetVarPointer(u16 id)
         return NULL;
     else if (id < SPECIAL_VARS_START)
         return &gSaveBlock1Ptr->vars[id - VARS_START];
+    // Region merge: per-region story var bank, stored in SaveBlock3 (see region_vars.h).
+    else if (id >= REGION_VARS_START && id <= REGION_VARS_END)
+        return &gSaveBlock3Ptr->regionVars[id - REGION_VARS_START];
 #if TESTING
     else if (id >= TESTING_VARS_START)
         return &sTestVars[id - TESTING_VARS_START];
 #endif // TESTING
     else
         return gSpecialVars[id - SPECIAL_VARS_START];
+}
+
+// Region merge: map a per-region var ID to its bank, indexing by (region - REGION_KANTO)
+// so Kanto/Johto/Hoenn pack contiguously. localId is the per-region var index (0..0x7F).
+u16 GetRegionVarBase(enum Region region)
+{
+    return REGION_VARS_START + (region - REGION_KANTO) * REGION_VAR_BANK_SIZE;
+}
+
+u16 GetRegionVar(enum Region region, u16 localId)
+{
+    return VarGet(GetRegionVarBase(region) + localId);
+}
+
+bool8 SetRegionVar(enum Region region, u16 localId, u16 value)
+{
+    return VarSet(GetRegionVarBase(region) + localId, value);
 }
 
 u16 VarGet(u16 id)
@@ -230,6 +250,9 @@ u8 *GetFlagPointer(u16 id)
         return NULL;
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];
+    // Region merge: reserved Johto flag bank, stored in SaveBlock3 (see region_flags.h).
+    else if (id >= FLAG_JOHTO_BASE && id <= FLAG_JOHTO_END)
+        return &gSaveBlock3Ptr->johtoFlags[(id - FLAG_JOHTO_BASE) / 8];
 #if TESTING
     else if (id >= TESTING_FLAGS_START)
         return &sTestFlags[(id - TESTING_FLAGS_START) / 8];
@@ -273,4 +296,35 @@ bool8 FlagGet(u16 id)
         return FALSE;
 
     return TRUE;
+}
+
+// Region merge: per-region flag bank base (see region_flags.h). Each region's story
+// and badge flags are isolated so campaign progress never aliases between regions.
+//   Hoenn -> native flags (base 0)
+//   Kanto -> the Phase-1 rebased FRLG bank (FLAG_KANTO_BASE, inline in SaveBlock1.flags)
+//   Johto -> the reserved bank in SaveBlock3 (FLAG_JOHTO_BASE)
+// localId is the per-region flag index within that region's bank.
+u16 GetRegionFlagBase(enum Region region)
+{
+    switch (region)
+    {
+    case REGION_KANTO: return FLAG_KANTO_BASE;
+    case REGION_JOHTO: return FLAG_JOHTO_BASE;
+    default:           return 0; // Hoenn / native
+    }
+}
+
+bool8 GetRegionFlag(enum Region region, u16 localId)
+{
+    return FlagGet(GetRegionFlagBase(region) + localId);
+}
+
+void SetRegionFlag(enum Region region, u16 localId)
+{
+    FlagSet(GetRegionFlagBase(region) + localId);
+}
+
+void ClearRegionFlag(enum Region region, u16 localId)
+{
+    FlagClear(GetRegionFlagBase(region) + localId);
 }

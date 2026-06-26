@@ -1,6 +1,8 @@
 #ifndef GUARD_EVENT_DATA_H
 #define GUARD_EVENT_DATA_H
 
+#include "constants/regions.h"
+
 void InitEventData(void);
 void ClearTempFieldEventData(void);
 void ClearDailyFlags(void);
@@ -28,6 +30,15 @@ u8 FlagSet(u16 id);
 u8 FlagToggle(u16 id);
 u8 FlagClear(u16 id);
 bool8 FlagGet(u16 id);
+
+// Region merge: per-region var/flag bank accessors (see region_vars.h / region_flags.h).
+u16 GetRegionVarBase(enum Region region);
+u16 GetRegionVar(enum Region region, u16 localId);
+bool8 SetRegionVar(enum Region region, u16 localId, u16 value);
+u16 GetRegionFlagBase(enum Region region);
+bool8 GetRegionFlag(enum Region region, u16 localId);
+void SetRegionFlag(enum Region region, u16 localId);
+void ClearRegionFlag(enum Region region, u16 localId);
 
 extern u16 gSpecialVar_0x8000;
 extern u16 gSpecialVar_0x8001;

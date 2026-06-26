@@ -293,6 +293,11 @@ struct SaveBlock3
     u8 questData[QUEST_FLAGS_COUNT * QUEST_STATES];
     u8 subQuests[SUB_FLAGS_COUNT];
 #endif // QUEST_MENU
+    // Region merge: per-region story state that does not fit SaveBlock1's tight
+    // 4-sector budget. Append-only — never reorder. See constants/region_vars.h
+    // and constants/region_flags.h. Both are bank-isolated so regions never alias.
+    u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
+    u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
 }; /* max size 1624 bytes */
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;
@@ -625,10 +630,17 @@ struct SaveBlock2
              u16 regionMapZoom:1; // whether the map is zoomed in
              //u16 padding1:4;
              //u16 padding2;
-    /*0x18*/ struct Pokedex pokedex;
+    /*0x18*/ struct Pokedex pokedex; // Region merge: ONE global National Dex shared across all regions (not per-region); area screen is region-aware for display only.
 #if ALL_REGIONS
     /*0x90*/ u8 startRegion;        // enum Region; 0 = REGION_NONE until chosen at New Game
-    /*0x91*/ u8 filler_91[0x7];
+    // Region merge save bits (carved from the existing 0x90 reserve — no net size change).
+    /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration is Phase 3 (field only now)
+    /*0x92*/ u8 kantoIntroDone:1;   // first-visit intro completed (region-switch, Lane R)
+             u8 johtoIntroDone:1;
+             u8 hoennIntroDone:1;
+             u8 travelPassEarned:1; // travel-pass quest done -> the whole transfer network opens
+             u8 regionBitsUnused:4;
+    /*0x93*/ u8 filler_93[0x5];
 #else
     /*0x90*/ u8 filler_90[0x8];
 #endif
@@ -1135,7 +1147,10 @@ struct SaveBlock1
     /*0x34*/ u16 mapView[0x100];
     /*0x234*/ u8 playerPartyCount;
     /*0x235*/ //u8 padding2[3];
-    /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
+    /*0x238*/ struct Pokemon playerParty[PARTY_SIZE]; // Region merge: ONE traveling party across all regions (no per-region party); box others via the global PC.
+    // Region merge: money, coins, pcItems, bag (all pockets incl. TMsHMs) and the Pokédex are
+    // single GLOBAL structures shared across every region — intentionally NOT per-region. Do
+    // NOT split them. Cross-region HM/TM/one-time-item dedup (Lane R7) relies on this single bag.
     /*0x490*/ u32 money;
     /*0x494*/ u16 coins;
     /*0x496*/ u16 registeredItem; // registered for use with SELECT button (key item wheel slot 1)

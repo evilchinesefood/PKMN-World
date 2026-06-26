@@ -20,6 +20,8 @@ ROWS        0   1   2   3   4   5
             24  25  26  27  28  29
 */
 
+// Region merge: the PC box (PokemonStorage) is a single GLOBAL structure shared across
+// every region (own save sectors 5-13) — not per-region. First-visit boxes the team here.
 struct PokemonStorage
 {
     /*0x0000*/ u8 currentBox;

@@ -1,6 +1,11 @@
 #ifndef GUARD_CONSTANTS_GLOBAL_H
 #define GUARD_CONSTANTS_GLOBAL_H
 
+// Region merge save-format version. Stamped on new games (SaveBlock2.saveVersion).
+// Full migration of older formats is deferred to Phase 3 — only the field + version
+// constant exist now so Phase 3 can detect and migrate.
+#define SAVE_FORMAT_VERSION 1
+
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate
 // correctly during asm preprocessing. global.inc handles the .set conflict via

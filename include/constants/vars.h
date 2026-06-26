@@ -2,6 +2,7 @@
 #define GUARD_CONSTANTS_VARS_H
 
 #include "constants/vars_frlg.h"
+#include "constants/region_vars.h"
 
 #define VARS_START 0x4000
 
@@ -270,8 +271,8 @@
 #define VAR_UNUSED_0x40F8                                0x40F8 // Unused Var
 #define VAR_UNUSED_0x40F9                                0x40F9 // Unused Var
 #define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
-#define VAR_UNUSED_0x40FB                                0x40FB // Unused Var
-#define VAR_UNUSED_0x40FC                                0x40FC // Unused Var
+#define VAR_PLAYER_CHARACTER                             0x40FB // Region merge: global protagonist pick (Lane K1b), shared across all regions
+#define VAR_PLAYER_PALETTE                               0x40FC // Region merge: global outfit/palette pick (Lane K1), shared across all regions
 #define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
 #define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
 #define VAR_UNUSED_0x40FF                                0x40FF // Unused Var

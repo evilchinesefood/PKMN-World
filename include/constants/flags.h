@@ -4,6 +4,7 @@
 #include "constants/trainers.h"
 #include "constants/opponents.h"
 #include "constants/rematches.h"
+#include "constants/region_flags.h"
 
 
 // Temporary Flags

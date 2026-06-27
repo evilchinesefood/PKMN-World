@@ -9741,6 +9741,193 @@
       "border_filepath": "data/layouts/VioletCity_TrainerSchool/border.bin",
       "blockdata_filepath": "data/layouts/VioletCity_TrainerSchool/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_AZALEA_TOWN",
+      "name": "AzaleaTown_Layout",
+      "width": 62,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_South",
+      "secondary_tileset": "gTileset_AzaleaTown",
+      "border_filepath": "data/layouts/AzaleaTown/border.bin",
+      "blockdata_filepath": "data/layouts/AzaleaTown/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_AZALEA_TOWN_GYM",
+      "name": "AzaleaTown_Gym_Layout",
+      "width": 24,
+      "height": 60,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_AzaleaTown_Gym",
+      "border_filepath": "data/layouts/AzaleaTown_Gym/border.bin",
+      "blockdata_filepath": "data/layouts/AzaleaTown_Gym/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_AZALEA_TOWN_HOUSE1",
+      "name": "AzaleaTown_House1_Layout",
+      "width": 11,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Barn",
+      "border_filepath": "data/layouts/AzaleaTown_House1/border.bin",
+      "blockdata_filepath": "data/layouts/AzaleaTown_House1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_AZALEA_TOWN_KURTS_HOUSE",
+      "name": "AzaleaTown_KurtsHouse_Layout",
+      "width": 25,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_KurtsHouse",
+      "border_filepath": "data/layouts/AzaleaTown_KurtsHouse/border.bin",
+      "blockdata_filepath": "data/layouts/AzaleaTown_KurtsHouse/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_AZALEA_TOWN_MART",
+      "name": "AzaleaTown_Mart_Layout",
+      "width": 14,
+      "height": 9,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_JohtoMart",
+      "border_filepath": "data/layouts/AzaleaTown_Mart/border.bin",
+      "blockdata_filepath": "data/layouts/AzaleaTown_Mart/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_AZALEA_TOWN_POKEMON_CENTER",
+      "name": "AzaleaTown_PokemonCenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Kanto_PokemonCenter",
+      "border_filepath": "data/layouts/AzaleaTown_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/AzaleaTown_PokemonCenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_AZALEA_TOWN_ILEX_FOREST",
+      "name": "Gate_AzaleaTown_IlexForest_Layout",
+      "width": 13,
+      "height": 9,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_AzaleaTown_IlexForest/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_AzaleaTown_IlexForest/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_ILEX_FOREST_ROUTE34",
+      "name": "Gate_IlexForest_Route34_Layout",
+      "width": 15,
+      "height": 12,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_IlexForest_Route34/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_IlexForest_Route34/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ILEX_FOREST",
+      "name": "IlexForest_Layout",
+      "width": 82,
+      "height": 73,
+      "primary_tileset": "gTileset_Johto_South",
+      "secondary_tileset": "gTileset_IlexForest",
+      "border_filepath": "data/layouts/IlexForest/border.bin",
+      "blockdata_filepath": "data/layouts/IlexForest/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE33",
+      "name": "Route33_Layout",
+      "width": 44,
+      "height": 40,
+      "primary_tileset": "gTileset_Johto_South",
+      "secondary_tileset": "gTileset_AzaleaTown",
+      "border_filepath": "data/layouts/Route33/border.bin",
+      "blockdata_filepath": "data/layouts/Route33/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE34",
+      "name": "Route34_Layout",
+      "width": 60,
+      "height": 90,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Goldenrod",
+      "border_filepath": "data/layouts/Route34/border.bin",
+      "blockdata_filepath": "data/layouts/Route34/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE34_DAY_CARE",
+      "name": "Route34_DayCare_Layout",
+      "width": 14,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_PokemonDayCare",
+      "border_filepath": "data/layouts/Route34_DayCare/border.bin",
+      "blockdata_filepath": "data/layouts/Route34_DayCare/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SLOWPOKE_WELL_B1F",
+      "name": "SlowpokeWell_B1F_Layout",
+      "width": 32,
+      "height": 32,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/SlowpokeWell_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/SlowpokeWell_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SLOWPOKE_WELL_B2F",
+      "name": "SlowpokeWell_B2F_Layout",
+      "width": 34,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/SlowpokeWell_B2F/border.bin",
+      "blockdata_filepath": "data/layouts/SlowpokeWell_B2F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_UNION_CAVE_1F",
+      "name": "UnionCave_1F_Layout",
+      "width": 48,
+      "height": 60,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/UnionCave_1F/border.bin",
+      "blockdata_filepath": "data/layouts/UnionCave_1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_UNION_CAVE_B1F",
+      "name": "UnionCave_B1F_Layout",
+      "width": 48,
+      "height": 48,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/UnionCave_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/UnionCave_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_UNION_CAVE_B2F",
+      "name": "UnionCave_B2F_Layout",
+      "width": 40,
+      "height": 50,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/UnionCave_B2F/border.bin",
+      "blockdata_filepath": "data/layouts/UnionCave_B2F/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

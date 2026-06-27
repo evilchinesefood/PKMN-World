@@ -14,4 +14,13 @@
 #define BERRY_TREE_CHERI_1          BERRY_TREE_ROUTE_102_PECHA
 #define BERRY_TREE_CHERI_2          BERRY_TREE_ROUTE_102_ORAN
 
+// === Azalea area aliases ===
+#define MUS_HG_RIVAL_EXIT           MUS_ENCOUNTER_BRENDAN
+#define MULTI_KURT_BALLS            MULTI_YESNO
+#define Common_Movement_WalkRight1  Common_Movement_WalkRight
+#define Common_Movement_JumpDown1   Common_Movement_WalkDown
+#define Common_Movement_JumpUp1     Common_Movement_WalkUp
+
+#define TUTOR_MOVE_HEADBUTT          MOVE_HEADBUTT
+
 #endif

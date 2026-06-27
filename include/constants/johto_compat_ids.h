@@ -34,4 +34,36 @@
 #define TRAINER_ROD           TRAINER_JOEY
 #define TRAINER_TROY          TRAINER_JOEY
 
+// === Azalea area: more HnS Johto trainers (real parties land in trainers stage) ===
+#define TRAINER_AL             TRAINER_JOEY
+#define TRAINER_AMY_AND_MAY    TRAINER_JOEY
+#define TRAINER_BILL           TRAINER_JOEY
+#define TRAINER_BUGSY_1        TRAINER_JOEY
+#define TRAINER_CALVIN         TRAINER_JOEY
+#define TRAINER_DANIEL         TRAINER_JOEY
+#define TRAINER_EMMA           TRAINER_JOEY
+#define TRAINER_ETO            TRAINER_JOEY
+#define TRAINER_GINA           TRAINER_JOEY
+#define TRAINER_GRUNT_21       TRAINER_JOEY
+#define TRAINER_GRUNT_22       TRAINER_JOEY
+#define TRAINER_IAN            TRAINER_JOEY
+#define TRAINER_JENN           TRAINER_JOEY
+#define TRAINER_KATE           TRAINER_JOEY
+#define TRAINER_KEITH          TRAINER_JOEY
+#define TRAINER_NICK           TRAINER_JOEY
+#define TRAINER_PROTON_1       TRAINER_JOEY
+#define TRAINER_RAY            TRAINER_JOEY
+#define TRAINER_RIVAL_CHIKORITA_2 TRAINER_JOEY
+#define TRAINER_RIVAL_CYNDAQUIL_2 TRAINER_JOEY
+#define TRAINER_RIVAL_TOTODILE_2 TRAINER_JOEY
+#define TRAINER_RUSSELL        TRAINER_JOEY
+#define TRAINER_TODD           TRAINER_JOEY
+
+// Azalea-area HnS TM/HM items -> Gen-3 numbered ids
+#define ITEM_HM_SURF           ITEM_HM03
+#define ITEM_TM_BULLET_SEED    ITEM_TM09
+#define ITEM_TM_RAIN_DANCE     ITEM_TM18
+#define ITEM_TM_SECRET_POWER   ITEM_TM43
+#define ITEM_TM_SUNNY_DAY      ITEM_TM11
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

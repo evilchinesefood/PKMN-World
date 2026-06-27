@@ -370,6 +370,13 @@
       "x": 9,
       "y": 40,
       "respawn_map": "MAP_ROUTE32_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_AZALEA_TOWN",
+      "map": "MAP_AZALEA_TOWN",
+      "x": 31,
+      "y": 15,
+      "respawn_map": "MAP_AZALEA_TOWN_POKEMON_CENTER"
     }
   ]
 }

@@ -79,7 +79,10 @@
     "gMapGroup_IndoorNewBark",
     "gMapGroup_IndoorCherrygrove",
     "gMapGroup_JohtoViolet",
-    "gMapGroup_JohtoRuins"
+    "gMapGroup_JohtoRuins",
+    "gMapGroup_JohtoAzalea",
+    "gMapGroup_IndoorAzalea",
+    "gMapGroup_JohtoUnion"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1213,5 +1216,28 @@
     "RuinsOfAlph_WordsRoom2",
     "RuinsOfAlph_WordsRoom3",
     "RuinsOfAlph_WordsRoom4"
+  ],
+  "gMapGroup_JohtoAzalea": [
+    "AzaleaTown",
+    "Route33",
+    "Route34",
+    "IlexForest"
+  ],
+  "gMapGroup_IndoorAzalea": [
+    "AzaleaTown_Gym",
+    "AzaleaTown_House1",
+    "AzaleaTown_KurtsHouse",
+    "AzaleaTown_Mart",
+    "AzaleaTown_PokemonCenter",
+    "Route34_DayCare"
+  ],
+  "gMapGroup_JohtoUnion": [
+    "Gate_AzaleaTown_IlexForest",
+    "Gate_IlexForest_Route34",
+    "UnionCave_1F",
+    "UnionCave_B1F",
+    "UnionCave_B2F",
+    "SlowpokeWell_B1F",
+    "SlowpokeWell_B2F"
   ]
 }

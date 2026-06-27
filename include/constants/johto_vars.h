@@ -24,4 +24,8 @@
 #define VAR_SLOWPOKE_TAIL             VAR_JOHTO_SLICE(0x0A)
 #define VAR_NUM_BADGES                VAR_JOHTO_SLICE(0x0B)
 
+// === Azalea area ===
+#define VAR_AZALEA_TOWN_STATE         VAR_JOHTO_SLICE(0x0C)
+#define VAR_ILEX_FOREST_FARFETCHD     VAR_JOHTO_SLICE(0x0D)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

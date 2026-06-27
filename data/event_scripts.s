@@ -1065,6 +1065,23 @@ gStdScripts_End::
 	.include "data/maps/RuinsOfAlph_WordsRoom2/scripts.inc"
 	.include "data/maps/RuinsOfAlph_WordsRoom3/scripts.inc"
 	.include "data/maps/RuinsOfAlph_WordsRoom4/scripts.inc"
+	.include "data/maps/AzaleaTown/scripts.inc"
+	.include "data/maps/Route33/scripts.inc"
+	.include "data/maps/Route34/scripts.inc"
+	.include "data/maps/IlexForest/scripts.inc"
+	.include "data/maps/AzaleaTown_Gym/scripts.inc"
+	.include "data/maps/AzaleaTown_House1/scripts.inc"
+	.include "data/maps/AzaleaTown_KurtsHouse/scripts.inc"
+	.include "data/maps/AzaleaTown_Mart/scripts.inc"
+	.include "data/maps/AzaleaTown_PokemonCenter/scripts.inc"
+	.include "data/maps/Route34_DayCare/scripts.inc"
+	.include "data/maps/Gate_AzaleaTown_IlexForest/scripts.inc"
+	.include "data/maps/Gate_IlexForest_Route34/scripts.inc"
+	.include "data/maps/UnionCave_1F/scripts.inc"
+	.include "data/maps/UnionCave_B1F/scripts.inc"
+	.include "data/maps/UnionCave_B2F/scripts.inc"
+	.include "data/maps/SlowpokeWell_B1F/scripts.inc"
+	.include "data/maps/SlowpokeWell_B2F/scripts.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"
@@ -1782,3 +1799,8 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/apricorn_tree.inc"
 	.include "data/scripts/wild_encounter.inc"
+
+@ Region merge: collision-safe no-op for Johto map events that reference
+@ not-yet-ported cross-area scripts (re-stitch when those areas land).
+Johto_EventScript_Nop::
+	end

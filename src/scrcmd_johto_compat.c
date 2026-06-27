@@ -116,3 +116,16 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
     u16 number = ScriptReadHalfword(ctx);
     (void)number;
 }
+
+// HnS giveoddegg (Azalea daycare): gives the Day-Care Odd Egg. The HnS odd-egg
+// generator (random species + boosted shiny odds) is unported; stub reads its operand
+// and no-ops so the script pointer stays aligned. Real egg gift lands in the content stage.
+void ScrCmd_giveoddegg_Compat(struct ScriptContext *ctx)
+{
+    u16 number = ScriptReadHalfword(ctx);
+    (void)number;
+}
+
+// HnS tx_randomizer GetMaxPartySize (challenge modes cap party size). Randomizer/
+// challenge modes are unported; report the normal max so daycare/party logic proceeds.
+void GetMaxPartySize(void) { gSpecialVar_Result = PARTY_SIZE; }

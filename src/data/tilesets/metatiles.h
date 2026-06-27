@@ -468,3 +468,31 @@ const u16 gMetatiles_TrainerSchool[] = INCBIN_U16("data/tilesets/secondary/train
 const u16 gMetatileAttributes_TrainerSchool[] = INCBIN_U16("data/tilesets/secondary/trainer_school/metatile_attributes.bin");
 
 
+
+// === Region merge: Johto Azalea-area tilesets ===
+const u16 gMetatiles_Johto_South[] = INCBIN_U16("data/tilesets/primary/johto_south/metatiles.bin");
+const u16 gMetatileAttributes_Johto_South[] = INCBIN_U16("data/tilesets/primary/johto_south/metatile_attributes.bin");
+
+const u16 gMetatiles_AzaleaTown[] = INCBIN_U16("data/tilesets/secondary/azalea_town/metatiles.bin");
+const u16 gMetatileAttributes_AzaleaTown[] = INCBIN_U16("data/tilesets/secondary/azalea_town/metatile_attributes.bin");
+
+const u16 gMetatiles_AzaleaTown_Gym[] = INCBIN_U16("data/tilesets/secondary/azalea_town_gym/metatiles.bin");
+const u16 gMetatileAttributes_AzaleaTown_Gym[] = INCBIN_U16("data/tilesets/secondary/azalea_town_gym/metatile_attributes.bin");
+
+const u16 gMetatiles_Barn[] = INCBIN_U16("data/tilesets/secondary/barn/metatiles.bin");
+const u16 gMetatileAttributes_Barn[] = INCBIN_U16("data/tilesets/secondary/barn/metatile_attributes.bin");
+
+const u16 gMetatiles_Cave_Default[] = INCBIN_U16("data/tilesets/secondary/cave_default/metatiles.bin");
+const u16 gMetatileAttributes_Cave_Default[] = INCBIN_U16("data/tilesets/secondary/cave_default/metatile_attributes.bin");
+
+const u16 gMetatiles_Cave_Gray[] = INCBIN_U16("data/tilesets/secondary/cave_gray/metatiles.bin");
+const u16 gMetatileAttributes_Cave_Gray[] = INCBIN_U16("data/tilesets/secondary/cave_gray/metatile_attributes.bin");
+
+const u16 gMetatiles_Goldenrod[] = INCBIN_U16("data/tilesets/secondary/goldenrod/metatiles.bin");
+const u16 gMetatileAttributes_Goldenrod[] = INCBIN_U16("data/tilesets/secondary/goldenrod/metatile_attributes.bin");
+
+const u16 gMetatiles_IlexForest[] = INCBIN_U16("data/tilesets/secondary/ilex_forest/metatiles.bin");
+const u16 gMetatileAttributes_IlexForest[] = INCBIN_U16("data/tilesets/secondary/ilex_forest/metatile_attributes.bin");
+
+const u16 gMetatiles_KurtsHouse[] = INCBIN_U16("data/tilesets/secondary/kurts_house/metatiles.bin");
+const u16 gMetatileAttributes_KurtsHouse[] = INCBIN_U16("data/tilesets/secondary/kurts_house/metatile_attributes.bin");

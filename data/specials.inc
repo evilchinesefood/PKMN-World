@@ -655,3 +655,9 @@ gSpecials::
 	def_special CheckKabuto
 	def_special CheckOmanyte
 	def_special GetMaxPartySize
+
+	@ Region merge (Johto port): Goldenrod-area specials.
+	def_special EnterBugContestMode
+	def_special HaircutBrother1
+	def_special ShowBugContestChosenMon
+	def_special ToggleShinyColors

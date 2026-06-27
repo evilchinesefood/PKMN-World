@@ -82,7 +82,9 @@
     "gMapGroup_JohtoRuins",
     "gMapGroup_JohtoAzalea",
     "gMapGroup_IndoorAzalea",
-    "gMapGroup_JohtoUnion"
+    "gMapGroup_JohtoUnion",
+    "gMapGroup_JohtoGoldenrod",
+    "gMapGroup_IndoorGoldenrod"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1239,5 +1241,46 @@
     "UnionCave_B2F",
     "SlowpokeWell_B1F",
     "SlowpokeWell_B2F"
+  ],
+  "gMapGroup_JohtoGoldenrod": [
+    "GoldenrodCity",
+    "Route35",
+    "Route36",
+    "Route37",
+    "NationalPark_Normal",
+    "NationalPark_BugContest",
+    "Gate_GoldenrodCity_Route35",
+    "Gate_NationalPark"
+  ],
+  "gMapGroup_IndoorGoldenrod": [
+    "GoldenrodCity_BikeShop",
+    "GoldenrodCity_BillsHouse",
+    "GoldenrodCity_DepartmentStoreBasement",
+    "GoldenrodCity_DepartmentStoreElevator",
+    "GoldenrodCity_DepartmentStore_1F",
+    "GoldenrodCity_DepartmentStore_2F",
+    "GoldenrodCity_DepartmentStore_3F",
+    "GoldenrodCity_DepartmentStore_4F",
+    "GoldenrodCity_DepartmentStore_5F",
+    "GoldenrodCity_DepartmentStore_6F",
+    "GoldenrodCity_DepartmentStore_7F",
+    "GoldenrodCity_DepartmentStore_7FNight",
+    "GoldenrodCity_FlowerShop",
+    "GoldenrodCity_GameCorner",
+    "GoldenrodCity_Gym",
+    "GoldenrodCity_House1",
+    "GoldenrodCity_House2",
+    "GoldenrodCity_House3",
+    "GoldenrodCity_PokemonCenter",
+    "GoldenrodCity_RadioTower_1F",
+    "GoldenrodCity_RadioTower_2F",
+    "GoldenrodCity_RadioTower_3F",
+    "GoldenrodCity_RadioTower_4F",
+    "GoldenrodCity_RadioTower_5F",
+    "GoldenrodCity_TrainStation",
+    "GoldenrodCity_UndergroundEntrance",
+    "GoldenrodCity_UndergroundStorage",
+    "GoldenrodCity_UndergroundSwitches",
+    "GoldenrodCity_UndergroundTunnel"
   ]
 }

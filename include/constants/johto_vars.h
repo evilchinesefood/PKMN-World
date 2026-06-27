@@ -28,4 +28,13 @@
 #define VAR_AZALEA_TOWN_STATE         VAR_JOHTO_SLICE(0x0C)
 #define VAR_ILEX_FOREST_FARFETCHD     VAR_JOHTO_SLICE(0x0D)
 
+// === Goldenrod area ===
+#define VAR_BUG_CONTEST_STATE          VAR_JOHTO_SLICE(0x0E)
+#define VAR_ELEVATOR                   VAR_JOHTO_SLICE(0x0F)
+#define VAR_LUGIA_OR_HOOH              VAR_JOHTO_SLICE(0x10)
+#define VAR_MAHOGANY_TOWN_STATE        VAR_JOHTO_SLICE(0x11)
+#define VAR_TRAIN                      VAR_JOHTO_SLICE(0x12)
+
+#define VAR_ECRUTEAK_CITY_STATE       VAR_JOHTO_SLICE(0x20)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

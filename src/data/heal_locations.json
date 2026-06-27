@@ -377,6 +377,13 @@
       "x": 31,
       "y": 15,
       "respawn_map": "MAP_AZALEA_TOWN_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_GOLDENROD_CITY",
+      "map": "MAP_GOLDENROD_CITY",
+      "x": 28,
+      "y": 36,
+      "respawn_map": "MAP_GOLDENROD_CITY_POKEMON_CENTER"
     }
   ]
 }

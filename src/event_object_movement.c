@@ -2815,7 +2815,14 @@ static void SpawnLightSprite(s16 x, s16 y, s16 camX, s16 camY, u32 lightType)
     lightType = min(lightType, ARRAY_COUNT(gFieldEffectLightTemplates) - 1); // bounds checking
     template = gFieldEffectLightTemplates[lightType];
     LoadSpriteSheetByTemplate(template, 0, 0);
-    sprite = &gSprites[CreateSprite(template, 0, 0, 0)];
+    // Region merge fix: CreateSprite returns MAX_SPRITES when the 64-sprite pool is
+    // exhausted (e.g. Violet City has 25 light sprites that come into view at once).
+    // The original code did gSprites[CreateSprite(...)] with no check -> gSprites[MAX_SPRITES]
+    // is OOB and the writes below corrupted memory -> crash on first entry to Violet. Bail out.
+    i = CreateSprite(template, 0, 0, 0);
+    if (i >= MAX_SPRITES)
+        return;
+    sprite = &gSprites[i];
     if (lightType == 0 && (i = IndexOfSpritePaletteTag(template->paletteTag + 1)) < 16)
         sprite->oam.paletteNum = i;
     else

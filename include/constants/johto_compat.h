@@ -23,4 +23,14 @@
 
 #define TUTOR_MOVE_HEADBUTT          MOVE_HEADBUTT
 
+// === Goldenrod area aliases ===
+#define MUS_HG_GOLDENROD            MUS_RUSTBORO
+#define MUS_HG_ROCKET_TAKEOVER      MUS_MT_PYRE_EXTERIOR
+#define MULTI_5FLOORS               MULTI_YESNO
+#define MULTI_7FLOORS               MULTI_YESNO
+#define MULTI_PRIZE_MONS            MULTI_YESNO
+
+#define Common_Movement_WalkUp1        Common_Movement_WalkUp
+#define Common_Movement_WalkDown1      Common_Movement_WalkDown
+
 #endif

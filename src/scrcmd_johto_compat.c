@@ -129,3 +129,14 @@ void ScrCmd_giveoddegg_Compat(struct ScriptContext *ctx)
 // HnS tx_randomizer GetMaxPartySize (challenge modes cap party size). Randomizer/
 // challenge modes are unported; report the normal max so daycare/party logic proceeds.
 void GetMaxPartySize(void) { gSpecialVar_Result = PARTY_SIZE; }
+
+// Goldenrod-area special stubs (region merge). Bug Contest minigame, haircut
+// brothers, and shiny-palette toggle are unported side systems; these no-op so
+// the maps' scripts run. Refine in a later content pass.
+void EnterBugContestMode(void) {}
+void ShowBugContestChosenMon(void) {}
+void HaircutBrother1(void) {}
+void ToggleShinyColors(void) {}
+
+void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx) { u16 n = ScriptReadHalfword(ctx); (void)n; } // story mon (Kenya/Shuckie/Eevee) unported
+void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx) { (void)ctx; }

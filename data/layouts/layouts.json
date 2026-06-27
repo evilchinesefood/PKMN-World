@@ -11006,6 +11006,248 @@
       "border_filepath": "data/layouts/EmbeddedTower/border.bin",
       "blockdata_filepath": "data/layouts/EmbeddedTower/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANYTOWN",
+      "name": "Mahoganytown_Layout",
+      "width": 44,
+      "height": 28,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_MahoganyTown",
+      "border_filepath": "data/layouts/Mahoganytown/border.bin",
+      "blockdata_filepath": "data/layouts/Mahoganytown/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_TOWN_GYM",
+      "name": "MahoganyTown_Gym_Layout",
+      "width": 25,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_SootopolisGym",
+      "border_filepath": "data/layouts/MahoganyTown_Gym/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyTown_Gym/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_TOWN_HOUSE1",
+      "name": "MahoganyTown_House1_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/MahoganyTown_House1/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyTown_House1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_TOWN_POKEMON_CENTER",
+      "name": "MahoganyTown_PokemonCenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Kanto_PokemonCenter",
+      "border_filepath": "data/layouts/MahoganyTown_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyTown_PokemonCenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_TOWN_SHOP",
+      "name": "MahoganyTown_Shop_Layout",
+      "width": 10,
+      "height": 12,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_2",
+      "border_filepath": "data/layouts/MahoganyTown_Shop/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyTown_Shop/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE42",
+      "name": "Route42_Layout",
+      "width": 76,
+      "height": 26,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_MahoganyTown",
+      "border_filepath": "data/layouts/Route42/border.bin",
+      "blockdata_filepath": "data/layouts/Route42/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_ECRUTEAK_CITY_ROUTE42",
+      "name": "Gate_EcruteakCity_Route42_Layout",
+      "width": 13,
+      "height": 9,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_EcruteakCity_Route42/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_EcruteakCity_Route42/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE43",
+      "name": "Route43_Layout",
+      "width": 34,
+      "height": 53,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_MahoganyTown",
+      "border_filepath": "data/layouts/Route43/border.bin",
+      "blockdata_filepath": "data/layouts/Route43/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_MAHOGANY_TOWN_ROUTE43",
+      "name": "Gate_MahoganyTown_Route43_Layout",
+      "width": 15,
+      "height": 12,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_MahoganyTown_Route43/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_MahoganyTown_Route43/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_ROUTE43",
+      "name": "Gate_Route43_Layout",
+      "width": 15,
+      "height": 12,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_Route43/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_Route43/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE44",
+      "name": "Route44_Layout",
+      "width": 78,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CianwoodCity",
+      "border_filepath": "data/layouts/Route44/border.bin",
+      "blockdata_filepath": "data/layouts/Route44/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_LAKE_OF_RAGE",
+      "name": "LakeOfRage_Layout",
+      "width": 64,
+      "height": 47,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_MahoganyTown",
+      "border_filepath": "data/layouts/LakeOfRage/border.bin",
+      "blockdata_filepath": "data/layouts/LakeOfRage/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_LAKE_OF_RAGE_LOW_TIDE",
+      "name": "LakeOfRageLowTide_Layout",
+      "width": 64,
+      "height": 47,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_MahoganyTown",
+      "border_filepath": "data/layouts/LakeOfRageLowTide/border.bin",
+      "blockdata_filepath": "data/layouts/LakeOfRageLowTide/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_LAKE_OF_RAGE_HOUSE1",
+      "name": "LakeOfRage_House1_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/LakeOfRage_House1/border.bin",
+      "blockdata_filepath": "data/layouts/LakeOfRage_House1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_LAKE_OF_RAGE_HOUSE2",
+      "name": "LakeOfRage_House2_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/LakeOfRage_House2/border.bin",
+      "blockdata_filepath": "data/layouts/LakeOfRage_House2/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_MORTAR_1F_NORTH",
+      "name": "MtMortar_1F_North_Layout",
+      "width": 40,
+      "height": 50,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtMortar_1F_North/border.bin",
+      "blockdata_filepath": "data/layouts/MtMortar_1F_North/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_MORTAR_1F_SOUTH",
+      "name": "MtMortar_1F_South_Layout",
+      "width": 72,
+      "height": 54,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtMortar_1F_South/border.bin",
+      "blockdata_filepath": "data/layouts/MtMortar_1F_South/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_MORTAR_2F",
+      "name": "MtMortar_2F_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtMortar_2F/border.bin",
+      "blockdata_filepath": "data/layouts/MtMortar_2F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_MORTAR_B1F",
+      "name": "MtMortar_B1F_Layout",
+      "width": 40,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtMortar_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/MtMortar_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_HIDEOUT_B1F",
+      "name": "MahoganyHideout_B1F_Layout",
+      "width": 66,
+      "height": 33,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_GoldenrodUndergroundRocket",
+      "border_filepath": "data/layouts/MahoganyHideout_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyHideout_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_HIDEOUT_B2F",
+      "name": "MahoganyHideout_B2F_Layout",
+      "width": 38,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_GoldenrodUndergroundRocket",
+      "border_filepath": "data/layouts/MahoganyHideout_B2F/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyHideout_B2F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MAHOGANY_HIDEOUT_B3F",
+      "name": "MahoganyHideout_B3F_Layout",
+      "width": 36,
+      "height": 22,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_GoldenrodUndergroundRocket",
+      "border_filepath": "data/layouts/MahoganyHideout_B3F/border.bin",
+      "blockdata_filepath": "data/layouts/MahoganyHideout_B3F/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

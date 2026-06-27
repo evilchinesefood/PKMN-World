@@ -4019,3 +4019,42 @@ const u16 gTilesetPalettes_CianwoodCity_Gym[][16] =
     INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/12.pal", ".gbapal"),
 };
 
+// === Region merge: Johto Mahogany-area tilesets ===
+const u32 gTilesetTiles_MahoganyTown[] = INCGFX_U32("data/tilesets/secondary/mahogany_town/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_MahoganyTown[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town/palettes/12.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_House_2[] = INCGFX_U32("data/tilesets/secondary/house_2/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_House_2[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/house_2/palettes/12.pal", ".gbapal"),
+};
+

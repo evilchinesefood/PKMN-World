@@ -90,7 +90,9 @@
     "gMapGroup_JohtoOlivine",
     "gMapGroup_IndoorOlivine",
     "gMapGroup_JohtoCianwood",
-    "gMapGroup_IndoorCianwood"
+    "gMapGroup_IndoorCianwood",
+    "gMapGroup_JohtoMahogany",
+    "gMapGroup_IndoorMahogany"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1361,5 +1363,31 @@
     "CliffEdgeCave",
     "CliffEdgeGate",
     "EmbeddedTower"
+  ],
+  "gMapGroup_JohtoMahogany": [
+    "Mahoganytown",
+    "Route42",
+    "Route43",
+    "Route44",
+    "LakeOfRage",
+    "LakeOfRageLowTide"
+  ],
+  "gMapGroup_IndoorMahogany": [
+    "MahoganyTown_Gym",
+    "MahoganyTown_House1",
+    "MahoganyTown_PokemonCenter",
+    "MahoganyTown_Shop",
+    "Gate_EcruteakCity_Route42",
+    "Gate_MahoganyTown_Route43",
+    "Gate_Route43",
+    "LakeOfRage_House1",
+    "LakeOfRage_House2",
+    "MtMortar_1F_North",
+    "MtMortar_1F_South",
+    "MtMortar_2F",
+    "MtMortar_B1F",
+    "MahoganyHideout_B1F",
+    "MahoganyHideout_B2F",
+    "MahoganyHideout_B3F"
   ]
 }

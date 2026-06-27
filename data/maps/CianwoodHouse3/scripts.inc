@@ -22,12 +22,14 @@ CianwoodCity_EventScript_Kirk::
 CianwoodCity_EventScript_KirkDeclined::
 	msgbox CianwoodCity_Text_ManiacIfHeComesBack, MSGBOX_DEFAULT
 	closemessage
+	release
 	end
 
 CianwoodCity_EventScript_KirkGivenShuckie::
 	goto_if_set FLAG_BADGE01_GET, CianwoodCity_EventScript_KirkReturnShuckie
 	msgbox CianwoodCity_Text_ManiacHowsdoing, MSGBOX_DEFAULT
 	closemessage
+	release
 	end
 
 CianwoodCity_EventScript_KirkReturnShuckie::
@@ -67,6 +69,7 @@ CianwoodCity_EventScript_KirkKeepShuckie::
 CianwoodCity_EventScript_KirkReturnedShuckie::
 	msgbox CianwoodCity_Text_ManiacHappinessSpeech, MSGBOX_DEFAULT
 	closemessage
+	release
 	end
 
 CianwoodCity_Text_ManiacAskShuckle:

@@ -56,4 +56,17 @@
 // Cianwood City Sitrus berry tree borrows a real suffixed Hoenn slot (own slot in Stage 4).
 #define BERRY_TREE_SITRUS_1         BERRY_TREE_ROUTE_118_SITRUS_1
 
+// === Mahogany area aliases ===
+// Team Rocket HQ takeover theme (script playbgm + map header) -> target villain-base theme.
+#define MUS_HG_TEAM_ROCKET_HQ       MUS_MT_PYRE_EXTERIOR
+// Lance vs Ariana+Grunt multi-battle: HnS special-battle id has no target equivalent;
+// map to the generic multi-battle so the setvar/DoSpecialTrainerBattle path links.
+// The faithful Lance set piece is content-stage work.
+#define SPECIAL_BATTLE_LANCE        SPECIAL_BATTLE_MULTI
+// Mahogany-area berry trees borrow real suffixed Hoenn slots (own slots in Stage 4).
+#define BERRY_TREE_ASPEAR_1         BERRY_TREE_ROUTE_120_ASPEAR_1
+#define BERRY_TREE_CHESTO_2         BERRY_TREE_ROUTE_116_CHESTO_2
+#define BERRY_TREE_LEPPA_1          BERRY_TREE_ROUTE_123_LEPPA_1
+#define BERRY_TREE_LEPPA_2          BERRY_TREE_ROUTE_123_LEPPA_2
+
 #endif

@@ -548,3 +548,9 @@ const u16 gMetatileAttributes_Lighthouse[] = INCBIN_U16("data/tilesets/secondary
 // === Region merge: Johto Cianwood-area tileset ===
 const u16 gMetatiles_CianwoodCity_Gym[] = INCBIN_U16("data/tilesets/secondary/cianwood_city_gym/metatiles.bin");
 const u16 gMetatileAttributes_CianwoodCity_Gym[] = INCBIN_U16("data/tilesets/secondary/cianwood_city_gym/metatile_attributes.bin");
+
+// === Region merge: Johto Mahogany-area tilesets ===
+const u16 gMetatiles_MahoganyTown[] = INCBIN_U16("data/tilesets/secondary/mahogany_town/metatiles.bin");
+const u16 gMetatileAttributes_MahoganyTown[] = INCBIN_U16("data/tilesets/secondary/mahogany_town/metatile_attributes.bin");
+const u16 gMetatiles_House_2[] = INCBIN_U16("data/tilesets/secondary/house_2/metatiles.bin");
+const u16 gMetatileAttributes_House_2[] = INCBIN_U16("data/tilesets/secondary/house_2/metatile_attributes.bin");

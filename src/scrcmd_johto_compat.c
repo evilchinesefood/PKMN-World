@@ -6,7 +6,10 @@
 #include "overworld.h"
 #include "random.h"
 #include "script.h"
+#include "script_pokemon_util.h"
+#include "pokemon_storage_system.h"
 #include "constants/songs.h"
+#include "constants/vars.h"
 
 // Region merge (Johto port): compat handlers + specials for HnS scripts.
 //
@@ -140,3 +143,59 @@ void ToggleShinyColors(void) {}
 
 void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx) { u16 n = ScriptReadHalfword(ctx); (void)n; } // story mon (Kenya/Shuckie/Eevee) unported
 void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx) { (void)ctx; }
+
+// === Mahogany area (region merge) ===
+
+// HnS `setwildbattleshiny <species>, <level>, <item>` -> sets up the next scripted wild
+// battle (Lake of Rage Red Gyarados). HnS's CreateShinyScriptedMon forces a shiny PID via
+// tx_randomizer-coupled helpers that aren't ported; create a standard scripted wild mon so
+// the battle fires. The red/shiny palette is content-stage polish.
+void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
+{
+    u16 species = ScriptReadHalfword(ctx);
+    u8 level = ScriptReadByte(ctx);
+    u16 item = ScriptReadHalfword(ctx);
+
+    CreateScriptedWildMon(species, level, item);
+}
+
+// HnS `removegenericmon <species>` (Lake of Rage Magikarp-length house): removes the party
+// mon at slot VAR_0x8004 if it matches <species>, reporting via gSpecialVar_Result. Ported
+// verbatim from HnS scrcmd.c; MON_SATISFACTORY/MON_UNSATISFACTORY are the HnS result codes
+// (2/1) inlined since the target lacks those constants.
+void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
+{
+    u16 targetSpecies = ScriptReadHalfword(ctx);
+    u8 monIndex = VarGet(VAR_0x8004);
+
+    if (monIndex >= PARTY_SIZE)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    struct Pokemon *mon = &gPlayerParty[monIndex];
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+
+    if (species == SPECIES_NONE || species != targetSpecies)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    if (species == SPECIES_MAGIKARP)
+    {
+        u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+        if (level == 100)
+        {
+            ZeroMonData(mon);
+            CompactPartySlots();
+            gSpecialVar_Result = 2; // MON_SATISFACTORY
+            return;
+        }
+    }
+
+    ZeroMonData(mon);
+    CompactPartySlots();
+    gSpecialVar_Result = 1; // MON_UNSATISFACTORY
+}

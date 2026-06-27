@@ -1910,6 +1910,62 @@
       "y": 10,
       "width": 1,
       "height": 2
+    },
+    {
+      "id": "MAPSEC_MAHOGANY_TOWN",
+      "name": "MAHOGANY TOWN",
+      "x": 7,
+      "y": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_42",
+      "name": "ROUTE 42",
+      "x": 5,
+      "y": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_43",
+      "name": "ROUTE 43",
+      "x": 7,
+      "y": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_44",
+      "name": "ROUTE 44",
+      "x": 9,
+      "y": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_LAKE_OF_RAGE",
+      "name": "LAKE OF RAGE",
+      "x": 7,
+      "y": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_MT_MORTAR",
+      "name": "MT MORTAR",
+      "x": 6,
+      "y": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_MAHOGANY_HIDEOUT",
+      "name": "ROCKET HIDEOUT",
+      "x": 7,
+      "y": 5,
+      "width": 1,
+      "height": 1
     }
   ]
 }

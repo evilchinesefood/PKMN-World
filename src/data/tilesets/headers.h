@@ -2095,3 +2095,26 @@ const struct Tileset gTileset_CianwoodCity_Gym =
     .callback = NULL,
 };
 
+// === Region merge: Johto Mahogany-area tilesets ===
+const struct Tileset gTileset_MahoganyTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_MahoganyTown,
+    .palettes = gTilesetPalettes_MahoganyTown,
+    .metatiles = gMetatiles_MahoganyTown,
+    .metatileAttributes = gMetatileAttributes_MahoganyTown,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_House_2 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_House_2,
+    .palettes = gTilesetPalettes_House_2,
+    .metatiles = gMetatiles_House_2,
+    .metatileAttributes = gMetatileAttributes_House_2,
+    .callback = NULL,
+};
+

@@ -82,6 +82,8 @@
 #define ITEM_SQUIRT_BOTTLE     ITEM_NONE
 #define INGAME_TRADE_MACHOP    0
 #define INGAME_TRADE_VOLTORB   0
+#define MON_UNSATISFACTORY   1
+#define MON_SATISFACTORY     2
 #define TRAINER_ANN_AND_ANNE       TRAINER_JOEY
 #define TRAINER_ARCHER             TRAINER_JOEY
 #define TRAINER_ARIANA_2           TRAINER_JOEY
@@ -186,5 +188,49 @@
 
 // Cianwood-area item: HnS HM-by-move -> Gen-3 numbered id (Fly = HM02)
 #define ITEM_HM_FLY            ITEM_HM02
+
+// === Mahogany area: HnS Johto trainers (real parties land in the trainers stage) ===
+// None collide with an existing target enum (verified), so all are aliased here.
+#define TRAINER_ANDRE             TRAINER_JOEY
+#define TRAINER_ARIANA_1          TRAINER_JOEY
+#define TRAINER_BENJAMIN          TRAINER_JOEY
+#define TRAINER_BRAD              TRAINER_JOEY
+#define TRAINER_CYBIL             TRAINER_JOEY
+#define TRAINER_ETO_2             TRAINER_JOEY
+#define TRAINER_GRUNT_13          TRAINER_JOEY
+#define TRAINER_GRUNT_14          TRAINER_JOEY
+#define TRAINER_GRUNT_15          TRAINER_JOEY
+#define TRAINER_GRUNT_16          TRAINER_JOEY
+#define TRAINER_GRUNT_17          TRAINER_JOEY
+#define TRAINER_GRUNT_18          TRAINER_JOEY
+#define TRAINER_GRUNT_23          TRAINER_JOEY
+#define TRAINER_GRUNT_29          TRAINER_JOEY
+#define TRAINER_JED               TRAINER_JOEY
+#define TRAINER_LOIS              TRAINER_JOEY
+#define TRAINER_MARKUS            TRAINER_JOEY
+#define TRAINER_MARVIN            TRAINER_JOEY
+#define TRAINER_MILLER            TRAINER_JOEY
+#define TRAINER_MITCH             TRAINER_JOEY
+#define TRAINER_PETREL_1          TRAINER_JOEY
+#define TRAINER_PRYCE_1           TRAINER_JOEY
+#define TRAINER_PRYCE_1_2         TRAINER_JOEY
+#define TRAINER_PRYCE_1_3         TRAINER_JOEY
+#define TRAINER_RAYMOND           TRAINER_JOEY
+#define TRAINER_RON               TRAINER_JOEY
+#define TRAINER_ROSS              TRAINER_JOEY
+#define TRAINER_ROXANNE           TRAINER_JOEY
+#define TRAINER_TULLY             TRAINER_JOEY
+#define TRAINER_VANCE             TRAINER_JOEY
+#define TRAINER_WILTON            TRAINER_JOEY
+#define TRAINER_ZACH              TRAINER_JOEY
+
+// Mahogany-area items: HnS TM/HM-by-move -> Gen-3 numbered ids; key items -> ITEM_NONE.
+// Whirlpool has no Gen-3 HM slot; stub to ITEM_HM08 so the giveitem resolves.
+#define ITEM_HM_WHIRLPOOL      ITEM_HM08
+#define ITEM_RED_SCALE         ITEM_NONE
+#define ITEM_TM_HAIL           ITEM_TM07
+#define ITEM_TM_HIDDEN_POWER   ITEM_TM10
+#define ITEM_TM_SLUDGE_BOMB    ITEM_TM36
+#define ITEM_TM_THIEF          ITEM_TM46
 
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

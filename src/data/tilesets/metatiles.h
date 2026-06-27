@@ -544,3 +544,7 @@ const u16 gMetatiles_PortIndoor[] = INCBIN_U16("data/tilesets/secondary/port_ind
 const u16 gMetatileAttributes_PortIndoor[] = INCBIN_U16("data/tilesets/secondary/port_indoor/metatile_attributes.bin");
 const u16 gMetatiles_Lighthouse[] = INCBIN_U16("data/tilesets/secondary/lighthouse/metatiles.bin");
 const u16 gMetatileAttributes_Lighthouse[] = INCBIN_U16("data/tilesets/secondary/lighthouse/metatile_attributes.bin");
+
+// === Region merge: Johto Cianwood-area tileset ===
+const u16 gMetatiles_CianwoodCity_Gym[] = INCBIN_U16("data/tilesets/secondary/cianwood_city_gym/metatiles.bin");
+const u16 gMetatileAttributes_CianwoodCity_Gym[] = INCBIN_U16("data/tilesets/secondary/cianwood_city_gym/metatile_attributes.bin");

@@ -1171,6 +1171,19 @@ gStdScripts_End::
 	.include "data/maps/WhirlIslands_B3F/scripts.inc"
 	.include "data/maps/WhirlIslands_Descent/scripts.inc"
 	.include "data/maps/WhirlIslands_LugiaChamber/scripts.inc"
+	@ Region merge (Johto port): Cianwood area scripts.
+	.include "data/maps/CianwoodCity/scripts.inc"
+	.include "data/maps/CianwoodGym/scripts.inc"
+	.include "data/maps/CianwoodHouse1/scripts.inc"
+	.include "data/maps/CianwoodHouse2/scripts.inc"
+	.include "data/maps/CianwoodHouse3/scripts.inc"
+	.include "data/maps/CianwoodPokecenter/scripts.inc"
+	.include "data/maps/CianwoodShop/scripts.inc"
+	.include "data/maps/Route47/scripts.inc"
+	.include "data/maps/Route48/scripts.inc"
+	.include "data/maps/CliffEdgeCave/scripts.inc"
+	.include "data/maps/CliffEdgeGate/scripts.inc"
+	.include "data/maps/EmbeddedTower/scripts.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"
@@ -1891,5 +1904,12 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 
 @ Region merge: collision-safe no-op for Johto map events that reference
 @ not-yet-ported cross-area scripts (re-stitch when those areas land).
+@ releaseall first so a goto/script-field redirect from a locked script can't
+@ freeze the player. For `call` sites use Johto_EventScript_NopReturn (below) so
+@ the caller resumes and runs its own cleanup/release.
 Johto_EventScript_Nop::
+	releaseall
 	end
+
+Johto_EventScript_NopReturn::
+	return

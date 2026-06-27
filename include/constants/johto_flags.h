@@ -334,4 +334,23 @@
 #define FLAG_ITEM_WHIRL_ISLANDS_B2F_ESCAPE_ROPE        FLAG_JOHTO_SLICE(0x153)
 #define FLAG_ITEM_WHIRL_ISLANDS_B2F_FULL_RESTORE       FLAG_JOHTO_SLICE(0x154)
 
+
+// === Cianwood area (region merge) — Cianwood City, Routes 47/48, Cliff Edge, Embedded Tower ===
+// Clean Johto-bank range above Olivine items' highest (0x154).
+// Story / hide / gym flags.
+#define FLAG_DEFEATED_VIRIDIAN_GYM                     FLAG_JOHTO_SLICE(0x155)
+#define FLAG_HIDE_DOJO_CHUCK                           FLAG_JOHTO_SLICE(0x156)
+#define FLAG_HIDE_GROUDON                              FLAG_JOHTO_SLICE(0x157)
+#define FLAG_HIDE_KYOGRE                               FLAG_JOHTO_SLICE(0x158)
+#define FLAG_HIDE_RAYQUAZA                             FLAG_JOHTO_SLICE(0x159)
+#define FLAG_VISITED_CIANWOOD_CITY                     FLAG_JOHTO_SLICE(0x15A)
+#define FLAG_VISITED_VERMILION_CITY                    FLAG_JOHTO_SLICE(0x15B)
+
+// Cianwood-area hidden-item (item-ball received) flags — Johto bank.
+#define FLAG_ITEM_LUCKY_PUNCH                          FLAG_JOHTO_SLICE(0x15C)
+#define FLAG_ITEM_ROUTE47_PEARL                        FLAG_JOHTO_SLICE(0x15D)
+#define FLAG_ITEM_ROUTE47_REVIVE                       FLAG_JOHTO_SLICE(0x15E)
+#define FLAG_ITEM_ROUTE47_STARDUST                     FLAG_JOHTO_SLICE(0x15F)
+#define FLAG_ITEM_ROUTE47_WHITE_FLUTE                  FLAG_JOHTO_SLICE(0x160)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

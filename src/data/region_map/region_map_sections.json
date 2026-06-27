@@ -1870,6 +1870,46 @@
       "y": 11,
       "width": 2,
       "height": 1
+    },
+    {
+      "id": "MAPSEC_CIANWOOD_CITY",
+      "name": "CIANWOOD CITY",
+      "x": 4,
+      "y": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_47",
+      "name": "ROUTE 47",
+      "x": 2,
+      "y": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_48",
+      "name": "ROUTE 48",
+      "x": 2,
+      "y": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_CLIFF_CAVE",
+      "name": "CLIFF CAVE",
+      "x": 3,
+      "y": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_EMBEDDED_TOWER",
+      "name": "EMBEDDED TOWER",
+      "x": 1,
+      "y": 10,
+      "width": 1,
+      "height": 2
     }
   ]
 }

@@ -10874,6 +10874,138 @@
       "border_filepath": "data/layouts/WhirlIslands_LugiaChamber/border.bin",
       "blockdata_filepath": "data/layouts/WhirlIslands_LugiaChamber/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_CITY",
+      "name": "CianwoodCity_Layout",
+      "width": 37,
+      "height": 61,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CianwoodCity",
+      "border_filepath": "data/layouts/CianwoodCity/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodCity/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_GYM",
+      "name": "CianwoodGym_Layout",
+      "width": 21,
+      "height": 17,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_CianwoodCity_Gym",
+      "border_filepath": "data/layouts/CianwoodGym/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodGym/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_HOUSE1",
+      "name": "CianwoodHouse1_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/CianwoodHouse1/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodHouse1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_HOUSE2",
+      "name": "CianwoodHouse2_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/CianwoodHouse2/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodHouse2/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_HOUSE3",
+      "name": "CianwoodHouse3_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/CianwoodHouse3/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodHouse3/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_POKECENTER",
+      "name": "CianwoodPokecenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Kanto_PokemonCenter",
+      "border_filepath": "data/layouts/CianwoodPokecenter/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodPokecenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CIANWOOD_SHOP",
+      "name": "CianwoodShop_Layout",
+      "width": 16,
+      "height": 15,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BikeShop",
+      "border_filepath": "data/layouts/CianwoodShop/border.bin",
+      "blockdata_filepath": "data/layouts/CianwoodShop/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE47",
+      "name": "Route47_Layout",
+      "width": 120,
+      "height": 61,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CianwoodCity",
+      "border_filepath": "data/layouts/Route47/border.bin",
+      "blockdata_filepath": "data/layouts/Route47/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE48",
+      "name": "Route48_Layout",
+      "width": 55,
+      "height": 32,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CianwoodCity",
+      "border_filepath": "data/layouts/Route48/border.bin",
+      "blockdata_filepath": "data/layouts/Route48/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CLIFF_EDGE_CAVE",
+      "name": "CliffEdgeCave_Layout",
+      "width": 44,
+      "height": 34,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/CliffEdgeCave/border.bin",
+      "blockdata_filepath": "data/layouts/CliffEdgeCave/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_CLIFF_EDGE_GATE",
+      "name": "CliffEdgeGate_Layout",
+      "width": 40,
+      "height": 29,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/CliffEdgeGate/border.bin",
+      "blockdata_filepath": "data/layouts/CliffEdgeGate/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_EMBEDDED_TOWER",
+      "name": "EmbeddedTower_Layout",
+      "width": 29,
+      "height": 31,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BurnedTower",
+      "border_filepath": "data/layouts/EmbeddedTower/border.bin",
+      "blockdata_filepath": "data/layouts/EmbeddedTower/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

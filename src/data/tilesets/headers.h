@@ -2083,3 +2083,15 @@ const struct Tileset gTileset_Lighthouse =
     .callback = NULL,
 };
 
+// === Region merge: Johto Cianwood-area tileset ===
+const struct Tileset gTileset_CianwoodCity_Gym =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_CianwoodCity_Gym,
+    .palettes = gTilesetPalettes_CianwoodCity_Gym,
+    .metatiles = gMetatiles_CianwoodCity_Gym,
+    .metatileAttributes = gMetatileAttributes_CianwoodCity_Gym,
+    .callback = NULL,
+};
+

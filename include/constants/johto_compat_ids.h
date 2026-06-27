@@ -168,4 +168,23 @@
 #define ITEM_TM_SHOCK_WAVE     ITEM_TM34
 #define ITEM_SECRET_POTION     ITEM_NONE
 
+
+// === Cianwood area: HnS Johto trainers (real parties land in the trainers stage) ===
+// TRAINER_LUNG collides with an existing target enum, so it is script-edited to
+// TRAINER_JOEY in CianwoodGym/scripts.inc instead of aliased here.
+#define TRAINER_CHUCK_1            TRAINER_JOEY
+#define TRAINER_CHUCK_1_2          TRAINER_JOEY
+#define TRAINER_CHUCK_1_3          TRAINER_JOEY
+#define TRAINER_DEVIN              TRAINER_JOEY
+#define TRAINER_DUFF_AND_EDA       TRAINER_JOEY
+#define TRAINER_EUSINE             TRAINER_JOEY
+#define TRAINER_GRANT              TRAINER_JOEY
+#define TRAINER_LAO                TRAINER_JOEY
+#define TRAINER_NOB                TRAINER_JOEY
+#define TRAINER_THOM_AND_KAE       TRAINER_JOEY
+#define TRAINER_YOSHI              TRAINER_JOEY
+
+// Cianwood-area item: HnS HM-by-move -> Gen-3 numbered id (Fly = HM02)
+#define ITEM_HM_FLY            ITEM_HM02
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

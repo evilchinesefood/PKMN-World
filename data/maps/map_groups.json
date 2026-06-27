@@ -88,7 +88,9 @@
     "gMapGroup_JohtoEcruteak",
     "gMapGroup_IndoorEcruteak",
     "gMapGroup_JohtoOlivine",
-    "gMapGroup_IndoorOlivine"
+    "gMapGroup_IndoorOlivine",
+    "gMapGroup_JohtoCianwood",
+    "gMapGroup_IndoorCianwood"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1343,5 +1345,21 @@
     "WhirlIslands_B3F",
     "WhirlIslands_Descent",
     "WhirlIslands_LugiaChamber"
+  ],
+  "gMapGroup_JohtoCianwood": [
+    "CianwoodCity",
+    "Route47",
+    "Route48"
+  ],
+  "gMapGroup_IndoorCianwood": [
+    "CianwoodGym",
+    "CianwoodHouse1",
+    "CianwoodHouse2",
+    "CianwoodHouse3",
+    "CianwoodPokecenter",
+    "CianwoodShop",
+    "CliffEdgeCave",
+    "CliffEdgeGate",
+    "EmbeddedTower"
   ]
 }

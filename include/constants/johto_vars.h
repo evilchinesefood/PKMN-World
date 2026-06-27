@@ -51,4 +51,7 @@
 #define VAR_SSAQUA_STATE              VAR_JOHTO_SLICE(0x28)
 #define VAR_SUICUNE_ENCOUNTERS        VAR_JOHTO_SLICE(0x29)
 
+// === Cianwood area ===
+#define VAR_SHUCKIE                   VAR_JOHTO_SLICE(0x2A)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

@@ -3999,3 +3999,23 @@ const u16 gTilesetPalettes_Lighthouse[][16] =
     INCGFX_U16("data/tilesets/secondary/lighthouse/palettes/15.pal", ".gbapal"),
 };
 
+// === Region merge: Johto Cianwood-area tileset ===
+const u32 gTilesetTiles_CianwoodCity_Gym[] = INCGFX_U32("data/tilesets/secondary/cianwood_city_gym/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_CianwoodCity_Gym[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/cianwood_city_gym/palettes/12.pal", ".gbapal"),
+};
+

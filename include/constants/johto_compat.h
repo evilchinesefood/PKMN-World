@@ -50,4 +50,10 @@
 #define MUS_HG_VS_LUGIA             MUS_RG_VS_LEGEND
 #define MULTI_OLIVINE_HARBOR        MULTI_YESNO
 
+// === Cianwood area aliases ===
+// Eusine encounter cue (script playbgm) -> a target character-encounter theme.
+#define MUS_HG_EUSINE               MUS_ENCOUNTER_BRENDAN
+// Cianwood City Sitrus berry tree borrows a real suffixed Hoenn slot (own slot in Stage 4).
+#define BERRY_TREE_SITRUS_1         BERRY_TREE_ROUTE_118_SITRUS_1
+
 #endif

@@ -10643,6 +10643,237 @@
       "border_filepath": "data/layouts/TinTower_RoofNight/border.bin",
       "blockdata_filepath": "data/layouts/TinTower_RoofNight/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_ROUTE40_TRAINER_HILL_COURTYARD",
+      "name": "Gate_Route40_TrainerHill_Courtyard_Layout",
+      "width": 15,
+      "height": 12,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_Route40_TrainerHill_Courtyard/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_Route40_TrainerHill_Courtyard/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY",
+      "name": "OlivineCity_Layout",
+      "width": 52,
+      "height": 72,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_OlivineCity",
+      "border_filepath": "data/layouts/OlivineCity/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_CAFE",
+      "name": "OlivineCity_Cafe_Layout",
+      "width": 8,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Cafe",
+      "border_filepath": "data/layouts/OlivineCity_Cafe/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_Cafe/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_GYM",
+      "name": "OlivineCity_Gym_Layout",
+      "width": 17,
+      "height": 22,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_EcruteakTheater",
+      "border_filepath": "data/layouts/OlivineCity_Gym/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_Gym/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_HOUSE1",
+      "name": "OlivineCity_House1_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/OlivineCity_House1/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_House1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_HOUSE2",
+      "name": "OlivineCity_House2_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/OlivineCity_House2/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_House2/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_HOUSE3",
+      "name": "OlivineCity_House3_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/OlivineCity_House3/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_House3/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_LIGHTHOUSE",
+      "name": "OlivineCity_Lighthouse_Layout",
+      "width": 170,
+      "height": 20,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Lighthouse",
+      "border_filepath": "data/layouts/OlivineCity_Lighthouse/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_Lighthouse/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_MART",
+      "name": "OlivineCity_Mart_Layout",
+      "width": 14,
+      "height": 9,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_JohtoMart",
+      "border_filepath": "data/layouts/OlivineCity_Mart/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_Mart/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_POKEMON_CENTER",
+      "name": "OlivineCity_PokemonCenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Kanto_PokemonCenter",
+      "border_filepath": "data/layouts/OlivineCity_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_PokemonCenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_PORT_INSIDE",
+      "name": "OlivineCity_PortInside_Layout",
+      "width": 18,
+      "height": 28,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_PortIndoor",
+      "border_filepath": "data/layouts/OlivineCity_PortInside/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_PortInside/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_OLIVINE_CITY_PORT_OUTSIDE",
+      "name": "OlivineCity_PortOutside_Layout",
+      "width": 32,
+      "height": 23,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_PortIndoor",
+      "border_filepath": "data/layouts/OlivineCity_PortOutside/border.bin",
+      "blockdata_filepath": "data/layouts/OlivineCity_PortOutside/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE40",
+      "name": "Route40_Layout",
+      "width": 34,
+      "height": 71,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_OlivineCity",
+      "border_filepath": "data/layouts/Route40/border.bin",
+      "blockdata_filepath": "data/layouts/Route40/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE41",
+      "name": "Route41_Layout",
+      "width": 74,
+      "height": 89,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CianwoodCity",
+      "border_filepath": "data/layouts/Route41/border.bin",
+      "blockdata_filepath": "data/layouts/Route41/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_1F",
+      "name": "WhirlIslands_1F_Layout",
+      "width": 60,
+      "height": 60,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_1F/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_B1F",
+      "name": "WhirlIslands_B1F_Layout",
+      "width": 86,
+      "height": 80,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_B1F_INNER",
+      "name": "WhirlIslands_B1F_Inner_Layout",
+      "width": 30,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_B1F_Inner/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_B1F_Inner/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_B2F",
+      "name": "WhirlIslands_B2F_Layout",
+      "width": 70,
+      "height": 27,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_B2F/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_B2F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_B3F",
+      "name": "WhirlIslands_B3F_Layout",
+      "width": 70,
+      "height": 27,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_B3F/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_B3F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_DESCENT",
+      "name": "WhirlIslands_Descent_Layout",
+      "width": 70,
+      "height": 101,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_Descent/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_Descent/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_WHIRL_ISLANDS_LUGIA_CHAMBER",
+      "name": "WhirlIslands_LugiaChamber_Layout",
+      "width": 59,
+      "height": 40,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/WhirlIslands_LugiaChamber/border.bin",
+      "blockdata_filepath": "data/layouts/WhirlIslands_LugiaChamber/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

@@ -1830,6 +1830,46 @@
       "y": 6,
       "width": 1,
       "height": 2
+    },
+    {
+      "id": "MAPSEC_OLIVINE_CITY",
+      "name": "OLIVINE CITY",
+      "x": 12,
+      "y": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_OLIVINE_LIGHTHOUSE",
+      "name": "LIGHTHOUSE",
+      "x": 12,
+      "y": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_40",
+      "name": "ROUTE 40",
+      "x": 12,
+      "y": 10,
+      "width": 1,
+      "height": 2
+    },
+    {
+      "id": "MAPSEC_ROUTE_41",
+      "name": "ROUTE 41",
+      "x": 11,
+      "y": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_WHIRL_ISLANDS",
+      "name": "WHIRL ISLANDS",
+      "x": 10,
+      "y": 11,
+      "width": 2,
+      "height": 1
     }
   ]
 }

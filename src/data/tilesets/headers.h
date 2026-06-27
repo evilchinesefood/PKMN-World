@@ -2025,3 +2025,61 @@ const struct Tileset gTileset_Johto_NorthWest =
     .callback = NULL,
 };
 
+
+
+// === Region merge: Johto Olivine-area tilesets ===
+const struct Tileset gTileset_OlivineCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_OlivineCity,
+    .palettes = gTilesetPalettes_OlivineCity,
+    .metatiles = gMetatiles_OlivineCity,
+    .metatileAttributes = gMetatileAttributes_OlivineCity,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_CianwoodCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_CianwoodCity,
+    .palettes = gTilesetPalettes_CianwoodCity,
+    .metatiles = gMetatiles_CianwoodCity,
+    .metatileAttributes = gMetatileAttributes_CianwoodCity,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_WhirlIslands =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_WhirlIslands,
+    .palettes = gTilesetPalettes_WhirlIslands,
+    .metatiles = gMetatiles_WhirlIslands,
+    .metatileAttributes = gMetatileAttributes_WhirlIslands,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_PortIndoor =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_PortIndoor,
+    .palettes = gTilesetPalettes_PortIndoor,
+    .metatiles = gMetatiles_PortIndoor,
+    .metatileAttributes = gMetatileAttributes_PortIndoor,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Lighthouse =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Lighthouse,
+    .palettes = gTilesetPalettes_Lighthouse,
+    .metatiles = gMetatiles_Lighthouse,
+    .metatileAttributes = gMetatileAttributes_Lighthouse,
+    .callback = NULL,
+};
+

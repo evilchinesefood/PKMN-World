@@ -21,7 +21,7 @@ enum {
 
 // Region merge (Johto port): Johto MAPSEC block appended at the enum tail.
 #define JOHTO_MAPSEC_START  MAPSEC_NEW_BARK_TOWN
-#define JOHTO_MAPSEC_END    MAPSEC_ROUTE_39
+#define JOHTO_MAPSEC_END    MAPSEC_WHIRL_ISLANDS
 #define JOHTO_MAPSEC_COUNT (JOHTO_MAPSEC_END - JOHTO_MAPSEC_START + 1)
 
 #endif // GUARD_CONSTANTS_REGION_MAP_SECTIONS_H

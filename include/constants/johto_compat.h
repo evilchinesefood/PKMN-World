@@ -44,4 +44,10 @@
 #define BERRY_TREE_RAWST_1          BERRY_TREE_ROUTE_103_CHERI_1
 #define BERRY_TREE_RAWST_2          BERRY_TREE_ROUTE_103_LEPPA
 
+
+// === Olivine area aliases ===
+#define MUS_HG_OAK                  MUS_RG_FOLLOW_ME
+#define MUS_HG_VS_LUGIA             MUS_RG_VS_LEGEND
+#define MULTI_OLIVINE_HARBOR        MULTI_YESNO
+
 #endif

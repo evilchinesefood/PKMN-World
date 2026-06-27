@@ -532,3 +532,15 @@ const u16 gMetatiles_Route38_Farmland[] = INCBIN_U16("data/tilesets/secondary/ro
 const u16 gMetatileAttributes_Route38_Farmland[] = INCBIN_U16("data/tilesets/secondary/route38_farmland/metatile_attributes.bin");
 const u16 gMetatiles_Johto_NorthWest[] = INCBIN_U16("data/tilesets/primary/johto_north_west/metatiles.bin");
 const u16 gMetatileAttributes_Johto_NorthWest[] = INCBIN_U16("data/tilesets/primary/johto_north_west/metatile_attributes.bin");
+
+// === Region merge: Johto Olivine-area tilesets ===
+const u16 gMetatiles_OlivineCity[] = INCBIN_U16("data/tilesets/secondary/olivine_city/metatiles.bin");
+const u16 gMetatileAttributes_OlivineCity[] = INCBIN_U16("data/tilesets/secondary/olivine_city/metatile_attributes.bin");
+const u16 gMetatiles_CianwoodCity[] = INCBIN_U16("data/tilesets/secondary/cianwood_city/metatiles.bin");
+const u16 gMetatileAttributes_CianwoodCity[] = INCBIN_U16("data/tilesets/secondary/cianwood_city/metatile_attributes.bin");
+const u16 gMetatiles_WhirlIslands[] = INCBIN_U16("data/tilesets/secondary/whirl_islands/metatiles.bin");
+const u16 gMetatileAttributes_WhirlIslands[] = INCBIN_U16("data/tilesets/secondary/whirl_islands/metatile_attributes.bin");
+const u16 gMetatiles_PortIndoor[] = INCBIN_U16("data/tilesets/secondary/port_indoor/metatiles.bin");
+const u16 gMetatileAttributes_PortIndoor[] = INCBIN_U16("data/tilesets/secondary/port_indoor/metatile_attributes.bin");
+const u16 gMetatiles_Lighthouse[] = INCBIN_U16("data/tilesets/secondary/lighthouse/metatiles.bin");
+const u16 gMetatileAttributes_Lighthouse[] = INCBIN_U16("data/tilesets/secondary/lighthouse/metatile_attributes.bin");

@@ -86,7 +86,9 @@
     "gMapGroup_JohtoGoldenrod",
     "gMapGroup_IndoorGoldenrod",
     "gMapGroup_JohtoEcruteak",
-    "gMapGroup_IndoorEcruteak"
+    "gMapGroup_IndoorEcruteak",
+    "gMapGroup_JohtoOlivine",
+    "gMapGroup_IndoorOlivine"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1316,5 +1318,30 @@
     "TinTower_9F",
     "TinTower_RoofDay",
     "TinTower_RoofNight"
+  ],
+  "gMapGroup_JohtoOlivine": [
+    "OlivineCity",
+    "Route40",
+    "Route41",
+    "Gate_Route40_TrainerHill_Courtyard"
+  ],
+  "gMapGroup_IndoorOlivine": [
+    "OlivineCity_Cafe",
+    "OlivineCity_Gym",
+    "OlivineCity_House1",
+    "OlivineCity_House2",
+    "OlivineCity_House3",
+    "OlivineCity_Lighthouse",
+    "OlivineCity_Mart",
+    "OlivineCity_PokemonCenter",
+    "OlivineCity_PortInside",
+    "OlivineCity_PortOutside",
+    "WhirlIslands_1F",
+    "WhirlIslands_B1F",
+    "WhirlIslands_B1F_Inner",
+    "WhirlIslands_B2F",
+    "WhirlIslands_B3F",
+    "WhirlIslands_Descent",
+    "WhirlIslands_LugiaChamber"
   ]
 }

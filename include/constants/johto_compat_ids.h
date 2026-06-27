@@ -81,6 +81,7 @@
 #define ITEM_SILVER_WING       ITEM_NONE
 #define ITEM_SQUIRT_BOTTLE     ITEM_NONE
 #define INGAME_TRADE_MACHOP    0
+#define INGAME_TRADE_VOLTORB   0
 #define TRAINER_ANN_AND_ANNE       TRAINER_JOEY
 #define TRAINER_ARCHER             TRAINER_JOEY
 #define TRAINER_ARIANA_2           TRAINER_JOEY
@@ -146,5 +147,25 @@
 // Ecruteak-area Johto-only key items (Ho-Oh / Lugia bells) -> no target item yet
 #define ITEM_CLEAR_BELL        ITEM_NONE
 #define ITEM_TIDAL_BELL        ITEM_NONE
+
+
+// === Olivine area: HnS Johto trainers (real parties land in the trainers stage) ===
+#define TRAINER_ALFRED             TRAINER_JOEY
+#define TRAINER_DENIS              TRAINER_JOEY
+#define TRAINER_ELAINE             TRAINER_JOEY
+#define TRAINER_ERNEST             TRAINER_JOEY
+#define TRAINER_JASMINE_1          TRAINER_JOEY
+#define TRAINER_JASMINE_1_2        TRAINER_JOEY
+#define TRAINER_JASMINE_1_3        TRAINER_JOEY
+#define TRAINER_MATHEW             TRAINER_JOEY
+#define TRAINER_TERRELL            TRAINER_JOEY
+#define TRAINER_THEO               TRAINER_JOEY
+
+// Olivine-area items: HnS TM/HM-by-move -> Gen-3 numbered ids; SecretPotion key item stub
+#define ITEM_HM_STRENGTH       ITEM_HM04
+#define ITEM_TM_BULK_UP        ITEM_TM08
+#define ITEM_TM_IRON_TAIL      ITEM_TM23
+#define ITEM_TM_SHOCK_WAVE     ITEM_TM34
+#define ITEM_SECRET_POTION     ITEM_NONE
 
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

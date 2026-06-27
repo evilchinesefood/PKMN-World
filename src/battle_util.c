@@ -9973,8 +9973,8 @@ bool32 TryTriggerSymbiosis(enum BattlerId battler, u32 ally)
         && IsBattlerAlive(ally);
 }
 
-// Called by Cmd_removeitem. itemId represents the item that was removed, not being given.
-bool32 TrySymbiosis(enum BattlerId battler, enum Item itemId, bool32 moveEnd)
+// itemId represents the item that was removed, not the item being given.
+bool32 TrySymbiosis(enum BattlerId battler, enum Item itemId, const u8 *nextInstr)
 {
     if (!gBattleStruct->itemLost[B_SIDE_PLAYER][gBattlerPartyIndexes[battler]].stolen
         && GetItemHoldEffect(itemId) != HOLD_EFFECT_EJECT_BUTTON
@@ -9987,10 +9987,10 @@ bool32 TrySymbiosis(enum BattlerId battler, enum Item itemId, bool32 moveEnd)
         gLastUsedAbility = gBattleMons[BATTLE_PARTNER(battler)].ability;
         gEffectBattler = battler;
         gBattleScripting.battler = gBattlerAbility = BATTLE_PARTNER(battler);
-        if (moveEnd)
+        if (nextInstr == NULL)
             BattleScriptPushCursor();
         else
-            BattleScriptPush(gBattlescriptCurrInstr + 2);
+            BattleScriptPush(nextInstr);
         gBattlescriptCurrInstr = BattleScript_SymbiosisActivates;
         return TRUE;
     }

@@ -1633,3 +1633,115 @@ const struct Tileset gTileset_PlayersHouse =
     .callback = NULL,
 };
 
+// === Region merge: Johto Violet-area tilesets ===
+const struct Tileset gTileset_Johto_NorthEast =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Johto_NorthEast,
+    .palettes = gTilesetPalettes_Johto_NorthEast,
+    .metatiles = gMetatiles_Johto_NorthEast,
+    .metatileAttributes = gMetatileAttributes_Johto_NorthEast,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Gate_Standard =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Gate_Standard,
+    .palettes = gTilesetPalettes_Gate_Standard,
+    .metatiles = gMetatiles_Gate_Standard,
+    .metatileAttributes = gMetatileAttributes_Gate_Standard,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Route32 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Route32,
+    .palettes = gTilesetPalettes_Route32,
+    .metatiles = gMetatiles_Route32,
+    .metatileAttributes = gMetatileAttributes_Route32,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_RuinsOfAlph_B1F =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RuinsOfAlph_B1F,
+    .palettes = gTilesetPalettes_RuinsOfAlph_B1F,
+    .metatiles = gMetatiles_RuinsOfAlph_B1F,
+    .metatileAttributes = gMetatileAttributes_RuinsOfAlph_B1F,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_RuinsOfAlph_Outside =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RuinsOfAlph_Outside,
+    .palettes = gTilesetPalettes_RuinsOfAlph_Outside,
+    .metatiles = gMetatiles_RuinsOfAlph_Outside,
+    .metatileAttributes = gMetatileAttributes_RuinsOfAlph_Outside,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_RuinsOfAlphWriting =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RuinsOfAlphWriting,
+    .palettes = gTilesetPalettes_RuinsOfAlphWriting,
+    .metatiles = gMetatiles_RuinsOfAlphWriting,
+    .metatileAttributes = gMetatileAttributes_RuinsOfAlphWriting,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_PowerPlant_GeneratorRoom =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_PowerPlant_GeneratorRoom,
+    .palettes = gTilesetPalettes_PowerPlant_GeneratorRoom,
+    .metatiles = gMetatiles_PowerPlant_GeneratorRoom,
+    .metatileAttributes = gMetatileAttributes_PowerPlant_GeneratorRoom,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_VioletCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_VioletCity,
+    .palettes = gTilesetPalettes_VioletCity,
+    .metatiles = gMetatiles_VioletCity,
+    .metatileAttributes = gMetatileAttributes_VioletCity,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_EcruteakTheater =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_EcruteakTheater,
+    .palettes = gTilesetPalettes_EcruteakTheater,
+    .metatiles = gMetatiles_EcruteakTheater,
+    .metatileAttributes = gMetatileAttributes_EcruteakTheater,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_TrainerSchool =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_TrainerSchool,
+    .palettes = gTilesetPalettes_TrainerSchool,
+    .metatiles = gMetatiles_TrainerSchool,
+    .metatileAttributes = gMetatileAttributes_TrainerSchool,
+    .callback = NULL,
+};
+
+

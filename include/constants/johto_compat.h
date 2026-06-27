@@ -1,0 +1,17 @@
+#ifndef GUARD_CONSTANTS_JOHTO_COMPAT_H
+#define GUARD_CONSTANTS_JOHTO_COMPAT_H
+
+// Region merge (Johto port): aliases for HnS symbols the expansion lacks, mapped to
+// the nearest target equivalents so Johto scripts link. Cosmetic remaps (HG music,
+// movement labels, multichoice, berry-tree slots) — refine in the Stage-4 content pass.
+// NOTE: berry-tree aliases share state with the Hoenn trees they point at (acceptable
+// for now; give Johto trees their own slots in Stage 4).
+#define MUS_HG_ENCOUNTER_RIVAL      MUS_ENCOUNTER_BRENDAN
+#define MUS_HG_KIMONO_GIRL          MUS_ENCOUNTER_GIRL
+#define MUS_HG_FOLLOW_ME_1          MUS_ENCOUNTER_FEMALE
+#define Common_Movement_WalkLeft1   Common_Movement_WalkLeft
+#define MULTI_DAYS_OF_WEEK          MULTI_YESNO
+#define BERRY_TREE_CHERI_1          BERRY_TREE_ROUTE_102_PECHA
+#define BERRY_TREE_CHERI_2          BERRY_TREE_ROUTE_102_ORAN
+
+#endif

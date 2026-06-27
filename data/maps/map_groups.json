@@ -77,7 +77,9 @@
     "gMapGroup_IndoorSevenIslandRoute_Frlg",
     "gMapGroup_JohtoTownsAndRoutes",
     "gMapGroup_IndoorNewBark",
-    "gMapGroup_IndoorCherrygrove"
+    "gMapGroup_IndoorCherrygrove",
+    "gMapGroup_JohtoViolet",
+    "gMapGroup_JohtoRuins"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1168,7 +1170,11 @@
     "NewBarkTown",
     "CherrygroveCity",
     "Route29",
-    "Route30"
+    "Route30",
+    "Route31",
+    "Route32",
+    "VioletCity",
+    "RuinsOfAlph_Outside"
   ],
   "gMapGroup_IndoorNewBark": [
     "NewBarkTown_Lab",
@@ -1183,5 +1189,29 @@
     "CherrygroveCity_House1",
     "CherrygroveCity_House2",
     "CherrygroveCity_House3"
+  ],
+  "gMapGroup_JohtoViolet": [
+    "VioletCity_Gym",
+    "VioletCity_House1",
+    "VioletCity_House2",
+    "VioletCity_Mart",
+    "VioletCity_PokemonCenter",
+    "VioletCity_TrainerSchool",
+    "SproutTower_1F",
+    "SproutTower_2F",
+    "SproutTower_3F",
+    "Route32_PokemonCenter"
+  ],
+  "gMapGroup_JohtoRuins": [
+    "Gate_Route31_VioletCity",
+    "Gate_RuinsOfAlph_Route32",
+    "Gate_RuinsOfAlph_Route36",
+    "RuinsOfAlph_Lab",
+    "RuinsOfAlph_B1F",
+    "RuinsOfAlph_PuzzleAndRewardChambers",
+    "RuinsOfAlph_WordsRoom1",
+    "RuinsOfAlph_WordsRoom2",
+    "RuinsOfAlph_WordsRoom3",
+    "RuinsOfAlph_WordsRoom4"
   ]
 }

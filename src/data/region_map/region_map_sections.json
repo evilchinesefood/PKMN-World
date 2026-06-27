@@ -1072,7 +1072,7 @@
     },
     {
       "id": "MAPSEC_POKEMON_MANSION",
-      "name": "POKéMON MANSION",
+      "name": "POK\u00e9MON MANSION",
       "x": 4,
       "y": 14,
       "width": 1,
@@ -1088,7 +1088,7 @@
     },
     {
       "id": "MAPSEC_POKEMON_LEAGUE",
-      "name": "POKéMON LEAGUE",
+      "name": "POK\u00e9MON LEAGUE",
       "x": 2,
       "y": 3,
       "width": 1,
@@ -1112,7 +1112,7 @@
     },
     {
       "id": "MAPSEC_POKEMON_TOWER",
-      "name": "POKéMON TOWER",
+      "name": "POK\u00e9MON TOWER",
       "x": 18,
       "y": 6,
       "width": 1,
@@ -1662,6 +1662,54 @@
       "y": 12,
       "width": 1,
       "height": 2
+    },
+    {
+      "id": "MAPSEC_ROUTE_31",
+      "name": "ROUTE 31",
+      "x": 24,
+      "y": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_VIOLET_CITY",
+      "name": "VIOLET CITY",
+      "x": 23,
+      "y": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_32",
+      "name": "ROUTE 32",
+      "x": 23,
+      "y": 12,
+      "width": 1,
+      "height": 2
+    },
+    {
+      "id": "MAPSEC_ROUTE_36",
+      "name": "ROUTE 36",
+      "x": 22,
+      "y": 11,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_RUINS_OF_ALPH",
+      "name": "RUINS OF ALPH",
+      "x": 22,
+      "y": 12,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_SPROUT_TOWER",
+      "name": "SPROUT TOWER",
+      "x": 23,
+      "y": 10,
+      "width": 1,
+      "height": 1
     }
   ]
 }

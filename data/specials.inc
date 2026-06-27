@@ -649,3 +649,8 @@ gSpecials::
 	def_special NameRival
 	def_special CheckTogepi
 	def_special IsNuzlockeNicknamingActive
+	def_special DoSlidingPuzzle
+	def_special CheckHooh
+	def_special CheckAerodactyl
+	def_special CheckKabuto
+	def_special CheckOmanyte

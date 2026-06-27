@@ -92,3 +92,27 @@ u16 IsNuzlockeNicknamingActive(void)
 {
     return FALSE;
 }
+
+// HnS Ruins of Alph sliding-puzzle minigame (sliding_puzzle.c, ~430 lines). Unported
+// for the Violet-area pass; the puzzles are optional side content (they unlock Unown).
+// Stub reports "not solved" so the chamber scripts continue without the reward.
+void DoSlidingPuzzle(void)
+{
+    gSpecialVar_Result = FALSE;
+}
+
+// HnS Ruins of Alph fossil-reward checks. The Unown fossil minigame is unported
+// (optional side content); stubs report "no fossil brought" so the chamber scripts
+// skip the reward and stay walkable.
+void CheckHooh(void) { gSpecialVar_Result = FALSE; }
+void CheckAerodactyl(void) { gSpecialVar_Result = FALSE; }
+void CheckKabuto(void) { gSpecialVar_Result = FALSE; }
+void CheckOmanyte(void) { gSpecialVar_Result = FALSE; }
+
+// HnS removenamedmon: removes a delivered story mon (Kenya/Shuckie). Story-mon delivery
+// is unported; stub reads its operand and no-ops so the script pointer stays aligned.
+void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
+{
+    u16 number = ScriptReadHalfword(ctx);
+    (void)number;
+}

@@ -356,6 +356,20 @@
       "x": 47,
       "y": 8,
       "respawn_map": "MAP_CHERRYGROVE_CITY_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_VIOLET_CITY",
+      "map": "MAP_VIOLET_CITY",
+      "x": 30,
+      "y": 18,
+      "respawn_map": "MAP_VIOLET_CITY_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_ROUTE_32",
+      "map": "MAP_ROUTE32",
+      "x": 9,
+      "y": 40,
+      "respawn_map": "MAP_ROUTE32_POKEMON_CENTER"
     }
   ]
 }

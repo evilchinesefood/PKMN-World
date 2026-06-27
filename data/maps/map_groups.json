@@ -84,7 +84,9 @@
     "gMapGroup_IndoorAzalea",
     "gMapGroup_JohtoUnion",
     "gMapGroup_JohtoGoldenrod",
-    "gMapGroup_IndoorGoldenrod"
+    "gMapGroup_IndoorGoldenrod",
+    "gMapGroup_JohtoEcruteak",
+    "gMapGroup_IndoorEcruteak"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1282,5 +1284,37 @@
     "GoldenrodCity_UndergroundStorage",
     "GoldenrodCity_UndergroundSwitches",
     "GoldenrodCity_UndergroundTunnel"
+  ],
+  "gMapGroup_JohtoEcruteak": [
+    "EcruteakCity",
+    "Route38",
+    "Route39",
+    "BellchimeTrail",
+    "Gate_EcruteakCity_Route38"
+  ],
+  "gMapGroup_IndoorEcruteak": [
+    "EcruteakCity_Gym",
+    "EcruteakCity_House1",
+    "EcruteakCity_House2",
+    "EcruteakCity_Mart",
+    "EcruteakCity_PokemonCenter",
+    "EcruteakCity_SageOffice1",
+    "EcruteakCity_SageOffice2",
+    "EcruteakCity_Theater",
+    "Route39_Barn",
+    "Route39_FarmHouse",
+    "BurnedTower_1F",
+    "BurnedTower_B1F",
+    "TinTower_1F",
+    "TinTower_2F",
+    "TinTower_3F",
+    "TinTower_4F",
+    "TinTower_5F",
+    "TinTower_6F",
+    "TinTower_7F",
+    "TinTower_8F",
+    "TinTower_9F",
+    "TinTower_RoofDay",
+    "TinTower_RoofNight"
   ]
 }

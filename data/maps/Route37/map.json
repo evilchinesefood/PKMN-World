@@ -17,6 +17,11 @@
       "map": "MAP_ROUTE36",
       "offset": -22,
       "direction": "down"
+    },
+    {
+      "map": "MAP_ECRUTEAK_CITY",
+      "offset": -16,
+      "direction": "up"
     }
   ],
   "object_events": [
@@ -260,15 +265,15 @@
       "x": 17,
       "y": 10,
       "elevation": 0,
-      "dest_map": "MAP_GOLDENROD_CITY",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_ECRUTEAK_CITY",
+      "dest_warp_id": "7"
     },
     {
       "x": 18,
       "y": 10,
       "elevation": 0,
-      "dest_map": "MAP_GOLDENROD_CITY",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_ECRUTEAK_CITY",
+      "dest_warp_id": "8"
     }
   ],
   "coord_events": [

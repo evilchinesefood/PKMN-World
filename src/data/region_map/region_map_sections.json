@@ -1790,6 +1790,46 @@
       "y": 9,
       "width": 1,
       "height": 1
+    },
+    {
+      "id": "MAPSEC_ECRUTEAK_CITY",
+      "name": "ECRUTEAK CITY",
+      "x": 16,
+      "y": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_BURNED_TOWER",
+      "name": "BURNED TOWER",
+      "x": 15,
+      "y": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_TIN_TOWER",
+      "name": "TIN TOWER",
+      "x": 16,
+      "y": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_38",
+      "name": "ROUTE 38",
+      "x": 14,
+      "y": 7,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_ROUTE_39",
+      "name": "ROUTE 39",
+      "x": 13,
+      "y": 6,
+      "width": 1,
+      "height": 2
     }
   ]
 }

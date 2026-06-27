@@ -37,4 +37,10 @@
 
 #define VAR_ECRUTEAK_CITY_STATE       VAR_JOHTO_SLICE(0x20)
 
+// === Ecruteak area ===
+#define VAR_COMPLETED_HO_OH           VAR_JOHTO_SLICE(0x21)
+#define VAR_COMPLETED_LUGIA           VAR_JOHTO_SLICE(0x22)
+#define VAR_ROUTE39_BARN              VAR_JOHTO_SLICE(0x23)
+#define VAR_OLIVINE_CITY_STATE        VAR_JOHTO_SLICE(0x24)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

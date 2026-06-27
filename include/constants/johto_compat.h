@@ -33,4 +33,15 @@
 #define Common_Movement_WalkUp1        Common_Movement_WalkUp
 #define Common_Movement_WalkDown1      Common_Movement_WalkDown
 
+// === Ecruteak area aliases ===
+#define MUS_HG_KIMONO_GIRL_DANCE    MUS_ENCOUNTER_GIRL
+#define MUS_HG_POKEGEAR_REGISTERED  MUS_REGISTER_MATCH_CALL
+#define MUS_HG_VS_HO_OH             MUS_RG_VS_LEGEND
+#define MULTI_GOLDSILVER            MULTI_YESNO
+// Tin Tower legendary beam descent has no target movement type -> stand still for now
+#define MOVEMENT_TYPE_TOWER_BEAM    MOVEMENT_TYPE_NONE
+// Ecruteak berry trees borrow Hoenn slots (own slots in Stage 4)
+#define BERRY_TREE_RAWST_1          BERRY_TREE_ROUTE_103_CHERI_1
+#define BERRY_TREE_RAWST_2          BERRY_TREE_ROUTE_103_LEPPA
+
 #endif

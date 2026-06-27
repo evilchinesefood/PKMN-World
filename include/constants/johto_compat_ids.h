@@ -120,4 +120,31 @@
 #define TRAINER_WALT               TRAINER_JOEY
 #define TRAINER_WHITNEY_1          TRAINER_JOEY
 
+// === Ecruteak area: HnS Johto trainers (real parties land in the trainers stage) ===
+#define TRAINER_EUGENE             TRAINER_JOEY
+#define TRAINER_GRUNT_33           TRAINER_JOEY
+#define TRAINER_HARRY              TRAINER_JOEY
+#define TRAINER_JAMIE              TRAINER_JOEY
+#define TRAINER_JEFFREY            TRAINER_JOEY
+#define TRAINER_KUNI               TRAINER_JOEY
+#define TRAINER_MIKI               TRAINER_JOEY
+#define TRAINER_MORTY_1            TRAINER_JOEY
+#define TRAINER_NAOKO              TRAINER_JOEY
+#define TRAINER_NARD               TRAINER_JOEY
+#define TRAINER_NORMAN             TRAINER_JOEY
+#define TRAINER_PING               TRAINER_JOEY
+#define TRAINER_RICHARDO           TRAINER_JOEY
+#define TRAINER_RIVAL_CHIKORITA_3  TRAINER_JOEY
+#define TRAINER_RIVAL_CYNDAQUIL_3  TRAINER_JOEY
+#define TRAINER_RIVAL_TOTODILE_3   TRAINER_JOEY
+#define TRAINER_RUTH               TRAINER_JOEY
+#define TRAINER_SAYO               TRAINER_JOEY
+#define TRAINER_TOBY               TRAINER_JOEY
+#define TRAINER_VALERIE            TRAINER_JOEY
+#define TRAINER_ZUKI               TRAINER_JOEY
+
+// Ecruteak-area Johto-only key items (Ho-Oh / Lugia bells) -> no target item yet
+#define ITEM_CLEAR_BELL        ITEM_NONE
+#define ITEM_TIDAL_BELL        ITEM_NONE
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

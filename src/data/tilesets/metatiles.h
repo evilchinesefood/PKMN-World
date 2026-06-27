@@ -520,3 +520,15 @@ const u16 gMetatiles_NationalPark[] = INCBIN_U16("data/tilesets/secondary/nation
 const u16 gMetatileAttributes_NationalPark[] = INCBIN_U16("data/tilesets/secondary/national_park/metatile_attributes.bin");
 const u16 gMetatiles_ShopRooftop[] = INCBIN_U16("data/tilesets/secondary/shop_rooftop/metatiles.bin");
 const u16 gMetatileAttributes_ShopRooftop[] = INCBIN_U16("data/tilesets/secondary/shop_rooftop/metatile_attributes.bin");
+
+// === Region merge: Johto Ecruteak-area tilesets ===
+const u16 gMetatiles_BellchimeTrail[] = INCBIN_U16("data/tilesets/secondary/bellchime_trail/metatiles.bin");
+const u16 gMetatileAttributes_BellchimeTrail[] = INCBIN_U16("data/tilesets/secondary/bellchime_trail/metatile_attributes.bin");
+const u16 gMetatiles_BurnedTower[] = INCBIN_U16("data/tilesets/secondary/burned_tower/metatiles.bin");
+const u16 gMetatileAttributes_BurnedTower[] = INCBIN_U16("data/tilesets/secondary/burned_tower/metatile_attributes.bin");
+const u16 gMetatiles_EcruteakCity_Gym[] = INCBIN_U16("data/tilesets/secondary/ecruteak_city_gym/metatiles.bin");
+const u16 gMetatileAttributes_EcruteakCity_Gym[] = INCBIN_U16("data/tilesets/secondary/ecruteak_city_gym/metatile_attributes.bin");
+const u16 gMetatiles_Route38_Farmland[] = INCBIN_U16("data/tilesets/secondary/route38_farmland/metatiles.bin");
+const u16 gMetatileAttributes_Route38_Farmland[] = INCBIN_U16("data/tilesets/secondary/route38_farmland/metatile_attributes.bin");
+const u16 gMetatiles_Johto_NorthWest[] = INCBIN_U16("data/tilesets/primary/johto_north_west/metatiles.bin");
+const u16 gMetatileAttributes_Johto_NorthWest[] = INCBIN_U16("data/tilesets/primary/johto_north_west/metatile_attributes.bin");

@@ -10,6 +10,13 @@ NewBarkTown_Lab_MapScripts::
 	.byte 0
 
 NewBarkTown_Lab_OnTransition::
+	@ Region merge: keep the police-episode cop hidden on normal entries. The
+	@ player's-house intro that sets FLAG_HIDE_LAB_POLICEMAN is bypassed by the
+	@ truck/region entry, so the cop would otherwise spawn at (6,4) and wall off
+	@ Elm. LABSTATE 4 is the theft return, where the cop is meant to be present.
+	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 4, NewBarkTown_Lab_OnTransition_CheckElm
+	setflag FLAG_HIDE_LAB_POLICEMAN
+NewBarkTown_Lab_OnTransition_CheckElm::
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 6, NewBarkTown_Lab_EventScript_ElmAtComputer
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 2, NewBarkTown_Lab_EventScript_ElmAtComputer
 	goto_if_eq VAR_NEWBARKTOWN_LABSTATE, 3, NewBarkTown_Lab_EventScript_ElmAtComputer

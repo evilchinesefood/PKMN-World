@@ -1968,3 +1968,60 @@ const struct Tileset gTileset_ShopRooftop =
     .callback = NULL,
 };
 
+
+// === Region merge: Johto Ecruteak-area tilesets ===
+const struct Tileset gTileset_BellchimeTrail =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_BellchimeTrail,
+    .palettes = gTilesetPalettes_BellchimeTrail,
+    .metatiles = gMetatiles_BellchimeTrail,
+    .metatileAttributes = gMetatileAttributes_BellchimeTrail,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_BurnedTower =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_BurnedTower,
+    .palettes = gTilesetPalettes_BurnedTower,
+    .metatiles = gMetatiles_BurnedTower,
+    .metatileAttributes = gMetatileAttributes_BurnedTower,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_EcruteakCity_Gym =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_EcruteakCity_Gym,
+    .palettes = gTilesetPalettes_EcruteakCity_Gym,
+    .metatiles = gMetatiles_EcruteakCity_Gym,
+    .metatileAttributes = gMetatileAttributes_EcruteakCity_Gym,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Route38_Farmland =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Route38_Farmland,
+    .palettes = gTilesetPalettes_Route38_Farmland,
+    .metatiles = gMetatiles_Route38_Farmland,
+    .metatileAttributes = gMetatileAttributes_Route38_Farmland,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Johto_NorthWest =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Johto_NorthWest,
+    .palettes = gTilesetPalettes_Johto_NorthWest,
+    .metatiles = gMetatiles_Johto_NorthWest,
+    .metatileAttributes = gMetatileAttributes_Johto_NorthWest,
+    .callback = NULL,
+};
+

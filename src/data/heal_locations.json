@@ -384,6 +384,13 @@
       "x": 28,
       "y": 36,
       "respawn_map": "MAP_GOLDENROD_CITY_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_ECRUTEAK_CITY",
+      "map": "MAP_ECRUTEAK_CITY",
+      "x": 39,
+      "y": 48,
+      "respawn_map": "MAP_ECRUTEAK_CITY_POKEMON_CENTER"
     }
   ]
 }

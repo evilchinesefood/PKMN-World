@@ -1779,7 +1779,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sRegionMap->playerIconSprite = NULL;
         return;
     }
-    if (IS_FRLG && gSaveBlock2Ptr->playerGender == FEMALE)
+    if (GetCurrentRegion() == REGION_KANTO && gSaveBlock2Ptr->playerGender == FEMALE)
     {
         sheet.data = sRegionMapPlayerIcon_LeafGfx;
         palette.data = sRegionMapPlayerIcon_LeafPal;
@@ -1789,7 +1789,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sheet.data = sRegionMapPlayerIcon_MayGfx;
         palette.data = sRegionMapPlayerIcon_MayPal;
     }
-    else if (IS_FRLG)
+    else if (GetCurrentRegion() == REGION_KANTO)
     {
         sheet.data = sRegionMapPlayerIcon_RedGfx;
         palette.data = sRegionMapPlayerIcon_RedPal;

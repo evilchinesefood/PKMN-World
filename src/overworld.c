@@ -54,6 +54,7 @@
 #include "rotating_gate.h"
 #include "rtc.h"
 #include "safari_zone.h"
+#include "bug_contest.h"
 #include "save.h"
 #include "save_location.h"
 #include "script.h"
@@ -1953,6 +1954,32 @@ void CB2_WhiteOut(void)
         SetFieldVBlankCallback();
         SetMainCallback1(CB1_Overworld);
         SetMainCallback2(CB2_Overworld);
+    }
+}
+
+// Region merge (Johto port): Bug-Catching Contest forfeit (lead fainted). Unlike a
+// real whiteout this does NOT heal/charge/teleport; it warps back to the contest map
+// and runs BugContest_EventScript_WhiteOut, which returns the saved party and exits
+// contest mode. Lives here so it can reach overworld's file-local map-load helpers.
+void CB2_BugContestWhiteOut(void)
+{
+    u8 state;
+
+    if (++gMain.state >= 120)
+    {
+        FieldClearVBlankHBlankCallbacks();
+        StopMapMusic();
+        ResetSafariZoneFlag_();
+        ResetInitialPlayerAvatarState();
+        ScriptContext_Init();
+        UnlockPlayerFieldControls();
+        gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+        state = 0;
+        DoMapLoadLoop(&state);
+        SetFieldVBlankCallback();
+        SetMainCallback1(CB1_Overworld);
+        SetMainCallback2(CB2_Overworld);
+        ScriptContext_SetupScript(BugContest_EventScript_WhiteOut);
     }
 }
 

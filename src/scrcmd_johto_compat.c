@@ -173,12 +173,9 @@ void HaircutBrother1(void)
         AdjustFriendship(&gParties[B_TRAINER_PLAYER][slot], FRIENDSHIP_EVENT_MASSAGE);
 }
 
-// Region-merge stubs. ToggleShinyColors targets a tx_randomizer save field that does
-// not exist in the target, so it is correctly a no-op. EnterBugContestMode and
-// ShowBugContestChosenMon are temporary no-ops (the real Bug Contest engine lands in
-// a follow-up batch).
-void EnterBugContestMode(void) {}
-void ShowBugContestChosenMon(void) {}
+// Region-merge stub. ToggleShinyColors targets a tx_randomizer save field that does
+// not exist in the target, so it is correctly a no-op. (EnterBugContestMode and
+// ShowBugContestChosenMon now have real implementations in src/bug_contest.c.)
 void ToggleShinyColors(void) {}
 
 // HnS `givenamedmon <giftId>`: the named story gifts. 1=Kenya (Spearow, OT RUDY), 2=Shuckie
@@ -249,7 +246,42 @@ void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
     }
     gSpecialVar_Result = MON_CANT_GIVE; // party full
 }
-void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx) { (void)ctx; }
+// HnS `remove5mons` (Bug Contest entry): validates the lead party mon is usable
+// (not fainted, not an egg), then clears party slots 2..6 so the player enters the
+// contest with a single mon. Ported from HnS scrcmd.c ScrCmd_remove5mons; reports via
+// gSpecialVar_Result (MON_GIVEN_TO_PARTY on success, MON_CANT_GIVE on a bad lead).
+void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
+{
+    u8 removedCount = 0;
+    u8 i;
+    (void)ctx;
+
+    if (GetMonData(&gPlayerParty[0], MON_DATA_HP, NULL) == 0)
+    {
+        gSpecialVar_Result = MON_CANT_GIVE;
+        return;
+    }
+
+    if (GetMonData(&gPlayerParty[0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_EGG)
+    {
+        gSpecialVar_Result = MON_CANT_GIVE;
+        return;
+    }
+
+    for (i = 1; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) != SPECIES_NONE)
+        {
+            ZeroMonData(&gPlayerParty[i]);
+            removedCount++;
+        }
+    }
+
+    if (removedCount > 0)
+        CompactPartySlots();
+
+    gSpecialVar_Result = MON_GIVEN_TO_PARTY;
+}
 
 // === Mahogany area (region merge) ===
 

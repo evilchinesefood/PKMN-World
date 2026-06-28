@@ -111,7 +111,7 @@ NationalPark_BugContest_EventScript_JudgeScene::
 NationalPark_BugContest_EventScript_JudgeSceneActivate::
 	lockall
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
-	goto Johto_EventScript_Nop
+	goto BugContestEventScript_Judging
 	end
 
 
@@ -150,7 +150,7 @@ NationalPark_BugContest_EventScript_Attendant::
 	lock
 	faceplayer
 	msgbox NationalParkBugContest_Text_Attendant, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, TRUE, Johto_EventScript_Nop
+	goto_if_eq VAR_RESULT, TRUE, BugContest_EventScript_TimesUp
 	msgbox NationlParkBugContest_Text_EnjoyTheContest, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -158,7 +158,7 @@ NationalPark_BugContest_EventScript_Attendant::
 
 NationalPark_BugContest_EventScript_RetireChoice::
 	msgbox NationalParkBugContest_Text_Attendant, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, TRUE, Johto_EventScript_Nop
+	goto_if_eq VAR_RESULT, TRUE, BugContest_EventScript_TimesUp
 	msgbox NationlParkBugContest_Text_EnjoyTheContest, MSGBOX_DEFAULT
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkUp1

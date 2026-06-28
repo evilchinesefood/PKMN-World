@@ -7,6 +7,7 @@
 #include "main.h"
 #include "task.h"
 #include "safari_zone.h"
+#include "bug_contest.h"
 #include "script.h"
 #include "event_data.h"
 #include "metatile_behavior.h"
@@ -68,6 +69,7 @@ enum TransitionType
 // this file's functions
 static void DoBattlePikeWildBattle(void);
 static void DoSafariBattle(void);
+static void DoBugContestBattle(void);
 static void DoGhostBattle(void);
 static void DoStandardWildBattle(bool32 isDouble);
 static void CB2_EndWildBattle(void);
@@ -333,6 +335,8 @@ void BattleSetup_StartWildBattle(void)
 {
     if (GetSafariZoneFlag())
         DoSafariBattle();
+    else if (GetBugContestFlag())
+        DoBugContestBattle();
     else if (CheckSilphScopeInPokemonTower(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
         DoGhostBattle();
     else
@@ -414,6 +418,19 @@ static void DoSafariBattle(void)
     StopPlayerAvatar();
     gMain.savedCallback = CB2_EndSafariBattle;
     gBattleTypeFlags = BATTLE_TYPE_SAFARI;
+    CreateBattleStartTask(GetWildBattleTransition(), 0);
+}
+
+// Region merge (Johto port): Bug-Catching Contest wild battle. Mirrors DoSafariBattle
+// but runs a normal wild battle (no Safari flag) so the player throws their own balls,
+// and returns through CB2_EndBugContestBattle for contest-specific cleanup/scoring.
+static void DoBugContestBattle(void)
+{
+    LockPlayerFieldControls();
+    FreezeObjectEvents();
+    StopPlayerAvatar();
+    gMain.savedCallback = CB2_EndBugContestBattle;
+    gBattleTypeFlags = 0;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
 }
 

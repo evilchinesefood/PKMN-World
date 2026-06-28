@@ -665,3 +665,9 @@ gSpecials::
 	def_special ShowBugContestChosenMon
 	def_special ToggleShinyColors
 	def_special CheckCelebi
+
+	@ Region merge (Johto port): National Park Bug-Catching Contest engine specials.
+	def_special ExitBugContestMode
+	def_special JudgeBugContestMon
+	def_special TransferBugContestMon
+	def_special RemoveSafariBalls

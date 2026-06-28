@@ -3861,7 +3861,11 @@ static void Cmd_getexp(void)
     switch (gBattleScripting.getexpState)
     {
     case 0: // check if should receive exp at all
-        if (IsOnPlayerSide(gBattlerFainted)
+        if (FlagGet(FLAG_SYS_BUG_CONTEST_MODE)) // Bug Contest catches grant no EXP
+        {
+            gBattleScripting.getexpState = 6; // goto last case
+        }
+        else if (IsOnPlayerSide(gBattlerFainted)
             || IsAiVsAiBattle()
             || !BattleTypeAllowsExp())
         {

@@ -7,6 +7,7 @@ TohjoFalls_GiovanniRoom_MapScripts::
 TohjoFalls_GiovanniRoom_OnTransition::
 	specialvar VAR_RESULT, CheckCelebi
 	goto_if_eq VAR_RESULT, TRUE, TohjoFalls_GiovanniRoom_SetScene
+	setflag FLAG_HIDE_TOHJO_GIOVANNI
 	setvar VAR_TOHJO_FALLS_GIOVANNI_STATE, 0
 	end
 

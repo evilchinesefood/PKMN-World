@@ -32,6 +32,7 @@ Route27_House_EventScript_WomanHighFriendship::
 	waitmovement 0
 	msgbox SandstormHouse_Text_LoyalMon, MSGBOX_DEFAULT
 	giveitem ITEM_TM_SANDSTORM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_TM_SANDSTORM
 	msgbox SandstormHouse_Text_TM37Description, MSGBOX_DEFAULT
 	closemessage

@@ -8,8 +8,10 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "pokemon_storage_system.h"
+#include "event_object_movement.h"
 #include "constants/songs.h"
 #include "constants/vars.h"
+#include "constants/species.h"
 
 // Region merge (Johto port): compat handlers + specials for HnS scripts.
 //
@@ -217,11 +219,33 @@ void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
     gSpecialVar_Result = FALSE;
 }
 
-// HnS CheckCelebi (Tohjo Falls): reports TRUE only when the player arrives via the Celebi
-// time-travel event to trigger the post-game Giovanni encounter. The Celebi/GS-Ball event
-// chain is unported; report FALSE so the Giovanni scene cleanly dead-ends (the room's
-// triggers all branch to a no-op on FALSE). Real event lands in the content stage.
-void CheckCelebi(void) { gSpecialVar_Result = FALSE; }
+// HnS CheckCelebi (Tohjo Falls): the post-game Giovanni encounter triggers only when the
+// player arrives with Celebi as the lead, at full HP, walking with it as a follower (the
+// Ilex-Forest time-travel setup). Ported from HnS braille_puzzles.c. (Obtaining Celebi via
+// the GS-Ball/Ilex shrine is its own event; this check is correct regardless.)
+void CheckCelebi(void)
+{
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][0];
+    struct ObjectEvent *follower;
+
+    if (GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL) != SPECIES_CELEBI)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+    if (GetMonData(mon, MON_DATA_HP, NULL) != GetMonData(mon, MON_DATA_MAX_HP, NULL))
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+    follower = GetFollowerObject();
+    if (follower == NULL || follower->invisible)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+    gSpecialVar_Result = TRUE;
+}
 
 // HnS `checkrandomizer` (callnative, used by Mr. Pokemon's House): reports whether randomizer
 // mode is active via gSpecialVar_Result; on TRUE the script grants the National Dex immediately

@@ -492,4 +492,9 @@
 #define FLAG_ITEM_MTSILVER_NERVERMELTICE           FLAG_JOHTO_SLICE(0x1d8)
 #define FLAG_ITEM_MTSILVER_SPELL_TAG               FLAG_JOHTO_SLICE(0x1d9)
 
+// === Safari Zone review fix (region merge) ===
+// Set while inside the Johto Safari Zone so the shared SafariZone exit script
+// warps back to the Johto gate instead of the Hoenn Route121 entrance.
+#define FLAG_IN_JOHTO_SAFARI_ZONE                  FLAG_JOHTO_SLICE(0x1da)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

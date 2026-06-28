@@ -283,6 +283,9 @@ SafariZoneGate_SafariZoneEntrance_EventScript_TryEnterSafariZone::
 	applymovement OBJ_EVENT_ID_PLAYER, SafariZoneGate_SafariZoneEntrance_Movement_EnterSafariZone
 	waitmovement 0
 	special EnterSafariMode
+	setflag FLAG_IN_JOHTO_SAFARI_ZONE
+	setflag FLAG_SAFARI_ZONE_EAST_EXPANSION
+	setflag FLAG_SAFARI_ZONE_WEST_EXPANSION
 	setvar VAR_SAFARI_ZONE_STATE, 2
 	clearflag FLAG_GOOD_LUCK_SAFARI_ZONE
 	warp MAP_SAFARI_ZONE_ENTERANCE, 0

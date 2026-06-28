@@ -1,4 +1,5 @@
 SafariZone_EventScript_OutOfBallsMidBattle::
+	goto_if_set FLAG_IN_JOHTO_SAFARI_ZONE, SafariZone_EventScript_JohtoOutOfBallsMidBattle
 #if IS_FRLG
 	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 3
 #else
@@ -12,7 +13,16 @@ SafariZone_EventScript_OutOfBallsMidBattle::
 #endif
 	end
 
+@ Region merge: Johto Safari Zone returns to its own gate, not the Hoenn entrance.
+SafariZone_EventScript_JohtoOutOfBallsMidBattle::
+	setvar VAR_SAFARI_ZONE_STATE, 1
+	clearflag FLAG_IN_JOHTO_SAFARI_ZONE
+	special ExitSafariMode
+	setwarp MAP_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE, 9, 3
+	end
+
 SafariZone_EventScript_Exit::
+	goto_if_set FLAG_IN_JOHTO_SAFARI_ZONE, SafariZone_EventScript_JohtoExit
 #if IS_FRLG
 	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 1
 #else
@@ -24,6 +34,15 @@ SafariZone_EventScript_Exit::
 #else
 	warp MAP_ROUTE121_SAFARI_ZONE_ENTRANCE, 2, 5
 #endif
+	waitstate
+	end
+
+@ Region merge: Johto Safari Zone returns to its own gate, not the Hoenn entrance.
+SafariZone_EventScript_JohtoExit::
+	setvar VAR_SAFARI_ZONE_STATE, 1
+	clearflag FLAG_IN_JOHTO_SAFARI_ZONE
+	special ExitSafariMode
+	warp MAP_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE, 9, 3
 	waitstate
 	end
 

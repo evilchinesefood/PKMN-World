@@ -68,8 +68,5 @@ tools/aif2pcm/aif2pcm
 __pycache__
 .map_version
 
-# Pokemon World working docs (plans, reviews) — kept local
-docs/
-
-# SDD scratch (not part of the hack)
-.superpowers/
+# Pokemon World working plans (reviews/features/done) — kept local, not tracked
+.plans/

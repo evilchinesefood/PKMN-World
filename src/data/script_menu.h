@@ -1171,6 +1171,7 @@ static const struct MenuAction sMultichoiceList_RegionHub[] =
     {COMPOUND_STRING("KANTO")},
     {COMPOUND_STRING("JOHTO")},
     {COMPOUND_STRING("HOENN")},
+    {COMPOUND_STRING("BATTLE FRONTIER")},
     {gText_Exit},
 };
 

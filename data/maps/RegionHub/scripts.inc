@@ -11,7 +11,8 @@ RegionHub_EventScript_TransitClerk::
 	case 0, RegionHub_EventScript_TravelKanto
 	case 1, RegionHub_EventScript_TravelJohto
 	case 2, RegionHub_EventScript_TravelHoenn
-	case 3, RegionHub_EventScript_TravelCancel
+	case 3, RegionHub_EventScript_TravelFrontier
+	case 4, RegionHub_EventScript_TravelCancel
 	case MULTI_B_PRESSED, RegionHub_EventScript_TravelCancel
 	end
 
@@ -39,6 +40,19 @@ RegionHub_EventScript_TravelHoenn::
 	callnative RegionHub_ScrSetCurrentRegion
 	closemessage
 	warp MAP_LITTLEROOT_TOWN, 1
+	waitstate
+	release
+	end
+
+@ Super-endgame gate: the Hoenn Battle Frontier, repurposed as the unified capstone arena
+@ reached from the hub (.plans/features/03b-RegionSwitchDesignSpec.md "Super-endgame" section).
+@ It is region-agnostic, so unlike the region cases it does NOT set gCurrentRegion - the
+@ destination map's MAPSEC self-derives the region. Warps to OutsideWest warp 9, the plaza
+@ side of the south gate (sensible Frontier entrance spawn).
+@ TODO(Frontier): two-tier unlock - 1-champion opens, capstone top tier. Gated OPEN for now.
+RegionHub_EventScript_TravelFrontier::
+	closemessage
+	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 9
 	waitstate
 	release
 	end

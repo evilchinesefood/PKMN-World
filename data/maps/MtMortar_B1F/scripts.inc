@@ -37,11 +37,11 @@ MountMortar4_EventScript_Kiyo::
 	setflag FLAG_BEAT_KIYO
 MountMortar4_EventScript_KiyoTryGiveTyrogue::
 	msgbox MountMortar4_Text_KiyoTyrogueReward, MSGBOX_DEFAULT
-	@HnS gift pokemon setup
-	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TYROGUE
-	bufferspeciesname STR_VAR_1, SPECIES_TYROGUE
 	givemon SPECIES_TYROGUE, 25
-	call Johto_EventScript_NopReturn @ region merge: Common_EventScript_GiftMon unported (givemon already done above)
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
+	playfanfare MUS_LEVEL_UP
+	msgbox MountMortar4_Text_ReceiveTyrogue, MSGBOX_DEFAULT
+	waitfanfare
 	setflag FLAG_GOT_TYROGUE
 MountMortar4_EventScript_KiyoAfter::
 	msgbox MountMortar4_Text_KiyoGotTyrogue, MSGBOX_DEFAULT

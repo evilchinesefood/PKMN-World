@@ -161,12 +161,24 @@ void ScrCmd_giveoddegg_Compat(struct ScriptContext *ctx)
 // challenge modes are unported; report the normal max so daycare/party logic proceeds.
 void GetMaxPartySize(void) { gSpecialVar_Result = PARTY_SIZE; }
 
-// Goldenrod-area special stubs (region merge). Bug Contest minigame, haircut
-// brothers, and shiny-palette toggle are unported side systems; these no-op so
-// the maps' scripts run. Refine in a later content pass.
+// Goldenrod Underground haircut brothers: boost the chosen party mon's friendship
+// (VAR_0x8004 = the ChoosePartyMon slot, already bounds-checked by the scripts). HnS
+// used dedicated FRIENDSHIP_EVENT_HAIRCUT1/2; the massage event is the faithful
+// equivalent in the target. Both brothers call this special.
+void HaircutBrother1(void)
+{
+    u8 slot = VarGet(VAR_0x8004);
+
+    if (slot < PARTY_SIZE)
+        AdjustFriendship(&gParties[B_TRAINER_PLAYER][slot], FRIENDSHIP_EVENT_MASSAGE);
+}
+
+// Region-merge stubs. ToggleShinyColors targets a tx_randomizer save field that does
+// not exist in the target, so it is correctly a no-op. EnterBugContestMode and
+// ShowBugContestChosenMon are temporary no-ops (the real Bug Contest engine lands in
+// a follow-up batch).
 void EnterBugContestMode(void) {}
 void ShowBugContestChosenMon(void) {}
-void HaircutBrother1(void) {}
 void ToggleShinyColors(void) {}
 
 // HnS `givenamedmon <giftId>`: the named story gifts. 1=Kenya (Spearow, OT RUDY), 2=Shuckie

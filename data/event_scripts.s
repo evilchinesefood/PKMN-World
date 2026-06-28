@@ -1268,6 +1268,18 @@ gStdScripts_End::
 	.include "data/maps/MtSilver_PokemonCenter/scripts.inc"
 	.include "data/maps/Route28/scripts.inc"
 	.include "data/maps/Route28_House/scripts.inc"
+	@ Region merge (Johto port): final batch — Route 26/27 family, Route 30 houses, Tohjo Falls, Reception Gate.
+	.include "data/maps/Route26/scripts.inc"
+	.include "data/maps/Route26North/scripts.inc"
+	.include "data/maps/Route26_House1/scripts.inc"
+	.include "data/maps/Route26_House2/scripts.inc"
+	.include "data/maps/Route27/scripts.inc"
+	.include "data/maps/Route27_House/scripts.inc"
+	.include "data/maps/Route30_House/scripts.inc"
+	.include "data/maps/Route30_MrPokemonsHouse/scripts.inc"
+	.include "data/maps/TohjoFalls_Cavern/scripts.inc"
+	.include "data/maps/TohjoFalls_GiovanniRoom/scripts.inc"
+	.include "data/maps/ReceptionGate/scripts.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"

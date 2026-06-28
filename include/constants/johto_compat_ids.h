@@ -278,4 +278,16 @@
 // === Mt Silver area: endgame Red battle (real party lands in the trainers stage) ===
 #define TRAINER_RED_2             TRAINER_JOEY
 
+// === Final Johto batch: Route 26/27 + Tohjo Falls trainers (real parties land in the trainers
+// stage). BETH/RICHARD/BLAKE/GILBERT/JOSE collide with existing target enums and are edited
+// in-script to TRAINER_JOEY instead; all others (incl. GIOVANNI) aliased here.
+#define TRAINER_JAKE              TRAINER_JOEY
+#define TRAINER_GAVEN             TRAINER_JOEY
+#define TRAINER_JOYCE             TRAINER_JOEY
+#define TRAINER_BRIAN             TRAINER_JOEY
+#define TRAINER_REENA             TRAINER_JOEY
+#define TRAINER_MEGAN             TRAINER_JOEY
+#define TRAINER_SCOTT             TRAINER_JOEY
+#define TRAINER_GIOVANNI          TRAINER_JOEY
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

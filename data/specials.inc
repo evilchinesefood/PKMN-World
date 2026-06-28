@@ -663,3 +663,4 @@ gSpecials::
 	def_special HaircutBrother1
 	def_special ShowBugContestChosenMon
 	def_special ToggleShinyColors
+	def_special CheckCelebi

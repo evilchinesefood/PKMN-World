@@ -11875,6 +11875,127 @@
       "border_filepath": "data/layouts/Route28_House/border.bin",
       "blockdata_filepath": "data/layouts/Route28_House/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE26",
+      "name": "Route26_Layout",
+      "width": 39,
+      "height": 81,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Blackthorn",
+      "border_filepath": "data/layouts/Route26/border.bin",
+      "blockdata_filepath": "data/layouts/Route26/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE26NORTH",
+      "name": "Route26North_Layout",
+      "width": 39,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_ViridianCity",
+      "border_filepath": "data/layouts/Route26North/border.bin",
+      "blockdata_filepath": "data/layouts/Route26North/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE26_HOUSE1",
+      "name": "Route26_House1_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/Route26_House1/border.bin",
+      "blockdata_filepath": "data/layouts/Route26_House1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE26_HOUSE2",
+      "name": "Route26_House2_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/Route26_House2/border.bin",
+      "blockdata_filepath": "data/layouts/Route26_House2/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE27",
+      "name": "Route27_Layout",
+      "width": 160,
+      "height": 40,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_NewBarkTown",
+      "border_filepath": "data/layouts/Route27/border.bin",
+      "blockdata_filepath": "data/layouts/Route27/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE27_HOUSE",
+      "name": "Route27_House_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/Route27_House/border.bin",
+      "blockdata_filepath": "data/layouts/Route27_House/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE30_HOUSE",
+      "name": "Route30_House_Layout",
+      "width": 11,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/Route30_House/border.bin",
+      "blockdata_filepath": "data/layouts/Route30_House/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE30_MR_POKEMONS_HOUSE",
+      "name": "Route30_MrPokemonsHouse_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/Route30_MrPokemonsHouse/border.bin",
+      "blockdata_filepath": "data/layouts/Route30_MrPokemonsHouse/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_TOHJO_FALLS_CAVERN",
+      "name": "TohjoFalls_Cavern_Layout",
+      "width": 78,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/TohjoFalls_Cavern/border.bin",
+      "blockdata_filepath": "data/layouts/TohjoFalls_Cavern/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_TOHJO_FALLS_GIOVANNI_ROOM",
+      "name": "TohjoFalls_GiovanniRoom_Layout",
+      "width": 11,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/TohjoFalls_GiovanniRoom/border.bin",
+      "blockdata_filepath": "data/layouts/TohjoFalls_GiovanniRoom/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_RECEPTION_GATE",
+      "name": "ReceptionGate_Layout",
+      "width": 22,
+      "height": 21,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_PokemonCenter_White",
+      "border_filepath": "data/layouts/ReceptionGate/border.bin",
+      "blockdata_filepath": "data/layouts/ReceptionGate/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

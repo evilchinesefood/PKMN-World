@@ -74,4 +74,8 @@
 // === Safari Zone area (region merge) — Baoba custom-area quest state ===
 #define VAR_BAOBA_QUEST_STATE       VAR_JOHTO_SLICE(0x38)
 
+// === Final Johto batch (region merge) — Route 27 first-steps + Tohjo Falls Giovanni event ===
+#define VAR_ROUTE27_STATE              VAR_JOHTO_SLICE(0x39)
+#define VAR_TOHJO_FALLS_GIOVANNI_STATE VAR_JOHTO_SLICE(0x3a)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

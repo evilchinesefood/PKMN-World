@@ -97,7 +97,8 @@
     "gMapGroup_IndoorBlackthorn",
     "gMapGroup_IndoorSSAqua",
     "gMapGroup_SafariZoneJohto",
-    "gMapGroup_MtSilver"
+    "gMapGroup_MtSilver",
+    "gMapGroup_JohtoFinal"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1461,5 +1462,18 @@
     "MtSilver_PokemonCenter",
     "Route28",
     "Route28_House"
+  ],
+  "gMapGroup_JohtoFinal": [
+    "Route26",
+    "Route26North",
+    "Route26_House1",
+    "Route26_House2",
+    "Route27",
+    "Route27_House",
+    "Route30_House",
+    "Route30_MrPokemonsHouse",
+    "TohjoFalls_Cavern",
+    "TohjoFalls_GiovanniRoom",
+    "ReceptionGate"
   ]
 }

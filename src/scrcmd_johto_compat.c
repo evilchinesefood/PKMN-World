@@ -216,3 +216,20 @@ void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
     (void)number;
     gSpecialVar_Result = FALSE;
 }
+
+// HnS CheckCelebi (Tohjo Falls): reports TRUE only when the player arrives via the Celebi
+// time-travel event to trigger the post-game Giovanni encounter. The Celebi/GS-Ball event
+// chain is unported; report FALSE so the Giovanni scene cleanly dead-ends (the room's
+// triggers all branch to a no-op on FALSE). Real event lands in the content stage.
+void CheckCelebi(void) { gSpecialVar_Result = FALSE; }
+
+// HnS `checkrandomizer` (callnative, used by Mr. Pokemon's House): reports whether randomizer
+// mode is active via gSpecialVar_Result; on TRUE the script grants the National Dex immediately
+// (randomizer rules). The HnS randomizer feature is unported, so report FALSE — the normal
+// (non-randomized) path runs and the National Dex is earned through standard story progress.
+// Real toggle lands in the content stage.
+void ScrCmd_checkrandomizer_Compat(struct ScriptContext *ctx)
+{
+    (void)ctx;
+    gSpecialVar_Result = FALSE;
+}

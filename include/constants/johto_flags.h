@@ -497,4 +497,25 @@
 // warps back to the Johto gate instead of the Hoenn Route121 entrance.
 #define FLAG_IN_JOHTO_SAFARI_ZONE                  FLAG_JOHTO_SLICE(0x1da)
 
+// === Final Johto batch (region merge) — Route 26/27 family, Route 30 houses, Tohjo Falls, Reception Gate ===
+#define FLAG_DELIVERED_EGG                         FLAG_JOHTO_SLICE(0x1db)
+#define FLAG_HIDE_MRPOKEMON                        FLAG_JOHTO_SLICE(0x1dc)
+#define FLAG_VISITED_KANTO                         FLAG_JOHTO_SLICE(0x1dd)
+#define FLAG_VISITED_RECEPTION_GATE                FLAG_JOHTO_SLICE(0x1de)
+#define FLAG_GOT_TM_SANDSTORM                      FLAG_JOHTO_SLICE(0x1df)
+#define FLAG_GOT_BERRY_ROUTE_30_HOUSE              FLAG_JOHTO_SLICE(0x1e0)
+#define FLAG_HIDE_TOHJO_GIOVANNI                   FLAG_JOHTO_SLICE(0x1e1)
+#define FLAG_HIDE_ROUTE22_JANINE                   FLAG_JOHTO_SLICE(0x1e2)
+#define FLAG_HIDE_DOJO_JANINE                      FLAG_JOHTO_SLICE(0x1e3)
+#define FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD       FLAG_JOHTO_SLICE(0x1e4)
+#define FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD      FLAG_JOHTO_SLICE(0x1e5)
+#define FLAG_HIDE_VICTORY_ROAD_SILVER              FLAG_JOHTO_SLICE(0x1e6)
+#define FLAG_HIDE_INDIGO_PLATEAU_SILVER            FLAG_JOHTO_SLICE(0x1e7)
+#define FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK          FLAG_JOHTO_SLICE(0x1e8)
+#define FLAG_ITEM_ROUTE27_RARECANDY                FLAG_JOHTO_SLICE(0x1e9)
+#define FLAG_ITEM_ROUTE27_MOONSTONE                FLAG_JOHTO_SLICE(0x1ea)
+#define FLAG_ITEM_ROUTE27_SOLARBEAM                FLAG_JOHTO_SLICE(0x1eb)
+#define FLAG_ITEM_ROUTE27_REVIVE                   FLAG_JOHTO_SLICE(0x1ec)
+#define FLAG_ITEM_TOHJOFALLS_HEART_SCALE           FLAG_JOHTO_SLICE(0x1ed)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

@@ -83,4 +83,8 @@
 #define BERRY_TREE_ASPEAR_2  BERRY_TREE_ROUTE_120_ASPEAR_2
 #define BERRY_TREE_LUM_1     BERRY_TREE_ROUTE_120_ASPEAR_3
 
+// === Final Johto batch aliases ===
+// Tohjo Falls Giovanni cutscene radio theme (script playbgm) -> target villain-base theme.
+#define MUS_HG_RADIO_ROCKET         MUS_MT_PYRE_EXTERIOR
+
 #endif

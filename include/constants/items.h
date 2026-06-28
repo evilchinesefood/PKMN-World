@@ -1065,6 +1065,8 @@ enum __attribute__((packed)) Item
     ITEM_DIVE_TOOL,
 #endif
 
+    ITEM_GS_BALL, // Johto: GS Ball key item (Kurt -> Ilex Forest shrine -> Celebi)
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

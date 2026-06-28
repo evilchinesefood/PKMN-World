@@ -6,16 +6,15 @@
 // so transformed Johto map scripts assemble unchanged.
 //
 // HnS names TMs/HMs by move; the target uses the numbered Gen-3 ids. Map each to its
-// Gen-3 number. ITEM_EXP_SHARE_SMALL -> the target's single Exp Share. ITEM_GS_BALL
-// (Johto-only key item) has no target item yet -> ITEM_NONE stub (the GS Ball / Celebi
-// event is out of the Violet-area scope; the giveitem becomes a no-op for now).
+// Gen-3 number. ITEM_EXP_SHARE_SMALL -> the target's single Exp Share. ITEM_GS_BALL is
+// now a real key item (see include/constants/items.h + src/data/items.h), so the Kurt ->
+// Ilex Forest shrine -> Celebi chain works; no alias needed.
 
 #define ITEM_TM_DOUBLE_TEAM   ITEM_TM32   // Gen 3 TM32 = Double Team
 #define ITEM_TM_ROAR          ITEM_TM05   // Gen 3 TM05 = Roar
 #define ITEM_TM_TORMENT       ITEM_TM41   // Gen 3 TM41 = Torment
 #define ITEM_HM_FLASH         ITEM_HM05   // Gen 3 HM05 = Flash
 #define ITEM_EXP_SHARE_SMALL  ITEM_EXP_SHARE
-#define ITEM_GS_BALL          ITEM_NONE
 
 // HnS Johto trainers not yet ported (real parties land in the trainers stage). Remap
 // to an existing placeholder so the battles still fire. See brief: stub, don't block.

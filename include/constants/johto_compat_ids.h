@@ -100,4 +100,11 @@
 // stage). BETH/RICHARD/BLAKE/GILBERT/JOSE collide with existing target enums and are edited
 // in-script to TRAINER_JOEY instead; all others (incl. GIOVANNI) aliased here.
 
+// === Johto Pokemon League: Indigo Plateau Silver daily-rematch (7th rival fight). The HnS
+// _7 rival parties are deferred (Phase 3); stub to the ported _1 rival trainers so the
+// optional daily Silver battle still fires. Real _7 parties = playtest follow-up.
+#define TRAINER_RIVAL_CHIKORITA_7   TRAINER_RIVAL_CHIKORITA_1
+#define TRAINER_RIVAL_CYNDAQUIL_7   TRAINER_RIVAL_CYNDAQUIL_1
+#define TRAINER_RIVAL_TOTODILE_7    TRAINER_RIVAL_TOTODILE_1
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

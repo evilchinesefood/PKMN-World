@@ -98,7 +98,8 @@
     "gMapGroup_IndoorSSAqua",
     "gMapGroup_SafariZoneJohto",
     "gMapGroup_MtSilver",
-    "gMapGroup_JohtoFinal"
+    "gMapGroup_JohtoFinal",
+    "gMapGroup_JohtoLeague"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1475,5 +1476,18 @@
     "TohjoFalls_Cavern",
     "TohjoFalls_GiovanniRoom",
     "ReceptionGate"
+  ],
+  "gMapGroup_JohtoLeague": [
+    "JohtoVictoryRoad_1F",
+    "JohtoVictoryRoad_B1F",
+    "JohtoVictoryRoad_B2F",
+    "JohtoIndigoPlateau",
+    "JohtoIndigoPlateau_PokemonCenter",
+    "JohtoPokemonLeague_WillsRoom",
+    "JohtoPokemonLeague_KogasRoom",
+    "JohtoPokemonLeague_BrunosRoom",
+    "JohtoPokemonLeague_KarensRoom",
+    "JohtoPokemonLeague_ChampionsRoom",
+    "JohtoPokemonLeague_HallOfFame"
   ]
 }

@@ -518,4 +518,23 @@
 #define FLAG_ITEM_ROUTE27_REVIVE                   FLAG_JOHTO_SLICE(0x1ec)
 #define FLAG_ITEM_TOHJOFALLS_HEART_SCALE           FLAG_JOHTO_SLICE(0x1ed)
 
+// === Johto Pokemon League (region merge) — Victory Road, Indigo Plateau, E4 + Lance ===
+// Clean Johto-bank range above the Final batch's highest (0x1ed).
+#define FLAG_GARBAGEFLAG                            FLAG_JOHTO_SLICE(0x1ee)
+#define FLAG_ITEM_JOHTO_VROAD_1                    FLAG_JOHTO_SLICE(0x1f8)
+#define FLAG_ITEM_JOHTO_VROAD_2                    FLAG_JOHTO_SLICE(0x1f9)
+#define FLAG_ITEM_JOHTO_VROAD_3                    FLAG_JOHTO_SLICE(0x1fa)
+#define FLAG_ITEM_JOHTO_VROAD_4                    FLAG_JOHTO_SLICE(0x1fb)
+#define FLAG_ITEM_JOHTO_VROAD_5                    FLAG_JOHTO_SLICE(0x1fc)
+#define FLAG_HIDE_LEAGUE_BLACKBELT                  FLAG_JOHTO_SLICE(0x1ef)
+#define FLAG_VISITED_INDIGO_PLATEAU                 FLAG_JOHTO_SLICE(0x1f0)
+#define FLAG_DAILY_BEAT_SILVER                      FLAG_JOHTO_SLICE(0x1f1)
+#define FLAG_UNLOCK_BIRDS                           FLAG_JOHTO_SLICE(0x1f2)
+#define FLAG_HIDE_LATIAS                            FLAG_JOHTO_SLICE(0x1f3)
+#define FLAG_HIDE_LATIOS                            FLAG_JOHTO_SLICE(0x1f4)
+#define FLAG_HIDE_ROUTE25_SUICUNE                   FLAG_JOHTO_SLICE(0x1f5)
+#define FLAG_HIDE_VERMILION_SNORLAX                 FLAG_JOHTO_SLICE(0x1f6)
+#define FLAG_SUMMONED_MTMOON_JIRACHI                FLAG_JOHTO_SLICE(0x1f7)
+#define FLAG_ITEM_GARBAGEFLAG                       FLAG_JOHTO_SLICE(0x1fd)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

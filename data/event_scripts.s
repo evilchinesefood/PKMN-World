@@ -1270,6 +1270,18 @@ gStdScripts_End::
 	.include "data/maps/Route28_House/scripts.inc"
 	@ Region merge (Johto port): final batch — Route 26/27 family, Route 30 houses, Tohjo Falls, Reception Gate.
 	.include "data/maps/Route26/scripts.inc"
+	@ Region merge (Johto port): Pokemon League — Victory Road, Indigo Plateau, E4 + Lance.
+	.include "data/maps/JohtoVictoryRoad_1F/scripts.inc"
+	.include "data/maps/JohtoVictoryRoad_B1F/scripts.inc"
+	.include "data/maps/JohtoVictoryRoad_B2F/scripts.inc"
+	.include "data/maps/JohtoIndigoPlateau/scripts.inc"
+	.include "data/maps/JohtoIndigoPlateau_PokemonCenter/scripts.inc"
+	.include "data/maps/JohtoPokemonLeague_WillsRoom/scripts.inc"
+	.include "data/maps/JohtoPokemonLeague_KogasRoom/scripts.inc"
+	.include "data/maps/JohtoPokemonLeague_BrunosRoom/scripts.inc"
+	.include "data/maps/JohtoPokemonLeague_KarensRoom/scripts.inc"
+	.include "data/maps/JohtoPokemonLeague_ChampionsRoom/scripts.inc"
+	.include "data/maps/JohtoPokemonLeague_HallOfFame/scripts.inc"
 	.include "data/maps/Route26North/scripts.inc"
 	.include "data/maps/Route26_House1/scripts.inc"
 	.include "data/maps/Route26_House2/scripts.inc"

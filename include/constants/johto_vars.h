@@ -78,4 +78,7 @@
 #define VAR_ROUTE27_STATE              VAR_JOHTO_SLICE(0x39)
 #define VAR_TOHJO_FALLS_GIOVANNI_STATE VAR_JOHTO_SLICE(0x3a)
 
+// === Johto Pokemon League (region merge) — Elite Four gauntlet progress state ===
+#define VAR_LEAGUE_STATE               VAR_JOHTO_SLICE(0x3b)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

@@ -79,14 +79,14 @@
       "x": 11,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_ROUTE26NORTH",
+      "dest_map": "MAP_JOHTO_VICTORY_ROAD_1F",
       "dest_warp_id": "0"
     },
     {
       "x": 10,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_ROUTE26NORTH",
+      "dest_map": "MAP_JOHTO_VICTORY_ROAD_1F",
       "dest_warp_id": "0"
     },
     {

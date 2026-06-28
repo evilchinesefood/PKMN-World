@@ -1098,12 +1098,27 @@
 #define TRAINER_TED_JT                     1084   // HnS TRAINER_TED (name taken by existing target id) [script]
 #define TRAINER_WENDY_JT                   1085   // HnS TRAINER_WENDY (name taken by existing target id) [script]
 
+// ============================================================================
+// Johto Elite Four + Champion Lance (region merge, Johto league). Real parties
+// ported from HnS. KAREN collides with an existing Hoenn trainer enum -> _JT.
+// ============================================================================
+#define TRAINER_WILL_1                     1086
+#define TRAINER_WILL_2                     1087
+#define TRAINER_KOGA_1                     1088
+#define TRAINER_KOGA_2                     1089
+#define TRAINER_BRUNO_1                    1090
+#define TRAINER_BRUNO_2                    1091
+#define TRAINER_KAREN_1_JT                 1092   // HnS TRAINER_KAREN_1 (name taken by existing target id)
+#define TRAINER_KAREN_2_JT                 1093   // HnS TRAINER_KAREN_2 (name taken by existing target id)
+#define TRAINER_LANCE_1                    1094
+#define TRAINER_LANCE_2                    1095
+
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 9 additional trainers before trainer flag space overflows
 //       More space can be made by shifting flags around in constants/flags.h or changing how trainer flags are handled
 //       MAX_TRAINERS_COUNT can be increased but will take up additional saveblock space
 
-#define TRAINERS_COUNT_EMERALD     1086
-#define MAX_TRAINERS_COUNT_EMERALD 1086
+#define TRAINERS_COUNT_EMERALD     1096
+#define MAX_TRAINERS_COUNT_EMERALD 1096
 
 #if IS_FRLG
 #define TRAINERS_COUNT                      TRAINERS_COUNT_FRLG

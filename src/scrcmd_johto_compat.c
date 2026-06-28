@@ -9,9 +9,13 @@
 #include "script_pokemon_util.h"
 #include "pokemon_storage_system.h"
 #include "event_object_movement.h"
+#include "move.h"
 #include "constants/songs.h"
 #include "constants/vars.h"
 #include "constants/species.h"
+#include "constants/items.h"
+#include "constants/moves.h"
+#include "constants/pokedex.h"
 
 // Region merge (Johto port): compat handlers + specials for HnS scripts.
 //
@@ -145,7 +149,74 @@ void ShowBugContestChosenMon(void) {}
 void HaircutBrother1(void) {}
 void ToggleShinyColors(void) {}
 
-void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx) { u16 n = ScriptReadHalfword(ctx); (void)n; } // story mon (Kenya/Shuckie/Eevee) unported
+// HnS `givenamedmon <giftId>`: the named story gifts. 1=Kenya (Spearow, OT RUDY), 2=Shuckie
+// (Shuckle, OT KIRK), 3=Eevee (OT BILL), 4=Dratini (ExtremeSpeed, Dragon's Den elder). Adapted
+// to the expansion mon-creation API (CreateMon + OTID_STRUCT_*). v1 omits Kenya's RetroMail
+// content (the guard quest checks species/nickname) and Dratini's forced-shiny PID.
+void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
+{
+    u16 giftId = ScriptReadHalfword(ctx);
+    struct Pokemon *mon;
+    enum Species species;
+    u8 level;
+    u16 item = ITEM_NONE;
+    u32 personality = Random32();
+    u32 otId = 0;
+    const u8 *nickname = NULL;
+    const u8 *otName = NULL;
+    u8 heldItem[2];
+    u8 i;
+    static const u8 sKenyaNickname[]   = _("KENYA");
+    static const u8 sKenyaOtName[]     = _("RUDY");
+    static const u8 sShuckieNickname[] = _("SHUCKIE");
+    static const u8 sShuckieOtName[]   = _("KIRK");
+    static const u8 sEeveeOtName[]     = _("BILL");
+
+    switch (giftId)
+    {
+    case 1: species = SPECIES_SPEAROW; level = 20; nickname = sKenyaNickname;   otName = sKenyaOtName;   otId = 61225; break;
+    case 2: species = SPECIES_SHUCKLE; level = 20; item = ITEM_BERRY_JUICE; nickname = sShuckieNickname; otName = sShuckieOtName; otId = 4336; break;
+    case 3: species = SPECIES_EEVEE;   level = 20; otName = sEeveeOtName;   otId = 5231; break;
+    case 4: species = SPECIES_DRATINI; level = 15; break; // player OT
+    default: gSpecialVar_Result = MON_CANT_GIVE; return;
+    }
+
+    heldItem[0] = item & 0xFF;
+    heldItem[1] = item >> 8;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        mon = &gParties[B_TRAINER_PLAYER][i];
+        if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE)
+            continue;
+
+        if (giftId == 4)
+            CreateMon(mon, species, level, personality, OTID_STRUCT_PLAYER_ID);
+        else
+            CreateMon(mon, species, level, personality, OTID_STRUCT_PRESET(otId));
+
+        if (nickname != NULL)
+            SetMonData(mon, MON_DATA_NICKNAME, nickname);
+        if (otName != NULL)
+            SetMonData(mon, MON_DATA_OT_NAME, otName);
+        SetMonData(mon, MON_DATA_HELD_ITEM, heldItem);
+
+        if (giftId == 4)
+        {
+            u16 move = MOVE_EXTREME_SPEED;
+            u8 pp = gMovesInfo[move].pp;
+            SetMonData(mon, MON_DATA_MOVE1, &move);
+            SetMonData(mon, MON_DATA_PP1, &pp);
+        }
+
+        CalculateMonStats(mon);
+        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_SEEN, personality);
+        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
+        gSpecialVar_Result = MON_GIVEN_TO_PARTY;
+        return;
+    }
+    gSpecialVar_Result = MON_CANT_GIVE; // party full
+}
 void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx) { (void)ctx; }
 
 // === Mahogany area (region merge) ===

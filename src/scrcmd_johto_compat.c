@@ -10,6 +10,7 @@
 #include "pokemon_storage_system.h"
 #include "event_object_movement.h"
 #include "move.h"
+#include "daycare.h"
 #include "constants/songs.h"
 #include "constants/vars.h"
 #include "constants/species.h"
@@ -128,13 +129,39 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
     (void)number;
 }
 
-// HnS giveoddegg (Azalea daycare): gives the Day-Care Odd Egg. The HnS odd-egg
-// generator (random species + boosted shiny odds) is unported; stub reads its operand
-// and no-ops so the script pointer stays aligned. Real egg gift lands in the content stage.
+// HnS `giveoddegg <1..7>` (Route 34 Day-Care): the Odd Egg, which hatches into a baby
+// (Pichu/Cleffa/Igglybuff/Tyrogue/Smoochum/Elekid/Magby) knowing Dizzy Punch. The species
+// index is chosen by the caller. Built on the expansion CreateEgg helper. v1 uses the engine's
+// default shiny odds (HnS's name-list 100%-shiny easter egg + 14% boost are flavor polish).
 void ScrCmd_giveoddegg_Compat(struct ScriptContext *ctx)
 {
-    u16 number = ScriptReadHalfword(ctx);
-    (void)number;
+    static const enum Species sOddEggSpecies[8] = {
+        SPECIES_NONE, SPECIES_PICHU, SPECIES_CLEFFA, SPECIES_IGGLYBUFF,
+        SPECIES_TYROGUE, SPECIES_SMOOCHUM, SPECIES_ELEKID, SPECIES_MAGBY,
+    };
+    u16 which = VarGet(ScriptReadHalfword(ctx)); // immediate or VAR
+    enum Species species;
+    u8 i;
+
+    if (which == 0 || which >= ARRAY_COUNT(sOddEggSpecies) || sOddEggSpecies[which] == SPECIES_NONE)
+    {
+        gSpecialVar_Result = MON_CANT_GIVE;
+        return;
+    }
+    species = sOddEggSpecies[which];
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE)
+            continue;
+        CreateEgg(mon, species, FALSE);
+        SetMonMoveSlot(mon, MOVE_DIZZY_PUNCH, 1);
+        CalculateMonStats(mon);
+        gSpecialVar_Result = MON_GIVEN_TO_PARTY;
+        return;
+    }
+    gSpecialVar_Result = MON_CANT_GIVE;
 }
 
 // HnS tx_randomizer GetMaxPartySize (challenge modes cap party size). Randomizer/

@@ -2186,3 +2186,25 @@ const struct Tileset gTileset_ssaqua =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_SafariZoneJohto =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_SafariZoneJohto,
+    .palettes = gTilesetPalettes_SafariZoneJohto,
+    .metatiles = gMetatiles_SafariZoneJohto,
+    .metatileAttributes = gMetatileAttributes_SafariZoneJohto,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_SafariZone_Entrance =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_SafariZone_Entrance,
+    .palettes = gTilesetPalettes_SafariZone_Entrance,
+    .metatiles = gMetatiles_SafariZone_Entrance,
+    .metatileAttributes = gMetatileAttributes_SafariZone_Entrance,
+    .callback = NULL,
+};
+

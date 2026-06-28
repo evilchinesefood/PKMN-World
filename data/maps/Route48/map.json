@@ -17,6 +17,11 @@
       "map": "MAP_ROUTE47",
       "offset": -19,
       "direction": "down"
+    },
+    {
+      "map": "MAP_SAFARI_ZONE_GATE",
+      "offset": 7,
+      "direction": "up"
     }
   ],
   "object_events": [
@@ -110,7 +115,7 @@
       "elevation": 0,
       "var": "VAR_SAFARI_ZONE_GATE_STATE",
       "var_value": "2",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -119,7 +124,7 @@
       "elevation": 0,
       "var": "VAR_SAFARI_ZONE_GATE_STATE",
       "var_value": "2",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -128,7 +133,7 @@
       "elevation": 0,
       "var": "VAR_SAFARI_ZONE_GATE_STATE",
       "var_value": "2",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -137,7 +142,7 @@
       "elevation": 0,
       "var": "VAR_SAFARI_ZONE_GATE_STATE",
       "var_value": "2",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -146,7 +151,7 @@
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_BackupTrigger"
     },
     {
       "type": "trigger",
@@ -155,7 +160,7 @@
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_BackupTrigger"
     },
     {
       "type": "trigger",
@@ -164,7 +169,7 @@
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_BackupTrigger"
     },
     {
       "type": "trigger",
@@ -173,7 +178,7 @@
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "SafariZoneGate_EventScript_BackupTrigger"
     }
   ],
   "bg_events": [

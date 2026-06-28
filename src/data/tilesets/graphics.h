@@ -4175,3 +4175,42 @@ const u16 gTilesetPalettes_ssaqua[][16] =
     INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/12.pal", ".gbapal"),
 };
 
+// === Region merge: Johto Safari Zone tilesets ===
+const u32 gTilesetTiles_SafariZoneJohto[] = INCGFX_U32("data/tilesets/secondary/safari_zone_johto/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_SafariZoneJohto[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_johto/palettes/12.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_SafariZone_Entrance[] = INCGFX_U32("data/tilesets/secondary/safari_zone_entrance/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_SafariZone_Entrance[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/safari_zone_entrance/palettes/12.pal", ".gbapal"),
+};
+

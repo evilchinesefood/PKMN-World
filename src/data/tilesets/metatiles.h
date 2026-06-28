@@ -568,3 +568,7 @@ const u16 gMetatiles_BlackthornGym[] = INCBIN_U16("data/tilesets/secondary/black
 const u16 gMetatileAttributes_BlackthornGym[] = INCBIN_U16("data/tilesets/secondary/blackthorn_gym/metatile_attributes.bin");
 const u16 gMetatiles_ssaqua[] = INCBIN_U16("data/tilesets/secondary/ssaqua/metatiles.bin");
 const u16 gMetatileAttributes_ssaqua[] = INCBIN_U16("data/tilesets/secondary/ssaqua/metatile_attributes.bin");
+const u16 gMetatiles_SafariZoneJohto[] = INCBIN_U16("data/tilesets/secondary/safari_zone_johto/metatiles.bin");
+const u16 gMetatileAttributes_SafariZoneJohto[] = INCBIN_U16("data/tilesets/secondary/safari_zone_johto/metatile_attributes.bin");
+const u16 gMetatiles_SafariZone_Entrance[] = INCBIN_U16("data/tilesets/secondary/safari_zone_entrance/metatiles.bin");
+const u16 gMetatileAttributes_SafariZone_Entrance[] = INCBIN_U16("data/tilesets/secondary/safari_zone_entrance/metatile_attributes.bin");

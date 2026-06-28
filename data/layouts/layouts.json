@@ -11589,6 +11589,149 @@
       "border_filepath": "data/layouts/SSAqua_RoomSW/border.bin",
       "blockdata_filepath": "data/layouts/SSAqua_RoomSW/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_GATE",
+      "name": "SafariZoneGate_Layout",
+      "width": 26,
+      "height": 31,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZoneGate/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZoneGate/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_GATE_POKEMON_CENTER",
+      "name": "SafariZoneGate_PokemonCenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Kanto_PokemonCenter",
+      "border_filepath": "data/layouts/SafariZoneGate_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZoneGate_PokemonCenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE",
+      "name": "SafariZoneGate_SafariZoneEntrance_Layout",
+      "width": 19,
+      "height": 15,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_SafariZone_Entrance",
+      "border_filepath": "data/layouts/SafariZoneGate_SafariZoneEntrance/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZoneGate_SafariZoneEntrance/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_INDOOR",
+      "name": "SafariZoneIndoor_Layout",
+      "width": 13,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_SafariZone_Entrance",
+      "border_filepath": "data/layouts/SafariZoneIndoor/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZoneIndoor/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_ENTERANCE",
+      "name": "SafariZone_Enterance_Layout",
+      "width": 36,
+      "height": 16,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone_Enterance/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Enterance/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_LOW_LEFT",
+      "name": "SafariZone_Low_Left_Layout",
+      "width": 36,
+      "height": 32,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone_Low_Left/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Low_Left/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_LOW_MID",
+      "name": "SafariZone_Low_Mid_Layout",
+      "width": 38,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/SafariZone_Low_Mid/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Low_Mid/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_LOW_RIGHT",
+      "name": "SafariZone_Low_Right_Layout",
+      "width": 34,
+      "height": 38,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_WhirlIslands",
+      "border_filepath": "data/layouts/SafariZone_Low_Right/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Low_Right/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_TOP_MID",
+      "name": "SafariZone_Top_Mid_Layout",
+      "width": 38,
+      "height": 30,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone_Top_Mid/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Top_Mid/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_TOP_RIGHT",
+      "name": "SafariZone_Top_Right_Layout",
+      "width": 30,
+      "height": 32,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CianwoodCity",
+      "border_filepath": "data/layouts/SafariZone_Top_Right/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Top_Right/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE1",
+      "name": "SafariZone1_Layout",
+      "width": 51,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone1/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE2",
+      "name": "SafariZone2_Layout",
+      "width": 54,
+      "height": 35,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone2/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone2/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE3",
+      "name": "SafariZone3_Layout",
+      "width": 48,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone3/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone3/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

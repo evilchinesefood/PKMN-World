@@ -419,6 +419,13 @@
       "x": 27,
       "y": 49,
       "respawn_map": "MAP_BLACKTHORN_CITY_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_SAFARI_ZONE_GATE",
+      "map": "MAP_SAFARI_ZONE_GATE",
+      "x": 11,
+      "y": 15,
+      "respawn_map": "MAP_SAFARI_ZONE_GATE_POKEMON_CENTER"
     }
   ]
 }

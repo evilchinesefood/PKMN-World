@@ -476,4 +476,7 @@
 #define FLAG_ITEM_ROUTE45_NUGGET                   FLAG_JOHTO_SLICE(0x1cc)
 #define FLAG_ITEM_ROUTE46_REVIVE                   FLAG_JOHTO_SLICE(0x1cd)
 
+// === Safari Zone area (region merge) ===
+#define FLAG_VISITED_SAFARI_ZONE_GATE              FLAG_JOHTO_SLICE(0x1ce)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

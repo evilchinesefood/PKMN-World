@@ -95,7 +95,8 @@
     "gMapGroup_IndoorMahogany",
     "gMapGroup_JohtoBlackthorn",
     "gMapGroup_IndoorBlackthorn",
-    "gMapGroup_IndoorSSAqua"
+    "gMapGroup_IndoorSSAqua",
+    "gMapGroup_SafariZoneJohto"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1429,5 +1430,20 @@
     "SSAqua_RoomSSE",
     "SSAqua_RoomSE",
     "SSAqua_RoomSW"
+  ],
+  "gMapGroup_SafariZoneJohto": [
+    "SafariZoneGate",
+    "SafariZoneGate_PokemonCenter",
+    "SafariZoneGate_SafariZoneEntrance",
+    "SafariZoneIndoor",
+    "SafariZone_Enterance",
+    "SafariZone_Low_Left",
+    "SafariZone_Low_Mid",
+    "SafariZone_Low_Right",
+    "SafariZone_Top_Mid",
+    "SafariZone_Top_Right",
+    "SafariZone1",
+    "SafariZone2",
+    "SafariZone3"
   ]
 }

@@ -201,3 +201,18 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
     CompactPartySlots();
     gSpecialVar_Result = 1; // MON_UNSATISFACTORY
 }
+
+// === Safari Zone area (region merge) ===
+
+// HnS `baobacheckmon <area>` (Safari Zone gate entrance): the HGSS Safari-Zone custom-area
+// quest checks whether the chosen party mon is the "exotic" species Baoba wants from Fuchsia
+// Safari Zone area <area>, reporting via gSpecialVar_Result. The Fuchsia/Kanto safari areas
+// and the per-area species table are content-stage; read the operand and report FALSE so the
+// quest path safely dead-ends ("That can't be right!") instead of paying out or freezing.
+// Real check lands in the content stage.
+void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
+{
+    u16 number = ScriptReadHalfword(ctx);
+    (void)number;
+    gSpecialVar_Result = FALSE;
+}

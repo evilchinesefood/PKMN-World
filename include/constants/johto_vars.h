@@ -71,4 +71,7 @@
 #define VAR_ROCKET_PASSWORD         VAR_JOHTO_SLICE(0x36)
 #define VAR_ROUTE27_BAOBA_CALL      VAR_JOHTO_SLICE(0x37)
 
+// === Safari Zone area (region merge) — Baoba custom-area quest state ===
+#define VAR_BAOBA_QUEST_STATE       VAR_JOHTO_SLICE(0x38)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

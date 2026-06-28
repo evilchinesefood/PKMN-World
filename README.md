@@ -7,6 +7,23 @@ A private GBA ROM-hack project built on the
 - **Output ROM:** `pokemonworld.gba`
 - **ROM header:** title `POKEMON WRLD`, game code `BPEE`
 
+## Goal & status
+
+**Pokémon World** merges **three regions into one game** — **Kanto** (FRLG-derived), **Johto**
+(ported from the pokeemerald-based *Heart & Soul*), and **Hoenn** (native Emerald) — each a complete
+self-contained campaign chosen from a central **World Transit hub**, with a shared PC box / Pokédex /
+inventory and per-region badges + champions. `ALL_REGIONS` is permanently on.
+
+- ✅ **Hoenn** — native (base).
+- ✅ **Johto** — **fully ported** (~245 maps, trainers, encounters, gyms/badges, region map/Fly, and all
+  post-game: roaming beasts, Celebi, Ruins of Alph puzzles, Bug Contest, Ho-Oh/Lugia). Link-green; a
+  runtime playtest is the remaining gate.
+- 🔨 **Kanto** — FRLG maps bundled; campaign wiring + the `IS_FRLG`→runtime migration in progress.
+- 🔨 **Cross-region glue** — the World Transit hub, region-switch travel, multi-page trainer card,
+  character customization, and the Battle Frontier super-endgame are designed and queued.
+
+The full roadmap lives in `.plans/MasterPlan.md` (local, not tracked).
+
 See [INSTALL.md](INSTALL.md) for setup and build instructions.
 See [FEATURES.md](FEATURES.md) for the feature list.
 
@@ -38,9 +55,9 @@ conventions.
 ### Data and assets
 
 - `data/` — game data as assembly and scripts: event/battle/field-effect scripts
-  (`event_scripts.s`, `battle_scripts_*.s`), map data (`maps/` — ~940 map folders covering
-  native Hoenn plus the bundled-but-inert FRLG/Kanto maps), `layouts/`, `tilesets/`, and
-  `text/`.
+  (`event_scripts.s`, `battle_scripts_*.s`), map data (`maps/` — ~1180 map folders covering
+  native Hoenn, the bundled FRLG/Kanto maps, and the fully-ported Johto maps), `layouts/`,
+  `tilesets/`, and `text/`.
 - `graphics/` — raw image assets (sprites, tilesets, UI, battle anims, fonts, etc.), converted
   to GBA formats at build time.
 - `sound/` — music (`songs/`), cries, and sample data; assembled into the audio engine.
@@ -70,8 +87,9 @@ conventions.
 
 ### Documentation
 
-- Internal planning and review docs (architecture overview, region-merge roadmap, port
-  reviews) are kept locally under `docs/` and are **not** tracked in this repository.
+- Internal planning and review docs (architecture overview, region-merge roadmap, design specs,
+  port reviews) are kept locally under `.plans/` (organized into `features/`, `reviews/`, `done/`,
+  with `MasterPlan.md` as the index) and are **not** tracked in this repository.
 - [FEATURES.md](FEATURES.md) — feature list.
 - [INSTALL.md](INSTALL.md) — setup and build instructions.
 - [CREDITS.md](CREDITS.md) — credits.

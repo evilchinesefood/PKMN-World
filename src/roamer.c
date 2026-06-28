@@ -2,12 +2,16 @@
 #include "event_data.h"
 #include "ow_abilities.h"
 #include "pokemon.h"
+#include "pokedex.h"
 #include "random.h"
 #include "roamer.h"
 
-// Despite having a variable to track it, the roamer is
-// hard-coded to only ever be in map group 0
-#define ROAMER_MAP_GROUP 0
+// Region-merge: the roamer can be in ANY map group. Its region is derived from its
+// species — the three Johto legendary beasts (Entei/Raikou/Suicune) roam the Johto
+// routes (which span several map groups in this merged build), while every other
+// roamer (Hoenn's Latios/Latias) uses the Hoenn table (all in map group 0). The
+// location tables store full MAP_* ids (group<<8 | num); for group-0 Hoenn maps the
+// full id equals the bare map number, so Hoenn behavior is byte-identical to before.
 
 enum
 {
@@ -20,7 +24,7 @@ EWRAM_DATA static u8 sLocationHistory[ROAMER_COUNT][3][2] = {0};
 EWRAM_DATA static u8 sRoamerLocation[ROAMER_COUNT][2] = {0};
 EWRAM_DATA u8 gEncounteredRoamerIndex = 0;
 
-#define ___ MAP_NUM(MAP_UNDEFINED) // For empty spots in the location table
+#define ___ MAP_UNDEFINED // For empty spots in the location table
 
 // Note: There are two potential softlocks that can occur with this table if its maps are
 //       changed in particular ways. They can be avoided by ensuring the following:
@@ -34,34 +38,87 @@ EWRAM_DATA u8 gEncounteredRoamerIndex = 0;
 //         map in the location table there is not a location set that starts with
 //         that map then the roamer will be significantly less likely to move away
 //         from that map when it lands there.
-static const u8 sRoamerLocations[][6] =
+// Entries are full MAP_* ids (group<<8 | num) so a roamer can span multiple map groups.
+static const u16 sRoamerLocationsHoenn[][6] =
 {
-    { MAP_NUM(MAP_ROUTE110), MAP_NUM(MAP_ROUTE111), MAP_NUM(MAP_ROUTE117), MAP_NUM(MAP_ROUTE118), MAP_NUM(MAP_ROUTE134), ___ },
-    { MAP_NUM(MAP_ROUTE111), MAP_NUM(MAP_ROUTE110), MAP_NUM(MAP_ROUTE117), MAP_NUM(MAP_ROUTE118), ___, ___ },
-    { MAP_NUM(MAP_ROUTE117), MAP_NUM(MAP_ROUTE111), MAP_NUM(MAP_ROUTE110), MAP_NUM(MAP_ROUTE118), ___, ___ },
-    { MAP_NUM(MAP_ROUTE118), MAP_NUM(MAP_ROUTE117), MAP_NUM(MAP_ROUTE110), MAP_NUM(MAP_ROUTE111), MAP_NUM(MAP_ROUTE119), MAP_NUM(MAP_ROUTE123) },
-    { MAP_NUM(MAP_ROUTE119), MAP_NUM(MAP_ROUTE118), MAP_NUM(MAP_ROUTE120), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE120), MAP_NUM(MAP_ROUTE119), MAP_NUM(MAP_ROUTE121), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE121), MAP_NUM(MAP_ROUTE120), MAP_NUM(MAP_ROUTE122), MAP_NUM(MAP_ROUTE123), ___, ___ },
-    { MAP_NUM(MAP_ROUTE122), MAP_NUM(MAP_ROUTE121), MAP_NUM(MAP_ROUTE123), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE123), MAP_NUM(MAP_ROUTE122), MAP_NUM(MAP_ROUTE118), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE124), MAP_NUM(MAP_ROUTE121), MAP_NUM(MAP_ROUTE125), MAP_NUM(MAP_ROUTE126), ___, ___ },
-    { MAP_NUM(MAP_ROUTE125), MAP_NUM(MAP_ROUTE124), MAP_NUM(MAP_ROUTE127), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE126), MAP_NUM(MAP_ROUTE124), MAP_NUM(MAP_ROUTE127), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE127), MAP_NUM(MAP_ROUTE125), MAP_NUM(MAP_ROUTE126), MAP_NUM(MAP_ROUTE128), ___, ___ },
-    { MAP_NUM(MAP_ROUTE128), MAP_NUM(MAP_ROUTE127), MAP_NUM(MAP_ROUTE129), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE129), MAP_NUM(MAP_ROUTE128), MAP_NUM(MAP_ROUTE130), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE130), MAP_NUM(MAP_ROUTE129), MAP_NUM(MAP_ROUTE131), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE131), MAP_NUM(MAP_ROUTE130), MAP_NUM(MAP_ROUTE132), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE132), MAP_NUM(MAP_ROUTE131), MAP_NUM(MAP_ROUTE133), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE133), MAP_NUM(MAP_ROUTE132), MAP_NUM(MAP_ROUTE134), ___, ___, ___ },
-    { MAP_NUM(MAP_ROUTE134), MAP_NUM(MAP_ROUTE133), MAP_NUM(MAP_ROUTE110), ___, ___, ___ },
+    { MAP_ROUTE110, MAP_ROUTE111, MAP_ROUTE117, MAP_ROUTE118, MAP_ROUTE134, ___ },
+    { MAP_ROUTE111, MAP_ROUTE110, MAP_ROUTE117, MAP_ROUTE118, ___, ___ },
+    { MAP_ROUTE117, MAP_ROUTE111, MAP_ROUTE110, MAP_ROUTE118, ___, ___ },
+    { MAP_ROUTE118, MAP_ROUTE117, MAP_ROUTE110, MAP_ROUTE111, MAP_ROUTE119, MAP_ROUTE123 },
+    { MAP_ROUTE119, MAP_ROUTE118, MAP_ROUTE120, ___, ___, ___ },
+    { MAP_ROUTE120, MAP_ROUTE119, MAP_ROUTE121, ___, ___, ___ },
+    { MAP_ROUTE121, MAP_ROUTE120, MAP_ROUTE122, MAP_ROUTE123, ___, ___ },
+    { MAP_ROUTE122, MAP_ROUTE121, MAP_ROUTE123, ___, ___, ___ },
+    { MAP_ROUTE123, MAP_ROUTE122, MAP_ROUTE118, ___, ___, ___ },
+    { MAP_ROUTE124, MAP_ROUTE121, MAP_ROUTE125, MAP_ROUTE126, ___, ___ },
+    { MAP_ROUTE125, MAP_ROUTE124, MAP_ROUTE127, ___, ___, ___ },
+    { MAP_ROUTE126, MAP_ROUTE124, MAP_ROUTE127, ___, ___, ___ },
+    { MAP_ROUTE127, MAP_ROUTE125, MAP_ROUTE126, MAP_ROUTE128, ___, ___ },
+    { MAP_ROUTE128, MAP_ROUTE127, MAP_ROUTE129, ___, ___, ___ },
+    { MAP_ROUTE129, MAP_ROUTE128, MAP_ROUTE130, ___, ___, ___ },
+    { MAP_ROUTE130, MAP_ROUTE129, MAP_ROUTE131, ___, ___, ___ },
+    { MAP_ROUTE131, MAP_ROUTE130, MAP_ROUTE132, ___, ___, ___ },
+    { MAP_ROUTE132, MAP_ROUTE131, MAP_ROUTE133, ___, ___, ___ },
+    { MAP_ROUTE133, MAP_ROUTE132, MAP_ROUTE134, ___, ___, ___ },
+    { MAP_ROUTE134, MAP_ROUTE133, MAP_ROUTE110, ___, ___, ___ },
+    { ___, ___, ___, ___, ___, ___ },
+};
+
+// Johto legendary-beast roam table (Entei/Raikou/Suicune), ported from HnS. Johto routes
+// are spread across several map groups in this build, so the full-id form is essential.
+static const u16 sRoamerLocationsJohto[][6] =
+{
+    { MAP_ROUTE29, MAP_ROUTE30, MAP_ROUTE46, ___, ___, ___ },
+    { MAP_ROUTE30, MAP_ROUTE29, MAP_ROUTE31, ___, ___, ___ },
+    { MAP_ROUTE31, MAP_ROUTE30, MAP_ROUTE29, ___, ___, ___ },
+    { MAP_ROUTE32, MAP_ROUTE31, MAP_ROUTE33, ___, ___, ___ },
+    { MAP_ROUTE33, MAP_ROUTE32, MAP_ROUTE34, ___, ___, ___ },
+    { MAP_ROUTE34, MAP_ROUTE33, MAP_ROUTE35, ___, ___, ___ },
+    { MAP_ROUTE35, MAP_ROUTE34, MAP_ROUTE36, ___, ___, ___ },
+    { MAP_ROUTE36, MAP_ROUTE31, MAP_ROUTE32, MAP_ROUTE35, MAP_ROUTE37, ___ },
+    { MAP_ROUTE37, MAP_ROUTE36, MAP_ROUTE38, MAP_ROUTE42, ___, ___ },
+    { MAP_ROUTE38, MAP_ROUTE37, MAP_ROUTE39, ___, ___, ___ },
+    { MAP_ROUTE39, MAP_ROUTE48, MAP_ROUTE35, ___, ___, ___ },
+    { MAP_ROUTE42, MAP_ROUTE37, MAP_ROUTE38, MAP_ROUTE43, MAP_ROUTE44, ___ },
+    { MAP_ROUTE43, MAP_ROUTE42, MAP_ROUTE44, ___, ___, ___ },
+    { MAP_ROUTE44, MAP_ROUTE42, MAP_ROUTE45, ___, ___, ___ },
+    { MAP_ROUTE45, MAP_ROUTE44, MAP_ROUTE46, ___, ___, ___ },
+    { MAP_ROUTE46, MAP_ROUTE45, MAP_ROUTE29, ___, ___, ___ },
     { ___, ___, ___, ___, ___, ___ },
 };
 
 #undef ___
-#define NUM_LOCATION_SETS (ARRAY_COUNT(sRoamerLocations) - 1)
-#define NUM_LOCATIONS_PER_SET (ARRAY_COUNT(sRoamerLocations[0]))
+#define NUM_LOCATION_SETS_HOENN (ARRAY_COUNT(sRoamerLocationsHoenn) - 1)
+#define NUM_LOCATION_SETS_JOHTO (ARRAY_COUNT(sRoamerLocationsJohto) - 1)
+#define NUM_LOCATIONS_PER_SET (ARRAY_COUNT(sRoamerLocationsHoenn[0]))
+
+static bool8 IsJohtoRoamerSpecies(u16 species)
+{
+    return species == SPECIES_ENTEI || species == SPECIES_RAIKOU || species == SPECIES_SUICUNE;
+}
+
+// Picks the location table for this roamer (by species) and writes its set count.
+static const u16 (*GetRoamerLocations(u32 roamerIndex, u8 *numSets))[6]
+{
+    if (IsJohtoRoamerSpecies(ROAMER(roamerIndex)->species))
+    {
+        *numSets = NUM_LOCATION_SETS_JOHTO;
+        return sRoamerLocationsJohto;
+    }
+    *numSets = NUM_LOCATION_SETS_HOENN;
+    return sRoamerLocationsHoenn;
+}
+
+// sRoamerLocation/sLocationHistory store group & num as two bytes; these helpers pack/
+// unpack them as a full MAP_* id so the location tables can be compared directly.
+#define CUR_LOC_ID(idx)     (((u16)sRoamerLocation[idx][MAP_GRP] << 8) | sRoamerLocation[idx][MAP_NUM])
+#define HIST_LOC_ID(idx, h) (((u16)sLocationHistory[idx][h][MAP_GRP] << 8) | sLocationHistory[idx][h][MAP_NUM])
+
+static void SetRoamerLocationById(u32 idx, u16 mapId)
+{
+    sRoamerLocation[idx][MAP_GRP] = mapId >> 8;
+    sRoamerLocation[idx][MAP_NUM] = mapId & 0xFF;
+}
 
 void DeactivateAllRoamers(void)
 {
@@ -121,8 +178,11 @@ static void CreateInitialRoamerMon(u8 index, enum Species species, u8 level)
     ROAMER(index)->tough = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_TOUGH);
     ROAMER(index)->shiny = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_IS_SHINY);
     ROAMER(index)->active = TRUE;
-    sRoamerLocation[index][MAP_GRP] = ROAMER_MAP_GROUP;
-    sRoamerLocation[index][MAP_NUM] = sRoamerLocations[Random() % NUM_LOCATION_SETS][0];
+    {
+        u8 numSets;
+        const u16 (*table)[6] = GetRoamerLocations(index, &numSets);
+        SetRoamerLocationById(index, table[Random() % numSets][0]);
+    }
 }
 
 static u8 GetFirstInactiveRoamerIndex(void)
@@ -161,6 +221,22 @@ void InitRoamer(void)
         TryAddRoamer(SPECIES_LATIOS, 40);
 }
 
+// Johto legendary-beast roamer (Burned Tower beast-release). gSpecialVar_0x8004: 0 = Raikou,
+// otherwise Entei. Mirrors HnS InitRoamer: marks all three beasts as seen, then starts the
+// chosen beast roaming the Johto routes. With ROAMER_COUNT == 1 the beast takes the single
+// roamer slot, so any active Hoenn roamer is cleared first (the two regions' post-games never
+// roam simultaneously in practice).
+void InitJohtoRoamer(void)
+{
+    enum Species species = (gSpecialVar_0x8004 == 0) ? SPECIES_RAIKOU : SPECIES_ENTEI;
+
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAIKOU), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
+    DeactivateAllRoamers();
+    TryAddRoamer(species, 40);
+}
+
 void UpdateLocationHistoryForRoamer(void)
 {
     u32 i;
@@ -180,30 +256,34 @@ void UpdateLocationHistoryForRoamer(void)
 
 void RoamerMoveToOtherLocationSet(u32 roamerIndex)
 {
-    u8 mapNum = 0;
+    u16 mapId = 0;
+    u8 numSets;
+    const u16 (*table)[6];
 
     if (!ROAMER(roamerIndex)->active)
         return;
 
-    sRoamerLocation[roamerIndex][MAP_GRP] = ROAMER_MAP_GROUP;
+    table = GetRoamerLocations(roamerIndex, &numSets);
 
     // Choose a location set that starts with a map
     // different from the roamer's current map
     do
     {
-        mapNum = sRoamerLocations[Random() % NUM_LOCATION_SETS][0];
-        if (sRoamerLocation[roamerIndex][MAP_NUM] != mapNum)
+        mapId = table[Random() % numSets][0];
+        if (CUR_LOC_ID(roamerIndex) != mapId)
         {
-            sRoamerLocation[roamerIndex][MAP_NUM] = mapNum;
+            SetRoamerLocationById(roamerIndex, mapId);
             return;
         }
-    } while (sRoamerLocation[roamerIndex][MAP_NUM] == mapNum);
-    sRoamerLocation[roamerIndex][MAP_NUM] = mapNum;
+    } while (CUR_LOC_ID(roamerIndex) == mapId);
+    SetRoamerLocationById(roamerIndex, mapId);
 }
 
 void RoamerMove(u32 roamerIndex)
 {
     u8 locSet = 0;
+    u8 numSets;
+    const u16 (*table)[6];
 
     if ((Random() % 16) == 0)
     {
@@ -214,21 +294,21 @@ void RoamerMove(u32 roamerIndex)
         if (!ROAMER(roamerIndex)->active)
             return;
 
-        while (locSet < NUM_LOCATION_SETS)
+        table = GetRoamerLocations(roamerIndex, &numSets);
+
+        while (locSet < numSets)
         {
             // Find the location set that starts with the roamer's current map
-            if (sRoamerLocation[roamerIndex][MAP_NUM] == sRoamerLocations[locSet][0])
+            if (CUR_LOC_ID(roamerIndex) == table[locSet][0])
             {
-                u8 mapNum;
+                u16 mapId;
                 // Choose a new map (excluding the first) within this set
                 // Also exclude a map if the roamer was there 2 moves ago
                 do
                 {
-                    mapNum = sRoamerLocations[locSet][(Random() % (NUM_LOCATIONS_PER_SET - 1)) + 1];
-                } while ((sLocationHistory[roamerIndex][2][MAP_GRP] == ROAMER_MAP_GROUP
-                        && sLocationHistory[roamerIndex][2][MAP_NUM] == mapNum)
-                        || mapNum == MAP_NUM(MAP_UNDEFINED));
-                sRoamerLocation[roamerIndex][MAP_NUM] = mapNum;
+                    mapId = table[locSet][(Random() % (NUM_LOCATIONS_PER_SET - 1)) + 1];
+                } while (HIST_LOC_ID(roamerIndex, 2) == mapId || mapId == MAP_UNDEFINED);
+                SetRoamerLocationById(roamerIndex, mapId);
                 return;
             }
             locSet++;

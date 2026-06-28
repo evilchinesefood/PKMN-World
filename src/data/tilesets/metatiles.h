@@ -572,3 +572,7 @@ const u16 gMetatiles_SafariZoneJohto[] = INCBIN_U16("data/tilesets/secondary/saf
 const u16 gMetatileAttributes_SafariZoneJohto[] = INCBIN_U16("data/tilesets/secondary/safari_zone_johto/metatile_attributes.bin");
 const u16 gMetatiles_SafariZone_Entrance[] = INCBIN_U16("data/tilesets/secondary/safari_zone_entrance/metatiles.bin");
 const u16 gMetatileAttributes_SafariZone_Entrance[] = INCBIN_U16("data/tilesets/secondary/safari_zone_entrance/metatile_attributes.bin");
+const u16 gMetatiles_MtSilverSnow[] = INCBIN_U16("data/tilesets/secondary/mt_silver_snow/metatiles.bin");
+const u16 gMetatileAttributes_MtSilverSnow[] = INCBIN_U16("data/tilesets/secondary/mt_silver_snow/metatile_attributes.bin");
+const u16 gMetatiles_PokemonCenter_White[] = INCBIN_U16("data/tilesets/secondary/pokemon_center_white/metatiles.bin");
+const u16 gMetatileAttributes_PokemonCenter_White[] = INCBIN_U16("data/tilesets/secondary/pokemon_center_white/metatile_attributes.bin");

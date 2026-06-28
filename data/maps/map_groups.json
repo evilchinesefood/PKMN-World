@@ -96,7 +96,8 @@
     "gMapGroup_JohtoBlackthorn",
     "gMapGroup_IndoorBlackthorn",
     "gMapGroup_IndoorSSAqua",
-    "gMapGroup_SafariZoneJohto"
+    "gMapGroup_SafariZoneJohto",
+    "gMapGroup_MtSilver"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1445,5 +1446,20 @@
     "SafariZone1",
     "SafariZone2",
     "SafariZone3"
+  ],
+  "gMapGroup_MtSilver": [
+    "MtSilver_Outside",
+    "MtSilver_1F_WaterfallRoom",
+    "MtSilver_1F_MoltresRoom",
+    "MtSilver_1F_ItemRoom",
+    "MtSilver_2F",
+    "MtSilver_3F",
+    "MtSilver_MountainSide",
+    "MtSilver_Snow",
+    "MtSilver_SummitDay",
+    "MtSilver_SummitNight",
+    "MtSilver_PokemonCenter",
+    "Route28",
+    "Route28_House"
   ]
 }

@@ -275,4 +275,7 @@
 #define TRAINER_STANLY            TRAINER_JOEY
 #define TRAINER_WAI               TRAINER_JOEY
 
+// === Mt Silver area: endgame Red battle (real party lands in the trainers stage) ===
+#define TRAINER_RED_2             TRAINER_JOEY
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

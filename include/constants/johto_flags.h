@@ -479,4 +479,17 @@
 // === Safari Zone area (region merge) ===
 #define FLAG_VISITED_SAFARI_ZONE_GATE              FLAG_JOHTO_SLICE(0x1ce)
 
+// === Mt Silver area (region merge) ===
+#define FLAG_VISITED_MT_SILVER                     FLAG_JOHTO_SLICE(0x1cf)
+#define FLAG_DEFEATED_RED                          FLAG_JOHTO_SLICE(0x1d0)
+#define FLAG_HIDE_MTSILVER_RED                     FLAG_JOHTO_SLICE(0x1d1)
+#define FLAG_GOT_TM_STEEL_WING                     FLAG_JOHTO_SLICE(0x1d2)
+#define FLAG_ITEM_MTSILVER_MAXPOTION               FLAG_JOHTO_SLICE(0x1d3)
+#define FLAG_ITEM_MTSILVER_FULLRESTORE             FLAG_JOHTO_SLICE(0x1d4)
+#define FLAG_ITEM_MTSILVER_DIREHIT                 FLAG_JOHTO_SLICE(0x1d5)
+#define FLAG_ITEM_MTSILVER_ULTRABALL               FLAG_JOHTO_SLICE(0x1d6)
+#define FLAG_ITEM_MTSILVER_RARECANDY               FLAG_JOHTO_SLICE(0x1d7)
+#define FLAG_ITEM_MTSILVER_NERVERMELTICE           FLAG_JOHTO_SLICE(0x1d8)
+#define FLAG_ITEM_MTSILVER_SPELL_TAG               FLAG_JOHTO_SLICE(0x1d9)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

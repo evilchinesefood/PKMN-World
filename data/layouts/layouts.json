@@ -11732,6 +11732,149 @@
       "border_filepath": "data/layouts/SafariZone3/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone3/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_OUTSIDE",
+      "name": "MtSilver_Outside_Layout",
+      "width": 44,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_MahoganyTown",
+      "border_filepath": "data/layouts/MtSilver_Outside/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_Outside/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_1F_WATERFALL_ROOM",
+      "name": "MtSilver_1F_WaterfallRoom_Layout",
+      "width": 60,
+      "height": 50,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtSilver_1F_WaterfallRoom/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_1F_WaterfallRoom/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_1F_MOLTRES_ROOM",
+      "name": "MtSilver_1F_MoltresRoom_Layout",
+      "width": 35,
+      "height": 35,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtSilver_1F_MoltresRoom/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_1F_MoltresRoom/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_1F_ITEM_ROOM",
+      "name": "MtSilver_1F_ItemRoom_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtSilver_1F_ItemRoom/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_1F_ItemRoom/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_2F",
+      "name": "MtSilver_2F_Layout",
+      "width": 51,
+      "height": 51,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtSilver_2F/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_2F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_3F",
+      "name": "MtSilver_3F_Layout",
+      "width": 55,
+      "height": 25,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Cave_Gray",
+      "border_filepath": "data/layouts/MtSilver_3F/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_3F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_MOUNTAIN_SIDE",
+      "name": "MtSilver_MountainSide_Layout",
+      "width": 55,
+      "height": 61,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Blackthorn",
+      "border_filepath": "data/layouts/MtSilver_MountainSide/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_MountainSide/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_SNOW",
+      "name": "MtSilver_Snow_Layout",
+      "width": 55,
+      "height": 64,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_MtSilverSnow",
+      "border_filepath": "data/layouts/MtSilver_Snow/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_Snow/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_SUMMIT_DAY",
+      "name": "MtSilver_SummitDay_Layout",
+      "width": 21,
+      "height": 27,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_MtSilverSnow",
+      "border_filepath": "data/layouts/MtSilver_SummitDay/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_SummitDay/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_SUMMIT_NIGHT",
+      "name": "MtSilver_SummitNight_Layout",
+      "width": 21,
+      "height": 27,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_MtSilverSnow",
+      "border_filepath": "data/layouts/MtSilver_SummitNight/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_SummitNight/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_MT_SILVER_POKEMON_CENTER",
+      "name": "MtSilver_PokemonCenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_PokemonCenter_White",
+      "border_filepath": "data/layouts/MtSilver_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/MtSilver_PokemonCenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE28",
+      "name": "Route28_Layout",
+      "width": 67,
+      "height": 36,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_ViridianCity",
+      "border_filepath": "data/layouts/Route28/border.bin",
+      "blockdata_filepath": "data/layouts/Route28/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE28_HOUSE",
+      "name": "Route28_House_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/Route28_House/border.bin",
+      "blockdata_filepath": "data/layouts/Route28_House/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

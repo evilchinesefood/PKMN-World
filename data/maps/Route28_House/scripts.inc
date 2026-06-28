@@ -6,6 +6,7 @@ Route28House_EventScript_Celebrity::
 	goto_if_set FLAG_GOT_TM_STEEL_WING, Route28House_EventScript_CelebrityAfter
 	msgbox Route28House_Text_Celebrity1, MSGBOX_NPC
 	giveitem ITEM_TM_STEEL_WING
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_TM_STEEL_WING
 Route28House_EventScript_CelebrityAfter::
 	msgbox Route28House_Text_Celebrity2, MSGBOX_NPC

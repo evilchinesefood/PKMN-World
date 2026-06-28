@@ -4155,3 +4155,23 @@ const u16 gTilesetPalettes_BlackthornGym[][16] =
     INCGFX_U16("data/tilesets/secondary/blackthorn_gym/palettes/12.pal", ".gbapal"),
 };
 
+// === Region merge: Johto SS Aqua tileset ===
+const u32 gTilesetTiles_ssaqua[] = INCGFX_U32("data/tilesets/secondary/ssaqua/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_ssaqua[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/12.pal", ".gbapal"),
+};
+

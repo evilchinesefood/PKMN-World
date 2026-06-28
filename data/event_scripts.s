@@ -1228,6 +1228,18 @@ gStdScripts_End::
 	.include "data/maps/DragonsDen_Shrine/scripts.inc"
 	.include "data/maps/DarkCave_NorthSide/scripts.inc"
 	.include "data/maps/DarkCave_SouthSide/scripts.inc"
+	@ Region merge (Johto port): SS Aqua area scripts.
+	.include "data/maps/SSAqua_1F/scripts.inc"
+	.include "data/maps/SSAqua_B1F/scripts.inc"
+	.include "data/maps/SSAqua_CaptainsRoom/scripts.inc"
+	.include "data/maps/SSAqua_PlayersRoom/scripts.inc"
+	.include "data/maps/SSAqua_RoomNW/scripts.inc"
+	.include "data/maps/SSAqua_RoomNE/scripts.inc"
+	.include "data/maps/SSAqua_RoomNNE/scripts.inc"
+	.include "data/maps/SSAqua_RoomSSW/scripts.inc"
+	.include "data/maps/SSAqua_RoomSSE/scripts.inc"
+	.include "data/maps/SSAqua_RoomSE/scripts.inc"
+	.include "data/maps/SSAqua_RoomSW/scripts.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"

@@ -11468,6 +11468,127 @@
       "border_filepath": "data/layouts/DarkCave_SouthSide/border.bin",
       "blockdata_filepath": "data/layouts/DarkCave_SouthSide/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_1F",
+      "name": "SSAqua_1F_Layout",
+      "width": 38,
+      "height": 21,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_1F/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_B1F",
+      "name": "SSAqua_B1F_Layout",
+      "width": 34,
+      "height": 16,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_CAPTAINS_ROOM",
+      "name": "SSAqua_CaptainsRoom_Layout",
+      "width": 16,
+      "height": 14,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_CaptainsRoom/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_CaptainsRoom/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_PLAYERS_ROOM",
+      "name": "SSAqua_PlayersRoom_Layout",
+      "width": 8,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_PlayersRoom/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_PlayersRoom/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_NW",
+      "name": "SSAqua_Room_NW_Layout",
+      "width": 8,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomNW/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomNW/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_NE",
+      "name": "SSAqua_RoomNE_Layout",
+      "width": 8,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomNE/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomNE/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_NNE",
+      "name": "SSAqua_RoomNNE_Layout",
+      "width": 8,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomNNE/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomNNE/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_SSW",
+      "name": "SSAqua_RoomSSW_Layout",
+      "width": 8,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomSSW/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomSSW/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_SSE",
+      "name": "SSAqua_RoomSSE_Layout",
+      "width": 8,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomSSE/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomSSE/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_SE",
+      "name": "SSAqua_RoomSE_Layout",
+      "width": 8,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomSE/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomSE/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SSAQUA_ROOM_SW",
+      "name": "SSAqua_RoomSW_Layout",
+      "width": 8,
+      "height": 11,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_ssaqua",
+      "border_filepath": "data/layouts/SSAqua_RoomSW/border.bin",
+      "blockdata_filepath": "data/layouts/SSAqua_RoomSW/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

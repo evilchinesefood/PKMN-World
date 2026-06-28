@@ -2175,3 +2175,14 @@ const struct Tileset gTileset_BlackthornGym =
     .callback = InitTilesetAnim_Lavaridge,
 };
 
+const struct Tileset gTileset_ssaqua =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_ssaqua,
+    .palettes = gTilesetPalettes_ssaqua,
+    .metatiles = gMetatiles_ssaqua,
+    .metatileAttributes = gMetatileAttributes_ssaqua,
+    .callback = NULL,
+};
+

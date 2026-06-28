@@ -2014,6 +2014,14 @@
       "y": 5,
       "width": 1,
       "height": 1
+    },
+    {
+      "id": "MAPSEC_SS_AQUA",
+      "name": "S.S. AQUA",
+      "x": 12,
+      "y": 8,
+      "width": 1,
+      "height": 1
     }
   ]
 }

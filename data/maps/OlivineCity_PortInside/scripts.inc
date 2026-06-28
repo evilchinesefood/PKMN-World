@@ -195,7 +195,9 @@ OlivinePort_EventScript_Sailor_MaidenVoyage::
 	clearflag FLAG_HIDE_SSAQUA_SAILOR
 	clearflag FLAG_HIDE_SSAQUA_CAPTAINS_ROOM_GRANDDAUGHTER
 
-	warpsilent MAP_OLIVINE_CITY, 15, 44
+	@ Region merge (SS Aqua port): SS Aqua boarding warp re-stitched (was stubbed to
+	@ MAP_OLIVINE_CITY, 15, 44 when Olivine shipped; original dest restored).
+	warpsilent MAP_SSAQUA_1F, 29, 3
 	release
 	end
 

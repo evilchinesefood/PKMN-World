@@ -94,7 +94,8 @@
     "gMapGroup_JohtoMahogany",
     "gMapGroup_IndoorMahogany",
     "gMapGroup_JohtoBlackthorn",
-    "gMapGroup_IndoorBlackthorn"
+    "gMapGroup_IndoorBlackthorn",
+    "gMapGroup_IndoorSSAqua"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1415,5 +1416,18 @@
     "DragonsDen_Shrine",
     "DarkCave_NorthSide",
     "DarkCave_SouthSide"
+  ],
+  "gMapGroup_IndoorSSAqua": [
+    "SSAqua_1F",
+    "SSAqua_B1F",
+    "SSAqua_CaptainsRoom",
+    "SSAqua_PlayersRoom",
+    "SSAqua_RoomNW",
+    "SSAqua_RoomNE",
+    "SSAqua_RoomNNE",
+    "SSAqua_RoomSSW",
+    "SSAqua_RoomSSE",
+    "SSAqua_RoomSE",
+    "SSAqua_RoomSW"
   ]
 }

@@ -656,6 +656,7 @@ gSpecials::
 	def_special CheckOmanyte
 	def_special GetMaxPartySize
 	def_special IsRandomMovesActivated
+	def_special IsPokecenterChallengeActivated
 
 	@ Region merge (Johto port): Goldenrod-area specials.
 	def_special EnterBugContestMode

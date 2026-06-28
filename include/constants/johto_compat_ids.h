@@ -255,4 +255,24 @@
 #define TRAINER_RYAN              TRAINER_JOEY
 #define TRAINER_TIMOTHY           TRAINER_JOEY
 
+// === SS Aqua area: HnS Johto trainers (real parties land in the trainers stage) ===
+// 10 SS Aqua trainers collide with an existing target enum (CAROL, COLIN, DEBRA,
+// EDWARD, JEFF, JONAH, LYLE, NATE, NOLAND, SHIRLEY) and are edited in-script to
+// TRAINER_JOEY in their map scripts.inc instead of aliased here; all others below.
+// TRAINER_MEG_AND_PEG is a trainerbattle_double; aliasing to single-mon TRAINER_JOEY
+// builds fine (correct double-battle party lands in the trainers stage).
+#define TRAINER_CASSIE            TRAINER_JOEY
+#define TRAINER_CLYDE             TRAINER_JOEY
+#define TRAINER_COREY             TRAINER_JOEY
+#define TRAINER_ETHAN             TRAINER_JOEY
+#define TRAINER_FRITZ             TRAINER_JOEY
+#define TRAINER_GARRETT           TRAINER_JOEY
+#define TRAINER_KEN               TRAINER_JOEY
+#define TRAINER_KENNETH           TRAINER_JOEY
+#define TRAINER_MEG_AND_PEG       TRAINER_JOEY
+#define TRAINER_RICKY             TRAINER_JOEY
+#define TRAINER_SEAN              TRAINER_JOEY
+#define TRAINER_STANLY            TRAINER_JOEY
+#define TRAINER_WAI               TRAINER_JOEY
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

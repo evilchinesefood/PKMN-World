@@ -22,6 +22,11 @@
       "map": "MAP_NEW_BARK_TOWN",
       "offset": 5,
       "direction": "right"
+    },
+    {
+      "map": "MAP_ROUTE46",
+      "offset": 24,
+      "direction": "up"
     }
   ],
   "object_events": [
@@ -252,15 +257,15 @@
       "x": 34,
       "y": 10,
       "elevation": 0,
-      "dest_map": "MAP_NEW_BARK_TOWN_LAB",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_GATE_ROUTE29_ROUTE46",
+      "dest_warp_id": 1
     },
     {
       "x": 35,
       "y": 10,
       "elevation": 0,
-      "dest_map": "MAP_NEW_BARK_TOWN_LAB",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_GATE_ROUTE29_ROUTE46",
+      "dest_warp_id": 1
     }
   ],
   "coord_events": [

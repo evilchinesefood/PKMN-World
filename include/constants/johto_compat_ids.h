@@ -233,4 +233,26 @@
 #define ITEM_TM_SLUDGE_BOMB    ITEM_TM36
 #define ITEM_TM_THIEF          ITEM_TM46
 
+// === Blackthorn area: HnS Johto trainers (real parties land in the trainers stage) ===
+// None collide with an existing target enum (verified) except PAUL/TED which are
+// edited in-script to TRAINER_JOEY; all others are aliased here.
+#define TRAINER_BAILEY            TRAINER_JOEY
+#define TRAINER_CARA              TRAINER_JOEY
+#define TRAINER_CLAIR_1           TRAINER_JOEY
+#define TRAINER_CODY              TRAINER_JOEY
+#define TRAINER_DARIN             TRAINER_JOEY
+#define TRAINER_ERIK              TRAINER_JOEY
+#define TRAINER_ERIN              TRAINER_JOEY
+#define TRAINER_FRAN              TRAINER_JOEY
+#define TRAINER_KELLY             TRAINER_JOEY
+#define TRAINER_KENJI             TRAINER_JOEY
+#define TRAINER_LEA_AND_PIA       TRAINER_JOEY
+#define TRAINER_LOLA              TRAINER_JOEY
+#define TRAINER_MICHAEL           TRAINER_JOEY
+#define TRAINER_MIKE              TRAINER_JOEY
+#define TRAINER_PARRY             TRAINER_JOEY
+#define TRAINER_QUENTIN           TRAINER_JOEY
+#define TRAINER_RYAN              TRAINER_JOEY
+#define TRAINER_TIMOTHY           TRAINER_JOEY
+
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

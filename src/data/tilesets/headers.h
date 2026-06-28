@@ -2118,3 +2118,60 @@ const struct Tileset gTileset_House_2 =
     .callback = NULL,
 };
 
+
+// === Region merge: Johto Blackthorn-area tilesets ===
+const struct Tileset gTileset_Blackthorn =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Blackthorn,
+    .palettes = gTilesetPalettes_Blackthorn,
+    .metatiles = gMetatiles_Blackthorn,
+    .metatileAttributes = gMetatileAttributes_Blackthorn,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Cave_Ice =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Cave_Ice,
+    .palettes = gTilesetPalettes_Cave_Ice,
+    .metatiles = gMetatiles_Cave_Ice,
+    .metatileAttributes = gMetatileAttributes_Cave_Ice,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Cave_DragonsDen =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Cave_DragonsDen,
+    .palettes = gTilesetPalettes_Cave_DragonsDen,
+    .metatiles = gMetatiles_Cave_DragonsDen,
+    .metatileAttributes = gMetatileAttributes_Cave_DragonsDen,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_DragonsDen_Shrine =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_DragonsDen_Shrine,
+    .palettes = gTilesetPalettes_DragonsDen_Shrine,
+    .metatiles = gMetatiles_DragonsDen_Shrine,
+    .metatileAttributes = gMetatileAttributes_DragonsDen_Shrine,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_BlackthornGym =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_BlackthornGym,
+    .palettes = gTilesetPalettes_BlackthornGym,
+    .metatiles = gMetatiles_BlackthornGym,
+    .metatileAttributes = gMetatileAttributes_BlackthornGym,
+    .callback = InitTilesetAnim_Lavaridge,
+};
+

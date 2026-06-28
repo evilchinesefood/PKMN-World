@@ -69,4 +69,18 @@
 #define BERRY_TREE_LEPPA_1          BERRY_TREE_ROUTE_123_LEPPA_1
 #define BERRY_TREE_LEPPA_2          BERRY_TREE_ROUTE_123_LEPPA_2
 
+// === Blackthorn area aliases ===
+// Dragon's Den elder quiz: HnS bespoke multichoice sets have no target equivalents;
+// map to the generic yes/no set so the multichoice path links. The real 5-question
+// quiz UI is content-stage work.
+#define MULTI_ELDERQUIIZ1           MULTI_YESNO
+#define MULTI_ELDERQUIIZ2           MULTI_YESNO
+#define MULTI_ELDERQUIIZ3           MULTI_YESNO
+#define MULTI_ELDERQUIIZ4           MULTI_YESNO
+#define MULTI_ELDERQUIIZ5           MULTI_YESNO
+
+// Blackthorn-area berry trees -> Hoenn slots (Stage-4 own slots)
+#define BERRY_TREE_ASPEAR_2  BERRY_TREE_ROUTE_120_ASPEAR_2
+#define BERRY_TREE_LUM_1     BERRY_TREE_ROUTE_120_ASPEAR_3
+
 #endif

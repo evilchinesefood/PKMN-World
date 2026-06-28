@@ -39,7 +39,7 @@ Gate_GoldenrodCity_Route35_EventScript_RandyDeliveredKenya::
 	msgbox Route35GoldenrodGate_Text_ThanksForDelivery, MSGBOX_DEFAULT
 	closemessage
 	giveitem ITEM_HP_UP
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox Route35GoldenrodGate_Text_RandyMyPalSnoozing, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_KENYA, 3

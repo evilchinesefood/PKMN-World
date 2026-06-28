@@ -221,6 +221,7 @@ MahoganyHideout_B3F_EventScript_OpenDoor::
 	end
 
 MahoganyHideout_B3F_EventScript_DoorIsOpen::
+	release
 	end
 
 MahoganyHideout_B3F_EventScript_GruntF5::

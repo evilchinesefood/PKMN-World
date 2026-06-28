@@ -16,10 +16,10 @@ MahoganyHideout_B2F_MapScripts::
 MahoganyHideout_B2F_OnLoad::
 	call_if_set FLAG_HIDE_ROCKETHIDEOUT2_GATE, MahoganyHideout_B2F_HideGate
 	call_if_eq VAR_MAHOGANY_TOWN_STATE, 13, MahoganyHideout_B2F_MoveLanceDragonite
-	call_if_ge VAR_ELECTRODES_FAINTED, 4, RockerHideout2_DeactivateGenerator
+	call_if_ge VAR_ELECTRODES_FAINTED, 4, MahoganyHideout_B2F_DeactivateGenerator
 	end
 
-RockerHideout2_DeactivateGenerator::
+MahoganyHideout_B2F_DeactivateGenerator::
 	setmetatile 13, 8, 0x303, TRUE
 	setmetatile 13, 9, 0x303, TRUE
 	setmetatile 13, 10, 0x303, TRUE
@@ -341,7 +341,7 @@ MahoganyHideout_B2F_EventScript_GruntTrainer::
 
 MahoganyHideout_B2F_EventScript_DefeatedAriana::
 	clearflag FLAG_ROCKETHIDEOUT2_BATTLE
-	msgbox RocketHideout_Text_ArianaRetreat, MSGBOX_DEFAULT
+	msgbox MahoganyHideout_B2F_Text_ArianaRetreat, MSGBOX_DEFAULT
 	closemessage
 	fadescreenswapbuffers FADE_TO_BLACK
 	applymovement LOCALID_ROCKETHIDEOUT2_LANCE, Common_Movement_WalkUp1
@@ -356,7 +356,7 @@ MahoganyHideout_B2F_EventScript_DefeatedAriana::
 	removeobject LOCALID_ROCKETHIDEOUT2_GRUNT
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_WEST
 	fadescreenswapbuffers FADE_FROM_BLACK
-	msgbox RocketHideout_Text_LanceStepBack, MSGBOX_DEFAULT
+	msgbox MahoganyHideout_B2F_Text_LanceStepBack, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_ROCKETHIDEOUT2_LANCE, MahoganyHideout_B2F_Movement_LanceWalkToGenerator
 	applymovement LOCALID_ROCKETHIDEOUT2_DRAGONITE, MahoganyHideout_B2F_Movement_DragoniteWalkToGenerator
@@ -511,10 +511,10 @@ MahoganyHideout_B2F_EventScript_ElectrodeDone::
 	playse SE_CLICK
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	turnobject LOCALID_ROCKETHIDEOUT2_LANCE, DIR_NORTH
-	call RockerHideout2_DeactivateGenerator
+	call MahoganyHideout_B2F_DeactivateGenerator
 	special DrawWholeMapView
 	delay 55
-	turnobject LOCALID_ROCKETHIDEOUT2_LANCE DIR_WEST
+	turnobject LOCALID_ROCKETHIDEOUT2_LANCE, DIR_WEST
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_EAST
 	delay 30
 	msgbox MahoganyHideout_B2F_Text_LanceElectrodeDone, MSGBOX_DEFAULT
@@ -613,7 +613,7 @@ MahoganyHideout_B2F_Text_ArianaLoss:
     .string "If you were to join Team Rocket,\n"
     .string "you could become an Executive.$"
 
-RocketHideout_Text_ArianaRetreat:
+MahoganyHideout_B2F_Text_ArianaRetreat:
     .string "ARIANA: But that's fine.\n"
     .string "The broadcast experiment was a\l"
     .string "total success.\p"
@@ -625,7 +625,7 @@ RocketHideout_Text_ArianaRetreat:
     .string "Enjoy yourself while you can...\n"
     .string "Hee hee hee...$"
 
-RocketHideout_Text_LanceStepBack:
+MahoganyHideout_B2F_Text_LanceStepBack:
     .string "Sorry, {PLAYER}. I saw how well you\n"
     .string "were doing, so I just hung back.\p"
     .string "Now all there is left to do is to turn\n"
@@ -695,7 +695,7 @@ MahoganyHideout_B2F_Text_B2FDeactivateTransmitter:
 
 @===========================================================================================================================================
 
-RocketHideout_EventScript_Item_Thief::
+MahoganyHideout_B2F_EventScript_Item_Thief::
 	finditem ITEM_TM_THIEF
 	end
 

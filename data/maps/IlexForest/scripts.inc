@@ -200,7 +200,7 @@ IlexForest_EventScript_Trigger::
 	msgbox IlexForest_Text_CharcoalMasterIntro, MSGBOX_DEFAULT
 	closemessage
 	giveitem ITEM_HM_CUT
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox IlexForest_Text_CharcoalMasterOutro, MSGBOX_DEFAULT
 	setflag FLAG_RECEIVED_HM_CUT
 	setflag FLAG_HIDE_ILEX_FOREST_MASTER

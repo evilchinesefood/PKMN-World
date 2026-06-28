@@ -92,7 +92,9 @@
     "gMapGroup_JohtoCianwood",
     "gMapGroup_IndoorCianwood",
     "gMapGroup_JohtoMahogany",
-    "gMapGroup_IndoorMahogany"
+    "gMapGroup_IndoorMahogany",
+    "gMapGroup_JohtoBlackthorn",
+    "gMapGroup_IndoorBlackthorn"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1389,5 +1391,29 @@
     "MahoganyHideout_B1F",
     "MahoganyHideout_B2F",
     "MahoganyHideout_B3F"
+  ],
+  "gMapGroup_JohtoBlackthorn": [
+    "BlackthornCity",
+    "Route45",
+    "Route46"
+  ],
+  "gMapGroup_IndoorBlackthorn": [
+    "BlackthornCity_Gym",
+    "BlackthornCity_House1",
+    "BlackthornCity_House2",
+    "BlackthornCity_House3",
+    "BlackthornCity_Mart",
+    "BlackthornCity_PokemonCenter",
+    "Gate_Route29_Route46",
+    "IcePath_1F",
+    "IcePath_B1F",
+    "IcePath_B2F",
+    "IcePath_B3F",
+    "IcePath_B4F",
+    "DragonsDen_Cavern",
+    "DragonsDen_Entrance",
+    "DragonsDen_Shrine",
+    "DarkCave_NorthSide",
+    "DarkCave_SouthSide"
   ]
 }

@@ -440,4 +440,40 @@
 #define FLAG_ITEM_ROUTE44_MAX_REPEL               FLAG_JOHTO_SLICE(0x1AF)
 #define FLAG_ITEM_ROUTE44_ULTRA_BALL              FLAG_JOHTO_SLICE(0x1B0)
 
+// === Blackthorn area (region merge) — Blackthorn City, Routes 45/46, Ice Path, Dragon's Den, Dark Cave ===
+// Clean Johto-bank range above Mahogany's highest (0x1B0). Story/hide flags first, hidden-item flag last.
+#define FLAG_BLACKTHORN_NPC_TRADE_COMPLETED       FLAG_JOHTO_SLICE(0x1B1)
+#define FLAG_DEFEATED_BLACKTHORN_GYM              FLAG_JOHTO_SLICE(0x1B2)
+#define FLAG_HIDE_DEN_CLAIR                       FLAG_JOHTO_SLICE(0x1B3)
+#define FLAG_HIDE_DOJO_CLAIR                      FLAG_JOHTO_SLICE(0x1B4)
+#define FLAG_VISITED_BLACKTHORN_CITY              FLAG_JOHTO_SLICE(0x1B5)
+// Blackthorn-area hidden-item (item-ball received) flag — Johto bank.
+#define FLAG_ITEM_ICEPATH4_TM_BLIZZARD            FLAG_JOHTO_SLICE(0x1B6)
+
+
+// Blackthorn-area hidden-item flags (Johto bank, 0x1B7+)
+#define FLAG_ITEM_DARKCAVE1_ELIXIR                 FLAG_JOHTO_SLICE(0x1b7)
+#define FLAG_ITEM_DARKCAVE1_MAX_REVIVE             FLAG_JOHTO_SLICE(0x1b8)
+#define FLAG_ITEM_DARKCAVE1_POTION                 FLAG_JOHTO_SLICE(0x1b9)
+#define FLAG_ITEM_DARKCAVE1_REVIVE                 FLAG_JOHTO_SLICE(0x1ba)
+#define FLAG_ITEM_DARKCAVE2_BLACK_FLUTE            FLAG_JOHTO_SLICE(0x1bb)
+#define FLAG_ITEM_DARKCAVE2_STAR_PIECE             FLAG_JOHTO_SLICE(0x1bc)
+#define FLAG_ITEM_DRAGONSDEN2_DRAGON_FANG          FLAG_JOHTO_SLICE(0x1bd)
+#define FLAG_ITEM_DRAGONSDEN2_MAX_POTION           FLAG_JOHTO_SLICE(0x1be)
+#define FLAG_ITEM_DRAGONSDEN2_PP_MAX               FLAG_JOHTO_SLICE(0x1bf)
+#define FLAG_ITEM_ICEPATH1_HM_WATERFALL            FLAG_JOHTO_SLICE(0x1c0)
+#define FLAG_ITEM_ICEPATH1_PP_UP                   FLAG_JOHTO_SLICE(0x1c1)
+#define FLAG_ITEM_ICEPATH1_PROTEIN                 FLAG_JOHTO_SLICE(0x1c2)
+#define FLAG_ITEM_ICEPATH2_IRON                    FLAG_JOHTO_SLICE(0x1c3)
+#define FLAG_ITEM_ICEPATH2_REVIVE                  FLAG_JOHTO_SLICE(0x1c4)
+#define FLAG_ITEM_ICEPATH3_CARBOS                  FLAG_JOHTO_SLICE(0x1c5)
+#define FLAG_ITEM_ICEPATH3_FULL_HEAL               FLAG_JOHTO_SLICE(0x1c6)
+#define FLAG_ITEM_ICEPATH3_MAX_POTION              FLAG_JOHTO_SLICE(0x1c7)
+#define FLAG_ITEM_ICEPATH3_NEVER_MELT_ICE          FLAG_JOHTO_SLICE(0x1c8)
+#define FLAG_ITEM_ROUTE45_ELIXIR                   FLAG_JOHTO_SLICE(0x1c9)
+#define FLAG_ITEM_ROUTE45_FULL_HEAL                FLAG_JOHTO_SLICE(0x1ca)
+#define FLAG_ITEM_ROUTE45_MAX_POTION               FLAG_JOHTO_SLICE(0x1cb)
+#define FLAG_ITEM_ROUTE45_NUGGET                   FLAG_JOHTO_SLICE(0x1cc)
+#define FLAG_ITEM_ROUTE46_REVIVE                   FLAG_JOHTO_SLICE(0x1cd)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

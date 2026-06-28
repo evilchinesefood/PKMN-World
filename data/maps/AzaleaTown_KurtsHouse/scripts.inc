@@ -91,7 +91,7 @@ AzaleaTown_KurtsHouse_EventScript_ReturnFromWell::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	msgbox KurtsHouse_Text_KurtHonoredToMakeBalls, MSGBOX_DEFAULT
 	giveitem ITEM_FAST_BALL
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtBallsFromApricorns, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -144,7 +144,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Love::
 	waitmessage
 	giveitem ITEM_LOVE_BALL, 5
 	removeitem ITEM_PECHA_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -168,7 +168,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Lure::
 	waitmessage
 	giveitem ITEM_LURE_BALL, 5
 	removeitem ITEM_RAWST_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -192,7 +192,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Friend::
 	waitmessage
 	giveitem ITEM_FRIEND_BALL, 5
 	removeitem ITEM_CHERI_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -216,7 +216,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Heavy::
 	waitmessage
 	giveitem ITEM_HEAVY_BALL, 5
 	removeitem ITEM_ORAN_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -240,7 +240,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Moon::
 	waitmessage
 	giveitem ITEM_MOON_BALL, 5
 	removeitem ITEM_CHESTO_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -264,7 +264,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Fast::
 	waitmessage
 	giveitem ITEM_FAST_BALL, 5
 	removeitem ITEM_ASPEAR_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -288,7 +288,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Level::
 	waitmessage
 	giveitem ITEM_LEVEL_BALL, 5
 	removeitem ITEM_PERSIM_BERRY, 5
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH

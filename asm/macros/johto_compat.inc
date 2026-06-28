@@ -118,3 +118,14 @@
 		callnative ScrCmd_callfunc_Compat
 		.4byte \func
 	.endm
+	@ === Blackthorn area (Ice Path berry puzzle) ===
+	@ HnS `chooseitem <pocket>` opens the bag to <pocket> via `special ChooseItemFromBag`
+	@ and stores the picked item in VAR_ITEM_ID. That bag-choice UI isn't ported; a literal
+	@ expansion (fadescreen + waitstate + no-op special) would soft-lock. For the port stage,
+	@ resolve the pick to "nothing" so the caller's `removeitem VAR_ITEM_ID, 1` /
+	@ `goto_if_ne VAR_ITEM_ID, ITEM_ASPEAR_BERRY` path falls through to the disliked-berry
+	@ branch with no side effects or freeze. \pocket is intentionally unreferenced; the real
+	@ bag UI is content-stage work.
+	.macro chooseitem pocket:req
+		setvar VAR_ITEM_ID, ITEM_NONE
+	.endm

@@ -49,7 +49,11 @@
 //
 // If you choose to widen Map Sections, be aware that Met Locations (below)
 // are based on Map Sections and will also be widened.
-typedef u8  mapsec_u8_t;
+// Region merge (Johto+Kanto+Hoenn): MAPSEC count exceeds 256, so this is widened
+// to u16 (regionMapSectionId / landmarks must hold values >= 256). Name kept for
+// minimal churn. Met Locations stay u8 (decoupled below) since metLocation storage
+// in BoxPokemon is a raw u8 and no caught-mon met-loc reaches 256.
+typedef u16 mapsec_u8_t;
 typedef u16 mapsec_u16_t;
 typedef s16 mapsec_s16_t;
 typedef s32 mapsec_s32_t;
@@ -62,6 +66,6 @@ typedef s32 mapsec_s32_t;
 // greater than you expect due to how Pokemon substructs are laid out; you
 // would have to rearrange the substructs' contents in order to minimize
 // how much more space a wider Met Location would consume.
-typedef mapsec_u8_t metloc_u8_t;
+typedef u8 metloc_u8_t; // Region merge: kept u8 (decoupled from mapsec) — see note above.
 
 #endif //GUARD_GAMETYPES_H

@@ -412,6 +412,13 @@
       "x": 21,
       "y": 20,
       "respawn_map": "MAP_MAHOGANY_TOWN_POKEMON_CENTER"
+    },
+    {
+      "id": "HEAL_LOCATION_BLACKTHORN_CITY",
+      "map": "MAP_BLACKTHORN_CITY",
+      "x": 27,
+      "y": 49,
+      "respawn_map": "MAP_BLACKTHORN_CITY_POKEMON_CENTER"
     }
   ]
 }

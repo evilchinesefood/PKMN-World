@@ -109,7 +109,7 @@ MahoganyTown_EventScript_MerchantTrigger::
 	playse SE_SHOP
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSavorIt, MSGBOX_DEFAULT
 	giveitem ITEM_RAGE_CANDY_BAR
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	hidemoneybox
 	closemessage
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1

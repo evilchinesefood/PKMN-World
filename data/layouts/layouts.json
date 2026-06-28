@@ -11248,6 +11248,226 @@
       "border_filepath": "data/layouts/MahoganyHideout_B3F/border.bin",
       "blockdata_filepath": "data/layouts/MahoganyHideout_B3F/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY",
+      "name": "BlackthornCity_Layout",
+      "width": 59,
+      "height": 60,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Blackthorn",
+      "border_filepath": "data/layouts/BlackthornCity/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY_GYM",
+      "name": "BlackthornCity_Gym_Layout",
+      "width": 41,
+      "height": 60,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BlackthornGym",
+      "border_filepath": "data/layouts/BlackthornCity_Gym/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity_Gym/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY_HOUSE1",
+      "name": "BlackthornCity_House1_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/BlackthornCity_House1/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity_House1/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY_HOUSE2",
+      "name": "BlackthornCity_House2_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/BlackthornCity_House2/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity_House2/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY_HOUSE3",
+      "name": "BlackthornCity_House3_Layout",
+      "width": 13,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_House_Lab",
+      "border_filepath": "data/layouts/BlackthornCity_House3/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity_House3/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY_MART",
+      "name": "BlackthornCity_Mart_Layout",
+      "width": 14,
+      "height": 9,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_JohtoMart",
+      "border_filepath": "data/layouts/BlackthornCity_Mart/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity_Mart/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BLACKTHORN_CITY_POKEMON_CENTER",
+      "name": "BlackthornCity_PokemonCenter_Layout",
+      "width": 16,
+      "height": 10,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Kanto_PokemonCenter",
+      "border_filepath": "data/layouts/BlackthornCity_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/BlackthornCity_PokemonCenter/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE45",
+      "name": "Route45_Layout",
+      "width": 46,
+      "height": 100,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Blackthorn",
+      "border_filepath": "data/layouts/Route45/border.bin",
+      "blockdata_filepath": "data/layouts/Route45/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ROUTE46",
+      "name": "Route46_Layout",
+      "width": 27,
+      "height": 46,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_CherrygroveCity",
+      "border_filepath": "data/layouts/Route46/border.bin",
+      "blockdata_filepath": "data/layouts/Route46/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_GATE_ROUTE29_ROUTE46",
+      "name": "Gate_Route29_Route46_Layout",
+      "width": 15,
+      "height": 12,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_Gate_Standard",
+      "border_filepath": "data/layouts/Gate_Route29_Route46/border.bin",
+      "blockdata_filepath": "data/layouts/Gate_Route29_Route46/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ICE_PATH_1F",
+      "name": "IcePath_1F_Layout",
+      "width": 53,
+      "height": 35,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Ice",
+      "border_filepath": "data/layouts/IcePath_1F/border.bin",
+      "blockdata_filepath": "data/layouts/IcePath_1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ICE_PATH_B1F",
+      "name": "IcePath_B1F_Layout",
+      "width": 35,
+      "height": 50,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Ice",
+      "border_filepath": "data/layouts/IcePath_B1F/border.bin",
+      "blockdata_filepath": "data/layouts/IcePath_B1F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ICE_PATH_B2F",
+      "name": "IcePath_B2F_Layout",
+      "width": 34,
+      "height": 28,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Ice",
+      "border_filepath": "data/layouts/IcePath_B2F/border.bin",
+      "blockdata_filepath": "data/layouts/IcePath_B2F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ICE_PATH_B3F",
+      "name": "IcePath_B3F_Layout",
+      "width": 26,
+      "height": 28,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Ice",
+      "border_filepath": "data/layouts/IcePath_B3F/border.bin",
+      "blockdata_filepath": "data/layouts/IcePath_B3F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_ICE_PATH_B4F",
+      "name": "IcePath_B4F_Layout",
+      "width": 30,
+      "height": 28,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Ice",
+      "border_filepath": "data/layouts/IcePath_B4F/border.bin",
+      "blockdata_filepath": "data/layouts/IcePath_B4F/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_DRAGONS_DEN_CAVERN",
+      "name": "DragonsDen_Cavern_Layout",
+      "width": 60,
+      "height": 54,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_Cave_DragonsDen",
+      "border_filepath": "data/layouts/DragonsDen_Cavern/border.bin",
+      "blockdata_filepath": "data/layouts/DragonsDen_Cavern/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_DRAGONS_DEN_ENTRANCE",
+      "name": "DragonsDen_Entrance_Layout",
+      "width": 10,
+      "height": 18,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_DragonsDen",
+      "border_filepath": "data/layouts/DragonsDen_Entrance/border.bin",
+      "blockdata_filepath": "data/layouts/DragonsDen_Entrance/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_DRAGONS_DEN_SHRINE",
+      "name": "DragonsDen_Shrine_Layout",
+      "width": 14,
+      "height": 18,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_DragonsDen_Shrine",
+      "border_filepath": "data/layouts/DragonsDen_Shrine/border.bin",
+      "blockdata_filepath": "data/layouts/DragonsDen_Shrine/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_DARK_CAVE_NORTH_SIDE",
+      "name": "DarkCave_NorthSide_Layout",
+      "width": 57,
+      "height": 44,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/DarkCave_NorthSide/border.bin",
+      "blockdata_filepath": "data/layouts/DarkCave_NorthSide/map.bin",
+      "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_DARK_CAVE_SOUTH_SIDE",
+      "name": "DarkCave_SouthSide_Layout",
+      "width": 78,
+      "height": 50,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_Cave_Default",
+      "border_filepath": "data/layouts/DarkCave_SouthSide/border.bin",
+      "blockdata_filepath": "data/layouts/DarkCave_SouthSide/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

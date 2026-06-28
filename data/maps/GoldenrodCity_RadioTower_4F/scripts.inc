@@ -68,7 +68,7 @@ GoldenrodCity_RadioTower_4F4_EventScript_Mary3::
 	msgbox GoldenrodCity_RadioTower_4F4_Text_DJMaryCleared, MSGBOX_DEFAULT
 	closemessage
 	giveitem ITEM_BRIGHT_POWDER
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox GoldenrodCity_RadioTower_4F4_Text_DJMaryPinkBow, MSGBOX_DEFAULT
 	closemessage
 	setflag FLAG_GOT_MARY_BRIGHT_POWDER

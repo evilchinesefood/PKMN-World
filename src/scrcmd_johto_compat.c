@@ -111,6 +111,7 @@ void CheckHooh(void) { gSpecialVar_Result = FALSE; }
 void CheckAerodactyl(void) { gSpecialVar_Result = FALSE; }
 void CheckKabuto(void) { gSpecialVar_Result = FALSE; }
 void CheckOmanyte(void) { gSpecialVar_Result = FALSE; }
+void IsRandomMovesActivated(void) { gSpecialVar_Result = FALSE; } // HnS randomizer: report OFF (region merge stub)
 
 // HnS removenamedmon: removes a delivered story mon (Kenya/Shuckie). Story-mon delivery
 // is unported; stub reads its operand and no-ops so the script pointer stays aligned.

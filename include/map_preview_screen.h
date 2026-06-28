@@ -53,8 +53,8 @@ struct MapPreviewScreen
 };
 
 bool32 ShouldRunMapPreview(void);
-u16 MapPreview_CreateMapNameWindow(u8 id);
-u16 MapPreview_GetDuration(u8 id);
+u16 MapPreview_CreateMapNameWindow(mapsec_u8_t id);
+u16 MapPreview_GetDuration(mapsec_u8_t id);
 bool32 CurrentMapHasPreviewScreen(u8 type);
 bool32 FadeInMapPreviewScreenIsRunning(void);
 void MapPreview_InitBgs(void);

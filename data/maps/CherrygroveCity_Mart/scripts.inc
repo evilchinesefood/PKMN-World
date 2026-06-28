@@ -36,7 +36,7 @@ Cherrygrove_Pokemart_EventScript_Bugcatcher2::
 	end
 
 Cherrygrove_Pokemart_EventScript_Clerk2::
-	pokemart 0
+	pokemart Cherrygrove_Pokemart_PokemartUpgraded
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release
 	end
@@ -46,8 +46,14 @@ Cherrygrove_Pokemart_Pokemart:
 	.2byte ITEM_POTION
 	.2byte ITEM_ANTIDOTE
 	.2byte ITEM_NONE
-	release
-	end
+
+	.align 3
+Cherrygrove_Pokemart_PokemartUpgraded:
+	.2byte ITEM_POKE_BALL
+	.2byte ITEM_POTION
+	.2byte ITEM_ANTIDOTE
+	.2byte ITEM_PARALYZE_HEAL
+	.2byte ITEM_NONE
 
 Cherrygrove_Pokemart_Text_CooltrainerM:
 	.string "They're fresh out of POKé BALLS!\p"

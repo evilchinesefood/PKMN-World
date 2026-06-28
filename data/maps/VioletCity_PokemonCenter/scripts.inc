@@ -36,7 +36,7 @@ VioletCity_PokemonCenter_EventScript_Aide_Refuse::
 
 VioletCity_PokemonCenter_EventScript_Aide_Accepted::
 	getpartysize
-	goto_if_eq VAR_RESULT, PARTY_SIZE, VioletCity_PokeCenter_Text_ElmsAideFullParty
+	goto_if_eq VAR_RESULT, PARTY_SIZE, VioletCity_PokemonCenter_EventScript_AideNoRoom
 	playfanfare MUS_OBTAIN_ITEM
 	message LavaridgeTown_Text_ReceivedTheEgg
 	waitfanfare

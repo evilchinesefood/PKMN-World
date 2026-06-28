@@ -29,6 +29,7 @@ MtSilver_SummitDay_EventScript_SetDay::
 	return
 
 MtSilver_SummitDay_EventScript_Red::
+	goto_if_set FLAG_DEFEATED_RED, MtSilver_SummitDay_EventScript_RedRematch
 	lock
 	faceplayer
 	msgbox MtSilver_SummitDay_Text_Red, MSGBOX_DEFAULT
@@ -48,6 +49,18 @@ MtSilver_SummitDay_EventScript_Red::
 	clearflag FLAG_HIDE_MTSILVER_RED
 	special GameClear
 	waitstate
+	releaseall
+	end
+
+@ Post-clear: Red is re-challengeable but the Hall of Fame / credits only play on the first win.
+MtSilver_SummitDay_EventScript_RedRematch::
+	lock
+	faceplayer
+	msgbox MtSilver_SummitDay_Text_Red, MSGBOX_DEFAULT
+	closemessage
+	trainerbattle_no_intro TRAINER_RED_2, MtSilver_SummitDay_Text_RedBeaten
+	msgbox MtSilver_SummitDay_Text_Red, MSGBOX_DEFAULT
+	closemessage
 	releaseall
 	end
 

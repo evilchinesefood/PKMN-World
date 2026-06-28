@@ -38,6 +38,7 @@ EcruteakCity_Gym_EventScript_Morty::
 	lock
 	faceplayer
 	goto_if_set FLAG_DEFEATED_ECRUTEAK_CITY_GYM, EcruteakCity_Gym_EventScript_Morty_Defeated
+	goto_if_unset FLAG_RELEASED_BEASTS, EcruteakCity_Gym_EventScript_Morty_NotReady
 	msgbox MortyIntroText, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_MORTY_1, MortyWinLossText
 	message Text_ReceivedFogBadge
@@ -51,7 +52,6 @@ EcruteakCity_Gym_EventScript_Morty::
 	call Common_EventScript_SetGymTrainers
 	giveitem ITEM_TM_SHADOW_BALL
 	msgbox MortyText_ShadowBallSpeech, MSGBOX_DEFAULT
-	setvar VAR_ECRUTEAK_CITY_STATE, 4
 	closemessage
 	release
 	end
@@ -61,6 +61,19 @@ EcruteakCity_Gym_EventScript_Morty_Defeated::
 	closemessage
 	release
 	end
+
+@ Morty is at the Burned Tower until the beast-release event; gating his battle
+@ here also avoids the VAR_ECRUTEAK_CITY_STATE collision that could skip that event.
+EcruteakCity_Gym_EventScript_Morty_NotReady::
+	msgbox EcruteakCity_Gym_Text_MortyNotReady, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+EcruteakCity_Gym_Text_MortyNotReady:
+	.string "MORTY, our GYM LEADER, is away at\n"
+	.string "the BURNED TOWER right now.\p"
+	.string "Come back once he has returned.$"
 
 EcruteakCity_Gym_EventScript_Statue::
 	lock

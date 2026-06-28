@@ -14,6 +14,7 @@
 #include "text.h"
 #include "event_data.h"
 #include "easy_chat.h"
+#include "regions.h"
 #include "money.h"
 #include "strings.h"
 #include "string_util.h"
@@ -59,6 +60,7 @@ struct TrainerCardData
     bool8 unused_E;
     bool8 unused_F;
     bool8 hasTrades;
+    u8 badgePage; // Region-merge: which region's badges the front page shows (index into sCardRegions). L/R flips.
     u8 badgeCount[NUM_BADGES];
     u8 easyChatProfile[TRAINER_CARD_PROFILE_LENGTH][13];
     u8 textPlayersCard[70];
@@ -121,6 +123,10 @@ static void SetPlayerCardData(struct TrainerCard *, u8);
 static void TrainerCard_GenerateCardForPlayer(struct TrainerCard *);
 static u8 VersionToCardType(enum GameVersion);
 static void SetDataFromTrainerCard(void);
+static u8 CardPageForRegion(enum Region region);
+static void ReadBadgesForPage(u8 page);
+static void RedrawBadgesForPage(void);
+static void PrintRegionLabelOnCard(void);
 static void InitGpuRegs(void);
 static void ResetGpuRegs(void);
 static void InitBgsAndWindows(void);
@@ -282,6 +288,22 @@ static const u16 *const sKantoTrainerCardPals[] =
 };
 
 static const u8 sTrainerCardTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
+
+// Region merge (RG2): the 3 badge pages, in L/R-flip order. Hoenn reads the native
+// FLAG_BADGE0x_GET system flags; Kanto/Johto read the first 8 localIds of their per-region
+// flag bank (see include/constants/region_flags.h).
+static const u8 sCardRegions[] = { REGION_HOENN, REGION_KANTO, REGION_JOHTO };
+#define NUM_CARD_REGIONS  ARRAY_COUNT(sCardRegions)
+
+static const u8 sText_TrainerCardHoenn[] = _("HOENN");
+static const u8 sText_TrainerCardKanto[] = _("KANTO");
+static const u8 sText_TrainerCardJohto[] = _("JOHTO");
+static const u8 *const sRegionPageNames[NUM_CARD_REGIONS] =
+{
+    sText_TrainerCardHoenn,
+    sText_TrainerCardKanto,
+    sText_TrainerCardJohto,
+};
 static const u8 sTrainerCardStatColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED};
 static const u8 sTimeColonInvisibleTextColors[6] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_TRANSPARENT};
 
@@ -444,7 +466,20 @@ static void Task_TrainerCard(u8 taskId)
             DrawTrainerCardWindow(WIN_CARD_TEXT);
             sData->timeColonNeedDraw = FALSE;
         }
-        if (JOY_NEW(A_BUTTON))
+        // Region merge (RG2): L/R flips the front badge page across Hoenn/Kanto/Johto.
+        if (!sData->isLink && (JOY_NEW(L_BUTTON) || JOY_NEW(R_BUTTON)))
+        {
+            if (JOY_NEW(R_BUTTON))
+                sData->badgePage = (sData->badgePage + 1) % NUM_CARD_REGIONS;
+            else
+                sData->badgePage = (sData->badgePage + NUM_CARD_REGIONS - 1) % NUM_CARD_REGIONS;
+            ReadBadgesForPage(sData->badgePage);
+            RedrawBadgesForPage();
+            PrintRegionLabelOnCard();
+            DrawTrainerCardWindow(WIN_CARD_TEXT);
+            PlaySE(SE_SELECT);
+        }
+        else if (JOY_NEW(A_BUTTON))
         {
             FlipTrainerCard();
             PlaySE(SE_RG_CARD_FLIP);
@@ -814,9 +849,6 @@ void CopyTrainerCardData(struct TrainerCard *dst, struct TrainerCard *src, u8 ga
 
 static void SetDataFromTrainerCard(void)
 {
-    u8 i;
-    u32 badgeFlag;
-
     sData->hasPokedex = FALSE;
     sData->hasHofResult = FALSE;
     sData->hasLinkResults = FALSE;
@@ -840,11 +872,49 @@ static void SetDataFromTrainerCard(void)
     if (sData->trainerCard.battleTowerWins || sData->trainerCard.battleTowerStraightWins)
         sData->hasBattleTowerWins++;
 
-    for (i = 0, badgeFlag = FLAG_BADGE01_GET; badgeFlag < FLAG_BADGE01_GET + NUM_BADGES; badgeFlag++, i++)
+    // Region merge: open on the current region's badge page (link cards keep the Hoenn page).
+    sData->badgePage = sData->isLink ? CardPageForRegion(REGION_HOENN) : CardPageForRegion(GetCurrentRegion());
+    ReadBadgesForPage(sData->badgePage);
+}
+
+static u8 CardPageForRegion(enum Region region)
+{
+    u32 i;
+    for (i = 0; i < NUM_CARD_REGIONS; i++)
     {
-        if (FlagGet(badgeFlag))
-            sData->badgeCount[i]++;
+        if (sCardRegions[i] == region)
+            return i;
     }
+    return 0; // default to the Hoenn page
+}
+
+static void ReadBadgesForPage(u8 page)
+{
+    enum Region region = sCardRegions[page];
+    u32 i;
+
+    memset(sData->badgeCount, 0, sizeof(sData->badgeCount));
+    for (i = 0; i < NUM_BADGES; i++)
+    {
+        u16 flag = (region == REGION_HOENN) ? (FLAG_BADGE01_GET + i) : (GetRegionFlagBase(region) + i);
+        if (FlagGet(flag))
+            sData->badgeCount[i] = 1;
+    }
+}
+
+// Clears the badge row and redraws the current page's badges (stars stay constant).
+static void RedrawBadgesForPage(void)
+{
+    FillBgTilemapBufferRect_Palette0(3, 0, 4, IS_FRLG ? 16 : 15, 24, 2);
+    DrawStarsAndBadgesOnCard();
+}
+
+static void PrintRegionLabelOnCard(void)
+{
+    if (sData->isLink)
+        return; // link cards show only the partner's Hoenn badges; no page label
+    FillWindowPixelRect(WIN_CARD_TEXT, PIXEL_FILL(0), 16, 104, 120, 15);
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 104, sTrainerCardTextColors, TEXT_SKIP_DRAW, sRegionPageNames[sData->badgePage]);
 }
 
 static void InitGpuRegs(void)
@@ -940,6 +1010,9 @@ static bool8 PrintAllOnCardFront(void)
         break;
     case 5:
         PrintProfilePhraseOnCard();
+        break;
+    case 6:
+        PrintRegionLabelOnCard();
         break;
     default:
         sData->printState = 0;
@@ -1185,6 +1258,9 @@ static const u8 sText_HofTime[] = _("{STR_VAR_1}:{STR_VAR_2}:{STR_VAR_3}");
 
 static void BufferHofDebutTime(void)
 {
+    // TODO(RG2): per-region Hall-of-Fame time. No per-region HOF store exists yet
+    // (Phase-3 Q-HOF), so all pages share this single global HOF debut time. Once a
+    // per-region HOF record lands, key this off sData->badgePage.
     if (sData->hasHofResult)
     {
         ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.hofDebutHours, STR_CONV_MODE_RIGHT_ALIGN, 3);

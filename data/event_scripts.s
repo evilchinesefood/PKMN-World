@@ -1292,6 +1292,7 @@ gStdScripts_End::
 	.include "data/maps/TohjoFalls_Cavern/scripts.inc"
 	.include "data/maps/TohjoFalls_GiovanniRoom/scripts.inc"
 	.include "data/maps/ReceptionGate/scripts.inc"
+	.include "data/maps/RegionHub/scripts.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"

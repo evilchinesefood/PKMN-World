@@ -1166,6 +1166,14 @@ struct MultichoiceListStruct
     u8 count;
 };
 
+static const struct MenuAction sMultichoiceList_RegionHub[] =
+{
+    {COMPOUND_STRING("KANTO")},
+    {COMPOUND_STRING("JOHTO")},
+    {COMPOUND_STRING("HOENN")},
+    {gText_Exit},
+};
+
 static const struct MultichoiceListStruct sMultichoiceLists[] =
 {
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
@@ -1332,6 +1340,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_ELDERQUIIZ3]                                = MULTICHOICE(MultichoiceList_ElderQuiz3),
     [MULTI_ELDERQUIIZ4]                                = MULTICHOICE(MultichoiceList_ElderQuiz4),
     [MULTI_ELDERQUIIZ5]                                = MULTICHOICE(MultichoiceList_ElderQuiz5),
+    [MULTI_REGION_HUB]                                 = MULTICHOICE(sMultichoiceList_RegionHub),
 };
 
 const u8 *const gStdStrings[] =

@@ -99,7 +99,8 @@
     "gMapGroup_SafariZoneJohto",
     "gMapGroup_MtSilver",
     "gMapGroup_JohtoFinal",
-    "gMapGroup_JohtoLeague"
+    "gMapGroup_JohtoLeague",
+    "gMapGroup_RegionHub"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -1489,5 +1490,8 @@
     "JohtoPokemonLeague_KarensRoom",
     "JohtoPokemonLeague_ChampionsRoom",
     "JohtoPokemonLeague_HallOfFame"
+  ],
+  "gMapGroup_RegionHub": [
+    "RegionHub"
   ]
 }

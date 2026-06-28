@@ -21,6 +21,12 @@ static inline enum Region GetCurrentRegion(void)
     return GetRegionForSectionId(gMapHeader.regionMapSectionId);
 }
 
+// Region-switch (World Transit hub). gCurrentRegion is the explicit active-campaign
+// context the hub sets when travelling; GetCurrentRegion() above stays the map-derived
+// source of truth. See src/region_switch.c.
+extern enum Region gCurrentRegion;
+void SetCurrentRegion(enum Region region);
+
 #if ALL_REGIONS
 static inline enum Region GetStartRegion(void)
 {

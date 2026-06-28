@@ -1014,3 +1014,23 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 	.string "I have something to show you.\n"
 	.string "Let's go to my LAB.$"
 
+@ TEMPORARY debug entry into the World Transit Terminal hub (foundation testing only).
+@ Remove once the real transfer-building reroute / new-game-in-hub flow lands.
+LittlerootTown_EventScript_DebugRegionHub::
+	lockall
+	msgbox LittlerootTown_Text_DebugRegionHub, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_EventScript_DebugRegionHubDone
+	closemessage
+	warp MAP_REGION_HUB, 0
+	waitstate
+	releaseall
+	end
+
+LittlerootTown_EventScript_DebugRegionHubDone::
+	releaseall
+	end
+
+LittlerootTown_Text_DebugRegionHub:
+	.string "DEBUG- Enter the WORLD TRANSIT\n"
+	.string "TERMINAL?$"
+

@@ -103,21 +103,14 @@ u16 IsNuzlockeNicknamingActive(void)
     return FALSE;
 }
 
-// HnS Ruins of Alph sliding-puzzle minigame (sliding_puzzle.c, ~430 lines). Unported
-// for the Violet-area pass; the puzzles are optional side content (they unlock Unown).
-// Stub reports "not solved" so the chamber scripts continue without the reward.
-void DoSlidingPuzzle(void)
-{
-    gSpecialVar_Result = FALSE;
-}
-
-// HnS Ruins of Alph fossil-reward checks. The Unown fossil minigame is unported
-// (optional side content); stubs report "no fossil brought" so the chamber scripts
-// skip the reward and stay walkable.
-void CheckHooh(void) { gSpecialVar_Result = FALSE; }
-void CheckAerodactyl(void) { gSpecialVar_Result = FALSE; }
-void CheckKabuto(void) { gSpecialVar_Result = FALSE; }
-void CheckOmanyte(void) { gSpecialVar_Result = FALSE; }
+// HnS Ruins of Alph fossil-reward checks (ported from braille_puzzles.c): TRUE when the
+// lead party mon is the matching fossil/legendary species. Invoked by the Unown reward
+// chambers via `specialvar VAR_RESULT, Check*`. The sliding-puzzle minigame itself
+// (DoSlidingPuzzle) now lives in src/sliding_puzzle.c.
+bool8 CheckHooh(void)       { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_HO_OH; }
+bool8 CheckAerodactyl(void) { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_AERODACTYL; }
+bool8 CheckKabuto(void)     { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_KABUTO; }
+bool8 CheckOmanyte(void)    { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_OMANYTE; }
 void IsRandomMovesActivated(void) { gSpecialVar_Result = FALSE; } // HnS randomizer: report OFF (region merge stub)
 void IsPokecenterChallengeActivated(void) { gSpecialVar_Result = FALSE; } // HnS Pokecenter challenge: report OFF so SS Aqua cabin beds heal normally (region merge stub)
 

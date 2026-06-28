@@ -6,6 +6,39 @@ static const struct MenuAction MultichoiceList_BrineyOnDewford[] =
     {gText_Exit},
 };
 
+// Dragon's Den elder quiz (Johto, Stage-4): 3 options each. The correct-answer option
+// indices are enforced by the DragonsDen_Shrine quiz script `case`s (Quiz5 correct = 2 "Both").
+static const struct MenuAction MultichoiceList_ElderQuiz1[] =
+{
+    {COMPOUND_STRING("Pal")},
+    {COMPOUND_STRING("Underling")},
+    {COMPOUND_STRING("Friend")},
+};
+static const struct MenuAction MultichoiceList_ElderQuiz2[] =
+{
+    {COMPOUND_STRING("Strategy")},
+    {COMPOUND_STRING("Training")},
+    {COMPOUND_STRING("Cheating")},
+};
+static const struct MenuAction MultichoiceList_ElderQuiz3[] =
+{
+    {COMPOUND_STRING("Weak person")},
+    {COMPOUND_STRING("Tough person")},
+    {COMPOUND_STRING("Anybody")},
+};
+static const struct MenuAction MultichoiceList_ElderQuiz4[] =
+{
+    {COMPOUND_STRING("Love")},
+    {COMPOUND_STRING("Violence")},
+    {COMPOUND_STRING("Knowledge")},
+};
+static const struct MenuAction MultichoiceList_ElderQuiz5[] =
+{
+    {COMPOUND_STRING("Tough")},
+    {COMPOUND_STRING("Weak")},
+    {COMPOUND_STRING("Both")},
+};
+
 const u8 gText_Info2[] = _("INFO");
 
 static const struct MenuAction MultichoiceList_EnterInfo[] =
@@ -1294,6 +1327,11 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_HOF_VICTORIES_QUIT]                         = MULTICHOICE(sMultichoiceList_HOF_Victories_Quit),
     [MULTI_EGGS_VICTORIES_QUIT]                        = MULTICHOICE(sMultichoiceList_Eggs_Victories_Quit),
     [MULTI_HOF_EGGS_VICTORIES_QUIT]                    = MULTICHOICE(sMultichoiceList_HOF_Eggs_Victories_Quit),
+    [MULTI_ELDERQUIIZ1]                                = MULTICHOICE(MultichoiceList_ElderQuiz1),
+    [MULTI_ELDERQUIIZ2]                                = MULTICHOICE(MultichoiceList_ElderQuiz2),
+    [MULTI_ELDERQUIIZ3]                                = MULTICHOICE(MultichoiceList_ElderQuiz3),
+    [MULTI_ELDERQUIIZ4]                                = MULTICHOICE(MultichoiceList_ElderQuiz4),
+    [MULTI_ELDERQUIIZ5]                                = MULTICHOICE(MultichoiceList_ElderQuiz5),
 };
 
 const u8 *const gStdStrings[] =

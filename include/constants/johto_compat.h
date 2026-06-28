@@ -71,13 +71,10 @@
 
 // === Blackthorn area aliases ===
 // Dragon's Den elder quiz: HnS bespoke multichoice sets have no target equivalents;
-// map to the generic yes/no set so the multichoice path links. The real 5-question
-// quiz UI is content-stage work.
-#define MULTI_ELDERQUIIZ1           MULTI_YESNO
-#define MULTI_ELDERQUIIZ2           MULTI_YESNO
-#define MULTI_ELDERQUIIZ3           MULTI_YESNO
-#define MULTI_ELDERQUIIZ4           MULTI_YESNO
-#define MULTI_ELDERQUIIZ5           MULTI_YESNO
+// (Stage-4) The 5 Dragon's-Den elder quizzes are now REAL 3-option multichoice lists
+// (MULTI_ELDERQUIIZ1-5, defined in include/constants/script_menu.h + src/data/script_menu.h).
+// The YESNO aliases were removed so Quiz5's correct answer (option 2 = "Both") is reachable
+// and the Rising Badge (8th) is obtainable.
 
 // Blackthorn-area berry trees -> Hoenn slots (Stage-4 own slots)
 #define BERRY_TREE_ASPEAR_2  BERRY_TREE_ROUTE_120_ASPEAR_2

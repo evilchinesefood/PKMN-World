@@ -163,6 +163,7 @@ NewBarkTown_Lab_EventScript_TriggerReturnPlayer::
 NewBarkTown_Lab_EventScript_ShouldntTouch::
 	msgbox NewBarkTown_Lab_Text_ShouldntTouch, MSGBOX_DEFAULT
 	closemessage
+	release
 	end
 
 
@@ -403,6 +404,7 @@ NewBarkTown_Lab_EventScript_PoliceYes::
 	setflag FLAG_JOHTO_ADVENTURE_STARTED
 	setflag FLAG_EXP_SHARE
 	removeitem ITEM_MYSTERY_EGG
+	releaseall
 	end
 
 NewBarkTown_Lab_EventScript_ElmState5::

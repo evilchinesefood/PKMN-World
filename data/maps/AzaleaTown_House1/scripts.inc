@@ -51,6 +51,7 @@ AzaleaTown_House1_EventScript_Apprentice3::
 	goto_if_set FLAG_GOT_CHARCOAL, AzaleaTown_House1_EventScript_Apprentice4
 	msgbox CharcoalKiln_Text_Apprentice3, MSGBOX_DEFAULT
 	giveitem ITEM_CHARCOAL 
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_CHARCOAL
 	closemessage
 	release

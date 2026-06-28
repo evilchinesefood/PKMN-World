@@ -21,6 +21,7 @@ DarkCave2_EventScript_BlackGlasses::
 	goto_if_set FLAG_GOT_BLACK_GLASSES, DarkCave2_EventScript_BlackGlassesGot
 	msgbox DarkCave2_Text_Nerd, MSGBOX_DEFAULT
 	giveitem ITEM_BLACK_GLASSES
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_BLACK_GLASSES
 	closemessage
 	release

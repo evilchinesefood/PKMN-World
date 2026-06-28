@@ -98,9 +98,9 @@ MrPokemonHouse_EventScript_MrPokemon_RedScale::
 	end	
 
 MrPokemonHouse_EventScript_MrPokemon_RedScale_Accepted::
-	removeitem ITEM_RED_SCALE
 	giveitem ITEM_EXP_SHARE_SMALL
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_RED_SCALE
 	release
 	end
 

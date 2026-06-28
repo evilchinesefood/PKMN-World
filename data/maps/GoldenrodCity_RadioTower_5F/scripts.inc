@@ -47,6 +47,7 @@ GoldenrodCity_RadioTower_5F_EventScript_Petrel::
 	end
 
 GoldenrodCity_RadioTower_5F_EventScript_PetrelNorth::
+	release
 	end
 
 GoldenrodCity_RadioTower_5F_EventScript_Petrel2::
@@ -177,8 +178,7 @@ GoldenrodCity_RadioTower_5F_EventScript_Archer::
 	goto_if_eq VAR_FACING, DIR_SOUTH, GoldenrodCity_RadioTower_5F_EventScript_WingTop
 	goto_if_eq VAR_FACING, DIR_WEST, GoldenrodCity_RadioTower_5F_EventScript_WingMid
 	goto_if_eq VAR_FACING, DIR_NORTH, GoldenrodCity_RadioTower_5F_EventScript_WingBot
-	release
-	end
+	goto GoldenrodCity_RadioTower_5F_EventScript_WingBot
 
 GoldenrodCity_RadioTower_5F_EventScript_WingTop::
 	applymovement LOCALID_DIRECTOR_STUDIO, GoldenrodCity_RadioTower_5F_Movement_WalkToPlayerTop

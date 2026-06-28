@@ -7,6 +7,7 @@ LakeOfRage_House1_EventScript_HiddenPowerGuy::
 	goto_if_set FLAG_GOT_HIDDEN_POWER, LakeOfRage_House1_EventScript_HiddenPowerGuyAfter
 	msgbox HiddenPowerGuy_Text_Intro, MSGBOX_DEFAULT
 	giveitem ITEM_TM_HIDDEN_POWER
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox HiddenPowerGuy_Text_Explanation, MSGBOX_DEFAULT
 	setflag FLAG_GOT_HIDDEN_POWER
 	closemessage

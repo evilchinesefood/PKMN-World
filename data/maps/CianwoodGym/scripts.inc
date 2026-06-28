@@ -236,7 +236,7 @@ CianwoodGym_Text_BlackbeltNobAfter:
 	.string "I lost! I'm speechless!$"
 
 CianwoodGym_EventScript_Lung::
-	trainerbattle_single TRAINER_JOEY CianwoodGym_Text_BlackbeltLungSeen, CianwoodGym_Text_BlackbeltLungBeaten
+	trainerbattle_single TRAINER_LUNG_JT CianwoodGym_Text_BlackbeltLungSeen, CianwoodGym_Text_BlackbeltLungBeaten
 	msgbox CianwoodGym_Text_BlackbeltLungAfter, MSGBOX_AUTOCLOSE
 	end
 

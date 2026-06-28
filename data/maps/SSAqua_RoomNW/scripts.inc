@@ -30,7 +30,7 @@ SSAqua_RoomNW_EventScript_Stanly::
 	end
 
 SSAqua_RoomNW_EventScript_Edward::
-    trainerbattle_single TRAINER_JOEY SSAqua_RoomNW_Text_GentlemanEdwardSeen, SSAqua_RoomNW_Text_GentlemanEdwardBeaten
+    trainerbattle_single TRAINER_EDWARD_JT SSAqua_RoomNW_Text_GentlemanEdwardSeen, SSAqua_RoomNW_Text_GentlemanEdwardBeaten
 	msgbox SSAqua_RoomNW_Text_GentlemanEdwardAfterBattle, MSGBOX_AUTOCLOSE
 	end
 

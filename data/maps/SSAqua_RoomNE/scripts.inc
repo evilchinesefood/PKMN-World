@@ -2,7 +2,7 @@ SSAqua_RoomNE_MapScripts::
 	.byte 0
 
 SSAqua_RoomNE_EventScript_Noland::
-	trainerbattle_single TRAINER_JOEY SSAqua_RoomNE_Text_HikerNolandSeen, SSAqua_RoomNE_Text_HikerNolandBeaten
+	trainerbattle_single TRAINER_NOLAND_JT SSAqua_RoomNE_Text_HikerNolandSeen, SSAqua_RoomNE_Text_HikerNolandBeaten
 	msgbox SSAqua_RoomNE_Text_HikerNolandAfterBattle, MSGBOX_AUTOCLOSE
 	end
 

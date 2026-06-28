@@ -182,7 +182,7 @@ BlackthornGym_EventScript_Fran::
 	end
 
 BlackthornGym_EventScript_Paul::
-	trainerbattle_single TRAINER_JOEY BlackthornGym_Text_CooltrainermPaulSeenText, BlackthornGym_Text_CooltrainermPaulBeatenText
+	trainerbattle_single TRAINER_PAUL_JT BlackthornGym_Text_CooltrainermPaulSeenText, BlackthornGym_Text_CooltrainermPaulBeatenText
 	msgbox BlackthornGym_Text_CooltrainermPaulAfterBattleText, MSGBOX_AUTOCLOSE
 	end
 

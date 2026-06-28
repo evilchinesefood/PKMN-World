@@ -13,7 +13,7 @@ Route46_EventScript_Bailey::
 	end
 
 Route46_EventScript_Ted::
-	trainerbattle_single TRAINER_JOEY, Route46_Text_CamperTedSeen, Route46_Text_CamperTedBeaten
+	trainerbattle_single TRAINER_TED_JT, Route46_Text_CamperTedSeen, Route46_Text_CamperTedBeaten
 	msgbox Route46_Text_CamperTedAfterBattle, MSGBOX_AUTOCLOSE
 	end
 

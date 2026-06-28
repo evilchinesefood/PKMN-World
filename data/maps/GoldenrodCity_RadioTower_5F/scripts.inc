@@ -39,6 +39,7 @@ GoldenrodCity_RadioTower_5F_EventScript_Petrel::
 	trainerbattle_no_intro TRAINER_PETREL_2, GoldenrodCity_RadioTower_5F_Text_FakeDirectorWin
 	msgbox GoldenrodCity_RadioTower_5F_Text_FakeDirectorAfter, MSGBOX_DEFAULT
 	giveitem ITEM_BASEMENT_KEY
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setvar VAR_GOLDENROD_CITY_STATE, 7
 	clearflag FLAG_HIDE_GOLDENROD_UNDERGROUND_KIMONO
 	closemessage

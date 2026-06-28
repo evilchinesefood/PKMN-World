@@ -6,7 +6,7 @@ MtSilver_SummitDay_MapScripts::
 	.byte 0
 
 MtSilver_SummitDay_OnFrame::
-	map_script_2 VAR_TEMP_0, 0 MtSilver_SummitDay_Blizzard
+	map_script_2 VAR_TEMP_0, 0, MtSilver_SummitDay_Blizzard
 	.2byte 0
 
 MtSilver_SummitDay_Blizzard::

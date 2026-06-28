@@ -353,7 +353,7 @@
       "elevation": 0,
       "var": "VAR_OLIVINE_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "OlivineCity_EventScript_CityTrigger"
     },
     {
       "type": "trigger",
@@ -362,7 +362,7 @@
       "elevation": 0,
       "var": "VAR_OLIVINE_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "OlivineCity_EventScript_CityTrigger"
     },
     {
       "type": "trigger",
@@ -371,7 +371,7 @@
       "elevation": 0,
       "var": "VAR_OLIVINE_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "OlivineCity_EventScript_CityTrigger"
     },
     {
       "type": "trigger",
@@ -380,7 +380,7 @@
       "elevation": 0,
       "var": "VAR_OLIVINE_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "OlivineCity_EventScript_CityTrigger"
     }
   ],
   "bg_events": [

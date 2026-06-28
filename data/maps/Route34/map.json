@@ -500,7 +500,7 @@
       "elevation": 0,
       "var": "VAR_GOLDENROD_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "GoldenrodCity_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -509,7 +509,7 @@
       "elevation": 0,
       "var": "VAR_GOLDENROD_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "GoldenrodCity_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -518,7 +518,7 @@
       "elevation": 0,
       "var": "VAR_GOLDENROD_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "GoldenrodCity_EventScript_Trigger"
     },
     {
       "type": "trigger",
@@ -527,7 +527,7 @@
       "elevation": 0,
       "var": "VAR_GOLDENROD_CITY_STATE",
       "var_value": "0",
-      "script": "Johto_EventScript_Nop"
+      "script": "GoldenrodCity_EventScript_Trigger"
     }
   ],
   "bg_events": [

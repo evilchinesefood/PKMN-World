@@ -41,6 +41,7 @@ GoldenrodCity_FlowerShop_EventScript_GiveSquirtBottle::
 	faceplayer
 	msgbox GoldenrodCity_FlowerShop_Text_Owner2, MSGBOX_DEFAULT
 	giveitem ITEM_SQUIRT_BOTTLE
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_SQUIRTBOTTLE
 	closemessage
 	release

@@ -9,6 +9,7 @@
 #include "battle_z_move.h"
 #include "data.h"
 #include "event_data.h"
+#include "regions.h"
 #include "frontier_util.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -3361,7 +3362,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 break;
             case B_TXT_PC_CREATOR_NAME: // lanette pc
                 if (FlagGet(FLAG_SYS_PC_LANETTE))
-                    toCpy = IS_FRLG ? sText_Bills : sText_Lanettes;
+                    toCpy = (GetCurrentRegion() == REGION_HOENN) ? sText_Lanettes : sText_Bills;
                 else
                     toCpy = sText_Someones;
                 break;

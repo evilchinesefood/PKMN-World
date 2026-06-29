@@ -78,12 +78,10 @@ conventions.
 
 ### Scripts
 
-- `migration_scripts/` — upstream helpers for migrating between refactored expansion systems,
-  plus project-specific scripts (e.g. `add_region_hoenn_attribute_to_hoenn_maps.py`,
-  `frlg_metatile_behavior_converter.py`) used while integrating the bundled maps. See
-  `migration_scripts/README.md`.
-- `dev_scripts/` — local developer utilities (e.g. `delete_frlg_maps.py`, `gba_gfx/`,
-  `followers/`).
+Build-time helpers and assets live in the standard decomp locations (`tools/`, `*.mk`,
+`charmap.txt`, `libagbsyscall/`). Migration and one-off developer scripts are **kept local
+and untracked** under dot-prefixed folders (`.migration_scripts/`, `.dev_scripts/`) — they
+are not part of the build, so they are gitignored rather than published.
 
 ### Documentation
 

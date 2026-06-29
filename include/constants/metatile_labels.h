@@ -1083,4 +1083,15 @@
 // gTileset_House_Lab (the New Bark lab broken window after the theft).
 #define METATILE_R26_21_Broken_Window                0x32B
 
+// Region merge (Johto port): door metatiles for Johto overworld door animations.
+// IDs match the byte-identical HnS Johto tilesets.
+#define METATILE_Johto_General_Door          0x03D // gTileset_Johto_General
+#define METATILE_Johto_General_Door_Sliding  0x062 // gTileset_Johto_General
+#define METATILE_Johto_General_Door_Gym      0x15B // gTileset_Johto_General
+#define METATILE_NewBarkTown_Door_Red        0x2BD // gTileset_NewBarkTown
+#define METATILE_NewBarkTown_Door_Blue       0x2CB // gTileset_NewBarkTown
+#define METATILE_NewBarkTown_Door_Yellow     0x309 // gTileset_NewBarkTown
+#define METATILE_Cherrygrove_Door_Red        0x2EB // gTileset_CherrygroveCity
+#define METATILE_VioletCity_Dojo_Door        0x32B // gTileset_VioletCity
+
 #endif // GUARD_METATILE_LABELS_H

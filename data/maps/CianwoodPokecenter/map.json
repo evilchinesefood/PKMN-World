@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NURSE",
+      "graphics_id": "OBJ_EVENT_GFX_CHANSEY",
       "x": 8,
       "y": 2,
       "elevation": 0,
@@ -102,9 +102,7 @@
       "dest_warp_id": "5"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",

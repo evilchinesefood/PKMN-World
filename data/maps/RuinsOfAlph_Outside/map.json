@@ -156,7 +156,7 @@
       "flag": "FLAG_DAY_POKEMON"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_LASS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(WOOPER)",
       "x": 4,
       "y": 8,
       "elevation": 0,
@@ -169,7 +169,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_LASS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(QUAGSIRE)",
       "x": 5,
       "y": 8,
       "elevation": 0,

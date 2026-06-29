@@ -141,14 +141,11 @@ static void WarpToTruck(void)
 #if ALL_REGIONS
     if (GetStartRegion() == REGION_KANTO)
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
-    // Region merge (Johto port, TEMPORARY): land a Johto new game in New Bark Town so
-    // the starting-area slice is reachable/verifiable. Arrive via the player's-house door
-    // (warp index 1) — a guaranteed-walkable tile — NOT WARP_ID_NONE with -1,-1, which
-    // resolved to an invalid dynamic-warp position (New Bark has no truck-style warp
-    // setup) and spawned the player into a garbled, frozen field. The real Johto
-    // first-visit intro is owned by Lane R; this branch is the slice's stand-in until then.
+    // Region merge (Johto port): a Johto new game starts in the player's bedroom (New Bark
+    // PlayersHouse 2F), via warp index 1 (the bed spawn) — matching the HnS source. The old
+    // slice stand-in dropped the player at the town door (outside) instead.
     else if (GetStartRegion() == REGION_JOHTO)
-        SetWarpDestination(MAP_GROUP(MAP_NEW_BARK_TOWN), MAP_NUM(MAP_NEW_BARK_TOWN), 1, -1, -1);
+        SetWarpDestination(MAP_GROUP(MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_2F), 1, 0, 0);
     else
         SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
 #else

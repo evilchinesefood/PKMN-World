@@ -116,7 +116,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_AZALEA_ARIADOS_LEFT"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -129,7 +129,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_AZALEA_ARIADOS_MID"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -142,7 +142,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_AZALEA_ARIADOS_RIGHT"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -155,7 +155,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_AZALEA_ARIADOS_LEFT"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -168,7 +168,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_AZALEA_ARIADOS_MID"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -181,7 +181,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_AZALEA_ARIADOS_RIGHT"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     }
   ],
   "warp_events": [

@@ -11,6 +11,11 @@
 // flags here as later maps are ported.
 #define FLAG_JOHTO_SLICE(n)                  (FLAG_JOHTO_BASE + (n))
 
+// Playtest fix (H2): decorative leftover objects (remapped overworld-mon that render as a
+// static LASS in the trees) carry this flag and it is set at new game, so they never spawn.
+// 0x250 is free (story <=0xFF, items <=0x1FD, badges at 0x3F8).
+#define FLAG_HIDE_JOHTO_DECOR                FLAG_JOHTO_SLICE(0x250)
+
 // --- Hide flags (object-event visibility) ---
 #define FLAG_HIDE_SILVER_NEWBARKTOWN         FLAG_JOHTO_SLICE(0x00)
 #define FLAG_HIDE_NEWBARKTOWN_LAB_AIDE       FLAG_JOHTO_SLICE(0x01)

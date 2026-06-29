@@ -127,7 +127,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_MOM_VISITED"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -140,7 +140,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_MOM_VISITED"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
@@ -270,7 +270,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_NIGHT_POKEMON"
+      "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",

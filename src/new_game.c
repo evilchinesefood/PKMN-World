@@ -53,6 +53,7 @@
 #include "difficulty.h"
 #include "follower_npc.h"
 #include "regions.h"
+#include "constants/johto_flags.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 extern const u8 EventScript_ResetAllMapFlagsFrlg[];
@@ -257,6 +258,11 @@ void NewGameInitData(void)
         RunScriptImmediately(EventScript_ResetAllMapFlags);
     // Fixed per-region rival name (set above); restore for all regions (empty = Hoenn fallback).
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
+    // Playtest fixes: keep the decorative leftover objects hidden (H2); for a Johto start,
+    // hide the Cherrygrove rival until the Mr. Pokemon's-house script clears it (M3).
+    FlagSet(FLAG_HIDE_JOHTO_DECOR);
+    if (GetStartRegion() == REGION_JOHTO)
+        FlagSet(FLAG_HIDE_SILVER_CHERRYGROVE);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

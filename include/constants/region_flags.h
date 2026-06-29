@@ -29,14 +29,16 @@
 #define NUM_JOHTO_FLAG_BYTES       (JOHTO_FLAG_BANK_SIZE / 8) // 128
 
 // Per-region gym badges (8 each). Hoenn keeps the native FLAG_BADGE01..08_GET system flags.
-// Kanto and Johto reserve the first 8 localIds (0..7) of their bank as the canonical badge
-// slots, so the multi-page Trainer Card (RG2) and the per-region obedience cap / HM gate
-// (K9 / RG3) all read one place: GetRegionFlagBase(region) + badgeIndex. The Kanto slots sit
-// in the reserved head gap of the rebased FRLG bank (0xA40..0xA47, SaveBlock1.flags[]; the
-// first real FRLG flag is at 0xA40+0x28); the Johto slots sit at the head of johtoFlags[]
-// (0x6000..0x6007, SaveBlock3). Gym scripts set these per-region (K9).
-#define FLAG_KANTO_BADGE(i)        (FLAG_KANTO_BASE + (i))   // i = 0..7 (C use)
-#define FLAG_JOHTO_BADGE(i)        (FLAG_JOHTO_BASE + (i))   // i = 0..7 (C use)
+// Kanto and Johto store their 8 badges in a FREE slice of their per-region bank; every badge
+// consumer goes through GetBadgeFlag()/FLAG_*_BADGE(i), so the exact slice can be anything
+// unused. Kanto uses the reserved HEAD gap of the rebased FRLG bank (0xA40..0xA47; the first
+// real FRLG flag is at 0xA40+0x28, so 0..0x27 is free). Johto CANNOT use its bank head: the
+// HnS port packs FLAG_JOHTO_SLICE story/item flags from offset 0x00 up to ~0x1FD, so the
+// badges live at the TOP of the bank (0x3F8..0x3FF), clear of all story/item flags and still
+// inside johtoFlags[128]. Gym scripts set these per-region (K9).
+#define FLAG_JOHTO_BADGE_OFFSET    0x3F8                       // top 8 of the 0x400 Johto bank
+#define FLAG_KANTO_BADGE(i)        (FLAG_KANTO_BASE + (i))                          // i = 0..7
+#define FLAG_JOHTO_BADGE(i)        (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + (i)) // i = 0..7
 
 // Object-like per-badge flags for SCRIPTS (.inc). Function-like macros do not reliably
 // expand in the GAS .include path the scripts assemble through, so map/gym scripts use
@@ -49,13 +51,13 @@
 #define FLAG_KANTO_BADGE_6         (FLAG_KANTO_BASE + 5)
 #define FLAG_KANTO_BADGE_7         (FLAG_KANTO_BASE + 6)
 #define FLAG_KANTO_BADGE_8         (FLAG_KANTO_BASE + 7)
-#define FLAG_JOHTO_BADGE_1         (FLAG_JOHTO_BASE + 0)
-#define FLAG_JOHTO_BADGE_2         (FLAG_JOHTO_BASE + 1)
-#define FLAG_JOHTO_BADGE_3         (FLAG_JOHTO_BASE + 2)
-#define FLAG_JOHTO_BADGE_4         (FLAG_JOHTO_BASE + 3)
-#define FLAG_JOHTO_BADGE_5         (FLAG_JOHTO_BASE + 4)
-#define FLAG_JOHTO_BADGE_6         (FLAG_JOHTO_BASE + 5)
-#define FLAG_JOHTO_BADGE_7         (FLAG_JOHTO_BASE + 6)
-#define FLAG_JOHTO_BADGE_8         (FLAG_JOHTO_BASE + 7)
+#define FLAG_JOHTO_BADGE_1         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 0)
+#define FLAG_JOHTO_BADGE_2         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 1)
+#define FLAG_JOHTO_BADGE_3         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 2)
+#define FLAG_JOHTO_BADGE_4         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 3)
+#define FLAG_JOHTO_BADGE_5         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 4)
+#define FLAG_JOHTO_BADGE_6         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 5)
+#define FLAG_JOHTO_BADGE_7         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 6)
+#define FLAG_JOHTO_BADGE_8         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 7)
 
 #endif // GUARD_CONSTANTS_REGION_FLAGS_H

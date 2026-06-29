@@ -12,6 +12,7 @@
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
+#include "regions.h"
 #include "fake_rtc.h"
 #include "field_camera.h"
 #include "field_control_avatar.h"
@@ -1916,10 +1917,22 @@ void CB2_NewGame(void)
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();
+    // Region merge: the truck intro (ExecuteTruckSequence) only makes sense for Hoenn, whose
+    // new game warps INTO MAP_INSIDE_OF_TRUCK. The old IS_FRLG guard left it firing for EVERY
+    // region (IS_FRLG is 0 in this Emerald-based build), so Kanto/Johto new games ran the truck
+    // sequence in the wrong map -> screen shake + palette zero-fill (looked like a sandstorm) +
+    // metatile corruption. Gate it to the chosen start region.
+#if ALL_REGIONS
+    if (GetStartRegion() == REGION_HOENN)
+        gFieldCallback = ExecuteTruckSequence;
+    else
+        gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+#else
     if (IS_FRLG)
         gFieldCallback = FieldCB_WarpExitFadeFromBlack;
     else
         gFieldCallback = ExecuteTruckSequence;
+#endif
     gFieldCallback2 = NULL;
     DoMapLoadLoop(&gMain.state);
     SetFieldVBlankCallback();

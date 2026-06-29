@@ -338,9 +338,15 @@ void ClearRegionFlag(enum Region region, u16 localId)
 // another's badges.
 u16 GetBadgeFlag(enum Region region, u8 badgeIndex)
 {
-    if (region == REGION_HOENN)
-        return FLAG_BADGE01_GET + badgeIndex;
-    return GetRegionFlagBase(region) + badgeIndex;
+    badgeIndex &= (NUM_BADGES - 1); // 0..7 — keeps the flag id provably inside the region's
+                                    // bank so GetFlagPointer never falls through to sSpecialFlags
+                                    // (the compiler's -Werror=array-bounds checks the full u8 range)
+    switch (region)
+    {
+    case REGION_KANTO: return FLAG_KANTO_BADGE(badgeIndex);
+    case REGION_JOHTO: return FLAG_JOHTO_BADGE(badgeIndex); // NOT bank base — see region_flags.h
+    default:           return FLAG_BADGE01_GET + badgeIndex; // Hoenn / native
+    }
 }
 
 bool8 HasBadge(enum Region region, u8 badgeIndex)

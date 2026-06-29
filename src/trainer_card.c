@@ -896,7 +896,7 @@ static void ReadBadgesForPage(u8 page)
     memset(sData->badgeCount, 0, sizeof(sData->badgeCount));
     for (i = 0; i < NUM_BADGES; i++)
     {
-        u16 flag = (region == REGION_HOENN) ? (FLAG_BADGE01_GET + i) : (GetRegionFlagBase(region) + i);
+        u16 flag = GetBadgeFlag(region, i); // per-region badge slot (region_flags.h)
         if (FlagGet(flag))
             sData->badgeCount[i] = 1;
     }

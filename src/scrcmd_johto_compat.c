@@ -81,9 +81,9 @@ static const u8 sJohtoDefaultRivalName[] = _("SILVER");
 
 void NameRival(void)
 {
+    // Region merge: rival naming removed — fixed default (SILVER), no naming screen. The
+    // calling script's waitstate returns immediately since we no longer swap the callback.
     StringCopy(gSaveBlock1Ptr->rivalName, sJohtoDefaultRivalName);
-    DoNamingScreen(NAMING_SCREEN_RIVAL, gSaveBlock1Ptr->rivalName, 0, 0, 0,
-                   CB2_ReturnToFieldContinueScript);
 }
 
 // HnS Togepi check: TRUE if the lead party mon is in the Togepi line. Ported verbatim

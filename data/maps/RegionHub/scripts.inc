@@ -66,3 +66,30 @@ RegionHub_Text_ClerkWelcome:
 	.string "Welcome to the WORLD TRANSIT\n"
 	.string "TERMINAL!\p"
 	.string "Where would you like to travel?$"
+
+@ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
+@ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;
+@ this only reports progress. See .plans/features/03a Lane R R8.
+RegionHub_EventScript_WorldTourBoard::
+	lockall
+	callnative RegionHub_ScrCountWorldTourBadges
+	buffernumberstring 0, VAR_0x8000
+	msgbox RegionHub_Text_WorldTourTotal, MSGBOX_DEFAULT
+	buffernumberstring 0, VAR_0x8001
+	buffernumberstring 1, VAR_0x8002
+	buffernumberstring 2, VAR_0x8003
+	msgbox RegionHub_Text_WorldTourBreakdown, MSGBOX_DEFAULT
+	releaseall
+	end
+
+RegionHub_Text_WorldTourTotal:
+	.string "WORLD TOUR BOARD\p"
+	.string "GYM BADGES gathered across the\n"
+	.string "three regions: {STR_VAR_1}/24!$"
+
+RegionHub_Text_WorldTourBreakdown:
+	.string "HOENN: {STR_VAR_1}/8\n"
+	.string "KANTO: {STR_VAR_2}/8\l"
+	.string "JOHTO: {STR_VAR_3}/8\p"
+	.string "Earn all 24 to prove yourself the\n"
+	.string "ultimate TRAINER!$"

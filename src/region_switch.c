@@ -41,3 +41,27 @@ void RegionHub_ScrSetCurrentRegion(struct ScriptContext *ctx)
 {
     SetCurrentRegion((enum Region)(REGION_KANTO + VarGet(VAR_RESULT)));
 }
+
+// World-tour board (R8). Counts the player's gym badges across all three regions' badge
+// banks (8 each, set per-region by K9) and exposes them to the hub board script:
+//   VAR_0x8000 = total /24, VAR_0x8001 = Hoenn, VAR_0x8002 = Kanto, VAR_0x8003 = Johto.
+// The grand 24-badge tournament is a future item; this is a read-only progress report.
+void RegionHub_ScrCountWorldTourBadges(struct ScriptContext *ctx)
+{
+    u8 i, hoenn = 0, kanto = 0, johto = 0;
+
+    for (i = 0; i < NUM_BADGES; i++)
+    {
+        if (HasBadge(REGION_HOENN, i))
+            hoenn++;
+        if (HasBadge(REGION_KANTO, i))
+            kanto++;
+        if (HasBadge(REGION_JOHTO, i))
+            johto++;
+    }
+
+    gSpecialVar_0x8000 = hoenn + kanto + johto;
+    gSpecialVar_0x8001 = hoenn;
+    gSpecialVar_0x8002 = kanto;
+    gSpecialVar_0x8003 = johto;
+}

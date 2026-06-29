@@ -30,7 +30,7 @@ GoldenrodCity_FlowerShop_EventScript_Owner::
 	faceplayer
 	goto_if_set FLAG_HIDE_SUDOWOODO, GoldenrodCity_FlowerShop_EventScript_Normal
 	goto_if_set FLAG_RECEIVED_SQUIRTBOTTLE, GoldenrodCity_FlowerShop_EventScript_GotSquirtBottle
-	goto_if_set FLAG_BADGE03_GET, GoldenrodCity_FlowerShop_EventScript_GiveSquirtBottle
+	goto_if_set FLAG_JOHTO_BADGE_3, GoldenrodCity_FlowerShop_EventScript_GiveSquirtBottle
 	msgbox GoldenrodCity_FlowerShop_Text_Owner1, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -67,7 +67,7 @@ GoldenrodCity_FlowerShop_EventScript_Floria1::
 	lock
 	faceplayer
 	goto_if_set FLAG_HIDE_SUDOWOODO, GoldenrodCity_FlowerShop_EventScript_Floria3
-	goto_if_set FLAG_BADGE03_GET, GoldenrodCity_FlowerShop_EventScript_Floria2
+	goto_if_set FLAG_JOHTO_BADGE_3, GoldenrodCity_FlowerShop_EventScript_Floria2
 	msgbox GoldenrodCity_FlowerShop_Text_Floria, MSGBOX_DEFAULT
 	closemessage
 	release

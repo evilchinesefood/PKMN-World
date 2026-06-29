@@ -35,7 +35,7 @@ VioletCity_Gym_EventScript_Falkner::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox VioletGym_Text_Falkner_BadgeExplain, MSGBOX_DEFAULT
-	setflag FLAG_BADGE01_GET
+	setflag FLAG_JOHTO_BADGE_1
 	setflag FLAG_DEFEATED_VIOLET_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 1

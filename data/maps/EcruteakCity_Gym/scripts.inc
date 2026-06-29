@@ -45,7 +45,7 @@ EcruteakCity_Gym_EventScript_Morty::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox MortyText_FogBadgeSpeech, MSGBOX_DEFAULT
-	setflag FLAG_BADGE04_GET
+	setflag FLAG_JOHTO_BADGE_4
 	setflag FLAG_DEFEATED_ECRUTEAK_CITY_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 4

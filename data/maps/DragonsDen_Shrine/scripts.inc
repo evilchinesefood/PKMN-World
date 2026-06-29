@@ -262,7 +262,7 @@ DragonsDen_Shrine_EventScript_ClairEnter::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox DragonsDen_Shrine_Text_RisingBadgeExplanation, MSGBOX_DEFAULT
-	setflag FLAG_BADGE08_GET
+	setflag FLAG_JOHTO_BADGE_8
 	setflag FLAG_DEFEATED_BLACKTHORN_GYM
 	addvar VAR_NUM_BADGES, 1
 

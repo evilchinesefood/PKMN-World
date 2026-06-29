@@ -489,7 +489,7 @@ AzaleaTown_Gym_EventScript_Trigger_11::
 AzaleaTown_Gym_EventScript_GymGuy::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE02_GET, AzaleaTown_Gym_EventScript_GymGuy2
+	goto_if_set FLAG_JOHTO_BADGE_2, AzaleaTown_Gym_EventScript_GymGuy2
 	msgbox AzaleaTown_Gym_Text_GymGuide, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -540,7 +540,7 @@ AzaleaTown_Gym_EventScript_Bugsy::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox AzaleaTown_Gym_Text_HiveBadgeSpeech, MSGBOX_DEFAULT
-	setflag FLAG_BADGE02_GET
+	setflag FLAG_JOHTO_BADGE_2
 	setflag FLAG_DEFEATED_AZALEA_TOWN_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 2

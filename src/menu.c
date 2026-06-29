@@ -2004,9 +2004,9 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
         GetMapNameGeneric(string, gMapHeader.regionMapSectionId);
         break;
     case SAVE_MENU_BADGES:
-        for (curFlag = FLAG_BADGE01_GET, flagCount = 0, endOfString = string + 1; curFlag < FLAG_BADGE01_GET + NUM_BADGES; curFlag++)
+        for (curFlag = 0, flagCount = 0, endOfString = string + 1; curFlag < NUM_BADGES; curFlag++)
         {
-            if (FlagGet(curFlag))
+            if (HasCurrentRegionBadge(curFlag)) // current region's badges (per-region bank)
                 flagCount++;
         }
         *string = flagCount + CHAR_0;

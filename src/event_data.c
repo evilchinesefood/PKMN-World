@@ -1,6 +1,7 @@
 #include "global.h"
 #include "event_data.h"
 #include "pokedex.h"
+#include "regions.h"
 
 #define SPECIAL_FLAGS_SIZE  (NUM_SPECIAL_FLAGS / 8)  // 8 flags per byte
 #define TEMP_FLAGS_SIZE     (NUM_TEMP_FLAGS / 8)
@@ -327,4 +328,27 @@ void SetRegionFlag(enum Region region, u16 localId)
 void ClearRegionFlag(enum Region region, u16 localId)
 {
     FlagClear(GetRegionFlagBase(region) + localId);
+}
+
+// Per-region gym badges (K9). Hoenn keeps the native FLAG_BADGE01..08_GET system flags;
+// Kanto and Johto store their 8 badges at the head of their per-region flag bank (see
+// region_flags.h). badgeIndex is 0..7 in that region's gym order. Every badge consumer
+// (obedience cap, level/EV caps, HM field-move gate, catch malus, badge counters) reads
+// the CURRENT region's badges through these so completing one region never lights up
+// another's badges.
+u16 GetBadgeFlag(enum Region region, u8 badgeIndex)
+{
+    if (region == REGION_HOENN)
+        return FLAG_BADGE01_GET + badgeIndex;
+    return GetRegionFlagBase(region) + badgeIndex;
+}
+
+bool8 HasBadge(enum Region region, u8 badgeIndex)
+{
+    return FlagGet(GetBadgeFlag(region, badgeIndex));
+}
+
+bool8 HasCurrentRegionBadge(u8 badgeIndex)
+{
+    return HasBadge(GetCurrentRegion(), badgeIndex);
 }

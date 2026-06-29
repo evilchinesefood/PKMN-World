@@ -9932,9 +9932,9 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     odds = odds * ball.multiplier / ball.divider;
 
     u8 badgeCount = 0;
-    for (u32 i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
+    for (u32 i = 0; i < NUM_BADGES; i++)
     {
-        if (FlagGet(i))
+        if (HasCurrentRegionBadge(i)) // current region's badges (per-region bank)
             badgeCount++;
     }
     if (GetConfig(B_MISSING_BADGE_CATCH_MALUS) == GEN_8 && badgeCount < NUM_BADGES && gBattleMons[playerBattler].level < battleMon->level)

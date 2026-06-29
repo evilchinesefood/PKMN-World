@@ -28,7 +28,7 @@ GoldenrodCity_Gym_EventScript_Samantha::
 GoldenrodCity_Gym_EventScript_Gym_Guy::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE03_GET, GoldenrodCity_Gym_EventScript_Gym_Guy_After
+	goto_if_set FLAG_JOHTO_BADGE_3, GoldenrodCity_Gym_EventScript_Gym_Guy_After
 	msgbox GoldenrodCity_Gym_Text_GymGuide, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -71,7 +71,7 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare
 	msgbox GoldenrodCity_Gym_Text_WhitneyPlainBadge, MSGBOX_DEFAULT
-	setflag FLAG_BADGE03_GET
+	setflag FLAG_JOHTO_BADGE_3
 	setflag FLAG_DEFEATED_GOLDENROD_CITY_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 3

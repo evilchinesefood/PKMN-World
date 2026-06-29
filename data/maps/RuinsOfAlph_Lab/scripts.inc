@@ -428,8 +428,8 @@ RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte::
 
 RuinsOfAlph_Lab_EventScript_ReceiveKabuto::
 	setvar VAR_TEMP_1, SPECIES_KABUTO
-	call_if_unset FLAG_BADGE04_GET, RuinsOfAlph_Lab_EventScript_GiveEarlyKabuto
-	call_if_set FLAG_BADGE04_GET, RuinsOfAlph_Lab_EventScript_GiveLateKabuto
+	call_if_unset FLAG_JOHTO_BADGE_4, RuinsOfAlph_Lab_EventScript_GiveEarlyKabuto
+	call_if_set FLAG_JOHTO_BADGE_4, RuinsOfAlph_Lab_EventScript_GiveLateKabuto
 	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, RuinsOfAlph_Lab_EventScript_ReceiveKabutoParty
 	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, RuinsOfAlph_Lab_EventScript_ReceiveKabutoPC
 	goto Common_EventScript_NoMoreRoomForPokemon

@@ -7,28 +7,20 @@
 
 u32 GetCurrentLevelCap(void)
 {
-    static const u32 sLevelCapFlagMap[][2] =
-    {
-        {FLAG_BADGE01_GET, 15},
-        {FLAG_BADGE02_GET, 19},
-        {FLAG_BADGE03_GET, 24},
-        {FLAG_BADGE04_GET, 29},
-        {FLAG_BADGE05_GET, 31},
-        {FLAG_BADGE06_GET, 33},
-        {FLAG_BADGE07_GET, 42},
-        {FLAG_BADGE08_GET, 46},
-        {FLAG_IS_CHAMPION, 58},
-    };
+    // Region merge: caps follow the CURRENT region's badge progression (per-region bank).
+    static const u32 sLevelCapPerBadge[NUM_BADGES] = { 15, 19, 24, 29, 31, 33, 42, 46 };
 
     u32 i;
 
     if (B_LEVEL_CAP_TYPE == LEVEL_CAP_FLAG_LIST)
     {
-        for (i = 0; i < ARRAY_COUNT(sLevelCapFlagMap); i++)
+        for (i = 0; i < NUM_BADGES; i++)
         {
-            if (!FlagGet(sLevelCapFlagMap[i][0]))
-                return sLevelCapFlagMap[i][1];
+            if (!HasCurrentRegionBadge(i))
+                return sLevelCapPerBadge[i];
         }
+        if (!FlagGet(FLAG_IS_CHAMPION))
+            return 58;
     }
     else if (B_LEVEL_CAP_TYPE == LEVEL_CAP_VARIABLE)
     {
@@ -84,26 +76,22 @@ u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
 
 u32 GetCurrentEVCap(void)
 {
-    static const u16 sEvCapFlagMap[][2] = {
-        // Define EV caps for each milestone
-        {FLAG_BADGE01_GET, MAX_TOTAL_EVS *  1 / 17},
-        {FLAG_BADGE02_GET, MAX_TOTAL_EVS *  3 / 17},
-        {FLAG_BADGE03_GET, MAX_TOTAL_EVS *  5 / 17},
-        {FLAG_BADGE04_GET, MAX_TOTAL_EVS *  7 / 17},
-        {FLAG_BADGE05_GET, MAX_TOTAL_EVS *  9 / 17},
-        {FLAG_BADGE06_GET, MAX_TOTAL_EVS * 11 / 17},
-        {FLAG_BADGE07_GET, MAX_TOTAL_EVS * 13 / 17},
-        {FLAG_BADGE08_GET, MAX_TOTAL_EVS * 15 / 17},
-        {FLAG_IS_CHAMPION, MAX_TOTAL_EVS},
+    // Region merge: EV caps follow the CURRENT region's badge progression (per-region bank).
+    static const u16 sEvCapPerBadge[NUM_BADGES] = {
+        MAX_TOTAL_EVS *  1 / 17, MAX_TOTAL_EVS *  3 / 17, MAX_TOTAL_EVS *  5 / 17,
+        MAX_TOTAL_EVS *  7 / 17, MAX_TOTAL_EVS *  9 / 17, MAX_TOTAL_EVS * 11 / 17,
+        MAX_TOTAL_EVS * 13 / 17, MAX_TOTAL_EVS * 15 / 17,
     };
 
     if (B_EV_CAP_TYPE == EV_CAP_FLAG_LIST)
     {
-        for (u32 evCap = 0; evCap < ARRAY_COUNT(sEvCapFlagMap); evCap++)
+        for (u32 evCap = 0; evCap < NUM_BADGES; evCap++)
         {
-            if (!FlagGet(sEvCapFlagMap[evCap][0]))
-                return sEvCapFlagMap[evCap][1];
+            if (!HasCurrentRegionBadge(evCap))
+                return sEvCapPerBadge[evCap];
         }
+        if (!FlagGet(FLAG_IS_CHAMPION))
+            return MAX_TOTAL_EVS;
     }
     else if (B_EV_CAP_TYPE == EV_CAP_VARIABLE)
     {

@@ -5578,24 +5578,26 @@ enum Obedience GetAttackerObedienceForAction(void)
         return OBEYS;
     if (B_OBEDIENCE_MECHANICS < GEN_8 && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
         return OBEYS;
-    if (FlagGet(FLAG_BADGE08_GET)) // Rain Badge, ignore obedience altogether
+    // Region merge: obedience tracks the CURRENT region's badges (per-region bank), so a
+    // region's 8th badge grants full obedience there and earlier badges scale the cap.
+    if (HasCurrentRegionBadge(7)) // 8th badge, ignore obedience altogether
         return OBEYS;
 
     obedienceLevel = 10;
 
-    if (FlagGet(FLAG_BADGE01_GET)) // Stone Badge
+    if (HasCurrentRegionBadge(0)) // 1st badge
         obedienceLevel = 20;
-    if (FlagGet(FLAG_BADGE02_GET)) // Knuckle Badge
+    if (HasCurrentRegionBadge(1)) // 2nd badge
         obedienceLevel = 30;
-    if (FlagGet(FLAG_BADGE03_GET)) // Dynamo Badge
+    if (HasCurrentRegionBadge(2)) // 3rd badge
         obedienceLevel = 40;
-    if (FlagGet(FLAG_BADGE04_GET)) // Heat Badge
+    if (HasCurrentRegionBadge(3)) // 4th badge
         obedienceLevel = 50;
-    if (FlagGet(FLAG_BADGE05_GET)) // Balance Badge
+    if (HasCurrentRegionBadge(4)) // 5th badge
         obedienceLevel = 60;
-    if (FlagGet(FLAG_BADGE06_GET)) // Feather Badge
+    if (HasCurrentRegionBadge(5)) // 6th badge
         obedienceLevel = 70;
-    if (FlagGet(FLAG_BADGE07_GET)) // Mind Badge
+    if (HasCurrentRegionBadge(6)) // 7th badge
         obedienceLevel = 80;
 
     if (B_OBEDIENCE_MECHANICS >= GEN_8

@@ -11,6 +11,7 @@
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
+#include "regions.h"
 #include "field_camera.h"
 #include "field_effect.h"
 #include "field_message_box.h"
@@ -5401,8 +5402,8 @@ void ForcePlayerOntoBike(void)
 {
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT)
         SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
-    Overworld_SetSavedMusic(IS_FRLG ? MUS_RG_CYCLING : MUS_CYCLING);
-    Overworld_ChangeMusicTo(IS_FRLG ? MUS_RG_CYCLING : MUS_CYCLING);
+    Overworld_SetSavedMusic((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : MUS_CYCLING);
+    Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : MUS_CYCLING);
 }
 
 bool8 IsPlayerNotInTrainerTowerLobby(void)

@@ -7,6 +7,7 @@
 #include "metatile_behavior.h"
 #include "oras_dowse.h"
 #include "overworld.h"
+#include "regions.h"
 #include "sound.h"
 #include "wild_encounter.h"
 #include "wild_encounter_ow.h"
@@ -1297,8 +1298,8 @@ void GetOnOffBike(u8 transitionFlags)
     {
         EndORASDowsing();
         SetPlayerAvatarTransitionFlags(transitionFlags);
-        Overworld_SetSavedMusic(IS_FRLG ? MUS_RG_CYCLING : MUS_CYCLING);
-        Overworld_ChangeMusicTo(IS_FRLG ? MUS_RG_CYCLING : MUS_CYCLING);
+        Overworld_SetSavedMusic((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : MUS_CYCLING);
+        Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : MUS_CYCLING);
     }
 }
 

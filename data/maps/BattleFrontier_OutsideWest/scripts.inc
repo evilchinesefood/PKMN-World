@@ -7,7 +7,7 @@ BattleFrontier_OutsideWest_OnTransition:
 	setflag FLAG_HIDE_BATTLE_TOWER_REPORTER
 	end
 
-@ Return path to the World Transit hub (pairs with RegionHub_EventScript_TravelFrontier).
+@ Return path to the World Transit hub (pairs with RegionHub_EventScript_GateFrontier).
 @ The ferry attendant below still handles Hoenn-overworld exit; this shuttle is the hub return.
 BattleFrontier_OutsideWest_EventScript_HubShuttle::
 	lock

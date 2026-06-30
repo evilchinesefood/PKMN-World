@@ -47,6 +47,19 @@ void RegionHub_ScrSetCurrentRegion(struct ScriptContext *ctx)
     SetCurrentRegion((enum Region)(REGION_KANTO + VarGet(VAR_RESULT)));
 }
 
+// Hub spatial-gate entry (D2): box the carried party only when crossing into a DIFFERENT region
+// (so a hub -> same-region round trip keeps your current team), then set the active region.
+// VAR_RESULT holds the gate's region index (0 = Kanto, 1 = Johto, 2 = Hoenn). A brand-new game
+// has gCurrentRegion == REGION_NONE and an empty party, so the deposit is a harmless no-op there.
+void RegionHub_ScrEnterRegion(struct ScriptContext *ctx)
+{
+    enum Region target = (enum Region)(REGION_KANTO + VarGet(VAR_RESULT));
+
+    if (target != gCurrentRegion)
+        DepositPartyToPC();
+    SetCurrentRegion(target);
+}
+
 // World-tour board (R8). Counts the player's gym badges across all three regions' badge
 // banks (8 each, set per-region by K9) and exposes them to the hub board script:
 //   VAR_0x8000 = total /24, VAR_0x8001 = Hoenn, VAR_0x8002 = Kanto, VAR_0x8003 = Johto.

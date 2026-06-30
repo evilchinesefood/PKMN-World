@@ -1,71 +1,87 @@
 RegionHub_MapScripts::
 	.byte 0
 
-RegionHub_EventScript_TransitClerk::
-	lock
-	faceplayer
-	msgbox RegionHub_Text_ClerkWelcome, MSGBOX_DEFAULT
-	closemessage
-	multichoice 0, 0, MULTI_REGION_HUB, FALSE
-	switch VAR_RESULT
-	case 0, RegionHub_EventScript_TravelKanto
-	case 1, RegionHub_EventScript_TravelJohto
-	case 2, RegionHub_EventScript_TravelHoenn
-	case 3, RegionHub_EventScript_TravelFrontier
-	case 4, RegionHub_EventScript_TravelCancel
-	case MULTI_B_PRESSED, RegionHub_EventScript_TravelCancel
-	end
+@ World Transit hub - region-switch. Three OPEN spatial gates: walk onto a gate tile and
+@ confirm to travel into that region; a fourth gate reaches the shared Battle Frontier
+@ capstone. The old transit-clerk multichoice was removed (Lane R: pick by walking, not a
+@ menu). Each region gate sets the active region and boxes the carried party ONLY when
+@ crossing regions (callnative RegionHub_ScrEnterRegion), then warps to that region's start
+@ town; the first-visit "Mom moves in" scene vs resume is decided at the start town, keyed
+@ on its intro-done bit (D3). Gate tiles + walkability are PLAYTEST items (LAYOUT_HOUSE3).
 
-@ Each destination sets the active region (callnative reads VAR_RESULT) then warps to that
-@ region's start town. This is the RESUME path. STUB: the first-visit ARRIVAL QUEST path
-@ (box the carried party -> region start -> regional starter -> set the intro-done bit) is
-@ NOT built here - see .plans/features/03b-RegionSwitchDesignSpec.md G4/Section 5.
-RegionHub_EventScript_TravelKanto::
-	callnative RegionHub_ScrSetCurrentRegion
+RegionHub_EventScript_GateKanto::
+	lockall
+	msgbox RegionHub_Text_TravelKanto, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	setvar VAR_RESULT, 0
+	callnative RegionHub_ScrEnterRegion
 	closemessage
 	warp MAP_PALLET_TOWN, 0
 	waitstate
-	release
+	releaseall
 	end
 
-RegionHub_EventScript_TravelJohto::
-	callnative RegionHub_ScrSetCurrentRegion
+RegionHub_EventScript_GateJohto::
+	lockall
+	msgbox RegionHub_Text_TravelJohto, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	setvar VAR_RESULT, 1
+	callnative RegionHub_ScrEnterRegion
 	closemessage
 	warp MAP_NEW_BARK_TOWN, 1
 	waitstate
-	release
+	releaseall
 	end
 
-RegionHub_EventScript_TravelHoenn::
-	callnative RegionHub_ScrSetCurrentRegion
+RegionHub_EventScript_GateHoenn::
+	lockall
+	msgbox RegionHub_Text_TravelHoenn, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	setvar VAR_RESULT, 2
+	callnative RegionHub_ScrEnterRegion
 	closemessage
 	warp MAP_LITTLEROOT_TOWN, 1
 	waitstate
-	release
+	releaseall
 	end
 
-@ Super-endgame gate: the Hoenn Battle Frontier, repurposed as the unified capstone arena
-@ reached from the hub (.plans/features/03b-RegionSwitchDesignSpec.md "Super-endgame" section).
-@ It is region-agnostic, so unlike the region cases it does NOT set gCurrentRegion - the
-@ destination map's MAPSEC self-derives the region. Warps to OutsideWest warp 9, the plaza
-@ side of the south gate (sensible Frontier entrance spawn).
-@ TODO(Frontier): two-tier unlock - 1-champion opens, capstone top tier. Gated OPEN for now.
-RegionHub_EventScript_TravelFrontier::
+@ Battle Frontier capstone - region-agnostic (no SetCurrentRegion; the destination MAPSEC
+@ self-derives the region) and does NOT box the party. Gated OPEN for now; two-tier unlock TBD.
+RegionHub_EventScript_GateFrontier::
+	lockall
+	msgbox RegionHub_Text_TravelFrontier, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
 	closemessage
 	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 9
 	waitstate
-	release
+	releaseall
 	end
 
-RegionHub_EventScript_TravelCancel::
+RegionHub_EventScript_GateCancel::
 	closemessage
-	release
+	releaseall
 	end
 
-RegionHub_Text_ClerkWelcome:
-	.string "Welcome to the WORLD TRANSIT\n"
-	.string "TERMINAL!\p"
-	.string "Where would you like to travel?$"
+RegionHub_Text_TravelKanto:
+	.string "Take the platform bound for KANTO?\p"
+	.string "Your current team will be sent to\n"
+	.string "the PC BOXES when you switch\l"
+	.string "regions.$"
+
+RegionHub_Text_TravelJohto:
+	.string "Take the platform bound for JOHTO?\p"
+	.string "Your current team will be sent to\n"
+	.string "the PC BOXES when you switch\l"
+	.string "regions.$"
+
+RegionHub_Text_TravelHoenn:
+	.string "Take the platform bound for HOENN?\p"
+	.string "Your current team will be sent to\n"
+	.string "the PC BOXES when you switch\l"
+	.string "regions.$"
+
+RegionHub_Text_TravelFrontier:
+	.string "Head to the BATTLE FRONTIER?$"
 
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
 @ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;

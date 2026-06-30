@@ -192,10 +192,6 @@ static void HighlightSelectedMainMenuItem(enum PartyMenuType, u8, s16);
 static void Task_HandleMainMenuInput(u8);
 static void Task_HandleMainMenuAPressed(u8);
 static void Task_HandleMainMenuBPressed(u8);
-#if ALL_REGIONS
-static void Task_RegionSelect(u8);
-static void Task_HandleRegionSelectInput(u8);
-#endif // ALL_REGIONS
 static void Task_NewGameBirchSpeech_Init(u8);
 static void Task_DisplayMainMenuInvalidActionError(u8);
 static void AddBirchSpeechObjects(u8);
@@ -1087,9 +1083,15 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
         case ACTION_NEW_GAME:
         default:
 #if ALL_REGIONS
+            // Region-switch: one region-agnostic Oak intro for every new game. The region is
+            // chosen later by walking a hub gate (WarpToTruck lands the player in MAP_REGION_HUB).
+            // The old 3-way region picker is removed.
             gPlttBufferUnfaded[0] = RGB_BLACK;
             gPlttBufferFaded[0] = RGB_BLACK;
-            gTasks[taskId].func = Task_RegionSelect;
+            DestroyTask(taskId);
+            FreeAllWindowBuffers();
+            sCurrItemAndOptionMenuCheck = 0;
+            StartNewGameSceneFrlg();
             return;
 #else
             if (IS_FRLG)
@@ -1153,111 +1155,6 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             sCurrItemAndOptionMenuCheck |= OPTION_MENU_FLAG;  // entering the options menu
     }
 }
-
-#if ALL_REGIONS
-// New-game region picker (merged build only). Drawn over the still-loaded
-// main-menu BG0; sets startRegion before the new-game scene branch dispatches.
-#define tRegionWinId data[2]
-
-enum
-{
-    REGION_PICK_HOENN,
-    REGION_PICK_KANTO,
-    REGION_PICK_JOHTO,
-    REGION_PICK_ROW_COUNT,
-};
-
-// Region merge (Johto port, TEMPORARY): Johto is now cursor-selectable so the
-// starting-area slice is reachable from a new game. Lane R owns the final intro;
-// revert to 2 (Johto greyed) once the real Johto first-visit flow lands.
-#define REGION_PICK_SELECTABLE 3
-
-static const u8 sText_RegionSelectJohto[] = _("JOHTO");
-
-static const struct WindowTemplate sRegionSelectWindow =
-{
-    .bg = 0,
-    .tilemapLeft = 3,
-    .tilemapTop = 2,
-    .width = 8,
-    .height = REGION_PICK_ROW_COUNT * 2,
-    .paletteNum = STD_WINDOW_PALETTE_NUM,
-    .baseBlock = 0x16D,
-};
-
-static const u8 sTextColor_RegionEnabled[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
-static const u8 sTextColor_RegionDisabled[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY, TEXT_COLOR_LIGHT_GRAY};
-
-static void Task_RegionSelect(u8 taskId)
-{
-    u8 windowId;
-
-    if (gPaletteFade.active)
-        return;
-
-    Menu_LoadStdPal();
-    windowId = AddWindow(&sRegionSelectWindow);
-    gTasks[taskId].tRegionWinId = windowId;
-    SetStandardWindowBorderStyle(windowId, FALSE);
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 1, sTextColor_RegionEnabled, TEXT_SKIP_DRAW, gText_Hoenn);
-    AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 17, sTextColor_RegionEnabled, TEXT_SKIP_DRAW, gText_Kanto);
-    AddTextPrinterParameterized3(windowId, FONT_NORMAL, 8, 33, sTextColor_RegionEnabled, TEXT_SKIP_DRAW, sText_RegionSelectJohto);
-    PutWindowTilemap(windowId);
-    CopyWindowToVram(windowId, COPYWIN_FULL);
-    InitMenuInUpperLeftCornerNormal(windowId, REGION_PICK_SELECTABLE, 0);
-    gTasks[taskId].func = Task_HandleRegionSelectInput;
-}
-
-static void Task_HandleRegionSelectInput(u8 taskId)
-{
-    s8 input = Menu_ProcessInputNoWrap();
-
-    switch (input)
-    {
-    case MENU_NOTHING_CHOSEN:
-        return;
-    case MENU_B_PRESSED:
-        // Back to the main menu; only the picker window was added, free it.
-        PlaySE(SE_SELECT);
-        ClearStdWindowAndFrameToTransparent(gTasks[taskId].tRegionWinId, TRUE);
-        RemoveWindow(gTasks[taskId].tRegionWinId);
-        gTasks[taskId].func = Task_DisplayMainMenu;
-        return;
-    case REGION_PICK_KANTO:
-        SetStartRegion(REGION_KANTO);
-        DestroyTask(taskId);
-        FreeAllWindowBuffers();
-        sCurrItemAndOptionMenuCheck = 0;
-        StartNewGameSceneFrlg();
-        return;
-    case REGION_PICK_JOHTO:
-        // Region merge (Johto port, TEMPORARY): route a Johto new game through the
-        // Hoenn-style Birch speech, which ends at WarpToTruck -> New Bark Town (see
-        // new_game.c). Lane R replaces this with the real Johto first-visit intro.
-        SetStartRegion(REGION_JOHTO);
-        FreeAllWindowBuffers();
-        sCurrItemAndOptionMenuCheck = 0;
-        gPlttBufferUnfaded[0] = RGB_BLACK;
-        gPlttBufferFaded[0] = RGB_BLACK;
-        gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
-        return;
-    case REGION_PICK_HOENN:
-    default:
-        // Birch speech reinitializes windows via InitWindows, so free the
-        // main-menu + picker buffers first (matches the original NEW_GAME path).
-        SetStartRegion(REGION_HOENN);
-        FreeAllWindowBuffers();
-        sCurrItemAndOptionMenuCheck = 0;
-        gPlttBufferUnfaded[0] = RGB_BLACK;
-        gPlttBufferFaded[0] = RGB_BLACK;
-        gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
-        return;
-    }
-}
-
-#undef tRegionWinId
-#endif // ALL_REGIONS
 
 static void Task_HandleMainMenuBPressed(u8 taskId)
 {

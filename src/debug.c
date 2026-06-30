@@ -968,13 +968,13 @@ static void Debug_DestroyMenu_Full_Script(u8 taskId, const u8 *script)
 
 static void Debug_HandleInput_Numeric(u8 taskId, s32 min, s32 max, u32 digits)
 {
-    if (JOY_NEW(DPAD_UP))
+    if (JOY_REPEAT(DPAD_UP)) // hold to repeat (value)
     {
         gTasks[taskId].tInput += sPowersOfTen[gTasks[taskId].tDigit];
         if (gTasks[taskId].tInput > max)
             gTasks[taskId].tInput = max;
     }
-    if (JOY_NEW(DPAD_DOWN))
+    if (JOY_REPEAT(DPAD_DOWN)) // hold to repeat (value)
     {
         gTasks[taskId].tInput -= sPowersOfTen[gTasks[taskId].tDigit];
         if (gTasks[taskId].tInput < min)
@@ -1451,9 +1451,10 @@ static void DebugAction_Util_Warp_Warp(u8 taskId)
 
 static void DebugAction_Util_Warp_SelectMapGroup(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 0, LAST_MAP_GROUP, 3);
 
         ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, 3);
@@ -1491,9 +1492,10 @@ static void DebugAction_Util_Warp_SelectMap(u8 taskId)
 {
     u8 max_value = MAP_GROUP_COUNT[gTasks[taskId].tMapGroup]; //maps in the selected map group
 
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 0, max_value - 1, 3);
 
         ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, (max_value >= 100) ? 3 : 2);
@@ -1526,9 +1528,10 @@ static void DebugAction_Util_Warp_SelectMap(u8 taskId)
 
 static void DebugAction_Util_Warp_SelectWarp(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         if (JOY_NEW(DPAD_UP))
         {
             gTasks[taskId].tInput += sPowersOfTen[gTasks[taskId].tDigit];
@@ -1683,9 +1686,10 @@ static void DebugAction_Util_Weather(u8 taskId)
 
 static void DebugAction_Util_Weather_SelectId(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, WEATHER_NONE, WEATHER_COUNT - 1, 3);
 
         StringCopy(gStringVar2, gText_DigitIndicator[gTasks[taskId].tDigit]);
@@ -1880,9 +1884,10 @@ static void GetTrainerIdFromLocalId(u32 localId)
 
 static void DebugAction_ChooseFromMap_Select(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         u32 previousInput = gTasks[taskId].tInput;
 
         do {
@@ -1991,9 +1996,10 @@ static void Debug_Display_TrainerID(u32 trainerID, u32 selection, u32 digit, u8 
 
 static void DebugAction_ChooseTrainerID_Select(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         u32 min = 1;
         u32 max = TRAINERS_COUNT - 1;
         if (gTasks[taskId].tSelection == TRAINERS_DEBUG_SELECTION_TRAINER2)
@@ -2279,9 +2285,10 @@ static void DebugAction_FlagsVars_Select(u8 taskId)
 {
     Debug_HandleInput_Numeric(taskId, VARS_START, VARS_END, DEBUG_NUMBER_DIGITS_VARIABLES);
 
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
 
         ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_VARIABLES);
         ConvertIntToHexStringN(gStringVar2, gTasks[taskId].tInput, STR_CONV_MODE_LEFT_ALIGN, 4);
@@ -2684,9 +2691,10 @@ static void Debug_Display_ItemQuantity(u32 quantity, u32 digit, u8 windowId)
 
 static void DebugAction_Give_Item_SelectId(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 1, ITEMS_COUNT - 1, DEBUG_NUMBER_DIGITS_ITEMS);
         Debug_Display_ItemInfo(gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId);
         DestroyItemIcon(taskId);
@@ -2717,9 +2725,10 @@ static void DebugAction_Give_Item_SelectQuantity(u8 taskId)
 {
     enum Item itemId = gTasks[taskId].tItemId;
 
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 1, MAX_BAG_ITEM_CAPACITY, MAX_ITEM_DIGITS);
         Debug_Display_ItemQuantity(gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId);
     }
@@ -2924,9 +2933,10 @@ static void Debug_Display_Level(u32 level, u32 digit, u8 windowId)
 
 static void DebugAction_Give_Pokemon_SelectId(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 1, NUM_SPECIES - 1, DEBUG_NUMBER_DIGITS_ITEMS);
         enum Species species = gTasks[taskId].tInput;
         if (!IsSpeciesEnabled(species))
@@ -2988,9 +2998,10 @@ static void Debug_Display_TrueFalse(bool32 value, u8 windowId, const u8 *titleSt
 
 static void DebugAction_Give_Pokemon_SelectLevel(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 1, MAX_LEVEL, 3);
         Debug_Display_Level(gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId);
     }
@@ -3042,9 +3053,10 @@ static void Debug_Display_Nature(u32 natureId, u32 digit, u8 windowId)
 
 static void DebugAction_Give_Pokemon_SelectShiny(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         gTasks[taskId].tInput ^= JOY_NEW(DPAD_UP | DPAD_DOWN) > 0;
         Debug_Display_TrueFalse(gTasks[taskId].tInput, gTasks[taskId].tSubWindowId, sDebugText_PokemonShiny);
     }
@@ -3079,9 +3091,10 @@ static void Debug_Display_Ability(u32 abilityNum, u32 digit, u8 windowId)//(u32 
 
 static void DebugAction_Give_Pokemon_SelectNature(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
 
         if (JOY_NEW(DPAD_UP))
         {
@@ -3134,9 +3147,10 @@ static void DebugAction_Give_Pokemon_SelectAbility(u8 taskId)
 {
     s32 abilityNum = -1;
 
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
 
         if (JOY_NEW(DPAD_UP))
         {
@@ -3191,9 +3205,10 @@ static void Debug_Display_DynamaxLevel(u32 level, u32 digit, u8 windowId)
 
 static void DebugAction_Give_Pokemon_SelectTeraType(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
 
         if (JOY_NEW(DPAD_UP))
         {
@@ -3236,9 +3251,10 @@ static void Debug_Display_GigantamaxFactor(u32 input, u8 windowId)
 
 static void DebugAction_Give_Pokemon_SelectDynamaxLevel(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 0, MAX_DYNAMAX_LEVEL, 2);
         Debug_Display_DynamaxLevel(gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId);
     }
@@ -3273,9 +3289,10 @@ static void Debug_Display_StatInfo(const u8* text, u32 stat, u32 value, u32 digi
 
 static void DebugAction_Give_Pokemon_SelectGigantamaxFactor(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         gTasks[taskId].tInput ^= JOY_NEW(DPAD_UP | DPAD_DOWN) > 0;
         Debug_Display_GigantamaxFactor(gTasks[taskId].tInput, gTasks[taskId].tSubWindowId);
     }
@@ -3298,9 +3315,10 @@ static void DebugAction_Give_Pokemon_SelectGigantamaxFactor(u8 taskId)
 
 static void DebugAction_Give_Pokemon_SelectIVs(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 0, MAX_PER_STAT_IVS, 3);
         Debug_Display_StatInfo(sDebugText_IVs, gTasks[taskId].tIterator, gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId, MAX_PER_STAT_IVS);
     }
@@ -3375,9 +3393,10 @@ static void DebugAction_Give_Pokemon_SelectEVs(u8 taskId)
 {
     u16 totalEV = GetDebugPokemonTotalEV();
 
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 0, MAX_PER_STAT_EVS, 4);
         Debug_Display_StatInfo(sDebugText_EVs, gTasks[taskId].tIterator, gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId, MAX_PER_STAT_EVS);
     }
@@ -3431,9 +3450,10 @@ static void DebugAction_Give_Pokemon_SelectEVs(u8 taskId)
 
 static void DebugAction_Give_Pokemon_Move(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 0, MOVES_COUNT, 4);
 
         Debug_Display_MoveInfo(gTasks[taskId].tInput, gTasks[taskId].tIterator, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId);
@@ -3623,9 +3643,10 @@ static void DestroyDecorationIcon(u8 taskId)
 
 static void DebugAction_Give_Decoration_SelectId(u8 taskId)
 {
-    if (JOY_NEW(DPAD_ANY))
+    if (JOY_REPEAT(DPAD_ANY)) // hold to repeat
     {
-        PlaySE(SE_SELECT);
+        if (JOY_NEW(DPAD_ANY))
+            PlaySE(SE_SELECT);
         Debug_HandleInput_Numeric(taskId, 1, NUM_DECORATIONS, DEBUG_NUMBER_DIGITS_ITEMS);
         Debug_Display_DecorationInfo(gTasks[taskId].tInput, gTasks[taskId].tDigit, gTasks[taskId].tSubWindowId);
         DestroyDecorationIcon(taskId);

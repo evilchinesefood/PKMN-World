@@ -905,7 +905,7 @@ static void ReadBadgesForPage(u8 page)
 // Clears the badge row and redraws the current page's badges (stars stay constant).
 static void RedrawBadgesForPage(void)
 {
-    FillBgTilemapBufferRect_Palette0(3, 0, 4, IS_FRLG ? 16 : 15, 24, 2);
+    FillBgTilemapBufferRect_Palette0(3, 0, 4, 15, 24, 2);
     DrawStarsAndBadgesOnCard();
 }
 
@@ -1585,7 +1585,7 @@ static void DrawStarsAndBadgesOnCard(void)
     if (!sData->isLink)
     {
         x = 4;
-        y = IS_FRLG ? 16 : 15;
+        y = 15; // unified merged card uses one Emerald-style frame; FRLG-only +1 row offset dropped
         for (i = 0; i < NUM_BADGES; i++, tileNum += 2, x += 3)
         {
             if (sData->badgeCount[i])

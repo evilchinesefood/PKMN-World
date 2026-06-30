@@ -3,6 +3,7 @@
 #include "event_data.h"
 #include "field_player_avatar.h"
 #include "overworld.h"
+#include "regions.h"
 #include "main.h"
 #include "pokeblock.h"
 #include "safari_zone.h"
@@ -58,7 +59,7 @@ void EnterSafariMode(void)
     SetSafariZoneFlag();
     ClearAllPokeblockFeeders();
     gNumSafariBalls = 30;
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
         gSafariZoneStepCounter = 600;
     else
         gSafariZoneStepCounter = 500;

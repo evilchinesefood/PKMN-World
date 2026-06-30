@@ -1,4 +1,5 @@
 #include "global.h"
+#include "regions.h"
 #include "save_location.h"
 
 #define LIST_END 0xFFFF
@@ -124,7 +125,7 @@ void TrySetMapSaveWarpStatus(void)
 // These flags are read by Pokémon Colosseum/XD for linking. XD Additionally requires FLAG_SYS_GAME_CLEAR
 void SetUnlockedPokedexFlags(void)
 {
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
     {
         gSaveBlock2Ptr->gcnLinkFlags |= (1 << 0);
         gSaveBlock2Ptr->gcnLinkFlags |= (1 << 4);

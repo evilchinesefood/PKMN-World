@@ -18,6 +18,7 @@
 #include "pokedex.h"
 #include "pokemon_icon.h"
 #include "region_map.h"
+#include "regions.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -647,7 +648,7 @@ u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile)
     else
         palette = BG_PLTT_ID(palette);
 
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
         LoadPalette(GetTextWindowPalette(2), palette, PLTT_SIZE_4BPP);
     else
         LoadPalette(sHofPC_TopBar_Pal, palette, sizeof(sHofPC_TopBar_Pal));

@@ -4,6 +4,7 @@
 #include "main.h"
 #include "palette.h"
 #include "overworld.h"
+#include "regions.h"
 #include "script.h"
 #include "script_menu.h"
 #include "task.h"
@@ -14,7 +15,7 @@ static void Task_WaitForPaletteFade(u8);
 
 void AccessHallOfFamePC(void)
 {
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
         SetMainCallback2(CB2_InitHofPC);
     else
         SetMainCallback2(CB2_DoHallOfFamePC);

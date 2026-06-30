@@ -27,6 +27,7 @@
 #include "palette.h"
 #include "oras_dowse.h"
 #include "overworld.h"
+#include "regions.h"
 #include "scanline_effect.h"
 #include "script.h"
 #include "sound.h"
@@ -1465,13 +1466,13 @@ static void Task_RushInjuredPokemonToCenter(u8 taskId)
             DestroyTask(taskId);
             if (gTasks[taskId].tIsPlayerHouse)
             {
-                if (IS_FRLG)
+                if (GetCurrentRegion() == REGION_KANTO)
                     StringCopy(gStringVar1, COMPOUND_STRING("PROF. OAK"));
                 else
                     StringCopy(gStringVar1, COMPOUND_STRING("PROF. BIRCH"));
                 ScriptContext_SetupScript(EventScript_AfterWhiteOutMomHeal);
             }
-            else if (IS_FRLG)
+            else if (GetCurrentRegion() == REGION_KANTO)
             {
                 ScriptContext_SetupScript(EventScript_AfterWhiteOutHeal_Frlg);
             }

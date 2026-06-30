@@ -1241,7 +1241,7 @@ static void HallOfFameRecordEffect_WaitForSoundAndEnd(struct Task *task)
     if (gSprites[task->tBallSpriteId].sState > 6)
     {
         DestroySprite(&gSprites[task->tBallSpriteId]);
-        if (IS_FRLG)
+        if (GetCurrentRegion() == REGION_KANTO)
             FieldEffectActiveListRemove(FLDEFF_HALL_OF_FAME_RECORD_FRLG);
         else
             FieldEffectActiveListRemove(FLDEFF_HALL_OF_FAME_RECORD);

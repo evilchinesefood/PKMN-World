@@ -259,7 +259,12 @@ void NewGameInitData(void)
     // hide the Cherrygrove rival until the Mr. Pokemon's-house script clears it (M3).
     FlagSet(FLAG_HIDE_JOHTO_DECOR);
     if (GetStartRegion() == REGION_JOHTO)
+    {
         FlagSet(FLAG_HIDE_SILVER_CHERRYGROVE);
+        // Hide the second Mr. Pokemon object until the give-egg scene swaps it in,
+        // otherwise both Mr. Pokemon objects render at once (the "walked over to himself" dup).
+        FlagSet(FLAG_HIDE_MRPOKEMON);
+    }
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

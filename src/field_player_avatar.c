@@ -283,20 +283,6 @@ static const u16 sPlayerAvatarGfxIds[][GENDER_COUNT] =
     [PLAYER_AVATAR_STATE_VSSEEKER]   = {PLAYER_AVATAR_GFX_MALE_VSSEEKER,   PLAYER_AVATAR_GFX_FEMALE_VSSEEKER},
 };
 
-// Region merge: Kanto player avatar uses the FRLG (Red / Leaf-Green) overworld graphics at runtime.
-static const u16 sPlayerAvatarGfxIdsFrlg[][GENDER_COUNT] =
-{
-    [PLAYER_AVATAR_STATE_NORMAL]     = {OBJ_EVENT_GFX_RED_NORMAL,     OBJ_EVENT_GFX_GREEN_NORMAL},
-    [PLAYER_AVATAR_STATE_MACH_BIKE]  = {OBJ_EVENT_GFX_RED_BIKE,       OBJ_EVENT_GFX_GREEN_BIKE},
-    [PLAYER_AVATAR_STATE_ACRO_BIKE]  = {OBJ_EVENT_GFX_RED_BIKE,       OBJ_EVENT_GFX_GREEN_BIKE},
-    [PLAYER_AVATAR_STATE_SURFING]    = {OBJ_EVENT_GFX_RED_SURF,       OBJ_EVENT_GFX_GREEN_SURF},
-    [PLAYER_AVATAR_STATE_UNDERWATER] = {OBJ_EVENT_GFX_RED_SURF,       OBJ_EVENT_GFX_GREEN_SURF},
-    [PLAYER_AVATAR_STATE_FIELD_MOVE] = {OBJ_EVENT_GFX_RED_FIELD_MOVE, OBJ_EVENT_GFX_GREEN_FIELD_MOVE},
-    [PLAYER_AVATAR_STATE_FISHING]    = {OBJ_EVENT_GFX_RED_FISH,       OBJ_EVENT_GFX_GREEN_FISH},
-    [PLAYER_AVATAR_STATE_WATERING]   = {OBJ_EVENT_GFX_RED_FIELD_MOVE, OBJ_EVENT_GFX_GREEN_FIELD_MOVE},
-    [PLAYER_AVATAR_STATE_VSSEEKER]   = {OBJ_EVENT_GFX_RED_VS_SEEKER,  OBJ_EVENT_GFX_GREEN_VS_SEEKER},
-};
-
 static const u8 sFRLGAvatarGfxIds[GENDER_COUNT] =
 {
     [MALE]   = OBJ_EVENT_GFX_RED,
@@ -332,27 +318,6 @@ static const struct PlayerAvatarGfxToStateFlag sPlayerAvatarGfxToStateFlag[GENDE
         {PLAYER_AVATAR_GFX_FEMALE_ACRO_BIKE,      PLAYER_AVATAR_FLAG_ACRO_BIKE},
         {PLAYER_AVATAR_GFX_FEMALE_SURFING,        PLAYER_AVATAR_FLAG_SURFING},
         {PLAYER_AVATAR_GFX_FEMALE_UNDERWATER,     PLAYER_AVATAR_FLAG_UNDERWATER},
-    }
-};
-
-// Region merge: Kanto (FRLG) counterpart of sPlayerAvatarGfxToStateFlag, selected at runtime.
-static const struct PlayerAvatarGfxToStateFlag sPlayerAvatarGfxToStateFlagFrlg[GENDER_COUNT][5] =
-{
-    [MALE] =
-    {
-        {OBJ_EVENT_GFX_RED_NORMAL, PLAYER_AVATAR_FLAG_ON_FOOT},
-        {OBJ_EVENT_GFX_RED_BIKE,   PLAYER_AVATAR_FLAG_MACH_BIKE},
-        {OBJ_EVENT_GFX_RED_BIKE,   PLAYER_AVATAR_FLAG_ACRO_BIKE},
-        {OBJ_EVENT_GFX_RED_SURF,   PLAYER_AVATAR_FLAG_SURFING},
-        {OBJ_EVENT_GFX_RED_SURF,   PLAYER_AVATAR_FLAG_UNDERWATER},
-    },
-    [FEMALE] =
-    {
-        {OBJ_EVENT_GFX_GREEN_NORMAL, PLAYER_AVATAR_FLAG_ON_FOOT},
-        {OBJ_EVENT_GFX_GREEN_BIKE,   PLAYER_AVATAR_FLAG_MACH_BIKE},
-        {OBJ_EVENT_GFX_GREEN_BIKE,   PLAYER_AVATAR_FLAG_ACRO_BIKE},
-        {OBJ_EVENT_GFX_GREEN_SURF,   PLAYER_AVATAR_FLAG_SURFING},
-        {OBJ_EVENT_GFX_GREEN_SURF,   PLAYER_AVATAR_FLAG_UNDERWATER},
     }
 };
 
@@ -1612,8 +1577,8 @@ u16 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
 
 u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
 {
-    if (GetCurrentRegion() == REGION_KANTO)
-        return sPlayerAvatarGfxIdsFrlg[state][gender];
+    // Region merge: the player is Brendan/May in every region now (Kanto no longer uses
+    // the FRLG Red/Leaf overworld sprites; Red's sprites are reused for the Johto rival).
     return sPlayerAvatarGfxIds[state][gender];
 }
 
@@ -1711,8 +1676,7 @@ void SetPlayerAvatarStateMask(u8 flags)
 static u8 GetPlayerAvatarStateTransitionByGraphicsId(u16 graphicsId, u8 gender)
 {
     u8 i;
-    const struct PlayerAvatarGfxToStateFlag (*table)[5] =
-        (GetCurrentRegion() == REGION_KANTO) ? sPlayerAvatarGfxToStateFlagFrlg : sPlayerAvatarGfxToStateFlag;
+    const struct PlayerAvatarGfxToStateFlag (*table)[5] = sPlayerAvatarGfxToStateFlag;
 
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
@@ -1726,8 +1690,7 @@ u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
 {
     u8 i;
     u8 flags = gPlayerAvatar.flags;
-    const struct PlayerAvatarGfxToStateFlag (*table)[5] =
-        (GetCurrentRegion() == REGION_KANTO) ? sPlayerAvatarGfxToStateFlagFrlg : sPlayerAvatarGfxToStateFlag;
+    const struct PlayerAvatarGfxToStateFlag (*table)[5] = sPlayerAvatarGfxToStateFlag;
 
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {

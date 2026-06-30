@@ -3967,7 +3967,7 @@ Level: 27
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_JEFFREY_1 ===
-Name: TERRY
+Name: BLUE
 Class: Rival
 Pic: Rival Early Frlg
 Gender: Male
@@ -3982,7 +3982,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Tail Whip
 
 === TRAINER_DEREK ===
-Name: TERRY
+Name: BLUE
 Class: Rival
 Pic: Rival Early Frlg
 Gender: Male
@@ -3997,7 +3997,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Growl
 
 === TRAINER_JEFFREY_2 ===
-Name: TERRY
+Name: BLUE
 Class: Rival
 Pic: Rival Early Frlg
 Gender: Male
@@ -6629,7 +6629,7 @@ Level: 7
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_CLAUDE ===
-Name: TERRY
+Name: BLUE
 Class: Champion Frlg
 Pic: Champion Rival Frlg
 Gender: Male
@@ -6688,7 +6688,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Bite
 
 === TRAINER_ELLIOT_1 ===
-Name: TERRY
+Name: BLUE
 Class: Champion Frlg
 Pic: Champion Rival Frlg
 Gender: Male
@@ -6747,7 +6747,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Growth
 
 === TRAINER_NED ===
-Name: TERRY
+Name: BLUE
 Class: Champion Frlg
 Pic: Champion Rival Frlg
 Gender: Male
@@ -11106,7 +11106,7 @@ Level: 34
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_TERRY ===
-Name: TERRY
+Name: BLUE
 Class: Psychic
 Pic: Psychic F
 Gender: Female
@@ -11880,7 +11880,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Ice Beam
 
 === TRAINER_KENT ===
-Name: TERRY
+Name: BLUE
 Class: Champion Frlg
 Pic: Champion Rival Frlg
 Gender: Male
@@ -11939,7 +11939,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Rain Dance
 
 === TRAINER_JAMES_1 ===
-Name: TERRY
+Name: BLUE
 Class: Champion Frlg
 Pic: Champion Rival Frlg
 Gender: Male
@@ -11998,7 +11998,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Sunny Day
 
 === TRAINER_JAMES_2 ===
-Name: TERRY
+Name: BLUE
 Class: Champion Frlg
 Pic: Champion Rival Frlg
 Gender: Male

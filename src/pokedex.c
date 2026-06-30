@@ -18,6 +18,7 @@
 #include "pokedex_area_screen.h"
 #include "pokedex_cry_screen.h"
 #include "pokedex_plus_hgss.h"
+#include "regions.h"
 #include "rtc.h"
 #include "scanline_effect.h"
 #include "sound.h"
@@ -4563,7 +4564,7 @@ u16 GetNationalPokedexCount(u8 caseID)
 
 u32 GetRegionalPokedexCount(u8 caseID)
 {
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
         return GetKantoPokedexCount(caseID);
     return GetHoennPokedexCount(caseID);
 }
@@ -4614,7 +4615,7 @@ u16 GetKantoPokedexCount(u8 caseID)
 
 bool16 HasAllRegionalMons(void)
 {
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
         return HasAllKantoMons();
     return HasAllHoennMons();
 }

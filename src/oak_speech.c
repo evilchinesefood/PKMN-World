@@ -1564,9 +1564,20 @@ static void Task_OakSpeech_AskRivalsName(u8 taskId)
 
     if (tTrainerPicFadeState != 0)
     {
+#if ALL_REGIONS
+        // Region merge: rival naming prompt removed. The rival's name is fixed per region
+        // (BLUE for Kanto, set in new_game.c), so skip the name-choice menu + naming screen:
+        // show the rival pic + "remember, your rival is <name>" and go straight to the end.
+        // Mirrors the normal post-confirm path (Task_OakSpeech_HandleConfirmNameInput YES).
+        sOakSpeechResources->hasPlayerBeenNamed = TRUE;
+        StringExpandPlaceholders(gStringVar4, gOakSpeech_Text_RememberRivalsName);
+        OakSpeechPrintMessage(gStringVar4, sOakSpeechResources->textSpeed, TRUE);
+        gTasks[taskId].func = Task_OakSpeech_FadeOutRivalPic;
+#else
         OakSpeechPrintMessage(gOakSpeech_Text_WhatWasHisName, sOakSpeechResources->textSpeed, FALSE);
         sOakSpeechResources->hasPlayerBeenNamed = TRUE;
         gTasks[taskId].func = Task_OakSpeech_MoveRivalDisplayNameOptions;
+#endif
     }
 }
 

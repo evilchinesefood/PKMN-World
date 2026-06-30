@@ -64,5 +64,12 @@ extern const struct Tileset gTileset_Johto_General;
 extern const struct Tileset gTileset_NewBarkTown;
 extern const struct Tileset gTileset_CherrygroveCity;
 extern const struct Tileset gTileset_VioletCity;
+extern const struct Tileset gTileset_Goldenrod;
+extern const struct Tileset gTileset_CianwoodCity;
+extern const struct Tileset gTileset_OlivineCity;
+extern const struct Tileset gTileset_Ecruteak_City;
+extern const struct Tileset gTileset_Blackthorn;
+extern const struct Tileset gTileset_SafariZoneJohto;
+extern const struct Tileset gTileset_GoldenrodDepartmentStore;
 
 #endif //GUARD_tilesets_H

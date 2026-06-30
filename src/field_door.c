@@ -174,6 +174,14 @@ static const u8 sDoorAnimTiles_JohtoGym[] = INCGFX_U8("graphics/door_anims/johto
 static const u8 sDoorAnimTiles_NewBarkTown_Door_Yellow[] = INCGFX_U8("graphics/door_anims/NewBarkTown_Door_Yellow.png", ".4bpp");
 static const u8 sDoorAnimTiles_NewBarkTown_Door_Red[] = INCGFX_U8("graphics/door_anims/NewBarkTown_Door_Red.png", ".4bpp");
 static const u8 sDoorAnimTiles_VioletCity_Dojo_Door[] = INCGFX_U8("graphics/door_anims/dojo_door.png", ".4bpp");
+// Region merge (Johto port, less-common towns): Goldenrod, Cianwood, Olivine, Ecruteak, Blackthorn, Johto Safari, Johto dept-store elevator.
+static const u8 sDoorAnimTiles_Goldenrod[] = INCGFX_U8("graphics/door_anims/goldenrod.png", ".4bpp");
+static const u8 sDoorAnimTiles_Cianwood[] = INCGFX_U8("graphics/door_anims/cianwood.png", ".4bpp");
+static const u8 sDoorAnimTiles_OlivineCity_Door[] = INCGFX_U8("graphics/door_anims/olivine.png", ".4bpp");
+static const u8 sDoorAnimTiles_EcruteakCity_Door[] = INCGFX_U8("graphics/door_anims/dojo_door_ecruteak.png", ".4bpp");
+static const u8 sDoorAnimTiles_BlackthornCity_Door[] = INCGFX_U8("graphics/door_anims/blackthorn_city.png", ".4bpp");
+static const u8 sDoorAnimTiles_JohtoSafariZone_Door[] = INCGFX_U8("graphics/door_anims/johto_safari_zone.png", ".4bpp");
+static const u8 sDoorAnimTiles_JohtoDeptStoreElevator[] = INCGFX_U8("graphics/door_anims/johto_dept_store_elevator.png", ".4bpp");
 
 static const struct DoorAnimFrame sDoorOpenAnimFrames[] =
 {
@@ -337,6 +345,14 @@ static const u8 sDoorAnimPalettes_NewBarkTown_Door_Red[] = {8, 8, 8, 8, 8, 8, 8,
 static const u8 sDoorAnimPalettes_NewBarkTown_Door_Blue[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_CherryGrove_Door_Red[] = {8, 8, 8, 8, 8, 8, 8, 8};
 static const u8 sDoorAnimPalettes_VioletCity_Dojo_Door[] = {12, 12, 12, 12, 12, 12, 12, 12};
+// Region merge (Johto port, less-common towns): palette index arrays (from HnS).
+static const u8 sDoorAnimPalettes_Goldenrod[] = {10, 10, 10, 10, 10, 10, 10, 10};
+static const u8 sDoorAnimPalettes_Cianwood[] = {11, 11, 11, 11, 11, 11, 11, 11};
+static const u8 sDoorAnimPalettes_OlivineCity_Door[] = {11, 11, 11, 11, 11, 11, 11, 11};
+static const u8 sDoorAnimPalettes_EcruteakCity_Door[] = {10, 10, 10, 10, 10, 10, 10, 10};
+static const u8 sDoorAnimPalettes_BlackthornCity_Door[] = {7, 7, 7, 7, 7, 7, 7, 7};
+static const u8 sDoorAnimPalettes_JohtoSafariZone_Door[] = {9, 9, 9, 9, 9, 9, 9, 9};
+static const u8 sDoorAnimPalettes_JohtoDeptStore_Door[] = {8, 8, 8, 8, 8, 8, 8, 8};
 
 static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 {
@@ -440,6 +456,14 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_NewBarkTown_Door_Blue,                        &gTileset_NewBarkTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Cerulean, sDoorAnimPalettes_NewBarkTown_Door_Blue},
     {METATILE_Cherrygrove_Door_Red,                         &gTileset_CherrygroveCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_NewBarkTown_Door_Red, sDoorAnimPalettes_CherryGrove_Door_Red},
     {METATILE_VioletCity_Dojo_Door,                         &gTileset_VioletCity, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_VioletCity_Dojo_Door, sDoorAnimPalettes_VioletCity_Dojo_Door},
+    // Region merge (Johto port, less-common towns): Goldenrod, Cianwood, Olivine, Ecruteak, Blackthorn, Johto Safari, Johto dept-store elevator.
+    {METATILE_Goldenrod_Goldenrod,                          &gTileset_Goldenrod, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Goldenrod, sDoorAnimPalettes_Goldenrod},
+    {METATILE_CianwoodSafariGate_Cianwood,                  &gTileset_CianwoodCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Cianwood, sDoorAnimPalettes_Cianwood},
+    {METATILE_Olivine_6_Door,                               &gTileset_OlivineCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_OlivineCity_Door, sDoorAnimPalettes_OlivineCity_Door},
+    {METATILE_Ecruteak_City_Door,                           &gTileset_Ecruteak_City, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_EcruteakCity_Door, sDoorAnimPalettes_EcruteakCity_Door},
+    {METATILE_Blackthorn_Door,                              &gTileset_Blackthorn, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BlackthornCity_Door, sDoorAnimPalettes_BlackthornCity_Door},
+    {METATILE_SafariZoneJohto_Safari,                       &gTileset_SafariZoneJohto, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoSafariZone_Door, sDoorAnimPalettes_JohtoSafariZone_Door},
+    {METATILE_JohtoShop_Door,                               &gTileset_GoldenrodDepartmentStore, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoDeptStoreElevator, sDoorAnimPalettes_JohtoDeptStore_Door},
     {},
 };
 

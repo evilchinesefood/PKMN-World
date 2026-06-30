@@ -1094,4 +1094,13 @@
 #define METATILE_Cherrygrove_Door_Red        0x2EB // gTileset_CherrygroveCity
 #define METATILE_VioletCity_Dojo_Door        0x32B // gTileset_VioletCity
 
+// Region merge (Johto port, less-common towns): door metatiles (verified MB_ANIMATED_DOOR in each tileset).
+#define METATILE_Goldenrod_Goldenrod         0x284 // gTileset_Goldenrod
+#define METATILE_CianwoodSafariGate_Cianwood 0x29A // gTileset_CianwoodCity
+#define METATILE_Olivine_6_Door              0x312 // gTileset_OlivineCity
+#define METATILE_Ecruteak_City_Door          0x333 // gTileset_Ecruteak_City
+#define METATILE_Blackthorn_Door             0x291 // gTileset_Blackthorn
+#define METATILE_SafariZoneJohto_Safari      0x2D2 // gTileset_SafariZoneJohto
+#define METATILE_JohtoShop_Door              0x28D // gTileset_GoldenrodDepartmentStore
+
 #endif // GUARD_METATILE_LABELS_H

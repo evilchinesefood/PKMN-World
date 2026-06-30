@@ -20,6 +20,7 @@
 #include "util.h"
 #include "battle_scripts.h"
 #include "random.h"
+#include "regions.h"
 #include "text.h"
 #include "safari_zone.h"
 #include "sound.h"
@@ -698,7 +699,7 @@ void HandleAction_WatchesCarefully(void)
     gBattlerAttacker = gBattlerByTurnOrder[gCurrentTurnActionNumber];
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
     {
         if (gBattleStruct->safariRockThrowCounter != 0)
         {
@@ -767,7 +768,7 @@ void HandleAction_ThrowPokeblock(void)
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
 
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
     {
         // throw bait
         gBattleStruct->safariBaitThrowCounter += Random() % 5 + 2;
@@ -817,7 +818,7 @@ void HandleAction_GoNear(void)
     gBattle_BG0_X = 0;
     gBattle_BG0_Y = 0;
 
-    if (IS_FRLG)
+    if (GetCurrentRegion() == REGION_KANTO)
     {
         // throw rock
         gBattleStruct->safariRockThrowCounter += Random() % 5 + 2;
@@ -7919,7 +7920,7 @@ static bool32 IsCriticalHit(struct DamageContext *ctx)
 {
 
     if ((gBattleTypeFlags & (BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_POKEDUDE))
-    || ((gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE) && (!IS_FRLG || !BtlCtrl_OakOldMan_TestState2Flag(1))))
+    || ((gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE) && (GetCurrentRegion() != REGION_KANTO || !BtlCtrl_OakOldMan_TestState2Flag(1))))
         return FALSE;
     if (ctx->isSelfInflicted)
         return FALSE;

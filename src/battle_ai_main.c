@@ -22,6 +22,7 @@
 #include "pokemon.h"
 #include "random.h"
 #include "recorded_battle.h"
+#include "regions.h"
 #include "util.h"
 #include "script.h"
 #include "constants/abilities.h"
@@ -6615,7 +6616,7 @@ static s32 AI_Safari(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
 // First battle logic
 static s32 AI_FirstBattle(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move, s32 score)
 {
-    if (!IS_FRLG && gAiLogicData->hpPercents[battlerDef] <= 20)
+    if (GetCurrentRegion() != REGION_KANTO && gAiLogicData->hpPercents[battlerDef] <= 20)
         AI_Flee();
 
     return score;

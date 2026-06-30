@@ -23,6 +23,7 @@
 #include "pokedex.h"
 #include "recorded_battle.h"
 #include "window.h"
+#include "regions.h"
 #include "reshow_battle_screen.h"
 #include "main.h"
 #include "palette.h"
@@ -1037,7 +1038,7 @@ static void Cmd_setchargingturn(void)
 
 static bool32 ShouldSkipFRLGAccuracyCheck(void)
 {
-    if (!IS_FRLG)
+    if (GetCurrentRegion() != REGION_KANTO)
         return FALSE;
 
     if ((gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE

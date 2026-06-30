@@ -12,6 +12,7 @@
 #include "item.h"
 #include "battle_controllers.h"
 #include "move.h"
+#include "regions.h"
 #include "constants/battle_move_resolution.h"
 
 static void ValidateBattlers(void);
@@ -2154,7 +2155,7 @@ static bool32 ShouldSkipAccuracyCalcPastFirstHit(enum BattlerId battlerAtk, enum
 
 static bool32 ShouldSkipFRLGAccuracyCheck(void)
 {
-    if (!IS_FRLG)
+    if (GetCurrentRegion() != REGION_KANTO)
         return FALSE;
 
     if ((gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE

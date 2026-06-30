@@ -46,6 +46,7 @@
 #include "pokerus.h"
 #include "random.h"
 #include "recorded_battle.h"
+#include "regions.h"
 #include "roamer.h"
 #include "safari_zone.h"
 #include "scanline_effect.h"
@@ -4262,7 +4263,7 @@ static void HandleTurnActionSelectionState(void)
                     }
                     break;
                 case B_ACTION_SAFARI_POKEBLOCK:
-                    if (!IS_FRLG)
+                    if (GetCurrentRegion() != REGION_KANTO)
                     {
                         BtlController_EmitChooseItem(battler, B_COMM_TO_CONTROLLER, gBattleStruct->battlerPartyOrders[battler]);
                         MarkBattlerForControllerExec(battler);
@@ -4471,7 +4472,7 @@ static void HandleTurnActionSelectionState(void)
                     gBattleCommunication[battler]++;
                     break;
                 case B_ACTION_SAFARI_POKEBLOCK:
-                    if (IS_FRLG)
+                    if (GetCurrentRegion() == REGION_KANTO)
                     {
                         gBattleCommunication[battler]++;
                     }

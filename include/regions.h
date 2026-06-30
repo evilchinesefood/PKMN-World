@@ -27,6 +27,12 @@ static inline enum Region GetCurrentRegion(void)
 extern enum Region gCurrentRegion;
 void SetCurrentRegion(enum Region region);
 
+// Region-switch helpers (defined in src/region_switch.c).
+// DepositPartyToPC: box the whole player party to the global PC on a region switch (retrievable).
+// IsNRegionChampion: TRUE once the player has cleared at least n regions' leagues.
+void DepositPartyToPC(void);
+bool8 IsNRegionChampion(u8 n);
+
 #if ALL_REGIONS
 static inline enum Region GetStartRegion(void)
 {

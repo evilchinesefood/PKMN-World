@@ -4,6 +4,11 @@
 #include "script.h"
 #include "constants/regions.h"
 #include "constants/vars.h"
+#include "pokemon.h"
+#include "pokemon_storage_system.h"
+#include "constants/battle.h"
+#include "constants/pokemon.h"
+#include "constants/flags.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -64,4 +69,42 @@ void RegionHub_ScrCountWorldTourBadges(struct ScriptContext *ctx)
     gSpecialVar_0x8001 = hoenn;
     gSpecialVar_0x8002 = kanto;
     gSpecialVar_0x8003 = johto;
+}
+
+// Region-switch: box the player's entire party into the global PC. The party is fully
+// retrievable later; obedience while it is out is enforced by the CURRENT region's badges
+// (see battle_util.c). Each present mon is copied via CopyMonToPC then cleared; if the PC
+// fills up mid-transfer the remaining mons stay in the party (partial deposit).
+// CalculatePlayerPartyCount() resyncs the count afterward (CompactPartySlots does not).
+void DepositPartyToPC(void)
+{
+    u8 i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+
+        if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE)
+            continue;
+        if (CopyMonToPC(mon) != MON_GIVEN_TO_PC)
+            break; // PC full -> leave the rest in the party
+        ZeroMonData(mon);
+    }
+    CompactPartySlots();
+    CalculatePlayerPartyCount();
+}
+
+// TRUE once the player has cleared at least n regions' leagues. Per-region champion flags are
+// set by each region's Hall of Fame (C1). Drives the D6 PC-2F hub warp-pad unlock (2 regions).
+bool8 IsNRegionChampion(u8 n)
+{
+    u8 count = 0;
+
+    if (FlagGet(FLAG_KANTO_CHAMPION))
+        count++;
+    if (FlagGet(FLAG_JOHTO_CHAMPION))
+        count++;
+    if (FlagGet(FLAG_HOENN_CHAMPION))
+        count++;
+    return count >= n;
 }

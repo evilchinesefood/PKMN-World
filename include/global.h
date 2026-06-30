@@ -639,7 +639,10 @@ struct SaveBlock2
              u8 johtoIntroDone:1;
              u8 hoennIntroDone:1;
              u8 travelPassEarned:1; // travel-pass quest done -> the whole transfer network opens
-             u8 regionBitsUnused:4;
+             u8 kantoHubAccess:1;   // reached Kanto's hub access point (Vermilion Seagallop) -> can come/go
+             u8 johtoHubAccess:1;   // reached Johto's access point (Goldenrod Magnet Train)
+             u8 hoennHubAccess:1;   // reached Hoenn's access point (Slateport S.S. Tidal)
+             u8 regionBitsUnused:1;
     /*0x93*/ u8 filler_93[0x5];
 #else
     /*0x90*/ u8 filler_90[0x8];

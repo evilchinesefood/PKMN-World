@@ -60,4 +60,13 @@
 #define FLAG_JOHTO_BADGE_7         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 6)
 #define FLAG_JOHTO_BADGE_8         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 7)
 
+// Per-region champion status (region merge). Source of truth for IsNRegionChampion() and the
+// per-region league/HOF gating. They live in the FREE Kanto-bank head gap (0xA48..; the badges
+// use 0xA40..0xA47 and the first real FRLG flag is at 0xA40+0x28, so 0x08..0x27 is unused), so
+// they are inline in SaveBlock1.flags[] and always readable regardless of the active region.
+// Distinct from the global FLAG_IS_CHAMPION (FRLG sets that only post-Sevii) and FLAG_SYS_GAME_CLEAR.
+#define FLAG_KANTO_CHAMPION        (FLAG_KANTO_BASE + 0x08)  // 0xA48
+#define FLAG_JOHTO_CHAMPION        (FLAG_KANTO_BASE + 0x09)  // 0xA49
+#define FLAG_HOENN_CHAMPION        (FLAG_KANTO_BASE + 0x0A)  // 0xA4A
+
 #endif // GUARD_CONSTANTS_REGION_FLAGS_H

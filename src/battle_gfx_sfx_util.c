@@ -25,6 +25,7 @@
 #include "contest.h"
 #include "trainer.h"
 #include "trainer_pokemon_sprites.h"
+#include "palette_swap.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
 #include "constants/battle_palace.h"
@@ -695,6 +696,9 @@ void DecompressTrainerFrontPic(enum TrainerPicID trainerPicId, enum BattlerId ba
     enum BattlerPosition position = GetBattlerPosition(battler);
     DecompressDataWithHeaderWram(GetTrainerFrontPicData(trainerPicId), gMonSpritesGfxPtr->spritesGfx[position]);
     LoadSpritePaletteWithTag(GetTrainerFrontPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, TRUE));
+    // Outfit swap: recolor the player's own front pic only (guarded to the player's front pic id).
+    if (trainerPicId == PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender))
+        ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, TRUE))));
 }
 
 void FreeTrainerFrontPicPalette(enum TrainerPicID trainerPicId)

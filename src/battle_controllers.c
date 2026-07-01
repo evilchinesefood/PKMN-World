@@ -29,6 +29,7 @@
 #include "test_runner.h"
 #include "text.h"
 #include "trainer.h"
+#include "palette_swap.h"
 #include "util.h"
 #include "wild_encounter.h"
 #include "constants/abilities.h"
@@ -2468,6 +2469,9 @@ void BtlController_HandleDrawTrainerPic(enum BattlerId battler, enum TrainerPicI
         else
         {
             LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
+            // Outfit swap: recolor the player's own back pic only (guarded to the local player's back pic id).
+            if (trainerPicId == GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION))
+                ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE))));
             SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(battler));
             if (subpriority == -1)
                 subpriority = GetBattlerSpriteSubpriority(battler);

@@ -27,6 +27,7 @@
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "palette.h"
+#include "palette_swap.h"
 #include "party_menu.h"
 #include "pokemon.h"
 #include "pokeball.h"
@@ -3326,9 +3327,15 @@ void FreeAndReserveObjectSpritePalettes(void)
 u8 LoadObjectEventPalette(u16 paletteTag)
 {
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
+    u8 slot;
     if (i == 0xFF)
         return i;
-    return LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
+    slot = LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
+    // Outfit swap: recolor the player's overworld clothing on every load of the
+    // player palette (walking sprite, field effects). Guarded to the player tags.
+    if (slot != 0xFF && (paletteTag == OBJ_EVENT_PAL_TAG_BRENDAN || paletteTag == OBJ_EVENT_PAL_TAG_MAY))
+        ApplyPlayerPaletteSwap(OBJ_PLTT_ID(slot));
+    return slot;
 }
 
 u8 LoadObjectEventPaletteCopy(u16 originalTag, u16 copyTag)
@@ -3380,6 +3387,11 @@ void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
     u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
     LoadPalette(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+    // Outfit swap: this path re-patches the player's normal palette (e.g. when a
+    // reflection is set up near water), so re-apply the clothing recolor here too.
+    // Guarded to the player tags; idempotent with the LoadObjectEventPalette swap.
+    if (paletteTag == OBJ_EVENT_PAL_TAG_BRENDAN || paletteTag == OBJ_EVENT_PAL_TAG_MAY)
+        ApplyPlayerPaletteSwap(OBJ_PLTT_ID(paletteSlot));
 }
 
 void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)
@@ -3413,7 +3425,11 @@ void LoadPlayerObjectReflectionPalette(u16 tag, u8 slot)
     {
         if (sPlayerReflectionPaletteSets[i].tag == tag)
         {
-            PatchObjectPalette(sPlayerReflectionPaletteSets[i].data[sCurrentReflectionType], gReflectionEffectPaletteMap[slot]);
+            u8 reflSlot = gReflectionEffectPaletteMap[slot];
+            PatchObjectPalette(sPlayerReflectionPaletteSets[i].data[sCurrentReflectionType], reflSlot);
+            // Outfit swap: the reflection palette set only carries RED, so mirror
+            // the outfit's clothing colors over the reflection slot.
+            ApplyPlayerPaletteSwapReflection(OBJ_PLTT_ID(reflSlot));
             return;
         }
     }

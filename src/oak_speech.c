@@ -19,8 +19,11 @@
 #include "task.h"
 #include "text_window.h"
 #include "util.h"
+#include "event_data.h"
+#include "palette_swap.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/vars.h"
 
 #if IS_FRLG || ALL_REGIONS
 
@@ -89,6 +92,9 @@ static void Task_OakSpeech_FadeOutRivalPic(u8);
 static void Task_OakSpeech_FadeInRivalPic(u8);
 static void Task_OakSpeech_AskRivalsName(u8);
 static void Task_OakSpeech_ReshowPlayersPic(u8);
+static void Task_OakSpeech_AskOutfit(u8);
+static void Task_OakSpeech_ShowOutfitOptions(u8);
+static void Task_OakSpeech_HandleOutfitInput(u8);
 static void Task_OakSpeech_LetsGo(u8);
 static void Task_OakSpeech_FadeOutBGM(u8);
 static void Task_OakSpeech_SetUpExitAnimation(u8);
@@ -335,6 +341,35 @@ static const struct WindowTemplate sIntro_WindowTemplates[NUM_INTRO_WINDOWS + 1]
 
 static const u8 sTextColor_White[] = { 0, 1, 2, 0 };
 static const u8 sTextColor_DarkGray[] = { 0, 2, 3, 0 };
+
+// Outfit palette-swap picker (new game): choose one of 6 clothing recolors.
+static const u8 sText_Oak_ChooseOutfit[] = _("And which outfit will you wear?");
+static const u8 sText_Outfit_Red[] = _("RED");
+static const u8 sText_Outfit_Blue[] = _("BLUE");
+static const u8 sText_Outfit_Green[] = _("GREEN");
+static const u8 sText_Outfit_Purple[] = _("PURPLE");
+static const u8 sText_Outfit_Black[] = _("BLACK");
+static const u8 sText_Outfit_Pink[] = _("PINK");
+
+static const u8 *const sOutfitOptions[NUM_PLAYER_OUTFITS] = {
+    [PLAYER_OUTFIT_RED]    = sText_Outfit_Red,
+    [PLAYER_OUTFIT_BLUE]   = sText_Outfit_Blue,
+    [PLAYER_OUTFIT_GREEN]  = sText_Outfit_Green,
+    [PLAYER_OUTFIT_PURPLE] = sText_Outfit_Purple,
+    [PLAYER_OUTFIT_BLACK]  = sText_Outfit_Black,
+    [PLAYER_OUTFIT_PINK]   = sText_Outfit_Pink,
+};
+
+static const struct WindowTemplate sOutfitMenuWindowTemplate =
+{
+    .bg = 0,
+    .tilemapLeft = 18,
+    .tilemapTop = 1,
+    .width = 8,
+    .height = 12,
+    .paletteNum = 15,
+    .baseBlock = 360
+};
 
 enum
 {
@@ -1602,9 +1637,86 @@ static void Task_OakSpeech_ReshowPlayersPic(u8 taskId)
             gSpriteCoordOffsetX = 0;
             ChangeBgX(2, 0, BG_COORD_SET);
             CreateFadeOutTask(taskId, 2);
-            gTasks[taskId].func = Task_OakSpeech_LetsGo;
+            gTasks[taskId].func = Task_OakSpeech_AskOutfit;
         }
     }
+}
+
+// Reload the player-portrait base palette (gender-appropriate) so the outfit
+// preview composes over vanilla clothing rather than the previous pick.
+static void ReloadOutfitPreviewBase(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+        LoadPalette(sOakSpeech_Red_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Red_Pal));
+    else
+        LoadPalette(sOakSpeech_Leaf_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Leaf_Pal));
+}
+
+static void Task_OakSpeech_AskOutfit(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (tTrainerPicFadeState != 0)
+    {
+        OakSpeechPrintMessage(sText_Oak_ChooseOutfit, sOakSpeechResources->textSpeed, FALSE);
+        gTasks[taskId].func = Task_OakSpeech_ShowOutfitOptions;
+    }
+}
+
+static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
+{
+    u8 i;
+    u8 step = GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT) + 2;
+
+    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
+    {
+        gTasks[taskId].tMenuWindowId = AddWindow(&sOutfitMenuWindowTemplate);
+        PutWindowTilemap(gTasks[taskId].tMenuWindowId);
+        DrawStdFrameWithCustomTileAndPalette(gTasks[taskId].tMenuWindowId, TRUE, STD_WINDOW_BASE_TILE_NUM, 14);
+        FillWindowPixelBuffer(gTasks[taskId].tMenuWindowId, PIXEL_FILL(1));
+        sOakSpeechResources->textColor[0] = 1;
+        sOakSpeechResources->textColor[1] = 2;
+        sOakSpeechResources->textColor[2] = 3;
+        for (i = 0; i < NUM_PLAYER_OUTFITS; i++)
+            AddTextPrinterParameterized3(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 8, i * step + 1, sOakSpeechResources->textColor, 0, sOutfitOptions[i]);
+        InitMenuNormal(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 0, 1, step, NUM_PLAYER_OUTFITS, 0);
+        CopyWindowToVram(gTasks[taskId].tMenuWindowId, COPYWIN_FULL);
+        gTasks[taskId].data[12] = 0xFF; // last previewed cursor pos (force first preview)
+        gTasks[taskId].func = Task_OakSpeech_HandleOutfitInput;
+    }
+}
+
+static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u8 cursorPos = Menu_GetCursorPos();
+    s8 input;
+
+    // Live preview on cursor movement.
+    if (cursorPos != (u8)data[12])
+    {
+        data[12] = cursorPos;
+        VarSet(VAR_PLAYER_PALETTE, cursorPos);
+        ReloadOutfitPreviewBase();
+        ApplyPlayerPaletteSwapPortrait(BG_PLTT_ID(4));
+    }
+
+    input = Menu_ProcessInputNoWrap();
+    if (input == MENU_NOTHING_CHOSEN)
+        return;
+    if (input == MENU_B_PRESSED)
+        input = PLAYER_OUTFIT_RED;
+
+    PlaySE(SE_SELECT);
+    VarSet(VAR_PLAYER_PALETTE, input);
+    ReloadOutfitPreviewBase();
+    ApplyPlayerPaletteSwapPortrait(BG_PLTT_ID(4));
+
+    ClearStdWindowAndFrameToTransparent(tMenuWindowId, TRUE);
+    RemoveWindow(tMenuWindowId);
+    tMenuWindowId = WIN_INTRO_TEXTBOX;
+    ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
+    gTasks[taskId].func = Task_OakSpeech_LetsGo;
 }
 
 static void Task_OakSpeech_LetsGo(u8 taskId)
@@ -2004,6 +2116,11 @@ static void LoadTrainerPic(u16 whichPic, u16 tileOffset)
     default:
         return;
     }
+
+    // Outfit swap: the player portrait loads into BG palette slot 4. Recolor the
+    // clothing indices after the base palette load (early-returns for RED / no pick yet).
+    if (whichPic == MALE_PLAYER_PIC || whichPic == FEMALE_PLAYER_PIC)
+        ApplyPlayerPaletteSwapPortrait(BG_PLTT_ID(4));
 
     sOakSpeechResources->trainerPicTilemap = AllocZeroed(0x60);
     for (i = 0; i < 0x60; i++)

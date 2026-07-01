@@ -2,6 +2,7 @@
 #include "naming_screen.h"
 #include "malloc.h"
 #include "palette.h"
+#include "palette_swap.h"
 #include "task.h"
 #include "sprite.h"
 #include "string_util.h"
@@ -1407,6 +1408,8 @@ static void NamingScreen_CreatePlayerIcon(void)
     rivalGfxId = GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, (enum Gender)sNamingScreen->monSpecies);
     spriteId = CreateObjectGraphicsSprite(rivalGfxId, SpriteCallbackDummy, 56, 37, 0);
     gSprites[spriteId].oam.priority = 3;
+    // Outfit swap: recolor the player's overworld icon shown on the naming screen.
+    ApplyPlayerPaletteSwap(OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum));
     StartSpriteAnim(&gSprites[spriteId], ANIM_STD_GO_SOUTH);
 }
 

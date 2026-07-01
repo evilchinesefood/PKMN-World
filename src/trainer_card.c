@@ -1,6 +1,7 @@
 #include "global.h"
 #include "scanline_effect.h"
 #include "palette.h"
+#include "palette_swap.h"
 #include "task.h"
 #include "main.h"
 #include "window.h"
@@ -1976,5 +1977,7 @@ static void CreateTrainerCardTrainerPic(void)
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
                     8,
                     WIN_TRAINER_PIC);
+        // Outfit swap: the local player's own card pic loads into BG palette slot 8.
+        ApplyPlayerPaletteSwapFrontPic(BG_PLTT_ID(8));
     }
 }

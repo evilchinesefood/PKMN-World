@@ -1710,8 +1710,11 @@ static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
             AddTextPrinterParameterized3(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 8, i * step + 1, sOakSpeechResources->textColor, 0, sOutfitOptions[i]);
         InitMenuNormal(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 0, 1, step, NUM_PLAYER_OUTFITS, 0);
         CopyWindowToVram(gTasks[taskId].tMenuWindowId, COPYWIN_FULL);
-        // The prompt box (WIN_INTRO_TEXTBOX, now height 12 = tiles 1-336) and this menu (baseBlock
-        // 360+) no longer share VRAM, so the "which outfit?" prompt stays visible without garble.
+        // BizHawk tilemap dump: the 6-row menu needs 112 tiles (baseBlock 360-471) and the message
+        // box occupies 404-507, so the menu's option glyphs alias into the box (e.g. "BLACK" shows in
+        // the box). The intro's 512-tile BG0 can't fit both. The prompt is shown while it prints
+        // (case above waits for the printer), then the box is cleared so the menu renders cleanly.
+        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         gTasks[taskId].data[12] = 0xFF; // last previewed cursor pos (force first preview)
         gTasks[taskId].func = Task_OakSpeech_HandleOutfitInput;
     }

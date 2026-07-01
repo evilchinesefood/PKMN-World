@@ -2502,6 +2502,9 @@ void BtlController_HandleTrainerSlide(enum BattlerId battler, enum TrainerPicID 
     if (IsOnPlayerSide(battler))
     {
         LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
+        // Outfit swap: recolor the player's own back pic on the trainer slide-in (guarded to the player).
+        if (trainerPicId == GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION))
+            ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE))));
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(battler));
         gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
                                                          80,

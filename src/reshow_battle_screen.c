@@ -1,4 +1,5 @@
 #include "global.h"
+#include "palette_swap.h"
 #include "reshow_battle_screen.h"
 #include "battle.h"
 #include "palette.h"
@@ -287,6 +288,8 @@ static bool8 LoadBattlerSpriteGfx(enum BattlerId battler)
         {
             enum TrainerPicID trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
             LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
+            // Outfit swap: recolor the player back pic when the battle screen is reshown (Safari).
+            ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE))));
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_CATCH_TUTORIAL && position == B_POSITION_PLAYER_LEFT)
             LoadSpritePaletteWithTag(GetTrainerBackPicPalette(CATCH_TUTORIAL_TRAINER_PIC), GetTrainerPicTag(CATCH_TUTORIAL_TRAINER_PIC, FALSE));

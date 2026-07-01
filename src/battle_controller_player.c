@@ -1,4 +1,5 @@
 #include "global.h"
+#include "palette_swap.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_arena.h"
@@ -2301,6 +2302,8 @@ static void PlayerHandleIntroTrainerBallThrow(enum BattlerId battler)
     enum TrainerPicID trainerPicID = PlayerGetTrainerBackPicId();
     const u16 *trainerPal = GetTrainerBackPicPalette(trainerPicID);
     BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F8, trainerPal, 31, Intro_TryShinyAnimShowHealthbox);
+    // Outfit swap: recolor the player back pic during the send-out ball-throw pose.
+    ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(0xD6F8)));
 }
 
 static void PlayerHandleDrawPartyStatusSummary(enum BattlerId battler)

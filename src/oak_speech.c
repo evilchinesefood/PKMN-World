@@ -366,7 +366,7 @@ static const struct WindowTemplate sOutfitMenuWindowTemplate =
     .tilemapLeft = 18,
     .tilemapTop = 1,
     .width = 8,
-    .height = 12,
+    .height = 14,   // 6 outfit rows + frame; height 12 clipped PINK
     .paletteNum = 15,
     .baseBlock = 360
 };
@@ -1569,7 +1569,19 @@ static void Task_OakSpeech_FadeOutPlayerPic(u8 taskId)
         if (tTimer != 0)
             tTimer--;
         else
+#if ALL_REGIONS
+        {
+            // Region merge: the rival is pre-named BLUE (rivalName is set in new_game.c, which
+            // runs AFTER the intro), so the "remember, your rival is <name>" segment would print
+            // a BLANK name over an EMPTY platform (the rival pic is removed too). Skip the whole
+            // rival detour: fade the player back in and go straight to the outfit pick. (Mirrors
+            // Task_OakSpeech_FadeOutRivalPic's CreateFadeInTask -> ReshowPlayersPic hand-off.)
+            CreateFadeInTask(taskId, 2);
+            gTasks[taskId].func = Task_OakSpeech_ReshowPlayersPic;
+        }
+#else
             gTasks[taskId].func = Task_OakSpeech_FadeInRivalPic;
+#endif
     }
 }
 
@@ -1686,6 +1698,10 @@ static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
             AddTextPrinterParameterized3(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 8, i * step + 1, sOakSpeechResources->textColor, 0, sOutfitOptions[i]);
         InitMenuNormal(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 0, 1, step, NUM_PLAYER_OUTFITS, 0);
         CopyWindowToVram(gTasks[taskId].tMenuWindowId, COPYWIN_FULL);
+        // WIN_INTRO_TEXTBOX (baseBlock 1-420) and this menu (baseBlock 360+) share the one BG0
+        // char block, so the menu's tiles bleed into the textbox's lower rows. Clear the dialog
+        // frame while the outfit menu is up so no garbled text shows in the message box below.
+        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         gTasks[taskId].data[12] = 0xFF; // last previewed cursor pos (force first preview)
         gTasks[taskId].func = Task_OakSpeech_HandleOutfitInput;
     }

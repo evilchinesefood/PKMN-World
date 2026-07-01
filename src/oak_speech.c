@@ -1588,7 +1588,12 @@ static void Task_OakSpeech_FadeInRivalPic(u8 taskId)
     ChangeBgX(2, 0, BG_COORD_SET);
     gTasks[taskId].tTrainerPicPosX = 0;
     gSpriteCoordOffsetX = 0;
+#if !ALL_REGIONS
+    // Region merge: don't show the rival's face during the Oak intro. The pic slot
+    // was already blanked by ClearTrainerPic in Task_OakSpeech_FadeOutPlayerPic, so
+    // the "remember your rival is <name>" text fades in over an empty platform.
     LoadTrainerPic(RIVAL_PIC, 0);
+#endif
     CreateFadeOutTask(taskId, 2);
     gTasks[taskId].func = Task_OakSpeech_AskRivalsName;
 }
@@ -1982,10 +1987,14 @@ static void CB2_ReturnFromNamingScreen(void)
             else
                 LoadTrainerPic(FEMALE_PLAYER_PIC, 0);
         }
+#if !ALL_REGIONS
         else
         {
+            // Region merge: rival naming is removed, so this return-from-naming path
+            // never carries a named rival; never show the rival's face in the intro.
             LoadTrainerPic(RIVAL_PIC, 0);
         }
+#endif
         gTasks[taskId].tTrainerPicPosX = -60;
         gSpriteCoordOffsetX += 60;
         ChangeBgX(2, 0xFFFFC400, BG_COORD_SET);

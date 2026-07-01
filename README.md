@@ -18,9 +18,13 @@ inventory and per-region badges + champions. `ALL_REGIONS` is permanently on.
 - ✅ **Johto** — **fully ported** (~245 maps, trainers, encounters, gyms/badges, region map/Fly, and all
   post-game: roaming beasts, Celebi, Ruins of Alph puzzles, Bug Contest, Ho-Oh/Lugia). Link-green; a
   runtime playtest is the remaining gate.
-- 🔨 **Kanto** — FRLG maps bundled; campaign wiring + the `IS_FRLG`→runtime migration in progress.
-- 🔨 **Cross-region glue** — the World Transit hub, region-switch travel, multi-page trainer card,
-  character customization, and the Battle Frontier super-endgame are designed and queued.
+- ✅ **Kanto** — FRLG campaign wired: `IS_FRLG`→runtime migration done, plus an 8-Kanto-badge Elite
+  Four gate, rival **BLUE**, per-region champion flags, and region-aware starters. Playtest gate.
+- ✅ **Cross-region glue** — the World Transit hub + region-switch travel (unified Oak intro → hub →
+  spatial gates, "Mom moves in" arrival, party-boxing region switch + resume-at-access-point, per-region
+  access points, a 2-region-champion PC-2F warp pad), the multi-page trainer card, and 6-outfit character
+  customization are all **BUILT** (link-green, pushed). The **Battle Frontier** is the shared super-endgame.
+  Runtime playtest is the remaining gate.
 
 The full roadmap lives in `.plans/MasterPlan.md` (local, not tracked).
 

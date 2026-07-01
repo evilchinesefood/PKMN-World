@@ -181,3 +181,10 @@ bool8 IsNRegionChampion(u8 n)
         count++;
     return count >= n;
 }
+
+// D6: PokeCenter-2F World Transit pad gate. VAR_RESULT = has the player cleared >= 2 regions'
+// leagues; if so the pad warps straight to the hub, bypassing the trek to a region access point.
+void RegionHub_ScrIsTwoRegionChampion(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = IsNRegionChampion(2);
+}

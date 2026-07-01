@@ -1387,3 +1387,28 @@ MossdeepCity_GameCorner_1F_EventScript_DodrioBerryPickingRecords::
 	special ShowDodrioBerryPickingRecords
 	releaseall
 	end
+
+@ region merge (D6): World Transit pad in every PokeCenter 2F. Unlocks once the player has
+@ cleared 2 regions' leagues (RegionHub_ScrIsTwoRegionChampion -> IsNRegionChampion(2)) and
+@ warps straight to the hub, bypassing the trek to a region's access point. Placed as a walk-
+@ on coord_event at (11,7) in every 2F map (shared LAYOUT_POKEMON_CENTER_2F). Silent no-op
+@ before the unlock. PLAYTEST: pad tile (11,7) walkability + no accidental crossings.
+PokemonCenter_2F_EventScript_HubPad::
+	lockall
+	callnative RegionHub_ScrIsTwoRegionChampion
+	goto_if_eq VAR_RESULT, 0, PokemonCenter_2F_EventScript_HubPadDone
+	msgbox PokemonCenter_2F_Text_HubPad, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, PokemonCenter_2F_EventScript_HubPadDone
+	closemessage
+	warp MAP_REGION_HUB, 0
+	waitstate
+	releaseall
+	end
+
+PokemonCenter_2F_EventScript_HubPadDone::
+	releaseall
+	end
+
+PokemonCenter_2F_Text_HubPad:
+	.string "A WORLD TRANSIT pad hums with\n"
+	.string "energy. Warp to the TERMINAL?$"

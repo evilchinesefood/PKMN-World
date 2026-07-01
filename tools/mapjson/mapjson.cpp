@@ -553,8 +553,13 @@ string generate_headers_text(Json groups_data, vector<string> &invalid_maps, str
 
     text << get_generated_warning("data/maps/map_groups.json", true);
 
+    // Region merge: mapsec was widened u8->u16, so a map header is now 29 (0x1D) bytes — an odd
+    // size. Packed back-to-back these drift out of 4-byte alignment, and the word-aligned struct
+    // copy `gMapHeader = *header` corrupts any odd-addressed header (byte-shift -> garbage
+    // mapLayoutId -> GetMapLayout OOB -> InitTilesetAnimations calls a junk callback -> hang).
+    // Align every header to a word boundary (matches the layout tables) so the copy is always safe.
     for (string map_name : map_names)
-        text << "\t.include \"" << include_path << "/" << map_name << "/header.inc\"\n";
+        text << "\t.align 2\n\t.include \"" << include_path << "/" << map_name << "/header.inc\"\n";
 
     return text.str();
 }

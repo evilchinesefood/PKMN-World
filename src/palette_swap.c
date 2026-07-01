@@ -46,7 +46,10 @@ void ApplyPlayerPaletteSwap(u16 plttOffset)
 
     if (outfit == PLAYER_OUTFIT_RED)
         return;
-    WriteOutfitClothing(sOutfitOW[outfit], sOWClothingIdx, ARRAY_COUNT(sOWClothingIdx), plttOffset);
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+        WriteOutfitClothing(sOutfitOW_Female[outfit], sOWClothingIdx_Female, ARRAY_COUNT(sOWClothingIdx_Female), plttOffset);
+    else
+        WriteOutfitClothing(sOutfitOW_Male[outfit], sOWClothingIdx_Male, ARRAY_COUNT(sOWClothingIdx_Male), plttOffset);
 }
 
 void ApplyPlayerPaletteSwapPortrait(u16 plttOffset)
@@ -64,7 +67,10 @@ void ApplyPlayerPaletteSwapFrontPic(u16 plttOffset)
 
     if (outfit == PLAYER_OUTFIT_RED)
         return;
-    WriteOutfitClothing(sOutfitFrontPic[outfit], sFrontPicClothingIdx, ARRAY_COUNT(sFrontPicClothingIdx), plttOffset);
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+        WriteOutfitClothing(sOutfitFrontPic_Female[outfit], sFrontPicClothingIdx_Female, ARRAY_COUNT(sFrontPicClothingIdx_Female), plttOffset);
+    else
+        WriteOutfitClothing(sOutfitFrontPic_Male[outfit], sFrontPicClothingIdx_Male, ARRAY_COUNT(sFrontPicClothingIdx_Male), plttOffset);
 }
 
 void ApplyPlayerPaletteSwapBackPic(u16 plttOffset)
@@ -73,7 +79,10 @@ void ApplyPlayerPaletteSwapBackPic(u16 plttOffset)
 
     if (outfit == PLAYER_OUTFIT_RED)
         return;
-    WriteOutfitClothing(sOutfitBackPic[outfit], sBackPicClothingIdx, ARRAY_COUNT(sBackPicClothingIdx), plttOffset);
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+        WriteOutfitClothing(sOutfitBackPic_Female[outfit], sBackPicClothingIdx_Female, ARRAY_COUNT(sBackPicClothingIdx_Female), plttOffset);
+    else
+        WriteOutfitClothing(sOutfitBackPic_Male[outfit], sBackPicClothingIdx_Male, ARRAY_COUNT(sBackPicClothingIdx_Male), plttOffset);
 }
 
 // The reflection slot is patched from a pre-tinted "reflection" palette set that
@@ -86,5 +95,8 @@ void ApplyPlayerPaletteSwapReflection(u16 plttOffset)
 
     if (outfit == PLAYER_OUTFIT_RED)
         return;
-    WriteOutfitClothing(sOutfitOW[outfit], sOWClothingIdx, ARRAY_COUNT(sOWClothingIdx), plttOffset);
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+        WriteOutfitClothing(sOutfitOW_Female[outfit], sOWClothingIdx_Female, ARRAY_COUNT(sOWClothingIdx_Female), plttOffset);
+    else
+        WriteOutfitClothing(sOutfitOW_Male[outfit], sOWClothingIdx_Male, ARRAY_COUNT(sOWClothingIdx_Male), plttOffset);
 }

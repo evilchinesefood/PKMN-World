@@ -1,4 +1,5 @@
 EventScript_SetDefeatedEliteFourFlagsVars::
+	setflag FLAG_KANTO_CHAMPION
 	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
 	call EventScript_ResetEliteFour
 	special Script_UpdateTrainerFanClubGameClear

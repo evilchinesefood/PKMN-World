@@ -111,15 +111,17 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
     {8, 4},
 };
 
-// Region-aware starter trios. Index contract: 0 = grass, 1 = fire, 2 = water (uniform
-// across regions). VAR_STARTER_MON stores this index; the Kanto champion variant select
-// keys on it. Picked at runtime by GetCurrentRegion() (player is on the region's start
-// town when ChooseStarter runs). Unpopulated regions fall back to the Hoenn trio.
+// Region-aware starter trios. VAR_STARTER_MON stores the chosen ball INDEX (0/1/2). Hoenn and
+// Johto use the natural grass/fire/water order; KANTO follows the bundled FRLG champion room's
+// convention (index 0 = Charmander, 1 = Bulbasaur, 2 = Squirtle) so Blue's VAR_STARTER_MON
+// variant-select stays correct WITHOUT editing the champion battle scripts. Picked at runtime
+// by GetCurrentRegion() (the player is on the region's start town when ChooseStarter runs).
+// Unpopulated regions fall back to the Hoenn trio.
 static const u16 sStarterMon[REGIONS_COUNT][STARTER_MON_COUNT] =
 {
-    [REGION_HOENN] = { SPECIES_TREECKO,   SPECIES_TORCHIC,    SPECIES_MUDKIP   },
-    [REGION_KANTO] = { SPECIES_BULBASAUR, SPECIES_CHARMANDER, SPECIES_SQUIRTLE },
-    [REGION_JOHTO] = { SPECIES_CHIKORITA, SPECIES_CYNDAQUIL,  SPECIES_TOTODILE },
+    [REGION_HOENN] = { SPECIES_TREECKO,    SPECIES_TORCHIC,   SPECIES_MUDKIP   },
+    [REGION_KANTO] = { SPECIES_CHARMANDER, SPECIES_BULBASAUR, SPECIES_SQUIRTLE },
+    [REGION_JOHTO] = { SPECIES_CHIKORITA,  SPECIES_CYNDAQUIL, SPECIES_TOTODILE },
 };
 
 static const struct BgTemplate sBgTemplates[3] =

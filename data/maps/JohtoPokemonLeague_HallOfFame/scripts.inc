@@ -57,6 +57,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp::
 JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	clearflag FLAG_HIDE_LEAGUE_BLACKBELT
 	setflag FLAG_IS_CHAMPION
+	setflag FLAG_JOHTO_CHAMPION
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
 	setvar VAR_LEAGUE_STATE, 1
 	setvar VAR_NEWBARK_TOWN_STATE, 6

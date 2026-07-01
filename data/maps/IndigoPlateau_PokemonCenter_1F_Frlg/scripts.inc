@@ -5,8 +5,16 @@ IndigoPlateau_PokemonCenter_1F_Frlg_MapScripts::
 
 IndigoPlateau_PokemonCenter_1F_OnTransition::
 	setrespawn HEAL_LOCATION_INDIGO_PLATEAU
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	call_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_CheckBlockDoor
+	@ Region merge (C1): gate the Kanto Elite Four on all 8 KANTO badges (mirrors Johto's
+	@ ReceptionGate). The guard blocks the door tile (4,2) until the 8th badge, then steps
+	@ back to its idle spot (5,3). Sevii/NatDex door gating dropped for the merge; the old
+	@ CheckBlockDoor/CheckSeviiIslandComplete scripts below are now unreferenced.
+	goto_if_unset FLAG_KANTO_BADGE_8, IndigoPlateau_PokemonCenter_1F_EventScript_BlockLeagueDoor
+	setobjectxyperm LOCALID_LEAGUE_DOOR_GUARD, 5, 3
+	end
+
+IndigoPlateau_PokemonCenter_1F_EventScript_BlockLeagueDoor::
+	setobjectxyperm LOCALID_LEAGUE_DOOR_GUARD, 4, 2
 	end
 
 IndigoPlateau_PokemonCenter_1F_EventScript_CheckBlockDoor::
@@ -17,11 +25,19 @@ IndigoPlateau_PokemonCenter_1F_EventScript_CheckBlockDoor::
 IndigoPlateau_PokemonCenter_1F_EventScript_DoorGuard::
 	lock
 	faceplayer
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	goto_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_CheckSeviiIslandComplete
+	goto_if_unset FLAG_KANTO_BADGE_8, IndigoPlateau_PokemonCenter_1F_EventScript_NotEnoughKantoBadges
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck
 	release
 	end
+
+IndigoPlateau_PokemonCenter_1F_EventScript_NotEnoughKantoBadges::
+	msgbox IndigoPlateau_PokemonCenter_1F_Text_NeedEightKantoBadges
+	release
+	end
+
+IndigoPlateau_PokemonCenter_1F_Text_NeedEightKantoBadges:
+	.string "You need all eight KANTO GYM\n"
+	.string "BADGES to face the ELITE FOUR!$"
 
 IndigoPlateau_PokemonCenter_1F_EventScript_CheckSeviiIslandComplete::
 	goto_if_set FLAG_IS_CHAMPION, IndigoPlateau_PokemonCenter_1F_EventScript_SeviiIslandComplete

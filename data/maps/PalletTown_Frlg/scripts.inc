@@ -6,6 +6,7 @@ PalletTown_Frlg_MapScripts::
 	.byte 0
 
 PalletTown_OnTransition::
+	callnative RegionHub_ScrArmArrival
 	setworldmapflag FLAG_WORLD_MAP_PALLET_TOWN
 	call_if_set FLAG_PALLET_LADY_NOT_BLOCKING_SIGN, PalletTown_EventScript_TryReadySignLady
 	call_if_eq VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY, 0, PalletTown_EventScript_SetSignLadyPos
@@ -36,7 +37,28 @@ PalletTown_EventScript_MoveSignLadyToRouteEntrance::
 
 PalletTown_OnFrame::
 	map_script_2 VAR_MAP_SCENE_PALLET_TOWN_OAK, 2, PalletTown_EventScript_OakRatingScene
+	map_script_2 VAR_REGION_ARRIVAL, 1, PalletTown_EventScript_KantoArrival
 	.2byte 0
+
+@ Region-switch (D3): first-visit "Mom moves into a new house" welcome. Fires once when the
+@ player arrives in KANTO with kantoIntroDone unset (armed by RegionHub_ScrArmArrival in
+@ OnTransition). The canonical PROF. OAK lab flow still gives the region-aware starter.
+@ PLAYTEST: confirm it fires once and Oak's lab opening still works after a hub arrival.
+PalletTown_EventScript_KantoArrival::
+	lockall
+	msgbox PalletTown_Text_MomNewHome, MSGBOX_DEFAULT
+	callnative RegionHub_ScrSetIntroDone
+	setvar VAR_REGION_ARRIVAL, 0
+	releaseall
+	end
+
+PalletTown_Text_MomNewHome:
+	.string "MOM: Well, here we are - our new\n"
+	.string "home in PALLET TOWN, KANTO!\p"
+	.string "Why don't you go see PROF. OAK?\n"
+	.string "He gives new TRAINERS their first\l"
+	.string "POKéMON.$"
+
 
 @ Oak approaches player after exiting their house post Elite Four to check if they should receieve the National Dex
 PalletTown_EventScript_OakRatingScene::

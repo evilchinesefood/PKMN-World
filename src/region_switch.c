@@ -60,6 +60,35 @@ void RegionHub_ScrEnterRegion(struct ScriptContext *ctx)
     SetCurrentRegion(target);
 }
 
+// D3 arrival: arm the start-town "Mom moves into a new house" scene. Sets VAR_REGION_ARRIVAL=1
+// only when the CURRENT region's intro-done bit is unset; the town's ON_FRAME map_script_2
+// reacts to it. Called from each start town's ON_TRANSITION, so it self-clears on return visits.
+void RegionHub_ScrArmArrival(struct ScriptContext *ctx)
+{
+    bool8 done;
+
+    switch (GetCurrentRegion())
+    {
+    case REGION_KANTO: done = gSaveBlock2Ptr->kantoIntroDone; break;
+    case REGION_JOHTO: done = gSaveBlock2Ptr->johtoIntroDone; break;
+    case REGION_HOENN: done = gSaveBlock2Ptr->hoennIntroDone; break;
+    default:           done = TRUE; break;
+    }
+    VarSet(VAR_REGION_ARRIVAL, done ? 0 : 1);
+}
+
+// D3 arrival: mark the current region's first-visit intro complete (set by the arrival scene).
+void RegionHub_ScrSetIntroDone(struct ScriptContext *ctx)
+{
+    switch (GetCurrentRegion())
+    {
+    case REGION_KANTO: gSaveBlock2Ptr->kantoIntroDone = TRUE; break;
+    case REGION_JOHTO: gSaveBlock2Ptr->johtoIntroDone = TRUE; break;
+    case REGION_HOENN: gSaveBlock2Ptr->hoennIntroDone = TRUE; break;
+    default: break;
+    }
+}
+
 // World-tour board (R8). Counts the player's gym badges across all three regions' badge
 // banks (8 each, set per-region by K9) and exposes them to the hub board script:
 //   VAR_0x8000 = total /24, VAR_0x8001 = Hoenn, VAR_0x8002 = Kanto, VAR_0x8003 = Johto.

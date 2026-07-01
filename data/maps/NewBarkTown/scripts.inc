@@ -9,7 +9,26 @@ NewBarkTown_MapScripts::
 
 NewBarkTown_OnFrame::
 	map_script_2 VAR_NEWBARK_TOWN_STATE, 6, NewBarkTown_EventScript_ElmCallAfterLeague
+	map_script_2 VAR_REGION_ARRIVAL, 1, NewBarkTown_EventScript_JohtoArrival
 	.2byte 0
+
+@ Region-switch (D3): first-visit "Mom moves into a new house" welcome (JOHTO). Fires once
+@ when johtoIntroDone is unset; the canonical PROF. ELM flow still gives the region starter
+@ and the lab errand quest. PLAYTEST: confirm Elm's errand still starts after a hub arrival.
+NewBarkTown_EventScript_JohtoArrival::
+	lockall
+	msgbox NewBarkTown_Text_MomNewHome, MSGBOX_DEFAULT
+	callnative RegionHub_ScrSetIntroDone
+	setvar VAR_REGION_ARRIVAL, 0
+	releaseall
+	end
+
+NewBarkTown_Text_MomNewHome:
+	.string "MOM: We've settled into our new\n"
+	.string "home in NEW BARK TOWN, JOHTO!\p"
+	.string "PROF. ELM next door is looking for\n"
+	.string "you - go see him about a POKéMON.$"
+
 
 NewBarkTown_EventScript_ElmCallAfterLeague::
 	lock
@@ -22,6 +41,7 @@ NewBarkTown_EventScript_ElmCallAfterLeague::
 	end
 
 NewBarkTown_OnTransition::
+	callnative RegionHub_ScrArmArrival
 	goto_if_eq VAR_NEWBARK_TOWN_STATE, 2, NewBarkTown_Set_TalkToElm
 	goto_if_eq VAR_NEWBARK_TOWN_STATE, 4, NewBarkTown_Set_TalkToMom
 	end

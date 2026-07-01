@@ -35,6 +35,7 @@ LittlerootTown_MapScripts::
 
 
 LittlerootTown_OnTransition:
+	callnative RegionHub_ScrArmArrival
 	setflag FLAG_VISITED_LITTLEROOT_TOWN
 	call Common_EventScript_SetupRivalGfxId
 	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_MoveMomToMaysDoor
@@ -105,7 +106,26 @@ LittlerootTown_OnFrame:
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittlerootTown_EventScript_StepOffTruckMale
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_StepOffTruckFemale
 	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_BeginDexUpgradeScene
+	map_script_2 VAR_REGION_ARRIVAL, 1, LittlerootTown_EventScript_HoennArrival
 	.2byte 0
+
+@ Region-switch (D3): first-visit "Mom moves into a new house" welcome (HOENN). Fires once
+@ when hoennIntroDone is unset; the canonical PROF. BIRCH / Route 101 flow still gives the
+@ region-aware starter. PLAYTEST: confirm Birch's bag scene still fires after a hub arrival.
+LittlerootTown_EventScript_HoennArrival::
+	lockall
+	msgbox LittlerootTown_Text_MomNewHome, MSGBOX_DEFAULT
+	callnative RegionHub_ScrSetIntroDone
+	setvar VAR_REGION_ARRIVAL, 0
+	releaseall
+	end
+
+LittlerootTown_Text_MomNewHome:
+	.string "MOM: Here we are - our new home in\n"
+	.string "LITTLEROOT TOWN, HOENN!\p"
+	.string "PROF. BIRCH studies POKéMON nearby.\n"
+	.string "Go see him to get your first one.$"
+
 
 LittlerootTown_EventScript_StepOffTruckMale::
 	lockall

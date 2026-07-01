@@ -302,7 +302,10 @@ static const struct WindowTemplate sIntro_WindowTemplates[NUM_INTRO_WINDOWS + 1]
         .tilemapLeft = 1,
         .tilemapTop = 4,
         .width = 28,
-        .height = 15,
+        // height 12 (tiles 1-336) keeps this box clear of the outfit menu's VRAM (baseBlock 360+);
+        // at height 15 (tiles 1-420) the menu's option tiles bled into the box's bottom rows. The
+        // box still holds Oak's top-anchored dialogue and the outfit prompt.
+        .height = 12,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -343,7 +346,8 @@ static const u8 sTextColor_White[] = { 0, 1, 2, 0 };
 static const u8 sTextColor_DarkGray[] = { 0, 2, 3, 0 };
 
 // Outfit palette-swap picker (new game): choose one of 6 clothing recolors.
-static const u8 sText_Oak_ChooseOutfit[] = _("And which outfit will you wear?");
+// Two lines so the prompt stays left of the outfit menu (which covers cols 18-25).
+static const u8 sText_Oak_ChooseOutfit[] = _("And which outfit\nwill you wear?");
 static const u8 sText_Outfit_Red[] = _("RED");
 static const u8 sText_Outfit_Blue[] = _("BLUE");
 static const u8 sText_Outfit_Green[] = _("GREEN");
@@ -810,6 +814,14 @@ static void Task_NewGameScene(u8 taskId)
         break;
     case 7:
         HofPCTopBar_AddWindow(0, 30, 0, 13, 0x1C4);
+        // FRLG's controls-guide top/bottom bars are blue; the Emerald hof_pc_topbar palette
+        // (loaded into slot 13 above, and used by the bar tiles 0xD00F/0xD002/0xD00E below) is
+        // green. Recolor only this slot's green entries to blue so the bars match FRLG, without
+        // touching the shared PC/Hall-of-Fame palette. Slot 13 is excluded from the page fades.
+        gPlttBufferUnfaded[BG_PLTT_ID(13) + 0]  = gPlttBufferFaded[BG_PLTT_ID(13) + 0]  = RGB(14, 21, 28);
+        gPlttBufferUnfaded[BG_PLTT_ID(13) + 6]  = gPlttBufferFaded[BG_PLTT_ID(13) + 6]  = RGB(4, 12, 25);
+        gPlttBufferUnfaded[BG_PLTT_ID(13) + 7]  = gPlttBufferFaded[BG_PLTT_ID(13) + 7]  = RGB(18, 25, 30);
+        gPlttBufferUnfaded[BG_PLTT_ID(13) + 15] = gPlttBufferFaded[BG_PLTT_ID(13) + 15] = RGB(0, 11, 20);
         FillBgTilemapBufferRect_Palette0(1, 0xD00F, 0,  0, 30, 2);
         FillBgTilemapBufferRect_Palette0(1, 0xD002, 0,  2, 30, 1);
         FillBgTilemapBufferRect_Palette0(1, 0xD00E, 0, 19, 30, 1);
@@ -1698,10 +1710,8 @@ static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
             AddTextPrinterParameterized3(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 8, i * step + 1, sOakSpeechResources->textColor, 0, sOutfitOptions[i]);
         InitMenuNormal(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 0, 1, step, NUM_PLAYER_OUTFITS, 0);
         CopyWindowToVram(gTasks[taskId].tMenuWindowId, COPYWIN_FULL);
-        // WIN_INTRO_TEXTBOX (baseBlock 1-420) and this menu (baseBlock 360+) share the one BG0
-        // char block, so the menu's tiles bleed into the textbox's lower rows. Clear the dialog
-        // frame while the outfit menu is up so no garbled text shows in the message box below.
-        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
+        // The prompt box (WIN_INTRO_TEXTBOX, now height 12 = tiles 1-336) and this menu (baseBlock
+        // 360+) no longer share VRAM, so the "which outfit?" prompt stays visible without garble.
         gTasks[taskId].data[12] = 0xFF; // last previewed cursor pos (force first preview)
         gTasks[taskId].func = Task_OakSpeech_HandleOutfitInput;
     }

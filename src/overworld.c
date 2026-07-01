@@ -1917,16 +1917,15 @@ void CB2_NewGame(void)
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();
-    // Region merge: the truck intro (ExecuteTruckSequence) only makes sense for Hoenn, whose
-    // new game warps INTO MAP_INSIDE_OF_TRUCK. The old IS_FRLG guard left it firing for EVERY
-    // region (IS_FRLG is 0 in this Emerald-based build), so Kanto/Johto new games ran the truck
-    // sequence in the wrong map -> screen shake + palette zero-fill (looked like a sandstorm) +
-    // metatile corruption. Gate it to the chosen start region.
+    // Region merge (D2): every new game now lands in the World Transit hub (new_game.c
+    // WarpToTruck -> MAP_REGION_HUB), NOT MAP_INSIDE_OF_TRUCK, so just fade in from black.
+    // ExecuteTruckSequence would run the truck-exit animation (screen shake / camera pan) on
+    // the hub map, which has no truck -> soft-lock on the fade-to-black after the Oak intro.
+    // (GetStartRegion() also DEFAULTS to REGION_HOENN when startRegion is unset, which it is on
+    // a new game, so the old REGION_HOENN check fired the truck path for every new game.)
+    // startRegion is set later, when the player walks a hub gate.
 #if ALL_REGIONS
-    if (GetStartRegion() == REGION_HOENN)
-        gFieldCallback = ExecuteTruckSequence;
-    else
-        gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+    gFieldCallback = FieldCB_WarpExitFadeFromBlack;
 #else
     if (IS_FRLG)
         gFieldCallback = FieldCB_WarpExitFadeFromBlack;

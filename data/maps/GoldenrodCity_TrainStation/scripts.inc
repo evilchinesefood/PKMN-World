@@ -58,10 +58,11 @@ GoldenrodCity_TrainStation_EventScript_BoardTrain::
 	fadescreen FADE_TO_BLACK
 	waitse
 	special RemoveCameraObject
-	setvar VAR_TRAIN, 1
+	@ region merge (D4): the Magnet Train is Johto's World Transit access point -> the hub.
+	callnative RegionHub_ScrSetHubAccess
 	delay 60
-	warp MAP_GOLDENROD_CITY_TRAIN_STATION, 0 @ region merge: Saffron magnet train unported, dead-end
-	delay 60
+	warp MAP_REGION_HUB, 0
+	waitstate
 	end
 
 GoldenrodCity_TrainStation_EventScript_ExitTrain::

@@ -15,8 +15,18 @@ RegionHub_EventScript_GateKanto::
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
 	setvar VAR_RESULT, 0
 	callnative RegionHub_ScrEnterRegion
+	callnative RegionHub_ScrTargetIntroDone
 	closemessage
+	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnKanto
 	warp MAP_PALLET_TOWN, 0
+	waitstate
+	releaseall
+	end
+
+@ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
+@ point instead of the start town, so progress + team resume where the player left off.
+RegionHub_EventScript_ReturnKanto::
+	warp MAP_VERMILION_CITY, 0
 	waitstate
 	releaseall
 	end
@@ -27,8 +37,18 @@ RegionHub_EventScript_GateJohto::
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
 	setvar VAR_RESULT, 1
 	callnative RegionHub_ScrEnterRegion
+	callnative RegionHub_ScrTargetIntroDone
 	closemessage
+	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnJohto
 	warp MAP_NEW_BARK_TOWN, 1
+	waitstate
+	releaseall
+	end
+
+@ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
+@ point instead of the start town, so progress + team resume where the player left off.
+RegionHub_EventScript_ReturnJohto::
+	warp MAP_GOLDENROD_CITY_TRAIN_STATION, 0
 	waitstate
 	releaseall
 	end
@@ -39,8 +59,18 @@ RegionHub_EventScript_GateHoenn::
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
 	setvar VAR_RESULT, 2
 	callnative RegionHub_ScrEnterRegion
+	callnative RegionHub_ScrTargetIntroDone
 	closemessage
+	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnHoenn
 	warp MAP_LITTLEROOT_TOWN, 1
+	waitstate
+	releaseall
+	end
+
+@ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
+@ point instead of the start town, so progress + team resume where the player left off.
+RegionHub_EventScript_ReturnHoenn::
+	warp MAP_SLATEPORT_CITY_HARBOR, 0
 	waitstate
 	releaseall
 	end

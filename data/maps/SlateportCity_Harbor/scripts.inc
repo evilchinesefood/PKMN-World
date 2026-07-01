@@ -6,7 +6,7 @@ SlateportCity_Harbor_OnTransition:
 	setescapewarp MAP_SLATEPORT_CITY, 28, 13
 	setvar VAR_TEMP_1, 0
 	call_if_eq VAR_SLATEPORT_HARBOR_STATE, 1, SlateportCity_Harbor_EventScript_ReadyAquaEscapeScene
-	call_if_set FLAG_SYS_GAME_CLEAR, SlateportCity_Harbor_EventScript_ShowSSTidal
+	call_if_set FLAG_MET_TEAM_AQUA_HARBOR, SlateportCity_Harbor_EventScript_ShowSSTidal
 	end
 
 SlateportCity_Harbor_EventScript_ShowSSTidal::
@@ -157,10 +157,32 @@ SlateportCity_Harbor_Movement_PlayerWalkUp:
 SlateportCity_Harbor_EventScript_FerryAttendant::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, SlateportCity_Harbor_EventScript_AskForTicket
+	goto_if_set FLAG_MET_TEAM_AQUA_HARBOR, SlateportCity_Harbor_EventScript_HubShuttle
 	msgbox SlateportCity_Harbor_Text_FerryServiceUnavailable, MSGBOX_DEFAULT
 	release
 	end
+
+@ region merge (D4): the S.S. TIDAL berth is Hoenn's World Transit access point (relaxed from
+@ post-game to mid-game FLAG_MET_TEAM_AQUA_HARBOR). Offer the hub; declining falls through to
+@ the post-game S.S. Tidal ferry once the game is cleared.
+SlateportCity_Harbor_EventScript_HubShuttle::
+	msgbox SlateportCity_Harbor_Text_FerryToHub, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_HubDeclined
+	callnative RegionHub_ScrSetHubAccess
+	closemessage
+	warp MAP_REGION_HUB, 0
+	waitstate
+	release
+	end
+
+SlateportCity_Harbor_EventScript_HubDeclined::
+	goto_if_set FLAG_SYS_GAME_CLEAR, SlateportCity_Harbor_EventScript_AskForTicket
+	release
+	end
+
+SlateportCity_Harbor_Text_FerryToHub:
+	.string "The S.S. TIDAL can ferry you to the\n"
+	.string "WORLD TRANSIT TERMINAL. Board?$"
 
 SlateportCity_Harbor_EventScript_AskForTicket::
 	msgbox SlateportCity_Harbor_Text_MayISeeYourTicket, MSGBOX_DEFAULT

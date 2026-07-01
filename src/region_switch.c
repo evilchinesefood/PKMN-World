@@ -89,6 +89,37 @@ void RegionHub_ScrSetIntroDone(struct ScriptContext *ctx)
     }
 }
 
+// D4: mark the current region's World Transit access point as reached (the player is IN the
+// region when boarding its ferry/train), flagging that region as come/go-enabled.
+void RegionHub_ScrSetHubAccess(struct ScriptContext *ctx)
+{
+    switch (GetCurrentRegion())
+    {
+    case REGION_KANTO: gSaveBlock2Ptr->kantoHubAccess = TRUE; break;
+    case REGION_JOHTO: gSaveBlock2Ptr->johtoHubAccess = TRUE; break;
+    case REGION_HOENN: gSaveBlock2Ptr->hoennHubAccess = TRUE; break;
+    default: break;
+    }
+}
+
+// D5: in the hub gate (AFTER ScrEnterRegion set gCurrentRegion to the TARGET), report whether
+// that target region's first-visit intro is already done -> VAR_RESULT. The gate then warps to
+// the region's access point (return) vs its start town (first visit). Uses gCurrentRegion (the
+// explicit target), NOT the map-derived GetCurrentRegion() which still reads the hub here.
+void RegionHub_ScrTargetIntroDone(struct ScriptContext *ctx)
+{
+    bool8 done;
+
+    switch (gCurrentRegion)
+    {
+    case REGION_KANTO: done = gSaveBlock2Ptr->kantoIntroDone; break;
+    case REGION_JOHTO: done = gSaveBlock2Ptr->johtoIntroDone; break;
+    case REGION_HOENN: done = gSaveBlock2Ptr->hoennIntroDone; break;
+    default:           done = FALSE; break;
+    }
+    gSpecialVar_Result = done;
+}
+
 // World-tour board (R8). Counts the player's gym badges across all three regions' badge
 // banks (8 each, set per-region by K9) and exposes them to the hub board script:
 //   VAR_0x8000 = total /24, VAR_0x8001 = Hoenn, VAR_0x8002 = Kanto, VAR_0x8003 = Johto.

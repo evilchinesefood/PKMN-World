@@ -49,10 +49,26 @@ VermilionCity_EventScript_OldMan1SSAnneLeft::
 VermilionCity_EventScript_FerrySailor::
 	lock
 	faceplayer
-	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_CheckSeagallopPresent
+	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_FerryHubOrSevii
 	msgbox VermilionCity_Text_WelcomeToTheSSAnne
 	release
 	end
+
+@ region merge (D4): the Seagallop pier is Kanto's World Transit access point. Offer the hub
+@ first; declining falls through to the existing Sevii Seagallop destinations.
+VermilionCity_EventScript_FerryHubOrSevii::
+	msgbox VermilionCity_Text_FerryToHub, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_CheckSeagallopPresent
+	callnative RegionHub_ScrSetHubAccess
+	closemessage
+	warp MAP_REGION_HUB, 0
+	waitstate
+	release
+	end
+
+VermilionCity_Text_FerryToHub:
+	.string "The ferry can take you to the WORLD\n"
+	.string "TRANSIT TERMINAL. Set sail?$"
 
 VermilionCity_EventScript_CheckHasMysticTicket::
 	goto_if_unset FLAG_ENABLE_SHIP_NAVEL_ROCK, EventScript_SetResultFalse

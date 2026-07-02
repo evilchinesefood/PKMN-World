@@ -4564,8 +4564,12 @@ u16 GetNationalPokedexCount(u8 caseID)
 
 u32 GetRegionalPokedexCount(u8 caseID)
 {
-    if (GetCurrentRegion() == REGION_KANTO)
-        return GetKantoPokedexCount(caseID);
+    // Deep-review task 12: the regional-dex list builder and the REGIONAL_DEX_COUNT bound are
+    // still Hoenn-only (include/constants/pokedex.h), so the on-screen count MUST use the Hoenn
+    // list to match the 202-entry screen. The half-done region-aware version reported Kanto
+    // totals in Kanto while the list still showed Hoenn - they disagreed. (Finishing the true
+    // per-region lists, and the SpeciesToRegionalPokedexNum region branches in src/pokemon.c
+    // that are the other half of this conversion, is the larger structural pokedex work.)
     return GetHoennPokedexCount(caseID);
 }
 

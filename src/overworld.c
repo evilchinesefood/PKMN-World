@@ -1301,7 +1301,9 @@ void Overworld_PlaySpecialMapMusic(void)
             music = ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : MUS_SURF);
     }
 
-    if (music != GetCurrentMapMusic())
+    // Also restart when the BGM player was left paused (e.g. a fanfare whose
+    // resume task was torn down) - same song number, but silent forever otherwise.
+    if (music != GetCurrentMapMusic() || IsBGMPausedOrStopped())
         PlayNewMapMusic(music);
 }
 
@@ -1336,7 +1338,7 @@ static void TransitionMapMusic(void)
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
                 newMusic = ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : MUS_SURF);
         }
-        if (newMusic != currentMusic)
+        if (newMusic != currentMusic || IsBGMPausedOrStopped())
         {
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                 FadeOutAndFadeInNewMapMusic(newMusic, 4, 4);

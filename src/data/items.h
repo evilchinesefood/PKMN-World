@@ -14179,6 +14179,86 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_SSTicket,
     },
 
+    [ITEM_SQUIRT_BOTTLE] =
+    {
+        .name = ITEM_NAME("Squirtbottle"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A bottle used to\n"
+            "sprinkle water on\n"
+            "odd trees."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_WailmerPail,
+        .iconPalette = gItemIconPalette_WailmerPail,
+    },
+
+    [ITEM_PASS] =
+    {
+        .name = ITEM_NAME("Pass"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A pass to ride the\n"
+            "MAGNET TRAIN\n"
+            "between regions."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_ContestPass,
+        .iconPalette = gItemIconPalette_ContestPass,
+    },
+
+    [ITEM_CLEAR_BELL] =
+    {
+        .name = ITEM_NAME("Clear Bell"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A clear-toned bell\n"
+            "that rings out at\n"
+            "TIN TOWER."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_PowderJar,
+        .iconPalette = gItemIconPalette_PowderJar,
+    },
+
+    [ITEM_TIDAL_BELL] =
+    {
+        .name = ITEM_NAME("Tidal Bell"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A bell whose sound\n"
+            "carries far, over\n"
+            "the WHIRL ISLANDS."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_PowderJar,
+        .iconPalette = gItemIconPalette_PowderJar,
+    },
+
+    [ITEM_RED_SCALE] =
+    {
+        .name = ITEM_NAME("Red Scale"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A red scale from\n"
+            "the RED GYARADOS\n"
+            "of the LAKE OF RAGE."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_HeartScale,
+        .iconPalette = gItemIconPalette_HeartScale,
+    },
+
     [ITEM_GS_BALL] =
     {
         .name = ITEM_NAME("GS Ball"),

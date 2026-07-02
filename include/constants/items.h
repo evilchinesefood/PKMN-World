@@ -1067,6 +1067,15 @@ enum __attribute__((packed)) Item
 
     ITEM_GS_BALL, // Johto: GS Ball key item (Kurt -> Ilex Forest shrine -> Celebi)
 
+    // Johto key items promoted from johto_compat_ids.h stubs. They were aliased to
+    // ITEM_NONE, so checkitem was always FALSE and soft-locked the main path
+    // (Route 36 Sudowoodo) and region/legendary gates. Now real bag key items.
+    ITEM_SQUIRT_BOTTLE, // Route 36 Sudowoodo (from Goldenrod Flower Shop)
+    ITEM_PASS,          // Magnet Train pass (Goldenrod <-> Saffron)
+    ITEM_CLEAR_BELL,    // Tin Tower / Ho-Oh (Ecruteak)
+    ITEM_TIDAL_BELL,    // Whirl Islands / Lugia
+    ITEM_RED_SCALE,     // Red Gyarados scale (Lake of Rage -> Mr. Pokemon)
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

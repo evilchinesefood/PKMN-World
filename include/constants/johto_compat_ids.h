@@ -37,11 +37,11 @@
 #define ITEM_TM_ROCK_TOMB      ITEM_TM39
 #define ITEM_TM_SKILL_SWAP     ITEM_TM48
 #define ITEM_HM_ROCK_SMASH     ITEM_HM06
-#define ITEM_PASS              ITEM_NONE
+// ITEM_PASS and ITEM_SQUIRT_BOTTLE are now real key items (include/constants/items.h);
+// the ITEM_NONE stubs soft-locked the Magnet Train and the Route 36 Sudowoodo.
 #define ITEM_RADIO             ITEM_NONE
 #define ITEM_RAINBOW_WING      ITEM_NONE
 #define ITEM_SILVER_WING       ITEM_NONE
-#define ITEM_SQUIRT_BOTTLE     ITEM_NONE
 #define INGAME_TRADE_MACHOP    0
 #define INGAME_TRADE_VOLTORB   0
 #define MON_UNSATISFACTORY   1
@@ -49,9 +49,8 @@
 
 // === Ecruteak area: HnS Johto trainers (real parties land in the trainers stage) ===
 
-// Ecruteak-area Johto-only key items (Ho-Oh / Lugia bells) -> no target item yet
-#define ITEM_CLEAR_BELL        ITEM_NONE
-#define ITEM_TIDAL_BELL        ITEM_NONE
+// Ecruteak-area Johto key items (Ho-Oh / Lugia bells) are now real key items in
+// include/constants/items.h (the ITEM_NONE stubs broke their Tin Tower / Whirl gates).
 
 
 // === Olivine area: HnS Johto trainers (real parties land in the trainers stage) ===
@@ -76,8 +75,10 @@
 
 // Mahogany-area items: HnS TM/HM-by-move -> Gen-3 numbered ids; key items -> ITEM_NONE.
 // Whirlpool has no Gen-3 HM slot; stub to ITEM_HM08 so the giveitem resolves.
+// NOTE: still gives Dive, not Whirlpool - a real Whirlpool field HM is a design call.
 #define ITEM_HM_WHIRLPOOL      ITEM_HM08
-#define ITEM_RED_SCALE         ITEM_NONE
+// ITEM_RED_SCALE is now a real key item (include/constants/items.h); the ITEM_NONE
+// stub broke the Lake of Rage -> Mr. Pokemon red-scale trade gate.
 #define ITEM_TM_HAIL           ITEM_TM07
 #define ITEM_TM_HIDDEN_POWER   ITEM_TM10
 #define ITEM_TM_SLUDGE_BOMB    ITEM_TM36

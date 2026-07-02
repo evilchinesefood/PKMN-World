@@ -175,6 +175,15 @@ enum
     MULTI_ELDERQUIIZ4,
     MULTI_ELDERQUIIZ5,
     MULTI_REGION_HUB,
+    // Region merge (Johto): real multichoice menus, replacing the johto_compat.h MULTI_YESNO
+    // aliases that could only return 0/1/B and so mis-branched these menus (deep-review task 13).
+    MULTI_5FLOORS,
+    MULTI_7FLOORS,
+    MULTI_PRIZE_MONS,
+    MULTI_DAYS_OF_WEEK,
+    MULTI_GOLDSILVER,
+    MULTI_KURT_BALLS,
+    MULTI_OLIVINE_HARBOR,
 };
 
 #define MULTI_NONE 255

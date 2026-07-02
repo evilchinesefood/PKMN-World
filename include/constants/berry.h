@@ -143,6 +143,22 @@ enum __attribute__((__packed__)) Flavor
 #define BERRY_TREE_ROUTE_123_SITRUS   88
 #define BERRY_TREE_ROUTE_123_RAWST    89
 
+// Region merge (Johto): dedicated slots for the Johto berry trees, carved from the unused tail
+// of the 128-slot berryTrees[] array (no save growth). They were aliased onto Hoenn Route-10x
+// trees in johto_compat.h, so harvesting/planting a Johto tree mutated the shared Hoenn slot -
+// breaking per-region isolation (deep-review task 14).
+#define BERRY_TREE_JOHTO_CHERI_1      90
+#define BERRY_TREE_JOHTO_CHERI_2      91
+#define BERRY_TREE_JOHTO_RAWST_1      92
+#define BERRY_TREE_JOHTO_RAWST_2      93
+#define BERRY_TREE_JOHTO_SITRUS_1     94
+#define BERRY_TREE_JOHTO_ASPEAR_1     95
+#define BERRY_TREE_JOHTO_ASPEAR_2     96
+#define BERRY_TREE_JOHTO_CHESTO_2     97
+#define BERRY_TREE_JOHTO_LEPPA_1      98
+#define BERRY_TREE_JOHTO_LEPPA_2      99
+#define BERRY_TREE_JOHTO_LUM_1        100
+
 // Remainder are unused
 
 #define BERRY_TREES_COUNT 128

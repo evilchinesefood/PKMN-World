@@ -113,7 +113,7 @@ AzaleaTown_KurtsHouse_EventScript_Kurt::
 	closemessage
 	call_if_unset FLAG_CAUGHT_CELEBI, AzaleaTown_KurtsHouse_EventScript_KurtCheckGSBall
 AzaleaTown_KurtsHouse_EventScript_Kurt2::
-	multichoice 20, 0, MULTI_KURT_BALLS, FALSE
+	multichoice 1, 0, MULTI_KURT_BALLS, FALSE
 	switch VAR_RESULT
 	case 0, AzaleaTown_KurtsHouse_EventScript_Kurt_Love
 	case 1, AzaleaTown_KurtsHouse_EventScript_Kurt_Lure

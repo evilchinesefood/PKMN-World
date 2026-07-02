@@ -1175,6 +1175,52 @@ static const struct MenuAction sMultichoiceList_RegionHub[] =
     {gText_Exit},
 };
 
+// Region merge (Johto) real multichoice tables (deep-review task 13), replacing the
+// johto_compat.h MULTI_YESNO aliases. Option order matches each consumer script's switch.
+static const struct MenuAction MultichoiceList_Elevator7Floors[] =
+{
+    {COMPOUND_STRING("6F")}, {COMPOUND_STRING("5F")}, {COMPOUND_STRING("4F")},
+    {COMPOUND_STRING("3F")}, {COMPOUND_STRING("2F")}, {COMPOUND_STRING("1F")},
+    {COMPOUND_STRING("B1F")}, {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_Elevator5Floors[] =
+{
+    {COMPOUND_STRING("5F")}, {COMPOUND_STRING("4F")}, {COMPOUND_STRING("3F")},
+    {COMPOUND_STRING("2F")}, {COMPOUND_STRING("1F")}, {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_PrizeMons[] =
+{
+    {COMPOUND_STRING("ABRA")}, {COMPOUND_STRING("CLEFAIRY")}, {COMPOUND_STRING("MUNCHLAX")},
+    {COMPOUND_STRING("DRATINI")}, {COMPOUND_STRING("PORYGON")}, {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_DaysOfWeek[] =
+{
+    {COMPOUND_STRING("MONDAY")}, {COMPOUND_STRING("TUESDAY")}, {COMPOUND_STRING("WEDNESDAY")},
+    {COMPOUND_STRING("THURSDAY")}, {COMPOUND_STRING("FRIDAY")}, {COMPOUND_STRING("SATURDAY")},
+    {COMPOUND_STRING("SUNDAY")}, {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_GoldSilver[] =
+{
+    {COMPOUND_STRING("GOLD")}, {COMPOUND_STRING("SILVER")},
+};
+
+static const struct MenuAction MultichoiceList_KurtBalls[] =
+{
+    {COMPOUND_STRING("LOVE BALL")}, {COMPOUND_STRING("LURE BALL")}, {COMPOUND_STRING("FRIEND BALL")},
+    {COMPOUND_STRING("HEAVY BALL")}, {COMPOUND_STRING("MOON BALL")}, {COMPOUND_STRING("FAST BALL")},
+    {COMPOUND_STRING("LEVEL BALL")}, {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_OlivineHarbor[] =
+{
+    {COMPOUND_STRING("VERMILION")}, {COMPOUND_STRING("SOUTHERN ISLAND")}, {COMPOUND_STRING("BIRTH ISLAND")},
+    {COMPOUND_STRING("FARAWAY ISLAND")}, {COMPOUND_STRING("BATTLE FRONTIER")}, {gText_Exit},
+};
+
 static const struct MultichoiceListStruct sMultichoiceLists[] =
 {
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
@@ -1342,6 +1388,13 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_ELDERQUIIZ4]                                = MULTICHOICE(MultichoiceList_ElderQuiz4),
     [MULTI_ELDERQUIIZ5]                                = MULTICHOICE(MultichoiceList_ElderQuiz5),
     [MULTI_REGION_HUB]                                 = MULTICHOICE(sMultichoiceList_RegionHub),
+    [MULTI_5FLOORS]                                    = MULTICHOICE(MultichoiceList_Elevator5Floors),
+    [MULTI_7FLOORS]                                    = MULTICHOICE(MultichoiceList_Elevator7Floors),
+    [MULTI_PRIZE_MONS]                                 = MULTICHOICE(MultichoiceList_PrizeMons),
+    [MULTI_DAYS_OF_WEEK]                               = MULTICHOICE(MultichoiceList_DaysOfWeek),
+    [MULTI_GOLDSILVER]                                 = MULTICHOICE(MultichoiceList_GoldSilver),
+    [MULTI_KURT_BALLS]                                 = MULTICHOICE(MultichoiceList_KurtBalls),
+    [MULTI_OLIVINE_HARBOR]                             = MULTICHOICE(MultichoiceList_OlivineHarbor),
 };
 
 const u8 *const gStdStrings[] =

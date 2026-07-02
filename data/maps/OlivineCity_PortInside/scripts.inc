@@ -121,7 +121,7 @@ OlivinePort_EventScript_Sailor::
 
 OlivinePort_EventScript_Sailor_AfterKanto::
 	message OlivinePort_Text_WhereSail
-	multichoice 20, 0, MULTI_OLIVINE_HARBOR, FALSE
+	multichoice 1, 0, MULTI_OLIVINE_HARBOR, FALSE
 	switch VAR_RESULT
 	case 0, OlivinePort_EventScript_ChoseVermilion
 	case 1, OlivinePort_EventScript_ChoseSouthernIsland

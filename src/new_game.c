@@ -140,12 +140,11 @@ static void WarpToTruck(void)
 {
 #if ALL_REGIONS
     // Region-switch: every new game lands in the World Transit hub; the destination region is
-    // chosen by walking a hub gate (data/maps/RegionHub). startRegion stays REGION_NONE until then.
-    // Spawn on an interior floor tile via WARP_ID_NONE + explicit coords (the FRLG new-game pattern
-    // above): warp 0 is the door tile (3,7) that itself exits to Littleroot, so arriving on it left
-    // the player on an exit-warp tile and soft-locked the fade-in. (4,6) is the entry path just
-    // inside the door, clear of all four hub gates.
-    SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 4, 6);
+    // chosen by talking to a platform attendant (data/maps/RegionHub). startRegion stays
+    // REGION_NONE until then. Spawn on the arrival crest at (11,14) via WARP_ID_NONE + explicit
+    // coords (the FRLG new-game pattern above) - same tile as hub warp 0, a plain floor anchor
+    // with no warp behavior, so the fade-in can never re-trigger a warp.
+    SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 11, 14);
 #else
     if (IS_FRLG)
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);

@@ -440,6 +440,16 @@
       "x": 20,
       "y": 12,
       "respawn_map": "MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_1F"
+    },
+    {
+      "id": "HEAL_LOCATION_REGION_HUB",
+      "map": "MAP_REGION_HUB",
+      "x": 11,
+      "y": 14,
+      "respawn_map": "MAP_REGION_HUB",
+      "respawn_x": 13,
+      "respawn_y": 12,
+      "respawn_npc": "LOCALID_REGION_HUB_NURSE"
     }
   ]
 }

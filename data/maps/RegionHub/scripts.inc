@@ -1,18 +1,36 @@
 RegionHub_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, RegionHub_OnTransition
 	.byte 0
 
-@ World Transit hub - region-switch. Three OPEN spatial gates: walk onto a gate tile and
-@ confirm to travel into that region; a fourth gate reaches the shared Battle Frontier
-@ capstone. The old transit-clerk multichoice was removed (Lane R: pick by walking, not a
-@ menu). Each region gate sets the active region and boxes the carried party ONLY when
-@ crossing regions (callnative RegionHub_ScrEnterRegion), then warps to that region's start
-@ town; the first-visit "Mom moves in" scene vs resume is decided at the start town, keyed
-@ on its intro-done bit (D3). Gate tiles + walkability are PLAYTEST items (LAYOUT_HOUSE3).
+@ World Transit hub - region-switch terminal rebuilt in the Indigo Plateau Pokemon Center
+@ style (LAYOUT_REGION_HUB, an edited copy of the FRLG Indigo Plateau lobby). Travel is by
+@ TALKING to a platform attendant and confirming; the old walk-on gate pads are gone. Each
+@ region attendant sets the active region and boxes the carried party ONLY when crossing
+@ regions (callnative RegionHub_ScrEnterRegion), then warps to the region's start town on a
+@ first visit or to its World Transit access point on a return (RegionHub_ScrTargetIntroDone,
+@ D5). The Frontier attendant blocks the old league door, is region-agnostic and never boxes
+@ the party. Also here: the healing nurse (FRLG pattern + HEAL_LOCATION_REGION_HUB respawn),
+@ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory), six
+@ department-store vendors (Lilycove 2F/3F/4F inventories) behind the east counter, and the
+@ read-only world-tour scoreboard (R8) by the door. Arrivals land on the floor crest at
+@ (11,14) = warp 0 (never triggers - plain floor tile, anchor only).
 
-RegionHub_EventScript_GateKanto::
-	lockall
+RegionHub_OnTransition::
+	setrespawn HEAL_LOCATION_REGION_HUB
+	end
+
+RegionHub_EventScript_Nurse::
+	lock
+	faceplayer
+	call EventScript_PkmnCenterNurse_Frlg
+	release
+	end
+
+RegionHub_EventScript_AttendantKanto::
+	lock
+	faceplayer
 	msgbox RegionHub_Text_TravelKanto, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	setvar VAR_RESULT, 0
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -20,7 +38,7 @@ RegionHub_EventScript_GateKanto::
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnKanto
 	warp MAP_PALLET_TOWN, 0
 	waitstate
-	releaseall
+	release
 	end
 
 @ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
@@ -28,13 +46,14 @@ RegionHub_EventScript_GateKanto::
 RegionHub_EventScript_ReturnKanto::
 	warp MAP_VERMILION_CITY, 0
 	waitstate
-	releaseall
+	release
 	end
 
-RegionHub_EventScript_GateJohto::
-	lockall
+RegionHub_EventScript_AttendantJohto::
+	lock
+	faceplayer
 	msgbox RegionHub_Text_TravelJohto, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	setvar VAR_RESULT, 1
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -42,21 +61,20 @@ RegionHub_EventScript_GateJohto::
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnJohto
 	warp MAP_NEW_BARK_TOWN, 1
 	waitstate
-	releaseall
+	release
 	end
 
-@ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
-@ point instead of the start town, so progress + team resume where the player left off.
 RegionHub_EventScript_ReturnJohto::
 	warp MAP_GOLDENROD_CITY_TRAIN_STATION, 0
 	waitstate
-	releaseall
+	release
 	end
 
-RegionHub_EventScript_GateHoenn::
-	lockall
+RegionHub_EventScript_AttendantHoenn::
+	lock
+	faceplayer
 	msgbox RegionHub_Text_TravelHoenn, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	setvar VAR_RESULT, 2
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -64,96 +82,57 @@ RegionHub_EventScript_GateHoenn::
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnHoenn
 	warp MAP_LITTLEROOT_TOWN, 1
 	waitstate
-	releaseall
+	release
 	end
 
-@ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
-@ point instead of the start town, so progress + team resume where the player left off.
 RegionHub_EventScript_ReturnHoenn::
 	warp MAP_SLATEPORT_CITY_HARBOR, 0
 	waitstate
-	releaseall
+	release
 	end
 
 @ Battle Frontier capstone - region-agnostic (no SetCurrentRegion; the destination MAPSEC
 @ self-derives the region) and does NOT box the party. Gated OPEN for now; two-tier unlock TBD.
-RegionHub_EventScript_GateFrontier::
-	lockall
+RegionHub_EventScript_AttendantFrontier::
+	lock
+	faceplayer
 	msgbox RegionHub_Text_TravelFrontier, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_GateCancel
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	closemessage
 	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 9
 	waitstate
-	releaseall
+	release
 	end
 
-RegionHub_EventScript_GateCancel::
+RegionHub_EventScript_TravelDeclined::
 	closemessage
-	releaseall
+	release
 	end
-
-@ Platform attendants (visible NPCs) stand beside each region gate so the depot reads
-@ clearly: each names its destination and tells the player the gate is a walk-on pad.
-@ These are flavor only; the actual travel stays on the walk-on gate coord_events above.
-RegionHub_EventScript_SignKanto::
-	msgbox RegionHub_Text_SignKanto, MSGBOX_NPC
-	end
-
-RegionHub_EventScript_SignJohto::
-	msgbox RegionHub_Text_SignJohto, MSGBOX_NPC
-	end
-
-RegionHub_EventScript_SignHoenn::
-	msgbox RegionHub_Text_SignHoenn, MSGBOX_NPC
-	end
-
-RegionHub_EventScript_SignFrontier::
-	msgbox RegionHub_Text_SignFrontier, MSGBOX_NPC
-	end
-
-RegionHub_Text_SignKanto:
-	.string "This is the platform bound for\n"
-	.string "KANTO.\p"
-	.string "Step onto the pad beside me to\n"
-	.string "travel there!$"
-
-RegionHub_Text_SignJohto:
-	.string "This is the platform bound for\n"
-	.string "JOHTO.\p"
-	.string "Step onto the pad beside me to\n"
-	.string "travel there!$"
-
-RegionHub_Text_SignHoenn:
-	.string "This is the platform bound for\n"
-	.string "HOENN.\p"
-	.string "Step onto the pad beside me to\n"
-	.string "travel there!$"
-
-RegionHub_Text_SignFrontier:
-	.string "This platform heads to the\n"
-	.string "BATTLE FRONTIER.\p"
-	.string "Step onto the pad beside me to\n"
-	.string "travel there!$"
 
 RegionHub_Text_TravelKanto:
-	.string "Take the platform bound for KANTO?\p"
+	.string "This platform is bound for KANTO.\p"
+	.string "Travel to KANTO?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
 	.string "regions.$"
 
 RegionHub_Text_TravelJohto:
-	.string "Take the platform bound for JOHTO?\p"
+	.string "This platform is bound for JOHTO.\p"
+	.string "Travel to JOHTO?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
 	.string "regions.$"
 
 RegionHub_Text_TravelHoenn:
-	.string "Take the platform bound for HOENN?\p"
+	.string "This platform is bound for HOENN.\p"
+	.string "Travel to HOENN?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
 	.string "regions.$"
 
 RegionHub_Text_TravelFrontier:
+	.string "Beyond this gate lies the\n"
+	.string "BATTLE FRONTIER.\p"
 	.string "Head to the BATTLE FRONTIER?$"
 
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running

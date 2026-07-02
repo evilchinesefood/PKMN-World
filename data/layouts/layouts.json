@@ -12117,6 +12117,19 @@
       "border_filepath": "data/layouts/JohtoPokemonLeague_HallOfFame/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_HallOfFame/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_REGION_HUB",
+      "name": "RegionHub_Layout",
+      "width": 25,
+      "height": 18,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_BuildingFrlg",
+      "secondary_tileset": "gTileset_PokemonCenterFrlg",
+      "border_filepath": "data/layouts/RegionHub/border.bin",
+      "blockdata_filepath": "data/layouts/RegionHub/map.bin",
+      "layout_version": "frlg"
     }
   ]
 }

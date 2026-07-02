@@ -84,6 +84,10 @@ RegionHub_EventScript_AttendantHoenn::
 	callnative RegionHub_ScrTargetIntroDone
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnHoenn
+	@ The hub path skips the truck intro, whose scripts normally hide both
+	@ house trucks - hide them here or two trucks render in Littleroot.
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
 	checkplayergender
 	goto_if_eq VAR_RESULT, FEMALE, RegionHub_EventScript_FirstVisitHoennFemale
 	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 4, 4

@@ -24,7 +24,12 @@ inventory and per-region badges + champions. `ALL_REGIONS` is permanently on.
   spatial gates, "Mom moves in" arrival, party-boxing region switch + resume-at-access-point, per-region
   access points, a 2-region-champion PC-2F warp pad), the multi-page trainer card, and 6-outfit character
   customization are all **BUILT** (link-green, pushed). The **Battle Frontier** is the shared super-endgame.
-  Runtime playtest is the remaining gate.
+- ✅ **New-game flow — playtested & hardware-verified (2026-07-01, BizHawk):** the Oak intro → World
+  Transit hub path is confirmed working end-to-end — the new-game freeze is fixed (was a map-header
+  word-alignment bug), the intro bars are blue, the player shows as **Brendan/May** trainer sprites, the
+  6-outfit picker shows all options with a live color preview, the chosen outfit carries through to the
+  overworld sprite, the story pages are unclipped, and each hub gate has a visible attendant naming its
+  region. **Full-campaign + inter-region-travel playtest remains the gate.**
 
 The full roadmap lives in `.plans/MasterPlan.md` (local, not tracked).
 

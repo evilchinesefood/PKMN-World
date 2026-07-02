@@ -111,7 +111,7 @@ RegionHub_EventScript_AttendantFrontier::
 	msgbox RegionHub_Text_TravelFrontier, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	closemessage
-	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 9
+	warp MAP_BATTLE_FRONTIER_RECEPTION_GATE, 0
 	waitstate
 	release
 	end

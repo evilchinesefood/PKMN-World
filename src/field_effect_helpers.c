@@ -71,8 +71,17 @@ void SetUpReflection(struct ObjectEvent *objectEvent, struct Sprite *sprite, boo
         return;
     
     struct Sprite *reflectionSprite;
+    u8 reflectionSpriteId = CreateCopySpriteAt(sprite, sprite->x, sprite->y, 152);
 
-    reflectionSprite = &gSprites[CreateCopySpriteAt(sprite, sprite->x, sprite->y, 152)];
+    if (reflectionSpriteId == MAX_SPRITES)
+    {
+        // Pool was full - un-latch so GetGroundEffectFlags_Reflection retries
+        // next frame instead of leaving the object reflectionless until it
+        // leaves the water and comes back.
+        objectEvent->hasReflection = FALSE;
+        return;
+    }
+    reflectionSprite = &gSprites[reflectionSpriteId];
     reflectionSprite->callback = UpdateObjectReflectionSprite;
     reflectionSprite->oam.priority = 3;
     reflectionSprite->usingSheet = TRUE;

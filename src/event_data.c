@@ -67,6 +67,12 @@ void ClearTempFieldEventData(void)
     FlagClear(FLAG_NURSE_UNION_ROOM_REMINDER);
 }
 
+// Deep-review task 19: a Johto trainer bump once slid the DAILY flag chain up until it overlapped
+// the Kanto gym badges, so ClearDailyFlags() wiped all 8 badges on every RTC day rollover (task 1).
+// Assert the Kanto badge bank stays clear of the daily-flag memset range so that class of
+// save-corruption can't silently return the next time the flag chain moves.
+STATIC_ASSERT(FLAG_KANTO_BADGE_8 < DAILY_FLAGS_START || FLAG_KANTO_BADGE_1 > DAILY_FLAGS_END, KantoBadgesMustNotOverlapDailyFlags);
+
 void ClearDailyFlags(void)
 {
     memset(&gSaveBlock1Ptr->flags[DAILY_FLAGS_START / 8], 0, DAILY_FLAGS_SIZE);

@@ -87,6 +87,12 @@
 
 STATIC_ASSERT((B_FLAG_FOLLOWERS_DISABLED == 0 || OW_FOLLOWERS_ENABLED), FollowersFlagAssignedWithoutEnablingThem);
 
+// Deep-review tasks 19 + 23b: the MAPSEC widening made regionMapSectionId a u16, shifting every
+// field after it by one byte. The mapjson tool emits map headers as raw bytes, so a silent struct
+// change here (or a revert of the widening) desyncs C reads from the ROM data - the byte-shift
+// class that froze the game three times. Pin the post-mapsec offset so it can't drift unnoticed.
+STATIC_ASSERT(offsetof(struct MapHeader, cave) == 0x16, MapHeaderFieldsShiftedAfterRegionMapSectionId);
+
 struct CableClubPlayer
 {
     u8 playerId;

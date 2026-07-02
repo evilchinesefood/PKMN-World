@@ -1113,9 +1113,11 @@
 #define TRAINER_LANCE_1                    1094
 #define TRAINER_LANCE_2                    1095
 
-// NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 9 additional trainers before trainer flag space overflows
-//       More space can be made by shifting flags around in constants/flags.h or changing how trainer flags are handled
-//       MAX_TRAINERS_COUNT can be increased but will take up additional saveblock space
+// NOTE: TRAINER_LANCE_2 = 1095 is the last id and TRAINERS_COUNT_EMERALD = 1096, so the table
+//       is FULL - 0 free ids (the Johto port consumed the former slack). A build-time
+//       STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT) in src/data.c now guards this.
+//       Adding a trainer means bumping TRAINERS_COUNT_EMERALD, which grows SaveBlock space AND
+//       shifts the SYSTEM/DAILY flag chain (see deep-review task 1) - re-run GenKantoFlagBank.py.
 
 #define TRAINERS_COUNT_EMERALD     1096
 #define MAX_TRAINERS_COUNT_EMERALD 1096

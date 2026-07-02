@@ -237,4 +237,12 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 };
 #endif
 
+// Compile-time invariants for the merged trainer table (deep-review tasks 17 + 19).
+// Adding a TRAINER_* past TRAINERS_COUNT previously failed only at runtime (a debug assert);
+// and an ALL_REGIONS build must resolve to the Emerald trainer count, not the FRLG one.
+STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT, KantoJohtoTrainerIdsExceedTrainersCount);
+#if ALL_REGIONS
+STATIC_ASSERT(!IS_FRLG, AllRegionsBuildMustNotFoldToFrlgTrainerCount);
+#endif
+
 #include "data/text/follower_messages.h"

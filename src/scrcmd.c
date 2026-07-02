@@ -124,6 +124,43 @@ bool8 ScrCmd_nop1(struct ScriptContext *ctx)
     return FALSE;
 }
 
+// Deep-review task 23a: when a gated script command (POKEVIAL / QUEST* / UPDATEQUEST) is compiled
+// out, its table slot must still consume the SAME number of argument bytes its real handler reads,
+// or the disabled command's args get mis-parsed as the next opcodes -> script runaway. Plain
+// ScrCmd_nop reads 0 bytes; these width-matched stubs advance the script pointer past the args.
+bool8 ScrCmd_nop_u8(struct ScriptContext *ctx) // 1 byte: RETURNQUESTSTATE, UPDATEQUEST
+{
+    Script_RequestEffects(SCREFF_V1);
+    ScriptReadByte(ctx);
+    return FALSE;
+}
+
+bool8 ScrCmd_nop_u8u8(struct ScriptContext *ctx) // 2 bytes: QUESTMENU
+{
+    Script_RequestEffects(SCREFF_V1);
+    ScriptReadByte(ctx);
+    ScriptReadByte(ctx);
+    return FALSE;
+}
+
+bool8 ScrCmd_nop_u8u8u8(struct ScriptContext *ctx) // 3 bytes: POKEVIAL
+{
+    Script_RequestEffects(SCREFF_V1);
+    ScriptReadByte(ctx);
+    ScriptReadByte(ctx);
+    ScriptReadByte(ctx);
+    return FALSE;
+}
+
+bool8 ScrCmd_nop_u8u16u16(struct ScriptContext *ctx) // 5 bytes (1+2+2): SUBQUESTMENU
+{
+    Script_RequestEffects(SCREFF_V1);
+    ScriptReadByte(ctx);
+    ScriptReadHalfword(ctx);
+    ScriptReadHalfword(ctx);
+    return FALSE;
+}
+
 bool8 ScrCmd_end(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1);

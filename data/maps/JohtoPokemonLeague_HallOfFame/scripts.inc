@@ -56,6 +56,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp::
 
 JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	clearflag FLAG_HIDE_LEAGUE_BLACKBELT
+	setflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD
 	setflag FLAG_IS_CHAMPION
 	setflag FLAG_JOHTO_CHAMPION
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
@@ -99,7 +100,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers::
 	clearflag FLAG_CAUGHT_ENTEI
 	clearflag FLAG_CAUGHT_RAIKOU
 	setvar VAR_0x8004, 1
-	special InitRoamer
+	special InitJohtoRoamer
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune::

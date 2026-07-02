@@ -4,6 +4,7 @@
 void DeactivateAllRoamers(void);
 void InitRoamer(void);
 void InitJohtoRoamer(void);
+void InitJohtoBeastRoamers(void);
 void UpdateLocationHistoryForRoamer(void);
 void RoamerMoveToOtherLocationSet(u32 roamerIndex);
 void RoamerMove(u32 roamerIndex);

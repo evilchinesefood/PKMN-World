@@ -36,9 +36,16 @@ ReceptionGate_Trigger::
     playse SE_PIN
     applymovement LOCALID_INDIGOJUNCTION_POLICEMAN, Common_Movement_ExclamationMark
     delay 20
-    goto_if_lt VAR_ECRUTEAK_CITY_THEATER, 8, ReceptionGate_EventScript_Kimono
     msgbox VictoryRoadGate_Text_Officer, MSGBOX_DEFAULT
+    goto_if_unset FLAG_JOHTO_BADGE_1, ReceptionGate_EventScript_NotEnough
+    goto_if_unset FLAG_JOHTO_BADGE_2, ReceptionGate_EventScript_NotEnough
+    goto_if_unset FLAG_JOHTO_BADGE_3, ReceptionGate_EventScript_NotEnough
+    goto_if_unset FLAG_JOHTO_BADGE_4, ReceptionGate_EventScript_NotEnough
+    goto_if_unset FLAG_JOHTO_BADGE_5, ReceptionGate_EventScript_NotEnough
+    goto_if_unset FLAG_JOHTO_BADGE_6, ReceptionGate_EventScript_NotEnough
+    goto_if_unset FLAG_JOHTO_BADGE_7, ReceptionGate_EventScript_NotEnough
     goto_if_unset FLAG_JOHTO_BADGE_8, ReceptionGate_EventScript_NotEnough
+    goto_if_lt VAR_ECRUTEAK_CITY_THEATER, 8, ReceptionGate_EventScript_Kimono
     msgbox VictoryRoadGate_Text_EightBadges, MSGBOX_DEFAULT
     closemessage
     setvar VAR_ROUTE27_STATE, 2

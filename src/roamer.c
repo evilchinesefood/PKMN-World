@@ -237,6 +237,20 @@ void InitJohtoRoamer(void)
     TryAddRoamer(species, 40);
 }
 
+// Release BOTH roaming beasts at once (Burned Tower beast-release and the post-game respawn).
+// Requires ROAMER_COUNT >= 2: Entei and Raikou each take a slot; Suicune stays a static
+// encounter. Deactivate any existing roamer once, then add both (a second InitJohtoRoamer
+// call would re-deactivate and wipe the first).
+void InitJohtoBeastRoamers(void)
+{
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAIKOU), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
+    DeactivateAllRoamers();
+    TryAddRoamer(SPECIES_ENTEI, 40);
+    TryAddRoamer(SPECIES_RAIKOU, 40);
+}
+
 void UpdateLocationHistoryForRoamer(void)
 {
     u32 i;

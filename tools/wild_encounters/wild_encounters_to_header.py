@@ -164,9 +164,9 @@ class WildEncounterAssembler:
             map_group = map_data["mapGroup"]
             map_num = map_data["mapNum"]
             version = "EMERALD"
-            if "FireRed" in shared_label:
-                version = "FIRERED"
-            elif "LeafGreen" in shared_label:
+            # FireRed tables ship in the merged Emerald build; LeafGreen dupes
+            # of the same map_group/map_num stay compiled out.
+            if "LeafGreen" in shared_label:
                 version = "LEAFGREEN"
             
             self.WriteLine(f"#ifdef {version}")
@@ -237,9 +237,9 @@ class WildEncounterAssembler:
                 headers["data"][shared_label]["mapNum"] = map_num
 
                 version = "EMERALD"
-                if "FireRed" in shared_label:
-                    version = "FIRERED"
-                elif "LeafGreen" in shared_label:
+                # Same rule as the header emit above: FireRed under EMERALD,
+                # LeafGreen dupes excluded.
+                if "LeafGreen" in shared_label:
                     version = "LEAFGREEN"
                 self.WriteLine(f"#ifdef {version}")
                 for mon_type in self.config.mon_types:

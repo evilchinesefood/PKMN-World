@@ -481,6 +481,11 @@ string generate_groups_text(Json groups_data, vector<string> &invalid_maps) {
         }
 
         if (valid_maps.size() > 0) {
+            // Pointer tables must be 4-aligned: headers.inc ends on an odd
+            // address (29-byte MapHeader), and an unaligned table breaks the
+            // FIRST map of every group (rotated ldr; later entries only survive
+            // by inheriting the previous pointer's 0x09 high byte).
+            text << "\t.align 2\n";
             text << group << "::\n";
             for (string map : valid_maps)
                 text << "\t.4byte " << map << "\n";

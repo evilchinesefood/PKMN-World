@@ -50,9 +50,11 @@ static UNUSED bool32 ShopCriteriaByBadgeCount(u32 count)
 {
     u32 badgeCount = 0;
 
-    for (u32 badgeFlag = FLAG_BADGE01_GET; badgeFlag < FLAG_BADGE01_GET + NUM_BADGES; badgeFlag++)
+    // Deep-review task 23: count the current region's badges, not always Hoenn's (this ran in
+    // Kanto/Johto and returned 0, under-stocking premium shops).
+    for (u32 i = 0; i < NUM_BADGES; i++)
     {
-        if (FlagGet(badgeFlag))
+        if (HasCurrentRegionBadge(i))
             badgeCount++;
     }
 

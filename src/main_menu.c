@@ -2231,10 +2231,14 @@ static void MainMenu_FormatSavegameBadges(void)
     u8 str[0x20];
     u8 badgeCount = 0;
     u32 i;
+    // Deep-review task 23: count the SAVED region's badges, not always Hoenn's. The map (and the
+    // gCurrentRegion mirror) is not loaded yet at the continue screen, so read the persisted
+    // SaveBlock2.currentRegion; saves from before it existed fall back to Hoenn.
+    enum Region region = gSaveBlock2Ptr->currentRegion ? gSaveBlock2Ptr->currentRegion : REGION_HOENN;
 
-    for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
+    for (i = 0; i < NUM_BADGES; i++)
     {
-        if (FlagGet(i))
+        if (HasBadge(region, i))
             badgeCount++;
     }
     StringExpandPlaceholders(gStringVar4, gText_ContinueMenuBadges);

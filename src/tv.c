@@ -1830,9 +1830,10 @@ void TryPutTodaysRivalTrainerOnAir(void)
         show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
         show->rivalTrainer.kind = TVSHOW_TODAYS_RIVAL_TRAINER;
         show->rivalTrainer.active = FALSE; // NOTE: Show is not active until passed via Record Mix.
-        for (i = FLAG_BADGE01_GET, nBadges = 0; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
+        // Deep-review task 23: count the current region's badges, not always Hoenn's.
+        for (i = 0, nBadges = 0; i < NUM_BADGES; i++)
         {
-            if (FlagGet(i))
+            if (HasCurrentRegionBadge(i))
                 nBadges++;
         }
         show->rivalTrainer.badgeCount = nBadges;

@@ -12,7 +12,9 @@
 #include "constants/maps.h"
 #include "constants/map_groups.h"
 #include "overworld.h"
+#include "mail.h"
 #include "constants/heal_locations.h"
+#include "constants/items.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -219,6 +221,12 @@ void DepositPartyToPC(void)
 
         if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE)
             continue;
+        // A boxed mon can't carry mail: CopyMonToPC copies only the BoxPokemon, so the mon's
+        // gSaveBlock1.mail[] slot would be orphaned (and later reused -> dup). Move any held mail
+        // to the PC mailbox first (retrievable), falling back to discarding it only if the mailbox
+        // is full - never leave it dangling. (deep-review task 23)
+        if (MonHasMail(mon) && TakeMailFromMonAndSave(mon) == MAIL_NONE)
+            TakeMailFromMon(mon);
         if (CopyMonToPC(mon) != MON_GIVEN_TO_PC)
             break; // PC full -> leave the rest in the party
         ZeroMonData(mon);

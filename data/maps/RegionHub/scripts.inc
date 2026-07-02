@@ -92,6 +92,49 @@ RegionHub_EventScript_GateCancel::
 	releaseall
 	end
 
+@ Platform attendants (visible NPCs) stand beside each region gate so the depot reads
+@ clearly: each names its destination and tells the player the gate is a walk-on pad.
+@ These are flavor only; the actual travel stays on the walk-on gate coord_events above.
+RegionHub_EventScript_SignKanto::
+	msgbox RegionHub_Text_SignKanto, MSGBOX_NPC
+	end
+
+RegionHub_EventScript_SignJohto::
+	msgbox RegionHub_Text_SignJohto, MSGBOX_NPC
+	end
+
+RegionHub_EventScript_SignHoenn::
+	msgbox RegionHub_Text_SignHoenn, MSGBOX_NPC
+	end
+
+RegionHub_EventScript_SignFrontier::
+	msgbox RegionHub_Text_SignFrontier, MSGBOX_NPC
+	end
+
+RegionHub_Text_SignKanto:
+	.string "This is the platform bound for\n"
+	.string "KANTO.\p"
+	.string "Step onto the pad beside me to\n"
+	.string "travel there!$"
+
+RegionHub_Text_SignJohto:
+	.string "This is the platform bound for\n"
+	.string "JOHTO.\p"
+	.string "Step onto the pad beside me to\n"
+	.string "travel there!$"
+
+RegionHub_Text_SignHoenn:
+	.string "This is the platform bound for\n"
+	.string "HOENN.\p"
+	.string "Step onto the pad beside me to\n"
+	.string "travel there!$"
+
+RegionHub_Text_SignFrontier:
+	.string "This platform heads to the\n"
+	.string "BATTLE FRONTIER.\p"
+	.string "Step onto the pad beside me to\n"
+	.string "travel there!$"
+
 RegionHub_Text_TravelKanto:
 	.string "Take the platform bound for KANTO?\p"
 	.string "Your current team will be sent to\n"

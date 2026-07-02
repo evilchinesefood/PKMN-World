@@ -1930,9 +1930,8 @@ void CB2_NewGame(void)
     // WarpToTruck -> MAP_REGION_HUB), NOT MAP_INSIDE_OF_TRUCK, so just fade in from black.
     // ExecuteTruckSequence would run the truck-exit animation (screen shake / camera pan) on
     // the hub map, which has no truck -> soft-lock on the fade-to-black after the Oak intro.
-    // (GetStartRegion() also DEFAULTS to REGION_HOENN when startRegion is unset, which it is on
-    // a new game, so the old REGION_HOENN check fired the truck path for every new game.)
-    // startRegion is set later, when the player walks a hub gate.
+    // (A prior version keyed this on the start region, which always resolved to Hoenn on a new
+    // game and so fired the truck path every time - hence the unconditional hub fade-in here.)
 #if ALL_REGIONS
     gFieldCallback = FieldCB_WarpExitFadeFromBlack;
 #else

@@ -171,11 +171,6 @@ void ResetMenuAndMonGlobals(void)
     ResetPokeblockScrollPositions();
 }
 
-// Region merge: fixed per-region rival names (the naming prompt is removed). Hoenn leaves the
-// name empty so {RIVAL} falls back to May/Brendan in ExpandPlaceholder_RivalName.
-static const u8 sKantoRivalName[] = _("BLUE");
-static const u8 sJohtoRivalName[] = _("SILVER");
-
 void NewGameInitData(void)
 {
 #if IS_FRLG || ALL_REGIONS
@@ -189,13 +184,10 @@ void NewGameInitData(void)
         RtcReset();
 
 #if ALL_REGIONS
-    // Fixed per-region rival name carried across ClearSav1 (naming prompt removed).
-    if (GetStartRegion() == REGION_KANTO)
-        StringCopy(rivalName, sKantoRivalName);
-    else if (GetStartRegion() == REGION_JOHTO)
-        StringCopy(rivalName, sJohtoRivalName);
-    else
-        rivalName[0] = EOS; // Hoenn: empty -> May/Brendan fallback
+    // {RIVAL} is derived from the current region at text-expand time now (see string_util.c),
+    // so no fixed rival name is stored here. The old per-region copy keyed on GetStartRegion(),
+    // which was always REGION_HOENN (startRegion was never set), so only this EOS path ever ran.
+    rivalName[0] = EOS;
 #elif IS_FRLG
     StringCopy(rivalName, gSaveBlock1Ptr->rivalName);
 #endif

@@ -36,14 +36,14 @@ bool8 IsNRegionChampion(u8 n);
 void ResyncCurrentRegionFromMap(void);
 
 #if ALL_REGIONS
-static inline enum Region GetStartRegion(void)
+// The active-campaign region: the region whose badges/obedience govern the traveling party.
+// This is the persisted SaveBlock2.currentRegion (mirrored at runtime by gCurrentRegion),
+// set at each hub gate-cross and restored on load. It is DISTINCT from GetCurrentRegion()
+// above, which derives the region of the map you are currently standing on (the two differ
+// only inside the hub). Prefer this accessor for "which campaign am I in" reads.
+static inline enum Region GetActiveRegion(void)
 {
-    return gSaveBlock2Ptr->startRegion ? gSaveBlock2Ptr->startRegion : REGION_HOENN;
-}
-
-static inline void SetStartRegion(enum Region r)
-{
-    gSaveBlock2Ptr->startRegion = r;
+    return gCurrentRegion;
 }
 #endif // ALL_REGIONS
 

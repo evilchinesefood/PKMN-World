@@ -632,7 +632,10 @@ struct SaveBlock2
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex; // Region merge: ONE global National Dex shared across all regions (not per-region); area screen is region-aware for display only.
 #if ALL_REGIONS
-    /*0x90*/ u8 startRegion;        // enum Region; 0 = REGION_NONE until chosen at New Game
+    /*0x90*/ u8 currentRegion;      // enum Region; PERSISTED active-campaign region (0 = REGION_NONE
+                                    // until the first gate-cross). Mirrored at runtime by gCurrentRegion
+                                    // and resynced on load; see src/region_switch.c. (Was the dead
+                                    // startRegion - repurposed, no save-layout change.)
     // Region merge save bits (carved from the existing 0x90 reserve — no net size change).
     /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration is Phase 3 (field only now)
     /*0x92*/ u8 kantoIntroDone:1;   // first-visit intro completed (region-switch, Lane R)

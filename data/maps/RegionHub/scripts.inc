@@ -11,7 +11,7 @@ RegionHub_MapScripts::
 @ fresh start; Hoenn picks Brendan's/May's house by gender) or to its World Transit access
 @ point on a return (RegionHub_ScrTargetIntroDone, D5). The Frontier attendant blocks the
 @ old league door, is region-agnostic and never boxes
-@ the party. Also here: the healing nurse (FRLG pattern + HEAL_LOCATION_REGION_HUB respawn),
+@ the party. Also here: the healing nurse (FRLG pattern; whiteout respawn is REGIONAL now - see task 5a below),
 @ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory), six
 @ department-store vendors (Lilycove 2F/3F/4F inventories) behind the east counter, and the
 @ read-only world-tour scoreboard (R8) by the Frontier gate. The four gates line the NORTH
@@ -19,8 +19,12 @@ RegionHub_MapScripts::
 @ league-style doors), each blocked by its attendant. Arrivals land on the concourse crest
 @ at (16,4) = warp 0 (never triggers - plain floor tile, anchor only).
 
+@ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is the most
+@ OAM-starved map (12 object events) and the heal animation can exhaust sprites there, so a
+@ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
+@ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
+@ hub, so it never needs to be a respawn target itself.
 RegionHub_OnTransition::
-	setrespawn HEAL_LOCATION_REGION_HUB
 	end
 
 RegionHub_EventScript_Nurse::

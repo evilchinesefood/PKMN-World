@@ -11,6 +11,8 @@
 #include "constants/flags.h"
 #include "constants/maps.h"
 #include "constants/map_groups.h"
+#include "overworld.h"
+#include "constants/heal_locations.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -34,6 +36,7 @@ EWRAM_DATA enum Region gCurrentRegion = REGION_NONE;
 void SetCurrentRegion(enum Region region)
 {
     gCurrentRegion = region;
+    gSaveBlock2Ptr->currentRegion = region; // persist so a reset / hub trip keeps the context (task 21)
 
     // TODO(region-switch follow-up): when per-region heal/fly defaults exist, reset the
     // last-heal location to this region's start here. Deferred with the arrival-quest work
@@ -41,15 +44,23 @@ void SetCurrentRegion(enum Region region)
     // already drops the player at the chosen region's start town.
 }
 
-// Field-load re-sync for the volatile EWRAM active-region context. gCurrentRegion lives only
-// in EWRAM and zeroes to REGION_NONE on a soft-reset; it is never saved. Without this, a
-// Continue (or any cross-region warp that bypasses the hub gate) leaves it stale, so the next
-// hub trip where you re-pick the region you are ALREADY in sees target != gCurrentRegion and
-// DepositPartyToPC() boxes your whole party. Re-seed it from the map's own region on field
-// load. Skip the hub itself: there GetCurrentRegion() falls back to REGION_HOENN (the hub's
-// MAPSEC is dynamic), which must not overwrite the region the player is travelling from.
+// Field-load re-sync for the EWRAM active-region mirror. gCurrentRegion lives only in EWRAM and
+// zeroes to REGION_NONE on a soft-reset. Without this, a Continue (or any cross-region warp that
+// bypasses the hub gate) leaves it stale, so the next hub trip where you re-pick the region you
+// are ALREADY in sees target != gCurrentRegion and DepositPartyToPC() boxes your whole party.
+//
+// Prefer the PERSISTED SaveBlock2.currentRegion (task 21): it survives resets and is correct even
+// in the hub, where GetCurrentRegion() falls back to REGION_HOENN. Fall back to the map only for
+// saves that never recorded a region (pre-first-gate, or older saves from before the field
+// existed), and never clobber the mirror while standing in the hub.
 void ResyncCurrentRegionFromMap(void)
 {
+    if (gSaveBlock2Ptr->currentRegion != REGION_NONE)
+    {
+        gCurrentRegion = gSaveBlock2Ptr->currentRegion;
+        return;
+    }
+
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_REGION_HUB)
      && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_REGION_HUB))
         return;
@@ -65,16 +76,47 @@ void RegionHub_ScrSetCurrentRegion(struct ScriptContext *ctx)
     SetCurrentRegion((enum Region)(REGION_KANTO + VarGet(VAR_RESULT)));
 }
 
+// Task 5a: on a region CROSS, arm the whiteout respawn at the destination region's start-town
+// heal location. The hub no longer sets itself as the respawn (its OnTransition setrespawn was
+// removed - the hub PokeCenter is OAM-starved and crash-prone, and should never be a whiteout
+// target), so without this the respawn would be left pointing into the PREVIOUS region. The
+// player re-sets it normally by healing at a local PokeCenter.
+static void SetRegionArrivalRespawn(enum Region region)
+{
+    u8 healLocationId;
+
+    switch (region)
+    {
+    case REGION_KANTO:
+        healLocationId = HEAL_LOCATION_PALLET_TOWN;
+        break;
+    case REGION_JOHTO:
+        healLocationId = HEAL_LOCATION_NEW_BARK_TOWN;
+        break;
+    case REGION_HOENN:
+    default:
+        healLocationId = (gSaveBlock2Ptr->playerGender == FEMALE)
+                       ? HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE
+                       : HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE;
+        break;
+    }
+    SetLastHealLocationWarp(healLocationId);
+}
+
 // Hub spatial-gate entry (D2): box the carried party only when crossing into a DIFFERENT region
-// (so a hub -> same-region round trip keeps your current team), then set the active region.
-// VAR_RESULT holds the gate's region index (0 = Kanto, 1 = Johto, 2 = Hoenn). A brand-new game
-// has gCurrentRegion == REGION_NONE and an empty party, so the deposit is a harmless no-op there.
+// (so a hub -> same-region round trip keeps your current team), then set the active region and
+// point the whiteout respawn into that region. VAR_RESULT holds the gate's region index
+// (0 = Kanto, 1 = Johto, 2 = Hoenn). A brand-new game has gCurrentRegion == REGION_NONE and an
+// empty party, so the deposit is a harmless no-op but the respawn is still armed correctly.
 void RegionHub_ScrEnterRegion(struct ScriptContext *ctx)
 {
     enum Region target = (enum Region)(REGION_KANTO + VarGet(VAR_RESULT));
 
     if (target != gCurrentRegion)
+    {
         DepositPartyToPC();
+        SetRegionArrivalRespawn(target);
+    }
     SetCurrentRegion(target);
 }
 

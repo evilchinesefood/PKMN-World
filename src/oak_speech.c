@@ -397,6 +397,21 @@ static const struct WindowTemplate sOutfitMenuWindowTemplate =
     .baseBlock = 360
 };
 
+// Small prompt window that stays up BESIDE the outfit menu. Its dialogue box spans
+// cols 0-16 (clear of the menu frame at col 17+) and its tiles (1..52) sit below the
+// menu's baseBlock 360, so prompt and menu can coexist - the old full-width prompt in
+// WIN_INTRO_TEXTBOX had to be wiped before the menu drew, which read as a text flash.
+static const struct WindowTemplate sOutfitPromptWindowTemplate =
+{
+    .bg = 0,
+    .tilemapLeft = 2,
+    .tilemapTop = 15,
+    .width = 13,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 1
+};
+
 enum
 {
     PIKACHU_INTRO_PAGE_1,
@@ -767,6 +782,7 @@ void StartNewGameSceneFrlg(void)
 #define tPikachuPlatformSpriteId(i) data[7 + i] // Pikachu and the platform are built of three sprites,
                                  // data[8]     // so these are used to hold their sprite IDs
                                  // data[9]     //
+#define tPromptWindowId             data[11]
 #define tMenuWindowId               data[13]
 #define tTextboxWindowId            data[14]
 #define tDelta                      data[15]
@@ -1710,23 +1726,24 @@ static void Task_OakSpeech_AskOutfit(u8 taskId)
 
     if (tTrainerPicFadeState != 0)
     {
-        OakSpeechPrintMessage(sText_Oak_ChooseOutfit, sOakSpeechResources->textSpeed, FALSE);
+        // Print the prompt in its own small window (template above) so it can stay on
+        // screen next to the outfit menu instead of flashing on and off.
+        tPromptWindowId = AddWindow(&sOutfitPromptWindowTemplate);
+        DrawDialogueFrame(tPromptWindowId, FALSE);
+        AddTextPrinterParameterized2(tPromptWindowId, FONT_MALE, sText_Oak_ChooseOutfit, sOakSpeechResources->textSpeed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+        CopyWindowToVram(tPromptWindowId, COPYWIN_FULL);
         gTasks[taskId].func = Task_OakSpeech_ShowOutfitOptions;
     }
 }
 
 static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
 {
+    s16 *data = gTasks[taskId].data;
     u8 i;
     u8 step = GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT) + 2;
 
-    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
+    if (!IsTextPrinterActiveOnWindow(tPromptWindowId))
     {
-        // Clear the prompt box BEFORE building the menu. WIN_INTRO_TEXTBOX (screen rows 4-18)
-        // overlaps the menu's lower rows on the right, so clearing AFTER the menu was drawn erased
-        // options 4-6 (PURPLE/BLACK/PINK). The prompt is read while it prints (this case waits for
-        // the printer); the menu then renders alone, complete, and with no aliased glyphs in the box.
-        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         gTasks[taskId].tMenuWindowId = AddWindow(&sOutfitMenuWindowTemplate);
         PutWindowTilemap(gTasks[taskId].tMenuWindowId);
         DrawStdFrameWithCustomTileAndPalette(gTasks[taskId].tMenuWindowId, TRUE, STD_WINDOW_BASE_TILE_NUM, 14);
@@ -1772,7 +1789,8 @@ static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
     ClearStdWindowAndFrameToTransparent(tMenuWindowId, TRUE);
     RemoveWindow(tMenuWindowId);
     tMenuWindowId = WIN_INTRO_TEXTBOX;
-    ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
+    ClearDialogWindowAndFrame(tPromptWindowId, TRUE);
+    RemoveWindow(tPromptWindowId);
     gTasks[taskId].func = Task_OakSpeech_LetsGo;
 }
 
@@ -2058,6 +2076,11 @@ static void CB2_ReturnFromNamingScreen(void)
         gTasks[taskId].tNameNotConfirmed = TRUE;
         break;
     case 7:
+        // The palettes loaded in cases 3-6 went straight into the live faded buffer, and
+        // the fade-in below only takes effect on the NEXT frame's UpdatePaletteFade - so
+        // the first VBlank transferred them raw, flashing the platform + player pic at
+        // the +60 slide-in offset for one frame. Start the faded buffer truly black.
+        CpuFill16(RGB_BLACK, gPlttBufferFaded, PLTT_SIZE);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
         ShowBg(0);

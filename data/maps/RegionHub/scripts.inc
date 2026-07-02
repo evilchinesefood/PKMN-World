@@ -6,14 +6,18 @@ RegionHub_MapScripts::
 @ style (LAYOUT_REGION_HUB, an edited copy of the FRLG Indigo Plateau lobby). Travel is by
 @ TALKING to a platform attendant and confirming; the old walk-on gate pads are gone. Each
 @ region attendant sets the active region and boxes the carried party ONLY when crossing
-@ regions (callnative RegionHub_ScrEnterRegion), then warps to the region's start town on a
-@ first visit or to its World Transit access point on a return (RegionHub_ScrTargetIntroDone,
-@ D5). The Frontier attendant blocks the old league door, is region-agnostic and never boxes
+@ regions (callnative RegionHub_ScrEnterRegion), then warps to the player's BEDROOM in that
+@ region on a first visit (the region's new-game opening then plays out from home, like a
+@ fresh start; Hoenn picks Brendan's/May's house by gender) or to its World Transit access
+@ point on a return (RegionHub_ScrTargetIntroDone, D5). The Frontier attendant blocks the
+@ old league door, is region-agnostic and never boxes
 @ the party. Also here: the healing nurse (FRLG pattern + HEAL_LOCATION_REGION_HUB respawn),
 @ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory), six
 @ department-store vendors (Lilycove 2F/3F/4F inventories) behind the east counter, and the
-@ read-only world-tour scoreboard (R8) by the door. Arrivals land on the floor crest at
-@ (11,14) = warp 0 (never triggers - plain floor tile, anchor only).
+@ read-only world-tour scoreboard (R8) by the Frontier gate. The four gates line the NORTH
+@ DEPARTURE CONCOURSE (west->east: Frontier at the old league door, then Kanto/Johto/Hoenn
+@ league-style doors), each blocked by its attendant. Arrivals land on the concourse crest
+@ at (16,4) = warp 0 (never triggers - plain floor tile, anchor only).
 
 RegionHub_OnTransition::
 	setrespawn HEAL_LOCATION_REGION_HUB
@@ -36,7 +40,7 @@ RegionHub_EventScript_AttendantKanto::
 	callnative RegionHub_ScrTargetIntroDone
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnKanto
-	warp MAP_PALLET_TOWN, 0
+	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6
 	waitstate
 	release
 	end
@@ -59,7 +63,7 @@ RegionHub_EventScript_AttendantJohto::
 	callnative RegionHub_ScrTargetIntroDone
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnJohto
-	warp MAP_NEW_BARK_TOWN, 1
+	warp MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_2F, 1
 	waitstate
 	release
 	end
@@ -80,7 +84,15 @@ RegionHub_EventScript_AttendantHoenn::
 	callnative RegionHub_ScrTargetIntroDone
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnHoenn
-	warp MAP_LITTLEROOT_TOWN, 1
+	checkplayergender
+	goto_if_eq VAR_RESULT, FEMALE, RegionHub_EventScript_FirstVisitHoennFemale
+	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 4, 4
+	waitstate
+	release
+	end
+
+RegionHub_EventScript_FirstVisitHoennFemale::
+	warp MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F, 4, 4
 	waitstate
 	release
 	end
@@ -110,21 +122,21 @@ RegionHub_EventScript_TravelDeclined::
 	end
 
 RegionHub_Text_TravelKanto:
-	.string "This platform is bound for KANTO.\p"
+	.string "This gate is bound for KANTO.\p"
 	.string "Travel to KANTO?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
 	.string "regions.$"
 
 RegionHub_Text_TravelJohto:
-	.string "This platform is bound for JOHTO.\p"
+	.string "This gate is bound for JOHTO.\p"
 	.string "Travel to JOHTO?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
 	.string "regions.$"
 
 RegionHub_Text_TravelHoenn:
-	.string "This platform is bound for HOENN.\p"
+	.string "This gate is bound for HOENN.\p"
 	.string "Travel to HOENN?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"

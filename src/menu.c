@@ -537,6 +537,22 @@ static void WindowFunc_DrawDialogFrameWithCustomTileAndPalette(u8 bg, u8 tilemap
                                   tilemapLeft + width - 1, tilemapTop - 1, 3, 6,
                                   sPaletteNum, sTileNum, 0);
 }
+
+// Draw the SwSh dialogue box directly on a bg at an arbitrary rect, for text boxes drawn
+// outside the window system (the battle referee / first-battle voiceover overlays). The
+// box spans rows top-1..top+4 and cols left-2..left+width+1, like the window func above.
+void DrawDialogFrameOnBgAt(u8 bg, u8 left, u8 top, u8 width, u16 tileNum, u8 paletteNum)
+{
+    u32 i;
+
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 0, 0, 7, 6,
+                                  left - 2, top - 1, 3, 6, paletteNum, tileNum, 0);
+    for (i = left + 1; i < left + width; i++)
+        CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 3, 0, 7, 6,
+                                      i, top - 1, 1, 6, paletteNum, tileNum, 0);
+    CopyRectToBgTilemapBufferRect(bg, sMessageBoxTilemap, 4, 0, 7, 6,
+                                  left + width - 1, top - 1, 3, 6, paletteNum, tileNum, 0);
+}
 #endif
 
 void DrawDialogFrameWithCustomTileAndPalette(u8 windowId, bool8 copyToVram, u16 tileNum, u8 paletteNum)

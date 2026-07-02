@@ -3,8 +3,11 @@ NewBarkTown_PlayersHouse_2F_MapScripts::
 
 
 
+@ The game clock is set ONCE globally: if another region's intro already set it
+@ (FLAG_SET_WALL_CLOCK), skip the walk-to-clock scene and just advance the intro state.
 NewBarkTown_PlayersHouse_2F_Script_ClockSetupTrigger1::
     lock
+	goto_if_set FLAG_SET_WALL_CLOCK, NewBarkTown_PlayersHouse_2F_Script_ClockAlreadySet
 	playse SE_PIN
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_ExclamationMark
 	waitmovement 0
@@ -21,6 +24,7 @@ NewBarkTown_PlayersHouse_2F_Script_ClockSetupTrigger1::
 
 NewBarkTown_PlayersHouse_2F_Script_ClockSetupTrigger2::
     lock
+	goto_if_set FLAG_SET_WALL_CLOCK, NewBarkTown_PlayersHouse_2F_Script_ClockAlreadySet
 	playse SE_PIN
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_ExclamationMark
 	waitmovement 0
@@ -31,6 +35,11 @@ NewBarkTown_PlayersHouse_2F_Script_ClockSetupTrigger2::
 	delay 30
 	setvar VAR_NEWBARK_TOWN_STATE, 1
 	setflag FLAG_SET_WALL_CLOCK
+	releaseall
+	end
+
+NewBarkTown_PlayersHouse_2F_Script_ClockAlreadySet::
+	setvar VAR_NEWBARK_TOWN_STATE, 1
 	releaseall
 	end
 

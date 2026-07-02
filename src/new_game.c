@@ -140,11 +140,12 @@ static void WarpToTruck(void)
 {
 #if ALL_REGIONS
     // Region-switch: every new game lands in the World Transit hub; the destination region is
-    // chosen by talking to a platform attendant (data/maps/RegionHub). startRegion stays
-    // REGION_NONE until then. Spawn on the arrival crest at (11,14) via WARP_ID_NONE + explicit
-    // coords (the FRLG new-game pattern above) - same tile as hub warp 0, a plain floor anchor
-    // with no warp behavior, so the fade-in can never re-trigger a warp.
-    SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 11, 14);
+    // chosen by talking to a gate attendant (data/maps/RegionHub). startRegion stays
+    // REGION_NONE until then. Spawn on the departure-concourse crest at (16,4) via
+    // WARP_ID_NONE + explicit coords (the FRLG new-game pattern above) - same tile as hub
+    // warp 0, a plain floor anchor with no warp behavior, so the fade-in can never
+    // re-trigger a warp.
+    SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 16, 4);
 #else
     if (IS_FRLG)
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
@@ -253,22 +254,22 @@ void NewGameInitData(void)
     UpdateDailySeed();
     WarpToTruck();
 #if ALL_REGIONS
-    if (GetStartRegion() == REGION_KANTO)
-        RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
-    else
-        RunScriptImmediately(EventScript_ResetAllMapFlags);
+    // The hub flow leaves startRegion REGION_NONE at new game (a region is only chosen at
+    // a hub attendant), so the old region-conditional resets never ran: Kanto's FRLG hide
+    // flags stayed clear and its scene NPCs (Oak in Pallet, Bill, the rivals, ...) were
+    // visible from the start. All three regions coexist in one save - run every region's
+    // new-game reset unconditionally.
+    RunScriptImmediately(EventScript_ResetAllMapFlags);
+    RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
     // Fixed per-region rival name (set above); restore for all regions (empty = Hoenn fallback).
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
-    // Playtest fixes: keep the decorative leftover objects hidden (H2); for a Johto start,
-    // hide the Cherrygrove rival until the Mr. Pokemon's-house script clears it (M3).
+    // Playtest fixes: keep the decorative leftover objects hidden (H2); hide the Cherrygrove
+    // rival until the Mr. Pokemon's-house script clears it (M3); hide the second Mr. Pokemon
+    // object until the give-egg scene swaps it in (else both render at once - the "walked
+    // over to himself" dup).
     FlagSet(FLAG_HIDE_JOHTO_DECOR);
-    if (GetStartRegion() == REGION_JOHTO)
-    {
-        FlagSet(FLAG_HIDE_SILVER_CHERRYGROVE);
-        // Hide the second Mr. Pokemon object until the give-egg scene swaps it in,
-        // otherwise both Mr. Pokemon objects render at once (the "walked over to himself" dup).
-        FlagSet(FLAG_HIDE_MRPOKEMON);
-    }
+    FlagSet(FLAG_HIDE_SILVER_CHERRYGROVE);
+    FlagSet(FLAG_HIDE_MRPOKEMON);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

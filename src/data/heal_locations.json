@@ -444,8 +444,8 @@
     {
       "id": "HEAL_LOCATION_REGION_HUB",
       "map": "MAP_REGION_HUB",
-      "x": 11,
-      "y": 14,
+      "x": 16,
+      "y": 4,
       "respawn_map": "MAP_REGION_HUB",
       "respawn_x": 13,
       "respawn_y": 12,

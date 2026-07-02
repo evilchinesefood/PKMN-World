@@ -10,6 +10,7 @@
 #include "frontier_util.h"
 #include "graphics.h"
 #include "gpu_regs.h"
+#include "menu.h"
 #include "item.h"
 #include "m4a.h"
 #include "overworld.h"
@@ -559,6 +560,11 @@ static void BufferArenaOpponentName(void)
 
 void DrawArenaRefereeTextBox(void)
 {
+#if SWSH_MESSAGE_BOX
+    // Same fix as BtlCtrl_DrawVoiceoverMessageFrame: the gfx at 0x30 is the SwSh message
+    // box, so draw from its tilemap instead of the Emerald 9-slice fills below.
+    DrawDialogFrameOnBgAt(0, 2, 15, 26, 0x30, 7);
+#else
     u8 width = 27;
     u8 palNum = 7;
 
@@ -578,6 +584,7 @@ void DrawArenaRefereeTextBox(void)
     FillBgTilemapBufferRect(0, 0x834, 2,  19, width - 2, 1, palNum);
     FillBgTilemapBufferRect(0, 0x835, 28, 19, 1,  1, palNum);
     FillBgTilemapBufferRect(0, 0x836, 29, 19, 1,  1, palNum);
+#endif
 }
 
 void EraseArenaRefereeTextBox(void)

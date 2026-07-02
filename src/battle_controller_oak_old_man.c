@@ -6,6 +6,7 @@
 #include "battle_message.h"
 #include "bg.h"
 #include "item.h"
+#include "menu.h"
 #include "item_menu.h"
 #include "link.h"
 #include "m4a.h"
@@ -946,9 +947,15 @@ void BtlCtrl_OakOldMan_SetState2Flag(u8 mask)
     gBattleStruct->simulatedInputState2 |= mask;
 }
 
-// uses values for emerald frames
 void BtlCtrl_DrawVoiceoverMessageFrame(void)
 {
+#if SWSH_MESSAGE_BOX
+    // LoadBattleMenuWindowGfx loads the SwSh message-box gfx at tile 0x30, so the box
+    // must be drawn from its tilemap; the old hand-rolled Emerald 9-slice fills put the
+    // wrong tiles on the edges. Geometry matches B_WIN_OAK_OLD_MAN (left 2, top 15, w 26).
+    DrawDialogFrameOnBgAt(0, 2, 15, 26, 0x30, 7);
+#else
+    // uses values for emerald frames
     u8 width = 27;
     u8 palNum = 7;
 
@@ -968,6 +975,7 @@ void BtlCtrl_DrawVoiceoverMessageFrame(void)
     FillBgTilemapBufferRect(0, 0x834, 2,  19, width - 2, 1, palNum);
     FillBgTilemapBufferRect(0, 0x835, 28, 19, 1,  1, palNum);
     FillBgTilemapBufferRect(0, 0x836, 29, 19, 1,  1, palNum);
+#endif
 }
 
 // uses values for emerald frames

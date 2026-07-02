@@ -20,6 +20,19 @@ PalletTown_PlayersHouse_2F_FirstWarpIn::
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F, 1
 	end
 
+@ Wall clock (Emerald bedroom clock art grafted next to the green bookshelf). The game
+@ clock is set ONCE globally: the first interaction anywhere starts it
+@ (FLAG_SET_WALL_CLOCK); afterwards it only shows the time, here and in the other
+@ regions' bedrooms.
+PalletTown_PlayersHouse_2F_EventScript_WallClock::
+	lockall
+	goto_if_set FLAG_SET_WALL_CLOCK, PlayersHouse_2F_EventScript_CheckWallClock
+	msgbox PlayersHouse_2F_Text_ClockIsStopped, MSGBOX_DEFAULT
+	call PlayersHouse_2F_EventScript_SetWallClock
+	setflag FLAG_SET_WALL_CLOCK
+	releaseall
+	end
+
 PalletTown_PlayersHouse_2F_EventScript_NES::
 	msgbox PalletTown_PlayersHouse_2F_Text_PlayedWithNES, MSGBOX_SIGN
 	end

@@ -164,9 +164,8 @@ gPikachuIntro_Text_Page1::
 	.string "adventure with you as the hero.\n"
 	.string "\n"
 	.string "Speak to people and check things\n"
-	.string "wherever you go, be it towns, roads,\n"
-	.string "or caves. Gather information and\n"
-	.string "hints from every source.$"
+	.string "wherever you go. Towns, roads, and\n"
+	.string "caves are all full of hints to gather.$"
 
 gPikachuIntro_Text_Page2::
 	.string "New paths will open to you by helping\n"

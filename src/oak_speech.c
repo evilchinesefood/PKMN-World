@@ -307,10 +307,7 @@ static const struct WindowTemplate sIntro_WindowTemplates[NUM_INTRO_WINDOWS + 1]
         .tilemapLeft = 1,
         .tilemapTop = 4,
         .width = 28,
-        // height 12 (tiles 1-336) keeps this box clear of the outfit menu's VRAM (baseBlock 360+);
-        // at height 15 (tiles 1-420) the menu's option tiles bled into the box's bottom rows. The
-        // box still holds Oak's top-anchored dialogue and the outfit prompt.
-        .height = 12,
+        .height = 15,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -1704,6 +1701,11 @@ static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
 
     if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
     {
+        // Clear the prompt box BEFORE building the menu. WIN_INTRO_TEXTBOX (screen rows 4-18)
+        // overlaps the menu's lower rows on the right, so clearing AFTER the menu was drawn erased
+        // options 4-6 (PURPLE/BLACK/PINK). The prompt is read while it prints (this case waits for
+        // the printer); the menu then renders alone, complete, and with no aliased glyphs in the box.
+        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         gTasks[taskId].tMenuWindowId = AddWindow(&sOutfitMenuWindowTemplate);
         PutWindowTilemap(gTasks[taskId].tMenuWindowId);
         DrawStdFrameWithCustomTileAndPalette(gTasks[taskId].tMenuWindowId, TRUE, STD_WINDOW_BASE_TILE_NUM, 14);
@@ -1715,11 +1717,6 @@ static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
             AddTextPrinterParameterized3(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 8, i * step + 1, sOakSpeechResources->textColor, 0, sOutfitOptions[i]);
         InitMenuNormal(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 0, 1, step, NUM_PLAYER_OUTFITS, 0);
         CopyWindowToVram(gTasks[taskId].tMenuWindowId, COPYWIN_FULL);
-        // BizHawk tilemap dump: the 6-row menu needs 112 tiles (baseBlock 360-471) and the message
-        // box occupies 404-507, so the menu's option glyphs alias into the box (e.g. "BLACK" shows in
-        // the box). The intro's 512-tile BG0 can't fit both. The prompt is shown while it prints
-        // (case above waits for the printer), then the box is cleared so the menu renders cleanly.
-        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         gTasks[taskId].data[12] = 0xFF; // last previewed cursor pos (force first preview)
         gTasks[taskId].func = Task_OakSpeech_HandleOutfitInput;
     }

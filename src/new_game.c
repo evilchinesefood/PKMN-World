@@ -180,6 +180,10 @@ void NewGameInitData(void)
 {
 #if IS_FRLG || ALL_REGIONS
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
+    // The Oak intro's outfit picker sets VAR_PLAYER_PALETTE, but ClearSav1() below wipes all
+    // SaveBlock1 vars. Carry the pick across (like rivalName) so the chosen outfit actually
+    // reaches the overworld/battle player sprites.
+    u16 playerOutfit = VarGet(VAR_PLAYER_PALETTE);
 #endif
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
@@ -215,6 +219,9 @@ void NewGameInitData(void)
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
+#if IS_FRLG || ALL_REGIONS
+    VarSet(VAR_PLAYER_PALETTE, playerOutfit); // restore the intro outfit pick wiped by ClearSav1
+#endif
     ClearTVShowData();
     ResetGabbyAndTy();
     ClearSecretBases();

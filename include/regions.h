@@ -32,6 +32,8 @@ void SetCurrentRegion(enum Region region);
 // IsNRegionChampion: TRUE once the player has cleared at least n regions' leagues.
 void DepositPartyToPC(void);
 bool8 IsNRegionChampion(u8 n);
+// Re-seed the volatile EWRAM gCurrentRegion from the current map on field load (skips the hub).
+void ResyncCurrentRegionFromMap(void);
 
 #if ALL_REGIONS
 static inline enum Region GetStartRegion(void)

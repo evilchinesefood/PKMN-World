@@ -9,6 +9,8 @@
 #include "constants/battle.h"
 #include "constants/pokemon.h"
 #include "constants/flags.h"
+#include "constants/maps.h"
+#include "constants/map_groups.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -37,6 +39,22 @@ void SetCurrentRegion(enum Region region)
     // last-heal location to this region's start here. Deferred with the arrival-quest work
     // (.plans/features/03b-RegionSwitchDesignSpec.md G4/Section 5). The clerk's resume warp
     // already drops the player at the chosen region's start town.
+}
+
+// Field-load re-sync for the volatile EWRAM active-region context. gCurrentRegion lives only
+// in EWRAM and zeroes to REGION_NONE on a soft-reset; it is never saved. Without this, a
+// Continue (or any cross-region warp that bypasses the hub gate) leaves it stale, so the next
+// hub trip where you re-pick the region you are ALREADY in sees target != gCurrentRegion and
+// DepositPartyToPC() boxes your whole party. Re-seed it from the map's own region on field
+// load. Skip the hub itself: there GetCurrentRegion() falls back to REGION_HOENN (the hub's
+// MAPSEC is dynamic), which must not overwrite the region the player is travelling from.
+void ResyncCurrentRegionFromMap(void)
+{
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_REGION_HUB)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_REGION_HUB))
+        return;
+
+    gCurrentRegion = GetCurrentRegion();
 }
 
 // callnative hook used by the hub transit clerk. The clerk's multichoice stores the

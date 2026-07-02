@@ -938,6 +938,7 @@ static void LoadMapFromWarp(bool32 a1)
     bool8 isIndoors;
 
     LoadCurrentMapData();
+    ResyncCurrentRegionFromMap(); // keep gCurrentRegion in sync across region-changing warps
     if (!(sObjectEventLoadFlag & SKIP_OBJECT_EVENT_LOAD))
     {
         if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
@@ -2160,6 +2161,7 @@ void CB2_ContinueSavedGame(void)
     else
         InitMapFromSavedGame();
 
+    ResyncCurrentRegionFromMap(); // re-seed gCurrentRegion on Continue (EWRAM zeroed on reset)
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();

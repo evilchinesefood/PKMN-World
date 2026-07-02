@@ -1624,9 +1624,12 @@ static void Task_OakSpeech_FadeOutPlayerPic(u8 taskId)
             // Region merge: the rival is pre-named BLUE (rivalName is set in new_game.c, which
             // runs AFTER the intro), so the "remember, your rival is <name>" segment would print
             // a BLANK name over an EMPTY platform (the rival pic is removed too). Skip the whole
-            // rival detour: fade the player back in and go straight to the outfit pick. (Mirrors
-            // Task_OakSpeech_FadeOutRivalPic's CreateFadeInTask -> ReshowPlayersPic hand-off.)
-            CreateFadeInTask(taskId, 2);
+            // rival detour and go straight to the outfit pick. Don't run a second fade here:
+            // the pic is already faded out and cleared, and the fade tasks toggle the platform
+            // sprites' visibility at their half-point - a redundant fade risks flipping the
+            // platform visible mid-transition and just adds ~50 dead frames. Mark the fade
+            // done so Task_OakSpeech_ReshowPlayersPic proceeds immediately.
+            gTasks[taskId].tTrainerPicFadeState = 1;
             gTasks[taskId].func = Task_OakSpeech_ReshowPlayersPic;
         }
 #else
@@ -2069,9 +2072,20 @@ static void CB2_ReturnFromNamingScreen(void)
             LoadTrainerPic(RIVAL_PIC, 0);
         }
 #endif
+#if ALL_REGIONS
+        // Region merge: the rival segment is skipped, and vanilla only resets this +60
+        // slide-in offset in Task_OakSpeech_FadeInRivalPic - so the pic and platform sat
+        // 60px right of center through the whole name confirm, then jumped to center at
+        // the outfit picker (the "pad flashes in the wrong place" report). Nothing slides
+        // them in on this path, so just show the post-naming scene centered from the start.
+        gTasks[taskId].tTrainerPicPosX = 0;
+        gSpriteCoordOffsetX = 0;
+        ChangeBgX(2, 0, BG_COORD_SET);
+#else
         gTasks[taskId].tTrainerPicPosX = -60;
         gSpriteCoordOffsetX += 60;
         ChangeBgX(2, 0xFFFFC400, BG_COORD_SET);
+#endif
         CreatePikachuOrPlatformSprites(taskId, SPRITE_TYPE_PLATFORM);
         gTasks[taskId].tNameNotConfirmed = TRUE;
         break;

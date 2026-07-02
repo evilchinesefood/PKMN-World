@@ -1281,7 +1281,7 @@ static void PokeballGlowEffect_PlaceBalls(struct Sprite *sprite)
         sprite->sNumMons--;
         PlaySE(SE_BALL);
     }
-    if (sprite->sNumMons == 0)
+    if (sprite->sNumMons <= 0)
     {
         sprite->sTimer = 32;
         sprite->sState++;

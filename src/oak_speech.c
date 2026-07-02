@@ -57,6 +57,10 @@ struct OakSpeechResources
     // ShowPlayerTrainerSprite) instead of the Red/Leaf BG2 portrait.
     u8 playerSpriteId;
     bool8 playerSpriteActive;
+    // Vanilla (RED-outfit) copy of the trainer sprite's 16-color palette, saved when the
+    // sprite is created. The outfit picker restores this before each swap so previews are
+    // clean (and so RED reverts, since ApplyPlayerPaletteSwap* early-returns for RED).
+    u16 savedPlayerPal[16];
 };
 
 static EWRAM_DATA struct OakSpeechResources *sOakSpeechResources = NULL;
@@ -141,8 +145,6 @@ static const u32 sOakSpeech_Background_Tiles[] = INCGFX_U32("graphics/oak_speech
 static const u32 sOakSpeech_Background_Tilemap[] = INCGFX_U32("graphics/oak_speech/oak_speech_bg.bin", ".smolTM");
 static const u16 sControlsGuide_Tilemap_Page2[] = INCBIN_U16("graphics/oak_speech/controls_guide_page_2.bin");
 static const u16 sControlsGuide_Tilemap_Page3[] = INCBIN_U16("graphics/oak_speech/controls_guide_page_3.bin");
-static const u16 sOakSpeech_Leaf_Pal[] = INCGFX_U16("graphics/oak_speech/leaf/pal.pal", ".gbapal");
-static const u16 sOakSpeech_Red_Pal[] = INCGFX_U16("graphics/oak_speech/red/pal.pal", ".gbapal");
 static const u16 sOakSpeech_Oak_Pal[] = INCGFX_U16("graphics/oak_speech/oak/pal.pal", ".gbapal");
 static const u32 sOakSpeech_Oak_Tiles[] = INCGFX_U32("graphics/oak_speech/oak/pic.png", ".8bpp.smol");
 static const u16 sOakSpeech_Rival_Pal[] = INCGFX_U16("graphics/oak_speech/rival/pal.pal", ".gbapal");
@@ -342,6 +344,24 @@ static const struct WindowTemplate sIntro_WindowTemplates[NUM_INTRO_WINDOWS + 1]
         .baseBlock = 1
     },
     DUMMY_WIN_TEMPLATE
+};
+
+// Dedicated textbox for the Pikachu story pages. The shared WIN_INTRO_TEXTBOX (height 15
+// = 120px buffer) is a row too short for the 8-line pages (8 * 16px = 128px), so the last
+// line overflowed the pixel buffer and clipped. This is one row taller (height 16 = 128px
+// buffer) and the pages print from y-offset 0 (was 5), which fits all 8 lines and lands
+// the block clear of both the top "NEXT/BACK" bar (its frame reaches ~y27) and the bottom
+// edge. Height is capped at 16 (28*16 = 448 tiles) to stay under the top-bar window's
+// baseBlock (452). Kept separate from WIN_INTRO_TEXTBOX so the Oak dialogue box is unaffected.
+static const struct WindowTemplate sPikachuIntro_TextboxWindowTemplate =
+{
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 4,
+    .width = 28,
+    .height = 16,
+    .paletteNum = 15,
+    .baseBlock = 1
 };
 
 static const u8 sTextColor_White[] = { 0, 1, 2, 0 };
@@ -1010,14 +1030,14 @@ static void Task_PikachuIntro_LoadPage1(u8 taskId)
         CopyBgTilemapBufferToVram(1);
         Free(sOakSpeechResources->pikachuIntroTilemap);
         sOakSpeechResources->pikachuIntroTilemap = NULL;
-        tTextboxWindowId = AddWindow(&sIntro_WindowTemplates[WIN_INTRO_TEXTBOX]);
+        tTextboxWindowId = AddWindow(&sPikachuIntro_TextboxWindowTemplate);
         PutWindowTilemap(tTextboxWindowId);
         FillWindowPixelBuffer(tTextboxWindowId, PIXEL_FILL(0));
         CopyWindowToVram(tTextboxWindowId, COPYWIN_FULL);
         sOakSpeechResources->currentPage = PIKACHU_INTRO_PAGE_1;
         gMain.state = PIKACHU_INTRO_SET_GPU_REGS;
         tBlendTarget = 16;
-        AddTextPrinterParameterized4(tTextboxWindowId, FONT_NORMAL, 3, 5, 1, 0, sTextColor_DarkGray, 0, sPikachuIntro_Strings[PIKACHU_INTRO_PAGE_1]);
+        AddTextPrinterParameterized4(tTextboxWindowId, FONT_NORMAL, 3, 0, 1, 0, sTextColor_DarkGray, 0, sPikachuIntro_Strings[PIKACHU_INTRO_PAGE_1]);
         tTextCursorSpriteId = CreateTextCursorSprite(0, 226, 145, 0, 0);
         gSprites[tTextCursorSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
         gSprites[tTextCursorSpriteId].oam.priority = 0;
@@ -1076,7 +1096,7 @@ static void Task_PikachuIntro_HandleInput(u8 taskId)
         if (tBlendTarget <= 0)
         {
             FillWindowPixelBuffer(tTextboxWindowId, PIXEL_FILL(0));
-            AddTextPrinterParameterized4(tTextboxWindowId, FONT_NORMAL, 3, 5, 1, 0, sTextColor_DarkGray, 0, sPikachuIntro_Strings[sOakSpeechResources->currentPage]);
+            AddTextPrinterParameterized4(tTextboxWindowId, FONT_NORMAL, 3, 0, 1, 0, sTextColor_DarkGray, 0, sPikachuIntro_Strings[sOakSpeechResources->currentPage]);
             if (sOakSpeechResources->currentPage == PIKACHU_INTRO_PAGE_1)
             {
                 HofPCTopBar_Clear();
@@ -1673,14 +1693,15 @@ static void Task_OakSpeech_ReshowPlayersPic(u8 taskId)
     }
 }
 
-// Reload the player-portrait base palette (gender-appropriate) so the outfit
-// preview composes over vanilla clothing rather than the previous pick.
+// Restore the trainer sprite's vanilla palette so the outfit preview composes over
+// vanilla clothing rather than the previous pick (and so a RED pick reverts cleanly,
+// since ApplyPlayerPaletteSwapFrontPic early-returns for RED and leaves this in place).
 static void ReloadOutfitPreviewBase(void)
 {
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        LoadPalette(sOakSpeech_Red_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Red_Pal));
-    else
-        LoadPalette(sOakSpeech_Leaf_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Leaf_Pal));
+    struct OakSpeechResources *res = sOakSpeechResources;
+
+    if (res->playerSpriteActive)
+        LoadPalette(res->savedPlayerPal, OBJ_PLTT_ID(gSprites[res->playerSpriteId].oam.paletteNum), sizeof(res->savedPlayerPal));
 }
 
 static void Task_OakSpeech_AskOutfit(u8 taskId)
@@ -1728,13 +1749,13 @@ static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
     u8 cursorPos = Menu_GetCursorPos();
     s8 input;
 
-    // Live preview on cursor movement.
+    // Live preview on cursor movement — recolor the on-screen trainer sprite.
     if (cursorPos != (u8)data[12])
     {
         data[12] = cursorPos;
         VarSet(VAR_PLAYER_PALETTE, cursorPos);
         ReloadOutfitPreviewBase();
-        ApplyPlayerPaletteSwapPortrait(BG_PLTT_ID(4));
+        ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(gSprites[sOakSpeechResources->playerSpriteId].oam.paletteNum));
     }
 
     input = Menu_ProcessInputNoWrap();
@@ -1746,7 +1767,7 @@ static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
     PlaySE(SE_SELECT);
     VarSet(VAR_PLAYER_PALETTE, input);
     ReloadOutfitPreviewBase();
-    ApplyPlayerPaletteSwapPortrait(BG_PLTT_ID(4));
+    ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(gSprites[sOakSpeechResources->playerSpriteId].oam.paletteNum));
 
     ClearStdWindowAndFrameToTransparent(tMenuWindowId, TRUE);
     RemoveWindow(tMenuWindowId);
@@ -2151,6 +2172,9 @@ static void ShowPlayerTrainerSprite(void)
         gSprites[spriteId].callback = SpriteCallbackDummy;
         res->playerSpriteId = spriteId;
         res->playerSpriteActive = TRUE;
+        // Keep a pristine copy of the just-loaded (vanilla RED) sprite palette so the
+        // outfit picker can restore it before applying each swap.
+        CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum)], res->savedPlayerPal, sizeof(res->savedPlayerPal));
     }
     gSprites[res->playerSpriteId].invisible = FALSE;
 }

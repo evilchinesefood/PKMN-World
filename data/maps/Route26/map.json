@@ -39,32 +39,6 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "x": 16,
-      "y": 45,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
-      "movement_range_x": 7,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "7",
-      "script": "Route26_EventScript_Jake",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "x": 9,
-      "y": 45,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN_AND_LEFT",
-      "movement_range_x": 7,
-      "movement_range_y": 4,
-      "trainer_type": "TRAINER_TYPE_NORMAL",
-      "trainer_sight_or_berry_tree_id": "7",
-      "script": "Route26_EventScript_Joyce",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_OW_MON",
       "x": 15,
       "y": 56,

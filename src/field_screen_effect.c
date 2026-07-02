@@ -1468,6 +1468,8 @@ static void Task_RushInjuredPokemonToCenter(u8 taskId)
             {
                 if (GetCurrentRegion() == REGION_KANTO)
                     StringCopy(gStringVar1, COMPOUND_STRING("PROF. OAK"));
+                else if (GetCurrentRegion() == REGION_JOHTO)
+                    StringCopy(gStringVar1, COMPOUND_STRING("PROF. ELM"));
                 else
                     StringCopy(gStringVar1, COMPOUND_STRING("PROF. BIRCH"));
                 ScriptContext_SetupScript(EventScript_AfterWhiteOutMomHeal);

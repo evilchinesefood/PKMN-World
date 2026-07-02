@@ -2326,6 +2326,8 @@ static void SpriteCB_SlideCursorY(struct Sprite *sprite)
 {
     s16 y;
     u8 i;
+    if (sCursorAnimId == INVALID_COMFY_ANIM)
+        return;
     y = ReadComfyAnimValueSmooth(&gComfyAnims[sCursorAnimId]);
     sprite->y = y;
     for (i = 0; i < HOVER_SLOT_SPRITES_COUNT; i++)
@@ -2354,7 +2356,8 @@ static void SpriteCB_BagScrollThumb(struct Sprite *sprite)
         return;
     }
     sprite->invisible = FALSE;
-    sprite->y2 = ReadComfyAnimValueSmooth(&gComfyAnims[sScrollThumbAnimId]);
+    if (sScrollThumbAnimId != INVALID_COMFY_ANIM)
+        sprite->y2 = ReadComfyAnimValueSmooth(&gComfyAnims[sScrollThumbAnimId]);
 }
 
 static void RefreshItemListColors(struct ListMenu *list)

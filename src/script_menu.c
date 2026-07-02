@@ -751,7 +751,7 @@ static void CreatePCMultichoice(void)
     // Change PC name if player has met Lanette
     if (FlagGet(FLAG_SYS_PC_LANETTE))
     {
-        if (GetCurrentRegion() == REGION_KANTO)
+        if (GetCurrentRegion() != REGION_HOENN)
             AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_BillsPc, x, 1, TEXT_SKIP_DRAW, NULL);
         else
             AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_LanettesPC, x, 1, TEXT_SKIP_DRAW, NULL);

@@ -563,7 +563,7 @@ static void SpriteCB_Arrow(struct Sprite *);
 
 #include "data/swsh_storage_system.h"
 
-static u32 sItemIconGfxBuffer[98];
+EWRAM_DATA static u32 sItemIconGfxBuffer[98] = {0};
 
 EWRAM_DATA static u8 sPreviousBoxOption = 0;
 EWRAM_DATA static struct ChooseBoxMenu *sChooseBoxMenu = NULL;

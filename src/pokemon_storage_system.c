@@ -538,7 +538,7 @@ struct PokemonStorageSystemData
     u8 displayMenuTilemapBuffer[0x800];
 };
 
-static u32 sItemIconGfxBuffer[98];
+EWRAM_DATA static u32 sItemIconGfxBuffer[98] = {0};
 
 EWRAM_DATA static u8 sPreviousBoxOption = 0;
 EWRAM_DATA static struct ChooseBoxMenu *sChooseBoxMenu = NULL;

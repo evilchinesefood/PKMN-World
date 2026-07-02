@@ -37,20 +37,26 @@
 // badges live at the TOP of the bank (0x3F8..0x3FF), clear of all story/item flags and still
 // inside johtoFlags[128]. Gym scripts set these per-region (K9).
 #define FLAG_JOHTO_BADGE_OFFSET    0x3F8                       // top 8 of the 0x400 Johto bank
-#define FLAG_KANTO_BADGE(i)        (FLAG_KANTO_BASE + (i))                          // i = 0..7
+// Kanto badges live in the free Kanto-bank head gap at +0x0B..0x12 (0xA4B..0xA52), ABOVE
+// DAILY_FLAGS_END (0xA47). They used to sit at +0x00..0x07 (0xA40..0xA47), but the Johto
+// trainer port grew MAX_TRAINERS_COUNT to 1096, which slid DAILY_FLAGS_END up to 0xA47 — so
+// the badge byte fell inside the daily-flag range and ClearDailyFlags() wiped all 8 badges on
+// every RTC day rollover. Keeping them in the head gap (champions at +0x08..0x0A, first real
+// FRLG flag at +0x28) keeps them clear of the daily memset without touching FLAG_KANTO_BASE.
+#define FLAG_KANTO_BADGE(i)        (FLAG_KANTO_BASE + 0x0B + (i))                    // i = 0..7
 #define FLAG_JOHTO_BADGE(i)        (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + (i)) // i = 0..7
 
 // Object-like per-badge flags for SCRIPTS (.inc). Function-like macros do not reliably
 // expand in the GAS .include path the scripts assemble through, so map/gym scripts use
 // these explicit names (1-indexed, matching the gym order) instead of FLAG_*_BADGE(i).
-#define FLAG_KANTO_BADGE_1         (FLAG_KANTO_BASE + 0)
-#define FLAG_KANTO_BADGE_2         (FLAG_KANTO_BASE + 1)
-#define FLAG_KANTO_BADGE_3         (FLAG_KANTO_BASE + 2)
-#define FLAG_KANTO_BADGE_4         (FLAG_KANTO_BASE + 3)
-#define FLAG_KANTO_BADGE_5         (FLAG_KANTO_BASE + 4)
-#define FLAG_KANTO_BADGE_6         (FLAG_KANTO_BASE + 5)
-#define FLAG_KANTO_BADGE_7         (FLAG_KANTO_BASE + 6)
-#define FLAG_KANTO_BADGE_8         (FLAG_KANTO_BASE + 7)
+#define FLAG_KANTO_BADGE_1         (FLAG_KANTO_BASE + 0x0B)
+#define FLAG_KANTO_BADGE_2         (FLAG_KANTO_BASE + 0x0C)
+#define FLAG_KANTO_BADGE_3         (FLAG_KANTO_BASE + 0x0D)
+#define FLAG_KANTO_BADGE_4         (FLAG_KANTO_BASE + 0x0E)
+#define FLAG_KANTO_BADGE_5         (FLAG_KANTO_BASE + 0x0F)
+#define FLAG_KANTO_BADGE_6         (FLAG_KANTO_BASE + 0x10)
+#define FLAG_KANTO_BADGE_7         (FLAG_KANTO_BASE + 0x11)
+#define FLAG_KANTO_BADGE_8         (FLAG_KANTO_BASE + 0x12)
 #define FLAG_JOHTO_BADGE_1         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 0)
 #define FLAG_JOHTO_BADGE_2         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 1)
 #define FLAG_JOHTO_BADGE_3         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 2)
@@ -61,8 +67,8 @@
 #define FLAG_JOHTO_BADGE_8         (FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET + 7)
 
 // Per-region champion status (region merge). Source of truth for IsNRegionChampion() and the
-// per-region league/HOF gating. They live in the FREE Kanto-bank head gap (0xA48..; the badges
-// use 0xA40..0xA47 and the first real FRLG flag is at 0xA40+0x28, so 0x08..0x27 is unused), so
+// per-region league/HOF gating. They live in the FREE Kanto-bank head gap (0xA48..0xA4A; badges
+// relocated to 0xA4B..0xA52, first real FRLG flag at 0xA40+0x28, so 0x13..0x27 remains unused), so
 // they are inline in SaveBlock1.flags[] and always readable regardless of the active region.
 // Distinct from the global FLAG_IS_CHAMPION (FRLG sets that only post-Sevii) and FLAG_SYS_GAME_CLEAR.
 #define FLAG_KANTO_CHAMPION        (FLAG_KANTO_BASE + 0x08)  // 0xA48

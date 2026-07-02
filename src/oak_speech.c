@@ -3,6 +3,7 @@
 #include "data.h"
 #include "decompress.h"
 #include "event_scripts.h"
+#include "field_effect.h"
 #include "gpu_regs.h"
 #include "malloc.h"
 #include "math_util.h"
@@ -52,6 +53,10 @@ struct OakSpeechResources
     u8 unused2[0x1800];
     u8 bg2TilemapBuffer[0x400];
     u8 bg1TilemapBuffer[0x800];
+    // Region merge: the player is drawn as a Brendan/May trainer sprite (see
+    // ShowPlayerTrainerSprite) instead of the Red/Leaf BG2 portrait.
+    u8 playerSpriteId;
+    bool8 playerSpriteActive;
 };
 
 static EWRAM_DATA struct OakSpeechResources *sOakSpeechResources = NULL;
@@ -114,6 +119,8 @@ static void CreatePikachuOrPlatformSprites(u8, u8);
 static void DestroyPikachuOrPlatformSprites(u8, u8);
 static void LoadTrainerPic(u16, u16);
 static void ClearTrainerPic(void);
+static void ShowPlayerTrainerSprite(void);
+static void HidePlayerTrainerSprite(void);
 static void CreateFadeInTask(u8, u8);
 static void CreateFadeOutTask(u8, u8);
 static void PrintNameChoiceOptions(u8, u8);
@@ -135,9 +142,7 @@ static const u32 sOakSpeech_Background_Tilemap[] = INCGFX_U32("graphics/oak_spee
 static const u16 sControlsGuide_Tilemap_Page2[] = INCBIN_U16("graphics/oak_speech/controls_guide_page_2.bin");
 static const u16 sControlsGuide_Tilemap_Page3[] = INCBIN_U16("graphics/oak_speech/controls_guide_page_3.bin");
 static const u16 sOakSpeech_Leaf_Pal[] = INCGFX_U16("graphics/oak_speech/leaf/pal.pal", ".gbapal");
-static const u32 sOakSpeech_Leaf_Tiles[] = INCGFX_U32("graphics/oak_speech/leaf/pic.png", ".8bpp.smol");
 static const u16 sOakSpeech_Red_Pal[] = INCGFX_U16("graphics/oak_speech/red/pal.pal", ".gbapal");
-static const u32 sOakSpeech_Red_Tiles[] = INCGFX_U32("graphics/oak_speech/red/pic.png", ".8bpp.smol");
 static const u16 sOakSpeech_Oak_Pal[] = INCGFX_U16("graphics/oak_speech/oak/pal.pal", ".gbapal");
 static const u32 sOakSpeech_Oak_Tiles[] = INCGFX_U32("graphics/oak_speech/oak/pic.png", ".8bpp.smol");
 static const u16 sOakSpeech_Rival_Pal[] = INCGFX_U16("graphics/oak_speech/rival/pal.pal", ".gbapal");
@@ -1963,6 +1968,10 @@ static void CB2_ReturnFromNamingScreen(void)
         ResetSpriteData();
         FreeAllSpritePalettes();
         ResetTempTileDataBuffers();
+        // The player trainer sprite was just destroyed with all others; force it to be
+        // recreated when the player pic is (re)loaded in case 6 below.
+        if (sOakSpeechResources != NULL)
+            sOakSpeechResources->playerSpriteActive = FALSE;
         break;
     case 1:
         ResetBgsAndClearDma3BusyFlags(0);
@@ -2129,20 +2138,49 @@ static void DestroyPikachuOrPlatformSprites(u8 taskId, u8 spriteType)
     }
 }
 
+// Region merge: show the player as a Brendan/May trainer SPRITE (matching the Birch
+// intro and the real overworld/battle player) instead of the FRLG Red/Leaf BG2 portrait.
+// The sprite rides the platform's gSpriteCoordOffsetX and sits behind BG0 menus/text
+// (oam.priority 1, like the old BG2 portrait) but in front of the platform (priority 2).
+static void ShowPlayerTrainerSprite(void)
+{
+    struct OakSpeechResources *res = sOakSpeechResources;
+
+    if (!res->playerSpriteActive)
+    {
+        u8 spriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender), 120, 72, 0, NULL);
+        gSprites[spriteId].oam.priority = 1;
+        gSprites[spriteId].coordOffsetEnabled = TRUE;
+        gSprites[spriteId].callback = SpriteCallbackDummy;
+        res->playerSpriteId = spriteId;
+        res->playerSpriteActive = TRUE;
+    }
+    gSprites[res->playerSpriteId].invisible = FALSE;
+}
+
+static void HidePlayerTrainerSprite(void)
+{
+    if (sOakSpeechResources != NULL && sOakSpeechResources->playerSpriteActive)
+        gSprites[sOakSpeechResources->playerSpriteId].invisible = TRUE;
+}
+
 static void LoadTrainerPic(u16 whichPic, u16 tileOffset)
 {
     u32 i;
 
+    // Player = Brendan/May trainer sprite; blank the BG2 pic slot so no stale portrait
+    // (e.g. Oak's) remains. VAR_PLAYER_PALETTE (outfit pick) still drives the real
+    // sprites; the live BG portrait preview is intentionally dropped.
+    if (whichPic == MALE_PLAYER_PIC || whichPic == FEMALE_PLAYER_PIC)
+    {
+        ShowPlayerTrainerSprite();
+        FillBgTilemapBufferRect(2, 0, 0, 0, 32, 32, 16);
+        CopyBgTilemapBufferToVram(2);
+        return;
+    }
+
     switch (whichPic)
     {
-    case MALE_PLAYER_PIC:
-        LoadPalette(sOakSpeech_Red_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Red_Pal));
-        DecompressDataWithHeaderVram(sOakSpeech_Red_Tiles, (void *)VRAM + 0x600 + tileOffset);
-        break;
-    case FEMALE_PLAYER_PIC:
-        LoadPalette(sOakSpeech_Leaf_Pal, BG_PLTT_ID(4), sizeof(sOakSpeech_Leaf_Pal));
-        DecompressDataWithHeaderVram(sOakSpeech_Leaf_Tiles, (void *)VRAM + 0x600 + tileOffset);
-        break;
     case RIVAL_PIC:
         LoadPalette(sOakSpeech_Rival_Pal, BG_PLTT_ID(6), sizeof(sOakSpeech_Rival_Pal));
         DecompressDataWithHeaderVram(sOakSpeech_Rival_Tiles, (void *)VRAM + 0x600 + tileOffset);
@@ -2154,11 +2192,6 @@ static void LoadTrainerPic(u16 whichPic, u16 tileOffset)
     default:
         return;
     }
-
-    // Outfit swap: the player portrait loads into BG palette slot 4. Recolor the
-    // clothing indices after the base palette load (early-returns for RED / no pick yet).
-    if (whichPic == MALE_PLAYER_PIC || whichPic == FEMALE_PLAYER_PIC)
-        ApplyPlayerPaletteSwapPortrait(BG_PLTT_ID(4));
 
     sOakSpeechResources->trainerPicTilemap = AllocZeroed(0x60);
     for (i = 0; i < 0x60; i++)
@@ -2172,6 +2205,7 @@ static void LoadTrainerPic(u16 whichPic, u16 tileOffset)
 
 static void ClearTrainerPic(void)
 {
+    HidePlayerTrainerSprite();
     FillBgTilemapBufferRect(2, 0, 11, 1, 8, 12, 16);
     CopyBgTilemapBufferToVram(2);
 }

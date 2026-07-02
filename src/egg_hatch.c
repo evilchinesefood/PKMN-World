@@ -3,6 +3,7 @@
 #include "egg_hatch.h"
 #include "pokedex.h"
 #include "constants/items.h"
+#include "constants/region_map_sections.h" // task 18a: MAPSEC_SPECIAL_AREA sentinel
 #include "script.h"
 #include "decompress.h"
 #include "task.h"
@@ -384,7 +385,12 @@ static void AddHatchedMonToParty(u8 id)
     metLevel = 0;
     SetMonData(mon, MON_DATA_MET_LEVEL, &metLevel);
 
-    metLocation = GetCurrentRegionMapSectionId();
+    {
+        mapsec_u8_t rawMapSec = GetCurrentRegionMapSectionId(); // mapsec_u8_t is a u16
+        // task 18a: u8 metLocation can't hold a MAPSEC >= 256 (Mt Silver 259, Tohjo Falls 263...);
+        // truncation would show a wrong town, so store one neutral sentinel for those areas.
+        metLocation = (rawMapSec > 0xFF) ? MAPSEC_SPECIAL_AREA : rawMapSec;
+    }
     SetMonData(mon, MON_DATA_MET_LOCATION, &metLocation);
 
     MonRestorePP(mon);

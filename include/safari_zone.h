@@ -10,6 +10,7 @@ void ResetSafariZoneFlag(void);
 
 void EnterSafariMode(void);
 void ExitSafariMode(void);
+void ExtendSafariZone(void);
 
 bool8 SafariZoneTakeStep(void);
 void SafariZoneRetirePrompt(void);

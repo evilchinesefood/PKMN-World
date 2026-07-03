@@ -76,6 +76,17 @@ void ExitSafariMode(void)
     gSafariZoneStepCounter = 0;
 }
 
+// #5: pay-to-continue extension - refill balls + steps to a fresh session (region-aware,
+// matching EnterSafariMode) instead of ejecting when the step counter hits 0.
+void ExtendSafariZone(void)
+{
+    gNumSafariBalls = 30;
+    if (GetCurrentRegion() == REGION_KANTO)
+        gSafariZoneStepCounter = 600;
+    else
+        gSafariZoneStepCounter = 500;
+}
+
 bool8 SafariZoneTakeStep(void)
 {
     if (GetSafariZoneFlag() == FALSE)

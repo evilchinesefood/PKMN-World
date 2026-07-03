@@ -62,6 +62,32 @@ SafariZone_EventScript_TimesUp::
 	message SafariZone_Text_TimesUp
 	waitmessage
 	waitbuttonpress
+	showmoneybox 0, 0
+	msgbox SafariZone_Text_ContinueSafariGame, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SafariZone_EventScript_TimesUpEnd
+	checkmoney 500
+	goto_if_eq VAR_RESULT, 0, SafariZone_EventScript_TimesUpNotEnoughMoney
+	playse SE_SHOP
+	removemoney 500
+	updatemoneybox
+	hidemoneybox
+	callnative ExtendSafariZone
+	releaseall
+	end
+
+SafariZone_EventScript_TimesUpNotEnoughMoney::
+	hidemoneybox
+	message SafariZone_Text_NotEnoughMoneyToContinue
+	waitmessage
+	waitbuttonpress
+	releaseall
+	goto SafariZone_EventScript_Exit
+
+SafariZone_EventScript_TimesUpEnd::
+	hidemoneybox
+	message SafariZone_Text_SafariGameOver
+	waitmessage
+	waitbuttonpress
 	releaseall
 	goto SafariZone_EventScript_Exit
 
@@ -111,8 +137,18 @@ SafariZone_Text_WouldYouLikeToExit:
 	.string "ZONE right now?$"
 
 SafariZone_Text_TimesUp:
-	.string "Ding-dong! Time's up!\n"
-	.string "Your SAFARI Game is over.$"
+	.string "Ding-dong! Time's up!$"
+
+SafariZone_Text_ContinueSafariGame:
+	.string "Would you like to continue your\n"
+	.string "SAFARI Game for ¥500?$"
+
+SafariZone_Text_NotEnoughMoneyToContinue:
+	.string "You don't have enough money to\n"
+	.string "continue. Your SAFARI Game is over.$"
+
+SafariZone_Text_SafariGameOver:
+	.string "Okay. Your SAFARI Game is over.$"
 
 SafariZone_Text_OutOfBalls:
 	.string "You've run out of SAFARI BALLS.\n"

@@ -17,6 +17,7 @@
 #include "battle_interface.h"
 #include "battle_anim.h"
 #include "data.h"
+#include "regions.h"
 
 // this file's functions
 static void CB2_ReshowBattleScreenAfterMenu(void);
@@ -26,7 +27,9 @@ static void CreateHealthboxSprite(enum BattlerId battler);
 static void ClearBattleBgCntBaseBlocks(void);
 static void CreateCaughtMonSprite(void);
 
-#define CATCH_TUTORIAL_TRAINER_PIC (IS_FRLG ? TRAINER_PIC_OLD_MAN : TRAINER_PIC_WALLY)
+// Region-merge: the catch tutorial fires in both Hoenn (Wally/Ralts) and Kanto (Old Man/Weedle).
+// IS_FRLG is a hard compile-time 0 in this ALL_REGIONS build, so pick the sprite at runtime.
+#define CATCH_TUTORIAL_TRAINER_PIC (GetCurrentRegion() == REGION_KANTO ? TRAINER_PIC_OLD_MAN : TRAINER_PIC_WALLY)
 
 void ReshowBattleScreenDummy(void)
 {

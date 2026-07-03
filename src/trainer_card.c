@@ -1978,6 +1978,8 @@ static void CreateTrainerCardTrainerPic(void)
                     8,
                     WIN_TRAINER_PIC);
         // Outfit swap: the local player's own card pic loads into BG palette slot 8.
-        ApplyPlayerPaletteSwapFrontPic(BG_PLTT_ID(8));
+        // Guard on !isLink so viewing a remote player's card doesn't repaint it with our outfit.
+        if (!sData->isLink)
+            ApplyPlayerPaletteSwapFrontPic(BG_PLTT_ID(8));
     }
 }

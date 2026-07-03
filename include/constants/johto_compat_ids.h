@@ -92,8 +92,6 @@
 // 10 SS Aqua trainers collide with an existing target enum (CAROL, COLIN, DEBRA,
 // EDWARD, JEFF, JONAH, LYLE, NATE, NOLAND, SHIRLEY) and are edited in-script to
 // TRAINER_JOEY in their map scripts.inc instead of aliased here; all others below.
-// TRAINER_MEG_AND_PEG is a trainerbattle_double; aliasing to single-mon TRAINER_JOEY
-// builds fine (correct double-battle party lands in the trainers stage).
 
 // === Mt Silver area: endgame Red battle (real party lands in the trainers stage) ===
 

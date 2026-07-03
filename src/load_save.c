@@ -19,6 +19,7 @@
 #include "agb_flash.h"
 #include "event_data.h"
 #include "constants/event_objects.h"
+#include "constants/regions.h"
 
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
 
@@ -47,6 +48,46 @@ IWRAM_INIT struct SaveBlock3 *gSaveBlock3Ptr = &gSaveblock3;
 COMMON_DATA struct PokemonStorage *gPokemonStoragePtr = NULL;
 
 // code
+
+#if ALL_REGIONS
+// Region-merge save-format migration (deep-review T20 / plan E4). Runs once from
+// LoadGameSave(SAVE_NORMAL) after the save blocks are in RAM, only when the slot loaded OK.
+// The region-merge state (the dedicated SaveBlock3 regionVars/johtoFlags banks + the
+// SaveBlock2 region bits) is younger than the core Hoenn save; before these fields existed
+// those bytes were uninitialised flash. On a saveVersion mismatch, re-init just that region
+// state to a clean Hoenn start instead of reading stale bytes as progress. The core save
+// (party/dex/bag/flags) is untouched. Idempotent; stamps saveVersion in RAM only (the next
+// normal save persists it) - no mid-load flash write.
+void MigrateSaveFormatIfNeeded(void)
+{
+    if (gSaveBlock2Ptr->saveVersion == SAVE_FORMAT_VERSION)
+        return;
+
+    // Dedicated SaveBlock3 banks - safe to clear (they never overlap core save state).
+    memset(gSaveBlock3Ptr->regionVars, 0, sizeof(gSaveBlock3Ptr->regionVars));
+    memset(gSaveBlock3Ptr->johtoFlags, 0, sizeof(gSaveBlock3Ptr->johtoFlags));
+
+    // Legacy saves are Hoenn playthroughs; the Continue path resyncs gCurrentRegion from this.
+    gSaveBlock2Ptr->currentRegion    = REGION_HOENN;
+    gSaveBlock2Ptr->kantoIntroDone   = FALSE;
+    gSaveBlock2Ptr->johtoIntroDone   = FALSE;
+    gSaveBlock2Ptr->hoennIntroDone   = FALSE;
+    gSaveBlock2Ptr->travelPassEarned = FALSE;
+    gSaveBlock2Ptr->kantoHubAccess   = FALSE;
+    gSaveBlock2Ptr->johtoHubAccess   = FALSE;
+    gSaveBlock2Ptr->hoennHubAccess   = FALSE;
+
+    // Tier 2 (optional, off by default): also clear the INLINE Kanto flag bank living in
+    // SaveBlock1.flags[]. Couples to the flag layout - safe only while
+    // DAILY_FLAGS_END < FLAG_KANTO_BASE - and would discard legacy Kanto progress. If you
+    // enable it, add STATIC_ASSERT(FLAG_KANTO_BASE > DAILY_FLAGS_END, ...) first.
+    // memset(&gSaveBlock1Ptr->flags[FLAG_KANTO_BASE / 8], 0,
+    //        (FLAGS_COUNT - FLAG_KANTO_BASE) / 8);
+
+    gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
+}
+#endif // ALL_REGIONS
+
 void CheckForFlashMemory(void)
 {
     if (!IdentifyFlash())

@@ -895,6 +895,10 @@ u8 LoadGameSave(u8 saveType)
         CopyPartyAndObjectsFromSave();
         gSaveFileStatus = status;
         gGameContinueCallback = NULL;
+#if ALL_REGIONS
+        if (status == SAVE_STATUS_OK)
+            MigrateSaveFormatIfNeeded();
+#endif
         break;
     case SAVE_HALL_OF_FAME:
         if (gHoFSaveBuffer != NULL)

@@ -57,5 +57,8 @@ void LoadPlayerBag(void);
 void SavePlayerBag(void);
 void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey);
 void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey);
+#if ALL_REGIONS
+void MigrateSaveFormatIfNeeded(void);
+#endif
 
 #endif // GUARD_LOAD_SAVE_H

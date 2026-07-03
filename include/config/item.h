@@ -25,7 +25,7 @@
 #define I_MAX_REGISTERED_ITEMS          4           // Number of key items that can be registered to SELECT when I_KEY_ITEM_WHEEL is TRUE. Slot 1 reuses the vanilla registeredItem; the rest live in registeredItemsExtra[].
 
 // TM config
-#define I_REUSABLE_TMS          FALSE       // In Gen5-8, TMs are reusable. Setting this to TRUE will make all vanilla TMs reusable, though they can also be cherry-picked by setting their importance to 1.
+#define I_REUSABLE_TMS          TRUE       // In Gen5-8, TMs are reusable. Setting this to TRUE will make all vanilla TMs reusable, though they can also be cherry-picked by setting their importance to 1.
 
 // Exp. Share config
 // To use this feature, replace the 0 with the flag ID you're assigning it to.

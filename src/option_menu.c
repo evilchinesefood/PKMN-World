@@ -26,6 +26,7 @@
 #define tWindowFrameType data[6]
 #define tScrollOffset data[7]      // top visible MENUITEM_ index (0 when not scrolled)
 #define tScrollArrowTaskId data[8] // TASK_NONE unless scroll arrows are active
+#define tAutoRun data[9]
 
 #define NUM_VISIBLE_OPTIONS 7
 
@@ -37,6 +38,7 @@ enum
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
+    MENUITEM_AUTORUN,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -68,6 +70,8 @@ static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 AutoRun_ProcessInput(u8 selection);
+static void AutoRun_DrawChoices(u8 selection, s16 scrollOffset);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(s16 scrollOffset);
 static void DrawBgWindowFrames(void);
@@ -102,6 +106,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_SOUND]       = COMPOUND_STRING("SOUND"),
     [MENUITEM_BUTTONMODE]  = COMPOUND_STRING("BUTTON MODE"),
     [MENUITEM_FRAMETYPE]   = COMPOUND_STRING("FRAME"),
+    [MENUITEM_AUTORUN]     = COMPOUND_STRING("AUTO RUN"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("CANCEL"),
 };
 
@@ -251,6 +256,7 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
+        gTasks[taskId].tAutoRun = gSaveBlock2Ptr->optionsAutoRun;
         gTasks[taskId].tScrollOffset = 0;
 
         RedrawVisibleOptionsPage(taskId);
@@ -356,6 +362,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tWindowFrameType)
                 FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, gTasks[taskId].tScrollOffset);
             break;
+        case MENUITEM_AUTORUN:
+            previousOption = gTasks[taskId].tAutoRun;
+            gTasks[taskId].tAutoRun = AutoRun_ProcessInput(gTasks[taskId].tAutoRun);
+
+            if (previousOption != gTasks[taskId].tAutoRun)
+                AutoRun_DrawChoices(gTasks[taskId].tAutoRun, gTasks[taskId].tScrollOffset);
+            break;
         default:
             return;
         }
@@ -376,6 +389,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
+    gSaveBlock2Ptr->optionsAutoRun = gTasks[taskId].tAutoRun;
 
     if (gTasks[taskId].tScrollArrowTaskId != TASK_NONE)
     {
@@ -472,6 +486,7 @@ static void RedrawVisibleOptionsPage(u8 taskId)
     Sound_DrawChoices(gTasks[taskId].tSound, scrollOffset);
     ButtonMode_DrawChoices(gTasks[taskId].tButtonMode, scrollOffset);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, scrollOffset);
+    AutoRun_DrawChoices(gTasks[taskId].tAutoRun, scrollOffset);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - scrollOffset);
 
     // Scroll repaint is a full window copy, unlike the single-row COPYWIN_GFX
@@ -739,6 +754,33 @@ static void ButtonMode_DrawChoices(u8 selection, s16 scrollOffset)
     DrawOptionMenuChoice(gText_ButtonTypeLR, xLR, y, styles[1]);
 
     DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(FONT_NORMAL, gText_ButtonTypeLEqualsA, 198), y, styles[2]);
+}
+
+static u8 AutoRun_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void AutoRun_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[2];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_AUTORUN, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
 static void DrawHeaderText(void)

@@ -71,6 +71,10 @@ __pycache__
 # Pokemon World working plans (reviews/features/done) — kept local, not tracked
 .plans/
 
+# Engineering audit/budget records (E5/E6/E7) and SDD scratch — kept local, not tracked
+docs/
+.superpowers/
+
 # Local dev/migration tooling — renamed with a leading dot and kept local, not tracked
 # (not part of the build; libagbsyscall/ is build-critical and stays tracked)
 .dev_scripts/

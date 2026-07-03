@@ -432,8 +432,9 @@ static void HighlightOptionMenuItem(u8 index)
 #define TAG_OPTIONS_SCROLL_ARROW_GFX 2000
 #define TAG_OPTIONS_SCROLL_ARROW_PAL 100
 
-// Only creates scroll arrows once a future option pushes MENUITEM_COUNT past
-// NUM_VISIBLE_OPTIONS; today's 7 items keep this dormant (tScrollArrowTaskId stays TASK_NONE).
+// Creates the scroll-arrow pair when MENUITEM_COUNT exceeds NUM_VISIBLE_OPTIONS. AUTO RUN (#1)
+// pushed the list to 8 items over the 7-row window, so this is LIVE: arrows show and CANCEL sits
+// below the fold until you scroll. tScrollArrowTaskId stays TASK_NONE only if the list ever fits.
 static void CreateOptionMenuScrollArrows(u8 taskId)
 {
     gTasks[taskId].tScrollArrowTaskId = TASK_NONE;
@@ -779,8 +780,10 @@ static void AutoRun_DrawChoices(u8 selection, s16 scrollOffset)
     styles[1] = 0;
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
+    // optionsAutoRun is normal polarity (0 = OFF, 1 = ON), unlike BattleScene's inverted var,
+    // so OFF must be the index-0 (value-0) choice or the menu would highlight the wrong state.
+    DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
 }
 
 static void DrawHeaderText(void)
@@ -797,7 +800,8 @@ static void DrawOptionMenuTexts(s16 scrollOffset)
     FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
     for (i = 0; i < NUM_VISIBLE_OPTIONS && scrollOffset + i < MENUITEM_COUNT; i++)
         AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, sOptionMenuItemsNames[scrollOffset + i], 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
+    // No CopyWindowToVram here: the sole caller (RedrawVisibleOptionsPage) draws the choice
+    // values on top and does the full window copy, so a copy here would just be a wasted DMA.
 }
 
 #define TILE_TOP_CORNER_L 0x1A2

@@ -1978,8 +1978,9 @@ static void CreateTrainerCardTrainerPic(void)
                     8,
                     WIN_TRAINER_PIC);
         // Outfit swap: the local player's own card pic loads into BG palette slot 8.
-        // Guard on !isLink so viewing a remote player's card doesn't repaint it with our outfit.
-        if (!sData->isLink)
+        // Guard on !gReceivedRemoteLinkPlayers (NOT isLink, which is TRUE merely from standing in
+        // the Union Room) so only your OWN card gets your outfit, never a linked partner's card.
+        if (!gReceivedRemoteLinkPlayers)
             ApplyPlayerPaletteSwapFrontPic(BG_PLTT_ID(8));
     }
 }

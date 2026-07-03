@@ -52,40 +52,57 @@ COMMON_DATA struct PokemonStorage *gPokemonStoragePtr = NULL;
 #if ALL_REGIONS
 // Region-merge save-format migration (deep-review T20 / plan E4). Runs once from
 // LoadGameSave(SAVE_NORMAL) after the save blocks are in RAM, only when the slot loaded OK.
-// The region-merge state (the dedicated SaveBlock3 regionVars/johtoFlags banks + the
-// SaveBlock2 region bits) is younger than the core Hoenn save; before these fields existed
-// those bytes were uninitialised flash. On a saveVersion mismatch, re-init just that region
-// state to a clean Hoenn start instead of reading stale bytes as progress. The core save
-// (party/dex/bag/flags) is untouched. Idempotent; stamps saveVersion in RAM only (the next
-// normal save persists it) - no mid-load flash write.
+//
+// A source-version LADDER, not a blanket wipe: each step upgrades only the specific transition
+// it handles, so bumping SAVE_FORMAT_VERSION later never nukes a newer save's real region
+// progress. A save stamped newer than this build is left untouched (not down-migratable).
+//
+// The region-merge state (the dedicated, UN-checksummed SaveBlock3 regionVars/johtoFlags banks
+// + the SaveBlock2 region bits) is younger than the core save; before it existed those bytes
+// were uninitialised flash with no checksum to reject them. The inline Kanto flag bank in
+// SaveBlock1.flags[] is deliberately NOT touched: it lives in CHECKSUMMED SaveBlock1 (so an
+// OK-loading save's bytes are authentic - zero for a legacy Hoenn save) and is interleaved with
+// the daily/champion/hidden-item flags, which must never be blanket-cleared.
+//
+// IMPORTANT: because the SaveBlock3 banks are un-checksummed, saveVersion is their ONLY
+// integrity guard. If any region-bank size (or the SaveBlock2 region-bit offset) changes, you
+// MUST bump SAVE_FORMAT_VERSION and add a ladder step below - the STATIC_ASSERTs enforce it.
 void MigrateSaveFormatIfNeeded(void)
 {
-    if (gSaveBlock2Ptr->saveVersion == SAVE_FORMAT_VERSION)
+    u8 savedVersion = gSaveBlock2Ptr->saveVersion;
+
+    // Current or newer format: leave untouched (don't rewrite fields an older binary can't read).
+    if (savedVersion >= SAVE_FORMAT_VERSION)
         return;
 
-    // Dedicated SaveBlock3 banks - safe to clear (they never overlap core save state).
-    memset(gSaveBlock3Ptr->regionVars, 0, sizeof(gSaveBlock3Ptr->regionVars));
-    memset(gSaveBlock3Ptr->johtoFlags, 0, sizeof(gSaveBlock3Ptr->johtoFlags));
+    // v0 -> v1: pre-versioning save. Its region banks/bits are untrustworthy flash, so re-init
+    // them to a clean Hoenn start. A legacy save is a completed-intro Hoenn playthrough, so
+    // Hoenn's arrival intro is already done (else the Littleroot welcome cutscene re-fires on the
+    // next visit home); Kanto and Johto are genuinely unvisited. Stamps saveVersion in RAM only.
+    if (savedVersion < 1)
+    {
+        memset(gSaveBlock3Ptr->regionVars, 0, sizeof(gSaveBlock3Ptr->regionVars));
+        memset(gSaveBlock3Ptr->johtoFlags, 0, sizeof(gSaveBlock3Ptr->johtoFlags));
 
-    // Legacy saves are Hoenn playthroughs; the Continue path resyncs gCurrentRegion from this.
-    gSaveBlock2Ptr->currentRegion    = REGION_HOENN;
-    gSaveBlock2Ptr->kantoIntroDone   = FALSE;
-    gSaveBlock2Ptr->johtoIntroDone   = FALSE;
-    gSaveBlock2Ptr->hoennIntroDone   = FALSE;
-    gSaveBlock2Ptr->travelPassEarned = FALSE;
-    gSaveBlock2Ptr->kantoHubAccess   = FALSE;
-    gSaveBlock2Ptr->johtoHubAccess   = FALSE;
-    gSaveBlock2Ptr->hoennHubAccess   = FALSE;
-
-    // Tier 2 (optional, off by default): also clear the INLINE Kanto flag bank living in
-    // SaveBlock1.flags[]. Couples to the flag layout - safe only while
-    // DAILY_FLAGS_END < FLAG_KANTO_BASE - and would discard legacy Kanto progress. If you
-    // enable it, add STATIC_ASSERT(FLAG_KANTO_BASE > DAILY_FLAGS_END, ...) first.
-    // memset(&gSaveBlock1Ptr->flags[FLAG_KANTO_BASE / 8], 0,
-    //        (FLAGS_COUNT - FLAG_KANTO_BASE) / 8);
+        gSaveBlock2Ptr->currentRegion    = REGION_HOENN;
+        gSaveBlock2Ptr->hoennIntroDone   = TRUE;
+        gSaveBlock2Ptr->kantoIntroDone   = FALSE;
+        gSaveBlock2Ptr->johtoIntroDone   = FALSE;
+        gSaveBlock2Ptr->travelPassEarned = FALSE;
+        gSaveBlock2Ptr->kantoHubAccess   = FALSE;
+        gSaveBlock2Ptr->johtoHubAccess   = FALSE;
+        gSaveBlock2Ptr->hoennHubAccess   = FALSE;
+    }
+    // Future: if (savedVersion < 2) { ...apply only the v1->v2 delta... }
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
+
+// The region-merge save banks are UN-checksummed; saveVersion is their only integrity guard.
+// If any of these change, bump SAVE_FORMAT_VERSION and add a matching ladder step above.
+STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
+STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
 #endif // ALL_REGIONS
 
 void CheckForFlashMemory(void)

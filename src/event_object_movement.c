@@ -2108,23 +2108,33 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
     return spriteId;
 }
 
-// Return address of first conscious party mon or NULL
+static bool32 IsEligibleFollowerMon(struct Pokemon *mon)
+{
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+    if (species == SPECIES_NONE)
+        return FALSE;
+
+    if ((OW_FOLLOWERS_ALLOWED_SPECIES && species != VarGet(OW_FOLLOWERS_ALLOWED_SPECIES))
+     || (OW_FOLLOWERS_ALLOWED_MET_LVL && GetMonData(mon, MON_DATA_MET_LEVEL) != VarGet(OW_FOLLOWERS_ALLOWED_MET_LVL))
+     || (OW_FOLLOWERS_ALLOWED_MET_LOC && GetMonData(mon, MON_DATA_MET_LOCATION) != VarGet(OW_FOLLOWERS_ALLOWED_MET_LOC)))
+        return FALSE;
+
+    return mon->hp > 0 && !(mon->box.isEgg || mon->box.isBadEgg);
+}
+
+// Return address of the chosen follower party mon if eligible,
+// else first conscious party mon, else NULL
 struct Pokemon *GetFirstLiveMon(void)
 {
     u32 i;
+    u32 chosen = gSaveBlock2Ptr->followerSlot;
+
+    if (chosen != 0 && chosen <= PARTY_SIZE && IsEligibleFollowerMon(&gParties[B_TRAINER_PLAYER][chosen - 1]))
+        return &gParties[B_TRAINER_PLAYER][chosen - 1];
+
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
-        enum Species species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-        if (species == SPECIES_NONE)
-            continue;
-
-        if ((OW_FOLLOWERS_ALLOWED_SPECIES && species != VarGet(OW_FOLLOWERS_ALLOWED_SPECIES))
-         || (OW_FOLLOWERS_ALLOWED_MET_LVL && GetMonData(mon, MON_DATA_MET_LEVEL) != VarGet(OW_FOLLOWERS_ALLOWED_MET_LVL))
-         || (OW_FOLLOWERS_ALLOWED_MET_LOC && GetMonData(mon, MON_DATA_MET_LOCATION) != VarGet(OW_FOLLOWERS_ALLOWED_MET_LOC)))
-            continue;
-
-        if (gParties[B_TRAINER_PLAYER][i].hp > 0 && !(gParties[B_TRAINER_PLAYER][i].box.isEgg || gParties[B_TRAINER_PLAYER][i].box.isBadEgg))
+        if (IsEligibleFollowerMon(&gParties[B_TRAINER_PLAYER][i]))
             return &gParties[B_TRAINER_PLAYER][i];
     }
     return NULL;

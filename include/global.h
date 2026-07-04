@@ -647,9 +647,11 @@ struct SaveBlock2
              u8 johtoHubAccess:1;   // reached Johto's access point (Goldenrod Magnet Train)
              u8 hoennHubAccess:1;   // reached Hoenn's access point (Slateport S.S. Tidal)
              u8 regionBitsUnused:1;
-    /*0x93*/ u8 filler_93[0x5];
+    /*0x93*/ u8 followerSlot;       // chosen follower Pokémon: 0 = first eligible, else party slot + 1
+    /*0x94*/ u8 filler_94[0x4];
 #else
-    /*0x90*/ u8 filler_90[0x8];
+    /*0x90*/ u8 followerSlot;
+    /*0x91*/ u8 filler_91[0x7];
 #endif
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
@@ -669,6 +671,8 @@ struct SaveBlock2
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
 }; // sizeof=0xF2C
+
+STATIC_ASSERT(sizeof(struct SaveBlock2) == 0xF2C, SaveBlock2SizeUnchanged);
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
 

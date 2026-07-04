@@ -273,8 +273,6 @@ static void ShowSafariBallsWindow(void);
 static void ShowPyramidFloorWindow(void);
 static void RemoveExtraStartMenuWindows(void);
 static bool32 PrintStartMenuActions(s8 *pIndex, u32 count);
-static bool8 IsFieldStartMenu(void);
-static void PrintPlayTimeInStartMenu(void);
 static bool32 InitStartMenuStep(void);
 static void InitStartMenu(void);
 static void CreateStartMenuTask(TaskFunc followupFunc);
@@ -537,29 +535,6 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
     return FALSE;
 }
 
-static bool8 IsFieldStartMenu(void)
-{
-    return (IsOverworldLinkActive() != TRUE
-         && InUnionRoom() != TRUE
-         && GetSafariZoneFlag() != TRUE
-         && !InBattlePike()
-         && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE
-         && !InMultiPartnerRoom()
-         && !(DEBUG_OVERWORLD_MENU == TRUE && DEBUG_OVERWORLD_IN_MENU == TRUE));
-}
-
-static void PrintPlayTimeInStartMenu(void)
-{
-    u8 *txtPtr = StringCopy(gStringVar4, gText_SavingTime);
-
-    *(txtPtr++) = CHAR_SPACE;
-    txtPtr = ConvertIntToDecimalStringN(txtPtr, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
-    *(txtPtr++) = CHAR_COLON;
-    ConvertIntToDecimalStringN(txtPtr, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-
-    AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 8, (sNumStartMenuActions << 4) + 9, TEXT_SKIP_DRAW, NULL);
-}
-
 static bool32 InitStartMenuStep(void)
 {
     s8 state = sInitStartMenuData[0];
@@ -575,7 +550,7 @@ static bool32 InitStartMenuStep(void)
         break;
     case 2:
         LoadMessageBoxAndBorderGfx();
-        DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions + IsFieldStartMenu()), FALSE);
+        DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions), FALSE);
         sInitStartMenuData[1] = 0;
         sInitStartMenuData[0]++;
         break;
@@ -588,11 +563,7 @@ static bool32 InitStartMenuStep(void)
         break;
     case 4:
         if (PrintStartMenuActions(&sInitStartMenuData[1], 2))
-        {
-            if (IsFieldStartMenu())
-                PrintPlayTimeInStartMenu();
             sInitStartMenuData[0]++;
-        }
         break;
     case 5:
         sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);

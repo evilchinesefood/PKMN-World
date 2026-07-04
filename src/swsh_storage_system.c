@@ -1076,6 +1076,22 @@ static void FieldTask_ReturnToPcMenu(void)
     FadeInFromBlack();
 }
 
+#if SWSH_PARTY_MENU_PC_ACCESS
+static void FieldTask_ReturnToPartyMenu(void)
+{
+    MainCallback cb = PokemonPC_GetReturnToPartyCallback();
+    MainCallback vblankCb = gMain.vblankCallback;
+    ResetSpriteData();
+    FreeAllWindowBuffers();
+
+    SetVBlankCallback(NULL);
+    SetMainCallback2(cb != NULL ? cb : CB2_ReturnToFieldWithOpenMenu);
+    PokemonPC_SetReturnToPartyCallback(NULL);
+    SetVBlankCallback(vblankCb);
+    FadeInFromBlack();
+}
+#endif
+
 #undef tState
 #undef tSelectedOption
 #undef tInput
@@ -1098,7 +1114,14 @@ static void CreateMainMenu(u8 whichMenu, s16 *windowIdPtr)
 static void CB2_ExitPokeStorage(void)
 {
     sPreviousBoxOption = GetCurrentBoxOption();
+#if SWSH_PARTY_MENU_PC_ACCESS
+    if (PokemonPC_GetReturnToPartyCallback() != NULL)
+        gFieldCallback = FieldTask_ReturnToPartyMenu;
+    else
+        gFieldCallback = FieldTask_ReturnToPcMenu;
+#else
     gFieldCallback = FieldTask_ReturnToPcMenu;
+#endif
     SetMainCallback2(CB2_ReturnToField);
 }
 

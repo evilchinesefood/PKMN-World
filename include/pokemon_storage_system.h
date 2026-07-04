@@ -45,6 +45,7 @@ void ShowPokemonStorageSystemPC(void);
 void ShowPokemonPCFromParty(void);
 void CB2_ShowPokemonPCFromParty(void);
 void PokemonPC_SetReturnToPartyCallback(MainCallback cb);
+MainCallback PokemonPC_GetReturnToPartyCallback(void);
 #endif
 void ResetPokemonStorageSystem(void);
 s16 CompactPartySlots(void);

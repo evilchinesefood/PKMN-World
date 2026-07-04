@@ -109,6 +109,18 @@ build. They are listed only so future credit is not lost — do not treat them a
   ("Pokémon Heart & Soul") — planned source for the Johto region.
 - **[evilchinesefood/FireRedDavesVersion](https://github.com/evilchinesefood/FireRedDavesVersion)**
   — planned Kanto story reference (FRLG maps are bundled but currently inert).
+- **[miriamlefae/pokeemerald-expansion](https://github.com/miriamlefae/pokeemerald-expansion)**
+  (branch [`feat/usm/upcoming`](https://github.com/miriamlefae/pokeemerald-expansion/tree/feat/usm/upcoming))
+  — planned source for the Unbound-inspired graphical start menu (sprite-icon entries,
+  player-rearrangeable icons, day/night compatible; Alpha status). Credits per that
+  branch's README:
+  - **Miriam** ([miriamlefae](https://github.com/miriamlefae)) — author of the
+    graphical start menu branch.
+  - **Hedara** ([hedara90](https://github.com/hedara90)) — the sprite utility
+    functions in `even_sprite.c`.
+  - **Vol** — the original icon sprites (taken from Vol's start menu).
+  - **Brendan** — testing, bug fixes (battle pyramid and Safari Zone), and the
+    debug + Safari Zone icon assets from Brendan's fork of the branch.
 
 Full credit will be added when the planned Hoenn + Kanto + Johto region merge lands.
 

@@ -474,11 +474,17 @@ static const struct WindowTemplate sDefaultBagWindows[] =
         .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 15,
+#if SWSH_MESSAGE_BOX
+        .width = 26,
+#else
         .width = 27,
+#endif
         .height = 4,
         .paletteNum = 15,
         .baseBlock = 0x1B1,
     },
+// Restore original __LINE__ numbering so the FALSE build is byte-identical (Alloc embeds __LINE__).
+#line 482
     DUMMY_WIN_TEMPLATE,
 };
 

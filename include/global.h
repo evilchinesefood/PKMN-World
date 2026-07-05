@@ -10,6 +10,7 @@
 #include "siirtc.h"
 #include "fpmath.h"
 #include "metaprogram.h"
+#include "constants/unbound_start_menu.h"
 #include "constants/global.h"
 #include "constants/flags.h"
 #include "constants/vars.h"
@@ -268,6 +269,13 @@ struct Pokevial
 #define QUEST_STATES 5 // Number of different quest states tracked in the saveblock
 #endif // QUEST_MENU
 
+// Graphical start menu icon order (PW_GRAPHICAL_START_MENU). Not #if-gated so the
+// save layout never shifts when that config is flipped.
+struct PACKED Usm_SavedItems {
+    u8 items[USM_ICO_COUNT];
+    u8 count;
+};
+
 struct SaveBlock3
 {
 #if OW_USE_FAKE_RTC
@@ -298,6 +306,7 @@ struct SaveBlock3
     // and constants/region_flags.h. Both are bank-isolated so regions never alias.
     u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
     u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
+    struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
 }; /* max size 1624 bytes */
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;

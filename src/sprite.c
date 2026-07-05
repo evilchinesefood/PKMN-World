@@ -1749,6 +1749,16 @@ bool8 AddSpriteToOamBuffer(struct Sprite *sprite, u8 *oamIndex)
     {
         gMain.oamBuffer[*oamIndex] = sprite->oam;
         (*oamIndex)++;
+        // Extra OBJ-window copy so the sprite shows through flash/pyramid darkness
+        // (graphical start menu icons). Upstream `upcoming` behavior, non-subsprite path only.
+        if (sprite->copyToObjWin)
+        {
+            if (*oamIndex >= gOamLimit)
+                return 1;
+            gMain.oamBuffer[*oamIndex] = sprite->oam;
+            gMain.oamBuffer[*oamIndex].objMode = ST_OAM_OBJ_WINDOW;
+            (*oamIndex)++;
+        }
         return 0;
     }
     else

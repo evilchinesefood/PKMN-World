@@ -93,7 +93,11 @@ void MigrateSaveFormatIfNeeded(void)
         gSaveBlock2Ptr->johtoHubAccess   = FALSE;
         gSaveBlock2Ptr->hoennHubAccess   = FALSE;
     }
-    // Future: if (savedVersion < 2) { ...apply only the v1->v2 delta... }
+    // v1 -> v2: SaveBlock3.usmSaved (graphical start menu icon order) was appended after the
+    // region banks; on older saves those bytes are uninitialised flash. Zero ONLY the new
+    // field - v1 region-bank/bit semantics are untouched.
+    if (savedVersion < 2)
+        memset(&gSaveBlock3Ptr->usmSaved, 0, sizeof(gSaveBlock3Ptr->usmSaved));
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }

@@ -4,7 +4,8 @@
 // Region merge save-format version. Stamped on new games (SaveBlock2.saveVersion).
 // Full migration of older formats is deferred to Phase 3 — only the field + version
 // constant exist now so Phase 3 can detect and migrate.
-#define SAVE_FORMAT_VERSION 1
+// v2: SaveBlock3.usmSaved appended (graphical start menu icon order).
+#define SAVE_FORMAT_VERSION 2
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate
@@ -49,6 +50,7 @@
 #include "config/pokevial.h"
 #include "config/qol_field_moves.h"
 #include "config/quests.h"
+#include "config/start_menu.h"
 #include "config/summary_screen.h"
 #include "config/swsh_item_menu.h"
 #include "config/swsh_party_menu.h"

@@ -71,6 +71,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
 #include "scanline_effect.h"
+#include "unbound_start_menu.h"
 #include "wild_encounter.h"
 #include "wild_encounter_ow.h"
 #include "vs_seeker.h"
@@ -2104,7 +2105,11 @@ void CB2_ReturnToFieldFromMultiplayer(void)
 void CB2_ReturnToFieldWithOpenMenu(void)
 {
     FieldClearVBlankHBlankCallbacks();
+#if PW_GRAPHICAL_START_MENU
+    gFieldCallback2 = FieldCB_UsmReturnToField;
+#else
     gFieldCallback2 = FieldCB_ReturnToFieldOpenStartMenu;
+#endif
     CB2_ReturnToField();
 }
 

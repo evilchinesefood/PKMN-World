@@ -3168,3 +3168,8 @@
 	specialvar VAR_RESULT, PokevialRefill
 	.endm
 #endif // POKEVIAL_FEATURE
+
+	@ Opens the Unbound-style graphical start menu (no-op when PW_GRAPHICAL_START_MENU is FALSE).
+	.macro initusm
+	callnative Usm_InitStartMenu
+	.endm

@@ -215,7 +215,9 @@ struct Sprite
     /*0x3E*/ u16 inUse:1;                   //1
              u16 coordOffsetEnabled:1;      //2
              u16 invisible:1;               //4
-             u16 flags_3:1;                 //8
+             // If TRUE, a copy of the sprite's OAM is emitted with objMode ST_OAM_OBJ_WINDOW
+             // (visible through flash/pyramid darkness). Was the unused flags_3.
+             u16 copyToObjWin:1;            //8
              // if nonzero, tile offset for usingSheet sprites
              // is (offset + 1) << sheetSpan;
              // (This allows using frame-based anim tables for sheet sprites)

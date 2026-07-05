@@ -1,0 +1,146 @@
+# Pokémon World — Changelog
+
+All notable player-facing changes. For the full feature reference see
+[FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
+
+## v1.0-beta — first release
+
+<!-- Version and date are placeholders — finalize at tag time. -->
+
+### The Game
+
+**Pokémon World** merges **Kanto**, **Johto**, and **Hoenn** into a single Game
+Boy Advance game, built on pokeemerald-expansion. Each region is a complete,
+self-contained adventure — its own story, 8 gyms and badges, Elite Four, and
+Champion — chosen from a central **World Transit hub**. Your bag, PC boxes, and
+Pokédex are shared across all three, so the Pokémon you raise travel with you
+between worlds.
+
+### Regions & Campaigns
+
+- **Kanto** — the full FireRed campaign: every trainer fights their authentic
+  FireRed team, real gym leader / Elite Four / **Champion Blue** rosters, rival
+  **Blue**, and the 8-badge league gate.
+- **Johto** — fully ported from *Heart & Soul*: ~245 maps, 231 real trainer
+  parties, its own wild encounters, town map, Fly and heal locations, rival
+  **Silver**, and the Johto League (Will, Koga, Bruno, Karen → **Champion
+  Lance**). Post-game: **Red at Mt. Silver**, the roaming beasts, the Celebi
+  GS Ball chain, the Ruins of Alph puzzles, the Bug-Catching Contest, and the
+  Ho-Oh / Lugia events.
+- **Hoenn** — the native Emerald campaign, with the **Battle Frontier** as the
+  shared post-game battle facility for all three regions (reachable straight
+  from the hub).
+- Each region's **starter trio is catchable in the wild** on its first route
+  (Route 1, Route 29, Route 101) — the two starters you didn't pick aren't
+  lost.
+
+### World Systems
+
+- **World Transit hub** — new games open with a unified intro (gender, name,
+  outfit), then land in a terminal with staffed departure gates for Kanto,
+  Johto, Hoenn, and the Battle Frontier, plus a nurse, a PC, a mart with
+  department vendors, and a world-tour board tracking all 24 badges.
+- **Region switching** — your first visit to a region plays a short "Mom moves
+  into a new house" arrival and a choice of that region's three starters.
+  Switching regions boxes your party to the shared PC (mail is moved to the PC
+  mailbox — nothing is lost). You return to the hub through each region's own
+  access point — the Goldenrod Magnet Train, Vermilion harbor, or Slateport
+  harbor — and once you're champion of two regions, every Pokémon Center 2F
+  gains a World Transit warp pad.
+- **Shared progress** — one bag, one PC, one Pokédex, one wallet. Story,
+  badges, and trainer defeats are tracked per region; obedience and HM field
+  moves follow your **current** region's badges.
+- **Multi-page Trainer Card** — L/R flips between the Hoenn, Kanto, and Johto
+  badge pages.
+- **Character customization** — play as **Brendan or May** everywhere, with a
+  six-outfit color picker (live preview in the intro) that applies globally:
+  overworld, battle, and trainer card.
+
+### Major Features
+
+- **Follower Pokémon** — HGSS-style walking followers, plus a "Follow" chooser
+  in the party menu so any party member (not just the lead) can walk with you.
+- **Overworld flight** — the **Sky Charm** key item toggles free flight over
+  the outdoors on a Flygon mount. Granted at the hub after your first badge in
+  any region; flying within a region requires that region's Fly badge.
+- **Graphical start menu** — a sprite-icon Start menu with entries you can
+  rearrange, day/night aware, including a Quests entry.
+- **DexNav** — granted with each region's Pokédex; the hidden-Pokémon detector
+  unlocks with your first championship. Hidden encounters are authored for
+  every land map, skewing rarer and slightly higher-level than the local
+  grass.
+- **VS Seeker rematches in Kanto** — the VS Seeker now offers rematches from
+  85 trainer groups across Kanto, with teams that escalate as you earn badges.
+  Hoenn keeps Match Call, and its rematch offers now survive moving between
+  areas.
+- **Dynamic surf** — you surf on your own Pokémon: the first party member that
+  knows Surf appears as your mount.
+- **Autosave** — an optional autosave (off by default) that quietly saves as
+  you move between areas.
+- **Hard Mode & battle options** — Hard Mode (Set-style battles, no bag items
+  against trainers, badge-based level caps), an EXP multiplier (0.5×–2×), a
+  catch-rate multiplier (1×–2×), and a Run shortcut for fleeing wild battles —
+  all in the Options menu, which now scrolls to fit.
+- **HGSS-style Pokédex** — the detailed HGSS Pokédex interface.
+- **Sword/Shield interface suite** — SwSh-styled party menu, summary screen,
+  PC storage, bag, message and name boxes, and map-name pop-ups.
+- **Quests** — a mission-log Quest menu on the Start menu.
+- **Key-item wheel** — ORAS-style SELECT registration for up to four key
+  items, one per D-Pad direction.
+
+### Quality of Life
+
+- Battle **type and effectiveness icons** are always shown.
+- **Nicknames** — rename Pokémon straight from the party menu or the summary
+  screen (outsider Pokémon follow the usual Name Rater rules).
+- **PokéVial** — a refillable full-party heal, given as a welcome gift by the
+  hub's Charm Curator.
+- **Hub distribution** — the Harbor Master hands out the event tickets (Eon
+  Ticket, Old Sea Map, Mystic Ticket) as you win championships and opens their
+  ferries; the Charm Curator hands out the charms at badge milestones; the hub
+  mart stocks a free Town Map.
+- The **Wailmer Pail** is available at the Goldenrod flower shop, so Johto
+  berry growing can't dead-end.
+- **Chansey attendants** beside the nurse in every Pokémon Center, in all
+  regions.
+- **Safari Zone** — pay ₽500 to keep going when your Safari time runs out.
+- **Auto-Run toggle**, reusable TMs, chain fishing, IV/EV pages on the summary
+  screen, move relearners (including TM moves), item descriptions on pickup,
+  and visible overworld encounters alongside normal grass encounters.
+- The wall clock is set **once, globally** — no re-setting it in each region's
+  bedroom.
+
+### Fixes
+
+- **Kanto trainer parties** — every trainer in Kanto now fights their real
+  FireRed team, with Kanto's trainer progress tracked independently of the
+  other regions.
+- **Magnet Train** — the Pass is now obtainable (from the station president
+  after the Radio Tower incident), so the train actually runs.
+- **Key items no longer duplicate** — you can't collect a second Exp. Share or
+  HM across regions; the Cianwood double-Fly and the Mystery Egg / Devon
+  Letter mix-up are fixed; and formerly placeholder items (Secret Potion,
+  Silver Wing, Rainbow Wing) are now real items.
+- **PC** — closing the boxes after opening them from the party menu returns
+  you to the party menu; the stuck PC message is gone.
+- **Textbox alignment sweep** — message windows across the bag, shops, party
+  menu, battle tutorial, and more no longer clip against the right edge of the
+  Sword/Shield message frame.
+- The **Aurora Ticket** event now correctly opens its ferry (fixed
+  retroactively for older saves).
+- Lavender Town's Pokémon Center upstairs now uses the correct floor layout.
+- The summary screen's sheen meter shows empty at zero sheen instead of a
+  phantom sparkle.
+- Declining "Retire" at the Battle Pyramid now reopens the menu properly.
+
+### Known notes
+
+- The hidden-Pokémon **detector** activates only after your **first
+  championship**, and hidden Pokémon never carry held items.
+- **VS Seeker** rematch offers don't survive saving and quitting — recharge
+  the Seeker after reloading.
+- **Saving is blocked while flying** (land first); autosave also skips while
+  airborne.
+- In Ghost encounters without the Silph Scope, the effectiveness indicator
+  stays hidden — that's intended.
+- The overworld **debug menu ships enabled** by design in this build.

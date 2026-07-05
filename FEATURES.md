@@ -78,6 +78,11 @@ staffed departure gates (Kanto, Johto, Hoenn, Battle Frontier), a nurse and heal
 point, a storage PC, a front-desk mart plus six department vendors, and a
 **world-tour board** tracking all 24 badges.
 
+Two hub staffers handle handouts: the **Harbor Master** opens the event ferries and
+hands out the event tickets (Eon Ticket, Old Sea Map, Mystic Ticket) as you win
+championships, and the **Charm Curator** hands out the charms at badge milestones —
+plus a **PokéVial** as a welcome gift. The hub mart also stocks a free **Town Map**.
+
 ### Region switching
 
 - **First visit** to a region plays a short "Mom moves into a new house" arrival,
@@ -88,7 +93,8 @@ point, a storage PC, a front-desk mart plus six department vendors, and a
   the PC mailbox — nothing is lost) so each campaign starts fresh; withdraw anything
   from any region at any time.
 - **Getting back to the hub** requires reaching the region's own access point in
-  normal play: the **Goldenrod Magnet Train**, the **Vermilion harbor**, or the
+  normal play: the **Goldenrod Magnet Train** (the Pass comes from the station
+  president after the Radio Tower incident), the **Vermilion harbor**, or the
   **Slateport harbor**. Once you're a **champion of two regions**, every Pokémon
   Center 2F gains a World Transit warp pad.
 - The active region and hub access are stored in the save; a versioned save format
@@ -170,7 +176,8 @@ the lead — can be your follower.
 
 A key item (`ITEM_SKY_CHARM`) that toggles **free overworld flight** on a Flygon
 mount. Given by a keeper NPC in the World Transit hub once you've earned your first
-badge in any region; flying requires at least one badge in the **current** region.
+badge in any region; flying requires the **current** region's Fly badge — the same
+badge that authorizes HM Fly (Kanto Thunder, Johto Mineral, Hoenn Feather).
 
 ### ORAS key-item registration wheel
 
@@ -183,7 +190,8 @@ registered to SELECT — one per D-Pad direction.
 A refillable key item that heals the whole party (`POKEVIAL_FEATURE`,
 `include/config/pokevial.h`). Holds a configurable number of doses
 (`POKEVIAL_MAX_SIZE`, default 15); `POKEVIAL_SKIP_CUTSCENE` heals instantly instead
-of opening the party screen. Fully integrated with the SwSh party menu.
+of opening the party screen. Fully integrated with the SwSh party menu. Given as a
+welcome gift by the hub's Charm Curator.
 
 ### QOL HM / field-move item gate
 
@@ -205,7 +213,7 @@ A quest / mission-log system configured in `include/config/quests.h`:
 
 ## QoL & gameplay defaults
 
-Config flips and small features that shape how the shipped game plays:
+Config flips and gameplay features that shape how the shipped game plays:
 
 - **Reusable TMs** (`I_REUSABLE_TMS`) and **chain fishing** (`I_FISHING_CHAIN`).
 - **IV/EV pages** in the summary screen (`P_SUMMARY_SCREEN_IV_EV_INFO`) and
@@ -213,7 +221,23 @@ Config flips and small features that shape how the shipped game plays:
 - **Move relearners enabled**, including the TM-move relearner
   (`P_ENABLE_MOVE_RELEARNERS`, `P_TM_MOVES_RELEARNER`).
 - **Type and effectiveness indicators always shown** in battle (`B_SHOW_TYPES`,
-  `B_SHOW_EFFECTIVENESS`), and **B moves the cursor to Run** in wild battles.
+  `B_SHOW_EFFECTIVENESS`).
+- **HGSS-style Pokédex enabled** (`POKEDEX_PLUS_HGSS`) — the detailed HGSS Pokédex
+  interface.
+- **DexNav** (`DEXNAV_ENABLED`) — granted with each region's Pokédex; the
+  hidden-Pokémon detector unlocks with your first championship. **Hidden encounters
+  are authored for every land map**, skewing rarer and slightly higher-level than
+  the local grass (hidden Pokémon never carry held items).
+- **Kanto VS Seeker rematches** (`I_VS_SEEKER_CHARGING`) — the VS Seeker offers
+  rematches from **85 trainer groups** across Kanto, with teams that escalate as
+  you earn badges. Hoenn keeps Match Call, and its rematch offers now survive
+  moving between areas. (Seeker offers don't survive saving and quitting — recharge
+  the Seeker after reloading.)
+- **Dynamic surf mount** (`OW_SURF_USES_MON_SPRITE`) — you surf on your own
+  Pokémon: the first party member that knows Surf appears as your mount.
+- **Nicknames** — rename Pokémon straight from the party menu or the summary
+  screen (`P_SUMMARY_SCREEN_RENAME`); outsider Pokémon follow the usual Name Rater
+  rules.
 - **Item descriptions shown on pickup** (`OW_SHOW_ITEM_DESCRIPTIONS`).
 - **Visible overworld wild encounters** (`WE_OW_ENCOUNTERS`) **in addition to**
   vanilla random grass encounters (`WE_VANILLA_RANDOM`) — both fire on the same map
@@ -221,9 +245,18 @@ Config flips and small features that shape how the shipped game plays:
 - **Each region's starters are catchable** (~10% grass slots) on its first route —
   Route 1, Route 29, and Route 101 — so the two starters you didn't pick are
   obtainable.
+- **Autosave** — an optional autosave (off by default) that quietly saves as you
+  move between areas; it skips while flying.
+- **Hard Mode** — Set-style battles, no bag items against trainers, and badge-based
+  level caps — plus an **EXP multiplier** (0.5×–2×) and a **catch-rate multiplier**
+  (1×–2×), all in the Options menu.
+- **Run shortcut** for fleeing wild battles, in the Options menu — Off / Cursor
+  (B moves the cursor to Run) / Instant (flee immediately).
 - **Auto-Run toggle** in the Options menu (which now scrolls to fit extra options).
 - **Safari Zone continue** — pay ₽500 to keep going when the Safari clock runs out.
-- **Chansey attendants** beside the nurse in Pokémon Centers.
+- **Chansey attendants** beside the nurse in every Pokémon Center, in all regions.
+- The **Wailmer Pail** is available at the Goldenrod flower shop, so Johto berry
+  growing can't dead-end.
 - **The wall clock is set once, globally** — no re-setting it in each region's
   bedroom.
 
@@ -274,10 +307,12 @@ The three campaigns are built and link-green; the new-game flow is playtested an
 hardware-verified. What remains:
 
 - **Full-campaign and inter-region-travel playtest** — the main remaining gate.
-- A second QoL wave (autosave, nickname prompts, run shortcut, hard mode, EXP/catch
-  tuning, dynamic surf music).
-- Kanto **VS Seeker rematch** wiring and HGSS gym-leader / Elite Four portrait art
-  (currently remapped to the nearest existing portraits).
+- An Options toggle to **skip the nickname prompt** when catching a Pokémon
+  (renaming from the party menu and summary screen already shipped).
+- The **grand 24-badge endgame tournament** — the hub's world-tour board already
+  counts all 24 badges; the tournament it points toward is future content.
+- HGSS gym-leader / Elite Four portrait art (currently remapped to the nearest
+  existing portraits).
 
 ## Inherited from pokeemerald-expansion
 

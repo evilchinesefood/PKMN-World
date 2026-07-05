@@ -72,6 +72,7 @@
 #include "text.h"
 #include "text_window.h"
 #include "trade.h"
+#include "tv.h"
 #include "union_room.h"
 #include "window.h"
 #include "constants/battle.h"
@@ -121,6 +122,7 @@ enum {
     MENU_CHANGE_FORM,
     MENU_CHANGE_ABILITY,
     MENU_FOLLOW,
+    MENU_NICKNAME,
     MENU_FIELD_MOVES
 };
 
@@ -592,6 +594,7 @@ static void CursorCb_CatalogMower(u8);
 static void CursorCb_ChangeForm(u8);
 static void CursorCb_ChangeAbility(u8);
 static void CursorCb_Follow(u8);
+static void CursorCb_Nickname(u8);
 void TryItemHoldFormChange(struct Pokemon *mon, s8 slotId, enum BattleTrainer trainer);
 static void ShowMoveSelectWindow(u8 slot);
 static void Task_HandleWhichMoveInput(u8 taskId);
@@ -3759,6 +3762,10 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
         if (OW_FOLLOWERS_ENABLED)
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FOLLOW);
+        // 10 rows would push the window off-screen (top = 19 - rows*2), so skip
+        // Nickname for a 4-field-move mon; summary screen rename still covers it.
+        if (sPartyMenuInternal->numActions < 8)
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
     }
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
@@ -3968,6 +3975,56 @@ static void CursorCb_Follow(u8 taskId)
     StringAppend(gStringVar4, gText_PauseUntilPress);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+}
+
+// Same ownership checks as the Name Rater (IsMonOTIDNotPlayers + MonOTNameNotPlayer)
+static bool32 CanRenameMon(struct Pokemon *mon)
+{
+    if (GetPlayerIDAsU32() != GetMonData(mon, MON_DATA_OT_ID))
+        return FALSE;
+    if (GetMonData(mon, MON_DATA_LANGUAGE) != GAME_LANGUAGE)
+        return FALSE;
+    GetMonData(mon, MON_DATA_OT_NAME, gStringVar1);
+    return StringCompare(gSaveBlock2Ptr->playerName, gStringVar1) == 0;
+}
+
+static void CB2_ReturnToPartyMenuFromNamingScreen(void)
+{
+    SetBoxMonData(GetSelectedBoxMonFromPcOrParty(), MON_DATA_NICKNAME, gStringVar2);
+    gPaletteFade.bufferTransferDisabled = TRUE;
+    InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
+}
+
+static void CB2_NicknamePartyMon(void)
+{
+    ChangePokemonNicknameWithCallback(CB2_ReturnToPartyMenuFromNamingScreen);
+}
+
+static void CursorCb_Nickname(u8 taskId)
+{
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][gPartyMenu.slotId];
+
+    PlaySE(SE_SELECT);
+    if (GetMonData(mon, MON_DATA_IS_EGG) || !CanRenameMon(mon))
+    {
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+        if (GetMonData(mon, MON_DATA_IS_EGG))
+        {
+            StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("An Egg can't be given\na nickname!"));
+        }
+        else
+        {
+            StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("You can't rename a Pokémon\nreceived in a trade!"));
+        }
+        StringAppend(gStringVar4, gText_PauseUntilPress);
+        DisplayPartyMenuMessage(gStringVar4, TRUE);
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        return;
+    }
+    gSpecialVar_0x8004 = gPartyMenu.slotId;
+    sPartyMenuInternal->exitCallback = CB2_NicknamePartyMon;
+    Task_ClosePartyMenu(taskId);
 }
 
 static void CursorCb_Switch(u8 taskId)

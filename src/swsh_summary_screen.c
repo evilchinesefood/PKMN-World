@@ -5233,6 +5233,10 @@ static void CreateSheenSparkleSprites(void)
     struct SpriteSheet sheet;
     struct SpritePalette pal;
     u8 sheen = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SHEEN);
+
+    if (sheen == 0)
+        return;
+
     u8 count = GET_NUM_CONDITION_SPARKLES(sheen);
     u16 i, firstSpriteId = 0, lastCreated = 0;
     bool32 anyCreated = FALSE;

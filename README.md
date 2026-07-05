@@ -9,6 +9,8 @@
 A private Game Boy Advance ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 
+[**Install**](INSTALL.md) · [**Features**](FEATURES.md) · [**Credits**](CREDITS.md)
+
 </div>
 
 ---

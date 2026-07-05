@@ -1,14 +1,15 @@
 # What features are included?
 
-**Pokémon World** is a private GBA ROM-hack built on
+**Pokémon World** merges **Kanto**, **Johto**, and **Hoenn** into a single GBA game, built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion)
 (upstream commit `66ab6696`, ~v1.16.2). It inherits the full pokeemerald-expansion
-feature set and adds a set of its own ported features on top.
+feature set, adds the three-region merge on top, and ships a suite of ported
+community features — **all enabled by default** in the built game. The config flags
+still exist in `include/config/` for tuning, but a bare `make` produces the full
+three-region, all-features game.
 
-Every feature added in Pokémon World ships **behind a default-OFF config flag**, so
-a fresh build behaves like stock pokeemerald-expansion until each flag is opted in.
-This document separates **inherited** features (from the base engine) from those
-**added in Pokémon World**, and lists the tools and systems the project is built on.
+This document covers the **region merge**, the features **added in Pokémon World**,
+and the features **inherited** from the base engine.
 
 For credits and source attribution, see [CREDITS.md](CREDITS.md). For setup and build
 instructions, see [INSTALL.md](INSTALL.md).
@@ -16,15 +17,26 @@ instructions, see [INSTALL.md](INSTALL.md).
 ## Table of Contents
 - [What features are included?](#what-features-are-included)
   - [Table of Contents](#table-of-contents)
-  - [Added in Pokémon World](#added-in-pokémon-world)
+  - [Three regions, one game](#three-regions-one-game)
+    - [The regions](#the-regions)
+    - [World Transit hub](#world-transit-hub)
+    - [Region switching](#region-switching)
+    - [Shared vs. per-region progress](#shared-vs-per-region-progress)
+  - [Character customization](#character-customization)
+  - [Ported features](#ported-features)
     - [SwSh UI suite](#swsh-ui-suite)
     - [comfy\_anim shared animation library](#comfy_anim-shared-animation-library)
+    - [Unbound-style graphical start menu](#unbound-style-graphical-start-menu)
+    - [HGSS follower Pokémon](#hgss-follower-pokémon)
+    - [Sky Charm overworld flight](#sky-charm-overworld-flight)
     - [ORAS key-item registration wheel](#oras-key-item-registration-wheel)
     - [Pokevial — refillable party-heal key item](#pokevial--refillable-party-heal-key-item)
     - [QOL HM / field-move item gate](#qol-hm--field-move-item-gate)
     - [Quests system](#quests-system)
+  - [QoL \& gameplay defaults](#qol--gameplay-defaults)
+  - [Developer additions](#developer-additions)
   - [Tools, libraries \& systems](#tools-libraries--systems)
-  - [Planned / roadmap](#planned--roadmap)
+  - [Roadmap](#roadmap)
   - [Inherited from pokeemerald-expansion](#inherited-from-pokeemerald-expansion)
     - [Configuration files](#configuration-files)
     - [Upgraded Battle Engine](#upgraded-battle-engine)
@@ -35,21 +47,84 @@ instructions, see [INSTALL.md](INSTALL.md).
     - [Overworld improvements](#overworld-improvements)
     - [Developer tools](#developer-tools)
 
-## Added in Pokémon World
+## Three regions, one game
 
-These features were ported into this repo on top of pokeemerald-expansion. **All are
-gated behind default-OFF config flags** (opt-in) — a clean build is byte-for-byte the
-base engine until a flag is set to `TRUE`. Flag definitions live in
-`include/config/` (and a couple of the larger UIs in `include/`); the exact flag names
-are given below.
+The headline feature: three complete, self-contained campaigns on one cartridge.
+Each region has its own story, 8 gyms and badges, Elite Four, Champion, and Hall of
+Fame — and you choose the order.
+
+### The regions
+
+- **Kanto** — the bundled FireRed campaign, wired live: all `IS_FRLG` compile-time
+  switches migrated to runtime region checks, every FRLG trainer fights its **real
+  FRLG party** (own trainer-ID block and defeat-flag bank), real gym leader / Elite
+  Four / **Champion Blue** rosters, rival **Blue**, and an 8-badge Victory Road /
+  league gate.
+- **Johto** — ported from *Pokémon Heart & Soul* (pokemonHnS): ~245 maps with
+  tilesets and scripts, 231 real trainer parties, wild-encounter tables, the Johto
+  town map with Fly and heal locations, rival **Silver** (with daily rematches), and
+  the Johto League (Will / Koga / Bruno / Karen → **Champion Lance**). Post-game:
+  **Red at Mt. Silver** (rematchable), the Burned Tower **roaming beasts**, the
+  **Celebi** GS Ball chain, the **Ruins of Alph** sliding puzzles, the National Park
+  **Bug-Catching Contest**, and the Ho-Oh / Lugia events.
+- **Hoenn** — the native Emerald campaign, plus the **Battle Frontier** as the
+  shared post-game battle facility (reachable from the hub).
+
+### World Transit hub
+
+New games start with a unified Oak intro (gender, name, and **outfit picker**), then
+land in the **World Transit hub** — an Indigo-Plateau-style terminal with four
+staffed departure gates (Kanto, Johto, Hoenn, Battle Frontier), a nurse and heal
+point, a storage PC, a front-desk mart plus six department vendors, and a
+**world-tour board** tracking all 24 badges.
+
+### Region switching
+
+- **First visit** to a region plays a short "Mom moves into a new house" arrival,
+  then the region's own canonical opening — including a **choice of that region's
+  three starters** (Bulbasaur/Charmander/Squirtle, Chikorita/Cyndaquil/Totodile,
+  Treecko/Torchic/Mudkip).
+- **Switching regions** boxes your current party to the shared PC (mail is moved to
+  the PC mailbox — nothing is lost) so each campaign starts fresh; withdraw anything
+  from any region at any time.
+- **Getting back to the hub** requires reaching the region's own access point in
+  normal play: the **Goldenrod Magnet Train**, the **Vermilion harbor**, or the
+  **Slateport harbor**. Once you're a **champion of two regions**, every Pokémon
+  Center 2F gains a World Transit warp pad.
+- The active region and hub access are stored in the save; a versioned save format
+  (`SAVE_FORMAT_VERSION 3`) with a migration reader keeps older dev saves loading.
+
+### Shared vs. per-region progress
+
+- **Shared/global:** money, bag, TMs/HMs, PC boxes, and a single **National
+  Pokédex**. Key items **deduplicate across regions** — you never receive a second
+  Exp. Share or HM you already own.
+- **Per-region:** story flags and vars (dedicated banks per region), **badges**
+  (each region has its own badge bank), and trainer-defeat flags. Obedience and HM
+  field moves are gated by the **current** region's badges — a boxed Kanto team
+  obeys according to your Johto badges while you're in Johto.
+- The **Trainer Card is multi-page**: L/R flips between Hoenn, Kanto, and Johto
+  badge pages.
+
+## Character customization
+
+You play as **Brendan or May** in every region. A **six-outfit palette-swap**
+system (ported from the project lead's FireRed hack and regenerated per-gender for
+the Brendan/May sprites) is chosen in the new-game intro — with a live preview on
+the trainer sprite — and applies globally: overworld, battle back-sprite, and
+trainer card.
+
+## Ported features
+
+These were ported into this repo from other community bases (sources and authors in
+[CREDITS.md](CREDITS.md)). All are **enabled** in the shipped game; each remains
+individually toggleable via its config flag.
 
 ### SwSh UI suite
 
-A Sword/Shield-styled interface suite, ported from
-[montmoguri/pokeemerald-expansion](https://github.com/montmoguri). Each screen is an
-independent toggle, so they can be enabled one at a time.
+A Sword/Shield-styled interface suite. Each screen is an independent toggle.
 
-| Feature | Master flag | Header |
+| Feature | Flag | Header |
 |---|---|---|
 | Sword/Shield party menu | `SWSH_PARTY_MENU` | `include/config/swsh_party_menu.h` |
 | SwSh summary screen | `SWSH_SUMMARY_SCREEN` | `include/swsh_summary_screen.h` |
@@ -59,77 +134,107 @@ independent toggle, so they can be enabled one at a time.
 | SwSh map-name pop-up | `OW_POPUP_GENERATION == GEN_8` | `include/config/overworld.h` |
 
 Notes:
-- **Party menu** (`SWSH_PARTY_MENU`) — SwSh-style party screen with idle mon animations
-  (`SWSH_PARTY_MON_IDLE_ANIMS`) and an optional PC-access toggle
-  (`SWSH_PARTY_MENU_PC_ACCESS`).
-- **Summary screen** (`SWSH_SUMMARY_SCREEN`) — reworked summary with nature-colored
-  stats, category/split icons, IV/EV display, friendship heart, Gen 8 status/type icons,
-  contest pages, optional Dynamax/Gigantamax/Tera-type readouts, scrolling background,
-  mon shadows, and idle animations. Renaming and the move relearner reuse the base
-  `P_SUMMARY_SCREEN_*` configs.
-- **Storage system** (`SWSH_STORAGE_SYSTEM`) — SwSh-styled PC boxes with an optional
-  box-selection grid (auto-disabled above 15 boxes) and a scrolling background.
-- **Bag / item menu** (`SWSH_ITEM_MENU`) — SwSh bag with in-bag item actions (use/give
-  without opening the party menu), an in-battle in-bag path, an HP bar in the party slot
-  during item use, TM/HM contest info, and berry info.
-- **Message / name box** (`SWSH_MESSAGE_BOX`) — SwSh message and name box; when `TRUE`,
-  approaching NPC trainers can auto-show a name box (`OW_NAME_BOX_NPC_TRAINER`). When
-  `FALSE` the build is byte-identical vanilla in both code and graphics.
-- **Map-name pop-up** — the **`GEN_8` arm of `OW_POPUP_GENERATION`** (default `GEN_3`).
-  Setting `OW_POPUP_GENERATION` to `GEN_8` selects the SwSh location pop-up instead of
-  the Gen 3 / Gen 5 styles.
+- **Party menu** — SwSh-style party screen with idle mon animations and PC access,
+  plus the follower **"Follow" chooser** (below).
+- **Summary screen** — nature-colored stats, category/split icons, IV/EV display,
+  friendship heart, Gen 8 status/type icons, contest pages, scrolling background,
+  mon shadows, and idle animations.
+- **Storage system** — SwSh-styled PC boxes with a box-selection grid and scrolling
+  background; opening the boxes from the party menu returns you to the party menu.
+- **Bag / item menu** — in-bag item actions (use/give without the party menu), an
+  in-battle in-bag path, an HP bar in the party slot during item use, TM/HM contest
+  info, and berry info.
+- **Message / name box** — SwSh message and name box; approaching NPC trainers can
+  auto-show a name box.
 
 ### comfy\_anim shared animation library
 
-A small shared animation library (`src/comfy_anim.c` / `include/comfy_anim.h`) providing
-easing- and spring-based animations on Q\_24\_8 fixed-point values. It backs the idle and
-transition animations used across the SwSh UI suite.
+A small shared animation library (`src/comfy_anim.c` / `include/comfy_anim.h`)
+providing easing- and spring-based animations on Q\_24\_8 fixed-point values. It
+backs the idle and transition animations used across the SwSh UI suite.
+
+### Unbound-style graphical start menu
+
+An Unbound-inspired graphical Start menu (`PW_GRAPHICAL_START_MENU`,
+`include/config/start_menu.h`): sprite-icon entries the player can rearrange,
+day/night compatible, with a Quests entry. The classic list menu is kept for link
+play.
+
+### HGSS follower Pokémon
+
+HGSS-style follower Pokémon (`OW_FOLLOWERS_ENABLED`), with a Pokémon World
+addition: a **"Follow" chooser in the party menu**, so any party member — not just
+the lead — can be your follower.
+
+### Sky Charm overworld flight
+
+A key item (`ITEM_SKY_CHARM`) that toggles **free overworld flight** on a Flygon
+mount. Given by a keeper NPC in the World Transit hub once you've earned your first
+badge in any region; flying requires at least one badge in the **current** region.
 
 ### ORAS key-item registration wheel
 
-An ORAS-style **SELECT registration wheel** for key items, behind `I_KEY_ITEM_WHEEL`
-(`include/config/item.h`). When enabled, up to `I_MAX_REGISTERED_ITEMS` (default 4) key
-items can be registered to SELECT — one per D-Pad direction. Slot 1 reuses the vanilla
-`registeredItem`; the rest are stored in a new `registeredItemsExtra[]` field on
-SaveBlock1 (so enabling the flag grows the save schema).
+An ORAS-style **SELECT registration wheel** for key items (`I_KEY_ITEM_WHEEL`,
+`include/config/item.h`): up to `I_MAX_REGISTERED_ITEMS` (default 4) key items
+registered to SELECT — one per D-Pad direction.
 
 ### Pokevial — refillable party-heal key item
 
-A refillable key item that heals the whole party, behind `POKEVIAL_FEATURE`
-(`include/config/pokevial.h`). Holds a configurable number of doses
-(`POKEVIAL_MAX_SIZE`, default 15; `POKEVIAL_MIN_SIZE`, default 1) and adds a small field
-to SaveBlock3. The `POKEVIAL_SKIP_CUTSCENE` sub-toggle heals the party instantly instead
-of opening the party screen. The Pokevial's party-menu callbacks are wired into the SwSh
-party menu so `POKEVIAL_FEATURE` and `SWSH_PARTY_MENU` can be enabled together.
+A refillable key item that heals the whole party (`POKEVIAL_FEATURE`,
+`include/config/pokevial.h`). Holds a configurable number of doses
+(`POKEVIAL_MAX_SIZE`, default 15); `POKEVIAL_SKIP_CUTSCENE` heals instantly instead
+of opening the party screen. Fully integrated with the SwSh party menu.
 
 ### QOL HM / field-move item gate
 
-A quality-of-life field-move gate behind `QOL_FIELD_MOVES_ITEM_GATE`
-(`include/config/qol_field_moves.h`). When enabled, owning the corresponding tool item in
-the bag (`ITEM_CUT_TOOL` … `ITEM_DIVE_TOOL`) unlocks that field move, bypassing the
-badge/Pokémon requirement. Two further toggles (`QOL_FIELD_MOVES_AUTO_INTERACT`,
-`QOL_FIELD_MOVES_NO_MESSAGING`) are defined as stubs and are **not** implemented in this
-port.
+A quality-of-life field-move gate (`QOL_FIELD_MOVES_ITEM_GATE`,
+`include/config/qol_field_moves.h`): owning the corresponding tool item
+(`ITEM_CUT_TOOL` … `ITEM_DIVE_TOOL`) unlocks that field move, bypassing the
+badge/Pokémon requirement.
 
 ### Quests system
 
-A quest / mission-log system, ported with the quest menu deriving from FireRed quest-menu
-code (quests-feature lineage from
-[PokemonSanFran/pokeemerald](https://github.com/PokemonSanFran)). Configured in
-`include/config/quests.h`:
+A quest / mission-log system configured in `include/config/quests.h`:
 
-- **`QUEST_MENU`** — adds a Quest menu (mission log) to the Start menu and enables the
-  quest scripting commands. Enabling this grows SaveBlock3 (schema-critical).
-- **`QUEST_MENU_ALLOW_FAVORITES`** — lets favorited quests be pinned to the top of the
-  list.
-- **`QUEST_MENU_SHOW_PERCENTAGE`** — shows completion percentage in the menu header.
-- **`OW_QUEST_BRANCHING`** — complex per-quest branching: a quest's
-  description/location/icon can vary by a game VAR. Reads ordinary game VARs, so it does
-  **not** grow SaveBlock3. `OW_QUEST_MAX_STATES` (default 50 when branching is on, forced
-  to 1 when off) caps the number of branch states per quest.
+- **`QUEST_MENU`** — the Quest menu (mission log), reachable from the Start menu
+  (with its own icon in the graphical start menu).
+- **`QUEST_MENU_ALLOW_FAVORITES`** — pin favorited quests to the top of the list.
+- **`QUEST_MENU_SHOW_PERCENTAGE`** — completion percentage in the menu header.
+- **`OW_QUEST_BRANCHING`** — per-quest branching: a quest's description, location,
+  and icon can vary by a game VAR (`OW_QUEST_MAX_STATES` caps states per quest).
 
-Implementation spans the quest menu UI, quest script commands (`scrcmd`), the Start-menu
-hook, and the SaveBlock3 quest schema.
+## QoL & gameplay defaults
+
+Config flips and small features that shape how the shipped game plays:
+
+- **Reusable TMs** (`I_REUSABLE_TMS`) and **chain fishing** (`I_FISHING_CHAIN`).
+- **IV/EV pages** in the summary screen (`P_SUMMARY_SCREEN_IV_EV_INFO`) and
+  **dynamic move types** shown in battle/summary (`P_SHOW_DYNAMIC_TYPES`).
+- **Move relearners enabled**, including the TM-move relearner
+  (`P_ENABLE_MOVE_RELEARNERS`, `P_TM_MOVES_RELEARNER`).
+- **Type and effectiveness indicators always shown** in battle (`B_SHOW_TYPES`,
+  `B_SHOW_EFFECTIVENESS`), and **B moves the cursor to Run** in wild battles.
+- **Item descriptions shown on pickup** (`OW_SHOW_ITEM_DESCRIPTIONS`).
+- **Visible overworld wild encounters** (`WE_OW_ENCOUNTERS`) **in addition to**
+  vanilla random grass encounters (`WE_VANILLA_RANDOM`) — both fire on the same map
+  by design.
+- **Each region's starters are catchable** (~10% grass slots) on its first route —
+  Route 1, Route 29, and Route 101 — so the two starters you didn't pick are
+  obtainable.
+- **Auto-Run toggle** in the Options menu (which now scrolls to fit extra options).
+- **Safari Zone continue** — pay ₽500 to keep going when the Safari clock runs out.
+- **Chansey attendants** beside the nurse in Pokémon Centers.
+- **The wall clock is set once, globally** — no re-setting it in each region's
+  bedroom.
+
+## Developer additions
+
+- The **overworld debug menu ships enabled** — the release build is the dev build
+  by policy (warps, flag/var toggling, Pokémon/item generation, Fly-to-map, and
+  more). Numeric debug inputs support hold-to-repeat.
+- Compile-time invariants (`STATIC_ASSERT`s) guard the recurring save-layout and
+  overflow bug classes introduced by the merge (trainer-ID ranges, flag-bank
+  boundaries, `MapHeader` layout).
 
 ## Tools, libraries & systems
 
@@ -163,17 +268,16 @@ runners. A `make release` target builds with `NDEBUG` + LTO.
 the [all-contributors](https://allcontributors.org/) spec for the credits table in
 [CREDITS.md](CREDITS.md).
 
-## Planned / roadmap
+## Roadmap
 
-> **Not yet implemented.** Listed here for direction only — none of this is in the repo today.
+The three campaigns are built and link-green; the new-game flow is playtested and
+hardware-verified. What remains:
 
-- **Region merge — Hoenn + Kanto + Johto on one ROM.** Combine native Hoenn, the bundled
-  FireRed/LeafGreen Kanto maps (currently present but inert / only reachable via a
-  compile-time `IS_FRLG=1` switch), and Johto ported from
-  [PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS).
-  FireRed story reference: `evilchinesefood/FireRedDavesVersion`. The binding constraint is
-  IWRAM (~2.2 KB free), then ROM headroom (~6.7 MB after tileset deduplication); region
-  transitions would be scripted warps (ferry/train), not live map connections.
+- **Full-campaign and inter-region-travel playtest** — the main remaining gate.
+- A second QoL wave (autosave, nickname prompts, run shortcut, hard mode, EXP/catch
+  tuning, dynamic surf music).
+- Kanto **VS Seeker rematch** wiring and HGSS gym-leader / Elite Four portrait art
+  (currently remapped to the nearest existing portraits).
 
 ## Inherited from pokeemerald-expansion
 

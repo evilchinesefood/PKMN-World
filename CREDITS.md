@@ -2,9 +2,10 @@
 
 **Pokémon World** is a private GBA ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
-It bundles a curated set of features ported from several community projects on top
-of that engine. This file credits everyone whose work makes the project possible —
-the project lead, the base engine and its contributors, and the authors of every
+It merges three complete regions — **Kanto, Johto, and Hoenn** — into one game,
+together with a curated set of features ported from several community projects.
+This file credits everyone whose work makes the project possible — the project
+lead, the base engine and its contributors, and the authors of every region and
 feature merged in from other ROM-hack bases.
 
 If you build on Pokémon World, please carry these credits forward, and credit
@@ -38,10 +39,37 @@ The full list of pokeemerald-expansion contributors is preserved in the
 
 ---
 
-## Merged-in features & their sources
+## Merged-in regions, features & their sources
 
-Every feature below is included in Pokémon World behind a config flag (most default-off).
-Credit goes to the original authors and the bases they were ported from.
+Everything below is included — and enabled — in the shipped game. Credit goes to
+the original authors and the bases the content was ported from.
+
+### Johto region — PokemonHnS-Development/pokemonHnS
+
+The entire Johto campaign — ~245 maps with layouts, tilesets, and event scripts,
+231 trainer parties, wild-encounter tables, the Johto town map, and the full story
+through the Johto League and Mt. Silver — was ported from
+**[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
+("Pokémon Heart & Soul"), a pokeemerald-based Johto remake.
+
+- **The Pokémon Heart & Soul development team and contributors** — authors of the
+  Johto maps, scripts, data, and engine pieces this port is built from, including
+  the Ruins of Alph sliding-puzzle engine, the National Park Bug-Catching Contest
+  engine, and the Johto roamer routes.
+
+### Kanto region — FRLG content (pret lineage)
+
+The Kanto campaign uses the FireRed/LeafGreen maps, scripts, and trainer data
+bundled with the base engine, wired in Pokémon World into a live, completable
+campaign (runtime region checks, real FRLG trainer parties, gym leaders, Elite
+Four, and Champion Blue).
+
+- **[pret/pokefirered](https://github.com/pret/pokefirered)** by **pret** — the
+  FireRed/LeafGreen decompilation the bundled Kanto content derives from.
+- **[evilchinesefood/PKMN-FireRedDavesVersion](https://github.com/evilchinesefood/PKMN-FireRedDavesVersion)**
+  — the project lead's own FireRed hack, used as the Kanto story reference and as
+  the source of the **six-outfit palette-swap customization system** (regenerated
+  per-gender for the Brendan/May sprites).
 
 ### Sword/Shield UI suite — montmoguri/pokeemerald-expansion
 
@@ -98,31 +126,21 @@ complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in
 - Minimal HM / field-move item-gate behavior, gating field moves behind item possession.
   Implemented on the pokeemerald-expansion field-move system (RHH and contributors).
 
----
+### Unbound-inspired graphical start menu — miriamlefae/pokeemerald-expansion
 
-## Upcoming / planned sources (NOT yet merged)
+The graphical start menu (sprite-icon entries, player-rearrangeable icons, day/night
+compatible), enabled via `PW_GRAPHICAL_START_MENU`, was ported from
+**[miriamlefae/pokeemerald-expansion](https://github.com/miriamlefae/pokeemerald-expansion)**
+(branch [`feat/usm/upcoming`](https://github.com/miriamlefae/pokeemerald-expansion/tree/feat/usm/upcoming)).
+Credits per that branch's README:
 
-These are referenced for the planned region merge and are **not** present in the current
-build. They are listed only so future credit is not lost — do not treat them as included.
-
-- **[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
-  ("Pokémon Heart & Soul") — planned source for the Johto region.
-- **[evilchinesefood/FireRedDavesVersion](https://github.com/evilchinesefood/FireRedDavesVersion)**
-  — planned Kanto story reference (FRLG maps are bundled but currently inert).
-- **[miriamlefae/pokeemerald-expansion](https://github.com/miriamlefae/pokeemerald-expansion)**
-  (branch [`feat/usm/upcoming`](https://github.com/miriamlefae/pokeemerald-expansion/tree/feat/usm/upcoming))
-  — planned source for the Unbound-inspired graphical start menu (sprite-icon entries,
-  player-rearrangeable icons, day/night compatible; Alpha status). Credits per that
-  branch's README:
-  - **Miriam** ([miriamlefae](https://github.com/miriamlefae)) — author of the
-    graphical start menu branch.
-  - **Hedara** ([hedara90](https://github.com/hedara90)) — the sprite utility
-    functions in `even_sprite.c`.
-  - **Vol** — the original icon sprites (taken from Vol's start menu).
-  - **Brendan** — testing, bug fixes (battle pyramid and Safari Zone), and the
-    debug + Safari Zone icon assets from Brendan's fork of the branch.
-
-Full credit will be added when the planned Hoenn + Kanto + Johto region merge lands.
+- **Miriam** ([miriamlefae](https://github.com/miriamlefae)) — author of the
+  graphical start menu branch.
+- **Hedara** ([hedara90](https://github.com/hedara90)) — the sprite utility
+  functions in `even_sprite.c`.
+- **Vol** — the original icon sprites (taken from Vol's start menu).
+- **Brendan** — testing, bug fixes (battle pyramid and Safari Zone), and the
+  debug + Safari Zone icon assets from Brendan's fork of the branch.
 
 ---
 

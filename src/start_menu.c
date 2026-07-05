@@ -129,6 +129,7 @@ static bool8 HandleStartMenuInput(void);
 
 // Save dialog callbacks
 static u8 SaveConfirmSaveCallback(void);
+static u8 SaveCancelWhileFlyingCallback(void);
 static u8 SaveYesNoCallback(void);
 static u8 SaveConfirmInputCallback(void);
 static u8 SaveFileExistsCallback(void);
@@ -1058,10 +1059,21 @@ static bool8 SaveErrorTimer(void)
     return FALSE;
 }
 
+static const u8 sText_CantSaveWhileFlying[] = _("Let's land somewhere safe\nbefore saving!");
+
 static u8 SaveConfirmSaveCallback(void)
 {
     ClearStdWindowAndFrame(GetStartMenuWindowId(), FALSE);
     RemoveStartMenuWindow();
+
+    // F1 guardrail 6: saving mid-air could reload the player stranded over an
+    // unlandable tile, so refuse politely.
+    if (IsPlayerFlying())
+    {
+        ShowSaveMessage(sText_CantSaveWhileFlying, SaveCancelWhileFlyingCallback);
+        return SAVE_IN_PROGRESS;
+    }
+
     ShowSaveInfoWindow();
 
     if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
@@ -1073,6 +1085,16 @@ static u8 SaveConfirmSaveCallback(void)
         ShowSaveMessage(gText_ConfirmSave, SaveYesNoCallback);
     }
 
+    return SAVE_IN_PROGRESS;
+}
+
+static u8 SaveCancelWhileFlyingCallback(void)
+{
+    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+    {
+        HideSaveMessageWindow();
+        return SAVE_CANCELED;
+    }
     return SAVE_IN_PROGRESS;
 }
 

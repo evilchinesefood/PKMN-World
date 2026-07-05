@@ -155,6 +155,62 @@ RegionHub_Text_TravelFrontier:
 	.string "BATTLE FRONTIER.\p"
 	.string "Head to the BATTLE FRONTIER?$"
 
+@ F1: Sky Charm giver. Hands out the overworld free-flight key item once the player
+@ has earned at least ONE badge in ANY region (reuses the world-tour badge counter,
+@ which reads all three per-region badge banks). checkitem is the one-time gate:
+@ key items can't be tossed, so no dedicated flag is needed.
+RegionHub_EventScript_SkyCharmKeeper::
+	lock
+	faceplayer
+	checkitem ITEM_SKY_CHARM
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_SkyCharmAlreadyGiven
+	callnative RegionHub_ScrCountWorldTourBadges
+	goto_if_eq VAR_0x8000, 0, RegionHub_EventScript_SkyCharmNoBadge
+	msgbox RegionHub_Text_SkyCharmGive, MSGBOX_DEFAULT
+	giveitem ITEM_SKY_CHARM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_SkyCharmExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_SkyCharmNoBadge::
+	msgbox RegionHub_Text_SkyCharmComeBack, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_SkyCharmAlreadyGiven::
+	msgbox RegionHub_Text_SkyCharmEnjoy, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_Text_SkyCharmGive:
+	.string "Well now! I can tell by your eyes-\n"
+	.string "you've earned a GYM BADGE!\p"
+	.string "A TRAINER the wild flyers respect\n"
+	.string "deserves this.$"
+
+RegionHub_Text_SkyCharmExplain:
+	.string "That's the SKY CHARM.\p"
+	.string "Use it under the open sky and a\n"
+	.string "wild POKéMON will carry you over\l"
+	.string "anything-if you hold a BADGE from\l"
+	.string "the region you're in.\p"
+	.string "Use it again on solid ground\n"
+	.string "to land.$"
+
+RegionHub_Text_SkyCharmComeBack:
+	.string "The wild flyers only answer to\n"
+	.string "TRAINERS who've proven themselves.\p"
+	.string "Come back once you've earned a\n"
+	.string "GYM BADGE-any region will do.$"
+
+RegionHub_Text_SkyCharmEnjoy:
+	.string "How's the view from up there?\p"
+	.string "Remember-the flyers won't carry\n"
+	.string "you in a region where you haven't\l"
+	.string "earned a BADGE.$"
+
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
 @ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;
 @ this only reports progress. See .plans/features/03a Lane R R8.

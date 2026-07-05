@@ -47,6 +47,7 @@
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/map_types.h"
 #include "constants/songs.h"
 #if POKEVIAL_FEATURE
 #include "tv.h"
@@ -97,6 +98,9 @@ static void PokevialPrintNoDosesMessage(bool32 isPlayerUsingRegisteredKeyItem, u
 #endif
 
 static const u8 sText_CantDismountBike[] = _("You can't dismount your BIKE here.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_SkyCharmOnlyOutdoors[] = _("The SKY CHARM only responds\nunder the open sky.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_SkyCharmNoBadge[] = _("The SKY CHARM won't respond without\na GYM BADGE from this region.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_SkyCharmCantLand[] = _("You can't land here!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNearby[] = _("Huh?\nThe ITEMFINDER's responding!\pThere's an item buried around here!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderOnTop[] = _("Oh!\nThe ITEMFINDER's shaking wildly!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNothing[] = _("… … … …Nope!\nThere's no response.{PAUSE_UNTIL_PRESS}");
@@ -332,6 +336,66 @@ static void ItemUseOnFieldCB_Bike(u8 taskId)
     ScriptUnfreezeObjectEvents();
     UnlockPlayerFieldControls();
     DestroyTask(taskId);
+}
+
+// F1 Sky Charm: toggles overworld free-flight (see field_player_avatar.c).
+static void ItemUseOnFieldCB_SkyCharm(u8 taskId)
+{
+    // Re-verify: the bag path defers this callback until the field returns.
+    if (IsPlayerFlying())
+    {
+        if (CanLandOverworldFlight())
+            EndOverworldFlight();
+    }
+    else if (CanUseOverworldFlight())
+    {
+        StartOverworldFlight();
+    }
+    ScriptUnfreezeObjectEvents();
+    UnlockPlayerFieldControls();
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_SkyCharm(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (IsPlayerFlying())
+    {
+        if (CanLandOverworldFlight())
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_SkyCharm;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+        else
+        {
+            PlaySE(SE_BOO);
+            DisplayCannotUseItemMessage(taskId, tUsingRegisteredKeyItem, sText_SkyCharmCantLand);
+        }
+    }
+    else if (CanUseOverworldFlight())
+    {
+        sItemUseOnFieldCB = ItemUseOnFieldCB_SkyCharm;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+    else
+    {
+        switch (gMapHeader.mapType)
+        {
+        case MAP_TYPE_TOWN:
+        case MAP_TYPE_CITY:
+        case MAP_TYPE_ROUTE:
+        case MAP_TYPE_OCEAN_ROUTE:
+            if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ON_FOOT) || PlayerHasFollowerNPC())
+                DisplayDadsAdviceCannotUseItemMessage(taskId, tUsingRegisteredKeyItem);
+            else
+                DisplayCannotUseItemMessage(taskId, tUsingRegisteredKeyItem, sText_SkyCharmNoBadge);
+            break;
+        default: // guardrail 5: indoors/caves/underwater/secret bases
+            DisplayCannotUseItemMessage(taskId, tUsingRegisteredKeyItem, sText_SkyCharmOnlyOutdoors);
+            break;
+        }
+    }
 }
 
 static bool32 CanFish(void)

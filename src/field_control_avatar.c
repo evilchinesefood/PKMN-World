@@ -36,6 +36,7 @@
 #include "start_menu.h"
 #include "trainer_see.h"
 #include "trainer_hill.h"
+#include "unbound_start_menu.h"
 #include "vs_seeker.h"
 #include "wild_encounter.h"
 #include "wild_encounter_ow.h"
@@ -174,7 +175,19 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     GetPlayerPosition(&position);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
 
-    if (CheckForTrainersWantingBattle() == TRUE)
+    if (IsPlayerFlying())
+    {
+        // F1 airborne: no ground triggers - wild encounters (guardrail 4), warp
+        // tiles/doors/arrows (guardrail 3), step scripts/coord events, hidden
+        // mons and DexNav. Trainer line-of-sight is skipped below.
+        input->checkStandardWildEncounter = FALSE;
+        input->tookStep = FALSE;
+        input->heldDirection = FALSE;
+        input->heldDirection2 = FALSE;
+        input->pressedRButton = FALSE;
+    }
+
+    if (!IsPlayerFlying() && CheckForTrainersWantingBattle() == TRUE)
         return TRUE;
 
     if (TryRunOnFrameMapScript() == TRUE)
@@ -229,7 +242,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     {
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
+#if PW_GRAPHICAL_START_MENU
+        Usm_InitStartMenu();
+#else
         ShowStartMenu();
+#endif
         return TRUE;
     }
 

@@ -73,5 +73,12 @@ enum Direction GetLeftSideStairsDirection(enum Direction direction);
 void UpdateSpinData(void);
 void ResetSpinTimer(void);
 bool32 CanTriggerSpinEvolution();
+// F1 overworld free-flight (Sky Charm)
+bool32 IsPlayerFlying(void);
+bool32 CanUseOverworldFlight(void);
+bool32 CanLandOverworldFlight(void);
+void StartOverworldFlight(void);
+void EndOverworldFlight(void);
+void ResetOverworldFlight(void);
 
 #endif // GUARD_FIELD_PLAYER_AVATAR_H

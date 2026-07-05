@@ -34,6 +34,7 @@
 #include "constants/metatile_behaviors.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 #include "constants/trainer_types.h"
 #include "regions.h"
 
@@ -63,6 +64,17 @@ static EWRAM_DATA u8 sSpinStartFacingDir = 0;
 EWRAM_DATA struct ObjectEvent gObjectEvents[OBJECT_EVENTS_COUNT] = {};
 EWRAM_DATA struct PlayerAvatar gPlayerAvatar = {};
 EWRAM_DATA struct SpinData gPlayerSpinData = {};
+
+// F1 overworld free-flight (Sky Charm). Runtime-only state, deliberately kept
+// OUTSIDE gPlayerAvatar: that struct is memset on every return to field
+// (SpawnObjectEventsOnReturnToField) and on every warp, while flight must
+// survive menu round-trips and end on warps (handled in InitPlayerAvatar).
+static EWRAM_DATA bool8 sFlightActive = FALSE;
+// EWRAM demands zero init; ResetOverworldFlight (InitPlayerAvatar) arms the MAX_SPRITES sentinel before any use
+static EWRAM_DATA u8 sFlightMountSpriteId = 0;
+
+#define FLIGHT_MOUNT_GFX     OBJ_EVENT_GFX_SPECIES(FLYGON) // ridden flying-mon sprite
+#define FLIGHT_HOVER_OFFSET  (-4)                          // px lift while airborne
 
 // static declarations
 static u8 ObjectEventCB2_NoMovement2(void);
@@ -95,6 +107,12 @@ static bool8 ForcedMovement_SpinLeft(void);
 static bool8 ForcedMovement_SpinUp(void);
 static bool8 ForcedMovement_SpinDown(void);
 static void PlaySpinSound(void);
+
+static void MovePlayerFlying(enum Direction);
+static enum Collision CheckForPlayerAvatarFlyingCollision(enum Direction);
+static void CreateFlightMountSprite(void);
+static void DestroyFlightMountSprite(void);
+static void SpriteCB_FlightMount(struct Sprite *);
 
 static void MovePlayerNotOnBike(enum Direction, u16);
 static u8 CheckMovementInputNotOnBike(enum Direction);
@@ -445,7 +463,9 @@ static void npc_clear_strange_bits(struct ObjectEvent *objEvent)
 
 static void MovePlayerAvatarUsingKeypadInput(enum Direction direction, u16 newKeys, u16 heldKeys)
 {
-    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    if (sFlightActive)
+        MovePlayerFlying(direction);
+    else if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         MovePlayerOnBike(direction, newKeys, heldKeys);
     else
         MovePlayerNotOnBike(direction, heldKeys);
@@ -488,6 +508,9 @@ bool8 TryDoMetatileBehaviorForcedMovement(void)
 static u8 GetForcedMovementByMetatileBehavior(void)
 {
     u8 i;
+
+    if (sFlightActive)
+        return 0; // airborne: ice, currents, slopes and spin tiles don't grip
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_CONTROLLABLE))
     {
@@ -960,6 +983,196 @@ static enum Collision CheckForPlayerAvatarStaticCollision(enum Direction directi
     y = playerObjEvent->currentCoords.y;
     MoveCoords(direction, &x, &y);
     return CheckForObjectEventStaticCollision(playerObjEvent, x, y, direction, MapGridGetMetatileBehaviorAt(x, y));
+}
+
+// ---------------------------------------------------------------------------
+// F1 overworld free-flight (Sky Charm)
+// ---------------------------------------------------------------------------
+
+bool32 IsPlayerFlying(void)
+{
+    return sFlightActive;
+}
+
+// F1 use gate - the single tunable choke point for takeoff.
+bool32 CanUseOverworldFlight(void)
+{
+    u32 i;
+
+    switch (gMapHeader.mapType)
+    {
+    // Outdoor surface maps only; INDOOR, UNDERGROUND (caves), UNDERWATER and
+    // SECRET_BASE all refuse (guardrail 5).
+    case MAP_TYPE_TOWN:
+    case MAP_TYPE_CITY:
+    case MAP_TYPE_ROUTE:
+    case MAP_TYPE_OCEAN_ROUTE:
+        break;
+    default:
+        return FALSE;
+    }
+    if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ON_FOOT)
+     || TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_FORCED_MOVE))
+        return FALSE;
+    if (PlayerHasFollowerNPC())
+        return FALSE; // a scripted companion can't follow into the air
+    // Guardrail 7 (no toggling mid-script/cutscene) needs no probe here: the bag
+    // and the registered SELECT item are unreachable while a script has the field
+    // input locked, and forced movement blocks button input at the source.
+    for (i = 0; i < NUM_BADGES; i++)
+    {
+        if (HasCurrentRegionBadge(i))
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// Guardrail 2: land only where a normal step could stand at ground level.
+bool32 CanLandOverworldFlight(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    s16 x = playerObjEvent->currentCoords.x;
+    s16 y = playerObjEvent->currentCoords.y;
+    u8 behavior = MapGridGetMetatileBehaviorAt(x, y);
+
+    if (MetatileBehavior_IsSurfableWaterOrUnderwater(behavior)
+     || MetatileBehavior_IsWaterfall(behavior)
+     || MetatileBehavior_IsJumpSouth(behavior)
+     || MetatileBehavior_IsJumpNorth(behavior)
+     || MetatileBehavior_IsJumpEast(behavior)
+     || MetatileBehavior_IsJumpWest(behavior))
+        return FALSE;
+    // Same test a normal step onto this tile would run: walls, elevation
+    // mismatch, and any object event underneath.
+    return GetCollisionAtCoords(playerObjEvent, x, y, playerObjEvent->facingDirection) == COLLISION_NONE;
+}
+
+void StartOverworldFlight(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    sFlightActive = TRUE;
+    ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
+    ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
+    SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
+    CreateFlightMountSprite();
+    PlaySE(SE_M_FLY);
+}
+
+void EndOverworldFlight(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    sFlightActive = FALSE;
+    DestroyFlightMountSprite();
+    gSprites[playerObjEvent->spriteId].y2 = 0;
+    playerObjEvent->noShadow = TRUE; // UpdateShadowFieldEffect despawns the flight shadow
+    ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
+    ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
+    SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
+    PlaySE(SE_LEDGE);
+}
+
+// Map (re)load path: sprites are torn down wholesale, so only drop the state.
+// Flight never survives a warp; every warp destination stands on solid ground.
+void ResetOverworldFlight(void)
+{
+    sFlightActive = FALSE;
+    sFlightMountSpriteId = MAX_SPRITES;
+}
+
+static void CreateFlightMountSprite(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    struct Sprite *playerSprite = &gSprites[playerObjEvent->spriteId];
+
+    sFlightMountSpriteId = CreateObjectGraphicsSprite(FLIGHT_MOUNT_GFX, SpriteCB_FlightMount,
+                                                      playerSprite->x, playerSprite->y + 8, 150);
+    if (sFlightMountSpriteId != MAX_SPRITES)
+        gSprites[sFlightMountSpriteId].coordOffsetEnabled = TRUE;
+    playerObjEvent->noShadow = FALSE;
+    StartFieldEffectForObjectEvent(FLDEFF_SHADOW, playerObjEvent);
+}
+
+static void DestroyFlightMountSprite(void)
+{
+    if (sFlightMountSpriteId != MAX_SPRITES)
+    {
+        u8 paletteNum = gSprites[sFlightMountSpriteId].oam.paletteNum;
+
+        DestroySprite(&gSprites[sFlightMountSpriteId]);
+        FieldEffectFreePaletteIfUnused(paletteNum);
+        sFlightMountSpriteId = MAX_SPRITES;
+    }
+}
+
+#define sBobTimer data[0]
+
+static void SpriteCB_FlightMount(struct Sprite *sprite)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    struct Sprite *playerSprite = &gSprites[playerObjEvent->spriteId];
+    s16 bobY = FLIGHT_HOVER_OFFSET + ((++sprite->sBobTimer & 0x10) ? 1 : 0);
+
+    // Wings stay in motion: always run the directional GO anim.
+    StartSpriteAnimIfDifferent(sprite, GetMoveDirectionAnimNum(playerObjEvent->facingDirection));
+    sprite->x = playerSprite->x;
+    sprite->y = playerSprite->y + 8;
+    sprite->y2 = bobY;
+    playerSprite->y2 = bobY;
+    sprite->oam.priority = playerSprite->oam.priority;
+    sprite->subpriority = playerSprite->subpriority + 1;
+    sprite->invisible = playerSprite->invisible;
+}
+
+#undef sBobTimer
+
+// Guardrail 1: only the map border stops flight - stepping where there is no
+// connection is blocked exactly as on foot (GetCollisionAtCoords uses the same
+// GetMapBorderIdAt test); everything else (walls, ledges, water, elevation,
+// object events) is passed over.
+static enum Collision CheckForPlayerAvatarFlyingCollision(enum Direction direction)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    s16 x = playerObjEvent->currentCoords.x;
+    s16 y = playerObjEvent->currentCoords.y;
+
+    MoveCoords(direction, &x, &y);
+    if (GetMapBorderIdAt(x, y) == CONNECTION_INVALID || !CanCameraMoveInDirection(direction))
+        return COLLISION_IMPASSABLE;
+    return COLLISION_NONE;
+}
+
+static void MovePlayerFlying(enum Direction direction)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    switch (CheckMovementInputNotOnBike(direction))
+    {
+    case NOT_MOVING:
+        PlayerFaceDirection(GetPlayerFacingDirection());
+        break;
+    case TURN_DIRECTION:
+        PlayerTurnInPlace(direction);
+        break;
+    case MOVING:
+        if (CheckForPlayerAvatarFlyingCollision(direction) != COLLISION_NONE)
+        {
+            PlayerNotOnBikeCollide(direction);
+        }
+        else
+        {
+            PlayerWalkFaster(direction); // Mach Bike top speed, no ramp-up
+            // Keep the ground shadow alive; UpdateShadowFieldEffect retires it
+            // over water, so re-arm on dry steps (FldEff_Shadow de-dupes).
+            if (!MetatileBehavior_IsSurfableWaterOrUnderwater(playerObjEvent->currentMetatileBehavior))
+            {
+                playerObjEvent->noShadow = FALSE;
+                StartFieldEffectForObjectEvent(FLDEFF_SHADOW, playerObjEvent);
+            }
+        }
+        break;
+    }
 }
 
 enum Collision CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, enum Direction direction, u8 metatileBehavior)
@@ -1698,6 +1911,21 @@ void SetPlayerAvatarExtraStateTransition(u16 graphicsId, u8 transitionFlag)
 {
     u8 stateFlag = GetPlayerAvatarStateTransitionByGraphicsId(graphicsId, gPlayerAvatar.gender);
 
+    if (sFlightActive)
+    {
+        // Mid-flight return to field (menu teardown rebuilt all sprites): the
+        // surf-pose gfx must not be read back as surfing (would spawn a surf
+        // blob on land) - stay on foot and reattach the flight mount instead.
+        gPlayerAvatar.transitionFlags |= transitionFlag;
+        DoPlayerAvatarTransition();
+        gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_ON_FOOT;
+        ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId],
+                                 GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
+        sFlightMountSpriteId = MAX_SPRITES; // old mount died with the sprite reset
+        CreateFlightMountSprite();
+        return;
+    }
+
     gPlayerAvatar.transitionFlags |= stateFlag | transitionFlag;
     DoPlayerAvatarTransition();
 }
@@ -1726,6 +1954,7 @@ void InitPlayerAvatar(s16 x, s16 y, enum Direction direction, enum Gender gender
     objectEvent->warpArrowSpriteId = CreateWarpArrowSprite();
     ObjectEventTurn(objectEvent, direction);
     ClearPlayerAvatarInfo();
+    ResetOverworldFlight(); // flight never survives a warp
     gPlayerAvatar.runningState = NOT_MOVING;
     gPlayerAvatar.tileTransitionState = T_NOT_MOVING;
     gPlayerAvatar.objectEventId = objectEventId;

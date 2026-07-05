@@ -1341,6 +1341,10 @@ enum PlayerSpeed GetPlayerSpeed(void)
 
     memcpy(machSpeeds, sMachBikeSpeeds, sizeof(machSpeeds));
 
+    // Sky Charm flight glides at Mach top speed; report NORMAL while hovering
+    // in place so buttons (bag/menu, i.e. landing) still register.
+    if (IsPlayerFlying())
+        return (gPlayerAvatar.runningState == MOVING) ? PLAYER_SPEED_FASTEST : PLAYER_SPEED_NORMAL;
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
         return machSpeeds[gPlayerAvatar.bikeFrameCounter];
     else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE)

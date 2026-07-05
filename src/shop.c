@@ -315,7 +315,11 @@ static const struct WindowTemplate sShopBuyMenuWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 15,
+#if SWSH_MESSAGE_BOX
+        .width = 26,
+#else
         .width = 27,
+#endif
         .height = 4,
         .paletteNum = 15,
         .baseBlock = 0x01A2,

@@ -3,6 +3,7 @@
 #include "field_camera.h"
 #include "field_effect.h"
 #include "field_effect_helpers.h"
+#include "field_player_avatar.h"
 #include "field_weather.h"
 #include "fieldmap.h"
 #include "gpu_regs.h"
@@ -1208,16 +1209,34 @@ static void UpdateAshFieldEffect_End(struct Sprite *sprite)
 u32 FldEff_SurfBlob(void)
 {
     u8 spriteId;
+    u16 monGfxId = OBJ_EVENT_GFX_SPECIES(NONE);
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
-    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SURF_BLOB], gFieldEffectArguments[0], gFieldEffectArguments[1], 150);
+    // Dynamic surf mount is for the player's blob only: NPC-follower blobs stay
+    // generic, and Sky Charm flight reuses the surf pose without ever starting
+    // this effect (the IsPlayerFlying check is belt-and-braces).
+    if (gFieldEffectArguments[2] == gPlayerAvatar.objectEventId && !IsPlayerFlying())
+        monGfxId = GetSurfMountGraphicsId();
+
+    if (monGfxId != OBJ_EVENT_GFX_SPECIES(NONE))
+    {
+        // Species OW sprite as the mount; handles tiles/palette (follower
+        // system) and 64x64 subsprites. Blob anims 0-3 == face anims 0-3,
+        // so UpdateSurfBlobFieldEffect drives it unchanged.
+        spriteId = CreateObjectGraphicsSprite(monGfxId, UpdateSurfBlobFieldEffect, gFieldEffectArguments[0], gFieldEffectArguments[1], 150);
+    }
+    else
+    {
+        spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SURF_BLOB], gFieldEffectArguments[0], gFieldEffectArguments[1], 150);
+        // Can use either gender's palette, so try to use the one that should be loaded
+        if (spriteId != MAX_SPRITES)
+            gSprites[spriteId].oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+    }
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled = TRUE;
         sprite->sPlayerObjId = gFieldEffectArguments[2];
-        // Can use either gender's palette, so try to use the one that should be loaded
-        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
         sprite->sVelocity = -1;
         sprite->sPrevX = -1;
         sprite->sPrevY = -1;

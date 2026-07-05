@@ -3618,7 +3618,11 @@ static void FlyOutFieldEffect_JumpOnBird(struct Task *task)
         ObjectEventSetHeldMovement(objectEvent, MOVEMENT_ACTION_JUMP_IN_PLACE_LEFT);
         if (task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING)
         {
+            u8 mountPalNum = gSprites[objectEvent->fieldEffectSpriteId].oam.paletteNum;
+
             DestroySprite(&gSprites[objectEvent->fieldEffectSpriteId]);
+            // Free the dynamic surf mount's species palette if it held one
+            FieldEffectFreePaletteIfUnused(mountPalNum);
         }
         task->tState++;
         task->tTimer = 0;

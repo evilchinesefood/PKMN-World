@@ -2244,11 +2244,16 @@ static void Task_WaitStopSurfing(u8 taskId)
 
     if (ObjectEventClearHeldMovementIfFinished(playerObjEvent))
     {
+        u8 mountPalNum = gSprites[playerObjEvent->fieldEffectSpriteId].oam.paletteNum;
+
         ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
         ObjectEventSetHeldMovement(playerObjEvent, GetFaceDirectionMovementAction(playerObjEvent->facingDirection));
         gPlayerAvatar.preventStep = FALSE;
         UnlockPlayerFieldControls();
         DestroySprite(&gSprites[playerObjEvent->fieldEffectSpriteId]);
+        // Dynamic surf mount may hold a species palette; the vanilla blob's
+        // player palette is always in use, so this is a no-op for it.
+        FieldEffectFreePaletteIfUnused(mountPalNum);
 #ifdef BUGFIX
         // If this is not defined but the player steps into grass from surfing, they will appear over the grass instead of in the grass.
         playerObjEvent->triggerGroundEffectsOnMove = TRUE;

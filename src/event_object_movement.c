@@ -2358,6 +2358,35 @@ bool8 GetFollowerInfo(u32 *species, bool32 *shiny, bool32 *female)
     return GetMonInfo(GetFirstLiveMon(), species, shiny, female);
 }
 
+// OW gfx id for the surf mount: the first non-egg party mon that knows Surf.
+// Returns OBJ_EVENT_GFX_SPECIES(NONE) when the generic surf blob should be
+// used instead: no such mon (badge/item-gated field moves allow that), no
+// usable OW gfx, or oversized gfx indoors (same rule as the follower system).
+u16 GetSurfMountGraphicsId(void)
+{
+    u32 i, species;
+    bool32 shiny, female;
+
+    if (!OW_POKEMON_OBJECT_EVENTS || !OW_SURF_USES_MON_SPRITE)
+        return OBJ_EVENT_GFX_SPECIES(NONE);
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+
+        if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG
+         || !MonKnowsMove(mon, MOVE_SURF))
+            continue;
+        if (!GetMonInfo(mon, &species, &shiny, &female)
+         || SpeciesToGraphicsInfo(species, shiny, female) == NULL
+         || (gMapHeader.mapType == MAP_TYPE_INDOOR && SpeciesToGraphicsInfo(species, shiny, female)->oam->size > ST_OAM_SIZE_2))
+            break;
+        return GetGraphicsIdForMon(species, shiny, female);
+    }
+    return OBJ_EVENT_GFX_SPECIES(NONE);
+}
+
 // Update following Pokémon if any
 void UpdateFollowingPokemon(void)
 {

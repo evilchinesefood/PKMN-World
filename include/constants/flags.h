@@ -1339,11 +1339,15 @@
 #define FLAG_UNUSED_0x4FF                                           0x4FF // Unused Flag
 
 // Trainer Flags
-// Trainer flags occupy 0x500 - 0x85F, the last 9 of which are unused
-// See constants/opponents.h. The values there + FLAG_TRAINER_FLAG_START are the flag IDs
+// Inline trainer flags occupy 0x500 - 0x947 (Hoenn+Johto trainer ids 0..1095).
+// See constants/opponents.h. The values there + TRAINER_FLAGS_START are the flag IDs.
+// FROZEN at TRAINERS_COUNT_HOENN_JOHTO (E5-1): this window anchors SYSTEM_FLAGS and every
+// later SaveBlock1 flag, so it must NOT track TRAINERS_COUNT. Kanto trainer ids
+// (>= KANTO_TRAINER_ID_OFFSET) keep their defeat flags in SaveBlock3 (see region_flags.h
+// FLAG_KANTO_TRAINER_BASE and TrainerIdToDefeatFlag() in battle_setup.c).
 
 #define TRAINER_FLAGS_START                                         0x500
-#define TRAINER_FLAGS_END                                           (TRAINER_FLAGS_START + MAX_TRAINERS_COUNT - 1) // 0x85F
+#define TRAINER_FLAGS_END                                           (TRAINER_FLAGS_START + TRAINERS_COUNT_HOENN_JOHTO - 1) // 0x947
 
 // System Flags
 

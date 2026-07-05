@@ -307,6 +307,7 @@ struct SaveBlock3
     u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
     u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
     struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
+    u8 kantoTrainerFlags[NUM_KANTO_TRAINER_FLAG_BYTES]; // Kanto trainer defeat-flag bank = 80 bytes (save format v3+)
 }; /* max size 1624 bytes */
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;

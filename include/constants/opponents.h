@@ -1113,14 +1113,24 @@
 #define TRAINER_LANCE_1                    1094
 #define TRAINER_LANCE_2                    1095
 
-// NOTE: TRAINER_LANCE_2 = 1095 is the last id and TRAINERS_COUNT_EMERALD = 1096, so the table
-//       is FULL - 0 free ids (the Johto port consumed the former slack). A build-time
-//       STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT) in src/data.c now guards this.
-//       Adding a trainer means bumping TRAINERS_COUNT_EMERALD, which grows SaveBlock space AND
-//       shifts the SYSTEM/DAILY flag chain (see deep-review task 1) - re-run GenKantoFlagBank.py.
+// NOTE: the Hoenn+Johto block (ids 0..1095, TRAINER_LANCE_2 last) is FULL and its count is
+//       FROZEN: those ids' defeat flags are inline SaveBlock1 flags (TRAINER_FLAGS_START + id),
+//       so TRAINERS_COUNT_HOENN_JOHTO anchors TRAINER_FLAGS_END/SYSTEM_FLAGS/DAILY_FLAGS/
+//       FLAG_KANTO_BASE and must NEVER grow - that would shift every later SaveBlock1 flag
+//       and corrupt existing saves. The Kanto block (E5-1) sits above it (ids 1097..1719,
+//       rebased in opponents_frlg.h) and keeps its defeat flags in the SaveBlock3 bank
+//       (TrainerIdToDefeatFlag), which is why it grows TRAINERS_COUNT without moving any
+//       SaveBlock1 flag. Future trainers go in the Kanto bank's spare flag ids (16 free)
+//       or a new SaveBlock3 bank - never by growing the frozen Hoenn+Johto window.
 
-#define TRAINERS_COUNT_EMERALD     1096
-#define MAX_TRAINERS_COUNT_EMERALD 1096
+#define TRAINERS_COUNT_HOENN_JOHTO 1096
+
+#if ALL_REGIONS
+#define TRAINERS_COUNT_EMERALD     (KANTO_TRAINER_ID_OFFSET + TRAINERS_COUNT_FRLG) // 1720
+#else
+#define TRAINERS_COUNT_EMERALD     TRAINERS_COUNT_HOENN_JOHTO
+#endif
+#define MAX_TRAINERS_COUNT_EMERALD TRAINERS_COUNT_EMERALD
 
 #if IS_FRLG
 #define TRAINERS_COUNT                      TRAINERS_COUNT_FRLG

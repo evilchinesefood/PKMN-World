@@ -260,6 +260,9 @@ u8 *GetFlagPointer(u16 id)
     // Region merge: reserved Johto flag bank, stored in SaveBlock3 (see region_flags.h).
     else if (id >= FLAG_JOHTO_BASE && id <= FLAG_JOHTO_END)
         return &gSaveBlock3Ptr->johtoFlags[(id - FLAG_JOHTO_BASE) / 8];
+    // Region merge (E5-1): Kanto trainer defeat-flag bank, stored in SaveBlock3.
+    else if (id >= FLAG_KANTO_TRAINER_BASE && id <= FLAG_KANTO_TRAINER_END)
+        return &gSaveBlock3Ptr->kantoTrainerFlags[(id - FLAG_KANTO_TRAINER_BASE) / 8];
 #if TESTING
     else if (id >= TESTING_FLAGS_START)
         return &sTestFlags[(id - TESTING_FLAGS_START) / 8];

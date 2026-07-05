@@ -98,6 +98,11 @@ void MigrateSaveFormatIfNeeded(void)
     // field - v1 region-bank/bit semantics are untouched.
     if (savedVersion < 2)
         memset(&gSaveBlock3Ptr->usmSaved, 0, sizeof(gSaveBlock3Ptr->usmSaved));
+    // v2 -> v3: SaveBlock3.kantoTrainerFlags (Kanto trainer defeat-flag bank, E5-1) was
+    // appended after usmSaved; on older saves those bytes are uninitialised flash. Zero ONLY
+    // the new bank - no Kanto trainer was beatable before v3, so "none defeated" is correct.
+    if (savedVersion < 3)
+        memset(gSaveBlock3Ptr->kantoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->kantoTrainerFlags));
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
@@ -106,6 +111,7 @@ void MigrateSaveFormatIfNeeded(void)
 // If any of these change, bump SAVE_FORMAT_VERSION and add a matching ladder step above.
 STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
+STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
 #endif // ALL_REGIONS
 

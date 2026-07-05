@@ -233,6 +233,12 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 #include "data/trainers_frlg.h"
 #else
 #include "data/trainers.h"
+#if ALL_REGIONS
+// Region merge (E5-1): Kanto (FRLG) parties resident at the id block after Johto -
+// opponents_frlg.h rebases every TRAINER_* by KANTO_TRAINER_ID_OFFSET, so these
+// designated initializers land at ids 1097..1719.
+#include "data/trainers_frlg.h"
+#endif
 #endif
 };
 #endif
@@ -243,6 +249,9 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT, KantoJohtoTrainerIdsExceedTrainersCount);
 #if ALL_REGIONS
 STATIC_ASSERT(!IS_FRLG, AllRegionsBuildMustNotFoldToFrlgTrainerCount);
+// Kanto trainer block geometry (E5-1): starts right after Johto, ends at TRAINERS_COUNT-1.
+STATIC_ASSERT(KANTO_TRAINER_ID_OFFSET == TRAINER_LANCE_2 + 1, KantoTrainerBlockMustStartAfterJohto);
+STATIC_ASSERT(TRAINER_CUE_BALL_PAXTON == TRAINERS_COUNT - 1, KantoTrainerBlockMustEndAtTrainersCount);
 #endif
 
 #include "data/text/follower_messages.h"

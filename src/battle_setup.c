@@ -1027,14 +1027,32 @@ static void TryUpdateGymLeaderRematchFromTrainer(void)
         UpdateGymLeaderRematch();
 }
 
+// Region merge (E5-1): Kanto trainer ids sit above the frozen inline defeat-flag window
+// (TRAINER_FLAGS_START + 0..TRAINERS_COUNT_HOENN_JOHTO-1 in SaveBlock1); their defeat
+// flags live in the SaveBlock3 Kanto bank instead, so SaveBlock1's flag layout never
+// shifts. Every trainer-id -> defeat-flag conversion MUST go through this helper.
+u16 TrainerIdToDefeatFlag(u16 trainerId)
+{
+#if ALL_REGIONS
+    if (trainerId >= KANTO_TRAINER_ID_OFFSET)
+        return FLAG_KANTO_TRAINER_BASE + (trainerId - KANTO_TRAINER_ID_OFFSET);
+#endif
+    return TRAINER_FLAGS_START + trainerId;
+}
+
+#if ALL_REGIONS
+STATIC_ASSERT(TRAINERS_COUNT - KANTO_TRAINER_ID_OFFSET <= KANTO_TRAINER_FLAG_BANK_SIZE, KantoTrainerDefeatFlagsExceedSaveBlock3Bank);
+STATIC_ASSERT(KANTO_TRAINER_ID_OFFSET == TRAINERS_COUNT_HOENN_JOHTO, KantoTrainerBlockMustStartAtFrozenInlineWindow);
+#endif
+
 static u16 GetTrainerAFlag(void)
 {
-    return TRAINER_FLAGS_START + TRAINER_BATTLE_PARAM.opponentA;
+    return TrainerIdToDefeatFlag(TRAINER_BATTLE_PARAM.opponentA);
 }
 
 static u16 GetTrainerBFlag(void)
 {
-    return TRAINER_FLAGS_START + TRAINER_BATTLE_PARAM.opponentB;
+    return TrainerIdToDefeatFlag(TRAINER_BATTLE_PARAM.opponentB);
 }
 
 static bool32 IsPlayerDefeated(u32 battleOutcome)
@@ -1245,7 +1263,7 @@ void SetUpTwoTrainersBattle(void)
 bool32 GetTrainerFlagFromScriptPointer(const u8 *data)
 {
     TrainerBattleParameter *temp = (TrainerBattleParameter*)(data + OPCODE_OFFSET);
-    return FlagGet(TRAINER_FLAGS_START + temp->params.opponentA);
+    return FlagGet(TrainerIdToDefeatFlag(temp->params.opponentA));
 }
 
 bool32 GetRematchFromScriptPointer(const u8 *data)
@@ -1303,17 +1321,17 @@ static void UNUSED SetBattledTrainerFlag(void)
 
 bool8 HasTrainerBeenFought(u16 trainerId)
 {
-    return FlagGet(TRAINER_FLAGS_START + trainerId);
+    return FlagGet(TrainerIdToDefeatFlag(trainerId));
 }
 
 void SetTrainerFlag(u16 trainerId)
 {
-    FlagSet(TRAINER_FLAGS_START + trainerId);
+    FlagSet(TrainerIdToDefeatFlag(trainerId));
 }
 
 void ClearTrainerFlag(u16 trainerId)
 {
-    FlagClear(TRAINER_FLAGS_START + trainerId);
+    FlagClear(TrainerIdToDefeatFlag(trainerId));
 }
 
 void BattleSetup_StartTrainerBattle(void)

@@ -28,6 +28,17 @@
 #define FLAG_JOHTO_END             (FLAG_JOHTO_BASE + JOHTO_FLAG_BANK_SIZE - 1) // 0x63FF
 #define NUM_JOHTO_FLAG_BYTES       (JOHTO_FLAG_BANK_SIZE / 8) // 128
 
+// Kanto trainer defeat-flag bank (E5-1). The Kanto trainer-id block (opponents_frlg.h,
+// ids KANTO_TRAINER_ID_OFFSET+1..TRAINERS_COUNT-1) cannot use the inline
+// TRAINER_FLAGS_START window without shifting every later SaveBlock1 flag, so its defeat
+// flags live in their own SaveBlock3 array (kantoTrainerFlags[]), reached by a dedicated
+// branch in GetFlagPointer(). TrainerIdToDefeatFlag() (battle_setup.c) maps trainer id ->
+// flag id. 640 flags reserved, 624 used -> 16 spare ids for future Kanto-side trainers.
+#define FLAG_KANTO_TRAINER_BASE      0x6400 // directly above the Johto bank
+#define KANTO_TRAINER_FLAG_BANK_SIZE 0x280  // 640 flags -> kantoTrainerFlags[80] in SaveBlock3
+#define FLAG_KANTO_TRAINER_END       (FLAG_KANTO_TRAINER_BASE + KANTO_TRAINER_FLAG_BANK_SIZE - 1) // 0x667F
+#define NUM_KANTO_TRAINER_FLAG_BYTES (KANTO_TRAINER_FLAG_BANK_SIZE / 8) // 80
+
 // Per-region gym badges (8 each). Hoenn keeps the native FLAG_BADGE01..08_GET system flags.
 // Kanto and Johto store their 8 badges in a FREE slice of their per-region bank; every badge
 // consumer goes through GetBadgeFlag()/FLAG_*_BADGE(i), so the exact slice can be anything

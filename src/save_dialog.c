@@ -52,7 +52,6 @@ static u8 SaveConfirmSaveCallback(void);
 static u8 BattlePyramidConfirmRetireCallback(void);
 static u8 BattlePyramidRetireYesNoCallback(void);
 static u8 BattlePyramidRetireInputCallback(void);
-static bool8 BattlePyramidRetireReturnCallback(void);
 
 EWRAM_DATA static u8 (*sSaveDialogCallback)(void) = NULL;
 EWRAM_DATA static u8 sSaveDialogTimer = 0;
@@ -414,7 +413,9 @@ void Task_SaveDialogHandleBattlePyramidRetire(u8 taskId)
         ClearDialogWindowAndFrameToTransparent(0, TRUE);
         ScriptUnfreezeObjectEvents();
         UnlockPlayerFieldControls();
-        gMenuCallback = BattlePyramidRetireReturnCallback;
+        // Reopen the graphical menu directly; nothing polls gMenuCallback in
+        // the USM flow. Mirrors the Safari retire decline (initusm).
+        Usm_InitStartMenu();
         DestroyTask(taskId);
         break;
     case USM_SAVE_IN_PROGRESS:
@@ -466,12 +467,6 @@ static u8 BattlePyramidRetireInputCallback(void)
     }
 
     return USM_SAVE_IN_PROGRESS;
-}
-
-static bool8 BattlePyramidRetireReturnCallback(void)
-{
-    Usm_InitStartMenu();
-    return FALSE;
 }
 
 #endif // PW_GRAPHICAL_START_MENU

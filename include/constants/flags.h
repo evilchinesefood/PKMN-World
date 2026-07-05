@@ -53,7 +53,7 @@
 
 #else
 
-#define FLAG_UNUSED_0x020    0x20 // Unused Flag
+#define FLAG_SYS_VS_SEEKER_CHARGING 0x20 // Kanto VS Seeker recharge window (assigned to I_VS_SEEKER_CHARGING, config/item.h). Same name as the IS_FRLG branch. Was FLAG_UNUSED_0x020.
 #define FLAG_UNUSED_0x021    0x21 // Unused Flag
 #define FLAG_UNUSED_0x022    0x22 // Unused Flag
 #define FLAG_UNUSED_0x023    0x23 // Unused Flag
@@ -1569,14 +1569,14 @@
 #define FLAG_UNUSED_0x91A                           (SYSTEM_FLAGS + 0xBA) // Unused Flag
 #define FLAG_UNUSED_0x91B                           (SYSTEM_FLAGS + 0xBB) // Unused Flag
 #define FLAG_UNUSED_0x91C                           (SYSTEM_FLAGS + 0xBC) // Unused Flag
-#define FLAG_UNUSED_0x91D                           (SYSTEM_FLAGS + 0xBD) // Unused Flag
-#define FLAG_UNUSED_0x91E                           (SYSTEM_FLAGS + 0xBE) // Unused Flag
-#define FLAG_UNUSED_0x91F                           (SYSTEM_FLAGS + 0xBF) // Unused Flag
+#define FLAG_SYS_DEXNAV_SEARCHING                   (SYSTEM_FLAGS + 0xBD) // DexNav: search in progress (DN_FLAG_SEARCHING)
+#define FLAG_SYS_DEXNAV_GET                         (SYSTEM_FLAGS + 0xBE) // DexNav: obtained with the Pokédex (DN_FLAG_DEXNAV_GET)
+#define FLAG_SYS_DEXNAV_DETECTOR_MODE               (SYSTEM_FLAGS + 0xBF) // DexNav: hidden-mon detector, first league champion (DN_FLAG_DETECTOR_MODE)
 
 // Daily Flags
 // These flags are cleared once per day
 // The start and end are byte-aligned because the flags are cleared in byte increments
-#define DAILY_FLAGS_START                           (FLAG_UNUSED_0x91F + (8 - FLAG_UNUSED_0x91F % 8))
+#define DAILY_FLAGS_START                           (FLAG_SYS_DEXNAV_DETECTOR_MODE + (8 - FLAG_SYS_DEXNAV_DETECTOR_MODE % 8))
 #define FLAG_UNUSED_0x920                           (DAILY_FLAGS_START + 0x0)  // Unused Flag
 #define FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY     (DAILY_FLAGS_START + 0x1)
 #define FLAG_DAILY_SECRET_BASE                      (DAILY_FLAGS_START + 0x2)

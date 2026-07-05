@@ -17,6 +17,7 @@
 #include "field_player_avatar.h"
 #include "fieldmap.h"
 #include "vs_seeker.h"
+#include "regions.h"
 #include "menu.h"
 #include "string_util.h"
 #include "tv.h"
@@ -32,6 +33,7 @@
 #include "constants/script_commands.h"
 #include "constants/trainer_types.h"
 #include "constants/field_effects.h"
+#include "constants/region_flags.h"
 
 // Documentation for the Vs. Seeker can be found in docs/tutorials/vs_seeker.md.
 
@@ -64,7 +66,7 @@ struct VsSeekerTrainerInfo
     u8 objectEventId;
     s16 xCoord;
     s16 yCoord;
-    u8 graphicsId;
+    u16 graphicsId; // ObjectEventTemplate.graphicsId is u16; FRLG gfx ids exceed 255
 };
 
 struct VsSeekerStruct
@@ -90,7 +92,7 @@ static void Task_VsSeeker_ShowResponseToPlayer(u8 taskId);
 static bool8 CanUseVsSeeker(void);
 static u8 GetVsSeekerResponseInArea(void);
 #if FREE_MATCH_CALL == FALSE
-static u8 GetResponseMovementTypeFromTrainerGraphicsId(u8 graphicsId);
+static u8 GetResponseMovementTypeFromTrainerGraphicsId(u16 graphicsId);
 #endif //FREE_MATCH_CALL
 static u16 GetTrainerFlagFromScript(const u8 * script);
 static void ClearAllTrainerRematchStates(void);
@@ -235,9 +237,14 @@ bool8 UpdateVsSeekerStepCounter(void)
 
     if (!I_VS_SEEKER_CHARGING) return FALSE;
 
-    // This condition helps in case your save file is switching between vs seeker and matchcall
-    if (gSaveBlock1Ptr->trainerRematchStepCounter > VSSEEKER_RECHARGE_STEPS && gSaveBlock1Ptr->trainerRematchStepCounter <= 0xFF)
-        gSaveBlock1Ptr->trainerRematchStepCounter = 0;
+    // Kanto-only ticker: outside the FRLG maps the Match Call ticker owns the low
+    // byte (IncrementRematchStepCounter) and the seeker's recharge simply pauses.
+    if (GetCurrentRegion() != REGION_KANTO) return FALSE;
+
+    // Sanitize a Match-Call-inflated low byte (Match Call counts 0..255 in
+    // Hoenn/Johto; the seeker's in-bag charge caps at VSSEEKER_RECHARGE_STEPS).
+    if ((gSaveBlock1Ptr->trainerRematchStepCounter & 0xFF) > VSSEEKER_RECHARGE_STEPS)
+        gSaveBlock1Ptr->trainerRematchStepCounter &= 0xFF00;
     if (CheckBagHasItem(ITEM_VS_SEEKER, 1))
     {
         if ((gSaveBlock1Ptr->trainerRematchStepCounter & 0xFF) < VSSEEKER_RECHARGE_STEPS)
@@ -270,6 +277,12 @@ void MapResetTrainerRematches(u16 mapGroup, u16 mapNum)
 
     FlagClear(I_VS_SEEKER_CHARGING);
     VsSeekerResetChargingStepCounter();
+#if FREE_MATCH_CALL == FALSE
+    // Runs on every map load (any region): normalize a Match-Call-inflated low byte
+    // so CanUseVsSeeker() never reports a bogus "X more steps" count in Kanto.
+    if ((gSaveBlock1Ptr->trainerRematchStepCounter & 0xFF) > VSSEEKER_RECHARGE_STEPS)
+        gSaveBlock1Ptr->trainerRematchStepCounter &= 0xFF00;
+#endif //FREE_MATCH_CALL
     ClearAllTrainerRematchStates();
     ResetMovementOfRematchableTrainers();
 }
@@ -324,6 +337,15 @@ void Task_InitVsSeekerAndCheckForTrainersOnScreen(u8 taskId)
 
     for (i = 0; i < 16; i++)
         gTasks[taskId].data[i] = 0;
+
+    // The VS Seeker is a Kanto (FRLG) mechanic; Hoenn/Johto keep Match Call. Outside
+    // Kanto the item politely reports no trainers rather than writing offer state
+    // into the Hoenn Match Call slots.
+    if (GetCurrentRegion() != REGION_KANTO)
+    {
+        DisplayItemMessageOnField(taskId, VSSeeker_Text_NoTrainersWithinRange, Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker);
+        return;
+    }
 
     sVsSeeker = AllocZeroed(sizeof(struct VsSeekerStruct));
     GatherNearbyTrainerInfo();
@@ -482,7 +504,7 @@ static u8 GetVsSeekerResponseInArea(void)
             continue;
         }
 
-        gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[vsSeekerIdx].localId)] = rematchTrainerIdx;
+        SetTrainerRematchState(VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[vsSeekerIdx].localId), rematchTrainerIdx);
         ShiftStillObjectEventCoords(&gObjectEvents[sVsSeeker->trainerInfo[vsSeekerIdx].objectEventId]);
         StartTrainerObjectMovementScript(&sVsSeeker->trainerInfo[vsSeekerIdx], sMovementScript_TrainerRematch);
         sVsSeeker->trainerIdxArray[sVsSeeker->numRematchableTrainers] = vsSeekerIdx;
@@ -546,22 +568,29 @@ void ClearRematchMovementByTrainerId(void)
 
 static u32 GetGameProgressFlags()
 {
-    const u32 gameProgressFlags[] = {
-        FLAG_VISITED_LAVARIDGE_TOWN,
-        FLAG_VISITED_FORTREE_CITY,
-        FLAG_SYS_GAME_CLEAR,
-        FLAG_DEFEATED_METEOR_FALLS_STEVEN
-    };
-    u32 i = 0, numGameProgressFlags = 0;
-    u32 maxGameProgressFlags = ARRAY_COUNT(gameProgressFlags);
+    // Merged-campaign stage curve. The vanilla port counted 4 Hoenn story flags,
+    // which pins every Kanto-first save at stage 0; instead mirror FRLG's pacing
+    // gates (Celadon / Fuchsia / game clear / post-game) with Kanto-side milestones:
+    // 3, 5 and 7 Kanto badges, then the Kanto championship. The result stays 0..4
+    // and indexes trainerIds[] exactly like the original 4-flag count did.
+    u32 i, badges = 0, progress = 0;
 
-    for (i = 0; i < maxGameProgressFlags; i++)
+    for (i = 0; i < NUM_BADGES; i++)
     {
-        if (FlagGet(gameProgressFlags[i]))
-            numGameProgressFlags++;
+        if (HasBadge(REGION_KANTO, i))
+            badges++;
     }
 
-    return numGameProgressFlags;
+    if (badges >= 3)
+        progress++;
+    if (badges >= 5)
+        progress++;
+    if (badges >= 7)
+        progress++;
+    if (FlagGet(FLAG_KANTO_CHAMPION))
+        progress++;
+
+    return progress;
 }
 
 u16 GetRematchTrainerIdVSSeeker(u16 trainerId)
@@ -573,18 +602,18 @@ u16 GetRematchTrainerIdVSSeeker(u16 trainerId)
         return 0;
     if (tableId == -1)
         return 0;
-    if (tableId >= REMATCH_ELITE_FOUR_ENTRIES)
+    // [REMATCH_ELITE_FOUR_ENTRIES, REMATCH_KANTO_START) is the Hoenn E4/Champion
+    // window: forbidden. The appended Kanto block (>= REMATCH_KANTO_START) is normal
+    // trainers again and falls through to the stage walk-back below.
+    if (tableId >= REMATCH_ELITE_FOUR_ENTRIES && tableId < REMATCH_KANTO_START)
         return 0;
-    if (tableId >= REMATCH_SPECIAL_TRAINER_START)
+    if (tableId >= REMATCH_SPECIAL_TRAINER_START && tableId < REMATCH_ELITE_FOUR_ENTRIES)
         return GetCurrentGymLeaderRematchLevel();
 
-    while (!HasTrainerBeenFought(gRematchTable[tableId].trainerIds[rematchTrainerIdx-1]))
-    {
-        if (rematchTrainerIdx== 0)
-            break;
-
+    // Walk back to the highest stage whose previous party is already beaten. The
+    // idx != 0 guard runs first so stage 0 never reads trainerIds[-1].
+    while (rematchTrainerIdx != 0 && !HasTrainerBeenFought(gRematchTable[tableId].trainerIds[rematchTrainerIdx - 1]))
         rematchTrainerIdx--;
-    }
 
     return gRematchTable[tableId].trainerIds[rematchTrainerIdx];
 }
@@ -626,7 +655,7 @@ static u8 GetRandomFaceDirectionMovementType()
 }
 
 #if FREE_MATCH_CALL == FALSE
-static bool32 IsRegularLandTrainer(u8 graphicsId)
+static bool32 IsRegularLandTrainer(u16 graphicsId)
 {
     u32 i;
     u16 regularTrainersOnLand[] =
@@ -693,6 +722,21 @@ static bool32 IsRegularLandTrainer(u8 graphicsId)
         OBJ_EVENT_GFX_LASS_FRLG,
         OBJ_EVENT_GFX_LITTLE_GIRL_FRLG,
         OBJ_EVENT_GFX_LITTLE_BOY_FRLG,
+        // FRLG classes used by the Kanto rematch families (whitelist audit): these
+        // trainers spin in place when they want a rematch instead of facing down.
+        OBJ_EVENT_GFX_BALDING_MAN,
+        OBJ_EVENT_GFX_BIKER,
+        OBJ_EVENT_GFX_BLACK_BELT_FRLG,
+        OBJ_EVENT_GFX_BOY,
+        OBJ_EVENT_GFX_COOLTRAINER_F,
+        OBJ_EVENT_GFX_COOLTRAINER_M,
+        OBJ_EVENT_GFX_CRUSH_GIRL,
+        OBJ_EVENT_GFX_FISHER,
+        OBJ_EVENT_GFX_MAN,
+        OBJ_EVENT_GFX_OLD_MAN_1,
+        OBJ_EVENT_GFX_POKE_MANIAC_FRLG,
+        OBJ_EVENT_GFX_ROCKER,
+        OBJ_EVENT_GFX_SCIENTIST,
     };
 
     for (i = 0; i < ARRAY_COUNT(regularTrainersOnLand); i++)
@@ -703,14 +747,18 @@ static bool32 IsRegularLandTrainer(u8 graphicsId)
     return FALSE;
 }
 
-static bool32 IsRegularWaterTrainer(u8 graphicsId)
+static bool32 IsRegularWaterTrainer(u16 graphicsId)
 {
     u32 i;
     u16 regularTrainersInWater[] =
     {
         OBJ_EVENT_GFX_SWIMMER_F,
         OBJ_EVENT_GFX_SWIMMER_M,
-        OBJ_EVENT_GFX_TUBER_M_SWIMMING
+        OBJ_EVENT_GFX_TUBER_M_SWIMMING,
+        // FRLG surf-sprite classes used by the Kanto rematch families.
+        OBJ_EVENT_GFX_SWIMMER_M_WATER,
+        OBJ_EVENT_GFX_SWIMMER_F_WATER,
+        OBJ_EVENT_GFX_TUBER_M_WATER,
     };
 
     for (i = 0; i < ARRAY_COUNT(regularTrainersInWater); i++)
@@ -721,7 +769,7 @@ static bool32 IsRegularWaterTrainer(u8 graphicsId)
     return FALSE;
 }
 
-static u8 GetResponseMovementTypeFromTrainerGraphicsId(u8 graphicsId)
+static u8 GetResponseMovementTypeFromTrainerGraphicsId(u16 graphicsId)
 {
     if (IsRegularLandTrainer(graphicsId) || IsRegularWaterTrainer(graphicsId))
         return MOVEMENT_TYPE_ROTATE_CLOCKWISE;
@@ -755,11 +803,14 @@ static void ClearAllTrainerRematchStates(void)
 #if FREE_MATCH_CALL == FALSE
     u32 i;
 
-    if (!CheckBagHasItem(ITEM_VS_SEEKER, 1))
-        return;
-
-    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->trainerRematches); i++)
-        gSaveBlock1Ptr->trainerRematches[i] = 0;
+    // Kanto block only: Hoenn Match Call offers (ids < REMATCH_KANTO_START) persist
+    // across maps and seeker recharges by design - the seeker machinery must never
+    // wipe them (this replaces the old whole-array clear, which broke Match Call
+    // whenever the seeker was in the bag). Also clears the non-saved EWRAM overlay
+    // (ids >= MAX_REMATCH_ENTRIES), so stale offers cannot leak across warps or
+    // mid-session save loads.
+    for (i = REMATCH_KANTO_START; i < REMATCH_TABLE_ENTRIES; i++)
+        SetTrainerRematchState(i, 0);
 #endif //FREE_MATCH_CALL
 }
 
@@ -831,7 +882,7 @@ static void StartAllRespondantIdleMovements(void)
                 SetTrainerMovementType(objectEvent, sVsSeeker->runningBehaviourEtcArray[i]);
             TryOverrideTemplateCoordsForObjectEvent(objectEvent, sVsSeeker->runningBehaviourEtcArray[i]);
         }
-        gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[j].localId)] = GetRematchTrainerIdVSSeeker(sVsSeeker->trainerInfo[j].trainerIdx);
+        SetTrainerRematchState(VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[j].localId), GetRematchTrainerIdVSSeeker(sVsSeeker->trainerInfo[j].trainerIdx));
     }
 #endif //FREE_MATCH_CALL
 }

@@ -262,7 +262,11 @@ static u32 LoopedTask_BuildMatchCallList(s32 taskState)
 
 bool32 IsRematchEntryRegistered(int rematchIndex)
 {
-    if (rematchIndex < REMATCH_TABLE_ENTRIES)
+    // Hoenn entries only: the 0x15C registered-flag window is not sized for the
+    // appended Kanto block (>= REMATCH_KANTO_START), which is VS-Seeker-only and
+    // must never surface as a PokeNav Match Call contact. This bound also guards
+    // the trainerRematches[] reads that callers short-circuit behind it.
+    if (rematchIndex < REMATCH_KANTO_START)
         return FlagGet(TRAINER_REGISTERED_FLAGS_START + rematchIndex);
 
     return FALSE;

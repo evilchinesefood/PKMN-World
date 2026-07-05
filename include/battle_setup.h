@@ -95,6 +95,11 @@ const u8 *GetTrainerBLoseText(void);
 const u8 *GetTrainerWonSpeech(void);
 void UpdateRematchIfDefeated(s32 rematchTableId);
 void ClearCurrentTrainerWantRematchVsSeeker(void);
+// Rematch-wanted state shim: ids < MAX_REMATCH_ENTRIES read/write the saved
+// gSaveBlock1Ptr->trainerRematches[]; the appended Kanto ids >= MAX_REMATCH_ENTRIES
+// live in a non-saved EWRAM overlay (battle_setup.c).
+u8 GetTrainerRematchState(u32 tableId);
+void SetTrainerRematchState(u32 tableId, u8 state);
 void IncrementRematchStepCounter(void);
 void TryUpdateRandomTrainerRematches(u16 mapGroup, u16 mapNum);
 bool32 DoesSomeoneWantRematchIn(u16 mapGroup, u16 mapNum);

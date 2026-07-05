@@ -1525,7 +1525,9 @@ static u32 GetNthRematchTrainerFought(int n)
 {
     u32 i, count;
 
-    for (i = 0, count = 0; i < REMATCH_TABLE_ENTRIES; i++)
+    // Hoenn entries only: the appended Kanto block (>= REMATCH_KANTO_START) is
+    // VS-Seeker-only and must stay invisible to Match Call.
+    for (i = 0, count = 0; i < REMATCH_KANTO_START; i++)
     {
         if (HasTrainerBeenFought(gRematchTable[i].trainerIds[0]))
         {
@@ -2064,7 +2066,9 @@ void SetTrainerRematchStepCounter(u32 value)
 u32 GetActiveTrainerRematches(u32 matchCallId)
 {
 #if FREE_MATCH_CALL == FALSE
-    return gSaveBlock1Ptr->trainerRematches[matchCallId];
+    // Routed through the rematch state shim: the debug menu passes arbitrary rematch
+    // table ids, and the appended Kanto block (>= MAX_REMATCH_ENTRIES) lives in EWRAM.
+    return GetTrainerRematchState(matchCallId);
 #else
     return 0;
 #endif
@@ -2073,6 +2077,6 @@ u32 GetActiveTrainerRematches(u32 matchCallId)
 void SetActiveTrainerRematches(u32 matchCallId, u32 value)
 {
 #if FREE_MATCH_CALL == FALSE
-    gSaveBlock1Ptr->trainerRematches[matchCallId] = value;
+    SetTrainerRematchState(matchCallId, value);
 #endif
 }

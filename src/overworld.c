@@ -2172,6 +2172,13 @@ void CB2_ContinueSavedGame(void)
         InitMapFromSavedGame();
 
     ResyncCurrentRegionFromMap(); // re-seed gCurrentRegion on Continue (EWRAM zeroed on reset)
+
+    // Clear pending VS Seeker offers on Continue, like the two map-load paths do: the
+    // Kanto block's EWRAM overlay (rematch ids >= MAX_REMATCH_ENTRIES) is not saved and
+    // could hold stale offers after a mid-session save switch.
+    if (I_VS_SEEKER_CHARGING != 0)
+        MapResetTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();

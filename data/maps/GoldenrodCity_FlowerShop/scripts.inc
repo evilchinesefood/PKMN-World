@@ -50,6 +50,8 @@ GoldenrodCity_FlowerShop_EventScript_GiveSquirtBottle::
 GoldenrodCity_FlowerShop_EventScript_GotSquirtBottle::
 	lock
 	faceplayer
+	checkitem ITEM_WAILMER_PAIL
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_FlowerShop_EventScript_GiveWailmerPail
 	msgbox GoldenrodCity_FlowerShop_Text_Owner3, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -58,7 +60,22 @@ GoldenrodCity_FlowerShop_EventScript_GotSquirtBottle::
 GoldenrodCity_FlowerShop_EventScript_Normal::
 	lock
 	faceplayer
+	checkitem ITEM_WAILMER_PAIL
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_FlowerShop_EventScript_GiveWailmerPail
 	msgbox GoldenrodCity_FlowerShop_Text_Owner4, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+@ KeyItemAudit S3d: Johto-side WAILMER PAIL so the region's 16 berry-tree maps are
+@ farmable without visiting Hoenn (Route 104 keeps its giver; the checkitem guard above
+@ plus the engine key-item dedup make a second giver safe). Offered by the shop owner
+@ once the SQUIRTBOTTLE beat is done (post-Whitney story states only).
+GoldenrodCity_FlowerShop_EventScript_GiveWailmerPail::
+	msgbox GoldenrodCity_FlowerShop_Text_WailmerPail1, MSGBOX_DEFAULT
+	giveitem ITEM_WAILMER_PAIL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox GoldenrodCity_FlowerShop_Text_WailmerPail2, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -133,3 +150,15 @@ GoldenrodCity_FlowerShop_Text_FloriaYouBeatWhitney:
 
 GoldenrodCity_FlowerShop_Text_FloriaItWasAMon:
     .string "So it really was a POKéMON!$"
+
+GoldenrodCity_FlowerShop_Text_WailmerPail1:
+	.string "Growing BERRIES, are you?\p"
+	.string "JOHTO's soil is wonderful for\n"
+	.string "them, but they wilt without\l"
+	.string "water.\p"
+	.string "Here, take this WAILMER PAIL!$"
+
+GoldenrodCity_FlowerShop_Text_WailmerPail2:
+	.string "Sprinkle your BERRY patches\n"
+	.string "every day and they'll grow up\l"
+	.string "big and healthy!$"

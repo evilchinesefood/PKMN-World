@@ -247,11 +247,17 @@ OlivineCity_EventScript_EonTicketWoman::
 OlivineCity_EventScript_EonTicketWomanChamp::
 	msgbox OlivineCity_Text_EonTicketWoman2, MSGBOX_DEFAULT
 	giveitem ITEM_AURORA_TICKET
+	@ KeyItemAudit S2 fix: set the enable-ship flag WITH the ticket so the Lilycove and
+	@ Vermilion counters honor it too - Olivine's own counter is checkitem-only, so the
+	@ ticket previously worked there by accident of geography alone.
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
 	closemessage
 	release
 	end
 
 OlivineCity_EventScript_EonTicketWomanAfter::
+	@ Only reachable with the ticket in the bag; heals saves that took it pre-flag-fix.
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
 	msgbox OlivineCity_Text_EonTicketWoman3, MSGBOX_DEFAULT
 	closemessage
 	release

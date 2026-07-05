@@ -12,15 +12,19 @@ RegionHub_MapScripts::
 @ point on a return (RegionHub_ScrTargetIntroDone, D5). The Frontier attendant blocks the
 @ old league door, is region-agnostic and never boxes
 @ the party. Also here: the healing nurse (FRLG pattern; whiteout respawn is REGIONAL now - see task 5a below),
-@ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory), six
-@ department-store vendors (Lilycove 2F/3F/4F inventories) behind the east counter, and the
-@ read-only world-tour scoreboard (R8) by the Frontier gate. The four gates line the NORTH
+@ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory plus
+@ the TOWN MAP - hub-local list, see RegionHub_Items), six department-store vendors (Lilycove
+@ 2F/3F/4F inventories) behind the east counter, and the read-only world-tour scoreboard (R8)
+@ by the Frontier gate. Key-item givers (KeyItemAvailabilityAudit S3): the Sky Charm keeper
+@ (F1), the Harbor Master in the south hall (championship-gated event tickets + enable-ship
+@ flags) and the Charm Curator north of the east counter (badge-tiered charms). The four gates line the NORTH
 @ DEPARTURE CONCOURSE (west->east: Frontier at the old league door, then Kanto/Johto/Hoenn
 @ league-style doors), each blocked by its attendant. Arrivals land on the concourse crest
 @ at (16,4) = warp 0 (never triggers - plain floor tile, anchor only).
 
 @ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is the most
-@ OAM-starved map (12 object events) and the heal animation can exhaust sprites there, so a
+@ OAM-starved map (15 object events since the Harbor Master + Charm Curator were added -
+@ playtest for sprite drop-out) and the heal animation can exhaust sprites there, so a
 @ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
 @ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
 @ hub, so it never needs to be a respawn target itself.
@@ -237,3 +241,343 @@ RegionHub_Text_WorldTourBreakdown:
 	.string "JOHTO: {STR_VAR_3}/8\p"
 	.string "Earn all 24 to prove yourself the\n"
 	.string "ultimate TRAINER!$"
+
+@ Hub front-desk mart: the Indigo Plateau inventory plus the TOWN MAP (key item, price 0 ->
+@ rings up free; the shop lists it SOLD OUT once owned, so it is one-per-save). Hub-local
+@ copy of the list so the real Indigo Plateau clerk stays untouched (KeyItemAudit S3c).
+RegionHub_EventScript_Clerk::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items::
+	.2byte ITEM_ULTRA_BALL
+	.2byte ITEM_GREAT_BALL
+	.2byte ITEM_FULL_RESTORE
+	.2byte ITEM_MAX_POTION
+	.2byte ITEM_REVIVE
+	.2byte ITEM_FULL_HEAL
+	.2byte ITEM_MAX_REPEL
+	.2byte ITEM_TOWN_MAP
+	pokemartlistend
+
+@ Harbor Master (KeyItemAudit S3a): championship-gated event tickets. Each give ALSO sets
+@ the matching FLAG_ENABLE_SHIP_* so the Lilycove and Vermilion counters honor the ticket,
+@ not just Olivine's checkitem-only counter (the Aurora-Ticket bug this batch fixes).
+@ Gates - conservative picks where the audit offered a choice:
+@   EON TICKET     = champion of any ONE region (picked over "first 8 badges")
+@   OLD SEA MAP    = champion of TWO regions (RegionHub_ScrIsTwoRegionChampion native)
+@   MYSTIC TICKET  = champion of ALL THREE regions (picked over "24 badges" - consistent
+@                    with the championship ladder; Lugia/Ho-Oh copies are endgame-only)
+@ One ticket per chat, lowest tier first. checkitem guards + engine key-item dedup backstop.
+@ AURORA TICKET stays with the Olivine woman (S2); POKEVIAL stays unobtainable (S3b note).
+RegionHub_EventScript_HarborMaster::
+	lock
+	faceplayer
+	checkitem ITEM_EON_TICKET
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_HarborTryEon
+	checkitem ITEM_OLD_SEA_MAP
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_HarborTryOldSeaMap
+	checkitem ITEM_MYSTIC_TICKET
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_HarborTryMystic
+	msgbox RegionHub_Text_HarborAllGiven, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_HarborTryEon::
+	goto_if_set FLAG_KANTO_CHAMPION, RegionHub_EventScript_HarborGiveEon
+	goto_if_set FLAG_JOHTO_CHAMPION, RegionHub_EventScript_HarborGiveEon
+	goto_if_set FLAG_HOENN_CHAMPION, RegionHub_EventScript_HarborGiveEon
+	msgbox RegionHub_Text_HarborNeedOneChamp, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_HarborGiveEon::
+	msgbox RegionHub_Text_HarborGiveEon, MSGBOX_DEFAULT
+	giveitem ITEM_EON_TICKET
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_ENABLE_SHIP_SOUTHERN_ISLAND
+	msgbox RegionHub_Text_HarborEonExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_HarborTryOldSeaMap::
+	callnative RegionHub_ScrIsTwoRegionChampion
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_HarborGiveOldSeaMap
+	msgbox RegionHub_Text_HarborNeedTwoChamps, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_HarborGiveOldSeaMap::
+	msgbox RegionHub_Text_HarborGiveOldSeaMap, MSGBOX_DEFAULT
+	giveitem ITEM_OLD_SEA_MAP
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_ENABLE_SHIP_FARAWAY_ISLAND
+	msgbox RegionHub_Text_HarborOldSeaMapExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_HarborTryMystic::
+	goto_if_unset FLAG_KANTO_CHAMPION, RegionHub_EventScript_HarborNeedThreeChamps
+	goto_if_unset FLAG_JOHTO_CHAMPION, RegionHub_EventScript_HarborNeedThreeChamps
+	goto_if_unset FLAG_HOENN_CHAMPION, RegionHub_EventScript_HarborNeedThreeChamps
+	msgbox RegionHub_Text_HarborGiveMystic, MSGBOX_DEFAULT
+	giveitem ITEM_MYSTIC_TICKET
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_ENABLE_SHIP_NAVEL_ROCK
+	msgbox RegionHub_Text_HarborMysticExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_HarborNeedThreeChamps::
+	msgbox RegionHub_Text_HarborNeedThreeChamps, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_Text_HarborNeedOneChamp:
+	.string "Welcome to the harbor desk!\p"
+	.string "I hold ferry passes for waters\n"
+	.string "no regular route serves.\p"
+	.string "But rules are rules-only a\n"
+	.string "LEAGUE CHAMPION may book one.\p"
+	.string "Become the champion of any\n"
+	.string "region and come see me!$"
+
+RegionHub_Text_HarborGiveEon:
+	.string "You've conquered a POKéMON\n"
+	.string "LEAGUE! Then this is yours.$"
+
+RegionHub_Text_HarborEonExplain:
+	.string "That's the EON TICKET.\p"
+	.string "Show it at the LILYCOVE or\n"
+	.string "OLIVINE harbor to sail for the\l"
+	.string "SOUTHERN ISLAND.\p"
+	.string "They say a pair of legendary\n"
+	.string "POKéMON nests there…$"
+
+RegionHub_Text_HarborNeedTwoChamps:
+	.string "That EON TICKET suits you!\p"
+	.string "I do hold another pass, but it's\n"
+	.string "reserved for champions of TWO\l"
+	.string "regions.\p"
+	.string "Keep your world tour going!$"
+
+RegionHub_Text_HarborGiveOldSeaMap:
+	.string "Two LEAGUES conquered! You're\n"
+	.string "a true seafarer. Take this.$"
+
+RegionHub_Text_HarborOldSeaMapExplain:
+	.string "That's the OLD SEA MAP.\p"
+	.string "Show it at the LILYCOVE or\n"
+	.string "OLIVINE harbor to sail for\l"
+	.string "FARAWAY ISLAND.\p"
+	.string "A mythical POKéMON is said to\n"
+	.string "wander in its fog…$"
+
+RegionHub_Text_HarborNeedThreeChamps:
+	.string "The last pass I keep is for the\n"
+	.string "true master of the world tour-\l"
+	.string "the champion of KANTO, JOHTO,\l"
+	.string "and HOENN alike.$"
+
+RegionHub_Text_HarborGiveMystic:
+	.string "Champion of KANTO, JOHTO, and\n"
+	.string "HOENN… Incredible!\p"
+	.string "My finest pass is yours.$"
+
+RegionHub_Text_HarborMysticExplain:
+	.string "That's the MYSTIC TICKET.\p"
+	.string "Show it at the LILYCOVE or\n"
+	.string "VERMILION harbor to sail for\l"
+	.string "NAVEL ROCK.\p"
+	.string "Two legendary POKéMON slumber\n"
+	.string "at its peak.$"
+
+RegionHub_Text_HarborAllGiven:
+	.string "Every special pass I had is in\n"
+	.string "your hands.\p"
+	.string "Fair winds, champion!$"
+
+@ Charm Curator (KeyItemAudit S3b): badge-tiered charm ladder off the world-tour badge
+@ count (all three regions): 4 CATCHING CHARM / 8 EXP. CHARM / 12 OVAL CHARM /
+@ 16 POKeMON BOX LINK / 24 SHINY CHARM. Sky-Charm-keeper clone: checkitem one-time gates,
+@ one reward per chat, lowest tier first. VAR_0x8000 (badge total) is read before any
+@ giveitem, which clobbers VAR_0x8000/0x8001. POKEVIAL deliberately not in the ladder.
+RegionHub_EventScript_CharmCurator::
+	lock
+	faceplayer
+	callnative RegionHub_ScrCountWorldTourBadges
+	checkitem ITEM_CATCHING_CHARM
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryCatching
+	checkitem ITEM_EXP_CHARM
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryExp
+	checkitem ITEM_OVAL_CHARM
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryOval
+	checkitem ITEM_POKEMON_BOX_LINK
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryBoxLink
+	checkitem ITEM_SHINY_CHARM
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryShiny
+	msgbox RegionHub_Text_CuratorAllGiven, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorTryCatching::
+	goto_if_ge VAR_0x8000, 4, RegionHub_EventScript_CuratorGiveCatching
+	msgbox RegionHub_Text_CuratorNeed4, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorGiveCatching::
+	msgbox RegionHub_Text_CuratorGiveCatching, MSGBOX_DEFAULT
+	giveitem ITEM_CATCHING_CHARM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorCatchingExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_CuratorTryExp::
+	goto_if_ge VAR_0x8000, 8, RegionHub_EventScript_CuratorGiveExp
+	msgbox RegionHub_Text_CuratorNeed8, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorGiveExp::
+	msgbox RegionHub_Text_CuratorGiveExp, MSGBOX_DEFAULT
+	giveitem ITEM_EXP_CHARM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorExpExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_CuratorTryOval::
+	goto_if_ge VAR_0x8000, 12, RegionHub_EventScript_CuratorGiveOval
+	msgbox RegionHub_Text_CuratorNeed12, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorGiveOval::
+	msgbox RegionHub_Text_CuratorGiveOval, MSGBOX_DEFAULT
+	giveitem ITEM_OVAL_CHARM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorOvalExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_CuratorTryBoxLink::
+	goto_if_ge VAR_0x8000, 16, RegionHub_EventScript_CuratorGiveBoxLink
+	msgbox RegionHub_Text_CuratorNeed16, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorGiveBoxLink::
+	msgbox RegionHub_Text_CuratorGiveBoxLink, MSGBOX_DEFAULT
+	giveitem ITEM_POKEMON_BOX_LINK
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorBoxLinkExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_CuratorTryShiny::
+	goto_if_ge VAR_0x8000, 24, RegionHub_EventScript_CuratorGiveShiny
+	msgbox RegionHub_Text_CuratorNeed24, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorGiveShiny::
+	msgbox RegionHub_Text_CuratorGiveShiny, MSGBOX_DEFAULT
+	giveitem ITEM_SHINY_CHARM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorShinyExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_Text_CuratorNeed4:
+	.string "I collect rare charms and award\n"
+	.string "them to proven TRAINERS.\p"
+	.string "Earn 4 GYM BADGES across the\n"
+	.string "world and I'll part with my\l"
+	.string "first.$"
+
+RegionHub_Text_CuratorGiveCatching:
+	.string "You carry 4 BADGES! As promised,\n"
+	.string "my first charm is yours.$"
+
+RegionHub_Text_CuratorCatchingExplain:
+	.string "That's the CATCHING CHARM.\p"
+	.string "With it in your BAG, the POKé\n"
+	.string "BALLS you throw will land\l"
+	.string "critical catches more often.$"
+
+RegionHub_Text_CuratorNeed8:
+	.string "The next charm calls for 8 GYM\n"
+	.string "BADGES. Keep at it!$"
+
+RegionHub_Text_CuratorGiveExp:
+	.string "8 BADGES-splendid!\n"
+	.string "Take this.$"
+
+RegionHub_Text_CuratorExpExplain:
+	.string "That's the EXP. CHARM.\p"
+	.string "Your whole team will grow\n"
+	.string "faster while it's in your BAG.$"
+
+RegionHub_Text_CuratorNeed12:
+	.string "The next charm calls for 12 GYM\n"
+	.string "BADGES across the world.$"
+
+RegionHub_Text_CuratorGiveOval:
+	.string "12 BADGES! You've more than\n"
+	.string "earned this.$"
+
+RegionHub_Text_CuratorOvalExplain:
+	.string "That's the OVAL CHARM.\p"
+	.string "POKéMON at the DAY CARE will\n"
+	.string "discover EGGS more often.$"
+
+RegionHub_Text_CuratorNeed16:
+	.string "My next treasure waits for a\n"
+	.string "TRAINER holding 16 GYM BADGES.$"
+
+RegionHub_Text_CuratorGiveBoxLink:
+	.string "16 BADGES-two full regions'\n"
+	.string "worth! This is for you.$"
+
+RegionHub_Text_CuratorBoxLinkExplain:
+	.string "That's the POKéMON BOX LINK.\p"
+	.string "It opens your storage BOXES\n"
+	.string "from the BAG, wherever you are.$"
+
+RegionHub_Text_CuratorNeed24:
+	.string "One charm remains-my life's\n"
+	.string "prize.\p"
+	.string "Bring me all 24 GYM BADGES and\n"
+	.string "it's yours.$"
+
+RegionHub_Text_CuratorGiveShiny:
+	.string "All 24 GYM BADGES…\n"
+	.string "You are the world's finest!\p"
+	.string "My greatest treasure is yours.$"
+
+RegionHub_Text_CuratorShinyExplain:
+	.string "That's the SHINY CHARM.\p"
+	.string "With it, you're far more likely\n"
+	.string "to meet POKéMON of rare color.$"
+
+RegionHub_Text_CuratorAllGiven:
+	.string "My whole collection is in your\n"
+	.string "hands.\p"
+	.string "Wear those charms proudly!$"

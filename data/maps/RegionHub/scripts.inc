@@ -198,8 +198,8 @@ RegionHub_Text_SkyCharmExplain:
 	.string "That's the SKY CHARM.\p"
 	.string "Use it under the open sky and a\n"
 	.string "wild POKéMON will carry you over\l"
-	.string "anything-if you hold a BADGE from\l"
-	.string "the region you're in.\p"
+	.string "anything-once you hold the local\l"
+	.string "BADGE that commands the skies.\p"
 	.string "Use it again on solid ground\n"
 	.string "to land.$"
 
@@ -212,8 +212,8 @@ RegionHub_Text_SkyCharmComeBack:
 RegionHub_Text_SkyCharmEnjoy:
 	.string "How's the view from up there?\p"
 	.string "Remember-the flyers won't carry\n"
-	.string "you in a region where you haven't\l"
-	.string "earned a BADGE.$"
+	.string "you where you haven't won the\l"
+	.string "BADGE that commands the skies.$"
 
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
 @ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;
@@ -276,7 +276,8 @@ RegionHub_Items::
 @   MYSTIC TICKET  = champion of ALL THREE regions (picked over "24 badges" - consistent
 @                    with the championship ladder; Lugia/Ho-Oh copies are endgame-only)
 @ One ticket per chat, lowest tier first. checkitem guards + engine key-item dedup backstop.
-@ AURORA TICKET stays with the Olivine woman (S2); POKEVIAL stays unobtainable (S3b note).
+@ AURORA TICKET stays with the Olivine woman (S2); POKEVIAL now ships from the Charm
+@ Curator instead, as his unconditional intro gift (S3b addendum) - not through this desk.
 RegionHub_EventScript_HarborMaster::
 	lock
 	faceplayer
@@ -411,10 +412,23 @@ RegionHub_Text_HarborAllGiven:
 @ count (all three regions): 4 CATCHING CHARM / 8 EXP. CHARM / 12 OVAL CHARM /
 @ 16 POKeMON BOX LINK / 24 SHINY CHARM. Sky-Charm-keeper clone: checkitem one-time gates,
 @ one reward per chat, lowest tier first. VAR_0x8000 (badge total) is read before any
-@ giveitem, which clobbers VAR_0x8000/0x8001. POKEVIAL deliberately not in the ladder.
+@ giveitem, which clobbers VAR_0x8000/0x8001.
+@ S3b addendum: ahead of the ladder he also hands out the POKEVIAL, unconditionally (no
+@ badge requirement) and only once - checkitem gates it, same one-time pattern as the
+@ ladder tiers, and it runs (and can clobber VAR_0x8000/0x8001 via its own giveitem) BEFORE
+@ RegionHub_ScrCountWorldTourBadges refreshes those vars for the ladder below, so it can't
+@ desync the badge check.
 RegionHub_EventScript_CharmCurator::
 	lock
 	faceplayer
+	checkitem ITEM_POKEVIAL
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorLadder
+	msgbox RegionHub_Text_CuratorGivePokevial, MSGBOX_DEFAULT
+	giveitem ITEM_POKEVIAL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorPokevialExplain, MSGBOX_DEFAULT
+
+RegionHub_EventScript_CuratorLadder::
 	callnative RegionHub_ScrCountWorldTourBadges
 	checkitem ITEM_CATCHING_CHARM
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryCatching
@@ -504,6 +518,16 @@ RegionHub_EventScript_CuratorGiveShiny::
 	closemessage
 	release
 	end
+
+RegionHub_Text_CuratorGivePokevial:
+	.string "Oh, new around here? Then first,\n"
+	.string "every traveler gets one of\l"
+	.string "these from me.$"
+
+RegionHub_Text_CuratorPokevialExplain:
+	.string "That's the POKéVIAL.\p"
+	.string "Use it from your BAG to heal your\n"
+	.string "whole team, anywhere you stand.$"
 
 RegionHub_Text_CuratorNeed4:
 	.string "I collect rare charms and award\n"

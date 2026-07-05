@@ -27,6 +27,7 @@
 #define tScrollOffset data[7]      // top visible MENUITEM_ index (0 when not scrolled)
 #define tScrollArrowTaskId data[8] // TASK_NONE unless scroll arrows are active
 #define tAutoRun data[9]
+#define tAutosave data[10]
 
 #define NUM_VISIBLE_OPTIONS 7
 
@@ -39,6 +40,7 @@ enum
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
     MENUITEM_AUTORUN,
+    MENUITEM_AUTOSAVE,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -72,6 +74,8 @@ static u8 ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 AutoRun_ProcessInput(u8 selection);
 static void AutoRun_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 Autosave_ProcessInput(u8 selection);
+static void Autosave_DrawChoices(u8 selection, s16 scrollOffset);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(s16 scrollOffset);
 static void DrawBgWindowFrames(void);
@@ -107,6 +111,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BUTTONMODE]  = COMPOUND_STRING("BUTTON MODE"),
     [MENUITEM_FRAMETYPE]   = COMPOUND_STRING("FRAME"),
     [MENUITEM_AUTORUN]     = COMPOUND_STRING("AUTO RUN"),
+    [MENUITEM_AUTOSAVE]    = COMPOUND_STRING("AUTOSAVE"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("CANCEL"),
 };
 
@@ -257,6 +262,7 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
         gTasks[taskId].tAutoRun = gSaveBlock2Ptr->optionsAutoRun;
+        gTasks[taskId].tAutosave = gSaveBlock2Ptr->optionsAutosave;
         gTasks[taskId].tScrollOffset = 0;
 
         RedrawVisibleOptionsPage(taskId);
@@ -369,6 +375,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tAutoRun)
                 AutoRun_DrawChoices(gTasks[taskId].tAutoRun, gTasks[taskId].tScrollOffset);
             break;
+        case MENUITEM_AUTOSAVE:
+            previousOption = gTasks[taskId].tAutosave;
+            gTasks[taskId].tAutosave = Autosave_ProcessInput(gTasks[taskId].tAutosave);
+
+            if (previousOption != gTasks[taskId].tAutosave)
+                Autosave_DrawChoices(gTasks[taskId].tAutosave, gTasks[taskId].tScrollOffset);
+            break;
         default:
             return;
         }
@@ -390,6 +403,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     gSaveBlock2Ptr->optionsAutoRun = gTasks[taskId].tAutoRun;
+    gSaveBlock2Ptr->optionsAutosave = gTasks[taskId].tAutosave;
 
     if (gTasks[taskId].tScrollArrowTaskId != TASK_NONE)
     {
@@ -488,6 +502,7 @@ static void RedrawVisibleOptionsPage(u8 taskId)
     ButtonMode_DrawChoices(gTasks[taskId].tButtonMode, scrollOffset);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, scrollOffset);
     AutoRun_DrawChoices(gTasks[taskId].tAutoRun, scrollOffset);
+    Autosave_DrawChoices(gTasks[taskId].tAutosave, scrollOffset);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - scrollOffset);
 
     // Scroll repaint is a full window copy, unlike the single-row COPYWIN_GFX
@@ -782,6 +797,35 @@ static void AutoRun_DrawChoices(u8 selection, s16 scrollOffset)
 
     // optionsAutoRun is normal polarity (0 = OFF, 1 = ON), unlike BattleScene's inverted var,
     // so OFF must be the index-0 (value-0) choice or the menu would highlight the wrong state.
+    DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
+}
+
+static u8 Autosave_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void Autosave_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[2];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_AUTOSAVE, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection] = 1;
+
+    // optionsAutosave is normal polarity (0 = OFF, 1 = ON) like AutoRun above, NOT like
+    // BattleScene's inverted var: OFF must stay the index-0 (value-0) choice.
     DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
 }

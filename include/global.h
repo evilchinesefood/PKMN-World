@@ -639,7 +639,8 @@ struct SaveBlock2
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
              u16 optionsAutoRun:1; // whether the player auto-runs (holding B walks instead)
-             //u16 padding1:3;
+             u16 optionsAutosave:1; // QoL #7: autosave after map transitions (0 = OFF, 1 = ON)
+             //u16 padding1:2;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex; // Region merge: ONE global National Dex shared across all regions (not per-region); area screen is region-aware for display only.
 #if ALL_REGIONS

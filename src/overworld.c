@@ -1,5 +1,6 @@
 #include "global.h"
 #include "overworld.h"
+#include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_setup.h"
 #include "battle_util.h"
@@ -77,6 +78,7 @@
 #include "vs_seeker.h"
 #include "frontier_util.h"
 #include "constants/abilities.h"
+#include "constants/battle_frontier.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
 #include "constants/layouts.h"
@@ -127,6 +129,8 @@ static void CB2_ReturnToFieldLocal(void);
 static void CB2_ReturnToFieldLink(void);
 static void CB2_LoadMapOnReturnToFieldCableClub(void);
 static void CB2_LoadMap2(void);
+static void UpdateAutosave(void);
+static void Task_Autosave(u8 taskId);
 static void VBlankCB_Field(void);
 static void SpriteCB_LinkPlayer(struct Sprite *);
 static void ChooseAmbientCrySpecies(void);
@@ -236,6 +240,9 @@ EWRAM_DATA static struct InitialPlayerAvatarState sInitialPlayerAvatarState = {0
 EWRAM_DATA static enum Species sAmbientCrySpecies = SPECIES_NONE;
 EWRAM_DATA static bool8 sIsAmbientCryWaterMon = FALSE;
 EWRAM_DATA static u8 sHoursOverride = 0; // used to override apparent time of day hours
+// QoL #7 autosave: armed by CB2_LoadMap, fired from DoCB1_Overworld once the field is idle.
+EWRAM_DATA static u16 sAutosaveSettleTimer = 0; // field frames left to reach idle before giving up
+EWRAM_DATA static u32 sLastAutosaveFrame = 0;   // gMain.vblankCounter1 at the last autosave
 EWRAM_DATA struct LinkPlayerObjectEvent gLinkPlayerObjectEvents[4] = {0};
 EWRAM_DATA bool8 gExitStairsMovementDisabled = FALSE;
 EWRAM_DATA bool8 gDisableMapMusicChangeOnMapLoad = MUSIC_DISABLE_OFF;
@@ -1653,6 +1660,124 @@ bool32 IsOverworldLinkActive(void)
         return FALSE;
 }
 
+// QoL #7 autosave: a silent full save (same SAVE_NORMAL path as the manual menu) fired after a
+// map transition, once the warp-exit animation hands an idle, player-controlled field back.
+#define AUTOSAVE_SETTLE_FRAMES 300              // ~5s: outlasts door/stairs/fly-landing arrivals, well under any cutscene
+#define AUTOSAVE_MIN_INTERVAL_FRAMES (60 * 60)  // ~60s between autosaves (kills door-in/door-out double saves)
+
+static const u8 sText_Autosaving[] = _("SAVING…");
+
+static const struct WindowTemplate sAutosaveWindowTemplate = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 1,
+    .width = 7,
+    .height = 2,
+    .paletteNum = 15,
+    .baseBlock = 8
+};
+
+// Contexts that must never autosave. Mirrors BuildStartMenuActions' SAVE-hiding branches
+// (link, Union Room, multi partner room, Safari Zone, Battle Pike, Battle Pyramid) and adds:
+// Trainer Hill + live frontier challenges (both own their save mode - SAVE_LINK/special
+// sectors, resumed via challengeStatus on load), Sky Charm flight (same IsPlayerFlying()
+// guardrail as the manual save dialogs), pending region first-visit arrival scenes
+// (VAR_REGION_ARRIVAL, armed while the party-boxing intro hasn't finished), and a
+// different-file save that must go through the manual overwrite confirmation first.
+static bool32 IsAutosaveBlocked(void)
+{
+    return !gSaveBlock2Ptr->optionsAutosave
+        || gDifferentSaveFile
+        || gMain.vblankCounter1 - sLastAutosaveFrame < AUTOSAVE_MIN_INTERVAL_FRAMES
+        || IsOverworldLinkActive()
+        || InUnionRoom()
+        || InMultiPartnerRoom()
+        || GetSafariZoneFlag()
+        || InBattlePike()
+        || InTrainerHill()
+        || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
+        || gSaveBlock2Ptr->frontier.challengeStatus == CHALLENGE_STATUS_SAVING
+        || gSaveBlock2Ptr->frontier.challengeStatus == CHALLENGE_STATUS_PAUSED
+        || VarGet(VAR_REGION_ARRIVAL) != 0
+        || IsPlayerFlying();
+}
+
+#define tWindowId  data[0]
+#define tHoldTimer data[1]
+#define tState     data[2]
+
+static void Task_Autosave(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    switch (tState)
+    {
+    case 0: // let the SAVING… window reach VRAM before the blocking flash write
+        tState++;
+        break;
+    case 1:
+        SaveMapView(); // both manual flows snapshot runtime tile edits before writing
+        IncrementGameStat(GAME_STAT_SAVED_GAME);
+        if (TrySavingData(SAVE_NORMAL) == SAVE_STATUS_OK)
+            PlaySE(SE_SAVE);
+        tHoldTimer = 60;
+        tState++;
+        break;
+    case 2:
+        if (--tHoldTimer == 0)
+        {
+            ClearStdWindowAndFrameToTransparent(tWindowId, TRUE);
+            RemoveWindow(tWindowId);
+            UnlockPlayerFieldControls();
+            DestroyTask(taskId);
+        }
+        break;
+    }
+}
+
+// Runs while armed (sAutosaveSettleTimer != 0). Hard-blocked contexts cancel outright; the
+// warp-exit walk/fade/forced-slide just wait, bounded by the settle budget so anything long
+// (first-visit intros, cutscenes) silently forfeits this transition's autosave. Any script or
+// menu the player starts meanwhile also cancels (see DoCB1_Overworld's lock branch).
+static void UpdateAutosave(void)
+{
+    u8 taskId, windowId;
+
+    if (IsAutosaveBlocked())
+    {
+        sAutosaveSettleTimer = 0;
+        return;
+    }
+    if (--sAutosaveSettleTimer == 0)
+        return;
+    if (gPaletteFade.active || ArePlayerFieldControlsLocked() || ScriptContext_IsEnabled()
+     || (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) || !IsPlayerStandingStill())
+        return;
+
+    windowId = AddWindow(&sAutosaveWindowTemplate);
+    if (windowId == WINDOW_NONE)
+    {
+        sAutosaveSettleTimer = 0;
+        return;
+    }
+    sAutosaveSettleTimer = 0;
+    sLastAutosaveFrame = gMain.vblankCounter1;
+    LockPlayerFieldControls();
+    HideMapNamePopUpWindow();
+    LoadMessageBoxAndBorderGfx();
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+    PutWindowTilemap(windowId);
+    DrawStdWindowFrame(windowId, FALSE);
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, sText_Autosaving, 0, 1, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+    taskId = CreateTask(Task_Autosave, 80);
+    gTasks[taskId].tWindowId = windowId;
+}
+
+#undef tWindowId
+#undef tHoldTimer
+#undef tState
+
 static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
 {
     struct FieldInput inputStruct;
@@ -1667,12 +1792,17 @@ static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
         {
             LockPlayerFieldControls();
             HideMapNamePopUpWindow();
+            // The player engaged something (menu, NPC, on-frame script, encounter):
+            // forfeit any pending autosave instead of firing it when they finish.
+            sAutosaveSettleTimer = 0;
         }
         else
         {
             PlayerStep(inputStruct.dpadDirection, newKeys, heldKeys);
         }
     }
+    if (sAutosaveSettleTimer != 0)
+        UpdateAutosave();
     // If stop running but keep holding B -> fix follower frame.
     if (PlayerHasFollowerNPC() && (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT) && IsPlayerStandingStill())
         ObjectEventSetHeldMovement(&gObjectEvents[GetFollowerNPCObjectId()], GetFaceDirectionAnimNum(gObjectEvents[GetFollowerNPCObjectId()].facingDirection));
@@ -1969,6 +2099,7 @@ void CB2_WhiteOut(void)
             gFieldCallback = FieldCB_RushInjuredPokemonToCenter;
         else
             gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+        sAutosaveSettleTimer = 0; // never let a pre-battle warp's pending autosave seal a whiteout
         state = 0;
         SetFollowerNPCData(FNPC_DATA_SURF_BLOB, FNPC_SURF_BLOB_NONE);
         DoMapLoadLoop(&state);
@@ -1995,6 +2126,7 @@ void CB2_BugContestWhiteOut(void)
         ScriptContext_Init();
         UnlockPlayerFieldControls();
         gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+        sAutosaveSettleTimer = 0; // as in CB2_WhiteOut: a forfeit is not a save point
         state = 0;
         DoMapLoadLoop(&state);
         SetFieldVBlankCallback();
@@ -2012,6 +2144,8 @@ void CB2_LoadMap(void)
     SetMainCallback1(NULL);
     SetMainCallback2(CB2_DoChangeMap);
     gMain.savedCallback = CB2_LoadMap2;
+    // Arm QoL #7 autosave for this transition; the timer only ticks in field (CB1) frames.
+    sAutosaveSettleTimer = AUTOSAVE_SETTLE_FRAMES;
 }
 
 static void CB2_LoadMap2(void)

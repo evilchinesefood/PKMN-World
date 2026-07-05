@@ -640,6 +640,8 @@ static void Usm_LoadBgGfx(void)
     LoadBgTilemap(0, 0, 0, 0);
     DecompressAndLoadBgGfxUsingHeap(0, sUsmBgTiles, 0, 0, 0);
     DecompressDataWithHeaderWram(sUsmBgTilemap, buffer);
+    // Blank the white plate that backed the upstream clock row (stripped in the port).
+    FillBgTilemapBufferRect(0, 0, 17, 11, 13, 2, 14);
     LoadPalette(gStandardMenuPalette, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
     LoadPalette(sUsmBgPalette, BG_PLTT_ID(14), PLTT_SIZE_4BPP);
     SetBgTilemapBuffer(0, buffer);

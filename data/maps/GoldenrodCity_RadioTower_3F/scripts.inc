@@ -92,8 +92,12 @@ GoldenrodCity_RadioTower_3F_EventScript_Gate::
 	lock
 	msgbox GoldenrodCity_RadioTower_3F_Text_CardKeySlot, MSGBOX_SIGN
 	goto_if_set FLAG_HIDE_RADIOTOWER_GATE, GoldenrodCity_RadioTower_3F_EventScript_GateOpened
+	@ A1 gate policy: the Silph Co. (Kanto) CARD KEY must not open this gate
+	@ before the takeover's underground beat (state 7+) is underway.
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 7, GoldenrodCity_RadioTower_3F_EventScript_GateShut
 	checkitem ITEM_CARD_KEY
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_RadioTower_3F_EventScript_OpenGate
+GoldenrodCity_RadioTower_3F_EventScript_GateShut::
 	closemessage
 	release
 	end

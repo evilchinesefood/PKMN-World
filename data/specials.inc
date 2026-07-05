@@ -672,3 +672,6 @@ gSpecials::
 	def_special JudgeBugContestMon
 	def_special TransferBugContestMon
 	def_special RemoveSafariBalls
+
+	@ Region merge (A1): global-bag key item/HM duplicate-obtain guard.
+	def_special ObtainWouldDupeKeyItem

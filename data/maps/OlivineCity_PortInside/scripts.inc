@@ -110,11 +110,20 @@ OlivinePort_EventScript_Sailor::
 	lock
 	faceplayer
 	goto_if_ge VAR_SSAQUA_STATE, 7, OlivinePort_EventScript_Sailor_AfterKanto
+	@ A1 gate policy: the maiden voyage is Johto's post-League beat (Elm's
+	@ S.S.TICKET). Norman's Hoenn ticket must not launch it mid-Johto.
+	goto_if_lt VAR_NEWBARKTOWN_LABSTATE, 11, OlivinePort_EventScript_Sailor_NotSailingYet
 	msgbox OlivinePort_Text_AskBoard, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_Refused
 	checkitem ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, TRUE, OlivinePort_EventScript_Sailor_MaidenVoyage
 	msgbox OlivinePort_Text_NoTicket, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+OlivinePort_EventScript_Sailor_NotSailingYet::
+	msgbox OlivinePort_Text_NotSailingYet, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -282,6 +291,11 @@ OlivinePort_Text_ComeAgain:
 OlivinePort_Text_FlashTicket:
     .string "{PLAYER} flashed the S.S.TICKET.\p"
     .string "That's it. Thank you!$"
+
+OlivinePort_Text_NotSailingYet:
+    .string "The S.S. AQUA is still being\n"
+    .string "readied for her maiden voyage.\p"
+    .string "Please come back later!$"
 
 OlivinePort_Text_NoTicket:
     .string "{PLAYER} tried to show the\n"

@@ -81,6 +81,7 @@ CianwoodCity_EventScript_ChucksWifeGiveFly::
 	giveitem ITEM_HM_FLY
 	msgbox CianwoodCity_Text_ChucksWifeFlySpeech, MSGBOX_DEFAULT
 	closemessage
+	setvar VAR_GETFLY, 2
 	release
 	end
 

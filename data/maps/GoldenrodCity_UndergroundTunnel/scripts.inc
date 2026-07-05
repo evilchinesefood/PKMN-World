@@ -280,8 +280,12 @@ GoldenrodCity_UndergroundTunnel_MapScript_OpenDoor::
 GoldenrodCity_UndergroundTunnel_EventScript_Door::
 	lock
 	goto_if_set FLAG_UNLOCKED_GOLDENROD_UNDERGROUND_DOOR, GoldenrodCity_UndergroundTunnel_EventScript_DoorAlreadyOpened
+	@ A1 gate policy: Wattson's (Hoenn) BASEMENT KEY must not open this door
+	@ before Petrel hands out Johto's copy (state 7 = his post-battle beat).
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 7, GoldenrodCity_UndergroundTunnel_EventScript_DoorLocked
 	checkitem ITEM_BASEMENT_KEY
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_UndergroundTunnel_EventScript_OpenDoor
+GoldenrodCity_UndergroundTunnel_EventScript_DoorLocked::
 	msgbox GoldenrodUnderground_Text_DoorsLocked, MSGBOX_DEFAULT
 	closemessage
 	release

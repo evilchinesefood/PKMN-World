@@ -14259,6 +14259,86 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_HeartScale,
     },
 
+    [ITEM_MYSTERY_EGG] =
+    {
+        .name = ITEM_NAME("Mystery Egg"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "An EGG entrusted\n"
+            "by MR. POKéMON\n"
+            "for PROF. ELM."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_LuckyEgg,
+        .iconPalette = gItemIconPalette_LuckyEgg,
+    },
+
+    [ITEM_SECRET_POTION] =
+    {
+        .name = ITEM_NAME("SecretPotion"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Strong medicine\n"
+            "from the CIANWOOD\n"
+            "pharmacy."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_Potion,
+        .iconPalette = gItemIconPalette_Potion,
+    },
+
+    [ITEM_SILVER_WING] =
+    {
+        .name = ITEM_NAME("Silver Wing"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A strange, silvery\n"
+            "feather of unknown\n"
+            "origin."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_PrettyFeather,
+        .iconPalette = gItemIconPalette_PrettyFeather,
+    },
+
+    [ITEM_RAINBOW_WING] =
+    {
+        .name = ITEM_NAME("Rainbow Wing"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A mystical feather\n"
+            "that shines in\n"
+            "rainbow colors."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_PrettyFeather,
+        .iconPalette = gItemIconPalette_PrettyFeather,
+    },
+
+    [ITEM_SKY_CHARM] =
+    {
+        .name = ITEM_NAME("Sky Charm"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A charm that calls\n"
+            "a wild POKéMON to\n"
+            "carry you skyward."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_SkyCharm,
+        .iconPic = gItemIcon_ShinyCharm,
+        .iconPalette = gItemIconPalette_ShinyCharm,
+    },
+
     [ITEM_GS_BALL] =
     {
         .name = ITEM_NAME("GS Ball"),

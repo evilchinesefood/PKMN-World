@@ -57,8 +57,12 @@ GoldenrodCity_DepartmentStoreBasement_EventScript_BlackBelt2::
 	end
 
 GoldenrodCity_DepartmentStoreBasement_EventScript_BlackBelt2_Mid::
+	@ A1 gate policy: same story gate as the Radio Tower 3F door - the Silph Co.
+	@ (Kanto) CARD KEY must not open the passage before the takeover beat.
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 7, GoldenrodCity_DepartmentStoreBasement_EventScript_BlackBelt2_NoKey
 	checkitem ITEM_CARD_KEY
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_DepartmentStoreBasement_EventScript_MachokeMoveBoulder2
+GoldenrodCity_DepartmentStoreBasement_EventScript_BlackBelt2_NoKey::
 	msgbox GoldenrodDeptStore_Text_B1FBlackBelt2, MSGBOX_DEFAULT
 	closemessage
 	release

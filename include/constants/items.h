@@ -1076,15 +1076,20 @@ enum __attribute__((packed)) Item
     ITEM_TIDAL_BELL,    // Whirl Islands / Lugia
     ITEM_RED_SCALE,     // Red Gyarados scale (Lake of Rage -> Mr. Pokemon)
 
+    // A1 remediation: more Johto key items promoted the same way. MYSTERY_EGG
+    // previously aliased ITEM_LETTER, so the Johto egg quest and Hoenn's Devon
+    // Letter quest collided in the shared bag; the other three were ITEM_NONE
+    // stubs whose gives/removes silently no-opped.
+    ITEM_MYSTERY_EGG,   // Mr. Pokemon -> Prof. Elm egg (Route 30)
+    ITEM_SECRET_POTION, // Cianwood pharmacy -> Amphy (Olivine Lighthouse)
+    ITEM_SILVER_WING,   // Lugia lore gift (Radio Tower Director)
+    ITEM_RAINBOW_WING,  // Ho-Oh lore gift (Radio Tower Director)
+
+    ITEM_SKY_CHARM,     // F1: toggles overworld free-flight (World Transit hub, needs 1+ badge)
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };
-
-// Region merge (Johto port): the HnS Mystery Egg is a one-time story key item that
-// the New Bark lab script only ever removeitem's. Alias it to an existing key item
-// (ITEM_LETTER) so it has a valid item-table entry without growing ITEMS_COUNT. A
-// later pass can promote it to a dedicated item if it needs unique behavior.
-#define ITEM_MYSTERY_EGG ITEM_LETTER
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
 // Its icon is defined at ITEMS_COUNT as the "return to field" arrow

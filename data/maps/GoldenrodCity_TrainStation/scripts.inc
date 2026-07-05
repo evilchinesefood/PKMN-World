@@ -14,7 +14,9 @@ GoldenrodCity_TrainStation_EventScript_Attendant::
 	faceplayer
 	checkitem ITEM_PASS
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_TrainStation_EventScript_BoardTrain
-	goto_if_set FLAG_RETURNED_MACHINE_PART, GoldenrodCity_TrainStation_EventScript_Attendant2
+	@ A1: the machine-part quest was never ported (FLAG_RETURNED_MACHINE_PART is
+	@ only ever cleared), so the train runs once the Radio Tower is retaken.
+	goto_if_ge VAR_GOLDENROD_CITY_STATE, 10, GoldenrodCity_TrainStation_EventScript_Attendant2
 	msgbox GoldenrodMagnetTrainStation_Text_OfficerTrainHasntComeIn, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -77,10 +79,32 @@ GoldenrodCity_TrainStation_EventScript_ExitTrain::
 	release
 	end
 
+@ A1 (P0): the rail PASS had no giver. HnS's Copycat-doll chain isn't in the
+@ port, so the station PRESIDENT hands it out once the Radio Tower is retaken
+@ (VAR_GOLDENROD_CITY_STATE >= 10) - Johto's World Transit unlock beat, in line
+@ with Kanto's and Hoenn's mid-game access points. checkitem is the cross-
+@ region-safe re-give guard.
 GoldenrodCity_TrainStation_EventScript_Gent::
 	lock
 	faceplayer
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 10, GoldenrodCity_TrainStation_EventScript_GentDream
+	checkitem ITEM_PASS
+	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_TrainStation_EventScript_GentHasPass
+	msgbox GoldenrodMagnetTrainStation_Text_PresidentGivePass, MSGBOX_DEFAULT
+	giveitem ITEM_PASS
+	msgbox GoldenrodMagnetTrainStation_Text_PresidentRideAnytime, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+GoldenrodCity_TrainStation_EventScript_GentDream::
 	msgbox GoldenrodMagnetTrainStation_Text_GentlemanPresident, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+GoldenrodCity_TrainStation_EventScript_GentHasPass::
+	msgbox GoldenrodMagnetTrainStation_Text_PresidentRideAnytime, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -308,7 +332,9 @@ GoldenrodMagnetTrainStation_Text_OfficerRightThisWay:
     .string "OK. Right this way, please.$"
 
 GoldenrodMagnetTrainStation_Text_OfficerNoRailPass:
-    .string "Sorry. You don't have a rail PASS.$"
+    .string "Sorry. You don't have a rail PASS.\p"
+    .string "The PRESIDENT over there has been\n"
+    .string "handing them out.$"
 
 GoldenrodMagnetTrainStation_Text_GentlemanPresident:
     .string "I'm the PRESIDENT.\p"
@@ -316,6 +342,18 @@ GoldenrodMagnetTrainStation_Text_GentlemanPresident:
     .string "is faster than any POKéMON.\p"
     .string "It really brings JOHTO much closer\n"
     .string "to KANTO.$"
+
+GoldenrodMagnetTrainStation_Text_PresidentGivePass:
+    .string "I'm the PRESIDENT.\p"
+    .string "You're the TRAINER who drove\n"
+    .string "TEAM ROCKET from the RADIO TOWER!\p"
+    .string "Splendid! The MAGNET TRAIN can\n"
+    .string "run without any worries.\p"
+    .string "Please, take this rail PASS.$"
+
+GoldenrodMagnetTrainStation_Text_PresidentRideAnytime:
+    .string "With that PASS, you may ride my\n"
+    .string "MAGNET TRAIN anytime!$"
 
 GoldenrodCity_TrainStation_Text_Boy:
 	.string "You brought the MAGNET TRAIN PASS,\n"

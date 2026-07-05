@@ -31,6 +31,9 @@ BattleFrontier_OutsideWest_Text_HubShuttle:
 BattleFrontier_OutsideWest_EventScript_FerryAttendant::
 	lock
 	faceplayer
+	@ A1 gate policy: match the Slateport harbor ferry, which already requires
+	@ FLAG_SYS_GAME_CLEAR on top of the S.S. TICKET.
+	goto_if_unset FLAG_SYS_GAME_CLEAR, BattleFrontier_OutsideWest_EventScript_FerryNotRunning
 	msgbox BattleFrontier_OutsideWest_Text_MayISeeYourTicket, MSGBOX_DEFAULT
 	checkitem ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_OutsideWest_EventScript_NoSSTicket
@@ -50,6 +53,11 @@ BattleFrontier_OutsideWest_EventScript_ChooseFerryDestination::
 
 BattleFrontier_OutsideWest_EventScript_NoSSTicket::
 	msgbox BattleFrontier_OutsideWest_Text_MustHaveTicketToBoard, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_OutsideWest_EventScript_FerryNotRunning::
+	msgbox BattleFrontier_OutsideWest_Text_FerryNotRunning, MSGBOX_DEFAULT
 	release
 	end
 
@@ -345,6 +353,12 @@ BattleFrontier_OutsideWest_Text_MustHaveTicketToBoard:
 	.string "I'm terribly sorry.\p"
 	.string "You must have a TICKET to board\n"
 	.string "the ferry.$"
+
+BattleFrontier_OutsideWest_Text_FerryNotRunning:
+	.string "I'm terribly sorry.\p"
+	.string "The ferry to SLATEPORT and\n"
+	.string "LILYCOVE serves LEAGUE CHAMPIONS\l"
+	.string "only.$"
 
 BattleFrontier_OutsideWest_Text_WhereWouldYouLikeToGo:
 	.string "{PLAYER} flashed the TICKET.\p"

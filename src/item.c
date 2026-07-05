@@ -226,6 +226,25 @@ bool32 CheckBagHasItem(enum Item itemId, u16 count)
     return BagPocket_CheckHasItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
 }
 
+// Region merge (A1): with one global bag, key-class items (Key Items pocket + HMs)
+// must never land twice across regions. TRUE if itemId is key-class and already
+// in the bag. ITEM_METEORITE is exempt: the Hoenn (Cozmo) and Sevii (Two Island)
+// delivery quests each give and consume their own copy of the same id.
+bool32 IsDuplicateKeyClassItem(enum Item itemId)
+{
+    if (itemId == ITEM_METEORITE)
+        return FALSE;
+    if (GetItemPocket(itemId) != POCKET_KEY_ITEMS && !(itemId >= ITEM_HM01 && itemId <= ITEM_HM08))
+        return FALSE;
+    return CheckBagHasItem(itemId, 1);
+}
+
+// Script special for the Std_ObtainItem/Std_FindItem paths (item id in VAR_0x8006).
+bool32 ObtainWouldDupeKeyItem(void)
+{
+    return IsDuplicateKeyClassItem(gSpecialVar_0x8006);
+}
+
 bool32 HasAtLeastOneBerry(void)
 {
     for (enum BerryId berryId = 1; berryId <= NUM_BERRIES; berryId++)

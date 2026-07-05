@@ -668,7 +668,12 @@ bool8 ScrCmd_additem(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE);
 
-    gSpecialVar_Result = AddBagItem(itemId, quantity);
+    // Region merge (A1): a key item/HM already in the global bag is never added
+    // again; report success so give scenes keep flowing.
+    if (IsDuplicateKeyClassItem(itemId))
+        gSpecialVar_Result = TRUE;
+    else
+        gSpecialVar_Result = AddBagItem(itemId, quantity);
     return FALSE;
 }
 

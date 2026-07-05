@@ -661,12 +661,12 @@ MahoganyHideout_B2F_Text_LanceElectrodeDone:
     .string "have any need for it.$"
 
 MahoganyHideout_B2F_Text_LanceWhirlpool:
-    .string "That's WHIRLPOOL. Teach it to a\n"
-    .string "POKéMON to get across wild water.\p"
+    .string "That's the HM DIVE. Teach it to a\n"
+    .string "POKéMON to explore deep water.\p"
     .string "But keep this in mind.\p"
     .string "You can use that out of battle\n"
-    .string "only with the BADGE from\l"
-    .string "MAHOGANY GYM.$"
+    .string "only once you've earned the\l"
+    .string "right GYM BADGE.$"
 
 MahoganyHideout_B2F_Text_LanceMonMaster:
     .string "{PLAYER}…\p"

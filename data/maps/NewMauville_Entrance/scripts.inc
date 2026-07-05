@@ -25,6 +25,9 @@ NewMauville_Entrance_EventScript_Door::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	msgbox NewMauville_Entrance_Text_DoorIsLocked, MSGBOX_DEFAULT
+	@ A1 gate policy: Petrel's (Johto) BASEMENT KEY must not open New Mauville
+	@ before Wattson's give beat starts the quest.
+	goto_if_unset FLAG_GOT_BASEMENT_KEY_FROM_WATTSON, NewMauville_Entrance_EventScript_DontOpenDoor
 	checkitem ITEM_BASEMENT_KEY
 	goto_if_eq VAR_RESULT, FALSE, NewMauville_Entrance_EventScript_DontOpenDoor
 	msgbox NewMauville_Entrance_Text_UseBasementKey, MSGBOX_YESNO

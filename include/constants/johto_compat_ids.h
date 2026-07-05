@@ -39,9 +39,9 @@
 #define ITEM_HM_ROCK_SMASH     ITEM_HM06
 // ITEM_PASS and ITEM_SQUIRT_BOTTLE are now real key items (include/constants/items.h);
 // the ITEM_NONE stubs soft-locked the Magnet Train and the Route 36 Sudowoodo.
+// ITEM_SILVER_WING and ITEM_RAINBOW_WING are now real key items too (A1): the
+// Director's post-takeover gives landed nothing as ITEM_NONE stubs.
 #define ITEM_RADIO             ITEM_NONE
-#define ITEM_RAINBOW_WING      ITEM_NONE
-#define ITEM_SILVER_WING       ITEM_NONE
 #define INGAME_TRADE_MACHOP    0
 #define INGAME_TRADE_VOLTORB   0
 #define MON_UNSATISFACTORY   1
@@ -55,12 +55,13 @@
 
 // === Olivine area: HnS Johto trainers (real parties land in the trainers stage) ===
 
-// Olivine-area items: HnS TM/HM-by-move -> Gen-3 numbered ids; SecretPotion key item stub
+// Olivine-area items: HnS TM/HM-by-move -> Gen-3 numbered ids.
+// ITEM_SECRET_POTION is now a real key item (A1): the ITEM_NONE stub broke the
+// Cianwood pharmacy -> Amphy delivery (give and removeitem both no-opped).
 #define ITEM_HM_STRENGTH       ITEM_HM04
 #define ITEM_TM_BULK_UP        ITEM_TM08
 #define ITEM_TM_IRON_TAIL      ITEM_TM23
 #define ITEM_TM_SHOCK_WAVE     ITEM_TM34
-#define ITEM_SECRET_POTION     ITEM_NONE
 
 
 // === Cianwood area: HnS Johto trainers (real parties land in the trainers stage) ===

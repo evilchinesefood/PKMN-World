@@ -3,9 +3,20 @@
 
 Std_ObtainItem::
 	copyvar VAR_0x8006, ITEMID
+	specialvar VAR_RESULT, ObtainWouldDupeKeyItem
+	goto_if_eq VAR_RESULT, TRUE, EventScript_ObtainedDupKeyItem
 	additem ITEMID, AMOUNT
 	copyvar VAR_0x8007, VAR_RESULT
 	call EventScript_ObtainItemMessage
+	return
+
+@ Region merge (A1): key item/HM already in the (global, cross-region) bag. Skip
+@ the dup but report success so give scenes keep flowing and set their flags/vars.
+EventScript_ObtainedDupKeyItem::
+	bufferitemnameplural STR_VAR_2, ITEMID, 1
+	msgbox gText_AlreadyHaveKeyItem, MSGBOX_DEFAULT
+	setvar VAR_0x8007, TRUE
+	setvar VAR_RESULT, TRUE
 	return
 
 EventScript_ObtainItemMessage::
@@ -108,6 +119,8 @@ Std_FindItem::
 	faceplayer
 	waitse
 	copyvar VAR_0x8006, ITEMID
+	specialvar VAR_RESULT, ObtainWouldDupeKeyItem
+	goto_if_eq VAR_RESULT, TRUE, EventScript_FoundDupKeyItem
 	copyvar VAR_0x8004, ITEMID
 	copyvar VAR_0x8005, AMOUNT
 	checkitemspace ITEMID, AMOUNT
@@ -170,6 +183,17 @@ EventScript_NoRoomToPickUpItem::
 	msgbox gText_ObtainedTheItem, MSGBOX_DEFAULT
 	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
 	setvar VAR_RESULT, FALSE
+	return
+
+@ Region merge (A1): key item/HM already owned. The ball still disappears
+@ (removeobject sets its hide flag) but no dup lands in the bag.
+EventScript_FoundDupKeyItem::
+	bufferitemnameplural STR_VAR_2, ITEMID, 1
+	removeobject VAR_LAST_TALKED
+	msgbox gText_PlayerFoundOneItem, MSGBOX_DEFAULT
+	msgbox gText_AlreadyHaveKeyItem, MSGBOX_DEFAULT
+	setvar VAR_RESULT, TRUE
+	release
 	return
 
 EventScript_HiddenItemScript::

@@ -4,6 +4,10 @@ gText_ObtainedTheItem::
 gText_TheBagIsFull::
 	.string "The BAG is full…$"
 
+gText_AlreadyHaveKeyItem::
+	.string "But {PLAYER} already has\n"
+	.string "one {STR_VAR_2}…$"
+
 gText_PutItemInPocket::
 	.string "{PLAYER} put away the {STR_VAR_2}\n"
 	.string "in the {STR_VAR_3} POCKET.$"

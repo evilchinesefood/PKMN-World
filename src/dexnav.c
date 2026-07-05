@@ -2470,7 +2470,7 @@ bool32 TryFindHiddenPokemon(void)
     u16 *stepPtr = GetVarPointer(DN_VAR_STEP_COUNTER);
 
     if (DEXNAV_ENABLED == 0
-            || sDexNavSearchDataPtr == NULL
+            || stepPtr == NULL // upstream checks sDexNavSearchDataPtr here, which is NULL outside a search -> detector mode never fires
             || !FlagGet(DN_FLAG_DETECTOR_MODE)
             || FlagGet(DN_FLAG_SEARCHING)
             || GetFlashLevel() > 0)

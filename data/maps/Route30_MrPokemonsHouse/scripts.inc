@@ -63,6 +63,7 @@ MrPokemonHouse_EventScript_GiveEgg::
 	setvar VAR_NEWBARKTOWN_LABSTATE, 4
 	setflag FLAG_HIDE_SILVER_NEWBARKTOWN
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_SYS_DEXNAV_GET
 	checkrandomizer
 	call_if_eq VAR_RESULT, TRUE, MrPokemonHouse_EventScript_GiveNatDexRandomizer
 	clearflag FLAG_HIDE_LAB_POLICEMAN
@@ -227,6 +228,8 @@ MrPokemonHouse_Text_GetDex:
 MrPokemonHouse_Text_OakParting:
 	.string "Go meet many kinds of POKéMON and\n"
 	.string "complete that POKéDEX!\p"
+	.string "Its DEXNAV will help you\n"
+	.string "search for them.\p"
 	.string "But I've stayed too long.\p"
 	.string "I have to get to GOLDENROD\n"
 	.string "for my usual radio show.\p"

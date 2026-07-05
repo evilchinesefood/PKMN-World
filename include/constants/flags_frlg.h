@@ -2646,9 +2646,9 @@
 #define FLAG_UNUSED_0x91A                           0
 #define FLAG_UNUSED_0x91B                           0
 #define FLAG_UNUSED_0x91C                           0
-#define FLAG_UNUSED_0x91D                           0
-#define FLAG_UNUSED_0x91E                           0
-#define FLAG_UNUSED_0x91F                           0
+#define FLAG_SYS_DEXNAV_SEARCHING                   0
+#define FLAG_SYS_DEXNAV_GET                         0
+#define FLAG_SYS_DEXNAV_DETECTOR_MODE               0
 
 // Daily Flags
 // These flags are cleared once per day

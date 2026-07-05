@@ -654,6 +654,7 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	waitfanfare
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_SYS_DEXNAV_GET
 	special SetUnlockedPokedexFlags
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese
@@ -1480,6 +1481,8 @@ PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese::
 	.string "on POKéMON by just seeing them.\p"
 	.string "You must catch them to obtain\n"
 	.string "complete data.\p"
+	.string "The POKéDEX's DEXNAV will help\n"
+	.string "you track them down.\p"
 	.string "So, here are some tools for\n"
 	.string "catching wild POKéMON.$"
 

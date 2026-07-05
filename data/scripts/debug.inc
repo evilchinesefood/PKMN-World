@@ -21,6 +21,7 @@ Debug_CheatStart::
 	givemon SPECIES_TORCHIC, 20, ITEM_NONE
 	givemon SPECIES_MUDKIP, 20, ITEM_NONE
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_SYS_DEXNAV_GET
 	special SetUnlockedPokedexFlags
 	setflag FLAG_RECEIVED_POKEDEX_FROM_BIRCH
 	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 2
@@ -82,6 +83,7 @@ Debug_CheatStartFrlg::
 	setflag FLAG_HIDE_RIVAL_IN_LAB
 	setvar VAR_MAP_SCENE_PALLET_TOWN_OAK, 1 @ prevents Oak scene when trying to enter Route 1
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_SYS_DEXNAV_GET
 	special SetUnlockedPokedexFlags
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6 @ state after handing in parcel and getting pokedex
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 2

@@ -275,8 +275,8 @@
 #define VAR_PLAYER_CHARACTER                             0x40FB // Region merge: global protagonist pick (Lane K1b), shared across all regions
 #define VAR_PLAYER_PALETTE                               0x40FC // Region merge: global outfit/palette pick (Lane K1), shared across all regions
 #define VAR_REGION_ARRIVAL                               0x40FD // Region-switch (D3): start-town first-visit arrival-scene trigger; re-derived from the intro-done bit each ON_TRANSITION
-#define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
-#define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
+#define VAR_DEXNAV_SPECIES                               0x40FE // DexNav: registered species + environment (DN_VAR_SPECIES)
+#define VAR_DEXNAV_STEP_COUNTER                          0x40FF // DexNav: hidden-mon step counter (DN_VAR_STEP_COUNTER)
 
 #define VARS_END                                         0x40FF
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)

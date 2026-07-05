@@ -1,4 +1,5 @@
 #include "global.h"
+#include "config/dexnav.h"
 #include "main.h"
 #include "credits.h"
 #include "event_data.h"
@@ -30,6 +31,10 @@ int GameClear(void)
         gHasHallOfFameRecords = FALSE;
         FlagSet(FLAG_SYS_GAME_CLEAR);
     }
+
+    // DexNav detector-mode upgrade unlocks on the player's first league champion (any region)
+    if (DEXNAV_ENABLED && DN_FLAG_DETECTOR_MODE != 0)
+        FlagSet(DN_FLAG_DETECTOR_MODE);
 
     if (GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME) == 0)
         SetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME, (gSaveBlock2Ptr->playTimeHours << 16) | (gSaveBlock2Ptr->playTimeMinutes << 8) | gSaveBlock2Ptr->playTimeSeconds);
@@ -108,6 +113,9 @@ bool8 EnterHallOfFame(void)
         gHasHallOfFameRecords = FALSE;
         FlagSet(FLAG_SYS_GAME_CLEAR);
     }
+    // DexNav detector-mode upgrade unlocks on the player's first league champion (any region)
+    if (DEXNAV_ENABLED && DN_FLAG_DETECTOR_MODE != 0)
+        FlagSet(DN_FLAG_DETECTOR_MODE);
     if (GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME) == 0)
     {
         SetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME, (gSaveBlock2Ptr->playTimeHours << 16) | (gSaveBlock2Ptr->playTimeMinutes << 8) | gSaveBlock2Ptr->playTimeSeconds);

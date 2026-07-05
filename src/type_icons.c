@@ -493,6 +493,7 @@ static void (*const sShowTypesControllerFuncs[])(enum BattlerId battler) =
     HandleInputShowEntireFieldTargets,
     HandleMoveSwitching,
     HandleInputChooseMove,
+    OakOldManHandleInputChooseMove, // Kanto tutorial battle uses its own input controller
 };
 
 

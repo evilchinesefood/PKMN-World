@@ -7,6 +7,7 @@
 #include "field_control_avatar.h"
 #include "field_effect.h"
 #include "field_effect_helpers.h"
+#include "field_move.h"
 #include "field_screen_effect.h"
 #include "field_player_avatar.h"
 #include "fieldmap.h"
@@ -997,8 +998,6 @@ bool32 IsPlayerFlying(void)
 // F1 use gate - the single tunable choke point for takeoff.
 bool32 CanUseOverworldFlight(void)
 {
-    u32 i;
-
     switch (gMapHeader.mapType)
     {
     // Outdoor surface maps only; INDOOR, UNDERGROUND (caves), UNDERWATER and
@@ -1019,12 +1018,9 @@ bool32 CanUseOverworldFlight(void)
     // Guardrail 7 (no toggling mid-script/cutscene) needs no probe here: the bag
     // and the registered SELECT item are unreachable while a script has the field
     // input locked, and forced movement blocks button input at the source.
-    for (i = 0; i < NUM_BADGES; i++)
-    {
-        if (HasCurrentRegionBadge(i))
-            return TRUE;
-    }
-    return FALSE;
+    // Same per-region badge as the HM Fly field-move gate (IsFieldMoveUnlocked_Fly),
+    // so overworld flight and Fly unlock at the same moment in each region.
+    return IsFieldMoveUnlocked(FIELD_MOVE_FLY);
 }
 
 // Guardrail 2: land only where a normal step could stand at ground level.

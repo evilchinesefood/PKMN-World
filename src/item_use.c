@@ -99,7 +99,7 @@ static void PokevialPrintNoDosesMessage(bool32 isPlayerUsingRegisteredKeyItem, u
 
 static const u8 sText_CantDismountBike[] = _("You can't dismount your BIKE here.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_SkyCharmOnlyOutdoors[] = _("The SKY CHARM only responds\nunder the open sky.{PAUSE_UNTIL_PRESS}");
-static const u8 sText_SkyCharmNoBadge[] = _("The SKY CHARM won't respond without\na GYM BADGE from this region.{PAUSE_UNTIL_PRESS}");
+static const u8 sText_SkyCharmNoBadge[] = _("The SKY CHARM won't respond without\nthis region's BADGE that commands\lthe skies.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_SkyCharmCantLand[] = _("You can't land here!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNearby[] = _("Huh?\nThe ITEMFINDER's responding!\pThere's an item buried around here!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderOnTop[] = _("Oh!\nThe ITEMFINDER's shaking wildly!{PAUSE_UNTIL_PRESS}");

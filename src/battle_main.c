@@ -2986,7 +2986,8 @@ static void ClearSetBScriptingStruct(void)
     memset(&gBattleScripting, 0, sizeof(gBattleScripting));
 
     gBattleScripting.windowsType = temp;
-    gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
+    // QoL #16: Hard Mode forces SET style regardless of the BATTLE STYLE option.
+    gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsHardMode ? OPTIONS_BATTLE_STYLE_SET : gSaveBlock2Ptr->optionsBattleStyle;
     #if TESTING
     gBattleScripting.battleStyle = OPTIONS_BATTLE_STYLE_SET;
     #endif

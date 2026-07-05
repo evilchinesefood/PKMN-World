@@ -382,14 +382,28 @@ static void HandleInputChooseAction(enum BattlerId battler)
             BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_CANCEL_PARTNER, 0);
             BtlController_Complete(battler);
         }
-        else if (B_QUICK_MOVE_CURSOR_TO_RUN)
+        // QoL #12: RUN SHORTCUT option (supersedes B_QUICK_MOVE_CURSOR_TO_RUN).
+        // In wild battles, B either moves the cursor to "Run" (CURSOR) or flees
+        // outright (INSTANT). INSTANT requires a real B press so the dpad-hold
+        // path above can't trigger an accidental flee; it falls back to CURSOR.
+        else if (gSaveBlock2Ptr->optionsRunShortcut != OPTIONS_RUN_SHORTCUT_OFF)
         {
-            if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) // If wild battle, pressing B moves cursor to "Run".
+            if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
             {
-                PlaySE(SE_SELECT);
-                ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
-                gActionSelectionCursor[battler] = 3;
-                ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+                if (gSaveBlock2Ptr->optionsRunShortcut == OPTIONS_RUN_SHORTCUT_INSTANT && JOY_NEW(B_BUTTON))
+                {
+                    PlaySE(SE_SELECT);
+                    TryHideLastUsedBall();
+                    BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
+                    BtlController_Complete(battler);
+                }
+                else
+                {
+                    PlaySE(SE_SELECT);
+                    ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+                    gActionSelectionCursor[battler] = 3;
+                    ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+                }
             }
         }
     }

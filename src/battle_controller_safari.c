@@ -180,12 +180,21 @@ static void HandleInputChooseAction(enum BattlerId battler)
             ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
         }
     }
-    else if (B_QUICK_MOVE_CURSOR_TO_RUN && JOY_NEW(B_BUTTON))
+    // QoL #12: RUN SHORTCUT option (supersedes B_QUICK_MOVE_CURSOR_TO_RUN).
+    else if (gSaveBlock2Ptr->optionsRunShortcut != OPTIONS_RUN_SHORTCUT_OFF && JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_SELECT);
-        ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
-        gActionSelectionCursor[battler] = 3;
-        ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        if (gSaveBlock2Ptr->optionsRunShortcut == OPTIONS_RUN_SHORTCUT_INSTANT)
+        {
+            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_SAFARI_RUN, 0);
+            BtlController_Complete(battler);
+        }
+        else
+        {
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            gActionSelectionCursor[battler] = 3;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        }
     }
 }
 

@@ -10678,6 +10678,11 @@ bool32 IsBattlerInvalidForSpreadMove(enum BattlerId battlerAtk, enum BattlerId b
 
 bool32 IsAllowedToUseBag(void)
 {
+    // QoL #16: Hard Mode bans bag items in trainer battles (wild battles keep the
+    // bag so catching is unaffected).
+    if (gSaveBlock2Ptr->optionsHardMode && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        return FALSE;
+
     switch (VarGet(B_VAR_NO_BAG_USE))
     {
     case NO_BAG_RESTRICTION:

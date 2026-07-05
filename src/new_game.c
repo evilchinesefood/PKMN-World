@@ -108,6 +108,10 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->optionsAutosave = FALSE;
+    gSaveBlock2Ptr->optionsRunShortcut = OPTIONS_RUN_SHORTCUT_CURSOR;
+    gSaveBlock2Ptr->optionsExpMultiplier = OPTIONS_EXP_MULT_1X;
+    gSaveBlock2Ptr->optionsCatchMultiplier = OPTIONS_CATCH_MULT_1X;
+    gSaveBlock2Ptr->optionsHardMode = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 

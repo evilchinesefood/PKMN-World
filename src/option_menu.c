@@ -28,6 +28,10 @@
 #define tScrollArrowTaskId data[8] // TASK_NONE unless scroll arrows are active
 #define tAutoRun data[9]
 #define tAutosave data[10]
+#define tRunShortcut data[11]
+#define tHardMode data[12]
+#define tExpMult data[13]
+#define tCatchMult data[14]
 
 #define NUM_VISIBLE_OPTIONS 7
 
@@ -41,6 +45,10 @@ enum
     MENUITEM_FRAMETYPE,
     MENUITEM_AUTORUN,
     MENUITEM_AUTOSAVE,
+    MENUITEM_RUNSHORTCUT,
+    MENUITEM_HARDMODE,
+    MENUITEM_EXPMULT,
+    MENUITEM_CATCHMULT,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -76,6 +84,14 @@ static u8 AutoRun_ProcessInput(u8 selection);
 static void AutoRun_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 Autosave_ProcessInput(u8 selection);
 static void Autosave_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 RunShortcut_ProcessInput(u8 selection);
+static void RunShortcut_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 HardMode_ProcessInput(u8 selection);
+static void HardMode_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 ExpMult_ProcessInput(u8 selection);
+static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 CatchMult_ProcessInput(u8 selection);
+static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(s16 scrollOffset);
 static void DrawBgWindowFrames(void);
@@ -97,6 +113,12 @@ static const u8 gText_FrameTypeNumber[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN
 static const u8 gText_ButtonTypeNormal[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}NORMAL");
 static const u8 gText_ButtonTypeLR[]       = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}LR");
 static const u8 gText_ButtonTypeLEqualsA[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}L=A");
+static const u8 gText_RunShortcutCursor[]  = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CURSOR");
+static const u8 gText_RunShortcutInstant[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}INSTANT");
+static const u8 gText_Mult0_5x[]           = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}0.5x");
+static const u8 gText_Mult1x[]             = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}1x");
+static const u8 gText_Mult1_5x[]           = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}1.5x");
+static const u8 gText_Mult2x[]             = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}2x");
 
 static const u16 sOptionMenuText_Pal[] = INCGFX_U16("graphics/interface/option_menu_text.pal", ".gbapal");
 // note: this is only used in the Japanese release
@@ -112,6 +134,10 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_FRAMETYPE]   = COMPOUND_STRING("FRAME"),
     [MENUITEM_AUTORUN]     = COMPOUND_STRING("AUTO RUN"),
     [MENUITEM_AUTOSAVE]    = COMPOUND_STRING("AUTOSAVE"),
+    [MENUITEM_RUNSHORTCUT] = COMPOUND_STRING("RUN SHORTCUT"),
+    [MENUITEM_HARDMODE]    = COMPOUND_STRING("HARD MODE"),
+    [MENUITEM_EXPMULT]     = COMPOUND_STRING("EXP GAIN"),
+    [MENUITEM_CATCHMULT]   = COMPOUND_STRING("CATCH RATE"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("CANCEL"),
 };
 
@@ -263,6 +289,10 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
         gTasks[taskId].tAutoRun = gSaveBlock2Ptr->optionsAutoRun;
         gTasks[taskId].tAutosave = gSaveBlock2Ptr->optionsAutosave;
+        gTasks[taskId].tRunShortcut = gSaveBlock2Ptr->optionsRunShortcut;
+        gTasks[taskId].tHardMode = gSaveBlock2Ptr->optionsHardMode;
+        gTasks[taskId].tExpMult = gSaveBlock2Ptr->optionsExpMultiplier;
+        gTasks[taskId].tCatchMult = gSaveBlock2Ptr->optionsCatchMultiplier;
         gTasks[taskId].tScrollOffset = 0;
 
         RedrawVisibleOptionsPage(taskId);
@@ -382,6 +412,34 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tAutosave)
                 Autosave_DrawChoices(gTasks[taskId].tAutosave, gTasks[taskId].tScrollOffset);
             break;
+        case MENUITEM_RUNSHORTCUT:
+            previousOption = gTasks[taskId].tRunShortcut;
+            gTasks[taskId].tRunShortcut = RunShortcut_ProcessInput(gTasks[taskId].tRunShortcut);
+
+            if (previousOption != gTasks[taskId].tRunShortcut)
+                RunShortcut_DrawChoices(gTasks[taskId].tRunShortcut, gTasks[taskId].tScrollOffset);
+            break;
+        case MENUITEM_HARDMODE:
+            previousOption = gTasks[taskId].tHardMode;
+            gTasks[taskId].tHardMode = HardMode_ProcessInput(gTasks[taskId].tHardMode);
+
+            if (previousOption != gTasks[taskId].tHardMode)
+                HardMode_DrawChoices(gTasks[taskId].tHardMode, gTasks[taskId].tScrollOffset);
+            break;
+        case MENUITEM_EXPMULT:
+            previousOption = gTasks[taskId].tExpMult;
+            gTasks[taskId].tExpMult = ExpMult_ProcessInput(gTasks[taskId].tExpMult);
+
+            if (previousOption != gTasks[taskId].tExpMult)
+                ExpMult_DrawChoices(gTasks[taskId].tExpMult, gTasks[taskId].tScrollOffset);
+            break;
+        case MENUITEM_CATCHMULT:
+            previousOption = gTasks[taskId].tCatchMult;
+            gTasks[taskId].tCatchMult = CatchMult_ProcessInput(gTasks[taskId].tCatchMult);
+
+            if (previousOption != gTasks[taskId].tCatchMult)
+                CatchMult_DrawChoices(gTasks[taskId].tCatchMult, gTasks[taskId].tScrollOffset);
+            break;
         default:
             return;
         }
@@ -404,6 +462,10 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     gSaveBlock2Ptr->optionsAutoRun = gTasks[taskId].tAutoRun;
     gSaveBlock2Ptr->optionsAutosave = gTasks[taskId].tAutosave;
+    gSaveBlock2Ptr->optionsRunShortcut = gTasks[taskId].tRunShortcut;
+    gSaveBlock2Ptr->optionsHardMode = gTasks[taskId].tHardMode;
+    gSaveBlock2Ptr->optionsExpMultiplier = gTasks[taskId].tExpMult;
+    gSaveBlock2Ptr->optionsCatchMultiplier = gTasks[taskId].tCatchMult;
 
     if (gTasks[taskId].tScrollArrowTaskId != TASK_NONE)
     {
@@ -503,6 +565,10 @@ static void RedrawVisibleOptionsPage(u8 taskId)
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, scrollOffset);
     AutoRun_DrawChoices(gTasks[taskId].tAutoRun, scrollOffset);
     Autosave_DrawChoices(gTasks[taskId].tAutosave, scrollOffset);
+    RunShortcut_DrawChoices(gTasks[taskId].tRunShortcut, scrollOffset);
+    HardMode_DrawChoices(gTasks[taskId].tHardMode, scrollOffset);
+    ExpMult_DrawChoices(gTasks[taskId].tExpMult, scrollOffset);
+    CatchMult_DrawChoices(gTasks[taskId].tCatchMult, scrollOffset);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - scrollOffset);
 
     // Scroll repaint is a full window copy, unlike the single-row COPYWIN_GFX
@@ -828,6 +894,152 @@ static void Autosave_DrawChoices(u8 selection, s16 scrollOffset)
     // BattleScene's inverted var: OFF must stay the index-0 (value-0) choice.
     DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
+}
+
+// optionsRunShortcut stores CURSOR as 0 (old-save compat) but the menu cycles
+// OFF->CURSOR->INSTANT, so map value<->position; {1, 0, 2} is its own inverse.
+static const u8 sRunShortcutValuePos[] = {1, 0, 2};
+
+static u8 RunShortcut_ProcessInput(u8 selection)
+{
+    u8 pos = sRunShortcutValuePos[selection];
+
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        pos = pos <= 1 ? pos + 1 : 0;
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        pos = pos != 0 ? pos - 1 : 2;
+        sArrowPressed = TRUE;
+    }
+    return sRunShortcutValuePos[pos];
+}
+
+static void RunShortcut_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    // OFF/CURSOR/INSTANT don't fit as columns, so show only the current choice
+    // (FrameType-style). Indexed by STORED value: 0 = CURSOR, 1 = OFF, 2 = INSTANT.
+    static const u8 *const sTexts[] = {gText_RunShortcutCursor, gText_BattleSceneOff, gText_RunShortcutInstant};
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_RUNSHORTCUT, scrollOffset, &y))
+        return;
+
+    // The three labels differ in width, so wipe the choice area before printing.
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 104, 16);
+    DrawOptionMenuChoice(sTexts[selection], 104, y, 1);
+}
+
+static u8 HardMode_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void HardMode_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[2];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_HARDMODE, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection] = 1;
+
+    // optionsHardMode is normal polarity (0 = OFF, 1 = ON) like Autosave above.
+    DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
+}
+
+// optionsExpMultiplier stores 1x as 0 (old-save compat) but the menu columns run
+// 0.5x/1x/1.5x/2x, so map value<->column; {1, 0, 2, 3} is its own inverse.
+static const u8 sExpMultValueCol[] = {1, 0, 2, 3};
+
+static u8 ExpMult_ProcessInput(u8 selection)
+{
+    u8 col = sExpMultValueCol[selection];
+
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        col = col <= 2 ? col + 1 : 0;
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        col = col != 0 ? col - 1 : 3;
+        sArrowPressed = TRUE;
+    }
+    return sExpMultValueCol[col];
+}
+
+static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[4];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_EXPMULT, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[2] = 0;
+    styles[3] = 0;
+    styles[sExpMultValueCol[selection]] = 1; // stored value -> menu column
+
+    DrawOptionMenuChoice(gText_Mult0_5x, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_Mult1x, 134, y, styles[1]);
+    DrawOptionMenuChoice(gText_Mult1_5x, 155, y, styles[2]);
+    DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_NORMAL, gText_Mult2x, 198), y, styles[3]);
+}
+
+static u8 CatchMult_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (selection <= 1)
+            selection++;
+        else
+            selection = 0;
+
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (selection != 0)
+            selection--;
+        else
+            selection = 2;
+
+        sArrowPressed = TRUE;
+    }
+    return selection;
+}
+
+static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[3];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_CATCHMULT, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[2] = 0;
+    styles[selection] = 1; // stored value == menu column (0 = 1x, 1 = 1.5x, 2 = 2x)
+
+    DrawOptionMenuChoice(gText_Mult1x, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_Mult1_5x, 140, y, styles[1]);
+    DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_NORMAL, gText_Mult2x, 198), y, styles[2]);
 }
 
 static void DrawHeaderText(void)

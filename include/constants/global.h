@@ -228,6 +228,25 @@ enum Gender
 #define OPTIONS_BATTLE_STYLE_SHIFT 0
 #define OPTIONS_BATTLE_STYLE_SET 1
 
+// QoL #12: B-button behavior on the battle action menu (wild battles).
+// Save-compat: 0 = CURSOR so pre-option saves keep the already-shipped
+// B_QUICK_MOVE_CURSOR_TO_RUN behavior. Menu shows OFF/CURSOR/INSTANT.
+#define OPTIONS_RUN_SHORTCUT_CURSOR 0
+#define OPTIONS_RUN_SHORTCUT_OFF 1
+#define OPTIONS_RUN_SHORTCUT_INSTANT 2
+
+// QoL #15: battle EXP multiplier. Save-compat: 0 = 1x so pre-option saves
+// (and zeroed battle-test saves) stay vanilla. Menu shows 0.5x/1x/1.5x/2x.
+#define OPTIONS_EXP_MULT_1X 0
+#define OPTIONS_EXP_MULT_0_5X 1
+#define OPTIONS_EXP_MULT_1_5X 2
+#define OPTIONS_EXP_MULT_2X 3
+
+// QoL #15: catch-rate multiplier (0 = 1x, matches menu order 1x/1.5x/2x).
+#define OPTIONS_CATCH_MULT_1X 0
+#define OPTIONS_CATCH_MULT_1_5X 1
+#define OPTIONS_CATCH_MULT_2X 2
+
 enum __attribute__((packed)) Direction
 {
     DIR_NONE,

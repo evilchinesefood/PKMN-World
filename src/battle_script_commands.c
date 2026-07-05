@@ -9961,6 +9961,16 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     if (battleMon->status1 & STATUS1_CAN_MOVE)
         odds = odds * 15 / 10;
 
+    switch (gSaveBlock2Ptr->optionsCatchMultiplier) // QoL #15: CATCH RATE option
+    {
+    case OPTIONS_CATCH_MULT_1_5X:
+        odds = odds * 15 / 10;
+        break;
+    case OPTIONS_CATCH_MULT_2X:
+        odds *= 2;
+        break;
+    }
+
     return odds;
 }
 
@@ -11184,6 +11194,21 @@ void ApplyExperienceMultipliers(s32 *expAmount, u8 expGetterMonId, u8 faintedBat
         *expAmount = (*expAmount * 4915) / 4096;
     if (CheckBagHasItem(ITEM_EXP_CHARM, 1)) //is also for other exp boosting Powers if/when implemented
         *expAmount = (*expAmount * 150) / 100;
+
+    switch (gSaveBlock2Ptr->optionsExpMultiplier) // QoL #15: EXP GAIN option
+    {
+    case OPTIONS_EXP_MULT_0_5X:
+        *expAmount /= 2;
+        if (*expAmount == 0)
+            *expAmount = 1;
+        break;
+    case OPTIONS_EXP_MULT_1_5X:
+        *expAmount = (*expAmount * 150) / 100;
+        break;
+    case OPTIONS_EXP_MULT_2X:
+        *expAmount *= 2;
+        break;
+    }
 
     if (B_SCALED_EXP >= GEN_5 && B_SCALED_EXP != GEN_6)
     {

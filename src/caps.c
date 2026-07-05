@@ -12,6 +12,9 @@ u32 GetCurrentLevelCap(void)
 
     u32 i;
 
+    if (!gSaveBlock2Ptr->optionsHardMode) // QoL #16: caps only bind in Hard Mode
+        return MAX_LEVEL;
+
     if (B_LEVEL_CAP_TYPE == LEVEL_CAP_FLAG_LIST)
     {
         for (i = 0; i < NUM_BADGES; i++)
@@ -37,6 +40,9 @@ u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
 
     u32 levelDifference;
     u32 currentLevelCap = GetCurrentLevelCap();
+
+    if (!gSaveBlock2Ptr->optionsHardMode) // QoL #16: no EXP cap outside Hard Mode
+        return expValue;
 
     if (B_EXP_CAP_TYPE == EXP_CAP_NONE)
         return expValue;

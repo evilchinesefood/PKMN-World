@@ -237,7 +237,8 @@ Config flips and gameplay features that shape how the shipped game plays:
   Pokémon: the first party member that knows Surf appears as your mount.
 - **Nicknames** — rename Pokémon straight from the party menu or the summary
   screen (`P_SUMMARY_SCREEN_RENAME`); outsider Pokémon follow the usual Name Rater
-  rules.
+  rules. A **Nicknames** Options toggle can also skip the catch/hatch naming prompt
+  (on by default).
 - **Item descriptions shown on pickup** (`OW_SHOW_ITEM_DESCRIPTIONS`).
 - **Visible overworld wild encounters** (`WE_OW_ENCOUNTERS`) **in addition to**
   vanilla random grass encounters (`WE_VANILLA_RANDOM`) — both fire on the same map

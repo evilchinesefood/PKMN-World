@@ -379,7 +379,12 @@ static u8 SaveConfirmSaveCallback(void)
 void SaveDialog_InitSave(void)
 {
     SaveMapView();
-    LoadUserWindowBorderGfx_(0, 8, BG_PLTT_ID(14));
+    // Restore the field frame gfx the way the classic start menu does (start_menu.c
+    // LoadMessageBoxAndBorderGfx before drawing std-frame windows). The USM never
+    // reloads it, and the earlier port loaded the user border to VRAM tile 8 (copied
+    // from the full-screen link-battle save), so the save-info box and the Yes/No
+    // confirm box drew their frames from stale tiles at STD_WINDOW_BASE_TILE_NUM.
+    LoadMessageBoxAndBorderGfx();
     sSaveDialogCallback = SaveConfirmSaveCallback;
 }
 
@@ -440,7 +445,9 @@ void SaveDialog_InitBattlePyramidRetire(void)
 static u8 BattlePyramidConfirmRetireCallback(void)
 {
     LoadMessageBoxAndFrameGfx(0, TRUE);
-    LoadUserWindowBorderGfx_(0, 8, BG_PLTT_ID(14));
+    // The Retire prompt shows a Yes/No box, whose frame is drawn from
+    // STD_WINDOW_BASE_TILE_NUM; load the user border to that offset (not tile 8).
+    LoadUserWindowBorderGfx_(0, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
     ShowSaveMessage(gText_BattlePyramidConfirmRetire, BattlePyramidRetireYesNoCallback);
 
     return USM_SAVE_IN_PROGRESS;

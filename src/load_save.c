@@ -103,6 +103,11 @@ void MigrateSaveFormatIfNeeded(void)
     // the new bank - no Kanto trainer was beatable before v3, so "none defeated" is correct.
     if (savedVersion < 3)
         memset(gSaveBlock3Ptr->kantoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->kantoTrainerFlags));
+    // v3 -> v4: SaveBlock3.route5DayCareMon (FRLG Route 5 single-mon day care, E7-1) was
+    // appended after kantoTrainerFlags; on older saves those bytes are uninitialised flash.
+    // Zero ONLY the new field - an all-zero DaycareMon is an empty day care (no stored mon).
+    if (savedVersion < 4)
+        memset(&gSaveBlock3Ptr->route5DayCareMon, 0, sizeof(gSaveBlock3Ptr->route5DayCareMon));
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }

@@ -1213,11 +1213,21 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     return FALSE;
 }
 
+// The FRLG Route 5 single-mon day care stores its mon in SaveBlock1 in a pure FRLG
+// build, but under ALL_REGIONS SaveBlock1 is frozen for save compatibility, so it
+// lives in SaveBlock3.route5DayCareMon. Select the storage per build; the logic is
+// otherwise identical.
+#if ALL_REGIONS
+#define sRoute5DaycareMon (gSaveBlock3Ptr->route5DayCareMon)
+#elif IS_FRLG
+#define sRoute5DaycareMon (gSaveBlock1Ptr->route5DayCareMon)
+#endif
+
 bool8 ShouldEggHatch(void)
 {
-#if IS_FRLG
-    if (GetBoxMonData(&gSaveBlock1Ptr->route5DayCareMon.mon, MON_DATA_SANITY_HAS_SPECIES))
-        gSaveBlock1Ptr->route5DayCareMon.steps++;
+#if IS_FRLG || ALL_REGIONS
+    if (GetBoxMonData(&sRoute5DaycareMon.mon, MON_DATA_SANITY_HAS_SPECIES))
+        sRoute5DaycareMon.steps++;
 #endif
     return TryProduceOrHatchEgg(&gSaveBlock1Ptr->daycare);
 }
@@ -1612,16 +1622,16 @@ static u8 ModifyBreedingScoreForOvalCharm(u8 score)
 
 void PutMonInRoute5Daycare(void)
 {
-#if IS_FRLG
+#if IS_FRLG || ALL_REGIONS
     u8 monIdx = GetCursorSelectionMonId();
-    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][monIdx], &gSaveBlock1Ptr->route5DayCareMon);
+    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][monIdx], &sRoute5DaycareMon);
 #endif
 }
 
 void GetCostToWithdrawRoute5DaycareMon(void)
 {
-#if IS_FRLG
-    u16 cost = GetDaycareCostForSelectedMon(&gSaveBlock1Ptr->route5DayCareMon);
+#if IS_FRLG || ALL_REGIONS
+    u16 cost = GetDaycareCostForSelectedMon(&sRoute5DaycareMon);
 #else
     u16 cost = 100;
 #endif
@@ -1630,8 +1640,8 @@ void GetCostToWithdrawRoute5DaycareMon(void)
 
 bool8 IsThereMonInRoute5Daycare(void)
 {
-#if IS_FRLG
-    if (GetBoxMonData(&gSaveBlock1Ptr->route5DayCareMon.mon, MON_DATA_SPECIES) != SPECIES_NONE)
+#if IS_FRLG || ALL_REGIONS
+    if (GetBoxMonData(&sRoute5DaycareMon.mon, MON_DATA_SPECIES) != SPECIES_NONE)
         return TRUE;
 #endif
 
@@ -1640,8 +1650,8 @@ bool8 IsThereMonInRoute5Daycare(void)
 
 u8 GetNumLevelsGainedForRoute5DaycareMon(void)
 {
-#if IS_FRLG
-    return GetNumLevelsGainedForDaycareMon(&gSaveBlock1Ptr->route5DayCareMon);
+#if IS_FRLG || ALL_REGIONS
+    return GetNumLevelsGainedForDaycareMon(&sRoute5DaycareMon);
 #else
     return 0;
 #endif
@@ -1649,8 +1659,8 @@ u8 GetNumLevelsGainedForRoute5DaycareMon(void)
 
 u16 TakePokemonFromRoute5Daycare(void)
 {
-#if IS_FRLG
-    return TakeSelectedPokemonFromDaycare(&gSaveBlock1Ptr->route5DayCareMon);
+#if IS_FRLG || ALL_REGIONS
+    return TakeSelectedPokemonFromDaycare(&sRoute5DaycareMon);
 #else
     return SPECIES_NONE;
 #endif

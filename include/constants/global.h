@@ -6,7 +6,8 @@
 // constant exist now so Phase 3 can detect and migrate.
 // v2: SaveBlock3.usmSaved appended (graphical start menu icon order).
 // v3: SaveBlock3.kantoTrainerFlags appended (Kanto trainer defeat-flag bank, E5-1).
-#define SAVE_FORMAT_VERSION 3
+// v4: SaveBlock3.route5DayCareMon appended (FRLG Route 5 single-mon day care, E7-1).
+#define SAVE_FORMAT_VERSION 4
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate

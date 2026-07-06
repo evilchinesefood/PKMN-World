@@ -276,39 +276,10 @@ struct PACKED Usm_SavedItems {
     u8 count;
 };
 
-struct SaveBlock3
-{
-#if OW_USE_FAKE_RTC
-    struct SiiRtcInfo fakeRTC;
-#endif
-#if FNPC_ENABLE_NPC_FOLLOWERS
-    struct NPCFollower NPCfollower;
-#endif
-#if OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME
-    u8 itemFlags[ITEM_FLAGS_COUNT];
-#endif
-#if USE_DEXNAV_SEARCH_LEVELS == TRUE
-    u8 dexNavSearchLevels[NUM_SPECIES];
-#endif
-    u8 dexNavChain;
-#if APRICORN_TREE_COUNT > 0
-    u8 apricornTrees[NUM_APRICORN_TREE_BYTES];
-#endif
-#if POKEVIAL_FEATURE
-    struct Pokevial pokevial;
-#endif
-#if QUEST_MENU
-    u8 questData[QUEST_FLAGS_COUNT * QUEST_STATES];
-    u8 subQuests[SUB_FLAGS_COUNT];
-#endif // QUEST_MENU
-    // Region merge: per-region story state that does not fit SaveBlock1's tight
-    // 4-sector budget. Append-only — never reorder. See constants/region_vars.h
-    // and constants/region_flags.h. Both are bank-isolated so regions never alias.
-    u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
-    u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
-    struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
-    u8 kantoTrainerFlags[NUM_KANTO_TRAINER_FLAG_BYTES]; // Kanto trainer defeat-flag bank = 80 bytes (save format v3+)
-}; /* max size 1624 bytes */
+// Definition moved below, after struct DaycareMon: route5DayCareMon needs the
+// complete DaycareMon type (which pulls in BoxPokemon from pokemon.h, included
+// later in this header). The pointer extern only needs the incomplete type.
+struct SaveBlock3;
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;
 
@@ -938,6 +909,43 @@ struct DaycareMon
     struct DaycareMail mail;
     u32 steps;
 };
+
+// Declared (forward) earlier in this header; defined here because route5DayCareMon
+// needs the complete struct DaycareMon above. Location does not affect save layout.
+struct SaveBlock3
+{
+#if OW_USE_FAKE_RTC
+    struct SiiRtcInfo fakeRTC;
+#endif
+#if FNPC_ENABLE_NPC_FOLLOWERS
+    struct NPCFollower NPCfollower;
+#endif
+#if OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME
+    u8 itemFlags[ITEM_FLAGS_COUNT];
+#endif
+#if USE_DEXNAV_SEARCH_LEVELS == TRUE
+    u8 dexNavSearchLevels[NUM_SPECIES];
+#endif
+    u8 dexNavChain;
+#if APRICORN_TREE_COUNT > 0
+    u8 apricornTrees[NUM_APRICORN_TREE_BYTES];
+#endif
+#if POKEVIAL_FEATURE
+    struct Pokevial pokevial;
+#endif
+#if QUEST_MENU
+    u8 questData[QUEST_FLAGS_COUNT * QUEST_STATES];
+    u8 subQuests[SUB_FLAGS_COUNT];
+#endif // QUEST_MENU
+    // Region merge: per-region story state that does not fit SaveBlock1's tight
+    // 4-sector budget. Append-only — never reorder. See constants/region_vars.h
+    // and constants/region_flags.h. Both are bank-isolated so regions never alias.
+    u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
+    u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
+    struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
+    u8 kantoTrainerFlags[NUM_KANTO_TRAINER_FLAG_BYTES]; // Kanto trainer defeat-flag bank = 80 bytes (save format v3+)
+    struct DaycareMon route5DayCareMon;     // FRLG Route 5 single-mon day care (save format v4+); frozen SaveBlock1 can't hold it
+}; /* max size 1624 bytes */
 
 struct DayCare
 {

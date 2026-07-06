@@ -3,9 +3,7 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
-## v1.0-beta — first release
-
-<!-- Version and date are placeholders — finalize at tag time. -->
+## v1.0-beta — 2026-07-05
 
 ### The Game
 

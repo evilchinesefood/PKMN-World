@@ -39,8 +39,13 @@ worlds.
 
 ## 📊 Status
 
-The **new-game flow is playtested and hardware-verified**; all three campaigns are built and
-link-green, with a **full playtest as the remaining gate**.
+**v1.0-beta** (2026-07-05) — see the [changelog](CHANGELOG.md). All three campaigns are built,
+link-green, and a broad **feature wave** has shipped (overworld flight, follower Pokémon, a
+graphical start menu, DexNav, Kanto VS Seeker rematches, dynamic surf, autosave, hard mode, the
+HGSS Pokédex, and more). Every major system has been **runtime-verified** on hardware (BizHawk):
+the new-game flow, hub economy, region switching, flight and its guardrails, followers, DexNav +
+hidden-mon detector, autosave, hard mode, the v3 save migration, and VS Seeker rematches all pass.
+The remaining gate is a **full-length human campaign playthrough** for story pacing and balance.
 
 <details>
 <summary><b>Region-by-region status</b></summary>
@@ -58,7 +63,11 @@ link-green, with a **full playtest as the remaining gate**.
 - ✅ **New-game flow** — hardware-verified in BizHawk (2026-07): freeze fixed, blue intro bars,
   Brendan/May sprites, working outfit picker + overworld application, unclipped story pages, and
   visible hub gate signs.
-- 🟡 **Remaining gate** — full-campaign and inter-region-travel playtest.
+- ✅ **Feature wave + systems** — flight, followers, DexNav, VS Seeker rematches, autosave, hard
+  mode, dynamic surf, HGSS dex, hub item distribution, and the save-format migration are all
+  runtime-verified in BizHawk (deep probe + test cycles, 2026-07).
+- 🟡 **Remaining gate** — a full-length human campaign playthrough (story pacing + balance across
+  all three regions).
 
 </details>
 

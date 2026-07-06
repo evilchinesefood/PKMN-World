@@ -32,6 +32,7 @@
 #define tHardMode data[12]
 #define tExpMult data[13]
 #define tCatchMult data[14]
+#define tNicknames data[15]
 
 #define NUM_VISIBLE_OPTIONS 7
 
@@ -49,6 +50,7 @@ enum
     MENUITEM_HARDMODE,
     MENUITEM_EXPMULT,
     MENUITEM_CATCHMULT,
+    MENUITEM_NICKNAMES,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -92,6 +94,8 @@ static u8 ExpMult_ProcessInput(u8 selection);
 static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 CatchMult_ProcessInput(u8 selection);
 static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 Nicknames_ProcessInput(u8 selection);
+static void Nicknames_DrawChoices(u8 selection, s16 scrollOffset);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(s16 scrollOffset);
 static void DrawBgWindowFrames(void);
@@ -138,6 +142,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_HARDMODE]    = COMPOUND_STRING("HARD MODE"),
     [MENUITEM_EXPMULT]     = COMPOUND_STRING("EXP GAIN"),
     [MENUITEM_CATCHMULT]   = COMPOUND_STRING("CATCH RATE"),
+    [MENUITEM_NICKNAMES]   = COMPOUND_STRING("NICKNAMES"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("CANCEL"),
 };
 
@@ -293,6 +298,7 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tHardMode = gSaveBlock2Ptr->optionsHardMode;
         gTasks[taskId].tExpMult = gSaveBlock2Ptr->optionsExpMultiplier;
         gTasks[taskId].tCatchMult = gSaveBlock2Ptr->optionsCatchMultiplier;
+        gTasks[taskId].tNicknames = gSaveBlock2Ptr->optionsNicknames;
         gTasks[taskId].tScrollOffset = 0;
 
         RedrawVisibleOptionsPage(taskId);
@@ -440,6 +446,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tCatchMult)
                 CatchMult_DrawChoices(gTasks[taskId].tCatchMult, gTasks[taskId].tScrollOffset);
             break;
+        case MENUITEM_NICKNAMES:
+            previousOption = gTasks[taskId].tNicknames;
+            gTasks[taskId].tNicknames = Nicknames_ProcessInput(gTasks[taskId].tNicknames);
+
+            if (previousOption != gTasks[taskId].tNicknames)
+                Nicknames_DrawChoices(gTasks[taskId].tNicknames, gTasks[taskId].tScrollOffset);
+            break;
         default:
             return;
         }
@@ -466,6 +479,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsHardMode = gTasks[taskId].tHardMode;
     gSaveBlock2Ptr->optionsExpMultiplier = gTasks[taskId].tExpMult;
     gSaveBlock2Ptr->optionsCatchMultiplier = gTasks[taskId].tCatchMult;
+    gSaveBlock2Ptr->optionsNicknames = gTasks[taskId].tNicknames;
 
     if (gTasks[taskId].tScrollArrowTaskId != TASK_NONE)
     {
@@ -569,6 +583,7 @@ static void RedrawVisibleOptionsPage(u8 taskId)
     HardMode_DrawChoices(gTasks[taskId].tHardMode, scrollOffset);
     ExpMult_DrawChoices(gTasks[taskId].tExpMult, scrollOffset);
     CatchMult_DrawChoices(gTasks[taskId].tCatchMult, scrollOffset);
+    Nicknames_DrawChoices(gTasks[taskId].tNicknames, scrollOffset);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - scrollOffset);
 
     // Scroll repaint is a full window copy, unlike the single-row COPYWIN_GFX
@@ -1040,6 +1055,36 @@ static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset)
     DrawOptionMenuChoice(gText_Mult1x, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_Mult1_5x, 140, y, styles[1]);
     DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_NORMAL, gText_Mult2x, 198), y, styles[2]);
+}
+
+static u8 Nicknames_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void Nicknames_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[2];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_NICKNAMES, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection] = 1;
+
+    // optionsNicknames: normal polarity, ON at the left/default column (value 0 =
+    // OPTIONS_NICKNAMES_ON = catch/hatch prompts shown, vanilla), OFF at the right
+    // (value 1 = OPTIONS_NICKNAMES_OFF = prompts skipped, default species name kept).
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
 static void DrawHeaderText(void)

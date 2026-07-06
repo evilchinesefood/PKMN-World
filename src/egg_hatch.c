@@ -707,6 +707,13 @@ static void CB2_EggHatch(void)
         break;
     case 8:
         // Ready the nickname prompt
+        // QoL #8: NICKNAMES option OFF skips the prompt and keeps the default
+        // species name (jump to the post-"No" fade-out state).
+        if (gSaveBlock2Ptr->optionsNicknames == OPTIONS_NICKNAMES_OFF)
+        {
+            sEggHatchData->state = 11;
+            break;
+        }
         GetMonNickname(&gParties[B_TRAINER_PLAYER][sEggHatchData->eggPartyId], gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_NicknameHatchPrompt);
         EggHatchPrintMessage(sEggHatchData->windowId, gStringVar4, 0, 2, 1);

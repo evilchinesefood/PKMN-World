@@ -112,6 +112,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsExpMultiplier = OPTIONS_EXP_MULT_1X;
     gSaveBlock2Ptr->optionsCatchMultiplier = OPTIONS_CATCH_MULT_1X;
     gSaveBlock2Ptr->optionsHardMode = FALSE;
+    gSaveBlock2Ptr->optionsNicknames = OPTIONS_NICKNAMES_ON;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 

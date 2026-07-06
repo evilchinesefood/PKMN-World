@@ -247,6 +247,12 @@ enum Gender
 #define OPTIONS_CATCH_MULT_1_5X 1
 #define OPTIONS_CATCH_MULT_2X 2
 
+// QoL #8: nickname prompt on catch / egg hatch. Save-compat: 0 = ON (prompts
+// shown, vanilla) so pre-option/zeroed saves keep asking; 1 = OFF skips the
+// prompt and keeps the default species name. Menu shows ON/OFF (ON = index 0).
+#define OPTIONS_NICKNAMES_ON 0
+#define OPTIONS_NICKNAMES_OFF 1
+
 enum __attribute__((packed)) Direction
 {
     DIR_NONE,

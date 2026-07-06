@@ -644,7 +644,8 @@ struct SaveBlock2
     /*0x16*/ u16 optionsExpMultiplier:2; // QoL #15: OPTIONS_EXP_MULT_[1X/0_5X/1_5X/2X] (0 = 1x for old saves)
              u16 optionsCatchMultiplier:2; // QoL #15: OPTIONS_CATCH_MULT_[1X/1_5X/2X]
              u16 optionsHardMode:1; // QoL #16: forced SET style + no bag in trainer battles + badge level caps
-             //u16 padding2:11;
+             u16 optionsNicknames:1; // QoL #8: catch/hatch nickname prompt, OPTIONS_NICKNAMES_[ON/OFF] (0 = ON for old saves)
+             //u16 padding2:10;
     /*0x18*/ struct Pokedex pokedex; // Region merge: ONE global National Dex shared across all regions (not per-region); area screen is region-aware for display only.
 #if ALL_REGIONS
     /*0x90*/ u8 currentRegion;      // enum Region; PERSISTED active-campaign region (0 = REGION_NONE

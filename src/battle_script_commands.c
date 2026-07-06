@@ -10431,6 +10431,13 @@ static void Cmd_trygivecaughtmonnick(void)
     switch (gBattleCommunication[MULTIUSE_STATE])
     {
     case 0:
+        // QoL #8: NICKNAMES option OFF skips the prompt and keeps the default
+        // species name (jump straight to the "No" terminal state).
+        if (gSaveBlock2Ptr->optionsNicknames == OPTIONS_NICKNAMES_OFF)
+        {
+            gBattleCommunication[MULTIUSE_STATE] = 4;
+            break;
+        }
         HandleBattleWindow(YESNOBOX_X_Y, 0);
         BattlePutTextOnWindow(gText_BattleYesNoChoice, B_WIN_YESNO);
         gBattleCommunication[MULTIUSE_STATE]++;

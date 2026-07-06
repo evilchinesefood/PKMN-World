@@ -15,6 +15,7 @@
 #include "mail.h"
 #include "constants/heal_locations.h"
 #include "constants/items.h"
+#include "item.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -204,6 +205,20 @@ void RegionHub_ScrCountWorldTourBadges(struct ScriptContext *ctx)
     gSpecialVar_0x8001 = hoenn;
     gSpecialVar_0x8002 = kanto;
     gSpecialVar_0x8003 = johto;
+}
+
+// Sky Charm give-gate (F1). The World Transit keeper only hands over the overworld
+// free-flight charm once the player can actually FLY: they must hold the Fly HM AND
+// have earned a region's Fly badge. The badge check mirrors the USE gate exactly
+// (IsFieldMoveUnlocked_Fly in field_move.c: Kanto Thunder = idx 2, Johto Mineral /
+// Hoenn Feather = idx 5). VAR_RESULT = TRUE only when both conditions hold.
+void RegionHub_ScrCanFly(struct ScriptContext *ctx)
+{
+    bool32 hasFlyBadge = HasBadge(REGION_KANTO, 2)   // FLAG_KANTO_BADGE_3
+                      || HasBadge(REGION_JOHTO, 5)   // FLAG_JOHTO_BADGE_6
+                      || HasBadge(REGION_HOENN, 5);  // FLAG_BADGE06_GET
+
+    gSpecialVar_Result = (CheckBagHasItem(ITEM_HM_FLY, 1) && hasFlyBadge) ? TRUE : FALSE;
 }
 
 // Region-switch: box the player's entire party into the global PC. The party is fully

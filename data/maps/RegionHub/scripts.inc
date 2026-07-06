@@ -160,16 +160,17 @@ RegionHub_Text_TravelFrontier:
 	.string "Head to the BATTLE FRONTIER?$"
 
 @ F1: Sky Charm giver. Hands out the overworld free-flight key item once the player
-@ has earned at least ONE badge in ANY region (reuses the world-tour badge counter,
-@ which reads all three per-region badge banks). checkitem is the one-time gate:
-@ key items can't be tossed, so no dedicated flag is needed.
+@ can actually FLY -- i.e. holds the Fly HM AND has earned a region's Fly badge
+@ (RegionHub_ScrCanFly mirrors the USE gate in field_move.c: IsFieldMoveUnlocked_Fly).
+@ checkitem is the one-time gate: key items can't be tossed, so no dedicated flag is
+@ needed.
 RegionHub_EventScript_SkyCharmKeeper::
 	lock
 	faceplayer
 	checkitem ITEM_SKY_CHARM
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_SkyCharmAlreadyGiven
-	callnative RegionHub_ScrCountWorldTourBadges
-	goto_if_eq VAR_0x8000, 0, RegionHub_EventScript_SkyCharmNoBadge
+	callnative RegionHub_ScrCanFly
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_SkyCharmNoBadge
 	msgbox RegionHub_Text_SkyCharmGive, MSGBOX_DEFAULT
 	giveitem ITEM_SKY_CHARM
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
@@ -204,10 +205,10 @@ RegionHub_Text_SkyCharmExplain:
 	.string "to land.$"
 
 RegionHub_Text_SkyCharmComeBack:
-	.string "The wild flyers only answer to\n"
-	.string "TRAINERS who've proven themselves.\p"
-	.string "Come back once you've earned a\n"
-	.string "GYM BADGE-any region will do.$"
+	.string "The wild flyers won't heed you yet.\p"
+	.string "Come back once you've learned to\n"
+	.string "FLY and earned the BADGE to\l"
+	.string "command it.$"
 
 RegionHub_Text_SkyCharmEnjoy:
 	.string "How's the view from up there?\p"

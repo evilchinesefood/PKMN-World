@@ -118,6 +118,11 @@ STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVer
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
+// The party-menu "Follow" chooser (e0d958f1) carved followerSlot from the SAME 0x90-0x97 filler as
+// the region bytes above. Pin its offset so a later edit to those bytes - e.g. a 9th intro bit
+// spilling the 0x92 bitfield into 0x93 - can't silently relocate/collide it and lose the chosen
+// follower on load. followerSlot lives in checksummed SaveBlock2, so no SAVE_FORMAT_VERSION bump.
+STATIC_ASSERT(offsetof(struct SaveBlock2, followerSlot) == 0x93, SaveBlock2FollowerSlotMoved);
 #endif // ALL_REGIONS
 
 void CheckForFlashMemory(void)

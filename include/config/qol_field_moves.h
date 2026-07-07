@@ -13,4 +13,9 @@
 // STUB — not implemented in this port. Define only.
 #define QOL_FIELD_MOVES_NO_MESSAGING  TRUE
 
+// When TRUE: an HM field move (Cut, Flash, Rock Smash, Strength, Surf, Fly, Dive,
+// Waterfall) can be used if a party mon CAN LEARN it — no need to actually teach it.
+// The per-region badge gate (IsFieldMoveUnlocked) still applies.
+#define QOL_FIELD_MOVES_NO_TEACH      TRUE
+
 #endif // GUARD_CONFIG_QOL_FIELD_MOVES_H

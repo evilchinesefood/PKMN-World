@@ -3732,6 +3732,26 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
     }
 }
 
+#if QOL_FIELD_MOVES_NO_TEACH
+static bool32 IsTeachableHMFieldMove(enum FieldMove fieldMove)
+{
+    switch (fieldMove)
+    {
+    case FIELD_MOVE_CUT:
+    case FIELD_MOVE_FLASH:
+    case FIELD_MOVE_ROCK_SMASH:
+    case FIELD_MOVE_STRENGTH:
+    case FIELD_MOVE_SURF:
+    case FIELD_MOVE_FLY:
+    case FIELD_MOVE_DIVE:
+    case FIELD_MOVE_WATERFALL:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+#endif
+
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
@@ -3751,6 +3771,24 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             }
         }
     }
+
+#if QOL_FIELD_MOVES_NO_TEACH
+    // Also offer HM field moves this mon CAN LEARN (badge-unlocked) but hasn't been
+    // taught. Cap at 4 total field moves to fit the action buffer / on-screen rows.
+    if (!GetMonData(&mons[slotId], MON_DATA_IS_EGG))
+    {
+        enum Species species = GetMonData(&mons[slotId], MON_DATA_SPECIES);
+        for (j = 0; j != FIELD_MOVES_COUNT && sPartyMenuInternal->numActions < 5; j++)
+        {
+            if (!IsTeachableHMFieldMove(j) || !IsFieldMoveUnlocked(j))
+                continue;
+            if (MonKnowsMove(&mons[slotId], FieldMove_GetMoveId(j)))
+                continue;
+            if (CanLearnTeachableMove(species, FieldMove_GetMoveId(j)))
+                AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES);
+        }
+    }
+#endif
 
     if (!InBattlePike())
     {

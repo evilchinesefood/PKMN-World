@@ -108,6 +108,11 @@ void MigrateSaveFormatIfNeeded(void)
     // Zero ONLY the new field - an all-zero DaycareMon is an empty day care (no stored mon).
     if (savedVersion < 4)
         memset(&gSaveBlock3Ptr->route5DayCareMon, 0, sizeof(gSaveBlock3Ptr->route5DayCareMon));
+    // v4 -> v5: SaveBlock3.clearedObstacleCount/clearedObstacles (persistent cut trees + smashed
+    // rocks) were appended after route5DayCareMon; on older saves those bytes are uninitialised
+    // flash. Zero the count so the cleared-obstacle set starts empty.
+    if (savedVersion < 5)
+        gSaveBlock3Ptr->clearedObstacleCount = 0;
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }

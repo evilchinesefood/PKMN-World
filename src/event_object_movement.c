@@ -1894,6 +1894,46 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     return objectEventId;
 }
 
+static bool32 IsObstacleGraphicsId(u16 graphicsId)
+{
+    return graphicsId == OBJ_EVENT_GFX_CUTTABLE_TREE
+        || graphicsId == OBJ_EVENT_GFX_CUTTABLE_TREE_FRLG
+        || graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK
+        || graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG;
+}
+
+// A cut tree / smashed rock stays cleared across rezone if its {map, localId} is recorded.
+static bool32 IsClearedObstacle(u8 mapGroup, u8 mapNum, u8 localId)
+{
+    u32 i;
+    for (i = 0; i < gSaveBlock3Ptr->clearedObstacleCount; i++)
+    {
+        const struct ClearedObstacle *o = &gSaveBlock3Ptr->clearedObstacles[i];
+        if (o->localId == localId && o->mapNum == mapNum && o->mapGroup == mapGroup)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// callnative from EventScript_CutTree / EventScript_RockSmash after removeobject: record the
+// just-cleared obstacle (VAR_LAST_TALKED = its localId) so it never respawns.
+void RecordClearedObstacleFromScript(struct ScriptContext *ctx)
+{
+    u8 mapGroup = gSaveBlock1Ptr->location.mapGroup;
+    u8 mapNum = gSaveBlock1Ptr->location.mapNum;
+    u8 localId = gSpecialVar_LastTalked;
+
+    (void)ctx;
+    if (gSaveBlock3Ptr->clearedObstacleCount >= CLEARED_OBSTACLE_MAX)
+        return;
+    if (IsClearedObstacle(mapGroup, mapNum, localId))
+        return;
+    gSaveBlock3Ptr->clearedObstacles[gSaveBlock3Ptr->clearedObstacleCount].mapGroup = mapGroup;
+    gSaveBlock3Ptr->clearedObstacles[gSaveBlock3Ptr->clearedObstacleCount].mapNum = mapNum;
+    gSaveBlock3Ptr->clearedObstacles[gSaveBlock3Ptr->clearedObstacleCount].localId = localId;
+    gSaveBlock3Ptr->clearedObstacleCount++;
+}
+
 u8 TrySpawnObjectEventTemplate(const struct ObjectEventTemplate *objectEventTemplate, u8 mapNum, u8 mapGroup, s16 cameraX, s16 cameraY)
 {
     u8 objectEventId;
@@ -1903,6 +1943,10 @@ u8 TrySpawnObjectEventTemplate(const struct ObjectEventTemplate *objectEventTemp
     const struct SubspriteTable *subspriteTables = NULL;
     const struct ObjectEventTemplate objectEventTemplateLocal = TryGetObjectEventTemplateForOWE(objectEventTemplate);
     u16 graphicsId = objectEventTemplateLocal.graphicsId;
+
+    if (IsObstacleGraphicsId(graphicsId)
+        && IsClearedObstacle(mapGroup, mapNum, objectEventTemplateLocal.localId))
+        return OBJECT_EVENTS_COUNT;
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     CopyObjectGraphicsInfoToSpriteTemplate_WithMovementType(graphicsId, objectEventTemplateLocal.movementType, &spriteTemplate, &subspriteTables);

@@ -912,6 +912,17 @@ struct DaycareMon
 
 // Declared (forward) earlier in this header; defined here because route5DayCareMon
 // needs the complete struct DaycareMon above. Location does not affect save layout.
+// Cut trees / smashed rocks that stay cleared across rezone. Keyed by {map, localId};
+// capped to fit SaveBlock3's 1624-byte budget (base 1295B -> 329B free; see save.c assert).
+// If more coverage is ever needed, switch to a build-time obstacle-index bitfield (~38B).
+#define CLEARED_OBSTACLE_MAX 104
+struct ClearedObstacle
+{
+    u8 mapGroup;
+    u8 mapNum;
+    u8 localId;
+};
+
 struct SaveBlock3
 {
 #if OW_USE_FAKE_RTC
@@ -945,6 +956,8 @@ struct SaveBlock3
     struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
     u8 kantoTrainerFlags[NUM_KANTO_TRAINER_FLAG_BYTES]; // Kanto trainer defeat-flag bank = 80 bytes (save format v3+)
     struct DaycareMon route5DayCareMon;     // FRLG Route 5 single-mon day care (save format v4+); frozen SaveBlock1 can't hold it
+    u8 clearedObstacleCount;                                     // persistent cut trees + smashed rocks (save format v5+)
+    struct ClearedObstacle clearedObstacles[CLEARED_OBSTACLE_MAX];
 }; /* max size 1624 bytes */
 
 struct DayCare

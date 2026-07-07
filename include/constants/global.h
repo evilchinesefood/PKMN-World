@@ -7,7 +7,8 @@
 // v2: SaveBlock3.usmSaved appended (graphical start menu icon order).
 // v3: SaveBlock3.kantoTrainerFlags appended (Kanto trainer defeat-flag bank, E5-1).
 // v4: SaveBlock3.route5DayCareMon appended (FRLG Route 5 single-mon day care, E7-1).
-#define SAVE_FORMAT_VERSION 4
+// v5: SaveBlock3.clearedObstacleCount/clearedObstacles appended (persistent cut trees + smashed rocks).
+#define SAVE_FORMAT_VERSION 5
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate

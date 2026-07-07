@@ -21,6 +21,7 @@ EventScript_CutTreeDown:: @ fallthrough
 	applymovement VAR_LAST_TALKED, Movement_CutTreeDown
 	waitmovement 0
 	removeobject VAR_LAST_TALKED
+	callnative RecordClearedObstacleFromScript
 	releaseall
 	end
 
@@ -84,6 +85,7 @@ EventScript_SmashRock:: @ fallthrough
 	applymovement VAR_LAST_TALKED, Movement_SmashRock
 	waitmovement 0
 	removeobject VAR_LAST_TALKED
+	callnative RecordClearedObstacleFromScript
 	specialvar VAR_RESULT, TryUpdateRusturfTunnelState
 	goto_if_eq VAR_RESULT, TRUE, EventScript_EndSmash
 	special RockSmashWildEncounter

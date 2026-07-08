@@ -18,6 +18,7 @@
 #include "battle_gimmick.h"
 #include "berry.h"
 #include "bg.h"
+#include "bug_contest.h"
 #include "data.h"
 #include "debug.h"
 #include "decompress.h"
@@ -3696,6 +3697,23 @@ static void DoBattleIntro(void)
     }
 }
 
+// Hold B at the start of an ordinary escapable wild battle to auto-run (guaranteed flee).
+static bool32 ShouldHoldBAutoRun(void)
+{
+    if (!JOY_HELD(B_BUTTON))
+        return FALSE;
+    // WILD-ONLY, escapable: exclude every non-ordinary mode.
+    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_LINK | BATTLE_TYPE_SAFARI
+                          | BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_ROAMER | BATTLE_TYPE_GHOST
+                          | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER))
+        return FALSE;
+    if (FlagGet(WE_FLAG_NO_RUNNING))    // scripted no-run wild battles
+        return FALSE;
+    if (GetBugContestFlag())            // Bug-Catching Contest runs like a normal wild
+        return FALSE;
+    return TRUE;
+}
+
 static void TryDoEventsBeforeFirstTurn(void)
 {
     s32 i;
@@ -3821,6 +3839,15 @@ static void TryDoEventsBeforeFirstTurn(void)
         gBattleStruct->eventState.beforeFirstTurn++;
         break;
     case FIRST_TURN_EVENTS_END:
+        if (ShouldHoldBAutoRun())
+        {
+            gBattlerAttacker = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT); // the player is the one fleeing
+            PlaySE(SE_FLEE);
+            gCurrentTurnActionNumber = gBattlersCount;
+            gBattleOutcome = B_OUTCOME_RAN;
+            gBattleMainFunc = HandleEndTurn_RanFromBattle;
+            return;
+        }
         for (enum BattlerId battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
         {
             gBattleStruct->monToSwitchIntoId[battler] = PARTY_SIZE;

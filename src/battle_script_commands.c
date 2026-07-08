@@ -11082,6 +11082,17 @@ void BS_JumpIfCantLoseItem(void)
         gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+// QoL #8 (Nicknames OFF): skip the "give a nickname?" question the catch script prints, so a
+// caught mon (shiny or not) goes straight to givecaughtmon with no orphan prompt text lingering.
+void BS_JumpIfNicknamesOff(void)
+{
+    NATIVE_ARGS(const u8 *jumpInstr);
+    if (gSaveBlock2Ptr->optionsNicknames == OPTIONS_NICKNAMES_OFF)
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
 void BS_GetBattlerSide(void)
 {
     NATIVE_ARGS(u8 battler);

@@ -1170,6 +1170,11 @@
 	.4byte \func
 	.endm
 
+	.macro jumpifnicknamesoff jumpInstr:req
+	callnative BS_JumpIfNicknamesOff
+	.4byte \jumpInstr
+	.endm
+
 	.macro savetarget
 	callnative BS_SaveTarget
 	.endm

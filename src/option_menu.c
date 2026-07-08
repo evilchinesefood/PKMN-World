@@ -1,6 +1,7 @@
 #include "global.h"
 #include "option_menu.h"
 #include "bg.h"
+#include "event_data.h"
 #include "gpu_regs.h"
 #include "international_string_util.h"
 #include "list_menu.h"
@@ -51,6 +52,7 @@ enum
     MENUITEM_EXPMULT,
     MENUITEM_CATCHMULT,
     MENUITEM_NICKNAMES,
+    MENUITEM_SHAREDEXP,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -96,6 +98,8 @@ static u8 CatchMult_ProcessInput(u8 selection);
 static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 Nicknames_ProcessInput(u8 selection);
 static void Nicknames_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 SharedExp_ProcessInput(u8 selection);
+static void SharedExp_DrawChoices(u8 selection, s16 scrollOffset);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(s16 scrollOffset);
 static void DrawBgWindowFrames(void);
@@ -140,9 +144,10 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_AUTOSAVE]    = COMPOUND_STRING("AUTOSAVE"),
     [MENUITEM_RUNSHORTCUT] = COMPOUND_STRING("RUN SHORTCUT"),
     [MENUITEM_HARDMODE]    = COMPOUND_STRING("HARD MODE"),
-    [MENUITEM_EXPMULT]     = COMPOUND_STRING("EXP GAIN"),
+    [MENUITEM_EXPMULT]     = COMPOUND_STRING("EXP RATE"),
     [MENUITEM_CATCHMULT]   = COMPOUND_STRING("CATCH RATE"),
     [MENUITEM_NICKNAMES]   = COMPOUND_STRING("NICKNAMES"),
+    [MENUITEM_SHAREDEXP]   = COMPOUND_STRING("SHARED EXP"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("CANCEL"),
 };
 
@@ -453,6 +458,22 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tNicknames)
                 Nicknames_DrawChoices(gTasks[taskId].tNicknames, gTasks[taskId].tScrollOffset);
             break;
+        case MENUITEM_SHAREDEXP:
+        {
+            // Backed directly by FLAG_QOL_SHARED_EXP (no data[] slot: the array is full at tNicknames).
+            u8 prev = FlagGet(FLAG_QOL_SHARED_EXP) ? 1 : 0;
+            u8 cur = SharedExp_ProcessInput(prev);
+
+            if (cur != prev)
+            {
+                if (cur)
+                    FlagSet(FLAG_QOL_SHARED_EXP);
+                else
+                    FlagClear(FLAG_QOL_SHARED_EXP);
+                SharedExp_DrawChoices(cur, gTasks[taskId].tScrollOffset);
+            }
+            break;
+        }
         default:
             return;
         }
@@ -584,6 +605,7 @@ static void RedrawVisibleOptionsPage(u8 taskId)
     ExpMult_DrawChoices(gTasks[taskId].tExpMult, scrollOffset);
     CatchMult_DrawChoices(gTasks[taskId].tCatchMult, scrollOffset);
     Nicknames_DrawChoices(gTasks[taskId].tNicknames, scrollOffset);
+    SharedExp_DrawChoices(FlagGet(FLAG_QOL_SHARED_EXP) ? 1 : 0, scrollOffset);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - scrollOffset);
 
     // Scroll repaint is a full window copy, unlike the single-row COPYWIN_GFX
@@ -1085,6 +1107,35 @@ static void Nicknames_DrawChoices(u8 selection, s16 scrollOffset)
     // (value 1 = OPTIONS_NICKNAMES_OFF = prompts skipped, default species name kept).
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
+}
+
+static u8 SharedExp_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void SharedExp_DrawChoices(u8 selection, s16 scrollOffset)
+{
+    u8 styles[2];
+    u8 y;
+
+    if (!GetOptionMenuItemY(MENUITEM_SHAREDEXP, scrollOffset, &y))
+        return;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection] = 1;
+
+    // FLAG_QOL_SHARED_EXP is normal polarity (0 = OFF, 1 = ON) like HardMode above,
+    // so OFF must stay the index-0 (value-0) choice.
+    DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
 }
 
 static void DrawHeaderText(void)

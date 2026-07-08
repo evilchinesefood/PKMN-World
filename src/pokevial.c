@@ -19,7 +19,9 @@ static void PokevialInit(void)
 u32 PokevialGetDose(void)
 {
     PokevialInit();
-    return gSaveBlock3Ptr->pokevial.dose;
+    // Unlimited Pokevial: always report full so the empty-gate never fires and it always heals
+    // the whole party (revive + HP + status + PP), on any existing save. See Pokevial_HealPlayerParty.
+    return gSaveBlock3Ptr->pokevial.size;
 }
 
 u32 PokevialGetSize(void)

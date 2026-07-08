@@ -1836,7 +1836,8 @@ bool8 PartyHasMonWithSurf(void)
             enum Species species = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES);
             if (species == SPECIES_NONE)
                 break;
-            if (MonKnowsMove(&gParties[B_TRAINER_PLAYER][i], MOVE_SURF))
+            if (!GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG)
+                && MonKnowsMove(&gParties[B_TRAINER_PLAYER][i], MOVE_SURF))
                 return TRUE;
 #if QOL_FIELD_MOVES_NO_TEACH
             if (!GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG)

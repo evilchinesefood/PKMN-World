@@ -2370,7 +2370,7 @@ bool8 ScrCmd_checkfieldmove(struct ScriptContext *ctx)
         if (!GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG)
             && (MonKnowsMove(&gParties[B_TRAINER_PLAYER][i], move) == TRUE
 #if QOL_FIELD_MOVES_NO_TEACH
-                || CanLearnTeachableMove(species, move)
+                || (IsTeachableHMFieldMove(fieldMove) && CanLearnTeachableMove(species, move))
 #endif
                ))
         {

@@ -1906,7 +1906,8 @@ static bool32 IsObstacleGraphicsId(u16 graphicsId)
 static bool32 IsClearedObstacle(u8 mapGroup, u8 mapNum, u8 localId)
 {
     u32 i;
-    for (i = 0; i < gSaveBlock3Ptr->clearedObstacleCount; i++)
+    u32 n = min(gSaveBlock3Ptr->clearedObstacleCount, CLEARED_OBSTACLE_MAX); // guard a bad/unmigrated count
+    for (i = 0; i < n; i++)
     {
         const struct ClearedObstacle *o = &gSaveBlock3Ptr->clearedObstacles[i];
         if (o->localId == localId && o->mapNum == mapNum && o->mapGroup == mapGroup)

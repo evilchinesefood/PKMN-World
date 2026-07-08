@@ -3732,25 +3732,7 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
     }
 }
 
-#if QOL_FIELD_MOVES_NO_TEACH
-static bool32 IsTeachableHMFieldMove(enum FieldMove fieldMove)
-{
-    switch (fieldMove)
-    {
-    case FIELD_MOVE_CUT:
-    case FIELD_MOVE_FLASH:
-    case FIELD_MOVE_ROCK_SMASH:
-    case FIELD_MOVE_STRENGTH:
-    case FIELD_MOVE_SURF:
-    case FIELD_MOVE_FLY:
-    case FIELD_MOVE_DIVE:
-    case FIELD_MOVE_WATERFALL:
-        return TRUE;
-    default:
-        return FALSE;
-    }
-}
-#endif
+// IsTeachableHMFieldMove now lives in include/field_move.h (shared with ScrCmd_checkfieldmove).
 
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
@@ -5267,10 +5249,14 @@ static void CursorCb_FieldMove(u8 taskId)
     if (MenuHelpers_IsLinkActive() == TRUE || InUnionRoom() == TRUE)
     {
         if (fieldMove == FIELD_MOVE_MILK_DRINK || fieldMove == FIELD_MOVE_SOFT_BOILED)
+        {
             DisplayPartyMenuMessage(gText_CantUseHere, TRUE);
+        }
         else
+        {
             StringExpandPlaceholders(gStringVar4, sActionStringTable[FieldMove_GetPartyMsgID(fieldMove)]);
             DisplayPartyMenuMessage(gStringVar4, TRUE);
+        }
 
         gTasks[taskId].func = Task_CancelAfterAorBPress;
     }

@@ -650,6 +650,11 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
     if (sWildEncountersDisabled == TRUE)
         return FALSE;
 
+    // Region-switch boxes the whole party to the PC (0 mons on arrival); a wild battle with an
+    // empty party would send out a SPECIES_NONE lead. No encounters until a mon is withdrawn.
+    if (gPlayerPartyCount == 0)
+        return FALSE;
+
     headerId = GetCurrentMapWildMonHeaderId();
     if (headerId == HEADER_NONE)
     {

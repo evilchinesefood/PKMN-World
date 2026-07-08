@@ -441,6 +441,11 @@ bool8 CheckForTrainersWantingBattle(void)
     if (FlagGet(OW_FLAG_NO_TRAINER_SEE))
         return FALSE;
 
+    // Region-switch boxes the whole party to the PC (0 mons on arrival); a trainer battle with an
+    // empty party would send out a SPECIES_NONE lead. Suppress aggro until a mon is withdrawn.
+    if (gPlayerPartyCount == 0)
+        return FALSE;
+
     gNoOfApproachingTrainers = 0;
     gApproachingTrainerId = 0;
 

@@ -1945,9 +1945,21 @@ u8 TrySpawnObjectEventTemplate(const struct ObjectEventTemplate *objectEventTemp
     const struct ObjectEventTemplate objectEventTemplateLocal = TryGetObjectEventTemplateForOWE(objectEventTemplate);
     u16 graphicsId = objectEventTemplateLocal.graphicsId;
 
-    if (IsObstacleGraphicsId(graphicsId)
-        && IsClearedObstacle(mapGroup, mapNum, objectEventTemplateLocal.localId))
-        return OBJECT_EVENTS_COUNT;
+    if (IsObstacleGraphicsId(graphicsId))
+    {
+        // Clone obstacles (FRLG border cut-trees mirrored onto a connecting map) carry the
+        // obstacle gfx but point at the real tree on its home map. Key the cleared check on that
+        // TARGET identity, else a tree cut on its home map respawns through its clone at the seam.
+        u8 obGroup = mapGroup, obNum = mapNum, obLocalId = objectEventTemplateLocal.localId;
+        if (objectEventTemplateLocal.kind == OBJ_KIND_CLONE)
+        {
+            obGroup = objectEventTemplateLocal.targetMapGroup;
+            obNum = objectEventTemplateLocal.targetMapNum;
+            obLocalId = objectEventTemplateLocal.targetLocalId;
+        }
+        if (IsClearedObstacle(obGroup, obNum, obLocalId))
+            return OBJECT_EVENTS_COUNT;
+    }
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     CopyObjectGraphicsInfoToSpriteTemplate_WithMovementType(graphicsId, objectEventTemplateLocal.movementType, &spriteTemplate, &subspriteTables);

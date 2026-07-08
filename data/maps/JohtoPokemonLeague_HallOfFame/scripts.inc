@@ -82,6 +82,10 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	clearflag FLAG_ITEM_GS_BALL
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
 	setflag FLAG_IS_KANTO_CHAMPION
+	@ Region-merge champion flag. Also set on the rematch branch, or a player who became champion
+	@ of another region first would clear Johto via this branch and never record it (breaking
+	@ IsNRegionChampion and the 2/3-region hub rewards).
+	setflag FLAG_JOHTO_CHAMPION
 	setvar VAR_COMPLETED_LUGIA, 4
 	clearflag FLAG_HIDE_LUGIA
 	setvar VAR_COMPLETED_HO_OH, 4

@@ -236,6 +236,10 @@ void DepositPartyToPC(void)
 
         if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE)
             continue;
+        // Confirm the PC has a free slot BEFORE stripping mail, so a mon that can't be deposited
+        // keeps BOTH its slot and its held mail (stripping first could discard mail on a full PC).
+        if (CountAllStorageMons() >= TOTAL_BOXES_COUNT * IN_BOX_COUNT)
+            break; // PC full -> leave the rest (mail intact) in the party
         // A boxed mon can't carry mail: CopyMonToPC copies only the BoxPokemon, so the mon's
         // gSaveBlock1.mail[] slot would be orphaned (and later reused -> dup). Move any held mail
         // to the PC mailbox first (retrievable), falling back to discarding it only if the mailbox

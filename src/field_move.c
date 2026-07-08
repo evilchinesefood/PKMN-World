@@ -56,7 +56,13 @@ static bool32 IsFieldMoveUnlocked_Surf(void)
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_SURF].toolItemId, 1))
         return TRUE;
 #endif
-    return HasCurrentRegionBadge(4); // 5th gym in every region
+    {
+        // Johto Surf unlocks at the Fog Badge (Morty, 4th gym / idx 3): Cianwood (5th gym, Storm)
+        // is reachable ONLY by surfing Route 40/41, so gating Surf on the 5th badge would
+        // hard-softlock the campaign. Kanto (Soul) and Hoenn (Balance) keep the 5th-gym mapping.
+        enum Region region = GetCurrentRegion();
+        return HasBadge(region, region == REGION_JOHTO ? 3 : 4);
+    }
 }
 
 static bool32 IsFieldMoveUnlocked_Fly(void)

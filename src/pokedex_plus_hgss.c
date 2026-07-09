@@ -127,6 +127,7 @@ extern const u16 gPokedexOrder_Weight[];
 // static .rodata strings
 
 static const u8 sText_No0000[] = _("0000");
+static const u8 sText_Caught[] = _("CAUGHT");
 static const u8 sCaughtBall_Gfx[] = INCGFX_U8("graphics/pokedex/caught_ball.png", ".4bpp");
 static const u8 sText_TenDashes[] = _("----------");
 ALIGNED(4) static const u8 sExpandedPlaceholder_PokedexDescription[] = _("");
@@ -3227,6 +3228,68 @@ static void CreateInterfaceSprites(u8 page)
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX1s, 88 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = ((sPokedexView->ownCount % 1000) % 100) % 10;
         StartSpriteAnim(&gSprites[spriteId], digitNum);
+
+        // Caught total (individual captures ever) - one line below OWN
+        {
+            u32 caughtCount = GetGameStat(GAME_STAT_POKEMON_CAPTURES);
+            u8 counterX10000s = counterX1000s - counterXDist;
+            u8 caughtColor[3];
+
+            if (caughtCount > 99999)
+                caughtCount = 99999;
+
+            // Caught value - 10000s
+            drawNextDigit = FALSE;
+            spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX10000s, 98 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
+            digitNum = caughtCount / 10000;
+            StartSpriteAnim(&gSprites[spriteId], digitNum);
+            if (digitNum != 0)
+                drawNextDigit = TRUE;
+            else
+                gSprites[spriteId].invisible = TRUE;
+
+            // Caught value - 1000s
+            spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX1000s, 98 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
+            digitNum = (caughtCount % 10000) / 1000;
+            if (digitNum != 0 || drawNextDigit)
+            {
+                drawNextDigit = TRUE;
+                StartSpriteAnim(&gSprites[spriteId], digitNum);
+            }
+            else
+                gSprites[spriteId].invisible = TRUE;
+
+            // Caught value - 100s
+            spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX100s, 98 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
+            digitNum = (caughtCount % 1000) / 100;
+            if (digitNum != 0 || drawNextDigit)
+            {
+                drawNextDigit = TRUE;
+                StartSpriteAnim(&gSprites[spriteId], digitNum);
+            }
+            else
+                gSprites[spriteId].invisible = TRUE;
+
+            // Caught value - 10s
+            spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX10s, 98 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
+            digitNum = (caughtCount % 100) / 10;
+            if (digitNum != 0 || drawNextDigit)
+                StartSpriteAnim(&gSprites[spriteId], digitNum);
+            else
+                gSprites[spriteId].invisible = TRUE;
+
+            // Caught value - 1s
+            spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX1s, 98 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
+            digitNum = caughtCount % 10;
+            StartSpriteAnim(&gSprites[spriteId], digitNum);
+
+            // "CAUGHT" label - no sprite glyph exists, so print it as window text
+            caughtColor[0] = TEXT_COLOR_TRANSPARENT;
+            caughtColor[1] = TEXT_DYNAMIC_COLOR_6;
+            caughtColor[2] = TEXT_COLOR_LIGHT_GRAY;
+            AddTextPrinterParameterized4(0, FONT_SMALL_NARROWER, LIST_RIGHT_SIDE_TEXT_X - 32, 98 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 5, 0, 0, caughtColor, TEXT_SKIP_DRAW, sText_Caught);
+            CopyWindowToVram(0, COPYWIN_GFX);
+        }
     }
 
     if (page == PAGE_MAIN)

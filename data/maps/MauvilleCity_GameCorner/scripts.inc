@@ -46,7 +46,7 @@ MauvilleCity_GameCorner_EventScript_ChooseCoinsDefault500::
 
 MauvilleCity_GameCorner_EventScript_Buy50Coins::
 	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1 - 50), MauvilleCity_GameCorner_EventScript_NoRoomForCoins
+	goto_if_ge VAR_TEMP_1, MAX_COINS, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
 	checkmoney COINS_PRICE_50
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
 	addcoins 50
@@ -62,7 +62,7 @@ MauvilleCity_GameCorner_EventScript_Buy50Coins::
 
 MauvilleCity_GameCorner_EventScript_Buy500Coins::
 	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1 - 500), MauvilleCity_GameCorner_EventScript_NoRoomForCoins
+	goto_if_ge VAR_TEMP_1, MAX_COINS, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
 	checkmoney COINS_PRICE_500
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
 	addcoins 500
@@ -78,7 +78,7 @@ MauvilleCity_GameCorner_EventScript_Buy500Coins::
 
 MauvilleCity_GameCorner_EventScript_Buy5000Coins::
 	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, (MAX_COINS + 1 - 5000), MauvilleCity_GameCorner_EventScript_NoRoomForCoins
+	goto_if_ge VAR_TEMP_1, MAX_COINS, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
 	checkmoney COINS_PRICE_5000
 	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
 	addcoins 5000

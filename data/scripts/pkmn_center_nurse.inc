@@ -46,6 +46,7 @@ EventScript_PkmnCenterNurse_TakeAndHealPkmn::
 	applymovement VAR_0x800B, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	special HealPlayerParty
+	special PokevialRefill
 	callnative UpdateFollowingPokemon
 	return
 

@@ -1759,6 +1759,7 @@ static void UsePokevialYes(u8 taskId)
     if (POKEVIAL_SKIP_CUTSCENE)
     {
         Pokevial_HealPlayerParty();
+        PokevialDoseDown(VIAL_STANDARD_DOSE);
         PokevialPrintPartyHealed(FALSE, taskId);
     }
     else
@@ -1774,6 +1775,7 @@ static void UsePokevialFieldYes(u8 taskId)
     if (POKEVIAL_SKIP_CUTSCENE)
     {
         Pokevial_HealPlayerParty();
+        PokevialDoseDown(VIAL_STANDARD_DOSE);
         PokevialPrintPartyHealed(TRUE, taskId);
     }
     else

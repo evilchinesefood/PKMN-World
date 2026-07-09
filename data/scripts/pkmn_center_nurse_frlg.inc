@@ -37,6 +37,7 @@ EventScript_PkmnCenterNurse_TakeAndHealPkmn_Frlg::
 	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	special HealPlayerParty
+	special PokevialRefill
 	return
 
 EventScript_PkmnCenterNurse_CheckTrainerTowerAndUnionRoom_Frlg::

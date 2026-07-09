@@ -1534,6 +1534,26 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
         return FlagGet(FLAG_WORLD_MAP_ROUTE4_POKEMON_CENTER_1F) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     case MAPSEC_ROUTE_10_POKECENTER:
         return FlagGet(FLAG_WORLD_MAP_ROUTE10_POKEMON_CENTER_1F) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_NEW_BARK_TOWN:
+        return FlagGet(FLAG_VISITED_NEWBARK_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_CHERRYGROVE_CITY:
+        return FlagGet(FLAG_VISITED_CHERRYGROVE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_VIOLET_CITY:
+        return FlagGet(FLAG_VISITED_VIOLET_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_AZALEA_TOWN:
+        return FlagGet(FLAG_VISITED_AZALEA_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_GOLDENROD_CITY:
+        return FlagGet(FLAG_VISITED_GOLDENROD_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_ECRUTEAK_CITY:
+        return FlagGet(FLAG_VISITED_ECRUTEAK_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_OLIVINE_CITY:
+        return FlagGet(FLAG_VISITED_OLIVINE_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_CIANWOOD_CITY:
+        return FlagGet(FLAG_VISITED_CIANWOOD_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_MAHOGANY_TOWN:
+        return FlagGet(FLAG_VISITED_MAHOGANY_TOWN) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
+    case MAPSEC_BLACKTHORN_CITY:
+        return FlagGet(FLAG_VISITED_BLACKTHORN_CITY) ? MAPSECTYPE_CITY_CANFLY : MAPSECTYPE_CITY_CANTFLY;
     default:
         return MAPSECTYPE_ROUTE;
     }
@@ -2343,6 +2363,56 @@ static const struct FlyLocation sFlyLocations[] =
         .regionMapType = REGION_MAP_KANTO,
         .mapsec = MAPSEC_ROUTE_10_POKECENTER,
         .flag = FLAG_WORLD_MAP_ROUTE10_POKEMON_CENTER_1F,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_NEW_BARK_TOWN,
+        .flag = FLAG_VISITED_NEWBARK_TOWN,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_CHERRYGROVE_CITY,
+        .flag = FLAG_VISITED_CHERRYGROVE_CITY,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_VIOLET_CITY,
+        .flag = FLAG_VISITED_VIOLET_CITY,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_AZALEA_TOWN,
+        .flag = FLAG_VISITED_AZALEA_TOWN,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_GOLDENROD_CITY,
+        .flag = FLAG_VISITED_GOLDENROD_CITY,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_ECRUTEAK_CITY,
+        .flag = FLAG_VISITED_ECRUTEAK_CITY,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_OLIVINE_CITY,
+        .flag = FLAG_VISITED_OLIVINE_CITY,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_CIANWOOD_CITY,
+        .flag = FLAG_VISITED_CIANWOOD_CITY,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_MAHOGANY_TOWN,
+        .flag = FLAG_VISITED_MAHOGANY_TOWN,
+    },
+    {
+        .regionMapType = REGION_MAP_JOHTO,
+        .mapsec = MAPSEC_BLACKTHORN_CITY,
+        .flag = FLAG_VISITED_BLACKTHORN_CITY,
     },
 };
 

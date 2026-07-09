@@ -56,8 +56,14 @@ BattleFrontier_BattleDomeLobby_EventScript_WonChallenge::
 BattleFrontier_BattleDomeLobby_EventScript_WonChampionship::
 	msgbox BattleFrontier_BattleDomeLobby_Text_WonChampionship, MSGBOX_DEFAULT
 	goto_if_set FLAG_WORLD_CHAMPION, BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
-	setflag FLAG_WORLD_CHAMPION
 	giveitem ITEM_GOLD_BOTTLE_CAP
+	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizePending
+	setflag FLAG_WORLD_CHAMPION
+	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
+
+@ Bag's Items pocket was full: leave FLAG_WORLD_CHAMPION unset so the prize can be reclaimed on the next win.
+BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizePending::
+	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipBagFull, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
 
 BattleFrontier_BattleDomeLobby_EventScript_DefeatedAce::
@@ -745,3 +751,8 @@ BattleFrontier_BattleDomeLobby_Text_WonChampionship:
 	.string "CHAMPIONSHIP!\p"
 	.string "You stand unrivaled across all three\n"
 	.string "regions. A true WORLD CHAMPION!$"
+
+BattleFrontier_BattleDomeLobby_Text_ChampionshipBagFull:
+	.string "We'd present your GOLD BOTTLE CAP, but\n"
+	.string "your BAG is full!\p"
+	.string "Make room and win again to claim it.$"

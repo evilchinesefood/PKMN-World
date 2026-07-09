@@ -3706,6 +3706,7 @@ static void SpriteCB_FlyBirdLeaveBall(struct Sprite *sprite)
 
 static void SpriteCB_FlyBirdSwoopDown(struct Sprite *sprite)
 {
+    StartSpriteAnimIfDifferent(sprite, GetMoveDirectionAnimNum(DIR_SOUTH)); // animate the mon instead of a frozen frame
     sprite->x2 = Cos(sprite->data[2], 0x8c);
     sprite->y2 = Sin(sprite->data[2], 0x48);
     sprite->data[2] = (sprite->data[2] + 4) & 0xff;
@@ -3717,6 +3718,7 @@ static void SpriteCB_FlyBirdSwoopDown(struct Sprite *sprite)
         sprite1->y = sprite->y + sprite->y2 - 8;
         sprite1->x2 = 0;
         sprite1->y2 = 0;
+        sprite->subpriority = sprite1->subpriority + 1; // mon draws just behind the rider
     }
     if (sprite->data[2] >= 0x80)
     {
@@ -3727,6 +3729,7 @@ static void SpriteCB_FlyBirdSwoopDown(struct Sprite *sprite)
 static void SpriteCB_FlyBirdReturnToBall(struct Sprite *sprite)
 {
     // Mon swoops upward with a side sway and exits the top of the screen (no pokeball shrink).
+    StartSpriteAnimIfDifferent(sprite, GetMoveDirectionAnimNum(DIR_SOUTH));
     sprite->x2 = Cos(sprite->data[2], 0x8c);
     sprite->data[2] = (sprite->data[2] + 4) & 0xff;
     sprite->y2 -= 4;
@@ -3747,6 +3750,7 @@ static void StartFlyBirdReturnToBall(u8 spriteId)
     sprite->y2 = 0;
     sprite->invisible = FALSE;
     memset(&sprite->data[0], 0, 8 * sizeof(u16) /* zero all data cells */);
+    sprite->data[2] = 0x40; // start the sway at screen-center (Cos(0x40)=0) so frame 1 isn't off the right edge
     sprite->sPlayerSpriteId = MAX_SPRITES;
 }
 

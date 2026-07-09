@@ -613,7 +613,7 @@ struct SaveBlock2
              u16 optionsAutosave:1; // QoL #7: autosave after map transitions (0 = OFF, 1 = ON)
              u16 optionsRunShortcut:2; // QoL #12: battle B-button flee, OPTIONS_RUN_SHORTCUT_[CURSOR/OFF/INSTANT] (0 = CURSOR for old saves); first option u16 now full
     /*0x16*/ u16 optionsExpMultiplier:2; // QoL #15: OPTIONS_EXP_MULT_[1X/0_5X/1_5X/2X] (0 = 1x for old saves)
-             u16 optionsCatchMultiplier:2; // QoL #15: OPTIONS_CATCH_MULT_[1X/1_5X/2X]
+             u16 optionsCatchMultiplier:2; // QoL #15: OPTIONS_CATCH_MULT_[1X/1_5X/2X/0_5X] (0 = 1x for old saves)
              u16 optionsHardMode:1; // QoL #16: forced SET style + no bag in trainer battles + badge level caps
              u16 optionsNicknames:1; // QoL #8: catch/hatch nickname prompt, OPTIONS_NICKNAMES_[ON/OFF] (0 = ON for old saves)
              //u16 padding2:10;

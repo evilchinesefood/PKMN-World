@@ -248,6 +248,7 @@ enum Gender
 #define OPTIONS_CATCH_MULT_1X 0
 #define OPTIONS_CATCH_MULT_1_5X 1
 #define OPTIONS_CATCH_MULT_2X 2
+#define OPTIONS_CATCH_MULT_0_5X 3 // added last to preserve old-save values (0/1/2 unchanged)
 
 // QoL #8: nickname prompt on catch / egg hatch. Save-compat: 0 = ON (prompts
 // shown, vanilla) so pre-option/zeroed saves keep asking; 1 = OFF skips the

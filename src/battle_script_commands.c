@@ -9968,6 +9968,11 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
 
     switch (gSaveBlock2Ptr->optionsCatchMultiplier) // QoL #15: CATCH RATE option
     {
+    case OPTIONS_CATCH_MULT_0_5X:
+        odds /= 2;
+        if (odds == 0)
+            odds = 1;
+        break;
     case OPTIONS_CATCH_MULT_1_5X:
         odds = odds * 15 / 10;
         break;

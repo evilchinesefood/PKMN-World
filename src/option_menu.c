@@ -1038,32 +1038,31 @@ static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset)
     DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_NORMAL, gText_Mult2x, 198), y, styles[3]);
 }
 
+// Menu columns run 0.5x/1x/1.5x/2x, but optionsCatchMultiplier keeps its old-save values
+// (0=1x, 1=1.5x, 2=2x) and adds 0.5x as 3, so two lookups convert between value and column.
+static const u8 sCatchMultValueToCol[] = {1, 2, 3, 0}; // stored 1x/1.5x/2x/0.5x -> column
+static const u8 sCatchMultColToValue[] = {3, 0, 1, 2}; // column 0.5x/1x/1.5x/2x -> stored
+
 static u8 CatchMult_ProcessInput(u8 selection)
 {
+    u8 col = sCatchMultValueToCol[selection];
+
     if (JOY_NEW(DPAD_RIGHT))
     {
-        if (selection <= 1)
-            selection++;
-        else
-            selection = 0;
-
+        col = col <= 2 ? col + 1 : 0;
         sArrowPressed = TRUE;
     }
     if (JOY_NEW(DPAD_LEFT))
     {
-        if (selection != 0)
-            selection--;
-        else
-            selection = 2;
-
+        col = col != 0 ? col - 1 : 3;
         sArrowPressed = TRUE;
     }
-    return selection;
+    return sCatchMultColToValue[col];
 }
 
 static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset)
 {
-    u8 styles[3];
+    u8 styles[4];
     u8 y;
 
     if (!GetOptionMenuItemY(MENUITEM_CATCHMULT, scrollOffset, &y))
@@ -1072,11 +1071,13 @@ static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset)
     styles[0] = 0;
     styles[1] = 0;
     styles[2] = 0;
-    styles[selection] = 1; // stored value == menu column (0 = 1x, 1 = 1.5x, 2 = 2x)
+    styles[3] = 0;
+    styles[sCatchMultValueToCol[selection]] = 1; // stored value -> menu column
 
-    DrawOptionMenuChoice(gText_Mult1x, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_Mult1_5x, 140, y, styles[1]);
-    DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_NORMAL, gText_Mult2x, 198), y, styles[2]);
+    DrawOptionMenuChoice(gText_Mult0_5x, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_Mult1x, 134, y, styles[1]);
+    DrawOptionMenuChoice(gText_Mult1_5x, 155, y, styles[2]);
+    DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_NORMAL, gText_Mult2x, 198), y, styles[3]);
 }
 
 static u8 Nicknames_ProcessInput(u8 selection)

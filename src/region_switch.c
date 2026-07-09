@@ -275,3 +275,16 @@ void RegionHub_ScrIsTwoRegionChampion(struct ScriptContext *ctx)
 {
     gSpecialVar_Result = IsNRegionChampion(2);
 }
+
+// World Championship gate: VAR_RESULT = has the player cleared all three regions' leagues.
+// Used by the Championship Registrar to unlock the cross-region champions bracket.
+void RegionHub_ScrIsThreeRegionChampion(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = IsNRegionChampion(3);
+}
+
+// Battle Frontier access gate: VAR_RESULT = has the player cleared at least one region's league.
+void RegionHub_ScrIsAnyRegionChampion(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = IsNRegionChampion(1);
+}

@@ -38,15 +38,26 @@ BattleFrontier_BattleDomeLobby_EventScript_QuitWithoutSaving::
 	dome_set DOME_DATA_ATTEMPTED_CHALLENGE, TRUE
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, 0
 	setvar VAR_TEMP_CHALLENGE_STATUS, 255
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 0
 	releaseall
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_WonChallenge::
 	call BattleFrontier_EventScript_IncrementWinStreak
 	lockall
+	goto_if_eq VAR_WORLD_CHAMPIONSHIP_MODE, 1, BattleFrontier_BattleDomeLobby_EventScript_WonChampionship
 	frontier_isbrain
 	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattleDomeLobby_EventScript_DefeatedAce
 	msgbox BattleFrontier_BattleDomeLobby_Text_CongratsForWinningTourney, MSGBOX_DEFAULT
+	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
+
+@ World Championship win: permanent title (granted first, bag-independent) + one-time GOLD BOTTLE CAP,
+@ then the normal BP/record flow. VAR_WORLD_CHAMPIONSHIP_MODE is cleared later at EndChallenge.
+BattleFrontier_BattleDomeLobby_EventScript_WonChampionship::
+	msgbox BattleFrontier_BattleDomeLobby_Text_WonChampionship, MSGBOX_DEFAULT
+	goto_if_set FLAG_WORLD_CHAMPION, BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
+	setflag FLAG_WORLD_CHAMPION
+	giveitem ITEM_GOLD_BOTTLE_CAP
 	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
 
 BattleFrontier_BattleDomeLobby_EventScript_DefeatedAce::
@@ -101,6 +112,7 @@ BattleFrontier_BattleDomeLobby_EventScript_EndChallenge::
 	msgbox BattleFrontier_BattleDomeLobby_Text_HopeToSeeYouAgain, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_TEMP_CHALLENGE_STATUS, 255
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 0
 	releaseall
 	end
 
@@ -121,6 +133,7 @@ BattleFrontier_BattleDomeLobby_EventScript_SinglesAttendant::
 	faceplayer
 	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_DOME
 	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 0
 	goto BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome
 	end
 
@@ -129,6 +142,7 @@ BattleFrontier_BattleDomeLobby_EventScript_DoublesAttendant::
 	faceplayer
 	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_DOME
 	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_DOUBLES
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 0
 	goto BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome
 	end
 
@@ -367,9 +381,30 @@ BattleFrontier_BattleDomeLobby_EventScript_PrevTourneyResultsDoublesLvOpen::
 	msgbox BattleFrontier_BattleDomeLobby_Text_PrevTourneyResultsDoublesLvOpen, MSGBOX_SIGN
 	return
 
+@ Championship Registrar (repurposed flavor NPC): offers the World Championship to any
+@ player who is CHAMPION of all three regions, then reuses the stock Dome challenge-start
+@ (AttendantWelcome) with VAR_WORLD_CHAMPIONSHIP_MODE=1 so InitDomeTrainers seeds champions.
 BattleFrontier_BattleDomeLobby_EventScript_Maniac::
-	dome_getwinnersname
-	msgbox BattleFrontier_BattleDomeLobby_Text_LastWinnerWasTough, MSGBOX_NPC
+	lock
+	faceplayer
+	callnative RegionHub_ScrIsThreeRegionChampion
+	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipLocked
+	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipOffer, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipDecline
+	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_DOME
+	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 1
+	goto BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome
+	end
+
+BattleFrontier_BattleDomeLobby_EventScript_ChampionshipLocked::
+	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipLocked, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_BattleDomeLobby_EventScript_ChampionshipDecline::
+	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipDecline, MSGBOX_DEFAULT
+	release
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_Lass::
@@ -684,3 +719,29 @@ BattleFrontier_BattleDomeLobby_Text_ExplainDoubleKORules:
 	.string "time--a double KO--in a tournament\l"
 	.string "match, the REFEREES will review\l"
 	.string "the match and declare the winner.$"
+
+BattleFrontier_BattleDomeLobby_Text_ChampionshipOffer:
+	.string "So you've conquered KANTO, JOHTO, and\n"
+	.string "HOENN alike...\p"
+	.string "Then you've earned a shot at the WORLD\n"
+	.string "CHAMPIONSHIP -- a gauntlet against the\l"
+	.string "greatest CHAMPIONS of every region.\p"
+	.string "Enter the tournament?$"
+
+BattleFrontier_BattleDomeLobby_Text_ChampionshipLocked:
+	.string "The WORLD CHAMPIONSHIP is open only to\n"
+	.string "those who've become CHAMPION of all\l"
+	.string "three regions.\p"
+	.string "Clear KANTO, JOHTO, and HOENN, then\n"
+	.string "return to me.$"
+
+BattleFrontier_BattleDomeLobby_Text_ChampionshipDecline:
+	.string "Come back when you're ready to face\n"
+	.string "the very best there's ever been.$"
+
+BattleFrontier_BattleDomeLobby_Text_WonChampionship:
+	.string "Incredible! You've defeated every\n"
+	.string "CHAMPION and won the WORLD\l"
+	.string "CHAMPIONSHIP!\p"
+	.string "You stand unrivaled across all three\n"
+	.string "regions. A true WORLD CHAMPION!$"

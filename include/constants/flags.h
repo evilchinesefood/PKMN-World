@@ -4096,6 +4096,11 @@
 #undef  FLAG_WORLD_MAP_BIRTH_ISLAND_EXTERIOR
 #define FLAG_WORLD_MAP_BIRTH_ISLAND_EXTERIOR (FLAG_WORLD_MAP_BANK + 0x32)
 
+// World Championship: set once the player wins the cross-region champions bracket.
+// 0xD73 sits in the verified-free window just above the fly bank (0xD40..0xD72 used;
+// 0xD73..0xEEF empty, next used flag 0xEF0 FLAG_DEFEATED_BROCK).
+#define FLAG_WORLD_CHAMPION (FLAG_WORLD_MAP_BANK + 0x33)
+
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030
 

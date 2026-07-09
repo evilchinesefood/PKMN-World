@@ -302,7 +302,24 @@
 #define FRONTIER_TRAINER_ABBY           298
 #define FRONTIER_TRAINER_GRETEL         299
 
-#define FRONTIER_TRAINERS_COUNT         300
+// World Championship Battle Dome roster (cross-region champion opponents)
+#define FRONTIER_TRAINER_WC_RED         300
+#define FRONTIER_TRAINER_WC_BLUE        301
+#define FRONTIER_TRAINER_WC_LANCE       302
+#define FRONTIER_TRAINER_WC_STEVEN      303
+#define FRONTIER_TRAINER_WC_WALLACE     304
+#define FRONTIER_TRAINER_WC_LORELEI     305
+#define FRONTIER_TRAINER_WC_AGATHA      306
+#define FRONTIER_TRAINER_WC_SIDNEY      307
+#define FRONTIER_TRAINER_WC_PHOEBE      308
+#define FRONTIER_TRAINER_WC_GLACIA      309
+#define FRONTIER_TRAINER_WC_DRAKE       310
+#define FRONTIER_TRAINER_WC_KAREN       311
+#define FRONTIER_TRAINER_WC_WILL        312
+#define FRONTIER_TRAINER_WC_SABRINA     313
+#define FRONTIER_TRAINER_WC_CLAIR       314
+
+#define FRONTIER_TRAINERS_COUNT         315
 
 // special trainer IDs begin at 300, see constants/trainers.h
 

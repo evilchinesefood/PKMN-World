@@ -1908,6 +1908,18 @@ static void SetDomeData(void)
     }
 }
 
+// World Championship bracket: the fixed 15 cross-region champions that fill the
+// tourney (slots 1..15) when VAR_WORLD_CHAMPIONSHIP_MODE is set. RED (index 0) is
+// force-seeded into the finalist slot opposite the player after ranking (see below).
+static const u16 sChampionshipTrainerIds[DOME_TOURNAMENT_TRAINERS_COUNT - 1] =
+{
+    FRONTIER_TRAINER_WC_RED,    FRONTIER_TRAINER_WC_BLUE,   FRONTIER_TRAINER_WC_LANCE,
+    FRONTIER_TRAINER_WC_STEVEN, FRONTIER_TRAINER_WC_WALLACE, FRONTIER_TRAINER_WC_LORELEI,
+    FRONTIER_TRAINER_WC_AGATHA, FRONTIER_TRAINER_WC_SIDNEY, FRONTIER_TRAINER_WC_PHOEBE,
+    FRONTIER_TRAINER_WC_GLACIA, FRONTIER_TRAINER_WC_DRAKE,  FRONTIER_TRAINER_WC_KAREN,
+    FRONTIER_TRAINER_WC_WILL,   FRONTIER_TRAINER_WC_SABRINA, FRONTIER_TRAINER_WC_CLAIR,
+};
+
 static void InitDomeTrainers(void)
 {
     int i, j, k;
@@ -1949,7 +1961,13 @@ static void InitDomeTrainers(void)
     for (i = 1; i < DOME_TOURNAMENT_TRAINERS_COUNT; i++)
     {
         // Choose trainer. First 5/16 trainers are easier than the rest
-        if (i > 5)
+        if (VarGet(VAR_WORLD_CHAMPIONSHIP_MODE))
+        {
+            // World Championship: fixed 15-champion bracket, no random pool.
+            trainerId = sChampionshipTrainerIds[i - 1];
+            DOME_TRAINERS[i].trainerId = trainerId;
+        }
+        else if (i > 5)
         {
             do
             {
@@ -2086,8 +2104,24 @@ static void InitDomeTrainers(void)
         }
     }
 
+    // World Championship: force RED (final boss) into the finalist slot opposite the
+    // player, guaranteeing they meet in the final. Mirrors the Frontier Brain injection
+    // but swaps (no dup/loss) since RED is already seeded somewhere in the bracket.
+    if (VarGet(VAR_WORLD_CHAMPIONSHIP_MODE))
+    {
+        int finalistSlot;
+        for (i = 0; i < DOME_TOURNAMENT_TRAINERS_COUNT; i++)
+            if (DOME_TRAINERS[i].trainerId == TRAINER_PLAYER)
+                break;
+        finalistSlot = (sTrainerNamePositions[i][0] != TOURNEYWIN_NAMES_LEFT) ? 0 : 1;
+        for (j = 0; j < DOME_TOURNAMENT_TRAINERS_COUNT; j++)
+            if (DOME_TRAINERS[j].trainerId == FRONTIER_TRAINER_WC_RED)
+                break;
+        if (j < DOME_TOURNAMENT_TRAINERS_COUNT && j != finalistSlot)
+            SwapDomeTrainers(j, finalistSlot, rankingScores);
+    }
     // Add Frontier Brain to the tourney if they should be fought at the end of it
-    if (GetFrontierBrainStatus() != FRONTIER_BRAIN_NOT_READY)
+    else if (GetFrontierBrainStatus() != FRONTIER_BRAIN_NOT_READY)
     {
         for (i = 0; i < DOME_TOURNAMENT_TRAINERS_COUNT; i++)
         {

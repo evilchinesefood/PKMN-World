@@ -120,11 +120,18 @@ RegionHub_EventScript_ReturnHoenn::
 RegionHub_EventScript_AttendantFrontier::
 	lock
 	faceplayer
+	callnative RegionHub_ScrIsAnyRegionChampion
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_FrontierLocked
 	msgbox RegionHub_Text_TravelFrontier, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	closemessage
 	warp MAP_BATTLE_FRONTIER_RECEPTION_GATE, 0
 	waitstate
+	release
+	end
+
+RegionHub_EventScript_FrontierLocked::
+	msgbox RegionHub_Text_FrontierLocked, MSGBOX_DEFAULT
 	release
 	end
 
@@ -158,6 +165,12 @@ RegionHub_Text_TravelFrontier:
 	.string "Beyond this gate lies the\n"
 	.string "BATTLE FRONTIER.\p"
 	.string "Head to the BATTLE FRONTIER?$"
+
+RegionHub_Text_FrontierLocked:
+	.string "The BATTLE FRONTIER opens to trainers\n"
+	.string "who've conquered at least one region's\l"
+	.string "POKéMON LEAGUE.\p"
+	.string "Become a CHAMPION, then return.$"
 
 @ F1: Sky Charm giver. Hands out the overworld free-flight key item once the player
 @ can actually FLY -- i.e. holds the Fly HM AND has earned a region's Fly badge

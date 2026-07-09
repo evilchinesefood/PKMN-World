@@ -2402,5 +2402,125 @@ const struct BattleFrontierTrainer gBattleFrontierTrainers[FRONTIER_TRAINERS_COU
         .speechWin = {EC_WORD_IT_S, EC_WORD_ONLY, EC_WORD_NATURAL, EC_WORD_SEE_YA, EC_WORD_BYE_BYE, EC_WORD_EXCL},
         .speechLose = {EC_WORD_IT_S, EC_WORD_HARD, EC_WORD_TO, EC_WORD_BELIEVE, EC_WORD_BUT, EC_WORD_CONGRATS},
         .monSet = (const u16[]){FRONTIER_MONS_AROMA_LADY_3}
+    },
+    [FRONTIER_TRAINER_WC_RED] = {
+        .facilityClass = FACILITY_CLASS_RED,
+        .trainerName = _("RED"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_RED}
+    },
+    [FRONTIER_TRAINER_WC_BLUE] = {
+        .facilityClass = FACILITY_CLASS_BLUE,
+        .trainerName = _("BLUE"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_BLUE}
+    },
+    [FRONTIER_TRAINER_WC_LANCE] = {
+        .facilityClass = FACILITY_CLASS_LANCE,
+        .trainerName = _("LANCE"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_LANCE}
+    },
+    [FRONTIER_TRAINER_WC_STEVEN] = {
+        .facilityClass = FACILITY_CLASS_STEVEN,
+        .trainerName = _("STEVEN"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_STEVEN}
+    },
+    [FRONTIER_TRAINER_WC_WALLACE] = {
+        .facilityClass = FACILITY_CLASS_CHAMPION_WALLACE,
+        .trainerName = _("WALLACE"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_WALLACE}
+    },
+    [FRONTIER_TRAINER_WC_LORELEI] = {
+        .facilityClass = FACILITY_CLASS_LORELEI,
+        .trainerName = _("LORELEI"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_LORELEI}
+    },
+    [FRONTIER_TRAINER_WC_AGATHA] = {
+        .facilityClass = FACILITY_CLASS_AGATHA,
+        .trainerName = _("AGATHA"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_AGATHA}
+    },
+    [FRONTIER_TRAINER_WC_SIDNEY] = {
+        .facilityClass = FACILITY_CLASS_ELITE_FOUR_SIDNEY,
+        .trainerName = _("SIDNEY"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_SIDNEY}
+    },
+    [FRONTIER_TRAINER_WC_PHOEBE] = {
+        .facilityClass = FACILITY_CLASS_ELITE_FOUR_PHOEBE,
+        .trainerName = _("PHOEBE"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_PHOEBE}
+    },
+    [FRONTIER_TRAINER_WC_GLACIA] = {
+        .facilityClass = FACILITY_CLASS_GLACIA,
+        .trainerName = _("GLACIA"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_GLACIA}
+    },
+    [FRONTIER_TRAINER_WC_DRAKE] = {
+        .facilityClass = FACILITY_CLASS_DRAKE,
+        .trainerName = _("DRAKE"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_DRAKE}
+    },
+    [FRONTIER_TRAINER_WC_KAREN] = {
+        .facilityClass = FACILITY_CLASS_KAREN,
+        .trainerName = _("KAREN"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_KAREN}
+    },
+    [FRONTIER_TRAINER_WC_WILL] = {
+        .facilityClass = FACILITY_CLASS_WILL,
+        .trainerName = _("WILL"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_WILL}
+    },
+    [FRONTIER_TRAINER_WC_SABRINA] = {
+        .facilityClass = FACILITY_CLASS_SABRINA,
+        .trainerName = _("SABRINA"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_SABRINA}
+    },
+    [FRONTIER_TRAINER_WC_CLAIR] = {
+        .facilityClass = FACILITY_CLASS_DRAGON_TAMER,
+        .trainerName = _("CLAIR"),
+        .speechBefore = {EC_WORD_I_AM, EC_WORD_NEVER, EC_WORD_GOING, EC_WORD_TO, EC_WORD_LOSE, EC_WORD_EXCL},
+        .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_CLAIR}
     }
 };

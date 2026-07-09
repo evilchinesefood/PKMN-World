@@ -3663,13 +3663,14 @@ static void FlyOutFieldEffect_End(struct Task *task)
 
 static u8 CreateFlyBirdSprite(void)
 {
-    u8 spriteId;
-    struct Sprite *sprite;
-    spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
-    sprite = &gSprites[spriteId];
-    sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+    // Ride the player's actual flying Pokemon (falls back to Flygon) instead of the generic bird.
+    // OW mon sprites aren't affine, so there's no "grow out of ball" step; the mon waits hidden
+    // until the swoop begins. CreateObjectGraphicsSprite loads the mon's own tiles/palette.
+    u8 spriteId = CreateObjectGraphicsSprite(GetFlightMountGraphicsId(), SpriteCB_FlyBirdLeaveBall, 0xff, 0xb4, 0x1);
+    struct Sprite *sprite = &gSprites[spriteId];
     sprite->oam.priority = 1;
-    sprite->callback = SpriteCB_FlyBirdLeaveBall;
+    sprite->coordOffsetEnabled = FALSE;
+    sprite->invisible = TRUE;
     return spriteId;
 }
 
@@ -3687,6 +3688,7 @@ static void StartFlyBirdSwoopDown(u8 spriteId)
     sprite->y = 0;
     sprite->x2 = 0;
     sprite->y2 = 0;
+    sprite->invisible = FALSE;
     memset(&sprite->data[0], 0, 8 * sizeof(u16) /* zero all data cells */);
     sprite->sPlayerSpriteId = MAX_SPRITES;
 }
@@ -3696,54 +3698,10 @@ static void SetFlyBirdPlayerSpriteId(u8 birdSpriteId, u8 playerSpriteId)
     gSprites[birdSpriteId].sPlayerSpriteId = playerSpriteId;
 }
 
-static const union AffineAnimCmd sAffineAnim_FlyBirdLeaveBall[] = {
-    AFFINEANIMCMD_FRAME(8, 8, -30, 0),
-    AFFINEANIMCMD_FRAME(28, 28, 0, 30),
-    AFFINEANIMCMD_END
-};
-
-static const union AffineAnimCmd sAffineAnim_FlyBirdReturnToBall[] = {
-    AFFINEANIMCMD_FRAME(256, 256, 64, 0),
-    AFFINEANIMCMD_FRAME(-10, -10, 0, 22),
-    AFFINEANIMCMD_END
-};
-
-static const union AffineAnimCmd *const sAffineAnims_FlyBird[] = {
-    sAffineAnim_FlyBirdLeaveBall,
-    sAffineAnim_FlyBirdReturnToBall
-};
-
 static void SpriteCB_FlyBirdLeaveBall(struct Sprite *sprite)
 {
-    if (sprite->sAnimCompleted == FALSE)
-    {
-        if (sprite->data[0] == 0)
-        {
-            sprite->oam.affineMode = ST_OAM_AFFINE_DOUBLE;
-            sprite->affineAnims = sAffineAnims_FlyBird;
-            InitSpriteAffineAnim(sprite);
-            StartSpriteAffineAnim(sprite, 0);
-            sprite->x = 0x76;
-            sprite->y = -0x30;
-            sprite->data[0]++;
-            sprite->data[1] = 0x40;
-            sprite->data[2] = 0x100;
-        }
-        sprite->data[1] += (sprite->data[2] >> 8);
-        sprite->x2 = Cos(sprite->data[1], 0x78);
-        sprite->y2 = Sin(sprite->data[1], 0x78);
-        if (sprite->data[2] < 0x800)
-        {
-            sprite->data[2] += 0x60;
-        }
-        if (sprite->data[1] > 0x81)
-        {
-            sprite->sAnimCompleted++;
-            sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
-            FreeOamMatrix(sprite->oam.matrixNum);
-            CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, ST_OAM_AFFINE_OFF);
-        }
-    }
+    // No ball to grow out of for a mon sprite; the "leave" step is instant.
+    sprite->sAnimCompleted = TRUE;
 }
 
 static void SpriteCB_FlyBirdSwoopDown(struct Sprite *sprite)
@@ -3768,52 +3726,28 @@ static void SpriteCB_FlyBirdSwoopDown(struct Sprite *sprite)
 
 static void SpriteCB_FlyBirdReturnToBall(struct Sprite *sprite)
 {
-    if (sprite->sAnimCompleted == FALSE)
+    // Mon swoops upward with a side sway and exits the top of the screen (no pokeball shrink).
+    sprite->x2 = Cos(sprite->data[2], 0x8c);
+    sprite->data[2] = (sprite->data[2] + 4) & 0xff;
+    sprite->y2 -= 4;
+    if (sprite->y + sprite->y2 < -0x20)
     {
-        if (sprite->data[0] == 0)
-        {
-            sprite->oam.affineMode = ST_OAM_AFFINE_DOUBLE;
-            sprite->affineAnims = sAffineAnims_FlyBird;
-            InitSpriteAffineAnim(sprite);
-            StartSpriteAffineAnim(sprite, 1);
-            sprite->x = 0x5e;
-            sprite->y = -0x20;
-            sprite->data[0]++;
-            sprite->data[1] = 0xf0;
-            sprite->data[2] = 0x800;
-            sprite->data[4] = 0x80;
-        }
-        sprite->data[1] += sprite->data[2] >> 8;
-        sprite->data[3] += sprite->data[2] >> 8;
-        sprite->data[1] &= 0xff;
-        sprite->x2 = Cos(sprite->data[1], 0x20);
-        sprite->y2 = Sin(sprite->data[1], 0x78);
-        if (sprite->data[2] > 0x100)
-        {
-            sprite->data[2] -= sprite->data[4];
-        }
-        if (sprite->data[4] < 0x100)
-        {
-            sprite->data[4] += 24;
-        }
-        if (sprite->data[2] < 0x100)
-        {
-            sprite->data[2] = 0x100;
-        }
-        if (sprite->data[3] >= 60)
-        {
-            sprite->sAnimCompleted++;
-            sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
-            FreeOamMatrix(sprite->oam.matrixNum);
-            sprite->invisible = TRUE;
-        }
+        sprite->sAnimCompleted = TRUE;
+        sprite->invisible = TRUE;
     }
 }
 
 static void StartFlyBirdReturnToBall(u8 spriteId)
 {
-    StartFlyBirdSwoopDown(spriteId); // Set up is the same, but overrwrites the callback below
-    gSprites[spriteId].callback = SpriteCB_FlyBirdReturnToBall;
+    struct Sprite *sprite = &gSprites[spriteId];
+    sprite->callback = SpriteCB_FlyBirdReturnToBall;
+    sprite->x = DISPLAY_WIDTH / 2;
+    sprite->y = 0x50;
+    sprite->x2 = 0;
+    sprite->y2 = 0;
+    sprite->invisible = FALSE;
+    memset(&sprite->data[0], 0, 8 * sizeof(u16) /* zero all data cells */);
+    sprite->sPlayerSpriteId = MAX_SPRITES;
 }
 
 u8 FldEff_FlyIn(void)

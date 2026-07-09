@@ -1082,7 +1082,7 @@ static void CreateFlightMountSprite(void)
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     struct Sprite *playerSprite = &gSprites[playerObjEvent->spriteId];
 
-    sFlightMountSpriteId = CreateObjectGraphicsSprite(FLIGHT_MOUNT_GFX, SpriteCB_FlightMount,
+    sFlightMountSpriteId = CreateObjectGraphicsSprite(GetFlightMountGraphicsId(), SpriteCB_FlightMount,
                                                       playerSprite->x, playerSprite->y + 8, 150);
     if (sFlightMountSpriteId != MAX_SPRITES)
         gSprites[sFlightMountSpriteId].coordOffsetEnabled = TRUE;
@@ -1116,7 +1116,10 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
     sprite->y = playerSprite->y + 8;
     sprite->y2 = bobY;
     playerSprite->y2 = bobY;
-    sprite->oam.priority = playerSprite->oam.priority;
+    // Airborne: both rider and mount draw above every map layer, so tree-tops and
+    // wall tiles never clip over them (oam priority is otherwise elevation-driven).
+    sprite->oam.priority = 0;
+    playerSprite->oam.priority = 0;
     sprite->subpriority = playerSprite->subpriority + 1;
     sprite->invisible = playerSprite->invisible;
 }

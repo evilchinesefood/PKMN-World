@@ -2444,6 +2444,30 @@ u16 GetSurfMountGraphicsId(void)
     return OBJ_EVENT_GFX_SPECIES(NONE);
 }
 
+// Flight mount for the Sky Charm / Fly move: the player's first party Pokemon that
+// knows FLY, rendered as a live OW sprite (respects shiny/female/forms). Falls back
+// to Flygon when no party member knows Fly.
+u16 GetFlightMountGraphicsId(void)
+{
+    u32 i, species;
+    bool32 shiny, female;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+
+        if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG
+         || !MonKnowsMove(mon, MOVE_FLY))
+            continue;
+        if (!GetMonInfo(mon, &species, &shiny, &female)
+         || SpeciesToGraphicsInfo(species, shiny, female) == NULL)
+            continue;
+        return GetGraphicsIdForMon(species, shiny, female);
+    }
+    return OBJ_EVENT_GFX_SPECIES(FLYGON);
+}
+
 // Update following Pokémon if any
 void UpdateFollowingPokemon(void)
 {

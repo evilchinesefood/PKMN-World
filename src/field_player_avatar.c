@@ -20,6 +20,7 @@
 #include "random.h"
 #include "rotating_gate.h"
 #include "rtc.h"
+#include "safari_zone.h"
 #include "script.h"
 #include "sound.h"
 #include "sprite.h"
@@ -1015,6 +1016,8 @@ bool32 CanUseOverworldFlight(void)
         return FALSE;
     if (PlayerHasFollowerNPC())
         return FALSE; // a scripted companion can't follow into the air
+    if (GetSafariZoneFlag())
+        return FALSE; // safari sessions stay on foot - no flying over the fences
     // Guardrail 7 (no toggling mid-script/cutscene) needs no probe here: the bag
     // and the registered SELECT item are unreachable while a script has the field
     // input locked, and forced movement blocks button input at the source.

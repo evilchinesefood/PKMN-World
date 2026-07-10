@@ -15,7 +15,8 @@ SafariZoneGate_SafariZoneEntrance_EventScript_ExitSafari::
 	msgbox SafariZone_Text_WouldYouLikeToExit, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, SafariZoneGate_SafariZoneEntrance_EventScript_ReenterSafari
 	special ExitSafariMode
-	setvar VAR_SAFARI_ZONE_STATE, 1
+	clearflag FLAG_IN_JOHTO_SAFARI_ZONE
+	setvar VAR_SAFARI_ZONE_STATE, 0
 	setflag FLAG_GOOD_LUCK_SAFARI_ZONE
 	msgbox SafariZone_South_Text_ExitEarlyThankYouForPlaying
 	closemessage

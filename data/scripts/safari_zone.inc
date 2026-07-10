@@ -18,8 +18,10 @@ SafariZone_EventScript_KantoExit::
 	end
 
 @ Region merge: Johto Safari Zone returns to its own gate, not the Hoenn entrance.
+@ State goes to 0, not 1 - only Hoenn's Route 121 entrance consumes 1, and a dangling
+@ 1 makes its ON_FRAME play a phantom exit march on the player's next Hoenn visit.
 SafariZone_EventScript_JohtoExit::
-	setvar VAR_SAFARI_ZONE_STATE, 1
+	setvar VAR_SAFARI_ZONE_STATE, 0
 	clearflag FLAG_IN_JOHTO_SAFARI_ZONE
 	special ExitSafariMode
 	warp MAP_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE, 9, 3

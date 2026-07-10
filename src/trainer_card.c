@@ -918,8 +918,9 @@ static void PrintRegionLabelOnCard(void)
 {
     if (sData->isLink)
         return; // link cards show only the partner's Hoenn badges; no page label
-    FillWindowPixelRect(WIN_CARD_TEXT, PIXEL_FILL(0), 16, 104, 120, 15);
-    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 104, sTrainerCardTextColors, TEXT_SKIP_DRAW, sRegionPageNames[sData->badgePage]);
+    // Sits just right of the card art's "BADGES" caption, same spot for all regions.
+    FillWindowPixelRect(WIN_CARD_TEXT, PIXEL_FILL(0), 31, 99, 120, 15);
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 31, 99, sTrainerCardTextColors, TEXT_SKIP_DRAW, sRegionPageNames[sData->badgePage]);
 }
 
 static void InitGpuRegs(void)

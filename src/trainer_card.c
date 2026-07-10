@@ -471,10 +471,10 @@ static void Task_TrainerCard(u8 taskId)
             DrawTrainerCardWindow(WIN_CARD_TEXT);
             sData->timeColonNeedDraw = FALSE;
         }
-        // Region merge (RG2): L/R flips the front badge page across Hoenn/Kanto/Johto.
-        if (!sData->isLink && (JOY_NEW(L_BUTTON) || JOY_NEW(R_BUTTON)))
+        // Region merge (RG2): UP/DOWN (or L/R) flips the front badge page across Hoenn/Kanto/Johto.
+        if (!sData->isLink && (JOY_NEW(DPAD_UP) || JOY_NEW(DPAD_DOWN) || JOY_NEW(L_BUTTON) || JOY_NEW(R_BUTTON)))
         {
-            if (JOY_NEW(R_BUTTON))
+            if (JOY_NEW(DPAD_DOWN) || JOY_NEW(R_BUTTON))
                 sData->badgePage = (sData->badgePage + 1) % NUM_CARD_REGIONS;
             else
                 sData->badgePage = (sData->badgePage + NUM_CARD_REGIONS - 1) % NUM_CARD_REGIONS;

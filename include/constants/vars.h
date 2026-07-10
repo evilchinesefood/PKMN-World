@@ -269,7 +269,7 @@
 #define VAR_SCOTT_BF_CALL_STEP_COUNTER                   0x40F5
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER             0x40F6
 #define VAR_WORLD_CHAMPIONSHIP_MODE                      0x40F7 // Set while a Champions-bracket Dome run is active; MUST be cleared on every exit
-#define VAR_UNUSED_0x40F8                                0x40F8 // Unused Var
+#define VAR_DIFFICULTY                                   0x40F8 // Difficulty tier (0/1 = Normal, 2 = Hard)
 #define VAR_UNUSED_0x40F9                                0x40F9 // Unused Var
 #define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
 #define VAR_PLAYER_CHARACTER                             0x40FB // Region merge: global protagonist pick (Lane K1b), shared across all regions

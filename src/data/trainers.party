@@ -4656,6 +4656,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Swords Dance
 - Slash
 
+=== TRAINER_SIDNEY ===
+Name: SIDNEY
+Class: Elite Four
+Pic: Elite Four Sidney
+Gender: Male
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Purple
+
+Mightyena @ Black Glasses
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Crunch
+- Play Rough
+- Sucker Punch
+- Fire Fang
+
+Cacturne @ Focus Sash
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
+- Sucker Punch
+- Seed Bomb
+- Spikes
+- Drain Punch
+
+Crawdaunt @ Life Orb
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Adaptability
+- Crabhammer
+- Knock Off
+- Aqua Jet
+- Swords Dance
+
+Shiftry @ Choice Scarf
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Leaf Blade
+- Knock Off
+- Rock Slide
+- Low Kick
+
+Absol @ Scope Lens
+Level: 66
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Super Luck
+- Swords Dance
+- Night Slash
+- Sucker Punch
+- Play Rough
+
+Tyranitar @ Leftovers
+Level: 68
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sand Stream
+- Dragon Dance
+- Stone Edge
+- Crunch
+- Earthquake
+
 === TRAINER_PHOEBE ===
 Name: PHOEBE
 Class: Elite Four
@@ -4706,6 +4772,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Ice Beam
 - Rock Slide
 - Earthquake
+
+=== TRAINER_PHOEBE ===
+Name: PHOEBE
+Class: Elite Four
+Pic: Elite Four Phoebe
+Gender: Female
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Smart Switching / Force Setup First Turn / Check Bad Move / Try To Faint
+Mugshot: Green
+
+Sableye @ Leftovers
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Prankster
+- Will O Wisp
+- Recover
+- Foul Play
+- Taunt
+
+Banette @ Life Orb
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
+- Shadow Claw
+- Sucker Punch
+- Knock Off
+- Destiny Bond
+
+Dusknoir @ Sitrus Berry
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pressure
+- Poltergeist
+- Earthquake
+- Ice Punch
+- Pain Split
+
+Mismagius @ Choice Scarf
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Shadow Ball
+- Dazzling Gleam
+- Mystical Fire
+- Power Gem
+
+Chandelure @ Wise Glasses
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flash Fire
+- Shadow Ball
+- Fire Blast
+- Energy Ball
+- Calm Mind
+
+Gengar @ Focus Sash
+Level: 68
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
+- Shadow Ball
+- Sludge Bomb
+- Focus Blast
+- Nasty Plot
 
 === TRAINER_GLACIA ===
 Name: GLACIA
@@ -4758,6 +4890,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Ice Beam
 - Sheer Cold
 
+=== TRAINER_GLACIA ===
+Name: GLACIA
+Class: Elite Four
+Pic: Elite Four Glacia
+Gender: Female
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Smart Switching / Force Setup First Turn / Check Bad Move / Try To Faint
+Mugshot: Pink
+
+Abomasnow @ Light Clay
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Snow Warning
+- Aurora Veil
+- Blizzard
+- Giga Drain
+- Ice Shard
+
+Froslass @ Focus Sash
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
+- Spikes
+- Ice Beam
+- Shadow Ball
+- Destiny Bond
+
+Glalie @ Life Orb
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Ice Body
+- Ice Beam
+- Freeze-Dry
+- Shadow Ball
+- Earthquake
+
+Mamoswine @ Expert Belt
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Icicle Crash
+- Earthquake
+- Ice Shard
+- Knock Off
+
+Weavile @ Life Orb
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pressure
+- Triple Axel
+- Knock Off
+- Ice Shard
+- Swords Dance
+
+Walrein @ Leftovers
+Level: 68
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Surf
+- Ice Beam
+- Freeze-Dry
+- Protect
+
 === TRAINER_DRAKE ===
 Name: DRAKE
 Class: Elite Four
@@ -4808,6 +5006,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Dragon Claw
 - Rock Slide
 - Crunch
+
+=== TRAINER_DRAKE ===
+Name: DRAKE
+Class: Elite Four
+Pic: Elite Four Drake
+Gender: Male
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Smart Switching / Force Setup First Turn
+Mugshot: Blue
+
+Flygon @ Choice Scarf
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Earthquake
+- Dragon Claw
+- Stone Edge
+- U-turn
+
+Altaria @ Leftovers
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Natural Cure
+- Dragon Dance
+- Dragon Claw
+- Earthquake
+- Roost
+
+Kingdra @ Damp Rock
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Rain Dance
+- Surf
+- Draco Meteor
+- Ice Beam
+
+Garchomp @ Rocky Helmet
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rough Skin
+- Swords Dance
+- Earthquake
+- Outrage
+- Fire Fang
+
+Dragonite @ Weakness Policy
+Level: 66
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Multiscale
+- Dragon Dance
+- Dragon Claw
+- Earthquake
+- Roost
+
+Salamence @ Life Orb
+Level: 68
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Dragon Dance
+- Outrage
+- Earthquake
+- Fire Blast
 
 === TRAINER_ROXANNE_1 ===
 Name: ROXANNE
@@ -6583,6 +6847,72 @@ Level: 58
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Recover
 - Surf
+- Ice Beam
+- Toxic
+
+=== TRAINER_WALLACE ===
+Name: WALLACE
+Class: Champion
+Pic: Champion Wallace
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Smart Switching / Check Bad Move / Try To Faint / Check Viability / Force Setup First Turn
+Mugshot: Yellow
+
+Wailord @ Damp Rock
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Veil
+- Rain Dance
+- Water Spout
+- Hydro Pump
+- Ice Beam
+
+Ludicolo @ Life Orb
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Surf
+- Giga Drain
+- Ice Beam
+- Leech Seed
+
+Tentacruel @ Assault Vest
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Clear Body
+- Scald
+- Sludge Bomb
+- Ice Beam
+- Rapid Spin
+
+Whiscash @ Leftovers
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Hydration
+- Dragon Dance
+- Earthquake
+- Waterfall
+- Ice Fang
+
+Gyarados @ Mystic Water
+Level: 66
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Dragon Dance
+- Waterfall
+- Earthquake
+- Ice Fang
+
+Milotic @ Sitrus Berry
+Level: 68
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Marvel Scale
+- Recover
+- Scald
 - Ice Beam
 - Toxic
 
@@ -16583,6 +16913,71 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Psychic
 - Meteor Mash
 - Shadow Ball
+
+=== TRAINER_STEVEN ===
+Name: STEVEN
+Class: Rival
+Pic: Steven
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Check Bad Move / Check Viability / Try To Faint / Smart Switching / Force Setup First Turn / HP Aware / Ace Pokemon
+
+Skarmory @ Leftovers
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Iron Head
+- Brave Bird
+- Stealth Rock
+- Roost
+
+Excadrill @ Focus Sash
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Mold Breaker
+- Earthquake
+- Iron Head
+- Rock Slide
+- Swords Dance
+
+Aggron @ Lum Berry
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
+- Head Smash
+- Iron Head
+- Earthquake
+- Fire Punch
+
+Cradily @ Sitrus Berry
+Level: 64
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Storm Drain
+- Giga Drain
+- Rock Slide
+- Recover
+- Curse
+
+Armaldo @ Weakness Policy
+Level: 66
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Battle Armor
+- Swords Dance
+- Stone Edge
+- X-Scissor
+- Earthquake
+
+Metagross @ Life Orb
+Level: 68
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Clear Body
+- Meteor Mash
+- Zen Headbutt
+- Earthquake
+- Ice Punch
 
 === TRAINER_ANABEL ===
 Name: ANABEL

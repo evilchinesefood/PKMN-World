@@ -16,6 +16,7 @@
 #include "constants/heal_locations.h"
 #include "constants/items.h"
 #include "item.h"
+#include "pokedex.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -287,4 +288,18 @@ void RegionHub_ScrIsThreeRegionChampion(struct ScriptContext *ctx)
 void RegionHub_ScrIsAnyRegionChampion(struct ScriptContext *ctx)
 {
     gSpecialVar_Result = IsNRegionChampion(1);
+}
+
+// Dex reward NPC: VAR_RESULT = species owned (caught) in the National Dex. No script
+// special exposes this, so the reward researcher reads it here. u16 result holds it fine.
+void RegionHub_ScrGetCaughtCount(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = GetNationalPokedexCount(FLAG_GET_CAUGHT);
+}
+
+// Dex reward NPC tier 3 gate: VAR_RESULT = is the National Dex complete. Uses the same
+// HasAllMons() test the diploma runs (src/diploma.c), so "complete" matches the diploma.
+void RegionHub_ScrHasCompletedDex(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = HasAllMons();
 }

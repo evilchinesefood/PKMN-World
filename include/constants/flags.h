@@ -4101,6 +4101,12 @@
 // 0xD73..0xEEF empty, next used flag 0xEF0 FLAG_DEFEATED_BROCK).
 #define FLAG_WORLD_CHAMPION (FLAG_WORLD_MAP_BANK + 0x33)
 
+// Pokedex reward NPC in the World Transit hub (RegionHub_EventScript_DexReward).
+// Three one-time claim gates, next in the same verified-free window (0xD73..0xEEF empty).
+#define FLAG_DEX_REWARD_1 (FLAG_WORLD_MAP_BANK + 0x34) // 150 caught -> PP MAX
+#define FLAG_DEX_REWARD_2 (FLAG_WORLD_MAP_BANK + 0x35) // 300 caught -> MASTER BALL
+#define FLAG_DEX_REWARD_3 (FLAG_WORLD_MAP_BANK + 0x36) // full National Dex -> SHINY CHARM
+
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030
 

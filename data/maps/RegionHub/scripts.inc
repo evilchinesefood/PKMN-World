@@ -619,3 +619,120 @@ RegionHub_Text_CuratorAllGiven:
 	.string "My whole collection is in your\n"
 	.string "hands.\p"
 	.string "Wear those charms proudly!$"
+
+@ Dex reward researcher (SCIENTIST_1) at (11,7) on the main hall row. Escalating one-time
+@ prizes for caught-species milestones. The count comes from RegionHub_ScrGetCaughtCount
+@ (no script special exposes GetNationalPokedexCount); tier 3 uses HasAllMons() - the
+@ diploma's own completion test - via RegionHub_ScrHasCompletedDex. VAR_0x8000 holds the
+@ preserved count: giveitem clobbers VAR_RESULT and VAR_0x8000/0x8001, so every threshold
+@ compare and the number buffer run BEFORE any giveitem. Tiers are checked high->low; each
+@ visit awards at most the highest still-unclaimed tier the player qualifies for. The flag
+@ is only set after a successful give, so a bag-full player can return to claim.
+RegionHub_EventScript_DexReward::
+	lock
+	faceplayer
+	callnative RegionHub_ScrGetCaughtCount
+	copyvar VAR_0x8000, VAR_RESULT
+	goto_if_set FLAG_DEX_REWARD_3, RegionHub_EventScript_DexRewardTier2
+	callnative RegionHub_ScrHasCompletedDex
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_DexRewardGiveTier3
+RegionHub_EventScript_DexRewardTier2::
+	goto_if_set FLAG_DEX_REWARD_2, RegionHub_EventScript_DexRewardTier1
+	goto_if_ge VAR_0x8000, 300, RegionHub_EventScript_DexRewardGiveTier2
+RegionHub_EventScript_DexRewardTier1::
+	goto_if_set FLAG_DEX_REWARD_1, RegionHub_EventScript_DexRewardProgress
+	goto_if_ge VAR_0x8000, 150, RegionHub_EventScript_DexRewardGiveTier1
+RegionHub_EventScript_DexRewardProgress::
+	goto_if_unset FLAG_DEX_REWARD_1, RegionHub_EventScript_DexRewardShowCount
+	goto_if_unset FLAG_DEX_REWARD_2, RegionHub_EventScript_DexRewardShowCount
+	goto_if_unset FLAG_DEX_REWARD_3, RegionHub_EventScript_DexRewardShowCount
+	msgbox RegionHub_Text_DexRewardAllDone, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_DexRewardShowCount::
+	buffernumberstring 0, VAR_0x8000
+	msgbox RegionHub_Text_DexRewardProgress, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_DexRewardGiveTier1::
+	msgbox RegionHub_Text_DexRewardGiveTier1, MSGBOX_DEFAULT
+	giveitem ITEM_PP_MAX
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_DEX_REWARD_1
+	msgbox RegionHub_Text_DexRewardTier1Explain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_DexRewardGiveTier2::
+	msgbox RegionHub_Text_DexRewardGiveTier2, MSGBOX_DEFAULT
+	giveitem ITEM_MASTER_BALL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_DEX_REWARD_2
+	msgbox RegionHub_Text_DexRewardTier2Explain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_DexRewardGiveTier3::
+	msgbox RegionHub_Text_DexRewardGiveTier3, MSGBOX_DEFAULT
+	giveitem ITEM_RARE_CANDY, 10
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_DEX_REWARD_3
+	msgbox RegionHub_Text_DexRewardDiploma, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_Text_DexRewardProgress:
+	.string "Cataloguing the world's POKéMON,\n"
+	.string "are you?\p"
+	.string "My records show you've caught\n"
+	.string "{STR_VAR_1} so far.\p"
+	.string "Reach 150 for my first reward.\n"
+	.string "Keep at it!$"
+
+RegionHub_Text_DexRewardGiveTier1:
+	.string "150 species caught! Marvelous\n"
+	.string "field work.\p"
+	.string "Take this for your efforts.$"
+
+RegionHub_Text_DexRewardTier1Explain:
+	.string "That's a PP MAX-it pushes a move's\n"
+	.string "PP to its very limit.\p"
+	.string "Now, 300 species is the next\n"
+	.string "milestone. Off you go!$"
+
+RegionHub_Text_DexRewardGiveTier2:
+	.string "300 species! You've seen more of\n"
+	.string "this world than most ever will.\p"
+	.string "This belongs with a TRAINER like\n"
+	.string "you.$"
+
+RegionHub_Text_DexRewardTier2Explain:
+	.string "A MASTER BALL-it catches any\n"
+	.string "POKéMON without fail.\p"
+	.string "Only one goal remains: complete\n"
+	.string "the entire POKéDEX!$"
+
+RegionHub_Text_DexRewardGiveTier3:
+	.string "The POKéDEX… complete.\p"
+	.string "Every POKéMON in the world,\n"
+	.string "recorded by your hand.\p"
+	.string "Please, accept this.$"
+
+RegionHub_Text_DexRewardDiploma:
+	.string "Those RARE CANDIES, and with them\n"
+	.string "my personal DIPLOMA.\p"
+	.string "I hereby certify you the finest\n"
+	.string "POKéMON researcher alive.\p"
+	.string "Your name will be remembered\n"
+	.string "wherever POKéMON are studied!$"
+
+RegionHub_Text_DexRewardAllDone:
+	.string "My friend! Every reward I have is\n"
+	.string "already yours.\p"
+	.string "Thank you-your POKéDEX is the\n"
+	.string "finest record I've ever seen.$"

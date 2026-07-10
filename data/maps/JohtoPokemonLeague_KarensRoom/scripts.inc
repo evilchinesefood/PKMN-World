@@ -13,7 +13,7 @@ JohtoPokemonLeague_KarensRoom_EventScript_Karen::
 	lock 
 	faceplayer
 	goto_if_ge VAR_LEAGUE_STATE, 5, JohtoPokemonLeague_KarensRoom_EventScript_KarenDefeated
-	goto_if_set FLAG_IS_CHAMPION, JohtoPokemonLeague_KarensRoom_EventScript_KarenRematch
+	goto_if_set FLAG_JOHTO_CHAMPION, JohtoPokemonLeague_KarensRoom_EventScript_KarenRematch
 	msgbox JohtoPokemonLeague_KarensRoom_Text_Before, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5

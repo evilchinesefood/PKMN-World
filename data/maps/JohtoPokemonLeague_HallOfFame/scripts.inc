@@ -67,18 +67,19 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
-	clearflag FLAG_HIDE_LATIOS
-	clearflag FLAG_HIDE_LATIAS
-	clearflag FLAG_HIDE_RAYQUAZA
-	clearflag FLAG_HIDE_GROUDON
-	clearflag FLAG_HIDE_KYOGRE
-	clearflag FLAG_HIDE_MEWTWO
+	@ Respawns are for UNRESOLVED encounters only - unconditional hide-flag clears made
+	@ already-caught statics respawn as farmable duplicates.
+	call_if_unset FLAG_CAUGHT_LATIAS_OR_LATIOS, JohtoHoF_RespawnLatis
+	call_if_unset FLAG_DEFEATED_RAYQUAZA, JohtoHoF_RespawnRayquaza
+	call_if_unset FLAG_DEFEATED_GROUDON, JohtoHoF_RespawnGroudon
+	call_if_unset FLAG_DEFEATED_KYOGRE, JohtoHoF_RespawnKyogre
+	call_if_unset FLAG_FOUGHT_MEWTWO, JohtoHoF_RespawnMewtwo
 	clearflag FLAG_HIDE_VERMILION_SNORLAX
 	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
 	clearflag FLAG_HIDE_SUDOWOODO
-	clearflag FLAG_HIDE_ZAPDOS
-	clearflag FLAG_HIDE_ARTICUNO
-	clearflag FLAG_HIDE_MOLTRES
+	call_if_unset FLAG_FOUGHT_ZAPDOS, JohtoHoF_RespawnZapdos
+	call_if_unset FLAG_FOUGHT_ARTICUNO, JohtoHoF_RespawnArticuno
+	call_if_unset FLAG_FOUGHT_MOLTRES, JohtoHoF_RespawnMoltres
 	clearflag FLAG_ITEM_GS_BALL
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
 	setflag FLAG_IS_KANTO_CHAMPION
@@ -86,13 +87,13 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	@ of another region first would clear Johto via this branch and never record it (breaking
 	@ IsNRegionChampion and the 2/3-region hub rewards).
 	setflag FLAG_JOHTO_CHAMPION
-	setvar VAR_COMPLETED_LUGIA, 4
-	clearflag FLAG_HIDE_LUGIA
-	setvar VAR_COMPLETED_HO_OH, 4
-	clearflag FLAG_HIDE_HO_OH
+	call_if_unset FLAG_CAUGHT_LUGIA, JohtoHoF_RespawnLugia
+	call_if_unset FLAG_CAUGHT_HO_OH, JohtoHoF_RespawnHoOh
 	call JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers
-	call_if_ge VAR_SUICUNE_ENCOUNTERS, 8, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune
-	call_if_set FLAG_CAUGHT_CELEBI, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi
+	@ Sightings 4-8 were never ported (producers max at 3); Celebi's retry must include
+	@ players who fainted/fled it, not only successful catchers.
+	call_if_ge VAR_SUICUNE_ENCOUNTERS, 3, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune
+	call_if_ge VAR_AZALEA_TOWN_STATE, 10, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi
 	clearflag FLAG_DEFEATED_MEW
 	clearflag FLAG_CAUGHT_MEW
 	clearflag FLAG_BATTLED_DEOXYS
@@ -109,6 +110,49 @@ JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers::
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune::
 	clearflag FLAG_HIDE_ROUTE25_SUICUNE
+	return
+
+JohtoHoF_RespawnLatis::
+	clearflag FLAG_HIDE_LATIOS
+	clearflag FLAG_HIDE_LATIAS
+	return
+
+JohtoHoF_RespawnRayquaza::
+	clearflag FLAG_HIDE_RAYQUAZA
+	return
+
+JohtoHoF_RespawnGroudon::
+	clearflag FLAG_HIDE_GROUDON
+	return
+
+JohtoHoF_RespawnKyogre::
+	clearflag FLAG_HIDE_KYOGRE
+	return
+
+JohtoHoF_RespawnMewtwo::
+	clearflag FLAG_HIDE_MEWTWO
+	return
+
+JohtoHoF_RespawnZapdos::
+	clearflag FLAG_HIDE_ZAPDOS
+	return
+
+JohtoHoF_RespawnArticuno::
+	clearflag FLAG_HIDE_ARTICUNO
+	return
+
+JohtoHoF_RespawnMoltres::
+	clearflag FLAG_HIDE_MOLTRES
+	return
+
+JohtoHoF_RespawnLugia::
+	setvar VAR_COMPLETED_LUGIA, 4
+	clearflag FLAG_HIDE_LUGIA
+	return
+
+JohtoHoF_RespawnHoOh::
+	setvar VAR_COMPLETED_HO_OH, 4
+	clearflag FLAG_HIDE_HO_OH
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi::

@@ -42,7 +42,7 @@ GoldenrodCity_BillsHouse_EventScript_Bill_Eevee::
 	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_EEVEE
 	bufferspeciesname STR_VAR_1, SPECIES_EEVEE
 	givenamedmon 3
-	call Johto_EventScript_NopReturn
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
 
     
 

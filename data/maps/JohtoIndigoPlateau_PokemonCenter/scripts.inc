@@ -21,7 +21,7 @@ JohtoIndigoPlateau_PokemonCenter_Enter::
 	end
 
 JohtoIndigoPlateau_Pokecenter_OnTransition::
-	setrespawn HEAL_LOCATION_INDIGO_PLATEAU
+	setrespawn HEAL_LOCATION_JOHTO_INDIGO_PLATEAU
 	end
 
 

@@ -17,7 +17,7 @@ Gate_GoldenrodCity_Route35_EventScript_Randy::
 	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_SPEAROW
 	bufferspeciesname STR_VAR_1, SPECIES_SPEAROW
 	givenamedmon 1
-	call Johto_EventScript_NopReturn
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
 
 	setvar VAR_KENYA, 1
 	release

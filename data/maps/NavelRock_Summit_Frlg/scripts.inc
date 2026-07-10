@@ -14,6 +14,7 @@ NavelRock_Summit_EventScript_HideHoOh::
 	return
 
 NavelRock_Summit_EventScript_TryShowHoOh::
+	goto_if_set FLAG_CAUGHT_HO_OH, NavelRock_Summit_EventScript_HideHoOh
 	setvar VAR_TEMP_1, 1
 	goto_if_set FLAG_HO_OH_FLEW_AWAY, Common_EventScript_NopReturn
 	setvar VAR_TEMP_1, 0

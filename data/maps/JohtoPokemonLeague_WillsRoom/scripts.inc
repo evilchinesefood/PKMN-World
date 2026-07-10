@@ -55,7 +55,7 @@ JohtoPokemonLeague_WillsRoom_EventScript_Will::
 	lock 
 	faceplayer
 	goto_if_ge VAR_LEAGUE_STATE, 2, JohtoPokemonLeague_WillsRoom_EventScript_WillDefeated
-	goto_if_set FLAG_IS_CHAMPION, JohtoPokemonLeague_WillsRoom_EventScript_WillRematch
+	goto_if_set FLAG_JOHTO_CHAMPION, JohtoPokemonLeague_WillsRoom_EventScript_WillRematch
 	msgbox JohtoPokemonLeague_WillsRoom_Text_Before, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5

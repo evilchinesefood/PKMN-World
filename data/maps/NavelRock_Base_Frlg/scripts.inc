@@ -13,6 +13,7 @@ NavelRock_Base_Frlg_EventScript_HideLugia::
 	return
 
 NavelRock_Base_Frlg_EventScript_TryShowLugia::
+	goto_if_set FLAG_CAUGHT_LUGIA, NavelRock_Base_Frlg_EventScript_HideLugia
 	goto_if_set FLAG_LUGIA_FLEW_AWAY, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_LUGIA
 	return

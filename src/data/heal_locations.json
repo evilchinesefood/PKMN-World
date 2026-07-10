@@ -463,6 +463,14 @@
       "respawn_npc": "LOCALID_REGION_HUB_NURSE",
       "respawn_x": 13,
       "respawn_y": 12
+    },
+    {
+      "id": "HEAL_LOCATION_JOHTO_INDIGO_PLATEAU",
+      "map": "MAP_JOHTO_INDIGO_PLATEAU",
+      "x": 11,
+      "y": 7,
+      "respawn_map": "MAP_JOHTO_INDIGO_PLATEAU_POKEMON_CENTER",
+      "respawn_npc": ""
     }
   ]
 }

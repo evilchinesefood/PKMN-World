@@ -13,7 +13,7 @@ CianwoodCity_EventScript_Kirk::
 	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_SHUCKLE
 	bufferspeciesname STR_VAR_1, SPECIES_SHUCKLE
 	givenamedmon 2
-	call Johto_EventScript_NopReturn
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
 
 	setvar VAR_SHUCKIE, 1
 	release

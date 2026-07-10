@@ -25,6 +25,7 @@ MtSilver_1F_MoltresRoom_EventScript_Moltres::
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_MTSILVER_MOLTRES
 	setflag FLAG_HIDE_MOLTRES
+	setflag FLAG_FOUGHT_MOLTRES @ shared with Mt Ember - without it the other site re-shows a duplicate
 	fadescreenswapbuffers FADE_FROM_BLACK
 	release
 	end

@@ -13,7 +13,7 @@ JohtoPokemonLeague_BrunosRoom_EventScript_Bruno::
 	lock 
 	faceplayer
 	goto_if_ge VAR_LEAGUE_STATE, 4, JohtoPokemonLeague_BrunosRoom_EventScript_BrunoDefeated
-	goto_if_set FLAG_IS_CHAMPION, JohtoPokemonLeague_BrunosRoom_EventScript_BrunoRematch
+	goto_if_set FLAG_JOHTO_CHAMPION, JohtoPokemonLeague_BrunosRoom_EventScript_BrunoRematch
 	msgbox JohtoPokemonLeague_BrunosRoom_Text_Before, MSGBOX_DEFAULT
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5

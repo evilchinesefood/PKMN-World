@@ -45,7 +45,8 @@ CeladonCity_GameCorner_EventScript_PrintPhoto::
 	playse MUS_RG_PHOTO
 	dofieldeffect FLDEFF_PHOTO_FLASH
 	delay 60
-	special UpdateTrainerCardPhotoIcons
+	@ DISARMED until the Kanto var rebase: UpdateTrainerCardPhotoIcons writes vars
+	@ 0x4042-0x4048, which currently alias live Hoenn vars incl. VAR_NATIONAL_DEX.
 	msgbox CeladonCity_GameCorner_Text_PrintIsReadyCheckTrainerCard
 	hidemoneybox
 	releaseall

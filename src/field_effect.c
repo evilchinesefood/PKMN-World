@@ -3520,10 +3520,15 @@ static void SpriteCB_NPCFlyOut(struct Sprite *sprite)
 #define sPlayerSpriteId data[6]
 #define sAnimCompleted  data[7]
 
+// OW graphics id of the mon performing Fly (the party slot the player picked). Set when Fly
+// starts and reused for the arrival (FlyIn) after the warp, so both ends ride the same Pokemon.
+static u16 sFlyMonGraphicsId;
+
 u8 FldEff_UseFly(void)
 {
     u8 taskId = CreateTask(Task_FlyOut, 254);
     gTasks[taskId].tMonId = gFieldEffectArguments[0];
+    sFlyMonGraphicsId = GetFlightMountGraphicsIdForMon(gFieldEffectArguments[0]);
     return 0;
 }
 
@@ -3666,7 +3671,8 @@ static u8 CreateFlyBirdSprite(void)
     // Ride the player's actual flying Pokemon (falls back to Flygon) instead of the generic bird.
     // OW mon sprites aren't affine, so there's no "grow out of ball" step; the mon waits hidden
     // until the swoop begins. CreateObjectGraphicsSprite loads the mon's own tiles/palette.
-    u8 spriteId = CreateObjectGraphicsSprite(GetFlightMountGraphicsId(), SpriteCB_FlyBirdLeaveBall, 0xff, 0xb4, 0x1);
+    u16 gfxId = sFlyMonGraphicsId ? sFlyMonGraphicsId : GetFlightMountGraphicsId();
+    u8 spriteId = CreateObjectGraphicsSprite(gfxId, SpriteCB_FlyBirdLeaveBall, 0xff, 0xb4, 0x1);
     struct Sprite *sprite = &gSprites[spriteId];
     sprite->oam.priority = 1;
     sprite->coordOffsetEnabled = FALSE;
@@ -3744,13 +3750,13 @@ static void StartFlyBirdReturnToBall(u8 spriteId)
 {
     struct Sprite *sprite = &gSprites[spriteId];
     sprite->callback = SpriteCB_FlyBirdReturnToBall;
-    sprite->x = DISPLAY_WIDTH / 2;
-    sprite->y = 0x50;
+    // Keep the mount where it dropped the player (FlyInWithBird baked its position); it flies
+    // straight up from there rather than re-appearing at screen-center for a second swoop.
     sprite->x2 = 0;
     sprite->y2 = 0;
     sprite->invisible = FALSE;
     memset(&sprite->data[0], 0, 8 * sizeof(u16) /* zero all data cells */);
-    sprite->data[2] = 0x40; // start the sway at screen-center (Cos(0x40)=0) so frame 1 isn't off the right edge
+    sprite->data[2] = 0x40; // Cos(0x40)=0 -> no horizontal jolt on the first up frame
     sprite->sPlayerSpriteId = MAX_SPRITES;
 }
 
@@ -3816,6 +3822,18 @@ static void FlyInFieldEffect_FlyInWithBird(struct Task *task)
         sprite->y += sprite->y2;
         sprite->x2 = 0;
         sprite->y2 = 0;
+        // Land once: bake the mount's current on-screen position and stop its swoop so it doesn't
+        // keep arcing off-screen; it then flies straight UP from here on the return, instead of
+        // re-appearing at screen-center for a second swoop.
+        {
+            struct Sprite *bird = &gSprites[task->tBirdSpriteId];
+            bird->x += bird->x2;
+            bird->y += bird->y2;
+            bird->x2 = 0;
+            bird->y2 = 0;
+            bird->sAnimCompleted = TRUE;
+            bird->callback = SpriteCallbackDummy;
+        }
         task->tState++;
         task->tTimer = 0;
     }

@@ -30,6 +30,7 @@
 #include "palette_swap.h"
 #include "party_menu.h"
 #include "pokemon.h"
+#include "config/qol_field_moves.h"
 #include "pokeball.h"
 #include "random.h"
 #include "region_map.h"
@@ -2457,8 +2458,15 @@ u16 GetFlightMountGraphicsId(void)
         struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
         u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
 
-        if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG
-         || !MonKnowsMove(mon, MOVE_FLY))
+        if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG)
+            continue;
+        // Match the game's "can use Fly" rule: knows Fly, or (with no-teach HMs) can LEARN it.
+        // Otherwise the actual flyer (never taught Fly) is skipped and we wrongly fall to Flygon.
+        if (!MonKnowsMove(mon, MOVE_FLY)
+#if QOL_FIELD_MOVES_NO_TEACH
+         && !CanLearnTeachableMove(speciesOrEgg, MOVE_FLY)
+#endif
+           )
             continue;
         if (!GetMonInfo(mon, &species, &shiny, &female)
          || SpeciesToGraphicsInfo(species, shiny, female) == NULL)
@@ -2466,6 +2474,22 @@ u16 GetFlightMountGraphicsId(void)
         return GetGraphicsIdForMon(species, shiny, female);
     }
     return OBJ_EVENT_GFX_SPECIES(FLYGON);
+}
+
+// Overworld graphics id for a SPECIFIC party member (the mon the player picked to Fly).
+// Falls back to the first Fly-capable mon (then Flygon) if that slot can't be shown.
+u16 GetFlightMountGraphicsIdForMon(u8 partyId)
+{
+    u32 species;
+    bool32 shiny, female;
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][partyId];
+    u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+
+    if (speciesOrEgg != SPECIES_NONE && speciesOrEgg != SPECIES_EGG
+     && GetMonInfo(mon, &species, &shiny, &female)
+     && SpeciesToGraphicsInfo(species, shiny, female) != NULL)
+        return GetGraphicsIdForMon(species, shiny, female);
+    return GetFlightMountGraphicsId();
 }
 
 // Update following Pokémon if any

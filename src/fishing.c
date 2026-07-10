@@ -168,10 +168,14 @@ static bool32 Fishing_GetRodOut(struct Task *task)
         [GOOD_ROD]  = 1,
         [SUPER_ROD] = 1
     };
+    // QoL: exactly ONE reaction round per cast for every rod. Vanilla demanded up to
+    // 1+Random()%6 rounds on the Super Rod, and an A-press during any later dots
+    // phase (which every player does after "Oh! A bite!") was an instant "It got
+    // away" - fishing read as completely broken.
     const s16 minRounds2[] = {
         [OLD_ROD]   = 1,
-        [GOOD_ROD]  = 3,
-        [SUPER_ROD] = 6
+        [GOOD_ROD]  = 1,
+        [SUPER_ROD] = 1
     };
 
     task->tRoundsPlayed = 0;
@@ -337,11 +341,12 @@ static bool32 Fishing_APressNoMinigame(struct Task *task)
 // Determine if we're going to play the dot game again
 static bool32 Fishing_CheckMoreDots(struct Task *task)
 {
+    // QoL: no surprise bonus rounds either (see minRounds2) - one bite, one A, one battle.
     const s16 moreDotsChance[][2] =
     {
         [OLD_ROD]   = {0, 0},
-        [GOOD_ROD]  = {40, 10},
-        [SUPER_ROD] = {70, 30}
+        [GOOD_ROD]  = {0, 0},
+        [SUPER_ROD] = {0, 0}
     };
 
     AlignFishingAnimationFrames();

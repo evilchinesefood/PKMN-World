@@ -1051,6 +1051,11 @@ void StartOverworldFlight(void)
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
+    // Pin the rider's oam priority for the whole flight: each step otherwise re-asserts
+    // elevation-driven priority, and whether the mount callback re-wins that same frame
+    // depends on sprite slot order - lose the race and the mon draws over the player
+    // (most blatant pointed north, where the mount's back-view frame covers the rider).
+    playerObjEvent->fixedPriority = TRUE;
     CreateFlightMountSprite();
     PlaySE(SE_M_FLY);
 }
@@ -1062,6 +1067,8 @@ void EndOverworldFlight(void)
     sFlightActive = FALSE;
     DestroyFlightMountSprite();
     gSprites[playerObjEvent->spriteId].y2 = 0;
+    playerObjEvent->fixedPriority = FALSE;
+    gSprites[playerObjEvent->spriteId].oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
     playerObjEvent->noShadow = TRUE; // UpdateShadowFieldEffect despawns the flight shadow
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
@@ -1117,7 +1124,9 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
     sprite->y2 = bobY;
     playerSprite->y2 = bobY;
     // Airborne: both rider and mount draw above every map layer, so tree-tops and
-    // wall tiles never clip over them (oam priority is otherwise elevation-driven).
+    // wall tiles never clip over them (the player's elevation-driven re-assert is
+    // parked via fixedPriority for the flight). The mount stays one subpriority
+    // step behind so the player always rides ON its back, matching HM Fly.
     sprite->oam.priority = 0;
     playerSprite->oam.priority = 0;
     sprite->subpriority = playerSprite->subpriority + 1;

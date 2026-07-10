@@ -50,6 +50,113 @@ COMMON_DATA struct PokemonStorage *gPokemonStoragePtr = NULL;
 // code
 
 #if ALL_REGIONS
+// v5 -> v6 Kanto var rebase (see include/constants/vars_frlg.h): every FRLG-unique story var
+// on raw IDs 0x4025-0x408A moved from the shared SaveBlock1.vars pool (where it aliased a live
+// Hoenn var) to the Kanto regionVars slice. oldId is the raw pre-v6 SaveBlock1 var ID; the
+// macro name resolves to the var's new VAR_KANTO_SLICE ID.
+static const struct { u16 oldId; u16 newId; } sKantoVarRebase[] = {
+    { 0x4025, VAR_MASSAGE_COOLDOWN_STEP_COUNTER },
+    { 0x4026, VAR_DEOXYS_INTERACTION_STEP_COUNTER },
+    { 0x4027, VAR_QUEST_LOG_MON_COUNTS },
+    { 0x4028, VAR_WONDER_NEWS_STEP_COUNTER_FRLG },
+    { 0x4029, VAR_0x4029 },
+    { 0x402A, VAR_0x402A },
+    { 0x402B, VAR_0x402B },
+    { 0x402C, VAR_DAYS_FRLG },
+    { 0x402D, VAR_0x402D },
+    { 0x402E, VAR_0x402E },
+    { 0x402F, VAR_0x402F },
+    { 0x4030, VAR_ICE_STEP_COUNT_FRLG },
+    { 0x4031, VAR_STARTER_MON_FRLG },
+    { 0x4032, VAR_RESET_RTC_ENABLE_FRLG },
+    { 0x4033, VAR_ENIGMA_BERRY_AVAILABLE_FRLG },
+    { 0x4034, VAR_0x4034 },
+    { 0x4035, VAR_RESORT_GOREGEOUS_STEP_COUNTER },
+    { 0x4036, VAR_RESORT_GORGEOUS_REQUESTED_MON },
+    { 0x4037, VAR_PC_BOX_TO_SEND_MON_FRLG },
+    { 0x4038, VAR_FANCLUB_FAN_COUNTER_FRLG },
+    { 0x4039, VAR_FANCLUB_LOSE_FAN_TIMER_FRLG },
+    { 0x403A, VAR_ELEVATOR_FLOOR },
+    { 0x403B, VAR_RESORT_GORGEOUS_REWARD },
+    { 0x403C, VAR_0x403C },
+    { 0x403D, VAR_HERACROSS_SIZE_RECORD },
+    { 0x403E, VAR_DEOXYS_INTERACTION_NUM },
+    { 0x403F, VAR_0x403F },
+    { 0x4040, VAR_MAGIKARP_SIZE_RECORD },
+    { 0x4041, VAR_0x4041 },
+    { 0x4042, VAR_TRAINER_CARD_MON_ICON_TINT_IDX },
+    { 0x4043, VAR_TRAINER_CARD_MON_ICON_1 },
+    { 0x4044, VAR_TRAINER_CARD_MON_ICON_2 },
+    { 0x4045, VAR_TRAINER_CARD_MON_ICON_3 },
+    { 0x4046, VAR_TRAINER_CARD_MON_ICON_4 },
+    { 0x4047, VAR_TRAINER_CARD_MON_ICON_5 },
+    { 0x4048, VAR_TRAINER_CARD_MON_ICON_6 },
+    { 0x4049, VAR_HOF_BRAG_STATE },
+    { 0x404A, VAR_EGG_BRAG_STATE },
+    { 0x404B, VAR_LINK_WIN_BRAG_STATE },
+    { 0x404D, VAR_QL_ENTRANCE },
+    { 0x404E, VAR_NATIONAL_DEX_FRLG },
+    { 0x4050, VAR_MAP_SCENE_PALLET_TOWN_OAK },
+    { 0x4051, VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN },
+    { 0x4052, VAR_MAP_SCENE_CERULEAN_CITY_RIVAL },
+    { 0x4053, VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER },
+    { 0x4054, VAR_MAP_SCENE_ROUTE22 },
+    { 0x4055, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB },
+    { 0x4056, VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F },
+    { 0x4057, VAR_MAP_SCENE_VIRIDIAN_CITY_MART },
+    { 0x4058, VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE },
+    { 0x4059, VAR_MAP_SCENE_POKEMON_TOWER_6F },
+    { 0x405A, VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR },
+    { 0x405B, VAR_MAP_SCENE_S_S_ANNE_2F_CORRIDOR },
+    { 0x405C, VAR_MAP_SCENE_SILPH_CO_7F },
+    { 0x405D, VAR_MAP_SCENE_POKEMON_TOWER_2F },
+    { 0x405E, VAR_MAP_SCENE_ROUTE16 },
+    { 0x405F, VAR_MAP_SCENE_ROUTE23 },
+    { 0x4060, VAR_MAP_SCENE_SILPH_CO_11F },
+    { 0x4061, VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F },
+    { 0x4062, VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES },
+    { 0x4063, VAR_MAP_SCENE_SEAFOAM_ISLANDS_B4F },
+    { 0x4064, VAR_MAP_SCENE_VICTORY_ROAD_1F },
+    { 0x4065, VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1 },
+    { 0x4066, VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER2 },
+    { 0x4067, VAR_MAP_SCENE_VICTORY_ROAD_3F },
+    { 0x4068, VAR_MAP_SCENE_POKEMON_LEAGUE },
+    { 0x4069, VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_WHICH_FOSSIL },
+    { 0x406A, VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_REVIVE_STATE },
+    { 0x406B, VAR_MAP_SCENE_ROUTE24 },
+    { 0x406C, VAR_MAP_SCENE_PEWTER_CITY },
+    { 0x406D, VAR_0x406D },
+    { 0x406E, VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE },
+    { 0x406F, VAR_CABLE_CLUB_STATE_FRLG },
+    { 0x4070, VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY },
+    { 0x4071, VAR_MAP_SCENE_CINNABAR_ISLAND },
+    { 0x4072, VAR_0x4072 },
+    { 0x4073, VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB },
+    { 0x4074, VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1 },
+    { 0x4075, VAR_MAP_SCENE_ONE_ISLAND_HARBOR },
+    { 0x4076, VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F },
+    { 0x4077, VAR_0x4077 },
+    { 0x4078, VAR_MAP_SCENE_TWO_ISLAND },
+    { 0x4079, VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER },
+    { 0x407A, VAR_0x407A },
+    { 0x407B, VAR_MAP_SCENE_THREE_ISLAND },
+    { 0x407C, VAR_MAP_SCENE_POKEMON_CENTER_TEALA },
+    { 0x407D, VAR_MAP_SCENE_CERULEAN_CITY_ROCKET },
+    { 0x407E, VAR_MAP_SCENE_VERMILION_CITY },
+    { 0x407F, VAR_MAP_SCENE_MT_EMBER_EXTERIOR },
+    { 0x4080, VAR_MAP_SCENE_ICEFALL_CAVE_BACK },
+    { 0x4081, VAR_MAP_SCENE_SAFFRON_CITY_DOJO },
+    { 0x4082, VAR_MAP_SCENE_TRAINER_TOWER },
+    { 0x4083, VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10 },
+    { 0x4084, VAR_MAP_SCENE_FIVE_ISLAND_RESORT_GORGEOUS },
+    { 0x4085, VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR },
+    { 0x4086, VAR_MAP_SCENE_FOUR_ISLAND },
+    { 0x4087, VAR_0x4087 },
+    { 0x4088, VAR_MAP_SCENE_ROCKET_WAREHOUSE },
+    { 0x4089, VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F },
+    { 0x408A, VAR_MAP_SCENE_CINNABAR_ISLAND_2 },
+};
+
 // Region-merge save-format migration (deep-review T20 / plan E4). Runs once from
 // LoadGameSave(SAVE_NORMAL) after the save blocks are in RAM, only when the slot loaded OK.
 //
@@ -113,6 +220,19 @@ void MigrateSaveFormatIfNeeded(void)
     // flash. Zero the count so the cleared-obstacle set starts empty.
     if (savedVersion < 5)
         gSaveBlock3Ptr->clearedObstacleCount = 0;
+    // v5 -> v6: the FRLG story vars were rebased from raw SaveBlock1.vars IDs (0x4025-0x408A,
+    // where they aliased live Hoenn vars) onto the reserved Kanto regionVars slice. Copy each
+    // moved var's old shared cell into its new slot - the cell value is the best available
+    // (Kanto and Hoenn wrote it interleaved); Hoenn keeps the cell afterward. Skipped for v0
+    // sources: their Kanto is genuinely unvisited and the cells hold pure Hoenn values, so the
+    // freshly zeroed slice (v0 -> v1 above) is already correct.
+    if (savedVersion >= 1 && savedVersion < 6)
+    {
+        u32 i;
+        for (i = 0; i < ARRAY_COUNT(sKantoVarRebase); i++)
+            gSaveBlock3Ptr->regionVars[sKantoVarRebase[i].newId - REGION_VARS_START]
+                = gSaveBlock1Ptr->vars[sKantoVarRebase[i].oldId - VARS_START];
+    }
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }

@@ -8,7 +8,9 @@
 // v3: SaveBlock3.kantoTrainerFlags appended (Kanto trainer defeat-flag bank, E5-1).
 // v4: SaveBlock3.route5DayCareMon appended (FRLG Route 5 single-mon day care, E7-1).
 // v5: SaveBlock3.clearedObstacleCount/clearedObstacles appended (persistent cut trees + smashed rocks).
-#define SAVE_FORMAT_VERSION 5
+// v6: FRLG story vars rebased from raw SaveBlock1.vars IDs (0x4025-0x408A, aliasing live Hoenn
+//     vars) onto the Kanto regionVars slice (VAR_KANTO_SLICE); old cell values are copied over.
+#define SAVE_FORMAT_VERSION 6
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate

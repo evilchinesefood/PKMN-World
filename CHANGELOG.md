@@ -3,6 +3,24 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.1.1 — 2026-07-10
+
+### Fixes
+
+- **Fly** now shows the Pokémon you picked (Sky Charm and HM), not Flygon, and
+  the landing no longer plays a second swoop.
+- Leaving the **Kanto Safari Zone** returns you to Fuchsia City instead of
+  Hoenn's Route 121 entrance.
+
+### Quality of life
+
+- Running out of **Safari Balls** now offers the same ¥500 continue as running
+  out of steps (refills 30 balls + steps); declining exits normally.
+- The **Pokédex** main page now shows your current region's SEEN/CAUGHT plus a
+  TOTAL caught across all regions (replaces the old HOENN/NATIONAL rows).
+- The **Trainer Card** also cycles regions with UP/DOWN (L/R still works).
+- **Autosave** fires at most every ~2 minutes (was ~1).
+
 ## v1.1 — 2026-07-10
 
 ### Endgame

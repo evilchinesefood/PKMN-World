@@ -23,7 +23,8 @@ Champion — and you choose which to play from a central **World Transit hub**. 
 Pokédex, and bag are shared** across all three, so the Pokémon you raise travel with you between
 worlds.
 
-- **Engine:** pokeemerald-expansion (upstream `66ab6696`, 2026-06-23)
+- **Engine:** pokeemerald-expansion (upstream `66ab6696`, 2026-06-23) + 20
+  cherry-picked upstream battle/AI fixes
 - **ROM:** `pokemonworld.gba` — title `POKEMON WRLD`, code `BPEE`
 
 ## ✨ Features
@@ -34,17 +35,19 @@ worlds.
 | 🚉 **World Transit hub** | Pick your starting region at a central hub, then travel between regions once you've opened each one. |
 | 🎒 **Shared progress** | One PC box, Pokédex, and bag across all three regions. Boxed Pokémon obey based on your *current* region's badge count. |
 | 👕 **Character customization** | Play as **Brendan or May** with a 6-color outfit picker — one global choice, applied everywhere. |
-| 🏆 **Per-region endgame** | Each region keeps its own league — **Blue** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league — with the **Battle Frontier** as the shared post-game. |
+| 🏆 **Per-region endgame** | Each region keeps its own league — **Blue** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league (now with an upgraded HARD-mode Elite Four/Champion rematch) — with the **Battle Frontier**, gated behind your first league clear, as the shared post-game. |
+| 🌐 **World Championship** | Beat all three regions' leagues, then face a 15-trainer Battle Dome gauntlet of cross-region champions — Red included — for a permanent title and a Gold Bottle Cap. |
 | 🛠️ **Expansion + QoL** | The full pokeemerald-expansion engine plus a suite of ported quality-of-life features behind config toggles. |
 
 ## 📊 Status
 
-**v1.0-beta** (2026-07-05) — see the [changelog](CHANGELOG.md). All three campaigns are built,
+**v1.1** (2026-07-10) — see the [changelog](CHANGELOG.md). All three campaigns are built,
 link-green, and a broad **feature wave** has shipped (overworld flight, follower Pokémon, a
 graphical start menu, DexNav, Kanto VS Seeker rematches, dynamic surf, autosave, hard mode, the
-HGSS Pokédex, and more). Every major system has been **runtime-verified** on hardware (BizHawk):
-the new-game flow, hub economy, region switching, flight and its guardrails, followers, DexNav +
-hidden-mon detector, autosave, hard mode, the v3 save migration, and VS Seeker rematches all pass.
+HGSS Pokédex, a **World Championship** endgame, and more). Every major system has been
+**runtime-verified** on hardware (BizHawk): the new-game flow, hub economy, region switching,
+flight and its guardrails, followers, DexNav + hidden-mon detector, autosave, hard mode, the v3
+save migration, and VS Seeker rematches all pass.
 The remaining gate is a **full-length human campaign playthrough** for story pacing and balance.
 
 <details>

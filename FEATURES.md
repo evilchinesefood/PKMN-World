@@ -22,6 +22,7 @@ instructions, see [INSTALL.md](INSTALL.md).
     - [World Transit hub](#world-transit-hub)
     - [Region switching](#region-switching)
     - [Shared vs. per-region progress](#shared-vs-per-region-progress)
+    - [World Championship](#world-championship)
   - [Character customization](#character-customization)
   - [Ported features](#ported-features)
     - [SwSh UI suite](#swsh-ui-suite)
@@ -68,7 +69,10 @@ Fame — and you choose the order.
   **Celebi** GS Ball chain, the **Ruins of Alph** sliding puzzles, the National Park
   **Bug-Catching Contest**, and the Ho-Oh / Lugia events.
 - **Hoenn** — the native Emerald campaign, plus the **Battle Frontier** as the
-  shared post-game battle facility (reachable from the hub).
+  shared post-game battle facility (reachable from the hub, gated behind
+  clearing at least one region's league). Once you're Champion, the Elite
+  Four/Champion **rematch** fields upgraded HARD-difficulty teams (Lv 62–68,
+  competitive movesets) — your first clear still faces the normal gauntlet.
 
 ### World Transit hub
 
@@ -78,10 +82,13 @@ staffed departure gates (Kanto, Johto, Hoenn, Battle Frontier), a nurse and heal
 point, a storage PC, a front-desk mart plus six department vendors, and a
 **world-tour board** tracking all 24 badges.
 
-Two hub staffers handle handouts: the **Harbor Master** opens the event ferries and
-hands out the event tickets (Eon Ticket, Old Sea Map, Mystic Ticket) as you win
-championships, and the **Charm Curator** hands out the charms at badge milestones —
-plus a **PokéVial** as a welcome gift. The hub mart also stocks a free **Town Map**.
+Three hub staffers handle handouts: the **Harbor Master** opens the event ferries
+and hands out the event tickets (Eon Ticket, Old Sea Map, Mystic Ticket) as you win
+championships, the **Charm Curator** hands out the charms at badge milestones —
+plus a **PokéVial** as a welcome gift — and a post-game **Dex researcher** gives
+escalating one-time rewards for caught-species count: 150 → PP Max, 300 → Master
+Ball, and completing the National Dex → 10 Rare Candies plus a diploma. The hub
+mart also stocks a free **Town Map**.
 
 ### Region switching
 
@@ -111,6 +118,15 @@ plus a **PokéVial** as a welcome gift. The hub mart also stocks a free **Town M
   obeys according to your Johto badges while you're in Johto.
 - The **Trainer Card is multi-page**: L/R flips between Hoenn, Kanto, and Johto
   badge pages.
+
+### World Championship
+
+Once you're Champion of **all three regions**, a registrar in the Battle Dome
+lobby offers the **World Championship**: a 15-trainer Battle Dome bracket built
+from cross-region champions — **Red, Blue, Lance, Steven, Wallace**, all four
+region **Elite Fours**, and **Sabrina**/**Clair** — with **Red** waiting in the
+final. Winning grants a permanent title and a one-time **Gold Bottle Cap**, and
+the tournament is rematchable afterward.
 
 ## Character customization
 
@@ -174,10 +190,13 @@ the lead — can be your follower.
 
 ### Sky Charm overworld flight
 
-A key item (`ITEM_SKY_CHARM`) that toggles **free overworld flight** on a Flygon
-mount. Given by a keeper NPC in the World Transit hub once you've earned your first
-badge in any region; flying requires the **current** region's Fly badge — the same
-badge that authorizes HM Fly (Kanto Thunder, Johto Mineral, Hoenn Feather).
+A key item (`ITEM_SKY_CHARM`) that toggles **free overworld flight**. Both the Sky
+Charm and HM Fly now mount your actual **flying-capable Pokémon** (falling back to
+Flygon if none is available), animated mid-flight and rendered above trees and
+walls instead of clipping beneath them. Given by a keeper NPC in the World Transit
+hub once you've earned your first badge in any region; flying requires the
+**current** region's Fly badge — the same badge that authorizes HM Fly (Kanto
+Thunder, Johto Mineral, Hoenn Feather).
 
 ### ORAS key-item registration wheel
 
@@ -223,7 +242,8 @@ Config flips and gameplay features that shape how the shipped game plays:
 - **Type and effectiveness indicators always shown** in battle (`B_SHOW_TYPES`,
   `B_SHOW_EFFECTIVENESS`).
 - **HGSS-style Pokédex enabled** (`POKEDEX_PLUS_HGSS`) — the detailed HGSS Pokédex
-  interface.
+  interface, with a **CAUGHT** counter (total capture count) below SEEN/OWN on the
+  main page.
 - **DexNav** (`DEXNAV_ENABLED`) — granted with each region's Pokédex; the
   hidden-Pokémon detector unlocks with your first championship. **Hidden encounters
   are authored for every land map**, skewing rarer and slightly higher-level than
@@ -250,7 +270,7 @@ Config flips and gameplay features that shape how the shipped game plays:
   move between areas; it skips while flying.
 - **Hard Mode** — Set-style battles, no bag items against trainers, and badge-based
   level caps — plus an **EXP multiplier** (0.5×–2×) and a **catch-rate multiplier**
-  (1×–2×), all in the Options menu.
+  (0.5×–2×), all in the Options menu.
 - **Run shortcut** for fleeing wild battles, in the Options menu — Off / Cursor
   (B moves the cursor to Run) / Instant (flee immediately).
 - **Auto-Run toggle** in the Options menu (which now scrolls to fit extra options).
@@ -310,8 +330,6 @@ hardware-verified. What remains:
 - **Full-campaign and inter-region-travel playtest** — the main remaining gate.
 - An Options toggle to **skip the nickname prompt** when catching a Pokémon
   (renaming from the party menu and summary screen already shipped).
-- The **grand 24-badge endgame tournament** — the hub's world-tour board already
-  counts all 24 badges; the tournament it points toward is future content.
 - HGSS gym-leader / Elite Four portrait art (currently remapped to the nearest
   existing portraits).
 

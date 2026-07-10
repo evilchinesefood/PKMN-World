@@ -3,6 +3,44 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.1 — 2026-07-10
+
+### Endgame
+
+- **World Championship** — once you're Champion of all three regions, a registrar
+  in the Battle Dome lobby offers a 15-trainer bracket of cross-region champions
+  (Red, Blue, Lance, Steven, Wallace, the four Elite Fours, and Sabrina/Clair),
+  with Red waiting in the final. Rewards a permanent title and a Gold Bottle Cap,
+  and is rematchable afterward.
+- The **Battle Frontier** is now gated behind clearing at least one region's
+  league.
+- **Hoenn's Elite Four and Champion rematch** now fields genuinely upgraded HARD
+  teams (Lv 62–68, competitive movesets) once you're Champion — your first clear
+  still faces the normal gauntlet.
+
+### Quality of life
+
+- **Fly** and the **Sky Charm** now show your actual flying Pokémon carrying you,
+  instead of a generic bird or a fixed Flygon. The Sky Charm mount now renders
+  above trees and walls.
+- **CATCH RATE** gains a 0.5× tier, matching EXP RATE (now 0.5×/1×/1.5×/2×).
+- The **Pokédex** adds a CAUGHT counter (total captures) below SEEN/OWN.
+- All **evolution items** (Steel Coat, etc.) are now sold in the department
+  stores.
+- A new **post-game Dex-reward NPC** in the World Transit hub: 150 caught → PP
+  Max, 300 → Master Ball, full National Dex → 10 Rare Candies + a diploma.
+
+### Fixes
+
+- Game Corner coin buying now fills the case to max instead of blocking when
+  it's nearly full, and a larger 3rd coin-buy tier was added.
+- Celadon's prize-corner Pokémon purchase is fixed (was showing "WEEZING" and
+  not giving the Pokémon).
+
+### Engine
+
+- Synced 20 upstream rh-hideout battle/AI fixes.
+
 ## v1.0-beta — 2026-07-05
 
 ### The Game

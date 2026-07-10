@@ -277,6 +277,14 @@ void RegionHub_ScrIsTwoRegionChampion(struct ScriptContext *ctx)
     gSpecialVar_Result = IsNRegionChampion(2);
 }
 
+// Safari exit routing: VAR_RESULT = is the current map in Kanto. The shared safari exit
+// scripts route at runtime (their old #if IS_FRLG branches always compiled to the Hoenn
+// path in this merged build, dumping Kanto players at Route 121).
+void ScrIsCurrentRegionKanto(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = (GetCurrentRegion() == REGION_KANTO);
+}
+
 // World Championship gate: VAR_RESULT = has the player cleared all three regions' leagues.
 // Used by the Championship Registrar to unlock the cross-region champions bracket.
 void RegionHub_ScrIsThreeRegionChampion(struct ScriptContext *ctx)

@@ -1,39 +1,19 @@
-SafariZone_EventScript_OutOfBallsMidBattle::
-	goto_if_set FLAG_IN_JOHTO_SAFARI_ZONE, SafariZone_EventScript_JohtoOutOfBallsMidBattle
-#if IS_FRLG
-	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 3
-#else
-	setvar VAR_SAFARI_ZONE_STATE, 1
-#endif
-	special ExitSafariMode
-#if IS_FRLG
-	setwarp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
-#else
-	setwarp MAP_ROUTE121_SAFARI_ZONE_ENTRANCE, 2, 5
-#endif
-	end
-
-@ Region merge: Johto Safari Zone returns to its own gate, not the Hoenn entrance.
-SafariZone_EventScript_JohtoOutOfBallsMidBattle::
-	setvar VAR_SAFARI_ZONE_STATE, 1
-	clearflag FLAG_IN_JOHTO_SAFARI_ZONE
-	special ExitSafariMode
-	setwarp MAP_SAFARI_ZONE_GATE_SAFARI_ZONE_ENTRANCE, 9, 3
-	end
-
+@ Region merge: exits route at RUNTIME. The old #if IS_FRLG compile-time branches always
+@ took the Hoenn path in this merged build (IS_FRLG=0), dumping Kanto players at Route 121.
 SafariZone_EventScript_Exit::
 	goto_if_set FLAG_IN_JOHTO_SAFARI_ZONE, SafariZone_EventScript_JohtoExit
-#if IS_FRLG
-	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 1
-#else
+	callnative ScrIsCurrentRegionKanto
+	goto_if_eq VAR_RESULT, TRUE, SafariZone_EventScript_KantoExit
 	setvar VAR_SAFARI_ZONE_STATE, 1
-#endif
 	special ExitSafariMode
-#if IS_FRLG
-	warp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
-#else
 	warp MAP_ROUTE121_SAFARI_ZONE_ENTRANCE, 2, 5
-#endif
+	waitstate
+	end
+
+SafariZone_EventScript_KantoExit::
+	setvar VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 1
+	special ExitSafariMode
+	warp MAP_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE, 4, 1
 	waitstate
 	end
 
@@ -92,10 +72,38 @@ SafariZone_EventScript_TimesUpEnd::
 	releaseall
 	goto SafariZone_EventScript_Exit
 
+@ Out of balls offers the same pay-to-continue as running out of steps (ExtendSafariZone
+@ refills 30 balls + steps); declining exits to the correct region via the Exit router.
 SafariZone_EventScript_OutOfBalls::
 	lockall
 	playse SE_DING_DONG
 	message SafariZone_Text_OutOfBalls
+	waitmessage
+	waitbuttonpress
+	showmoneybox 0, 0
+	msgbox SafariZone_Text_ContinueSafariGame, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SafariZone_EventScript_OutOfBallsDecline
+	checkmoney 500
+	goto_if_eq VAR_RESULT, 0, SafariZone_EventScript_OutOfBallsNoMoney
+	playse SE_SHOP
+	removemoney 500
+	updatemoneybox
+	hidemoneybox
+	callnative ExtendSafariZone
+	releaseall
+	end
+
+SafariZone_EventScript_OutOfBallsNoMoney::
+	hidemoneybox
+	message SafariZone_Text_NotEnoughMoneyToContinue
+	waitmessage
+	waitbuttonpress
+	releaseall
+	goto SafariZone_EventScript_Exit
+
+SafariZone_EventScript_OutOfBallsDecline::
+	hidemoneybox
+	message SafariZone_Text_SafariGameOver
 	waitmessage
 	waitbuttonpress
 	releaseall
@@ -152,8 +160,7 @@ SafariZone_Text_SafariGameOver:
 	.string "Okay. Your SAFARI Game is over.$"
 
 SafariZone_Text_OutOfBalls:
-	.string "You've run out of SAFARI BALLS.\n"
-	.string "Your SAFARI Game is over.$"
+	.string "You've run out of SAFARI BALLS.$"
 
 SafariZone_Text_PlacePokeblockOnFeeder:
 	.string "Would you like to place a {POKEBLOCK}\n"

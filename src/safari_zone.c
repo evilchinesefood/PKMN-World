@@ -26,7 +26,6 @@ struct PokeblockFeeder
 
 extern const u8 SafariZone_EventScript_TimesUp[];
 extern const u8 SafariZone_EventScript_RetirePrompt[];
-extern const u8 SafariZone_EventScript_OutOfBallsMidBattle[];
 extern const u8 SafariZone_EventScript_OutOfBalls[];
 
 EWRAM_DATA u8 gNumSafariBalls = 0;
@@ -118,15 +117,10 @@ void CB2_EndSafariBattle(void)
     {
         SetMainCallback2(CB2_ReturnToField);
     }
-    else if (gBattleOutcome == B_OUTCOME_NO_SAFARI_BALLS)
+    else if (gBattleOutcome == B_OUTCOME_NO_SAFARI_BALLS || gBattleOutcome == B_OUTCOME_CAUGHT)
     {
-        RunScriptImmediately(SafariZone_EventScript_OutOfBallsMidBattle);
-        WarpIntoMap();
-        gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
-        SetMainCallback2(CB2_LoadMap);
-    }
-    else if (gBattleOutcome == B_OUTCOME_CAUGHT)
-    {
+        // Out of balls: back to the field for the pay-to-continue prompt (mirrors times-up)
+        // instead of the old instant warp-out.
         ScriptContext_SetupScript(SafariZone_EventScript_OutOfBalls);
         ScriptContext_Stop();
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);

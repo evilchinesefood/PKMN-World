@@ -3900,7 +3900,10 @@ static void FlyInFieldEffect_WaitBirdReturn(struct Task *task)
 {
     if (GetFlyBirdAnimCompleted(task->tBirdSpriteId))
     {
+        u8 paletteNum = gSprites[task->tBirdSpriteId].oam.paletteNum;
+
         DestroySprite(&gSprites[task->tBirdSpriteId]);
+        FieldEffectFreePaletteIfUnused(paletteNum);
         task->tState++;
         task->data[1] = 16;
     }
@@ -3923,6 +3926,7 @@ static void FlyInFieldEffect_End(struct Task *task)
         ObjectEventTurn(objectEvent, DIR_SOUTH);
         gPlayerAvatar.flags = task->tAvatarFlags;
         gPlayerAvatar.preventStep = FALSE;
+        sFlyMonGraphicsId = 0; // stale-mount hygiene: don't leak this flight's mount into the next
         FieldEffectActiveListRemove(FLDEFF_FLY_IN);
         DestroyTask(FindTaskIdByFunc(Task_FlyIn));
     }

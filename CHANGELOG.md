@@ -3,6 +3,23 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.1.2 — 2026-07-10
+
+### Fixes
+
+- **Fishing** reworked to a single reaction — one bite, one prompt.
+- The rider now sits properly on the **mount's back** instead of floating
+  alongside.
+- **Safari Zone** exit and ¥500-continue fixes across all regions.
+- **Trainer Card** badge-page label corrected; pages flip with UP/DOWN (or L/R).
+- **Chuck** now correctly awards the **Storm Badge**.
+- Each region's **Elite Four** fields its own per-region difficulty.
+- **Legendary encounters** guard against duplicates, and the **Celebi** event
+  can be retried.
+- **Gift Pokémon** are no longer lost when your party is full.
+- **Johto League** Fly and respawn locations corrected.
+- Assorted text fixes (ellipses, stray spaces, dashes) across Johto and the hub.
+
 ## v1.1.1 — 2026-07-10
 
 ### Fixes

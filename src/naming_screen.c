@@ -14,6 +14,7 @@
 #include "field_player_avatar.h"
 #include "event_object_movement.h"
 #include "event_data.h"
+#include "regions.h"
 #include "constants/songs.h"
 #include "pokemon_storage_system.h"
 #include "graphics.h"
@@ -713,6 +714,7 @@ static bool8 MainState_Exit(void)
 static UNUSED void DisplaySentToPCMessage(void)
 {
     u8 stringToDisplay = 0;
+    const u8 *msg;
 
     if (!IsDestinationBoxFull())
     {
@@ -730,7 +732,16 @@ static UNUSED void DisplaySentToPCMessage(void)
     if (FlagGet(FLAG_SYS_PC_LANETTE))
         stringToDisplay++;
 
-    StringExpandPlaceholders(gStringVar4, sTransferredToPCMessages[stringToDisplay]);
+    msg = sTransferredToPCMessages[stringToDisplay];
+    // Region merge: PC owner is Bill in Kanto, Lanette elsewhere - runtime dispatch.
+    if (GetCurrentRegion() == REGION_KANTO)
+    {
+        if (msg == gText_PkmnTransferredLanettesPC)
+            msg = gText_PkmnTransferredBillsPC;
+        else if (msg == gText_PkmnTransferredLanettesPCBoxFull)
+            msg = gText_PkmnTransferredBillsPCBoxFull;
+    }
+    StringExpandPlaceholders(gStringVar4, msg);
     DrawDialogueFrame(0, FALSE);
     gTextFlags.canABSpeedUpPrint = TRUE;
     AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);

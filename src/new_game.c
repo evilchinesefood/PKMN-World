@@ -118,7 +118,6 @@ static void SetDefaultOptions(void)
 
 static void ClearPokedexFlags(void)
 {
-    gUnusedPokedexU8 = 0;
     memset(&gSaveBlock1Ptr->dexCaught, 0, sizeof(gSaveBlock1Ptr->dexCaught));
     memset(&gSaveBlock1Ptr->dexSeen, 0, sizeof(gSaveBlock1Ptr->dexSeen));
 }
@@ -209,9 +208,10 @@ void NewGameInitData(void)
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
 #if ALL_REGIONS
-    // Region merge: stamp the save format; intro-done / travel-pass bits and the
+    // Region merge: stamp the save format; travel-pass / other intro bits and the
     // per-region var/flag banks default clear (SaveBlock3 zeroed by ClearSav3 above).
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
+    gSaveBlock2Ptr->hoennIntroDone = TRUE; // the truck intro IS the Hoenn intro; unset caused a stray hub-arrival MOM line + autosave block
 #endif
     InitPlayerTrainerId();
     PlayTimeCounter_Reset();

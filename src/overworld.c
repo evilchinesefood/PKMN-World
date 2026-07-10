@@ -1788,6 +1788,13 @@ static void UpdateAutosave(void)
 #undef tHoldTimer
 #undef tState
 
+// A successful manual save counts as a fresh autosave: stamp the same interval
+// marker the autosave path uses so the next autosave isn't due immediately after.
+void Autosave_MarkSaved(void)
+{
+    sLastAutosaveFrame = gMain.vblankCounter1;
+}
+
 static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
 {
     struct FieldInput inputStruct;

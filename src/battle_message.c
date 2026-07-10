@@ -2772,6 +2772,14 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
     case STRINGID_TRAINERSLIDE:
         stringPtr = gBattleStruct->trainerSlideMsg;
         break;
+    // Region merge: PC owner is Bill in Kanto, Lanette elsewhere - runtime dispatch,
+    // like B_TXT_PC_CREATOR_NAME below.
+    case STRINGID_PKMNTRANSFERREDLANETTESPC:
+        stringPtr = (GetCurrentRegion() == REGION_KANTO) ? gText_PkmnTransferredBillsPC : gText_PkmnTransferredLanettesPC;
+        break;
+    case STRINGID_PKMNBOXLANETTESPCFULL:
+        stringPtr = (GetCurrentRegion() == REGION_KANTO) ? gText_PkmnTransferredBillsPCBoxFull : gText_PkmnTransferredLanettesPCBoxFull;
+        break;
     default: // load a string from the table
         if (stringID >= STRINGID_COUNT)
         {

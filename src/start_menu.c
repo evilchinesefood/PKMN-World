@@ -1209,9 +1209,14 @@ static u8 SaveDoSaveCallback(void)
     }
 
     if (saveStatus == SAVE_STATUS_OK)
+    {
+        Autosave_MarkSaved(); // manual save resets the autosave interval
         ShowSaveMessage(gText_PlayerSavedGame, SaveSuccessCallback);
+    }
     else
+    {
         ShowSaveMessage(gText_SaveError, SaveErrorCallback);
+    }
 
     SaveStartTimer();
     return SAVE_IN_PROGRESS;

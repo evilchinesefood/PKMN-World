@@ -103,7 +103,7 @@ mart also stocks a free **Town Map**.
   normal play: the **Goldenrod Magnet Train** (the Pass comes from the station
   president after the Radio Tower incident), the **Vermilion harbor**, or the
   **Slateport harbor**. Once you're a **champion of two regions**, every Pokémon
-  Center 2F gains a World Transit warp pad.
+  Center (2F in Hoenn/Kanto, lobby in Johto) gains a World Transit warp pad.
 - The active region and hub access are stored in the save; a versioned save format
   (`SAVE_FORMAT_VERSION 3`) with a migration reader keeps older dev saves loading.
 
@@ -116,17 +116,17 @@ mart also stocks a free **Town Map**.
   (each region has its own badge bank), and trainer-defeat flags. Obedience and HM
   field moves are gated by the **current** region's badges — a boxed Kanto team
   obeys according to your Johto badges while you're in Johto.
-- The **Trainer Card is multi-page**: L/R flips between Hoenn, Kanto, and Johto
-  badge pages.
+- The **Trainer Card is multi-page**: UP/DOWN (or L/R) flips between Hoenn,
+  Kanto, and Johto badge pages.
 
 ### World Championship
 
 Once you're Champion of **all three regions**, a registrar in the Battle Dome
 lobby offers the **World Championship**: a 15-trainer Battle Dome bracket built
-from cross-region champions — **Red, Blue, Lance, Steven, Wallace**, all four
-region **Elite Fours**, and **Sabrina**/**Clair** — with **Red** waiting in the
-final. Winning grants a permanent title and a one-time **Gold Bottle Cap**, and
-the tournament is rematchable afterward.
+from cross-region champions — **Red, Blue, Lance, Steven, Wallace**, eight
+**Elite Four** members from across the regions, and **Sabrina**/**Clair** —
+with **Red** waiting in the final. Winning grants a permanent title and a
+one-time **Gold Bottle Cap**, and the tournament is rematchable afterward.
 
 ## Character customization
 
@@ -179,8 +179,8 @@ backs the idle and transition animations used across the SwSh UI suite.
 
 An Unbound-inspired graphical Start menu (`PW_GRAPHICAL_START_MENU`,
 `include/config/start_menu.h`): sprite-icon entries the player can rearrange,
-day/night compatible, with a Quests entry. The classic list menu is kept for link
-play.
+day/night compatible, with a Quests entry. The classic list menu is kept as a
+fallback.
 
 ### HGSS follower Pokémon
 
@@ -242,8 +242,9 @@ Config flips and gameplay features that shape how the shipped game plays:
 - **Type and effectiveness indicators always shown** in battle (`B_SHOW_TYPES`,
   `B_SHOW_EFFECTIVENESS`).
 - **HGSS-style Pokédex enabled** (`POKEDEX_PLUS_HGSS`) — the detailed HGSS Pokédex
-  interface, with a **CAUGHT** counter (total capture count) below SEEN/OWN on the
-  main page.
+  interface. The main page is region-aware: it shows your campaign region's name
+  with that region's SEEN/CAUGHT counts, plus a TOTAL of species caught across
+  all regions.
 - **DexNav** (`DEXNAV_ENABLED`) — granted with each region's Pokédex; the
   hidden-Pokémon detector unlocks with your first championship. **Hidden encounters
   are authored for every land map**, skewing rarer and slightly higher-level than
@@ -274,7 +275,11 @@ Config flips and gameplay features that shape how the shipped game plays:
 - **Run shortcut** for fleeing wild battles, in the Options menu — Off / Cursor
   (B moves the cursor to Run) / Instant (flee immediately).
 - **Auto-Run toggle** in the Options menu (which now scrolls to fit extra options).
-- **Safari Zone continue** — pay ₽500 to keep going when the Safari clock runs out.
+- **SHARED EXP toggle** in the Options menu (`FLAG_QOL_SHARED_EXP`, wired through
+  `I_EXP_SHARE_FLAG`) — party-wide Exp. Share; **off by default**, so only battle
+  participants gain EXP until you switch it on.
+- **Safari Zone continue** — pay ¥500 to keep going when the Safari clock runs
+  out or you run out of Safari Balls.
 - **Chansey attendants** beside the nurse in every Pokémon Center, in all regions.
 - The **Wailmer Pail** is available at the Goldenrod flower shop, so Johto berry
   growing can't dead-end.
@@ -328,8 +333,6 @@ The three campaigns are built and link-green; the new-game flow is playtested an
 hardware-verified. What remains:
 
 - **Full-campaign and inter-region-travel playtest** — the main remaining gate.
-- An Options toggle to **skip the nickname prompt** when catching a Pokémon
-  (renaming from the party menu and summary screen already shipped).
 - HGSS gym-leader / Elite Four portrait art (currently remapped to the nearest
   existing portraits).
 

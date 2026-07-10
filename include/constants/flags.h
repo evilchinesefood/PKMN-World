@@ -47,12 +47,6 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#if IS_FRLG
-
-#include "constants/flags_frlg.h"
-
-#else
-
 #define FLAG_SYS_VS_SEEKER_CHARGING 0x20 // Kanto VS Seeker recharge window (assigned to I_VS_SEEKER_CHARGING, config/item.h). Same name as the IS_FRLG branch. Was FLAG_UNUSED_0x020.
 #define FLAG_QOL_SHARED_EXP  0x21 // Party-wide Exp Share toggle (SHARED EXP options entry; read via I_EXP_SHARE_FLAG). Was FLAG_UNUSED_0x021. NOTE: distinct from the Johto FLAG_EXP_SHARE (johto_flags.h).
 #define FLAG_UNUSED_0x022    0x22 // Unused Flag
@@ -4112,8 +4106,6 @@
 
 #endif // ALL_REGIONS
 // === end Kanto flag bank ===
-
-#endif
 
 #if TESTING
 #define TESTING_FLAGS_START                     0x5000

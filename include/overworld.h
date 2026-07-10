@@ -83,6 +83,7 @@ extern struct TimeBlendSettings gTimeBlend;
 extern const struct UCoords32 gDirectionToVectors[];
 
 void DoWhiteOut(void);
+void Autosave_MarkSaved(void);
 void Overworld_ResetStateAfterFly(void);
 void Overworld_ResetStateAfterTeleport(void);
 void Overworld_ResetStateAfterDigEscRope(void);

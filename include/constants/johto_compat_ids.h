@@ -42,8 +42,8 @@
 // ITEM_SILVER_WING and ITEM_RAINBOW_WING are now real key items too (A1): the
 // Director's post-takeover gives landed nothing as ITEM_NONE stubs.
 #define ITEM_RADIO             ITEM_NONE
-#define INGAME_TRADE_MACHOP    0
-#define INGAME_TRADE_VOLTORB   0
+// INGAME_TRADE_MACHOP / INGAME_TRADE_VOLTORB are now real entries in the
+// InGameTradeID enum (include/constants/trade.h) + sIngameTrades.
 #define MON_UNSATISFACTORY   1
 #define MON_SATISFACTORY     2
 
@@ -100,11 +100,11 @@
 // stage). BETH/RICHARD/BLAKE/GILBERT/JOSE collide with existing target enums and are edited
 // in-script to TRAINER_JOEY instead; all others (incl. GIOVANNI) aliased here.
 
-// === Johto Pokemon League: Indigo Plateau Silver daily-rematch (7th rival fight). The HnS
-// _7 rival parties are deferred (Phase 3); stub to the ported _1 rival trainers so the
-// optional daily Silver battle still fires. Real _7 parties = playtest follow-up.
-#define TRAINER_RIVAL_CHIKORITA_7   TRAINER_RIVAL_CHIKORITA_1
-#define TRAINER_RIVAL_CYNDAQUIL_7   TRAINER_RIVAL_CYNDAQUIL_1
-#define TRAINER_RIVAL_TOTODILE_7    TRAINER_RIVAL_TOTODILE_1
+// === Johto Pokemon League: Indigo Plateau Silver daily-rematch (7th rival fight). Real
+// HnS-style league rematch parties (TRAINER_RIVAL_INDIGO_*, opponents_frlg.h Kanto-bank
+// spare ids + trainers.party).
+#define TRAINER_RIVAL_CHIKORITA_7   TRAINER_RIVAL_INDIGO_CHIKORITA
+#define TRAINER_RIVAL_CYNDAQUIL_7   TRAINER_RIVAL_INDIGO_CYNDAQUIL
+#define TRAINER_RIVAL_TOTODILE_7    TRAINER_RIVAL_INDIGO_TOTODILE
 
 #endif // GUARD_CONSTANTS_JOHTO_COMPAT_IDS_H

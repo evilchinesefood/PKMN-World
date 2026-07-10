@@ -295,18 +295,18 @@ TinTower_RoofDay_EventScript_KuniAfter::
 TinTower_RoofDay_Text_Kimono_AfterNotCaught:
 	.string "You have not only made HO-OH\n"
 	.string "appear, but you have also defeated\l"
-	.string "it...\p"
+	.string "it…\p"
 	.string "There is nothing more for us to\n"
 	.string "say. Take care of yourself in your\l"
-	.string "journey...$"
+	.string "journey…$"
 
 TinTower_RoofDay_Text_Kimono_AfterCaught:
 	.string "You have not only made HO-OH\n"
 	.string "appear, but you have also caught\l"
-	.string "it...\p"
+	.string "it…\p"
 	.string "There is nothing more for us to\n"
 	.string "say. Take care of yourself in your\l"
-	.string "journey...$"
+	.string "journey…$"
 
 TinTower_RoofDay_Movement_CameraPanUp:
 	walk_up
@@ -561,15 +561,15 @@ TinTower_RoofDay_Movement_Kimono_Dance_Shift_Right2:
 	step_end
 
 TinTower_RoofDay_Text_Zuki_Before::
-	.string "ZUKI: Go, face HO-OH. $"
+	.string "ZUKI: Go, face HO-OH.$"
 TinTower_RoofDay_Text_Naoko_Before::
-	.string "NAOKO: Go, face HO-OH. $"
+	.string "NAOKO: Go, face HO-OH.$"
 TinTower_RoofDay_Text_Miki_Before::
-	.string "MIKI: Go, face HO-OH. $"
+	.string "MIKI: Go, face HO-OH.$"
 TinTower_RoofDay_Text_Sayo_Before::
-	.string "SAYO: Go, face HO-OH. $"
+	.string "SAYO: Go, face HO-OH.$"
 TinTower_RoofDay_Text_Kuni_Before::
-	.string "KUNI: Go, face HO-OH. $"
+	.string "KUNI: Go, face HO-OH.$"
 
 TinTower_RoofDay_Text_Kimono_Opening::
 	.string "KIMONO GIRL: That's right.\n"
@@ -578,21 +578,21 @@ TinTower_RoofDay_Text_Kimono_Opening::
 	.string "days becomes one with the sound of the\p"
 	.string "CLEAR BELL we entrusted to you, then\n"
 	.string "HO-OH shall come down from the great\l"
-	.string "arch of the sky once again. $"
+	.string "arch of the sky once again.$"
 
 TinTower_RoofDay_Text_Kimono_Closing1::
-	.string "That is indeed HO-OH...\n"
+	.string "That is indeed HO-OH…\n"
 	.string "The guardian of the sky from\p"
-	.string "ancient times... \p"
+	.string "ancient times…\p"
 	.string "So many have tried again and again,\n"
-	.string "only to fail...\p"
+	.string "only to fail…\p"
 	.string "{PLAYER}, your heart in complete\n"
 	.string "harmony with the CLEAR BELL has finally\p"
-	.string "allowed it to appear...\n"
+	.string "allowed it to appear…\n"
 	.string "{PLAYER}, don't you see?\p"
-	.string "HO-OH... It must have been waiting for\n"
+	.string "HO-OH… It must have been waiting for\n"
 	.string "someone like you all this time.\p"
-	.string "Wouldn't you agree? $"
+	.string "Wouldn't you agree?$"
 
 TinTower_RoofDay_Text_Kimono_After::
 	.string "You have done a great job.\n"

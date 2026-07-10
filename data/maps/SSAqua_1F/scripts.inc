@@ -32,8 +32,7 @@ SSAqua_1F_EventScript_DoorSailor::
 	end
 
 SSAqua_1F_EventScript_DoorSailorArrived::
-	msgbox SSAqua_1F_Text_SailorDoorArrived, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, TRUE, SSAqua_1F_EventScript_LeaveBoat
+	msgbox SSAqua_1F_Text_SailorDoorArrived, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -174,10 +173,11 @@ SSAqua_1F_Text_Sailor1_InOlivine:
     .string "OLIVINE CITY.$"
 
 SSAqua_1F_Text_Sailor1_InVermilion:
-    .string "FAST SHIP S.S.AQUA has arrived in\n"
-    .string "VERMILION CITY.$"
+    .string "Due to harbor work in VERMILION,\n"
+    .string "S.S.AQUA is returning to OLIVINE.$"
 
 
 SSAqua_1F_Text_SailorDoorArrived:
-    .string "We have arrived in VERMILION CITY.\n"
-    .string "Would you like to disembark?$"
+    .string "Due to harbor work in VERMILION,\n"
+    .string "we're returning to OLIVINE.\p"
+    .string "Please enjoy the voyage!$"

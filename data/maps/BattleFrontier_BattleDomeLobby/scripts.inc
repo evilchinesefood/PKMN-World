@@ -728,9 +728,9 @@ BattleFrontier_BattleDomeLobby_Text_ExplainDoubleKORules:
 
 BattleFrontier_BattleDomeLobby_Text_ChampionshipOffer:
 	.string "So you've conquered KANTO, JOHTO, and\n"
-	.string "HOENN alike...\p"
+	.string "HOENN alike…\p"
 	.string "Then you've earned a shot at the WORLD\n"
-	.string "CHAMPIONSHIP -- a gauntlet against the\l"
+	.string "CHAMPIONSHIP--a gauntlet against the\l"
 	.string "greatest CHAMPIONS of every region.\p"
 	.string "Enter the tournament?$"
 

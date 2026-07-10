@@ -534,16 +534,17 @@ BerryBlender_Movement_BlendLeaderWalkInPlace:
 	walk_in_place_faster_right
 	step_end
 
+@ region merge (D6): link blending is a dead surface in the merged single-player game.
+@ Flavor refusal; the NPC blenders are untouched.
 BerryBlender_EventScript_BerryBlenderLink::
 	lockall
-	specialvar VAR_RESULT, PlayerHasBerries
-	goto_if_eq VAR_RESULT, FALSE, BerryBlender_EventScript_LinkBlenderNoBerries
-	checkitem ITEM_POKEBLOCK_CASE
-	goto_if_eq VAR_RESULT, FALSE, BerryBlender_EventScript_LinkBlenderNoCase
-	specialvar VAR_RESULT, GetFirstFreePokeblockSlot
-	goto_if_ne VAR_RESULT, 65535, BerryBlender_EventScript_LinkBlenderSaveGame
-	goto_if_eq VAR_RESULT, 65535, BerryBlender_EventScript_LinkBlenderCaseFull
+	msgbox BerryBlender_Text_LinkBlenderOutOfService, MSGBOX_DEFAULT
+	releaseall
 	end
+
+BerryBlender_Text_LinkBlenderOutOfService:
+	.string "The BERRY BLENDER for link blending\n"
+	.string "is out of service. Sorry!$"
 
 BerryBlender_EventScript_LinkBlenderSaveGame:
 	msgbox BerryBlender_Text_SaveGameBeforeBerryBlenderLink, MSGBOX_YESNO

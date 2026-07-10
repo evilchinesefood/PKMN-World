@@ -50,13 +50,20 @@ EcruteakCity_Gym_EventScript_Morty::
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 4
 	call Common_EventScript_SetGymTrainers
+	goto EcruteakCity_Gym_EventScript_GiveTM
+	end
+
+EcruteakCity_Gym_EventScript_GiveTM::
 	giveitem ITEM_TM_SHADOW_BALL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_SHADOW_BALL
 	msgbox MortyText_ShadowBallSpeech, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
 
 EcruteakCity_Gym_EventScript_Morty_Defeated::
+	goto_if_unset FLAG_GOT_TM_SHADOW_BALL, EcruteakCity_Gym_EventScript_GiveTM
 	msgbox MortyFightDoneText, MSGBOX_DEFAULT
 	closemessage
 	release

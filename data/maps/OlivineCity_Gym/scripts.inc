@@ -240,9 +240,15 @@ OlivineCity_Gym_EventScript_JasmineVictory::
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 6
 	call Common_EventScript_SetGymTrainers
-	giveitem ITEM_TM_IRON_TAIL
-	msgbox OlivineCity_Gym_Text_JasmineIronTailSpeech, MSGBOX_DEFAULT
 	setvar VAR_OLIVINE_CITY_STATE, 8
+	goto OlivineCity_Gym_EventScript_GiveTM
+	end
+
+OlivineCity_Gym_EventScript_GiveTM::
+	giveitem ITEM_TM_IRON_TAIL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_IRON_TAIL
+	msgbox OlivineCity_Gym_Text_JasmineIronTailSpeech, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -268,6 +274,7 @@ OlivineCity_Gym_EventScript_Jasmine_Battle3::
 	goto OlivineCity_Gym_EventScript_JasmineVictory
 
 OlivineCity_Gym_EventScript_Jasmine_Defeated::
+	goto_if_unset FLAG_GOT_TM_IRON_TAIL, OlivineCity_Gym_EventScript_GiveTM
 	msgbox OlivineCity_Gym_Text_JasmineGoodLuck, MSGBOX_DEFAULT
 	closemessage
 	release

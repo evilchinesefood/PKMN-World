@@ -250,7 +250,7 @@ SafariZoneGate_SafariZoneEntrance_Text_BaobaDone:
 	.string "Thanks to you, the SAFARI ZONE is\n"
 	.string "thriving!\p"
 	.string "Maybe I should name you OWNER of\n"
-	.string "the safari zone...\p"
+	.string "the safari zone…\p"
 	.string "No, that would be ridiculous.\n"
 	.string "Ahahahaha.$"
 
@@ -306,9 +306,13 @@ SafariZoneGate_SafariZoneEntrance_EventScript_HasRoomForPokemon::
 	return
 
 SafariZoneGate_SafariZoneEntrance_EventScript_NoPokeblockCase::
-	msgbox Route121_SafariZoneEntrance_Text_YouNeedPokeblockCase, MSGBOX_DEFAULT
+	msgbox SafariZoneGate_SafariZoneEntrance_Text_YouNeedPokeblockCase, MSGBOX_DEFAULT
 	goto SafariZoneGate_SafariZoneEntrance_EventScript_MovePlayerBackFromCounter
 	end
+
+SafariZoneGate_SafariZoneEntrance_Text_YouNeedPokeblockCase:
+	.string "BAOBA can lend you a {POKEBLOCK}\n"
+	.string "CASE-please speak with him first.$"
 
 SafariZoneGate_SafariZoneEntrance_EventScript_NotEnoughMoney::
 	msgbox Route121_SafariZoneEntrance_Text_NotEnoughMoney, MSGBOX_DEFAULT
@@ -368,13 +372,10 @@ SafariZoneGate_SafariZoneEntrance_Text_BaobaWelcome:
 	.string "I've been waiting for you.\n"
 	.string "What do you think?\p"
 	.string "This is a brand new SAFARI ZONE\n"
-	.string "by the way...\p"
-	.string "And it's still expanding!\p"
-	.string "So far, we have two zones open\n"
-	.string "and 4 more on the way!\p"
-	.string "Enjoy the SAFARI ZONE! I'll\n"
-	.string "call you when the other zones\l"
-	.string "are ready!$"
+	.string "by the way…\p"
+	.string "All six zones are open today-\n"
+	.string "go wild out there!\p"
+	.string "Enjoy the SAFARI ZONE!$"
 
 SafariZoneGate_SafariZoneEntrance_Text_BaobaPokeblocks:
 	.string "Oh! I almost forgot.\p"

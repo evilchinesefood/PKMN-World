@@ -69,6 +69,6 @@ MtSilver_SummitDay_Text_Red:
 	.string ".........................$"
 
 MtSilver_SummitDay_Text_RedBeaten:
-	.string "...!$"
+	.string "…!$"
 
 

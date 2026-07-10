@@ -79,7 +79,7 @@ OlivineCity_PortInside_Text_Nationaldex2:
 	.string "with the NATIONAL MODE!$"
 OlivineCity_PortInside_Text_Nationaldex3:
 	.string "PROF.OAK: It won't be easy to\n"
-	.string "complete the NATIONAL POKéDEX...\p"
+	.string "complete the NATIONAL POKéDEX…\p"
 	.string "However, I'm sure you will make\n"
 	.string "honest attempt on our behalf!$"
 OlivineCity_PortInside_Text_Nationaldex4:
@@ -142,16 +142,17 @@ OlivinePort_EventScript_Sailor_AfterKanto::
 	release
 	end
 
+@ Kanto leg is not wired up (Lane-R); the run is announced as suspended
+@ instead of boarding a ship that dumps the player back in Olivine.
 OlivinePort_EventScript_ChoseVermilion::
+	msgbox OlivinePort_Text_VermilionSuspended, MSGBOX_DEFAULT
 	closemessage
-	delay 20
-	checkitem ITEM_SS_TICKET
-	bufferitemname STR_VAR_1, ITEM_SS_TICKET
-	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
-	call OlivinePort_EventScript_EnterShip
-	warpsilent MAP_OLIVINE_CITY, 15, 44
 	release
 	end
+
+OlivinePort_Text_VermilionSuspended:
+	.string "I'm sorry-due to harbor work in\n"
+	.string "VERMILION, that run is suspended.$"
 
 OlivinePort_EventScript_ChoseSouthernIsland::
 	closemessage

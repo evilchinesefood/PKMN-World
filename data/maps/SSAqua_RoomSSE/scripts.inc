@@ -37,7 +37,18 @@ SSAqua_RoomSSE_EventScript_ReuinionScene::
     msgbox SSAqua_RoomSSE_Text_EntertainedGranddaughter, MSGBOX_DEFAULT
     msgbox SSAqua_RoomSSE_Text_GrandpaHaveThis, MSGBOX_DEFAULT
     giveitem ITEM_METAL_COAT
+    goto_if_eq VAR_RESULT, FALSE, SSAqua_RoomSSE_EventScript_NoRoomForCoat
+    setflag FLAG_GOT_METAL_COAT_SSAQUA
     closemessage
+	setvar VAR_SSAQUA_STATE, 5
+	release
+	end
+
+@ Still advance to state 5 (the OnFrame reruns this scene forever on state 4);
+@ Grandpa re-offers the METAL COAT on talk until it fits in the bag.
+SSAqua_RoomSSE_EventScript_NoRoomForCoat::
+	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
+	closemessage
 	setvar VAR_SSAQUA_STATE, 5
 	release
 	end
@@ -52,7 +63,17 @@ SSAqua_RoomSSE_EventScript_Grandpa::
 	end
 
 SSAqua_RoomSSE_EventScript_GrandpaAfter::
+	goto_if_unset FLAG_GOT_METAL_COAT_SSAQUA, SSAqua_RoomSSE_EventScript_RetryCoat
 	msgbox SSAqua_RoomSSE_Text_GrandpaTravelling, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+SSAqua_RoomSSE_EventScript_RetryCoat::
+	msgbox SSAqua_RoomSSE_Text_GrandpaHaveThis, MSGBOX_DEFAULT
+	giveitem ITEM_METAL_COAT
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_METAL_COAT_SSAQUA
 	closemessage
 	release
 	end

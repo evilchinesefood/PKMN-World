@@ -35,7 +35,7 @@ GoldenrodDeptStore2_EventScript_Sign::
 	end
 
 GoldenrodDeptStore_Text_2FYoungster:
-    .string "POKéGEAR can store up to 25 phone\n"
+    .string "POKéNAV can store up to 25 phone\n"
     .string "numbers.\p"
     .string "It's hard to decide which numbers\n"
     .string "to keep.$"

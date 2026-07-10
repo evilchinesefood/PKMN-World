@@ -12,6 +12,8 @@ Gate_NationalPark_EventScript_Attendant::
 	end
 
 Gate_NationalPark_EventScript_AttendantStart::
+	checkitemspace ITEM_SAFARI_BALL, 30
+	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_NoRoomForBalls
 	msgbox Route35NationalParkGate_Text_OfficerAskToUseFirstMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_AttendantCancel
 	getpartysize
@@ -88,6 +90,12 @@ Gate_NationalPark_EventScript_AttendantAlreadyPlayed::
 	release
 	end
 
+Gate_NationalPark_EventScript_NoRoomForBalls::
+	msgbox Route35NationalParkGate_Text_NoRoomForBalls, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
 Gate_NationalPark_EventScript_AttendantExit::
 	special LoadPlayerParty
 	setvar VAR_BUG_CONTEST_STATE, 0
@@ -123,6 +131,8 @@ Gate_NationalPark_EventScript_BAttendant::
 	end
 
 Gate_NationalPark_EventScript_BAttendantStart::
+	checkitemspace ITEM_SAFARI_BALL, 30
+	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_NoRoomForBalls
 	msgbox Route35NationalParkGate_Text_OfficerAskToUseFirstMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_AttendantCancel
 	getpartysize
@@ -278,6 +288,12 @@ Route35NationalParkGate_Text_EggAsFirstMon:
 Route35NationalParkGate_Text_ContestIsOver:
 	.string "Today's Contest is over. We hope you\n"
 	.string "will participate in the future.$"
+
+Route35NationalParkGate_Text_NoRoomForBalls:
+	.string "Uh-oh… Your BAG has no room for\n"
+	.string "the contest SAFARI BALLS.\p"
+	.string "Please make room in your BAG,\n"
+	.string "then come see me.$"
 
 Route35NationalParkGate_EventScript_Policeman::
 	lock

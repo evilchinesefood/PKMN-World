@@ -610,13 +610,20 @@ LilycoveCity_ContestLobby_EventScript_FaceOriginalDirection::
 	release
 	end
 
+@ region merge (D6): link contests are dead surfaces in the merged single-player game.
+@ Polite refusal; the normal contest reception is untouched.
 LilycoveCity_ContestLobby_EventScript_LinkContestReceptionist::
-	special ClearLinkContestFlags
 	lock
 	faceplayer
-	msgbox LilycoveCity_ContestLobby_Text_LinkContestReception, MSGBOX_DEFAULT
-	goto LilycoveCity_ContestLobby_EventScript_AskEnterLinkContest
+	msgbox LilycoveCity_ContestLobby_Text_LinkContestsClosed, MSGBOX_DEFAULT
+	release
 	end
+
+LilycoveCity_ContestLobby_Text_LinkContestsClosed:
+	.string "LINK CONTESTS are not being held\n"
+	.string "at this time. Sorry!\p"
+	.string "Please enjoy our regular CONTESTS\n"
+	.string "at the counter to the left!$"
 
 LilycoveCity_ContestLobby_EventScript_AskEnterLinkContest::
 	message LilycoveCity_ContestLobby_Text_EnterContest3

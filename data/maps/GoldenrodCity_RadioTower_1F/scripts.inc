@@ -54,7 +54,7 @@ RadioTower1F_Text_Whitney1::
 	.string "My name is WHITNEY!\p"
 	.string "I heard about the QUIZ to win a\n"
 	.string "RADIO, so I came here to get\l"
-	.string "one...\p"
+	.string "one…\p"
 	.string "But this QUIZ is so hard!$"
 
 RadioTower1F_Text_Whitney2::
@@ -125,9 +125,6 @@ RadioTower1F_EventScript_ReceptionQuiz5::
 RadioTower1F_EventScript_ReceptionGiveRadio::
 	msgbox RadioTower1F_Text_QuizWin, MSGBOX_DEFAULT
 	closemessage
-	playfanfare MUS_OBTAIN_ITEM
-	giveitem ITEM_RADIO
-	waitfanfare
 	msgbox RadioTower1F_Text_TuneIn, MSGBOX_DEFAULT
 	closemessage
 	playse SE_PIN
@@ -214,11 +211,8 @@ RadioTower1F_Text_QuizQuestion5:
 RadioTower1F_Text_QuizWin:
     .string "Bingo! You got it!\n"
     .string "Congratulations!\p"
-    .string "Here's your prize, a RADIO!$"
-
-RadioTower1F_Text_PokegearRadio:
-    .string "{PLAYER}'s POKéGEAR can now double as\n"
-    .string "a RADIO!$"
+    .string "You really know your stuff!\n"
+    .string "Take our listeners' applause!$"
 
 RadioTower1F_Text_TuneIn:
     .string "Please tune in to our RADIO shows.$"

@@ -1,5 +1,45 @@
+.set LOCALID_ROUTE25_SUICUNE, 14
+
 Route25_Frlg_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, Route25_Frlg_OnTransition
 	.byte 0
+
+@ Suicune spawns only after the JOHTO Hall of Fame (SpawnSuicune clears the hide
+@ flag when VAR_SUICUNE_ENCOUNTERS >= 3). Flags default to 0 (= visible), so
+@ re-hide it here unless the player has earned the encounter and not yet won it.
+Route25_Frlg_OnTransition::
+	goto_if_set FLAG_FOUGHT_SUICUNE, Route25_EventScript_HideSuicune
+	goto_if_unset FLAG_JOHTO_CHAMPION, Route25_EventScript_HideSuicune
+	goto_if_lt VAR_SUICUNE_ENCOUNTERS, 3, Route25_EventScript_HideSuicune
+	clearflag FLAG_HIDE_ROUTE25_SUICUNE
+	end
+
+Route25_EventScript_HideSuicune::
+	setflag FLAG_HIDE_ROUTE25_SUICUNE
+	end
+
+Route25_EventScript_Suicune::
+	lock
+	faceplayer
+	playmoncry SPECIES_SUICUNE, CRY_MODE_ENCOUNTER
+	waitmoncry
+	seteventmon SPECIES_SUICUNE, 50
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, Route25_EventScript_SuicuneRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, Route25_EventScript_SuicuneRan
+	fadescreenswapbuffers FADE_TO_BLACK
+	removeobject LOCALID_ROUTE25_SUICUNE
+	setflag FLAG_HIDE_ROUTE25_SUICUNE
+	setflag FLAG_FOUGHT_SUICUNE
+	fadescreenswapbuffers FADE_FROM_BLACK
+	release
+	end
+
+Route25_EventScript_SuicuneRan::
+	release
+	end
 
 Route25_EventScript_SeaCottageSign::
 	msgbox Route25_Text_SeaCottageSign, MSGBOX_SIGN

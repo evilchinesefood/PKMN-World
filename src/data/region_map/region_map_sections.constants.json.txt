@@ -20,8 +20,10 @@ enum {
 #define KANTO_MAPSEC_COUNT (KANTO_MAPSEC_END - KANTO_MAPSEC_START + 1)
 
 // Region merge (Johto port): Johto MAPSEC block appended at the enum tail.
+// New Johto sections must be appended at the END of the json (mapsec ids
+// persist in saves) and JOHTO_MAPSEC_END updated to the new last entry.
 #define JOHTO_MAPSEC_START  MAPSEC_NEW_BARK_TOWN
-#define JOHTO_MAPSEC_END    MAPSEC_TOHJO_FALLS
+#define JOHTO_MAPSEC_END    MAPSEC_JOHTO_INDIGO_PLATEAU
 #define JOHTO_MAPSEC_COUNT (JOHTO_MAPSEC_END - JOHTO_MAPSEC_START + 1)
 
 #endif // GUARD_CONSTANTS_REGION_MAP_SECTIONS_H

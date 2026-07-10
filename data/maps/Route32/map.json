@@ -569,7 +569,7 @@
       "y": 10,
       "elevation": 0,
       "var": "VAR_VIOLET_CITY_STATE",
-      "var_value": "2",
+      "var_value": "3",
       "script": "Route32_EventScript_BaldingManTriggerRight"
     },
     {
@@ -578,7 +578,7 @@
       "y": 10,
       "elevation": 0,
       "var": "VAR_VIOLET_CITY_STATE",
-      "var_value": "2",
+      "var_value": "3",
       "script": "Route32_EventScript_BaldingManTriggerMid"
     },
     {
@@ -587,7 +587,7 @@
       "y": 10,
       "elevation": 0,
       "var": "VAR_VIOLET_CITY_STATE",
-      "var_value": "2",
+      "var_value": "3",
       "script": "Route32_EventScript_BaldingManTriggerLeft"
     },
     {

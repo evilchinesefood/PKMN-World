@@ -296,7 +296,7 @@ OlivineCity_Text_Sailor1:
 
 OlivineCity_Text_YoungsterPokegear:
 	.string "That thing you have--\n"
-	.string "it's a POKéGEAR, right?\l"
+	.string "it's a POKéNAV, right?\l"
 	.string "Wow, that's cool.$"
 
 OlivineCity_Text_YoungsterPokedex:

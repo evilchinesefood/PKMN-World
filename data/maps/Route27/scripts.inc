@@ -128,10 +128,9 @@ Route27_Text_FisherHey:
     .string "Hey!$"
 
 Route27_Text_FisherMessage:
-    .string "Do you know what you just did?\p"
-    .string "You've taken your first step into\n"
-    .string "KANTO.\p"
-    .string "Check your POKéGEAR MAP and see.$"
+    .string "These falls mark the edge of\n"
+    .string "JOHTO-the POKéMON LEAGUE\l"
+    .string "is just ahead.$"
 
 Route27_Text_CooltrainermBlakeSeen:
     .string "You look pretty strong.\n"
@@ -208,8 +207,8 @@ Route27_Text_BirdKeeperJoseAfter:
     .string "whistles to command POKéMON.$"
 
 TohjoFalls_Text_Sign:
-    .string "TOHJO FALLS\p"
-    .string "THE LINK BETWEEN KANTO AND JOHTO$"
+    .string "TOHJO FALLS\n"
+    .string "GATEWAY TO THE POKéMON LEAGUE$"
 
 Route27_Text_FisherScottSeen:
     .string "I'm feeling great today!\p"

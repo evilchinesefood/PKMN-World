@@ -315,7 +315,7 @@ CherrygroveCity_Text_GuideGentMap:
 	.string "It's my house! Thanks for\n"
 	.string "your company.\p"
 	.string "Oh, and if you're ever lost, check\n"
-	.string "the MAP on your POKéGEAR!\p"
+	.string "the MAP on your POKéNAV!\p"
 	.string "I wish you luck on your journey!$"
 
 CherrygroveCity_Text_GuideGentDecline:
@@ -347,7 +347,7 @@ CherrygroveCity_Text_RivalID:
 	.string "Give it back!\n"
 	.string "That's my TRAINER CARD!\p"
 	.string "Oh no!\n"
-	.string "You saw my name...$"
+	.string "You saw my name…$"
 
 CherrygroveCity_Text_TeacherHaveMapCard:
 	.string "When you're with POKéMON,\n"

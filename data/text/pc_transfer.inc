@@ -4,13 +4,17 @@ gText_PkmnTransferredSomeonesPC::
 	.string "It was placed in \n"
 	.string "BOX “{STR_VAR_1}.”$"
 
+@ Region merge: both PC-owner variants compile unconditionally; C consumers pick
+@ Lanette vs Bill at runtime via GetCurrentRegion() (Kanto = Bill).
 gText_PkmnTransferredLanettesPC::
 	.string "{STR_VAR_2} was transferred to\n"
-#if IS_FRLG
-	.string "BILL'S PC.\p"
-#else
 	.string "LANETTE'S PC.\p"
-#endif
+	.string "It was placed in \n"
+	.string "BOX “{STR_VAR_1}.”$"
+
+gText_PkmnTransferredBillsPC::
+	.string "{STR_VAR_2} was transferred to\n"
+	.string "BILL'S PC.\p"
 	.string "It was placed in \n"
 	.string "BOX “{STR_VAR_1}.”$"
 
@@ -22,11 +26,13 @@ gText_PkmnTransferredSomeonesPCBoxFull::
 
 gText_PkmnTransferredLanettesPCBoxFull::
 	.string "BOX “{STR_VAR_3}” on\n"
-#if IS_FRLG
-	.string "BILL'S PC was full.\p"
-#else
 	.string "LANETTE'S PC was full.\p"
-#endif
+	.string "{STR_VAR_2} was transferred to\n"
+	.string "BOX “{STR_VAR_1}.”$"
+
+gText_PkmnTransferredBillsPCBoxFull::
+	.string "BOX “{STR_VAR_3}” on\n"
+	.string "BILL'S PC was full.\p"
 	.string "{STR_VAR_2} was transferred to\n"
 	.string "BOX “{STR_VAR_1}.”$"
 

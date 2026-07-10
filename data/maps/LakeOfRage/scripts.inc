@@ -13,7 +13,7 @@ LakeOfRage_OnTransition::
 	call_if_lt VAR_MAHOGANY_TOWN_STATE, 2, LakeOfRage_EventScript_HideLois
 	goto_if_lt VAR_MAHOGANY_TOWN_STATE, 14, LakeOfRage_EventScript_SetHighTide
 	special UpdateShoalTideFlag
-	goto_if_set FLAG_SYS_LAKE_OF_RAGE_TIDE, LakeOfRage_EventScript_SetHighTide
+	goto_if_set FLAG_SYS_SHOAL_TIDE, LakeOfRage_EventScript_SetHighTide
 	goto LakeOfRage_EventScript_SetLowTide
 
 LakeOfRage_EventScript_SetLowTide::
@@ -430,7 +430,7 @@ LakeOfRage_Text_WesleyWednesday:
     .string "Or did you just get lucky?$"
 
 LakeOfRage_Text_WesleyNotWednesday:
-    .string "WESLEY: Not exactly...$"
+    .string "WESLEY: Not exactly…$"
 
 LakeOfRage_EventScript_Sign1::
 	msgbox LakeOfRage_Text_Sign, MSGBOX_SIGN

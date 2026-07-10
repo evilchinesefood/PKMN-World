@@ -40,15 +40,22 @@ VioletCity_Gym_EventScript_Falkner::
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 1
 	call Common_EventScript_SetGymTrainers
-	giveitem ITEM_TM_DOUBLE_TEAM
-	msgbox VioletGym_Text_Falkner_TMExplain, MSGBOX_DEFAULT
 	setvar VAR_VIOLET_CITY_STATE, 3
 	setrespawn HEAL_LOCATION_VIOLET_CITY
+	goto VioletCity_Gym_EventScript_GiveTM
+	end
+
+VioletCity_Gym_EventScript_GiveTM::
+	giveitem ITEM_TM_DOUBLE_TEAM
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_DOUBLE_TEAM
+	msgbox VioletGym_Text_Falkner_TMExplain, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
 
 VioletCity_Gym_EventScript_Falkner_Defeated::
+	goto_if_unset FLAG_GOT_TM_DOUBLE_TEAM, VioletCity_Gym_EventScript_GiveTM
 	msgbox VioletGym_Text_Falkner_AfterFight, MSGBOX_DEFAULT
 	closemessage
 	release

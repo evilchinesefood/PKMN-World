@@ -644,6 +644,12 @@
 #define TRAINER_CHAMPION_REMATCH_BULBASAUR      1717
 #define TRAINER_CHAMPION_REMATCH_CHARMANDER     1718
 #define TRAINER_CUE_BALL_PAXTON                 1719
+// Johto Silver league daily-rematch parties (real HnS _7 teams). New trainers
+// live in the Kanto bank's spare defeat-flag ids (SaveBlock3), never in the
+// frozen Hoenn+Johto window (see opponents.h).
+#define TRAINER_RIVAL_INDIGO_CHIKORITA          1720
+#define TRAINER_RIVAL_INDIGO_CYNDAQUIL          1721
+#define TRAINER_RIVAL_INDIGO_TOTODILE           1722
 #else
 #define TRAINER_YOUNGSTER_BEN                   1
 #define TRAINER_YOUNGSTER_CALVIN                2
@@ -1268,13 +1274,16 @@
 #define TRAINER_CHAMPION_REMATCH_BULBASAUR      621
 #define TRAINER_CHAMPION_REMATCH_CHARMANDER     622
 #define TRAINER_CUE_BALL_PAXTON                 623
+#define TRAINER_RIVAL_INDIGO_CHIKORITA          624
+#define TRAINER_RIVAL_INDIGO_CYNDAQUIL          625
+#define TRAINER_RIVAL_INDIGO_TOTODILE           626
 #endif
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
-//       only space for 25 additional trainers before trainer flag space overflows.
+//       only space for 22 additional trainers before trainer flag space overflows.
 //       MAX_TRAINERS_COUNT_FRLG can be increased but will take up additional saveblock space
 
-#define TRAINERS_COUNT_FRLG                      624
+#define TRAINERS_COUNT_FRLG                      627
 #define MAX_TRAINERS_COUNT_FRLG                  768
 
 #endif  // GUARD_CONSTANTS_OPPONENTS_FRLG_H

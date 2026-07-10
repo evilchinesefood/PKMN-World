@@ -542,4 +542,23 @@
 #define FLAG_SUMMONED_MTMOON_JIRACHI                FLAG_JOHTO_SLICE(0x1f7)
 #define FLAG_ITEM_GARBAGEFLAG                       FLAG_JOHTO_SLICE(0x1fd)
 
+// Route 25 Suicune (HGSS post-champion encounter at Bill's cottage). 0x251 is
+// free (story <=0xFF, items <=0x1FD, decor at 0x250, badges at 0x3F8).
+#define FLAG_FOUGHT_SUICUNE                         FLAG_JOHTO_SLICE(0x251)
+
+// Johto gym TM handouts: set on a successful giveitem so a full TM pocket can
+// be retried on the leader's already-defeated branch (Kanto gym pattern).
+#define FLAG_GOT_TM_DOUBLE_TEAM                     FLAG_JOHTO_SLICE(0x252)
+#define FLAG_GOT_TM_BULLET_SEED                     FLAG_JOHTO_SLICE(0x253)
+#define FLAG_GOT_TM_ATTRACT                         FLAG_JOHTO_SLICE(0x254)
+#define FLAG_GOT_TM_SHADOW_BALL                     FLAG_JOHTO_SLICE(0x255)
+#define FLAG_GOT_TM_FOCUS_PUNCH                     FLAG_JOHTO_SLICE(0x256)
+#define FLAG_GOT_TM_IRON_TAIL                       FLAG_JOHTO_SLICE(0x257)
+#define FLAG_GOT_TM_HAIL                            FLAG_JOHTO_SLICE(0x258)
+#define FLAG_GOT_TM_DRAGON_CLAW                     FLAG_JOHTO_SLICE(0x259)
+
+// SS AQUA reunion scene must advance past state 4 even on a full bag (its
+// OnFrame would loop); Grandpa re-offers the METAL COAT until this is set.
+#define FLAG_GOT_METAL_COAT_SSAQUA                  FLAG_JOHTO_SLICE(0x25a)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

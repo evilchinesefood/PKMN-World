@@ -429,7 +429,7 @@ KurtsHouse_Text_KurtHonoredToMakeBalls:
 	.string "I like your style!\p"
 	.string "I would be honored to make\n"
 	.string "BALLS for a trainer like you.\p"
-	.string "This is all I have now, \n"
+	.string "This is all I have now,\n"
 	.string "but take it.$"
 
 KurtsHouse_Text_KurtBallsFromApricorns:
@@ -446,7 +446,7 @@ KurtsHouse_Text_KurtThatsALetdown:
 	.string "KURT: I don't see 5 {STR_VAR_1}s!$"
 
 KurtsHouse_Text_KurtJustFinishedYourBall:
-	.string "KURT: Ah, {PLAYER}! \p"
+	.string "KURT: Ah, {PLAYER}!\p"
 	.string "I just finished your BALL. Here!$"
 
 KurtsHouse_Text_KurtTurnedOutGreat:
@@ -477,7 +477,7 @@ KurtsHouse_Text_Kurt_Whatwasthat:
 	.string "Let's go outside to investigate!$"
 
 KurtsHouse_Text_GranddaughterSlowpokeGone:
-	.string "The SLOWPOKE are gone… \n"
+	.string "The SLOWPOKE are gone…\n"
 	.string "Were they taken away by bad people?$"
 
 KurtsHouse_Text_GranddaughterLonely:

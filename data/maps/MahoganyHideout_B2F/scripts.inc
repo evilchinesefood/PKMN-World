@@ -267,7 +267,7 @@ MahoganyHideout_B2F_Text_ArianaChallenge:
     .string "It'll hurt Team Rocket's pride over\n"
     .string "and over again. Making it lessen,\l"
     .string "you see.\p"
-    .string "...So, it's time to finish you.\n"
+    .string "…So, it's time to finish you.\n"
     .string "However strong you may be,\p"
     .string "if the two of us fight at the same\n"
     .string "time, you'll have no chance of\l"
@@ -622,8 +622,8 @@ MahoganyHideout_B2F_Text_ArianaRetreat:
     .string "We have much bigger plans.\n"
     .string "You'll come to appreciate Team\l"
     .string "Rocket's true power soon enough.\p"
-    .string "Enjoy yourself while you can...\n"
-    .string "Hee hee hee...$"
+    .string "Enjoy yourself while you can…\n"
+    .string "Hee hee hee…$"
 
 MahoganyHideout_B2F_Text_LanceStepBack:
     .string "Sorry, {PLAYER}. I saw how well you\n"

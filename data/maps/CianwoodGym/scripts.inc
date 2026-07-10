@@ -66,10 +66,16 @@ CianwoodGym_EventScript_ChuckVictory::
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 5
 	call Common_EventScript_SetGymTrainers
-	giveitem ITEM_TM_FOCUS_PUNCH
-	msgbox CianwoodGym_Text_ChuckTMSpeech, MSGBOX_DEFAULT
 	setvar VAR_GETFLY, 1
 	setrespawn HEAL_LOCATION_CIANWOOD_CITY
+	goto CianwoodGym_EventScript_GiveTM
+	end
+
+CianwoodGym_EventScript_GiveTM::
+	giveitem ITEM_TM_FOCUS_PUNCH
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_FOCUS_PUNCH
+	msgbox CianwoodGym_Text_ChuckTMSpeech, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -118,6 +124,7 @@ CianwoodGym_EventScript_Chuck_Battle3::
 	goto CianwoodGym_EventScript_ChuckVictory
 
 CianwoodGym_EventScript_Chuck_Defeated::
+	goto_if_unset FLAG_GOT_TM_FOCUS_PUNCH, CianwoodGym_EventScript_GiveTM
 	msgbox CianwoodGym_Text_ChuckAfter, MSGBOX_DEFAULT
 	closemessage
 	release

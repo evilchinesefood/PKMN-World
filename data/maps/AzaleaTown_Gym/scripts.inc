@@ -545,18 +545,25 @@ AzaleaTown_Gym_EventScript_Bugsy::
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 2
 	call Common_EventScript_SetGymTrainers
-	giveitem ITEM_TM_BULLET_SEED
-	msgbox AzaleaTown_Gym_Text_FuryCutterSpeech, MSGBOX_DEFAULT
 	setvar VAR_AZALEA_TOWN_STATE, 5
-	closemessage
 	setflag FLAG_HIDE_AZALEA_TOWN_FARFETCHD
 	setflag FLAG_GET_HEADBUTT
 	clearflag FLAG_HIDE_ILEX_FOREST_APPRENTICE
 	clearflag FLAG_HIDE_ILEX_FOREST_FARFETCHD_1
+	goto AzaleaTown_Gym_EventScript_GiveTM
+	end
+
+AzaleaTown_Gym_EventScript_GiveTM::
+	giveitem ITEM_TM_BULLET_SEED
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_BULLET_SEED
+	msgbox AzaleaTown_Gym_Text_FuryCutterSpeech, MSGBOX_DEFAULT
+	closemessage
 	release
 	end
 
 AzaleaTown_Gym_EventScript_Bugsy_Defeated::
+	goto_if_unset FLAG_GOT_TM_BULLET_SEED, AzaleaTown_Gym_EventScript_GiveTM
 	msgbox AzaleaTown_Gym_Text_BugsyAdvice, MSGBOX_DEFAULT
 	closemessage
 	release

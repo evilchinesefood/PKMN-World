@@ -3,7 +3,7 @@
   "name": "JohtoVictoryRoad_B2F",
   "layout": "LAYOUT_JOHTO_VICTORY_ROAD_B2F",
   "music": "MUS_VICTORY_ROAD",
-  "region_map_section": "MAPSEC_VICTORY_ROAD",
+  "region_map_section": "MAPSEC_JOHTO_VICTORY_ROAD",
   "requires_flash": true,
   "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_UNDERGROUND",

@@ -45,7 +45,14 @@ VioletCity_PokemonCenter_EventScript_Aide_Accepted::
 	giveegg SPECIES_TOGEPI
 	setflag FLAG_RECEIVED_TOGEPI_EGG
 	msgbox VioletCity_PokeCenter_Text_ElmsAideGiveItem, MSGBOX_DEFAULT
+	goto VioletCity_PokemonCenter_EventScript_GiveExpShare
+	end
+
+@ The aide only leaves once the EXP SHARE fits in the bag; a full bag skips
+@ everything after the guard so he can be asked again.
+VioletCity_PokemonCenter_EventScript_GiveExpShare::
 	giveitem ITEM_EXP_SHARE_SMALL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_HIDE_VIOLET_CITY_AIDE
 	setvar VAR_VIOLET_CITY_KIMONO_GIRL, 1
 	clearflag FLAG_HIDE_VIOLET_CITY_KIMONO_GIRL
@@ -54,9 +61,15 @@ VioletCity_PokemonCenter_EventScript_Aide_Accepted::
 	end
 
 VioletCity_PokemonCenter_EventScript_Aide_Received::
+	goto_if_unset FLAG_HIDE_VIOLET_CITY_AIDE, VioletCity_PokemonCenter_EventScript_RetryExpShare
 	msgbox VioletCity_PokeCenter_Text_ElmsAideGiveEgg, MSGBOX_DEFAULT
 	closemessage
 	release
+	end
+
+VioletCity_PokemonCenter_EventScript_RetryExpShare::
+	msgbox VioletCity_PokeCenter_Text_ElmsAideGiveItem, MSGBOX_DEFAULT
+	goto VioletCity_PokemonCenter_EventScript_GiveExpShare
 	end
 
 VioletCity_PokemonCenter_EventScript_Gentleman::
@@ -103,7 +116,7 @@ VioletCity_PokeCenter_Text_ElmsAideNoRoom:
 	.string "PROF.ELM asked me to find you.\p"
 	.string "He has another favor to ask.\p"
 	.string "Would you take the POKéMON EGG?\p"
-	.string "Oh, wait... You need to make room\n"
+	.string "Oh, wait… You need to make room\n"
 	.string "in your party first.$"
 
 VioletCity_PokeCenter_Text_ElmsAideGiveEgg:

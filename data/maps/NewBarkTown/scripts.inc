@@ -227,7 +227,7 @@ NewBarkTown_Text_Wooper:
 	.string "WOOPER: Woooooop.$"
 
 NewBarkTown_Text_FatManState2:
-	.string "Wow, your POKéGEAR is impressive!\n"
+	.string "Wow, your POKéNAV is impressive!\n"
 	.string "Did your mom get it for you?$"
 
 NewBarkTown_Text_FatManState3:
@@ -252,7 +252,7 @@ NewBarkTown_Text_LassState4:
 	.string "you are leaving.$"
 
 NewBarkTown_Text_LassState5:
-	.string "Call your mom on your POKéGEAR\n"
+	.string "Call your mom on your POKéNAV\n"
 	.string "to let her know how you're doing.$\p"
 
 NewBarkTown_Text_Silver1:

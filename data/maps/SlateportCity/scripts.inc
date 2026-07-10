@@ -703,14 +703,12 @@ SlateportCity_EventScript_Man3::
 	msgbox SlateportCity_Text_WonderIfLighthouseStartlesPokemon, MSGBOX_NPC
 	end
 
+@ BERRY CRUSH (wireless) was not ported, so berry powder is unobtainable;
+@ the POWDER JAR handout is retired to pure flavor.
 SlateportCity_EventScript_BerryPowderClerk::
 	lock
 	faceplayer
-	goto_if_set FLAG_RECEIVED_POWDER_JAR, SlateportCity_EventScript_ReceivedPowderJar
 	msgbox SlateportCity_Text_ExplainBerries, MSGBOX_DEFAULT
-	giveitem ITEM_POWDER_JAR
-	setflag FLAG_RECEIVED_POWDER_JAR
-	msgbox SlateportCity_Text_ExplainBerryPowder, MSGBOX_DEFAULT
 	release
 	end
 
@@ -1261,9 +1259,7 @@ SlateportCity_Text_ExplainBerries:
 	.string "they must be crushed into powder.\p"
 	.string "Did you know that?\p"
 	.string "You seem to have an interest\n"
-	.string "in BERRIES!\p"
-	.string "I've got something good for someone\n"
-	.string "like you.$"
+	.string "in BERRIES!$"
 
 SlateportCity_Text_ExplainBerryPowder:
 	.string "I recently had machines installed at\n"

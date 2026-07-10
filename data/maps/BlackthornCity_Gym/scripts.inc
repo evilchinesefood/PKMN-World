@@ -220,13 +220,29 @@ BlackthornGym_EventScript_ClairDuringChallenge::
 	end
 
 BlackthornGym_EventScript_Clair_Defeated::
+	goto_if_unset FLAG_GOT_TM_DRAGON_CLAW, BlackthornGym_EventScript_GiveTM
 	msgbox BlackthornGym_Text_ClairText_League, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
 
 BlackthornGym_EventScript_ClairAfterLeague::
+	goto_if_lt VAR_BLACKTHORN_CITY_STATE, 4, BlackthornGym_EventScript_AfterLeagueMsg
+	goto_if_unset FLAG_GOT_TM_DRAGON_CLAW, BlackthornGym_EventScript_GiveTM
+BlackthornGym_EventScript_AfterLeagueMsg::
 	msgbox BlackthornGym_Text_ClairAfterLeague, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+@ Re-offer for a DRAGON CLAW handout that failed in the DRAGON'S DEN
+@ (full TM pocket during Clair's cutscene there).
+BlackthornGym_EventScript_GiveTM::
+	msgbox BlackthornGym_Text_ClairText_YouKeptMeWaiting, MSGBOX_DEFAULT
+	giveitem ITEM_TM_DRAGON_CLAW
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_DRAGON_CLAW
+	msgbox BlackthornGym_Text_ClairText_DescribeTM, MSGBOX_DEFAULT
 	closemessage
 	release
 	end

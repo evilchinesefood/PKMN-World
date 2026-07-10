@@ -1062,17 +1062,13 @@ CableClub_OnResume_Frlg::
 	special InitUnionRoom
 	end
 
+@ region merge (D6): wireless minigames are dead surfaces in the merged single-player
+@ game. Shared servicing excuse (text defined in cable_club.inc); records viewers work.
 JoyfulGameCorner_EventScript_InfoMan2_Frlg::
 	lock
 	faceplayer
-	message Text_DescribeWhichGame_Frlg
-	waitmessage
-	multichoice 0, 0, MULTI_WIRELESS_MINIGAME, FALSE
-	switch VAR_RESULT
-	case 0, CableClub_EventScript_PokemonJumpInfo_Frlg
-	case 1, CableClub_EventScript_DodrioBerryPickingInfo_Frlg
-	case 2, CableClub_EventScript_MinigameInfoExit_Frlg
-	case MULTI_B_PRESSED, CableClub_EventScript_MinigameInfoExit_Frlg
+	msgbox CableClub_Text_WirelessMachinesServiced, MSGBOX_DEFAULT
+	release
 	end
 
 CableClub_EventScript_PokemonJumpInfo_Frlg::
@@ -1093,19 +1089,8 @@ CableClub_EventScript_MinigameInfoExit_Frlg::
 JoyfulGameCorner_EventScript_MinigameAttendant_Frlg::
 	lock
 	faceplayer
-	message Text_WelcomeCanYouWait_Frlg
-	waitmessage
-	specialvar VAR_RESULT, IsWirelessAdapterConnected
-	goto_if_eq VAR_RESULT, FALSE, CableClub_EventScript_AdapterNotConnectedMinigame_Frlg
-	delay 60
-	message Text_PlayWhichGame_Frlg
-	waitmessage
-	multichoice 0, 0, MULTI_WIRELESS_MINIGAME, FALSE
-	switch VAR_RESULT
-	case 0, CableClub_EventScript_PlayPokemonJump_Frlg
-	case 1, CableClub_EventScript_PlayDodrioBerryPicking_Frlg
-	case 2, CableClub_EventScript_AbortMinigame_Frlg
-	case MULTI_B_PRESSED, CableClub_EventScript_AbortMinigame_Frlg
+	msgbox CableClub_Text_WirelessMachinesServiced, MSGBOX_DEFAULT
+	release
 	end
 
 CableClub_EventScript_PlayPokemonJump_Frlg::

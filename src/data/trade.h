@@ -1211,6 +1211,39 @@ static const struct InGameTrade sIngameTrades[] =
         .otGender = MALE,
         .sheen = 10,
         .requestedSpecies = SPECIES_PONYTA
+    },
+    // Johto (HGSS)
+    [INGAME_TRADE_MACHOP] =
+    {
+        .nickname = _("MUSCLE"),
+        .species = SPECIES_MACHOP,
+        .ivs = {20, 24, 18, 15, 17, 22},
+        .abilityNum = 0,
+        .otId = 37460,
+        .conditions = {5, 5, 5, 30, 5},
+        .personality = 0x9e368ba2,
+        .heldItem = ITEM_MACHO_BRACE,
+        .mailNum = 255,
+        .otName = _("MIKE"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_DROWZEE
+    },
+    [INGAME_TRADE_VOLTORB] =
+    {
+        .nickname = _("VOLTY"),
+        .species = SPECIES_VOLTORB,
+        .ivs = {19, 16, 18, 22, 20, 24},
+        .abilityNum = 0,
+        .otId = 48926,
+        .conditions = {5, 30, 5, 5, 5},
+        .personality = 0x4c68d5a1,
+        .heldItem = ITEM_NONE,
+        .mailNum = 255,
+        .otName = _("KYLE"),
+        .otGender = MALE,
+        .sheen = 10,
+        .requestedSpecies = SPECIES_KRABBY
     }
 };
 

@@ -368,7 +368,7 @@ gSpecials::
 	def_special TryPutLotteryWinnerReportOnAir
 	def_special TryPutTrainerFanClubOnAir
 	def_special ShouldHideFanClubInterviewer
-	def_special ShowGlassWorkshopMenu
+	def_special ShowGlassWorkshopMenu @ duplicate of an earlier entry; kept - removing a def_special shifts later SPECIAL_ ids
 	def_special PutFanClubSpecialOnTheAir
 	def_special IncrementDailyPlantedBerries
 	def_special IncrementDailyPickedBerries
@@ -430,7 +430,7 @@ gSpecials::
 	def_special CallApprenticeFunction
 	def_special ShouldTryGetTrainerScript
 	def_special ShowMapNamePopup
-	def_special ShowMapNamePopup
+	def_special ShowMapNamePopup @ duplicate of entry above; kept - removing a def_special shifts later SPECIAL_ ids
 	def_special DoMirageTowerCeilingCrumble, waitstate=1
 	def_special SetMirageTowerVisibility
 	def_special StartPlayerDescendMirageTower, waitstate=1
@@ -526,7 +526,7 @@ gSpecials::
 	def_special LinkRetireStatusWithBattleTowerPartner, waitstate=1
 	def_special BattleTowerReconnectLink
 	def_special CallTrainerHillFunction
-	def_special Script_DoRayquazaScene, waitstate=1 @ Listed twice
+	def_special Script_DoRayquazaScene, waitstate=1 @ duplicate of an earlier entry; kept - removing a def_special shifts later SPECIAL_ ids
 	def_special LoopWingFlapSE
 	def_special DestroyMewEmergingGrassSprite
 	def_special ShowBerryCrushRankings, waitstate=1

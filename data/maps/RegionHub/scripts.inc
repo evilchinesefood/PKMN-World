@@ -167,7 +167,7 @@ RegionHub_Text_TravelFrontier:
 	.string "Head to the BATTLE FRONTIER?$"
 
 RegionHub_Text_FrontierLocked:
-	.string "The BATTLE FRONTIER opens to trainers\n"
+	.string "The BATTLE FRONTIER opens to TRAINERS\n"
 	.string "who've conquered at least one region's\l"
 	.string "POKéMON LEAGUE.\p"
 	.string "Become a CHAMPION, then return.$"
@@ -203,7 +203,7 @@ RegionHub_EventScript_SkyCharmAlreadyGiven::
 	end
 
 RegionHub_Text_SkyCharmGive:
-	.string "Well now! I can tell by your eyes-\n"
+	.string "Well now! I can tell by your eyes--\n"
 	.string "you've earned a GYM BADGE!\p"
 	.string "A TRAINER the wild flyers respect\n"
 	.string "deserves this.$"
@@ -212,7 +212,7 @@ RegionHub_Text_SkyCharmExplain:
 	.string "That's the SKY CHARM.\p"
 	.string "Use it under the open sky and a\n"
 	.string "wild POKéMON will carry you over\l"
-	.string "anything-once you hold the local\l"
+	.string "anything--once you hold the local\l"
 	.string "BADGE that commands the skies.\p"
 	.string "Use it again on solid ground\n"
 	.string "to land.$"
@@ -225,7 +225,7 @@ RegionHub_Text_SkyCharmComeBack:
 
 RegionHub_Text_SkyCharmEnjoy:
 	.string "How's the view from up there?\p"
-	.string "Remember-the flyers won't carry\n"
+	.string "Remember--the flyers won't carry\n"
 	.string "you where you haven't won the\l"
 	.string "BADGE that commands the skies.$"
 
@@ -362,7 +362,7 @@ RegionHub_Text_HarborNeedOneChamp:
 	.string "Welcome to the harbor desk!\p"
 	.string "I hold ferry passes for waters\n"
 	.string "no regular route serves.\p"
-	.string "But rules are rules-only a\n"
+	.string "But rules are rules--only a\n"
 	.string "LEAGUE CHAMPION may book one.\p"
 	.string "Become the champion of any\n"
 	.string "region and come see me!$"
@@ -400,7 +400,7 @@ RegionHub_Text_HarborOldSeaMapExplain:
 
 RegionHub_Text_HarborNeedThreeChamps:
 	.string "The last pass I keep is for the\n"
-	.string "true master of the world tour-\l"
+	.string "true master of the world tour--\l"
 	.string "the champion of KANTO, JOHTO,\l"
 	.string "and HOENN alike.$"
 
@@ -565,7 +565,7 @@ RegionHub_Text_CuratorNeed8:
 	.string "BADGES. Keep at it!$"
 
 RegionHub_Text_CuratorGiveExp:
-	.string "8 BADGES-splendid!\n"
+	.string "8 BADGES--splendid!\n"
 	.string "Take this.$"
 
 RegionHub_Text_CuratorExpExplain:
@@ -591,7 +591,7 @@ RegionHub_Text_CuratorNeed16:
 	.string "TRAINER holding 16 GYM BADGES.$"
 
 RegionHub_Text_CuratorGiveBoxLink:
-	.string "16 BADGES-two full regions'\n"
+	.string "16 BADGES--two full regions'\n"
 	.string "worth! This is for you.$"
 
 RegionHub_Text_CuratorBoxLinkExplain:
@@ -600,7 +600,7 @@ RegionHub_Text_CuratorBoxLinkExplain:
 	.string "from the BAG, wherever you are.$"
 
 RegionHub_Text_CuratorNeed24:
-	.string "One charm remains-my life's\n"
+	.string "One charm remains--my life's\n"
 	.string "prize.\p"
 	.string "Bring me all 24 GYM BADGES and\n"
 	.string "it's yours.$"
@@ -700,7 +700,7 @@ RegionHub_Text_DexRewardGiveTier1:
 	.string "Take this for your efforts.$"
 
 RegionHub_Text_DexRewardTier1Explain:
-	.string "That's a PP MAX-it pushes a move's\n"
+	.string "That's a PP MAX--it pushes a move's\n"
 	.string "PP to its very limit.\p"
 	.string "Now, 300 species is the next\n"
 	.string "milestone. Off you go!$"
@@ -712,7 +712,7 @@ RegionHub_Text_DexRewardGiveTier2:
 	.string "you.$"
 
 RegionHub_Text_DexRewardTier2Explain:
-	.string "A MASTER BALL-it catches any\n"
+	.string "A MASTER BALL--it catches any\n"
 	.string "POKéMON without fail.\p"
 	.string "Only one goal remains: complete\n"
 	.string "the entire POKéDEX!$"
@@ -724,8 +724,8 @@ RegionHub_Text_DexRewardGiveTier3:
 	.string "Please, accept this.$"
 
 RegionHub_Text_DexRewardDiploma:
-	.string "Those RARE CANDIES, and with them\n"
-	.string "my personal DIPLOMA.\p"
+	.string "Those RARE CANDIES are yours,\n"
+	.string "and with them, my personal DIPLOMA.\p"
 	.string "I hereby certify you the finest\n"
 	.string "POKéMON researcher alive.\p"
 	.string "Your name will be remembered\n"

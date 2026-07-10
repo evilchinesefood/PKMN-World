@@ -139,13 +139,13 @@ Route39_Text_ChooseLegend::
 	.string "BAOBA: GOOD HEAVENS! Did that\n"
 	.string "shadow belong to a POKéMON?\p"
 	.string "Did you get a good look at it?\n"
-	.string "I can't tell what color it was...$"
+	.string "I can't tell what color it was…$"
 
 Route39_Text_BaobaIntro::
-	.string "How strange...\p"
-	.string "...Ohh!\n"
-	.string "What you are holding is...\l"
-	.string "what they call... a POKéDEX!\p"
+	.string "How strange…\p"
+	.string "…Ohh!\n"
+	.string "What you are holding is…\l"
+	.string "what they call… a POKéDEX!\p"
 	.string "Haven't seen one of those in ages.\p"
 	.string "My name is BAOBA!\n"
 	.string "I used to run a SAFARI ZONE in\l"
@@ -159,19 +159,19 @@ Route39_Text_BaobaIntro::
 	.string "It may be more than a coincidence\n"
 	.string "that we are chatting.\p"
 	.string "Why don't we register each other's\n"
-	.string "numbers in the POKéGEAR?\p"
+	.string "numbers in the POKéNAV?\p"
 	.string "I can give you a call once the\n"
 	.string "SAFARI ZONE is open before I call\l"
 	.string "anyone else!$"
 
 Route39_Text_Registered:
 	.string "{PLAYER} registered BAOBA\n"
-	.string "in the POKéGEAR!$"
+	.string "in the POKéNAV!$"
 
 
 Route39_Text_WillCall:
 	.string "BAOBA: I'll let you know\n"
-	.string "on the POKéGEAR soon!$"
+	.string "on the POKéNAV soon!$"
 
 Route39_Movement_BaobaLeave:
 	walk_left
@@ -221,7 +221,7 @@ Route39_EventScript_Woman::
 	end
 
 Route39_Text_Woman:
-	.string "That shadow... Maybe it was a giant\n"
+	.string "That shadow… Maybe it was a giant\n"
 	.string "PIDGEY?$"
 
 Route39_EventScript_Miltank::

@@ -2066,6 +2066,22 @@
       "y": 9,
       "width": 1,
       "height": 1
+    },
+    {
+      "id": "MAPSEC_JOHTO_VICTORY_ROAD",
+      "name": "VICTORY ROAD",
+      "x": 24,
+      "y": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "MAPSEC_JOHTO_INDIGO_PLATEAU",
+      "name": "INDIGO PLATEAU",
+      "x": 24,
+      "y": 3,
+      "width": 1,
+      "height": 2
     }
   ]
 }

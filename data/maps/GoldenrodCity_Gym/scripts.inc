@@ -76,9 +76,15 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 3
 	call Common_EventScript_SetGymTrainers
-	giveitem ITEM_TM_ATTRACT
-	msgbox GoldenrodCity_Gym_Text_WhitneyAttract, MSGBOX_DEFAULT
 	setvar VAR_GOLDENROD_CITY_STATE, 5
+	goto GoldenrodCity_Gym_EventScript_GiveTM
+	end
+
+GoldenrodCity_Gym_EventScript_GiveTM::
+	giveitem ITEM_TM_ATTRACT
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_ATTRACT
+	msgbox GoldenrodCity_Gym_Text_WhitneyAttract, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -86,6 +92,7 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 GoldenrodCity_Gym_EventScript_WhitneyDefeated::
 	lock
 	faceplayer
+	goto_if_unset FLAG_GOT_TM_ATTRACT, GoldenrodCity_Gym_EventScript_GiveTM
 	msgbox GoldenrodCity_Gym_Text_WhitneyGoodCry, MSGBOX_DEFAULT
 	closemessage
 	release

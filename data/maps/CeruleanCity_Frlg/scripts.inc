@@ -55,7 +55,6 @@ CeruleanCity_EventScript_Rival::
 	msgbox CeruleanCity_Text_OhRightLittlePresentAsFavor
 	setvar VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1
 	setflag FLAG_GOT_FAME_CHECKER
-	giveitem ITEM_FAME_CHECKER
 	msgbox CeruleanCity_Text_ExplainFameCheckerSmellYa
 	closemessage
 	applymovement LOCALID_CERULEAN_RIVAL, CeruleanCity_Movement_RivalExit
@@ -389,15 +388,11 @@ CeruleanCity_Text_RivalPostBattle::
 CeruleanCity_Text_OhRightLittlePresentAsFavor::
 	.string "Oh, yeah, right.\p"
 	.string "I feel sorry for you. No, really.\n"
-	.string "You're always plodding behind me.\p"
-	.string "So here, I'll give you a little\n"
-	.string "present as a favor.$"
+	.string "You're always plodding behind me.$"
 
 CeruleanCity_Text_ExplainFameCheckerSmellYa::
-	.string "A chatty gossip like you…\n"
-	.string "That thing's perfect.\p"
-	.string "I don't need it because I don't\n"
-	.string "give a hoot about others.\p"
+	.string "I don't have time to hang around\n"
+	.string "with a slowpoke like you.\p"
 	.string "All right, this time I really am\n"
 	.string "gone. Smell ya!$"
 

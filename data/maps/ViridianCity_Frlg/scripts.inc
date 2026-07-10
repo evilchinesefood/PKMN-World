@@ -228,7 +228,6 @@ ViridianCity_EventScript_DoTutorialBattle::
 	faceplayer
 	msgbox ViridianCity_Text_ThatWasEducationalTakeThis
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2
-	giveitem ITEM_TEACHY_TV
 	msgbox ViridianCity_Text_WatchThatToLearnBasics
 	return
 
@@ -294,14 +293,11 @@ ViridianCity_Text_ShowYouHowToCatchMons::
 
 ViridianCity_Text_ThatWasEducationalTakeThis::
 	.string "There! Now tell me, that was\n"
-	.string "educational, was it not?\p"
-	.string "And here, take this, too.$"
+	.string "educational, was it not?$"
 
 ViridianCity_Text_WatchThatToLearnBasics::
-	.string "If there's something you don't\n"
-	.string "understand, watch that.\p"
-	.string "It will teach you about the basics\n"
-	.string "of being a POKéMON TRAINER.$"
+	.string "Master the basics, and you'll\n"
+	.string "make a fine POKéMON TRAINER.$"
 
 ViridianCity_Text_WeakenMonsFirstToCatch::
 	.string "Well, now, I've had my coffee, and\n"

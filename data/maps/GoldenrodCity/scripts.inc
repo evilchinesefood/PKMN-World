@@ -291,12 +291,12 @@ GoldenrodCity_Text_Woman:
 
 GoldenrodCity_Text_HikerDay:
 	.string "When I went into the GAME CORNER\n"
-	.string "it was night time... How long was I\l"
+	.string "it was night time… How long was I\l"
 	.string "in there?!$"
 
 GoldenrodCity_Text_HikerNight:
 	.string "When I went into the GAME CORNER\n"
-	.string "it was day time... How long was I\l"
+	.string "it was day time… How long was I\l"
 	.string "in there?!$"
 
 GoldenrodCity_Text_Snubbull:
@@ -337,7 +337,7 @@ GoldenrodCity_Text_CooltrainerF2:
 	.string "RADIO if you can pass their quiz.$"
 
 GoldenrodCity_Text_CooltrainerF2_GotCard:
-	.string "Oh, your POKéGEAR already works\n"
+	.string "Oh, your POKéNAV already works\n"
 	.string "as a radio!$"
 
 GoldenrodCity_Text_Youngster2:

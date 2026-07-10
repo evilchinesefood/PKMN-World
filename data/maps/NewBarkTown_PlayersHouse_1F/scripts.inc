@@ -160,12 +160,12 @@ NewBarkTown_PlayersHouse_1F_Text_ElmsLookingForYou:
 	.string "PROF.ELM, was looking for you.\p"
 	.string "He said he wanted you to do\n"
 	.string "something for him.\p"
-	.string "Oh! I almost forgot! Your POKéGEAR\n"
+	.string "Oh! I almost forgot! Your POKéNAV\n"
 	.string "is back from the repair shop.\p"
 	.string "Here you go!$"
 
 NewBarkTown_PlayersHouse_1F_Text_ObtainedPokeGear:
-	.string "{PLAYER} obtained the POKéGEAR.$"
+	.string "{PLAYER} obtained the POKéNAV.$"
 
 NewBarkTown_PlayersHouse_1F_Text_ExplainPokeGear:
 	.string "MOM: Phone numbers are stored\n"
@@ -201,8 +201,8 @@ NewBarkTown_PlayersHouse_1F_Text_MomLeaving:
 	.string "MOM: Wow, that's a cute POKéMON.\n"
 	.string "Where did you get it?\p"
 	.string "…\p"
-	.string "So, you're leaving on an adventure...\n"
-	.string "That does sound challenging...\p"
+	.string "So, you're leaving on an adventure…\n"
+	.string "That does sound challenging…\p"
 	.string "Just be careful.\p"
 	.string "POKéMON are your friends.\n"
 	.string "You need to work as a team.\p"

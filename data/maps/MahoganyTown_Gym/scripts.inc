@@ -83,10 +83,16 @@ MahoganyTown_Gym_EventScript_PryceVictory::
     addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 7
 	call Common_EventScript_SetGymTrainers
-	giveitem ITEM_TM_HAIL
-	msgbox MahoganyTown_Gym_Text_HailSpeech, MSGBOX_DEFAULT
 	setvar VAR_MAHOGANY_TOWN_STATE, 15
-    setrespawn HEAL_LOCATION_MAHOGANYTOWN
+	setrespawn HEAL_LOCATION_MAHOGANYTOWN
+	goto MahoganyTown_Gym_EventScript_GiveTM
+	end
+
+MahoganyTown_Gym_EventScript_GiveTM::
+	giveitem ITEM_TM_HAIL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_GOT_TM_HAIL
+	msgbox MahoganyTown_Gym_Text_HailSpeech, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -112,6 +118,7 @@ MahoganyTown_Gym_EventScript_Pryce_Battle3::
 	goto MahoganyTown_Gym_EventScript_PryceVictory
 
 MahoganyTown_Gym_EventScript_Pryce_Defeated::
+	goto_if_unset FLAG_GOT_TM_HAIL, MahoganyTown_Gym_EventScript_GiveTM
 	msgbox MahoganyTown_Gym_Text_CherishPokemon, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -143,9 +150,8 @@ MahoganyTown_Gym_Text_ReceivedBadge:
 MahoganyTown_Gym_Text_GlacierBadgeSpeech:
     .string "That BADGE will raise the SPECIAL\n"
     .string "ATTACK of POKéMON.\p"
-    .string "It also lets your POKéMON use\n"
-    .string "WHIRLPOOL to get across\l"
-    .string "real whirlpools.\p"
+    .string "It also marks you as a TRAINER\n"
+    .string "whose spirit never melts.\p"
     .string "And this… This is a gift from me!$"
 
 MahoganyTown_Gym_Text_HailSpeech:

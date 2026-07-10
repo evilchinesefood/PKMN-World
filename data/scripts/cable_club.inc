@@ -820,20 +820,19 @@ EventScript_DoLinkRoomExit::
 	special ReturnFromLinkRoom
 	end
 
+@ region merge (D6): link services are dead surfaces in the merged single-player game.
+@ All three cable club attendants share one polite refusal; downstream link scripts kept
+@ (labels still referenced) but unreachable from these entries.
 CableClub_EventScript_UnionRoomAttendant::
 	lock
 	faceplayer
-	setvar VAR_FRONTIER_FACILITY, FACILITY_UNION_ROOM
-	goto_if_unset FLAG_SYS_POKEDEX_GET, CableClub_EventScript_WirelessClubAdjustements
-	specialvar VAR_RESULT, IsBadEggInParty
-	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_AbortLinkPlayerHasBadEgg
-	copyvar VAR_0x8007, VAR_LAST_TALKED
-	specialvar VAR_RESULT, IsWirelessAdapterConnected
-	goto_if_eq VAR_RESULT, FALSE, CableClub_EventScript_UnionRoomAdapterNotConnected
-	message CableClub_Text_WelcomeUnionRoomEnter
-	waitmessage
-	goto CableClub_EventScript_UnionRoomSelect
+	msgbox CableClub_Text_LinkServicesClosed, MSGBOX_DEFAULT
+	release
 	end
+
+CableClub_Text_LinkServicesClosed:
+	.string "The link services are closed.\n"
+	.string "Please enjoy the WORLD TRANSIT pad!$"
 
 CableClub_EventScript_UnionRoomSelect::
 	multichoice 17, 6, MULTI_YESNOINFO, FALSE
@@ -909,12 +908,9 @@ CableClub_EventScript_UnionRoomAdapterNotConnected::
 CableClub_EventScript_WirelessClubAttendant::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_POKEDEX_GET, CableClub_EventScript_WirelessClubAdjustements
-	msgbox CableClub_Text_AskAboutLinking, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CableClub_EventScript_DontAskAboutLinking
-	msgbox CableClub_Text_ExplainWirelessClub, MSGBOX_DEFAULT
+	msgbox CableClub_Text_LinkServicesClosed, MSGBOX_DEFAULT
 	release
-	return
+	end
 
 CableClub_EventScript_DontAskAboutLinking::
 	msgbox CableClub_Text_HopeYouEnjoyWirelessSystem, MSGBOX_DEFAULT
@@ -924,16 +920,8 @@ CableClub_EventScript_DontAskAboutLinking::
 CableClub_EventScript_DirectCornerAttendant::
 	lock
 	faceplayer
-	setvar VAR_FRONTIER_FACILITY, FACILITY_MULTI_OR_EREADER  @ Set preemptively for multi battles, ignored otherwise
-	goto_if_unset FLAG_SYS_POKEDEX_GET, CableClub_EventScript_WirelessClubAdjustements
-	specialvar VAR_RESULT, IsBadEggInParty
-	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_AbortLinkPlayerHasBadEgg
-	specialvar VAR_RESULT, IsWirelessAdapterConnected
-	goto_if_eq VAR_RESULT, FALSE, CableClub_EventScript_WelcomeToCableClub
-	message CableClub_Text_WelcomeWhichDirectCornerRoom
-	waitmessage
-	delay 28
-	goto CableClub_EventScript_DirectCornerSelectService
+	msgbox CableClub_Text_LinkServicesClosed, MSGBOX_DEFAULT
+	release
 	end
 
 CableClub_EventScript_DirectCornerSelectService::
@@ -1231,18 +1219,18 @@ CableClub_OnResume:
 	end
 .endif
 
+@ region merge (D6): wireless minigames are dead surfaces in the merged single-player
+@ game. Offer NPCs give a shared servicing excuse; records viewers still work.
 MossdeepCity_GameCorner_1F_EventScript_InfoMan2::
 	lock
 	faceplayer
-	message MossdeepCity_GameCorner_1F_Text_DescribeWhichGame
-	waitmessage
-	multichoice 0, 0, MULTI_WIRELESS_MINIGAME, FALSE
-	switch VAR_RESULT
-	case 0, MossdeepCity_GameCorner_1F_EventScript_PokemonJumpInfo
-	case 1, MossdeepCity_GameCorner_1F_EventScript_DodrioBerryPickingInfo
-	case 2, MossdeepCity_GameCorner_1F_EventScript_MinigameInfoExit
-	case MULTI_B_PRESSED, MossdeepCity_GameCorner_1F_EventScript_MinigameInfoExit
+	msgbox CableClub_Text_WirelessMachinesServiced, MSGBOX_DEFAULT
+	release
 	end
+
+CableClub_Text_WirelessMachinesServiced:
+	.string "The wireless machines are being\n"
+	.string "serviced. Sorry!$"
 
 MossdeepCity_GameCorner_1F_EventScript_PokemonJumpInfo::
 	msgbox MossdeepCity_GameCorner_1F_Text_PokemonJumpInfo, MSGBOX_DEFAULT
@@ -1262,19 +1250,8 @@ MossdeepCity_GameCorner_1F_EventScript_MinigameInfoExit::
 MossdeepCity_GameCorner_1F_EventScript_OldMan2::
 	lock
 	faceplayer
-	message MossdeepCity_GameCorner_1F_Text_WelcomeCanYouWait
-	waitmessage
-	specialvar VAR_RESULT, IsWirelessAdapterConnected
-	goto_if_eq VAR_RESULT, FALSE, MossdeepCity_GameCorner_1F_EventScript_AdapterNotConnected
-	delay 60
-	message MossdeepCity_GameCorner_1F_Text_PlayWhichGame
-	waitmessage
-	multichoice 0, 0, MULTI_WIRELESS_MINIGAME, FALSE
-	switch VAR_RESULT
-	case 0, MossdeepCity_GameCorner_1F_EventScript_PlayPokemonJump
-	case 1, MossdeepCity_GameCorner_1F_EventScript_PlayDodrioBerryPicking
-	case 2, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
-	case MULTI_B_PRESSED, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	msgbox CableClub_Text_WirelessMachinesServiced, MSGBOX_DEFAULT
+	release
 	end
 
 MossdeepCity_GameCorner_1F_EventScript_PlayPokemonJump::

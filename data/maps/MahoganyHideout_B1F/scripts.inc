@@ -363,7 +363,7 @@ MahoganyHideout_B1F_EventScript_TurnOffSwitch::
 	end
 
 MahoganyHideout_B1F_Text_NothingThere:
-	.string "A strange panel... Nothing here.$"
+	.string "A strange panel… Nothing here.$"
 
 MahoganyHideout_B1F_Text_SecretSwitch:
     .string "A secret switch! Better press it.$"

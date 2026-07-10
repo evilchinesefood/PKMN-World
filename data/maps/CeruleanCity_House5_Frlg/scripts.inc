@@ -1,20 +1,22 @@
 CeruleanCity_House5_Frlg_MapScripts::
 	.byte 0
 
+@ BERRY CRUSH (wireless) was not ported, so berry powder is unobtainable;
+@ the POWDER JAR handout and exchange menu are retired to pure flavor.
 CeruleanCity_House5_EventScript_BerryPowderMan::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_POWDER_JAR, CeruleanCity_House5_EventScript_AskToExchangePowder
-	msgbox CeruleanCity_House1_Text_AnyInterestInBerries, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, CeruleanCity_House5_EventScript_NoInterestInBerries
-	goto_if_unset FLAG_SYS_GOT_BERRY_POUCH, CeruleanCity_House5_EventScript_NoBerries
-	msgbox CeruleanCity_House1_Text_HaveJustTheThing
-	setflag FLAG_GOT_POWDER_JAR
-	giveitem ITEM_POWDER_JAR
-	goto_if_eq VAR_RESULT, FALSE, EventScript_BagIsFull
-	msgbox CeruleanCity_House1_Text_GoCrushBerriesAtDirectCorner
+	msgbox CeruleanCity_House5_Text_PowderManFlavor, MSGBOX_DEFAULT
 	release
 	end
+
+CeruleanCity_House5_Text_PowderManFlavor::
+	.string "I concoct a variety of medicine\n"
+	.string "from BERRY POWDER.\p"
+	.string "Ah, but fine BERRY POWDER is so\n"
+	.string "hard to come by these days…\p"
+	.string "Young one, it's important to take\n"
+	.string "an interest in all sorts of things.$"
 
 CeruleanCity_House5_EventScript_NoBerries::
 	msgbox CeruleanCity_House1_Text_WhyMustYouLieNoBerries

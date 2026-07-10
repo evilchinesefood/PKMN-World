@@ -85,17 +85,27 @@
       "x": 5,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_UNION_ROOM_FRLG",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_TWO_ISLAND_POKEMON_CENTER_2F",
+      "dest_warp_id": "1"
     },
     {
       "x": 9,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_TRADE_CENTER_FRLG",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_TWO_ISLAND_POKEMON_CENTER_2F",
+      "dest_warp_id": "2"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 7,
+      "elevation": 3,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "PokemonCenter_2F_EventScript_HubPad"
+    }
+  ],
   "bg_events": []
 }

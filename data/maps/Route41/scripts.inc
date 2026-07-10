@@ -51,8 +51,8 @@ Route41_EventScript_Berke::
 	end
 
 Route41_Text_SwimmermBerkeSeen:
-	.string "See those islands that are\n"
-	.string "blocked by whirlpools?\p"
+	.string "The currents around the WHIRL\n"
+	.string "ISLANDS are fierce.\p"
 	.string "There just has to be a secret!$"
 
 Route41_Text_SwimmermBerkeBeaten:
@@ -285,7 +285,7 @@ Route41_EventScript_TentacruelAttack4::
 	end
 
 Route41_Text_Tentacruel:
-	.string "TENTACRUEL: Cruooo...$"
+	.string "TENTACRUEL: Cruooo…$"
 
 Route41_Text_TentacruelAttack:
 	.string "TENTACRUEL: CRUOOOOOO!$"

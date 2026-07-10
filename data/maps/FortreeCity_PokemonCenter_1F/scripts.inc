@@ -34,10 +34,10 @@ FortreeCity_PokemonCenter_1F_Text_GoToSafariZone:
 	.string "That's my suggestion.$"
 
 FortreeCity_PokemonCenter_1F_Text_RecordCornerIsNeat:
-	.string "Have you done anything at\n"
-	.string "the RECORD CORNER?\p"
-	.string "It's pretty neat. It mixes and matches\n"
-	.string "the records of TRAINERS.\p"
+	.string "Have you seen the WORLD TRANSIT\n"
+	.string "pad upstairs?\p"
+	.string "It's pretty neat. It can warp\n"
+	.string "CHAMPIONS to the TERMINAL.\p"
 	.string "I don't know quite how it works,\n"
 	.string "but it's cool. It's exciting, even!$"
 

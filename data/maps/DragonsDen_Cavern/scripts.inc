@@ -86,13 +86,21 @@ DragonsDen_Cavern_EventScript_Clair::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_WEST
 	msgbox DragonsDen_Cavern_Text_ClairGiveDragonclaw, MSGBOX_DEFAULT
 	giveitem ITEM_TM_DRAGON_CLAW
-	msgbox DragonsDen_Cavern_Text_ClairDescribeDragonclaw, MSGBOX_DEFAULT
+	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, TRUE, DragonsDen_Cavern_EventScript_TMGiven
 	closemessage
 	delay 30
 	msgbox DragonsDen_Cavern_Text_ClairWhatsTheMatter, MSGBOX_DEFAULT
 	closemessage
 	delay 10
 	clearflag FLAG_GOT_DRATINI
+	return
+
+@ Full TM pocket: Clair still leaves; the TM is re-offered by Clair in the
+@ BLACKTHORN GYM while FLAG_GOT_TM_DRAGON_CLAW is unset.
+DragonsDen_Cavern_EventScript_TMGiven::
+	setflag FLAG_GOT_TM_DRAGON_CLAW
+	msgbox DragonsDen_Cavern_Text_ClairDescribeDragonclaw, MSGBOX_DEFAULT
 	return
 
 DragonsDen_Cavern_Movement_ClairLeaveLeftPLAYER:

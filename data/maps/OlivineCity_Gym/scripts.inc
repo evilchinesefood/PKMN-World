@@ -303,7 +303,7 @@ OlivineCity_Gym_Text_ReceivedMineralBadge:
 	.string "{PLAYER} received MINERALBADGE.$"
 
 OlivineCity_Gym_Text_JasmineBadgeSpeech:
-	.string "MINERALBADGE raises POKéMON's \n"
+	.string "MINERALBADGE raises POKéMON's\n"
 	.string "SPECIAL DEFENSE.\p"
 	.string "…Um… Please take this too…$"
 

@@ -126,6 +126,15 @@ EventScript_EndTrainerBattle::
 	releaseall
 	end
 
+EventScript_NoMonsForTrainerBattle::
+	msgbox Text_NoMonsForTrainerBattle, MSGBOX_DEFAULT
+	releaseall
+	end
+
+Text_NoMonsForTrainerBattle:
+	.string "Hold on! You don't have a single\n"
+	.string "POKéMON with you!$"
+
 Std_MsgboxAutoclose::
 	message NULL
 	waitmessage

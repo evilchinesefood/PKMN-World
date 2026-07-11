@@ -3,6 +3,18 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.1.3 — 2026-07-11
+
+### Fixes
+
+- The **Magnet Train** departure now shows an actual magnet train gliding down
+  the track (a station clerk had been standing in for the train).
+- The **Goldenrod haircut brothers** now offer haircuts again each new day.
+- Challenging a trainer with an **empty party** (right after a region switch)
+  now gets a polite refusal instead of a broken battle.
+- Mt. Silver mountainside Pokémon patrol their full intended ranges.
+- Minor gym text cleanups (Olivine, Violet).
+
 ## v1.1.2 — 2026-07-10
 
 ### Fixes

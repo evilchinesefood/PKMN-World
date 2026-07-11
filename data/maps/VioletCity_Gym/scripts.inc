@@ -154,7 +154,7 @@ VioletGym_Text_GymGuide_Intro:
 	.string "that loves to eat BERRIES.\p"
 	.string "While it's not the strongest,\n"
 	.string "it can take a lot of hits.\p"
-	.string "You can hurt it with ELECTRIC \n"
+	.string "You can hurt it with ELECTRIC\n"
 	.string "and ROCK-type moves, but watch out\l"
 	.string "for MUD-SLAP!\p"
 	.string "If you want more help, go visit the\n"

@@ -76,6 +76,11 @@ STATIC_ASSERT(FLAG_KANTO_BADGE_8 < DAILY_FLAGS_START || FLAG_KANTO_BADGE_1 > DAI
 void ClearDailyFlags(void)
 {
     memset(&gSaveBlock1Ptr->flags[DAILY_FLAGS_START / 8], 0, DAILY_FLAGS_SIZE);
+    // Johto-bank dailies live outside the window above - without these the haircut
+    // brothers (and any future bug-contest daily gate) lock permanently after one use.
+    FlagClear(FLAG_DAILY_HAIRCUT1_RECEIVED);
+    FlagClear(FLAG_DAILY_HAIRCUT2_RECEIVED);
+    FlagClear(FLAG_DAILY_BUG_CONTEST_COMPLETED);
 }
 
 void DisableNationalPokedex(void)

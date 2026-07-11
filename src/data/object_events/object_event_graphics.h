@@ -589,6 +589,8 @@ const u16 gObjectEventPal_Seagallop[] = INCGFX_U16("graphics/object_events/palet
 const u16 gObjectEventPic_Seagallop[] = INCGFX_U16("graphics/object_events/pics/misc/seagallop.png", ".4bpp");
 const u16 gObjectEventPal_SSAnne[] = INCGFX_U16("graphics/object_events/palettes/ss_anne.pal", ".gbapal");
 const u16 gObjectEventPic_SSAnne[] = INCGFX_U16("graphics/object_events/pics/misc/ss_anne.png", ".4bpp", "-mwidth 8 -mheight 4");
+const u16 gObjectEventPal_MagnetTrain[] = INCGFX_U16("graphics/object_events/palettes/magnet_train.pal", ".gbapal");
+const u32 gObjectEventPic_MagnetTrain[] = INCGFX_U32("graphics/object_events/pics/misc/magnet_train.png", ".4bpp");
 const u16 gObjectEventPic_SurfBlob[] = INCGFX_U16("graphics/object_events/pics/misc/surf_blob.png", ".4bpp", "-mwidth 4 -mheight 4");
 
 const u16 gObjectEventPic_LaprasOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/lapras.png", ".4bpp", "-mwidth 2 -mheight 2");

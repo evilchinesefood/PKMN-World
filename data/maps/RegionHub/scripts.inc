@@ -450,8 +450,6 @@ RegionHub_EventScript_CuratorLadder::
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryExp
 	checkitem ITEM_OVAL_CHARM
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryOval
-	checkitem ITEM_POKEMON_BOX_LINK
-	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryBoxLink
 	checkitem ITEM_SHINY_CHARM
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryShiny
 	msgbox RegionHub_Text_CuratorAllGiven, MSGBOX_DEFAULT
@@ -503,24 +501,9 @@ RegionHub_EventScript_CuratorGiveOval::
 	release
 	end
 
-RegionHub_EventScript_CuratorTryBoxLink::
-	goto_if_ge VAR_0x8000, 16, RegionHub_EventScript_CuratorGiveBoxLink
-	msgbox RegionHub_Text_CuratorNeed16, MSGBOX_DEFAULT
-	release
-	end
-
-RegionHub_EventScript_CuratorGiveBoxLink::
-	msgbox RegionHub_Text_CuratorGiveBoxLink, MSGBOX_DEFAULT
-	giveitem ITEM_POKEMON_BOX_LINK
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
-	msgbox RegionHub_Text_CuratorBoxLinkExplain, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-
 RegionHub_EventScript_CuratorTryShiny::
-	goto_if_ge VAR_0x8000, 24, RegionHub_EventScript_CuratorGiveShiny
-	msgbox RegionHub_Text_CuratorNeed24, MSGBOX_DEFAULT
+	goto_if_ge VAR_0x8000, 16, RegionHub_EventScript_CuratorGiveShiny
+	msgbox RegionHub_Text_CuratorNeed16, MSGBOX_DEFAULT
 	release
 	end
 
@@ -587,27 +570,14 @@ RegionHub_Text_CuratorOvalExplain:
 	.string "discover EGGS more often.$"
 
 RegionHub_Text_CuratorNeed16:
-	.string "My next treasure waits for a\n"
-	.string "TRAINER holding 16 GYM BADGES.$"
-
-RegionHub_Text_CuratorGiveBoxLink:
-	.string "16 BADGES--two full regions'\n"
-	.string "worth! This is for you.$"
-
-RegionHub_Text_CuratorBoxLinkExplain:
-	.string "That's the POKéMON BOX LINK.\p"
-	.string "It opens your storage BOXES\n"
-	.string "from the BAG, wherever you are.$"
-
-RegionHub_Text_CuratorNeed24:
 	.string "One charm remains--my life's\n"
 	.string "prize.\p"
-	.string "Bring me all 24 GYM BADGES and\n"
-	.string "it's yours.$"
+	.string "Bring me 16 GYM BADGES--two\n"
+	.string "regions' worth--and it's yours.$"
 
 RegionHub_Text_CuratorGiveShiny:
-	.string "All 24 GYM BADGES…\n"
-	.string "You are the world's finest!\p"
+	.string "16 GYM BADGES--two regions\n"
+	.string "conquered! Magnificent!\p"
 	.string "My greatest treasure is yours.$"
 
 RegionHub_Text_CuratorShinyExplain:

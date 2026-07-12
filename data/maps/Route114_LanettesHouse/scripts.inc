@@ -9,7 +9,7 @@ Route114_LanettesHouse_OnTransition:
 Route114_LanettesHouse_EventScript_Lanette::
 	lock
 	faceplayer
-	goto_if_set FLAG_RECEIVED_DOLL_LANETTE, Route114_LanettesHouse_EventScript_OfferAdvice
+	goto_if_set FLAG_RECEIVED_DOLL_LANETTE, Route114_LanettesHouse_EventScript_AfterDoll
 	setflag FLAG_SYS_PC_LANETTE
 	msgbox Route114_LanettesHouse_Text_EverythingClutteredKeepThis, MSGBOX_DEFAULT
 	givedecoration DECOR_LOTAD_DOLL
@@ -18,10 +18,33 @@ Route114_LanettesHouse_EventScript_Lanette::
 	release
 	end
 
+@ Second visit: the storage system's developer hands over her field prototype.
+@ Box Link moved here from the hub Curator's ladder (user call, 2026-07-12).
+Route114_LanettesHouse_EventScript_AfterDoll::
+	checkitem ITEM_POKEMON_BOX_LINK
+	goto_if_eq VAR_RESULT, TRUE, Route114_LanettesHouse_EventScript_OfferAdvice
+	msgbox Route114_LanettesHouse_Text_BoxLinkIntro, MSGBOX_DEFAULT
+	giveitem ITEM_POKEMON_BOX_LINK
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox Route114_LanettesHouse_Text_BoxLinkExplain, MSGBOX_DEFAULT
+	release
+	end
+
 Route114_LanettesHouse_EventScript_OfferAdvice::
 	msgbox Route114_LanettesHouse_Text_OrganizeYourBoxes, MSGBOX_DEFAULT
 	release
 	end
+
+Route114_LanettesHouse_Text_BoxLinkIntro:
+	.string "LANETTE: You use my STORAGE\n"
+	.string "SYSTEM, don't you?\p"
+	.string "Then you should carry my field\n"
+	.string "prototype. Take it!$"
+
+Route114_LanettesHouse_Text_BoxLinkExplain:
+	.string "It opens your storage BOXES\n"
+	.string "from the BAG, wherever you are.\p"
+	.string "No POKéMON CENTER required!$"
 
 Route114_LanettesHouse_EventScript_Notebook::
 	lockall

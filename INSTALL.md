@@ -1,7 +1,7 @@
 # Installing & Building Pokémon World
 
 This file is the complete, self-contained setup and build guide for **Pokémon World** — a
-private GBA ROM-hack built on [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
+GBA ROM hack built on [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 
 This repository **is** the project. You do not clone anything else: building it produces the
 ROM `pokemonworld.gba` at the repository root.
@@ -185,7 +185,7 @@ For the modern target the toolchain directory must also contain the `lib`, `incl
 
 ### Pulling upstream expansion updates (optional)
 
-This is a single, private, master-only project — there are no project branches to choose
+This is a single, master-only project — there are no project branches to choose
 between. If you ever want to pull in newer pokeemerald-expansion changes, add RH-Hideout as a
 remote and merge from it (expect to resolve conflicts):
 

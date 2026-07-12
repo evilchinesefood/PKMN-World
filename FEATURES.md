@@ -73,6 +73,10 @@ Fame — and you choose the order.
   clearing at least one region's league). Once you're Champion, the Elite
   Four/Champion **rematch** fields upgraded HARD-difficulty teams (Lv 62–68,
   competitive movesets) — your first clear still faces the normal gauntlet.
+- **Gym leader rematches** — all **24 gym leaders** across the three regions offer
+  unlimited rematches once you're **that region's** Champion, each with a new
+  HARD team (Lv 58–65, held items, competitive movesets). Difficulty is contained
+  per region: being Hoenn Champion doesn't harden Kanto's first-run gyms.
 
 ### World Transit hub
 
@@ -268,7 +272,7 @@ Config flips and gameplay features that shape how the shipped game plays:
   Route 1, Route 29, and Route 101 — so the two starters you didn't pick are
   obtainable.
 - **Autosave** — an optional autosave (off by default) that quietly saves as you
-  move between areas; it skips while flying.
+  move between areas — at most once every 10 minutes; it skips while flying.
 - **Hard Mode** — Set-style battles, no bag items against trainers, and badge-based
   level caps — plus an **EXP multiplier** (0.5×–2×) and a **catch-rate multiplier**
   (0.5×–2×), all in the Options menu.

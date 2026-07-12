@@ -3,6 +3,22 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.2 — 2026-07-12
+
+Public-release polish.
+
+- **Title screen**: the WORLD wordmark sits 4px further right and 8px higher,
+  clearing the Pokémon logo cleanly.
+- **Docs refreshed for public release**: README (fan-project notice), INSTALL,
+  FEATURES (gym-leader rematches section, autosave cadence), and CREDITS —
+  now crediting every imported feature branch (followers & day/night lighting
+  by aarant, HGSS Pokédex & debug menu by TheXaman, NPC followers/item
+  descriptions/saveblock work by ghoulslash, BW map pop-ups by BSBob, dynamic
+  multichoice by SBird1337, nature colors by DizzyEggg, bundled pret tools).
+- **Battle Frontier verified**: reachable from the World Transit hub as any
+  region's Champion (no S.S. Ticket needed), all seven facilities and their
+  Pokémon pools confirmed intact.
+
 ## v1.3.1 — 2026-07-11
 
 Ten-agent deep review of the whole codebase; every confirmed finding fixed.

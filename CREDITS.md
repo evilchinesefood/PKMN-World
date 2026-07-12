@@ -1,6 +1,6 @@
 # Pokémon World — Credits
 
-**Pokémon World** is a private GBA ROM hack built on
+**Pokémon World** is a GBA ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 It merges three complete regions — **Kanto, Johto, and Hoenn** — into one game,
 together with a curated set of features ported from several community projects.
@@ -143,6 +143,37 @@ Credits per that branch's README:
   debug + Safari Zone icon assets from Brendan's fork of the branch.
 
 ---
+
+### Follower Pokémon & day/night lighting — aarant
+
+- **aarant** — author of the **Overworld and Follower Pokémon** feature branch
+  ([followers-expanded-id](https://github.com/aarant/pokeemerald/tree/followers-expanded-id))
+  that powers the HGSS-style walking Pokémon, and of the **day/night lighting
+  system** ([lighting-expanded-id](https://github.com/aarant/pokeemerald/tree/lighting-expanded-id))
+  used for time-of-day palettes and window lights.
+
+### HGSS-style Pokédex & overworld debug menu — TheXaman
+
+- **TheXaman** — author of the **HGSS-style Pokédex Plus**
+  (`tx_pokedexPlus_hgss`, the game's live dex UI in `src/pokedex_plus_hgss.c`) and
+  the **overworld debug system** (`tx_debug_system`, `src/debug.c`) used throughout
+  development.
+
+### Additional feature branches
+
+- **ghoulslash** — **NPC followers** (`follow_me`), **obtained-item descriptions**,
+  and **saveblock cleansing** (in addition to the FireRed quest-menu port credited
+  under the Quests system above).
+- **BSBob** — **BW-style map pop-ups** (`bsbob_map_popups`, hosted by
+  [ravepossum](https://github.com/ravepossum/pokeemerald)).
+- **SBird1337** — **dynamic multichoice** (`dynmulti`).
+- **DizzyEggg** — **nature colors** on the summary screen (`nature_color`).
+
+### Bundled build tools
+
+- **YamaArashi** and the **pret** tool authors — the bundled build toolchain
+  (`gbagfx`, `scaninc`, `bin2c`, `preproc`, and friends; MIT — license files
+  retained in `tools/`), plus **gbafix** (GPLv3, `tools/gbafix/COPYING`).
 
 ## Other Credits
 

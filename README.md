@@ -6,7 +6,7 @@
 
 **Three regions. Three complete adventures. One cartridge.**
 
-A private Game Boy Advance ROM hack built on
+A Game Boy Advance ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 
 [**Install**](INSTALL.md) · [**Features**](FEATURES.md) · [**Credits**](CREDITS.md)
@@ -108,4 +108,7 @@ Internal planning/review docs (`.plans/`) and one-off dev scripts (`.dev_scripts
 Built on **pokeemerald-expansion** by the RH-Hideout team and its contributors, itself based on
 [pokeemerald](https://github.com/pret/pokeemerald) by pret. See [CREDITS.md](CREDITS.md).
 
-_Private repository — intended for personal use only._
+_Pokémon World is a free fan project. It is not affiliated with, endorsed by, or
+sponsored by Nintendo, Game Freak, or The Pokémon Company. No ROMs are
+distributed — you build the game from source with a legally obtained base.
+Not for sale or commercial use._

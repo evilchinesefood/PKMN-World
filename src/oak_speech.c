@@ -78,12 +78,6 @@ static void Task_PikachuIntro_Clear(u8);
 
 static void Task_OakSpeech_Init(u8);
 static void Task_OakSpeech_WelcomeToTheWorld(u8);
-static void Task_OakSpeech_ThisWorld(u8);
-static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8);
-static void Task_OakSpeech_IsInhabitedFarAndWide(u8);
-static void Task_OakSpeech_IStudyPokemon(u8);
-static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8);
-static void Task_OakSpeech_TellMeALittleAboutYourself(u8);
 static void Task_OakSpeech_FadeOutOak(u8);
 static void Task_OakSpeech_AskPlayerGender(u8);
 static void Task_OakSpeech_ShowGenderOptions(u8);
@@ -104,6 +98,9 @@ static void Task_OakSpeech_ReshowPlayersPic(u8);
 static void Task_OakSpeech_AskOutfit(u8);
 static void Task_OakSpeech_ShowOutfitOptions(u8);
 static void Task_OakSpeech_HandleOutfitInput(u8);
+static void Task_OakSpeech_AskHardMode(u8);
+static void Task_OakSpeech_ShowHardModeYesNo(u8);
+static void Task_OakSpeech_HandleHardModeInput(u8);
 static void Task_OakSpeech_LetsGo(u8);
 static void Task_OakSpeech_FadeOutBGM(u8);
 static void Task_OakSpeech_SetUpExitAnimation(u8);
@@ -118,7 +115,6 @@ static void Task_OakSpeech_WaitForFade(u8);
 static void Task_OakSpeech_FreeResources(u8);
 
 static void CB2_ReturnFromNamingScreen(void);
-static void CreateNidoranFSprite(u8);
 static void CreatePikachuOrPlatformSprites(u8, u8);
 static void DestroyPikachuOrPlatformSprites(u8, u8);
 static void LoadTrainerPic(u16, u16);
@@ -366,6 +362,33 @@ static const struct WindowTemplate sPikachuIntro_TextboxWindowTemplate =
 
 static const u8 sTextColor_White[] = { 0, 1, 2, 0 };
 static const u8 sTextColor_DarkGray[] = { 0, 2, 3, 0 };
+
+// Region-merge new-game intro (QoL #3, David-approved 2026-07-12): four \p-paced pages that
+// describe POKéMON WORLD instead of the vanilla "world inhabited by POKéMON" Oak speech. Shown
+// in one printer call (the same multi-page pattern the vanilla Oak lines used). David's copy uses
+// em dashes; the game charmap has no em dash, so they render as " - " (the in-game dash form).
+static const u8 sText_Oak_WorldIntro[] = _(
+    "Welcome to POKéMON WORLD!\n"
+    "Created with love by David Ayers.\p"
+    "Three regions - KANTO, JOHTO, and\n"
+    "HOENN - each a complete adventure\n"
+    "with its own GYMS, LEAGUE, and\n"
+    "CHAMPION.\p"
+    "They're joined by the WORLD\n"
+    "TRANSIT HUB. Choose where your\n"
+    "story begins - and travel between\n"
+    "regions whenever you like.\p"
+    "Become CHAMPION everywhere, and\n"
+    "the world has a few more doors to\n"
+    "open for you…\p");
+
+// Hard Mode is chosen once at new-game setup (QoL #2) and then locked for that save - the
+// Options menu no longer exposes it. Asked right after the outfit pick, before "Let's go!".
+static const u8 sText_Oak_AskHardMode[] = _(
+    "One last thing before you go…\n"
+    "Would you like a greater\n"
+    "challenge? In HARD MODE, battles\n"
+    "are tougher and unforgiving.");
 
 // Outfit palette-swap picker (new game): choose one of 6 clothing recolors.
 // Two lines so the prompt stays left of the outfit menu (which covers cols 18-25).
@@ -1199,7 +1222,6 @@ static void Task_OakSpeech_Init(u8 taskId)
         LoadBgTiles(1, sOakSpeechResources->oakSpeechBackgroundTiles, size, 0);
         CopyToBgTilemapBuffer(1, sOakSpeech_Background_Tilemap, 0, 0);
         CopyBgTilemapBufferToVram(1);
-        CreateNidoranFSprite(taskId);
         LoadTrainerPic(OAK_PIC, 0);
         CreatePikachuOrPlatformSprites(taskId, SPRITE_TYPE_PLATFORM);
         PlayBGM(MUS_RG_ROUTE24);
@@ -1225,6 +1247,11 @@ static inline void OakSpeechPrintMessage(const u8 *str, u8 speed, bool32 isStrin
     CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
 }
 
+// Region merge: the vanilla Oak speech (welcome / Nidoran release+cry+return / "tell me about
+// yourself") is replaced by David's four-page POKéMON WORLD intro. It is one dialogue message
+// with \p page breaks, so the player advances it with A exactly like the old lines; when the
+// last page is dismissed the printer goes idle and Task_OakSpeech_FadeOutOak takes over into the
+// gender prompt. No Nidoran demo is shown, so its sprite is no longer created (see Init).
 static void Task_OakSpeech_WelcomeToTheWorld(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -1236,106 +1263,7 @@ static void Task_OakSpeech_WelcomeToTheWorld(u8 taskId)
         }
         else
         {
-            OakSpeechPrintMessage(gOakSpeech_Text_WelcomeToTheWorld, sOakSpeechResources->textSpeed, FALSE);
-            gTasks[taskId].func = Task_OakSpeech_ThisWorld;
-        }
-    }
-}
-
-static void Task_OakSpeech_ThisWorld(u8 taskId)
-{
-    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
-    {
-        OakSpeechPrintMessage(gOakSpeech_Text_ThisWorld, sOakSpeechResources->textSpeed, FALSE);
-        gTasks[taskId].tTimer = 30;
-        gTasks[taskId].func = Task_OakSpeech_ReleaseNidoranFFromPokeBall;
-    }
-}
-
-static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-    u8 spriteId;
-
-    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
-    {
-        if (tTimer != 0)
-            tTimer--;
-        spriteId = gTasks[taskId].tNidoranFSpriteId;
-        gSprites[spriteId].invisible = FALSE;
-        gSprites[spriteId].tSpriteTimer = 0;
-        CreatePokeballSpriteToReleaseMon(spriteId, gSprites[spriteId].oam.paletteNum, 100, 66, 0, 0, 32, 0xFFFF1FFF, INTRO_SPECIES);
-        gTasks[taskId].func = Task_OakSpeech_IsInhabitedFarAndWide;
-        gTasks[taskId].tTimer = 0;
-    }
-}
-
-static void Task_OakSpeech_IsInhabitedFarAndWide(u8 taskId)
-{
-    if (IsCryFinished())
-    {
-        if (gTasks[taskId].tTimer >= 96)
-            gTasks[taskId].func = Task_OakSpeech_IStudyPokemon;
-    }
-    if (gTasks[taskId].tTimer < 0x4000)
-    {
-        gTasks[taskId].tTimer++;
-        if (gTasks[taskId].tTimer == 32)
-        {
-            OakSpeechPrintMessage(gOakSpeech_Text_IsInhabitedFarAndWide, sOakSpeechResources->textSpeed, FALSE);
-            PlayCry_Normal(INTRO_SPECIES, 0);
-        }
-    }
-}
-
-static void Task_OakSpeech_IStudyPokemon(u8 taskId)
-{
-    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
-    {
-        OakSpeechPrintMessage(gOakSpeech_Text_IStudyPokemon, sOakSpeechResources->textSpeed, FALSE);
-        gTasks[taskId].func = Task_OakSpeech_ReturnNidoranFToPokeBall;
-    }
-}
-
-static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8 taskId)
-{
-    u8 spriteId;
-
-    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
-    {
-        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
-        spriteId = gTasks[taskId].tNidoranFSpriteId;
-        gTasks[taskId].tPokeBallSpriteId = CreateTradePokeballSprite(spriteId, gSprites[spriteId].oam.paletteNum, 100, 66, 0, 0, 32, 0xFFFF1F3F);
-        gTasks[taskId].tTimer = 48;
-        gTasks[taskId].tSpriteTimer = 64;
-        gTasks[taskId].func = Task_OakSpeech_TellMeALittleAboutYourself;
-    }
-}
-
-static void Task_OakSpeech_TellMeALittleAboutYourself(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-
-    if (tSpriteTimer != 0)
-    {
-        if (tSpriteTimer < 24)
-            gSprites[tNidoranFSpriteId].y--;
-        tSpriteTimer--;
-    }
-    else
-    {
-        if (tTimer == 48)
-        {
-            DestroySprite(&gSprites[tNidoranFSpriteId]);
-            DestroySprite(&gSprites[tPokeBallSpriteId]);
-        }
-        if (tTimer != 0)
-        {
-            tTimer--;
-        }
-        else
-        {
-            OakSpeechPrintMessage(gOakSpeech_Text_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed, FALSE);
+            OakSpeechPrintMessage(sText_Oak_WorldIntro, sOakSpeechResources->textSpeed, FALSE);
             gTasks[taskId].func = Task_OakSpeech_FadeOutOak;
         }
     }
@@ -1794,7 +1722,44 @@ static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
     tMenuWindowId = WIN_INTRO_TEXTBOX;
     ClearDialogWindowAndFrame(tPromptWindowId, TRUE);
     RemoveWindow(tPromptWindowId);
-    gTasks[taskId].func = Task_OakSpeech_LetsGo;
+    gTasks[taskId].func = Task_OakSpeech_AskHardMode;
+}
+
+// QoL #2: Hard Mode is picked once here, at new-game setup, and then locked for the save (the
+// Options menu no longer toggles it). Placed after the outfit pick and before "Let's go!"; a
+// simple YES/NO writes gSaveBlock2Ptr->optionsHardMode. YES = ON, NO or B = OFF.
+static void Task_OakSpeech_AskHardMode(u8 taskId)
+{
+    OakSpeechPrintMessage(sText_Oak_AskHardMode, sOakSpeechResources->textSpeed, FALSE);
+    gTasks[taskId].func = Task_OakSpeech_ShowHardModeYesNo;
+}
+
+static void Task_OakSpeech_ShowHardModeYesNo(u8 taskId)
+{
+    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
+    {
+        CreateYesNoMenuAtPos(&sIntro_WindowTemplates[WIN_INTRO_YESNO], FONT_NORMAL, 0, 2, STD_WINDOW_BASE_TILE_NUM, 14, 0);
+        gTasks[taskId].func = Task_OakSpeech_HandleHardModeInput;
+    }
+}
+
+static void Task_OakSpeech_HandleHardModeInput(u8 taskId)
+{
+    s8 input = Menu_ProcessInputNoWrapClearOnChoose();
+    switch (input)
+    {
+    case 0: // YES
+        PlaySE(SE_SELECT);
+        gSaveBlock2Ptr->optionsHardMode = TRUE;
+        gTasks[taskId].func = Task_OakSpeech_LetsGo;
+        break;
+    case 1: // NO
+    case MENU_B_PRESSED:
+        PlaySE(SE_SELECT);
+        gSaveBlock2Ptr->optionsHardMode = FALSE;
+        gTasks[taskId].func = Task_OakSpeech_LetsGo;
+        break;
+    }
 }
 
 static void Task_OakSpeech_LetsGo(u8 taskId)
@@ -2108,20 +2073,6 @@ static void CB2_ReturnFromNamingScreen(void)
     }
 
     gMain.state++;
-}
-
-static void CreateNidoranFSprite(u8 taskId)
-{
-    u8 spriteId;
-
-    LoadSpecialPokePic(MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, 0), INTRO_SPECIES, 0, TRUE);
-    LoadSpritePaletteWithTag(GetMonSpritePalFromSpeciesAndPersonality(INTRO_SPECIES, 0, 0), INTRO_SPECIES);
-    SetMultiuseSpriteTemplateToPokemon(INTRO_SPECIES, 0);
-    spriteId = CreateSprite(&gMultiuseSpriteTemplate, 96, 96, 1);
-    gSprites[spriteId].callback = SpriteCallbackDummy;
-    gSprites[spriteId].oam.priority = 1;
-    gSprites[spriteId].invisible = TRUE;
-    gTasks[taskId].tNidoranFSpriteId = spriteId;
 }
 
 #define sBodySpriteId data[0]

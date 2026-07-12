@@ -1500,7 +1500,7 @@ const struct ItemInfo gItemsInfo[] =
     {
         .name = ITEM_NAME("PP Max"),
         .pluralName = ITEM_PLURAL_NAME("PP Maxes"),
-        .price = (I_PRICE >= GEN_7) ? 10000 : 9800,
+        .price = 50000, // premium tier (user call 2026-07-12)
         .description = COMPOUND_STRING(
             "Raises the PP of a\n"
             "move to its maximum\n"

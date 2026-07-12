@@ -5337,8 +5337,10 @@ void DrawElevatorCurrentFloorWindow(void)
     u32 strwidth;
 
     sElevatorCurrentFloorWindowId = AddWindow(&sElevatorCurrentFloorWindowTemplate);
-    LoadUserWindowBorderGfx(sElevatorCurrentFloorWindowId, 0x21D, BG_PLTT_ID(13));
-    DrawStdFrameWithCustomTileAndPalette(sElevatorCurrentFloorWindowId, FALSE, 0x21D, 13);
+    // Sit right after the std message border. Hardcoded 0x21D collides with it once
+    // SWSH_MESSAGE_BOX shifts STD_WINDOW_BASE_TILE_NUM up to 0x21A (0x21A..0x222).
+    LoadUserWindowBorderGfx(sElevatorCurrentFloorWindowId, STD_WINDOW_BASE_TILE_NUM + 9, BG_PLTT_ID(13));
+    DrawStdFrameWithCustomTileAndPalette(sElevatorCurrentFloorWindowId, FALSE, STD_WINDOW_BASE_TILE_NUM + 9, 13);
     AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, FONT_NORMAL, sText_NowOn, 0, 2, 0xFF, NULL);
     floorname = sFloorNamePointers[gSpecialVar_0x8005];
     strwidth = GetStringWidth(FONT_NORMAL, floorname, 0);

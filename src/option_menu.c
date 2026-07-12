@@ -20,9 +20,7 @@
 
 #define tMenuSelection data[0]
 #define tTextSpeed data[1]
-#define tBattleSceneOff data[2]
 #define tBattleStyle data[3]
-#define tSound data[4]
 #define tButtonMode data[5]
 #define tWindowFrameType data[6]
 #define tScrollOffset data[7]      // top visible MENUITEM_ index (0 when not scrolled)
@@ -30,7 +28,6 @@
 #define tAutoRun data[9]
 #define tAutosave data[10]
 #define tRunShortcut data[11]
-#define tHardMode data[12]
 #define tExpMult data[13]
 #define tCatchMult data[14]
 #define tNicknames data[15]
@@ -40,18 +37,15 @@
 enum
 {
     MENUITEM_TEXTSPEED,
-    MENUITEM_BATTLESCENE,
     MENUITEM_BATTLESTYLE,
-    MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
     MENUITEM_AUTORUN,
     MENUITEM_AUTOSAVE,
     MENUITEM_RUNSHORTCUT,
-    MENUITEM_HARDMODE,
+    MENUITEM_NICKNAMES,
     MENUITEM_EXPMULT,
     MENUITEM_CATCHMULT,
-    MENUITEM_NICKNAMES,
     MENUITEM_SHAREDEXP,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
@@ -74,12 +68,8 @@ static bool8 AdjustOptionMenuScrollOffset(u8 taskId);
 static void CreateOptionMenuScrollArrows(u8 taskId);
 static u8 TextSpeed_ProcessInput(u8 selection);
 static void TextSpeed_DrawChoices(u8 selection, s16 scrollOffset);
-static u8 BattleScene_ProcessInput(u8 selection);
-static void BattleScene_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 BattleStyle_ProcessInput(u8 selection);
 static void BattleStyle_DrawChoices(u8 selection, s16 scrollOffset);
-static u8 Sound_ProcessInput(u8 selection);
-static void Sound_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 ButtonMode_ProcessInput(u8 selection);
@@ -90,8 +80,6 @@ static u8 Autosave_ProcessInput(u8 selection);
 static void Autosave_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 RunShortcut_ProcessInput(u8 selection);
 static void RunShortcut_DrawChoices(u8 selection, s16 scrollOffset);
-static u8 HardMode_ProcessInput(u8 selection);
-static void HardMode_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 ExpMult_ProcessInput(u8 selection);
 static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 CatchMult_ProcessInput(u8 selection);
@@ -114,8 +102,6 @@ static const u8 gText_BattleSceneOn[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREEN
 static const u8 gText_BattleSceneOff[]     = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OFF");
 static const u8 gText_BattleStyleShift[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SHIFT");
 static const u8 gText_BattleStyleSet[]     = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SET");
-static const u8 gText_SoundMono[]          = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONO");
-static const u8 gText_SoundStereo[]        = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEREO");
 static const u8 gText_FrameType[]          = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TYPE");
 static const u8 gText_FrameTypeNumber[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}");
 static const u8 gText_ButtonTypeNormal[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}NORMAL");
@@ -135,18 +121,15 @@ static const u8 sEqualSignGfx[] = INCGFX_U8("graphics/interface/option_menu_equa
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]   = COMPOUND_STRING("TEXT SPEED"),
-    [MENUITEM_BATTLESCENE] = COMPOUND_STRING("BATTLE SCENE"),
     [MENUITEM_BATTLESTYLE] = COMPOUND_STRING("BATTLE STYLE"),
-    [MENUITEM_SOUND]       = COMPOUND_STRING("SOUND"),
     [MENUITEM_BUTTONMODE]  = COMPOUND_STRING("BUTTON MODE"),
     [MENUITEM_FRAMETYPE]   = COMPOUND_STRING("FRAME"),
     [MENUITEM_AUTORUN]     = COMPOUND_STRING("AUTO RUN"),
     [MENUITEM_AUTOSAVE]    = COMPOUND_STRING("AUTOSAVE"),
     [MENUITEM_RUNSHORTCUT] = COMPOUND_STRING("RUN SHORTCUT"),
-    [MENUITEM_HARDMODE]    = COMPOUND_STRING("HARD MODE"),
+    [MENUITEM_NICKNAMES]   = COMPOUND_STRING("NICKNAMES"),
     [MENUITEM_EXPMULT]     = COMPOUND_STRING("EXP RATE"),
     [MENUITEM_CATCHMULT]   = COMPOUND_STRING("CATCH RATE"),
-    [MENUITEM_NICKNAMES]   = COMPOUND_STRING("NICKNAMES"),
     [MENUITEM_SHAREDEXP]   = COMPOUND_STRING("SHARED EXP"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("CANCEL"),
 };
@@ -292,15 +275,12 @@ void CB2_InitOptionMenu(void)
 
         gTasks[taskId].tMenuSelection = 0;
         gTasks[taskId].tTextSpeed = gSaveBlock2Ptr->optionsTextSpeed;
-        gTasks[taskId].tBattleSceneOff = gSaveBlock2Ptr->optionsBattleSceneOff;
         gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
-        gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
         gTasks[taskId].tAutoRun = gSaveBlock2Ptr->optionsAutoRun;
         gTasks[taskId].tAutosave = gSaveBlock2Ptr->optionsAutosave;
         gTasks[taskId].tRunShortcut = gSaveBlock2Ptr->optionsRunShortcut;
-        gTasks[taskId].tHardMode = gSaveBlock2Ptr->optionsHardMode;
         gTasks[taskId].tExpMult = gSaveBlock2Ptr->optionsExpMultiplier;
         gTasks[taskId].tCatchMult = gSaveBlock2Ptr->optionsCatchMultiplier;
         gTasks[taskId].tNicknames = gSaveBlock2Ptr->optionsNicknames;
@@ -374,26 +354,12 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tTextSpeed)
                 TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed, gTasks[taskId].tScrollOffset);
             break;
-        case MENUITEM_BATTLESCENE:
-            previousOption = gTasks[taskId].tBattleSceneOff;
-            gTasks[taskId].tBattleSceneOff = BattleScene_ProcessInput(gTasks[taskId].tBattleSceneOff);
-
-            if (previousOption != gTasks[taskId].tBattleSceneOff)
-                BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff, gTasks[taskId].tScrollOffset);
-            break;
         case MENUITEM_BATTLESTYLE:
             previousOption = gTasks[taskId].tBattleStyle;
             gTasks[taskId].tBattleStyle = BattleStyle_ProcessInput(gTasks[taskId].tBattleStyle);
 
             if (previousOption != gTasks[taskId].tBattleStyle)
                 BattleStyle_DrawChoices(gTasks[taskId].tBattleStyle, gTasks[taskId].tScrollOffset);
-            break;
-        case MENUITEM_SOUND:
-            previousOption = gTasks[taskId].tSound;
-            gTasks[taskId].tSound = Sound_ProcessInput(gTasks[taskId].tSound);
-
-            if (previousOption != gTasks[taskId].tSound)
-                Sound_DrawChoices(gTasks[taskId].tSound, gTasks[taskId].tScrollOffset);
             break;
         case MENUITEM_BUTTONMODE:
             previousOption = gTasks[taskId].tButtonMode;
@@ -429,13 +395,6 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
             if (previousOption != gTasks[taskId].tRunShortcut)
                 RunShortcut_DrawChoices(gTasks[taskId].tRunShortcut, gTasks[taskId].tScrollOffset);
-            break;
-        case MENUITEM_HARDMODE:
-            previousOption = gTasks[taskId].tHardMode;
-            gTasks[taskId].tHardMode = HardMode_ProcessInput(gTasks[taskId].tHardMode);
-
-            if (previousOption != gTasks[taskId].tHardMode)
-                HardMode_DrawChoices(gTasks[taskId].tHardMode, gTasks[taskId].tScrollOffset);
             break;
         case MENUITEM_EXPMULT:
             previousOption = gTasks[taskId].tExpMult;
@@ -488,16 +447,17 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
 static void Task_OptionMenuSave(u8 taskId)
 {
+    // optionsBattleSceneOff, optionsSound and optionsHardMode are intentionally NOT written
+    // here: Battle Scene / Sound are baked (animations ON, stereo) and Hard Mode is chosen once
+    // at new-game setup. Their menu entries are gone, so leaving these untouched freezes each
+    // save's existing value (old saves keep whatever they had) instead of clobbering it with 0.
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].tTextSpeed;
-    gSaveBlock2Ptr->optionsBattleSceneOff = gTasks[taskId].tBattleSceneOff;
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
-    gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     gSaveBlock2Ptr->optionsAutoRun = gTasks[taskId].tAutoRun;
     gSaveBlock2Ptr->optionsAutosave = gTasks[taskId].tAutosave;
     gSaveBlock2Ptr->optionsRunShortcut = gTasks[taskId].tRunShortcut;
-    gSaveBlock2Ptr->optionsHardMode = gTasks[taskId].tHardMode;
     gSaveBlock2Ptr->optionsExpMultiplier = gTasks[taskId].tExpMult;
     gSaveBlock2Ptr->optionsCatchMultiplier = gTasks[taskId].tCatchMult;
     gSaveBlock2Ptr->optionsNicknames = gTasks[taskId].tNicknames;
@@ -593,15 +553,12 @@ static void RedrawVisibleOptionsPage(u8 taskId)
 
     DrawOptionMenuTexts(scrollOffset);
     TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed, scrollOffset);
-    BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff, scrollOffset);
     BattleStyle_DrawChoices(gTasks[taskId].tBattleStyle, scrollOffset);
-    Sound_DrawChoices(gTasks[taskId].tSound, scrollOffset);
     ButtonMode_DrawChoices(gTasks[taskId].tButtonMode, scrollOffset);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, scrollOffset);
     AutoRun_DrawChoices(gTasks[taskId].tAutoRun, scrollOffset);
     Autosave_DrawChoices(gTasks[taskId].tAutosave, scrollOffset);
     RunShortcut_DrawChoices(gTasks[taskId].tRunShortcut, scrollOffset);
-    HardMode_DrawChoices(gTasks[taskId].tHardMode, scrollOffset);
     ExpMult_DrawChoices(gTasks[taskId].tExpMult, scrollOffset);
     CatchMult_DrawChoices(gTasks[taskId].tCatchMult, scrollOffset);
     Nicknames_DrawChoices(gTasks[taskId].tNicknames, scrollOffset);
@@ -681,33 +638,6 @@ static void TextSpeed_DrawChoices(u8 selection, s16 scrollOffset)
     DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(FONT_NORMAL, gText_TextSpeedFast, 198), y, styles[2]);
 }
 
-static u8 BattleScene_ProcessInput(u8 selection)
-{
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-        sArrowPressed = TRUE;
-    }
-
-    return selection;
-}
-
-static void BattleScene_DrawChoices(u8 selection, s16 scrollOffset)
-{
-    u8 styles[2];
-    u8 y;
-
-    if (!GetOptionMenuItemY(MENUITEM_BATTLESCENE, scrollOffset, &y))
-        return;
-
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
-}
-
 static u8 BattleStyle_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
@@ -733,34 +663,6 @@ static void BattleStyle_DrawChoices(u8 selection, s16 scrollOffset)
 
     DrawOptionMenuChoice(gText_BattleStyleShift, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1]);
-}
-
-static u8 Sound_ProcessInput(u8 selection)
-{
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-        SetPokemonCryStereo(selection);
-        sArrowPressed = TRUE;
-    }
-
-    return selection;
-}
-
-static void Sound_DrawChoices(u8 selection, s16 scrollOffset)
-{
-    u8 styles[2];
-    u8 y;
-
-    if (!GetOptionMenuItemY(MENUITEM_SOUND, scrollOffset, &y))
-        return;
-
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_SoundMono, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), y, styles[1]);
 }
 
 static u8 FrameType_ProcessInput(u8 selection)
@@ -967,34 +869,6 @@ static void RunShortcut_DrawChoices(u8 selection, s16 scrollOffset)
     // The three labels differ in width, so wipe the choice area before printing.
     FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 104, 16);
     DrawOptionMenuChoice(sTexts[selection], 104, y, 1);
-}
-
-static u8 HardMode_ProcessInput(u8 selection)
-{
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-        sArrowPressed = TRUE;
-    }
-
-    return selection;
-}
-
-static void HardMode_DrawChoices(u8 selection, s16 scrollOffset)
-{
-    u8 styles[2];
-    u8 y;
-
-    if (!GetOptionMenuItemY(MENUITEM_HARDMODE, scrollOffset, &y))
-        return;
-
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[selection] = 1;
-
-    // optionsHardMode is normal polarity (0 = OFF, 1 = ON) like Autosave above.
-    DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOn, 198), y, styles[1]);
 }
 
 // optionsExpMultiplier stores 1x as 0 (old-save compat) but the menu columns run

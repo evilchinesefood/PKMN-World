@@ -5,10 +5,43 @@ GoldenrodCity_DepartmentStore_4F_MapScripts::
 GoldenrodDeptStore4_EventScript_Cooltrainer::
 	lock
 	faceplayer
-	msgbox GoldenrodDeptStore_Text_4FCooltrainerM, MSGBOX_DEFAULT
-	closemessage
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart GoldenrodDeptStore4_Pokemart_FeathersAndMints
+	msgbox gText_PleaseComeAgain
 	release
 	end
+
+	.align 2
+GoldenrodDeptStore4_Pokemart_FeathersAndMints::
+	.2byte ITEM_HEALTH_FEATHER
+	.2byte ITEM_MUSCLE_FEATHER
+	.2byte ITEM_RESIST_FEATHER
+	.2byte ITEM_GENIUS_FEATHER
+	.2byte ITEM_CLEVER_FEATHER
+	.2byte ITEM_SWIFT_FEATHER
+	.2byte ITEM_LONELY_MINT
+	.2byte ITEM_ADAMANT_MINT
+	.2byte ITEM_NAUGHTY_MINT
+	.2byte ITEM_BRAVE_MINT
+	.2byte ITEM_BOLD_MINT
+	.2byte ITEM_IMPISH_MINT
+	.2byte ITEM_LAX_MINT
+	.2byte ITEM_RELAXED_MINT
+	.2byte ITEM_MODEST_MINT
+	.2byte ITEM_MILD_MINT
+	.2byte ITEM_RASH_MINT
+	.2byte ITEM_QUIET_MINT
+	.2byte ITEM_CALM_MINT
+	.2byte ITEM_GENTLE_MINT
+	.2byte ITEM_CAREFUL_MINT
+	.2byte ITEM_SASSY_MINT
+	.2byte ITEM_TIMID_MINT
+	.2byte ITEM_HASTY_MINT
+	.2byte ITEM_JOLLY_MINT
+	.2byte ITEM_NAIVE_MINT
+	.2byte ITEM_SERIOUS_MINT
+	pokemartlistend
 
 GoldenrodDeptStore4_EventScript_BugCatcher::
 	lock
@@ -33,11 +66,6 @@ GoldenrodDeptStore4_EventScript_Sign::
 	closemessage
 	release
 	end
-
-GoldenrodDeptStore_Text_4FCooltrainerM:
-    .string "Hey. I love strong POKéMON.\p"
-    .string "I feed them PROTEIN to crank up\n"
-    .string "their ATTACK.$"
 
 GoldenrodDeptStore_Text_4FBugCatcher:
     .string "IRON adds to your POKéMON's\n"

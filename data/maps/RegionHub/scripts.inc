@@ -13,17 +13,29 @@ RegionHub_MapScripts::
 @ old league door, is region-agnostic and never boxes
 @ the party. Also here: the healing nurse (FRLG pattern; whiteout respawn is REGIONAL now - see task 5a below),
 @ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory plus
-@ the TOWN MAP - hub-local list, see RegionHub_Items), six department-store vendors (Lilycove
-@ 2F/3F/4F inventories) behind the east counter, and the read-only world-tour scoreboard (R8)
-@ by the Frontier gate. Key-item givers (KeyItemAvailabilityAudit S3): the Sky Charm keeper
-@ (F1), the Harbor Master in the south hall (championship-gated event tickets + enable-ship
-@ flags) and the Charm Curator north of the east counter (badge-tiered charms). The four gates line the NORTH
-@ DEPARTURE CONCOURSE (west->east: Frontier at the old league door, then Kanto/Johto/Hoenn
-@ league-style doors), each blocked by its attendant. Arrivals land on the concourse crest
-@ at (16,4) = warp 0 (never triggers - plain floor tile, anchor only).
+@ the TOWN MAP - hub-local list, see RegionHub_Items), four remaining department-store
+@ vendors (Lilycove 2F/3F inventories) behind the east counter, the TM/mint/feather vendor
+@ row south of the main floor (QoL 2026-07-12, see RegionHub_EventScript_TmVendor and
+@ neighbors), and the read-only world-tour scoreboard (R8) by the Frontier gate. Key-item
+@ givers (KeyItemAvailabilityAudit S3): the Sky Charm keeper (F1), the Harbor Master in the
+@ south hall (championship-gated event tickets + enable-ship flags) and the Charm Curator
+@ north of the east counter (badge-tiered charms). The four gates line the NORTH DEPARTURE
+@ CONCOURSE (west->east: Frontier at the old league door, then Kanto/Johto/Hoenn league-style
+@ doors), each blocked by its attendant. Arrivals land on the concourse crest at (16,4) =
+@ warp 0 (never triggers - plain floor tile, anchor only).
+@
+@ NOTE (QoL 2026-07-12): the east counter's 4F attack/defense TM pair used to live at
+@ (23,11)/(24,11), inside a back-room pocket (x=19-24, y=10-11) that a reachability trace
+@ (BFS over the layout's own collision/elevation blockdata) shows has NO walkable connection
+@ to the rest of the map - it's walled on every side (x=18 column, y=9 row, y=12 row) with
+@ no gap. The 2F/3F pairs still sitting there (x=19-22) inherit the same bug and were left
+@ in place (out of scope for this pass, flagged here for whoever owns hub layout next); the
+@ TM pair was pulled out and merged into one working vendor elsewhere as part of this batch's
+@ consolidation task, since leaving broken content next to new working vendors made no sense.
 
-@ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is the most
-@ OAM-starved map (15 object events since the Harbor Master + Charm Curator were added -
+@ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is one of the
+@ most OAM-starved maps (18 object events as of the mint/feather/TM-vendor QoL pass, up from
+@ 17 before it (this file's older "15" count had already drifted stale) -
 @ playtest for sprite drop-out) and the heal animation can exhaust sprites there, so a
 @ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
 @ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
@@ -232,6 +244,13 @@ RegionHub_Text_SkyCharmEnjoy:
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
 @ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;
 @ this only reports progress. See .plans/features/03a Lane R R8.
+@ QoL 2026-07-12 (leaderboard-trigger bug): geometry/label/elevation all verified correct
+@ (BFS reachability check confirms (2,2) is on the main lobby floor, wall-backed like every
+@ other working sign/attendant on this map). The one real deviation from every other working
+@ interaction here was the lock scope - lockall/releaseall (rare, no other sign in the repo
+@ uses it) plus MSGBOX_DEFAULT instead of the MSGBOX_SIGN every other sign uses. Hardened to
+@ the standard lock/release + MSGBOX_SIGN pattern. Kept as a bg_event sign (NOT an object)
+@ since this map is already flagged OAM-starved above - a sign costs no sprite slot.
 RegionHub_EventScript_WorldTourBoard::
 	lockall
 	callnative RegionHub_ScrCountWorldTourBadges
@@ -706,3 +725,89 @@ RegionHub_Text_DexRewardAllDone:
 	.string "already yours.\p"
 	.string "Thank you-your POKéDEX is the\n"
 	.string "finest record I've ever seen.$"
+
+@ QoL 2026-07-12 (mint/feather vendors + TM consolidation, backlog item 6):
+@ The old 4F attack/defense TM split-counter pair (x=23/24, y=11) sold TMs from a back-room
+@ pocket that a reachability trace (BFS over the layout's own collision data) shows has NO
+@ walkable connection to the rest of the map - x=18 walls it off on every side and the pocket
+@ never reconnects. That's a pre-existing bug affecting all 6 borrowed department-store
+@ clerks parked there, out of scope here and flagged separately. The 2 TM counters are pulled
+@ from that dead pocket and merged into ONE vendor here on open, reachable floor, preserving
+@ the full 8-TM selection. Mint + feather vendors sit alongside it, same row.
+RegionHub_EventScript_TmVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Tms
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Tms::
+	.2byte ITEM_TM_FIRE_BLAST
+	.2byte ITEM_TM_THUNDER
+	.2byte ITEM_TM_BLIZZARD
+	.2byte ITEM_TM_HYPER_BEAM
+	.2byte ITEM_TM_PROTECT
+	.2byte ITEM_TM_SAFEGUARD
+	.2byte ITEM_TM_REFLECT
+	.2byte ITEM_TM_LIGHT_SCREEN
+	pokemartlistend
+
+RegionHub_EventScript_FeatherVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Feathers
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Feathers::
+	.2byte ITEM_HEALTH_FEATHER
+	.2byte ITEM_MUSCLE_FEATHER
+	.2byte ITEM_RESIST_FEATHER
+	.2byte ITEM_GENIUS_FEATHER
+	.2byte ITEM_CLEVER_FEATHER
+	.2byte ITEM_SWIFT_FEATHER
+	pokemartlistend
+
+@ Mints (FLAG_MINTS enable owned by another lane this batch): all 21 mints this fork defines.
+RegionHub_EventScript_MintVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Mints
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Mints::
+	.2byte ITEM_LONELY_MINT
+	.2byte ITEM_ADAMANT_MINT
+	.2byte ITEM_NAUGHTY_MINT
+	.2byte ITEM_BRAVE_MINT
+	.2byte ITEM_BOLD_MINT
+	.2byte ITEM_IMPISH_MINT
+	.2byte ITEM_LAX_MINT
+	.2byte ITEM_RELAXED_MINT
+	.2byte ITEM_MODEST_MINT
+	.2byte ITEM_MILD_MINT
+	.2byte ITEM_RASH_MINT
+	.2byte ITEM_QUIET_MINT
+	.2byte ITEM_CALM_MINT
+	.2byte ITEM_GENTLE_MINT
+	.2byte ITEM_CAREFUL_MINT
+	.2byte ITEM_SASSY_MINT
+	.2byte ITEM_TIMID_MINT
+	.2byte ITEM_HASTY_MINT
+	.2byte ITEM_JOLLY_MINT
+	.2byte ITEM_NAIVE_MINT
+	.2byte ITEM_SERIOUS_MINT
+	pokemartlistend

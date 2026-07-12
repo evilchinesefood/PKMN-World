@@ -1206,6 +1206,38 @@ static void UpdateAshFieldEffect_End(struct Sprite *sprite)
 #define sPrevX        data[6]
 #define sPrevY        data[7]
 
+// The stock GetSurfMountGraphicsId only rides a mon that KNOWS Surf, but with
+// no-teach HMs no party mon ever learns it as a move, so surf always fell back to
+// the generic blob. Mirror the Sky Charm flyer's rule (GetFlightMountGraphicsId):
+// when nothing "knows" it, ride the first mon that CAN LEARN Surf. Refusal when no
+// mon can surf at all is handled upstream by PartyHasMonWithSurf (the field-move gate).
+static u16 GetSurfMountGraphicsIdWithFallback(void)
+{
+    u16 gfxId = GetSurfMountGraphicsId();
+#if QOL_FIELD_MOVES_NO_TEACH
+    if (gfxId == OBJ_EVENT_GFX_SPECIES(NONE) && OW_POKEMON_OBJECT_EVENTS && OW_SURF_USES_MON_SPRITE)
+    {
+        u32 i;
+
+        for (i = 0; i < PARTY_SIZE; i++)
+        {
+            struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+            u32 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+            bool32 shiny, female;
+
+            if (species == SPECIES_NONE || species == SPECIES_EGG
+             || !CanLearnTeachableMove(species, MOVE_SURF))
+                continue;
+            shiny = IsMonShiny(mon) ? OBJ_EVENT_MON_SHINY : 0;
+            female = (GetMonGender(mon) == MON_FEMALE) ? OBJ_EVENT_MON_FEMALE : 0;
+            if (SpeciesToGraphicsInfo(species, shiny, female) != NULL)
+                return GetGraphicsIdForMon(species, shiny, female);
+        }
+    }
+#endif
+    return gfxId;
+}
+
 u32 FldEff_SurfBlob(void)
 {
     u8 spriteId;
@@ -1216,7 +1248,7 @@ u32 FldEff_SurfBlob(void)
     // generic, and Sky Charm flight reuses the surf pose without ever starting
     // this effect (the IsPlayerFlying check is belt-and-braces).
     if (gFieldEffectArguments[2] == gPlayerAvatar.objectEventId && !IsPlayerFlying())
-        monGfxId = GetSurfMountGraphicsId();
+        monGfxId = GetSurfMountGraphicsIdWithFallback();
 
     if (monGfxId != OBJ_EVENT_GFX_SPECIES(NONE))
     {

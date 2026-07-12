@@ -75,9 +75,11 @@ static EWRAM_DATA bool8 sFlightActive = FALSE;
 // EWRAM demands zero init; ResetOverworldFlight (InitPlayerAvatar) arms the MAX_SPRITES sentinel before any use
 static EWRAM_DATA u8 sFlightMountSpriteId = 0;
 static EWRAM_DATA u8 sFlightShadowSpriteId = 0;
+static EWRAM_DATA u8 sFlightWindSpriteId = 0;
 
-#define FLIGHT_MOUNT_GFX     OBJ_EVENT_GFX_SPECIES(FLYGON) // ridden flying-mon sprite
-#define FLIGHT_HOVER_OFFSET  (-4)                          // px lift while airborne
+#define FLIGHT_MOUNT_GFX      OBJ_EVENT_GFX_SPECIES(FLYGON)  // ridden flying-mon sprite
+#define FLIGHT_HOVER_OFFSET   (-16)                          // px the rider+mount rise (y2 only; logical tile unmoved)
+#define FLIGHT_WIND_FLDEFFOBJ FLDEFFOBJ_GROUND_IMPACT_DUST   // reused gust puff, no new art
 
 // static declarations
 static u8 ObjectEventCB2_NoMovement2(void);
@@ -1086,6 +1088,7 @@ void ResetOverworldFlight(void)
     sFlightActive = FALSE;
     sFlightMountSpriteId = MAX_SPRITES;
     sFlightShadowSpriteId = MAX_SPRITES;
+    sFlightWindSpriteId = MAX_SPRITES;
 }
 
 static void CreateFlightMountSprite(void)
@@ -1110,6 +1113,20 @@ static void CreateFlightMountSprite(void)
         gSprites[sFlightShadowSpriteId].oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
         gSprites[sFlightShadowSpriteId].coordOffsetEnabled = TRUE;
     }
+    // Wind/gust puff (reuses the ground-impact dust art) trailing under the airborne
+    // pair to sell motion. Like the shadow it is driven by SpriteCB_FlightMount and
+    // looped for the whole flight; its own template callback is parked with Dummy.
+    LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ], 0, 0);
+    sFlightWindSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ],
+                                            playerSprite->x, playerSprite->y + 8, 0xFF);
+    if (sFlightWindSpriteId != MAX_SPRITES)
+    {
+        struct Sprite *wind = &gSprites[sFlightWindSpriteId];
+
+        wind->callback = SpriteCallbackDummy;
+        wind->oam.paletteNum = LoadObjectEventPalette(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ]->paletteTag);
+        wind->coordOffsetEnabled = TRUE;
+    }
 }
 
 static void DestroyFlightMountSprite(void)
@@ -1127,6 +1144,11 @@ static void DestroyFlightMountSprite(void)
         DestroySprite(&gSprites[sFlightShadowSpriteId]);
         sFlightShadowSpriteId = MAX_SPRITES;
     }
+    if (sFlightWindSpriteId != MAX_SPRITES)
+    {
+        DestroySprite(&gSprites[sFlightWindSpriteId]);
+        sFlightWindSpriteId = MAX_SPRITES;
+    }
 }
 
 #define sBobTimer data[0]
@@ -1135,7 +1157,7 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     struct Sprite *playerSprite = &gSprites[playerObjEvent->spriteId];
-    s16 bobY = FLIGHT_HOVER_OFFSET + ((++sprite->sBobTimer & 0x10) ? 1 : 0);
+    s16 bobY = FLIGHT_HOVER_OFFSET + ((++sprite->sBobTimer & 0x10) ? 2 : 0);
 
     // Wings stay in motion: always run the directional GO anim.
     StartSpriteAnimIfDifferent(sprite, GetMoveDirectionAnimNum(playerObjEvent->facingDirection));
@@ -1179,6 +1201,23 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
         // behind bridge BG layers (priority 1) while the pair stays visible above.
         shadow->oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
         shadow->invisible = playerSprite->invisible;
+    }
+    if (sFlightWindSpriteId != MAX_SPRITES)
+    {
+        struct Sprite *wind = &gSprites[sFlightWindSpriteId];
+        // Gust sits in the airspace between the lifted pair and the grounded shadow
+        // (near the true tile, NOT riding the full lift) so the vertical gap reads as
+        // altitude, swaying side to side with a small flutter. Drawn above the map but
+        // behind the rider/mount (subpriority 30 vs 20/24) so it never covers the rider.
+        wind->x = playerSprite->x + ((sprite->sBobTimer & 0x8) ? 3 : -3);
+        wind->y = playerSprite->y + 10;
+        wind->y2 = (sprite->sBobTimer & 0x8) ? -2 : 0;
+        wind->oam.priority = 0;
+        wind->subpriority = 30;
+        wind->invisible = playerSprite->invisible;
+        // Loop the one-shot dust anim so the gust keeps puffing for the whole flight.
+        if (wind->animEnded)
+            StartSpriteAnim(wind, 0);
     }
 }
 

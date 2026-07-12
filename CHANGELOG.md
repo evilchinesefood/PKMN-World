@@ -3,6 +3,26 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.3 — 2026-07-12
+
+Deep-review fixes + the QoL backlog's remaining items.
+
+- **World Tour Board readable at last**: the hub "leaderboard" sign sat on a
+  walkable tile, so pressing A walked you onto it instead of reading it. Stand
+  below it and face up — it now shows your 24-badge world-tour progress.
+- **EV Changer** (new): a reusable KEY item from the hub Curator at 24 badges.
+  Use it on any party POKéMON to freely raise or lower each stat's EVs (hold R
+  to move faster); it will never let you exceed 252 in a stat or 510 total.
+- **Trainer Card**: the front now shows your caught count out of the national
+  total, plus how many species you own that are evolved forms.
+- **Pokédex**: the region SEEN / CAUGHT / TOTAL readout is aligned and legible
+  again (each label now sits with its own number).
+- **Sky Charm flight**: the wind-gust puff now draws in its correct colors.
+- **Hub shops**: tidied — a couple of stray/duplicate department-store items
+  and clerks removed.
+- **Note**: on saves created before the options rework, Sound and Battle Scene
+  keep whatever they were set to (those toggles now live at new-game setup).
+
 ## v1.3.2 — 2026-07-12
 
 Public-release polish.

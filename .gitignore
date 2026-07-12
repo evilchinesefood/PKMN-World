@@ -38,6 +38,15 @@ build/
 porymap.*.cfg
 prefabs.json
 .vscode/
+
+# Private / dev-only — never commit to the public repo
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.claude/
+.omc/
+.env
+*.local
 *.a
 .fuse_hidden*
 *.sna

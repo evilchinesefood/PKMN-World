@@ -1087,6 +1087,8 @@ enum __attribute__((packed)) Item
 
     ITEM_SKY_CHARM,     // F1: toggles overworld free-flight (World Transit hub, needs 1+ badge)
 
+    ITEM_EV_CHANGER,    // QoL 13: reusable key item to freely tune a party mon's EVs (party menu)
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

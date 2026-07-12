@@ -1116,7 +1116,8 @@ static void CreateFlightMountSprite(void)
     // Wind/gust puff (reuses the ground-impact dust art) trailing under the airborne
     // pair to sell motion. Like the shadow it is driven by SpriteCB_FlightMount and
     // looped for the whole flight; its own template callback is parked with Dummy.
-    LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ], 0, 0);
+    // (No LoadSpriteSheetByTemplate: this template's tileTag is TAG_NONE, so it loads via the
+    // per-frame image path - a sheet load would be a no-op.)
     sFlightWindSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ],
                                             playerSprite->x, playerSprite->y + 8, 0xFF);
     if (sFlightWindSpriteId != MAX_SPRITES)

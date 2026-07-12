@@ -339,3 +339,11 @@ void RegionHub_ScrHasCompletedDex(struct ScriptContext *ctx)
 {
     gSpecialVar_Result = HasAllMons();
 }
+
+// The Kanto champion + badge flags live just ABOVE the daily-flag block that ClearDailyFlags()
+// wipes on every RTC rollover (DAILY_FLAGS_START..DAILY_FLAGS_END). This margin was breached once
+// before (see region_flags.h) when the Johto trainer port slid DAILY_FLAGS_END up. Fail the build
+// instead of silently wiping the player's Kanto badges/championship if a future count bump reopens
+// that gap.
+STATIC_ASSERT(FLAG_KANTO_CHAMPION > DAILY_FLAGS_END, KantoChampionFlagInsideDailyClearRange);
+STATIC_ASSERT(FLAG_KANTO_BADGE(0) > DAILY_FLAGS_END, KantoBadgeFlagsInsideDailyClearRange);

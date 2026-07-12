@@ -131,8 +131,6 @@ enum {
 
 #define NUM_GENGAR_BACK_SPRITES 4
 
-#define COLOSSEUM_GAME_CODE 0x65366347 // "Gc6e" in ASCII
-
 struct IntroSequenceData;
 
 typedef void (*IntroCallback)(struct IntroSequenceData *);

@@ -977,6 +977,12 @@ void ItemUseOutOfBattle_ReduceEV(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+void ItemUseOutOfBattle_EvChanger(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_EvChanger;
+    SetUpItemUseCallback(taskId);
+}
+
 void ItemUseOutOfBattle_SacredAsh(u8 taskId)
 {
     gItemUseCB = ItemUseCB_SacredAsh;

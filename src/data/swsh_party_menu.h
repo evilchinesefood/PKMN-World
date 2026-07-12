@@ -928,6 +928,19 @@ static const struct WindowTemplate sLevelUpStatsWindowTemplate =
     .baseBlock = 0x283,
 };
 
+// EV Changer (QoL 13) popup. Shares the level-up stats window's footprint/baseBlock - the two
+// are never on screen together (both are item-on-party popups), so the tile region is safe.
+static const struct WindowTemplate sEvChangerWindowTemplate =
+{
+    .bg = 0,
+    .tilemapLeft = 19,
+    .tilemapTop = 1,
+    .width = 10,
+    .height = 11,
+    .paletteNum = 14,
+    .baseBlock = 0x283,
+};
+
 static const struct WindowTemplate sGiveHowManyItemsWindowTemplate =
 {
     .bg = 0,

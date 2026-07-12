@@ -7358,6 +7358,152 @@ static void TryUseItemOnMove(u8 taskId)
     }
 }
 
+// EV Changer (QoL 13): reusable key item to freely tune a party mon's EVs, clamped to
+// MAX_PER_STAT_EVS (252) per stat and MAX_TOTAL_EVS (510) total. Lives HERE in the LIVE swsh
+// party menu - src/party_menu.c is #if !SWSH_PARTY_MENU so it compiles to nothing in this build;
+// the callback must link from swsh_party_menu.o, exactly like ItemUseCB_PPUp below.
+static const u8 sEvChangerStatToMonData[NUM_STATS] =
+{
+    MON_DATA_HP_EV,
+    MON_DATA_ATK_EV,
+    MON_DATA_DEF_EV,
+    MON_DATA_SPATK_EV,
+    MON_DATA_SPDEF_EV,
+    MON_DATA_SPEED_EV,
+};
+
+static const u8 *const sEvChangerStatNames[NUM_STATS] =
+{
+    gText_HP4,
+    gText_Attack,
+    gText_Defense,
+    gText_SpAtk,
+    gText_SpDef,
+    gText_Speed,
+};
+
+static const u8 sText_EvChangerTotal[] = _("TOTAL");
+static const u8 sText_EvChangerSlash510[] = _("/510");
+
+#define tEvCursor  data[0]
+
+static u16 EvChangerTotalEvs(struct Pokemon *mon)
+{
+    u8 i;
+    u16 total = 0;
+
+    for (i = 0; i < NUM_STATS; i++)
+        total += GetMonData(mon, sEvChangerStatToMonData[i]);
+    return total;
+}
+
+static void EvChangerPrintStats(u8 taskId)
+{
+    u8 i;
+    u8 windowId = sPartyMenuInternal->windowId[0];
+    u8 cursor = gTasks[taskId].tEvCursor;
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][gPartyMenu.slotId];
+    u16 total = EvChangerTotalEvs(mon);
+    u8 text[16];
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        if (i == cursor)
+            AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_SelectorArrow2, 0, (i * 12) + 1, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, sEvChangerStatNames[i], 9, (i * 12) + 1, TEXT_SKIP_DRAW, NULL);
+        ConvertIntToDecimalStringN(text, GetMonData(mon, sEvChangerStatToMonData[i]), STR_CONV_MODE_RIGHT_ALIGN, 3);
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 56, (i * 12) + 1, TEXT_SKIP_DRAW, NULL);
+    }
+    ConvertIntToDecimalStringN(text, total, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringAppend(text, sText_EvChangerSlash510);
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, sText_EvChangerTotal, 6, (NUM_STATS * 12) + 2, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 44, (NUM_STATS * 12) + 2, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(windowId, COPYWIN_GFX);
+    ScheduleBgCopyTilemapToVram(2);
+}
+
+static void EvChangerAdjust(u8 taskId, bool8 increase)
+{
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][gPartyMenu.slotId];
+    u8 monDataId = sEvChangerStatToMonData[gTasks[taskId].tEvCursor];
+    u16 ev = GetMonData(mon, monDataId);
+    u16 step = JOY_HELD(R_BUTTON) ? 10 : 4; // hold R to adjust faster
+    u16 newEv;
+
+    if (increase)
+    {
+        u16 roomTotal = MAX_TOTAL_EVS - EvChangerTotalEvs(mon);
+        u16 roomStat = MAX_PER_STAT_EVS - ev;
+        u16 room = (roomStat < roomTotal) ? roomStat : roomTotal;
+
+        if (step > room)
+            step = room;
+        newEv = ev + step;
+    }
+    else
+    {
+        if (step > ev)
+            step = ev;
+        newEv = ev - step;
+    }
+
+    if (newEv == ev)
+    {
+        PlaySE(SE_FAILURE);
+        return;
+    }
+    SetMonData(mon, monDataId, &newEv);
+    CalculateMonStats(mon);
+    PlaySE(SE_SELECT);
+    EvChangerPrintStats(taskId);
+}
+
+static void Task_EvChangerHandleInput(u8 taskId)
+{
+    u8 cursor = gTasks[taskId].tEvCursor;
+
+    if (JOY_NEW(DPAD_UP))
+    {
+        PlaySE(SE_SELECT);
+        gTasks[taskId].tEvCursor = (cursor == 0) ? NUM_STATS - 1 : cursor - 1;
+        EvChangerPrintStats(taskId);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        PlaySE(SE_SELECT);
+        gTasks[taskId].tEvCursor = (cursor == NUM_STATS - 1) ? 0 : cursor + 1;
+        EvChangerPrintStats(taskId);
+    }
+    else if (JOY_REPEAT(DPAD_RIGHT))
+    {
+        EvChangerAdjust(taskId, TRUE);
+    }
+    else if (JOY_REPEAT(DPAD_LEFT))
+    {
+        EvChangerAdjust(taskId, FALSE);
+    }
+    else if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        ClearWindowTilemap(sPartyMenuInternal->windowId[0]);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        ReturnToUseOnWhichMon(taskId);
+    }
+}
+
+void ItemUseCB_EvChanger(u8 taskId, TaskFunc task)
+{
+    PlaySE(SE_SELECT);
+    sPartyMenuInternal->windowId[0] = AddWindow(&sEvChangerWindowTemplate);
+    DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[0], FALSE, 0x63, 13);
+    gTasks[taskId].tEvCursor = 0;
+    EvChangerPrintStats(taskId);
+    gTasks[taskId].func = Task_EvChangerHandleInput;
+}
+
+#undef tEvCursor
+
 void ItemUseCB_PPUp(u8 taskId, TaskFunc task)
 {
     PlaySE(SE_SELECT);

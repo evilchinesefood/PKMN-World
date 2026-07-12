@@ -134,8 +134,6 @@ enum {
 #define TAG_FLYGON_SILHOUETTE 2002
 #define TAG_RAYQUAZA_ORB      2003
 
-#define COLOSSEUM_GAME_CODE 0x65366347 // "Gc6e" in ASCII
-
 // Used by various tasks and sprites
 #define tState data[0]
 #define sState data[0]

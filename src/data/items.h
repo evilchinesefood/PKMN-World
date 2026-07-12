@@ -14339,6 +14339,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_ShinyCharm,
     },
 
+    [ITEM_EV_CHANGER] =
+    {
+        .name = ITEM_NAME("EV Changer"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Freely tunes a\n"
+            "POKéMON's effort\n"
+            "values up or down."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvChanger,
+        .iconPic = gItemIcon_AbilityCapsule,
+        .iconPalette = gItemIconPalette_AbilityCapsule,
+    },
+
     [ITEM_GS_BALL] =
     {
         .name = ITEM_NAME("GS Ball"),

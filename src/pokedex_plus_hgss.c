@@ -3102,33 +3102,38 @@ static u16 GetRegionDexCount(enum Region region, u8 caseID)
     }
 }
 
-static void PrintDexCountLabel(const u8 *text, u32 x, u32 y)
+// One readout row: LABEL (left, in the clear right-hand column) + its 4-digit sprite count
+// (leading zeros hidden) right-aligned at READOUT_DIGITS_1S_X, BOTH on the same y. The prior
+// layout drew the label at x172,y49-80 and the sprite count at x233,y65-85 - two columns
+// offset ~10px vertically, so nothing lined up and it read as scattered over the UI. Sharing
+// the row keeps each label paired with its number in the readable zone the old readout used.
+#define READOUT_LABEL_X    176
+#define READOUT_DIGITS_1S_X 233
+static void PrintDexReadoutRow(const u8 *label, u32 count, u32 y, bool32 titleOnly)
 {
     u8 color[3] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_LIGHT_GRAY};
 
-    AddTextPrinterParameterized4(0, FONT_SMALL_NARROWER, x, y, 0, 0, color, TEXT_SKIP_DRAW, text);
-}
-
-// Right-aligned 4-digit sprite row (leading zeros hidden), 1s column at x1s.
-static void CreateDexCountDigits(u16 value, u32 x1s, u32 y)
-{
-    static const u16 sDivisors[] = {1000, 100, 10, 1};
-    u32 i;
-    bool32 draw = FALSE;
-
-    for (i = 0; i < ARRAY_COUNT(sDivisors); i++)
+    AddTextPrinterParameterized4(0, FONT_SMALL_NARROWER, READOUT_LABEL_X, y, 0, 0, color, TEXT_SKIP_DRAW, label);
+    if (!titleOnly)
     {
-        u8 spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, x1s - (3 - i) * 6, y, 1);
-        u16 digit = (value / sDivisors[i]) % 10;
+        static const u16 sDivisors[] = {1000, 100, 10, 1};
+        u32 i;
+        bool32 draw = FALSE;
 
-        if (digit != 0 || draw || sDivisors[i] == 1)
+        for (i = 0; i < ARRAY_COUNT(sDivisors); i++)
         {
-            draw = TRUE;
-            StartSpriteAnim(&gSprites[spriteId], digit);
-        }
-        else
-        {
-            gSprites[spriteId].invisible = TRUE;
+            u8 spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, READOUT_DIGITS_1S_X - (3 - i) * 6, y, 1);
+            u16 digit = (count / sDivisors[i]) % 10;
+
+            if (digit != 0 || draw || sDivisors[i] == 1)
+            {
+                draw = TRUE;
+                StartSpriteAnim(&gSprites[spriteId], digit);
+            }
+            else
+            {
+                gSprites[spriteId].invisible = TRUE;
+            }
         }
     }
 }
@@ -3150,8 +3155,6 @@ static void CreateInterfaceSprites(u8 page)
     {
         // Region-scoped readout: the campaign region's dex SEEN/CAUGHT, plus TOTAL
         // species caught across all regions (replaces the old HOENN/NATIONAL rows).
-        u32 counterX1s = LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET + 16;
-        u32 labelX = LIST_RIGHT_SIDE_TEXT_X - 32;
 #if ALL_REGIONS
         enum Region region = GetActiveRegion();
 #else
@@ -3166,13 +3169,10 @@ static void CreateInterfaceSprites(u8 page)
         default:           regionName = sText_DexRegionHoenn; break;
         }
 
-        PrintDexCountLabel(regionName, labelX, 49);
-        PrintDexCountLabel(sText_DexSeen, labelX, 60);
-        CreateDexCountDigits(GetRegionDexCount(region, FLAG_GET_SEEN), counterX1s, 65);
-        PrintDexCountLabel(sText_Caught, labelX, 70);
-        CreateDexCountDigits(GetRegionDexCount(region, FLAG_GET_CAUGHT), counterX1s, 75);
-        PrintDexCountLabel(sText_DexTotal, labelX, 80);
-        CreateDexCountDigits(GetNationalPokedexCount(FLAG_GET_CAUGHT), counterX1s, 85);
+        PrintDexReadoutRow(regionName, 0, 26, TRUE);
+        PrintDexReadoutRow(sText_DexSeen, GetRegionDexCount(region, FLAG_GET_SEEN), 40, FALSE);
+        PrintDexReadoutRow(sText_Caught, GetRegionDexCount(region, FLAG_GET_CAUGHT), 54, FALSE);
+        PrintDexReadoutRow(sText_DexTotal, GetNationalPokedexCount(FLAG_GET_CAUGHT), 68, FALSE);
         CopyWindowToVram(0, COPYWIN_GFX);
     }
 

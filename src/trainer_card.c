@@ -23,6 +23,7 @@
 #include "gpu_regs.h"
 #include "international_string_util.h"
 #include "pokedex.h"
+#include "pokemon.h"
 #include "pokemon_icon.h"
 #include "graphics.h"
 #include "pokemon_icon.h"
@@ -1148,27 +1149,59 @@ static u16 GetCaughtMonsCount(void)
         return GetRegionalPokedexCount(FLAG_GET_CAUGHT);
 }
 
+static const u8 sText_CardCaughtSlashTotal[] = _("{STR_VAR_1}/{STR_VAR_2}");
+static const u8 sText_CardEvolved[] = _("EVOLVED");
+
+// Obtainable National Dex total (species-strip aware: disabled families resolve to SPECIES_NONE).
+static u16 GetObtainableNationalDexTotal(void)
+{
+    u16 i, count = 0;
+
+    for (i = 1; i <= NATIONAL_DEX_COUNT; i++)
+    {
+        if (NationalPokedexNumToSpecies(i) != SPECIES_NONE)
+            count++;
+    }
+    return count;
+}
+
+// Caught species that are an evolution of something (i.e. non-base forms the player owns).
+static u16 GetEvolvedCaughtCount(void)
+{
+    u16 i, count = 0;
+
+    for (i = 1; i <= NATIONAL_DEX_COUNT; i++)
+    {
+        u16 species = NationalPokedexNumToSpecies(i);
+
+        if (species != SPECIES_NONE
+         && GetSetPokedexFlag(i, FLAG_GET_CAUGHT)
+         && GetSpeciesPreEvolution(species) != SPECIES_NONE)
+            count++;
+    }
+    return count;
+}
+
 static void PrintPokedexOnCard(void)
 {
     s32 xOffset;
     u8 top;
     if (FlagGet(FLAG_SYS_POKEDEX_GET))
     {
-        if (!sData->isHoenn)
-            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 20, 72, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
-        else
-            AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 16, 73, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
-        StringCopy(ConvertIntToDecimalStringN(gStringVar4, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 4), gText_EmptyString6);
-        if (!sData->isHoenn)
-        {
-            xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 144);
-            top = 72;
-        }
-        else
-        {
-            xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, 128);
-            top = 73;
-        }
+        // Dex line: national CAUGHT out of the obtainable national total (e.g. 152/386).
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, (!sData->isHoenn) ? 20 : 16, (!sData->isHoenn) ? 72 : 73, sTrainerCardTextColors, TEXT_SKIP_DRAW, gText_TrainerCardPokedex);
+        ConvertIntToDecimalStringN(gStringVar1, sData->trainerCard.caughtMonsCount, STR_CONV_MODE_LEFT_ALIGN, 4);
+        ConvertIntToDecimalStringN(gStringVar2, GetObtainableNationalDexTotal(), STR_CONV_MODE_LEFT_ALIGN, 4);
+        StringExpandPlaceholders(gStringVar4, sText_CardCaughtSlashTotal);
+        xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, (!sData->isHoenn) ? 144 : 128);
+        top = (!sData->isHoenn) ? 72 : 73;
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
+
+        // EVOLVED line just below: owned species that are an evolution of something.
+        top = (!sData->isHoenn) ? 87 : 88;
+        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, (!sData->isHoenn) ? 20 : 16, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, sText_CardEvolved);
+        ConvertIntToDecimalStringN(gStringVar4, GetEvolvedCaughtCount(), STR_CONV_MODE_LEFT_ALIGN, 4);
+        xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, (!sData->isHoenn) ? 144 : 128);
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
     }
 }

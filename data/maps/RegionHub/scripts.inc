@@ -472,6 +472,8 @@ RegionHub_EventScript_CuratorLadder::
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryOval
 	checkitem ITEM_SHINY_CHARM
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryShiny
+	checkitem ITEM_EV_CHANGER
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryEvChanger
 	msgbox RegionHub_Text_CuratorAllGiven, MSGBOX_DEFAULT
 	release
 	end
@@ -532,6 +534,21 @@ RegionHub_EventScript_CuratorGiveShiny::
 	giveitem ITEM_SHINY_CHARM
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox RegionHub_Text_CuratorShinyExplain, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+RegionHub_EventScript_CuratorTryEvChanger::
+	goto_if_ge VAR_0x8000, 24, RegionHub_EventScript_CuratorGiveEvChanger
+	msgbox RegionHub_Text_CuratorNeed24, MSGBOX_DEFAULT
+	release
+	end
+
+RegionHub_EventScript_CuratorGiveEvChanger::
+	msgbox RegionHub_Text_CuratorGiveEvChanger, MSGBOX_DEFAULT
+	giveitem ITEM_EV_CHANGER
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	msgbox RegionHub_Text_CuratorEvChangerExplain, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -604,6 +621,22 @@ RegionHub_Text_CuratorShinyExplain:
 	.string "That's the SHINY CHARM.\p"
 	.string "With it, you're far more likely\n"
 	.string "to meet POKéMON of rare color.$"
+
+RegionHub_Text_CuratorNeed24:
+	.string "One gift beyond my charms\n"
+	.string "remains.\p"
+	.string "Bring me all 24 GYM BADGES\n"
+	.string "and it is yours.$"
+
+RegionHub_Text_CuratorGiveEvChanger:
+	.string "All 24 GYM BADGES! Every\n"
+	.string "region bows to you.\p"
+	.string "Take this parting gift.$"
+
+RegionHub_Text_CuratorEvChangerExplain:
+	.string "That's the EV CHANGER.\p"
+	.string "Tune any POKéMON's EFFORT\n"
+	.string "VALUES up or down, any time.$"
 
 RegionHub_Text_CuratorAllGiven:
 	.string "My whole collection is in your\n"

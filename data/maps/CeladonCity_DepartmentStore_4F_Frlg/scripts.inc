@@ -95,7 +95,6 @@ CeladonCity_DepartmentStore_4F_Items::
 	.2byte ITEM_IRON_BALL
 	.2byte ITEM_METRONOME
 	.2byte ITEM_AMULET_COIN
-	.2byte ITEM_LUCKY_EGG
 	.2byte ITEM_SOUL_DEW
 	@ Type-boost items
 	.2byte ITEM_CHARCOAL

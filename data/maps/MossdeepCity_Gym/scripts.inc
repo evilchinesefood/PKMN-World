@@ -118,6 +118,7 @@ MossdeepCity_Gym_EventScript_TateAndLizaRematch::
 MossdeepCity_Gym_EventScript_OfferRematch::
 	lock
 	faceplayer
+	goto_if_unset FLAG_RECEIVED_TM_CALM_MIND, MossdeepCity_Gym_EventScript_GiveCalmMind2
 	msgbox MossdeepCity_Gym_Text_RematchAsk, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MossdeepCity_Gym_EventScript_RematchDecline
 	special HasEnoughMonsForDoubleBattle

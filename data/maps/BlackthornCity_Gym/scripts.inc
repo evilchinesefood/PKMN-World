@@ -200,7 +200,7 @@ BlackthornGym_EventScript_Lola::
 BlackthornGym_EventScript_Clair::
 	lock
 	faceplayer
-	goto_if_set FLAG_IS_CHAMPION, BlackthornGym_EventScript_ClairAfterLeague
+	goto_if_set FLAG_JOHTO_CHAMPION, BlackthornGym_EventScript_ClairAfterLeague
 	goto_if_ge VAR_BLACKTHORN_CITY_STATE, 4, BlackthornGym_EventScript_Clair_Defeated
 	goto_if_eq VAR_BLACKTHORN_CITY_STATE, 2, BlackthornGym_EventScript_ClairDuringChallenge
 	msgbox BlackthornGym_Text_ClairIntroText, MSGBOX_DEFAULT
@@ -435,7 +435,7 @@ BlackthornGym_Text_GuideText:
     .string "weak against ICE-type moves,\l"
     .string "but you'll need some DRAGON-type\l"
 	.string "or FAIRY-type moves of your own if\l"
-    .string "you want to win.$"
+    .string "you want to win.\l"
     .string "You got this!$"
 
 BlackthornGym_Text_GuideWinText:

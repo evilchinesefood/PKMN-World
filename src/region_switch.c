@@ -58,6 +58,10 @@ void SyncDifficultyForRegion(enum Region region)
     VarSet(VAR_DIFFICULTY, IsRegionChampion(region) ? DIFFICULTY_HARD : DIFFICULTY_NORMAL);
 }
 
+// INVARIANT (difficulty containment): every cross-region entry MUST pass through
+// SetCurrentRegion (hub gate) or ResyncCurrentRegionFromMap (warp/continue load).
+// A future cross-region warp that bypasses both would carry the previous region's
+// VAR_DIFFICULTY tier with it unnoticed - route new entry points through here.
 void SetCurrentRegion(enum Region region)
 {
     gCurrentRegion = region;
@@ -93,6 +97,7 @@ void ResyncCurrentRegionFromMap(void)
         return;
 
     gCurrentRegion = GetCurrentRegion();
+    SyncDifficultyForRegion(gCurrentRegion); // pre-region-field champion saves need the tier too
 }
 
 // callnative hook used by the hub transit clerk. The clerk's multichoice stores the

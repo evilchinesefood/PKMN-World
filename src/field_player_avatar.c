@@ -1107,7 +1107,7 @@ static void CreateFlightMountSprite(void)
     {
         gSprites[sFlightShadowSpriteId].callback = SpriteCallbackDummy;
         gSprites[sFlightShadowSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
-        gSprites[sFlightShadowSpriteId].oam.priority = 2;
+        gSprites[sFlightShadowSpriteId].oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
         gSprites[sFlightShadowSpriteId].coordOffsetEnabled = TRUE;
     }
 }
@@ -1175,7 +1175,9 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
         shadow->x = playerSprite->x;
         shadow->y = playerSprite->y + 14;
         shadow->y2 = 0;
-        shadow->oam.priority = 2;
+        // Ground priority must follow the tile under the flyer: a fixed 2 vanishes
+        // behind bridge BG layers (priority 1) while the pair stays visible above.
+        shadow->oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
         shadow->invisible = playerSprite->invisible;
     }
 }

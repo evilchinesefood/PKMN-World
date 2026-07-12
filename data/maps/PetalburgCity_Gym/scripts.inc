@@ -342,6 +342,8 @@ PetalburgCity_Gym_EventScript_GiveFacade2::
 	end
 
 PetalburgCity_Gym_EventScript_NormanRematch::
+	goto_if_unset FLAG_RECEIVED_TM_FACADE, PetalburgCity_Gym_EventScript_GiveFacade2
+	goto_if_set FLAG_HOENN_CHAMPION, PetalburgCity_Gym_EventScript_NormanOfferRematch
 	trainerbattle_rematch_double TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanPreRematch, PetalburgCity_Gym_Text_NormanRematchDefeat, PetalburgCity_Gym_Text_NormanRematchNeedTwoMons
 	msgbox PetalburgCity_Gym_Text_NormanPostRematch, MSGBOX_AUTOCLOSE
 	end
@@ -368,7 +370,7 @@ PetalburgCity_Gym_Text_RematchDefeat:
 	.string "And I couldn't be prouder to lose.$"
 
 PetalburgCity_Gym_Text_RematchPost:
-	.string "NORMAN: You've surpassed me completely.\n"
+	.string "NORMAN: You've surpassed me.\n"
 	.string "Come test your old man anytime.$"
 
 PetalburgCity_Gym_Text_RematchDecline:

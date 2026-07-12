@@ -604,8 +604,9 @@ enum
 #define OBJ_EVENT_PAL_TAG_BALL_BEAST              0x1169
 // Gen VIII
 #define OBJ_EVENT_PAL_TAG_BALL_STRANGE            0x116A
-#define OBJ_EVENT_PAL_TAG_MAGNET_TRAIN            0x116B
 #endif //OW_FOLLOWERS_POKEBALLS
+// Goldenrod magnet train (consumed unconditionally in sObjectEventSpritePalettes)
+#define OBJ_EVENT_PAL_TAG_MAGNET_TRAIN            0x116B
 // Used as a placeholder follower graphic
 #define OBJ_EVENT_PAL_TAG_SUBSTITUTE              0x7611
 #define OBJ_EVENT_PAL_TAG_LIGHT                   0x8001

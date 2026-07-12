@@ -691,8 +691,8 @@ RegionHub_Text_DexRewardProgress:
 	.string "are you?\p"
 	.string "My records show you've caught\n"
 	.string "{STR_VAR_1} so far.\p"
-	.string "Reach the next milestone-150, 300,\n"
-	.string "then the full POKéDEX!$"
+	.string "Milestones at 150, 300, and the\n"
+	.string "full POKéDEX earn rewards!$"
 
 RegionHub_Text_DexRewardGiveTier1:
 	.string "150 species caught! Marvelous\n"

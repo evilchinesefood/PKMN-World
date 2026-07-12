@@ -45,10 +45,10 @@ LavaridgeTown_Gym_1F_EventScript_EndCheckBuryTrainers::
 
 LavaridgeTown_Gym_1F_EventScript_Flannery::
 	trainerbattle_single TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryIntro, LavaridgeTown_Gym_1F_Text_FlanneryDefeat, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated, NO_MUSIC
+	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2
 	goto_if_set FLAG_HOENN_CHAMPION, LavaridgeTown_Gym_1F_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_FlanneryRematch
-	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2
 	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -113,8 +113,8 @@ LavaridgeTown_Gym_1F_EventScript_RematchDecline::
 	end
 
 LavaridgeTown_Gym_1F_Text_RematchAsk:
-	.string "FLANNERY: The CHAMPION wishes to battle?\n"
-	.string "Then I'll show you my hottest blaze yet!$"
+	.string "FLANNERY: The CHAMPION, here?\n"
+	.string "I'll show you my hottest blaze yet!$"
 
 LavaridgeTown_Gym_1F_Text_RematchDefeat:
 	.string "Ahh… my flames were snuffed out…\n"

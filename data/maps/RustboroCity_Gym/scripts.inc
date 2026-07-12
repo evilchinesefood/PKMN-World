@@ -3,10 +3,10 @@ RustboroCity_Gym_MapScripts::
 
 RustboroCity_Gym_EventScript_Roxanne::
 	trainerbattle_single TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, RustboroCity_Gym_EventScript_RoxanneDefeated, NO_MUSIC
+	goto_if_unset FLAG_RECEIVED_TM_ROCK_TOMB, RustboroCity_Gym_EventScript_GiveRockTomb
 	goto_if_set FLAG_HOENN_CHAMPION, RustboroCity_Gym_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_Gym_EventScript_RoxanneRematch
-	goto_if_unset FLAG_RECEIVED_TM_ROCK_TOMB, RustboroCity_Gym_EventScript_GiveRockTomb
 	msgbox RustboroCity_Gym_Text_RoxannePostBattle, MSGBOX_DEFAULT
 	release
 	end
@@ -62,8 +62,8 @@ RustboroCity_Gym_Text_RematchDefeat:
 	.string "The CHAMPION is in a class apart.$"
 
 RustboroCity_Gym_Text_RematchPost:
-	.string "ROXANNE: Every battle with you teaches\n"
-	.string "me something new. Thank you, CHAMPION.$"
+	.string "ROXANNE: Every battle with you\n"
+	.string "teaches me something new, CHAMPION.$"
 
 RustboroCity_Gym_Text_RematchDecline:
 	.string "ROXANNE: I see. Return whenever you\n"

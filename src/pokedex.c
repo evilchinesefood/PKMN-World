@@ -4628,6 +4628,9 @@ bool16 HasAllHoennMons(void)
     for (i = 0; i < HOENN_DEX_COUNT - 1; i++)
     {
         j = HoennToNationalOrder(i + 1);
+        // world-strip: mirror HasAllMons - a disabled family must not gate completion
+        if (NationalPokedexNumToSpecies(j) == SPECIES_NONE)
+            continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;
     }
@@ -4642,6 +4645,9 @@ bool16 HasAllKantoMons(void)
     for (i = 0; i < KANTO_DEX_COUNT - 1; i++)
     {
         j = KantoToNationalOrder(i + 1);
+        // world-strip: mirror HasAllMons - a disabled family must not gate completion
+        if (NationalPokedexNumToSpecies(j) == SPECIES_NONE)
+            continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;
     }

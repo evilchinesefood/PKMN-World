@@ -3,6 +3,36 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.1 — 2026-07-11
+
+Ten-agent deep review of the whole codebase; every confirmed finding fixed.
+
+### Progression fixes
+
+- **Blackthorn soft-lock (critical)**: becoming Hoenn or Kanto Champion before
+  beating Clair no longer locks you out of the Rising Badge — her post-league
+  dialogue now keys on the JOHTO championship only.
+- **Johto first-clear as an outside champion**: clearing the Johto league after
+  already being another region's Champion now correctly runs the first-clear
+  sequence (post-game Johto events, S.S. AQUA state, Indigo guards) instead of
+  the repeat-clear one.
+- **Gym TM can no longer be lost**: if your bag was full when a leader first
+  awarded their TM, the re-offer now happens before the champion rematch gate
+  in all eight Hoenn gyms (the other regions were already correct).
+- **Norman's HARD rematch is permanent**: the vanilla match-call rematch no
+  longer permanently replaces his champion rematch offer.
+
+### Fixes
+
+- **Egg-only party**: trainers no longer start a battle when your party is only
+  an egg (previously possible after a region switch plus a gift egg).
+- **Flight shadow on bridges**: the Sky Charm ground shadow now follows the
+  terrain under you instead of vanishing beneath bridges.
+- **Old champion saves**: continuing a pre-rematch champion save now applies
+  HARD difficulty immediately instead of after the first hub trip.
+- Blackthorn's gym guide now finishes his pep talk ("You got this!"), and five
+  rematch lines were shortened to fit the message window.
+
 ## v1.3.0 — 2026-07-11
 
 ### Gym Leader rematches (Feature C)

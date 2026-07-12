@@ -2506,8 +2506,10 @@ bool8 ScrCmd_trainerbattle(struct ScriptContext *ctx)
     TrainerBattleLoadArgs(ctx->scriptPtr);
     ctx->scriptPtr = BattleSetup_ConfigureTrainerBattle(ctx->scriptPtr);
     // Region-switch boxes the whole party to the PC (see CheckForTrainersWantingBattle); a
-    // scripted battle with 0 mons would send out SPECIES_NONE. Swallow the challenge instead.
-    if (CalculatePlayerPartyCount() == 0)
+    // scripted battle with 0 usable mons would send out SPECIES_NONE. Eggs count toward
+    // party size but cannot battle, so an egg-only party (gift egg into an emptied party)
+    // must be swallowed the same way.
+    if (CountPartyNonEggMons() == 0)
         ctx->scriptPtr = EventScript_NoMonsForTrainerBattle;
     return FALSE;
 }

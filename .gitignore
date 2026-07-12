@@ -80,3 +80,8 @@ docs/
 # (not part of the build; libagbsyscall/ is build-critical and stays tracked)
 .dev_scripts/
 .migration_scripts/
+
+# PRECIOUS local-only files (never run `git clean -fdx` in this repo — it would
+# delete these and the player save; plain `clean -fd` skips ignored entries)
+_pwtest/
+fixes.md

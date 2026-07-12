@@ -666,17 +666,6 @@ static const struct WindowTemplate sLevelUpStatsWindowTemplate =
     .baseBlock = 0x2E9,
 };
 
-static const struct WindowTemplate sEvChangerWindowTemplate =
-{
-    .bg = 2,
-    .tilemapLeft = 17,
-    .tilemapTop = 1,
-    .width = 12,
-    .height = 14,
-    .paletteNum = 14,
-    .baseBlock = 0x2E9,
-};
-
 static const struct WindowTemplate sWindowTemplate_FirstBattleOakVoiceover =
 {
     .bg = 2,

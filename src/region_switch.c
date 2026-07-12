@@ -85,6 +85,13 @@ void SetCurrentRegion(enum Region region)
 // existed), and never clobber the mirror while standing in the hub.
 void ResyncCurrentRegionFromMap(void)
 {
+    // Back-fill DexNav for saves made before it was enabled (commit 5f96268e, 2026-07-05). The
+    // Pokedex-give scripts now also setflag FLAG_SYS_DEXNAV_GET, but saves that already received
+    // the Pokedex passed that point and never got the flag, so the DexNav never appeared in the
+    // start menu. Runs on Continue/warp (idempotent): if you have the Pokedex, you have the DexNav.
+    if (FlagGet(FLAG_SYS_POKEDEX_GET) && !FlagGet(FLAG_SYS_DEXNAV_GET))
+        FlagSet(FLAG_SYS_DEXNAV_GET);
+
     if (gSaveBlock2Ptr->currentRegion != REGION_NONE)
     {
         gCurrentRegion = gSaveBlock2Ptr->currentRegion;

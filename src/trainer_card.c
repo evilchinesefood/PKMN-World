@@ -24,6 +24,7 @@
 #include "international_string_util.h"
 #include "pokedex.h"
 #include "pokemon.h"
+#include "constants/pokemon.h"
 #include "pokemon_icon.h"
 #include "graphics.h"
 #include "pokemon_icon.h"
@@ -1152,33 +1153,56 @@ static u16 GetCaughtMonsCount(void)
 static const u8 sText_CardCaughtSlashTotal[] = _("{STR_VAR_1}/{STR_VAR_2}");
 static const u8 sText_CardEvolved[] = _("EVOLVED");
 
-// Obtainable National Dex total (species-strip aware: disabled families resolve to SPECIES_NONE).
+// Obtainable National Dex total — the completion denominator. Iterates species ONCE (each has a
+// natDexNum) instead of calling NationalPokedexNumToSpecies (an O(n) linear search) per dex slot,
+// which made the trainer card hang for several seconds. Constant across a run, so it's cached.
 static u16 GetObtainableNationalDexTotal(void)
 {
-    u16 i, count = 0;
+    static u16 sCached = 0;
 
-    for (i = 1; i <= NATIONAL_DEX_COUNT; i++)
+    if (sCached == 0)
     {
-        if (NationalPokedexNumToSpecies(i) != SPECIES_NONE)
-            count++;
+        u8 occupied[(NATIONAL_DEX_COUNT >> 3) + 1] = {0};
+        u16 s, dn;
+
+        for (s = 1; s < NUM_SPECIES; s++)
+        {
+            dn = gSpeciesInfo[s].natDexNum;
+            if (dn != 0 && dn <= NATIONAL_DEX_COUNT && IsSpeciesEnabled(s))
+                occupied[dn >> 3] |= 1 << (dn & 7);
+        }
+        for (dn = 1; dn <= NATIONAL_DEX_COUNT; dn++)
+            if (occupied[dn >> 3] & (1 << (dn & 7)))
+                sCached++;
     }
-    return count;
+    return sCached;
 }
 
-// Caught species that are an evolution of something (i.e. non-base forms the player owns).
+// Count of caught species that are an evolution of something. One forward pass marks every dex
+// slot that is an evolution target, then counts the caught ones — GetSpeciesPreEvolution is O(n)
+// per call, and calling it per caught mon was the trainer-card hang.
 static u16 GetEvolvedCaughtCount(void)
 {
-    u16 i, count = 0;
+    u8 isEvolvedSlot[(NATIONAL_DEX_COUNT >> 3) + 1] = {0};
+    u16 s, dn, count = 0;
 
-    for (i = 1; i <= NATIONAL_DEX_COUNT; i++)
+    for (s = 1; s < NUM_SPECIES; s++)
     {
-        u16 species = NationalPokedexNumToSpecies(i);
+        const struct Evolution *evos = GetSpeciesEvolutions(s);
+        u16 j;
 
-        if (species != SPECIES_NONE
-         && GetSetPokedexFlag(i, FLAG_GET_CAUGHT)
-         && GetSpeciesPreEvolution(species) != SPECIES_NONE)
-            count++;
+        if (evos == NULL)
+            continue;
+        for (j = 0; evos[j].method != EVOLUTIONS_END; j++)
+        {
+            dn = gSpeciesInfo[SanitizeSpeciesId(evos[j].targetSpecies)].natDexNum;
+            if (dn != 0 && dn <= NATIONAL_DEX_COUNT)
+                isEvolvedSlot[dn >> 3] |= 1 << (dn & 7);
+        }
     }
+    for (dn = 1; dn <= NATIONAL_DEX_COUNT; dn++)
+        if ((isEvolvedSlot[dn >> 3] & (1 << (dn & 7))) && GetSetPokedexFlag(dn, FLAG_GET_CAUGHT))
+            count++;
     return count;
 }
 

@@ -2431,12 +2431,23 @@ static void Task_DexNavMain(u8 taskId)
 
         if (species != SPECIES_NONE)
         {
-            PrintSearchableSpecies(species);
-            //PlaySE(SE_DEX_SEARCH);
-            PlayCry_Script(species, 0);
+            // R toggles the R-button field bind. Press R on the ALREADY-registered species to
+            // UNBIND it (clears DN_VAR_SPECIES) so R stops firing DexNav in the overworld — which
+            // also frees the R+START debug combo. Otherwise, bind this species to R.
+            if ((VarGet(DN_VAR_SPECIES) & DEXNAV_MASK_SPECIES) == species)
+            {
+                VarSet(DN_VAR_SPECIES, SPECIES_NONE);
+                PlaySE(SE_SELECT);
+            }
+            else
+            {
+                PrintSearchableSpecies(species);
+                //PlaySE(SE_DEX_SEARCH);
+                PlayCry_Script(species, 0);
 
-            // create value to store in a var
-            VarSet(DN_VAR_SPECIES, ((sDexNavUiDataPtr->environment << 14) | species));
+                // create value to store in a var
+                VarSet(DN_VAR_SPECIES, ((sDexNavUiDataPtr->environment << 14) | species));
+            }
         }
         else
         {

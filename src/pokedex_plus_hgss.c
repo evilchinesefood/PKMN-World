@@ -3107,7 +3107,10 @@ static u16 GetRegionDexCount(enum Region region, u8 caseID)
 // layout drew the label at x172,y49-80 and the sprite count at x233,y65-85 - two columns
 // offset ~10px vertically, so nothing lined up and it read as scattered over the UI. Sharing
 // the row keeps each label paired with its number in the readable zone the old readout used.
-#define READOUT_LABEL_X    176
+// Labels sit in the clear gap RIGHT of the scrolling mon sprite (centered at SCROLLING_MON_X
+// 146, so its ~64px pic ends near x178) and LEFT of the digit column at ~x215 — otherwise the
+// window-text labels draw on top of the mon pic and read as unreadable clutter.
+#define READOUT_LABEL_X    184
 #define READOUT_DIGITS_1S_X 233
 static void PrintDexReadoutRow(const u8 *label, u32 count, u32 y, bool32 titleOnly)
 {

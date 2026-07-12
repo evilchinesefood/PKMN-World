@@ -5,6 +5,7 @@ ViridianCity_Gym_EventScript_Giovanni::
 	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_GIOVANNI, ViridianCity_Gym_Text_GiovanniIntro, ViridianCity_Gym_Text_GiovanniDefeat, ViridianCity_Gym_EventScript_DefeatedGiovanni, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM26_FROM_GIOVANNI, ViridianCity_Gym_EventScript_GiveTM26
+	goto_if_set FLAG_KANTO_CHAMPION, ViridianCity_Gym_EventScript_OfferRematch
 	msgbox ViridianCity_Gym_Text_GiovanniPostBattle
 	closemessage
 	fadescreen FADE_TO_BLACK
@@ -274,4 +275,37 @@ ViridianCity_Gym_Text_GymStatuePlayerWon::
 	.string "LEADER: GIOVANNI\p"
 	.string "WINNING TRAINERS:\n"
 	.string "{RIVAL}, {PLAYER}$"
+
+ViridianCity_Gym_EventScript_OfferRematch::
+	msgbox ViridianCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, ViridianCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_GIOVANNI, ViridianCity_Gym_Text_RematchDefeat
+	msgbox ViridianCity_Gym_Text_RematchPost
+	release
+	end
+
+ViridianCity_Gym_EventScript_RematchDecline::
+	msgbox ViridianCity_Gym_Text_RematchDecline
+	release
+	end
+
+ViridianCity_Gym_Text_RematchAsk::
+	.string "So, the CHAMPION dares\n"
+	.string "disturb me again.\p"
+	.string "Face the greatest\n"
+	.string "TRAINER once more!$"
+
+ViridianCity_Gym_Text_RematchDefeat::
+	.string "Fwahaha! Still no match\n"
+	.string "for GIOVANNI!$"
+
+ViridianCity_Gym_Text_RematchPost::
+	.string "Bested by the CHAMPION\n"
+	.string "once more…\p"
+	.string "Return for another\n"
+	.string "lesson in power!$"
+
+ViridianCity_Gym_Text_RematchDecline::
+	.string "Coward. Waste my time\n"
+	.string "no further.$"
 

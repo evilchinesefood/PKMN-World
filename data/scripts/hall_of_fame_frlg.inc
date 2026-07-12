@@ -1,5 +1,6 @@
 EventScript_SetDefeatedEliteFourFlagsVars::
 	setflag FLAG_KANTO_CHAMPION
+	setvar VAR_DIFFICULTY, DIFFICULTY_HARD @ Feature C: Kanto gym/E4 rematches go HARD
 	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
 	call EventScript_ResetEliteFour
 	special Script_UpdateTrainerFanClubGameClear

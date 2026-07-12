@@ -64,7 +64,23 @@ EcruteakCity_Gym_EventScript_GiveTM::
 
 EcruteakCity_Gym_EventScript_Morty_Defeated::
 	goto_if_unset FLAG_GOT_TM_SHADOW_BALL, EcruteakCity_Gym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, EcruteakCity_Gym_EventScript_OfferRematch
 	msgbox MortyFightDoneText, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+EcruteakCity_Gym_EventScript_OfferRematch::
+	msgbox MortyRematchText, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, EcruteakCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_MORTY_1, Morty_RematchDefeatText
+	msgbox MortyRematchPostText, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+EcruteakCity_Gym_EventScript_RematchDecline::
+	msgbox MortyRematchDeclineText, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -168,6 +184,16 @@ Morty_RematchDefeatText:
 	.string "You've witnessed more than I\n"
 	.string "ever have.\p"
 	.string "I envy you for that...$"
+
+MortyRematchPostText:
+	.string "The shadows still have much to\n"
+	.string "teach us both.\p"
+	.string "Seek me out whenever you wish to\n"
+	.string "test them again.$"
+
+MortyRematchDeclineText:
+	.string "Return when you are ready to face\n"
+	.string "the shadows once more.$"
 
 SageJeffreySeenText:
 	.string "I spent the spring with my\n"

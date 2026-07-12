@@ -330,6 +330,7 @@ PetalburgCity_Gym_EventScript_NormanPostBattle::
 	call PetalburgCity_Gym_EventScript_ShouldGiveEnigmaBerry
 	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_GiveEnigmaBerry
 	goto_if_unset FLAG_RECEIVED_TM_FACADE, PetalburgCity_Gym_EventScript_GiveFacade2
+	goto_if_set FLAG_HOENN_CHAMPION, PetalburgCity_Gym_EventScript_NormanOfferRematch
 	goto_if_set FLAG_SYS_GAME_CLEAR, PetalburgCity_Gym_EventScript_NoAmountOfTrainingIsEnough
 	msgbox PetalburgCity_Gym_Text_DadGoingToKeepTraining, MSGBOX_DEFAULT
 	release
@@ -344,6 +345,35 @@ PetalburgCity_Gym_EventScript_NormanRematch::
 	trainerbattle_rematch_double TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanPreRematch, PetalburgCity_Gym_Text_NormanRematchDefeat, PetalburgCity_Gym_Text_NormanRematchNeedTwoMons
 	msgbox PetalburgCity_Gym_Text_NormanPostRematch, MSGBOX_AUTOCLOSE
 	end
+
+PetalburgCity_Gym_EventScript_NormanOfferRematch::
+	msgbox PetalburgCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, PetalburgCity_Gym_EventScript_NormanRematchDecline
+	trainerbattle_no_intro TRAINER_NORMAN_1, PetalburgCity_Gym_Text_RematchDefeat
+	msgbox PetalburgCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+PetalburgCity_Gym_EventScript_NormanRematchDecline::
+	msgbox PetalburgCity_Gym_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+PetalburgCity_Gym_Text_RematchAsk:
+	.string "NORMAN: So my own child has become the\n"
+	.string "CHAMPION. Shall we battle, in earnest?$"
+
+PetalburgCity_Gym_Text_RematchDefeat:
+	.string "…I'm beaten.\n"
+	.string "And I couldn't be prouder to lose.$"
+
+PetalburgCity_Gym_Text_RematchPost:
+	.string "NORMAN: You've surpassed me completely.\n"
+	.string "Come test your old man anytime.$"
+
+PetalburgCity_Gym_Text_RematchDecline:
+	.string "NORMAN: Another time, then. I'll be\n"
+	.string "here whenever you wish to battle.$"
 
 PetalburgCity_Gym_EventScript_ShouldGiveEnigmaBerry::
 	specialvar VAR_RESULT, IsEnigmaBerryValid

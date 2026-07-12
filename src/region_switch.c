@@ -4,6 +4,7 @@
 #include "script.h"
 #include "constants/regions.h"
 #include "constants/vars.h"
+#include "constants/difficulty.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
 #include "constants/battle.h"
@@ -37,10 +38,31 @@ EWRAM_DATA enum Region gCurrentRegion = REGION_NONE;
 //
 // So the routine records the explicit active-region intent (the seam region-aware systems
 // and the deferred arrival-quest work hook into) and leaves the rest to the warp.
+// Feature C: gym-leader HARD rematches unlock per region. The difficulty tier follows the
+// ACTIVE region's champion status so a champion of one region still fights NORMAL first-run
+// teams in a region they haven't cleared (VAR_DIFFICULTY is global; HARD parties exist for
+// gym leaders in all three regions, so it must never leak across regions).
+static bool8 IsRegionChampion(enum Region region)
+{
+    switch (region)
+    {
+    case REGION_KANTO: return FlagGet(FLAG_KANTO_CHAMPION);
+    case REGION_JOHTO: return FlagGet(FLAG_JOHTO_CHAMPION);
+    case REGION_HOENN: return FlagGet(FLAG_HOENN_CHAMPION);
+    default:           return FALSE;
+    }
+}
+
+void SyncDifficultyForRegion(enum Region region)
+{
+    VarSet(VAR_DIFFICULTY, IsRegionChampion(region) ? DIFFICULTY_HARD : DIFFICULTY_NORMAL);
+}
+
 void SetCurrentRegion(enum Region region)
 {
     gCurrentRegion = region;
     gSaveBlock2Ptr->currentRegion = region; // persist so a reset / hub trip keeps the context (task 21)
+    SyncDifficultyForRegion(region);
 
     // TODO(region-switch follow-up): when per-region heal/fly defaults exist, reset the
     // last-heal location to this region's start here. Deferred with the arrival-quest work
@@ -62,6 +84,7 @@ void ResyncCurrentRegionFromMap(void)
     if (gSaveBlock2Ptr->currentRegion != REGION_NONE)
     {
         gCurrentRegion = gSaveBlock2Ptr->currentRegion;
+        SyncDifficultyForRegion(gCurrentRegion); // self-heal pre-Feature-C champion saves
         return;
     }
 

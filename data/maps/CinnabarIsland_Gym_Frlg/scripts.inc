@@ -49,6 +49,7 @@ CinnabarIsland_Gym_EventScript_Blaine::
 	famechecker FAMECHECKER_BLAINE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
+	goto_if_set FLAG_KANTO_CHAMPION, CinnabarIsland_Gym_EventScript_OfferRematch
 	msgbox CinnabarIsland_Gym_Text_BlainePostBattle
 	release
 	end
@@ -898,4 +899,36 @@ CinnabarIsland_Gym_Text_CorrectGoOnThrough::
 CinnabarIsland_Gym_Text_SorryBadCall::
 	.string "Sorry!\n"
 	.string "Bad call!$"
+
+CinnabarIsland_Gym_EventScript_OfferRematch::
+	msgbox CinnabarIsland_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, CinnabarIsland_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_BLAINE, CinnabarIsland_Gym_Text_RematchDefeat
+	msgbox CinnabarIsland_Gym_Text_RematchPost
+	release
+	end
+
+CinnabarIsland_Gym_EventScript_RematchDecline::
+	msgbox CinnabarIsland_Gym_Text_RematchDecline
+	release
+	end
+
+CinnabarIsland_Gym_Text_RematchAsk::
+	.string "Hah! The CHAMPION!\p"
+	.string "Ready to feel the heat\n"
+	.string "once more?$"
+
+CinnabarIsland_Gym_Text_RematchDefeat::
+	.string "Booyah! Burnt to a\n"
+	.string "crisp!$"
+
+CinnabarIsland_Gym_Text_RematchPost::
+	.string "Yeeouch! You doused\n"
+	.string "my flames!\p"
+	.string "Come reignite this\n"
+	.string "battle anytime!$"
+
+CinnabarIsland_Gym_Text_RematchDecline::
+	.string "Cooled your feet, hm?\n"
+	.string "My fire will wait!$"
 

@@ -5064,6 +5064,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Scary Face
 - Earthquake
 
+=== TRAINER_LEADER_GIOVANNI ===
+Name: GIOVANNI
+Class: Leader Frlg
+Pic: Leader Giovanni Frlg
+Gender: Male
+Music: Aqua
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Dugtrio @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Arena Trap
+- Stealth Rock
+- Earthquake
+- Stone Edge
+- Sucker Punch
+
+Nidoqueen @ Black Sludge
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sheer Force
+- Earth Power
+- Sludge Wave
+- Ice Beam
+- Fire Blast
+
+Nidoking @ Life Orb
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sheer Force
+- Earth Power
+- Sludge Wave
+- Ice Beam
+- Thunderbolt
+
+Marowak @ Thick Club
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
+- Swords Dance
+- Earthquake
+- Stone Edge
+- Fire Punch
+
+Gliscor @ Toxic Orb
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Heal
+- Swords Dance
+- Earthquake
+- Knock Off
+- Roost
+
+Rhyperior @ Weakness Policy
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Solid Rock
+- Earthquake
+- Stone Edge
+- Megahorn
+- Hammer Arm
+
 === TRAINER_TEAM_ROCKET_GRUNT ===
 Name: GRUNT
 Class: Team Rocket Frlg
@@ -7048,6 +7113,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Bind
 - Rock Tomb
 
+=== TRAINER_LEADER_BROCK ===
+Name: BROCK
+Class: Leader Frlg
+Pic: Leader Brock Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Aerodactyl @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
+- Stealth Rock
+- Stone Edge
+- Earthquake
+- Taunt
+
+Omastar @ White Herb
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Shell Smash
+- Hydro Pump
+- Ancient Power
+- Ice Beam
+
+Kabutops @ Life Orb
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Swords Dance
+- Stone Edge
+- Aqua Jet
+- Superpower
+
+Golem @ Custap Berry
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Earthquake
+- Rock Blast
+- Sucker Punch
+- Explosion
+
+Rhydon @ Eviolite
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
+- Earthquake
+- Rock Slide
+- Megahorn
+- Hammer Arm
+
+Steelix @ Leftovers
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Earthquake
+- Iron Tail
+- Rock Slide
+- Crunch
+
 === TRAINER_LEADER_MISTY ===
 Name: MISTY
 Class: Leader Frlg
@@ -7073,6 +7203,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Recover
 - Rapid Spin
 - Water Pulse
+
+=== TRAINER_LEADER_MISTY ===
+Name: MISTY
+Class: Leader Frlg
+Pic: Leader Misty Frlg
+Gender: Male
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Cloyster @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Skill Link
+- Shell Smash
+- Icicle Spear
+- Rock Blast
+- Ice Shard
+
+Golduck @ Life Orb
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Nasty Plot
+- Hydro Pump
+- Ice Beam
+- Psychic
+
+Lapras @ Leftovers
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
+- Surf
+- Ice Beam
+- Thunderbolt
+- Psychic
+
+Gyarados @ Sitrus Berry
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Dragon Dance
+- Waterfall
+- Ice Fang
+- Earthquake
+
+Quagsire @ Leftovers
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
+- Curse
+- Earthquake
+- Waterfall
+- Recover
+
+Starmie @ Mystic Water
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Natural Cure
+- Hydro Pump
+- Ice Beam
+- Thunderbolt
+- Recover
 
 === TRAINER_LEADER_LT_SURGE ===
 Name: LT. SURGE
@@ -7108,6 +7303,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Double Team
 - Shock Wave
 
+=== TRAINER_LEADER_LT_SURGE ===
+Name: LT. SURGE
+Class: Leader Frlg
+Pic: Leader Lt Surge Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Electrode @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Static
+- Thunderbolt
+- Volt Switch
+- Taunt
+- Explosion
+
+Magnezone @ Choice Specs
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magnet Pull
+- Thunderbolt
+- Flash Cannon
+- Volt Switch
+- Thunder
+
+Jolteon @ Life Orb
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Volt Absorb
+- Thunderbolt
+- Shadow Ball
+- Volt Switch
+- Thunder Wave
+
+Manectric @ Leftovers
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Lightning Rod
+- Thunderbolt
+- Flamethrower
+- Volt Switch
+- Snarl
+
+Electivire @ Expert Belt
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Motor Drive
+- Wild Charge
+- Ice Punch
+- Earthquake
+- Cross Chop
+
+Raichu @ Light Ball
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Lightning Rod
+- Nasty Plot
+- Thunderbolt
+- Surf
+- Grass Knot
+
 === TRAINER_LEADER_ERIKA ===
 Name: ERIKA
 Class: Leader Frlg
@@ -7141,6 +7401,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Acid
 - Stun Spore
 - Giga Drain
+
+=== TRAINER_LEADER_ERIKA ===
+Name: ERIKA
+Class: Leader Frlg
+Pic: Leader Erika Frlg
+Gender: Male
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Exeggutor @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Sleep Powder
+- Leaf Storm
+- Psychic
+- Giga Drain
+
+Victreebel @ Life Orb
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Swords Dance
+- Leaf Blade
+- Sludge Bomb
+- Sleep Powder
+
+Tangela @ Eviolite
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Giga Drain
+- Sludge Bomb
+- Sleep Powder
+- Leech Seed
+
+Roserade @ Black Sludge
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Natural Cure
+- Leaf Storm
+- Sludge Bomb
+- Giga Drain
+- Toxic Spikes
+
+Breloom @ Toxic Orb
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Heal
+- Spore
+- Seed Bomb
+- Mach Punch
+- Swords Dance
+
+Vileplume @ Black Sludge
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Effect Spore
+- Giga Drain
+- Sludge Bomb
+- Moonblast
+- Sleep Powder
 
 === TRAINER_LEADER_KOGA ===
 Name: KOGA
@@ -7184,6 +7509,70 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Smokescreen
 - Toxic
 
+=== TRAINER_LEADER_KOGA ===
+Name: KOGA
+Class: Leader Frlg
+Pic: Leader Koga Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Weezing @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Sludge Bomb
+- Flamethrower
+- Will-O-Wisp
+- Pain Split
+
+Muk @ Black Sludge
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Poison Touch
+- Gunk Shot
+- Ice Punch
+- Fire Punch
+- Shadow Sneak
+
+Venomoth @ Leftovers
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Tinted Lens
+- Quiver Dance
+- Bug Buzz
+- Sludge Bomb
+- Sleep Powder
+
+Tentacruel @ Black Sludge
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Liquid Ooze
+- Scald
+- Sludge Bomb
+- Rapid Spin
+- Toxic Spikes
+
+Gengar @ Life Orb
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Shadow Ball
+- Sludge Bomb
+- Focus Blast
+- Thunderbolt
+
+Crobat @ Sharp Beak
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Infiltrator
+- Brave Bird
+- Cross Poison
+- Roost
+- U-turn
+
 === TRAINER_LEADER_BLAINE ===
 Name: BLAINE
 Class: Leader Frlg
@@ -7226,6 +7615,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Take Down
 - Fire Blast
 
+=== TRAINER_LEADER_BLAINE ===
+Name: BLAINE
+Class: Leader Frlg
+Pic: Leader Blaine Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Ninetales @ Heat Rock
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drought
+- Fire Blast
+- Solar Beam
+- Nasty Plot
+- Hypnosis
+
+Rapidash @ Life Orb
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flash Fire
+- Flare Blitz
+- Wild Charge
+- Megahorn
+- Bounce
+
+Camerupt @ Weakness Policy
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Solid Rock
+- Eruption
+- Earth Power
+- Flamethrower
+- Ancient Power
+
+Houndoom @ Life Orb
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flash Fire
+- Nasty Plot
+- Fire Blast
+- Dark Pulse
+- Sludge Bomb
+
+Magmortar @ Expert Belt
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flame Body
+- Fire Blast
+- Thunderbolt
+- Focus Blast
+- Psychic
+
+Arcanine @ Sitrus Berry
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Flare Blitz
+- Wild Charge
+- Extreme Speed
+- Close Combat
+
 === TRAINER_LEADER_SABRINA ===
 Name: SABRINA
 Class: Leader Frlg
@@ -7267,6 +7721,71 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Recover
 - Future Sight
 - Calm Mind
+
+=== TRAINER_LEADER_SABRINA ===
+Name: SABRINA
+Class: Leader Frlg
+Pic: Leader Sabrina Frlg
+Gender: Male
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Slowbro @ Leftovers
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Regenerator
+- Calm Mind
+- Scald
+- Psychic
+- Slack Off
+
+Mr Mime @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Soundproof
+- Nasty Plot
+- Psychic
+- Dazzling Gleam
+- Baton Pass
+
+Xatu @ Life Orb
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Bounce
+- Psychic
+- Air Slash
+- Heat Wave
+- Roost
+
+Espeon @ Light Clay
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Bounce
+- Calm Mind
+- Psychic
+- Shadow Ball
+- Dazzling Gleam
+
+Gardevoir @ Choice Specs
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Trace
+- Psychic
+- Moonblast
+- Focus Blast
+- Shadow Ball
+
+Alakazam @ Life Orb
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Guard
+- Nasty Plot
+- Psychic
+- Shadow Ball
+- Focus Blast
 
 === TRAINER_GENTLEMAN_THOMAS ===
 Name: THOMAS

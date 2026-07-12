@@ -75,6 +75,7 @@ MauvilleCity_Gym_EventScript_DeactivatePuzzle::
 
 MauvilleCity_Gym_EventScript_Wattson::
 	trainerbattle_single TRAINER_WATTSON_1, MauvilleCity_Gym_Text_WattsonIntro, MauvilleCity_Gym_Text_WattsonDefeat, MauvilleCity_Gym_EventScript_WattsonDefeated, NO_MUSIC
+	goto_if_set FLAG_HOENN_CHAMPION, MauvilleCity_Gym_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_Gym_EventScript_WattsonRematch
 	goto_if_unset FLAG_RECEIVED_TM_SHOCK_WAVE, MauvilleCity_Gym_EventScript_GiveShockWave2
@@ -135,6 +136,36 @@ MauvilleCity_Gym_EventScript_WattsonRematch::
 	trainerbattle_rematch_double TRAINER_WATTSON_1, MauvilleCity_Gym_Text_WattsonPreRematch, MauvilleCity_Gym_Text_WattsonRematchDefeat, MauvilleCity_Gym_Text_WattsonRematchNeedTwoMons
 	msgbox MauvilleCity_Gym_Text_WattsonPostRematch, MSGBOX_AUTOCLOSE
 	end
+
+MauvilleCity_Gym_EventScript_OfferRematch::
+	msgbox MauvilleCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MauvilleCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_WATTSON_1, MauvilleCity_Gym_Text_RematchDefeat
+	msgbox MauvilleCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+MauvilleCity_Gym_EventScript_RematchDecline::
+	msgbox MauvilleCity_Gym_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+MauvilleCity_Gym_Text_RematchAsk:
+	.string "WATTSON: Wahahah! The CHAMPION, here\n"
+	.string "in my GYM? Let's get charged up for\l"
+	.string "a rematch!$"
+
+MauvilleCity_Gym_Text_RematchDefeat:
+	.string "Wah! You've grown truly electrifying!\n"
+	.string "My old heart can barely take it!$"
+
+MauvilleCity_Gym_Text_RematchPost:
+	.string "WATTSON: Wahahah! That jolted the life\n"
+	.string "right back into me! Come again!$"
+
+MauvilleCity_Gym_Text_RematchDecline:
+	.string "WATTSON: Wahahah! No shame in that.\n"
+	.string "Drop by whenever you feel the spark!$"
 
 MauvilleCity_Gym_EventScript_Switch1::
 	lockall

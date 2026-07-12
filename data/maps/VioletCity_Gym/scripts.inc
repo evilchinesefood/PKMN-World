@@ -56,7 +56,23 @@ VioletCity_Gym_EventScript_GiveTM::
 
 VioletCity_Gym_EventScript_Falkner_Defeated::
 	goto_if_unset FLAG_GOT_TM_DOUBLE_TEAM, VioletCity_Gym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, VioletCity_Gym_EventScript_OfferRematch
 	msgbox VioletGym_Text_Falkner_AfterFight, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+VioletCity_Gym_EventScript_OfferRematch::
+	msgbox VioletGym_Text_Falkner_Rematch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VioletCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_FALKNER_1, VioletGym_Text_Falkner_RematchLoss
+	msgbox VioletGym_Text_Falkner_RematchPost, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+VioletCity_Gym_EventScript_RematchDecline::
+	msgbox VioletGym_Text_Falkner_RematchDecline, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -118,6 +134,15 @@ VioletGym_Text_Falkner_RematchLoss:
 	.string "Wow… You beat me again.\p"
 	.string "I'm going to train harder to\n"
 	.string "become the greatest bird master!$"
+
+VioletGym_Text_Falkner_RematchPost:
+	.string "My birds and I will keep reaching\n"
+	.string "for greater heights. Come test us\l"
+	.string "again whenever you like!$"
+
+VioletGym_Text_Falkner_RematchDecline:
+	.string "Heh, come back when your team is\n"
+	.string "ready to soar with mine.$"
 
 VioletGym_Text_BirdKeeperRod_Seen:
 	.string "The keyword is guts!\p"

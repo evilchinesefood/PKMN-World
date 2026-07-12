@@ -564,7 +564,23 @@ AzaleaTown_Gym_EventScript_GiveTM::
 
 AzaleaTown_Gym_EventScript_Bugsy_Defeated::
 	goto_if_unset FLAG_GOT_TM_BULLET_SEED, AzaleaTown_Gym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, AzaleaTown_Gym_EventScript_OfferRematch
 	msgbox AzaleaTown_Gym_Text_BugsyAdvice, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+AzaleaTown_Gym_EventScript_OfferRematch::
+	msgbox AzaleaTown_Gym_Text_BugsyRematch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, AzaleaTown_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_BUGSY_1, AzaleaTown_Gym_Text_BugsyRematchDefeat
+	msgbox AzaleaTown_Gym_Text_BugsyRematchPost, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+AzaleaTown_Gym_EventScript_RematchDecline::
+	msgbox AzaleaTown_Gym_Text_BugsyRematchDecline, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -740,6 +756,15 @@ AzaleaTown_Gym_Text_BugsyRematch:
 AzaleaTown_Gym_Text_BugsyRematchDefeat:
 	.string "Wow, you must be an expert trainer.\n"
 	.string "My research must not be complete...$"
+
+AzaleaTown_Gym_Text_BugsyRematchPost:
+	.string "New data collected! My bug POKéMON\n"
+	.string "grow stronger every day.\p"
+	.string "Come battle me again anytime!$"
+
+AzaleaTown_Gym_Text_BugsyRematchDecline:
+	.string "Come back when you want to face my\n"
+	.string "latest bug POKéMON research!$"
 
 AzaleaTown_Gym_Text_BugCatcherBennySeen:
 	.string "Bug POKéMON evolve young. So they\n"

@@ -5,6 +5,7 @@ SaffronCity_Gym_EventScript_Sabrina::
 	famechecker FAMECHECKER_SABRINA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_SABRINA, SaffronCity_Gym_Text_SabrinaIntro, SaffronCity_Gym_Text_SabrinaDefeat, SaffronCity_Gym_EventScript_DefeatedSabrina, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM04_FROM_SABRINA, SaffronCity_Gym_EventScript_GiveTM04
+	goto_if_set FLAG_KANTO_CHAMPION, SaffronCity_Gym_EventScript_OfferRematch
 	msgbox SaffronCity_Gym_Text_ExplainTM04
 	release
 	end
@@ -254,4 +255,36 @@ SaffronCity_Gym_Text_GymStatuePlayerWon::
 	.string "LEADER: SABRINA\p"
 	.string "WINNING TRAINERS:\n"
 	.string "{RIVAL}, {PLAYER}$"
+
+SaffronCity_Gym_EventScript_OfferRematch::
+	msgbox SaffronCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SaffronCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_SABRINA, SaffronCity_Gym_Text_RematchDefeat
+	msgbox SaffronCity_Gym_Text_RematchPost
+	release
+	end
+
+SaffronCity_Gym_EventScript_RematchDecline::
+	msgbox SaffronCity_Gym_Text_RematchDecline
+	release
+	end
+
+SaffronCity_Gym_Text_RematchAsk::
+	.string "I foresaw your return.\p"
+	.string "My power hungers for\n"
+	.string "another duel. Shall we?$"
+
+SaffronCity_Gym_Text_RematchDefeat::
+	.string "As I foresaw…\n"
+	.string "Your mind yields to mine.$"
+
+SaffronCity_Gym_Text_RematchPost::
+	.string "You defied my every\n"
+	.string "prediction.\p"
+	.string "Seek me again whenever\n"
+	.string "you wish.$"
+
+SaffronCity_Gym_Text_RematchDecline::
+	.string "I knew you would\n"
+	.string "decline. Return ready.$"
 

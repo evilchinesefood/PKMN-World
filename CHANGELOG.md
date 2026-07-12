@@ -3,6 +3,32 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.0 — 2026-07-11
+
+### Gym Leader rematches (Feature C)
+
+- **All 24 gym leaders offer unlimited rematches once you're that region's
+  Champion** — talk to them in their gym. Every leader fields a new HARD team
+  (Lv 58–65, ace ~65, held items, competitive movesets): Steelix Brock,
+  Light-Ball Raichu Surge, Scizor Bugsy, Mamoswine Pryce, Kingdra Clair and
+  Juan, Slaking Norman, a Solrock+Lunatone double core for Tate & Liza, and
+  more.
+- Difficulty now follows the region you're in: champion regions fight HARD
+  rematch teams, regions you haven't cleared stay normal — so a Hoenn
+  champion starting Kanto still faces the classic first-run gyms.
+
+### Fixes
+
+- **Fishing actually works now**: the hidden half-second reaction test after
+  "Oh! A bite!" is gone — the bite waits for your A-press, and pressing A
+  early during the dots no longer scares it away. One bite, one press, one
+  battle.
+- **Sky Charm flight**: facing up, you now ride visibly on your Pokémon's
+  back; in every other direction the Pokémon correctly overlaps you. A
+  ground shadow tracks beneath you for the whole flight.
+- **Trainer Card**: region label repositioned next to "BADGES".
+- **Autosave** now waits at least 10 minutes between saves.
+
 ## v1.2.0 — 2026-07-11
 
 ### Kanto polish

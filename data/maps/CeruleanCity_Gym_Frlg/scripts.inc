@@ -5,6 +5,7 @@ CeruleanCity_Gym_EventScript_Misty::
 	famechecker FAMECHECKER_MISTY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_MISTY, CeruleanCity_Gym_Text_MistyIntro, CeruleanCity_Gym_Text_MistyDefeat, CeruleanCity_Gym_EventScript_MistyDefeated, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM03_FROM_MISTY, CeruleanCity_Gym_EventScript_GiveTM03
+	goto_if_set FLAG_KANTO_CHAMPION, CeruleanCity_Gym_EventScript_OfferRematch
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
 	release
 	end
@@ -160,4 +161,35 @@ CeruleanCity_Gym_Text_GymStatuePlayerWon::
 	.string "LEADER: MISTY\p"
 	.string "WINNING TRAINERS:\n"
 	.string "{RIVAL}, {PLAYER}$"
+
+CeruleanCity_Gym_EventScript_OfferRematch::
+	msgbox CeruleanCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, CeruleanCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_MISTY, CeruleanCity_Gym_Text_RematchDefeat
+	msgbox CeruleanCity_Gym_Text_RematchPost
+	release
+	end
+
+CeruleanCity_Gym_EventScript_RematchDecline::
+	msgbox CeruleanCity_Gym_Text_RematchDecline
+	release
+	end
+
+CeruleanCity_Gym_Text_RematchAsk::
+	.string "Oh, it's the CHAMPION!\p"
+	.string "Think you can handle me\n"
+	.string "a second time?$"
+
+CeruleanCity_Gym_Text_RematchDefeat::
+	.string "Hah! I washed you right\n"
+	.string "out to sea!$"
+
+CeruleanCity_Gym_Text_RematchPost::
+	.string "Wow, you're the best!\p"
+	.string "My STARMIE never stood\n"
+	.string "a chance. Splash by!$"
+
+CeruleanCity_Gym_Text_RematchDecline::
+	.string "Chicken? Come back when\n"
+	.string "you're ready to swim!$"
 

@@ -54,6 +54,7 @@ MossdeepCity_Gym_EventScript_SetSwitch4Metatiles::
 	end
 
 MossdeepCity_Gym_EventScript_TateAndLiza::
+	goto_if_set FLAG_HOENN_CHAMPION, MossdeepCity_Gym_EventScript_OfferRematch
 	trainerbattle_double TRAINER_TATE_AND_LIZA_1, MossdeepCity_Gym_Text_TateAndLizaIntro, MossdeepCity_Gym_Text_TateAndLizaDefeat, MossdeepCity_Gym_Text_TateAndLizaNeedTwoMons, MossdeepCity_Gym_EventScript_TateAndLizaDefeated, NO_MUSIC
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, MossdeepCity_Gym_EventScript_TateAndLizaRematch
@@ -113,6 +114,56 @@ MossdeepCity_Gym_EventScript_TateAndLizaRematch::
 	trainerbattle_rematch_double TRAINER_TATE_AND_LIZA_1, MossdeepCity_Gym_Text_TateAndLizaPreRematch, MossdeepCity_Gym_Text_TateAndLizaRematchDefeat, MossdeepCity_Gym_Text_TateAndLizaRematchNeedTwoMons
 	msgbox MossdeepCity_Gym_Text_TateAndLizaPostRematch, MSGBOX_AUTOCLOSE
 	end
+
+MossdeepCity_Gym_EventScript_OfferRematch::
+	lock
+	faceplayer
+	msgbox MossdeepCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MossdeepCity_Gym_EventScript_RematchDecline
+	special HasEnoughMonsForDoubleBattle
+	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, MossdeepCity_Gym_EventScript_RematchNeedTwoMons
+	cleartrainerflag TRAINER_TATE_AND_LIZA_1
+	trainerbattle_double TRAINER_TATE_AND_LIZA_1, MossdeepCity_Gym_Text_RematchIntro, MossdeepCity_Gym_Text_RematchDefeat, MossdeepCity_Gym_Text_RematchNeedTwoMons, MossdeepCity_Gym_EventScript_RematchWon, NO_MUSIC
+	end
+
+MossdeepCity_Gym_EventScript_RematchWon::
+	msgbox MossdeepCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+MossdeepCity_Gym_EventScript_RematchDecline::
+	msgbox MossdeepCity_Gym_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+MossdeepCity_Gym_EventScript_RematchNeedTwoMons::
+	msgbox MossdeepCity_Gym_Text_RematchNeedTwoMons, MSGBOX_DEFAULT
+	release
+	end
+
+MossdeepCity_Gym_Text_RematchAsk:
+	.string "TATE: The CHAMPION returns…\n"
+	.string "LIZA: For another duo battle?$"
+
+MossdeepCity_Gym_Text_RematchIntro:
+	.string "TATE: Two minds…\n"
+	.string "LIZA: One battle!$"
+
+MossdeepCity_Gym_Text_RematchDefeat:
+	.string "TATE: Our bond was broken…\n"
+	.string "LIZA: By a bond even stronger!$"
+
+MossdeepCity_Gym_Text_RematchPost:
+	.string "TATE: You and your POKéMON…\n"
+	.string "LIZA: Are truly unbeatable, CHAMPION!$"
+
+MossdeepCity_Gym_Text_RematchDecline:
+	.string "TATE: Leaving already?\n"
+	.string "LIZA: We'll be waiting, together!$"
+
+MossdeepCity_Gym_Text_RematchNeedTwoMons:
+	.string "TATE: You've brought but one POKéMON…\n"
+	.string "LIZA: Bring two, and we shall battle!$"
 
 @ All the below switch scripts are leftover from RS and are functionally unused
 MossdeepCity_Gym_EventScript_Switch1::

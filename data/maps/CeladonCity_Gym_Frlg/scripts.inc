@@ -6,6 +6,7 @@ CeladonCity_Gym_EventScript_Erika::
 	trainerbattle_single TRAINER_LEADER_ERIKA, CeladonCity_Gym_Text_ErikaIntro, CeladonCity_Gym_Text_ErikaDefeat, CeladonCity_Gym_EventScript_DefeatedErika, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM19_FROM_ERIKA, CeladonCity_Gym_EventScript_GiveTM19
 	famechecker FAMECHECKER_ERIKA, 4
+	goto_if_set FLAG_KANTO_CHAMPION, CeladonCity_Gym_EventScript_OfferRematch
 	msgbox CeladonCity_Gym_Text_ErikaPostBattle
 	release
 	end
@@ -234,4 +235,36 @@ CeladonCity_Gym_Text_GymStatuePlayerWon::
 	.string "LEADER: ERIKA\p"
 	.string "WINNING TRAINERS:\n"
 	.string "{RIVAL}, {PLAYER}$"
+
+CeladonCity_Gym_EventScript_OfferRematch::
+	msgbox CeladonCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, CeladonCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_ERIKA, CeladonCity_Gym_Text_RematchDefeat
+	msgbox CeladonCity_Gym_Text_RematchPost
+	release
+	end
+
+CeladonCity_Gym_EventScript_RematchDecline::
+	msgbox CeladonCity_Gym_Text_RematchDecline
+	release
+	end
+
+CeladonCity_Gym_Text_RematchAsk::
+	.string "Welcome back, CHAMPION.\p"
+	.string "Shall we dance among\n"
+	.string "the flowers again?$"
+
+CeladonCity_Gym_Text_RematchDefeat::
+	.string "My garden's fragrance\n"
+	.string "has lulled you to sleep.$"
+
+CeladonCity_Gym_Text_RematchPost::
+	.string "How splendid you've\n"
+	.string "become.\p"
+	.string "My blossoms yield to you.\n"
+	.string "Visit my garden again.$"
+
+CeladonCity_Gym_Text_RematchDecline::
+	.string "The flowers and I shall\n"
+	.string "await your return.$"
 

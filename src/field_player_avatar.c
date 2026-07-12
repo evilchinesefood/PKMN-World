@@ -74,6 +74,7 @@ EWRAM_DATA struct SpinData gPlayerSpinData = {};
 static EWRAM_DATA bool8 sFlightActive = FALSE;
 // EWRAM demands zero init; ResetOverworldFlight (InitPlayerAvatar) arms the MAX_SPRITES sentinel before any use
 static EWRAM_DATA u8 sFlightMountSpriteId = 0;
+static EWRAM_DATA u8 sFlightShadowSpriteId = 0;
 
 #define FLIGHT_MOUNT_GFX     OBJ_EVENT_GFX_SPECIES(FLYGON) // ridden flying-mon sprite
 #define FLIGHT_HOVER_OFFSET  (-4)                          // px lift while airborne
@@ -1072,7 +1073,6 @@ void EndOverworldFlight(void)
     gSprites[playerObjEvent->spriteId].y2 = 0;
     playerObjEvent->fixedPriority = FALSE;
     gSprites[playerObjEvent->spriteId].oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
-    playerObjEvent->noShadow = TRUE; // UpdateShadowFieldEffect despawns the flight shadow
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
@@ -1085,6 +1085,7 @@ void ResetOverworldFlight(void)
 {
     sFlightActive = FALSE;
     sFlightMountSpriteId = MAX_SPRITES;
+    sFlightShadowSpriteId = MAX_SPRITES;
 }
 
 static void CreateFlightMountSprite(void)
@@ -1096,8 +1097,19 @@ static void CreateFlightMountSprite(void)
                                                       playerSprite->x, playerSprite->y + 8, 150);
     if (sFlightMountSpriteId != MAX_SPRITES)
         gSprites[sFlightMountSpriteId].coordOffsetEnabled = TRUE;
-    playerObjEvent->noShadow = FALSE;
-    StartFieldEffectForObjectEvent(FLDEFF_SHADOW, playerObjEvent);
+    // Dedicated ground shadow. FLDEFF_SHADOW is unusable here: UpdateShadowFieldEffect
+    // stops it the moment the flyer crosses water/puddles/grass and it never respawns.
+    // This one is driven directly by SpriteCB_FlightMount and lives for the whole flight.
+    LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_L], 0, 0);
+    sFlightShadowSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_L],
+                                              playerSprite->x, playerSprite->y + 14, 0xFF);
+    if (sFlightShadowSpriteId != MAX_SPRITES)
+    {
+        gSprites[sFlightShadowSpriteId].callback = SpriteCallbackDummy;
+        gSprites[sFlightShadowSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
+        gSprites[sFlightShadowSpriteId].oam.priority = 2;
+        gSprites[sFlightShadowSpriteId].coordOffsetEnabled = TRUE;
+    }
 }
 
 static void DestroyFlightMountSprite(void)
@@ -1109,6 +1121,11 @@ static void DestroyFlightMountSprite(void)
         DestroySprite(&gSprites[sFlightMountSpriteId]);
         FieldEffectFreePaletteIfUnused(paletteNum);
         sFlightMountSpriteId = MAX_SPRITES;
+    }
+    if (sFlightShadowSpriteId != MAX_SPRITES)
+    {
+        DestroySprite(&gSprites[sFlightShadowSpriteId]);
+        sFlightShadowSpriteId = MAX_SPRITES;
     }
 }
 
@@ -1128,12 +1145,39 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
     playerSprite->y2 = bobY;
     // Airborne: both rider and mount draw above every map layer, so tree-tops and
     // wall tiles never clip over them (the player's elevation-driven re-assert is
-    // parked via fixedPriority for the flight). The mount stays one subpriority
-    // step behind so the player always rides ON its back, matching HM Fly.
+    // parked via fixedPriority for the flight).
     sprite->oam.priority = 0;
     playerSprite->oam.priority = 0;
-    sprite->subpriority = playerSprite->subpriority + 1;
+    // Anim frame changes reset subsprite mode to SUBSPRITES_ON, which makes the mon's
+    // pieces render at their table priority (2) instead of the pair's 0 - re-pin it.
+    sprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
+    // Draw order is direction-dependent: facing up you see the mon's back with the
+    // rider ON it (rider in front); every other way the mon's body overlaps the
+    // rider's lower half (mon in front). Both subpriorities are pinned here every
+    // frame with absolute values: the player's own subpriority updates are parked by
+    // fixedPriority, and relative-to-frozen math is what made the old order flaky.
+    if (playerObjEvent->facingDirection == DIR_NORTH)
+    {
+        playerSprite->subpriority = 20;
+        sprite->subpriority = 24;
+    }
+    else
+    {
+        sprite->subpriority = 20;
+        playerSprite->subpriority = 24;
+    }
     sprite->invisible = playerSprite->invisible;
+    if (sFlightShadowSpriteId != MAX_SPRITES)
+    {
+        struct Sprite *shadow = &gSprites[sFlightShadowSpriteId];
+
+        // The shadow holds the ground (no bob) while the pair hovers above it.
+        shadow->x = playerSprite->x;
+        shadow->y = playerSprite->y + 14;
+        shadow->y2 = 0;
+        shadow->oam.priority = 2;
+        shadow->invisible = playerSprite->invisible;
+    }
 }
 
 #undef sBobTimer

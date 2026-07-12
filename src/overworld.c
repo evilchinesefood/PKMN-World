@@ -1673,7 +1673,7 @@ bool32 IsOverworldLinkActive(void)
 // QoL #7 autosave: a silent full save (same SAVE_NORMAL path as the manual menu) fired after a
 // map transition, once the warp-exit animation hands an idle, player-controlled field back.
 #define AUTOSAVE_SETTLE_FRAMES 300              // ~5s: outlasts door/stairs/fly-landing arrivals, well under any cutscene
-#define AUTOSAVE_MIN_INTERVAL_FRAMES (60 * 120) // ~120s between autosaves (halved frequency; kills door-in/door-out double saves)
+#define AUTOSAVE_MIN_INTERVAL_FRAMES (60 * 600) // >=10min between autosaves (user call, 2026-07-11)
 
 static const u8 sText_Autosaving[] = _("SAVING…");
 

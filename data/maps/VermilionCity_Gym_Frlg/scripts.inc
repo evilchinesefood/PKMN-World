@@ -205,6 +205,7 @@ VermilionCity_Gym_EventScript_LtSurge::
 	famechecker FAMECHECKER_LTSURGE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_LT_SURGE, VermilionCity_Gym_Text_LtSurgeIntro, VermilionCity_Gym_Text_LtSurgeDefeat, VermilionCity_Gym_EventScript_DefeatedLtSurge, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM34_FROM_SURGE, VermilionCity_Gym_EventScript_GiveTM34
+	goto_if_set FLAG_KANTO_CHAMPION, VermilionCity_Gym_EventScript_OfferRematch
 	msgbox VermilionCity_Gym_Text_LtSurgePostBattle
 	release
 	end
@@ -418,4 +419,36 @@ VermilionCity_Gym_Text_OnlyTrashLocksWereReset::
 	.string "There's only trash here.\p"
 	.string "Hey!\n"
 	.string "The electric locks were reset!$"
+
+VermilionCity_Gym_EventScript_OfferRematch::
+	msgbox VermilionCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VermilionCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_LT_SURGE, VermilionCity_Gym_Text_RematchDefeat
+	msgbox VermilionCity_Gym_Text_RematchPost
+	release
+	end
+
+VermilionCity_Gym_EventScript_RematchDecline::
+	msgbox VermilionCity_Gym_Text_RematchDecline
+	release
+	end
+
+VermilionCity_Gym_Text_RematchAsk::
+	.string "Hey, CHAMPION!\p"
+	.string "Back for another jolt,\n"
+	.string "soldier?$"
+
+VermilionCity_Gym_Text_RematchDefeat::
+	.string "Bzzzt! You got fried!\n"
+	.string "Train harder, soldier!$"
+
+VermilionCity_Gym_Text_RematchPost::
+	.string "Whoa! You shorted out\n"
+	.string "my whole platoon!\p"
+	.string "Drop by for a shock\n"
+	.string "anytime!$"
+
+VermilionCity_Gym_Text_RematchDecline::
+	.string "Ha! Retreat while you\n"
+	.string "can, soldier!$"
 

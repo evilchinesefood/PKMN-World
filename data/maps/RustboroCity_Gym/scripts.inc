@@ -3,6 +3,7 @@ RustboroCity_Gym_MapScripts::
 
 RustboroCity_Gym_EventScript_Roxanne::
 	trainerbattle_single TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, RustboroCity_Gym_EventScript_RoxanneDefeated, NO_MUSIC
+	goto_if_set FLAG_HOENN_CHAMPION, RustboroCity_Gym_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_Gym_EventScript_RoxanneRematch
 	goto_if_unset FLAG_RECEIVED_TM_ROCK_TOMB, RustboroCity_Gym_EventScript_GiveRockTomb
@@ -37,6 +38,36 @@ RustboroCity_Gym_EventScript_RoxanneRematch::
 	trainerbattle_rematch_double TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxannePreRematch, RustboroCity_Gym_Text_RoxanneRematchDefeat, RustboroCity_Gym_Text_RoxanneRematchNeedTwoMons
 	msgbox RustboroCity_Gym_Text_RoxannePostRematch, MSGBOX_AUTOCLOSE
 	end
+
+RustboroCity_Gym_EventScript_OfferRematch::
+	msgbox RustboroCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RustboroCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RematchDefeat
+	msgbox RustboroCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_Gym_EventScript_RematchDecline::
+	msgbox RustboroCity_Gym_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_Gym_Text_RematchAsk:
+	.string "ROXANNE: Now that you stand as the\n"
+	.string "CHAMPION, would you test my resolve\l"
+	.string "once more?$"
+
+RustboroCity_Gym_Text_RematchDefeat:
+	.string "So strong…\n"
+	.string "The CHAMPION is in a class apart.$"
+
+RustboroCity_Gym_Text_RematchPost:
+	.string "ROXANNE: Every battle with you teaches\n"
+	.string "me something new. Thank you, CHAMPION.$"
+
+RustboroCity_Gym_Text_RematchDecline:
+	.string "ROXANNE: I see. Return whenever you\n"
+	.string "wish to sharpen your skills on mine.$"
 
 RustboroCity_Gym_EventScript_Josh::
 	trainerbattle_single TRAINER_JOSH, RustboroCity_Gym_Text_JoshIntro, RustboroCity_Gym_Text_JoshDefeat

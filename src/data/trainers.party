@@ -5107,6 +5107,71 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Tackle
 - Rock Tomb
 
+=== TRAINER_ROXANNE_1 ===
+Name: ROXANNE
+Class: Leader
+Pic: Leader Roxanne
+Gender: Female
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Golem @ Custap Berry
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Stealth Rock
+- Earthquake
+- Rock Slide
+- Sucker Punch
+
+Cradily @ Leftovers
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Storm Drain
+- Giga Drain
+- Rock Slide
+- Recover
+- Toxic
+
+Kabutops @ Focus Sash
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Battle Armor
+- Stone Edge
+- Aqua Jet
+- X-Scissor
+- Swords Dance
+
+Aggron @ Assault Vest
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Rock Head
+- Head Smash
+- Earthquake
+- Iron Head
+- Fire Punch
+
+Rhyperior @ Weakness Policy
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Solid Rock
+- Rock Slide
+- Earthquake
+- Megahorn
+- Hammer Arm
+
+Probopass @ Air Balloon
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magnet Pull
+- Power Gem
+- Flash Cannon
+- Thunderbolt
+- Earth Power
+
 === TRAINER_BRAWLY_1 ===
 Name: BRAWLY
 Class: Leader
@@ -5140,6 +5205,71 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - Vital Throw
 - Reversal
 - Bulk Up
+
+=== TRAINER_BRAWLY_1 ===
+Name: BRAWLY
+Class: Leader
+Pic: Leader Brawly
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Hitmontop @ Leftovers
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Technician
+- Close Combat
+- Sucker Punch
+- Bulk Up
+- Rapid Spin
+
+Breloom @ Focus Sash
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Technician
+- Mach Punch
+- Bullet Seed
+- Spore
+- Rock Tomb
+
+Heracross @ Choice Scarf
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Close Combat
+- Megahorn
+- Rock Slide
+- Knock Off
+
+Medicham @ Life Orb
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pure Power
+- High Jump Kick
+- Zen Headbutt
+- Ice Punch
+- Bullet Punch
+
+Machamp @ Lum Berry
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: No Guard
+- Dynamic Punch
+- Knock Off
+- Ice Punch
+- Bulk Up
+
+Hariyama @ Flame Orb
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Guts
+- Close Combat
+- Facade
+- Fake Out
+- Bullet Punch
 
 === TRAINER_WATTSON_1 ===
 Name: WATTSON
@@ -5183,6 +5313,71 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Shock Wave
 - Howl
 
+=== TRAINER_WATTSON_1 ===
+Name: WATTSON
+Class: Leader
+Pic: Leader Wattson
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Electrode @ Focus Sash
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Static
+- Volt Switch
+- Thunderbolt
+- Foul Play
+- Taunt
+
+Raichu @ Life Orb
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Lightning Rod
+- Thunderbolt
+- Surf
+- Nasty Plot
+- Focus Blast
+
+Lanturn @ Leftovers
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Volt Absorb
+- Volt Switch
+- Scald
+- Thunderbolt
+- Thunder Wave
+
+Ampharos @ Assault Vest
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Static
+- Thunderbolt
+- Dragon Pulse
+- Power Gem
+- Focus Blast
+
+Magnezone @ Air Balloon
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magnet Pull
+- Thunderbolt
+- Flash Cannon
+- Volt Switch
+- Thunder Wave
+
+Manectric @ Life Orb
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Lightning Rod
+- Thunderbolt
+- Volt Switch
+- Flamethrower
+- Thunder Wave
+
 === TRAINER_FLANNERY_1 ===
 Name: FLANNERY
 Class: Leader
@@ -5225,6 +5420,71 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Body Slam
 - Attract
 
+=== TRAINER_FLANNERY_1 ===
+Name: FLANNERY
+Class: Leader
+Pic: Leader Flannery
+Gender: Female
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Ninetales @ Heat Rock
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drought
+- Fire Blast
+- Solar Beam
+- Nasty Plot
+- Will-O-Wisp
+
+Rapidash @ Life Orb
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flame Body
+- Flare Blitz
+- Wild Charge
+- Megahorn
+- Morning Sun
+
+Magcargo @ White Herb
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flame Body
+- Overheat
+- Earth Power
+- Ancient Power
+- Recover
+
+Houndoom @ Life Orb
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Flash Fire
+- Fire Blast
+- Dark Pulse
+- Nasty Plot
+- Sludge Bomb
+
+Camerupt @ Weakness Policy
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Solid Rock
+- Eruption
+- Earth Power
+- Ancient Power
+- Flamethrower
+
+Torkoal @ Charcoal
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drought
+- Eruption
+- Earth Power
+- Solar Beam
+- Body Press
+
 === TRAINER_NORMAN_1 ===
 Name: NORMAN
 Class: Leader
@@ -5266,6 +5526,71 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Yawn
 - Facade
 - Feint Attack
+
+=== TRAINER_NORMAN_1 ===
+Name: NORMAN
+Class: Leader
+Pic: Leader Norman
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Kangaskhan @ Silk Scarf
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Scrappy
+- Double-Edge
+- Sucker Punch
+- Earthquake
+- Fake Out
+
+Tauros @ Choice Band
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Double-Edge
+- Earthquake
+- Zen Headbutt
+- Rock Slide
+
+Exploud @ Throat Spray
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Scrappy
+- Boomburst
+- Fire Blast
+- Focus Blast
+- Ice Beam
+
+Linoone @ Sitrus Berry
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Gluttony
+- Belly Drum
+- Extreme Speed
+- Seed Bomb
+- Shadow Claw
+
+Snorlax @ Leftovers
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Body Slam
+- Curse
+- Earthquake
+- Rest
+
+Slaking @ Choice Band
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Truant
+- Double-Edge
+- Earthquake
+- Night Slash
+- Gunk Shot
 
 === TRAINER_WINONA_1 ===
 Name: WINONA
@@ -5317,6 +5642,71 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Dragon Dance
 - Aerial Ace
 
+=== TRAINER_WINONA_1 ===
+Name: WINONA
+Class: Leader
+Pic: Leader Winona
+Gender: Female
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Swellow @ Toxic Orb
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Guts
+- Facade
+- Brave Bird
+- U-turn
+- Quick Attack
+
+Pelipper @ Damp Rock
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Drizzle
+- Hurricane
+- Scald
+- U-turn
+- Roost
+
+Tropius @ Leftovers
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Harvest
+- Air Slash
+- Giga Drain
+- Leech Seed
+- Roost
+
+Salamence @ Lum Berry
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Dragon Dance
+- Dragon Claw
+- Earthquake
+- Roost
+
+Skarmory @ Rocky Helmet
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Brave Bird
+- Spikes
+- Roost
+- Whirlwind
+
+Altaria @ Leftovers
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Natural Cure
+- Dragon Dance
+- Dragon Claw
+- Earthquake
+- Roost
+
 === TRAINER_TATE_AND_LIZA_1 ===
 Name: TATE&LIZA
 Class: Leader
@@ -5358,6 +5748,71 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Solar Beam
 - Psychic
 - Flamethrower
+
+=== TRAINER_TATE_AND_LIZA_1 ===
+Name: TATE&LIZA
+Class: Leader
+Pic: Leader Tate And Liza
+Gender: Male
+Music: Female
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: Yes
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Solrock @ Sitrus Berry
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Rock Slide
+- Zen Headbutt
+- Flamethrower
+- Morning Sun
+
+Lunatone @ Light Clay
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Psychic
+- Ice Beam
+- Light Screen
+- Reflect
+
+Xatu @ Rocky Helmet
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Bounce
+- Psychic
+- Air Slash
+- Tailwind
+- Thunder Wave
+
+Claydol @ Leftovers
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Earth Power
+- Psychic
+- Ice Beam
+- Rock Slide
+
+Gardevoir @ Life Orb
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Trace
+- Psychic
+- Moonblast
+- Dazzling Gleam
+- Thunderbolt
+
+Metagross @ Assault Vest
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Clear Body
+- Meteor Mash
+- Zen Headbutt
+- Bullet Punch
+- Earthquake
 
 === TRAINER_JUAN_1 ===
 Name: JUAN
@@ -5408,6 +5863,71 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Double Team
 - Ice Beam
 - Rest
+
+=== TRAINER_JUAN_1 ===
+Name: JUAN
+Class: Leader
+Pic: Leader Juan
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+
+Gyarados @ Lum Berry
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Dragon Dance
+- Waterfall
+- Earthquake
+- Ice Fang
+
+Whiscash @ Leftovers
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Oblivious
+- Earthquake
+- Waterfall
+- Dragon Dance
+- Stone Edge
+
+Crawdaunt @ Focus Sash
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Adaptability
+- Crabhammer
+- Knock Off
+- Aqua Jet
+- Swords Dance
+
+Walrein @ Leftovers
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Surf
+- Ice Beam
+- Protect
+- Toxic
+
+Milotic @ Flame Orb
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Marvel Scale
+- Scald
+- Ice Beam
+- Recover
+- Haze
+
+Kingdra @ Mystic Water
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Hydro Pump
+- Draco Meteor
+- Ice Beam
+- Rain Dance
 
 === TRAINER_JERRY_1 ===
 Name: JERRY
@@ -17969,6 +18489,62 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - MOVE_GROWL
 - MOVE_PECK
 
+=== TRAINER_FALKNER_1 ===
+Name: FALKNER
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_BROCK_FRLG
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_SKARMORY @ ITEM_LEFTOVERS
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_STURDY
+- MOVE_SPIKES
+- MOVE_DRILL_PECK
+- MOVE_ROOST
+- MOVE_IRON_DEFENSE
+
+SPECIES_NOCTOWL @ ITEM_SITRUS_BERRY
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_INSOMNIA
+- MOVE_AIR_SLASH
+- MOVE_PSYCHIC
+- MOVE_ROOST
+- MOVE_HYPNOSIS
+
+SPECIES_AERODACTYL @ ITEM_FOCUS_SASH
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_ROCK_HEAD
+- MOVE_ROCK_SLIDE
+- MOVE_AERIAL_ACE
+- MOVE_CRUNCH
+- MOVE_AGILITY
+
+SPECIES_HONCHKROW @ ITEM_LIFE_ORB
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_SUPER_LUCK
+- MOVE_BRAVE_BIRD
+- MOVE_SUCKER_PUNCH
+- MOVE_NIGHT_SLASH
+- MOVE_HEAT_WAVE
+
+SPECIES_PIDGEOT @ ITEM_SHARP_BEAK
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_KEEN_EYE
+- MOVE_HURRICANE
+- MOVE_AIR_SLASH
+- MOVE_HEAT_WAVE
+- MOVE_ROOST
+
 === TRAINER_ABE ===
 Name: ABE
 Class: TRAINER_CLASS_BIRD_KEEPER
@@ -18254,6 +18830,71 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - MOVE_FURY_CUTTER
 - MOVE_BULLET_SEED
 - MOVE_PURSUIT
+
+=== TRAINER_BUGSY_1 ===
+Name: BUGSY
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_LT_SURGE_FRLG
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_ARIADOS @ ITEM_BLACK_SLUDGE
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_INSOMNIA
+- MOVE_MEGAHORN
+- MOVE_SUCKER_PUNCH
+- MOVE_TOXIC_SPIKES
+- MOVE_POISON_JAB
+
+SPECIES_FORRETRESS @ ITEM_LEFTOVERS
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_STURDY
+- MOVE_SPIKES
+- MOVE_GYRO_BALL
+- MOVE_RAPID_SPIN
+- MOVE_BUG_BITE
+
+SPECIES_YANMEGA @ ITEM_FOCUS_SASH
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_SPEED_BOOST
+- MOVE_BUG_BUZZ
+- MOVE_AIR_SLASH
+- MOVE_ANCIENT_POWER
+- MOVE_GIGA_DRAIN
+
+SPECIES_PINSIR @ ITEM_LIFE_ORB
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_HYPER_CUTTER
+- MOVE_X_SCISSOR
+- MOVE_EARTHQUAKE
+- MOVE_CLOSE_COMBAT
+- MOVE_SWORDS_DANCE
+
+SPECIES_HERACROSS @ ITEM_SALAC_BERRY
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_GUTS
+- MOVE_MEGAHORN
+- MOVE_CLOSE_COMBAT
+- MOVE_ROCK_SLIDE
+- MOVE_SWORDS_DANCE
+
+SPECIES_SCIZOR @ ITEM_LEFTOVERS
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_TECHNICIAN
+- MOVE_BULLET_PUNCH
+- MOVE_X_SCISSOR
+- MOVE_SWORDS_DANCE
+- MOVE_ROOST
 
 === TRAINER_CALVIN ===
 Name: CALVIN
@@ -19533,6 +20174,62 @@ IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 - MOVE_STOMP
 - MOVE_MILK_DRINK
 
+=== TRAINER_WHITNEY_1 ===
+Name: WHITNEY
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_ROXANNE
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_GIRAFARIG @ ITEM_SITRUS_BERRY
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_SAP_SIPPER
+- MOVE_PSYCHIC
+- MOVE_CRUNCH
+- MOVE_THUNDERBOLT
+- MOVE_NASTY_PLOT
+
+SPECIES_AMBIPOM @ ITEM_SILK_SCARF
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_TECHNICIAN
+- MOVE_FAKE_OUT
+- MOVE_DOUBLE_HIT
+- MOVE_RETURN
+- MOVE_U_TURN
+
+SPECIES_LICKILICKY @ ITEM_LEFTOVERS
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_OWN_TEMPO
+- MOVE_BODY_SLAM
+- MOVE_EARTHQUAKE
+- MOVE_POWER_WHIP
+- MOVE_SWORDS_DANCE
+
+SPECIES_CLEFABLE @ ITEM_SITRUS_BERRY
+Level: 61
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_MAGIC_GUARD
+- MOVE_MOONBLAST
+- MOVE_THUNDERBOLT
+- MOVE_ICE_BEAM
+- MOVE_SOFT_BOILED
+
+SPECIES_MILTANK @ ITEM_LEFTOVERS
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_SCRAPPY
+- MOVE_BODY_SLAM
+- MOVE_MILK_DRINK
+- MOVE_STOMPING_TANTRUM
+- MOVE_HEAL_BELL
+
 === TRAINER_EUGENE ===
 Name: EUGENE
 Class: TRAINER_CLASS_SAILOR
@@ -19686,6 +20383,62 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - MOVE_SHADOW_BALL
 - MOVE_MEAN_LOOK
 - MOVE_DREAM_EATER
+
+=== TRAINER_MORTY_1 ===
+Name: MORTY
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_KOGA_FRLG
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_SABLEYE @ ITEM_LEFTOVERS
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_PRANKSTER
+- MOVE_SHADOW_BALL
+- MOVE_WILL_O_WISP
+- MOVE_RECOVER
+- MOVE_TAUNT
+
+SPECIES_DUSKNOIR @ ITEM_SITRUS_BERRY
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_PRESSURE
+- MOVE_SHADOW_PUNCH
+- MOVE_EARTHQUAKE
+- MOVE_ICE_PUNCH
+- MOVE_PAIN_SPLIT
+
+SPECIES_FROSLASS @ ITEM_FOCUS_SASH
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_CURSED_BODY
+- MOVE_SHADOW_BALL
+- MOVE_ICE_BEAM
+- MOVE_DESTINY_BOND
+- MOVE_THUNDERBOLT
+
+SPECIES_MISMAGIUS @ ITEM_LIFE_ORB
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_LEVITATE
+- MOVE_SHADOW_BALL
+- MOVE_THUNDERBOLT
+- MOVE_DAZZLING_GLEAM
+- MOVE_NASTY_PLOT
+
+SPECIES_GENGAR @ ITEM_BLACK_SLUDGE
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_CURSED_BODY
+- MOVE_SHADOW_BALL
+- MOVE_SLUDGE_BOMB
+- MOVE_FOCUS_BLAST
+- MOVE_NASTY_PLOT
 
 === TRAINER_NAOKO ===
 Name: NAOKO
@@ -20085,6 +20838,62 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - MOVE_ROCK_SLIDE
 - MOVE_IRON_TAIL
 
+=== TRAINER_JASMINE_1 ===
+Name: JASMINE
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_WINONA
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_SKARMORY @ ITEM_LEFTOVERS
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_STURDY
+- MOVE_SPIKES
+- MOVE_DRILL_PECK
+- MOVE_ROOST
+- MOVE_WHIRLWIND
+
+SPECIES_MAGNEZONE @ ITEM_LEFTOVERS
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_MAGNET_PULL
+- MOVE_THUNDERBOLT
+- MOVE_FLASH_CANNON
+- MOVE_VOLT_SWITCH
+- MOVE_THUNDER_WAVE
+
+SPECIES_SCIZOR @ ITEM_LIFE_ORB
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_TECHNICIAN
+- MOVE_BULLET_PUNCH
+- MOVE_X_SCISSOR
+- MOVE_SUPERPOWER
+- MOVE_SWORDS_DANCE
+
+SPECIES_METAGROSS @ ITEM_ASSAULT_VEST
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_CLEAR_BODY
+- MOVE_METEOR_MASH
+- MOVE_EARTHQUAKE
+- MOVE_ZEN_HEADBUTT
+- MOVE_BULLET_PUNCH
+
+SPECIES_STEELIX @ ITEM_LEFTOVERS
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_STURDY
+- MOVE_IRON_TAIL
+- MOVE_EARTHQUAKE
+- MOVE_STONE_EDGE
+- MOVE_DRAGON_TAIL
+
 === TRAINER_JASMINE_1_2 ===
 Name: JASMINE
 Class: TRAINER_CLASS_LEADER
@@ -20269,6 +21078,62 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - MOVE_MIND_READER
 - MOVE_SURF
 - MOVE_DYNAMIC_PUNCH
+
+=== TRAINER_CHUCK_1 ===
+Name: CHUCK
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_BRAWLY
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_HITMONTOP @ ITEM_FOCUS_SASH
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_TECHNICIAN
+- MOVE_TRIPLE_KICK
+- MOVE_MACH_PUNCH
+- MOVE_SUCKER_PUNCH
+- MOVE_RAPID_SPIN
+
+SPECIES_PRIMEAPE @ ITEM_CHOICE_SCARF
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_VITAL_SPIRIT
+- MOVE_CLOSE_COMBAT
+- MOVE_U_TURN
+- MOVE_ICE_PUNCH
+- MOVE_STONE_EDGE
+
+SPECIES_BRELOOM @ ITEM_TOXIC_ORB
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_POISON_HEAL
+- MOVE_MACH_PUNCH
+- MOVE_SEED_BOMB
+- MOVE_SPORE
+- MOVE_SWORDS_DANCE
+
+SPECIES_MACHAMP @ ITEM_LEFTOVERS
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_NO_GUARD
+- MOVE_DYNAMIC_PUNCH
+- MOVE_STONE_EDGE
+- MOVE_ICE_PUNCH
+- MOVE_BULK_UP
+
+SPECIES_POLIWRATH @ ITEM_SITRUS_BERRY
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_WATER_ABSORB
+- MOVE_CIRCLE_THROW
+- MOVE_WATERFALL
+- MOVE_ICE_PUNCH
+- MOVE_BULK_UP
 
 === TRAINER_CHUCK_1_2 ===
 Name: CHUCK
@@ -20960,6 +21825,62 @@ IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 - MOVE_ROCK_SMASH
 - MOVE_BLIZZARD
 
+=== TRAINER_PRYCE_1 ===
+Name: PRYCE
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_WATTSON
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_DEWGONG @ ITEM_LEFTOVERS
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_THICK_FAT
+- MOVE_SURF
+- MOVE_ICE_BEAM
+- MOVE_REST
+- MOVE_SLEEP_TALK
+
+SPECIES_CLOYSTER @ ITEM_FOCUS_SASH
+Level: 59
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_SKILL_LINK
+- MOVE_ICICLE_SPEAR
+- MOVE_ROCK_BLAST
+- MOVE_SHELL_SMASH
+- MOVE_HYDRO_PUMP
+
+SPECIES_JYNX @ ITEM_LIFE_ORB
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_DRY_SKIN
+- MOVE_ICE_BEAM
+- MOVE_PSYCHIC
+- MOVE_LOVELY_KISS
+- MOVE_NASTY_PLOT
+
+SPECIES_WEAVILE @ ITEM_LIFE_ORB
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_PRESSURE
+- MOVE_ICE_SHARD
+- MOVE_ICICLE_CRASH
+- MOVE_KNOCK_OFF
+- MOVE_LOW_KICK
+
+SPECIES_MAMOSWINE @ ITEM_SITRUS_BERRY
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_THICK_FAT
+- MOVE_ICE_SHARD
+- MOVE_EARTHQUAKE
+- MOVE_ICICLE_CRASH
+- MOVE_STONE_EDGE
+
 === TRAINER_PRYCE_1_2 ===
 Name: PRYCE
 Class: TRAINER_CLASS_LEADER
@@ -21299,6 +22220,71 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SURF
 - MOVE_HYPER_BEAM
 - MOVE_DRAGON_BREATH
+
+=== TRAINER_CLAIR_1 ===
+Name: CLAIR
+Class: TRAINER_CLASS_LEADER
+Pic: TRAINER_PIC_LEADER_SABRINA_FRLG
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
+Difficulty: Hard
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
+
+SPECIES_GYARADOS @ ITEM_SITRUS_BERRY
+Level: 58
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_INTIMIDATE
+- MOVE_WATERFALL
+- MOVE_CRUNCH
+- MOVE_ICE_FANG
+- MOVE_DRAGON_DANCE
+
+SPECIES_FLYGON @ ITEM_CHOICE_BAND
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_LEVITATE
+- MOVE_EARTHQUAKE
+- MOVE_DRAGON_CLAW
+- MOVE_U_TURN
+- MOVE_STONE_EDGE
+
+SPECIES_ALTARIA @ ITEM_LEFTOVERS
+Level: 60
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_NATURAL_CURE
+- MOVE_DRAGON_PULSE
+- MOVE_MOONBLAST
+- MOVE_FLAMETHROWER
+- MOVE_ROOST
+
+SPECIES_SALAMENCE @ ITEM_LIFE_ORB
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_INTIMIDATE
+- MOVE_DRAGON_CLAW
+- MOVE_EARTHQUAKE
+- MOVE_FIRE_FANG
+- MOVE_DRAGON_DANCE
+
+SPECIES_DRAGONITE @ ITEM_SITRUS_BERRY
+Level: 63
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_MULTISCALE
+- MOVE_DRAGON_DANCE
+- MOVE_OUTRAGE
+- MOVE_EARTHQUAKE
+- MOVE_FIRE_PUNCH
+
+SPECIES_KINGDRA @ ITEM_LEFTOVERS
+Level: 65
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_SWIFT_SWIM
+- MOVE_DRACO_METEOR
+- MOVE_SURF
+- MOVE_ICE_BEAM
+- MOVE_RAIN_DANCE
 
 === TRAINER_CODY ===
 Name: CODY

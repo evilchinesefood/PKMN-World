@@ -19,6 +19,7 @@ FortreeCity_Gym_EventScript_InitRotatingGates::
 
 FortreeCity_Gym_EventScript_Winona::
 	trainerbattle_single TRAINER_WINONA_1, FortreeCity_Gym_Text_WinonaIntro, FortreeCity_Gym_Text_WinonaDefeat, FortreeCity_Gym_EventScript_WinonaDefeated, NO_MUSIC
+	goto_if_set FLAG_HOENN_CHAMPION, FortreeCity_Gym_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, FortreeCity_Gym_EventScript_WinonaRematch
 	goto_if_unset FLAG_RECEIVED_TM_AERIAL_ACE, FortreeCity_Gym_EventScript_GiveAerialAce2
@@ -68,6 +69,35 @@ FortreeCity_Gym_EventScript_WinonaRematch::
 	trainerbattle_rematch_double TRAINER_WINONA_1, FortreeCity_Gym_Text_WinonaPreRematch, FortreeCity_Gym_Text_WinonaRematchDefeat, FortreeCity_Gym_Text_WinonaRematchNeedTwoMons
 	msgbox FortreeCity_Gym_Text_WinonaPostRematch, MSGBOX_AUTOCLOSE
 	end
+
+FortreeCity_Gym_EventScript_OfferRematch::
+	msgbox FortreeCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, FortreeCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_WINONA_1, FortreeCity_Gym_Text_RematchDefeat
+	msgbox FortreeCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+FortreeCity_Gym_EventScript_RematchDecline::
+	msgbox FortreeCity_Gym_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+FortreeCity_Gym_Text_RematchAsk:
+	.string "WINONA: The CHAMPION graces my GYM.\n"
+	.string "Will you soar against me once more?$"
+
+FortreeCity_Gym_Text_RematchDefeat:
+	.string "My POKéMON and I have been\n"
+	.string "grounded… Splendidly done.$"
+
+FortreeCity_Gym_Text_RematchPost:
+	.string "WINONA: To battle you is to touch the\n"
+	.string "sky itself. Return to me, CHAMPION.$"
+
+FortreeCity_Gym_Text_RematchDecline:
+	.string "WINONA: As you wish.\n"
+	.string "The skies will await your return.$"
 
 FortreeCity_Gym_EventScript_Jared::
 	trainerbattle_single TRAINER_JARED, FortreeCity_Gym_Text_JaredIntro, FortreeCity_Gym_Text_JaredDefeat

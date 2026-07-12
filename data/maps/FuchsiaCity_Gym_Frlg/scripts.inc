@@ -5,6 +5,7 @@ FuchsiaCity_Gym_EventScript_Koga::
 	famechecker FAMECHECKER_KOGA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_KOGA, FuchsiaCity_Gym_Text_KogaIntro, FuchsiaCity_Gym_Text_KogaDefeat, FuchsiaCity_Gym_EventScript_DefeatedKoga, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM06_FROM_KOGA, FuchsiaCity_Gym_EventScript_GiveTM06
+	goto_if_set FLAG_KANTO_CHAMPION, FuchsiaCity_Gym_EventScript_OfferRematch
 	msgbox FuchsiaCity_Gym_Text_KogaPostBattle
 	release
 	end
@@ -244,4 +245,36 @@ FuchsiaCity_Gym_Text_GymStatuePlayerWon::
 	.string "LEADER: KOGA\p"
 	.string "WINNING TRAINERS:\n"
 	.string "{RIVAL}, {PLAYER}$"
+
+FuchsiaCity_Gym_EventScript_OfferRematch::
+	msgbox FuchsiaCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, FuchsiaCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_KOGA, FuchsiaCity_Gym_Text_RematchDefeat
+	msgbox FuchsiaCity_Gym_Text_RematchPost
+	release
+	end
+
+FuchsiaCity_Gym_EventScript_RematchDecline::
+	msgbox FuchsiaCity_Gym_Text_RematchDecline
+	release
+	end
+
+FuchsiaCity_Gym_Text_RematchAsk::
+	.string "Fwahaha! The CHAMPION\p"
+	.string "seeks the ninja's way?\n"
+	.string "Then face my poison!$"
+
+FuchsiaCity_Gym_Text_RematchDefeat::
+	.string "The ninja's poison\n"
+	.string "reigns supreme!$"
+
+FuchsiaCity_Gym_Text_RematchPost::
+	.string "You pierced every\n"
+	.string "illusion I cast!\p"
+	.string "Return when you dare,\n"
+	.string "CHAMPION!$"
+
+FuchsiaCity_Gym_Text_RematchDecline::
+	.string "Vanish, and return when\n"
+	.string "your resolve sharpens.$"
 

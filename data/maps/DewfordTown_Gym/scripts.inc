@@ -134,6 +134,7 @@ DewfordTown_Gym_EventScript_StopCountingTrainers::
 
 DewfordTown_Gym_EventScript_Brawly::
 	trainerbattle_single TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyIntro, DewfordTown_Gym_Text_BrawlyDefeat, DewfordTown_Gym_EventScript_BrawlyDefeated, NO_MUSIC
+	goto_if_set FLAG_HOENN_CHAMPION, DewfordTown_Gym_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, DewfordTown_Gym_EventScript_BrawlyRematch
 	goto_if_unset FLAG_RECEIVED_TM_BULK_UP, DewfordTown_Gym_EventScript_GiveBulkUp2
@@ -186,6 +187,36 @@ DewfordTown_Gym_EventScript_BrawlyRematch::
 	trainerbattle_rematch_double TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyPreRematch, DewfordTown_Gym_Text_BrawlyRematchDefeat, DewfordTown_Gym_Text_BrawlyRematchNeedTwoMons
 	msgbox DewfordTown_Gym_Text_BrawlyPostRematch, MSGBOX_AUTOCLOSE
 	end
+
+DewfordTown_Gym_EventScript_OfferRematch::
+	msgbox DewfordTown_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, DewfordTown_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_BRAWLY_1, DewfordTown_Gym_Text_RematchDefeat
+	msgbox DewfordTown_Gym_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+DewfordTown_Gym_EventScript_RematchDecline::
+	msgbox DewfordTown_Gym_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+DewfordTown_Gym_Text_RematchAsk:
+	.string "BRAWLY: Whoa, the CHAMPION! The waves\n"
+	.string "are rolling in big today.\l"
+	.string "Care to ride them with me?$"
+
+DewfordTown_Gym_Text_RematchDefeat:
+	.string "That was a monster wave…\n"
+	.string "I got totally wiped out!$"
+
+DewfordTown_Gym_Text_RematchPost:
+	.string "BRAWLY: Battling you fires me up!\n"
+	.string "I'll ride an even bigger wave next time!$"
+
+DewfordTown_Gym_Text_RematchDecline:
+	.string "BRAWLY: No worries. Come back when\n"
+	.string "you're ready to ride the wild waves!$"
 
 DewfordTown_Gym_EventScript_Takao::
 	trainerbattle_single TRAINER_TAKAO, DewfordTown_Gym_Text_TakaoIntro, DewfordTown_Gym_Text_TakaoDefeat, DewfordTown_Gym_EventScript_TakaoBrightenRoom

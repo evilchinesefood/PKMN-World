@@ -229,8 +229,24 @@ BlackthornGym_EventScript_Clair_Defeated::
 BlackthornGym_EventScript_ClairAfterLeague::
 	goto_if_lt VAR_BLACKTHORN_CITY_STATE, 4, BlackthornGym_EventScript_AfterLeagueMsg
 	goto_if_unset FLAG_GOT_TM_DRAGON_CLAW, BlackthornGym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, BlackthornGym_EventScript_OfferRematch
 BlackthornGym_EventScript_AfterLeagueMsg::
 	msgbox BlackthornGym_Text_ClairAfterLeague, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+BlackthornGym_EventScript_OfferRematch::
+	msgbox BlackthornGym_Text_ClairRematchText, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BlackthornGym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_CLAIR_1, BlackthornGym_Text_ClairRematchDefeatText
+	msgbox BlackthornGym_Text_ClairRematchPostText, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+BlackthornGym_EventScript_RematchDecline::
+	msgbox BlackthornGym_Text_ClairRematchDeclineText, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -322,6 +338,16 @@ BlackthornGym_Text_ClairRematchDefeatText:
     .string "Again?\p"
     .string "I don't believe it. There must be\n"
     .string "some mistake…$"
+
+BlackthornGym_Text_ClairRematchPostText:
+    .string "Hmph. A true dragon master never\n"
+    .string "stops training.\p"
+    .string "Come face my dragons again\n"
+    .string "whenever you dare.$"
+
+BlackthornGym_Text_ClairRematchDeclineText:
+    .string "Fine. Come back when you're ready\n"
+    .string "to face a dragon master.$"
 
 BlackthornGym_Text_CooltrainermCodySeenText:
     .string "I just got access to use DRAGON-\n"

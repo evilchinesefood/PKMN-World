@@ -45,6 +45,7 @@ LavaridgeTown_Gym_1F_EventScript_EndCheckBuryTrainers::
 
 LavaridgeTown_Gym_1F_EventScript_Flannery::
 	trainerbattle_single TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryIntro, LavaridgeTown_Gym_1F_Text_FlanneryDefeat, LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated, NO_MUSIC
+	goto_if_set FLAG_HOENN_CHAMPION, LavaridgeTown_Gym_1F_EventScript_OfferRematch
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, LavaridgeTown_Gym_1F_EventScript_FlanneryRematch
 	goto_if_unset FLAG_RECEIVED_TM_OVERHEAT, LavaridgeTown_Gym_1F_EventScript_GiveOverheat2
@@ -97,6 +98,35 @@ LavaridgeTown_Gym_1F_EventScript_FlanneryRematch::
 	trainerbattle_rematch_double TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_FlanneryPreRematch, LavaridgeTown_Gym_1F_Text_FlanneryRematchDefeat, LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons
 	msgbox LavaridgeTown_Gym_1F_Text_FlanneryPostRematch, MSGBOX_AUTOCLOSE
 	end
+
+LavaridgeTown_Gym_1F_EventScript_OfferRematch::
+	msgbox LavaridgeTown_Gym_1F_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LavaridgeTown_Gym_1F_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_RematchDefeat
+	msgbox LavaridgeTown_Gym_1F_Text_RematchPost, MSGBOX_DEFAULT
+	release
+	end
+
+LavaridgeTown_Gym_1F_EventScript_RematchDecline::
+	msgbox LavaridgeTown_Gym_1F_Text_RematchDecline, MSGBOX_DEFAULT
+	release
+	end
+
+LavaridgeTown_Gym_1F_Text_RematchAsk:
+	.string "FLANNERY: The CHAMPION wishes to battle?\n"
+	.string "Then I'll show you my hottest blaze yet!$"
+
+LavaridgeTown_Gym_1F_Text_RematchDefeat:
+	.string "Ahh… my flames were snuffed out…\n"
+	.string "You truly burn brighter than me.$"
+
+LavaridgeTown_Gym_1F_Text_RematchPost:
+	.string "FLANNERY: I won't let my fire die down!\n"
+	.string "I'll train and challenge you again!$"
+
+LavaridgeTown_Gym_1F_Text_RematchDecline:
+	.string "FLANNERY: Backing off? Fine…\n"
+	.string "But my flames will be waiting for you!$"
 
 LavaridgeTown_Gym_1F_EventScript_Cole::
 	trainerbattle TRAINER_BATTLE_CONTINUE_SCRIPT, LOCALID_COLE, TRAINER_COLE, LavaridgeTown_Gym_1F_Text_ColeIntro, LavaridgeTown_Gym_1F_Text_ColeDefeat, LavaridgeTown_Gym_EventScript_CheckTrainerScript, OBJ_ID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE

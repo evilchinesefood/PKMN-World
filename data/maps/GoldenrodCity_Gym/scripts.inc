@@ -93,7 +93,23 @@ GoldenrodCity_Gym_EventScript_WhitneyDefeated::
 	lock
 	faceplayer
 	goto_if_unset FLAG_GOT_TM_ATTRACT, GoldenrodCity_Gym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, GoldenrodCity_Gym_EventScript_OfferRematch
 	msgbox GoldenrodCity_Gym_Text_WhitneyGoodCry, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+GoldenrodCity_Gym_EventScript_OfferRematch::
+	msgbox GoldenrodCity_Gym_Text_WhitneyRematch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, GoldenrodCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_WHITNEY_1, GoldenrodCity_Gym_Text_WhitneyRematchDefeat
+	msgbox GoldenrodCity_Gym_Text_WhitneyRematchPost, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+GoldenrodCity_Gym_EventScript_RematchDecline::
+	msgbox GoldenrodCity_Gym_Text_WhitneyRematchDecline, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -186,6 +202,15 @@ GoldenrodCity_Gym_Text_WhitneyRematchDefeat:
     .string "Waaaaah!\p"
     .string "Waaaaah!\p"
     .string "…Snivel, hic… …You meanie!$"
+
+GoldenrodCity_Gym_Text_WhitneyRematchPost:
+    .string "Hmph! My POKéMON are still\n"
+    .string "the cutest and the toughest!\p"
+    .string "Come play with me again, okay?$"
+
+GoldenrodCity_Gym_Text_WhitneyRematchDecline:
+    .string "Aww, you don't want to battle?\n"
+    .string "Come back when you do!$"
 
 GoldenrodCity_Gym_Text_LassCarrieSeen:
     .string "Don't let my POKéMON's cute looks\n"

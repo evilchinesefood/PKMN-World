@@ -60,6 +60,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	setflag FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD
 	setflag FLAG_IS_CHAMPION
 	setflag FLAG_JOHTO_CHAMPION
+	setvar VAR_DIFFICULTY, DIFFICULTY_HARD @ Feature C: Johto gym/E4 rematches go HARD
 	setflag FLAG_HIDE_BATTLEFRONTIER_ENGINEER
 	setvar VAR_LEAGUE_STATE, 1
 	setvar VAR_NEWBARK_TOWN_STATE, 6
@@ -87,6 +88,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	@ of another region first would clear Johto via this branch and never record it (breaking
 	@ IsNRegionChampion and the 2/3-region hub rewards).
 	setflag FLAG_JOHTO_CHAMPION
+	setvar VAR_DIFFICULTY, DIFFICULTY_HARD @ Feature C: Johto gym/E4 rematches go HARD
 	call_if_unset FLAG_CAUGHT_LUGIA, JohtoHoF_RespawnLugia
 	call_if_unset FLAG_CAUGHT_HO_OH, JohtoHoF_RespawnHoOh
 	call JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers

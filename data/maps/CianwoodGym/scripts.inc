@@ -125,7 +125,23 @@ CianwoodGym_EventScript_Chuck_Battle3::
 
 CianwoodGym_EventScript_Chuck_Defeated::
 	goto_if_unset FLAG_GOT_TM_FOCUS_PUNCH, CianwoodGym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, CianwoodGym_EventScript_OfferRematch
 	msgbox CianwoodGym_Text_ChuckAfter, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+CianwoodGym_EventScript_OfferRematch::
+	msgbox CianwoodGym_Text_ChuckRematch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, CianwoodGym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_CHUCK_1, CianwoodGym_Text_ChuckRematchDefeat
+	msgbox CianwoodGym_Text_ChuckRematchPost, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+CianwoodGym_EventScript_RematchDecline::
+	msgbox CianwoodGym_Text_ChuckRematchDecline, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -191,6 +207,15 @@ CianwoodGym_Text_ChuckRematch:
 CianwoodGym_Text_ChuckRematchDefeat:
 	.string "Wha? Huh? I lost?\n"
 	.string "Again?$"
+
+CianwoodGym_Text_ChuckRematchPost:
+	.string "WAHAHAH! My blood is boiling now!\p"
+	.string "Come train with me again anytime,\n"
+	.string "CHAMPION!$"
+
+CianwoodGym_Text_ChuckRematchDecline:
+	.string "WAHAHAH! Come back when you're\n"
+	.string "ready for a real workout!$"
 
 CianwoodGym_EventScript_Yoshi::
 	trainerbattle_single TRAINER_YOSHI CianwoodGym_Text_BlackbeltYoshiSeen, CianwoodGym_Text_BlackbeltYoshiBeaten

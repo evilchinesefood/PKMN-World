@@ -275,7 +275,23 @@ OlivineCity_Gym_EventScript_Jasmine_Battle3::
 
 OlivineCity_Gym_EventScript_Jasmine_Defeated::
 	goto_if_unset FLAG_GOT_TM_IRON_TAIL, OlivineCity_Gym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, OlivineCity_Gym_EventScript_OfferRematch
 	msgbox OlivineCity_Gym_Text_JasmineGoodLuck, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+OlivineCity_Gym_EventScript_OfferRematch::
+	msgbox OlivineCity_Gym_Text_JasmineRematchText, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, OlivineCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_JASMINE_1, OlivineCity_Gym_Text_JasmineRematchDefeatText
+	msgbox OlivineCity_Gym_Text_JasmineRematchPostText, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+OlivineCity_Gym_EventScript_RematchDecline::
+	msgbox OlivineCity_Gym_Text_JasmineRematchDeclineText, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -325,6 +341,15 @@ OlivineCity_Gym_Text_JasmineRematchText:
 OlivineCity_Gym_Text_JasmineRematchDefeatText:
 	.string "…You are a better trainer than me,\n"
 	.string "in both skill and kindness.$"
+
+OlivineCity_Gym_Text_JasmineRematchPostText:
+	.string "…Thank you for the battle.\p"
+	.string "I will keep training. Please visit\n"
+	.string "me again whenever you like…$"
+
+OlivineCity_Gym_Text_JasmineRematchDeclineText:
+	.string "…I understand. Please come back\n"
+	.string "when you wish to battle…$"
 
 OlivineCity_Gym_EventScript_Statue::
 	lock

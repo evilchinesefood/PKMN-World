@@ -119,7 +119,23 @@ MahoganyTown_Gym_EventScript_Pryce_Battle3::
 
 MahoganyTown_Gym_EventScript_Pryce_Defeated::
 	goto_if_unset FLAG_GOT_TM_HAIL, MahoganyTown_Gym_EventScript_GiveTM
+	goto_if_set FLAG_JOHTO_CHAMPION, MahoganyTown_Gym_EventScript_OfferRematch
 	msgbox MahoganyTown_Gym_Text_CherishPokemon, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+MahoganyTown_Gym_EventScript_OfferRematch::
+	msgbox MahoganyTown_Gym_Text_PryceRematch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MahoganyTown_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_PRYCE_1, MahoganyTown_Gym_Text_PryceRematchDefeat
+	msgbox MahoganyTown_Gym_Text_PryceRematchPost, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+MahoganyTown_Gym_EventScript_RematchDecline::
+	msgbox MahoganyTown_Gym_Text_PryceRematchDecline, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -184,6 +200,16 @@ MahoganyTown_Gym_Text_PryceRematchDefeat:
     .string "your prowess.\p"
     .string "With your strong will, I know you\n"
     .string "will overcome all life's obstacles.$"
+
+MahoganyTown_Gym_Text_PryceRematchPost:
+    .string "The winter of my career is not\n"
+    .string "over yet.\p"
+    .string "Come test this old trainer again\n"
+    .string "whenever you wish.$"
+
+MahoganyTown_Gym_Text_PryceRematchDecline:
+    .string "Another time, then. Winter is\n"
+    .string "patient, and so am I.$"
 
 MahoganyTown_Gym_Text_Guide:
     .string "PRYCE is a veteran who has\n"

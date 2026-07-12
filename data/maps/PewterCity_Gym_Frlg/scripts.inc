@@ -5,6 +5,7 @@ PewterCity_Gym_EventScript_Brock::
 	famechecker FAMECHECKER_BROCK, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_BROCK, PewterCity_Gym_Text_BrockIntro, PewterCity_Gym_Text_BrockDefeat, PewterCity_Gym_EventScript_DefeatedBrock, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM39_FROM_BROCK, PewterCity_Gym_EventScript_GiveTM39
+	goto_if_set FLAG_KANTO_CHAMPION, PewterCity_Gym_EventScript_OfferRematch
 	msgbox PewterCity_Gym_Text_BrockPostBattle
 	release
 	end
@@ -199,4 +200,37 @@ PewterCity_Gym_Text_GymStatuePlayerWon::
 	.string "LEADER: BROCK\p"
 	.string "WINNING TRAINERS:\n"
 	.string "{RIVAL}, {PLAYER}$"
+
+PewterCity_Gym_EventScript_OfferRematch::
+	msgbox PewterCity_Gym_Text_RematchAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, PewterCity_Gym_EventScript_RematchDecline
+	trainerbattle_no_intro TRAINER_LEADER_BROCK, PewterCity_Gym_Text_RematchDefeat
+	msgbox PewterCity_Gym_Text_RematchPost
+	release
+	end
+
+PewterCity_Gym_EventScript_RematchDecline::
+	msgbox PewterCity_Gym_Text_RematchDecline
+	release
+	end
+
+PewterCity_Gym_Text_RematchAsk::
+	.string "So, you've returned,\n"
+	.string "CHAMPION.\p"
+	.string "Shall we test your will\n"
+	.string "again?$"
+
+PewterCity_Gym_Text_RematchDefeat::
+	.string "Rock hard as ever!\n"
+	.string "You still have cracks.$"
+
+PewterCity_Gym_Text_RematchPost::
+	.string "Your spirit outshines\n"
+	.string "any stone I know.\p"
+	.string "Return for a rock-solid\n"
+	.string "rematch anytime.$"
+
+PewterCity_Gym_Text_RematchDecline::
+	.string "Come back when your heart\n"
+	.string "is set in stone.$"
 

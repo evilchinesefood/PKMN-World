@@ -92,6 +92,12 @@ void ResyncCurrentRegionFromMap(void)
     if (FlagGet(FLAG_SYS_POKEDEX_GET) && !FlagGet(FLAG_SYS_DEXNAV_GET))
         FlagSet(FLAG_SYS_DEXNAV_GET);
 
+    // Merged-game essential: any Pokedex holder should already have the National Dex (enabled at
+    // the early Oak/Birch/Elm dex-give scene). Belt-and-suspenders for any save that somehow
+    // reached the Pokedex without it. Guarded, so it's a no-op once enabled.
+    if (FlagGet(FLAG_SYS_POKEDEX_GET) && !IsNationalPokedexEnabled())
+        EnableNationalPokedex();
+
     if (gSaveBlock2Ptr->currentRegion != REGION_NONE)
     {
         gCurrentRegion = gSaveBlock2Ptr->currentRegion;

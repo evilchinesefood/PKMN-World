@@ -1124,7 +1124,12 @@ static void CreateFlightMountSprite(void)
         struct Sprite *wind = &gSprites[sFlightWindSpriteId];
 
         wind->callback = SpriteCallbackDummy;
-        wind->oam.paletteNum = LoadObjectEventPalette(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ]->paletteTag);
+        // FLDEFFOBJ_GROUND_IMPACT_DUST's paletteTag is a field-effect tag, not an object-event
+        // one, so LoadObjectEventPalette can't find it (returns 0xFF -> truncates to OBJ slot 15,
+        // drawing the gust with a garbage palette). Load the general field-effect palette the way
+        // the rest of the codebase does (see wild_encounter_ow.c / faraway_island.c).
+        wind->oam.paletteNum = LoadSpritePalette(&gSpritePalette_GeneralFieldEffect0);
+        UpdateSpritePaletteWithWeather(wind->oam.paletteNum, FALSE);
         wind->coordOffsetEnabled = TRUE;
     }
 }

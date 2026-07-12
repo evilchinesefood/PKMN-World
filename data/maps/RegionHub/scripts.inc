@@ -244,13 +244,14 @@ RegionHub_Text_SkyCharmEnjoy:
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
 @ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;
 @ this only reports progress. See .plans/features/03a Lane R R8.
-@ QoL 2026-07-12 (leaderboard-trigger bug): geometry/label/elevation all verified correct
-@ (BFS reachability check confirms (2,2) is on the main lobby floor, wall-backed like every
-@ other working sign/attendant on this map). The one real deviation from every other working
-@ interaction here was the lock scope - lockall/releaseall (rare, no other sign in the repo
-@ uses it) plus MSGBOX_DEFAULT instead of the MSGBOX_SIGN every other sign uses. Hardened to
-@ the standard lock/release + MSGBOX_SIGN pattern. Kept as a bg_event sign (NOT an object)
-@ since this map is already flagged OAM-starved above - a sign costs no sprite slot.
+@ Deep-review 2026-07-12 (leaderboard "nothing at all", reported x2): ROOT CAUSE was the
+@ sign tile itself. The board art spans (2,1) wall-top + (2,2) floor-bottom, but (2,2) was
+@ left WALKABLE, so pressing toward it walked the player ONTO it instead of facing it - a
+@ sign only fires when faced, so it never triggered. FIX: (2,2) made impassable in
+@ data/layouts/RegionHub/map.bin; the player now reads it from (2,3) facing north (event
+@ moved to PLAYER_FACING_NORTH). Kept as a bg_event sign (NOT an object) - this map is
+@ OAM-starved, and a sign costs no sprite slot. Uses lockall/releaseall + two MSGBOX_DEFAULT
+@ (NOT MSGBOX_SIGN, which runs its own lock/release and would free the player mid-readout).
 RegionHub_EventScript_WorldTourBoard::
 	lockall
 	callnative RegionHub_ScrCountWorldTourBadges

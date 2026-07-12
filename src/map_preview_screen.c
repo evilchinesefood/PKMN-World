@@ -12,6 +12,7 @@
 #include "overworld.h"
 #include "palette.h"
 #include "region_map.h"
+#include "regions.h"
 #include "script.h"
 #include "string_util.h"
 #include "constants/region_map_sections.h"
@@ -341,7 +342,15 @@ static const struct BgTemplate sMapPreviewBgTemplate[1] = {
 
 bool32 ShouldRunMapPreview(void)
 {
-    if (MPS_ENABLE_MAP_PREVIEWS && FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE && GetLastUsedWarpMapSectionId() != gMapHeader.regionMapSectionId)
+    // Region merge: FRLG map previews are a Kanto-only feature. GetCurrentRegion()
+    // reads gMapHeader.regionMapSectionId, so this Kanto gate also excludes the World
+    // Transit hub (classified REGION_HOENN) and every Johto/Hoenn map. It is the single
+    // chokepoint for both preview triggers (overworld.c FADE_IN, fldeff_flash.c CAVE/BASIC)
+    // and belt-and-braces over the mapsec table, which only holds Kanto sections.
+    if (MPS_ENABLE_MAP_PREVIEWS
+     && GetCurrentRegion() == REGION_KANTO
+     && FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE
+     && GetLastUsedWarpMapSectionId() != gMapHeader.regionMapSectionId)
         return TRUE;
 
     return FALSE;

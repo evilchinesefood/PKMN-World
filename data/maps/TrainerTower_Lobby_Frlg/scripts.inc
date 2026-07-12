@@ -103,10 +103,10 @@ TrainerTower_Lobby_EventScript_Nurse::
 TrainerTower_Lobby_EventScript_Receptionist::
 	lock
 	faceplayer
-	ttower_getbeatchallenge
-	goto_if_eq VAR_RESULT, TRUE, TrainerTower_Lobby_EventScript_ThanksForCompeting
-	msgbox TrainerTower_Lobby_Text_GiveItYourBest
-	goto TrainerTower_Lobby_EventScript_ReceptionistEnd
+	textcolor NPC_TEXT_COLOR_FEMALE
+	msgbox TrainerTower_Lobby_Text_ClosedForRenovations
+	release
+	end
 
 TrainerTower_Lobby_EventScript_ThanksForCompeting::
 	msgbox TrainerTower_Lobby_Text_ThanksForCompeting
@@ -139,15 +139,18 @@ TrainerTower_Lobby_Mart_Items::
 	release
 	end
 
+@ TRAINER TOWER closed for renovations: the reception attendant refuses the
+@ challenge and bounces the player back, sealing the floors above the counter.
 TrainerTower_Lobby_EventScript_EntryTrigger::
 	lockall
 	applymovement LOCALID_PLAYER, TrainerTower_Lobby_Movement_FaceReceptionist
 	textcolor NPC_TEXT_COLOR_FEMALE
-	msgbox TrainerTower_Lobby_Text_WelcomeToTrainerTower
-	ttower_getnumfloors
-	goto_if_eq VAR_RESULT, FALSE, TrainerTower_Lobby_EventScript_AllFloorsUsed
-	msgbox TrainerTower_Lobby_Text_TrainersUpToFloorNum
-	goto TrainerTower_Lobby_EventScript_AskEnterChallenge
+	msgbox TrainerTower_Lobby_Text_ClosedForRenovations
+	closemessage
+	applymovement LOCALID_PLAYER, TrainerTower_Lobby_Movement_WalkDown
+	waitmovement 0
+	releaseall
+	end
 
 TrainerTower_Lobby_EventScript_AllFloorsUsed::
 	msgbox TrainerTower_Lobby_Text_TrainersUpEighthFloor
@@ -225,6 +228,15 @@ TrainerTower_Lobby_Text_WelcomeToTrainerTower::
 	.string "Hello!\p"
 	.string "Welcome to TRAINER TOWER where\n"
 	.string "TRAINERS gather from all over!$"
+
+TrainerTower_Lobby_Text_ClosedForRenovations::
+	.string "I'm sorry!\p"
+	.string "TRAINER TOWER is closed for\n"
+	.string "renovations at the moment.\p"
+	.string "The floors above are off-limits\n"
+	.string "until the work is finished.\p"
+	.string "Please come and challenge us\n"
+	.string "another time!$"
 
 TrainerTower_Lobby_Text_TrainersUpToFloorNum::
 	.string "TRAINERS from all over the world\n"

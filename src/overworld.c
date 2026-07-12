@@ -2548,7 +2548,12 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
             MapPreview_LoadGfx(gMapHeader.regionMapSectionId);
             RunMapPreviewScreenFadeIn(gMapHeader.regionMapSectionId);
         }
-        else if (gMapHeader.showMapName == TRUE && SecretBaseMapPopupEnabled() == TRUE)
+        // Region merge: suppress the SwSh popup when a Kanto map preview already showed the
+        // name. FADE_IN is handled by the if above; CAVE/BASIC previews run earlier in
+        // TryDoMapTransition (fldeff_flash.c) and then fall through to here, so gate on the
+        // shared ShouldRunMapPreview() predicate to avoid the name appearing twice.
+        else if (gMapHeader.showMapName == TRUE && SecretBaseMapPopupEnabled() == TRUE
+              && !(ShouldRunMapPreview() && CurrentMapHasPreviewScreen(MPS_TYPE_ANY)))
             ShowMapNamePopup();
         (*state)++;
         break;

@@ -55,20 +55,40 @@ static bool32 ShouldRunTrainerSlideLastLowHp(u32 lastId, enum BattlerId battler)
 static void SetTrainerSlideParameters(enum BattlerId battler, u32* lastId, u32* trainerId, u32* retValue);
 static bool32 IsSlideInitalizedOrPlayed(enum BattlerId battler, enum TrainerSlideType slideId);
 
-// Partner trainers must be added as TRAINER_PARTNER(PARTNER_XXXX)
-static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINER_PARTNER(PARTNER_COUNT)][TRAINER_SLIDE_COUNT] =
+// The full [difficulty][trainer][slide] slide-message tables were entirely NULL in
+// this hack, so they are stored sparsely: one entry per trainer that has at least
+// one non-NULL slide message (currently none). GetTrainerSlideArray() scans these
+// and falls back to an all-NULL row, preserving the original indexing behavior
+// while reclaiming the ~335 KB the fully-allocated tables occupied.
+#if !TESTING
+struct TrainerSlideEntry
 {
-    [DIFFICULTY_NORMAL] =
-    {
-    },
+    u8 difficulty;
+    u16 trainerId;
+    const u8 *slides[TRAINER_SLIDE_COUNT];
 };
 
-static const u8* const sFrontierTrainerSlides[DIFFICULTY_COUNT][FRONTIER_TRAINERS_COUNT][TRAINER_SLIDE_COUNT] =
+// Partner trainers must be added as TRAINER_PARTNER(PARTNER_XXXX)
+static const struct TrainerSlideEntry sTrainerSlides[] =
 {
-    [DIFFICULTY_NORMAL] =
-    {
-    },
 };
+
+static const struct TrainerSlideEntry sFrontierTrainerSlides[] =
+{
+};
+
+static const u8 *const sEmptyTrainerSlideRow[TRAINER_SLIDE_COUNT] = {0};
+
+static const u8 *const *FindTrainerSlideRow(const struct TrainerSlideEntry *entries, u32 count, enum DifficultyLevel difficulty, u32 trainerId)
+{
+    for (u32 i = 0; i < count; i++)
+    {
+        if (entries[i].difficulty == difficulty && entries[i].trainerId == trainerId)
+            return entries[i].slides;
+    }
+    return sEmptyTrainerSlideRow;
+}
+#endif // !TESTING
 
 #define TRAINER_RED_TEST    1
 #define TRAINER_LEAF_TEST   2
@@ -125,9 +145,9 @@ static const u8* const *GetTrainerSlideArray(enum DifficultyLevel difficulty, u3
     return (FlagGet(TESTING_FLAG_TRAINER_SLIDES) ? sTestTrainerSlides[difficulty][trainerId] : NULL);
 #else
     if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-        return sFrontierTrainerSlides[difficulty][trainerId];
+        return FindTrainerSlideRow(sFrontierTrainerSlides, ARRAY_COUNT(sFrontierTrainerSlides), difficulty, trainerId);
     else
-        return sTrainerSlides[difficulty][trainerId];
+        return FindTrainerSlideRow(sTrainerSlides, ARRAY_COUNT(sTrainerSlides), difficulty, trainerId);
 #endif // TESTING
 }
 

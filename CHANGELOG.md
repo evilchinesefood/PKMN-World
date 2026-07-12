@@ -3,6 +3,33 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.2.0 — 2026-07-11
+
+### Kanto polish
+
+- **Map previews are back**: entering Kanto dungeons (Mt. Moon, Viridian
+  Forest, Rock Tunnel…) shows FireRed's full-screen area preview — long on
+  your first visit, quick on returns. Johto and Hoenn are unaffected, and the
+  name popup no longer appears twice.
+- **FireRed canon restored**: Professor Oak's name suggestions are FireRed's
+  (RED, FIRE…), and Kanto's in-game trades use the FireRed offers (MS. NIDO
+  the Nidoran♀, NINA the Nidorina, and the Golduck-for-Lickitung request).
+
+### Slimming (ROM 90.9% → 67.0% full)
+
+- **265 Pokémon families from Gen 4–9 that never appear anywhere in the three
+  campaigns are disabled** (~6.75 MiB). Nothing you can catch, evolve, or
+  fight is affected — every Gen 1–3 line and all their evolutions remain. The
+  National Dex diploma and the hub's completion reward now count only
+  obtainable species.
+- Gigantamax and Terastal form data removed (nothing here can trigger them);
+  the **Mega Evolution system stays** for possible future endgame content.
+- **Trainer Tower is closed for renovations** — the Sevii facility was never
+  functional in this merge; the Battle Frontier is the endgame facility.
+- Engine slimming: GameCube/e-Reader/Berry-fix link-era payloads removed,
+  empty trainer-slide tables made sparse, Japanese glyph sets dropped
+  (English-only build).
+
 ## v1.1.3 — 2026-07-11
 
 ### Fixes

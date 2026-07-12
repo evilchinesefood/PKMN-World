@@ -4655,6 +4655,10 @@ bool16 HasAllMons(void)
     for (i = 1; i < NATIONAL_DEX_COUNT + 1; i++)
     {
         j = NationalPokedexNumToSpecies(i);
+        // world-strip: disabled families resolve to SPECIES_NONE and must not gate
+        // completion, or the diploma and the hub's tier-3 reward become unreachable.
+        if (j == SPECIES_NONE)
+            continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;
     }

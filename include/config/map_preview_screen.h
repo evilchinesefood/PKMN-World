@@ -1,7 +1,7 @@
 #ifndef GUARD_CONFIG_MAP_PREVIEW_H
 #define GUARD_CONFIG_MAP_PREVIEW_H
 
-#define MPS_ENABLE_MAP_PREVIEWS     IS_FRLG // Enables map previews.
+#define MPS_ENABLE_MAP_PREVIEWS     (IS_FRLG || ALL_REGIONS) // Enables map previews. Merged (EMERALD/ALL_REGIONS) build has IS_FRLG==0, so ALL_REGIONS turns them on; ShouldRunMapPreview() then gates firing to REGION_KANTO at runtime.
 
 #define MPS_DURATION_LONG       120 // This is the number of frames the map preview will last when the player enters the map for the first time.
 #define MPS_DURATION_SHORT      40  // This is the number of frames the map preview will last if the player has visited the map before.

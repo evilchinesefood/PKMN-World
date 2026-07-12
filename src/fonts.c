@@ -324,10 +324,15 @@ ALIGNED(4) const u8 gFontShortNarrowerLatinGlyphWidths[] = {
     8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  3,
 };
 
-ALIGNED(4) const u16 gFontSmallJapaneseGlyphs[] = INCGFX_U16("graphics/fonts/japanese_small.png", ".hwjpnfont");
-ALIGNED(4) const u16 gFontNormalJapaneseGlyphs[] = INCGFX_U16("graphics/fonts/japanese_normal.png", ".hwjpnfont");
+// English-only build: the Japanese glyph pixel sets were removed to reclaim ROM.
+// The {JPN}/isJapanese code paths in text.c never run in normal play, but must
+// still compile and index a valid, sufficiently-large table, so each Japanese
+// glyph pointer aliases its Latin counterpart. (The bold set in text.c is kept:
+// it is the actual FONT_BOLD battle HP/EXP-bar digit font.)
+const u16 *const gFontSmallJapaneseGlyphs = gFontSmallLatinGlyphs;
+const u16 *const gFontNormalJapaneseGlyphs = gFontNormalLatinGlyphs;
 
-ALIGNED(4) const u16 gFontFRLGMaleJapaneseGlyphs[] = INCGFX_U16("graphics/fonts/japanese_frlg_male.png", ".fwjpnfont");
+const u16 *const gFontFRLGMaleJapaneseGlyphs = gFontShortLatinGlyphs;
 ALIGNED(4) const u8 gFontFRLGMaleJapaneseGlyphWidths[] = {
     0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
@@ -363,7 +368,7 @@ ALIGNED(4) const u8 gFontFRLGMaleJapaneseGlyphWidths[] = {
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
 };
 
-ALIGNED(4) const u16 gFontFRLGFemaleJapaneseGlyphs[] = INCGFX_U16("graphics/fonts/japanese_frlg_female.png", ".fwjpnfont");
+const u16 *const gFontFRLGFemaleJapaneseGlyphs = gFontShortLatinGlyphs;
 ALIGNED(4) const u8 gFontFRLGFemaleJapaneseGlyphWidths[] = {
     0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
@@ -399,7 +404,7 @@ ALIGNED(4) const u8 gFontFRLGFemaleJapaneseGlyphWidths[] = {
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
 };
 
-ALIGNED(4) const u16 gFontShortJapaneseGlyphs[] = INCGFX_U16("graphics/fonts/japanese_short.png", ".fwjpnfont");
+const u16 *const gFontShortJapaneseGlyphs = gFontShortLatinGlyphs;
 ALIGNED(4) const u8 gFontShortJapaneseGlyphWidths[] = {
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
     10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,

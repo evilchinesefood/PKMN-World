@@ -3,6 +3,27 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.5 — 2026-07-12
+
+The eyes-on checklist batch: your four reported bugs plus the intro done right.
+
+- **START menu / save safety**: the saved icon-order block lives in an
+  un-checksummed corner of flash; it's now fully validated every time the menu
+  opens. A corrupt entry there could crash the game and overwrite neighboring
+  save data (Kanto trainer flags) on the first START press after Continue.
+- **Trainer Card**: the EVOLVED count moved to the card's stats side (flip the
+  card) — on the front it was printing on top of the TIME row, and the
+  blinking-colon redraw garbled both.
+- **Pokédex**: the region/SEEN/CAUGHT/TOTAL readout sits on a fixed layer now,
+  so it can't drift when the list scrolls — that layer mismatch is why two
+  position nudges never fixed it.
+- **DexNav**: unregistering with R updates the header to "R TO REGISTER!"
+  immediately — no more stale "Search {name}" until you reopen.
+- **New game**: the Hard Mode YES/NO box no longer covers the question text.
+  The original Oak welcome (Nidoran demo and all) is restored, and the world
+  intro — three regions, the hub, the credit line — now lives on the three
+  narration pages right before Oak, where it belonged.
+
 ## v1.3.4 — 2026-07-12
 
 Riding polish: surfing and Sky-Charm flight now look like actually riding your

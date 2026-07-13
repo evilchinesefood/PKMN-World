@@ -146,6 +146,7 @@ static bool8 PrintAllOnCardBack(void);
 static void PrintNameOnCardBack(void);
 static void PrintHofDebutTimeOnCard(void);
 static void PrintLinkBattleResultsOnCard(void);
+static void PrintEvolvedCountOnCard(void);
 static void PrintTradesStringOnCard(void);
 static void PrintBerryCrushStringOnCard(void);
 static void PrintPokeblockStringOnCard(void);
@@ -1042,6 +1043,7 @@ static bool8 PrintAllOnCardBack(void)
         break;
     case 2:
         PrintLinkBattleResultsOnCard();
+        PrintEvolvedCountOnCard();
         break;
     case 3:
         PrintTradesStringOnCard();
@@ -1151,7 +1153,7 @@ static u16 GetCaughtMonsCount(void)
 }
 
 static const u8 sText_CardCaughtSlashTotal[] = _("{STR_VAR_1}/{STR_VAR_2}");
-static const u8 sText_CardEvolved[] = _("EVOLVED");
+static const u8 sText_CardPokemonEvolved[] = _("POKéMON EVOLVED");
 
 // Obtainable National Dex total — the completion denominator. Iterates species ONCE (each has a
 // natDexNum) instead of calling NationalPokedexNumToSpecies (an O(n) linear search) per dex slot,
@@ -1229,13 +1231,8 @@ static void PrintPokedexOnCard(void)
         xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, (!sData->isHoenn) ? 144 : 128);
         top = (!sData->isHoenn) ? 72 : 73;
         AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
-
-        // EVOLVED line just below: owned species that are an evolution of something.
-        top = (!sData->isHoenn) ? 87 : 88;
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, (!sData->isHoenn) ? 20 : 16, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, sText_CardEvolved);
-        ConvertIntToDecimalStringN(gStringVar4, GetEvolvedCaughtCount(), STR_CONV_MODE_LEFT_ALIGN, 4);
-        xOffset = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, (!sData->isHoenn) ? 144 : 128);
-        AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, xOffset, top, sTrainerCardTextColors, TEXT_SKIP_DRAW, gStringVar4);
+        // EVOLVED count lives on the card BACK (PrintEvolvedCountOnCard) — this row (y87/88)
+        // belongs to TIME, which redraws every frame for the blinking colon.
     }
 }
 
@@ -1382,6 +1379,17 @@ static void PrintLinkBattleResultsOnCard(void)
         StringCopy(gStringVar2, sData->textLinkBattleLosses);
         StringExpandPlaceholders(gStringVar4, gText_WinsLosses);
         PrintStatOnBackOfCard(1, sData->textLinkBattleType, gStringVar4, sTrainerCardTextColors);
+    }
+}
+
+// Owned species that are an evolution of something. Uses the link-battles row: link play is
+// de-scripted in this hack, so the slot is otherwise always empty (guarded anyway).
+static void PrintEvolvedCountOnCard(void)
+{
+    if (!sData->hasLinkResults && FlagGet(FLAG_SYS_POKEDEX_GET))
+    {
+        ConvertIntToDecimalStringN(gStringVar4, GetEvolvedCaughtCount(), STR_CONV_MODE_RIGHT_ALIGN, 5);
+        PrintStatOnBackOfCard(1, sText_CardPokemonEvolved, gStringVar4, sTrainerCardStatColors);
     }
 }
 

@@ -75,6 +75,7 @@ static EWRAM_DATA bool8 sFlightActive = FALSE;
 // EWRAM demands zero init; ResetOverworldFlight (InitPlayerAvatar) arms the MAX_SPRITES sentinel before any use
 static EWRAM_DATA u8 sFlightMountSpriteId = 0;
 static EWRAM_DATA u8 sFlightShadowSpriteId = 0;
+static EWRAM_DATA u8 sFlightOverlaySpriteId = 0;
 static EWRAM_DATA u8 sFlightWindSpriteId = 0;
 
 #define FLIGHT_MOUNT_GFX      OBJ_EVENT_GFX_SPECIES(FLYGON)  // ridden flying-mon sprite
@@ -1078,6 +1079,9 @@ void EndOverworldFlight(void)
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
+    // Standard object shadow back immediately (ground effects would only
+    // re-arm it on the next step).
+    SetUpShadow(playerObjEvent);
     PlaySE(SE_LEDGE);
 }
 
@@ -1089,6 +1093,7 @@ void ResetOverworldFlight(void)
     sFlightMountSpriteId = MAX_SPRITES;
     sFlightShadowSpriteId = MAX_SPRITES;
     sFlightWindSpriteId = MAX_SPRITES;
+    sFlightOverlaySpriteId = MAX_SPRITES;
 }
 
 static void CreateFlightMountSprite(void)
@@ -1098,8 +1103,14 @@ static void CreateFlightMountSprite(void)
 
     sFlightMountSpriteId = CreateObjectGraphicsSprite(GetFlightMountGraphicsId(), SpriteCB_FlightMount,
                                                       playerSprite->x, playerSprite->y + 8, 150);
+    sFlightOverlaySpriteId = MAX_SPRITES;
     if (sFlightMountSpriteId != MAX_SPRITES)
+    {
         gSprites[sFlightMountSpriteId].coordOffsetEnabled = TRUE;
+        // Rider-in-front strip of the mount (see CreateMountOverlaySprite);
+        // synced every frame by SpriteCB_FlightMount.
+        sFlightOverlaySpriteId = CreateMountOverlaySprite(sFlightMountSpriteId);
+    }
     // Dedicated ground shadow. FLDEFF_SHADOW is unusable here: UpdateShadowFieldEffect
     // stops it the moment the flyer crosses water/puddles/grass and it never respawns.
     // This one is driven directly by SpriteCB_FlightMount and lives for the whole flight.
@@ -1137,6 +1148,13 @@ static void CreateFlightMountSprite(void)
 
 static void DestroyFlightMountSprite(void)
 {
+    // Overlay first: it aliases the mount's palette, so the mount's
+    // FieldEffectFreePaletteIfUnused below sees the true refcount.
+    if (sFlightOverlaySpriteId != MAX_SPRITES)
+    {
+        DestroySprite(&gSprites[sFlightOverlaySpriteId]);
+        sFlightOverlaySpriteId = MAX_SPRITES;
+    }
     if (sFlightMountSpriteId != MAX_SPRITES)
     {
         u8 paletteNum = gSprites[sFlightMountSpriteId].oam.paletteNum;
@@ -1179,22 +1197,19 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
     // Anim frame changes reset subsprite mode to SUBSPRITES_ON, which makes the mon's
     // pieces render at their table priority (2) instead of the pair's 0 - re-pin it.
     sprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
-    // Draw order is direction-dependent: facing up you see the mon's back with the
-    // rider ON it (rider in front); every other way the mon's body overlaps the
-    // rider's lower half (mon in front). Both subpriorities are pinned here every
-    // frame with absolute values: the player's own subpriority updates are parked by
-    // fixedPriority, and relative-to-frozen math is what made the old order flaky.
-    if (playerObjEvent->facingDirection == DIR_NORTH)
-    {
-        playerSprite->subpriority = 20;
-        sprite->subpriority = 24;
-    }
-    else
-    {
-        sprite->subpriority = 20;
-        playerSprite->subpriority = 24;
-    }
+    // The player's pieces have the same trap: left at SUBSPRITES_ON their table
+    // priority (2) overrides the pinned 0, so map layers (treetops) cover the
+    // rider while the mount stays on top - punch-through that shifted with facing.
+    playerSprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
+    // Reference (dynamic_surf_ows) draw model, same as surf: the mount base is
+    // ALWAYS behind the rider in all four facings, and the mount's bottom half
+    // is re-drawn in front of the rider by the overlay strip, so the player
+    // sits IN the mount. No per-direction whole-sprite swaps.
+    playerSprite->subpriority = 24;
+    sprite->subpriority = 28;
     sprite->invisible = playerSprite->invisible;
+    if (sFlightOverlaySpriteId != MAX_SPRITES)
+        SyncMountOverlaySprite(&gSprites[sFlightOverlaySpriteId], sprite, playerSprite);
     if (sFlightShadowSpriteId != MAX_SPRITES)
     {
         struct Sprite *shadow = &gSprites[sFlightShadowSpriteId];
@@ -1247,8 +1262,6 @@ static enum Collision CheckForPlayerAvatarFlyingCollision(enum Direction directi
 
 static void MovePlayerFlying(enum Direction direction)
 {
-    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-
     switch (CheckMovementInputNotOnBike(direction))
     {
     case NOT_MOVING:
@@ -1265,13 +1278,8 @@ static void MovePlayerFlying(enum Direction direction)
         else
         {
             PlayerWalkFaster(direction); // Mach Bike top speed, no ramp-up
-            // Keep the ground shadow alive; UpdateShadowFieldEffect retires it
-            // over water, so re-arm on dry steps (FldEff_Shadow de-dupes).
-            if (!MetatileBehavior_IsSurfableWaterOrUnderwater(playerObjEvent->currentMetatileBehavior))
-            {
-                playerObjEvent->noShadow = FALSE;
-                StartFieldEffectForObjectEvent(FLDEFF_SHADOW, playerObjEvent);
-            }
+            // The dedicated flight shadow (SHADOW_L in SpriteCB_FlightMount) is
+            // the ONLY shadow airborne; FldEff_Shadow rejects the flying player.
         }
         break;
     }

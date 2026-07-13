@@ -362,6 +362,10 @@ u32 FldEff_Shadow(void)
             return 0;
     }
     objectEventId = GetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
+    // The overworld-flight pair carries its own dedicated ground shadow; the
+    // standard object shadow would double it (ground effects re-arm it every step).
+    if (gObjectEvents[objectEventId].isPlayer && IsPlayerFlying())
+        return 0;
     graphicsInfo = GetObjectEventGraphicsInfo(gObjectEvents[objectEventId].graphicsId);
     if (graphicsInfo->shadowSize == SHADOW_SIZE_NONE) // don't create a shadow at all
         return 0;
@@ -416,6 +420,7 @@ void UpdateShadowFieldEffect(struct Sprite *sprite)
          || objectEvent->inHotSprings
          || objectEvent->inSandPile
          || gWeatherPtr->noShadows
+         || (objectEvent->isPlayer && IsPlayerFlying()) // flight has its own dedicated shadow
          || MetatileBehavior_IsPokeGrass(objectEvent->currentMetatileBehavior)
          || MetatileBehavior_IsPuddle(objectEvent->currentMetatileBehavior)
          || MetatileBehavior_IsSurfableWaterOrUnderwater(objectEvent->currentMetatileBehavior)
@@ -1238,6 +1243,89 @@ static u16 GetSurfMountGraphicsIdWithFallback(void)
     return gfxId;
 }
 
+// Mount overlay (surf + overworld flight), after the dynamic_surf_ows reference:
+// the mount's base sprite stays BEHIND the rider, and the bottom half of the
+// mount's current frame is drawn a second time just in FRONT of the rider, so
+// the player sits IN the mount instead of perched wholly on top of it. The
+// overlay aliases the mount's live tiles/palette (same trick as reflections),
+// so it needs no extra art and tracks anims, shininess and hFlip for free.
+static const struct Subsprite sMountOverlaySubsprites_32x32[] = {
+    { .x = -16, .y = 0, .shape = ST_OAM_H_RECTANGLE, .size = ST_OAM_SIZE_2, .tileOffset = 8, .priority = 2 },
+};
+static const struct Subsprite sMountOverlaySubsprites_64x64[] = {
+    { .x = -32, .y = 0, .shape = ST_OAM_H_RECTANGLE, .size = ST_OAM_SIZE_3, .tileOffset = 32, .priority = 2 },
+};
+static const struct SubspriteTable sMountOverlayTable_32x32[] = {
+    { ARRAY_COUNT(sMountOverlaySubsprites_32x32), sMountOverlaySubsprites_32x32 },
+};
+static const struct SubspriteTable sMountOverlayTable_64x64[] = {
+    { ARRAY_COUNT(sMountOverlaySubsprites_64x64), sMountOverlaySubsprites_64x64 },
+};
+
+void SyncMountOverlaySprite(struct Sprite *overlay, struct Sprite *mount, struct Sprite *rider)
+{
+    overlay->x = mount->x;
+    overlay->y = mount->y;
+    overlay->x2 = mount->x2;
+    overlay->y2 = mount->y2;
+    overlay->oam.tileNum = mount->oam.tileNum;
+    overlay->oam.paletteNum = mount->oam.paletteNum;
+    overlay->oam.matrixNum = mount->oam.matrixNum; // carries the hFlip bit
+    overlay->oam.priority = mount->oam.priority;
+    overlay->subpriority = rider->subpriority - 1;
+    overlay->invisible = mount->invisible;
+}
+
+u8 CreateMountOverlaySprite(u8 mountSpriteId)
+{
+    struct Sprite *mount = &gSprites[mountSpriteId];
+    struct Sprite *overlay;
+    const struct SubspriteTable *table;
+    u8 overlayId;
+
+    if (mount->oam.shape == ST_OAM_SQUARE && mount->oam.size == ST_OAM_SIZE_2)
+        table = sMountOverlayTable_32x32;
+    else if (mount->oam.shape == ST_OAM_SQUARE && mount->oam.size == ST_OAM_SIZE_3)
+        table = sMountOverlayTable_64x64;
+    else
+        return MAX_SPRITES; // unusual gfx dims: base layer only
+
+    overlayId = CreateCopySpriteAt(mount, mount->x, mount->y, 30);
+    if (overlayId == MAX_SPRITES)
+        return MAX_SPRITES;
+
+    overlay = &gSprites[overlayId];
+    overlay->callback = SpriteCallbackDummy;
+    // Never stream or animate its own frames; the synced tileNum is the frame.
+    overlay->usingSheet = TRUE;
+    overlay->anims = gDummySpriteAnimTable;
+    StartSpriteAnim(overlay, 0);
+    overlay->affineAnims = gDummySpriteAffineAnimTable;
+    overlay->affineAnimBeginning = TRUE;
+    overlay->subspriteTables = table;
+    overlay->subspriteTableNum = 0;
+    overlay->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
+    overlay->coordOffsetEnabled = TRUE;
+    return overlayId;
+}
+
+#define sOvlMountId data[3]
+
+static void UpdateSurfMountOverlay(struct Sprite *sprite)
+{
+    struct Sprite *mount = &gSprites[sprite->sOvlMountId];
+
+    if (!mount->inUse || mount->callback != UpdateSurfBlobFieldEffect)
+    {
+        u8 paletteNum = sprite->oam.paletteNum;
+
+        DestroySprite(sprite);
+        FieldEffectFreePaletteIfUnused(paletteNum);
+        return;
+    }
+    SyncMountOverlaySprite(sprite, mount, &gSprites[gObjectEvents[mount->sPlayerObjId].spriteId]);
+}
+
 u32 FldEff_SurfBlob(void)
 {
     u8 spriteId;
@@ -1272,6 +1360,18 @@ u32 FldEff_SurfBlob(void)
         sprite->sVelocity = -1;
         sprite->sPrevX = -1;
         sprite->sPrevY = -1;
+        // Mon mounts get the rider-in-front bottom strip; the generic blob's
+        // art already reads as a bowl and needs none.
+        if (monGfxId != OBJ_EVENT_GFX_SPECIES(NONE))
+        {
+            u8 overlayId = CreateMountOverlaySprite(spriteId);
+
+            if (overlayId != MAX_SPRITES)
+            {
+                gSprites[overlayId].callback = UpdateSurfMountOverlay;
+                gSprites[overlayId].sOvlMountId = spriteId;
+            }
+        }
     }
     FieldEffectActiveListRemove(FLDEFF_SURF_BLOB);
     return spriteId;
@@ -1403,6 +1503,7 @@ static void UpdateBobbingEffect(struct ObjectEvent *playerObj, struct Sprite *pl
 #undef sIntervalIdx
 #undef sPrevX
 #undef sPrevY
+#undef sOvlMountId
 
 #define sSpriteId data[0]
 #define sBobY     data[1]

@@ -42,6 +42,8 @@ void UpdateBubblesFieldEffect(struct Sprite *sprite);
 void UpdateSparkleFieldEffect(struct Sprite *sprite);
 void SetSpriteInvisible(u8 spriteId);
 void ShowWarpArrowSprite(u8 spriteId, enum Direction direction, s16 x, s16 y);
+u8 CreateMountOverlaySprite(u8 mountSpriteId);
+void SyncMountOverlaySprite(struct Sprite *overlay, struct Sprite *mount, struct Sprite *rider);
 
 u32 FldEff_TallGrass(void);
 

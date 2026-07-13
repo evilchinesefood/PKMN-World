@@ -16,6 +16,10 @@ Mount polish round two.
   and it hides correctly during battle transitions and fog.
 - **Surf shadow**: your Pokémon now casts a soft dark shadow on the water
   while you ride it.
+- **Pokédex**: the region/SEEN/CAUGHT/TOTAL readout sits snug in its panel
+  (3px left, 10px up).
+- **Hub**: vendor NPCs repositioned along the north wall; the World Tour
+  Board moved up a tile.
 
 ## v1.3.5 — 2026-07-12
 

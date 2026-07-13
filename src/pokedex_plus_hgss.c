@@ -1218,10 +1218,10 @@ static const struct WindowTemplate sPokemonList_WindowTemplate[] =
         .baseBlock = 1,
     },
     [WIN_READOUT] = // static label column on BG1 (never scrolled on the list page).
-    {               // Cols 24-27 / rows 3-9 exactly: col 23 holds the panel edge line and
-        .bg = 1,    // row 10 the separator bar - covering either blanks that BG1 frame art.
-        .tilemapLeft = 24,
-        .tilemapTop = 3,
+    {               // Cols 23-26 / rows 2-8: covering col 23 blanks the panel's 3px edge
+        .bg = 1,    // line, so LoadPokedexListPage repaints it into the window buffer.
+        .tilemapLeft = 23,
+        .tilemapTop = 2,
         .width = 4,
         .height = 7,
         .paletteNum = 0,
@@ -2401,6 +2401,9 @@ static bool8 LoadPokedexListPage(u8 page)
         CopyWindowToVram(0, COPYWIN_FULL);
         // after the BG1 frame tilemap copy above so the window rect overrides it
         FillWindowPixelBuffer(WIN_READOUT, PIXEL_FILL(0));
+        // repaint the panel edge line (x184-186, colors 7/7/6) that the window rect blanks
+        FillWindowPixelRect(WIN_READOUT, PIXEL_FILL(7), 0, 0, 2, 56);
+        FillWindowPixelRect(WIN_READOUT, PIXEL_FILL(6), 2, 0, 1, 56);
         PutWindowTilemap(WIN_READOUT);
         CopyWindowToVram(WIN_READOUT, COPYWIN_FULL);
         gMain.state = 1;
@@ -3122,20 +3125,20 @@ static u16 GetRegionDexCount(enum Region region, u8 caseID)
 
 // One readout row: LABEL (left, in the clear right-hand column) + its 4-digit sprite count
 // (leading zeros hidden) right-aligned at READOUT_DIGITS_1S_X, BOTH on the same y. Labels are
-// window text on WIN_READOUT, a small static BG1 window (x192-223, y24-79): BG1 is never
+// window text on WIN_READOUT, a small static BG1 window (x184-215, y16-71): BG1 is never
 // scrolled on the list page, so the BG2 list scroll (UpdateDexListScroll animating BG2VOFS)
 // cannot move them out from under the fixed OAM digit sprites. Labels sit in the clear gap
 // RIGHT of the scrolling mon sprite (centered at SCROLLING_MON_X 146, so its ~64px pic ends
 // near x178) and LEFT of the digit column at ~x215 — otherwise the window-text labels draw
 // on top of the mon pic and read as unreadable clutter. Coords below are screen-space; the
 // label print converts to window-local.
-#define READOUT_LABEL_X    192
-#define READOUT_DIGITS_1S_X 233
+#define READOUT_LABEL_X    189
+#define READOUT_DIGITS_1S_X 230
 static void PrintDexReadoutRow(const u8 *label, u32 count, u32 y, bool32 titleOnly)
 {
     u8 color[3] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_LIGHT_GRAY};
 
-    AddTextPrinterParameterized4(WIN_READOUT, FONT_SMALL_NARROWER, READOUT_LABEL_X - 24 * 8, y - 3 * 8, 0, 0, color, TEXT_SKIP_DRAW, label);
+    AddTextPrinterParameterized4(WIN_READOUT, FONT_SMALL_NARROWER, READOUT_LABEL_X - 23 * 8, y - 2 * 8, 0, 0, color, TEXT_SKIP_DRAW, label);
     if (!titleOnly)
     {
         static const u16 sDivisors[] = {1000, 100, 10, 1};
@@ -3193,10 +3196,10 @@ static void CreateInterfaceSprites(u8 page)
         default:           regionName = sText_DexRegionHoenn; break;
         }
 
-        PrintDexReadoutRow(regionName, 0, 26, TRUE);
-        PrintDexReadoutRow(sText_DexSeen, GetRegionDexCount(region, FLAG_GET_SEEN), 40, FALSE);
-        PrintDexReadoutRow(sText_Caught, GetRegionDexCount(region, FLAG_GET_CAUGHT), 54, FALSE);
-        PrintDexReadoutRow(sText_DexTotal, GetNationalPokedexCount(FLAG_GET_CAUGHT), 68, FALSE);
+        PrintDexReadoutRow(regionName, 0, 16, TRUE);
+        PrintDexReadoutRow(sText_DexSeen, GetRegionDexCount(region, FLAG_GET_SEEN), 30, FALSE);
+        PrintDexReadoutRow(sText_Caught, GetRegionDexCount(region, FLAG_GET_CAUGHT), 44, FALSE);
+        PrintDexReadoutRow(sText_DexTotal, GetNationalPokedexCount(FLAG_GET_CAUGHT), 58, FALSE);
         CopyWindowToVram(WIN_READOUT, COPYWIN_GFX);
     }
 

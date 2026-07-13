@@ -4,7 +4,8 @@
 //  - clock/date row stripped (play-time display was deliberately removed from this game)
 //  - Quests icon added, wired to the classic menu's Task_QuestMenu_OpenFromStartMenu
 //  - sUsmModeCallbacks const-ified and sUsmMenuCallback moved to EWRAM (no IWRAM growth)
-//  - gSaveBlock3Ptr->usmSaved.count sanitized before use (old-save safety)
+//  - gSaveBlock3Ptr->usmSaved fully validated before use (count, item range,
+//    duplicates) - it lives in un-checksummed flash, so any bad byte wipes the list
 #include "global.h"
 #include "config/start_menu.h"
 
@@ -893,10 +894,16 @@ static void Usm_InsertSavedItem(enum Usm_Icons item)
 
     u32 arrayCount = ARRAY_COUNT(saved->items);
 
-    assertf(saved->count < arrayCount, "Saved menu full (count=%u, capacity=%u)", saved->count, arrayCount);
+    assertf(saved->count < arrayCount, "Saved menu full (count=%u, capacity=%u)", saved->count, arrayCount)
+    {
+        return;
+    }
 
     for (u32 i = 0; i < saved->count; i++)
     {
+        if (saved->items[i] >= USM_ICO_COUNT)
+            continue;
+
         if (Usm_GetDefaultIndex(saved->items[i]) > defaultIndex)
         {
             insertIndex = i;
@@ -914,14 +921,28 @@ static void Usm_InsertSavedItem(enum Usm_Icons item)
     saved->count++;
 }
 
+// usmSaved lives in un-checksummed flash, so every field can be garbage. Any
+// bad count, out-of-range item, or duplicate wipes the whole struct - the list
+// rebuilds from defaults, losing only the player's custom icon order.
+// Availability is deliberately NOT checked: legit saved lists can hold
+// currently-unavailable icons (e.g. REST); the render loop filters those.
+static void Usm_SanitizeSavedItems(struct Usm_SavedItems *saved)
+{
+    bool32 valid = saved->count <= ARRAY_COUNT(saved->items);
+
+    for (u32 i = 0; valid && i < saved->count; i++)
+        valid = saved->items[i] < USM_ICO_COUNT
+             && !Usm_ListContains(saved->items[i], saved->items, i);
+
+    if (!valid)
+        memset(saved, 0, sizeof(*saved));
+}
+
 static void Usm_BuildMenuItems(void)
 {
     struct Usm_SavedItems* saved = &gSaveBlock3Ptr->usmSaved;
 
-    // count is the only unvalidated save field (per-item ids are range-checked below);
-    // a corrupt count would poison the whole list, so reset and rebuild the defaults.
-    if (saved->count > USM_ICO_COUNT)
-        saved->count = 0;
+    Usm_SanitizeSavedItems(saved);
 
     sUsmState->itemCount = 0;
 

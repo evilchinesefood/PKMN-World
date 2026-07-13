@@ -2437,6 +2437,7 @@ static void Task_DexNavMain(u8 taskId)
             if ((VarGet(DN_VAR_SPECIES) & DEXNAV_MASK_SPECIES) == species)
             {
                 VarSet(DN_VAR_SPECIES, SPECIES_NONE);
+                PrintSearchableSpecies(SPECIES_NONE);
                 PlaySE(SE_SELECT);
             }
             else

@@ -3,6 +3,20 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.6 — 2026-07-13
+
+Mount polish round two.
+
+- **Your follower rides first**: surfing and Sky-Charm flight now mount the
+  Pokémon walking with you whenever it can use the move (including the
+  party-menu FOLLOW pick); otherwise the first capable team member by party
+  order carries you. The pick also stays stable across warps, dives and
+  save-continue while surfing.
+- **Fly shadow**: normal walking-shadow size — the oversized slab is gone —
+  and it hides correctly during battle transitions and fog.
+- **Surf shadow**: your Pokémon now casts a soft dark shadow on the water
+  while you ride it.
+
 ## v1.3.5 — 2026-07-12
 
 The eyes-on checklist batch: your four reported bugs plus the intro done right.

@@ -2417,63 +2417,99 @@ bool8 GetFollowerInfo(u32 *species, bool32 *shiny, bool32 *female)
     return GetMonInfo(GetFirstLiveMon(), species, shiny, female);
 }
 
-// OW gfx id for the surf mount: the first non-egg party mon that knows Surf.
-// Returns OBJ_EVENT_GFX_SPECIES(NONE) when the generic surf blob should be
-// used instead: no such mon (badge/item-gated field moves allow that), no
-// usable OW gfx, or oversized gfx indoors (same rule as the follower system).
-u16 GetSurfMountGraphicsId(void)
+// "Capable" for mount selection, matching the field-move gate: the mon knows
+// the move, or (with no-teach HMs) could learn it.
+static bool32 MonCanUseFieldHm(struct Pokemon *mon, u16 move)
 {
-    u32 i, species;
+    u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+
+    if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG)
+        return FALSE;
+    if (MonKnowsMove(mon, move))
+        return TRUE;
+#if QOL_FIELD_MOVES_NO_TEACH
+    if (CanLearnTeachableMove(speciesOrEgg, move))
+        return TRUE;
+#endif
+    return FALSE;
+}
+
+// The mon that follows the player, or NULL when followers are off. Checks the
+// follower SETTING, not the live object: on map load the surf blob is created
+// before UpdateFollowingPokemon respawns the object, and the mount must not
+// change species across a warp / save-continue while surfing. GetFirstLiveMon
+// honors the chosen follower slot, so this is who the player sees behind them.
+static struct Pokemon *GetActiveFollowerMon(void)
+{
+    if (!OW_POKEMON_OBJECT_EVENTS || !OW_FOLLOWERS_ENABLED
+     || FlagGet(B_FLAG_FOLLOWERS_DISABLED)
+     || PlayerHasFollowerNPC())
+        return NULL;
+    return GetFirstLiveMon();
+}
+
+// Displayable OW gfx for a mount candidate, or GFX_SPECIES(NONE).
+// checkIndoorSize mirrors the follower rule: no oversized sprites indoors.
+static u16 GetMountGraphicsIdForMon(struct Pokemon *mon, bool32 checkIndoorSize)
+{
+    u32 species;
     bool32 shiny, female;
 
-    if (!OW_POKEMON_OBJECT_EVENTS || !OW_SURF_USES_MON_SPRITE)
+    if (!GetMonInfo(mon, &species, &shiny, &female)
+     || SpeciesToGraphicsInfo(species, shiny, female) == NULL
+     || (checkIndoorSize && gMapHeader.mapType == MAP_TYPE_INDOOR
+      && SpeciesToGraphicsInfo(species, shiny, female)->oam->size > ST_OAM_SIZE_2))
         return OBJ_EVENT_GFX_SPECIES(NONE);
+    return GetGraphicsIdForMon(species, shiny, female);
+}
 
+// Mount pick order (both surf and flight): the ACTIVE follower first if it is
+// capable, then the first capable party mon by slot order.
+static u16 GetMountGraphicsId(u16 move, bool32 checkIndoorSize)
+{
+    u32 i;
+    u16 gfxId;
+    struct Pokemon *follower = GetActiveFollowerMon();
+
+    if (follower != NULL && MonCanUseFieldHm(follower, move))
+    {
+        gfxId = GetMountGraphicsIdForMon(follower, checkIndoorSize);
+        if (gfxId != OBJ_EVENT_GFX_SPECIES(NONE))
+            return gfxId;
+    }
     for (i = 0; i < PARTY_SIZE; i++)
     {
         struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
-        u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
 
-        if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG
-         || !MonKnowsMove(mon, MOVE_SURF))
+        if (mon == follower || !MonCanUseFieldHm(mon, move))
             continue;
-        if (!GetMonInfo(mon, &species, &shiny, &female)
-         || SpeciesToGraphicsInfo(species, shiny, female) == NULL
-         || (gMapHeader.mapType == MAP_TYPE_INDOOR && SpeciesToGraphicsInfo(species, shiny, female)->oam->size > ST_OAM_SIZE_2))
-            break;
-        return GetGraphicsIdForMon(species, shiny, female);
+        gfxId = GetMountGraphicsIdForMon(mon, checkIndoorSize);
+        if (gfxId != OBJ_EVENT_GFX_SPECIES(NONE))
+            return gfxId;
     }
     return OBJ_EVENT_GFX_SPECIES(NONE);
 }
 
-// Flight mount for the Sky Charm / Fly move: the player's first party Pokemon that
-// knows FLY, rendered as a live OW sprite (respects shiny/female/forms). Falls back
-// to Flygon when no party member knows Fly.
+// OW gfx id for the surf mount. Follower rides first, else the first capable
+// party mon. Returns OBJ_EVENT_GFX_SPECIES(NONE) when the generic surf blob
+// should be used instead: no capable mon, no usable OW gfx, or oversized gfx
+// indoors (same rule as the follower system).
+u16 GetSurfMountGraphicsId(void)
+{
+    if (!OW_POKEMON_OBJECT_EVENTS || !OW_SURF_USES_MON_SPRITE)
+        return OBJ_EVENT_GFX_SPECIES(NONE);
+    return GetMountGraphicsId(MOVE_SURF, TRUE);
+}
+
+// Flight mount for the Sky Charm / Fly move: follower rides first, else the
+// first capable party mon (live OW sprite: shiny/female/forms respected).
+// Falls back to Flygon when nobody can carry the player.
 u16 GetFlightMountGraphicsId(void)
 {
-    u32 i, species;
-    bool32 shiny, female;
+    u16 gfxId = GetMountGraphicsId(MOVE_FLY, FALSE);
 
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
-        u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-
-        if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG)
-            continue;
-        // Match the game's "can use Fly" rule: knows Fly, or (with no-teach HMs) can LEARN it.
-        // Otherwise the actual flyer (never taught Fly) is skipped and we wrongly fall to Flygon.
-        if (!MonKnowsMove(mon, MOVE_FLY)
-#if QOL_FIELD_MOVES_NO_TEACH
-         && !CanLearnTeachableMove(speciesOrEgg, MOVE_FLY)
-#endif
-           )
-            continue;
-        if (!GetMonInfo(mon, &species, &shiny, &female)
-         || SpeciesToGraphicsInfo(species, shiny, female) == NULL)
-            continue;
-        return GetGraphicsIdForMon(species, shiny, female);
-    }
+    if (gfxId != OBJ_EVENT_GFX_SPECIES(NONE))
+        return gfxId;
     return OBJ_EVENT_GFX_SPECIES(FLYGON);
 }
 

@@ -9,6 +9,7 @@
 #include "field_effect_helpers.h"
 #include "field_move.h"
 #include "field_screen_effect.h"
+#include "field_weather.h"
 #include "field_player_avatar.h"
 #include "fieldmap.h"
 #include "follower_npc.h"
@@ -1114,8 +1115,9 @@ static void CreateFlightMountSprite(void)
     // Dedicated ground shadow. FLDEFF_SHADOW is unusable here: UpdateShadowFieldEffect
     // stops it the moment the flyer crosses water/puddles/grass and it never respawns.
     // This one is driven directly by SpriteCB_FlightMount and lives for the whole flight.
-    LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_L], 0, 0);
-    sFlightShadowSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_L],
+    // Normal (walking) shadow size - the large one read as a dark slab under the pair.
+    LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_M], 0, 0);
+    sFlightShadowSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_M],
                                               playerSprite->x, playerSprite->y + 14, 0xFF);
     if (sFlightShadowSpriteId != MAX_SPRITES)
     {
@@ -1221,7 +1223,9 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
         // Ground priority must follow the tile under the flyer: a fixed 2 vanishes
         // behind bridge BG layers (priority 1) while the pair stays visible above.
         shadow->oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
-        shadow->invisible = playerSprite->invisible;
+        // noShadows (battle transitions, fog): a BLEND sprite left visible gets
+        // composited with the transition's blend program as a garbage slab.
+        shadow->invisible = playerSprite->invisible || gWeatherPtr->noShadows;
     }
     if (sFlightWindSpriteId != MAX_SPRITES)
     {

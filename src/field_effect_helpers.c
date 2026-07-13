@@ -15,6 +15,7 @@
 #include "wild_encounter_ow.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
+#include "constants/map_types.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/species.h"
@@ -1211,38 +1212,6 @@ static void UpdateAshFieldEffect_End(struct Sprite *sprite)
 #define sPrevX        data[6]
 #define sPrevY        data[7]
 
-// The stock GetSurfMountGraphicsId only rides a mon that KNOWS Surf, but with
-// no-teach HMs no party mon ever learns it as a move, so surf always fell back to
-// the generic blob. Mirror the Sky Charm flyer's rule (GetFlightMountGraphicsId):
-// when nothing "knows" it, ride the first mon that CAN LEARN Surf. Refusal when no
-// mon can surf at all is handled upstream by PartyHasMonWithSurf (the field-move gate).
-static u16 GetSurfMountGraphicsIdWithFallback(void)
-{
-    u16 gfxId = GetSurfMountGraphicsId();
-#if QOL_FIELD_MOVES_NO_TEACH
-    if (gfxId == OBJ_EVENT_GFX_SPECIES(NONE) && OW_POKEMON_OBJECT_EVENTS && OW_SURF_USES_MON_SPRITE)
-    {
-        u32 i;
-
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
-            u32 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-            bool32 shiny, female;
-
-            if (species == SPECIES_NONE || species == SPECIES_EGG
-             || !CanLearnTeachableMove(species, MOVE_SURF))
-                continue;
-            shiny = IsMonShiny(mon) ? OBJ_EVENT_MON_SHINY : 0;
-            female = (GetMonGender(mon) == MON_FEMALE) ? OBJ_EVENT_MON_FEMALE : 0;
-            if (SpeciesToGraphicsInfo(species, shiny, female) != NULL)
-                return GetGraphicsIdForMon(species, shiny, female);
-        }
-    }
-#endif
-    return gfxId;
-}
-
 // Mount overlay (surf + overworld flight), after the dynamic_surf_ows reference:
 // the mount's base sprite stays BEHIND the rider, and the bottom half of the
 // mount's current frame is drawn a second time just in FRONT of the rider, so
@@ -1326,6 +1295,49 @@ static void UpdateSurfMountOverlay(struct Sprite *sprite)
     SyncMountOverlaySprite(sprite, mount, &gSprites[gObjectEvents[mount->sPlayerObjId].spriteId]);
 }
 
+// Dark blended shadow on the water under the surf mount. Holds the waterline
+// (no bob) behind the mount base; self-destroys with the mount.
+static void UpdateSurfMountShadow(struct Sprite *sprite)
+{
+    struct Sprite *mount = &gSprites[sprite->sOvlMountId];
+
+    // noShadows: battle transitions blank every shadow to free sprite slots and
+    // then reprogram the blend registers - a surviving BLEND sprite renders as
+    // a garbage slab. Same rule as UpdateShadowFieldEffect; the blob (and this
+    // shadow) are recreated on the post-battle map reload.
+    if (!mount->inUse || mount->callback != UpdateSurfBlobFieldEffect || gWeatherPtr->noShadows)
+    {
+        DestroySprite(sprite);
+        return;
+    }
+    sprite->x = mount->x;
+    sprite->y = mount->y + 8;
+    sprite->y2 = 0;
+    sprite->oam.priority = mount->oam.priority;
+    sprite->subpriority = mount->subpriority + 1;
+    sprite->invisible = mount->invisible;
+}
+
+static void CreateSurfMountShadow(u8 mountSpriteId, u16 monGfxId)
+{
+    const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(monGfxId);
+    u32 size = graphicsInfo->shadowSize == SHADOW_SIZE_NONE ? SHADOW_SIZE_M : graphicsInfo->shadowSize;
+    struct Sprite *mount = &gSprites[mountSpriteId];
+    u8 shadowId;
+
+    if (gMapHeader.mapType == MAP_TYPE_UNDERWATER)
+        return;
+    LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[sShadowEffectTemplateIds[size]], 0, 0);
+    shadowId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[sShadowEffectTemplateIds[size]],
+                                 mount->x, mount->y + 8, mount->subpriority + 1);
+    if (shadowId == MAX_SPRITES)
+        return;
+    gSprites[shadowId].callback = UpdateSurfMountShadow;
+    gSprites[shadowId].oam.objMode = ST_OAM_OBJ_BLEND;
+    gSprites[shadowId].coordOffsetEnabled = TRUE;
+    gSprites[shadowId].sOvlMountId = mountSpriteId;
+}
+
 u32 FldEff_SurfBlob(void)
 {
     u8 spriteId;
@@ -1336,7 +1348,7 @@ u32 FldEff_SurfBlob(void)
     // generic, and Sky Charm flight reuses the surf pose without ever starting
     // this effect (the IsPlayerFlying check is belt-and-braces).
     if (gFieldEffectArguments[2] == gPlayerAvatar.objectEventId && !IsPlayerFlying())
-        monGfxId = GetSurfMountGraphicsIdWithFallback();
+        monGfxId = GetSurfMountGraphicsId(); // follower-first, knows-or-can-learn (see event_object_movement.c)
 
     if (monGfxId != OBJ_EVENT_GFX_SPECIES(NONE))
     {
@@ -1360,8 +1372,9 @@ u32 FldEff_SurfBlob(void)
         sprite->sVelocity = -1;
         sprite->sPrevX = -1;
         sprite->sPrevY = -1;
-        // Mon mounts get the rider-in-front bottom strip; the generic blob's
-        // art already reads as a bowl and needs none.
+        // Mon mounts get the rider-in-front bottom strip and a waterline
+        // shadow; the generic blob's art already reads as a bowl and needs
+        // neither.
         if (monGfxId != OBJ_EVENT_GFX_SPECIES(NONE))
         {
             u8 overlayId = CreateMountOverlaySprite(spriteId);
@@ -1371,6 +1384,7 @@ u32 FldEff_SurfBlob(void)
                 gSprites[overlayId].callback = UpdateSurfMountOverlay;
                 gSprites[overlayId].sOvlMountId = spriteId;
             }
+            CreateSurfMountShadow(spriteId, monGfxId);
         }
     }
     FieldEffectActiveListRemove(FLDEFF_SURF_BLOB);

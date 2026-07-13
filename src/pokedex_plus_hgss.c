@@ -1202,8 +1202,12 @@ static const struct BgTemplate sPokedex_BgTemplate[] =
     }
 };
 
+#define WIN_LIST    0
+#define WIN_READOUT 1
+
 static const struct WindowTemplate sPokemonList_WindowTemplate[] =
 {
+    [WIN_LIST] =
     {
         .bg = 2,
         .tilemapLeft = 0,
@@ -1212,6 +1216,16 @@ static const struct WindowTemplate sPokemonList_WindowTemplate[] =
         .height = 32,
         .paletteNum = 0,
         .baseBlock = 1,
+    },
+    [WIN_READOUT] = // static label column on BG1 (never scrolled on the list page).
+    {               // Cols 24-27 / rows 3-9 exactly: col 23 holds the panel edge line and
+        .bg = 1,    // row 10 the separator bar - covering either blanks that BG1 frame art.
+        .tilemapLeft = 24,
+        .tilemapTop = 3,
+        .width = 4,
+        .height = 7,
+        .paletteNum = 0,
+        .baseBlock = 0x100,
     },
     DUMMY_WIN_TEMPLATE
 };
@@ -2385,6 +2399,10 @@ static bool8 LoadPokedexListPage(u8 page)
         DeactivateAllTextPrinters();
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_FULL);
+        // after the BG1 frame tilemap copy above so the window rect overrides it
+        FillWindowPixelBuffer(WIN_READOUT, PIXEL_FILL(0));
+        PutWindowTilemap(WIN_READOUT);
+        CopyWindowToVram(WIN_READOUT, COPYWIN_FULL);
         gMain.state = 1;
         break;
     case 1:
@@ -3103,20 +3121,21 @@ static u16 GetRegionDexCount(enum Region region, u8 caseID)
 }
 
 // One readout row: LABEL (left, in the clear right-hand column) + its 4-digit sprite count
-// (leading zeros hidden) right-aligned at READOUT_DIGITS_1S_X, BOTH on the same y. The prior
-// layout drew the label at x172,y49-80 and the sprite count at x233,y65-85 - two columns
-// offset ~10px vertically, so nothing lined up and it read as scattered over the UI. Sharing
-// the row keeps each label paired with its number in the readable zone the old readout used.
-// Labels sit in the clear gap RIGHT of the scrolling mon sprite (centered at SCROLLING_MON_X
-// 146, so its ~64px pic ends near x178) and LEFT of the digit column at ~x215 — otherwise the
-// window-text labels draw on top of the mon pic and read as unreadable clutter.
-#define READOUT_LABEL_X    184
+// (leading zeros hidden) right-aligned at READOUT_DIGITS_1S_X, BOTH on the same y. Labels are
+// window text on WIN_READOUT, a small static BG1 window (x192-223, y24-79): BG1 is never
+// scrolled on the list page, so the BG2 list scroll (UpdateDexListScroll animating BG2VOFS)
+// cannot move them out from under the fixed OAM digit sprites. Labels sit in the clear gap
+// RIGHT of the scrolling mon sprite (centered at SCROLLING_MON_X 146, so its ~64px pic ends
+// near x178) and LEFT of the digit column at ~x215 — otherwise the window-text labels draw
+// on top of the mon pic and read as unreadable clutter. Coords below are screen-space; the
+// label print converts to window-local.
+#define READOUT_LABEL_X    192
 #define READOUT_DIGITS_1S_X 233
 static void PrintDexReadoutRow(const u8 *label, u32 count, u32 y, bool32 titleOnly)
 {
     u8 color[3] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_LIGHT_GRAY};
 
-    AddTextPrinterParameterized4(0, FONT_SMALL_NARROWER, READOUT_LABEL_X, y, 0, 0, color, TEXT_SKIP_DRAW, label);
+    AddTextPrinterParameterized4(WIN_READOUT, FONT_SMALL_NARROWER, READOUT_LABEL_X - 24 * 8, y - 3 * 8, 0, 0, color, TEXT_SKIP_DRAW, label);
     if (!titleOnly)
     {
         static const u16 sDivisors[] = {1000, 100, 10, 1};
@@ -3125,7 +3144,9 @@ static void PrintDexReadoutRow(const u8 *label, u32 count, u32 y, bool32 titleOn
 
         for (i = 0; i < ARRAY_COUNT(sDivisors); i++)
         {
-            u8 spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, READOUT_DIGITS_1S_X - (3 - i) * 6, y, 1);
+            // sprite y is center-anchored vs the label's top-anchored y — +8 puts the digit
+            // glyphs on the label's row instead of floating half a row above it
+            u8 spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, READOUT_DIGITS_1S_X - (3 - i) * 6, y + 8, 1);
             u16 digit = (count / sDivisors[i]) % 10;
 
             if (digit != 0 || draw || sDivisors[i] == 1)
@@ -3176,7 +3197,7 @@ static void CreateInterfaceSprites(u8 page)
         PrintDexReadoutRow(sText_DexSeen, GetRegionDexCount(region, FLAG_GET_SEEN), 40, FALSE);
         PrintDexReadoutRow(sText_Caught, GetRegionDexCount(region, FLAG_GET_CAUGHT), 54, FALSE);
         PrintDexReadoutRow(sText_DexTotal, GetNationalPokedexCount(FLAG_GET_CAUGHT), 68, FALSE);
-        CopyWindowToVram(0, COPYWIN_GFX);
+        CopyWindowToVram(WIN_READOUT, COPYWIN_GFX);
     }
 
     if (page == PAGE_MAIN)

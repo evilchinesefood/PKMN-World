@@ -1188,14 +1188,23 @@ static u16 GetEvolvedCaughtCount(void)
 
     for (s = 1; s < NUM_SPECIES; s++)
     {
-        const struct Evolution *evos = GetSpeciesEvolutions(s);
+        const struct Evolution *evos;
         u16 j;
 
+        // Stripped species: GetSpeciesEvolutions/SanitizeSpeciesId assert (blue
+        // screen) on disabled ids, and evolution targets can be stripped too.
+        if (!IsSpeciesEnabled(s))
+            continue;
+        evos = GetSpeciesEvolutions(s);
         if (evos == NULL)
             continue;
         for (j = 0; evos[j].method != EVOLUTIONS_END; j++)
         {
-            dn = gSpeciesInfo[SanitizeSpeciesId(evos[j].targetSpecies)].natDexNum;
+            u16 target = evos[j].targetSpecies;
+
+            if (target == SPECIES_NONE || target >= NUM_SPECIES || !IsSpeciesEnabled(target))
+                continue;
+            dn = gSpeciesInfo[target].natDexNum;
             if (dn != 0 && dn <= NATIONAL_DEX_COUNT)
                 isEvolvedSlot[dn >> 3] |= 1 << (dn & 7);
         }

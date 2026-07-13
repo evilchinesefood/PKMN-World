@@ -3,6 +3,23 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## v1.3.4 — 2026-07-12
+
+Riding polish: surfing and Sky-Charm flight now look like actually riding your
+Pokémon (modeled on ghoulslash's dynamic_surf_ows).
+
+- **Surf**: you sit IN your Pokémon — its lower body is drawn in front of you,
+  tucking your legs in, instead of you perching wholly on top of the sprite.
+- **Flight**: the same riding model in all four facings. Gone: the direction
+  flip that drew the whole mon over you facing south/east/west, and the bug
+  where the rider slipped behind treetops and buildings while the mon stayed
+  visible above them.
+- **Flight shadow**: exactly one soft ground shadow while airborne (it used to
+  double up with the walking shadow over land), and your normal shadow comes
+  back the moment you land.
+- **Trainer Card**: opening the card no longer blue-screens with a "disabled
+  species" error.
+
 ## v1.3.3 — 2026-07-12
 
 Deep-review fixes + the QoL backlog's remaining items.

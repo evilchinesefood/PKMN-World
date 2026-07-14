@@ -985,13 +985,20 @@ bool32 TryStartDexNavSearch(void)
     u16 val = VarGet(DN_VAR_SPECIES);
     enum Species boundSpecies = val & DEXNAV_MASK_SPECIES;
 
-    if (FlagGet(DN_FLAG_SEARCHING) && sDexNavSearchDataPtr->hiddenSearch)
+    if (FlagGet(DN_FLAG_SEARCHING))
     {
-        RevealHiddenSearch();
+        // A search looks active. The saved DN_FLAG_SEARCHING can outlive the runtime search data
+        // across a save+reload (e.g. saving during a detector-mode hidden search), leaving the flag
+        // set with sDexNavSearchDataPtr == NULL. Recover the stuck flag instead of dereferencing
+        // NULL, which otherwise flashes a garbage DexNav window when R is pressed.
+        if (sDexNavSearchDataPtr == NULL)
+            FlagClear(DN_FLAG_SEARCHING);
+        else if (sDexNavSearchDataPtr->hiddenSearch)
+            RevealHiddenSearch();
         return FALSE;
     }
 
-    if (FlagGet(DN_FLAG_SEARCHING) || boundSpecies == SPECIES_NONE)
+    if (boundSpecies == SPECIES_NONE)
         return FALSE;
 
     // Auto-unbind: if this area has wild encounters but the bound species isn't among them, clear
@@ -1012,11 +1019,19 @@ bool32 TryStartDexNavSearch(void)
 
 void EndDexNavSearch(void)
 {
-    if (!FlagGet(DN_FLAG_SEARCHING) || sDexNavSearchDataPtr == NULL)
+    if (!FlagGet(DN_FLAG_SEARCHING))
         return;
-    RemoveDexNavWindowAndGfx();
-    FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
-    FREE_AND_SET_NULL(sDexNavSearchDataPtr);
+    // Tear down the live search if it exists, but ALWAYS clear the flag. DN_FLAG_SEARCHING is a
+    // saved flag while sDexNavSearchDataPtr is not, so a save+reload mid-search (e.g. saving during
+    // a detector-mode hidden search) leaves the flag set with a NULL pointer. If we bailed here the
+    // flag would stay stuck on - breaking detector mode, blocking OWE spawns, and NULL-derefing on
+    // the next R press.
+    if (sDexNavSearchDataPtr != NULL)
+    {
+        RemoveDexNavWindowAndGfx();
+        FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
+        FREE_AND_SET_NULL(sDexNavSearchDataPtr);
+    }
     FlagClear(DN_FLAG_SEARCHING);
 }
 
@@ -2618,6 +2633,8 @@ bool32 TryFindHiddenPokemon(void)
             return FALSE;
 
         sDexNavSearchDataPtr = AllocZeroed(sizeof(struct DexNavSearch));
+        if (sDexNavSearchDataPtr == NULL)
+            return FALSE;   // never set the flag without live search data (matches InitDexNavSearch)
         FlagSet(DN_FLAG_SEARCHING);
         // init search data
         sDexNavSearchDataPtr->isHiddenMon = isHiddenMon;

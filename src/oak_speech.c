@@ -372,23 +372,31 @@ static const u8 sTextColor_DarkGray[] = { 0, 2, 3, 0 };
 
 // Hard Mode is chosen once at new-game setup (QoL #2) and then locked for that save - the
 // Options menu no longer exposes it. Asked right after the outfit pick, before "Let's go!".
+// The intro dialogue box (WIN_INTRO_TEXTBOX) only shows TWO lines at a time - the whole oak
+// speech paginates with \p - so the explanation is split into 2-line pages that the player
+// advances through with A. The final page holds the actual question and is kept to two short
+// lines (left-aligned, x<160) so it clears the top-right YES/NO menu (x168+) when it appears.
+// Hard Mode itself (see optionsHardMode uses): forces SET battle style, bars items in trainer
+// battles, and applies a badge-based level cap.
 static const u8 sText_Oak_AskHardMode[] = _(
-    "One last thing before you go…\n"
-    "Would you like a greater\n"
-    "challenge? In HARD MODE, battles\n"
-    "are tougher and unforgiving.");
+    "One last thing before you go…\p"
+    "HARD MODE locks trainer battles\n"
+    "to SET style and bars items,\p"
+    "and holds your POKéMON to a\n"
+    "badge-based level cap.\p"
+    "Would you like a\n"
+    "greater challenge?");
 
-// Dedicated YES/NO window for the Hard Mode ask (shared WIN_INTRO_YESNO stays at left=2/top=2
-// for the name confirm). The question scrolls through the BOTTOM dialogue bubble (frame from
-// ~y104 down — BizHawk-verified, the window math undersold it), so the menu sits top-right,
-// fully ABOVE the bubble: frame y48-95, x168-231. baseBlock 0x260 clears the intro textbox
-// (1-420), the message bubble (0x194-0x1FF — 421 aliased into it and ghosted YES/NO pixels
-// onto the bubble's first text line), and the std frame tiles at STD_WINDOW_BASE_TILE_NUM.
+// Dedicated YES/NO menu for the Hard Mode ask (the shared WIN_INTRO_YESNO is left at left=2/top=2
+// for the name confirm). Sits in the top-right corner, mirroring the proven name-confirm vertical
+// position over to the right: frame rows 1-6 (y8-56), cols 21-28 (x168-232), clear of the
+// left-aligned question text. baseBlock 0x260 clears the intro textbox tiles (1-420) and the std
+// frame tiles at STD_WINDOW_BASE_TILE_NUM.
 static const struct WindowTemplate sHardModeYesNoWindowTemplate =
 {
     .bg = 0,
     .tilemapLeft = 22,
-    .tilemapTop = 7,
+    .tilemapTop = 2,
     .width = 6,
     .height = 4,
     .paletteNum = 15,

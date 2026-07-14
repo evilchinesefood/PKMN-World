@@ -821,7 +821,6 @@ static void SetUpDexNavSearch(void)
         DexNavUpdateSearchWindow(sDexNavSearchDataPtr->proximity, searchLevel);
     }
 
-    gPlayerAvatar.creeping = TRUE;  //initialize as true in case mon appears beside you
     sDexNavSearchDataPtr->proximity = gSprites[gPlayerAvatar.spriteId].x;
     sDexNavSearchDataPtr->startingTime = gMain.vblankCounter1;
     IncrementGameStat(GAME_STAT_DEXNAV_SCANNED);
@@ -945,9 +944,46 @@ static void RevealHiddenSearch(void)
     RevealHiddenMon();
 }
 
+// Auto-unbind support: is `species` in the current map's wild encounter tables? Used to clear a
+// stale R-button DexNav bind when the player moves to an area where that mon can't be searched.
+static bool32 DexNavSpeciesInCurrentMapEncounters(enum Species species)
+{
+    u32 headerId = GetCurrentMapWildMonHeaderId();
+    const struct WildPokemonInfo *info;
+    enum TimeOfDay timeOfDay;
+    u32 i;
+
+    if (species == SPECIES_NONE || headerId == HEADER_NONE)
+        return FALSE;
+
+    timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND);
+    info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo;
+    if (info != NULL && info->encounterRate != 0)
+        for (i = 0; i < LAND_WILD_COUNT; i++)
+            if (info->wildPokemon[i].species == species)
+                return TRUE;
+
+    timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_WATER);
+    info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].waterMonsInfo;
+    if (info != NULL && info->encounterRate != 0)
+        for (i = 0; i < WATER_WILD_COUNT; i++)
+            if (info->wildPokemon[i].species == species)
+                return TRUE;
+
+    timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN);
+    info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].hiddenMonsInfo;
+    if (info != NULL)
+        for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+            if (info->wildPokemon[i].species == species)
+                return TRUE;
+
+    return FALSE;
+}
+
 bool32 TryStartDexNavSearch(void)
 {
     u16 val = VarGet(DN_VAR_SPECIES);
+    enum Species boundSpecies = val & DEXNAV_MASK_SPECIES;
 
     if (FlagGet(DN_FLAG_SEARCHING) && sDexNavSearchDataPtr->hiddenSearch)
     {
@@ -955,8 +991,18 @@ bool32 TryStartDexNavSearch(void)
         return FALSE;
     }
 
-    if (FlagGet(DN_FLAG_SEARCHING) || (val & DEXNAV_MASK_SPECIES) == SPECIES_NONE)
+    if (FlagGet(DN_FLAG_SEARCHING) || boundSpecies == SPECIES_NONE)
         return FALSE;
+
+    // Auto-unbind: if this area has wild encounters but the bound species isn't among them, clear
+    // the bind (the player moved to a new area). Indoor/no-encounter maps (HEADER_NONE) keep the
+    // bind so it survives walking through buildings.
+    if (!DexNavSpeciesInCurrentMapEncounters(boundSpecies))
+    {
+        if (GetCurrentMapWildMonHeaderId() != HEADER_NONE)
+            VarSet(DN_VAR_SPECIES, SPECIES_NONE);
+        return FALSE;
+    }
 
     HideMapNamePopUpWindow();
     ChangeBgY_ScreenOff(0, 0, 0);
@@ -1055,27 +1101,6 @@ bool32 OnStep_DexNavSearch(void)
             EndDexNavSearchSetupScript(EventScript_LostSignal);
             return TRUE;
         }
-    }
-
-    if (sDexNavSearchDataPtr->proximity <= CREEPING_PROXIMITY && !gPlayerAvatar.creeping && frameCount > 60)
-    { //should be creeping but player walks normally
-        if (sDexNavSearchDataPtr->hiddenSearch)
-        {
-            EndDexNavSearch();
-            return FALSE;
-        }
-        else
-        {
-            EndDexNavSearchSetupScript(EventScript_MovedTooFast);
-            return TRUE;
-        }
-    }
-
-    if (sDexNavSearchDataPtr->proximity <= SNEAKING_PROXIMITY && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH | PLAYER_AVATAR_FLAG_BIKE))
-    { // running/biking too close
-        //always do event script, even if player hasn't revealed a hidden mon. It's assumed they would be creeping towards it
-        EndDexNavSearchSetupScript(EventScript_MovedTooFast);
-        return TRUE;
     }
 
     if (frameCount > DEXNAV_TIMEOUT * 60)
@@ -1951,6 +1976,24 @@ static void DexNavLoadEncounterData(void)
     }
 }
 
+// True if `species` is one of the DexNav options loaded for this area (land/water/hidden). Used
+// to auto-clear an R-button bind that's no longer valid here (or when the area has no options).
+static bool32 DexNavBoundSpeciesAvailableInUi(enum Species species)
+{
+    u32 i;
+
+    for (i = 0; i < LAND_WILD_COUNT; i++)
+        if (sDexNavUiDataPtr->landSpecies[i] == species)
+            return TRUE;
+    for (i = 0; i < WATER_WILD_COUNT; i++)
+        if (sDexNavUiDataPtr->waterSpecies[i] == species)
+            return TRUE;
+    for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+        if (sDexNavUiDataPtr->hiddenSpecies[i] == species)
+            return TRUE;
+    return FALSE;
+}
+
 static void TryDrawIconInSlot(enum Species species, s16 x, s16 y)
 {
     if (species == SPECIES_NONE || species > NUM_SPECIES)
@@ -2237,8 +2280,15 @@ static bool8 DexNav_DoGfxSetup(void)
         gMain.state++;
         break;
     case 7:
-        PrintSearchableSpecies(VarGet(DN_VAR_SPECIES) & DEXNAV_MASK_SPECIES);
         DexNavLoadEncounterData();
+        {
+            // Auto-unbind if the registered species isn't among this area's options (or there are
+            // none) — otherwise there's no way to clear a bind for a mon not shown in this area.
+            enum Species bound = VarGet(DN_VAR_SPECIES) & DEXNAV_MASK_SPECIES;
+            if (bound != SPECIES_NONE && !DexNavBoundSpeciesAvailableInUi(bound))
+                VarSet(DN_VAR_SPECIES, SPECIES_NONE);
+        }
+        PrintSearchableSpecies(VarGet(DN_VAR_SPECIES) & DEXNAV_MASK_SPECIES);
         gMain.state++;
         break;
     case 8:

@@ -925,21 +925,13 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
     gPlayerAvatar.creeping = FALSE;
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
     {
-        if (FlagGet(DN_FLAG_SEARCHING) && (heldKeys & A_BUTTON))
-        {
-            gPlayerAvatar.creeping = TRUE;
-            PlayerWalkSlow(direction);
-        }
-        else
-        {
-            // speed 2 is fast, same speed as running
-            PlayerWalkFast(direction);
-        }
+        // speed 2 is fast, same speed as running
+        PlayerWalkFast(direction);
         return;
     }
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
-     && (((heldKeys & B_BUTTON) != 0) ^ (gSaveBlock2Ptr->optionsAutoRun && !FlagGet(DN_FLAG_SEARCHING)))
+     && (((heldKeys & B_BUTTON) != 0) ^ gSaveBlock2Ptr->optionsAutoRun)
      && FlagGet(FLAG_SYS_B_DASH)
      && IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) == 0
      && !FollowerNPCComingThroughDoor()
@@ -952,11 +944,6 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
 
         gPlayerAvatar.flags |= PLAYER_AVATAR_FLAG_DASH;
         return;
-    }
-    else if (FlagGet(DN_FLAG_SEARCHING) && (heldKeys & A_BUTTON))
-    {
-        gPlayerAvatar.creeping = TRUE;
-        PlayerWalkSlow(direction);
     }
     else
     {
@@ -1056,6 +1043,13 @@ void StartOverworldFlight(void)
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
     sFlightActive = TRUE;
+    // Airborne: drop the takeoff elevation so the player has no fixed ground level (same as a
+    // fresh spawn, InitPlayerAvatar). Otherwise CanLandOverworldFlight -> IsElevationMismatchAt
+    // keeps comparing against the takeoff elevation, so you could only land back on ground at
+    // that same height - landing on a lower (or any different-elevation) area was refused. With
+    // ELEVATION_TRANSITION there is no mismatch, so you can land on any walkable tile, and the
+    // real elevation is picked back up on the first step after landing.
+    playerObjEvent->currentElevation = ELEVATION_TRANSITION;
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);

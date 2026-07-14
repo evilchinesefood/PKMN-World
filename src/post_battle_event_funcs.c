@@ -7,6 +7,7 @@
 #include "hall_of_fame_frlg.h"
 #include "load_save.h"
 #include "overworld.h"
+#include "regions.h"
 #include "script_pokemon_util.h"
 #include "tv.h"
 #include "constants/heal_locations.h"
@@ -41,7 +42,10 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    if (gSaveBlock2Ptr->playerGender == MALE)
+    // Johto champions (Lance / Red) resume in New Bark Town; Hoenn stays Littleroot.
+    if (GetCurrentRegion() == REGION_JOHTO)
+        SetContinueGameWarpToHealLocation(HEAL_LOCATION_NEW_BARK_TOWN);
+    else if (gSaveBlock2Ptr->playerGender == MALE)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
     else
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F);

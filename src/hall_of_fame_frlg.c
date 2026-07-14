@@ -699,12 +699,11 @@ static void Task_Hof_HandleExit(u8 taskId)
 
 static void SetWarpsToRollCredits(void)
 {
-    VarSet(VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 1);
-    FlagSet(FLAG_HIDE_MAP_NAME_POPUP);
-    gDisableMapMusicChangeOnMapLoad = MUSIC_DISABLE_KEEP;
-    SetWarpDestination(MAP_GROUP(MAP_INDIGO_PLATEAU_EXTERIOR), MAP_NUM(MAP_INDIGO_PLATEAU_EXTERIOR), -1, 11, 6);
-    DoWarp();
-    ResetInitialPlayerAvatarState();
+    // Credits removed: skip the Indigo Plateau farewell cutscene + credits roll and
+    // soft reset back to the title. The Hall of Fame was already shown and saved, and
+    // the continue warp (Pallet Town) is set in EnterHallOfFame, so Continue lands the
+    // player in the overworld post-game state.
+    DoSoftReset();
 }
 
 void CB2_InitHofPC(void)

@@ -775,7 +775,9 @@ static void Task_Hof_HandleExit(u8 taskId)
 
 static void StartCredits(void)
 {
-    SetMainCallback2(CB2_StartCreditsSequence);
+    // Credits removed: after the Hall of Fame is shown and saved, soft reset back
+    // to the title (Continue lands the player in the overworld post-game state).
+    DoSoftReset();
 }
 
 #undef tDontSaveData

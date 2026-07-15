@@ -128,6 +128,7 @@ const u16 gFacilityClassToPicIndex[] =
     [FACILITY_CLASS_KAREN]              = TRAINER_PIC_COOLTRAINER_F_FRLG,
     [FACILITY_CLASS_WILL]               = TRAINER_PIC_PSYCHIC_M_FRLG,
     [FACILITY_CLASS_SABRINA]            = TRAINER_PIC_LEADER_SABRINA_FRLG,
+    [FACILITY_CLASS_ROCKET]             = TRAINER_PIC_ROCKET_GRUNT_F_FRLG,
 };
 
 const enum TrainerClassID gFacilityClassToTrainerClass[] =
@@ -260,4 +261,5 @@ const enum TrainerClassID gFacilityClassToTrainerClass[] =
     [FACILITY_CLASS_KAREN]              = TRAINER_CLASS_ELITE_FOUR,
     [FACILITY_CLASS_WILL]               = TRAINER_CLASS_ELITE_FOUR,
     [FACILITY_CLASS_SABRINA]            = TRAINER_CLASS_LEADER,
+    [FACILITY_CLASS_ROCKET]             = TRAINER_CLASS_TEAM_ROCKET_FRLG,
 };

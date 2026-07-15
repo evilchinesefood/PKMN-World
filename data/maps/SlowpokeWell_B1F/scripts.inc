@@ -185,3 +185,31 @@ SlowpokeWell_B1F_Text_SlowpokeMail:
 
 SlowpokeWell_B1F_Text_TaillessSlowpoke:
 	.string "A SLOWPOKE with its TAIL cut off…$"
+
+SlowpokeWell_B1F_EventScript_JessieJames::
+	lock
+	faceplayer
+	msgbox SlowpokeWell_B1F_Text_JessieJamesMotto, MSGBOX_DEFAULT
+	trainerbattle_two_trainers TRAINER_ROCKET_JESSIE, SlowpokeWell_B1F_Text_JessieDefeat, TRAINER_ROCKET_JAMES, SlowpokeWell_B1F_Text_JamesDefeat
+	msgbox SlowpokeWell_B1F_Text_JessieJamesBlastOff, MSGBOX_AUTOCLOSE
+	setflag FLAG_HIDE_JESSIE_JAMES_SLOWPOKE_WELL
+	removeobject LOCALID_SLOWPOKE_WELL_JESSIE
+	removeobject LOCALID_SLOWPOKE_WELL_JAMES
+	release
+	end
+
+SlowpokeWell_B1F_Text_JessieJamesMotto:
+	.string "Prepare for trouble… and make it\n"
+	.string "double!\p"
+	.string "It's TEAM ROCKET! Hand over your\n"
+	.string "POKéMON, you little twerp!$"
+
+SlowpokeWell_B1F_Text_JessieDefeat:
+	.string "JESSIE: How dare you!$"
+
+SlowpokeWell_B1F_Text_JamesDefeat:
+	.string "JAMES: It's not fair!$"
+
+SlowpokeWell_B1F_Text_JessieJamesBlastOff:
+	.string "MEOWTH: We're blasting off\n"
+	.string "agaaain!$"

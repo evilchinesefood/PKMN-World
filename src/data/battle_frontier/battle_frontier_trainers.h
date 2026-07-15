@@ -2522,5 +2522,13 @@ const struct BattleFrontierTrainer gBattleFrontierTrainers[FRONTIER_TRAINERS_COU
         .speechWin = {EC_WORD_I_AM, EC_WORD_STRONG, EC_WORD_AREN_T, EC_WORD_I, EC_WORD_QUES, EC_EMPTY_WORD},
         .speechLose = {EC_WORD_WHAT, EC_WORD_QUES, EC_EMPTY_WORD, EC_WORD_BUT, EC_WORD_HOW, EC_WORD_QUES},
         .monSet = (const u16[]){FRONTIER_MONS_WC_CLAIR}
+    },
+    [FRONTIER_TRAINER_WC_ROCKET] = {
+        .facilityClass = FACILITY_CLASS_ROCKET,
+        .trainerName = _("JESSIE"),
+        .speechBefore = {EC_WORD_WE, EC_WORD_ARE, EC_WORD_THE, EC_WORD_BEST, EC_EMPTY_WORD, EC_EMPTY_WORD},
+        .speechWin = {EC_WORD_WE, EC_WORD_WIN, EC_WORD_TOGETHER, EC_EMPTY_WORD, EC_EMPTY_WORD, EC_EMPTY_WORD},
+        .speechLose = {EC_WORD_LOOKS, EC_WORD_LIKE, EC_WORD_WE, EC_WORD_ARE, EC_WORD_LOSING, EC_EMPTY_WORD},
+        .monSet = (const u16[]){FRONTIER_MONS_WC_ROCKET}
     }
 };

@@ -251,7 +251,7 @@ STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT, KantoJohtoTrainerIdsExceedTraine
 STATIC_ASSERT(!IS_FRLG, AllRegionsBuildMustNotFoldToFrlgTrainerCount);
 // Kanto trainer block geometry (E5-1): starts right after Johto, ends at TRAINERS_COUNT-1.
 STATIC_ASSERT(KANTO_TRAINER_ID_OFFSET == TRAINER_LANCE_2 + 1, KantoTrainerBlockMustStartAfterJohto);
-STATIC_ASSERT(TRAINER_RIVAL_INDIGO_TOTODILE == TRAINERS_COUNT - 1, KantoTrainerBlockMustEndAtTrainersCount);
+STATIC_ASSERT(TRAINER_ROCKET_JAMES_2 == TRAINERS_COUNT - 1, KantoTrainerBlockMustEndAtTrainersCount);
 #endif
 
 #include "data/text/follower_messages.h"

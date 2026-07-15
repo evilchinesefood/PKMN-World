@@ -318,8 +318,9 @@
 #define FRONTIER_TRAINER_WC_WILL        312
 #define FRONTIER_TRAINER_WC_SABRINA     313
 #define FRONTIER_TRAINER_WC_CLAIR       314
+#define FRONTIER_TRAINER_WC_ROCKET      315
 
-#define FRONTIER_TRAINERS_COUNT         315
+#define FRONTIER_TRAINERS_COUNT         316
 
 // special trainer IDs begin at 300, see constants/trainers.h
 

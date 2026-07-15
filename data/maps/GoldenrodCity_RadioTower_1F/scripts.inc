@@ -442,3 +442,31 @@ GoldenrodCity_RadioTower_1F_Text_PleaseVisitAgain2:
 	.string "Please do visit again.$"
 
 
+
+RadioTower1F_EventScript_JessieJames::
+	lock
+	faceplayer
+	msgbox RadioTower1F_Text_JessieJamesMotto, MSGBOX_DEFAULT
+	trainerbattle_two_trainers TRAINER_ROCKET_JESSIE_2, RadioTower1F_Text_JessieDefeat, TRAINER_ROCKET_JAMES_2, RadioTower1F_Text_JamesDefeat
+	msgbox RadioTower1F_Text_JessieJamesBlastOff, MSGBOX_AUTOCLOSE
+	setflag FLAG_HIDE_JESSIE_JAMES_RADIO_TOWER
+	removeobject LOCALID_RADIO_TOWER_JESSIE
+	removeobject LOCALID_RADIO_TOWER_JAMES
+	release
+	end
+
+RadioTower1F_Text_JessieJamesMotto:
+	.string "Prepare for trouble… and make it\n"
+	.string "double!\p"
+	.string "It's TEAM ROCKET! Hand over your\n"
+	.string "POKéMON, you little twerp!$"
+
+RadioTower1F_Text_JessieDefeat:
+	.string "JESSIE: How dare you!$"
+
+RadioTower1F_Text_JamesDefeat:
+	.string "JAMES: It's not fair!$"
+
+RadioTower1F_Text_JessieJamesBlastOff:
+	.string "MEOWTH: We're blasting off\n"
+	.string "agaaain!$"

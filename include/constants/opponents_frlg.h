@@ -650,6 +650,10 @@
 #define TRAINER_RIVAL_INDIGO_CHIKORITA          1720
 #define TRAINER_RIVAL_INDIGO_CYNDAQUIL          1721
 #define TRAINER_RIVAL_INDIGO_TOTODILE           1722
+#define TRAINER_ROCKET_JESSIE                   1723
+#define TRAINER_ROCKET_JAMES                    1724
+#define TRAINER_ROCKET_JESSIE_2                 1725
+#define TRAINER_ROCKET_JAMES_2                  1726
 #else
 #define TRAINER_YOUNGSTER_BEN                   1
 #define TRAINER_YOUNGSTER_CALVIN                2
@@ -1277,13 +1281,17 @@
 #define TRAINER_RIVAL_INDIGO_CHIKORITA          624
 #define TRAINER_RIVAL_INDIGO_CYNDAQUIL          625
 #define TRAINER_RIVAL_INDIGO_TOTODILE           626
+#define TRAINER_ROCKET_JESSIE                   627
+#define TRAINER_ROCKET_JAMES                    628
+#define TRAINER_ROCKET_JESSIE_2                 629
+#define TRAINER_ROCKET_JAMES_2                  630
 #endif
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 22 additional trainers before trainer flag space overflows.
 //       MAX_TRAINERS_COUNT_FRLG can be increased but will take up additional saveblock space
 
-#define TRAINERS_COUNT_FRLG                      627
+#define TRAINERS_COUNT_FRLG                      631
 #define MAX_TRAINERS_COUNT_FRLG                  768
 
 #endif  // GUARD_CONSTANTS_OPPONENTS_FRLG_H

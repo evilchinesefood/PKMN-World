@@ -172,6 +172,51 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "MtMoon_B2F_EventScript_ItemAntidote",
       "flag": "FLAG_HIDE_MT_MOON_B2F_ANTIDOTE"
+    },
+    {
+      "local_id": "LOCALID_MTMOON_B2F_JESSIE",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
+      "x": 24,
+      "y": 24,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MtMoon_B2F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_MT_MOON"
+    },
+    {
+      "local_id": "LOCALID_MTMOON_B2F_JAMES",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
+      "x": 26,
+      "y": 24,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MtMoon_B2F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_MT_MOON"
+    },
+    {
+      "local_id": "LOCALID_MTMOON_B2F_MEOWTH",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_MEOWTH",
+      "x": 25,
+      "y": 25,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "MtMoon_B2F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_MT_MOON"
     }
   ],
   "warp_events": [

@@ -14298,3 +14298,69 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 Muk
 Level: 39
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+
+=== TRAINER_ROCKET_JESSIE ===
+Name: JESSIE
+Class: Team Rocket Frlg
+Pic: Rocket Grunt F Frlg
+Gender: Female
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move / Check Viability
+
+Ekans
+Level: 14
+
+Wobbuffet
+Level: 13
+
+=== TRAINER_ROCKET_JAMES ===
+Name: JAMES
+Class: Team Rocket Frlg
+Pic: Rocket Grunt M Frlg
+Gender: Male
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move / Check Viability
+
+Koffing
+Level: 14
+
+Growlithe
+Level: 13
+
+=== TRAINER_ROCKET_JESSIE_2 ===
+Name: JESSIE
+Class: Team Rocket Frlg
+Pic: Rocket Grunt F Frlg
+Gender: Female
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move / Check Viability / Try To Faint
+
+Arbok
+Level: 32
+
+Seviper
+Level: 32
+
+Wobbuffet
+Level: 31
+
+=== TRAINER_ROCKET_JAMES_2 ===
+Name: JAMES
+Class: Team Rocket Frlg
+Pic: Rocket Grunt M Frlg
+Gender: Male
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move / Check Viability / Try To Faint
+
+Weezing
+Level: 32
+
+Victreebel
+Level: 31
+
+Carnivine
+Level: 32

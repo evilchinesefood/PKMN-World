@@ -115,3 +115,32 @@ RocketHideout_B1F_Text_Grunt5PostBattle::
 	.string "Uh-oh, that ruckus somehow opened\n"
 	.string "the door!$"
 
+
+RocketHideout_B1F_EventScript_JessieJames::
+	lock
+	faceplayer
+	msgbox RocketHideout_B1F_Text_JessieJamesMotto, MSGBOX_DEFAULT
+	trainerbattle_two_trainers TRAINER_ROCKET_JESSIE_2, RocketHideout_B1F_Text_JessieDefeat, TRAINER_ROCKET_JAMES_2, RocketHideout_B1F_Text_JamesDefeat
+	msgbox RocketHideout_B1F_Text_JessieJamesBlastOff, MSGBOX_AUTOCLOSE
+	setflag FLAG_HIDE_JESSIE_JAMES_ROCKET_HIDEOUT
+	removeobject LOCALID_HIDEOUT_B1F_JESSIE
+	removeobject LOCALID_HIDEOUT_B1F_JAMES
+	removeobject LOCALID_HIDEOUT_B1F_MEOWTH
+	release
+	end
+
+RocketHideout_B1F_Text_JessieJamesMotto:
+	.string "Prepare for trouble… and make it\n"
+	.string "double!\p"
+	.string "It's TEAM ROCKET! Hand over your\n"
+	.string "POKéMON, you little twerp!$"
+
+RocketHideout_B1F_Text_JessieDefeat:
+	.string "JESSIE: How dare you!$"
+
+RocketHideout_B1F_Text_JamesDefeat:
+	.string "JAMES: It's not fair!$"
+
+RocketHideout_B1F_Text_JessieJamesBlastOff:
+	.string "MEOWTH: We're blasting off\n"
+	.string "agaaain!$"

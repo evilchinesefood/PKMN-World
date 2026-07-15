@@ -113,6 +113,51 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "RocketHideout_B1F_EventScript_ItemHyperPotion",
       "flag": "FLAG_HIDE_ROCKET_HIDEOUT_B1F_HYPER_POTION"
+    },
+    {
+      "local_id": "LOCALID_HIDEOUT_B1F_JESSIE",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
+      "x": 11,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "RocketHideout_B1F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_ROCKET_HIDEOUT"
+    },
+    {
+      "local_id": "LOCALID_HIDEOUT_B1F_JAMES",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
+      "x": 13,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "RocketHideout_B1F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_ROCKET_HIDEOUT"
+    },
+    {
+      "local_id": "LOCALID_HIDEOUT_B1F_MEOWTH",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_MEOWTH",
+      "x": 12,
+      "y": 5,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "RocketHideout_B1F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_ROCKET_HIDEOUT"
     }
   ],
   "warp_events": [
@@ -159,9 +204,7 @@
       "dest_warp_id": "1"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "hidden_item",

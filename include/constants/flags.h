@@ -4108,6 +4108,14 @@
 #define FLAG_DEX_REWARD_2 (FLAG_WORLD_MAP_BANK + 0x35) // 300 caught -> MASTER BALL
 #define FLAG_DEX_REWARD_3 (FLAG_WORLD_MAP_BANK + 0x36) // full National Dex -> SHINY CHARM
 
+// Jessie & James (Team Rocket duo) one-time ambush gates. Set = defeated/hidden.
+// Global group (works across all regions) in the same verified-free window.
+#define FLAG_HIDE_JESSIE_JAMES_MT_MOON        (FLAG_WORLD_MAP_BANK + 0x37) // 0xD77
+#define FLAG_HIDE_JESSIE_JAMES_ROCKET_HIDEOUT (FLAG_WORLD_MAP_BANK + 0x38) // 0xD78
+#define FLAG_HIDE_JESSIE_JAMES_SLOWPOKE_WELL  (FLAG_WORLD_MAP_BANK + 0x39) // 0xD79
+#define FLAG_HIDE_JESSIE_JAMES_RADIO_TOWER    (FLAG_WORLD_MAP_BANK + 0x3A) // 0xD7A
+#define FLAG_HIDE_JESSIE_JAMES_ROUTE118       (FLAG_WORLD_MAP_BANK + 0x3B) // 0xD7B
+
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030
 

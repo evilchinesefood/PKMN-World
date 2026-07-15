@@ -217,3 +217,32 @@ MtMoon_B2F_Text_ObtainedHelixFossil::
 MtMoon_B2F_Text_ObtainedDomeFossil::
 	.string "Obtained the DOME FOSSIL!$"
 
+
+MtMoon_B2F_EventScript_JessieJames::
+	lock
+	faceplayer
+	msgbox MtMoon_B2F_Text_JessieJamesMotto, MSGBOX_DEFAULT
+	trainerbattle_two_trainers TRAINER_ROCKET_JESSIE, MtMoon_B2F_Text_JessieDefeat, TRAINER_ROCKET_JAMES, MtMoon_B2F_Text_JamesDefeat
+	msgbox MtMoon_B2F_Text_JessieJamesBlastOff, MSGBOX_AUTOCLOSE
+	setflag FLAG_HIDE_JESSIE_JAMES_MT_MOON
+	removeobject LOCALID_MTMOON_B2F_JESSIE
+	removeobject LOCALID_MTMOON_B2F_JAMES
+	removeobject LOCALID_MTMOON_B2F_MEOWTH
+	release
+	end
+
+MtMoon_B2F_Text_JessieJamesMotto:
+	.string "Prepare for trouble… and make it\n"
+	.string "double!\p"
+	.string "It's TEAM ROCKET! Hand over your\n"
+	.string "POKéMON, you little twerp!$"
+
+MtMoon_B2F_Text_JessieDefeat:
+	.string "JESSIE: How dare you!$"
+
+MtMoon_B2F_Text_JamesDefeat:
+	.string "JAMES: It's not fair!$"
+
+MtMoon_B2F_Text_JessieJamesBlastOff:
+	.string "MEOWTH: We're blasting off\n"
+	.string "agaaain!$"

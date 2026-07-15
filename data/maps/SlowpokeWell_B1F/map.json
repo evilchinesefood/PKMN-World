@@ -299,6 +299,36 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "SlowpokeWell_B1F_EventScript_Item_Full_Heal",
       "flag": "FLAG_ITEM_SLOWPOKE_WELL_FULL_HEAL"
+    },
+    {
+      "local_id": "LOCALID_SLOWPOKE_WELL_JESSIE",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
+      "x": 19,
+      "y": 17,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "SlowpokeWell_B1F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_SLOWPOKE_WELL"
+    },
+    {
+      "local_id": "LOCALID_SLOWPOKE_WELL_JAMES",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
+      "x": 20,
+      "y": 17,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "SlowpokeWell_B1F_EventScript_JessieJames",
+      "flag": "FLAG_HIDE_JESSIE_JAMES_SLOWPOKE_WELL"
     }
   ],
   "warp_events": [

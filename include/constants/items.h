@@ -1089,6 +1089,8 @@ enum __attribute__((packed)) Item
 
     ITEM_EV_CHANGER,    // QoL 13: reusable key item to freely tune a party mon's EVs (party menu)
 
+    ITEM_HUB_RETURN,    // Task 6: key item, warps the player one-way to the World Transit hub
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

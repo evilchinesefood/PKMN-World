@@ -182,7 +182,7 @@ FourIsland_Text_RivalAlreadyGotEggBeSmellingYa::
 	.string "{RIVAL}: Hey!\n"
 	.string "{PLAYER}!\p"
 	.string "What are you doing here in the\n"
-	.string "SEVII ISLANDS?\p"
+	.string "ORANGE ISLANDS?\p"
 	.string "You should quit copying me,\n"
 	.string "you know?\p"
 	.string "Anyways, I already got my POKéMON\n"

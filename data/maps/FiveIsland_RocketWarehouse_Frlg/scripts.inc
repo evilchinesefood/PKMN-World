@@ -11,6 +11,16 @@ FiveIsland_RocketWarehouse_OnTransition::
 	end
 
 FiveIsland_RocketWarehouse_OnLoad::
+	@ Task 2 (freeze fix): this map's long forced-movement conveyor (the x=2/3 UP column,
+	@ ~16 tiles) can freeze when a follower Pokemon re-emerges after the ride. Followers
+	@ (OW_FOLLOWERS_ENABLED) are the only PKMN-World-specific traversal difference here vs
+	@ stock FRLG - the map data, spin logic, tilesets and scripts are byte-identical to
+	@ upstream. Suppress the follower for the whole warehouse using the same supported,
+	@ map-scoped mechanism the Battle Frontier lobbies use (FLAG_TEMP_HIDE_FOLLOWER is a
+	@ TEMP flag, auto-cleared on exit). Zero risk to other maps. If a playtest shows the
+	@ freeze persists with NO follower active, the cause is elsewhere and this reverts cleanly.
+	setflag FLAG_TEMP_HIDE_FOLLOWER
+	callnative RemoveFollowingPokemon
 	call_if_defeated TRAINER_TEAM_ROCKET_ADMIN, FiveIsland_RocketWarehouse_EventScript_SetArrowsForReEntry
 	end
 

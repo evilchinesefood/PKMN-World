@@ -20,6 +20,7 @@ extern const u8 gText_ExpandedPlaceholder_Red[];
 extern const u8 gText_ExpandedPlaceholder_Green[];
 extern const u8 gText_ExpandedPlaceholder_Blue[];
 extern const u8 gText_ExpandedPlaceholder_Silver[];
+extern const u8 gText_ExpandedPlaceholder_Gary[];
 
 extern const u8 gText_Lv50[];
 extern const u8 gText_OpenLevel[];

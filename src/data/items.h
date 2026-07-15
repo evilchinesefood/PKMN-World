@@ -14339,6 +14339,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_ShinyCharm,
     },
 
+    [ITEM_HUB_RETURN] =
+    {
+        .name = ITEM_NAME("Hub Pass"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Warps you back to\n"
+            "the WORLD TRANSIT\n"
+            "hub from anywhere."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_HubReturn,
+        .iconPic = gItemIcon_TownMap,
+        .iconPalette = gItemIconPalette_TownMap,
+    },
+
     [ITEM_EV_CHANGER] =
     {
         .name = ITEM_NAME("EV Changer"),
@@ -14792,7 +14808,7 @@ const struct ItemInfo gItemsInfo[] =
         .description = COMPOUND_STRING(
             "For ferries serving\n"
             "Vermilion and the\n"
-            "Sevii Islands."),
+            "Orange Islands."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,

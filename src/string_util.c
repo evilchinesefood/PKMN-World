@@ -486,8 +486,8 @@ static const u8 *ExpandPlaceholder_RivalName(void)
     // map's region instead; also flips correctly when switching regions.
     switch (GetCurrentRegion())
     {
-    case REGION_KANTO: return gText_ExpandedPlaceholder_Blue;
-    case REGION_JOHTO: return gText_ExpandedPlaceholder_Silver;
+    case REGION_KANTO: return gText_ExpandedPlaceholder_Gary;
+    case REGION_JOHTO: return gText_ExpandedPlaceholder_Gary;
     default: break;
     }
 #elif IS_FRLG

@@ -22,6 +22,7 @@ const u8 gText_ExpandedPlaceholder_Red[] = _("RED");
 const u8 gText_ExpandedPlaceholder_Green[] = _("GREEN");
 const u8 gText_ExpandedPlaceholder_Blue[] = _("BLUE");
 const u8 gText_ExpandedPlaceholder_Silver[] = _("SILVER");
+const u8 gText_ExpandedPlaceholder_Gary[] = _("GARY");
 const u8 gText_EggNickname[POKEMON_NAME_LENGTH + 1] = _("EGG");
 const u8 gText_Pokemon[POKEMON_NAME_LENGTH + 1] = _("POKéMON");
 const u8 gText_Player[] = _("PLAYER"); // Unused

@@ -782,7 +782,7 @@ OneIsland_PokemonCenter_1F_Text_AnotherGemstoneInSeviiIslands::
 	.string "There is another gem that forms\n"
 	.string "a pair with this RUBY.\p"
 	.string "That other gemstone is supposed to\n"
-	.string "be in the SEVII ISLANDS.\p"
+	.string "be in the ORANGE ISLANDS.\p"
 	.string "{PLAYER}, please, I need you to go\n"
 	.string "find the other gem.\p"
 	.string "{PLAYER}, may I have your ferry\n"
@@ -799,7 +799,7 @@ OneIsland_PokemonCenter_1F_Text_ObtainedExtraMapPage::
 OneIsland_PokemonCenter_1F_Text_PassLetYouGetToAllIslands::
 	.string "This is my own ferry PASS.\p"
 	.string "It will let you get to all the\n"
-	.string "SEVII ISLANDS.\p"
+	.string "ORANGE ISLANDS.\p"
 	.string "{PLAYER}, please, I can't do\n"
 	.string "it without your help.$"
 

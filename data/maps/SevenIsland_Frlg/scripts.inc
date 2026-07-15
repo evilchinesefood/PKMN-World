@@ -42,13 +42,13 @@ SevenIsland_Text_IslandSign::
 	.string "Quest Island of Infinity$"
 
 SevenIsland_Text_IslandsMadeInSevenDays::
-	.string "These islands are called the SEVII\n"
-	.string "ISLANDS because there are seven.\p"
+	.string "These islands are called the ORANGE\n"
+	.string "ISLANDS for their orange groves.\p"
 	.string "…Or at least that's what the young\n"
 	.string "people believe.\p"
 	.string "The truth is, these islands are so\n"
-	.string "named because they are said to\l"
-	.string "have been made in seven days.$"
+	.string "named for the ORANGE LEAGUE that\l"
+	.string "once crowned champions here.$"
 
 SevenIsland_Text_IslandVirtuallyUntouched::
 	.string "This island has been left virtually\n"

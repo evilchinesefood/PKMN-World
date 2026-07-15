@@ -77,7 +77,7 @@ void SetTimeBasedEncounters(struct ScriptContext *ctx)
 // HnS rival-naming special. Picks a default name then opens the rival naming screen,
 // storing into gSaveBlock1Ptr->rivalName (where the target's {RIVAL} placeholder
 // reads it under the always-on FRLG path).
-static const u8 sJohtoDefaultRivalName[] = _("SILVER");
+static const u8 sJohtoDefaultRivalName[] = _("GARY");
 
 void NameRival(void)
 {

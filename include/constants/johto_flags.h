@@ -37,6 +37,11 @@
 
 // --- Story progress flags ---
 #define FLAG_JOHTO_ADVENTURE_STARTED               FLAG_JOHTO_SLICE(0x20)
+// Region-merge: tracks that the player has chosen their JOHTO starter. The stock
+// HnS scripts gated the New Bark starter on the global FLAG_SYS_POKEMON_GET, which
+// is pre-set by any prior region (e.g. Kanto), locking the Johto balls ("shouldn't
+// touch") in the merged game. This per-region flag mirrors the standalone behavior.
+#define FLAG_JOHTO_STARTER_CHOSEN            FLAG_JOHTO_SLICE(0x38)
 #define FLAG_RECEIVED_FIRST_POTION           FLAG_JOHTO_SLICE(0x21)
 #define FLAG_RECEIVED_FIRST_BALLS            FLAG_JOHTO_SLICE(0x22)
 #define FLAG_SHOWN_ELM_TOGEPI                FLAG_JOHTO_SLICE(0x23)

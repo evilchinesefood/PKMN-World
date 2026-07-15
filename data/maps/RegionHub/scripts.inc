@@ -28,10 +28,14 @@ RegionHub_MapScripts::
 @ (23,11)/(24,11), inside a back-room pocket (x=19-24, y=10-11) that a reachability trace
 @ (BFS over the layout's own collision/elevation blockdata) shows has NO walkable connection
 @ to the rest of the map - it's walled on every side (x=18 column, y=9 row, y=12 row) with
-@ no gap. The 2F/3F pairs still sitting there (x=19-22) inherit the same bug and were left
-@ in place (out of scope for this pass, flagged here for whoever owns hub layout next); the
-@ TM pair was pulled out and merged into one working vendor elsewhere as part of this batch's
-@ consolidation task, since leaving broken content next to new working vendors made no sense.
+@ (Task 7, 2026-07-15) The original TM/Feather/Mint counter vendors stay put here (intentional,
+@ interactable). TWO new south-hall vendors were added: Trainer's Aide (COOK, x=1) selling
+@ vitamins + feathers + mints, and Battle Depot (MART_EMPLOYEE, x=9) selling balls + evo stones +
+@ Linking Cord + competitive held items. Only two were added (not four) because the hub sits at
+@ the object-event spawn cap (OBJECT_EVENTS_COUNT=16, incl. the player AND an active follower):
+@ 14 originals + 2 new = worst on-screen window of 13 objects, leaving room for player+follower.
+@ RegionHub_EventScript_StoneVendor/_HeldItemVendor + their lists remain in this file but are now
+@ unreferenced (their stock was folded into Battle Depot); harmless dead data.
 
 @ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is one of the
 @ most OAM-starved maps (18 object events as of the mint/feather/TM-vendor QoL pass, up from
@@ -455,6 +459,12 @@ RegionHub_Text_HarborAllGiven:
 RegionHub_EventScript_CharmCurator::
 	lock
 	faceplayer
+	checkitem ITEM_HUB_RETURN
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorCheckPokevial
+	msgbox RegionHub_Text_CuratorGiveHubPass, MSGBOX_DEFAULT
+	giveitem ITEM_HUB_RETURN
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+RegionHub_EventScript_CuratorCheckPokevial::
 	checkitem ITEM_POKEVIAL
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorLadder
 	msgbox RegionHub_Text_CuratorGivePokevial, MSGBOX_DEFAULT
@@ -553,9 +563,16 @@ RegionHub_EventScript_CuratorGiveEvChanger::
 	release
 	end
 
-RegionHub_Text_CuratorGivePokevial:
+RegionHub_Text_CuratorGiveHubPass:
 	.string "Oh, new around here? Then first,\n"
-	.string "every traveler gets one of\l"
+	.string "every traveler gets a HUB PASS.\p"
+	.string "Use it from your BAG and you'll\n"
+	.string "warp right back here to WORLD\l"
+	.string "TRANSIT from anywhere in the world.$"
+
+RegionHub_Text_CuratorGivePokevial:
+	.string "And take one of these, too.\p"
+	.string "Every traveler gets one of\n"
 	.string "these from me.$"
 
 RegionHub_Text_CuratorPokevialExplain:
@@ -788,6 +805,14 @@ RegionHub_Items_Tms::
 	.2byte ITEM_TM_SAFEGUARD
 	.2byte ITEM_TM_REFLECT
 	.2byte ITEM_TM_LIGHT_SCREEN
+	.2byte ITEM_TM_EARTHQUAKE
+	.2byte ITEM_TM_ICE_BEAM
+	.2byte ITEM_TM_THUNDERBOLT
+	.2byte ITEM_TM_FLAMETHROWER
+	.2byte ITEM_TM_SHADOW_BALL
+	.2byte ITEM_TM_PSYCHIC
+	.2byte ITEM_TM_CALM_MIND
+	.2byte ITEM_TM_DRAGON_CLAW
 	pokemartlistend
 
 RegionHub_EventScript_FeatherVendor::
@@ -823,6 +848,178 @@ RegionHub_EventScript_MintVendor::
 
 	.align 2
 RegionHub_Items_Mints::
+	.2byte ITEM_LONELY_MINT
+	.2byte ITEM_ADAMANT_MINT
+	.2byte ITEM_NAUGHTY_MINT
+	.2byte ITEM_BRAVE_MINT
+	.2byte ITEM_BOLD_MINT
+	.2byte ITEM_IMPISH_MINT
+	.2byte ITEM_LAX_MINT
+	.2byte ITEM_RELAXED_MINT
+	.2byte ITEM_MODEST_MINT
+	.2byte ITEM_MILD_MINT
+	.2byte ITEM_RASH_MINT
+	.2byte ITEM_QUIET_MINT
+	.2byte ITEM_CALM_MINT
+	.2byte ITEM_GENTLE_MINT
+	.2byte ITEM_CAREFUL_MINT
+	.2byte ITEM_SASSY_MINT
+	.2byte ITEM_TIMID_MINT
+	.2byte ITEM_HASTY_MINT
+	.2byte ITEM_JOLLY_MINT
+	.2byte ITEM_NAIVE_MINT
+	.2byte ITEM_SERIOUS_MINT
+	pokemartlistend
+
+@ Task 7: additional hub vendors (market row, south hall y=13, all on reachable floor).
+@ Each uses a distinct existing overworld sprite; all always-open (no flag/gating).
+RegionHub_EventScript_BallVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Balls
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Balls::
+	.2byte ITEM_NEST_BALL
+	.2byte ITEM_NET_BALL
+	.2byte ITEM_DIVE_BALL
+	.2byte ITEM_TIMER_BALL
+	.2byte ITEM_REPEAT_BALL
+	.2byte ITEM_QUICK_BALL
+	.2byte ITEM_DUSK_BALL
+	.2byte ITEM_LUXURY_BALL
+	.2byte ITEM_HEAL_BALL
+	.2byte ITEM_PREMIER_BALL
+	.2byte ITEM_FIRE_STONE
+	.2byte ITEM_WATER_STONE
+	.2byte ITEM_THUNDER_STONE
+	.2byte ITEM_LEAF_STONE
+	.2byte ITEM_MOON_STONE
+	.2byte ITEM_SUN_STONE
+	.2byte ITEM_SHINY_STONE
+	.2byte ITEM_DUSK_STONE
+	.2byte ITEM_DAWN_STONE
+	.2byte ITEM_ICE_STONE
+	.2byte ITEM_EVERSTONE
+	.2byte ITEM_LINKING_CORD
+	.2byte ITEM_LEFTOVERS
+	.2byte ITEM_CHOICE_BAND
+	.2byte ITEM_CHOICE_SPECS
+	.2byte ITEM_CHOICE_SCARF
+	.2byte ITEM_LIFE_ORB
+	.2byte ITEM_FOCUS_SASH
+	.2byte ITEM_ASSAULT_VEST
+	.2byte ITEM_ROCKY_HELMET
+	.2byte ITEM_EVIOLITE
+	.2byte ITEM_MENTAL_HERB
+	.2byte ITEM_POWER_HERB
+	.2byte ITEM_WHITE_HERB
+	pokemartlistend
+
+RegionHub_EventScript_StoneVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Stones
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Stones::
+	.2byte ITEM_FIRE_STONE
+	.2byte ITEM_WATER_STONE
+	.2byte ITEM_THUNDER_STONE
+	.2byte ITEM_LEAF_STONE
+	.2byte ITEM_MOON_STONE
+	.2byte ITEM_SUN_STONE
+	.2byte ITEM_SHINY_STONE
+	.2byte ITEM_DUSK_STONE
+	.2byte ITEM_DAWN_STONE
+	.2byte ITEM_ICE_STONE
+	.2byte ITEM_EVERSTONE
+	.2byte ITEM_LINKING_CORD
+	pokemartlistend
+
+RegionHub_EventScript_VitaminVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Vitamins
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Vitamins::
+	.2byte ITEM_HP_UP
+	.2byte ITEM_PROTEIN
+	.2byte ITEM_IRON
+	.2byte ITEM_CALCIUM
+	.2byte ITEM_ZINC
+	.2byte ITEM_CARBOS
+	.2byte ITEM_PP_UP
+	.2byte ITEM_PP_MAX
+	.2byte ITEM_HEALTH_FEATHER
+	.2byte ITEM_MUSCLE_FEATHER
+	.2byte ITEM_RESIST_FEATHER
+	.2byte ITEM_GENIUS_FEATHER
+	.2byte ITEM_CLEVER_FEATHER
+	.2byte ITEM_SWIFT_FEATHER
+	.2byte ITEM_LONELY_MINT
+	.2byte ITEM_ADAMANT_MINT
+	.2byte ITEM_NAUGHTY_MINT
+	.2byte ITEM_BRAVE_MINT
+	.2byte ITEM_BOLD_MINT
+	.2byte ITEM_IMPISH_MINT
+	.2byte ITEM_LAX_MINT
+	.2byte ITEM_RELAXED_MINT
+	.2byte ITEM_MODEST_MINT
+	.2byte ITEM_MILD_MINT
+	.2byte ITEM_RASH_MINT
+	.2byte ITEM_QUIET_MINT
+	.2byte ITEM_CALM_MINT
+	.2byte ITEM_GENTLE_MINT
+	.2byte ITEM_CAREFUL_MINT
+	.2byte ITEM_SASSY_MINT
+	.2byte ITEM_TIMID_MINT
+	.2byte ITEM_HASTY_MINT
+	.2byte ITEM_JOLLY_MINT
+	.2byte ITEM_NAIVE_MINT
+	.2byte ITEM_SERIOUS_MINT
+	pokemartlistend
+
+RegionHub_EventScript_HeldItemVendor::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart RegionHub_Items_Held
+	msgbox gText_PleaseComeAgain
+	release
+	end
+
+	.align 2
+RegionHub_Items_Held::
+	.2byte ITEM_LEFTOVERS
+	.2byte ITEM_CHOICE_BAND
+	.2byte ITEM_CHOICE_SPECS
+	.2byte ITEM_CHOICE_SCARF
+	.2byte ITEM_LIFE_ORB
+	.2byte ITEM_FOCUS_SASH
+	.2byte ITEM_ASSAULT_VEST
+	.2byte ITEM_ROCKY_HELMET
+	.2byte ITEM_EVIOLITE
+	.2byte ITEM_MENTAL_HERB
+	.2byte ITEM_POWER_HERB
+	.2byte ITEM_WHITE_HERB
 	.2byte ITEM_LONELY_MINT
 	.2byte ITEM_ADAMANT_MINT
 	.2byte ITEM_NAUGHTY_MINT

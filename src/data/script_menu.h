@@ -863,7 +863,7 @@ static const struct MenuAction sMultichoiceList_Eeveelutions[] = {
     {COMPOUND_STRING("Quit looking.")}
 };
 
-static const u8 gText_SeviiIslands[] = _("SEVII ISLANDS");
+static const u8 gText_SeviiIslands[] = _("ORANGE ISLANDS");
 static const u8 gText_OneIsland[] = _("ONE ISLAND");
 static const u8 gText_TwoIsland[] = _("TWO ISLAND");
 static const u8 gText_ThreeIsland[] = _("THREE ISLAND");

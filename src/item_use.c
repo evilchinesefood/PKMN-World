@@ -32,6 +32,7 @@
 #include "metatile_behavior.h"
 #include "oras_dowse.h"
 #include "overworld.h"
+#include "constants/maps.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokeblock.h"
@@ -396,6 +397,31 @@ void ItemUseOutOfBattle_SkyCharm(u8 taskId)
             break;
         }
     }
+}
+
+// Task 6: fixed one-way warp to the World Transit hub (same call sequence as the
+// `warp` script command). No warp-back-out exists by design - the player re-enters
+// a region only through the hub attendants.
+static void Task_UseHubReturnOnField(u8 taskId)
+{
+    SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 16, 4);
+    DoWarp();
+    ResetInitialPlayerAvatarState();
+    DestroyTask(taskId);
+}
+
+static void ItemUseOnFieldCB_HubReturn(u8 taskId)
+{
+    CopyItemName(gSpecialVar_ItemId, gStringVar2);
+    StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
+    gTasks[taskId].data[0] = 0;
+    DisplayItemMessageOnField(taskId, gStringVar4, Task_UseHubReturnOnField);
+}
+
+void ItemUseOutOfBattle_HubReturn(u8 taskId)
+{
+    sItemUseOnFieldCB = ItemUseOnFieldCB_HubReturn;
+    SetUpItemUseOnFieldCallback(taskId);
 }
 
 static bool32 CanFish(void)

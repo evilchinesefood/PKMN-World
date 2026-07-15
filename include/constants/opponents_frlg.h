@@ -1288,7 +1288,8 @@
 #endif
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
-//       only space for 22 additional trainers before trainer flag space overflows.
+//       only space for 9 more trainers before the KANTO_TRAINER_FLAG_BANK_SIZE=640 cap
+//       (enforced by the STATIC_ASSERT in battle_setup.c; TRAINERS_COUNT_FRLG is now 631).
 //       MAX_TRAINERS_COUNT_FRLG can be increased but will take up additional saveblock space
 
 #define TRAINERS_COUNT_FRLG                      631

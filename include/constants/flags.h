@@ -3991,8 +3991,9 @@
 // which broke Kanto Fly points (flag 0 is a temp flag, wiped on every warp by
 // ClearTempFieldEventData). Rebase the whole family into a verified-free persistent
 // sub-bank (a 51-wide hole at 0xD40..0xD72 inside the Kanto bank; nothing is allocated
-// between FLAG_OAKS_RATING_IS_VIA_PC=0xD3F and FLAG_DEFEATED_BROCK=0xEF0) so visited
-// Kanto cities persist as Fly destinations. Top = base + 0x32 = 0xD72 < FLAGS_COUNT.
+// between FLAG_OAKS_RATING_IS_VIA_PC=0xD3F and FLAG_DEFEATED_BROCK=0xEF0; 0xD73..0xD7B are
+// now allocated just above the cities: World Champion, Dex rewards, Jessie & James gates) so
+// visited Kanto cities persist as Fly destinations. Cities top = base + 0x32 = 0xD72 < FLAGS_COUNT.
 #define FLAG_WORLD_MAP_BANK 0xD40
 #undef  FLAG_WORLD_MAP_PALLET_TOWN
 #define FLAG_WORLD_MAP_PALLET_TOWN (FLAG_WORLD_MAP_BANK + 0x0)

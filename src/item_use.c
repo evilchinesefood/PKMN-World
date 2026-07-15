@@ -53,6 +53,13 @@
 #if POKEVIAL_FEATURE
 #include "tv.h"
 #include "pokevial.h"
+// Hub Pass (ITEM_HUB_RETURN) field-warp eligibility guard:
+#include "battle_pike.h"
+#include "field_specials.h"
+#include "link.h"
+#include "safari_zone.h"
+#include "trainer_hill.h"
+#include "constants/flags.h"
 #endif
 
 static void SetUpItemUseCallback(u8);
@@ -102,6 +109,7 @@ static const u8 sText_CantDismountBike[] = _("You can't dismount your BIKE here.
 static const u8 sText_SkyCharmOnlyOutdoors[] = _("The SKY CHARM only responds\nunder the open sky.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_SkyCharmNoBadge[] = _("The SKY CHARM won't respond without\nthis region's BADGE that commands\lthe skies.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_SkyCharmCantLand[] = _("You can't land here!{PAUSE_UNTIL_PRESS}");
+static const u8 sText_HubPassCantUseHere[] = _("The HUB PASS won't respond here.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNearby[] = _("Huh?\nThe ITEMFINDER's responding!\pThere's an item buried around here!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderOnTop[] = _("Oh!\nThe ITEMFINDER's shaking wildly!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNothing[] = _("… … … …Nope!\nThere's no response.{PAUSE_UNTIL_PRESS}");
@@ -418,8 +426,27 @@ static void ItemUseOnFieldCB_HubReturn(u8 taskId)
     DisplayItemMessageOnField(taskId, gStringVar4, Task_UseHubReturnOnField);
 }
 
+// Refuse the Hub Pass warp inside self-contained sessions whose teardown a raw DoWarp would
+// bypass (Safari ball/step state, Bug Contest, and the Frontier/Trainer-Hill challenges), plus
+// link/union states. Mirrors the predicate set UseRegisteredKeyItemOnField already blocks.
+static bool32 CannotUseHubReturnHere(void)
+{
+    return GetSafariZoneFlag()
+        || FlagGet(FLAG_SYS_BUG_CONTEST_MODE)
+        || InUnionRoom()
+        || InMultiPartnerRoom()
+        || InBattlePike()
+        || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
+        || InTrainerHillChallenge();
+}
+
 void ItemUseOutOfBattle_HubReturn(u8 taskId)
 {
+    if (CannotUseHubReturnHere())
+    {
+        DisplayCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem, sText_HubPassCantUseHere);
+        return;
+    }
     sItemUseOnFieldCB = ItemUseOnFieldCB_HubReturn;
     SetUpItemUseOnFieldCallback(taskId);
 }

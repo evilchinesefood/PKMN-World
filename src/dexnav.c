@@ -972,7 +972,7 @@ static bool32 DexNavSpeciesInCurrentMapEncounters(enum Species species)
 
     timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN);
     info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].hiddenMonsInfo;
-    if (info != NULL)
+    if (info != NULL) // no rate guard: hidden encounterRate is 0=land/1=water, not a rate
         for (i = 0; i < HIDDEN_WILD_COUNT; i++)
             if (info->wildPokemon[i].species == species)
                 return TRUE;
@@ -1001,13 +1001,12 @@ bool32 TryStartDexNavSearch(void)
     if (boundSpecies == SPECIES_NONE)
         return FALSE;
 
-    // Auto-unbind: if this area has wild encounters but the bound species isn't among them, clear
-    // the bind (the player moved to a new area). Indoor/no-encounter maps (HEADER_NONE) keep the
-    // bind so it survives walking through buildings.
+    // Bound species isn't searchable on this map: refuse with a beep but KEEP the bind, so the
+    // registration survives walking one route over and works again back in its home area.
     if (!DexNavSpeciesInCurrentMapEncounters(boundSpecies))
     {
         if (GetCurrentMapWildMonHeaderId() != HEADER_NONE)
-            VarSet(DN_VAR_SPECIES, SPECIES_NONE);
+            PlaySE(SE_FAILURE);
         return FALSE;
     }
 

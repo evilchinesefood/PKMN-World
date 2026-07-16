@@ -4,7 +4,7 @@
 // Player-outfit clothing palettes, PER-GENDER. Each Apply* in palette_swap.c overwrites ONLY the
 // clothing indices for the player's gender, leaving constants (skin, hair, white, outline)
 // untouched. RGB() components are 0-31. Indexed by PLAYER_OUTFIT_*. RED rows are vanilla and
-// unused (Apply* early-returns for RED). Regenerated via /home/evilc/python/OutfitPalettes.py.
+// unused (Apply* early-returns for RED). Regenerated via the external OutfitPalettes.py helper.
 //
 // Brendan (Male) and May (Female) have DIFFERENT palette layouts, so each gets its own tables:
 //   Male   garments = blue body 5-8 (jacket), red cap 12-13 (pants), green bag 10-11 (accent).

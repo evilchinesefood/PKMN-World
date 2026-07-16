@@ -59,8 +59,9 @@ Three complete, self-contained campaigns on one cartridge. Each region has its o
 New games start with a unified Oak intro (gender, name, **outfit picker**, and a one-time
 **Hard Mode** choice), then land in the **World Transit hub** — an Indigo-Plateau-style
 terminal with four staffed departure gates (Kanto, Johto, Hoenn, Battle Frontier), a nurse
-and heal point, a storage PC, a front-desk mart (with a free **Town Map**), dedicated
-**TM, feather, and mint vendors**, and a **World Tour board** tracking all 24 badges.
+and heal point, a storage PC, a front-desk general mart (every ball, top-tier heals, and a
+free **Town Map**), specialist **TM, training, and battle-item vendors**, and a
+**World Tour board** tracking all 24 badges.
 
 Three hub staffers handle handouts:
 

@@ -60,7 +60,7 @@ of all three campaigns for story pacing and balance.
   and all post-game: Red at Mt. Silver, roaming beasts, Celebi, Ruins of Alph, Bug-Catching
   Contest, Ho-Oh/Lugia).
 - ✅ **Kanto** — the FireRed campaign wired in: real FRLG trainer parties, gym/Elite Four/Champion
-  Blue rosters, rival **Blue**, and the 8-badge league gate.
+  Blue rosters, rival **GARY**, and the 8-badge league gate.
 - ✅ **Cross-region systems** — World Transit hub, region-switch travel, per-region access
   points and champion warp pads, a multi-page trainer card, and 6-outfit customization.
 - 🟡 **In progress** — a full-length human playthrough of all three campaigns (story pacing

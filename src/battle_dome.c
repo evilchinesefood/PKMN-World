@@ -1911,6 +1911,9 @@ static void SetDomeData(void)
 // World Championship bracket: the fixed 15 cross-region champions that fill the
 // tourney (slots 1..15) when VAR_WORLD_CHAMPIONSHIP_MODE is set. RED (index 0) is
 // force-seeded into the finalist slot opposite the player after ranking (see below).
+// ROCKET deliberately REPLACED Clair — the bracket is a fixed 15-slot array. If Clair
+// ever returns, grow DOME_TOURNAMENT_TRAINERS_COUNT (include/global.h) instead of
+// appending here.
 static const u16 sChampionshipTrainerIds[DOME_TOURNAMENT_TRAINERS_COUNT - 1] =
 {
     FRONTIER_TRAINER_WC_RED,    FRONTIER_TRAINER_WC_BLUE,   FRONTIER_TRAINER_WC_LANCE,

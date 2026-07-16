@@ -211,5 +211,5 @@ SlowpokeWell_B1F_Text_JamesDefeat:
 	.string "JAMES: It's not fair!$"
 
 SlowpokeWell_B1F_Text_JessieJamesBlastOff:
-	.string "MEOWTH: We're blasting off\n"
+	.string "JESSIE & JAMES: We're blasting off\n"
 	.string "agaaain!$"

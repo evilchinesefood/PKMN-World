@@ -149,7 +149,6 @@ static bool8 PlayerIsAnimActive(void);
 static bool8 PlayerCheckIfAnimFinishedOrInactive(void);
 
 static void PlayerWalkSlowStairs(enum Direction direction);
-static void UNUSED PlayerWalkSlow(enum Direction direction);
 static void PlayerRunSlow(enum Direction direction);
 static void PlayerRun(enum Direction);
 static void PlayerNotOnBikeCollide(enum Direction);
@@ -922,7 +921,6 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
     }
 
     ResetSpinTimer(); // Everything below will move the player a space, reset the timer.
-    gPlayerAvatar.creeping = FALSE;
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
     {
         // speed 2 is fast, same speed as running
@@ -1573,12 +1571,6 @@ void PlayerSetAnimId(u8 movementActionId, enum CopyMovement copyableMovement)
 static void PlayerWalkSlowStairs(enum Direction direction)
 {
     PlayerSetAnimId(GetWalkSlowStairsMovementAction(direction), COPY_MOVE_WALK);
-}
-
-// slow
-static void UNUSED PlayerWalkSlow(enum Direction direction)
-{
-    PlayerSetAnimId(GetWalkSlowMovementAction(direction), COPY_MOVE_WALK);
 }
 
 static void PlayerRunSlow(enum Direction direction)

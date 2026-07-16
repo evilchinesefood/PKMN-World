@@ -946,9 +946,8 @@ static void RevealHiddenSearch(void)
 
 // Auto-unbind support: is `species` in the current map's wild encounter tables? Used to clear a
 // stale R-button DexNav bind when the player moves to an area where that mon can't be searched.
-static bool32 DexNavSpeciesInCurrentMapEncounters(enum Species species)
+static bool32 DexNavSpeciesInCurrentMapEncounters(enum Species species, u32 headerId)
 {
-    u32 headerId = GetCurrentMapWildMonHeaderId();
     const struct WildPokemonInfo *info;
     enum TimeOfDay timeOfDay;
     u32 i;
@@ -1003,9 +1002,10 @@ bool32 TryStartDexNavSearch(void)
 
     // Bound species isn't searchable on this map: refuse with a beep but KEEP the bind, so the
     // registration survives walking one route over and works again back in its home area.
-    if (!DexNavSpeciesInCurrentMapEncounters(boundSpecies))
+    u32 headerId = GetCurrentMapWildMonHeaderId();
+    if (!DexNavSpeciesInCurrentMapEncounters(boundSpecies, headerId))
     {
-        if (GetCurrentMapWildMonHeaderId() != HEADER_NONE)
+        if (headerId != HEADER_NONE)
             PlaySE(SE_FAILURE);
         return FALSE;
     }

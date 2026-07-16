@@ -468,5 +468,5 @@ RadioTower1F_Text_JamesDefeat:
 	.string "JAMES: It's not fair!$"
 
 RadioTower1F_Text_JessieJamesBlastOff:
-	.string "MEOWTH: We're blasting off\n"
+	.string "JESSIE & JAMES: We're blasting off\n"
 	.string "agaaain!$"

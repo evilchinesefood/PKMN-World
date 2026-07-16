@@ -1207,8 +1207,11 @@ static bool32 TrySelectTileForOWE(s32* outX, s32* outY)
     // Reject land tiles on a different elevation than the player (e.g. cave-floor
     // metatiles behind a wall or on a raised ledge). Static collision alone does not
     // catch these, which let OWEs spawn on unreachable floor "inside" cave walls.
+    // An airborne player (ELEVATION_TRANSITION) never mismatches.
+    u32 playerElevation = gObjectEvents[gPlayerAvatar.objectEventId].currentElevation;
     if (!ShouldSpawnWaterOWE()
-     && IsElevationMismatchAt(gObjectEvents[gPlayerAvatar.objectEventId].currentElevation, x, y))
+     && playerElevation != ELEVATION_TRANSITION
+     && elevation != playerElevation)
         return FALSE;
 
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);

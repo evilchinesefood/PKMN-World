@@ -324,5 +324,5 @@ Route118_Text_JamesDefeat:
 	.string "JAMES: It's not fair!$"
 
 Route118_Text_JessieJamesBlastOff:
-	.string "MEOWTH: We're blasting off\n"
+	.string "JESSIE & JAMES: We're blasting off\n"
 	.string "agaaain!$"

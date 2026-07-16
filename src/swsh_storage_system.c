@@ -99,6 +99,8 @@ enum {
     MSG_BAG_FULL,
     MSG_PUT_IN_BAG,
     MSG_CANT_STORE_MAIL,
+    MSG_DEFAULT_BOX_SET,
+    MSG_DEFAULT_BOX_CLEARED,
 };
 
 // IDs for how to resolve variables in the above messages
@@ -133,6 +135,7 @@ enum {
     MENU_SWITCH,
     MENU_BAG,
     MENU_SELECT,
+    MENU_MAKE_DEFAULT,
     MENU_BASE,
     MENU_NORMAL,
     MENU_FIGHTING,
@@ -610,6 +613,7 @@ static void Task_ReleaseMon(u8);
 static void Task_ReshowPokeStorage(u8);
 static void Task_PokeStorageMain(u8);
 static void Task_JumpBox(u8);
+static void Task_MakeDefaultBox(u8);
 static void Task_HandleWallpapers(u8);
 static void Task_NameBox(u8);
 static void Task_PrintCantStoreMail(u8);
@@ -3371,6 +3375,10 @@ static void Task_HandleBoxOptions(u8 taskId)
             PlaySE(SE_SELECT);
             SetPokeStorageTask(Task_JumpBox);
             break;
+        case MENU_MAKE_DEFAULT:
+            PlaySE(SE_SELECT);
+            SetPokeStorageTask(Task_MakeDefaultBox);
+            break;
         }
         break;
     }
@@ -3498,6 +3506,43 @@ static void Task_JumpBox(u8 taskId)
         break;
     case 4:
         if (!UpdateCursorPos())
+            SetPokeStorageTask(Task_PokeStorageMain);
+        break;
+    }
+}
+
+// Toggle the default deposit box for newly caught Pokémon. VAR_DEFAULT_PC_BOX holds
+// boxId + 1; 0 = unset, so new catches go to the current box (vanilla behavior).
+static void Task_MakeDefaultBox(u8 taskId)
+{
+    switch (sStorage->state)
+    {
+    case 0:
+        if (VarGet(VAR_DEFAULT_PC_BOX) == StorageGetCurrentBox() + 1)
+        {
+            VarSet(VAR_DEFAULT_PC_BOX, 0);
+            PrintMessage(MSG_DEFAULT_BOX_CLEARED);
+        }
+        else
+        {
+            VarSet(VAR_DEFAULT_PC_BOX, StorageGetCurrentBox() + 1);
+            PrintMessage(MSG_DEFAULT_BOX_SET);
+        }
+        sStorage->state++;
+        break;
+    case 1:
+        if (!IsDma3ManagerBusyWithBgCopy())
+            sStorage->state++;
+        break;
+    case 2:
+        if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
+        {
+            ClearBottomWindow();
+            sStorage->state++;
+        }
+        break;
+    case 3:
+        if (!IsDma3ManagerBusyWithBgCopy())
             SetPokeStorageTask(Task_PokeStorageMain);
         break;
     }
@@ -7373,13 +7418,10 @@ static u8 InBoxInput_Normal(void)
             return INPUT_PRESSED_B;
         }
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-        {
-            if (JOY_HELD(L_BUTTON))
-                return INPUT_SCROLL_LEFT;
-            if (JOY_HELD(R_BUTTON))
-                return INPUT_SCROLL_RIGHT;
-        }
+        if (JOY_HELD(L_BUTTON))
+            return INPUT_SCROLL_LEFT;
+        if (JOY_HELD(R_BUTTON))
+            return INPUT_SCROLL_RIGHT;
 
         if (JOY_NEW(SELECT_BUTTON))
         {
@@ -7541,13 +7583,10 @@ static u8 InBoxInput_MovingMultiple(void)
     }
     else
     {
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-        {
-            if (JOY_HELD(L_BUTTON))
-                return INPUT_SCROLL_LEFT;
-            if (JOY_HELD(R_BUTTON))
-                return INPUT_SCROLL_RIGHT;
-        }
+        if (JOY_HELD(L_BUTTON))
+            return INPUT_SCROLL_LEFT;
+        if (JOY_HELD(R_BUTTON))
+            return INPUT_SCROLL_RIGHT;
 
         return INPUT_NONE;
     }
@@ -7666,13 +7705,10 @@ static u8 HandleInput_InParty(void)
             return INPUT_PRESSED_B;
         }
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-        {
-            if (JOY_HELD(L_BUTTON))
-                return INPUT_SCROLL_LEFT;
-            if (JOY_HELD(R_BUTTON))
-                return INPUT_SCROLL_RIGHT;
-        }
+        if (JOY_HELD(L_BUTTON))
+            return INPUT_SCROLL_LEFT;
+        if (JOY_HELD(R_BUTTON))
+            return INPUT_SCROLL_RIGHT;
 
         if (JOY_NEW(SELECT_BUTTON))
         {
@@ -7724,13 +7760,10 @@ static u8 HandleInput_OnBox(void)
         if (JOY_HELD(DPAD_RIGHT))
             return INPUT_SCROLL_RIGHT;
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-        {
-            if (JOY_HELD(L_BUTTON))
-                return INPUT_SCROLL_LEFT;
-            if (JOY_HELD(R_BUTTON))
-                return INPUT_SCROLL_RIGHT;
-        }
+        if (JOY_HELD(L_BUTTON))
+            return INPUT_SCROLL_LEFT;
+        if (JOY_HELD(R_BUTTON))
+            return INPUT_SCROLL_RIGHT;
 
         if (JOY_NEW(A_BUTTON))
         {
@@ -7802,6 +7835,7 @@ static void AddBoxOptionsMenu(void)
     SetMenuText(MENU_JUMP);
     SetMenuText(MENU_WALLPAPER);
     SetMenuText(MENU_NAME);
+    SetMenuText(MENU_MAKE_DEFAULT);
 }
 
 static u8 SetSelectionMenuTexts(void)
@@ -8080,7 +8114,8 @@ static void GetMenuPosition(u8 cursorArea, u8 cursorPos, u8 *outLeft, u8 *outTop
     
     if (cursorArea == CURSOR_AREA_BOX_TITLE)
     {
-        *outLeft = 19;
+        // Keep the right frame border on the 30-column screen for wide menu labels.
+        *outLeft = min(19, 29 - sStorage->menuWindow.width);
         *outTop = 5;
         return;
     }

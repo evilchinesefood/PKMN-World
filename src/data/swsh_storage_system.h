@@ -229,6 +229,7 @@ static const u8 *const sMenuTexts[] =
     [MENU_SWITCH]     = COMPOUND_STRING("Switch"),
     [MENU_BAG]        = COMPOUND_STRING("Bag"),
     [MENU_SELECT]     = COMPOUND_STRING("Select"),
+    [MENU_MAKE_DEFAULT] = COMPOUND_STRING("Make Default"),
     [MENU_BASE]       = COMPOUND_STRING("Default"),
     [MENU_NORMAL]     = COMPOUND_STRING("Normal"),
     [MENU_FIGHTING]   = COMPOUND_STRING("Fighting"),
@@ -276,6 +277,8 @@ static const struct StorageMessage sMessages[] =
     [MSG_BAG_FULL]             = {COMPOUND_STRING("The bag is full."),           MSG_VAR_NONE},
     [MSG_PUT_IN_BAG]           = {COMPOUND_STRING("Put this item in the bag?"),  MSG_VAR_NONE},
     [MSG_CANT_STORE_MAIL]      = {COMPOUND_STRING("Mail can't be stored!"),      MSG_VAR_NONE},
+    [MSG_DEFAULT_BOX_SET]      = {COMPOUND_STRING("New catches go to this box."), MSG_VAR_NONE},
+    [MSG_DEFAULT_BOX_CLEARED]  = {COMPOUND_STRING("Default box setting cleared."), MSG_VAR_NONE},
 };
 
 // ============================================================================

@@ -3478,7 +3478,7 @@ bool8 ShouldShowBoxWasFullMessage(void)
 {
     if (!FlagGet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE))
     {
-        if (StorageGetCurrentBox() != VarGet(VAR_PC_BOX_TO_SEND_MON))
+        if (GetIntendedDepositBox() != VarGet(VAR_PC_BOX_TO_SEND_MON))
         {
             FlagSet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
             return TRUE;
@@ -3491,8 +3491,10 @@ bool8 IsDestinationBoxFull(void)
 {
     int box;
     int i;
+    int startBox;
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
-    box = StorageGetCurrentBox();
+    startBox = GetIntendedDepositBox();
+    box = startBox;
     do
     {
         for (i = 0; i < IN_BOX_COUNT; i++)
@@ -3508,7 +3510,7 @@ bool8 IsDestinationBoxFull(void)
 
         if (++box == TOTAL_BOXES_COUNT)
             box = 0;
-    } while (box != StorageGetCurrentBox());
+    } while (box != startBox);
     return FALSE;
 }
 

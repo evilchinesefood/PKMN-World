@@ -270,7 +270,7 @@
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER             0x40F6
 #define VAR_WORLD_CHAMPIONSHIP_MODE                      0x40F7 // Set while a Champions-bracket Dome run is active; MUST be cleared on every exit
 #define VAR_DIFFICULTY                                   0x40F8 // Difficulty tier (0/1 = Normal, 2 = Hard)
-#define VAR_UNUSED_0x40F9                                0x40F9 // Unused Var
+#define VAR_DEFAULT_PC_BOX                               0x40F9 // Default deposit box for new catches: boxId + 1 (0 = unset, use the current box)
 #define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
 #define VAR_PLAYER_CHARACTER                             0x40FB // Region merge: global protagonist pick (Lane K1b), shared across all regions
 #define VAR_PLAYER_PALETTE                               0x40FC // Region merge: global outfit/palette pick (Lane K1), shared across all regions

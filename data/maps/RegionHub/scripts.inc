@@ -488,8 +488,8 @@ RegionHub_EventScript_CuratorLadder::
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryOval
 	checkitem ITEM_SHINY_CHARM
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryShiny
-	checkitem ITEM_EV_CHANGER
-	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryEvChanger
+	checkitem ITEM_EV_IV_CHANGER
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_CuratorTryEvIvChanger
 	msgbox RegionHub_Text_CuratorAllGiven, MSGBOX_DEFAULT
 	release
 	end
@@ -554,17 +554,17 @@ RegionHub_EventScript_CuratorGiveShiny::
 	release
 	end
 
-RegionHub_EventScript_CuratorTryEvChanger::
-	goto_if_ge VAR_0x8000, 24, RegionHub_EventScript_CuratorGiveEvChanger
+RegionHub_EventScript_CuratorTryEvIvChanger::
+	goto_if_ge VAR_0x8000, 24, RegionHub_EventScript_CuratorGiveEvIvChanger
 	msgbox RegionHub_Text_CuratorNeed24, MSGBOX_DEFAULT
 	release
 	end
 
-RegionHub_EventScript_CuratorGiveEvChanger::
-	msgbox RegionHub_Text_CuratorGiveEvChanger, MSGBOX_DEFAULT
-	giveitem ITEM_EV_CHANGER
+RegionHub_EventScript_CuratorGiveEvIvChanger::
+	msgbox RegionHub_Text_CuratorGiveEvIvChanger, MSGBOX_DEFAULT
+	giveitem ITEM_EV_IV_CHANGER
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
-	msgbox RegionHub_Text_CuratorEvChangerExplain, MSGBOX_DEFAULT
+	msgbox RegionHub_Text_CuratorEvIvChangerExplain, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -651,15 +651,17 @@ RegionHub_Text_CuratorNeed24:
 	.string "Bring me all 24 GYM BADGES\n"
 	.string "and it is yours.$"
 
-RegionHub_Text_CuratorGiveEvChanger:
+RegionHub_Text_CuratorGiveEvIvChanger:
 	.string "All 24 GYM BADGES! Every\n"
 	.string "region bows to you.\p"
 	.string "Take this parting gift.$"
 
-RegionHub_Text_CuratorEvChangerExplain:
-	.string "That's the EV CHANGER.\p"
-	.string "Tune any POKéMON's EFFORT\n"
-	.string "VALUES up or down, any time.$"
+RegionHub_Text_CuratorEvIvChangerExplain:
+	.string "That's the EV/IV CHANGER.\p"
+	.string "Tune any POKéMON's EVs and\n"
+	.string "IVs up or down, any time.\p"
+	.string "Press R inside its menu to\n"
+	.string "flip between EVs and IVs.$"
 
 RegionHub_Text_CuratorAllGiven:
 	.string "My whole collection is in your\n"

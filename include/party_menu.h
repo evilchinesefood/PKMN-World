@@ -98,7 +98,7 @@ void ItemUseCB_AbilityPatch(u8 taskId, TaskFunc task);
 void ItemUseCB_Mint(u8 taskId, TaskFunc task);
 void ItemUseCB_ResetEVs(u8 taskId, TaskFunc task);
 void ItemUseCB_ReduceEV(u8 taskId, TaskFunc task);
-void ItemUseCB_EvChanger(u8 taskId, TaskFunc task);
+void ItemUseCB_EvIvChanger(u8 taskId, TaskFunc task);
 void ItemUseCB_PPRecovery(u8 taskId, TaskFunc task);
 void ItemUseCB_PPUp(u8 taskId, TaskFunc task);
 enum Move ItemIdToBattleMoveId(enum Item item);

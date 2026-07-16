@@ -7358,11 +7358,12 @@ static void TryUseItemOnMove(u8 taskId)
     }
 }
 
-// EV Changer (QoL 13): reusable key item to freely tune a party mon's EVs, clamped to
-// MAX_PER_STAT_EVS (252) per stat and MAX_TOTAL_EVS (510) total. Lives HERE in the LIVE swsh
-// party menu - src/party_menu.c is #if !SWSH_PARTY_MENU so it compiles to nothing in this build;
-// the callback must link from swsh_party_menu.o, exactly like ItemUseCB_PPUp below.
-static const u8 sEvChangerStatToMonData[NUM_STATS] =
+// EV/IV Changer (issue #3, widened from the QoL 13 EV-only item): reusable key item to
+// freely tune a party mon's EVs AND IVs. EVs clamp to MAX_PER_STAT_EVS (252) per stat and
+// MAX_TOTAL_EVS (510) total; IVs to 0..MAX_PER_STAT_IVS. Lives HERE in the LIVE swsh
+// party menu - src/party_menu.c is #if !SWSH_PARTY_MENU so it compiles to nothing in this
+// build; the callback must link from swsh_party_menu.o, exactly like ItemUseCB_PPUp below.
+static const u8 sEvIvChangerEvMonData[NUM_STATS] =
 {
     MON_DATA_HP_EV,
     MON_DATA_ATK_EV,
@@ -7372,7 +7373,29 @@ static const u8 sEvChangerStatToMonData[NUM_STATS] =
     MON_DATA_SPEED_EV,
 };
 
-static const u8 *const sEvChangerStatNames[NUM_STATS] =
+// Display order (HP/Atk/Def/SpA/SpD/Spe) differs from the MON_DATA enum order
+// (HP,Atk,Def,Speed,SpA,SpD), so the IV and hyper-trained tables stay explicit.
+static const u8 sEvIvChangerIvMonData[NUM_STATS] =
+{
+    MON_DATA_HP_IV,
+    MON_DATA_ATK_IV,
+    MON_DATA_DEF_IV,
+    MON_DATA_SPATK_IV,
+    MON_DATA_SPDEF_IV,
+    MON_DATA_SPEED_IV,
+};
+
+static const u8 sEvIvChangerHtMonData[NUM_STATS] =
+{
+    MON_DATA_HYPER_TRAINED_HP,
+    MON_DATA_HYPER_TRAINED_ATK,
+    MON_DATA_HYPER_TRAINED_DEF,
+    MON_DATA_HYPER_TRAINED_SPATK,
+    MON_DATA_HYPER_TRAINED_SPDEF,
+    MON_DATA_HYPER_TRAINED_SPEED,
+};
+
+static const u8 *const sEvIvChangerStatNames[NUM_STATS] =
 {
     gText_HP4,
     gText_Attack,
@@ -7382,84 +7405,110 @@ static const u8 *const sEvChangerStatNames[NUM_STATS] =
     gText_Speed,
 };
 
-static const u8 sText_EvChangerTotal[] = _("TOTAL");
-static const u8 sText_EvChangerSlash510[] = _("/510");
+static const u8 sText_EvIvChangerTotal[] = _("TOTAL");
+static const u8 sText_EvIvChangerSlash510[] = _("/510");
+static const u8 sText_EvIvChangerPageEvs[] = _("EVs {R_BUTTON}IVs");
+static const u8 sText_EvIvChangerPageIvs[] = _("IVs {R_BUTTON}EVs");
 
 #define tEvCursor  data[0]
+#define tEvPage    data[1] // 0 = EVs, 1 = IVs
 
-static u16 EvChangerTotalEvs(struct Pokemon *mon)
+static u16 EvIvChangerTotalEvs(struct Pokemon *mon)
 {
     u8 i;
     u16 total = 0;
 
     for (i = 0; i < NUM_STATS; i++)
-        total += GetMonData(mon, sEvChangerStatToMonData[i]);
+        total += GetMonData(mon, sEvIvChangerEvMonData[i]);
     return total;
 }
 
-static void EvChangerPrintStats(u8 taskId)
+static void EvIvChangerPrintStats(u8 taskId)
 {
     u8 i;
     u8 windowId = sPartyMenuInternal->windowId[0];
     u8 cursor = gTasks[taskId].tEvCursor;
+    bool8 ivPage = gTasks[taskId].tEvPage;
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][gPartyMenu.slotId];
-    u16 total = EvChangerTotalEvs(mon);
     u8 text[16];
 
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(TEXT_COLOR_WHITE)); // fill 0 is transparent - the mon artwork bled through
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, ivPage ? sText_EvIvChangerPageIvs : sText_EvIvChangerPageEvs, 9, 1, TEXT_SKIP_DRAW, NULL);
     for (i = 0; i < NUM_STATS; i++)
     {
         if (i == cursor)
-            AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_SelectorArrow2, 0, (i * 12) + 1, TEXT_SKIP_DRAW, NULL);
-        AddTextPrinterParameterized(windowId, FONT_NORMAL, sEvChangerStatNames[i], 9, (i * 12) + 1, TEXT_SKIP_DRAW, NULL);
-        ConvertIntToDecimalStringN(text, GetMonData(mon, sEvChangerStatToMonData[i]), STR_CONV_MODE_RIGHT_ALIGN, 3);
-        AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 56, (i * 12) + 1, TEXT_SKIP_DRAW, NULL);
+            AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_SelectorArrow2, 0, (i * 12) + 13, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, sEvIvChangerStatNames[i], 9, (i * 12) + 13, TEXT_SKIP_DRAW, NULL);
+        ConvertIntToDecimalStringN(text, GetMonData(mon, ivPage ? sEvIvChangerIvMonData[i] : sEvIvChangerEvMonData[i]), STR_CONV_MODE_RIGHT_ALIGN, 3);
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 56, (i * 12) + 13, TEXT_SKIP_DRAW, NULL);
     }
-    ConvertIntToDecimalStringN(text, total, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringAppend(text, sText_EvChangerSlash510);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, sText_EvChangerTotal, 6, (NUM_STATS * 12) + 2, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 44, (NUM_STATS * 12) + 2, TEXT_SKIP_DRAW, NULL);
+    if (!ivPage)
+    {
+        ConvertIntToDecimalStringN(text, EvIvChangerTotalEvs(mon), STR_CONV_MODE_LEFT_ALIGN, 3);
+        StringAppend(text, sText_EvIvChangerSlash510);
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, sText_EvIvChangerTotal, 4, (NUM_STATS * 12) + 14, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 37, (NUM_STATS * 12) + 14, TEXT_SKIP_DRAW, NULL); // "252/510" needs ~42px; x=44 clipped the last digit
+    }
     CopyWindowToVram(windowId, COPYWIN_GFX);
-    ScheduleBgCopyTilemapToVram(2);
+    ScheduleBgCopyTilemapToVram(0); // window is on bg 0 (like the level-up stats window); bg 2 never shows it
 }
 
-static void EvChangerAdjust(u8 taskId, bool8 increase)
+static void EvIvChangerAdjust(u8 taskId, bool8 increase)
 {
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][gPartyMenu.slotId];
-    u8 monDataId = sEvChangerStatToMonData[gTasks[taskId].tEvCursor];
-    u16 ev = GetMonData(mon, monDataId);
-    u16 step = JOY_HELD(R_BUTTON) ? 10 : 4; // hold R to adjust faster
-    u16 newEv;
+    u8 cursor = gTasks[taskId].tEvCursor;
+    bool8 ivPage = gTasks[taskId].tEvPage;
+    u8 monDataId = ivPage ? sEvIvChangerIvMonData[cursor] : sEvIvChangerEvMonData[cursor];
+    u16 val = GetMonData(mon, monDataId);
+    u16 step = JOY_NEW(DPAD_LEFT | DPAD_RIGHT) ? 1 : 10; // fresh press ±1, held repeat ±10
+    u16 newVal;
 
     if (increase)
     {
-        u16 roomTotal = MAX_TOTAL_EVS - EvChangerTotalEvs(mon);
-        u16 roomStat = MAX_PER_STAT_EVS - ev;
-        u16 room = (roomStat < roomTotal) ? roomStat : roomTotal;
+        u16 room;
 
+        if (ivPage)
+        {
+            room = MAX_PER_STAT_IVS - val;
+        }
+        else
+        {
+            u16 roomTotal = MAX_TOTAL_EVS - EvIvChangerTotalEvs(mon);
+            u16 roomStat = MAX_PER_STAT_EVS - val;
+
+            room = (roomStat < roomTotal) ? roomStat : roomTotal;
+        }
         if (step > room)
             step = room;
-        newEv = ev + step;
+        newVal = val + step;
     }
     else
     {
-        if (step > ev)
-            step = ev;
-        newEv = ev - step;
+        if (step > val)
+            step = val;
+        newVal = val - step;
     }
 
-    if (newEv == ev)
+    if (newVal == val)
     {
         PlaySE(SE_FAILURE);
         return;
     }
-    SetMonData(mon, monDataId, &newEv);
+    SetMonData(mon, monDataId, &newVal);
+    if (ivPage && GetMonData(mon, sEvIvChangerHtMonData[cursor]))
+    {
+        u8 htOff = FALSE;
+
+        // CalculateMonStats pins hyper-trained stats to IV 31; clear the bit so the
+        // edited IV is what the stats actually use.
+        SetMonData(mon, sEvIvChangerHtMonData[cursor], &htOff);
+    }
     CalculateMonStats(mon);
     PlaySE(SE_SELECT);
-    EvChangerPrintStats(taskId);
+    EvIvChangerPrintStats(taskId);
 }
 
-static void Task_EvChangerHandleInput(u8 taskId)
+static void Task_EvIvChangerHandleInput(u8 taskId)
 {
     u8 cursor = gTasks[taskId].tEvCursor;
 
@@ -7467,42 +7516,61 @@ static void Task_EvChangerHandleInput(u8 taskId)
     {
         PlaySE(SE_SELECT);
         gTasks[taskId].tEvCursor = (cursor == 0) ? NUM_STATS - 1 : cursor - 1;
-        EvChangerPrintStats(taskId);
+        EvIvChangerPrintStats(taskId);
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
         PlaySE(SE_SELECT);
         gTasks[taskId].tEvCursor = (cursor == NUM_STATS - 1) ? 0 : cursor + 1;
-        EvChangerPrintStats(taskId);
+        EvIvChangerPrintStats(taskId);
+    }
+    else if (JOY_NEW(R_BUTTON) || JOY_NEW(L_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gTasks[taskId].tEvPage ^= 1;
+        EvIvChangerPrintStats(taskId);
     }
     else if (JOY_REPEAT(DPAD_RIGHT))
     {
-        EvChangerAdjust(taskId, TRUE);
+        EvIvChangerAdjust(taskId, TRUE);
     }
     else if (JOY_REPEAT(DPAD_LEFT))
     {
-        EvChangerAdjust(taskId, FALSE);
+        EvIvChangerAdjust(taskId, FALSE);
     }
     else if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_SELECT);
         ClearWindowTilemap(sPartyMenuInternal->windowId[0]);
         PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        // HP EV/IV edits change max HP - redraw the party slot so it isn't stale.
+        UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, &gParties[B_TRAINER_PLAYER][gPartyMenu.slotId]);
         ReturnToUseOnWhichMon(taskId);
     }
 }
 
-void ItemUseCB_EvChanger(u8 taskId, TaskFunc task)
+void ItemUseCB_EvIvChanger(u8 taskId, TaskFunc task)
 {
+    if (GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], MON_DATA_IS_EGG))
+    {
+        gPartyMenuUseExitCallback = FALSE;
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        ScheduleBgCopyTilemapToVram(0);
+        gTasks[taskId].func = task;
+        return;
+    }
     PlaySE(SE_SELECT);
-    sPartyMenuInternal->windowId[0] = AddWindow(&sEvChangerWindowTemplate);
+    sPartyMenuInternal->windowId[0] = AddWindow(&sEvIvChangerWindowTemplate);
     DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[0], FALSE, 0x63, 13);
     gTasks[taskId].tEvCursor = 0;
-    EvChangerPrintStats(taskId);
-    gTasks[taskId].func = Task_EvChangerHandleInput;
+    gTasks[taskId].tEvPage = 0;
+    EvIvChangerPrintStats(taskId);
+    gTasks[taskId].func = Task_EvIvChangerHandleInput;
 }
 
 #undef tEvCursor
+#undef tEvPage
 
 void ItemUseCB_PPUp(u8 taskId, TaskFunc task)
 {

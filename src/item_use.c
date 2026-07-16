@@ -1030,10 +1030,21 @@ void ItemUseOutOfBattle_ReduceEV(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
-void ItemUseOutOfBattle_EvChanger(u8 taskId)
+void ItemUseOutOfBattle_EvIvChanger(u8 taskId)
 {
-    gItemUseCB = ItemUseCB_EvChanger;
-    SetUpItemUseCallback(taskId);
+    gItemUseCB = ItemUseCB_EvIvChanger;
+    if (gTasks[taskId].tUsingRegisteredKeyItem)
+    {
+        SetUpItemUseCallback(taskId); // field path already fades to the real party menu
+    }
+    else
+    {
+        // Bypass the SwSh in-bag party picker (SWSH_ITEM_MENU_ACTION_IN_BAG): it only
+        // dispatches item CBs it knows, so unknown CBs bounce back to the bag, and it
+        // can't host this editor's party-menu windows anyway.
+        gBagMenu->newScreenCallback = CB2_ShowPartyMenuForItemUse;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
 }
 
 void ItemUseOutOfBattle_SacredAsh(u8 taskId)

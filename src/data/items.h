@@ -14355,18 +14355,18 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_TownMap,
     },
 
-    [ITEM_EV_CHANGER] =
+    [ITEM_EV_IV_CHANGER] =
     {
-        .name = ITEM_NAME("EV Changer"),
+        .name = ITEM_NAME("EV/IV Changer"),
         .price = 0,
         .description = COMPOUND_STRING(
             "Freely tunes a\n"
-            "POKéMON's effort\n"
-            "values up or down."),
+            "POKéMON's EVs and\n"
+            "IVs up or down."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_PARTY_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_EvChanger,
+        .fieldUseFunc = ItemUseOutOfBattle_EvIvChanger,
         .iconPic = gItemIcon_AbilityCapsule,
         .iconPalette = gItemIconPalette_AbilityCapsule,
     },

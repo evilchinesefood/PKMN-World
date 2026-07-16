@@ -3,6 +3,18 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## Unreleased
+
+- **EV/IV Changer**: the Curator's 24-badge capstone now tunes IVs too (it was
+  EVs only). Use it on a party POKéMON and press R to flip between the EV and
+  IV pages; Left/Right nudge the selected stat by 1, holding moves in steps
+  of 10. EVs stay capped at the legal 252 per stat / 510 total, IVs at 0-31,
+  and stats recalculate live. Owners of the old EV Changer keep it; the item
+  simply gained its new name and powers.
+- Also fixed from the EV-only version: using the item from the bag now actually
+  opens the editor (the bag used to bounce straight back), and the editor
+  window draws fully opaque (it was invisible, then see-through).
+
 ## v1.3.6 — 2026-07-13
 
 Mount polish round two.

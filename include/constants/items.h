@@ -1087,7 +1087,7 @@ enum __attribute__((packed)) Item
 
     ITEM_SKY_CHARM,     // F1: toggles overworld free-flight (World Transit hub, needs 1+ badge)
 
-    ITEM_EV_CHANGER,    // QoL 13: reusable key item to freely tune a party mon's EVs (party menu)
+    ITEM_EV_IV_CHANGER, // issue #3: reusable key item to freely tune a party mon's EVs and IVs (party menu)
 
     ITEM_HUB_RETURN,    // Task 6: key item, warps the player one-way to the World Transit hub
 

@@ -69,8 +69,9 @@ Three hub staffers handle handouts:
   (Eon Ticket, Old Sea Map, Mystic Ticket) as you win championships.
 - The **Charm Curator** greets you with a **Pokévial**, then rewards World Tour badge
   milestones: 4 → Catching Charm, 8 → Exp. Charm, 12 → Oval Charm, 16 → Shiny Charm,
-  24 → **EV Changer** (a reusable key item for freely raising or lowering a party
-  Pokémon's EVs, capped at the legal 252/510).
+  24 → **EV/IV Changer** (a reusable key item for freely tuning a party
+  Pokémon's EVs and IVs; press R in its menu to flip pages. EVs stay capped
+  at the legal 252 per stat / 510 total, IVs at 0-31).
 - A post-game **Dex researcher** rewards caught-species milestones: 150 → PP Max,
   300 → Master Ball, and completing the National Dex → 10 Rare Candies plus a diploma.
 

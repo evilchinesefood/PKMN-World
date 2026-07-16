@@ -12,11 +12,11 @@ RegionHub_MapScripts::
 @ point on a return (RegionHub_ScrTargetIntroDone, D5). The Frontier attendant blocks the
 @ old league door, is region-agnostic and never boxes
 @ the party. Also here: the healing nurse (FRLG pattern; whiteout respawn is REGIONAL now - see task 5a below),
-@ a storage PC (MB_PC metatile at (17,9)), the front-desk mart (Indigo clerk inventory plus
-@ the TOWN MAP - hub-local list, see RegionHub_Items), four remaining department-store
-@ vendors (Lilycove 2F/3F inventories) behind the east counter, the TM/mint/feather vendor
-@ row south of the main floor (QoL 2026-07-12, see RegionHub_EventScript_TmVendor and
-@ neighbors), and the read-only world-tour scoreboard (R8) by the Frontier gate. Key-item
+@ a storage PC (MB_PC metatile at (17,9)), the front-desk GENERAL MART on the west wall (all
+@ balls + heals + the one-per-save TOWN MAP, see RegionHub_Items), the east-counter
+@ specialist trio - TM vendor / Training vendor (vitamins-PP-feathers-mints) / Battle Depot
+@ (evo stones + Linking Cord + held items) -
+@ and the read-only world-tour scoreboard (R8) by the Frontier gate. Key-item
 @ givers (KeyItemAvailabilityAudit S3): the Sky Charm keeper (F1), the Harbor Master in the
 @ south hall (championship-gated event tickets + enable-ship flags) and the Charm Curator
 @ north of the east counter (badge-tiered charms). The four gates line the NORTH DEPARTURE
@@ -24,23 +24,19 @@ RegionHub_MapScripts::
 @ doors), each blocked by its attendant. Arrivals land on the concourse crest at (16,4) =
 @ warp 0 (never triggers - plain floor tile, anchor only).
 @
-@ NOTE (QoL 2026-07-12): the east counter's 4F attack/defense TM pair used to live at
-@ (23,11)/(24,11), inside a back-room pocket (x=19-24, y=10-11) that a reachability trace
-@ (BFS over the layout's own collision/elevation blockdata) shows has NO walkable connection
-@ to the rest of the map - it's walled on every side (x=18 column, y=9 row, y=12 row) with
-@ (Task 7, 2026-07-15) The original TM/Feather/Mint counter vendors stay put here (intentional,
-@ interactable). TWO new south-hall vendors were added: Trainer's Aide (COOK, x=1) selling
-@ vitamins + feathers + mints, and Battle Depot (MART_EMPLOYEE, x=9) selling balls + evo stones +
-@ Linking Cord + competitive held items. Only two were added (not four) because the hub sits at
-@ the object-event spawn cap (OBJECT_EVENTS_COUNT=16, incl. the player AND an active follower):
-@ 14 originals + 2 new = worst on-screen window of 13 objects, leaving room for player+follower.
-@ RegionHub_EventScript_StoneVendor/_HeldItemVendor + their lists remain in this file but are now
-@ unreferenced (their stock was folded into Battle Depot); harmless dead data.
+@ NOTE: the east-counter pocket (x=19-24, y=10-11) has NO walkable connection to the floor (a
+@ BFS reachability trace over the layout's collision blockdata shows it walled on every side:
+@ x=18 column, y=9 row, y=12 row) - vendors standing there are talk-across-the-counter only,
+@ which is intentional.
+@ (2026-07-16 consolidation) Vendors condensed 6 -> 4: the front desk absorbed all balls and
+@ became the main general mart; the counter trio is TM (19,11) / Training (COOK, 21,11) /
+@ Battle Depot (MART_EMPLOYEE, 23,11); the two south-hall vendors and the standalone
+@ feather/mint vendors are GONE (stock covered by Training). 14 object events total, safely
+@ under the OBJECT_EVENTS_COUNT=16 spawn cap (player + an active follower always fit).
 
 @ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is one of the
-@ most OAM-starved maps (18 object events as of the mint/feather/TM-vendor QoL pass, up from
-@ 17 before it (this file's older "15" count had already drifted stale) -
-@ playtest for sprite drop-out) and the heal animation can exhaust sprites there, so a
+@ most OAM-starved maps (14 object events after the 2026-07-16 vendor consolidation) and the
+@ heal animation can exhaust sprites there, so a
 @ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
 @ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
 @ hub, so it never needs to be a respawn target itself.
@@ -280,9 +276,9 @@ RegionHub_Text_WorldTourBreakdown:
 	.string "Earn all 24 to prove yourself the\n"
 	.string "ultimate TRAINER!$"
 
-@ Hub front-desk mart: the Indigo Plateau inventory plus the TOWN MAP (key item, price 0 ->
-@ rings up free; the shop lists it SOLD OUT once owned, so it is one-per-save). Hub-local
-@ copy of the list so the real Indigo Plateau clerk stays untouched (KeyItemAudit S3c).
+@ Hub front-desk GENERAL MART (2026-07-16 consolidation): all balls + top-tier heals + the
+@ TOWN MAP (key item, price 0 -> rings up free; the shop lists it SOLD OUT once owned, so it
+@ is one-per-save). Hub-local list so the real Indigo Plateau clerk stays untouched.
 RegionHub_EventScript_Clerk::
 	lock
 	faceplayer
@@ -295,11 +291,21 @@ RegionHub_EventScript_Clerk::
 
 	.align 2
 RegionHub_Items::
-	.2byte ITEM_ULTRA_BALL
 	.2byte ITEM_GREAT_BALL
+	.2byte ITEM_ULTRA_BALL
+	.2byte ITEM_NEST_BALL
+	.2byte ITEM_NET_BALL
+	.2byte ITEM_DIVE_BALL
+	.2byte ITEM_TIMER_BALL
+	.2byte ITEM_REPEAT_BALL
+	.2byte ITEM_QUICK_BALL
+	.2byte ITEM_DUSK_BALL
+	.2byte ITEM_LUXURY_BALL
+	.2byte ITEM_HEAL_BALL
+	.2byte ITEM_PREMIER_BALL
 	.2byte ITEM_FULL_RESTORE
 	.2byte ITEM_MAX_POTION
-	.2byte ITEM_REVIVE
+	.2byte ITEM_MAX_REVIVE
 	.2byte ITEM_FULL_HEAL
 	.2byte ITEM_MAX_REPEL
 	.2byte ITEM_TOWN_MAP
@@ -815,86 +821,20 @@ RegionHub_Items_Tms::
 	.2byte ITEM_TM_DRAGON_CLAW
 	pokemartlistend
 
-RegionHub_EventScript_FeatherVendor::
+@ East-counter Battle Depot (2026-07-16 consolidation): evo stones + Linking Cord + held
+@ items. Specialty balls moved to the front-desk general mart.
+RegionHub_EventScript_BattleDepot::
 	lock
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
-	pokemart RegionHub_Items_Feathers
+	pokemart RegionHub_Items_BattleDepot
 	msgbox gText_PleaseComeAgain
 	release
 	end
 
 	.align 2
-RegionHub_Items_Feathers::
-	.2byte ITEM_HEALTH_FEATHER
-	.2byte ITEM_MUSCLE_FEATHER
-	.2byte ITEM_RESIST_FEATHER
-	.2byte ITEM_GENIUS_FEATHER
-	.2byte ITEM_CLEVER_FEATHER
-	.2byte ITEM_SWIFT_FEATHER
-	pokemartlistend
-
-@ Mints (FLAG_MINTS enable owned by another lane this batch): all 21 mints this fork defines.
-RegionHub_EventScript_MintVendor::
-	lock
-	faceplayer
-	message gText_HowMayIServeYou
-	waitmessage
-	pokemart RegionHub_Items_Mints
-	msgbox gText_PleaseComeAgain
-	release
-	end
-
-	.align 2
-RegionHub_Items_Mints::
-	.2byte ITEM_LONELY_MINT
-	.2byte ITEM_ADAMANT_MINT
-	.2byte ITEM_NAUGHTY_MINT
-	.2byte ITEM_BRAVE_MINT
-	.2byte ITEM_BOLD_MINT
-	.2byte ITEM_IMPISH_MINT
-	.2byte ITEM_LAX_MINT
-	.2byte ITEM_RELAXED_MINT
-	.2byte ITEM_MODEST_MINT
-	.2byte ITEM_MILD_MINT
-	.2byte ITEM_RASH_MINT
-	.2byte ITEM_QUIET_MINT
-	.2byte ITEM_CALM_MINT
-	.2byte ITEM_GENTLE_MINT
-	.2byte ITEM_CAREFUL_MINT
-	.2byte ITEM_SASSY_MINT
-	.2byte ITEM_TIMID_MINT
-	.2byte ITEM_HASTY_MINT
-	.2byte ITEM_JOLLY_MINT
-	.2byte ITEM_NAIVE_MINT
-	.2byte ITEM_SERIOUS_MINT
-	pokemartlistend
-
-@ Task 7: additional hub vendors (market row, south hall y=13, all on reachable floor).
-@ Each uses a distinct existing overworld sprite; all always-open (no flag/gating).
-RegionHub_EventScript_BallVendor::
-	lock
-	faceplayer
-	message gText_HowMayIServeYou
-	waitmessage
-	pokemart RegionHub_Items_Balls
-	msgbox gText_PleaseComeAgain
-	release
-	end
-
-	.align 2
-RegionHub_Items_Balls::
-	.2byte ITEM_NEST_BALL
-	.2byte ITEM_NET_BALL
-	.2byte ITEM_DIVE_BALL
-	.2byte ITEM_TIMER_BALL
-	.2byte ITEM_REPEAT_BALL
-	.2byte ITEM_QUICK_BALL
-	.2byte ITEM_DUSK_BALL
-	.2byte ITEM_LUXURY_BALL
-	.2byte ITEM_HEAL_BALL
-	.2byte ITEM_PREMIER_BALL
+RegionHub_Items_BattleDepot::
 	.2byte ITEM_FIRE_STONE
 	.2byte ITEM_WATER_STONE
 	.2byte ITEM_THUNDER_STONE
@@ -921,32 +861,8 @@ RegionHub_Items_Balls::
 	.2byte ITEM_WHITE_HERB
 	pokemartlistend
 
-RegionHub_EventScript_StoneVendor::
-	lock
-	faceplayer
-	message gText_HowMayIServeYou
-	waitmessage
-	pokemart RegionHub_Items_Stones
-	msgbox gText_PleaseComeAgain
-	release
-	end
-
-	.align 2
-RegionHub_Items_Stones::
-	.2byte ITEM_FIRE_STONE
-	.2byte ITEM_WATER_STONE
-	.2byte ITEM_THUNDER_STONE
-	.2byte ITEM_LEAF_STONE
-	.2byte ITEM_MOON_STONE
-	.2byte ITEM_SUN_STONE
-	.2byte ITEM_SHINY_STONE
-	.2byte ITEM_DUSK_STONE
-	.2byte ITEM_DAWN_STONE
-	.2byte ITEM_ICE_STONE
-	.2byte ITEM_EVERSTONE
-	.2byte ITEM_LINKING_CORD
-	pokemartlistend
-
+@ East-counter Training vendor: vitamins + PP Up/Max + all feathers + all mints
+@ (FLAG_MINTS enable owned by another lane).
 RegionHub_EventScript_VitaminVendor::
 	lock
 	faceplayer
@@ -996,49 +912,3 @@ RegionHub_Items_Vitamins::
 	.2byte ITEM_SERIOUS_MINT
 	pokemartlistend
 
-RegionHub_EventScript_HeldItemVendor::
-	lock
-	faceplayer
-	message gText_HowMayIServeYou
-	waitmessage
-	pokemart RegionHub_Items_Held
-	msgbox gText_PleaseComeAgain
-	release
-	end
-
-	.align 2
-RegionHub_Items_Held::
-	.2byte ITEM_LEFTOVERS
-	.2byte ITEM_CHOICE_BAND
-	.2byte ITEM_CHOICE_SPECS
-	.2byte ITEM_CHOICE_SCARF
-	.2byte ITEM_LIFE_ORB
-	.2byte ITEM_FOCUS_SASH
-	.2byte ITEM_ASSAULT_VEST
-	.2byte ITEM_ROCKY_HELMET
-	.2byte ITEM_EVIOLITE
-	.2byte ITEM_MENTAL_HERB
-	.2byte ITEM_POWER_HERB
-	.2byte ITEM_WHITE_HERB
-	.2byte ITEM_LONELY_MINT
-	.2byte ITEM_ADAMANT_MINT
-	.2byte ITEM_NAUGHTY_MINT
-	.2byte ITEM_BRAVE_MINT
-	.2byte ITEM_BOLD_MINT
-	.2byte ITEM_IMPISH_MINT
-	.2byte ITEM_LAX_MINT
-	.2byte ITEM_RELAXED_MINT
-	.2byte ITEM_MODEST_MINT
-	.2byte ITEM_MILD_MINT
-	.2byte ITEM_RASH_MINT
-	.2byte ITEM_QUIET_MINT
-	.2byte ITEM_CALM_MINT
-	.2byte ITEM_GENTLE_MINT
-	.2byte ITEM_CAREFUL_MINT
-	.2byte ITEM_SASSY_MINT
-	.2byte ITEM_TIMID_MINT
-	.2byte ITEM_HASTY_MINT
-	.2byte ITEM_JOLLY_MINT
-	.2byte ITEM_NAIVE_MINT
-	.2byte ITEM_SERIOUS_MINT
-	pokemartlistend

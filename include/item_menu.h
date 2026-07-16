@@ -55,6 +55,7 @@ enum BagSortOptions
     SORT_BY_TYPE,
     SORT_BY_AMOUNT, //greatest->least
     SORT_BY_INDEX,
+    SORT_BY_POCKET, //bag pocket, then type, then name (for mixed-pocket lists like the item PC)
 };
 
 #define ITEMMENU_SWAP_LINE_LENGTH 8  // Swap line is 8 sprites long

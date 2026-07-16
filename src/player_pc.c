@@ -44,6 +44,7 @@ enum {
     MENU_WITHDRAW,
     MENU_DEPOSIT,
     MENU_TOSS,
+    MENU_SORT,
     MENU_EXIT
 };
 
@@ -124,6 +125,7 @@ static void Mailbox_UpdateMailListAfterDeposit(void);
 static void ItemStorage_Withdraw(u8);
 static void ItemStorage_Deposit(u8);
 static void ItemStorage_Toss(u8);
+static void ItemStorage_Sort(u8);
 static void ItemStorage_Exit(u8);
 static void ItemStorage_TossItemYes(u8);
 static void ItemStorage_TossItemNo(u8);
@@ -171,18 +173,21 @@ static EWRAM_DATA struct ItemStorageMenu *sItemStorageMenu = NULL;
 static const u8 sText_WithdrawItem[] = _("WITHDRAW ITEM");
 static const u8 sText_DepositItem[] = _("DEPOSIT ITEM");
 static const u8 sText_TossItem[] = _("TOSS ITEM");
+static const u8 sText_SortItems[] = _("SORT ITEMS");
 static const u8 sText_Mailbox[] = _("MAILBOX");
 
 static const u8 sText_WithdrawHowManyItems[] = _("Withdraw how many\n{STR_VAR_1}?");
 static const u8 sText_WithdrawXItems[] = _("Withdrew {STR_VAR_2}\n{STR_VAR_1}.");
 static const u8 sText_NoRoomInBag[] = _("There is no more\nroom in the BAG.");
 static const u8 sText_TooImportantToToss[] = _("That's much too\nimportant to toss\nout!");
+static const u8 sText_ItemsSorted[] = _("The items were\nsorted.");
 
 static const u8 *const sItemStorage_OptionDescriptions[] =
 {
     [MENU_WITHDRAW] = COMPOUND_STRING("Take out items from the PC."),
     [MENU_DEPOSIT]  = COMPOUND_STRING("Store items in the PC."),
     [MENU_TOSS]     = COMPOUND_STRING("Throw away items stored in the PC."),
+    [MENU_SORT]     = COMPOUND_STRING("Sort items stored in the PC."),
     [MENU_EXIT]     = gText_GoBackPrevMenu,
 };
 
@@ -216,6 +221,7 @@ static const struct MenuAction sItemStorage_MenuActions[] =
     [MENU_WITHDRAW] = { sText_WithdrawItem, {ItemStorage_Withdraw} },
     [MENU_DEPOSIT]  = { sText_DepositItem,  {ItemStorage_Deposit} },
     [MENU_TOSS]     = { sText_TossItem,     {ItemStorage_Toss} },
+    [MENU_SORT]     = { sText_SortItems,    {ItemStorage_Sort} },
     [MENU_EXIT]     = { gText_Cancel,       {ItemStorage_Exit} }
 };
 
@@ -258,7 +264,7 @@ static const struct WindowTemplate sWindowTemplates_MainMenus[] =
         .tilemapLeft = 1,
         .tilemapTop = 1,
         .width = 10,
-        .height = 8,
+        .height = 10,
         .paletteNum = 15,
         .baseBlock = 1
     }
@@ -604,6 +610,25 @@ static void ItemStorage_Withdraw(u8 taskId)
         DisplayItemMessageOnField(taskId, gText_NoItems, PlayerPC_ItemStorage);
     }
 
+}
+
+static void ItemStorage_Sort(u8 taskId)
+{
+    ItemStorage_EraseMainMenu(taskId);
+    if (CountUsedPCItemSlots() != 0)
+    {
+        struct BagPocket pcPocket = { .id = POCKET_DUMMY, .capacity = PC_ITEMS_COUNT, .itemSlots = gSaveBlock1Ptr->pcItems };
+
+        CompactPCItems();
+        SortItemsInBag(&pcPocket, SORT_BY_POCKET);
+        gPlayerPCItemPageInfo.cursorPos = 0;
+        gPlayerPCItemPageInfo.itemsAbove = 0;
+        DisplayItemMessageOnField(taskId, sText_ItemsSorted, PlayerPC_ItemStorage);
+    }
+    else
+    {
+        DisplayItemMessageOnField(taskId, gText_NoItems, PlayerPC_ItemStorage);
+    }
 }
 
 static void ItemStorage_Toss(u8 taskId)

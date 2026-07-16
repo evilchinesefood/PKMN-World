@@ -236,6 +236,7 @@ static s32 CompareItemsAlphabetically(enum Pocket pocketId, struct ItemSlot item
 static s32 CompareItemsByMost(enum Pocket pocketId, struct ItemSlot item1, struct ItemSlot item2);
 static s32 CompareItemsByType(enum Pocket pocketId, struct ItemSlot item1, struct ItemSlot item2);
 static s32 CompareItemsByIndex(enum Pocket pocketId, struct ItemSlot item1, struct ItemSlot item2);
+static s32 CompareItemsByPocket(enum Pocket pocketId, struct ItemSlot item1, struct ItemSlot item2);
 
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
 {
@@ -2746,7 +2747,8 @@ static const u8 *const sSortTypeStrings[] =
     [SORT_ALPHABETICALLY] = COMPOUND_STRING("name"),
     [SORT_BY_TYPE] = COMPOUND_STRING("type"),
     [SORT_BY_AMOUNT] = COMPOUND_STRING("amount"),
-    [SORT_BY_INDEX] = COMPOUND_STRING("index")
+    [SORT_BY_INDEX] = COMPOUND_STRING("index"),
+    [SORT_BY_POCKET] = COMPOUND_STRING("pocket")
 };
 
 static const u8 sBagMenuSortItems[] =
@@ -2900,6 +2902,9 @@ void SortItemsInBag(struct BagPocket *pocket, enum BagSortOptions type)
     case SORT_BY_INDEX:
         MergeSort(pocket, CompareItemsByIndex);
         break;
+    case SORT_BY_POCKET:
+        MergeSort(pocket, CompareItemsByPocket);
+        break;
     default:
         MergeSort(pocket, CompareItemsByType);
         break;
@@ -3010,6 +3015,24 @@ static s32 CompareItemsByType(enum Pocket pocketId, struct ItemSlot item1, struc
         return 1;
 
     return CompareItemsAlphabetically(pocketId, item1, item2); // Items are of same type so sort alphabetically
+}
+
+static s32 CompareItemsByPocket(enum Pocket pocketId, struct ItemSlot item1, struct ItemSlot item2)
+{
+    if (item1.itemId == ITEM_NONE)
+        return 1;
+    else if (item2.itemId == ITEM_NONE)
+        return -1;
+
+    enum Pocket pocket1 = GetItemPocket(item1.itemId);
+    enum Pocket pocket2 = GetItemPocket(item2.itemId);
+
+    if (pocket1 < pocket2)
+        return -1;
+    else if (pocket1 > pocket2)
+        return 1;
+
+    return CompareItemsByType(pocketId, item1, item2); // Items are in the same pocket so sort by type
 }
 
 static s32 CompareItemsByIndex(enum Pocket pocketId, struct ItemSlot item1, struct ItemSlot item2)

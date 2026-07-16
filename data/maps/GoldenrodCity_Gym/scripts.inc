@@ -103,6 +103,8 @@ GoldenrodCity_Gym_EventScript_OfferRematch::
 	msgbox GoldenrodCity_Gym_Text_WhitneyRematch, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, GoldenrodCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_WHITNEY_1, GoldenrodCity_Gym_Text_WhitneyRematchDefeat
+	setvar VAR_0x8004, TRAINER_WHITNEY_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox GoldenrodCity_Gym_Text_WhitneyRematchPost, MSGBOX_DEFAULT
 	closemessage
 	release

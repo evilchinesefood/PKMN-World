@@ -103,6 +103,8 @@ LavaridgeTown_Gym_1F_EventScript_OfferRematch::
 	msgbox LavaridgeTown_Gym_1F_Text_RematchAsk, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, LavaridgeTown_Gym_1F_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_FLANNERY_1, LavaridgeTown_Gym_1F_Text_RematchDefeat
+	setvar VAR_0x8004, TRAINER_FLANNERY_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox LavaridgeTown_Gym_1F_Text_RematchPost, MSGBOX_DEFAULT
 	release
 	end

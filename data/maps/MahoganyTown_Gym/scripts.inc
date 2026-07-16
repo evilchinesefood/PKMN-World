@@ -129,6 +129,8 @@ MahoganyTown_Gym_EventScript_OfferRematch::
 	msgbox MahoganyTown_Gym_Text_PryceRematch, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MahoganyTown_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_PRYCE_1, MahoganyTown_Gym_Text_PryceRematchDefeat
+	setvar VAR_0x8004, TRAINER_PRYCE_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox MahoganyTown_Gym_Text_PryceRematchPost, MSGBOX_DEFAULT
 	closemessage
 	release

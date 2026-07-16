@@ -25,6 +25,8 @@ JohtoPokemonLeague_KarensRoom_EventScript_KarenRematch::
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	trainerbattle_no_intro TRAINER_KAREN_2_JT, JohtoPokemonLeague_KarensRoom_Text_Beaten
+	setvar VAR_0x8004, TRAINER_KAREN_2_JT
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto JohtoPokemonLeague_KarensRoom_EventScript_KarenOnDefeat
 
 JohtoPokemonLeague_KarensRoom_EventScript_KarenOnDefeat::

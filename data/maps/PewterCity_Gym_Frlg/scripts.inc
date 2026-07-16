@@ -205,6 +205,8 @@ PewterCity_Gym_EventScript_OfferRematch::
 	msgbox PewterCity_Gym_Text_RematchAsk, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, PewterCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_LEADER_BROCK, PewterCity_Gym_Text_RematchDefeat
+	setvar VAR_0x8004, TRAINER_LEADER_BROCK
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox PewterCity_Gym_Text_RematchPost
 	release
 	end

@@ -49,6 +49,8 @@ EverGrandeCity_SidneysRoom_EventScript_Sidney::
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_SidneysRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_SIDNEY, EverGrandeCity_SidneysRoom_Text_Defeat
+	setvar VAR_0x8004, TRAINER_SIDNEY
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto EverGrandeCity_SidneysRoom_EventScript_Defeated
 	end
 

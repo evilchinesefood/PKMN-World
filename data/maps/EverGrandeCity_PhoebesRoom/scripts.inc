@@ -43,6 +43,8 @@ EverGrandeCity_PhoebesRoom_EventScript_Phoebe::
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_PhoebesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_PHOEBE, EverGrandeCity_PhoebesRoom_Text_Defeat
+	setvar VAR_0x8004, TRAINER_PHOEBE
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto EverGrandeCity_PhoebesRoom_EventScript_Defeated
 	end
 

@@ -13952,6 +13952,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Psychic
 - Thunder
 
+=== TRAINER_ELITE_FOUR_LORELEI_2 ===
+Name: LORELEI
+Class: Elite Four Frlg
+Pic: Elite Four Lorelei Frlg
+Gender: Male
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Purple
+
+Dewgong @ Leftovers
+Level: 70
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Surf
+- Ice Beam
+- Toxic
+- Protect
+
+Cloyster @ White Herb
+Level: 71
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Skill Link
+- Shell Smash
+- Icicle Spear
+- Rock Blast
+- Razor Shell
+
+Piloswine @ Eviolite
+Level: 71
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Stealth Rock
+- Earthquake
+- Icicle Crash
+- Ice Shard
+
+Jynx @ Focus Sash
+Level: 72
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Dry Skin
+- Lovely Kiss
+- Psychic
+- Ice Beam
+- Nasty Plot
+
+Walrein @ Sitrus Berry
+Level: 72
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Thick Fat
+- Surf
+- Ice Beam
+- Body Slam
+- Yawn
+
+Lapras @ Lum Berry
+Level: 73
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
+- Surf
+- Ice Beam
+- Thunderbolt
+- Sing
+
 === TRAINER_ELITE_FOUR_BRUNO_2 ===
 Name: BRUNO
 Class: Elite Four Frlg
@@ -14002,6 +14068,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Earthquake
 - Brick Break
 - Rock Slide
+
+=== TRAINER_ELITE_FOUR_BRUNO_2 ===
+Name: BRUNO
+Class: Elite Four Frlg
+Pic: Elite Four Bruno Frlg
+Gender: Male
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Green
+
+Steelix @ Leftovers
+Level: 71
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Stealth Rock
+- Earthquake
+- Heavy Slam
+- Roar
+
+Hitmonchan @ Life Orb
+Level: 72
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Iron Fist
+- Mach Punch
+- Drain Punch
+- Ice Punch
+- Thunder Punch
+
+Hitmonlee @ Choice Scarf
+Level: 72
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Limber
+- Close Combat
+- Knock Off
+- Stone Edge
+- Blaze Kick
+
+Steelix @ Rocky Helmet
+Level: 73
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sturdy
+- Earthquake
+- Gyro Ball
+- Crunch
+- Toxic
+
+Poliwrath @ Sitrus Berry
+Level: 73
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Water Absorb
+- Belly Drum
+- Waterfall
+- Drain Punch
+- Ice Punch
+
+Machamp @ Leftovers
+Level: 74
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: No Guard
+- Dynamic Punch
+- Stone Edge
+- Ice Punch
+- Earthquake
 
 === TRAINER_ELITE_FOUR_AGATHA_2 ===
 Name: AGATHA
@@ -14054,6 +14186,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Thunderbolt
 - Sludge Bomb
 
+=== TRAINER_ELITE_FOUR_AGATHA_2 ===
+Name: AGATHA
+Class: Elite Four Frlg
+Pic: Elite Four Agatha Frlg
+Gender: Male
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Pink
+
+Gengar @ Focus Sash
+Level: 72
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
+- Shadow Ball
+- Sludge Bomb
+- Hypnosis
+- Destiny Bond
+
+Crobat @ Black Sludge
+Level: 73
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
+- Brave Bird
+- Cross Poison
+- Toxic
+- Roost
+
+Misdreavus @ Eviolite
+Level: 73
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Shadow Ball
+- Thunderbolt
+- Will O Wisp
+- Pain Split
+
+Arbok @ Life Orb
+Level: 74
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Coil
+- Gunk Shot
+- Earthquake
+- Crunch
+
+Weezing @ Leftovers
+Level: 74
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Levitate
+- Sludge Bomb
+- Flamethrower
+- Will O Wisp
+- Explosion
+
+Gengar @ Life Orb
+Level: 75
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Cursed Body
+- Nasty Plot
+- Shadow Ball
+- Sludge Bomb
+- Focus Blast
+
 === TRAINER_ELITE_FOUR_LANCE_2 ===
 Name: LANCE
 Class: Elite Four Frlg
@@ -14104,6 +14302,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Outrage
 - Thunderbolt
 - Ice Beam
+
+=== TRAINER_ELITE_FOUR_LANCE_2 ===
+Name: LANCE
+Class: Elite Four Frlg
+Pic: Elite Four Lance Frlg
+Gender: Male
+Music: Elite Four
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Blue
+
+Gyarados @ Leftovers
+Level: 73
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Dragon Dance
+- Waterfall
+- Earthquake
+- Ice Fang
+
+Kingdra @ Choice Specs
+Level: 74
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Swift Swim
+- Draco Meteor
+- Hydro Pump
+- Ice Beam
+- Surf
+
+Aerodactyl @ Focus Sash
+Level: 74
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Pressure
+- Stealth Rock
+- Stone Edge
+- Earthquake
+- Ice Fang
+
+Dragonite @ Choice Band
+Level: 75
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Inner Focus
+- Outrage
+- Extreme Speed
+- Earthquake
+- Fire Punch
+
+Dragonite @ Leftovers
+Level: 75
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Multiscale
+- Draco Meteor
+- Flamethrower
+- Thunderbolt
+- Roost
+
+Dragonite @ Weakness Policy
+Level: 76
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Multiscale
+- Dragon Dance
+- Outrage
+- Earthquake
+- Extreme Speed
 
 === TRAINER_CHAMPION_REMATCH_SQUIRTLE ===
 Name: BLUE
@@ -14164,6 +14428,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Earthquake
 - Rain Dance
 
+=== TRAINER_CHAMPION_REMATCH_SQUIRTLE ===
+Name: BLUE
+Class: Champion Frlg
+Pic: Champion Rival Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Yellow
+
+Heracross @ Life Orb
+Level: 77
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Megahorn
+- Close Combat
+- Stone Edge
+- Swords Dance
+
+Alakazam @ Focus Sash
+Level: 78
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Guard
+- Nasty Plot
+- Psychic
+- Shadow Ball
+- Focus Blast
+
+Tyranitar @ Lum Berry
+Level: 78
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sand Stream
+- Dragon Dance
+- Stone Edge
+- Crunch
+- Earthquake
+
+Arcanine @ Expert Belt
+Level: 77
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Flare Blitz
+- Extreme Speed
+- Wild Charge
+- Morning Sun
+
+Exeggutor @ Leftovers
+Level: 79
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Psychic
+- Giga Drain
+- Sludge Bomb
+- Sleep Powder
+
+Blastoise @ Sitrus Berry
+Level: 80
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Torrent
+- Shell Smash
+- Hydro Pump
+- Ice Beam
+- Earthquake
+
 === TRAINER_CHAMPION_REMATCH_BULBASAUR ===
 Name: BLUE
 Class: Champion Frlg
@@ -14223,6 +14553,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Earthquake
 - Sunny Day
 
+=== TRAINER_CHAMPION_REMATCH_BULBASAUR ===
+Name: BLUE
+Class: Champion Frlg
+Pic: Champion Rival Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Yellow
+
+Heracross @ Life Orb
+Level: 77
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Megahorn
+- Close Combat
+- Stone Edge
+- Swords Dance
+
+Alakazam @ Focus Sash
+Level: 78
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Guard
+- Nasty Plot
+- Psychic
+- Shadow Ball
+- Focus Blast
+
+Tyranitar @ Lum Berry
+Level: 78
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sand Stream
+- Dragon Dance
+- Stone Edge
+- Crunch
+- Earthquake
+
+Gyarados @ Leftovers
+Level: 77
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Dragon Dance
+- Waterfall
+- Earthquake
+- Ice Fang
+
+Arcanine @ Expert Belt
+Level: 79
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Intimidate
+- Flare Blitz
+- Extreme Speed
+- Wild Charge
+- Morning Sun
+
+Venusaur @ Sitrus Berry
+Level: 80
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Overgrow
+- Sludge Bomb
+- Giga Drain
+- Earth Power
+- Synthesis
+
 === TRAINER_CHAMPION_REMATCH_CHARMANDER ===
 Name: BLUE
 Class: Champion Frlg
@@ -14280,6 +14676,72 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Fire Blast
 - Dragon Claw
 - Aerial Ace
+- Earthquake
+
+=== TRAINER_CHAMPION_REMATCH_CHARMANDER ===
+Name: BLUE
+Class: Champion Frlg
+Pic: Champion Rival Frlg
+Gender: Male
+Music: Male
+Items: Full Restore / Full Restore / Full Restore
+Difficulty: Hard
+Double Battle: No
+AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Yellow
+
+Heracross @ Life Orb
+Level: 77
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Megahorn
+- Close Combat
+- Stone Edge
+- Swords Dance
+
+Alakazam @ Focus Sash
+Level: 78
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Magic Guard
+- Nasty Plot
+- Psychic
+- Shadow Ball
+- Focus Blast
+
+Tyranitar @ Lum Berry
+Level: 78
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Sand Stream
+- Dragon Dance
+- Stone Edge
+- Crunch
+- Earthquake
+
+Exeggutor @ Leftovers
+Level: 77
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Chlorophyll
+- Psychic
+- Giga Drain
+- Sludge Bomb
+- Sleep Powder
+
+Gyarados @ Leftovers
+Level: 79
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Moxie
+- Dragon Dance
+- Waterfall
+- Earthquake
+- Ice Fang
+
+Charizard @ Sitrus Berry
+Level: 80
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: Blaze
+- Dragon Dance
+- Flare Blitz
+- Dragon Claw
 - Earthquake
 
 === TRAINER_CUE_BALL_PAXTON ===

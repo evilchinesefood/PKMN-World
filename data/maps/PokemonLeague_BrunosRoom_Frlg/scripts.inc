@@ -73,6 +73,8 @@ PokemonLeague_BrunosRoom_EventScript_Battle::
 
 PokemonLeague_BrunosRoom_EventScript_Rematch::
 	trainerbattle_no_intro TRAINER_ELITE_FOUR_BRUNO_2, PokemonLeague_BrunosRoom_Text_Defeat
+	setvar VAR_0x8004, TRAINER_ELITE_FOUR_BRUNO_2
+	call BattleNet_EventScript_OnLeaderRematchWin
 	return
 
 PokemonLeague_BrunosRoom_EventScript_PostBattle::

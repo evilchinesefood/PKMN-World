@@ -280,6 +280,8 @@ ViridianCity_Gym_EventScript_OfferRematch::
 	msgbox ViridianCity_Gym_Text_RematchAsk, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, ViridianCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_LEADER_GIOVANNI, ViridianCity_Gym_Text_RematchDefeat
+	setvar VAR_0x8004, TRAINER_LEADER_GIOVANNI
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox ViridianCity_Gym_Text_RematchPost
 	release
 	end

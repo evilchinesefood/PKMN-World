@@ -25,6 +25,8 @@ JohtoPokemonLeague_KogasRoom_EventScript_KogaRematch::
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	trainerbattle_no_intro TRAINER_KOGA_2, JohtoPokemonLeague_KogasRoom_Text_Beaten
+	setvar VAR_0x8004, TRAINER_KOGA_2
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto JohtoPokemonLeague_KogasRoom_EventScript_KogaOnDefeat
 
 JohtoPokemonLeague_KogasRoom_EventScript_KogaOnDefeat::

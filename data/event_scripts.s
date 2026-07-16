@@ -1327,6 +1327,7 @@ gStdScripts_End::
 	.include "data/scripts/new_game.inc"
 	.include "data/scripts/hall_of_fame.inc"
 	.include "data/scripts/hall_of_fame_frlg.inc"
+	.include "data/scripts/battle_net.inc"
 
 	.include "data/scripts/config.inc"
 	.include "data/scripts/debug.inc"

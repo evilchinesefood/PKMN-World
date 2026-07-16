@@ -25,6 +25,8 @@ JohtoPokemonLeague_BrunosRoom_EventScript_BrunoRematch::
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	trainerbattle_no_intro TRAINER_BRUNO_2, JohtoPokemonLeague_BrunosRoom_Text_Beaten
+	setvar VAR_0x8004, TRAINER_BRUNO_2
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto JohtoPokemonLeague_BrunosRoom_EventScript_BrunoOnDefeat
 
 JohtoPokemonLeague_BrunosRoom_EventScript_BrunoOnDefeat::

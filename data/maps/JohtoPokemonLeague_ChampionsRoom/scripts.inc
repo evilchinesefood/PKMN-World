@@ -60,6 +60,8 @@ JohtoPokemonLeague_WillsRoom_EventScript_LanceRematch::
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	trainerbattle_no_intro TRAINER_LANCE_2, JohtoPokemonLeague_ChampionsRoom_Text_BattleWin
+	setvar VAR_0x8004, TRAINER_LANCE_2
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto JohtoPokemonLeague_WillsRoom_EventScript_LanceOnDefeatKanto
 
 JohtoPokemonLeague_WillsRoom_EventScript_LanceOnDefeatJohto::

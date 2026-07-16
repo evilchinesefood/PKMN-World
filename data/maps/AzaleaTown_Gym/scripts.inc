@@ -574,6 +574,8 @@ AzaleaTown_Gym_EventScript_OfferRematch::
 	msgbox AzaleaTown_Gym_Text_BugsyRematch, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, AzaleaTown_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_BUGSY_1, AzaleaTown_Gym_Text_BugsyRematchDefeat
+	setvar VAR_0x8004, TRAINER_BUGSY_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox AzaleaTown_Gym_Text_BugsyRematchPost, MSGBOX_DEFAULT
 	closemessage
 	release

@@ -43,6 +43,8 @@ EverGrandeCity_GlaciasRoom_EventScript_Glacia::
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_GlaciasRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_GLACIA, EverGrandeCity_GlaciasRoom_Text_Defeat
+	setvar VAR_0x8004, TRAINER_GLACIA
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto EverGrandeCity_GlaciasRoom_EventScript_Defeated
 	end
 

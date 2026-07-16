@@ -240,6 +240,8 @@ BlackthornGym_EventScript_OfferRematch::
 	msgbox BlackthornGym_Text_ClairRematchText, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, BlackthornGym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_CLAIR_1, BlackthornGym_Text_ClairRematchDefeatText
+	setvar VAR_0x8004, TRAINER_CLAIR_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox BlackthornGym_Text_ClairRematchPostText, MSGBOX_DEFAULT
 	closemessage
 	release

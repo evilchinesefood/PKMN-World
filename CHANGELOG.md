@@ -5,6 +5,12 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+- **League HARD rematches everywhere**: Johto's Elite Four + Lance and Kanto's
+  round-two Elite Four + Champion now field HARD-difficulty teams once you're
+  that region's Champion (Johto Lv 70–78 with Lance's Dragonite at 78; Kanto
+  E4 Lv 70–76, Champion Lv 77–80 per starter) — completing the set Hoenn's
+  league started. First clears are untouched, and trainers without a HARD
+  team keep fighting their normal one.
 - **EV/IV Changer**: the Curator's 24-badge capstone now tunes IVs too (it was
   EVs only). Use it on a party POKéMON and press R to flip between the EV and
   IV pages; Left/Right nudge the selected stat by 1, holding moves in steps

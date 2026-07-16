@@ -105,8 +105,11 @@ Three hub staffers handle handouts:
 - **All 24 gym leaders** offer unlimited rematches once you're **that region's** Champion,
   each with a new HARD team (Lv 58–65, held items, competitive movesets). Difficulty is
   contained per region: being Hoenn Champion doesn't harden Kanto's first-run gyms.
-- Once you're Champion, Hoenn's Elite Four/Champion **rematch** fields upgraded
-  HARD-difficulty teams (Lv 62–68) — your first clear still faces the normal gauntlet.
+- Once you're a region's Champion, that region's **Elite Four/Champion rematch** fields
+  upgraded HARD-difficulty teams — your first clear still faces the normal gauntlet.
+  Hoenn re-runs the gauntlet at Lv 62–68; Johto's league rematch climbs Lv 70–78 with
+  Lance's Dragonite at 78; Kanto's round-two Elite Four runs Lv 70–76 and the Champion
+  rematch peaks at Lv 77–80.
 - **Hard Mode** (chosen once at new game, locked for that save): Set-style battles, no bag
   items against trainers, and badge-based level caps.
 

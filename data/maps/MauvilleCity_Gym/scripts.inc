@@ -141,6 +141,8 @@ MauvilleCity_Gym_EventScript_OfferRematch::
 	msgbox MauvilleCity_Gym_Text_RematchAsk, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_WATTSON_1, MauvilleCity_Gym_Text_RematchDefeat
+	setvar VAR_0x8004, TRAINER_WATTSON_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox MauvilleCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
 	release
 	end

@@ -135,6 +135,8 @@ CianwoodGym_EventScript_OfferRematch::
 	msgbox CianwoodGym_Text_ChuckRematch, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, CianwoodGym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_CHUCK_1, CianwoodGym_Text_ChuckRematchDefeat
+	setvar VAR_0x8004, TRAINER_CHUCK_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox CianwoodGym_Text_ChuckRematchPost, MSGBOX_DEFAULT
 	closemessage
 	release

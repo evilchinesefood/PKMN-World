@@ -67,6 +67,8 @@ JohtoPokemonLeague_WillsRoom_EventScript_WillRematch::
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	trainerbattle_no_intro TRAINER_WILL_2, JohtoPokemonLeague_WillsRoom_Text_Beaten
+	setvar VAR_0x8004, TRAINER_WILL_2
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto JohtoPokemonLeague_WillsRoom_EventScript_WillOnDefeat
 
 JohtoPokemonLeague_WillsRoom_EventScript_WillOnDefeat::

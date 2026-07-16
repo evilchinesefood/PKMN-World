@@ -44,6 +44,8 @@ EverGrandeCity_DrakesRoom_EventScript_Drake::
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_DrakesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_DRAKE, EverGrandeCity_DrakesRoom_Text_Defeat
+	setvar VAR_0x8004, TRAINER_DRAKE
+	call BattleNet_EventScript_OnLeaderRematchWin
 	goto EverGrandeCity_DrakesRoom_EventScript_Defeated
 	end
 

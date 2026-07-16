@@ -74,6 +74,8 @@ PokemonLeague_AgathasRoom_EventScript_Battle::
 
 PokemonLeague_AgathasRoom_EventScript_Rematch::
 	trainerbattle_no_intro TRAINER_ELITE_FOUR_AGATHA_2, PokemonLeague_AgathasRoom_Text_Defeat
+	setvar VAR_0x8004, TRAINER_ELITE_FOUR_AGATHA_2
+	call BattleNet_EventScript_OnLeaderRematchWin
 	return
 
 PokemonLeague_AgathasRoom_EventScript_PostBattle::

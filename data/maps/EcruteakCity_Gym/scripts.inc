@@ -74,6 +74,8 @@ EcruteakCity_Gym_EventScript_OfferRematch::
 	msgbox MortyRematchText, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EcruteakCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_MORTY_1, Morty_RematchDefeatText
+	setvar VAR_0x8004, TRAINER_MORTY_1
+	call BattleNet_EventScript_OnLeaderRematchWin
 	msgbox MortyRematchPostText, MSGBOX_DEFAULT
 	closemessage
 	release

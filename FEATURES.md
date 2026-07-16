@@ -113,7 +113,7 @@ Three hub staffers handle handouts:
 Once you're Champion of **all three regions**, a registrar in the Battle Dome lobby offers
 the **World Championship**: a 15-trainer Battle Dome bracket of cross-region champions —
 **Red, Blue, Lance, Steven, Wallace**, eight **Elite Four** members, and
-**Sabrina**/**Clair** — with **Red** waiting in the final. Winning grants a permanent title
+**Sabrina**/**Team Rocket** — with **Red** waiting in the final. Winning grants a permanent title
 and a one-time **Gold Bottle Cap**, and the tournament is rematchable afterward.
 
 ## Character customization

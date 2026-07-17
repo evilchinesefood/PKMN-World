@@ -7436,10 +7436,16 @@ static void EvIvChangerPrintStats(u8 taskId)
     AddTextPrinterParameterized(windowId, FONT_NORMAL, ivPage ? sText_EvIvChangerPageIvs : sText_EvIvChangerPageEvs, 9, 1, TEXT_SKIP_DRAW, NULL);
     for (i = 0; i < NUM_STATS; i++)
     {
+        u16 shown = GetMonData(mon, ivPage ? sEvIvChangerIvMonData[i] : sEvIvChangerEvMonData[i]);
+
+        // Hyper-trained stats use IV 31 no matter the raw IV, so show 31 - otherwise the raw IV
+        // reads low and the first edit (which clears the HT bit) silently drops the real value.
+        if (ivPage && GetMonData(mon, sEvIvChangerHtMonData[i]))
+            shown = MAX_PER_STAT_IVS;
         if (i == cursor)
             AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_SelectorArrow2, 0, (i * 12) + 13, TEXT_SKIP_DRAW, NULL);
         AddTextPrinterParameterized(windowId, FONT_NORMAL, sEvIvChangerStatNames[i], 9, (i * 12) + 13, TEXT_SKIP_DRAW, NULL);
-        ConvertIntToDecimalStringN(text, GetMonData(mon, ivPage ? sEvIvChangerIvMonData[i] : sEvIvChangerEvMonData[i]), STR_CONV_MODE_RIGHT_ALIGN, 3);
+        ConvertIntToDecimalStringN(text, shown, STR_CONV_MODE_RIGHT_ALIGN, 3);
         AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 56, (i * 12) + 13, TEXT_SKIP_DRAW, NULL);
     }
     if (!ivPage)
@@ -7460,6 +7466,9 @@ static void EvIvChangerAdjust(u8 taskId, bool8 increase)
     bool8 ivPage = gTasks[taskId].tEvPage;
     u8 monDataId = ivPage ? sEvIvChangerIvMonData[cursor] : sEvIvChangerEvMonData[cursor];
     u16 val = GetMonData(mon, monDataId);
+    // Called from a JOY_REPEAT(DPAD_LEFT/RIGHT) branch: on the initial press JOY_NEW is also true
+    // (fine control ±1); on held-repeat frames only JOY_REPEAT fires (coarse ±10). Do NOT "simplify"
+    // the ternary to plain JOY_HELD - it would break the ±1-on-tap behavior.
     u16 step = JOY_NEW(DPAD_LEFT | DPAD_RIGHT) ? 1 : 10; // fresh press ±1, held repeat ±10
     u16 newVal;
 

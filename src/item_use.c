@@ -410,6 +410,8 @@ void ItemUseOutOfBattle_SkyCharm(u8 taskId)
 // Task 6: fixed one-way warp to the World Transit hub (same call sequence as the
 // `warp` script command). No warp-back-out exists by design - the player re-enters
 // a region only through the hub attendants.
+static const u8 sText_HubPassConfirm[] = _("Return to the WORLD\nTRANSIT hub?");
+
 static void Task_UseHubReturnOnField(u8 taskId)
 {
     SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 16, 4);
@@ -418,7 +420,8 @@ static void Task_UseHubReturnOnField(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void ItemUseOnFieldCB_HubReturn(u8 taskId)
+// YES: announce the item and warp - the original one-tap behavior, now behind a confirm.
+static void HubReturnFieldYes(u8 taskId)
 {
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
     StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
@@ -426,9 +429,40 @@ static void ItemUseOnFieldCB_HubReturn(u8 taskId)
     DisplayItemMessageOnField(taskId, gStringVar4, Task_UseHubReturnOnField);
 }
 
+// NO: close the prompt and hand field control back (mirrors the Pokevial field-No path).
+static void HubReturnFieldNo(u8 taskId)
+{
+    ClearDialogWindowAndFrame(0, FALSE);
+    DestroyTask(taskId);
+    ScriptContext_Enable();
+}
+
+static const struct YesNoFuncTable sYesNoTable_HubReturnFieldFuncTable =
+{
+    .yesFunc = HubReturnFieldYes,
+    .noFunc = HubReturnFieldNo,
+};
+
+static void HubReturnFieldYesNo(u8 taskId)
+{
+    DisplayYesNoMenuDefaultYes();
+    DoYesNoFuncWithChoice(taskId, &sYesNoTable_HubReturnFieldFuncTable);
+}
+
+// The warp is one-way and easy to trigger by a mis-tap (it relocates you to a fixed re-entry
+// point, not where you were), so confirm first - matching the region attendants' YES/NO.
+static void ItemUseOnFieldCB_HubReturn(u8 taskId)
+{
+    DisplayItemMessageOnField(taskId, sText_HubPassConfirm, HubReturnFieldYesNo);
+}
+
 // Refuse the Hub Pass warp inside self-contained sessions whose teardown a raw DoWarp would
 // bypass (Safari ball/step state, Bug Contest, and the Frontier/Trainer-Hill challenges), plus
 // link/union states. Mirrors the predicate set UseRegisteredKeyItemOnField already blocks.
+// Also block during an active World Championship Dome run: the Dome pre-battle rooms are walkable
+// with the Bag reachable, and VAR_WORLD_CHAMPIONSHIP_MODE MUST be cleared on exit (done at
+// EndChallenge) - warping out with it stuck at 1 keeps seeding the champions bracket on later
+// normal Dome entries (see battle_dome.c InitDomeTrainers).
 static bool32 CannotUseHubReturnHere(void)
 {
     return GetSafariZoneFlag()
@@ -437,7 +471,8 @@ static bool32 CannotUseHubReturnHere(void)
         || InMultiPartnerRoom()
         || InBattlePike()
         || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
-        || InTrainerHillChallenge();
+        || InTrainerHillChallenge()
+        || VarGet(VAR_WORLD_CHAMPIONSHIP_MODE) != 0;
 }
 
 void ItemUseOutOfBattle_HubReturn(u8 taskId)

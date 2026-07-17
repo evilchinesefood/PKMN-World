@@ -128,7 +128,9 @@ RegionHub_EventScript_ReturnHoenn::
 	end
 
 @ Battle Frontier capstone - region-agnostic (no SetCurrentRegion; the destination MAPSEC
-@ self-derives the region) and does NOT box the party. Gated OPEN for now; two-tier unlock TBD.
+@ self-derives the region) and does NOT box the party. Gated on having cleared at least ONE
+@ region's league (RegionHub_ScrIsAnyRegionChampion -> IsNRegionChampion(1)). The three-region
+@ gate is a different thing: it guards the World Championship inside the Battle Dome lobby.
 RegionHub_EventScript_AttendantFrontier::
 	lock
 	faceplayer
@@ -661,7 +663,11 @@ RegionHub_Text_CuratorEvIvChangerExplain:
 	.string "Tune any POKéMON's EVs and\n"
 	.string "IVs up or down, any time.\p"
 	.string "Press R inside its menu to\n"
-	.string "flip between EVs and IVs.$"
+	.string "flip between EVs and IVs.\p"
+	.string "UP/DOWN picks a stat,\n"
+	.string "LEFT/RIGHT adjusts it.\p"
+	.string "Hold LEFT/RIGHT to change\n"
+	.string "it in steps of ten.$"
 
 RegionHub_Text_CuratorAllGiven:
 	.string "My whole collection is in your\n"

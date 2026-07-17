@@ -209,6 +209,10 @@ struct {
     [OPTION_EXIT]       = {COMPOUND_STRING("See ya!"),          COMPOUND_STRING("Return to the previous menu.")}
 };
 
+// Shown in place of "Make Default" (sMenuTexts[MENU_MAKE_DEFAULT]) when the current box already
+// is the default deposit box, so the box-options row reflects the toggle's state (see SetMenuText).
+static const u8 sText_ClearDefault[] = _("Clear Default");
+
 static const u8 *const sMenuTexts[] =
 {
     [MENU_CANCEL]     = COMPOUND_STRING("Cancel"),

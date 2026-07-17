@@ -8085,7 +8085,12 @@ static void SetMenuText(u8 textId)
         u8 len;
         struct StorageMenu *menu = &sStorage->menuItems[sStorage->menuItemsCount];
 
-        menu->text = sMenuTexts[textId];
+        // "Make Default" flips to "Clear Default" when this box already is the default deposit box,
+        // so the row shows the toggle state instead of always reading "Make Default".
+        if (textId == MENU_MAKE_DEFAULT && VarGet(VAR_DEFAULT_PC_BOX) == StorageGetCurrentBox() + 1)
+            menu->text = sText_ClearDefault;
+        else
+            menu->text = sMenuTexts[textId];
         menu->textId = textId;
         len = GetStringWidth(FONT_NORMAL, menu->text, 0);
         if (len > sStorage->menuWidth)

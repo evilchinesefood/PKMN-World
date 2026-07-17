@@ -30,7 +30,6 @@ worlds.
 ## ✨ Features
 
 | | |
-|---|---|
 | 🗺️ **Three regions, one game** | Kanto (FireRed-derived), Johto (ported from *Heart & Soul*), and Hoenn (native Emerald) — each a complete campaign with its own league and post-game. |
 | 🚉 **World Transit hub** | Pick your starting region at a central hub, then travel between regions once you've opened each one. |
 | 🎒 **Shared progress** | One PC box, Pokédex, and bag across all three regions. Boxed Pokémon obey based on your *current* region's badge count. |

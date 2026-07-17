@@ -29,7 +29,6 @@ worlds.
 
 ## ✨ Features
 
-| | |
 |---|---|
 | 🗺️ **Three regions, one game** | Kanto (FireRed-derived), Johto (ported from *Heart & Soul*), and Hoenn (native Emerald) — each a complete campaign with its own league and post-game. |
 | 🚉 **World Transit hub** | Pick your starting region at a central hub, then travel between regions once you've opened each one. |
@@ -99,7 +98,6 @@ assets, following pokeemerald / pokeemerald-expansion conventions.
 Built on **pokeemerald-expansion** by the RH-Hideout team and its contributors, itself based on
 [pokeemerald](https://github.com/pret/pokeemerald) by pret. See [CREDITS.md](CREDITS.md).
 
-_Pokémon World is a free fan project. It is not affiliated with, endorsed by, or
-sponsored by Nintendo, Game Freak, or The Pokémon Company. No ROMs are
-distributed — you build the game from source with a legally obtained base.
-Not for sale or commercial use._
+_Pokémon Pokemon World is a free, non-commercial fan project. It is not affiliated with, endorsed by, or sponsored by Nintendo, Game Freak, or The Pokémon Company. No ROMs are distributed. You build the game from source using a legally obtained base ROM. It is not for sale or commercial use.
+
+_All Pokémon names, characters, and related assets are the property of their respective owners. I claim no ownership or credit for any original work this project is based on. This project is provided as-is, with no warranty, and is used at your own risk.

@@ -35,7 +35,7 @@ worlds.
 | 🎒 **Shared progress** | One PC box, Pokédex, and bag across all three regions. Boxed Pokémon obey based on your *current* region's badge count. |
 | 🐉 **Ride your own Pokémon** | Surf and fly on your actual team — your walking follower mounts up first if it's able, with a proper riding model for both. |
 | 👕 **Character customization** | Play as **Brendan or May** with a 6-color outfit picker — one global choice, applied everywhere. |
-| 🏆 **Per-region endgame** | Each region keeps its own league — **Blue** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league — plus HARD-mode Elite Four and **gym-leader rematches (all 24 leaders)** once you're that region's Champion, with the **Battle Frontier** as the shared post-game. |
+| 🏆 **Per-region endgame** | Each region keeps its own league — **Gary** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league — plus HARD-mode Elite Four and **gym-leader rematches (all 24 leaders)** once you're that region's Champion, with the **Battle Frontier** as the shared post-game. |
 | 🌐 **World Championship** | Beat all three regions' leagues, then face a 15-trainer Battle Dome gauntlet of cross-region champions — Red included — for a permanent title and a Gold Bottle Cap. |
 | 🛠️ **Expansion + QoL** | The full pokeemerald-expansion engine plus a suite of ported quality-of-life features behind config toggles. |
 
@@ -59,7 +59,7 @@ of all three campaigns for story pacing and balance.
   and all post-game: Red at Mt. Silver, roaming beasts, Celebi, Ruins of Alph, Bug-Catching
   Contest, Ho-Oh/Lugia).
 - ✅ **Kanto** — the FireRed campaign wired in: real FRLG trainer parties, gym/Elite Four/Champion
-  Blue rosters, rival **GARY**, and the 8-badge league gate.
+  rosters, rival **GARY** (who is also the Kanto Champion), and the 8-badge league gate.
 - ✅ **Cross-region systems** — World Transit hub, region-switch travel, per-region access
   points and champion warp pads, a multi-page trainer card, and 6-outfit customization.
 - 🟡 **In progress** — a full-length human playthrough of all three campaigns (story pacing

@@ -42,11 +42,11 @@ Three complete, self-contained campaigns on one cartridge. Each region has its o
 ### The regions
 
 - **Kanto** — the FireRed campaign, wired live: every FRLG trainer fights its **real FRLG
-  party**, with real gym leader / Elite Four / **Champion Blue** rosters, rival **Blue**,
-  and an 8-badge Victory Road / league gate.
+  party**, with real gym leader / Elite Four rosters, rival **Gary** (who is also the Kanto
+  **Champion**), and an 8-badge Victory Road / league gate.
 - **Johto** — ported from *Pokémon Heart & Soul*: ~235 maps with tilesets and scripts,
   231 real trainer parties, wild-encounter tables, the Johto town map with Fly and heal
-  locations, rival **Silver** (with daily rematches), and the Johto League
+  locations, rival **Gary** (with daily rematches), and the Johto League
   (Will / Koga / Bruno / Karen → **Champion Lance**). Post-game: **Red at Mt. Silver**
   (rematchable), the roaming beasts, the **Celebi** GS Ball chain, the **Ruins of Alph**
   puzzles, the National Park **Bug-Catching Contest**, and the Ho-Oh / Lugia events.
@@ -67,7 +67,9 @@ Three hub staffers handle handouts:
 
 - The **Harbor Master** opens the event ferries and hands out the event tickets
   (Eon Ticket, Old Sea Map, Mystic Ticket) as you win championships.
-- The **Charm Curator** greets you with a **Pokévial**, then rewards World Tour badge
+- The **Charm Curator** greets you with a **Pokévial** and a **Hub Pass** (a key item that
+  warps you one-way back to the hub from the bag anywhere — see *Region switching* below),
+  then rewards World Tour badge
   milestones: 4 → Catching Charm, 8 → Exp. Charm, 12 → Oval Charm, 16 → Shiny Charm,
   24 → **EV/IV Changer** (a reusable key item for freely tuning a party
   Pokémon's EVs and IVs; press R in its menu to flip pages. EVs stay capped
@@ -82,11 +84,13 @@ Three hub staffers handle handouts:
 - **Switching regions** boxes your current party to the shared PC (mail is moved to the PC
   mailbox — nothing is lost) so each campaign starts fresh; withdraw anything from any
   region at any time.
-- **Getting back to the hub** requires reaching the region's own access point in normal
-  play: the **Goldenrod Magnet Train** (the Pass comes from the station president after the
-  Radio Tower incident), the **Vermilion harbor**, or the **Slateport harbor**. Once you're
-  a **champion of two regions**, every Pokémon Center (2F in Hoenn/Kanto, lobby in Johto)
-  gains a World Transit warp pad.
+- **Getting back to the hub**: the **Hub Pass** key item (handed out by the hub's Charm
+  Curator on your first visit) warps you straight there from the bag at any time — it's a
+  one-way trip, so you re-enter regions through the hub's departure gates. You can also reach
+  a region's own access point in normal play: the **Goldenrod Magnet Train** (the Pass comes
+  from the station president after the Radio Tower incident), the **Vermilion harbor**, or the
+  **Slateport harbor**. Once you're a **champion of two regions**, every Pokémon Center
+  (2F in Hoenn/Kanto, lobby in Johto) gains a World Transit warp pad.
 - The active region and hub access live in a versioned save format with a migration reader,
   so older saves keep loading across updates.
 
@@ -112,6 +116,14 @@ Three hub staffers handle handouts:
   rematch peaks at Lv 77–80.
 - **Hard Mode** (chosen once at new game, locked for that save): Set-style battles, no bag
   items against trainers, and badge-based level caps.
+
+### Team Rocket ambushes
+
+**Jessie & James** stalk you across all three regions: five one-time duo encounters at
+**Mt. Moon**, the **Rocket Hideout**, the **Slowpoke Well**, the **Goldenrod Radio Tower**,
+and **Route 118**. Each is a deliberately "unfair" **1-vs-2 double** — you face both Rockets
+alone — capped off with their trademark blast-off exit. Team Rocket also takes a seat in the
+World Championship bracket below.
 
 ### World Championship
 

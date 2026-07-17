@@ -20,6 +20,28 @@ All notable player-facing changes. For the full feature reference see
 - Also fixed from the EV-only version: using the item from the bag now actually
   opens the editor (the bag used to bounce straight back), and the editor
   window draws fully opaque (it was invisible, then see-through).
+- **Team Rocket — Jessie & James**: five one-time 1-vs-2 duo ambushes at Mt. Moon,
+  the Rocket Hideout, the Slowpoke Well, the Goldenrod Radio Tower, and Route 118,
+  and Team Rocket joins the World Championship Dome bracket (replacing Clair).
+- **Hub Pass**: a new key item from the hub's Charm Curator warps you one-way back
+  to the World Transit hub from the bag anytime (blocked inside the Safari Zone,
+  Bug-Catching Contest, Battle Frontier facilities, and link rooms).
+- **Orange Islands**: Kanto's Sevii Islands are renamed the Orange Islands
+  throughout (region map, ferry menu, Rainbow Pass, and island scripts).
+- **Rival is Gary** in both Kanto and Johto (region-derived), replacing Blue/Silver.
+- **Johto starter fix**: starting Johto after Kanto no longer locks the New Bark
+  starter balls ("shouldn't touch") — starter choice is now tracked per region.
+- **Endgame credits removed**: after the Hall of Fame the game saves and returns
+  to the title; Continue drops you into the overworld post-game state (Johto
+  champions resume in New Bark Town, Kanto in Pallet, Hoenn in Littleroot).
+- **PC quality-of-life**: a **SORT ITEMS** action in the PC item storage; a
+  **Make Default** box option so new catches land in a chosen box; and L/R now
+  page storage boxes under every button mode.
+- **DexNav**: walk or run right up to a hidden Pokémon to trigger it (the
+  slow-walk/sneak penalty is gone); an R-press where the registered species can't
+  be found keeps the registration instead of wiping it; and a stuck-search glitch
+  that flashed a garbage DexNav window is fixed. Cave overworld encounters no
+  longer spawn on unreachable floor inside walls.
 
 ## v1.3.6 — 2026-07-13
 

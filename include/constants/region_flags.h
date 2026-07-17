@@ -33,7 +33,9 @@
 // TRAINER_FLAGS_START window without shifting every later SaveBlock1 flag, so its defeat
 // flags live in their own SaveBlock3 array (kantoTrainerFlags[]), reached by a dedicated
 // branch in GetFlagPointer(). TrainerIdToDefeatFlag() (battle_setup.c) maps trainer id ->
-// flag id. 640 flags reserved, 624 used -> 16 spare ids for future Kanto-side trainers.
+// flag id. 640 flags reserved; used = TRAINERS_COUNT - KANTO_TRAINER_ID_OFFSET = 1727 - 1096 = 631
+// -> 9 spare ids for future Kanto-side trainers (bound enforced by the STATIC_ASSERT in
+// battle_setup.c; recompute from that formula rather than trusting this figure).
 #define FLAG_KANTO_TRAINER_BASE      0x6400 // directly above the Johto bank
 #define KANTO_TRAINER_FLAG_BANK_SIZE 0x280  // 640 flags -> kantoTrainerFlags[80] in SaveBlock3
 #define FLAG_KANTO_TRAINER_END       (FLAG_KANTO_TRAINER_BASE + KANTO_TRAINER_FLAG_BANK_SIZE - 1) // 0x667F

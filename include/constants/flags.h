@@ -4100,11 +4100,11 @@
 
 // World Championship: set once the player wins the cross-region champions bracket.
 // 0xD73 sits in the verified-free window just above the fly bank (0xD40..0xD72 used;
-// 0xD73..0xEEF empty, next used flag 0xEF0 FLAG_DEFEATED_BROCK).
+// 0xD73..0xD7B allocated below, 0xD7C..0xEEF empty, next used flag 0xEF0 FLAG_DEFEATED_BROCK).
 #define FLAG_WORLD_CHAMPION (FLAG_WORLD_MAP_BANK + 0x33)
 
 // Pokedex reward NPC in the World Transit hub (RegionHub_EventScript_DexReward).
-// Three one-time claim gates, next in the same verified-free window (0xD73..0xEEF empty).
+// Three one-time claim gates, next in the same verified-free window (0xD7C..0xEEF empty).
 #define FLAG_DEX_REWARD_1 (FLAG_WORLD_MAP_BANK + 0x34) // 150 caught -> PP MAX
 #define FLAG_DEX_REWARD_2 (FLAG_WORLD_MAP_BANK + 0x35) // 300 caught -> MASTER BALL
 #define FLAG_DEX_REWARD_3 (FLAG_WORLD_MAP_BANK + 0x36) // full National Dex -> SHINY CHARM

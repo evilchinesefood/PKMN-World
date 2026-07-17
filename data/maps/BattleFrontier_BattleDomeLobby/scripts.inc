@@ -51,8 +51,11 @@ BattleFrontier_BattleDomeLobby_EventScript_WonChallenge::
 	msgbox BattleFrontier_BattleDomeLobby_Text_CongratsForWinningTourney, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
 
-@ World Championship win: permanent title (granted first, bag-independent) + one-time GOLD BOTTLE CAP,
-@ then the normal BP/record flow. VAR_WORLD_CHAMPIONSHIP_MODE is cleared later at EndChallenge.
+@ World Championship win: one-time GOLD BOTTLE CAP + the FLAG_WORLD_CHAMPION title, then the normal
+@ BP/record flow. The title is granted ONLY if the Cap is actually received: a full Items pocket
+@ branches to ChampionshipPrizePending and leaves FLAG_WORLD_CHAMPION unset so both can be reclaimed
+@ on a later win. A returning champion skips the prize and goes straight to BP.
+@ VAR_WORLD_CHAMPIONSHIP_MODE is cleared later at EndChallenge.
 BattleFrontier_BattleDomeLobby_EventScript_WonChampionship::
 	msgbox BattleFrontier_BattleDomeLobby_Text_WonChampionship, MSGBOX_DEFAULT
 	goto_if_set FLAG_WORLD_CHAMPION, BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints

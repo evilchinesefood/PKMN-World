@@ -4,7 +4,7 @@
 #include "constants/battle_partner.h"
 
 // Region merge (E5-1): under ALL_REGIONS the Kanto (FRLG) trainers are resident in
-// gTrainers[] at a dedicated id block directly after Johto (ids 1097..1719), so every
+// gTrainers[] at a dedicated id block directly after Johto (ids 1097..TRAINERS_COUNT-1 = 1726), so every
 // native FRLG id below is rebased by KANTO_TRAINER_ID_OFFSET. Their defeat flags do NOT
 // use the inline TRAINER_FLAGS_START window (frozen at TRAINERS_COUNT_HOENN_JOHTO so
 // SaveBlock1's flag layout never shifts) - they live in SaveBlock3.kantoTrainerFlags,

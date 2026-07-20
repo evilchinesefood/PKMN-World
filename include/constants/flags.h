@@ -4117,6 +4117,34 @@
 #define FLAG_HIDE_JESSIE_JAMES_RADIO_TOWER    (FLAG_WORLD_MAP_BANK + 0x3A) // 0xD7A
 #define FLAG_HIDE_JESSIE_JAMES_ROUTE118       (FLAG_WORLD_MAP_BANK + 0x3B) // 0xD7B
 
+// Battle Net (issue #5) signature mega-stone drops: one guard flag per leader who drops a stone,
+// set only after a confirmed give so a full bag stays reclaimable. 32 flags in the verified-free
+// window (0xD7C..0xD9B; next used flag is 0xEF0). The Kanto champion trio shares +30/+31
+// (Mewtwonite X / Y). Keep FLAG_BNET_STONE_END past the last index used in src/battle_net.c.
+#define FLAG_BNET_STONE_BASE                  (FLAG_WORLD_MAP_BANK + 0x3C) // 0xD7C
+#define FLAG_BNET_STONE_END                   (FLAG_WORLD_MAP_BANK + 0x5C) // 0xD9C (one past)
+
+// Battle Net beaten-on-HARD markers, one per rematch entity (24 gyms + 12 league + 3 champions;
+// the Kanto champion trio shares one). Feed the P2 records board. Reserves 40.
+#define FLAG_BNET_BEATEN_BASE                 (FLAG_WORLD_MAP_BANK + 0x5C) // 0xD9C
+#define FLAG_BNET_BEATEN_END                  (FLAG_WORLD_MAP_BANK + 0x84) // 0xDC4 (one past)
+
+// Battle Net world shards: 6 hidden-item finds added to Kanto/Johto (issue #5 P1).
+// These MUST live in the hidden-item bank -- bg_hidden_item_event (asm/macros/map.inc:109)
+// hard-errors on any flag < FLAG_HIDDEN_ITEMS_START, and encodes it as (flag - START), so a
+// world-map-bank flag both fails the assert and would alias another hidden item.
+// The bank (0xF00..0x102E here) is otherwise FULL: these six are the only free slots left
+// below FLAGS_COUNT, so world shard finds are capped at 6 until FLAGS_COUNT grows -- and
+// growing it relayouts SaveBlock1's flags[] (vars[] and everything after shift), which needs
+// a SAVE_FORMAT_VERSION bump + migration. Not worth it for extra pickups.
+#define FLAG_BNET_HIDDEN_SHARD_1              (FLAG_HIDDEN_ITEMS_START + 0x77)  // 0xF77 Cerulean Cave 1F, red
+#define FLAG_BNET_HIDDEN_SHARD_2              (FLAG_HIDDEN_ITEMS_START + 0x80)  // 0xF80 Seafoam Islands B3F, blue
+#define FLAG_BNET_HIDDEN_SHARD_3              (FLAG_HIDDEN_ITEMS_START + 0x95)  // 0xF95 Rock Tunnel B1F, green
+#define FLAG_BNET_HIDDEN_SHARD_4              (FLAG_HIDDEN_ITEMS_START + 0x98)  // 0xF98 Mt Mortar B1F, red
+#define FLAG_BNET_HIDDEN_SHARD_5              (FLAG_HIDDEN_ITEMS_START + 0xEC)  // 0xFEC Union Cave B2F, green
+#define FLAG_BNET_HIDDEN_SHARD_6              (FLAG_HIDDEN_ITEMS_START + 0x12F) // 0x102F Johto Victory Road B1F, yellow
+// Next free in the world-map window: 0xDC4 (P2 claims director/misc flags from here).
+
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030
 

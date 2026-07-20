@@ -500,7 +500,7 @@ struct BattleFrontier
     /*0xD1C*/ u16 domeTotalChampionships[2][FRONTIER_LVL_MODE_COUNT];
     /*0xD24*/ struct BattleDomeTrainer domeTrainers[DOME_TOURNAMENT_TRAINERS_COUNT];
     /*0xD64*/ u16 domeMonIds[DOME_TOURNAMENT_TRAINERS_COUNT][FRONTIER_PARTY_SIZE];
-    /*0xDC4*/ u16 unused_DC4;
+    /*0xDC4*/ u16 battleNetHardWins; // was unused_DC4 (never read/written -> zero in old saves); total HARD rematch wins, Battle Net records board
     /*0xDC6*/ u16 palacePrize;
     /*0xDC8*/ u16 palaceWinStreaks[2][FRONTIER_LVL_MODE_COUNT];
     /*0xDD0*/ u16 palaceRecordWinStreaks[2][FRONTIER_LVL_MODE_COUNT];

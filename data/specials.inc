@@ -675,3 +675,7 @@ gSpecials::
 
 	@ Region merge (A1): global-bag key item/HM duplicate-obtain guard.
 	def_special ObtainWouldDupeKeyItem
+
+	@ Battle Net (issue #5) Mega Economy: HARD rematch shard + signature-stone rewards.
+	def_special TryBattleNetRematchReward
+	def_special ClaimBattleNetStone

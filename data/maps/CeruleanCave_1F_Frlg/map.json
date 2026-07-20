@@ -201,9 +201,7 @@
       "dest_warp_id": "5"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "hidden_item",
@@ -212,6 +210,16 @@
       "elevation": 3,
       "item": "ITEM_ULTRA_BALL",
       "flag": "FLAG_HIDDEN_ITEM_CERULEAN_CAVE_1F_ULTRA_BALL",
+      "quantity": 1,
+      "underfoot": false
+    },
+    {
+      "type": "hidden_item",
+      "x": 20,
+      "y": 11,
+      "elevation": 3,
+      "item": "ITEM_RED_SHARD",
+      "flag": "FLAG_BNET_HIDDEN_SHARD_1",
       "quantity": 1,
       "underfoot": false
     }

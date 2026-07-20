@@ -174,10 +174,17 @@
       "dest_warp_id": "8"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
-
+    {
+      "type": "hidden_item",
+      "x": 20,
+      "y": 18,
+      "elevation": 3,
+      "item": "ITEM_RED_SHARD",
+      "flag": "FLAG_BNET_HIDDEN_SHARD_4",
+      "quantity": 1,
+      "underfoot": false
+    }
   ]
 }

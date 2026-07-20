@@ -181,6 +181,17 @@
     }
   ],
   "coord_events": [],
-  "bg_events": [],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 21,
+      "y": 24,
+      "elevation": 3,
+      "item": "ITEM_GREEN_SHARD",
+      "flag": "FLAG_BNET_HIDDEN_SHARD_5",
+      "quantity": 1,
+      "underfoot": false
+    }
+  ],
   "region": "REGION_JOHTO"
 }

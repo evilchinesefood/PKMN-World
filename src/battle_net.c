@@ -2,9 +2,12 @@
 #include "battle_net.h"
 #include "event_data.h"
 #include "difficulty.h"
+#include "item.h"
+#include "string_util.h"
 #include "constants/items.h"
 #include "constants/flags.h"
 #include "constants/opponents.h"
+#include "constants/battle_frontier.h"
 
 // Battle Net (issue #5) Mega Economy P1: shard + signature mega-stone rewards on HARD gym /
 // Elite Four / Champion rematch wins. Reached from data/scripts/battle_net.inc, which is called
@@ -167,4 +170,153 @@ void ClaimBattleNetStone(void)
         FlagSet(sPendingStoneFlag1);
     else if (gSpecialVar_0x8005 == 2 && sPendingStoneFlag2 != 0)
         FlagSet(sPendingStoneFlag2);
+}
+
+// ---------------------------------------------------------------------------
+// P2: flagship floor (RegionHub_2F).
+//
+// The menus are script-level `multichoice`, NOT specials. A menu opened from a special is
+// asynchronous, so the script would read VAR_RESULT before the player ever chose. These
+// specials therefore do pure data work only; each *FromChoice mapper turns the index the
+// script's multichoice left in VAR_RESULT into concrete items.
+//
+// Index order below is load-bearing: it must match MultichoiceList_Bnet* in
+// src/data/script_menu.h exactly.
+// ---------------------------------------------------------------------------
+
+#define SHARD_PRICE_COMMON 20
+#define SHARD_PRICE_STRONG 35
+#define BP_PER_SHARD        4
+
+// Greedy deduction order; also the shard-color menu order.
+static const u16 sShardItems[] = { ITEM_RED_SHARD, ITEM_BLUE_SHARD, ITEM_YELLOW_SHARD, ITEM_GREEN_SHARD };
+
+static const u16 sStarterStones[] =
+{
+    ITEM_VENUSAURITE, ITEM_CHARIZARDITE_X, ITEM_CHARIZARDITE_Y, ITEM_BLASTOISINITE,
+    ITEM_SCEPTILITE,  ITEM_BLAZIKENITE,    ITEM_SWAMPERTITE,
+};
+
+static const struct { u16 item; u16 price; } sVendorStones[] =
+{
+    { ITEM_VENUSAURITE,    SHARD_PRICE_STRONG }, { ITEM_CHARIZARDITE_X, SHARD_PRICE_STRONG },
+    { ITEM_CHARIZARDITE_Y, SHARD_PRICE_STRONG }, { ITEM_BLASTOISINITE,  SHARD_PRICE_STRONG },
+    { ITEM_SCEPTILITE,     SHARD_PRICE_STRONG }, { ITEM_BLAZIKENITE,    SHARD_PRICE_STRONG },
+    { ITEM_SWAMPERTITE,    SHARD_PRICE_STRONG }, { ITEM_GARDEVOIRITE,   SHARD_PRICE_STRONG },
+    { ITEM_PINSIRITE,      SHARD_PRICE_COMMON }, { ITEM_MAWILITE,       SHARD_PRICE_COMMON },
+};
+
+STATIC_ASSERT(ARRAY_COUNT(sStarterStones) == 7, BattleNetStarterStoneCount);
+STATIC_ASSERT(ARRAY_COUNT(sVendorStones) == 10, BattleNetVendorStoneCount);
+
+// VAR_RESULT in = menu index; out = 1 picked / 0 cancelled. VAR_0x8008 = stone.
+void BattleNetStarterStoneFromChoice(void)
+{
+    u32 choice = gSpecialVar_Result;
+
+    gSpecialVar_0x8008 = ITEM_NONE;
+    if (choice >= ARRAY_COUNT(sStarterStones))  // covers the Exit row and MULTI_B_PRESSED
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+    gSpecialVar_0x8008 = sStarterStones[choice];
+    gSpecialVar_Result = 1;
+}
+
+// VAR_RESULT in = menu index; out = 1 picked / 0 cancelled.
+// VAR_0x8008 = stone, VAR_0x8009 = price in shards.
+void BattleNetVendorStoneFromChoice(void)
+{
+    u32 choice = gSpecialVar_Result;
+
+    gSpecialVar_0x8008 = ITEM_NONE;
+    gSpecialVar_0x8009 = 0;
+    if (choice >= ARRAY_COUNT(sVendorStones))
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+    gSpecialVar_0x8008 = sVendorStones[choice].item;
+    gSpecialVar_0x8009 = sVendorStones[choice].price;
+    gSpecialVar_Result = 1;
+}
+
+// VAR_RESULT in = menu index; out = 1 picked / 0 cancelled. VAR_0x8008 = shard item.
+void BattleNetShardColorFromChoice(void)
+{
+    u32 choice = gSpecialVar_Result;
+
+    gSpecialVar_0x8008 = ITEM_NONE;
+    if (choice >= ARRAY_COUNT(sShardItems))
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+    gSpecialVar_0x8008 = sShardItems[choice];
+    gSpecialVar_Result = 1;
+}
+
+// VAR_RESULT = total shards held across all four colors (saturated at 0xFFFF).
+void GetBattleNetShardCount(void)
+{
+    u32 i, total = 0;
+
+    for (i = 0; i < ARRAY_COUNT(sShardItems); i++)
+        total += CountTotalItemQuantityInBag(sShardItems[i]);
+
+    gSpecialVar_Result = (total > 0xFFFF) ? 0xFFFF : total;
+}
+
+// Removes VAR_0x8009 shards total, greedily in sShardItems order. The script must confirm
+// affordability with GetBattleNetShardCount first; this bails out rather than over-removing.
+void DeductBattleNetShards(void)
+{
+    u32 i;
+    u32 owed = gSpecialVar_0x8009;
+
+    for (i = 0; i < ARRAY_COUNT(sShardItems) && owed != 0; i++)
+    {
+        u32 have = CountTotalItemQuantityInBag(sShardItems[i]);
+        u32 take = (have < owed) ? have : owed;
+
+        if (take != 0 && RemoveBagItem(sShardItems[i], take))
+            owed -= take;
+    }
+    gSpecialVar_Result = (owed == 0);
+}
+
+// VAR_RESULT = 1 if BP_PER_SHARD battle points were deducted, else 0. Guarded so the
+// unsigned subtraction can never wrap.
+void TryBuyBattleNetShard(void)
+{
+    if (gSaveBlock2Ptr->frontier.battlePoints < BP_PER_SHARD)
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+    gSaveBlock2Ptr->frontier.battlePoints -= BP_PER_SHARD;
+    gSpecialVar_Result = 1;
+}
+
+// STR_VAR_1 = total HARD rematch wins, STR_VAR_2 = distinct leaders bested,
+// STR_VAR_3 = signature stones claimed.
+void BufferBattleNetRecords(void)
+{
+    u32 i, beaten = 0, stones = 0;
+
+    for (i = 0; i < 39; i++)
+    {
+        if (FlagGet(FLAG_BNET_BEATEN_BASE + i))
+            beaten++;
+    }
+    for (i = 0; i < 30; i++)
+    {
+        if (FlagGet(FLAG_BNET_STONE_BASE + i))
+            stones++;
+    }
+
+    ConvertIntToDecimalStringN(gStringVar1, gSaveBlock2Ptr->frontier.battleNetHardWins, STR_CONV_MODE_LEFT_ALIGN, 5);
+    ConvertIntToDecimalStringN(gStringVar2, beaten, STR_CONV_MODE_LEFT_ALIGN, 2);
+    ConvertIntToDecimalStringN(gStringVar3, stones, STR_CONV_MODE_LEFT_ALIGN, 2);
 }

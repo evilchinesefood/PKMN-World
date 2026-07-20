@@ -356,7 +356,25 @@ BattleFrontier_BattleTowerLobby_EventScript_ExplainMultisChallenge::
 	goto BattleFrontier_BattleTowerLobby_EventScript_AskEnterMultisChallenge
 	end
 
+@ Battle Net seal (issue #5 P2). Link multis cannot work in a single-player hack, so this
+@ attendant now refuses in lore instead of running the full vanilla link flow. Everything
+@ below (AskEnterLinkMultis... onward) is left intact as dead data, matching the precedent
+@ set at the top of data/scripts/battle_net.inc -- it is unreachable, not deleted.
 BattleFrontier_BattleTowerLobby_EventScript_LinkMultisAttendant::
+	lock
+	faceplayer
+	msgbox BattleFrontier_BattleTowerLobby_Text_BattleNetSealedLink, MSGBOX_DEFAULT
+	release
+	end
+
+BattleFrontier_BattleTowerLobby_Text_BattleNetSealedLink:
+	.string "This counter's link hardware was\n"
+	.string "requisitioned by the BATTLE NET.\p"
+	.string "It powers the simulation floor at the\n"
+	.string "REGION HUB now.\p"
+	.string "Ask the terminal there for a match.$"
+
+BattleFrontier_BattleTowerLobby_EventScript_LinkMultisAttendantOld::
 	lock
 	faceplayer
 	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_TOWER

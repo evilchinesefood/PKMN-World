@@ -1215,6 +1215,34 @@ static const struct MenuAction MultichoiceList_OlivineHarbor[] =
     {COMPOUND_STRING("FARAWAY ISLAND")}, {COMPOUND_STRING("BATTLE FRONTIER")}, {gText_Exit},
 };
 
+// Battle Net flagship floor (issue #5 P2). Index order is load-bearing: src/battle_net.c maps
+// VAR_RESULT straight into these tables, so adding or reordering an entry there requires the
+// matching change here.
+static const struct MenuAction MultichoiceList_BnetStarterStone[] =
+{
+    {COMPOUND_STRING("VENUSAURITE")},   {COMPOUND_STRING("CHARIZARDITE X")},
+    {COMPOUND_STRING("CHARIZARDITE Y")},{COMPOUND_STRING("BLASTOISINITE")},
+    {COMPOUND_STRING("SCEPTILITE")},    {COMPOUND_STRING("BLAZIKENITE")},
+    {COMPOUND_STRING("SWAMPERTITE")},   {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetVendorStone[] =
+{
+    {COMPOUND_STRING("VENUSAURITE{CLEAR_TO 88}35")},    {COMPOUND_STRING("CHARIZARDITE X{CLEAR_TO 88}35")},
+    {COMPOUND_STRING("CHARIZARDITE Y{CLEAR_TO 88}35")}, {COMPOUND_STRING("BLASTOISINITE{CLEAR_TO 88}35")},
+    {COMPOUND_STRING("SCEPTILITE{CLEAR_TO 88}35")},     {COMPOUND_STRING("BLAZIKENITE{CLEAR_TO 88}35")},
+    {COMPOUND_STRING("SWAMPERTITE{CLEAR_TO 88}35")},    {COMPOUND_STRING("GARDEVOIRITE{CLEAR_TO 88}35")},
+    {COMPOUND_STRING("PINSIRITE{CLEAR_TO 88}20")},      {COMPOUND_STRING("MAWILITE{CLEAR_TO 88}20")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetShardColor[] =
+{
+    {COMPOUND_STRING("RED SHARD")},    {COMPOUND_STRING("BLUE SHARD")},
+    {COMPOUND_STRING("YELLOW SHARD")}, {COMPOUND_STRING("GREEN SHARD")},
+    {gText_Exit},
+};
+
 static const struct MultichoiceListStruct sMultichoiceLists[] =
 {
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
@@ -1389,6 +1417,9 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_GOLDSILVER]                                 = MULTICHOICE(MultichoiceList_GoldSilver),
     [MULTI_KURT_BALLS]                                 = MULTICHOICE(MultichoiceList_KurtBalls),
     [MULTI_OLIVINE_HARBOR]                             = MULTICHOICE(MultichoiceList_OlivineHarbor),
+    [MULTI_BNET_STARTER_STONE]                         = MULTICHOICE(MultichoiceList_BnetStarterStone),
+    [MULTI_BNET_VENDOR_STONE]                          = MULTICHOICE(MultichoiceList_BnetVendorStone),
+    [MULTI_BNET_SHARD_COLOR]                           = MULTICHOICE(MultichoiceList_BnetShardColor),
 };
 
 const u8 *const gStdStrings[] =

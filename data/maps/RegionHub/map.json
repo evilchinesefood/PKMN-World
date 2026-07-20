@@ -220,6 +220,13 @@
       "elevation": 3,
       "dest_map": "MAP_REGION_HUB",
       "dest_warp_id": "0"
+    },
+    {
+      "x": 20,
+      "y": 10,
+      "elevation": 0,
+      "dest_map": "MAP_REGION_HUB",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],
@@ -231,6 +238,14 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
       "script": "RegionHub_EventScript_WorldTourBoard"
+    },
+    {
+      "type": "sign",
+      "x": 20,
+      "y": 9,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
+      "script": "BattleNet_EventScript_HubConsole"
     }
   ],
   "region": "REGION_HOENN"

@@ -38,3 +38,41 @@ BattleNet_Text_StonePending:
 	.string "The Battle Net is holding a MEGA STONE\n"
 	.string "for you, but your BAG is full.\p"
 	.string "Make room and win here again to claim it.$"
+
+@ ---------- Hub console: entry to the Battle Net flagship floor (issue #5 P2) ----------
+@ bg_event sign at RegionHub (20,9). That tile is BLOCKED (verified against
+@ data/layouts/RegionHub/map.bin) -- a sign on a WALKABLE tile never fires. The player reads
+@ it from (20,10), which is also warp 1, the arrival anchor coming back down from 2F.
+@ Gate is the same one the frontier attendant uses: champion of at least one region.
+BattleNet_EventScript_HubConsole::
+	lockall
+	callnative RegionHub_ScrIsAnyRegionChampion
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_HubConsoleLocked
+	msgbox BattleNet_Text_HubConsoleAsk, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleNet_EventScript_HubConsoleEnd
+	closemessage
+	warp MAP_REGION_HUB_2F, 0
+	waitstate
+	releaseall
+	end
+
+BattleNet_EventScript_HubConsoleEnd::
+	releaseall
+	end
+
+BattleNet_EventScript_HubConsoleLocked::
+	msgbox BattleNet_Text_HubConsoleLocked, MSGBOX_DEFAULT
+	releaseall
+	end
+
+BattleNet_Text_HubConsoleAsk:
+	.string "BATTLE NET TERMINAL\p"
+	.string "The old link floor upstairs now runs a\n"
+	.string "battle simulation network.\p"
+	.string "Go up?$"
+
+BattleNet_Text_HubConsoleLocked:
+	.string "BATTLE NET TERMINAL\p"
+	.string "ACCESS DENIED.\n"
+	.string "Conquer at least one region's POKéMON\l"
+	.string "LEAGUE first.$"

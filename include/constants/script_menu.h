@@ -184,6 +184,12 @@ enum
     MULTI_GOLDSILVER,
     MULTI_KURT_BALLS,
     MULTI_OLIVINE_HARBOR,
+    // Battle Net flagship floor (issue #5 P2). Menus are script-level `multichoice`, not
+    // specials: a menu opened from a special is asynchronous, so the script would read
+    // VAR_RESULT before the player ever picked. The specials stay pure data.
+    MULTI_BNET_STARTER_STONE,
+    MULTI_BNET_VENDOR_STONE,
+    MULTI_BNET_SHARD_COLOR,
 };
 
 #define MULTI_NONE 255

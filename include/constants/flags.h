@@ -4143,7 +4143,9 @@
 #define FLAG_BNET_HIDDEN_SHARD_4              (FLAG_HIDDEN_ITEMS_START + 0x98)  // 0xF98 Mt Mortar B1F, red
 #define FLAG_BNET_HIDDEN_SHARD_5              (FLAG_HIDDEN_ITEMS_START + 0xEC)  // 0xFEC Union Cave B2F, green
 #define FLAG_BNET_HIDDEN_SHARD_6              (FLAG_HIDDEN_ITEMS_START + 0x12F) // 0x102F Johto Victory Road B1F, yellow
-// Next free in the world-map window: 0xDC4 (P2 claims director/misc flags from here).
+// Battle Net P2 flagship floor: the director's one-time Mega Ring + starter stone gift.
+#define FLAG_BNET_DIRECTOR_INTRO              (FLAG_WORLD_MAP_BANK + 0x84) // 0xDC4
+// Next free in the world-map window: 0xDC5.
 
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030

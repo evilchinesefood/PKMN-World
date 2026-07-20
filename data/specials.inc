@@ -679,3 +679,12 @@ gSpecials::
 	@ Battle Net (issue #5) Mega Economy: HARD rematch shard + signature-stone rewards.
 	def_special TryBattleNetRematchReward
 	def_special ClaimBattleNetStone
+
+	@ Battle Net P2 flagship floor. Pure data: the menus are script-level multichoice.
+	def_special BattleNetStarterStoneFromChoice
+	def_special BattleNetVendorStoneFromChoice
+	def_special BattleNetShardColorFromChoice
+	def_special GetBattleNetShardCount
+	def_special DeductBattleNetShards
+	def_special TryBuyBattleNetShard
+	def_special BufferBattleNetRecords

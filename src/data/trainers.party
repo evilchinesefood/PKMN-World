@@ -4713,7 +4713,7 @@ Ability: Super Luck
 - Sucker Punch
 - Play Rough
 
-Tyranitar @ Leftovers
+Tyranitar @ Tyranitarite
 Level: 68
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Sand Stream
@@ -4803,32 +4803,32 @@ Ability: Cursed Body
 - Knock Off
 - Destiny Bond
 
-Dusknoir @ Sitrus Berry
+Dusclops @ Sitrus Berry
 Level: 64
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Pressure
-- Poltergeist
+- Shadow Punch
 - Earthquake
 - Ice Punch
 - Pain Split
 
-Mismagius @ Choice Scarf
+Misdreavus @ Choice Scarf
 Level: 64
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Levitate
 - Shadow Ball
-- Dazzling Gleam
-- Mystical Fire
+- Thunderbolt
+- Psychic
 - Power Gem
 
-Chandelure @ Wise Glasses
+Banette @ Banettite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Flash Fire
-- Shadow Ball
-- Fire Blast
-- Energy Ball
-- Calm Mind
+Ability: Insomnia
+- Shadow Claw
+- Knock Off
+- Will-O-Wisp
+- Destiny Bond
 
 Gengar @ Focus Sash
 Level: 68
@@ -4902,25 +4902,25 @@ Double Battle: No
 AI: Basic Trainer / Smart Switching / Force Setup First Turn / Check Bad Move / Try To Faint
 Mugshot: Pink
 
-Abomasnow @ Light Clay
+Lapras @ Leftovers
 Level: 63
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Snow Warning
-- Aurora Veil
+Ability: Water Absorb
 - Blizzard
-- Giga Drain
+- Surf
+- Thunderbolt
 - Ice Shard
 
-Froslass @ Focus Sash
+Glalie @ Focus Sash
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Cursed Body
+Ability: Inner Focus
 - Spikes
 - Ice Beam
 - Shadow Ball
 - Destiny Bond
 
-Glalie @ Life Orb
+Glalie @ Glalitite
 Level: 63
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Ice Body
@@ -4929,20 +4929,20 @@ Ability: Ice Body
 - Shadow Ball
 - Earthquake
 
-Mamoswine @ Expert Belt
+Piloswine @ Expert Belt
 Level: 64
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Thick Fat
-- Icicle Crash
+- Blizzard
 - Earthquake
 - Ice Shard
 - Knock Off
 
-Weavile @ Life Orb
+Sneasel @ Life Orb
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Pressure
-- Triple Axel
+Ability: Inner Focus
+- Blizzard
 - Knock Off
 - Ice Shard
 - Swords Dance
@@ -5046,14 +5046,14 @@ Ability: Swift Swim
 - Draco Meteor
 - Ice Beam
 
-Garchomp @ Rocky Helmet
+Latios @ Latiosite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Rough Skin
-- Swords Dance
-- Earthquake
-- Outrage
-- Fire Fang
+Ability: Levitate
+- Calm Mind
+- Psychic
+- Dragon Claw
+- Thunderbolt
 
 Dragonite @ Weakness Policy
 Level: 66
@@ -5145,7 +5145,7 @@ Ability: Battle Armor
 - X-Scissor
 - Swords Dance
 
-Aggron @ Assault Vest
+Aggron @ Aggronite
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Rock Head
@@ -5154,23 +5154,23 @@ Ability: Rock Head
 - Iron Head
 - Fire Punch
 
-Rhyperior @ Weakness Policy
+Rhydon @ Weakness Policy
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Solid Rock
+Ability: Rock Head
 - Rock Slide
 - Earthquake
 - Megahorn
-- Hammer Arm
+- Brick Break
 
-Probopass @ Air Balloon
+Armaldo @ Expert Belt
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Magnet Pull
-- Power Gem
-- Flash Cannon
-- Thunderbolt
-- Earth Power
+Ability: Battle Armor
+- Rock Slide
+- X-Scissor
+- Earthquake
+- Swords Dance
 
 === TRAINER_BRAWLY_1 ===
 Name: BRAWLY
@@ -5244,7 +5244,7 @@ Ability: Moxie
 - Rock Slide
 - Knock Off
 
-Medicham @ Life Orb
+Medicham @ Medichamite
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Pure Power
@@ -5360,7 +5360,7 @@ Ability: Static
 - Power Gem
 - Focus Blast
 
-Magnezone @ Air Balloon
+Magneton @ Air Balloon
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Magnet Pull
@@ -5369,7 +5369,7 @@ Ability: Magnet Pull
 - Volt Switch
 - Thunder Wave
 
-Manectric @ Life Orb
+Manectric @ Manectite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Lightning Rod
@@ -5467,7 +5467,7 @@ Ability: Flash Fire
 - Nasty Plot
 - Sludge Bomb
 
-Camerupt @ Weakness Policy
+Camerupt @ Cameruptite
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Solid Rock
@@ -5538,7 +5538,7 @@ Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
 
-Kangaskhan @ Silk Scarf
+Kangaskhan @ Kangaskhanite
 Level: 59
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Scrappy
@@ -5698,7 +5698,7 @@ Ability: Sturdy
 - Roost
 - Whirlwind
 
-Altaria @ Leftovers
+Altaria @ Altarianite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Natural Cure
@@ -5805,7 +5805,7 @@ Ability: Trace
 - Dazzling Gleam
 - Thunderbolt
 
-Metagross @ Assault Vest
+Metagross @ Metagrossite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Clear Body
@@ -5893,14 +5893,14 @@ Ability: Oblivious
 - Dragon Dance
 - Stone Edge
 
-Crawdaunt @ Focus Sash
+Sharpedo @ Sharpedonite
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Adaptability
-- Crabhammer
-- Knock Off
+Ability: Rough Skin
+- Crunch
+- Waterfall
 - Aqua Jet
-- Swords Dance
+- Ice Fang
 
 Walrein @ Leftovers
 Level: 62
@@ -7382,14 +7382,14 @@ Double Battle: No
 AI: Basic Trainer / Smart Switching / Check Bad Move / Try To Faint / Check Viability / Force Setup First Turn
 Mugshot: Yellow
 
-Wailord @ Damp Rock
+Latias @ Latiasite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Water Veil
-- Rain Dance
-- Water Spout
-- Hydro Pump
-- Ice Beam
+Ability: Levitate
+- Calm Mind
+- Psychic
+- Dragon Claw
+- Recover
 
 Ludicolo @ Life Orb
 Level: 64
@@ -17454,14 +17454,14 @@ Ability: Sturdy
 - Stealth Rock
 - Roost
 
-Excadrill @ Focus Sash
+Steelix @ Focus Sash
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Mold Breaker
+Ability: Sturdy
 - Earthquake
-- Iron Head
+- Iron Tail
 - Rock Slide
-- Swords Dance
+- Dragon Breath
 
 Aggron @ Lum Berry
 Level: 65
@@ -18527,16 +18527,16 @@ Ability: ABILITY_ROCK_HEAD
 - MOVE_CRUNCH
 - MOVE_AGILITY
 
-SPECIES_HONCHKROW @ ITEM_LIFE_ORB
+SPECIES_MURKROW @ ITEM_LIFE_ORB
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_SUPER_LUCK
-- MOVE_BRAVE_BIRD
+Ability: ABILITY_INSOMNIA
+- MOVE_DRILL_PECK
 - MOVE_SUCKER_PUNCH
-- MOVE_NIGHT_SLASH
-- MOVE_HEAT_WAVE
+- MOVE_NIGHT_SHADE
+- MOVE_CONFUSE_RAY
 
-SPECIES_PIDGEOT @ ITEM_SHARP_BEAK
+SPECIES_PIDGEOT @ ITEM_PIDGEOTITE
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_KEEN_EYE
@@ -18860,14 +18860,14 @@ Ability: ABILITY_STURDY
 - MOVE_RAPID_SPIN
 - MOVE_BUG_BITE
 
-SPECIES_YANMEGA @ ITEM_FOCUS_SASH
+SPECIES_NINJASK @ ITEM_FOCUS_SASH
 Level: 60
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_SPEED_BOOST
-- MOVE_BUG_BUZZ
-- MOVE_AIR_SLASH
-- MOVE_ANCIENT_POWER
-- MOVE_GIGA_DRAIN
+- MOVE_X_SCISSOR
+- MOVE_AERIAL_ACE
+- MOVE_SWORDS_DANCE
+- MOVE_DIG
 
 SPECIES_PINSIR @ ITEM_LIFE_ORB
 Level: 61
@@ -18887,7 +18887,7 @@ Ability: ABILITY_GUTS
 - MOVE_ROCK_SLIDE
 - MOVE_SWORDS_DANCE
 
-SPECIES_SCIZOR @ ITEM_LEFTOVERS
+SPECIES_SCIZOR @ ITEM_SCIZORITE
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_TECHNICIAN
@@ -20194,23 +20194,23 @@ Ability: ABILITY_SAP_SIPPER
 - MOVE_THUNDERBOLT
 - MOVE_NASTY_PLOT
 
-SPECIES_AMBIPOM @ ITEM_SILK_SCARF
+SPECIES_KANGASKHAN @ ITEM_SILK_SCARF
 Level: 59
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_TECHNICIAN
+Ability: ABILITY_EARLY_BIRD
 - MOVE_FAKE_OUT
-- MOVE_DOUBLE_HIT
 - MOVE_RETURN
-- MOVE_U_TURN
+- MOVE_EARTHQUAKE
+- MOVE_SUCKER_PUNCH
 
-SPECIES_LICKILICKY @ ITEM_LEFTOVERS
+SPECIES_SNORLAX @ ITEM_LEFTOVERS
 Level: 60
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_OWN_TEMPO
+Ability: ABILITY_THICK_FAT
 - MOVE_BODY_SLAM
 - MOVE_EARTHQUAKE
-- MOVE_POWER_WHIP
-- MOVE_SWORDS_DANCE
+- MOVE_CRUNCH
+- MOVE_REST
 
 SPECIES_CLEFABLE @ ITEM_SITRUS_BERRY
 Level: 61
@@ -20395,7 +20395,7 @@ Difficulty: Hard
 Double Battle: No
 AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
 
-SPECIES_SABLEYE @ ITEM_LEFTOVERS
+SPECIES_SABLEYE @ ITEM_SABLENITE
 Level: 58
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_PRANKSTER
@@ -20404,7 +20404,7 @@ Ability: ABILITY_PRANKSTER
 - MOVE_RECOVER
 - MOVE_TAUNT
 
-SPECIES_DUSKNOIR @ ITEM_SITRUS_BERRY
+SPECIES_DUSCLOPS @ ITEM_SITRUS_BERRY
 Level: 59
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_PRESSURE
@@ -20413,23 +20413,23 @@ Ability: ABILITY_PRESSURE
 - MOVE_ICE_PUNCH
 - MOVE_PAIN_SPLIT
 
-SPECIES_FROSLASS @ ITEM_FOCUS_SASH
+SPECIES_MISDREAVUS @ ITEM_FOCUS_SASH
 Level: 60
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_CURSED_BODY
-- MOVE_SHADOW_BALL
-- MOVE_ICE_BEAM
-- MOVE_DESTINY_BOND
-- MOVE_THUNDERBOLT
-
-SPECIES_MISMAGIUS @ ITEM_LIFE_ORB
-Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_LEVITATE
 - MOVE_SHADOW_BALL
+- MOVE_CONFUSE_RAY
+- MOVE_DESTINY_BOND
 - MOVE_THUNDERBOLT
-- MOVE_DAZZLING_GLEAM
-- MOVE_NASTY_PLOT
+
+SPECIES_BANETTE @ ITEM_LIFE_ORB
+Level: 62
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Ability: ABILITY_INSOMNIA
+- MOVE_SHADOW_CLAW
+- MOVE_KNOCK_OFF
+- MOVE_WILL_O_WISP
+- MOVE_DESTINY_BOND
 
 SPECIES_GENGAR @ ITEM_BLACK_SLUDGE
 Level: 65
@@ -20858,7 +20858,7 @@ Ability: ABILITY_STURDY
 - MOVE_ROOST
 - MOVE_WHIRLWIND
 
-SPECIES_MAGNEZONE @ ITEM_LEFTOVERS
+SPECIES_MAGNETON @ ITEM_LEFTOVERS
 Level: 59
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_MAGNET_PULL
@@ -20885,7 +20885,7 @@ Ability: ABILITY_CLEAR_BODY
 - MOVE_ZEN_HEADBUTT
 - MOVE_BULLET_PUNCH
 
-SPECIES_STEELIX @ ITEM_LEFTOVERS
+SPECIES_STEELIX @ ITEM_STEELIXITE
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_STURDY
@@ -20970,7 +20970,7 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_RECOVER
 - MOVE_ANCIENT_POWER
 
-SPECIES_MAGNEZONE
+SPECIES_MAGNETON
 Level: 37
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_THUNDERBOLT
@@ -21126,13 +21126,13 @@ Ability: ABILITY_NO_GUARD
 - MOVE_ICE_PUNCH
 - MOVE_BULK_UP
 
-SPECIES_POLIWRATH @ ITEM_SITRUS_BERRY
+SPECIES_HERACROSS @ ITEM_HERACRONITE
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_WATER_ABSORB
-- MOVE_CIRCLE_THROW
-- MOVE_WATERFALL
-- MOVE_ICE_PUNCH
+Ability: ABILITY_GUTS
+- MOVE_MEGAHORN
+- MOVE_BRICK_BREAK
+- MOVE_ROCK_SLIDE
 - MOVE_BULK_UP
 
 === TRAINER_CHUCK_1_2 ===
@@ -21863,23 +21863,23 @@ Ability: ABILITY_DRY_SKIN
 - MOVE_LOVELY_KISS
 - MOVE_NASTY_PLOT
 
-SPECIES_WEAVILE @ ITEM_LIFE_ORB
+SPECIES_SNEASEL @ ITEM_LIFE_ORB
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_PRESSURE
+Ability: ABILITY_INNER_FOCUS
 - MOVE_ICE_SHARD
-- MOVE_ICICLE_CRASH
+- MOVE_BLIZZARD
 - MOVE_KNOCK_OFF
 - MOVE_LOW_KICK
 
-SPECIES_MAMOSWINE @ ITEM_SITRUS_BERRY
+SPECIES_WALREIN @ ITEM_SITRUS_BERRY
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_THICK_FAT
 - MOVE_ICE_SHARD
-- MOVE_EARTHQUAKE
-- MOVE_ICICLE_CRASH
-- MOVE_STONE_EDGE
+- MOVE_SURF
+- MOVE_BLIZZARD
+- MOVE_BODY_SLAM
 
 === TRAINER_PRYCE_1_2 ===
 Name: PRYCE
@@ -21973,7 +21973,7 @@ IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SNORE
 - MOVE_REST
 
-SPECIES_MAMOSWINE @ ITEM_SITRUS_BERRY
+SPECIES_PILOSWINE @ ITEM_SITRUS_BERRY
 Level: 38
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_HEADBUTT
@@ -22232,14 +22232,14 @@ Difficulty: Hard
 Double Battle: No
 AI: AI_FLAG_CHECK_BAD_MOVE / AI_FLAG_TRY_TO_FAINT / AI_FLAG_CHECK_VIABILITY / AI_FLAG_SMART_SWITCHING / AI_FLAG_FORCE_SETUP_FIRST_TURN
 
-SPECIES_GYARADOS @ ITEM_SITRUS_BERRY
+SPECIES_AMPHAROS @ ITEM_AMPHAROSITE
 Level: 58
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_INTIMIDATE
-- MOVE_WATERFALL
-- MOVE_CRUNCH
-- MOVE_ICE_FANG
-- MOVE_DRAGON_DANCE
+Ability: ABILITY_STATIC
+- MOVE_THUNDERBOLT
+- MOVE_DRAGON_PULSE
+- MOVE_POWER_GEM
+- MOVE_THUNDER_WAVE
 
 SPECIES_FLYGON @ ITEM_CHOICE_BAND
 Level: 60
@@ -23149,7 +23149,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_SAFEGUARD
 - MOVE_MEGA_PUNCH
 
-SPECIES_HONCHKROW
+SPECIES_MURKROW
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_DARK_PULSE
@@ -24101,7 +24101,7 @@ Ability: ABILITY_THICK_FAT
 - MOVE_PSYCHIC
 - MOVE_FOCUS_BLAST
 
-SPECIES_SLOWBRO @ ITEM_LEFTOVERS
+SPECIES_SLOWBRO @ ITEM_SLOWBRONITE
 Level: 72
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_REGENERATOR
@@ -24499,7 +24499,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_LEECH_SEED
 - MOVE_SUBSTITUTE
 
-SPECIES_HONCHKROW @ ITEM_SHARP_BEAK
+SPECIES_MURKROW @ ITEM_SHARP_BEAK
 Level: 53
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_DRILL_PECK
@@ -24533,7 +24533,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_HIDDEN_POWER
 - MOVE_BATON_PASS
 
-SPECIES_WEAVILE
+SPECIES_SNEASEL
 Level: 67
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_FAINT_ATTACK
@@ -24549,7 +24549,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_IRON_TAIL
 - MOVE_HYPNOSIS
 
-SPECIES_HONCHKROW @ ITEM_SHARP_BEAK
+SPECIES_MURKROW @ ITEM_SHARP_BEAK
 Level: 68
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - MOVE_SKY_ATTACK
@@ -24593,13 +24593,13 @@ Ability: ABILITY_SYNCHRONIZE
 - MOVE_MOONLIGHT
 - MOVE_PROTECT
 
-SPECIES_WEAVILE @ ITEM_FOCUS_SASH
+SPECIES_SNEASEL @ ITEM_FOCUS_SASH
 Level: 73
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_PRESSURE
+Ability: ABILITY_INNER_FOCUS
 - MOVE_SWORDS_DANCE
 - MOVE_KNOCK_OFF
-- MOVE_ICICLE_CRASH
+- MOVE_BLIZZARD
 - MOVE_ICE_SHARD
 
 SPECIES_PERSIAN @ ITEM_SILK_SCARF
@@ -24611,16 +24611,16 @@ Ability: ABILITY_TECHNICIAN
 - MOVE_KNOCK_OFF
 - MOVE_U_TURN
 
-SPECIES_HONCHKROW @ ITEM_LIFE_ORB
+SPECIES_TYRANITAR @ ITEM_LIFE_ORB
 Level: 74
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: ABILITY_MOXIE
-- MOVE_BRAVE_BIRD
-- MOVE_SUCKER_PUNCH
-- MOVE_SUPERPOWER
-- MOVE_ROOST
+Ability: ABILITY_SAND_STREAM
+- MOVE_CRUNCH
+- MOVE_ROCK_SLIDE
+- MOVE_EARTHQUAKE
+- MOVE_DRAGON_DANCE
 
-SPECIES_ABSOL @ ITEM_SCOPE_LENS
+SPECIES_ABSOL @ ITEM_ABSOLITE
 Level: 74
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_SUPER_LUCK
@@ -24783,7 +24783,7 @@ Ability: ABILITY_BLAZE
 - MOVE_DRAGON_PULSE
 - MOVE_FOCUS_BLAST
 
-SPECIES_SALAMENCE @ ITEM_LIFE_ORB
+SPECIES_SALAMENCE @ ITEM_SALAMENCITE
 Level: 76
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_INTIMIDATE

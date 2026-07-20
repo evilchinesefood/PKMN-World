@@ -5111,23 +5111,23 @@ Ability: Rock Head
 - Stone Edge
 - Fire Punch
 
-Gliscor @ Toxic Orb
+Flygon @ Expert Belt
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Poison Heal
-- Swords Dance
+Ability: Levitate
+- Dragon Dance
 - Earthquake
-- Knock Off
-- Roost
+- Crunch
+- Dragon Claw
 
-Rhyperior @ Weakness Policy
+Rhydon @ Weakness Policy
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Solid Rock
+Ability: Rock Head
 - Earthquake
-- Stone Edge
+- Rock Slide
 - Megahorn
-- Hammer Arm
+- Brick Break
 
 === TRAINER_TEAM_ROCKET_GRUNT ===
 Name: GRUNT
@@ -7124,7 +7124,7 @@ Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
 
-Aerodactyl @ Focus Sash
+Aerodactyl @ Aerodactylite
 Level: 58
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Rock Head
@@ -7242,7 +7242,7 @@ Ability: Water Absorb
 - Thunderbolt
 - Psychic
 
-Gyarados @ Sitrus Berry
+Gyarados @ Gyaradosite
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Intimidate
@@ -7323,7 +7323,7 @@ Ability: Static
 - Taunt
 - Explosion
 
-Magnezone @ Choice Specs
+Magneton @ Choice Specs
 Level: 60
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Magnet Pull
@@ -7350,14 +7350,14 @@ Ability: Lightning Rod
 - Volt Switch
 - Snarl
 
-Electivire @ Expert Belt
+Electabuzz @ Expert Belt
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Motor Drive
-- Wild Charge
+Ability: Static
+- Thunderbolt
 - Ice Punch
-- Earthquake
 - Cross Chop
+- Thunder Wave
 
 Raichu @ Light Ball
 Level: 65
@@ -7440,14 +7440,14 @@ Ability: Chlorophyll
 - Sleep Powder
 - Leech Seed
 
-Roserade @ Black Sludge
+Bellossom @ Leftovers
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Natural Cure
-- Leaf Storm
-- Sludge Bomb
+Ability: Chlorophyll
 - Giga Drain
-- Toxic Spikes
+- Sleep Powder
+- Sunny Day
+- Petal Dance
 
 Breloom @ Toxic Orb
 Level: 62
@@ -7538,14 +7538,14 @@ Ability: Poison Touch
 - Fire Punch
 - Shadow Sneak
 
-Venomoth @ Leftovers
+Beedrill @ Beedrillite
 Level: 60
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-Ability: Tinted Lens
-- Quiver Dance
-- Bug Buzz
-- Sludge Bomb
-- Sleep Powder
+Ability: Swarm
+- X-Scissor
+- Poison Jab
+- Aerial Ace
+- Swords Dance
 
 Tentacruel @ Black Sludge
 Level: 61
@@ -7653,7 +7653,7 @@ Ability: Solid Rock
 - Flamethrower
 - Ancient Power
 
-Houndoom @ Life Orb
+Houndoom @ Houndoominite
 Level: 61
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Flash Fire
@@ -7662,13 +7662,13 @@ Ability: Flash Fire
 - Dark Pulse
 - Sludge Bomb
 
-Magmortar @ Expert Belt
+Magmar @ Expert Belt
 Level: 62
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Flame Body
 - Fire Blast
 - Thunderbolt
-- Focus Blast
+- Cross Chop
 - Psychic
 
 Arcanine @ Sitrus Berry
@@ -7778,7 +7778,7 @@ Ability: Trace
 - Focus Blast
 - Shadow Ball
 
-Alakazam @ Life Orb
+Alakazam @ Alakazite
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Magic Guard
@@ -14243,7 +14243,7 @@ Ability: Levitate
 - Will O Wisp
 - Explosion
 
-Gengar @ Life Orb
+Gengar @ Gengarite
 Level: 75
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Cursed Body

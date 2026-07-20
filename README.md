@@ -29,6 +29,7 @@ worlds.
 
 ## ✨ Features
 
+| Feature | What it does |
 |---|---|
 | 🗺️ **Three regions, one game** | Kanto (FireRed-derived), Johto (ported from *Heart & Soul*), and Hoenn (native Emerald) — each a complete campaign with its own league and post-game. |
 | 🚉 **World Transit hub** | Pick your starting region at a central hub, then travel between regions once you've opened each one. |
@@ -37,6 +38,8 @@ worlds.
 | 👕 **Character customization** | Play as **Brendan or May** with a 6-color outfit picker — one global choice, applied everywhere. |
 | 🏆 **Per-region endgame** | Each region keeps its own league — **Gary** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league — plus HARD-mode Elite Four and **gym-leader rematches (all 24 leaders)** once you're that region's Champion, with the **Battle Frontier** as the shared post-game. |
 | 🌐 **World Championship** | Beat all three regions' leagues, then face a 15-trainer Battle Dome gauntlet of cross-region champions — Red included — for a permanent title and a Gold Bottle Cap. |
+| 💎 **Mega Evolution & the Battle Net** | Become a Champion and the **Battle Net** opens above the hub: a director hands you the **Mega Ring** and a free starter-line Mega Stone. Every HARD gym-leader, Elite Four and Champion rematch pays **Shards**, and each leader drops their own **signature Mega Stone** the first time you beat them — the same stone they Mega Evolve with against you. Trade Shards for the rest at the flagship vendor, or swap Battle Points for Shards at the exchange counter. |
+| 🧬 **Gen 1–3 only** | Every Pokémon in the game — wild, gift, and trainer-owned — comes from the first three generations, so the roster stays consistent with the three regions it draws from. |
 | 🛠️ **Expansion + QoL** | The full pokeemerald-expansion engine plus a suite of ported quality-of-life features behind config toggles. |
 
 ## 📊 Status
@@ -46,8 +49,16 @@ worlds.
 All three campaigns are complete and playable end to end, including each region's post-game.
 Recent releases added the World Championship endgame, HARD-mode gym-leader and Elite Four
 rematches, riding your own Pokémon for surf and flight, and a long run of fixes from
-emulator-verified test passes. What's left before a 1.0: a **full-length human playthrough**
-of all three campaigns for story pacing and balance.
+emulator-verified test passes.
+
+**Newest, and not yet playtested:** Mega Evolution now has a way in. The Battle Net flagship
+floor opens above the hub once you're a Champion, HARD rematches drop signature Mega Stones,
+and all 28 stone-holding leaders Mega Evolve against you. The trainer roster was also swept
+back to Gen 1–3 only, which rebuilt parts of several endgame teams. These systems build clean
+but have not had a play pass yet, so expect balance to move.
+
+What's left before a 1.0: a **full-length human playthrough** of all three campaigns for story
+pacing and balance, plus the remaining Battle Net battle modes.
 
 <details>
 <summary><b>Region-by-region status</b></summary>

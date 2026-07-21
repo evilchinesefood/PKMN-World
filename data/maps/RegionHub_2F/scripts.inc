@@ -1,5 +1,7 @@
 @ Battle Net flagship floor (issue #5 P2) — the hub's PC 2F. Entered from the RegionHub
-@ back-counter console (bg event at (20,9) -> warp anchor (20,10)); exit = stairs tile (1,6).
+@ back-counter console (bg event at (20,12) -> warp anchor (20,13)); exit = stairs tile (1,6).
+@ The old (20,9)/(20,10) pair was impassable-but-UNREACHABLE (sealed counter pocket), which made
+@ this whole floor dead content — see the reachability note in data/scripts/battle_net.inc.
 @ Specials live in src/battle_net.c (P2 section). Gate: IsNRegionChampion(1) at the hub console.
 RegionHub_2F_MapScripts::
 	.byte 0
@@ -10,6 +12,10 @@ BattleNet_EventScript_Director::
 	faceplayer
 	goto_if_set FLAG_BNET_DIRECTOR_INTRO, BattleNet_EventScript_DirectorRepeat
 	msgbox BattleNet_Text_DirectorIntro, MSGBOX_DEFAULT
+	@ The MEGA RING is POCKET_KEY_ITEMS and this is its ONLY source in the ROM, so a silent
+	@ giveitem failure would kill Mega Evolution permanently. Check space before giving.
+	checkitemspace ITEM_MEGA_RING, 1
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
 	giveitem ITEM_MEGA_RING
 	msgbox BattleNet_Text_DirectorStoneOffer, MSGBOX_DEFAULT
 	@ Script-level multichoice, NOT a special: a menu opened from a special is asynchronous,
@@ -32,6 +38,18 @@ BattleNet_EventScript_DirectorBagFull::
 	release
 	end
 BattleNet_EventScript_DirectorRepeat::
+	@ Self-heal: a save from before the checkitemspace guard above could have had the ring
+	@ silently eaten while the intro flag was still set. Re-give it if it is missing.
+	checkitem ITEM_MEGA_RING, 1
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRegiveRing
+	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
+	release
+	end
+
+BattleNet_EventScript_DirectorRegiveRing::
+	checkitemspace ITEM_MEGA_RING, 1
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
+	giveitem ITEM_MEGA_RING
 	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
 	release
 	end
@@ -41,8 +59,23 @@ BattleNet_EventScript_StoneVendor::
 	lock
 	faceplayer
 	msgbox BattleNet_Text_VendorIntro, MSGBOX_DEFAULT
+@ Two pages: a single 11-row list rendered 22 tile rows tall on a 20-row screen. In each list
+@ index 5 is the page toggle and index 6 is EXIT (and MULTI_B_PRESSED = 127 also lands >= 6),
+@ so both must be handled HERE -- index 6 is a valid sVendorStones[] index and would silently
+@ sell the wrong stone if it reached the special. Page 2 rebases onto indices 5..9.
 BattleNet_EventScript_VendorLoop::
 	multichoice 0, 0, MULTI_BNET_VENDOR_STONE, FALSE
+	goto_if_eq VAR_RESULT, 5, BattleNet_EventScript_VendorPage2
+	goto_if_ge VAR_RESULT, 6, BattleNet_EventScript_VendorDone
+	goto BattleNet_EventScript_VendorBuy
+
+BattleNet_EventScript_VendorPage2::
+	multichoice 0, 0, MULTI_BNET_VENDOR_STONE_2, FALSE
+	goto_if_eq VAR_RESULT, 5, BattleNet_EventScript_VendorLoop
+	goto_if_ge VAR_RESULT, 6, BattleNet_EventScript_VendorDone
+	addvar VAR_RESULT, 5
+
+BattleNet_EventScript_VendorBuy::
 	special BattleNetVendorStoneFromChoice  @ index -> VAR_0x8008 item, VAR_0x8009 price, VAR_RESULT 1/0
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_VendorDone
 	special GetBattleNetShardCount          @ -> VAR_RESULT total shards across the 4 colors
@@ -75,6 +108,10 @@ BattleNet_EventScript_BpClerkLoop::
 	multichoice 0, 0, MULTI_BNET_SHARD_COLOR, FALSE
 	special BattleNetShardColorFromChoice   @ index -> VAR_0x8008 shard item, VAR_RESULT 1/0
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_BpClerkBye
+	@ Check bag space BEFORE spending BP, the same order the stone vendor above uses.
+	@ TryBuyBattleNetShard deducts immediately, so a failed giveitem would destroy the payment.
+	checkitemspace VAR_0x8008, 1
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_BpClerkBagFull
 	special TryBuyBattleNetShard            @ battlePoints >= 4? deduct 4 -> VAR_RESULT 1, else 0
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_BpClerkPoor
 	giveitem VAR_0x8008
@@ -86,6 +123,11 @@ BattleNet_EventScript_BpClerkBye::
 	end
 BattleNet_EventScript_BpClerkPoor::
 	msgbox BattleNet_Text_BpClerkPoor, MSGBOX_DEFAULT
+	release
+	end
+
+BattleNet_EventScript_BpClerkBagFull::
+	msgbox BattleNet_Text_VendorBagFull, MSGBOX_DEFAULT
 	release
 	end
 

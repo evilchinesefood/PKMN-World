@@ -180,7 +180,7 @@
       "type": "hidden_item",
       "x": 20,
       "y": 18,
-      "elevation": 3,
+      "elevation": 0,
       "item": "ITEM_RED_SHARD",
       "flag": "FLAG_BNET_HIDDEN_SHARD_4",
       "quantity": 1,

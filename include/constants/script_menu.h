@@ -189,6 +189,7 @@ enum
     // VAR_RESULT before the player ever picked. The specials stay pure data.
     MULTI_BNET_STARTER_STONE,
     MULTI_BNET_VENDOR_STONE,
+    MULTI_BNET_VENDOR_STONE_2,
     MULTI_BNET_SHARD_COLOR,
 };
 

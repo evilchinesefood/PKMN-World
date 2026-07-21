@@ -182,7 +182,7 @@
       "type": "hidden_item",
       "x": 18,
       "y": 12,
-      "elevation": 3,
+      "elevation": 0,
       "item": "ITEM_BLUE_SHARD",
       "flag": "FLAG_BNET_HIDDEN_SHARD_2",
       "quantity": 1,

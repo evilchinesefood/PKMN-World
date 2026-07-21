@@ -40,9 +40,16 @@ BattleNet_Text_StonePending:
 	.string "Make room and win here again to claim it.$"
 
 @ ---------- Hub console: entry to the Battle Net flagship floor (issue #5 P2) ----------
-@ bg_event sign at RegionHub (20,9). That tile is BLOCKED (verified against
-@ data/layouts/RegionHub/map.bin) -- a sign on a WALKABLE tile never fires. The player reads
-@ it from (20,10), which is also warp 1, the arrival anchor coming back down from 2F.
+@ bg_event sign at RegionHub (20,12), on the vendor counter row. Two things must hold, and
+@ BLOCKED alone is not enough: the sign tile must be impassable (a sign on a WALKABLE tile
+@ never fires) AND an adjacent tile must be REACHABLE from the hub arrival warp (16,4).
+@ Verified against data/layouts/RegionHub/map.bin: (20,12) is collision 1, and (20,13) is
+@ collision 0 and inside the 279-tile region flood-filled from (16,4). The earlier placement
+@ at (20,9) was impassable but only readable from (20,10), which sits in the sealed 12-tile
+@ counter pocket x=19..24,y=10..11 -- walkable, but unreachable, so the console never fired.
+@ Warp 1 is (20,13), the arrival anchor coming back down from 2F; it lands the player facing
+@ the console and inside the main floor. bg events get NO counter look-ahead (unlike object
+@ events), which is why the vendor NPCs in that pocket work and a sign there would not.
 @ Gate is the same one the frontier attendant uses: champion of at least one region.
 BattleNet_EventScript_HubConsole::
 	lockall

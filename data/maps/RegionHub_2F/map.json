@@ -66,7 +66,7 @@
   "coord_events": [],
   "bg_events": [
     {
-      "type": "sign", "x": 12, "y": 2, "elevation": 0,
+      "type": "sign", "x": 12, "y": 3, "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "BattleNet_EventScript_RecordsBoard"
     }

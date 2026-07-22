@@ -12,6 +12,7 @@
 #include "battle_message.h"
 #include "battle_pyramid.h"
 #include "battle_scripts.h"
+#include "battle_net.h"
 #include "battle_setup.h"
 #include "battle_tower.h"
 #include "battle_z_move.h"
@@ -5614,13 +5615,14 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
         ClearCurrentTrainerWantRematchVsSeeker();
         gDexNavSpecies = SPECIES_NONE;
         ResetSpriteData();
-        if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
+        if ((!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_RECORDED_LINK
                                   | BATTLE_TYPE_FIRST_BATTLE
                                   | BATTLE_TYPE_SAFARI
                                   | BATTLE_TYPE_FRONTIER
                                   | BATTLE_TYPE_EREADER_TRAINER
                                   | BATTLE_TYPE_CATCH_TUTORIAL))
+             || IsBattleNetSimBattle()) // sims pay EXP, so their level-ups must evolve too (issue #15)
             && (B_EVOLUTION_AFTER_WHITEOUT >= GEN_6
                 || gBattleOutcome == B_OUTCOME_WON
                 || gBattleOutcome == B_OUTCOME_CAUGHT))

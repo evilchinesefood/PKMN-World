@@ -142,7 +142,7 @@ BattleNet_EventScript_RecordsBoard::
 	end
 
 @ ---------- Streak attendant (P3): Tower Streak + the three ruleset rooms ----------
-@ Sim battles only (Battle Tower type): no exp/money/whiteout, party healed around every
+@ Sim battles only (Battle Tower type): full EXP (issue #15), no money/whiteout, party healed around every
 @ round. Streak: up to 7 straight scaling battles vs random types; 1 BP per win paid at
 @ the end, +BNET_STREAK_BONUS for a perfect run; best run sits on the records board.
 @ Rooms: one battle under a party rule (checked by CheckBattleNetRuleParty), win = 2 BP.

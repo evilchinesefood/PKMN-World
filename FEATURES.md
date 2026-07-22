@@ -155,8 +155,10 @@ flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:
 - The flagship **vendor** sells the remaining stones for Shards, and the **exchange clerk**
   converts Battle Points to Shards (4 BP each). A handful of Shards are also hidden in the
   world for the Itemfinder.
-- The **sim terminal** runs simulated battles (Battle Tower rules: no exp, no money, no
-  whiteout, and your party is restored around every match). The **Scaling Type Trainer**
+- The **sim terminal** runs simulated battles — your Pokémon **keep the full EXP** (and
+  evolve as usual), while no money changes hands, a loss never whites you out, and your
+  party is restored around every match, which makes the sims the game's training grounds.
+  The **Scaling Type Trainer**
   fields 2–4 Pokémon of any type you pick, a few levels below your party, for **1 BP** a
   win plus a 30% bonus Shard. The **Leader Sim** replays any gym leader's **HARD** rematch
   as a simulation for **2 BP** — BP only, since Shards and stone drops stay on the real

@@ -17,6 +17,7 @@ void BufferBattleNetRecords(void);
 
 // P3 battle modes (Scaling Type Trainer / Tower Streak / ruleset rooms) plus
 // the Leader Sim's BP payout. Modes are BNET_MODE_* (constants/battle_net.h).
+bool32 IsBattleNetSimBattle(void);
 void DoBattleNetSimBattle(void);
 void CheckBattleNetRuleParty(void);
 void AddBattleNetPoints(void);

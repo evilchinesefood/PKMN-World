@@ -457,7 +457,28 @@ static u32 BnetAvgPartyLevel(void)
 
 static void BnetHandleBattleEnd(void)
 {
+    // Clear the sim marker (0xFF = battle_special.c's "no special battle" idiom). The engine
+    // PRESERVES specialTrainerBattleType across battles, and recorded Battle Tower playback
+    // sets TRAINER|BATTLE_TOWER|RECORDED without writing it - a stale marker would make
+    // IsBattleNetSimBattle() true mid-replay and award EXP inside a Battle Video. This
+    // handler runs via gMain.savedCallback AFTER TryEvolvePokemon, so sim evolutions and
+    // both read sites (getexp is mid-battle) have already happened.
+    gBattleScripting.specialTrainerBattleType = 0xFF;
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
+// TRUE while a Battle Net sim battle is running (issue #15). All three conditions on
+// purpose: real facility launches always overwrite the marker with their FACILITY_* id,
+// BnetHandleBattleEnd clears it after every sim, and the link/recorded exclusions keep a
+// Battle Video replay or a link tower battle (both TRAINER|BATTLE_TOWER shaped, neither
+// writes the marker) from ever counting as a sim. battle_script_commands.c (exp) and
+// battle_main.c (evolutions) carve sims out of the no-EXP tower rules with this; money
+// stays suppressed, sims pay BP.
+bool32 IsBattleNetSimBattle(void)
+{
+    return (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
+        && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED | BATTLE_TYPE_RECORDED_LINK))
+        && gBattleScripting.specialTrainerBattleType == SPECIAL_BATTLE_BNET_SIM;
 }
 
 static void Task_BnetStartBattle(u8 taskId)
@@ -592,7 +613,7 @@ void DoBattleNetSimBattle(void)
     // tables under BATTLE_TYPE_BATTLE_TOWER). Ids 0..29 are in range for both
     // gBattleFrontierTrainers (316) and the tent table (30).
     TRAINER_BATTLE_PARAM.opponentA = Random() % 30;
-    gBattleScripting.specialTrainerBattleType = 0xFF; // not a real facility (battle_special.c idiom)
+    gBattleScripting.specialTrainerBattleType = SPECIAL_BATTLE_BNET_SIM;
     gBattleTypeFlags = BATTLE_TYPE_TRAINER | BATTLE_TYPE_BATTLE_TOWER;
     CreateTask(Task_BnetStartBattle, 1);
     PlayMapChosenOrBattleBGM(0);

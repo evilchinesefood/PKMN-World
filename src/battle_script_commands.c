@@ -39,6 +39,7 @@
 #include "pokemon_storage_system.h"
 #include "task.h"
 #include "naming_screen.h"
+#include "battle_net.h"
 #include "battle_setup.h"
 #include "overworld.h"
 #include "wild_encounter.h"
@@ -3818,6 +3819,8 @@ FEATURE_FLAG_ASSERT(I_EXP_SHARE_FLAG, YouNeedToSetTheExpShareFlagToAnUnusedFlag)
 static bool32 BattleTypeAllowsExp(void)
 {
     if (RECORDED_WILD_BATTLE)
+        return TRUE;
+    else if (IsBattleNetSimBattle()) // Battle Net sims are tower-type but DO pay EXP (issue #15)
         return TRUE;
     else if (gBattleTypeFlags &
               ( BATTLE_TYPE_LINK

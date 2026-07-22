@@ -100,7 +100,7 @@ BattleNet_Text_HubConsoleLocked:
 
 @ ---------- P3: sim terminal (Scaling Type Trainer + Leader Sim) ----------
 @ Shared by the flagship floor's sim pod and every regional POKéMON CENTER terminal (P4).
-@ Sim battles are Battle Tower-type: no exp, no money, no whiteout; the party is healed
+@ Sim battles are Battle Tower-type: full EXP (issue #15), no money, no whiteout; the party is healed
 @ before and after every sim, so the simulation never strands a fainted party.
 @ DoBattleNetSimBattle returns VAR_RESULT 0 when it refused to launch (no battle-ready
 @ mon / empty pool) -- in that case there is NO battle, so the script must NOT waitstate.
@@ -405,8 +405,8 @@ BattleNet_EventScript_SimGiovanni::
 @ ---------- P3 texts ----------
 BattleNet_Text_TerminalIntro:
 	.string "BATTLE NET TERMINAL\p"
-	.string "Simulated battles: no items won, no\n"
-	.string "money lost, party restored after.$"
+	.string "Sim battles pay full EXP. No money\n"
+	.string "at stake, party restored after.$"
 BattleNet_Text_TerminalBye:
 	.string "LOGGING OFF.\n"
 	.string "The BATTLE NET thanks you!$"

@@ -13,4 +13,11 @@
 #define BNET_STREAK_ROUNDS  7  // wins needed to clear a Tower Streak run
 #define BNET_STREAK_BONUS   5  // extra BP for clearing all rounds (plus 1 BP per win)
 
+// gBattleScripting.specialTrainerBattleType marker for Battle Net sims (issue #15).
+// Distinct from every SPECIAL_BATTLE_* / FACILITY_* value and from 0xFF (the "no special
+// battle" idiom in battle_special.c). Lets BattleTypeAllowsExp and the post-battle
+// evolution pass recognize a sim: tower-type battles normally pay no EXP, but the sims
+// are the game's training grounds, so they do (money stays untouched).
+#define SPECIAL_BATTLE_BNET_SIM 0xFE
+
 #endif // GUARD_CONSTANTS_BATTLE_NET_H

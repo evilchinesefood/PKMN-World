@@ -195,10 +195,7 @@ void MigrateSaveFormatIfNeeded(void)
         gSaveBlock2Ptr->hoennIntroDone   = TRUE;
         gSaveBlock2Ptr->kantoIntroDone   = FALSE;
         gSaveBlock2Ptr->johtoIntroDone   = FALSE;
-        gSaveBlock2Ptr->travelPassEarned = FALSE;
-        gSaveBlock2Ptr->kantoHubAccess   = FALSE;
-        gSaveBlock2Ptr->johtoHubAccess   = FALSE;
-        gSaveBlock2Ptr->hoennHubAccess   = FALSE;
+        gSaveBlock2Ptr->regionBitsUnused = 0;
     }
     // v1 -> v2: SaveBlock3.usmSaved (graphical start menu icon order) was appended after the
     // region banks; on older saves those bytes are uninitialised flash. Zero ONLY the new
@@ -242,6 +239,9 @@ void MigrateSaveFormatIfNeeded(void)
 STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
+// SaveBlock3 is append-only: a field inserted/reordered BEFORE regionVars (e.g. by toggling a
+// prefix #if like QUEST_MENU) shifts every bank with no checksum to catch it. Pin the start.
+STATIC_ASSERT(offsetof(struct SaveBlock3, regionVars) == 0x20, SaveBlock3RegionVarsMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
 // The party-menu "Follow" chooser (e0d958f1) carved followerSlot from the SAME 0x90-0x97 filler as
 // the region bytes above. Pin its offset so a later edit to those bytes - e.g. a 9th intro bit

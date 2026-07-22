@@ -168,7 +168,6 @@ SlateportCity_Harbor_EventScript_FerryAttendant::
 SlateportCity_Harbor_EventScript_HubShuttle::
 	msgbox SlateportCity_Harbor_Text_FerryToHub, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_HubDeclined
-	callnative RegionHub_ScrSetHubAccess
 	closemessage
 	warp MAP_REGION_HUB, 0
 	waitstate

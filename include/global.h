@@ -628,11 +628,9 @@ struct SaveBlock2
     /*0x92*/ u8 kantoIntroDone:1;   // first-visit intro completed (region-switch, Lane R)
              u8 johtoIntroDone:1;
              u8 hoennIntroDone:1;
-             u8 travelPassEarned:1; // travel-pass quest done -> the whole transfer network opens
-             u8 kantoHubAccess:1;   // reached Kanto's hub access point (Vermilion Seagallop) -> can come/go
-             u8 johtoHubAccess:1;   // reached Johto's access point (Goldenrod Magnet Train)
-             u8 hoennHubAccess:1;   // reached Hoenn's access point (Slateport S.S. Tidal)
-             u8 regionBitsUnused:1;
+             // The travel-pass/hub-access "leave-lock" bits that lived here were never read
+             // (the shipped hub gate allows unconditional travel); dropped 2026-07-21 (#10).
+             u8 regionBitsUnused:5;
     /*0x93*/ u8 followerSlot;       // chosen follower Pokémon: 0 = first eligible, else party slot + 1
     /*0x94*/ u8 filler_94[0x4];
 #else

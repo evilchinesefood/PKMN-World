@@ -59,7 +59,6 @@ VermilionCity_EventScript_FerrySailor::
 VermilionCity_EventScript_FerryHubOrSevii::
 	msgbox VermilionCity_Text_FerryToHub, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_CheckSeagallopPresent
-	callnative RegionHub_ScrSetHubAccess
 	closemessage
 	warp MAP_REGION_HUB, 0
 	waitstate

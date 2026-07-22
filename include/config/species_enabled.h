@@ -267,11 +267,11 @@
 #define P_FAMILY_SHINX                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_CRANIDOS                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_SHIELDON                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_BURMY                   P_GEN_4_POKEMON
-#define P_FAMILY_COMBEE                  P_GEN_4_POKEMON
+#define P_FAMILY_BURMY                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
+#define P_FAMILY_COMBEE                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_PACHIRISU               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_BUIZEL                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_CHERUBI                 P_GEN_4_POKEMON
+#define P_FAMILY_CHERUBI                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_SHELLOS                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_DRIFLOON                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_BUNEARY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
@@ -280,28 +280,28 @@
 #define P_FAMILY_BRONZOR                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_CHATOT                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_SPIRITOMB               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_GIBLE                   P_GEN_4_POKEMON
+#define P_FAMILY_GIBLE                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_RIOLU                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_HIPPOPOTAS              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_SKORUPI                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_CROAGUNK                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_CARNIVINE               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_FINNEON                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_SNOVER                  P_GEN_4_POKEMON
-#define P_FAMILY_ROTOM                   P_GEN_4_POKEMON
+#define P_FAMILY_SNOVER                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
+#define P_FAMILY_ROTOM                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_UXIE                    FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_MESPRIT                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_AZELF                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_DIALGA                  P_GEN_4_POKEMON
-#define P_FAMILY_PALKIA                  P_GEN_4_POKEMON
+#define P_FAMILY_DIALGA                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
+#define P_FAMILY_PALKIA                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_HEATRAN                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_REGIGIGAS               P_GEN_4_POKEMON
+#define P_FAMILY_REGIGIGAS               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_GIRATINA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_CRESSELIA               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_MANAPHY                 P_GEN_4_POKEMON
-#define P_FAMILY_DARKRAI                 P_GEN_4_POKEMON
+#define P_FAMILY_MANAPHY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
+#define P_FAMILY_DARKRAI                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 #define P_FAMILY_SHAYMIN                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
-#define P_FAMILY_ARCEUS                  P_GEN_4_POKEMON
+#define P_FAMILY_ARCEUS                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_4_POKEMON)
 
 #define P_FAMILY_VICTINI                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_SNIVY                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
@@ -318,7 +318,7 @@
 #define P_FAMILY_BLITZLE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_ROGGENROLA              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_WOOBAT                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
-#define P_FAMILY_DRILBUR                 P_GEN_5_POKEMON
+#define P_FAMILY_DRILBUR                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_AUDINO                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_TIMBURR                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_TYMPOLE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
@@ -330,7 +330,7 @@
 #define P_FAMILY_PETILIL                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_BASCULIN                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_SANDILE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
-#define P_FAMILY_DARUMAKA                P_GEN_5_POKEMON
+#define P_FAMILY_DARUMAKA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_MARACTUS                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_DWEBBLE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_SCRAGGY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
@@ -338,7 +338,7 @@
 #define P_FAMILY_YAMASK                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_TIRTOUGA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_ARCHEN                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
-#define P_FAMILY_TRUBBISH                P_GEN_5_POKEMON
+#define P_FAMILY_TRUBBISH                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_ZORUA                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_MINCCINO                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_GOTHITA                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
@@ -356,7 +356,7 @@
 #define P_FAMILY_KLINK                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_TYNAMO                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_ELGYEM                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
-#define P_FAMILY_LITWICK                 P_GEN_5_POKEMON
+#define P_FAMILY_LITWICK                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_AXEW                    FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_CUBCHOO                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_CRYOGONAL               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
@@ -369,8 +369,8 @@
 #define P_FAMILY_BOUFFALANT              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_RUFFLET                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_VULLABY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
-#define P_FAMILY_HEATMOR                 P_GEN_5_POKEMON
-#define P_FAMILY_DURANT                  P_GEN_5_POKEMON
+#define P_FAMILY_HEATMOR                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
+#define P_FAMILY_DURANT                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_DEINO                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_LARVESTA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
 #define P_FAMILY_COBALION                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_5_POKEMON)
@@ -388,17 +388,17 @@
 
 #define P_FAMILY_CHESPIN                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_FENNEKIN                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
-#define P_FAMILY_FROAKIE                 P_GEN_6_POKEMON
+#define P_FAMILY_FROAKIE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_BUNNELBY                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_FLETCHLING              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
-#define P_FAMILY_SCATTERBUG              P_GEN_6_POKEMON
+#define P_FAMILY_SCATTERBUG              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_LITLEO                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_FLABEBE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_SKIDDO                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_PANCHAM                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_FURFROU                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_ESPURR                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
-#define P_FAMILY_HONEDGE                 P_GEN_6_POKEMON
+#define P_FAMILY_HONEDGE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_SPRITZEE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_SWIRLIX                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_INKAY                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
@@ -410,7 +410,7 @@
 #define P_FAMILY_AMAURA                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_HAWLUCHA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_DEDENNE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
-#define P_FAMILY_CARBINK                 P_GEN_6_POKEMON
+#define P_FAMILY_CARBINK                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_GOOMY                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_KLEFKI                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_PHANTUMP                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
@@ -421,21 +421,21 @@
 #define P_FAMILY_YVELTAL                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_ZYGARDE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_DIANCIE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
-#define P_FAMILY_HOOPA                   P_GEN_6_POKEMON
+#define P_FAMILY_HOOPA                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 #define P_FAMILY_VOLCANION               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_6_POKEMON)
 
-#define P_FAMILY_ROWLET                  P_GEN_7_POKEMON
-#define P_FAMILY_LITTEN                  P_GEN_7_POKEMON
-#define P_FAMILY_POPPLIO                 P_GEN_7_POKEMON
+#define P_FAMILY_ROWLET                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_LITTEN                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_POPPLIO                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_PIKIPEK                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_YUNGOOS                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_GRUBBIN                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_CRABRAWLER              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_ORICORIO                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_CUTIEFLY                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_ROCKRUFF                P_GEN_7_POKEMON
+#define P_FAMILY_ROCKRUFF                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_WISHIWASHI              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_MAREANIE                P_GEN_7_POKEMON
+#define P_FAMILY_MAREANIE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_MUDBRAY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_DEWPIDER                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_FOMANTIS                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
@@ -450,20 +450,20 @@
 #define P_FAMILY_SANDYGAST               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_PYUKUMUKU               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_TYPE_NULL               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_MINIOR                  P_GEN_7_POKEMON
+#define P_FAMILY_MINIOR                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_KOMALA                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_TURTONATOR              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_TOGEDEMARU              P_GEN_7_POKEMON
-#define P_FAMILY_MIMIKYU                 P_GEN_7_POKEMON
+#define P_FAMILY_TOGEDEMARU              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_MIMIKYU                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_BRUXISH                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_DRAMPA                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_DHELMISE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_JANGMO_O                P_GEN_7_POKEMON
-#define P_FAMILY_TAPU_KOKO               P_GEN_7_POKEMON
-#define P_FAMILY_TAPU_LELE               P_GEN_7_POKEMON
-#define P_FAMILY_TAPU_BULU               P_GEN_7_POKEMON
-#define P_FAMILY_TAPU_FINI               P_GEN_7_POKEMON
-#define P_FAMILY_COSMOG                  P_GEN_7_POKEMON
+#define P_FAMILY_JANGMO_O                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_TAPU_KOKO               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_TAPU_LELE               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_TAPU_BULU               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_TAPU_FINI               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
+#define P_FAMILY_COSMOG                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_NIHILEGO                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_BUZZWOLE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_PHEROMOSA               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
@@ -471,62 +471,62 @@
 #define P_FAMILY_CELESTEELA              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_KARTANA                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_GUZZLORD                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_NECROZMA                P_GEN_7_POKEMON
+#define P_FAMILY_NECROZMA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_MAGEARNA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_MARSHADOW               P_GEN_7_POKEMON
+#define P_FAMILY_MARSHADOW               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_POIPOLE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_STAKATAKA               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_BLACEPHALON             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 #define P_FAMILY_ZERAORA                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
-#define P_FAMILY_MELTAN                  P_GEN_7_POKEMON
+#define P_FAMILY_MELTAN                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_7_POKEMON)
 
-#define P_FAMILY_GROOKEY                 P_GEN_8_POKEMON
-#define P_FAMILY_SCORBUNNY               P_GEN_8_POKEMON
-#define P_FAMILY_SOBBLE                  P_GEN_8_POKEMON
+#define P_FAMILY_GROOKEY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_SCORBUNNY               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_SOBBLE                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_SKWOVET                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_ROOKIDEE                P_GEN_8_POKEMON
-#define P_FAMILY_BLIPBUG                 P_GEN_8_POKEMON
+#define P_FAMILY_ROOKIDEE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_BLIPBUG                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_NICKIT                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_GOSSIFLEUR              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_WOOLOO                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_CHEWTLE                 P_GEN_8_POKEMON
+#define P_FAMILY_CHEWTLE                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_YAMPER                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_ROLYCOLY                P_GEN_8_POKEMON
-#define P_FAMILY_APPLIN                  P_GEN_8_POKEMON
-#define P_FAMILY_SILICOBRA               P_GEN_8_POKEMON
-#define P_FAMILY_CRAMORANT               P_GEN_8_POKEMON
+#define P_FAMILY_ROLYCOLY                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_APPLIN                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_SILICOBRA               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_CRAMORANT               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ARROKUDA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_TOXEL                   P_GEN_8_POKEMON
-#define P_FAMILY_SIZZLIPEDE              P_GEN_8_POKEMON
+#define P_FAMILY_TOXEL                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_SIZZLIPEDE              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_CLOBBOPUS               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_SINISTEA                P_GEN_8_POKEMON
-#define P_FAMILY_HATENNA                 P_GEN_8_POKEMON
-#define P_FAMILY_IMPIDIMP                P_GEN_8_POKEMON
-#define P_FAMILY_MILCERY                 P_GEN_8_POKEMON
+#define P_FAMILY_SINISTEA                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_HATENNA                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_IMPIDIMP                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_MILCERY                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_FALINKS                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_PINCURCHIN              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_SNOM                    FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_STONJOURNER             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_EISCUE                  P_GEN_8_POKEMON
+#define P_FAMILY_EISCUE                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_INDEEDEE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_MORPEKO                 P_GEN_8_POKEMON
-#define P_FAMILY_CUFANT                  P_GEN_8_POKEMON
+#define P_FAMILY_MORPEKO                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_CUFANT                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_DRACOZOLT               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ARCTOZOLT               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_DRACOVISH               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ARCTOVISH               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_DURALUDON               P_GEN_8_POKEMON
-#define P_FAMILY_DREEPY                  P_GEN_8_POKEMON
+#define P_FAMILY_DURALUDON               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_DREEPY                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ZACIAN                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ZAMAZENTA               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_ETERNATUS               P_GEN_8_POKEMON
-#define P_FAMILY_KUBFU                   P_GEN_8_POKEMON
+#define P_FAMILY_ETERNATUS               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_KUBFU                   FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ZARUDE                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_REGIELEKI               P_GEN_8_POKEMON
-#define P_FAMILY_REGIDRAGO               P_GEN_8_POKEMON
+#define P_FAMILY_REGIELEKI               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
+#define P_FAMILY_REGIDRAGO               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_GLASTRIER               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_SPECTRIER               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
-#define P_FAMILY_CALYREX                 P_GEN_8_POKEMON
+#define P_FAMILY_CALYREX                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 #define P_FAMILY_ENAMORUS                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_8_POKEMON)
 
 #define P_FAMILY_SPRIGATITO              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
@@ -555,7 +555,7 @@
 #define P_FAMILY_TINKATINK               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_WIGLETT                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_BOMBIRDIER              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
-#define P_FAMILY_FINIZEN                 P_GEN_9_POKEMON
+#define P_FAMILY_FINIZEN                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_VAROOM                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_CYCLIZAR                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_ORTHWORM                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
@@ -564,8 +564,8 @@
 #define P_FAMILY_FLAMIGO                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_CETODDLE                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_VELUZA                  FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
-#define P_FAMILY_DONDOZO                 P_GEN_9_POKEMON
-#define P_FAMILY_TATSUGIRI               P_GEN_9_POKEMON
+#define P_FAMILY_DONDOZO                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
+#define P_FAMILY_TATSUGIRI               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_GREAT_TUSK              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_SCREAM_TAIL             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_BRUTE_BONNET            FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
@@ -579,7 +579,7 @@
 #define P_FAMILY_IRON_MOTH               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_IRON_THORNS             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_FRIGIBAX                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
-#define P_FAMILY_GIMMIGHOUL              P_GEN_9_POKEMON
+#define P_FAMILY_GIMMIGHOUL              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_WO_CHIEN                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_CHIEN_PAO               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_TING_LU                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
@@ -590,17 +590,17 @@
 #define P_FAMILY_MIRAIDON                FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_WALKING_WAKE            FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_IRON_LEAVES             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
-#define P_FAMILY_POLTCHAGEIST            P_GEN_9_POKEMON
-#define P_FAMILY_SINISTCHA               P_GEN_9_POKEMON
+#define P_FAMILY_POLTCHAGEIST            FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
+#define P_FAMILY_SINISTCHA               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_OKIDOGI                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_MUNKIDORI               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_FEZANDIPITI             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
-#define P_FAMILY_OGERPON                 P_GEN_9_POKEMON
+#define P_FAMILY_OGERPON                 FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_GOUGING_FIRE            FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_RAGING_BOLT             FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_IRON_BOULDER            FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_IRON_CROWN              FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
-#define P_FAMILY_TERAPAGOS               P_GEN_9_POKEMON
+#define P_FAMILY_TERAPAGOS               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 #define P_FAMILY_PECHARUNT               FALSE // world-strip: unreferenced in all 3 campaigns (was P_GEN_9_POKEMON)
 
 #endif // GUARD_CONFIG_SPECIES_ENABLED_H

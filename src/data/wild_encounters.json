@@ -46795,7 +46795,7 @@
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_AMBIPOM"
+                "species": "SPECIES_AIPOM"
               },
               {
                 "min_level": 40,
@@ -46999,7 +46999,7 @@
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_AMBIPOM"
+                "species": "SPECIES_AIPOM"
               },
               {
                 "min_level": 40,
@@ -47108,7 +47108,7 @@
               {
                 "min_level": 68,
                 "max_level": 68,
-                "species": "SPECIES_WEAVILE"
+                "species": "SPECIES_SNEASEL"
               },
               {
                 "min_level": 68,
@@ -47123,12 +47123,12 @@
               {
                 "min_level": 61,
                 "max_level": 69,
-                "species": "SPECIES_MISMAGIUS"
+                "species": "SPECIES_MISDREAVUS"
               },
               {
                 "min_level": 68,
                 "max_level": 68,
-                "species": "SPECIES_MAMOSWINE"
+                "species": "SPECIES_PILOSWINE"
               },
               {
                 "min_level": 68,
@@ -47168,7 +47168,7 @@
               {
                 "min_level": 70,
                 "max_level": 72,
-                "species": "SPECIES_MISMAGIUS"
+                "species": "SPECIES_MISDREAVUS"
               },
               {
                 "min_level": 70,
@@ -48460,7 +48460,7 @@
               {
                 "min_level": 40,
                 "max_level": 40,
-                "species": "SPECIES_AMBIPOM"
+                "species": "SPECIES_AIPOM"
               },
               {
                 "min_level": 40,
@@ -54970,7 +54970,7 @@
               {
                 "min_level": 20,
                 "max_level": 24,
-                "species": "SPECIES_MANTYKE"
+                "species": "SPECIES_MANTINE"
               },
               {
                 "min_level": 20,
@@ -55144,7 +55144,7 @@
               {
                 "min_level": 20,
                 "max_level": 24,
-                "species": "SPECIES_MANTYKE"
+                "species": "SPECIES_MANTINE"
               },
               {
                 "min_level": 20,

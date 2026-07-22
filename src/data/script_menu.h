@@ -1186,7 +1186,7 @@ static const struct MenuAction MultichoiceList_Elevator5Floors[] =
 
 static const struct MenuAction MultichoiceList_PrizeMons[] =
 {
-    {COMPOUND_STRING("ABRA")}, {COMPOUND_STRING("CLEFAIRY")}, {COMPOUND_STRING("MUNCHLAX")},
+    {COMPOUND_STRING("ABRA")}, {COMPOUND_STRING("CLEFAIRY")}, {COMPOUND_STRING("WOBBUFFET")},
     {COMPOUND_STRING("DRATINI")}, {COMPOUND_STRING("PORYGON")}, {gText_Exit},
 };
 

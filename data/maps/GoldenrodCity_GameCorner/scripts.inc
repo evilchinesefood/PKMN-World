@@ -19,7 +19,7 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
 	switch VAR_RESULT
 	case 0, GoldenrodCity_GameCorner_PrizeRoom_EventScript_Abra
 	case 1, GoldenrodCity_GameCorner_PrizeRoom_EventScript_Clefairy
-	case 2, GoldenrodCity_GameCorner_PrizeRoom_EventScript_Munchlax
+	case 2, GoldenrodCity_GameCorner_PrizeRoom_EventScript_Wobbuffet
 	case 3, GoldenrodCity_GameCorner_PrizeRoom_EventScript_Dratini
 	case 4, GoldenrodCity_GameCorner_PrizeRoom_EventScript_Porygon
 	case 5, GoldenrodCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
@@ -45,8 +45,8 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_Clefairy::
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon
 	end
 
-GoldenrodCity_GameCorner_PrizeRoom_EventScript_Munchlax::
-	setvar VAR_TEMP_1, SPECIES_MUNCHLAX
+GoldenrodCity_GameCorner_PrizeRoom_EventScript_Wobbuffet::
+	setvar VAR_TEMP_1, SPECIES_WOBBUFFET
 	setvar VAR_TEMP_2, 2800
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon
 	end
@@ -75,7 +75,7 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon::
 	case SPECIES_ABRA,     GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveAbra
 	case SPECIES_CLEFAIRY, GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveClefairy
 	case SPECIES_DRATINI,  GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveDratini
-	case SPECIES_MUNCHLAX,  GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveMunchlax
+	case SPECIES_WOBBUFFET,  GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveWobbuffet
 	case SPECIES_PORYGON,  GoldenrodCity_GameCorner_PrizeRoom_EventScript_GivePorygon
 	case SPECIES_PINSIR,   GoldenrodCity_GameCorner_PrizeRoom_EventScript_GivePinsir
 	end
@@ -95,7 +95,7 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveDratini::
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon
 	end
 
-GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveMunchlax::
+GoldenrodCity_GameCorner_PrizeRoom_EventScript_GiveWobbuffet::
 	givemon VAR_TEMP_1, 15
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon
 	end

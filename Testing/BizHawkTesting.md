@@ -239,6 +239,14 @@ Navigate by Down-count + A. Indices as of this build (`src/debug.c` — **re-che
 **Flags & Vars:** `Set Flag XYZ…(0)`, `Set Var XYZ…(1)`, `Pokédex Flags All(2)`,
 `Pokédex Flags Reset(3)`, then the various `Toggle …` entries.
 
+### Warp targets: the map constant's byte order is (num | group << 8)
+
+`MAP_GROUP(m) = m >> 8` — the **HIGH** byte is the group, the low byte the map num
+(`MAP_REGION_HUB_2F = (1 | (100 << 8))` → group 100, num 1). The warp spinners are entered
+**(group, num, warp)** in that order. Misreading the constant warps somewhere plausible-looking:
+aiming at "Oldale PC 2F (3, 2)" with the bytes swapped landed in **Dewford's** PC 2F (group 3,
+num 2), which also exists — always assert `grp()`/`mapn()` after the warp (warpTo does).
+
 ### ⛔ Do NOT touch the Encounter-OFF / Trainer-See-OFF toggles
 
 They raise `"Please define a usable flag in: include/config/overworld.h!"` (no
@@ -324,6 +332,23 @@ New key items append at the pocket end.
 `Summary(0) / Item(1) / Follow(2) / Nickname(3) / Cancel(4)`, while a 4-field-move mon shifts
 everything and drops Nickname. Screenshot the action list before selecting.
 
+### Script multichoice: navigate by READING THE CURSOR, never by blind Downs
+
+A Down pressed before the multichoice has drawn is **silently eaten** and the whole flow slides
+one row — three Battle Net runs mis-selected a neighboring mode this way, and generous settles
+did not fix it. `menu.c`'s static `sMenu` backs script `multichoice` AND yes/no boxes:
+
+```bash
+arm-none-eabi-nm -S pokemonworld.elf | grep " b sMenu"   # take the 12-BYTE symbol
+# (the other sMenu hits are 4-byte pointers from other TUs); cursorPos = s8 at +2
+```
+
+Because the lists **wrap**, a probe Down always moves the cursor on a live menu. So: advance
+msgboxes with A until a probe Down moves `cursorPos` (probe twice before each A to close the
+race), then walk Down until the cursor **reads** the target row, and only then press A.
+`openMenuThenPick()` in `_pwtest/BnetP3Rooms2.lua` is the reference implementation — 18/18
+after the blind-Down runs failed.
+
 ---
 
 ## 9. Battles
@@ -362,6 +387,25 @@ battle RNG. (Used to verify the Radio Tower ambush after pure-A stalled.)
 
 Also: **the Frontier rejects duplicate species** — registering 3 identical mons silently
 self-cancels registration. Give 3 **distinct** species.
+
+### Winning on purpose: the staged-kill recipe (2026-07-22 revision)
+
+The proven "zero all six opponent party slots" recipe has two refinements from the sim-EXP runs:
+
+- **Never hard-zero the ACTIVE foe's `gBattleMons` HP from frame 1** — the foes faint before
+  the send-in/participation bookkeeping registers and the engine awards **no EXP at all**
+  (empirical: pin-at-1 leveled a Treecko 3→7; zero-from-start gained nothing, same build).
+  Pin the active foe at 1 (lower-only) for the first ~8000 frames so real turns run and a
+  player hit lands, and only then hard-zero it as the anti-deadlock (a Lv12 Snorlax whose
+  move failed every turn once looped a pin-at-1 run for 24k frames).
+- **A weak player mon risks a DRAW (`gBattleOutcome == 3`)**: a one-shot landing between the
+  6-frame HP top-ups causes a simultaneous KO, and the game correctly pays nothing for it.
+  Always assert `gBattleOutcome == 1` for a win — "the battle ended" is not a verdict.
+
+**Level caps eat EXP by design**: the smoke-test profile runs **Hard Mode**, where badge level
+caps bind (cap **Lv15 at 0 badges**, `src/caps.c`). An at-cap mon gaining zero EXP is the game
+working. Lift with debug **Utilities → Cheat start(6)** (badges + starters, RAM only) — it does
+not warp the player, but re-anchor your route anyway.
 
 ---
 
@@ -424,6 +468,8 @@ spawn; walking the whole map and dumping counts is how you catch it.
 | `T4Ambush.lua` | give mons → warp → talk → battle-state asserts → post-battle object dump |
 | `T4RadioFlag.lua` | **deterministic flag-set → reload → persistence proof** (no battle) |
 | `T6Dome.lua` | champion flags via editor, wander-NPC chase, Frontier registration |
+| `BnetP3Rooms2.lua` | **cursor-verified multichoice picks** (`openMenuThenPick`), mode fingerprints |
+| `BnetExp.lua` | staged foe-kill that preserves EXP, level-cap lift via cheat start, evolution tail |
 
 Copy the helpers (`ow()`, `step()`, `goTo()`, `objdump()`, `shot()`, `dbg()`, `spin()`,
 self-verifying `warpTo()`) rather than rewriting them.

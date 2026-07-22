@@ -39,6 +39,7 @@ worlds.
 | 🏆 **Per-region endgame** | Each region keeps its own league — **Gary** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league — plus HARD-mode Elite Four and **gym-leader rematches (all 24 leaders)** once you're that region's Champion, with the **Battle Frontier** as the shared post-game. |
 | 🌐 **World Championship** | Beat all three regions' leagues, then face a 15-trainer Battle Dome gauntlet of cross-region champions — Red included — for a permanent title and a Gold Bottle Cap. |
 | 💎 **Mega Evolution & the Battle Net** | Become a Champion and the **Battle Net** opens above the hub: a director hands you the **Mega Ring** and a free starter-line Mega Stone. Every HARD gym-leader, Elite Four and Champion rematch pays **Shards**, and each leader drops their own **signature Mega Stone** the first time you beat them — the same stone they Mega Evolve with against you. Trade Shards for the rest at the flagship vendor, or swap Battle Points for Shards at the exchange counter. |
+| 🕹️ **Battle sims in every Center** | Every Pokémon Center hosts a **Battle Net terminal**: the **Scaling Type Trainer** (pick a type, fight a team scaled just below yours) and the **Leader Sim** (rerun any HARD gym rematch), with the flagship floor adding the 7-win **Tower Streak** and **Lv50 / Monotype / Little Cup** rooms. Sims pay **BP and full EXP** — they're the game's training grounds — while money never changes hands and a loss can't white you out. |
 | 🧬 **Gen 1–3 only** | Every Pokémon in the game — wild, gift, and trainer-owned — comes from the first three generations, so the roster stays consistent with the three regions it draws from. |
 | 🛠️ **Expansion + QoL** | The full pokeemerald-expansion engine plus a suite of ported quality-of-life features behind config toggles. |
 
@@ -55,9 +56,11 @@ emulator-verified test passes.
 a Champion — HARD rematches drop signature Mega Stones, and all 28 stone-holding leaders
 Mega Evolve against you — and its battle modes are live: the Scaling Type Trainer, the
 Leader Sim, the 7-win Tower Streak, and the Lv50/Monotype/Little Cup ruleset rooms, with a
-sim terminal installed in every regional Pokémon Center. The flows are emulator-verified
-with scripted test passes, but the systems haven't had a human play pass yet, so expect
-balance to move.
+sim terminal installed in every regional Pokémon Center. Sims now pay **full EXP** (and
+evolutions), making them the game's training grounds — in Hard Mode the badge level caps
+still apply, so they can't outrun your progression. The flows are emulator-verified with
+scripted test passes, but the systems haven't had a human play pass yet, so expect balance
+to move.
 
 What's left before a 1.0: a **full-length human playthrough** of all three campaigns for story
 pacing and balance.

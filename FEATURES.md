@@ -158,7 +158,8 @@ flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:
 - The **sim terminal** runs simulated battles — your Pokémon **keep the full EXP** (and
   evolve as usual), while no money changes hands, a loss never whites you out, and your
   party is restored around every match, which makes the sims the game's training grounds.
-  The **Scaling Type Trainer**
+  (On a Hard Mode save the badge level caps apply to sim EXP like all EXP, so the sims
+  train you up to your cap, not past it.) The **Scaling Type Trainer**
   fields 2–4 Pokémon of any type you pick, a few levels below your party, for **1 BP** a
   win plus a 30% bonus Shard. The **Leader Sim** replays any gym leader's **HARD** rematch
   as a simulation for **2 BP** — BP only, since Shards and stone drops stay on the real

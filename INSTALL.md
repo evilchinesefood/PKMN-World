@@ -120,6 +120,12 @@ mechanics suite). `make debug` produces an ELF with `-Og -g` for use in a debugg
 `make release` produces `pokemonworld-release.gba`, an optimized build with `NDEBUG` and
 other debugging features disabled.
 
+> **`make release` is NOT the shipping build.** Project policy (2026-07-03, reaffirmed
+> 2026-07-22): releases ship the plain `make` dev build unchanged — debug menu included.
+> A release ROM strips the debug menu (which the BizHawk test harness drives), turns
+> `assertf`/`errorf` into silent no-ops, and LTO shifts every RAM address the test scripts
+> use — so it is untested territory. Don't distribute it without a dedicated QA pass.
+
 > `-j$(nproc)` runs a parallel build using all CPU cores. See
 > [Parallel builds](#parallel-builds) if `nproc` isn't available (e.g. macOS).
 

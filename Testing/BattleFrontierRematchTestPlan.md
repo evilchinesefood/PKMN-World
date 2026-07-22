@@ -232,15 +232,11 @@ Registrar = repurposed **Maniac, localId 5, at (8,14)** in the Dome lobby (26/18
   of the bracket from `TRAINER_PLAYER`.
 - Evidence: tourney tree screenshot + `DOME_TRAINERS` dump.
 
-**A8.5 — Reward: bag-full withholds the title** ⚠ *intentional, but the comment lies*
+**A8.5 — Reward: bag-full withholds the title** ⚠ *intentional (the bag-full reclaim idiom)*
 - Setup: **fill the Items pocket**, then win the Championship.
 - Expected: `giveitem ITEM_GOLD_BOTTLE_CAP` fails → branches to `ChampionshipPrizePending` →
   `Text_ChampionshipBagFull` → **`FLAG_WORLD_CHAMPION` is left UNSET** → BP still awarded.
   Re-winning with space then grants **both**.
-- 🐞 **Doc bug to fix:** `data/maps/BattleFrontier_BattleDomeLobby/scripts.inc:54` claims the title
-  is *"granted first, bag-independent"* — the code beneath does the **opposite** (`giveitem` at :59
-  precedes `setflag` at :61, and :60 branches away on failure). The trailing comment at :64
-  describes the real behavior. The header comment is stale and should be corrected.
 - Evidence: `FLAG_WORLD_CHAMPION` state + BP delta in both bag states.
 
 **A8.6 — `VAR_WORLD_CHAMPIONSHIP_MODE` must not leak**  (P1)
@@ -292,7 +288,7 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 
 **B1.2 — Johto gym rematch (Falkner)**
 - Setup: `FLAG_JOHTO_CHAMPION` (`0xA49`); `VAR_DIFFICULTY` = 2.
-- Expected: HARD team **Skarmory 58 / Noctowl 58 / Aerodactyl 60 / Honchkrow 62 / Pidgeot 65** —
+- Expected: HARD team **Skarmory 58 / Noctowl 58 / Aerodactyl 60 / Murkrow 62 / Pidgeot 65** —
   *not* the 2-mon Lv8-11 first-run team.
 
 **B1.3 — Kanto gym rematch (Brock)**  ⚠ *has a trap*
@@ -396,20 +392,22 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 - Test: clear Hoenn first, then clear Johto **for the first time** → confirm `FLAG_JOHTO_CHAMPION`
   ends set and the first clear isn't mistakenly treated as a rematch.
 
-## B6. Battle Net hook  (P3 — groundwork only)
+## B6. Battle Net hook  (LIVE — issue #5 P1)
 
-`data/scripts/battle_net.inc` is a deliberate **19-line return-only stub** (17-line `@` contract +
-`BattleNet_EventScript_OnLeaderRematchWin::` / `return`). It **is** wired into the build
-(`data/event_scripts.s:1330`) and currently executes as a verified **no-op** at every call site.
+`data/scripts/battle_net.inc` is now the **live reward routine** (wired at
+`data/event_scripts.s:1330`, called from all 41 rematch victory points with
+`VAR_0x8004` = the defeated trainer ID). `TryBattleNetRematchReward` self-gates on
+`DIFFICULTY_HARD` (the 5 Hoenn league sites also fire on first clears — those stay no-ops).
 
-**B6.1 — All 41 call sites reach the stub without side effects**
-- Expected: exactly **41** call sites, each doing `setvar VAR_0x8004, <defeated trainer ID>` then
-  calling the stub. Winning any rematch must be a **no-op** today — no reward, no softlock.
-- Evidence: `VAR_0x8004` holds the right trainer ID at the hook.
-- Contract for issue #5: the reward special **must self-gate on `VAR_DIFFICULTY == HARD`** (the 5
-  Hoenn league sites also fire on **first** clears); **never** read post-battle globals
-  (`ResetTrainerOpponentIds` kills their lifetime, and `gTrainerBattleOpponent_A` **does not exist**
-  in this expansion — it's `TRAINER_BATTLE_PARAM.opponentA` / `VAR_TRAINER_BATTLE_OPPONENT_A`).
+**B6.1 — Reward contract on a HARD rematch win**
+- Expected per qualifying win: **Shards every win** (leaders 1, E4/Champion 2), guarded by
+  `checkitemspace` — with a full Items pocket the payout is announced as **forfeited** (no
+  silent loss), while the win still records. The **signature Mega Stone** drops once per
+  leader; a failed stone give leaves its guard flag clear for **reclaim on a later win**.
+  The Kanto champion trio pays a **double stone** (Mewtwonite X + Y).
+- Deeper coverage lives in the scripted suites: `_pwtest/BnetP1Reward.lua`,
+  `_pwtest/BnetKanto.lua`, `_pwtest/BnetStonePending.lua` (gitignored scratch).
+- Non-HARD sites: winning a first clear through the same hook must reward nothing.
 
 ---
 
@@ -423,7 +421,7 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 6. **A4** Level modes (the Open-Level enemy floor is counter-intuitive)
 7. **A3.3** duplicate-species rejection (known to silently eat registrations)
 8. **A5/A6** BP, streaks, brains (divisor + exact-equality quirks)
-9. **B6** Battle Net (no-op today)
+9. **B6** Battle Net rewards (covered by the scripted `_pwtest` suites)
 
 ## 7. Known traps — rule these out before filing a bug
 

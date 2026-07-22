@@ -5,7 +5,8 @@ Written for future agents and for anyone picking the project back up cold.
 
 > **Test plans** live beside this guide — see
 > [`BattleFrontierRematchTestPlan.md`](BattleFrontierRematchTestPlan.md) (Battle Frontier +
-> gym/league rematches). Broader open work is tracked in **GitHub issues #1–#5**.
+> gym/league rematches). Broader open work is tracked in **the repo's GitHub issues**
+> (local index: `docs/StatusBoard.md`, gitignored).
 
 Everything here was verified empirically against real runs. Where a technique has a
 known failure mode, it is called out — most of the pain in this project has come from

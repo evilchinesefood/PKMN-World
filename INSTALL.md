@@ -112,10 +112,13 @@ make -j$(nproc)         # build pokemonworld.gba (the default target)
 make -j$(nproc) check   # build, then run the battle-engine test suite (test/)
 make clean              # remove build artifacts
 make debug              # build pokemonworld.elf with debug symbols + debug-friendly optimization
+make release            # optimized build with NDEBUG (asserts/debug checks compiled out)
 ```
 
 `make` with no target builds the ROM. `make check` adds the test runner (the `test/` battle
 mechanics suite). `make debug` produces an ELF with `-Og -g` for use in a debugger.
+`make release` produces `pokemonworld-release.gba`, an optimized build with `NDEBUG` and
+other debugging features disabled.
 
 > `-j$(nproc)` runs a parallel build using all CPU cores. See
 > [Parallel builds](#parallel-builds) if `nproc` isn't available (e.g. macOS).

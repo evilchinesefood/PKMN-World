@@ -5,6 +5,29 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+- **Battle Net & Mega Evolution**: become any region's Champion and the hub's
+  **Battle Net terminal** opens the flagship floor upstairs. The Director hands
+  you the **Mega Ring** and a free Mega Stone for your starter's line; every
+  **HARD** gym-leader/Elite-Four/Champion rematch win pays **Shards** (leaders 1,
+  league 2), and the first HARD win against each of the 28 stone-holding leaders
+  drops their **signature Mega Stone** — the same one they now Mega Evolve with
+  against you. The flagship vendor sells the remaining stones for Shards, the
+  exchange clerk converts Battle Points to Shards (4 BP each), and a few Shards
+  are hidden in the world. A full bag holds a stone for reclaim on a later win;
+  a blocked Shard payout now tells you and is forfeited, so make room first.
+- **Gen 1–3 roster enforced**: every trainer party is swept back to Generations
+  1–3 (36 later-gen slots across the endgame teams were rebuilt with type- and
+  role-equivalent picks), matching the game's three-region cast.
+- **Johto portraits**: native HGSS-style battle portraits for all eight Johto
+  gym leaders, the Elite Four, and Champion Lance — no more borrowed
+  Kanto/Hoenn faces.
+- **Violet City trade**: the classic Bellsprout ↔ Onix trade is live — bring
+  Rudy a Bellsprout and ROCKY the Onix is yours.
+- **Rival name fix**: Johto rival battles now announce **GARY** in the battle
+  intro/defeat strings too (they said SILVER while the dialogue said Gary). The
+  very first encounter still shows "???" until he's introduced.
+- **Shop fix**: Soul Dew is no longer sold in department stores (a pricing quirk
+  made it free and unlimited).
 - **League HARD rematches everywhere**: Johto's Elite Four + Lance and Kanto's
   round-two Elite Four + Champion now field HARD-difficulty teams once you're
   that region's Champion (Johto Lv 70–78 with Lance's Dragonite at 78; Kanto

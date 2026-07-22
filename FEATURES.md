@@ -18,6 +18,7 @@ instructions, see [INSTALL.md](INSTALL.md).
   - [Shared vs. per-region progress](#shared-vs-per-region-progress)
   - [Rematches \& Hard difficulty](#rematches--hard-difficulty)
   - [World Championship](#world-championship)
+  - [Battle Net \& the Mega economy](#battle-net--the-mega-economy)
 - [Character customization](#character-customization)
 - [Riding your Pokémon](#riding-your-pokémon)
 - [Ported features](#ported-features)
@@ -27,7 +28,7 @@ instructions, see [INSTALL.md](INSTALL.md).
   - [ORAS key-item registration wheel](#oras-key-item-registration-wheel)
   - [Pokévial](#pokévial)
   - [Field-move QoL gates](#field-move-qol-gates)
-  - [Quests system](#quests-system)
+  - [Quests system (dormant)](#quests-system-dormant)
 - [QoL \& gameplay defaults](#qol--gameplay-defaults)
 - [Developer additions](#developer-additions)
 - [Tools, libraries \& systems](#tools-libraries--systems)
@@ -47,12 +48,18 @@ Three complete, self-contained campaigns on one cartridge. Each region has its o
 - **Johto** — ported from *Pokémon Heart & Soul*: ~235 maps with tilesets and scripts,
   231 real trainer parties, wild-encounter tables, the Johto town map with Fly and heal
   locations, rival **Gary** (with daily rematches), and the Johto League
-  (Will / Koga / Bruno / Karen → **Champion Lance**). Post-game: **Red at Mt. Silver**
+  (Will / Koga / Bruno / Karen → **Champion Lance**) — with native HGSS-style
+  portrait art for all eight gym leaders, the Elite Four, and Lance.
+  Post-game: **Red at Mt. Silver**
   (rematchable), the roaming beasts, the **Celebi** GS Ball chain, the **Ruins of Alph**
   puzzles, the National Park **Bug-Catching Contest**, and the Ho-Oh / Lugia events.
 - **Hoenn** — the native Emerald campaign, plus the **Battle Frontier** as the shared
   post-game battle facility (reachable from the hub, gated behind clearing at least one
   region's league).
+
+**The roster is Generations 1–3 only.** Every Pokémon in the game — wild, gift, and
+trainer-owned — comes from the first three generations, keeping the cast consistent with
+the three regions it draws from.
 
 ### World Transit hub
 
@@ -133,6 +140,24 @@ the **World Championship**: a 15-trainer Battle Dome bracket of cross-region cha
 **Sabrina**/**Team Rocket** — with **Red** waiting in the final. Winning grants a permanent title
 and a one-time **Gold Bottle Cap**, and the tournament is rematchable afterward.
 
+### Battle Net & the Mega economy
+
+Become any region's Champion and the **Battle Net terminal** in the hub unlocks its
+flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:
+
+- The **Director** hands you the **Mega Ring** plus a free Mega Stone for your starter's
+  line (one-time; if your bag is full, both wait for you).
+- Every **HARD gym-leader, Elite Four, and Champion rematch win pays Shards** (leaders 1,
+  league 2). The **first HARD win** against each of the 28 stone-holding leaders also drops
+  their **signature Mega Stone** — the same stone they Mega Evolve with against you. A full
+  bag holds a stone for reclaim on a later win; a blocked Shard payout tells you and is
+  forfeited, so make room first.
+- The flagship **vendor** sells the remaining stones for Shards, and the **exchange clerk**
+  converts Battle Points to Shards (4 BP each). A handful of Shards are also hidden in the
+  world for the Itemfinder.
+- Two more counters — battle-sim modes and the streak attendant — are still "calibrating"
+  (see the Roadmap).
+
 ## Character customization
 
 You play as **Brendan or May** in every region. A **six-outfit palette-swap** system is
@@ -175,8 +200,8 @@ A Sword/Shield-styled interface suite; each screen is an independent toggle.
 
 ### Unbound-style graphical start menu
 
-Sprite-icon Start menu entries the player can rearrange, day/night compatible, with a
-Quests entry (`PW_GRAPHICAL_START_MENU`). The classic list menu is kept as a fallback.
+Sprite-icon Start menu entries the player can rearrange, day/night compatible
+(`PW_GRAPHICAL_START_MENU`). The classic list menu is kept as a fallback.
 
 ### HGSS follower Pokémon
 
@@ -204,11 +229,12 @@ Two ways to use field moves without HM chores (`include/config/qol_field_moves.h
 - **Item gate** (`QOL_FIELD_MOVES_ITEM_GATE`) — owning the matching tool item
   (`ITEM_CUT_TOOL` … `ITEM_DIVE_TOOL`) unlocks that field move outright.
 
-### Quests system
+### Quests system (dormant)
 
-A quest / mission-log menu reachable from the Start menu (`QUEST_MENU`,
-`include/config/quests.h`), with favorites pinning, completion percentage, and per-quest
-branching driven by game VARs.
+An Unbound-style quest / mission-log engine (`QUEST_MENU`, `include/config/quests.h`) with
+favorites pinning, completion percentage, and per-quest branching driven by game VARs. The
+engine is compiled in but **deliberately dormant**: no quests are authored and the Start-menu
+entry never unlocks, so it is unreachable in play.
 
 ## QoL & gameplay defaults
 
@@ -304,9 +330,8 @@ Q24.8 fixed-point values, backing the SwSh UI animations — and the
 
 - A **full playthrough of all three campaigns** (and inter-region travel) for pacing and
   balance.
-- HGSS gym-leader / Elite Four portrait art (currently remapped to the nearest existing
-  portraits).
-- Further post-game facilities are planned around the hub and Battle Frontier.
+- The Battle Net's remaining counters: the battle-sim modes and streak attendant on the
+  flagship floor, and the regional terminals.
 
 ## Inherited from pokeemerald-expansion
 

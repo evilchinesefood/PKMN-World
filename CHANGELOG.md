@@ -5,6 +5,18 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+- **Battle Net battle modes & regional terminals**: the flagship's sim pods are
+  live. The **Scaling Type Trainer** picks any type and fields 2–4 of it a few
+  levels below your party (1 BP a win plus a 30% Shard chance); the **Leader
+  Sim** reruns any gym leader's HARD rematch as a simulation for 2 BP — no
+  Shards or stones, those stay on the real gym visits; the **Tower Streak**
+  chains up to 7 sims (1 BP per win, +5 for a perfect run, best streak on the
+  records board); and the **Lv50 / Monotype / Little Cup ruleset rooms** pay
+  2 BP a win to a party that matches the rule. Sim battles run under Battle
+  Tower rules — no exp or money, no whiteout, party restored around every
+  match. A **Battle Net terminal** was also installed in every regional
+  Pokémon Center (49 rooms across all three regions) carrying the Scaling
+  Type Trainer and Leader Sim.
 - **Battle Net & Mega Evolution**: become any region's Champion and the hub's
   **Battle Net terminal** opens the flagship floor upstairs. The Director hands
   you the **Mega Ring** and a free Mega Stone for your starter's line; every

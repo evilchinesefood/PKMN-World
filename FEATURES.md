@@ -155,8 +155,20 @@ flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:
 - The flagship **vendor** sells the remaining stones for Shards, and the **exchange clerk**
   converts Battle Points to Shards (4 BP each). A handful of Shards are also hidden in the
   world for the Itemfinder.
-- Two more counters — battle-sim modes and the streak attendant — are still "calibrating"
-  (see the Roadmap).
+- The **sim terminal** runs simulated battles (Battle Tower rules: no exp, no money, no
+  whiteout, and your party is restored around every match). The **Scaling Type Trainer**
+  fields 2–4 Pokémon of any type you pick, a few levels below your party, for **1 BP** a
+  win plus a 30% bonus Shard. The **Leader Sim** replays any gym leader's **HARD** rematch
+  as a simulation for **2 BP** — BP only, since Shards and stone drops stay on the real
+  gym visits — and each region's leaders unlock with that region's championship.
+- The **streak attendant** runs the flagship-exclusive modes: **Tower Streak** — up to 7
+  sims in a row against random types, **1 BP per win, +5 BP for a perfect run**, with your
+  best run on the records board — and three **ruleset rooms**, **Lv50**, **Monotype**, and
+  **Little Cup** (Lv5, unevolved, still able to evolve), each a three-mon sim paying
+  **2 BP** a win to a party that matches the rule.
+- Every regional **Pokémon Center** link floor — Hoenn and Kanto's Center 2Fs, Johto's
+  single-floor Centers, 49 rooms in all — hosts a **Battle Net terminal** carrying the
+  Scaling Type Trainer and Leader Sim, so the sim economy travels with you.
 
 ## Character customization
 
@@ -330,8 +342,6 @@ Q24.8 fixed-point values, backing the SwSh UI animations — and the
 
 - A **full playthrough of all three campaigns** (and inter-region travel) for pacing and
   balance.
-- The Battle Net's remaining counters: the battle-sim modes and streak attendant on the
-  flagship floor, and the regional terminals.
 
 ## Inherited from pokeemerald-expansion
 

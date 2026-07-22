@@ -51,15 +51,16 @@ Recent releases added the World Championship endgame, HARD-mode gym-leader and E
 rematches, riding your own Pokémon for surf and flight, and a long run of fixes from
 emulator-verified test passes.
 
-**Newest:** Mega Evolution now has a way in. The Battle Net flagship floor opens above the
-hub once you're a Champion, HARD rematches drop signature Mega Stones, and all 28
-stone-holding leaders Mega Evolve against you. The trainer roster was also swept back to
-Gen 1–3 only, which rebuilt parts of several endgame teams. The reward and flagship flows
-are emulator-verified with scripted test passes, but the systems haven't had a human play
-pass yet, so expect balance to move.
+**Newest:** the Battle Net is complete. Its flagship floor opens above the hub once you're
+a Champion — HARD rematches drop signature Mega Stones, and all 28 stone-holding leaders
+Mega Evolve against you — and its battle modes are live: the Scaling Type Trainer, the
+Leader Sim, the 7-win Tower Streak, and the Lv50/Monotype/Little Cup ruleset rooms, with a
+sim terminal installed in every regional Pokémon Center. The flows are emulator-verified
+with scripted test passes, but the systems haven't had a human play pass yet, so expect
+balance to move.
 
 What's left before a 1.0: a **full-length human playthrough** of all three campaigns for story
-pacing and balance, plus the remaining Battle Net battle modes.
+pacing and balance.
 
 <details>
 <summary><b>Region-by-region status</b></summary>

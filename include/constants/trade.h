@@ -24,6 +24,7 @@ enum InGameTradeID
     // Johto (HGSS)
     INGAME_TRADE_MACHOP,
     INGAME_TRADE_VOLTORB,
+    INGAME_TRADE_ONIX,
 };
 
 // Return values for CanTradeSelectedMon and CanSpinTradeMon

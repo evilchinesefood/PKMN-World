@@ -3,6 +3,12 @@
 
 // When TRUE: adds a Quest menu (mission log) to the Start menu and enables the
 // quest scripting commands. SCHEMA-CRITICAL: enabling this grows SaveBlock3.
+//
+// DORMANT BY DECISION (issue #12, 2026-07-21): the menu ships compiled-in but unreachable --
+// all sSideQuests content is placeholder and FLAG_SYS_QUEST_MENU_GET is never set, so the
+// Start-menu entry never appears. Kept TRUE because questData is frozen into SAVE FORMAT v6;
+// flipping this OFF is a save-format break for no player benefit. To activate later: author
+// real quests, set the flag where earned, add questmenu/subquestmenu unlock scripts.
 #define QUEST_MENU                  TRUE
 
 // When TRUE: favorited quests can be pinned to the top of the list.

@@ -896,7 +896,9 @@ u8 LoadGameSave(u8 saveType)
         gSaveFileStatus = status;
         gGameContinueCallback = NULL;
 #if ALL_REGIONS
-        if (status == SAVE_STATUS_OK)
+        // SAVE_STATUS_ERROR still fully populates SB1/2/3 from the surviving good slot,
+        // so a recovered pre-v6 save must migrate too (EMPTY/CORRUPT stay excluded).
+        if (status == SAVE_STATUS_OK || status == SAVE_STATUS_ERROR)
             MigrateSaveFormatIfNeeded();
 #endif
         break;

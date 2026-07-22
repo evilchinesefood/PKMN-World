@@ -6414,17 +6414,19 @@ static u8 CreateMonSprite(struct Pokemon *mon, bool32 isShadow)
 
 static void DestroyMonSprite(void)
 {
-    if (sMonSpriteId != 0 && sMonSpriteId != MAX_SPRITES)
-    {
-        StopPokemonAnimationDelayTask();
-        DestroySpriteAndFreeResources(&gSprites[sMonSpriteId]);
-        sMonSpriteId = MAX_SPRITES;
-    }
+    // Shadow first: StopPokemonAnimationDelayTask destroys EVERY task with that func (including
+    // the shadow's) without clearing sShadowAnimDelayTaskId — same order as the summary screen.
     if (sMonShadowSpriteId != 0 && sMonShadowSpriteId != MAX_SPRITES)
     {
         StopShadowAnimDelayTask();
         DestroySpriteAndFreeResources(&gSprites[sMonShadowSpriteId]);
         sMonShadowSpriteId = MAX_SPRITES;
+    }
+    if (sMonSpriteId != 0 && sMonSpriteId != MAX_SPRITES)
+    {
+        StopPokemonAnimationDelayTask();
+        DestroySpriteAndFreeResources(&gSprites[sMonSpriteId]);
+        sMonSpriteId = MAX_SPRITES;
     }
 }
 
@@ -6741,7 +6743,7 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
         u32 maxAllowedEVs = B_EV_ITEMS_CAP ? GetCurrentEVCap() : MAX_TOTAL_EVS;
         u32 remainingStatEVs  = MAX_PER_STAT_EVS - ev;
         u32 remainingTotalEVs = maxAllowedEVs - evCount;
-        cannotUse = (remainingStatEVs == 0 || remainingTotalEVs == 0);
+        cannotUse = (remainingStatEVs == 0 || remainingTotalEVs == 0 || evIncrease == 0); // evIncrease is raw item data and divides below
         if (!cannotUse && tQuantityInBag > 1)
         {
             PlaySE(SE_SELECT);
@@ -7466,6 +7468,9 @@ static void EvIvChangerAdjust(u8 taskId, bool8 increase)
     bool8 ivPage = gTasks[taskId].tEvPage;
     u8 monDataId = ivPage ? sEvIvChangerIvMonData[cursor] : sEvIvChangerEvMonData[cursor];
     u16 val = GetMonData(mon, monDataId);
+    // Hyper-trained stats display as 31, so edit from 31 (31 -> 30), not from the hidden raw IV.
+    if (ivPage && GetMonData(mon, sEvIvChangerHtMonData[cursor]))
+        val = MAX_PER_STAT_IVS;
     // Called from a JOY_REPEAT(DPAD_LEFT/RIGHT) branch: on the initial press JOY_NEW is also true
     // (fine control ±1); on held-repeat frames only JOY_REPEAT fires (coarse ±10). Do NOT "simplify"
     // the ternary to plain JOY_HELD - it would break the ±1-on-tap behavior.
@@ -7941,8 +7946,9 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
             {
                 u32 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
                 u32 totalExp = gExperienceTables[gSpeciesInfo[species].growthRate][currentLevelCap] - gExperienceTables[gSpeciesInfo[species].growthRate][sInitialLevel];
-                u16 candyExp = sExpCandyExperienceTable[tHoldEffectParam - 1];
-                u16 candyCount = (totalExp + candyExp - 1) / candyExp;
+                u16 candyExp = (tHoldEffectParam >= EXP_100 && tHoldEffectParam <= EXP_30000)
+                             ? sExpCandyExperienceTable[tHoldEffectParam - 1] : 0; // param is raw item data; table spans EXP_100..EXP_30000
+                u16 candyCount = candyExp ? (totalExp + candyExp - 1) / candyExp : 1;
 
                 tMaxItemQuantity = min(candyCount, MAX_BAG_ITEM_CAPACITY);
             }

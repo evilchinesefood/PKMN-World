@@ -236,6 +236,12 @@ Navigate by Down-count + A. Indices as of this build (`src/debug.c` — **re-che
 **Give X:** `Give item XYZ…(0)`, `Pokémon (Basic)(1)`, `Pokémon (Complex)(2)`, `Give Egg(3)`,
 `Give Decoration…(4)`, `Max Money(5)`, `Max Coins(6)`, `Max Battle Points(7)`, `Daycare Egg(8)`
 
+**Trainers:** the static array has 9 entries, but a **fresh open** dynamically filters to 7 rows:
+`Choose trainer from map(0)`, `Trainer 1(1)`, `Trainer 2(2)`, `Partner(3)`, `Double Battle(4)`,
+`Try Battle(5)`, `Recharge VS Seeker(6)`. The hidden `Matches` / `Rematch Ready` rows draw only
+once a real fight is armed (e.g. via `Choose trainer from map`), which shifts `Try Battle` and
+`Recharge VS Seeker` down.
+
 **Flags & Vars:** `Set Flag XYZ…(0)`, `Set Var XYZ…(1)`, `Pokédex Flags All(2)`,
 `Pokédex Flags Reset(3)`, then the various `Toggle …` entries.
 

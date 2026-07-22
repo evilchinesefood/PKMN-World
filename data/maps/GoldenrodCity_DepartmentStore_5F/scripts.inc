@@ -64,11 +64,13 @@ GoldenrodDeptStore5_EventScript_Receptionist_LowFriendship::
 
 GoldenrodDeptStore5_EventScript_Receptionist_GiveReturn::
 	giveitem ITEM_TM_RETURN
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_RETURN
 	return
 
 GoldenrodDeptStore5_EventScript_Receptionist_GiveFrustration::
 	giveitem ITEM_TM_FRUSTRATION
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_FRUSTRATION
 	return
 

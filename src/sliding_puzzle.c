@@ -470,6 +470,8 @@ static void CB2_LoadSlidingPuzzle(void)
         sSlidingPuzzle = AllocZeroed(sizeof(*sSlidingPuzzle));
         sSlidingPuzzle->heldTile = __;
         sSlidingPuzzle->puzzleId = gSpecialVar_0x8004;
+        if (sSlidingPuzzle->puzzleId >= SLIDING_PUZZLE_SOLVED) // script arg; SOLVED's sheet is NULL and beyond is OOB
+            sSlidingPuzzle->puzzleId = SLIDING_PUZZLE_KABUTO;
         sSlidingPuzzle->solved   = gSpecialVar_0x8005;
 
         // Disable L=A during the sliding puzzle

@@ -42,6 +42,7 @@ void ClearRegionFlag(enum Region region, u16 localId);
 u16 GetBadgeFlag(enum Region region, u8 badgeIndex);
 bool8 HasBadge(enum Region region, u8 badgeIndex);
 bool8 HasCurrentRegionBadge(u8 badgeIndex);
+bool8 HasActiveRegionBadge(u8 badgeIndex);
 
 extern u16 gSpecialVar_0x8000;
 extern u16 gSpecialVar_0x8001;

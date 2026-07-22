@@ -276,6 +276,7 @@ EcruteakCity_Theater_EventScript_SurfGuy::
 EcruteakCity_Theater_EventScript_SurfGuy_GiveSurf::
 	msgbox EcruteakCity_Theater_Text_SurfGuyGiveSurf, MSGBOX_DEFAULT
 	giveitem ITEM_HM_SURF
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_SURF
 	msgbox EcruteakCity_Theater_Text_SurfGuyGaveSurf
 	closemessage
@@ -297,6 +298,7 @@ EcruteakCity_Theater_EventScript_TriggerSurfGuy::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	msgbox EcruteakCity_Theater_Text_SurfGuyGiveSurf, MSGBOX_DEFAULT
 	giveitem ITEM_HM_SURF
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_SURF
 	msgbox EcruteakCity_Theater_Text_SurfGuyGaveSurf
 	closemessage
@@ -789,6 +791,7 @@ EcruteakCity_Theater_EventScript_BeatGauntlet::
 
 EcruteakCity_Theater_EventScript_Lugia::
 	giveitem ITEM_TIDAL_BELL
+	goto_if_eq VAR_RESULT, FALSE, EcruteakCity_Theater_EventScript_BellBagFull
 	closemessage
 	playse SE_M_RAZOR_WIND
 	setvar VAR_0x8004, 1  @ vertical pan
@@ -835,6 +838,7 @@ EcruteakCity_Theater_EventScript_Lugia::
 	end
 EcruteakCity_Theater_EventScript_Hooh::
 	giveitem ITEM_CLEAR_BELL
+	goto_if_eq VAR_RESULT, FALSE, EcruteakCity_Theater_EventScript_BellBagFull
 	closemessage
 	playse SE_M_RAZOR_WIND
 	setvar VAR_0x8004, 1  @ vertical pan
@@ -878,6 +882,16 @@ EcruteakCity_Theater_EventScript_Hooh::
 	setvar VAR_ECRUTEAK_CITY_THEATER, 7
 	release
 	end
+
+EcruteakCity_Theater_EventScript_BellBagFull::
+	msgbox EcruteakCity_Theater_Text_BellBagFull, MSGBOX_DEFAULT
+	closemessage
+	releaseall
+	end
+
+EcruteakCity_Theater_Text_BellBagFull:
+	.string "Your BAG is full!\n"
+	.string "Make room, then come back.$"
 
 EcruteakCity_Theater_Movement_Sister:
 	walk_fast_up

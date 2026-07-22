@@ -3,11 +3,14 @@
 #include "event_data.h"
 #include "caps.h"
 #include "pokemon.h"
+#include "regions.h"
 
 
 u32 GetCurrentLevelCap(void)
 {
-    // Region merge: caps follow the CURRENT region's badge progression (per-region bank).
+    // Region merge: caps follow the ACTIVE campaign region's badge progression (per-region
+    // bank) — active, not map-derived, so hub Battle Net fights keep the campaign's cap, and
+    // the champion tier is per-region so a title in one region never lifts another's cap.
     static const u32 sLevelCapPerBadge[NUM_BADGES] = { 15, 19, 24, 29, 31, 33, 42, 46 };
 
     u32 i;
@@ -19,10 +22,10 @@ u32 GetCurrentLevelCap(void)
     {
         for (i = 0; i < NUM_BADGES; i++)
         {
-            if (!HasCurrentRegionBadge(i))
+            if (!HasActiveRegionBadge(i))
                 return sLevelCapPerBadge[i];
         }
-        if (!FlagGet(FLAG_IS_CHAMPION))
+        if (!IsRegionChampion(GetActiveRegion()))
             return 58;
     }
     else if (B_LEVEL_CAP_TYPE == LEVEL_CAP_VARIABLE)
@@ -82,7 +85,7 @@ u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
 
 u32 GetCurrentEVCap(void)
 {
-    // Region merge: EV caps follow the CURRENT region's badge progression (per-region bank).
+    // Region merge: EV caps follow the ACTIVE campaign region's badge progression.
     static const u16 sEvCapPerBadge[NUM_BADGES] = {
         MAX_TOTAL_EVS *  1 / 17, MAX_TOTAL_EVS *  3 / 17, MAX_TOTAL_EVS *  5 / 17,
         MAX_TOTAL_EVS *  7 / 17, MAX_TOTAL_EVS *  9 / 17, MAX_TOTAL_EVS * 11 / 17,
@@ -93,11 +96,9 @@ u32 GetCurrentEVCap(void)
     {
         for (u32 evCap = 0; evCap < NUM_BADGES; evCap++)
         {
-            if (!HasCurrentRegionBadge(evCap))
+            if (!HasActiveRegionBadge(evCap))
                 return sEvCapPerBadge[evCap];
         }
-        if (!FlagGet(FLAG_IS_CHAMPION))
-            return MAX_TOTAL_EVS;
     }
     else if (B_EV_CAP_TYPE == EV_CAP_VARIABLE)
     {

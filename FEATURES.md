@@ -45,7 +45,7 @@ Three complete, self-contained campaigns on one cartridge. Each region has its o
 - **Kanto** — the FireRed campaign, wired live: every FRLG trainer fights its **real FRLG
   party**, with real gym leader / Elite Four rosters, rival **Gary** (who is also the Kanto
   **Champion**), and an 8-badge Victory Road / league gate.
-- **Johto** — ported from *Pokémon Heart & Soul*: ~235 maps with tilesets and scripts,
+- **Johto** — ported from *Pokémon Heart & Soul*: ~254 maps with tilesets and scripts,
   231 real trainer parties, wild-encounter tables, the Johto town map with Fly and heal
   locations, rival **Gary** (with daily rematches), and the Johto League
   (Will / Koga / Bruno / Karen → **Champion Lance**) — with native HGSS-style

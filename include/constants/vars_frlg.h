@@ -14,6 +14,7 @@
 // on their raw IDs (outside the rebase range), as do 0x408B+ (alias only unused Hoenn vars).
 #define VAR_KANTO_SLICE(n)          (VAR_KANTO_BASE + (n))
 
+// DEAD ALIASES — these FRLG ids overlay live Hoenn vars (0x4023 = VAR_STARTER_MON etc). NEVER VarSet through these names.
 // If nonzero, counts down by one every step.
 // When it hits zero, repel's effect wears off.
 #define VAR_REPEL_STEP_COUNT_FRLG                0x4020
@@ -194,6 +195,7 @@
 #define VAR_0x40A8                 0x40A8
 #define VAR_0x40A9                 0x40A9
 
+// DEAD ALIASES — these FRLG ids overlay live Hoenn vars (0x40AA = VAR_SLATEPORT_MUSEUM_1F_STATE etc). NEVER VarSet through these names.
 #define VAR_QLBAK_TRAINER_REMATCHES 0x40AA // array of 4
 #define VAR_QLBAK_MAP_LAYOUT        0x40AE
 

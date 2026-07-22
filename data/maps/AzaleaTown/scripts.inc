@@ -239,6 +239,7 @@ AzaleaTown_EventScript_GSBall::
 	playse SE_M_PETAL_DANCE
 	msgbox AzaleaTown_Text_Kurt2, MSGBOX_DEFAULT
 	giveitem ITEM_GS_BALL
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	waitse
 	playse SE_M_PETAL_DANCE
 	turnobject LOCALID_AZALEA_TOWN_KURT_GS, DIR_WEST

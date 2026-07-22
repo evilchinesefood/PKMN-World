@@ -42,7 +42,7 @@ EWRAM_DATA enum Region gCurrentRegion = REGION_NONE;
 // ACTIVE region's champion status so a champion of one region still fights NORMAL first-run
 // teams in a region they haven't cleared (VAR_DIFFICULTY is global; HARD parties exist for
 // gym leaders in all three regions, so it must never leak across regions).
-static bool8 IsRegionChampion(enum Region region)
+bool8 IsRegionChampion(enum Region region)
 {
     switch (region)
     {

@@ -15,6 +15,7 @@ GoldenrodCity_BikeShop_EventScript_Clerk::
 GoldenrodCity_BikeShop_EventScript_Clerk_BikeAgreed::
 	msgbox GoldenrodCity_BikeShop_Text_ClerkAgreed, MSGBOX_DEFAULT
 	giveitem ITEM_MACH_BIKE
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_BIKE
 	closemessage
 	release

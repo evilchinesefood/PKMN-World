@@ -3413,7 +3413,7 @@ void Script_TriggerUniqueEvolution(struct ScriptContext *ctx)
         gSpecialVar_Result = EVO_EVENT_IMPOSSIBLE;
         return;
     }
-    assertf(gSpecialVar_0x8004 <= PARTY_SIZE, "TriggerEvolution script called with invalid partyIndex %d", gSpecialVar_0x8004)
+    assertf(gSpecialVar_0x8004 < PARTY_SIZE, "TriggerEvolution script called with invalid partyIndex %d", gSpecialVar_0x8004)
     {
         gSpecialVar_Result = EVO_EVENT_IMPOSSIBLE;
         return;

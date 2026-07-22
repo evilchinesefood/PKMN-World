@@ -247,6 +247,9 @@ NewBarkTown_Lab_EventScript_ChoseStarter::
 	removeobject VAR_LAST_TALKED
 	msgbox NewBarkTown_Lab_Text_ChoseStarter, MSGBOX_DEFAULT
 	givemon PLAYER_STARTER_SPECIES, 5
+	@ Defensive: the region-cross boxes the party so this can't fail today, but never set the
+	@ chosen flags on a failed give (the balls respawn on re-entry, so the pick is retriable).
+	goto_if_ne VAR_RESULT, MON_GIVEN_TO_PARTY, Common_EventScript_NoMoreRoomForPokemon
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_JOHTO_STARTER_CHOSEN
 	playfanfare MUS_OBTAIN_ITEM

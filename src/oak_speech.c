@@ -1657,7 +1657,7 @@ static void Task_OakSpeech_FadeOutPlayerPic(u8 taskId)
         else
 #if ALL_REGIONS
         {
-            // Region merge: the rival is pre-named BLUE (rivalName is set in new_game.c, which
+            // Region merge: the rival is pre-named GARY (rivalName is set in new_game.c, which
             // runs AFTER the intro), so the "remember, your rival is <name>" segment would print
             // a BLANK name over an EMPTY platform (the rival pic is removed too). Skip the whole
             // rival detour and go straight to the outfit pick. Don't run a second fade here:

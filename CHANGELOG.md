@@ -246,7 +246,7 @@ Ten-agent deep review of the whole codebase; every confirmed finding fixed.
 ### Slimming (ROM 90.9% → 67.0% full)
 
 - **265 Pokémon families from Gen 4–9 that never appear anywhere in the three
-  campaigns are disabled** (~6.75 MiB). Nothing you can catch, evolve, or
+  campaigns are disabled** [now 339 after the later 74-family purge] (~6.75 MiB). Nothing you can catch, evolve, or
   fight is affected — every Gen 1–3 line and all their evolutions remain. The
   National Dex diploma and the hub's completion reward now count only
   obtainable species.
@@ -359,7 +359,7 @@ between worlds.
 - **Kanto** — the full FireRed campaign: every trainer fights their authentic
   FireRed team, real gym leader / Elite Four / **Champion Blue** rosters, rival
   **Blue**, and the 8-badge league gate.
-- **Johto** — fully ported from *Heart & Soul*: ~245 maps, 231 real trainer
+- **Johto** — fully ported from *Heart & Soul*: ~254 maps, 231 real trainer
   parties, its own wild encounters, town map, Fly and heal locations, rival
   **Silver**, and the Johto League (Will, Koga, Bruno, Karen → **Champion
   Lance**). Post-game: **Red at Mt. Silver**, the roaming beasts, the Celebi

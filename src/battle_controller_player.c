@@ -382,7 +382,7 @@ static void HandleInputChooseAction(enum BattlerId battler)
             BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_CANCEL_PARTNER, 0);
             BtlController_Complete(battler);
         }
-        // QoL #12: RUN SHORTCUT option (supersedes B_QUICK_MOVE_CURSOR_TO_RUN).
+        // QoL #12: RUN SHORTCUT option (optionsRunShortcut).
         // In wild battles, B either moves the cursor to "Run" (CURSOR) or flees
         // outright (INSTANT). INSTANT requires a real B press so the dpad-hold
         // path above can't trigger an accidental flee; it falls back to CURSOR.

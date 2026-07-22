@@ -2880,6 +2880,7 @@ BattleScript_LocalBattleWonLoseTexts::
 	waitstate
 	printstring STRINGID_TRAINER2LOSETEXT
 BattleScript_LocalBattleWonReward::
+	jumpifnowhiteout BattleScript_PayDayMoneyAndPickUpItems @ Battle Net leader sims: BP only, no prize money
 	getmoneyreward
 	printstring STRINGID_PLAYERGOTMONEY
 	waitmessage B_WAIT_TIME_LONG

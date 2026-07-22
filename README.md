@@ -52,7 +52,7 @@ Recent releases added the World Championship endgame, HARD-mode gym-leader and E
 rematches, riding your own Pokémon for surf and flight, and a long run of fixes from
 emulator-verified test passes.
 
-**Newest:** the Battle Net is complete. Its flagship floor opens above the hub once you're
+**In development (unreleased):** the Battle Net is complete. Its flagship floor opens above the hub once you're
 a Champion — HARD rematches drop signature Mega Stones, and all 28 stone-holding leaders
 Mega Evolve against you — and its battle modes are live: the Scaling Type Trainer, the
 Leader Sim, the 7-win Tower Streak, and the Lv50/Monotype/Little Cup ruleset rooms, with a
@@ -71,7 +71,7 @@ pacing and balance.
 <br>
 
 - ✅ **Hoenn** — native (base engine), plus the upgraded HARD Elite Four/Champion rematch.
-- ✅ **Johto** — fully ported (~235 maps, real trainer parties, gyms/badges, region map & Fly,
+- ✅ **Johto** — fully ported (~254 maps, real trainer parties, gyms/badges, region map & Fly,
   and all post-game: Red at Mt. Silver, roaming beasts, Celebi, Ruins of Alph, Bug-Catching
   Contest, Ho-Oh/Lugia).
 - ✅ **Kanto** — the FireRed campaign wired in: real FRLG trainer parties, gym/Elite Four/Champion

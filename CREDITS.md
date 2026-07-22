@@ -46,14 +46,14 @@ the original authors and the bases the content was ported from.
 
 ### Johto region — PokemonHnS-Development/pokemonHnS
 
-The entire Johto campaign — ~245 maps with layouts, tilesets, and event scripts,
+The entire Johto campaign — ~254 maps with layouts, tilesets, and event scripts,
 231 trainer parties, wild-encounter tables, the Johto town map, and the full story
 through the Johto League and Mt. Silver — was ported from
 **[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
 ("Pokémon Heart & Soul"), a pokeemerald-based Johto remake.
 
 - **The Pokémon Heart & Soul development team and contributors** — authors of the
-  Johto maps, scripts, data, and engine pieces this port is built from, including
+  Johto maps, scripts, data, engine pieces, and trainer portrait art this port is built from, including
   the Ruins of Alph sliding-puzzle engine, the National Park Bug-Catching Contest
   engine, and the Johto roamer routes.
 

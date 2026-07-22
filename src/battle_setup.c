@@ -463,6 +463,8 @@ static bool8 CheckSilphScopeInPokemonTower(u16 mapGroup, u16 mapNum)
 
 void BattleSetup_StartWildBattle(void)
 {
+    if (gPlayerPartyCount == 0) // region-switch boxes the whole party; fishing/OWE/dowildbattle reach here at 0 mons
+        return;
     if (GetSafariZoneFlag())
         DoSafariBattle();
     else if (GetBugContestFlag())
@@ -475,6 +477,8 @@ void BattleSetup_StartWildBattle(void)
 
 void BattleSetup_StartDoubleWildBattle(void)
 {
+    if (gPlayerPartyCount == 0)
+        return;
     DoStandardWildBattle(TRUE);
 }
 

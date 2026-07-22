@@ -512,6 +512,8 @@ void AI_TrySwitchOrUseItem(enum BattlerId battler)
                          && !IsPartyMonOnFieldOrChosenToSwitch(battler, monToSwitchId, battler1, battler2))
                             break;
                     }
+                    if (monToSwitchId >= lastId) // no candidate at all — keep the index in bounds
+                        monToSwitchId = lastId - 1;
                 }
 
                 gBattleStruct->AI_monToSwitchIntoId[battler] = monToSwitchId;

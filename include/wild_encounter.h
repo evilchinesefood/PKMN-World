@@ -73,6 +73,7 @@ bool8 SetUpMassOutbreakEncounter(u8 flags);
 bool8 DoMassOutbreakEncounterTest(void);
 bool8 AreLegendariesInSootopolisPreventingEncounters(void);
 u16 GetCurrentMapWildMonHeaderId(void);
+u16 GetCurrentMapWildMonHeaderIdCached(void); // per-frame callers (OWE guard)
 bool8 CheckFeebasAtCoords(s16 x, s16 y);
 u32 ChooseWildMonIndex_Land(void);
 u32 ChooseWildMonIndex_Water(void);

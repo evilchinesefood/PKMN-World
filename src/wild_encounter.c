@@ -401,6 +401,32 @@ u16 GetCurrentMapWildMonHeaderId(void)
     return HEADER_NONE;
 }
 
+// Region merge perf: 493 headers in the 3-region build make the linear scan too hot for the
+// per-frame OWE guard (it previously burned ~2% of the frame on encounter-less maps). Keyed
+// on exactly the inputs the scan reads: current map + the Altering Cave table var.
+u16 GetCurrentMapWildMonHeaderIdCached(void)
+{
+    // All statics zero-init (.bss) — the ld script discards .data, so no nonzero initializers.
+    static bool8 sCacheValid;
+    static u16 sCachedHeaderId;
+    static u8 sCachedMapGroup, sCachedMapNum;
+    static u16 sCachedAlteringCaveId;
+    u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+
+    if (!sCacheValid
+     || sCachedMapGroup != (u8)gSaveBlock1Ptr->location.mapGroup
+     || sCachedMapNum != (u8)gSaveBlock1Ptr->location.mapNum
+     || sCachedAlteringCaveId != alteringCaveId)
+    {
+        sCacheValid = TRUE;
+        sCachedMapGroup = gSaveBlock1Ptr->location.mapGroup;
+        sCachedMapNum = gSaveBlock1Ptr->location.mapNum;
+        sCachedAlteringCaveId = alteringCaveId;
+        sCachedHeaderId = GetCurrentMapWildMonHeaderId();
+    }
+    return sCachedHeaderId;
+}
+
 enum TimeOfDay GetTimeOfDayForEncounters(u32 headerId, enum WildPokemonArea area)
 {
     const struct WildPokemonInfo *wildMonInfo;

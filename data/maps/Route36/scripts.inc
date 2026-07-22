@@ -22,6 +22,7 @@ Route36_EventScript_RockSmashGuy2::
 	goto_if_set FLAG_RECEIVED_HM_ROCK_SMASH, Route36_EventScript_RockSmashGuy3
 	msgbox Route36_Text_RockSmashGuy2, MSGBOX_DEFAULT
 	giveitem ITEM_HM_ROCK_SMASH
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_ROCK_SMASH
 Route36_EventScript_RockSmashGuy3::
 	msgbox Route36_Text_RockSmashGuy3

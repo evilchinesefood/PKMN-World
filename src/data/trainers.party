@@ -4918,7 +4918,7 @@ Ability: Inner Focus
 - Spikes
 - Ice Beam
 - Shadow Ball
-- Destiny Bond
+- Crunch
 
 Glalie @ Glalitite
 Level: 63
@@ -4936,7 +4936,7 @@ Ability: Thick Fat
 - Blizzard
 - Earthquake
 - Ice Shard
-- Knock Off
+- Icicle Spear
 
 Sneasel @ Life Orb
 Level: 65
@@ -4953,7 +4953,7 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Thick Fat
 - Surf
 - Ice Beam
-- Freeze-Dry
+- Blizzard
 - Protect
 
 === TRAINER_DRAKE ===
@@ -7416,7 +7416,7 @@ Ability: Hydration
 - Dragon Dance
 - Earthquake
 - Waterfall
-- Ice Fang
+- Blizzard
 
 Gyarados @ Mystic Water
 Level: 66
@@ -17446,7 +17446,7 @@ Double Battle: No
 AI: Basic Trainer / Check Bad Move / Check Viability / Try To Faint / Smart Switching / Force Setup First Turn / HP Aware / Ace Pokemon
 
 Skarmory @ Leftovers
-Level: 64
+Level: 78
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Sturdy
 - Iron Head
@@ -17455,7 +17455,7 @@ Ability: Sturdy
 - Roost
 
 Steelix @ Focus Sash
-Level: 65
+Level: 79
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Sturdy
 - Earthquake
@@ -17464,7 +17464,7 @@ Ability: Sturdy
 - Dragon Breath
 
 Aggron @ Lum Berry
-Level: 65
+Level: 79
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Rock Head
 - Head Smash
@@ -17473,7 +17473,7 @@ Ability: Rock Head
 - Fire Punch
 
 Cradily @ Sitrus Berry
-Level: 64
+Level: 78
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Storm Drain
 - Giga Drain
@@ -17482,7 +17482,7 @@ Ability: Storm Drain
 - Curse
 
 Armaldo @ Weakness Policy
-Level: 66
+Level: 80
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Battle Armor
 - Swords Dance
@@ -17491,7 +17491,7 @@ Ability: Battle Armor
 - Earthquake
 
 Metagross @ Life Orb
-Level: 68
+Level: 82
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: Clear Body
 - Meteor Mash
@@ -21876,7 +21876,7 @@ SPECIES_WALREIN @ ITEM_SITRUS_BERRY
 Level: 65
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 Ability: ABILITY_THICK_FAT
-- MOVE_ICE_SHARD
+- MOVE_ICE_BEAM
 - MOVE_SURF
 - MOVE_BLIZZARD
 - MOVE_BODY_SLAM

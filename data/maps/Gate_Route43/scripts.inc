@@ -54,6 +54,7 @@ Gate_Route43_Rocket_EventScript_Policeman::
 	goto_if_set FLAG_GOT_TM_FROM_MAHOGANY_COP, Gate_Route43_Rocket_EventScript_PolicemanAfter
 	msgbox Route43Gate_Text_OfficerFoundTM, MSGBOX_DEFAULT
 	giveitem ITEM_TM_SLUDGE_BOMB
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_TM_FROM_MAHOGANY_COP
 	closemessage
 	release

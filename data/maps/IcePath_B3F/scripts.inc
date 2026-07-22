@@ -42,9 +42,11 @@ IcePath_B3F_EventScript_Swinub::
 	goto_if_set FLAG_ITEM_ICEPATH4_TM_BLIZZARD, IcePath_B3F_EventScript_SwinubBlowPlayer
 	msgbox IcePath_B3F_Text_SwinubBerry, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, IcePath_B3F_EventScript_SwinubBlowPlayer
-	chooseitem BERRIES_POCKET
-	removeitem VAR_ITEM_ID, 1
-	goto_if_ne VAR_ITEM_ID, ITEM_ASPEAR_BERRY, IcePath_B3F_EventScript_SwinubDislikedBerry
+	checkitem ITEM_ASPEAR_BERRY
+	goto_if_eq VAR_RESULT, FALSE, IcePath_B3F_EventScript_SwinubDislikedBerry
+	checkitemspace ITEM_TM_BLIZZARD, 1
+	goto_if_eq VAR_RESULT, FALSE, IcePath_B3F_EventScript_SwinubNoRoom
+	removeitem ITEM_ASPEAR_BERRY, 1
 	msgbox IcePath_B3F_Text_SwinubAteBerry, MSGBOX_DEFAULT
 	giveitem ITEM_TM_BLIZZARD
 	setflag FLAG_ITEM_ICEPATH4_TM_BLIZZARD
@@ -82,9 +84,11 @@ IcePath_B3F_EventScript_Delibird::
 	goto_if_set FLAG_ITEM_ICEPATH4_TM_BLIZZARD, IcePath_B3F_EventScript_DelibirdBlowPlayer
 	msgbox IcePath_B3F_Text_DelibirdBerry, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, IcePath_B3F_EventScript_DelibirdBlowPlayer
-	chooseitem BERRIES_POCKET
-	removeitem VAR_ITEM_ID, 1
-	goto_if_ne VAR_ITEM_ID, ITEM_ASPEAR_BERRY, IcePath_B3F_EventScript_DelibirdDislikedBerry
+	checkitem ITEM_ASPEAR_BERRY
+	goto_if_eq VAR_RESULT, FALSE, IcePath_B3F_EventScript_DelibirdDislikedBerry
+	checkitemspace ITEM_TM_BLIZZARD, 1
+	goto_if_eq VAR_RESULT, FALSE, IcePath_B3F_EventScript_DelibirdNoRoom
+	removeitem ITEM_ASPEAR_BERRY, 1
 	msgbox IcePath_B3F_Text_DelibirdAteBerry, MSGBOX_DEFAULT
 	giveitem ITEM_TM_BLIZZARD
 	setflag FLAG_ITEM_ICEPATH4_TM_BLIZZARD
@@ -112,6 +116,16 @@ IcePath_B3F_EventScript_DelibirdBlowPlayerLeft::
 	applymovement OBJ_EVENT_ID_PLAYER, IcePath_B3F_Movement_Player_BlownLeft
 	waitmovement 0
 	return
+
+IcePath_B3F_EventScript_SwinubNoRoom::
+	msgbox IcePath_B3F_Text_NoRoomForTM, MSGBOX_DEFAULT
+	releaseall
+	end
+
+IcePath_B3F_EventScript_DelibirdNoRoom::
+	msgbox IcePath_B3F_Text_NoRoomForTM, MSGBOX_DEFAULT
+	releaseall
+	end
 
 IcePath_B3F_Movement_Player_BlownUp:
 	lock_facing_direction
@@ -163,3 +177,7 @@ IcePath_B3F_Text_DelibirdAteBerry:
 	.string "DELIBIRD enjoyed the ASPEAR BERRY!$"
 IcePath_B3F_Text_DelibirdTurnedAway:
 	.string "DELIBIRD doesn't like it!$"
+
+IcePath_B3F_Text_NoRoomForTM:
+	.string "But your BAG is full!\n"
+	.string "Make room, then come back.$"

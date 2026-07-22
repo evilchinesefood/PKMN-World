@@ -68,6 +68,7 @@ GoldenrodCity_RadioTower_3F_EventScript_Cooltrainer2::
 	msgbox GoldenrodCity_RadioTower_3F_Text_CooltrainerFHeroGift, MSGBOX_DEFAULT
 	closemessage
 	giveitem ITEM_TM_SKILL_SWAP
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_SKILL_SWAP
 	msgbox GoldenrodCity_RadioTower_3F_Text_CooltrainerFSunnyDay, MSGBOX_DEFAULT
 	closemessage

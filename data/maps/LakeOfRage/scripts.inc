@@ -106,12 +106,13 @@ LakeOfRage_EventScript_Gyarados::
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, LakeOfRage_EventScript_Ran_Gyarados
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, LakeOfRage_EventScript_Ran_Gyarados
 LakeOfRage_EventScript_Defeated_Gyarados::
+	giveitem ITEM_RED_SCALE
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_HIDE_LAKE_OF_RAGE_GYARADOS
 	clearflag FLAG_TEMP_1
 	removeobject LOCALID_LAKEOFRAGE_GYARADOS
 	clearflag FLAG_HIDE_LAKE_OF_RAGE_LANCE
 	addobject LOCALID_LAKEOFRAGE_LANCE
-	giveitem ITEM_RED_SCALE
 	setobjectxyperm LOCALID_LAKEOFRAGE_OLDMAN, 32, 38
 	setvar VAR_MAHOGANY_TOWN_STATE, 2
 	release

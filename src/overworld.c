@@ -475,6 +475,10 @@ void Overworld_ResetBattleFlagsAndVars(void)
     FlagClear(B_FLAG_DYNAMAX_BATTLE);
     FlagClear(B_FLAG_SKY_BATTLE);
     FlagClear(B_FLAG_NO_WHITEOUT);
+    // Safety net: the Battle Net leader sim round-trips VAR_DIFFICULTY through VAR_TEMP_1
+    // (wiped by any warp). If a whiteout ever slips past B_FLAG_NO_WHITEOUT, re-derive the
+    // tier from the active region's champion status instead of sticking on HARD.
+    SyncDifficultyForRegion(GetActiveRegion());
 }
 #endif
 

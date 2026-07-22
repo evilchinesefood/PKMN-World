@@ -1345,7 +1345,7 @@
 
 // System Flags
 
-#define SYSTEM_FLAGS                                   (TRAINER_FLAGS_END + 1) // 0x860
+#define SYSTEM_FLAGS                                   (TRAINER_FLAGS_END + 1) // 0x948
 
 #define FLAG_SYS_POKEMON_GET                         (SYSTEM_FLAGS + 0x0) // FLAG_0x860
 #define FLAG_SYS_POKEDEX_GET                         (SYSTEM_FLAGS + 0x1)
@@ -4151,7 +4151,26 @@
 // returns to the floor script instead of whiting out. Set/cleared around each sim battle;
 // Overworld_ResetBattleFlagsAndVars also clears it as a whiteout safety net.
 #define FLAG_BNET_NO_WHITEOUT                 (FLAG_WORLD_MAP_BANK + 0x85) // 0xDC5
-// Next free in the world-map window: 0xDC6.
+// FRLG system flags the original rebase missed (they were stubbed to 0 = the null-flag
+// sentinel, so every set/check in the live Kanto/Sevii scripts silently no-opped — same
+// bug class as the world-map fly flags). Rebased here so the features actually work.
+#undef FLAG_SYS_ON_CYCLING_ROAD
+#define FLAG_SYS_ON_CYCLING_ROAD              (FLAG_WORLD_MAP_BANK + 0x86) // 0xDC6
+#undef FLAG_OPENED_START_MENU
+#define FLAG_OPENED_START_MENU                (FLAG_WORLD_MAP_BANK + 0x87) // 0xDC7
+#undef FLAG_SYS_PC_STORAGE_DISABLED
+#define FLAG_SYS_PC_STORAGE_DISABLED          (FLAG_WORLD_MAP_BANK + 0x88) // 0xDC8
+#undef FLAG_SYS_SEVII_MAP_123
+#define FLAG_SYS_SEVII_MAP_123                (FLAG_WORLD_MAP_BANK + 0x89) // 0xDC9
+#undef FLAG_SYS_SEVII_MAP_4567
+#define FLAG_SYS_SEVII_MAP_4567               (FLAG_WORLD_MAP_BANK + 0x8A) // 0xDCA
+#undef FLAG_SYS_UNLOCKED_TANOBY_RUINS
+#define FLAG_SYS_UNLOCKED_TANOBY_RUINS        (FLAG_WORLD_MAP_BANK + 0x8B) // 0xDCB
+#undef FLAG_SYS_SET_TRAINER_CARD_PROFILE
+#define FLAG_SYS_SET_TRAINER_CARD_PROFILE     (FLAG_WORLD_MAP_BANK + 0x8C) // 0xDCC
+#undef FLAG_SYS_SAW_HELP_SYSTEM_INTRO
+#define FLAG_SYS_SAW_HELP_SYSTEM_INTRO        (FLAG_WORLD_MAP_BANK + 0x8D) // 0xDCD
+// Next free in the world-map window: 0xDCE.
 
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030

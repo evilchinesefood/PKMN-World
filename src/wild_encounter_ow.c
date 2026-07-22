@@ -1067,7 +1067,7 @@ const u8 *GetOverworlWildEncounterScript(u32 objectEventId)
 
 static bool32 CheckCurrentWildMonHeaderForOWE(bool32 shouldSpawnWaterMons)
 {
-    u32 headerId = GetCurrentMapWildMonHeaderId();
+    u32 headerId = GetCurrentMapWildMonHeaderIdCached(); // per-frame caller — cached scan
     enum TimeOfDay timeOfDay;
 
     if (headerId == HEADER_NONE)

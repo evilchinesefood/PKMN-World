@@ -407,11 +407,14 @@ static u8 GetNumLevelsGainedFromSteps(struct DaycareMon *daycareMon)
 {
     u8 levelBefore;
     u8 levelAfter;
+    u32 levelCap = GetCurrentLevelCap();
 
     levelBefore = GetLevelFromBoxMonExp(&daycareMon->mon);
+    if (levelBefore >= levelCap) // already above the cap (e.g. withdrawn cross-region) — the u8 subtract would wrap
+        return 0;
     levelAfter = GetLevelAfterDaycareSteps(&daycareMon->mon, daycareMon->steps);
-    if (levelAfter > GetCurrentLevelCap())
-        levelAfter = GetCurrentLevelCap();
+    if (levelAfter > levelCap)
+        levelAfter = levelCap;
     return levelAfter - levelBefore;
 }
 

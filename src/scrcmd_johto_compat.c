@@ -50,6 +50,8 @@ void ScrCmd_buffermoncategory_Compat(struct ScriptContext *ctx)
     u8 stringVarIndex = ScriptReadByte(ctx);
     u16 species = VarGet(ScriptReadHalfword(ctx));
 
+    if (stringVarIndex >= ARRAY_COUNT(sJohtoScriptStringVars)) // hand-transcribed opcode — never write through a bad operand
+        return;
     StringCopy(sJohtoScriptStringVars[stringVarIndex], GetSpeciesCategory(species));
 }
 
@@ -81,7 +83,7 @@ static const u8 sJohtoDefaultRivalName[] = _("GARY");
 
 void NameRival(void)
 {
-    // Region merge: rival naming removed — fixed default (SILVER), no naming screen. The
+    // Region merge: rival naming removed — fixed default (GARY), no naming screen. The
     // calling script's waitstate returns immediately since we no longer swap the callback.
     StringCopy(gSaveBlock1Ptr->rivalName, sJohtoDefaultRivalName);
 }

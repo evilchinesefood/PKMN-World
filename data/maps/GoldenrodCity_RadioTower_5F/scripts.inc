@@ -61,6 +61,30 @@ GoldenrodCity_RadioTower_5F_EventScript_Petrel2::
 GoldenrodCity_RadioTower_5F_EventScript_Director::
 	lock
 	faceplayer
+	goto_if_eq VAR_LUGIA_OR_HOOH, 1, GoldenrodCity_RadioTower_5F_EventScript_DirectorCheckTidal
+	goto_if_eq VAR_LUGIA_OR_HOOH, 2, GoldenrodCity_RadioTower_5F_EventScript_DirectorCheckClear
+	goto GoldenrodCity_RadioTower_5F_EventScript_DirectorIntro
+
+GoldenrodCity_RadioTower_5F_EventScript_DirectorCheckTidal::
+	checkitem ITEM_SILVER_WING
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_RadioTower_5F_EventScript_DirectorRegiveWing
+	goto GoldenrodCity_RadioTower_5F_EventScript_DirectorIntro
+
+GoldenrodCity_RadioTower_5F_EventScript_DirectorCheckClear::
+	checkitem ITEM_RAINBOW_WING
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_RadioTower_5F_EventScript_DirectorRegiveWing
+	goto GoldenrodCity_RadioTower_5F_EventScript_DirectorIntro
+
+GoldenrodCity_RadioTower_5F_EventScript_DirectorRegiveWing::
+	msgbox GoldenrodCity_RadioTower_5F_Text_DirectorThanks, MSGBOX_DEFAULT
+	closemessage
+	call_if_eq VAR_LUGIA_OR_HOOH, 1, GoldenrodCity_RadioTower_5F_EventScript_GiveTidalWing
+	call_if_eq VAR_LUGIA_OR_HOOH, 2, GoldenrodCity_RadioTower_5F_EventScript_GiveClearWing
+	setvar VAR_MAHOGANY_TOWN_STATE, 17
+	release
+	end
+
+GoldenrodCity_RadioTower_5F_EventScript_DirectorIntro::
 	msgbox GoldenrodCity_RadioTower_5F_Text_DirectorIntro, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -221,6 +245,7 @@ GoldenrodCity_RadioTower_5F_EventScript_WingBot::
 
 GoldenrodCity_RadioTower_5F_EventScript_GiveTidalWing::
 	giveitem ITEM_SILVER_WING
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_RadioTower_5F_EventScript_WingBagFull
 	msgbox GoldenrodCity_RadioTower_5F_Text_DirectorTidalWingExplanation, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -228,10 +253,21 @@ GoldenrodCity_RadioTower_5F_EventScript_GiveTidalWing::
 
 GoldenrodCity_RadioTower_5F_EventScript_GiveClearWing::
 	giveitem ITEM_RAINBOW_WING
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_RadioTower_5F_EventScript_WingBagFull
 	msgbox GoldenrodCity_RadioTower_5F_Text_DirectorClearWingExplanation, MSGBOX_DEFAULT
 	closemessage
 	release
 	return
+
+GoldenrodCity_RadioTower_5F_EventScript_WingBagFull::
+	msgbox GoldenrodCity_RadioTower_5F_Text_WingBagFull, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+GoldenrodCity_RadioTower_5F_Text_WingBagFull:
+	.string "Your BAG is full!\n"
+	.string "Make room, then come back.$"
 
 GoldenrodCity_RadioTower_5F_Fakeout::
 	playse SE_PIN

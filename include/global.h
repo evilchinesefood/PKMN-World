@@ -624,7 +624,7 @@ struct SaveBlock2
                                     // and resynced on load; see src/region_switch.c. (Was the dead
                                     // startRegion - repurposed, no save-layout change.)
     // Region merge save bits (carved from the existing 0x90 reserve — no net size change).
-    /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration is Phase 3 (field only now)
+    /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration reader = MigrateSaveFormatIfNeeded (load_save.c), v0->v6
     /*0x92*/ u8 kantoIntroDone:1;   // first-visit intro completed (region-switch, Lane R)
              u8 johtoIntroDone:1;
              u8 hoennIntroDone:1;
@@ -1219,8 +1219,10 @@ struct SaveBlock1
     /*0xA2E*/ //u8 padding3[2];
     /*0xA30*/ struct ObjectEvent objectEvents[OBJECT_EVENTS_COUNT];
     /*0xC70*/ struct ObjectEventTemplate objectEventTemplates[OBJECT_EVENT_TEMPLATES_COUNT];
-    /*0x1270*/ u8 flags[NUM_FLAG_BYTES];
-    /*0x139C*/ u16 vars[VARS_COUNT];
+    // flags[] was resized when FLAGS_COUNT grew (region merge), so the fixed /*0x....*/ byte
+    // offsets from here down are stale; the array sizes stay compile-time (NUM_FLAG_BYTES/VARS_COUNT).
+    u8 flags[NUM_FLAG_BYTES];
+    u16 vars[VARS_COUNT];
     /*0x159C*/ u32 gameStats[NUM_GAME_STATS];
     /*0x169C*/ struct BerryTree berryTrees[BERRY_TREES_COUNT];
     /*0x1A9C*/ struct SecretBase secretBases[SECRET_BASES_COUNT];

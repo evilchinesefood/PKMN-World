@@ -180,7 +180,7 @@ static void HandleInputChooseAction(enum BattlerId battler)
             ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
         }
     }
-    // QoL #12: RUN SHORTCUT option (supersedes B_QUICK_MOVE_CURSOR_TO_RUN).
+    // QoL #12: RUN SHORTCUT option (optionsRunShortcut).
     else if (gSaveBlock2Ptr->optionsRunShortcut != OPTIONS_RUN_SHORTCUT_OFF && JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_SELECT);

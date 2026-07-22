@@ -8493,7 +8493,7 @@ static s16 BagMenu_ComputeMultiUseMax(u8 taskId)
         remainingStatEVs  = MAX_PER_STAT_EVS - ev;
         remainingTotalEVs = maxAllowedEVs - evCount;
 
-        if (remainingStatEVs == 0 || remainingTotalEVs == 0)
+        if (remainingStatEVs == 0 || remainingTotalEVs == 0 || evIncrease == 0) // evIncrease is raw item data
             return 0;
 
         return (s16)min(bagQty, min(

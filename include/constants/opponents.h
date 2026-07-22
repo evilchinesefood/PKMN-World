@@ -1117,11 +1117,13 @@
 //       FROZEN: those ids' defeat flags are inline SaveBlock1 flags (TRAINER_FLAGS_START + id),
 //       so TRAINERS_COUNT_HOENN_JOHTO anchors TRAINER_FLAGS_END/SYSTEM_FLAGS/DAILY_FLAGS/
 //       FLAG_KANTO_BASE and must NEVER grow - that would shift every later SaveBlock1 flag
-//       and corrupt existing saves. The Kanto block (E5-1) sits above it (ids 1097..1719,
-//       rebased in opponents_frlg.h) and keeps its defeat flags in the SaveBlock3 bank
-//       (TrainerIdToDefeatFlag), which is why it grows TRAINERS_COUNT without moving any
-//       SaveBlock1 flag. Future trainers go in the Kanto bank's spare flag ids (16 free)
-//       or a new SaveBlock3 bank - never by growing the frozen Hoenn+Johto window.
+//       and corrupt existing saves. The Kanto block (E5-1) sits above it (ids
+//       KANTO_TRAINER_ID_OFFSET+1..TRAINERS_COUNT-1, rebased in opponents_frlg.h) and keeps its
+//       defeat flags in the SaveBlock3 bank (TrainerIdToDefeatFlag), which is why it grows
+//       TRAINERS_COUNT without moving any SaveBlock1 flag. Future trainers go in the Kanto bank's
+//       spare flag ids (KANTO_TRAINER_FLAG_BANK_SIZE - (TRAINERS_COUNT - KANTO_TRAINER_ID_OFFSET),
+//       currently 9; bound enforced by the STATIC_ASSERT in battle_setup.c) or a new SaveBlock3
+//       bank - never by growing the frozen Hoenn+Johto window.
 
 #define TRAINERS_COUNT_HOENN_JOHTO 1096
 

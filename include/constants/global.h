@@ -234,7 +234,7 @@ enum Gender
 
 // QoL #12: B-button behavior on the battle action menu (wild battles).
 // Save-compat: 0 = CURSOR so pre-option saves keep the already-shipped
-// B_QUICK_MOVE_CURSOR_TO_RUN behavior. Menu shows OFF/CURSOR/INSTANT.
+// move-cursor-to-Run behavior. Menu shows OFF/CURSOR/INSTANT.
 #define OPTIONS_RUN_SHORTCUT_CURSOR 0
 #define OPTIONS_RUN_SHORTCUT_OFF 1
 #define OPTIONS_RUN_SHORTCUT_INSTANT 2

@@ -213,6 +213,8 @@ u16 *GetVarPointer(u16 id)
 // so Kanto/Johto/Hoenn pack contiguously. localId is the per-region var index (0..0x7F).
 u16 GetRegionVarBase(enum Region region)
 {
+    if (region < REGION_KANTO || region > REGION_HOENN)
+        region = REGION_HOENN; // REGION_NONE (hub) — a raw subtract would compute a base outside the bank
     return REGION_VARS_START + (region - REGION_KANTO) * REGION_VAR_BANK_SIZE;
 }
 
@@ -371,4 +373,11 @@ bool8 HasBadge(enum Region region, u8 badgeIndex)
 bool8 HasCurrentRegionBadge(u8 badgeIndex)
 {
     return HasBadge(GetCurrentRegion(), badgeIndex);
+}
+
+// Battle-context variant: obedience and the Hard Mode caps follow the ACTIVE campaign
+// region, not the map — a hub (MAPSEC_SPECIAL_AREA) battle must not fall back to Hoenn's badges.
+bool8 HasActiveRegionBadge(u8 badgeIndex)
+{
+    return HasBadge(GetActiveRegion(), badgeIndex);
 }

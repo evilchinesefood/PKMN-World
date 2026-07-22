@@ -5586,26 +5586,27 @@ enum Obedience GetAttackerObedienceForAction(void)
         return OBEYS;
     if (B_OBEDIENCE_MECHANICS < GEN_8 && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
         return OBEYS;
-    // Region merge: obedience tracks the CURRENT region's badges (per-region bank), so a
+    // Region merge: obedience tracks the ACTIVE campaign region's badges (per-region bank), so a
     // region's 8th badge grants full obedience there and earlier badges scale the cap.
-    if (HasCurrentRegionBadge(7)) // 8th badge, ignore obedience altogether
+    // Active (not map-derived): hub Battle Net fights must use the campaign region's badges.
+    if (HasActiveRegionBadge(7)) // 8th badge, ignore obedience altogether
         return OBEYS;
 
     obedienceLevel = 10;
 
-    if (HasCurrentRegionBadge(0)) // 1st badge
+    if (HasActiveRegionBadge(0)) // 1st badge
         obedienceLevel = 20;
-    if (HasCurrentRegionBadge(1)) // 2nd badge
+    if (HasActiveRegionBadge(1)) // 2nd badge
         obedienceLevel = 30;
-    if (HasCurrentRegionBadge(2)) // 3rd badge
+    if (HasActiveRegionBadge(2)) // 3rd badge
         obedienceLevel = 40;
-    if (HasCurrentRegionBadge(3)) // 4th badge
+    if (HasActiveRegionBadge(3)) // 4th badge
         obedienceLevel = 50;
-    if (HasCurrentRegionBadge(4)) // 5th badge
+    if (HasActiveRegionBadge(4)) // 5th badge
         obedienceLevel = 60;
-    if (HasCurrentRegionBadge(5)) // 6th badge
+    if (HasActiveRegionBadge(5)) // 6th badge
         obedienceLevel = 70;
-    if (HasCurrentRegionBadge(6)) // 7th badge
+    if (HasActiveRegionBadge(6)) // 7th badge
         obedienceLevel = 80;
 
     if (B_OBEDIENCE_MECHANICS >= GEN_8

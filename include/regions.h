@@ -37,6 +37,7 @@ void SetCurrentRegion(enum Region region);
 void DepositPartyToPC(void);
 bool8 IsNRegionChampion(u8 n);
 void SyncDifficultyForRegion(enum Region region);
+bool8 IsRegionChampion(enum Region region);
 // Re-seed the volatile EWRAM gCurrentRegion from the current map on field load (skips the hub).
 void ResyncCurrentRegionFromMap(void);
 

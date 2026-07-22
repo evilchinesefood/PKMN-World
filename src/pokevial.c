@@ -40,7 +40,7 @@ void PokevialDoseUp(u8 doseIncrease)
 
 void PokevialSizeDown(u8 sizeDecrease)
 {
-    gSaveBlock3Ptr->pokevial.size = ((PokevialGetSize() - sizeDecrease) < VIAL_MIN_SIZE ? VIAL_MIN_SIZE : (gSaveBlock3Ptr->pokevial.size - sizeDecrease));
+    gSaveBlock3Ptr->pokevial.size = ((sizeDecrease >= PokevialGetSize() || (PokevialGetSize() - sizeDecrease) < VIAL_MIN_SIZE) ? VIAL_MIN_SIZE : (gSaveBlock3Ptr->pokevial.size - sizeDecrease));
     PokevialFixDoseOverflow();
 }
 
@@ -85,7 +85,7 @@ static u32 PokevialGetVialPercent(void)
     if (dose == EMPTY_VIAL)
         return POKEVIAL_ICON_PERCENT_0;
 
-    if (dose == size)
+    if (dose >= size) // >= : the nibbles live in un-checksummed SB3 — never index past the icon table
         return POKEVIAL_ICON_PERCENT_100;
 
     vialPercent = (dose * 10 / size);

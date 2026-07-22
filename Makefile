@@ -40,8 +40,6 @@ KEEP_TEMPS  ?= 0
 FILE_NAME := pokemonworld
 BUILD_DIR := build
 
-# Compares the ROM to a checksum of the original - only makes sense using when non-modern
-COMPARE     ?= 0
 # Executes the Test Runner System that checks that all mechanics work as expected
 TEST         ?= 0
 # Enables -fanalyzer C flag to analyze in depth potential UBs
@@ -58,9 +56,6 @@ LTO          ?= 0
 # Enables LTO by default, but can be changed in the config.mk file
 RELEASE      ?= 0
 
-ifeq (compare,$(MAKECMDGOALS))
-  COMPARE := 1
-endif
 ifeq (check,$(MAKECMDGOALS))
   TEST := 1
 endif
@@ -268,7 +263,6 @@ $(INCLUDE_DIRS)/constants/script_commands.h: $(MISC_TOOL_DIR)/make_scr_cmd_const
 	python3  $(MISC_TOOL_DIR)/make_scr_cmd_constants.py
 
 PERL := perl
-SHA1 := $(shell { command -v sha1sum || command -v shasum; } 2>/dev/null) -c
 
 MAKEFLAGS += --no-print-directory
 
@@ -280,7 +274,7 @@ MAKEFLAGS += --no-print-directory
 .DELETE_ON_ERROR:
 
 RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidycheck tidyrelease generated clean-generated clean-teachables clean-teachables_intermediates
-.PHONY: all rom agbcc modern compare check debug release
+.PHONY: all rom agbcc modern check debug release
 .PHONY: $(RULES_NO_SCAN)
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
@@ -343,7 +337,6 @@ $(shell mkdir -p $(SUBDIRS))
 
 # Pretend rules that are actually flags defer to `make all`
 modern: all
-compare: all
 debug: all
 release: all
 # Uncomment the next line, and then comment the 4 lines after it to reenable agbcc.
@@ -377,9 +370,6 @@ check: $(TESTELF)
 
 # Other rules
 rom: $(ROM)
-ifeq ($(COMPARE),1)
-	@$(SHA1) rom.sha1
-endif
 
 syms: $(SYM)
 

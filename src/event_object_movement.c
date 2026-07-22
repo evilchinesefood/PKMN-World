@@ -1925,8 +1925,22 @@ void RecordClearedObstacleFromScript(struct ScriptContext *ctx)
     u8 mapGroup = gSaveBlock1Ptr->location.mapGroup;
     u8 mapNum = gSaveBlock1Ptr->location.mapNum;
     u8 localId = gSpecialVar_LastTalked;
+    u8 i;
 
     (void)ctx;
+    // Border-clone obstacles: the spawned clone adopts its TARGET's localId, and the spawn-side
+    // cleared-check resolves clones to the target identity — record that same identity, or a
+    // clone-side cut never matches (it would burn a slot and regrow anyway).
+    for (i = 0; i < gMapHeader.events->objectEventCount; i++)
+    {
+        const struct ObjectEventTemplate *tmpl = &gSaveBlock1Ptr->objectEventTemplates[i];
+        if (tmpl->kind == OBJ_KIND_CLONE && tmpl->targetLocalId == localId)
+        {
+            mapGroup = tmpl->targetMapGroup;
+            mapNum = tmpl->targetMapNum;
+            break;
+        }
+    }
     if (gSaveBlock3Ptr->clearedObstacleCount >= CLEARED_OBSTACLE_MAX)
         return;
     if (IsClearedObstacle(mapGroup, mapNum, localId))

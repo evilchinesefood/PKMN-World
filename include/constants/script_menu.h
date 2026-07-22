@@ -191,6 +191,21 @@ enum
     MULTI_BNET_VENDOR_STONE,
     MULTI_BNET_VENDOR_STONE_2,
     MULTI_BNET_SHARD_COLOR,
+    // Battle Net P3: sim terminal + streak attendant menus. The three type pages
+    // hold 6 types each in sBnetTypes order (src/battle_net.c) - index 6 pages,
+    // index 7 exits. Leader pages hold 4 leaders - index 4 pages, index 5 exits.
+    MULTI_BNET_SIM_MENU,
+    MULTI_BNET_STREAK_MENU,
+    MULTI_BNET_TYPE_1,
+    MULTI_BNET_TYPE_2,
+    MULTI_BNET_TYPE_3,
+    MULTI_BNET_REGION,
+    MULTI_BNET_LEADER_H1,
+    MULTI_BNET_LEADER_H2,
+    MULTI_BNET_LEADER_J1,
+    MULTI_BNET_LEADER_J2,
+    MULTI_BNET_LEADER_K1,
+    MULTI_BNET_LEADER_K2,
 };
 
 #define MULTI_NONE 255

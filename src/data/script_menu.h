@@ -1258,6 +1258,94 @@ static const struct MenuAction MultichoiceList_BnetShardColor[] =
     {gText_Exit},
 };
 
+// Battle Net P3 menus. The type pages hold 6 types each in sBnetTypes order
+// (src/battle_net.c) - the scripts turn (page, index) into ordinal 0..17, so
+// order here is load-bearing. Index 6 pages, index 7 exits, like the vendor.
+static const struct MenuAction MultichoiceList_BnetSimMenu[] =
+{
+    {COMPOUND_STRING("TYPE TRAINER")}, {COMPOUND_STRING("LEADER SIM")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetStreakMenu[] =
+{
+    {COMPOUND_STRING("TOWER STREAK")},  {COMPOUND_STRING("LV50 ROOM")},
+    {COMPOUND_STRING("MONOTYPE ROOM")}, {COMPOUND_STRING("LITTLE CUP ROOM")},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetType1[] =
+{
+    {COMPOUND_STRING("NORMAL")}, {COMPOUND_STRING("FIGHTING")},
+    {COMPOUND_STRING("FLYING")}, {COMPOUND_STRING("POISON")},
+    {COMPOUND_STRING("GROUND")}, {COMPOUND_STRING("ROCK")},
+    {COMPOUND_STRING("MORE")},   {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetType2[] =
+{
+    {COMPOUND_STRING("BUG")},   {COMPOUND_STRING("GHOST")},
+    {COMPOUND_STRING("STEEL")}, {COMPOUND_STRING("FIRE")},
+    {COMPOUND_STRING("WATER")}, {COMPOUND_STRING("GRASS")},
+    {COMPOUND_STRING("MORE")},  {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetType3[] =
+{
+    {COMPOUND_STRING("ELECTRIC")}, {COMPOUND_STRING("PSYCHIC")},
+    {COMPOUND_STRING("ICE")},      {COMPOUND_STRING("DRAGON")},
+    {COMPOUND_STRING("DARK")},     {COMPOUND_STRING("FAIRY")},
+    {COMPOUND_STRING("BACK")},     {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetRegion[] =
+{
+    {COMPOUND_STRING("HOENN")}, {COMPOUND_STRING("JOHTO")},
+    {COMPOUND_STRING("KANTO")}, {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetLeaderH1[] =
+{
+    {COMPOUND_STRING("ROXANNE")},  {COMPOUND_STRING("BRAWLY")},
+    {COMPOUND_STRING("WATTSON")},  {COMPOUND_STRING("FLANNERY")},
+    {COMPOUND_STRING("MORE")},     {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetLeaderH2[] =
+{
+    {COMPOUND_STRING("NORMAN")},      {COMPOUND_STRING("WINONA")},
+    {COMPOUND_STRING("TATE & LIZA")}, {COMPOUND_STRING("JUAN")},
+    {COMPOUND_STRING("BACK")},        {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetLeaderJ1[] =
+{
+    {COMPOUND_STRING("FALKNER")}, {COMPOUND_STRING("BUGSY")},
+    {COMPOUND_STRING("WHITNEY")}, {COMPOUND_STRING("MORTY")},
+    {COMPOUND_STRING("MORE")},    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetLeaderJ2[] =
+{
+    {COMPOUND_STRING("CHUCK")}, {COMPOUND_STRING("JASMINE")},
+    {COMPOUND_STRING("PRYCE")}, {COMPOUND_STRING("CLAIR")},
+    {COMPOUND_STRING("BACK")},  {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetLeaderK1[] =
+{
+    {COMPOUND_STRING("BROCK")},     {COMPOUND_STRING("MISTY")},
+    {COMPOUND_STRING("LT. SURGE")}, {COMPOUND_STRING("ERIKA")},
+    {COMPOUND_STRING("MORE")},      {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_BnetLeaderK2[] =
+{
+    {COMPOUND_STRING("KOGA")},    {COMPOUND_STRING("BLAINE")},
+    {COMPOUND_STRING("SABRINA")}, {COMPOUND_STRING("GIOVANNI")},
+    {COMPOUND_STRING("BACK")},    {gText_Exit},
+};
+
 static const struct MultichoiceListStruct sMultichoiceLists[] =
 {
     [MULTI_BRINEY_ON_DEWFORD]          = MULTICHOICE(MultichoiceList_BrineyOnDewford),
@@ -1436,6 +1524,18 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BNET_VENDOR_STONE]                          = MULTICHOICE(MultichoiceList_BnetVendorStone),
     [MULTI_BNET_VENDOR_STONE_2]                        = MULTICHOICE(MultichoiceList_BnetVendorStone2),
     [MULTI_BNET_SHARD_COLOR]                           = MULTICHOICE(MultichoiceList_BnetShardColor),
+    [MULTI_BNET_SIM_MENU]                              = MULTICHOICE(MultichoiceList_BnetSimMenu),
+    [MULTI_BNET_STREAK_MENU]                           = MULTICHOICE(MultichoiceList_BnetStreakMenu),
+    [MULTI_BNET_TYPE_1]                                = MULTICHOICE(MultichoiceList_BnetType1),
+    [MULTI_BNET_TYPE_2]                                = MULTICHOICE(MultichoiceList_BnetType2),
+    [MULTI_BNET_TYPE_3]                                = MULTICHOICE(MultichoiceList_BnetType3),
+    [MULTI_BNET_REGION]                                = MULTICHOICE(MultichoiceList_BnetRegion),
+    [MULTI_BNET_LEADER_H1]                             = MULTICHOICE(MultichoiceList_BnetLeaderH1),
+    [MULTI_BNET_LEADER_H2]                             = MULTICHOICE(MultichoiceList_BnetLeaderH2),
+    [MULTI_BNET_LEADER_J1]                             = MULTICHOICE(MultichoiceList_BnetLeaderJ1),
+    [MULTI_BNET_LEADER_J2]                             = MULTICHOICE(MultichoiceList_BnetLeaderJ2),
+    [MULTI_BNET_LEADER_K1]                             = MULTICHOICE(MultichoiceList_BnetLeaderK1),
+    [MULTI_BNET_LEADER_K2]                             = MULTICHOICE(MultichoiceList_BnetLeaderK2),
 };
 
 const u8 *const gStdStrings[] =

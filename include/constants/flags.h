@@ -4147,7 +4147,11 @@
 #define FLAG_BNET_HIDDEN_SHARD_6              (FLAG_HIDDEN_ITEMS_START + 0x12F) // 0x102F Johto Victory Road B1F, yellow
 // Battle Net P2 flagship floor: the director's one-time Mega Ring + starter stone gift.
 #define FLAG_BNET_DIRECTOR_INTRO              (FLAG_WORLD_MAP_BANK + 0x84) // 0xDC4
-// Next free in the world-map window: 0xDC5.
+// Battle Net P3 Leader Sim: assigned to B_FLAG_NO_WHITEOUT (config/battle.h) so a sim loss
+// returns to the floor script instead of whiting out. Set/cleared around each sim battle;
+// Overworld_ResetBattleFlagsAndVars also clears it as a whiteout safety net.
+#define FLAG_BNET_NO_WHITEOUT                 (FLAG_WORLD_MAP_BANK + 0x85) // 0xDC5
+// Next free in the world-map window: 0xDC6.
 
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030

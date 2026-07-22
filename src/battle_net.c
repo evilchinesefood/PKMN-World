@@ -1,9 +1,20 @@
 #include "global.h"
 #include "battle_net.h"
+#include "battle.h"
+#include "battle_main.h"
+#include "battle_setup.h"
+#include "battle_frontier.h"
+#include "battle_transition.h"
 #include "event_data.h"
 #include "difficulty.h"
 #include "item.h"
+#include "main.h"
+#include "overworld.h"
+#include "random.h"
 #include "string_util.h"
+#include "task.h"
+#include "tv.h"
+#include "constants/battle_net.h"
 #include "constants/items.h"
 #include "constants/flags.h"
 #include "constants/opponents.h"
@@ -319,4 +330,352 @@ void BufferBattleNetRecords(void)
     ConvertIntToDecimalStringN(gStringVar1, gSaveBlock2Ptr->frontier.battleNetHardWins, STR_CONV_MODE_LEFT_ALIGN, 5);
     ConvertIntToDecimalStringN(gStringVar2, beaten, STR_CONV_MODE_LEFT_ALIGN, 2);
     ConvertIntToDecimalStringN(gStringVar3, stones, STR_CONV_MODE_LEFT_ALIGN, 2);
+}
+
+// ---------------------------------------------------------------------------
+// P3: battle modes (Scaling Type Trainer, Leader Sim support, Tower Streak,
+// ruleset rooms). Sim battles replicate the Battle Tower launch flow
+// (battle_frontier.c DoFacilityTrainerBattleInternal): BATTLE_TYPE_BATTLE_TOWER
+// means "the enemy party is already filled" (no exp/money, no whiteout, clean
+// return to the calling script after its waitstate). The end handler and start
+// task are replicated here because battle_frontier.c's are static.
+//
+// The Leader Sim itself is plain trainerbattle_no_intro from battle_net.inc
+// (real gTrainers HARD parties); only its BP payout comes through here.
+// ---------------------------------------------------------------------------
+
+// Menu ordinal (0..17) -> type. Keep in the same order as the three
+// MultichoiceList_BnetType* pages in src/data/script_menu.h (6 per page).
+static const u8 sBnetTypes[] =
+{
+    TYPE_NORMAL,   TYPE_FIGHTING, TYPE_FLYING,  TYPE_POISON, TYPE_GROUND, TYPE_ROCK,
+    TYPE_BUG,      TYPE_GHOST,    TYPE_STEEL,   TYPE_FIRE,   TYPE_WATER,  TYPE_GRASS,
+    TYPE_ELECTRIC, TYPE_PSYCHIC,  TYPE_ICE,     TYPE_DRAGON, TYPE_DARK,   TYPE_FAIRY,
+};
+
+STATIC_ASSERT(ARRAY_COUNT(sBnetTypes) == 18, BattleNetTypeMenuCount);
+
+// Marks every species 1..386 that has a Gen 1-3 pre-evolution (a bit per id).
+// One pass over the evolution tables instead of GetSpeciesPreEvolution per
+// candidate (that helper scans ALL species per call - the O(n^2) trap).
+static void BnetMarkPreEvos(u8 *mark)
+{
+    u32 s, j;
+
+    for (s = 1; s <= SPECIES_DEOXYS; s++)
+    {
+        const struct Evolution *evos;
+
+        if (!IsSpeciesEnabled(s))
+            continue;
+        evos = GetSpeciesEvolutions(s);
+        if (evos == NULL)
+            continue;
+        for (j = 0; evos[j].method != EVOLUTIONS_END; j++)
+        {
+            u32 t = evos[j].targetSpecies;
+
+            if (t >= 1 && t <= SPECIES_DEOXYS)
+                mark[t / 8] |= 1 << (t % 8);
+        }
+    }
+}
+
+// Can still evolve into something that exists in this game (Gen 1-3 strip aware):
+// Aipom (Ambipom disabled) is a dead end here, so it is NOT Little Cup material.
+static bool32 BnetCanEvolve(u32 species)
+{
+    const struct Evolution *evos = GetSpeciesEvolutions(species);
+    u32 j;
+
+    if (evos == NULL)
+        return FALSE;
+    for (j = 0; evos[j].method != EVOLUTIONS_END; j++)
+    {
+        if (IsSpeciesEnabled(evos[j].targetSpecies))
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static bool32 BnetIsLittleCup(u32 species, const u8 *preEvoMark)
+{
+    if (species == 0 || species > SPECIES_DEOXYS)
+        return FALSE;
+    if (preEvoMark[species / 8] & (1 << (species % 8)))
+        return FALSE;
+    return BnetCanEvolve(species);
+}
+
+// Opponent pool filter. Iterating ids 1..SPECIES_DEOXYS keeps it to Gen 1-3 base
+// forms (base-form ids follow the National Dex through 386). IsSpeciesEnabled is
+// NOT Gen 1-3 proof on its own, but the id bound is.
+static bool32 BnetPoolAccept(u32 species, u32 mode, u32 type, const u8 *preEvoMark)
+{
+    const struct SpeciesInfo *info = &gSpeciesInfo[species];
+
+    if (!IsSpeciesEnabled(species))
+        return FALSE;
+    if (info->isFrontierBanned || info->isRestrictedLegendary || info->isSubLegendary || info->isMythical)
+        return FALSE;
+    if (mode == BNET_MODE_LC && !BnetIsLittleCup(species, preEvoMark))
+        return FALSE;
+    if ((mode == BNET_MODE_SCALING || mode == BNET_MODE_STREAK || mode == BNET_MODE_MONOTYPE)
+     && type != TYPE_NONE && info->types[0] != type && info->types[1] != type)
+        return FALSE;
+    return TRUE;
+}
+
+static u32 BnetCountUsableMons(void)
+{
+    u32 i, usable = 0;
+
+    for (i = 0; i < gPartiesCount[B_TRAINER_PLAYER]; i++)
+    {
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) != SPECIES_NONE
+         && !GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG))
+            usable++;
+    }
+    return usable;
+}
+
+static u32 BnetAvgPartyLevel(void)
+{
+    u32 i, total = 0, mons = 0;
+
+    for (i = 0; i < gPartiesCount[B_TRAINER_PLAYER]; i++)
+    {
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) != SPECIES_NONE
+         && !GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG))
+        {
+            total += GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_LEVEL);
+            mons++;
+        }
+    }
+    return mons != 0 ? total / mons : 5;
+}
+
+static void BnetHandleBattleEnd(void)
+{
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
+static void Task_BnetStartBattle(u8 taskId)
+{
+    if (IsBattleTransitionDone() == TRUE)
+    {
+        gMain.savedCallback = BnetHandleBattleEnd;
+        SetMainCallback2(CB2_InitBattle);
+        DestroyTask(taskId);
+    }
+}
+
+// VAR_0x8004 = BNET_MODE_*, VAR_0x8005 = type ordinal (SCALING/MONOTYPE).
+// VAR_RESULT = 1 -> battle launched, the script MUST waitstate; 0 -> refused
+// (no usable mon / empty pool), no battle was started so do NOT waitstate.
+void DoBattleNetSimBattle(void)
+{
+    u32 mode = gSpecialVar_0x8004;
+    u32 type = TYPE_NONE;
+    u32 i, s, count, level, pool, idx, otID;
+    u16 picked[4];
+    u8 preEvoMark[SPECIES_DEOXYS / 8 + 1] = {0};
+
+    if (BnetCountUsableMons() == 0)
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+
+    if (mode == BNET_MODE_SCALING || mode == BNET_MODE_MONOTYPE)
+        type = sBnetTypes[gSpecialVar_0x8005 < ARRAY_COUNT(sBnetTypes) ? gSpecialVar_0x8005 : 0];
+    else if (mode == BNET_MODE_STREAK)
+        type = sBnetTypes[Random() % ARRAY_COUNT(sBnetTypes)];
+
+    switch (mode)
+    {
+    case BNET_MODE_LV50:
+        level = 50;
+        break;
+    case BNET_MODE_LC:
+        level = 5;
+        BnetMarkPreEvos(preEvoMark);
+        break;
+    default: // SCALING / STREAK / MONOTYPE: a few levels below the party average
+        level = BnetAvgPartyLevel();
+        level -= 2 + Random() % 4;
+        if (level < 5)
+            level = 5;
+        if (level > MAX_LEVEL)
+            level = MAX_LEVEL;
+        break;
+    }
+
+    if (mode == BNET_MODE_SCALING || mode == BNET_MODE_STREAK)
+        count = 2 + Random() % 3;
+    else
+        count = 3;
+
+    pool = 0;
+    for (s = 1; s <= SPECIES_DEOXYS; s++)
+    {
+        if (BnetPoolAccept(s, mode, type, preEvoMark))
+            pool++;
+    }
+    if (pool == 0 && type != TYPE_NONE)
+    {
+        // Defensive: no enabled species of that type (should be impossible for
+        // all 18 types under the Gen 1-3 roster). Fall back to any type.
+        type = TYPE_NONE;
+        for (s = 1; s <= SPECIES_DEOXYS; s++)
+        {
+            if (BnetPoolAccept(s, mode, type, preEvoMark))
+                pool++;
+        }
+    }
+    if (pool == 0)
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+    if (count > pool)
+        count = pool;
+
+    // Pick `count` distinct ordinals into the pool, then map them to species.
+    for (i = 0; i < count; i++)
+    {
+        u32 j, ord;
+    retry:
+        ord = Random() % pool;
+        for (j = 0; j < i; j++)
+        {
+            if (picked[j] == ord)
+                goto retry;
+        }
+        picked[i] = ord;
+    }
+    idx = 0;
+    for (s = 1; s <= SPECIES_DEOXYS && idx < pool; s++)
+    {
+        if (BnetPoolAccept(s, mode, type, preEvoMark))
+        {
+            for (i = 0; i < count; i++)
+            {
+                if (picked[i] == idx)
+                    picked[i] = 0x8000 | s; // resolved marker (species ids stay < 0x8000)
+            }
+            idx++;
+        }
+    }
+
+    ZeroEnemyPartyMons();
+    otID = Random32();
+    for (i = 0; i < count; i++)
+    {
+        struct TrainerMon fmon = {0};
+
+        fmon.species = picked[i] & 0x7FFF;
+        fmon.heldItem = ITEM_NONE;
+        fmon.ball = 0xFF; // random ball
+        fmon.nature = Random() % NUM_NATURES;
+        CreateFacilityMon(&fmon, level, mode == BNET_MODE_SCALING || mode == BNET_MODE_STREAK ? 15 : 20, otID, 0, &gParties[B_TRAINER_OPPONENT_A][i]);
+        // fmon.moves is all MOVE_NONE and CreateFacilityMon copies it verbatim
+        // (all-zero moves would mean Struggle), so derive a real moveset.
+        GiveMonInitialMoveset(&gParties[B_TRAINER_OPPONENT_A][i]);
+    }
+
+    // Cosmetic identity only (intro name/sprite resolve through the facility
+    // tables under BATTLE_TYPE_BATTLE_TOWER). Ids 0..29 are in range for both
+    // gBattleFrontierTrainers (316) and the tent table (30).
+    TRAINER_BATTLE_PARAM.opponentA = Random() % 30;
+    gBattleScripting.specialTrainerBattleType = 0xFF; // not a real facility (battle_special.c idiom)
+    gBattleTypeFlags = BATTLE_TYPE_TRAINER | BATTLE_TYPE_BATTLE_TOWER;
+    CreateTask(Task_BnetStartBattle, 1);
+    PlayMapChosenOrBattleBGM(0);
+    BattleTransition_StartOnField(GetSpecialBattleTransition(B_TRANSITION_GROUP_B_TOWER));
+    gSpecialVar_Result = 1;
+}
+
+// VAR_0x8004 = BNET_MODE_* (LV50/MONOTYPE/LC), VAR_0x8005 = type ordinal for
+// MONOTYPE. VAR_RESULT = 1 if every battle-relevant party mon (non-egg) obeys
+// the room's rule and at least one exists.
+void CheckBattleNetRuleParty(void)
+{
+    u32 i, mode = gSpecialVar_0x8004;
+    u32 type = TYPE_NONE;
+    u32 usable = 0;
+    u8 preEvoMark[SPECIES_DEOXYS / 8 + 1] = {0};
+
+    if (mode == BNET_MODE_MONOTYPE)
+        type = sBnetTypes[gSpecialVar_0x8005 < ARRAY_COUNT(sBnetTypes) ? gSpecialVar_0x8005 : 0];
+    if (mode == BNET_MODE_LC)
+        BnetMarkPreEvos(preEvoMark);
+
+    for (i = 0; i < gPartiesCount[B_TRAINER_PLAYER]; i++)
+    {
+        u32 species = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES);
+
+        if (species == SPECIES_NONE || GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG))
+            continue;
+        usable++;
+        switch (mode)
+        {
+        case BNET_MODE_LV50:
+            if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_LEVEL) > 50)
+            {
+                gSpecialVar_Result = 0;
+                return;
+            }
+            break;
+        case BNET_MODE_MONOTYPE:
+            if (gSpeciesInfo[species].types[0] != type && gSpeciesInfo[species].types[1] != type)
+            {
+                gSpecialVar_Result = 0;
+                return;
+            }
+            break;
+        case BNET_MODE_LC:
+            if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_LEVEL) != 5
+             || !BnetIsLittleCup(species, preEvoMark))
+            {
+                gSpecialVar_Result = 0;
+                return;
+            }
+            break;
+        }
+    }
+    gSpecialVar_Result = usable != 0;
+}
+
+// battlePoints += VAR_0x8005, clamped. Mirrors the frontier's daily-BP TV stat.
+void AddBattleNetPoints(void)
+{
+    u32 points = gSaveBlock2Ptr->frontier.battlePoints + gSpecialVar_0x8005;
+
+    if (points > MAX_BATTLE_FRONTIER_POINTS)
+        points = MAX_BATTLE_FRONTIER_POINTS;
+    gSaveBlock2Ptr->frontier.battlePoints = points;
+    IncrementDailyBattlePoints(gSpecialVar_0x8005);
+}
+
+// 30% chance: VAR_0x8008 = a random shard color, else ITEM_NONE. The script
+// gives it (checkitemspace-guarded, same forfeit idiom as the rematch payout).
+void GiveBattleNetRandomShard(void)
+{
+    gSpecialVar_0x8008 = ITEM_NONE;
+    if (Random() % 10 < 3)
+        gSpecialVar_0x8008 = sShardItems[Random() % ARRAY_COUNT(sShardItems)];
+}
+
+// VAR_0x8005 = wins this Tower Streak run; keeps the best on the records board.
+void UpdateBattleNetStreak(void)
+{
+    if (gSpecialVar_0x8005 > gSaveBlock2Ptr->frontier.battleNetBestStreak)
+        gSaveBlock2Ptr->frontier.battleNetBestStreak = gSpecialVar_0x8005;
+}
+
+// STR_VAR_1 = best Tower Streak (records board page 2).
+void BufferBattleNetStreak(void)
+{
+    ConvertIntToDecimalStringN(gStringVar1, gSaveBlock2Ptr->frontier.battleNetBestStreak, STR_CONV_MODE_LEFT_ALIGN, 3);
 }

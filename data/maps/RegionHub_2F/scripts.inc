@@ -136,18 +136,112 @@ BattleNet_EventScript_RecordsBoard::
 	lockall
 	special BufferBattleNetRecords          @ STR_VAR_1 = HARD wins, STR_VAR_2 = leaders beaten /39, STR_VAR_3 = stones claimed /30
 	msgbox BattleNet_Text_Records, MSGBOX_DEFAULT
+	special BufferBattleNetStreak           @ STR_VAR_1 = best Tower Streak
+	msgbox BattleNet_Text_Records2, MSGBOX_DEFAULT
 	releaseall
 	end
 
-@ ---------- Streak attendant (P3 fills the battle flow; P2 ships a teaser) ----------
+@ ---------- Streak attendant (P3): Tower Streak + the three ruleset rooms ----------
+@ Sim battles only (Battle Tower type): no exp/money/whiteout, party healed around every
+@ round. Streak: up to 7 straight scaling battles vs random types; 1 BP per win paid at
+@ the end, +BNET_STREAK_BONUS for a perfect run; best run sits on the records board.
+@ Rooms: one battle under a party rule (checked by CheckBattleNetRuleParty), win = 2 BP.
 BattleNet_EventScript_StreakAttendant::
-	msgbox BattleNet_Text_StreakSoon, MSGBOX_NPC
+	lock
+	faceplayer
+	msgbox BattleNet_Text_StreakIntro, MSGBOX_DEFAULT
+BattleNet_EventScript_StreakMenu:
+	multichoice 0, 0, MULTI_BNET_STREAK_MENU, FALSE
+	switch VAR_RESULT
+	case 0, BattleNet_EventScript_StreakRun
+	case 1, BattleNet_EventScript_RoomLv50
+	case 2, BattleNet_EventScript_RoomMonotype
+	case 3, BattleNet_EventScript_RoomLc
+BattleNet_EventScript_StreakBye::
+	msgbox BattleNet_Text_StreakByeMsg, MSGBOX_DEFAULT
+	release
 	end
 
-@ ---------- Sim terminal (P3 fills Scaling Type Trainer + Leader Sim; P2 ships a teaser) ----------
-BattleNet_EventScript_SimTerminal::
-	msgbox BattleNet_Text_SimSoon, MSGBOX_NPC
+BattleNet_EventScript_StreakRun::
+	msgbox BattleNet_Text_StreakConfirm, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleNet_EventScript_StreakMenu
+	setvar VAR_TEMP_2, 0
+BattleNet_EventScript_StreakLoop:
+	special HealPlayerParty
+	setvar VAR_0x8004, BNET_MODE_STREAK
+	setvar VAR_0x8005, 0
+	special DoBattleNetSimBattle
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_StreakCantStart
+	waitstate
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, BattleNet_EventScript_StreakOver
+	addvar VAR_TEMP_2, 1
+	buffernumberstring 0, VAR_TEMP_2
+	msgbox BattleNet_Text_StreakWinN, MSGBOX_DEFAULT
+	goto_if_ne VAR_TEMP_2, BNET_STREAK_ROUNDS, BattleNet_EventScript_StreakLoop
+BattleNet_EventScript_StreakOver:
+	special HealPlayerParty
+	copyvar VAR_0x8005, VAR_TEMP_2
+	special UpdateBattleNetStreak
+	special AddBattleNetPoints              @ 1 BP per win (0 wins pays nothing)
+	buffernumberstring 0, VAR_TEMP_2
+	goto_if_eq VAR_TEMP_2, BNET_STREAK_ROUNDS, BattleNet_EventScript_StreakCleared
+	msgbox BattleNet_Text_StreakEnded, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_StreakCleared:
+	setvar VAR_0x8005, BNET_STREAK_BONUS
+	special AddBattleNetPoints
+	msgbox BattleNet_Text_StreakPerfect, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_StreakCantStart:
+	msgbox BattleNet_Text_StreakNoParty, MSGBOX_DEFAULT
+	release
 	end
+
+BattleNet_EventScript_RoomLv50::
+	setvar VAR_0x8004, BNET_MODE_LV50
+	setvar VAR_0x8005, 0
+	goto BattleNet_EventScript_RoomCommon
+BattleNet_EventScript_RoomMonotype::
+	call BattleNet_EventScript_PickType
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_StreakMenu
+	setvar VAR_0x8004, BNET_MODE_MONOTYPE
+	goto BattleNet_EventScript_RoomCommon
+BattleNet_EventScript_RoomLc::
+	setvar VAR_0x8004, BNET_MODE_LC
+	setvar VAR_0x8005, 0
+BattleNet_EventScript_RoomCommon:
+	special CheckBattleNetRuleParty
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_RoomRuleFail
+	special HealPlayerParty
+	special DoBattleNetSimBattle
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_StreakCantStart
+	waitstate
+	special HealPlayerParty
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, BattleNet_EventScript_RoomLost
+	setvar VAR_0x8005, 2
+	special AddBattleNetPoints
+	msgbox BattleNet_Text_RoomWon, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_RoomLost:
+	msgbox BattleNet_Text_RoomLost, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_RoomRuleFail:
+	goto_if_eq VAR_0x8004, BNET_MODE_LV50, BattleNet_EventScript_RuleFailLv50
+	goto_if_eq VAR_0x8004, BNET_MODE_MONOTYPE, BattleNet_EventScript_RuleFailMono
+	msgbox BattleNet_Text_RuleLc, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_RuleFailLv50:
+	msgbox BattleNet_Text_RuleLv50, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_RuleFailMono:
+	msgbox BattleNet_Text_RuleMono, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+
+@ ---------- Sim terminal (P3): Scaling Type Trainer + Leader Sim ----------
+BattleNet_EventScript_SimTerminal::
+	goto BattleNet_EventScript_TerminalAttendant
 
 @ ---------- Texts ----------
 BattleNet_Text_DirectorIntro:
@@ -201,9 +295,47 @@ BattleNet_Text_Records:
 	.string "HARD rematch wins: {STR_VAR_1}\n"
 	.string "Leaders bested: {STR_VAR_2}/39\l"
 	.string "Signature stones claimed: {STR_VAR_3}/30$"
-BattleNet_Text_StreakSoon:
-	.string "The STREAK and RULESET sim pods are\n"
-	.string "still calibrating. Check back soon!$"
-BattleNet_Text_SimSoon:
-	.string "The TYPE TRAINER and LEADER SIM pods\n"
-	.string "are still calibrating. Check back soon!$"
+BattleNet_Text_Records2:
+	.string "Best TOWER STREAK: {STR_VAR_1}/7$"
+BattleNet_Text_StreakIntro:
+	.string "Welcome to the deep sims!\p"
+	.string "TOWER STREAK chains up to 7 wins.\n"
+	.string "The ruleset ROOMS demand a matching\l"
+	.string "party and pay 2 BP a win.$"
+BattleNet_Text_StreakByeMsg:
+	.string "Come test your streak again!$"
+BattleNet_Text_StreakConfirm:
+	.string "TOWER STREAK: up to 7 sims in a row\n"
+	.string "vs random types.\p"
+	.string "1 BP per win, +5 BP for a perfect run.\n"
+	.string "A loss ends the run. Begin?$"
+BattleNet_Text_StreakWinN:
+	.string "Win {STR_VAR_1} of 7!$"
+BattleNet_Text_StreakEnded:
+	.string "Run over - {STR_VAR_1} straight wins.\n"
+	.string "1 BP paid per win.$"
+BattleNet_Text_StreakPerfect:
+	.string "A PERFECT 7!\p"
+	.string "7 BP for the wins plus a 5 BP bonus.\n"
+	.string "The records board will remember this.$"
+BattleNet_Text_StreakNoParty:
+	.string "ERROR: no battle-ready POKéMON\n"
+	.string "detected in your party.$"
+BattleNet_Text_RoomWon:
+	.string "RULESET CLEARED - you win!\n"
+	.string "2 BATTLE POINTS awarded.$"
+BattleNet_Text_RoomLost:
+	.string "The room's champion sim holds.\n"
+	.string "No BP this time.$"
+BattleNet_Text_RuleLv50:
+	.string "LV50 ROOM RULE:\n"
+	.string "every party POKéMON must be Lv50\l"
+	.string "or below.$"
+BattleNet_Text_RuleMono:
+	.string "MONOTYPE ROOM RULE:\n"
+	.string "every party POKéMON must share the\l"
+	.string "chosen type.$"
+BattleNet_Text_RuleLc:
+	.string "LITTLE CUP RULE:\n"
+	.string "only Lv5 POKéMON that have not\l"
+	.string "evolved but still can.$"

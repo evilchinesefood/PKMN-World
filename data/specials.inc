@@ -688,3 +688,9 @@ gSpecials::
 	def_special DeductBattleNetShards
 	def_special TryBuyBattleNetShard
 	def_special BufferBattleNetRecords
+	def_special DoBattleNetSimBattle
+	def_special CheckBattleNetRuleParty
+	def_special AddBattleNetPoints
+	def_special GiveBattleNetRandomShard
+	def_special UpdateBattleNetStreak
+	def_special BufferBattleNetStreak

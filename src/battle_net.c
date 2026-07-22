@@ -502,13 +502,17 @@ void DoBattleNetSimBattle(void)
         BnetMarkPreEvos(preEvoMark);
         break;
     default: // SCALING / STREAK / MONOTYPE: a few levels below the party average
+    {
+        // Guard BEFORE subtracting: level is unsigned, and an early party (average <= 4)
+        // would wrap past zero, dodge the < 5 clamp, and field Lv100 opponents.
+        u32 sub = 2 + Random() % 4;
+
         level = BnetAvgPartyLevel();
-        level -= 2 + Random() % 4;
-        if (level < 5)
-            level = 5;
+        level = (level > sub + 5) ? level - sub : 5;
         if (level > MAX_LEVEL)
             level = MAX_LEVEL;
         break;
+    }
     }
 
     if (mode == BNET_MODE_SCALING || mode == BNET_MODE_STREAK)

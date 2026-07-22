@@ -13,7 +13,10 @@
 BattleNet_EventScript_OnLeaderRematchWin::
 	special TryBattleNetRematchReward
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_RewardDone
+	checkitemspace VAR_0x8006, VAR_0x8007
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_ShardsForfeited
 	giveitem VAR_0x8006, VAR_0x8007
+BattleNet_EventScript_TryStone:
 	compare VAR_0x8008, ITEM_NONE
 	goto_if_eq BattleNet_EventScript_TryStone2
 	giveitem VAR_0x8008
@@ -33,6 +36,17 @@ BattleNet_EventScript_RewardDone:
 BattleNet_EventScript_StonePending:
 	msgbox BattleNet_Text_StonePending, MSGBOX_DEFAULT
 	return
+
+@ Shards are forfeited, not held: owed-count state would need a SaveBlock field and v6 is frozen.
+@ The stone give below still runs -- it has its own pending/reclaim path.
+BattleNet_EventScript_ShardsForfeited:
+	msgbox BattleNet_Text_ShardsForfeited, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_TryStone
+
+BattleNet_Text_ShardsForfeited:
+	.string "Your BAG is full, so today's SHARD\n"
+	.string "payout was forfeited.\p"
+	.string "Make room before your next rematch.$"
 
 BattleNet_Text_StonePending:
 	.string "The Battle Net is holding a MEGA STONE\n"

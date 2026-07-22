@@ -104,7 +104,6 @@ LilycoveCity_DepartmentStore_2F_Pokemart1:
 	.2byte ITEM_IRON_BALL
 	.2byte ITEM_METRONOME
 	.2byte ITEM_AMULET_COIN
-	.2byte ITEM_SOUL_DEW
 	@ Type-boost items
 	.2byte ITEM_CHARCOAL
 	.2byte ITEM_MYSTIC_WATER

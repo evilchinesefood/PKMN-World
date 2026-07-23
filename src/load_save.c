@@ -244,7 +244,17 @@ STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChange
 // The banks now live in struct RegionSave (layout-neutral wrapper); regionVars is its first field,
 // so pinning the wrapper at 0x20 pins regionVars at 0x20 exactly as before.
 STATIC_ASSERT(offsetof(struct SaveBlock3, region) == 0x20, SaveBlock3RegionMoved_BumpSaveFormatVersion);
-STATIC_ASSERT(offsetof(struct RegionSave, regionVars) == 0, RegionSaveRegionVarsNotFirst);
+// "Append-only, never reorder" must be ENFORCED, not just a comment: the offsets below depend on
+// sizeof(Usm_SavedItems)/sizeof(DaycareMon), so a field inserted/resized BETWEEN banks would shift
+// every later un-checksummed bank silently. Pin every interior bank offset + the exact struct size
+// (probe-verified with the repo CFLAGS); any change forces a SAVE_FORMAT_VERSION bump + ladder step.
+STATIC_ASSERT(offsetof(struct RegionSave, regionVars) == 0, RegionSaveRegionVarsMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, johtoFlags) == 768, RegionSaveJohtoFlagsMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, usmSaved) == 896, RegionSaveUsmSavedMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, kantoTrainerFlags) == 909, RegionSaveKantoTrainerFlagsMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, route5DayCareMon) == 992, RegionSaveRoute5DayCareMonMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleCount) == 1132, RegionSaveClearedObstacleCountMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(sizeof(struct RegionSave) == 1552, RegionSaveSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
 // The party-menu "Follow" chooser (e0d958f1) carved followerSlot from the SAME 0x90-0x97 filler as
 // the region bytes above. Pin its offset so a later edit to those bytes - e.g. a 9th intro bit

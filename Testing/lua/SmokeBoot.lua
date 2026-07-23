@@ -7,8 +7,10 @@ local S = require("symbols")
 local F = require("lib").new(require("symbols"), "SmokeBoot")
 
 F.run(function()
-  F.check("symbols loaded (gMain resolved)", S.gMain ~= nil and S.gMain > 0x03000000)
-  F.check("symbols loaded (CB2_Overworld resolved)", S.CB2_Overworld ~= nil and S.CB2_Overworld > 0x08000000)
+  -- bound both ends: gMain must be in IWRAM (0x03000000-0x03007FFF), CB2_Overworld in ROM
+  -- (0x08000000-0x09FFFFFF). A garbage-but-above-threshold address would pass a lower-bound-only check.
+  F.check("symbols loaded (gMain in IWRAM)", S.gMain ~= nil and S.gMain > 0x03000000 and S.gMain < 0x03008000)
+  F.check("symbols loaded (CB2_Overworld in ROM)", S.CB2_Overworld ~= nil and S.CB2_Overworld > 0x08000000 and S.CB2_Overworld < 0x0A000000)
   if not F.boot(100) then F.check("boot to overworld", false); F.finish(); return end
   F.check("booted to the RegionHub (map group 100)", F.grp() == 100, "grp=" .. F.grp())
   F.check("fresh boot lands at hub crest (16,4)", select(1, F.pos()) == 16 and select(2, F.pos()) == 4,

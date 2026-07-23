@@ -206,8 +206,9 @@ RegionHub_Text_AttendantGiveHubPass:
 RegionHub_Text_HubPassBagFull:
 	.string "Hm? Your KEY ITEMS pocket is full,\n"
 	.string "so I can't hand you a HUB PASS.\p"
-	.string "See the CURATOR by the east counter\n"
-	.string "once you've made room.$"
+	.string "Make room, and the CURATOR here in\n"
+	.string "WORLD TRANSIT will have one for you\l"
+	.string "next time you pass through.$"
 
 RegionHub_Text_TravelFrontier:
 	.string "Beyond this gate lies the\n"

@@ -13,6 +13,14 @@
 
 local M = {}
 
+-- Where logs + screenshots land. This CANNOT be derived portably inside BizHawk: the main --lua
+-- chunk is named "main" (debug.getinfo gives no file path), and BizHawk resolves RELATIVE io.open /
+-- client.screenshot paths against its own exe dir, not the Lua cwd — so an absolute path is the only
+-- thing that reliably targets the repo's gitignored scratch dir. The primary, portable output is the
+-- console VERDICT line (console.log), which prints regardless; the log file is a headless-scraping
+-- convenience. On another setup, override with opts.out = "<your>\\scratch\\" (or read the console).
+local DEFAULT_OUT = "C:\\Users\\evilc\\Github\\PKMN-World\\_pwtest\\"
+
 -- ---- construction --------------------------------------------------------------------------
 -- opts: { out = "C:\\...\\_pwtest\\", speed = 800 }. `out` is where the log + shots land.
 function M.new(S, name, opts)
@@ -20,7 +28,7 @@ function M.new(S, name, opts)
   local self = {}
   self.S = S
   self.name = name
-  self.out = opts.out or "C:\\Users\\evilc\\Github\\PKMN-World\\_pwtest\\"
+  self.out = opts.out or DEFAULT_OUT
   self.speed = opts.speed or 800
   self.shotn = 0
   self.results = {}
@@ -51,8 +59,8 @@ function M.new(S, name, opts)
 
   -- position / map
   local function pos() if not valid() then return -999, -999 end return rs16(sb1() + S.SaveBlock1.x), rs16(sb1() + S.SaveBlock1.y) end
-  local function grp() if not valid() then return -1 end return r8(sb1() + S.SaveBlock1.mapGroup) end
-  local function mapn() if not valid() then return -1 end return r8(sb1() + S.SaveBlock1.mapNum) end
+  local function grp() if not valid() then return -1 end return rs8(sb1() + S.SaveBlock1.mapGroup) end
+  local function mapn() if not valid() then return -1 end return rs8(sb1() + S.SaveBlock1.mapNum) end
   self.pos, self.grp, self.mapn = pos, grp, mapn
 
   -- overworld / battle predicates
@@ -208,9 +216,13 @@ function M.new(S, name, opts)
   self.objdump = objdump
 
   -- key-items pocket scan: returns (slotIndex, {ids...}) for a wanted item id (pocket 4)
+  -- capacity is a 10-bit bitfield (packed with id:6 into a u16) — mask it, don't r8 (r8 only works
+  -- while every pocket capacity stays < 256, which is true today but silently truncates otherwise).
+  local function pocketCap(p) return bit.band(r16(S.gBagPockets + p * S.BagPocket.stride + S.BagPocket.count), 0x3FF) end
+  self.pocketCap = pocketCap
   local function keyItemSlot(id)
     local ptr = r32(S.gBagPockets + 4 * S.BagPocket.stride)
-    local cap = r8(S.gBagPockets + 4 * S.BagPocket.stride + S.BagPocket.count)
+    local cap = pocketCap(4)
     local slot, dump = -1, {}
     if ptr >= 0x02000000 and ptr < 0x02040000 then
       for s = 0, cap - 1 do
@@ -226,7 +238,7 @@ function M.new(S, name, opts)
     local n = 0
     for p = 0, 4 do
       local ptr = r32(S.gBagPockets + p * S.BagPocket.stride)
-      local cap = r8(S.gBagPockets + p * S.BagPocket.stride + S.BagPocket.count)
+      local cap = pocketCap(p)
       if ptr >= 0x02000000 and ptr < 0x02040000 and cap > 0 and cap < 200 then
         for s = 0, cap - 1 do if r16(ptr + s * 4) == id then n = n + 1 end end
       end

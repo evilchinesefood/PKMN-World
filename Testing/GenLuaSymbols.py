@@ -36,7 +36,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, flags = 4728, vars = 5246, money = 1168 },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768 },
-  SaveBlock3   = { regionVars = 0x20, johtoFlags = 800, usmSaved = 928, kantoTrainerFlags = 941 },
+  SaveBlock3   = { regionVars = 0x20, johtoFlags = 800, usmSaved = 928, kantoTrainerFlags = 941,
+                   route5DayCareMon = 1024, clearedObstacleCount = 1164 },
 """
 
 
@@ -66,6 +67,14 @@ def main():
         ent = syms.get(name)
         if not ent:
             sys.exit(f"symbol not found in {elf}: {name}")
+        # Fail loud on AMBIGUOUS names too, not just missing ones: a file-local static shadowing a
+        # global (or a symbol in a discarded section) would otherwise silently resolve to whichever
+        # occurrence nm listed first, making every test read the wrong RAM. Add it to SIZED (like
+        # sMenu) to disambiguate by size.
+        addrs = {a for (a, _s) in ent}
+        if len(addrs) > 1:
+            sys.exit(f"AMBIGUOUS symbol {name}: {sorted(hex(a) for a in addrs)} "
+                     f"— disambiguate by size in SIZED before trusting an address")
         lines.append(f"  {name} = 0x{ent[0][0]:08x},")
     for name, want_size in SIZED.items():
         ent = syms.get(name, [])

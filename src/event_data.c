@@ -200,7 +200,7 @@ u16 *GetVarPointer(u16 id)
         return &gSaveBlock1Ptr->vars[id - VARS_START];
     // Region merge: per-region story var bank, stored in SaveBlock3 (see region_vars.h).
     else if (id >= REGION_VARS_START && id <= REGION_VARS_END)
-        return &gSaveBlock3Ptr->regionVars[id - REGION_VARS_START];
+        return &gSaveBlock3Ptr->region.regionVars[id - REGION_VARS_START];
 #if TESTING
     else if (id >= TESTING_VARS_START)
         return &sTestVars[id - TESTING_VARS_START];
@@ -266,10 +266,10 @@ u8 *GetFlagPointer(u16 id)
         return &gSaveBlock1Ptr->flags[id / 8];
     // Region merge: reserved Johto flag bank, stored in SaveBlock3 (see region_flags.h).
     else if (id >= FLAG_JOHTO_BASE && id <= FLAG_JOHTO_END)
-        return &gSaveBlock3Ptr->johtoFlags[(id - FLAG_JOHTO_BASE) / 8];
+        return &gSaveBlock3Ptr->region.johtoFlags[(id - FLAG_JOHTO_BASE) / 8];
     // Region merge (E5-1): Kanto trainer defeat-flag bank, stored in SaveBlock3.
     else if (id >= FLAG_KANTO_TRAINER_BASE && id <= FLAG_KANTO_TRAINER_END)
-        return &gSaveBlock3Ptr->kantoTrainerFlags[(id - FLAG_KANTO_TRAINER_BASE) / 8];
+        return &gSaveBlock3Ptr->region.kantoTrainerFlags[(id - FLAG_KANTO_TRAINER_BASE) / 8];
 #if TESTING
     else if (id >= TESTING_FLAGS_START)
         return &sTestFlags[(id - TESTING_FLAGS_START) / 8];

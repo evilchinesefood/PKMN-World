@@ -188,8 +188,8 @@ void MigrateSaveFormatIfNeeded(void)
     // next visit home); Kanto and Johto are genuinely unvisited. Stamps saveVersion in RAM only.
     if (savedVersion < 1)
     {
-        memset(gSaveBlock3Ptr->regionVars, 0, sizeof(gSaveBlock3Ptr->regionVars));
-        memset(gSaveBlock3Ptr->johtoFlags, 0, sizeof(gSaveBlock3Ptr->johtoFlags));
+        memset(gSaveBlock3Ptr->region.regionVars, 0, sizeof(gSaveBlock3Ptr->region.regionVars));
+        memset(gSaveBlock3Ptr->region.johtoFlags, 0, sizeof(gSaveBlock3Ptr->region.johtoFlags));
 
         gSaveBlock2Ptr->currentRegion    = REGION_HOENN;
         gSaveBlock2Ptr->hoennIntroDone   = TRUE;
@@ -201,22 +201,22 @@ void MigrateSaveFormatIfNeeded(void)
     // region banks; on older saves those bytes are uninitialised flash. Zero ONLY the new
     // field - v1 region-bank/bit semantics are untouched.
     if (savedVersion < 2)
-        memset(&gSaveBlock3Ptr->usmSaved, 0, sizeof(gSaveBlock3Ptr->usmSaved));
+        memset(&gSaveBlock3Ptr->region.usmSaved, 0, sizeof(gSaveBlock3Ptr->region.usmSaved));
     // v2 -> v3: SaveBlock3.kantoTrainerFlags (Kanto trainer defeat-flag bank, E5-1) was
     // appended after usmSaved; on older saves those bytes are uninitialised flash. Zero ONLY
     // the new bank - no Kanto trainer was beatable before v3, so "none defeated" is correct.
     if (savedVersion < 3)
-        memset(gSaveBlock3Ptr->kantoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->kantoTrainerFlags));
+        memset(gSaveBlock3Ptr->region.kantoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->region.kantoTrainerFlags));
     // v3 -> v4: SaveBlock3.route5DayCareMon (FRLG Route 5 single-mon day care, E7-1) was
     // appended after kantoTrainerFlags; on older saves those bytes are uninitialised flash.
     // Zero ONLY the new field - an all-zero DaycareMon is an empty day care (no stored mon).
     if (savedVersion < 4)
-        memset(&gSaveBlock3Ptr->route5DayCareMon, 0, sizeof(gSaveBlock3Ptr->route5DayCareMon));
+        memset(&gSaveBlock3Ptr->region.route5DayCareMon, 0, sizeof(gSaveBlock3Ptr->region.route5DayCareMon));
     // v4 -> v5: SaveBlock3.clearedObstacleCount/clearedObstacles (persistent cut trees + smashed
     // rocks) were appended after route5DayCareMon; on older saves those bytes are uninitialised
     // flash. Zero the count so the cleared-obstacle set starts empty.
     if (savedVersion < 5)
-        gSaveBlock3Ptr->clearedObstacleCount = 0;
+        gSaveBlock3Ptr->region.clearedObstacleCount = 0;
     // v5 -> v6: the FRLG story vars were rebased from raw SaveBlock1.vars IDs (0x4025-0x408A,
     // where they aliased live Hoenn vars) onto the reserved Kanto regionVars slice. Copy each
     // moved var's old shared cell into its new slot - the cell value is the best available
@@ -227,7 +227,7 @@ void MigrateSaveFormatIfNeeded(void)
     {
         u32 i;
         for (i = 0; i < ARRAY_COUNT(sKantoVarRebase); i++)
-            gSaveBlock3Ptr->regionVars[sKantoVarRebase[i].newId - REGION_VARS_START]
+            gSaveBlock3Ptr->region.regionVars[sKantoVarRebase[i].newId - REGION_VARS_START]
                 = gSaveBlock1Ptr->vars[sKantoVarRebase[i].oldId - VARS_START];
     }
 
@@ -239,9 +239,12 @@ void MigrateSaveFormatIfNeeded(void)
 STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
-// SaveBlock3 is append-only: a field inserted/reordered BEFORE regionVars (e.g. by toggling a
-// prefix #if like QUEST_MENU) shifts every bank with no checksum to catch it. Pin the start.
-STATIC_ASSERT(offsetof(struct SaveBlock3, regionVars) == 0x20, SaveBlock3RegionVarsMoved_BumpSaveFormatVersion);
+// SaveBlock3 is append-only: a field inserted/reordered BEFORE the region banks (e.g. by toggling
+// a prefix #if like QUEST_MENU) shifts every bank with no checksum to catch it. Pin the start.
+// The banks now live in struct RegionSave (layout-neutral wrapper); regionVars is its first field,
+// so pinning the wrapper at 0x20 pins regionVars at 0x20 exactly as before.
+STATIC_ASSERT(offsetof(struct SaveBlock3, region) == 0x20, SaveBlock3RegionMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, regionVars) == 0, RegionSaveRegionVarsNotFirst);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
 // The party-menu "Follow" chooser (e0d958f1) carved followerSlot from the SAME 0x90-0x97 filler as
 // the region bytes above. Pin its offset so a later edit to those bytes - e.g. a 9th intro bit

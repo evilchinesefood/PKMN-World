@@ -921,6 +921,22 @@ struct ClearedObstacle
     u8 localId;
 };
 
+// Region-merge save banks grouped into ONE named unit. Layout-neutral: the exact same fields in
+// the same order that were previously inline in SaveBlock3, pinned at the same offset by the
+// STATIC_ASSERTs in load_save.c (offsetof(SaveBlock3, region) stays 0x20). The wrapper exists so a
+// save-format edit touches a single named struct and a future SB3 checksum can cover exactly this
+// range. Append-only — never reorder. See constants/region_vars.h and constants/region_flags.h.
+struct RegionSave
+{
+    u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
+    u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
+    struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
+    u8 kantoTrainerFlags[NUM_KANTO_TRAINER_FLAG_BYTES]; // Kanto trainer defeat-flag bank = 80 bytes (save format v3+)
+    struct DaycareMon route5DayCareMon;     // FRLG Route 5 single-mon day care (save format v4+); frozen SaveBlock1 can't hold it
+    u8 clearedObstacleCount;                                     // persistent cut trees + smashed rocks (save format v5+)
+    struct ClearedObstacle clearedObstacles[CLEARED_OBSTACLE_MAX];
+};
+
 struct SaveBlock3
 {
 #if OW_USE_FAKE_RTC
@@ -946,16 +962,7 @@ struct SaveBlock3
     u8 questData[QUEST_FLAGS_COUNT * QUEST_STATES];
     u8 subQuests[SUB_FLAGS_COUNT];
 #endif // QUEST_MENU
-    // Region merge: per-region story state that does not fit SaveBlock1's tight
-    // 4-sector budget. Append-only — never reorder. See constants/region_vars.h
-    // and constants/region_flags.h. Both are bank-isolated so regions never alias.
-    u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
-    u8 johtoFlags[NUM_JOHTO_FLAG_BYTES];    // reserved Johto flag bank = 128 bytes
-    struct Usm_SavedItems usmSaved;         // graphical start menu icon order (save format v2+)
-    u8 kantoTrainerFlags[NUM_KANTO_TRAINER_FLAG_BYTES]; // Kanto trainer defeat-flag bank = 80 bytes (save format v3+)
-    struct DaycareMon route5DayCareMon;     // FRLG Route 5 single-mon day care (save format v4+); frozen SaveBlock1 can't hold it
-    u8 clearedObstacleCount;                                     // persistent cut trees + smashed rocks (save format v5+)
-    struct ClearedObstacle clearedObstacles[CLEARED_OBSTACLE_MAX];
+    struct RegionSave region;
 }; /* max size 1624 bytes */
 
 struct DayCare

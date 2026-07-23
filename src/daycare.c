@@ -1221,7 +1221,7 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 // lives in SaveBlock3.route5DayCareMon. Select the storage per build; the logic is
 // otherwise identical.
 #if ALL_REGIONS
-#define sRoute5DaycareMon (gSaveBlock3Ptr->route5DayCareMon)
+#define sRoute5DaycareMon (gSaveBlock3Ptr->region.route5DayCareMon)
 #elif IS_FRLG
 #define sRoute5DaycareMon (gSaveBlock1Ptr->route5DayCareMon)
 #endif

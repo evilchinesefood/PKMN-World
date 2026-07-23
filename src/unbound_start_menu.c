@@ -4,7 +4,7 @@
 //  - clock/date row stripped (play-time display was deliberately removed from this game)
 //  - Quests icon added, wired to the classic menu's Task_QuestMenu_OpenFromStartMenu
 //  - sUsmModeCallbacks const-ified and sUsmMenuCallback moved to EWRAM (no IWRAM growth)
-//  - gSaveBlock3Ptr->usmSaved fully validated before use (count, item range,
+//  - gSaveBlock3Ptr->region.usmSaved fully validated before use (count, item range,
 //    duplicates) - it lives in un-checksummed flash, so any bad byte wipes the list
 #include "global.h"
 #include "config/start_menu.h"
@@ -888,7 +888,7 @@ static u32 Usm_GetDefaultIndex(enum Usm_Icons item)
 
 static void Usm_InsertSavedItem(enum Usm_Icons item)
 {
-    struct Usm_SavedItems *saved = &gSaveBlock3Ptr->usmSaved;
+    struct Usm_SavedItems *saved = &gSaveBlock3Ptr->region.usmSaved;
     u32 insertIndex = saved->count;
     u32 defaultIndex = Usm_GetDefaultIndex(item);
 
@@ -940,7 +940,7 @@ static void Usm_SanitizeSavedItems(struct Usm_SavedItems *saved)
 
 static void Usm_BuildMenuItems(void)
 {
-    struct Usm_SavedItems* saved = &gSaveBlock3Ptr->usmSaved;
+    struct Usm_SavedItems* saved = &gSaveBlock3Ptr->region.usmSaved;
 
     Usm_SanitizeSavedItems(saved);
 
@@ -1118,7 +1118,7 @@ static struct Sprite* Usm_GetSelectedSprite(void)
 
 static void Usm_SaveItems(void)
 {
-    struct Usm_SavedItems* saved = &gSaveBlock3Ptr->usmSaved;
+    struct Usm_SavedItems* saved = &gSaveBlock3Ptr->region.usmSaved;
 
     u8 count = sUsmState->itemCount;
 

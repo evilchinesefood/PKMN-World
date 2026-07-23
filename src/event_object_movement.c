@@ -1908,10 +1908,10 @@ static bool32 IsObstacleGraphicsId(u16 graphicsId)
 static bool32 IsClearedObstacle(u8 mapGroup, u8 mapNum, u8 localId)
 {
     u32 i;
-    u32 n = min(gSaveBlock3Ptr->clearedObstacleCount, CLEARED_OBSTACLE_MAX); // guard a bad/unmigrated count
+    u32 n = min(gSaveBlock3Ptr->region.clearedObstacleCount, CLEARED_OBSTACLE_MAX); // guard a bad/unmigrated count
     for (i = 0; i < n; i++)
     {
-        const struct ClearedObstacle *o = &gSaveBlock3Ptr->clearedObstacles[i];
+        const struct ClearedObstacle *o = &gSaveBlock3Ptr->region.clearedObstacles[i];
         if (o->localId == localId && o->mapNum == mapNum && o->mapGroup == mapGroup)
             return TRUE;
     }
@@ -1941,14 +1941,14 @@ void RecordClearedObstacleFromScript(struct ScriptContext *ctx)
             break;
         }
     }
-    if (gSaveBlock3Ptr->clearedObstacleCount >= CLEARED_OBSTACLE_MAX)
+    if (gSaveBlock3Ptr->region.clearedObstacleCount >= CLEARED_OBSTACLE_MAX)
         return;
     if (IsClearedObstacle(mapGroup, mapNum, localId))
         return;
-    gSaveBlock3Ptr->clearedObstacles[gSaveBlock3Ptr->clearedObstacleCount].mapGroup = mapGroup;
-    gSaveBlock3Ptr->clearedObstacles[gSaveBlock3Ptr->clearedObstacleCount].mapNum = mapNum;
-    gSaveBlock3Ptr->clearedObstacles[gSaveBlock3Ptr->clearedObstacleCount].localId = localId;
-    gSaveBlock3Ptr->clearedObstacleCount++;
+    gSaveBlock3Ptr->region.clearedObstacles[gSaveBlock3Ptr->region.clearedObstacleCount].mapGroup = mapGroup;
+    gSaveBlock3Ptr->region.clearedObstacles[gSaveBlock3Ptr->region.clearedObstacleCount].mapNum = mapNum;
+    gSaveBlock3Ptr->region.clearedObstacles[gSaveBlock3Ptr->region.clearedObstacleCount].localId = localId;
+    gSaveBlock3Ptr->region.clearedObstacleCount++;
 }
 
 u8 TrySpawnObjectEventTemplate(const struct ObjectEventTemplate *objectEventTemplate, u8 mapNum, u8 mapGroup, s16 cameraX, s16 cameraY)

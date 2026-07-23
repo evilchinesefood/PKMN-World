@@ -55,6 +55,7 @@ RegionHub_EventScript_AttendantKanto::
 	faceplayer
 	msgbox RegionHub_Text_TravelKanto, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
+	call RegionHub_EventScript_TryGiveHubPass
 	setvar VAR_RESULT, 0
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -78,6 +79,7 @@ RegionHub_EventScript_AttendantJohto::
 	faceplayer
 	msgbox RegionHub_Text_TravelJohto, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
+	call RegionHub_EventScript_TryGiveHubPass
 	setvar VAR_RESULT, 1
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -99,6 +101,7 @@ RegionHub_EventScript_AttendantHoenn::
 	faceplayer
 	msgbox RegionHub_Text_TravelHoenn, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
+	call RegionHub_EventScript_TryGiveHubPass
 	setvar VAR_RESULT, 2
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -154,6 +157,24 @@ RegionHub_EventScript_TravelDeclined::
 	release
 	end
 
+@ Issue #22 Part 2: force-give the HUB PASS on any gate-cross confirm, BEFORE the party is
+@ boxed (runs ahead of the setvar + RegionHub_ScrEnterRegion because giveitem clobbers
+@ VAR_RESULT). checkitem-deduped and self-healing: a full KEY ITEMS pocket just retries on
+@ the next cross, and the Charm Curator remains the backup giver. No flag advances on a
+@ failed give, so nothing can strand.
+RegionHub_EventScript_TryGiveHubPass::
+	checkitem ITEM_HUB_RETURN
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_HubPassDone
+	msgbox RegionHub_Text_AttendantGiveHubPass, MSGBOX_DEFAULT
+	giveitem ITEM_HUB_RETURN
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_HubPassBagFull
+RegionHub_EventScript_HubPassDone::
+	return
+
+RegionHub_EventScript_HubPassBagFull::
+	msgbox RegionHub_Text_HubPassBagFull, MSGBOX_DEFAULT
+	return
+
 RegionHub_Text_TravelKanto:
 	.string "This gate is bound for KANTO.\p"
 	.string "Travel to KANTO?\p"
@@ -174,6 +195,19 @@ RegionHub_Text_TravelHoenn:
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
 	.string "regions.$"
+
+RegionHub_Text_AttendantGiveHubPass:
+	.string "First crossing? Then take your\n"
+	.string "HUB PASS before you board.\p"
+	.string "Use it from your BAG to warp back\n"
+	.string "here to WORLD TRANSIT from\l"
+	.string "anywhere in the world.$"
+
+RegionHub_Text_HubPassBagFull:
+	.string "Hm? Your KEY ITEMS pocket is full,\n"
+	.string "so I can't hand you a HUB PASS.\p"
+	.string "See the CURATOR by the east counter\n"
+	.string "once you've made room.$"
 
 RegionHub_Text_TravelFrontier:
 	.string "Beyond this gate lies the\n"

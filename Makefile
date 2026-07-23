@@ -88,6 +88,7 @@ endif
 PREFIX := arm-none-eabi-
 OBJCOPY := $(PREFIX)objcopy
 OBJDUMP := $(PREFIX)objdump
+NM := $(PREFIX)nm
 AS := $(PREFIX)as
 LD := $(PREFIX)ld
 
@@ -274,7 +275,7 @@ MAKEFLAGS += --no-print-directory
 .DELETE_ON_ERROR:
 
 RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidycheck tidyrelease generated clean-generated clean-teachables clean-teachables_intermediates
-.PHONY: all rom agbcc modern check debug release
+.PHONY: all rom agbcc modern check debug release symbols
 .PHONY: $(RULES_NO_SCAN)
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
@@ -372,6 +373,19 @@ check: $(TESTELF)
 rom: $(ROM)
 
 syms: $(SYM)
+
+# Regenerate the BizHawk/Lua test symbol table from the freshly built ELF. Addresses move every
+# rebuild, so the promoted suites in Testing/lua/ `require("symbols")` instead of hardcoding them.
+# The output is a build artifact (gitignored); commit Testing/GenLuaSymbols.py, not symbols.lua.
+LUA_TESTDIR := Testing/lua
+LUA_SYMBOLS := $(LUA_TESTDIR)/symbols.lua
+
+symbols: $(LUA_SYMBOLS)
+
+$(LUA_SYMBOLS): $(ELF) Testing/GenLuaSymbols.py
+	@mkdir -p $(LUA_TESTDIR)
+	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@
+	@echo "wrote $@"
 
 clean: tidy clean-tools clean-check-tools clean-generated clean-assets
 	@$(MAKE) clean -C libagbsyscall

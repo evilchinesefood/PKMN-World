@@ -90,6 +90,10 @@ docs/
 .dev_scripts/
 .migration_scripts/
 
+# Generated per build from pokemonworld.elf by `make symbols` (addresses move each rebuild).
+# The generator (Testing/GenLuaSymbols.py) is tracked; its output is not.
+Testing/lua/symbols.lua
+
 # PRECIOUS local-only files (never run `git clean -fdx` in this repo — it would
 # delete these and the player save; plain `clean -fd` skips ignored entries)
 _pwtest/

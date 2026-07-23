@@ -32,9 +32,28 @@ its failures may be harness quirks, not defects).
 ## Fixtures (`fixtures/`)
 
 Each `vN.srm` is the raw 131072-byte battery save from a **fresh new-game** built at that format
-version's commit (see `MakeMigrationFixtures.sh`) — no personal data, deterministic. They are the
-inputs to `MigrateFixtures.lua`. When the format is bumped, add the previous version's fixture
+version's commit (see `../MakeMigrationFixtures.sh`) — no personal data, deterministic. They are
+the inputs to `MigrateFixtures.lua`. When the format is bumped, add the previous version's fixture
 here and extend the suite (this is the step Session C / issue #16 performs for v6).
+
+Present: **v3, v4, v5** — each verified to migrate cleanly to the current version (8/8).
+
+Gaps (documented, not silent):
+- **v2** — its introducing commit (`12e04c20`) does not build with the current tree
+  (`ItemUseOutOfBattle_SkyCharm` was declared a commit later); a historical commit is never
+  patched to harvest a fixture.
+- **v1** — its commit (`37af5518`) predates the region hub, so a fresh new-game runs the full
+  classic Hoenn intro (truck → clock → Birch → starter) before the START menu can save; driving
+  that headlessly wasn't attempted here. v1 is the only entry point that would exercise the
+  v1→v2 (usmSaved) and v2→v3 (kantoTrainerFlags) ladder steps as a starting version.
+
+**Sabotage-test note (folded #21):** fresh-new-game fixtures have mostly-zero SaveBlock3 banks, so
+each `savedVersion < N` ladder step (which *zeros* a newly-appended field) is a no-op on them —
+removing a step is not caught, because the field was already zero. What these fixtures DO catch
+is **layout drift**: `MigrateFixtures.lua` reads each bank at its named offset, so a field
+inserted/reordered before a bank shifts the reads and the exact `== 0` / `== version` asserts fail
+loudly. That is the guard rail #16 needs for the v7 bump. A stronger step-level sabotage would
+require a played (non-fresh) save, which would put personal data in the repo — out of scope.
 
 ## Not promoted
 

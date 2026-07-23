@@ -35,7 +35,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12 },     -- byte0 bit0 = active; coords = map+7
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, flags = 4728, vars = 5246, money = 1168 },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
-                   currentRegion = 0x90, followerSlot = 0x93, bp = 3768 },
+                   currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768 },
   SaveBlock3   = { regionVars = 0x20, johtoFlags = 800, usmSaved = 928, kantoTrainerFlags = 941 },
 """
 

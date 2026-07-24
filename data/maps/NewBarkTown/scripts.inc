@@ -18,8 +18,7 @@ NewBarkTown_OnFrame::
 NewBarkTown_EventScript_JohtoArrival::
 	lockall
 	msgbox NewBarkTown_Text_MomNewHome, MSGBOX_DEFAULT
-	callnative RegionHub_ScrSetIntroDone
-	setvar VAR_REGION_ARRIVAL, 0
+	region_intro_done_hook
 	releaseall
 	end
 
@@ -41,7 +40,7 @@ NewBarkTown_EventScript_ElmCallAfterLeague::
 	end
 
 NewBarkTown_OnTransition::
-	callnative RegionHub_ScrArmArrival
+	region_arrival_hook
 	goto_if_eq VAR_NEWBARK_TOWN_STATE, 2, NewBarkTown_Set_TalkToElm
 	goto_if_eq VAR_NEWBARK_TOWN_STATE, 4, NewBarkTown_Set_TalkToMom
 	end

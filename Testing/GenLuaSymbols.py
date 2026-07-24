@@ -10,7 +10,7 @@
 #   python3 Testing/GenLuaSymbols.py pokemonworld.elf [arm-none-eabi-nm] > Testing/lua/symbols.lua
 #
 # The generated file is a build artifact (gitignored) — commit the generator, not its output.
-import subprocess, sys, re
+import subprocess, sys, re, os, hashlib
 
 # Runtime symbols scripts need. sMenu is disambiguated by size (the 12-byte definition backs
 # script multichoice / yes-no; the other same-named symbols are 4-byte pointers from other TUs).
@@ -27,6 +27,12 @@ SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,
 # not a rebuild), so they live here as a curated table rather than being re-derived each build.
 # All verified with the repo's own CFLAGS (-mabi=apcs-gnu) via an offsetof probe.
+#
+# NOTE the SaveBlock3 line is NOT here — it is derived from src/load_save.c's compiler-enforced
+# STATIC_ASSERTs by saveblock3_offsets() below. It used to be hand-rebased in this table
+# (johtoFlags = 800 is really 768 + 0x20, etc). All six happened to match, but nothing enforced
+# it, and a stale SaveBlock3 offset does not crash — it reads zero, which every fixture assert
+# accepts. That is a test suite reporting green while proving nothing.
 OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe if a struct changes)
   Pokemon      = { size = 100, status = 80, level = 84, hp = 86, maxHP = 88 },
   BoxPokemon   = { size = 80 },
@@ -36,9 +42,46 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, flags = 4728, vars = 5246, money = 1168 },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768 },
-  SaveBlock3   = { regionVars = 0x20, johtoFlags = 800, usmSaved = 928, kantoTrainerFlags = 941,
-                   route5DayCareMon = 1024, clearedObstacleCount = 1164 },
 """
+
+# The SaveBlock3 banks the Lua suites read, as offsets from the START of SaveBlock3.
+# Source of truth: the STATIC_ASSERTs in src/load_save.c, which the compiler enforces every build.
+SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
+              "route5DayCareMon", "obstacleTableHash", "clearedObstacleBits"]
+
+
+def saveblock3_offsets(root):
+    """Derive SaveBlock3 bank offsets from load_save.c's asserts instead of hand-rebasing them."""
+    path = os.path.join(root, "src", "load_save.c")
+    try:
+        src = open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path} to derive SaveBlock3 offsets: {e}")
+
+    m = re.search(r"offsetof\s*\(\s*struct\s+SaveBlock3\s*,\s*region\s*\)\s*==\s*(0x[0-9a-fA-F]+|\d+)", src)
+    if not m:
+        sys.exit(f"{path}: no STATIC_ASSERT pinning offsetof(struct SaveBlock3, region) — "
+                 f"cannot derive the Lua offsets; restore the assert or update this generator")
+    base = int(m.group(1), 0)
+
+    out = {}
+    for field in SB3_FIELDS:
+        m = re.search(r"offsetof\s*\(\s*struct\s+RegionSave\s*,\s*" + field
+                      + r"\s*\)\s*==\s*(0x[0-9a-fA-F]+|\d+)", src)
+        if not m:
+            sys.exit(f"{path}: no STATIC_ASSERT pinning offsetof(struct RegionSave, {field}) — "
+                     f"the Lua suites read that bank and would silently read the wrong address")
+        out[field] = base + int(m.group(1), 0)
+    return out
+
+
+def rom_hashes(elf):
+    """MD5 + SHA1 of the .gba beside the ELF, so a suite can refuse a stale/mismatched ROM."""
+    rom = os.path.splitext(elf)[0] + ".gba"
+    if not os.path.exists(rom):
+        sys.exit(f"ROM not found beside the ELF: {rom} — symbols.lua must be bound to a ROM")
+    data = open(rom, "rb").read()
+    return os.path.basename(rom), hashlib.md5(data).hexdigest(), hashlib.sha1(data).hexdigest()
 
 
 def load_syms(elf, nm):
@@ -83,11 +126,27 @@ def main():
             sys.exit(f"symbol {name} with size {want_size} not found in {elf}")
         lines.append(f"  {name} = 0x{pick[0]:08x},  -- {want_size}-byte definition (cursorPos at +2)")
 
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sb3 = saveblock3_offsets(root)
+    romName, romMD5, romSHA1 = rom_hashes(elf)
+
     print("-- AUTO-GENERATED from pokemonworld.elf by Testing/GenLuaSymbols.py — do not edit.")
     print("-- Regenerated every build (`make symbols`); addresses move each rebuild.")
     print("return {")
     print("\n".join(lines))
     print(OFFSETS_LUA, end="")
+    # Derived from src/load_save.c's compiler-enforced asserts — never hand-edit these.
+    print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
+    print()
+    print("  -- Binds this symbol table to the ROM it was generated from. lib.new() refuses to run")
+    print("  -- against anything else: `make -j12` does NOT refresh symbols.lua (only `make symbols`")
+    print("  -- does), and the ROM actually launched in BizHawk is routinely a stale hand-copy, so")
+    print("  -- fresh-symbols-against-old-ROM is the normal accident, not an edge case. gSaveblock3")
+    print("  -- is a fixed EWRAM symbol, so that pairing boots happily and reports 8/8 having")
+    print("  -- exercised the PREVIOUS build's code.")
+    print(f'  romName = "{romName}",')
+    print(f'  romMD5  = "{romMD5}",')
+    print(f'  romSHA1 = "{romSHA1}",')
     print("}")
 
 

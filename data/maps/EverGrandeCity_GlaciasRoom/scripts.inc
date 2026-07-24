@@ -44,7 +44,7 @@ EverGrandeCity_GlaciasRoom_EventScript_Glacia::
 	msgbox EverGrandeCity_GlaciasRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_GLACIA, EverGrandeCity_GlaciasRoom_Text_Defeat
 	setvar VAR_0x8004, TRAINER_GLACIA
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	goto EverGrandeCity_GlaciasRoom_EventScript_Defeated
 	end
 

@@ -384,6 +384,12 @@ static const u8 sText_Oak_AskHardMode[] = _(
     "to SET style and bars items,\p"
     "and holds your POKéMON to a\n"
     "badge-based level cap.\p"
+    // The choice is permanent AND unreviewable: option_menu.c deliberately never writes Hard Mode
+    // back to the OPTIONS menu, so a player who forgets what they picked has no in-game way to
+    // find out. Every other setting in that menu is adjustable, which makes "this one is locked"
+    // an unreasonable thing to infer - and it is asked ~2 minutes in, before any gameplay. Say so.
+    "This choice is FINAL for this\n"
+    "save file.\p"
     "Would you like a\n"
     "greater challenge?");
 

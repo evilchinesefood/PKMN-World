@@ -4170,7 +4170,12 @@
 #define FLAG_SYS_SET_TRAINER_CARD_PROFILE     (FLAG_WORLD_MAP_BANK + 0x8C) // 0xDCC
 #undef FLAG_SYS_SAW_HELP_SYSTEM_INTRO
 #define FLAG_SYS_SAW_HELP_SYSTEM_INTRO        (FLAG_WORLD_MAP_BANK + 0x8D) // 0xDCD
-// Next free in the world-map window: 0xDCE.
+// Battle Net director's starter stone. Split off FLAG_BNET_DIRECTOR_INTRO so the intro flag can
+// advance the moment the MEGA RING is handed over (it is the ring's only source in the ROM, and
+// a flag that only advanced past a confirmed stone give made every declined stone re-give a ring)
+// while the stone itself stays claimable on a later talk.
+#define FLAG_BNET_DIRECTOR_STONE              (FLAG_WORLD_MAP_BANK + 0x8E) // 0xDCE
+// Next free in the world-map window: 0xDCF.
 
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030

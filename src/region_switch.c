@@ -98,6 +98,14 @@ void ResyncCurrentRegionFromMap(void)
     if (FlagGet(FLAG_SYS_POKEDEX_GET) && !IsNationalPokedexEnabled())
         EnableNationalPokedex();
 
+    // FLAG_BNET_NO_WHITEOUT is bound to B_FLAG_NO_WHITEOUT (include/config/battle.h) - a CORE
+    // battle knob. The Battle Net sets it before a sim and clears it after, and today no save or
+    // map transition happens between those two points, so it cannot persist. But if it ever did,
+    // the player could never white out again, anywhere in the game, with no way to notice or fix
+    // it. This function is where stale-state repair already lives, and it can never legitimately
+    // run with a sim in flight - so clearing here is a free, permanent floor under that risk.
+    FlagClear(FLAG_BNET_NO_WHITEOUT);
+
     if (gSaveBlock2Ptr->currentRegion != REGION_NONE)
     {
         gCurrentRegion = gSaveBlock2Ptr->currentRegion;
@@ -258,6 +266,13 @@ void RegionHub_ScrCanFly(struct ScriptContext *ctx)
 void DepositPartyToPC(void)
 {
     u8 i;
+    // Hoisted out of the loop below. CountAllStorageMons() is a full TOTAL_BOXES_COUNT x
+    // IN_BOX_COUNT scan issuing two GetBoxMonData calls per slot (840 calls), and its result
+    // changes by exactly +1 per deposit - so calling it per party member cost up to 5,040
+    // GetBoxMonData reads from 2-wait-state EWRAM on every gate crossing. Tracking it locally
+    // drops 83% of that with no behaviour change. It runs on a script frame behind a fade, so
+    // this was very unlikely to be visible; the point is that not doing it is free.
+    u32 stored = CountAllStorageMons();
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -267,7 +282,7 @@ void DepositPartyToPC(void)
             continue;
         // Confirm the PC has a free slot BEFORE stripping mail, so a mon that can't be deposited
         // keeps BOTH its slot and its held mail (stripping first could discard mail on a full PC).
-        if (CountAllStorageMons() >= TOTAL_BOXES_COUNT * IN_BOX_COUNT)
+        if (stored >= TOTAL_BOXES_COUNT * IN_BOX_COUNT)
             break; // PC full -> leave the rest (mail intact) in the party
         // A boxed mon can't carry mail: CopyMonToPC copies only the BoxPokemon, so the mon's
         // gSaveBlock1.mail[] slot would be orphaned (and later reused -> dup). Move any held mail
@@ -277,10 +292,17 @@ void DepositPartyToPC(void)
             TakeMailFromMon(mon);
         if (CopyMonToPC(mon) != MON_GIVEN_TO_PC)
             break; // PC full -> leave the rest in the party
+        stored++;
         ZeroMonData(mon);
     }
     CompactPartySlots();
     CalculatePlayerPartyCount();
+    // followerSlot is a party index + 1 (set in src/swsh_party_menu.c, consumed in
+    // src/event_object_movement.c). The party this function just emptied is exactly the party
+    // that index pointed into, so leaving it set silently re-designates whatever mon later lands
+    // in that slot as the follower. GetFirstLiveMon degrades safely today, which is the only
+    // reason this was latent rather than visible.
+    gSaveBlock2Ptr->followerSlot = 0;
 }
 
 // TRUE once the player has cleared at least n regions' leagues. Per-region champion flags are
@@ -347,3 +369,17 @@ void RegionHub_ScrHasCompletedDex(struct ScriptContext *ctx)
 // that gap.
 STATIC_ASSERT(FLAG_KANTO_CHAMPION > DAILY_FLAGS_END, KantoChampionFlagInsideDailyClearRange);
 STATIC_ASSERT(FLAG_KANTO_BADGE(0) > DAILY_FLAGS_END, KantoBadgeFlagsInsideDailyClearRange);
+
+// Same class as the pair above, for the four bank boundaries that had no assert at all. The whole
+// region partition rests on "a region's ids stay inside its own bank", and GetVarPointer /
+// GetFlagPointer hand back a perfectly valid pointer into the NEIGHBOURING bank on an overflow -
+// inside SaveBlock3, which is un-checksummed, so nothing downstream can detect it either.
+//
+// Each assert names the current top of its slice. Adding a new top means updating the name here,
+// which is the point: it is a one-line edit the assert itself demands, and the alternative is a
+// silent cross-region overwrite. Nothing is in violation today (Kanto vars top out at slice 0x63
+// of 0x80, Johto vars at 0x3b of 0x80, Johto story flags at 0x25a against the 0x3F8 badge slice).
+STATIC_ASSERT(VAR_MAP_SCENE_CINNABAR_ISLAND_2 < VAR_JOHTO_BASE, KantoVarSliceOverflowsJohtoVarBank);
+STATIC_ASSERT(VAR_LEAGUE_STATE < VAR_HOENN_BASE, JohtoVarSliceOverflowsHoennVarBank);
+STATIC_ASSERT(FLAG_GOT_METAL_COAT_SSAQUA < FLAG_JOHTO_BASE + FLAG_JOHTO_BADGE_OFFSET, JohtoStoryFlagsOverflowJohtoBadgeSlice);
+STATIC_ASSERT(FLAG_KANTO_TRAINER_BASE > FLAG_JOHTO_END, KantoTrainerFlagBankOverlapsJohtoFlagBank);

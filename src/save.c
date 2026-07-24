@@ -899,7 +899,29 @@ u8 LoadGameSave(u8 saveType)
         // SAVE_STATUS_ERROR still fully populates SB1/2/3 from the surviving good slot,
         // so a recovered pre-v6 save must migrate too (EMPTY/CORRUPT stay excluded).
         if (status == SAVE_STATUS_OK || status == SAVE_STATUS_ERROR)
-            MigrateSaveFormatIfNeeded();
+        {
+            // v7 layout gate. A save older than SAVE_FORMAT_LAYOUT_MIN predates the SaveBlock1
+            // reshape and CANNOT be migrated — its flags/vars are already sitting at the wrong
+            // offsets in RAM by the time we get here. Report it as EMPTY so the main menu offers
+            // NEW GAME only, rather than letting the player Continue into a half-loaded save.
+            // Reading saveVersion is safe: it is in SaveBlock2, which this break does not reshape.
+            if (gSaveBlock2Ptr->saveVersion < SAVE_FORMAT_LAYOUT_MIN)
+            {
+                gSaveFileStatus = SAVE_STATUS_EMPTY;
+                status = SAVE_STATUS_EMPTY;
+            }
+            else
+            {
+                // Check integrity BEFORE migrating: a ladder step rewrites the banks, which would
+                // make a corrupt SaveBlock3 checksum-clean afterwards and hide the damage.
+                // RAM-only: this describes THIS load, not the save, so it must not persist.
+                gRegionSaveCorrupt = !VerifyRegionSaveChecksum();
+                MigrateSaveFormatIfNeeded();
+                // Bind the obstacle bits to this build's generated table (see issue #16). Runs
+                // after the ladder so a migrated save is stamped too.
+                ResyncClearedObstacleTable();
+            }
+        }
 #endif
         break;
     case SAVE_HALL_OF_FAME:

@@ -193,7 +193,7 @@ DewfordTown_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, DewfordTown_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_BRAWLY_1, DewfordTown_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_BRAWLY_1
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox DewfordTown_Gym_Text_RematchPost, MSGBOX_DEFAULT
 	release
 	end

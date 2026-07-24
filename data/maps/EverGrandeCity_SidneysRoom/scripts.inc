@@ -50,7 +50,7 @@ EverGrandeCity_SidneysRoom_EventScript_Sidney::
 	msgbox EverGrandeCity_SidneysRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_SIDNEY, EverGrandeCity_SidneysRoom_Text_Defeat
 	setvar VAR_0x8004, TRAINER_SIDNEY
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	goto EverGrandeCity_SidneysRoom_EventScript_Defeated
 	end
 

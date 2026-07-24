@@ -67,7 +67,7 @@ VioletCity_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, VioletCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_FALKNER_1, VioletGym_Text_Falkner_RematchLoss
 	setvar VAR_0x8004, TRAINER_FALKNER_1
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox VioletGym_Text_Falkner_RematchPost, MSGBOX_DEFAULT
 	closemessage
 	release

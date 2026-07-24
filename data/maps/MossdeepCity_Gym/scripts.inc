@@ -129,7 +129,7 @@ MossdeepCity_Gym_EventScript_OfferRematch::
 
 MossdeepCity_Gym_EventScript_RematchWon::
 	setvar VAR_0x8004, TRAINER_TATE_AND_LIZA_1
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox MossdeepCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
 	release
 	end

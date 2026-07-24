@@ -286,7 +286,7 @@ OlivineCity_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, OlivineCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_JASMINE_1, OlivineCity_Gym_Text_JasmineRematchDefeatText
 	setvar VAR_0x8004, TRAINER_JASMINE_1
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox OlivineCity_Gym_Text_JasmineRematchPostText, MSGBOX_DEFAULT
 	closemessage
 	release

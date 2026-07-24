@@ -14,17 +14,44 @@ here runs against a **fresh new-game on the current build with no address edits*
   suite does `local F = require("lib").new(require("symbols"), "SuiteName")`.
 - Each suite bootstraps `require` to find `symbols`/`lib` next to itself, so it is launched simply:
   ```
-  make symbols        # once per build — refresh addresses
-  EmuHawk.exe <rom> --lua=<repo>\Testing\lua\<Suite>.lua
+  make -j12                                     # symbols.lua is now a prerequisite of `rom`
+  cp pokemonworld.gba  BizHawk\Verify1.gba      # a THROWAWAY copy — see the two guards below
+  EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\Testing\lua\<Suite>.lua
   ```
   Logs + screenshots land in `_pwtest/` (gitignored scratch) — test *output* is never committed.
+  `lib.lua` creates `_pwtest/` if a fresh clone lacks it, and warns loudly if it still cannot write.
+
+### Two guards that will abort a run (issue #31)
+
+1. **ROM/symbols binding.** `symbols.lua` records the MD5 of the `.gba` it was generated from and
+   `lib.new()` refuses to run against any other ROM. Without this, the normal accident — rebuild,
+   launch a stale hand-copy — boots fine and reports every test green while exercising the
+   *previous* build's code, because `gSaveblock3` is a fixed EWRAM symbol. `symbols.lua` is now a
+   prerequisite of `rom`, so `make -j12` keeps it fresh; `make symbols` alone is no longer needed.
+2. **Throwaway-ROM allowlist.** The ROM basename must match `Verify*`, `MigChk*` or `FixGen*`.
+   `boot()` blind-presses A and Start for up to 120,000 frames, the shipped save profile has SAVE
+   at wheel slot 2 of 4, and BizHawk flushes SaveRAM on exit — so pointing a suite at the real
+   ROM/save pair is a live clobber path that has already happened once. Override deliberately with
+   `opts.allowAnyRom = true`.
+
+### Machine-readable verdict
+
+`finish()` writes `_pwtest\<Suite>.PASS` or `.FAIL` (with the failing assertion names) and exits
+non-zero on failure, so a wrapper or hook can gate on a run without parsing the log. Zero
+assertions counts as a FAIL — a suite that aborted early must not report a perfect `0/0`.
 
 ## Suites
 
 | Suite | Kind | What it proves |
 |---|---|---|
 | `SmokeBoot.lua` | **evidence** | symbols + lib load on a fresh build; boot to hub, empty party, step + object dump read correctly. The harness self-test. |
-| `MigrateFixtures.lua` | **evidence** | Loading each historical save format (v1..v5, real `.srm` fixtures under `fixtures/`) migrates cleanly to the current `SAVE_FORMAT_VERSION`: one asserted value per un-checksummed SaveBlock3 bank + `currentRegion` + `saveVersion`. The guard rail for any future save-format bump. |
+| `MigrateFixtures.lua` | **evidence** | That a pre-v7 save is **refused**, not half-loaded. Save format v7 reshaped SaveBlock1 and the owner chose new-saves-only, so `SAVE_FORMAT_LAYOUT_MIN` in `src/save.c` rejects older saves and the v0..v6 migration ladder is now unreachable. This suite was rewritten to assert the gate rather than a migration that can no longer happen. Any pre-v7 fixture works (v3/v4/v5 are all below the floor). |
+
+> **Why the gate needs a test at all:** `bag` and `pcItems` both live in SaveBlock1 **chunk 0**, and
+> `SAVEBLOCK_CHUNK` only varies the *last* chunk's size. So chunks 0-2 keep size 3968, their stored
+> checksums still match the flash bytes, and a legacy save loads *successfully* into the shifted
+> layout — only chunk 3 fails. The result is a half-loaded save with silently misaligned flags and
+> vars. The checksum is not a gate; `SAVE_FORMAT_LAYOUT_MIN` is.
 
 **Kind** = `evidence` (asserts a real, load-bearing contract) vs `probe` (exploratory/diagnostic;
 its failures may be harness quirks, not defects).

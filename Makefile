@@ -275,7 +275,7 @@ MAKEFLAGS += --no-print-directory
 .DELETE_ON_ERROR:
 
 RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidycheck tidyrelease generated clean-generated clean-teachables clean-teachables_intermediates
-.PHONY: all rom agbcc modern check debug release symbols
+.PHONY: all rom agbcc modern check validate obstacles debug release symbols
 .PHONY: $(RULES_NO_SCAN)
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
@@ -369,20 +369,48 @@ check: $(TESTELF)
 	$(PATCHELF) $(HEADLESSELF) gTestRunnerHeadless '\x01' gTestRunnerSkipIsFail "$(TEST_SKIP_IS_FAIL)"
 	$(ROMTESTHYDRA) $(ROMTEST) $(OBJCOPY) $(HEADLESSELF)
 
-# Other rules
-rom: $(ROM)
+# Gen 1-3 content rule (issue #30). Source-only, no build needed: it reads the tracked
+# .party files and wild_encounters.json, never the generated headers. A disabled-species
+# reference builds AND boots clean, then blue-screens at battle send-out, so this is the
+# only automated thing standing between a bad edit and a crash in play. Also run by the
+# .git/hooks/pre-push gate.
+validate:
+	python3 Testing/ValidateGen13.py
+	python3 Testing/GenObstacleTable.py --check
 
-syms: $(SYM)
+# Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
+# The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the
+# table is save-layout-affecting data and belongs in review. `make validate` fails if it drifts.
+# Regenerating after a map edit that adds/removes an obstacle changes CLEARED_OBSTACLE_TABLE_HASH,
+# which makes every existing save's obstacles regrow once — intended, and self-healing.
+obstacles:
+	python3 Testing/GenObstacleTable.py
 
 # Regenerate the BizHawk/Lua test symbol table from the freshly built ELF. Addresses move every
 # rebuild, so the promoted suites in Testing/lua/ `require("symbols")` instead of hardcoding them.
 # The output is a build artifact (gitignored); commit Testing/GenLuaSymbols.py, not symbols.lua.
+#
+# These two MUST stay above the `rom:` rule. Prerequisites are expanded when the rule is READ, so
+# with the assignment below `rom:`, `$(LUA_SYMBOLS)` expanded to the empty string and the
+# prerequisite silently vanished — `make` reported success and left symbols.lua stale, which is
+# precisely the failure this was added to prevent.
 LUA_TESTDIR := Testing/lua
 LUA_SYMBOLS := $(LUA_TESTDIR)/symbols.lua
 
+# Other rules
+# symbols.lua is a prerequisite so `make -j12` alone keeps it fresh. It used to be reachable ONLY
+# via the standalone `make symbols` target, so the normal flow left it stale — and stale symbols
+# against a rebuilt ROM still boot and still report every test green, because gSaveblock3 is a
+# fixed EWRAM symbol. That pairing was the normal accident, not an edge case (issue #31).
+rom: $(ROM) $(LUA_SYMBOLS)
+
+syms: $(SYM)
+
 symbols: $(LUA_SYMBOLS)
 
-$(LUA_SYMBOLS): $(ELF) Testing/GenLuaSymbols.py
+# Depends on the ROM as well as the ELF: the generator hashes the .gba so lib.new() can refuse to
+# run a suite against a ROM the symbol table was not generated from.
+$(LUA_SYMBOLS): $(ELF) $(ROM) Testing/GenLuaSymbols.py
 	@mkdir -p $(LUA_TESTDIR)
 	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@
 	@echo "wrote $@"

@@ -463,6 +463,11 @@ static void ItemUseOnFieldCB_HubReturn(u8 taskId)
 // with the Bag reachable, and VAR_WORLD_CHAMPIONSHIP_MODE MUST be cleared on exit (done at
 // EndChallenge) - warping out with it stuck at 1 keeps seeding the champions bracket on later
 // normal Dome entries (see battle_dome.c InitDomeTrainers).
+// The Pike/Pyramid/Trainer-Hill predicates above only cover the facilities that expose a location
+// test, so Tower/Dome/Factory/Arena/Palace runs were uncovered. challengeStatus is the common
+// marker (set to CHALLENGE_STATUS_SAVING in frontier_util.c, which the continue-warp machinery
+// keys on) and Task_UseHubReturnOnField is a raw SetWarpDestination + DoWarp with no facility
+// teardown, so it would survive the exit along with the streak/party state.
 static bool32 CannotUseHubReturnHere(void)
 {
     return GetSafariZoneFlag()
@@ -472,6 +477,7 @@ static bool32 CannotUseHubReturnHere(void)
         || InBattlePike()
         || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
         || InTrainerHillChallenge()
+        || gSaveBlock2Ptr->frontier.challengeStatus != 0
         || VarGet(VAR_WORLD_CHAMPIONSHIP_MODE) != 0;
 }
 

@@ -6,7 +6,7 @@ PalletTown_Frlg_MapScripts::
 	.byte 0
 
 PalletTown_OnTransition::
-	callnative RegionHub_ScrArmArrival
+	region_arrival_hook
 	setworldmapflag FLAG_WORLD_MAP_PALLET_TOWN
 	call_if_set FLAG_PALLET_LADY_NOT_BLOCKING_SIGN, PalletTown_EventScript_TryReadySignLady
 	call_if_eq VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY, 0, PalletTown_EventScript_SetSignLadyPos
@@ -47,8 +47,7 @@ PalletTown_OnFrame::
 PalletTown_EventScript_KantoArrival::
 	lockall
 	msgbox PalletTown_Text_MomNewHome, MSGBOX_DEFAULT
-	callnative RegionHub_ScrSetIntroDone
-	setvar VAR_REGION_ARRIVAL, 0
+	region_intro_done_hook
 	releaseall
 	end
 

@@ -37,6 +37,9 @@ EWRAM_DATA struct SaveBlock2ASLR gSaveblock2 = {0};
 EWRAM_DATA struct SaveBlock1ASLR gSaveblock1 = {0};
 EWRAM_DATA struct PokemonStorageASLR gPokemonStorage = {0};
 
+// Set on load when SaveBlock3's region banks fail their checksum. EWRAM, never saved.
+EWRAM_DATA bool8 gRegionSaveCorrupt = FALSE;
+
 EWRAM_DATA struct LoadedSaveData gLoadedSaveData = {0};
 EWRAM_DATA u32 gLastEncryptionKey = 0;
 
@@ -174,6 +177,16 @@ static const struct { u16 oldId; u16 newId; } sKantoVarRebase[] = {
 // IMPORTANT: because the SaveBlock3 banks are un-checksummed, saveVersion is their ONLY
 // integrity guard. If any region-bank size (or the SaveBlock2 region-bit offset) changes, you
 // MUST bump SAVE_FORMAT_VERSION and add a ladder step below - the STATIC_ASSERTs enforce it.
+// ⚠ AS OF SAVE FORMAT v7 THIS WHOLE LADDER IS UNREACHABLE. v7 reshaped SaveBlock1 (bag/item-PC
+// expansion, issue #24) and the owner's decision was new-saves-only, so src/save.c refuses any
+// save below SAVE_FORMAT_LAYOUT_MIN before this function is ever called. No v0..v6 source version
+// can reach the steps below.
+//
+// It is kept, not deleted, for two reasons: the steps document exactly what each historical bump
+// changed, and the next append-only bump (v7 -> v8) re-activates the mechanism unchanged. But do
+// not mistake it for live code — and note the fixtures in Testing/lua/fixtures/ (v3/v4/v5) now
+// exercise the GATE, not the ladder; MigrateFixtures.lua was rewritten to assert the refusal.
+// If a future decision drops the gate, this ladder is what makes that possible again.
 void MigrateSaveFormatIfNeeded(void)
 {
     u8 savedVersion = gSaveBlock2Ptr->saveVersion;
@@ -212,11 +225,10 @@ void MigrateSaveFormatIfNeeded(void)
     // Zero ONLY the new field - an all-zero DaycareMon is an empty day care (no stored mon).
     if (savedVersion < 4)
         memset(&gSaveBlock3Ptr->region.route5DayCareMon, 0, sizeof(gSaveBlock3Ptr->region.route5DayCareMon));
-    // v4 -> v5: SaveBlock3.clearedObstacleCount/clearedObstacles (persistent cut trees + smashed
-    // rocks) were appended after route5DayCareMon; on older saves those bytes are uninitialised
-    // flash. Zero the count so the cleared-obstacle set starts empty.
-    if (savedVersion < 5)
-        gSaveBlock3Ptr->region.clearedObstacleCount = 0;
+    // v4 -> v5 (the old cleared-obstacle list) is intentionally absent: v7 reshaped that region
+    // into obstacleTableHash + clearedObstacleBits, and the SAVE_FORMAT_LAYOUT_MIN gate in
+    // src/save.c refuses every pre-v7 save outright, so no ladder step can ever observe v4 or v5
+    // here. ResyncClearedObstacleTable() below owns the bits from v7 on.
     // v5 -> v6: the FRLG story vars were rebased from raw SaveBlock1.vars IDs (0x4025-0x408A,
     // where they aliased live Hoenn vars) onto the reserved Kanto regionVars slice. Copy each
     // moved var's old shared cell into its new slot - the cell value is the best available
@@ -234,11 +246,74 @@ void MigrateSaveFormatIfNeeded(void)
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
 
+// Bind the saved obstacle bits to the generated table they were written under (issue #16).
+//
+// The bit index for a cut tree comes from Testing/GenObstacleTable.py's build-time enumeration of
+// data/maps/, so adding or removing ANY obstacle renumbers every obstacle after it. Without this,
+// a map edit would silently re-point saved bits at different trees — some regrowing, others
+// pre-cleared, with nothing anywhere to explain it. Comparing the stored hash turns that into a
+// single, understood event: after a map edit every obstacle regrows exactly once.
+//
+// Runs on load AND on new game, so a fresh save is stamped rather than left at hash 0.
+void ResyncClearedObstacleTable(void)
+{
+    if (gSaveBlock3Ptr->region.obstacleTableHash == CLEARED_OBSTACLE_TABLE_HASH)
+        return;
+    memset(gSaveBlock3Ptr->region.clearedObstacleBits, 0,
+           sizeof(gSaveBlock3Ptr->region.clearedObstacleBits));
+    gSaveBlock3Ptr->region.obstacleTableHash = CLEARED_OBSTACLE_TABLE_HASH;
+}
+
+// --- SaveBlock3 integrity (issue #16) ---------------------------------------------------------
+//
+// The region banks are the only save state in the game with no checksum: HandleWriteSector()
+// computes its checksum over the SaveBlock1/2/PokemonStorage chunk only, never over the
+// saveBlock3Chunk riding along in the same sector (see struct SaveSector). saveVersion was their
+// sole integrity guard, and a version stamp cannot detect a flipped bit.
+//
+// The reference value lives in SaveBlock2, which IS covered by the sector checksum — so a
+// mismatch means SaveBlock3 drifted while its reference did not, rather than "one of the two is
+// wrong and we cannot tell which".
+static u16 RegionSaveChecksum(void)
+{
+    const u8 *p = (const u8 *)&gSaveBlock3Ptr->region;
+    u32 i, sum = 0;
+
+    for (i = 0; i < sizeof(struct RegionSave); i++)
+        sum += p[i];
+    return (u16)(sum + (sum >> 16));
+}
+
+void StampRegionSaveChecksum(void)
+{
+    gSaveBlock2Ptr->regionChecksum = RegionSaveChecksum();
+}
+
+// TRUE if SaveBlock3's region banks are intact. Deliberately NOT auto-repairing: the banks hold
+// Johto/Kanto story progress, and blanket-zeroing a playthrough on a single flipped bit is worse
+// than the corruption. The obstacle bits are the one part that is safely re-derivable, and
+// ResyncClearedObstacleTable() already owns those. Callers surface it; they do not "fix" it.
+bool32 VerifyRegionSaveChecksum(void)
+{
+    return gSaveBlock2Ptr->regionChecksum == RegionSaveChecksum();
+}
+
 // The region-merge save banks are UN-checksummed; saveVersion is their only integrity guard.
 // If any of these change, bump SAVE_FORMAT_VERSION and add a matching ladder step above.
 STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
+// Nothing in the tree pinned either of these, yet the entire "one extra PC box costs 2,412 B"
+// finding — the reason box count stays at 14 — rests on sizeof(struct BoxPokemon) being 80.
+// If a field is ever added to a boxed mon, that arithmetic and every stored save silently change.
+STATIC_ASSERT(sizeof(struct BoxPokemon) == 80, BoxPokemonSizeChanged_BumpSaveFormatVersion);
+STATIC_ASSERT(sizeof(struct Pokemon) == 100, PokemonSizeChanged_BumpSaveFormatVersion);
+// sKantoVarRebase is a hand-maintained table, one row per rebased FRLG var, and the loop above
+// indexes regionVars[] straight from it. A dropped row silently loses that var's carried-over
+// value on every v1-v5 load; pin the count so it is a build failure instead. 100 rows (src lines
+// 58-157), counted from the source - not the "101" in issue #29, which contradicts its own
+// "all 100 rebase targets land in 0xA000..0xA063" a paragraph later.
+STATIC_ASSERT(ARRAY_COUNT(sKantoVarRebase) == 100, KantoVarRebaseTableRowCountChanged);
 // SaveBlock3 is append-only: a field inserted/reordered BEFORE the region banks (e.g. by toggling
 // a prefix #if like QUEST_MENU) shifts every bank with no checksum to catch it. Pin the start.
 // The banks now live in struct RegionSave (layout-neutral wrapper); regionVars is its first field,
@@ -253,14 +328,25 @@ STATIC_ASSERT(offsetof(struct RegionSave, johtoFlags) == 768, RegionSaveJohtoFla
 STATIC_ASSERT(offsetof(struct RegionSave, usmSaved) == 896, RegionSaveUsmSavedMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, kantoTrainerFlags) == 909, RegionSaveKantoTrainerFlagsMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, route5DayCareMon) == 992, RegionSaveRoute5DayCareMonMoved_BumpSaveFormatVersion);
-STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleCount) == 1132, RegionSaveClearedObstacleCountMoved_BumpSaveFormatVersion);
-STATIC_ASSERT(sizeof(struct RegionSave) == 1552, RegionSaveSizeChanged_BumpSaveFormatVersion);
+// v7 reshaped the tail: a u8 count + 104 {group,num,localId} triples became a u32 table hash + a
+// 512-bit field, removing the 104 cap (the map data holds 297 obstacles) and shrinking
+// sizeof(struct RegionSave) 1552 -> 1200, i.e. 352 bytes back to SaveBlock3.
+STATIC_ASSERT(offsetof(struct RegionSave, obstacleTableHash) == 1132, RegionSaveObstacleHashMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleBits) == 1136, RegionSaveObstacleBitsMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(sizeof(struct RegionSave) == 1200, RegionSaveSizeChanged_BumpSaveFormatVersion);
+// Every obstacle in the map data must have a bit. GenObstacleTable.py refuses to emit a table
+// larger than the slot count, but pin it here too so a hand-edited header cannot slip past.
+STATIC_ASSERT(CLEARED_OBSTACLE_COUNT <= CLEARED_OBSTACLE_SLOTS, ClearedObstacleTableExceedsReservedBits);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
 // The party-menu "Follow" chooser (e0d958f1) carved followerSlot from the SAME 0x90-0x97 filler as
 // the region bytes above. Pin its offset so a later edit to those bytes - e.g. a 9th intro bit
 // spilling the 0x92 bitfield into 0x93 - can't silently relocate/collide it and lose the chosen
 // follower on load. followerSlot lives in checksummed SaveBlock2, so no SAVE_FORMAT_VERSION bump.
 STATIC_ASSERT(offsetof(struct SaveBlock2, followerSlot) == 0x93, SaveBlock2FollowerSlotMoved);
+// Same reserve, same reasoning: regionChecksum is the integrity reference for the un-checksummed
+// SaveBlock3 banks, so if it silently relocated the checksum would compare against garbage and
+// every load would report the banks corrupt.
+STATIC_ASSERT(offsetof(struct SaveBlock2, regionChecksum) == 0x94, SaveBlock2RegionChecksumMoved);
 #endif // ALL_REGIONS
 
 void CheckForFlashMemory(void)
@@ -461,6 +547,12 @@ void CopyPartyAndObjectsToSave(void)
 {
     SavePlayerParty();
     SaveObjectEvents();
+#if ALL_REGIONS
+    // Every save path in src/save.c funnels through here, which makes it the one place a
+    // SaveBlock3 checksum can be stamped without chasing each write entry point individually.
+    // It must run BEFORE the sectors are written, which is exactly where this sits.
+    StampRegionSaveChecksum();
+#endif
 }
 
 void CopyPartyAndObjectsFromSave(void)

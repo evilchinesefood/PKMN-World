@@ -44,7 +44,7 @@ RustboroCity_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, RustboroCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_ROXANNE_1
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox RustboroCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
 	release
 	end

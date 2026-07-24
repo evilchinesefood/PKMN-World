@@ -35,7 +35,7 @@ LittlerootTown_MapScripts::
 
 
 LittlerootTown_OnTransition:
-	callnative RegionHub_ScrArmArrival
+	region_arrival_hook
 	setflag FLAG_VISITED_LITTLEROOT_TOWN
 	call Common_EventScript_SetupRivalGfxId
 	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_MoveMomToMaysDoor
@@ -115,8 +115,7 @@ LittlerootTown_OnFrame:
 LittlerootTown_EventScript_HoennArrival::
 	lockall
 	msgbox LittlerootTown_Text_MomNewHome, MSGBOX_DEFAULT
-	callnative RegionHub_ScrSetIntroDone
-	setvar VAR_REGION_ARRIVAL, 0
+	region_intro_done_hook
 	releaseall
 	end
 

@@ -79,7 +79,7 @@ PokemonLeague_LoreleisRoom_EventScript_Battle::
 PokemonLeague_LoreleisRoom_EventScript_Rematch::
 	trainerbattle_no_intro TRAINER_ELITE_FOUR_LORELEI_2, PokemonLeague_LoreleisRoom_Text_Defeat
 	setvar VAR_0x8004, TRAINER_ELITE_FOUR_LORELEI_2
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	return
 
 PokemonLeague_LoreleisRoom_EventScript_PostBattle::

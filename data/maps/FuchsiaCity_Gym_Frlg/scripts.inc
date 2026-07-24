@@ -251,7 +251,7 @@ FuchsiaCity_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, FuchsiaCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_LEADER_KOGA, FuchsiaCity_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_LEADER_KOGA
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox FuchsiaCity_Gym_Text_RematchPost
 	release
 	end

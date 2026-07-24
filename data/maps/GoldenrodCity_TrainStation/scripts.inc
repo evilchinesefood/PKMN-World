@@ -90,7 +90,17 @@ GoldenrodCity_TrainStation_EventScript_Gent::
 	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_TrainStation_EventScript_GentHasPass
 	msgbox GoldenrodMagnetTrainStation_Text_PresidentGivePass, MSGBOX_DEFAULT
 	giveitem ITEM_PASS
+	@ A full KEY ITEMS pocket used to fall straight through to "ride anytime", telling the
+	@ player they had a PASS they don't hold. The checkitem guard above keeps it retryable,
+	@ so only the message path needed fixing.
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_TrainStation_EventScript_GentBagFull
 	msgbox GoldenrodMagnetTrainStation_Text_PresidentRideAnytime, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+GoldenrodCity_TrainStation_EventScript_GentBagFull::
+	msgbox GoldenrodMagnetTrainStation_Text_PresidentBagFull, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -352,6 +362,12 @@ GoldenrodMagnetTrainStation_Text_PresidentGivePass:
 GoldenrodMagnetTrainStation_Text_PresidentRideAnytime:
     .string "With that PASS, you may ride my\n"
     .string "MAGNET TRAIN anytime!$"
+
+GoldenrodMagnetTrainStation_Text_PresidentBagFull:
+    .string "Oh? Your KEY ITEMS pocket has no\n"
+    .string "room for the rail PASS.\p"
+    .string "Make some room and come see me\n"
+    .string "again. I'll be right here.$"
 
 GoldenrodCity_TrainStation_Text_Boy:
 	.string "You brought the MAGNET TRAIN PASS,\n"

@@ -77,6 +77,7 @@ bool8 TransferBugContestMon(void)
     {
         ZeroMonData(mon);  // Remove mon from party after storing
         CompactPartySlots();
+        CalculatePlayerPartyCount(); // CompactPartySlots only shuffles/zeroes; it never touches the count
         gSpecialVar_Result = MON_GIVEN_TO_PC;
     }
     else
@@ -102,7 +103,10 @@ bool8 JudgeBugContestMon(void)
     //paras min hp:33
 
     u16 monIndex = VarGet(VAR_0x8004);
-    u8 maxHP = GetMonData(&gPlayerParty[monIndex], MON_DATA_MAX_HP, NULL); //change to MON_DATA_HP for a more authentic johto experience
+    // u16, not u8: max HP above 255 wrapped and the judge scored the remainder against the
+    // 41/46/47/48 thresholds below. Unreachable today because data/scripts/bug_contest.inc
+    // forces a freshly caught contest mon, but the truncation is free to remove.
+    u16 maxHP = GetMonData(&gPlayerParty[monIndex], MON_DATA_MAX_HP, NULL); //change to MON_DATA_HP for a more authentic johto experience
     u16 rand = Random() % 100;
     u16 placement;
 

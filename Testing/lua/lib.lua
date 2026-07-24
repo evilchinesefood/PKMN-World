@@ -13,16 +13,45 @@
 
 local M = {}
 
--- Where logs + screenshots land. This CANNOT be derived portably inside BizHawk: the main --lua
--- chunk is named "main" (debug.getinfo gives no file path), and BizHawk resolves RELATIVE io.open /
--- client.screenshot paths against its own exe dir, not the Lua cwd — so an absolute path is the only
--- thing that reliably targets the repo's gitignored scratch dir. The primary, portable output is the
--- console VERDICT line (console.log), which prints regardless; the log file is a headless-scraping
--- convenience. On another setup, override with opts.out = "<your>\\scratch\\" (or read the console).
-local DEFAULT_OUT = "C:\\Users\\evilc\\Github\\PKMN-World\\_pwtest\\"
+-- Where logs + screenshots land. Derived, not hardcoded to the author's disk.
+--
+-- The previous comment here claimed this "CANNOT be derived portably inside BizHawk: the main
+-- --lua chunk is named 'main' (debug.getinfo gives no file path)". That is true of the MAIN chunk
+-- but lib.lua is not the main chunk — it is require()d, so debug.getinfo(1,"S") gives ITS path.
+-- Both suites already prove the technique works: SmokeBoot.lua and MigrateFixtures.lua each
+-- bootstrap package.path off exactly this call, and if it returned nothing require("symbols")
+-- would fail outright. lib.lua sits in <repo>/Testing/lua/, so ../../ is the repo root.
+--
+-- This matters because _pwtest/ is gitignored and absent from a fresh clone: io.open on a missing
+-- directory returns nil and logging used to degrade SILENTLY to console-only, while MANIFEST.md
+-- advertises the suites as fresh-clone-runnable.
+local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
+local DEFAULT_OUT = here .. ".." .. package.config:sub(1, 1) .. ".." .. package.config:sub(1, 1)
+                    .. "_pwtest" .. package.config:sub(1, 1)
+
+-- Only throwaway ROM copies may be driven. boot() blind-presses A and Start for up to 120,000
+-- frames against whatever EmuHawk loaded, and the shipped save profile puts SAVE at wheel slot 2
+-- of 4 — Start,A,A,A is literally SaveHarvest.lua's deliberate save sequence. BizHawk flushes
+-- SaveRAM on exit, so pointing a suite at the real ROM/save is a live clobber path, and
+-- BizHawkTesting.md records that accident already happening once. Prose in a doc cannot stop it;
+-- this can. Override deliberately with opts.allowAnyRom = true.
+local ROM_ALLOWLIST = { "^Verify", "^MigChk", "^FixGen" }
+
+local function romAllowed(romName)
+  for _, pat in ipairs(ROM_ALLOWLIST) do
+    if romName:match(pat) then return true end
+  end
+  return false
+end
+
+-- BizHawk versions differ on whether getromhash() returns MD5 or SHA1, and some prefix it
+-- ("SHA1:..."). Normalise to bare uppercase hex and accept a match against either.
+local function normHash(h)
+  return (tostring(h or ""):gsub("^%a+:", ""):gsub("[^%x]", "")):upper()
+end
 
 -- ---- construction --------------------------------------------------------------------------
--- opts: { out = "C:\\...\\_pwtest\\", speed = 800 }. `out` is where the log + shots land.
+-- opts: { out = "C:\\...\\_pwtest\\", speed = 800, allowAnyRom = false }.
 function M.new(S, name, opts)
   opts = opts or {}
   local self = {}
@@ -32,7 +61,51 @@ function M.new(S, name, opts)
   self.speed = opts.speed or 800
   self.shotn = 0
   self.results = {}
+
+  -- Guard 1: is this ROM the one symbols.lua was generated from? `make -j12` does NOT rebuild
+  -- symbols.lua (only the standalone `make symbols` target does) and the ROM the user launches
+  -- is routinely a stale hand-copy, so fresh-symbols-against-old-ROM is the NORMAL accident.
+  -- gSaveblock3 is a fixed EWRAM symbol, so that pairing boots fine and reports every test green
+  -- having exercised the previous build's code. Nothing but this compares them.
+  if S.romMD5 and gameinfo and gameinfo.getromhash then
+    local actual = normHash(gameinfo.getromhash())
+    if actual ~= "" and actual ~= normHash(S.romMD5) and actual ~= normHash(S.romSHA1) then
+      console.log("ABORT " .. name .. ": ROM does not match symbols.lua.")
+      console.log("  symbols.lua was generated from " .. tostring(S.romName)
+                  .. " md5=" .. tostring(S.romMD5))
+      console.log("  loaded ROM hash = " .. tostring(gameinfo.getromhash()))
+      console.log("  Rebuild, run `make symbols`, and re-copy the ROM to your throwaway file.")
+      client.exit(1)
+      return
+    end
+  end
+
+  -- Guard 2: is this a throwaway copy rather than the real ROM/save pair?
+  if not opts.allowAnyRom and gameinfo and gameinfo.getromname then
+    local rom = tostring(gameinfo.getromname()):match("([^/\\]+)$") or ""
+    if not romAllowed(rom) then
+      console.log("ABORT " .. name .. ": refusing to drive ROM '" .. rom .. "'.")
+      console.log("  Copy the ROM *and* its SaveRAM to a throwaway pair named Verify*/MigChk*/FixGen*")
+      console.log("  first. This suite presses A and Start blindly and BizHawk flushes SaveRAM on exit,")
+      console.log("  so running it here can overwrite a real save. Override: opts.allowAnyRom = true.")
+      client.exit(1)
+      return
+    end
+  end
+
   self.log = io.open(self.out .. name .. ".log", "w")
+  if not self.log and os.execute then
+    -- _pwtest/ is gitignored, so it does not exist on a fresh clone. Create it, then retry.
+    -- pcall'd: BizHawk's Lua host may not expose os.execute, and a missing scratch dir must
+    -- degrade to a warning, never take the suite down.
+    local d = self.out:gsub("[/\\]$", "")
+    pcall(os.execute, 'cmd /c if not exist "' .. d .. '" mkdir "' .. d .. '"')
+    self.log = io.open(self.out .. name .. ".log", "w")
+  end
+  if not self.log then
+    console.log("WARNING " .. name .. ": cannot write to " .. self.out
+                .. " — logging to console only, and screenshots will NOT be saved.")
+  end
 
   local function L(s) if self.log then self.log:write(s .. "\n"); self.log:flush() end console.log(s) end
   self.L = L
@@ -271,12 +344,37 @@ function M.new(S, name, opts)
     return cond and true or false
   end
   self.check = check
+  -- Machine-readable verdict. finish() used to call client.exit() with no status whether the run
+  -- was 8/8 or 0/8, so no script, hook or agent could gate on the result — a suite regressing to
+  -- 5/8 exited identically to a clean one. The log itself can be nil (see the io.open guard in
+  -- new()) and is documented as reading 0 bytes from the WSL side, so the sentinel file is a
+  -- separate, tiny artifact that a wrapper can stat without parsing anything.
   function self.finish()
     local okn = 0
     for _, r in ipairs(self.results) do if r.ok then okn = okn + 1 end end
-    L(string.format("VERDICT %s: %d/%d PASS", name, okn, #self.results))
+    local total = #self.results
+    -- Zero assertions is a FAILURE, not a pass: a suite that aborted before its first check
+    -- would otherwise report a perfect 0/0.
+    local passed = (total > 0) and (okn == total)
+    L(string.format("VERDICT %s: %d/%d PASS", name, okn, total))
+
+    -- Clear BOTH sentinels first so a previous run's verdict can never be mistaken for this one's.
+    for _, ext in ipairs({ ".PASS", ".FAIL" }) do
+      if os.remove then pcall(os.remove, self.out .. name .. ext) end
+    end
+    local sentinel = io.open(self.out .. name .. (passed and ".PASS" or ".FAIL"), "w")
+    if sentinel then
+      sentinel:write(string.format("%s %d/%d\n", passed and "PASS" or "FAIL", okn, total))
+      for _, r in ipairs(self.results) do
+        if not r.ok then sentinel:write("FAILED: " .. r.name .. " -- " .. r.detail .. "\n") end
+      end
+      sentinel:close()
+    else
+      L("WARNING: could not write the .PASS/.FAIL sentinel to " .. self.out)
+    end
+
     if self.log then self.log:close() end
-    client.exit()
+    client.exit(passed and 0 or 1)
   end
   -- run main() under xpcall so an EmuHawk-swallowed Lua error is logged, not silent
   function self.run(mainFn)

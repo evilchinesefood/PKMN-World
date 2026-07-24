@@ -10,7 +10,26 @@
 // v5: SaveBlock3.clearedObstacleCount/clearedObstacles appended (persistent cut trees + smashed rocks).
 // v6: FRLG story vars rebased from raw SaveBlock1.vars IDs (0x4025-0x408A, aliasing live Hoenn
 //     vars) onto the Kanto regionVars slice (VAR_KANTO_SLICE); old cell values are copied over.
-#define SAVE_FORMAT_VERSION 6
+// v7: SaveBlock1 RESHAPED (not appended) — bag Items 30->60, Key Items 30->99, item PC 50->150,
+//     funded by FREE_MYSTERY_GIFT + FREE_MYSTERY_EVENT_BUFFERS. Owner decision 2026-07-24:
+//     NEW SAVES ONLY, no migration. See SAVE_FORMAT_LAYOUT_MIN below for why that needs an
+//     explicit gate rather than relying on the checksum to reject old saves.
+#define SAVE_FORMAT_VERSION 7
+
+// The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
+// only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.
+//
+// Why an explicit gate is required: growing bag/pcItems shifts every later SaveBlock1 field by
+// 796 bytes, but bag and pcItems both live inside SaveBlock1 CHUNK 0, and SAVEBLOCK_CHUNK
+// (src/save.c) only varies the LAST chunk's size. Chunks 0-2 therefore keep size 3968 and their
+// stored checksums still match the unchanged flash bytes, so a legacy save loads "successfully"
+// into the shifted layout and only chunk 3 fails validSectorFlags. The result is a HALF-LOADED
+// save with silently misaligned flags and vars — strictly worse than a clean rejection. The
+// incidental checksum failure is not a gate; this is.
+//
+// saveVersion itself stays readable across this break: it lives in SaveBlock2 (offset 0x91), and
+// nothing in this bump touches SaveBlock2's layout.
+#define SAVE_FORMAT_LAYOUT_MIN 7
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate
@@ -126,7 +145,10 @@ enum Language
 #define MAIL_COUNT (10 + PARTY_SIZE)
 #define SECRET_BASES_COUNT 20
 #define POKE_NEWS_COUNT 16
-#define PC_ITEMS_COUNT 50
+// 150, up from vanilla 50 (save format v7). Hard wall is 254: the page counters in
+// include/player_pc.h, the 0xFF swap sentinel in src/player_pc.c, and .pcItemsCount being a u8
+// in the ROM header (src/rom_header_gf.c) all break above that.
+#define PC_ITEMS_COUNT 150
 #define OBJECT_EVENT_TEMPLATES_COUNT 64
 #define DECOR_MAX_SECRET_BASE 16
 #define DECOR_MAX_PLAYERS_HOUSE 12
@@ -140,9 +162,19 @@ enum Language
 #define PYRAMID_BAG_ITEMS_COUNT 10
 #define ROAMER_COUNT 2 // Number of maximum concurrent active roamers (Johto Entei + Raikou roam together)
 
-// Bag constants
-#define BAG_ITEMS_COUNT 30
-#define BAG_KEYITEMS_COUNT 30
+// Bag constants — resized for a three-region game (save format v7). Vanilla was 30/30, sized for
+// a single-region Emerald; this game defines 99 key items (three regions of HMs, bikes, rods,
+// passes, tickets, plus the Mega Ring and the key-item wheel) against 30 slots, and the debug
+// pocket-filler already overflowed it before reaching ITEM_MEGA_RING.
+//
+// Ceilings, do not exceed without the extra work named:
+//  - Items must stay <= 65. CountTotalItemQuantityInBag returns u16 (src/item.c) and a stack can
+//    spill into a second slot, so slots x 999 must stay under 65536. Above 65 needs a u32 return.
+//  - Any pocket at 256+ HANGS: IsBagPocketNonEmpty loops with a u8 index against capacity
+//    (src/item.c). The practical ceiling is 255, from the u8 UI counters in include/item_menu.h.
+//  - struct Bag must stay 4-byte aligned — ClearBag CpuFastFills it (src/item.c).
+#define BAG_ITEMS_COUNT 60
+#define BAG_KEYITEMS_COUNT 99
 #define BAG_POKEBALLS_COUNT 16
 #define BAG_TMHM_COUNT 64
 #define BAG_BERRIES_COUNT 46

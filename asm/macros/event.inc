@@ -3173,3 +3173,38 @@
 	.macro initusm
 	callnative Usm_InitStartMenu
 	.endm
+
+	@ Leader / Elite Four / Champion REMATCH victory hook (issue #19 step 1).
+	@
+	@ The 41 rematch-win sites in the gym and league scripts used to `call
+	@ BattleNet_EventScript_OnLeaderRematchWin` by name. That is a fork-only symbol, so every one
+	@ of those shared scripts became un-cherry-pickable to an upstream feature branch — the whole
+	@ Battle Net had to come with it. Going through this macro keeps the call sites neutral:
+	@ with PKMN_WORLD_BATTLE_NET FALSE it expands to nothing and the script is upstream-clean.
+	@
+	@ Callers still set VAR_0x8004 to the defeated trainer id first (post-battle globals are
+	@ unreliable — ResetTrainerOpponentIds). Call-safe: the target ends in `return`.
+	.macro leader_rematch_hook
+#if PKMN_WORLD_BATTLE_NET == TRUE
+	call BattleNet_EventScript_OnLeaderRematchWin
+#endif
+	.endm
+
+	@ Region-hub arrival hooks (issue #19 step 4). Used by the three region starting towns'
+	@ OnTransition / "Mom's new home" scenes. Same reasoning as leader_rematch_hook: those three
+	@ maps ship in a Johto or Kanto feature branch, so naming the hub's callnatives directly made
+	@ them un-extractable. With PKMN_WORLD_REGION_HUB FALSE both expand to nothing.
+	.macro region_arrival_hook
+#if PKMN_WORLD_REGION_HUB == TRUE
+	callnative RegionHub_ScrArmArrival
+#endif
+	.endm
+
+	@ Includes the VAR_REGION_ARRIVAL reset that accompanies it at all three call sites — that var
+	@ is fork-only too, so leaving it outside the gate would keep the scene un-extractable anyway.
+	.macro region_intro_done_hook
+#if PKMN_WORLD_REGION_HUB == TRUE
+	callnative RegionHub_ScrSetIntroDone
+	setvar VAR_REGION_ARRIVAL, 0
+#endif
+	.endm

@@ -86,4 +86,24 @@
 // Naming Screen
 #define AUTO_LOWERCASE_KEYBOARD      GEN_LATEST  // Starting in GEN_6, after entering the first uppercase character, the keyboard switches to lowercase letters.
 
+// PKMN-World fork features (issue #19, releasability track).
+//
+// The strategic goal is Johto and Kanto each cuttable as upstream pokeemerald-expansion feature
+// branches. Anything that makes a SHARED gym / Elite Four script reference a fork-only symbol
+// blocks that, because the script can no longer be cherry-picked without dragging the feature
+// along. Gating those references behind a config keeps the call sites neutral: with the flag
+// FALSE the macro expands to nothing and the script is upstream-clean.
+//
+// PKMN_WORLD_BATTLE_NET gates the `leader_rematch_hook` macro (asm/macros/event.inc), which is
+// what the 41 gym/E4/champion rematch-victory sites call instead of naming
+// BattleNet_EventScript_OnLeaderRematchWin directly.
+#define PKMN_WORLD_BATTLE_NET        TRUE
+
+// PKMN_WORLD_REGION_HUB gates `region_arrival_hook` / `region_intro_done_hook`, used by the three
+// region STARTING TOWNS (NewBarkTown, PalletTown_Frlg, LittlerootTown). Those three maps are
+// exactly what a Johto or Kanto feature branch has to carry, so a bare `callnative
+// RegionHub_Scr*` in them dragged the whole hub along. The fork-only maps (RegionHub, the Dome
+// lobby, cable_club, battle_net.inc) keep their direct callnatives — they are never extracted.
+#define PKMN_WORLD_REGION_HUB        TRUE
+
 #endif // GUARD_CONFIG_GENERAL_H

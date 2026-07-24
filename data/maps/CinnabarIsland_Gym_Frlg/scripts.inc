@@ -905,7 +905,7 @@ CinnabarIsland_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, CinnabarIsland_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_LEADER_BLAINE, CinnabarIsland_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_LEADER_BLAINE
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox CinnabarIsland_Gym_Text_RematchPost
 	release
 	end

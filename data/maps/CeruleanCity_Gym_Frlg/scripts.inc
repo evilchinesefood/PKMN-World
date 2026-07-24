@@ -167,7 +167,7 @@ CeruleanCity_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, CeruleanCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_LEADER_MISTY, CeruleanCity_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_LEADER_MISTY
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox CeruleanCity_Gym_Text_RematchPost
 	release
 	end

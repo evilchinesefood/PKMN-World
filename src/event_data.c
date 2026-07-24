@@ -205,6 +205,12 @@ u16 *GetVarPointer(u16 id)
     else if (id >= TESTING_VARS_START)
         return &sTestVars[id - TESTING_VARS_START];
 #endif // TESTING
+    // Bound the fall-through. gSpecialVars is a table of 22 POINTERS (SPECIAL_VARS_START..
+    // SPECIAL_VARS_END, data/event_scripts.s); an id past the last bank used to index off the end
+    // of it and VarSet would write through whatever word came back. One compare in this branch
+    // only - VarGet/VarSet of a real var never reaches here, so it is not a hot-path cost.
+    else if (id > SPECIAL_VARS_END)
+        return NULL;
     else
         return gSpecialVars[id - SPECIAL_VARS_START];
 }
@@ -274,6 +280,10 @@ u8 *GetFlagPointer(u16 id)
     else if (id >= TESTING_FLAGS_START)
         return &sTestFlags[(id - TESTING_FLAGS_START) / 8];
 #endif // TESTING
+    // Bound the fall-through, same reasoning as GetVarPointer above. sSpecialFlags is 16 bytes;
+    // an id above the last bank used to index up to ~5 KB past it, and FlagSet writes through it.
+    else if (id > SPECIAL_FLAGS_END)
+        return NULL;
     else
         return &sSpecialFlags[(id - SPECIAL_FLAGS_START) / 8];
 }

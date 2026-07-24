@@ -1904,18 +1904,40 @@ static bool32 IsObstacleGraphicsId(u16 graphicsId)
         || graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG;
 }
 
-// A cut tree / smashed rock stays cleared across rezone if its {map, localId} is recorded.
+#include "data/cleared_obstacles.h" // generated sClearedObstacleKeys[]; see Testing/GenObstacleTable.py
+
+// Map {mapGroup, mapNum, localId} -> its generated save-bit index, or -1 if this obstacle is not
+// in the table (a newly placed one on a tree that predates a regeneration, or a non-obstacle).
+// The table is sorted ascending on the same packed key, so this is a binary search over 297
+// entries: ~9 comparisons, against the 104-entry linear scan it replaces.
+static s32 ObstacleIndex(u8 mapGroup, u8 mapNum, u8 localId)
+{
+    u32 key = ((u32)mapGroup << 16) | ((u32)mapNum << 8) | localId;
+    s32 lo = 0, hi = CLEARED_OBSTACLE_COUNT - 1;
+
+    while (lo <= hi)
+    {
+        s32 mid = (lo + hi) / 2;
+        u32 k = sClearedObstacleKeys[mid];
+
+        if (k == key)
+            return mid;
+        else if (k < key)
+            lo = mid + 1;
+        else
+            hi = mid - 1;
+    }
+    return -1;
+}
+
+// A cut tree / smashed rock stays cleared across rezone if its generated index bit is set.
 static bool32 IsClearedObstacle(u8 mapGroup, u8 mapNum, u8 localId)
 {
-    u32 i;
-    u32 n = min(gSaveBlock3Ptr->region.clearedObstacleCount, CLEARED_OBSTACLE_MAX); // guard a bad/unmigrated count
-    for (i = 0; i < n; i++)
-    {
-        const struct ClearedObstacle *o = &gSaveBlock3Ptr->region.clearedObstacles[i];
-        if (o->localId == localId && o->mapNum == mapNum && o->mapGroup == mapGroup)
-            return TRUE;
-    }
-    return FALSE;
+    s32 idx = ObstacleIndex(mapGroup, mapNum, localId);
+
+    if (idx < 0)
+        return FALSE;
+    return (gSaveBlock3Ptr->region.clearedObstacleBits[idx / 8] & (1 << (idx & 7))) != 0;
 }
 
 // callnative from EventScript_CutTree / EventScript_RockSmash after removeobject: record the
@@ -1941,14 +1963,15 @@ void RecordClearedObstacleFromScript(struct ScriptContext *ctx)
             break;
         }
     }
-    if (gSaveBlock3Ptr->region.clearedObstacleCount >= CLEARED_OBSTACLE_MAX)
+    // No cap and no eviction to get wrong: every obstacle in the map data owns a bit. An obstacle
+    // absent from the generated table (idx < 0) simply does not persist, which is the same
+    // outcome the old list gave once it was full — but now it takes a stale table to cause it,
+    // and ResyncClearedObstacleTable() makes that state loud rather than silent.
+    s32 idx = ObstacleIndex(mapGroup, mapNum, localId);
+
+    if (idx < 0)
         return;
-    if (IsClearedObstacle(mapGroup, mapNum, localId))
-        return;
-    gSaveBlock3Ptr->region.clearedObstacles[gSaveBlock3Ptr->region.clearedObstacleCount].mapGroup = mapGroup;
-    gSaveBlock3Ptr->region.clearedObstacles[gSaveBlock3Ptr->region.clearedObstacleCount].mapNum = mapNum;
-    gSaveBlock3Ptr->region.clearedObstacles[gSaveBlock3Ptr->region.clearedObstacleCount].localId = localId;
-    gSaveBlock3Ptr->region.clearedObstacleCount++;
+    gSaveBlock3Ptr->region.clearedObstacleBits[idx / 8] |= 1 << (idx & 7);
 }
 
 u8 TrySpawnObjectEventTemplate(const struct ObjectEventTemplate *objectEventTemplate, u8 mapNum, u8 mapGroup, s16 cameraX, s16 cameraY)

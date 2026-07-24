@@ -56,6 +56,7 @@ RegionHub_EventScript_AttendantKanto::
 	msgbox RegionHub_Text_TravelKanto, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	call RegionHub_EventScript_TryGiveHubPass
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
 	setvar VAR_RESULT, 0
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -80,6 +81,7 @@ RegionHub_EventScript_AttendantJohto::
 	msgbox RegionHub_Text_TravelJohto, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	call RegionHub_EventScript_TryGiveHubPass
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
 	setvar VAR_RESULT, 1
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -102,6 +104,7 @@ RegionHub_EventScript_AttendantHoenn::
 	msgbox RegionHub_Text_TravelHoenn, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	call RegionHub_EventScript_TryGiveHubPass
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
 	setvar VAR_RESULT, 2
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -157,11 +160,21 @@ RegionHub_EventScript_TravelDeclined::
 	release
 	end
 
+@ The Hub Pass give failed, so the gate is held shut. Crossing without it strands the player
+@ outside the hub: "retry on the next cross" is circular (the next cross IS in the hub) and the
+@ Charm Curator is in the hub too. Johto is the worst case - its only other exit is ITEM_PASS at
+@ the Goldenrod Magnet Train, which the station president withholds until VAR_GOLDENROD_CITY_STATE
+@ >= 10 (the Radio Tower beat, several badges deep). TryGiveHubPass already showed the reason.
+RegionHub_EventScript_TravelBlocked::
+	closemessage
+	release
+	end
+
 @ Issue #22 Part 2: force-give the HUB PASS on any gate-cross confirm, BEFORE the party is
 @ boxed (runs ahead of the setvar + RegionHub_ScrEnterRegion because giveitem clobbers
-@ VAR_RESULT). checkitem-deduped and self-healing: a full KEY ITEMS pocket just retries on
-@ the next cross, and the Charm Curator remains the backup giver. No flag advances on a
-@ failed give, so nothing can strand.
+@ VAR_RESULT). checkitem-deduped. Reports through VAR_RESULT: TRUE = the player holds a pass
+@ and the caller may cross, FALSE = a full KEY ITEMS pocket ate the give and the caller MUST
+@ route to TravelBlocked instead. Callers read VAR_RESULT before their own setvar.
 RegionHub_EventScript_TryGiveHubPass::
 	checkitem ITEM_HUB_RETURN
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_HubPassDone
@@ -169,32 +182,57 @@ RegionHub_EventScript_TryGiveHubPass::
 	giveitem ITEM_HUB_RETURN
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_HubPassBagFull
 RegionHub_EventScript_HubPassDone::
+	setvar VAR_RESULT, TRUE
 	return
 
 RegionHub_EventScript_HubPassBagFull::
 	msgbox RegionHub_Text_HubPassBagFull, MSGBOX_DEFAULT
+	setvar VAR_RESULT, FALSE
 	return
 
+@ The obedience line is not flavour. battle_util.c checks obedience against the ACTIVE region's
+@ badge bank - intentional, and documented in FEATURES.md - but nothing in the game ever told the
+@ player. Eight KANTO badges, step into JOHTO with zero, withdraw a favourite, send it out:
+@ "won't obey!" with nothing connecting it to a gate crossing made an hour earlier. The shared PC
+@ is the headline feature, so the game actively encourages the exact move that triggers this.
+@ The return line is here because the travel prompts never said the choice was reversible either
+@ (return warps exist at :71-75, :93-97, :127-131), and a cautious player can freeze on a
+@ decision that does not actually matter. The question goes LAST so it sits above the YES/NO box.
 RegionHub_Text_TravelKanto:
 	.string "This gate is bound for KANTO.\p"
-	.string "Travel to KANTO?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
-	.string "regions.$"
+	.string "regions.\p"
+	.string "POKéMON you withdraw here obey\n"
+	.string "your KANTO badges, not the ones\l"
+	.string "you earned in other regions.\p"
+	.string "You can return to WORLD TRANSIT\n"
+	.string "and try another region anytime.\p"
+	.string "Travel to KANTO?$"
 
 RegionHub_Text_TravelJohto:
 	.string "This gate is bound for JOHTO.\p"
-	.string "Travel to JOHTO?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
-	.string "regions.$"
+	.string "regions.\p"
+	.string "POKéMON you withdraw here obey\n"
+	.string "your JOHTO badges, not the ones\l"
+	.string "you earned in other regions.\p"
+	.string "You can return to WORLD TRANSIT\n"
+	.string "and try another region anytime.\p"
+	.string "Travel to JOHTO?$"
 
 RegionHub_Text_TravelHoenn:
 	.string "This gate is bound for HOENN.\p"
-	.string "Travel to HOENN?\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
-	.string "regions.$"
+	.string "regions.\p"
+	.string "POKéMON you withdraw here obey\n"
+	.string "your HOENN badges, not the ones\l"
+	.string "you earned in other regions.\p"
+	.string "You can return to WORLD TRANSIT\n"
+	.string "and try another region anytime.\p"
+	.string "Travel to HOENN?$"
 
 RegionHub_Text_AttendantGiveHubPass:
 	.string "First crossing? Then take your\n"
@@ -206,9 +244,9 @@ RegionHub_Text_AttendantGiveHubPass:
 RegionHub_Text_HubPassBagFull:
 	.string "Hm? Your KEY ITEMS pocket is full,\n"
 	.string "so I can't hand you a HUB PASS.\p"
-	.string "Make room, and the CURATOR here in\n"
-	.string "WORLD TRANSIT will have one for you\l"
-	.string "next time you pass through.$"
+	.string "I can't send you across without one.\n"
+	.string "You'd have no way back here.\p"
+	.string "Make room, then talk to me again.$"
 
 RegionHub_Text_TravelFrontier:
 	.string "Beyond this gate lies the\n"

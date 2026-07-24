@@ -16,6 +16,12 @@
 // GetCurrentLevelCap() returns MAX_LEVEL and behavior is vanilla.
 #define B_EXP_CAP_TYPE                  EXP_CAP_HARD   // [EXP_CAP_NONE, EXP_CAP_HARD, EXP_CAP_SOFT] choose the type of level cap to apply
 #define B_LEVEL_CAP_TYPE                LEVEL_CAP_FLAG_LIST // [LEVEL_CAP_NONE, LEVEL_CAP_FLAG_LIST, LEVEL_CAP_VARIABLE] choose the method to derive the level cap
+// TRAP if you ever switch B_LEVEL_CAP_TYPE to LEVEL_CAP_VARIABLE: 0 is not a valid var id.
+// VarGet() returns the id itself for anything below VARS_START (src/event_data.c), so VarGet(0)
+// yields 0 - a level cap of ZERO, capping every Pokemon in the game at level 0. Same shape for
+// B_EV_CAP_VARIABLE (8) below. Both are inert only because their *_CAP_TYPE selects a different
+// mode; set a real VAR_* id before flipping either mode. The asserts below make that a build
+// failure rather than a silent, total progression stop.
 #define B_LEVEL_CAP_VARIABLE            0 // event variable used to derive level cap if B_LEVEL_CAP_TYPE is set to LEVEL_CAP_VARIABLE
 
 #define B_RARE_CANDY_CAP                TRUE // If set to true, Rare Candies can't be used to go over the level cap

@@ -153,6 +153,9 @@ void ScrCmd_giveoddegg_Compat(struct ScriptContext *ctx)
         CreateEgg(mon, species, FALSE);
         SetMonMoveSlot(mon, MOVE_DIZZY_PUNCH, 1);
         CalculateMonStats(mon);
+        // This bypasses GiveMonToPlayer, the only path that does gPlayerPartyCount = i + 1,
+        // so without this the egg is in the array but invisible to every count consumer.
+        CalculatePlayerPartyCount();
         gSpecialVar_Result = MON_GIVEN_TO_PARTY;
         return;
     }
@@ -243,6 +246,8 @@ void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
         CalculateMonStats(mon);
         HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_SEEN, personality);
         HandleSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_SET_CAUGHT, personality);
+        // Bypasses GiveMonToPlayer (see giveoddegg above) - resync or the gift stays uncounted.
+        CalculatePlayerPartyCount();
         gSpecialVar_Result = MON_GIVEN_TO_PARTY;
         return;
     }
@@ -279,8 +284,15 @@ void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
         }
     }
 
+    // CompactPartySlots only shuffles and zeroes - it does NOT touch gPlayerPartyCount. Without
+    // this the count stays at the pre-entry size with slots 1-5 zeroed, and Gate_NationalPark
+    // warps straight into the contest map with no intervening resync, so Pokevial_HealPlayerParty
+    // and the Battle Net party checks iterate zeroed mons - and autosave-on-transition persists it.
     if (removedCount > 0)
+    {
         CompactPartySlots();
+        CalculatePlayerPartyCount();
+    }
 
     gSpecialVar_Result = MON_GIVEN_TO_PARTY;
 }
@@ -331,6 +343,7 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
         {
             ZeroMonData(mon);
             CompactPartySlots();
+            CalculatePlayerPartyCount(); // CompactPartySlots does not maintain the count
             gSpecialVar_Result = 2; // MON_SATISFACTORY
             return;
         }
@@ -338,6 +351,7 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 
     ZeroMonData(mon);
     CompactPartySlots();
+    CalculatePlayerPartyCount(); // CompactPartySlots does not maintain the count
     gSpecialVar_Result = 1; // MON_UNSATISFACTORY
 }
 

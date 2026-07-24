@@ -74,7 +74,12 @@ enum KantoSubRegion GetKantoSubregion(u32 mapSecId)
 {
     for (u32 i = KANTO_SUBREGION_KANTO; i <= KANTO_SUBREGION_SEVII67; i++)
     {
-        for (u32 j = 0; sKantoSubregionMapsecs[i][j] != MAPSEC_NONE; j++)
+        // Bounded by the row, not only by the MAPSEC_NONE sentinel. Rows are [30] and the
+        // longest (KANTO_SUBREGION_SEVII67) holds 27 entries + terminator = 2 slots spare, so
+        // three more Sevii mapsecs would push the terminator out and run this loop off the end
+        // of the row - and off the array entirely on the last row. The post-terminator fill is
+        // MAPSEC_LITTLEROOT_TOWN (value 0), not MAPSEC_NONE, so it would not re-terminate.
+        for (u32 j = 0; j < ARRAY_COUNT(sKantoSubregionMapsecs[i]) && sKantoSubregionMapsecs[i][j] != MAPSEC_NONE; j++)
         {
             if (mapSecId == sKantoSubregionMapsecs[i][j])
                 return i;

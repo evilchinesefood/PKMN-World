@@ -261,7 +261,7 @@ SaffronCity_Gym_EventScript_OfferRematch::
 	goto_if_eq VAR_RESULT, NO, SaffronCity_Gym_EventScript_RematchDecline
 	trainerbattle_no_intro TRAINER_LEADER_SABRINA, SaffronCity_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_LEADER_SABRINA
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox SaffronCity_Gym_Text_RematchPost
 	release
 	end

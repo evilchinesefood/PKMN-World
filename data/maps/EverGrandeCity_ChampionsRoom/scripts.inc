@@ -42,7 +42,7 @@ EverGrandeCity_ChampionsRoom_EventScript_Wallace::
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_WALLACE, EverGrandeCity_ChampionsRoom_Text_Defeat
 	setvar VAR_0x8004, TRAINER_WALLACE
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	goto EverGrandeCity_ChampionsRoom_EventScript_Defeated
 	end
 

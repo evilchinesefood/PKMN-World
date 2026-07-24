@@ -35,6 +35,28 @@
 //    the three rival ids is ever fought per save) shares one beaten identity.
 //  - The trainer id is read from gSpecialVar_0x8004; post-battle globals are never touched
 //    (ResetTrainerOpponentIds makes their lifetime unreliable).
+//
+// WHERE BATTLE NET STATE LIVES (four homes, on purpose — do NOT consolidate):
+//
+//   1. ~70 flags in FLAG_WORLD_MAP_BANK (stone guards, beaten markers, FLAG_BNET_DIRECTOR_INTRO
+//      / _STONE, FLAG_BNET_NO_WHITEOUT). Inline in checksummed SaveBlock1.flags[].
+//   2. Two counters in SaveBlock2.frontier reusing dead fields: battleNetHardWins (was
+//      unused_DC4) and battleNetBestStreak (was unused_EFA). Reusing bytes that were already
+//      allocated and never read is precisely why these needed no SAVE_FORMAT_VERSION bump.
+//   3. Two file-scope statics (sPendingStoneFlag1/2) — per-battle, deliberately not persisted.
+//   4. Borrowed script vars: VAR_DIFFICULTY (tier swap around a sim) and VAR_TEMP_1.
+//
+// Consolidating would COST bytes, not save them: a flag is 1 bit inside an already-allocated
+// bank, and moving the two counters out of their dead-field slots would need real new SaveBlock2
+// space — of which there is 84 bytes total. The four homes are the cheap arrangement; this block
+// exists so the next reader does not "fix" it.
+//
+// VAR_DIFFICULTY has a SECOND writer: data/scripts/battle_net.inc push/pops the tier through
+// VAR_TEMP_1 around a sim, while src/region_switch.c claims ownership of it. That works today —
+// the restore is on both the win and the loss path, and ResyncCurrentRegionFromMap ->
+// SyncDifficultyForRegion() self-heals a stranded tier on the next Continue. The risk is
+// precedent: the next feature needing a temporary tier will copy this pattern and one of them
+// will miss a path. If you add one, go through that self-heal rather than a third ad-hoc push.
 
 #define STONE(n)  (FLAG_BNET_STONE_BASE + (n))
 #define BEATEN(n) (FLAG_BNET_BEATEN_BASE + (n))
@@ -235,14 +257,33 @@ void BattleNetStarterStoneFromChoice(void)
     gSpecialVar_Result = 1;
 }
 
-// VAR_RESULT in = menu index; out = 1 picked / 0 cancelled.
-// VAR_0x8008 = stone, VAR_0x8009 = price in shards.
+// VAR_RESULT in = the PAGE-LOCAL menu row; VAR_0x8005 in = which page (0 or 1).
+// out: VAR_RESULT 1 picked / 0 cancelled, VAR_0x8008 = stone, VAR_0x8009 = price in shards.
+//
+// Both vendor pages render VENDOR_ROWS_PER_PAGE stones, then a page-toggle row and an EXIT row.
+// Those two rows are page-local indices 5 and 6 - and both are VALID sVendorStones[] indices
+// (BLAZIKENITE, SWAMPERTITE). The old signature took an already-rebased absolute index and only
+// rejected `>= 10`, so the entire defence against handing out a free stone lived in the .inc's
+// two goto guards. Any future caller - a second vendor, a debug entry, a reordered menu - that
+// failed to replicate BOTH guards got a free stone. Taking the page separately lets the row be
+// range-checked here, so the invariant is enforced where the array is indexed.
+#define VENDOR_ROWS_PER_PAGE 5
+
 void BattleNetVendorStoneFromChoice(void)
 {
-    u32 choice = gSpecialVar_Result;
+    u32 row = gSpecialVar_Result;
+    u32 page = gSpecialVar_0x8005;
+    u32 choice;
 
     gSpecialVar_0x8008 = ITEM_NONE;
     gSpecialVar_0x8009 = 0;
+    // Rejects the page toggle (5), EXIT (6) and MULTI_B_PRESSED (127) without trusting the script.
+    if (row >= VENDOR_ROWS_PER_PAGE)
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
+    choice = page * VENDOR_ROWS_PER_PAGE + row;
     if (choice >= ARRAY_COUNT(sVendorStones))
     {
         gSpecialVar_Result = 0;
@@ -252,6 +293,8 @@ void BattleNetVendorStoneFromChoice(void)
     gSpecialVar_0x8009 = sVendorStones[choice].price;
     gSpecialVar_Result = 1;
 }
+
+STATIC_ASSERT(ARRAY_COUNT(sVendorStones) == VENDOR_ROWS_PER_PAGE * 2, BattleNetVendorPagesCoverStoneTable);
 
 // VAR_RESULT in = menu index; out = 1 picked / 0 cancelled. VAR_0x8008 = shard item.
 void BattleNetShardColorFromChoice(void)
@@ -279,20 +322,42 @@ void GetBattleNetShardCount(void)
     gSpecialVar_Result = (total > 0xFFFF) ? 0xFFFF : total;
 }
 
-// Removes VAR_0x8009 shards total, greedily in sShardItems order. The script must confirm
-// affordability with GetBattleNetShardCount first; this bails out rather than over-removing.
+// Removes VAR_0x8009 shards total, greedily in sShardItems order. All-or-nothing: the four
+// colours are summed FIRST and nothing is removed unless the total covers the price.
+//
+// The old loop removed greedily and only reported failure at the end, so 30 shards against
+// owed = 35 removed all 30 with no rollback - while the comment above it claimed it bailed out
+// rather than over-removing. It also swallowed a failed RemoveBagItem (`if (take != 0 &&
+// RemoveBagItem(...)) owed -= take;` treats a failure as "nothing owed changed" and moves on).
+// Latent only because the sole caller pre-checks with GetBattleNetShardCount two script lines
+// earlier; a second caller, or a reorder of those two lines, ate the player's whole shard stock.
+// A false comment is exactly how that reorder happens, so the invariant now lives in the code.
 void DeductBattleNetShards(void)
 {
     u32 i;
     u32 owed = gSpecialVar_0x8009;
+    u32 total = 0;
+
+    for (i = 0; i < ARRAY_COUNT(sShardItems); i++)
+        total += CountTotalItemQuantityInBag(sShardItems[i]);
+
+    if (total < owed)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
 
     for (i = 0; i < ARRAY_COUNT(sShardItems) && owed != 0; i++)
     {
         u32 have = CountTotalItemQuantityInBag(sShardItems[i]);
         u32 take = (have < owed) ? have : owed;
 
-        if (take != 0 && RemoveBagItem(sShardItems[i], take))
-            owed -= take;
+        if (take != 0 && !RemoveBagItem(sShardItems[i], take))
+        {
+            gSpecialVar_Result = FALSE; // unreachable after the sum above; never silently ignored
+            return;
+        }
+        owed -= take;
     }
     gSpecialVar_Result = (owed == 0);
 }
@@ -316,12 +381,16 @@ void BufferBattleNetRecords(void)
 {
     u32 i, beaten = 0, stones = 0;
 
-    for (i = 0; i < 39; i++)
+    // Derive both bounds from the flag blocks rather than repeating 39/30 as bare literals: the
+    // asserts near the reward table already know these numbers, the loops did not, and a 40th
+    // rematch entity would have silently under-counted the board. The spare high indices are
+    // always clear, so scanning the full reserved block costs nothing and cannot over-count.
+    for (i = 0; i < FLAG_BNET_BEATEN_END - FLAG_BNET_BEATEN_BASE; i++)
     {
         if (FlagGet(FLAG_BNET_BEATEN_BASE + i))
             beaten++;
     }
-    for (i = 0; i < 30; i++)
+    for (i = 0; i < FLAG_BNET_STONE_END - FLAG_BNET_STONE_BASE; i++)
     {
         if (FlagGet(FLAG_BNET_STONE_BASE + i))
             stones++;
@@ -567,15 +636,27 @@ void DoBattleNetSimBattle(void)
         count = pool;
 
     // Pick `count` distinct ordinals into the pool, then map them to species.
+    //
+    // The redraw is capped. It used to be an unbounded `goto retry`, bounded in practice only by
+    // count being clamped to pool just above and count <= 4, so the worst case was a 3/4 collision
+    // chance per draw. A future mode that raises count, or drops that clamp, turns an unbounded
+    // retry into an infinite loop inside a script call with no timeout. After the cap it falls
+    // through to linear probing, which always terminates because count <= pool guarantees a free
+    // ordinal exists. Distribution is unchanged in every reachable case - the cap is never hit.
     for (i = 0; i < count; i++)
     {
-        u32 j, ord;
-    retry:
-        ord = Random() % pool;
-        for (j = 0; j < i; j++)
+        u32 j, ord = Random() % pool, tries = 0;
+
+        for (;;)
         {
-            if (picked[j] == ord)
-                goto retry;
+            for (j = 0; j < i && picked[j] != ord; j++)
+                ;
+            if (j == i)
+                break;                    // distinct - take it
+            if (++tries < 16)
+                ord = Random() % pool;    // collision: redraw
+            else
+                ord = (ord + 1) % pool;   // give up on randomness, probe linearly
         }
         picked[i] = ord;
     }
@@ -675,12 +756,15 @@ void CheckBattleNetRuleParty(void)
 // battlePoints += VAR_0x8005, clamped. Mirrors the frontier's daily-BP TV stat.
 void AddBattleNetPoints(void)
 {
-    u32 points = gSaveBlock2Ptr->frontier.battlePoints + gSpecialVar_0x8005;
+    u32 before = gSaveBlock2Ptr->frontier.battlePoints;
+    u32 points = before + gSpecialVar_0x8005;
 
     if (points > MAX_BATTLE_FRONTIER_POINTS)
         points = MAX_BATTLE_FRONTIER_POINTS;
     gSaveBlock2Ptr->frontier.battlePoints = points;
-    IncrementDailyBattlePoints(gSpecialVar_0x8005);
+    // Credit the daily stat with the delta actually APPLIED, not the raw award. At the cap the
+    // player receives nothing while the TV stat used to book the full amount anyway.
+    IncrementDailyBattlePoints(points - before);
 }
 
 // 30% chance: VAR_0x8008 = a random shard color, else ITEM_NONE. The script
@@ -695,8 +779,16 @@ void GiveBattleNetRandomShard(void)
 // VAR_0x8005 = wins this Tower Streak run; keeps the best on the records board.
 void UpdateBattleNetStreak(void)
 {
-    if (gSpecialVar_0x8005 > gSaveBlock2Ptr->frontier.battleNetBestStreak)
-        gSaveBlock2Ptr->frontier.battleNetBestStreak = gSpecialVar_0x8005;
+    // battleNetBestStreak is a u8 (it reuses the dead unused_EFA byte, which is exactly why it
+    // needed no save-format bump) but VAR_0x8005 is u16, so an unclamped assign truncates: a
+    // streak of 256 would store as 0 and the record would go BACKWARDS. Clamp rather than widen
+    // the field - widening would cost SaveBlock2 bytes it does not have.
+    u32 wins = gSpecialVar_0x8005;
+
+    if (wins > 255)
+        wins = 255;
+    if (wins > gSaveBlock2Ptr->frontier.battleNetBestStreak)
+        gSaveBlock2Ptr->frontier.battleNetBestStreak = wins;
 }
 
 // STR_VAR_1 = best Tower Streak (records board page 2).

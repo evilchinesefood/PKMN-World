@@ -17,6 +17,16 @@ BattleNet_EventScript_Director::
 	checkitemspace ITEM_MEGA_RING, 1
 	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
 	giveitem ITEM_MEGA_RING
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
+	@ The ring is handed over HERE, so its guard flag advances HERE. It used to be set only
+	@ after a confirmed stone give, so both non-give exits below returned with the flag clear
+	@ and the next talk re-ran the intro and printed another ring. checkitemspace does not
+	@ stop that: BagPocket_GetFreeSpaceForItem uses MAX_BAG_ITEM_CAPACITY for KEY ITEMS too,
+	@ so already holding a ring still reports space.
+	setflag FLAG_BNET_DIRECTOR_INTRO
+@ The starter stone gets its OWN flag so declining it (or hitting a full pocket) leaves it
+@ claimable on a later talk. Re-entered from DirectorRepeat / DirectorRegiveRing.
+BattleNet_EventScript_DirectorStoneOffer::
 	msgbox BattleNet_Text_DirectorStoneOffer, MSGBOX_DEFAULT
 	@ Script-level multichoice, NOT a special: a menu opened from a special is asynchronous,
 	@ so the script would read VAR_RESULT before the player picked. multichoice blocks.
@@ -25,7 +35,7 @@ BattleNet_EventScript_Director::
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_DirectorStoneLater
 	giveitem VAR_0x8008
 	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
-	setflag FLAG_BNET_DIRECTOR_INTRO
+	setflag FLAG_BNET_DIRECTOR_STONE
 	msgbox BattleNet_Text_DirectorDone, MSGBOX_DEFAULT
 	release
 	end
@@ -42,6 +52,8 @@ BattleNet_EventScript_DirectorRepeat::
 	@ silently eaten while the intro flag was still set. Re-give it if it is missing.
 	checkitem ITEM_MEGA_RING, 1
 	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRegiveRing
+	@ Stone still unclaimed (declined, or a full pocket last time) -> re-offer it.
+	goto_if_unset FLAG_BNET_DIRECTOR_STONE, BattleNet_EventScript_DirectorStoneOffer
 	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
 	release
 	end
@@ -50,6 +62,7 @@ BattleNet_EventScript_DirectorRegiveRing::
 	checkitemspace ITEM_MEGA_RING, 1
 	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
 	giveitem ITEM_MEGA_RING
+	goto_if_unset FLAG_BNET_DIRECTOR_STONE, BattleNet_EventScript_DirectorStoneOffer
 	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
 	release
 	end
@@ -60,20 +73,24 @@ BattleNet_EventScript_StoneVendor::
 	faceplayer
 	msgbox BattleNet_Text_VendorIntro, MSGBOX_DEFAULT
 @ Two pages: a single 11-row list rendered 22 tile rows tall on a 20-row screen. In each list
-@ index 5 is the page toggle and index 6 is EXIT (and MULTI_B_PRESSED = 127 also lands >= 6),
-@ so both must be handled HERE -- index 6 is a valid sVendorStones[] index and would silently
-@ sell the wrong stone if it reached the special. Page 2 rebases onto indices 5..9.
+@ index 5 is the page toggle and index 6 is EXIT (and MULTI_B_PRESSED = 127 also lands >= 6).
+@ The gotos below keep the menu flow readable, but they are NO LONGER the only thing standing
+@ between a page-toggle row and a free stone: VAR_RESULT now stays PAGE-LOCAL and the page goes
+@ in VAR_0x8005, so BattleNetVendorStoneFromChoice range-checks the row itself. (Previously the
+@ script rebased page 2 with `addvar VAR_RESULT, 5` and the special saw an absolute index, where
+@ rows 5 and 6 were valid sVendorStones[] entries - BLAZIKENITE and SWAMPERTITE.)
 BattleNet_EventScript_VendorLoop::
+	setvar VAR_0x8005, 0
 	multichoice 0, 0, MULTI_BNET_VENDOR_STONE, FALSE
 	goto_if_eq VAR_RESULT, 5, BattleNet_EventScript_VendorPage2
 	goto_if_ge VAR_RESULT, 6, BattleNet_EventScript_VendorDone
 	goto BattleNet_EventScript_VendorBuy
 
 BattleNet_EventScript_VendorPage2::
+	setvar VAR_0x8005, 1
 	multichoice 0, 0, MULTI_BNET_VENDOR_STONE_2, FALSE
 	goto_if_eq VAR_RESULT, 5, BattleNet_EventScript_VendorLoop
 	goto_if_ge VAR_RESULT, 6, BattleNet_EventScript_VendorDone
-	addvar VAR_RESULT, 5
 
 BattleNet_EventScript_VendorBuy::
 	special BattleNetVendorStoneFromChoice  @ index -> VAR_0x8008 item, VAR_0x8009 price, VAR_RESULT 1/0

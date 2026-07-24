@@ -353,7 +353,7 @@ PetalburgCity_Gym_EventScript_NormanOfferRematch::
 	goto_if_eq VAR_RESULT, NO, PetalburgCity_Gym_EventScript_NormanRematchDecline
 	trainerbattle_no_intro TRAINER_NORMAN_1, PetalburgCity_Gym_Text_RematchDefeat
 	setvar VAR_0x8004, TRAINER_NORMAN_1
-	call BattleNet_EventScript_OnLeaderRematchWin
+	leader_rematch_hook
 	msgbox PetalburgCity_Gym_Text_RematchPost, MSGBOX_DEFAULT
 	release
 	end

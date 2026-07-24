@@ -111,3 +111,15 @@ u32 GetCurrentEVCap(void)
 
     return MAX_TOTAL_EVS;
 }
+
+// See the trap note in include/config/caps.h. B_LEVEL_CAP_VARIABLE is 0 and B_EV_CAP_VARIABLE is
+// 8; both are below VARS_START, and VarGet() returns the id itself for those, so switching either
+// *_CAP_TYPE to the VARIABLE mode without also setting a real VAR_* id yields a cap of 0 - every
+// Pokemon capped at level 0, or zero EVs, with nothing at build time to say why. These asserts
+// only bind in the mode that actually reads the id, so they cost nothing today.
+#if B_LEVEL_CAP_TYPE == LEVEL_CAP_VARIABLE
+STATIC_ASSERT(B_LEVEL_CAP_VARIABLE >= VARS_START, LevelCapVariableIsNotAValidVarId);
+#endif
+#if B_EV_CAP_TYPE == EV_CAP_VARIABLE
+STATIC_ASSERT(B_EV_CAP_VARIABLE >= VARS_START, EvCapVariableIsNotAValidVarId);
+#endif

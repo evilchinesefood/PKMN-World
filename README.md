@@ -47,6 +47,18 @@ worlds.
 
 **v1.3.6** (July 2026) — see the [changelog](CHANGELOG.md) for the full history.
 
+> ### ⚠️ Save format v7 — existing saves are not carried forward
+>
+> The bag and item PC were resized for a three-region game (**Items 30 → 60, Key Items 30 → 99,
+> item PC 50 → 150**), which reshapes SaveBlock1. Saves from before this change are **refused at
+> load** rather than migrated — a deliberate gate, because a legacy save would otherwise
+> *half-load* with silently misaligned flags and vars. **Start a new game.**
+>
+> This was funded by turning off **Mystery Gift** and the Mystery Event buffers, so the
+> MYSTERY GIFT menu entry is gone. Neither is reachable in a private hack that never links to a
+> distribution server. Persistent cut trees and smashed rocks also moved to a bitfield, lifting a
+> silent 104-obstacle cap that the map data (297 obstacles) passed mid-playthrough.
+
 All three campaigns are complete and playable end to end, including each region's post-game.
 Recent releases added the World Championship endgame, HARD-mode gym-leader and Elite Four
 rematches, riding your own Pokémon for surf and flight, and a long run of fixes from

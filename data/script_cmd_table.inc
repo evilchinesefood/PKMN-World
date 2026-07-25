@@ -253,25 +253,50 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_DYNMULTIPUSH                  ScrCmd_dynmultipush,                requests_effects=1  @ 0xe4
 	script_cmd_table_entry SCR_OP_HIDEFOLLOWER                  ScrCmd_hidefollower,                requests_effects=1  @ 0xe5
 	script_cmd_table_entry SCR_OP_GETBRAILLESTRINGWIDTH         ScrCmd_getbraillestringwidth,       requests_effects=1  @ 0xe6
+@ The five conditional entries below pick their HANDLER through a `.set`, so that every
+@ script_cmd_table_entry line itself is UNCONDITIONAL. This is not cosmetic — it is what makes
+@ `make check` assemble at all.
+@
+@ This file is reached two different ways, with different preprocessing:
+@   1. data/event_scripts.s -> tools/preproc, which INLINES `.include` (asm_file.cpp:151 pushes
+@      the included file onto its stack), so cpp DOES see these `#if`s and picks one arm.
+@   2. include/test/overworld_script.h pulls asm/macros/event.inc in through a C
+@      `asm(".include \"...\"")` string. That reaches GAS with NO cpp pass, GAS treats `#if` /
+@      `#else` / `#endif` as comment lines, and BOTH arms assemble.
+@
+@ Under (2), two `script_cmd_table_entry` lines for the same constant reached `enum` ->
+@ `.equiv` (asm/macros/asm.inc), which errors on redefinition — so every test object failed to
+@ assemble and `make check` could not run. Worse, had `.equiv` been tolerant, `__enum__` would
+@ have advanced TWICE here and silently shifted every opcode after 0xE7 in test builds.
+@
+@ `.set` is redefinable, so both arms running under (2) is harmless (last wins), and each
+@ SCR_OP_* is then defined exactly once either way. The handler value is unused under (2)
+@ regardless: ALLOCATE_SCRIPT_CMD_TABLE is 0 there, so the macro takes the `enum` branch and
+@ never emits \value.
 #if POKEVIAL_FEATURE
-	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmd_pokevial                                         @ 0xe7
+	.set ScrCmdHandler_pokevial, ScrCmd_pokevial
 #else
-	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmd_nop_u8u8u8                                       @ 0xe7
+	.set ScrCmdHandler_pokevial, ScrCmd_nop_u8u8u8
 #endif
 #if QUEST_MENU
-	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmd_questmenu                                        @ 0xe8
-	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmd_subquestmenu                                     @ 0xe9
-	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmd_returnqueststate                                 @ 0xea
+	.set ScrCmdHandler_questmenu, ScrCmd_questmenu
+	.set ScrCmdHandler_subquestmenu, ScrCmd_subquestmenu
+	.set ScrCmdHandler_returnqueststate, ScrCmd_returnqueststate
 #else
-	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmd_nop_u8u8                                         @ 0xe8
-	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmd_nop_u8u16u16                                     @ 0xe9
-	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmd_nop_u8                                           @ 0xea
+	.set ScrCmdHandler_questmenu, ScrCmd_nop_u8u8
+	.set ScrCmdHandler_subquestmenu, ScrCmd_nop_u8u16u16
+	.set ScrCmdHandler_returnqueststate, ScrCmd_nop_u8
 #endif
 #if OW_QUEST_BRANCHING
-	script_cmd_table_entry SCR_OP_UPDATEQUEST                   ScrCmd_updatequest                                      @ 0xeb
+	.set ScrCmdHandler_updatequest, ScrCmd_updatequest
 #else
-	script_cmd_table_entry SCR_OP_UPDATEQUEST                   ScrCmd_nop_u8                                           @ 0xeb
+	.set ScrCmdHandler_updatequest, ScrCmd_nop_u8
 #endif
+	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmdHandler_pokevial                                  @ 0xe7
+	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmdHandler_questmenu                                 @ 0xe8
+	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmdHandler_subquestmenu                              @ 0xe9
+	script_cmd_table_entry SCR_OP_RETURNQUESTSTATE              ScrCmdHandler_returnqueststate                          @ 0xea
+	script_cmd_table_entry SCR_OP_UPDATEQUEST                   ScrCmdHandler_updatequest                               @ 0xeb
 
 	.if ALLOCATE_SCRIPT_CMD_TABLE
 gScriptCmdTableEnd::

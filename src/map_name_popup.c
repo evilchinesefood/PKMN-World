@@ -710,7 +710,11 @@ static bool32 IsCeladonDeptStore(const struct MapHeader *mapHeader)
 u8 *GetPopUpMapName(u8 *dest, const struct MapHeader *mapHeader)
 {
     if (IsCeladonDeptStore(mapHeader))
-        StringCopy(dest, COMPOUND_STRING("CELADON DEPT."));
+        // No trailing period: with " ROOFTOP" appended this is the widest popup name in the
+        // game at exactly 96px, and the GEN_8 popup window is 96px with no shrink-to-fit.
+        // The period cost 3px and overflowed it. Margin here is 0 — if this name or the floor
+        // suffix ever grows, it breaks again. Every other name has >=11px to spare.
+        StringCopy(dest, COMPOUND_STRING("CELADON DEPT"));
     else
         GetMapName(dest, mapHeader->regionMapSectionId, 0);
     if (mapHeader->floorNumber == 0)

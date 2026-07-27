@@ -561,11 +561,29 @@ TEST("Type names fit on Pokedex Search Screen")
 }
 
 
+// Upstream only checks the GEN_3 popup, so on any other OW_POPUP_GENERATION this test
+// ASSUME-skips and map names go completely unchecked. That is the wrong default for this
+// fork, which runs GEN_8 and added several hundred maps across three regions. The numbers
+// below mirror what ShowMapNamePopUpWindow actually draws (src/map_name_popup.c):
+//
+//   GEN_8: AddTextPrinterParameterized(..., FONT_NARROW, ...) centered in a 96px window,
+//          with NO GetFontIdToFit call — so an over-long name does not shrink to fit the
+//          way the GEN_3 path's name does. It overflows.
+//   GEN_3: GetFontIdToFit(..., FONT_NORMAL, -1, 80) shrinks through the narrower fonts,
+//          so FONT_NARROWER at 80px is the real floor.
+//
+// GEN_5 draws with FONT_SHORT into a differently-sized window; its usable width was not
+// determined, so it still skips rather than assert a number nobody has checked.
 TEST("Map names fit in popup")
 {
+#if OW_POPUP_GENERATION == GEN_8
+    const u32 fontId = FONT_NARROW;
+    u32 widthPx = 96;
+#else
     ASSUME(OW_POPUP_GENERATION == GEN_3);
     const u32 fontId = FONT_NARROWER;
     u32 widthPx = 80;
+#endif
     s8 mapGroup = 0;
     s8 mapNum = 0;
     u8 mapName[MAP_POPUP_STRING_BUFFER_LENGTH - MAP_POPUP_PREFIX_BUFFER_LENGTH];

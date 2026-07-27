@@ -18,7 +18,7 @@ instructions, see [INSTALL.md](INSTALL.md).
   - [Shared vs. per-region progress](#shared-vs-per-region-progress)
   - [Rematches \& Hard difficulty](#rematches--hard-difficulty)
   - [World Championship](#world-championship)
-  - [Battle Net \& the Mega economy (unreleased)](#battle-net--the-mega-economy-unreleased)
+  - [Battle Net \& the Mega economy](#battle-net--the-mega-economy)
 - [Character customization](#character-customization)
 - [Riding your Pokémon](#riding-your-pokémon)
 - [Ported features](#ported-features)
@@ -124,7 +124,7 @@ Three hub staffers handle handouts:
 - **Hard Mode** (chosen once at new game, locked for that save): Set-style battles, no bag
   items against trainers, and badge-based level caps.
 
-### Team Rocket ambushes (unreleased)
+### Team Rocket ambushes
 
 **Jessie & James** stalk you across all three regions: five one-time duo encounters at
 **Mt. Moon**, the **Rocket Hideout**, the **Slowpoke Well**, the **Goldenrod Radio Tower**,
@@ -140,7 +140,7 @@ the **World Championship**: a 15-trainer Battle Dome bracket of cross-region cha
 **Sabrina**/**Team Rocket** — with **Red** waiting in the final. Winning grants a permanent title
 and a one-time **Gold Bottle Cap**, and the tournament is rematchable afterward.
 
-### Battle Net & the Mega economy (unreleased)
+### Battle Net & the Mega economy
 
 Become any region's Champion and the **Battle Net terminal** in the hub unlocks its
 flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:

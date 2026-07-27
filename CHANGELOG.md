@@ -3,13 +3,30 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
-## Unreleased
+## v1.4 — 2026-07-27
 
-- **Battle Net sims pay EXP**: the Scaling Type Trainer, Tower Streak, and
-  ruleset rooms now award full experience (and post-battle evolutions) — the
-  sims are meant to be the game's training grounds. Money still never changes
-  hands in a sim, a loss still can't white you out, and your party is still
-  restored around every match.
+The Battle Net release. Mega Evolution finally has a way in, every Pokémon
+Center becomes a training ground, and the three-region roster is enforced
+everywhere.
+
+> **⚠️ New saves only.** The save format moved to **v7** and saves made in
+> v1.3.6 or earlier are **refused at load** rather than migrated. The bag and
+> item PC were resized for a three-region game, which reshapes the save layout —
+> a legacy save would otherwise *half-load* with silently misaligned flags and
+> vars, so it is turned away deliberately. **Start a new game.**
+
+### The Battle Net
+
+- **Battle Net & Mega Evolution**: become any region's Champion and the hub's
+  **Battle Net terminal** opens the flagship floor upstairs. The Director hands
+  you the **Mega Ring** and a free Mega Stone for your starter's line; every
+  **HARD** gym-leader/Elite-Four/Champion rematch win pays **Shards** (leaders 1,
+  league 2), and the first HARD win against each of the 28 stone-holding leaders
+  drops their **signature Mega Stone** — the same one they now Mega Evolve with
+  against you. The flagship vendor sells the remaining stones for Shards, the
+  exchange clerk converts Battle Points to Shards (4 BP each), and a few Shards
+  are hidden in the world. A full bag holds a stone for reclaim on a later win;
+  a blocked Shard payout now tells you and is forfeited, so make room first.
 - **Battle Net battle modes & regional terminals**: the flagship's sim pods are
   live. The **Scaling Type Trainer** picks any type and fields 2–4 of it a few
   levels below your party (1 BP a win plus a 30% Shard chance); the **Leader
@@ -22,35 +39,61 @@ All notable player-facing changes. For the full feature reference see
   match. A **Battle Net terminal** was also installed in every regional
   Pokémon Center (49 rooms across all three regions) carrying the Scaling
   Type Trainer and Leader Sim.
-- **Battle Net & Mega Evolution**: become any region's Champion and the hub's
-  **Battle Net terminal** opens the flagship floor upstairs. The Director hands
-  you the **Mega Ring** and a free Mega Stone for your starter's line; every
-  **HARD** gym-leader/Elite-Four/Champion rematch win pays **Shards** (leaders 1,
-  league 2), and the first HARD win against each of the 28 stone-holding leaders
-  drops their **signature Mega Stone** — the same one they now Mega Evolve with
-  against you. The flagship vendor sells the remaining stones for Shards, the
-  exchange clerk converts Battle Points to Shards (4 BP each), and a few Shards
-  are hidden in the world. A full bag holds a stone for reclaim on a later win;
-  a blocked Shard payout now tells you and is forfeited, so make room first.
+- **Battle Net sims pay EXP**: the Scaling Type Trainer, Tower Streak, and
+  ruleset rooms now award full experience (and post-battle evolutions) — the
+  sims are meant to be the game's training grounds. Money still never changes
+  hands in a sim, a loss still can't white you out, and your party is still
+  restored around every match.
+
+### World & content
+
 - **Gen 1–3 roster enforced**: every trainer party is swept back to Generations
   1–3 (36 later-gen slots across the endgame teams were rebuilt with type- and
   role-equivalent picks), matching the game's three-region cast.
-- **Johto portraits**: native HGSS-style battle portraits for all eight Johto
-  gym leaders, the Elite Four, and Champion Lance — no more borrowed
-  Kanto/Hoenn faces.
-- **Violet City trade**: the classic Bellsprout ↔ Onix trade is live — bring
-  Rudy a Bellsprout and ROCKY the Onix is yours.
-- **Rival name fix**: Johto rival battles now announce **GARY** in the battle
-  intro/defeat strings too (they said SILVER while the dialogue said Gary). The
-  very first encounter still shows "???" until he's introduced.
-- **Shop fix**: Soul Dew is no longer sold in department stores (a pricing quirk
-  made it free and unlimited).
+- **Route trainers were fielding boss teams**: 22 ordinary trainer slots had
+  been overwritten with Kanto boss parties — the Bug Catcher in Petalburg Woods
+  was Elite Four **Lorelei** at Lv 63–66, and a junior in Rustboro Gym (where
+  Roxanne is Lv 12–15) was **Sabrina** at Lv 38–43. All 22 are restored to their
+  real teams; the actual Kanto bosses were never affected.
+- **Lunatone and Zangoose are catchable**: neither had a single wild slot
+  anywhere (a version-exclusive leftover inherited from Emerald) while Solrock
+  and Seviper were placed normally. Lunatone now appears through Meteor Falls at
+  10–15%, Zangoose on Route 114 at 4% — alongside their counterparts, not
+  instead of them.
 - **League HARD rematches everywhere**: Johto's Elite Four + Lance and Kanto's
   round-two Elite Four + Champion now field HARD-difficulty teams once you're
   that region's Champion (Johto Lv 70–78 with Lance's Dragonite at 78; Kanto
   E4 Lv 70–76, Champion Lv 77–80 per starter) — completing the set Hoenn's
   league started. First clears are untouched, and trainers without a HARD
   team keep fighting their normal one.
+- **Team Rocket — Jessie & James**: five one-time 1-vs-2 duo ambushes at Mt. Moon,
+  the Rocket Hideout, the Slowpoke Well, the Goldenrod Radio Tower, and Route 118,
+  and Team Rocket joins the World Championship Dome bracket (replacing Clair).
+- **Johto portraits**: native HGSS-style battle portraits for all eight Johto
+  gym leaders, the Elite Four, and Champion Lance — no more borrowed
+  Kanto/Hoenn faces.
+- **Violet City trade**: the classic Bellsprout ↔ Onix trade is live — bring
+  Rudy a Bellsprout and ROCKY the Onix is yours.
+- **Orange Islands**: Kanto's Sevii Islands are renamed the Orange Islands
+  throughout (region map, ferry menu, Rainbow Pass, and island scripts).
+- **Rival is Gary** in both Kanto and Johto (region-derived), replacing Blue/Silver.
+
+### Bag, storage & quality of life
+
+- **A three-region bag**: Items **30 → 60**, Key Items **30 → 99**, and the item
+  PC **50 → 150**. Paid for by dropping Mystery Gift and the Mystery Event
+  buffers — neither is reachable in a fan project that never links to a
+  distribution server — so the MYSTERY GIFT entry is gone from the title screen.
+  This is the change that breaks old saves; see the note at the top.
+- **Cut trees and smashed rocks stay cleared**: only the 104 most recently
+  cleared obstacles were remembered and the world holds 297, so past that point
+  new clears silently stopped persisting — mid-playthrough, not at completion.
+  Every obstacle now has its own permanent slot.
+- **Hub Pass**: a key item that warps you one-way back to the World Transit hub
+  from the bag anytime (blocked inside the Safari Zone, Bug-Catching Contest,
+  Battle Frontier facilities, and link rooms). You're handed one automatically on
+  your first trip out of the hub, and the Charm Curator still stocks a
+  replacement.
 - **EV/IV Changer**: the Curator's 24-badge capstone now tunes IVs too (it was
   EVs only). Use it on a party POKéMON and press R to flip between the EV and
   IV pages; Left/Right nudge the selected stat by 1, holding moves in steps
@@ -60,28 +103,76 @@ All notable player-facing changes. For the full feature reference see
 - Also fixed from the EV-only version: using the item from the bag now actually
   opens the editor (the bag used to bounce straight back), and the editor
   window draws fully opaque (it was invisible, then see-through).
-- **Team Rocket — Jessie & James**: five one-time 1-vs-2 duo ambushes at Mt. Moon,
-  the Rocket Hideout, the Slowpoke Well, the Goldenrod Radio Tower, and Route 118,
-  and Team Rocket joins the World Championship Dome bracket (replacing Clair).
-- **Hub Pass**: a new key item from the hub's Charm Curator warps you one-way back
-  to the World Transit hub from the bag anytime (blocked inside the Safari Zone,
-  Bug-Catching Contest, Battle Frontier facilities, and link rooms).
-- **Orange Islands**: Kanto's Sevii Islands are renamed the Orange Islands
-  throughout (region map, ferry menu, Rainbow Pass, and island scripts).
-- **Rival is Gary** in both Kanto and Johto (region-derived), replacing Blue/Silver.
-- **Johto starter fix**: starting Johto after Kanto no longer locks the New Bark
-  starter balls ("shouldn't touch") — starter choice is now tracked per region.
-- **Endgame credits removed**: after the Hall of Fame the game saves and returns
-  to the title; Continue drops you into the overworld post-game state (Johto
-  champions resume in New Bark Town, Kanto in Pallet, Hoenn in Littleroot).
 - **PC quality-of-life**: a **SORT ITEMS** action in the PC item storage; a
   **Make Default** box option so new catches land in a chosen box; and L/R now
   page storage boxes under every button mode.
+- **Endgame credits removed**: after the Hall of Fame the game saves and returns
+  to the title; Continue drops you into the overworld post-game state (Johto
+  champions resume in New Bark Town, Kanto in Pallet, Hoenn in Littleroot).
+
+### Fixes
+
+- **The Johto League could be locked shut for good (critical)**: a full bag
+  during the Ecruteak theater scene swallowed the **Clear Bell** without a word,
+  and the Tin Tower sage checks for it — with no second copy anywhere, the
+  league gate could never open. Thirteen one-time gives (the bells, the Rainbow
+  and Silver Wings, gym TMs, the Lake of Rage Red Scale) now check for room
+  *before* anything advances, and the Radio Tower director will re-hand a lost
+  wing.
+- **Stranded outside the hub**: a region gate let you through even when the Hub
+  Pass couldn't be handed over (full Key Items pocket) — and Johto's only other
+  way out is gated behind the Radio Tower. The gate now refuses the trip and
+  tells you why.
+- **Party corruption at the Bug-Catching Contest**: the party count wasn't
+  recalculated at five places that edit your party directly. The National Park
+  gate warps straight into the contest, leaving the count too high with the
+  other five slots blank — and autosave could write that to your file.
+- **Hard Mode caps follow the region you're in**: level caps and obedience read
+  your *active* campaign's badges, and the champion tier is per region. Before,
+  clearing one region lifted the cap everywhere, and the hub counted as Hoenn —
+  which zeroed Battle Net sim EXP for Hard Mode players partway through Johto.
+- **Battles with an empty party**: fishing, Rock Smash and overworld encounters
+  could start a wild battle with no Pokémon at all right after a region switch.
+- **The Leader Sim paid prize money**: it doesn't now — "no money at stake" is
+  true of every sim.
+- **Battle Net Director**: talking to him again announced a Mega Ring you were
+  already holding. The ring is marked given the moment it's handed over; the
+  free starter stone stays claimable.
+- **Hub Pass inside the Frontier**: using it mid-run in the Tower, Dome,
+  Factory, Arena or Palace warped you out without ending the challenge. Those
+  runs are covered now.
+- **Steven's HARD rematch** is Lv 78–82 — it had been sitting *below* his
+  normal-difficulty superboss team (Lv 75–78).
+- **Ice Path TM**: TM14 Blizzard is obtainable again (a dead item-choice stub
+  blocked the exchange, and the berry could be lost to it).
+- **Day Care** cost and level readouts no longer underflow for a Pokémon above
+  your current level cap.
+- **Illegal moves**: six moves their species can't legally learn were swapped
+  for equivalents in the HARD boss teams.
+- **Nine FireRed system flags did nothing** (they pointed at a null flag id):
+  Kanto's Cycling Road now puts you on your bike, the Orange Islands appear on
+  the region map as you unlock them, and the Tanoby Ruins, trainer-card profile
+  and help-system states stick.
+- **Rival name fix**: Johto rival battles now announce **GARY** in the battle
+  intro/defeat strings too (they said SILVER while the dialogue said Gary). The
+  very first encounter still shows "???" until he's introduced.
+- **Johto starter fix**: starting Johto after Kanto no longer locks the New Bark
+  starter balls ("shouldn't touch") — starter choice is now tracked per region.
+- **Shop fix**: Soul Dew is no longer sold in department stores (a pricing quirk
+  made it free and unlimited).
 - **DexNav**: walk or run right up to a hidden Pokémon to trigger it (the
   slow-walk/sneak penalty is gone); an R-press where the registered species can't
   be found keeps the registration instead of wiping it; and a stuck-search glitch
   that flashed a garbage DexNav window is fixed. Cave overworld encounters no
   longer spawn on unreachable floor inside walls.
+- **Rock-Smash Tool**: its description overflowed the bag and shop windows.
+- **Battle Net odds and ends**: Shard purchases are all-or-nothing, the tower
+  streak counter is clamped, the daily BP payout matches what it actually
+  awarded, and the Bug-Catching Contest scores Pokémon over 255 HP correctly.
+- **Crash hardening**: bounds checks across the Bag's PokéVial icon, the sliding
+  block puzzles, EV items, script commands and the AI's switch fallback — and
+  the region save block (badges, per-region flags) is now checksummed and
+  repaired on load instead of trusted.
 
 ## v1.3.6 — 2026-07-13
 

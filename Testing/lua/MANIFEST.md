@@ -46,6 +46,20 @@ assertions counts as a FAIL — a suite that aborted early must not report a per
 |---|---|---|
 | `SmokeBoot.lua` | **evidence** | symbols + lib load on a fresh build; boot to hub, empty party, step + object dump read correctly. The harness self-test. |
 | `MigrateFixtures.lua` | **evidence** | That a pre-v7 save is **refused**, not half-loaded. Save format v7 reshaped SaveBlock1 and the owner chose new-saves-only, so `SAVE_FORMAT_LAYOUT_MIN` in `src/save.c` rejects older saves and the v0..v6 migration ladder is now unreachable. This suite was rewritten to assert the gate rather than a migration that can no longer happen. Any pre-v7 fixture works (v3/v4/v5 are all below the floor). |
+| `VerifyBagLayout.lua` | **evidence** | Issue #24's expanded bag + item PC really shipped (Items 60 / Key Items 99 / PC 150), and a slot past the old 30-slot cap survives a save + core reboot. |
+
+> **Why pointer gaps and not just capacities:** `gBagPockets[p].capacity` is assigned from
+> `BAG_*_COUNT` at runtime, so reading it back only proves the *constant* changed. What #24
+> actually did was resize `struct Bag` inside SaveBlock1. Consecutive pockets are contiguous
+> fields, so the gap between two pocket pointers **is** the earlier pocket's real slot count x 4 —
+> that distinguishes "the header says 99" from "the save block genuinely holds 99". The suite also
+> pins `bag` at `+0x6F8`, which is the runtime check on the `include/global.h` offset comments
+> (they were stale for the whole life of the expansion and read `0x568`, a pre-expansion value).
+>
+> **Occupancy is seeded by a direct RAM write, deliberately.** Driving `PC/Bag -> Fill...` was
+> tried first and is not usable as evidence: debug submenu cursor state is documented to persist
+> between opens, so a run where the fill silently never fires reports `occupied=0` — which is
+> indistinguishable from a real defect. It produced exactly that false negative once.
 
 > **Why the gate needs a test at all:** `bag` and `pcItems` both live in SaveBlock1 **chunk 0**, and
 > `SAVEBLOCK_CHUNK` only varies the *last* chunk's size. So chunks 0-2 keep size 3968, their stored

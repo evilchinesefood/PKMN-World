@@ -1221,34 +1221,38 @@ struct SaveBlock1
 #if I_KEY_ITEM_WHEEL
               u16 registeredItemsExtra[I_MAX_REGISTERED_ITEMS - 1]; // key item wheel slots 2..N
 #endif //I_KEY_ITEM_WHEEL
-    // The /*0x...*/ offsets on the next three lines were stale by 8 bytes for the whole life of
-    // the key-item wheel: I_KEY_ITEM_WHEEL inserts registeredItemsExtra[3] above, and alignment
-    // makes the shift 8, not the 6 the raw field width suggests. Corrected below; re-derive from
-    // pokemonworld.map rather than trusting any of these comments.
+    // The /*0x...*/ offsets from pcItems down were stale twice over. First by 8 bytes for the
+    // whole life of the key-item wheel (I_KEY_ITEM_WHEEL inserts registeredItemsExtra[3] above,
+    // and alignment makes the shift 8, not the 6 the raw field width suggests). Then again when
+    // the bag + item PC were expanded (Items 30->60, Key Items 30->99, PC 50->150): pcItems is
+    // 600 B now, not 200, and struct Bag is 1140 B, not 744 — so everything from `bag` down moved
+    // another 0x590. The values below are compiler-probed (offsetof under the build's real
+    // -mabi=apcs-gnu -march=armv4t flags, which is what makes sizeof(SaveBlock1) come out at the
+    // 14752 test/save.c asserts); a by-hand struct sum is what produced the wrong ones.
     /*0x4A0*/ struct ItemSlot pcItems[PC_ITEMS_COUNT];
-    /*0x568 -> 0x850 is bag storage*/
-    /*0x568*/ struct Bag bag;
-    /*0x850*/ struct Pokeblock pokeblocks[POKEBLOCKS_COUNT];
+    /*0x6F8 -> 0xB6C is bag storage*/
+    /*0x6F8*/ struct Bag bag;
+    /*0xB6C*/ struct Pokeblock pokeblocks[POKEBLOCKS_COUNT];
 #if FREE_EXTRA_SEEN_FLAGS_SAVEBLOCK1 == FALSE
-    /*0x988*/ u8 filler1[0x34]; // Previously Dex Flags, feel free to remove.
+    /*0xCAC*/ u8 filler1[0x34]; // Previously Dex Flags, feel free to remove.
 #endif //FREE_EXTRA_SEEN_FLAGS_SAVEBLOCK1
-    /*0x9BC*/ u16 berryBlenderRecords[3];
-    /*0x9C2*/ u8 unused_9C2[2];
-              u32 dailySeed;
+    /*0xCE0*/ u16 berryBlenderRecords[3];
+    /*0xCE6*/ u8 unused_9C2[2];
+    /*0xCE8*/ u32 dailySeed;
 #if FREE_MATCH_CALL == FALSE
-    /*0x9C8*/ u16 trainerRematchStepCounter;
-    /*0x9CA*/ u8 trainerRematches[MAX_REMATCH_ENTRIES];
+    /*0xCEC*/ u16 trainerRematchStepCounter;
+    /*0xCEE*/ u8 trainerRematches[MAX_REMATCH_ENTRIES];
 #endif //FREE_MATCH_CALL
-    /*0xA2E*/ //u8 padding3[2];
-    /*0xA30*/ struct ObjectEvent objectEvents[OBJECT_EVENTS_COUNT];
-    /*0xC70*/ struct ObjectEventTemplate objectEventTemplates[OBJECT_EVENT_TEMPLATES_COUNT];
-    // flags[] was resized when FLAGS_COUNT grew (region merge), so the fixed /*0x....*/ byte
-    // offsets from here down are stale; the array sizes stay compile-time (NUM_FLAG_BYTES/VARS_COUNT).
-    u8 flags[NUM_FLAG_BYTES];
-    u16 vars[VARS_COUNT];
-    /*0x159C*/ u32 gameStats[NUM_GAME_STATS];
-    /*0x169C*/ struct BerryTree berryTrees[BERRY_TREES_COUNT];
-    /*0x1A9C*/ struct SecretBase secretBases[SECRET_BASES_COUNT];
+    /*0xD52*/ //u8 padding3[2];
+    /*0xD54*/ struct ObjectEvent objectEvents[OBJECT_EVENTS_COUNT];
+    /*0xF94*/ struct ObjectEventTemplate objectEventTemplates[OBJECT_EVENT_TEMPLATES_COUNT];
+    // flags[] was resized when FLAGS_COUNT grew (region merge); the array sizes stay compile-time
+    // (NUM_FLAG_BYTES/VARS_COUNT). These offsets are compiler-probed like the ones above.
+    /*0x1594*/ u8 flags[NUM_FLAG_BYTES];
+    /*0x179A*/ u16 vars[VARS_COUNT];
+    /*0x199C*/ u32 gameStats[NUM_GAME_STATS];
+    /*0x1A9C*/ struct BerryTree berryTrees[BERRY_TREES_COUNT];
+    /*0x1E9C*/ struct SecretBase secretBases[SECRET_BASES_COUNT];
     /*0x271C*/ u8 playerRoomDecorations[DECOR_MAX_PLAYERS_HOUSE];
     /*0x2728*/ u8 playerRoomDecorationPositions[DECOR_MAX_PLAYERS_HOUSE];
     /*0x2734*/ u8 decorationDesks[10];

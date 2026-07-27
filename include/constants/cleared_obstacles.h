@@ -6,10 +6,10 @@
 //
 // One save bit per cut tree / smashable rock in the game. Replaces the old 104-entry
 // {mapGroup, mapNum, localId} list, which had no eviction: past 104 clears, obstacles silently
-// stopped persisting and regrew on every rezone. There are 297 obstacles, so that cap was
+// stopped persisting and regrew on every rezone. There are 295 obstacles, so that cap was
 // reached well before the end of a single playthrough.
 
-#define CLEARED_OBSTACLE_COUNT      297   // obstacles present in the map data today
+#define CLEARED_OBSTACLE_COUNT      295   // obstacles present in the map data today
 #define CLEARED_OBSTACLE_SLOTS      512   // bits reserved in the save (save-layout affecting)
 #define CLEARED_OBSTACLE_BYTES      (CLEARED_OBSTACLE_SLOTS / 8)
 
@@ -17,6 +17,6 @@
 // index after it, which would silently re-point saved bits at different obstacles. The save
 // stores the hash it was written under; on a mismatch the bits are cleared and re-stamped, so
 // every obstacle regrows exactly ONCE after a map edit instead of drifting invisibly.
-#define CLEARED_OBSTACLE_TABLE_HASH 0x0528BCA1
+#define CLEARED_OBSTACLE_TABLE_HASH 0x233ED09C
 
 #endif // GUARD_CONSTANTS_CLEARED_OBSTACLES_H

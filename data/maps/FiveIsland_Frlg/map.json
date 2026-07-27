@@ -54,14 +54,6 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "FiveIsland_EventScript_BugCatcher",
       "flag": "0"
-    },
-    {
-      "type": "clone",
-      "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE_FRLG",
-      "x": 32,
-      "y": 9,
-      "target_local_id": "LOCALID_FIVE_ISLAND_MEADOW_BORDER_TREE",
-      "target_map": "MAP_FIVE_ISLAND_MEADOW"
     }
   ],
   "warp_events": [

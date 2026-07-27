@@ -232,16 +232,12 @@ static const u32 sClearedObstacleKeys[CLEARED_OBSTACLE_COUNT] =
     0x250E09, // group 37, map 14, localId 9
     // FourIsland_Frlg
     0x250F07, // group 37, map 15, localId 7
-    // FiveIsland_Frlg
-    0x251003, // group 37, map 16, localId 3
     // Route2_Frlg
     0x251401, // group 37, map 20, localId 1
     0x251402, // group 37, map 20, localId 2
     0x251403, // group 37, map 20, localId 3
     0x251404, // group 37, map 20, localId 4
     0x251407, // group 37, map 20, localId 7
-    // Route7_Frlg
-    0x251901, // group 37, map 25, localId 1
     // Route8_Frlg
     0x251A0A, // group 37, map 26, localId 10
     0x251A0B, // group 37, map 26, localId 11

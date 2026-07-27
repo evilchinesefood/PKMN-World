@@ -5,7 +5,7 @@
 // quest scripting commands. SCHEMA-CRITICAL: enabling this grows SaveBlock3.
 //
 // DORMANT BY DECISION (issue #12, 2026-07-21): the menu ships compiled-in but unreachable --
-// all 31 sSideQuests entries are placeholder ("Side Quest 1".."Side Quest 30", src/strings.c)
+// all 30 sSideQuests entries are placeholder ("Side Quest 1".."Side Quest 30", src/strings.c)
 // and FLAG_SYS_QUEST_MENU_GET is never set, so the Start-menu entry never appears. To activate
 // later: author real quests, set the flag where earned, add questmenu/subquestmenu unlock
 // scripts.

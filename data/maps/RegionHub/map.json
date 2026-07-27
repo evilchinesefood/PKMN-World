@@ -185,6 +185,7 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_REGION_HUB_CURATOR",
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
       "x": 22,
@@ -229,7 +230,26 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 16,
+      "y": 4,
+      "elevation": 3,
+      "var": "FLAG_HUB_INTRO_TOUR_DONE",
+      "var_value": "0",
+      "script": "RegionHub_EventScript_IntroTourFromCrest"
+    },
+    {
+      "type": "trigger",
+      "x": 16,
+      "y": 5,
+      "elevation": 3,
+      "var": "FLAG_HUB_INTRO_TOUR_DONE",
+      "var_value": "0",
+      "script": "RegionHub_EventScript_IntroTourFromSouth"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",

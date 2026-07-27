@@ -4175,7 +4175,13 @@
 // a flag that only advanced past a confirmed stone give made every declined stone re-give a ring)
 // while the stone itself stays claimable on a later talk.
 #define FLAG_BNET_DIRECTOR_STONE              (FLAG_WORLD_MAP_BANK + 0x8E) // 0xDCE
-// Next free in the world-map window: 0xDCF.
+// World Transit intro tour (issue #41): set once the guided walk-through has run to completion
+// OR been explicitly declined, so it never auto-triggers again. It is also the coord_event
+// trigger on the arrival crest -- ShouldTriggerScriptRun (field_control_avatar.c) falls back to
+// FlagGet() when the trigger id is not a var, so the crest events self-disable on the same flag
+// instead of burning a temp var. The Charm Curator re-offers the tour regardless of this flag.
+#define FLAG_HUB_INTRO_TOUR_DONE              (FLAG_WORLD_MAP_BANK + 0x8F) // 0xDCF
+// Next free in the world-map window: 0xDD0.
 
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030

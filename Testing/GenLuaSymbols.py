@@ -38,7 +38,10 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
-  ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12 },     -- byte0 bit0 = active; coords = map+7
+  ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18 },
+                                                            -- byte0 bit0 = active; coords = map+7
+                                                            -- byte0 bit6 = heldMovementActive, bit7 = heldMovementFinished
+                                                            -- facing: low nibble of the u16 at 0x18 (DIR_SOUTH 1 / NORTH 2 / WEST 3 / EAST 4)
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, @SB1@ },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768 },

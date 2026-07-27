@@ -1,5 +1,12 @@
+@ LOCALID_REGION_HUB_CURATOR comes from the Curator's "local_id" in
+@ data/maps/RegionHub/map.json, which mapjson turns into include/constants/map_event_ids.h.
+@ Local ids are (array order + 1), so a hard-coded 13 would silently rot the moment that array
+@ is reordered; the generated constant follows it instead. The intro tour applymovements below
+@ are the only consumers.
+
 RegionHub_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, RegionHub_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, RegionHub_OnFrame
 	.byte 0
 
 @ World Transit hub - region-switch terminal rebuilt in the Indigo Plateau Pokemon Center
@@ -40,8 +47,57 @@ RegionHub_MapScripts::
 @ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
 @ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
 @ hub, so it never needs to be a respawn target itself.
+@ Issue #41 intro tour, arrival path. A coord_event ALONE cannot do this: TryStartCoordEventScript
+@ is only reached from TryStartStepBasedScript, which ProcessPlayerFieldInput calls inside
+@ `if (input->tookStep)` (src/field_control_avatar.c) -- so a coord event fires on a STEP and never
+@ on a warp-in. A brand-new game and every HUB PASS return both *materialise* the player on the
+@ crest at (16,4) without stepping, which is exactly the case the tour has to catch. So the arrival
+@ path is ON_TRANSITION (arm) + ON_FRAME_TABLE (run), the vanilla idiom for an on-entry scene, and
+@ the crest coord_events stay as the walk-on path for a save that loaded elsewhere in the hub.
+@ VAR_TEMP_C is the arm: ClearTempFieldEventData() zeroes the temp var block on every map load and
+@ runs BEFORE RunOnTransitionMapScript(), so the arm cannot survive into a later visit. It is also
+@ the only temp var this map touches -- data/scripts/battle_net.inc borrows VAR_TEMP_1 for its
+@ difficulty push/pop and the leader sim runs here, so VAR_TEMP_1 is not usable.
 RegionHub_OnTransition::
+	goto_if_unset FLAG_HUB_INTRO_TOUR_DONE, RegionHub_EventScript_ArmIntroTour
 	end
+
+RegionHub_EventScript_ArmIntroTour::
+	setvar VAR_TEMP_C, 1
+	end
+
+RegionHub_OnFrame::
+	map_script_2 VAR_TEMP_C, 1, RegionHub_EventScript_IntroTourOnArrival
+	.2byte 0
+
+@ Disarm first so this cannot re-enter, then confirm the player really is on the crest. A legacy
+@ save whose last save point was elsewhere in the hub loads straight into the overworld with the
+@ tour flag clear; it must NOT start an escort whose path is hard-coded from (16,4). Those players
+@ are caught by the crest coord_events, or by the Charm Curator's re-offer.
+RegionHub_EventScript_IntroTourOnArrival::
+	setvar VAR_TEMP_C, 0
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_ne VAR_0x8004, 16, RegionHub_EventScript_IntroTourNotHere
+	goto_if_ne VAR_0x8005, 4, RegionHub_EventScript_IntroTourNotHere
+	lockall
+	goto RegionHub_EventScript_IntroTourGreet
+
+RegionHub_EventScript_IntroTourNotHere::
+	end
+
+@ Walk-on path. The coord_events are triggered on FLAG_HUB_INTRO_TOUR_DONE == 0 (not a var), so
+@ they stop firing for good the moment the tour completes or is declined.
+RegionHub_EventScript_IntroTourFromCrest::
+	lockall
+	goto RegionHub_EventScript_IntroTourGreet
+
+@ (16,5) is one tile south of the crest. The escort path only works from (16,4), so step the
+@ player up onto it before anything else happens.
+RegionHub_EventScript_IntroTourFromSouth::
+	lockall
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourStepToCrest
+	waitmovement OBJ_EVENT_ID_PLAYER
+	goto RegionHub_EventScript_IntroTourGreet
 
 RegionHub_EventScript_Nurse::
 	lock
@@ -537,9 +593,17 @@ RegionHub_Text_HarborAllGiven:
 @ ladder tiers, and it runs (and can clobber VAR_0x8000/0x8001 via its own giveitem) BEFORE
 @ RegionHub_ScrCountWorldTourBadges refreshes those vars for the ladder below, so it can't
 @ desync the badge check.
+@ Issue #41: the intro tour re-offer sits at the very top, ahead of every give below. That
+@ ordering is forced, not stylistic -- giveitem clobbers VAR_RESULT, so the Yes/No answer has to
+@ be read before the first one. Offered on every talk, whether or not
+@ FLAG_HUB_INTRO_TOUR_DONE is set: after the tour it is the replay path, and before it, it is the
+@ fallback for a legacy save that never crosses the arrival crest. Declining falls straight
+@ through to his normal HUB PASS / POKeVIAL / charm-ladder script.
 RegionHub_EventScript_CharmCurator::
 	lock
 	faceplayer
+	msgbox RegionHub_Text_CuratorTourOffer, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, RegionHub_EventScript_CuratorStartTour
 	checkitem ITEM_HUB_RETURN
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorCheckPokevial
 	msgbox RegionHub_Text_CuratorGiveHubPass, MSGBOX_DEFAULT
@@ -993,3 +1057,491 @@ RegionHub_Items_Vitamins::
 	.2byte ITEM_SERIOUS_MINT
 	pokemartlistend
 
+
+@ =====================================================================================
+@ Issue #41 -- World Transit intro tour
+@ =====================================================================================
+@ A skippable, one-time guided walk of the hub. The hub is the game's front door AND the one
+@ map that is entirely this fork's invention, so a player has no genre knowledge to fall back
+@ on: before this it was an unexplained empty lobby.
+@
+@ ENTRY POINTS (three, all converging on RegionHub_EventScript_IntroTourWalk):
+@   1. ON_TRANSITION arm + ON_FRAME_TABLE  -- a warp-in that lands on the crest (new game, or
+@      any HUB PASS return). See the comment above RegionHub_OnTransition for why a coord_event
+@      cannot do this job.
+@   2. coord_event on (16,4) / (16,5)      -- walking onto the crest, which is what catches a
+@      legacy save that loaded elsewhere in the hub.
+@   3. RegionHub_EventScript_CharmCurator  -- an explicit Yes/No re-offer on every talk, ahead
+@      of his HUB PASS / POKeVIAL / charm-ladder script. This is the last-resort path and the
+@      replay path; it walks the player back to the crest first, because the escort below is a
+@      FIXED path that is only correct starting from (16,4).
+@
+@ WHY THE GUIDE IS THE CURATOR: OBJECT_EVENTS_COUNT is 16 and this map already has 14 object
+@ events, with the player and an active follower always taking the other two. The tour CANNOT
+@ add an NPC. The Charm Curator is already the designated "new traveler" NPC (he hands out the
+@ HUB PASS and the POKeVIAL on first contact), so greeting is already his job.
+@
+@ ESCORT GEOMETRY: guide and player walk in lockstep with the guide exactly one tile ahead, so
+@ their sprites never occupy the same tile on any step. Every stop tile and every leg was
+@ confirmed against a flood fill of data/layouts/RegionHub/map.bin from (16,4) (279 reachable
+@ tiles) with metatile behaviours decoded from the two tilesets' metatile_attributes.bin. The
+@ two counter stops are talk-across-counter (MB_COUNTER, one-tile look-ahead). Route:
+@
+@   #  stop            player   faces  target
+@   0  greeting        (16, 4)  E      guide walks (22,7) -> (17,4)
+@   1  HOENN gate      (21, 3)  N      attendant (21,2)
+@   2  JOHTO gate      (16, 3)  N      attendant (16,2)
+@   3  KANTO gate      (11, 3)  N      attendant (11,2)   <- "start with KANTO"
+@   4  FRONTIER gate   ( 4, 3)  N      attendant (4,2)
+@   5  scoreboard      ( 2, 2)  N      sign (2,1)
+@   6  POKeMART        ( 2, 7)  W      counter (1,7) -> clerk (0,7)
+@   7  POKeMON CENTER  (13,12)  N      counter (13,11) -> nurse (13,10)
+@
+@ NO RETURN LEG. The south hall reconnects to the main hall only through the western corridor,
+@ ~45 extra steps, which would double the tour. Instead the guide walks EAST out of the camera
+@ window and is then snapped home with setobjectxy. Snapping him straight from (14,12) would be a
+@ visible pop -- the DESTINATION is off-screen, but the tile he vanishes FROM is not.
+@ The window, derived from FieldUpdateBgTilemapScroll (src/field_camera.c): the player's metatile
+@ sits dead centre of the 240x160 screen, so from (13,12) the visible columns are x 6..20 (15 full
+@ columns, no partials) and the visible rows are y 8..16 fully, with 7 and 17 half-drawn. He is
+@ therefore hidden on X ALONE -- (23,13) is 3 columns past the right edge (sprite spans screen
+@ x 272..287 against a 240px screen), and y=13 is squarely on screen the whole way.
+@
+@ TRAPS OBSERVED HERE:
+@   - giveitem clobbers VAR_RESULT. The Curator's Yes/No result is read before any give in his
+@     script, which is why the tour prompt sits at the very top of it.
+@   - lockall/releaseall is paired exactly once per path. The Curator entry drops his single-
+@     object lock and takes the all-object one, so the whole cutscene runs in one lock mode.
+@   - waitmovement 0 waits on the LAST applymovement's object only (scrcmd.c reuses
+@     sMovingNpcId), not on all of them. Every leg therefore waits on both objects by name.
+
+@ Shared greeting: the guide crosses the concourse and offers the tour. Only the two crest
+@ entry points reach this; the Curator re-offer has already asked and jumps past it.
+RegionHub_EventScript_IntroTourGreet::
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideApproach
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerFaceGuide
+	waitmovement OBJ_EVENT_ID_PLAYER
+	msgbox RegionHub_Text_TourOffer, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_IntroTourDeclined
+	closemessage
+	goto RegionHub_EventScript_IntroTourWalk
+
+@ Declining still sets the flag: the tour is a one-time offer, and the Curator re-offer is the
+@ documented way back in. The guide walks home at speed rather than being snapped, because at
+@ this point he is standing right next to the player and in full view.
+RegionHub_EventScript_IntroTourDeclined::
+	msgbox RegionHub_Text_TourDeclined, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideGoHome
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	setflag FLAG_HUB_INTRO_TOUR_DONE
+	releaseall
+	end
+
+RegionHub_EventScript_IntroTourWalk::
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToHoenn
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToHoenn
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourHoenn, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToJohto
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToJohto
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourJohto, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToKanto
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToKanto
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourKanto, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToFrontier
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToFrontier
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourFrontier, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToBoard
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToBoard
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourBoard, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToMart
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToMart
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourMart, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToCenter
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToCenter
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourCenter, MSGBOX_DEFAULT
+	closemessage
+	msgbox RegionHub_Text_TourClosing, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideDepart
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	setobjectxy LOCALID_REGION_HUB_CURATOR, 22, 7
+	setobjectxyperm LOCALID_REGION_HUB_CURATOR, 22, 7
+	turnobject LOCALID_REGION_HUB_CURATOR, DIR_SOUTH
+	setflag FLAG_HUB_INTRO_TOUR_DONE
+	releaseall
+	end
+
+@ Curator re-offer, YES branch. He is at (22,7) and the player is on one of the only three
+@ walkable tiles that can reach him -- (22,6), (21,7), (23,7); (22,8) is a wall. Normalise to
+@ (22,6) first, then run the shared approach, which puts the player on the crest at (16,4) and
+@ the guide beside them at (17,4) with no tile ever shared. Drop the single-object lock and
+@ take the all-object one so the escort and its releaseall are in the same mode.
+RegionHub_EventScript_CuratorStartTour::
+	closemessage
+	release
+	lockall
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8004, 21, RegionHub_EventScript_CuratorTourFromWest
+	goto_if_eq VAR_0x8004, 23, RegionHub_EventScript_CuratorTourFromEast
+	goto RegionHub_EventScript_CuratorTourToCrest
+
+RegionHub_EventScript_CuratorTourFromWest::
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourStepFromWest
+	waitmovement OBJ_EVENT_ID_PLAYER
+	goto RegionHub_EventScript_CuratorTourToCrest
+
+RegionHub_EventScript_CuratorTourFromEast::
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourStepFromEast
+	waitmovement OBJ_EVENT_ID_PLAYER
+	goto RegionHub_EventScript_CuratorTourToCrest
+
+RegionHub_EventScript_CuratorTourToCrest::
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerCuratorToCrest
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideApproach
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	goto RegionHub_EventScript_IntroTourWalk
+
+@ ---- movement data -------------------------------------------------------------------
+@ One byte per step, so the ~55-step escort is negligible. Every tile below is collision 0 and
+@ elevation 3 in data/layouts/RegionHub/map.bin.
+
+@ (16,5) -> (16,4), the crest, for the southern coord_event.
+RegionHub_Movement_TourStepToCrest:
+	walk_up
+	step_end
+
+@ (22,7) -> (22,6) -> west along y=6 -> (17,6) -> (17,5) -> (17,4), facing the player.
+RegionHub_Movement_TourGuideApproach:
+	walk_up
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	walk_up
+	face_left
+	step_end
+
+RegionHub_Movement_TourPlayerFaceGuide:
+	face_right
+	step_end
+
+@ (17,4) -> (17,6) -> east along y=6 -> (22,6) -> (22,7). Only used on the decline, where he is
+@ close enough to home that walking back beats a snap.
+RegionHub_Movement_TourGuideGoHome:
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_down
+	face_down
+	step_end
+
+@ Stop 1: (16,4) -> (21,3) / guide (17,4) -> (22,3).
+RegionHub_Movement_TourPlayerToHoenn:
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_up
+	step_end
+
+RegionHub_Movement_TourGuideToHoenn:
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_up
+	face_left
+	step_end
+
+@ Stop 2: (21,3) -> (16,3) / guide (22,3) -> (17,3).
+RegionHub_Movement_TourPlayerToJohto:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	face_up
+	step_end
+
+RegionHub_Movement_TourGuideToJohto:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	step_end
+
+@ Stop 3: (16,3) -> (11,3) / guide (17,3) -> (12,3).
+RegionHub_Movement_TourPlayerToKanto:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	face_up
+	step_end
+
+RegionHub_Movement_TourGuideToKanto:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	step_end
+
+@ Stop 4: (11,3) -> (4,3) / guide (12,3) -> (5,3).
+RegionHub_Movement_TourPlayerToFrontier:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	face_up
+	step_end
+
+RegionHub_Movement_TourGuideToFrontier:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	step_end
+
+@ Stop 5: (4,3) -> (2,2) / guide (5,3) -> (3,2). The board art is (2,1) wall-top + (2,2) floor-
+@ bottom and the sign is read from (2,2) facing north, which is where the player is put.
+RegionHub_Movement_TourPlayerToBoard:
+	walk_left
+	walk_left
+	walk_up
+	step_end
+
+RegionHub_Movement_TourGuideToBoard:
+	walk_left
+	walk_left
+	walk_up
+	face_left
+	step_end
+
+@ Stop 6: (2,2) -> (2,7) / guide (3,2) -> (3,7). Player faces the MB_COUNTER at (1,7).
+RegionHub_Movement_TourPlayerToMart:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	face_left
+	step_end
+
+RegionHub_Movement_TourGuideToMart:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	face_left
+	step_end
+
+@ Stop 7: (2,7) -> (2,9) -> (3,9) -> (3,12) -> east to (13,12); guide (3,7) -> (3,12) -> (14,12).
+@ (2,10) and (2,11) are walls, which is why the player jogs east to column 3 at y=9. Both paths
+@ are 16 steps and the guide leads by one the whole way.
+RegionHub_Movement_TourPlayerToCenter:
+	walk_down
+	walk_down
+	walk_right
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	face_up
+	step_end
+
+RegionHub_Movement_TourGuideToCenter:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	face_left
+	step_end
+
+@ (14,12) -> (14,13) -> east to (23,13). From the player at (13,12) the visible columns are x 6..20,
+@ so this clears the right edge by 3 columns and the setobjectxy that follows is never seen. The
+@ southward step is only to get out of the y=12 corridor, which runs out of floor at x=17.
+RegionHub_Movement_TourGuideDepart:
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	step_end
+
+@ Curator-entry normalisation onto (22,6).
+RegionHub_Movement_TourStepFromWest:
+	walk_up
+	walk_right
+	step_end
+
+RegionHub_Movement_TourStepFromEast:
+	walk_up
+	walk_left
+	step_end
+
+@ (22,6) -> (22,4) -> west along y=4 -> (16,4). Paired with TourGuideApproach: the player is on
+@ (22,5) as the guide steps onto (22,6), and reaches (17,4) one step before the guide leaves
+@ (17,5) for it, so no tile is ever double-occupied.
+RegionHub_Movement_TourPlayerCuratorToCrest:
+	walk_up
+	walk_up
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	face_right
+	step_end
+
+@ ---- text ----------------------------------------------------------------------------
+
+RegionHub_Text_TourOffer:
+	.string "Ah - a new face at WORLD TRANSIT!\p"
+	.string "I'm the CHARM CURATOR. I've watched\n"
+	.string "every TRAINER who ever passed\l"
+	.string "through this hall.\p"
+	.string "Shall I show you around before you\n"
+	.string "choose a region?$"
+
+RegionHub_Text_TourDeclined:
+	.string "Of course. You'll find your way.\p"
+	.string "If you change your mind, I'm at my\n"
+	.string "counter by the east wall. Just ask.$"
+
+RegionHub_Text_TourHoenn:
+	.string "These four doors are the boarding\n"
+	.string "gates. This one is bound for HOENN.\p"
+	.string "You don't walk through them.\n"
+	.string "Speak to the ATTENDANT, say yes,\l"
+	.string "and you're there.$"
+
+RegionHub_Text_TourJohto:
+	.string "JOHTO, through this one.\p"
+	.string "Two things every traveler must know.\p"
+	.string "Your team is sent to the PC BOXES\n"
+	.string "whenever you switch regions. The\l"
+	.string "BOXES are shared, so nothing is\l"
+	.string "ever lost.\p"
+	.string "And BADGES count per region. A\n"
+	.string "POKéMON obeys the BADGES of the\l"
+	.string "region you're standing in.$"
+
+RegionHub_Text_TourKanto:
+	.string "And KANTO.\p"
+	.string "If you're asking me where to\n"
+	.string "begin - begin here.\p"
+	.string "KANTO is the gentlest road of the\n"
+	.string "three, and its GYM LEADERS will\l"
+	.string "teach you the game properly.$"
+
+RegionHub_Text_TourFrontier:
+	.string "This gate stays shut for now.\p"
+	.string "It opens onto the BATTLE FRONTIER,\n"
+	.string "and only for a TRAINER who has\l"
+	.string "conquered one region's POKéMON\l"
+	.string "LEAGUE.\p"
+	.string "Something to aim at.$"
+
+RegionHub_Text_TourBoard:
+	.string "The WORLD TOUR BOARD.\p"
+	.string "Twenty-four GYM BADGES are out\n"
+	.string "there - eight in every region.\p"
+	.string "This board keeps your running\n"
+	.string "total. I read it more often than\l"
+	.string "I care to admit.$"
+
+RegionHub_Text_TourMart:
+	.string "The front desk. BALLS, healing\n"
+	.string "items, all a traveler needs.\p"
+	.string "Ask for the TOWN MAP before you go.\n"
+	.string "It costs you nothing, and you only\l"
+	.string "ever get the one.$"
+
+RegionHub_Text_TourCenter:
+	.string "And last, the counter that matters\n"
+	.string "most.\p"
+	.string "The NURSE heals your team free,\n"
+	.string "always. The PC beside her stores\l"
+	.string "them.\p"
+	.string "One set of BOXES, shared by all\n"
+	.string "three regions.$"
+
+RegionHub_Text_TourClosing:
+	.string "That's the whole hall.\p"
+	.string "Take the KANTO gate first - trust\n"
+	.string "an old man on that - and come see\l"
+	.string "me once you've earned a BADGE or\l"
+	.string "four.\p"
+	.string "Safe travels, TRAINER.$"
+
+RegionHub_Text_CuratorTourOffer:
+	.string "Would you like a tour of WORLD\n"
+	.string "TRANSIT?$"

@@ -27,22 +27,6 @@ worlds.
   cherry-picked upstream fixes
 - **ROM:** `pokemonworld.gba` — title `POKEMON WRLD`, code `BPEE`
 
-## ✨ Features
-
-| Feature | What it does |
-|---|---|
-| 🗺️ **Three regions, one game** | Kanto (FireRed-derived), Johto (ported from *Heart & Soul*), and Hoenn (native Emerald) — each a complete campaign with its own league and post-game. |
-| 🚉 **World Transit hub** | Pick your starting region at a central hub, then travel between regions once you've opened each one. |
-| 🎒 **Shared progress** | One PC box, Pokédex, and bag across all three regions. Boxed Pokémon obey based on your *current* region's badge count. |
-| 🐉 **Ride your own Pokémon** | Surf and fly on your actual team — your walking follower mounts up first if it's able, with a proper riding model for both. |
-| 👕 **Character customization** | Play as **Brendan or May** with a 6-color outfit picker — one global choice, applied everywhere. |
-| 🏆 **Per-region endgame** | Each region keeps its own league — **Gary** (Kanto), **Lance → Red at Mt. Silver** (Johto), and Hoenn's native league — plus HARD-mode Elite Four and **gym-leader rematches (all 24 leaders)** once you're that region's Champion, with the **Battle Frontier** as the shared post-game. |
-| 🌐 **World Championship** | Beat all three regions' leagues, then face a 15-trainer Battle Dome gauntlet of cross-region champions — Red included — for a permanent title and a Gold Bottle Cap. |
-| 💎 **Mega Evolution & the Battle Net** | Become a Champion and the **Battle Net** opens above the hub: a director hands you the **Mega Ring** and a free starter-line Mega Stone. Every HARD gym-leader, Elite Four and Champion rematch pays **Shards**, and each leader drops their own **signature Mega Stone** the first time you beat them — the same stone they Mega Evolve with against you. Trade Shards for the rest at the flagship vendor, or swap Battle Points for Shards at the exchange counter. |
-| 🕹️ **Battle sims in every Center** | Every Pokémon Center hosts a **Battle Net terminal**: the **Scaling Type Trainer** (pick a type, fight a team scaled just below yours) and the **Leader Sim** (rerun any HARD gym rematch), with the flagship floor adding the 7-win **Tower Streak** and **Lv50 / Monotype / Little Cup** rooms. Sims pay **BP and full EXP** — they're the game's training grounds — while money never changes hands and a loss can't white you out. |
-| 🧬 **Gen 1–3 only** | Every Pokémon in the game — wild, gift, and trainer-owned — comes from the first three generations, so the roster stays consistent with the three regions it draws from. |
-| 🛠️ **Expansion + QoL** | The full pokeemerald-expansion engine plus a suite of ported quality-of-life features behind config toggles. |
-
 ## 📊 Status
 
 **v1.4** (July 2026) — see the [changelog](CHANGELOG.md) for the full history.

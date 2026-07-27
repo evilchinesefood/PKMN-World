@@ -9,7 +9,7 @@
 A Game Boy Advance ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 
-[**Install**](INSTALL.md) · [**Features**](FEATURES.md) · [**Credits**](CREDITS.md)
+[**Install**](INSTALL.md) · [**Features**](FEATURES.md) · [**Strategy Guide**](https://dev.jdayers.com/pkmn-world/) · [**Credits**](CREDITS.md)
 
 </div>
 
@@ -115,11 +115,23 @@ assets, following pokeemerald / pokeemerald-expansion conventions.
 
 </details>
 
+## 📖 Strategy guide
+
+**[dev.jdayers.com/pkmn-world](https://dev.jdayers.com/pkmn-world/)** — a complete strategy guide
+for all three regions: walkthroughs, gym leader and Elite Four teams, encounter tables, item
+locations, and TM/HM lists.
+
+It is **generated from this repository's own source**, so it describes the game as actually built
+rather than as documented — every trainer party, wild encounter and warp is read straight out of
+`src/data/` and `data/maps/`. Source at
+[evilchinesefood/PKMN-World-Guide](https://github.com/evilchinesefood/PKMN-World-Guide).
+
 ## 📦 Build & docs
 
 - **[INSTALL.md](INSTALL.md)** — setup and build instructions.
 - **[FEATURES.md](FEATURES.md)** — full feature list.
 - **[CREDITS.md](CREDITS.md)** — credits.
+- **[Strategy guide](https://dev.jdayers.com/pkmn-world/)** ([source](https://github.com/evilchinesefood/PKMN-World-Guide)) — source-generated walkthrough and data tables.
 
 ## Credits & license
 

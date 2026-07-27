@@ -1,0 +1,87 @@
+# CI gate for PKMN-World (issue #32).
+#
+# Why this exists at all, given the pre-push hook says a local gate is the right process
+# for this repo: `make check` runs the ~1,500 inherited upstream battle tests through
+# tools/mgba/mgba-rom-test, which ships as an x86-64 binary only (there is no mGBA source
+# in tree and no cmake to rebuild it). The dev box is aarch64 — WSL on ARM64 Windows — so
+# the shell cannot execute that ELF, the hydra never launches the emulator, and the run
+# ends in `Syntax error: "(" unexpected` followed by "No tests found". That is a HOST
+# limitation, not a single test failing. ubuntu-latest is x86-64, so the bundled runner
+# works natively and this is the only place the suite can actually execute.
+#
+# The pre-push hook still runs the cheap host-side scans locally and stays the fast gate.
+# The `validate` job below mirrors them so a `--no-verify` push is still caught.
+
+name: Check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Content validation (host-side)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Invoked directly rather than through `make validate`: that target is not listed in
+      # RULES_NO_SCAN, so going through make would trigger the full dependency scan and a
+      # tools build in order to run two stdlib-only Python scripts.
+      - name: Gen 1-3 species rules
+        run: python3 Testing/ValidateGen13.py
+
+      - name: Cleared-obstacle table freshness
+        run: python3 Testing/GenObstacleTable.py --check
+
+  test:
+    name: make check (battle test suite)
+    runs-on: ubuntu-latest
+    # The test ELF is ~37 MB and the runner has 4 cores; the first uncached run is expected
+    # to be slow. Well under the 6h job ceiling, but do not assume it is quick.
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      # libelf1 is what tools/mgba/mgba-rom-test links against (plus libm/libpthread/libc).
+      # The rest is the modern arm-none-eabi toolchain this fork requires — agbcc is removed
+      # and the Makefile hardcodes -DMODERN=1, so apt's gcc-arm-none-eabi + newlib is exactly
+      # right here and none of the local symlink workarounds are needed.
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
+            libpng-dev libelf1 python3
+
+      - name: Cache build tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/bin2c/bin2c
+            tools/gbafix/gbafix
+            tools/gbagfx/gbagfx
+            tools/jsonproc/jsonproc
+            tools/mapjson/mapjson
+            tools/mid2agb/mid2agb
+            tools/preproc/preproc
+            tools/ramscrgen/ramscrgen
+            tools/rsfont/rsfont
+            tools/scaninc/scaninc
+            tools/trainerproc/trainerproc
+            tools/compresSmol/compresSmol
+            tools/compresSmol/compresSmolTilemap
+            tools/wav2agb/wav2agb
+            tools/patchelf/patchelf
+            tools/mgba-rom-test-hydra/mgba-rom-test-hydra
+          key: tools-check-${{ runner.os }}-${{ hashFiles('tools/*/Makefile', 'tools/**/*.c', 'tools/**/*.cpp', 'tools/**/*.h') }}
+
+      # TEST=1 is set automatically when `check` is the goal, but state it anyway so the
+      # environment matches what the build actually compiles with.
+      - name: make check
+        env:
+          GAME_VERSION: EMERALD
+          TEST: 1
+        run: make -j$(nproc) check

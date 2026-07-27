@@ -11,6 +11,13 @@
 #
 # The pre-push hook still runs the cheap host-side scans locally and stays the fast gate.
 # The `validate` job below mirrors them so a `--no-verify` push is still caught.
+#
+# ⚠ THIS DOES NOT REINSTATE THE CI REMOVED IN 25d26c50. That workflow (build.yml) was
+# deleted because it built and UPLOADED the ROM as a CI artifact, which effectively
+# distributes it — against the fan-project terms. The objection was to publishing the
+# build output, not to running a build. Nothing here uploads anything: the test ELF is
+# produced in the runner's ephemeral workspace, read by the emulator, and discarded with
+# the runner. Do not add actions/upload-artifact to this file.
 
 name: Check
 

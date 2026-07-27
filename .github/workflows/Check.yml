@@ -24,6 +24,17 @@ name: Check
 on:
   push:
     branches: [master]
+    # A full run is ~23 minutes, which is not worth spending on a README tweak.
+    # GitHub skips the workflow only when EVERY changed file matches one of these, so a
+    # commit touching both a doc and a source file still runs. Note the consequence: a
+    # docs-only push produces no run at all — that is the intended outcome here, not a
+    # workflow that silently failed to start. .github/workflows/** is deliberately absent
+    # so edits to this file still trigger it.
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - ".github/*.png"
+      - "LICENSE"
   pull_request:
   workflow_dispatch:
 

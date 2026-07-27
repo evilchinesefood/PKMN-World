@@ -14248,9 +14248,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Red Scale"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "A red scale from\n"
-            "the RED GYARADOS\n"
-            "of the LAKE OF RAGE."),
+            "A scale from the\n"
+            "RED GYARADOS of\n"
+            "the LAKE OF RAGE."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,

@@ -349,6 +349,19 @@ STATIC_ASSERT(offsetof(struct SaveBlock2, followerSlot) == 0x93, SaveBlock2Follo
 STATIC_ASSERT(offsetof(struct SaveBlock2, regionChecksum) == 0x94, SaveBlock2RegionChecksumMoved);
 #endif // ALL_REGIONS
 
+// The three SaveBlock1 banks the BizHawk/Lua suites read. These used to be hand-typed numbers in
+// Testing/GenLuaSymbols.py's curated table, and they ROTTED: save format v7 reshaped SaveBlock1
+// (bag/pcItems capacities grew) and pushed flags 4728 -> 5524 and vars 5246 -> 6042, but the
+// generator kept emitting the pre-v7 values. A wrong offset here does not crash and does not read
+// back as an error - FlagGet-style reads just land in neighbouring save data, so a suite that sets
+// a flag and reads it back agrees with itself while the game sees nothing. That is a suite
+// reporting green having proved nothing, and it is exactly the failure the SaveBlock3 asserts
+// above were added to prevent. Pinned here so the generator can derive them and the BUILD fails
+// on drift instead of the harness silently lying.
+STATIC_ASSERT(offsetof(struct SaveBlock1, flags) == 5524, SaveBlock1FlagsMoved_RegenLuaSymbols);
+STATIC_ASSERT(offsetof(struct SaveBlock1, vars) == 6042, SaveBlock1VarsMoved_RegenLuaSymbols);
+STATIC_ASSERT(offsetof(struct SaveBlock1, money) == 1168, SaveBlock1MoneyMoved_RegenLuaSymbols);
+
 void CheckForFlashMemory(void)
 {
     if (!IdentifyFlash())

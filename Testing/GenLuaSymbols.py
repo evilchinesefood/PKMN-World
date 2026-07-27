@@ -39,7 +39,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
   ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12 },     -- byte0 bit0 = active; coords = map+7
-  SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, flags = 4728, vars = 5246, money = 1168 },
+  SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, @SB1@ },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768 },
 """
@@ -49,14 +49,38 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
 SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
               "route5DayCareMon", "obstacleTableHash", "clearedObstacleBits"]
 
+# The SaveBlock1 banks the suites read, derived the same way and for the same reason. These WERE
+# hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
+# and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
+# write back, and agreed with itself while the game saw nothing.
+SB1_FIELDS = ["flags", "vars", "money"]
+
+
+def load_save_src(root):
+    path = os.path.join(root, "src", "load_save.c")
+    try:
+        return path, open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path} to derive save-block offsets: {e}")
+
+
+def saveblock1_offsets(root):
+    """Derive SaveBlock1 bank offsets from load_save.c's asserts instead of hardcoding them."""
+    path, src = load_save_src(root)
+    out = {}
+    for field in SB1_FIELDS:
+        m = re.search(r"offsetof\s*\(\s*struct\s+SaveBlock1\s*,\s*" + field
+                      + r"\s*\)\s*==\s*(0x[0-9a-fA-F]+|\d+)", src)
+        if not m:
+            sys.exit(f"{path}: no STATIC_ASSERT pinning offsetof(struct SaveBlock1, {field}) — "
+                     f"the Lua suites read that bank and would silently read the wrong address")
+        out[field] = int(m.group(1), 0)
+    return out
+
 
 def saveblock3_offsets(root):
     """Derive SaveBlock3 bank offsets from load_save.c's asserts instead of hand-rebasing them."""
-    path = os.path.join(root, "src", "load_save.c")
-    try:
-        src = open(path, encoding="utf-8", errors="replace").read()
-    except OSError as e:
-        sys.exit(f"cannot read {path} to derive SaveBlock3 offsets: {e}")
+    path, src = load_save_src(root)
 
     m = re.search(r"offsetof\s*\(\s*struct\s+SaveBlock3\s*,\s*region\s*\)\s*==\s*(0x[0-9a-fA-F]+|\d+)", src)
     if not m:
@@ -127,6 +151,7 @@ def main():
         lines.append(f"  {name} = 0x{pick[0]:08x},  -- {want_size}-byte definition (cursorPos at +2)")
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sb1 = saveblock1_offsets(root)
     sb3 = saveblock3_offsets(root)
     romName, romMD5, romSHA1 = rom_hashes(elf)
 
@@ -134,7 +159,7 @@ def main():
     print("-- Regenerated every build (`make symbols`); addresses move each rebuild.")
     print("return {")
     print("\n".join(lines))
-    print(OFFSETS_LUA, end="")
+    print(OFFSETS_LUA.replace("@SB1@", ", ".join(f"{k} = {sb1[k]}" for k in SB1_FIELDS)), end="")
     # Derived from src/load_save.c's compiler-enforced asserts — never hand-edit these.
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
     print()

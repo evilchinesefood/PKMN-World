@@ -104,11 +104,16 @@ BattleNet_Text_HubConsoleLocked:
 @ before and after every sim, so the simulation never strands a fainted party.
 @ DoBattleNetSimBattle returns VAR_RESULT 0 when it refused to launch (no battle-ready
 @ mon / empty pool) -- in that case there is NO battle, so the script must NOT waitstate.
+@ Sign form. Unreferenced today -- kept as the bg_event shape of the combined menu.
+@ It is the only entry that takes `lockall`; if it is ever wired to a map it needs its
+@ own exit, because the shared one below releases the `lock` the NPC forms take.
 BattleNet_EventScript_Terminal::
 	lockall
 	goto BattleNet_EventScript_TerminalBody
-@ Person-NPC form of the terminal (the P4 center attendants + the flagship pod):
-@ same body, but the attendant turns to face the player first.
+@ Person-NPC form of the terminal: same body, but the attendant faces the player first.
+@ Every live entry to the combined menu comes through here -- the 13 Johto centers'
+@ 1F attendant and the flagship floor's sim pod. The POKéMON CENTER 2F counters do NOT:
+@ they run one sim each through the two single-purpose attendants further down.
 BattleNet_EventScript_TerminalAttendant::
 	lock
 	faceplayer
@@ -119,9 +124,12 @@ BattleNet_EventScript_TerminalMenu:
 	switch VAR_RESULT
 	case 0, BattleNet_EventScript_Scaling
 	case 1, BattleNet_EventScript_LeaderSim
+@ `release`, not `releaseall`: every live path in here enters through `lock` + `faceplayer`,
+@ and only `release` clears the held movement `faceplayer` sets. Under `releaseall` the
+@ attendant stayed turned toward the player forever, unable to fall back to FACE_DOWN.
 BattleNet_EventScript_TerminalBye::
 	msgbox BattleNet_Text_TerminalBye, MSGBOX_DEFAULT
-	releaseall
+	release
 	end
 
 @ Type picker subroutine: three 6-type pages in sBnetTypes order (src/battle_net.c).
@@ -156,9 +164,20 @@ BattleNet_EventScript_PickTypeCancel:
 
 @ Scaling Type Trainer: pick a type, fight 2-4 of it a few levels below the party
 @ average. Win: 1 BP + a 30% shard drop (checkitemspace-guarded like the rematch payout).
+@ Entry from the combined menu, so a cancelled type pick goes back to that menu.
 BattleNet_EventScript_Scaling::
 	call BattleNet_EventScript_PickType
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_TerminalMenu
+	call BattleNet_EventScript_ScalingRun
+	msgbox BattleNet_Text_AnotherMatch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, BattleNet_EventScript_Scaling
+	goto BattleNet_EventScript_TerminalBye
+
+@ One match, launch to payout. In: VAR_0x8005 = type ordinal from PickType.
+@ Shared by both entry points so the BP/shard payout has exactly one copy, while each
+@ caller keeps its own cancel and retry targets -- which is the whole point of the split.
+@ The Battle Frontier battle rooms drive a battle from inside a `call` the same way.
+BattleNet_EventScript_ScalingRun::
 	setvar VAR_0x8004, BNET_MODE_SCALING
 	special HealPlayerParty
 	special DoBattleNetSimBattle
@@ -172,24 +191,50 @@ BattleNet_EventScript_Scaling::
 	msgbox BattleNet_Text_ScalingWon, MSGBOX_DEFAULT
 	special GiveBattleNetRandomShard
 	compare VAR_0x8008, ITEM_NONE
-	goto_if_eq BattleNet_EventScript_ScalingAgain
+	goto_if_eq BattleNet_EventScript_ScalingDone
 	checkitemspace VAR_0x8008, 1
 	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_ScalingShardForfeit
 	giveitem VAR_0x8008
-BattleNet_EventScript_ScalingAgain:
-	msgbox BattleNet_Text_AnotherMatch, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, BattleNet_EventScript_Scaling
-	goto BattleNet_EventScript_TerminalBye
+BattleNet_EventScript_ScalingDone:
+	return
 BattleNet_EventScript_ScalingLost:
 	msgbox BattleNet_Text_SimBeatYou, MSGBOX_DEFAULT
-	goto BattleNet_EventScript_ScalingAgain
+	return
 BattleNet_EventScript_ScalingShardForfeit:
 	msgbox BattleNet_Text_ShardDropForfeited, MSGBOX_DEFAULT
-	goto BattleNet_EventScript_ScalingAgain
+	return
 BattleNet_EventScript_SimCantStart:
 	msgbox BattleNet_Text_SimCantStart, MSGBOX_DEFAULT
-	releaseall
+	release
 	end
+
+@ ---------- The two POKéMON CENTER 2F counter attendants ----------
+@ The 2F counter used to be three link-cable staff plus a sim terminal standing loose on
+@ the floor. The floor NPC is gone and the two right-hand slots each run one sim directly,
+@ with no menu layer: Union Room -> Scaling Type Trainer, Direct Corner -> Leader Sim.
+@ Each needs its own cancel target. Sharing BattleNet_EventScript_TerminalMenu's would
+@ drop a player who backed out of the type picker into the 2-option menu and offer them
+@ Leader Sim anyway, which is exactly what splitting the menu was meant to stop.
+
+BattleNet_EventScript_ScalingAttendant::
+	lock
+	faceplayer
+	msgbox BattleNet_Text_ScalingAttendantIntro, MSGBOX_DEFAULT
+BattleNet_EventScript_ScalingAttendantLoop:
+	call BattleNet_EventScript_PickType
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_TerminalBye
+	call BattleNet_EventScript_ScalingRun
+	msgbox BattleNet_Text_AnotherMatch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, BattleNet_EventScript_ScalingAttendantLoop
+	goto BattleNet_EventScript_TerminalBye
+
+@ Leader Sim needs no cancel fix: its region picker already exits to TerminalBye rather
+@ than back to the combined menu, and so does declining another match.
+BattleNet_EventScript_LeaderSimAttendant::
+	lock
+	faceplayer
+	msgbox BattleNet_Text_LeaderSimAttendantIntro, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_LeaderSim
 
 @ Leader Sim: rerun any gym leader's HARD rematch as a simulation. BP only -- the
 @ shard/stone economy stays on the real gym visits (no couch-farming). Gated per
@@ -407,6 +452,16 @@ BattleNet_Text_TerminalIntro:
 	.string "BATTLE NET TERMINAL\p"
 	.string "Sim battles pay full EXP. No money\n"
 	.string "at stake, party restored after.$"
+BattleNet_Text_ScalingAttendantIntro:
+	.string "This counter runs the BATTLE NET's\n"
+	.string "SCALING TYPE TRAINER.\p"
+	.string "Name a type and I'll field a squad\n"
+	.string "of it, close to your party's level.$"
+BattleNet_Text_LeaderSimAttendantIntro:
+	.string "This counter runs the BATTLE NET's\n"
+	.string "LEADER SIM.\p"
+	.string "I can rerun any GYM LEADER rematch\n"
+	.string "from a region you've conquered.$"
 BattleNet_Text_TerminalBye:
 	.string "LOGGING OFF.\n"
 	.string "The BATTLE NET thanks you!$"

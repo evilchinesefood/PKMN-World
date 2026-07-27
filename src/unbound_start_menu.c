@@ -508,6 +508,13 @@ static bool32 UsmMenuCB_TrainerLinkMode(u32 state)
 // through CB2_ReturnToFieldWithOpenMenu, which reopens this menu on the Quests icon.
 static bool32 UsmMenuCB_Quests(u32 state)
 {
+    // Guarded because Task_QuestMenu_OpenFromStartMenu lives inside src/quests.c's own
+    // `#if QUEST_MENU`, so calling it unconditionally is an undefined reference at link time when
+    // the flag is off. start_menu.c:1566 already guards its copy of this call; this port did not,
+    // which is why QUEST_MENU could not actually be turned off before now. The icon itself is
+    // already gated by `QUEST_MENU && FlagGet(FLAG_SYS_QUEST_MENU_GET)` in UsmIconIsEnabled, so
+    // with the flag off this callback is unreachable and returning FALSE is inert either way.
+#if QUEST_MENU
     switch (state) {
     case 0:
         FadeScreen(FADE_TO_BLACK, 0);
@@ -519,6 +526,7 @@ static bool32 UsmMenuCB_Quests(u32 state)
             return TRUE;
         }
     }
+#endif
     return FALSE;
 }
 

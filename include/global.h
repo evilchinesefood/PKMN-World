@@ -970,10 +970,14 @@ struct SaveBlock3
 #if POKEVIAL_FEATURE
     struct Pokevial pokevial;
 #endif
-#if QUEST_MENU
-    u8 questData[QUEST_FLAGS_COUNT * QUEST_STATES];
-    u8 subQuests[SUB_FLAGS_COUNT];
-#endif // QUEST_MENU
+    // Quest system removed (QUEST_MENU is FALSE — see include/config/quests.h). These 24 bytes
+    // are RESERVED, NOT reclaimed, and the field is deliberately unconditional so the layout no
+    // longer moves with that flag. `region` must stay at offsetof 0x20 or every existing v7 save
+    // misreads its region data; load_save.c:321 asserts exactly that, so removing this field
+    // fails the build rather than corrupting saves. Reclaiming the space is a save-format v8 and
+    // a second forced new game, which is not worth 24 bytes. If a bump ever happens for its own
+    // reasons, delete this then and the space comes back for free.
+    u8 reservedQuestData[24];   // was questData[QUEST_FLAGS_COUNT*QUEST_STATES] (20) + subQuests[SUB_FLAGS_COUNT] (4)
     struct RegionSave region;
 }; /* max size 1624 bytes */
 

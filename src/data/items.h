@@ -16097,9 +16097,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Rock-Smash Tool"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "A tool that smashes\n"
-            "cracked rocks\n"
-            "blocking a path."),
+            "A tool that\n"
+            "smashes cracked\n"
+            "rocks in the way."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,

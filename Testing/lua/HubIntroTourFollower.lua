@@ -99,7 +99,8 @@ end
 F.run(function()
   -- Clear the auto-offer out of the way first: this suite is about the escort, and the fresh-boot
   -- trigger is already proven by HubIntroTour.lua.
-  if not F.boot(100) then F.check("boot to the hub", false); F.finish(); return end
+  -- keepScene: this suite declines the arrival offer itself, so boot() must leave it open.
+  if not F.boot(100, true) then F.check("boot to the hub", false); F.finish(); return end
   F.idle(400)
   F.check("decline the fresh-boot offer", answer(1, "boot-no"))
   drain(60, "boot_decline")

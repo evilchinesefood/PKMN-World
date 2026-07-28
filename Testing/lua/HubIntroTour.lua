@@ -32,22 +32,22 @@ local STOP_NAMES = { "HOENN gate", "JOHTO gate", "KANTO gate", "FRONTIER gate",
                      "world tour board", "POKeMART counter", "POKeMON CENTER counter" }
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
-local function flagGet(id) return bit.band(F.r8(flagAddr(id)), bit.lshift(1, id % 8)) ~= 0 end
+local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
 local function flagClear(id)
-  F.w8(flagAddr(id), bit.band(F.r8(flagAddr(id)), bit.bxor(0xFF, bit.lshift(1, id % 8))))
+  F.w8(flagAddr(id), F.r8(flagAddr(id)) & ~(1 << (id % 8)) & 0xFF)
 end
 
 -- Resolve an object event by its LOCAL id, not by array index: the index is spawn order and moves.
 local function obj(localId)
   for i = 0, 15 do
     local b = S.gObjectEvents + i * S.ObjectEvent.stride
-    if bit.band(F.r8(b), 1) == 1 and F.r8(b + S.ObjectEvent.localId) == localId then
+    if (F.r8(b) & 1) == 1 and F.r8(b + S.ObjectEvent.localId) == localId then
       return {
         i = i,
         x = F.rs16(b + S.ObjectEvent.x) - 7,
         y = F.rs16(b + S.ObjectEvent.y) - 7,
-        facing = bit.band(F.r16(b + S.ObjectEvent.facing), 0xF),
-        heldActive = bit.band(F.r8(b), 0x40) ~= 0,
+        facing = F.r16(b + S.ObjectEvent.facing) & 0xF,
+        heldActive = (F.r8(b) & 0x40) ~= 0,
       }
     end
   end
@@ -104,7 +104,8 @@ F.run(function()
   -- Phase 1 — the warp-in offer on a brand-new game, then decline
   ----------------------------------------------------------------------------------------------
   F.L("== phase 1: warp-in auto-offer, declined ==")
-  if not F.boot(100) then F.check("boot to the hub", false); F.finish(); return end
+  -- keepScene: this suite's whole subject is the arrival prompt, so boot() must NOT clear it.
+  if not F.boot(100, true) then F.check("boot to the hub", false); F.finish(); return end
   F.check("fresh new game lands on the arrival crest", select(1, F.pos()) == CREST[1] and select(2, F.pos()) == CREST[2],
     string.format("(%d,%d)", select(1, F.pos()), select(2, F.pos())))
   F.idle(400)   -- the guide's 8-step approach is ~128 frames, plus the message box

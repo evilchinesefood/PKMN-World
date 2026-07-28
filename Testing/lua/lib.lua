@@ -320,8 +320,22 @@ function M.new(S, name, opts)
   end
   self.itemCount = itemCount
 
-  -- boot a fresh new game (or a loaded save) to CB2_Overworld; optional expectGroup gate
-  local function boot(expectGroup)
+  -- boot a fresh new game (or a loaded save) to CB2_Overworld; optional expectGroup gate.
+  --
+  -- boot() promises a CONTROLLABLE overworld, not merely CB2_Overworld. Since issue #41 a fresh
+  -- new game lands on the RegionHub crest and the intro tour opens a Yes/No prompt on the first
+  -- frame with no input, so every suite that boots into the hub arrived LOCKED and the first thing
+  -- it tried to do failed for a reason that had nothing to do with what it was testing (SmokeBoot
+  -- went 7/8 on "coordinate-verified step moves the player"). Clearing any on-arrival scene here
+  -- fixes all of them at once and makes boot() robust to the next such scene.
+  --
+  -- B is the right key: it CANCELS a Yes/No (= NO) and confirms nothing, so this can never take a
+  -- branch a suite did not ask for. On the tour that means the offer is declined, its done-flag is
+  -- set, and the guide walks home.
+  --
+  -- Pass keepScene = true to skip it — for a suite whose SUBJECT is the arrival scene, which must
+  -- see the prompt still open (Testing/lua/HubIntroTour*.lua).
+  local function boot(expectGroup, keepScene)
     client.speedmode(self.speed)
     idle(300)
     local f = 0
@@ -332,6 +346,19 @@ function M.new(S, name, opts)
     end
     if not ow() then L("BOOT FAIL"); shot("bootfail"); return false end
     idle(200)
+    if not keepScene then
+      local cleared, tries = ensureFree(), 0
+      while not cleared and tries < 40 do
+        press("B", 3); idle(30)
+        tries = tries + 1
+        if tries % 3 == 0 then cleared = ensureFree() end
+      end
+      if not cleared then cleared = ensureFree() end
+      if tries > 0 then
+        L(string.format("  boot: cleared an on-arrival scene in %d B presses%s", tries,
+          cleared and "" or " -- STILL NOT FREE"))
+      end
+    end
     L(string.format("BOOTED grp=%d map=%d pos=(%d,%d)", grp(), mapn(), select(1, pos()), select(2, pos())))
     return true
   end

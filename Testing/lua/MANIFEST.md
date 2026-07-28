@@ -34,6 +34,14 @@ here runs against a **fresh new-game on the current build with no address edits*
    ROM/save pair is a live clobber path that has already happened once. Override deliberately with
    `opts.allowAnyRom = true`.
 
+### Never call `bit.*` — it is deprecated and logs on EVERY call
+
+BizHawk's Lua prints a deprecation warning for each `bit.band` / `bit.bxor` / `bit.lshift` call.
+That is harmless once, and catastrophic inside a per-frame loop: a suite that read one bitfield per
+frame emitted roughly 60 warnings a second for an hour, filled the Lua console, and took the host
+machine down with it. Use the native Lua 5.4 operators instead — `&`, `|`, `~` (binary XOR and
+unary NOT), `<<`, `>>`. `lib.lua` is clean; keep it that way.
+
 ### Machine-readable verdict
 
 `finish()` writes `_pwtest\<Suite>.PASS` or `.FAIL` (with the failing assertion names) and exits
@@ -49,7 +57,7 @@ assertions counts as a FAIL — a suite that aborted early must not report a per
 | `VerifyBagLayout.lua` | **evidence** | Issue #24's expanded bag + item PC really shipped (Items 60 / Key Items 99 / PC 150), and a slot past the old 30-slot cap survives a save + core reboot. |
 | `BnetCounter2F.lua` | **evidence** | Issue #42's POKéMON CENTER 2F rewire, on **both** 2F layouts: the floor sim attendant is gone, the two right-hand counter slots open the type picker and the region picker *directly*, cancelling either returns control, a real Scaling match still pays 1 BP and returns to the retry prompt (the regression test for the shared payout body both slots now `call` across a battle), and a real Leader Sim win still pays 2 BP and **nothing else** — the whole bag is snapshotted either side, so the couch-farming invariant from #5 P3 is checked, not assumed. Supersedes the gitignored `_pwtest/BnetP4Terminals.lua` + `BnetP4Rerun.lua`, which walked to the deleted (11,4)/(11,5) NPC and cannot pass any more. |
 | `HubIntroTour.lua` | **evidence** | Issue #41's World Transit intro tour, all five reachable paths on one fresh new game: the warp-in offer fires with **no input at all** on a brand-new game (the thing a `coord_event` alone cannot do, because coord events only fire on a step); declining releases the player on the crest, sets `FLAG_HUB_INTRO_TOUR_DONE` and stops the crest triggers for good; the Charm Curator's re-offer, declined, falls straight through to his normal HUB PASS + POKéVIAL gives; accepted, it walks the player back to the crest and runs all seven stops **in order** (the stop index only advances, so a tile matching a later stop early cannot fake a pass); the guide ends back at (22,7) facing down with **no stale held movement** — the issue-#42 trap — and stays there across a map reload; and with the flag cleared by hand, the crest `coord_event` still catches a walk-on, standing in for a legacy save that never saw the intro. |
-| `HubIntroTourFollower.lua` | **evidence** | The same escort with a **follower POKéMON out**. RegionHub has 14 object events against an `OBJECT_EVENTS_COUNT` of 16, so player + follower fills the sprite budget exactly, and a ~47-step scripted walk under that had never been run. Proves the follower spawns at all, that it never falls more than one tile behind at **any frame** of the escort (not just at the end), and that the guide still gets home. |
+| `HubIntroTourFollower.lua` | **evidence** | The same escort with a **follower POKéMON out**. RegionHub has 14 object events against an `OBJECT_EVENTS_COUNT` of 16, so player + follower fills the sprite budget exactly, and a ~47-step scripted walk under that had never been run. Proves the follower spawns at all, that all seven stops still run with it out, that it is back out beside the player at the end, and that the guide still gets home. It also pins the **mechanism**: `ScrCmd_applymovement` pockets the follower for the whole escort (`ScriptHideFollower`, because nothing sets `FLAG_SAFE_FOLLOWER_MOVEMENT` here), so the suite asserts zero visible frames *and* a ≤1 tile gap over any frame it is visible — if a future change stops pocketing it, the visible count leaves zero and the gap check starts doing real work. **★ `active` is not `visible`:** a pocketed follower stays active in `gObjectEvents` parked on its last tile, so an active-only check reads it as still on the map and reports a phantom desync that grows as the player walks away. Read `invisible` (`ObjectEvent.flags1` bit 5). |
 
 > **Why pointer gaps and not just capacities:** `gBagPockets[p].capacity` is assigned from
 > `BAG_*_COUNT` at runtime, so reading it back only proves the *constant* changed. What #24

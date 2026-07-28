@@ -25,15 +25,26 @@ local CREST = { 16, 4 }
 local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 } }
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
-local function flagGet(id) return bit.band(F.r8(flagAddr(id)), bit.lshift(1, id % 8)) ~= 0 end
+local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
 local function flagClear(id)
-  F.w8(flagAddr(id), bit.band(F.r8(flagAddr(id)), bit.bxor(0xFF, bit.lshift(1, id % 8))))
+  F.w8(flagAddr(id), F.r8(flagAddr(id)) & ~(1 << (id % 8)) & 0xFF)
 end
+-- ACTIVE IS NOT VISIBLE. ScriptHideFollower (src/scrcmd.c) pockets the follower by running
+-- EnterPokeballMovement and setting objectEvent->invisible; the object stays ACTIVE in
+-- gObjectEvents, parked at whatever tile it was last on. An active-only check therefore reads a
+-- pocketed follower as "still out there", and as the player walks away the apparent gap grows
+-- without bound -- which is exactly the false desync the first version of this suite reported
+-- (max gap 22, player (3,12) vs a "follower" frozen at (17,4) that was not on screen at all).
 local function obj(localId)
   for i = 0, 15 do
     local b = S.gObjectEvents + i * S.ObjectEvent.stride
-    if bit.band(F.r8(b), 1) == 1 and F.r8(b + S.ObjectEvent.localId) == localId then
-      return { i = i, x = F.rs16(b + S.ObjectEvent.x) - 7, y = F.rs16(b + S.ObjectEvent.y) - 7 }
+    if (F.r8(b) & 1) == 1 and F.r8(b + S.ObjectEvent.localId) == localId then
+      return {
+        i = i,
+        x = F.rs16(b + S.ObjectEvent.x) - 7,
+        y = F.rs16(b + S.ObjectEvent.y) - 7,
+        invisible = (F.r8(b + S.ObjectEvent.flags1) & 0x20) ~= 0,
+      }
     end
   end
   return nil
@@ -41,7 +52,7 @@ end
 local function liveObjects()
   local n = 0
   for i = 0, 15 do
-    if bit.band(F.r8(S.gObjectEvents + i * S.ObjectEvent.stride), 1) == 1 then n = n + 1 end
+    if (F.r8(S.gObjectEvents + i * S.ObjectEvent.stride) & 1) == 1 then n = n + 1 end
   end
   return n
 end
@@ -148,15 +159,16 @@ F.run(function()
   F.check("the guide comes over for the offer", g ~= nil and g.x == 17 and g.y == 4, at(g))
   F.check("accept the tour", answer(0, "tour-yes"))
 
-  -- NOTE ON WHAT "no desync" CAN MEAN HERE. FLAG_SAFE_FOLLOWER_MOVEMENT (flags.h) is documented
-  -- as "when set, applymovement does not put the follower inside a pokeball", and nothing sets it
-  -- on this map — so the engine's own answer to a long scripted escort is to pocket the follower
-  -- for the duration and bring it back at the release. Both outcomes are safe; a follower that is
-  -- OUT and drifting is the failure. So the loop records how many frames it was actually visible
-  -- and the worst gap over exactly those frames, and the assertion accepts either shape while
-  -- still catching drift.
+  -- WHAT "no desync" MEANS HERE. `ScrCmd_applymovement` calls ScriptHideFollower() whenever the
+  -- movement target is not the follower, FLAG_SAFE_FOLLOWER_MOVEMENT is clear (nothing sets it on
+  -- this map) and the movement data sits outside Common_Movement_FollowerSafeStart..End (ours
+  -- does). So the engine's own answer to a long scripted escort is to pocket the follower for the
+  -- duration and bring it back at the release, and that is the SAFE path. The failure to catch is
+  -- a follower that is genuinely ON SCREEN and drifting, so the gap is only measured over frames
+  -- where it is active AND not invisible. Both counts are logged: if a future engine change stops
+  -- pocketing it, `visible` jumps off zero and the gap assertion starts doing real work.
   local seen, idx = {}, 1
-  local maxGap, gapAt, visible = 0, "", 0
+  local maxGap, gapAt, visible, activeSamples = 0, "", 0, 0
   for f = 1, 20000 do
     if f % 24 == 0 then F.press("B", 2) else joypad.set({}); emu.frameadvance() end
     local x, y = F.pos()
@@ -167,9 +179,12 @@ F.run(function()
     if f % 4 == 0 then
       local fo = obj(FOLLOWER)
       if fo then
-        visible = visible + 1
-        local d = math.abs(fo.x - x) + math.abs(fo.y - y)
-        if d > maxGap then maxGap, gapAt = d, string.format("player (%d,%d) follower (%d,%d) at frame %d", x, y, fo.x, fo.y, f) end
+        activeSamples = activeSamples + 1
+        if not fo.invisible then
+          visible = visible + 1
+          local d = math.abs(fo.x - x) + math.abs(fo.y - y)
+          if d > maxGap then maxGap, gapAt = d, string.format("player (%d,%d) follower (%d,%d) at frame %d", x, y, fo.x, fo.y, f) end
+        end
       end
     end
     if f % 400 == 0 then
@@ -184,7 +199,8 @@ F.run(function()
     end
     if idx > #STOPS then break end
   end
-  F.L(string.format("  follower visible for %d of the escort's sampled frames, worst gap %d", visible, maxGap))
+  F.L(string.format("  follower sampled: %d active, %d of those actually visible; worst on-screen gap %d",
+    activeSamples, visible, maxGap))
   for i = 1, #STOPS do
     F.check(string.format("stop %d at (%d,%d) reached with a follower out", i, STOPS[i][1], STOPS[i][2]),
       seen[i] ~= nil, seen[i] and ("frame " .. seen[i]) or "never reached")
@@ -195,14 +211,19 @@ F.run(function()
   F.check("the escort ends at the POKéMON CENTER counter", ex == 13 and ey == 12, string.format("(%d,%d)", ex, ey))
   F.check("the player is released", F.ensureFree())
   local fe = obj(FOLLOWER)
-  F.check("the follower is out again after the escort", fe ~= nil, at(fe))
+  F.check("the follower is out again after the escort", fe ~= nil and not fe.invisible,
+    fe and (at(fe) .. (fe.invisible and " STILL POCKETED" or "")) or "ABSENT")
   local fx, fy = -99, -99
   if fe then fx, fy = fe.x, fe.y end
   F.check("the follower is beside the player at the end", fe ~= nil and (math.abs(fx - ex) + math.abs(fy - ey)) <= 1,
     string.format("player (%d,%d) follower (%d,%d)", ex, ey, fx, fy))
   F.check("the follower never desynced during the escort (pocketed, or kept within one tile)",
     visible == 0 or maxGap <= 1,
-    string.format("visible %d frames, max gap %d %s", visible, maxGap, gapAt))
+    string.format("%d active samples, %d visible, max on-screen gap %d %s", activeSamples, visible, maxGap, gapAt))
+  -- Record the mechanism, so a future run that stops pocketing is visible as a CHANGE rather than
+  -- quietly passing the check above for a different reason.
+  F.check("the engine pocketed the follower for the scripted escort", visible == 0 and activeSamples > 0,
+    string.format("%d active samples, %d visible", activeSamples, visible))
   local ge = obj(CURATOR)
   F.check("the guide still gets home to (22,7) with a follower out", ge ~= nil and ge.x == 22 and ge.y == 7, at(ge))
   F.check("the tour flag is set after the escort", flagGet(FLAG_HUB_INTRO_TOUR_DONE))

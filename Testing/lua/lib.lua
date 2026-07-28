@@ -145,7 +145,7 @@ function M.new(S, name, opts)
   self.outcome = function() return r8(S.gBattleOutcome) end
 
   -- money / BP (money is XORed with the SaveBlock2 encryption key)
-  self.money = function() return bit.bxor(r32(sb1() + S.SaveBlock1.money), r32(sb2() + S.SaveBlock2.encryptionKey)) end
+  self.money = function() return r32(sb1() + S.SaveBlock1.money) ~ r32(sb2() + S.SaveBlock2.encryptionKey) end
   self.bp = function() return r16(sb2() + S.SaveBlock2.bp) end
 
   -- input
@@ -291,7 +291,7 @@ function M.new(S, name, opts)
   -- key-items pocket scan: returns (slotIndex, {ids...}) for a wanted item id (pocket 4)
   -- capacity is a 10-bit bitfield (packed with id:6 into a u16) — mask it, don't r8 (r8 only works
   -- while every pocket capacity stays < 256, which is true today but silently truncates otherwise).
-  local function pocketCap(p) return bit.band(r16(S.gBagPockets + p * S.BagPocket.stride + S.BagPocket.count), 0x3FF) end
+  local function pocketCap(p) return r16(S.gBagPockets + p * S.BagPocket.stride + S.BagPocket.count) & 0x3FF end
   self.pocketCap = pocketCap
   local function keyItemSlot(id)
     local ptr = r32(S.gBagPockets + 4 * S.BagPocket.stride)

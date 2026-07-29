@@ -31,7 +31,7 @@
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DITTO)",
       "x": 12,
       "y": 4,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_SEQUENCE_DOWN_LEFT_UP_RIGHT",
       "movement_range_x": 3,
       "movement_range_y": 3,

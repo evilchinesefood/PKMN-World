@@ -41,10 +41,10 @@
       "flag": "FLAG_ITEM_WHIRL_ISLANDS_1F_GUARD_SPEC"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(KRABBY)",
       "x": 53,
       "y": 15,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -54,10 +54,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
-      "x": 37,
-      "y": 5,
-      "elevation": 0,
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIDGEOTTO)",
+      "x": 38,
+      "y": 4,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -67,10 +67,10 @@
       "flag": "FLAG_NIGHT_POKEMON"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(SEEL)",
       "x": 18,
       "y": 45,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -80,10 +80,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(CORSOLA)",
       "x": 10,
       "y": 53,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -93,10 +93,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(NATU)",
       "x": 14,
       "y": 13,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -106,10 +106,10 @@
       "flag": "FLAG_NIGHT_POKEMON"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(KRABBY)",
       "x": 11,
       "y": 10,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -145,10 +145,10 @@
       "flag": "FLAG_ITEM_WHIRL_ISLANDS_1F_FULL_RESTORE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(TENTACOOL)",
       "x": 49,
       "y": 45,
-      "elevation": 0,
+      "elevation": 1,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -184,10 +184,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(HORSEA)",
       "x": 51,
       "y": 44,
-      "elevation": 0,
+      "elevation": 1,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -197,10 +197,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(MANTINE)",
       "x": 40,
       "y": 44,
-      "elevation": 0,
+      "elevation": 1,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -210,10 +210,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(SEEL)",
       "x": 44,
       "y": 8,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -223,10 +223,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(CORSOLA)",
       "x": 8,
       "y": 2,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -236,10 +236,10 @@
       "flag": "FLAG_NIGHT_POKEMON"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(NATU)",
       "x": 10,
       "y": 2,
-      "elevation": 0,
+      "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,

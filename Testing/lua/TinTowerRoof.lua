@@ -43,8 +43,13 @@ local VAR_COMPLETED_HO_OH = 0xA0A1
 -- FLAG_HIDE_HO_OH is an ordinary Hoenn-bank flag in SaveBlock1.flags.
 local FLAG_HIDE_HO_OH = 0x321
 
--- from TinTower_RoofDay/scripts.inc's `.set LOCALID_*`
-local LOCALID_HO_OH, LOCALID_KIMONO_MID = 8, 4
+-- From TinTower_RoofDay/scripts.inc's `.set LOCALID_*`. These SHIFTED DOWN BY ONE in #49, which
+-- deleted that map's dead second FLAG_HIDE_HO_OH object (the scriptless one parked off the layout at
+-- (-6,18)) — localId is the object's index in map.json, so removing the first element renumbers
+-- everything after it. This suite caught the shift as "Ho-Oh never reached (10,6)" while its own
+-- object dump plainly showed `id7(10,6)`, which is the signature of a stale hardcoded localId rather
+-- than a broken cutscene. Keep these in step with the `.set` lines.
+local LOCALID_HO_OH, LOCALID_KIMONO_MID = 7, 3
 
 -- The Ho-Oh BATTLE itself is deliberately not driven: this suite boots a fresh new game, which has
 -- an empty party, and BattleSetup_StartLegendaryBattle has no 0-party guard (the centralised one

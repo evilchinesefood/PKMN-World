@@ -80,10 +80,10 @@
       "flag": "FLAG_TEMP_1"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLEM)",
       "x": 32,
       "y": 32,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -93,10 +93,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(MACHOKE)",
       "x": 32,
       "y": 30,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -106,10 +106,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(QUAGSIRE)",
       "x": 18,
       "y": 21,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -119,10 +119,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(MAGMAR)",
       "x": 18,
       "y": 25,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -132,10 +132,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(ELECTABUZZ)",
       "x": 6,
       "y": 33,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -145,10 +145,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLDUCK)",
       "x": 7,
       "y": 36,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -158,10 +158,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PUPITAR)",
       "x": 42,
       "y": 30,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -171,10 +171,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLBAT)",
       "x": 16,
       "y": 44,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -184,10 +184,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PARASECT)",
       "x": 29,
       "y": 45,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -197,7 +197,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLEM)",
       "x": 44,
       "y": 12,
       "elevation": 0,
@@ -210,10 +210,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(MACHOKE)",
       "x": 7,
       "y": 28,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
       "movement_range_x": 5,
       "movement_range_y": 5,
@@ -223,10 +223,10 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OW_MON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(QUAGSIRE)",
       "x": 43,
       "y": 41,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_LEFT",
       "movement_range_x": 5,
       "movement_range_y": 5,

@@ -380,9 +380,16 @@ check: $(TESTELF)
 # when the script runs — a playtest was the only thing that could find it. It derives the pointer
 # slots by expanding asm/macros/event.inc rather than hard-coding a command table, so it keeps
 # working when a macro gains an argument.
+#
+# ValidateOwMonPlacements.py covers map-placed overworld Pokemon (issue #49). Same failure shape
+# again: OBJ_EVENT_GFX_OW_MON lacks the OBJ_EVENT_MON bit, so 741 Johto mons built, linked and
+# booted while drawing whatever garbage was in the follower's dynamic tile and palette slots — and
+# a species with no OVERWORLD(...) entry renders as a Substitute doll rather than failing. Only
+# looking at the data catches either.
 validate:
 	python3 Testing/ValidateGen13.py
 	python3 Testing/ValidateScripts.py
+	python3 Testing/ValidateOwMonPlacements.py
 	python3 Testing/GenObstacleTable.py --check
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).

@@ -180,3 +180,18 @@ Route39_Text_BarnRefusedBerry:
 	.string "{PLAYER} wouldn't give an\n"
 	.string "ORAN BERRY.\p"
 	.string "MILTANK looks sad.$"
+
+@ The herd, as distinct from Route39_Barn_EventScript_Miltank - that one is Moomoo and drives the
+@ ORAN BERRY sequence off VAR_ROUTE39_BARN. These four just moo.
+Route39_Barn_EventScript_HerdMiltank::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_MILTANK, CRY_MODE_NORMAL
+	msgbox Route39_Text_HerdMiltank, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+Route39_Text_HerdMiltank:
+	.string "MILTANK: Moo moo!$"

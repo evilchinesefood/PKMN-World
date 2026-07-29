@@ -469,3 +469,55 @@ BlackthornGym_Text_GymStatueCertified:
 	.string "BLACKTHORN CITY POKéMON GYM\p"
 	.string "CLAIR'S CERTIFIED TRAINERS:\n"
 	.string "{PLAYER}$"
+
+BlackthornCity_Gym_EventScript_Dratini::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_DRATINI, CRY_MODE_NORMAL
+	msgbox BlackthornGym_Text_Dratini, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+BlackthornCity_Gym_EventScript_Dragonair::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_DRAGONAIR, CRY_MODE_NORMAL
+	msgbox BlackthornGym_Text_Dragonair, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+BlackthornCity_Gym_EventScript_Horsea::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_HORSEA, CRY_MODE_NORMAL
+	msgbox BlackthornGym_Text_Horsea, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+BlackthornCity_Gym_EventScript_Seadra::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_SEADRA, CRY_MODE_NORMAL
+	msgbox BlackthornGym_Text_Seadra, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+BlackthornGym_Text_Dratini:
+	.string "DRATINI: Shaaaaa…$"
+
+BlackthornGym_Text_Dragonair:
+	.string "DRAGONAIR: Shalulululu!$"
+
+BlackthornGym_Text_Horsea:
+	.string "HORSEA: Hoooorrr!$"
+
+BlackthornGym_Text_Seadra:
+	.string "SEADRA: Draaa! Dra!$"

@@ -54,6 +54,9 @@ jobs:
       - name: Event-script pointer arguments
         run: python3 Testing/ValidateScripts.py
 
+      - name: Overworld-Pokemon placements
+        run: python3 Testing/ValidateOwMonPlacements.py
+
       - name: Cleared-obstacle table freshness
         run: python3 Testing/GenObstacleTable.py --check
 

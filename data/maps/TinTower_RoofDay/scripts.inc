@@ -1,9 +1,11 @@
-.set LOCALID_HO_OH, 8
-.set LOCALID_KIMONO_MID, 4
-.set LOCALID_KIMONO_1, 3
-.set LOCALID_KIMONO_2, 6
-.set LOCALID_KIMONO_3, 7
-.set LOCALID_KIMONO_4, 5
+@ All shifted down by one when the dead second FLAG_HIDE_HO_OH object at (-6,18) - off the
+@ layout, scriptless, relocated by nothing, so never renderable - was removed from map.json.
+.set LOCALID_HO_OH, 7
+.set LOCALID_KIMONO_MID, 3
+.set LOCALID_KIMONO_1, 2
+.set LOCALID_KIMONO_2, 5
+.set LOCALID_KIMONO_3, 6
+.set LOCALID_KIMONO_4, 4
 
 TinTower_RoofDay_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, TinTower_RoofDay_OnTransition

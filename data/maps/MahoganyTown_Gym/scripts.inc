@@ -287,3 +287,16 @@ MahoganyTown_Gym_Text_SkierClarissaAfter:
     .string "I shouldn't have been bragging\n"
     .string "about my skiing…$"
 
+
+MahoganyTown_Gym_EventScript_Seel::
+    lock
+    faceplayer
+    waitse
+    playmoncry SPECIES_SEEL, CRY_MODE_NORMAL
+    msgbox MahoganyTown_Gym_Text_Seel, MSGBOX_DEFAULT
+    waitmoncry
+    release
+    end
+
+MahoganyTown_Gym_Text_Seel:
+    .string "SEEL: Kyuoooon!$"

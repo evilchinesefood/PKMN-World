@@ -268,3 +268,29 @@ EcruteakCity_GymClosedText:
 	.string "Sorry, but you'll have to\n"
 	.string "leave.\p"
 	.string "Hohohoho.$"
+
+EcruteakCity_Gym_EventScript_Gastly::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_GASTLY, CRY_MODE_NORMAL
+	msgbox EcruteakCity_Gym_Text_Gastly, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+EcruteakCity_Gym_EventScript_Haunter::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_HAUNTER, CRY_MODE_NORMAL
+	msgbox EcruteakCity_Gym_Text_Haunter, MSGBOX_DEFAULT
+	waitmoncry
+	release
+	end
+
+EcruteakCity_Gym_Text_Gastly:
+	.string "GASTLY: Ga… Gasuuu…$"
+
+EcruteakCity_Gym_Text_Haunter:
+	.string "HAUNTER: Hyuuu hyu hyu!$"

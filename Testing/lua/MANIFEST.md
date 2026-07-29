@@ -112,6 +112,8 @@ inserted/reordered before a bank shifts the reads and the exact `== 0` / `== ver
 loudly. That is the guard rail #16 needs for the v7 bump. A stronger step-level sabotage would
 require a played (non-fresh) save, which would put personal data in the repo — out of scope.
 
+| `OwMonSprites.lua` | **evidence** | Issue #49's map-placed overworld Pokémon, on the six densest Johto maps. All 741 were authored with `OBJ_EVENT_GFX_OW_MON`, which has no `OBJ_EVENT_MON` bit, so `GetObjectEventGraphicsInfo` skipped `SpeciesToGraphicsInfo` and indexed `gObjectEventGraphicsInfoPointers[]` onto `gObjectEventGraphicsInfo_Follower` — `TAG_NONE` tiles, `OBJ_EVENT_PAL_TAG_DYNAMIC` palette, no `.images` — and nothing fills those slots for a map-placed object, so the sprite drew whatever was resident. The assertion is on the **bit**: pre-fix every one of these objects reads `graphicsId == 268` with bit 14 clear, so the suite fails against the old ROM instead of passing on nothing. It then checks the masked species against the exact set each `map.json` places, because `OW_SUBSTITUTE_PLACEHOLDER = TRUE` makes a *wrong* species a silent Substitute doll rather than a crash. Counts are deliberately not asserted exactly: only the nearest objects spawn (`OBJECT_EVENTS_COUNT` 16 against up to 64 templates — BellchimeTrail sits at exactly 64) and the whole `FLAG_NIGHT_POKEMON` half is hidden, so an exact count would be flaky by construction; ≥1 spawned plus "every spawned one is legitimate" is the honest pair. Screenshots per map cover the visual half of the acceptance. |
+
 ## Not promoted
 
 The `_pwtest/` corpus (~250 scripts) stays gitignored scratch by design: those suites drive

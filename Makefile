@@ -374,8 +374,15 @@ check: $(TESTELF)
 # reference builds AND boots clean, then blue-screens at battle send-out, so this is the
 # only automated thing standing between a bad edit and a crash in play. Also run by the
 # .git/hooks/pre-push gate.
+#
+# ValidateScripts.py is the same shape of check for event scripts (issue #48). A script pointer
+# argument written as a bare integer (`pokemart 0`) assembles, links and boots clean, then faults
+# when the script runs — a playtest was the only thing that could find it. It derives the pointer
+# slots by expanding asm/macros/event.inc rather than hard-coding a command table, so it keeps
+# working when a macro gains an argument.
 validate:
 	python3 Testing/ValidateGen13.py
+	python3 Testing/ValidateScripts.py
 	python3 Testing/GenObstacleTable.py --check
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).

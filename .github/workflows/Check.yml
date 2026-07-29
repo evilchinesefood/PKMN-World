@@ -51,6 +51,9 @@ jobs:
       - name: Gen 1-3 species rules
         run: python3 Testing/ValidateGen13.py
 
+      - name: Event-script pointer arguments
+        run: python3 Testing/ValidateScripts.py
+
       - name: Cleared-obstacle table freshness
         run: python3 Testing/GenObstacleTable.py --check
 

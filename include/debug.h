@@ -9,6 +9,9 @@ const struct Trainer* GetDebugAiTrainer(void);
 void DebugNative_GetAbilityNames(void);
 void DebugNative_Party_SetFriendship(void);
 
+void Debug_SetPlayerDebugParty(void);
+void Debug_ClearPlayerDebugParty(void);
+
 extern EWRAM_DATA bool8 gIsDebugBattle;
 extern EWRAM_DATA u64 gDebugAIFlags;
 

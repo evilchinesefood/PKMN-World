@@ -42,7 +42,11 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },
                                                             -- live map grid: map[(x+7) + (y+7)*width],
                                                             -- u16/block, metatile id = bits 0-9 (& 0x3FF)
-  ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18, flags1 = 0x01 },
+  ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18, flags1 = 0x01,
+                   graphicsId = 0x04 },
+                                                            -- graphicsId is u16; for a follower it is
+                                                            --   species + OBJ_EVENT_MON (0x4000), so the
+                                                            --   species is (graphicsId & 0x8FFF)
                                                             -- byte0 bit0 = active; coords = map+7
                                                             -- byte0 bit6 = heldMovementActive, bit7 = heldMovementFinished
                                                             -- byte1 (flags1) bit5 = invisible. ACTIVE IS NOT VISIBLE: a follower

@@ -4937,7 +4937,8 @@ static void DebugAction_Party_ClearPokerus(u8 taskId)
 
 static void DebugAction_Party_ClearParty(u8 taskId)
 {
-    ZeroPlayerPartyMons();
+    Debug_ClearPlayerDebugParty();
+    UpdateFollowingPokemon();   // -> RemoveFollowingPokemon(), idempotent
     ScriptContext_Enable();
     Debug_DestroyMenu_Full(taskId);
 }
@@ -4959,19 +4960,35 @@ const struct Trainer* GetDebugAiTrainer(void)
     return &sDebugTrainers[DIFFICULTY_NORMAL][DEBUG_TRAINER_AI];
 }
 
-static void DebugAction_Party_SetParty(u8 taskId)
+// Fills the player party from the debug trainer and publishes the count.
+// The count is derived from the array rather than taken from the creator's return
+// value: CreateNPCTrainerPartyFromTrainer returns trainer->partySize, which is not
+// what it wrote whenever the halfTeam clamp applies.
+void Debug_SetPlayerDebugParty(void)
 {
     ZeroPlayerPartyMons();
     CreateNPCTrainerPartyFromTrainer(gParties[B_TRAINER_PLAYER], &sDebugTrainers[DIFFICULTY_NORMAL][DEBUG_TRAINER_PLAYER], TRUE, BATTLE_TYPE_TRAINER);
+    CalculatePlayerPartyCount();
+    assertf(gPartiesCount[B_TRAINER_PLAYER] != 0, "debug party is empty after seeding") {}
+}
+
+void Debug_ClearPlayerDebugParty(void)
+{
+    ZeroPlayerPartyMons();   // also zeroes gPartiesCount (pokemon.c)
+}
+
+static void DebugAction_Party_SetParty(u8 taskId)
+{
+    Debug_SetPlayerDebugParty();
+    UpdateFollowingPokemon();   // spawn, or re-graphics an existing follower
     ScriptContext_Enable();
     Debug_DestroyMenu_Full(taskId);
 }
 
 static void DebugAction_Party_BattleSingle(u8 taskId)
 {
-    ZeroPlayerPartyMons();
+    Debug_SetPlayerDebugParty();   // player count published here
     ZeroEnemyPartyMons();
-    CreateNPCTrainerPartyFromTrainer(gParties[B_TRAINER_PLAYER], &sDebugTrainers[DIFFICULTY_NORMAL][DEBUG_TRAINER_PLAYER], TRUE, BATTLE_TYPE_TRAINER);
     CreateNPCTrainerPartyFromTrainer(gParties[B_TRAINER_OPPONENT_A], GetDebugAiTrainer(), FALSE, BATTLE_TYPE_TRAINER);
 
     gBattleTypeFlags = BATTLE_TYPE_TRAINER;

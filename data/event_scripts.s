@@ -1150,7 +1150,6 @@ gStdScripts_End::
 	.include "data/maps/TinTower_8F/scripts.inc"
 	.include "data/maps/TinTower_9F/scripts.inc"
 	.include "data/maps/TinTower_RoofDay/scripts.inc"
-	.include "data/maps/TinTower_RoofNight/scripts.inc"
 	@ Region merge (Johto port): Olivine area scripts.
 	.include "data/maps/Gate_Route40_TrainerHill_Courtyard/scripts.inc"
 	.include "data/maps/OlivineCity/scripts.inc"

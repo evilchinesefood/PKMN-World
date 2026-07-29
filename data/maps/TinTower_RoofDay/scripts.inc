@@ -17,12 +17,17 @@ TinTower_RoofDay_OnTransition:
 	goto_if_eq VAR_COMPLETED_HO_OH, 4, TinTower_RoofDay_MapScript_HoohPostStoryEncounter
 	end
 
+@ setmaplayoutindex swaps the layout only — every map-header field (weather included) stays at this
+@ map's value. MAP_TIN_TOWER_ROOF_NIGHT used to carry WEATHER_NONE in its own header; it was dead
+@ data and was deleted, so the night weather has to be set here instead. See issue #50.
 TinTower_RoofDay_EventScript_SetNight::
 	setmaplayoutindex LAYOUT_TIN_TOWER_ROOF_NIGHT
+	setweather WEATHER_NONE
 	return
 
 TinTower_RoofDay_EventScript_SetDay::
 	setmaplayoutindex LAYOUT_TIN_TOWER_ROOF_DAY
+	setweather WEATHER_SUNNY
 	return
 
 TinTower_RoofDay_MapScript_HoohStory::

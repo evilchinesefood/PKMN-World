@@ -21,6 +21,7 @@ WANT = [
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gBagPockets", "sMartInfo",
+    "gBackupMapLayout",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 
@@ -38,6 +39,9 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
+  BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },
+                                                            -- live map grid: map[(x+7) + (y+7)*width],
+                                                            -- u16/block, metatile id = bits 0-9 (& 0x3FF)
   ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18, flags1 = 0x01 },
                                                             -- byte0 bit0 = active; coords = map+7
                                                             -- byte0 bit6 = heldMovementActive, bit7 = heldMovementFinished

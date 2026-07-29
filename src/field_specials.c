@@ -1017,20 +1017,12 @@ void FieldShowRegionMap(void)
     SetMainCallback2(CB2_FieldShowRegionMap);
 }
 
-static bool32 IsBuildingPCTile(u32 tileId)
+// Attribute width is a property of the LAYOUT, not of the region the player is in.
+// Passing FALSE here read RegionHub's u32 attributes as u16, so its PC reported
+// behaviour 0x5A instead of MB_PC and never animated.
+static bool32 IsPCMetatile(u32 tileId)
 {
-    if (GetCurrentRegion() == REGION_KANTO)
-        return FALSE;
-
-    return (MetatileBehavior_IsPC(GetAttributeByMetatileIdAndMapLayout(tileId, METATILE_ATTRIBUTE_BEHAVIOR, FALSE)));
-}
-
-static bool32 IsBuildingPCTileFrlg(u32 tileId)
-{
-    if (GetCurrentRegion() == REGION_KANTO)
-        return gMapHeader.mapLayout->primaryTileset == &gTileset_BuildingFrlg && (tileId == METATILE_BuildingFrlg_PCOn || tileId == METATILE_BuildingFrlg_PCOff);
-
-    return FALSE;
+    return MetatileBehavior_IsPC(GetAttributeByMetatileIdAndMapLayout(tileId, METATILE_ATTRIBUTE_BEHAVIOR, gMapHeader.mapLayout->isFrlg));
 }
 
 static bool32 IsPlayerHousePCTile(u32 tileId)
@@ -1062,8 +1054,7 @@ static bool8 IsPlayerInFrontOfPC(void)
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
     tileInFront = MapGridGetMetatileIdAt(x, y);
 
-    return IsBuildingPCTile(tileInFront)
-        || IsBuildingPCTileFrlg(tileInFront)
+    return IsPCMetatile(tileInFront)
         || IsPlayerHousePCTile(tileInFront)
         || IsPlayerHousePCTileFrlg(tileInFront);
 }
@@ -1138,15 +1129,49 @@ static void PCTurnOnEffect(struct Task *task)
     task->tTimer++;
 }
 
+// A building PC's lit metatile is always the one right after its unlit metatile, and
+// both carry MB_PC, so the pair can be read off the tile itself. Picking it by region
+// instead is what wrote Hoenn's ids into gTileset_Johto_Building. Building PCs with no
+// lit variant in their tileset (New Bark lab, National Park gate, the two Goldenrod
+// houses) return FALSE and simply skip the flicker rather than corrupt the tile.
+static bool32 GetBuildingPCMetatiles(s8 dx, s8 dy, u16 *screenOff, u16 *screenOn)
+{
+    u16 tileId = MapGridGetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + MAP_OFFSET, gSaveBlock1Ptr->pos.y + dy + MAP_OFFSET);
+
+    if (IsPCMetatile(tileId + 1))
+    {
+        *screenOff = tileId;
+        *screenOn = tileId + 1;
+    }
+    else if (IsPCMetatile(tileId - 1))
+    {
+        *screenOff = tileId - 1;
+        *screenOn = tileId;
+    }
+    else
+    {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
 static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
 {
     u16 metatileId = 0;
-    if (isScreenOn)
+    u16 screenOff, screenOn;
+
+    if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
+    {
+        if (!GetBuildingPCMetatiles(dx, dy, &screenOff, &screenOn))
+            return;
+
+        metatileId = isScreenOn ? screenOff : screenOn;
+    }
+    else if (isScreenOn)
     {
         // Screen is on, set it off
-        if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = (GetCurrentRegion() == REGION_KANTO) ? METATILE_BuildingFrlg_PCOff : METATILE_Building_PC_Off;
-        else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
+        if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_MayPC_Off;
@@ -1156,9 +1181,7 @@ static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
     else
     {
         // Screen is off, set it on
-        if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = (GetCurrentRegion() == REGION_KANTO) ? METATILE_BuildingFrlg_PCOn : METATILE_Building_PC_On;
-        else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
+        if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_BrendanPC_On;
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_MayPC_On;
@@ -1204,7 +1227,14 @@ static void PCTurnOffEffect(void)
     }
 
     if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-        metatileId = (GetCurrentRegion() == REGION_KANTO) ? METATILE_BuildingFrlg_PCOff : METATILE_Building_PC_Off;
+    {
+        u16 screenOff, screenOn;
+
+        if (!GetBuildingPCMetatiles(dx, dy, &screenOff, &screenOn))
+            return;
+
+        metatileId = screenOff;
+    }
     else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
         metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
     else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)

@@ -137,6 +137,29 @@ F.run(function()
     string.format("group %d map %d", F.grp(), F.mapn()))
   F.shot("after_set2")
 
+  -- Set Party on top of an EXISTING follower. The empty-party and no-follower branches of
+  -- UpdateFollowingPokemon are covered above; this drives the remaining one, where a follower
+  -- object is already on the map. It must be refreshed in place — never duplicated, never
+  -- orphaned. The debug trainer only ever has one species, so the re-graphics branch inside that
+  -- path fires only when the random gender flips; what is asserted here is the invariant that
+  -- holds either way.
+  local function followerCount()
+    local n = 0
+    for i = 0, 15 do
+      local b = S.gObjectEvents + i * S.ObjectEvent.stride
+      if (F.r8(b) & 1) == 1 and F.r8(b + S.ObjectEvent.localId) == FOLLOWER then n = n + 1 end
+    end
+    return n
+  end
+  partyAction(ROW_SET, "set3")
+  local n3, fol3, nFol = count(), obj(FOLLOWER), followerCount()
+  drain(30, "set3")
+  F.check("Set Party over an existing follower keeps the count right", n3 == n1, "count=" .. n3)
+  F.check("Set Party over an existing follower leaves exactly one follower object", nFol == 1,
+    "followers=" .. nFol)
+  F.check("the refreshed follower still matches the party lead",
+    fol3 ~= nil and (fol3.gfx & OBJ_EVENT_MON_SPECIES_MASK) == SPECIES_WOBBUFFET, describe(fol3))
+
   -- ---- Start Debug Battle ------------------------------------------------------------------
   -- The player count is the point. Before this fix nothing published it before battle setup in a
   -- real ROM (the only pre-battle write is the #if TESTING loop in battle_main.c), so a debug

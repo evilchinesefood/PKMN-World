@@ -84,14 +84,24 @@ end
 -- hands out NOTHING but BP: the shard/stone economy is supposed to stay on real gym rematches,
 -- so a sim win must leave the bag byte-identical. Comparing whole pockets catches a stray stone
 -- or shard of ANY id, which checking one known item id would not.
+--
+-- ★ The quantity MUST be decrypted. ItemSlot.quantity is stored XORed with
+-- gSaveBlock2Ptr->encryptionKey (src/item.c:70), and MoveSaveBlocks_ResetHeap() draws a NEW key
+-- from Random32() and re-encrypts the whole bag — and it runs on both battle entry
+-- (battle_main.c:482) and the return to the field (overworld.c:2694). So the raw ciphertext of an
+-- unchanged item is guaranteed to differ either side of any battle, which is exactly the span this
+-- check straddles. Comparing raw quantities reported a phantom shard payout the first time the
+-- Scaling match's 30% shard roll actually landed; before that the bag was empty at both snapshots,
+-- the two strings were both "" and the check had been passing vacuously.
 local function bagSnapshot()
   local out = {}
+  local key = F.r32(F.sb2() + S.SaveBlock2.encryptionKey) & 0xFFFF
   for p = 0, 4 do
     local ptr = F.r32(S.gBagPockets + p * S.BagPocket.stride)
     local cap = F.pocketCap(p)
     if ptr >= 0x02000000 and ptr < 0x02040000 and cap > 0 and cap < 256 then
       for s = 0, cap - 1 do
-        local id, qty = F.r16(ptr + s * 4), F.r16(ptr + s * 4 + 2)
+        local id, qty = F.r16(ptr + s * 4), F.r16(ptr + s * 4 + 2) ~ key
         if id ~= 0 then out[#out + 1] = ("%d:%d=%d"):format(p, id, qty) end
       end
     end
@@ -269,8 +279,12 @@ F.run(function()
         F.idle(90)
         local bp1, bag1 = F.bp(), bagSnapshot()
         F.check("Leader Sim win paid 2 BP", bp1 == bp0 + 2, ("bp %d -> %d"):format(bp0, bp1))
+        -- Always print BOTH snapshots, including on a pass. The Scaling match above pays a shard
+        -- only 30% of the time, so on most runs the bag is empty at both ends and this check is
+        -- comparing "" with "" — a real pass and a vacuous one used to log the same word
+        -- ("identical"). Printing the contents makes the difference visible in the log.
         F.check("Leader Sim win paid NO shard or stone (bag unchanged)", bag1 == bag0,
-          bag1 == bag0 and "identical" or ("before=[" .. bag0 .. "] after=[" .. bag1 .. "]"))
+          ("before=[%s] after=[%s]"):format(bag0, bag1))
         F.shot("leadersim_after_match")
         freeAgain("Leader Sim match")
       end

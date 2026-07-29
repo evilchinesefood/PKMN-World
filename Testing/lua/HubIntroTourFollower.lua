@@ -120,21 +120,23 @@ F.run(function()
   tap(9); F.shot("dbg_cursor_before_A")
   F.press("A", 3); F.idle(180); F.shot("dbg_after_A")
   drain(30, "setparty")
-  -- ★ Debug "Set Party" fills the party ARRAY but never writes the COUNT.
-  -- DebugAction_Party_SetParty (src/debug.c) calls CreateNPCTrainerPartyFromTrainer and throws
-  -- away its return value, and nothing else assigns gPartiesCount, so the game still sees an
-  -- empty party and no follower can spawn. The mon itself is real and properly encrypted -- it is
-  -- the one-slot Lv100 Wobbuffet "Buffie" from src/data/debug_trainers.party (partySize 1) -- so
-  -- publishing the count is the correct seed here, and it is self-validating: if slot 0 were
-  -- actually empty the follower check below would fail loudly rather than pass on a blank mon.
-  F.check("debug Set Party filled the party array", F.r8(S.gPartiesCount) == 0,
-    "count is 0 as expected before the seed -- the debug action does not write it")
-  F.w8(S.gPartiesCount, 1)
+  -- Set Party seeds the one-slot Lv100 Wobbuffet "Buffie" from src/data/debug_trainers.party
+  -- (partySize 1) and publishes the count itself.
+  --
+  -- ★ HISTORY, because this line used to say the opposite: until issue #44,
+  -- DebugAction_Party_SetParty filled the party ARRAY and threw away
+  -- CreateNPCTrainerPartyFromTrainer's return value, so gPartiesCount stayed 0 and the game saw an
+  -- empty party. This suite worked around it by asserting count == 0 and then writing the count
+  -- from Lua -- i.e. it encoded the bug as a passing check, which is why the fix turned it red.
+  -- The seed is still self-validating: if slot 0 were actually empty the follower checks below
+  -- would fail loudly rather than pass on a blank mon.
   local party = F.r8(S.gPartiesCount)
-  F.check("player now has a one-mon party", party >= 1, "count=" .. party)
+  F.check("debug Set Party publishes the party count (issue #44)", party == 1, "count=" .. party)
   if party < 1 then F.shot("no_party"); F.finish(); return end
 
-  -- The follower is spawned by the map load, not by the party write, so reload the hub.
+  -- Set Party now spawns the follower on the spot (#44 added the UpdateFollowingPokemon call), so
+  -- the reload below is no longer what makes it appear -- it is kept as a guard that the follower
+  -- also survives a map load, which is the state the escort actually runs in.
   F.check("reload the hub so the follower spawns", F.warpTo(1, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, "hubReload"))
   F.idle(300)
   local fol = obj(FOLLOWER)

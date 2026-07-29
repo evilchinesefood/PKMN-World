@@ -400,13 +400,18 @@ function M.new(S, name, opts)
       L("WARNING: could not write the .PASS/.FAIL sentinel to " .. self.out)
     end
 
-    if self.log then self.log:close() end
+    -- Drop the handle, don't just close it. client.exit() does not stop the Lua chunk on the spot,
+    -- so anything that logs afterwards reached a CLOSED file and threw
+    -- "lib.lua:110: attempt to use a closed file" — printed after the verdict on every run, which
+    -- reads like the suite failed at the finish line when it had already passed. Nil means L()
+    -- falls back to console output, which is what a post-verdict message should do anyway.
+    if self.log then self.log:close(); self.log = nil end
     client.exit(passed and 0 or 1)
   end
   -- run main() under xpcall so an EmuHawk-swallowed Lua error is logged, not silent
   function self.run(mainFn)
     local ok, err = xpcall(mainFn, debug.traceback)
-    if not ok then L("LUA ERROR: " .. tostring(err)); if self.log then self.log:close() end client.exit() end
+    if not ok then L("LUA ERROR: " .. tostring(err)); if self.log then self.log:close(); self.log = nil end client.exit() end
   end
 
   return self

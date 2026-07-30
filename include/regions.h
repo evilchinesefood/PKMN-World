@@ -40,6 +40,8 @@ void SyncDifficultyForRegion(enum Region region);
 bool8 IsRegionChampion(enum Region region);
 // Re-seed the volatile EWRAM gCurrentRegion from the current map on field load (skips the hub).
 void ResyncCurrentRegionFromMap(void);
+// Refresh Johto's two day/night HIDE flags from the RTC. Called from both map loaders.
+void UpdateJohtoDayNightFlags(void);
 
 #if ALL_REGIONS
 // The active-campaign region: the region whose badges/obedience govern the traveling party.

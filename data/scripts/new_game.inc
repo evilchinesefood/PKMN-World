@@ -325,9 +325,9 @@ EventScript_ResetAllMapFlagsFrlg::
 	setflag FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL
 	setflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
-	@ Johto day/night object pairs: nothing updates FLAG_DAY_POKEMON/FLAG_NIGHT_POKEMON
-	@ by time of day yet, so park the night variants hidden (day variants only),
-	@ like FLAG_HIDE_JOHTO_DECOR in src/new_game.c.
+	@ Johto day/night object pairs: FLAG_DAY_POKEMON/FLAG_NIGHT_POKEMON are HIDE flags, so
+	@ setting the NIGHT one hides the night variants (= daytime). This is only the value before
+	@ the first map load - UpdateJohtoDayNightFlags() (src/region_switch.c) owns both from then on.
 	setflag FLAG_NIGHT_POKEMON
 	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
 	end

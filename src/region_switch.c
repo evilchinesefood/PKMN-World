@@ -13,6 +13,7 @@
 #include "constants/maps.h"
 #include "constants/map_groups.h"
 #include "overworld.h"
+#include "rtc.h"
 #include "mail.h"
 #include "constants/heal_locations.h"
 #include "constants/items.h"
@@ -119,6 +120,26 @@ void ResyncCurrentRegionFromMap(void)
 
     gCurrentRegion = GetCurrentRegion();
     SyncDifficultyForRegion(gCurrentRegion); // pre-region-field champion saves need the tier too
+}
+
+// Johto's day/night object pairs are gated on two HIDE flags, so the flag named for a time
+// of day is the one set during the OTHER one (issue #52). Ungated by region on purpose: both
+// flags live in the Johto-only bank and nothing outside data/maps/<Johto>/ reads them, so
+// writing them in Kanto/Hoenn is inert and no Johto map load can ever see a stale value.
+void UpdateJohtoDayNightFlags(void)
+{
+    bool32 isNight = (GetTimeOfDay() == TIME_NIGHT); // HGSS-faithful: only TIME_NIGHT is night
+
+    if (isNight)
+    {
+        FlagSet(FLAG_DAY_POKEMON);
+        FlagClear(FLAG_NIGHT_POKEMON);
+    }
+    else
+    {
+        FlagSet(FLAG_NIGHT_POKEMON);
+        FlagClear(FLAG_DAY_POKEMON);
+    }
 }
 
 // callnative hook used by the hub transit clerk. The clerk's multichoice stores the

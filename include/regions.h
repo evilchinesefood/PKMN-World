@@ -40,8 +40,15 @@ void SyncDifficultyForRegion(enum Region region);
 bool8 IsRegionChampion(enum Region region);
 // Re-seed the volatile EWRAM gCurrentRegion from the current map on field load (skips the hub).
 void ResyncCurrentRegionFromMap(void);
-// Refresh Johto's two day/night HIDE flags from the RTC. Called from both map loaders.
-void UpdateJohtoDayNightFlags(void);
+// Refresh Johto's two day/night HIDE flags from the RTC. Called from both map loaders, from the
+// per-minute overworld tick, and on Continue. Returns TRUE if a flag moved, i.e. the objects
+// currently spawned no longer match the clock.
+bool32 UpdateJohtoDayNightFlags(void);
+// Latch/clear/run the object refresh that a flag move implies. TryRefresh runs every overworld
+// frame and is a single bool test unless a refresh is actually owed.
+void RequestJohtoDayNightRefresh(void);
+void ClearJohtoDayNightRefresh(void);
+void TryRefreshJohtoDayNightObjects(void);
 
 #if ALL_REGIONS
 // The active-campaign region: the region whose badges/obedience govern the traveling party.

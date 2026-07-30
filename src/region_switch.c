@@ -13,6 +13,9 @@
 #include "constants/maps.h"
 #include "constants/map_groups.h"
 #include "overworld.h"
+#include "event_object_movement.h"
+#include "fieldmap.h"
+#include "palette.h"
 #include "rtc.h"
 #include "mail.h"
 #include "constants/heal_locations.h"
@@ -126,9 +129,12 @@ void ResyncCurrentRegionFromMap(void)
 // of day is the one set during the OTHER one (issue #52). Ungated by region on purpose: both
 // flags live in the Johto-only bank and nothing outside data/maps/<Johto>/ reads them, so
 // writing them in Kanto/Hoenn is inert and no Johto map load can ever see a stale value.
-void UpdateJohtoDayNightFlags(void)
+// Returns TRUE when either flag actually moved, which is the caller's cue that whatever is
+// already spawned on the map no longer matches the clock (issue #56 item 1).
+bool32 UpdateJohtoDayNightFlags(void)
 {
     bool32 isNight = (GetTimeOfDay() == TIME_NIGHT); // HGSS-faithful: only TIME_NIGHT is night
+    bool32 changed = (FlagGet(FLAG_DAY_POKEMON) != isNight) || (FlagGet(FLAG_NIGHT_POKEMON) == isNight);
 
     if (isNight)
     {
@@ -140,6 +146,68 @@ void UpdateJohtoDayNightFlags(void)
         FlagSet(FLAG_NIGHT_POKEMON);
         FlagClear(FLAG_DAY_POKEMON);
     }
+    return changed;
+}
+
+// Setting a HIDE flag moves nothing already spawned, and RemoveObjectEventsOutsideView() never
+// removes on flag - so crossing 19:59 -> 20:00 while standing still needs an explicit object
+// refresh (issue #56 item 1). Removing an object while a script holds it strands that script:
+// its applymovement never completes and its lock never releases. So the refresh is latched and
+// only ever runs on a frame where nothing else owns the object events.
+static EWRAM_DATA bool8 sJohtoDayNightRefreshPending = FALSE;
+
+void RequestJohtoDayNightRefresh(void)
+{
+    sJohtoDayNightRefreshPending = TRUE;
+}
+
+// Both map loaders rebuild the object set from the templates against the fresh flags, so a
+// pending refresh is already satisfied by the time they finish.
+void ClearJohtoDayNightRefresh(void)
+{
+    sJohtoDayNightRefreshPending = FALSE;
+}
+
+void TryRefreshJohtoDayNightObjects(void)
+{
+    u32 i;
+    u8 objectCount;
+
+    if (!sJohtoDayNightRefreshPending)
+        return;
+    // Anything here means the player does not have plain field control: a script is running or
+    // queued, controls are locked (dialogue, trainer approach, cutscene), a forced movement is
+    // in flight, or the screen is mid-fade on a map transition.
+    if (ScriptContext_IsEnabled() || ArePlayerFieldControlsLocked() || gPlayerAvatar.preventStep || gPaletteFade.active)
+        return;
+    if (gMapHeader.events == NULL)
+        return;
+
+    sJohtoDayNightRefreshPending = FALSE;
+
+    // Walk the map's own templates rather than gObjectEvents: only the first objectEventCount
+    // entries belong to this map (the rest still hold the previous map's), the template is the
+    // only place the hide flag lives, and the player/follower/camera have no template at all.
+    objectCount = gMapHeader.events->objectEventCount;
+    for (i = 0; i < objectCount && i < OBJECT_EVENT_TEMPLATES_COUNT; i++)
+    {
+        const struct ObjectEventTemplate *template = &gSaveBlock1Ptr->objectEventTemplates[i];
+        u8 objectEventId;
+
+        // Never evict something hidden for story reasons - only the two day/night flags.
+        if (template->flagId != FLAG_DAY_POKEMON && template->flagId != FLAG_NIGHT_POKEMON)
+            continue;
+        if (!FlagGet(template->flagId))
+            continue;
+        if (TryGetObjectEventIdByLocalIdAndMap(template->localId, gSaveBlock1Ptr->location.mapNum,
+                                               gSaveBlock1Ptr->location.mapGroup, &objectEventId))
+            continue; // returns TRUE on "not found", i.e. already despawned
+        RemoveObjectEvent(&gObjectEvents[objectEventId]);
+    }
+
+    // The other half of the pair the camera update runs on every step: spawns each in-view
+    // template whose hide flag is clear, which is exactly the set that just became visible.
+    TrySpawnObjectEvents(0, 0);
 }
 
 // callnative hook used by the hub transit clerk. The clerk's multichoice stores the

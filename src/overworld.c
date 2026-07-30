@@ -933,6 +933,7 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     SetDefaultFlashLevel();
     Overworld_ClearSavedMusic();
     UpdateJohtoDayNightFlags();
+    ClearJohtoDayNightRefresh(); // this load rebuilds the objects against the fresh flags
     RunOnTransitionMapScript();
     InitMap();
     CopySecondaryTilesetToVramUsingHeap(gMapHeader.mapLayout);
@@ -1005,6 +1006,7 @@ static void LoadMapFromWarp(bool32 a1)
     SetDefaultFlashLevel();
     Overworld_ClearSavedMusic();
     UpdateJohtoDayNightFlags();
+    ClearJohtoDayNightRefresh(); // this load rebuilds the objects against the fresh flags
     RunOnTransitionMapScript();
     UpdateLocationHistoryForRoamer();
     MoveAllRoamersToOtherLocationSets();
@@ -2002,6 +2004,9 @@ static void OverworldBasic(void)
         gTimeUpdateCounter = (SECONDS_PER_MINUTE * 60 / FakeRtc_GetSecondsRatio());
         UpdateTimeOfDay();
         FormChangeTimeUpdate();
+        // Must follow UpdateTimeOfDay(): it is what advances gTimeOfDay across the boundary.
+        if (UpdateJohtoDayNightFlags())
+            RequestJohtoDayNightRefresh();
         if (MapHasNaturalLight(gMapHeader.mapType) &&
            (bld0[0] != bld1[0]
          || bld0[1] != bld1[1]
@@ -2010,6 +2015,11 @@ static void OverworldBasic(void)
             ApplyWeatherColorMapIfIdle(gWeatherPtr->colorMapIndex);
         }
     }
+    // Checked every frame rather than on the TOD tick above, so a refresh owed while the player was
+    // under a script lands the moment control returns instead of waiting out another whole tick.
+    // (That tick is 3600 / FakeRtc_GetSecondsRatio() frames — measured at 180, i.e. ~3s, on this
+    // config, not the 60s its "every minute" comment implies.)
+    TryRefreshJohtoDayNightObjects();
     UpdateOverworldWildEncounter();
 }
 
@@ -2320,6 +2330,16 @@ void CB2_ContinueSavedGame(void)
 
     UnfreezeObjectEvents();
     DoTimeBasedEvents();
+    // Issue #56 item 3: an ordinary Continue reaches neither map loader. UseContinueGameWarp()
+    // is TRUE only for frontier/contest/trade/record-mix/whiteout resumes; a plain save-and-
+    // reload takes the else branch below to CB2_ReturnToField(), and InitMapFromSavedGame()
+    // runs RunOnLoadMapScript(), not RunOnTransitionMapScript(). Save at 14:00, resume at
+    // 22:00 and the flags, the saved objects and the saved layout are all stale against the
+    // clock until the next map change. Do it here so it covers both branches, and latch the
+    // object refresh because SpawnObjectEventsOnReturnToField() replays the SAVED object array
+    // verbatim - it never re-reads the templates or the hide flags.
+    if (UpdateJohtoDayNightFlags())
+        RequestJohtoDayNightRefresh();
     UpdateMiscOverworldStates();
     if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
         InitBattlePyramidMap(TRUE);

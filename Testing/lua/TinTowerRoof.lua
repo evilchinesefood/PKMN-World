@@ -84,6 +84,41 @@ end
 local function layoutId() return F.r16(F.sb1() + SB1_MAPLAYOUT) end
 local function weather()  return F.r8(F.sb1() + SB1_WEATHER) end
 
+-- ---- clock ------------------------------------------------------------------------------------
+-- Issue #56 item 2. This suite used to hand-seed FLAG_DAY_POKEMON/FLAG_NIGHT_POKEMON and then warp
+-- in. #52 added UpdateJohtoDayNightFlags() to both map loaders, which recomputes BOTH flags from
+-- the RTC before ON_TRANSITION runs — so the seed was overwritten in flight and whichever pass
+-- disagreed with the wall clock failed, at every hour. Drive the clock instead; the flags then
+-- become an OUTCOME this suite asserts rather than an input it fakes, which is strictly stronger
+-- and is what #52's acceptance actually asked for.
+--
+-- The obvious lever does not work: LoadMapFromWarp zeroes sHoursOverride (src/overworld.c:989)
+-- eighteen lines before the hook at :1007, so the debug time menu cannot survive a warp.
+-- localTimeOffset is save data and does.
+local function localTime()
+  return F.rs8(S.gLocalTime + S.Time.hours), F.rs8(S.gLocalTime + S.Time.minutes)
+end
+
+-- gLocalTime = sRtc - localTimeOffset (RtcCalcLocalTime, src/rtc.c:319), so winding the offset
+-- FORWARD winds the in-game clock BACK. Work in total minutes so the hour and minute borrows are
+-- resolved together, and land on :30 — half an hour from either boundary, which makes the read of
+-- gLocalTime below safe even though it is only refreshed on the per-minute tick.
+local function setLocalTime(targetHour)
+  local off = F.sb2() + S.SaveBlock2.localTimeOffset
+  local h, m = localTime()
+  local deltaMin = ((h * 60 + m) - (targetHour * 60 + 30)) % (24 * 60)
+  local newMin = F.rs8(off + S.Time.minutes) + (deltaMin % 60)
+  local carry = 0
+  if newMin >= 60 then newMin, carry = newMin - 60, 1 end
+  F.w8(off + S.Time.minutes, newMin % 60)
+  F.w8(off + S.Time.hours, (F.rs8(off + S.Time.hours) + (deltaMin // 60) + carry) % 24)
+end
+
+-- Only TIME_NIGHT counts as night for the two HIDE flags (UpdateJohtoDayNightFlags), and the
+-- HIDE polarity means the DAY flag is the one SET at night.
+local function timeOfDay() return F.r8(S.gTimeOfDay) end
+local NIGHT_HOUR, DAY_HOUR = 22, 14 -- night 20..6, day 10..19 (probed, S.Hours)
+
 -- Find a spawned map-local object event by local id -> x, y (map coords). Resolve by local id, not
 -- array index: gObjectEvents order is spawn order.
 local function findLocal(want)
@@ -205,7 +240,7 @@ end
 
 -- ---- one pass -------------------------------------------------------------------------------
 local function pass(tag, night)
-  F.L(("== %s pass (FLAG_DAY_POKEMON %s) =="):format(tag, night and "SET" or "CLEAR"))
+  F.L(("== %s pass (clock %s) =="):format(tag, night and "NIGHT" or "DAY"))
 
   -- Story state: Ho-Oh summoned, kimono girls present. This is what makes ON_TRANSITION take the
   -- HoohStory branch and clear FLAG_HIDE_HO_OH.
@@ -213,15 +248,11 @@ local function pass(tag, night)
   johtoFlagSet(FLAG_HIDE_KIMONO, false)
   sb1FlagSet(FLAG_HIDE_HO_OH, true)   -- start hidden so "it got cleared" is a real observation
 
-  -- The issue's claimed softlock condition, verbatim: night, with FLAG_NIGHT_POKEMON clear.
-  johtoFlagSet(FLAG_DAY_POKEMON, night)
-  johtoFlagSet(FLAG_NIGHT_POKEMON, not night)
+  -- Wind the real clock to the hour under test. The warp below is what makes the engine act on
+  -- it: LoadMapFromWarp runs DoTimeBasedEvents() and then UpdateJohtoDayNightFlags().
+  setLocalTime(night and NIGHT_HOUR or DAY_HOUR)
   F.check(tag .. "_seed_var", regionVarGet(VAR_COMPLETED_HO_OH) == 2,
           "VAR_COMPLETED_HO_OH=" .. regionVarGet(VAR_COMPLETED_HO_OH))
-  F.check(tag .. "_seed_flags",
-          johtoFlagGet(FLAG_DAY_POKEMON) == night and johtoFlagGet(FLAG_NIGHT_POKEMON) == (not night),
-          ("day=%s night=%s"):format(tostring(johtoFlagGet(FLAG_DAY_POKEMON)),
-                                     tostring(johtoFlagGet(FLAG_NIGHT_POKEMON))))
 
   if not F.check(tag .. "_reached_roof", enterRoofFrom8F(tag), "walked 8F (6,11) -> roof") then
     return
@@ -231,6 +262,24 @@ local function pass(tag, night)
   local x, y = F.pos()
   F.L(("  landed grp=%d map=%d layout=%d weather=%d pos=(%d,%d)"):format(g, m, lay, wx, x, y))
   F.shot(tag .. "_roof")
+
+  -- (0) The clock landed where it was wound, and the ENGINE — not this suite — set the two HIDE
+  -- flags to match it. #52's acceptance, asserted end to end instead of seeded (issue #56 item 2).
+  local wantHour = night and NIGHT_HOUR or DAY_HOUR
+  local lh, lm = localTime()
+  local tod = timeOfDay()
+  F.L(("  clock %02d:%02d timeOfDay=%d day=%s night=%s"):format(lh, lm, tod,
+      tostring(johtoFlagGet(FLAG_DAY_POKEMON)), tostring(johtoFlagGet(FLAG_NIGHT_POKEMON))))
+  F.check(tag .. "_clock", lh == wantHour,
+          ("localTime %02d:%02d, wanted hour %d"):format(lh, lm, wantHour))
+  F.check(tag .. "_time_of_day", (tod == S.TimeOfDay.NIGHT) == night,
+          ("gTimeOfDay=%d (TIME_NIGHT=%d)"):format(tod, S.TimeOfDay.NIGHT))
+  -- HIDE polarity: at NIGHT the DAY mons are the hidden ones, so FLAG_DAY_POKEMON is the one SET.
+  F.check(tag .. "_flags_from_clock",
+          johtoFlagGet(FLAG_DAY_POKEMON) == night and johtoFlagGet(FLAG_NIGHT_POKEMON) == (not night),
+          ("day=%s night=%s (want day=%s)"):format(tostring(johtoFlagGet(FLAG_DAY_POKEMON)),
+                                                   tostring(johtoFlagGet(FLAG_NIGHT_POKEMON)),
+                                                   tostring(night)))
 
   -- (1) THE issue: the reachable warp must land on the map that owns the Ho-Oh scripts.
   F.check(tag .. "_map_is_roof_day", g == GRP_ECRUTEAK_INDOOR and m == MAP_ROOF_DAY,

@@ -1,3 +1,29 @@
+// DO NOT "fix" the 512 here to GetNumMetatilesInPrimary() or to anything else (issue #56 item 5).
+//
+// That 512 is not a layout property being hardcoded - it is the index BASIS. Subtracting the
+// Emerald primary split is what makes every tiles[] entry SECRET-BASE-SECONDARY-relative, which is
+// the only thing the consumers in src/decoration.c can add a primary count back onto. Rebasing it
+// breaks all 24 secret bases, which are the only maps that ever read these values.
+//
+// Why this looks wrong but is not: #55 replaced the hardcoded 512 on the *consumer* side with
+// GetNumMetatilesInPrimary(), which returns 640 on frlg/johto layouts, and #56 observed that this
+// makes the arithmetic worse rather than better on the two non-Hoenn bedrooms the region merge
+// added (NEW_BARK_TOWN_PLAYERS_HOUSE_2F, PALLET_TOWN_PLAYERS_HOUSE_2F). Both observations are
+// true and neither is reachable:
+//
+//   - No primary count works on those maps anyway. tiles[] is relative to a secret-base secondary
+//     tileset, and their secondaries are gTileset_PlayersHouse and gTileset_GenericBuilding1 -
+//     neither holds secret-base art at all, so there is nothing correct to index INTO.
+//   - Nothing indexes them. tiles[] is only consumed for decorations whose permission is not
+//     DECORPERM_SPRITE, and all 44 DOLL/CUSHION entries in header.h are DECORPERM_SPRITE - which
+//     is the only category decoration.c:1375 admits in a player's room. So the metatile path is
+//     reached exclusively from the 24 secret bases, and every SECRET_BASE_* layout is
+//     layout_version: emerald, i.e. a 512 split. #55 part 1 also removed the DECORATION menu from
+//     both bedrooms outright.
+//
+// So if decorations are ever actually wanted in those bedrooms, the work is a new index basis
+// (and secret-base art in a secondary tileset they can reach) - NOT a different primary count,
+// and NOT an edit to this macro.
 #define DECOR_TILE(name) (METATILE_SecretBase_##name - NUM_TILES_IN_PRIMARY)
 
 const u16 DecorGfx_SMALL_DESK[] = {

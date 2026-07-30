@@ -49,6 +49,44 @@ F.run(function()
     player ~= nil and player.x == px and player.y == py,
     player and string.format("obj=(%d,%d) sb1=(%d,%d)", player.x, player.y, px, py)
            or string.format("no player object; sb1=(%d,%d)", px, py))
+  -- Issue #56 item 4 = #52's acceptance #5, which asked for an explicit CHECK rather than an
+  -- assumption that nothing desyncs at the region hub before FLAG_SYS_CLOCK_SET is set.
+  --
+  -- Structurally it cannot: UpdateJohtoDayNightFlags() carries no FLAG_SYS_CLOCK_SET or
+  -- InPokemonCenter() gate (unlike DoTimeBasedEvents, src/clock.c:31-33), both map loaders call
+  -- it unconditionally, and the flags and the screen tint both derive from the same
+  -- GetTimeOfDay() -> UpdateTimeOfDay() call, so they cannot disagree. None of that had ever been
+  -- observed, and this suite already boots a fresh new game straight into the hub — which is
+  -- exactly the pre-clock-set state the criterion names.
+  local FLAG_SYS_CLOCK_SET = 2429                       -- probed, not hand-counted
+  local FLAG_JOHTO_BASE = 0x6000
+  local FLAG_DAY_POKEMON, FLAG_NIGHT_POKEMON = 0x6040, 0x6041
+  local function sb1Flag(id)
+    return (F.r8(F.sb1() + S.SaveBlock1.flags + (id // 8)) & (1 << (id % 8))) ~= 0
+  end
+  -- Johto flags live in SaveBlock3.region.johtoFlags, not SaveBlock1 (event_data.c:275).
+  local function johtoFlag(id)
+    local a = F.sb3() + S.SaveBlock3.johtoFlags + ((id - FLAG_JOHTO_BASE) // 8)
+    return (F.r8(a) & (1 << (id % 8))) ~= 0
+  end
+
+  local clockSet = sb1Flag(FLAG_SYS_CLOCK_SET)
+  local tod = F.r8(S.gTimeOfDay)
+  local isNight = tod == S.TimeOfDay.NIGHT
+  local dayF, nightF = johtoFlag(FLAG_DAY_POKEMON), johtoFlag(FLAG_NIGHT_POKEMON)
+  local lh, lm = F.rs8(S.gLocalTime + S.Time.hours), F.rs8(S.gLocalTime + S.Time.minutes)
+  F.L(string.format("hub clock %02d:%02d timeOfDay=%d clockSet=%s day=%s night=%s",
+    lh, lm, tod, tostring(clockSet), tostring(dayF), tostring(nightF)))
+
+  -- Log rather than assert: whether the wall-clock scene has run on a fresh save is not what this
+  -- criterion is about, and pinning it would make the check fail for an unrelated reason.
+  F.check("hub: exactly one Johto day/night HIDE flag is set",
+    dayF ~= nightF, string.format("day=%s night=%s", tostring(dayF), tostring(nightF)))
+  -- HIDE polarity: at NIGHT it is the DAY mons that are hidden, so FLAG_DAY_POKEMON is the set one.
+  F.check("hub: day/night HIDE flags agree with gTimeOfDay (clockSet=" .. tostring(clockSet) .. ")",
+    dayF == isNight and nightF == (not isNight),
+    string.format("timeOfDay=%d isNight=%s day=%s night=%s", tod, tostring(isNight),
+                  tostring(dayF), tostring(nightF)))
   F.shot("hub")
   F.finish()
 end)

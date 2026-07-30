@@ -28,6 +28,18 @@ WANT = [
     # non-zero at battle start means "walked into an overworld mon", which no proximity heuristic can
     # establish: the collision test matches previousCoords too, and the FOLLOWER can trigger it.
     "gSpecialVar_LastTalked",
+    # The in-game clock. gLocalTime is recomputed from the RTC inside UpdateTimeOfDay() itself
+    # (overworld.c:1857), so it is fresh whenever gTimeOfDay is, and a suite can read both to
+    # prove the Johto day/night flags agree with the clock rather than with its own seeding.
+    "gLocalTime", "gTimeOfDay",
+    # sHoursOverride is the debug time menu's lever (SetTimeOfDay, src/overworld.c:4110) and it
+    # lives in EWRAM, NOT in the save. That is what makes it the only way to build the state issue
+    # #56 item 3 needs: a save whose flags disagree with its own clock. Wind localTimeOffset (which
+    # IS saved) to night, override the displayed hour back to day, save, then reboot — EWRAM clears,
+    # the override is gone, and the reloaded save reads night against day flags and day objects.
+    # gTimeUpdateCounter is the TOD tick's countdown; SetTimeOfDay zeroes it to force an immediate
+    # tick, and a suite can do the same instead of idling out a whole period.
+    "sHoursOverride", "gTimeUpdateCounter",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 
@@ -61,7 +73,22 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- facing: low nibble of the u16 at 0x18 (DIR_SOUTH 1 / NORTH 2 / WEST 3 / EAST 4)
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, @SB1@ },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
-                   currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768 },
+                   currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768,
+                   localTimeOffset = 0x98 },
+                                                            -- gLocalTime = sRtc - localTimeOffset
+                                                            --   (RtcCalcLocalTime, src/rtc.c:319), so
+                                                            --   ADDING hours here SUBTRACTS them from the
+                                                            --   in-game clock. This is the only clock lever
+                                                            --   a warp-based suite can use: LoadMapFromWarp
+                                                            --   zeroes sHoursOverride (overworld.c:989)
+                                                            --   eighteen lines before the day/night hook.
+  Time         = { size = 8, days = 0, hours = 2, minutes = 3, seconds = 4 },
+                                                            -- size is 8, NOT the hand-summed 6
+  TimeOfDay    = { MORNING = 0, DAY = 1, EVENING = 2, NIGHT = 3 },
+  Hours        = { MORNING_BEGIN = 6, MORNING_END = 10, DAY_BEGIN = 10, DAY_END = 19,
+                   EVENING_BEGIN = 19, EVENING_END = 20, NIGHT_BEGIN = 20, NIGHT_END = 6 },
+                                                            -- OW_TIMES_OF_DAY = GEN_LATEST. Only TIME_NIGHT
+                                                            --   counts as night for the Johto HIDE flags.
 """
 
 # The SaveBlock3 banks the Lua suites read, as offsets from the START of SaveBlock3.

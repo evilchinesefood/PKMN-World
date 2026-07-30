@@ -208,6 +208,14 @@ static const u8 sBedroomPC_OptionOrder[] =
 };
 #define NUM_BEDROOM_PC_OPTIONS ARRAY_COUNT(sBedroomPC_OptionOrder)
 
+static const u8 sBedroomPC_NoDecorOptionOrder[] =
+{
+    MENU_ITEMSTORAGE,
+    MENU_MAILBOX,
+    MENU_TURNOFF
+};
+#define NUM_BEDROOM_PC_NO_DECOR_OPTIONS ARRAY_COUNT(sBedroomPC_NoDecorOptionOrder)
+
 static const u8 sPlayerPC_OptionOrder[] =
 {
     MENU_ITEMSTORAGE,
@@ -376,8 +384,17 @@ void NewGameInitPCItems(void)
 
 void BedroomPC(void)
 {
-    sTopMenuOptionOrder = sBedroomPC_OptionOrder;
-    sTopMenuNumOptions = NUM_BEDROOM_PC_OPTIONS;
+    if (gMapHeader.mapLayoutId == LAYOUT_NEW_BARK_TOWN_PLAYERS_HOUSE_2F
+     || gMapHeader.mapLayoutId == LAYOUT_PALLET_TOWN_PLAYERS_HOUSE_2F_FRLG)
+    {
+        sTopMenuOptionOrder = sBedroomPC_NoDecorOptionOrder;
+        sTopMenuNumOptions = NUM_BEDROOM_PC_NO_DECOR_OPTIONS;
+    }
+    else
+    {
+        sTopMenuOptionOrder = sBedroomPC_OptionOrder;
+        sTopMenuNumOptions = NUM_BEDROOM_PC_OPTIONS;
+    }
     DisplayItemMessageOnField(CreateTask(TaskDummy, 0), gText_WhatWouldYouLike, InitPlayerPCMenu);
 }
 
@@ -400,10 +417,13 @@ static void InitPlayerPCMenu(u8 taskId)
     struct WindowTemplate windowTemplate;
     data = gTasks[taskId].data;
 
-    if (sTopMenuNumOptions == NUM_PLAYER_PC_OPTIONS)
-        windowTemplate = sWindowTemplates_MainMenus[WIN_MAIN_MENU];
-    else // Bedroom PC
+    // These two templates differ only in height, and height is 2 rows per option: 6 fits three,
+    // 8 fits four. So it is the row count that picks the box, not which PC is open - the
+    // no-decoration bedroom menu is three rows and wants the shorter one.
+    if (sTopMenuNumOptions > NUM_PLAYER_PC_OPTIONS)
         windowTemplate = sWindowTemplates_MainMenus[WIN_MAIN_MENU_BEDROOM];
+    else
+        windowTemplate = sWindowTemplates_MainMenus[WIN_MAIN_MENU];
 
     windowTemplate.width = GetMaxWidthInSubsetOfMenuTable(sPlayerPCMenuActions, sTopMenuOptionOrder, sTopMenuNumOptions);
     tWindowId = AddWindow(&windowTemplate);
@@ -495,7 +515,7 @@ static void PlayerPC_Decoration(u8 taskId)
 
 static void PlayerPC_TurnOff(u8 taskId)
 {
-    if (sTopMenuNumOptions == NUM_BEDROOM_PC_OPTIONS) // Flimsy way to determine if Bedroom PC is in use
+    if (sTopMenuOptionOrder != sPlayerPC_OptionOrder) // i.e. either bedroom table
     {
         if (gMapHeader.mapLayoutId == LAYOUT_PALLET_TOWN_PLAYERS_HOUSE_2F_FRLG)
             ScriptContext_SetupScript(EventScript_PalletTown_PlayersHouse_2F_ShutDownPC);

@@ -40,6 +40,22 @@ WANT = [
     # gTimeUpdateCounter is the TOD tick's countdown; SetTimeOfDay zeroes it to force an immediate
     # tick, and a suite can do the same instead of idling out a whole period.
     "sHoursOverride", "gTimeUpdateCounter",
+    # Issue #55's bedroom-PC checklist. sTopMenuOptionOrder is the load-bearing one: the
+    # no-decoration bedroom table and the regular player-PC table have IDENTICAL contents AND an
+    # identical count (both {ITEMSTORAGE, MAILBOX, TURNOFF}), so only the table POINTER can tell
+    # them apart — which is exactly the key PlayerPC_TurnOff branches on (src/player_pc.c:518).
+    # Comparing counts there would be silently wrong.
+    "sTopMenuNumOptions", "sTopMenuOptionOrder",
+    "sPlayerPC_OptionOrder", "sBedroomPC_OptionOrder", "sBedroomPC_NoDecorOptionOrder",
+    # gWindows[sMenu.windowId].window.height IS the drawn frame — AddWindow copies the template
+    # verbatim (src/window.c) — so the "snug box" is assertable in RAM, not screenshot-only.
+    "gWindows", "gMapHeader", "sGlobalScriptContext",
+    # The three TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
+    # scriptPtr land inside one of these is the only honest "the screen turned off" evidence on
+    # New Bark, whose PC tile has no MB_PC behaviour and so never animates at all (issue #58).
+    "LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC",
+    "LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC",
+    "EventScript_PalletTown_PlayersHouse_2F_ShutDownPC",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 
@@ -74,7 +90,11 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, @SB1@ },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768,
-                   localTimeOffset = 0x98 },
+                   playerGender = 8, localTimeOffset = 0x98 },
+                                                            -- playerGender: MALE 0 / FEMALE 1. Both
+                                                            --   Littleroot bedroom PCs are gender-gated
+                                                            --   (Brendan's MALE-only, May's FEMALE-only),
+                                                            --   so a suite covering both must seed it.
                                                             -- gLocalTime = sRtc - localTimeOffset
                                                             --   (RtcCalcLocalTime, src/rtc.c:319), so
                                                             --   ADDING hours here SUBTRACTS them from the
@@ -85,6 +105,20 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   Time         = { size = 8, days = 0, hours = 2, minutes = 3, seconds = 4 },
                                                             -- size is 8, NOT the hand-summed 6
   TimeOfDay    = { MORNING = 0, DAY = 1, EVENING = 2, NIGHT = 3 },
+  Menu         = { size = 12, left = 0, top = 1, cursorPos = 2, minCursorPos = 3,
+                   maxCursorPos = 4, windowId = 5 },
+                                                            -- struct Menu, src/menu.c:38. rows/columns
+                                                            --   are NOT written by
+                                                            --   InitMenuInUpperLeftCornerNormal, so
+                                                            --   reading them is vacuous — row count is
+                                                            --   maxCursorPos + 1.
+  Window       = { stride = 12, window = 0, bg = 0, tilemapLeft = 1, tilemapTop = 2,
+                   width = 3, height = 4 },
+                                                            -- gWindows[i].window is a verbatim copy of
+                                                            --   the WindowTemplate (sizeof 8), and
+                                                            --   .height is what the frame is drawn at.
+  MapHeader    = { mapLayoutId = 0x12 },
+  ScriptCtx    = { scriptPtr = 8 },                         -- struct ScriptContext
   Hours        = { MORNING_BEGIN = 6, MORNING_END = 10, DAY_BEGIN = 10, DAY_END = 19,
                    EVENING_BEGIN = 19, EVENING_END = 20, NIGHT_BEGIN = 20, NIGHT_END = 6 },
                                                             -- OW_TIMES_OF_DAY = GEN_LATEST. Only TIME_NIGHT

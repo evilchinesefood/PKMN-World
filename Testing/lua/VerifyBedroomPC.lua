@@ -18,16 +18,17 @@
 -- ★ Both Littleroot bedrooms are GENDER-GATED — Brendan's 2F is MALE-only and May's 2F FEMALE-only
 -- (scripts.inc:236 and :282). One run covers all four by seeding SaveBlock2.playerGender.
 --
--- ★ Two findings this suite had to be written around, both filed separately and NEITHER caused by
--- 6d86b3c2 (see issues #57 and #58):
---   #57 New Bark's PC reuses LittlerootTown_BrendansHouse_2F_EventScript_PC and inherits its
---       checkplayergender gate, so a FEMALE player can never open it. This suite tests New Bark on
---       a MALE save and asserts the female path separately, so the bug is pinned rather than dodged.
---   #58 New Bark's PC tile (1,1) is metatile 648, behaviour 0 = MB_NORMAL, and the map has no MB_PC
---       tile at all, so the screen never animates. A tileAt-based "screen turned off" assert would
---       therefore PASS on a build where the shutdown script never ran — the exact vacuous-green
---       failure MANIFEST.md warns about. New Bark's screen-off evidence is the scriptPtr watch
---       instead, and the metatile is asserted UNCHANGED so #58 is recorded rather than hidden.
+-- ★ This suite originally asserted two New Bark bugs were PRESENT; both are fixed now (#57, which
+-- #58 was folded into), so it asserts the fixed behaviour instead:
+--   #57a New Bark's PC reused LittlerootTown_BrendansHouse_2F_EventScript_PC and inherited its
+--        checkplayergender gate, so a FEMALE player could never open it. New Bark now has its own
+--        ungated script pair and appears TWICE in the table below, once per gender.
+--   #57b New Bark's PC tile (1,1) is metatile 648 with behaviour 0 = MB_NORMAL, and the map has no
+--        MB_PC tile at all, so all three arms of IsPlayerInFrontOfPC failed and the screen never
+--        animated. A fourth arm (IsPlayerHousePCTileJohto) plus PC_LOCATION_NEW_BARK now cycle it
+--        648 <-> 650. The scriptPtr watch remains the independent shutdown evidence: a tileAt-only
+--        "screen turned off" assert PASSES on a build where the shutdown script never ran, which is
+--        the vacuous-green failure MANIFEST.md warns about and is exactly how New Bark used to look.
 --
 -- Run against a THROWAWAY COPY (lib.new refuses anything not Verify*/MigChk*/FixGen*):
 --   cp <repo>\pokemonworld.gba  BizHawk\VerifyBedroomPC.gba
@@ -57,8 +58,7 @@ local BEDROOMS = {
               { "Right", 1, 3 }, { "Up", 1, 2 } },
     pc = { 1, 1 }, options = { MENU_ITEMSTORAGE, MENU_MAILBOX, MENU_TURNOFF },
     table_ = "sBedroomPC_NoDecorOptionOrder", winH = 6,
-    offScript = "LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC",
-    screenAnimates = false,  -- issue #58
+    offScript = "NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC",
   },
   {
     name = "Pallet", gender = MALE,
@@ -73,7 +73,6 @@ local BEDROOMS = {
     pc = { 1, 1 }, options = { MENU_ITEMSTORAGE, MENU_MAILBOX, MENU_TURNOFF },
     table_ = "sBedroomPC_NoDecorOptionOrder", winH = 6,
     offScript = "EventScript_PalletTown_PlayersHouse_2F_ShutDownPC",
-    screenAnimates = true,
   },
   {
     name = "Brendans", gender = MALE,
@@ -85,7 +84,6 @@ local BEDROOMS = {
     pc = { 0, 1 }, options = { MENU_ITEMSTORAGE, MENU_MAILBOX, MENU_DECORATION, MENU_TURNOFF },
     table_ = "sBedroomPC_OptionOrder", winH = 8,
     offScript = "LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC",
-    screenAnimates = true,
   },
   {
     name = "Mays", gender = FEMALE,
@@ -96,7 +94,23 @@ local BEDROOMS = {
     pc = { 8, 1 }, options = { MENU_ITEMSTORAGE, MENU_MAILBOX, MENU_DECORATION, MENU_TURNOFF },
     table_ = "sBedroomPC_OptionOrder", winH = 8,
     offScript = "LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC",
-    screenAnimates = true,
+  },
+  {
+    -- Issue #57: New Bark is one map that is the player's own room for both genders, so the whole
+    -- battery must pass on a FEMALE save too. Before the fix this phase could not even open the PC
+    -- (it inherited Littleroot Brendan's checkplayergender gate), and had it opened, TURN OFF would
+    -- have dispatched May's script and written a Hoenn metatile onto gTileset_PlayersHouse. Running
+    -- the same table entry twice is what makes the gender independence assertable rather than
+    -- asserted. Must not sit next to the MALE NewBark phase: warpTo's success test is group+map
+    -- only, so a warp to the map you already stand on returns true having warped nobody.
+    name = "NewBarkFemale", gender = FEMALE,
+    grp = 76, map = 4, warp = 1, layout = 796,
+    land = { 1, 6 },
+    route = { { "Left", 0, 6 }, { "Up", 0, 5 }, { "Up", 0, 4 }, { "Up", 0, 3 },
+              { "Right", 1, 3 }, { "Up", 1, 2 } },
+    pc = { 1, 1 }, options = { MENU_ITEMSTORAGE, MENU_MAILBOX, MENU_TURNOFF },
+    table_ = "sBedroomPC_NoDecorOptionOrder", winH = 6,
+    offScript = "NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC",
   },
 }
 
@@ -302,21 +316,14 @@ local function bedroom(b)
     local tileAfter = tileAt(b.pc[1], b.pc[2])
     F.L(("  tile %d (before) -> %d (menu open) -> %d (after TURN OFF)"):format(
         tileBefore, tileOpen, tileAfter))
-    if b.screenAnimates then
-      -- A real screen: it must have changed while the PC was on, and come back afterwards.
-      F.check(tag .. "_screen_on", tileOpen ~= tileBefore,
-        ("tile %d -> %d while open"):format(tileBefore, tileOpen))
-      F.check(tag .. "_screen_off", tileAfter == tileBefore,
-        ("tile %d -> %d after TURN OFF"):format(tileOpen, tileAfter))
-    else
-      -- New Bark: assert the tile is INERT, so issue #58 is recorded rather than passed over. A
-      -- "screen turned off" check here would be vacuous — it would pass on a build where the
-      -- shutdown script never ran, which is why the scriptPtr watch above is the real evidence.
-      F.check(tag .. "_screen_inert_issue58",
-        tileOpen == tileBefore and tileAfter == tileBefore,
-        ("tile stayed %d throughout (%d/%d/%d) — no MB_PC on this map"):format(
-          tileBefore, tileBefore, tileOpen, tileAfter))
-    end
+    -- All four bedrooms animate now that New Bark has its own detector (#57/#58); the tile must
+    -- change while the PC is on and come back afterwards. The scriptPtr watch above stays the
+    -- independent evidence — an "off" tile alone would also pass on a build that never ran the
+    -- shutdown script, which is precisely how New Bark used to look correct.
+    F.check(tag .. "_screen_on", tileOpen ~= tileBefore,
+      ("tile %d -> %d while open"):format(tileBefore, tileOpen))
+    F.check(tag .. "_screen_off", tileAfter == tileBefore,
+      ("tile %d -> %d after TURN OFF"):format(tileOpen, tileAfter))
     F.shot(tag .. "_after")
   end
 
@@ -362,38 +369,9 @@ F.run(function()
   F.check("booted to the RegionHub (map group 100)", F.grp() == 100, "grp=" .. F.grp())
 
   -- Order matters: warpTo's success test is group+map only, so no warp may target the map the
-  -- player is already standing on. Hub -> four distinct maps is safe by construction.
+  -- player is already standing on. The list is ordered so no two consecutive phases share a map —
+  -- in particular NewBarkFemale is last, reached from May's house, not from the MALE NewBark phase.
   for _, b in ipairs(BEDROOMS) do bedroom(b) end
-
-  -- Issue #57, pinned rather than dodged: on a FEMALE save New Bark's PC cannot be opened at all,
-  -- because it reuses Littleroot Brendan's gender-gated script. Asserting the bug's PRESENCE keeps
-  -- the suite honest about what was and was not tested above, and turns into a failure the day #57
-  -- is fixed — which is the right time to revisit it.
-  F.L("== issue #57: New Bark's PC on a FEMALE save ==")
-  drainToField()
-  F.w8(F.sb2() + S.SaveBlock2.playerGender, FEMALE)
-  -- ★ Bounce off New Bark first if we are somehow still standing on it. warpTo's success test is
-  -- group+map only, so warping to the map you are already on returns true having warped nobody —
-  -- and the first run of this suite hit exactly that, reporting a landing at (1,2) (the PC tile
-  -- from the earlier phase) instead of the warp tile (1,6).
-  if F.grp() == 76 and F.mapn() == 4 then
-    F.warpTo(0, 3, 8, 0, 0, 1, 0, 0, 0, 38, 1, "bounce_pallet")
-    F.idle(60)
-    drainToField()
-  end
-  if F.warpTo(0, 7, 6, 0, 0, 4, 0, 0, 1, 76, 4, "newbark_female") then
-    F.idle(120)
-    local x, y = F.pos()
-    if F.check("newbark_female_landed", x == 1 and y == 6, ("(%d,%d)"):format(x, y)) then
-      for _, step in ipairs(BEDROOMS[1].route) do F.step(step[1]); F.idle(6) end
-      F.face("Up"); F.idle(20)
-      local opened = openPC(120)
-      F.check("issue57_female_cannot_open_newbark_pc", not opened,
-        opened and "PC OPENED — #57 appears FIXED; update this suite"
-               or "PC did not open (gText_PokemonTrainerSchoolEmail path), as #57 describes")
-      F.shot("newbark_female")
-    end
-  end
 
   F.finish()
 end)

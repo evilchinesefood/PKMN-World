@@ -54,6 +54,26 @@ NewBarkTown_PlayersHouse_2F_Movement_PlayerWalkToClock2:
 	delay_8
 	step_end
 
+@ New Bark is the player's own room for both genders (one map, no rival mirror), so this
+@ pair has no checkplayergender branch. Reusing Littleroot's PC script locked a female
+@ player out of her own PC entirely.
+NewBarkTown_PlayersHouse_2F_EventScript_PC::
+	lockall
+	setvar VAR_0x8004, PC_LOCATION_NEW_BARK
+	special DoPCTurnOnEffect
+	playse SE_PC_ON
+	msgbox gText_PlayerHouseBootPC, MSGBOX_DEFAULT
+	special BedroomPC
+	releaseall
+	end
+
+NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC::
+	setvar VAR_0x8004, PC_LOCATION_NEW_BARK
+	playse SE_PC_OFF
+	special DoPCTurnOffEffect
+	releaseall
+	end
+
 NewBarkTown_PlayersHouse_2F_EventScript_NES::
 	msgbox NewBarkTown_PlayersHouse_2F_Text_NES, MSGBOX_SIGN
 	end

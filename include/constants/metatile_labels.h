@@ -477,6 +477,10 @@
 // gTileset_PewterCity
 #define METATILE_PewterCity_Door  0x2CE
 
+// gTileset_PlayersHouse (New Bark Town player's house; johto layout, primary is 640 metatiles)
+#define METATILE_PlayersHouse_PC_Off  0x288
+#define METATILE_PlayersHouse_PC_On   0x28A
+
 // gTileset_PokemonCenter
 #define METATILE_PokemonCenter_CounterBarrier            0x25D
 #define METATILE_PokemonCenter_Door_CableClub            0x264

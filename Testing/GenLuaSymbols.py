@@ -50,12 +50,13 @@ WANT = [
     # gWindows[sMenu.windowId].window.height IS the drawn frame — AddWindow copies the template
     # verbatim (src/window.c) — so the "snug box" is assertable in RAM, not screenshot-only.
     "gWindows", "gMapHeader", "sGlobalScriptContext",
-    # The three TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
-    # scriptPtr land inside one of these is the only honest "the screen turned off" evidence on
-    # New Bark, whose PC tile has no MB_PC behaviour and so never animates at all (issue #58).
+    # The four TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
+    # scriptPtr land inside one of these proves the shutdown branch independently of the tile,
+    # which is what caught issue #57's mis-dispatch (New Bark ran May's script on a female save).
     "LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC",
     "LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC",
     "EventScript_PalletTown_PlayersHouse_2F_ShutDownPC",
+    "NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 

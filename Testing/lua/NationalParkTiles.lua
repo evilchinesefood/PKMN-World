@@ -10,7 +10,7 @@
 -- What that misread actually cost on this map, computed from the two blobs:
 --
 --   walkable tiles that trigger encounters   207 -> 412
---   surfable tiles                             1 ->   7
+--   surfable tiles                             1 ->   7   (decorative, unreachable — see #54)
 --   MB_SOUTH_ARROW_WARP at (12,49) (13,49)  absent -> present
 --   MB_EAST_ARROW_WARP  at (40,19)          absent -> present
 --

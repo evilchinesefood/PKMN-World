@@ -126,38 +126,93 @@ def load_encounter_behaviors(behavior_names):
 
 
 def load_tileset_attributes():
-    """gTileset_X -> metatile_attributes.bin path, resolved in two hops.
+    """gTileset_X -> (metatile_attributes.bin, metatiles.bin), resolved in two hops.
 
-    headers.h names the attribute SYMBOL each tileset uses; metatiles.h maps that symbol to a file.
-    Both hops are needed: deriving the directory from the symbol name by case-splitting fails
-    silently on the 18 tilesets whose names already contain underscores.
+    headers.h names the SYMBOLS each tileset uses; metatiles.h maps those symbols to files. Both
+    hops are needed: deriving the directory from the symbol name by case-splitting fails silently
+    on the 18 tilesets whose names already contain underscores.
 
-    The INCBIN width in metatiles.h is NOT the attribute width. Every blob is declared `const u16`,
-    but `GetAttributeByMetatileIdAndMapLayoutFrlg` casts to `const u32 *`, so an FRLG layout reads
-    its attributes 4 bytes at a time regardless (gMetatileAttributes_Building_Frlg is 2560 bytes for
-    640 metatiles). The width comes from the LAYOUT, and the guard is a byte-count check.
+    The INCBIN width in metatiles.h is NOT the attribute width - every blob is declared `const u16`
+    even when the data is u32 (gMetatileAttributes_Building_Frlg is 2560 bytes for 640 metatiles).
+    The real width belongs to the BLOB, and both C and this script derive it the same way: attribute
+    bytes divided by metatile count, where metatiles.bin is 16 bytes per metatile.
+
+    Every tileset must declare both symbols through the TILESET_METATILES macro, which is what
+    computes `hasFrlgAttributes`. A hand-written `.metatileAttributes =` would leave that flag FALSE
+    and read a u32 blob as u16 - issue #53 in miniature - so it is a hard failure here.
     """
     symbol_to_file = {}
-    for m in re.finditer(r"const\s+u(?:16|32)\s+(gMetatileAttributes_\w+)\[\]\s*=\s*"
+    for m in re.finditer(r"const\s+u(?:16|32)\s+(gMetatile\w+)\[\]\s*=\s*"
                          r"INCBIN_U(?:16|32)\(\"([^\"]+)\"\)", read("src/data/tilesets/metatiles.h")):
         symbol_to_file[m.group(1)] = m.group(2)
     if not symbol_to_file:
-        die("no gMetatileAttributes_* INCBIN rows parsed from src/data/tilesets/metatiles.h")
+        die("no gMetatile* INCBIN rows parsed from src/data/tilesets/metatiles.h")
 
     out = {}
     headers = read("src/data/tilesets/headers.h")
     for m in re.finditer(r"const\s+struct\s+Tileset\s+(gTileset_\w+)\s*=\s*\{(.*?)\n\};",
                          headers, re.S):
-        attr = re.search(r"\.metatileAttributes\s*=\s*(gMetatileAttributes_\w+)", m.group(2))
-        if not attr:
+        name, body = m.group(1), m.group(2)
+        bare = re.search(r"\.(metatiles|metatileAttributes)\s*=", body)
+        if bare:
+            die(f"{name} sets .{bare.group(1)} directly; use "
+                f"TILESET_METATILES(metatiles, attributes) so hasFrlgAttributes is derived from the "
+                f"blob instead of silently defaulting to the Emerald u16 format (issue #53)")
+        pair = re.search(r"TILESET_METATILES\(\s*(gMetatiles_\w+)\s*,\s*(gMetatileAttributes_\w+)\s*\)",
+                         body)
+        if not pair:
             continue
-        entry = symbol_to_file.get(attr.group(1))
-        if entry is None:
-            die(f"{m.group(1)} uses {attr.group(1)}, which metatiles.h does not define")
-        out[m.group(1)] = entry
+        files = []
+        for sym in pair.groups():
+            entry = symbol_to_file.get(sym)
+            if entry is None:
+                die(f"{name} uses {sym}, which metatiles.h does not define")
+            files.append(entry)
+        out[name] = (files[1], files[0])
     if not out:
         die("no tilesets parsed from src/data/tilesets/headers.h")
     return out
+
+
+def check_attribute_widths(tileset_files):
+    """Every attribute blob must be exactly 2 or 4 bytes per metatile.
+
+    `TILESET_METATILES` decides the format with `(sizeof(attrs) * 16 / sizeof(metatiles)) == 4`.
+    Integer division means anything that is not exactly 4 reads as the Emerald u16 format, so a
+    truncated or padded blob would be mis-declared with no diagnostic at all. This is the guard that
+    makes the compile-time derivation trustworthy, and it is why the layout-vs-blob mismatch of
+    issue #53 can no longer happen: the width now comes from the same place in both languages.
+    """
+    widths, bad = {}, []
+    for name, (attr_rel, mt_rel) in sorted(tileset_files.items()):
+        attr_path, mt_path = os.path.join(ROOT, attr_rel), os.path.join(ROOT, mt_rel)
+        if not os.path.exists(attr_path):
+            die(f"metatile attribute blob missing: {attr_rel} (for {name})")
+        if not os.path.exists(mt_path):
+            die(f"metatiles blob missing: {mt_rel} (for {name}) - the attribute width cannot be "
+                f"derived without it, and C derives it the same way")
+        attr_bytes, mt_bytes = os.path.getsize(attr_path), os.path.getsize(mt_path)
+        if mt_bytes == 0 or mt_bytes % METATILE_SIZE_BYTES:
+            bad.append(f"{name}: {mt_rel} is {mt_bytes} bytes, not a non-zero multiple of "
+                       f"{METATILE_SIZE_BYTES}")
+            continue
+        count = mt_bytes // METATILE_SIZE_BYTES
+        if attr_bytes % count:
+            bad.append(f"{name}: {attr_rel} is {attr_bytes} bytes for {count} metatiles "
+                       f"({attr_bytes / count:.2f} bytes each) - not a whole attribute width")
+            continue
+        width = attr_bytes // count
+        if width not in (2, 4):
+            bad.append(f"{name}: {attr_rel} is {width} bytes per metatile; only 2 (Emerald) and "
+                       f"4 (FRLG) exist, and TILESET_METATILES would declare this one u16")
+            continue
+        widths[name] = width
+    if bad:
+        print(f"FAIL - {len(bad)} tileset(s) with an undeclarable metatile-attribute width:")
+        for line in bad:
+            print(f"  {line}")
+        sys.exit(1)
+    return widths
 
 
 def load_overworld_species():
@@ -202,75 +257,59 @@ def load_disabled_families():
 class Layouts:
     """Blockdata + behaviour lookup for every layout, loaded lazily and cached."""
 
-    def __init__(self, tileset_attrs):
+    def __init__(self, tileset_files, tileset_widths):
         raw = json.load(open(os.path.join(ROOT, "data/layouts/layouts.json"), encoding="utf-8"))
         self.by_id = {l["id"]: l for l in raw["layouts"]}
-        self.tileset_attrs = tileset_attrs
+        self.tileset_files = tileset_files
+        self.tileset_widths = tileset_widths
         self._grids = {}
         self._behaviors = {}
         self._attrs = {}
-        # gTileset_X -> (file, native width, width this tree's layouts read it at). Populated
-        # lazily; a non-empty dict means some layout's behaviours are scrambled.
-        self.width_mismatch = {}
+        # Layouts whose behaviours could not be resolved at all (a tileset this script cannot see,
+        # e.g. layouts.json's one `"secondary_tileset": "0"`). Width mismatches used to land here
+        # too; they cannot happen now that C and this script derive the width from the same blob.
         self.untrusted_layouts = set()
 
-    def _attr_table(self, symbol, width):
-        key = (symbol, width)
-        if key in self._attrs:
-            return self._attrs[key]
-        rel = self.tileset_attrs.get(symbol)
-        if rel is None:
-            die(f"tileset {symbol} has no metatileAttributes entry")
-        path = os.path.join(ROOT, rel)
-        if not os.path.exists(path):
-            die(f"metatile attribute blob missing: {rel} (for {symbol})")
-        blob = open(path, "rb").read()
-        if len(blob) % width:
-            die(f"{rel} is {len(blob)} bytes, not a multiple of the {width}-byte attribute width "
-                f"its layouts read it at - the width or the file is wrong")
-        # One attribute per metatile, and a metatile is 8 tiles x u16. If the count disagrees the
-        # blob's native width is not the width this layout reads it at, so every behaviour it
-        # yields is scrambled. That happens for real in this tree - eleven "johto" layouts borrow
-        # FRLG tilesets whose blobs are natively u32 - so it is recorded in width_mismatch and
-        # reported as a NOTE rather than being fatal. Behaviour is advisory here: none of the rules
-        # in validate() read one.
-        mt_path = os.path.join(os.path.dirname(path), "metatiles.bin")
-        if os.path.exists(mt_path):
-            expect = os.path.getsize(mt_path) // METATILE_SIZE_BYTES
-            if expect and len(blob) // width != expect:
-                self.width_mismatch[symbol] = (rel, len(blob) // expect, width)
+    def _attr_table(self, symbol):
+        """-> ([attribute values], behaviour mask), decoded at the BLOB's own width.
+
+        This mirrors `GetTilesetMetatileAttribute`: `hasFrlgAttributes` is a property of the tileset,
+        so a "johto" layout borrowing a Kanto tileset reads that tileset's u32 attributes as u32,
+        and a johto primary paired with a Kanto secondary uses a different width for each half.
+        """
+        if symbol in self._attrs:
+            return self._attrs[symbol]
+        width = self.tileset_widths.get(symbol)
+        if width is None:
+            die(f"tileset {symbol} has no TILESET_METATILES entry")
+        rel = self.tileset_files[symbol][0]
+        blob = open(os.path.join(ROOT, rel), "rb").read()
         fmt = "I" if width == 4 else "H"
-        self._attrs[key] = list(struct.unpack(f"<{len(blob)//width}{fmt}", blob))
-        return self._attrs[key]
+        mask = METATILE_ATTR_BEHAVIOR_MASK_FRLG if width == 4 else METATILE_ATTR_BEHAVIOR_MASK
+        self._attrs[symbol] = (list(struct.unpack(f"<{len(blob)//width}{fmt}", blob)), mask)
+        return self._attrs[symbol]
 
     def behaviors(self, layout_id):
-        """metatile id -> behaviour, honouring the layout's primary size and attribute width.
-
-        `MapGridGetMetatileAttributeAt` passes `isFrlg` only, so a "johto" layout takes the
-        Emerald u16 extraction path while still using the 640-metatile primary split.
-        """
+        """metatile id -> behaviour, honouring the layout's primary size and each tileset's width."""
         if layout_id in self._behaviors:
             return self._behaviors[layout_id]
         lay = self.by_id[layout_id]
         version = lay.get("layout_version", "emerald")
         num_primary = (NUM_METATILES_IN_PRIMARY_FRLG if version in ("frlg", "johto")
                        else NUM_METATILES_IN_PRIMARY)
-        is_frlg = version == "frlg"
-        mask = METATILE_ATTR_BEHAVIOR_MASK_FRLG if is_frlg else METATILE_ATTR_BEHAVIOR_MASK
-        # The width comes from the layout, not the blob: MapGridGetMetatileAttributeAt passes
-        # mapLayout->isFrlg only, so a "johto" layout takes the Emerald u16 path even when it
-        # borrows an FRLG tileset whose blob is natively u32.
-        width = 4 if is_frlg else 2
-        before = set(self.width_mismatch)
-        prim = self._attr_table(lay["primary_tileset"], width)
-        sec = self._attr_table(lay["secondary_tileset"], width)
-        if (set(self.width_mismatch) - before
-                or lay["primary_tileset"] in self.width_mismatch
-                or lay["secondary_tileset"] in self.width_mismatch):
-            self.untrusted_layouts.add(layout_id)
+        halves = []
+        for role in ("primary_tileset", "secondary_tileset"):
+            symbol = lay[role]
+            if symbol not in self.tileset_widths:
+                self.untrusted_layouts.add(layout_id)
+                halves.append(([], METATILE_ATTR_BEHAVIOR_MASK))
+                continue
+            halves.append(self._attr_table(symbol))
+        (prim, prim_mask), (sec, sec_mask) = halves
         table = {}
         for mid in range(NUM_METATILES_TOTAL):
-            vals, idx = (prim, mid) if mid < num_primary else (sec, mid - num_primary)
+            vals, mask, idx = ((prim, prim_mask, mid) if mid < num_primary
+                               else (sec, sec_mask, mid - num_primary))
             table[mid] = (vals[idx] & mask) if idx < len(vals) else None
         self._behaviors[layout_id] = table
         return table
@@ -533,23 +572,16 @@ def main():
     encounter_behaviors = load_encounter_behaviors(behavior_names)
     have_overworld, species_family = load_overworld_species()
     disabled_families = load_disabled_families()
-    layouts = Layouts(load_tileset_attributes())
+    tileset_files = load_tileset_attributes()
+    tileset_widths = check_attribute_widths(tileset_files)
+    layouts = Layouts(tileset_files, tileset_widths)
     rows = collect_placements(layouts)
 
-    if layouts.width_mismatch:
-        # Pre-existing and out of scope for this script's rules (none of which read a behaviour),
-        # but it must not pass unremarked: on these layouts the ENGINE's metatile behaviours are
-        # scrambled, so grass/water/cave tiles do not behave as drawn. Tracked as issue #53; promote
-        # this to a hard failure once that is fixed.
-        print("NOTE - metatile-attribute width mismatch (behaviours untrusted, see issue #53):",
-              file=sys.stderr)
-        for sym, (rel, native, used) in sorted(layouts.width_mismatch.items()):
-            print(f"  {sym} ({rel}) is natively u{native * 8} but read at u{used * 8}",
-                  file=sys.stderr)
-        # Only layouts carrying overworld Pokemon get their attribute tables loaded at all, so this
-        # is the subset this run touched, not the whole set. #53 has the full eleven.
-        print(f"  affects (of the layouts scanned here): "
-              f"{', '.join(sorted(layouts.untrusted_layouts))}", file=sys.stderr)
+    if layouts.untrusted_layouts:
+        print("FAIL - metatile behaviours could not be resolved for "
+              f"{len(layouts.untrusted_layouts)} layout(s): "
+              f"{', '.join(sorted(layouts.untrusted_layouts))}")
+        return 1
 
     if "--report" in sys.argv:
         report(rows, encounter_behaviors, behavior_names)
@@ -566,6 +598,12 @@ def main():
     maps = len({r["map"] for r in rows})
     print(f"OK - {len(rows)} overworld Pokemon across {maps} maps: real species graphics, "
           f"in bounds, reachable, elevation matches the tile, indoor ones scripted, none stacked.")
+    # Print the census rather than just "widths ok": a count is the only thing that distinguishes a
+    # real pass from a parse that found nothing, and TILESET_METATILES makes these the widths the
+    # ROM will actually read at.
+    u32 = sum(1 for w in tileset_widths.values() if w == 4)
+    print(f"OK - {len(tileset_widths)} tilesets declare a derivable attribute width "
+          f"({u32} FRLG u32, {len(tileset_widths) - u32} Emerald u16), all via TILESET_METATILES.")
     return 0
 
 

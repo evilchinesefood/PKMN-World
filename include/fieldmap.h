@@ -40,7 +40,7 @@ void GetCameraCoords(u16 *x, u16 *y);
 u8 MapGridGetCollisionAt(int x, int y);
 enum Connection GetMapBorderIdAt(int x, int y);
 bool32 CanCameraMoveInDirection(enum Direction direction);
-u32 GetAttributeByMetatileIdAndMapLayout(u16 metatile, u8 attributeType, bool32 isFrlg);
+u32 GetAttributeByMetatileIdAndMapLayout(u16 metatile, u8 attributeType);
 void GetCameraFocusCoords(u16 *x, u16 *y);
 u32 ExtractMetatileAttribute(u32 attributes, u8 attributeType, bool32 isFrlg);
 u32 MapGridGetMetatileAttributeAt(s16 x, s16 y, u8 attributeType);

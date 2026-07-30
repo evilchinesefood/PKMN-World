@@ -454,7 +454,7 @@ u32 MapGridGetMetatileIdAt(int x, int y)
 u32 MapGridGetMetatileAttributeAt(s16 x, s16 y, u8 attributeType)
 {
     u16 metatileId = MapGridGetMetatileIdAt(x, y);
-    return GetAttributeByMetatileIdAndMapLayout(metatileId, attributeType, gMapHeader.mapLayout->isFrlg);
+    return GetAttributeByMetatileIdAndMapLayout(metatileId, attributeType);
 }
 
 u32 MapGridGetMetatileBehaviorAt(int x, int y)
@@ -500,52 +500,28 @@ u32 ExtractMetatileAttribute(u32 attributes, u8 attributeType, bool32 isFrlg)
     return (attributes & sMetatileAttrMasksEmerald[attributeType]) >> sMetatileAttrShiftsEmerald[attributeType];
 }
 
-static u32 GetAttributeByMetatileIdAndMapLayoutFrlg(u16 metatile, u8 attributeType)
+// The attribute width follows the TILESET, not the layout. A "johto" layout that borrows a Kanto
+// tileset still has to read that tileset's u32 attributes as u32, and a johto primary paired with a
+// Kanto secondary needs a different width for each half.
+static u32 GetTilesetMetatileAttribute(const struct Tileset *tileset, u16 metatile, u8 attributeType)
 {
-    u32 attribute;
-    if (metatile < GetNumMetatilesInPrimary(gMapHeader.mapLayout))
-    {
-        const u32 *attributes = (const u32*)gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-        attribute = attributes[metatile];
-    }
-    else if (metatile < NUM_METATILES_TOTAL)
-    {
-        const u32 *attributes = (const u32*) gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-        metatile -= GetNumMetatilesInPrimary(gMapHeader.mapLayout);
-        attribute = attributes[metatile];
-    }
-    else
-    {
-        return MB_INVALID;
-    }
+    if (tileset->hasFrlgAttributes)
+        return ExtractMetatileAttribute(((const u32 *)tileset->metatileAttributes)[metatile], attributeType, TRUE);
 
-    return ExtractMetatileAttribute(attribute, attributeType, TRUE);
+    return ExtractMetatileAttribute(tileset->metatileAttributes[metatile], attributeType, FALSE);
 }
 
-u32 GetAttributeByMetatileIdAndMapLayout(u16 metatile, u8 attributeType, bool32 isFrlg)
+u32 GetAttributeByMetatileIdAndMapLayout(u16 metatile, u8 attributeType)
 {
-    u32 attribute;
+    u32 numMetatilesInPrimary = GetNumMetatilesInPrimary(gMapHeader.mapLayout);
 
-    if (isFrlg)
-        return GetAttributeByMetatileIdAndMapLayoutFrlg(metatile, attributeType);
+    if (metatile < numMetatilesInPrimary)
+        return GetTilesetMetatileAttribute(gMapHeader.mapLayout->primaryTileset, metatile, attributeType);
 
-    if (metatile < GetNumMetatilesInPrimary(gMapHeader.mapLayout))
-    {
-        const u16 *attributes = (const u16*)gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-        attribute = attributes[metatile];
-    }
-    else if (metatile < NUM_METATILES_TOTAL)
-    {
-        const u16 *attributes = (const u16*)gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-        metatile -= GetNumMetatilesInPrimary(gMapHeader.mapLayout);
-        attribute = attributes[metatile];
-    }
-    else
-    {
-        return MB_INVALID;
-    }
+    if (metatile < NUM_METATILES_TOTAL)
+        return GetTilesetMetatileAttribute(gMapHeader.mapLayout->secondaryTileset, metatile - numMetatilesInPrimary, attributeType);
 
-    return ExtractMetatileAttribute(attribute, attributeType, FALSE);
+    return MB_INVALID;
 }
 
 void SaveMapView(void)

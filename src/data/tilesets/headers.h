@@ -7,8 +7,7 @@ const struct Tileset gTileset_SecretBase =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_SecretBase,
     .palettes = gTilesetPalettes_SecretBase,
-    .metatiles = gMetatiles_SecretBasePrimary,
-    .metatileAttributes = gMetatileAttributes_SecretBasePrimary,
+    TILESET_METATILES(gMetatiles_SecretBasePrimary, gMetatileAttributes_SecretBasePrimary),
     .callback = NULL,
 };
 
@@ -18,8 +17,7 @@ const struct Tileset gTileset_SecretBaseRedCave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SecretBaseRedCave,
     .palettes = gTilesetPalettes_SecretBaseRedCave,
-    .metatiles = gMetatiles_SecretBaseSecondary,
-    .metatileAttributes = gMetatileAttributes_SecretBaseSecondary,
+    TILESET_METATILES(gMetatiles_SecretBaseSecondary, gMetatileAttributes_SecretBaseSecondary),
     .callback = NULL,
 };
 
@@ -34,8 +32,7 @@ const struct Tileset gTileset_General =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_General,
     .palettes = gTilesetPalettes_General,
-    .metatiles = gMetatiles_General,
-    .metatileAttributes = gMetatileAttributes_General,
+    TILESET_METATILES(gMetatiles_General, gMetatileAttributes_General),
     .callback = InitTilesetAnim_General,
 };
 
@@ -45,8 +42,7 @@ const struct Tileset gTileset_Petalburg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Petalburg,
     .palettes = gTilesetPalettes_Petalburg,
-    .metatiles = gMetatiles_Petalburg,
-    .metatileAttributes = gMetatileAttributes_Petalburg,
+    TILESET_METATILES(gMetatiles_Petalburg, gMetatileAttributes_Petalburg),
     .callback = InitTilesetAnim_Petalburg,
 };
 
@@ -56,8 +52,7 @@ const struct Tileset gTileset_Rustboro =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Rustboro,
     .palettes = gTilesetPalettes_Rustboro,
-    .metatiles = gMetatiles_Rustboro,
-    .metatileAttributes = gMetatileAttributes_Rustboro,
+    TILESET_METATILES(gMetatiles_Rustboro, gMetatileAttributes_Rustboro),
     .callback = InitTilesetAnim_Rustboro,
 };
 
@@ -67,8 +62,7 @@ const struct Tileset gTileset_Dewford =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Dewford,
     .palettes = gTilesetPalettes_Dewford,
-    .metatiles = gMetatiles_Dewford,
-    .metatileAttributes = gMetatileAttributes_Dewford,
+    TILESET_METATILES(gMetatiles_Dewford, gMetatileAttributes_Dewford),
     .callback = InitTilesetAnim_Dewford,
 };
 
@@ -78,8 +72,7 @@ const struct Tileset gTileset_Slateport =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Slateport,
     .palettes = gTilesetPalettes_Slateport,
-    .metatiles = gMetatiles_Slateport,
-    .metatileAttributes = gMetatileAttributes_Slateport,
+    TILESET_METATILES(gMetatiles_Slateport, gMetatileAttributes_Slateport),
     .callback = InitTilesetAnim_Slateport,
 };
 
@@ -89,8 +82,7 @@ const struct Tileset gTileset_Mauville =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Mauville,
     .palettes = gTilesetPalettes_Mauville,
-    .metatiles = gMetatiles_Mauville,
-    .metatileAttributes = gMetatileAttributes_Mauville,
+    TILESET_METATILES(gMetatiles_Mauville, gMetatileAttributes_Mauville),
     .callback = InitTilesetAnim_Mauville,
 };
 
@@ -100,8 +92,7 @@ const struct Tileset gTileset_Lavaridge =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Lavaridge,
     .palettes = gTilesetPalettes_Lavaridge,
-    .metatiles = gMetatiles_Lavaridge,
-    .metatileAttributes = gMetatileAttributes_Lavaridge,
+    TILESET_METATILES(gMetatiles_Lavaridge, gMetatileAttributes_Lavaridge),
     .callback = InitTilesetAnim_Lavaridge,
 };
 
@@ -111,8 +102,7 @@ const struct Tileset gTileset_Fallarbor =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Fallarbor,
     .palettes = gTilesetPalettes_Fallarbor,
-    .metatiles = gMetatiles_Fallarbor,
-    .metatileAttributes = gMetatileAttributes_Fallarbor,
+    TILESET_METATILES(gMetatiles_Fallarbor, gMetatileAttributes_Fallarbor),
     .callback = InitTilesetAnim_Fallarbor,
 };
 
@@ -122,8 +112,7 @@ const struct Tileset gTileset_Fortree =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Fortree,
     .palettes = gTilesetPalettes_Fortree,
-    .metatiles = gMetatiles_Fortree,
-    .metatileAttributes = gMetatileAttributes_Fortree,
+    TILESET_METATILES(gMetatiles_Fortree, gMetatileAttributes_Fortree),
     .callback = InitTilesetAnim_Fortree,
 };
 
@@ -133,8 +122,7 @@ const struct Tileset gTileset_Lilycove =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Lilycove,
     .palettes = gTilesetPalettes_Lilycove,
-    .metatiles = gMetatiles_Lilycove,
-    .metatileAttributes = gMetatileAttributes_Lilycove,
+    TILESET_METATILES(gMetatiles_Lilycove, gMetatileAttributes_Lilycove),
     .callback = InitTilesetAnim_Lilycove,
 };
 
@@ -144,8 +132,7 @@ const struct Tileset gTileset_Mossdeep =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Mossdeep,
     .palettes = gTilesetPalettes_Mossdeep,
-    .metatiles = gMetatiles_Mossdeep,
-    .metatileAttributes = gMetatileAttributes_Mossdeep,
+    TILESET_METATILES(gMetatiles_Mossdeep, gMetatileAttributes_Mossdeep),
     .callback = InitTilesetAnim_Mossdeep,
 };
 
@@ -155,8 +142,7 @@ const struct Tileset gTileset_EverGrande =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_EverGrande,
     .palettes = gTilesetPalettes_EverGrande,
-    .metatiles = gMetatiles_EverGrande,
-    .metatileAttributes = gMetatileAttributes_EverGrande,
+    TILESET_METATILES(gMetatiles_EverGrande, gMetatileAttributes_EverGrande),
     .callback = InitTilesetAnim_EverGrande,
 };
 
@@ -166,8 +152,7 @@ const struct Tileset gTileset_Pacifidlog =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Pacifidlog,
     .palettes = gTilesetPalettes_Pacifidlog,
-    .metatiles = gMetatiles_Pacifidlog,
-    .metatileAttributes = gMetatileAttributes_Pacifidlog,
+    TILESET_METATILES(gMetatiles_Pacifidlog, gMetatileAttributes_Pacifidlog),
     .callback = InitTilesetAnim_Pacifidlog,
 };
 
@@ -177,8 +162,7 @@ const struct Tileset gTileset_Sootopolis =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Sootopolis,
     .palettes = gTilesetPalettes_Sootopolis,
-    .metatiles = gMetatiles_Sootopolis,
-    .metatileAttributes = gMetatileAttributes_Sootopolis,
+    TILESET_METATILES(gMetatiles_Sootopolis, gMetatileAttributes_Sootopolis),
     .callback = InitTilesetAnim_Sootopolis,
 };
 
@@ -188,8 +172,7 @@ const struct Tileset gTileset_BattleFrontierOutsideWest =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleFrontierOutsideWest,
     .palettes = gTilesetPalettes_BattleFrontierOutsideWest,
-    .metatiles = gMetatiles_BattleFrontierOutsideWest,
-    .metatileAttributes = gMetatileAttributes_BattleFrontierOutsideWest,
+    TILESET_METATILES(gMetatiles_BattleFrontierOutsideWest, gMetatileAttributes_BattleFrontierOutsideWest),
     .callback = InitTilesetAnim_BattleFrontierOutsideWest,
 };
 
@@ -199,8 +182,7 @@ const struct Tileset gTileset_BattleFrontierOutsideEast =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleFrontierOutsideEast,
     .palettes = gTilesetPalettes_BattleFrontierOutsideEast,
-    .metatiles = gMetatiles_BattleFrontierOutsideEast,
-    .metatileAttributes = gMetatileAttributes_BattleFrontierOutsideEast,
+    TILESET_METATILES(gMetatiles_BattleFrontierOutsideEast, gMetatileAttributes_BattleFrontierOutsideEast),
     .callback = InitTilesetAnim_BattleFrontierOutsideEast,
 };
 
@@ -210,8 +192,7 @@ const struct Tileset gTileset_Building =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_InsideBuilding,
     .palettes = gTilesetPalettes_InsideBuilding,
-    .metatiles = gMetatiles_InsideBuilding,
-    .metatileAttributes = gMetatileAttributes_InsideBuilding,
+    TILESET_METATILES(gMetatiles_InsideBuilding, gMetatileAttributes_InsideBuilding),
     .callback = InitTilesetAnim_Building,
 };
 
@@ -221,8 +202,7 @@ const struct Tileset gTileset_Shop =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Shop,
     .palettes = gTilesetPalettes_Shop,
-    .metatiles = gMetatiles_Shop,
-    .metatileAttributes = gMetatileAttributes_Shop,
+    TILESET_METATILES(gMetatiles_Shop, gMetatileAttributes_Shop),
     .callback = NULL,
 };
 
@@ -232,8 +212,7 @@ const struct Tileset gTileset_PokemonCenter =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonCenter,
     .palettes = gTilesetPalettes_PokemonCenter,
-    .metatiles = gMetatiles_PokemonCenter,
-    .metatileAttributes = gMetatileAttributes_PokemonCenter,
+    TILESET_METATILES(gMetatiles_PokemonCenter, gMetatileAttributes_PokemonCenter),
     .callback = NULL,
 };
 
@@ -243,8 +222,7 @@ const struct Tileset gTileset_Cave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cave,
     .palettes = gTilesetPalettes_Cave,
-    .metatiles = gMetatiles_Cave,
-    .metatileAttributes = gMetatileAttributes_Cave,
+    TILESET_METATILES(gMetatiles_Cave, gMetatileAttributes_Cave),
     .callback = InitTilesetAnim_Cave,
 };
 
@@ -254,8 +232,7 @@ const struct Tileset gTileset_PokemonSchool =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonSchool,
     .palettes = gTilesetPalettes_PokemonSchool,
-    .metatiles = gMetatiles_PokemonSchool,
-    .metatileAttributes = gMetatileAttributes_PokemonSchool,
+    TILESET_METATILES(gMetatiles_PokemonSchool, gMetatileAttributes_PokemonSchool),
     .callback = NULL,
 };
 
@@ -265,8 +242,7 @@ const struct Tileset gTileset_PokemonFanClub =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonFanClub,
     .palettes = gTilesetPalettes_PokemonFanClub,
-    .metatiles = gMetatiles_PokemonFanClub,
-    .metatileAttributes = gMetatileAttributes_PokemonFanClub,
+    TILESET_METATILES(gMetatiles_PokemonFanClub, gMetatileAttributes_PokemonFanClub),
     .callback = NULL,
 };
 
@@ -276,8 +252,7 @@ const struct Tileset gTileset_Unused1 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Unused1,
     .palettes = gTilesetPalettes_Unused1,
-    .metatiles = gMetatiles_Unused1,
-    .metatileAttributes = gMetatileAttributes_Unused1,
+    TILESET_METATILES(gMetatiles_Unused1, gMetatileAttributes_Unused1),
     .callback = NULL,
 };
 
@@ -287,8 +262,7 @@ const struct Tileset gTileset_MeteorFalls =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MeteorFalls,
     .palettes = gTilesetPalettes_MeteorFalls,
-    .metatiles = gMetatiles_MeteorFalls,
-    .metatileAttributes = gMetatileAttributes_MeteorFalls,
+    TILESET_METATILES(gMetatiles_MeteorFalls, gMetatileAttributes_MeteorFalls),
     .callback = NULL,
 };
 
@@ -298,8 +272,7 @@ const struct Tileset gTileset_OceanicMuseum =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_OceanicMuseum,
     .palettes = gTilesetPalettes_OceanicMuseum,
-    .metatiles = gMetatiles_OceanicMuseum,
-    .metatileAttributes = gMetatileAttributes_OceanicMuseum,
+    TILESET_METATILES(gMetatiles_OceanicMuseum, gMetatileAttributes_OceanicMuseum),
     .callback = NULL,
 };
 
@@ -309,8 +282,7 @@ const struct Tileset gTileset_CableClub =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CableClub,
     .palettes = gTilesetPalettes_CableClub,
-    .metatiles = gMetatiles_CableClub,
-    .metatileAttributes = gMetatileAttributes_CableClub,
+    TILESET_METATILES(gMetatiles_CableClub, gMetatileAttributes_CableClub),
     .callback = NULL,
 };
 
@@ -320,8 +292,7 @@ const struct Tileset gTileset_SeashoreHouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SeashoreHouse,
     .palettes = gTilesetPalettes_SeashoreHouse,
-    .metatiles = gMetatiles_SeashoreHouse,
-    .metatileAttributes = gMetatileAttributes_SeashoreHouse,
+    TILESET_METATILES(gMetatiles_SeashoreHouse, gMetatileAttributes_SeashoreHouse),
     .callback = NULL,
 };
 
@@ -331,8 +302,7 @@ const struct Tileset gTileset_PrettyPetalFlowerShop =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PrettyPetalFlowerShop,
     .palettes = gTilesetPalettes_PrettyPetalFlowerShop,
-    .metatiles = gMetatiles_PrettyPetalFlowerShop,
-    .metatileAttributes = gMetatileAttributes_PrettyPetalFlowerShop,
+    TILESET_METATILES(gMetatiles_PrettyPetalFlowerShop, gMetatileAttributes_PrettyPetalFlowerShop),
     .callback = NULL,
 };
 
@@ -342,8 +312,7 @@ const struct Tileset gTileset_PokemonDayCare =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonDayCare,
     .palettes = gTilesetPalettes_PokemonDayCare,
-    .metatiles = gMetatiles_PokemonDayCare,
-    .metatileAttributes = gMetatileAttributes_PokemonDayCare,
+    TILESET_METATILES(gMetatiles_PokemonDayCare, gMetatileAttributes_PokemonDayCare),
     .callback = NULL,
 };
 
@@ -353,8 +322,7 @@ const struct Tileset gTileset_Facility =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Facility,
     .palettes = gTilesetPalettes_Facility,
-    .metatiles = gMetatiles_Facility,
-    .metatileAttributes = gMetatileAttributes_Facility,
+    TILESET_METATILES(gMetatiles_Facility, gMetatileAttributes_Facility),
     .callback = NULL,
 };
 
@@ -364,8 +332,7 @@ const struct Tileset gTileset_BikeShop =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BikeShop,
     .palettes = gTilesetPalettes_BikeShop,
-    .metatiles = gMetatiles_BikeShop,
-    .metatileAttributes = gMetatileAttributes_BikeShop,
+    TILESET_METATILES(gMetatiles_BikeShop, gMetatileAttributes_BikeShop),
     .callback = InitTilesetAnim_BikeShop,
 };
 
@@ -375,8 +342,7 @@ const struct Tileset gTileset_RusturfTunnel =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RusturfTunnel,
     .palettes = gTilesetPalettes_RusturfTunnel,
-    .metatiles = gMetatiles_RusturfTunnel,
-    .metatileAttributes = gMetatileAttributes_RusturfTunnel,
+    TILESET_METATILES(gMetatiles_RusturfTunnel, gMetatileAttributes_RusturfTunnel),
     .callback = NULL,
 };
 
@@ -386,8 +352,7 @@ const struct Tileset gTileset_SecretBaseBrownCave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SecretBaseBrownCave,
     .palettes = gTilesetPalettes_SecretBaseBrownCave,
-    .metatiles = gMetatiles_SecretBaseSecondary,
-    .metatileAttributes = gMetatileAttributes_SecretBaseSecondary,
+    TILESET_METATILES(gMetatiles_SecretBaseSecondary, gMetatileAttributes_SecretBaseSecondary),
     .callback = NULL,
 };
 
@@ -397,8 +362,7 @@ const struct Tileset gTileset_SecretBaseTree =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SecretBaseTree,
     .palettes = gTilesetPalettes_SecretBaseTree,
-    .metatiles = gMetatiles_SecretBaseSecondary,
-    .metatileAttributes = gMetatileAttributes_SecretBaseSecondary,
+    TILESET_METATILES(gMetatiles_SecretBaseSecondary, gMetatileAttributes_SecretBaseSecondary),
     .callback = NULL,
 };
 
@@ -408,8 +372,7 @@ const struct Tileset gTileset_SecretBaseShrub =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SecretBaseShrub,
     .palettes = gTilesetPalettes_SecretBaseShrub,
-    .metatiles = gMetatiles_SecretBaseSecondary,
-    .metatileAttributes = gMetatileAttributes_SecretBaseSecondary,
+    TILESET_METATILES(gMetatiles_SecretBaseSecondary, gMetatileAttributes_SecretBaseSecondary),
     .callback = NULL,
 };
 
@@ -419,8 +382,7 @@ const struct Tileset gTileset_SecretBaseBlueCave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SecretBaseBlueCave,
     .palettes = gTilesetPalettes_SecretBaseBlueCave,
-    .metatiles = gMetatiles_SecretBaseSecondary,
-    .metatileAttributes = gMetatileAttributes_SecretBaseSecondary,
+    TILESET_METATILES(gMetatiles_SecretBaseSecondary, gMetatileAttributes_SecretBaseSecondary),
     .callback = NULL,
 };
 
@@ -430,8 +392,7 @@ const struct Tileset gTileset_SecretBaseYellowCave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SecretBaseYellowCave,
     .palettes = gTilesetPalettes_SecretBaseYellowCave,
-    .metatiles = gMetatiles_SecretBaseSecondary,
-    .metatileAttributes = gMetatileAttributes_SecretBaseSecondary,
+    TILESET_METATILES(gMetatiles_SecretBaseSecondary, gMetatileAttributes_SecretBaseSecondary),
     .callback = NULL,
 };
 
@@ -441,8 +402,7 @@ const struct Tileset gTileset_InsideOfTruck =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_InsideOfTruck,
     .palettes = gTilesetPalettes_InsideOfTruck,
-    .metatiles = gMetatiles_InsideOfTruck,
-    .metatileAttributes = gMetatileAttributes_InsideOfTruck,
+    TILESET_METATILES(gMetatiles_InsideOfTruck, gMetatileAttributes_InsideOfTruck),
     .callback = NULL,
 };
 
@@ -452,8 +412,7 @@ const struct Tileset gTileset_Unused2 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Unused2,
     .palettes = gTilesetPalettes_Unused2,
-    .metatiles = gMetatiles_Unused2,
-    .metatileAttributes = gMetatileAttributes_Unused2,
+    TILESET_METATILES(gMetatiles_Unused2, gMetatileAttributes_Unused2),
     .callback = NULL,
 };
 
@@ -463,8 +422,7 @@ const struct Tileset gTileset_Contest =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Contest,
     .palettes = gTilesetPalettes_Contest,
-    .metatiles = gMetatiles_Contest,
-    .metatileAttributes = gMetatileAttributes_Contest,
+    TILESET_METATILES(gMetatiles_Contest, gMetatileAttributes_Contest),
     .callback = NULL,
 };
 
@@ -474,8 +432,7 @@ const struct Tileset gTileset_LilycoveMuseum =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_LilycoveMuseum,
     .palettes = gTilesetPalettes_LilycoveMuseum,
-    .metatiles = gMetatiles_LilycoveMuseum,
-    .metatileAttributes = gMetatileAttributes_LilycoveMuseum,
+    TILESET_METATILES(gMetatiles_LilycoveMuseum, gMetatileAttributes_LilycoveMuseum),
     .callback = NULL,
 };
 
@@ -485,8 +442,7 @@ const struct Tileset gTileset_BrendansMaysHouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BrendansMaysHouse,
     .palettes = gTilesetPalettes_BrendansMaysHouse,
-    .metatiles = gMetatiles_BrendansMaysHouse,
-    .metatileAttributes = gMetatileAttributes_BrendansMaysHouse,
+    TILESET_METATILES(gMetatiles_BrendansMaysHouse, gMetatileAttributes_BrendansMaysHouse),
     .callback = NULL,
 };
 
@@ -496,8 +452,7 @@ const struct Tileset gTileset_Lab =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Lab,
     .palettes = gTilesetPalettes_Lab,
-    .metatiles = gMetatiles_Lab,
-    .metatileAttributes = gMetatileAttributes_Lab,
+    TILESET_METATILES(gMetatiles_Lab, gMetatileAttributes_Lab),
     .callback = NULL,
 };
 
@@ -507,8 +462,7 @@ const struct Tileset gTileset_Underwater =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Underwater,
     .palettes = gTilesetPalettes_Underwater,
-    .metatiles = gMetatiles_Underwater,
-    .metatileAttributes = gMetatileAttributes_Underwater,
+    TILESET_METATILES(gMetatiles_Underwater, gMetatileAttributes_Underwater),
     .callback = InitTilesetAnim_Underwater,
 };
 
@@ -518,8 +472,7 @@ const struct Tileset gTileset_PetalburgGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PetalburgGym,
     .palettes = gTilesetPalettes_PetalburgGym,
-    .metatiles = gMetatiles_PetalburgGym,
-    .metatileAttributes = gMetatileAttributes_PetalburgGym,
+    TILESET_METATILES(gMetatiles_PetalburgGym, gMetatileAttributes_PetalburgGym),
     .callback = NULL,
 };
 
@@ -529,8 +482,7 @@ const struct Tileset gTileset_SootopolisGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SootopolisGym,
     .palettes = gTilesetPalettes_SootopolisGym,
-    .metatiles = gMetatiles_SootopolisGym,
-    .metatileAttributes = gMetatileAttributes_SootopolisGym,
+    TILESET_METATILES(gMetatiles_SootopolisGym, gMetatileAttributes_SootopolisGym),
     .callback = InitTilesetAnim_SootopolisGym,
 };
 
@@ -540,8 +492,7 @@ const struct Tileset gTileset_GenericBuilding =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GenericBuilding,
     .palettes = gTilesetPalettes_GenericBuilding,
-    .metatiles = gMetatiles_GenericBuilding,
-    .metatileAttributes = gMetatileAttributes_GenericBuilding,
+    TILESET_METATILES(gMetatiles_GenericBuilding, gMetatileAttributes_GenericBuilding),
     .callback = NULL,
 };
 
@@ -551,8 +502,7 @@ const struct Tileset gTileset_MauvilleGameCorner =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MauvilleGameCorner,
     .palettes = gTilesetPalettes_MauvilleGameCorner,
-    .metatiles = gMetatiles_MauvilleGameCorner,
-    .metatileAttributes = gMetatileAttributes_MauvilleGameCorner,
+    TILESET_METATILES(gMetatiles_MauvilleGameCorner, gMetatileAttributes_MauvilleGameCorner),
     .callback = NULL,
 };
 
@@ -562,8 +512,7 @@ const struct Tileset gTileset_RustboroGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RustboroGym,
     .palettes = gTilesetPalettes_RustboroGym,
-    .metatiles = gMetatiles_RustboroGym,
-    .metatileAttributes = gMetatileAttributes_RustboroGym,
+    TILESET_METATILES(gMetatiles_RustboroGym, gMetatileAttributes_RustboroGym),
     .callback = NULL,
 };
 
@@ -573,8 +522,7 @@ const struct Tileset gTileset_DewfordGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_DewfordGym,
     .palettes = gTilesetPalettes_DewfordGym,
-    .metatiles = gMetatiles_DewfordGym,
-    .metatileAttributes = gMetatileAttributes_DewfordGym,
+    TILESET_METATILES(gMetatiles_DewfordGym, gMetatileAttributes_DewfordGym),
     .callback = NULL,
 };
 
@@ -584,8 +532,7 @@ const struct Tileset gTileset_MauvilleGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MauvilleGym,
     .palettes = gTilesetPalettes_MauvilleGym,
-    .metatiles = gMetatiles_MauvilleGym,
-    .metatileAttributes = gMetatileAttributes_MauvilleGym,
+    TILESET_METATILES(gMetatiles_MauvilleGym, gMetatileAttributes_MauvilleGym),
     .callback = InitTilesetAnim_MauvilleGym,
 };
 
@@ -595,8 +542,7 @@ const struct Tileset gTileset_LavaridgeGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_LavaridgeGym,
     .palettes = gTilesetPalettes_LavaridgeGym,
-    .metatiles = gMetatiles_LavaridgeGym,
-    .metatileAttributes = gMetatileAttributes_LavaridgeGym,
+    TILESET_METATILES(gMetatiles_LavaridgeGym, gMetatileAttributes_LavaridgeGym),
     .callback = NULL,
 };
 
@@ -606,8 +552,7 @@ const struct Tileset gTileset_TrickHousePuzzle =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_TrickHousePuzzle,
     .palettes = gTilesetPalettes_TrickHousePuzzle,
-    .metatiles = gMetatiles_TrickHousePuzzle,
-    .metatileAttributes = gMetatileAttributes_TrickHousePuzzle,
+    TILESET_METATILES(gMetatiles_TrickHousePuzzle, gMetatileAttributes_TrickHousePuzzle),
     .callback = NULL,
 };
 
@@ -617,8 +562,7 @@ const struct Tileset gTileset_FortreeGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_FortreeGym,
     .palettes = gTilesetPalettes_FortreeGym,
-    .metatiles = gMetatiles_FortreeGym,
-    .metatileAttributes = gMetatileAttributes_FortreeGym,
+    TILESET_METATILES(gMetatiles_FortreeGym, gMetatileAttributes_FortreeGym),
     .callback = NULL,
 };
 
@@ -628,8 +572,7 @@ const struct Tileset gTileset_MossdeepGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MossdeepGym,
     .palettes = gTilesetPalettes_MossdeepGym,
-    .metatiles = gMetatiles_MossdeepGym,
-    .metatileAttributes = gMetatileAttributes_MossdeepGym,
+    TILESET_METATILES(gMetatiles_MossdeepGym, gMetatileAttributes_MossdeepGym),
     .callback = NULL,
 };
 
@@ -639,8 +582,7 @@ const struct Tileset gTileset_InsideShip =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_InsideShip,
     .palettes = gTilesetPalettes_InsideShip,
-    .metatiles = gMetatiles_InsideShip,
-    .metatileAttributes = gMetatileAttributes_InsideShip,
+    TILESET_METATILES(gMetatiles_InsideShip, gMetatileAttributes_InsideShip),
     .callback = NULL,
 };
 
@@ -650,8 +592,7 @@ const struct Tileset gTileset_EliteFour =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_EliteFour,
     .palettes = gTilesetPalettes_EliteFour,
-    .metatiles = gMetatiles_EliteFour,
-    .metatileAttributes = gMetatileAttributes_EliteFour,
+    TILESET_METATILES(gMetatiles_EliteFour, gMetatileAttributes_EliteFour),
     .callback = InitTilesetAnim_EliteFour,
 };
 
@@ -661,8 +602,7 @@ const struct Tileset gTileset_BattleFrontier =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleFrontier,
     .palettes = gTilesetPalettes_BattleFrontier,
-    .metatiles = gMetatiles_BattleFrontier,
-    .metatileAttributes = gMetatileAttributes_BattleFrontier,
+    TILESET_METATILES(gMetatiles_BattleFrontier, gMetatileAttributes_BattleFrontier),
     .callback = NULL,
 };
 
@@ -672,8 +612,7 @@ const struct Tileset gTileset_BattlePalace =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattlePalace,
     .palettes = gTilesetPalettes_BattlePalace,
-    .metatiles = gMetatiles_BattlePalace,
-    .metatileAttributes = gMetatileAttributes_BattlePalace,
+    TILESET_METATILES(gMetatiles_BattlePalace, gMetatileAttributes_BattlePalace),
     .callback = NULL,
 };
 
@@ -683,8 +622,7 @@ const struct Tileset gTileset_BattleDome =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleDome,
     .palettes = gTilesetPalettes_BattleDome,
-    .metatiles = gMetatiles_BattleDome,
-    .metatileAttributes = gMetatileAttributes_BattleDome,
+    TILESET_METATILES(gMetatiles_BattleDome, gMetatileAttributes_BattleDome),
     .callback = InitTilesetAnim_BattleDome,
 };
 
@@ -694,8 +632,7 @@ const struct Tileset gTileset_BattleFactory =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleFactory,
     .palettes = gTilesetPalettes_BattleFactory,
-    .metatiles = gMetatiles_BattleFactory,
-    .metatileAttributes = gMetatileAttributes_BattleFactory,
+    TILESET_METATILES(gMetatiles_BattleFactory, gMetatileAttributes_BattleFactory),
     .callback = NULL,
 };
 
@@ -705,8 +642,7 @@ const struct Tileset gTileset_BattlePike =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattlePike,
     .palettes = gTilesetPalettes_BattlePike,
-    .metatiles = gMetatiles_BattlePike,
-    .metatileAttributes = gMetatileAttributes_BattlePike,
+    TILESET_METATILES(gMetatiles_BattlePike, gMetatileAttributes_BattlePike),
     .callback = NULL,
 };
 
@@ -716,8 +652,7 @@ const struct Tileset gTileset_BattleArena =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleArena,
     .palettes = gTilesetPalettes_BattleArena,
-    .metatiles = gMetatiles_BattleArena,
-    .metatileAttributes = gMetatileAttributes_BattleArena,
+    TILESET_METATILES(gMetatiles_BattleArena, gMetatileAttributes_BattleArena),
     .callback = NULL,
 };
 
@@ -727,8 +662,7 @@ const struct Tileset gTileset_BattlePyramid =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattlePyramid,
     .palettes = gTilesetPalettes_BattlePyramid,
-    .metatiles = gMetatiles_BattlePyramid,
-    .metatileAttributes = gMetatileAttributes_BattlePyramid,
+    TILESET_METATILES(gMetatiles_BattlePyramid, gMetatileAttributes_BattlePyramid),
     .callback = InitTilesetAnim_BattlePyramid,
 };
 
@@ -738,8 +672,7 @@ const struct Tileset gTileset_MirageTower =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MirageTower,
     .palettes = gTilesetPalettes_MirageTower,
-    .metatiles = gMetatiles_MirageTower,
-    .metatileAttributes = gMetatileAttributes_MirageTower,
+    TILESET_METATILES(gMetatiles_MirageTower, gMetatileAttributes_MirageTower),
     .callback = NULL,
 };
 
@@ -749,8 +682,7 @@ const struct Tileset gTileset_MossdeepGameCorner =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MossdeepGameCorner,
     .palettes = gTilesetPalettes_MossdeepGameCorner,
-    .metatiles = gMetatiles_MossdeepGameCorner,
-    .metatileAttributes = gMetatileAttributes_MossdeepGameCorner,
+    TILESET_METATILES(gMetatiles_MossdeepGameCorner, gMetatileAttributes_MossdeepGameCorner),
     .callback = NULL,
 };
 
@@ -760,8 +692,7 @@ const struct Tileset gTileset_IslandHarbor =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_IslandHarbor,
     .palettes = gTilesetPalettes_IslandHarbor,
-    .metatiles = gMetatiles_IslandHarbor,
-    .metatileAttributes = gMetatileAttributes_IslandHarbor,
+    TILESET_METATILES(gMetatiles_IslandHarbor, gMetatileAttributes_IslandHarbor),
     .callback = NULL,
 };
 
@@ -771,8 +702,7 @@ const struct Tileset gTileset_TrainerHill =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_TrainerHill,
     .palettes = gTilesetPalettes_TrainerHill,
-    .metatiles = gMetatiles_TrainerHill,
-    .metatileAttributes = gMetatileAttributes_TrainerHill,
+    TILESET_METATILES(gMetatiles_TrainerHill, gMetatileAttributes_TrainerHill),
     .callback = NULL,
 };
 
@@ -782,8 +712,7 @@ const struct Tileset gTileset_NavelRock =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_NavelRock,
     .palettes = gTilesetPalettes_NavelRock,
-    .metatiles = gMetatiles_NavelRock,
-    .metatileAttributes = gMetatileAttributes_NavelRock,
+    TILESET_METATILES(gMetatiles_NavelRock, gMetatileAttributes_NavelRock),
     .callback = NULL,
 };
 
@@ -793,8 +722,7 @@ const struct Tileset gTileset_BattleFrontierRankingHall =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleFrontierRankingHall,
     .palettes = gTilesetPalettes_BattleFrontierRankingHall,
-    .metatiles = gMetatiles_BattleFrontierRankingHall,
-    .metatileAttributes = gMetatileAttributes_BattleFrontierRankingHall,
+    TILESET_METATILES(gMetatiles_BattleFrontierRankingHall, gMetatileAttributes_BattleFrontierRankingHall),
     .callback = NULL,
 };
 
@@ -804,8 +732,7 @@ const struct Tileset gTileset_BattleTent =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BattleTent,
     .palettes = gTilesetPalettes_BattleTent,
-    .metatiles = gMetatiles_BattleTent,
-    .metatileAttributes = gMetatileAttributes_BattleTent,
+    TILESET_METATILES(gMetatiles_BattleTent, gMetatileAttributes_BattleTent),
     .callback = NULL,
 };
 
@@ -815,8 +742,7 @@ const struct Tileset gTileset_MysteryEventsHouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MysteryEventsHouse,
     .palettes = gTilesetPalettes_MysteryEventsHouse,
-    .metatiles = gMetatiles_MysteryEventsHouse,
-    .metatileAttributes = gMetatileAttributes_MysteryEventsHouse,
+    TILESET_METATILES(gMetatiles_MysteryEventsHouse, gMetatileAttributes_MysteryEventsHouse),
     .callback = NULL,
 };
 
@@ -826,8 +752,7 @@ const struct Tileset gTileset_UnionRoom =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_UnionRoom,
     .palettes = gTilesetPalettes_UnionRoom,
-    .metatiles = gMetatiles_UnionRoom,
-    .metatileAttributes = gMetatileAttributes_UnionRoom,
+    TILESET_METATILES(gMetatiles_UnionRoom, gMetatileAttributes_UnionRoom),
     .callback = NULL,
 };
 
@@ -842,8 +767,7 @@ const struct Tileset gTileset_BuildingFrlg =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_Building_Frlg,
     .palettes = gTilesetPalettes_Building_Frlg,
-    .metatiles = gMetatiles_Building_Frlg,
-    .metatileAttributes = gMetatileAttributes_Building_Frlg,
+    TILESET_METATILES(gMetatiles_Building_Frlg, gMetatileAttributes_Building_Frlg),
     .callback = NULL,
 };
 
@@ -853,8 +777,7 @@ const struct Tileset gTileset_General_Frlg =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_General_Frlg,
     .palettes = gTilesetPalettes_General_Frlg,
-    .metatiles = gMetatiles_General_Frlg,
-    .metatileAttributes = gMetatileAttributes_General_Frlg,
+    TILESET_METATILES(gMetatiles_General_Frlg, gMetatileAttributes_General_Frlg),
     .callback = InitTilesetAnim_General_Frlg,
 };
 
@@ -864,8 +787,7 @@ const struct Tileset gTileset_PalletTown =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PalletTown,
     .palettes = gTilesetPalettes_PalletTown,
-    .metatiles = gMetatiles_PalletTown,
-    .metatileAttributes = gMetatileAttributes_PalletTown,
+    TILESET_METATILES(gMetatiles_PalletTown, gMetatileAttributes_PalletTown),
     .callback = NULL,
 };
 
@@ -875,8 +797,7 @@ const struct Tileset gTileset_ViridianCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_ViridianCity,
     .palettes = gTilesetPalettes_ViridianCity,
-    .metatiles = gMetatiles_ViridianCity,
-    .metatileAttributes = gMetatileAttributes_ViridianCity,
+    TILESET_METATILES(gMetatiles_ViridianCity, gMetatileAttributes_ViridianCity),
     .callback = NULL,
 };
 
@@ -886,8 +807,7 @@ const struct Tileset gTileset_PewterCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PewterCity,
     .palettes = gTilesetPalettes_PewterCity,
-    .metatiles = gMetatiles_PewterCity,
-    .metatileAttributes = gMetatileAttributes_PewterCity,
+    TILESET_METATILES(gMetatiles_PewterCity, gMetatileAttributes_PewterCity),
     .callback = NULL,
 };
 
@@ -897,8 +817,7 @@ const struct Tileset gTileset_CeruleanCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CeruleanCity,
     .palettes = gTilesetPalettes_CeruleanCity,
-    .metatiles = gMetatiles_CeruleanCity,
-    .metatileAttributes = gMetatileAttributes_CeruleanCity,
+    TILESET_METATILES(gMetatiles_CeruleanCity, gMetatileAttributes_CeruleanCity),
     .callback = NULL,
 };
 
@@ -908,8 +827,7 @@ const struct Tileset gTileset_LavenderTown =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_LavenderTown,
     .palettes = gTilesetPalettes_LavenderTown,
-    .metatiles = gMetatiles_LavenderTown,
-    .metatileAttributes = gMetatileAttributes_LavenderTown,
+    TILESET_METATILES(gMetatiles_LavenderTown, gMetatileAttributes_LavenderTown),
     .callback = NULL,
 };
 
@@ -919,8 +837,7 @@ const struct Tileset gTileset_VermilionCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_VermilionCity,
     .palettes = gTilesetPalettes_VermilionCity,
-    .metatiles = gMetatiles_VermilionCity,
-    .metatileAttributes = gMetatileAttributes_VermilionCity,
+    TILESET_METATILES(gMetatiles_VermilionCity, gMetatileAttributes_VermilionCity),
     .callback = NULL,
 };
 
@@ -930,8 +847,7 @@ const struct Tileset gTileset_CeladonCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CeladonCity,
     .palettes = gTilesetPalettes_CeladonCity,
-    .metatiles = gMetatiles_CeladonCity,
-    .metatileAttributes = gMetatileAttributes_CeladonCity,
+    TILESET_METATILES(gMetatiles_CeladonCity, gMetatileAttributes_CeladonCity),
     .callback = InitTilesetAnim_CeladonCity,
 };
 
@@ -941,8 +857,7 @@ const struct Tileset gTileset_FuchsiaCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_FuchsiaCity,
     .palettes = gTilesetPalettes_FuchsiaCity,
-    .metatiles = gMetatiles_FuchsiaCity,
-    .metatileAttributes = gMetatileAttributes_FuchsiaCity,
+    TILESET_METATILES(gMetatiles_FuchsiaCity, gMetatileAttributes_FuchsiaCity),
     .callback = NULL,
 };
 
@@ -952,8 +867,7 @@ const struct Tileset gTileset_CinnabarIsland =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CinnabarIsland,
     .palettes = gTilesetPalettes_CinnabarIsland,
-    .metatiles = gMetatiles_CinnabarIsland,
-    .metatileAttributes = gMetatileAttributes_CinnabarIsland,
+    TILESET_METATILES(gMetatiles_CinnabarIsland, gMetatileAttributes_CinnabarIsland),
     .callback = NULL,
 };
 
@@ -963,8 +877,7 @@ const struct Tileset gTileset_IndigoPlateau =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_IndigoPlateau,
     .palettes = gTilesetPalettes_IndigoPlateau,
-    .metatiles = gMetatiles_IndigoPlateau,
-    .metatileAttributes = gMetatileAttributes_IndigoPlateau,
+    TILESET_METATILES(gMetatiles_IndigoPlateau, gMetatileAttributes_IndigoPlateau),
     .callback = NULL,
 };
 
@@ -974,8 +887,7 @@ const struct Tileset gTileset_SaffronCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SaffronCity,
     .palettes = gTilesetPalettes_SaffronCity,
-    .metatiles = gMetatiles_SaffronCity,
-    .metatileAttributes = gMetatileAttributes_SaffronCity,
+    TILESET_METATILES(gMetatiles_SaffronCity, gMetatileAttributes_SaffronCity),
     .callback = NULL,
 };
 
@@ -985,8 +897,7 @@ const struct Tileset gTileset_Mart =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Mart,
     .palettes = gTilesetPalettes_Mart,
-    .metatiles = gMetatiles_Mart,
-    .metatileAttributes = gMetatileAttributes_Mart,
+    TILESET_METATILES(gMetatiles_Mart, gMetatileAttributes_Mart),
     .callback = NULL,
 };
 
@@ -996,8 +907,7 @@ const struct Tileset gTileset_PokemonCenterFrlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonCenter_Frlg,
     .palettes = gTilesetPalettes_PokemonCenter_Frlg,
-    .metatiles = gMetatiles_PokemonCenter_Frlg,
-    .metatileAttributes = gMetatileAttributes_PokemonCenter_Frlg,
+    TILESET_METATILES(gMetatiles_PokemonCenter_Frlg, gMetatileAttributes_PokemonCenter_Frlg),
     .callback = NULL,
 };
 
@@ -1007,8 +917,7 @@ const struct Tileset gTileset_Cave_Frlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cave_Frlg,
     .palettes = gTilesetPalettes_Cave_Frlg,
-    .metatiles = gMetatiles_Cave_Frlg,
-    .metatileAttributes = gMetatileAttributes_Cave_Frlg,
+    TILESET_METATILES(gMetatiles_Cave_Frlg, gMetatileAttributes_Cave_Frlg),
     .callback = NULL,
 };
 
@@ -1018,8 +927,7 @@ const struct Tileset gTileset_Museum =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Museum,
     .palettes = gTilesetPalettes_Museum,
-    .metatiles = gMetatiles_Museum,
-    .metatileAttributes = gMetatileAttributes_Museum,
+    TILESET_METATILES(gMetatiles_Museum, gMetatileAttributes_Museum),
     .callback = NULL,
 };
 
@@ -1029,8 +937,7 @@ const struct Tileset gTileset_CableClub_Frlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CableClub_Frlg,
     .palettes = gTilesetPalettes_CableClub_Frlg,
-    .metatiles = gMetatiles_CableClub_Frlg,
-    .metatileAttributes = gMetatileAttributes_CableClub_Frlg,
+    TILESET_METATILES(gMetatiles_CableClub_Frlg, gMetatileAttributes_CableClub_Frlg),
     .callback = NULL,
 };
 
@@ -1040,8 +947,7 @@ const struct Tileset gTileset_BikeShop_Frlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BikeShop_Frlg,
     .palettes = gTilesetPalettes_BikeShop_Frlg,
-    .metatiles = gMetatiles_BikeShop_Frlg,
-    .metatileAttributes = gMetatileAttributes_BikeShop_Frlg,
+    TILESET_METATILES(gMetatiles_BikeShop_Frlg, gMetatileAttributes_BikeShop_Frlg),
     .callback = NULL,
 };
 
@@ -1051,8 +957,7 @@ const struct Tileset gTileset_GenericBuilding1 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GenericBuilding1,
     .palettes = gTilesetPalettes_GenericBuilding1,
-    .metatiles = gMetatiles_GenericBuilding1,
-    .metatileAttributes = gMetatileAttributes_GenericBuilding1,
+    TILESET_METATILES(gMetatiles_GenericBuilding1, gMetatileAttributes_GenericBuilding1),
     .callback = NULL,
 };
 
@@ -1062,8 +967,7 @@ const struct Tileset gTileset_Lab_Frlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Lab_Frlg,
     .palettes = gTilesetPalettes_Lab_Frlg,
-    .metatiles = gMetatiles_Lab_Frlg,
-    .metatileAttributes = gMetatileAttributes_Lab_Frlg,
+    TILESET_METATILES(gMetatiles_Lab_Frlg, gMetatileAttributes_Lab_Frlg),
     .callback = NULL,
 };
 
@@ -1073,8 +977,7 @@ const struct Tileset gTileset_FuchsiaGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_FuchsiaGym,
     .palettes = gTilesetPalettes_FuchsiaGym,
-    .metatiles = gMetatiles_FuchsiaGym,
-    .metatileAttributes = gMetatileAttributes_FuchsiaGym,
+    TILESET_METATILES(gMetatiles_FuchsiaGym, gMetatileAttributes_FuchsiaGym),
     .callback = NULL,
 };
 
@@ -1084,8 +987,7 @@ const struct Tileset gTileset_ViridianGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_ViridianGym,
     .palettes = gTilesetPalettes_ViridianGym,
-    .metatiles = gMetatiles_ViridianGym,
-    .metatileAttributes = gMetatileAttributes_ViridianGym,
+    TILESET_METATILES(gMetatiles_ViridianGym, gMetatileAttributes_ViridianGym),
     .callback = NULL,
 };
 
@@ -1095,8 +997,7 @@ const struct Tileset gTileset_HoennBuilding =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_HoennBuilding,
     .palettes = gTilesetPalettes_HoennBuilding,
-    .metatiles = gMetatiles_HoennBuilding,
-    .metatileAttributes = gMetatileAttributes_HoennBuilding,
+    TILESET_METATILES(gMetatiles_HoennBuilding, gMetatileAttributes_HoennBuilding),
     .callback = NULL,
 };
 
@@ -1106,8 +1007,7 @@ const struct Tileset gTileset_GameCorner =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GameCorner,
     .palettes = gTilesetPalettes_GameCorner,
-    .metatiles = gMetatiles_GameCorner,
-    .metatileAttributes = gMetatileAttributes_GameCorner,
+    TILESET_METATILES(gMetatiles_GameCorner, gMetatileAttributes_GameCorner),
     .callback = NULL,
 };
 
@@ -1117,8 +1017,7 @@ const struct Tileset gTileset_PewterGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PewterGym,
     .palettes = gTilesetPalettes_PewterGym,
-    .metatiles = gMetatiles_PewterGym,
-    .metatileAttributes = gMetatileAttributes_PewterGym,
+    TILESET_METATILES(gMetatiles_PewterGym, gMetatileAttributes_PewterGym),
     .callback = NULL,
 };
 
@@ -1128,8 +1027,7 @@ const struct Tileset gTileset_CeruleanGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CeruleanGym,
     .palettes = gTilesetPalettes_CeruleanGym,
-    .metatiles = gMetatiles_CeruleanGym,
-    .metatileAttributes = gMetatileAttributes_CeruleanGym,
+    TILESET_METATILES(gMetatiles_CeruleanGym, gMetatileAttributes_CeruleanGym),
     .callback = NULL,
 };
 
@@ -1139,8 +1037,7 @@ const struct Tileset gTileset_VermilionGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_VermilionGym,
     .palettes = gTilesetPalettes_VermilionGym,
-    .metatiles = gMetatiles_VermilionGym,
-    .metatileAttributes = gMetatileAttributes_VermilionGym,
+    TILESET_METATILES(gMetatiles_VermilionGym, gMetatileAttributes_VermilionGym),
     .callback = InitTilesetAnim_VermilionGym,
 };
 
@@ -1150,8 +1047,7 @@ const struct Tileset gTileset_CeladonGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CeladonGym,
     .palettes = gTilesetPalettes_CeladonGym,
-    .metatiles = gMetatiles_CeladonGym,
-    .metatileAttributes = gMetatileAttributes_CeladonGym,
+    TILESET_METATILES(gMetatiles_CeladonGym, gMetatileAttributes_CeladonGym),
     .callback = InitTilesetAnim_CeladonGym,
 };
 
@@ -1161,8 +1057,7 @@ const struct Tileset gTileset_SaffronGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SaffronGym,
     .palettes = gTilesetPalettes_SaffronGym,
-    .metatiles = gMetatiles_SaffronGym,
-    .metatileAttributes = gMetatileAttributes_SaffronGym,
+    TILESET_METATILES(gMetatiles_SaffronGym, gMetatileAttributes_SaffronGym),
     .callback = NULL,
 };
 
@@ -1172,8 +1067,7 @@ const struct Tileset gTileset_CinnabarGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CinnabarGym,
     .palettes = gTilesetPalettes_CinnabarGym,
-    .metatiles = gMetatiles_CinnabarGym,
-    .metatileAttributes = gMetatileAttributes_CinnabarGym,
+    TILESET_METATILES(gMetatiles_CinnabarGym, gMetatileAttributes_CinnabarGym),
     .callback = NULL,
 };
 
@@ -1183,8 +1077,7 @@ const struct Tileset gTileset_SSAnne =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SSAnne,
     .palettes = gTilesetPalettes_SSAnne,
-    .metatiles = gMetatiles_SSAnne,
-    .metatileAttributes = gMetatileAttributes_SSAnne,
+    TILESET_METATILES(gMetatiles_SSAnne, gMetatileAttributes_SSAnne),
     .callback = NULL,
 };
 
@@ -1194,8 +1087,7 @@ const struct Tileset gTileset_ViridianForest =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_ViridianForest,
     .palettes = gTilesetPalettes_ViridianForest,
-    .metatiles = gMetatiles_ViridianForest,
-    .metatileAttributes = gMetatileAttributes_ViridianForest,
+    TILESET_METATILES(gMetatiles_ViridianForest, gMetatileAttributes_ViridianForest),
     .callback = NULL,
 };
 
@@ -1205,8 +1097,7 @@ const struct Tileset gTileset_UnusedGatehouse1 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_UnusedGatehouse1,
     .palettes = gTilesetPalettes_UnusedGatehouse1,
-    .metatiles = gMetatiles_UnusedGatehouse1,
-    .metatileAttributes = gMetatileAttributes_UnusedGatehouse1,
+    TILESET_METATILES(gMetatiles_UnusedGatehouse1, gMetatileAttributes_UnusedGatehouse1),
     .callback = NULL,
 };
 
@@ -1216,8 +1107,7 @@ const struct Tileset gTileset_RockTunnel =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RockTunnel,
     .palettes = gTilesetPalettes_RockTunnel,
-    .metatiles = gMetatiles_RockTunnel,
-    .metatileAttributes = gMetatileAttributes_RockTunnel,
+    TILESET_METATILES(gMetatiles_RockTunnel, gMetatileAttributes_RockTunnel),
     .callback = NULL,
 };
 
@@ -1227,8 +1117,7 @@ const struct Tileset gTileset_DiglettsCave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_DiglettsCave,
     .palettes = gTilesetPalettes_DiglettsCave,
-    .metatiles = gMetatiles_DiglettsCave,
-    .metatileAttributes = gMetatileAttributes_DiglettsCave,
+    TILESET_METATILES(gMetatiles_DiglettsCave, gMetatileAttributes_DiglettsCave),
     .callback = NULL,
 };
 
@@ -1238,8 +1127,7 @@ const struct Tileset gTileset_SeafoamIslands =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SeafoamIslands,
     .palettes = gTilesetPalettes_SeafoamIslands,
-    .metatiles = gMetatiles_SeafoamIslands,
-    .metatileAttributes = gMetatileAttributes_SeafoamIslands,
+    TILESET_METATILES(gMetatiles_SeafoamIslands, gMetatileAttributes_SeafoamIslands),
     .callback = NULL,
 };
 
@@ -1249,8 +1137,7 @@ const struct Tileset gTileset_UnusedGatehouse2 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_UnusedGatehouse2,
     .palettes = gTilesetPalettes_UnusedGatehouse2,
-    .metatiles = gMetatiles_UnusedGatehouse2,
-    .metatileAttributes = gMetatileAttributes_UnusedGatehouse2,
+    TILESET_METATILES(gMetatiles_UnusedGatehouse2, gMetatileAttributes_UnusedGatehouse2),
     .callback = NULL,
 };
 
@@ -1260,8 +1147,7 @@ const struct Tileset gTileset_CeruleanCave =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CeruleanCave,
     .palettes = gTilesetPalettes_CeruleanCave,
-    .metatiles = gMetatiles_CeruleanCave,
-    .metatileAttributes = gMetatileAttributes_CeruleanCave,
+    TILESET_METATILES(gMetatiles_CeruleanCave, gMetatileAttributes_CeruleanCave),
     .callback = NULL,
 };
 
@@ -1271,8 +1157,7 @@ const struct Tileset gTileset_DepartmentStore =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_DepartmentStore,
     .palettes = gTilesetPalettes_DepartmentStore,
-    .metatiles = gMetatiles_DepartmentStore,
-    .metatileAttributes = gMetatileAttributes_DepartmentStore,
+    TILESET_METATILES(gMetatiles_DepartmentStore, gMetatileAttributes_DepartmentStore),
     .callback = NULL,
 };
 
@@ -1282,8 +1167,7 @@ const struct Tileset gTileset_GenericBuilding2 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GenericBuilding2,
     .palettes = gTilesetPalettes_GenericBuilding2,
-    .metatiles = gMetatiles_GenericBuilding2,
-    .metatileAttributes = gMetatileAttributes_GenericBuilding2,
+    TILESET_METATILES(gMetatiles_GenericBuilding2, gMetatileAttributes_GenericBuilding2),
     .callback = NULL,
 };
 
@@ -1293,8 +1177,7 @@ const struct Tileset gTileset_PowerPlant =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PowerPlant,
     .palettes = gTilesetPalettes_PowerPlant,
-    .metatiles = gMetatiles_PowerPlant,
-    .metatileAttributes = gMetatileAttributes_PowerPlant,
+    TILESET_METATILES(gMetatiles_PowerPlant, gMetatileAttributes_PowerPlant),
     .callback = NULL,
 };
 
@@ -1304,8 +1187,7 @@ const struct Tileset gTileset_SeaCottage =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SeaCottage,
     .palettes = gTilesetPalettes_SeaCottage,
-    .metatiles = gMetatiles_SeaCottage,
-    .metatileAttributes = gMetatileAttributes_SeaCottage,
+    TILESET_METATILES(gMetatiles_SeaCottage, gMetatileAttributes_SeaCottage),
     .callback = NULL,
 };
 
@@ -1315,8 +1197,7 @@ const struct Tileset gTileset_SilphCo =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Condominiums,
     .palettes = gTilesetPalettes_Condominiums,
-    .metatiles = gMetatiles_SilphCo,
-    .metatileAttributes = gMetatileAttributes_SilphCo,
+    TILESET_METATILES(gMetatiles_SilphCo, gMetatileAttributes_SilphCo),
     .callback = InitTilesetAnim_SilphCo,
 };
 
@@ -1326,8 +1207,7 @@ const struct Tileset gTileset_UndergroundPath =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_UndergroundPath,
     .palettes = gTilesetPalettes_UndergroundPath,
-    .metatiles = gMetatiles_UndergroundPath,
-    .metatileAttributes = gMetatileAttributes_UndergroundPath,
+    TILESET_METATILES(gMetatiles_UndergroundPath, gMetatileAttributes_UndergroundPath),
     .callback = NULL,
 };
 
@@ -1337,8 +1217,7 @@ const struct Tileset gTileset_PokemonTower =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonTower,
     .palettes = gTilesetPalettes_PokemonTower,
-    .metatiles = gMetatiles_PokemonTower,
-    .metatileAttributes = gMetatileAttributes_PokemonTower,
+    TILESET_METATILES(gMetatiles_PokemonTower, gMetatileAttributes_PokemonTower),
     .callback = NULL,
 };
 
@@ -1348,8 +1227,7 @@ const struct Tileset gTileset_SafariZoneBuilding =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SafariZoneBuilding,
     .palettes = gTilesetPalettes_SafariZoneBuilding,
-    .metatiles = gMetatiles_SafariZoneBuilding,
-    .metatileAttributes = gMetatileAttributes_SafariZoneBuilding,
+    TILESET_METATILES(gMetatiles_SafariZoneBuilding, gMetatileAttributes_SafariZoneBuilding),
     .callback = NULL,
 };
 
@@ -1359,8 +1237,7 @@ const struct Tileset gTileset_PokemonMansion =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonMansion,
     .palettes = gTilesetPalettes_PokemonMansion,
-    .metatiles = gMetatiles_PokemonMansion,
-    .metatileAttributes = gMetatileAttributes_PokemonMansion,
+    TILESET_METATILES(gMetatiles_PokemonMansion, gMetatileAttributes_PokemonMansion),
     .callback = NULL,
 };
 
@@ -1370,8 +1247,7 @@ const struct Tileset gTileset_RestaurantHotel =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RestaurantHotel,
     .palettes = gTilesetPalettes_RestaurantHotel,
-    .metatiles = gMetatiles_RestaurantHotel,
-    .metatileAttributes = gMetatileAttributes_RestaurantHotel,
+    TILESET_METATILES(gMetatiles_RestaurantHotel, gMetatileAttributes_RestaurantHotel),
     .callback = NULL,
 };
 
@@ -1381,8 +1257,7 @@ const struct Tileset gTileset_School =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_School,
     .palettes = gTilesetPalettes_School,
-    .metatiles = gMetatiles_School,
-    .metatileAttributes = gMetatileAttributes_School,
+    TILESET_METATILES(gMetatiles_School, gMetatileAttributes_School),
     .callback = NULL,
 };
 
@@ -1392,8 +1267,7 @@ const struct Tileset gTileset_FanClubDaycare =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_FanClubDaycare,
     .palettes = gTilesetPalettes_FanClubDaycare,
-    .metatiles = gMetatiles_FanClubDaycare,
-    .metatileAttributes = gMetatileAttributes_FanClubDaycare,
+    TILESET_METATILES(gMetatiles_FanClubDaycare, gMetatileAttributes_FanClubDaycare),
     .callback = NULL,
 };
 
@@ -1403,8 +1277,7 @@ const struct Tileset gTileset_Condominiums =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Condominiums,
     .palettes = gTilesetPalettes_Condominiums,
-    .metatiles = gMetatiles_Condominiums,
-    .metatileAttributes = gMetatileAttributes_Condominiums,
+    TILESET_METATILES(gMetatiles_Condominiums, gMetatileAttributes_Condominiums),
     .callback = NULL,
 };
 
@@ -1414,8 +1287,7 @@ const struct Tileset gTileset_BurgledHouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BurgledHouse,
     .palettes = gTilesetPalettes_BurgledHouse,
-    .metatiles = gMetatiles_BurgledHouse,
-    .metatileAttributes = gMetatileAttributes_BurgledHouse,
+    TILESET_METATILES(gMetatiles_BurgledHouse, gMetatileAttributes_BurgledHouse),
     .callback = NULL,
 };
 
@@ -1425,8 +1297,7 @@ const struct Tileset gTileset_MtEmber =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MtEmber,
     .palettes = gTilesetPalettes_MtEmber,
-    .metatiles = gMetatiles_MtEmber,
-    .metatileAttributes = gMetatileAttributes_MtEmber,
+    TILESET_METATILES(gMetatiles_MtEmber, gMetatileAttributes_MtEmber),
     .callback = InitTilesetAnim_MtEmber,
 };
 
@@ -1436,8 +1307,7 @@ const struct Tileset gTileset_BerryForest =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BerryForest,
     .palettes = gTilesetPalettes_BerryForest,
-    .metatiles = gMetatiles_BerryForest,
-    .metatileAttributes = gMetatileAttributes_BerryForest,
+    TILESET_METATILES(gMetatiles_BerryForest, gMetatileAttributes_BerryForest),
     .callback = NULL,
 };
 
@@ -1447,8 +1317,7 @@ const struct Tileset gTileset_NavelRock_Frlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_NavelRock_Frlg,
     .palettes = gTilesetPalettes_NavelRock_Frlg,
-    .metatiles = gMetatiles_NavelRock_Frlg,
-    .metatileAttributes = gMetatileAttributes_NavelRock_Frlg,
+    TILESET_METATILES(gMetatiles_NavelRock_Frlg, gMetatileAttributes_NavelRock_Frlg),
     .callback = NULL,
 };
 
@@ -1458,8 +1327,7 @@ const struct Tileset gTileset_TanobyRuins =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_TanobyRuins,
     .palettes = gTilesetPalettes_TanobyRuins,
-    .metatiles = gMetatiles_TanobyRuins,
-    .metatileAttributes = gMetatileAttributes_TanobyRuins,
+    TILESET_METATILES(gMetatiles_TanobyRuins, gMetatileAttributes_TanobyRuins),
     .callback = NULL,
 };
 
@@ -1469,8 +1337,7 @@ const struct Tileset gTileset_SeviiIslands123 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SeviiIslands123,
     .palettes = gTilesetPalettes_SeviiIslands123,
-    .metatiles = gMetatiles_SeviiIslands123,
-    .metatileAttributes = gMetatileAttributes_SeviiIslands123,
+    TILESET_METATILES(gMetatiles_SeviiIslands123, gMetatileAttributes_SeviiIslands123),
     .callback = NULL,
 };
 
@@ -1480,8 +1347,7 @@ const struct Tileset gTileset_SeviiIslands45 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SeviiIslands45,
     .palettes = gTilesetPalettes_SeviiIslands45,
-    .metatiles = gMetatiles_SeviiIslands45,
-    .metatileAttributes = gMetatileAttributes_SeviiIslands45,
+    TILESET_METATILES(gMetatiles_SeviiIslands45, gMetatileAttributes_SeviiIslands45),
     .callback = NULL,
 };
 
@@ -1491,8 +1357,7 @@ const struct Tileset gTileset_SeviiIslands67 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SeviiIslands67,
     .palettes = gTilesetPalettes_SeviiIslands67,
-    .metatiles = gMetatiles_SeviiIslands67,
-    .metatileAttributes = gMetatileAttributes_SeviiIslands67,
+    TILESET_METATILES(gMetatiles_SeviiIslands67, gMetatileAttributes_SeviiIslands67),
     .callback = NULL,
 };
 
@@ -1502,8 +1367,7 @@ const struct Tileset gTileset_TrainerTower =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_TrainerTower,
     .palettes = gTilesetPalettes_TrainerTower,
-    .metatiles = gMetatiles_TrainerTower,
-    .metatileAttributes = gMetatileAttributes_TrainerTower,
+    TILESET_METATILES(gMetatiles_TrainerTower, gMetatileAttributes_TrainerTower),
     .callback = NULL,
 };
 
@@ -1513,8 +1377,7 @@ const struct Tileset gTileset_IslandHarbor_Frlg =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_IslandHarbor_Frlg,
     .palettes = gTilesetPalettes_IslandHarbor_Frlg,
-    .metatiles = gMetatiles_IslandHarbor_Frlg,
-    .metatileAttributes = gMetatileAttributes_IslandHarbor_Frlg,
+    TILESET_METATILES(gMetatiles_IslandHarbor_Frlg, gMetatileAttributes_IslandHarbor_Frlg),
     .callback = NULL,
 };
 
@@ -1524,8 +1387,7 @@ const struct Tileset gTileset_PokemonLeague =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonLeague,
     .palettes = gTilesetPalettes_PokemonLeague,
-    .metatiles = gMetatiles_PokemonLeague,
-    .metatileAttributes = gMetatileAttributes_PokemonLeague,
+    TILESET_METATILES(gMetatiles_PokemonLeague, gMetatileAttributes_PokemonLeague),
     .callback = NULL,
 };
 
@@ -1535,8 +1397,7 @@ const struct Tileset gTileset_HallOfFame =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_HallOfFame,
     .palettes = gTilesetPalettes_HallOfFame,
-    .metatiles = gMetatiles_HallOfFame,
-    .metatileAttributes = gMetatileAttributes_HallOfFame,
+    TILESET_METATILES(gMetatiles_HallOfFame, gMetatileAttributes_HallOfFame),
     .callback = NULL,
 };
 
@@ -1549,8 +1410,7 @@ const struct Tileset gTileset_Johto_General =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_Johto_General,
     .palettes = gTilesetPalettes_Johto_General,
-    .metatiles = gMetatiles_Johto_General,
-    .metatileAttributes = gMetatileAttributes_Johto_General,
+    TILESET_METATILES(gMetatiles_Johto_General, gMetatileAttributes_Johto_General),
     .callback = NULL,
 };
 
@@ -1560,8 +1420,7 @@ const struct Tileset gTileset_Johto_Building =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_Johto_Building,
     .palettes = gTilesetPalettes_Johto_Building,
-    .metatiles = gMetatiles_Johto_Building,
-    .metatileAttributes = gMetatileAttributes_Johto_Building,
+    TILESET_METATILES(gMetatiles_Johto_Building, gMetatileAttributes_Johto_Building),
     .callback = NULL,
 };
 
@@ -1571,8 +1430,7 @@ const struct Tileset gTileset_NewBarkTown =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_NewBarkTown,
     .palettes = gTilesetPalettes_NewBarkTown,
-    .metatiles = gMetatiles_NewBarkTown,
-    .metatileAttributes = gMetatileAttributes_NewBarkTown,
+    TILESET_METATILES(gMetatiles_NewBarkTown, gMetatileAttributes_NewBarkTown),
     .callback = NULL,
 };
 
@@ -1582,8 +1440,7 @@ const struct Tileset gTileset_CherrygroveCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CherrygroveCity,
     .palettes = gTilesetPalettes_CherrygroveCity,
-    .metatiles = gMetatiles_CherrygroveCity,
-    .metatileAttributes = gMetatileAttributes_CherrygroveCity,
+    TILESET_METATILES(gMetatiles_CherrygroveCity, gMetatileAttributes_CherrygroveCity),
     .callback = NULL,
 };
 
@@ -1593,8 +1450,7 @@ const struct Tileset gTileset_Kanto_PokemonCenter =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Kanto_PokemonCenter,
     .palettes = gTilesetPalettes_Kanto_PokemonCenter,
-    .metatiles = gMetatiles_Kanto_PokemonCenter,
-    .metatileAttributes = gMetatileAttributes_Kanto_PokemonCenter,
+    TILESET_METATILES(gMetatiles_Kanto_PokemonCenter, gMetatileAttributes_Kanto_PokemonCenter),
     .callback = NULL,
 };
 
@@ -1604,8 +1460,7 @@ const struct Tileset gTileset_JohtoMart =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_JohtoMart,
     .palettes = gTilesetPalettes_JohtoMart,
-    .metatiles = gMetatiles_JohtoMart,
-    .metatileAttributes = gMetatileAttributes_JohtoMart,
+    TILESET_METATILES(gMetatiles_JohtoMart, gMetatileAttributes_JohtoMart),
     .callback = NULL,
 };
 
@@ -1615,8 +1470,7 @@ const struct Tileset gTileset_House_Lab =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_House_Lab,
     .palettes = gTilesetPalettes_House_Lab,
-    .metatiles = gMetatiles_House_Lab,
-    .metatileAttributes = gMetatileAttributes_House_Lab,
+    TILESET_METATILES(gMetatiles_House_Lab, gMetatileAttributes_House_Lab),
     .callback = NULL,
 };
 
@@ -1626,8 +1480,7 @@ const struct Tileset gTileset_PlayersHouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PlayersHouse,
     .palettes = gTilesetPalettes_PlayersHouse,
-    .metatiles = gMetatiles_PlayersHouse,
-    .metatileAttributes = gMetatileAttributes_PlayersHouse,
+    TILESET_METATILES(gMetatiles_PlayersHouse, gMetatileAttributes_PlayersHouse),
     .callback = NULL,
 };
 
@@ -1638,8 +1491,7 @@ const struct Tileset gTileset_Johto_NorthEast =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_Johto_NorthEast,
     .palettes = gTilesetPalettes_Johto_NorthEast,
-    .metatiles = gMetatiles_Johto_NorthEast,
-    .metatileAttributes = gMetatileAttributes_Johto_NorthEast,
+    TILESET_METATILES(gMetatiles_Johto_NorthEast, gMetatileAttributes_Johto_NorthEast),
     .callback = NULL,
 };
 
@@ -1649,8 +1501,7 @@ const struct Tileset gTileset_Gate_Standard =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Gate_Standard,
     .palettes = gTilesetPalettes_Gate_Standard,
-    .metatiles = gMetatiles_Gate_Standard,
-    .metatileAttributes = gMetatileAttributes_Gate_Standard,
+    TILESET_METATILES(gMetatiles_Gate_Standard, gMetatileAttributes_Gate_Standard),
     .callback = NULL,
 };
 
@@ -1660,8 +1511,7 @@ const struct Tileset gTileset_Route32 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Route32,
     .palettes = gTilesetPalettes_Route32,
-    .metatiles = gMetatiles_Route32,
-    .metatileAttributes = gMetatileAttributes_Route32,
+    TILESET_METATILES(gMetatiles_Route32, gMetatileAttributes_Route32),
     .callback = NULL,
 };
 
@@ -1671,8 +1521,7 @@ const struct Tileset gTileset_RuinsOfAlph_B1F =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RuinsOfAlph_B1F,
     .palettes = gTilesetPalettes_RuinsOfAlph_B1F,
-    .metatiles = gMetatiles_RuinsOfAlph_B1F,
-    .metatileAttributes = gMetatileAttributes_RuinsOfAlph_B1F,
+    TILESET_METATILES(gMetatiles_RuinsOfAlph_B1F, gMetatileAttributes_RuinsOfAlph_B1F),
     .callback = NULL,
 };
 
@@ -1682,8 +1531,7 @@ const struct Tileset gTileset_RuinsOfAlph_Outside =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RuinsOfAlph_Outside,
     .palettes = gTilesetPalettes_RuinsOfAlph_Outside,
-    .metatiles = gMetatiles_RuinsOfAlph_Outside,
-    .metatileAttributes = gMetatileAttributes_RuinsOfAlph_Outside,
+    TILESET_METATILES(gMetatiles_RuinsOfAlph_Outside, gMetatileAttributes_RuinsOfAlph_Outside),
     .callback = NULL,
 };
 
@@ -1693,8 +1541,7 @@ const struct Tileset gTileset_RuinsOfAlphWriting =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_RuinsOfAlphWriting,
     .palettes = gTilesetPalettes_RuinsOfAlphWriting,
-    .metatiles = gMetatiles_RuinsOfAlphWriting,
-    .metatileAttributes = gMetatileAttributes_RuinsOfAlphWriting,
+    TILESET_METATILES(gMetatiles_RuinsOfAlphWriting, gMetatileAttributes_RuinsOfAlphWriting),
     .callback = NULL,
 };
 
@@ -1704,8 +1551,7 @@ const struct Tileset gTileset_PowerPlant_GeneratorRoom =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PowerPlant_GeneratorRoom,
     .palettes = gTilesetPalettes_PowerPlant_GeneratorRoom,
-    .metatiles = gMetatiles_PowerPlant_GeneratorRoom,
-    .metatileAttributes = gMetatileAttributes_PowerPlant_GeneratorRoom,
+    TILESET_METATILES(gMetatiles_PowerPlant_GeneratorRoom, gMetatileAttributes_PowerPlant_GeneratorRoom),
     .callback = NULL,
 };
 
@@ -1715,8 +1561,7 @@ const struct Tileset gTileset_VioletCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_VioletCity,
     .palettes = gTilesetPalettes_VioletCity,
-    .metatiles = gMetatiles_VioletCity,
-    .metatileAttributes = gMetatileAttributes_VioletCity,
+    TILESET_METATILES(gMetatiles_VioletCity, gMetatileAttributes_VioletCity),
     .callback = NULL,
 };
 
@@ -1726,8 +1571,7 @@ const struct Tileset gTileset_EcruteakTheater =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_EcruteakTheater,
     .palettes = gTilesetPalettes_EcruteakTheater,
-    .metatiles = gMetatiles_EcruteakTheater,
-    .metatileAttributes = gMetatileAttributes_EcruteakTheater,
+    TILESET_METATILES(gMetatiles_EcruteakTheater, gMetatileAttributes_EcruteakTheater),
     .callback = NULL,
 };
 
@@ -1737,8 +1581,7 @@ const struct Tileset gTileset_TrainerSchool =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_TrainerSchool,
     .palettes = gTilesetPalettes_TrainerSchool,
-    .metatiles = gMetatiles_TrainerSchool,
-    .metatileAttributes = gMetatileAttributes_TrainerSchool,
+    TILESET_METATILES(gMetatiles_TrainerSchool, gMetatileAttributes_TrainerSchool),
     .callback = NULL,
 };
 
@@ -1751,8 +1594,7 @@ const struct Tileset gTileset_Johto_South =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_Johto_South,
     .palettes = gTilesetPalettes_Johto_South,
-    .metatiles = gMetatiles_Johto_South,
-    .metatileAttributes = gMetatileAttributes_Johto_South,
+    TILESET_METATILES(gMetatiles_Johto_South, gMetatileAttributes_Johto_South),
     .callback = NULL,
 };
 
@@ -1762,8 +1604,7 @@ const struct Tileset gTileset_AzaleaTown =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_AzaleaTown,
     .palettes = gTilesetPalettes_AzaleaTown,
-    .metatiles = gMetatiles_AzaleaTown,
-    .metatileAttributes = gMetatileAttributes_AzaleaTown,
+    TILESET_METATILES(gMetatiles_AzaleaTown, gMetatileAttributes_AzaleaTown),
     .callback = NULL,
 };
 
@@ -1773,8 +1614,7 @@ const struct Tileset gTileset_AzaleaTown_Gym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_AzaleaTown_Gym,
     .palettes = gTilesetPalettes_AzaleaTown_Gym,
-    .metatiles = gMetatiles_AzaleaTown_Gym,
-    .metatileAttributes = gMetatileAttributes_AzaleaTown_Gym,
+    TILESET_METATILES(gMetatiles_AzaleaTown_Gym, gMetatileAttributes_AzaleaTown_Gym),
     .callback = NULL,
 };
 
@@ -1784,8 +1624,7 @@ const struct Tileset gTileset_Barn =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Barn,
     .palettes = gTilesetPalettes_Barn,
-    .metatiles = gMetatiles_Barn,
-    .metatileAttributes = gMetatileAttributes_Barn,
+    TILESET_METATILES(gMetatiles_Barn, gMetatileAttributes_Barn),
     .callback = NULL,
 };
 
@@ -1795,8 +1634,7 @@ const struct Tileset gTileset_Cave_Default =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cave_Default,
     .palettes = gTilesetPalettes_Cave_Default,
-    .metatiles = gMetatiles_Cave_Default,
-    .metatileAttributes = gMetatileAttributes_Cave_Default,
+    TILESET_METATILES(gMetatiles_Cave_Default, gMetatileAttributes_Cave_Default),
     .callback = NULL,
 };
 
@@ -1806,8 +1644,7 @@ const struct Tileset gTileset_Cave_Gray =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cave_Gray,
     .palettes = gTilesetPalettes_Cave_Gray,
-    .metatiles = gMetatiles_Cave_Gray,
-    .metatileAttributes = gMetatileAttributes_Cave_Gray,
+    TILESET_METATILES(gMetatiles_Cave_Gray, gMetatileAttributes_Cave_Gray),
     .callback = NULL,
 };
 
@@ -1817,8 +1654,7 @@ const struct Tileset gTileset_Goldenrod =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Goldenrod,
     .palettes = gTilesetPalettes_Goldenrod,
-    .metatiles = gMetatiles_Goldenrod,
-    .metatileAttributes = gMetatileAttributes_Goldenrod,
+    TILESET_METATILES(gMetatiles_Goldenrod, gMetatileAttributes_Goldenrod),
     .callback = NULL,
 };
 
@@ -1828,8 +1664,7 @@ const struct Tileset gTileset_IlexForest =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_IlexForest,
     .palettes = gTilesetPalettes_IlexForest,
-    .metatiles = gMetatiles_IlexForest,
-    .metatileAttributes = gMetatileAttributes_IlexForest,
+    TILESET_METATILES(gMetatiles_IlexForest, gMetatileAttributes_IlexForest),
     .callback = NULL,
 };
 
@@ -1839,8 +1674,7 @@ const struct Tileset gTileset_KurtsHouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_KurtsHouse,
     .palettes = gTilesetPalettes_KurtsHouse,
-    .metatiles = gMetatiles_KurtsHouse,
-    .metatileAttributes = gMetatileAttributes_KurtsHouse,
+    TILESET_METATILES(gMetatiles_KurtsHouse, gMetatileAttributes_KurtsHouse),
     .callback = NULL,
 };
 
@@ -1851,8 +1685,7 @@ const struct Tileset gTileset_Cafe =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cafe,
     .palettes = gTilesetPalettes_Cafe,
-    .metatiles = gMetatiles_Cafe,
-    .metatileAttributes = gMetatileAttributes_Cafe,
+    TILESET_METATILES(gMetatiles_Cafe, gMetatileAttributes_Cafe),
     .callback = NULL,
 };
 
@@ -1862,8 +1695,7 @@ const struct Tileset gTileset_GoldenrodDepartmentStore =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GoldenrodDepartmentStore,
     .palettes = gTilesetPalettes_GoldenrodDepartmentStore,
-    .metatiles = gMetatiles_GoldenrodDepartmentStore,
-    .metatileAttributes = gMetatileAttributes_GoldenrodDepartmentStore,
+    TILESET_METATILES(gMetatiles_GoldenrodDepartmentStore, gMetatileAttributes_GoldenrodDepartmentStore),
     .callback = NULL,
 };
 
@@ -1873,8 +1705,7 @@ const struct Tileset gTileset_Ecruteak_City =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Ecruteak_City,
     .palettes = gTilesetPalettes_Ecruteak_City,
-    .metatiles = gMetatiles_Ecruteak_City,
-    .metatileAttributes = gMetatileAttributes_Ecruteak_City,
+    TILESET_METATILES(gMetatiles_Ecruteak_City, gMetatileAttributes_Ecruteak_City),
     .callback = NULL,
 };
 
@@ -1884,8 +1715,7 @@ const struct Tileset gTileset_GoldenrodGameCorner =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GoldenrodGameCorner,
     .palettes = gTilesetPalettes_GoldenrodGameCorner,
-    .metatiles = gMetatiles_GoldenrodGameCorner,
-    .metatileAttributes = gMetatileAttributes_GoldenrodGameCorner,
+    TILESET_METATILES(gMetatiles_GoldenrodGameCorner, gMetatileAttributes_GoldenrodGameCorner),
     .callback = NULL,
 };
 
@@ -1895,8 +1725,7 @@ const struct Tileset gTileset_GoldenrodCity_TrainStation =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GoldenrodCity_TrainStation,
     .palettes = gTilesetPalettes_GoldenrodCity_TrainStation,
-    .metatiles = gMetatiles_GoldenrodCity_TrainStation,
-    .metatileAttributes = gMetatileAttributes_GoldenrodCity_TrainStation,
+    TILESET_METATILES(gMetatiles_GoldenrodCity_TrainStation, gMetatileAttributes_GoldenrodCity_TrainStation),
     .callback = NULL,
 };
 
@@ -1906,8 +1735,7 @@ const struct Tileset gTileset_GoldenrodUndergroundRocket =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GoldenrodUndergroundRocket,
     .palettes = gTilesetPalettes_GoldenrodUndergroundRocket,
-    .metatiles = gMetatiles_GoldenrodUndergroundRocket,
-    .metatileAttributes = gMetatileAttributes_GoldenrodUndergroundRocket,
+    TILESET_METATILES(gMetatiles_GoldenrodUndergroundRocket, gMetatileAttributes_GoldenrodUndergroundRocket),
     .callback = NULL,
 };
 
@@ -1917,8 +1745,7 @@ const struct Tileset gTileset_GoldenrodUndergroundTunnel =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_GoldenrodUndergroundTunnel,
     .palettes = gTilesetPalettes_GoldenrodUndergroundTunnel,
-    .metatiles = gMetatiles_GoldenrodUndergroundTunnel,
-    .metatileAttributes = gMetatileAttributes_GoldenrodUndergroundTunnel,
+    TILESET_METATILES(gMetatiles_GoldenrodUndergroundTunnel, gMetatileAttributes_GoldenrodUndergroundTunnel),
     .callback = NULL,
 };
 
@@ -1928,8 +1755,7 @@ const struct Tileset gTileset_Goldenrod_Underground_Storage =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Goldenrod_Underground_Storage,
     .palettes = gTilesetPalettes_Goldenrod_Underground_Storage,
-    .metatiles = gMetatiles_Goldenrod_Underground_Storage,
-    .metatileAttributes = gMetatileAttributes_Goldenrod_Underground_Storage,
+    TILESET_METATILES(gMetatiles_Goldenrod_Underground_Storage, gMetatileAttributes_Goldenrod_Underground_Storage),
     .callback = NULL,
 };
 
@@ -1939,8 +1765,7 @@ const struct Tileset gTileset_JohtoBikeShop =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_JohtoBikeShop,
     .palettes = gTilesetPalettes_JohtoBikeShop,
-    .metatiles = gMetatiles_JohtoBikeShop,
-    .metatileAttributes = gMetatileAttributes_JohtoBikeShop,
+    TILESET_METATILES(gMetatiles_JohtoBikeShop, gMetatileAttributes_JohtoBikeShop),
     .callback = NULL,
 };
 
@@ -1950,8 +1775,7 @@ const struct Tileset gTileset_NationalPark =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_NationalPark,
     .palettes = gTilesetPalettes_NationalPark,
-    .metatiles = gMetatiles_NationalPark,
-    .metatileAttributes = gMetatileAttributes_NationalPark,
+    TILESET_METATILES(gMetatiles_NationalPark, gMetatileAttributes_NationalPark),
     .callback = NULL,
 };
 
@@ -1961,8 +1785,7 @@ const struct Tileset gTileset_ShopRooftop =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_ShopRooftop,
     .palettes = gTilesetPalettes_ShopRooftop,
-    .metatiles = gMetatiles_ShopRooftop,
-    .metatileAttributes = gMetatileAttributes_ShopRooftop,
+    TILESET_METATILES(gMetatiles_ShopRooftop, gMetatileAttributes_ShopRooftop),
     .callback = NULL,
 };
 
@@ -1974,8 +1797,7 @@ const struct Tileset gTileset_BellchimeTrail =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BellchimeTrail,
     .palettes = gTilesetPalettes_BellchimeTrail,
-    .metatiles = gMetatiles_BellchimeTrail,
-    .metatileAttributes = gMetatileAttributes_BellchimeTrail,
+    TILESET_METATILES(gMetatiles_BellchimeTrail, gMetatileAttributes_BellchimeTrail),
     .callback = NULL,
 };
 
@@ -1985,8 +1807,7 @@ const struct Tileset gTileset_BurnedTower =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BurnedTower,
     .palettes = gTilesetPalettes_BurnedTower,
-    .metatiles = gMetatiles_BurnedTower,
-    .metatileAttributes = gMetatileAttributes_BurnedTower,
+    TILESET_METATILES(gMetatiles_BurnedTower, gMetatileAttributes_BurnedTower),
     .callback = NULL,
 };
 
@@ -1996,8 +1817,7 @@ const struct Tileset gTileset_EcruteakCity_Gym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_EcruteakCity_Gym,
     .palettes = gTilesetPalettes_EcruteakCity_Gym,
-    .metatiles = gMetatiles_EcruteakCity_Gym,
-    .metatileAttributes = gMetatileAttributes_EcruteakCity_Gym,
+    TILESET_METATILES(gMetatiles_EcruteakCity_Gym, gMetatileAttributes_EcruteakCity_Gym),
     .callback = NULL,
 };
 
@@ -2007,8 +1827,7 @@ const struct Tileset gTileset_Route38_Farmland =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Route38_Farmland,
     .palettes = gTilesetPalettes_Route38_Farmland,
-    .metatiles = gMetatiles_Route38_Farmland,
-    .metatileAttributes = gMetatileAttributes_Route38_Farmland,
+    TILESET_METATILES(gMetatiles_Route38_Farmland, gMetatileAttributes_Route38_Farmland),
     .callback = NULL,
 };
 
@@ -2018,8 +1837,7 @@ const struct Tileset gTileset_Johto_NorthWest =
     .isSecondary = FALSE,
     .tiles = gTilesetTiles_Johto_NorthWest,
     .palettes = gTilesetPalettes_Johto_NorthWest,
-    .metatiles = gMetatiles_Johto_NorthWest,
-    .metatileAttributes = gMetatileAttributes_Johto_NorthWest,
+    TILESET_METATILES(gMetatiles_Johto_NorthWest, gMetatileAttributes_Johto_NorthWest),
     .callback = NULL,
 };
 
@@ -2032,8 +1850,7 @@ const struct Tileset gTileset_OlivineCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_OlivineCity,
     .palettes = gTilesetPalettes_OlivineCity,
-    .metatiles = gMetatiles_OlivineCity,
-    .metatileAttributes = gMetatileAttributes_OlivineCity,
+    TILESET_METATILES(gMetatiles_OlivineCity, gMetatileAttributes_OlivineCity),
     .callback = NULL,
 };
 
@@ -2043,8 +1860,7 @@ const struct Tileset gTileset_CianwoodCity =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CianwoodCity,
     .palettes = gTilesetPalettes_CianwoodCity,
-    .metatiles = gMetatiles_CianwoodCity,
-    .metatileAttributes = gMetatileAttributes_CianwoodCity,
+    TILESET_METATILES(gMetatiles_CianwoodCity, gMetatileAttributes_CianwoodCity),
     .callback = NULL,
 };
 
@@ -2054,8 +1870,7 @@ const struct Tileset gTileset_WhirlIslands =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_WhirlIslands,
     .palettes = gTilesetPalettes_WhirlIslands,
-    .metatiles = gMetatiles_WhirlIslands,
-    .metatileAttributes = gMetatileAttributes_WhirlIslands,
+    TILESET_METATILES(gMetatiles_WhirlIslands, gMetatileAttributes_WhirlIslands),
     .callback = NULL,
 };
 
@@ -2065,8 +1880,7 @@ const struct Tileset gTileset_PortIndoor =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PortIndoor,
     .palettes = gTilesetPalettes_PortIndoor,
-    .metatiles = gMetatiles_PortIndoor,
-    .metatileAttributes = gMetatileAttributes_PortIndoor,
+    TILESET_METATILES(gMetatiles_PortIndoor, gMetatileAttributes_PortIndoor),
     .callback = NULL,
 };
 
@@ -2076,8 +1890,7 @@ const struct Tileset gTileset_Lighthouse =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Lighthouse,
     .palettes = gTilesetPalettes_Lighthouse,
-    .metatiles = gMetatiles_Lighthouse,
-    .metatileAttributes = gMetatileAttributes_Lighthouse,
+    TILESET_METATILES(gMetatiles_Lighthouse, gMetatileAttributes_Lighthouse),
     .callback = NULL,
 };
 
@@ -2088,8 +1901,7 @@ const struct Tileset gTileset_CianwoodCity_Gym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_CianwoodCity_Gym,
     .palettes = gTilesetPalettes_CianwoodCity_Gym,
-    .metatiles = gMetatiles_CianwoodCity_Gym,
-    .metatileAttributes = gMetatileAttributes_CianwoodCity_Gym,
+    TILESET_METATILES(gMetatiles_CianwoodCity_Gym, gMetatileAttributes_CianwoodCity_Gym),
     .callback = NULL,
 };
 
@@ -2100,8 +1912,7 @@ const struct Tileset gTileset_MahoganyTown =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MahoganyTown,
     .palettes = gTilesetPalettes_MahoganyTown,
-    .metatiles = gMetatiles_MahoganyTown,
-    .metatileAttributes = gMetatileAttributes_MahoganyTown,
+    TILESET_METATILES(gMetatiles_MahoganyTown, gMetatileAttributes_MahoganyTown),
     .callback = NULL,
 };
 
@@ -2111,8 +1922,7 @@ const struct Tileset gTileset_House_2 =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_House_2,
     .palettes = gTilesetPalettes_House_2,
-    .metatiles = gMetatiles_House_2,
-    .metatileAttributes = gMetatileAttributes_House_2,
+    TILESET_METATILES(gMetatiles_House_2, gMetatileAttributes_House_2),
     .callback = NULL,
 };
 
@@ -2124,8 +1934,7 @@ const struct Tileset gTileset_Blackthorn =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Blackthorn,
     .palettes = gTilesetPalettes_Blackthorn,
-    .metatiles = gMetatiles_Blackthorn,
-    .metatileAttributes = gMetatileAttributes_Blackthorn,
+    TILESET_METATILES(gMetatiles_Blackthorn, gMetatileAttributes_Blackthorn),
     .callback = NULL,
 };
 
@@ -2135,8 +1944,7 @@ const struct Tileset gTileset_Cave_Ice =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cave_Ice,
     .palettes = gTilesetPalettes_Cave_Ice,
-    .metatiles = gMetatiles_Cave_Ice,
-    .metatileAttributes = gMetatileAttributes_Cave_Ice,
+    TILESET_METATILES(gMetatiles_Cave_Ice, gMetatileAttributes_Cave_Ice),
     .callback = NULL,
 };
 
@@ -2146,8 +1954,7 @@ const struct Tileset gTileset_Cave_DragonsDen =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_Cave_DragonsDen,
     .palettes = gTilesetPalettes_Cave_DragonsDen,
-    .metatiles = gMetatiles_Cave_DragonsDen,
-    .metatileAttributes = gMetatileAttributes_Cave_DragonsDen,
+    TILESET_METATILES(gMetatiles_Cave_DragonsDen, gMetatileAttributes_Cave_DragonsDen),
     .callback = NULL,
 };
 
@@ -2157,8 +1964,7 @@ const struct Tileset gTileset_DragonsDen_Shrine =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_DragonsDen_Shrine,
     .palettes = gTilesetPalettes_DragonsDen_Shrine,
-    .metatiles = gMetatiles_DragonsDen_Shrine,
-    .metatileAttributes = gMetatileAttributes_DragonsDen_Shrine,
+    TILESET_METATILES(gMetatiles_DragonsDen_Shrine, gMetatileAttributes_DragonsDen_Shrine),
     .callback = NULL,
 };
 
@@ -2168,8 +1974,7 @@ const struct Tileset gTileset_BlackthornGym =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_BlackthornGym,
     .palettes = gTilesetPalettes_BlackthornGym,
-    .metatiles = gMetatiles_BlackthornGym,
-    .metatileAttributes = gMetatileAttributes_BlackthornGym,
+    TILESET_METATILES(gMetatiles_BlackthornGym, gMetatileAttributes_BlackthornGym),
     .callback = InitTilesetAnim_Lavaridge,
 };
 
@@ -2179,8 +1984,7 @@ const struct Tileset gTileset_ssaqua =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_ssaqua,
     .palettes = gTilesetPalettes_ssaqua,
-    .metatiles = gMetatiles_ssaqua,
-    .metatileAttributes = gMetatileAttributes_ssaqua,
+    TILESET_METATILES(gMetatiles_ssaqua, gMetatileAttributes_ssaqua),
     .callback = NULL,
 };
 
@@ -2190,8 +1994,7 @@ const struct Tileset gTileset_SafariZoneJohto =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SafariZoneJohto,
     .palettes = gTilesetPalettes_SafariZoneJohto,
-    .metatiles = gMetatiles_SafariZoneJohto,
-    .metatileAttributes = gMetatileAttributes_SafariZoneJohto,
+    TILESET_METATILES(gMetatiles_SafariZoneJohto, gMetatileAttributes_SafariZoneJohto),
     .callback = NULL,
 };
 
@@ -2201,8 +2004,7 @@ const struct Tileset gTileset_SafariZone_Entrance =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_SafariZone_Entrance,
     .palettes = gTilesetPalettes_SafariZone_Entrance,
-    .metatiles = gMetatiles_SafariZone_Entrance,
-    .metatileAttributes = gMetatileAttributes_SafariZone_Entrance,
+    TILESET_METATILES(gMetatiles_SafariZone_Entrance, gMetatileAttributes_SafariZone_Entrance),
     .callback = NULL,
 };
 
@@ -2212,8 +2014,7 @@ const struct Tileset gTileset_MtSilverSnow =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_MtSilverSnow,
     .palettes = gTilesetPalettes_MtSilverSnow,
-    .metatiles = gMetatiles_MtSilverSnow,
-    .metatileAttributes = gMetatileAttributes_MtSilverSnow,
+    TILESET_METATILES(gMetatiles_MtSilverSnow, gMetatileAttributes_MtSilverSnow),
     .callback = NULL,
 };
 
@@ -2223,8 +2024,7 @@ const struct Tileset gTileset_PokemonCenter_White =
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_PokemonCenter_White,
     .palettes = gTilesetPalettes_PokemonCenter_White,
-    .metatiles = gMetatiles_PokemonCenter_White,
-    .metatileAttributes = gMetatileAttributes_PokemonCenter_White,
+    TILESET_METATILES(gMetatiles_PokemonCenter_White, gMetatileAttributes_PokemonCenter_White),
     .callback = NULL,
 };
 

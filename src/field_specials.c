@@ -1022,7 +1022,7 @@ void FieldShowRegionMap(void)
 // behaviour 0x5A instead of MB_PC and never animated.
 static bool32 IsPCMetatile(u32 tileId)
 {
-    return MetatileBehavior_IsPC(GetAttributeByMetatileIdAndMapLayout(tileId, METATILE_ATTRIBUTE_BEHAVIOR, gMapHeader.mapLayout->isFrlg));
+    return MetatileBehavior_IsPC(GetAttributeByMetatileIdAndMapLayout(tileId, METATILE_ATTRIBUTE_BEHAVIOR));
 }
 
 static bool32 IsPlayerHousePCTile(u32 tileId)

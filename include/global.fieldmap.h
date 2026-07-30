@@ -98,7 +98,12 @@ struct Tileset
 {
     /*0x00*/ u8 isCompressed:1;
     /*0x00*/ u8 swapPalettes:7; // Bitmask determining whether palette has an alternate, night-time palette
-    /*0x01*/ bool8 isSecondary;
+    /*0x01*/ bool8 isSecondary:1;
+    // TRUE when metatileAttributes holds FRLG-format u32 entries instead of Emerald-format u16 ones.
+    // The width belongs to the blob, not to the layout reading it: eleven "johto" layouts borrow a
+    // Kanto tileset, so MapLayout.isFrlg is the wrong thing to select the width with. Set by
+    // TILESET_METATILES, never by hand.
+    /*0x01*/ bool8 hasFrlgAttributes:1;
     /*0x02*/ u8 lightPalettes; // Bitmask determining whether a palette should be time-blended as a light
     /*0x03*/ u8 customLightColor; // Bitmask determining which light palettes have custom light colors (color 15)
     /*0x04*/ const u32 *tiles;
@@ -107,6 +112,16 @@ struct Tileset
     /*0x10*/ const u16 *metatileAttributes;
     /*0x14*/ TilesetCB callback;
 };
+
+// Initializes .metatiles, .metatileAttributes and .hasFrlgAttributes from one pair of symbols so the
+// declared attribute width can never disagree with the data. metatiles.bin is 16 bytes per metatile,
+// so sizeof(attrs) * 16 / sizeof(mt) is the attribute blob's bytes per metatile: 4 = FRLG, 2 = Emerald.
+// Every blob is declared const u16[] even when it really is u32 (src/data/tilesets/metatiles.h), so
+// sizeof is the only honest source for the real width.
+#define TILESET_METATILES(mt, attrs)    \
+    .metatiles = (mt),                  \
+    .metatileAttributes = (attrs),      \
+    .hasFrlgAttributes = ((sizeof(attrs) * 16 / sizeof(mt)) == 4)
 
 struct MapLayout
 {

@@ -7,6 +7,14 @@
 
 #include "data/heal_locations.h"
 
+// The three tables are indexed in parallel by healLocationId - 1, and
+// GetHealNpcLocalId only bounds-checks against NUM_HEAL_LOCATIONS. The npc-id
+// table now carries an explicit bound, so pin the data-derived map table to it:
+// this fires if the last heal location loses its respawn_map, which would
+// shorten that table and reintroduce an out-of-bounds read.
+STATIC_ASSERT(ARRAY_COUNT(sWhiteoutRespawnHealCenterMapIdxs) == ARRAY_COUNT(sWhiteoutRespawnHealerNpcIds),
+              WhiteoutRespawnTablesMustBeParallel);
+
 u32 GetHealLocationIndexByMap(u16 mapGroup, u16 mapNum)
 {
     u32 i;

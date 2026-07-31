@@ -104,11 +104,17 @@ BattleNet_Text_HubConsoleLocked:
 @ before and after every sim, so the simulation never strands a fainted party.
 @ DoBattleNetSimBattle returns VAR_RESULT 0 when it refused to launch (no battle-ready
 @ mon / empty pool) -- in that case there is NO battle, so the script must NOT waitstate.
-@ Sign form. Unreferenced today -- kept as the bg_event shape of the combined menu.
-@ It is the only entry that takes `lockall`; if it is ever wired to a map it needs its
-@ own exit, because the shared one below releases the `lock` the NPC forms take.
+@ Sign form: the wall terminal beside the storage PC on every POKéMON CENTER 1F.
+@ `lock`, not `lockall`. ScrCmd_lockall only unfreezes the follower behind
+@ FLAG_SAFE_FOLLOWER_MOVEMENT, which nothing sets in a Center lobby, so a follower
+@ would stand frozen through every terminal dialogue; ScrCmd_lock unfreezes it
+@ unconditionally. Never set FLAG_SAFE_FOLLOWER_MOVEMENT here -- this path enters a
+@ battle, and a non-linear exit would leak a global follower-movement permission into
+@ unrelated scripts. bg_event + `lock` + no `faceplayer` + `release` is the majority
+@ sign idiom in this repo, and it makes the shared TerminalBye exit correct for the
+@ sign form too.
 BattleNet_EventScript_Terminal::
-	lockall
+	lock
 	goto BattleNet_EventScript_TerminalBody
 @ Person-NPC form of the terminal: same body, but the attendant faces the player first.
 @ Every live entry to the combined menu comes through here -- the 13 Johto centers'
@@ -350,101 +356,101 @@ BattleNet_EventScript_SimAgain:
 
 BattleNet_EventScript_SimRoxanne::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_ROXANNE_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_ROXANNE_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimBrawly::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_BRAWLY_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_BRAWLY_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimWattson::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_WATTSON_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_WATTSON_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimFlannery::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_FLANNERY_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_FLANNERY_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimNorman::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_NORMAN_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_NORMAN_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimWinona::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_WINONA_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_WINONA_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimTateLiza::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_TATE_AND_LIZA_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_TATE_AND_LIZA_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimJuan::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_JUAN_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_JUAN_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 
 BattleNet_EventScript_SimFalkner::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_FALKNER_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_FALKNER_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimBugsy::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_BUGSY_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_BUGSY_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimWhitney::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_WHITNEY_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_WHITNEY_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimMorty::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_MORTY_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_MORTY_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimChuck::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_CHUCK_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_CHUCK_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimJasmine::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_JASMINE_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_JASMINE_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimPryce::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_PRYCE_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_PRYCE_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimClair::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_CLAIR_1, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_CLAIR_1, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 
 BattleNet_EventScript_SimBrock::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_BROCK, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_BROCK, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimMisty::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_MISTY, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_MISTY, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimSurge::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_LT_SURGE, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_LT_SURGE, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimErika::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_ERIKA, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_ERIKA, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimKoga::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_KOGA, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_KOGA, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimBlaine::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_BLAINE, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_BLAINE, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimSabrina::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_SABRINA, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_SABRINA, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 BattleNet_EventScript_SimGiovanni::
 	call BattleNet_EventScript_SimBattleSetup
-	trainerbattle_no_intro TRAINER_LEADER_GIOVANNI, BattleNet_Text_SimLossQuote
+	trainerbattle_no_intro_no_reveal TRAINER_LEADER_GIOVANNI, BattleNet_Text_SimLossQuote
 	goto BattleNet_EventScript_SimBattleResult
 
 @ ---------- P3 texts ----------

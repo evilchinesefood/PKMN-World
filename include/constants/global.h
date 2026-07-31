@@ -14,7 +14,12 @@
 //     funded by FREE_MYSTERY_GIFT + FREE_MYSTERY_EVENT_BUFFERS. Owner decision 2026-07-24:
 //     NEW SAVES ONLY, no migration. See SAVE_FORMAT_LAYOUT_MIN below for why that needs an
 //     explicit gate rather than relying on the checksum to reject old saves.
-#define SAVE_FORMAT_VERSION 7
+// v8: POKéMON CENTER 1F layouts reshaped — Battle Net wall terminal added beside the storage
+//     PC, Town Map poster cleared, 2F escalator removed (issue #59). Nothing in SaveBlock1/2/3
+//     moves, so v7 saves still LOAD (SAVE_FORMAT_LAYOUT_MIN stays 7); the ladder step only
+//     zeroes SaveBlock1.mapView, which would otherwise restore the old poster and staircase
+//     over the new layout for a save made standing inside a Center.
+#define SAVE_FORMAT_VERSION 8
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
 // only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.

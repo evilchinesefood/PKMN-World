@@ -821,6 +821,13 @@
 	trainerbattle TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT, LOCALID_NONE, \trainer, NULL, \lose_text, NULL, LOCALID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
 	.endm
 
+	@ As trainerbattle_no_intro, but for a battle started from a bg_event, where
+	@ there is no trainer object and the reveal movement would run against
+	@ gObjectEvents[OBJECT_EVENTS_COUNT].
+	.macro trainerbattle_no_intro_no_reveal trainer:req, lose_text:req
+	trainerbattle TRAINER_BATTLE_SINGLE_NO_INTRO_NO_REVEAL, LOCALID_NONE, \trainer, NULL, \lose_text, NULL, LOCALID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, FALSE
+	.endm
+
 	@ Starts a double battle with the player against two trainers
 	@ Takes two trainers and defeat text for each
 	.macro trainerbattle_two_trainers trainer_a:req, lose_text_a:req, trainer_b:req, lose_text_b:req

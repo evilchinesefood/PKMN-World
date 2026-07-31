@@ -625,7 +625,7 @@ struct SaveBlock2
                                     // and resynced on load; see src/region_switch.c. (Was the dead
                                     // startRegion - repurposed, no save-layout change.)
     // Region merge save bits (carved from the existing 0x90 reserve — no net size change).
-    /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration reader = MigrateSaveFormatIfNeeded (load_save.c), v0->v6
+    /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration reader = MigrateSaveFormatIfNeeded (load_save.c), v0->v8
     /*0x92*/ u8 kantoIntroDone:1;   // first-visit intro completed (region-switch, Lane R)
              u8 johtoIntroDone:1;
              u8 hoennIntroDone:1;

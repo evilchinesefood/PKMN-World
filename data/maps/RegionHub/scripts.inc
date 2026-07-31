@@ -1545,3 +1545,68 @@ RegionHub_Text_TourClosing:
 RegionHub_Text_CuratorTourOffer:
 	.string "Would you like a tour of WORLD\n"
 	.string "TRANSIT?$"
+
+@ ---------- Battle Net staircase gate (issue #59 part C) ----------
+@ The escalator warp on (1,14) fires straight off the metatile behaviour and has
+@ no script hook -- the very property this issue relies on to seal the 36 Center
+@ 2Fs -- so the champion check moves to the approach tile. (2,14) is the ride
+@ cell's only elevation-legal neighbour, which makes it a true chokepoint, and it
+@ is NOT a warp tile: TryStartCoordEventScript runs BEFORE TryStartWarpEventScript
+@ (field_control_avatar.c), so a gate sitting on the ride cell would swallow the
+@ warp every time it fired.
+@ Precedent: CinnabarIsland_EventScript_GymDoorLocked. Unlike that door, (2,14) is
+@ entered from (3,14), (2,13) AND (2,15), so a fixed bounce direction is wrong --
+@ the facing is read BEFORE the player is turned to face the stairs.
+@ VAR_TEMP_D, not VAR_TEMP_1 (borrowed by the leader-sim difficulty push/pop, and
+@ the sim runs on this map) and not VAR_TEMP_C (the #41 intro tour's arm).
+RegionHub_EventScript_StairsGate::
+	callnative RegionHub_ScrIsAnyRegionChampion
+	goto_if_ne VAR_RESULT, FALSE, RegionHub_EventScript_StairsGateOpen
+	specialvar VAR_0x8004, GetPlayerFacingDirection
+	lockall
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	delay 20
+	msgbox RegionHub_Text_StairsLocked
+	closemessage
+	goto_if_eq VAR_0x8004, DIR_SOUTH, RegionHub_EventScript_StairsBounceNorth
+	goto_if_eq VAR_0x8004, DIR_NORTH, RegionHub_EventScript_StairsBounceSouth
+	applymovement LOCALID_PLAYER, RegionHub_Movement_StairsBounceEast
+	goto RegionHub_EventScript_StairsBounceDone
+
+RegionHub_EventScript_StairsBounceNorth:
+	applymovement LOCALID_PLAYER, RegionHub_Movement_StairsBounceNorth
+	goto RegionHub_EventScript_StairsBounceDone
+
+RegionHub_EventScript_StairsBounceSouth:
+	applymovement LOCALID_PLAYER, RegionHub_Movement_StairsBounceSouth
+
+RegionHub_EventScript_StairsBounceDone:
+	waitmovement 0
+	releaseall
+	end
+
+@ A champion just walks on; the escalator behaviour does the rest.
+RegionHub_EventScript_StairsGateOpen:
+	end
+
+RegionHub_Movement_StairsBounceEast:
+	walk_right
+	step_end
+
+RegionHub_Movement_StairsBounceNorth:
+	walk_up
+	step_end
+
+RegionHub_Movement_StairsBounceSouth:
+	walk_down
+	step_end
+
+@ Deliberately NOT called "BATTLE NET TERMINAL" -- that name now belongs to the
+@ wall unit at (9,9), and two objects answering to one name is a bug report
+@ waiting to happen.
+RegionHub_Text_StairsLocked:
+	.string "BATTLE NET - FLAGSHIP FLOOR\p"
+	.string "ACCESS DENIED.\n"
+	.string "Conquer at least one region's POKéMON\l"
+	.string "LEAGUE first.$"

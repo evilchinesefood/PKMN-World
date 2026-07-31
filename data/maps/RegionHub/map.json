@@ -223,11 +223,11 @@
       "dest_warp_id": "0"
     },
     {
-      "x": 20,
-      "y": 13,
+      "x": 1,
+      "y": 14,
       "elevation": 0,
-      "dest_map": "MAP_REGION_HUB",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_REGION_HUB_2F",
+      "dest_warp_id": 0
     }
   ],
   "coord_events": [
@@ -248,6 +248,15 @@
       "var": "FLAG_HUB_INTRO_TOUR_DONE",
       "var_value": "0",
       "script": "RegionHub_EventScript_IntroTourFromSouth"
+    },
+    {
+      "type": "trigger",
+      "x": 2,
+      "y": 14,
+      "elevation": 3,
+      "var": "VAR_TEMP_D",
+      "var_value": "0",
+      "script": "RegionHub_EventScript_StairsGate"
     }
   ],
   "bg_events": [
@@ -261,11 +270,11 @@
     },
     {
       "type": "sign",
-      "x": 20,
-      "y": 12,
+      "x": 9,
+      "y": 9,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
-      "script": "BattleNet_EventScript_HubConsole"
+      "script": "BattleNet_EventScript_Terminal"
     }
   ],
   "region": "REGION_HOENN"

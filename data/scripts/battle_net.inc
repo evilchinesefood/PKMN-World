@@ -53,58 +53,16 @@ BattleNet_Text_StonePending:
 	.string "for you, but your BAG is full.\p"
 	.string "Make room and win here again to claim it.$"
 
-@ ---------- Hub console: entry to the Battle Net flagship floor (issue #5 P2) ----------
-@ bg_event sign at RegionHub (20,12), on the vendor counter row. Two things must hold, and
-@ BLOCKED alone is not enough: the sign tile must be impassable (a sign on a WALKABLE tile
-@ never fires) AND an adjacent tile must be REACHABLE from the hub arrival warp (16,4).
-@ Verified against data/layouts/RegionHub/map.bin: (20,12) is collision 1, and (20,13) is
-@ collision 0 and inside the 279-tile region flood-filled from (16,4). The earlier placement
-@ at (20,9) was impassable but only readable from (20,10), which sits in the sealed 12-tile
-@ counter pocket x=19..24,y=10..11 -- walkable, but unreachable, so the console never fired.
-@ Warp 1 is (20,13), the arrival anchor coming back down from 2F; it lands the player facing
-@ the console and inside the main floor. bg events get NO counter look-ahead (unlike object
-@ events), which is why the vendor NPCs in that pocket work and a sign there would not.
-@ Gate is the same one the frontier attendant uses: champion of at least one region.
-BattleNet_EventScript_HubConsole::
-	lockall
-	callnative RegionHub_ScrIsAnyRegionChampion
-	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_HubConsoleLocked
-	msgbox BattleNet_Text_HubConsoleAsk, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, BattleNet_EventScript_HubConsoleEnd
-	closemessage
-	warp MAP_REGION_HUB_2F, 0
-	waitstate
-	releaseall
-	end
-
-BattleNet_EventScript_HubConsoleEnd::
-	releaseall
-	end
-
-BattleNet_EventScript_HubConsoleLocked::
-	msgbox BattleNet_Text_HubConsoleLocked, MSGBOX_DEFAULT
-	releaseall
-	end
-
-BattleNet_Text_HubConsoleAsk:
-	.string "BATTLE NET TERMINAL\p"
-	.string "The old link floor upstairs now runs a\n"
-	.string "battle simulation network.\p"
-	.string "Go up?$"
-
-BattleNet_Text_HubConsoleLocked:
-	.string "BATTLE NET TERMINAL\p"
-	.string "ACCESS DENIED.\n"
-	.string "Conquer at least one region's POKéMON\l"
-	.string "LEAGUE first.$"
-
-@ ---------- P3: sim terminal (Scaling Type Trainer + Leader Sim) ----------
-@ Shared by the flagship floor's sim pod and every regional POKéMON CENTER terminal (P4).
+@ ---------- The sim terminal (Scaling Type Trainer + Leader Sim) ----------
+@ ONE entry point, on all 50 maps: the wall terminal beside the storage PC on every
+@ POKéMON CENTER 1F, both League lobbies, One Island, the Battle Frontier centre and
+@ the hub. The three shapes this used to have -- a Johto floor NPC, two Hoenn/Kanto 2F
+@ counter attendants, and the hub's own console -- are gone with issue #59, and so are
+@ the 2Fs they stood on.
 @ Sim battles are Battle Tower-type: full EXP (issue #15), no money, no whiteout; the party is healed
 @ before and after every sim, so the simulation never strands a fainted party.
 @ DoBattleNetSimBattle returns VAR_RESULT 0 when it refused to launch (no battle-ready
 @ mon / empty pool) -- in that case there is NO battle, so the script must NOT waitstate.
-@ Sign form: the wall terminal beside the storage PC on every POKéMON CENTER 1F.
 @ `lock`, not `lockall`. ScrCmd_lockall only unfreezes the follower behind
 @ FLAG_SAFE_FOLLOWER_MOVEMENT, which nothing sets in a Center lobby, so a follower
 @ would stand frozen through every terminal dialogue; ScrCmd_lock unfreezes it
@@ -115,24 +73,17 @@ BattleNet_Text_HubConsoleLocked:
 @ sign form too.
 BattleNet_EventScript_Terminal::
 	lock
-	goto BattleNet_EventScript_TerminalBody
-@ Person-NPC form of the terminal: same body, but the attendant faces the player first.
-@ Every live entry to the combined menu comes through here -- the 13 Johto centers'
-@ 1F attendant and the flagship floor's sim pod. The POKéMON CENTER 2F counters do NOT:
-@ they run one sim each through the two single-purpose attendants further down.
-BattleNet_EventScript_TerminalAttendant::
-	lock
-	faceplayer
-BattleNet_EventScript_TerminalBody::
 	msgbox BattleNet_Text_TerminalIntro, MSGBOX_DEFAULT
 BattleNet_EventScript_TerminalMenu:
 	multichoice 0, 0, MULTI_BNET_SIM_MENU, FALSE
 	switch VAR_RESULT
 	case 0, BattleNet_EventScript_Scaling
 	case 1, BattleNet_EventScript_LeaderSim
-@ `release`, not `releaseall`: every live path in here enters through `lock` + `faceplayer`,
-@ and only `release` clears the held movement `faceplayer` sets. Under `releaseall` the
-@ attendant stayed turned toward the player forever, unable to fall back to FACE_DOWN.
+@ `release`, not `releaseall`, and it is now correct for a different reason than it used
+@ to be. It was `release` because the NPC forms entered through `lock` + `faceplayer` and
+@ only `release` clears the held movement `faceplayer` sets -- under `releaseall` the
+@ attendant stayed turned toward the player forever. There is no attendant any more, but
+@ the sign form enters through the same `lock`, so `release` is still the matching exit.
 BattleNet_EventScript_TerminalBye::
 	msgbox BattleNet_Text_TerminalBye, MSGBOX_DEFAULT
 	release
@@ -213,34 +164,6 @@ BattleNet_EventScript_SimCantStart:
 	msgbox BattleNet_Text_SimCantStart, MSGBOX_DEFAULT
 	release
 	end
-
-@ ---------- The two POKéMON CENTER 2F counter attendants ----------
-@ The 2F counter used to be three link-cable staff plus a sim terminal standing loose on
-@ the floor. The floor NPC is gone and the two right-hand slots each run one sim directly,
-@ with no menu layer: Union Room -> Scaling Type Trainer, Direct Corner -> Leader Sim.
-@ Each needs its own cancel target. Sharing BattleNet_EventScript_TerminalMenu's would
-@ drop a player who backed out of the type picker into the 2-option menu and offer them
-@ Leader Sim anyway, which is exactly what splitting the menu was meant to stop.
-
-BattleNet_EventScript_ScalingAttendant::
-	lock
-	faceplayer
-	msgbox BattleNet_Text_ScalingAttendantIntro, MSGBOX_DEFAULT
-BattleNet_EventScript_ScalingAttendantLoop:
-	call BattleNet_EventScript_PickType
-	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_TerminalBye
-	call BattleNet_EventScript_ScalingRun
-	msgbox BattleNet_Text_AnotherMatch, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, BattleNet_EventScript_ScalingAttendantLoop
-	goto BattleNet_EventScript_TerminalBye
-
-@ Leader Sim needs no cancel fix: its region picker already exits to TerminalBye rather
-@ than back to the combined menu, and so does declining another match.
-BattleNet_EventScript_LeaderSimAttendant::
-	lock
-	faceplayer
-	msgbox BattleNet_Text_LeaderSimAttendantIntro, MSGBOX_DEFAULT
-	goto BattleNet_EventScript_LeaderSim
 
 @ Leader Sim: rerun any gym leader's HARD rematch as a simulation. BP only -- the
 @ shard/stone economy stays on the real gym visits (no couch-farming). Gated per
@@ -458,16 +381,6 @@ BattleNet_Text_TerminalIntro:
 	.string "BATTLE NET TERMINAL\p"
 	.string "Sim battles pay full EXP. No money\n"
 	.string "at stake, party restored after.$"
-BattleNet_Text_ScalingAttendantIntro:
-	.string "This counter runs the BATTLE NET's\n"
-	.string "SCALING TYPE TRAINER.\p"
-	.string "Name a type and I'll field a squad\n"
-	.string "of it, close to your party's level.$"
-BattleNet_Text_LeaderSimAttendantIntro:
-	.string "This counter runs the BATTLE NET's\n"
-	.string "LEADER SIM.\p"
-	.string "I can rerun any GYM LEADER rematch\n"
-	.string "from a region you've conquered.$"
 BattleNet_Text_TerminalBye:
 	.string "LOGGING OFF.\n"
 	.string "The BATTLE NET thanks you!$"

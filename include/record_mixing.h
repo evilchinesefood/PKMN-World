@@ -8,6 +8,9 @@ struct PlayerHallRecords
 };
 
 void RecordMixingPlayerSpotTriggered(void);
+// Declared here because the struct is, but DEFINED in src/frontier_util.c: the
+// Battle Frontier Ranking Hall is its only single-player caller, and leaving it
+// in record_mixing.c would tie a live facility to a link module (issue #59 E4).
 void GetPlayerHallRecords(struct PlayerHallRecords *dst);
 
 #endif //GUARD_RECORD_MIXING_H

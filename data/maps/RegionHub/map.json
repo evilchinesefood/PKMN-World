@@ -253,7 +253,7 @@
       "type": "trigger",
       "x": 2,
       "y": 14,
-      "elevation": 4,
+      "elevation": 0,
       "var": "VAR_TEMP_D",
       "var_value": "0",
       "script": "RegionHub_EventScript_StairsGate"

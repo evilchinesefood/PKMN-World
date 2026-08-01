@@ -59,12 +59,28 @@ RegionHub_MapScripts::
 @ the only temp var this map touches -- data/scripts/battle_net.inc borrows VAR_TEMP_1 for its
 @ difficulty push/pop and the leader sim runs here, so VAR_TEMP_1 is not usable.
 RegionHub_OnTransition::
+	call RegionHub_EventScript_ArmStairsGate
 	goto_if_unset FLAG_HUB_INTRO_TOUR_DONE, RegionHub_EventScript_ArmIntroTour
 	end
 
 RegionHub_EventScript_ArmIntroTour::
 	setvar VAR_TEMP_C, 1
 	end
+
+@ Battle Net staircase gate arm (issue #59 part C). The (2,14) coord event fires
+@ while VAR_TEMP_D == 0; for a champion this sets it to 1 so the event stops
+@ MATCHING and the walk onto the escalator is completely ordinary. This is the
+@ vanilla conditional-gate idiom -- a coord-event script that runs and merely
+@ `end`s leaves the field controls locked (script startup locks them, and only
+@ a release path unlocks), so the admitted case must never fire the event at
+@ all. ClearTempFieldEventData zeroes VAR_TEMP_D before this runs, so a
+@ championship earned mid-visit takes effect on the next map entry.
+RegionHub_EventScript_ArmStairsGate::
+	callnative RegionHub_ScrIsAnyRegionChampion
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_StairsGateStayArmed
+	setvar VAR_TEMP_D, 1
+RegionHub_EventScript_StairsGateStayArmed:
+	return
 
 RegionHub_OnFrame::
 	map_script_2 VAR_TEMP_C, 1, RegionHub_EventScript_IntroTourOnArrival
@@ -1628,8 +1644,6 @@ RegionHub_Text_CuratorTourOffer:
 @ VAR_TEMP_D, not VAR_TEMP_1 (borrowed by the leader-sim difficulty push/pop, and
 @ the sim runs on this map) and not VAR_TEMP_C (the #41 intro tour's arm).
 RegionHub_EventScript_StairsGate::
-	callnative RegionHub_ScrIsAnyRegionChampion
-	goto_if_ne VAR_RESULT, FALSE, RegionHub_EventScript_StairsGateOpen
 	specialvar VAR_0x8004, GetPlayerFacingDirection
 	lockall
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
@@ -1652,10 +1666,6 @@ RegionHub_EventScript_StairsBounceSouth:
 RegionHub_EventScript_StairsBounceDone:
 	waitmovement 0
 	releaseall
-	end
-
-@ A champion just walks on; the escalator behaviour does the rest.
-RegionHub_EventScript_StairsGateOpen:
 	end
 
 RegionHub_Movement_StairsBounceEast:

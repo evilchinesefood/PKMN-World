@@ -27,9 +27,11 @@ local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF   -- include/constants/flags.h (FLAG_WORL
 local CURATOR = 13                       -- LOCALID_REGION_HUB_CURATOR
 local DIR_SOUTH, DIR_WEST = 1, 3         -- enum Direction, include/constants/global.h
 local CREST = { 16, 4 }
-local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 } }
+local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 },
+                { 9, 11 }, { 4, 13 } }
 local STOP_NAMES = { "HOENN gate", "JOHTO gate", "KANTO gate", "FRONTIER gate",
-                     "world tour board", "POKeMART counter", "POKeMON CENTER counter" }
+                     "world tour board", "POKeMART counter", "POKeMON CENTER counter",
+                     "BATTLE NET terminal", "flagship stairs" }
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
 local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end

@@ -832,7 +832,7 @@ CableClub_EventScript_UnionRoomAttendant::
 
 CableClub_Text_LinkServicesClosed:
 	.string "The link services are closed.\n"
-	.string "Please enjoy the WORLD TRANSIT pad!$"
+	.string "Please enjoy the BATTLE NET!$"
 
 CableClub_EventScript_UnionRoomSelect::
 	multichoice 17, 6, MULTI_YESNOINFO, FALSE

@@ -1182,6 +1182,18 @@ RegionHub_EventScript_IntroTourWalk::
 	waitmovement LOCALID_REGION_HUB_CURATOR
 	msgbox RegionHub_Text_TourCenter, MSGBOX_DEFAULT
 	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToTerminal
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToTerminal
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourTerminal, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToStairs
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToStairs
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourStairs, MSGBOX_DEFAULT
+	closemessage
 	msgbox RegionHub_Text_TourClosing, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideDepart
@@ -1419,11 +1431,11 @@ RegionHub_Movement_TourGuideToCenter:
 	face_left
 	step_end
 
-@ (14,12) -> (14,13) -> east to (23,13). From the player at (13,12) the visible columns are x 6..20,
-@ so this clears the right edge by 3 columns and the setobjectxy that follows is never seen. The
-@ southward step is only to get out of the y=12 corridor, which runs out of floor at x=17.
+@ (5,13) -> east along row 13 to (14,13). From the player at (4,13) the visible columns
+@ are x -3..11, so this clears the right edge by 3 columns and the setobjectxy that
+@ follows is never seen. Row 13 is open floor the whole way (the harbor master stands a
+@ row south at (3,14) and is never crossed).
 RegionHub_Movement_TourGuideDepart:
-	walk_fast_down
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
@@ -1433,6 +1445,46 @@ RegionHub_Movement_TourGuideDepart:
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
+	step_end
+
+RegionHub_Movement_TourPlayerToTerminal:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	face_up
+	step_end
+
+RegionHub_Movement_TourGuideToTerminal:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	face_up
+	step_end
+
+RegionHub_Movement_TourPlayerToStairs:
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	face_left
+	step_end
+
+RegionHub_Movement_TourGuideToStairs:
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	face_left
 	step_end
 
 @ Curator-entry normalisation onto (22,6).
@@ -1533,6 +1585,22 @@ RegionHub_Text_TourCenter:
 	.string "them.\p"
 	.string "One set of BOXES, shared by all\n"
 	.string "three regions.$"
+
+
+RegionHub_Text_TourTerminal:
+	.string "This terminal is the BATTLE NET.\p"
+	.string "Simulated matches, any time: full\n"
+	.string "EXP, no money at stake, and your\l"
+	.string "team is healed after every bout.\p"
+	.string "Every POKéMON CENTER lobby has\n"
+	.string "one now, right beside the PC.$"
+
+RegionHub_Text_TourStairs:
+	.string "And these stairs are brand-new.\p"
+	.string "The old link floor up there is the\n"
+	.string "BATTLE NET's flagship arena.\p"
+	.string "Fair warning: the escalator only\n"
+	.string "admits a region's CHAMPION.$"
 
 RegionHub_Text_TourClosing:
 	.string "That's the whole hall.\p"

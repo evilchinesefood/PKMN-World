@@ -39,8 +39,8 @@ emulator-verified test passes.
 **New in v1.4:** the **Battle Net**. Its flagship floor opens above the hub once you're a
 Champion — HARD rematches drop signature Mega Stones, and all 28 stone-holding leaders Mega
 Evolve against you — with its battle modes live: the Scaling Type Trainer, the Leader Sim, the
-7-win Tower Streak, and the Lv50/Monotype/Little Cup ruleset rooms, plus a sim terminal in every
-regional Pokémon Center. Sims pay **full EXP** (and evolutions), making them the game's training
+7-win Tower Streak, and the Lv50/Monotype/Little Cup ruleset rooms, plus a Battle Net wall terminal in
+every Pokémon Center lobby. Sims pay **full EXP** (and evolutions), making them the game's training
 grounds — in Hard Mode the badge level caps still apply, so they can't outrun your progression.
 v1.4 also enforces the **Gen 1–3 roster** across every party, and carries a large fix wave from
 scripted emulator test passes. The Battle Net hasn't had a human play pass yet, so expect

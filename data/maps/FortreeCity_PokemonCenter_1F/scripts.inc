@@ -20,7 +20,7 @@ FortreeCity_PokemonCenter_1F_EventScript_Gentleman::
 	end
 
 FortreeCity_PokemonCenter_1F_EventScript_Man::
-	msgbox FortreeCity_PokemonCenter_1F_Text_RecordCornerIsNeat, MSGBOX_NPC
+	msgbox FortreeCity_PokemonCenter_1F_Text_BattleNetIsNeat, MSGBOX_NPC
 	end
 
 FortreeCity_PokemonCenter_1F_EventScript_Boy::
@@ -33,11 +33,11 @@ FortreeCity_PokemonCenter_1F_Text_GoToSafariZone:
 	.string "Hmm… Go to the SAFARI ZONE.\n"
 	.string "That's my suggestion.$"
 
-FortreeCity_PokemonCenter_1F_Text_RecordCornerIsNeat:
-	.string "Have you seen the WORLD TRANSIT\n"
-	.string "pad upstairs?\p"
-	.string "It's pretty neat. It can warp\n"
-	.string "CHAMPIONS to the TERMINAL.\p"
+FortreeCity_PokemonCenter_1F_Text_BattleNetIsNeat:
+	.string "Have you seen the BATTLE NET\n"
+	.string "TERMINAL beside the PC?\p"
+	.string "It's pretty neat. It simulates\n"
+	.string "whole battles on demand.\p"
 	.string "I don't know quite how it works,\n"
 	.string "but it's cool. It's exciting, even!$"
 

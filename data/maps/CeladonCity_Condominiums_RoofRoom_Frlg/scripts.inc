@@ -126,26 +126,24 @@ CeladonCity_Condominiums_RoofRoom_Text_ReadWhichHeading::
 	.string "Which heading do you want to read?$"
 
 CeladonCity_Condominiums_RoofRoom_Text_ExplainWirelessClub::
-	.string "The POKéMON WIRELESS CLUB is\n"
-	.string "upstairs at any POKéMON CENTER.\p"
-	.string "Visit one to link up with friend(s)\n"
-	.string "using your Wireless Adapter.$"
+	.string "The POKéMON WIRELESS CLUB has\n"
+	.string "closed its POKéMON CENTER floors.\p"
+	.string "Its old equipment now powers the\n"
+	.string "BATTLE NET simulation network.$"
 
 CeladonCity_Condominiums_RoofRoom_Text_ExplainDirectCorner::
-	.string "To link only with a friend, go to\n"
-	.string "the DIRECT CORNER.\p"
-	.string "It is the right counter at the\n"
-	.string "POKéMON WIRELESS CLUB.\p"
-	.string "Go into the TRADE CORNER or the\n"
-	.string "COLOSSEUM with your friend.$"
+	.string "The DIRECT CORNER once linked\n"
+	.string "friends for trades and battles.\p"
+	.string "Its successor is the BATTLE NET\n"
+	.string "TERMINAL in every POKéMON CENTER\l"
+	.string "lobby, beside the PC.$"
 
 CeladonCity_Condominiums_RoofRoom_Text_ExplainUnionRoom::
-	.string "To link and communicate with\n"
-	.string "anyone, go to the UNION ROOM.\p"
-	.string "It is the left counter at the\n"
-	.string "POKéMON WIRELESS CLUB.\p"
-	.string "Go to the UNION ROOM and enjoy\n"
-	.string "meeting other TRAINERS.$"
+	.string "The UNION ROOM was where TRAINERS\n"
+	.string "once met to battle and mingle.\p"
+	.string "The BATTLE NET's simulated\n"
+	.string "TRAINERS are said to be modeled\l"
+	.string "on the crowds it drew.$"
 
 CeladonCity_Condominiums_RoofRoom_Text_PamphletOnTMs::
 	.string "It's a pamphlet on TMs.\p"

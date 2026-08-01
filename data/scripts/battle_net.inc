@@ -378,7 +378,8 @@ BattleNet_EventScript_SimGiovanni::
 
 @ ---------- P3 texts ----------
 BattleNet_Text_TerminalIntro:
-	.string "BATTLE NET TERMINAL\p"
+	.string "BATTLE NET TERMINAL\n"
+	.string "READY.\p"
 	.string "Sim battles pay full EXP. No money\n"
 	.string "at stake, party restored after.$"
 BattleNet_Text_TerminalBye:

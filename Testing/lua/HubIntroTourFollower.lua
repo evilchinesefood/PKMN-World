@@ -212,7 +212,7 @@ F.run(function()
 
   drain(80, "tour_end")
   local ex, ey = F.pos()
-  F.check("the escort ends at the POKéMON CENTER counter", ex == 13 and ey == 12, string.format("(%d,%d)", ex, ey))
+  F.check("the escort ends at the flagship stairs (#59 stop 9)", ex == 4 and ey == 13, string.format("(%d,%d)", ex, ey))
   F.check("the player is released", F.ensureFree())
   local fe = obj(FOLLOWER)
   F.check("the follower is out again after the escort", fe ~= nil and not fe.invisible,
@@ -228,6 +228,12 @@ F.run(function()
   -- quietly passing the check above for a different reason.
   F.check("the engine pocketed the follower for the scripted escort", visible == 0 and activeSamples > 0,
     string.format("%d active samples, %d visible", activeSamples, visible))
+  -- The #59 tour ends at (4,13), eighteen columns from the guide's (22,7) post,
+  -- and the Depart walk carries him outside the object-spawn window where the
+  -- engine culls him from gObjectEvents. Warp back to the crest (six columns
+  -- from the post) so the respawned object is checkable at all.
+  F.check("warp back for the guide check", F.warpTo(1, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, "guideCheck"))
+  F.idle(240)
   local ge = obj(CURATOR)
   F.check("the guide still gets home to (22,7) with a follower out", ge ~= nil and ge.x == 22 and ge.y == 7, at(ge))
   F.check("the tour flag is set after the escort", flagGet(FLAG_HUB_INTRO_TOUR_DONE))

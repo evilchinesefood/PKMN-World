@@ -1,4 +1,13 @@
+#include "constants/global.h"
+
 	.section script_data, "aw", %progbits
+
+@ Issue #59: the whole table rides LINK_MYSTERY_EVENT. Its only consumer was
+@ mystery_event_script.c's interpreter; the REAL build's --gc-sections dropped
+@ it silently once that was compiled out, but ld_script_test.ld keeps every
+@ script_data section, so the TEST link needed the seventeen MEScrCmd_* refs --
+@ which is how CI caught what the ROM link could not.
+#if LINK_MYSTERY_EVENT == TRUE
 
 	.align 2
 gMysteryEventScriptCmdTable::
@@ -20,3 +29,4 @@ gMysteryEventScriptCmdTable::
 	.4byte MEScrCmd_checksum            @ 0x0f
 	.4byte MEScrCmd_crc                 @ 0x10
 gMysteryEventScriptCmdTableEnd::
+#endif

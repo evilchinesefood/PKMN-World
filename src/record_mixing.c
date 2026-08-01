@@ -35,6 +35,10 @@
 #include "constants/battle_frontier.h"
 #include "dewford_trend.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_RECORD_MIXING compiles the module to nothing.
+#if LINK_RECORD_MIXING == TRUE
+
 // Number of bytes of the record transferred at a time
 #define BUFFER_CHUNK_SIZE 200
 
@@ -1366,3 +1370,11 @@ static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *ds
 
     CalcEmeraldBattleTowerChecksum(dst);
 }
+
+#else // LINK_RECORD_MIXING
+// The Record Corner's floor-spot script on the (now sealed) Center 2Fs. The
+// def_special row keeps the symbol a hard link reference, so it must exist.
+void RecordMixingPlayerSpotTriggered(void)
+{
+}
+#endif // LINK_RECORD_MIXING

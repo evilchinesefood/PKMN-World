@@ -35,6 +35,10 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_CABLE_CLUB compiles the module to nothing.
+#if LINK_CABLE_CLUB == TRUE
+
 static const struct WindowTemplate sWindowTemplate_LinkPlayerCount = {
     .bg = 0,
     .tilemapLeft = 16,
@@ -1328,3 +1332,103 @@ void TrySetBattleTowerLinkType(void)
 }
 
 #undef tState
+
+#else // LINK_CABLE_CLUB
+// The linkup specials are REACHABLE from live single-player maps: the Battle
+// Tower Multi-Link attendant, the contest hall's link modes and the Berry
+// Blender link corners. Their calling scripts do NOT waitstate -- the real
+// specials stop the script context themselves and their UI tasks re-enable it
+// -- so a synchronous stub that sets the result and never stops the context
+// makes the script branch immediately: a graceful decline, no softlock.
+void TryBattleLinkup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void TryTradeLinkup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void TryRecordMixLinkup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void TryBerryBlenderLinkup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void TryContestGModeLinkup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void TryContestEModeLinkup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+// Selects the wired-vs-wireless battle-tower link type ahead of a linkup that
+// now always fails; nothing downstream reads what it would have set.
+void TrySetBattleTowerLinkType(void)
+{
+}
+
+// The rest are invoked only from scripts inside the link rooms themselves,
+// which lost their only door when the 2F staircases were sealed.
+void CableClubSaveGame(void)
+{
+}
+
+void CleanupLinkRoomState(void)
+{
+}
+
+void ColosseumPlayerSpotTriggered(void)
+{
+}
+
+void PlayerEnteredTradeSeat(void)
+{
+}
+
+void ExitLinkRoom(void)
+{
+}
+
+void Script_ShowLinkTrainerCard(void)
+{
+}
+
+void Script_StartWiredTrade(void)
+{
+}
+
+// overworld.c picks the plain vs coloured trainer-card script off this.
+bool32 GetLinkTrainerCardColor(u8 linkPlayerIndex)
+{
+    return FALSE;
+}
+
+// Task_ReturnToFieldCableLink (field_screen_effect.c) polls the returned task
+// id for completion. Only reachable when returning to the field from a link
+// room, which no longer has a door; 0 satisfies the signature.
+u8 CreateTask_ReestablishCableClubLink(void)
+{
+    return 0;
+}
+
+// Referenced by battle_main.c / battle_controllers.c / trade.c link paths that
+// stay compiled. If one is ever created it must not wedge the task list.
+void Task_ReconnectWithLinkPlayers(u8 taskId)
+{
+    DestroyTask(taskId);
+}
+
+void Task_WaitForLinkPlayerConnection(u8 taskId)
+{
+    DestroyTask(taskId);
+}
+#endif // LINK_CABLE_CLUB

@@ -5,6 +5,10 @@
 #include "mystery_gift_server.h"
 #include "mystery_gift_link.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 enum {
     FUNC_INIT,
     FUNC_DONE,
@@ -288,3 +292,5 @@ static u32 MysteryGiftServer_CallFunc(struct MysteryGiftServer *svr)
     AGB_ASSERT(svr->funcId < ARRAY_COUNT(sFuncTable));
     return response;
 }
+
+#endif // LINK_MYSTERY_GIFT

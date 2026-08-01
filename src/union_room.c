@@ -53,6 +53,10 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_UNION_ROOM compiles the module to nothing.
+#if LINK_UNION_ROOM == TRUE
+
 // States for Task_RunUnionRoom
 enum {
     UR_STATE_INIT,
@@ -4518,3 +4522,53 @@ static void CopyAndTranslatePlayerName(u8 *dest, struct RfuPlayer *player)
     StringCopy_PlayerName(dest, player->rfu.name);
     ConvertInternationalString(dest, player->rfu.data.compatibility.language);
 }
+
+#else // LINK_UNION_ROOM
+// Six live single-player callers (trainer card, party menu, item use, ...)
+// gate link-only behaviour on this. The room is unreachable, so: no.
+bool32 InUnionRoom(void)
+{
+    return FALSE;
+}
+
+// On the LIVE nurse path of every POKeMON CENTER: the heal script asks whether
+// a partner is waiting in the Union Room before offering the normal heal.
+// 0 = nobody waiting, proceed to EventScript_PkmnCenterNurse_ReturnPkmn.
+bool16 BufferUnionRoomPlayerName(void)
+{
+    return 0;
+}
+
+// The remaining specials are invoked only from scripts on the sealed 2Fs and
+// their def_special rows keep the symbols hard link references. They decline
+// synchronously and never stop the script context, so the caller simply
+// continues; the real ones park the script and re-enable it from a task.
+void InitUnionRoom(void)
+{
+}
+
+void RunUnionRoom(void)
+{
+}
+
+void Script_ResetUnionRoomTrade(void)
+{
+}
+
+// Reachable live: the Battle Tower Multi-Link wireless flow calls these after
+// its linkup. With every Try*Linkup declining they cannot be reached with a
+// live link, but they still answer LINKUP_FAILED rather than trusting that.
+void TryBecomeLinkLeader(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void TryJoinLinkGroup(void)
+{
+    gSpecialVar_Result = LINKUP_FAILED;
+}
+
+void SetUsingUnionRoomStartMenu(void)
+{
+}
+#endif // LINK_UNION_ROOM

@@ -21,6 +21,10 @@
 #include "constants/rgb.h"
 #include "constants/trainers.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_UNION_ROOM compiles the module to nothing.
+#if LINK_UNION_ROOM == TRUE
+
 struct UnionRoomBattle
 {
     s16 textState;
@@ -231,3 +235,5 @@ void CB2_UnionRoomBattle(void)
     BuildOamBuffer();
     UpdatePaletteFade();
 }
+
+#endif // LINK_UNION_ROOM

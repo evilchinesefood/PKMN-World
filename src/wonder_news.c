@@ -5,6 +5,11 @@
 #include "wonder_news.h"
 #include "constants/items.h"
 #include "item.h"
+#include "constants/mystery_gift.h"
+
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
 
 // Every 4th reward for sending Wonder News to a link partner is a "big" reward.
 #define MAX_SENT_REWARD 4
@@ -155,3 +160,14 @@ static u32 GetRewardType(struct WonderNewsMetadata *data)
         return NEWS_REWARD_NONE;
     }
 }
+
+#else // LINK_MYSTERY_GIFT
+// The Wonder News reward man in CeruleanCity_House4 is on a LIVE map. His
+// script branches specialvar-return against NEWS_REWARD_*; NONE routes to the
+// "no news" line, which is also what the real code returns with no valid news.
+u16 WonderNews_GetRewardInfo(void)
+{
+    gSpecialVar_Result = 0;
+    return NEWS_REWARD_NONE;
+}
+#endif // LINK_MYSTERY_GIFT

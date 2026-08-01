@@ -1,5 +1,9 @@
 #include "global.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_EVENT compiles the module to nothing.
+#if LINK_MYSTERY_EVENT == TRUE
+
 const u8 gText_MysteryEventBerry[] = _("Obtained a {STR_VAR_2} BERRY!\nDad has it at PETALBURG GYM.");
 const u8 gText_MysteryEventBerryTransform[] = _("The {STR_VAR_1} BERRY transformed into\none {STR_VAR_2} BERRY.");
 const u8 gText_MysteryEventBerryObtained[] = _("The {STR_VAR_1} BERRY has already been\nobtained.");
@@ -11,3 +15,5 @@ const u8 gText_MysteryEventFullParty[] = _("Your party is full.\n{STR_VAR_1} cou
 const u8 gText_MysteryEventNewTrainer[] = _("A new TRAINER has arrived in\nHOENN.");
 const u8 gText_MysteryEventNewAdversaryInBattleTower[] = _("A new adversary has arrived in the\nBATTLE TOWER.");
 const u8 gText_MysteryEventCantBeUsed[] = _("This data can't be used in\nthis version.");
+
+#endif // LINK_MYSTERY_EVENT

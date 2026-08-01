@@ -9,6 +9,10 @@
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_UNION_ROOM compiles the module to nothing.
+#if LINK_UNION_ROOM == TRUE
+
 #define UR_SPRITE_START_ID (MAX_SPRITES - MAX_UNION_ROOM_LEADERS)
 
 // Each parent player can lead a group of up to MAX_RFU_PLAYERS (including themselves).
@@ -599,3 +603,5 @@ void UpdateUnionRoomMemberFacing(u32 memberId, u32 leaderId, struct RfuPlayerLis
 {
     return SetUnionRoomObjectFacingDirection(memberId, leaderId, GetNewFacingDirectionForUnionRoomPlayer(memberId, leaderId, &list->players[leaderId].rfu.data));
 }
+
+#endif // LINK_UNION_ROOM

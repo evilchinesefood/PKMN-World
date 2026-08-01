@@ -30,7 +30,7 @@
 // Union Room + Wireless Club Chat + the wireless communication status screen
 // (the status screen depends on CreateTask_ListenToWireless in union_room.c,
 // so it rides this flag rather than owning one).
-#define LINK_UNION_ROOM     TRUE
+#define LINK_UNION_ROOM     FALSE
 
 // Mystery Gift menu/client/server/link/scripts + Wonder News + the e-Reader
 // screen (CB2_InitEReader lives in mystery_gift_menu.c, so the e-Reader rides
@@ -53,5 +53,22 @@
 // contest-hall link modes and Berry Blender link corners are reachable in
 // normal single-player play and must decline gracefully, not softlock.
 #define LINK_CABLE_CLUB     TRUE
+
+// Two real dependencies the issue's file-level survey missed, both found by
+// the linker on the first wrong-order flip attempts:
+//   - the Union Room UI borrows the Mystery Gift menu's text machinery
+//     (union_room.c calls DoMysteryGiftYesNo, GetMysteryGiftBaseBlock,
+//     MG_AddMessageTextPrinter, MG_DrawTextBorder, PrintMysteryGiftMenuMessage)
+//   - the Mystery Gift client executes mystery-event scripts delivered over
+//     the wire (mystery_gift_client.c calls InitMysteryEventScriptContext /
+//     RunMysteryEventScriptContextCommand)
+// So the only valid removal order is union_room -> mystery_gift ->
+// mystery_event, the reverse of the issue's step 10.
+#if LINK_UNION_ROOM == TRUE && LINK_MYSTERY_GIFT == FALSE
+#error "LINK_UNION_ROOM requires LINK_MYSTERY_GIFT: union_room.c borrows the gift menu's text machinery."
+#endif
+#if LINK_MYSTERY_GIFT == TRUE && LINK_MYSTERY_EVENT == FALSE
+#error "LINK_MYSTERY_GIFT requires LINK_MYSTERY_EVENT: mystery_gift_client.c executes mystery-event scripts."
+#endif
 
 #endif // GUARD_CONFIG_LINK_H

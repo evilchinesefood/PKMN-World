@@ -4571,4 +4571,38 @@ void TryJoinLinkGroup(void)
 void SetUsingUnionRoomStartMenu(void)
 {
 }
+
+// RAM state that outlives the module: trade.c keys its link-vs-ingame branches
+// off gPlayerCurrActivity (and must stay byte-identical -- issue #59 keeps the
+// in-game trades), and the party menu reads the offered-species/type/compat
+// trio in its trade-eligibility checks. All are EWRAM, so keeping them defined
+// costs no ROM; their initial values are the "no link activity" states those
+// readers already treat as inert.
+EWRAM_DATA u8 gPlayerCurrActivity = 0;
+EWRAM_DATA struct RfuGameCompatibilityData gRfuPartnerCompatibilityData = {};
+EWRAM_DATA enum Species gUnionRoomOfferedSpecies = SPECIES_NONE;
+EWRAM_DATA enum Type gUnionRoomRequestedMonType = TYPE_NONE;
+
+// The Mystery Gift menu's wireless-distribution flows and the Cable Club's
+// wired-trade handoff create their link tasks HERE, in union_room.c -- inbound
+// references the issue's file-level survey missed, found by the linker when
+// this module was first flipped off. Both callers sit behind link setups that
+// now always decline, so none of these can be reached with a live connection;
+// the stubs exist to keep their modules linking while they remain compiled.
+u8 CreateTask_CreateTradeMenu(void)
+{
+    return 0;
+}
+
+void CreateTask_LinkMysteryGiftWithFriend(u32 activity)
+{
+}
+
+void CreateTask_LinkMysteryGiftOverWireless(u32 activity)
+{
+}
+
+void CreateTask_SendMysteryGift(u32 activity)
+{
+}
 #endif // LINK_UNION_ROOM

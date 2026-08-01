@@ -27,9 +27,11 @@ local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF   -- include/constants/flags.h (FLAG_WORL
 local CURATOR = 13                       -- LOCALID_REGION_HUB_CURATOR
 local DIR_SOUTH, DIR_WEST = 1, 3         -- enum Direction, include/constants/global.h
 local CREST = { 16, 4 }
-local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 } }
+local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 },
+                { 9, 11 }, { 4, 13 } }
 local STOP_NAMES = { "HOENN gate", "JOHTO gate", "KANTO gate", "FRONTIER gate",
-                     "world tour board", "POKeMART counter", "POKeMON CENTER counter" }
+                     "world tour board", "POKeMART counter", "POKeMON CENTER counter",
+                     "BATTLE NET terminal", "flagship stairs" }
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
 local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
@@ -190,14 +192,14 @@ F.run(function()
 
   drain(80, "tour_end")
   local ex, ey = F.pos()
-  F.check("the tour ends at the POKeMON CENTER counter", ex == 13 and ey == 12, string.format("(%d,%d)", ex, ey))
+  F.check("the tour ends at the flagship stairs (#59 stop 9)", ex == 4 and ey == 13, string.format("(%d,%d)", ex, ey))
   F.check("the player is released and free to walk", F.ensureFree())
-  local ge = obj(CURATOR)
-  F.check("guide is snapped home to (22,7)", ge ~= nil and ge.x == 22 and ge.y == 7, at(ge))
-  F.check("guide faces down at his post", ge ~= nil and ge.facing == DIR_SOUTH, at(ge))
-  -- The issue-#42 trap: a held movement left set blocks the NEXT faceplayer outright
-  -- (ObjectEventSetHeldMovement returns early when the movement is already overridden).
-  F.check("guide has no stale held movement after the escort", ge ~= nil and not ge.heldActive)
+  -- The guide CANNOT be checked live from here: the #59 tour ends at (4,13),
+  -- eighteen columns from his (22,7) post, and the walk-away Depart carries him
+  -- outside the object-spawn window, where the engine culls him from
+  -- gObjectEvents. His setobjectxyperm still landed -- phase 4 warps back to
+  -- the crest (six columns from the post) and proves position, facing AND the
+  -- held-movement state on the respawned object.
   F.check("the flag stays set after a completed tour", flagGet(FLAG_HUB_INTRO_TOUR_DONE))
   F.shot("tour_end")
 
@@ -210,6 +212,8 @@ F.run(function()
   local gr = obj(CURATOR)
   F.check("guide is still at (22,7) after a map reload", gr ~= nil and gr.x == 22 and gr.y == 7, at(gr))
   F.check("guide still faces down after a map reload", gr ~= nil and gr.facing == DIR_SOUTH, at(gr))
+  -- The issue-#42 trap: a stale held movement blocks the NEXT faceplayer outright.
+  F.check("guide has no stale held movement after the escort", gr ~= nil and not gr.heldActive)
   F.check("no tour re-triggers on a later arrival at the crest", F.ensureFree())
 
   ----------------------------------------------------------------------------------------------
@@ -284,11 +288,14 @@ F.run(function()
   F.check("the (21,7) branch normalises the player onto the crest", crest2)
   local allStops = true
   for i = 1, #STOPS do if seen2[i] == nil then allStops = false end end
-  F.check("all seven stops still run in order from the (21,7) entry", allStops)
+  F.check("all nine stops still run in order from the (21,7) entry", allStops)
   drain(80, "west_tour_end")
   local wex, wey = F.pos()
-  F.check("the (21,7) escort also ends at the CENTER counter", wex == 13 and wey == 12, string.format("(%d,%d)", wex, wey))
+  F.check("the (21,7) escort also ends at the flagship stairs", wex == 4 and wey == 13, string.format("(%d,%d)", wex, wey))
   F.check("the player is released after the (21,7) escort", F.ensureFree())
+  -- Same spawn-window reality as phase 3: verify the guide from the crest.
+  F.check("warp back for the guide check", F.warpTo(1, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, "westGuide"))
+  F.idle(240)
   local gw2 = obj(CURATOR)
   F.check("guide is home after the (21,7) escort", gw2 ~= nil and gw2.x == 22 and gw2.y == 7, at(gw2))
   F.shot("west_entry_end")

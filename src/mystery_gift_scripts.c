@@ -3,6 +3,10 @@
 #include "mystery_gift_server.h"
 #include "mystery_gift.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 static const u8 sText_CanceledReadingCard[] = _("Canceled reading\nthe Card.");
 
 
@@ -215,3 +219,5 @@ const struct MysteryGiftServerCmd gMysteryGiftServerScript_SendWonderCard[] = {
     {SVR_GOTO_IF_EQ, HAS_NO_CARD, sServerScript_SendCard},
     {SVR_GOTO, .ptr = sServerScript_HasCard} // HAS_SAME_CARD
 };
+
+#endif // LINK_MYSTERY_GIFT

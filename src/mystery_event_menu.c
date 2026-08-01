@@ -20,6 +20,10 @@
 #include "decompress.h"
 #include "constants/rgb.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_EVENT compiles the module to nothing.
+#if LINK_MYSTERY_EVENT == TRUE
+
 enum {
     WIN_MSG,
     WIN_LOADING,
@@ -318,3 +322,5 @@ static void PrintMysteryMenuText(u8 windowId, const u8 *text, u8 x, u8 y, s32 sp
     FillWindowPixelBuffer(windowId, PIXEL_FILL(textColor[0]));
     AddTextPrinterParameterized4(windowId, FONT_NORMAL, x, y, letterSpacing, lineSpacing, textColor, speed, text);
 }
+
+#endif // LINK_MYSTERY_EVENT

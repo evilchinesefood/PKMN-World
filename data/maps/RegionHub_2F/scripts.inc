@@ -256,10 +256,6 @@ BattleNet_EventScript_RuleFailMono:
 	msgbox BattleNet_Text_RuleMono, MSGBOX_DEFAULT
 	goto BattleNet_EventScript_StreakMenu
 
-@ ---------- Sim terminal (P3): Scaling Type Trainer + Leader Sim ----------
-BattleNet_EventScript_SimTerminal::
-	goto BattleNet_EventScript_TerminalAttendant
-
 @ ---------- Texts ----------
 BattleNet_Text_DirectorIntro:
 	.string "Welcome to the BATTLE NET!\p"

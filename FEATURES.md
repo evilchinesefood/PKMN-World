@@ -96,8 +96,7 @@ Three hub staffers handle handouts:
   one-way trip, so you re-enter regions through the hub's departure gates. You can also reach
   a region's own access point in normal play: the **Goldenrod Magnet Train** (the Pass comes
   from the station president after the Radio Tower incident), the **Vermilion harbor**, or the
-  **Slateport harbor**. Once you're a **champion of two regions**, every Pokémon Center
-  (2F in Hoenn/Kanto, lobby in Johto) gains a World Transit warp pad.
+  **Slateport harbor**. The HUB PASS from your bag is the way back to the hub afterward.
 - The active region and hub access live in a versioned save format with a migration reader,
   so older saves keep loading across updates.
 
@@ -169,9 +168,11 @@ flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:
   best run on the records board — and three **ruleset rooms**, **Lv50**, **Monotype**, and
   **Little Cup** (Lv5, unevolved, still able to evolve), each a three-mon sim paying
   **2 BP** a win to a party that matches the rule.
-- Every regional **Pokémon Center** link floor — Hoenn and Kanto's Center 2Fs, Johto's
-  single-floor Centers, 49 rooms in all — hosts a **Battle Net terminal** carrying the
-  Scaling Type Trainer and Leader Sim, so the sim economy travels with you.
+- Every **Pokémon Center lobby** — all 50 rooms across the three regions, both League
+  lobbies, One Island and the hub — hosts a **Battle Net wall terminal** beside the PC,
+  carrying the Scaling Type Trainer and Leader Sim, so the sim economy travels with you.
+  The old Center 2Fs (and the link-era Union Room, Wireless Club, Mystery Gift and
+  Record Corner they hosted) are gone; the hub's flagship floor gained a real staircase.
 
 ## Character customization
 

@@ -177,16 +177,20 @@ static const struct { u16 oldId; u16 newId; } sKantoVarRebase[] = {
 // IMPORTANT: because the SaveBlock3 banks are un-checksummed, saveVersion is their ONLY
 // integrity guard. If any region-bank size (or the SaveBlock2 region-bit offset) changes, you
 // MUST bump SAVE_FORMAT_VERSION and add a ladder step below - the STATIC_ASSERTs enforce it.
-// ⚠ AS OF SAVE FORMAT v7 THIS WHOLE LADDER IS UNREACHABLE. v7 reshaped SaveBlock1 (bag/item-PC
+// ⚠ THE v0..v6 STEPS ARE UNREACHABLE; THE MECHANISM IS NOT. v7 reshaped SaveBlock1 (bag/item-PC
 // expansion, issue #24) and the owner's decision was new-saves-only, so src/save.c refuses any
 // save below SAVE_FORMAT_LAYOUT_MIN before this function is ever called. No v0..v6 source version
-// can reach the steps below.
+// can reach those steps.
 //
-// It is kept, not deleted, for two reasons: the steps document exactly what each historical bump
-// changed, and the next append-only bump (v7 -> v8) re-activates the mechanism unchanged. But do
-// not mistake it for live code — and note the fixtures in Testing/lua/fixtures/ (v3/v4/v5) now
-// exercise the GATE, not the ladder; MigrateFixtures.lua was rewritten to assert the refusal.
-// If a future decision drops the gate, this ladder is what makes that possible again.
+// The v7 -> v8 step below IS live. SAVE_FORMAT_LAYOUT_MIN stays 7, so a v7 save loads normally and
+// arrives here with savedVersion == 7. The refusal at src/save.c:908 and the migrate call at :919
+// are the two arms of one if/else, and migration runs at boot on the copyright screen, long before
+// InitMapFromSavedGame — which is what makes the mapView zeroing effective.
+//
+// The dead steps are kept, not deleted, because they document exactly what each historical bump
+// changed and any future append-only bump re-uses the mechanism unchanged. Note the fixtures in
+// Testing/lua/fixtures/ (v3/v4/v5) exercise the GATE, not the ladder; MigrateFixtures.lua was
+// rewritten to assert the refusal. The v7 fixture is the one that exercises a real migration.
 void MigrateSaveFormatIfNeeded(void)
 {
     u8 savedVersion = gSaveBlock2Ptr->saveVersion;
@@ -242,6 +246,20 @@ void MigrateSaveFormatIfNeeded(void)
             gSaveBlock3Ptr->region.regionVars[sKantoVarRebase[i].newId - REGION_VARS_START]
                 = gSaveBlock1Ptr->vars[sKantoVarRebase[i].oldId - VARS_START];
     }
+
+    // v6 -> v7: nothing. v7 reshaped SaveBlock1 and is refused outright by the
+    // SAVE_FORMAT_LAYOUT_MIN gate in src/save.c, so no ladder step can observe a v6 source.
+    // v7 -> v8: the POKéMON CENTER 1F layouts changed (issue #59). SaveBlock1.mapView is a
+    // snapshot of the metatiles around the player, saved so a re-entered map redraws exactly as
+    // it was left, and InitMapFromSavedGame restores it (fieldmap.c) BEFORE the map's own
+    // ON_LOAD script runs. A v7 save made standing inside a Center would therefore paint the old
+    // Town Map poster and the old staircase back over the new layout. Zeroing it costs nothing:
+    // mapView is transient state that ClearSavedMapView() wipes immediately after a restore.
+    // Note this is only safe because UBFIX is active (MODERN implies it, Makefile): the vanilla
+    // arm of SavedMapViewIsEmpty ORs 512 bytes past the 0x100-element array into
+    // playerPartyCount/playerParty, and would report "not empty" for anyone with a party.
+    if (savedVersion < 8)
+        memset(gSaveBlock1Ptr->mapView, 0, sizeof(gSaveBlock1Ptr->mapView));
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }

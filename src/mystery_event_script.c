@@ -16,6 +16,10 @@
 #include "mystery_event_msg.h"
 #include "pokemon_storage_system.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_EVENT compiles the module to nothing.
+#if LINK_MYSTERY_EVENT == TRUE
+
 extern ScrCmdFunc gMysteryEventScriptCmdTable[];
 extern ScrCmdFunc gMysteryEventScriptCmdTableEnd[];
 
@@ -402,3 +406,5 @@ bool8 MEScrCmd_crc(struct ScriptContext *ctx)
     }
     return TRUE;
 }
+
+#endif // LINK_MYSTERY_EVENT

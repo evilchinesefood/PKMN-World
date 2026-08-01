@@ -1289,6 +1289,8 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
     {
     case TRAINER_BATTLE_SINGLE_NO_INTRO_TEXT:
         return EventScript_DoNoIntroTrainerBattle;
+    case TRAINER_BATTLE_SINGLE_NO_INTRO_NO_REVEAL:
+        return EventScript_DoNoIntroNoRevealTrainerBattle;
     case TRAINER_BATTLE_DOUBLE:
         SetMapVarsToTrainerA();
         return EventScript_TryDoDoubleTrainerBattle;

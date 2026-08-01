@@ -50,13 +50,13 @@ OldaleTown_PokemonCenter_1F_Text_PokemonCentersAreGreat:
 	.string "You never have to worry!$"
 
 OldaleTown_PokemonCenter_1F_Text_WirelessClubNotAvailable:
-	.string "Did you see? The 2nd floor has a\n"
-	.string "WORLD TRANSIT pad now!\p"
-	.string "They say CHAMPIONS can warp\n"
-	.string "straight to the TERMINAL.$"
+	.string "Did you see? There's a BATTLE NET\n"
+	.string "TERMINAL beside the PC now!\p"
+	.string "Practice matches with no money on\n"
+	.string "the line. What a time to be alive!$"
 
 OldaleTown_PokemonCenter_1F_Text_TradedInWirelessClub:
-	.string "A WORLD TRANSIT pad was built on\n"
-	.string "the second floor recently.\p"
+	.string "That BATTLE NET TERMINAL by the\n"
+	.string "PC went in just recently.\p"
 	.string "I hear it hums with energy!$"
 

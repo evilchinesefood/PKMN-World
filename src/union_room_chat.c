@@ -27,6 +27,9 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
+// Issue #59: the 2F seal removed the Wireless Club's only entry point.
+#if LINK_UNION_ROOM == TRUE
+
 enum
 {
     UNION_ROOM_KB_PAGE_UPPER,
@@ -335,6 +338,9 @@ static const u8 sKeyboardPageMaxRow[UNION_ROOM_KB_PAGE_COUNT] =
     [UNION_ROOM_KB_PAGE_REGISTER] = 9
 };
 
+#endif // LINK_UNION_ROOM
+// Kept unconditionally: string_util.c's case-toggle copy helper indexes
+// this table, and that path is live single-player code (issue #59).
 const u8 gCaseToggleTable[256] = {
     [CHAR_A] = CHAR_a,
     [CHAR_B] = CHAR_b,
@@ -481,6 +487,7 @@ const u8 gCaseToggleTable[256] = {
     [CHAR_CURRENCY] = CHAR_CURRENCY,
     [CHAR_BLACK_TRIANGLE] = CHAR_BLACK_TRIANGLE,
 };
+#if LINK_UNION_ROOM == TRUE
 
 // Excludes UNION_ROOM_KB_PAGE_REGISTER, the text for which is chosen by the player
 static const u8 *const sUnionRoomKeyboardText[UNION_ROOM_KB_PAGE_COUNT - 1][UNION_ROOM_KB_ROW_COUNT] =
@@ -3308,3 +3315,12 @@ static void UpdateRButtonLabel(void)
     }
 
 }
+
+#else // LINK_UNION_ROOM
+// New-game init of the chat's registered phrases. The storage those phrases
+// lived in becomes reserved padding with the module gone, so there is nothing
+// to initialise.
+void InitUnionRoomChatRegisteredTexts(void)
+{
+}
+#endif // LINK_UNION_ROOM

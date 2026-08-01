@@ -32,6 +32,10 @@
 #include "wonder_news.h"
 #include "constants/cable_club.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 enum {
     WIN_HEADER,
     WIN_MSG,
@@ -1624,3 +1628,5 @@ static void LoadMysteryGiftTextboxBorder(u8 bgId)
 {
     DecompressAndLoadBgGfxUsingHeap(bgId, sTextboxBorder_Gfx, 0x100, 0, 0);
 }
+
+#endif // LINK_MYSTERY_GIFT

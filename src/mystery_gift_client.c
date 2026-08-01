@@ -8,6 +8,10 @@
 #include "mystery_event_script.h"
 #include "mystery_gift_client.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 enum {
     FUNC_INIT,
     FUNC_DONE,
@@ -302,3 +306,5 @@ static u32 MysteryGiftClient_CallFunc(struct MysteryGiftClient *client)
     };
     return funcs[client->funcId](client);
 }
+
+#endif // LINK_MYSTERY_GIFT

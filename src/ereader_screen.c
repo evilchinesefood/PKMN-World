@@ -14,6 +14,10 @@
 #include "util.h"
 #include "constants/songs.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 // Equivalent to MysteryGiftTaskData
 struct EReaderTaskData
 {
@@ -516,3 +520,5 @@ static void Task_EReader(u8 taskId)
         break;
     }
 }
+
+#endif // LINK_MYSTERY_GIFT

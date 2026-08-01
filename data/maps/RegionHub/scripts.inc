@@ -59,12 +59,28 @@ RegionHub_MapScripts::
 @ the only temp var this map touches -- data/scripts/battle_net.inc borrows VAR_TEMP_1 for its
 @ difficulty push/pop and the leader sim runs here, so VAR_TEMP_1 is not usable.
 RegionHub_OnTransition::
+	call RegionHub_EventScript_ArmStairsGate
 	goto_if_unset FLAG_HUB_INTRO_TOUR_DONE, RegionHub_EventScript_ArmIntroTour
 	end
 
 RegionHub_EventScript_ArmIntroTour::
 	setvar VAR_TEMP_C, 1
 	end
+
+@ Battle Net staircase gate arm (issue #59 part C). The (2,14) coord event fires
+@ while VAR_TEMP_D == 0; for a champion this sets it to 1 so the event stops
+@ MATCHING and the walk onto the escalator is completely ordinary. This is the
+@ vanilla conditional-gate idiom -- a coord-event script that runs and merely
+@ `end`s leaves the field controls locked (script startup locks them, and only
+@ a release path unlocks), so the admitted case must never fire the event at
+@ all. ClearTempFieldEventData zeroes VAR_TEMP_D before this runs, so a
+@ championship earned mid-visit takes effect on the next map entry.
+RegionHub_EventScript_ArmStairsGate::
+	callnative RegionHub_ScrIsAnyRegionChampion
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_StairsGateStayArmed
+	setvar VAR_TEMP_D, 1
+RegionHub_EventScript_StairsGateStayArmed:
+	return
 
 RegionHub_OnFrame::
 	map_script_2 VAR_TEMP_C, 1, RegionHub_EventScript_IntroTourOnArrival
@@ -1182,6 +1198,18 @@ RegionHub_EventScript_IntroTourWalk::
 	waitmovement LOCALID_REGION_HUB_CURATOR
 	msgbox RegionHub_Text_TourCenter, MSGBOX_DEFAULT
 	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToTerminal
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToTerminal
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourTerminal, MSGBOX_DEFAULT
+	closemessage
+	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourPlayerToStairs
+	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideToStairs
+	waitmovement OBJ_EVENT_ID_PLAYER
+	waitmovement LOCALID_REGION_HUB_CURATOR
+	msgbox RegionHub_Text_TourStairs, MSGBOX_DEFAULT
+	closemessage
 	msgbox RegionHub_Text_TourClosing, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideDepart
@@ -1419,11 +1447,11 @@ RegionHub_Movement_TourGuideToCenter:
 	face_left
 	step_end
 
-@ (14,12) -> (14,13) -> east to (23,13). From the player at (13,12) the visible columns are x 6..20,
-@ so this clears the right edge by 3 columns and the setobjectxy that follows is never seen. The
-@ southward step is only to get out of the y=12 corridor, which runs out of floor at x=17.
+@ (5,13) -> east along row 13 to (14,13). From the player at (4,13) the visible columns
+@ are x -3..11, so this clears the right edge by 3 columns and the setobjectxy that
+@ follows is never seen. Row 13 is open floor the whole way (the harbor master stands a
+@ row south at (3,14) and is never crossed).
 RegionHub_Movement_TourGuideDepart:
-	walk_fast_down
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
@@ -1433,6 +1461,46 @@ RegionHub_Movement_TourGuideDepart:
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
+	step_end
+
+RegionHub_Movement_TourPlayerToTerminal:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	face_up
+	step_end
+
+RegionHub_Movement_TourGuideToTerminal:
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	face_up
+	step_end
+
+RegionHub_Movement_TourPlayerToStairs:
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	face_left
+	step_end
+
+RegionHub_Movement_TourGuideToStairs:
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	face_left
 	step_end
 
 @ Curator-entry normalisation onto (22,6).
@@ -1534,6 +1602,22 @@ RegionHub_Text_TourCenter:
 	.string "One set of BOXES, shared by all\n"
 	.string "three regions.$"
 
+
+RegionHub_Text_TourTerminal:
+	.string "This terminal is the BATTLE NET.\p"
+	.string "Simulated matches, any time: full\n"
+	.string "EXP, no money at stake, and your\l"
+	.string "team is healed after every bout.\p"
+	.string "Every POKéMON CENTER lobby has\n"
+	.string "one now, right beside the PC.$"
+
+RegionHub_Text_TourStairs:
+	.string "And these stairs are brand-new.\p"
+	.string "The old link floor up there is the\n"
+	.string "BATTLE NET's flagship arena.\p"
+	.string "Fair warning: the escalator only\n"
+	.string "admits a region's CHAMPION.$"
+
 RegionHub_Text_TourClosing:
 	.string "That's the whole hall.\p"
 	.string "Take the KANTO gate first - trust\n"
@@ -1545,3 +1629,62 @@ RegionHub_Text_TourClosing:
 RegionHub_Text_CuratorTourOffer:
 	.string "Would you like a tour of WORLD\n"
 	.string "TRANSIT?$"
+
+@ ---------- Battle Net staircase gate (issue #59 part C) ----------
+@ The escalator warp on (1,14) fires straight off the metatile behaviour and has
+@ no script hook -- the very property this issue relies on to seal the 36 Center
+@ 2Fs -- so the champion check moves to the approach tile. (2,14) is the ride
+@ cell's only elevation-legal neighbour, which makes it a true chokepoint, and it
+@ is NOT a warp tile: TryStartCoordEventScript runs BEFORE TryStartWarpEventScript
+@ (field_control_avatar.c), so a gate sitting on the ride cell would swallow the
+@ warp every time it fired.
+@ Precedent: CinnabarIsland_EventScript_GymDoorLocked. Unlike that door, (2,14) is
+@ entered from (3,14), (2,13) AND (2,15), so a fixed bounce direction is wrong --
+@ the facing is read BEFORE the player is turned to face the stairs.
+@ VAR_TEMP_D, not VAR_TEMP_1 (borrowed by the leader-sim difficulty push/pop, and
+@ the sim runs on this map) and not VAR_TEMP_C (the #41 intro tour's arm).
+RegionHub_EventScript_StairsGate::
+	specialvar VAR_0x8004, GetPlayerFacingDirection
+	lockall
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	delay 20
+	msgbox RegionHub_Text_StairsLocked
+	closemessage
+	goto_if_eq VAR_0x8004, DIR_SOUTH, RegionHub_EventScript_StairsBounceNorth
+	goto_if_eq VAR_0x8004, DIR_NORTH, RegionHub_EventScript_StairsBounceSouth
+	applymovement LOCALID_PLAYER, RegionHub_Movement_StairsBounceEast
+	goto RegionHub_EventScript_StairsBounceDone
+
+RegionHub_EventScript_StairsBounceNorth:
+	applymovement LOCALID_PLAYER, RegionHub_Movement_StairsBounceNorth
+	goto RegionHub_EventScript_StairsBounceDone
+
+RegionHub_EventScript_StairsBounceSouth:
+	applymovement LOCALID_PLAYER, RegionHub_Movement_StairsBounceSouth
+
+RegionHub_EventScript_StairsBounceDone:
+	waitmovement 0
+	releaseall
+	end
+
+RegionHub_Movement_StairsBounceEast:
+	walk_right
+	step_end
+
+RegionHub_Movement_StairsBounceNorth:
+	walk_up
+	step_end
+
+RegionHub_Movement_StairsBounceSouth:
+	walk_down
+	step_end
+
+@ Deliberately NOT called "BATTLE NET TERMINAL" -- that name now belongs to the
+@ wall unit at (9,9), and two objects answering to one name is a bug report
+@ waiting to happen.
+RegionHub_Text_StairsLocked:
+	.string "BATTLE NET - FLAGSHIP FLOOR\p"
+	.string "ACCESS DENIED.\n"
+	.string "Conquer at least one region's POKéMON\l"
+	.string "LEAGUE first.$"

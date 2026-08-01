@@ -1955,10 +1955,20 @@ static bool8 EscalatorWarpIn_Init(struct Task *task)
         behavior = TRUE;
         task->tState = 3; // jump to EscalatorWarpIn_Up_Init
     }
-    else // MB_UP_ESCALATOR
+    else if (behavior == MB_UP_ESCALATOR)
     {
         // If dest is up escalator tile, player is riding down
         behavior = FALSE;
+    }
+    else
+    {
+        // Dest is not an escalator at all, so there is nothing to ride. Skip
+        // straight to EscalatorWarpIn_End rather than returning early: by this
+        // point the field controls are locked, the camera is frozen, the shadow
+        // is off and a held movement is queued, and End is the only thing that
+        // undoes them.
+        task->tState = 6;
+        return TRUE;
     }
     StartEscalator(behavior);
     return TRUE;

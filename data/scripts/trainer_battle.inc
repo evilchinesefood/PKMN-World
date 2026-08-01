@@ -53,6 +53,17 @@ EventScript_DoNoIntroTrainerBattle::
 	dotrainerbattle
 	gotopostbattlescript
 
+@ Same battle entry, minus the reveal. Movement_RevealTrainer exists to turn a
+@ hidden trainer object toward the player; a bg_event has no object, and
+@ VAR_LAST_TALKED there is LOCALID_NONE (or a stale id from the last NPC the
+@ player spoke to). Faking it is not an option -- applymovement on LOCALID_NONE
+@ resolves to gObjectEvents[OBJECT_EVENTS_COUNT], one past the array, and
+@ ScrCmd_applymovement writes through that pointer unconditionally.
+EventScript_DoNoIntroNoRevealTrainerBattle::
+	special PlayTrainerEncounterMusic
+	dotrainerbattle
+	gotopostbattlescript
+
 EventScript_TryDoRematchBattle::
 	call EventScript_RevealTrainer
 	specialvar VAR_RESULT, IsTrainerReadyForRematch

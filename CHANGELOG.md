@@ -37,8 +37,8 @@ everywhere.
   2 BP a win to a party that matches the rule. Sim battles run under Battle
   Tower rules — no money at stake, no whiteout, party restored around every
   match. A **Battle Net terminal** was also installed in every regional
-  Pokémon Center (49 rooms across all three regions) carrying the Scaling
-  Type Trainer and Leader Sim.
+  Pokémon Center (now a wall terminal beside the PC in all 50 lobbies,
+  issue #59) carrying the Scaling Type Trainer and Leader Sim.
 - **Battle Net sims pay EXP**: the Scaling Type Trainer, Tower Streak, and
   ruleset rooms now award full experience (and post-battle evolutions) — the
   sims are meant to be the game's training grounds. Money still never changes
@@ -474,8 +474,7 @@ between worlds.
   Switching regions boxes your party to the shared PC (mail is moved to the PC
   mailbox — nothing is lost). You return to the hub through each region's own
   access point — the Goldenrod Magnet Train, Vermilion harbor, or Slateport
-  harbor — and once you're champion of two regions, every Pokémon Center 2F
-  gains a World Transit warp pad.
+  harbor — and the HUB PASS in your bag warps you back to the hub from anywhere.
 - **Shared progress** — one bag, one PC, one Pokédex, one wallet. Story,
   badges, and trainer defeats are tracked per region; obedience and HM field
   moves follow your **current** region's badges.

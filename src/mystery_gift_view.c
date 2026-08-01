@@ -17,6 +17,10 @@
 #include "constants/rgb.h"
 #include "constants/mystery_gift.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 struct WonderGraphics
 {
     u8 titleTextPal:4;
@@ -929,3 +933,5 @@ static void UpdateNewsScroll(void)
         sWonderNewsData->scrollTotal = 0;
     }
 }
+
+#endif // LINK_MYSTERY_GIFT

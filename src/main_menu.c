@@ -667,8 +667,13 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         {
         case SAVE_STATUS_OK:
             tMenuType = HAS_SAVED_GAME;
+#if LINK_MYSTERY_GIFT == TRUE
+            // Issue #59: with the Mystery Gift code compiled out the menu row
+            // must never appear -- a legacy save may still carry
+            // FLAG_SYS_MYSTERY_GIFT_ENABLE from the (now doorless) 2F man.
             if (IsMysteryGiftEnabled())
                 tMenuType++;
+#endif
             gTasks[taskId].func = Task_MainMenuCheckBattery;
             break;
         case SAVE_STATUS_CORRUPT:
@@ -680,8 +685,10 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
             CreateMainMenuErrorWindow(gText_SaveFileCorrupted);
             gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
             tMenuType = HAS_SAVED_GAME;
+#if LINK_MYSTERY_GIFT == TRUE
             if (IsMysteryGiftEnabled() == TRUE)
                 tMenuType++;
+#endif
             break;
         case SAVE_STATUS_EMPTY:
         default:
@@ -1122,18 +1129,24 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             SetMainCallback2(CB2_InitOptionMenu);
             DestroyTask(taskId);
             break;
+#if LINK_MYSTERY_GIFT == TRUE
         case ACTION_MYSTERY_GIFT:
             SetMainCallback2(CB2_InitMysteryGift);
             DestroyTask(taskId);
             break;
+#endif
+#if LINK_MYSTERY_EVENT == TRUE
         case ACTION_MYSTERY_EVENTS:
             SetMainCallback2(CB2_InitMysteryEventMenu);
             DestroyTask(taskId);
             break;
+#endif
+#if LINK_MYSTERY_GIFT == TRUE
         case ACTION_EREADER:
             SetMainCallback2(CB2_InitEReader);
             DestroyTask(taskId);
             break;
+#endif
         case ACTION_INVALID:
             gTasks[taskId].tCurrItem = 0;
             gTasks[taskId].func = Task_DisplayMainMenuInvalidActionError;

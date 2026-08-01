@@ -25,7 +25,7 @@ static const u16 sWhiteoutRespawnHealCenterMapIdxs[][4] = {
 #undef DEFAULT_POKEMON_CENTER_X
 #undef DEFAULT_POKEMON_CENTER_Y
 
-static const u8 sWhiteoutRespawnHealerNpcIds[] = {
+static const u8 sWhiteoutRespawnHealerNpcIds[NUM_HEAL_LOCATIONS - 1] = {
 ## for heal_location in heal_locations
 {% if existsIn(heal_location, "respawn_npc") and heal_location.respawn_npc != "" %}
     [{{ heal_location.id }} - 1] = {{ heal_location.respawn_npc }},

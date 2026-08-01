@@ -22,7 +22,8 @@ local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF
 local CURATOR = 13                  -- LOCALID_REGION_HUB_CURATOR
 local FOLLOWER = 0xFE               -- OBJ_EVENT_ID_FOLLOWER
 local CREST = { 16, 4 }
-local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 } }
+local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 },
+                { 9, 11 }, { 4, 13 } }
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
 local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
@@ -211,7 +212,7 @@ F.run(function()
 
   drain(80, "tour_end")
   local ex, ey = F.pos()
-  F.check("the escort ends at the POKéMON CENTER counter", ex == 13 and ey == 12, string.format("(%d,%d)", ex, ey))
+  F.check("the escort ends at the flagship stairs (#59 stop 9)", ex == 4 and ey == 13, string.format("(%d,%d)", ex, ey))
   F.check("the player is released", F.ensureFree())
   local fe = obj(FOLLOWER)
   F.check("the follower is out again after the escort", fe ~= nil and not fe.invisible,
@@ -227,6 +228,12 @@ F.run(function()
   -- quietly passing the check above for a different reason.
   F.check("the engine pocketed the follower for the scripted escort", visible == 0 and activeSamples > 0,
     string.format("%d active samples, %d visible", activeSamples, visible))
+  -- The #59 tour ends at (4,13), eighteen columns from the guide's (22,7) post,
+  -- and the Depart walk carries him outside the object-spawn window where the
+  -- engine culls him from gObjectEvents. Warp back to the crest (six columns
+  -- from the post) so the respawned object is checkable at all.
+  F.check("warp back for the guide check", F.warpTo(1, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, "guideCheck"))
+  F.idle(240)
   local ge = obj(CURATOR)
   F.check("the guide still gets home to (22,7) with a follower out", ge ~= nil and ge.x == 22 and ge.y == 7, at(ge))
   F.check("the tour flag is set after the escort", flagGet(FLAG_HUB_INTRO_TOUR_DONE))

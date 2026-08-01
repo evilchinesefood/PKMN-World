@@ -40,15 +40,14 @@ MauvilleCity_PokemonCenter_1F_Text_ManOverThereSaysWeirdThings:
 	.string "I doubt I'll forget about him!$"
 
 MauvilleCity_PokemonCenter_1F_Text_MyDataUpdatedFromRecordCorner:
-	.string "When I accessed the RECORD CORNER,\n"
-	.string "the data for what's hot in DEWFORD\l"
-	.string "got updated.\p"
-	.string "Now that bit of data is the same\n"
-	.string "as my friend's!$"
+	.string "The old RECORD CORNER upstairs is\n"
+	.string "gone, if you can believe it.\p"
+	.string "These days the trends in DEWFORD\n"
+	.string "just drift on their own.$"
 
 MauvilleCity_PokemonCenter_1F_Text_RecordCornerSoundsFun:
-	.string "A WORLD TRANSIT pad opened upstairs\n"
-	.string "in the POKéMON CENTER.\p"
+	.string "A BATTLE NET TERMINAL opened right\n"
+	.string "here in the POKéMON CENTER.\p"
 	.string "I don't know what it's about, but it\n"
 	.string "sounds fun. I'll go check it out!$"
 

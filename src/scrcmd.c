@@ -413,7 +413,15 @@ bool8 ScrCmd_setmysteryeventstatus(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1);
 
+    // Issue #59: the opcode row in script_cmd_table.inc is deliberately
+    // untouched (a conditional row silently renumbers every later opcode in
+    // test builds), so the handler keeps consuming its one byte and simply
+    // stops forwarding it. No script in the tree invokes the opcode.
+#if LINK_MYSTERY_EVENT == TRUE
     SetMysteryEventScriptStatus(status);
+#else
+    (void)status;
+#endif
     return FALSE;
 }
 

@@ -11,6 +11,10 @@
 #include "mystery_gift.h"
 #include "mystery_gift_link.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_MYSTERY_GIFT compiles the module to nothing.
+#if LINK_MYSTERY_GIFT == TRUE
+
 /*
     Handles the link connection functions used by the Mystery Gift client/server.
     Note: MysteryGiftLink is shortened to MGL for internal functions.
@@ -220,3 +224,5 @@ static bool32 MGL_Send(struct MysteryGiftLink *link)
 
     return FALSE;
 }
+
+#endif // LINK_MYSTERY_GIFT

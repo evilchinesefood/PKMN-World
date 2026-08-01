@@ -20,6 +20,10 @@
 #include "constants/union_room.h"
 #include "constants/rgb.h"
 
+// Issue #59: the POKeMON CENTER 2F seal removed this feature's only
+// entry point; LINK_UNION_ROOM compiles the module to nothing.
+#if LINK_UNION_ROOM == TRUE
+
 enum {
     COLORMODE_NORMAL,
     COLORMODE_WHITE_LGRAY,
@@ -469,3 +473,9 @@ static bool32 UpdateCommunicationCounts(u32 *groupCounts, u32 *prevGroupCounts, 
         return TRUE;
     }
 }
+
+#else // LINK_UNION_ROOM
+void ShowWirelessCommunicationScreen(void)
+{
+}
+#endif // LINK_UNION_ROOM

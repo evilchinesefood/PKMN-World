@@ -44,7 +44,7 @@
 
 // Record mixing. GetPlayerHallRecords was moved to frontier_util.c first --
 // the Battle Frontier Ranking Hall is live single-player content.
-#define LINK_RECORD_MIXING  TRUE
+#define LINK_RECORD_MIXING  FALSE
 
 // The Cable Club link-room machinery. Its scripts in data/scripts/cable_club*.inc
 // stay assembling (they also host the Battle Colosseum / TradeCenter /

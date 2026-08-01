@@ -40,7 +40,7 @@
 // Mystery Event menu + script interpreter + messages. The setmysteryeventstatus
 // opcode row is untouched; the handler in scrcmd.c keeps consuming its byte and
 // simply stops forwarding it (no script in the tree invokes the opcode).
-#define LINK_MYSTERY_EVENT  TRUE
+#define LINK_MYSTERY_EVENT  FALSE
 
 // Record mixing. GetPlayerHallRecords was moved to frontier_util.c first --
 // the Battle Frontier Ranking Hall is live single-player content.

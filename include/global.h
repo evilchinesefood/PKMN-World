@@ -1314,12 +1314,19 @@ struct SaveBlock1
 #if FREE_MYSTERY_EVENT_BUFFERS == FALSE
     /*0x3???*/ struct RamScript ramScript;
 #endif //FREE_MYSTERY_EVENT_BUFFERS
-    /*0x3???*/ struct RecordMixingGift recordMixingGift;
+    // Was `struct RecordMixingGift recordMixingGift` (16 B, compiler-probed) - its only
+    // readers were mystery_event_script.c and record_mixing.c, both compiled out by
+    // issue #59's link removal. Reserved, not removed: reclaiming save bytes is a
+    // save-format bump (see reservedQuestData below for the idiom).
+    /*0x3???*/ u8 reservedRecordMixingGift[16];
     /*0x3???*/ LilycoveLady lilycoveLady;
     /*0x3???*/ struct TrainerNameRecord trainerNameRecords[20];
-#if FREE_UNION_ROOM_CHAT == FALSE
-    /*0x3???*/ u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
-#endif //FREE_UNION_ROOM_CHAT
+    // Was `u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21]` behind FREE_UNION_ROOM_CHAT
+    // (which must NEVER be flipped - it lives in checksummed SaveBlock1 and shifts
+    // flags/vars/bag). Its only user was union_room_chat.c, compiled out by issue #59.
+    // 212 = the compiler-probed footprint: 210 bytes of array + 2 alignment bytes that
+    // sat before trainerHill, folded in so the next offset cannot move.
+    /*0x3???*/ u8 reservedUnionRoomChat[212];
 #if FREE_TRAINER_HILL == FALSE
     /*0x3???*/ struct TrainerHillSave trainerHill;
 #endif //FREE_TRAINER_HILL

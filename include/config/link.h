@@ -35,7 +35,7 @@
 // Mystery Gift menu/client/server/link/scripts + Wonder News + the e-Reader
 // screen (CB2_InitEReader lives in mystery_gift_menu.c, so the e-Reader rides
 // this flag). src/mystery_gift.c itself stays as the stub host.
-#define LINK_MYSTERY_GIFT   TRUE
+#define LINK_MYSTERY_GIFT   FALSE
 
 // Mystery Event menu + script interpreter + messages. The setmysteryeventstatus
 // opcode row is untouched; the handler in scrcmd.c keeps consuming its byte and

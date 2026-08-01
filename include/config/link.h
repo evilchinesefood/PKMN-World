@@ -52,7 +52,7 @@
 // invoke become synchronous decline stubs, because the Battle Tower Multi-Link,
 // contest-hall link modes and Berry Blender link corners are reachable in
 // normal single-player play and must decline gracefully, not softlock.
-#define LINK_CABLE_CLUB     TRUE
+#define LINK_CABLE_CLUB     FALSE
 
 // Two real dependencies the issue's file-level survey missed, both found by
 // the linker on the first wrong-order flip attempts:

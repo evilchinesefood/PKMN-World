@@ -1406,6 +1406,13 @@ void Script_StartWiredTrade(void)
 {
 }
 
+// The record-mix language gate, reached only past a TryRecordMixLinkup that
+// now always fails; CONNECTION_ERROR routes its script to the shared abort.
+void ValidateMixingGameLanguage(void)
+{
+    gSpecialVar_Result = LINKUP_CONNECTION_ERROR;
+}
+
 // overworld.c picks the plain vs coloured trainer-card script off this.
 bool32 GetLinkTrainerCardColor(u8 linkPlayerIndex)
 {

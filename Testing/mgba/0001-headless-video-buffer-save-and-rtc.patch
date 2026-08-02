@@ -1,0 +1,107 @@
+diff --git a/src/platform/headless-main.c b/src/platform/headless-main.c
+index 61110b1..374c8b2 100644
+--- a/src/platform/headless-main.c
++++ b/src/platform/headless-main.c
+@@ -37,12 +37,16 @@ static const char* const headlessUsage =
+ #ifdef ENABLE_SCRIPTING
+ 	"  --script FILE    Run a script on start. Can be passed multiple times\n"
+ #endif
++	"  --rtc SECONDS    Start the RTC at a fixed Unix time and advance it off the emulated\n"
++	"                   frame counter instead of the wall clock, making runs reproducible\n"
+ 	;
+ 
+ struct HeadlessOpts {
+ 	int exitSwiImmediate;
+ 	char* returnCodeRegister;
+ 	struct StringList scripts;
++	int64_t rtc;
++	bool rtcSet;
+ };
+ 
+ static void _headlessShutdown(int signal);
+@@ -53,6 +57,7 @@ static bool _parseSwi(const char* regStr, int* oSwi);
+ static bool _headlessCheckResiger(void);
+ 
+ static struct mCore* core;
++static void* _outputBuffer = NULL;
+ 
+ static bool _dispatchExiting = false;
+ static int _exitCode = 0;
+@@ -89,6 +94,10 @@ int main(int argc, char * argv[]) {
+ 				.name = "script",
+ 				.arg = true,
+ 			},
++			{
++				.name = "rtc",
++				.arg = true,
++			},
+ 			{0}
+ 		},
+ 		.opts = &headlessOpts
+@@ -114,6 +123,14 @@ int main(int argc, char * argv[]) {
+ 		goto argsExit;
+ 	}
+ 	core->init(core);
++
++	// The headless frontend never attached a video buffer, so the core rendered into a NULL
++	// pointer. Anything that reads back pixels -- notably emu:screenshot() from a script --
++	// segfaulted partway through encoding (the PNG header landed on disk, then the process
++	// died). Every other frontend does this; see platform/test/perf-main.c and platform/sdl.
++	_outputBuffer = malloc(256 * 256 * 4);
++	core->setVideoBuffer(core, _outputBuffer, 256);
++
+ 	mCoreInitConfig(core, "headless");
+ 	mArgumentsApply(&args, NULL, 0, &core->config);
+ 
+@@ -165,6 +182,21 @@ int main(int argc, char * argv[]) {
+ 		goto loadError;
+ 	}
+ 
++	// Attach the battery save sitting beside the ROM. Every other frontend does this (qt's
++	// CoreManager, sdl/main.c, psp2, gui-runner); headless did not, so it silently ran every
++	// ROM with an empty save -- a suite pointed at a save fixture booted to NEW GAME and the
++	// run looked like a game-side regression rather than a missing file.
++	mCoreAutoloadSave(core);
++
++	// RTC_FAKE_EPOCH rather than RTC_FIXED: the clock starts at the requested instant but then
++	// advances off the emulated frame counter, so it is both reproducible AND monotonic. A
++	// frozen clock (RTC_FIXED) would break anything that waits for time to pass -- day/night
++	// transitions here -- while leaving it on the wall clock reseeds the game's RNG every run.
++	if (headlessOpts.rtcSet) {
++		core->rtc.override = RTC_FAKE_EPOCH;
++		core->rtc.value = headlessOpts.rtc;
++	}
++
+ #ifdef ENABLE_DEBUGGERS
+ 	struct mDebugger debugger;
+ 	mDebuggerInit(&debugger);
+@@ -248,6 +280,10 @@ loadError:
+ 	mStandardLoggerDeinit(&_logger);
+ 	mCoreConfigDeinit(&core->config);
+ 	core->deinit(core);
++	if (_outputBuffer) {
++		free(_outputBuffer);
++		_outputBuffer = NULL;
++	}
+ 	if (_returnCodeRegister) {
+ 		free(_returnCodeRegister);
+ 	}
+@@ -365,6 +401,18 @@ static bool _parseLongHeadlessOpts(struct mSubParser* parser, const char* option
+ 		*StringListAppend(&opts->scripts) = strdup(arg);
+ 		return true;
+ 	}
++	if (strcmp(option, "rtc") == 0) {
++		char* parseEnd;
++		errno = 0; // strtoll only ever SETS errno, so a stale value from earlier I/O would
++		           // otherwise reject a perfectly good argument and dump the usage text
++		long long seconds = strtoll(arg, &parseEnd, 0);
++		if (errno || *parseEnd) {
++			return false;
++		}
++		opts->rtc = (int64_t) seconds * 1000LL; // mRTCGenericSource::value is milliseconds
++		opts->rtcSet = true;
++		return true;
++	}
+ 	return false;
+ }
+ 

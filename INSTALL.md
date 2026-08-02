@@ -73,9 +73,38 @@ sudo dnf install -y make gcc gcc-c++ arm-none-eabi-gcc-cs arm-none-eabi-newlib \
 ### macOS
 
 ```console
-brew install make gcc python3 libpng git
+brew install make gcc python3 libpng zlib git
 brew install --cask gcc-arm-embedded   # arm-none-eabi-gcc + binutils + newlib
 ```
+
+`zlib` is keg-only and macOS already ships libz — it is installed purely for its `.pc` file,
+because Homebrew's `libpng.pc` declares `Requires: zlib` and `pkg-config` refuses to resolve
+libpng without it.
+
+#### If you use devkitPro/devkitARM instead of `gcc-arm-embedded`
+
+devkitPro prepends `/opt/devkitpro/tools/bin` to `PATH` and ships **its own `pkg-config`**, which
+only searches `/opt/devkitpro/tools/{lib,share}/pkgconfig`. It therefore cannot see Homebrew's
+libpng, and `tools/gbagfx` and `tools/rsfont` fail to build with `png.h: file not found`. Export
+the Homebrew search path (e.g. in `~/.zshrc`, after the devkitPro block):
+
+```console
+export PKG_CONFIG_PATH="/opt/homebrew/lib/pkgconfig:/opt/homebrew/opt/zlib/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+```
+
+> Under `make -j`, this failure is easy to misread: the tools build aborts at `gbagfx`, then
+> hundreds of `tools/preproc/preproc: No such file or directory` lines scroll past. The real
+> error is the first one, far above. Run `make tools` serially to see it.
+
+### Install the git hooks (do this on every fresh clone)
+
+```console
+Testing/hooks/install.sh
+```
+
+Git does not clone hooks, so the pre-push content gate is absent until you run this — and its
+absence is silent. It runs the four source-only validators (a few seconds, no ROM build) that
+catch edits which build and boot cleanly and then crash in play.
 
 ### Verify the toolchain is on PATH
 

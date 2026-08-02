@@ -255,13 +255,13 @@ struct NPCFollower
 #include "constants/items.h"
 #define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
 
-#if POKEVIAL_FEATURE
+// Unconditional on purpose -- see the SaveBlock3 `pokevial` field for why the
+// layout must not move with POKEVIAL_FEATURE.
 struct Pokevial
 {
     u8 size : 4;
     u8 dose : 4;
 };
-#endif // POKEVIAL_FEATURE
 
 #if QUEST_MENU
 #include "constants/quests.h"
@@ -967,9 +967,12 @@ struct SaveBlock3
 #if APRICORN_TREE_COUNT > 0
     u8 apricornTrees[NUM_APRICORN_TREE_BYTES];
 #endif
-#if POKEVIAL_FEATURE
+    // Deliberately unconditional, exactly like reservedQuestData below: this field sits
+    // BEFORE `region`, so guarding it on POKEVIAL_FEATURE moved `region` off 0x20 and
+    // POKEVIAL_FEATURE FALSE failed the SaveBlock3RegionMoved_BumpSaveFormatVersion assert
+    // in load_save.c. One byte is not worth a save-format bump; with the flag off this is
+    // simply reserved. Feature flags must never move the save layout (see config/link.h).
     struct Pokevial pokevial;
-#endif
     // Quest system removed (QUEST_MENU is FALSE — see include/config/quests.h). These 24 bytes
     // are RESERVED, NOT reclaimed, and the field is deliberately unconditional so the layout no
     // longer moves with that flag. `region` must stay at offsetof 0x20 or every existing v7 save

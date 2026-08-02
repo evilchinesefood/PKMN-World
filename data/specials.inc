@@ -641,11 +641,28 @@ gSpecials::
 	def_special UpdateTrainerCardPhotoIcons
 	def_special StickerManGetBragFlags
 	def_special CheckAddCoins
-#if POKEVIAL_FEATURE
+	@ NEVER wrap a def_special row in #if -- guard the TARGET instead. src/pokevial.c
+	@ stubs these three under `#if POKEVIAL_FEATURE == FALSE`, the idiom #59 used for
+	@ all 25 link specials (include/config/link.h + in-file #else stubs).
+	@
+	@ What a guard here actually breaks, measured rather than assumed: `special Foo`
+	@ (asm/macros/event.inc:296) emits `.2byte SPECIAL_Foo` AND tests
+	@ `.if SPECIAL_WAITSTATE_Foo`. SPECIAL_WAITSTATE_\ptr and the __special__ increment
+	@ sit OUTSIDE this macro's `.if ALLOCATE_SPECIAL_TABLE`, so they are defined in every
+	@ TU that pulls the table in. Both PokeCenter nurse scripts call `special PokevialRefill`
+	@ unconditionally, so POKEVIAL_FEATURE FALSE killed event_scripts.o outright with
+	@ "Error: non-constant expression in `.if` statement" at event.inc:299.
+	@
+	@ The silent renumbering that the opcode table suffered in 9ee61fbd is LATENT here,
+	@ not live: SPECIAL_\ptr is defined only under `.if ALLOCATE_SPECIAL_TABLE`, which is 1
+	@ in exactly one place (data/event_scripts.s) and 0 in the raw-GAS path that
+	@ include/test/overworld_script.h uses -- so test TUs leave SPECIAL_* undefined and link
+	@ against the one cpp-processed table, and the two builds cannot disagree on an index.
+	@ That is one `.set` away from ceasing to be true, and __special__ already diverges
+	@ between the two paths, so the rule stays absolute.
 	def_special PokevialGetDose
 	def_special PokevialGetSize
 	def_special PokevialRefill
-#endif
 
 	@ Region merge (Johto port): specials referenced by Johto starting-area scripts.
 	def_special NameRival

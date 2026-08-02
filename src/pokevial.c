@@ -128,4 +128,32 @@ void Pokevial_HealPlayerParty(void)
     }
 }
 
+#else // POKEVIAL_FEATURE
+// data/specials.inc holds these three def_special rows UNCONDITIONALLY -- that table
+// is index-based and a conditional row silently renumbers every special after it in
+// test builds (see the comment on the rows). So the flag is honoured here, at the
+// target, exactly as #59 did for the 25 link specials in src/cable_club.c.
+//
+// PokevialRefill is genuinely REACHABLE with the feature off: both PokeCenter nurse
+// scripts call `special PokevialRefill` unconditionally, right after HealPlayerParty.
+// FALSE is the honest answer -- there is no vial to top up -- and `special` discards
+// the return anyway, so the nurse just heals and moves on.
+bool32 PokevialRefill(void)
+{
+    return FALSE;
+}
+
+// Reachable only through the `pokevialgetdose` / `pokevialgetsize` macros, which
+// asm/macros/event.inc compiles out with the feature. They exist to keep the two
+// table rows linkable; an absent vial holds nothing and has no capacity.
+u32 PokevialGetDose(void)
+{
+    return EMPTY_VIAL;
+}
+
+u32 PokevialGetSize(void)
+{
+    return EMPTY_VIAL;
+}
+
 #endif // POKEVIAL_FEATURE

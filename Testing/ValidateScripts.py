@@ -10,7 +10,7 @@ Note the scope: an *undefined symbol* in a pointer slot already fails at link ti
 integer literal is the entire silent-failure surface. That is what this scans for.
 
 Run from the repo root: python3 Testing/ValidateScripts.py   (exit 0 = clean, 1 = violations)
-or `make validate`. Also run by the .git/hooks/pre-push gate and the Check.yml validate job.
+or `make validate`. Also run by the pre-push gate (Testing/hooks/pre-push) and the Check.yml validate job.
 
 ## Why this expands macros instead of hard-coding a command -> argument-index table
 

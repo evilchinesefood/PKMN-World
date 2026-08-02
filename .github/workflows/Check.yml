@@ -1,13 +1,22 @@
 # CI gate for PKMN-World (issue #32).
 #
 # Why this exists at all, given the pre-push hook says a local gate is the right process
-# for this repo: `make check` runs the ~1,500 inherited upstream battle tests through
-# tools/mgba/mgba-rom-test, which ships as an x86-64 binary only (there is no mGBA source
-# in tree and no cmake to rebuild it). The dev box is aarch64 — WSL on ARM64 Windows — so
-# the shell cannot execute that ELF, the hydra never launches the emulator, and the run
-# ends in `Syntax error: "(" unexpected` followed by "No tests found". That is a HOST
-# limitation, not a single test failing. ubuntu-latest is x86-64, so the bundled runner
-# works natively and this is the only place the suite can actually execute.
+# for this repo: `make check` runs the inherited upstream battle tests (5,498 as of
+# 2026-08-02) through tools/mgba/mgba-rom-test. On the old WSL-on-ARM64 dev box the only
+# bundled runner was an x86-64 ELF the shell could not execute: the hydra never launched,
+# and the run ended in `Syntax error: "(" unexpected` followed by "No tests found" — a HOST
+# limitation, not a failing test. ubuntu-latest is x86-64, so the bundled runner works
+# natively there.
+#
+# UPDATE 2026-08-02: the dev box is now macOS/arm64, and tools/mgba/mgba-rom-test-mac is a
+# universal binary with a native arm64 slice. `make check` therefore DOES run locally now
+# (4,880 pass / 14 known-failing / 7 expect-failing / 597 to-do). This job is consequently
+# a second opinion rather than the only place the suite can execute — keep it, but a red
+# run here is no longer automatically a host problem.
+#
+# Unrelated to the above: the Testing/lua overworld suites cannot run in this workflow.
+# They need a Lua-enabled headless emulator that is built from mGBA master with a local
+# patch and is not in the tree — see Testing/mgba/README.md. They are a local gate only.
 #
 # The pre-push hook still runs the cheap host-side scans locally and stays the fast gate.
 # The `validate` job below mirrors them so a `--no-verify` push is still caught.

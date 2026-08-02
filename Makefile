@@ -373,7 +373,7 @@ check: $(TESTELF)
 # .party files and wild_encounters.json, never the generated headers. A disabled-species
 # reference builds AND boots clean, then blue-screens at battle send-out, so this is the
 # only automated thing standing between a bad edit and a crash in play. Also run by the
-# .git/hooks/pre-push gate.
+# .git/hooks/pre-push gate (tracked at Testing/hooks/pre-push; install via Testing/hooks/install.sh).
 #
 # ValidateScripts.py is the same shape of check for event scripts (issue #48). A script pointer
 # argument written as a bare integer (`pokemart 0`) assembles, links and boots clean, then faults

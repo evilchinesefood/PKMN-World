@@ -14,7 +14,29 @@ harness quirks, not from game bugs.
 
 ---
 
+> ## ⚠ On macOS, the emulator is not BizHawk
+>
+> BizHawk has no macOS build — upstream ships Windows and Linux only. The suites now run
+> headless under mGBA via `Testing/mgba-run.sh`, with `Testing/lua/mgba_shim.lua` supplying the
+> EmuHawk API. **See [`Testing/mgba/README.md`](mgba/README.md) for setup and invocation.**
+>
+> Everything below about the *game* — boot signals, the debug menu, warp byte order, collision
+> checking, the save-safety rules — still applies verbatim and is still the field guide. Only
+> the launch commands and Windows paths in §1 and §3 are superseded.
+
 ## 1. Build, then test the build you think you're testing
+
+macOS (current):
+
+```bash
+cd ~/Github/PKMN-World
+make modern -j$(sysctl -n hw.ncpu)                            # -> pokemonworld.gba
+```
+
+Needs `PKG_CONFIG_PATH` pointing at Homebrew, or the host graphics tools won't build — devkitPro
+ships its own `pkg-config` earlier on PATH that cannot see Homebrew's libpng. See `INSTALL.md`.
+
+Legacy WSL invocation, kept for reference:
 
 ```bash
 cd /mnt/c/Users/evilc/Github/PKMN-World
@@ -70,6 +92,16 @@ cmp -n 131072 BizHawk/GBA/SaveRAM/pokemonworld.SaveRAM <backup> && echo INTACT
 ---
 
 ## 3. Launching
+
+On macOS this is a one-liner that handles the throwaway-copy dance in §2 for you, pins the RTC
+so runs are reproducible, and returns 0/1 as the verdict — see [`mgba/README.md`](mgba/README.md):
+
+```bash
+Testing/mgba-run.sh Testing/lua/SmokeBoot.lua
+Testing/mgba-run.sh Testing/lua/VerifyV7Migrate.lua pokemonworld.gba Testing/lua/fixtures/v7.srm
+```
+
+Legacy Windows/EmuHawk invocation:
 
 ```bash
 cmd.exe /c 'C:\Users\evilc\BizHawk\EmuHawk.exe C:\Users\evilc\BizHawk\Verify1.gba --lua=C:\Users\evilc\Github\PKMN-World\_pwtest\MyTest.lua'

@@ -12,9 +12,17 @@ here runs against a **fresh new-game on the current build with no address edits*
 - **`lib.lua`** — shared helpers (boot loop, coordinate-verified stepping, the two debug spinners,
   cursor-verified multichoice, screenshots, object dumps, bag scans, assertion + verdict). Every
   suite does `local F = require("lib").new(require("symbols"), "SuiteName")`.
+- **`mgba_shim.lua`** — the EmuHawk-compatible runtime used on macOS, where BizHawk does not
+  exist. Not a suite; never launched directly. See [`../mgba/README.md`](../mgba/README.md).
 - Each suite bootstraps `require` to find `symbols`/`lib` next to itself, so it is launched simply:
+  ```bash
+  # macOS (current). Handles the throwaway copy, pins the RTC, exits 0/1 on the verdict.
+  make modern -j$(sysctl -n hw.ncpu)            # symbols.lua is a prerequisite of `rom`
+  Testing/mgba-run.sh Testing/lua/<Suite>.lua
   ```
-  make -j12                                     # symbols.lua is now a prerequisite of `rom`
+  ```
+  # Legacy Windows/EmuHawk
+  make -j12
   cp pokemonworld.gba  BizHawk\Verify1.gba      # a THROWAWAY copy — see the two guards below
   EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\Testing\lua\<Suite>.lua
   ```

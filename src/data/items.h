@@ -16057,6 +16057,25 @@ const struct ItemInfo gItemsInfo[] =
         .iconPic = gItemIcon_Pokevial,
         .iconPalette = gItemIconPalette_Pokevial,
     },
+#else // POKEVIAL_FEATURE
+    // ITEM_POKEVIAL keeps its ID with the feature off (see constants/items.h) so that a flag
+    // flip cannot remap saved bag contents. That makes a row here MANDATORY: a designated-
+    // initializer hole at 874 would zero-fill, leaving .name and .description NULL, and the
+    // six item-width tests in test/text.c read every ID 0..ITEMS_COUNT -- they caught exactly
+    // that (EXPECT_LE(95471, 72) at index 874). Mirror the ITEM_NONE placeholder instead:
+    // reserved, unobtainable, unusable, and well-formed. The Pokevial icons stay compiled out.
+    [ITEM_POKEVIAL] =
+    {
+        .name = gQuestionMarksItemName,
+        .price = 0,
+        .description = sQuestionMarksDesc,
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_UNCATEGORIZED,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_QuestionMark,
+        .iconPalette = gItemIconPalette_QuestionMark,
+    },
 #endif // POKEVIAL_FEATURE
 
 #if QOL_FIELD_MOVES_ITEM_GATE

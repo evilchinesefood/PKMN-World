@@ -50,16 +50,21 @@
 #include "constants/items.h"
 #include "constants/map_types.h"
 #include "constants/songs.h"
-#if POKEVIAL_FEATURE
-#include "tv.h"
-#include "pokevial.h"
-// Hub Pass (ITEM_HUB_RETURN) field-warp eligibility guard:
+// Hub Pass (ITEM_HUB_RETURN) field-warp eligibility guard -- CannotUseHubReturnHere()
+// below. Nothing here is Pokevial's: these sat inside the #if POKEVIAL_FEATURE block by
+// accident, so POKEVIAL_FEATURE FALSE compiled the Hub Pass predicate against implicit
+// declarations of GetSafariZoneFlag/InUnionRoom/InMultiPartnerRoom/InBattlePike/
+// InTrainerHillChallenge and failed the build.
 #include "battle_pike.h"
 #include "field_specials.h"
 #include "link.h"
 #include "safari_zone.h"
 #include "trainer_hill.h"
 #include "constants/flags.h"
+
+#if POKEVIAL_FEATURE
+#include "tv.h"
+#include "pokevial.h"
 #endif
 
 static void SetUpItemUseCallback(u8);

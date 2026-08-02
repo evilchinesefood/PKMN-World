@@ -1052,9 +1052,13 @@ enum __attribute__((packed)) Item
     ITEM_TATSUGIRINITE = 872,
     ITEM_GLIMMORANITE = 873,
 
-#if POKEVIAL_FEATURE
+    // Unconditional on purpose. This constant is explicitly numbered but ITEM_CUT_TOOL
+    // below is not, so guarding it slid every later item ID down by one on a flag flip --
+    // silently remapping saved bag contents. That is the data/specials.inc hazard wearing
+    // the item table's clothes. Reserving the ID costs nothing; gItems[] in
+    // src/data/items.h keeps its entry guarded, so with the feature off the slot is simply
+    // empty and unobtainable.
     ITEM_POKEVIAL = 874, // Pokevial
-#endif
 
 #if QOL_FIELD_MOVES_ITEM_GATE
     ITEM_CUT_TOOL,

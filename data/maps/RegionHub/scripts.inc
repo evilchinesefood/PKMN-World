@@ -625,13 +625,19 @@ RegionHub_EventScript_CharmCurator::
 	msgbox RegionHub_Text_CuratorGiveHubPass, MSGBOX_DEFAULT
 	giveitem ITEM_HUB_RETURN
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+@ The LABEL stays unconditional -- the HUB PASS branch above jumps to it -- but the body is
+@ guarded, so POKEVIAL_FEATURE FALSE falls straight through to the charm ladder instead of
+@ handing the player an ITEM_POKEVIAL whose gItems[] entry is compiled out (an unnamed,
+@ unusable bag slot). The ID itself stays reserved in constants/items.h; see the comment there.
 RegionHub_EventScript_CuratorCheckPokevial::
+#if POKEVIAL_FEATURE
 	checkitem ITEM_POKEVIAL
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorLadder
 	msgbox RegionHub_Text_CuratorGivePokevial, MSGBOX_DEFAULT
 	giveitem ITEM_POKEVIAL
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox RegionHub_Text_CuratorPokevialExplain, MSGBOX_DEFAULT
+#endif // POKEVIAL_FEATURE
 
 RegionHub_EventScript_CuratorLadder::
 	callnative RegionHub_ScrCountWorldTourBadges

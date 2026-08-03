@@ -14,9 +14,9 @@ BirthIsland_Harbor_EventScript_Sailor::
 	hideobjectat LOCALID_BIRTH_ISLAND_SAILOR, MAP_BIRTH_ISLAND_HARBOR
 	setvar VAR_0x8004, LOCALID_BIRTH_ISLAND_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
-	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
-	waitstate
-	release
+	@ Home is OLIVINE if the trip was booked there (issue #65) - see the region note on
+	@ Common_EventScript_FerrySailHomeFromIsland in data/event_scripts.s.
+	goto Common_EventScript_FerrySailHomeFromIsland
 	end
 
 BirthIsland_Harbor_EventScript_AsYouLike::

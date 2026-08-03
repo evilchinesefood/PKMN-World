@@ -128,8 +128,18 @@ OlivinePort_EventScript_Sailor_NotSailingYet::
 	release
 	end
 
+@ Every `warpsilent` below is followed by an explicit `waitstate`. warpsilent runs DoDiveWarp(),
+@ which spawns Task_WarpAndLoadMap, and StopScript() asserts if a script ends while that task is
+@ live ("Leaving script while a warp is in progress", src/script.c). That assert is compiled into
+@ the shipped ROM, so it is a blue-screen, not a debug nicety. All six warps in this file were
+@ missing it — five of them harmlessly, because this menu was unreachable, but the SIXTH is
+@ OlivinePort_EventScript_Sailor_MaidenVoyage, on the live post-League path. Do not drop them.
 OlivinePort_EventScript_Sailor_AfterKanto::
 	message OlivinePort_Text_WhereSail
+	@ `message` starts the typewriter and returns immediately; without this the destination
+	@ window opened on top of a still-typing "Where would you like to sail?". Harmless while
+	@ this branch was dead code - it is on screen every post-crossing visit now.
+	waitmessage
 	multichoice 1, 0, MULTI_OLIVINE_HARBOR, FALSE
 	switch VAR_RESULT
 	case 0, OlivinePort_EventScript_ChoseVermilion
@@ -142,26 +152,34 @@ OlivinePort_EventScript_Sailor_AfterKanto::
 	release
 	end
 
-@ Kanto leg is not wired up (Lane-R); the run is announced as suspended
-@ instead of boarding a ship that dumps the player back in Olivine.
+@ Lane-R (issue #65): the KANTO run. The MAIDEN voyage is the full cabin ride (states 1..6,
+@ MAP_SSAQUA_1F); every crossing after it is a direct hop, the same shape as the four
+@ event-ticket runs below. Cross-region arrival is handled exactly as on the maiden voyage's
+@ disembark — see the INVARIANT note in SSAqua_1F_EventScript_LeaveBoat. The setrespawn has
+@ to come AFTER both OlivinePort_EventScript_EnterShip (which arms OLIVINE) and
+@ RegionHub_ScrSetCurrentRegion (which arms KANTO's start town), or it loses to them.
 OlivinePort_EventScript_ChoseVermilion::
-	msgbox OlivinePort_Text_VermilionSuspended, MSGBOX_DEFAULT
 	closemessage
+	delay 20
+	call OlivinePort_EventScript_EnterShip
+	setvar VAR_RESULT, 0 @ 0 = REGION_KANTO
+	callnative RegionHub_ScrSetCurrentRegion
+	setrespawn HEAL_LOCATION_VERMILION_CITY
+	warpsilent MAP_VERMILION_CITY_PORT_INSIDE, 8, 16
+	waitstate
 	release
 	end
-
-OlivinePort_Text_VermilionSuspended:
-	.string "I'm sorry-due to harbor work in\n"
-	.string "VERMILION, that run is suspended.$"
 
 OlivinePort_EventScript_ChoseSouthernIsland::
 	closemessage
 	delay 20
 	checkitem ITEM_EON_TICKET
 	bufferitemname STR_VAR_1, ITEM_EON_TICKET
+	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
 	call OlivinePort_EventScript_EnterShip
 	warpsilent MAP_SOUTHERN_ISLAND_EXTERIOR, 13, 22
+	waitstate
 	release
 	end
 
@@ -170,9 +188,15 @@ OlivinePort_EventScript_ChoseBirthIsland::
 	delay 20
 	checkitem ITEM_AURORA_TICKET
 	bufferitemname STR_VAR_1, ITEM_AURORA_TICKET
+	goto_if_unset FLAG_ENABLE_SHIP_BIRTH_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
 	call OlivinePort_EventScript_EnterShip
-	warpsilent MAP_BIRTH_ISLAND_EXTERIOR, 13, 23
+	@ The HARBOR, not the exterior: (13,23) on MAP_BIRTH_ISLAND_EXTERIOR is an impassable
+	@ tile with no sailor on the map to sail home from. MAP_LILYCOVE_CITY_HARBOR's identical
+	@ AURORA TICKET run is the reference destination. Latent until this menu became
+	@ reachable (issue #65).
+	warpsilent MAP_BIRTH_ISLAND_HARBOR, 8, 4
+	waitstate
 	release
 	end
 
@@ -181,9 +205,11 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 	delay 20
 	checkitem ITEM_OLD_SEA_MAP
 	bufferitemname STR_VAR_1, ITEM_OLD_SEA_MAP
+	goto_if_unset FLAG_ENABLE_SHIP_FARAWAY_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
 	call OlivinePort_EventScript_EnterShip
 	warpsilent MAP_FARAWAY_ISLAND_ENTRANCE, 13, 38
+	waitstate
 	release
 	end	
 
@@ -192,6 +218,7 @@ OlivinePort_EventScript_ChoseBattleFrontier::
 	delay 20
 	call OlivinePort_EventScript_EnterShip
 	warpsilent MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 20, 67
+	waitstate
 	release
 	end	
 
@@ -208,6 +235,7 @@ OlivinePort_EventScript_Sailor_MaidenVoyage::
 	@ Region merge (SS Aqua port): SS Aqua boarding warp re-stitched (was stubbed to
 	@ MAP_OLIVINE_CITY, 15, 44 when Olivine shipped; original dest restored).
 	warpsilent MAP_SSAQUA_1F, 29, 3
+	waitstate
 	release
 	end
 

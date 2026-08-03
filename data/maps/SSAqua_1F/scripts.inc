@@ -31,18 +31,16 @@ SSAqua_1F_EventScript_DoorSailor::
 	msgbox SSAqua_1F_Text_Sailor1_ToVermilion, MSGBOX_NPC
 	end
 
-@ The voyage's end state (VAR_SSAQUA_STATE = 6, "returning to OLIVINE"). This sailor stands
-@ on the only tile between the player and the exit warp, so he MUST hand the player off the
-@ ship — before this offer existed the completed voyage was an inescapable loop (issue: the
-@ story sends every new Johto champion aboard). Real Vermilion disembark is Lane-R work.
+@ The voyage's end state (VAR_SSAQUA_STATE >= 5, docked in VERMILION). This sailor stands on
+@ the only tile between the player and the exit warp, so he MUST hand the player off the ship
+@ — the story sends every new Johto champion aboard, and before he offered anything the
+@ completed voyage was an inescapable loop.
 SSAqua_1F_EventScript_DoorSailorArrived::
 	msgbox SSAqua_1F_Text_SailorDoorArrived, MSGBOX_DEFAULT
 	msgbox SSAqua_1F_Text_GoAshorePrompt, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SSAqua_1F_EventScript_StayAboard
 	closemessage
-	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
-	waitstate
-	release
+	goto SSAqua_1F_EventScript_LeaveBoat
 	end
 
 SSAqua_1F_EventScript_StayAboard::
@@ -50,15 +48,29 @@ SSAqua_1F_EventScript_StayAboard::
 	release
 	end
 
+@ Lane-R (issue #65): the real KANTO disembark. HG/SS ran a ~70-entry FLAGHEAP here to stand
+@ KANTO's story up from scratch (FLAG_BADGE09_GET, FLAG_HIDE_DOJO_*, VAR_KANTO_ROCKET_STORY_STATE,
+@ VAR_VERMILION_CITY_STATE, ...). None of it is ported and none of it should be: this tree's
+@ KANTO is the FRLG campaign, which owns and drives its own progression flags. Writing HG/SS's
+@ initial values over a Kanto save that is already underway is exactly the "stray flag/var
+@ damage" the acceptance criteria forbid, so the crossing carries only what it actually owns —
+@ the ferry state and the region context.
+@
+@ Cross-region arrival (src/region_switch.c INVARIANT): every cross-region entry must pass
+@ through SetCurrentRegion or ResyncCurrentRegionFromMap, and the latter prefers the PERSISTED
+@ region, so a warp that skipped this would leave a Johto champion carrying JOHTO's HARD
+@ VAR_DIFFICULTY tier into first-run KANTO gyms. RegionHub_ScrSetCurrentRegion is the in-world
+@ (non-hub) variant: it sets the region WITHOUT boxing the party, which is what Johto -> Kanto
+@ needs — HG/SS treats the two as one continuous campaign with one team.
 SSAqua_1F_EventScript_LeaveBoat::
-	@ Region merge (SS Aqua port): the Kanto-side ferry exit (S.S. AQUA -> Vermilion
-	@ City) is cross-region Lane-R work. MAP_VERMILION_CITY_PORT_INSIDE does not exist
-	@ in this tree yet, and the HG/SS disembark cutscene set/cleared ~70 Kanto-only
-	@ flags and vars that are likewise undefined here (FLAG_BADGE09_GET, FLAG_HIDE_DOJO_*,
-	@ VAR_KANTO_ROCKET_STORY_STATE, VAR_VERMILION_CITY_STATE, ...). Dead-ended back into
-	@ the cabin until Kanto is wired. The original FLAGHEAP + `warp MAP_VERMILION_CITY_PORT_INSIDE, 8, 9`
-	@ live in the source clone (hns) data/maps/SSAqua_1F/scripts.inc for Lane-R to restore.
-	closemessage
+	setvar VAR_RESULT, 0 @ 0 = REGION_KANTO
+	callnative RegionHub_ScrSetCurrentRegion
+	setrespawn HEAL_LOCATION_VERMILION_CITY
+	@ Lands on the berth tile, NOT the terminal's north door: the player walks up through
+	@ VERMILION's port hall and out into the city. VAR_SSAQUA_STATE is left at 6 so the
+	@ terminal's ON_FRAME arrival scene fires, then advances it to 7.
+	warp MAP_VERMILION_CITY_PORT_INSIDE, 8, 16
+	waitstate
 	release
 	end
 
@@ -186,15 +198,12 @@ SSAqua_1F_Text_Sailor1_InOlivine:
     .string "OLIVINE CITY.$"
 
 SSAqua_1F_Text_Sailor1_InVermilion:
-    .string "Due to harbor work in VERMILION,\n"
-    .string "S.S.AQUA is returning to OLIVINE.$"
-
+    .string "FAST SHIP S.S.AQUA has arrived in\n"
+    .string "VERMILION CITY.$"
 
 SSAqua_1F_Text_SailorDoorArrived:
-    .string "Due to harbor work in VERMILION,\n"
-    .string "we're returning to OLIVINE.\p"
-    .string "Please enjoy the voyage!$"
+    .string "We've docked at VERMILION CITY.\p"
+    .string "Thank you for sailing with us!$"
 
 SSAqua_1F_Text_GoAshorePrompt:
-    .string "We've docked at OLIVINE CITY.\p"
     .string "Would you like to go ashore?$"

@@ -19,9 +19,9 @@ SouthernIsland_Exterior_EventScript_Sailor::
 	hideobjectat LOCALID_SOUTHERN_ISLAND_SAILOR, MAP_SOUTHERN_ISLAND_EXTERIOR
 	setvar VAR_0x8004, LOCALID_SOUTHERN_ISLAND_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
-	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
-	waitstate
-	release
+	@ Home is OLIVINE if the trip was booked there (issue #65) - see the region note on
+	@ Common_EventScript_FerrySailHomeFromIsland in data/event_scripts.s.
+	goto Common_EventScript_FerrySailHomeFromIsland
 	end
 
 SouthernIsland_Exterior_EventScript_AsYouLike::

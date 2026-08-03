@@ -4,6 +4,26 @@ LilycoveCity_Harbor_MapScripts::
 
 LilycoveCity_Harbor_OnTransition:
 	setescapewarp MAP_LILYCOVE_CITY, 12, 33
+	goto LilycoveCity_Harbor_EventScript_ClaimHoennRegion
+
+@ Lane-R (issue #65): this harbor is the single way home from every event-ticket island
+@ (SOUTHERN / BIRTH / FARAWAY / NAVEL ROCK), and those islands are now bookable from the
+@ OLIVINE harbor as well as this one - so arriving here can be a Johto -> mainland-Hoenn
+@ crossing. src/region_switch.c's INVARIANT requires every cross-region entry to set the
+@ active region, or a Johto champion carries JOHTO's HARD VAR_DIFFICULTY tier into first-run
+@ Hoenn gyms (the leak the Battle Frontier dock ferry already fixes on its own legs). Claiming
+@ it at the ARRIVAL map covers all five routes at once, including any added later.
+@
+@ The "already Hoenn" guard is load-bearing: RegionHub_ScrSetCurrentRegion also re-arms the
+@ whiteout respawn at the region's START TOWN, and for a Hoenn player walking in off the
+@ Lilycove seafront this is not a crossing at all - their respawn must not jump to LITTLEROOT.
+LilycoveCity_Harbor_EventScript_ClaimHoennRegion:
+	setvar VAR_0x8008, 2 @ 2 = REGION_HOENN
+	callnative RegionHub_ScrTargetIsCurrent
+	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_Harbor_EventScript_RegionUnchanged
+	setvar VAR_RESULT, 2
+	callnative RegionHub_ScrSetCurrentRegion
+LilycoveCity_Harbor_EventScript_RegionUnchanged:
 	end
 
 LilycoveCity_Harbor_EventScript_FerryAttendant::

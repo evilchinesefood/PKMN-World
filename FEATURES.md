@@ -102,6 +102,17 @@ Three hub staffers handle handouts:
   a region's own access point in normal play: the **Goldenrod Magnet Train** (the Pass comes
   from the station president after the Radio Tower incident), the **Vermilion harbor**, or the
   **Slateport harbor**. The HUB PASS from your bag is the way back to the hub afterward.
+- **Johto ↔ Kanto by sea**: the **S.S. Aqua** is the one region crossing that is *not* a hub
+  gate. Elm's S.S. Ticket sends the new Johto Champion from the **Olivine harbor** on the
+  maiden voyage; you disembark in the **Vermilion City port** and step out onto Kanto's
+  harbor. Because it is in-world travel rather than a hub departure, **your party sails with
+  you** — HG/SS treats the two regions as one journey. Kanto still becomes the active region,
+  so badges, obedience and difficulty follow the shore you are standing on. The Vermilion
+  pier sailor sells the return crossing, and after the first crossing the Olivine sailor's
+  destination board opens: Vermilion plus the event-ticket runs (Battle Frontier, Southern
+  Island, Birth Island, Faraway Island). An event island remembers which harbor booked the
+  trip — sail from Olivine and its sailor brings you home to Olivine, sail from Lilycove and
+  you return to Lilycove.
 - The active region and hub access live in a versioned save format with a migration reader.
   Saves from v1.4 onward (format v7+) keep loading across updates; saves older than that are
   **refused at load with an explanation** rather than migrated (the v1.4 bag/PC resize

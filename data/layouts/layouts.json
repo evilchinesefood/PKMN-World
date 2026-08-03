@@ -13520,6 +13520,19 @@
       "border_filepath": "data/layouts/RegionHub/border.bin",
       "blockdata_filepath": "data/layouts/RegionHub/map.bin",
       "layout_version": "frlg"
+    },
+    {
+      "id": "LAYOUT_VERMILION_CITY_PORT_INSIDE",
+      "name": "VermilionCity_PortInside_Layout",
+      "width": 18,
+      "height": 28,
+      "border_width": 0,
+      "border_height": 0,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_PortIndoor",
+      "border_filepath": "data/layouts/VermilionCity_PortInside/border.bin",
+      "blockdata_filepath": "data/layouts/VermilionCity_PortInside/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

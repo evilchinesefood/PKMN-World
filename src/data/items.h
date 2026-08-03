@@ -14344,8 +14344,8 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Hub Pass"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "A one-way warp back\n"
-            "to the WORLD\n"
+            "A one-way warp\n"
+            "back to the WORLD\n"
             "TRANSIT hub."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,

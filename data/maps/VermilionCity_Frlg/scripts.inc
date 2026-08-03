@@ -46,9 +46,20 @@ VermilionCity_EventScript_OldMan1SSAnneLeft::
 	release
 	end
 
+@ Lane-R (issue #65): the S.S.AQUA offer is tested FIRST and is deliberately NOT behind the
+@ S.S.ANNE scene gate below. A Johto champion who sails in from OLIVINE has never touched
+@ Kanto's story, so VAR_MAP_SCENE_VERMILION_CITY is 0 for them — routing the return leg through
+@ the scene-3 branch would have left this sailor saying only "Welcome to the S.S. ANNE!" and
+@ stranded them in Kanto, which is the same trap on the far shore that this issue exists to
+@ remove. The two ships share a pier and nothing else.
 VermilionCity_EventScript_FerrySailor::
 	lock
 	faceplayer
+	goto_if_ge VAR_SSAQUA_STATE, 7, VermilionCity_EventScript_FerryToOlivine
+	goto VermilionCity_EventScript_FerrySSAnnePier
+	end
+
+VermilionCity_EventScript_FerrySSAnnePier::
 	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_FerryHubOrSevii
 	msgbox VermilionCity_Text_WelcomeToTheSSAnne
 	release
@@ -68,6 +79,33 @@ VermilionCity_EventScript_FerryHubOrSevii::
 VermilionCity_Text_FerryToHub:
 	.string "The ferry can take you to the WORLD\n"
 	.string "TRANSIT TERMINAL. Set sail?$"
+
+@ Lane-R (issue #65): the KANTO-side booking desk for the S.S.AQUA. MAP_VERMILION_CITY_PORT_INSIDE
+@ has no doorway on this FRLG city map to walk back in through (the harbour here is the Seagallop
+@ pier), so the terminal is arrival-only and the return leg is booked at the pier instead.
+@ VAR_SSAQUA_STATE is a Johto-bank var read from a Kanto map, which is fine: per-region vars use
+@ absolute IDs dispatched in GetVarPointer(), there is no bank to swap.
+VermilionCity_EventScript_FerryToOlivine::
+	msgbox VermilionCity_Text_AquaToOlivine, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_FerrySSAnnePier
+	msgbox VermilionCity_Text_AquaGetOnBoard, MSGBOX_DEFAULT
+	closemessage
+	delay 20
+	playse SE_EXIT
+	call VermilionPort_EventScript_EnterJohtoRegion
+	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
+	waitstate
+	release
+	end
+
+VermilionCity_Text_AquaToOlivine:
+	.string "FAST SHIP S.S.AQUA sails for\n"
+	.string "OLIVINE CITY in JOHTO. Will you be\l"
+	.string "boarding today?$"
+
+VermilionCity_Text_AquaGetOnBoard:
+	.string "We're departing soon.\n"
+	.string "Please get on board.$"
 
 VermilionCity_EventScript_CheckHasMysticTicket::
 	goto_if_unset FLAG_ENABLE_SHIP_NAVEL_ROCK, EventScript_SetResultFalse

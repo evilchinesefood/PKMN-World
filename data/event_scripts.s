@@ -902,6 +902,7 @@ gStdScripts_End::
 	.include "data/maps/VermilionCity_Mart_Frlg/scripts.inc"
 	.include "data/maps/VermilionCity_Gym_Frlg/scripts.inc"
 	.include "data/maps/VermilionCity_House3_Frlg/scripts.inc"
+	.include "data/maps/VermilionCity_PortInside/scripts.inc"
 	.include "data/maps/CeladonCity_DepartmentStore_1F_Frlg/scripts.inc"
 	.include "data/maps/CeladonCity_DepartmentStore_2F_Frlg/scripts.inc"
 	.include "data/maps/CeladonCity_DepartmentStore_3F_Frlg/scripts.inc"
@@ -1605,6 +1606,33 @@ Common_EventScript_FerryDepartIsland::
 	hideplayer
 	call Common_EventScript_FerryDepart
 	return
+
+@ Lane-R (issue #65): "sail home" from an event-ticket island now has TWO homes. Those islands
+@ became bookable at the OLIVINE harbour as well as LILYCOVE's when VAR_SSAQUA_STATE >= 7 opened
+@ that board, and every island's sailor warped unconditionally to LILYCOVE - so a Latios trip
+@ booked in JOHTO ended on a HOENN dock, with the only way back being the World Transit hub,
+@ which boxes the whole party on a region cross. That is a trap, and a new one.
+@
+@ The ACTIVE REGION is the departure record, so this needs no save var: the Olivine rows warp
+@ onto region-agnostic event islands and claim nothing, leaving it at JOHTO, while Lilycove's own
+@ rows leave it at HOENN. A Hoenn player is therefore byte-for-byte unaffected - same warp,
+@ same coordinates. NAVEL ROCK is deliberately not routed through here: it is not on the Olivine
+@ board, so no Johto player can reach it.
+@ `goto`n, not `call`ed - it warps and owns the release.
+Common_EventScript_FerrySailHomeFromIsland::
+	setvar VAR_0x8008, 1 @ 1 = REGION_JOHTO
+	callnative RegionHub_ScrTargetIsCurrent
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_FerrySailHomeToOlivine
+	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
+	waitstate
+	release
+	end
+
+Common_EventScript_FerrySailHomeToOlivine::
+	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
+	waitstate
+	release
+	end
 
 	.include "data/scripts/cave_of_origin.inc"
 	.include "data/scripts/kecleon.inc"

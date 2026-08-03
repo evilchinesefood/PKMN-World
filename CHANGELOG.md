@@ -22,13 +22,34 @@ All notable player-facing changes. For the full feature reference see
   lobbies; the Center 2Fs (old link floors) are sealed off.
 - **Quest system removed**: the dormant quest engine is compiled out
   (~26 KB reclaimed). It never had content; its save space is reserved.
-- **S.S. Aqua lets you off**: the door sailor now offers to put you ashore
-  when the voyage ends (back at Olivine while Vermilion's harbor is under
-  construction) — previously the completed voyage had no exit at all.
+- **The S.S. Aqua sails to Kanto** (#65): the voyage now ends where it was
+  always meant to. Step off in the new **Vermilion City port terminal**,
+  walk out onto the harbor, and you are in Kanto with your team — Johto and
+  Kanto are one continuous journey, so nothing is boxed. The Vermilion pier
+  sailor sells the return crossing to Olivine, and it is offered whether or
+  not you have touched Kanto's own S.S. Anne story. Earlier builds announced
+  the arrival and then turned the ship around; before that, the finished
+  voyage had no exit at all.
+- **Olivine harbor opens up**: once you have crossed to Kanto, the Olivine
+  sailor's destination board goes live — Vermilion, plus the event-ticket
+  runs (Battle Frontier, Southern Island, Birth Island, Faraway Island),
+  which were unreachable from Johto until now. Sail to an event island from
+  Olivine and its sailor brings you **back to Olivine**; book the same trip
+  at Lilycove and you come home to Lilycove, exactly as before. The Birth
+  Island run also landed you inside a wall; it now docks at the island's
+  harbor like Lilycove's, and the tickets check the same unlock flag
+  Lilycove checks rather than the ticket alone.
+- **Boarding a ferry no longer blue-screens**: every sailing from the
+  Olivine harbor — including the maiden voyage the post-league story sends
+  you on — ended its script while the warp was still in flight, tripping
+  the engine's "leaving script while a warp is in progress" assert. Same
+  fix for the Johto Hall of Fame entrance.
 - **Battle Frontier ferry fixes the world**: sailing from the Frontier dock
   to Slateport/Lilycove now correctly makes Hoenn your active region.
   Before, your previous region's difficulty, obedience rules, and Battle
-  Net payouts followed you into mainland Hoenn.
+  Net payouts followed you into mainland Hoenn. Coming home from any
+  event island to the Lilycove harbor now does the same, which matters now
+  that those islands can be reached from Johto.
 - **Johto Hall of Fame respawn fix**: re-clearing the Johto league no
   longer re-arms an already-caught Mew or Deoxys as a farmable duplicate.
 

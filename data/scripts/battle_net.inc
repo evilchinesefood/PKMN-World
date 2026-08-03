@@ -145,7 +145,10 @@ BattleNet_EventScript_ScalingRun::
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, BattleNet_EventScript_ScalingLost
 	setvar VAR_0x8005, 1
 	special AddBattleNetPoints
+	@ VAR_RESULT = BP actually applied; 0 means the 9999 cap ate the award - say so.
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_ScalingWonCapped
 	msgbox BattleNet_Text_ScalingWon, MSGBOX_DEFAULT
+BattleNet_EventScript_ScalingShardRoll:
 	special GiveBattleNetRandomShard
 	compare VAR_0x8008, ITEM_NONE
 	goto_if_eq BattleNet_EventScript_ScalingDone
@@ -154,6 +157,9 @@ BattleNet_EventScript_ScalingRun::
 	giveitem VAR_0x8008
 BattleNet_EventScript_ScalingDone:
 	return
+BattleNet_EventScript_ScalingWonCapped:
+	msgbox BattleNet_Text_ScalingWonCapped, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_ScalingShardRoll
 BattleNet_EventScript_ScalingLost:
 	msgbox BattleNet_Text_SimBeatYou, MSGBOX_DEFAULT
 	return
@@ -268,7 +274,11 @@ BattleNet_EventScript_SimBattleResult::
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, BattleNet_EventScript_SimLost
 	setvar VAR_0x8005, 2
 	special AddBattleNetPoints
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_SimWonCapped
 	msgbox BattleNet_Text_SimWon, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_SimAgain
+BattleNet_EventScript_SimWonCapped:
+	msgbox BattleNet_Text_SimWonCapped, MSGBOX_DEFAULT
 	goto BattleNet_EventScript_SimAgain
 BattleNet_EventScript_SimLost:
 	msgbox BattleNet_Text_SimBeatYou, MSGBOX_DEFAULT
@@ -391,6 +401,10 @@ BattleNet_Text_SimCantStart:
 BattleNet_Text_ScalingWon:
 	.string "SIMULATION COMPLETE - you win!\n"
 	.string "1 BATTLE POINT awarded.$"
+BattleNet_Text_ScalingWonCapped:
+	.string "SIMULATION COMPLETE - you win!\p"
+	.string "…but your BP CASE is maxed out\n"
+	.string "at 9,999. No BP added.$"
 BattleNet_Text_SimBeatYou:
 	.string "SIMULATION COMPLETE - the sim\n"
 	.string "takes this one. No BP this time.$"
@@ -405,6 +419,10 @@ BattleNet_Text_LeaderNotChampion:
 BattleNet_Text_SimWon:
 	.string "SIMULATION COMPLETE - you win!\n"
 	.string "2 BATTLE POINTS awarded.$"
+BattleNet_Text_SimWonCapped:
+	.string "SIMULATION COMPLETE - you win!\p"
+	.string "…but your BP CASE is maxed out\n"
+	.string "at 9,999. No BP added.$"
 BattleNet_Text_SimLossQuote:
 	.string "The simulation flickers off…\p"
 	.string "Better luck next run!$"

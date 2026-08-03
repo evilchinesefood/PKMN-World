@@ -201,6 +201,22 @@ local function main()
   F.check("party_seeded", F.r8(S.gPartiesCount) > 0, "gPartiesCount = " .. F.r8(S.gPartiesCount))
   F.dismiss(20)
 
+  -- ★ Trainer-sight trap (found by the 2026-08-02 deep-review sweep): the y=29 band crosses
+  -- the sight columns of two MOVEMENT_TYPE_LOOK_AROUND trainers — Beverly at (11,27) and
+  -- Jack at (25,30), both sight 2. Whether one intercepts the walk depends on which way they
+  -- face as the player passes, i.e. on frame parity — ANY rom-level change can shift it, and
+  -- an intercepted walk freezes in the trainer's intro text while the step budget drains
+  -- (F.ow() stays true through the approach, so it reads as "no encounter", not as a battle).
+  -- Defeated trainers never approach: mark all four park trainers beaten before the walk.
+  local function flagSet(id)
+    local a = F.sb1() + S.SaveBlock1.flags + math.floor(id / 8)
+    F.w8(a, F.r8(a) | (1 << (id % 8)))
+  end
+  local TRAINER_FLAGS_START = 0x500
+  for _, tid in ipairs({ 172, 236, 441, 920 }) do -- JACK, WILLIAM, BEVERLY, KRISE
+    flagSet(TRAINER_FLAGS_START + tid)
+  end
+
   -- The control. 35 steps over tiles that are non-encounter behaviours under BOTH reads: without it,
   -- "a battle happened after walking about the park" would prove nothing about the fix.
   local corridorOk, corridorWhere = true, ""

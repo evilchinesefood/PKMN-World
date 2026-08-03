@@ -7409,8 +7409,8 @@ static const u8 *const sEvIvChangerStatNames[NUM_STATS] =
 
 static const u8 sText_EvIvChangerTotal[] = _("TOTAL");
 static const u8 sText_EvIvChangerSlash510[] = _("/510");
-static const u8 sText_EvIvChangerPageEvs[] = _("EVs {R_BUTTON}IVs");
-static const u8 sText_EvIvChangerPageIvs[] = _("IVs {R_BUTTON}EVs");
+static const u8 sText_EvIvChangerPageEvs[] = _("EVs {R_BUTTON}/{START_BUTTON}IVs");
+static const u8 sText_EvIvChangerPageIvs[] = _("IVs {R_BUTTON}/{START_BUTTON}EVs");
 
 #define tEvCursor  data[0]
 #define tEvPage    data[1] // 0 = EVs, 1 = IVs
@@ -7538,7 +7538,9 @@ static void Task_EvIvChangerHandleInput(u8 taskId)
         gTasks[taskId].tEvCursor = (cursor == NUM_STATS - 1) ? 0 : cursor + 1;
         EvIvChangerPrintStats(taskId);
     }
-    else if (JOY_NEW(R_BUTTON) || JOY_NEW(L_BUTTON))
+    // START as a face-button alternative: shoulder buttons are the classic worn-out-hardware
+    // failure and a one-handed reach problem, and this menu is the game's only IV editor.
+    else if (JOY_NEW(R_BUTTON) || JOY_NEW(L_BUTTON) || JOY_NEW(START_BUTTON))
     {
         PlaySE(SE_SELECT);
         gTasks[taskId].tEvPage ^= 1;

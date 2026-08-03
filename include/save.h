@@ -37,6 +37,13 @@
 #define SAVE_STATUS_NO_FLASH 4
 #define SAVE_STATUS_ERROR    0xFF
 
+// Why a version-refused save reported SAVE_STATUS_EMPTY (see LoadGameSave). Side channel
+// rather than a new SAVE_STATUS so every EMPTY consumer (Sav2_ClearSetDefault, RtcReset,
+// reload paths) keeps its exact behavior; only the main menu reads this to explain itself.
+#define SAVE_VERSION_REFUSAL_NONE    0
+#define SAVE_VERSION_REFUSAL_TOO_OLD 1 // pre-SAVE_FORMAT_LAYOUT_MIN: layout predates the v7 reshape
+#define SAVE_VERSION_REFUSAL_TOO_NEW 2 // stamped by a newer build: this binary can't know its layout
+
 // Special sector id value for certain save functions to
 // indicate that no specific sector should be used.
 #define FULL_SAVE_SLOT 0xFFFF
@@ -89,6 +96,7 @@ extern u32 gSaveCounter;
 extern struct SaveSector *gFastSaveSector;
 extern u16 gIncrementalSectorId;
 extern u16 gSaveFileStatus;
+extern u8 gSaveVersionRefusal;
 extern MainCallback gGameContinueCallback;
 extern struct SaveSectorLocation gRamSaveSectorLocations[];
 

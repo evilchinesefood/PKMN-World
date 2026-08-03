@@ -118,3 +118,98 @@ jobs:
           GAME_VERSION: EMERALD
           TEST: 1
         run: make -j$(nproc) check
+
+  # Deep-review task 41a: the TEST=1 build above is NOT the ROM players get — the #61
+  # Pokévial off-switch rot shipped precisely because no gate ever compiled the shipping
+  # configuration. This builds the plain default `make` target and discards it (nothing is
+  # uploaded — see the 25d26c50 note at the top of this file).
+  build:
+    name: make (shipping configuration)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
+            libpng-dev libelf1 python3
+      - name: Cache build tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/bin2c/bin2c
+            tools/gbafix/gbafix
+            tools/gbagfx/gbagfx
+            tools/jsonproc/jsonproc
+            tools/mapjson/mapjson
+            tools/mid2agb/mid2agb
+            tools/preproc/preproc
+            tools/ramscrgen/ramscrgen
+            tools/rsfont/rsfont
+            tools/scaninc/scaninc
+            tools/trainerproc/trainerproc
+            tools/compresSmol/compresSmol
+            tools/compresSmol/compresSmolTilemap
+            tools/wav2agb/wav2agb
+            tools/patchelf/patchelf
+            tools/mgba-rom-test-hydra/mgba-rom-test-hydra
+          key: tools-check-${{ runner.os }}-${{ hashFiles('tools/*/Makefile', 'tools/**/*.c', 'tools/**/*.cpp', 'tools/**/*.h') }}
+      - name: make (default config)
+        env:
+          GAME_VERSION: EMERALD
+        run: make -j$(nproc)
+
+  # Deep-review task 41b: non-default feature-flag states rot invisibly (#61 was found by
+  # hand; the QOL_FIELD_MOVES_ITEM_GATE tail slide was found by review). Each leg flips ONE
+  # documented switch and proves the tree still compiles. Compile-only; nothing uploaded.
+  flag-matrix:
+    name: flag off-switch compile (${{ matrix.flag }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { flag: POKEVIAL_FEATURE, file: include/config/pokevial.h }
+          - { flag: QOL_FIELD_MOVES_ITEM_GATE, file: include/config/qol_field_moves.h }
+          - { flag: PW_GRAPHICAL_START_MENU, file: include/config/start_menu.h }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
+            libpng-dev libelf1 python3
+      - name: Cache build tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/bin2c/bin2c
+            tools/gbafix/gbafix
+            tools/gbagfx/gbagfx
+            tools/jsonproc/jsonproc
+            tools/mapjson/mapjson
+            tools/mid2agb/mid2agb
+            tools/preproc/preproc
+            tools/ramscrgen/ramscrgen
+            tools/rsfont/rsfont
+            tools/scaninc/scaninc
+            tools/trainerproc/trainerproc
+            tools/compresSmol/compresSmol
+            tools/compresSmol/compresSmolTilemap
+            tools/wav2agb/wav2agb
+            tools/patchelf/patchelf
+            tools/mgba-rom-test-hydra/mgba-rom-test-hydra
+          key: tools-check-${{ runner.os }}-${{ hashFiles('tools/*/Makefile', 'tools/**/*.c', 'tools/**/*.cpp', 'tools/**/*.h') }}
+      - name: Flip ${{ matrix.flag }} to FALSE
+        run: |
+          grep -q "#define ${{ matrix.flag }}" "${{ matrix.file }}"
+          sed -i "s/#define ${{ matrix.flag }}\([[:space:]]*\)TRUE/#define ${{ matrix.flag }}\1FALSE/" "${{ matrix.file }}"
+          grep "#define ${{ matrix.flag }}" "${{ matrix.file }}"
+      - name: make (flag off)
+        env:
+          GAME_VERSION: EMERALD
+        run: make -j$(nproc)

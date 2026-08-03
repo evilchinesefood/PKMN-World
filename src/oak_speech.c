@@ -393,6 +393,15 @@ static const u8 sText_Oak_AskHardMode[] = _(
     "Would you like a\n"
     "greater challenge?");
 
+// Echoed after the pick: the choice is permanent and invisible afterwards (Options never
+// shows it), so a text-mashing player must at least SEE what they committed to.
+static const u8 sText_Oak_HardModeOn[] = _(
+    "HARD MODE is ON.\n"
+    "It's for keeps - good luck!");
+static const u8 sText_Oak_HardModeOff[] = _(
+    "You'll play the normal way.\n"
+    "Enjoy the journey!");
+
 // Dedicated YES/NO menu for the Hard Mode ask (the shared WIN_INTRO_YESNO is left at left=2/top=2
 // for the name confirm). Sits in the top-right corner, mirroring the proven name-confirm vertical
 // position over to the right: frame rows 1-6 (y8-56), cols 21-28 (x168-232), clear of the
@@ -411,7 +420,9 @@ static const struct WindowTemplate sHardModeYesNoWindowTemplate =
 
 // Outfit palette-swap picker (new game): choose one of 6 clothing recolors.
 // Two lines so the prompt stays left of the outfit menu (which covers cols 18-25).
-static const u8 sText_Oak_ChooseOutfit[] = _("And which outfit\nwill you wear?");
+// The prompt window is 13 tiles wide (~17 chars/line), so keep it terse — but it must say
+// the pick is permanent (no in-game outfit changer exists), since nothing after this ever will.
+static const u8 sText_Oak_ChooseOutfit[] = _("And your outfit?\nIt's for keeps!");
 static const u8 sText_Outfit_Red[] = _("RED");
 static const u8 sText_Outfit_Blue[] = _("BLUE");
 static const u8 sText_Outfit_Green[] = _("GREEN");
@@ -1823,8 +1834,11 @@ static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
     input = Menu_ProcessInputNoWrap();
     if (input == MENU_NOTHING_CHOSEN)
         return;
+    // B is NOT a commit: it used to silently lock in RED, skipping the live preview the
+    // picker was built around — and the pick is permanent (no in-game outfit changer).
+    // There is nothing to cancel back to, so only A confirms.
     if (input == MENU_B_PRESSED)
-        input = PLAYER_OUTFIT_RED;
+        return;
 
     PlaySE(SE_SELECT);
     VarSet(VAR_PLAYER_PALETTE, input);
@@ -1852,8 +1866,20 @@ static void Task_OakSpeech_ShowHardModeYesNo(u8 taskId)
 {
     if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX))
     {
-        CreateYesNoMenuAtPos(&sHardModeYesNoWindowTemplate, FONT_NORMAL, 0, 2, STD_WINDOW_BASE_TILE_NUM, 14, 0);
+        // Cursor rests on NO: the whole intro advances on A, and an opt-in permanent
+        // challenge must never be the resting choice under an A-mash.
+        CreateYesNoMenuAtPos(&sHardModeYesNoWindowTemplate, FONT_NORMAL, 0, 2, STD_WINDOW_BASE_TILE_NUM, 14, 1);
         gTasks[taskId].func = Task_OakSpeech_HandleHardModeInput;
+    }
+}
+
+// Waits out the echo page, then proceeds to "Let's go!".
+static void Task_OakSpeech_HardModeEcho(u8 taskId)
+{
+    if (!IsTextPrinterActiveOnWindow(WIN_INTRO_TEXTBOX) && JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gTasks[taskId].func = Task_OakSpeech_LetsGo;
     }
 }
 
@@ -1865,13 +1891,15 @@ static void Task_OakSpeech_HandleHardModeInput(u8 taskId)
     case 0: // YES
         PlaySE(SE_SELECT);
         gSaveBlock2Ptr->optionsHardMode = TRUE;
-        gTasks[taskId].func = Task_OakSpeech_LetsGo;
+        OakSpeechPrintMessage(sText_Oak_HardModeOn, sOakSpeechResources->textSpeed, FALSE);
+        gTasks[taskId].func = Task_OakSpeech_HardModeEcho;
         break;
     case 1: // NO
     case MENU_B_PRESSED:
         PlaySE(SE_SELECT);
         gSaveBlock2Ptr->optionsHardMode = FALSE;
-        gTasks[taskId].func = Task_OakSpeech_LetsGo;
+        OakSpeechPrintMessage(sText_Oak_HardModeOff, sOakSpeechResources->textSpeed, FALSE);
+        gTasks[taskId].func = Task_OakSpeech_HardModeEcho;
         break;
     }
 }

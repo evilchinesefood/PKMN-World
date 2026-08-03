@@ -2880,12 +2880,16 @@ BattleScript_LocalBattleWonLoseTexts::
 	waitstate
 	printstring STRINGID_TRAINER2LOSETEXT
 BattleScript_LocalBattleWonReward::
-	jumpifnowhiteout BattleScript_PayDayMoneyAndPickUpItems @ Battle Net leader sims: BP only, no prize money
+	@ Battle Net leader sims: BP only, no prize money. Jumps PAST givepaydaymoney too —
+	@ "no money changes hands in a sim" must include Pay Day, or a HARD leader sim is a
+	@ riskless repeatable Pay Day income. (Pickup is item flow, not money; it stays.)
+	jumpifnowhiteout BattleScript_PickUpItemsOnly
 	getmoneyreward
 	printstring STRINGID_PLAYERGOTMONEY
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_PayDayMoneyAndPickUpItems::
 	givepaydaymoney
+BattleScript_PickUpItemsOnly::
 	pickup
 	end2
 

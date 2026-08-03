@@ -514,6 +514,10 @@ void LoadPlayerParty(void)
     int i;
 
     gPartiesCount[B_TRAINER_PLAYER] = *GetSavedPlayerPartyCount();
+    // Checksummed but not validated: a crafted/corrupt save can carry up to 255 here, and
+    // every fork loop that trusts the count (battle_net, pokevial) walks past the party row.
+    if (gPartiesCount[B_TRAINER_PLAYER] > PARTY_SIZE)
+        gPartiesCount[B_TRAINER_PLAYER] = PARTY_SIZE;
 
     for (i = 0; i < PARTY_SIZE; i++)
     {

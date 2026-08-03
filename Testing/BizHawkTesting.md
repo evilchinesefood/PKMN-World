@@ -21,8 +21,9 @@ harness quirks, not from game bugs.
 > EmuHawk API. **See [`Testing/mgba/README.md`](mgba/README.md) for setup and invocation.**
 >
 > Everything below about the *game* — boot signals, the debug menu, warp byte order, collision
-> checking, the save-safety rules — still applies verbatim and is still the field guide. Only
-> the launch commands and Windows paths in §1 and §3 are superseded.
+> checking — still applies verbatim and is still the field guide. The launch commands and
+> Windows paths in **§1–§3** are superseded: §2's save-safety file paths are BizHawk-specific
+> too, and `mgba-run.sh` performs §3's throwaway-copy isolation automatically.
 
 ## 1. Build, then test the build you think you're testing
 

@@ -4109,7 +4109,7 @@
 // 0xD7C..0xDC4 was since taken by the Battle Net stone/beaten/director flags below).
 #define FLAG_DEX_REWARD_1 (FLAG_WORLD_MAP_BANK + 0x34) // 150 caught -> PP MAX
 #define FLAG_DEX_REWARD_2 (FLAG_WORLD_MAP_BANK + 0x35) // 300 caught -> MASTER BALL
-#define FLAG_DEX_REWARD_3 (FLAG_WORLD_MAP_BANK + 0x36) // full National Dex -> SHINY CHARM
+#define FLAG_DEX_REWARD_3 (FLAG_WORLD_MAP_BANK + 0x36) // full National Dex -> 10 Rare Candies + diploma (the Shiny Charm moved to the Curator's 16-badge tier)
 
 // Jessie & James (Team Rocket duo) one-time ambush gates. Set = defeated/hidden.
 // Global group (works across all regions) in the same verified-free window.

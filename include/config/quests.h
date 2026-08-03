@@ -21,10 +21,18 @@
 // flag either way and v1.4 saves keep loading. Reclaiming that space is a save-format v8; see the
 // comment there before trying.
 //
-// To bring quests back: set this TRUE, author real sSideQuests entries, set
-// FLAG_SYS_QUEST_MENU_GET where earned, and add questmenu/subquestmenu unlock scripts. The UI,
-// script commands and save schema all still work — only the content was ever missing.
+// To bring quests back it is NOT enough to set this TRUE: src/quests.c's real arm still reads
+// SaveBlock3.questData/subQuests, which were collapsed into the unconditional
+// reservedQuestData[24] (global.h) when the system was removed — the flag no longer compiles
+// in the TRUE state (the #error below says so at the flag site instead of as member soup three
+// files away). Restoring it means re-introducing those fields over the reserve (layout-identical,
+// 24 = 20 + 4, so the pinned `region` offset holds), then authoring real sSideQuests entries,
+// setting FLAG_SYS_QUEST_MENU_GET where earned, and adding questmenu unlock scripts.
 #define QUEST_MENU                  FALSE
+
+#if QUEST_MENU
+#error "QUEST_MENU TRUE no longer builds: quests.c reads SaveBlock3.questData/subQuests, collapsed into reservedQuestData[24]. See the comment above this flag for the revival steps."
+#endif
 
 // When TRUE: favorited quests can be pinned to the top of the list.
 #define QUEST_MENU_ALLOW_FAVORITES  TRUE

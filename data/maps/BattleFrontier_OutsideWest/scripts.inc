@@ -66,6 +66,12 @@ BattleFrontier_OutsideWest_EventScript_FerryToSlateport::
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_OutsideWest_EventScript_ChooseNewFerryDestination
 	msgbox BattleFrontier_OutsideWest_Text_PleaseBoardFerry, MSGBOX_DEFAULT
 	call BattleFrontier_OutsideWest_EventScript_BoardFerry
+	@ The ferry lands in mainland HOENN. Without this the active region stays whatever the
+	@ player brought to the Frontier (region_switch.c INVARIANT): a Johto champion's HARD
+	@ difficulty leaked into first-run Hoenn gyms and first league clears paid Battle Net
+	@ rewards. 2 = REGION_HOENN; the YESNO above consumed the multichoice VAR_RESULT already.
+	setvar VAR_RESULT, 2
+	callnative RegionHub_ScrSetCurrentRegion
 	warp MAP_SLATEPORT_CITY_HARBOR, 8, 11
 	waitstate
 	release
@@ -76,6 +82,8 @@ BattleFrontier_OutsideWest_EventScript_FerryToLilycove::
 	goto_if_eq VAR_RESULT, NO, BattleFrontier_OutsideWest_EventScript_ChooseNewFerryDestination
 	msgbox BattleFrontier_OutsideWest_Text_PleaseBoardFerry, MSGBOX_DEFAULT
 	call BattleFrontier_OutsideWest_EventScript_BoardFerry
+	setvar VAR_RESULT, 2 @ REGION_HOENN - see the Slateport leg above
+	callnative RegionHub_ScrSetCurrentRegion
 	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
 	waitstate
 	release

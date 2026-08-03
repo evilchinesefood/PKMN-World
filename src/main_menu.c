@@ -12,6 +12,7 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "link.h"
+#include "load_save.h"
 #include "main.h"
 #include "main_menu.h"
 #include "menu.h"
@@ -259,6 +260,12 @@ static const u16 sBirchSpeechBgGradientPal[] = INCGFX_U16("graphics/birch_speech
 
 static const u8 gText_SaveFileCorrupted[] = _("The save file is corrupted. The\nprevious save file will be loaded.");
 static const u8 gText_SaveFileErased[] = _("The save file has been erased\ndue to corruption or damage.");
+// Version-refused saves (see LoadGameSave's layout gates). Without these the menu showed a
+// bare NEW GAME — indistinguishable from a blank cartridge — and invited overwriting a save
+// that is still intact and playable on its own version.
+static const u8 gText_SaveFileTooOld[] = _("This save file was made by an older\nversion of POKéMON WORLD\pand can't be loaded here.\pTo keep playing it, use that older\nversion. Starting a NEW GAME\nwill erase this save file.");
+static const u8 gText_SaveFileTooNew[] = _("This save file was made by a newer\nversion of POKéMON WORLD\pand can't be loaded here.\pTo keep playing it, use the newer\nversion. Starting a NEW GAME\nwill erase this save file.");
+static const u8 gText_RegionSaveDamaged[] = _("Part of this save file's region\nprogress data may be damaged.\pStory progress in another region\ncould be missing or altered.");
 static const u8 gJPText_No1MSubCircuit[] = _("1Mサブきばんが ささっていません！");
 static const u8 gText_BatteryRunDry[] = _("The internal battery has run dry.\nThe game can be played.\pHowever, clock-based events will\nno longer occur.");
 
@@ -674,7 +681,18 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
             if (IsMysteryGiftEnabled())
                 tMenuType++;
 #endif
-            gTasks[taskId].func = Task_MainMenuCheckBattery;
+            // Surface the SaveBlock3 checksum verdict (computed at load, previously read by
+            // nothing): the region banks are un-checksummed by the sector layer, so this
+            // one-time warning is the only place drift ever becomes visible to the player.
+            if (gRegionSaveCorrupt)
+            {
+                CreateMainMenuErrorWindow(gText_RegionSaveDamaged);
+                gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+            }
+            else
+            {
+                gTasks[taskId].func = Task_MainMenuCheckBattery;
+            }
             break;
         case SAVE_STATUS_CORRUPT:
             CreateMainMenuErrorWindow(gText_SaveFileErased);
@@ -693,7 +711,23 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         case SAVE_STATUS_EMPTY:
         default:
             tMenuType = HAS_NO_SAVED_GAME;
-            gTasks[taskId].func = Task_MainMenuCheckBattery;
+            // A version-refused save is deliberately reported EMPTY (see LoadGameSave), but
+            // it must not LOOK empty: tell the player why there is no CONTINUE before they
+            // start a NEW GAME over a save that still works on its own version.
+            if (gSaveVersionRefusal == SAVE_VERSION_REFUSAL_TOO_OLD)
+            {
+                CreateMainMenuErrorWindow(gText_SaveFileTooOld);
+                gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+            }
+            else if (gSaveVersionRefusal == SAVE_VERSION_REFUSAL_TOO_NEW)
+            {
+                CreateMainMenuErrorWindow(gText_SaveFileTooNew);
+                gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
+            }
+            else
+            {
+                gTasks[taskId].func = Task_MainMenuCheckBattery;
+            }
             break;
         case SAVE_STATUS_NO_FLASH:
             CreateMainMenuErrorWindow(gJPText_No1MSubCircuit);

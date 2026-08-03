@@ -125,10 +125,23 @@ RegionHub_EventScript_Nurse::
 RegionHub_EventScript_AttendantKanto::
 	lock
 	faceplayer
+	@ Same-region round trips keep the party (RegionHub_ScrEnterRegion only boxes on a real
+	@ cross) - show honest text instead of the boxing warning that will not apply.
+	setvar VAR_0x8008, 0
+	callnative RegionHub_ScrTargetIsCurrent
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_AttendantKantoSame
 	msgbox RegionHub_Text_TravelKanto, MSGBOX_YESNO
+	goto RegionHub_EventScript_AttendantKantoBoard
+RegionHub_EventScript_AttendantKantoSame::
+	msgbox RegionHub_Text_TravelKantoSame, MSGBOX_YESNO
+RegionHub_EventScript_AttendantKantoBoard::
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	call RegionHub_EventScript_TryGiveHubPass
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
+	@ A real cross must be able to bank the WHOLE team and its mail; DepositPartyToPC
+	@ degrades silently on a full PC/mailbox, so refuse up front (VAR_0x8008 = target).
+	callnative RegionHub_ScrCanDepositParty
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelNoRoom
 	setvar VAR_RESULT, 0
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -150,10 +163,21 @@ RegionHub_EventScript_ReturnKanto::
 RegionHub_EventScript_AttendantJohto::
 	lock
 	faceplayer
+	setvar VAR_0x8008, 1
+	callnative RegionHub_ScrTargetIsCurrent
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_AttendantJohtoSame
 	msgbox RegionHub_Text_TravelJohto, MSGBOX_YESNO
+	goto RegionHub_EventScript_AttendantJohtoBoard
+RegionHub_EventScript_AttendantJohtoSame::
+	msgbox RegionHub_Text_TravelJohtoSame, MSGBOX_YESNO
+RegionHub_EventScript_AttendantJohtoBoard::
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	call RegionHub_EventScript_TryGiveHubPass
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
+	@ A real cross must be able to bank the WHOLE team and its mail; DepositPartyToPC
+	@ degrades silently on a full PC/mailbox, so refuse up front (VAR_0x8008 = target).
+	callnative RegionHub_ScrCanDepositParty
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelNoRoom
 	setvar VAR_RESULT, 1
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -173,10 +197,21 @@ RegionHub_EventScript_ReturnJohto::
 RegionHub_EventScript_AttendantHoenn::
 	lock
 	faceplayer
+	setvar VAR_0x8008, 2
+	callnative RegionHub_ScrTargetIsCurrent
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_AttendantHoennSame
 	msgbox RegionHub_Text_TravelHoenn, MSGBOX_YESNO
+	goto RegionHub_EventScript_AttendantHoennBoard
+RegionHub_EventScript_AttendantHoennSame::
+	msgbox RegionHub_Text_TravelHoennSame, MSGBOX_YESNO
+RegionHub_EventScript_AttendantHoennBoard::
 	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
 	call RegionHub_EventScript_TryGiveHubPass
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
+	@ A real cross must be able to bank the WHOLE team and its mail; DepositPartyToPC
+	@ degrades silently on a full PC/mailbox, so refuse up front (VAR_0x8008 = target).
+	callnative RegionHub_ScrCanDepositParty
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelNoRoom
 	setvar VAR_RESULT, 2
 	callnative RegionHub_ScrEnterRegion
 	callnative RegionHub_ScrTargetIntroDone
@@ -242,6 +277,13 @@ RegionHub_EventScript_TravelBlocked::
 	release
 	end
 
+@ Deep-review task 21/22: the PC boxes (or PC mailbox) can't take the whole team, so the
+@ cross is refused instead of silently half-boxing the party / destroying held mail.
+RegionHub_EventScript_TravelNoRoom::
+	msgbox RegionHub_Text_TravelNoRoom, MSGBOX_DEFAULT
+	release
+	end
+
 @ Issue #22 Part 2: force-give the HUB PASS on any gate-cross confirm, BEFORE the party is
 @ boxed (runs ahead of the setvar + RegionHub_ScrEnterRegion because giveitem clobbers
 @ VAR_RESULT). checkitem-deduped. Reports through VAR_RESULT: TRUE = the player holds a pass
@@ -274,7 +316,8 @@ RegionHub_Text_TravelKanto:
 	.string "This gate is bound for KANTO.\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
-	.string "regions.\p"
+	.string "regions, and any MAIL they hold\l"
+	.string "moves to your PC mailbox.\p"
 	.string "POKéMON you withdraw here obey\n"
 	.string "your KANTO badges, not the ones\l"
 	.string "you earned in other regions.\p"
@@ -286,7 +329,8 @@ RegionHub_Text_TravelJohto:
 	.string "This gate is bound for JOHTO.\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
-	.string "regions.\p"
+	.string "regions, and any MAIL they hold\l"
+	.string "moves to your PC mailbox.\p"
 	.string "POKéMON you withdraw here obey\n"
 	.string "your JOHTO badges, not the ones\l"
 	.string "you earned in other regions.\p"
@@ -298,12 +342,40 @@ RegionHub_Text_TravelHoenn:
 	.string "This gate is bound for HOENN.\p"
 	.string "Your current team will be sent to\n"
 	.string "the PC BOXES when you switch\l"
-	.string "regions.\p"
+	.string "regions, and any MAIL they hold\l"
+	.string "moves to your PC mailbox.\p"
 	.string "POKéMON you withdraw here obey\n"
 	.string "your HOENN badges, not the ones\l"
 	.string "you earned in other regions.\p"
 	.string "You can return to WORLD TRANSIT\n"
 	.string "and try another region anytime.\p"
+	.string "Travel to HOENN?$"
+
+RegionHub_Text_TravelNoRoom:
+	.string "Hold on - your PC BOXES or PC\n"
+	.string "mailbox can't take your whole\l"
+	.string "team right now.\p"
+	.string "Make some room, then come see\n"
+	.string "me again and we'll get you\l"
+	.string "boarded.$"
+
+@ Same-region round trips (RegionHub_ScrTargetIsCurrent): no boxing happens, so no warning.
+RegionHub_Text_TravelKantoSame:
+	.string "Back to KANTO?\p"
+	.string "It's your current region, so your\n"
+	.string "team stays right with you.\p"
+	.string "Travel to KANTO?$"
+
+RegionHub_Text_TravelJohtoSame:
+	.string "Back to JOHTO?\p"
+	.string "It's your current region, so your\n"
+	.string "team stays right with you.\p"
+	.string "Travel to JOHTO?$"
+
+RegionHub_Text_TravelHoennSame:
+	.string "Back to HOENN?\p"
+	.string "It's your current region, so your\n"
+	.string "team stays right with you.\p"
 	.string "Travel to HOENN?$"
 
 RegionHub_Text_AttendantGiveHubPass:
@@ -601,7 +673,7 @@ RegionHub_Text_HarborAllGiven:
 
 @ Charm Curator (KeyItemAudit S3b): badge-tiered charm ladder off the world-tour badge
 @ count (all three regions): 4 CATCHING CHARM / 8 EXP. CHARM / 12 OVAL CHARM /
-@ 16 POKeMON BOX LINK / 24 SHINY CHARM. Sky-Charm-keeper clone: checkitem one-time gates,
+@ 16 SHINY CHARM / 24 EV/IV CHANGER. Sky-Charm-keeper clone: checkitem one-time gates,
 @ one reward per chat, lowest tier first. VAR_0x8000 (badge total) is read before any
 @ giveitem, which clobbers VAR_0x8000/0x8001.
 @ S3b addendum: ahead of the ladder he also hands out the POKEVIAL, unconditionally (no
@@ -618,8 +690,21 @@ RegionHub_Text_HarborAllGiven:
 RegionHub_EventScript_CharmCurator::
 	lock
 	faceplayer
+	@ Post-tour (or post-decline) the re-offer keeps its question ("tour again?") but the
+	@ cursor RESTS ON NO (multichoicedefault row 1, the Battle Arena idiom): he is the
+	@ game's most-revisited reward NPC, and with the cursor resting on YES an A-mash used
+	@ to lock players into the full multi-minute escort on every visit. B also declines
+	@ (MULTI_B_PRESSED falls through to business, like any nonzero row).
+	goto_if_set FLAG_HUB_INTRO_TOUR_DONE, RegionHub_EventScript_CuratorReturning
 	msgbox RegionHub_Text_CuratorTourOffer, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, RegionHub_EventScript_CuratorStartTour
+	goto RegionHub_EventScript_CuratorBusiness
+RegionHub_EventScript_CuratorReturning::
+	message RegionHub_Text_CuratorTourAgain
+	waitmessage
+	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
+	goto_if_eq VAR_RESULT, 0, RegionHub_EventScript_CuratorStartTour
+RegionHub_EventScript_CuratorBusiness::
 	checkitem ITEM_HUB_RETURN
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorCheckPokevial
 	msgbox RegionHub_Text_CuratorGiveHubPass, MSGBOX_DEFAULT
@@ -1624,17 +1709,29 @@ RegionHub_Text_TourStairs:
 	.string "Fair warning: the escalator only\n"
 	.string "admits a region's CHAMPION.$"
 
+@ The closing line MUST route the player back to the counter BEFORE boarding: the HUB PASS
+@ has an attendant backstop at the gates, but the POKeVIAL's only source is this counter —
+@ the old "come back at four badges" send-off walked new players away from it.
 RegionHub_Text_TourClosing:
 	.string "That's the whole hall.\p"
+	.string "One more thing - stop by my\n"
+	.string "counter before you board.\l"
+	.string "Every traveler gets a HUB PASS\l"
+	.string "and a POKéVIAL from me.\p"
 	.string "Take the KANTO gate first - trust\n"
-	.string "an old man on that - and come see\l"
-	.string "me once you've earned a BADGE or\l"
-	.string "four.\p"
+	.string "an old man on that.\p"
 	.string "Safe travels, TRAINER.$"
 
 RegionHub_Text_CuratorTourOffer:
 	.string "Would you like a tour of WORLD\n"
 	.string "TRANSIT?$"
+
+@ ONE page on purpose: the menu must appear after the first text page, matching the
+@ original offer's timing — the Lua tour suite's answer() helper advances pages blindly
+@ and a second page lets its A-press eat the menu the frame it spawns.
+RegionHub_Text_CuratorTourAgain:
+	.string "Care for another tour of\n"
+	.string "WORLD TRANSIT?$"
 
 @ ---------- Battle Net staircase gate (issue #59 part C) ----------
 @ The escalator warp on (1,14) fires straight off the metatile behaviour and has

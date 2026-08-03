@@ -72,6 +72,10 @@ void ClearTempFieldEventData(void)
 // Assert the Kanto badge bank stays clear of the daily-flag memset range so that class of
 // save-corruption can't silently return the next time the flag chain moves.
 STATIC_ASSERT(FLAG_KANTO_BADGE_8 < DAILY_FLAGS_START || FLAG_KANTO_BADGE_1 > DAILY_FLAGS_END, KantoBadgesMustNotOverlapDailyFlags);
+// The inline flag bank is exactly full: the top defined flag is 0x102F with FLAGS_COUNT 0x1030.
+// Adding a flag past it without growing FLAGS_COUNT would (before GetFlagPointer's bound) have
+// written into SaveBlock1.vars[]. Grow FLAGS_COUNT (and NUM_FLAG_BYTES with it) first.
+STATIC_ASSERT(FLAG_BNET_HIDDEN_SHARD_6 < FLAGS_COUNT, InlineFlagBankFull_GrowFlagsCountBeforeAddingFlags);
 
 void ClearDailyFlags(void)
 {
@@ -202,7 +206,9 @@ u16 *GetVarPointer(u16 id)
     else if (id >= REGION_VARS_START && id <= REGION_VARS_END)
         return &gSaveBlock3Ptr->region.regionVars[id - REGION_VARS_START];
 #if TESTING
-    else if (id >= TESTING_VARS_START)
+    // Bounded above too: branch ordering routes every id >= the last real bank here in TESTING
+    // builds, and sTestVars is only TEST_VARS_SIZE entries — unbounded, VarSet wrote through it.
+    else if (id >= TESTING_VARS_START && id < TESTING_VARS_START + TEST_VARS_SIZE)
         return &sTestVars[id - TESTING_VARS_START];
 #endif // TESTING
     // Bound the fall-through. gSpecialVars is a table of 22 POINTERS (SPECIAL_VARS_START..
@@ -268,8 +274,13 @@ u8 *GetFlagPointer(u16 id)
 {
     if (id == 0)
         return NULL;
-    else if (id < SPECIAL_FLAGS_START)
+    // Bounded by FLAGS_COUNT, not SPECIAL_FLAGS_START: the inline bank is EXACTLY full
+    // (top flag 0x102F of 0x1030) and flags[] sits immediately before vars[] in SaveBlock1,
+    // so an id past the bank used to write into VAR_TEMP_0 and onward.
+    else if (id < FLAGS_COUNT)
         return &gSaveBlock1Ptr->flags[id / 8];
+    else if (id < SPECIAL_FLAGS_START)
+        return NULL; // gap between the inline bank and the special bank — no flags live here
     // Region merge: reserved Johto flag bank, stored in SaveBlock3 (see region_flags.h).
     else if (id >= FLAG_JOHTO_BASE && id <= FLAG_JOHTO_END)
         return &gSaveBlock3Ptr->region.johtoFlags[(id - FLAG_JOHTO_BASE) / 8];
@@ -277,7 +288,8 @@ u8 *GetFlagPointer(u16 id)
     else if (id >= FLAG_KANTO_TRAINER_BASE && id <= FLAG_KANTO_TRAINER_END)
         return &gSaveBlock3Ptr->region.kantoTrainerFlags[(id - FLAG_KANTO_TRAINER_BASE) / 8];
 #if TESTING
-    else if (id >= TESTING_FLAGS_START)
+    // Bounded above too, same reasoning as the TESTING vars branch: sTestFlags is 1 byte.
+    else if (id >= TESTING_FLAGS_START && id < TESTING_FLAGS_START + TEST_FLAGS_SIZE * 8)
         return &sTestFlags[(id - TESTING_FLAGS_START) / 8];
 #endif // TESTING
     // Bound the fall-through, same reasoning as GetVarPointer above. sSpecialFlags is 16 bytes;

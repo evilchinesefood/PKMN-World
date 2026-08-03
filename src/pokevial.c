@@ -7,6 +7,10 @@
 
 static void PokevialFixDoseOverflow(void);
 
+// The vial lives in two 4-bit SaveBlock3 fields (struct Pokevial: size:4/dose:4) — a config
+// raised past 15 would truncate silently on save.
+STATIC_ASSERT(POKEVIAL_MAX_SIZE <= 15, PokevialMaxSizeExceedsSaveNibble);
+
 static void PokevialInit(void)
 {
     if (gSaveBlock3Ptr->pokevial.size < VIAL_MIN_SIZE)
@@ -14,6 +18,12 @@ static void PokevialInit(void)
         gSaveBlock3Ptr->pokevial.size = VIAL_MIN_SIZE;
         gSaveBlock3Ptr->pokevial.dose = VIAL_MIN_SIZE;
     }
+    // Un-checksummed SB3 nibbles (same reasoning as PokevialGetVialPercent's clamp): a
+    // corrupted pair like size=2/dose=15 passed the floor check above and granted 15 heals.
+    // Clamped DIRECTLY — PokevialFixDoseOverflow routes through PokevialDoseUp ->
+    // PokevialGetDose -> PokevialInit and would recurse without bound.
+    if (gSaveBlock3Ptr->pokevial.dose > gSaveBlock3Ptr->pokevial.size)
+        gSaveBlock3Ptr->pokevial.dose = gSaveBlock3Ptr->pokevial.size;
 }
 
 u32 PokevialGetDose(void)

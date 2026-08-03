@@ -236,7 +236,9 @@ bool32 IsDuplicateKeyClassItem(enum Item itemId)
         return FALSE;
     if (GetItemPocket(itemId) != POCKET_KEY_ITEMS && !(itemId >= ITEM_HM01 && itemId <= ITEM_HM08))
         return FALSE;
-    return CheckBagHasItem(itemId, 1);
+    // The item PC accepts key-class items too — a copy parked there must still block the
+    // second give, or the A1 "never receive a second one" guarantee is one deposit deep.
+    return CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1);
 }
 
 // Script special for the Std_ObtainItem/Std_FindItem paths (item id in VAR_0x8006).
@@ -578,7 +580,10 @@ void MoveItemSlotInPC(struct ItemSlot *itemSlots, u32 from, u32 to)
 
 void ClearBag(void)
 {
-    CpuFastFill(0, &gSaveBlock1Ptr->bag, sizeof(struct Bag));
+    // Not CpuFastFill: CpuFastSet transfers in 8-word blocks and ROUNDS UP, so any Bag size
+    // that isn't a multiple of 32 bytes overfills into pokeblocks[] (285 words -> 288 with
+    // the v7 pocket sizes). memset writes exactly sizeof(struct Bag).
+    memset(&gSaveBlock1Ptr->bag, 0, sizeof(struct Bag));
 }
 
 static inline u16 NONNULL BagPocket_CountTotalItemQuantity(struct BagPocket *pocket, enum Item itemId)

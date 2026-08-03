@@ -3,6 +3,60 @@
 All notable player-facing changes. For the full feature reference see
 [FEATURES.md](FEATURES.md); for credits see [CREDITS.md](CREDITS.md).
 
+## Unreleased
+
+> **Save format is now v8** (from v1.4's v7). v1.4 saves migrate forward
+> automatically on load. Saves from v1.3.6 or earlier are still refused —
+> and the game now *says so* at the main menu instead of showing a blank
+> NEW-GAME-only screen.
+
+### World & systems
+
+- **Link-era features compiled out** (#59): Mystery Gift, Mystery Event,
+  Wonder News, the e-Reader, the Union Room, wireless chat, record mixing,
+  and the Cable Club link rooms are removed from the build. The two save
+  fields the removal freed are reserved (part of the v8 bump). Trade-only
+  evolutions were already item-based, so no species is stranded.
+- **Battle Net terminals moved to the lobby** (#59/#60): the regional
+  terminal is now a wall unit beside the PC in all 50 Pokémon Center
+  lobbies; the Center 2Fs (old link floors) are sealed off.
+- **Quest system removed**: the dormant quest engine is compiled out
+  (~26 KB reclaimed). It never had content; its save space is reserved.
+- **S.S. Aqua lets you off**: the door sailor now offers to put you ashore
+  when the voyage ends (back at Olivine while Vermilion's harbor is under
+  construction) — previously the completed voyage had no exit at all.
+- **Battle Frontier ferry fixes the world**: sailing from the Frontier dock
+  to Slateport/Lilycove now correctly makes Hoenn your active region.
+  Before, your previous region's difficulty, obedience rules, and Battle
+  Net payouts followed you into mainland Hoenn.
+- **Johto Hall of Fame respawn fix**: re-clearing the Johto league no
+  longer re-arms an already-caught Mew or Deoxys as a farmable duplicate.
+
+### Fixes
+
+- **Battle Frontier saves no longer roll back progress**: the Frontier's
+  mid-challenge quick-save wrote only part of the save; Johto story flags,
+  Kanto trainer defeats, cut trees, and the Route 5 daycare silently
+  reverted to your last full save (a duplication vector). It now writes the
+  whole slot.
+- **Route 34 daycare egg with a full party**: collecting the egg with six
+  Pokémon no longer overwrites (deletes!) your sixth party member — the
+  "no room" branch actually runs now.
+- **Tohjo Falls**: the Celebi-led encounter gate works — arriving with a
+  full-HP Celebi follower now actually arms the event (it never could).
+- **Prompt safety**: the intro's permanent Hard Mode choice and the one-way
+  HUB PASS warp both rest their cursor on NO, Hard Mode echoes what you
+  picked, the outfit pick says it's permanent (and B no longer silently
+  commits RED), and the HUB PASS confirm/description say it's one-way.
+- **EV/IV Changer**: START also flips the EVs/IVs page (shoulder buttons
+  still work).
+
+### Developer & tooling
+
+- **macOS support** (#64): the build, the pre-push gate, and the Lua
+  suites all run on macOS.
+- **Pokévial off-switch builds again** (#61).
+
 ## v1.4 — 2026-07-27
 
 The Battle Net release. Mega Evolution finally has a way in, every Pokémon
@@ -37,8 +91,9 @@ everywhere.
   2 BP a win to a party that matches the rule. Sim battles run under Battle
   Tower rules — no money at stake, no whiteout, party restored around every
   match. A **Battle Net terminal** was also installed in every regional
-  Pokémon Center (now a wall terminal beside the PC in all 50 lobbies,
-  issue #59) carrying the Scaling Type Trainer and Leader Sim.
+  Pokémon Center (49 rooms across all three regions) carrying the Scaling
+  Type Trainer and Leader Sim. *(Reworked post-release into a 1F wall
+  terminal in all 50 lobbies — see Unreleased.)*
 - **Battle Net sims pay EXP**: the Scaling Type Trainer, Tower Streak, and
   ruleset rooms now award full experience (and post-battle evolutions) — the
   sims are meant to be the game's training grounds. Money still never changes
@@ -474,7 +529,8 @@ between worlds.
   Switching regions boxes your party to the shared PC (mail is moved to the PC
   mailbox — nothing is lost). You return to the hub through each region's own
   access point — the Goldenrod Magnet Train, Vermilion harbor, or Slateport
-  harbor — and the HUB PASS in your bag warps you back to the hub from anywhere.
+  harbor — and once you're champion of two regions, every Pokémon Center 2F
+  gains a World Transit warp pad. *(Replaced in v1.4 by the HUB PASS.)*
 - **Shared progress** — one bag, one PC, one Pokédex, one wallet. Story,
   badges, and trainer defeats are tracked per region; obedience and HM field
   moves follow your **current** region's badges.

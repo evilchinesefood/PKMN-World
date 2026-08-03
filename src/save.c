@@ -93,6 +93,7 @@ COMMON_DATA u16 gSaveFileStatus = 0;
 COMMON_DATA MainCallback gGameContinueCallback = NULL;
 COMMON_DATA struct SaveSectorLocation gRamSaveSectorLocations[NUM_SECTORS_PER_SLOT] = {0};
 COMMON_DATA u16 gSaveAttemptStatus = 0;
+COMMON_DATA u8 gSaveVersionRefusal = 0; // SAVE_VERSION_REFUSAL_*; set by LoadGameSave, read by the main menu
 
 EWRAM_DATA struct SaveSector gSaveDataBuffer = {0}; // Buffer used for reading/writing sectors
 
@@ -748,12 +749,17 @@ u8 HandleSavingData(u8 saveType)
         break;
     case SAVE_LINK:
     case SAVE_EREADER: // Dummied, now duplicate of SAVE_LINK
-        // Used by link / Battle Frontier
-        // Write only SaveBlocks 1 and 2 (skips the PC)
+        // Used by link / Battle Frontier. Upstream wrote only SaveBlocks 1 and 2 here
+        // (sectors 0-4, skipping the PC) as a link-latency optimization — but SaveBlock3
+        // rides as a saveBlock3Chunk inside EVERY slot sector (see CopyFromSaveBlock3), so
+        // a 5-sector write persisted only SB3 bytes 0-579 and silently rolled back the
+        // Johto flag bank, Kanto trainer flags, Route 5 daycare mon and obstacle bits to
+        // the previous full save. Write the whole slot in place; the latency concern died
+        // with the link code (#59), and Frontier saves must carry all of SaveBlock3.
         CopyPartyAndObjectsToSave();
-        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
+        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_PKMN_STORAGE_END; i++)
             HandleReplaceSector(i, gRamSaveSectorLocations);
-        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_SAVEBLOCK1_END; i++)
+        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_PKMN_STORAGE_END; i++)
             WriteSectorSignatureByte_NoOffset(i, gRamSaveSectorLocations);
         break;
     case SAVE_OVERWRITE_DIFFERENT_FILE:
@@ -905,8 +911,20 @@ u8 LoadGameSave(u8 saveType)
             // offsets in RAM by the time we get here. Report it as EMPTY so the main menu offers
             // NEW GAME only, rather than letting the player Continue into a half-loaded save.
             // Reading saveVersion is safe: it is in SaveBlock2, which this break does not reshape.
+            // gSaveVersionRefusal records WHY, so the menu can explain instead of looking blank.
+            gSaveVersionRefusal = SAVE_VERSION_REFUSAL_NONE;
             if (gSaveBlock2Ptr->saveVersion < SAVE_FORMAT_LAYOUT_MIN)
             {
+                gSaveVersionRefusal = SAVE_VERSION_REFUSAL_TOO_OLD;
+                gSaveFileStatus = SAVE_STATUS_EMPTY;
+                status = SAVE_STATUS_EMPTY;
+            }
+            // Forward gate: a save stamped by a NEWER build may carry a reshaped layout this
+            // binary can't know about. Without this it would half-load, then the next save
+            // would re-stamp it with THIS build's version — permanently downgrading it.
+            else if (gSaveBlock2Ptr->saveVersion > SAVE_FORMAT_VERSION)
+            {
+                gSaveVersionRefusal = SAVE_VERSION_REFUSAL_TOO_NEW;
                 gSaveFileStatus = SAVE_STATUS_EMPTY;
                 status = SAVE_STATUS_EMPTY;
             }

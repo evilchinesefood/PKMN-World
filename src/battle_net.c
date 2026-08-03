@@ -185,7 +185,7 @@ void TryBattleNetRematchReward(void)
         gSpecialVar_0x8008 = reward->stone1;
         sPendingStoneFlag1 = reward->stoneFlag;
     }
-    if (reward->stone2 != ITEM_NONE && !FlagGet(reward->stoneFlag + 1))
+    if (reward->stone2 != ITEM_NONE && reward->stoneFlag != 0 && !FlagGet(reward->stoneFlag + 1))
     {
         gSpecialVar_0x8009 = reward->stone2;
         sPendingStoneFlag2 = reward->stoneFlag + 1;
@@ -450,8 +450,10 @@ static void BnetMarkPreEvos(u8 *mark)
     }
 }
 
-// Can still evolve into something that exists in this game (Gen 1-3 strip aware):
-// Aipom (Ambipom disabled) is a dead end here, so it is NOT Little Cup material.
+// Can still evolve into something that exists in this game (Gen 1-3 strip aware). Note the
+// strip keeps Gen 1-3 lines' LATER-GEN evolutions (P_CROSS_GENERATION_EVOS): Ambipom exists,
+// so Aipom IS Little Cup material here — this check derives that from the live evo tables,
+// so it stays correct if the roster policy shifts.
 static bool32 BnetCanEvolve(u32 species)
 {
     const struct Evolution *evos = GetSpeciesEvolutions(species);
@@ -765,6 +767,9 @@ void AddBattleNetPoints(void)
     // Credit the daily stat with the delta actually APPLIED, not the raw award. At the cap the
     // player receives nothing while the TV stat used to book the full amount anyway.
     IncrementDailyBattlePoints(points - before);
+    // Report the applied delta so the award scripts can stop announcing BP the player did
+    // not receive at the 9999 cap (they branch on VAR_RESULT == 0 to a case-full line).
+    gSpecialVar_Result = points - before;
 }
 
 // 30% chance: VAR_0x8008 = a random shard color, else ITEM_NONE. The script

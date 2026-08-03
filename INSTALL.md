@@ -15,8 +15,9 @@ expansion see [FEATURES.md](FEATURES.md).
 ## 1. Prerequisites
 
 This is a **modern-toolchain-only** build. You need the GNU Arm bare-metal toolchain plus the
-usual build utilities. The recommended environment is **WSL2** on Windows (the dev environment
-is aarch64 WSL); native Linux and macOS work too.
+usual build utilities. **WSL2** on Windows, native Linux, and **macOS** are all first-class
+environments (the project is actively developed on macOS; the build, the pre-push gate, and
+the Lua test suites all run there — see the macOS notes below).
 
 Required:
 
@@ -142,6 +143,10 @@ make -j$(nproc) check   # build, then run the battle-engine test suite (test/)
 make clean              # remove build artifacts
 make debug              # build pokemonworld.elf with debug symbols + debug-friendly optimization
 make release            # optimized build with NDEBUG (asserts/debug checks compiled out)
+make modern             # explicit alias for the default modern-toolchain ROM build
+                        # (the Testing/lua docs reference this target)
+make symbols            # regenerate Testing/lua/symbols.lua from the ELF (the default
+                        # ROM build runs this automatically)
 ```
 
 `make` with no target builds the ROM. `make check` adds the test runner (the `test/` battle

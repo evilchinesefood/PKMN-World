@@ -96,9 +96,11 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	@ players who fainted/fled it, not only successful catchers.
 	call_if_ge VAR_SUICUNE_ENCOUNTERS, 3, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune
 	call_if_ge VAR_AZALEA_TOWN_STATE, 10, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi
+	@ DEFEATED-only clears, matching Hoenn's hall_of_fame.inc and this script's own header rule
+	@ (respawns are for UNRESOLVED encounters only). FLAG_CAUGHT_MEW / FLAG_BATTLED_DEOXYS are
+	@ the caught markers (set on the catch fall-through in their event scripts) — clearing them
+	@ here made an already-caught Mew/Deoxys respawn as a farmable duplicate.
 	clearflag FLAG_DEFEATED_MEW
-	clearflag FLAG_CAUGHT_MEW
-	clearflag FLAG_BATTLED_DEOXYS
 	clearflag FLAG_DEFEATED_DEOXYS
 	clearflag FLAG_SUMMONED_MTMOON_JIRACHI
 	setvar VAR_LEAGUE_STATE, 1

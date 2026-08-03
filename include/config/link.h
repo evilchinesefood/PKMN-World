@@ -20,10 +20,13 @@
 //                             layer, referenced from battle and contest code --
 //                             deferred deliberately)
 //
-// ⚠ These flags do NOT move the save layout in either direction. The save
-// fields the removed code owned (registeredTexts, hallRecords, linkBattleRecords,
-// recordMixingGift) are replaced by same-size reserved padding unconditionally,
-// so flipping a flag back TRUE also requires reverting that padding commit.
+// ⚠ These flags do NOT move the save layout in either direction. Of the save fields the
+// removed code touched, TWO were replaced by same-size reserved padding unconditionally
+// (registeredTexts -> reservedUnionRoomChat, recordMixingGift -> reservedRecordMixingGift);
+// hallRecords1P/2P and linkBattleRecords remain LIVE fields — they still have single-player
+// readers (Trainer Card club chairman, two TV shows, the records screen). Flipping a flag
+// back TRUE therefore also requires reverting the padding commit (abb316aa) for the two
+// reserved fields — the #error checks below make that failure speak at the flag site.
 // Never flip the FREE_* flags in config/save.h for symmetry -- they free SAVE
 // bytes, not ROM, and shift flags/vars/bag (silent save break).
 
@@ -69,6 +72,14 @@
 #endif
 #if LINK_MYSTERY_GIFT == TRUE && LINK_MYSTERY_EVENT == FALSE
 #error "LINK_MYSTERY_GIFT requires LINK_MYSTERY_EVENT: mystery_gift_client.c executes mystery-event scripts."
+#endif
+// Reverse-direction guards: the ON state died when abb316aa reserved the freed save fields.
+// Without these, flipping a flag TRUE fails as a missing-member error three files away.
+#if LINK_MYSTERY_EVENT == TRUE
+#error "LINK_MYSTERY_EVENT TRUE no longer builds: mystery_event_script.c reads SaveBlock1.recordMixingGift, now reservedRecordMixingGift (abb316aa). Restore the field (save-format bump) first."
+#endif
+#if LINK_UNION_ROOM == TRUE
+#error "LINK_UNION_ROOM TRUE no longer builds: the union-room chat reads SaveBlock1.registeredTexts, now reserved padding (abb316aa). Restore the field (save-format bump) first."
 #endif
 
 #endif // GUARD_CONFIG_LINK_H

@@ -31,8 +31,21 @@ SSAqua_1F_EventScript_DoorSailor::
 	msgbox SSAqua_1F_Text_Sailor1_ToVermilion, MSGBOX_NPC
 	end
 
+@ The voyage's end state (VAR_SSAQUA_STATE = 6, "returning to OLIVINE"). This sailor stands
+@ on the only tile between the player and the exit warp, so he MUST hand the player off the
+@ ship — before this offer existed the completed voyage was an inescapable loop (issue: the
+@ story sends every new Johto champion aboard). Real Vermilion disembark is Lane-R work.
 SSAqua_1F_EventScript_DoorSailorArrived::
 	msgbox SSAqua_1F_Text_SailorDoorArrived, MSGBOX_DEFAULT
+	msgbox SSAqua_1F_Text_GoAshorePrompt, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SSAqua_1F_EventScript_StayAboard
+	closemessage
+	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
+	waitstate
+	release
+	end
+
+SSAqua_1F_EventScript_StayAboard::
 	closemessage
 	release
 	end
@@ -181,3 +194,7 @@ SSAqua_1F_Text_SailorDoorArrived:
     .string "Due to harbor work in VERMILION,\n"
     .string "we're returning to OLIVINE.\p"
     .string "Please enjoy the voyage!$"
+
+SSAqua_1F_Text_GoAshorePrompt:
+    .string "We've docked at OLIVINE CITY.\p"
+    .string "Would you like to go ashore?$"

@@ -56,7 +56,7 @@ bool8 BugContestCheckTimeLimit(void)
         return FALSE;
 
     u32 elapsed = gMain.vblankCounter1 - sBugContestStartTime;
-    if (elapsed >= BUG_CONTEST_TIME_LIMIT_FRAMES) // 5 minutes by default
+    if (elapsed >= BUG_CONTEST_TIME_LIMIT_FRAMES) // 8 minutes (see bug_contest.h); wall-clock, keeps counting in battles/menus
     {
         sBugContestTimerActive = FALSE;
         ScriptContext_SetupScript(BugContest_EventScript_TimesUp);
@@ -71,7 +71,22 @@ bool8 BugContestCheckTimeLimit(void)
 bool8 TransferBugContestMon(void)
 {
     u8 monIndex = VarGet(VAR_0x8004);
-    struct Pokemon *mon = &gPlayerParty[monIndex];
+    struct Pokemon *mon;
+
+    // VAR_0x8004 is shared script scratch that survives the warp into the contest map —
+    // bound it here (like ScrCmd_removegenericmon_Compat) rather than trusting the script
+    // convention: past PARTY_SIZE this would ZeroMonData 100 bytes into the enemy parties.
+    if (monIndex >= PARTY_SIZE)
+    {
+        gSpecialVar_Result = MON_CANT_GIVE;
+        return FALSE;
+    }
+    mon = &gPlayerParty[monIndex];
+    if (GetMonData(mon, MON_DATA_SPECIES, NULL) == SPECIES_NONE)
+    {
+        gSpecialVar_Result = MON_CANT_GIVE;
+        return FALSE;
+    }
 
     if (CopyMonToPC(mon) == MON_GIVEN_TO_PC)
     {
@@ -103,10 +118,18 @@ bool8 JudgeBugContestMon(void)
     //paras min hp:33
 
     u16 monIndex = VarGet(VAR_0x8004);
+    u16 maxHP;
+
+    if (monIndex >= PARTY_SIZE) // shared scratch var; see TransferBugContestMon
+    {
+        gSpecialVar_Result = 3;
+        VarSet(VAR_0x8005, ITEM_NONE);
+        return FALSE;
+    }
     // u16, not u8: max HP above 255 wrapped and the judge scored the remainder against the
     // 41/46/47/48 thresholds below. Unreachable today because data/scripts/bug_contest.inc
     // forces a freshly caught contest mon, but the truncation is free to remove.
-    u16 maxHP = GetMonData(&gPlayerParty[monIndex], MON_DATA_MAX_HP, NULL); //change to MON_DATA_HP for a more authentic johto experience
+    maxHP = GetMonData(&gPlayerParty[monIndex], MON_DATA_MAX_HP, NULL); //change to MON_DATA_HP for a more authentic johto experience
     u16 rand = Random() % 100;
     u16 placement;
 
@@ -222,7 +245,14 @@ bool8 RemoveSafariBalls(void)
 bool8 ShowBugContestChosenMon(void)
 {
     u16 monIndex = VarGet(VAR_0x8004);
-    u16 species = GetMonData(&gPlayerParty[monIndex], MON_DATA_SPECIES, NULL);
+    u16 species;
+
+    if (monIndex >= PARTY_SIZE) // shared scratch var; see TransferBugContestMon
+    {
+        gSpecialVar_Result = 0;
+        return FALSE;
+    }
+    species = GetMonData(&gPlayerParty[monIndex], MON_DATA_SPECIES, NULL);
 
     // Set species name into STR_VAR_1 properly
     StringCopy(gStringVar1, GetSpeciesName(species));

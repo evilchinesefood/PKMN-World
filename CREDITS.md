@@ -41,7 +41,8 @@ The full list of pokeemerald-expansion contributors is preserved in the
 
 ## Merged-in regions, features & their sources
 
-Everything below is included — and enabled — in the shipped game. Credit goes to
+Everything below is included — and enabled — in the shipped game (the one exception:
+the quest engine was compiled out in 2026-07, see its section). Credit goes to
 the original authors and the bases the content was ported from.
 
 ### Johto region — PokemonHnS-Development/pokemonHnS
@@ -62,7 +63,7 @@ through the Johto League and Mt. Silver — was ported from
 The Kanto campaign uses the FireRed/LeafGreen maps, scripts, and trainer data
 bundled with the base engine, wired in Pokémon World into a live, completable
 campaign (runtime region checks, real FRLG trainer parties, gym leaders, Elite
-Four, and Champion Blue).
+Four, and Champion Gary).
 
 - **[pret/pokefirered](https://github.com/pret/pokefirered)** by **pret** — the
   FireRed/LeafGreen decompilation the bundled Kanto content derives from.
@@ -88,6 +89,9 @@ menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
   contributors, credited above).
 
 ### Quests system — PokemonSanFran/pokeemerald
+
+*(No longer in the shipped ROM: the engine was compiled out on 2026-07-27, having never
+had content authored. The port and its credits remain part of the project's history.)*
 
 The quest menu UI, quest script commands, start-menu hook, SaveBlock3 quest schema, and
 complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in

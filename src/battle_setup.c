@@ -634,8 +634,24 @@ void StartOldManTutorialBattle(void)
     CreateBattleStartTask(B_TRANSITION_SLICE, 0);
 }
 
+// Empty party is a supported state (region-switch boxing). The standard-encounter paths
+// guard it at BattleSetup_StartWildBattle, but scripted statics (dowildbattle: Sudowoodo,
+// Red Gyarados, Snorlax, box legendaries...) reach these directly and would start a battle
+// with a SPECIES_NONE lead. Refuse like a flee: release the script's waitstate and report
+// B_OUTCOME_RAN so the encounter script keeps the mon in place.
+static bool32 RefuseScriptedWildBattleIfPartyless(void)
+{
+    if (gPlayerPartyCount != 0)
+        return FALSE;
+    gBattleOutcome = B_OUTCOME_RAN;
+    ScriptContext_Enable();
+    return TRUE;
+}
+
 void BattleSetup_StartScriptedWildBattle(void)
 {
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = 0;
@@ -648,6 +664,8 @@ void BattleSetup_StartScriptedWildBattle(void)
 
 void BattleSetup_StartScriptedDoubleWildBattle(void)
 {
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_DOUBLE;
@@ -679,6 +697,8 @@ void StartMarowakBattle(void)
 
 void BattleSetup_StartLatiBattle(void)
 {
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
@@ -691,6 +711,8 @@ void BattleSetup_StartLatiBattle(void)
 
 void BattleSetup_StartLegendaryBattle(void)
 {
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;

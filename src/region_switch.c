@@ -210,12 +210,34 @@ void TryRefreshJohtoDayNightObjects(void)
     TrySpawnObjectEvents(0, 0);
 }
 
-// callnative hook used by the hub transit clerk. The clerk's multichoice stores the
-// selection in VAR_RESULT (0 = Kanto, 1 = Johto, 2 = Hoenn); map it onto enum Region,
-// which is contiguous from REGION_KANTO.
+static void SetRegionArrivalRespawn(enum Region region);
+
+// callnative hook for the gate attendants: VAR_RESULT = TRUE when the gate's target region
+// (VAR_0x8008 as 0/1/2 from REGION_KANTO) is already the active region — a round trip that
+// keeps the party. Lets the attendant show honest text instead of warning about a boxing
+// that RegionHub_ScrEnterRegion will not perform.
+void RegionHub_ScrTargetIsCurrent(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = ((enum Region)(REGION_KANTO + VarGet(VAR_0x8008)) == gCurrentRegion);
+}
+
+// callnative hook: set the active region WITHOUT the gate invariants (no party boxing).
+// For in-world cross-region arrivals only — e.g. the Battle Frontier dock ferry into
+// mainland Hoenn, which is normal travel, not a hub gate. Hub gates must use
+// RegionHub_ScrEnterRegion instead (it boxes the party per the file-head INVARIANT).
+// VAR_RESULT: 0 = Kanto, 1 = Johto, 2 = Hoenn; anything else (e.g. MULTI_B_PRESSED = 127)
+// is refused — an out-of-range value would persist into SaveBlock2.currentRegion.
 void RegionHub_ScrSetCurrentRegion(struct ScriptContext *ctx)
 {
-    SetCurrentRegion((enum Region)(REGION_KANTO + VarGet(VAR_RESULT)));
+    u32 choice = VarGet(VAR_RESULT);
+
+    if (REGION_KANTO + choice > REGION_HOENN)
+        return;
+    SetCurrentRegion((enum Region)(REGION_KANTO + choice));
+    // Also re-arm the whiteout respawn: the point of setting the region here is that the
+    // player is physically arriving in it, and a respawn left in the previous region (or
+    // at the Frontier nurse) teleports whiteouts across the world.
+    SetRegionArrivalRespawn((enum Region)(REGION_KANTO + choice));
 }
 
 // Task 5a: on a region CROSS, arm the whiteout respawn at the destination region's start-town
@@ -255,10 +277,11 @@ void RegionHub_ScrEnterRegion(struct ScriptContext *ctx)
     enum Region target = (enum Region)(REGION_KANTO + VarGet(VAR_RESULT));
 
     if (target != gCurrentRegion)
-    {
         DepositPartyToPC();
-        SetRegionArrivalRespawn(target);
-    }
+    // Re-arm the respawn on EVERY cross, not only region changes: a same-region round trip
+    // through the hub after a Frontier visit otherwise keeps the respawn at the Frontier
+    // nurse, and the next whiteout teleports the player across regions.
+    SetRegionArrivalRespawn(target);
     SetCurrentRegion(target);
 }
 
@@ -352,6 +375,45 @@ void RegionHub_ScrCanFly(struct ScriptContext *ctx)
 // (see battle_util.c). Each present mon is copied via CopyMonToPC then cleared; if the PC
 // fills up mid-transfer the remaining mons stay in the party (partial deposit).
 // CalculatePlayerPartyCount() resyncs the count afterward (CompactPartySlots does not).
+// callnative for the gate attendants: VAR_RESULT = TRUE when a real cross can deposit the
+// WHOLE party and bank ALL its mail. DepositPartyToPC below degrades silently when the PC
+// or the mailbox is full (partial boxing / discarded mail) — directly contradicting the
+// gate's "your team will be sent to the PC BOXES" promise — so the gate refuses up front
+// with a make-room message instead. Same-region round trips (no deposit) always pass.
+// Reads the target region from VAR_0x8008 (0/1/2), like RegionHub_ScrTargetIsCurrent.
+void RegionHub_ScrCanDepositParty(struct ScriptContext *ctx)
+{
+    u32 i, partyCount = 0, mailCount = 0, freeMailSlots = 0;
+
+    gSpecialVar_Result = TRUE;
+    if ((enum Region)(REGION_KANTO + VarGet(VAR_0x8008)) == gCurrentRegion)
+        return;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+
+        if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE)
+            continue;
+        partyCount++;
+        if (MonHasMail(mon))
+            mailCount++;
+    }
+    if (CountAllStorageMons() + partyCount > TOTAL_BOXES_COUNT * IN_BOX_COUNT)
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+    // PC mailbox section of SaveBlock1.mail[] (the slots TakeMailFromMonAndSave fills).
+    for (i = PARTY_SIZE; i < MAIL_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->mail[i].itemId == ITEM_NONE)
+            freeMailSlots++;
+    }
+    if (mailCount > freeMailSlots)
+        gSpecialVar_Result = FALSE;
+}
+
 void DepositPartyToPC(void)
 {
     u8 i;

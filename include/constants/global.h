@@ -2,8 +2,8 @@
 #define GUARD_CONSTANTS_GLOBAL_H
 
 // Region merge save-format version. Stamped on new games (SaveBlock2.saveVersion).
-// Full migration of older formats is deferred to Phase 3 — only the field + version
-// constant exist now so Phase 3 can detect and migrate.
+// The migration ladder is LIVE (MigrateSaveFormatIfNeeded, src/load_save.c) — it has run
+// since v2 — with a hard floor at SAVE_FORMAT_LAYOUT_MIN below (older saves are refused).
 // v2: SaveBlock3.usmSaved appended (graphical start menu icon order).
 // v3: SaveBlock3.kantoTrainerFlags appended (Kanto trainer defeat-flag bank, E5-1).
 // v4: SaveBlock3.route5DayCareMon appended (FRLG Route 5 single-mon day care, E7-1).
@@ -178,7 +178,9 @@ enum Language
 //    spill into a second slot, so slots x 999 must stay under 65536. Above 65 needs a u32 return.
 //  - Any pocket at 256+ HANGS: IsBagPocketNonEmpty loops with a u8 index against capacity
 //    (src/item.c). The practical ceiling is 255, from the u8 UI counters in include/item_menu.h.
-//  - struct Bag must stay 4-byte aligned — ClearBag CpuFastFills it (src/item.c).
+//  - struct Bag stays 4-byte aligned (it holds u32 slots). ClearBag uses memset — do NOT
+//    revert it to CpuFastFill unless sizeof(struct Bag) is a multiple of 32 bytes: CpuFastSet
+//    moves 8-word blocks and rounds UP, overfilling into pokeblocks[].
 #define BAG_ITEMS_COUNT 60
 #define BAG_KEYITEMS_COUNT 99
 #define BAG_POKEBALLS_COUNT 16

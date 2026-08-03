@@ -1950,10 +1950,15 @@ void RecordClearedObstacleFromScript(struct ScriptContext *ctx)
     u8 i;
 
     (void)ctx;
+    // Same guards as TryRefreshJohtoDayNightObjects (region_switch.c): the header can lack an
+    // events block, and its count is map data — never let it walk past the 64-slot saveblock
+    // template array into flags[] (a stray match there would record the WRONG obstacle).
+    if (gMapHeader.events == NULL)
+        return;
     // Border-clone obstacles: the spawned clone adopts its TARGET's localId, and the spawn-side
     // cleared-check resolves clones to the target identity — record that same identity, or a
     // clone-side cut never matches (it would burn a slot and regrow anyway).
-    for (i = 0; i < gMapHeader.events->objectEventCount; i++)
+    for (i = 0; i < gMapHeader.events->objectEventCount && i < OBJECT_EVENT_TEMPLATES_COUNT; i++)
     {
         const struct ObjectEventTemplate *tmpl = &gSaveBlock1Ptr->objectEventTemplates[i];
         if (tmpl->kind == OBJ_KIND_CLONE && tmpl->targetLocalId == localId)

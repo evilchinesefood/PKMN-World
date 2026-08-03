@@ -1626,7 +1626,12 @@ static u8 ModifyBreedingScoreForOvalCharm(u8 score)
 void PutMonInRoute5Daycare(void)
 {
 #if IS_FRLG || ALL_REGIONS
+    // The cursor slot can legitimately be PARTY_SIZE (the CANCEL row); the script guard
+    // checks VAR_0x8004, a different source. Bound here before writing a full BoxPokemon
+    // into un-checksummed SaveBlock3.
     u8 monIdx = GetCursorSelectionMonId();
+    if (monIdx >= PARTY_SIZE)
+        return;
     StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][monIdx], &sRoute5DaycareMon);
 #endif
 }

@@ -80,9 +80,20 @@ end
 -- presses Down to test the menu, which moves a 2-row yes/no cursor off YES, and
 -- Menu_MoveCursorNoWrapAround will not bring it back. Drive the cursor in BOTH directions,
 -- verified against sMenu.cursorPos each step, so YES and NO are equally reachable.
+-- lib's menuLive() probes with Down only, which cannot detect a menu whose cursor rests on
+-- the BOTTOM row — exactly what the Curator re-offer now does (multichoicedefault row 1, so
+-- an A-mash declines). Probe both directions: at the bottom, Down is dead but Up moves.
+local function menuLiveBothWays()
+  local c0 = F.mcur()
+  F.press("Down", 2); F.idle(10)
+  if F.mcur() ~= c0 then return true end
+  F.press("Up", 2); F.idle(10)
+  return F.mcur() ~= c0
+end
+
 local function answer(row, tag)
   for _ = 1, 30 do
-    if F.menuLive() then
+    if menuLiveBothWays() then
       for _ = 1, 8 do
         local c = F.mcur()
         if c == row then
@@ -145,7 +156,10 @@ F.run(function()
   F.check("route to the Curator", F.route({ { 22, 4 }, { 22, 6 } }, "toCurator"))
   F.face("Down")
   F.press("A", 2); F.idle(60)
-  F.check("decline the Curator's re-offer", answer(1, "curator-no"))
+  -- Deep-review task 36: the re-offer is now a multichoicedefault with the cursor RESTING
+  -- ON NO (row 1), so an A-mash can no longer re-enter the multi-minute escort. Same rows
+  -- as ever: 0 = tour, 1 = decline/business — but the helper must drive UP to reach YES.
+  F.check("decline the Curator's re-offer (cursor rests on NO)", answer(1, "curator-no"))
   drain(150, "curator_decline")
   local kAfter = keyItems()
   F.check("declining falls straight through to the HUB PASS + POKeVIAL gives",
@@ -161,6 +175,7 @@ F.run(function()
   F.check("standing next to the Curator before accepting", x0 == 22 and y0 == 6, string.format("(%d,%d)", x0, y0))
   F.face("Down")
   F.press("A", 2); F.idle(60)
+  -- Row 0 = tour, as ever — but the cursor now rests on NO, so the helper drives Up first.
   F.check("accept the Curator's re-offer", answer(0, "curator-yes"))
 
   -- Watch the escort. Stops must be hit IN ORDER: the index only ever advances, so a tile that

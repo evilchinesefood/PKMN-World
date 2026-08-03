@@ -415,7 +415,7 @@ void ItemUseOutOfBattle_SkyCharm(u8 taskId)
 // Task 6: fixed one-way warp to the World Transit hub (same call sequence as the
 // `warp` script command). No warp-back-out exists by design - the player re-enters
 // a region only through the hub attendants.
-static const u8 sText_HubPassConfirm[] = _("Return to the WORLD\nTRANSIT hub?");
+static const u8 sText_HubPassConfirm[] = _("Warp to the WORLD TRANSIT hub?\pThis is a one-way trip - you'll\nre-enter through the hub gates,\lnot back here.");
 
 static void Task_UseHubReturnOnField(u8 taskId)
 {
@@ -450,7 +450,9 @@ static const struct YesNoFuncTable sYesNoTable_HubReturnFieldFuncTable =
 
 static void HubReturnFieldYesNo(u8 taskId)
 {
-    DisplayYesNoMenuDefaultYes();
+    // Cursor rests on NO: the warp is one-way and relocating, and an A-mash through this
+    // confirm used to cost the player their dungeon position with no way back.
+    DisplayYesNoMenuWithDefault(1);
     DoYesNoFuncWithChoice(taskId, &sYesNoTable_HubReturnFieldFuncTable);
 }
 
@@ -483,7 +485,13 @@ static bool32 CannotUseHubReturnHere(void)
         || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
         || InTrainerHillChallenge()
         || gSaveBlock2Ptr->frontier.challengeStatus != 0
-        || VarGet(VAR_WORLD_CHAMPIONSHIP_MODE) != 0;
+        || VarGet(VAR_WORLD_CHAMPIONSHIP_MODE) != 0
+        // Underwater: the raw DoWarp would skip the surfacing path entirely (the vanilla
+        // escape items all special-case this state). Surface first, then warp.
+        || gMapHeader.mapType == MAP_TYPE_UNDERWATER
+        // Escort/follow-me NPC: warping strands the escorted NPC's script state (same
+        // predicate the Sky Charm uses). Compiles to FALSE with FNPC followers off.
+        || PlayerHasFollowerNPC();
 }
 
 void ItemUseOutOfBattle_HubReturn(u8 taskId)

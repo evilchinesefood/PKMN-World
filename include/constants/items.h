@@ -1060,16 +1060,21 @@ enum __attribute__((packed)) Item
     // empty and unobtainable.
     ITEM_POKEVIAL = 874, // Pokevial
 
-#if QOL_FIELD_MOVES_ITEM_GATE
+    // Unconditional for the same reason as ITEM_POKEVIAL directly above: these six were
+    // guarded AND unnumbered, so QOL_FIELD_MOVES_ITEM_GATE=FALSE built clean and slid every
+    // later item ID (the entire Johto key-item block below) down by six — silently remapping
+    // saved bag contents. The gItems[] rows in src/data/items.h stay guarded; with the
+    // feature off the slots are simply empty and unobtainable.
     ITEM_CUT_TOOL,
     ITEM_SURF_TOOL,
     ITEM_ROCK_SMASH_TOOL,
     ITEM_STRENGTH_TOOL,
     ITEM_WATERFALL_TOOL,
     ITEM_DIVE_TOOL,
-#endif
 
-    ITEM_GS_BALL, // Johto: GS Ball key item (Kurt -> Ilex Forest shrine -> Celebi)
+    // Explicitly numbered so the tail can never slide again (874 POKEVIAL + 6 tools = 881),
+    // and an upstream merge that appends items collides loudly here instead of renumbering.
+    ITEM_GS_BALL = 881, // Johto: GS Ball key item (Kurt -> Ilex Forest shrine -> Celebi)
 
     // Johto key items promoted from johto_compat_ids.h stubs. They were aliased to
     // ITEM_NONE, so checkitem was always FALSE and soft-locked the main path

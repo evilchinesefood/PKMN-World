@@ -14,10 +14,12 @@ BattleNet_EventScript_Director::
 	msgbox BattleNet_Text_DirectorIntro, MSGBOX_DEFAULT
 	@ The MEGA RING is POCKET_KEY_ITEMS and this is its ONLY source in the ROM, so a silent
 	@ giveitem failure would kill Mega Evolution permanently. Check space before giving.
+	@ Ring failures get their own text: the player was just offered the MEGA RING, and the
+	@ shared "free stone" line left it ambiguous whether the RING was given.
 	checkitemspace ITEM_MEGA_RING, 1
-	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRingBagFull
 	giveitem ITEM_MEGA_RING
-	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRingBagFull
 	@ The ring is handed over HERE, so its guard flag advances HERE. It used to be set only
 	@ after a confirmed stone give, so both non-give exits below returned with the flag clear
 	@ and the next talk re-ran the intro and printed another ring. checkitemspace does not
@@ -47,6 +49,10 @@ BattleNet_EventScript_DirectorBagFull::
 	msgbox BattleNet_Text_DirectorBagFull, MSGBOX_DEFAULT
 	release
 	end
+BattleNet_EventScript_DirectorRingBagFull::
+	msgbox BattleNet_Text_DirectorRingBagFull, MSGBOX_DEFAULT
+	release
+	end
 BattleNet_EventScript_DirectorRepeat::
 	@ Self-heal: a save from before the checkitemspace guard above could have had the ring
 	@ silently eaten while the intro flag was still set. Re-give it if it is missing.
@@ -60,7 +66,7 @@ BattleNet_EventScript_DirectorRepeat::
 
 BattleNet_EventScript_DirectorRegiveRing::
 	checkitemspace ITEM_MEGA_RING, 1
-	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorBagFull
+	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRingBagFull
 	giveitem ITEM_MEGA_RING
 	goto_if_unset FLAG_BNET_DIRECTOR_STONE, BattleNet_EventScript_DirectorStoneOffer
 	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
@@ -203,7 +209,17 @@ BattleNet_EventScript_StreakOver:
 	special AddBattleNetPoints              @ 1 BP per win (0 wins pays nothing)
 	buffernumberstring 0, VAR_TEMP_2
 	goto_if_eq VAR_TEMP_2, BNET_STREAK_ROUNDS, BattleNet_EventScript_StreakCleared
+	@ Branch the 0-win run: "1 BP paid per win" after zero wins read as a payment.
+	goto_if_eq VAR_TEMP_2, 0, BattleNet_EventScript_StreakNoWins
+	@ Wins > 0 but AddBattleNetPoints applied 0: the 9999 cap ate the payout - say so.
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_StreakCapped
 	msgbox BattleNet_Text_StreakEnded, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_StreakCapped:
+	msgbox BattleNet_Text_StreakCapped, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_StreakNoWins:
+	msgbox BattleNet_Text_StreakNoWins, MSGBOX_DEFAULT
 	goto BattleNet_EventScript_StreakMenu
 BattleNet_EventScript_StreakCleared:
 	setvar VAR_0x8005, BNET_STREAK_BONUS
@@ -239,7 +255,12 @@ BattleNet_EventScript_RoomCommon:
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, BattleNet_EventScript_RoomLost
 	setvar VAR_0x8005, 2
 	special AddBattleNetPoints
+	@ VAR_RESULT = BP actually applied; 0 means the 9999 cap ate the award - say so.
+	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_RoomWonCapped
 	msgbox BattleNet_Text_RoomWon, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_RoomWonCapped:
+	msgbox BattleNet_Text_RoomWonCapped, MSGBOX_DEFAULT
 	goto BattleNet_EventScript_StreakMenu
 BattleNet_EventScript_RoomLost:
 	msgbox BattleNet_Text_RoomLost, MSGBOX_DEFAULT
@@ -277,6 +298,9 @@ BattleNet_Text_DirectorStoneLater:
 BattleNet_Text_DirectorBagFull:
 	.string "Your BAG is full! Make room and\n"
 	.string "come back for your free stone.$"
+BattleNet_Text_DirectorRingBagFull:
+	.string "Your BAG is full! Make room so\n"
+	.string "I can hand you the MEGA RING.$"
 BattleNet_Text_DirectorRepeat:
 	.string "How's the MEGA RING treating you?\p"
 	.string "HARD rematch wins pay shards, and\n"
@@ -303,11 +327,15 @@ BattleNet_Text_BpClerkAnother:
 	.string "Another SHARD?$"
 BattleNet_Text_BpClerkBye:
 	.string "Spend them well!$"
+@ Denominators glossed: 39 = 24 leaders + 12 ELITE FOUR + 3 champions; 30 = 28 signature
+@ stones + the champion trio's MEWTWONITE pair. Opaque "/39" and "/30" read as noise.
 BattleNet_Text_Records:
 	.string "BATTLE NET RECORDS\p"
-	.string "HARD rematch wins: {STR_VAR_1}\n"
-	.string "Leaders bested: {STR_VAR_2}/39\l"
-	.string "Signature stones claimed: {STR_VAR_3}/30$"
+	.string "Total HARD rematch wins: {STR_VAR_1}\p"
+	.string "Leaders, ELITE FOUR and champions\n"
+	.string "bested on HARD: {STR_VAR_2}/39\p"
+	.string "Signature MEGA STONES claimed:\n"
+	.string "{STR_VAR_3}/30$"
 BattleNet_Text_Records2:
 	.string "Best TOWER STREAK: {STR_VAR_1}/7$"
 BattleNet_Text_StreakIntro:
@@ -327,6 +355,17 @@ BattleNet_Text_StreakWinN:
 BattleNet_Text_StreakEnded:
 	.string "Run over - {STR_VAR_1} straight wins.\n"
 	.string "1 BP paid per win.$"
+BattleNet_Text_StreakNoWins:
+	.string "Run over - no wins this time,\n"
+	.string "so no BP. Try again!$"
+BattleNet_Text_StreakCapped:
+	.string "Run over - {STR_VAR_1} straight wins!\p"
+	.string "…but your BP CASE is maxed out\n"
+	.string "at 9,999. No BP added.$"
+BattleNet_Text_RoomWonCapped:
+	.string "RULESET CLEARED - you win!\p"
+	.string "…but your BP CASE is maxed out\n"
+	.string "at 9,999. No BP added.$"
 BattleNet_Text_StreakPerfect:
 	.string "A PERFECT 7!\p"
 	.string "7 BP for the wins plus a 5 BP bonus.\n"

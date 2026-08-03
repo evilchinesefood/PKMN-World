@@ -148,7 +148,7 @@ The Frontier is reached from the **RegionHub attendant at (4,2)**, gated on
 - Expected: **entry is ALLOWED** (Open Level caps at `MAX_LEVEL`, no minimum).
   `FRONTIER_MIN_LEVEL_OPEN` (60) is **not** a player gate — it floors the **ENEMY** level:
   `GetFrontierEnemyMonLevel()` = highest level in your party, raised to 60 if lower
-  (`src/frontier_util.c:3282`). So a Lv5 party faces **Lv60** opponents.
+  (`GetFrontierEnemyMonLevel`, src/frontier_util.c). So a Lv5 party faces **Lv60** opponents.
 - Evidence: `gBattleMons` enemy levels == 60.
 - Note: an earlier research pass claimed "Open Level rejects below 60" — **that is wrong**; it was
   refuted against source. If you observe a rejection, that IS a finding.
@@ -273,7 +273,7 @@ Rematch **availability** is gated on the **region champion FLAG only** — not b
 `VAR_DIFFICULTY`.
 
 `VAR_DIFFICULTY` is a **single global var**, but Hard teams exist in all 3 regions, so
-`SyncDifficultyForRegion()` (`src/region_switch.c:56-59`) **rewrites it from the ACTIVE region's
+`SyncDifficultyForRegion()` (`src/region_switch.c`) **rewrites it from the ACTIVE region's
 champion flag on every region entry**. That is what stops HARD leaking across regions.
 
 ## B1. Gym rematches  (P1)
@@ -340,8 +340,8 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 **B2.5 — The NORMAL `_2` parties are dead data**
 - Expected: no reachable path battles a `_2` ID while `VAR_DIFFICULTY != HARD`.
 - Only reachable by forcing an inconsistent state (champion flag ON + `VAR_DIFFICULTY`=1 without
-  leaving the region). **Do not delete them** — `battle_net.inc:16-17` documents them as an
-  intentional harmless fallback.
+  leaving the region). **Do not delete them** — they are an intentional harmless fallback
+  (the citation to a `battle_net.inc` comment rotted; the rationale lives in this plan now).
 
 ## B3. Difficulty containment  (P1 — highest regression risk)
 
@@ -354,7 +354,8 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 
 **B3.2 — Continue re-syncs the tier**
 - Steps: save in Rustboro as Hoenn champion → **soft reset (A+B+Start+Select)** → Continue → Roxanne.
-- Expected: `ResyncCurrentRegionFromMap` (`src/overworld.c:2325`) re-derives the region and
+- Expected: `ResyncCurrentRegionFromMap` (`src/region_switch.c`, called from overworld warp
+  handling) re-derives the region and
   re-applies `VAR_DIFFICULTY`=2 (EWRAM `gCurrentRegion` zeroes on soft reset), so Roxanne is still HARD.
 
 **B3.3 — A champion flag alone does NOT flip the var** 🪤

@@ -5,7 +5,8 @@
 (upstream commit `66ab6696`, ~v1.16.2). It inherits the full expansion feature set, adds the
 three-region merge on top, and ships a suite of ported community features — **all enabled by
 default**: a bare `make` produces the full three-region game. The flags in `include/config/`
-remain for tuning.
+remain for tuning. (Two exceptions ship compiled *out*: the link-era features — Mystery
+Gift/Event, Union Room, record mixing, Cable Club — and the never-populated quest engine.)
 
 For credits and source attribution, see [CREDITS.md](CREDITS.md). For setup and build
 instructions, see [INSTALL.md](INSTALL.md).
@@ -17,6 +18,7 @@ instructions, see [INSTALL.md](INSTALL.md).
   - [Region switching](#region-switching)
   - [Shared vs. per-region progress](#shared-vs-per-region-progress)
   - [Rematches \& Hard difficulty](#rematches--hard-difficulty)
+  - [Team Rocket ambushes](#team-rocket-ambushes)
   - [World Championship](#world-championship)
   - [Battle Net \& the Mega economy](#battle-net--the-mega-economy)
 - [Character customization](#character-customization)
@@ -46,7 +48,7 @@ Three complete, self-contained campaigns on one cartridge. Each region has its o
   party**, with real gym leader / Elite Four rosters, rival **Gary** (who is also the Kanto
   **Champion**), and an 8-badge Victory Road / league gate.
 - **Johto** — ported from *Pokémon Heart & Soul*: ~254 maps with tilesets and scripts,
-  231 real trainer parties, wild-encounter tables, the Johto town map with Fly and heal
+  240+ real trainer parties, wild-encounter tables, the Johto town map with Fly and heal
   locations, rival **Gary** (with daily rematches), and the Johto League
   (Will / Koga / Bruno / Karen → **Champion Lance**) — with native HGSS-style
   portrait art for all eight gym leaders, the Elite Four, and Lance.
@@ -57,9 +59,12 @@ Three complete, self-contained campaigns on one cartridge. Each region has its o
   post-game battle facility (reachable from the hub, gated behind clearing at least one
   region's league).
 
-**The roster is Generations 1–3 only.** Every Pokémon in the game — wild, gift, and
-trainer-owned — comes from the first three generations, keeping the cast consistent with
-the three regions it draws from.
+**The roster is Generations 1–3 only** — with their family trees intact. Every wild,
+gift, and trainer-owned Pokémon comes from the first three generations, keeping the cast
+consistent with the three regions it draws from. Gen 1–3 lines keep their **later-gen
+evolutions** (Togekiss, Electivire, Weavile, Sylveon, …): cross-gen evolution items are
+sold in-world, and those evolutions count toward the National Dex and its completion
+rewards.
 
 ### World Transit hub
 
@@ -97,8 +102,10 @@ Three hub staffers handle handouts:
   a region's own access point in normal play: the **Goldenrod Magnet Train** (the Pass comes
   from the station president after the Radio Tower incident), the **Vermilion harbor**, or the
   **Slateport harbor**. The HUB PASS from your bag is the way back to the hub afterward.
-- The active region and hub access live in a versioned save format with a migration reader,
-  so older saves keep loading across updates.
+- The active region and hub access live in a versioned save format with a migration reader.
+  Saves from v1.4 onward (format v7+) keep loading across updates; saves older than that are
+  **refused at load with an explanation** rather than migrated (the v1.4 bag/PC resize
+  reshaped the layout — see the changelog's v1.4 notice).
 
 ### Shared vs. per-region progress
 
@@ -148,7 +155,9 @@ flagship floor upstairs (RegionHub 2F) — the home of **Mega Evolution**:
   line (one-time; if your bag is full, both wait for you).
 - Every **HARD gym-leader, Elite Four, and Champion rematch win pays Shards** (leaders 1,
   league 2). The **first HARD win** against each of the 28 stone-holding leaders also drops
-  their **signature Mega Stone** — the same stone they Mega Evolve with against you. A full
+  their **signature Mega Stone** — the same stone they Mega Evolve with against you — and
+  each region's Champion drops the **Mewtwonite X and Y pair**, for 30 stones on the drop
+  circuit in all (the records board counts them /30). A full
   bag holds a stone for reclaim on a later win; a blocked Shard payout tells you and is
   forfeited, so make room first.
 - The flagship **vendor** sells the remaining stones for Shards, and the **exchange clerk**
@@ -199,7 +208,8 @@ with a single soft ground shadow.
 ## Ported features
 
 Ported from other community bases (sources and authors in [CREDITS.md](CREDITS.md)). All
-are **enabled** in the shipped game; each remains individually toggleable via its config flag.
+are **enabled** in the shipped game except where a section below says otherwise; each
+remains individually toggleable via its config flag.
 
 ### SwSh UI suite
 
@@ -245,12 +255,13 @@ Two ways to use field moves without HM chores (`include/config/qol_field_moves.h
 - **Item gate** (`QOL_FIELD_MOVES_ITEM_GATE`) — owning the matching tool item
   (`ITEM_CUT_TOOL` … `ITEM_DIVE_TOOL`) unlocks that field move outright.
 
-### Quests system (dormant)
+### Quests system (removed)
 
 An Unbound-style quest / mission-log engine (`QUEST_MENU`, `include/config/quests.h`) with
-favorites pinning, completion percentage, and per-quest branching driven by game VARs. The
-engine is compiled in but **deliberately dormant**: no quests are authored and the Start-menu
-entry never unlocks, so it is unreachable in play.
+favorites pinning, completion percentage, and per-quest branching driven by game VARs. It
+never had content authored, and as of 2026-07-27 the engine is **compiled out** entirely
+(~26 KB reclaimed); its save space is reserved so the layout is unchanged. The revival
+steps live in `include/config/quests.h`.
 
 ## QoL & gameplay defaults
 

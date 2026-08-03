@@ -113,8 +113,10 @@ bool8 CheckHooh(void)       { return GetMonData(&gParties[B_TRAINER_PLAYER][0], 
 bool8 CheckAerodactyl(void) { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_AERODACTYL; }
 bool8 CheckKabuto(void)     { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_KABUTO; }
 bool8 CheckOmanyte(void)    { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_OMANYTE; }
-void IsRandomMovesActivated(void) { gSpecialVar_Result = FALSE; } // HnS randomizer: report OFF (region merge stub)
-void IsPokecenterChallengeActivated(void) { gSpecialVar_Result = FALSE; } // HnS Pokecenter challenge: report OFF so SS Aqua cabin beds heal normally (region merge stub)
+// Both are consumed via `specialvar`, which stores the RETURN VALUE (scrcmd.c) — a void
+// special leaves garbage r0 in the target var, so these must return, not write Result.
+u16 IsRandomMovesActivated(void) { return FALSE; } // HnS randomizer: report OFF (region merge stub)
+u16 IsPokecenterChallengeActivated(void) { return FALSE; } // HnS Pokecenter challenge: report OFF so SS Aqua cabin beds heal normally (region merge stub)
 
 // HnS removenamedmon: removes a delivered story mon (Kenya/Shuckie). Story-mon delivery
 // is unported; stub reads its operand and no-ops so the script pointer stays aligned.
@@ -164,7 +166,10 @@ void ScrCmd_giveoddegg_Compat(struct ScriptContext *ctx)
 
 // HnS tx_randomizer GetMaxPartySize (challenge modes cap party size). Randomizer/
 // challenge modes are unported; report the normal max so daycare/party logic proceeds.
-void GetMaxPartySize(void) { gSpecialVar_Result = PARTY_SIZE; }
+// Consumed via `specialvar VAR_0x8004, ...` (Route 34 daycare full-party guard), which
+// stores the RETURN VALUE — as a void special the guard compared against pointer garbage
+// and the egg give could overwrite party slot 6.
+u16 GetMaxPartySize(void) { return PARTY_SIZE; }
 
 // Goldenrod Underground haircut brothers: boost the chosen party mon's friendship
 // (VAR_0x8004 = the ChoosePartyMon slot, already bounds-checked by the scripts). HnS
@@ -200,11 +205,13 @@ void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
     const u8 *otName = NULL;
     u8 heldItem[2];
     u8 i;
-    static const u8 sKenyaNickname[]   = _("KENYA");
-    static const u8 sKenyaOtName[]     = _("RUDY");
-    static const u8 sShuckieNickname[] = _("SHUCKIE");
-    static const u8 sShuckieOtName[]   = _("KIRK");
-    static const u8 sEeveeOtName[]     = _("BILL");
+    // Sized buffers, not bare literals: SetMonData copies a fixed POKEMON_NAME_LENGTH /
+    // PLAYER_NAME_LENGTH bytes (it does not stop at EOS), so short literals over-read .rodata.
+    static const u8 sKenyaNickname[POKEMON_NAME_LENGTH + 1]   = _("KENYA");
+    static const u8 sKenyaOtName[PLAYER_NAME_LENGTH + 1]      = _("RUDY");
+    static const u8 sShuckieNickname[POKEMON_NAME_LENGTH + 1] = _("SHUCKIE");
+    static const u8 sShuckieOtName[PLAYER_NAME_LENGTH + 1]    = _("KIRK");
+    static const u8 sEeveeOtName[PLAYER_NAME_LENGTH + 1]      = _("BILL");
 
     switch (giftId)
     {
@@ -292,6 +299,9 @@ void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
     {
         CompactPartySlots();
         CalculatePlayerPartyCount();
+        // Same hazard DepositPartyToPC (region_switch.c) documents: a follower chosen from
+        // slots 2-6 would keep pointing into a now-emptied/reshuffled slot for the contest.
+        gSaveBlock2Ptr->followerSlot = 0;
     }
 
     gSpecialVar_Result = MON_GIVEN_TO_PARTY;
@@ -309,7 +319,9 @@ void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
     u8 level = ScriptReadByte(ctx);
     u16 item = ScriptReadHalfword(ctx);
 
-    CreateScriptedWildMon(species, level, item);
+    // Hand-transcribed opcode operand — sanitize before CreateBoxMon indexes gSpeciesInfo,
+    // matching the validation every sibling compat handler in this file performs.
+    CreateScriptedWildMon(SanitizeSpeciesId(species), level, item);
 }
 
 // HnS `removegenericmon <species>` (Lake of Rage Magikarp-length house): removes the party
@@ -374,28 +386,22 @@ void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
 // player arrives with Celebi as the lead, at full HP, walking with it as a follower (the
 // Ilex-Forest time-travel setup). Ported from HnS braille_puzzles.c. (Obtaining Celebi via
 // the GS-Ball/Ilex shrine is its own event; this check is correct regardless.)
-void CheckCelebi(void)
+// Consumed via `specialvar VAR_RESULT, ...` which stores the RETURN VALUE (same idiom as
+// CheckHooh above) — as a void special the gate compared against leftover r0 and the
+// encounter could never legitimately arm.
+bool8 CheckCelebi(void)
 {
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][0];
     struct ObjectEvent *follower;
 
     if (GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL) != SPECIES_CELEBI)
-    {
-        gSpecialVar_Result = FALSE;
-        return;
-    }
+        return FALSE;
     if (GetMonData(mon, MON_DATA_HP, NULL) != GetMonData(mon, MON_DATA_MAX_HP, NULL))
-    {
-        gSpecialVar_Result = FALSE;
-        return;
-    }
+        return FALSE;
     follower = GetFollowerObject();
     if (follower == NULL || follower->invisible)
-    {
-        gSpecialVar_Result = FALSE;
-        return;
-    }
-    gSpecialVar_Result = TRUE;
+        return FALSE;
+    return TRUE;
 }
 
 // HnS `checkrandomizer` (callnative, used by Mr. Pokemon's House): reports whether randomizer

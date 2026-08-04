@@ -1138,6 +1138,12 @@ bool32 OnStep_DexNavSearch(void)
         CreateDexNavWildMon(sDexNavSearchDataPtr->species, sDexNavSearchDataPtr->potential, sDexNavSearchDataPtr->monLevel,
                             sDexNavSearchDataPtr->abilityNum, sDexNavSearchDataPtr->heldItem, sDexNavSearchDataPtr->moves);
 
+        // CreateDexNavWildMon fills only gParties[B_TRAINER_OPPONENT_A][0], and
+        // EventScript_StartDexNavBattle (data/scripts/dexnav.inc) reaches `dowildbattle`, which
+        // branches on a file-static in scrcmd.c that nothing clears. Say single explicitly here
+        // rather than depend on whatever the last scripted wild battle happened to leave set.
+        SetScriptedWildBattleIsDouble(FALSE);
+
         ScriptContext_SetupScript(EventScript_StartDexNavBattle);
         FREE_AND_SET_NULL(sDexNavSearchDataPtr);
         FlagClear(DN_FLAG_SEARCHING);

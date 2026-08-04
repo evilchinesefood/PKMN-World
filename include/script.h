@@ -69,6 +69,10 @@ bool32 Script_MatchesSpecial(const u8 *script, void *funcPtr);
 
 // srccmd.h
 void SetMovingNpcId(u16 npcId);
+// Every path that builds a scripted wild enemy party must OWN the single/double state before the
+// script reaches `dowildbattle`. Paths inside scrcmd.c write the static directly; paths in other
+// translation units must call this. See the comment on the definition.
+void SetScriptedWildBattleIsDouble(bool32 isDouble);
 
 extern u8 gMsgIsSignPost;
 extern u8 gMsgBoxIsCancelable;

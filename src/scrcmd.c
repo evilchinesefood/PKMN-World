@@ -2576,6 +2576,40 @@ bool8 ScrCmd_cleartrainerflag(struct ScriptContext *ctx)
     return FALSE;
 }
 
+// `sIsScriptedWildDouble` decides, in ScrCmd_dowildbattle below, whether the scripted encounter
+// starts as a single or a double battle. Nothing ever clears it — not a new game, not a save load
+// (it is plain BSS rather than EWRAM_DATA, so it is only FALSE because the startup code zeroes
+// BSS once) and not dowildbattle itself — so it is sticky until the next writer, and dowildbattle
+// gets whatever that writer left behind. ScrCmd_setwildbattle and ScriptSetDoubleBattleFlag can
+// write it directly because they live here; this setter exists so the scripted-wild setup paths in
+// OTHER translation units can own it too rather than inherit it:
+//   - ScrCmd_setwildbattleshiny_Compat (src/scrcmd_johto_compat.c) — Lake of Rage Red Gyarados
+//   - ObjectEventInteractionBerryHasPests (src/berry.c) — berry-tree pests
+//   - the DexNav encounter (src/dexnav.c)
+// All three build a ONE-mon enemy party and then let a script run `dowildbattle`, so a stale TRUE
+// would send them through BattleSetup_StartScriptedDoubleWildBattle against a single mon.
+//
+// Deliberately NOT paired with a clear at the end of ScrCmd_dowildbattle, which looks like the
+// symmetric fix but does not close the hole. Script effect analysis (Script_HasNoEffect ->
+// RunScriptImmediatelyUntilEffect, include/script.h) genuinely EXECUTES every command whose
+// Script_RequestEffects call is SCREFF_V1-only — the macro compiles those to nothing — and breaks
+// out at the first command requesting SCREFF_SAVE/SCREFF_HARDWARE. setwildbattle and
+// setwilddoubleflag are SCREFF_V1; dowildbattle is SCREFF_HARDWARE. So probing a script that sets
+// the flag (TryStartInteractionScript in src/field_control_avatar.c does this on every A press,
+// MapHeaderCheckScriptTable in src/script.c on both ON_FRAME_TABLE and ON_WARP_INTO_MAP_TABLE
+// triggers) latches it TRUE and stops exactly one command before the clear would have run.
+// Ownership has to sit at the setup site.
+//
+// Normalized rather than assigned straight through: the parameter is bool32 because that is what
+// callers find natural, but the static is a bool8 and the store compiles to a single strb, so a
+// caller that ever passed a masked flag test whose LOW BYTE happened to be zero (0x100, say)
+// would silently mean FALSE. All three call sites pass a literal today; this makes the exported
+// API total instead of relying on that.
+void SetScriptedWildBattleIsDouble(bool32 isDouble)
+{
+    sIsScriptedWildDouble = (isDouble != FALSE);
+}
+
 bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 {
     enum Species species = ScriptReadHalfword(ctx);

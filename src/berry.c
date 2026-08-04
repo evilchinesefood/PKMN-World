@@ -9,6 +9,7 @@
 #include "item_menu.h"
 #include "main.h"
 #include "random.h"
+#include "script.h"
 #include "script_pokemon_util.h"
 #include "sprite.h"
 #include "string_util.h"
@@ -2889,6 +2890,15 @@ bool8 ObjectEventInteractionBerryHasPests(void)
     if (species == SPECIES_NONE)
         return FALSE;
     CreateScriptedWildMon(species, 14 + Random() % 3, ITEM_NONE);
+    // BerryTree_EventScript_EncounterPests (data/scripts/berry_tree.inc) runs `dowildbattle` on
+    // the strength of the TRUE returned here, and that command branches on a sticky file-static in
+    // scrcmd.c that nothing clears. One mon was created, so claim the single-battle state instead
+    // of inheriting whatever the last scripted wild battle set. OW_BERRY_PESTS is FALSE in
+    // include/config/overworld.h today — the early return above, and the `.if OW_BERRY_PESTS ==
+    // TRUE` around that script, mean this whole path is compiled out (confirmed: the built ELF
+    // reduces this function to `return FALSE`) — so the call is here to keep the path correct for
+    // whoever flips the config, not to fix something reachable now.
+    SetScriptedWildBattleIsDouble(FALSE);
     gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].pests = FALSE;
     return TRUE;
 }

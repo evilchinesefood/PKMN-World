@@ -66,7 +66,20 @@ METATILE_SIZE_BYTES = 16   # 8 tiles x u16, in metatiles.bin
 # hidden), which is why half the Johto placements look wrong in isolation.
 DAY_NIGHT = {"FLAG_DAY_POKEMON", "FLAG_NIGHT_POKEMON"}
 
-SPECIES_GFX = re.compile(r"^OBJ_EVENT_GFX_SPECIES\((\w+)\)$")
+# All four species-graphics macros, not just the plain one (include/constants/event_objects.h):
+#
+#   OBJ_EVENT_GFX_SPECIES(name)              SPECIES_##name + OBJ_EVENT_MON
+#   OBJ_EVENT_GFX_SPECIES_SHINY(name)        ... + OBJ_EVENT_MON_SHINY
+#   OBJ_EVENT_GFX_SPECIES_FEMALE(name)       ... + OBJ_EVENT_MON_FEMALE
+#   OBJ_EVENT_GFX_SPECIES_SHINY_FEMALE(name) ... + both
+#
+# Matching only the bare form was a real defect, not a gap: `_SHINY` still passed the
+# startswith() filter in collect_placements, so the row was collected with species = None and
+# then failed rules 2 and 3 as "SPECIES_None has no OVERWORLD(...) entry" — a legitimate
+# placement (the Lake of Rage red Gyarados, issue #66) reported as two violations naming a
+# species that does not exist. All four forms carry OBJ_EVENT_MON, which is the bit every rule
+# here is actually about; the shiny/female bits only pick a palette and a form.
+SPECIES_GFX = re.compile(r"^OBJ_EVENT_GFX_SPECIES(_SHINY)?(_FEMALE)?\((\w+)\)$")
 
 
 def die(msg):
@@ -431,10 +444,19 @@ def collect_placements(layouts):
             tile = layouts.tile(layout_id, rx, ry)
             neighbours = [layouts.tile(layout_id, rx + dx, ry + dy)
                           for dx, dy in ((0, -1), (0, 1), (-1, 0), (1, 0))]
-            species = None
+            species, shiny, female = None, False, False
             m = SPECIES_GFX.match(gfx)
             if m:
-                species = m.group(1)
+                shiny, female, species = bool(m.group(1)), bool(m.group(2)), m.group(3)
+            elif gfx != "OBJ_EVENT_GFX_OW_MON":
+                # An OBJ_EVENT_GFX_SPECIES* spelling this script cannot parse must be a hard stop.
+                # Falling through with species = None is what made the shiny macro read as
+                # "SPECIES_None": every species rule below then compared against a name that
+                # exists nowhere, so a new macro form would be reported as a content bug in the
+                # map instead of as a gap in this parser.
+                die(f"{map_name} object {i + 1}: cannot parse graphics_id {gfx!r}. Add its macro "
+                    f"form to SPECIES_GFX — an unparsed one degrades to SPECIES_None and every "
+                    f"species rule below then fails against a species that does not exist.")
             rows.append({
                 "map": map_name,
                 "map_type": data.get("map_type", ""),
@@ -443,6 +465,8 @@ def collect_placements(layouts):
                 "local_id": local_id,
                 "gfx": gfx,
                 "species": species,
+                "shiny": shiny,
+                "female": female,
                 "x": o["x"], "y": o["y"],
                 "runtime_x": rx, "runtime_y": ry,
                 "relocated": bool(moved),
@@ -550,14 +574,16 @@ def report(rows, encounter_behaviors, behavior_names):
     by_value = {}
     for name, val in behavior_names.items():
         by_value.setdefault(val, name)
-    cols = ["map", "map_type", "index", "local_id", "gfx", "x", "y", "runtime_x", "runtime_y",
+    cols = ["map", "map_type", "index", "local_id", "gfx", "shiny", "female", "x", "y",
+            "runtime_x", "runtime_y",
             "relocated", "elevation", "tile_elevation", "collision", "behavior", "encounter_tile",
             "behavior_trusted", "reachable", "script_driven", "flag", "script"]
     print(",".join(cols))
     for r in rows:
         t = r["tile"]
         print(",".join(str(c) for c in [
-            r["map"], r["map_type"], r["index"] + 1, r["local_id"], r["gfx"], r["x"], r["y"],
+            r["map"], r["map_type"], r["index"] + 1, r["local_id"], r["gfx"],
+            int(r["shiny"]), int(r["female"]), r["x"], r["y"],
             r["runtime_x"], r["runtime_y"], int(r["relocated"]), r["elevation"],
             t["elevation"] if t else -1, t["collision"] if t else -1,
             by_value.get(t["behavior"], t["behavior"]) if t else "OUT_OF_BOUNDS",
@@ -596,8 +622,15 @@ def main():
             print(f"  {line}")
         return 1
     maps = len({r["map"] for r in rows})
+    shiny = sum(1 for r in rows if r["shiny"])
+    female = sum(1 for r in rows if r["female"])
     print(f"OK - {len(rows)} overworld Pokemon across {maps} maps: real species graphics, "
           f"in bounds, reachable, elevation matches the tile, indoor ones scripted, none stacked.")
+    # Census the variant macros for the same reason every other count here is printed: the
+    # OBJ_EVENT_MON_SHINY / _FEMALE bits are the only thing separating the four SPECIES macros, so
+    # a regex that quietly stopped matching one of them would otherwise look exactly like a pass.
+    print(f"OK - graphics_id variants parsed: {shiny} shiny, {female} female "
+          f"(OBJ_EVENT_GFX_SPECIES[_SHINY][_FEMALE]).")
     # Print the census rather than just "widths ok": a count is the only thing that distinguishes a
     # real pass from a parse that found nothing, and TILESET_METATILES makes these the widths the
     # ROM will actually read at.

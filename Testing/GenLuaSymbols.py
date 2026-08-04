@@ -28,6 +28,14 @@ WANT = [
     # non-zero at battle start means "walked into an overworld mon", which no proximity heuristic can
     # establish: the collision test matches previousCoords too, and the FOLLOWER can trigger it.
     "gSpecialVar_LastTalked",
+    # The string buffer {STR_VAR_1} expands from. `bufferitemname` is load-bearing on every
+    # credential row of the OLIVINE harbour board — OlivinePort_Text_NoPass prints {STR_VAR_1}
+    # three times — and WHICH BRANCH RAN is not the same claim as WHAT IT PRINTED: a suite that
+    # only checks the player did not sail stays green if the buffer call is deleted and the
+    # refusal starts naming nothing. Reading it turns that into an assertion (see
+    # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
+    # stale buffer).
+    "gStringVar1",
     # The in-game clock. gLocalTime is recomputed from the RTC inside UpdateTimeOfDay() itself
     # (overworld.c:1857), so it is fresh whenever gTimeOfDay is, and a suite can read both to
     # prove the Johto day/night flags agree with the clock rather than with its own seeding.

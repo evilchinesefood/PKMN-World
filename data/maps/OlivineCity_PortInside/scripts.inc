@@ -229,14 +229,34 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 @ region), NOT the shared island script - so it is a behaviour change with a design decision in
 @ front of it, and the decision recorded here is "leave it".
 @
-@ FLAGGED, deliberately NOT fixed here (wants its own issue): this row has no credential gate at
-@ all. Every sibling row does `checkitem` + `goto_if_unset FLAG_ENABLE_SHIP_*`, and the Hoenn-side
-@ analogue BattleFrontier_OutsideWest_EventScript_FerryAttendant requires FLAG_SYS_GAME_CLEAR AND
-@ ITEM_SS_TICKET. Adding one would change player-facing behaviour without an owner decision, so
-@ it is named rather than done.
+@ Issue #79, decided and DONE: this row used to be the only one on the board with no credential
+@ check at all, and it now gates on ITEM_SS_TICKET in exactly the sibling rows' shape - `checkitem`
+@ first, then `bufferitemname` (OlivinePort_EventScript_Sailor_NoCredentials prints {STR_VAR_1}
+@ three times, so a refusal without the buffer prints an empty name), then the branch.
+@
+@ It deliberately does NOT mirror the Hoenn-side attendant, which is the obvious-looking answer and
+@ the wrong one. BattleFrontier_OutsideWest_EventScript_FerryAttendant demands FLAG_SYS_GAME_CLEAR
+@ AND ITEM_SS_TICKET, but FLAG_SYS_GAME_CLEAR is HOENN's clear flag: a Johto champion is given
+@ FLAG_IS_CHAMPION and FLAG_JOHTO_CHAMPION instead (JohtoPokemonLeague_HallOfFame/scripts.inc:61-62
+@ - checked, not assumed) and never touches Hoenn's. Copying that gate literally would shut this
+@ row for precisely the players this board exists for. Only the ticket half is taken.
+@
+@ What the ticket check is, therefore, is a consistency guarantee rather than a new obstacle. The
+@ board is already behind VAR_SSAQUA_STATE >= 7 (:112), which is only reached by completing a full
+@ crossing to VERMILION, and the maiden voyage that begins that crossing already demanded the
+@ S.S.TICKET (:118) - so anyone who can open this menu has held one. The check bites exactly one
+@ player: the one who has since PARKED IT IN THE ITEM PC, who now gets the same refusal the island
+@ rows give instead of a silent free ride. Deliberately precise about that, because it is this
+@ comment's only claim of player-visible effect and "threw it away" would be wrong - the ticket has
+@ .importance = 1 and .price = 0 (src/data/items.h:14169-14174) and every toss/sell path in
+@ src/item_menu.c is gated on !GetItemImportance, so it cannot be tossed or sold at all. The item PC
+@ is the one route out of the bag, and checkitem -> CheckBagHasItem does not see the PC.
 OlivinePort_EventScript_ChoseBattleFrontier::
 	closemessage
 	delay 20
+	checkitem ITEM_SS_TICKET
+	bufferitemname STR_VAR_1, ITEM_SS_TICKET
+	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
 	call OlivinePort_EventScript_EnterShip
 	warpsilent MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 20, 67
 	waitstate

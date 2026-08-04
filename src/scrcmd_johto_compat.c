@@ -138,9 +138,9 @@ static const u8 sShuckieNickname[POKEMON_NAME_LENGTH + 1] = _("SHUCKIE");
 static const u8 sShuckieOtName[PLAYER_NAME_LENGTH + 1]    = _("KIRK");
 static const u8 sEeveeOtName[PLAYER_NAME_LENGTH + 1]      = _("BILL");
 
-// HnS's preset OT ids for the named gifts. Kenya's is also stamped into her RetroMail as the
-// SENDER id, so the letter and the bird agree on who wrote it - that is the only thing that
-// lets Route 31 tell Randy's mail apart from a RetroMail the player wrote and swapped in.
+// HnS's preset OT ids for the named gifts. Kenya's doubles as the SENDER id stamped into her
+// RetroMail, so the letter and the bird agree on who wrote it, and as the identity check
+// removenamedmon uses - the player can nickname any SPEAROW "KENYA", but cannot forge an OT id.
 #define KENYA_OT_ID    61225
 #define SHUCKIE_OT_ID  4336
 #define EEVEE_OT_ID    5231
@@ -168,7 +168,7 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
     enum Species species;
     const u8 *nickname;
     enum Item requiredMail; // ITEM_NONE = this gift is not a mail delivery
-    u32 senderOtId;
+    u32 presetOtId;
     u8 nickBuffer[POKEMON_NAME_LENGTH + 1]; // MON_DATA_NICKNAME writes up to POKEMON_NAME_LENGTH bytes plus EOS
     struct Pokemon *target = NULL;
     u8 targetSlot = 0;
@@ -176,8 +176,8 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
 
     switch (giftId)
     {
-    case 1: species = SPECIES_SPEAROW; nickname = sKenyaNickname;   senderOtId = KENYA_OT_ID;   requiredMail = ITEM_RETRO_MAIL; break;
-    case 2: species = SPECIES_SHUCKLE; nickname = sShuckieNickname; senderOtId = SHUCKIE_OT_ID; requiredMail = ITEM_NONE;       break;
+    case 1: species = SPECIES_SPEAROW; nickname = sKenyaNickname;   presetOtId = KENYA_OT_ID;   requiredMail = ITEM_RETRO_MAIL; break;
+    case 2: species = SPECIES_SHUCKLE; nickname = sShuckieNickname; presetOtId = SHUCKIE_OT_ID; requiredMail = ITEM_NONE;       break;
     default:
         // Hand-transcribed opcode operand, same discipline as the other handlers here: an id
         // we have no gift for must not fall through into a party scan on an uninitialised
@@ -186,11 +186,17 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
         return;
     }
 
+    // Species + nickname + the preset OT id. The OT id is the load-bearing one: it is what the
+    // player cannot forge (nicknaming a caught SPEAROW "KENYA" is trivial) and, unlike the mail,
+    // nothing in the game can strip it. Identity therefore lives here and NOT in the mail record -
+    // see the mail check below for why that distinction matters.
     for (i = 0; i < PARTY_SIZE; i++)
     {
         struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
 
         if (GetMonData(mon, MON_DATA_SPECIES, NULL) != species)
+            continue;
+        if (GetMonData(mon, MON_DATA_OT_ID, NULL) != presetOtId)
             continue;
         GetMonData(mon, MON_DATA_NICKNAME, nickBuffer);
         if (StringCompare(nickBuffer, nickname) != 0)
@@ -206,47 +212,42 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
         return;
     }
 
-    // The same guard the PC deposit screen uses (CountPartyAliveNonEggMonsExcept): walking away
-    // with nothing healthy and non-egg in the party is a white-out on the next patch of grass,
-    // and the script cannot undo the removal once we have done it. Route 31 has a text for
-    // precisely this case ("what are you going to use in battle?"), so refuse instead.
-    if (CountPartyAliveNonEggMonsExcept(targetSlot) == 0)
-    {
-        gSpecialVar_Result = REMOVE_NAMED_MON_LAST_MON;
-        return;
-    }
-
     if (requiredMail != ITEM_NONE)
     {
         u32 mailId;
-        bool8 fromSender = TRUE;
 
         if (!MonHasMail(target))
         {
             gSpecialVar_Result = REMOVE_NAMED_MON_NO_MAIL;
             return;
         }
-        // "Holds mail" is not enough. The party menu lets the player take Kenya's letter off
-        // and hang a different one on her, so check the item AND the sender: the mail's
-        // trainerId is whoever wrote it, stamped from KENYA_OT_ID by givenamedmon below.
-        // MAIL_NONE is already excluded by MonHasMail; the bound is for a corrupt save, since
-        // a bad mailId indexes straight into the save block.
+        // The item only - deliberately NOT the mail's sender trainerId. An earlier draft checked
+        // that too, and it made the quest unrecoverable: the PC mailbox's MOVE TO BAG erases the
+        // message and hands back a plain ITEM_RETRO_MAIL (src/player_pc.c, Mailbox_MoveToBag), and
+        // re-attaching it from the bag goes through GiveMailToMonByItemId (src/party_menu.c
+        // GiveItemToMon), which stamps the PLAYER's name and id. Kenya would then be carrying a
+        // RetroMail the sleeping man refuses forever, with VAR_KENYA stuck at 1 and both TM Torment
+        // and Randy's HP UP unreachable. Identity is already settled by the OT-id check above, so
+        // the mail only has to be the right KIND of letter.
+        // MAIL_NONE is already excluded by MonHasMail; the bound is for a corrupt save, since a bad
+        // mailId indexes straight into the save block.
         mailId = GetMonData(target, MON_DATA_MAIL, NULL);
         if (mailId >= MAIL_COUNT || gSaveBlock1Ptr->mail[mailId].itemId != requiredMail)
         {
             gSpecialVar_Result = REMOVE_NAMED_MON_WRONG_MAIL;
             return;
         }
-        for (i = 0; i < TRAINER_ID_LENGTH; i++)
-        {
-            if (gSaveBlock1Ptr->mail[mailId].trainerId[i] != (u8)(senderOtId >> (8 * i)))
-                fromSender = FALSE;
-        }
-        if (!fromSender)
-        {
-            gSpecialVar_Result = REMOVE_NAMED_MON_WRONG_MAIL;
-            return;
-        }
+    }
+
+    // Last, so the more specific refusals win the message: a player whose only mon is a mail-less
+    // Kenya should hear "It doesn't have any MAIL", not "what are you going to use in battle?".
+    // The same guard the PC deposit screen uses (CountPartyAliveNonEggMonsExcept) - walking away
+    // with nothing healthy and non-egg in the party is a white-out on the next patch of grass, and
+    // the script cannot undo the removal once we have done it.
+    if (CountPartyAliveNonEggMonsExcept(targetSlot) == 0)
+    {
+        gSpecialVar_Result = REMOVE_NAMED_MON_LAST_MON;
+        return;
     }
 
     // Frees the save block's mail record as well. ZeroMonData alone would drop the mon's
@@ -415,10 +416,13 @@ void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
             mail.species = SpeciesToMailSpecies(species, personality); // drives the mon drawn on the letter
             mail.itemId = ITEM_RETRO_MAIL;
 
-            // Six party mail slots, and GiveMailToMon reports MAIL_NONE when all are taken. A
-            // mail-less Kenya would still set VAR_KENYA = 1 at the call site and leave a quest
-            // that can never complete, so refuse the whole gift - which means putting back the
-            // party slot we already filled, or the player keeps a phantom Spearow.
+            // Six party mail slots, and GiveMailToMon reports MAIL_NONE when all are taken.
+            // Refuse the whole gift rather than hand over a mail-less Kenya the Route 31 delivery
+            // would then reject forever. MON_CANT_GIVE is what the call site already branches on
+            // (Gate_GoldenrodCity_Route35), so VAR_KENYA is never set and the player can come back
+            // - the message it shows says "no more room for POKéMON", which is the wrong reason but
+            // the right outcome. Refusing means putting back the party slot we already filled, or
+            // the player keeps a phantom Spearow.
             if (GiveMailToMon(mon, &mail) == MAIL_NONE)
             {
                 ZeroMonData(mon);

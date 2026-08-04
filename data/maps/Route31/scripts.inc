@@ -42,6 +42,11 @@ Route31_EventScript_SleepyMan_AskForKenya::
 @ never wrote VAR_RESULT at all, the MSGBOX_YESNO above left it at TRUE, and the MON_CANT_GIVE
 @ branch could not fire - so the player kept Kenya AND collected the TM.
 Route31_EventScript_SleepyMan_GiveKenya::
+	@ Bag room is checked BEFORE the mon is taken, not after. giveitem (STD_OBTAIN_ITEM) prints
+	@ "the BAG is full" and sets VAR_RESULT = FALSE but does NOT abort, and by the time it runs
+	@ KENYA is already gone - the TM would be lost with no second chance to ask for it.
+	checkitemspace ITEM_TM_TORMENT, 1
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	removenamedmon 1
 	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_NO_MAIL, Route31_EventScript_SleepyMan_NoMail
 	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_WRONG_MAIL, Route31_EventScript_SleepyMan_WrongMail
@@ -60,6 +65,7 @@ Route31_EventScript_SleepyMan_GiveKenya::
 
 Route31_EventScript_SleepyMan_Fail::
 	msgbox Route31_Text_SleepyManFail, MSGBOX_DEFAULT
+	closemessage
 	release
 	end
 

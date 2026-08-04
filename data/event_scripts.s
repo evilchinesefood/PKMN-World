@@ -1616,13 +1616,49 @@ Common_EventScript_FerryDepartIsland::
 @ The ACTIVE REGION is the departure record, so this needs no save var: the Olivine rows warp
 @ onto region-agnostic event islands and claim nothing, leaving it at JOHTO, while Lilycove's own
 @ rows leave it at HOENN. A Hoenn player is therefore byte-for-byte unaffected - same warp,
-@ same coordinates. NAVEL ROCK is deliberately not routed through here: it is not on the Olivine
-@ board, so no Johto player can reach it.
+@ same coordinates.
+@
+@ Issue #69 finished the shape, and it is worth being exact about what it did and did not fix.
+@ NAVEL ROCK was the last event-ticket island still hard-warping to LILYCOVE, and it now `goto`s
+@ here like the other three. That closes no live bug. There are TWO Navel Rock harbours in this
+@ tree: MAP_NAVEL_ROCK_HARBOR (this one's caller, REGION_HOENN) is reachable only from LILYCOVE -
+@ the Olivine board has no NAVEL ROCK row - while KANTO's MYSTIC TICKET run sails to the separate
+@ MAP_NAVEL_ROCK_HARBOR_FRLG, whose own sailor already offers MULTI_SEAGALLOP_VERMILION straight
+@ back to VERMILION (src/seagallop.c). Distinct maps, distinct sailors, and neither one stranded
+@ anybody. What routing it here buys is that all four islands now have ONE way home instead of
+@ three-plus-an-exception - and it retires a note in this very block that flatly contradicted
+@ LilycoveCity_Harbor's, which has listed NAVEL ROCK among the islands it is the way home from
+@ since #65. Two comments telling opposite stories is how the exception got reported as a bug.
+@
+@ The KANTO arm is a floor of the same kind. No route reaches this script from KANTO today; it
+@ exists so that hanging an island row off a Kanto-side board later is a one-line change that
+@ cannot resurrect the trap, rather than a change that silently re-opens it. VERMILION's berth
+@ tile (8,16) is the coordinate both S.S.AQUA arrivals already use (SSAqua_1F_EventScript_LeaveBoat,
+@ OlivinePort_EventScript_ChoseVermilion): it is INSIDE the terminal, so it misses the pier's
+@ VermilionCity_EventScript_ExitedTicketCheck coord events at (22,32)/(23,32). Nor can it disturb
+@ the terminal's ON_FRAME arrival scene, an EXACT match on VAR_SSAQUA_STATE 5 or 6: anyone who
+@ reached KANTO by ferry walked out of that hall at 7, and the only other way into KANTO is the
+@ hub, from which no route reaches this script. If it ever did fire it would play the "arrived in
+@ VERMILION" beat and advance the var to 7 - what a normal arrival does, not a rewind.
+@
+@ No arm CLAIMS a region, and that is deliberate. Each one is only taken after
+@ RegionHub_ScrTargetIsCurrent has just answered that the destination's region IS the active
+@ region, so there is nothing left to set; and RegionHub_ScrSetCurrentRegion would additionally
+@ re-arm the whiteout respawn at the region's START TOWN, throwing away a respawn the player
+@ earned at a local PokeCenter. That is the same hazard LilycoveCity_Harbor's arrival claim
+@ carries its "already Hoenn" guard for. The LILYCOVE fall-through stays unguarded because it is
+@ also the REGION_NONE default, and Lilycove's own ON_TRANSITION claims HOENN on the way in.
+@
+@ VAR_0x8008 is a 0-BASED offset from REGION_KANTO (src/region_switch.c's
+@ RegionHub_ScrTargetIsCurrent), NOT an enum Region value: 0 = Kanto, 1 = Johto, 2 = Hoenn.
 @ `goto`n, not `call`ed - it warps and owns the release.
 Common_EventScript_FerrySailHomeFromIsland::
 	setvar VAR_0x8008, 1 @ 1 = REGION_JOHTO
 	callnative RegionHub_ScrTargetIsCurrent
 	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_FerrySailHomeToOlivine
+	setvar VAR_0x8008, 0 @ 0 = REGION_KANTO
+	callnative RegionHub_ScrTargetIsCurrent
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_FerrySailHomeToVermilion
 	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
 	waitstate
 	release
@@ -1630,6 +1666,12 @@ Common_EventScript_FerrySailHomeFromIsland::
 
 Common_EventScript_FerrySailHomeToOlivine::
 	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
+	waitstate
+	release
+	end
+
+Common_EventScript_FerrySailHomeToVermilion::
+	warp MAP_VERMILION_CITY_PORT_INSIDE, 8, 16
 	waitstate
 	release
 	end

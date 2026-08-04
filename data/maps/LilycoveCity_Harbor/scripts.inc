@@ -6,10 +6,15 @@ LilycoveCity_Harbor_OnTransition:
 	setescapewarp MAP_LILYCOVE_CITY, 12, 33
 	goto LilycoveCity_Harbor_EventScript_ClaimHoennRegion
 
-@ Lane-R (issue #65): this harbor is the single way home from every event-ticket island
+@ Lane-R (issue #65): this harbor is the HOENN way home from every event-ticket island
 @ (SOUTHERN / BIRTH / FARAWAY / NAVEL ROCK), and those islands are now bookable from the
 @ OLIVINE harbor as well as this one - so arriving here can be a Johto -> mainland-Hoenn
-@ crossing. src/region_switch.c's INVARIANT requires every cross-region entry to set the
+@ crossing. (It was described here as the SINGLE way home until issue #69; that was already
+@ untrue when it was written - the shared return script had had an OLIVINE arm since #65 - and
+@ it was the half of a contradiction whose other half sat on that script, claiming NAVEL ROCK
+@ was excluded from it. All four islands now route through
+@ Common_EventScript_FerrySailHomeFromIsland, which picks this harbor for a HOENN-booked trip.)
+@ src/region_switch.c's INVARIANT requires every cross-region entry to set the
 @ active region, or a Johto champion carries JOHTO's HARD VAR_DIFFICULTY tier into first-run
 @ Hoenn gyms (the leak the Battle Frontier dock ferry already fixes on its own legs). Claiming
 @ it at the ARRIVAL map covers all five routes at once, including any added later.

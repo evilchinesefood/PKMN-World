@@ -359,5 +359,61 @@ F.run(function()
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
   F.shot("island_home")
 
+  -- Issue #69: NAVEL ROCK was the fourth island and the only one still carrying a private
+  -- `warp MAP_LILYCOVE_CITY_HARBOR` instead of the shared script. Be precise about what this
+  -- leg proves: there are TWO Navel Rock harbours. This one, MAP_NAVEL_ROCK_HARBOR, is the
+  -- REGION_HOENN map reachable only from LILYCOVE; KANTO's MYSTIC TICKET run sails to
+  -- MAP_NAVEL_ROCK_HARBOR_FRLG, a different map whose own sailor already returns to VERMILION.
+  -- So the HOENN direction is the one a player can actually book, and it is asserted first as
+  -- the no-regression half. JOHTO and KANTO assert the shared script's two other arms, the
+  -- KANTO one being a floor under a Kanto-side island row that does not exist yet.
+  -- Same LAYOUT_ISLAND_HARBOR as Birth Island's — warp 0 at (8,2), sailor at (8,5) — so the
+  -- same two-tile walk drives it. MAP_NAVEL_ROCK_HARBOR = (67 | (26 << 8)), map_groups.h.
+  local MAP_NAVEL_HARBOR = 67
+  local function sailHomeFromNavelRock(region, expectGrp, expectMap, tag)
+    -- Both writes, for the reason segment F states: gCurrentRegion is the EWRAM mirror the
+    -- guard reads, SaveBlock2.currentRegion is what ResyncCurrentRegionFromMap re-seeds it
+    -- from on the warp, so writing one alone is undone by the other.
+    F.w32(S.gCurrentRegion, region)
+    F.w8(F.sb2() + S.SaveBlock2.currentRegion, region)
+    if not F.warpTo(0, 2, 6, 0, 6, 7, 0, 0, 0, GRP_EVENT_ISLANDS, MAP_NAVEL_HARBOR, tag) then
+      return false
+    end
+    F.idle(90)
+    if not F.route({ { 8, 4 } }, tag .. "ToSailor") then return false end
+    F.face("Down")
+    return talkUntilMap(expectGrp, expectMap)
+  end
+
+  F.check("H: a HOENN-booked NAVEL ROCK trip still sails home to LILYCOVE (no regression)",
+    sailHomeFromNavelRock(REGION_HOENN, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR, "navelHoenn"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: NAVEL ROCK's HOENN leg leaves the active region at HOENN",
+    activeRegion() == REGION_HOENN, "region=" .. activeRegion())
+  clearBox(10)
+
+  F.check("H: a JOHTO-booked NAVEL ROCK trip sails home to OLIVINE",
+    sailHomeFromNavelRock(REGION_JOHTO, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT, "navelJohto"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: NAVEL ROCK's JOHTO leg leaves the active region at JOHTO",
+    activeRegion() == REGION_JOHTO, "region=" .. activeRegion())
+  clearBox(10)
+
+  -- The KANTO arm lands on the berth tile (8,16) INSIDE the terminal, not on the pier, so it
+  -- misses VermilionCity_EventScript_ExitedTicketCheck's coord events. The terminal's ON_FRAME
+  -- arrival scene is an EXACT match on VAR_SSAQUA_STATE 5 or 6 and the var has been 7 since
+  -- segment A, so it must not re-fire here either — asserted below, since a re-fire would be
+  -- the one thing that could silently rewind the >= 7 harbour board.
+  F.check("H: a KANTO-booked NAVEL ROCK trip sails home to VERMILION's terminal",
+    sailHomeFromNavelRock(REGION_KANTO, GRP_VERM_INDOOR, MAP_VERM_PORT, "navelKanto"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: NAVEL ROCK's KANTO leg leaves the active region at KANTO",
+    activeRegion() == REGION_KANTO, "region=" .. activeRegion())
+  F.check("H: the KANTO arm did not re-fire the terminal's arrival scene",
+    regionVarGet(VAR_SSAQUA_STATE) == 7, "state=" .. regionVarGet(VAR_SSAQUA_STATE))
+  clearBox(10)
+  F.check("H: control returns in the KANTO terminal after the island run", F.step("Up"))
+  F.shot("navelrock_home")
+
   F.finish()
 end)

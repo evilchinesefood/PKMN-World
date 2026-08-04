@@ -2288,42 +2288,88 @@ const struct ObjectEventGraphicsInfo *SpeciesToGraphicsInfo(enum Species species
     return graphicsInfo;
 }
 
+#if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
+// The standalone overworld palette gSpeciesInfo holds for exactly this shiny/female combination,
+// or NULL if this species does not ship that one. It does NOT fall back — a caller that wants the
+// male palette when there is no female one has to ask for it, which is the point: this is the one
+// place that answers "which of the four fields does <shiny, female> mean", so no two readers can
+// answer it differently.
+//
+// That they *had* answered it differently is issue #78. The old code asked the question three
+// times and got three answers: the entry guard tested `overworldPalette` on the shiny path and
+// `overworldShinyPalette` on the non-shiny path (each testing the field its body would not read);
+// the female palette-tag bump was gated on `overworldShinyPaletteFemale` while the female data
+// selection five lines later was gated on `overworldPaletteFemale`; and inside that female branch
+// the shiny arm read `overworldShinyPaletteFemale`, a field nothing had checked. Each mismatch is
+// the same defect — a NULL reaching LoadSpritePalette as `.data`, or a female tag holding male
+// colours (and vice versa), which then aliases in the palette cache for the rest of the session.
+//
+// None of it was reachable, and that was checked rather than assumed: every one of the 1230
+// `OVERWORLD(...)` blocks in src/data/pokemon/species_info/ passes both palettes, and all 98
+// `OVERWORLD_FEMALE(...)` blocks pass either both female palettes (Unfezant, Frillish, Jellicent)
+// or neither (the other 95). Both-or-neither makes the wrong field and the right field always
+// agree, so this rewrite is behaviour-preserving on today's data — no sprite changes colour.
+//
+// What arms it is a one-argument `OVERWORLD(...)`. OVERWORLD_PAL uses DEFAULT/DEFAULT_2
+// (include/metaprogram.h), so passing one palette silently leaves `.overworldShinyPalette = NULL`
+// with no diagnostic; #66 has since made shiny overworld sprites content this project actually
+// uses (OBJ_EVENT_GFX_SPECIES_SHINY(GYARADOS) at Lake of Rage), so a species shipping one palette
+// is now a plausible edit rather than a hypothetical one.
+static const void *GetSpeciesOverworldPalette(enum Species species, bool32 shiny, bool32 female)
+{
+#if P_GENDER_DIFFERENCES
+    if (female)
+        return shiny ? gSpeciesInfo[species].overworldShinyPaletteFemale
+                     : gSpeciesInfo[species].overworldPaletteFemale;
+#endif
+    return shiny ? gSpeciesInfo[species].overworldShinyPalette
+                 : gSpeciesInfo[species].overworldPalette;
+}
+#endif //OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
+
+// Sprite palette tag a dynamically-loaded Pokémon overworld palette is cached under.
+//
+// Exported because CheckCanLoadOWE_Palette (src/wild_encounter_ow.c) has to predict this exact
+// value to answer "is this mon's palette already resident?" before it commits to spawning an
+// overworld encounter. That prediction used to be a hand-copy of the arithmetic below, and it had
+// drifted: it bumped to the female tag whenever `overworldShinyPaletteFemale` was non-NULL, shiny
+// or not. A tag the loader would not have produced makes the pre-check miss, so the spawn is
+// refused (or a second copy of an already-resident palette is loaded) with no visible cause.
+// Sharing the function is what keeps the two in step; do not re-derive it at a call site.
+u16 GetDynamicFollowerPaletteTag(enum Species species, bool32 shiny, bool32 female)
+{
+    u16 palTag = species + OBJ_EVENT_MON + (shiny ? OBJ_EVENT_MON_SHINY : 0);
+#if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE && P_GENDER_DIFFERENCES
+    // Only claim the female tag if a female palette for *this* shininess actually exists, because
+    // that is the sole condition under which the loader below puts female colours in the slot.
+    if (female && GetSpeciesOverworldPalette(species, shiny, TRUE) != NULL)
+        palTag += OBJ_EVENT_MON_FEMALE;
+#endif
+    return palTag;
+}
+
 // Find, or load, the palette for the specified Pokémon info
 static u32 LoadDynamicFollowerPalette(enum Species species, bool32 shiny, bool32 female)
 {
     u32 paletteNum;
     // Use standalone palette, unless entry is OOB or NULL (fallback to front-sprite-based)
 #if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
-    if ((shiny && gSpeciesInfo[species].overworldPalette)
-    || (!shiny && gSpeciesInfo[species].overworldShinyPalette))
+    // Resolve the palette first and guard on the resolved pointer, so the test and the load are
+    // the same value by construction rather than by two field references agreeing. A female
+    // request with no female palette for this shininess degrades to the shared palette, exactly
+    // as GetDynamicFollowerPaletteTag assumes when it declines to set OBJ_EVENT_MON_FEMALE.
+    const void *owPalette = GetSpeciesOverworldPalette(species, shiny, female);
+    if (owPalette == NULL)
+        owPalette = GetSpeciesOverworldPalette(species, shiny, FALSE);
+    if (owPalette != NULL)
     {
         struct SpritePalette spritePalette;
-        u16 palTag = species + OBJ_EVENT_MON + (shiny ? OBJ_EVENT_MON_SHINY : 0);
-    #if P_GENDER_DIFFERENCES
-        if (female && gSpeciesInfo[species].overworldShinyPaletteFemale != NULL)
-            palTag += OBJ_EVENT_MON_FEMALE;
-    #endif
+        u16 palTag = GetDynamicFollowerPaletteTag(species, shiny, female);
         // palette already loaded
         if ((paletteNum = IndexOfSpritePaletteTag(palTag)) < 16)
             return paletteNum;
         spritePalette.tag = palTag;
-    #if P_GENDER_DIFFERENCES
-        if (female && gSpeciesInfo[species].overworldPaletteFemale != NULL)
-        {
-            if (shiny)
-                spritePalette.data = gSpeciesInfo[species].overworldShinyPaletteFemale;
-            else
-                spritePalette.data = gSpeciesInfo[species].overworldPaletteFemale;
-        }
-        else
-    #endif
-        {
-            if (shiny)
-                spritePalette.data = gSpeciesInfo[species].overworldShinyPalette;
-            else
-                spritePalette.data = gSpeciesInfo[species].overworldPalette;
-        }
-
+        spritePalette.data = owPalette;
         paletteNum = LoadSpritePalette(&spritePalette);
     }
     else

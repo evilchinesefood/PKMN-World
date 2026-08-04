@@ -1294,12 +1294,12 @@ static bool32 CheckCanLoadOWE(enum Species speciesId, bool32 isFemale, bool32 is
 static bool32 CheckCanLoadOWE_Palette(enum Species speciesId, bool32 isFemale, bool32 isShiny, s32 x, s32 y)
 {
     u32 numFreePalSlots = CountFreePaletteSlots();
-    u32 tag = speciesId + OBJ_EVENT_MON + (isShiny ? OBJ_EVENT_MON_SHINY : 0);
-
-#if P_GENDER_DIFFERENCES
-    if (isFemale && gSpeciesInfo[speciesId].overworldShinyPaletteFemale != NULL)
-        tag += OBJ_EVENT_MON_FEMALE;
-#endif
+    // Must be the tag LoadDynamicFollowerPalette will actually use, or the "already resident?"
+    // test below looks up a slot nothing ever loads under. This used to be a hand-copy of that
+    // arithmetic and had drifted from it (#78): it took the female tag whenever the species had a
+    // female *shiny* palette, even for a non-shiny mon whose colours the loader would file under
+    // the shared tag. Read it from the loader's own helper so the two cannot separate again.
+    u32 tag = GetDynamicFollowerPaletteTag(speciesId, isShiny, isFemale);
 
     // We need at least 2 pal slots open. One for the object and one for the spawn field effect.
     // Add this and tiles to seperate graphics check function

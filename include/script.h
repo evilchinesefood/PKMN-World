@@ -69,6 +69,9 @@ bool32 Script_MatchesSpecial(const u8 *script, void *funcPtr);
 
 // srccmd.h
 void SetMovingNpcId(u16 npcId);
+// Every path that builds a scripted wild enemy party must call this before the script reaches
+// `dowildbattle`, including the ones outside scrcmd.c. See the comment on the definition.
+void SetScriptedWildBattleIsDouble(bool32 isDouble);
 
 extern u8 gMsgIsSignPost;
 extern u8 gMsgBoxIsCancelable;

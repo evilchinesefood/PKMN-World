@@ -548,19 +548,13 @@ void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
 // bit LoadDynamicFollowerPalette reads via OW_SHINY(). Both halves must agree or the player
 // walks up to a red sprite and battles a blue mon.
 //
-// KNOWN LATENT ISSUE — currently unreachable, deliberately not fixed here (follow-up issue):
-// `dowildbattle` branches on scrcmd.c's file-static `sIsScriptedWildDouble`, which only
-// ScrCmd_setwildbattle and ScriptSetDoubleBattleFlag can write. This handler is a `callnative`
-// in a DIFFERENT translation unit, so it cannot clear that flag the way the native
-// setwildbattle does. If anything ever left it TRUE, Lake of Rage would start a scripted DOUBLE
-// wild battle against a one-mon enemy party.
-//
-// Checked before writing this down rather than asserted: nothing in data/ uses
-// `setwilddoubleflag`, and all 31 `setwildbattle` call sites are the single-mon form (which
-// sets the flag FALSE), so the BSS-zeroed static is FALSE for the whole session today. This is
-// a robustness gap, not a live bug — but it is one edit to a Johto script away from becoming
-// one, and the fix needs a new setter exported from scrcmd.c, which is outside this file's
-// surface. Re-check those two facts before relying on this note.
+// The single/double state is now owned here rather than inherited (was a KNOWN LATENT ISSUE
+// note; #77). `dowildbattle` branches on scrcmd.c's file-static `sIsScriptedWildDouble`, which
+// nothing ever clears, so it is whatever the last writer left behind — and this handler is a
+// `callnative` in a DIFFERENT translation unit, so it used to have no way to say what it wanted.
+// A stale TRUE would have sent Lake of Rage into BattleSetup_StartScriptedDoubleWildBattle with
+// the one-mon party built below. scrcmd.c now exports SetScriptedWildBattleIsDouble for exactly
+// this; the call is in the body, next to the create it describes.
 void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
 {
     u16 species = ScriptReadHalfword(ctx);
@@ -571,6 +565,9 @@ void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
     // Hand-transcribed opcode operand — sanitize before CreateBoxMon indexes gSpeciesInfo,
     // matching the validation every sibling compat handler in this file performs.
     CreateScriptedWildMon(SanitizeSpeciesId(species), level, item);
+
+    // One mon in gParties[B_TRAINER_OPPONENT_A], so the battle that follows must be a single.
+    SetScriptedWildBattleIsDouble(FALSE);
 
     // Set it AFTER the create, not inside it: CreateScriptedWildMon has no shiny parameter and
     // is also called from src/berry.c and src/scrcmd.c, so widening its signature would drag two

@@ -370,11 +370,42 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 // === Safari Zone area (region merge) ===
 
 // HnS `baobacheckmon <area>` (Safari Zone gate entrance): the HGSS Safari-Zone custom-area
-// quest checks whether the chosen party mon is the "exotic" species Baoba wants from Fuchsia
-// Safari Zone area <area>, reporting via gSpecialVar_Result. The Fuchsia/Kanto safari areas
-// and the per-area species table are content-stage; read the operand and report FALSE so the
-// quest path safely dead-ends ("That can't be right!") instead of paying out or freezing.
-// Real check lands in the content stage.
+// quest checks whether the chosen party mon is the "exotic" species Warden Baoba wants from
+// area <area>, reporting via gSpecialVar_Result. Read the operand (the script pointer must stay
+// aligned) and report FALSE, so the quest path dead-ends on "That can't be right!" instead of
+// paying out or freezing.
+//
+// WONTFIX (issue #66). This is the permanent behavior, not a placeholder, and the reason is not
+// the one this comment used to give. It claimed "the Fuchsia/Kanto safari areas and the per-area
+// species table are content-stage". That premise is stale, and the real situation is worse:
+//
+//   * The Fuchsia safari SHIPPED with the Kanto merge. data/maps holds the FRLG four-area set
+//     (SafariZone_{Center,East,North,West}_Frlg plus the four rest houses and the secret house);
+//     FuchsiaCity_Frlg/map.json warps into FuchsiaCity_SafariZone_Entrance_Frlg, which warps on
+//     to MAP_SAFARI_ZONE_CENTER. The blocker the old comment named no longer exists.
+//
+//   * The quest can never start, which no species table would fix. VAR_BAOBA_QUEST_STATE
+//     (constants/johto_vars.h) is read at SafariZoneGate_SafariZoneEntrance/scripts.inc:59-63 and
+//     written ONLY as 2/3/4/5, by the four stage-completion branches themselves. Nothing in the
+//     tree ever sets it to 1. Vars are zero-initialised, so EventScript_Baoba always falls through
+//     to the generic greeting, and not one of the four `baobacheckmon` call sites is reachable
+//     without externally forcing the var — this handler cannot run in normal play. The one Baoba
+//     phone call that does exist (Route27_EventScript_BaobaCall) announces the Safari Zone west
+//     expansion and sets its own VAR_ROUTE27_BAOBA_CALL; it does not touch the quest state.
+//
+//   * The areas the script names do not exist. The four prompts ask for an exotic mon from the
+//     BEACH / BRUSH / MOUNTAIN / CAVE area of the FUCHSIA SAFARI ZONE. The shipped Fuchsia safari
+//     is FRLG geography — Center / East / North / West — and this gate warps into the JOHTO safari
+//     (MAP_SAFARI_ZONE_ENTERANCE) regardless. There is no beach, brush, mountain or cave area to
+//     derive an area->species mapping from, and no sSafariZoneAreas-style table anywhere in the
+//     tree to derive it into.
+//
+// So reviving this needs a quest starter AND an authored area->species mapping the shipped
+// geography cannot supply: new game design, not a port. Two more signs the HnS port was abandoned
+// mid-flight — Text_BaobaLastMon (the "I can't take your last POKEMON!" refusal) is defined and
+// never referenced, and the four stages pay out 1,300,000 total (200k/300k/400k/400k), a figure
+// nobody balanced because nobody could reach it. See the file-head note in
+// SafariZoneGate_SafariZoneEntrance/scripts.inc.
 void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
 {
     u16 number = ScriptReadHalfword(ctx);
@@ -406,9 +437,19 @@ bool8 CheckCelebi(void)
 
 // HnS `checkrandomizer` (callnative, used by Mr. Pokemon's House): reports whether randomizer
 // mode is active via gSpecialVar_Result; on TRUE the script grants the National Dex immediately
-// (randomizer rules). The HnS randomizer feature is unported, so report FALSE — the normal
-// (non-randomized) path runs and the National Dex is earned through standard story progress.
-// Real toggle lands in the content stage.
+// (randomizer rules skip the story gate). Report FALSE.
+//
+// WONTFIX (issue #66). FALSE is not a placeholder here — it is the correct permanent answer, and
+// the old "real toggle lands in the content stage" line promised work that would be a regression
+// if it happened. The tx_randomizer feature is unported BY DESIGN (see the file header), so there
+// is no mode for this to read and no user-visible setting to toggle. This file already stubs the
+// whole family on exactly these grounds: IsRandomMovesActivated, IsPokecenterChallengeActivated,
+// IsNuzlockeNicknamingActive, ToggleShinyColors (whose tx_randomizer save field does not exist in
+// the target at all), and GetMaxPartySize documents the same reasoning.
+//
+// With FALSE, Mr. Pokemon's House takes the normal branch and the National Dex is earned through
+// story progress, which is what this hack wants. A "real" implementation would only ever hand out
+// a free National Dex on behalf of a mode that cannot be entered.
 void ScrCmd_checkrandomizer_Compat(struct ScriptContext *ctx)
 {
     (void)ctx;

@@ -52,9 +52,20 @@
 // === Mahogany area aliases ===
 // Team Rocket HQ takeover theme (script playbgm + map header) -> target villain-base theme.
 #define MUS_HG_TEAM_ROCKET_HQ       MUS_MT_PYRE_EXTERIOR
-// Lance vs Ariana+Grunt multi-battle: HnS special-battle id has no target equivalent;
-// map to the generic multi-battle so the setvar/DoSpecialTrainerBattle path links.
-// The faithful Lance set piece is content-stage work.
+// Lance vs Ariana+Grunt multi-battle: the HnS special-battle id has no target equivalent, so
+// alias it to the engine's generic multi-battle and let MahoganyHideout_B2F's setvar VAR_0x8004 /
+// DoSpecialTrainerBattle path link and fire.
+//
+// WONTFIX (issue #66). This alias is permanent, not a placeholder standing in for a faithful
+// version. The HGSS set piece is "Lance as your in-game partner against Ariana and a Grunt", and
+// naming those three trainers was the job of the HnS SET_TRAINER_A/B setup ops, which the merge
+// dropped with nothing to replace them. The target's SPECIAL_BATTLE_MULTI path (battle_special.c,
+// DoSpecialTrainerBattle) instead takes its cast from gPartnerTrainerId (via FillPartnerParty) and
+// the TRAINER_BATTLE_PARAM opponent slots, and MahoganyHideout_B2F sets neither — so what runs is
+// whatever the generic 2-vs-2 multi path produces, not the authored line-up. Restoring the fight
+// as HGSS staged it means authoring Ariana's and the Grunt's parties and wiring Lance up as the
+// in-game partner: new content, not a rename.
+// The dead labels this left behind are documented at MahoganyHideout_B2F/scripts.inc.
 #define SPECIAL_BATTLE_LANCE        SPECIAL_BATTLE_MULTI
 // Mahogany-area berry trees borrow real suffixed Hoenn slots (own slots in Stage 4).
 #define BERRY_TREE_ASPEAR_1         BERRY_TREE_JOHTO_ASPEAR_1

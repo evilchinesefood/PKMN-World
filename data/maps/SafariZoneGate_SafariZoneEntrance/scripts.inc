@@ -1,3 +1,30 @@
+@ === Safari Zone gate, entrance (region merge) — Warden Baoba ===
+@
+@ READ THIS BEFORE DEBUGGING THE BAOBA QUEST: it is unreachable dead content, WONTFIX under
+@ issue #66, and the missing trigger you are about to go looking for does not exist.
+@
+@ Everything from EventScript_BaobaBeach through EventScript_BaobaDone is gated on
+@ VAR_BAOBA_QUEST_STATE. That var is read by the goto_if chain in EventScript_Baoba below, and
+@ written ONLY as 2/3/4/5 — by the four stage-completion branches themselves. Nothing anywhere in
+@ the tree ever sets it to 1. Vars are zero-initialised, so EventScript_Baoba always falls through
+@ to the generic Text_Baoba greeting, no stage ever arms, and the four `baobacheckmon` calls below
+@ cannot run in normal play without externally forcing the var.
+@
+@ Two things that look like leads and are not. (1) Route27_EventScript_BaobaCall is a real Baoba
+@ phone call, but it announces the Safari Zone west expansion and sets VAR_ROUTE27_BAOBA_CALL; it
+@ never touches the quest state. (2) The prompts ask for exotic mons from the BEACH / BRUSH /
+@ MOUNTAIN / CAVE areas of the FUCHSIA SAFARI ZONE. Those areas do not exist: the Fuchsia safari
+@ that shipped with the Kanto merge is the FRLG Center/East/North/West set, and this gate warps
+@ into the JOHTO safari (MAP_SAFARI_ZONE_ENTERANCE) anyway. Text_BaobaLastMon is likewise defined
+@ and never referenced — this is a half-finished HnS port, not a wired quest with one broken link.
+@
+@ Full reasoning, including why reviving it is game design rather than a port fix, lives with the
+@ compat handler: ScrCmd_baobacheckmon_Compat in src/scrcmd_johto_compat.c. The scripts and text
+@ are deliberately left in place — they assemble, they cost only ROM space, and they are the HnS
+@ dialogue and payout structure a future designer would start from.
+@
+@ (EventScript_Test further down is likewise unreferenced: a leftover debug give-4-mons script.)
+
 .set LOCALID_SAFARIZONEGATE_BAOBA, 1
 
 SafariZoneGate_SafariZoneEntrance_MapScripts::

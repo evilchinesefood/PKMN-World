@@ -119,13 +119,27 @@
 		.4byte \func
 	.endm
 	@ === Blackthorn area (Ice Path berry puzzle) ===
-	@ HnS `chooseitem <pocket>` opens the bag to <pocket> via `special ChooseItemFromBag`
-	@ and stores the picked item in VAR_ITEM_ID. That bag-choice UI isn't ported; a literal
-	@ expansion (fadescreen + waitstate + no-op special) would soft-lock. For the port stage,
-	@ resolve the pick to "nothing" so the caller's `removeitem VAR_ITEM_ID, 1` /
-	@ `goto_if_ne VAR_ITEM_ID, ITEM_ASPEAR_BERRY` path falls through to the disliked-berry
-	@ branch with no side effects or freeze. \pocket is intentionally unreferenced; the real
-	@ bag UI is content-stage work.
+	@ HnS `chooseitem <pocket>` opens the bag to <pocket> via `special ChooseItemFromBag` and
+	@ stores the picked item in VAR_ITEM_ID. That bag-choice UI is not ported. Resolve the pick
+	@ to "nothing" instead: a literal expansion (fadescreen + waitstate + a no-op special) would
+	@ soft-lock, because waitstate blocks until the picker's callback resumes the script context
+	@ and no picker would ever run. \pocket is intentionally unreferenced.
+	@
+	@ WONTFIX (issue #66), and the old "the real bag UI is content-stage work" line was doubly
+	@ wrong. First, the caller it describes no longer exists: the Ice Path berry puzzle was
+	@ reworked to check the bag directly (`checkitem ITEM_ASPEAR_BERRY` / `removeitem
+	@ ITEM_ASPEAR_BERRY, 1` in IcePath_B3F/scripts.inc, for both the Swinub and the Delibird),
+	@ so the puzzle already completes and hands out TM_BLIZZARD with no bag UI involved. Second,
+	@ `chooseitem` now has ZERO invocation sites anywhere in the tree — this macro is dormant,
+	@ not degraded, and nothing is waiting on it. Porting a whole bag-selection UI and its
+	@ callback contract from HnS to serve no call site is not happening.
+	@
+	@ It is kept rather than deleted so a future HnS script import still assembles instead of
+	@ erroring out, and so this note stays attached to the decision. Do NOT change the macro's
+	@ signature or body: Testing/ValidateScripts.py parses this file as one of its MACRO_FILES
+	@ and derives pointer-vs-value argument slots by symbolically expanding each macro, so
+	@ dropping the argument or introducing a `.4byte` here changes what that validator enforces
+	@ across every event script in data/.
 	.macro chooseitem pocket:req
 		setvar VAR_ITEM_ID, ITEM_NONE
 	.endm

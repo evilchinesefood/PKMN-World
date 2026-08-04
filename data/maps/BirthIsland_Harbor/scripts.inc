@@ -14,8 +14,9 @@ BirthIsland_Harbor_EventScript_Sailor::
 	hideobjectat LOCALID_BIRTH_ISLAND_SAILOR, MAP_BIRTH_ISLAND_HARBOR
 	setvar VAR_0x8004, LOCALID_BIRTH_ISLAND_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
-	@ Home is OLIVINE if the trip was booked there (issue #65) - see the region note on
-	@ Common_EventScript_FerrySailHomeFromIsland in data/event_scripts.s.
+	@ Home is OLIVINE if the trip was booked there (issue #65). Since issue #80 "booked there" is a
+	@ PERSISTED record written when the player boarded (VAR_FERRY_DEPARTURE), not the active region
+	@ - see the note on Common_EventScript_FerrySailHomeFromIsland in data/event_scripts.s.
 	goto Common_EventScript_FerrySailHomeFromIsland
 	end
 

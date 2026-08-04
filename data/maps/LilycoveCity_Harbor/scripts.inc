@@ -243,7 +243,13 @@ LilycoveCity_Harbor_EventScript_GoToBirthIslandFirstTime::
 	release
 	end
 
+@ Issue #80, site 3 of 3, and the one that is easy to miss: this row boards INLINE with Briney's
+@ cutscene and calls NEITHER LilycoveCity_Harbor_EventScript_BoardFerry NOR ...WithSailor - it
+@ runs its own applymovements and goes straight to Common_EventScript_FerryDepart below. Patching
+@ only the two named helpers would leave the OLD SEA MAP's first FARAWAY ISLAND trip with no
+@ departure record, and that trip's sailor home is the exact script this record is for.
 LilycoveCity_Harbor_EventScript_OldSeaMapFirstTime::
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_LILYCOVE
 	setflag FLAG_SHOWN_OLD_SEA_MAP
 	msgbox EventTicket_Text_ShowOldSeaMap, MSGBOX_DEFAULT
 	closemessage
@@ -348,7 +354,13 @@ LilycoveCity_Harbor_EventScript_GetEventTicketSailor::
 	waitmovement 0
 	return
 
+@ Issue #80, site 2 of 3: the FIRST-TIME boarding path, taken once per event ticket while the
+@ ticket sailor is on the dock. It is a separate helper from BoardFerry above rather than a
+@ wrapper around it, so the record has to be written here too - GoToSouthernIslandFirstTime,
+@ GoToBirthIslandFirstTime, GoToFarawayIslandFirstTime and GoToNavelRockFirstTime all reach the
+@ islands through this and only this.
 LilycoveCity_Harbor_EventScript_BoardFerryWithSailor::
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_LILYCOVE
 	applymovement LOCALID_LILYCOVE_HARBOR_FERRY_SAILOR, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	delay 30
@@ -406,7 +418,14 @@ LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind::
 	goto LilycoveCity_Harbor_EventScript_FerryRegularLocationSelect
 	end
 
+@ Issue #80, site 1 of 3 in this file: the departure record. This helper is the REPEAT-visit
+@ boarding path and carries all four island destinations (SOUTHERN / NAVEL ROCK / BIRTH /
+@ FARAWAY) plus SLATEPORT and the BATTLE FRONTIER, so one setvar covers every row of the regular
+@ menu. The two non-island rows record a departure nothing reads back; see the note on
+@ Common_EventScript_FerrySailHomeFromIsland (data/event_scripts.s) for why that is harmless and
+@ why the active region could not serve as this record.
 LilycoveCity_Harbor_EventScript_BoardFerry::
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_LILYCOVE
 	msgbox LilycoveCity_Harbor_Text_PleaseBoard, MSGBOX_DEFAULT
 	closemessage
 	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceFasterUp

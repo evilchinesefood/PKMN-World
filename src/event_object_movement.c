@@ -2327,7 +2327,12 @@ static const void *GetSpeciesOverworldPalette(enum Species species, bool32 shiny
 }
 #endif //OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
 
-// Sprite palette tag a dynamically-loaded Pokémon overworld palette is cached under.
+// Sprite palette tag a dynamically-loaded Pokémon overworld palette is cached under **when the
+// species has a standalone overworld palette to load**. LoadDynamicFollowerPalette's other branch
+// — no standalone palette, or a build with OW_PKMN_OBJECTS_SHARE_PALETTES — files the front
+// sprite's palette under bare `species` instead, and this function has no arm for that. Scoping
+// this note precisely rather than claiming the two paths are one: they are not, and a caller that
+// needs to cover the fallback has to say so.
 //
 // Exported because CheckCanLoadOWE_Palette (src/wild_encounter_ow.c) has to predict this exact
 // value to answer "is this mon's palette already resident?" before it commits to spawning an
@@ -2339,7 +2344,7 @@ static const void *GetSpeciesOverworldPalette(enum Species species, bool32 shiny
 u16 GetDynamicFollowerPaletteTag(enum Species species, bool32 shiny, bool32 female)
 {
     u16 palTag = species + OBJ_EVENT_MON + (shiny ? OBJ_EVENT_MON_SHINY : 0);
-#if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE && P_GENDER_DIFFERENCES
+#if OW_POKEMON_OBJECT_EVENTS == TRUE && OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE && P_GENDER_DIFFERENCES == TRUE
     // Only claim the female tag if a female palette for *this* shininess actually exists, because
     // that is the sole condition under which the loader below puts female colours in the slot.
     if (female && GetSpeciesOverworldPalette(species, shiny, TRUE) != NULL)

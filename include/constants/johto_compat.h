@@ -89,4 +89,23 @@
 // Tohjo Falls Giovanni cutscene radio theme (script playbgm) -> target villain-base theme.
 #define MUS_HG_RADIO_ROCKET         MUS_MT_PYRE_EXTERIOR
 
+// === removenamedmon result codes ===
+// Written to gSpecialVar_Result by ScrCmd_removenamedmon_Compat (src/scrcmd_johto_compat.c) and
+// read by data/maps/Route31/scripts.inc (Kenya) and data/maps/CianwoodHouse3/scripts.inc (Shuckie).
+//
+// 0 and 2 deliberately alias the engine's MON_GIVEN_TO_PARTY / MON_CANT_GIVE so the pre-existing
+// `goto_if_eq VAR_RESULT, MON_CANT_GIVE` branches keep meaning "he didn't take it".
+//
+// 3 is RESERVED, not free: CianwoodHouse3 already branched on a bare `3` (now spelled
+// REMOVE_NAMED_MON_KEPT) into CianwoodCity_EventScript_KirkKeepShuckie ("SHUCKLE likes you — keep
+// it"), HnS's high-friendship outcome for returning Shuckie. That path is unimplemented here (this
+// handler never emits 3 today), but numbering a new reason 3 would silently arm it the moment
+// gift 2's return is finished. The new refusals therefore start at 4.
+#define REMOVE_NAMED_MON_REMOVED     0
+#define REMOVE_NAMED_MON_NOT_FOUND   2
+#define REMOVE_NAMED_MON_KEPT        3  // HnS: the NPC lets the player keep the mon (not emitted yet)
+#define REMOVE_NAMED_MON_NO_MAIL     4
+#define REMOVE_NAMED_MON_WRONG_MAIL  5
+#define REMOVE_NAMED_MON_LAST_MON    6
+
 #endif

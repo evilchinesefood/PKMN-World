@@ -30,16 +30,23 @@ Route31_EventScript_SleepyMan::
 	end
 
 Route31_EventScript_SleepyMan_AskForKenya::
-	msgbox Route31_Text_SleepyManGotMail MSGBOX_YESNO
+	msgbox Route31_Text_SleepyManGotMail, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, TRUE, Route31_EventScript_SleepyMan_GiveKenya
-	msgbox Route31_Text_SleepyManFail, MSGBOX_DEFAULT
+	msgbox Route31_Text_DeclinedToHandOverMail, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
 
+@ removenamedmon reports WHY it refused (REMOVE_NAMED_MON_*, constants/johto_compat.h) so each
+@ of these branches lands on the text HnS wrote for it. Before, the handler was a stub that
+@ never wrote VAR_RESULT at all, the MSGBOX_YESNO above left it at TRUE, and the MON_CANT_GIVE
+@ branch could not fire - so the player kept Kenya AND collected the TM.
 Route31_EventScript_SleepyMan_GiveKenya::
 	removenamedmon 1
-	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Route31_EventScript_SleepyMan_Fail
+	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_NO_MAIL, Route31_EventScript_SleepyMan_NoMail
+	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_WRONG_MAIL, Route31_EventScript_SleepyMan_WrongMail
+	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_LAST_MON, Route31_EventScript_SleepyMan_LastMon
+	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_NOT_FOUND, Route31_EventScript_SleepyMan_Fail
 	msgbox Route31_Text_HandOverMailMon, MSGBOX_DEFAULT
 	delay 55
 	callnative UpdateFollowingPokemon
@@ -53,6 +60,24 @@ Route31_EventScript_SleepyMan_GiveKenya::
 
 Route31_EventScript_SleepyMan_Fail::
 	msgbox Route31_Text_SleepyManFail, MSGBOX_DEFAULT
+	release
+	end
+
+Route31_EventScript_SleepyMan_NoMail::
+	msgbox Route31_Text_MissingMail, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+Route31_EventScript_SleepyMan_WrongMail::
+	msgbox Route31_Text_WrongMail, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+Route31_EventScript_SleepyMan_LastMon::
+	msgbox Route31_Text_CantTakeLastMon, MSGBOX_DEFAULT
+	closemessage
 	release
 	end
 

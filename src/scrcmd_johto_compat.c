@@ -11,6 +11,10 @@
 #include "event_object_movement.h"
 #include "move.h"
 #include "daycare.h"
+#include "mail.h"
+#include "international_string_util.h"
+#include "constants/characters.h"
+#include "constants/johto_compat.h"
 #include "constants/songs.h"
 #include "constants/vars.h"
 #include "constants/species.h"
@@ -118,12 +122,147 @@ bool8 CheckOmanyte(void)    { return GetMonData(&gParties[B_TRAINER_PLAYER][0], 
 u16 IsRandomMovesActivated(void) { return FALSE; } // HnS randomizer: report OFF (region merge stub)
 u16 IsPokecenterChallengeActivated(void) { return FALSE; } // HnS Pokecenter challenge: report OFF so SS Aqua cabin beds heal normally (region merge stub)
 
-// HnS removenamedmon: removes a delivered story mon (Kenya/Shuckie). Story-mon delivery
-// is unported; stub reads its operand and no-ops so the script pointer stays aligned.
+// === Named story gifts (Kenya / Shuckie / Eevee / Dratini) ===
+//
+// Identity data shared by givenamedmon (which creates them) and removenamedmon (which has to
+// recognise one again, possibly many hours of play later). Kept at file scope on purpose: two
+// copies of "KENYA" is two things to keep in sync, and the delivery quest fails silently -
+// not loudly - if they ever drift apart.
+//
+// Sized buffers, not bare literals: SetMonData copies a fixed POKEMON_NAME_LENGTH /
+// PLAYER_NAME_LENGTH bytes and does NOT stop at EOS, so a short literal makes it over-read
+// whatever .rodata happens to follow.
+static const u8 sKenyaNickname[POKEMON_NAME_LENGTH + 1]   = _("KENYA");
+static const u8 sKenyaOtName[PLAYER_NAME_LENGTH + 1]      = _("RUDY");
+static const u8 sShuckieNickname[POKEMON_NAME_LENGTH + 1] = _("SHUCKIE");
+static const u8 sShuckieOtName[PLAYER_NAME_LENGTH + 1]    = _("KIRK");
+static const u8 sEeveeOtName[PLAYER_NAME_LENGTH + 1]      = _("BILL");
+
+// HnS's preset OT ids for the named gifts. Kenya's is also stamped into her RetroMail as the
+// SENDER id, so the letter and the bird agree on who wrote it - that is the only thing that
+// lets Route 31 tell Randy's mail apart from a RetroMail the player wrote and swapped in.
+#define KENYA_OT_ID    61225
+#define SHUCKIE_OT_ID  4336
+#define EEVEE_OT_ID    5231
+
+// HnS `removenamedmon <giftId>`: hands a delivered story mon back to the NPC who asked for it.
+// Two call sites: data/maps/Route31/scripts.inc (gift 1, Kenya, the sleeping man Randy sends you
+// to) and data/maps/CianwoodHouse3/scripts.inc (gift 2, Shuckie, returned to Kirk). Shuckie is
+// wired here too so the Cianwood half needs no second handler - note that script also branches on
+// a bare `3`, HnS's "SHUCKLE likes you, keep it" friendship outcome, which is why
+// REMOVE_NAMED_MON_KEPT is reserved and the new refusal codes start at 4.
+//
+// This shipped as a stub that read its operand and returned WITHOUT ever writing
+// gSpecialVar_Result. The MSGBOX_YESNO immediately before it leaves VAR_RESULT == TRUE (1) and
+// MON_CANT_GIVE is 2, so the script's `goto_if_eq VAR_RESULT, MON_CANT_GIVE` could never fire:
+// the player "handed over" Kenya, kept her, and still collected TM Torment.
+//
+// Reports through gSpecialVar_Result using the REMOVE_NAMED_MON_* codes in
+// constants/johto_compat.h. REMOVED/NOT_FOUND deliberately alias MON_GIVEN_TO_PARTY (0) and
+// MON_CANT_GIVE (2) so the pre-existing branch keeps its meaning; the extra reasons are what
+// let Route 31 finally use the refusal texts HnS shipped and this fork left defined-but-dead
+// (Route31_Text_MissingMail / _WrongMail / _CantTakeLastMon).
 void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
 {
-    u16 number = ScriptReadHalfword(ctx);
-    (void)number;
+    u16 giftId = ScriptReadHalfword(ctx);
+    enum Species species;
+    const u8 *nickname;
+    enum Item requiredMail; // ITEM_NONE = this gift is not a mail delivery
+    u32 senderOtId;
+    u8 nickBuffer[POKEMON_NAME_LENGTH + 1]; // MON_DATA_NICKNAME writes up to POKEMON_NAME_LENGTH bytes plus EOS
+    struct Pokemon *target = NULL;
+    u8 targetSlot = 0;
+    u8 i;
+
+    switch (giftId)
+    {
+    case 1: species = SPECIES_SPEAROW; nickname = sKenyaNickname;   senderOtId = KENYA_OT_ID;   requiredMail = ITEM_RETRO_MAIL; break;
+    case 2: species = SPECIES_SHUCKLE; nickname = sShuckieNickname; senderOtId = SHUCKIE_OT_ID; requiredMail = ITEM_NONE;       break;
+    default:
+        // Hand-transcribed opcode operand, same discipline as the other handlers here: an id
+        // we have no gift for must not fall through into a party scan on an uninitialised
+        // species and delete something.
+        gSpecialVar_Result = REMOVE_NAMED_MON_NOT_FOUND;
+        return;
+    }
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+
+        if (GetMonData(mon, MON_DATA_SPECIES, NULL) != species)
+            continue;
+        GetMonData(mon, MON_DATA_NICKNAME, nickBuffer);
+        if (StringCompare(nickBuffer, nickname) != 0)
+            continue;
+        target = mon;
+        targetSlot = i;
+        break;
+    }
+
+    if (target == NULL)
+    {
+        gSpecialVar_Result = REMOVE_NAMED_MON_NOT_FOUND;
+        return;
+    }
+
+    // The same guard the PC deposit screen uses (CountPartyAliveNonEggMonsExcept): walking away
+    // with nothing healthy and non-egg in the party is a white-out on the next patch of grass,
+    // and the script cannot undo the removal once we have done it. Route 31 has a text for
+    // precisely this case ("what are you going to use in battle?"), so refuse instead.
+    if (CountPartyAliveNonEggMonsExcept(targetSlot) == 0)
+    {
+        gSpecialVar_Result = REMOVE_NAMED_MON_LAST_MON;
+        return;
+    }
+
+    if (requiredMail != ITEM_NONE)
+    {
+        u32 mailId;
+        bool8 fromSender = TRUE;
+
+        if (!MonHasMail(target))
+        {
+            gSpecialVar_Result = REMOVE_NAMED_MON_NO_MAIL;
+            return;
+        }
+        // "Holds mail" is not enough. The party menu lets the player take Kenya's letter off
+        // and hang a different one on her, so check the item AND the sender: the mail's
+        // trainerId is whoever wrote it, stamped from KENYA_OT_ID by givenamedmon below.
+        // MAIL_NONE is already excluded by MonHasMail; the bound is for a corrupt save, since
+        // a bad mailId indexes straight into the save block.
+        mailId = GetMonData(target, MON_DATA_MAIL, NULL);
+        if (mailId >= MAIL_COUNT || gSaveBlock1Ptr->mail[mailId].itemId != requiredMail)
+        {
+            gSpecialVar_Result = REMOVE_NAMED_MON_WRONG_MAIL;
+            return;
+        }
+        for (i = 0; i < TRAINER_ID_LENGTH; i++)
+        {
+            if (gSaveBlock1Ptr->mail[mailId].trainerId[i] != (u8)(senderOtId >> (8 * i)))
+                fromSender = FALSE;
+        }
+        if (!fromSender)
+        {
+            gSpecialVar_Result = REMOVE_NAMED_MON_WRONG_MAIL;
+            return;
+        }
+    }
+
+    // Frees the save block's mail record as well. ZeroMonData alone would drop the mon's
+    // mailId reference and leave gSaveBlock1Ptr->mail[id].itemId set forever, permanently
+    // burning one of the six party mail slots for the rest of the save.
+    TakeMailFromMon(target);
+    ZeroMonData(target);
+    // CompactPartySlots shuffles and zeroes but does NOT maintain gPlayerPartyCount (same trap
+    // remove5mons documents below), and a follower chosen from a now-reshuffled slot would keep
+    // pointing at the wrong mon - Route 31 calls UpdateFollowingPokemon right after us, which
+    // re-reads the slot, so it has to be reset before that runs.
+    CompactPartySlots();
+    CalculatePlayerPartyCount();
+    gSaveBlock2Ptr->followerSlot = 0;
+
+    gSpecialVar_Result = REMOVE_NAMED_MON_REMOVED;
 }
 
 // HnS `giveoddegg <1..7>` (Route 34 Day-Care): the Odd Egg, which hatches into a baby
@@ -188,12 +327,25 @@ void HaircutBrother1(void)
 // ShowBugContestChosenMon now have real implementations in src/bug_contest.c.)
 void ToggleShinyColors(void) {}
 
-// HnS `givenamedmon <giftId>`: the named story gifts. 1=Kenya (Spearow, OT RUDY), 2=Shuckie
-// (Shuckle, OT KIRK), 3=Eevee (OT BILL), 4=Dratini (ExtremeSpeed, Dragon's Den elder). Adapted
-// to the expansion mon-creation API (CreateMon + OTID_STRUCT_*). v1 omits Kenya's RetroMail
-// content (the guard quest checks species/nickname) and Dratini's forced-shiny PID.
+// HnS `givenamedmon <giftId>`: the named story gifts. 1=Kenya (Spearow, OT RUDY, carrying
+// Randy's RetroMail for the Route 31 sleeper), 2=Shuckie (Shuckle, OT KIRK), 3=Eevee (OT BILL),
+// 4=Dratini (ExtremeSpeed + HnS's forced-shiny PID, Dragon's Den elder). Adapted to the
+// expansion mon-creation API (CreateMon + OTID_STRUCT_*).
 void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
 {
+    // Randy's note to his napping pal, written in the 2/2/2/2/1 word grouping Retro Mail
+    // actually renders (sMailLayouts_Tall, src/mail.c - the "wide" 3x3 layout is never
+    // reached outside JP): "MY FRIEND / YOU SLEEP / TOO MUCH / WAKE UP SOON / SEE YA".
+    // Every entry must be a real EC_WORD_* constant: the mail viewer feeds these straight to
+    // the easy-chat word tables with no range check, so a made-up group/index reads off the
+    // end of them and prints garbage into the reader.
+    static const u16 sKenyaMailWords[MAIL_WORDS_COUNT] = {
+        EC_WORD_MY,      EC_WORD_FRIEND,
+        EC_WORD_YOU,     EC_WORD_SLEEP,
+        EC_WORD_TOO,     EC_WORD_MUCH,
+        EC_WORD_WAKE_UP, EC_WORD_SOON,
+        EC_WORD_SEE_YA,
+    };
     u16 giftId = ScriptReadHalfword(ctx);
     struct Pokemon *mon;
     enum Species species;
@@ -205,19 +357,12 @@ void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
     const u8 *otName = NULL;
     u8 heldItem[2];
     u8 i;
-    // Sized buffers, not bare literals: SetMonData copies a fixed POKEMON_NAME_LENGTH /
-    // PLAYER_NAME_LENGTH bytes (it does not stop at EOS), so short literals over-read .rodata.
-    static const u8 sKenyaNickname[POKEMON_NAME_LENGTH + 1]   = _("KENYA");
-    static const u8 sKenyaOtName[PLAYER_NAME_LENGTH + 1]      = _("RUDY");
-    static const u8 sShuckieNickname[POKEMON_NAME_LENGTH + 1] = _("SHUCKIE");
-    static const u8 sShuckieOtName[PLAYER_NAME_LENGTH + 1]    = _("KIRK");
-    static const u8 sEeveeOtName[PLAYER_NAME_LENGTH + 1]      = _("BILL");
 
     switch (giftId)
     {
-    case 1: species = SPECIES_SPEAROW; level = 20; nickname = sKenyaNickname;   otName = sKenyaOtName;   otId = 61225; break;
-    case 2: species = SPECIES_SHUCKLE; level = 20; item = ITEM_BERRY_JUICE; nickname = sShuckieNickname; otName = sShuckieOtName; otId = 4336; break;
-    case 3: species = SPECIES_EEVEE;   level = 20; otName = sEeveeOtName;   otId = 5231; break;
+    case 1: species = SPECIES_SPEAROW; level = 20; nickname = sKenyaNickname;   otName = sKenyaOtName;   otId = KENYA_OT_ID; break;
+    case 2: species = SPECIES_SHUCKLE; level = 20; item = ITEM_BERRY_JUICE; nickname = sShuckieNickname; otName = sShuckieOtName; otId = SHUCKIE_OT_ID; break;
+    case 3: species = SPECIES_EEVEE;   level = 20; otName = sEeveeOtName;   otId = EEVEE_OT_ID; break;
     case 4: species = SPECIES_DRATINI; level = 15; break; // player OT
     default: gSpecialVar_Result = MON_CANT_GIVE; return;
     }
@@ -242,12 +387,65 @@ void ScrCmd_givenamedmon_Compat(struct ScriptContext *ctx)
             SetMonData(mon, MON_DATA_OT_NAME, otName);
         SetMonData(mon, MON_DATA_HELD_ITEM, heldItem);
 
+        // Kenya is a MAIL delivery, not a loaner Spearow: Randy promises "a POKéMON with MAIL"
+        // and Route 31's removenamedmon above now refuses a bird that is not carrying it.
+        //
+        // GiveMailToMon, NOT GiveMailToMonByItemId: the ByItemId path stamps the PLAYER's name
+        // and trainer id into the record, and this letter is from RUDY. GiveMailToMon calls it
+        // to claim a slot, then overwrites the record with the struct we hand it - that
+        // overwrite is the entire reason the function exists. It also re-writes the held item
+        // to the mail, which is why this has to run AFTER the ITEM_NONE write just above.
+        if (giftId == 1)
+        {
+            struct Mail mail;
+            u8 word;
+
+            ClearMail(&mail); // initialise every field; this struct is copied into the save block verbatim
+            for (word = 0; word < MAIL_WORDS_COUNT; word++)
+                mail.words[word] = sKenyaMailWords[word];
+            StringCopy(mail.playerName, sKenyaOtName);
+            // The signature is centre-aligned against a fixed width, and every player-written
+            // mail reaches that code space-padded (GiveMailToMonByItemId does it); pad here
+            // too or RUDY's letter sits a few pixels off from every other mail in the game.
+            PadNameString(mail.playerName, CHAR_SPACE);
+            // Little-endian byte view of the 32-bit id, exactly how gSaveBlock2Ptr->playerTrainerId
+            // is packed - removenamedmon compares against it byte for byte.
+            for (word = 0; word < TRAINER_ID_LENGTH; word++)
+                mail.trainerId[word] = (u8)(otId >> (8 * word));
+            mail.species = SpeciesToMailSpecies(species, personality); // drives the mon drawn on the letter
+            mail.itemId = ITEM_RETRO_MAIL;
+
+            // Six party mail slots, and GiveMailToMon reports MAIL_NONE when all are taken. A
+            // mail-less Kenya would still set VAR_KENYA = 1 at the call site and leave a quest
+            // that can never complete, so refuse the whole gift - which means putting back the
+            // party slot we already filled, or the player keeps a phantom Spearow.
+            if (GiveMailToMon(mon, &mail) == MAIL_NONE)
+            {
+                ZeroMonData(mon);
+                gSpecialVar_Result = MON_CANT_GIVE;
+                return;
+            }
+        }
+
         if (giftId == 4)
         {
             u16 move = MOVE_EXTREME_SPEED;
             u8 pp = gMovesInfo[move].pp;
+            bool8 isShiny = TRUE;
+
             SetMonData(mon, MON_DATA_MOVE1, &move);
             SetMonData(mon, MON_DATA_PP1, &pp);
+            // HnS forces a shiny PID on the elder's Dratini; the call site
+            // (DragonsDen_Shrine_EventScript_ElderGiveSpecialDratini) is reached only on
+            // VAR_DRAGONS_DEN_QUIZ == 0, a perfect quiz, so this is a guaranteed shiny.
+            // There is no CreateMonWithNature-style helper in this fork to re-roll a PID
+            // against, and rejection-sampling one here would also re-roll nature/gender/IVs.
+            // MON_DATA_IS_SHINY is the writable lever the expansion added for exactly this: it
+            // XORs BoxPokemon.shinyModifier against the PID's natural shininess, in the
+            // unencrypted header, so it survives the substruct shuffle. Same thing
+            // ScriptGiveMonParameterized does for SHINY_MODE_ALWAYS and debug.c for its
+            // shiny toggle.
+            SetMonData(mon, MON_DATA_IS_SHINY, &isShiny);
         }
 
         CalculateMonStats(mon);

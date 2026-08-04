@@ -37,7 +37,12 @@ CianwoodCity_EventScript_KirkReturnShuckie::
 	goto_if_eq VAR_RESULT, FALSE, CianwoodCity_EventScript_KirkDeclineReturnShuckie
 	removenamedmon 2
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, CianwoodCity_EventScript_KirkNotRight
-	goto_if_eq VAR_RESULT, 3, CianwoodCity_EventScript_KirkKeepShuckie
+	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_KEPT, CianwoodCity_EventScript_KirkKeepShuckie
+	@ removenamedmon now really removes the mon, and it refuses when SHUCKIE is the player's last
+	@ healthy non-egg POKeMON. Without this branch that refusal would fall straight through into
+	@ the success path below: fanfare, "returned", VAR_SHUCKIE = 3 -- with SHUCKIE still in the
+	@ party and Kirk's quest closed forever.
+	goto_if_eq VAR_RESULT, REMOVE_NAMED_MON_LAST_MON, CianwoodCity_EventScript_KirkNotRight
 	playse MUS_OBTAIN_ITEM
 	callnative UpdateFollowingPokemon
 	msgbox CianwoodCity_Text_ManiacReturnedMon, MSGBOX_DEFAULT

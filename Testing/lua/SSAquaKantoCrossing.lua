@@ -359,5 +359,74 @@ F.run(function()
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
   F.shot("island_home")
 
+  -- Issue #69: NAVEL ROCK was the fourth island and the only one still carrying a private
+  -- `warp MAP_LILYCOVE_CITY_HARBOR` instead of the shared script. Be precise about what this
+  -- leg proves: there are TWO Navel Rock harbours. This one, MAP_NAVEL_ROCK_HARBOR, is the
+  -- REGION_HOENN map reachable only from LILYCOVE; KANTO's MYSTIC TICKET run sails to
+  -- MAP_NAVEL_ROCK_HARBOR_FRLG, a different map whose own sailor already returns to VERMILION.
+  -- So the HOENN direction is the one a player can actually book, and it is asserted first as
+  -- the no-regression half. JOHTO and KANTO assert the shared script's two other arms, the
+  -- KANTO one being a floor under a Kanto-side island row that does not exist yet.
+  -- Same LAYOUT_ISLAND_HARBOR as Birth Island's — warp 0 at (8,2), sailor at (8,5) — so the
+  -- same two-tile walk drives it. MAP_NAVEL_ROCK_HARBOR = (67 | (26 << 8)), map_groups.h.
+  local MAP_NAVEL_HARBOR = 67
+  -- Sampled AFTER the warp onto the island but BEFORE the sailor is asked for a way home. This
+  -- is the discriminating read of the three: MAP_NAVEL_ROCK_HARBOR is itself a REGION_HOENN map
+  -- with a Hoenn mapsec, and ResyncCurrentRegionFromMap runs on that warp. It is only because it
+  -- prefers the PERSISTED SaveBlock2.currentRegion over the map that a departure record exists at
+  -- all by the time the sailor reads it — if that preference ever flipped, gCurrentRegion would
+  -- read HOENN here and every leg would sail to Lilycove no matter where it was booked. Reading
+  -- the mirror rather than the persisted byte matters too: gCurrentRegion is what the guard
+  -- actually compares (src/region_switch.c's RegionHub_ScrTargetIsCurrent), and it is the one the
+  -- engine rewrote on the warp rather than the one this harness set.
+  local onIsland
+  local function sailHomeFromNavelRock(region, expectGrp, expectMap, tag)
+    -- Both writes, for the reason segment F states: gCurrentRegion is the EWRAM mirror the
+    -- guard reads, SaveBlock2.currentRegion is what ResyncCurrentRegionFromMap re-seeds it
+    -- from on the warp, so writing one alone is undone by the other.
+    F.w32(S.gCurrentRegion, region)
+    F.w8(F.sb2() + S.SaveBlock2.currentRegion, region)
+    if not F.warpTo(0, 2, 6, 0, 6, 7, 0, 0, 0, GRP_EVENT_ISLANDS, MAP_NAVEL_HARBOR, tag) then
+      return false
+    end
+    F.idle(90)
+    onIsland = F.r32(S.gCurrentRegion)
+    if not F.route({ { 8, 4 } }, tag .. "ToSailor") then return false end
+    F.face("Down")
+    return talkUntilMap(expectGrp, expectMap)
+  end
+
+  F.check("H: a HOENN-booked NAVEL ROCK trip still sails home to LILYCOVE (no regression)",
+    sailHomeFromNavelRock(REGION_HOENN, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR, "navelHoenn"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: the HOENN booking survived the warp onto the island", onIsland == REGION_HOENN,
+    "gCurrentRegion=" .. tostring(onIsland))
+  clearBox(10)
+
+  F.check("H: a JOHTO-booked NAVEL ROCK trip sails home to OLIVINE",
+    sailHomeFromNavelRock(REGION_JOHTO, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT, "navelJohto"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: the JOHTO booking survived the warp onto a REGION_HOENN island map",
+    onIsland == REGION_JOHTO, "gCurrentRegion=" .. tostring(onIsland))
+  clearBox(10)
+
+  -- The KANTO arm lands on the berth tile (8,16) INSIDE the terminal, not on the pier, so it
+  -- misses VermilionCity_EventScript_ExitedTicketCheck's coord events at (22,32)/(23,32).
+  F.check("H: a KANTO-booked NAVEL ROCK trip sails home to VERMILION's terminal",
+    sailHomeFromNavelRock(REGION_KANTO, GRP_VERM_INDOOR, MAP_VERM_PORT, "navelKanto"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: the KANTO booking survived the warp onto a REGION_HOENN island map",
+    onIsland == REGION_KANTO, "gCurrentRegion=" .. tostring(onIsland))
+  -- "The arrival scene did not run" asserted by POSITION, not by the var. The var is already 7
+  -- and the scene would set it to 7 again, so reading it back proves nothing either way — but
+  -- VermilionCity_PortInside_EventScript_Arrived opens with an applymovement that walks the
+  -- player one tile north off the berth. Still standing on (8,16) is the observable difference.
+  local kx, ky = F.pos()
+  F.check("H: the KANTO arm landed on the berth tile and the arrival scene did not run",
+    kx == 8 and ky == 16, ("(%d,%d) state=%d"):format(kx, ky, regionVarGet(VAR_SSAQUA_STATE)))
+  clearBox(10)
+  F.check("H: control returns in the KANTO terminal after the island run", F.step("Up"))
+  F.shot("navelrock_home")
+
   F.finish()
 end)

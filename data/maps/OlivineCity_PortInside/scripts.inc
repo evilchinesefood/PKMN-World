@@ -213,6 +213,27 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 	release
 	end	
 
+@ Issue #69, decided and left alone: this row does NOT round-trip, and that is the intended
+@ behaviour, not an omission. The four rows above it warp onto region-agnostic event ISLANDS and
+@ claim nothing, so their sailors can read the active region as a departure record and bring a
+@ Johto player back to this hall. The BATTLE FRONTIER is a destination, not an island: its own
+@ dock ferry (BattleFrontier_OutsideWest_EventScript_ChooseFerryDestination) offers SLATEPORT and
+@ LILYCOVE only, and both of those legs claim REGION_HOENN before they warp - so Olivine ->
+@ Frontier -> Slateport is an honest one-way journey INTO Hoenn rather than the trap #65 closed.
+@
+@ What makes it not-a-trap is the second exit: BattleFrontier_OutsideWest_EventScript_HubShuttle
+@ stands on the same dock and rides back to the World Transit hub. A player who did not want
+@ Hoenn is never stuck; they pay the hub's party-boxing, which is the ordinary price of a region
+@ cross and is exactly what the hub is for. Round-tripping this row would need a conditional
+@ OLIVINE entry in the Frontier's explicit multichoice (or a pre-offer gated on the active
+@ region), NOT the shared island script - so it is a behaviour change with a design decision in
+@ front of it, and the decision recorded here is "leave it".
+@
+@ FLAGGED, deliberately NOT fixed here (wants its own issue): this row has no credential gate at
+@ all. Every sibling row does `checkitem` + `goto_if_unset FLAG_ENABLE_SHIP_*`, and the Hoenn-side
+@ analogue BattleFrontier_OutsideWest_EventScript_FerryAttendant requires FLAG_SYS_GAME_CLEAR AND
+@ ITEM_SS_TICKET. Adding one would change player-facing behaviour without an owner decision, so
+@ it is named rather than done.
 OlivinePort_EventScript_ChoseBattleFrontier::
 	closemessage
 	delay 20

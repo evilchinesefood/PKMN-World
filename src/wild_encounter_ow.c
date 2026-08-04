@@ -1294,12 +1294,23 @@ static bool32 CheckCanLoadOWE(enum Species speciesId, bool32 isFemale, bool32 is
 static bool32 CheckCanLoadOWE_Palette(enum Species speciesId, bool32 isFemale, bool32 isShiny, s32 x, s32 y)
 {
     u32 numFreePalSlots = CountFreePaletteSlots();
-    u32 tag = speciesId + OBJ_EVENT_MON + (isShiny ? OBJ_EVENT_MON_SHINY : 0);
-
-#if P_GENDER_DIFFERENCES
-    if (isFemale && gSpeciesInfo[speciesId].overworldShinyPaletteFemale != NULL)
-        tag += OBJ_EVENT_MON_FEMALE;
-#endif
+    // Must be the tag LoadDynamicFollowerPalette will actually use, or the "already resident?"
+    // test below looks up a slot nothing ever loads under. This used to be a hand-copy of that
+    // arithmetic and had drifted from it (#78): it took the female tag whenever the species had a
+    // female *shiny* palette, even for a non-shiny mon whose colours the loader would file under
+    // the shared tag. Read it from the loader's own helper so the two cannot separate again.
+    //
+    // Note the argument order flips here — this function takes (female, shiny), the helper takes
+    // (shiny, female) — so the two bool32s are labelled. Silently swapping them would compile and
+    // reproduce exactly the class of defect #78 was.
+    //
+    // One gap this does NOT close, inherited rather than introduced and out of scope for #78: the
+    // helper only produces the standalone-palette tag. A species with no standalone overworld
+    // palette at all sends the loader down its front-sprite branch, which caches under bare
+    // `speciesId`, so the check below would miss a palette that is in fact resident and refuse the
+    // spawn when exactly one slot is free. CheckValidOWESpecies does not require overworld data,
+    // so whether any spawnable species is in that state was not settled here.
+    u32 tag = GetDynamicFollowerPaletteTag(speciesId, /*shiny*/ isShiny, /*female*/ isFemale);
 
     // We need at least 2 pal slots open. One for the object and one for the spawn field effect.
     // Add this and tiles to seperate graphics check function

@@ -537,6 +537,10 @@ bool8 PlayerIsUnderWaterfall(struct ObjectEvent *objectEvent);
 
 u8 GetObjectEventApricornTreeId(u8 objectEventId);
 u16 GetGraphicsIdForMon(enum Species species, bool32 shiny, bool32 female);
+// Sprite palette tag LoadDynamicFollowerPalette caches a Pokémon overworld palette under when the
+// species has a standalone one. Its front-sprite fallback branch files under bare `species`, which
+// this does not cover. Ask for it here rather than re-deriving; see the definition for why (#78).
+u16 GetDynamicFollowerPaletteTag(enum Species species, bool32 shiny, bool32 female);
 
 // Overworld Wild Encounter
 bool8 MovementAction_OverworldEncounterSpawn(enum SpawnDespawnTypeOWE spawnAnimType, struct ObjectEvent *objEvent);

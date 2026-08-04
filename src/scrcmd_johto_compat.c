@@ -346,13 +346,19 @@ void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
 // bit LoadDynamicFollowerPalette reads via OW_SHINY(). Both halves must agree or the player
 // walks up to a red sprite and battles a blue mon.
 //
-// KNOWN LATENT ISSUE (deliberately not fixed here, see the follow-up issue): `dowildbattle`
-// branches on scrcmd.c's file-static `sIsScriptedWildDouble`, which only ScrCmd_setwildbattle
-// and ScriptSetDoubleBattleFlag can write. This handler is a `callnative` in a DIFFERENT
-// translation unit, so it cannot clear that flag the way the native setwildbattle does. If any
-// earlier script in the session left it TRUE, Lake of Rage would start a scripted DOUBLE wild
-// battle against a one-mon enemy party. Fixing it needs a new setter exported from scrcmd.c,
-// which is outside this file's surface.
+// KNOWN LATENT ISSUE — currently unreachable, deliberately not fixed here (follow-up issue):
+// `dowildbattle` branches on scrcmd.c's file-static `sIsScriptedWildDouble`, which only
+// ScrCmd_setwildbattle and ScriptSetDoubleBattleFlag can write. This handler is a `callnative`
+// in a DIFFERENT translation unit, so it cannot clear that flag the way the native
+// setwildbattle does. If anything ever left it TRUE, Lake of Rage would start a scripted DOUBLE
+// wild battle against a one-mon enemy party.
+//
+// Checked before writing this down rather than asserted: nothing in data/ uses
+// `setwilddoubleflag`, and all 31 `setwildbattle` call sites are the single-mon form (which
+// sets the flag FALSE), so the BSS-zeroed static is FALSE for the whole session today. This is
+// a robustness gap, not a live bug — but it is one edit to a Johto script away from becoming
+// one, and the fix needs a new setter exported from scrcmd.c, which is outside this file's
+// surface. Re-check those two facts before relying on this note.
 void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
 {
     u16 species = ScriptReadHalfword(ctx);

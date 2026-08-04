@@ -2596,11 +2596,18 @@ bool8 ScrCmd_cleartrainerflag(struct ScriptContext *ctx)
 // out at the first command requesting SCREFF_SAVE/SCREFF_HARDWARE. setwildbattle and
 // setwilddoubleflag are SCREFF_V1; dowildbattle is SCREFF_HARDWARE. So probing a script that sets
 // the flag (TryStartInteractionScript in src/field_control_avatar.c does this on every A press,
-// MapHeaderCheckScriptTable in src/script.c on ON_FRAME_TABLE triggers) latches it TRUE and stops
-// exactly one command before the clear would have run. Ownership has to sit at the setup site.
+// MapHeaderCheckScriptTable in src/script.c on both ON_FRAME_TABLE and ON_WARP_INTO_MAP_TABLE
+// triggers) latches it TRUE and stops exactly one command before the clear would have run.
+// Ownership has to sit at the setup site.
+//
+// Normalized rather than assigned straight through: the parameter is bool32 because that is what
+// callers find natural, but the static is a bool8 and the store compiles to a single strb, so a
+// caller that ever passed a masked flag test whose LOW BYTE happened to be zero (0x100, say)
+// would silently mean FALSE. All three call sites pass a literal today; this makes the exported
+// API total instead of relying on that.
 void SetScriptedWildBattleIsDouble(bool32 isDouble)
 {
-    sIsScriptedWildDouble = isDouble;
+    sIsScriptedWildDouble = (isDouble != FALSE);
 }
 
 bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)

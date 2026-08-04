@@ -213,9 +213,9 @@
       "dest_warp_id": "1"
     },
     {
-      "x": 24,
-      "y": 32,
-      "elevation": 3,
+      "x": 26,
+      "y": 29,
+      "elevation": 0,
       "dest_map": "MAP_VERMILION_CITY_PORT_INSIDE",
       "dest_warp_id": "0"
     }

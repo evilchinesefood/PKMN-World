@@ -9,11 +9,14 @@
 --      the latter prefers the PERSISTED region — so a warp that skipped it would leave a Johto
 --      champion carrying JOHTO's HARD VAR_DIFFICULTY tier into first-run Kanto. This is the one
 --      failure mode that is completely invisible in-game, hence asserted on every leg.
---   C. The terminal's north door reaches VERMILION CITY (the one-way city link), and the pier's
---      ferry sailor sells the return leg back to OLIVINE — flipping the region back to JOHTO.
---      Note the state this runs in: VAR_MAP_SCENE_VERMILION_CITY is 0, because a Johto champion
---      arriving by sea has never touched Kanto's S.S.ANNE story. The return offer must not sit
---      behind that scene gate or the far shore is a trap too.
+--   C. The terminal's north door reaches VERMILION CITY and the city-side door walks back IN
+--      (issue #68 — the terminal was arrival-only, so its whole population was one visit long),
+--      and the berth sailor sells the return leg back to OLIVINE — flipping the region to JOHTO.
+--      The pier sailor is asserted to HAND THAT OFF rather than sail it himself: his duplicate of
+--      the leg only existed because the door did not. Note the state this runs in:
+--      VAR_MAP_SCENE_VERMILION_CITY is 0, because a Johto champion arriving by sea has never
+--      touched Kanto's S.S.ANNE story. His reply must not sit behind that scene gate, or the
+--      handoff is a dead end and the far shore is a trap again.
 --   D. VAR_SSAQUA_STATE >= 7 opens OlivinePort_EventScript_Sailor_AfterKanto's six-row harbour
 --      menu, which was unreachable dead code before this issue, and its VERMILION row sails.
 --   E. The second crossing does NOT re-run the arrival scene (the var stays 7, it is neither
@@ -196,9 +199,9 @@ F.run(function()
   -- Freedom proof for a one-tile corridor: a real step, not lib's Left/Right probe.
   F.check("A: control returns in the terminal", F.step("Up"))
 
-  -- ============================================================ C. terminal -> city -> back
-  -- The north door is the terminal's only city-side link; (8,9) is the warp tile itself, so
-  -- stand one tile short and step onto it.
+  -- ============================================================ C. terminal -> city -> back in
+  -- The north door is the terminal's city-side link; (8,9) is MB_NON_ANIMATED_DOOR with collision
+  -- 0, so it is the warp tile itself — stand one tile short and step onto it.
   F.check("C: walked up to the terminal door", F.route({ { 8, 10 } }, "toPortDoor"))
   F.step("Up")
   local inCity = false
@@ -209,23 +212,74 @@ F.run(function()
   F.idle(60)
   local cx, cy = F.pos()
   F.check("C: terminal door reaches VERMILION CITY", inCity, ("grp=%d map=%d"):format(F.grp(), F.mapn()))
-  F.check("C: landed on the pier at (24,32)", inCity and cx == 24 and cy == 32, ("(%d,%d)"):format(cx, cy))
+  -- Issue #68 moved warp 10 off the inert plank at (24,32) and onto a real door:
+  -- METATILE_VermilionCity_Door at (26,29), the front of the port building now standing on the
+  -- pier's north edge. That makes the exit a door animation — Task_ExitDoor puts the player on
+  -- the door tile and walks them one step SOUTH — so the landing tile is the apron below it.
+  F.check("C: landed on the port apron at (26,30)", inCity and cx == 26 and cy == 30,
+    ("(%d,%d)"):format(cx, cy))
   F.shot("vermilion_pier")
 
   if inCity then
-    -- The landing tile has to be part of the city, not an island: walk north up the pier to
-    -- where it meets the beach the S.S.ANNE dock shares, then come back for the return leg.
+    -- The landing tile has to be part of the city, not an island: walk west along the deck and
+    -- north to its top row, then down the S.S.ANNE walkway to the berth.
     F.check("C: the landing tile connects to the city on foot", F.route({ { 24, 28 } }, "upThePier"))
-    F.check("C: walked back to the berth", F.route({ { 24, 32 } }, "downThePier"))
+    F.check("C: walked down to the berth", F.route({ { 24, 32 } }, "downThePier"))
     -- The pier sailor is at (24,33), directly south. VAR_MAP_SCENE_VERMILION_CITY is 0 on this
     -- save (no Kanto story), which is precisely the case the S.S.ANNE scene gate used to swallow.
+    -- He used to sell this crossing himself; #68 retired that duplicate, so the assertion flips:
+    -- he must NOT sail, and he must still ANSWER and hand control back. All three halves are
+    -- needed — a sailor who swallowed the A press without opening a box, or one who opened a box
+    -- and never released, would each satisfy "did not sail" on their own.
+    --
+    -- Drive it with ONE A and then B only. A blind burst of A presses cannot work here: A both
+    -- advances the box and re-opens the conversation the player is still facing, so the burst
+    -- always ends mid-message no matter how long it is. B advances without re-opening, and a
+    -- coordinate-verified step is the honest "is the box gone yet" probe — it costs nothing when
+    -- it fails and lands the first tile of the walk back when it succeeds.
     F.face("Down")
-    local home = talkUntilMap(GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT)
-    F.check("C: pier sailor sails the return leg to OLIVINE CITY's port", home,
+    F.press("A", 2); F.idle(40)
+    local talked = not F.step("Up")
+    local freed = false
+    for _ = 1, 40 do
+      F.press("B", 2); F.idle(30)
+      if F.step("Up") then freed = true; break end
+    end
+    F.check("C: the pier sailor hands the crossing off instead of sailing it",
+      F.grp() == GRP_KANTO_TOWNS and F.mapn() == MAP_VERM_CITY,
       ("grp=%d map=%d"):format(F.grp(), F.mapn()))
-    F.check("B: active region is JOHTO after the return leg", activeRegion() == REGION_JOHTO,
-      "region=" .. activeRegion())
-    clearBox(10)
+    F.check("C: the pier sailor still answers (a box opened)", talked)
+    F.check("C: and hands control back rather than dead-ending", freed)
+
+    -- The headline of #68: the door is two-way. Walk back to the apron and north into it. Two
+    -- waypoints, not one: route() is a greedy x-then-y walk, so leaving the berth eastwards first
+    -- would step straight off the walkway into the water at (25,32). Climb the walkway, then go
+    -- east along the deck.
+    F.check("C: walked back to the port door", F.route({ { 24, 30 }, { 26, 30 } }, "toCityPortDoor"))
+    F.step("Up")
+    local backInside = false
+    for _ = 1, 400 do
+      if F.grp() == GRP_VERM_INDOOR and F.mapn() == MAP_VERM_PORT then backInside = true; break end
+      F.idle(10)
+    end
+    F.idle(60)
+    F.check("C: the city-side door walks back into the terminal", backInside,
+      ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+    F.shot("port_door_reentry")
+
+    if backInside then
+      -- ...so the hall's population is no longer one visit long, and the return leg is booked at
+      -- the berth that has a gangway and a boat to show for it.
+      F.check("C: the berth sailor is reachable on a return visit",
+        F.route({ { 8, 16 } }, "toBerthSailorC"))
+      F.face("Down")
+      local home = talkUntilMap(GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT)
+      F.check("C: the terminal desk sails the return leg to OLIVINE CITY's port", home,
+        ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+      F.check("B: active region is JOHTO after the return leg", activeRegion() == REGION_JOHTO,
+        "region=" .. activeRegion())
+      clearBox(10)
+    end
   end
 
   -- ============================================================ D. the >= 7 harbour menu
@@ -313,12 +367,42 @@ F.run(function()
   F.check("G: debug party published a count", F.r8(S.gPartiesCount) > 0,
     "count=" .. F.r8(S.gPartiesCount))
 
-  local atPort = F.warpTo(0, 4, 3, 0, 0, 8, 0, 0, 0, GRP_VERM_INDOOR, MAP_VERM_PORT, "vermport")
-  F.check("G: back in the KANTO terminal", atPort)
-  if atPort then
-    F.idle(90)
-    F.step("Down")  -- the follower spawns hidden under the player and emerges on the first step
+  -- The debug warp lands in the CITY, not the terminal, and the terminal is entered on foot.
+  -- This used to be F.warpTo(GRP_VERM_INDOOR, MAP_VERM_PORT, warp 0) — a stand-in for the door
+  -- issue #68 added, and the only way back in while the terminal was arrival-only. Warp 10 IS
+  -- that door now, so the warp puts the player on the apron in front of it and the rest is walked.
+  --
+  -- ★ The warp-id spinner is NOT three digits, unlike the group and map ones above it.
+  -- DebugAction_Util_Warp_SelectWarp (src/debug.c) handles only DPAD_UP/DOWN and never touches
+  -- tDigit, so Left/Right are dead keys there and every Up is worth exactly 1 (clamped at 10).
+  -- spin()'s three counts therefore just SUM on this field: (0,1,0) selects warp 1, not warp 10 —
+  -- and warpTo() cannot catch that, because its success test is group+map only and warp 1 is on
+  -- the same map. Hence (0,0,10), and hence the landing tile is asserted below rather than trusted.
+  local onPier = F.warpTo(0, 3, 7, 0, 0, 5, 0, 0, 10, GRP_KANTO_TOWNS, MAP_VERM_CITY, "vermpier")
+  F.idle(90)  -- warp 10 is a door, so let Task_ExitDoor finish walking the player out first
+  local gx, gy = F.pos()
+  F.check("G: back on the VERMILION port apron at (26,30)", onPier and gx == 26 and gy == 30,
+    ("(%d,%d)"):format(gx, gy))
+  local atPort = false
+  if onPier and gx == 26 and gy == 30 then
+    -- The follower spawns hidden under the player and emerges on the first step. Step SIDEWAYS
+    -- here: the apron's south neighbour (26,31) is the pier's water lip and its north neighbour
+    -- is the door itself, so a vertical step is either a no-op or an early warp.
+    F.step("Left")
     F.check("G: the follower is out", followerOut(), describeFollower())
+    F.check("G: walked back to the port door", F.route({ { 26, 30 } }, "toPortDoorG"))
+    F.step("Up")
+    for _ = 1, 400 do
+      if F.grp() == GRP_VERM_INDOOR and F.mapn() == MAP_VERM_PORT then atPort = true; break end
+      F.idle(10)
+    end
+    F.idle(90)
+  end
+  F.check("G: walked in through the city-side door to the KANTO terminal", atPort,
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  if atPort then
+    F.step("Down")  -- re-emerge the follower on this side of the door before reading it
+    F.check("G: the follower came through the door too", followerOut(), describeFollower())
     F.check("G: reached the berth sailor", F.route({ { 8, 16 } }, "toBerthSailor"))
     F.face("Down")
     local sailed = talkUntilMap(GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT)

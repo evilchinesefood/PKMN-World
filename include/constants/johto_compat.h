@@ -84,11 +84,11 @@
 // 0 and 2 deliberately alias the engine's MON_GIVEN_TO_PARTY / MON_CANT_GIVE so the pre-existing
 // `goto_if_eq VAR_RESULT, MON_CANT_GIVE` branches keep meaning "he didn't take it".
 //
-// 3 is RESERVED, not free: CianwoodHouse3 already branches on a bare `3` into
-// CianwoodCity_EventScript_KirkKeepShuckie ("SHUCKLE likes you — keep it"), HnS's high-friendship
-// outcome for returning Shuckie. That path is unimplemented here (this handler never emits 3
-// today), but numbering a new reason 3 would silently arm it the moment gift 2's return is
-// finished. The new refusals therefore start at 4.
+// 3 is RESERVED, not free: CianwoodHouse3 already branched on a bare `3` (now spelled
+// REMOVE_NAMED_MON_KEPT) into CianwoodCity_EventScript_KirkKeepShuckie ("SHUCKLE likes you — keep
+// it"), HnS's high-friendship outcome for returning Shuckie. That path is unimplemented here (this
+// handler never emits 3 today), but numbering a new reason 3 would silently arm it the moment
+// gift 2's return is finished. The new refusals therefore start at 4.
 #define REMOVE_NAMED_MON_REMOVED     0
 #define REMOVE_NAMED_MON_NOT_FOUND   2
 #define REMOVE_NAMED_MON_KEPT        3  // HnS: the NPC lets the player keep the mon (not emitted yet)

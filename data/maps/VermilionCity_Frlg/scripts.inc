@@ -46,16 +46,17 @@ VermilionCity_EventScript_OldMan1SSAnneLeft::
 	release
 	end
 
-@ Lane-R (issue #65): the S.S.AQUA offer is tested FIRST and is deliberately NOT behind the
-@ S.S.ANNE scene gate below. A Johto champion who sails in from OLIVINE has never touched
-@ Kanto's story, so VAR_MAP_SCENE_VERMILION_CITY is 0 for them — routing the return leg through
-@ the scene-3 branch would have left this sailor saying only "Welcome to the S.S. ANNE!" and
-@ stranded them in Kanto, which is the same trap on the far shore that this issue exists to
-@ remove. The two ships share a pier and nothing else.
+@ Lane-R (issue #65, amended by #68): the S.S.AQUA line is still tested FIRST and is still
+@ deliberately NOT behind the S.S.ANNE scene gate below. A Johto champion who sails in from
+@ OLIVINE has never touched Kanto's story, so VAR_MAP_SCENE_VERMILION_CITY is 0 for them, and
+@ dropping them straight into the scene-3 branch would leave this sailor saying only "Welcome to
+@ the S.S. ANNE!" — the far-shore half of the trap #65 exists to remove. The two ships share a
+@ pier and nothing else. What #68 changed is only WHERE the crossing is booked: the terminal has
+@ a city-side door now, so this desk hands the S.S.AQUA off instead of duplicating it.
 VermilionCity_EventScript_FerrySailor::
 	lock
 	faceplayer
-	goto_if_ge VAR_SSAQUA_STATE, 7, VermilionCity_EventScript_FerryToOlivine
+	goto_if_ge VAR_SSAQUA_STATE, 7, VermilionCity_EventScript_FerryAquaAtTerminal
 	goto VermilionCity_EventScript_FerrySSAnnePier
 	end
 
@@ -80,32 +81,47 @@ VermilionCity_Text_FerryToHub:
 	.string "The ferry can take you to the WORLD\n"
 	.string "TRANSIT TERMINAL. Set sail?$"
 
-@ Lane-R (issue #65): the KANTO-side booking desk for the S.S.AQUA. MAP_VERMILION_CITY_PORT_INSIDE
-@ has no doorway on this FRLG city map to walk back in through (the harbour here is the Seagallop
-@ pier), so the terminal is arrival-only and the return leg is booked at the pier instead.
+@ Issue #68: this label used to BE the return leg — a plain `warp MAP_OLIVINE_CITY_PORT_INSIDE`
+@ booked out here on the planks, because MAP_VERMILION_CITY_PORT_INSIDE was arrival-only and the
+@ leg had to live somewhere the player could still reach. That is what forced the two desks to
+@ present differently: the terminal berth has a gangway and a boat sprite so it runs the full
+@ walk-aboard cutscene, out here there was neither, so the SAME voyage was a silent hop. The
+@ terminal now has a door on this map (warp 10, the port building at x=25..28 y=26..29), so
+@ there is one departure desk again and this one points at it.
+@
+@ Note what this must NOT become: a dead end. A handoff that ends here would re-open the #65 trap
+@ from the other side — a useful-looking desk that answers exactly one question and goes quiet —
+@ so the directions are a COMPLETE reply on their own (they name the building and what to ask for
+@ there), and when the pier has business of its own the conversation continues into it.
+@
+@ It continues into FerryHubOrSevii rather than into FerrySSAnnePier one line up, deliberately.
+@ FerrySSAnnePier's own reply below the scene gate is "Welcome to the S.S. ANNE!", which bolted
+@ onto S.S.AQUA directions reads as a non-sequitur about a different ship. Jumping past it keeps
+@ the WORLD TRANSIT hub and the Seagallop destinations reachable in the same conversation for a
+@ player who has cleared the S.S.ANNE, and leaves everyone else with just the directions.
+@
+@ VermilionPort_EventScript_EnterJohtoRegion (the region claim + setrespawn that keeps a
+@ cross-region entry legal per src/region_switch.c) is NOT lost with the warp. It was always
+@ shared with VermilionPort_EventScript_Sailor in data/maps/VermilionCity_PortInside/scripts.inc,
+@ and that sailor is now the only S.S.AQUA departure in Kanto. (The hub ferry and the Seagallop
+@ destinations below still leave from this pier; neither crosses into JOHTO.) That sailor gained a
+@ matching VAR_SSAQUA_STATE >= 7 gate in #68, because the new door means reaching his desk no
+@ longer implies having arrived by ship — the two desks now agree instead of contradicting.
+@
 @ VAR_SSAQUA_STATE is a Johto-bank var read from a Kanto map, which is fine: per-region vars use
 @ absolute IDs dispatched in GetVarPointer(), there is no bank to swap.
-VermilionCity_EventScript_FerryToOlivine::
-	msgbox VermilionCity_Text_AquaToOlivine, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_FerrySSAnnePier
-	msgbox VermilionCity_Text_AquaGetOnBoard, MSGBOX_DEFAULT
+VermilionCity_EventScript_FerryAquaAtTerminal::
+	msgbox VermilionCity_Text_AquaBooksAtTerminal, MSGBOX_DEFAULT
 	closemessage
-	delay 20
-	playse SE_EXIT
-	call VermilionPort_EventScript_EnterJohtoRegion
-	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
-	waitstate
+	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_FerryHubOrSevii
 	release
 	end
 
-VermilionCity_Text_AquaToOlivine:
-	.string "FAST SHIP S.S.AQUA sails for\n"
-	.string "OLIVINE CITY in JOHTO. Will you be\l"
-	.string "boarding today?$"
-
-VermilionCity_Text_AquaGetOnBoard:
-	.string "We're departing soon.\n"
-	.string "Please get on board.$"
+VermilionCity_Text_AquaBooksAtTerminal:
+	.string "FAST SHIP S.S.AQUA? She berths in\n"
+	.string "the PORT TERMINAL, up the pier.\p"
+	.string "Ask at the desk inside and they'll\n"
+	.string "book your crossing to OLIVINE.$"
 
 VermilionCity_EventScript_CheckHasMysticTicket::
 	goto_if_unset FLAG_ENABLE_SHIP_NAVEL_ROCK, EventScript_SetResultFalse

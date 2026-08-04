@@ -3,16 +3,21 @@
 @ tileset), so the layout is a copy of LAYOUT_OLIVINE_CITY_PORT_INSIDE: a one-tile berth
 @ corridor at x=8 running y=15..17 up into the hall (y=10..14) and out the north door at (8,9).
 @
-@ The door is the ONLY city-side link and it is one-way: VERMILION CITY is an FRLG map whose
-@ harbour is the Seagallop pier, and there is no port-building doorway metatile on it to warp
-@ back in through. So departures from KANTO are booked at the pier itself
-@ (VermilionCity_EventScript_FerrySailor), and this hall's own sailor covers a passenger who
-@ wants to turn straight around without leaving the terminal.
+@ Issue #68 made that door two-way. It was arrival-only when this map shipped: VERMILION CITY is
+@ an FRLG map whose harbour is the Seagallop pier, and there was no port-building doorway
+@ metatile placed on it to warp back in through — warp 10 over there was an inert arrival anchor
+@ sitting on an ordinary walkable plank, so everyone in this hall was one visit long. #68 built
+@ the terminal onto the pier's north edge (data/layouts/VermilionCity_Frlg/map.bin, x=25..28
+@ y=26..29 — the standard Vermilion house block, with METATILE_VermilionCity_Door at (26,29))
+@ and re-pointed warp 10 at that door. Walking out lands on the apron at (26,30); walking north
+@ into the door comes back here.
 @
-@ The two desks are deliberately NOT presented alike. In here there is a berth, a gangway and a
-@ boat sprite, so the sailor runs the full walk-aboard cutscene (a mirror of Olivine's). Out on
-@ the pier there is no ship object to board, so that desk is a plain warp hop — the same shape
-@ as the WORLD TRANSIT ferry offered by the very same sailor one line above it.
+@ That is why this hall's sailor is now the ONLY S.S.AQUA departure desk in Kanto. The return
+@ leg used to be duplicated onto the pier sailor (VermilionCity_EventScript_FerrySailor) purely
+@ so it stayed reachable, and the two desks could not present alike: in here there is a berth, a
+@ gangway and a boat sprite, so the sailor runs the full walk-aboard cutscene (a mirror of
+@ Olivine's), while out on the pier there was no ship object to board and the same voyage was a
+@ silent warp hop. The pier sailor now points at this door instead of selling the crossing.
 
 VermilionCity_PortInside_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, VermilionCity_PortInside_OnFrame
@@ -29,6 +34,12 @@ VermilionCity_PortInside_MapScripts::
 @ the Vermilion pier's return offer) for good. It cannot happen today: 5 is only written in
 @ SSAqua_RoomSSE, and every route back to the door sailor crosses SSAqua_1F, whose own ON_FRAME
 @ bumps 5 -> 6 first. Covering it here means the two gates can be changed independently.
+@
+@ Issue #68 gave this map a SECOND entrance (the city-side door), so this scene is no longer
+@ reachable only from the ship. It is still safe, but the reason is now the var and not the
+@ geography: anyone walking in through the door is at state 7 (this scene set it, and nothing
+@ lowers it), so neither map_script_2 matches and StepAshore's hardcoded walk_up — written for a
+@ berth arrival at (8,17), not for the door at (8,9) — cannot fire on the wrong tile.
 VermilionCity_PortInside_OnFrame::
 	map_script_2 VAR_SSAQUA_STATE, 5, VermilionCity_PortInside_EventScript_Arrived
 	map_script_2 VAR_SSAQUA_STATE, 6, VermilionCity_PortInside_EventScript_Arrived
@@ -46,15 +57,38 @@ VermilionCity_PortInside_EventScript_Arrived::
 	releaseall
 	end
 
+@ Issue #68: the >= 7 gate is NEW, and the door is why it has to exist. While this map was
+@ arrival-only, "standing in front of this desk" already implied "arrived on the S.S.AQUA", so an
+@ ungated offer could not be reached early — the only way in was SSAqua_1F_EventScript_LeaveBoat,
+@ which cannot run below VAR_SSAQUA_STATE 5. The city-side door removes that implication: warp 10
+@ is unconditional, RegionHub_EventScript_ReturnKanto lands returning visitors on
+@ MAP_VERMILION_CITY warp 0 at (22,34), and the pier is a short walk from there, so without this
+@ line a first-run Kanto player who has never heard of the S.S.AQUA could stroll in and sail.
+@
+@ That is not merely out of order, it is one-way. The crossing calls EnterJohtoRegion below, which
+@ flips the active region to JOHTO and re-points the whiteout at HEAL_LOCATION_OLIVINE_CITY — and
+@ the far shore is gated: OlivinePort_EventScript_Sailor needs VAR_SSAQUA_STATE >= 7 or
+@ (VAR_NEWBARKTOWN_LABSTATE >= 11 + ITEM_SS_TICKET), so it would answer NotSailingYet and there
+@ would be no ship back. 7 is the right threshold and not merely a copy of Olivine's: it is set by
+@ this map's own ON_FRAME arrival scene above, so every legitimate visitor already has it before
+@ they can take a step, and it is the same gate VermilionCity_EventScript_FerrySailor uses two
+@ tiles outside the door — the desk and the pier now agree instead of contradicting each other.
 VermilionPort_EventScript_Sailor::
 	lock
 	faceplayer
+	goto_if_lt VAR_SSAQUA_STATE, 7, VermilionPort_EventScript_NotSailingYet
 	msgbox VermilionPort_Text_AskBoardForOlivine, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, VermilionPort_EventScript_ComeAgain
 	call VermilionPort_EventScript_EnterShip
 	call VermilionPort_EventScript_EnterJohtoRegion
 	warpsilent MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
 	waitstate
+	release
+	end
+
+VermilionPort_EventScript_NotSailingYet::
+	msgbox VermilionPort_Text_NotSailingYet, MSGBOX_DEFAULT
+	closemessage
 	release
 	end
 
@@ -69,8 +103,10 @@ VermilionPort_EventScript_ComeAgain::
 @ and Kanto as one continuous campaign with one team. Skipping this would carry KANTO's
 @ VAR_DIFFICULTY tier into JOHTO. RegionHub_ScrSetCurrentRegion also arms the target region's
 @ START-TOWN respawn, so the setrespawn after it re-points the whiteout at the harbour the
-@ player actually lands in. Shared with the VERMILION pier sailor
-@ (VermilionCity_EventScript_FerryToOlivine), which is the city-side booking desk for this run.
+@ player actually lands in. Issue #68 removed the pier sailor's duplicate of this leg, so the
+@ desk above is now the only caller — keep the ordering if that ever changes, because the far
+@ shore's OlivinePort_EventScript_ChoseVermilion inlines the same two steps in the same order
+@ and for the same reason.
 VermilionPort_EventScript_EnterJohtoRegion::
 	setvar VAR_RESULT, 1 @ 1 = REGION_JOHTO
 	callnative RegionHub_ScrSetCurrentRegion
@@ -145,6 +181,11 @@ VermilionPort_Text_GetOnBoard:
 
 VermilionPort_Text_ComeAgain:
 	.string "We hope to see you again!$"
+
+VermilionPort_Text_NotSailingYet:
+	.string "FAST SHIP S.S.AQUA sails for JOHTO,\n"
+	.string "but she has no crossing booked today.\p"
+	.string "Do have a look around the terminal!$"
 
 VermilionPort_Text_DockWorker:
 	.string "The S.S.AQUA runs between here and\n"

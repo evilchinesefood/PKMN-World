@@ -309,19 +309,66 @@ void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
 
 // === Mahogany area (region merge) ===
 
-// HnS `setwildbattleshiny <species>, <level>, <item>` -> sets up the next scripted wild
-// battle (Lake of Rage Red Gyarados). HnS's CreateShinyScriptedMon forces a shiny PID via
-// tx_randomizer-coupled helpers that aren't ported; create a standard scripted wild mon so
-// the battle fires. The red/shiny palette is content-stage polish.
+// HnS `setwildbattleshiny <species>, <level>, <item>` -> sets up the next scripted wild battle
+// and forces it shiny. This is the Lake of Rage Red Gyarados: the whole point of the encounter
+// is that it is the wrong colour, so "shiny" here is content, not cosmetics.
+//
+// HnS's CreateShinyScriptedMon got there by rerolling the personality until
+// GET_SHINY_VALUE(otId, personality) landed under SHINY_ODDS, through tx_randomizer-coupled
+// helpers that are not ported. Do NOT reproduce that here even though it looks like the
+// obvious port, for two reasons:
+//
+//   1. In this engine the PID is not free. CreateScriptedWildMon derives it from
+//      GetMonPersonality(species, GetSynchronizedGender(...), GetSynchronizedNature(...)),
+//      so the PID already encodes the gender and the Synchronize/Cute-Charm-adjusted nature
+//      the encounter is supposed to have. Rerolling it for colour silently rerolls both.
+//   2. Shininess is not read off the PID directly. MON_DATA_IS_SHINY is a COMPUTED field:
+//      (GET_SHINY_VALUE(otId, personality) < SHINY_ODDS) ^ boxMon->shinyModifier
+//      (src/pokemon.c), and its setter stores exactly that XOR difference into shinyModifier.
+//      So a plain SetMonData(..., MON_DATA_IS_SHINY, TRUE) is the engine's own supported lever
+//      — the same one ScriptGiveMonParameterized uses for SHINY_MODE_ALWAYS
+//      (src/script_pokemon_util.c) and the one the roamer restores a shiny Entei/Raikou with.
+//      It is also, exactly, what this fork's overworld-encounter path already does:
+//      StartWildBattleWithOWE (src/wild_encounter_ow.c) reads OW_SHINY(owe) off the object's
+//      graphicsId and finishes with SetMonData(&gParties[B_TRAINER_OPPONENT_A][0],
+//      MON_DATA_IS_SHINY, &shiny). This handler is the scripted twin of that path, so matching
+//      it keeps one answer to "how is a wild mon made shiny" instead of two.
+//
+// shinyModifier lives in the UNENCRYPTED BoxPokemon header (include/pokemon.h, alongside
+// hpLost), not in the checksummed substructs, so it survives CopyMon, the capture path and
+// PC storage: the Gyarados the player catches stays red in the party, the summary screen and
+// the box. The battle sprite picks it up because BattleLoadMonSpriteGfx reads
+// GetMonData(mon, MON_DATA_IS_SHINY) and feeds it to
+// GetMonSpritePalFromSpeciesAndPersonality (src/battle_gfx_sfx_util.c).
+//
+// The overworld half of "really is red" is data, not code: the Lake of Rage object event uses
+// OBJ_EVENT_GFX_SPECIES_SHINY(GYARADOS) (data/maps/LakeOfRage/map.json), whose OBJ_EVENT_MON_SHINY
+// bit LoadDynamicFollowerPalette reads via OW_SHINY(). Both halves must agree or the player
+// walks up to a red sprite and battles a blue mon.
+//
+// KNOWN LATENT ISSUE (deliberately not fixed here, see the follow-up issue): `dowildbattle`
+// branches on scrcmd.c's file-static `sIsScriptedWildDouble`, which only ScrCmd_setwildbattle
+// and ScriptSetDoubleBattleFlag can write. This handler is a `callnative` in a DIFFERENT
+// translation unit, so it cannot clear that flag the way the native setwildbattle does. If any
+// earlier script in the session left it TRUE, Lake of Rage would start a scripted DOUBLE wild
+// battle against a one-mon enemy party. Fixing it needs a new setter exported from scrcmd.c,
+// which is outside this file's surface.
 void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
 {
     u16 species = ScriptReadHalfword(ctx);
     u8 level = ScriptReadByte(ctx);
     u16 item = ScriptReadHalfword(ctx);
+    bool8 isShiny = TRUE;
 
     // Hand-transcribed opcode operand — sanitize before CreateBoxMon indexes gSpeciesInfo,
     // matching the validation every sibling compat handler in this file performs.
     CreateScriptedWildMon(SanitizeSpeciesId(species), level, item);
+
+    // Set it AFTER the create, not inside it: CreateScriptedWildMon has no shiny parameter and
+    // is also called from src/berry.c and src/scrcmd.c, so widening its signature would drag two
+    // unrelated units into this change. It always builds into gParties[B_TRAINER_OPPONENT_A][0]
+    // (it ZeroEnemyPartyMons() first), which is the mon BattleSetup_StartScriptedWildBattle sends out.
+    SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_IS_SHINY, &isShiny);
 }
 
 // HnS `removegenericmon <species>` (Lake of Rage Magikarp-length house): removes the party

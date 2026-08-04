@@ -34,6 +34,20 @@
 --      Olivine's, and Olivine's had never run in a shipped ROM (it ended its script mid-warp
 --      and asserted), so `removeobject OBJ_EVENT_ID_PLAYER` + `SpawnCameraObject` had never
 --      been executed with a second object tethered to the player.
+--   I. (issue #80) The PERSISTED DEPARTURE RECORD, VAR_FERRY_DEPARTURE. Reading the active
+--      region as the departure record cannot answer for a save whose SaveBlock2.currentRegion is
+--      still REGION_NONE — ResyncCurrentRegionFromMap derives REGION_HOENN from the island's own
+--      mapsec before the script runs, so a Johto player on an island is indistinguishable from a
+--      Hoenn one. The record is written at the BOARDING sites instead. Every leg here forces the
+--      active region to DISAGREE with the record, so a leg that landed on the right harbour by
+--      way of the region probe would be indistinguishable from one that read the record — the
+--      point of the segment is that they can no longer agree by accident. Segment H is the other
+--      half: with the record cleared it re-proves the probe, which is still the answer for a save
+--      that boarded before this var existed.
+--
+-- The OLIVINE arm also moved from the terminal's north DOOR (8,9) to its BERTH (8,16), matching
+-- Vermilion's arm and both S.S.AQUA arrivals, so segment I asserts the landing COORDINATE and not
+-- just the map.
 --
 -- Segment boundaries are debug warps so no message-box or movement state leaks between them.
 
@@ -48,6 +62,7 @@ local GRP_KANTO_TOWNS,    MAP_VERM_CITY    = 37, 5
 local GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT = 88, 8
 local GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR = 13, 10
 local GRP_EVENT_ISLANDS, MAP_BIRTH_HARBOR = 26, 59
+local MAP_FARAWAY_ENTRANCE = 56          -- MAP_FARAWAY_ISLAND_ENTRANCE = (56 | (26 << 8))
 
 -- ---- flags/vars ------------------------------------------------------------------------------
 -- Johto vars live in SaveBlock3.region.regionVars[id - REGION_VARS_START] (src/event_data.c:203);
@@ -57,6 +72,30 @@ local REGION_VARS_START = 0xA000
 local VAR_SSAQUA_STATE  = 0xA080 + 0x28  -- VAR_JOHTO_SLICE(0x28)
 local FLAG_JOHTO_BASE   = 0x6000
 local FLAG_HIDE_OLIVINE_PORT_OAK = 0x6000 + 0x0F
+
+-- Issue #80. GLOBAL vars and flags, which live in SaveBlock1 rather than SaveBlock3 — a different
+-- block from everything above, and a RELOCATING one, so the pointer is deref'd on every access.
+-- Global vars: SaveBlock1.vars[id - VARS_START] (src/event_data.c:204). Global flags:
+-- SaveBlock1.flags[id / 8], bit id % 8. VAR_FERRY_DEPARTURE is deliberately global and not a
+-- region-slice var — include/constants/region_vars.h reserves the 0xA000 bank for per-region STORY
+-- vars, and "which harbour did I sail from" is cross-region state by definition.
+local VARS_START = 0x4000
+local VAR_FERRY_DEPARTURE = 0x40FA               -- include/constants/vars.h (reclaimed VAR_UNUSED_0x40FA)
+local FERRY_DEPART_UNSET     = 0                 -- include/constants/ferry.h
+local FERRY_DEPART_LILYCOVE  = 1
+local FERRY_DEPART_OLIVINE   = 2
+local FERRY_DEPART_VERMILION = 3
+-- include/constants/flags.h. SYSTEM_FLAGS is 0x948 (= TRAINER_FLAGS_END + 1); the two ids below it
+-- are plain literals. Hardcoded with citations for the same reason VAR_SSAQUA_STATE above is:
+-- GenLuaSymbols.py resolves LINKER symbols, and a #define never reaches the symbol table.
+local FLAG_SYS_GAME_CLEAR              = 0x948 + 0x4
+local FLAG_ENABLE_SHIP_BIRTH_ISLAND    = 0x948 + 0x75
+local FLAG_SHOWN_AURORA_TICKET         = 0x1AF
+local FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL = 0x35D
+local FLAG_ENABLE_SHIP_FARAWAY_ISLAND  = 0x948 + 0x76
+local FLAG_SHOWN_OLD_SEA_MAP           = 0x1B0
+local ITEM_AURORA_TICKET = 730                   -- include/constants/items.h:892
+local ITEM_OLD_SEA_MAP   = 731                   -- include/constants/items.h:893
 
 -- enum Region (include/constants/regions.h)
 local REGION_KANTO, REGION_JOHTO, REGION_HOENN = 1, 2, 3
@@ -70,6 +109,18 @@ local function johtoFlagSet(id, on)
   F.w8(a, on and (v | m) or (v & ~m & 0xFF))
 end
 local function activeRegion() return F.r8(F.sb2() + S.SaveBlock2.currentRegion) end
+
+-- Issue #80's record. Not covered by the snapshot()/diffSnapshot() pair below, deliberately: that
+-- diff spans SaveBlock1.FLAGS and the SaveBlock3 region-var bank, and this is a SaveBlock1 var —
+-- so a segment that legitimately writes the record cannot trip the "no stray damage" assertion.
+local function ferryDepartureAddr() return F.sb1() + S.SaveBlock1.vars + (VAR_FERRY_DEPARTURE - VARS_START) * 2 end
+local function ferryDeparture() return F.r16(ferryDepartureAddr()) end
+local function setFerryDeparture(v) F.w16(ferryDepartureAddr(), v) end
+local function globalFlagSet(id, on)
+  local a, m = F.sb1() + S.SaveBlock1.flags + (id // 8), 1 << (id % 8)
+  local v = F.r8(a)
+  F.w8(a, on and (v | m) or (v & ~m & 0xFF))
+end
 
 -- "No stray flag/var damage" made assertable. HG/SS ran a ~70-entry FLAGHEAP at this disembark
 -- and the decision not to port it is the single riskiest judgement in the change, so the whole
@@ -179,7 +230,11 @@ F.run(function()
   -- and starts at 1 (:2667), so the floor lands on ONE and the field ends at 1 + 100h + 10t + o.
   -- Reaching ITEM_SS_TICKET = 727 therefore needs spin(7, 2, 6); spin(7, 2, 7) would hand over
   -- item 728, and the sailor would answer OlivinePort_Text_NoTicket instead of sailing.
-  local function giveSSTicket()
+  --
+  -- Parameterised on the three digits (it was hardcoded to the S.S.TICKET's until issue #80 needed
+  -- an AURORA TICKET in segment I as well); everything else about it, including the retry wrapper
+  -- below, is unchanged.
+  local function giveKeyItemViaDebug(h, t, o)
     F.dbg(); F.idle(60)
     -- lib's sel() taps Down for 2 frames with an 8-frame gap; press slower (DebugParty.lua:56).
     -- NOT for DebugParty's reason, though — its nine Downs cross the list window's bottom edge and
@@ -190,7 +245,7 @@ F.run(function()
     for _ = 1, 3 do F.press("Down", 3); F.idle(16) end   -- root row 3 = "Give X…"
     F.press("A", 3); F.idle(60)
     F.press("A", 3); F.idle(60)                          -- Give row 0 = "Give item XYZ…"
-    F.spin(7, 2, 6)                                      -- id: 1 + 700 + 20 + 6 = 727
+    F.spin(h, t, o)                                      -- id: 1 + 100h + 10t + o
     -- Quantity: tInput is reset to 1 on the id's A press (src/debug.c:2710) and this field clamps
     -- at min = 1 too, so a bare A takes the single ticket the script needs. AddBagItem then runs
     -- and DebugAction_DestroyExtraWindow closes the whole menu and unfreezes the player
@@ -205,13 +260,17 @@ F.run(function()
   -- player three tiles across the hub and spin()'s Right/Down/Up run walks him twenty more while
   -- mashing A at whatever he passes. The bag read below is the retry condition as well as the
   -- assertion, so a bad pass costs one retry instead of poisoning every segment underneath.
-  local ticketSlot, keyPocket = -1, {}
-  for _ = 1, 3 do
-    giveSSTicket()
-    ticketSlot, keyPocket = F.keyItemSlot(ITEM_SS_TICKET)
-    if ticketSlot >= 0 then break end
-    F.bOut(6); F.idle(60)
+  local function giveKeyItem(itemId, h, t, o)
+    local slot, pocket = -1, {}
+    for _ = 1, 3 do
+      giveKeyItemViaDebug(h, t, o)
+      slot, pocket = F.keyItemSlot(itemId)
+      if slot >= 0 then break end
+      F.bOut(6); F.idle(60)
+    end
+    return slot, pocket
   end
+  local ticketSlot, keyPocket = giveKeyItem(ITEM_SS_TICKET, 7, 2, 6)
   -- Presence needs no decryption key. An item slot is {u16 id, u16 quantity} and ONLY the quantity
   -- is XORed against SaveBlock2.encryptionKey (src/item.c:66-72), so the id this reads is the same
   -- plaintext id `checkitem` compares. Asserting it BEFORE the conversation matters: a mis-spun id
@@ -250,6 +309,13 @@ F.run(function()
   -- has one at scripts.inc:166), so if a future edit adds a stray region claim to the one path
   -- that must not have one, nothing else in the suite would notice.
   local regionBeforeBoarding = activeRegion()
+  -- Issue #80's record, sampled on a genuinely untouched save. This is the only point in the suite
+  -- that sees one: the slot VAR_FERRY_DEPARTURE reclaimed was VAR_UNUSED_0x40FA, which nothing in
+  -- the tree ever wrote, so FERRY_DEPART_UNSET here is the state every PRE-#80 save is in — and
+  -- "unset falls through to the old region probe" is the entire compatibility story for those
+  -- saves. Asserted, not assumed, because if the slot were not actually free this would be the
+  -- read that noticed.
+  local departBefore = ferryDeparture()
 
   -- talkUntilMap is the right driver here for the same two reasons it is everywhere else: the
   -- MSGBOX_YESNO defaults to YES, which is the answer this leg wants, and A is the only key it
@@ -286,6 +352,17 @@ F.run(function()
   F.check("B: boarding at OLIVINE does not change the active region",
     activeRegion() == regionBeforeBoarding,
     ("region=%d (was %d)"):format(activeRegion(), regionBeforeBoarding))
+
+  -- Issue #80, the WRITE side, on the real script rather than a forged var. This is the maiden
+  -- voyage's own OlivinePort_EventScript_EnterShip — the shared boarding helper every row of the
+  -- Olivine board calls, including the three island rows — so proving it records OLIVINE here
+  -- proves it for the island trips too, without having to drive a board that is not open yet.
+  -- Paired with the pre-boarding read so the assertion is a TRANSITION, not a value that might
+  -- have been sitting there all along.
+  F.check("0: the departure record was UNSET on a fresh save", departBefore == FERRY_DEPART_UNSET,
+    "VAR_FERRY_DEPARTURE=" .. departBefore)
+  F.check("0: boarding at OLIVINE records OLIVINE as the departure harbour",
+    ferryDeparture() == FERRY_DEPART_OLIVINE, "VAR_FERRY_DEPARTURE=" .. ferryDeparture())
 
   -- A state-transition witness, NOT a crash witness — and the difference is worth naming, because
   -- this is the one check in the segment that a broken build still passes. `setvar VAR_SSAQUA_STATE,
@@ -632,28 +709,51 @@ F.run(function()
   -- ============================================================ H. the event islands have two homes
   -- Opening the Olivine board made SOUTHERN / BIRTH / FARAWAY bookable from Johto, and their
   -- sailors all warped unconditionally to LILYCOVE — a Hoenn dock, reachable back to Johto only
-  -- through the hub, which boxes the party. They now read the ACTIVE REGION as the departure
-  -- record. Birth Island's harbour is the cheapest of the three to drive (one column, sailor two
-  -- tiles from the warp). BOTH directions are asserted: the Hoenn leg is the no-regression half.
+  -- through the hub, which boxes the party. They read the ACTIVE REGION as the departure record.
+  -- Birth Island's harbour is the cheapest of the three to drive (one column, sailor two tiles
+  -- from the warp). BOTH directions are asserted: the Hoenn leg is the no-regression half.
+  --
+  -- SINCE ISSUE #80 THIS SEGMENT IS THE FALLBACK PROOF, and the explicit setFerryDeparture(UNSET)
+  -- below is what makes it one. VAR_FERRY_DEPARTURE now takes precedence over the region probe,
+  -- and segment 0's real Olivine boarding has ALREADY written OLIVINE into it — so without the
+  -- clear, every leg here would sail to Olivine on the record and the region argument would never
+  -- be consulted, quietly turning eight assertions into eight copies of one. Clearing it restores
+  -- exactly the pre-#80 decision path, which is not merely a way to keep these tests meaningful:
+  -- it IS the behaviour a save that boarded before the var existed still gets, and the reason #80
+  -- could ship without a migration. Segment I is the other half, with the record set.
+  local recordOnIsland
   local function sailHomeFrom(region, expectGrp, expectMap, tag)
+    setFerryDeparture(FERRY_DEPART_UNSET)
     F.w32(S.gCurrentRegion, region)
     F.w8(F.sb2() + S.SaveBlock2.currentRegion, region)
     if not F.warpTo(0, 2, 6, 0, 5, 9, 0, 0, 0, GRP_EVENT_ISLANDS, MAP_BIRTH_HARBOR, tag) then
       return false
     end
     F.idle(90)
+    recordOnIsland = ferryDeparture()
     if not F.route({ { 8, 4 } }, tag .. "ToSailor") then return false end
     F.face("Down")
     return talkUntilMap(expectGrp, expectMap)
   end
 
+  -- The premise of the whole segment, made checkable rather than left implicit, and asserted ONCE
+  -- PER LEG: these legs are only testing the region probe if the #80 record really is unset when
+  -- the sailor is asked. Sampled on the island, after the warp, for the same reason `onIsland`
+  -- below is — a read taken before the warp would be reading back the harness's own write.
+  local function checkProbeReallyDecided(leg)
+    F.check("H: the #80 record was UNSET on the " .. leg .. " leg, so the probe decided it",
+      recordOnIsland == FERRY_DEPART_UNSET, "VAR_FERRY_DEPARTURE=" .. tostring(recordOnIsland))
+  end
+
   F.check("H: a JOHTO-booked island trip sails home to OLIVINE, not Lilycove",
     sailHomeFrom(REGION_JOHTO, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT, "islandJohto"),
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  checkProbeReallyDecided("BIRTH ISLAND Johto")
   clearBox(10)
   F.check("H: a HOENN-booked one still sails home to LILYCOVE (no regression)",
     sailHomeFrom(REGION_HOENN, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR, "islandHoenn"),
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  checkProbeReallyDecided("BIRTH ISLAND Hoenn")
   F.shot("island_home")
 
   -- Issue #69: NAVEL ROCK was the fourth island and the only one still carrying a private
@@ -681,6 +781,7 @@ F.run(function()
     -- Both writes, for the reason segment F states: gCurrentRegion is the EWRAM mirror the
     -- guard reads, SaveBlock2.currentRegion is what ResyncCurrentRegionFromMap re-seeds it
     -- from on the warp, so writing one alone is undone by the other.
+    setFerryDeparture(FERRY_DEPART_UNSET)   -- fallback path only; see the segment note above
     F.w32(S.gCurrentRegion, region)
     F.w8(F.sb2() + S.SaveBlock2.currentRegion, region)
     if not F.warpTo(0, 2, 6, 0, 6, 7, 0, 0, 0, GRP_EVENT_ISLANDS, MAP_NAVEL_HARBOR, tag) then
@@ -688,6 +789,7 @@ F.run(function()
     end
     F.idle(90)
     onIsland = F.r32(S.gCurrentRegion)
+    recordOnIsland = ferryDeparture()
     if not F.route({ { 8, 4 } }, tag .. "ToSailor") then return false end
     F.face("Down")
     return talkUntilMap(expectGrp, expectMap)
@@ -698,6 +800,7 @@ F.run(function()
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
   F.check("H: the HOENN booking survived the warp onto the island", onIsland == REGION_HOENN,
     "gCurrentRegion=" .. tostring(onIsland))
+  checkProbeReallyDecided("NAVEL ROCK Hoenn")
   clearBox(10)
 
   F.check("H: a JOHTO-booked NAVEL ROCK trip sails home to OLIVINE",
@@ -705,6 +808,7 @@ F.run(function()
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
   F.check("H: the JOHTO booking survived the warp onto a REGION_HOENN island map",
     onIsland == REGION_JOHTO, "gCurrentRegion=" .. tostring(onIsland))
+  checkProbeReallyDecided("NAVEL ROCK Johto")
   clearBox(10)
 
   -- The KANTO arm lands on the berth tile (8,16) INSIDE the terminal, not on the pier, so it
@@ -714,6 +818,7 @@ F.run(function()
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
   F.check("H: the KANTO booking survived the warp onto a REGION_HOENN island map",
     onIsland == REGION_KANTO, "gCurrentRegion=" .. tostring(onIsland))
+  checkProbeReallyDecided("NAVEL ROCK Kanto")
   -- "The arrival scene did not run" asserted by POSITION, not by the var. The var is already 7
   -- and the scene would set it to 7 again, so reading it back proves nothing either way — but
   -- VermilionCity_PortInside_EventScript_Arrived opens with an applymovement that walks the
@@ -724,6 +829,211 @@ F.run(function()
   clearBox(10)
   F.check("H: control returns in the KANTO terminal after the island run", F.step("Up"))
   F.shot("navelrock_home")
+
+  -- ==================================================== I. the persisted DEPARTURE RECORD (#80)
+  -- Segment H proves the region probe. This proves the thing that overrides it, and proves it by
+  -- CONTRADICTION: every leg sets VAR_FERRY_DEPARTURE to one harbour and the active region to a
+  -- DIFFERENT one, so the two possible decision paths give different answers and the landing map
+  -- says which one ran. A leg that merely agreed with the region would pass on the pre-#80 ROM and
+  -- prove nothing — that is the failure mode this shape exists to avoid.
+  --
+  -- The contradiction is also the point of the issue. A save whose SaveBlock2.currentRegion is
+  -- still REGION_NONE reaches this script with gCurrentRegion reading REGION_HOENN, because
+  -- ResyncCurrentRegionFromMap derived it from the island's own mapsec on the warp in
+  -- (src/region_switch.c, include/regions.h — GetRegionForSectionId ends `return REGION_HOENN;`).
+  -- Such a save is byte-identical, at the moment of decision, to a genuine Hoenn player. So the
+  -- "record says OLIVINE, region says HOENN" leg below is not a contrived state: it is exactly the
+  -- state a legacy Johto player who booked at Olivine arrives in, and pre-#80 it sailed them to
+  -- Lilycove.
+  local landedRecord
+  local function sailHomeWithRecord(record, region, expectGrp, expectMap, tag)
+    setFerryDeparture(record)
+    F.w32(S.gCurrentRegion, region)
+    F.w8(F.sb2() + S.SaveBlock2.currentRegion, region)
+    if not F.warpTo(0, 2, 6, 0, 5, 9, 0, 0, 0, GRP_EVENT_ISLANDS, MAP_BIRTH_HARBOR, tag) then
+      return false
+    end
+    F.idle(90)
+    -- Read back ON the island. SaveBlock1 relocates and the warp re-seeds gCurrentRegion from the
+    -- persisted byte; the record has to survive both, or the "written at boarding, read at the
+    -- island" design does not hold at all.
+    landedRecord = ferryDeparture()
+    if not F.route({ { 8, 4 } }, tag .. "ToSailor") then return false end
+    F.face("Down")
+    return talkUntilMap(expectGrp, expectMap)
+  end
+
+  F.check("I: an OLIVINE record beats a HOENN active region (the REGION_NONE legacy save's state)",
+    sailHomeWithRecord(FERRY_DEPART_OLIVINE, REGION_HOENN, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT,
+      "recordOlivine"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("I: the record survived the warp onto the island",
+    landedRecord == FERRY_DEPART_OLIVINE, "VAR_FERRY_DEPARTURE=" .. tostring(landedRecord))
+  -- The other half of #80: this arm used to warp to (8,9), the terminal's north DOOR, while the
+  -- Kanto arm warped to (8,16), the BERTH. Both port-inside maps are the same 18x28 layout with a
+  -- ONE-TILE corridor at x=8 running y=15..17, so (8,16) is the berth on both and (8,9) is the
+  -- door on both. Asserting the coordinate is the only way to see this: the map id is identical
+  -- either way. PROF. OAK's spawn tile is this same (8,16), but he stands in that one-tile
+  -- corridor — segment 0 could not reach the sailor past him without hiding him — so no save that
+  -- can book an island trip still has him on it.
+  local ox, oy = F.pos()
+  F.check("I: the OLIVINE arm lands on the BERTH (8,16), not the north door (8,9)",
+    ox == 8 and oy == 16, ("(%d,%d)"):format(ox, oy))
+  F.shot("olivine_berth_landing")
+  -- Olivine's port has no ON_FRAME or ON_TRANSITION map script at all (its MapScripts is a bare
+  -- `.byte 0`), unlike Vermilion's — so unlike the Kanto arm there is nothing here that could walk
+  -- the player off the tile, and nothing that could leave him locked. Proved by stepping.
+  clearBox(10)
+  F.check("I: control returns on the OLIVINE berth", F.step("Up"))
+
+  F.check("I: a LILYCOVE record beats a JOHTO active region",
+    sailHomeWithRecord(FERRY_DEPART_LILYCOVE, REGION_JOHTO, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR,
+      "recordLilycove"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  clearBox(10)
+
+  -- The KANTO arm has no departure site writing it today (no Kanto-side island row exists), so
+  -- this is the only thing that can keep it honest. It is the arm #72 added as a floor under a
+  -- future row; the row's author writes FERRY_DEPART_VERMILION at their boarding site and this
+  -- leg is what says the return already works.
+  F.check("I: a VERMILION record beats a HOENN active region",
+    sailHomeWithRecord(FERRY_DEPART_VERMILION, REGION_HOENN, GRP_VERM_INDOOR, MAP_VERM_PORT,
+      "recordVermilion"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  local vx, vy = F.pos()
+  F.check("I: the VERMILION arm lands on its berth (8,16) too — the two arms now match",
+    vx == 8 and vy == 16, ("(%d,%d)"):format(vx, vy))
+  clearBox(10)
+
+  -- ---- the LILYCOVE write site, driven for real, and a full round trip -------------------------
+  -- Everything above forges the record. This drives the script that is supposed to write it, from
+  -- the other harbour, and then sails the resulting trip home — so the write and the read are
+  -- proved as one journey rather than as two halves that happen to agree on a constant.
+  --
+  -- Preconditions for LilycoveCity_Harbor_EventScript_FerryAttendant to reach the AURORA row:
+  --   FLAG_SYS_GAME_CLEAR              — the whole conversation sits behind it (scripts.inc:37)
+  --   FLAG_ENABLE_SHIP_BIRTH_ISLAND + ITEM_AURORA_TICKET — GetAuroraTicketState wants both
+  --   FLAG_SHOWN_AURORA_TICKET clear   — makes VAR_TEMP_D 2 rather than 1, i.e. the FIRST-TIME
+  --     branch, which is the one with NO multichoice to steer: with the Aurora ticket as the only
+  --     event ticket in the bag VAR_TEMP_B is exactly 2, so the attendant jumps straight to it and
+  --     the leg is a linear msgbox/cutscene/warp that talkUntilMap can drive end to end. (Segment
+  --     0's S.S.TICKET is item 727, none of the four event tickets, so it does not perturb this.)
+  --   FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL clear — new_game.inc:188 SETS it and hall_of_fame.inc:17
+  --     clears it, so on this fresh save the ferry object the boarding cutscene applymovements
+  --     (Common_EventScript_FerryDepart, via VAR_0x8004) is not spawned. Clearing it is part of
+  --     the same post-game state FLAG_SYS_GAME_CLEAR above stands for, not a fudge.
+  --
+  -- That branch boards through LilycoveCity_Harbor_EventScript_BoardFerryWithSailor, which is the
+  -- write site easiest to miss: it is a SEPARATE helper from BoardFerry rather than a wrapper
+  -- around it, so a fix that patched only the obvious one would leave every first-time event
+  -- ticket with no departure record. This leg is what would catch that.
+  globalFlagSet(FLAG_SYS_GAME_CLEAR, true)
+  globalFlagSet(FLAG_ENABLE_SHIP_BIRTH_ISLAND, true)
+  globalFlagSet(FLAG_SHOWN_AURORA_TICKET, false)
+  globalFlagSet(FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL, false)
+  local auroraSlot, auroraPocket = giveKeyItem(ITEM_AURORA_TICKET, 7, 2, 9) -- 1 + 700 + 20 + 9 = 730
+  F.check("I: the AURORA TICKET reached the KEY ITEMS pocket", auroraSlot >= 0,
+    ("slot=%d pocket=[%s]"):format(auroraSlot, table.concat(auroraPocket, ",")))
+
+  local atLily = F.warpTo(0, 1, 3, 0, 1, 0, 0, 0, 0, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR,
+    "lilycoveBoard")
+  F.check("I: LILYCOVE harbour re-entered to board for real", atLily,
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  if atLily then
+    F.idle(90)
+    -- Clear the record FIRST, so whatever it reads afterwards is unambiguously the boarding's
+    -- doing and not a leftover from the forged legs above.
+    setFerryDeparture(FERRY_DEPART_UNSET)
+    -- Then force the active region to JOHTO — AFTER the warp, because this harbour's ON_TRANSITION
+    -- has just claimed HOENN (segment F asserts exactly that) and would otherwise overwrite it.
+    -- Boarding does not re-run an ON_TRANSITION, so the write sticks across the trip. With the
+    -- region saying JOHTO, a probe-driven return would land at OLIVINE; landing back at LILYCOVE
+    -- can then only be the record talking.
+    F.w32(S.gCurrentRegion, REGION_JOHTO)
+    F.w8(F.sb2() + S.SaveBlock2.currentRegion, REGION_JOHTO)
+    -- Warp 0 puts the player at (11,14); the attendant stands at (8,10) and the tile below her is
+    -- (8,11), which is also where the sail-home arm lands. Two waypoints because lib's leg() is
+    -- greedy axis-first, not a pathfinder: walk the bottom row west first, then straight up the
+    -- open column. LAYOUT_HARBOR's y=10 row is blocked at x=3..6, so the corner cannot be cut.
+    F.check("I: walked to the LILYCOVE ferry attendant",
+      F.route({ { 8, 14 }, { 8, 11 } }, "toLilyAttendant"))
+    F.face("Up")
+    local sailedOut = talkUntilMap(GRP_EVENT_ISLANDS, MAP_BIRTH_HARBOR)
+    F.check("I: the LILYCOVE first-time AURORA boarding sails to BIRTH ISLAND", sailedOut,
+      ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+    if sailedOut then
+      F.idle(60)
+      -- Guarded with the rest: a boarding that never happened makes this read meaningless, and an
+      -- unguarded copy would post a second, misleading failure beside the real one.
+      F.check("I: BoardFerryWithSailor recorded LILYCOVE as the departure harbour",
+        ferryDeparture() == FERRY_DEPART_LILYCOVE, "VAR_FERRY_DEPARTURE=" .. ferryDeparture())
+      F.check("I: the JOHTO region forge survived the crossing, so the probe would say OLIVINE",
+        F.r32(S.gCurrentRegion) == REGION_JOHTO, "gCurrentRegion=" .. F.r32(S.gCurrentRegion))
+      F.check("I: walked to the BIRTH ISLAND sailor", F.route({ { 8, 4 } }, "lilyRoundTripSailor"))
+      F.face("Down")
+      local home = talkUntilMap(GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR)
+      F.check("I: the round trip returns to LILYCOVE, the harbour it was actually booked at", home,
+        ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+      -- The arm CONSUMES the record, so the var's lifetime is one voyage. That is a floor rather
+      -- than a behaviour: every route to the reader passes a writer today, so nothing currently
+      -- depends on it. What it buys is that a future island route added without a boarding write
+      -- degrades to the region probe instead of reading a stale harbour — which would be worse
+      -- than the pre-#80 answer, because a stale non-zero record suppresses the probe entirely.
+      F.check("I: arriving home consumed the record, so no stale harbour can outlive the voyage",
+        ferryDeparture() == FERRY_DEPART_UNSET, "VAR_FERRY_DEPARTURE=" .. ferryDeparture())
+      F.shot("lilycove_round_trip")
+      clearBox(10)
+    end
+  end
+
+  -- ---- the OLD SEA MAP site, the fourth writer, on the only route that reaches it --------------
+  -- The third Lilycove write site calls NEITHER named helper: it boards inline with Briney's
+  -- cutscene. Everything else in this segment would still pass if that setvar were dropped, which
+  -- makes it exactly the line a future refactor can delete unnoticed — so it gets its own leg.
+  --
+  -- It is also not a rare alternative but the ONLY way a first FARAWAY ISLAND trip ever happens.
+  -- The attendant tests `goto_if_eq VAR_TEMP_C, 2` (OLD SEA MAP) at scripts.inc:44, BEFORE the
+  -- `goto_if_eq VAR_TEMP_B, 4` at :47 that also means "old sea map, first time" — so :47 is
+  -- unreachable and every such trip goes through this path. Pre-existing, and left alone.
+  --
+  -- The AURORA TICKET from the leg above stays in the bag on purpose: its FLAG_SHOWN_AURORA_TICKET
+  -- is now set, so VAR_TEMP_D is 1 rather than 2 and it contributes nothing to VAR_TEMP_B. The
+  -- OLD SEA MAP is therefore the only FIRST-TIME ticket, and :44 fires unambiguously.
+  --
+  -- ITEM_OLD_SEA_MAP is 731 (include/constants/items.h:893), so the id field needs spin(7, 3, 0):
+  -- it clamps at min = 1 and builds 1 + 700 + 30 + 0. NOT spin(7, 3, 1), which would hand over 732.
+  globalFlagSet(FLAG_ENABLE_SHIP_FARAWAY_ISLAND, true)
+  globalFlagSet(FLAG_SHOWN_OLD_SEA_MAP, false)
+  local seaMapSlot, seaMapPocket = giveKeyItem(ITEM_OLD_SEA_MAP, 7, 3, 0)
+  F.check("I: the OLD SEA MAP reached the KEY ITEMS pocket", seaMapSlot >= 0,
+    ("slot=%d pocket=[%s]"):format(seaMapSlot, table.concat(seaMapPocket, ",")))
+
+  local atLily2 = F.warpTo(0, 1, 3, 0, 1, 0, 0, 0, 0, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR,
+    "lilycoveSeaMap")
+  F.check("I: LILYCOVE harbour re-entered for the OLD SEA MAP row", atLily2,
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  if atLily2 then
+    F.idle(90)
+    setFerryDeparture(FERRY_DEPART_UNSET)
+    -- Same contradiction as the AURORA leg, and for the same reason: forge JOHTO after the warp,
+    -- since this harbour's ON_TRANSITION has just claimed HOENN.
+    F.w32(S.gCurrentRegion, REGION_JOHTO)
+    F.w8(F.sb2() + S.SaveBlock2.currentRegion, REGION_JOHTO)
+    -- Approach from directly below and face Up. The Briney cutscene branches on VAR_FACING
+    -- (`call_if_eq VAR_FACING, DIR_NORTH/DIR_EAST`), so the tile the player talks from decides
+    -- which half of it runs; north is the half this leg drives.
+    F.check("I: walked to the attendant for the OLD SEA MAP row",
+      F.route({ { 8, 14 }, { 8, 11 } }, "toSeaMapAttendant"))
+    F.face("Up")
+    local seaMapSailed = talkUntilMap(GRP_EVENT_ISLANDS, MAP_FARAWAY_ENTRANCE, 400)
+    F.check("I: the OLD SEA MAP row boards inline with Briney and sails to FARAWAY ISLAND",
+      seaMapSailed, ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+    if seaMapSailed then
+      F.check("I: the inline Briney boarding recorded LILYCOVE too",
+        ferryDeparture() == FERRY_DEPART_LILYCOVE, "VAR_FERRY_DEPARTURE=" .. ferryDeparture())
+      F.shot("faraway_old_sea_map")
+    end
+  end
 
   F.finish()
 end)

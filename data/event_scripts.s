@@ -30,6 +30,7 @@
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
 #include "constants/fame_checker.h"
+#include "constants/ferry.h"
 #include "constants/field_effects.h"
 #include "constants/field_move.h"
 #include "constants/field_poison.h"
@@ -1646,42 +1647,127 @@ Common_EventScript_FerryDepartIsland::
 @ region, so there is nothing left to set; and RegionHub_ScrSetCurrentRegion would additionally
 @ re-arm the whiteout respawn at the region's START TOWN, throwing away a respawn the player
 @ earned at a local PokeCenter. That is the same hazard LilycoveCity_Harbor's arrival claim
-@ carries its "already Hoenn" guard for. The LILYCOVE fall-through stays unguarded because the
-@ islands' own mapsecs resolve to REGION_HOENN, so Lilycove is where a player with no usable
-@ departure record belongs anyway, and Lilycove's ON_TRANSITION claims HOENN on the way in.
+@ carries its "already Hoenn" guard for. The LILYCOVE arm stays unguarded because the islands'
+@ own mapsecs resolve to REGION_HOENN, so Lilycove is where a player with no usable departure
+@ record belongs anyway, and Lilycove's ON_TRANSITION claims HOENN on the way in. (It reached
+@ that arm by falling off the end of the probe until #80 gave it a label; the reasoning did not
+@ change, only the shape.)
 @
-@ That last clause names the one case this does NOT cover, so nobody has to rediscover it.
-@ The departure record is only sound because ResyncCurrentRegionFromMap prefers the PERSISTED
+@ The region probe is only sound because ResyncCurrentRegionFromMap prefers the PERSISTED
 @ SaveBlock2.currentRegion over the map (src/region_switch.c) - the islands are REGION_HOENN
 @ maps, so if it ever read the map first, every leg would forget where it sailed from. For a
 @ LEGACY save whose currentRegion is still REGION_NONE (pre-first-gate, or from before the field
-@ existed) it DOES read the map, so such a save booking at OLIVINE is returned to LILYCOVE. That
-@ residual is inherited from #65, not introduced here, and it self-heals the first time the
-@ player passes any SetCurrentRegion call site; fixing it properly needs a persisted departure
-@ var, which is a bigger change than this one and wants its own issue.
+@ existed) it DOES read the map, so such a save booking at OLIVINE used to be returned to
+@ LILYCOVE. This block used to end by naming that residual and saying a proper fix "needs a
+@ persisted departure var ... and wants its own issue". Issue #80 is that issue, and
+@ VAR_FERRY_DEPARTURE (include/constants/vars.h, values in include/constants/ferry.h) is that var.
+@
+@ Be exact about why the probe could not simply be taught to notice REGION_NONE and refuse:
+@ BY THE TIME THIS SCRIPT RUNS THERE IS NO REGION_NONE LEFT TO NOTICE. Checked, not assumed.
+@ RegionHub_ScrTargetIsCurrent compares against the EWRAM mirror gCurrentRegion, and
+@ ResyncCurrentRegionFromMap has ALREADY overwritten that mirror - it runs from LoadMapFromWarp
+@ (src/overworld.c), i.e. on the warp onto the island, and for exactly these saves it takes the
+@ `gCurrentRegion = GetCurrentRegion()` path, whose GetRegionForSectionId (include/regions.h)
+@ ends in `return REGION_HOENN;` for every event island's mapsec. So the script observes HOENN,
+@ byte-identical to a genuine Hoenn player's HOENN. Only a record written BEFORE the player left
+@ the harbour can tell those two apart.
+@
+@ VAR_FERRY_DEPARTURE is written by the shared BOARDING helpers rather than by the destination
+@ rows - four sites, covering every route onto every event island from both boards:
+@ OlivinePort_EventScript_EnterShip, and LilycoveCity_Harbor's BoardFerry, BoardFerryWithSailor
+@ and the OLD SEA MAP first-time path (which calls neither helper and boards inline with Briney).
+@ Olivine's helper is shared with its VERMILION and BATTLE FRONTIER rows too, so those record a
+@ departure that is never read back. That is harmless and arguably the more honest semantic: the
+@ var means "the harbour you last BOARDED at", and it is only ever read from an island - which
+@ you can only be standing on by having sailed there through one of the four writers.
+@
+@ Each arm CONSUMES the record on the way home, which is why the var's lifetime is one voyage
+@ rather than "for ever, until overwritten". That changes nothing today: every path to this script
+@ passes a writer, so the value read here is always the current trip's. It is a floor under the
+@ next harbour, in the same spirit as the KANTO arm above. A future KANTO island row that reused
+@ MAP_BIRTH_ISLAND_HARBOR (rather than the separate FRLG twin) and forgot the boarding write would
+@ otherwise read whatever harbour the player last boarded at - and that is WORSE than the pre-#80
+@ behaviour, because a stale non-zero record suppresses the probe entirely. Consumed, the same
+@ mistake degrades to FERRY_DEPART_UNSET and the probe below, which is merely the old answer.
+@ It must be cleared HERE and not in Common_EventScript_FerryDepartIsland, which the island
+@ sailors `call` BEFORE they `goto` this script - clearing there would erase the record a moment
+@ before it is read.
+@
+@ FERRY_DEPART_UNSET (0) falling through to the probe is what makes this safe to ship. Every
+@ pre-#80 save reads 0 - the slot was VAR_UNUSED_0x40FA - including a save made MID-VOYAGE,
+@ standing on an island having boarded before the record existed. Those behave exactly as they
+@ did before, REGION_NONE case included, which is no worse than what they already had; every
+@ save that boards once after this lands on the record instead.
+@
+@ The record's arms do not claim a region either, and unlike the probe's arms that needs its own
+@ justification, because the whole point is that they CAN be taken while gCurrentRegion disagrees.
+@ They do not need one: all three homes are ordinary maps of their own region (MAPSEC_OLIVINE_CITY
+@ is Johto, MAPSEC_VERMILION_CITY is Kanto, MAPSEC_LILYCOVE_CITY is Hoenn), so the same
+@ ResyncCurrentRegionFromMap that mis-derived HOENN on the island re-derives the RIGHT answer from
+@ the destination on arrival. A REGION_NONE save sailed home to Olivine by the record therefore
+@ lands with the mirror reading JOHTO. Claiming explicitly would add nothing and would cost the
+@ START-TOWN respawn re-arm described above, on a player who has just been handed a correct
+@ OLIVINE respawn by the boarding helper's setrespawn.
 @
 @ VAR_0x8008 is a 0-BASED offset from REGION_KANTO (src/region_switch.c's
 @ RegionHub_ScrTargetIsCurrent), NOT an enum Region value: 0 = Kanto, 1 = Johto, 2 = Hoenn.
 @ `goto`n, not `call`ed - it warps and owns the release.
 Common_EventScript_FerrySailHomeFromIsland::
+	goto_if_eq VAR_FERRY_DEPARTURE, FERRY_DEPART_OLIVINE, Common_EventScript_FerrySailHomeToOlivine
+	goto_if_eq VAR_FERRY_DEPARTURE, FERRY_DEPART_VERMILION, Common_EventScript_FerrySailHomeToVermilion
+	goto_if_eq VAR_FERRY_DEPARTURE, FERRY_DEPART_LILYCOVE, Common_EventScript_FerrySailHomeToLilycove
+	@ FERRY_DEPART_UNSET only: the pre-#80 region probe, kept verbatim for saves with no record.
 	setvar VAR_0x8008, 1 @ 1 = REGION_JOHTO
 	callnative RegionHub_ScrTargetIsCurrent
 	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_FerrySailHomeToOlivine
 	setvar VAR_0x8008, 0 @ 0 = REGION_KANTO
 	callnative RegionHub_ScrTargetIsCurrent
 	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_FerrySailHomeToVermilion
+	goto Common_EventScript_FerrySailHomeToLilycove
+
+@ LILYCOVE was a bare fall-through until #80 gave it a label. It costs one `goto` and makes the
+@ three homes read as three peers rather than two special cases and a default - which matters now
+@ that the record can name Lilycove explicitly rather than only arrive here by exhaustion.
+Common_EventScript_FerrySailHomeToLilycove::
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_UNSET @ voyage over; see "consumes the record" above
 	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
 	waitstate
 	release
 	end
 
+@ (8,16) is the BERTH, one tile north of the sailor at (8,17) - NOT (8,9), the terminal's north
+@ DOOR, which is where this arm landed until #80 (issue #80 item 2: the two arms landed on
+@ different KINDS of tile for no reason). Both port-inside maps are the same 18x28 layout, and
+@ Vermilion's is a copy of Olivine's: a one-tile berth corridor at x=8 running y=15..17, up into
+@ the hall at y=10..14 and out the north door at (8,9). Read out of the blockdata rather than
+@ assumed - at y=15, 16 and 17 every tile except x=8 is impassable, on BOTH maps. (8,16) is also
+@ the coordinate both S.S.AQUA arrivals already use (SSAqua_1F_EventScript_LeaveBoat,
+@ OlivinePort_EventScript_ChoseVermilion), so the two terminal arms and every scripted arrival at
+@ either terminal now put the player on the same kind of tile. LILYCOVE's (8,11) is a different
+@ layout entirely (LAYOUT_HARBOR) and is its own dockside, not a door - the point is the KIND of
+@ tile, not the number.
+@
+@ PROF. OAK spawns on Olivine's (8,16) (OlivineCity_PortInside/map.json), gated by
+@ FLAG_HIDE_OLIVINE_PORT_OAK, and he is provably gone before any island return can happen: he
+@ stands IN that one-tile corridor between the hall and the sailor, so there is no way to reach
+@ the sailor - and hence no way to book an island trip at all - without stepping onto his tile and
+@ triggering the National-Dex scene, which sets the hide flag (that file's :38). The landing
+@ cannot collide with him.
+@
+@ Nothing greets the player here: Olivine's port has no ON_FRAME or ON_TRANSITION map script at
+@ all, its MapScripts being a bare `.byte 0`, unlike Vermilion's - whose ON_FRAME arrival scene
+@ the same tile is already chosen to be compatible with (see the KANTO paragraph above). So a
+@ berth landing simply drops the player on the berth, exactly as LILYCOVE's does. That is the
+@ intent; it is not a cutscene someone forgot to write.
 Common_EventScript_FerrySailHomeToOlivine::
-	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_UNSET @ voyage over; see "consumes the record" above
+	warp MAP_OLIVINE_CITY_PORT_INSIDE, 8, 16
 	waitstate
 	release
 	end
 
 Common_EventScript_FerrySailHomeToVermilion::
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_UNSET @ voyage over; see "consumes the record" above
 	warp MAP_VERMILION_CITY_PORT_INSIDE, 8, 16
 	waitstate
 	release

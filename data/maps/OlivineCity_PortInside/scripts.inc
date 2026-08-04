@@ -280,7 +280,19 @@ OlivinePort_EventScript_Sailor_MaidenVoyage::
 	release
 	end
 
+@ Issue #80: the departure record, written once here rather than once per row. Every row on this
+@ board `call`s this helper - VERMILION, the three island rows, the BATTLE FRONTIER row and the
+@ MAIDEN VOYAGE - so one setvar covers all of them, and the three that matter (the islands) are
+@ covered by construction rather than by remembering to add a line to each. The other three record
+@ a departure that is never read back, which is harmless: Common_EventScript_FerrySailHomeFromIsland
+@ (data/event_scripts.s) is the only reader, and it only runs on an event island. See the long
+@ note there for why the active region could not serve as this record for a REGION_NONE save.
+@
+@ Before the movements, deliberately: this is the point of no return in the conversation (the
+@ msgbox below is not a Yes/No and nothing after it can decline), and a var write is cheaper to
+@ reason about at the top of a helper than buried among applymovements.
 OlivinePort_EventScript_EnterShip::
+	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_OLIVINE
 	msgbox OlivinePort_Text_SailorGetOnBoard, MSGBOX_DEFAULT
 	closemessage
 	delay 20

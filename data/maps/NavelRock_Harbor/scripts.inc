@@ -15,9 +15,12 @@ NavelRock_Harbor_EventScript_Sailor::
 	setvar VAR_0x8004, LOCALID_NAVEL_ROCK_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
 	@ Home is OLIVINE if the trip was booked there, VERMILION if it was booked in KANTO
-	@ (issue #69) - see the region note on Common_EventScript_FerrySailHomeFromIsland in
-	@ data/event_scripts.s. This map is the HOENN Navel Rock harbour, reachable only from
-	@ LILYCOVE, so in practice the shared script still lands every real trip back at LILYCOVE;
+	@ (issue #69). Since issue #80 "booked there" is a PERSISTED record written when the player
+	@ boarded (VAR_FERRY_DEPARTURE), not the active region - see the note on
+	@ Common_EventScript_FerrySailHomeFromIsland in data/event_scripts.s. Note that no departure
+	@ site writes the VERMILION value today, so that arm stays a floor rather than a live route,
+	@ exactly as it was under the region probe. This map is the HOENN Navel Rock harbour, reachable
+	@ only from LILYCOVE, so in practice the shared script still lands every real trip at LILYCOVE;
 	@ KANTO's MYSTIC TICKET run goes to MAP_NAVEL_ROCK_HARBOR_FRLG instead, which has its own
 	@ sailor home to VERMILION. This is here so all four event islands share one way home
 	@ rather than three sharing one and this one carrying a private copy that would have to be

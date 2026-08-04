@@ -1646,8 +1646,19 @@ Common_EventScript_FerryDepartIsland::
 @ region, so there is nothing left to set; and RegionHub_ScrSetCurrentRegion would additionally
 @ re-arm the whiteout respawn at the region's START TOWN, throwing away a respawn the player
 @ earned at a local PokeCenter. That is the same hazard LilycoveCity_Harbor's arrival claim
-@ carries its "already Hoenn" guard for. The LILYCOVE fall-through stays unguarded because it is
-@ also the REGION_NONE default, and Lilycove's own ON_TRANSITION claims HOENN on the way in.
+@ carries its "already Hoenn" guard for. The LILYCOVE fall-through stays unguarded because the
+@ islands' own mapsecs resolve to REGION_HOENN, so Lilycove is where a player with no usable
+@ departure record belongs anyway, and Lilycove's ON_TRANSITION claims HOENN on the way in.
+@
+@ That last clause names the one case this does NOT cover, so nobody has to rediscover it.
+@ The departure record is only sound because ResyncCurrentRegionFromMap prefers the PERSISTED
+@ SaveBlock2.currentRegion over the map (src/region_switch.c) - the islands are REGION_HOENN
+@ maps, so if it ever read the map first, every leg would forget where it sailed from. For a
+@ LEGACY save whose currentRegion is still REGION_NONE (pre-first-gate, or from before the field
+@ existed) it DOES read the map, so such a save booking at OLIVINE is returned to LILYCOVE. That
+@ residual is inherited from #65, not introduced here, and it self-heals the first time the
+@ player passes any SetCurrentRegion call site; fixing it properly needs a persisted departure
+@ var, which is a bigger change than this one and wants its own issue.
 @
 @ VAR_0x8008 is a 0-BASED offset from REGION_KANTO (src/region_switch.c's
 @ RegionHub_ScrTargetIsCurrent), NOT an enum Region value: 0 = Kanto, 1 = Johto, 2 = Hoenn.

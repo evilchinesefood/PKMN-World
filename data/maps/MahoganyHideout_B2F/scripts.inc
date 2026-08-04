@@ -330,9 +330,21 @@ MahoganyHideout_B2F_EventScript_DoLanceMultiBattle::
 	special SetCB2WhiteOut
 	waitstate
 
-@ Region merge: HnS SET_TRAINER_A/B multi-battle setup ops have no target equivalent
-@ (SPECIAL_BATTLE_LANCE path is content-stage work). These labels are never branched
-@ to in normal flow; neutered to assemble. Real Lance vs Ariana+Grunt lands in Stage 4.
+@ Region merge, WONTFIX (issue #66). The HnS SET_TRAINER_A/B multi-battle setup ops have no
+@ target equivalent, so the Lance fight above goes through the generic multi-battle alias
+@ instead (SPECIAL_BATTLE_LANCE -> SPECIAL_BATTLE_MULTI; the full reasoning and what a faithful
+@ version would cost live at include/constants/johto_compat.h, next to that #define).
+@
+@ These two labels are HnS leftovers; with the setup ops gone, nothing references them at all.
+@ The old comment's "never branched to in normal flow" claim was re-verified when reclassifying:
+@ grepping the whole tree — every scripts.inc and every map.json object/trigger `script` field —
+@ finds nothing but the two definitions below. They are unreachable, full stop, so the bare `end`
+@ never executes and costs one dead opcode each.
+@
+@ They stay neutered rather than deleted: they are the marker for what is missing, and reviving
+@ the HGSS set piece means authoring Ariana's and the Grunt's parties and wiring Lance up as the
+@ in-game partner. That is new content work, not a port fix, and it is not planned. (The previous
+@ "lands in Stage 4" promise is withdrawn — there is no such scheduled work.)
 MahoganyHideout_B2F_EventScript_ArianaTrainer::
 	end
 

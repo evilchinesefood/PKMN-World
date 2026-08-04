@@ -309,19 +309,72 @@ void ScrCmd_remove5mons_Compat(struct ScriptContext *ctx)
 
 // === Mahogany area (region merge) ===
 
-// HnS `setwildbattleshiny <species>, <level>, <item>` -> sets up the next scripted wild
-// battle (Lake of Rage Red Gyarados). HnS's CreateShinyScriptedMon forces a shiny PID via
-// tx_randomizer-coupled helpers that aren't ported; create a standard scripted wild mon so
-// the battle fires. The red/shiny palette is content-stage polish.
+// HnS `setwildbattleshiny <species>, <level>, <item>` -> sets up the next scripted wild battle
+// and forces it shiny. This is the Lake of Rage Red Gyarados: the whole point of the encounter
+// is that it is the wrong colour, so "shiny" here is content, not cosmetics.
+//
+// HnS's CreateShinyScriptedMon got there by rerolling the personality until
+// GET_SHINY_VALUE(otId, personality) landed under SHINY_ODDS, through tx_randomizer-coupled
+// helpers that are not ported. Do NOT reproduce that here even though it looks like the
+// obvious port, for two reasons:
+//
+//   1. In this engine the PID is not free. CreateScriptedWildMon derives it from
+//      GetMonPersonality(species, GetSynchronizedGender(...), GetSynchronizedNature(...)),
+//      so the PID already encodes the gender and the Synchronize/Cute-Charm-adjusted nature
+//      the encounter is supposed to have. Rerolling it for colour silently rerolls both.
+//   2. Shininess is not read off the PID directly. MON_DATA_IS_SHINY is a COMPUTED field:
+//      (GET_SHINY_VALUE(otId, personality) < SHINY_ODDS) ^ boxMon->shinyModifier
+//      (src/pokemon.c), and its setter stores exactly that XOR difference into shinyModifier.
+//      So a plain SetMonData(..., MON_DATA_IS_SHINY, TRUE) is the engine's own supported lever
+//      — the same one ScriptGiveMonParameterized uses for SHINY_MODE_ALWAYS
+//      (src/script_pokemon_util.c) and the one the roamer restores a shiny Entei/Raikou with.
+//      It is also, exactly, what this fork's overworld-encounter path already does:
+//      StartWildBattleWithOWE (src/wild_encounter_ow.c) reads OW_SHINY(owe) off the object's
+//      graphicsId and finishes with SetMonData(&gParties[B_TRAINER_OPPONENT_A][0],
+//      MON_DATA_IS_SHINY, &shiny). This handler is the scripted twin of that path, so matching
+//      it keeps one answer to "how is a wild mon made shiny" instead of two.
+//
+// shinyModifier lives in the UNENCRYPTED BoxPokemon header (include/pokemon.h, alongside
+// hpLost), not in the checksummed substructs, so it survives CopyMon, the capture path and
+// PC storage: the Gyarados the player catches stays red in the party, the summary screen and
+// the box. The battle sprite picks it up because BattleLoadMonSpriteGfx reads
+// GetMonData(mon, MON_DATA_IS_SHINY) and feeds it to
+// GetMonSpritePalFromSpeciesAndPersonality (src/battle_gfx_sfx_util.c).
+//
+// The overworld half of "really is red" is data, not code: the Lake of Rage object event uses
+// OBJ_EVENT_GFX_SPECIES_SHINY(GYARADOS) (data/maps/LakeOfRage/map.json), whose OBJ_EVENT_MON_SHINY
+// bit LoadDynamicFollowerPalette reads via OW_SHINY(). Both halves must agree or the player
+// walks up to a red sprite and battles a blue mon.
+//
+// KNOWN LATENT ISSUE — currently unreachable, deliberately not fixed here (follow-up issue):
+// `dowildbattle` branches on scrcmd.c's file-static `sIsScriptedWildDouble`, which only
+// ScrCmd_setwildbattle and ScriptSetDoubleBattleFlag can write. This handler is a `callnative`
+// in a DIFFERENT translation unit, so it cannot clear that flag the way the native
+// setwildbattle does. If anything ever left it TRUE, Lake of Rage would start a scripted DOUBLE
+// wild battle against a one-mon enemy party.
+//
+// Checked before writing this down rather than asserted: nothing in data/ uses
+// `setwilddoubleflag`, and all 31 `setwildbattle` call sites are the single-mon form (which
+// sets the flag FALSE), so the BSS-zeroed static is FALSE for the whole session today. This is
+// a robustness gap, not a live bug — but it is one edit to a Johto script away from becoming
+// one, and the fix needs a new setter exported from scrcmd.c, which is outside this file's
+// surface. Re-check those two facts before relying on this note.
 void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
 {
     u16 species = ScriptReadHalfword(ctx);
     u8 level = ScriptReadByte(ctx);
     u16 item = ScriptReadHalfword(ctx);
+    bool8 isShiny = TRUE;
 
     // Hand-transcribed opcode operand — sanitize before CreateBoxMon indexes gSpeciesInfo,
     // matching the validation every sibling compat handler in this file performs.
     CreateScriptedWildMon(SanitizeSpeciesId(species), level, item);
+
+    // Set it AFTER the create, not inside it: CreateScriptedWildMon has no shiny parameter and
+    // is also called from src/berry.c and src/scrcmd.c, so widening its signature would drag two
+    // unrelated units into this change. It always builds into gParties[B_TRAINER_OPPONENT_A][0]
+    // (it ZeroEnemyPartyMons() first), which is the mon BattleSetup_StartScriptedWildBattle sends out.
+    SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_IS_SHINY, &isShiny);
 }
 
 // HnS `removegenericmon <species>` (Lake of Rage Magikarp-length house): removes the party
@@ -370,11 +423,48 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 // === Safari Zone area (region merge) ===
 
 // HnS `baobacheckmon <area>` (Safari Zone gate entrance): the HGSS Safari-Zone custom-area
-// quest checks whether the chosen party mon is the "exotic" species Baoba wants from Fuchsia
-// Safari Zone area <area>, reporting via gSpecialVar_Result. The Fuchsia/Kanto safari areas
-// and the per-area species table are content-stage; read the operand and report FALSE so the
-// quest path safely dead-ends ("That can't be right!") instead of paying out or freezing.
-// Real check lands in the content stage.
+// quest checks whether the chosen party mon is the "exotic" species Warden Baoba wants from
+// area <area>, reporting via gSpecialVar_Result. Read the operand (the script pointer must stay
+// aligned) and report FALSE, so the quest path dead-ends on "That can't be right!" instead of
+// paying out or freezing.
+//
+// WONTFIX (issue #66). This is the permanent behavior, not a placeholder, and the reason is not
+// the one this comment used to give. It claimed "the Fuchsia/Kanto safari areas and the per-area
+// species table are content-stage". That premise is stale, and the real situation is worse:
+//
+//   * The Fuchsia safari SHIPPED with the Kanto merge. data/maps holds the FRLG four-area set
+//     (SafariZone_{Center,East,North,West}_Frlg plus the four rest houses and the secret house);
+//     FuchsiaCity_Frlg/map.json warps into FuchsiaCity_SafariZone_Entrance_Frlg, which warps on
+//     to MAP_SAFARI_ZONE_CENTER. The blocker the old comment named no longer exists.
+//
+//   * The quest can never start, which no species table would fix. VAR_BAOBA_QUEST_STATE
+//     (constants/johto_vars.h) is read by the goto_if chain in
+//     SafariZoneGate_SafariZoneEntrance_EventScript_Baoba (cited by label, not line: this very
+//     comment's sibling note was added to the head of that file and would shift any number here)
+//     and written ONLY as 2/3/4/5, by the four stage-completion branches themselves. Nothing in
+//     the tree ever sets it to 1 — no setvar, addvar, copyvar or C-side VarSet. Vars are
+//     zero-initialised, so EventScript_Baoba always falls through to the generic greeting, and not
+//     one of the four `baobacheckmon` call sites is reachable without externally forcing the var:
+//     this handler cannot run in normal play. Neither of the two Baoba phone calls that do exist
+//     helps — Route27_EventScript_BaobaCall announces the Safari Zone west expansion and sets
+//     VAR_ROUTE27_BAOBA_CALL, and OlivineCity_EventScript_BaobaCall (OlivineCity/scripts.inc)
+//     advances VAR_SAFARI_ZONE_GATE_STATE. Neither touches the quest state.
+//
+//   * The areas the script names do not exist. The four prompts ask for an exotic mon from the
+//     BEACH / BRUSH / MOUNTAIN / CAVE area of the FUCHSIA SAFARI ZONE. The shipped Fuchsia safari
+//     is FRLG geography — Center / East / North / West — and this gate warps into the JOHTO safari
+//     (MAP_SAFARI_ZONE_ENTERANCE) regardless. There is no beach, brush, mountain or cave area to
+//     derive an area->species mapping from, and no sSafariZoneAreas-style table anywhere in the
+//     tree to derive it into.
+//
+// So reviving this needs a quest starter AND an authored area->species mapping the shipped
+// geography cannot supply: new game design, not a port. Two more signs the HnS port was abandoned
+// mid-flight — Text_BaobaLastMon (the "I can't take your last POKEMON!" refusal) is defined and
+// never referenced, and the four stages pay out 200k/300k/400k/400k, which is both more than
+// MAX_MONEY (999999, include/money.h) can even hold and four times the next-largest `addmoney`
+// anywhere in data/ (100,000, LakeOfRage_House2). Nobody balanced those numbers because nobody
+// could reach them. See the file-head note in
+// SafariZoneGate_SafariZoneEntrance/scripts.inc.
 void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
 {
     u16 number = ScriptReadHalfword(ctx);
@@ -406,9 +496,19 @@ bool8 CheckCelebi(void)
 
 // HnS `checkrandomizer` (callnative, used by Mr. Pokemon's House): reports whether randomizer
 // mode is active via gSpecialVar_Result; on TRUE the script grants the National Dex immediately
-// (randomizer rules). The HnS randomizer feature is unported, so report FALSE — the normal
-// (non-randomized) path runs and the National Dex is earned through standard story progress.
-// Real toggle lands in the content stage.
+// (randomizer rules skip the story gate). Report FALSE.
+//
+// WONTFIX (issue #66). FALSE is not a placeholder here — it is the correct permanent answer, and
+// the old "real toggle lands in the content stage" line promised work that would be a regression
+// if it happened. The tx_randomizer feature is unported BY DESIGN (see the file header), so there
+// is no mode for this to read and no user-visible setting to toggle. This file already stubs the
+// whole family on exactly these grounds: IsRandomMovesActivated, IsPokecenterChallengeActivated,
+// IsNuzlockeNicknamingActive, ToggleShinyColors (whose tx_randomizer save field does not exist in
+// the target at all), and GetMaxPartySize documents the same reasoning.
+//
+// With FALSE, Mr. Pokemon's House takes the normal branch and the National Dex is earned through
+// story progress, which is what this hack wants. A "real" implementation would only ever hand out
+// a free National Dex on behalf of a mode that cannot be entered.
 void ScrCmd_checkrandomizer_Compat(struct ScriptContext *ctx)
 {
     (void)ctx;

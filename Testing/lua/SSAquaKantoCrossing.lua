@@ -1,6 +1,12 @@
 -- SSAquaKantoCrossing.lua — issue #65: the real S.S.AQUA Kanto disembark.
 --
 -- What this proves, in one run, from a fresh new game with no fixture save:
+--   0. The MAIDEN VOYAGE itself (issue #70). Every leg below starts from a voyage that has
+--      ALREADY happened; this one drives the real boarding at Olivine from a pre-voyage save with
+--      the S.S.TICKET in the bag. It is the site #67's warpsilent-without-waitstate assert
+--      actually shipped on — five of that file's six warps were unreachable dead code and this is
+--      the one on the live post-League path — and until now the fix was proved only BY SHAPE
+--      against the repeat crossing, never by executing the site itself.
 --   A. The docked ship is no longer a dead end. The 1F door sailor puts the player ashore in
 --      MAP_VERMILION_CITY_PORT_INSIDE — a map that did not exist before this issue — and the
 --      terminal's ON_FRAME arrival scene runs there and advances VAR_SSAQUA_STATE 6 -> 7.
@@ -137,6 +143,183 @@ end
 
 F.run(function()
   if not F.boot(100) then F.check("boot", false); F.finish(); return end
+
+  -- ============================================================ 0. the MAIDEN VOYAGE at OLIVINE
+  -- Issue #70. Everything after this segment seeds VAR_SSAQUA_STATE and debug-warps aboard, i.e.
+  -- starts from a maiden voyage that has already happened. This drives the real one:
+  -- OlivinePort_EventScript_Sailor -> OlivinePort_EventScript_Sailor_MaidenVoyage
+  -- (data/maps/OlivineCity_PortInside/scripts.inc:109 and :225).
+  --
+  -- It is the leg that matters most. #67 found the shipped-ROM assert on exactly this script:
+  -- `warpsilent MAP_SSAQUA_1F, 29, 3` ended it while Task_WarpAndLoadMap was still live, tripping
+  -- StopScript's assertf ("Leaving script while a warp is in progress", src/script.c:79). Five of
+  -- the six warps in that file were unreachable dead code; this one is on the live post-League
+  -- path the story sends every new Johto champion down. Segment D's repeat crossing runs the
+  -- identical call/warpsilent/waitstate shape and is asserted — but that proves the fix BY SHAPE.
+  -- This site had never been executed by a test at all.
+  --
+  -- The constants below are declared here rather than in the shared block at the top of the file
+  -- so this segment is one contiguous, independently-editable hunk.
+  local VAR_NEWBARKTOWN_LABSTATE = 0xA080 + 0x01  -- VAR_JOHTO_SLICE(0x01), include/constants/johto_vars.h:13
+  -- Hardcoded with its citation, exactly as VAR_SSAQUA_STATE above is. Testing/GenLuaSymbols.py
+  -- resolves LINKER symbols out of `arm-none-eabi-nm -S` on the ELF, and `enum Item` members are
+  -- compile-time constants that never reach the symbol table — a WANT entry for one fails the
+  -- build with "symbol not found". DebugParty.lua hardcodes SPECIES_WOBBUFFET for the same reason.
+  local ITEM_SS_TICKET = 727                      -- include/constants/items.h:889
+  local MAIN_VBLANK_COUNTER1 = 0x20               -- gMain.vblankCounter1, include/main.h:22
+
+  -- The bag, through the debug give-item spinner: root row 3 = "Give X…" (src/debug.c:740), then
+  -- submenu row 0 = "Give item XYZ…" (src/debug.c:645), then the id and quantity fields.
+  --
+  -- ★ The arithmetic is NOT the warp spinners'. F.spin(h,t,o) (lib.lua:230) parks on the hundreds
+  -- digit and presses Down SIX times to floor the field before building the number back up, and
+  -- Debug_HandleInput_Numeric clamps at `min` (src/debug.c:969). The warp spinners pass min = 0
+  -- (src/debug.c:1458, :1499), so spin(h,t,o) is exactly 100h+10t+o there — which is why every
+  -- other call in this file reads literally. The item-id field passes min = 1 (src/debug.c:2698)
+  -- and starts at 1 (:2667), so the floor lands on ONE and the field ends at 1 + 100h + 10t + o.
+  -- Reaching ITEM_SS_TICKET = 727 therefore needs spin(7, 2, 6); spin(7, 2, 7) would hand over
+  -- item 728, and the sailor would answer OlivinePort_Text_NoTicket instead of sailing.
+  local function giveSSTicket()
+    F.dbg(); F.idle(60)
+    -- lib's sel() taps Down for 2 frames with an 8-frame gap; press slower (DebugParty.lua:56).
+    -- NOT for DebugParty's reason, though — its nine Downs cross the list window's bottom edge and
+    -- the scrolling press is the fragile one. The root menu is 11 rows against
+    -- DEBUG_MENU_HEIGHT_MAIN = 9 (src/debug.c:176), so row 3 is always already on screen and
+    -- nothing scrolls here. The slower tap is just the cheaper of two habits; the retry below is
+    -- what actually makes this reliable.
+    for _ = 1, 3 do F.press("Down", 3); F.idle(16) end   -- root row 3 = "Give X…"
+    F.press("A", 3); F.idle(60)
+    F.press("A", 3); F.idle(60)                          -- Give row 0 = "Give item XYZ…"
+    F.spin(7, 2, 6)                                      -- id: 1 + 700 + 20 + 6 = 727
+    -- Quantity: tInput is reset to 1 on the id's A press (src/debug.c:2710) and this field clamps
+    -- at min = 1 too, so a bare A takes the single ticket the script needs. AddBagItem then runs
+    -- and DebugAction_DestroyExtraWindow closes the whole menu and unfreezes the player
+    -- (src/debug.c:1029); the bOut is only insurance against a spinner press that got eaten.
+    F.press("A", 2); F.idle(60)
+    F.bOut(4); F.idle(60)
+  end
+
+  -- Retried, the way lib's warpTo retries (lib.lua:240-249). Every other debug-menu driver in this
+  -- file sits in an attempt loop because a dropped press is an expected event, and this one has the
+  -- nastiest failure mode of them all: if F.dbg() does not open the menu, the three Downs walk the
+  -- player three tiles across the hub and spin()'s Right/Down/Up run walks him twenty more while
+  -- mashing A at whatever he passes. The bag read below is the retry condition as well as the
+  -- assertion, so a bad pass costs one retry instead of poisoning every segment underneath.
+  local ticketSlot, keyPocket = -1, {}
+  for _ = 1, 3 do
+    giveSSTicket()
+    ticketSlot, keyPocket = F.keyItemSlot(ITEM_SS_TICKET)
+    if ticketSlot >= 0 then break end
+    F.bOut(6); F.idle(60)
+  end
+  -- Presence needs no decryption key. An item slot is {u16 id, u16 quantity} and ONLY the quantity
+  -- is XORed against SaveBlock2.encryptionKey (src/item.c:66-72), so the id this reads is the same
+  -- plaintext id `checkitem` compares. Asserting it BEFORE the conversation matters: a mis-spun id
+  -- would otherwise surface as an unexplained "the sailor did not sail".
+  F.check("0: the S.S.TICKET reached the KEY ITEMS pocket", ticketSlot >= 0,
+    ("slot=%d pocket=[%s]"):format(ticketSlot, table.concat(keyPocket, ",")))
+
+  -- The three seeds, all BEFORE the warp — a hide flag is only read when the map loader rebuilds
+  -- the object set.
+  --   * VAR_NEWBARKTOWN_LABSTATE >= 11 is the A1 gate the script checks (scripts.inc:115): the
+  --     maiden voyage is Johto's post-League beat, and Norman's Hoenn ticket must not launch it
+  --     mid-Johto. Below 11 the sailor takes the NotSailingYet branch and nothing is tested.
+  --   * VAR_SSAQUA_STATE = 0 is already the fresh-save value; written anyway so this segment
+  --     states its own precondition instead of inheriting one.
+  --   * PROF. OAK stands at (8,16) — the exact tile the player must occupy to face the sailor at
+  --     (8,17) — until his National-Dex scene runs, and on a fresh save it has not.
+  regionVarSet(VAR_NEWBARKTOWN_LABSTATE, 11)
+  regionVarSet(VAR_SSAQUA_STATE, 0)
+  johtoFlagSet(FLAG_HIDE_OLIVINE_PORT_OAK, true)
+
+  F.check("0: OLIVINE port entered on a pre-voyage save",
+    F.warpTo(0, 8, 8, 0, 0, 8, 0, 0, 0, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT, "olivineMaiden"))
+  F.idle(90)
+  F.check("0: reached the harbour sailor on OAK's (now hidden) tile",
+    F.route({ { 8, 16 } }, "toMaidenSailor"))
+  F.face("Down")
+  -- Segment B's invariant applied to this leg. Every other leg asserts an EXPECTED region because
+  -- it crosses one; boarding does not cross anything — the ship is still Johto's side of the water
+  -- and the flip happens on the disembark at Vermilion. So the honest assertion is that the region
+  -- is UNCHANGED, captured rather than hardcoded — and captured is not just tidier, it is the only
+  -- form that works. A fresh new game reaches Olivine's port with SaveBlock2.currentRegion still
+  -- 0 (UNSET), because the hub boot never claims a region and Olivine's port has no ON_TRANSITION
+  -- to claim one; asserting the plausible-looking REGION_JOHTO here goes red on a green build.
+  -- It is worth making at all because MaidenVoyage is the only
+  -- boarding script in this file with no `callnative RegionHub_ScrSetCurrentRegion` (Vermilion's
+  -- has one at scripts.inc:166), so if a future edit adds a stray region claim to the one path
+  -- that must not have one, nothing else in the suite would notice.
+  local regionBeforeBoarding = activeRegion()
+
+  -- talkUntilMap is the right driver here for the same two reasons it is everywhere else: the
+  -- MSGBOX_YESNO defaults to YES, which is the answer this leg wants, and A is the only key it
+  -- presses; and OlivinePort_EventScript_EnterShip (scripts.inc:242) contains a blocking
+  -- MSGBOX_DEFAULT ("We're departing soon.\nPlease get on board."), so a poll loop that pressed
+  -- nothing would sit in front of it forever.
+  local boarded = talkUntilMap(GRP_SSAQUA, MAP_SSAQUA_1F)
+  F.check("0: the maiden voyage boards and lands the player on the S.S.AQUA", boarded,
+    ("grp=%d map=%d pos=(%d,%d)"):format(F.grp(), F.mapn(), F.pos()))
+
+  -- ★ The "no assert screen" probe is NOT gMain.callback2, and getting that wrong would have made
+  -- this whole segment vacuous. AssertfCrashScreen (src/assertf.c:436) never touches callback2: it
+  -- sets REG_IME = 0 and busy-loops on REG_VCOUNT waiting for START, INSIDE CB2_Overworld's own
+  -- call stack (Overworld -> ScriptContext_RunScript -> StopScript -> assertf). So F.ow() reads
+  -- CB2_Overworld with the crash screen on screen, and would PASS against precisely the build this
+  -- segment exists to fail. Measured, not reasoned: against a build with this leg's `waitstate`
+  -- deleted, F.ow() read TRUE and F.cb2() read CB2_Overworld exactly, while the probe below went
+  -- red. What does stop is the main loop: with interrupts off VBlankIntr never runs, so
+  -- gMain.vblankCounter1 (src/main.c:364, zeroed only by InitMainCallbacks at boot) freezes.
+  -- Nothing may press Start between the boarding and this probe — the screen is RESUMABLE and
+  -- Start dismisses it, restoring REG_IME (src/assertf.c:430) and letting the counter tick again.
+  -- The park-ashore warp at the end of the segment DOES press Start, via lib's dbg() (lib.lua:224);
+  -- that is deliberate and safe only because every crash-sensitive check has already been recorded
+  -- by then. Any new check added after that warp would be reading a resumed game.
+  local function mainLoopAlive()
+    local v0 = F.r32(S.gMain + MAIN_VBLANK_COUNTER1)
+    F.idle(30)
+    local v1 = F.r32(S.gMain + MAIN_VBLANK_COUNTER1)
+    return v1 ~= v0, ("gMain.vblankCounter1 %d -> %d across 30 frames"):format(v0, v1)
+  end
+  F.check("0: the boarding leaves no assert screen (the main loop is still running)",
+    mainLoopAlive())
+
+  F.check("B: boarding at OLIVINE does not change the active region",
+    activeRegion() == regionBeforeBoarding,
+    ("region=%d (was %d)"):format(activeRegion(), regionBeforeBoarding))
+
+  -- A state-transition witness, NOT a crash witness — and the difference is worth naming, because
+  -- this is the one check in the segment that a broken build still passes. `setvar VAR_SSAQUA_STATE,
+  -- 1` is scripts.inc:228, nine lines ABOVE the warpsilent, so it has already run by the time the
+  -- assert fires. (That is exactly why the waitstate-deleted build scores 43/46 and not 42/46.) The
+  -- crash witnesses are the landing check, the vblankCounter1 probe and the step below; do not let
+  -- a future trim leave this one standing alone.
+  F.check("0: the maiden voyage set VAR_SSAQUA_STATE to 1", regionVarGet(VAR_SSAQUA_STATE) == 1,
+    "state=" .. regionVarGet(VAR_SSAQUA_STATE))
+  clearBox(6)
+  -- Control, proved DOWNWARD. The script lands the player at (29,3): (29,2) is the door sailor and
+  -- (29,1) is the ship's exit warp, so Up is blocked, and Left/Right — which is all F.ensureFree()
+  -- ever presses — is the one-tile corridor wall. Segment A walks this same column.
+  --
+  -- ★ ONE tile, deliberately, and this is the only place in the file where that matters.
+  -- SSAqua_1F carries trigger coord_events at (28,8) and (29,8) gated on VAR_SSAQUA_STATE == 1
+  -- (data/maps/SSAqua_1F/map.json) -> SSAqua_1F_Trigger_Grandpa, which locks, drives the player
+  -- with applymovement, advances the var to 2 and writes three Johto flags. State 1 is precisely
+  -- what the maiden voyage just set, so this segment is the ONLY one that ever runs with those
+  -- triggers armed — every other segment forces 6 or 7 first. (29,4) is four tiles short of them,
+  -- so nothing fires; but a future edit that walks this column further, or reuses F.route here,
+  -- would hand the rest of the suite a moving player and a changed var.
+  F.check("0: control returns aboard, with no lock left behind", F.step("Down"))
+  F.shot("maiden_voyage")
+
+  -- ★ Hand over to segment A cleanly. The maiden voyage leaves the player ON MAP_SSAQUA_1F, and
+  -- segment A's very next act is a warpTo the same map — whose success test is group+map ONLY
+  -- (lib.lua:245). Called while already standing there it reports true having warped nobody, and
+  -- worse, leaves the debug menu OPEN, which then silently eats every key press that follows. So
+  -- step ashore first. Olivine's port is the honest place to park: its map script table is empty
+  -- (`OlivineCity_PortInside_MapScripts:: .byte 0`), so arriving there runs nothing that could
+  -- colour what comes next, and this is where the ferry would have put the player anyway.
+  F.check("0: parked ashore so segment A's boarding warp really warps",
+    F.warpTo(0, 8, 8, 0, 0, 8, 0, 0, 0, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT, "backAshore"))
 
   -- ============================================================ A. the disembark
   -- State 6 = "docked in VERMILION, announcement given". That is exactly where a player who
@@ -472,6 +655,75 @@ F.run(function()
     sailHomeFrom(REGION_HOENN, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR, "islandHoenn"),
     ("grp=%d map=%d"):format(F.grp(), F.mapn()))
   F.shot("island_home")
+
+  -- Issue #69: NAVEL ROCK was the fourth island and the only one still carrying a private
+  -- `warp MAP_LILYCOVE_CITY_HARBOR` instead of the shared script. Be precise about what this
+  -- leg proves: there are TWO Navel Rock harbours. This one, MAP_NAVEL_ROCK_HARBOR, is the
+  -- REGION_HOENN map reachable only from LILYCOVE; KANTO's MYSTIC TICKET run sails to
+  -- MAP_NAVEL_ROCK_HARBOR_FRLG, a different map whose own sailor already returns to VERMILION.
+  -- So the HOENN direction is the one a player can actually book, and it is asserted first as
+  -- the no-regression half. JOHTO and KANTO assert the shared script's two other arms, the
+  -- KANTO one being a floor under a Kanto-side island row that does not exist yet.
+  -- Same LAYOUT_ISLAND_HARBOR as Birth Island's — warp 0 at (8,2), sailor at (8,5) — so the
+  -- same two-tile walk drives it. MAP_NAVEL_ROCK_HARBOR = (67 | (26 << 8)), map_groups.h.
+  local MAP_NAVEL_HARBOR = 67
+  -- Sampled AFTER the warp onto the island but BEFORE the sailor is asked for a way home. This
+  -- is the discriminating read of the three: MAP_NAVEL_ROCK_HARBOR is itself a REGION_HOENN map
+  -- with a Hoenn mapsec, and ResyncCurrentRegionFromMap runs on that warp. It is only because it
+  -- prefers the PERSISTED SaveBlock2.currentRegion over the map that a departure record exists at
+  -- all by the time the sailor reads it — if that preference ever flipped, gCurrentRegion would
+  -- read HOENN here and every leg would sail to Lilycove no matter where it was booked. Reading
+  -- the mirror rather than the persisted byte matters too: gCurrentRegion is what the guard
+  -- actually compares (src/region_switch.c's RegionHub_ScrTargetIsCurrent), and it is the one the
+  -- engine rewrote on the warp rather than the one this harness set.
+  local onIsland
+  local function sailHomeFromNavelRock(region, expectGrp, expectMap, tag)
+    -- Both writes, for the reason segment F states: gCurrentRegion is the EWRAM mirror the
+    -- guard reads, SaveBlock2.currentRegion is what ResyncCurrentRegionFromMap re-seeds it
+    -- from on the warp, so writing one alone is undone by the other.
+    F.w32(S.gCurrentRegion, region)
+    F.w8(F.sb2() + S.SaveBlock2.currentRegion, region)
+    if not F.warpTo(0, 2, 6, 0, 6, 7, 0, 0, 0, GRP_EVENT_ISLANDS, MAP_NAVEL_HARBOR, tag) then
+      return false
+    end
+    F.idle(90)
+    onIsland = F.r32(S.gCurrentRegion)
+    if not F.route({ { 8, 4 } }, tag .. "ToSailor") then return false end
+    F.face("Down")
+    return talkUntilMap(expectGrp, expectMap)
+  end
+
+  F.check("H: a HOENN-booked NAVEL ROCK trip still sails home to LILYCOVE (no regression)",
+    sailHomeFromNavelRock(REGION_HOENN, GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR, "navelHoenn"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: the HOENN booking survived the warp onto the island", onIsland == REGION_HOENN,
+    "gCurrentRegion=" .. tostring(onIsland))
+  clearBox(10)
+
+  F.check("H: a JOHTO-booked NAVEL ROCK trip sails home to OLIVINE",
+    sailHomeFromNavelRock(REGION_JOHTO, GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT, "navelJohto"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: the JOHTO booking survived the warp onto a REGION_HOENN island map",
+    onIsland == REGION_JOHTO, "gCurrentRegion=" .. tostring(onIsland))
+  clearBox(10)
+
+  -- The KANTO arm lands on the berth tile (8,16) INSIDE the terminal, not on the pier, so it
+  -- misses VermilionCity_EventScript_ExitedTicketCheck's coord events at (22,32)/(23,32).
+  F.check("H: a KANTO-booked NAVEL ROCK trip sails home to VERMILION's terminal",
+    sailHomeFromNavelRock(REGION_KANTO, GRP_VERM_INDOOR, MAP_VERM_PORT, "navelKanto"),
+    ("grp=%d map=%d"):format(F.grp(), F.mapn()))
+  F.check("H: the KANTO booking survived the warp onto a REGION_HOENN island map",
+    onIsland == REGION_KANTO, "gCurrentRegion=" .. tostring(onIsland))
+  -- "The arrival scene did not run" asserted by POSITION, not by the var. The var is already 7
+  -- and the scene would set it to 7 again, so reading it back proves nothing either way — but
+  -- VermilionCity_PortInside_EventScript_Arrived opens with an applymovement that walks the
+  -- player one tile north off the berth. Still standing on (8,16) is the observable difference.
+  local kx, ky = F.pos()
+  F.check("H: the KANTO arm landed on the berth tile and the arrival scene did not run",
+    kx == 8 and ky == 16, ("(%d,%d) state=%d"):format(kx, ky, regionVarGet(VAR_SSAQUA_STATE)))
+  clearBox(10)
+  F.check("H: control returns in the KANTO terminal after the island run", F.step("Up"))
+  F.shot("navelrock_home")
 
   F.finish()
 end)

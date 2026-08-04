@@ -14,9 +14,15 @@ NavelRock_Harbor_EventScript_Sailor::
 	hideobjectat LOCALID_NAVEL_ROCK_SAILOR, MAP_NAVEL_ROCK_HARBOR
 	setvar VAR_0x8004, LOCALID_NAVEL_ROCK_SS_TIDAL
 	call Common_EventScript_FerryDepartIsland
-	warp MAP_LILYCOVE_CITY_HARBOR, 8, 11
-	waitstate
-	release
+	@ Home is OLIVINE if the trip was booked there, VERMILION if it was booked in KANTO
+	@ (issue #69) - see the region note on Common_EventScript_FerrySailHomeFromIsland in
+	@ data/event_scripts.s. This map is the HOENN Navel Rock harbour, reachable only from
+	@ LILYCOVE, so in practice the shared script still lands every real trip back at LILYCOVE;
+	@ KANTO's MYSTIC TICKET run goes to MAP_NAVEL_ROCK_HARBOR_FRLG instead, which has its own
+	@ sailor home to VERMILION. This is here so all four event islands share one way home
+	@ rather than three sharing one and this one carrying a private copy that would have to be
+	@ remembered separately the next time a harbour is added.
+	goto Common_EventScript_FerrySailHomeFromIsland
 	end
 
 NavelRock_Harbor_EventScript_AsYouLike::

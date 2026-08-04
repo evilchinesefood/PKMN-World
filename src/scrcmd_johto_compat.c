@@ -385,13 +385,17 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 //     to MAP_SAFARI_ZONE_CENTER. The blocker the old comment named no longer exists.
 //
 //   * The quest can never start, which no species table would fix. VAR_BAOBA_QUEST_STATE
-//     (constants/johto_vars.h) is read at SafariZoneGate_SafariZoneEntrance/scripts.inc:59-63 and
-//     written ONLY as 2/3/4/5, by the four stage-completion branches themselves. Nothing in the
-//     tree ever sets it to 1. Vars are zero-initialised, so EventScript_Baoba always falls through
-//     to the generic greeting, and not one of the four `baobacheckmon` call sites is reachable
-//     without externally forcing the var — this handler cannot run in normal play. The one Baoba
-//     phone call that does exist (Route27_EventScript_BaobaCall) announces the Safari Zone west
-//     expansion and sets its own VAR_ROUTE27_BAOBA_CALL; it does not touch the quest state.
+//     (constants/johto_vars.h) is read by the goto_if chain in
+//     SafariZoneGate_SafariZoneEntrance_EventScript_Baoba (cited by label, not line: this very
+//     comment's sibling note was added to the head of that file and would shift any number here)
+//     and written ONLY as 2/3/4/5, by the four stage-completion branches themselves. Nothing in
+//     the tree ever sets it to 1 — no setvar, addvar, copyvar or C-side VarSet. Vars are
+//     zero-initialised, so EventScript_Baoba always falls through to the generic greeting, and not
+//     one of the four `baobacheckmon` call sites is reachable without externally forcing the var:
+//     this handler cannot run in normal play. Neither of the two Baoba phone calls that do exist
+//     helps — Route27_EventScript_BaobaCall announces the Safari Zone west expansion and sets
+//     VAR_ROUTE27_BAOBA_CALL, and OlivineCity_EventScript_BaobaCall (OlivineCity/scripts.inc)
+//     advances VAR_SAFARI_ZONE_GATE_STATE. Neither touches the quest state.
 //
 //   * The areas the script names do not exist. The four prompts ask for an exotic mon from the
 //     BEACH / BRUSH / MOUNTAIN / CAVE area of the FUCHSIA SAFARI ZONE. The shipped Fuchsia safari
@@ -403,8 +407,10 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 // So reviving this needs a quest starter AND an authored area->species mapping the shipped
 // geography cannot supply: new game design, not a port. Two more signs the HnS port was abandoned
 // mid-flight — Text_BaobaLastMon (the "I can't take your last POKEMON!" refusal) is defined and
-// never referenced, and the four stages pay out 1,300,000 total (200k/300k/400k/400k), a figure
-// nobody balanced because nobody could reach it. See the file-head note in
+// never referenced, and the four stages pay out 200k/300k/400k/400k, which is both more than
+// MAX_MONEY (999999, include/money.h) can even hold and four times the next-largest `addmoney`
+// anywhere in data/ (100,000, LakeOfRage_House2). Nobody balanced those numbers because nobody
+// could reach them. See the file-head note in
 // SafariZoneGate_SafariZoneEntrance/scripts.inc.
 void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
 {

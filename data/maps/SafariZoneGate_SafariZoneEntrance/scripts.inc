@@ -10,9 +10,10 @@
 @ to the generic Text_Baoba greeting, no stage ever arms, and the four `baobacheckmon` calls below
 @ cannot run in normal play without externally forcing the var.
 @
-@ Two things that look like leads and are not. (1) Route27_EventScript_BaobaCall is a real Baoba
-@ phone call, but it announces the Safari Zone west expansion and sets VAR_ROUTE27_BAOBA_CALL; it
-@ never touches the quest state. (2) The prompts ask for exotic mons from the BEACH / BRUSH /
+@ Two things that look like leads and are not. (1) There are two real Baoba phone calls, and
+@ neither starts the quest: Route27_EventScript_BaobaCall announces the Safari Zone west expansion
+@ and sets VAR_ROUTE27_BAOBA_CALL, and OlivineCity_EventScript_BaobaCall advances
+@ VAR_SAFARI_ZONE_GATE_STATE. (2) The prompts ask for exotic mons from the BEACH / BRUSH /
 @ MOUNTAIN / CAVE areas of the FUCHSIA SAFARI ZONE. Those areas do not exist: the Fuchsia safari
 @ that shipped with the Kanto merge is the FRLG Center/East/North/West set, and this gate warps
 @ into the JOHTO safari (MAP_SAFARI_ZONE_ENTERANCE) anyway. Text_BaobaLastMon is likewise defined

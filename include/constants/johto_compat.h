@@ -60,11 +60,12 @@
 // version. The HGSS set piece is "Lance as your in-game partner against Ariana and a Grunt", and
 // naming those three trainers was the job of the HnS SET_TRAINER_A/B setup ops, which the merge
 // dropped with nothing to replace them. The target's SPECIAL_BATTLE_MULTI path (battle_special.c,
-// DoSpecialTrainerBattle) instead takes its cast from gPartnerTrainerId (via FillPartnerParty) and
-// the TRAINER_BATTLE_PARAM opponent slots, and MahoganyHideout_B2F sets neither — so what runs is
-// whatever the generic 2-vs-2 multi path produces, not the authored line-up. Restoring the fight
-// as HGSS staged it means authoring Ariana's and the Grunt's parties and wiring Lance up as the
-// in-game partner: new content, not a rename.
+// DoSpecialTrainerBattle) instead passes gPartnerTrainerId to FillPartnerParty and leaves the
+// TRAINER_BATTLE_PARAM opponent slots for the battle engine to read downstream; MahoganyHideout_B2F
+// sets none of the three (it only sets VAR_0x8005 to 0, taking the 2-vs-2 arm) — so what runs is
+// whatever the generic multi path produces, not the authored line-up. Restoring the fight as HGSS
+// staged it means authoring Ariana's and the Grunt's parties and wiring Lance up as the in-game
+// partner: new content, not a rename.
 // The dead labels this left behind are documented at MahoganyHideout_B2F/scripts.inc.
 #define SPECIAL_BATTLE_LANCE        SPECIAL_BATTLE_MULTI
 // Mahogany-area berry trees borrow real suffixed Hoenn slots (own slots in Stage 4).

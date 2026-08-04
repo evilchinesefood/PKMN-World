@@ -89,26 +89,32 @@ VermilionCity_Text_FerryToHub:
 @ terminal now has a door on this map (warp 10, the port building at x=25..28 y=26..29), so
 @ there is one departure desk again and this one points at it.
 @
-@ Note what this must NOT become: a dead end. The fall-through to
-@ VermilionCity_EventScript_FerrySSAnnePier is load-bearing — it keeps this sailor's own business
-@ (the S.S.ANNE line, the WORLD TRANSIT hub, the Seagallop destinations) in the same
-@ conversation, so a Johto champion standing here with VAR_SSAQUA_STATE >= 7 and
-@ VAR_MAP_SCENE_VERMILION_CITY == 0 gets directions to the terminal AND a normal reply. Deleting
-@ the fall-through would re-open the #65 trap from the other side: a useful-looking desk that
-@ answers exactly one question and then goes quiet.
+@ Note what this must NOT become: a dead end. A handoff that ends here would re-open the #65 trap
+@ from the other side — a useful-looking desk that answers exactly one question and goes quiet —
+@ so the directions are a COMPLETE reply on their own (they name the building and what to ask for
+@ there), and when the pier has business of its own the conversation continues into it.
+@
+@ It continues into FerryHubOrSevii rather than into FerrySSAnnePier one line up, deliberately.
+@ FerrySSAnnePier's own reply below the scene gate is "Welcome to the S.S. ANNE!", which bolted
+@ onto S.S.AQUA directions reads as a non-sequitur about a different ship. Jumping past it keeps
+@ the WORLD TRANSIT hub and the Seagallop destinations reachable in the same conversation for a
+@ player who has cleared the S.S.ANNE, and leaves everyone else with just the directions.
 @
 @ VermilionPort_EventScript_EnterJohtoRegion (the region claim + setrespawn that keeps a
 @ cross-region entry legal per src/region_switch.c) is NOT lost with the warp. It was always
 @ shared with VermilionPort_EventScript_Sailor in data/maps/VermilionCity_PortInside/scripts.inc,
 @ and that sailor is now the only S.S.AQUA departure in Kanto. (The hub ferry and the Seagallop
-@ destinations below still leave from this pier; neither crosses into JOHTO.)
+@ destinations below still leave from this pier; neither crosses into JOHTO.) That sailor gained a
+@ matching VAR_SSAQUA_STATE >= 7 gate in #68, because the new door means reaching his desk no
+@ longer implies having arrived by ship — the two desks now agree instead of contradicting.
 @
 @ VAR_SSAQUA_STATE is a Johto-bank var read from a Kanto map, which is fine: per-region vars use
 @ absolute IDs dispatched in GetVarPointer(), there is no bank to swap.
 VermilionCity_EventScript_FerryAquaAtTerminal::
 	msgbox VermilionCity_Text_AquaBooksAtTerminal, MSGBOX_DEFAULT
 	closemessage
-	goto VermilionCity_EventScript_FerrySSAnnePier
+	goto_if_eq VAR_MAP_SCENE_VERMILION_CITY, 3, VermilionCity_EventScript_FerryHubOrSevii
+	release
 	end
 
 VermilionCity_Text_AquaBooksAtTerminal:

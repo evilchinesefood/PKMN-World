@@ -221,10 +221,16 @@ F.run(function()
   F.shot("vermilion_pier")
 
   if inCity then
-    -- The landing tile has to be part of the city, not an island: walk west along the deck and
-    -- north to its top row, then down the S.S.ANNE walkway to the berth.
-    F.check("C: the landing tile connects to the city on foot", F.route({ { 24, 28 } }, "upThePier"))
-    F.check("C: walked down to the berth", F.route({ { 24, 32 } }, "downThePier"))
+    -- The landing tile has to be part of the CITY, not an island, and the walk has to leave the
+    -- pier to prove it: east along the deck to the foot of the ramp at x=36, up the ramp and off
+    -- the quay onto grass at (36,19). That route is also the invariant the blockdata edit rests
+    -- on — the terminal narrows the deck to the single row y=30 across x=25..28, so this is the
+    -- only lane left between the ramp and the S.S.ANNE walkway, and a stamp one row lower would
+    -- have severed the harbour from the city with nothing else noticing.
+    F.check("C: the landing tile connects to the city on foot",
+      F.route({ { 36, 30 }, { 36, 19 } }, "upThePier"))
+    F.check("C: walked back down to the berth",
+      F.route({ { 36, 30 }, { 24, 30 }, { 24, 32 } }, "downThePier"))
     -- The pier sailor is at (24,33), directly south. VAR_MAP_SCENE_VERMILION_CITY is 0 on this
     -- save (no Kanto story), which is precisely the case the S.S.ANNE scene gate used to swallow.
     -- He used to sell this crossing himself; #68 retired that duplicate, so the assertion flips:
@@ -253,8 +259,8 @@ F.run(function()
 
     -- The headline of #68: the door is two-way. Walk back to the apron and north into it. Two
     -- waypoints, not one: route() is a greedy x-then-y walk, so leaving the berth eastwards first
-    -- would step straight off the walkway into the water at (25,32). Climb the walkway, then go
-    -- east along the deck.
+    -- would try (25,32), which is elevation-1 water beside the walkway — the step is refused, so
+    -- leg() reports BLOCKED rather than the player swimming off. Climb the walkway, then go east.
     F.check("C: walked back to the port door", F.route({ { 24, 30 }, { 26, 30 } }, "toCityPortDoor"))
     F.step("Up")
     local backInside = false
@@ -272,6 +278,30 @@ F.run(function()
       -- the berth that has a gangway and a boat to show for it.
       F.check("C: the berth sailor is reachable on a return visit",
         F.route({ { 8, 16 } }, "toBerthSailorC"))
+
+      -- That reachability is exactly why the berth sailor gained a VAR_SSAQUA_STATE >= 7 gate in
+      -- #68. While this hall was arrival-only, standing in front of this desk already IMPLIED
+      -- having crossed, so an ungated offer could not be reached early. The door removes the
+      -- implication — RegionHub_EventScript_ReturnKanto lands returning visitors on
+      -- MAP_VERMILION_CITY warp 0 at (22,34), a short walk from the apron — and an early sail
+      -- would be one-way: it flips the active region and the whiteout to JOHTO, while
+      -- OlivinePort_EventScript_Sailor refuses below 7 and there is no ship back. Drop the var
+      -- under the gate and prove the desk declines without moving the player off this map.
+      regionVarSet(VAR_SSAQUA_STATE, 6)
+      F.face("Down")
+      F.press("A", 2); F.idle(40)
+      local declined = false
+      for _ = 1, 40 do
+        F.press("B", 2); F.idle(30)
+        if F.step("Up") then declined = true; break end   -- vertical: the berth is one tile wide
+      end
+      F.check("C: below the gate the berth sailor declines and does not sail",
+        declined and F.grp() == GRP_VERM_INDOOR and F.mapn() == MAP_VERM_PORT,
+        ("freed=%s grp=%d map=%d"):format(tostring(declined), F.grp(), F.mapn()))
+      regionVarSet(VAR_SSAQUA_STATE, 7)
+      F.check("C: back at the berth sailor with the gate open",
+        F.route({ { 8, 16 } }, "toBerthSailorC2"))
+
       F.face("Down")
       local home = talkUntilMap(GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT)
       F.check("C: the terminal desk sails the return leg to OLIVINE CITY's port", home,

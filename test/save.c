@@ -24,9 +24,15 @@
 // (313 B) became a 512-bit field + table hash (68 B). SaveBlock2 and PokemonStorage are
 // deliberately unchanged — the SaveBlock3 checksum reference was carved from SaveBlock2's
 // existing 0x94 filler rather than appended, so the block keeps its upstream size.
+// Updated for save format v9 (2026-08-05, issue #51 + the Johto trainer id split): SaveBlock3
+// grew 1,232 -> 1,264 because johtoTrainerFlags[32] was APPENDED to the tail of struct
+// RegionSave. Appended, not inserted — that is the whole point: every pinned offsetof in
+// src/load_save.c is unchanged, so a v7/v8 save still loads and the v8 -> v9 ladder step only has
+// to zero the new bank. SaveBlock1/2 and PokemonStorage are untouched; the new bank is the only
+// layout change in v9.
 #define T_SAVEBLOCK1_SIZE 14752
 #define T_SAVEBLOCK2_SIZE 3884
-#define T_SAVEBLOCK3_SIZE 1232
+#define T_SAVEBLOCK3_SIZE 1264
 #define T_POKEMONSTORAGE_SIZE 34144
 
 TEST("SaveBlock1 is backwards compatible")

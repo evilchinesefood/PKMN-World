@@ -72,6 +72,12 @@ jobs:
       - name: Cleared-obstacle table freshness
         run: python3 Testing/GenObstacleTable.py --check
 
+      # The save tool hard-codes the sector geometry and SaveBlock sizes it patches with.
+      # A format bump that leaves them stale would not fail any build -- it would silently
+      # write a save whose checksums land in the wrong place. This is that tripwire.
+      - name: Save-format constants still match the tree
+        run: python3 Testing/SavePatch.py --check
+
   test:
     name: make check (battle test suite)
     runs-on: ubuntu-latest

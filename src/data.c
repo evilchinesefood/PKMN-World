@@ -249,9 +249,14 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT, KantoJohtoTrainerIdsExceedTrainersCount);
 #if ALL_REGIONS
 STATIC_ASSERT(!IS_FRLG, AllRegionsBuildMustNotFoldToFrlgTrainerCount);
-// Kanto trainer block geometry (E5-1): starts right after Johto, ends at TRAINERS_COUNT-1.
+// Kanto trainer block geometry (E5-1): starts right after Johto, ends where the Johto
+// route/dungeon block (v9) begins - it is no longer the last block, so it is measured against
+// JOHTO_EXT_TRAINER_ID_OFFSET rather than TRAINERS_COUNT.
 STATIC_ASSERT(KANTO_TRAINER_ID_OFFSET == TRAINER_LANCE_2 + 1, KantoTrainerBlockMustStartAfterJohto);
-STATIC_ASSERT(TRAINER_ROCKET_JAMES_2 == TRAINERS_COUNT - 1, KantoTrainerBlockMustEndAtTrainersCount);
+STATIC_ASSERT(TRAINER_ROCKET_JAMES_2 == JOHTO_EXT_TRAINER_ID_OFFSET - 1, KantoTrainerBlockMustEndAtJohtoExtBlock);
+// Johto route/dungeon block geometry (v9): starts right after Kanto, ends at TRAINERS_COUNT-1.
+STATIC_ASSERT(TRAINER_WAYNE_JT == JOHTO_EXT_TRAINER_ID_OFFSET, JohtoExtBlockMustStartAtItsOffset);
+STATIC_ASSERT(TRAINER_GWEN_JT == TRAINERS_COUNT - 1, JohtoExtBlockMustEndAtTrainersCount);
 #endif
 
 #include "data/text/follower_messages.h"

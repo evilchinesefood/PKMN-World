@@ -8,22 +8,33 @@
 -- What it proves, in order:
 --   1. SAVE_FORMAT_LAYOUT_MIN stayed 7: the v7 save LOADS (Continue works) instead of
 --      being refused like the v3/v4/v5 fixtures.
---   2. The v7 -> v8 ladder step ran: saveVersion reads 8 in RAM after boot.
+--   2. The ladder ran to the current format: saveVersion reads SAVE_FORMAT_VERSION in RAM
+--      after boot. A v7 fixture now climbs v7 -> v8 -> v9.
+--   2b. The v8 -> v9 step zeroed the appended johtoTrainerFlags bank. SaveBlock3 is
+--      un-checksummed and v9 APPENDED that bank past the end of a v7/v8 save, so those bytes
+--      are whatever was in flash; without the memset a never-fought Johto trainer can read as
+--      already defeated. The fixture is what makes this non-vacuous.
 --   3. The stale mapView did NOT repaint the old room over the new layout: the live map
 --      grid holds the terminal metatiles and the stair fills, not the poster / escalator.
 --      This is the assertion that needs the fixture -- on any post-edit save mapView is
 --      already clean and the check would pass vacuously.
 --
+-- FIXTURES: use v7dirty.srm for the bank check to mean anything. v7.srm happens to hold zeroes
+-- where johtoTrainerFlags landed, so check 2b passes on it EVEN WITH THE MEMSET REMOVED -- it is
+-- vacuous there. v7dirty.srm is v7.srm with 0xFF written over that bank (SaveBlock3 offset 1232 =
+-- slot sector id 10, saveBlock3Chunk offset 72..103; that chunk is un-checksummed, so poking it
+-- does not invalidate the save). Verified to discriminate: 10/11 without the memset, 11/11 with.
+--
 -- Run (the fixture must be this ROM's battery save):
 --   cp <repo>/pokemonworld.gba              BizHawk\MigChkV7.gba
---   cp Testing\lua\fixtures\v7.srm          BizHawk\GBA\SaveRAM\MigChkV7.SaveRAM
+--   cp Testing\lua\fixtures\v7dirty.srm     BizHawk\GBA\SaveRAM\MigChkV7.SaveRAM
 --   EmuHawk.exe BizHawk\MigChkV7.gba --lua=<repo>\Testing\lua\VerifyV7Migrate.lua
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(require("symbols"), "VerifyV7Migrate")
 
-local SAVE_FORMAT_VERSION = 8
+local SAVE_FORMAT_VERSION = 9
 local MAPVIEW_OFF = 0x34            -- include/global.h: /*0x34*/ u16 mapView[0x100]
 
 -- LAYOUT_POKEMON_CENTER_1F after the edit (ApplyMaps.py): the cells the stale
@@ -59,6 +70,21 @@ F.run(function()
   local ver = F.r8(F.sb2() + S.SaveBlock2.saveVersion)
   F.check("saveVersion migrated 7 -> " .. SAVE_FORMAT_VERSION, ver == SAVE_FORMAT_VERSION,
     "ver=" .. ver)
+
+  -- 2b. The v8 -> v9 step zeroed the APPENDED Johto trainer defeat-flag bank. This fixture
+  --     predates the bank entirely, so those bytes are un-checksummed flash: whatever survived
+  --     there would otherwise read as "already defeated" for a trainer never fought. Scan the
+  --     whole bank, not just byte 0 -- a single stale bit is a silently skipped battle.
+  local dirty, first = 0, -1
+  for i = 0, (S.NUM_JOHTO_TRAINER_FLAG_BYTES or 32) - 1 do
+    local b = F.r8(F.sb3() + S.SaveBlock3.johtoTrainerFlags + i)
+    if b ~= 0 then
+      dirty = dirty + 1
+      if first < 0 then first = i end
+    end
+  end
+  F.check("johtoTrainerFlags bank zeroed by the v8 -> v9 step", dirty == 0,
+    ("dirty bytes=%d first=%d"):format(dirty, first))
 
   -- 3. The room renders the NEW layout. If the ladder step had not zeroed mapView,
   --    InitMapFromSavedGame's restore (which runs BEFORE the on-load script) would have

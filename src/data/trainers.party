@@ -24309,3 +24309,652 @@ IVs: 25 HP / 25 Atk / 25 Def / 25 SpA / 25 SpD / 25 Spe
 - MOVE_CRUNCH
 - MOVE_ICE_PUNCH
 - MOVE_SCREECH
+
+/*
+Johto route/dungeon trainers (see constants/opponents.h, ids 1727+). Authentic
+GSC parties from pret/pokecrystal data/trainers/parties.asm. These replace the
+shared Hoenn trainer ids these battles used to point at.
+*/
+
+=== TRAINER_WAYNE_JT ===
+Name: WAYNE
+Class: TRAINER_CLASS_BUG_CATCHER
+Pic: TRAINER_PIC_BUG_CATCHER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_LEDYBA
+Level: 8
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_PARAS
+Level: 10
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_AARON_JT ===
+Name: AARON
+Class: TRAINER_CLASS_COOLTRAINER
+Pic: TRAINER_PIC_COOLTRAINER_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_COOL
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_IVYSAUR
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_CHARMELEON
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_WARTORTLE
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_JACK_JT ===
+Name: JACK
+Class: TRAINER_CLASS_SCHOOL_KID
+Pic: TRAINER_PIC_SCHOOL_KID_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_ODDISH
+Level: 12
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_VOLTORB
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_BEVERLY_JT ===
+Name: BEVERLY
+Class: TRAINER_CLASS_POKEFAN
+Pic: TRAINER_PIC_POKEFAN_F
+Gender: Female
+Music: TRAINER_ENCOUNTER_MUSIC_FEMALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_SNUBBULL
+Level: 14
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_WILLIAM_JT ===
+Name: WILLIAM
+Class: TRAINER_CLASS_POKEFAN
+Pic: TRAINER_PIC_POKEFAN_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_RAICHU
+Level: 14
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_WADE_JT ===
+Name: WADE
+Class: TRAINER_CLASS_BUG_CATCHER
+Pic: TRAINER_PIC_BUG_CATCHER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_CATERPIE
+Level: 2
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_CATERPIE
+Level: 2
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_WEEDLE
+Level: 3
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_CATERPIE
+Level: 2
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_JUSTIN_JT ===
+Name: JUSTIN
+Class: TRAINER_CLASS_FISHERMAN
+Pic: TRAINER_PIC_FISHERMAN
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_SUSPICIOUS
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_MAGIKARP
+Level: 5
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_MAGIKARP
+Level: 5
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_MAGIKARP
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_MAGIKARP
+Level: 5
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_HENRY_JT ===
+Name: HENRY
+Class: TRAINER_CLASS_FISHERMAN
+Pic: TRAINER_PIC_FISHERMAN
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_SUSPICIOUS
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_POLIWAG
+Level: 8
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_POLIWAG
+Level: 8
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_ALBERT_JT ===
+Name: ALBERT
+Class: TRAINER_CLASS_YOUNGSTER
+Pic: TRAINER_PIC_YOUNGSTER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_RATTATA
+Level: 6
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_ZUBAT
+Level: 8
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_ROLAND_JT ===
+Name: ROLAND
+Class: TRAINER_CLASS_CAMPER
+Pic: TRAINER_PIC_CAMPER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_NIDORAN_M
+Level: 9
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_ANTHONY_JT ===
+Name: ANTHONY
+Class: TRAINER_CLASS_HIKER
+Pic: TRAINER_PIC_HIKER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_HIKER
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_GEODUDE
+Level: 11
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_MACHOP
+Level: 11
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_SAMUEL_JT ===
+Name: SAMUEL
+Class: TRAINER_CLASS_YOUNGSTER
+Pic: TRAINER_PIC_YOUNGSTER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_RATTATA
+Level: 7
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_SANDSHREW
+Level: 10
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_SPEAROW
+Level: 8
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_SPEAROW
+Level: 8
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_BRANDON_JT ===
+Name: BRANDON
+Class: TRAINER_CLASS_POKEFAN
+Pic: TRAINER_PIC_POKEFAN_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_SNUBBULL
+Level: 13
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_IRENE_JT ===
+Name: IRENE
+Class: TRAINER_CLASS_COOLTRAINER
+Pic: TRAINER_PIC_COOLTRAINER_F
+Gender: Female
+Music: TRAINER_ENCOUNTER_MUSIC_COOL
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_GOLDEEN
+Level: 22
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_SEAKING
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_IVAN_JT ===
+Name: IVAN
+Class: TRAINER_CLASS_CAMPER
+Pic: TRAINER_PIC_CAMPER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_DIGLETT
+Level: 10
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_ZUBAT
+Level: 10
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_DIGLETT
+Level: 14
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_BRYAN_JT ===
+Name: BRYAN
+Class: TRAINER_CLASS_BIRD_KEEPER
+Pic: TRAINER_PIC_BIRD_KEEPER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_PIDGEY
+Level: 12
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_PIDGEOTTO
+Level: 14
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_ALAN_JT ===
+Name: ALAN
+Class: TRAINER_CLASS_SCHOOL_KID
+Pic: TRAINER_PIC_SCHOOL_KID_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_TANGELA
+Level: 16
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_MARK_JT ===
+Name: MARK
+Class: TRAINER_CLASS_PSYCHIC
+Pic: TRAINER_PIC_PSYCHIC_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_INTENSE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_ABRA
+Level: 13
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_ABRA
+Level: 13
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_KADABRA
+Level: 15
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_GREG_JT ===
+Name: GREG
+Class: TRAINER_CLASS_PSYCHIC
+Pic: TRAINER_PIC_PSYCHIC_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_INTENSE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_DROWZEE
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_CHAD_JT ===
+Name: CHAD
+Class: TRAINER_CLASS_SCHOOL_KID
+Pic: TRAINER_PIC_SCHOOL_KID_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_MR_MIME
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_DANA_JT ===
+Name: DANA
+Class: TRAINER_CLASS_LASS
+Pic: TRAINER_PIC_LASS
+Gender: Female
+Music: TRAINER_ENCOUNTER_MUSIC_GIRL
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_FLAAFFY
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_PSYDUCK
+Level: 18
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_OLIVIA_JT ===
+Name: OLIVIA
+Class: TRAINER_CLASS_BEAUTY
+Pic: TRAINER_PIC_BEAUTY
+Gender: Female
+Music: TRAINER_ENCOUNTER_MUSIC_FEMALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_CORSOLA
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_DEREK_JT ===
+Name: DEREK
+Class: TRAINER_CLASS_POKEFAN
+Pic: TRAINER_PIC_POKEFAN_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_PIKACHU
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_SHANE_JT ===
+Name: SHANE
+Class: TRAINER_CLASS_POKEMANIAC
+Pic: TRAINER_PIC_POKEMANIAC
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_NIDORINA
+Level: 16
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_NIDORINO
+Level: 16
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_BEN_JT ===
+Name: BEN
+Class: TRAINER_CLASS_POKEMANIAC
+Pic: TRAINER_PIC_POKEMANIAC
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_SLOWBRO
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_BRENT_JT ===
+Name: BRENT
+Class: TRAINER_CLASS_POKEMANIAC
+Pic: TRAINER_PIC_POKEMANIAC
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_LICKITUNG
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_SPENCER_JT ===
+Name: SPENCER
+Class: TRAINER_CLASS_CAMPER
+Pic: TRAINER_PIC_CAMPER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_SANDSHREW
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_SANDSLASH
+Level: 17
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_ZUBAT
+Level: 19
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_TIFFANY_JT ===
+Name: TIFFANY
+Class: TRAINER_CLASS_PICNICKER
+Pic: TRAINER_PIC_PICNICKER
+Gender: Female
+Music: TRAINER_ENCOUNTER_MUSIC_GIRL
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_CLEFAIRY
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_EDGAR_JT ===
+Name: EDGAR
+Class: TRAINER_CLASS_FISHERMAN
+Pic: TRAINER_PIC_FISHERMAN
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_SUSPICIOUS
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_REMORAID
+Level: 25
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_REMORAID
+Level: 25
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_PHIL_JT ===
+Name: PHIL
+Class: TRAINER_CLASS_PSYCHIC
+Pic: TRAINER_PIC_PSYCHIC_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_INTENSE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_NATU
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_KADABRA
+Level: 26
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_ALLEN_JT ===
+Name: ALLEN
+Class: TRAINER_CLASS_COOLTRAINER
+Pic: TRAINER_PIC_COOLTRAINER_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_COOL
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_CHARMELEON
+Level: 27
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_STAN_JT ===
+Name: STAN
+Class: TRAINER_CLASS_SUPER_NERD_FRLG
+Pic: TRAINER_PIC_SUPER_NERD_FRLG
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_GRIMER
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_EDMOND_JT ===
+Name: EDMOND
+Class: TRAINER_CLASS_EXPERT
+Pic: TRAINER_PIC_EXPERT_M
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_SUSPICIOUS
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_BELLSPROUT
+Level: 3
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_BELLSPROUT
+Level: 3
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_BELLSPROUT
+Level: 3
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_LARRY_JT ===
+Name: LARRY
+Class: TRAINER_CLASS_POKEMANIAC
+Pic: TRAINER_PIC_POKEMANIAC
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_SLOWPOKE
+Level: 10
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_PHILLIP_JT ===
+Name: PHILLIP
+Class: TRAINER_CLASS_HIKER
+Pic: TRAINER_PIC_HIKER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_HIKER
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_GEODUDE
+Level: 23
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_GEODUDE
+Level: 23
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_GRAVELER
+Level: 23
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_LEONARD_JT ===
+Name: LEONARD
+Class: TRAINER_CLASS_HIKER
+Pic: TRAINER_PIC_HIKER
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_HIKER
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_GEODUDE
+Level: 23
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_MACHOP
+Level: 25
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_ANDREW_JT ===
+Name: ANDREW
+Class: TRAINER_CLASS_POKEMANIAC
+Pic: TRAINER_PIC_POKEMANIAC
+Gender: Male
+Music: TRAINER_ENCOUNTER_MUSIC_MALE
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_MAROWAK
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_MAROWAK
+Level: 24
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_GWEN_JT ===
+Name: GWEN
+Class: TRAINER_CLASS_COOLTRAINER
+Pic: TRAINER_PIC_COOLTRAINER_F
+Gender: Female
+Music: TRAINER_ENCOUNTER_MUSIC_COOL
+Double Battle: No
+AI: AI_FLAG_CHECK_BAD_MOVE
+
+SPECIES_EEVEE
+Level: 26
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_FLAREON
+Level: 22
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_VAPOREON
+Level: 22
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+SPECIES_JOLTEON
+Level: 22
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+

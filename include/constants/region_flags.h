@@ -41,6 +41,27 @@
 #define FLAG_KANTO_TRAINER_END       (FLAG_KANTO_TRAINER_BASE + KANTO_TRAINER_FLAG_BANK_SIZE - 1) // 0x667F
 #define NUM_KANTO_TRAINER_FLAG_BYTES (KANTO_TRAINER_FLAG_BANK_SIZE / 8) // 80
 
+// Johto trainer defeat-flag bank (save format v9). The Johto route/dungeon trainers used to
+// share Hoenn trainer ids with the Hoenn maps (Route 32's "Youngster" Albert *was* Hoenn's
+// Cooltrainer ALBERT, Lv43 Magneton and all), which meant one party for two trainers and one
+// shared defeat flag: beating either marked both. Fixing that needs distinct ids, but the
+// Hoenn+Johto inline window (ids 0..1095) is FULL and FROZEN and the Kanto bank had only 9
+// spare, so these ids get their own bank - the option opponents.h calls out as "a new
+// SaveBlock3 bank".
+//
+// This bank is APPENDED to the end of struct RegionSave (johtoTrainerFlags[] is the last
+// field of the last field of SaveBlock3), so no existing bank moves and every pinned
+// offsetof STATIC_ASSERT in load_save.c still holds. The v8 -> v9 ladder step only has to
+// zero it, because on a v8 save those bytes are uninitialised flash.
+//
+// 256 flags reserved; used = TRAINERS_COUNT - JOHTO_EXT_TRAINER_ID_OFFSET (34 today)
+// -> plenty of headroom (bound enforced by the STATIC_ASSERT in battle_setup.c; recompute
+// from that formula rather than trusting this figure).
+#define FLAG_JOHTO_TRAINER_BASE      0x6680 // directly above the Kanto trainer bank
+#define JOHTO_TRAINER_FLAG_BANK_SIZE 0x100  // 256 flags -> johtoTrainerFlags[32] in SaveBlock3
+#define FLAG_JOHTO_TRAINER_END       (FLAG_JOHTO_TRAINER_BASE + JOHTO_TRAINER_FLAG_BANK_SIZE - 1) // 0x677F
+#define NUM_JOHTO_TRAINER_FLAG_BYTES (JOHTO_TRAINER_FLAG_BANK_SIZE / 8) // 32
+
 // Per-region gym badges (8 each). Hoenn keeps the native FLAG_BADGE01..08_GET system flags.
 // Kanto and Johto store their 8 badges in a FREE slice of their per-region bank; every badge
 // consumer goes through GetBadgeFlag()/FLAG_*_BADGE(i), so the exact slice can be anything

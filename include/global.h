@@ -947,6 +947,10 @@ struct RegionSave
     // 104-entry triple list); u32 first so it lands 4-aligned at offset 1132.
     u32 obstacleTableHash;                          // CLEARED_OBSTACLE_TABLE_HASH this was written under
     u8 clearedObstacleBits[CLEARED_OBSTACLE_BYTES]; // one bit per generated obstacle index
+    // Johto trainer defeat-flag bank (save format v9). APPENDED here deliberately: this is the
+    // last field of the last field of SaveBlock3, so adding it moves no existing bank and every
+    // pinned offsetof assert in load_save.c still holds. See constants/region_flags.h.
+    u8 johtoTrainerFlags[NUM_JOHTO_TRAINER_FLAG_BYTES]; // = 32 bytes
 };
 
 struct SaveBlock3

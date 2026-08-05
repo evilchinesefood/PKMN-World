@@ -148,6 +148,70 @@ function M.new(S, name, opts)
   self.money = function() return r32(sb1() + S.SaveBlock1.money) ~ r32(sb2() + S.SaveBlock2.encryptionKey) end
   self.bp = function() return r16(sb2() + S.SaveBlock2.bp) end
 
+  -- crash screens, READ rather than inferred.
+  --
+  -- A suite that dies can otherwise only report "the game stopped responding", leaving you to
+  -- narrow by elimination across every assertf/fatalf site in the tree. It does not have to be
+  -- that way: CrashScreen (src/assertf.c) writes its message into the BG0 screen map at VRAM as
+  -- raw tile indices -- TILE0_OFFSET (40) + a glyph index -- over a 32x20 grid, and leaves it
+  -- there (MODE_FATALF then spins in VBlankIntrWait forever).
+  --
+  -- Glyph table is assertf.c's enum: 0 space, 1 _, 2 ., 3 :, 4 /, 5..30 A-Z, 31..40 0-9. The
+  -- formatter has no other glyphs, so anything it could not represent ('%', '-') was already
+  -- written as '_' by the GAME -- the decode is not lossy on our side.
+  --
+  -- Detection is on the TEXT, not the palette. CrashScreen does memcpy its 2-colour mode palette
+  -- (blue for assertf, red for fatalf) to BG_PLTT, but its wait loop calls VBlankIntrWait, and the
+  -- game's VBlank handler transfers gPlttBufferFaded straight back over PRAM every frame -- so by
+  -- the time anything reads it, BG_PLTT holds the interrupted scene's colours again, not the mode
+  -- colour. Verified: a deliberate fatalf rendered with BG_PLTT[0]=0x0000 / [1]=0x354A (black on
+  -- grey-green) rather than the 0x0014 red it asks for. The first line always starts with the
+  -- __FILE__ of the failing site, so "row 0 contains '.C:' followed by a digit" is both specific
+  -- and robust; a normal gameplay tilemap does not decode to that.
+  --
+  -- Returns nil when no crash screen is up, else (text, pltt0) where text is the decoded
+  -- "FILE.C:LINE: MESSAGE" naming the failing site outright, and pltt0 is BG palette entry 0 for
+  -- information only. Blue vs red is best read off the screenshot reportCrash() saves.
+  --
+  -- VERIFIED end-to-end, not just against the source constants: a temporary
+  -- `fatalf("decoder selftest %d", 1234)` was planted in DebugAction_Party_ClearParty, driven from
+  -- the debug menu, and this decoded "SRC/DEBUG.C:4940: DECODER SELFTEST 1234" plus the two return
+  -- addresses -- while correctly returning nil on the frames before it fired. Re-run that way if
+  -- assertf.c's glyph enum or TILE0_OFFSET ever change.
+  local CRASH_GLYPHS = { [0] = " ", "_", ".", ":", "/" }
+  for i = 0, 25 do CRASH_GLYPHS[5 + i] = string.char(65 + i) end
+  for i = 0, 9 do CRASH_GLYPHS[31 + i] = string.char(48 + i) end
+  local function crashRow(y)
+    local row = {}
+    for x = 0, 29 do
+      row[#row + 1] = CRASH_GLYPHS[r16(0x06000000 + (x + y * 32) * 2) - 40] or "?"
+    end
+    return (table.concat(row):gsub("%s+$", ""))
+  end
+  local function crashScreen()
+    local first = crashRow(0)
+    if not first:match("%.C:%d") then return nil end
+    local lines = {}
+    for y = 0, 19 do
+      local s = crashRow(y)
+      if s ~= "" then lines[#lines + 1] = s end
+    end
+    return table.concat(lines, " | "), r16(0x05000000)
+  end
+  self.crashScreen = crashScreen
+
+  -- Log + screenshot a crash if one is up. Returns true when it fired, so a walk loop can do
+  -- `if F.reportCrash("step" .. i) then break end`.
+  self.reportCrash = function(tag)
+    local text, pltt0 = crashScreen()
+    if not text then return false end
+    L("  *** CRASH SCREEN (" .. tostring(tag) .. ") ***")
+    L(string.format("  *** %s", text))
+    L(string.format("  *** BG_PLTT[0]=0x%04X (see the screenshot for blue vs red)", pltt0))
+    self.shot("crash_" .. tostring(tag))   -- self.shot, not the local: shot() is declared below
+    return true, text
+  end
+
   -- input
   local function idle(n) for _ = 1, n do joypad.set({}); emu.frameadvance() end end
   local function press(btn, frames) frames = frames or 2; for _ = 1, frames do joypad.set({ [btn] = true }); emu.frameadvance() end end

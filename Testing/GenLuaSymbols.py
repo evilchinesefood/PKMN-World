@@ -18,6 +18,14 @@ WANT = [
     "CB2_Overworld",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar",
+    # The 64-sprite pool and the 16 OBJ palette tags. CreateSprite/CreateSpriteAtEnd FATAL on
+    # exhaustion (src/sprite.c:436/452), so "how close does this map get to the cap" is a
+    # measurable quantity rather than something to argue about from object counts.
+    "gSprites", "sSpritePaletteTags",
+    # The heap. Alloc/AllocZeroed FATAL on exhaustion (src/malloc.c:209/226) and InitWindows
+    # fatals at window.c:51 when its buffer alloc fails, so "is the heap draining as you play"
+    # is the measurable form of the most plausible overworld red screen.
+    "gHeap",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gBagPockets", "sMartInfo",
@@ -85,6 +93,19 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },
                                                             -- live map grid: map[(x+7) + (y+7)*width],
                                                             -- u16/block, metatile id = bits 0-9 (& 0x3FF)
+  MemBlock     = { header = 16, allocated = 0x00, size = 0x04, sizeMask = 0x3FFFF, next = 0x0C },
+                                                            -- include/malloc.h: allocated is bit 0
+                                                            -- of the u16 at 0, size is bits 0-17 of
+                                                            -- the u32 at 4. Walk `next` from gHeap
+                                                            -- until it returns to the start.
+  Sprite       = { stride = 68, inUse = 0x3E, count = 64 },
+                                                            -- inUse is BIT 0 of the u16 at 0x3E
+                                                            -- (struct Sprite's first bitfield).
+                                                            -- gSprites is [MAX_SPRITES + 1]; only
+                                                            -- 0..63 are real, index 64 is the
+                                                            -- sentinel CreateSprite* returns on
+                                                            -- exhaustion before fataling.
+  SpritePalette= { count = 16, free = 0xFFFF },             -- sSpritePaletteTags, TAG_NONE = free
   ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18, flags1 = 0x01,
                    graphicsId = 0x04 },
                                                             -- graphicsId is u16; for a follower it is

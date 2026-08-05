@@ -1127,8 +1127,104 @@
 
 #define TRAINERS_COUNT_HOENN_JOHTO 1096
 
+// ============================================================================
+// Johto route/dungeon trainers (save format v9). These battles used to point at
+// same-named HOENN trainer ids, so one party and one defeat flag served two
+// different trainers (Route 32's "Youngster" ALBERT was Hoenn's Cooltrainer
+// ALBERT: Lv43 Magneton, Full Restore). The inline Hoenn+Johto window is FULL and
+// FROZEN and the Kanto bank had 9 spare, so these ids get their own SaveBlock3
+// bank (FLAG_JOHTO_TRAINER_BASE, region_flags.h) via TrainerIdToDefeatFlag().
+// Parties are the authentic GSC teams (pret/pokecrystal data/trainers/parties.asm).
+// Literal ids: cpp expansion of an expression emits an internal space that breaks
+// GAS macro-argument splitting in .include'd map scripts (as for the Kanto block).
+// ============================================================================
 #if ALL_REGIONS
-#define TRAINERS_COUNT_EMERALD     (KANTO_TRAINER_ID_OFFSET + TRAINERS_COUNT_FRLG) // 1727
+#define JOHTO_EXT_TRAINER_ID_OFFSET        1727 // == KANTO_TRAINER_ID_OFFSET + TRAINERS_COUNT_FRLG
+#define TRAINER_WAYNE_JT                          1727   // IlexForest
+#define TRAINER_AARON_JT                          1728   // LakeOfRage
+#define TRAINER_JACK_JT                           1729   // NationalPark_Normal
+#define TRAINER_BEVERLY_JT                        1730   // NationalPark_Normal
+#define TRAINER_WILLIAM_JT                        1731   // NationalPark_Normal
+#define TRAINER_WADE_JT                           1732   // Route31
+#define TRAINER_JUSTIN_JT                         1733   // Route32
+#define TRAINER_HENRY_JT                          1734   // Route32
+#define TRAINER_ALBERT_JT                         1735   // Route32
+#define TRAINER_ROLAND_JT                         1736   // Route32
+#define TRAINER_ANTHONY_JT                        1737   // Route33
+#define TRAINER_SAMUEL_JT                         1738   // Route34
+#define TRAINER_BRANDON_JT                        1739   // Route34
+#define TRAINER_IRENE_JT                          1740   // Route34
+#define TRAINER_IVAN_JT                           1741   // Route35
+#define TRAINER_BRYAN_JT                          1742   // Route35
+#define TRAINER_ALAN_JT                           1743   // Route36
+#define TRAINER_MARK_JT                           1744   // Route36
+#define TRAINER_GREG_JT                           1745   // Route37
+#define TRAINER_CHAD_JT                           1746   // Route38
+#define TRAINER_DANA_JT                           1747   // Route38
+#define TRAINER_OLIVIA_JT                         1748   // Route38
+#define TRAINER_DEREK_JT                          1749   // Route39
+#define TRAINER_SHANE_JT                          1750   // Route42
+#define TRAINER_BEN_JT                            1751   // Route43
+#define TRAINER_BRENT_JT                          1752   // Route43
+#define TRAINER_SPENCER_JT                        1753   // Route43
+#define TRAINER_TIFFANY_JT                        1754   // Route43
+#define TRAINER_EDGAR_JT                          1755   // Route44
+#define TRAINER_PHIL_JT                           1756   // Route44
+#define TRAINER_ALLEN_JT                          1757   // Route44
+#define TRAINER_STAN_JT                           1758   // RuinsOfAlph_Outside
+#define TRAINER_EDMOND_JT                         1759   // SproutTower_2F
+#define TRAINER_LARRY_JT                          1760   // UnionCave_1F
+#define TRAINER_PHILLIP_JT                        1761   // UnionCave_B1F
+#define TRAINER_LEONARD_JT                        1762   // UnionCave_B1F
+#define TRAINER_ANDREW_JT                         1763   // UnionCave_B1F
+#define TRAINER_GWEN_JT                           1764   // UnionCave_B2F
+#define JOHTO_EXT_TRAINERS_COUNT           38
+#else
+// Vanilla/FRLG builds: no Johto bank, keep the previous shared Hoenn ids.
+#define JOHTO_EXT_TRAINER_ID_OFFSET        TRAINERS_COUNT_HOENN_JOHTO
+#define TRAINER_WAYNE_JT                          TRAINER_WAYNE
+#define TRAINER_AARON_JT                          TRAINER_AARON
+#define TRAINER_JACK_JT                           TRAINER_JACK
+#define TRAINER_BEVERLY_JT                        TRAINER_BEVERLY
+#define TRAINER_WILLIAM_JT                        TRAINER_WILLIAM
+#define TRAINER_WADE_JT                           TRAINER_WADE
+#define TRAINER_JUSTIN_JT                         TRAINER_JUSTIN
+#define TRAINER_HENRY_JT                          TRAINER_HENRY
+#define TRAINER_ALBERT_JT                         TRAINER_ALBERT
+#define TRAINER_ROLAND_JT                         TRAINER_ROLAND
+#define TRAINER_ANTHONY_JT                        TRAINER_ANTHONY
+#define TRAINER_SAMUEL_JT                         TRAINER_SAMUEL
+#define TRAINER_BRANDON_JT                        TRAINER_BRANDON
+#define TRAINER_IRENE_JT                          TRAINER_IRENE
+#define TRAINER_IVAN_JT                           TRAINER_IVAN
+#define TRAINER_BRYAN_JT                          TRAINER_BRYAN
+#define TRAINER_ALAN_JT                           TRAINER_ALAN
+#define TRAINER_MARK_JT                           TRAINER_MARK
+#define TRAINER_GREG_JT                           TRAINER_GREG
+#define TRAINER_CHAD_JT                           TRAINER_CHAD
+#define TRAINER_DANA_JT                           TRAINER_DANA
+#define TRAINER_OLIVIA_JT                         TRAINER_OLIVIA
+#define TRAINER_DEREK_JT                          TRAINER_DEREK
+#define TRAINER_SHANE_JT                          TRAINER_SHANE
+#define TRAINER_BEN_JT                            TRAINER_BEN
+#define TRAINER_BRENT_JT                          TRAINER_BRENT
+#define TRAINER_SPENCER_JT                        TRAINER_SPENCER
+#define TRAINER_TIFFANY_JT                        TRAINER_TIFFANY
+#define TRAINER_EDGAR_JT                          TRAINER_EDGAR
+#define TRAINER_PHIL_JT                           TRAINER_PHIL
+#define TRAINER_ALLEN_JT                          TRAINER_ALLEN
+#define TRAINER_STAN_JT                           TRAINER_STAN
+#define TRAINER_EDMOND_JT                         TRAINER_EDMOND
+#define TRAINER_LARRY_JT                          TRAINER_LARRY
+#define TRAINER_PHILLIP_JT                        TRAINER_PHILLIP
+#define TRAINER_LEONARD_JT                        TRAINER_LEONARD
+#define TRAINER_ANDREW_JT                         TRAINER_ANDREW
+#define TRAINER_GWEN_JT                           TRAINER_GWEN
+#define JOHTO_EXT_TRAINERS_COUNT           0
+#endif
+
+#if ALL_REGIONS
+#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1765
 #else
 #define TRAINERS_COUNT_EMERALD     TRAINERS_COUNT_HOENN_JOHTO
 #endif

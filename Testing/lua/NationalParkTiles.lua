@@ -212,9 +212,23 @@ local function main()
     local a = F.sb1() + S.SaveBlock1.flags + math.floor(id / 8)
     F.w8(a, F.r8(a) | (1 << (id % 8)))
   end
+  -- Two banks now. JACK/WILLIAM/BEVERLY were Hoenn trainer ids shared with Route134/MtPyre_3F/
+  -- Route105; save format v9 gave the park its own GSC trainers (TRAINER_*_JT, ids 1727+) whose
+  -- defeat flags live in SaveBlock3.johtoTrainerFlags, NOT the inline SaveBlock1 window. Setting
+  -- only the old inline ids silently stopped suppressing them, Beverly intercepted the walk, and
+  -- the grass checks failed with the game working perfectly. KRISE was never repointed (its class
+  -- already matched) so it stays inline.
   local TRAINER_FLAGS_START = 0x500
-  for _, tid in ipairs({ 172, 236, 441, 920 }) do -- JACK, WILLIAM, BEVERLY, KRISE
+  for _, tid in ipairs({ 172, 236, 441, 920 }) do -- JACK, WILLIAM, BEVERLY (pre-v9), KRISE
     flagSet(TRAINER_FLAGS_START + tid)
+  end
+  local function johtoTrainerFlagSet(bit)
+    local a = F.sb3() + S.SaveBlock3.johtoTrainerFlags + math.floor(bit / 8)
+    F.w8(a, F.r8(a) | (1 << (bit % 8)))
+  end
+  local JOHTO_EXT_TRAINER_ID_OFFSET = 1727
+  for _, tid in ipairs({ 1729, 1730, 1731 }) do -- TRAINER_JACK_JT, BEVERLY_JT, WILLIAM_JT
+    johtoTrainerFlagSet(tid - JOHTO_EXT_TRAINER_ID_OFFSET)
   end
 
   -- The control. 35 steps over tiles that are non-encounter behaviours under BOTH reads: without it,

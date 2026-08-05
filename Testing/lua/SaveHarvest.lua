@@ -6,10 +6,10 @@
 -- The four address constants below are per-build: MakeMigrationFixtures.sh sed-patches them from
 -- each historical build's pokemonworld.map before running. The defaults are the current build's
 -- addresses so this also runs standalone against the current ROM.
-local GMAIN_CB2 = 0x030065b4
-local CB2_OW    = 0x081996e0
-local SB1_PTR   = 0x030050b0
-local SB2_PTR   = 0x030050ac
+local GMAIN_CB2 = 0x03006550
+local CB2_OW    = 0x081901d0
+local SB1_PTR   = 0x0300504c
+local SB2_PTR   = 0x03005048
 
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 local SEP = (here ~= "" and here:sub(-1)) or "/"

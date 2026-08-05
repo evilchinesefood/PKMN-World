@@ -48,7 +48,9 @@ local MAPS = {
     route = { { 10, 7 }, { 10, 2 } } },
   { tag = "JohtoViolet",   g = { 0, 7, 8 }, m = { 0, 0, 4 }, grp = 78,  map = 4,  ped = { 12, 2 },
     route = { { 10, 8 }, { 10, 5 }, { 11, 5 }, { 11, 4 }, { 12, 4 }, { 12, 2 } } },
-  { tag = "MtSilver",       g = { 0, 9, 7 }, m = { 0, 1, 0 }, grp = 97,  map = 10, ped = { 12, 2 },
+  -- map was 10 until save format v9 deleted MtSilver_SummitNight (index 9 of this group,
+  -- issue #51), which renumbered MtSilver_PokemonCenter and everything after it down by one.
+  { tag = "MtSilver",       g = { 0, 9, 7 }, m = { 0, 0, 9 }, grp = 97,  map = 9,  ped = { 12, 2 },
     route = { { 10, 8 }, { 10, 5 }, { 11, 5 }, { 11, 4 }, { 12, 4 }, { 12, 2 } } },
   { tag = "JohtoIndigo",    g = { 0, 9, 9 }, m = { 0, 0, 4 }, grp = 99,  map = 4,  ped = { 25, 10 },
     route = { { 24, 16 }, { 24, 12 }, { 25, 12 }, { 25, 10 } } },

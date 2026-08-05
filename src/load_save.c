@@ -3,6 +3,7 @@
 #include "berry_powder.h"
 #include "fake_rtc.h"
 #include "follower_npc.h"
+#include "heal_location.h"
 #include "item.h"
 #include "load_save.h"
 #include "main.h"
@@ -19,6 +20,7 @@
 #include "agb_flash.h"
 #include "event_data.h"
 #include "constants/event_objects.h"
+#include "constants/maps.h"
 #include "constants/regions.h"
 
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
@@ -191,6 +193,99 @@ static const struct { u16 oldId; u16 newId; } sKantoVarRebase[] = {
 // changed and any future append-only bump re-uses the mechanism unchanged. Note the fixtures in
 // Testing/lua/fixtures/ (v3/v4/v5) exercise the GATE, not the ladder; MigrateFixtures.lua was
 // rewritten to assert the refusal. The v7 fixture is the one that exercises a real migration.
+// Save format v9 deleted MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7FNIGHT and MAP_MT_SILVER_SUMMIT_NIGHT
+// (issue #51). Both were unreachable dead twins of a setmaplayoutindex day/night pair, but neither
+// was LAST in its map group, so removing them renumbered every map after them within that group:
+// 17 in gMapGroup_IndoorGoldenrod, 3 in gMapGroup_MtSilver.
+//
+// mapNum is persisted in SaveBlock1 - location, continueGameWarp, dynamicWarp, lastHealLocation,
+// escapeWarp and every live objectEvents[] entry - so a pre-v9 save that stored any of those 20
+// rooms would silently re-point one room earlier. That includes the RESPAWN point, which is the
+// nastiest form: a whiteout would land somewhere the player never healed.
+//
+// Each deleted twin sat directly AFTER its day map, so the removed index is always
+// MAP_NUM(day map) + 1. Deriving it that way keeps this table correct if those groups are ever
+// reordered again, instead of hard-coding 11 and 9.
+static const struct { u8 group; u8 dayNum; } sDeletedTwinMaps[] = {
+    { MAP_GROUP(MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7F), MAP_NUM(MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7F) },
+    { MAP_GROUP(MAP_MT_SILVER_SUMMIT_DAY),               MAP_NUM(MAP_MT_SILVER_SUMMIT_DAY) },
+};
+
+static void MigrateDeletedTwinMapNum(u8 mapGroup, u8 *mapNum)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sDeletedTwinMaps); i++)
+    {
+        u8 deleted = sDeletedTwinMaps[i].dayNum + 1;
+
+        if (mapGroup != sDeletedTwinMaps[i].group)
+            continue;
+        if (*mapNum > deleted)
+            (*mapNum)--;
+        else if (*mapNum == deleted)
+            *mapNum = sDeletedTwinMaps[i].dayNum; // stood on the deleted twin: fall back to its day map
+        return;
+    }
+}
+
+static void MigrateDeletedTwinMaps(void)
+{
+    struct WarpData *warps[] = {
+        &gSaveBlock1Ptr->location,
+        &gSaveBlock1Ptr->continueGameWarp,
+        &gSaveBlock1Ptr->dynamicWarp,
+        &gSaveBlock1Ptr->lastHealLocation,
+        &gSaveBlock1Ptr->escapeWarp,
+    };
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(warps); i++)
+        MigrateDeletedTwinMapNum((u8)warps[i]->mapGroup, (u8 *)&warps[i]->mapNum);
+
+    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->objectEvents); i++)
+        MigrateDeletedTwinMapNum(gSaveBlock1Ptr->objectEvents[i].mapGroup,
+                                 &gSaveBlock1Ptr->objectEvents[i].mapNum);
+}
+
+// v9 also MOVED two Johto heal-location coordinates that were plainly wrong: Violet City's sat at
+// (30,18), the tile below the SPROUT TOWER door rather than its PokeCenter, and Route 32's was 60
+// tiles from its own Center. lastHealLocation stores the COORDINATE, and
+// GetHealLocationIndexByWarpData matches the table on exact x/y - so a save still holding an old
+// pair stops matching, IsWhiteoutCutscene() goes false, and the player keeps whiting out onto the
+// old wrong tile until they happen to heal at that Center again. Re-point the stored coordinate so
+// an in-flight save is fixed on load rather than staying subtly broken.
+static void MigrateMovedHealLocations(void)
+{
+    static const struct { u16 mapGroup, mapNum, oldX, oldY; } sMovedHealLocations[] = {
+        { MAP_GROUP(MAP_VIOLET_CITY), MAP_NUM(MAP_VIOLET_CITY), 30, 18 },
+        { MAP_GROUP(MAP_ROUTE32),     MAP_NUM(MAP_ROUTE32),      9, 40 },
+    };
+    struct WarpData *heal = &gSaveBlock1Ptr->lastHealLocation;
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sMovedHealLocations); i++)
+    {
+        const struct HealLocation *loc;
+
+        if (heal->mapGroup != (s8)sMovedHealLocations[i].mapGroup
+         || heal->mapNum   != (s8)sMovedHealLocations[i].mapNum
+         || heal->x        != (s16)sMovedHealLocations[i].oldX
+         || heal->y        != (s16)sMovedHealLocations[i].oldY)
+            continue;
+
+        // Take the new coordinate from the table itself rather than repeating it here, so this
+        // cannot drift out of step with data/heal_locations.json.
+        loc = GetHealLocationByMap(sMovedHealLocations[i].mapGroup, sMovedHealLocations[i].mapNum);
+        if (loc != NULL)
+        {
+            heal->x = loc->x;
+            heal->y = loc->y;
+        }
+        return;
+    }
+}
+
 void MigrateSaveFormatIfNeeded(void)
 {
     u8 savedVersion = gSaveBlock2Ptr->saveVersion;
@@ -261,6 +356,25 @@ void MigrateSaveFormatIfNeeded(void)
     if (savedVersion < 8)
         memset(gSaveBlock1Ptr->mapView, 0, sizeof(gSaveBlock1Ptr->mapView));
 
+    // v8 -> v9: the Johto route/dungeon trainers were given their own trainer ids (they used to
+    // share Hoenn ones, which meant a single defeat flag for two different trainers). Their
+    // defeat flags live in johtoTrainerFlags[], APPENDED to the end of struct RegionSave - so no
+    // existing bank moved and a v8 save loads normally. But SaveBlock3 is un-checksummed and its
+    // tail is whatever was in flash, so those bytes are garbage on a v8 save: without zeroing
+    // them a player could walk up to a never-fought Johto trainer and find them already beaten.
+    if (savedVersion < 9)
+        memset(gSaveBlock3Ptr->region.johtoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->region.johtoTrainerFlags));
+
+    // v8 -> v9 also DELETED two dead day/night twin maps (issue #51) and MOVED two Johto heal
+    // coordinates. Both renumber/repoint state that is PERSISTED, so they need fixing up in the
+    // save, not just in the data. Issue #51 accepted a save reset for this; migrating is strictly
+    // better and is what keeps a mid-playthrough save loadable.
+    if (savedVersion < 9)
+    {
+        MigrateDeletedTwinMaps();
+        MigrateMovedHealLocations();
+    }
+
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
 
@@ -321,6 +435,7 @@ bool32 VerifyRegionSaveChecksum(void)
 STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
+STATIC_ASSERT(NUM_JOHTO_TRAINER_FLAG_BYTES == 32, JohtoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
 // Nothing in the tree pinned either of these, yet the entire "one extra PC box costs 2,412 B"
 // finding — the reason box count stays at 14 — rests on sizeof(struct BoxPokemon) being 80.
 // If a field is ever added to a boxed mon, that arithmetic and every stored save silently change.
@@ -351,7 +466,11 @@ STATIC_ASSERT(offsetof(struct RegionSave, route5DayCareMon) == 992, RegionSaveRo
 // sizeof(struct RegionSave) 1552 -> 1200, i.e. 352 bytes back to SaveBlock3.
 STATIC_ASSERT(offsetof(struct RegionSave, obstacleTableHash) == 1132, RegionSaveObstacleHashMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleBits) == 1136, RegionSaveObstacleBitsMoved_BumpSaveFormatVersion);
-STATIC_ASSERT(sizeof(struct RegionSave) == 1200, RegionSaveSizeChanged_BumpSaveFormatVersion);
+// v9 APPENDED the Johto trainer defeat-flag bank at the tail (1200), growing RegionSave
+// 1200 -> 1232. Because it is a true append, every offset pinned above is unchanged, which is
+// what lets a v8 save load without relocating anything - the ladder step only zeroes this bank.
+STATIC_ASSERT(offsetof(struct RegionSave, johtoTrainerFlags) == 1200, RegionSaveJohtoTrainerFlagsMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(sizeof(struct RegionSave) == 1232, RegionSaveSizeChanged_BumpSaveFormatVersion);
 // Every obstacle in the map data must have a bit. GenObstacleTable.py refuses to emit a table
 // larger than the slot count, but pin it here too so a hand-edited header cannot slip past.
 STATIC_ASSERT(CLEARED_OBSTACLE_COUNT <= CLEARED_OBSTACLE_SLOTS, ClearedObstacleTableExceedsReservedBits);

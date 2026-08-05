@@ -36,7 +36,9 @@ local SB1_MAPLAYOUT = 50
 local SUMMIT   = { g = 97, m =  8, warp = 0, day = 1013, night = 1014, name = "MtSilver_SummitDay" }
 local DEPT7F   = { g = 84, m = 10, warp = 0, day =  854, night =  855, name = "Goldenrod_Dept_7F" }
 local ROUTE35  = { g = 83, m =  1, warp = 2, name = "Route35" }          -- warp2 = (17,5)
-local UNDER    = { g = 84, m = 28, warp = 2, name = "Goldenrod_Underground" } -- warp2 = (12,10)
+-- m was 28 until save format v9 deleted GoldenrodCity_DepartmentStore_7FNight (index 11 of this
+-- group, issue #51), which renumbered every Goldenrod indoor map after it down by one.
+local UNDER    = { g = 84, m = 27, warp = 2, name = "Goldenrod_Underground" } -- warp2 = (12,10)
 
 local LOCALID_DIRK = 8              -- POLICEMAN (20,6), FLAG_NIGHT_POKEMON
 local LOCALID_BROTHER_DAY = 3       -- WORKER_M  (6,20), FLAG_DAY_POKEMON

@@ -137,7 +137,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
 # The SaveBlock3 banks the Lua suites read, as offsets from the START of SaveBlock3.
 # Source of truth: the STATIC_ASSERTs in src/load_save.c, which the compiler enforces every build.
 SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
-              "route5DayCareMon", "obstacleTableHash", "clearedObstacleBits"]
+              "route5DayCareMon", "obstacleTableHash", "clearedObstacleBits",
+              "johtoTrainerFlags"]
 
 # The SaveBlock1 banks the suites read, derived the same way and for the same reason. These WERE
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524

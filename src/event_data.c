@@ -287,6 +287,10 @@ u8 *GetFlagPointer(u16 id)
     // Region merge (E5-1): Kanto trainer defeat-flag bank, stored in SaveBlock3.
     else if (id >= FLAG_KANTO_TRAINER_BASE && id <= FLAG_KANTO_TRAINER_END)
         return &gSaveBlock3Ptr->region.kantoTrainerFlags[(id - FLAG_KANTO_TRAINER_BASE) / 8];
+    // Johto trainer defeat-flag bank (v9), for the Johto route/dungeon trainers that no longer
+    // share a Hoenn trainer id. Stored in SaveBlock3, same pattern as the Kanto bank above.
+    else if (id >= FLAG_JOHTO_TRAINER_BASE && id <= FLAG_JOHTO_TRAINER_END)
+        return &gSaveBlock3Ptr->region.johtoTrainerFlags[(id - FLAG_JOHTO_TRAINER_BASE) / 8];
 #if TESTING
     // Bounded above too, same reasoning as the TESTING vars branch: sTestFlags is 1 byte.
     else if (id >= TESTING_FLAGS_START && id < TESTING_FLAGS_START + TEST_FLAGS_SIZE * 8)

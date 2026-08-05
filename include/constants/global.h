@@ -19,7 +19,14 @@
 //     moves, so v7 saves still LOAD (SAVE_FORMAT_LAYOUT_MIN stays 7); the ladder step only
 //     zeroes SaveBlock1.mapView, which would otherwise restore the old poster and staircase
 //     over the new layout for a save made standing inside a Center.
-#define SAVE_FORMAT_VERSION 8
+// v9: the Johto route/dungeon trainers stopped sharing Hoenn trainer ids (Route 32's
+//     "Youngster" ALBERT was Hoenn's Cooltrainer ALBERT, so one party and one defeat flag
+//     served both). Their new ids need defeat flags, and the inline window is frozen, so a
+//     johtoTrainerFlags[] bank was APPENDED to the end of struct RegionSave. Appending moves
+//     no existing bank - every pinned offsetof below is unchanged - so v8 saves still LOAD;
+//     the ladder step only has to zero the new bank, whose bytes are uninitialised flash on
+//     a v8 save. Without that zeroing a fresh Johto trainer can read as already defeated.
+#define SAVE_FORMAT_VERSION 9
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
 // only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.

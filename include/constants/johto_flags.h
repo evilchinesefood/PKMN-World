@@ -566,4 +566,12 @@
 // OnFrame would loop); Grandpa re-offers the METAL COAT until this is set.
 #define FLAG_GOT_METAL_COAT_SSAQUA                  FLAG_JOHTO_SLICE(0x25a)
 
+// Kurt has two object events in Slowpoke Well: the one lying on his back at the
+// entrance (FLAG_HIDE_SLOWPOKE_WELL_KURT) and the one that walks up to the
+// player after Proton is beaten. The latter used to borrow FLAG_HIDE_KURT_1,
+// which is Kurt's *house* object, so clearing it for the house also spawned a
+// mute duplicate Kurt in the well. Give the well's standing Kurt his own flag;
+// it is set in Azalea's flag heap so he stays hidden until the cutscene.
+#define FLAG_HIDE_SLOWPOKE_WELL_KURT_STANDING       FLAG_JOHTO_SLICE(0x25b)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

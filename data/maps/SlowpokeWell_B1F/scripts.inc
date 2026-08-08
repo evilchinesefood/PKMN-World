@@ -1,5 +1,3 @@
-.set LOCALID_WELL_KURT, 19
-
 SlowpokeWell_B1F_MapScripts::
 	.byte 0
 
@@ -23,6 +21,17 @@ SlowpokeWell_B1F_EventScript_Kurt::
 	lock
 	faceplayer
 	msgbox SlowpokeWell_B1F_Text_KurtIntro, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+@ Kurt once he is back on his feet. The Proton cutscene normally warps the
+@ player straight to Kurt's house, but the object still needs a script so he is
+@ never a mute NPC if the player reaches him some other way.
+SlowpokeWell_B1F_EventScript_KurtStanding::
+	lock
+	faceplayer
+	msgbox SlowpokeWell_B1F_Text_KurtAfter, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
@@ -52,21 +61,24 @@ SlowpokeWell_B1F_EventScript_Proton::
 	closemessage
 	fadescreen FADE_TO_BLACK
 	setflag FLAG_HIDE_AZALEA_TOWN_ROCKETS
-	clearflag FLAG_HIDE_KURT_1
-	addobject LOCALID_WELL_KURT
-	removeobject 11
-	removeobject 12
-	removeobject 13
+	setflag FLAG_HIDE_SLOWPOKE_WELL_KURT
+	clearflag FLAG_HIDE_SLOWPOKE_WELL_KURT_STANDING
+	addobject LOCALID_SLOWPOKE_WELL_KURT
+	removeobject LOCALID_SLOWPOKE_WELL_KURT_LYING
+	removeobject LOCALID_SLOWPOKE_WELL_GRUNT_21
+	removeobject LOCALID_SLOWPOKE_WELL_GRUNT_22
+	removeobject LOCALID_SLOWPOKE_WELL_ETO
+	removeobject LOCALID_SLOWPOKE_WELL_PROTON
 	delay 120
 	fadescreen FADE_FROM_BLACK
 	special DrawWholeMapView
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_SOUTH
-	applymovement LOCALID_WELL_KURT, SlowpokeWell_B1F_Movement_Kurt
+	applymovement LOCALID_SLOWPOKE_WELL_KURT, SlowpokeWell_B1F_Movement_Kurt
 	waitmovement 0
 	msgbox SlowpokeWell_B1F_Text_KurtAfter, MSGBOX_DEFAULT
 	closemessage
 	fadescreen FADE_TO_BLACK
-	setflag FLAG_HIDE_SLOWPOKE_WELL_KURT
+	setflag FLAG_HIDE_SLOWPOKE_WELL_KURT_STANDING
 	setflag FLAG_HIDE_KURT_1
 	clearflag FLAG_HIDE_KURT_2
 	clearflag FLAG_HIDE_AZALEA_TOWN_SLOWPOKE

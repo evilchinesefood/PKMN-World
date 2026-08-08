@@ -386,10 +386,18 @@ check: $(TESTELF)
 # booted while drawing whatever garbage was in the follower's dynamic tile and palette slots — and
 # a species with no OVERWORLD(...) entry renders as a Substitute doll rather than failing. Only
 # looking at the data catches either.
+#
+# ValidateMapEvents.py covers the object events themselves — who is standing there, whether the
+# sprite matches the role, whether the trainer behind it belongs to the team it claims. Same
+# failure shape a third time: Kurt was a Wailmer doll, four Pokemon Centers had two Nurse Joys and
+# Proton fought as a Team Magma admin, and every one of those built, linked and booted clean.
+# It carries a REVIEW tier with recorded baselines for the smells that are not yet at zero; see
+# its docstring, and `--report` to list them.
 validate:
 	python3 Testing/ValidateGen13.py
 	python3 Testing/ValidateScripts.py
 	python3 Testing/ValidateOwMonPlacements.py
+	python3 Testing/ValidateMapEvents.py
 	python3 Testing/GenObstacleTable.py --check
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).

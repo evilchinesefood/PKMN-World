@@ -66,6 +66,9 @@ jobs:
       - name: Overworld-Pokemon placements
         run: python3 Testing/ValidateOwMonPlacements.py
 
+      - name: Map object-event consistency
+        run: python3 Testing/ValidateMapEvents.py
+
       - name: Cleared-obstacle table freshness
         run: python3 Testing/GenObstacleTable.py --check
 

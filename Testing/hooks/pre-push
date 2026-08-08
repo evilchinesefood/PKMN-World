@@ -5,9 +5,10 @@
 # hook as an existing gate, but git does not clone hooks -- so on a fresh checkout it silently
 # was not there and nothing ran until CI. Hence a tracked copy plus an installer.
 #
-# These four scans are the only automated thing standing between a bad data edit and a crash
-# that only shows up in play: a disabled-species reference, a bare-integer script pointer, or a
-# bad overworld-Pokemon placement all BUILD and BOOT clean, then fault later. They are
+# These five scans are the only automated thing standing between a bad data edit and a crash
+# that only shows up in play: a disabled-species reference, a bare-integer script pointer, a
+# bad overworld-Pokemon placement, or an NPC wearing the wrong sprite all BUILD and BOOT clean,
+# then fault (or just read as broken) later. They are
 # source-only and take seconds -- no ROM build required.
 #
 # Invoked directly rather than through `make validate`: that target is not in RULES_NO_SCAN, so
@@ -32,6 +33,7 @@ run() {
 run "Gen 1-3 species rules"          Testing/ValidateGen13.py
 run "Event-script pointer arguments" Testing/ValidateScripts.py
 run "Overworld-Pokemon placements"   Testing/ValidateOwMonPlacements.py
+run "Map object-event consistency"   Testing/ValidateMapEvents.py
 run "Cleared-obstacle table"         Testing/GenObstacleTable.py --check
 
 if [ "$fail" -ne 0 ]; then

@@ -119,7 +119,9 @@
       "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BIG_WAILMER_DOLL",
+      "local_id": "LOCALID_SLOWPOKE_WELL_KURT_LYING",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_LYING_DOWN",
       "x": 27,
       "y": 26,
       "elevation": 0,
@@ -132,6 +134,8 @@
       "flag": "FLAG_HIDE_SLOWPOKE_WELL_KURT"
     },
     {
+      "local_id": "LOCALID_SLOWPOKE_WELL_GRUNT_21",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 28,
       "y": 8,
@@ -145,6 +149,8 @@
       "flag": "FLAG_HIDE_AZALEA_TOWN_ROCKETS"
     },
     {
+      "local_id": "LOCALID_SLOWPOKE_WELL_GRUNT_22",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
       "x": 21,
       "y": 5,
@@ -158,7 +164,9 @@
       "flag": "FLAG_HIDE_AZALEA_TOWN_ROCKETS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "local_id": "LOCALID_SLOWPOKE_WELL_PROTON",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 14,
       "y": 3,
       "elevation": 0,
@@ -171,6 +179,8 @@
       "flag": "FLAG_HIDE_AZALEA_TOWN_ROCKETS"
     },
     {
+      "local_id": "LOCALID_SLOWPOKE_WELL_ETO",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
       "x": 13,
       "y": 7,
@@ -249,6 +259,8 @@
       "flag": "FLAG_HIDE_JOHTO_DECOR"
     },
     {
+      "local_id": "LOCALID_SLOWPOKE_WELL_KURT",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
       "x": 17,
       "y": 8,
@@ -258,8 +270,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "FLAG_HIDE_KURT_1"
+      "script": "SlowpokeWell_B1F_EventScript_KurtStanding",
+      "flag": "FLAG_HIDE_SLOWPOKE_WELL_KURT_STANDING"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",

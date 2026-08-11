@@ -13,6 +13,9 @@ to an NPC. Three real examples, each of which is now a check below:
     duplicate nurse says Chansey's line. -> SCRIPT-GFX-OUTLIER
   * Proton battles as TRAINER_CLASS_MAGMA_ADMIN with TRAINER_PIC_AQUA_ADMIN_M -- a Team Rocket
     executive announced as Team Magma with a Team Aqua portrait. -> TRAINER-FACTION
+  * Slowpoke Well staged the Kurt who walks up after Proton on (17,8), the single square joining
+    Proton's chamber to the rest of the well. `addobject` put a wall across the only door, and a
+    player whose save spawned him there was sealed into a 22-tile dead end. -> CUTSCENE-SEALS-MAP
 
 Run from the repo root:  python3 Testing/ValidateMapEvents.py   (exit 0 = clean, 1 = violations)
 or `make validate`. Also run by the pre-push gate (Testing/hooks/pre-push) and Check.yml.
@@ -52,6 +55,7 @@ import glob
 import json
 import os
 import re
+import struct
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -64,6 +68,7 @@ SCRIPT_GLOBS = [os.path.join(ROOT, "data/**/*.inc"), os.path.join(ROOT, "data/**
 TRAINERS_PARTY = [os.path.join(ROOT, "src/data/trainers.party"),
                   os.path.join(ROOT, "src/data/trainers_frlg.party")]
 CONSTANT_HEADERS = os.path.join(ROOT, "include/constants/*.h")
+LAYOUTS_JSON = os.path.join(ROOT, "data/layouts/layouts.json")
 
 # A parse that finds nothing must fail rather than pass: every check is a lookup that succeeds
 # vacuously against empty tables, so a moved file or a drifted regex would turn this whole script
@@ -73,6 +78,10 @@ MIN_OBJECTS = 6000
 MIN_SCRIPT_LABELS = 3000
 MIN_TRAINERS = 500
 MIN_FLAG_DEFS = 2000
+MIN_LAYOUTS = 900
+# CUTSCENE-SEALS-MAP walks a collision grid, so it needs a floor of its own: if the blockdata
+# stopped loading every map would look wall-free and the check would pass on everything.
+MIN_COLLISION_MAPS = 900
 
 # --- SCRIPT-GFX-OUTLIER tuning (see the docstring's last section) ---
 # A script must be attached to this many objects before its graphics have a consensus worth
@@ -156,6 +165,15 @@ REVIEW_BASELINE = {
     "DUPLICATE-TRAINER": 28,
     "NUMERIC-LOCALID": 0,
     "SCRIPT-GFX-OUTLIER": 0,
+    # Nine upstream cutscene actors staged on the tile just inside a door -- the rival at the top
+    # of the stairs in Littleroot, Archie and two grunts at the Oceanic Museum landing, Wallace
+    # and Birch in the Champions Room. Each is real by this check's definition and harmless in
+    # practice, because the scene walks the actor off that tile within a few commands and never
+    # hands control back in between. They are the baseline rather than exceptions in code: what
+    # made Slowpoke Well's Kurt a soft-lock was not the staging, it was that he outlived the
+    # scene, and no static check can tell those apart. A new entry means someone put an actor on
+    # a doorway and should say which of the two it is.
+    "CUTSCENE-SEALS-MAP": 9,
 }
 
 
@@ -202,6 +220,32 @@ def load_script_labels():
                     elif cur is not None:
                         bodies[cur].append(line.split("@")[0].strip())
     return bodies, owner
+
+
+def load_collision():
+    """map layout id -> (width, height, [row][col] collision), for layouts with blockdata.
+
+    A metatile in map.bin is one u16: id in bits 0-9, collision in 10-11, elevation in 12-15.
+    Only the collision nibble is read here; 0 is walkable and anything else is a wall.
+    """
+    with open(LAYOUTS_JSON, encoding="utf-8") as fh:
+        layouts = json.load(fh)["layouts"]
+    grids = {}
+    for lay in layouts:
+        if not lay or not lay.get("blockdata_filepath"):
+            continue
+        path = os.path.join(ROOT, lay["blockdata_filepath"])
+        w, h = lay.get("width", 0), lay.get("height", 0)
+        if not (w and h) or not os.path.exists(path):
+            continue
+        with open(path, "rb") as fh:
+            raw = fh.read()
+        if len(raw) < w * h * 2:
+            continue
+        cells = struct.unpack("<%dH" % (w * h), raw[:w * h * 2])
+        grids[lay["id"]] = (w, h, [[(cells[y * w + x] >> 10) & 3 for x in range(w)]
+                                   for y in range(h)])
+    return grids
 
 
 def load_flag_defs():
@@ -527,6 +571,88 @@ def check_mute_story_npc(maps, bodies):
     return review
 
 
+def check_cutscene_seals_map(maps, bodies, owner, grids):
+    """An `addobject` actor staged on the one tile that joins part of a map to its exits.
+
+    This is the half of the Slowpoke Well trap that map data can be held to. Kurt's template sat
+    on (17,8), the single square between Proton's chamber and the rest of the well, so spawning
+    him walled a 22-tile pocket off from both warps -- and its only other way out is a STRENGTH
+    boulder, which is why boulders count as walls here and not as doors.
+
+    Restricted to `addobject` on purpose. Every object on a map is a potential wall, but almost
+    all of them are gated behind a hide flag that the story sets and clears, so asking "could
+    this object ever seal the map" reports 132 maps and thousands of tiles -- the Sootopolis
+    Wailmer and every gym guard, all working as designed. `addobject` is the decidable case:
+    TrySpawnObjectEventTemplate does not read the hide flag, so the actor lands on that tile
+    every single time the command runs, whatever the save looks like.
+    """
+    # One finding per staged actor, not per call site: the Battle Palace opponent is addobject'd
+    # from two scripts and is one piece of staging either way.
+    staged = collections.defaultdict(set)
+    for label, (_rel, mapdir) in sorted(owner.items()):
+        if not mapdir:
+            continue
+        for line in bodies[label]:
+            m = re.match(r"addobject\s+([A-Za-z_]\w*)\s*$", line)
+            if m:
+                staged[(mapdir, m.group(1))].add(label)
+
+    review = []
+    for (mapdir, localid), labels in sorted(staged.items()):
+        d = maps.get(mapdir)
+        if d is None:
+            continue
+        grid = grids.get(d.get("layout"))
+        warps = d.get("warp_events") or []
+        if grid is None or not warps:
+            continue
+        w, h, coll = grid
+
+        def on_map(x, y):
+            return 0 <= x < w and 0 <= y < h
+
+        objs = d.get("object_events", [])
+        # A pushable boulder needs an HM the player may not carry yet, so it is not an exit.
+        walls = {(o["x"], o["y"]) for o in objs
+                 if o.get("graphics_id", "").startswith("OBJ_EVENT_GFX_PUSHABLE_BOULDER")}
+
+        def reachable(extra):
+            blocked = walls | extra
+            seen, queue = set(), collections.deque()
+            for wp in warps:
+                start = (wp["x"], wp["y"])
+                if on_map(*start) and coll[start[1]][start[0]] == 0 and start not in blocked:
+                    if start not in seen:
+                        seen.add(start)
+                        queue.append(start)
+            while queue:
+                x, y = queue.popleft()
+                for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                    if (on_map(nx, ny) and (nx, ny) not in seen
+                            and coll[ny][nx] == 0 and (nx, ny) not in blocked):
+                        seen.add((nx, ny))
+                        queue.append((nx, ny))
+            return seen
+
+        o = next((o for o in objs if o.get("local_id") == localid), None)
+        if o is None:
+            continue
+        # A wanderer steps off its template tile on its own, so it is not a permanent wall.
+        if not o.get("movement_type", "").startswith(
+                ("MOVEMENT_TYPE_NONE", "MOVEMENT_TYPE_FACE_", "MOVEMENT_TYPE_LOOK_AROUND",
+                 "MOVEMENT_TYPE_ROTATE_")):
+            continue
+        tile = (o["x"], o["y"])
+        if not on_map(*tile) or coll[tile[1]][tile[0]] != 0:
+            continue
+        lost = reachable(set()) - reachable({tile}) - {tile}
+        if lost:
+            review.append(f"{mapdir}: addobject {localid} stages an actor on {tile}, which "
+                          f"seals {len(lost)} tile(s) off from every warp on the map while it "
+                          f"stands there (from {', '.join(sorted(labels))})")
+    return review
+
+
 # There is deliberately no "one hide flag drives objects on two maps" check either, even though
 # a flag collision is exactly what put a mute duplicate Kurt in Slowpoke Well (his object shared
 # FLAG_HIDE_KURT_1 with the Kurt in Kurt's house). Sharing one flag across maps is the *normal*
@@ -551,6 +677,7 @@ def main():
     bodies, owner = load_script_labels()
     flagdefs = load_flag_defs()
     trainers = load_trainers()
+    grids = load_collision()
     objects = sum(len(d.get("object_events", [])) for d in maps.values())
 
     if len(maps) < MIN_MAPS:
@@ -563,6 +690,13 @@ def main():
         die(f"parsed only {len(trainers)} trainers (expected >= {MIN_TRAINERS})")
     if len(flagdefs) < MIN_FLAG_DEFS:
         die(f"parsed only {len(flagdefs)} flag definitions (expected >= {MIN_FLAG_DEFS})")
+    if len(grids) < MIN_LAYOUTS:
+        die(f"parsed only {len(grids)} layout collision grids (expected >= {MIN_LAYOUTS}) -- "
+            f"did data/layouts/layouts.json or the blockdata paths move?")
+    with_coll = sum(1 for d in maps.values() if d.get("layout") in grids)
+    if with_coll < MIN_COLLISION_MAPS:
+        die(f"only {with_coll} maps resolved to a collision grid (expected >= "
+            f"{MIN_COLLISION_MAPS}) -- CUTSCENE-SEALS-MAP would be a no-op")
 
     by_script, where = role_table(maps)
     localid_errs, localid_review = check_localids(maps, bodies, owner)
@@ -580,6 +714,7 @@ def main():
         ("DUPLICATE-TRAINER", check_duplicate_trainer(maps, bodies, trainers)),
         ("MUTE-STORY-NPC", check_mute_story_npc(maps, bodies)),
         ("NUMERIC-LOCALID", localid_review),
+        ("CUTSCENE-SEALS-MAP", check_cutscene_seals_map(maps, bodies, owner, grids)),
     ]
 
     if report:

@@ -92,6 +92,9 @@ MIN_SPAWN_AND_STAY_FLAGS = 30
 # Heal respawn tiles actually evaluated. 57 entries today; a drop means the map-id
 # lookup or heal_locations.json moved and the check is scanning nothing.
 MIN_HEAL_RESPAWNS = 50
+# How far a heal point may sit from a warp into its own respawn_map. 53 of 56 are the
+# apron tile one square south of the door; the two Littleroot bedrooms are 4 away.
+MAX_HEAL_DOOR_DIST = 4
 
 # --- SCRIPT-GFX-OUTLIER tuning (see the docstring's last section) ---
 # A script must be attached to this many objects before its graphics have a consensus worth
@@ -811,6 +814,72 @@ def check_heal_respawn_sealed(maps, grids):
     return errors
 
 
+def check_heal_point_stranded(maps, grids):
+    """A heal location's own x/y is impassable, or nowhere near the door it belongs to.
+
+    This coordinate does three jobs: it is where Fly and Teleport drop the player, and it is the
+    key GetHealLocationIndexByWarpData matches a save's lastHealLocation against. It is NOT the
+    whiteout respawn tile (that is respawn_x/respawn_y -- see HEAL-RESPAWN-SEALED).
+
+    Two rules, both decidable, and the tree is at zero on both:
+
+      * Passable. Azalea (31,15), Goldenrod (28,36) and Safari Zone Gate (11,15) each sat on the
+        PokeCenter DOOR tile itself -- metatile 0x062, collision 1. Fly arrives via
+        FieldCallback_FlyIntoMap, which runs no door-exit task, so the player materialised drawn
+        on top of a closed door, apparently inside the wall.
+      * Near its door. 53 of 56 heal points are exactly the apron tile one square south of a warp
+        into their respawn_map; the rest are within MAX_HEAL_DOOR_DIST. This is the rule that
+        catches the #85 class -- Violet City's heal point was (30,18), five tiles under the SPROUT
+        TOWER door and 36 tiles from its own Pokemon Center, and Route 32's was 60 tiles out.
+        Skipped when respawn_map is the map itself (Southern Island heals in place).
+
+    Moving one of these coordinates is a SAVE BREAK: an existing save whose lastHealLocation holds
+    the old pair silently stops matching and keeps whiting out to the old tile. Pair any move with
+    an entry in MigrateMovedHealLocations (src/load_save.c), the way Violet City and Route 32 got
+    one in #85.
+    """
+    path = os.path.join(ROOT, "src/data/heal_locations.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            entries = json.load(fh)["heal_locations"]
+    except (OSError, ValueError, KeyError):
+        die("could not read src/data/heal_locations.json -- HEAL-POINT-STRANDED cannot run")
+
+    by_id = {d.get("id"): d for d in maps.values() if d.get("id")}
+    errors, checked = [], 0
+    for e in entries:
+        d = by_id.get(e.get("map"))
+        if d is None:
+            continue
+        grid = grids.get(d.get("layout"))
+        if grid is None:
+            continue
+        w, h, coll = grid
+        x, y = e.get("x"), e.get("y")
+        if x is None or y is None or not (0 <= x < w and 0 <= y < h):
+            errors.append(f"{e['id']}: heal point ({x},{y}) is outside {e['map']} ({w}x{h})")
+            continue
+        checked += 1
+        if coll[y][x] != 0:
+            errors.append(f"{e['id']}: heal point ({x},{y}) on {e['map']} is impassable -- Fly and "
+                          f"Teleport drop the player onto a wall or a closed door")
+            continue
+        if e.get("respawn_map") == e.get("map"):
+            continue
+        doors = [(wp["x"], wp["y"]) for wp in (d.get("warp_events") or [])
+                 if wp.get("dest_map") == e.get("respawn_map")]
+        if not doors:
+            continue
+        dist = min(abs(dx - x) + abs(dy - y) for dx, dy in doors)
+        if dist > MAX_HEAL_DOOR_DIST:
+            errors.append(f"{e['id']}: heal point ({x},{y}) is {dist} tiles from the nearest warp "
+                          f"into {e['respawn_map']} -- it is pointing at the wrong building")
+    if checked < MIN_HEAL_RESPAWNS:
+        die(f"only {checked} heal points evaluated (expected >= {MIN_HEAL_RESPAWNS}) -- "
+            f"HEAL-POINT-STRANDED would pass vacuously.")
+    return errors
+
+
 # ---------------------------------------------------------------- main
 
 def main():
@@ -855,6 +924,7 @@ def main():
         ("OBJECT-TRAINER-FACTION", check_object_trainer_faction(maps, bodies, trainers)),
         ("MUTE-STORY-NPC", check_mute_story_npc(maps, bodies, mute_stats)),
         ("HEAL-RESPAWN-SEALED", check_heal_respawn_sealed(maps, grids)),
+        ("HEAL-POINT-STRANDED", check_heal_point_stranded(maps, grids)),
     ]
     reviews = [
         ("SCRIPT-GFX-OUTLIER", check_script_gfx_outlier(by_script, where)),

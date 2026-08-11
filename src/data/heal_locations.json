@@ -378,7 +378,7 @@
       "id": "HEAL_LOCATION_AZALEA_TOWN",
       "map": "MAP_AZALEA_TOWN",
       "x": 31,
-      "y": 15,
+      "y": 16,
       "respawn_map": "MAP_AZALEA_TOWN_POKEMON_CENTER",
       "respawn_npc": "LOCALID_AZALEA_NURSE"
     },
@@ -386,7 +386,7 @@
       "id": "HEAL_LOCATION_GOLDENROD_CITY",
       "map": "MAP_GOLDENROD_CITY",
       "x": 28,
-      "y": 36,
+      "y": 37,
       "respawn_map": "MAP_GOLDENROD_CITY_POKEMON_CENTER",
       "respawn_npc": "LOCALID_GOLDENROD_NURSE"
     },
@@ -434,7 +434,7 @@
       "id": "HEAL_LOCATION_SAFARI_ZONE_GATE",
       "map": "MAP_SAFARI_ZONE_GATE",
       "x": 11,
-      "y": 15,
+      "y": 16,
       "respawn_map": "MAP_SAFARI_ZONE_GATE_POKEMON_CENTER",
       "respawn_npc": "LOCALID_SAFARI_ZONE_GATE_NURSE"
     },

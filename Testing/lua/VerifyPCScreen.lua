@@ -63,7 +63,9 @@ local function usePC(path, tx, ty, tag)
 end
 
 local function main()
-  F.boot(100)
+  -- Gate on the return value like every other suite does. Unguarded, a failed boot walked a wrong
+  -- map and every metatile read below became meaningless while still reporting a verdict.
+  if not F.boot(100) then F.check("booted into the hub", false, "boot failed"); F.finish(); return end
 
   ------------------------------------------------------------------ hub (bug 2)
   -- RegionHub PC is at (17,9); the player reads it from (17,10). The direct line south from the

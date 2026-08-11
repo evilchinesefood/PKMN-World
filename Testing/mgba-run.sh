@@ -43,7 +43,14 @@ mkdir -p "$OUT"
 # lib.lua compares this against its expected-build hash to catch the stale-ROM trap.
 export PW_SUITE="$(cd "$(dirname "$SUITE")" && pwd)/$(basename "$SUITE")"
 export PW_ROM_NAME="Verify1"
-export PW_ROM_HASH="$(md5 -q "$ROM" | tr '[:lower:]' '[:upper:]')"
+# `md5 -q` is BSD-only, and a failing command substitution inside an `export` does NOT trip
+# `set -e` -- export is itself a command and returns 0. So on any non-macOS host this silently
+# produced an empty hash, and lib.lua's stale-ROM guard used to SKIP its comparison when the hash
+# was empty, i.e. the one guard the whole design leans on failed open. Compute portably and abort
+# if it comes back empty; lib.lua now also treats an empty hash as a hard abort.
+PW_ROM_HASH="$( { md5 -q "$ROM" 2>/dev/null || md5sum "$ROM" | cut -d' ' -f1; } | tr '[:lower:]' '[:upper:]' )"
+[[ -n "$PW_ROM_HASH" ]] || { echo "cannot hash $ROM (need md5 or md5sum)" >&2; exit 2; }
+export PW_ROM_HASH
 export PW_OUT="$OUT"
 
 echo "suite : $PW_SUITE"

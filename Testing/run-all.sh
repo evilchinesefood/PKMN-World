@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# Run the whole Testing/lua suite battery and report a verdict that can be trusted.
+#
+#   Testing/run-all.sh [rom.gba]
+#
+# Why this exists. The suites were run one at a time by hand and the result was reported as a
+# count ("21/21 green"). Three things made that count unreliable:
+#
+#   1. _pwtest/<Suite>.PASS never expired and was only ever cleared by the suite that wrote it,
+#      so a sentinel from a previous build sat there looking current. #85's "21/21 (553
+#      assertions)" was 20 fresh runs plus one .PASS that was six days and many builds old --
+#      for a suite that cannot run at all without a fixture that is not in the tree.
+#   2. A suite that needs a save fixture and does not get one boots to NEW GAME and can still
+#      report a verdict, so "it ran" and "it tested the thing" were not the same claim.
+#   3. Nothing enforced that the ROM under test was the ROM the suites were built against.
+#
+# So: clear every sentinel first, run the list, then require that each expected suite produced a
+# FRESH .PASS carrying the CURRENT ROM's md5. Anything that cannot run is reported as SKIPPED by
+# name and makes the sweep exit non-zero -- it is never silently counted as green.
+set -uo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO" || exit 2
+ROM="${1:-$REPO/pokemonworld.gba}"
+OUT="${PW_OUT:-$REPO/_pwtest}"
+
+[[ -f "$ROM" ]] || { echo "no such ROM: $ROM (run 'make modern' first)" >&2; exit 2; }
+command -v mgba-headless >/dev/null 2>&1 || [[ -n "${MGBA_HEADLESS:-}" ]] || {
+  echo "mgba-headless not found; see Testing/mgba/README.md" >&2; exit 2; }
+
+ROM_MD5="$( { md5 -q "$ROM" 2>/dev/null || md5sum "$ROM" | cut -d' ' -f1; } | tr '[:lower:]' '[:upper:]' )"
+[[ -n "$ROM_MD5" ]] || { echo "cannot hash $ROM" >&2; exit 2; }
+
+mkdir -p "$OUT"
+
+# Suites that boot a fresh new game and need no battery save.
+FRESH=(SmokeBoot HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
+       VerifyBagLayout VerifyBedroomPC VerifyPCScreen OwMonSprites VioletMart
+       JohtoDayNightWorld JohtoDayNightLive NationalParkTiles TinTowerRoof
+       OlivineHarborBoard SSAquaKantoCrossing BnetTerminal1F)
+
+# Suites that need a specific battery save to mean anything: "<suite>:<fixture>".
+# VerifyV7Migrate MUST use v7dirty, not v7 -- its own header records that v7 happens to hold
+# zeroes where johtoTrainerFlags lands, so the bank check passes there even with the memset
+# removed. Pointing it at v7.srm is an indistinguishable vacuous pass.
+WITH_SAVE=("VerifyV7Migrate:Testing/lua/fixtures/v7dirty.srm"
+           "MigrateFixtures:Testing/lua/fixtures/v3.srm"
+           "VerifyOwnerSave:pokemonworld.sav")
+
+# Suites in MANIFEST.md that cannot run from a clean checkout, and why. Listed so the sweep
+# reports them by name instead of leaving a stale sentinel to be counted.
+declare -a UNRUNNABLE=(
+  "VerifyMapRenumber: needs a crafted save with pre-deletion warp indices (lastHealLocation 84/19,
+     escapeWarp 97/11) and a recomputed SaveBlock1 checksum. Not tracked in Testing/lua/fixtures/,
+     so #85's map-renumber migration -- the half VerifyOwnerSave is vacuous for -- has no
+     re-runnable proof."
+)
+
+echo "sweep : $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+echo "rom   : $ROM"
+echo "md5   : $ROM_MD5"
+echo "out   : $OUT"
+echo
+
+# Clear EVERY sentinel up front. This is the whole point: after this line, any .PASS present is
+# one this sweep produced.
+rm -f "$OUT"/*.PASS "$OUT"/*.FAIL
+
+run_one() {
+  local suite="$1" save="${2:-}"
+  printf '%-24s ' "$suite"
+  local log="$OUT/$suite.sweep.out"
+  if [[ -n "$save" ]]; then
+    PW_OUT="$OUT/" Testing/mgba-run.sh "Testing/lua/$suite.lua" "$ROM" "$save" >"$log" 2>&1
+  else
+    PW_OUT="$OUT/" Testing/mgba-run.sh "Testing/lua/$suite.lua" "$ROM" >"$log" 2>&1
+  fi
+  local rc=$?
+  local verdict
+  verdict="$(grep -aoE 'VERDICT [^ ]+: [0-9]+/[0-9]+ (PASS|FAIL)' "$log" | tail -1)"
+  printf 'rc=%-3s %s\n' "$rc" "${verdict:-<no verdict line>}"
+  return $rc
+}
+
+fail=0
+declare -a EXPECTED=()
+
+for s in "${FRESH[@]}"; do
+  EXPECTED+=("$s")
+  run_one "$s" || fail=1
+done
+for entry in "${WITH_SAVE[@]}"; do
+  s="${entry%%:*}"; fixture="${entry#*:}"
+  if [[ ! -f "$fixture" ]]; then
+    printf '%-24s SKIPPED - missing fixture %s\n' "$s" "$fixture"
+    fail=1
+    continue
+  fi
+  EXPECTED+=("$s")
+  run_one "$s" "$fixture" || fail=1
+done
+
+echo
+echo "--- sentinel audit (a .PASS only counts if this sweep wrote it, against THIS rom) ---"
+green=0
+for s in "${EXPECTED[@]}"; do
+  if [[ -f "$OUT/$s.FAIL" ]]; then
+    echo "  FAIL    $s"
+    fail=1
+  elif [[ ! -f "$OUT/$s.PASS" ]]; then
+    echo "  NO-PASS $s (suite produced no verdict sentinel)"
+    fail=1
+  elif ! grep -q "rom=$ROM_MD5" "$OUT/$s.PASS"; then
+    echo "  STALE   $s ($(head -1 "$OUT/$s.PASS"))"
+    fail=1
+  else
+    green=$((green + 1))
+  fi
+done
+
+echo
+if ((${#UNRUNNABLE[@]})); then
+  echo "--- NOT RUN (in MANIFEST.md, no fixture in the tree) ---"
+  for u in "${UNRUNNABLE[@]}"; do echo "  $u"; done
+  fail=1
+  echo
+fi
+
+echo "green $green / ${#EXPECTED[@]} expected"
+if [[ "$fail" -ne 0 ]]; then
+  echo "SWEEP FAILED - do not quote a suite count from this run."
+  exit 1
+fi
+echo "SWEEP OK - every expected suite produced a fresh PASS stamped rom=$ROM_MD5"
+exit 0

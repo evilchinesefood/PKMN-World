@@ -89,6 +89,9 @@ MIN_COLLISION_MAPS = 900
 # Hide flags that are cleared and never set again -- the "spawn and stay" class that
 # MUTE-STORY-NPC is still able to judge. See the floor check inside that function.
 MIN_SPAWN_AND_STAY_FLAGS = 30
+# Heal respawn tiles actually evaluated. 57 entries today; a drop means the map-id
+# lookup or heal_locations.json moved and the check is scanning nothing.
+MIN_HEAL_RESPAWNS = 50
 
 # --- SCRIPT-GFX-OUTLIER tuning (see the docstring's last section) ---
 # A script must be attached to this many objects before its graphics have a consensus worth
@@ -744,6 +747,70 @@ def check_cutscene_seals_map(maps, bodies, owner, grids):
 
 
 
+def check_heal_respawn_sealed(maps, grids):
+    """A whiteout respawn tile that is a wall, or is walled off from every warp on its map.
+
+    heal_locations.json makes respawn_x/respawn_y OPTIONAL, defaulting to
+    DEFAULT_POKEMON_CENTER_(X,Y) = (7,4). That is right for the 47 entries whose respawn map is a
+    stock Pokemon Center layout, and silently wrong for any BESPOKE one: JohtoIndigoPlateau's
+    Center is 35x18, and (7,4) there is metatile 0x000 -- unpainted void, in a 117-tile pocket
+    with no warp in it. The map is MAP_TYPE_INDOOR with allow_escaping false, so Escape Rope, Dig,
+    Fly and Teleport are all refused: losing to the Johto Elite Four left the player with no exit
+    but a soft reset, and saving there ended the file.
+
+    Keyed on the respawn coordinate only. The heal location's own x/y is a separate hazard (it is
+    the Fly/Teleport destination AND the key GetHealLocationIndexByWarpData matches a save's
+    lastHealLocation on), so moving one needs a migration -- see MigrateMovedHealLocations.
+    """
+    path = os.path.join(ROOT, "src/data/heal_locations.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            entries = json.load(fh)["heal_locations"]
+    except (OSError, ValueError, KeyError):
+        die("could not read src/data/heal_locations.json -- HEAL-RESPAWN-SEALED cannot run")
+
+    by_id = {d.get("id"): d for d in maps.values() if d.get("id")}
+    if len(by_id) < MIN_MAPS:
+        die(f"only {len(by_id)} maps carry an `id` (expected >= {MIN_MAPS}) -- "
+            f"HEAL-RESPAWN-SEALED would pass vacuously. Note heal_locations.json references the "
+            f"map `id` (MAP_FOO_BAR), not its `name` (FooBar).")
+
+    errors, checked = [], 0
+    for e in entries:
+        d = by_id.get(e.get("respawn_map"))
+        if d is None:
+            continue
+        grid = grids.get(d.get("layout"))
+        warps = [(w["x"], w["y"]) for w in (d.get("warp_events") or [])]
+        if grid is None or not warps:
+            continue
+        w, h, coll = grid
+        x, y = e.get("respawn_x", 7), e.get("respawn_y", 4)
+        checked += 1
+        if not (0 <= x < w and 0 <= y < h):
+            errors.append(f"{e['id']}: respawn ({x},{y}) is outside {e['respawn_map']} ({w}x{h})")
+            continue
+        if coll[y][x] != 0:
+            errors.append(f"{e['id']}: respawn ({x},{y}) on {e['respawn_map']} is impassable "
+                          f"(the player materialises inside furniture or a wall)")
+            continue
+        seen, queue = {(x, y)}, collections.deque([(x, y)])
+        while queue:
+            cx, cy = queue.popleft()
+            for nx, ny in ((cx + 1, cy), (cx - 1, cy), (cx, cy + 1), (cx, cy - 1)):
+                if (0 <= nx < w and 0 <= ny < h and (nx, ny) not in seen and coll[ny][nx] == 0):
+                    seen.add((nx, ny))
+                    queue.append((nx, ny))
+        if not any(wp in seen for wp in warps):
+            errors.append(f"{e['id']}: respawn ({x},{y}) on {e['respawn_map']} is sealed -- its "
+                          f"{len(seen)}-tile area contains none of the map's {len(warps)} warp(s), "
+                          f"so a whiting-out player cannot leave")
+    if checked < MIN_HEAL_RESPAWNS:
+        die(f"only {checked} heal respawn tiles evaluated (expected >= {MIN_HEAL_RESPAWNS}) -- "
+            f"HEAL-RESPAWN-SEALED would pass vacuously.")
+    return errors
+
+
 # ---------------------------------------------------------------- main
 
 def main():
@@ -787,6 +854,7 @@ def main():
         ("TRAINER-FACTION", check_trainer_faction(trainers)),
         ("OBJECT-TRAINER-FACTION", check_object_trainer_faction(maps, bodies, trainers)),
         ("MUTE-STORY-NPC", check_mute_story_npc(maps, bodies, mute_stats)),
+        ("HEAL-RESPAWN-SEALED", check_heal_respawn_sealed(maps, grids)),
     ]
     reviews = [
         ("SCRIPT-GFX-OUTLIER", check_script_gfx_outlier(by_script, where)),

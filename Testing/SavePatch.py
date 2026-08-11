@@ -507,9 +507,26 @@ class Save:
             return (self.sb3[base + idx // 8] >> (idx & 7)) & 1
         return (self.sb1[V['SB1.flags'] + fid // 8] >> (fid & 7)) & 1
 
-    def region_checksum(self):
-        """RegionSaveChecksum (src/load_save.c): byte sum over sizeof(struct RegionSave)."""
-        s = sum(self.sb3[SB3_REGION_OFF:SB3_REGION_OFF + REGION_SIZE])
+    def region_width(self, version=None):
+        """The width struct RegionSave had when a save of this version was stamped.
+
+        v9 APPENDED johtoTrainerFlags, growing the struct 1200 -> 1232. Summing the v9 width over
+        a v7/v8 stamp reads 32 bytes the stamping build never covered -- the un-checksummed flash
+        tail the ladder is about to zero -- so an intact save reports MISMATCH and the main menu
+        warns "region save damaged". Mirrors RegionSaveWidthForVersion in src/load_save.c; every
+        future append needs an arm in both.
+        """
+        if version is None:
+            version = self.sb2[V['SB2.saveVersion']]
+        if version < 9:
+            return V['RS.johtoTrainerFlags']
+        return REGION_SIZE
+
+    def region_checksum(self, width=None):
+        """RegionSaveChecksum (src/load_save.c): byte sum over the version's RegionSave width."""
+        if width is None:
+            width = self.region_width()
+        s = sum(self.sb3[SB3_REGION_OFF:SB3_REGION_OFF + width])
         return (s + (s >> 16)) & 0xFFFF
 
     def money(self):
@@ -614,7 +631,10 @@ def migrate(sv):
     h = sv.u32(sv.sb3, SB3_REGION_OFF + V['RS.obstacleTableHash'])
     if h != V['CLEARED_OBSTACLE_TABLE_HASH']:
         o = SB3_REGION_OFF + V['RS.clearedObstacleBits']
-        sv.sb3[o:o + 64] = b'\0' * 64
+        # Derived, not the literal 64: both offsets are pinned, so the width follows from them and
+        # cannot drift out of step with the struct the way a hard-coded size can.
+        nbits = V['RS.johtoTrainerFlags'] - V['RS.clearedObstacleBits']
+        sv.sb3[o:o + nbits] = b'\0' * nbits
         struct.pack_into('<I', sv.sb3, SB3_REGION_OFF + V['RS.obstacleTableHash'],
                          V['CLEARED_OBSTACLE_TABLE_HASH'])
         log.append(f'obstacle table rehashed 0x{h:08X} -> '

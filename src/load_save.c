@@ -406,14 +406,35 @@ void ResyncClearedObstacleTable(void)
 // The reference value lives in SaveBlock2, which IS covered by the sector checksum — so a
 // mismatch means SaveBlock3 drifted while its reference did not, rather than "one of the two is
 // wrong and we cannot tell which".
-static u16 RegionSaveChecksum(void)
+static u16 RegionSaveChecksumOver(u32 nbytes)
 {
     const u8 *p = (const u8 *)&gSaveBlock3Ptr->region;
     u32 i, sum = 0;
 
-    for (i = 0; i < sizeof(struct RegionSave); i++)
+    for (i = 0; i < nbytes; i++)
         sum += p[i];
     return (u16)(sum + (sum >> 16));
+}
+
+// The width struct RegionSave had when a save of the given version was STAMPED. A version bump
+// that appends a bank grows the struct, so verifying a v8 stamp over the v9 sizeof() reads 32
+// bytes the stamping build never covered -- precisely the un-checksummed flash tail that the
+// v8 -> v9 ladder step exists to zero. Those bytes are usually zero (HandleWriteSector clears the
+// whole sector buffer before filling it), which is why the owner's save and fixtures/v7.srm pass;
+// fixtures/v7dirty.srm has 0xFF there and reports stored=0x02F1 computed=0x22D1, putting a
+// spurious "region save damaged" warning on the main menu for a save that is perfectly intact.
+//
+// Every future append must add its own arm here, or it reintroduces the same false alarm.
+static u32 RegionSaveWidthForVersion(u8 version)
+{
+    if (version < 9)
+        return offsetof(struct RegionSave, johtoTrainerFlags);
+    return sizeof(struct RegionSave);
+}
+
+static u16 RegionSaveChecksum(void)
+{
+    return RegionSaveChecksumOver(sizeof(struct RegionSave));
 }
 
 void StampRegionSaveChecksum(void)
@@ -427,7 +448,10 @@ void StampRegionSaveChecksum(void)
 // ResyncClearedObstacleTable() already owns those. Callers surface it; they do not "fix" it.
 bool32 VerifyRegionSaveChecksum(void)
 {
-    return gSaveBlock2Ptr->regionChecksum == RegionSaveChecksum();
+    // Verify over the width the SAVED version stamped, not this build's sizeof(). Called from
+    // src/save.c BEFORE the ladder runs, so gSaveBlock2Ptr->saveVersion is still the on-flash one.
+    return gSaveBlock2Ptr->regionChecksum
+        == RegionSaveChecksumOver(RegionSaveWidthForVersion(gSaveBlock2Ptr->saveVersion));
 }
 
 // The region-merge save banks are UN-checksummed; saveVersion is their only integrity guard.

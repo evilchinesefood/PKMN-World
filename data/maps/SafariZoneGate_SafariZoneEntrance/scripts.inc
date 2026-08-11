@@ -58,6 +58,7 @@ SafariZoneGate_SafariZoneEntrance_EventScript_ReenterSafari::
 	applymovement OBJ_EVENT_ID_PLAYER, SafariZoneGate_SafariZoneEntrance_Movement_EnterSafariZone
 	waitmovement 0
 	warp MAP_SAFARI_ZONE_ENTERANCE, 0
+	waitstate
 	delay 120
 	end
 

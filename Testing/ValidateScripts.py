@@ -399,6 +399,69 @@ def scan(rel, text):
                 symbol_count[key] = symbol_count.get(key, 0) + 1
 
 
+# --- WARP-NO-WAITSTATE ------------------------------------------------------------------------
+# A warp-family command creates Task_WarpAndLoadMap and RETURNS TRUE, which yields one frame and
+# then RESUMES the script. So `warp; release; end` reaches `end` -> StopScript(), whose first line
+# is
+#     assertf(!FuncIsActiveTask(Task_WarpAndLoadMap), "Leaving script while a warp is in progress")
+# and the task is still fading. `waitstate` is safe by a different route: ScrCmd_waitstate calls
+# ScriptContext_Stop(), which never touches StopScript. RELEASE defaults to 0 (Makefile), so
+# _ASSERTF_HANDLE is AssertfCrashScreen -- this is a crash screen in the build people play.
+#
+# This has now shipped three times: #85 fixed it for Ruins of Alph and Burned Tower (warphole),
+# and #89 reintroduced it on the Slowpoke Well rescue path -- the fix path of the soft-lock #89
+# exists to repair. A `delay N` after the warp only masks it: Task_WarpAndLoadMap waits on
+# BGMusicStopped() too, so a slow music fade outlives the delay and the assert fires anyway.
+WARP_CMDS = ("warp", "warpsilent", "warphole", "warpteleport", "warpdoor", "warpspinenter",
+             "warpmossdeepgym", "warpd")
+MIN_WARPS_SEEN = 100
+warp_violations = []
+warps_seen = 0
+
+
+def scan_warps(rel, text):
+    global warps_seen
+    lines = [strip_comment(x) for x in text.splitlines()]
+
+    def nxt(i):
+        while i < len(lines):
+            if lines[i].strip():
+                return i
+            i += 1
+        return None
+
+    in_macro = False
+    for ln, line in enumerate(lines):
+        if MACRO_START.match(line):
+            in_macro = True
+            continue
+        if MACRO_END.match(line):
+            in_macro = False
+            continue
+        if in_macro:
+            continue
+        head = line.strip().split()
+        if not head or head[0].rstrip(",") not in WARP_CMDS:
+            continue
+        warps_seen += 1
+        # Walk the vestigial tail (release / releaseall / delay) looking for waitstate or `end`.
+        j, chain = nxt(ln + 1), []
+        while j is not None:
+            s = lines[j].strip()
+            if s.split()[0] == "waitstate":
+                chain = []
+                break
+            if s.split()[0] in ("release", "releaseall") or s.startswith("delay"):
+                chain.append(s)
+                j = nxt(j + 1)
+                continue
+            if s.split()[0] == "end":
+                chain.append(s)
+            break
+        if chain and chain[-1].split()[0] == "end":
+            warp_violations.append((f"{rel}:{ln + 1}", line.strip(), " -> ".join(chain)))
+
+
 # No isfile() filter: that is 4,861 extra 9p stats, and slurp already returns None for anything
 # unreadable (a directory raises IsADirectoryError, an OSError subclass). A genuinely missing
 # SCAN_FILES entry is caught by the MIN_INVOCATIONS floor, not by a stat.
@@ -408,7 +471,13 @@ with ThreadPoolExecutor(IO_THREADS) as pool:
         for path, text in pool.map(slurp, scan_paths[start:start + READ_CHUNK]):
             if text is None:
                 continue
-            scan(os.path.relpath(path, ROOT).replace(os.sep, "/"), text)
+            rel = os.path.relpath(path, ROOT).replace(os.sep, "/")
+            scan(rel, text)
+            scan_warps(rel, text)
+
+if warps_seen < MIN_WARPS_SEEN:
+    die(f"only {warps_seen} warp-family commands seen across data/ (expected >= "
+        f"{MIN_WARPS_SEEN}). WARP-NO-WAITSTATE would pass vacuously.")
 
 if invocations < MIN_INVOCATIONS:
     die(f"only {invocations} pointer-taking macro invocations scanned across data/ "
@@ -446,4 +515,15 @@ if violations:
     print("  run with --report and add it to VALUE_SLOTS instead.")
     sys.exit(1)
 
+if warp_violations:
+    print(f"FAIL — {len(warp_violations)} warp(s) reach `end` with no waitstate:")
+    for where, warp, chain in warp_violations:
+        print(f"  {where}: `{warp}` then {chain}")
+    print("  StopScript() asserts !FuncIsActiveTask(Task_WarpAndLoadMap), so this is a crash")
+    print("  screen (RELEASE defaults to 0). Insert `waitstate` directly after the warp; the")
+    print("  release/delay/end after it are vestigial either way, because the map load resets")
+    print("  the script context.")
+    sys.exit(1)
+
+print(f"OK — {warps_seen} warp-family commands, every one either waits or cannot reach `end`.")
 print("OK — every script pointer argument in data/ is a label, not a bare integer.")

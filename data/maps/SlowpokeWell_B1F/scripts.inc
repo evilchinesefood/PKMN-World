@@ -239,6 +239,21 @@ SlowpokeWell_B1F_Text_SlowpokeMail:
 SlowpokeWell_B1F_Text_TaillessSlowpoke:
 	.string "A SLOWPOKE with its TAIL cut off…$"
 
+@ JESSIE and JAMES block the row-2 corridor, the last stretch before the player
+@ drops south toward PROTON. They used to stand at (19,17)/(20,17), which is a
+@ south-western branch the route to PROTON never touches -- 45 steps from the
+@ entrance to his chamber and not one of them within sight of that corridor -- so
+@ the ambush was missable by simply walking the obvious way. (20,2)/(21,2) is a
+@ cut: with them standing there PROTON cannot be reached at all.
+@
+@ Blocking a corridor is only safe because this pair is a gate rather than a wall.
+@ Both halves of the map keep a tile adjacent to them -- (22,2) to the east and
+@ (19,2) to the west -- so the battle can be started from whichever side the
+@ player is on, and beating it removes both objects for good. That matters for
+@ anyone who saved on B2F, which is behind this gate: they come up the ladder on
+@ the far side and can still fight their way out. TRAINER_BATTLE_TWO_TRAINERS_NO_INTRO
+@ also goes straight to dotrainerbattle with no HasEnoughMonsForDoubleBattle
+@ branch, so a short party cannot refuse the fight and strand itself either.
 SlowpokeWell_B1F_EventScript_JessieJames::
 	lock
 	faceplayer

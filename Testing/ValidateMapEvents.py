@@ -32,12 +32,16 @@ either name the same team or they do not. Those are ERRORS and the tree is at ze
 one fails the build.
 
 The rest are *smells* derived from how the rest of the tree does the same thing -- "this object
-disagrees with the 12 other objects that share its script", "this NPC is spawned by the story
-and has nothing to say". They are real signal (every bug in the docstring above was found by
-one) but a legitimate exception is possible, and the tree is NOT at zero on them. Those are
-REVIEW findings: printed with a baseline count, and failing only when the count grows or under
---strict. A gate nobody can get to zero gets disabled, so those checks would be worth nothing
-as errors.
+disagrees with the 12 other objects that share its script", "these two maps fight the same
+trainer id". They are real signal (the duplicate nurses were found by one) but a legitimate
+exception is possible, and the tree is NOT at zero on them. Those are REVIEW findings: printed
+with a baseline count, and failing only when the count grows or under --strict. A gate nobody
+can get to zero gets disabled, so those checks would be worth nothing as errors.
+
+A check earns its way out of the REVIEW tier by being triaged to zero, not by being deleted.
+MUTE-STORY-NPC started here with a baseline of 61 and is now an error: every one of the 61 was
+read and turned out to be correct, and the exclusions that explain them are recorded on the
+check itself.
 
 ## Why the thresholds are derived rather than declared
 
@@ -82,6 +86,9 @@ MIN_LAYOUTS = 900
 # CUTSCENE-SEALS-MAP walks a collision grid, so it needs a floor of its own: if the blockdata
 # stopped loading every map would look wall-free and the check would pass on everything.
 MIN_COLLISION_MAPS = 900
+# Hide flags that are cleared and never set again -- the "spawn and stay" class that
+# MUTE-STORY-NPC is still able to judge. See the floor check inside that function.
+MIN_SPAWN_AND_STAY_FLAGS = 30
 
 # --- SCRIPT-GFX-OUTLIER tuning (see the docstring's last section) ---
 # A script must be attached to this many objects before its graphics have a consensus worth
@@ -114,6 +121,20 @@ PROP_SPRITES = {
     "OBJ_EVENT_GFX_SIGN", "OBJ_EVENT_GFX_GYM_SIGN", "OBJ_EVENT_GFX_TRAINER_TIPS",
     "OBJ_EVENT_GFX_TOWN_MAP", "OBJ_EVENT_GFX_POKEDEX", "OBJ_EVENT_GFX_CLIPBOARD",
     "OBJ_EVENT_GFX_TRUCK", "OBJ_EVENT_GFX_MACHINE",
+}
+
+# Vehicles, ambient scenery and legendary encounter objects. These are flag-gated and mute by
+# design: you board the SS Tidal through a warp, Marine Cave's Kyogre is fought from a
+# coord_event, and OBJ_EVENT_GFX_LIGHT_SPRITE is the lamp that lights up outside Olivine Gym when
+# Jasmine returns -- it is used nine times in Blackthorn alone. Unlike PROP_SPRITES these may
+# legitimately be walked around by a cutscene, so they are only exempt from the mute-NPC check.
+SCENERY_SPRITES = {
+    "OBJ_EVENT_GFX_LIGHT_SPRITE", "OBJ_EVENT_GFX_SS_TIDAL", "OBJ_EVENT_GFX_MR_BRINEYS_BOAT",
+    "OBJ_EVENT_GFX_SUBMARINE_SHADOW", "OBJ_EVENT_GFX_SEAGALLOP", "OBJ_EVENT_GFX_SS_ANNE",
+    "OBJ_EVENT_GFX_CABLE_CAR", "OBJ_EVENT_GFX_KECLEON_BRIDGE_SHADOW",
+    "OBJ_EVENT_GFX_GROUDON_SIDE", "OBJ_EVENT_GFX_GROUDON_FRONT", "OBJ_EVENT_GFX_GROUDON_ASLEEP",
+    "OBJ_EVENT_GFX_KYOGRE_SIDE", "OBJ_EVENT_GFX_KYOGRE_FRONT", "OBJ_EVENT_GFX_KYOGRE_ASLEEP",
+    "OBJ_EVENT_GFX_RAYQUAZA", "OBJ_EVENT_GFX_DEOXYS", "OBJ_EVENT_GFX_HOOH", "OBJ_EVENT_GFX_LUGIA",
 }
 
 # What separates a prop from a character is not whether it has a script -- a plush doll on a
@@ -154,11 +175,6 @@ PLAYER_IS_ZERO = True
 # passes, but adding one fails. Lower these as they get triaged; never raise one without saying
 # why in the commit.
 REVIEW_BASELINE = {
-    # Named story NPCs -- Lance, Silver, Clair, Jasmine, Eusine, the Kimono Girls -- that the
-    # story spawns and leaves standing with script: NULL. Each needs someone to decide what it
-    # should say, or to confirm it is a cutscene-only actor, so they are triage items and not a
-    # build break.
-    "MUTE-STORY-NPC": 61,
     # Johto maps reusing Hoenn trainer ids: the two Victory Roads share most of their roster, and
     # a dozen Johto gym trainers reuse a Hoenn id. Fixing each needs a new entry in
     # trainers.party, which is a content change rather than a data repair.
@@ -534,13 +550,52 @@ def check_script_gfx_outlier(by_script, where):
     return review
 
 
-def check_mute_story_npc(maps, bodies):
-    """A story-gated NPC with no script.
+def check_mute_story_npc(maps, bodies, stats):
+    """A story-gated NPC that is left standing with nothing to say.
 
     The object is hidden behind a flag that some script clears and does not set again, so the
-    player can walk up to it after that point -- and it has nothing to say. Slowpoke Well's Kurt
-    reappeared this way after Proton was beaten.
+    player can walk up to it after that point -- and it has no script.
+
+    ## Why the exclusions below are as broad as they are
+
+    The first version of this check reported 61 objects and every one of them turned out to be
+    correct. `script: NULL` on a flag-gated object is the *normal* spelling for scene machinery,
+    not a defect, because the player never interacts with it by pressing A:
+
+      * Cutscene puppets. Sprout Tower's Silver is spawned by his hide flag, walked around by
+        `applymovement` from a coord event, then `removeobject`ed. Talking to him is not part of
+        the scene and never happens -- the coord trigger fires first.
+      * Vehicles and scenery. Mr Briney's boat, the SS Tidal, the submarine shadow, and the
+        OBJ_EVENT_GFX_LIGHT_SPRITE lamp that switches on outside Olivine Gym when Jasmine comes
+        back. Nobody talks to a lamp.
+      * Legendaries. Marine Cave's Kyogre is fought from a coord_event trigger, so the object
+        itself carries no script by design.
+
+    So a missing script is only evidence of a bug when the object is *not* scene machinery, and
+    the mechanical tell for machinery is that something takes it away again: the hide flag is
+    re-set somewhere, or the object is explicitly removed. Excluding those leaves zero findings
+    today, which is what makes this an error rather than a baselined smell -- a newly added story
+    NPC whose flag is only ever cleared, and who was never given dialogue, still fails.
+
+    Note that this would NOT have caught Slowpoke Well's Kurt on its own, and it is not supposed
+    to: his object was `addobject`ed and walked through a cutscene like any other puppet. What
+    was actually wrong there was the hide-flag collision with Kurt's house, which made the puppet
+    reachable during free roam. That is the bug class, and it is not decidable from the data --
+    see the note on the dropped cross-map flag check below.
     """
+    # A flag that any script sets, and an object that any script removes, both mean the object
+    # is taken off the map again -- scene machinery rather than a resident NPC.
+    reset_flags = set()
+    removed_objects = set()
+    for lines in bodies.values():
+        for line in lines:
+            m = re.match(r"setflag\s+(FLAG_\w+)", line)
+            if m:
+                reset_flags.add(m.group(1))
+            m = re.match(r"removeobject\s+(\S+)", line)
+            if m:
+                removed_objects.add(m.group(1).rstrip(","))
+
     persists = collections.defaultdict(list)
     for label, lines in bodies.items():
         open_clears = {}
@@ -554,7 +609,7 @@ def check_mute_story_npc(maps, bodies):
         for f in open_clears:
             persists[f].append(label)
 
-    review = []
+    errs = []
     for name, d in sorted(maps.items()):
         for i, o in enumerate(d.get("object_events", []), 1):
             f, gfx = o.get("flag", "0"), o["graphics_id"]
@@ -565,10 +620,32 @@ def check_mute_story_npc(maps, bodies):
             # Overworld Pokemon are mute by design and have their own validator.
             if gfx.startswith("OBJ_EVENT_GFX_SPECIES") or gfx in PROP_SPRITES:
                 continue
-            if f in persists:
-                review.append(f"{name} obj {i} at ({o['x']},{o['y']}): {gfx} spawns when "
-                              f"{f} is cleared (by {persists[f][0]}) and has no script")
-    return review
+            if gfx in SCENERY_SPRITES or gfx.endswith("_DOLL"):
+                continue
+            if f not in persists:
+                continue
+            stats["candidates"] += 1
+            if f in reset_flags:
+                stats["excluded_flag_reset"] += 1
+                continue
+            if o.get("local_id") in removed_objects or str(i) in removed_objects:
+                stats["excluded_removed"] += 1
+                continue
+            errs.append(f"{name} obj {i} at ({o['x']},{o['y']}): {gfx} spawns when "
+                        f"{f} is cleared (by {persists[f][0]}), is never hidden or removed "
+                        f"again, and has no script")
+    # The exclusions above are broad -- they drop about nine in ten flag-gated mute objects, and
+    # that is the point, because nine in ten are scene machinery. But an exclusion that grew to
+    # cover *everything* would leave this check passing on an empty set, which reads exactly like
+    # a clean tree. Count the spawn-and-stay hide flags it can still see and fail if that
+    # collapses. 56 such flags exist today.
+    stats["checkable_flags"] = len({f for f in persists if f.startswith("FLAG_HIDE")
+                                    and f not in reset_flags})
+    if stats["checkable_flags"] < MIN_SPAWN_AND_STAY_FLAGS:
+        die(f"MUTE-STORY-NPC can only see {stats['checkable_flags']} spawn-and-stay hide flags "
+            f"(expected >= {MIN_SPAWN_AND_STAY_FLAGS}) -- its exclusions have swallowed the "
+            f"check; it would now pass vacuously")
+    return errs
 
 
 def check_cutscene_seals_map(maps, bodies, owner, grids):
@@ -698,6 +775,7 @@ def main():
         die(f"only {with_coll} maps resolved to a collision grid (expected >= "
             f"{MIN_COLLISION_MAPS}) -- CUTSCENE-SEALS-MAP would be a no-op")
 
+    mute_stats = collections.Counter()
     by_script, where = role_table(maps)
     localid_errs, localid_review = check_localids(maps, bodies, owner)
 
@@ -708,11 +786,11 @@ def main():
         ("TRAINER-TYPE", check_trainer_type(maps, bodies)),
         ("TRAINER-FACTION", check_trainer_faction(trainers)),
         ("OBJECT-TRAINER-FACTION", check_object_trainer_faction(maps, bodies, trainers)),
+        ("MUTE-STORY-NPC", check_mute_story_npc(maps, bodies, mute_stats)),
     ]
     reviews = [
         ("SCRIPT-GFX-OUTLIER", check_script_gfx_outlier(by_script, where)),
         ("DUPLICATE-TRAINER", check_duplicate_trainer(maps, bodies, trainers)),
-        ("MUTE-STORY-NPC", check_mute_story_npc(maps, bodies)),
         ("NUMERIC-LOCALID", localid_review),
         ("CUTSCENE-SEALS-MAP", check_cutscene_seals_map(maps, bodies, owner, grids)),
     ]
@@ -723,6 +801,11 @@ def main():
         multi = {s: c for s, c in by_script.items()
                  if len(c) > 1 and sum(c.values()) >= MIN_ROLE_USES}
         roles = {s: c for s, c in multi.items() if len(c) <= MAX_ROLE_GFX}
+        print(f"-- mute-NPC census: {mute_stats['candidates']} flag-gated mute objects "
+              f"considered; {mute_stats['excluded_flag_reset']} excluded because the hide flag "
+              f"is re-set elsewhere and {mute_stats['excluded_removed']} because a script "
+              f"removes the object (both mean scene machinery); "
+              f"{mute_stats['checkable_flags']} spawn-and-stay hide flags remain judgeable")
         print(f"-- role table: {len(by_script)} scripts carry objects; {len(multi)} use more "
               f"than one sprite; {len(roles)} of those are within MAX_ROLE_GFX={MAX_ROLE_GFX} "
               f"and get an outlier vote, {len(multi) - len(roles)} are treated as generic")

@@ -292,18 +292,38 @@ ifneq (,$(MAKECMDGOALS))
   endif
 endif
 
-.SHELLSTATUS ?= 0
+# Do NOT reach for .SHELLSTATUS here. It could not carry the result of either sub-make below,
+# and the guards that used it were inert on every platform for two independent reasons:
+#
+#   1. It is GNU Make >= 4.2 only. macOS ships 3.81, where it is never set at all -- and the
+#      `.SHELLSTATUS ?= 0` that used to sit here then pinned it to 0 permanently, so the
+#      `$(error ...)` could never fire.
+#   2. Even on 4.2+, $(shell) reports the exit status of the whole PIPELINE. Both commands end
+#      in `| sed`, which essentially always succeeds, so the status was 0 no matter what the
+#      sub-make did.
+#
+# The visible symptom was nasty: a failed `make tools` (typically gbagfx not finding png.h)
+# did not stop the build. `preproc` sorts after `gbagfx` in TOOL_NAMES so it was never built,
+# and the real first error scrolled away behind hundreds of
+# "tools/preproc/preproc: No such file or directory".
+#
+# Instead, carry the status inside the output: append a sentinel word only if the sub-make
+# exits 0, print every other word, and treat a missing sentinel as failure. Identical
+# behaviour on 3.81 and 4.x. stderr is folded in so the real error is printed in order.
+PW_SUBMAKE_OK := __PW_SUBMAKE_OK__
 
 ifeq ($(SETUP_PREREQS),1)
   # If set on: Default target or a rule requiring a scan
   # Forcibly execute `make tools` since we need them for what we are doing.
-  $(foreach line, $(shell $(MAKE) -f make_tools.mk | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
-  ifneq ($(.SHELLSTATUS),0)
+  PW_TOOLS_OUT := $(shell { $(MAKE) -f make_tools.mk && echo $(PW_SUBMAKE_OK); } 2>&1 | sed "s/ /__SPACE__/g")
+  $(foreach line, $(filter-out $(PW_SUBMAKE_OK),$(PW_TOOLS_OUT)), $(info $(subst __SPACE__, ,$(line))))
+  ifeq (,$(filter $(PW_SUBMAKE_OK),$(PW_TOOLS_OUT)))
     $(error Errors occurred while building tools. See error messages above for more details)
   endif
   # Oh and also generate mapjson sources before we use `SCANINC`.
-  $(foreach line, $(shell $(MAKE) MAP_VERSION=$(MAP_VERSION) generated | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
-  ifneq ($(.SHELLSTATUS),0)
+  PW_GEN_OUT := $(shell { $(MAKE) MAP_VERSION=$(MAP_VERSION) generated && echo $(PW_SUBMAKE_OK); } 2>&1 | sed "s/ /__SPACE__/g")
+  $(foreach line, $(filter-out $(PW_SUBMAKE_OK),$(PW_GEN_OUT)), $(info $(subst __SPACE__, ,$(line))))
+  ifeq (,$(filter $(PW_SUBMAKE_OK),$(PW_GEN_OUT)))
     $(error Errors occurred while generating map-related sources. See error messages above for more details)
   endif
 endif

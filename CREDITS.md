@@ -39,9 +39,30 @@ The full list of pokeemerald-expansion contributors is preserved in the
 [pokeemerald-expansion contributors](#pokeemerald-expansion-contributors) table below.
 
 Upstream work arrives here by merge, so several expansion authors also appear directly in this
-repository's own `git shortlog`. Beyond those already in the table, that includes **GGbond**,
-**PhallenTree**, **Thales Castro** and **Andrew Strauss**, whose upstream battle-engine and UI
-fixes are part of this build.
+repository's own `git shortlog`. Four of them are not in the preserved table above, because it is
+a snapshot of upstream's own all-contributors file rather than a live roll of this repo. Their
+commits are in this build and are credited here:
+
+- **GGbond** — Orichalcum Pulse / Hadron Engine activation messages and ability flags, and
+  Commander edge cases with multi battles, switching and gimmicks
+  ([#10395](https://github.com/rh-hideout/pokeemerald-expansion/pull/10395),
+  [#10366](https://github.com/rh-hideout/pokeemerald-expansion/pull/10366),
+  [#10317](https://github.com/rh-hideout/pokeemerald-expansion/pull/10317))
+- **PhallenTree** — bounced moves not activating some effects, and Dragon Darts after-hit messages
+  ([#10386](https://github.com/rh-hideout/pokeemerald-expansion/pull/10386),
+  [#10315](https://github.com/rh-hideout/pokeemerald-expansion/pull/10315))
+- **Thales Castro** — single-target moves hitting all foes in the shared shadow animation, and a
+  duplicate CANCEL entry in the move relearner list
+  ([#10369](https://github.com/rh-hideout/pokeemerald-expansion/pull/10369),
+  [#10368](https://github.com/rh-hideout/pokeemerald-expansion/pull/10368))
+- **Andrew Strauss** — flicker when moving a Pokémon from box to party
+  ([#10313](https://github.com/rh-hideout/pokeemerald-expansion/pull/10313))
+
+**Alex** ([AlexOn1ine](https://github.com/AlexOn1ine)) and **Miriam**
+([miriamlefae](https://github.com/miriamlefae)) also appear in this repo's history and are already
+credited — Alex in the table above, Miriam as the author of the graphical start menu below.
+
+To regenerate this list after an upstream sync: `git shortlog -sn HEAD`.
 
 ---
 

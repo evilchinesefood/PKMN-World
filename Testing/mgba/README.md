@@ -4,7 +4,10 @@
 debug menu, warp byte order, collision checking. All of that still applies. **This file only
 covers the emulator**, because on macOS the emulator is not BizHawk.
 
-Status: **18/18 suites pass, and two consecutive full sweeps produced byte-identical output.**
+Status: this setup is what every tracked suite runs on. The last full sweep on this machine
+(`Testing/run-all.sh`, ROM md5 `0887BE3D…`, 2026-08-12) was **20/20 expected suites green, 549
+assertions**, in about 90 seconds. The sweep still exits **non-zero**: one suite has no fixture in
+the tree and one needs an untracked save — [`../lua/MANIFEST.md`](../lua/MANIFEST.md) explains both.
 
 ## Why not BizHawk
 
@@ -73,12 +76,24 @@ do. None of the three produces a diagnostic — each just silently changes behav
 
 ```bash
 Testing/mgba-run.sh Testing/lua/SmokeBoot.lua
-Testing/mgba-run.sh Testing/lua/VerifyV7Migrate.lua pokemonworld.gba Testing/lua/fixtures/v7.srm
+Testing/mgba-run.sh Testing/lua/VerifyV7Migrate.lua pokemonworld.gba Testing/lua/fixtures/v7dirty.srm
 ```
 
 Arguments are `<suite.lua> [rom.gba] [save.srm]`; the ROM defaults to the repo build. Exit code
-is 0 on pass, 1 on suite failure, 2 on a setup error. Evidence lands in `_pwtest/` as before
+is 0 on pass, 1 on suite failure, 2 on a setup error. Evidence lands in `_pwtest/`
 (`.log`, `.PASS`/`.FAIL`, numbered `.png` screenshots).
+
+To run everything instead of one suite:
+
+```bash
+Testing/run-all.sh
+```
+
+That is the only thing that produces a trustworthy count — it clears the sentinels first and then
+requires each suite to have written a fresh `.PASS` stamped with the current ROM's md5. Its exit
+code and the two structural reasons it fails on a clean checkout are documented in
+[`../lua/MANIFEST.md`](../lua/MANIFEST.md). Neither script runs in CI; the suites are a local gate
+only.
 
 The runner copies the ROM into a throwaway directory under a `Verify1` name before driving it.
 That is not ceremony — it satisfies `lib.lua`'s `ROM_ALLOWLIST` and enforces
@@ -94,8 +109,8 @@ a different in-game time.
 This matters more than it sounds. Emerald seeds its RNG from the RTC at boot, and the seed
 drives NPC movement — which is precisely what blocks a coordinate-verified walk. With the clock
 left on wall time, `TinTowerRoof` scored 3/5, 27/27, 27/27 on three identical back-to-back runs.
-With it pinned, five consecutive runs all scored 27/27, and two full 18-suite sweeps produced
-byte-identical output.
+With it pinned, five consecutive runs all scored 27/27, and two full sweeps (18 suites at the time
+of measuring) produced byte-identical output.
 
 `--rtc` uses `RTC_FAKE_EPOCH`, not `RTC_FIXED`: the clock starts at the requested instant and
 then advances off the *emulated frame counter*. So it is reproducible and still monotonic, which

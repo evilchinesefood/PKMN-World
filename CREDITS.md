@@ -29,7 +29,8 @@ Pokémon World is built on:
 - **[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion)** by
   **RHH (Rom Hacking Hideout)** and its many contributors — the feature-rich base that
   provides modern battle mechanics, Pokémon, abilities, items, moves, and the bulk of
-  the quality-of-life systems. Pokémon World tracks upstream ~v1.16.x.
+  the quality-of-life systems. Pokémon World tracks upstream **v1.16.2**
+  (`EXPANSION_VERSION_MAJOR`/`MINOR`/`PATCH` in `include/constants/expansion.h`).
 - **[pret/pokeemerald](https://github.com/pret/pokeemerald)** by **pret** — the original
   Pokémon Emerald decompilation that pokeemerald-expansion (and therefore this project)
   is built on top of.
@@ -37,17 +38,23 @@ Pokémon World is built on:
 The full list of pokeemerald-expansion contributors is preserved in the
 [pokeemerald-expansion contributors](#pokeemerald-expansion-contributors) table below.
 
+Upstream work arrives here by merge, so several expansion authors also appear directly in this
+repository's own `git shortlog`. Beyond those already in the table, that includes **GGbond**,
+**PhallenTree**, **Thales Castro** and **Andrew Strauss**, whose upstream battle-engine and UI
+fixes are part of this build.
+
 ---
 
 ## Merged-in regions, features & their sources
 
-Everything below is included — and enabled — in the shipped game (the one exception:
-the quest engine was compiled out in 2026-07, see its section). Credit goes to
-the original authors and the bases the content was ported from.
+Everything below is present in the shipped game, and all of it is enabled except where a
+section says otherwise (the quest engine was compiled out on 2026-07-27, and the map pop-up
+has several styles of which one is selected — see those sections). Credit goes to the original
+authors and the bases the content was ported from.
 
 ### Johto region — PokemonHnS-Development/pokemonHnS
 
-The entire Johto campaign — ~254 maps with layouts, tilesets, and event scripts,
+The entire Johto campaign — 251 maps with layouts, tilesets, and event scripts,
 231 trainer parties, wild-encounter tables, the Johto town map, and the full story
 through the Johto League and Mt. Silver — was ported from
 **[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
@@ -169,7 +176,9 @@ Credits per that branch's README:
   and **saveblock cleansing** (in addition to the FireRed quest-menu port credited
   under the Quests system above).
 - **BSBob** — **BW-style map pop-ups** (`bsbob_map_popups`, hosted by
-  [ravepossum](https://github.com/ravepossum/pokeemerald)).
+  [ravepossum](https://github.com/ravepossum/pokeemerald)). The Gen 5 pop-up arm is in the
+  tree; the shipped configuration selects the Gen 8 style
+  (`OW_POPUP_GENERATION GEN_8`, `include/config/overworld.h`).
 - **SBird1337** — **dynamic multichoice** (`dynmulti`).
 - **DizzyEggg** — **nature colors** on the summary screen (`nature_color`).
 

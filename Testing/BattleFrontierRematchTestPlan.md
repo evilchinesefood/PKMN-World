@@ -3,8 +3,32 @@
 Covers the **Battle Frontier** (all 7 facilities + the fork's World Championship Dome mode) and the
 **gym leader / Elite Four / Champion rematch** system (Feature C difficulty tiers).
 
-Read **`Testing/BizHawkTesting.md`** first — it has the harness, save-safety protocol, debug-menu
-indices and spinner mechanics every case below depends on.
+> ## Status: the features shipped. This plan is still mostly unexecuted.
+>
+> **What shipped** — all of it is in the ROM and in `CHANGELOG.md`: the Frontier gated on one
+> region's championship, the World Championship bracket with TEAM ROCKET replacing Clair, HARD
+> rematch teams for all 24 gyms and all three leagues, `SyncDifficultyForRegion` containment, and
+> the Battle Net reward hook.
+>
+> **What was verified at runtime** — only the access half, and only by hand. `CHANGELOG.md` records
+> "Battle Frontier verified: reachable from the World Transit hub as any region's Champion (no S.S.
+> Ticket needed), all seven facilities and their Pokémon pools confirmed intact", which is §A1 and
+> §A2. Nothing else in this file has a recorded run.
+>
+> **There is no automated suite for any case below.** `Testing/lua/` holds 21 suites and none of
+> them enters a Frontier facility, drives a rematch, or reads `VAR_DIFFICULTY`. So every ⚠ in this
+> file is still a ⚠, and §6's priority order is still the right order to work through.
+>
+> **The §8 comment fixes are done** (2026-07-17) and are recorded there as history.
+>
+> Treat the numbers, flags, map coordinates and code citations below as **re-verified against the
+> current tree** — they were spot-checked during a docs accuracy sweep and every map group, flag
+> value, var id and editor cap quoted here still matches. The *behavioural* expectations are the
+> part that has not been run.
+
+Read **[`BizHawkTesting.md`](BizHawkTesting.md)** first — it has the harness, save-safety protocol,
+debug-menu indices and spinner mechanics every case below depends on. Despite that file's name,
+**BizHawk is not used**: everything runs headlessly under a patched mGBA.
 
 Facts here were derived from the source and **adversarially verified** (57 claims confirmed,
 3 refuted). Claims marked ⚠ **UNVERIFIED AT RUNTIME** are static source reads only — that is
@@ -23,11 +47,20 @@ Each case gives **Setup → Steps → Expected → Evidence to capture**. Expect
 
 ## 1. Test rig setup (once)
 
-1. Build: `PATH="$HOME/.local/arm-none-eabi/usr/bin:$PATH" make -j12`.
-2. **Isolate**: copy the ROM + a save to `FrTest.gba` / `FrTest.SaveRAM`. Never test on
-   `pokemonworld.gba` — BizHawk flushes SaveRAM on exit.
-3. Re-derive addresses from **this build's** `pokemonworld.map`.
-4. Verify the emulator's printed MD5 matches your build before trusting any result.
+1. Build the emulator once — `Testing/mgba/README.md`. There is no BizHawk on macOS.
+2. Build the ROM: `make modern -j$(sysctl -n hw.ncpu)`. That also regenerates
+   `Testing/lua/symbols.lua`, which is where addresses come from — do not re-derive them from
+   `pokemonworld.map` by hand.
+3. Write each case as a suite in `Testing/lua/` on top of `lib.lua` and drive it with
+   `Testing/mgba-run.sh Testing/lua/<Suite>.lua`. The runner copies the ROM into a throwaway
+   `Verify1.gba` in a temp dir and pins the RTC, so isolation and determinism are handled — see
+   `Testing/lua/MANIFEST.md`.
+4. Check the `md5 :` line the runner prints matches your build before trusting any result. The
+   ROM/symbols guard aborts on a mismatch, but read the line anyway.
+
+Driving these cases by hand in a GUI emulator is fine for exploration, but a case proved that way
+leaves no re-runnable artifact. Anything worth keeping should end up as a suite with a `.PASS`
+sentinel — and should be checked against a build **without** the fix before it is believed.
 
 ### Key flags / vars
 
@@ -395,10 +428,16 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 
 ## B6. Battle Net hook  (LIVE — issue #5 P1)
 
-`data/scripts/battle_net.inc` is now the **live reward routine** (wired at
-`data/event_scripts.s:1330`, called from all 41 rematch victory points with
-`VAR_0x8004` = the defeated trainer ID). `TryBattleNetRematchReward` self-gates on
-`DIFFICULTY_HARD` (the 5 Hoenn league sites also fire on first clears — those stay no-ops).
+`data/scripts/battle_net.inc` is the **live reward routine**, included from `data/event_scripts.s`.
+`TryBattleNetRematchReward` self-gates on `DIFFICULTY_HARD` (the 5 Hoenn league sites also fire on
+first clears — those stay no-ops).
+
+The 41 rematch victory points no longer `call BattleNet_EventScript_OnLeaderRematchWin` by name.
+They go through the **`leader_rematch_hook` macro** (`asm/macros/event.inc`), which expands to that
+call only under `#if PKMN_WORLD_BATTLE_NET == TRUE` and to nothing otherwise — that is what keeps
+the shared gym and league scripts cherry-pickable upstream. Confirmed: **41 `leader_rematch_hook`
+sites across 39 files**. Callers still set `VAR_0x8004` to the defeated trainer id first, because
+post-battle globals are unreliable (`ResetTrainerOpponentIds`).
 
 **B6.1 — Reward contract on a HARD rematch win**
 - Expected per qualifying win: **Shards every win** (leaders 1, E4/Champion 2), guarded by
@@ -406,9 +445,11 @@ champion flag on every region entry**. That is what stops HARD leaking across re
   silent loss), while the win still records. The **signature Mega Stone** drops once per
   leader; a failed stone give leaves its guard flag clear for **reclaim on a later win**.
   The Kanto champion trio pays a **double stone** (Mewtwonite X + Y).
-- Deeper coverage lives in the scripted suites: `_pwtest/BnetP1Reward.lua`,
-  `_pwtest/BnetKanto.lua`, `_pwtest/BnetStonePending.lua` (gitignored scratch).
 - Non-HARD sites: winning a first clear through the same hook must reward nothing.
+- This was once covered by scratch scripts in `_pwtest/` (`BnetP1Reward.lua`, `BnetKanto.lua`,
+  `BnetStonePending.lua`). **Those files are not in the tree** — `_pwtest/` is gitignored and now
+  holds run output only. There is no surviving automated coverage of the reward contract; the
+  tracked `BnetTerminal1F.lua` covers the wall terminal and its BP payouts, not the rematch hook.
 
 ---
 
@@ -422,7 +463,7 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 6. **A4** Level modes (the Open-Level enemy floor is counter-intuitive)
 7. **A3.3** duplicate-species rejection (known to silently eat registrations)
 8. **A5/A6** BP, streaks, brains (divisor + exact-equality quirks)
-9. **B6** Battle Net rewards (covered by the scripted `_pwtest` suites)
+9. **B6** Battle Net rewards (its old scratch coverage is gone — see B6)
 
 ## 7. Known traps — rule these out before filing a bug
 
@@ -434,7 +475,7 @@ champion flag on every region entry**. That is what stops HARD leaking across re
 | Can't set a gym leader's defeat flag | Kanto `0x6400` / Johto `0x6000` banks are above the editor cap `0x102F` |
 | Can't talk to the Dome registrar | wandering NPC + **a follower steals the A-press** ("X is suddenly playful") |
 | Battle never ends under pure-A | Wobbuffet Counter/Mirror Coat stall — prove the mechanic via flags instead |
-| Grep finds no `FRONTIER_LVL_*` | they're **enum members** in `include/constants/global.h:158`, not `#define`s |
+| Grep finds no `FRONTIER_LVL_*` | they're **enum members** in `include/constants/global.h` (currently ~:207), not `#define`s |
 | Grep returns the wrong trainer ID | `opponents_frlg.h` defines every Kanto ID **twice** (`#if ALL_REGIONS` vs `#else`) |
 | Difficulty block looks unlabelled | blocks are **positional**: NORMAL = *absence* of a `Difficulty:` line |
 

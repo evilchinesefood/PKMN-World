@@ -9,61 +9,85 @@
 A Game Boy Advance ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
 
-[**Install**](INSTALL.md) · [**Features**](FEATURES.md) · [**Credits**](CREDITS.md)
+[**Install**](INSTALL.md) · [**Features**](FEATURES.md) · [**Changelog**](CHANGELOG.md) · [**Credits**](CREDITS.md)
 
 </div>
 
 ---
 
-## 🌏 What is it?
+## What is it?
 
-**Pokémon World** merges **Kanto**, **Johto**, and **Hoenn** into a single Game Boy Advance game.
-Each region is a full, self-contained adventure — its own story, 8 gyms, badges, Elite Four, and
-Champion — and you choose which to play from a central **World Transit hub**. Your **PC box,
-Pokédex, and bag are shared** across all three, so the Pokémon you raise travel with you between
-worlds.
+**Pokémon World** puts **Kanto**, **Johto** and **Hoenn** on one GBA cartridge. Each region is a
+complete adventure — its own story, 8 gyms, Elite Four and Champion — and you pick which to play
+from a central **World Transit hub**.
 
-- **Engine:** pokeemerald-expansion (upstream `66ab6696`, 2026-06-23) + 20
-  cherry-picked upstream fixes
+Your **PC boxes, Pokédex, bag and money are shared** across all three, so the Pokémon you raise
+travel with you. Badges, story flags and trainer defeats stay **per region**, so clearing Hoenn
+doesn't hand you Johto's progress (or Johto's difficulty).
+
+The roster is **Generations 1–3 only**, family trees intact — later-gen evolutions of Gen 1–3
+lines (Togekiss, Electivire, Weavile, Sylveon…) are kept and obtainable. All 339 Gen 4–9 families
+are compiled out, and `make validate` fails if any wild table, gift or trainer party still
+references one.
+
+- **Engine:** pokeemerald-expansion 1.16.2 (`include/constants/expansion.h`)
 - **ROM:** `pokemonworld.gba` — title `POKEMON WRLD`, code `BPEE`
 
-## 📊 Status
+## Build it
 
-**v1.4** (July 2026) — see the [changelog](CHANGELOG.md) for the full history.
+You need devkitARM. The build is modern-toolchain only — agbcc is not used.
 
-All three campaigns are complete and playable end to end, including each region's post-game.
-Earlier releases added the World Championship endgame, HARD-mode gym-leader and Elite Four
-rematches, riding your own Pokémon for surf and flight, and a long run of fixes from
-emulator-verified test passes.
+```sh
+make modern -j8      # produces pokemonworld.gba
+```
 
-**New in v1.4:** the **Battle Net**. Its flagship floor opens above the hub once you're a
-Champion — HARD rematches drop signature Mega Stones, and all 28 stone-holding leaders Mega
-Evolve against you — with its battle modes live: the Scaling Type Trainer, the Leader Sim, the
-7-win Tower Streak, and the Lv50/Monotype/Little Cup ruleset rooms, plus a Battle Net wall terminal in
-every Pokémon Center lobby. Sims pay **full EXP** (and evolutions), making them the game's training
-grounds — in Hard Mode the badge level caps still apply, so they can't outrun your progression.
-v1.4 also enforces the **Gen 1–3 roster** across every party, and carries a large fix wave from
-scripted emulator test passes. The Battle Net hasn't had a human play pass yet, so expect
-balance to move.
+Full setup, toolchain notes and troubleshooting live in **[INSTALL.md](INSTALL.md)**.
 
-What's left: a **full-length human playthrough** of all three campaigns for story pacing and
-balance.
+| Command | What it does |
+|---|---|
+| `make modern` | Build the ROM (this is the normal build) |
+| `make validate` | Host-side content checks — Gen 1–3 rule, script pointers, map events. Seconds, no build needed |
+| `make check` | The inherited battle-engine test suite (~5,500 tests, ~23 min) |
+| `Testing/run-all.sh` | 20 in-game overworld suites on a patched headless mGBA. Local only — see `Testing/mgba/README.md` |
+| `make RELEASE=1` | Optimized build with the debug menu stripped |
+
+CI (`.github/workflows/Check.yml`) runs the host validators and `make check`. It never uploads a
+ROM, and the emulator suites can't run there.
+
+## Status
+
+**Last tagged release: v1.4** (2026-07-27). `master` is well ahead of it — see the *Unreleased*
+section of the [changelog](CHANGELOG.md) for what has landed since, most notably:
+
+- The link-era features (Mystery Gift/Event, Union Room, record mixing, Cable Club) and the
+  never-populated quest engine are **compiled out**.
+- The Battle Net terminal moved into a **wall unit in all 50 Pokémon Center lobbies**, and the
+  old Center 2Fs are sealed.
+- The **S.S. Aqua actually lands in Kanto** — you disembark at the new Vermilion City port with
+  your team intact.
+- A long run of Johto script, trainer-data and save-migration fixes. The save format is now
+  **v9**; v7 and v8 saves migrate forward, anything older is refused at load with an explanation.
+
+All three campaigns are playable end to end, including each region's post-game. What's left is a
+**full-length human playthrough** of all three for story pacing and balance — the Battle Net in
+particular has only been driven by scripted tests, so expect its numbers to move.
 
 <details>
-<summary><b>Region-by-region status</b></summary>
+<summary><b>Region-by-region</b></summary>
 
 <br>
 
-- ✅ **Hoenn** — native (base engine), plus the upgraded HARD Elite Four/Champion rematch.
-- ✅ **Johto** — fully ported (~254 maps, real trainer parties, gyms/badges, region map & Fly,
-  and all post-game: Red at Mt. Silver, roaming beasts, Celebi, Ruins of Alph, Bug-Catching
-  Contest, Ho-Oh/Lugia).
-- ✅ **Kanto** — the FireRed campaign wired in: real FRLG trainer parties, gym/Elite Four/Champion
-  rosters, rival **GARY** (who is also the Kanto Champion), and the 8-badge league gate.
-- ✅ **Cross-region systems** — World Transit hub, region-switch travel, per-region access
-  points and champion warp pads, a multi-page trainer card, and 6-outfit customization.
-- 🟡 **In progress** — a full-length human playthrough of all three campaigns (story pacing
-  + balance).
+- **Hoenn** — the native Emerald campaign, plus HARD Elite Four and Champion rematches. The
+  Battle Frontier is the shared post-game facility, reachable from the hub once you've cleared
+  any one region's league.
+- **Johto** — ported in: 251 maps with tilesets and scripts, 312 distinct trainers, wild tables,
+  the Johto town map with Fly and heal locations, HGSS-style portraits for the gym leaders and
+  Elite Four, and the post-game (Red at Mt. Silver, roaming beasts, the Celebi GS Ball chain,
+  Ruins of Alph, the Bug-Catching Contest, Ho-Oh and Lugia).
+- **Kanto** — the FireRed campaign wired in: real FRLG trainer parties, gym/Elite Four/Champion
+  rosters, rival **GARY** (who is also the Kanto Champion), and the Route 23 badge gate.
+- **Cross-region** — the World Transit hub, region switching, per-region access points, a
+  three-page trainer card (L/R flips between Hoenn, Kanto and Johto badges), and six outfits.
 
 </details>
 
@@ -72,26 +96,21 @@ balance.
 
 <br>
 
-A decomp-style project — the ROM is reassembled from C source, assembly, JSON data, and raw
+A decomp-style project — the ROM is reassembled from C source, assembly, JSON data and raw
 assets, following pokeemerald / pokeemerald-expansion conventions.
 
 | Path | Contents |
 |---|---|
-| `src/` · `include/` | Game + engine C source (~390 files) and matching headers. |
+| `src/` · `include/` | Game and engine C source (397 `.c` files) and headers. |
 | `include/config/` | Feature-toggle headers — the first place to look to enable or tune a feature. |
-| `data/` | Event/battle/field scripts, ~1190 map folders (Hoenn + Kanto + ported Johto), `layouts/`, `tilesets/`, `text/`. |
+| `data/` | Event/battle/field scripts, 1,189 maps (Hoenn + Kanto + ported Johto), `layouts/`, `tilesets/`, `text/`. |
 | `graphics/` · `sound/` | Raw image and audio assets, converted to GBA formats at build time. |
-| `asm/` · `constants/` · `libagbsyscall/` | Hand-written assembly + macros, constant includes, GBA BIOS syscall library. |
-| `Makefile` · `*.mk` · `tools/` | The modern (`arm-none-eabi-gcc`) build and its auto-compiled tools. |
+| `asm/` · `constants/` · `libagbsyscall/` | Hand-written assembly and macros, constant includes, GBA BIOS syscall library. |
+| `tools/` | Build tools, compiled automatically by the Makefile. |
 | `test/` | Battle-engine test suite (`make check`). |
+| `Testing/` | This project's own checks: host validators (`Validate*.py`) and the Lua overworld suites. |
 
 </details>
-
-## 📦 Build & docs
-
-- **[INSTALL.md](INSTALL.md)** — setup and build instructions.
-- **[FEATURES.md](FEATURES.md)** — full feature list.
-- **[CREDITS.md](CREDITS.md)** — credits.
 
 ## Credits & license
 

@@ -30,6 +30,7 @@ BugContest_EventScript_TimesUp::
 	goto_if_eq VAR_0x8004, 0, BugContest_EventScript_WrongChoiceMon
 	fadescreen FADE_TO_BLACK
 	warp MAP_NATIONAL_PARK_BUG_CONTEST, 5
+	waitstate
 	delay 90
 	end
 
@@ -111,11 +112,13 @@ BugContest_EventScript_End::
 	special RemoveSafariBalls
 	goto_if_eq VAR_TEMP_1, 1, BugContest_EventScript_SideEnd
 	warp MAP_GATE_NATIONAL_PARK, 7, 2
+	waitstate
 	releaseall
 	end
 
 BugContest_EventScript_SideEnd::
 	warp MAP_GATE_NATIONAL_PARK, 35, 7
+	waitstate
 	releaseall
 	end
 

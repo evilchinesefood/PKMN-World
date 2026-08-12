@@ -61,6 +61,7 @@ GoldenrodDeptElevator_EventScript_F0::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_BASEMENT, 10, 5
+	waitstate
 	delay 60
 	end
 GoldenrodDeptElevator_EventScript_F1::
@@ -69,6 +70,7 @@ GoldenrodDeptElevator_EventScript_F1::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_1F, 9, 3
+	waitstate
 	delay 60
 	end
 GoldenrodDeptElevator_EventScript_F2::
@@ -77,6 +79,7 @@ GoldenrodDeptElevator_EventScript_F2::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_2F, 9, 3
+	waitstate
 	delay 60
 	end
 GoldenrodDeptElevator_EventScript_F3::
@@ -85,6 +88,7 @@ GoldenrodDeptElevator_EventScript_F3::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_3F, 9, 3
+	waitstate
 	delay 60
 	end
 GoldenrodDeptElevator_EventScript_F4::
@@ -93,6 +97,7 @@ GoldenrodDeptElevator_EventScript_F4::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_4F, 9, 3
+	waitstate
 	delay 60
 	end
 GoldenrodDeptElevator_EventScript_F5::
@@ -101,6 +106,7 @@ GoldenrodDeptElevator_EventScript_F5::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_5F, 9, 3
+	waitstate
 	delay 60
 	end
 GoldenrodDeptElevator_EventScript_F6::
@@ -109,6 +115,7 @@ GoldenrodDeptElevator_EventScript_F6::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_GOLDENROD_CITY_DEPARTMENT_STORE_6F, 9, 3
+	waitstate
 	delay 60
 	end
 
@@ -193,6 +200,7 @@ CeladonDeptElevator_EventScript_F1::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_CELADON_CITY_DEPARTMENT_STORE_1F, 6, 0
+	waitstate
 	delay 60
 	end
 CeladonDeptElevator_EventScript_F2::
@@ -201,6 +209,7 @@ CeladonDeptElevator_EventScript_F2::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_CELADON_CITY_DEPARTMENT_STORE_2F, 6, 0
+	waitstate
 	delay 60
 	end
 CeladonDeptElevator_EventScript_F3::
@@ -209,6 +218,7 @@ CeladonDeptElevator_EventScript_F3::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_CELADON_CITY_DEPARTMENT_STORE_3F, 6, 0
+	waitstate
 	delay 60
 	end
 CeladonDeptElevator_EventScript_F4::
@@ -217,6 +227,7 @@ CeladonDeptElevator_EventScript_F4::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_CELADON_CITY_DEPARTMENT_STORE_4F, 6, 0
+	waitstate
 	delay 60
 	end
 CeladonDeptElevator_EventScript_F5::
@@ -225,6 +236,7 @@ CeladonDeptElevator_EventScript_F5::
 	setvar VAR_ELEVATOR, 1
 	waitse
 	warp MAP_CELADON_CITY_DEPARTMENT_STORE_5F, 6, 0
+	waitstate
 	delay 60
 	end
 

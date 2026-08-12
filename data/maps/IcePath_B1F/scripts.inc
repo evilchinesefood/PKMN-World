@@ -25,6 +25,7 @@ IcePath_B1F_EventScript_PuzzleSkipButton::
 	msgbox IcePath_B1F_Text_PuzzleSkipButton, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, IcePath_B1F_EventScript_PuzzleSkipButtonNo
 	warp MAP_ICE_PATH_B1F, 15, 12
+	waitstate
 	release
 	end
 

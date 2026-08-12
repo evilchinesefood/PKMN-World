@@ -186,8 +186,12 @@ local suite = coroutine.create(chunk)
 callbacks:add("frame", function()
   if finished then return end
   if coroutine.status(suite) == "dead" then
-    -- Ran to completion without calling client.exit() -- treat as a pass.
-    finish(0)
+    -- Ran to completion without calling client.exit(). This used to `finish(0)` -- "treat as a
+    -- pass" -- which quietly bypassed lib.lua's deliberate "zero assertions is a FAILURE" guard,
+    -- because that guard lives inside finish(). Any early `return` from a suite's main() therefore
+    -- exited 0 having asserted nothing. Exiting through F.finish() is mandatory; say so.
+    mconsole:error("suite ended without calling F.finish() -- no verdict was produced")
+    finish(3)
   end
   local ok, err = coroutine.resume(suite)
   if not ok then

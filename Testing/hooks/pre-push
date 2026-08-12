@@ -35,6 +35,7 @@ run "Event-script pointer arguments" Testing/ValidateScripts.py
 run "Overworld-Pokemon placements"   Testing/ValidateOwMonPlacements.py
 run "Map object-event consistency"   Testing/ValidateMapEvents.py
 run "Cleared-obstacle table"         Testing/GenObstacleTable.py --check
+run "Save-format constants"          Testing/SavePatch.py --check
 
 if [ "$fail" -ne 0 ]; then
   cat >&2 <<'EOF'

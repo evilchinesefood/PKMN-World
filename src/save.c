@@ -898,7 +898,6 @@ u8 LoadGameSave(u8 saveType)
     case SAVE_NORMAL:
     default:
         status = TryLoadSaveSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
-        CopyPartyAndObjectsFromSave();
         gSaveFileStatus = status;
         gGameContinueCallback = NULL;
 #if ALL_REGIONS
@@ -941,6 +940,16 @@ u8 LoadGameSave(u8 saveType)
             }
         }
 #endif
+        // AFTER the ladder, not before it. LoadObjectEvents() copies SaveBlock1.objectEvents[]
+        // into gObjectEvents[], and MigrateDeletedTwinMaps() rewrites the mapNum in exactly that
+        // array (src/load_save.c) -- so with the copy running first the renumber never reached a
+        // live object, and the next SaveObjectEvents() wrote the stale value straight back over
+        // the migrated one. A player who saved in one of the 20 renumbered rooms then had every
+        // NPC on that floor carrying a pre-deletion mapNum, so GetObjectEventIdByLocalIdAndMap()
+        // matched none of them and every applymovement/removeobject by local id silently no-op'd.
+        // Safe to defer: the ladder touches only SaveBlock1/2/3 and never reads gPlayerParty or
+        // gObjectEvents.
+        CopyPartyAndObjectsFromSave();
         break;
     case SAVE_HALL_OF_FAME:
         if (gHoFSaveBuffer != NULL)

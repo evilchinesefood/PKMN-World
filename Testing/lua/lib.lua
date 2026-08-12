@@ -50,6 +50,19 @@ local function normHash(h)
   return (tostring(h or ""):gsub("^%a+:", ""):gsub("[^%x]", "")):upper()
 end
 
+-- The hash to stamp into a .PASS/.FAIL sentinel. Prefer what the emulator says it actually
+-- loaded; fall back to the runner's exported PW_ROM_HASH, then to symbols.lua's recorded hash.
+-- Returns "" when nothing is available, which the sweep treats as unverifiable rather than fresh.
+local function romHashStamp(S)
+  if gameinfo and gameinfo.getromhash then
+    local h = normHash(gameinfo.getromhash())
+    if h ~= "" then return h end
+  end
+  local env = os.getenv and normHash(os.getenv("PW_ROM_HASH")) or ""
+  if env ~= "" then return env end
+  return S and normHash(S.romMD5) or ""
+end
+
 -- ---- construction --------------------------------------------------------------------------
 -- opts: { out = "C:\\...\\_pwtest\\", speed = 800, allowAnyRom = false }.
 function M.new(S, name, opts)
@@ -57,7 +70,17 @@ function M.new(S, name, opts)
   local self = {}
   self.S = S
   self.name = name
-  self.out = opts.out or DEFAULT_OUT
+  -- PW_OUT is exported by Testing/mgba-run.sh and was read by nothing, so redirecting a run to an
+  -- isolated directory silently still wrote into the shared repo _pwtest/ -- overwriting the very
+  -- artifacts the redirect was meant to keep apart. Honour it, normalising the trailing separator.
+  local envOut = os.getenv and os.getenv("PW_OUT") or nil
+  if envOut and envOut ~= "" then
+    local sep = package.config:sub(1, 1)
+    if not envOut:match("[/\\]$") then envOut = envOut .. sep end
+  else
+    envOut = nil
+  end
+  self.out = opts.out or envOut or DEFAULT_OUT
   self.speed = opts.speed or 800
   self.shotn = 0
   self.results = {}
@@ -69,7 +92,18 @@ function M.new(S, name, opts)
   -- having exercised the previous build's code. Nothing but this compares them.
   if S.romMD5 and gameinfo and gameinfo.getromhash then
     local actual = normHash(gameinfo.getromhash())
-    if actual ~= "" and actual ~= normHash(S.romMD5) and actual ~= normHash(S.romSHA1) then
+    -- An empty hash used to SKIP the comparison, so the one guard the whole design leans on failed
+    -- open. Under mgba_shim the hash comes from PW_ROM_HASH, which Testing/mgba-run.sh computes
+    -- with `md5 -q` -- BSD-only, and inside an `export` its failure does not trip `set -e`. On any
+    -- non-macOS host that silently produced "", re-enabling both stale-ROM directions. Abort.
+    if actual == "" then
+      console.log("ABORT " .. name .. ": the loaded ROM's hash is empty, so the stale-ROM guard")
+      console.log("  cannot run. Check that PW_ROM_HASH is exported and non-empty (see")
+      console.log("  Testing/mgba-run.sh) rather than running unguarded.")
+      client.exit(2)
+      return
+    end
+    if actual ~= normHash(S.romMD5) and actual ~= normHash(S.romSHA1) then
       console.log("ABORT " .. name .. ": ROM does not match symbols.lua.")
       console.log("  symbols.lua was generated from " .. tostring(S.romName)
                   .. " md5=" .. tostring(S.romMD5))
@@ -189,8 +223,15 @@ function M.new(S, name, opts)
     return (table.concat(row):gsub("%s+$", ""))
   end
   local function crashScreen()
-    local first = crashRow(0)
-    if not first:match("%.C:%d") then return nil end
+    -- Match across rows 0 AND 1. CrashScreen writes "FILE.C:LINE: MESSAGE" and Putc wraps at
+    -- column 30, so for a path of length L the ':' lands at column L and the first digit at L+1.
+    -- Any src path >= 29 chars therefore pushes the line NUMBER onto row 1, leaving row 0 as
+    -- e.g. "SRC/BATTLE_ANIM_SMOKESCREEN.C:" with no digit -- and the old row-0-only match
+    -- returned nil for it. 34 of the tree's src/*.c paths are that long, including files that
+    -- already carry assert sites. The end-to-end proof used src/debug.c (11 chars), which
+    -- structurally could not exercise the wrap.
+    local head = crashRow(0) .. crashRow(1)
+    if not head:match("%.C:%d") then return nil end
     local lines = {}
     for y = 0, 19 do
       local s = crashRow(y)
@@ -251,7 +292,14 @@ function M.new(S, name, opts)
       local dir
       if x < tx then dir = "Right" elseif x > tx then dir = "Left"
       elseif y < ty then dir = "Down" else dir = "Up" end
-      if not step(dir) then L(string.format("    leg BLOCKED %s at (%d,%d)->(%d,%d)", dir, x, y, tx, ty)); return false end
+      if not step(dir) then
+        L(string.format("    leg BLOCKED %s at (%d,%d)->(%d,%d)", dir, x, y, tx, ty))
+        -- A stuck walk and a crashed game look identical from here: the coordinates simply stop
+        -- changing. #86 built the decoder to tell them apart and then wired it into nothing, so a
+        -- crash still surfaced as a mute "BLOCKED". Name it when it is one.
+        self.reportCrash(string.format("leg_%d_%d", tx, ty))
+        return false
+      end
     end
     return false
   end
@@ -408,7 +456,18 @@ function M.new(S, name, opts)
       if p < 3 then joypad.set({ A = true }) elseif p >= 15 and p < 17 then joypad.set({ Start = true }) else joypad.set({}) end
       emu.frameadvance(); f = f + 1
     end
-    if not ow() then L("BOOT FAIL"); shot("bootfail"); return false end
+    -- The loop exits on `ow() and group matches`, but this check tested ONLY ow() -- so exhausting
+    -- the 120,000-frame budget while sitting in some OTHER overworld returned true and every
+    -- caller then ran its assertions against the wrong map. Test the same condition the loop did.
+    if not ow() or (expectGroup and grp() ~= expectGroup) then
+      L(string.format("BOOT FAIL (overworld=%s grp=%d want=%s)",
+        tostring(ow()), grp(), tostring(expectGroup)))
+      -- A boot that never arrives is the other place a crash hides: MODE_FATALF spins forever, so
+      -- the budget simply runs out and the suite blames the map. Read the screen before giving up.
+      self.reportCrash("bootfail")
+      shot("bootfail")
+      return false
+    end
     idle(200)
     if not keepScene then
       local cleared, tries = ensureFree(), 0
@@ -440,6 +499,16 @@ function M.new(S, name, opts)
   -- 5/8 exited identically to a clean one. The log itself can be nil (see the io.open guard in
   -- new()) and is documented as reading 0 bytes from the WSL side, so the sentinel file is a
   -- separate, tiny artifact that a wrapper can stat without parsing anything.
+  -- Clearing the sentinels is its own function because BOTH exit paths must do it: finish() on
+  -- the normal path, and run()'s error handler on the Lua-error path. Only finish() used to, so a
+  -- suite that threw left the last good run's .PASS sitting there looking current.
+  local function clearVerdictSentinels()
+    for _, ext in ipairs({ ".PASS", ".FAIL" }) do
+      if os.remove then pcall(os.remove, self.out .. name .. ext) end
+    end
+  end
+  self.clearVerdictSentinels = clearVerdictSentinels
+
   function self.finish()
     local okn = 0
     for _, r in ipairs(self.results) do if r.ok then okn = okn + 1 end end
@@ -450,12 +519,16 @@ function M.new(S, name, opts)
     L(string.format("VERDICT %s: %d/%d PASS", name, okn, total))
 
     -- Clear BOTH sentinels first so a previous run's verdict can never be mistaken for this one's.
-    for _, ext in ipairs({ ".PASS", ".FAIL" }) do
-      if os.remove then pcall(os.remove, self.out .. name .. ext) end
-    end
+    clearVerdictSentinels()
     local sentinel = io.open(self.out .. name .. (passed and ".PASS" or ".FAIL"), "w")
     if sentinel then
-      sentinel:write(string.format("%s %d/%d\n", passed and "PASS" or "FAIL", okn, total))
+      -- Stamp the ROM hash and a timestamp into the body. An unstamped sentinel never expires, so
+      -- "21/21 green" was a hand count over a directory that mixed today's runs with ones from
+      -- six days and many builds ago -- including a suite that could not run at all. A sweep can
+      -- now reject any sentinel whose rom= does not match the ROM under test.
+      sentinel:write(string.format("%s %d/%d rom=%s at=%s suite=%s\n",
+        passed and "PASS" or "FAIL", okn, total,
+        tostring(romHashStamp(self.S)), os.date("!%Y-%m-%dT%H:%M:%SZ"), tostring(name)))
       for _, r in ipairs(self.results) do
         if not r.ok then sentinel:write("FAILED: " .. r.name .. " -- " .. r.detail .. "\n") end
       end
@@ -475,7 +548,16 @@ function M.new(S, name, opts)
   -- run main() under xpcall so an EmuHawk-swallowed Lua error is logged, not silent
   function self.run(mainFn)
     local ok, err = xpcall(mainFn, debug.traceback)
-    if not ok then L("LUA ERROR: " .. tostring(err)); if self.log then self.log:close(); self.log = nil end client.exit() end
+    -- exit(1), not exit(): a bare client.exit() lands on `os.exit(code or 0)` in mgba_shim, so a
+    -- Lua error used to leave the process reporting SUCCESS. Worse, finish() never runs on this
+    -- path, so the PREVIOUS run's _pwtest/<Suite>.PASS survived untouched -- both channels a gate
+    -- could read said "green" for a suite that died on its first frame.
+    if not ok then
+      L("LUA ERROR: " .. tostring(err))
+      clearVerdictSentinels()
+      if self.log then self.log:close(); self.log = nil end
+      client.exit(1)
+    end
   end
 
   return self

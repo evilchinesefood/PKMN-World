@@ -41,6 +41,7 @@ EcruteakBellchimeTrail_EventScript_DoorTrigger::
 	applymovement OBJ_EVENT_ID_CAMERA, EcruteakBellchimeTrail_Movement_CameraPanUp
 	waitmovement 0
 	warp MAP_TIN_TOWER_1F, 1
+	waitstate
 	release
 	end
 

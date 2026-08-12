@@ -1178,7 +1178,15 @@
 #define TRAINER_LEONARD_JT                        1762   // UnionCave_B1F
 #define TRAINER_ANDREW_JT                         1763   // UnionCave_B1F
 #define TRAINER_GWEN_JT                           1764   // UnionCave_B2F
-#define JOHTO_EXT_TRAINERS_COUNT           38
+#define TRAINER_BENNY_JT                          1765   // AzaleaTown_Gym
+#define TRAINER_JOSH_JT                           1766   // AzaleaTown_Gym
+#define TRAINER_BRIDGET_JT                        1767   // GoldenrodCity_Gym
+#define TRAINER_VICTORIA_JT                       1768   // GoldenrodCity_Gym
+#define TRAINER_SAMANTHA_JT                       1769   // GoldenrodCity_Gym
+#define TRAINER_RONALD_JT                         1770   // MahoganyTown_Gym
+#define TRAINER_DOUGLAS_JT                        1771   // MahoganyTown_Gym
+#define TRAINER_CLARISSA_JT                       1772   // MahoganyTown_Gym
+#define JOHTO_EXT_TRAINERS_COUNT           46
 #else
 // Vanilla/FRLG builds: no Johto bank, keep the previous shared Hoenn ids.
 #define JOHTO_EXT_TRAINER_ID_OFFSET        TRAINERS_COUNT_HOENN_JOHTO
@@ -1220,6 +1228,14 @@
 #define TRAINER_LEONARD_JT                        TRAINER_LEONARD
 #define TRAINER_ANDREW_JT                         TRAINER_ANDREW
 #define TRAINER_GWEN_JT                           TRAINER_GWEN
+#define TRAINER_BENNY_JT                          TRAINER_BENNY
+#define TRAINER_JOSH_JT                           TRAINER_JOSH
+#define TRAINER_BRIDGET_JT                        TRAINER_BRIDGET
+#define TRAINER_VICTORIA_JT                       TRAINER_VICTORIA
+#define TRAINER_SAMANTHA_JT                       TRAINER_SAMANTHA
+#define TRAINER_RONALD_JT                         TRAINER_RONALD
+#define TRAINER_DOUGLAS_JT                        TRAINER_DOUGLAS
+#define TRAINER_CLARISSA_JT                       TRAINER_CLARISSA
 #define JOHTO_EXT_TRAINERS_COUNT           0
 #endif
 

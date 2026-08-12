@@ -181,10 +181,11 @@ PLAYER_IS_ZERO = True
 # passes, but adding one fails. Lower these as they get triaged; never raise one without saying
 # why in the commit.
 REVIEW_BASELINE = {
-    # Johto maps reusing Hoenn trainer ids: the two Victory Roads share most of their roster, and
-    # a dozen Johto gym trainers reuse a Hoenn id. Fixing each needs a new entry in
-    # trainers.party, which is a content change rather than a data repair.
-    "DUPLICATE-TRAINER": 28,
+    # Johto maps reusing Hoenn trainer ids: the two Victory Roads share most of their roster.
+    # The eight gym trainers that reused a Hoenn id (Azalea Benny/Josh, Goldenrod
+    # Bridget/Victoria/Samantha, Mahogany Ronald/Douglas/Clarissa) were repointed to dedicated
+    # TRAINER_*_JT ids with authentic GSC parties, which is what took this from 28 to 21.
+    "DUPLICATE-TRAINER": 21,
     "NUMERIC-LOCALID": 0,
     "SCRIPT-GFX-OUTLIER": 0,
     # Nine upstream cutscene actors staged on the tile just inside a door -- the rival at the top

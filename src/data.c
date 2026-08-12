@@ -254,9 +254,9 @@ STATIC_ASSERT(!IS_FRLG, AllRegionsBuildMustNotFoldToFrlgTrainerCount);
 // JOHTO_EXT_TRAINER_ID_OFFSET rather than TRAINERS_COUNT.
 STATIC_ASSERT(KANTO_TRAINER_ID_OFFSET == TRAINER_LANCE_2 + 1, KantoTrainerBlockMustStartAfterJohto);
 STATIC_ASSERT(TRAINER_ROCKET_JAMES_2 == JOHTO_EXT_TRAINER_ID_OFFSET - 1, KantoTrainerBlockMustEndAtJohtoExtBlock);
-// Johto route/dungeon block geometry (v9): starts right after Kanto, ends at TRAINERS_COUNT-1.
+// Johto route/dungeon/gym block geometry (v9): starts right after Kanto, ends at TRAINERS_COUNT-1.
 STATIC_ASSERT(TRAINER_WAYNE_JT == JOHTO_EXT_TRAINER_ID_OFFSET, JohtoExtBlockMustStartAtItsOffset);
-STATIC_ASSERT(TRAINER_GWEN_JT == TRAINERS_COUNT - 1, JohtoExtBlockMustEndAtTrainersCount);
+STATIC_ASSERT(TRAINER_CLARISSA_JT == TRAINERS_COUNT - 1, JohtoExtBlockMustEndAtTrainersCount);
 #endif
 
 #include "data/text/follower_messages.h"

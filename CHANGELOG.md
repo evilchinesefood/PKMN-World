@@ -5,10 +5,27 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
-> **Save format is now v8** (from v1.4's v7). v1.4 saves migrate forward
-> automatically on load. Saves from v1.3.6 or earlier are still refused —
+> **Save format is now v9** (from v1.4's v7). v1.4 saves migrate forward
+> automatically on load — v8 for the reworked Pokémon Center 1F layouts, v9
+> for the Johto work below. Saves from v1.3.6 or earlier are still refused —
 > and the game now *says so* at the main menu instead of showing a blank
 > NEW-GAME-only screen.
+>
+> **v9** (#51) gives Johto's own trainers their own defeat flags, renumbers
+> the maps left behind by deleting two dead day/night duplicates, and
+> re-points two wrong Johto heal coordinates. It applies itself on load, but
+> two consequences are worth knowing if you are mid-playthrough:
+>
+> - Every Johto trainer that was given a new id reads as **undefeated**, so
+>   they can be fought again. That is the intended outcome, not a loss of
+>   progress: until now each of them shared one defeat flag *and one party*
+>   with a Hoenn or Kanto trainer, so the trainer you beat mostly wasn't the
+>   one standing there.
+> - Fly is corrected for everyone immediately (it reads the game's table),
+>   but **Teleport and whiteouts** use the heal coordinate stored in your
+>   save. Violet City's and Route 32's are migrated for you; the three that
+>   moved off Pokémon Center door tiles (Azalea, Goldenrod, Safari Zone Gate)
+>   are not, so heal at that Center once to pick up the new spot.
 
 ### World & systems
 
@@ -38,7 +55,8 @@ All notable player-facing changes. For the full feature reference see
   at Lilycove and you come home to Lilycove, exactly as before. The Birth
   Island run also landed you inside a wall; it now docks at the island's
   harbor like Lilycove's, and the tickets check the same unlock flag
-  Lilycove checks rather than the ticket alone.
+  Lilycove checks rather than the ticket alone. *(The Battle Frontier row
+  turned out to have no check at all — see the next entry.)*
 - **Boarding a ferry no longer blue-screens**: every sailing from the
   Olivine harbor — including the maiden voyage the post-league story sends
   you on — ended its script while the warp was still in flight, tripping
@@ -52,9 +70,142 @@ All notable player-facing changes. For the full feature reference see
   that those islands can be reached from Johto.
 - **Johto Hall of Fame respawn fix**: re-clearing the Johto league no
   longer re-arms an already-caught Mew or Deoxys as a farmable duplicate.
+- **The Battle Frontier ferry at Olivine wants a ticket** (#79): its row on
+  the harbor board was the only one of the six with no credential check at
+  all, so the Frontier was a free ride for anyone who could open the menu.
+  It now asks for the **S.S. TICKET**, in the same shape the three island
+  rows ask for theirs. Nobody who reached the board legitimately is short
+  one — the maiden voyage that opens the board already demanded the ticket,
+  and the ticket can't be tossed or sold. It is deliberately *not* also
+  gated on a game-clear flag: that flag is Hoenn's, and a Johto champion
+  never sets it, so copying the Hoenn-side attendant would have shut the row
+  for exactly the players it exists for.
+- **Vermilion's port terminal is a building you can walk back into** (#68):
+  the arrival hall was one visit long. Its city-side warp sat on an ordinary
+  plank with no warp tile under it, so the terminal had no door, the pier
+  had no building behind it, and the crossing back to Olivine had to be
+  duplicated onto a sailor standing outside. There's a real terminal on the
+  pier deck now, and the berth desk inside is the one place the S.S. Aqua
+  sails from — gated so a first-run Kanto player who has never heard of the
+  ship can't wander in and take what is a one-way trip to Johto.
+- **Kenya arrives with her mail — and can actually be handed over** (#66):
+  the Route 31 gift SPEAROW came with no letter, and "hand her to the
+  sleeping man" was a stub that never removed her, so you kept Kenya *and*
+  collected TM41 Torment. She now carries a real RetroMail written by her
+  original trainer, the sleeper really takes her, and four refusal lines
+  that were written but unreachable (wrong mail, no mail, that's your last
+  Pokémon, you declined) work. The same stub served Cianwood's SHUCKIE
+  quest, which could close with SHUCKIE still in your party. Route 31 also
+  checks for bag room *before* taking her, because TM41 could otherwise be
+  swallowed by a full bag with no second chance.
+- **The Red Gyarados is red** (#66): the Lake of Rage encounter is built
+  entirely on the Gyarados being the wrong colour, and it was an ordinary
+  blue one — in the battle and on the map. Both halves are shiny now, and it
+  stays shiny once caught. The Dragon's Den elder's DRATINI is shiny too,
+  on the perfect-quiz branch.
+- **Jessie and James are on the way to Proton** (#89): their Slowpoke Well
+  ambush stood down a south-western branch that the 45-step route to the
+  boss never touches, so a playthrough could reach Proton without ever
+  meeting them. They now hold the corridor on the last stretch before the
+  drop south, with a free tile on each side so the fight starts from
+  whichever way you walked up.
+- **Azalea Gym's carriers are ARIADOS again** (#89): the gym's twelve
+  trigger tiles are a ride along a web line, and the six carriers had been
+  left as a generic Lass — a woman escorted you across the gym, while every
+  script in the room already named ARIADOS. Their hide flags pointed at
+  nothing either, so ~800 lines of visibility bookkeeping were inert (it
+  never showed, because the spawn doesn't read those flags). *If you saved
+  inside the gym, the old sprites stay until you step out and back in.*
 
 ### Fixes
 
+- **Sealed into the Slowpoke Well (critical)** (#89): after Team Rocket is
+  beaten, Kurt walks up, says "let's get out of here" — and nothing happens.
+  Two faults, and it took both. He was staged on the single tile joining
+  Proton's chamber to the rest of the cave, so spawning him dropped a wall
+  across the only door; the chamber's other way out is a STRENGTH boulder,
+  and there's no HM for it in Azalea. And his line ended without doing
+  anything. He now stands where he can't cut the map in two and finishes the
+  scene properly, walking you home to Kurt's house. The half that matters
+  for anyone already trapped reaches an existing save, because object
+  scripts are re-read from the ROM every time you Continue.
+- **Losing to the Johto Elite Four dropped you into a void (critical)**
+  (#89): the Indigo Plateau Pokémon Center had no respawn point of its own,
+  so it fell back to the standard Center default — which on that bespoke
+  35×18 map is unpainted floor in a 117-tile pocket that is disjoint from
+  the playable area and contains neither a warp nor the nurse. The map is
+  indoors, so Escape Rope, Dig, Fly and Teleport are all refused; being
+  healed means you can't white out a second time; the only exit is a soft
+  reset, and saving there ends the file. The Center is the mandatory route
+  to Will, so any loss in the league did it. Respawn is now in front of the
+  counter. (New Bark Town's player house had the same defaulted coordinate
+  and stood you on the furniture — cosmetic, but fixed with it.)
+- **Warps that crash the game you actually play** (#89): a warp not followed
+  by a wait lets its script run on while the map is still loading, which
+  trips an engine assert and drops you on the crash screen — in the release
+  build, not a debug one. The Ruins of Alph and Burned Tower puzzles were
+  fixed with save v9; walking every warp in the game then found **22 more**,
+  among them both Slowpoke Well cutscenes, the Tin Tower trail, the Ice Path
+  puzzle skip, the Indigo Plateau Abra teleport, the S.S. Aqua captain's
+  room and three Bug-Catching Contest exits. Fourteen department-store,
+  Safari and contest sites had papered over it with a fixed delay, which a
+  slow music fade outlives.
+- **Johto whiteouts and door-tile landings** (#51, #89): Johto had no
+  entries at all in the table that walks you into the Pokémon Center after a
+  whiteout, so the game used the raw heal coordinate — and Violet City's sat
+  five tiles under the SPROUT TOWER door. All 14 Johto healers are
+  registered now, Violet and Route 32 are corrected (and migrated in saves
+  that hold the old spot), and Azalea, Goldenrod and the Safari Zone Gate no
+  longer land you *on* the Pokémon Center door tile, drawn on top of a
+  closed door.
+- **Route 32's Lv43 Magneton, and 46 trainers who were someone else**
+  (#51, #89): 51 Johto trainer ids were shared with a Hoenn or Kanto
+  trainer, and the defeat flag is derived from the id — so each pair shared
+  one flag *and one party*. 38 route and dungeon trainers were given their
+  own ids and their authentic GSC teams. That sweep didn't cover gym
+  interiors; a later one found 8 more, including Azalea's "Bug Catcher
+  Benny", who was really Bird Keeper Benny with three Lv36 flying types in a
+  gym whose leader tops out at a Lv16 Scyther, and "Bug Catcher Josh", a
+  Rock-type Youngster borrowed from Rustboro Gym. What's left is Johto's
+  Victory Road (still a parked copy of Hoenn's roster) and the deliberate
+  cameos.
+- **Team Rocket looked like Team Magma** (#87): every Johto Rocket executive
+  was classed as a MAGMA ADMIN — Proton, Petrel and Ariana announced as
+  Magma and drawn with an *Aqua* portrait, Archer drawn as Maxie. They're
+  Rockets now, and Giovanni is a boss. In the Slowpoke Well, Kurt was a
+  giant Wailmer doll and Proton wore a Magma grunt's sprite; and the Kurt
+  who turns up after the fight shared a hide flag with the Kurt in Kurt's
+  house, so clearing it for the house also spawned a mute duplicate in the
+  cave.
+- **Two Nurse Joys** (#87): Route 32, Mt. Silver, the Safari Zone Gate and
+  Indigo Plateau each had a second nurse standing where the counter Chansey
+  belongs — running the Chansey's script — and Cianwood used a static prop
+  instead of the Chansey the other twelve Johto Centers use. All five match
+  now.
+- **Sailing home from an event island** (#69, #80): the island sailors
+  decided where to take you by reading your *active region*, which a save
+  made before regions were tracked doesn't have — so a Johto player who
+  booked at Olivine was landed at Lilycove with no way back that doesn't box
+  the party. The harbor you board at is recorded when you board and consumed
+  when you get home. Navel Rock was also the last island still warping
+  straight to Lilycove regardless of where you came from; it goes through
+  the shared way-home script like the other three, which gained a Kanto arm
+  as well. Coming home to Olivine now puts you on the berth instead of at
+  the terminal's north door.
+- **The v9 save migration only half-ran** (#89): the step that renumbers
+  saved map ids never reached anything — the game copied the object list out
+  of the save 36 lines *before* the migration ran, then wrote the stale
+  values straight back over it. A save made in one of the 20 rooms that
+  renumbered — Goldenrod's gym, Game Corner, Radio Tower, Pokémon Center,
+  flower shop, houses, train station and underground, plus the Mt. Silver
+  Pokémon Center, Route 28 and its house — came back with every NPC there
+  invisible to scripts, so cutscenes in that room ran with no actors. It
+  cleared on the next map change, but Continuing and saving in place made it
+  permanent, because the migration never runs twice. Also fixed: the region
+  save block's integrity check summed it at the *current* build's width
+  against a stamp written at the older, shorter one. Real saves have zeros
+  in the extra bytes so it didn't fire in practice, but the next append
+  would have made every save report "region save damaged".
 - **Battle Frontier saves no longer roll back progress**: the Frontier's
   mid-challenge quick-save wrote only part of the save; Johto story flags,
   Kanto trainer defeats, cut trees, and the Route 5 daycare silently
@@ -77,6 +228,51 @@ All notable player-facing changes. For the full feature reference see
 - **macOS support** (#64): the build, the pre-push gate, and the Lua
   suites all run on macOS.
 - **Pokévial off-switch builds again** (#61).
+- **A map-event scanner** (#87, #88, #89): `Testing/ValidateMapEvents.py`,
+  wired into `make validate`, the pre-push hook and CI. Run against the tree
+  before the fixes above it reports each of them on its own, and it has since
+  grown checks for warps missing their wait, heal points on impassable tiles
+  or aimed at the wrong building, respawn tiles sealed off from every exit,
+  and cutscene actors staged on a tile that cuts a map in two. Every check is
+  proven to fail on the unfixed tree before it's trusted. The "mute story
+  NPC" smell was triaged rather than baselined: all 61 findings read and all
+  61 correct, so the check now excludes scene machinery and errors at zero.
+- **A save reader and offline migrator** (#89): `Testing/SavePatch.py` reads
+  a save file without booting anything and applies the same migration ladder
+  to the bytes, so a save copied to a second device carries the fixed values
+  instead of waiting for the next in-game save. Guarded three ways: struct
+  offsets re-read from the tree on every run, a no-op round trip that must
+  come out byte-identical, and a refusal to touch an incomplete slot.
+- **The test harness could report PASS without doing the work** (#86, #89):
+  three routes through the Lua runner exited 0 having asserted nothing — and
+  one of them left the *previous* run's verdict on disk looking current —
+  `boot()` could settle in the wrong map and run its assertions there, and
+  the stale-ROM guard failed open off macOS. `Testing/run-all.sh` clears
+  every sentinel, runs the battery and demands a fresh pass stamped with the
+  ROM under test: 20/20 in about a minute, naming anything it couldn't run
+  instead of counting it. Crash screens are now decoded to FILE.C:LINE
+  rather than surfacing as "the game stopped responding" (the crash screen's
+  *colours* are wrong in this build — read the text, not the palette).
+- **New emulator suites**: the Olivine harbor board, the map renumber, and a
+  check that the owner's real save still boots. The S.S. Aqua crossing suite
+  grew from 38 assertions to 94 — it now starts from a fresh new game and
+  drives the maiden-voyage boarding at Olivine, the leg it used to skip.
+- **Overworld palettes for shiny followers** (#78): the guard deciding
+  whether a species had a usable overworld palette tested a different field
+  from the one the code then loaded, so a shiny request could reach the
+  loader with a null palette. No shipped species is affected — every entry
+  passes both palettes or neither — but shiny overworld sprites are content
+  this project now uses, so the mapping lives in one function.
+- **Scripted wild battles own their single/double state** (#77): the flag
+  that makes a scripted wild battle a double was a sticky file-static that
+  nothing cleared. Not reachable as the tree stands, but one Johto script
+  edit away from starting a double battle against a one-Pokémon party.
+- **Johto's content-stage stubs are recorded as wontfix** (#66): five
+  markers promised work in a stage that isn't happening. Each now says what
+  it does today and why that's the answer — the Baoba safari quest is
+  unreachable dead content (its quest state is never set, and its prompts
+  name areas the shipped Fuchsia safari doesn't have), and the `chooseitem`
+  macro has had no callers since the Ice Path berry puzzle was reworked.
 
 ## v1.4 — 2026-07-27
 
@@ -526,7 +722,7 @@ between worlds.
 - **Kanto** — the full FireRed campaign: every trainer fights their authentic
   FireRed team, real gym leader / Elite Four / **Champion Blue** rosters, rival
   **Blue**, and the 8-badge league gate.
-- **Johto** — fully ported from *Heart & Soul*: ~254 maps, 231 real trainer
+- **Johto** — fully ported from *Heart & Soul*: 251 maps, 231 real trainer
   parties, its own wild encounters, town map, Fly and heal locations, rival
   **Silver**, and the Johto League (Will, Koga, Bruno, Karen → **Champion
   Lance**). Post-game: **Red at Mt. Silver**, the roaming beasts, the Celebi
@@ -589,7 +785,8 @@ between worlds.
 - **HGSS-style Pokédex** — the detailed HGSS Pokédex interface.
 - **Sword/Shield interface suite** — SwSh-styled party menu, summary screen,
   PC storage, bag, message and name boxes, and map-name pop-ups.
-- **Quests** — a mission-log Quest menu on the Start menu.
+- **Quests** — a mission-log Quest menu on the Start menu. *(Removed — see
+  Unreleased.)*
 - **Key-item wheel** — ORAS-style SELECT registration for up to four key
   items, one per D-Pad direction.
 

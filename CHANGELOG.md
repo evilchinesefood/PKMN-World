@@ -119,6 +119,23 @@ All notable player-facing changes. For the full feature reference see
 
 ### Fixes
 
+- **Johto's doors don't open.** Walking into a building in Azalea Town warped
+  you straight in with the door standing shut. `GetDoorGraphics` matches a door
+  on its metatile id *and* its tileset **pointer**, and Johto's regional
+  recolours — `Johto_South`, `Johto_NorthEast`, `Johto_NorthWest` — keep
+  `Johto_General`'s door metatiles while being different tileset objects, so the
+  lookup missed and `Task_DoDoorWarp` read the failure as "the animation already
+  finished". Nine table rows fix it with no new art: the door metatiles and every
+  tile they reference are byte-identical across all four Johto primaries, and the
+  palettes those doors draw from are identical too. That is **19 dead door warps**
+  — all five in Azalea, plus Ecruteak, Blackthorn, Cianwood, Mahogany, Mt Silver,
+  Ruins of Alph, Safari Zone Gate and Route 28 — and it also restores the sliding
+  door sound the Poké Center, Mart and Gym doors had been falling through to
+  `SE_DOOR` without. *Still open (#92): 18 further warps on secondary tilesets —
+  7 of them are more missing table rows and need no art (Battle Frontier Outside
+  East, Bellchime Trail), and 11 need frames drawn (Mahogany Town / Lake of Rage,
+  S.S. Aqua, Dragon's Den Cavern, Safari Zone 2).*
+
 - **Sealed into the Slowpoke Well (critical)** (#89): after Team Rocket is
   beaten, Kurt walks up, says "let's get out of here" — and nothing happens.
   Two faults, and it took both. He was staged on the single tile joining

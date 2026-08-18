@@ -464,6 +464,22 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_Blackthorn_Door,                              &gTileset_Blackthorn, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BlackthornCity_Door, sDoorAnimPalettes_BlackthornCity_Door},
     {METATILE_SafariZoneJohto_Safari,                       &gTileset_SafariZoneJohto, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoSafariZone_Door, sDoorAnimPalettes_JohtoSafariZone_Door},
     {METATILE_JohtoShop_Door,                               &gTileset_GoldenrodDepartmentStore, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoDeptStoreElevator, sDoorAnimPalettes_JohtoDeptStore_Door},
+    // Region merge (Johto port): Johto_South / NorthEast / NorthWest are regional recolours of
+    // Johto_General that keep its door metatiles unchanged, but GetDoorGraphics matches on the
+    // tileset POINTER as well as the metatile id -- so a clone needs its own row or its doors
+    // silently skip the animation and warp straight through. Reusing Johto_General's frames is
+    // exact here: metatiles 0x03D/0x062/0x15B and every tile they reference are byte-identical
+    // across all four primaries, and the palettes these doors draw from are identical too
+    // (palette 3 everywhere; the palette 2 entries the doors use are untouched by the recolours).
+    {METATILE_Johto_General_Door,                           &gTileset_Johto_South, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
+    {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_South, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
+    {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_South, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
+    {METATILE_Johto_General_Door,                           &gTileset_Johto_NorthEast, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
+    {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_NorthEast, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
+    {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_NorthEast, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
+    {METATILE_Johto_General_Door,                           &gTileset_Johto_NorthWest, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
+    {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_NorthWest, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
+    {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_NorthWest, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
     {},
 };
 

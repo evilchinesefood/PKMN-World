@@ -27,6 +27,11 @@ WANT = [
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
+    # Post-battle level-up summary. gLevelUpStartLevels is the u8[PARTY_SIZE] of pre-battle levels
+    # that drives the box, and sLevelUpSummaryState is its stage machine — the only way a suite can
+    # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
+    # thing is drawn straight to VRAM and leaves no other observable.
+    "gLevelUpStartLevels", "sLevelUpSummaryState",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gBagPockets", "sMartInfo",
     "gBackupMapLayout",

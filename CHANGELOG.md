@@ -29,6 +29,32 @@ All notable player-facing changes. For the full feature reference see
 
 ### World & systems
 
+- **SHARED EXP now shares evenly, and the EXP phase is quiet.** Two changes that
+  belong together, because the first makes the second necessary.
+
+  The share was never even. Gen 6+ rules give anyone who was *sent out* the whole
+  pot and anyone who was not exactly half of it — a hard 2:1 ratio, which is why
+  the Pokémon that fought always visibly out-earned the rest of the party no
+  matter what you did. The new `B_EXP_SHARE_DIVISOR` makes the base equal.
+  Level-difference weighting still applies per Pokémon, so an under-levelled
+  party member still gains a bit more and an over-levelled one a bit less —
+  equal input, not identical output. **Party EXP intake rises a lot**; the
+  **EXP RATE** option (0.5×) is the intended way to tune it back without a
+  rebuild.
+
+  With everyone levelling constantly, the old ceremony became unbearable: each
+  level-up cost three button presses (`STRINGID_PKMNGREWTOLV`, then both pages
+  of the stat box) plus an ~80-frame stall nothing could skip, because that
+  message ends in `{WAIT_SE}` and waits out the whole `MUS_LEVEL_UP` fanfare —
+  about **20 presses and 8 seconds for one knockout** with a full party. Level-ups
+  are now silent during the fight, the EXP-gain lines are gone (the EXP bar
+  already showed the number), and a single **"Your team grew stronger!"** box
+  after the battle lists everyone that levelled with their start and end levels.
+  The Pokémon on the field still gets its level-up sparkle and its healthbox
+  level ticking up, so the fight still reads. **Move learning is untouched** — it
+  runs at exactly the same point it always did, so nothing can silently fail to
+  learn a move — and EVs, evolutions and the level maths are all unchanged.
+
 - **Link-era features compiled out** (#59): Mystery Gift, Mystery Event,
   Wonder News, the e-Reader, the Union Room, wireless chat, record mixing,
   and the Cable Club link rooms are removed from the build. The two save

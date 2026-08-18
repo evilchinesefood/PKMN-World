@@ -3110,6 +3110,22 @@ BattleScript_LevelUp::
 	drawlvlupbox
 	handlelearnnewmove BattleScript_LearnedNewMove, BattleScript_LearnMoveReturn, TRUE
 	goto BattleScript_AskToLearnMove
+@ QoL: the silent level-up used while EXP is being handed out. Cmd_getexp calls this instead of
+@ BattleScript_LevelUp above, and the levels are reported once in a summary after the battle.
+@ Everything dropped here is presentation and nothing else:
+@   fanfare      - MUS_LEVEL_UP is 80 frames, and STRINGID_PKMNGREWTOLV ends in {WAIT_SE}, so the
+@                  pair stalled the exp phase for ~1.33s per level with no way to skip it.
+@   printstring  - ends in \p, i.e. one mandatory A press per level.
+@   drawlvlupbox - two more A presses (Cmd_drawlvlupbox states 6 and 8 poll gMain.newKeys). It only
+@                  touches BG attributes, windows and the name banner, so skipping it changes no
+@                  game state.
+@ Move learning is NOT skipped. handlelearnnewmove is a separate command from drawlvlupbox, and it
+@ runs here at exactly the same point in the battle it always did -- there is no deferral and no
+@ chance of a mon silently missing a move. When there is nothing to learn it jumps straight to
+@ BattleScript_LearnMoveReturn, which costs no frames and no presses.
+BattleScript_LevelUpQuiet::
+	handlelearnnewmove BattleScript_LearnedNewMove, BattleScript_LearnMoveReturn, TRUE
+	goto BattleScript_AskToLearnMove
 BattleScript_TryLearnMoveLoop::
 	handlelearnnewmove BattleScript_LearnedNewMove, BattleScript_LearnMoveReturn, FALSE
 BattleScript_AskToLearnMove::

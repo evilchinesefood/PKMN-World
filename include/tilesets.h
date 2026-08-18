@@ -67,6 +67,10 @@ extern const struct Tileset gTileset_Johto_General;
 extern const struct Tileset gTileset_Johto_South;
 extern const struct Tileset gTileset_Johto_NorthEast;
 extern const struct Tileset gTileset_Johto_NorthWest;
+// Johto's Pokemon Centers borrow the FRLG counter art, so field_effect.c picks the heal
+// monitor sprite off these rather than off the region.
+extern const struct Tileset gTileset_Kanto_PokemonCenter;
+extern const struct Tileset gTileset_PokemonCenter_White;
 extern const struct Tileset gTileset_NewBarkTown;
 extern const struct Tileset gTileset_CherrygroveCity;
 extern const struct Tileset gTileset_VioletCity;

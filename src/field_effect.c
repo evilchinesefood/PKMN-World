@@ -30,6 +30,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
+#include "tilesets.h"
 #include "trainer.h"
 #include "trainer_pokemon_sprites.h"
 #include "trig.h"
@@ -1386,11 +1387,28 @@ static void SpriteCB_PokeballGlow(struct Sprite *sprite)
     }
 }
 
+// The lit monitor has to match the TV painted on the wall, and that comes from the tileset, not
+// from the region. Johto's Pokemon Centers borrow the FRLG counter art (kanto_pokemon_center's
+// tiles.png is byte-identical to pokemon_center_frlg's, and pokemon_center_white is a recolour of
+// it), so a region test hands all 13 of them -- plus the World Transit hub, which is
+// MAPSEC_DYNAMIC and so reads as Hoenn -- the narrow 24x16 Emerald monitor. That leaves the right
+// edge and bottom of a 32x16 FRLG screen unlit. Trainer Tower's lobby is the mirror case: it is
+// Kanto but uses its own tileset, and it needs the wide monitor too.
+static bool32 UsesFrlgPokecenterMonitor(void)
+{
+    const struct Tileset *tileset = gMapHeader.mapLayout->secondaryTileset;
+
+    return tileset == &gTileset_PokemonCenterFrlg
+        || tileset == &gTileset_Kanto_PokemonCenter
+        || tileset == &gTileset_PokemonCenter_White
+        || tileset == &gTileset_TrainerTower;
+}
+
 static u8 CreatePokecenterMonitorSprite(s16 x, s16 y)
 {
     u8 spriteId;
     struct Sprite *sprite;
-    if (GetCurrentRegion() == REGION_KANTO)
+    if (UsesFrlgPokecenterMonitor())
     {
         spriteId = CreateSpriteAtEnd(&sSpriteTemplate_PokecenterMonitor_FrLg, x + 4, y, 0);
     }

@@ -135,6 +135,16 @@ All notable player-facing changes. For the full feature reference see
   7 of them are more missing table rows and need no art (Battle Frontier Outside
   East, Bellchime Trail), and 11 need frames drawn (Mahogany Town / Lake of Rage,
   S.S. Aqua, Dragon's Den Cavern, Safari Zone 2).*
+- **The Pokémon Center heal animation only lit part of the screen** in Johto.
+  `CreatePokecenterMonitorSprite` picked the monitor sprite by **region**, but
+  which sprite is correct depends on the **tileset**: Johto's Centers are drawn
+  with the FRLG counter art (`kanto_pokemon_center/tiles.png` is byte-identical
+  to `pokemon_center_frlg/tiles.png`), so they were handed Hoenn's narrower
+  24×16 monitor over a 32×16 screen, in the wrong palette, and missed the
+  synchronised palette pulse the FRLG art is built around. Now keyed off the
+  tileset. **14 maps** are corrected — all 13 Johto Centers and the World Transit
+  hub, which is `MAPSEC_DYNAMIC` and so read as Hoenn — and none regress; Trainer
+  Tower's lobby is Kanto but uses its own tileset and keeps the wide monitor.
 
 - **Sealed into the Slowpoke Well (critical)** (#89): after Team Rocket is
   beaten, Kurt walks up, says "let's get out of here" — and nothing happens.

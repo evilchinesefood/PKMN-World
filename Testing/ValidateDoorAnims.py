@@ -146,6 +146,16 @@ def parse_primary_counts(root):
     )
 
 
+def parse_tile_total(root):
+    """NUM_TILES_TOTAL from include/fieldmap.h. The door scratch window is defined off it
+    (DOOR_TILE_START_SIZE1/2 = NUM_TILES_TOTAL - 8 / - 16), so it is read, never assumed."""
+    path = os.path.join(root, "include", "fieldmap.h")
+    d = parse_define_ints(path, "NUM_TILES_")
+    if "NUM_TILES_TOTAL" not in d:
+        raise Fatal("could not find NUM_TILES_TOTAL in %s" % path)
+    return d["NUM_TILES_TOTAL"]
+
+
 def parse_behavior_enum(root):
     """Number the MB_* enum in include/constants/metatile_behaviors.h."""
     path = os.path.join(root, "include", "constants", "metatile_behaviors.h")
@@ -232,6 +242,7 @@ def parse_tilesets(root):
         bytes_per_attr = (attr_size * 16) // mt_size
         tilesets[name] = {
             "metatiles_path": mt_rel,
+            "metatiles_abs": mt_abs,
             "attributes_path": attr_rel,
             "attributes_abs": attr_abs,
             "num_metatiles": num_metatiles,
@@ -311,9 +322,13 @@ def parse_door_table(root, labels):
         raise Fatal("unterminated sDoorAnimGraphicsTable in %s" % path)
     body = strip_c_comments(text[start + 1:end])
 
+    # `size` is captured because it, together with the LAYOUT's isFrlg/isJohto, decides how much
+    # VRAM the animation borrows: CopyDoorTilesToVram writes 16 tiles at NUM_TILES_TOTAL-16 for a
+    # size-2 row on a non-FRLG, non-Johto layout, and 8 tiles at NUM_TILES_TOTAL-8 otherwise.
     row_re = re.compile(
         r"\{\s*(?P<mt>[A-Za-z_]\w*|0[xX][0-9A-Fa-f]+|\d+)\s*,"
         r"\s*(?P<ts>&\s*\w+|NULL)\s*,"
+        r"(?:\s*(?P<sound>\w+)\s*,\s*(?P<size>\d+)\s*,)?"
     )
     # GetDoorGraphics walks the table with `while (gfx->tiles != NULL)`, so the
     # FIRST row with no tiles ends it. In the source that row is the bare `{}`
@@ -332,6 +347,7 @@ def parse_door_table(root, labels):
     body = body[:term.start()]
 
     rows = []
+    sizes = {}
     unresolved = []
     null_tileset_rows = []
     for m2 in row_re.finditer(body):
@@ -350,6 +366,11 @@ def parse_door_table(root, labels):
             null_tileset_rows.append((raw_mt, mt))
             continue
         rows.append((mt, raw_ts, raw_mt))
+        # No size parsed means the row shape changed; assume the WIDER window rather than
+        # silently checking too little.
+        raw_size = m2.group("size")
+        sz = int(raw_size) if raw_size is not None else 2
+        sizes[(mt, raw_ts)] = max(sz, sizes.get((mt, raw_ts), 0))
     if unresolved:
         raise Fatal(
             "unresolved metatile symbols in sDoorAnimGraphicsTable: %s"
@@ -367,7 +388,7 @@ def parse_door_table(root, labels):
     index = defaultdict(set)
     for mt, ts, _raw in rows:
         index[mt].add(ts)
-    return rows, dict(index), null_tileset_rows
+    return rows, dict(index), null_tileset_rows, sizes
 
 
 # ---------------------------------------------------------------------------
@@ -459,6 +480,12 @@ class BlockdataReader:
             self._cache[key] = read_bytes(abs_path)
         return self._cache[key]
 
+    def placed_ids(self, layout):
+        """Every distinct metatile id actually placed on this layout."""
+        blob = self.grid(layout)
+        return {(int.from_bytes(blob[i:i + 2], "little") & self.mask) >> self.shift
+                for i in range(0, len(blob) - 1, 2)}
+
     def metatile_at(self, layout, x, y):
         """Return (metatile_id, None) or (None, reason)."""
         w, h = layout["width"], layout["height"]
@@ -483,46 +510,73 @@ class BlockdataReader:
 # ---------------------------------------------------------------------------
 # The door animation borrows VRAM while it runs.
 # ---------------------------------------------------------------------------
-# CopyDoorTilesToVram writes the live frame over VRAM tiles 1016-1023
-# (DOOR_TILE_START_SIZE1 = NUM_TILES_TOTAL - 8, src/field_door.c), and the NOTE
-# above it says any pre-existing tile visible in that region is overwritten.
-# Registering a door therefore has a second precondition beyond having a row:
-# the tilesets on that map must not DRAW from the scratch window, or opening the
-# door silently corrupts whatever does -- for the ~9 frames it is open, and again
-# in reverse when it shuts. It is invisible until someone animates a door on that
-# map, which is exactly how it slipped through: Mahogany's roof lost its ridge
-# detail the moment its door started working.
+# CopyDoorTilesToVram (src/field_door.c) writes the live frame into a scratch
+# window at the top of the tile space, and the NOTE above it says any pre-existing
+# tile visible in that region is overwritten. Registering a door therefore has a
+# SECOND precondition beyond having a table row: the tilesets on that map must not
+# DRAW from the window, or opening the door silently corrupts whatever does -- for
+# as long as it is open, and again in reverse when it shuts. It is invisible until
+# someone animates a door on that map, which is exactly how it slipped through:
+# Mahogany's roof lost its ridge detail the moment its door started working.
 #
-# Metatile tile ids are GLOBAL (0-1023), so this needs no primary/secondary split
-# -- a tile id >= 1016 is in the window whichever half it resolves through.
-SCRATCH_TILE_FIRST = 1024 - 8
+# The window is NOT one fixed range. CopyDoorTilesToVram picks it from the row's
+# `size` AND the layout's flags:
+#
+#     size == 2 && !isFrlg && !isJohto  ->  16 tiles at NUM_TILES_TOTAL - 16
+#     otherwise                         ->   8 tiles at NUM_TILES_TOTAL -  8
+#
+# so a size-2 door on an Emerald layout reaches eight tiles LOWER than everything
+# else. Checking only the 8-tile window would silently miss that half. The caller
+# therefore computes the widest window each tileset is actually exposed to, from
+# the live warps that reach it, and passes that in.
+#
+# Metatile tile ids are GLOBAL, so no primary/secondary split is needed here -- a
+# tile id at or above the window start is inside it whichever half it resolves
+# through.
 
 
-def door_tileset_scratch_collisions(root, rows):
-    """Tilesets carrying a door row whose own metatiles draw from tiles 1016-1023."""
-    metatiles_h = read_text(os.path.join(root, "src", "data", "tilesets", "metatiles.h"))
-    headers_h = read_text(os.path.join(root, "src", "data", "tilesets", "headers.h"))
-    incbin = dict(re.findall(r"gMetatiles_(\w+)\[\]\s*=\s*INCBIN_U16\(\"([^\"]+)\"\)",
-                             metatiles_h))
+def door_scratch_collisions(tilesets, exposure, n_prim_em, n_prim_frlg):
+    """Metatiles that are ACTUALLY PLACED on a map with a live animated door and that
+    draw a tile inside the VRAM window that map's door animation overwrites.
+
+    `exposure` maps map name -> (window_start, layout, placed metatile id set).
+    Placement is what makes this precise: gTileset_Johto_Building has two metatiles
+    drawing tile 1021, but the only maps that place either of them are three Radio
+    Tower floors whose warps are not animated doors -- so nothing is ever corrupted
+    and flagging the tileset would be a false alarm.
+
+    Returns (map, tileset, local metatile, window start, offending tile ids) per hit."""
+    cache = {}
+
+    def words(ts_name, local):
+        blob = cache.get(ts_name)
+        if blob is None:
+            rec = tilesets.get(ts_name)
+            if not rec or rec.get("error") or not rec.get("metatiles_abs"):
+                cache[ts_name] = b""
+                return None
+            blob = cache[ts_name] = read_bytes(rec["metatiles_abs"])
+        if not blob or (local + 1) * 16 > len(blob):
+            return None
+        return [struct.unpack_from("<H", blob, local * 16 + i * 2)[0] & 0x3FF
+                for i in range(8)]
+
     out = []
-    # rows are (metatile_id, "gTileset_Foo", raw_label) as built by parse_door_table().
-    for sym in sorted({r[1] for r in rows if r[1]}):
-        m = re.search(r"const struct Tileset %s\b.*?gMetatiles_(\w+)"
-                      % re.escape(sym), headers_h, re.S)
-        if not m:
-            continue
-        rel = incbin.get(m.group(1))
-        if not rel:
-            continue
-        path = os.path.join(root, rel)
-        if not os.path.exists(path):
-            continue
-        data = read_bytes(path)
-        hits = sorted({struct.unpack_from("<H", data, i)[0] & 0x3FF
-                       for i in range(0, len(data) - 1, 2)}
-                      & set(range(SCRATCH_TILE_FIRST, 1024)))
-        if hits:
-            out.append((sym, rel, hits))
+    for map_name, (start_tile, layout, placed) in sorted(exposure.items()):
+        split = n_prim_frlg if layout["version"] in ("frlg", "johto") else n_prim_em
+        for gid in sorted(placed):
+            if gid < split:
+                ts_name, local = layout["primary"], gid
+            else:
+                ts_name, local = layout["secondary"], gid - split
+            if ts_name is None:
+                continue
+            w = words(ts_name, local)
+            if not w:
+                continue
+            hits = sorted({t for t in w if t >= start_tile})
+            if hits:
+                out.append((map_name, ts_name, local, start_tile, hits))
     return out
 
 
@@ -531,7 +585,7 @@ def main(argv=None):
     ap.add_argument("--max", type=int, default=None,
                     help="exit 1 if the dead-door count exceeds N")
     ap.add_argument("--allow-scratch-collisions", action="store_true",
-                    help="do not fail when a door tileset draws from VRAM tiles 1016-1023")
+                    help="do not fail when map art draws from the VRAM window a door borrows")
     ap.add_argument("--max-unresolved", type=int, default=UNRESOLVED_BASELINE,
                     help="exit 1 if more than N warps cannot have their behavior read "
                          "at all (default: today's baseline of %d)" % UNRESOLVED_BASELINE)
@@ -548,10 +602,11 @@ def main(argv=None):
         grid_mask, grid_shift = parse_mapgrid_masks(root)
         attr_masks = parse_attr_masks(root)
         n_prim_em, n_prim_frlg, n_total = parse_primary_counts(root)
+        NUM_TILES_TOTAL_VAL = parse_tile_total(root)
         behaviors = parse_behavior_enum(root)
         labels = parse_metatile_labels(root)
         tilesets = parse_tilesets(root)
-        door_rows, door_index, null_rows = parse_door_table(root, labels)
+        door_rows, door_index, null_rows, door_sizes = parse_door_table(root, labels)
         layouts = parse_layouts(root, n_prim_em, n_prim_frlg)
         maps = parse_maps(root)
     except Fatal as exc:
@@ -649,6 +704,7 @@ def main(argv=None):
     total_warps = 0
     scanned_warps = 0
     animated_warps = 0
+    scratch_exposure = {}
     live = []
     dead = []
     out_of_bounds = []
@@ -715,6 +771,19 @@ def main(argv=None):
                 if cand is not None and cand in row_tilesets:
                     matched = cand
                     break
+
+            # How much VRAM this particular door borrows, computed exactly as
+            # CopyDoorTilesToVram does: the row's size AND this layout's isFrlg/isJohto.
+            # Both halves of the pair are at risk, because either can draw into the window.
+            if matched is not None:
+                sz = door_sizes.get((gid, matched), 2)
+                wide = sz == 2 and layout["version"] not in ("frlg", "johto")
+                start = (NUM_TILES_TOTAL_VAL - 16) if wide else (NUM_TILES_TOTAL_VAL - 8)
+                prev = scratch_exposure.get(mp["name"])
+                if prev is None:
+                    scratch_exposure[mp["name"]] = (start, layout, blocks.placed_ids(layout))
+                elif start < prev[0]:
+                    scratch_exposure[mp["name"]] = (start, prev[1], prev[2])
 
             record = {
                 "map": mp["name"],
@@ -822,16 +891,20 @@ def main(argv=None):
             print("  %-38s %s" % (name, lay))
         print()
 
-    scratch = door_tileset_scratch_collisions(root, door_rows)
-    print("--- Door tilesets vs the VRAM scratch window (tiles %d-1023) ---"
-          % SCRATCH_TILE_FIRST)
+    scratch = door_scratch_collisions(tilesets, scratch_exposure, n_prim_em, n_prim_frlg)
+    widest = min((v[0] for v in scratch_exposure.values()), default=NUM_TILES_TOTAL_VAL - 8)
+    print("--- Map art vs the VRAM window the door animation borrows ---")
+    print("  window is 8 tiles at %d, or 16 at %d for a size-2 row on a non-FRLG/Johto layout"
+          % (NUM_TILES_TOTAL_VAL - 8, NUM_TILES_TOTAL_VAL - 16))
+    print("  maps with a live animated door : %d   widest window any of them opens: %d-%d"
+          % (len(scratch_exposure), widest, NUM_TILES_TOTAL_VAL - 1))
     if scratch:
-        print("  A door animation overwrites these VRAM tiles while it plays, so a metatile")
-        print("  drawing from them is corrupted for as long as the door is open:")
-        for sym, rel, hits in scratch:
-            print("  %-36s %s  tiles %s" % (sym, rel, hits))
+        print("  These metatiles are PLACED on a map whose door animation overwrites the tiles")
+        print("  they draw, so they are corrupted for as long as that door is open:")
+        for mn, ts, local, start, hits in scratch:
+            print("  %-38s %s local %d  window %d+  tiles %s" % (mn, ts, local, start, hits))
     else:
-        print("  none -- no tileset carrying a door row draws from the scratch window")
+        print("  none -- no metatile placed on a door map draws from that map's window")
     print()
 
     # Liveness floor. Every remaining way this script can be wrong drives the dead
@@ -853,13 +926,14 @@ def main(argv=None):
     # someone paints a warp onto an out-of-range metatile, this says so instead of quietly
     # shrinking the population it checks.
     if scratch and not args.allow_scratch_collisions:
-        print("FAIL: %d tileset(s) carrying a door row draw from VRAM tiles %d-1023, which the "
-              "door animation overwrites while it plays. Registering a door is not enough -- the "
-              "art on that map has to stay out of the scratch window, or opening the door "
-              "corrupts it. Move the offending tiles to free slots and repoint the metatiles "
-              "(the move must be pixel-identical; verify by compositing every metatile before "
-              "and after)."
-              % (len(scratch), SCRATCH_TILE_FIRST))
+        print("FAIL: %d metatile placement(s) draw a tile that the door animation on their own "
+              "map overwrites while it plays. Registering a door is not enough -- the art on that "
+              "map has to stay out of the window the animation borrows, or opening the door "
+              "corrupts it until it shuts. Each line gives that map's window start; note a size-2 "
+              "row on a non-FRLG/Johto layout borrows 16 tiles, not 8. Fix by moving the offending "
+              "tiles to free slots and repointing the metatiles -- the move must be an identity, "
+              "so verify it by compositing every metatile before and after and requiring the same "
+              "pixels AND the same palette numbers." % len(scratch))
         return 1
 
     if len(problems) > args.max_unresolved:

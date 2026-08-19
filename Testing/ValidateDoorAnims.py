@@ -146,6 +146,16 @@ def parse_primary_counts(root):
     )
 
 
+def parse_map_offset(root):
+    """MAP_OFFSET from include/fieldmap.h -- how deep a connected map's fringe is copied into
+    gBackupMapLayout, and therefore how much of a neighbour can be on screen."""
+    path = os.path.join(root, "include", "fieldmap.h")
+    d = parse_define_ints(path, "MAP_")
+    if "MAP_OFFSET" not in d:
+        raise Fatal("could not find MAP_OFFSET in %s" % path)
+    return d["MAP_OFFSET"]
+
+
 def parse_tile_total(root):
     """NUM_TILES_TOTAL from include/fieldmap.h. The door scratch window is defined off it
     (DOOR_TILE_START_SIZE1/2 = NUM_TILES_TOTAL - 8 / - 16), so it is read, never assumed."""
@@ -430,6 +440,7 @@ def parse_layouts(root, num_primary_emerald, num_primary_frlg):
             "primary": entry.get("primary_tileset"),
             "secondary": entry.get("secondary_tileset"),
             "blockdata": entry.get("blockdata_filepath"),
+            "border": entry.get("border_filepath"),
             "version": version,
             "is_frlg": is_frlg,
             "is_johto": is_johto,
@@ -459,6 +470,7 @@ def parse_maps(root):
                 "id": data.get("id", ""),
                 "layout": data.get("layout"),
                 "warps": data.get("warp_events") or [],
+                "connections": data.get("connections") or [],
             }
         )
     if not maps:
@@ -480,11 +492,52 @@ class BlockdataReader:
             self._cache[key] = read_bytes(abs_path)
         return self._cache[key]
 
-    def placed_ids(self, layout):
-        """Every distinct metatile id actually placed on this layout."""
-        blob = self.grid(layout)
+    def _ids(self, blob):
         return {(int.from_bytes(blob[i:i + 2], "little") & self.mask) >> self.shift
                 for i in range(0, len(blob) - 1, 2)}
+
+    def placed_ids(self, layout):
+        """Every distinct metatile id actually placed on this layout."""
+        return self._ids(self.grid(layout))
+
+    def border_ids(self, layout):
+        """The border block, which is drawn all round the map and is therefore on screen for
+        any door near an edge -- and, on a map smaller than the camera, everywhere."""
+        rel = layout.get("border")
+        if not rel:
+            return set()
+        abs_path = os.path.join(self.root, rel)
+        if not os.path.exists(abs_path):
+            return set()
+        key = "border:" + rel
+        if key not in self._cache:
+            self._cache[key] = read_bytes(abs_path)
+        return self._ids(self._cache[key])
+
+    def fringe_ids(self, layout, direction, depth):
+        """The strip of a CONNECTED map that gets copied into gBackupMapLayout, up to MAP_OFFSET
+        metatiles deep along the shared edge. These are drawn with the CURRENT map's tilesets,
+        so they are resolved through the door map's pair, not the neighbour's."""
+        blob = self.grid(layout)
+        w, h = layout["width"], layout["height"]
+        if len(blob) < w * h * 2:
+            return set()
+
+        def at(x, y):
+            off = (y * w + x) * 2
+            return (int.from_bytes(blob[off:off + 2], "little") & self.mask) >> self.shift
+
+        if direction == "up":
+            ys, xs = range(max(0, h - depth), h), range(w)
+        elif direction == "down":
+            ys, xs = range(0, min(depth, h)), range(w)
+        elif direction == "left":
+            xs, ys = range(max(0, w - depth), w), range(h)
+        elif direction == "right":
+            xs, ys = range(0, min(depth, w)), range(h)
+        else:
+            return set()
+        return {at(x, y) for y in ys for x in xs}
 
     def metatile_at(self, layout, x, y):
         """Return (metatile_id, None) or (None, reason)."""
@@ -603,6 +656,7 @@ def main(argv=None):
         attr_masks = parse_attr_masks(root)
         n_prim_em, n_prim_frlg, n_total = parse_primary_counts(root)
         NUM_TILES_TOTAL_VAL = parse_tile_total(root)
+        map_offset = parse_map_offset(root)
         behaviors = parse_behavior_enum(root)
         labels = parse_metatile_labels(root)
         tilesets = parse_tilesets(root)
@@ -705,6 +759,8 @@ def main(argv=None):
     scanned_warps = 0
     animated_warps = 0
     scratch_exposure = {}
+    # Connections name their neighbour by MAP_ id, so index the maps that way once.
+    maps_by_id = {m["id"]: m for m in maps if m.get("id")}
     live = []
     dead = []
     out_of_bounds = []
@@ -781,7 +837,18 @@ def main(argv=None):
                 start = (NUM_TILES_TOTAL_VAL - 16) if wide else (NUM_TILES_TOTAL_VAL - 8)
                 prev = scratch_exposure.get(mp["name"])
                 if prev is None:
-                    scratch_exposure[mp["name"]] = (start, layout, blocks.placed_ids(layout))
+                    drawable = blocks.placed_ids(layout) | blocks.border_ids(layout)
+                    # A connected map's fringe is copied into gBackupMapLayout and drawn with
+                    # THIS map's tilesets, so it is exposed to THIS map's door window.
+                    for conn in mp.get("connections") or []:
+                        neighbour = maps_by_id.get(conn.get("map"))
+                        if neighbour is None:
+                            continue
+                        nlayout = layouts.get(neighbour.get("layout"))
+                        if nlayout is None or not nlayout.get("blockdata"):
+                            continue
+                        drawable |= blocks.fringe_ids(nlayout, conn.get("direction"), map_offset)
+                    scratch_exposure[mp["name"]] = (start, layout, drawable)
                 elif start < prev[0]:
                     scratch_exposure[mp["name"]] = (start, prev[1], prev[2])
 

@@ -558,10 +558,30 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 
 static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
 {
-    if (gfx->size == 2 && !gMapHeader.mapLayout->isFrlg && !gMapHeader.mapLayout->isJohto)
+    u32 numTiles;
+
+    if (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto)
+    {
+        // An FRLG-format frame is one metatile's bottom layer per metatile the door covers:
+        // 4 tiles for a size 1 row (a 16x48 sheet, three 4-tile frames at a 4-tile stride --
+        // sDoorAnimFrames_*SmallFrlg) and 8 for a size 2 row (16x96, an 8-tile stride --
+        // sDoorAnimFrames_*LargeFrlg). Copying the size 2 width for a size 1 row would read
+        // 4 tiles past the end of the 384-byte array on the last frame (offset 256 + 256 > 384)
+        // and would scribble those 4 stray tiles over VRAM 1020-1023, which a size 1 draw
+        // never uses -- DrawCurrentDoorAnimFrameFrlg builds only DOOR_TILE_START_SIZE1 + 0..3.
+        numTiles = (gfx->size == 2) ? 8 : 4;
+        CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), numTiles * TILE_SIZE_4BPP);
+    }
+    else if (gfx->size == 2)
+    {
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE2)), 16 * TILE_SIZE_4BPP);
+    }
     else
+    {
+        // An Emerald-format frame is 8 tiles for a size 1 row (two stacked metatiles) and 16
+        // for a size 2 row (a 2x2 block), matching the 0x100 / 0x200 frame strides above.
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), 8 * TILE_SIZE_4BPP);
+    }
 }
 
 static void BuildDoorTiles(u16 *tiles, u16 tileNum, const u8 *paletteNums)
@@ -774,10 +794,26 @@ static void DrawClosedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 
 static void DrawOpenedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
-    const struct DoorAnimFrame *doorAnimFrames = (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto) ? sDoorAnimFrames_OpenSmallFrlg : sDoorOpenAnimFrames;
+    const struct DoorAnimFrame *doorAnimFrames;
+
+    // The frame list has to be picked by the row's size, exactly as StartDoorOpenAnimation
+    // picks it -- the two lists put their LAST frame at different offsets, and this function
+    // draws that last frame as the door's static open state (FieldSetDoorOpened, i.e. the door
+    // left standing open behind the player after a warp). Assuming the small list gave offset
+    // 256, which is the final frame of a size 1 array but only the MIDDLE frame of a size 2
+    // one, so every size 2 door stood half-open. Likewise on the Emerald side: 0x200 is the
+    // last frame of sDoorOpenAnimFrames but the middle of sBigDoorOpenAnimFrames.
+    // gfx must be resolved first, since size lives on the resolved row.
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx != NULL)
-        DrawDoor(gfx, GetLastDoorFrame(doorAnimFrames, doorAnimFrames), x, y);
+    if (gfx == NULL)
+        return;
+
+    if (gfx->size == 2)
+        doorAnimFrames = (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto) ? sDoorAnimFrames_OpenLargeFrlg : sBigDoorOpenAnimFrames;
+    else
+        doorAnimFrames = (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto) ? sDoorAnimFrames_OpenSmallFrlg : sDoorOpenAnimFrames;
+
+    DrawDoor(gfx, GetLastDoorFrame(doorAnimFrames, doorAnimFrames), x, y);
 }
 
 static s8 StartDoorOpenAnimation(const struct DoorGraphics *gfx, u32 x, u32 y)

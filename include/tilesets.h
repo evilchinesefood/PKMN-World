@@ -59,6 +59,9 @@ extern const struct Tileset gTileset_DepartmentStore;
 extern const struct Tileset gTileset_PokemonCenterFrlg;
 extern const struct Tileset gTileset_SilphCo;
 extern const struct Tileset gTileset_SSAnne;
+// S.S. Aqua is the Johto port of this interior and kept its door metatile, so it needs naming
+// here for the same pointer-match reason as the Johto_General recolours below.
+extern const struct Tileset gTileset_ssaqua;
 extern const struct Tileset gTileset_SeaCottage;
 extern const struct Tileset gTileset_TrainerTower;
 extern const struct Tileset gTileset_Johto_General;
@@ -74,11 +77,18 @@ extern const struct Tileset gTileset_PokemonCenter_White;
 extern const struct Tileset gTileset_NewBarkTown;
 extern const struct Tileset gTileset_CherrygroveCity;
 extern const struct Tileset gTileset_VioletCity;
+// Dragon's Den carries Violet City's dojo door metatile under a different id (0x2FF vs 0x32B),
+// so it needs naming here -- door lookup matches on the tileset pointer, not the metatile alone.
+extern const struct Tileset gTileset_Cave_DragonsDen;
 extern const struct Tileset gTileset_Goldenrod;
 extern const struct Tileset gTileset_CianwoodCity;
 extern const struct Tileset gTileset_OlivineCity;
 extern const struct Tileset gTileset_Ecruteak_City;
+// Bellchime Trail carries Ecruteak City's door metatile unchanged, so it needs naming here for
+// the same pointer-match reason as the Johto_General recolours above.
+extern const struct Tileset gTileset_BellchimeTrail;
 extern const struct Tileset gTileset_Blackthorn;
+extern const struct Tileset gTileset_MahoganyTown;
 extern const struct Tileset gTileset_SafariZoneJohto;
 extern const struct Tileset gTileset_GoldenrodDepartmentStore;
 

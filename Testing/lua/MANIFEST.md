@@ -11,7 +11,7 @@ Four suites need a battery save instead, and one of those saves is not in the tr
 
 ## What's in this directory
 
-`Testing/lua/` holds **25 `.lua` files**: 21 suites plus four that are not suites and must never be
+`Testing/lua/` holds **27 `.lua` files**: 23 suites plus four that are not suites and must never be
 launched directly.
 
 | File | Role |
@@ -70,7 +70,7 @@ builds old, for a suite that cannot run at all. So it:
 
 1. **Deletes every `.PASS`/`.FAIL` in `_pwtest/` first**, so any sentinel left afterwards is one
    this sweep wrote.
-2. Runs the 17 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
+2. Runs the 19 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
    per suite.
 3. **Audits the sentinels**: each expected suite must have a `.PASS` *and* it must carry
    `rom=<md5 of the ROM under test>`. A `.FAIL`, a missing sentinel, or a stale md5 each fail the
@@ -78,7 +78,7 @@ builds old, for a suite that cannot run at all. So it:
 4. Prints suites it knows about but could not run, under `NOT RUN`.
 
 ```
-green 20 / 20 expected
+green 22 / 22 expected
 SWEEP OK - every expected suite produced a fresh PASS stamped rom=<md5>
 ```
 
@@ -88,9 +88,9 @@ Exit code is **0** only for that. **1** means the sweep failed and the message s
 
 ### What a clean sweep looks like
 
-On the owner's machine: **21/21, `SWEEP OK`, exit 0.**
+On the owner's machine: **23/23, `SWEEP OK`, exit 0.**
 
-On a fresh clone: **20 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
+On a fresh clone: **22 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
 reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,
 and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough, so no
 clone can ever have one. It is therefore listed in `run-all.sh`'s `OPTIONAL_SAVE` rather than
@@ -170,6 +170,7 @@ is clean; keep it that way.
 | [`SSAquaKantoCrossing.lua`](#ssaquakantocrossinglua) | fresh new game | The S.S. Aqua Kanto crossing in both directions, plus the persisted ferry departure record. |
 | [`BnetTerminal1F.lua`](#bnetterminal1flua) | fresh new game | The Battle Net wall terminal on one map per placement row, and the BP payout invariants. |
 | [`LevelUpSummary.lua`](#levelupsummarylua) | fresh new game | The post-battle "Your team grew stronger!" box, which `make check` cannot reach by construction. |
+| [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -264,6 +265,115 @@ The Battle Net wall terminal (issue #59), on one map per distinct row of the iss
 ### `LevelUpSummary.lua`
 
 The post-battle level-up box. Level-ups are silent during a fight now — `Cmd_getexp` calls `BattleScript_LevelUpQuiet`, which drops the `MUS_LEVEL_UP` fanfare, `STRINGID_PKMNGREWTOLV` and `drawlvlupbox` (three button presses and an ~80-frame unskippable stall per mon per level, because `STRINGID_PKMNGREWTOLV` ends in `{WAIT_SE}` and `sound.c:42` gives that fanfare 80 frames) — so this box is the *only* thing that now reports what happened. If it fails to appear, every level-up in the game becomes invisible. **`make check` cannot cover this, by construction:** `ShouldShowLevelUpSummary()` returns FALSE when `gTestRunnerEnabled`, because the box waits on `gMain.newKeys` and would otherwise hang every one of the ~5500 battle tests forever. An emulator is the only thing that can execute this path. **What discriminates:** `sLevelUpSummaryState` (exported for this suite) only reaches `WAIT_PRESS` if the gate passed *and* the window drew *and* the DMA copy finished *and* BG1 scrolled into view, so asserting it fails against a build where the hook never runs rather than passing vacuously — and the run then fights the **same battle again with nothing levelled** and requires the box does NOT appear, which a stubbed-TRUE implementation would fail. Levels are **seeded** into `gLevelUpStartLevels[]` rather than earned: that array is written by `Cmd_getexp` when a slot first levels and read only at the end of the battle, so poking it mid-battle exercises the identical path without having to out-level a debug trainer — that the EXP maths fills it is `test/battle/exp.c`'s job, not this one. The suite also **clones party slot 0 across all six slots** with differing `Pokemon.level` bytes before the first battle, because the debug trainer's player party is a single Pokémon and a one-row box cannot show a column drifting, a row running off the bottom, or a nickname colliding with the numbers. **★ Two traps it paid for:** the box was first placed at rows 8–17 and B_WIN_MSG lives at rows 15–18 — BG1 sits above BG0 while the box is up, so the frame silently covered the "Your team grew stronger!" line; it now stops at row 14. And screenshotting the frame `WAIT_PRESS` is first observed catches the message window mid-typewriter and makes a correct box look truncated, so the shot idles 90 frames first. The box borrows the VRAM (`baseBlock 0x100` on BG1) that `B_WIN_LEVEL_UP_BOX` and `B_WIN_LEVEL_UP_BANNER` used to hold — 146 tiles that are provably free precisely *because* `drawlvlupbox` is no longer called.
+
+### `DoorAnimsRegistered.lua`
+
+Issue #92. `GetDoorGraphics` (`src/field_door.c`) matches a door on the metatile id **and** the
+tileset *pointer*, so a tileset that reuses another tileset's door metatile needs its own row in
+`sDoorAnimGraphicsTable`. With no row the lookup returns NULL, `FieldAnimateDoorOpen` returns `-1`,
+and `Task_DoDoorWarp` reads `-1` as "the animation already finished" — the player warps through a
+door that never opened, with no crash, no build warning, and *still with a door sound*, because
+`GetDoorSoundEffect` falls through to `SE_DOOR` when the lookup fails. **How it is asserted:** not by
+timing the warp — frame parity is exactly the thing this project has been burned by. The suite
+evaluates `GetDoorGraphics`' own condition on the live ROM: it warps to the map, reads
+`gMapHeader.mapLayout->primaryTileset` / `->secondaryTileset` (the two pointers the game itself
+compares), reads the metatile id actually present at the door's *(x,y)* out of the live map grid
+`gBackupMapLayout`, then walks `sDoorAnimGraphicsTable` to its terminator applying the identical
+rule. Comparing pointer values means no per-tileset symbol is needed and nothing is assumed about
+which tileset *ought* to match. **The decode is proved before it is trusted:** `struct DoorGraphics`
+hand-sums to 18 bytes but its real stride is 20 (alignment padding after the `u16`), and a wrong
+stride fails *silently* — it reads garbage that happens not to match, i.e. it reports the bug as
+present or absent at random. So row 0 must reproduce the source table's first entry exactly,
+`METATILE_General_Door` `0x021` paired with `&gTileset_General` (address from the ELF), and the walk
+terminates on `tiles == NULL` like the game does, not on an all-zero row — one live row (the cut
+Battle Frontier door `0x3B0`) has a NULL *tileset* and must still be walked past. Each door
+coordinate is also required to read `MB_ANIMATED_DOOR`, computed the way
+`GetAttributeByMetatileIdAndMapLayout` computes it (640/512 primary split by `isFrlg || isJohto`,
+attribute width from the *tileset's* `hasFrlgAttributes` — issue #53's trap), so the suite is
+anchored to real doors and not to bare numbers. **What discriminates:** the eighteen positives are
+every dead warp in #92's census, spanning eleven repaired maps — Battle Frontier Outside East's six
+doors (`0x396` at (5,8) (4,44) (14,51),
+`0x3FC` at (10,28) (22,51) (65,31) — the West tileset's ids, registered for the West tileset only);
+Bellchime Trail's Tin Tower door (`0x333` at (35,41), registered for Ecruteak City's tileset only);
+Dragon's Den's shrine entrance (`0x2FF` at (31,46), which is the *only* warp into
+`MAP_DRAGONS_DEN_SHRINE`); the Johto Safari Zone hut (`0x2BF` at SafariZone2 (35,11), an id
+registered for Fuchsia City's tileset only); the four Mahogany-tileset doors that one row
+repairs across two maps (`0x2A2` at Mahogany Town (15,10) (27,10) and Lake of Rage (15,4) (39,41),
+an id registered for Lavender Town's tileset only); and the five S.S. Aqua doors that a second row
+repairs across five maps (`0x281` at SSAqua 1F (29,1) and at (2,1) in each of the Player's Room,
+Room NW, Room NE and Room NNE — an id registered for S.S. Anne's tileset only). **The
+negative controls** are what stop it being "a door exists": `bf_battle_tower_door` is `0x329` on the
+*same* East map and already had its own row; Ecruteak City's four `0x333` warps are the *same
+metatile id* as Bellchime's broken door behind a different tileset pointer; a plain walkable
+metatile beside each door must match no row; and `*_foreign_tileset_door_id_has_no_row` looks up an
+id that **is** in the table but only for tilesets this map does not use (`0x021` on Bellchime,
+`0x333` on Battle Frontier East and Safari Zone 2, `0x32B` on Dragon's Den, `0x2D2` on Mahogany
+Town) — if the id half alone decided the match, those would resolve. Three more shapes were added
+with the later groups. **Cross-map twins**, the Ecruteak pattern repeated: Violet City's two `0x32B`
+dojo doors carry the artwork Dragon's Den's row borrows, and Lavender Town's three doors carry the
+very *same* id as Mahogany's, `0x2A2`, behind a different tileset pointer — each paired with an
+assertion that the two maps share **no** tileset, so the comparison cannot be vacuous.
+**`safari_johto_gate_door_id_resolves_on_this_tileset`**, the strongest of the lot: `0x2D2` is the
+*other* door in `gTileset_SafariZoneJohto` and predates the fix, so looking it up on SafariZone2
+runs the same map, the same pointer pair, the same walk and the same matcher as the repaired `0x2BF`
+lookup and resolves on both ROMs — the two differ in the row and nothing else (and
+`MAP_SAFARI_ZONE_GATE` is then visited so `0x2D2` is checked as a real `MB_ANIMATED_DOOR` at its own
+coordinates). And **`*_door_id_also_has_a_foreign_row`**, the form `checkNoDoorRow` cannot express:
+on Mahogany Town `0x2A2` *does* resolve after the fix, correctly, so "must not match" is the wrong
+assertion — what must hold is that a row carrying that id is bound to a tileset this map does not
+use (`&gTileset_LavenderTown`). That is what makes the positive read "the `&gTileset_MahoganyTown`
+row is present" rather than "`0x2A2` is a known door metatile": on the pre-fix ROM the id was in the
+table and the doors still never opened. Safari Zone 2 states the same against Fuchsia's `0x2BF` row.
+**Supplementary, clearly labelled:** `*_live_door_animation_runs` walks into one repaired door per
+map and watches `gTasks` for `Task_AnimateDoor`, whose only creator (`StartDoorAnimationTask`) is
+reached only after `GetDoorGraphics` returns non-NULL; it screenshots the door twelve frames in, on
+the last and widest of the four `DoorAnimFrame`s. It deliberately does *not* call `F.face("Up")`
+first: the door tile is impassable, so that press is itself what fires `TryDoorWarp`, and the
+animation could start and finish inside `face()`'s trailing idle before the poll ever looked.
+**The S.S. Aqua group, and the claim it overturns.** `ssaqua` `0x281` is byte-equal to
+`METATILE_SSAnne_Door`, and issue #92 read that as a trap rather than a gift: it reported
+`ss_anne_frlg`'s art as "a solid door with a frame" against `ssaqua`'s "sparse alternating lattice
+(every other pixel column transparent), with **no** top metatile layer at all", and concluded the
+metatile had been copied from S.S. Anne without its art — that the fix was to *un*-animate it. There
+is no lattice. `ssaqua`'s `tiles.png` is **8bpp**; decoding it as packed 4bpp splits each byte into
+two nibbles and blanks alternate pixel columns, which manufactures exactly that pattern. The frames
+are genuinely shared, so the row is S.S. Anne's own tiles and palettes at S.S. Anne's `size` of
+**2** — `size 1` would draw the frames' upper half over the door itself. The suite covers all five
+warps (1F's gangway plus the four northern cabins), and
+`DoorAnimsRegistered_19_ssaqua_room_nne_door_door_animation.png` is the visual half of the
+retraction: a solid panelled door, mid-open. That screenshot is also what caught the group's one
+real defect. `size 2` means the animation redraws the metatile **above** the door too, and while
+every S.S. Anne placement and SSAqua 1F carry `0x3BF` there (wall + ledge + door-top), the four
+cabins carried `0x28C`, flat panelling — so opening the door conjured a lintel out of blank wall
+and shutting it wiped the lintel away. Diffing the arrival frame against the animating frame showed
+it immediately: rows 48–63, a whole tile above the door, changing. Four words of map data now match
+every other placement, and the same diff shows only the door leaf moving. The cabins carry the group's sharpest control —
+`0x03D` (`METATILE_Johto_General_Door`) **resolves** on SSAqua 1F, whose primary is
+`gTileset_Johto_General`, and **must not** in a cabin, whose primary is `gTileset_Johto_Building`
+and carries no door row at all. Same secondary, same matcher, same walk; only the primary pointer
+differs. `MAP_SSANNE_1F_ROOM1` is the cross-map twin, the same `0x281` behind
+`&gTileset_SSAnne` on a map sharing no tileset with any S.S. Aqua map — and the map whose art the
+new row borrows.
+
+**Discrimination run (2026-08-18):** the first two groups scored **38/38** on the fixed tree and
+**29/38** against a ROM built with their rows removed, with exactly the nine fix-specific assertions
+flipping (the six `bf_*_has_a_door_anim_row`, `bellchime_tin_tower_door_has_a_door_anim_row`, and
+both live-animation checks). Re-run after the Dragon's Den, Johto Safari Zone and Mahogany rows were
+added and covered: **86/86** on the fixed tree, **79/86** against a ROM built from the same tree with
+*only* those three rows deleted — the seven that flipped being
+`dragons_den_shrine_door_has_a_door_anim_row`, `safari_johto_town_door_has_a_door_anim_row`,
+`mahogany_door_{1,2}_has_a_door_anim_row`, `lake_of_rage_door_{1,2}_has_a_door_anim_row` and the
+supplementary `mahogany_door_live_door_animation_runs`. **Re-run once more (2026-08-19)** with the
+S.S. Aqua group added and *every* row the fix introduced reverted — the strongest control of the
+three, because it removes all seven rows at once rather than a subset: **114/114** on the fixed
+tree, **92/114** on the unfixed one. The 22 that flipped are exactly **one
+`*_has_a_door_anim_row` per repaired warp — all eighteen — plus the four supplementary
+`*_live_door_animation_runs`**, which is the whole of #92's census expressed as a runtime failure
+list. Every negative control stayed green on the unfixed ROM, including all eighteen
+`*_is_an_animated_door` halves of the flipped pairs (the tiles are doors on both builds; only the
+table lookup changes), the same-tileset `0x2D2` control, all three
+`*_door_id_also_has_a_foreign_row` controls, the SSAqua-1F-vs-cabin `0x03D` pair, and Violet City's,
+Lavender Town's and S.S. Anne's cross-map twins.
 
 ### `VerifyV7Migrate.lua`
 
@@ -362,15 +472,16 @@ links and boots clean, then faults or reads as broken later in play.
 | `../ValidateMapEvents.py` | Object-event consistency — who is standing there, whether the sprite matches the role, whether the trainer behind it belongs to the team it claims. Carries a REVIEW tier with recorded baselines; `--report` lists them. |
 | `../GenObstacleTable.py --check` | Drift in the committed cut-tree / smashable-rock index table. The array index **is** the save bit index, so that table is save-layout-affecting data. |
 | `../SavePatch.py --check` | The save tool's hard-coded sector geometry and SaveBlock sizes still matching the tree. A format bump that leaves them stale fails no build — it silently writes checksums into the wrong place. |
+| `../ValidateDoorAnims.py --max 0` | Animated-door warps with no matching `sDoorAnimGraphicsTable` row. `GetDoorGraphics` matches on the metatile id **and** the tileset pointer, so a tileset that borrows another's door metatile silently loses its animation — no build error, no crash, just a warp through a shut door. Gated at zero; lower the ceiling when a batch is fixed, never raise it. A second gate, `--max-unresolved` (baseline **18**), pins the warps whose behaviour cannot be read at all — three Johto Victory Road floors tagged `layout_version: johto` over the 512-metatile `gTileset_General`, plus Route 28 and Route 34's day care painting past the end of their secondaries. Those are a separate authoring bug, but they are holes in the census, and a hole makes the dead count go *down*, so growth has to fail on its own. |
 
 Where they run:
 
-- **`make validate`** runs all six.
-- **The pre-push hook** runs the same six directly (not through `make`, which would trigger a full
+- **`make validate`** runs all seven.
+- **The pre-push hook** runs the same seven directly (not through `make`, which would trigger a full
   dependency scan for a source-only check). It is tracked at `../hooks/pre-push` — git does not clone
   hooks, so **install it after a fresh clone**: `Testing/hooks/install.sh` symlinks it into
   `.git/hooks`.
-- **CI** (`.github/workflows/Check.yml`, job `validate`) mirrors all six, so a `--no-verify` push is
+- **CI** (`.github/workflows/Check.yml`, job `validate`) mirrors all seven, so a `--no-verify` push is
   still caught.
 
 `../GenObstacleTable.py` (no `--check`) and `../GenLuaSymbols.py` are the generators behind two of

@@ -157,10 +157,29 @@ All notable player-facing changes. For the full feature reference see
   — all five in Azalea, plus Ecruteak, Blackthorn, Cianwood, Mahogany, Mt Silver,
   Ruins of Alph, Safari Zone Gate and Route 28 — and it also restores the sliding
   door sound the Poké Center, Mart and Gym doors had been falling through to
-  `SE_DOOR` without. *Still open (#92): 18 further warps on secondary tilesets —
-  7 of them are more missing table rows and need no art (Battle Frontier Outside
-  East, Bellchime Trail), and 11 need frames drawn (Mahogany Town / Lake of Rage,
-  S.S. Aqua, Dragon's Den Cavern, Safari Zone 2).*
+  `SE_DOOR` without.
+- **The other eighteen doors that never opened** (#92). The same lookup, the
+  rest of the way — and it turned out **none** of them needed art drawn. Seven
+  more table rows cover six tilesets that borrow another tileset's door
+  metatile: **Battle Frontier Outside East** (six warps, on the *West* map's
+  metatile ids — the East labels had sat unreferenced since vanilla Emerald),
+  **Bellchime Trail**'s Tin Tower entrance, **Dragon's Den**'s shrine door —
+  the only way into the shrine, so its single approach was a door that never
+  opened — the **Johto Safari Zone**'s entrance hut, **Mahogany Town** and
+  **Lake of Rage** (four warps repaired by one row, since they share a
+  secondary), and all five **S.S. Aqua** cabin doors. Every one reuses frames
+  already in the tree, verified down to the pixel: the borrowed tiles are
+  identical, and each door draws through a palette that matches on every index
+  its frames touch. *Two small data edits go with them. `safari_zone_johto`
+  palette 8 entry 15 was an unused black padding slot and is now Fuchsia's grey,
+  which is the colour those borrowed frames draw the door's outline in. And the
+  four S.S. Aqua cabins had flat panelling where every other S.S. Anne doorway
+  has a door header, so the opening animation — two tiles tall — was painting a
+  lintel onto blank wall and wiping it away again; they now carry the same
+  header as the rest, which is what they should have looked like shut.* That is **18 dead door
+  warps**, and with the 19 above it takes the tree-wide count to **zero** —
+  `Testing/ValidateDoorAnims.py` now gates that at zero in `make validate`, the
+  pre-push hook and CI.
 - **The Pokémon Center heal animation only lit part of the screen** in Johto.
   `CreatePokecenterMonitorSprite` picked the monitor sprite by **region**, but
   which sprite is correct depends on the **tileset**: Johto's Centers are drawn
@@ -281,6 +300,22 @@ All notable player-facing changes. For the full feature reference see
 - **macOS support** (#64): the build, the pre-push gate, and the Lua
   suites all run on macOS.
 - **Pokévial off-switch builds again** (#61).
+- **A dead-door census** (#92): `Testing/ValidateDoorAnims.py` cross-references
+  every warp event in the tree against `sDoorAnimGraphicsTable`, applying
+  `GetDoorGraphics`' own two-key rule, and gates the count at zero in `make
+  validate`, the pre-push hook and CI. Nothing else catches this class: a door
+  with no table row produces no build error, no crash, and still plays a door
+  *sound*, so it reads as normal play. Everything it needs is derived from the
+  tree rather than assumed — including the trap that the primary metatile count
+  is 640 for FRLG/Johto layouts and 512 elsewhere, and that the attribute width
+  follows the *tileset*, not the layout (#53). `Testing/lua/DoorAnimsRegistered.lua`
+  is its runtime half, evaluating the same condition against the live ROM on
+  seventeen maps. A second gate pins the census's own blind spot: 18 warps whose
+  behaviour cannot be read *at all*, because three Johto Victory Road floors and
+  two other maps paint metatile ids past the end of the tileset actually wired to
+  them. That is a separate authoring bug, but an unreadable warp is a hole in the
+  count — and a hole makes the dead total go *down* — so its number is pinned
+  rather than ignored.
 - **A map-event scanner** (#87, #88, #89): `Testing/ValidateMapEvents.py`,
   wired into `make validate`, the pre-push hook and CI. Run against the tree
   before the fixes above it reports each of them on its own, and it has since

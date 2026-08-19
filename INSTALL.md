@@ -165,8 +165,9 @@ break in play:
 | `Testing/ValidateMapEvents.py` | object events with the wrong sprite / trainer / team |
 | `Testing/GenObstacleTable.py --check` | a stale cleared-obstacle table |
 | `Testing/SavePatch.py --check` | save-format constants that have drifted from the tree |
+| `Testing/ValidateDoorAnims.py --max 0` | animated-door warps with no `sDoorAnimGraphicsTable` row |
 
-The same six run as `make validate`, and CI mirrors them in the `validate` job.
+The same seven run as `make validate`, and CI mirrors them in the `validate` job.
 
 ---
 

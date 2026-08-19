@@ -181,7 +181,8 @@ All notable player-facing changes. For the full feature reference see
   1016–1023 while it runs, and 20 of that tileset's metatiles drew from 1016/1017
   — one of them directly above each of the four doors — so opening a door wiped
   the roof's ridge detail until it shut. That art now lives lower in the tileset,
-  pixel-for-pixel unchanged.* That is **18 dead door
+  pixel-for-pixel unchanged — as does Goldenrod City's and the dept. store's,
+  which had the same collision behind doors that were already animating.* That is **18 dead door
   warps**, and with the 19 above it takes the tree-wide count to **zero** —
   `Testing/ValidateDoorAnims.py` now gates that at zero in `make validate`, the
   pre-push hook and CI.
@@ -320,7 +321,11 @@ All notable player-facing changes. For the full feature reference see
   two other maps paint metatile ids past the end of the tileset actually wired to
   them. That is a separate authoring bug, but an unreadable warp is a hole in the
   count — and a hole makes the dead total go *down* — so its number is pinned
-  rather than ignored.
+  rather than ignored. A third gate catches the trap that a table row alone is
+  not enough: the animation borrows VRAM tiles 1016–1023 while it plays, so any
+  tileset drawing from that window has its art wiped for as long as the door is
+  open. Four did — Mahogany Town, Battle Frontier Outside East, Goldenrod City
+  and the Goldenrod dept. store — and their tiles were moved out of the way.
 - **A map-event scanner** (#87, #88, #89): `Testing/ValidateMapEvents.py`,
   wired into `make validate`, the pre-push hook and CI. Run against the tree
   before the fixes above it reports each of them on its own, and it has since

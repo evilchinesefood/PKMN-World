@@ -37,6 +37,7 @@ import argparse
 import json
 import os
 import re
+import struct
 import sys
 from collections import Counter, defaultdict
 
@@ -479,10 +480,58 @@ class BlockdataReader:
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# The door animation borrows VRAM while it runs.
+# ---------------------------------------------------------------------------
+# CopyDoorTilesToVram writes the live frame over VRAM tiles 1016-1023
+# (DOOR_TILE_START_SIZE1 = NUM_TILES_TOTAL - 8, src/field_door.c), and the NOTE
+# above it says any pre-existing tile visible in that region is overwritten.
+# Registering a door therefore has a second precondition beyond having a row:
+# the tilesets on that map must not DRAW from the scratch window, or opening the
+# door silently corrupts whatever does -- for the ~9 frames it is open, and again
+# in reverse when it shuts. It is invisible until someone animates a door on that
+# map, which is exactly how it slipped through: Mahogany's roof lost its ridge
+# detail the moment its door started working.
+#
+# Metatile tile ids are GLOBAL (0-1023), so this needs no primary/secondary split
+# -- a tile id >= 1016 is in the window whichever half it resolves through.
+SCRATCH_TILE_FIRST = 1024 - 8
+
+
+def door_tileset_scratch_collisions(root, rows):
+    """Tilesets carrying a door row whose own metatiles draw from tiles 1016-1023."""
+    metatiles_h = read_text(os.path.join(root, "src", "data", "tilesets", "metatiles.h"))
+    headers_h = read_text(os.path.join(root, "src", "data", "tilesets", "headers.h"))
+    incbin = dict(re.findall(r"gMetatiles_(\w+)\[\]\s*=\s*INCBIN_U16\(\"([^\"]+)\"\)",
+                             metatiles_h))
+    out = []
+    # rows are (metatile_id, "gTileset_Foo", raw_label) as built by parse_door_table().
+    for sym in sorted({r[1] for r in rows if r[1]}):
+        m = re.search(r"const struct Tileset %s\b.*?gMetatiles_(\w+)"
+                      % re.escape(sym), headers_h, re.S)
+        if not m:
+            continue
+        rel = incbin.get(m.group(1))
+        if not rel:
+            continue
+        path = os.path.join(root, rel)
+        if not os.path.exists(path):
+            continue
+        data = read_bytes(path)
+        hits = sorted({struct.unpack_from("<H", data, i)[0] & 0x3FF
+                       for i in range(0, len(data) - 1, 2)}
+                      & set(range(SCRATCH_TILE_FIRST, 1024)))
+        if hits:
+            out.append((sym, rel, hits))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--max", type=int, default=None,
                     help="exit 1 if the dead-door count exceeds N")
+    ap.add_argument("--allow-scratch-collisions", action="store_true",
+                    help="do not fail when a door tileset draws from VRAM tiles 1016-1023")
     ap.add_argument("--max-unresolved", type=int, default=UNRESOLVED_BASELINE,
                     help="exit 1 if more than N warps cannot have their behavior read "
                          "at all (default: today's baseline of %d)" % UNRESOLVED_BASELINE)
@@ -773,6 +822,18 @@ def main(argv=None):
             print("  %-38s %s" % (name, lay))
         print()
 
+    scratch = door_tileset_scratch_collisions(root, door_rows)
+    print("--- Door tilesets vs the VRAM scratch window (tiles %d-1023) ---"
+          % SCRATCH_TILE_FIRST)
+    if scratch:
+        print("  A door animation overwrites these VRAM tiles while it plays, so a metatile")
+        print("  drawing from them is corrupted for as long as the door is open:")
+        for sym, rel, hits in scratch:
+            print("  %-36s %s  tiles %s" % (sym, rel, hits))
+    else:
+        print("  none -- no tileset carrying a door row draws from the scratch window")
+    print()
+
     # Liveness floor. Every remaining way this script can be wrong drives the dead
     # count DOWN, so "0 dead" is only meaningful alongside "and it actually found
     # and matched doors". A scan that resolved nothing is a broken scan, not a pass.
@@ -791,6 +852,16 @@ def main(argv=None):
     # holes make the dead count go DOWN. Gating it at the known baseline means the day
     # someone paints a warp onto an out-of-range metatile, this says so instead of quietly
     # shrinking the population it checks.
+    if scratch and not args.allow_scratch_collisions:
+        print("FAIL: %d tileset(s) carrying a door row draw from VRAM tiles %d-1023, which the "
+              "door animation overwrites while it plays. Registering a door is not enough -- the "
+              "art on that map has to stay out of the scratch window, or opening the door "
+              "corrupts it. Move the offending tiles to free slots and repoint the metatiles "
+              "(the move must be pixel-identical; verify by compositing every metatile before "
+              "and after)."
+              % (len(scratch), SCRATCH_TILE_FIRST))
+        return 1
+
     if len(problems) > args.max_unresolved:
         print("FAIL: %d warps could not be resolved, over the baseline of %d. These are NOT "
               "counted dead, so a new one SHRINKS the census rather than failing it -- which "

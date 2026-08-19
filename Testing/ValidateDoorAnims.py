@@ -514,10 +514,26 @@ class BlockdataReader:
             self._cache[key] = read_bytes(abs_path)
         return self._ids(self._cache[key])
 
-    def fringe_ids(self, layout, direction, depth):
-        """The strip of a CONNECTED map that gets copied into gBackupMapLayout, up to MAP_OFFSET
-        metatiles deep along the shared edge. These are drawn with the CURRENT map's tilesets,
-        so they are resolved through the door map's pair, not the neighbour's."""
+    def fringe_ids(self, layout, direction, map_offset):
+        """The strip of a CONNECTED map that FillConnection copies into gBackupMapLayout.
+        Drawn with the CURRENT map's tilesets, so it is resolved through the door map's pair,
+        not the neighbour's.
+
+        map.json's direction strings map to the engine's routines via asm/macros/map.inc:
+        down -> CONNECTION_SOUTH, up -> CONNECTION_NORTH, left -> CONNECTION_WEST,
+        right -> CONNECTION_EAST. (dive/emerge are not drawn adjacently and are ignored.)
+
+        The four depths mirror src/fieldmap.c exactly, and they are NOT all the same:
+
+            FillSouthConnection  y2 = 0                  height = MAP_OFFSET      -> top 7 rows
+            FillNorthConnection  y2 = cHeight-MAP_OFFSET  height = MAP_OFFSET      -> bottom 7 rows
+            FillWestConnection   x2 = cWidth-MAP_OFFSET   width  = MAP_OFFSET      -> right 7 cols
+            FillEastConnection   x2 = 0                   width  = MAP_OFFSET + 1  -> left 8 cols
+
+        East is one wider because the horizontal margin is asymmetric:
+        MAP_OFFSET_W = MAP_OFFSET * 2 + 1, i.e. 7 on the left and 8 on the right, while
+        MAP_OFFSET_H = MAP_OFFSET * 2 is an even 7 and 7. Using MAP_OFFSET for east would
+        miss its eighth column."""
         blob = self.grid(layout)
         w, h = layout["width"], layout["height"]
         if len(blob) < w * h * 2:
@@ -527,14 +543,15 @@ class BlockdataReader:
             off = (y * w + x) * 2
             return (int.from_bytes(blob[off:off + 2], "little") & self.mask) >> self.shift
 
+        east_depth = map_offset + 1          # MAP_OFFSET_W - MAP_OFFSET
         if direction == "up":
-            ys, xs = range(max(0, h - depth), h), range(w)
+            ys, xs = range(max(0, h - map_offset), h), range(w)
         elif direction == "down":
-            ys, xs = range(0, min(depth, h)), range(w)
+            ys, xs = range(0, min(map_offset, h)), range(w)
         elif direction == "left":
-            xs, ys = range(max(0, w - depth), w), range(h)
+            xs, ys = range(max(0, w - map_offset), w), range(h)
         elif direction == "right":
-            xs, ys = range(0, min(depth, w)), range(h)
+            xs, ys = range(0, min(east_depth, w)), range(h)
         else:
             return set()
         return {at(x, y) for y in ys for x in xs}

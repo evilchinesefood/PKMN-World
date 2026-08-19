@@ -13376,7 +13376,7 @@
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/JohtoVictoryRoad_1F/border.bin",
       "blockdata_filepath": "data/layouts/JohtoVictoryRoad_1F/map.bin",
-      "layout_version": "johto"
+      "layout_version": "emerald"
     },
     {
       "id": "LAYOUT_JOHTO_VICTORY_ROAD_B1F",
@@ -13389,7 +13389,7 @@
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/JohtoVictoryRoad_B1F/border.bin",
       "blockdata_filepath": "data/layouts/JohtoVictoryRoad_B1F/map.bin",
-      "layout_version": "johto"
+      "layout_version": "emerald"
     },
     {
       "id": "LAYOUT_JOHTO_VICTORY_ROAD_B2F",
@@ -13402,7 +13402,7 @@
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/JohtoVictoryRoad_B2F/border.bin",
       "blockdata_filepath": "data/layouts/JohtoVictoryRoad_B2F/map.bin",
-      "layout_version": "johto"
+      "layout_version": "emerald"
     },
     {
       "id": "LAYOUT_JOHTO_INDIGO_PLATEAU",

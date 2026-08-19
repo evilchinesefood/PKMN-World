@@ -46,19 +46,37 @@ from collections import Counter, defaultdict
 # ---------------------------------------------------------------------------
 
 # Warps whose metatile behavior cannot be read AT ALL, because the layout paints a metatile
-# id past the end of the tileset actually wired to it. Two separate pre-existing authoring
-# bugs, neither of them about doors: JohtoVictoryRoad_1F/B1F/B2F are tagged
-# layout_version "johto" (which makes GetNumMetatilesInPrimary use the 640 split) while
-# their primary is the 512-metatile gTileset_General, so ids 512-639 run off the end of it;
-# and Route28 / Route34_DayCare paint secondary ids past the end of gTileset_ViridianCity
-# (95 entries) and gTileset_PokemonDayCare (68 entries). The engine does the same unbounded
+# id past the end of the tileset actually wired to it. The engine does the same unbounded
 # read -- GetAttributeByMetatileIdAndMapLayout and DrawMetatileAt both index
 # tileset->metatileAttributes[] / ->metatiles[] with no bounds check -- so these tiles draw
-# and behave as whatever .rodata happens to follow the array. On the current build none of
-# them lands on MB_ANIMATED_DOOR, which is why the dead count is a true zero today; but that
-# is an accident of link order, not a design fact, so the number is pinned rather than
-# ignored. Tracked separately from the door work.
-UNRESOLVED_BASELINE = 18
+# and behave as whatever .rodata happens to follow the array. An unresolvable warp is a HOLE
+# in the census, and a hole makes the dead count go DOWN, so the number is pinned rather
+# than ignored. Tracked separately from the door work; see #93.
+#
+# Was 18. The JohtoVictoryRoad_1F/B1F/B2F half of that (16 warps) is fixed: those three
+# floors were tagged layout_version "johto", which makes GetNumMetatilesInPrimary use the
+# 640 split, while their primary is the 512-metatile gTileset_General -- so ids 512-639 ran
+# off its end. They are ports of the Hoenn VictoryRoad_1F/B1F maps, which use the identical
+# gTileset_General + gTileset_Cave pairing at the identical dimensions tagged "emerald", and
+# retagging them to match puts every id they use back in bounds (512-639 -> gTileset_Cave
+# local 0-127, and the ids >=640 -> local up to 374, all inside its 414 entries). It was not
+# a harmless mislabel: gMetatiles_General is followed in .rodata by
+# gMetatileAttributes_SecretBaseSecondary / gMetatiles_SecretBaseSecondary, so ~96% of
+# JohtoVictoryRoad_1F was drawing Secret Base graphics.
+#
+# The 2 that remain are the other cause and have no in-tree fix: Route28 and
+# Route34_DayCare paint SECONDARY ids past the end of gTileset_ViridianCity (95 entries) and
+# gTileset_PokemonDayCare (68 entries). Their blockdata was authored against richer source
+# tilesets that were never imported -- no tileset in this tree is a superset of either, and
+# both metatiles.bin have been untouched since the initial commit while the map.bin files
+# arrived much later with the Johto port. Fixing them needs art, not a rewire.
+#
+# NOTE: this counts only warp tiles, which is all this script walks. A repo-wide metatile
+# bounds scan finds the same Cause-B pattern on four further live Johto maps whose bad ids
+# do not happen to sit on a warp: Route26North, MahoganyTown_Gym, GoldenrodCity_FlowerShop
+# and JohtoIndigoPlateau. Those are out of this script's scope, not fixed, and not counted
+# here -- do not read a passing run as "no map draws out of bounds".
+UNRESOLVED_BASELINE = 2
 
 BLOCK_COMMENT = re.compile(r"/\*.*?\*/", re.S)
 LINE_COMMENT = re.compile(r"//[^\n]*")

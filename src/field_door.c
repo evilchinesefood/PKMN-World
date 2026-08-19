@@ -521,13 +521,14 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     // and gbagfx truncates rather than rounds (tools/gbagfx/gfx.c), so the truncation is the
     // operative fact. As above, the bottom-layer tiles come from two different primaries and
     // differ by up to 64 of 64 pixels; the composite matches because the top layer is opaque.
-    // KNOWN ARTEFACT, not fixed here: CopyDoorTilesToVram overwrites VRAM tiles 1016-1023 while
-    // a door animates, and gTileset_MahoganyTown has 20 metatiles referencing tiles 1016/1017 --
-    // four of them two rows above each of these four doors. So the roof's ridge detail is wiped
-    // for the ~9 frames the door is open. This is the documented limitation in the NOTE above
-    // CopyDoorTilesToVram, not something these rows introduce a new class of: Goldenrod City has
-    // the same collision today with 13 doors. Fixing it properly means moving the offending
-    // tiles out of the scratch window tileset-wide, which is its own change.
+    // Animating this door meant clearing the scratch window first. CopyDoorTilesToVram writes the
+    // live frame over VRAM tiles 1016-1023 (see the NOTE above it), and gTileset_MahoganyTown had
+    // 20 metatiles drawing tiles 1016/1017 -- one of them two rows above each of these four doors
+    // -- so the roof's ridge detail was wiped for the ~9 frames the door stood open. That art now
+    // lives at local tiles 1/2 (global 641/642) instead, and the 35 metatile words that referenced
+    // it were repointed. The move is an identity: the relocated tiles are pixel-identical, the
+    // flip and palette bits are untouched, and all 318 metatiles composite to the same pixels as
+    // before. gTileset_BattleFrontierOutsideEast needed the same treatment for one tile (1023).
     {METATILE_MahoganyTown_Door,                            &gTileset_MahoganyTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Sevii123, sDoorAnimPalettes_Sevii123},
     {METATILE_JohtoShop_Door,                               &gTileset_GoldenrodDepartmentStore, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoDeptStoreElevator, sDoorAnimPalettes_JohtoDeptStore_Door},
     // Region merge (Johto port): Johto_South / NorthEast / NorthWest are regional recolours of

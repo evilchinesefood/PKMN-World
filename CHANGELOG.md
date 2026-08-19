@@ -176,7 +176,12 @@ All notable player-facing changes. For the full feature reference see
   four S.S. Aqua cabins had flat panelling where every other S.S. Anne doorway
   has a door header, so the opening animation — two tiles tall — was painting a
   lintel onto blank wall and wiping it away again; they now carry the same
-  header as the rest, which is what they should have looked like shut.* That is **18 dead door
+  header as the rest, which is what they should have looked like shut. Mahogany's
+  roof also had to move out of the way: the door animation borrows VRAM tiles
+  1016–1023 while it runs, and 20 of that tileset's metatiles drew from 1016/1017
+  — one of them directly above each of the four doors — so opening a door wiped
+  the roof's ridge detail until it shut. That art now lives lower in the tileset,
+  pixel-for-pixel unchanged.* That is **18 dead door
   warps**, and with the 19 above it takes the tree-wide count to **zero** —
   `Testing/ValidateDoorAnims.py` now gates that at zero in `make validate`, the
   pre-push hook and CI.

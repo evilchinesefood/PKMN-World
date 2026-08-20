@@ -163,10 +163,15 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   reading them is vacuous — row count is
                                                             --   maxCursorPos + 1.
   Window       = { stride = 12, window = 0, bg = 0, tilemapLeft = 1, tilemapTop = 2,
-                   width = 3, height = 4 },
+                   width = 3, height = 4, paletteNum = 5, baseBlock = 6, tileData = 8 },
                                                             -- gWindows[i].window is a verbatim copy of
                                                             --   the WindowTemplate (sizeof 8), and
                                                             --   .height is what the frame is drawn at.
+                                                            -- bg + baseBlock together locate the
+                                                            --   window's tiles in VRAM (char base comes
+                                                            --   from BGxCNT, never assumed), which is
+                                                            --   how a suite reads the palette indices a
+                                                            --   window was actually drawn with.
   MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12 },
   MapLayout    = { width = 0x00, height = 0x04, border = 0x08, map = 0x0C,
                    primaryTileset = 0x10, secondaryTileset = 0x14,

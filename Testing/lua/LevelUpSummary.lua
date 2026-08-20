@@ -40,6 +40,82 @@ local SEEDED_FROM_LEVEL = 5
 
 local function state() return F.r8(S.sLevelUpSummaryState) end
 
+-- ---- the message line's own pixels ------------------------------------------------------------
+-- B_WIN_MSG (window 0) prints with foreground 1, shadow 6 and background 15
+-- (sTextOnWindowsInfo_Normal, src/battle_message.c), and it is filled with PIXEL_FILL(0xF) before
+-- printing -- so those three nibbles are the ONLY palette indices its tiles may legally contain,
+-- and 1 and 6 are only there if a glyph was actually drawn.
+--
+-- Index 14 turning up there is one specific defect, not a vague "looks off". AddTextPrinter bakes
+-- the printer's colours into a single GLOBAL table, sFontHalfRowLookupTable (src/text.c:496), and
+-- RenderText regenerates it only for an in-string colour code -- never when it resumes a printer.
+-- B_WIN_MSG types a character per frame out of RunTextPrinters, so any window printed while it is
+-- still typing repaints every remaining glyph in that other window's colours. The summary box
+-- prints on background TEXT_DYNAMIC_COLOR_5 = 14, which is its own dark fill in palette 5 but a
+-- muddy red in B_WIN_MSG's palette 0: drawing the box after starting the message left the "Y"
+-- correct and put a red block behind "our team grew stronger!". Hence the box goes up first.
+--
+-- Read out of VRAM rather than the window's EWRAM buffer, so this is what the screen is showing.
+-- Everything is derived: bg, width, height and baseBlock come from gWindows[0].window, and the
+-- char base from that BG's own BGxCNT -- nothing here assumes a layout that a later edit could
+-- move underneath it.
+--
+-- WHAT THE ASSERTIONS DEMAND, and the two vacuity holes they are shaped around.
+--
+-- (1) "The line rendered" cannot be read off the pixels alone. B_WIN_MSG is NEVER blank here: the
+-- battle-end script has just printed its own text into it, so foreground pixels are present even
+-- on a build where BattlePutTextOnWindow is deleted outright -- measured, not assumed, against a
+-- ROM built with exactly that line removed. Presence of glyphs therefore proves nothing. What
+-- does is a BASELINE: the window is digested at the moment the state machine leaves ST_INIT --
+-- the box is up but the summary has not printed yet, by construction of the ordering -- and again
+-- once the line has finished typing. Stale battle text digests identically twice; a line that
+-- actually printed does not.
+--
+-- (2) The colour check rejects every index outside 1/6/15, not index 14 alone. The pre-fix build
+-- stained the glyphs themselves with 13 (TEXT_DYNAMIC_COLOR_4, the box's foreground) as well as
+-- their backgrounds with 14 -- 277 pixels of it -- so naming only 14 would have missed that half
+-- of the same defect.
+local B_WIN_MSG = 0
+local REG_BG0CNT = 0x04000008
+local VRAM = 0x06000000
+
+local function msgWindowRead()
+  local w      = S.gWindows + B_WIN_MSG * S.Window.stride
+  local bg     = F.r8(w + S.Window.bg)
+  local width  = F.r8(w + S.Window.width)
+  local height = F.r8(w + S.Window.height)
+  local base   = F.r16(w + S.Window.baseBlock)
+  local charBase = (F.r16(REG_BG0CNT + bg * 2) >> 2) & 3
+  local addr   = VRAM + charBase * 0x4000 + base * 32
+  local counts, digest = {}, 0
+  for off = 0, width * height * 32 - 4, 4 do
+    local v = F.r32(addr + off)
+    digest = (digest + v * (1 + off)) & 0xFFFFFFFF
+    for n = 0, 7 do
+      local idx = (v >> (n * 4)) & 0xF
+      counts[idx] = (counts[idx] or 0) + 1
+    end
+  end
+  F.L(string.format("  B_WIN_MSG bg=%d base=0x%03X %dx%d tiles at 0x%08X digest=0x%08X",
+    bg, base, width, height, addr, digest))
+  return counts, digest
+end
+
+local MSG_LEGAL = { [1] = true, [6] = true, [15] = true }
+
+-- Every index the window may not contain, as "idx=count" -- named, so a failure says which colour
+-- bled in rather than only that one did.
+local function illegalIndexes(counts)
+  local n, parts = 0, {}
+  for idx = 0, 15 do
+    if not MSG_LEGAL[idx] and (counts[idx] or 0) > 0 then
+      n = n + counts[idx]
+      parts[#parts + 1] = string.format("idx%d=%d", idx, counts[idx])
+    end
+  end
+  return n, (#parts > 0 and table.concat(parts, " ") or "none")
+end
+
 -- lib's sel() taps Down for 2 frames with an 8-frame gap; press slower, exactly as DebugParty.lua
 -- does, because the Down that scrolls the list past the visible rows is the one that gets eaten.
 local function tap(n) for _ = 1, n do F.press("Down", 3); F.idle(16) end end
@@ -81,17 +157,23 @@ end
 -- the run from dismissing the very thing it is trying to observe.
 local function endBattleAndWatch(wantBox, tag)
   F.w8(S.gBattleOutcome, B_OUTCOME_WON)
-  local sawBox = false
-  for i = 1, 220 do
-    if state() == ST_WAIT_PRESS then sawBox = true; break end
-    if i % 3 == 0 and state() ~= ST_WAIT_PRESS then F.press("A", 2) end
-    F.idle(16)
+  local sawBox, baseline = false, nil
+  -- Single-frame polling, where the old loop idled 16 at a time: the baseline has to be taken
+  -- while the box is up and the summary line is NOT yet printed, and ST_DRAW is one frame wide.
+  -- Landing a frame late on ST_WAIT_DRAW is harmless -- one glyph in still differs from a full
+  -- line, and on a build that never prints, both samples are the same stale text either way.
+  for i = 1, 3600 do
+    local st = state()
+    if st == ST_WAIT_PRESS then sawBox = true; break end
+    if baseline == nil and st ~= ST_INIT then local _; _, baseline = msgWindowRead() end
+    if i % 48 == 0 then F.press("A", 2) end
+    F.idle(1)
   end
   -- Let the "Your team grew stronger!" line finish typing before the screenshot. Shooting the
   -- frame WAIT_PRESS is first observed catches the message window mid-typewriter and makes a
   -- perfectly good box look truncated.
   if sawBox then F.idle(90); F.shot(tag .. "_box") else F.shot(tag .. "_nobox") end
-  return sawBox
+  return sawBox, baseline
 end
 
 local function returnToField(tag)
@@ -126,8 +208,27 @@ F.run(function()
     "count=" .. F.r8(S.gPartiesCount))
   seedLevelUps(PARTY_SIZE)
 
-  local sawBox = endBattleAndWatch(true, "seeded")
+  local sawBox, baseline = endBattleAndWatch(true, "seeded")
   F.check("the summary box comes up and waits for a press", sawBox, "state=" .. state())
+
+  -- Still on WAIT_PRESS here, message fully typed, nothing dismissed yet -- the one frame where
+  -- the line can be read. Index 15 must be present as well, or a check that read the wrong
+  -- address entirely would pass by finding no index 14 in a region of zeroes.
+  local counts, digest = msgWindowRead()
+  local bad, badWhich = illegalIndexes(counts)
+  local fg, shadow = counts[1] or 0, counts[6] or 0
+  -- Split three ways so a failure says WHICH half broke: line never printed, line blank, or line
+  -- miscoloured. A missing baseline is a failure too, not a silent skip -- it means the run never
+  -- observed the box being built and has nothing to compare against.
+  F.check("the summary printed its own line over the battle-end text",
+    baseline ~= nil and digest ~= baseline,
+    baseline == nil and "no pre-print baseline captured"
+      or string.format("baseline=0x%08X final=0x%08X", baseline, digest))
+  F.check("the message line actually rendered glyphs",
+    fg > 0 and shadow > 0,
+    string.format("fg(idx1)=%d shadow(idx6)=%d bg(idx15)=%d", fg, shadow, counts[15] or 0))
+  F.check("the message line is drawn in its own colours, not the box's",
+    bad == 0, "illegal " .. badWhich)
 
   -- Dismiss it and require that it actually tears down rather than sitting there forever.
   F.press("A", 3); F.idle(30)

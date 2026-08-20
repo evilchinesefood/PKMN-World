@@ -5637,15 +5637,26 @@ static bool32 RunLevelUpSummary(void)
         // Rows 3..14. It has to stop short of row 15, where B_WIN_MSG starts -- BG1 sits above
         // BG0 while the box is up, so a taller frame silently covers the "grew stronger!" text.
         HandleBattleWindow(14, 3, 29, 14, WINDOW_BG1);
+        DrawLevelUpSummaryWindow();
+        sLevelUpSummaryState = LVLUP_SUMMARY_DRAW;
+        return TRUE;
+    case LVLUP_SUMMARY_DRAW:
+        // THE BOX IS DRAWN FIRST AND THE MESSAGE SECOND, AND THAT ORDER IS LOAD-BEARING.
+        // AddTextPrinter (text.c) bakes the printer's colours into one *global* table,
+        // sFontHalfRowLookupTable, and RenderText only ever regenerates it for an in-string colour
+        // code -- never when it resumes a different printer. B_WIN_MSG types a character per frame
+        // from RunTextPrinters, so any AddTextPrinter issued while it is still typing repaints
+        // every remaining glyph in that other window's colours. DrawLevelUpSummaryWindow prints on
+        // background index 14, which is the box's own dark fill in palette 5 but a muddy red in
+        // B_WIN_MSG's palette 0: printing the message first left "Y" correct and put a red block
+        // behind "our team grew stronger!". Nothing else prints text between here and the press,
+        // so with the message going up last its colours are the ones left in the table.
+        //
         // Printed straight into the message window rather than through the battle script's
         // printstring: this runs after the controllers are gone, and the text carries no \p, so it
         // sits there without demanding a press of its own. One A press dismisses text and box both.
         StringCopy(gDisplayedStringBattle, sText_YourTeamGrewStronger);
         BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MSG);
-        sLevelUpSummaryState = LVLUP_SUMMARY_DRAW;
-        return TRUE;
-    case LVLUP_SUMMARY_DRAW:
-        DrawLevelUpSummaryWindow();
         sLevelUpSummaryState = LVLUP_SUMMARY_WAIT_DRAW;
         return TRUE;
     case LVLUP_SUMMARY_WAIT_DRAW:

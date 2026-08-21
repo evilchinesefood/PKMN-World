@@ -13,7 +13,6 @@ ReceptionGate_EventScript_Janine::
     setflag FLAG_HIDE_ROUTE22_JANINE
     removeobject LOCALID_INDIGOJUNCTION_JANINE
     fadescreenswapbuffers FADE_FROM_BLACK
-    clearflag FLAG_HIDE_DOJO_JANINE
     release
     end
 

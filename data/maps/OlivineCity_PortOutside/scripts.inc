@@ -13,7 +13,6 @@ OlivineCity_PortOutside_EventScript_Sabrina::
     setflag FLAG_HIDE_OLIVINE_SABRINA
     removeobject LOCALID_OLIVINE_SABRINA
     fadescreenswapbuffers FADE_FROM_BLACK
-    clearflag FLAG_HIDE_DOJO_SABRINA
     release
     end
 

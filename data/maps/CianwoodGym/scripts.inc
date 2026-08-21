@@ -33,6 +33,9 @@ CianwoodGym_EventScript_Chuck::
 	faceplayer
 	@ Dojo-relocation branches removed: FLAG_HIDE_DOJO_CHUCK had no producer anywhere, so
 	@ the unset-check bounced EVERY player to the dojo teaser - Storm Badge unobtainable.
+	@ The flag itself is gone now (issue #101): the HGSS gym-leader rematch roster was never
+	@ ported, so all 8 FLAG_HIDE_DOJO_<leader> constants were clearflag-only, with no producer
+	@ and no reader. Removed rather than left as bait for a future reader.
 	goto_if_set FLAG_DEFEATED_CIANWOOD_GYM, CianwoodGym_EventScript_Chuck_Defeated
 	msgbox CianwoodGym_Text_ChuckIntro1, MSGBOX_DEFAULT
 	applymovement LOCALID_CIANWOOD_CHUCK, CianwoodGym_Movement_ChuckLeft
@@ -80,18 +83,6 @@ CianwoodGym_EventScript_GiveTM::
 	release
 	end
 
-CianwoodGym_EventScript_ChuckGotoDojo::
-	msgbox CianwoodGym_Text_ChuckGotoDojo, MSGBOX_DEFAULT
-	closemessage
-	clearflag FLAG_HIDE_DOJO_CHUCK
-	release
-	end
-
-CianwoodGym_Text_ChuckGotoDojo:
-	.string "WAHAHAHA {PLAYER}!\n"
-	.string "I'm in the middle of my training!\p"
-	.string "If you want another match, come to\n"
-	.string "the FIGHTING DOJO in SAFFRON!$"	
 
 CianwoodGym_EventScript_ChuckAtDojo::
 	msgbox CianwoodGym_Text_ChuckAtDojo, MSGBOX_DEFAULT

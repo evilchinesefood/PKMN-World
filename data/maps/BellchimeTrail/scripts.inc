@@ -13,7 +13,6 @@ BellchimeTrail_EventScript_Morty::
 	setflag FLAG_HIDE_BELLCHIME_MORTY
 	removeobject LOCALID_BELLCHIME_MORTY
 	fadescreenswapbuffers FADE_FROM_BLACK
-	clearflag FLAG_HIDE_DOJO_MORTY
 	release
 	end
 

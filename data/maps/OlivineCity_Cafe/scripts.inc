@@ -12,7 +12,6 @@ OlivineCity_Cafe_EventScript_Jasmine::
 	setflag FLAG_HIDE_CAFE_JASMINE
 	removeobject LOCALID_CAFE_JASMINE
 	fadescreenswapbuffers FADE_FROM_BLACK
-	clearflag FLAG_HIDE_DOJO_JASMINE
 	release
 	end
 

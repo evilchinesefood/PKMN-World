@@ -18,7 +18,6 @@ DragonsDen_EventScript_ClairRematch::
     setflag FLAG_HIDE_DEN_CLAIR
     removeobject LOCALID_DEN_CLAIR
     fadescreenswapbuffers FADE_FROM_BLACK
-    clearflag FLAG_HIDE_DOJO_CLAIR
     release
     end
 

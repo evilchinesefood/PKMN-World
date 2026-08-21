@@ -92,8 +92,13 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	call_if_unset FLAG_CAUGHT_LUGIA, JohtoHoF_RespawnLugia
 	call_if_unset FLAG_CAUGHT_HO_OH, JohtoHoF_RespawnHoOh
 	call JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers
-	@ Sightings 4-8 were never ported (producers max at 3); Celebi's retry must include
-	@ players who fainted/fled it, not only successful catchers.
+	@ Sightings 4-8 are deliberately CUT, not pending (issue #102, owner call). Upstream's
+	@ states 4-8 live on HGSS-styled Kanto maps; ours are VermilionCity_Frlg, Route14_Frlg,
+	@ CeruleanCity_Gym_Frlg and Route25_Frlg, so every LOCALID, coord trigger, movement path
+	@ and map.json entry would be new authorship rather than a port - ~500 lines. Suicune is
+	@ already catchable via the static Route25_Frlg spawn below, so this was a missing
+	@ questline, never a softlock. Producers stop at 3 on purpose; do not "fix" the ladder.
+	@ Celebi's retry must include players who fainted/fled it, not only successful catchers.
 	call_if_ge VAR_SUICUNE_ENCOUNTERS, 3, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune
 	call_if_ge VAR_AZALEA_TOWN_STATE, 10, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi
 	@ DEFEATED-only clears, matching Hoenn's hall_of_fame.inc and this script's own header rule

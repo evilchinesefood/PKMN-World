@@ -113,6 +113,11 @@ original sources.
 - **Johto badge sheet** — `graphics/trainer_card/johto/badges.png` (Zephyr through Rising, as
   drawn on the trainer card's JOHTO page) is HnS's own `graphics/trainer_card/badges.png`,
   re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index preserved.
+- **Eusine art** — `graphics/trainers/front_pics/eusine.png` is HnS's own front pic, shipped
+  byte-for-byte. `graphics/object_events/pics/people/eusine.png` and
+  `graphics/object_events/palettes/eusine.pal` are HnS's overworld sprite and palette; the
+  sprite was re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index
+  preserved, and the palette ships unchanged.
 - **Mapping references** — **Crystal Advance** (*Kertra*), **Fire Gold** (*blackfragrant*),
   and **SkidMarc25**, credited by HnS for the maps carried over here.
 - **Sprites** — **Cesare_CBass**, **AveonTrainer**, **PurpleZaffre**, and **BatimaTheBat**,
@@ -129,7 +134,7 @@ original sources.
   on, and so the base the Johto content was originally authored against. (Pokémon World itself
   sits on pokeemerald-expansion — see [Base engine](#base-engine) above.)
 
-As further HnS content lands here — music, NPC sprites, Eusine art, the badge sheet — extend
+As further HnS content lands here — music, NPC sprites, the badge sheet — extend
 this block rather than starting a new one.
 
 ### Kanto region — FRLG content (pret lineage)

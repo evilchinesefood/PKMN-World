@@ -170,6 +170,24 @@ ifeq ($(RELEASE),1)
 		LTO := 1
 	endif
 endif
+
+# Build stamp (issue #109) -- the version string src/main_menu.c paints on the main menu.
+#
+# `git describe --tags --always --dirty` already covers every case we care about:
+#   exact tag        -> "v1.4"
+#   commits past one -> "v1.4-87-g936e1a7c00"
+#   detached HEAD    -> same output; describe names the commit, not the branch
+#   shallow/tagless  -> --always degrades to the abbreviated hash
+#   uncommitted work -> --dirty appends "-dirty"
+# The -ef guard stops a source drop that happens to sit inside somebody else's
+# repository from being stamped with THAT repository's version (-ef compares
+# device/inode, so a symlinked checkout path still matches).
+# `tr -cd` drops the trailing newline and anything outside [A-Za-z0-9.-]: those are
+# the characters that are safe inside the single-quoted -D below AND that charmap.txt
+# has glyphs for. No git, or no repository at all, leaves PW_VERSION empty and no -D
+# is passed; src/main_menu.c then uses its own hardcoded fallback.
+PW_VERSION := $(shell test "$$(git -C "$(CURDIR)" rev-parse --show-toplevel 2>/dev/null)" -ef "$(CURDIR)" && git -C "$(CURDIR)" describe --tags --always --dirty 2>/dev/null | tr -cd 'A-Za-z0-9.-')
+
 ARMCC := $(PREFIX)gcc
 PATH_ARMCC := PATH="$(PATH)" $(ARMCC)
 CC1 := $(shell $(PATH_ARMCC) --print-prog-name=cc1) -quiet
@@ -545,6 +563,27 @@ $(C_BUILDDIR)/data.o: CFLAGS += -fno-show-column -fno-diagnostics-show-caret
 
 # Needed for parity with pret
 $(C_BUILDDIR)/graphics.o: override CFLAGS += -Wno-missing-braces
+
+# Build stamp (issue #109). Only src/main_menu.c is given -DPW_VERSION, so a new commit
+# rebuilds exactly one object rather than every translation unit in the ROM. Nothing in
+# this Makefile fingerprints the compiler flags, though, so the define on its own would
+# never make anything out of date and the stamp would silently go stale; pw_version.stamp
+# is rewritten only when the string actually changes, and main_menu.o -- alone -- depends
+# on it. PW_VERSION empty (no git / no repository) means no -D at all and src/main_menu.c
+# falls back to its own hardcoded value.
+PW_VERSION_STAMP := $(OBJ_DIR)/pw_version.stamp
+
+.PHONY: pw_version_check
+pw_version_check: ;
+
+$(PW_VERSION_STAMP): pw_version_check
+	@mkdir -p $(@D)
+	@{ [ -f $@ ] && [ "$$(cat $@)" = '$(PW_VERSION)' ]; } || echo '$(PW_VERSION)' > $@
+
+$(C_BUILDDIR)/main_menu.o: $(PW_VERSION_STAMP)
+ifneq ($(PW_VERSION),)
+$(C_BUILDDIR)/main_menu.o: override CPPFLAGS += -DPW_VERSION='"$(PW_VERSION)"'
+endif
 
 # Dependency rules (for the *.c & *.s sources to .o files)
 # Have to be explicit or else missing files won't be reported.

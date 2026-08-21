@@ -112,6 +112,23 @@ EventScript_ResetAllBerries::
 	setberrytree BERRY_TREE_ROUTE_130_LIECHI, BERRY_ID_LIECHI, BERRY_STAGE_BERRIES
 	return
 
+	@ Johto (issue #104 follow-up). These 11 trees used to share BERRY_TREE_ROUTE_102_ORAN,
+	@ _PECHA and BERRY_TREE_ROUTE_118_SITRUS_1 with live Hoenn trees, so one save slot backed
+	@ several trees at once and harvesting in Johto emptied Hoenn. The dedicated slots 90-100
+	@ already existed for exactly this and were completely unused; each tree now owns one, and
+	@ is seeded with the berry its slot is named for.
+	setberrytree BERRY_TREE_JOHTO_CHERI_1,   BERRY_ID_CHERI,  BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_CHERI_2,   BERRY_ID_CHERI,  BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_RAWST_1,   BERRY_ID_RAWST,  BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_RAWST_2,   BERRY_ID_RAWST,  BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_SITRUS_1,  BERRY_ID_SITRUS, BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_ASPEAR_1,  BERRY_ID_ASPEAR, BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_ASPEAR_2,  BERRY_ID_ASPEAR, BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_CHESTO_2,  BERRY_ID_CHESTO, BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_LEPPA_1,   BERRY_ID_LEPPA,  BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_LEPPA_2,   BERRY_ID_LEPPA,  BERRY_STAGE_BERRIES
+	setberrytree BERRY_TREE_JOHTO_LUM_1,     BERRY_ID_LUM,    BERRY_STAGE_BERRIES
+
 EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_CONTEST_POKE_BALL
 	setflag FLAG_HIDE_ROUTE_111_VICTORIA_WINSTRATE

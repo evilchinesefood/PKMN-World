@@ -147,6 +147,14 @@ enum __attribute__((__packed__)) Flavor
 // of the 128-slot berryTrees[] array (no save growth). They were aliased onto Hoenn Route-10x
 // trees in johto_compat.h, so harvesting/planting a Johto tree mutated the shared Hoenn slot -
 // breaking per-region isolation (deep-review task 14).
+//
+// NOTE: allocating these constants was only half the job, and for a long time it was the only
+// half that had been done - every one of these 11 slots sat unused while 11 Johto trees stayed
+// on BERRY_TREE_ROUTE_102_ORAN / _PECHA / BERRY_TREE_ROUTE_118_SITRUS_1, which are live Hoenn
+// trees. The map.json objects are now repointed here and seeded in data/scripts/new_game.inc.
+// If you add a Johto tree, give it its own slot AND a setberrytree line: a shared id is a
+// shared save slot, and the symptom (several trees behaving as one, across two regions) is
+// invisible until someone harvests.
 #define BERRY_TREE_JOHTO_CHERI_1      90
 #define BERRY_TREE_JOHTO_CHERI_2      91
 #define BERRY_TREE_JOHTO_RAWST_1      92

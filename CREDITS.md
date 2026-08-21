@@ -81,10 +81,56 @@ through the Johto League and Mt. Silver — was ported from
 **[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
 ("Pokémon Heart & Soul"), a pokeemerald-based Johto remake.
 
+HnS is not merely an influence on this project's Johto content — it is its **upstream**.
+The Johto assets in the shipped ROM are HnS's own files, unmodified. Every Johto tileset
+that exists in both trees is md5-identical across all of its files — `johto_general`,
+`johto_building`, `ecruteak_city` (and its gym), `goldenrod` (and its station, game corner,
+department store and three underground sets), `burned_tower`, `whirl_islands`, the three
+`ruins_of_alph_*` sets, `national_park`, `ilex_forest`, `lighthouse`, `cave_ice`, and
+`mt_silver_snow` — matching file for file even where this tree renamed the directory, as are
+the Johto region map in both its Poké Nav and Pokédex copies and the Johto door animations.
+The Johto map scripts are near-identical, most differing from HnS's by only a handful of
+lines out of several hundred.
+
 - **The Pokémon Heart & Soul development team and contributors** — authors of the
   Johto maps, scripts, data, engine pieces, and trainer portrait art this port is built from, including
   the Ruins of Alph sliding-puzzle engine, the National Park Bug-Catching Contest
   engine, and the Johto roamer routes.
+  - **Lil Dill** — HnS lead developer and game director.
+  - **TixoRebel**, **InfiniteBacon42**, **Exclsior**, **Phantonomy**, **DaniRainbow** —
+    HnS developers.
+
+#### Pass-through credits from Heart & Soul
+
+Because that art ships here unchanged, the credits HnS gives to its own sources are owed by
+this project too. The following is passed through from HnS's
+[credits section](https://github.com/PokemonHnS-Development/pokemonHnS#credits); where this
+list and theirs disagree, theirs is the authority, and it should be followed on to the
+original sources.
+
+- **Tilesets** — **Crystal Advance** (*Kertra*), **Ekat99**, **TheDeadHeroAlistair**, and the
+  **Johto Redrawn Team**. This is the art this project ships byte-for-byte.
+- **Johto badge sheet** — `graphics/trainer_card/johto/badges.png` (Zephyr through Rising, as
+  drawn on the trainer card's JOHTO page) is HnS's own `graphics/trainer_card/badges.png`,
+  re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index preserved.
+- **Mapping references** — **Crystal Advance** (*Kertra*), **Fire Gold** (*blackfragrant*),
+  and **SkidMarc25**, credited by HnS for the maps carried over here.
+- **Sprites** — **Cesare_CBass**, **AveonTrainer**, **PurpleZaffre**, and **BatimaTheBat**,
+  credited by HnS for the sprite art this port's Johto trainer and overworld graphics derive
+  from.
+- **Trainer and encounter design** — **Crystal Legacy** by **TSP (TheSmithPlays)**, cited by
+  HnS as the basis for the trainer teams and wild encounters that came across with the Johto
+  campaign.
+- **Surfing Pokémon overworlds** — **slawter666** and **wally-217**. Listed for completeness:
+  HnS's surfable-Pokémon overworld set is *not* currently shipped here (this project's surf
+  mount uses the expansion's own follower sprites via `OW_SURF_USES_MON_SPRITE`). If that art
+  is imported later, the credit is already in place.
+- **Engine lineage** — **Modern Emerald** by **resetes12**, the pokeemerald base HnS is built
+  on, and so the base the Johto content was originally authored against. (Pokémon World itself
+  sits on pokeemerald-expansion — see [Base engine](#base-engine) above.)
+
+As further HnS content lands here — music, NPC sprites, Eusine art, the badge sheet — extend
+this block rather than starting a new one.
 
 ### Kanto region — FRLG content (pret lineage)
 

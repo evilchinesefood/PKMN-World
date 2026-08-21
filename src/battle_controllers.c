@@ -3371,7 +3371,7 @@ void SetFinalChosenTarget(enum BattlerId battler, bool32 partner)
         chosenTarget = BATTLE_PARTNER(battler);
         break;
     case TARGET_USER_OR_ALLY: // AI could have chosen opponent as the target because of the way the score system works
-        if (!IsBattlerAlly(battler, chosenTarget))
+        if (!IsBattlerAlly(battler, chosenTarget) || !IsBattlerAlive(BATTLE_PARTNER(battler)))
             chosenTarget = battler;
         break;
     case TARGET_USER:

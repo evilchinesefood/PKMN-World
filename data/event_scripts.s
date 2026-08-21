@@ -1251,6 +1251,7 @@ gStdScripts_End::
 	.include "data/maps/SafariZone_Low_Left/scripts.inc"
 	.include "data/maps/SafariZone_Low_Mid/scripts.inc"
 	.include "data/maps/SafariZone_Low_Right/scripts.inc"
+	.include "data/maps/SafariZone_Top_Left/scripts.inc"
 	.include "data/maps/SafariZone_Top_Mid/scripts.inc"
 	.include "data/maps/SafariZone_Top_Right/scripts.inc"
 	.include "data/maps/SafariZone1/scripts.inc"

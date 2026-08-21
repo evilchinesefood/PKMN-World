@@ -13533,6 +13533,19 @@
       "border_filepath": "data/layouts/VermilionCity_PortInside/border.bin",
       "blockdata_filepath": "data/layouts/VermilionCity_PortInside/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_SAFARI_ZONE_TOP_LEFT",
+      "name": "SafariZone_Top_Left_Layout",
+      "width": 30,
+      "height": 30,
+      "border_width": 0,
+      "border_height": 0,
+      "primary_tileset": "gTileset_Johto_NorthEast",
+      "secondary_tileset": "gTileset_SafariZoneJohto",
+      "border_filepath": "data/layouts/SafariZone_Top_Left/border.bin",
+      "blockdata_filepath": "data/layouts/SafariZone_Top_Left/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

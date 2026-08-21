@@ -52490,6 +52490,95 @@
           }
         },
         {
+          "map": "MAP_SAFARI_ZONE_TOP_LEFT",
+          "base_label": "gSafariZone_Top_Left0",
+          "land_mons": {
+            "encounter_rate": 20,
+            "mons": [
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_EKANS"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_PONYTA"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_YANMA"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_SCYTHER"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_KANGASKHAN"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_YANMA"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_YANMA"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_SCYTHER"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_PINSIR"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_SCYTHER"
+              },
+              {
+                "min_level": 19,
+                "max_level": 26,
+                "species": "SPECIES_PINSIR"
+              }
+            ]
+          },
+          "hidden_mons": {
+            "encounter_rate": 0,
+            "mons": [
+              {
+                "min_level": 27,
+                "max_level": 29,
+                "species": "SPECIES_KANGASKHAN"
+              },
+              {
+                "min_level": 27,
+                "max_level": 29,
+                "species": "SPECIES_SCYTHER"
+              },
+              {
+                "min_level": 27,
+                "max_level": 29,
+                "species": "SPECIES_PINSIR"
+              }
+            ]
+          }
+        },
+        {
           "map": "MAP_SAFARI_ZONE_TOP_MID",
           "base_label": "gSafariZone_Top_Mid0",
           "land_mons": {

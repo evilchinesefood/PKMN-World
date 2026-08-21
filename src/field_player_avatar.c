@@ -923,8 +923,18 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
     ResetSpinTimer(); // Everything below will move the player a space, reset the timer.
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
     {
-        // speed 2 is fast, same speed as running
-        PlayerWalkFast(direction);
+        // Plain surfing emits WALK_FAST, i.e. MOVE_SPEED_FAST_1 - the same 8 frames per
+        // tile as running on foot. AUTO RUN (or holding B when it is off) upgrades that
+        // to the water-current action, MOVE_SPEED_FAST_2, which crosses a tile in 6
+        // frames. Same XOR polarity as the on-foot check below, so one option governs
+        // both. Deliberately unlike the on-foot check, this does not consult
+        // FLAG_SYS_B_DASH or IsRunningDisallowed: Surf is earned long after the Running
+        // Shoes, and IsRunningDisallowed reads land metatiles and the map's allowRunning,
+        // which would wrongly veto fast surf on indoor water such as cave lakes.
+        if (((heldKeys & B_BUTTON) != 0) ^ gSaveBlock2Ptr->optionsAutoRun)
+            PlayerRideWaterCurrent(direction);
+        else
+            PlayerWalkFast(direction);
         return;
     }
 

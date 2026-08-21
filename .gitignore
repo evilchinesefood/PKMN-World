@@ -98,3 +98,6 @@ Testing/lua/symbols.lua
 # delete these and the player save; plain `clean -fd` skips ignored entries)
 _pwtest/
 fixes.md
+
+# clangd index cache (generated from compile_flags.txt; never tracked)
+.cache/

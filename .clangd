@@ -1,0 +1,20 @@
+# clangd configuration, paired with compile_flags.txt.
+#
+# compile_flags.txt deliberately does NOT set --target=arm-none-eabi. It cannot:
+# include/global.h opens with `#include <string.h>` and `#include <limits.h>`, and
+# under an arm-none-eabi target clang has no newlib on its search path, so those
+# fail and every single translation unit collapses. Parsing against the host
+# target keeps headers resolving, at the cost of two false diagnostics that are
+# purely artefacts of the host ABI/object format. Suppress those, and only those.
+Diagnostics:
+  Suppress:
+    # STATIC_ASSERT(sizeof(struct SaveBlock2) == 0xF2C, ...) in include/global.h.
+    # arm-none-eabi-gcc defaults to -fshort-enums (1-byte enums); hosts use 4, so
+    # the save structs measure larger here than on target and the assert "fails".
+    # Passing -fshort-enums does not help - clang then rejects the wider enum
+    # bitfields in include/pokemon.h (`enum EggIds eggId:12`), which arm gcc allows.
+    # The real check still runs in the real build; only the editor's copy is wrong.
+    - decl_negative_array_size
+    # EWRAM_DATA / IWRAM_DATA expand to __attribute__((section(".ewram"))) etc.
+    # Mach-O requires "segment,section" so clang rejects the ELF-style name.
+    - attribute_section_invalid_for_target

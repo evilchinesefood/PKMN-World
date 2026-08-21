@@ -2807,6 +2807,8 @@ bool32 CheckMsgCondition(const struct MsgCondition *cond, struct Pokemon *mon, e
         if (multi)
             gSpecialVar_Result = multi;
         return multi;
+    case MSG_COND_OUTDOORS:
+        return IsMapTypeOutdoors(gMapHeader.mapType);
     case MSG_COND_NONE:
     // fallthrough
     default:

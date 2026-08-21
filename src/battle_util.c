@@ -7769,7 +7769,13 @@ static inline s32 DoFutureSightAttackDamageCalc(struct DamageContext *ctx)
     ctx->isCrit = IsCriticalHit(ctx);
 
     if (ctx->typeEffectivenessModifier == UQ_4_12(0.0))
+    {
+        // Must restore before the early return: gBattleMons[battlerAtk] currently
+        // holds the PokemonToBattleMon() copy of the stored party mon, and the
+        // snapshot block would otherwise leak for the rest of the battle.
+        FreeRestoreBattleMons(savedBattleMons);
         return 0;
+    }
 
     s32 dmg = DoMoveDamageCalc(ctx);
 

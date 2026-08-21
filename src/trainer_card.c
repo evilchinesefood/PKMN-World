@@ -129,6 +129,8 @@ static void SetDataFromTrainerCard(void);
 static u8 CardPageForRegion(enum Region region);
 static void ReadBadgesForPage(u8 page);
 static void RedrawBadgesForPage(void);
+static const u32 *GetBadgeGfxForPage(void);
+static void ReloadBadgeGfxForPage(void);
 static void PrintRegionLabelOnCard(void);
 static void InitGpuRegs(void);
 static void ResetGpuRegs(void);
@@ -200,6 +202,10 @@ static const u16 sTrainerCardSticker3_Pal[]      = INCGFX_U16("graphics/trainer_
 static const u16 sTrainerCardSticker4_Pal[]      = INCGFX_U16("graphics/trainer_card/frlg/stickers4.pal", ".gbapal");
 static const u32 sHoennTrainerCardBadges_Gfx[]   = INCGFX_U32("graphics/trainer_card/badges.png", ".4bpp.smol");
 static const u32 sKantoTrainerCardBadges_Gfx[]   = INCGFX_U32("graphics/trainer_card/frlg/badges.png", ".4bpp.smol");
+static const u32 sJohtoTrainerCardBadges_Gfx[]   = INCGFX_U32("graphics/trainer_card/johto/badges.png", ".4bpp.smol");
+// No sJohtoTrainerCardBadges_Pal: all three badge sheets ship the same 16-entry PLTE (the badges are
+// drawn in a shared greyscale ramp), so BG palette 3 is region-independent and is still loaded once
+// from the cardType-selected sheet in SetCardBgsAndPals. Only the tiles differ per page.
 
 static const struct BgTemplate sTrainerCardBgTemplates[4] =
 {
@@ -482,6 +488,7 @@ static void Task_TrainerCard(u8 taskId)
             else
                 sData->badgePage = (sData->badgePage + NUM_CARD_REGIONS - 1) % NUM_CARD_REGIONS;
             ReadBadgesForPage(sData->badgePage);
+            ReloadBadgeGfxForPage(); // must precede RedrawBadgesForPage - see comment there
             RedrawBadgesForPage();
             PrintRegionLabelOnCard();
             DrawTrainerCardWindow(WIN_CARD_TEXT);
@@ -606,10 +613,8 @@ static bool8 LoadCardGfx(void)
         }
         break;
     case 3:
-        if (sData->cardType != CARD_TYPE_FRLG)
-            DecompressDataWithHeaderWram(sHoennTrainerCardBadges_Gfx, sData->badgeTiles);
-        else
-            DecompressDataWithHeaderWram(sKantoTrainerCardBadges_Gfx, sData->badgeTiles);
+        // Staged only; SetCardBgsAndPals case 0 does the upload once bg3 is visible.
+        DecompressDataWithHeaderWram(GetBadgeGfxForPage(), sData->badgeTiles);
         break;
     case 4:
         if (sData->cardType != CARD_TYPE_FRLG)
@@ -908,6 +913,44 @@ static void ReadBadgesForPage(u8 page)
         if (FlagGet(flag))
             sData->badgeCount[i] = 1;
     }
+}
+
+// Region merge (RG2): the badge artwork follows the page, not the card type. The FRLG check comes
+// first and is what keeps link cards byte-identical to before: a link card never flips pages (the
+// handler is gated on !sData->isLink) and always sits on the Hoenn page, so keying purely off the
+// page would hand an FRLG partner's card the Hoenn sheet instead of the Kanto one it shows today.
+static const u32 *GetBadgeGfxForPage(void)
+{
+    if (sData->cardType == CARD_TYPE_FRLG)
+        return sKantoTrainerCardBadges_Gfx;
+
+    switch (sCardRegions[sData->badgePage])
+    {
+    case REGION_KANTO:
+        return sKantoTrainerCardBadges_Gfx;
+    case REGION_JOHTO:
+        return sJohtoTrainerCardBadges_Gfx;
+    default:
+        return sHoennTrainerCardBadges_Gfx;
+    }
+}
+
+// Re-stages and re-uploads the 32 badge tiles after a page flip.
+//
+// This cannot tear. DecompressDataWithHeaderWram fills the EWRAM staging buffer synchronously, so
+// sData->badgeTiles always holds one complete sheet; LoadBgTiles then only *queues* a single DMA3
+// request (bg.c -> LoadBgVram -> RequestDma3Copy), and ProcessDma3Requests executes a request whole
+// or not at all - it checks its budget and VCOUNT before starting one and never splits it. So the
+// badge window (BG_VRAM + 0x1800, exactly 0x400 bytes, tiles 192-223) is never seen half-updated,
+// and it abuts nothing else: card tiles end at 0x17FF, mon icons start at 0x1C00.
+//
+// Called before RedrawBadgesForPage so the tile upload is queued ahead of that function's
+// CopyBgTilemapBufferToVram(3); the FIFO then guarantees the art can never lag the tilemap that
+// references it, even if the two land in different VBlanks.
+static void ReloadBadgeGfxForPage(void)
+{
+    DecompressDataWithHeaderWram(GetBadgeGfxForPage(), sData->badgeTiles);
+    LoadBgTiles(3, sData->badgeTiles, ARRAY_COUNT(sData->badgeTiles), 0);
 }
 
 // Clears the badge row and redraws the current page's badges (stars stay constant).

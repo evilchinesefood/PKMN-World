@@ -389,6 +389,27 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysN;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MagnetTrain;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Eusine;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Falkner;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Bugsy;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Whitney;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Morty;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Chuck;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Jasmine;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Pryce;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Clair;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Will;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Karen;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Janine;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ProfElm;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Kurt;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_KurtLyingDown;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_KimonoGirl;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Archer;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Ariana;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Petrel;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Proton;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Firebreather;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sage;
 // Begin Pokémon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Follower;
@@ -794,6 +815,27 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_SS_ANNE]                  = &gObjectEventGraphicsInfo_SSAnne,
     [OBJ_EVENT_GFX_MAGNET_TRAIN]             = &gObjectEventGraphicsInfo_MagnetTrain,
     [OBJ_EVENT_GFX_EUSINE]                   = &gObjectEventGraphicsInfo_Eusine,
+    [OBJ_EVENT_GFX_FALKNER]                  = &gObjectEventGraphicsInfo_Falkner,
+    [OBJ_EVENT_GFX_BUGSY]                    = &gObjectEventGraphicsInfo_Bugsy,
+    [OBJ_EVENT_GFX_WHITNEY]                  = &gObjectEventGraphicsInfo_Whitney,
+    [OBJ_EVENT_GFX_MORTY]                    = &gObjectEventGraphicsInfo_Morty,
+    [OBJ_EVENT_GFX_CHUCK]                    = &gObjectEventGraphicsInfo_Chuck,
+    [OBJ_EVENT_GFX_JASMINE]                  = &gObjectEventGraphicsInfo_Jasmine,
+    [OBJ_EVENT_GFX_PRYCE]                    = &gObjectEventGraphicsInfo_Pryce,
+    [OBJ_EVENT_GFX_CLAIR]                    = &gObjectEventGraphicsInfo_Clair,
+    [OBJ_EVENT_GFX_WILL]                     = &gObjectEventGraphicsInfo_Will,
+    [OBJ_EVENT_GFX_KAREN]                    = &gObjectEventGraphicsInfo_Karen,
+    [OBJ_EVENT_GFX_JANINE]                   = &gObjectEventGraphicsInfo_Janine,
+    [OBJ_EVENT_GFX_PROF_ELM]                 = &gObjectEventGraphicsInfo_ProfElm,
+    [OBJ_EVENT_GFX_KURT]                     = &gObjectEventGraphicsInfo_Kurt,
+    [OBJ_EVENT_GFX_KURT_LYING_DOWN]          = &gObjectEventGraphicsInfo_KurtLyingDown,
+    [OBJ_EVENT_GFX_KIMONO_GIRL]              = &gObjectEventGraphicsInfo_KimonoGirl,
+    [OBJ_EVENT_GFX_ARCHER]                   = &gObjectEventGraphicsInfo_Archer,
+    [OBJ_EVENT_GFX_ARIANA]                   = &gObjectEventGraphicsInfo_Ariana,
+    [OBJ_EVENT_GFX_PETREL]                   = &gObjectEventGraphicsInfo_Petrel,
+    [OBJ_EVENT_GFX_PROTON]                   = &gObjectEventGraphicsInfo_Proton,
+    [OBJ_EVENT_GFX_FIREBREATHER]             = &gObjectEventGraphicsInfo_Firebreather,
+    [OBJ_EVENT_GFX_SAGE]                     = &gObjectEventGraphicsInfo_Sage,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

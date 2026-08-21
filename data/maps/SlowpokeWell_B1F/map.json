@@ -121,7 +121,7 @@
     {
       "local_id": "LOCALID_SLOWPOKE_WELL_KURT_LYING",
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_LYING_DOWN",
+      "graphics_id": "OBJ_EVENT_GFX_KURT_LYING_DOWN",
       "x": 27,
       "y": 26,
       "elevation": 0,
@@ -166,7 +166,7 @@
     {
       "local_id": "LOCALID_SLOWPOKE_WELL_PROTON",
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
+      "graphics_id": "OBJ_EVENT_GFX_PROTON",
       "x": 14,
       "y": 3,
       "elevation": 0,
@@ -261,7 +261,7 @@
     {
       "local_id": "LOCALID_SLOWPOKE_WELL_KURT",
       "type": "object",
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_KURT",
       "x": 14,
       "y": 8,
       "elevation": 0,

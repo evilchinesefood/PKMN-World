@@ -118,6 +118,19 @@ original sources.
   `graphics/object_events/palettes/eusine.pal` are HnS's overworld sprite and palette; the
   sprite was re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index
   preserved, and the palette ships unchanged.
+- **Johto overworld cast** — the overworld sprites and palettes for the eight Johto gym
+  leaders, Will, Karen, Professor Elm, Kurt, the Kimono Girl, Silver, Janine, the four Team
+  Rocket executives, the Sage and the Firebreather are HnS's own
+  `graphics/object_events/pics/people/` and `graphics/object_events/palettes/` files. So are
+  the nine-frame walking sheets that replace this project's three-frame FRLG stills for
+  Brock, Misty, Lt. Surge, Erika, Sabrina, Blaine and Lance. Where HnS stores a sheet 8-bit
+  indexed it was re-encoded to 4-bit with its palette and every pixel index preserved —
+  `gbagfx` output from HnS's file and from ours is byte-identical. Every palette ships
+  unchanged.
+- **Johto trainer front pics** — `archer`, `ariana`, `petrel`, `proton`, `firebreather`,
+  `sage`, `sage_leader`, `kimono_girl` and `officer` in `graphics/trainers/front_pics/` are
+  HnS's own front pics, shipped byte-for-byte apart from the same lossless 8-bit-to-4-bit
+  re-encode where HnS stored them 8-bit.
 - **Mapping references** — **Crystal Advance** (*Kertra*), **Fire Gold** (*blackfragrant*),
   and **SkidMarc25**, credited by HnS for the maps carried over here.
 - **Sprites** — **Cesare_CBass**, **AveonTrainer**, **PurpleZaffre**, and **BatimaTheBat**,

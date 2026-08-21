@@ -2243,7 +2243,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         //TODO
         break;
     case EFFECT_LOCK_ON:
-        if (gBattleMons[battlerAtk].volatiles.battlerWithSureHit == battlerDef + 1
+        if (gBattleMons[battlerAtk].volatiles.battlerWithSureHit != 0
           || aiData->abilities[battlerAtk] == ABILITY_NO_GUARD
           || aiData->abilities[battlerDef] == ABILITY_NO_GUARD
           || DoesPartnerHaveSameMoveEffect(BATTLE_PARTNER(battlerAtk), battlerDef, move, aiData->partnerMove))
@@ -5691,6 +5691,7 @@ static s32 AI_CalcAdditionalEffectScore(enum BattlerId battlerAtk, enum BattlerI
 
                     ADJUST_SCORE(IncreaseStatUpScore(battlerAtk, battlerDef, stat, stage));
                 }
+                break;
             case MOVE_EFFECT_STAT_MINUS:
                 for (enum Stat stat = STAT_ATK; stat < NUM_BATTLE_STATS; stat++)
                 {
@@ -5906,6 +5907,12 @@ static s32 AI_CheckViability(enum BattlerId battlerAtk, enum BattlerId battlerDe
                 ADJUST_SCORE(BEST_DAMAGE_MOVE);
         }
     }
+
+    if (IsDoubleBattle()
+     && AI_GetBattlerMoveTargetType(battlerAtk, move) == TARGET_SELECTED
+     && !IsBattleMoveStatus(move)
+     && gBattleMons[battlerAtk].volatiles.battlerWithSureHit == battlerDef + 1)
+        ADJUST_SCORE(WEAK_EFFECT);
 
     ADJUST_SCORE(AI_CalcMoveEffectScore(battlerAtk, battlerDef, move, aiData));
     ADJUST_SCORE(AI_CalcAdditionalEffectScore(battlerAtk, battlerDef, move, aiData));

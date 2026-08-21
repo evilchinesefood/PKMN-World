@@ -324,7 +324,8 @@ static const u8 sText_BuildStamp[] = _(PW_VERSION);
 // CONTINUE/NEW GAME/OPTION layout owns rows 0-15. Rows 16-19 are free in both; row 18
 // leaves a two-row gap under the OPTION frame and sits flush with the screen bottom.
 // (The MYSTERY GIFT/EVENTS layouts fill all 20 rows -- they get no stamp, see
-// MainMenu_PrintBuildStamp.) Right edge is shared with the menu frames' right edge.
+// MainMenu_PrintBuildStamp.) Columns match the menu boxes' content, so the right-aligned
+// text lines up with the right edge of the text inside them, not with their frame.
 #define MENU_WIN_VERSION 8
 #define MENU_LEFT_VERSION MENU_LEFT
 #define MENU_TOP_VERSION 18
@@ -424,7 +425,10 @@ static const struct WindowTemplate sWindowTemplates_MainMenu[] =
     // Build stamp. Never framed, so DrawMainMenuWindowBorder is not called for it.
     // The error window above ends at 0x16D + 26*4 = 0x1D5, and MAIN_MENU_BORDER_TILE
     // puts the 9 frame tiles (0x120 bytes) LoadMainMenuWindowFrameTiles loads at
-    // 0x1D5..0x1DD, so the first free tile is 0x1DE.
+    // 0x1D5..0x1DD, so the first free tile is 0x1DE. These hand-picked baseBlocks are
+    // only honoured because InitMainMenu passes 0 to ResetBgsAndClearDma3BusyFlags:
+    // with gWindowTileAutoAllocEnabled set, InitWindowsUnchecked overwrites every
+    // baseBlock and would hand some window the frame tiles at 0x1D5.
     [MENU_WIN_VERSION] =
     {
         .bg = 0,
@@ -479,9 +483,12 @@ static const u16 sMainMenuTextPal[] = INCGFX_U16("graphics/interface/main_menu_t
 
 static const u8 sTextColor_Headers[] = {TEXT_DYNAMIC_COLOR_1, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_3};
 static const u8 sTextColor_MenuInfo[] = {TEXT_DYNAMIC_COLOR_1, TEXT_COLOR_WHITE, TEXT_DYNAMIC_COLOR_3};
-// Same glyph and shadow colours as sTextColor_Headers -- only the background differs.
+// Same glyph and shadow entries as sTextColor_Headers -- only the background differs.
 // The stamp has no frame, so it must not paint a white panel over the menu backdrop
 // (BG palette 0 colour 0, a light blue); a transparent background leaves just the text.
+// On screen it still reads darker than a menu header: the stamp always sits outside
+// WIN0 (which only ever covers the selected menu box), so BLDCNT's darken-BG0 effect
+// applies to its glyphs, while the backdrop showing through is not a blend target.
 static const u8 sTextColor_BuildStamp[] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_3};
 
 static const struct BgTemplate sMainMenuBgTemplates[] = {
@@ -847,14 +854,21 @@ static void Task_WaitForBatteryDryErrorWindow(u8 taskId)
 }
 
 // Draws the build stamp in the bottom-right corner, below every menu box.
-// Called only from Task_DisplayMainMenu, after the menu's own printers have run.
-// Every printer on this screen (this one and Task_DisplayMainMenu's) uses TEXT_SKIP_DRAW,
-// which AddTextPrinter renders to completion synchronously instead of parking an
-// entry in gTextPrinters -- so no printer is ever half-drawn when the next one calls
-// GenerateFontHalfRowLookupTable, and this stamp cannot recolour anything else.
-// The only animated printer on the main menu is the error window (window 7, speed 2),
-// and Task_WaitForSaveFileErrorWindow / Task_WaitForBatteryDryErrorWindow both wait
-// on IsTextPrinterActiveOnWindow(7) before handing control to Task_DisplayMainMenu.
+// Called only from Task_DisplayMainMenu, once its layout switch has finished.
+//
+// On colour safety: AddTextPrinter calls GenerateFontHalfRowLookupTable unconditionally,
+// BEFORE it branches on the speed, so this stamp clobbers that single global lookup table
+// exactly like every other printer does. What makes that harmless is that no printer is
+// ever left parked on this screen, not anything about this function:
+//   - InitMainMenu does ResetTasks + DeactivateAllTextPrinters, and CB2_MainMenu never
+//     calls RunTextPrinters, so the printer list starts and stays empty.
+//   - Every printer here passes TEXT_SKIP_DRAW, which takes AddTextPrinter's synchronous
+//     branch: the whole string is blitted into the window buffer before it returns, and
+//     pixels already in that buffer cannot be recoloured by a later table regeneration.
+//   - The one animated printer on this screen is the error window (window 7, speed 2);
+//     Task_WaitForSaveFileErrorWindow and Task_WaitForBatteryDryErrorWindow each gate on
+//     IsTextPrinterActiveOnWindow(7) before the task chain can reach Task_DisplayMainMenu.
+// Add an animated printer to the main menu and it is that invariant which breaks.
 static void MainMenu_PrintBuildStamp(void)
 {
     s32 x = GetStringRightAlignXOffset(FONT_SMALL, sText_BuildStamp, MENU_WIDTH_VERSION * 8);

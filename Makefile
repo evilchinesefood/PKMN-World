@@ -576,9 +576,15 @@ PW_VERSION_STAMP := $(OBJ_DIR)/pw_version.stamp
 .PHONY: pw_version_check
 pw_version_check: ;
 
+# The `rm -f` is not belt-and-braces: make 3.81 (what macOS ships) compares mtimes at
+# whole-second granularity, so a stamp rewritten in the same second as the previous
+# main_menu.o compile leaves the object looking up to date -- and because the stamp is
+# only rewritten when the string CHANGES, its mtime then stays frozen and no later
+# `make` recovers it. Deleting the object makes the rebuild independent of timestamps.
 $(PW_VERSION_STAMP): pw_version_check
 	@mkdir -p $(@D)
-	@{ [ -f $@ ] && [ "$$(cat $@)" = '$(PW_VERSION)' ]; } || echo '$(PW_VERSION)' > $@
+	@{ [ -f $@ ] && [ "$$(cat $@)" = '$(PW_VERSION)' ]; } \
+	  || { echo '$(PW_VERSION)' > $@; rm -f $(C_BUILDDIR)/main_menu.o; }
 
 $(C_BUILDDIR)/main_menu.o: $(PW_VERSION_STAMP)
 ifneq ($(PW_VERSION),)

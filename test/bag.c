@@ -163,3 +163,31 @@ TEST("Items are correctly sorted and compacted in the bag")
     EXPECT_EQ(pocket->itemSlots[5].itemId, ITEM_NONE);
     EXPECT_EQ(pocket->itemSlots[6].itemId, ITEM_NONE);
 }
+
+TEST("Removing across two stacks takes the requested total, not that total from each stack")
+{
+    struct BagPocket *pocket = &gBagPockets[POCKET_ITEMS];
+    memset(pocket->itemSlots, 0, sizeof(gSaveBlock1Ptr->bag.items));
+
+    ASSUME(GetItemPocket(ITEM_POTION) == POCKET_ITEMS);
+
+    // Two stacks of one item. additem() would merge them into a single slot, so build
+    // the split by hand - it is the state a bag reaches through ordinary stack-limit
+    // splitting, and the only state in which this bug is reachable.
+    BagPocket_SetSlotItemIdAndCount(pocket, 0, ITEM_POTION, 5);
+    BagPocket_SetSlotItemIdAndCount(pocket, 1, ITEM_POTION, 10);
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_POTION), 15);
+
+    EXPECT_EQ(RemoveBagItem(ITEM_POTION, 8), TRUE);
+
+    // 15 - 8 = 7. The full `count` used to be charged against every matching slot, so
+    // the first stack gave up all 5 AND the second gave up 8 - 13 removed, leaving 2.
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_POTION), 7);
+
+    // ...and the emptied first slot must not be left as a hole. The compaction guard
+    // used to test `totalQuantity == count`, which is false here (15 != 8), so the
+    // pocket kept a gap at slot 0 with the survivors stranded behind it.
+    EXPECT_EQ(pocket->itemSlots[0].itemId, ITEM_POTION);
+    EXPECT_EQ(pocket->itemSlots[0].quantity, 7);
+    EXPECT_EQ(pocket->itemSlots[1].itemId, ITEM_NONE);
+}

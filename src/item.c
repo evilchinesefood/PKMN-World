@@ -384,6 +384,11 @@ bool32 AddBagItem(enum Item itemId, u16 count)
 static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item itemId, u16 count)
 {
     u32 itemLookupIndex, itemRemoveIndex = 0, totalQuantity = 0;
+    // How much is still owed. Must be tracked across slots: `count` is the TOTAL to
+    // remove, so charging the full `count` against every matching slot over-removes
+    // whenever the item is split across more than one stack. Holding 5 and 10 and
+    // removing 8 used to take 5 from the first and 8 from the second - 13 in all.
+    u32 remainingToRemove = count;
     struct ItemSlot tempItem;
     u16 *tempPocketSlotQuantities = AllocZeroed(sizeof(u16) * pocket->capacity);
 
@@ -392,13 +397,16 @@ static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item i
         tempItem = BagPocket_GetSlotData(pocket, itemLookupIndex);
         if (tempItem.itemId == itemId)
         {
+            u32 takenFromSlot = (tempItem.quantity <= remainingToRemove) ? tempItem.quantity : remainingToRemove;
+
             // Index for the next loop - where we should start removing items
             if (!itemRemoveIndex)
                 itemRemoveIndex = itemLookupIndex + 1;
 
             // Gather quantities (+ 1 to tempPocketSlotQuantities so that even if setting to 0 we know which indices to target)
             totalQuantity += tempItem.quantity;
-            tempPocketSlotQuantities[itemLookupIndex] = (tempItem.quantity <= count ? 0 : tempItem.quantity - count) + 1;
+            remainingToRemove -= takenFromSlot;
+            tempPocketSlotQuantities[itemLookupIndex] = (tempItem.quantity - takenFromSlot) + 1;
         }
     }
 
@@ -418,7 +426,10 @@ static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item i
         }
     }
 
-    if (totalQuantity == count)
+    // Must match the >= used by the branch above that actually does the removing. With
+    // `==`, a removal that emptied an earlier slot while totalQuantity > count skipped
+    // compaction and left a hole mid-pocket.
+    if (totalQuantity >= count)
         BagPocket_CompactItems(pocket);
 
     Free(tempPocketSlotQuantities);

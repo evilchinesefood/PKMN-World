@@ -18,8 +18,14 @@ enum MugshotColor
     MUGSHOT_COLOR_PINK,
     MUGSHOT_COLOR_BLUE,
     MUGSHOT_COLOR_YELLOW,
+    MUGSHOT_COLOR_RED,
     MUGSHOT_COLOR_COUNT
 };
+
+// Trainer.mugshotColor is a 3-bit field (include/data.h), so MUGSHOT_COLOR_COUNT
+// must stay <= 8. One slot is still free; adding a ninth colour means widening
+// that bitfield and shrinking the padding beside it.
+STATIC_ASSERT(MUGSHOT_COLOR_COUNT <= 8, MugshotColorFitsInThreeBits);
 
 enum BattleTransition
 {

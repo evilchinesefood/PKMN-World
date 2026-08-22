@@ -458,12 +458,24 @@ obstacles:
 LUA_TESTDIR := Testing/lua
 LUA_SYMBOLS := $(LUA_TESTDIR)/symbols.lua
 
+# RELEASE builds do NOT generate the table (issue #124). Release enables LTO plus --gc-sections,
+# which drops the local symbols the generator requires (sSpritePaletteTags among them), so the
+# generator exits non-zero and takes the whole build down AFTER a perfectly good ROM has linked.
+# The Lua suites are a development tool aimed at the normal `make modern` ROM; a release ROM is
+# not what you debug against, so the right answer is to not ask for the table at all here.
+# `make symbols RELEASE=1` is still honoured — that is an explicit request, not a side effect.
+ifeq ($(RELEASE),1)
+ROM_LUA_SYMBOLS :=
+else
+ROM_LUA_SYMBOLS := $(LUA_SYMBOLS)
+endif
+
 # Other rules
 # symbols.lua is a prerequisite so `make -j12` alone keeps it fresh. It used to be reachable ONLY
 # via the standalone `make symbols` target, so the normal flow left it stale — and stale symbols
 # against a rebuilt ROM still boot and still report every test green, because gSaveblock3 is a
 # fixed EWRAM symbol. That pairing was the normal accident, not an edge case (issue #31).
-rom: $(ROM) $(LUA_SYMBOLS)
+rom: $(ROM) $(ROM_LUA_SYMBOLS)
 
 syms: $(SYM)
 
@@ -471,9 +483,15 @@ symbols: $(LUA_SYMBOLS)
 
 # Depends on the ROM as well as the ELF: the generator hashes the .gba so lib.new() can refuse to
 # run a suite against a ROM the symbol table was not generated from.
+#
+# Write to a temp file and rename only on success. A plain `> $@` truncates the previous table
+# before python3 even starts, so any generator failure left the Lua harness unrunnable until the
+# next good build (issue #124). .DELETE_ON_ERROR (see above) does not save us either — it only
+# removes a target it can see was rewritten; with the temp file $@'s mtime never moves, so a
+# failed run leaves the last known-good table exactly where it was.
 $(LUA_SYMBOLS): $(ELF) $(ROM) Testing/GenLuaSymbols.py
 	@mkdir -p $(LUA_TESTDIR)
-	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@
+	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@.tmp && mv -f $@.tmp $@ || { rm -f $@.tmp; exit 1; }
 	@echo "wrote $@"
 
 clean: tidy clean-tools clean-check-tools clean-generated clean-assets

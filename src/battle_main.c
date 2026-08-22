@@ -5723,6 +5723,12 @@ static void ReturnFromBattleToOverworld(void)
         UpdateRoamerHPStatus(&gParties[B_TRAINER_OPPONENT_A][0]);
         ZeroEnemyPartyMons();
 
+        // Record a CATCH before the slot is deactivated: SetRoamerInactive below is also
+        // used for a defeat, so it cannot distinguish the two. FLAG_CAUGHT_ENTEI/RAIKOU are
+        // what stops the Johto Hall of Fame rematch respawning a beast you already own.
+        if (gBattleOutcome == B_OUTCOME_CAUGHT)
+            MarkRoamerCaught(gEncounteredRoamerIndex);
+
 #ifndef BUGFIX
         // Bug: When Roar is used by a roamer, gBattleOutcome is B_OUTCOME_PLAYER_TELEPORTED (5),
         // which deactivates the roamer.

@@ -251,6 +251,68 @@ void InitJohtoBeastRoamers(void)
     TryAddRoamer(SPECIES_RAIKOU, 40);
 }
 
+static bool8 IsRoamerSpeciesActive(enum Species species)
+{
+    u32 i;
+
+    for (i = 0; i < ROAMER_COUNT; i++)
+    {
+        if (ROAMER(i)->active && ROAMER(i)->species == species)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// Records that a roaming Pokemon was CAUGHT (as opposed to defeated or fled from), so the
+// post-game respawn below can tell a resolved encounter from an unresolved one. Called from
+// the roamer battle-outcome path in ReturnFromBattleToOverworld, just before the roamer is
+// deactivated (SetRoamerInactive is also used for a defeat, so it cannot mean "caught").
+void MarkRoamerCaught(u32 roamerIndex)
+{
+    switch (ROAMER(roamerIndex)->species)
+    {
+    case SPECIES_ENTEI:
+        FlagSet(FLAG_CAUGHT_ENTEI);
+        break;
+    case SPECIES_RAIKOU:
+        FlagSet(FLAG_CAUGHT_RAIKOU);
+        break;
+    default:
+        break;
+    }
+}
+
+static void TryRespawnJohtoBeast(enum Species species, u16 caughtFlag, u8 level)
+{
+    // Still roaming: the encounter is unresolved and needs no help. Re-creating it would
+    // reroll its personality/IVs/shininess and wipe the damage the player has done to it.
+    if (IsRoamerSpeciesActive(species))
+        return;
+
+    // Already caught: resolved, so no respawn - league rematches are unlimited, and an
+    // unconditional respawn made the beasts farmable duplicates with a fresh shiny roll.
+    // The Pokedex check is the fallback for saves made before MarkRoamerCaught existed
+    // (the flag reads clear on those); the beasts have no other source in this build, so
+    // owning one means the player caught the roamer.
+    if (FlagGet(caughtFlag) || GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
+        return;
+
+    // Unresolved (fainted, or never released): re-release it into a FREE roamer slot.
+    TryAddRoamer(species, level);
+}
+
+// Post-game beast respawn (Johto Hall of Fame rematch). Unlike InitJohtoBeastRoamers this
+// resolves Entei and Raikou individually and never deactivates anybody else's roamer slot,
+// so an active Hoenn Latios/Latias survives a league rematch (issue #133).
+void RespawnJohtoBeastRoamers(void)
+{
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAIKOU), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
+    TryRespawnJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, 40);
+    TryRespawnJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, 40);
+}
+
 void UpdateLocationHistoryForRoamer(void)
 {
     u32 i;

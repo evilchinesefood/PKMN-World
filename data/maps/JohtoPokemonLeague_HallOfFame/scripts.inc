@@ -112,9 +112,14 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers::
-	clearflag FLAG_CAUGHT_ENTEI
-	clearflag FLAG_CAUGHT_RAIKOU
-	special InitJohtoBeastRoamers
+	@ Respawns are for UNRESOLVED encounters only (this script's header rule), so the beasts
+	@ are gated in C rather than here - one special has to decide per species. It re-releases
+	@ Entei/Raikou only if that beast is neither still roaming nor already caught, and it adds
+	@ to a FREE roamer slot. The old `clearflag FLAG_CAUGHT_*` + `special InitJohtoBeastRoamers`
+	@ pair cleared markers nothing ever set, rerolled both beasts on every unlimited E4 rematch
+	@ (farmable duplicates with a fresh shiny roll) and deactivated every roamer, destroying an
+	@ active Latios/Latias each time (issue #133).
+	special RespawnJohtoBeastRoamers
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune::

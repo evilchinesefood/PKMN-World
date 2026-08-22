@@ -319,6 +319,7 @@ gSpecials::
 	def_special InitRoamer
 	def_special InitJohtoRoamer
 	def_special InitJohtoBeastRoamers
+	def_special RespawnJohtoBeastRoamers
 	def_special TryUpdateRusturfTunnelState
 	def_special IsGrassTypeInParty
 	def_special DoContestHallWarp, waitstate=1

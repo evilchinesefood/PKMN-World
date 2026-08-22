@@ -81,7 +81,7 @@ VermilionPort_EventScript_Sailor::
 	goto_if_eq VAR_RESULT, NO, VermilionPort_EventScript_ComeAgain
 	call VermilionPort_EventScript_EnterShip
 	call VermilionPort_EventScript_EnterJohtoRegion
-	warpsilent MAP_OLIVINE_CITY_PORT_INSIDE, 8, 9
+	warpsilent MAP_OLIVINE_CITY_PORT_INSIDE, 8, 16
 	waitstate
 	release
 	end

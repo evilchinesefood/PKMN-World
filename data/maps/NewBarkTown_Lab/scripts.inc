@@ -448,6 +448,7 @@ NewBarkTown_Lab_EventScript_ElmLeague::
 NewBarkTown_Lab_EventScript_ElmSSTicket::
 	msgbox NewBarkTown_Lab_Text_ElmGiveTicket1, MSGBOX_DEFAULT
 	giveitem ITEM_SS_TICKET
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox NewBarkTown_Lab_Text_ElmGiveTicket2, MSGBOX_DEFAULT
 	closemessage
 	clearflag FLAG_HIDE_SSAQUA_1F_GRANDPA

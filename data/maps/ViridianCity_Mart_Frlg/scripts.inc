@@ -28,8 +28,19 @@ ViridianCity_Mart_EventScript_ParcelScene::
 	waitmovement 0
 	msgbox ViridianCity_Mart_Text_TakeThisToProfOak
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1
+	checkitemspace ITEM_OAKS_PARCEL
+	goto_if_eq VAR_RESULT, FALSE, ViridianCity_Mart_EventScript_NoRoomForParcelScene
 	giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
+	releaseall
+	end
+
+@ The scene var is set above no matter what, or the on-frame trigger would fire
+@ again on the very next frame. The clerk hands the PARCEL over instead once the
+@ player has made room; VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB is only
+@ advanced to 5 when the PARCEL actually reached the BAG.
+ViridianCity_Mart_EventScript_NoRoomForParcelScene::
+	msgbox ViridianCity_Mart_Text_NoRoomForParcel
 	releaseall
 	end
 
@@ -71,7 +82,22 @@ ViridianCity_Mart_Items::
 	end
 
 ViridianCity_Mart_EventScript_SayHiToOak::
+	goto_if_lt VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5, ViridianCity_Mart_EventScript_GiveParcelAgain
 	msgbox ViridianCity_Mart_Text_SayHiToOakForMe
+	release
+	end
+
+ViridianCity_Mart_EventScript_GiveParcelAgain::
+	msgbox ViridianCity_Mart_Text_TakeThisToProfOak
+	checkitemspace ITEM_OAKS_PARCEL
+	goto_if_eq VAR_RESULT, FALSE, ViridianCity_Mart_EventScript_NoRoomForParcel
+	giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
+	release
+	end
+
+ViridianCity_Mart_EventScript_NoRoomForParcel::
+	msgbox ViridianCity_Mart_Text_NoRoomForParcel
 	release
 	end
 
@@ -99,6 +125,11 @@ ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk::
 ViridianCity_Mart_Text_SayHiToOakForMe::
 	.string "Okay, thanks! Please say hi to\n"
 	.string "PROF. OAK for me, too.$"
+
+ViridianCity_Mart_Text_NoRoomForParcel::
+	.string "Uh-oh, your BAG is full.\p"
+	.string "I'll hold on to the PARCEL. Come\n"
+	.string "back once you've made some room.$"
 
 ViridianCity_Mart_Text_ShopDoesGoodBusinessInAntidotes::
 	.string "This shop does good business in\n"

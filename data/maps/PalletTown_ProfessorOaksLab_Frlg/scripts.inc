@@ -573,7 +573,12 @@ PalletTown_ProfessorOaksLab_EventScript_ProfOak::
 	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_TryStartNationalDexScene
 	goto_if_eq VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1, PalletTown_ProfessorOaksLab_EventScript_RatePokedex
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6, PalletTown_ProfessorOaksLab_EventScript_RatePokedexOrTryGiveBalls
-	goto_if_ge VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1, PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene
+	@ Gate the hand-over on the PARCEL actually having reached the BAG, not on the MART
+	@ scene having played. The MART scene sets its own var to 1 either way (its on-frame
+	@ trigger would loop forever otherwise), so keying off it let a bag-full player
+	@ "deliver" a PARCEL they never held - which also bumped the MART var to 2 and made
+	@ the clerk's retry unreachable. Only ViridianCity_Mart writes 5 here, on success.
+	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5, PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 4, PalletTown_ProfessorOaksLab_EventScript_OakBattleMonForItToGrow
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_OakCanReachNextTownWithMon
 	msgbox PalletTown_ProfessorOaksLab_Text_OakWhichOneWillYouChoose
@@ -931,8 +936,15 @@ PalletTown_ProfessorOaksLab_EventScript_PlayerOutOfBalls::
 
 PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakAddedNothingToPokedex
+	checkitemspace ITEM_POKE_BALL, 5
+	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_NoRoomForPokeBalls
 	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
 	setflag FLAG_GOT_POKEBALLS_FROM_OAK_AFTER_22_RIVAL
+	release
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_NoRoomForPokeBalls::
+	msgbox PalletTown_ProfessorOaksLab_Text_YouHaveNoRoomForThis
 	release
 	end
 
@@ -1491,6 +1503,11 @@ PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese::
 
 PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls::
 	.string "{PLAYER} received five POKé BALLS.$"
+
+PalletTown_ProfessorOaksLab_Text_YouHaveNoRoomForThis::
+	.string "Oh? You have no room for these.\p"
+	.string "Come see me again once you've made\n"
+	.string "some space.$"
 
 PalletTown_ProfessorOaksLab_Text_OakExplainCatching::
 	.string "When a wild POKéMON appears,\n"

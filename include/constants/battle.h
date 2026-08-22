@@ -719,6 +719,11 @@ enum BattleEnvironments
 #define B_WIN_VS_OUTCOME_RIGHT   23
 #define B_WIN_MOVE_DESCRIPTION   24
 #define B_WIN_OAK_OLD_MAN        25
+// Post-battle "Your team grew stronger!" list. It borrows the VRAM the level-up box and its name
+// banner used to occupy (0x100..0x192 on BG1's char base): Cmd_getexp now calls
+// BattleScript_LevelUpQuiet, which never runs drawlvlupbox, so neither of those windows is drawn
+// any more and the whole 146-tile run is free. 14x10 = 140 tiles fits inside it.
+#define B_WIN_LEVEL_UP_SUMMARY   26
 
 // The following are duplicate id values for windows that Battle Arena uses differently.
 #define ARENA_WIN_PLAYER_NAME      15

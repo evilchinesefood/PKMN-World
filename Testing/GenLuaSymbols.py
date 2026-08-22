@@ -27,6 +27,11 @@ WANT = [
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
+    # Post-battle level-up summary. gLevelUpStartLevels is the u8[PARTY_SIZE] of pre-battle levels
+    # that drives the box, and sLevelUpSummaryState is its stage machine — the only way a suite can
+    # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
+    # thing is drawn straight to VRAM and leaves no other observable.
+    "gLevelUpStartLevels", "sLevelUpSummaryState",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gBagPockets", "sMartInfo",
     "gBackupMapLayout",
@@ -66,6 +71,21 @@ WANT = [
     # gWindows[sMenu.windowId].window.height IS the drawn frame — AddWindow copies the template
     # verbatim (src/window.c) — so the "snug box" is assertable in RAM, not screenshot-only.
     "gWindows", "gMapHeader", "sGlobalScriptContext",
+    # Animated doors. sDoorAnimGraphicsTable is the table GetDoorGraphics() walks, and it is the
+    # only place the (metatile id, tileset POINTER) pairing exists at runtime -- a tileset that
+    # borrows another tileset's door metatile and has no row of its own simply fails the lookup,
+    # FieldAnimateDoorOpen returns -1, and the player warps through a door that never opened. It
+    # is a file-local `static`, so nm lists it with a LOWERCASE type letter ('r'); load_syms()
+    # keys off the field COUNT, never the type letter, so statics resolve like any other symbol.
+    # gTileset_General is not read for its contents. It is the known-good anchor: row 0 of that
+    # table is (METATILE_General_Door 0x021, &gTileset_General), so a suite can prove its decode of
+    # struct DoorGraphics reproduces the source before trusting any other row.
+    "sDoorAnimGraphicsTable", "gTileset_General",
+    # The door animation itself. StartDoorAnimationTask is the ONLY caller of
+    # CreateTask(Task_AnimateDoor), and it is reached only after GetDoorGraphics returns non-NULL,
+    # so "is there a live task whose func is Task_AnimateDoor" is a behavioural read of the same
+    # lookup -- an unregistered door never creates one. Also a lowercase-'t' static.
+    "gTasks", "Task_AnimateDoor",
     # The four TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
     # scriptPtr land inside one of these proves the shutdown branch independently of the tile,
     # which is what caught issue #57's mis-dispatch (New Bark ran May's script on a female save).
@@ -143,11 +163,47 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   reading them is vacuous — row count is
                                                             --   maxCursorPos + 1.
   Window       = { stride = 12, window = 0, bg = 0, tilemapLeft = 1, tilemapTop = 2,
-                   width = 3, height = 4 },
+                   width = 3, height = 4, paletteNum = 5, baseBlock = 6, tileData = 8 },
                                                             -- gWindows[i].window is a verbatim copy of
                                                             --   the WindowTemplate (sizeof 8), and
                                                             --   .height is what the frame is drawn at.
-  MapHeader    = { mapLayoutId = 0x12 },
+                                                            -- bg + baseBlock together locate the
+                                                            --   window's tiles in VRAM (char base comes
+                                                            --   from BGxCNT, never assumed), which is
+                                                            --   how a suite reads the palette indices a
+                                                            --   window was actually drawn with.
+  MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12 },
+  MapLayout    = { width = 0x00, height = 0x04, border = 0x08, map = 0x0C,
+                   primaryTileset = 0x10, secondaryTileset = 0x14,
+                   isFrlg = 0x18, borderWidth = 0x19, borderHeight = 0x1A, isJohto = 0x1B },
+                                                            -- gMapHeader.mapLayout is the pointer
+                                                            --   GetDoorGraphics compares against, so a
+                                                            --   suite reading these two tileset pointers
+                                                            --   is comparing exactly what the game does
+                                                            --   and needs no per-tileset symbol.
+  Tileset      = { size = 0x18, flags0 = 0x00, flags1 = 0x01, tiles = 0x04, palettes = 0x08,
+                   metatiles = 0x0C, metatileAttributes = 0x10, callback = 0x14,
+                   isSecondaryBit = 1 << 0, hasFrlgAttributesBit = 1 << 1 },
+                                                            -- flags1 is the byte holding the two 1-bit
+                                                            --   fields; little-endian bitfields fill from
+                                                            --   the LSB, so isSecondary is bit 0 and
+                                                            --   hasFrlgAttributes bit 1. The latter, NOT
+                                                            --   MapLayout.isFrlg, selects the attribute
+                                                            --   width (src/fieldmap.c, issue #53).
+  DoorGraphics = { stride = 20, metatileNum = 0, tileset = 4, sound = 8, size = 9,
+                   tiles = 12, palettes = 16 },
+                                                            -- struct DoorGraphics, src/field_door.c. The
+                                                            --   u16 metatileNum is followed by 2 bytes of
+                                                            --   alignment padding before the pointer, so
+                                                            --   the stride is 20 and NOT the hand-summed
+                                                            --   18. GetDoorGraphics terminates on
+                                                            --   `tiles == NULL`, not on the whole row
+                                                            --   being zero -- one live row (0x3B0) has a
+                                                            --   NULL TILESET and must still be walked.
+  Task         = { stride = 40, func = 0, isActive = 4, count = 16, data = 8 },
+                                                            -- struct Task, include/task.h. func holds a
+                                                            --   Thumb pointer, so compare it to a symbol
+                                                            --   address with the low bit masked off.
   ScriptCtx    = { scriptPtr = 8 },                         -- struct ScriptContext
   Hours        = { MORNING_BEGIN = 6, MORNING_END = 10, DAY_BEGIN = 10, DAY_END = 19,
                    EVENING_BEGIN = 19, EVENING_END = 20, NIGHT_BEGIN = 20, NIGHT_END = 6 },
@@ -209,6 +265,72 @@ def saveblock3_offsets(root):
                      f"the Lua suites read that bank and would silently read the wrong address")
         out[field] = base + int(m.group(1), 0)
     return out
+
+
+# Values a door suite has to agree with the game about. These live in headers rather than in
+# load_save.c, so there is no STATIC_ASSERT to key off — but they are still DERIVED, because every
+# one of them is a silent-wrong-answer if it rots. MB_ANIMATED_DOOR is an unnumbered enum member,
+# so inserting a behaviour above it renumbers it and a hardcoded 105 would then match some other
+# behaviour entirely; the primary metatile counts pick which half of the tileset pair a metatile id
+# belongs to, and getting that wrong reads a completely different tileset's attributes.
+def behavior_enum(root):
+    """Number the MB_* enum in include/constants/metatile_behaviors.h."""
+    path = os.path.join(root, "include", "constants", "metatile_behaviors.h")
+    try:
+        src = open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path} to derive metatile behaviours: {e}")
+    src = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", src, flags=re.S))
+    m = re.search(r"enum\s*\{(.*?)\}\s*;", src, re.S)
+    if not m:
+        sys.exit(f"{path}: could not find the MB_* enum")
+    values, counter = {}, 0
+    for entry in m.group(1).split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        if "=" in entry:
+            name, val = entry.split("=", 1)
+            counter, name = int(val.strip(), 0), name.strip()
+        else:
+            name = entry
+        values[name] = counter
+        counter += 1
+    return values
+
+
+def defines(path, prefix, names):
+    """Parse `#define <PREFIX>FOO 0x123` style constants, failing loudly on a missing one."""
+    out, pat = {}, re.compile(r"^\s*#define\s+(" + re.escape(prefix)
+                              + r"\w+)\s+\(?\s*(0[xX][0-9a-fA-F]+|\d+)\s*\)?\s*$")
+    try:
+        text = open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path}: {e}")
+    for line in text.splitlines():
+        m = pat.match(re.sub(r"//[^\n]*", "", line))
+        if m:
+            out[m.group(1)] = int(m.group(2), 0)
+    for n in names:
+        if n not in out:
+            sys.exit(f"{path}: no `#define {n}` — the Lua suites need it and would otherwise "
+                     f"assume a value that has already changed")
+    return out
+
+
+def door_constants(root):
+    beh = behavior_enum(root)
+    for n in ("MB_ANIMATED_DOOR", "MB_PETALBURG_GYM_DOOR"):
+        if n not in beh:
+            sys.exit(f"include/constants/metatile_behaviors.h: {n} not found")
+    counts = defines(os.path.join(root, "include", "fieldmap.h"), "NUM_METATILES_",
+                     ("NUM_METATILES_IN_PRIMARY", "NUM_METATILES_IN_PRIMARY_FRLG",
+                      "NUM_METATILES_TOTAL"))
+    attrs = defines(os.path.join(root, "include", "global.fieldmap.h"), "METATILE_ATTR_",
+                    ("METATILE_ATTR_BEHAVIOR_MASK", "METATILE_ATTR_BEHAVIOR_MASK_FRLG"))
+    grid = defines(os.path.join(root, "include", "global.fieldmap.h"), "MAPGRID_",
+                   ("MAPGRID_METATILE_ID_MASK", "MAPGRID_METATILE_ID_SHIFT"))
+    return beh, counts, attrs, grid
 
 
 def rom_hashes(elf):
@@ -274,6 +396,29 @@ def main():
     print(OFFSETS_LUA.replace("@SB1@", ", ".join(f"{k} = {sb1[k]}" for k in SB1_FIELDS)), end="")
     # Derived from src/load_save.c's compiler-enforced asserts — never hand-edit these.
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
+    # Derived from the headers by door_constants() — never hand-edit these either.
+    beh, counts, attrs, grid = door_constants(root)
+    print("  MetatileBehavior = { ANIMATED_DOOR = %d, PETALBURG_GYM_DOOR = %d },"
+          % (beh["MB_ANIMATED_DOOR"], beh["MB_PETALBURG_GYM_DOOR"]))
+    print("                                                            "
+          "-- MetatileBehavior_IsDoor() accepts exactly")
+    print("                                                            "
+          "--   these two (src/metatile_behavior.c).")
+    print("  Metatiles    = { inPrimary = %d, inPrimaryFrlg = %d, total = %d,"
+          % (counts["NUM_METATILES_IN_PRIMARY"], counts["NUM_METATILES_IN_PRIMARY_FRLG"],
+             counts["NUM_METATILES_TOTAL"]))
+    print("                   behaviorMask = 0x%08X, behaviorMaskFrlg = 0x%08X,"
+          % (attrs["METATILE_ATTR_BEHAVIOR_MASK"], attrs["METATILE_ATTR_BEHAVIOR_MASK_FRLG"]))
+    print("                   idMask = 0x%04X, idShift = %d },"
+          % (grid["MAPGRID_METATILE_ID_MASK"], grid["MAPGRID_METATILE_ID_SHIFT"]))
+    print("                                                            "
+          "-- GetNumMetatilesInPrimary() picks 640 for an")
+    print("                                                            "
+          "--   isFrlg OR isJohto layout and 512 otherwise;")
+    print("                                                            "
+          "--   below that the metatile is the PRIMARY's,")
+    print("                                                            "
+          "--   above it the SECONDARY's, rebased.")
     print()
     print("  -- Binds this symbol table to the ROM it was generated from. lib.new() refuses to run")
     print("  -- against anything else: `make -j12` does NOT refresh symbols.lua (only `make symbols`")

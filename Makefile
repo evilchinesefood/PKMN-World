@@ -431,6 +431,15 @@ check: $(TESTELF)
 # Proton fought as a Team Magma admin, and every one of those built, linked and booted clean.
 # It carries a REVIEW tier with recorded baselines for the smells that are not yet at zero; see
 # its docstring, and `--report` to list them.
+#
+# ValidateTilesetPalettes.py covers the palette arrays behind those tilesets (issue #94). Fourth
+# time for the same failure shape, and the worst-instrumented one: `.palettes` is a bare
+# `const u16 (*)[16]`, so the ROW COUNT is discarded at the declaration and an array one row short
+# builds, links and boots identically to a correct one -- the loader just copies whatever .rodata
+# follows it into the BG palette buffer. The script recomputes the bound from the three readers
+# that exist (LoadPrimaryTilesetPalette, LoadSecondaryTilesetPalette, UpdateAltBgPalettes) rather
+# than trusting a remembered number: #94 itself asserted the loader copies slots 7..15, and it
+# copies 7..12. The 52 arrays that declare exactly 13 rows are CORRECT; do not pad them.
 validate:
 	python3 Testing/ValidateGen13.py
 	python3 Testing/ValidateScripts.py
@@ -438,6 +447,8 @@ validate:
 	python3 Testing/ValidateMapEvents.py
 	python3 Testing/GenObstacleTable.py --check
 	python3 Testing/SavePatch.py --check
+	python3 Testing/ValidateDoorAnims.py --max 0
+	python3 Testing/ValidateTilesetPalettes.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the

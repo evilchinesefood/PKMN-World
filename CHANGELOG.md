@@ -29,6 +29,32 @@ All notable player-facing changes. For the full feature reference see
 
 ### World & systems
 
+- **SHARED EXP now shares evenly, and the EXP phase is quiet.** Two changes that
+  belong together, because the first makes the second necessary.
+
+  The share was never even. Gen 6+ rules give anyone who was *sent out* the whole
+  pot and anyone who was not exactly half of it — a hard 2:1 ratio, which is why
+  the Pokémon that fought always visibly out-earned the rest of the party no
+  matter what you did. The new `B_EXP_SHARE_DIVISOR` makes the base equal.
+  Level-difference weighting still applies per Pokémon, so an under-levelled
+  party member still gains a bit more and an over-levelled one a bit less —
+  equal input, not identical output. **Party EXP intake rises a lot**; the
+  **EXP RATE** option (0.5×) is the intended way to tune it back without a
+  rebuild.
+
+  With everyone levelling constantly, the old ceremony became unbearable: each
+  level-up cost three button presses (`STRINGID_PKMNGREWTOLV`, then both pages
+  of the stat box) plus an ~80-frame stall nothing could skip, because that
+  message ends in `{WAIT_SE}` and waits out the whole `MUS_LEVEL_UP` fanfare —
+  about **20 presses and 8 seconds for one knockout** with a full party. Level-ups
+  are now silent during the fight, the EXP-gain lines are gone (the EXP bar
+  already showed the number), and a single **"Your team grew stronger!"** box
+  after the battle lists everyone that levelled with their start and end levels.
+  The Pokémon on the field still gets its level-up sparkle and its healthbox
+  level ticking up, so the fight still reads. **Move learning is untouched** — it
+  runs at exactly the same point it always did, so nothing can silently fail to
+  learn a move — and EVs, evolutions and the level maths are all unchanged.
+
 - **Link-era features compiled out** (#59): Mystery Gift, Mystery Event,
   Wonder News, the e-Reader, the Union Room, wireless chat, record mixing,
   and the Cable Club link rooms are removed from the build. The two save
@@ -118,6 +144,58 @@ All notable player-facing changes. For the full feature reference see
   inside the gym, the old sprites stay until you step out and back in.*
 
 ### Fixes
+
+- **Johto's doors don't open.** Walking into a building in Azalea Town warped
+  you straight in with the door standing shut. `GetDoorGraphics` matches a door
+  on its metatile id *and* its tileset **pointer**, and Johto's regional
+  recolours — `Johto_South`, `Johto_NorthEast`, `Johto_NorthWest` — keep
+  `Johto_General`'s door metatiles while being different tileset objects, so the
+  lookup missed and `Task_DoDoorWarp` read the failure as "the animation already
+  finished". Nine table rows fix it with no new art: the door metatiles and every
+  tile they reference are byte-identical across all four Johto primaries, and the
+  palettes those doors draw from are identical too. That is **19 dead door warps**
+  — all five in Azalea, plus Ecruteak, Blackthorn, Cianwood, Mahogany, Mt Silver,
+  Ruins of Alph, Safari Zone Gate and Route 28 — and it also restores the sliding
+  door sound the Poké Center, Mart and Gym doors had been falling through to
+  `SE_DOOR` without.
+- **The other eighteen doors that never opened** (#92). The same lookup, the
+  rest of the way — and it turned out **none** of them needed art drawn. Seven
+  more table rows cover six tilesets that borrow another tileset's door
+  metatile: **Battle Frontier Outside East** (six warps, on the *West* map's
+  metatile ids — the East labels had sat unreferenced since vanilla Emerald),
+  **Bellchime Trail**'s Tin Tower entrance, **Dragon's Den**'s shrine door —
+  the only way into the shrine, so its single approach was a door that never
+  opened — the **Johto Safari Zone**'s entrance hut, **Mahogany Town** and
+  **Lake of Rage** (four warps repaired by one row, since they share a
+  secondary), and all five **S.S. Aqua** cabin doors. Every one reuses frames
+  already in the tree, verified down to the pixel: the borrowed tiles are
+  identical, and each door draws through a palette that matches on every index
+  its frames touch. *Two small data edits go with them. `safari_zone_johto`
+  palette 8 entry 15 was an unused black padding slot and is now Fuchsia's grey,
+  which is the colour those borrowed frames draw the door's outline in. And the
+  four S.S. Aqua cabins had flat panelling where every other S.S. Anne doorway
+  has a door header, so the opening animation — two tiles tall — was painting a
+  lintel onto blank wall and wiping it away again; they now carry the same
+  header as the rest, which is what they should have looked like shut. Mahogany's
+  roof also had to move out of the way: the door animation borrows VRAM tiles
+  1016–1023 while it runs, and 20 of that tileset's metatiles drew from 1016/1017
+  — one of them directly above each of the four doors — so opening a door wiped
+  the roof's ridge detail until it shut. That art now lives lower in the tileset,
+  pixel-for-pixel unchanged — as does Goldenrod City's and the dept. store's,
+  which had the same collision behind doors that were already animating.* That is **18 dead door
+  warps**, and with the 19 above it takes the tree-wide count to **zero** —
+  `Testing/ValidateDoorAnims.py` now gates that at zero in `make validate`, the
+  pre-push hook and CI.
+- **The Pokémon Center heal animation only lit part of the screen** in Johto.
+  `CreatePokecenterMonitorSprite` picked the monitor sprite by **region**, but
+  which sprite is correct depends on the **tileset**: Johto's Centers are drawn
+  with the FRLG counter art (`kanto_pokemon_center/tiles.png` is byte-identical
+  to `pokemon_center_frlg/tiles.png`), so they were handed Hoenn's narrower
+  24×16 monitor over a 32×16 screen, in the wrong palette, and missed the
+  synchronised palette pulse the FRLG art is built around. Now keyed off the
+  tileset. **14 maps** are corrected — all 13 Johto Centers and the World Transit
+  hub, which is `MAPSEC_DYNAMIC` and so read as Hoenn — and none regress; Trainer
+  Tower's lobby is Kanto but uses its own tileset and keeps the wide monitor.
 
 - **Sealed into the Slowpoke Well (critical)** (#89): after Team Rocket is
   beaten, Kurt walks up, says "let's get out of here" — and nothing happens.
@@ -228,6 +306,26 @@ All notable player-facing changes. For the full feature reference see
 - **macOS support** (#64): the build, the pre-push gate, and the Lua
   suites all run on macOS.
 - **Pokévial off-switch builds again** (#61).
+- **A dead-door census** (#92): `Testing/ValidateDoorAnims.py` cross-references
+  every warp event in the tree against `sDoorAnimGraphicsTable`, applying
+  `GetDoorGraphics`' own two-key rule, and gates the count at zero in `make
+  validate`, the pre-push hook and CI. Nothing else catches this class: a door
+  with no table row produces no build error, no crash, and still plays a door
+  *sound*, so it reads as normal play. Everything it needs is derived from the
+  tree rather than assumed — including the trap that the primary metatile count
+  is 640 for FRLG/Johto layouts and 512 elsewhere, and that the attribute width
+  follows the *tileset*, not the layout (#53). `Testing/lua/DoorAnimsRegistered.lua`
+  is its runtime half, evaluating the same condition against the live ROM on
+  seventeen maps. A second gate pins the census's own blind spot: 18 warps whose
+  behaviour cannot be read *at all*, because three Johto Victory Road floors and
+  two other maps paint metatile ids past the end of the tileset actually wired to
+  them. That is a separate authoring bug, but an unreadable warp is a hole in the
+  count — and a hole makes the dead total go *down* — so its number is pinned
+  rather than ignored. A third gate catches the trap that a table row alone is
+  not enough: the animation borrows VRAM tiles 1016–1023 while it plays, so any
+  tileset drawing from that window has its art wiped for as long as the door is
+  open. Four did — Mahogany Town, Battle Frontier Outside East, Goldenrod City
+  and the Goldenrod dept. store — and their tiles were moved out of the way.
 - **A map-event scanner** (#87, #88, #89): `Testing/ValidateMapEvents.py`,
   wired into `make validate`, the pre-push hook and CI. Run against the tree
   before the fixes above it reports each of them on its own, and it has since

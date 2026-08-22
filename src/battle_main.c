@@ -57,6 +57,8 @@
 #include "sprite.h"
 #include "string_util.h"
 #include "strings.h"
+#include "battle_script_commands.h" // HandleBattleWindow / WINDOW_BG1, for the level-up summary
+#include "menu.h"                   // AddTextPrinterParameterized3, same
 #include "task.h"
 #include "test/battle.h"
 #include "test_runner.h"
@@ -250,6 +252,28 @@ COMMON_DATA MainCallback gPreBattleCallback1 = NULL;
 COMMON_DATA void (*gBattleMainFunc)(void) = NULL;
 COMMON_DATA struct BattleResults gBattleResults = {0};
 COMMON_DATA u8 gLeveledUpInBattle = 0;
+// QoL: the level each party slot started the battle on, recorded the first time that slot levels
+// so the post-battle summary can report "Lv.25 -> 26" after several level-ups. 0 means "has not
+// levelled". It cannot live in gBattleStruct: FreeResetData_ReturnToOvOrDoEvolutions frees the
+// battle resources, and gLeveledUpInBattle -- the obvious alternative source -- is consumed
+// destructively by TryEvolvePokemon, which runs after the teardown.
+COMMON_DATA u8 gLevelUpStartLevels[PARTY_SIZE] = {0};
+
+// Stage of the post-battle "Your team grew stronger!" box. Declared up here because
+// BattleStartClearSetData resets it long before RunLevelUpSummary is defined.
+enum {
+    LVLUP_SUMMARY_INIT,
+    LVLUP_SUMMARY_DRAW,
+    LVLUP_SUMMARY_WAIT_DRAW,
+    LVLUP_SUMMARY_WAIT_PRESS,
+    LVLUP_SUMMARY_CLOSE,
+    LVLUP_SUMMARY_DONE,
+};
+// Deliberately left uninitialised so it lands in .bss. A non-zero initialiser would put it in
+// .data, which ld_script_modern.ld discards -- the link fails with "defined in discarded section".
+// Zero is LVLUP_SUMMARY_INIT, which is the right pre-first-battle value anyway: the INIT case
+// finds nothing in gLevelUpStartLevels[] and falls straight through to DONE.
+static u8 sLevelUpSummaryState;
 COMMON_DATA u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT] = {0};
 COMMON_DATA u8 gMultiUsePlayerCursor = 0;
 COMMON_DATA u8 gNumberOfMovesToChoose = 0;
@@ -3068,6 +3092,9 @@ static void BattleStartClearSetData(void)
     gPauseCounterBattle = 0;
     gIntroSlideFlags = 0;
     gLeveledUpInBattle = 0;
+    for (i = 0; i < PARTY_SIZE; i++)
+        gLevelUpStartLevels[i] = 0;
+    sLevelUpSummaryState = LVLUP_SUMMARY_INIT;
     gAbsentBattlerFlags = 0;
     gBattleStruct->runTries = 0;
     gBattleStruct->safariGoNearCounter = 0;
@@ -5496,10 +5523,191 @@ static void HandleEndTurn_MonFled(void)
     gBattleMainFunc = HandleEndTurn_FinishBattle;
 }
 
+// ---- Post-battle level-up summary -------------------------------------------------------------
+//
+// Level-ups are silent during the fight (see BattleScript_LevelUpQuiet), so this is the only place
+// the player is told what happened. It reads gLevelUpStartLevels[], filled in Cmd_getexp case 4.
+//
+// WHY IT LIVES HERE. Every battle-end script -- won, lost, drew, ran, caught, whited out -- ends in
+// `end2`, which sets B_ACTION_TRY_FINISH, so this branch is the one convergence point that covers
+// all of them without hooking each script. It has to run BEFORE BeginFastPaletteFade(3) further
+// down this same function, or the box would be drawn onto a screen already fading to black.
+//
+// The window borrows the level-up box's VRAM (baseBlock 0x100 on BG1) and its BG1_Y = 256 -> 0
+// reveal, both of which are free now that drawlvlupbox is never called. See B_WIN_LEVEL_UP_SUMMARY.
+#define SUMMARY_ROW_HEIGHT 13
+#define SUMMARY_LEVELS_X   72
+
+static const u8 sText_YourTeamGrewStronger[] = _("Your team grew stronger!");
+static const u8 sText_LevelArrow[] = { CHAR_RIGHT_ARROW, EOS };
+
+static bool32 AnyMonLeveledUpInBattle(void)
+{
+    u32 i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (gLevelUpStartLevels[i] != 0)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static bool32 ShouldShowLevelUpSummary(void)
+{
+    // The test runner drives battles with no controller input at all, so a box that waits on
+    // gMain.newKeys would hang every one of the thousands of battle tests. Link and recorded
+    // battles are excluded for the same reason -- their inputs are scripted elsewhere -- and the
+    // facility/tutorial types have their own end-of-battle presentation.
+    if (gTestRunnerEnabled)
+        return FALSE;
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK
+                          | BATTLE_TYPE_RECORDED_LINK
+                          | BATTLE_TYPE_RECORDED
+                          | BATTLE_TYPE_FIRST_BATTLE
+                          | BATTLE_TYPE_SAFARI
+                          | BATTLE_TYPE_FRONTIER
+                          | BATTLE_TYPE_TRAINER_HILL
+                          | BATTLE_TYPE_EREADER_TRAINER
+                          | BATTLE_TYPE_CATCH_TUTORIAL))
+        return FALSE;
+
+    return AnyMonLeveledUpInBattle();
+}
+
+static void DrawLevelUpSummaryWindow(void)
+{
+    u8 text[POKEMON_NAME_LENGTH + 1];
+    u8 numbers[4];
+    u8 color[3];
+    u32 i, row = 0;
+
+    color[0] = TEXT_DYNAMIC_COLOR_5; // background
+    color[1] = TEXT_DYNAMIC_COLOR_4; // foreground
+    color[2] = TEXT_DYNAMIC_COLOR_6; // shadow
+
+    FillWindowPixelBuffer(B_WIN_LEVEL_UP_SUMMARY, PIXEL_FILL(TEXT_DYNAMIC_COLOR_5));
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u32 y;
+
+        // A slot can only carry a start level if it levelled, which implies it exists -- but the
+        // species check keeps a stale byte from ever printing a garbage nickname out of an empty
+        // slot, and bounds the loop to what the box can actually hold.
+        if (gLevelUpStartLevels[i] == 0
+         || GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE
+         || row >= PARTY_SIZE)
+            continue;
+
+        y = SUMMARY_ROW_HEIGHT * row;
+
+        GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_NICKNAME, text);
+        StringGet_Nickname(text);
+        AddTextPrinterParameterized3(B_WIN_LEVEL_UP_SUMMARY, FONT_SMALL, 0, y, color, TEXT_SKIP_DRAW, text);
+
+        // "25{RIGHT_ARROW}26" built by hand -- the level a slot came into the battle on, then the
+        // level it is now, so several level-ups in one fight still read as a single jump.
+        ConvertIntToDecimalStringN(numbers, gLevelUpStartLevels[i], STR_CONV_MODE_LEFT_ALIGN, 3);
+        StringAppend(numbers, sText_LevelArrow);
+        AddTextPrinterParameterized3(B_WIN_LEVEL_UP_SUMMARY, FONT_SMALL, SUMMARY_LEVELS_X, y, color, TEXT_SKIP_DRAW, numbers);
+
+        ConvertIntToDecimalStringN(numbers, GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
+        AddTextPrinterParameterized3(B_WIN_LEVEL_UP_SUMMARY, FONT_SMALL, SUMMARY_LEVELS_X + 24, y, color, TEXT_SKIP_DRAW, numbers);
+
+        row++;
+    }
+
+    PutWindowTilemap(B_WIN_LEVEL_UP_SUMMARY);
+    CopyWindowToVram(B_WIN_LEVEL_UP_SUMMARY, COPYWIN_FULL);
+}
+
+// TRUE while the summary is still on screen; the caller must return and re-enter next frame.
+static bool32 RunLevelUpSummary(void)
+{
+    switch (sLevelUpSummaryState)
+    {
+    case LVLUP_SUMMARY_INIT:
+        if (!ShouldShowLevelUpSummary())
+        {
+            sLevelUpSummaryState = LVLUP_SUMMARY_DONE;
+            return FALSE;
+        }
+        // Same reveal the level-up box used: park BG1 off-view, draw into it, then scroll it in.
+        gBattle_BG1_X = 0;
+        gBattle_BG1_Y = 256;
+        SetBgAttribute(0, BG_ATTR_PRIORITY, 1);
+        SetBgAttribute(1, BG_ATTR_PRIORITY, 0);
+        ShowBg(0);
+        ShowBg(1);
+        // Rows 3..14. It has to stop short of row 15, where B_WIN_MSG starts -- BG1 sits above
+        // BG0 while the box is up, so a taller frame silently covers the "grew stronger!" text.
+        HandleBattleWindow(14, 3, 29, 14, WINDOW_BG1);
+        DrawLevelUpSummaryWindow();
+        sLevelUpSummaryState = LVLUP_SUMMARY_DRAW;
+        return TRUE;
+    case LVLUP_SUMMARY_DRAW:
+        // THE BOX IS DRAWN FIRST AND THE MESSAGE SECOND, AND THAT ORDER IS LOAD-BEARING.
+        // AddTextPrinter (text.c) bakes the printer's colours into one *global* table,
+        // sFontHalfRowLookupTable, and RenderText only ever regenerates it for an in-string colour
+        // code -- never when it resumes a different printer. B_WIN_MSG types a character per frame
+        // from RunTextPrinters, so any AddTextPrinter issued while it is still typing repaints
+        // every remaining glyph in that other window's colours. DrawLevelUpSummaryWindow prints on
+        // background index 14, which is the box's own dark fill in palette 5 but a muddy red in
+        // B_WIN_MSG's palette 0: printing the message first left "Y" correct and put a red block
+        // behind "our team grew stronger!". Nothing else prints text between here and the press,
+        // so with the message going up last its colours are the ones left in the table.
+        //
+        // Printed straight into the message window rather than through the battle script's
+        // printstring: this runs after the controllers are gone, and the text carries no \p, so it
+        // sits there without demanding a press of its own. One A press dismisses text and box both.
+        StringCopy(gDisplayedStringBattle, sText_YourTeamGrewStronger);
+        BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MSG);
+        sLevelUpSummaryState = LVLUP_SUMMARY_WAIT_DRAW;
+        return TRUE;
+    case LVLUP_SUMMARY_WAIT_DRAW:
+        if (!IsDma3ManagerBusyWithBgCopy())
+        {
+            gBattle_BG1_Y = 0;
+            sLevelUpSummaryState = LVLUP_SUMMARY_WAIT_PRESS;
+        }
+        return TRUE;
+    case LVLUP_SUMMARY_WAIT_PRESS:
+        if (gMain.newKeys != 0)
+        {
+            PlaySE(SE_SELECT);
+            HandleBattleWindow(14, 3, 29, 14, WINDOW_BG1 | WINDOW_CLEAR);
+            ClearWindowTilemap(B_WIN_LEVEL_UP_SUMMARY);
+            CopyWindowToVram(B_WIN_LEVEL_UP_SUMMARY, COPYWIN_MAP);
+            sLevelUpSummaryState = LVLUP_SUMMARY_CLOSE;
+        }
+        return TRUE;
+    case LVLUP_SUMMARY_CLOSE:
+        if (!IsDma3ManagerBusyWithBgCopy())
+        {
+            SetBgAttribute(0, BG_ATTR_PRIORITY, 0);
+            SetBgAttribute(1, BG_ATTR_PRIORITY, 1);
+            ShowBg(0);
+            ShowBg(1);
+            sLevelUpSummaryState = LVLUP_SUMMARY_DONE;
+            return FALSE;
+        }
+        return TRUE;
+    case LVLUP_SUMMARY_DONE:
+    default:
+        return FALSE;
+    }
+}
+
 static void HandleEndTurn_FinishBattle(void)
 {
     if (gCurrentActionFuncId == B_ACTION_TRY_FINISH || gCurrentActionFuncId == B_ACTION_FINISHED)
     {
+        // Must come before BeginFastPaletteFade below. Re-entering this branch is safe: the guard
+        // above stays true and everything after this point is skipped until the summary is closed.
+        if (RunLevelUpSummary())
+            return;
+
         if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_RECORDED_LINK
                                   | BATTLE_TYPE_FIRST_BATTLE

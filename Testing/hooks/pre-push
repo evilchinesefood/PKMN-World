@@ -36,6 +36,8 @@ run "Overworld-Pokemon placements"   Testing/ValidateOwMonPlacements.py
 run "Map object-event consistency"   Testing/ValidateMapEvents.py
 run "Cleared-obstacle table"         Testing/GenObstacleTable.py --check
 run "Save-format constants"          Testing/SavePatch.py --check
+run "Animated doors registered"      Testing/ValidateDoorAnims.py --max 0
+run "Tileset palette array bounds"   Testing/ValidateTilesetPalettes.py
 
 if [ "$fail" -ne 0 ]; then
   cat >&2 <<'EOF'

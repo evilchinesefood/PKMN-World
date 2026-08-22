@@ -371,6 +371,22 @@ u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIndex, en
     }
 }
 
+// The seven Tanoby Chambers. Listed one by one rather than as a map-number range so that
+// a future map renumber cannot silently pull a neighbouring Seven Island map into the gate.
+static bool32 IsTanobyChamberMap(u8 mapGroup, u8 mapNum)
+{
+    if (mapGroup != MAP_GROUP(MAP_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER))
+        return FALSE;
+
+    return mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)
+        || mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_LIPTOO_CHAMBER)
+        || mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_WEEPTH_CHAMBER)
+        || mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER)
+        || mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_SCUFIB_CHAMBER)
+        || mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_RIXY_CHAMBER)
+        || mapNum == MAP_NUM(MAP_SEVEN_ISLAND_TANOBY_RUINS_VIAPOIS_CHAMBER);
+}
+
 u16 GetCurrentMapWildMonHeaderId(void)
 {
     u16 i;
@@ -384,6 +400,14 @@ u16 GetCurrentMapWildMonHeaderId(void)
         if (gWildMonHeaders[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
             gWildMonHeaders[i].mapNum == gSaveBlock1Ptr->location.mapNum)
         {
+            // FRLG parity: the chambers are empty until the Tanoby Key puzzle is solved.
+            // Withholding the whole header (rather than an individual table) covers every
+            // chamber, both the land and hidden tables, and the FireRed/LeafGreen variants
+            // alike, since the gate keys on the map rather than on which table was matched.
+            if (IsTanobyChamberMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum)
+             && !FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS))
+                return HEADER_NONE;
+
             if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ALTERING_CAVE) &&
                 gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ALTERING_CAVE))
             {
@@ -403,7 +427,8 @@ u16 GetCurrentMapWildMonHeaderId(void)
 
 // Region merge perf: 493 headers in the 3-region build make the linear scan too hot for the
 // per-frame OWE guard (it previously burned ~2% of the frame on encounter-less maps). Keyed
-// on exactly the inputs the scan reads: current map + the Altering Cave table var.
+// on exactly the inputs the scan reads: current map + the Altering Cave table var + the
+// Tanoby Key flag.
 u16 GetCurrentMapWildMonHeaderIdCached(void)
 {
     // All statics zero-init (.bss) — the ld script discards .data, so no nonzero initializers.
@@ -411,17 +436,21 @@ u16 GetCurrentMapWildMonHeaderIdCached(void)
     static u16 sCachedHeaderId;
     static u8 sCachedMapGroup, sCachedMapNum;
     static u16 sCachedAlteringCaveId;
+    static bool8 sCachedTanobyUnlocked;
     u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+    bool8 tanobyUnlocked = FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS);
 
     if (!sCacheValid
      || sCachedMapGroup != (u8)gSaveBlock1Ptr->location.mapGroup
      || sCachedMapNum != (u8)gSaveBlock1Ptr->location.mapNum
-     || sCachedAlteringCaveId != alteringCaveId)
+     || sCachedAlteringCaveId != alteringCaveId
+     || sCachedTanobyUnlocked != tanobyUnlocked)
     {
         sCacheValid = TRUE;
         sCachedMapGroup = gSaveBlock1Ptr->location.mapGroup;
         sCachedMapNum = gSaveBlock1Ptr->location.mapNum;
         sCachedAlteringCaveId = alteringCaveId;
+        sCachedTanobyUnlocked = tanobyUnlocked;
         sCachedHeaderId = GetCurrentMapWildMonHeaderId();
     }
     return sCachedHeaderId;

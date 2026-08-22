@@ -315,9 +315,6 @@ TrainerTower_Roof_Text_IdLikeToSeeBetterTime::
 TrainerTower_Text_XMinYZSec::
 	.string "{STR_VAR_1} min. {STR_VAR_2}.{STR_VAR_3} sec.$"
 
-TrainerTower_Lobby_Text_HereAreTheResults::
-	.string "せいせきひょうです$"
-
 TrainerTower_Lobby_Text_NeedTwoMonsForDouble::
 	.string "This is a two-on-two battle.\p"
 	.string "You may not battle unless you have\n"

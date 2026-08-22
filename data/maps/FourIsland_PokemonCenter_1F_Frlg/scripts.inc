@@ -48,10 +48,6 @@ Text_BodySlamWhichMon::
 Text_BodySlamTaught::
 	.string "Boioing!$"
 
-FourIsland_House1_Text_FatMan::
-	.string "それ　ぼよーん！\n"
-	.string "おまえ　おもいなあー！$"
-
 FourIsland_PokemonCenter_1F_Text_RareIceMonsInCave::
 	.string "There's a rare kind of ICE POKéMON\n"
 	.string "that lives in the cave.\p"

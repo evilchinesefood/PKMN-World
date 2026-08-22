@@ -337,9 +337,6 @@ CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes::
 CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize::
 	.string "Which prize would you like?$"
 
-CeladonCity_GameCorner_PrizeRoom_Text_HereYouGo::
-	.string "はい どうぞ$"
-
 CeladonCity_GameCorner_PrizeRoom_Text_YouWantPrize::
 	.string "So, you want the {STR_VAR_1}?$"
 
@@ -350,10 +347,4 @@ CeladonCity_GameCorner_PrizeRoom_Text_YouWantTM::
 CeladonCity_GameCorner_PrizeRoom_Text_NeedMoreCoins::
 	.string "Sorry, you'll need more COINS\n"
 	.string "than that.$"
-
-CeladonCity_GameCorner_PrizeRoom_Text_OopsNotEnoughRoom::
-	.string "おきゃくさん もう もてないよ$"
-
-CeladonCity_GameCorner_PrizeRoom_Text_OhFineThen::
-	.string "あっ そう$"
 

@@ -10,14 +10,6 @@ EcruteakCity_OnTransition::
 	callnative SetTimeBasedEncounters
 	end
 
-EcruteakCity_Test_Lugia::
-	setvar VAR_LUGIA_OR_HOOH, 1
-	end
-EcruteakCity_Test_League::
-	setvar VAR_COMPLETED_HO_OH, 4
-	setvar VAR_COMPLETED_LUGIA, 4
-	end
-
 
 EcruteakCity_EventScript_Trigger::
 	@flagheap

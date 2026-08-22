@@ -98,7 +98,10 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	@ and map.json entry would be new authorship rather than a port - ~500 lines. Suicune is
 	@ already catchable via the static Route25_Frlg spawn below, so this was a missing
 	@ questline, never a softlock. Producers stop at 3 on purpose; do not "fix" the ladder.
-	@ Celebi's retry must include players who fainted/fled it, not only successful catchers.
+	@ Celebi's retry must include players who fainted/fled it, not only successful catchers -
+	@ hence the state gate rather than a caught-flag gate. It must still exclude players who
+	@ DID catch it, or the shrine Celebi plus this one is two Celebi from one playthrough
+	@ (and one per championship after that); FLAG_CAUGHT_CELEBI is checked inside.
 	call_if_ge VAR_SUICUNE_ENCOUNTERS, 3, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune
 	call_if_ge VAR_AZALEA_TOWN_STATE, 10, JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi
 	@ DEFEATED-only clears, matching Hoenn's hall_of_fame.inc and this script's own header rule
@@ -170,6 +173,10 @@ JohtoHoF_RespawnHoOh::
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi::
+	call_if_unset FLAG_CAUGHT_CELEBI, JohtoHoF_RespawnSecondCelebi
+	return
+
+JohtoHoF_RespawnSecondCelebi::
 	clearflag FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI
 	return
 

@@ -1,8 +1,10 @@
 #include "global.h"
 #include "battle.h"
 #include "event_data.h"
+#include "item.h"
 #include "item_menu.h"
 #include "pokemon.h"
+#include "pokemon_storage_system.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
 
@@ -190,4 +192,119 @@ TEST("Removing across two stacks takes the requested total, not that total from 
     EXPECT_EQ(pocket->itemSlots[0].itemId, ITEM_POTION);
     EXPECT_EQ(pocket->itemSlots[0].quantity, 7);
     EXPECT_EQ(pocket->itemSlots[1].itemId, ITEM_NONE);
+}
+
+// Region merge (A1): helper for the dedup tests below - wipe every place a copy of an
+// item can be "owned" so each assertion starts from a known-empty state.
+static void ClearAllItemOwnership(void)
+{
+    memset(gBagPockets[POCKET_ITEMS].itemSlots, 0, sizeof(gSaveBlock1Ptr->bag.items));
+    memset(gBagPockets[POCKET_KEY_ITEMS].itemSlots, 0, sizeof(gSaveBlock1Ptr->bag.keyItems));
+    memset(gBagPockets[POCKET_TM_HM].itemSlots, 0, sizeof(gSaveBlock1Ptr->bag.TMsHMs));
+    memset(gSaveBlock1Ptr->pcItems, 0, sizeof(gSaveBlock1Ptr->pcItems));
+
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+        ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
+
+    for (u32 boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
+    {
+        for (u32 boxPosition = 0; boxPosition < IN_BOX_COUNT; boxPosition++)
+            ZeroBoxMonAt(boxId, boxPosition);
+    }
+}
+
+// Puts a Wobbuffet holding itemId into the given party slot.
+static void GiveTestMonHeldItem(u32 partySlot, enum Item itemId)
+{
+    u16 heldItem = itemId;
+
+    CreateMon(&gParties[B_TRAINER_PLAYER][partySlot], SPECIES_WOBBUFFET, 5, 0, OTID_STRUCT_PRESET(0));
+    SetMonData(&gParties[B_TRAINER_PLAYER][partySlot], MON_DATA_HELD_ITEM, &heldItem);
+}
+
+TEST("Exp. Share is deduplicated across regions wherever the first copy is kept")
+{
+    // Six scripted sources across three regions hand out an Exp. Share (Devon Corp,
+    // Kanto Route 15, Mr. Pokemon's House, the Violet City aide, the Goldenrod basement
+    // ball, and either lottery). With one global bag the player must only ever end up
+    // with one. Note ITEM_EXP_SHARE_SMALL, used by the Johto scripts, is a compat alias
+    // for ITEM_EXP_SHARE (include/constants/johto_compat_ids.h) - the same id.
+    ClearAllItemOwnership();
+
+    // A copy in the bag blocks the second give.
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_EXP_SHARE;
+        additem ITEM_EXP_SHARE;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_EXP_SHARE), 1);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
+
+    // A copy deposited in the item PC blocks it too.
+    EXPECT_EQ(RemoveBagItem(ITEM_EXP_SHARE, 1), TRUE);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
+    EXPECT_EQ(AddPCItem(ITEM_EXP_SHARE, 1), TRUE);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
+    memset(gSaveBlock1Ptr->pcItems, 0, sizeof(gSaveBlock1Ptr->pcItems));
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
+
+    // ...and so does one attached to a party Pokemon. Use the LAST slot: the whole party
+    // has to be scanned, not just the lead.
+    GiveTestMonHeldItem(PARTY_SIZE - 1, ITEM_EXP_SHARE);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_EXP_SHARE;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_EXP_SHARE), 0);
+
+    // Boxing the carrier does not launder the copy away either.
+    *GetBoxedMonPtr(TOTAL_BOXES_COUNT - 1, IN_BOX_COUNT - 1) = gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1].box;
+    ZeroMonData(&gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1]);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
+
+    ClearAllItemOwnership();
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
+}
+
+TEST("Widening key-class dedup to Exp. Share leaves HMs, key items and ordinary items alone")
+{
+    ASSUME(GetItemPocket(ITEM_HM01) == POCKET_TM_HM);
+    ASSUME(GetItemPocket(ITEM_TM01) == POCKET_TM_HM);
+    ASSUME(GetItemPocket(ITEM_LEFTOVERS) == POCKET_ITEMS);
+    ASSUME(GetItemPocket(ITEM_SS_TICKET) == POCKET_KEY_ITEMS);
+    ClearAllItemOwnership();
+
+    // HMs still dedup...
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_HM01;
+        additem ITEM_HM01;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_HM01), 1);
+
+    // ...as do Key Items pocket entries...
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_SS_TICKET;
+        additem ITEM_SS_TICKET;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_SS_TICKET), 1);
+
+    // ...while TMs and ordinary held items are still stackable, and a Pokemon holding
+    // one does not block a second.
+    GiveTestMonHeldItem(0, ITEM_LEFTOVERS);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_LEFTOVERS), FALSE);
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_LEFTOVERS;
+        additem ITEM_LEFTOVERS;
+        additem ITEM_TM01;
+        additem ITEM_TM01;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_LEFTOVERS), 2);
+    EXPECT_GE(CountTotalItemQuantityInBag(ITEM_TM01), 1);
+
+    // The Meteorite exemption survives: Cozmo and Two Island each give their own copy.
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_METEORITE;
+    );
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_METEORITE), FALSE);
+
+    ClearAllItemOwnership();
 }

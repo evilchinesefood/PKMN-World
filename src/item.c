@@ -9,6 +9,8 @@
 #include "secret_base.h"
 #include "item_menu.h"
 #include "party_menu.h"
+#include "pokemon.h"
+#include "pokemon_storage_system.h"
 #include "strings.h"
 #include "load_save.h"
 #include "item_use.h"
@@ -226,19 +228,69 @@ bool32 CheckBagHasItem(enum Item itemId, u16 count)
     return BagPocket_CheckHasItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
 }
 
-// Region merge (A1): with one global bag, key-class items (Key Items pocket + HMs)
-// must never land twice across regions. TRUE if itemId is key-class and already
-// in the bag. ITEM_METEORITE is exempt: the Hoenn (Cozmo) and Sevii (Two Island)
-// delivery quests each give and consume their own copy of the same id.
+// Region merge (A1): items that must stay unique across regions even though they do not
+// live in the Key Items pocket, so the pocket test below cannot see them.
+//
+// Exp. Share is the live case. With I_EXP_SHARE_ITEM == GEN_5 (include/config/item.h) it
+// compiles into POCKET_ITEMS as an ordinary held item (src/data/items.h), yet six scripted
+// sources across three regions hand one out: Rustboro Devon Corp 3F, Kanto Route 15's aide,
+// Mr. Pokemon's House, the Violet City PC aide, the Goldenrod dept. store basement item
+// ball, and either lottery (Lilycove / Goldenrod Radio Tower). ITEM_EXP_SHARE_SMALL is a
+// compat alias for this same id (include/constants/johto_compat_ids.h), so one entry covers
+// both spellings. With I_EXP_SHARE_ITEM >= GEN_6 the item is POCKET_KEY_ITEMS and the
+// pocket test already classes it — this list is then redundant, never wrong.
+static bool32 IsRegionUniqueNonKeyItem(enum Item itemId)
+{
+    switch (itemId)
+    {
+    case ITEM_EXP_SHARE:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+// A held-item-class entry can be sitting on a Pokemon instead of in the bag or the item PC,
+// and wearing one is owning one. Only reached once the caller has established itemId is
+// key-class, i.e. a handful of gives per playthrough — the box sweep is the same cost as
+// IsPokemonStorageFull(), which scripts already pay. Held item is read without a species
+// guard on purpose: an empty slot decodes to ITEM_NONE, which no key-class id can equal.
+static bool32 IsItemHeldByPlayerMon(enum Item itemId)
+{
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_HELD_ITEM) == itemId)
+            return TRUE;
+    }
+
+    for (u32 boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
+    {
+        for (u32 boxPosition = 0; boxPosition < IN_BOX_COUNT; boxPosition++)
+        {
+            if (GetBoxMonDataAt(boxId, boxPosition, MON_DATA_HELD_ITEM) == itemId)
+                return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+// Region merge (A1): with one global bag, key-class items (Key Items pocket + HMs +
+// IsRegionUniqueNonKeyItem) must never land twice across regions. TRUE if itemId is
+// key-class and the player already owns one. ITEM_METEORITE is exempt: the Hoenn (Cozmo)
+// and Sevii (Two Island) delivery quests each give and consume their own copy of the same id.
 bool32 IsDuplicateKeyClassItem(enum Item itemId)
 {
     if (itemId == ITEM_METEORITE)
         return FALSE;
-    if (GetItemPocket(itemId) != POCKET_KEY_ITEMS && !(itemId >= ITEM_HM01 && itemId <= ITEM_HM08))
+    if (GetItemPocket(itemId) != POCKET_KEY_ITEMS
+     && !(itemId >= ITEM_HM01 && itemId <= ITEM_HM08)
+     && !IsRegionUniqueNonKeyItem(itemId))
         return FALSE;
     // The item PC accepts key-class items too — a copy parked there must still block the
     // second give, or the A1 "never receive a second one" guarantee is one deposit deep.
-    return CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1);
+    // Same reasoning for a copy attached to a party or boxed Pokemon.
+    return CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1) || IsItemHeldByPlayerMon(itemId);
 }
 
 // Script special for the Std_ObtainItem/Std_FindItem paths (item id in VAR_0x8006).

@@ -7,7 +7,36 @@
 .set LOCALID_EMBEDDEDKYOGRE, 3
 
 EmbeddedTower_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, EmbeddedTower_OnTransition
 	.byte 0
+
+@ All three legendaries here are POST-GAME REMATCH content. The only thing in the tree that
+@ clears FLAG_HIDE_RAYQUAZA/GROUDON/KYOGRE is SetGameClearFlags at the Johto Hall of Fame,
+@ and that runs on the REMATCH branch only - a first clear takes SetFirstGameClearFlags,
+@ which leaves them alone. So "hidden until you beat the league a second time" is the
+@ intended gate.
+@
+@ It was not being enforced. Flags default clear, new_game.c did not register these three
+@ (it does now), and this map had no map script at all - so they stood here from the first
+@ minute of a fresh save, fightable at level 70 as soon as Route 47 is surfable. Every other
+@ legendary map gates its spawn in ON_TRANSITION: CeruleanCave_B1F, PowerPlant,
+@ SeafoamIslands_B4F and Route25_Frlg all do exactly this.
+@
+@ This guard only ever SETS. It cannot resurrect a legendary the player already took, because
+@ the tower's own resolution marker IS the hide flag; and it cannot grant one early, because
+@ nothing here clears. Post-championship it stops running, leaving the Hall of Fame's clears
+@ to stand. Note these are the TOWER's own flags - Hoenn's copies use
+@ FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA / _TERRA_CAVE_GROUDON / _MARINE_CAVE_KYOGRE, so Sky
+@ Pillar, Terra Cave and Marine Cave are untouched by this.
+EmbeddedTower_OnTransition::
+	call_if_unset FLAG_JOHTO_CHAMPION, EmbeddedTower_EventScript_SealLegendaries
+	end
+
+EmbeddedTower_EventScript_SealLegendaries::
+	setflag FLAG_HIDE_RAYQUAZA
+	setflag FLAG_HIDE_GROUDON
+	setflag FLAG_HIDE_KYOGRE
+	return
 
 EmbeddedTower_EventScript_Groudon::
 	lock

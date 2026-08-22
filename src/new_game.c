@@ -283,16 +283,6 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_CELEBI);
     FlagSet(FLAG_HIDE_ILEX_FOREST_KURT);
     FlagSet(FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI);
-    // Embedded Tower's three legendaries are POST-GAME REMATCH content: the only thing in the
-    // tree that clears these flags is SetGameClearFlags at the Johto Hall of Fame, and that
-    // runs on the REMATCH branch only - the first clear takes SetFirstGameClearFlags, which
-    // does not touch them. Unregistered, they defaulted clear and stood in the tower from the
-    // first minute of a fresh save, fightable at level 70 as soon as Route 47 is surfable.
-    // Every other legendary map gates its own spawn in ON_TRANSITION (Cerulean Cave, Power
-    // Plant, Seafoam B4F, Route 25); Embedded Tower had no map script at all (issue #127).
-    FlagSet(FLAG_HIDE_RAYQUAZA);
-    FlagSet(FLAG_HIDE_GROUDON);
-    FlagSet(FLAG_HIDE_KYOGRE);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

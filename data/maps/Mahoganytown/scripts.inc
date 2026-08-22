@@ -104,12 +104,14 @@ MahoganyTown_EventScript_MerchantTrigger::
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantRefused
 	checkmoney 300, 0
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantBroke
+	checkitemspace ITEM_RAGE_CANDY_BAR, 1
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
 	removemoney 300
 	updatemoneybox 0
 	playse SE_SHOP
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSavorIt, MSGBOX_DEFAULT
 	giveitem ITEM_RAGE_CANDY_BAR
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
 	hidemoneybox
 	closemessage
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1
@@ -136,10 +138,13 @@ MahoganyTown_EventScript_Merchant::
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantRefused
 	checkmoney 300, 0
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantBroke
+	checkitemspace ITEM_RAGE_CANDY_BAR, 1
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
 	removemoney 300
 	updatemoneybox 0
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSavorIt, MSGBOX_DEFAULT
 	giveitem ITEM_RAGE_CANDY_BAR
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
 	hidemoneybox
 	closemessage
 	release
@@ -165,15 +170,15 @@ MahoganyTown_EventScript_MerchantBroke::
 	release
 	end
 
-MahoganyTown_EventScript_NotEnoughSpace:
-	msgbox MahoganyTown_Text_RageCandyBarMerchantRefused, MSGBOX_DEFAULT
+MahoganyTown_EventScript_NotEnoughSpace::
+	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
 	closemessage
 	hidemoneybox
 	closemessage
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1
 	call_if_eq VAR_TEMP_0, 30, MahoganyTown_EventScript_PushPlayer
 	release
-	return
+	end
 
 MahoganyTown_EventScript_MerchantAfter::
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSoldOut, MSGBOX_DEFAULT

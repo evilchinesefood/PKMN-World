@@ -222,50 +222,47 @@ static void GiveTestMonHeldItem(u32 partySlot, enum Item itemId)
     SetMonData(&gParties[B_TRAINER_PLAYER][partySlot], MON_DATA_HELD_ITEM, &heldItem);
 }
 
-TEST("Exp. Share is deduplicated across regions wherever the first copy is kept")
+TEST("Multiple Exp. Shares stay obtainable - it is deliberately not key-class")
 {
-    // Six scripted sources across three regions hand out an Exp. Share (Devon Corp,
-    // Kanto Route 15, Mr. Pokemon's House, the Violet City aide, the Goldenrod basement
-    // ball, and either lottery). With one global bag the player must only ever end up
-    // with one. Note ITEM_EXP_SHARE_SMALL, used by the Johto scripts, is a compat alias
-    // for ITEM_EXP_SHARE (include/constants/johto_compat_ids.h) - the same id.
+    // Six scripted sources across three regions hand out an Exp. Share (Devon Corp, Kanto
+    // Route 15, Mr. Pokemon's House, the Violet City aide, the Goldenrod basement ball, and
+    // either lottery - the lotteries being repeatable). With I_EXP_SHARE_ITEM == GEN_5 the
+    // Exp. Share is an ordinary POCKET_ITEMS held item that only boosts the Pokemon carrying
+    // it, so owning several is legitimate and every giver must hand over a real copy. This
+    // test exists to stop it being re-classified as key-class - see issue #130, where that
+    // cap was tried and then deliberately reverted. Note ITEM_EXP_SHARE_SMALL, used by the
+    // Johto scripts, is a compat alias for the same id (include/constants/johto_compat_ids.h).
+    ASSUME(GetItemPocket(ITEM_EXP_SHARE) == POCKET_ITEMS);
     ClearAllItemOwnership();
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
 
-    // A copy in the bag blocks the second give.
+    // A copy in the bag does not block the next give - they stack.
     RUN_OVERWORLD_SCRIPT(
         additem ITEM_EXP_SHARE;
+        additem ITEM_EXP_SHARE;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_EXP_SHARE), 2);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
+
+    // Nor does one deposited in the item PC.
+    EXPECT_EQ(RemoveBagItem(ITEM_EXP_SHARE, 2), TRUE);
+    EXPECT_EQ(AddPCItem(ITEM_EXP_SHARE, 1), TRUE);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
+    memset(gSaveBlock1Ptr->pcItems, 0, sizeof(gSaveBlock1Ptr->pcItems));
+
+    // Nor does one already attached to a Pokemon - the point of the item is that several
+    // party members can each wear one.
+    GiveTestMonHeldItem(PARTY_SIZE - 1, ITEM_EXP_SHARE);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
+    RUN_OVERWORLD_SCRIPT(
         additem ITEM_EXP_SHARE;
     );
     EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_EXP_SHARE), 1);
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
-
-    // A copy deposited in the item PC blocks it too.
-    EXPECT_EQ(RemoveBagItem(ITEM_EXP_SHARE, 1), TRUE);
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
-    EXPECT_EQ(AddPCItem(ITEM_EXP_SHARE, 1), TRUE);
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
-    memset(gSaveBlock1Ptr->pcItems, 0, sizeof(gSaveBlock1Ptr->pcItems));
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
-
-    // ...and so does one attached to a party Pokemon. Use the LAST slot: the whole party
-    // has to be scanned, not just the lead.
-    GiveTestMonHeldItem(PARTY_SIZE - 1, ITEM_EXP_SHARE);
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
-    RUN_OVERWORLD_SCRIPT(
-        additem ITEM_EXP_SHARE;
-    );
-    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_EXP_SHARE), 0);
-
-    // Boxing the carrier does not launder the copy away either.
-    *GetBoxedMonPtr(TOTAL_BOXES_COUNT - 1, IN_BOX_COUNT - 1) = gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1].box;
-    ZeroMonData(&gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1]);
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), TRUE);
 
     ClearAllItemOwnership();
-    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_EXP_SHARE), FALSE);
 }
 
-TEST("Widening key-class dedup to Exp. Share leaves HMs, key items and ordinary items alone")
+TEST("Key-class dedup still covers HMs and key items, and leaves ordinary items alone")
 {
     ASSUME(GetItemPocket(ITEM_HM01) == POCKET_TM_HM);
     ASSUME(GetItemPocket(ITEM_TM01) == POCKET_TM_HM);
@@ -307,4 +304,30 @@ TEST("Widening key-class dedup to Exp. Share leaves HMs, key items and ordinary 
     EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_METEORITE), FALSE);
 
     ClearAllItemOwnership();
+}
+
+TEST("A key-class item held by a Pokemon still counts as owned")
+{
+    // Defence in depth for IsItemHeldByPlayerMon(): wearing a copy is owning it, so the
+    // second giver must still refuse. No in-game path attaches an HM or a key item to a
+    // Pokemon today (the bag's Give flow rejects importance-1 items), so the held item is
+    // forced directly here. The guard is what keeps the invariant true if one ever does.
+    ASSUME(GetItemPocket(ITEM_HM01) == POCKET_TM_HM);
+    ClearAllItemOwnership();
+
+    // Party sweep: use the LAST slot, so the whole party has to be scanned, not just the lead.
+    GiveTestMonHeldItem(PARTY_SIZE - 1, ITEM_HM01);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_HM01), TRUE);
+    RUN_OVERWORLD_SCRIPT(
+        additem ITEM_HM01;
+    );
+    EXPECT_EQ(CountTotalItemQuantityInBag(ITEM_HM01), 0);
+
+    // Box sweep: boxing the carrier does not launder the copy away.
+    *GetBoxedMonPtr(TOTAL_BOXES_COUNT - 1, IN_BOX_COUNT - 1) = gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1].box;
+    ZeroMonData(&gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1]);
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_HM01), TRUE);
+
+    ClearAllItemOwnership();
+    EXPECT_EQ(IsDuplicateKeyClassItem(ITEM_HM01), FALSE);
 }

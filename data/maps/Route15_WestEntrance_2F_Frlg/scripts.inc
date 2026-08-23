@@ -32,24 +32,9 @@ Route15_WestEntrance_2F_EventScript_Aide::
 	call Route15_WestEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_lt VAR_0x8006, REQUIRED_CAUGHT_MONS, Aide_EventScript_HaventCaughtEnough
 	msgbox Route15_WestEntrance_2F_Text_GreatHereYouGo
-	setvar VAR_0x8006, ITEM_EXP_SHARE
-	specialvar VAR_RESULT, ObtainWouldDupeKeyItem
-	goto_if_eq VAR_RESULT, TRUE, Route15_WestEntrance_2F_EventScript_AideExpShareAlreadyOwned
 	checkitemspace ITEM_EXP_SHARE
 	goto_if_eq VAR_RESULT, FALSE, Aide_EventScript_NoRoomForItem
 	giveitem_msg Route15_WestEntrance_2F_Text_ReceivedItemFromAide, ITEM_EXP_SHARE
-	setflag FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE
-	msgbox Route15_WestEntrance_2F_Text_ExplainExpShare
-	release
-	end
-
-@ Region merge (A1): the player already owns an EXP SHARE (Devon Corp, one of the Johto
-@ givers, or one attached to a Pokemon). additem below would correctly refuse to add a
-@ second, but giveitem_msg would still print "received it!" — say so instead. The aide's
-@ errand still counts as done, so the flag is set either way.
-Route15_WestEntrance_2F_EventScript_AideExpShareAlreadyOwned::
-	bufferitemnameplural STR_VAR_2, ITEM_EXP_SHARE, 1
-	msgbox gText_AlreadyHaveKeyItem, MSGBOX_DEFAULT
 	setflag FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE
 	msgbox Route15_WestEntrance_2F_Text_ExplainExpShare
 	release

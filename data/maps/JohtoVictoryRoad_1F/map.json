@@ -2,7 +2,7 @@
   "id": "MAP_JOHTO_VICTORY_ROAD_1F",
   "name": "JohtoVictoryRoad_1F",
   "layout": "LAYOUT_JOHTO_VICTORY_ROAD_1F",
-  "music": "MUS_VICTORY_ROAD",
+  "music": "MUS_HG_VICTORY_ROAD",
   "region_map_section": "MAPSEC_JOHTO_VICTORY_ROAD",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

@@ -42,6 +42,7 @@ GoldenrodCity_TrainStation_EventScript_BoardTrain::
 	playse SE_EXIT
 	waitse
 	fadescreen FADE_TO_BLACK
+	playbgm MUS_HG_MAGNET_TRAIN, FALSE
 
 	applymovement OBJ_EVENT_ID_CAMERA, GoldenrodCity_TrainStation_Movement_CameraPanUp
 	waitmovement 0

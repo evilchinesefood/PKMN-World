@@ -2,7 +2,7 @@
   "id": "MAP_SAFARI_ZONE_GATE",
   "name": "SafariZoneGate",
   "layout": "LAYOUT_SAFARI_ZONE_GATE",
-  "music": "MUS_ROUTE110",
+  "music": "MUS_HG_SAFARI_ZONE_GATE",
   "region_map_section": "MAPSEC_SAFARI_ZONE_GATE",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

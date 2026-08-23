@@ -2,7 +2,7 @@
   "id": "MAP_CIANWOOD_HOUSE2",
   "name": "CianwoodHouse2",
   "layout": "LAYOUT_CIANWOOD_HOUSE2",
-  "music": "MUS_DEWFORD",
+  "music": "MUS_HG_CIANWOOD",
   "region_map_section": "MAPSEC_CIANWOOD_CITY",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

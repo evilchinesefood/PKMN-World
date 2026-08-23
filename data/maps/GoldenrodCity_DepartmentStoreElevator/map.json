@@ -2,7 +2,7 @@
   "id": "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_ELEVATOR",
   "name": "GoldenrodCity_DepartmentStoreElevator",
   "layout": "LAYOUT_GOLDENROD_CITY_DEPARTMENT_STORE_ELEVATOR",
-  "music": "MUS_RUSTBORO",
+  "music": "MUS_HG_GOLDENROD",
   "region_map_section": "MAPSEC_GOLDENROD_CITY",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

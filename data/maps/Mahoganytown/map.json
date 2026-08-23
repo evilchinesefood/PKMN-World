@@ -2,7 +2,7 @@
   "id": "MAP_MAHOGANYTOWN",
   "name": "Mahoganytown",
   "layout": "LAYOUT_MAHOGANYTOWN",
-  "music": "MUS_DEWFORD",
+  "music": "MUS_HG_CHERRYGROVE",
   "region_map_section": "MAPSEC_MAHOGANY_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

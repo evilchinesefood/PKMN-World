@@ -2,7 +2,7 @@
   "id": "MAP_SPROUT_TOWER_2F",
   "name": "SproutTower_2F",
   "layout": "LAYOUT_SPROUT_TOWER_2F",
-  "music": "MUS_MT_PYRE",
+  "music": "MUS_HG_SPROUT_TOWER",
   "region_map_section": "MAPSEC_SPROUT_TOWER",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

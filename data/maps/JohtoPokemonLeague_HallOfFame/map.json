@@ -2,7 +2,7 @@
   "id": "MAP_JOHTO_POKEMON_LEAGUE_HALL_OF_FAME",
   "name": "JohtoPokemonLeague_HallOfFame",
   "layout": "LAYOUT_JOHTO_POKEMON_LEAGUE_HALL_OF_FAME",
-  "music": "MUS_RG_HALL_OF_FAME",
+  "music": "MUS_HG_HALL_OF_FAME",
   "region_map_section": "MAPSEC_JOHTO_INDIGO_PLATEAU",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

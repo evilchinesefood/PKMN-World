@@ -2,7 +2,7 @@
   "id": "MAP_GOLDENROD_CITY_FLOWER_SHOP",
   "name": "GoldenrodCity_FlowerShop",
   "layout": "LAYOUT_GOLDENROD_CITY_FLOWER_SHOP",
-  "music": "MUS_RUSTBORO",
+  "music": "MUS_HG_GOLDENROD",
   "region_map_section": "MAPSEC_GOLDENROD_CITY",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

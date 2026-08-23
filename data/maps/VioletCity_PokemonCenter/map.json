@@ -2,7 +2,7 @@
   "id": "MAP_VIOLET_CITY_POKEMON_CENTER",
   "name": "VioletCity_PokemonCenter",
   "layout": "LAYOUT_VIOLET_CITY_POKEMON_CENTER",
-  "music": "MUS_POKE_CENTER",
+  "music": "MUS_HG_POKE_CENTER",
   "region_map_section": "MAPSEC_VIOLET_CITY",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

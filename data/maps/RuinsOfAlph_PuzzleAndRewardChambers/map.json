@@ -2,7 +2,7 @@
   "id": "MAP_RUINS_OF_ALPH_PUZZLE_AND_REWARD_CHAMBERS",
   "name": "RuinsOfAlph_PuzzleAndRewardChambers",
   "layout": "LAYOUT_RUINS_OF_ALPH_PUZZLE_AND_REWARD_CHAMBERS",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_HG_RUINS_OF_ALPH",
   "region_map_section": "MAPSEC_RUINS_OF_ALPH",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

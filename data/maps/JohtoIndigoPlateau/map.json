@@ -2,7 +2,7 @@
   "id": "MAP_JOHTO_INDIGO_PLATEAU",
   "name": "JohtoIndigoPlateau",
   "layout": "LAYOUT_JOHTO_INDIGO_PLATEAU",
-  "music": "MUS_VICTORY_ROAD",
+  "music": "MUS_HG_POKEMON_LEAGUE",
   "region_map_section": "MAPSEC_JOHTO_INDIGO_PLATEAU",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

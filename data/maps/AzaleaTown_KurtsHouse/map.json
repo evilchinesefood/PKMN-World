@@ -2,7 +2,7 @@
   "id": "MAP_AZALEA_TOWN_KURTS_HOUSE",
   "name": "AzaleaTown_KurtsHouse",
   "layout": "LAYOUT_AZALEA_TOWN_KURTS_HOUSE",
-  "music": "MUS_OLDALE",
+  "music": "MUS_HG_AZALEA",
   "region_map_section": "MAPSEC_AZALEA_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

@@ -2,7 +2,7 @@
   "id": "MAP_ICE_PATH_B2F",
   "name": "IcePath_B2F",
   "layout": "LAYOUT_ICE_PATH_B2F",
-  "music": "MUS_SEALED_CHAMBER",
+  "music": "MUS_HG_ICE_PATH",
   "region_map_section": "MAPSEC_ICE_PATH",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

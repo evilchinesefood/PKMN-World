@@ -5023,7 +5023,10 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
             enum TrainerClassID opponentTrainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
             if (!(opponentTrainerClass == TRAINER_CLASS_LEADER
                 || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR
-                || opponentTrainerClass == TRAINER_CLASS_CHAMPION))
+                || opponentTrainerClass == TRAINER_CLASS_CHAMPION
+                || opponentTrainerClass == TRAINER_CLASS_LEADER_JOHTO
+                || opponentTrainerClass == TRAINER_CLASS_CHAMPION_JOHTO
+                || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR_JOHTO))
                 return;
         }
 
@@ -5283,11 +5286,37 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
+        case SPECIES_HO_OH:
+            return MUS_HG_VS_HO_OH;
+        case SPECIES_LUGIA:
+            return MUS_HG_VS_LUGIA;
+        // Suicune never takes a roamer slot -- InitJohtoBeastRoamers and
+        // RespawnJohtoBeastRoamers add only Entei and Raikou. It is fought
+        // statically on Route 25, so its theme has to be selected here.
+        case SPECIES_SUICUNE:
+            return MUS_HG_VS_SUICUNE;
         default:
             return MUS_RG_VS_LEGEND;
         }
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+
+    // Entei and Raikou roam, so they never set BATTLE_TYPE_LEGENDARY (Suicune is
+    // static and is handled in the legendary switch above).
+    // Any other roamer (Latias/Latios) falls through to the checks below unchanged.
+    if (gBattleTypeFlags & BATTLE_TYPE_ROAMER)
+    {
+        switch (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES))
+        {
+        case SPECIES_ENTEI:
+            return MUS_HG_VS_ENTEI;
+        case SPECIES_RAIKOU:
+            return MUS_HG_VS_RAIKOU;
+        default:
+            break;
+        }
+    }
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
     {
         return MUS_VS_TRAINER;
     }
@@ -5329,6 +5358,11 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_LEADER_FRLG:
         case TRAINER_CLASS_ELITE_FOUR_FRLG:
             return MUS_RG_VS_GYM_LEADER;
+        case TRAINER_CLASS_LEADER_JOHTO:
+        case TRAINER_CLASS_ELITE_FOUR_JOHTO:
+            return MUS_HG_VS_GYM_LEADER;
+        case TRAINER_CLASS_CHAMPION_JOHTO:
+            return MUS_HG_VS_CHAMPION;
         case TRAINER_CLASS_SALON_MAIDEN:
         case TRAINER_CLASS_DOME_ACE:
         case TRAINER_CLASS_PALACE_MAVEN:

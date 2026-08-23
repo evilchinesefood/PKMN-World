@@ -34,6 +34,7 @@ run "Gen 1-3 species rules"          Testing/ValidateGen13.py
 run "Event-script pointer arguments" Testing/ValidateScripts.py
 run "Overworld-Pokemon placements"   Testing/ValidateOwMonPlacements.py
 run "Map object-event consistency"   Testing/ValidateMapEvents.py
+run "Map metatile bounds"            Testing/ValidateMetatileBounds.py
 run "Cleared-obstacle table"         Testing/GenObstacleTable.py --check
 run "Save-format constants"          Testing/SavePatch.py --check
 

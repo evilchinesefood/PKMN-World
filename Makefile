@@ -431,11 +431,21 @@ check: $(TESTELF)
 # Proton fought as a Team Magma admin, and every one of those built, linked and booted clean.
 # It carries a REVIEW tier with recorded baselines for the smells that are not yet at zero; see
 # its docstring, and `--report` to list them.
+#
+# ValidateMetatileBounds.py covers the blockdata itself (issue #93). `DrawMetatileAt` guards only
+# `metatileId > NUM_METATILES_TOTAL` and never the tileset's own length, so an id that is in range
+# for the 512/640 split but past the end of the tileset indexes .rodata and draws whatever symbol
+# the linker put next -- Johto Victory Road drew Secret Base blocks across 1989 of 1F's 2070 tiles
+# and nothing in the build, the link or the boot said a word. It also counts references to blank
+# (all-zero) metatiles, which is what caught the Mahogany Gym mis-wiring that a pure bounds check
+# went green over. Both tiers pin exact per-layout counts and fail in BOTH directions, so a fixed
+# map must have its number ratcheted down rather than leaving a stale exemption behind.
 validate:
 	python3 Testing/ValidateGen13.py
 	python3 Testing/ValidateScripts.py
 	python3 Testing/ValidateOwMonPlacements.py
 	python3 Testing/ValidateMapEvents.py
+	python3 Testing/ValidateMetatileBounds.py
 	python3 Testing/GenObstacleTable.py --check
 	python3 Testing/SavePatch.py --check
 

@@ -28,6 +28,7 @@
 #include "random.h"
 #include "event_data.h"
 #include "overworld.h"
+#include "regions.h"
 #include "menu.h"
 #include "fldeff_misc.h"
 #include "trainer_pokemon_sprites.h"
@@ -385,7 +386,7 @@ static bool8 InitHallOfFameScreen(void)
         if (!gPaletteFade.active)
         {
             SetMainCallback2(CB2_HallOfFame);
-            PlayBGM(MUS_HALL_OF_FAME);
+            PlayBGM(GetCurrentRegion() == REGION_JOHTO ? MUS_HG_HALL_OF_FAME : MUS_HALL_OF_FAME);
             return FALSE;
         }
         break;

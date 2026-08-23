@@ -543,6 +543,69 @@
 #define PH_NURSE_HELD               608
 #define PH_NURSE_SOLO               609
 
+// Johto (HG/SS) music, imported from PokemonHnS-Development/pokemonHnS.
+// These ids are appended after the phoneme block; each one has a matching
+// slot at the SAME index at the end of sound/song_table.inc.
+#define MUS_HG_AZALEA               610
+#define MUS_HG_BELL_TOWER           611
+#define MUS_HG_BUG_CATCHING_CONTEST 612
+#define MUS_HG_BURNED_TOWER         613
+#define MUS_HG_CHERRYGROVE          614
+#define MUS_HG_CIANWOOD             615
+#define MUS_HG_DANCE_THEATER        616
+#define MUS_HG_DRAGONS_DEN          617
+#define MUS_HG_ECRUTEAK             618
+#define MUS_HG_ELM_LAB              619
+#define MUS_HG_ENCOUNTER_RIVAL      620
+#define MUS_HG_EUSINE               621
+#define MUS_HG_FOLLOW_ME_1          622
+#define MUS_HG_GAME_CORNER          623
+#define MUS_HG_GOLDENROD            624
+#define MUS_HG_GYM                  625
+#define MUS_HG_HALL_OF_FAME         626
+#define MUS_HG_ICE_PATH             627
+#define MUS_HG_KIMONO_GIRL          628
+#define MUS_HG_KIMONO_GIRL_DANCE    629
+#define MUS_HG_LIGHTHOUSE           630
+#define MUS_HG_MAGNET_TRAIN         631
+#define MUS_HG_NATIONAL_PARK        632
+#define MUS_HG_NEW_BARK             633
+#define MUS_HG_OAK                  634
+#define MUS_HG_POKEGEAR_REGISTERED  635
+#define MUS_HG_POKEMON_LEAGUE       636
+#define MUS_HG_POKE_CENTER          637
+#define MUS_HG_POKE_MART            638
+#define MUS_HG_RADIO_ROCKET         639
+#define MUS_HG_RIVAL_EXIT           640
+#define MUS_HG_ROCKET_TAKEOVER      641
+#define MUS_HG_ROUTE26              642
+#define MUS_HG_ROUTE29              643
+#define MUS_HG_ROUTE30              644
+#define MUS_HG_ROUTE34              645
+#define MUS_HG_ROUTE38              646
+#define MUS_HG_ROUTE42              647
+#define MUS_HG_ROUTE47              648
+#define MUS_HG_RUINS_OF_ALPH        649
+#define MUS_HG_SAFARI_ZONE          650
+#define MUS_HG_SAFARI_ZONE_GATE     651
+#define MUS_HG_SPROUT_TOWER         652
+#define MUS_HG_SS_AQUA              653
+#define MUS_HG_TEAM_ROCKET_HQ       654
+#define MUS_HG_UNION_CAVE           655
+#define MUS_HG_VICTORY_ROAD         656
+#define MUS_HG_VIOLET               657
+#define MUS_HG_VS_CHAMPION          658
+#define MUS_HG_VS_ENTEI             659
+#define MUS_HG_VS_GYM_LEADER        660
+#define MUS_HG_VS_HO_OH             661
+#define MUS_HG_VS_LUGIA             662
+#define MUS_HG_VS_RAIKOU            663
+#define MUS_HG_VS_SUICUNE           664
+#define MUS_HG_VS_RIVAL             665
+#define MUS_HG_VS_ROCKET            666
+#define MUS_HG_VS_TRAINER           667
+#define MUS_HG_VS_WILD              668
+
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 
 #define MUS_NONE                    0xFFFF

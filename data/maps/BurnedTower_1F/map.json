@@ -2,7 +2,7 @@
     "id": "MAP_BURNED_TOWER_1F",
     "name": "BurnedTower_1F",
     "layout": "LAYOUT_BURNED_TOWER_1F",
-    "music": "MUS_MT_PYRE",
+    "music": "MUS_HG_BURNED_TOWER",
     "region_map_section": "MAPSEC_BURNED_TOWER",
     "requires_flash": false,
     "weather": "WEATHER_SHADE",

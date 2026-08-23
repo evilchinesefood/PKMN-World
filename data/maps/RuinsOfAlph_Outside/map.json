@@ -2,7 +2,7 @@
   "id": "MAP_RUINS_OF_ALPH_OUTSIDE",
   "name": "RuinsOfAlph_Outside",
   "layout": "LAYOUT_RUINS_OF_ALPH_OUTSIDE",
-  "music": "MUS_MT_PYRE",
+  "music": "MUS_HG_UNION_CAVE",
   "region_map_section": "MAPSEC_RUINS_OF_ALPH",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

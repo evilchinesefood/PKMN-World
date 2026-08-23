@@ -2,7 +2,7 @@
   "id": "MAP_OLIVINE_CITY_LIGHTHOUSE",
   "name": "OlivineCity_Lighthouse",
   "layout": "LAYOUT_OLIVINE_CITY_LIGHTHOUSE",
-  "music": "MUS_PETALBURG",
+  "music": "MUS_HG_LIGHTHOUSE",
   "region_map_section": "MAPSEC_OLIVINE_LIGHTHOUSE",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

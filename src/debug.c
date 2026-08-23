@@ -4282,8 +4282,66 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_RG_ENCOUNTER_DEOXYS)      \
     X(MUS_RG_TRAINER_TOWER)         \
     X(MUS_RG_SLOW_PALLET)           \
-    X(MUS_RG_TEACHY_TV_MENU)
-
+    X(MUS_RG_TEACHY_TV_MENU)        \
+    X(MUS_HG_AZALEA)                \
+    X(MUS_HG_BELL_TOWER)            \
+    X(MUS_HG_BUG_CATCHING_CONTEST)  \
+    X(MUS_HG_BURNED_TOWER)          \
+    X(MUS_HG_CHERRYGROVE)           \
+    X(MUS_HG_CIANWOOD)              \
+    X(MUS_HG_DANCE_THEATER)         \
+    X(MUS_HG_DRAGONS_DEN)           \
+    X(MUS_HG_ECRUTEAK)              \
+    X(MUS_HG_ELM_LAB)               \
+    X(MUS_HG_ENCOUNTER_RIVAL)       \
+    X(MUS_HG_EUSINE)                \
+    X(MUS_HG_FOLLOW_ME_1)           \
+    X(MUS_HG_GAME_CORNER)           \
+    X(MUS_HG_GOLDENROD)             \
+    X(MUS_HG_GYM)                   \
+    X(MUS_HG_HALL_OF_FAME)          \
+    X(MUS_HG_ICE_PATH)              \
+    X(MUS_HG_KIMONO_GIRL)           \
+    X(MUS_HG_KIMONO_GIRL_DANCE)     \
+    X(MUS_HG_LIGHTHOUSE)            \
+    X(MUS_HG_MAGNET_TRAIN)          \
+    X(MUS_HG_NATIONAL_PARK)         \
+    X(MUS_HG_NEW_BARK)              \
+    X(MUS_HG_OAK)                   \
+    X(MUS_HG_POKEGEAR_REGISTERED)   \
+    X(MUS_HG_POKEMON_LEAGUE)        \
+    X(MUS_HG_POKE_CENTER)           \
+    X(MUS_HG_POKE_MART)             \
+    X(MUS_HG_RADIO_ROCKET)          \
+    X(MUS_HG_RIVAL_EXIT)            \
+    X(MUS_HG_ROCKET_TAKEOVER)       \
+    X(MUS_HG_ROUTE26)               \
+    X(MUS_HG_ROUTE29)               \
+    X(MUS_HG_ROUTE30)               \
+    X(MUS_HG_ROUTE34)               \
+    X(MUS_HG_ROUTE38)               \
+    X(MUS_HG_ROUTE42)               \
+    X(MUS_HG_ROUTE47)               \
+    X(MUS_HG_RUINS_OF_ALPH)         \
+    X(MUS_HG_SAFARI_ZONE)           \
+    X(MUS_HG_SAFARI_ZONE_GATE)      \
+    X(MUS_HG_SPROUT_TOWER)          \
+    X(MUS_HG_SS_AQUA)               \
+    X(MUS_HG_TEAM_ROCKET_HQ)        \
+    X(MUS_HG_UNION_CAVE)            \
+    X(MUS_HG_VICTORY_ROAD)          \
+    X(MUS_HG_VIOLET)                \
+    X(MUS_HG_VS_CHAMPION)           \
+    X(MUS_HG_VS_ENTEI)              \
+    X(MUS_HG_VS_GYM_LEADER)         \
+    X(MUS_HG_VS_HO_OH)              \
+    X(MUS_HG_VS_LUGIA)              \
+    X(MUS_HG_VS_RAIKOU)             \
+    X(MUS_HG_VS_SUICUNE)            \
+    X(MUS_HG_VS_RIVAL)              \
+    X(MUS_HG_VS_ROCKET)             \
+    X(MUS_HG_VS_TRAINER)            \
+    X(MUS_HG_VS_WILD)
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \
     X(SE_PC_LOGIN)                  \

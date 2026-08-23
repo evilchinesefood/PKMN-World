@@ -2,7 +2,7 @@
   "id": "MAP_WHIRL_ISLANDS_DESCENT",
   "name": "WhirlIslands_Descent",
   "layout": "LAYOUT_WHIRL_ISLANDS_DESCENT",
-  "music": "MUS_MT_PYRE_EXTERIOR",
+  "music": "MUS_HG_UNION_CAVE",
   "region_map_section": "MAPSEC_WHIRL_ISLANDS",
   "requires_flash": false,
   "weather": "WEATHER_SHADE",

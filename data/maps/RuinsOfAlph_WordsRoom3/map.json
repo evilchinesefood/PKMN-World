@@ -2,7 +2,7 @@
   "id": "MAP_RUINS_OF_ALPH_WORDS_ROOM3",
   "name": "RuinsOfAlph_WordsRoom3",
   "layout": "LAYOUT_RUINS_OF_ALPH_WORDS_ROOM3",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_HG_RUINS_OF_ALPH",
   "region_map_section": "MAPSEC_RUINS_OF_ALPH",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

@@ -2,7 +2,7 @@
   "id": "MAP_MT_SILVER_1F_WATERFALL_ROOM",
   "name": "MtSilver_1F_WaterfallRoom",
   "layout": "LAYOUT_MT_SILVER_1F_WATERFALL_ROOM",
-  "music": "MUS_MT_PYRE_EXTERIOR",
+  "music": "MUS_HG_LIGHTHOUSE",
   "region_map_section": "MAPSEC_MT_SILVER",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

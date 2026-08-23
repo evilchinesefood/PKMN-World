@@ -2,7 +2,7 @@
   "id": "MAP_DRAGONS_DEN_SHRINE",
   "name": "DragonsDen_Shrine",
   "layout": "LAYOUT_DRAGONS_DEN_SHRINE",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_HG_DRAGONS_DEN",
   "region_map_section": "MAPSEC_DRAGONS_DEN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

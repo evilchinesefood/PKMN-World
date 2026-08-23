@@ -2,7 +2,7 @@
   "id": "MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_2F",
   "name": "NewBarkTown_PlayersHouse_2F",
   "layout": "LAYOUT_NEW_BARK_TOWN_PLAYERS_HOUSE_2F",
-  "music": "MUS_LITTLEROOT",
+  "music": "MUS_HG_NEW_BARK",
   "region_map_section": "MAPSEC_NEW_BARK_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

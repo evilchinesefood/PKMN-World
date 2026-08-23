@@ -5023,7 +5023,13 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
             enum TrainerClassID opponentTrainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
             if (!(opponentTrainerClass == TRAINER_CLASS_LEADER
                 || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR
-                || opponentTrainerClass == TRAINER_CLASS_CHAMPION))
+                || opponentTrainerClass == TRAINER_CLASS_CHAMPION
+                || opponentTrainerClass == TRAINER_CLASS_LEADER_JOHTO
+                || opponentTrainerClass == TRAINER_CLASS_CHAMPION_JOHTO
+                || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR_JOHTO
+                || opponentTrainerClass == TRAINER_CLASS_LEADER_FRLG
+                || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR_FRLG
+                || opponentTrainerClass == TRAINER_CLASS_CHAMPION_FRLG))
                 return;
         }
 
@@ -5283,11 +5289,34 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
+        case SPECIES_HO_OH:
+            // Navel Rock (Kanto/Hoenn) keeps MUS_RG_VS_LEGEND; Tin Tower is Johto.
+            return (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_VS_HO_OH : MUS_RG_VS_LEGEND;
+        case SPECIES_LUGIA:
+            return (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_VS_LUGIA : MUS_RG_VS_LEGEND;
+        // Static Route 25 fight; not a roamer.
+        case SPECIES_SUICUNE:
+            return MUS_HG_VS_SUICUNE;
         default:
             return MUS_RG_VS_LEGEND;
         }
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+
+    // Entei/Raikou roam; other roamers fall through.
+    if (gBattleTypeFlags & BATTLE_TYPE_ROAMER)
+    {
+        switch (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES))
+        {
+        case SPECIES_ENTEI:
+            return MUS_HG_VS_ENTEI;
+        case SPECIES_RAIKOU:
+            return MUS_HG_VS_RAIKOU;
+        default:
+            break;
+        }
+    }
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
     {
         return MUS_VS_TRAINER;
     }
@@ -5329,6 +5358,17 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_LEADER_FRLG:
         case TRAINER_CLASS_ELITE_FOUR_FRLG:
             return MUS_RG_VS_GYM_LEADER;
+        case TRAINER_CLASS_LEADER_JOHTO:
+        case TRAINER_CLASS_ELITE_FOUR_JOHTO:
+            return MUS_HG_VS_GYM_LEADER;
+        case TRAINER_CLASS_CHAMPION_JOHTO:
+            return MUS_HG_VS_CHAMPION;
+        case TRAINER_CLASS_RIVAL_JOHTO:
+            return MUS_HG_VS_RIVAL;
+        case TRAINER_CLASS_TEAM_ROCKET_FRLG:
+            if (GetCurrentRegion() == REGION_JOHTO)
+                return MUS_HG_VS_ROCKET;
+            return MUS_RG_VS_TRAINER;
         case TRAINER_CLASS_SALON_MAIDEN:
         case TRAINER_CLASS_DOME_ACE:
         case TRAINER_CLASS_PALACE_MAVEN:
@@ -5340,16 +5380,18 @@ u16 GetBattleBGM(void)
         default:
             if (GetCurrentRegion() == REGION_KANTO)
                 return MUS_RG_VS_TRAINER;
-            else
-                return MUS_VS_TRAINER;
+            if (GetCurrentRegion() == REGION_JOHTO)
+                return MUS_HG_VS_TRAINER;
+            return MUS_VS_TRAINER;
         }
     }
     else
     {
         if (GetCurrentRegion() == REGION_KANTO)
             return MUS_RG_VS_WILD;
-        else
-            return MUS_VS_WILD;
+        if (GetCurrentRegion() == REGION_JOHTO)
+            return MUS_HG_VS_WILD;
+        return MUS_VS_WILD;
     }
 }
 

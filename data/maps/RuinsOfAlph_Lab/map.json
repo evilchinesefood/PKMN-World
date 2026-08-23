@@ -2,7 +2,7 @@
   "id": "MAP_RUINS_OF_ALPH_LAB",
   "name": "RuinsOfAlph_Lab",
   "layout": "LAYOUT_RUINS_OF_ALPH_LAB",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_HG_RUINS_OF_ALPH",
   "region_map_section": "MAPSEC_RUINS_OF_ALPH",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

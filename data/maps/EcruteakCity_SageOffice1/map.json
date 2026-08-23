@@ -2,7 +2,7 @@
   "id": "MAP_ECRUTEAK_CITY_SAGE_OFFICE1",
   "name": "EcruteakCity_SageOffice1",
   "layout": "LAYOUT_ECRUTEAK_CITY_SAGE_OFFICE1",
-  "music": "MUS_RUSTBORO",
+  "music": "MUS_HG_ECRUTEAK",
   "region_map_section": "MAPSEC_ECRUTEAK_CITY",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

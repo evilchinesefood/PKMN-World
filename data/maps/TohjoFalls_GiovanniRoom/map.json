@@ -2,7 +2,7 @@
   "id": "MAP_TOHJO_FALLS_GIOVANNI_ROOM",
   "name": "TohjoFalls_GiovanniRoom",
   "layout": "LAYOUT_TOHJO_FALLS_GIOVANNI_ROOM",
-  "music": "MUS_MT_PYRE_EXTERIOR",
+  "music": "MUS_HG_UNION_CAVE",
   "region_map_section": "MAPSEC_TOHJO_FALLS",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

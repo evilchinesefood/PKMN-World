@@ -2,7 +2,7 @@
   "id": "MAP_SAFARI_ZONE_LOW_LEFT",
   "name": "SafariZone_Low_Left",
   "layout": "LAYOUT_SAFARI_ZONE_LOW_LEFT",
-  "music": "MUS_SAFARI_ZONE",
+  "music": "MUS_HG_SAFARI_ZONE",
   "region_map_section": "MAPSEC_SAFARI_ZONE_GATE",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

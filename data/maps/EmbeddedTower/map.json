@@ -2,7 +2,7 @@
   "id": "MAP_EMBEDDED_TOWER",
   "name": "EmbeddedTower",
   "layout": "LAYOUT_EMBEDDED_TOWER",
-  "music": "MUS_ROUTE110",
+  "music": "MUS_HG_ROUTE47",
   "region_map_section": "MAPSEC_EMBEDDED_TOWER",
   "requires_flash": false,
   "weather": "WEATHER_SHADE",

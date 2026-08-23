@@ -672,6 +672,10 @@ gSongTable::
 	song mus_hg_vs_lugia, MUSIC_PLAYER_BGM, 0
 	song mus_hg_vs_raikou, MUSIC_PLAYER_BGM, 0
 	song mus_hg_vs_suicune, MUSIC_PLAYER_BGM, 0
+	song mus_hg_vs_rival, MUSIC_PLAYER_BGM, 0
+	song mus_hg_vs_rocket, MUSIC_PLAYER_BGM, 0
+	song mus_hg_vs_trainer, MUSIC_PLAYER_BGM, 0
+	song mus_hg_vs_wild, MUSIC_PLAYER_BGM, 0
 
 	.align 2
 dummy_song_header:

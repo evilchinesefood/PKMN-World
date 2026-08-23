@@ -5290,12 +5290,11 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
         case SPECIES_HO_OH:
-            return MUS_HG_VS_HO_OH;
+            // Navel Rock (Kanto/Hoenn) keeps MUS_RG_VS_LEGEND; Tin Tower is Johto.
+            return (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_VS_HO_OH : MUS_RG_VS_LEGEND;
         case SPECIES_LUGIA:
-            return MUS_HG_VS_LUGIA;
-        // Suicune never takes a roamer slot -- InitJohtoBeastRoamers and
-        // RespawnJohtoBeastRoamers add only Entei and Raikou. It is fought
-        // statically on Route 25, so its theme has to be selected here.
+            return (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_VS_LUGIA : MUS_RG_VS_LEGEND;
+        // Static Route 25 fight; not a roamer.
         case SPECIES_SUICUNE:
             return MUS_HG_VS_SUICUNE;
         default:
@@ -5303,9 +5302,7 @@ u16 GetBattleBGM(void)
         }
     }
 
-    // Entei and Raikou roam, so they never set BATTLE_TYPE_LEGENDARY (Suicune is
-    // static and is handled in the legendary switch above).
-    // Any other roamer (Latias/Latios) falls through to the checks below unchanged.
+    // Entei/Raikou roam; other roamers fall through.
     if (gBattleTypeFlags & BATTLE_TYPE_ROAMER)
     {
         switch (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES))
@@ -5366,6 +5363,12 @@ u16 GetBattleBGM(void)
             return MUS_HG_VS_GYM_LEADER;
         case TRAINER_CLASS_CHAMPION_JOHTO:
             return MUS_HG_VS_CHAMPION;
+        case TRAINER_CLASS_RIVAL_JOHTO:
+            return MUS_HG_VS_RIVAL;
+        case TRAINER_CLASS_TEAM_ROCKET_FRLG:
+            if (GetCurrentRegion() == REGION_JOHTO)
+                return MUS_HG_VS_ROCKET;
+            return MUS_RG_VS_TRAINER;
         case TRAINER_CLASS_SALON_MAIDEN:
         case TRAINER_CLASS_DOME_ACE:
         case TRAINER_CLASS_PALACE_MAVEN:
@@ -5377,16 +5380,18 @@ u16 GetBattleBGM(void)
         default:
             if (GetCurrentRegion() == REGION_KANTO)
                 return MUS_RG_VS_TRAINER;
-            else
-                return MUS_VS_TRAINER;
+            if (GetCurrentRegion() == REGION_JOHTO)
+                return MUS_HG_VS_TRAINER;
+            return MUS_VS_TRAINER;
         }
     }
     else
     {
         if (GetCurrentRegion() == REGION_KANTO)
             return MUS_RG_VS_WILD;
-        else
-            return MUS_VS_WILD;
+        if (GetCurrentRegion() == REGION_JOHTO)
+            return MUS_HG_VS_WILD;
+        return MUS_VS_WILD;
     }
 }
 

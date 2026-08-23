@@ -158,8 +158,8 @@ original sources.
 
 #### Johto music — HG/SS ports by Heart & Soul
 
-Johto's music is HnS's own work and ships here byte-for-byte. The 55 `MUS_HG_*` tracks
-(`sound/songs/midi/mus_hg_*.mid`, song ids 610–664) are md5-identical to HnS's files, and
+Johto's music is HnS's own work and ships here byte-for-byte. The 59 `MUS_HG_*` tracks
+(`sound/songs/midi/mus_hg_*.mid`, song ids 610–668) are md5-identical to HnS's files, and
 they are driven by HnS's **`voicegroup229`** — the HG/SS instrument bank — imported whole
 along with its 47 key-split sub-voicegroups, its 30 `KeySplitTable*` tables, and the 195
 instrument samples they reference. Every sample is HnS's own `.aif`, converted to `.wav`

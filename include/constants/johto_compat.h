@@ -4,9 +4,6 @@
 // Region merge (Johto port): aliases for HnS symbols the expansion lacks, mapped to
 // the nearest target equivalents so Johto scripts link. Cosmetic remaps (movement
 // labels, multichoice, berry-tree slots) — refine in the Stage-4 content pass.
-// NOTE: the MUS_HG_* music aliases are GONE. All 14 of them now resolve to real
-// imported HG/SS tracks defined in constants/songs.h (ids 610-664); re-adding an
-// alias here would shadow the real track with a Hoenn substitute.
 // NOTE: the berry-tree aliases below now map to dedicated Johto slots (BERRY_TREE_JOHTO_*,
 // defined in constants/berry.h), so they no longer share state with the Hoenn trees.
 #define Common_Movement_WalkLeft1   Common_Movement_WalkLeft
@@ -35,12 +32,10 @@
 // === Olivine area aliases ===
 
 // === Cianwood area aliases ===
-// Eusine encounter cue (script playbgm) -> a target character-encounter theme.
 // Cianwood City Sitrus berry tree borrows a real suffixed Hoenn slot (own slot in Stage 4).
 #define BERRY_TREE_SITRUS_1         BERRY_TREE_JOHTO_SITRUS_1
 
 // === Mahogany area aliases ===
-// Team Rocket HQ takeover theme (script playbgm + map header) -> target villain-base theme.
 // Lance vs Ariana+Grunt multi-battle: the HnS special-battle id has no target equivalent, so
 // alias it to the engine's generic multi-battle and let MahoganyHideout_B2F's setvar VAR_0x8004 /
 // DoSpecialTrainerBattle path link and fire.
@@ -73,9 +68,6 @@
 // Blackthorn-area berry trees -> Hoenn slots (Stage-4 own slots)
 #define BERRY_TREE_ASPEAR_2  BERRY_TREE_JOHTO_ASPEAR_2
 #define BERRY_TREE_LUM_1     BERRY_TREE_JOHTO_LUM_1
-
-// === Final Johto batch aliases ===
-// Tohjo Falls Giovanni cutscene radio theme (script playbgm) -> target villain-base theme.
 
 // === removenamedmon result codes ===
 // Written to gSpecialVar_Result by ScrCmd_removenamedmon_Compat (src/scrcmd_johto_compat.c) and

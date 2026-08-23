@@ -737,8 +737,7 @@ void BattleSetup_StartLegendaryBattle(void)
     case SPECIES_DEOXYS_SPEED:
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_DEOXYS);
         break;
-    // Song 0 defers to GetBattleBGM(), which picks the HG/SS theme by species.
-    // Passing a song here would win outright and strand those tracks (issue #99).
+    // Song 0 defers to GetBattleBGM (Johto Ho-Oh/Lugia vs Navel Rock RG).
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
     case SPECIES_SUICUNE:

@@ -915,7 +915,7 @@ static u8 GetBattleEnvironmentOverride(void)
         u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
         if (trainerClass == TRAINER_CLASS_LEADER || trainerClass == TRAINER_CLASS_LEADER_JOHTO)
             return BATTLE_ENVIRONMENT_LEADER;
-        else if (trainerClass == TRAINER_CLASS_CHAMPION || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO)
+        else if (trainerClass == TRAINER_CLASS_CHAMPION || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
             return BATTLE_ENVIRONMENT_CHAMPION;
     }
 
@@ -1303,7 +1303,8 @@ void DrawBattleEntryBackground(void)
         {
             enum TrainerClassID trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
             if (trainerClass == TRAINER_CLASS_LEADER || trainerClass == TRAINER_CLASS_CHAMPION
-             || trainerClass == TRAINER_CLASS_LEADER_JOHTO || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO)
+             || trainerClass == TRAINER_CLASS_LEADER_JOHTO || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO
+             || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
             {
                 LoadBattleEnvironmentEntryGfx(GetBattleEnvironmentOverride());
                 return;

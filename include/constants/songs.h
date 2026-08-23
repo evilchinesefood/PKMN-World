@@ -601,6 +601,10 @@
 #define MUS_HG_VS_LUGIA             662
 #define MUS_HG_VS_RAIKOU            663
 #define MUS_HG_VS_SUICUNE           664
+#define MUS_HG_VS_RIVAL             665
+#define MUS_HG_VS_ROCKET            666
+#define MUS_HG_VS_TRAINER           667
+#define MUS_HG_VS_WILD              668
 
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 

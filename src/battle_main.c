@@ -424,6 +424,7 @@ const struct TrainerClass gTrainerClasses[TRAINER_CLASS_COUNT] =
     [TRAINER_CLASS_LEADER_JOHTO] =         { _("LEADER"), 25, B_TRAINER_CLASS_POKE_BALLS >= GEN_8 ? BALL_ULTRA : BALL_POKE },
     [TRAINER_CLASS_CHAMPION_JOHTO] =       { _("CHAMPION"), 50, BALL_ULTRA },
     [TRAINER_CLASS_ELITE_FOUR_JOHTO] =     { _("ELITE FOUR"), 25, BALL_ULTRA },
+    [TRAINER_CLASS_RIVAL_JOHTO] =          { _("{PKMN} TRAINER"), 15 },
 };
 
 static void (*const sTurnActionsFuncsTable[])(void) =
@@ -5378,6 +5379,8 @@ static void HandleEndTurn_BattleWon(void)
         case TRAINER_CLASS_CHAMPION:
         case TRAINER_CLASS_CHAMPION_JOHTO:
         case TRAINER_CLASS_ELITE_FOUR_JOHTO:
+        case TRAINER_CLASS_ELITE_FOUR_FRLG:
+        case TRAINER_CLASS_CHAMPION_FRLG:
             PlayBGM(MUS_VICTORY_LEAGUE);
             break;
         case TRAINER_CLASS_TEAM_AQUA:
@@ -5390,6 +5393,7 @@ static void HandleEndTurn_BattleWon(void)
             break;
         case TRAINER_CLASS_LEADER:
         case TRAINER_CLASS_LEADER_JOHTO:
+        case TRAINER_CLASS_LEADER_FRLG:
             PlayBGM(MUS_VICTORY_GYM_LEADER);
             break;
         default:

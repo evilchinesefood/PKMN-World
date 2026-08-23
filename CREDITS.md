@@ -156,7 +156,23 @@ original sources.
   on, and so the base the Johto content was originally authored against. (Pokémon World itself
   sits on pokeemerald-expansion — see [Base engine](#base-engine) above.)
 
-As further HnS content lands here — music, NPC sprites, the badge sheet — extend
+#### Johto music — HG/SS ports by Heart & Soul
+
+Johto's music is HnS's own work and ships here byte-for-byte. The 55 `MUS_HG_*` tracks
+(`sound/songs/midi/mus_hg_*.mid`, song ids 610–664) are md5-identical to HnS's files, and
+they are driven by HnS's **`voicegroup229`** — the HG/SS instrument bank — imported whole
+along with its 47 key-split sub-voicegroups, its 30 `KeySplitTable*` tables, and the 195
+instrument samples they reference. Every sample is HnS's own `.aif`, converted to `.wav`
+only because this tree dropped `aif2pcm` when upstream pokeemerald-expansion moved to
+`wav2agb` (PR #2213); the converter was validated by reproducing all 156 of this tree's own
+`aif`→`wav` conversions byte-for-byte before it was pointed at HnS's files, and the GBA
+sample data it yields is identical to what `aif2pcm` produced.
+
+These are HnS's arrangements of Junichi Masuda's, Go Ichinose's and Morikazu Aoki's
+Game Boy Color originals as re-scored for Nintendo DS in *HeartGold* and *SoulSilver*;
+the underlying compositions are Nintendo/Creatures/GAME FREAK's.
+
+As further HnS content lands here — NPC sprites, the badge sheet — extend
 this block rather than starting a new one.
 
 ### Kanto region — FRLG content (pret lineage)

@@ -13,7 +13,6 @@ GoldenrodDeptStore6_EventScript_Whitney::
 	setflag FLAG_HIDE_DEPTSTORE_WHITNEY
 	removeobject LOCALID_STORE_WHITNEY
 	fadescreenswapbuffers FADE_FROM_BLACK
-	clearflag FLAG_HIDE_DOJO_WHITNEY
 	release
 	end
 

@@ -473,7 +473,7 @@ GoldenrodCity_UndergroundSwitches_EventScript_Grunt27::
 	msgbox GoldenrodUnderground_Text_GruntF3After, MSGBOX_AUTOCLOSE
 	end
 
-GoldenrodCity_UndergroundSwitches_EventScript_Item_Revive::
+GoldenrodCity_UndergroundSwitches_EventScript_Item_MaxRevive::
 	finditem ITEM_MAX_REVIVE
 	end
 

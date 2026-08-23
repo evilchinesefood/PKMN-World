@@ -54,7 +54,7 @@
       "flag": "FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
+      "graphics_id": "OBJ_EVENT_GFX_JANINE",
       "x": 11,
       "y": 6,
       "elevation": 0,

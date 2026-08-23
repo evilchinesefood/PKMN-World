@@ -80,7 +80,7 @@
       "flag": "FLAG_HIDE_GOLDENROD_ROCKETS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
+      "graphics_id": "OBJ_EVENT_GFX_PROTON",
       "x": 28,
       "y": 9,
       "elevation": 0,

@@ -81,10 +81,83 @@ through the Johto League and Mt. Silver — was ported from
 **[PokemonHnS-Development/pokemonHnS](https://github.com/PokemonHnS-Development/pokemonHnS)**
 ("Pokémon Heart & Soul"), a pokeemerald-based Johto remake.
 
+HnS is not merely an influence on this project's Johto content — it is its **upstream**.
+The Johto assets in the shipped ROM are HnS's own files, unmodified. Every Johto tileset
+that exists in both trees is md5-identical across all of its files — `johto_general`,
+`johto_building`, `ecruteak_city` (and its gym), `goldenrod` (and its station, game corner,
+department store and three underground sets), `burned_tower`, `whirl_islands`, the three
+`ruins_of_alph_*` sets, `national_park`, `ilex_forest`, `lighthouse`, `cave_ice`,
+`mt_silver_snow`, `johto_day_care`, and `mahogany_town_gym` — matching file for file even where
+this tree renamed the directory, as are the Johto region map in both its Poké Nav and Pokédex
+copies and the Johto door animations. (`johto_day_care` is HnS's `pokemon_day_care`, which HnS
+rebuilt as a 202-metatile Johto interior set; it is imported here under a new name because this
+tree also still ships the 68-metatile Hoenn `pokemon_day_care` that Route 117's day care needs.
+It backs the Goldenrod City Flower Shop and the Route 34 Day Care.
+`mahogany_town_gym` is the same story: it is HnS's `sootopolis_gym`, which HnS rebuilt from
+Hoenn's 122-metatile version into a 200-metatile set holding Pryce's ice-puzzle gym, and it is
+imported here under a new name because this tree still ships — and still needs — the original
+122-metatile `sootopolis_gym` for Sootopolis City Gym 1F and B1F. It backs the Mahogany Town
+Gym.)
+The Johto map scripts are near-identical, most differing from HnS's by only a handful of
+lines out of several hundred.
+
 - **The Pokémon Heart & Soul development team and contributors** — authors of the
   Johto maps, scripts, data, engine pieces, and trainer portrait art this port is built from, including
   the Ruins of Alph sliding-puzzle engine, the National Park Bug-Catching Contest
   engine, and the Johto roamer routes.
+  - **Lil Dill** — HnS lead developer and game director.
+  - **TixoRebel**, **InfiniteBacon42**, **Exclsior**, **Phantonomy**, **DaniRainbow** —
+    HnS developers.
+
+#### Pass-through credits from Heart & Soul
+
+Because that art ships here unchanged, the credits HnS gives to its own sources are owed by
+this project too. The following is passed through from HnS's
+[credits section](https://github.com/PokemonHnS-Development/pokemonHnS#credits); where this
+list and theirs disagree, theirs is the authority, and it should be followed on to the
+original sources.
+
+- **Tilesets** — **Crystal Advance** (*Kertra*), **Ekat99**, **TheDeadHeroAlistair**, and the
+  **Johto Redrawn Team**. This is the art this project ships byte-for-byte.
+- **Johto badge sheet** — `graphics/trainer_card/johto/badges.png` (Zephyr through Rising, as
+  drawn on the trainer card's JOHTO page) is HnS's own `graphics/trainer_card/badges.png`,
+  re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index preserved.
+- **Eusine art** — `graphics/trainers/front_pics/eusine.png` is HnS's own front pic, shipped
+  byte-for-byte. `graphics/object_events/pics/people/eusine.png` and
+  `graphics/object_events/palettes/eusine.pal` are HnS's overworld sprite and palette; the
+  sprite was re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index
+  preserved, and the palette ships unchanged.
+- **Johto overworld cast** — the overworld sprites and palettes for the eight Johto gym
+  leaders, Will, Karen, Professor Elm, Kurt, the Kimono Girl, Silver, Janine, the four Team
+  Rocket executives, the Sage and the Firebreather are HnS's own
+  `graphics/object_events/pics/people/` and `graphics/object_events/palettes/` files. So are
+  the nine-frame walking sheets that replace this project's three-frame FRLG stills for
+  Brock, Misty, Lt. Surge, Erika, Sabrina, Blaine and Lance. Where HnS stores a sheet 8-bit
+  indexed it was re-encoded to 4-bit with its palette and every pixel index preserved —
+  `gbagfx` output from HnS's file and from ours is byte-identical. Every palette ships
+  unchanged.
+- **Johto trainer front pics** — `archer`, `ariana`, `petrel`, `proton`, `firebreather`,
+  `sage`, `sage_leader`, `kimono_girl` and `officer` in `graphics/trainers/front_pics/` are
+  HnS's own front pics, shipped byte-for-byte apart from the same lossless 8-bit-to-4-bit
+  re-encode where HnS stored them 8-bit.
+- **Mapping references** — **Crystal Advance** (*Kertra*), **Fire Gold** (*blackfragrant*),
+  and **SkidMarc25**, credited by HnS for the maps carried over here.
+- **Sprites** — **Cesare_CBass**, **AveonTrainer**, **PurpleZaffre**, and **BatimaTheBat**,
+  credited by HnS for the sprite art this port's Johto trainer and overworld graphics derive
+  from.
+- **Trainer and encounter design** — **Crystal Legacy** by **TSP (TheSmithPlays)**, cited by
+  HnS as the basis for the trainer teams and wild encounters that came across with the Johto
+  campaign.
+- **Surfing Pokémon overworlds** — **slawter666** and **wally-217**. Listed for completeness:
+  HnS's surfable-Pokémon overworld set is *not* currently shipped here (this project's surf
+  mount uses the expansion's own follower sprites via `OW_SURF_USES_MON_SPRITE`). If that art
+  is imported later, the credit is already in place.
+- **Engine lineage** — **Modern Emerald** by **resetes12**, the pokeemerald base HnS is built
+  on, and so the base the Johto content was originally authored against. (Pokémon World itself
+  sits on pokeemerald-expansion — see [Base engine](#base-engine) above.)
+
+As further HnS content lands here — music, NPC sprites, the badge sheet — extend
+this block rather than starting a new one.
 
 ### Kanto region — FRLG content (pret lineage)
 

@@ -104,13 +104,23 @@ MahoganyTown_EventScript_MerchantTrigger::
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantRefused
 	checkmoney 300, 0
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantBroke
+	checkitemspace ITEM_RAGE_CANDY_BAR, 1
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
 	removemoney 300
 	updatemoneybox 0
 	playse SE_SHOP
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSavorIt, MSGBOX_DEFAULT
-	giveitem ITEM_RAGE_CANDY_BAR
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+@ The item description box and the money box are the same 15/baseBlock 8 window
+@ slot at (1,1), so the money box has to be down before giveitem draws over it.
+.if OW_SHOW_ITEM_DESCRIPTIONS != OW_ITEM_DESCRIPTIONS_OFF
 	hidemoneybox
+	giveitem ITEM_RAGE_CANDY_BAR
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpaceMoneyBoxHidden
+.else
+	giveitem ITEM_RAGE_CANDY_BAR
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
+	hidemoneybox
+.endif
 	closemessage
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1
 	call_if_eq VAR_TEMP_0, 30, MahoganyTown_EventScript_PushPlayer
@@ -136,11 +146,21 @@ MahoganyTown_EventScript_Merchant::
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantRefused
 	checkmoney 300, 0
 	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_MerchantBroke
+	checkitemspace ITEM_RAGE_CANDY_BAR, 1
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
 	removemoney 300
 	updatemoneybox 0
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSavorIt, MSGBOX_DEFAULT
-	giveitem ITEM_RAGE_CANDY_BAR
+@ See the note in MahoganyTown_EventScript_MerchantTrigger above.
+.if OW_SHOW_ITEM_DESCRIPTIONS != OW_ITEM_DESCRIPTIONS_OFF
 	hidemoneybox
+	giveitem ITEM_RAGE_CANDY_BAR
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpaceMoneyBoxHidden
+.else
+	giveitem ITEM_RAGE_CANDY_BAR
+	goto_if_eq VAR_RESULT, FALSE, MahoganyTown_EventScript_NotEnoughSpace
+	hidemoneybox
+.endif
 	closemessage
 	release
 	end
@@ -165,15 +185,27 @@ MahoganyTown_EventScript_MerchantBroke::
 	release
 	end
 
-MahoganyTown_EventScript_NotEnoughSpace:
-	msgbox MahoganyTown_Text_RageCandyBarMerchantRefused, MSGBOX_DEFAULT
+MahoganyTown_EventScript_NotEnoughSpace::
+	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
 	closemessage
 	hidemoneybox
 	closemessage
 	getplayerxy VAR_TEMP_0, VAR_TEMP_1
 	call_if_eq VAR_TEMP_0, 30, MahoganyTown_EventScript_PushPlayer
 	release
-	return
+	end
+
+.if OW_SHOW_ITEM_DESCRIPTIONS != OW_ITEM_DESCRIPTIONS_OFF
+@ Reached only from the post-giveitem branches, where hidemoneybox has already
+@ run; hiding it a second time would tear down an already-removed window.
+MahoganyTown_EventScript_NotEnoughSpaceMoneyBoxHidden::
+	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
+	closemessage
+	getplayerxy VAR_TEMP_0, VAR_TEMP_1
+	call_if_eq VAR_TEMP_0, 30, MahoganyTown_EventScript_PushPlayer
+	release
+	end
+.endif
 
 MahoganyTown_EventScript_MerchantAfter::
 	msgbox MahoganyTown_Text_RageCandyBarMerchantSoldOut, MSGBOX_DEFAULT

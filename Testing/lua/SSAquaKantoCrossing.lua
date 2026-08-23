@@ -701,7 +701,12 @@ F.run(function()
     F.check("B: active region is JOHTO after the terminal crossing", activeRegion() == REGION_JOHTO,
       "region=" .. activeRegion())
     clearBox(10)
-    F.check("G: control returns on the far shore", F.step("Down"))
+    -- Step NORTH, not south. Since #152 this arm lands on the BERTH (8,16) like every other
+    -- scripted arrival, instead of the terminal's north door (8,9). The berth sailor is an
+    -- unflagged, always-present object at (8,17), so "Down" is permanently blocked here and
+    -- would report stuck no matter what the crossing did. (8,15) is the open corridor tile.
+    -- This still discriminates: if the cutscene never gave control back, no direction moves.
+    F.check("G: control returns on the far shore", F.step("Up"))
     F.check("G: the follower came across too", followerOut(), describeFollower())
     F.shot("follower_crossing")
   end

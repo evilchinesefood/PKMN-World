@@ -208,6 +208,8 @@ BattleNet_EventScript_StreakOver:
 	special UpdateBattleNetStreak
 	special AddBattleNetPoints              @ 1 BP per win (0 wins pays nothing)
 	buffernumberstring 0, VAR_TEMP_2
+	@ A perfect run keeps its own path: StreakCleared awards the bonus and does its own
+	@ cap check, so it reports the cap without losing the "A PERFECT 7!" line.
 	goto_if_eq VAR_TEMP_2, BNET_STREAK_ROUNDS, BattleNet_EventScript_StreakCleared
 	@ Branch the 0-win run: "1 BP paid per win" after zero wins read as a payment.
 	goto_if_eq VAR_TEMP_2, 0, BattleNet_EventScript_StreakNoWins
@@ -224,7 +226,14 @@ BattleNet_EventScript_StreakNoWins:
 BattleNet_EventScript_StreakCleared:
 	setvar VAR_0x8005, BNET_STREAK_BONUS
 	special AddBattleNetPoints
+	@ VAR_RESULT = bonus BP actually applied. Anything short of the full bonus means the
+	@ 9999 cap ate part of it (or the wins payout was itself only partly applied), so the
+	@ "7 BP plus a 5 BP bonus" line would be promising BP the player never received.
+	goto_if_ne VAR_RESULT, BNET_STREAK_BONUS, BattleNet_EventScript_StreakPerfectCapped
 	msgbox BattleNet_Text_StreakPerfect, MSGBOX_DEFAULT
+	goto BattleNet_EventScript_StreakMenu
+BattleNet_EventScript_StreakPerfectCapped:
+	msgbox BattleNet_Text_StreakPerfectCapped, MSGBOX_DEFAULT
 	goto BattleNet_EventScript_StreakMenu
 BattleNet_EventScript_StreakCantStart:
 	msgbox BattleNet_Text_StreakNoParty, MSGBOX_DEFAULT
@@ -369,6 +378,11 @@ BattleNet_Text_RoomWonCapped:
 BattleNet_Text_StreakPerfect:
 	.string "A PERFECT 7!\p"
 	.string "7 BP for the wins plus a 5 BP bonus.\n"
+	.string "The records board will remember this.$"
+BattleNet_Text_StreakPerfectCapped:
+	.string "A PERFECT 7!\p"
+	.string "…but your BP CASE is maxed out\n"
+	.string "at 9,999, so BP was lost to the cap.\p"
 	.string "The records board will remember this.$"
 BattleNet_Text_StreakNoParty:
 	.string "ERROR: no battle-ready POKéMON\n"

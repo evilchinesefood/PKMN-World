@@ -170,6 +170,18 @@ OlivinePort_EventScript_ChoseVermilion::
 	release
 	end
 
+@ Issue #151: the three FLAG_SHOWN_* below are CROSS-PORT "this ticket has been presented to a
+@ sailor" records, not "first time at LILYCOVE" state - MAP_VERMILION_CITY reads and sets the
+@ same shared AURORA flag (VermilionCity_EventScript_ShowAuroraTicket). Sailing from here
+@ without setting them left LilycoveCity_Harbor_EventScript_GetEonTicketState (and its AURORA /
+@ OLD SEA MAP twins) still scoring the ticket as state 2, so the next Lilycove visit replayed
+@ the first-time sailor-swap cutscene - and for the OLD SEA MAP, Briney's whole inline boarding
+@ scene - on a trip the player had already made.
+@
+@ Placement mirrors Lilycove's *FirstTime scripts, which setflag as the FIRST act of the
+@ committed branch, ahead of the boarding helper. Both goto_if guards above are the only
+@ abort paths in this script; past them the trip always happens, so the flag can never record
+@ a voyage that did not run.
 OlivinePort_EventScript_ChoseSouthernIsland::
 	closemessage
 	delay 20
@@ -177,6 +189,7 @@ OlivinePort_EventScript_ChoseSouthernIsland::
 	bufferitemname STR_VAR_1, ITEM_EON_TICKET
 	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
+	setflag FLAG_SHOWN_EON_TICKET
 	call OlivinePort_EventScript_EnterShip
 	warpsilent MAP_SOUTHERN_ISLAND_EXTERIOR, 13, 22
 	waitstate
@@ -190,6 +203,7 @@ OlivinePort_EventScript_ChoseBirthIsland::
 	bufferitemname STR_VAR_1, ITEM_AURORA_TICKET
 	goto_if_unset FLAG_ENABLE_SHIP_BIRTH_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
+	setflag FLAG_SHOWN_AURORA_TICKET
 	call OlivinePort_EventScript_EnterShip
 	@ The HARBOR, not the exterior: (13,23) on MAP_BIRTH_ISLAND_EXTERIOR is an impassable
 	@ tile with no sailor on the map to sail home from. MAP_LILYCOVE_CITY_HARBOR's identical
@@ -207,6 +221,7 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 	bufferitemname STR_VAR_1, ITEM_OLD_SEA_MAP
 	goto_if_unset FLAG_ENABLE_SHIP_FARAWAY_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
+	setflag FLAG_SHOWN_OLD_SEA_MAP
 	call OlivinePort_EventScript_EnterShip
 	warpsilent MAP_FARAWAY_ISLAND_ENTRANCE, 13, 38
 	waitstate

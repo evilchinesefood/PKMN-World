@@ -99,8 +99,8 @@
       "flag": "FLAG_ITEM_ROUTE47_WHITE_FLUTE"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
-      "x": 40,
+      "graphics_id": "OBJ_EVENT_GFX_SAGE",
+      "x": 39,
       "y": 45,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
@@ -488,7 +488,15 @@
     }
   ],
   "coord_events": [
-
+    {
+      "type": "trigger",
+      "x": 40,
+      "y": 45,
+      "elevation": 0,
+      "var": "FLAG_JOHTO_CHAMPION",
+      "var_value": "0",
+      "script": "Route47_EventScript_EmbeddedTowerGate"
+    }
   ],
   "bg_events": [
 

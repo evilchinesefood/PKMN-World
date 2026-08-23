@@ -122,6 +122,7 @@ static void SetAreaHasMon(u16, u16);
 static void SetSpecialMapHasMon(u16, u16);
 static mapsec_u16_t GetRegionMapSectionId(u8, u8);
 static bool8 MapHasSpecies(const struct WildEncounterTypes *, u32, enum Species);
+static const struct WildPokemonInfo *ResolveAreaTable(const struct WildPokemonInfo *, const struct WildPokemonInfo *);
 static bool8 MonListHasSpecies(const struct WildPokemonInfo *, enum Species, u16);
 static void DoAreaGlow(void);
 static void Task_ShowPokedexAreaScreen(u8 taskId);
@@ -340,7 +341,9 @@ static void FindMapsWithMon(enum Species species)
         if (GetRegionMapType(headerSectionId) != currentRegionMapType)
             continue;
 
-        if (MapHasSpecies(&gWildMonHeaders[i].encounterTypes[gAreaTimeOfDay], headerSectionId, species))
+        // Pass the whole per-time array, not one bucket: MapHasSpecies() resolves each area's table
+        // individually so an empty bucket falls back the same way encounters do (see ResolveAreaTable).
+        if (MapHasSpecies(gWildMonHeaders[i].encounterTypes, headerSectionId, species))
         {
             switch (gWildMonHeaders[i].mapGroup)
             {
@@ -429,8 +432,27 @@ static mapsec_u16_t GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
     return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
 }
 
-static bool8 MapHasSpecies(const struct WildEncounterTypes *info, u32 headerSectionId, enum Species species)
+// Mirrors the tail of GetTimeOfDayForEncounters() (src/wild_encounter.c): if the requested time
+// bucket has no table for this area, the encounter code falls back to OW_TIME_OF_DAY_FALLBACK's
+// table rather than treating the area as empty. The area screen has to resolve the same way or it
+// reports "AREA UNKNOWN" for hours the game will happily produce encounters in — [TIME_DAY] and
+// [TIME_EVENING] are all-NULL for every map, and [TIME_NIGHT] exists on only a subset.
+// Resolution is per area, not per header, because a map may have a night land table and no night
+// water table; each pointer falls back on its own.
+static const struct WildPokemonInfo *ResolveAreaTable(const struct WildPokemonInfo *info, const struct WildPokemonInfo *fallback)
 {
+    if (info == NULL && !OW_TIME_OF_DAY_DISABLE_FALLBACK)
+        return fallback;
+
+    return info;
+}
+
+// encounterTypes is the header's full [TIMES_OF_DAY_COUNT] array, indexed here by gAreaTimeOfDay.
+static bool8 MapHasSpecies(const struct WildEncounterTypes *encounterTypes, u32 headerSectionId, enum Species species)
+{
+    const struct WildEncounterTypes *info = &encounterTypes[gAreaTimeOfDay];
+    const struct WildEncounterTypes *fallback = &encounterTypes[OW_TIME_OF_DAY_FALLBACK];
+
     // If this is a header for Altering Cave, skip it if it's not the current Altering Cave encounter set
     if (headerSectionId == MAPSEC_ALTERING_CAVE)
     {
@@ -439,19 +461,19 @@ static bool8 MapHasSpecies(const struct WildEncounterTypes *info, u32 headerSect
             return FALSE;
     }
 
-    if (MonListHasSpecies(info->landMonsInfo, species, LAND_WILD_COUNT))
+    if (MonListHasSpecies(ResolveAreaTable(info->landMonsInfo, fallback->landMonsInfo), species, LAND_WILD_COUNT))
         return TRUE;
-    if (MonListHasSpecies(info->waterMonsInfo, species, WATER_WILD_COUNT))
+    if (MonListHasSpecies(ResolveAreaTable(info->waterMonsInfo, fallback->waterMonsInfo), species, WATER_WILD_COUNT))
         return TRUE;
 // When searching the fishing encounters, this incorrectly uses the size of the land encounters.
 // As a result it's reading out of bounds of the fishing encounters tables.
 #ifdef BUGFIX
-    if (MonListHasSpecies(info->fishingMonsInfo, species, FISH_WILD_COUNT))
+    if (MonListHasSpecies(ResolveAreaTable(info->fishingMonsInfo, fallback->fishingMonsInfo), species, FISH_WILD_COUNT))
 #else
-    if (MonListHasSpecies(info->fishingMonsInfo, species, LAND_WILD_COUNT))
+    if (MonListHasSpecies(ResolveAreaTable(info->fishingMonsInfo, fallback->fishingMonsInfo), species, LAND_WILD_COUNT))
 #endif
         return TRUE;
-    if (MonListHasSpecies(info->rockSmashMonsInfo, species, ROCK_WILD_COUNT))
+    if (MonListHasSpecies(ResolveAreaTable(info->rockSmashMonsInfo, fallback->rockSmashMonsInfo), species, ROCK_WILD_COUNT))
         return TRUE;
     return FALSE;
 }
@@ -805,8 +827,15 @@ static void Task_UpdatePokedexAreaScreen(u8 taskId)
     switch (gTasks[taskId].tState)
     {
     case 0:
-        ClearAreaWindowLabel(DEX_AREA_LABEL_TIME_OF_DAY);
-        ClearAreaWindowLabel(DEX_AREA_LABEL_AREA_UNKNOWN);
+        // No ClearAreaWindowLabel() here. This task is only ever entered from the DPAD time-browse
+        // path, which necessarily runs Task_HandlePokedexAreaScreenInput's case 3 first: that
+        // already clears both labels and RemoveAllWindowsOnBg(LABEL_WINDOW_BG)s them, then frees
+        // sPokedexAreaScreen. DisplayPokedexAreaScreen() then AllocZeroed()s a fresh struct, so
+        // areaScreenLabelIds is all zeroes at this point and clearing "label 0" actually targets
+        // window 0 — the Pokedex info window (sInfoScreen_WindowTemplates[WIN_INFO], bg 2, 32x20),
+        // which lives on a different bg and so was never removed. That wiped 20 KB of its tile data
+        // and its tilemap rect on every DPAD press. Dormant until OW_TIME_OF_DAY_ENCOUNTERS made
+        // this path reachable.
         ResetSpriteData();
         FreeAllSpritePalettes();
         ResetDrawAreaGlowState();

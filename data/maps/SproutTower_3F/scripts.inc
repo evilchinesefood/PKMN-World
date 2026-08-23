@@ -104,11 +104,18 @@ SproutTower_3F_EventScript_SageLi::
 	lock
 	faceplayer
 	goto_if_set FLAG_RECEIVED_HM_FLASH, SproutTower_3F_EventScript_SageLi_Beaten
+	goto_if_defeated TRAINER_LI, SproutTower_3F_EventScript_SageLi_GiveFlash
 	msgbox SproutTower_Text_SageLi_Seen, MSGBOX_DEFAULT
 	closemessage
 	trainerbattle_no_intro TRAINER_LI, SproutTower_Text_SageLi_Beaten
+
+@ Re-entry point for a give that could not fit: LI is already beaten, so the
+@ battle is not replayed, and FLAG_RECEIVED_HM_FLASH is only set once FLASH is
+@ actually in the BAG.
+SproutTower_3F_EventScript_SageLi_GiveFlash::
 	msgbox SproutTower_Text_SageLi_TakeFlash, MSGBOX_DEFAULT
 	giveitem ITEM_HM_FLASH
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_FLASH
 	msgbox SproutTower_Text_SageLi_FlashExplain, MSGBOX_DEFAULT
 	closemessage

@@ -463,12 +463,27 @@ RegionHub_Text_SkyCharmEnjoy:
 @ World-tour board (R8): reads the three per-region badge banks (K9) and shows the running
 @ 24-badge count + per-region breakdown. The grand 24-badge tournament is a future item;
 @ this only reports progress. See .plans/features/03a Lane R R8.
-@ Deep-review 2026-07-12 (leaderboard "nothing at all", reported x2): ROOT CAUSE was the
-@ sign tile itself. The board art spans (2,1) wall-top + (2,2) floor-bottom, but (2,2) was
-@ left WALKABLE, so pressing toward it walked the player ONTO it instead of facing it - a
-@ sign only fires when faced, so it never triggered. FIX: (2,2) made impassable in
-@ data/layouts/RegionHub/map.bin; the player now reads it from (2,3) facing north (event
-@ moved to PLAYER_FACING_NORTH). Kept as a bg_event sign (NOT an object) - this map is
+@ Tile geometry (verified against data/layouts/RegionHub/map.bin, 2026-08-22). The 2026-07-12
+@ comment that used to sit here was WRONG: it claimed (2,2) had been made impassable and the
+@ board read from (2,3). Neither was ever true in the data.
+@ The board art is the FRLG battle-records kiosk, metatile 871 over metatile 879:
+@   (2,1) raw 0x0767 - metatile 871, collision 1, elevation 0, MB_BATTLE_RECORDS. Screen half.
+@   (2,2) raw 0x336F - metatile 879, collision 0, elevation 3, MB_NORMAL. Pedestal foot over
+@         floor; the player STANDS here, exactly as on the identical board in RegionHub_2F
+@         (12,3)/(12,4) and in the stock FRLG PokemonCenter 2F layouts. Left walkable on
+@         purpose - blocking it would be an invisible wall over what is mostly floor.
+@ Background events only ever fire on the tile the player FACES (src/field_control_avatar.c
+@ GetInteractedBackgroundEventScript -> GetBackgroundEventAtPosition; exact (x,y) match, no
+@ counter-style forwarding the way object events get). So the board carries TWO sign events
+@ in map.json, both PLAYER_FACING_NORTH and both pointing here:
+@   (2,1) - read while standing on (2,2), the canonical approach.
+@   (2,2) - read while standing on (2,3), so a player who stops one tile short still gets it
+@           on their first A press instead of stepping onto the kiosk foot first.
+@ Duplicating one script across the tiles of a multi-tile sign is the stock pattern (see
+@ FourIsland_PokemonCenter_1F's journal at (2,1)+(3,1)).
+@ The (2,1) bg event also shadows MB_BATTLE_RECORDS' built-in metatile script, because
+@ GetInteractionScript checks background events before GetInteractedMetatileScript.
+@ Kept as bg_event signs (NOT an object) - this map is
 @ OAM-starved, and a sign costs no sprite slot. Uses lockall/releaseall + two MSGBOX_DEFAULT
 @ (NOT MSGBOX_SIGN, which runs its own lock/release and would free the player mid-readout).
 RegionHub_EventScript_WorldTourBoard::

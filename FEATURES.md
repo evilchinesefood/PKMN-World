@@ -126,8 +126,11 @@ layout, and a legacy save would otherwise half-load with silently misaligned fla
 
 ## What's shared, what isn't
 
-**Shared:** money, bag, TMs/HMs, PC boxes, and a single **National Pokédex**. Key items
-deduplicate across regions — you never receive a second Exp. Share or an HM you already own.
+**Shared:** money, bag, TMs/HMs, PC boxes, and a single **National Pokédex**. Key items and HMs
+deduplicate across regions — if one is already in your bag or your item PC, a second giver won't
+hand you another. The **Exp. Share is exempt**: it's an ordinary held item here rather than a key
+item, so each of its sources across the three regions gives you its own copy and you can end up
+carrying several.
 
 **Per region:** story flags, badges (each region has its own badge bank), and trainer-defeat
 flags. Obedience and HM field moves are gated by the **current** region's badges, so a boxed

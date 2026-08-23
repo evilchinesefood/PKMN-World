@@ -190,12 +190,6 @@ SSAnne_2F_Corridor_Text_RivalDefeat::
 	.string "At least you're raising your\n"
 	.string "POKéMON!$"
 
-SSAnne_2F_Corridor_Text_RivalVictory::
-	.string "{PLAYER}..！\n"
-	.string "ふなよい　してるのか！\p"
-	.string "もっと　からだ\n"
-	.string "きたえた　ほうが　いいぜ！$"
-
 SSAnne_2F_Corridor_Text_RivalPostBattle::
 	.string "{RIVAL}: I heard there was a CUT\n"
 	.string "master on board.\p"

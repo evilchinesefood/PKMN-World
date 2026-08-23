@@ -170,6 +170,24 @@ ifeq ($(RELEASE),1)
 		LTO := 1
 	endif
 endif
+
+# Build stamp (issue #109) -- the version string src/main_menu.c paints on the main menu.
+#
+# `git describe --tags --always --dirty` already covers every case we care about:
+#   exact tag        -> "v1.4"
+#   commits past one -> "v1.4-87-g936e1a7c00"
+#   detached HEAD    -> same output; describe names the commit, not the branch
+#   shallow/tagless  -> --always degrades to the abbreviated hash
+#   uncommitted work -> --dirty appends "-dirty"
+# The -ef guard stops a source drop that happens to sit inside somebody else's
+# repository from being stamped with THAT repository's version (-ef compares
+# device/inode, so a symlinked checkout path still matches).
+# `tr -cd` drops the trailing newline and anything outside [A-Za-z0-9.-]: those are
+# the characters that are safe inside the single-quoted -D below AND that charmap.txt
+# has glyphs for. No git, or no repository at all, leaves PW_VERSION empty and no -D
+# is passed; src/main_menu.c then uses its own hardcoded fallback.
+PW_VERSION := $(shell test "$$(git -C "$(CURDIR)" rev-parse --show-toplevel 2>/dev/null)" -ef "$(CURDIR)" && git -C "$(CURDIR)" describe --tags --always --dirty 2>/dev/null | tr -cd 'A-Za-z0-9.-')
+
 ARMCC := $(PREFIX)gcc
 PATH_ARMCC := PATH="$(PATH)" $(ARMCC)
 CC1 := $(shell $(PATH_ARMCC) --print-prog-name=cc1) -quiet
@@ -414,6 +432,15 @@ check: $(TESTELF)
 # It carries a REVIEW tier with recorded baselines for the smells that are not yet at zero; see
 # its docstring, and `--report` to list them.
 #
+# ValidateMetatileBounds.py covers the blockdata itself (issue #93). `DrawMetatileAt` guards only
+# `metatileId > NUM_METATILES_TOTAL` and never the tileset's own length, so an id that is in range
+# for the 512/640 split but past the end of the tileset indexes .rodata and draws whatever symbol
+# the linker put next -- Johto Victory Road drew Secret Base blocks across 1989 of 1F's 2070 tiles
+# and nothing in the build, the link or the boot said a word. It also counts references to blank
+# (all-zero) metatiles, which is what caught the Mahogany Gym mis-wiring that a pure bounds check
+# went green over. Both tiers pin exact per-layout counts and fail in BOTH directions, so a fixed
+# map must have its number ratcheted down rather than leaving a stale exemption behind.
+#
 # ValidateTilesetPalettes.py covers the palette arrays behind those tilesets (issue #94). Fourth
 # time for the same failure shape, and the worst-instrumented one: `.palettes` is a bare
 # `const u16 (*)[16]`, so the ROW COUNT is discarded at the declaration and an array one row short
@@ -427,6 +454,7 @@ validate:
 	python3 Testing/ValidateScripts.py
 	python3 Testing/ValidateOwMonPlacements.py
 	python3 Testing/ValidateMapEvents.py
+	python3 Testing/ValidateMetatileBounds.py
 	python3 Testing/GenObstacleTable.py --check
 	python3 Testing/SavePatch.py --check
 	python3 Testing/ValidateDoorAnims.py --max 0
@@ -451,12 +479,24 @@ obstacles:
 LUA_TESTDIR := Testing/lua
 LUA_SYMBOLS := $(LUA_TESTDIR)/symbols.lua
 
+# RELEASE builds do NOT generate the table (issue #124). Release enables LTO plus --gc-sections,
+# which drops the local symbols the generator requires (sSpritePaletteTags among them), so the
+# generator exits non-zero and takes the whole build down AFTER a perfectly good ROM has linked.
+# The Lua suites are a development tool aimed at the normal `make modern` ROM; a release ROM is
+# not what you debug against, so the right answer is to not ask for the table at all here.
+# `make symbols RELEASE=1` is still honoured — that is an explicit request, not a side effect.
+ifeq ($(RELEASE),1)
+ROM_LUA_SYMBOLS :=
+else
+ROM_LUA_SYMBOLS := $(LUA_SYMBOLS)
+endif
+
 # Other rules
 # symbols.lua is a prerequisite so `make -j12` alone keeps it fresh. It used to be reachable ONLY
 # via the standalone `make symbols` target, so the normal flow left it stale — and stale symbols
 # against a rebuilt ROM still boot and still report every test green, because gSaveblock3 is a
 # fixed EWRAM symbol. That pairing was the normal accident, not an edge case (issue #31).
-rom: $(ROM) $(LUA_SYMBOLS)
+rom: $(ROM) $(ROM_LUA_SYMBOLS)
 
 syms: $(SYM)
 
@@ -464,9 +504,15 @@ symbols: $(LUA_SYMBOLS)
 
 # Depends on the ROM as well as the ELF: the generator hashes the .gba so lib.new() can refuse to
 # run a suite against a ROM the symbol table was not generated from.
+#
+# Write to a temp file and rename only on success. A plain `> $@` truncates the previous table
+# before python3 even starts, so any generator failure left the Lua harness unrunnable until the
+# next good build (issue #124). .DELETE_ON_ERROR (see above) does not save us either — it only
+# removes a target it can see was rewritten; with the temp file $@'s mtime never moves, so a
+# failed run leaves the last known-good table exactly where it was.
 $(LUA_SYMBOLS): $(ELF) $(ROM) Testing/GenLuaSymbols.py
 	@mkdir -p $(LUA_TESTDIR)
-	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@
+	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@.tmp && mv -f $@.tmp $@ || { rm -f $@.tmp; exit 1; }
 	@echo "wrote $@"
 
 clean: tidy clean-tools clean-check-tools clean-generated clean-assets
@@ -556,6 +602,33 @@ $(C_BUILDDIR)/data.o: CFLAGS += -fno-show-column -fno-diagnostics-show-caret
 
 # Needed for parity with pret
 $(C_BUILDDIR)/graphics.o: override CFLAGS += -Wno-missing-braces
+
+# Build stamp (issue #109). Only src/main_menu.c is given -DPW_VERSION, so a new commit
+# rebuilds exactly one object rather than every translation unit in the ROM. Nothing in
+# this Makefile fingerprints the compiler flags, though, so the define on its own would
+# never make anything out of date and the stamp would silently go stale; pw_version.stamp
+# is rewritten only when the string actually changes, and main_menu.o -- alone -- depends
+# on it. PW_VERSION empty (no git / no repository) means no -D at all and src/main_menu.c
+# falls back to its own hardcoded value.
+PW_VERSION_STAMP := $(OBJ_DIR)/pw_version.stamp
+
+.PHONY: pw_version_check
+pw_version_check: ;
+
+# The `rm -f` is not belt-and-braces: make 3.81 (what macOS ships) compares mtimes at
+# whole-second granularity, so a stamp rewritten in the same second as the previous
+# main_menu.o compile leaves the object looking up to date -- and because the stamp is
+# only rewritten when the string CHANGES, its mtime then stays frozen and no later
+# `make` recovers it. Deleting the object makes the rebuild independent of timestamps.
+$(PW_VERSION_STAMP): pw_version_check
+	@mkdir -p $(@D)
+	@{ [ -f $@ ] && [ "$$(cat $@)" = '$(PW_VERSION)' ]; } \
+	  || { echo '$(PW_VERSION)' > $@; rm -f $(C_BUILDDIR)/main_menu.o; }
+
+$(C_BUILDDIR)/main_menu.o: $(PW_VERSION_STAMP)
+ifneq ($(PW_VERSION),)
+$(C_BUILDDIR)/main_menu.o: override CPPFLAGS += -DPW_VERSION='"$(PW_VERSION)"'
+endif
 
 # Dependency rules (for the *.c & *.s sources to .o files)
 # Have to be explicit or else missing files won't be reported.

@@ -4976,6 +4976,7 @@ Gender: Male
 Music: Aqua
 Double Battle: No
 AI: Check Bad Move
+Mugshot: Red
 
 Onix
 Level: 25
@@ -4997,6 +4998,7 @@ Gender: Male
 Music: Aqua
 Double Battle: No
 AI: Check Bad Move
+Mugshot: Red
 
 Nidorino
 Level: 37
@@ -5023,6 +5025,7 @@ Music: Aqua
 Items: Hyper Potion / Hyper Potion / Full Heal
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Red
 
 Rhyhorn
 Level: 45
@@ -5074,6 +5077,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Red
 
 Dugtrio @ Focus Sash
 Level: 58
@@ -7099,6 +7103,7 @@ Gender: Male
 Music: Male
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Green
 
 Geodude
 Level: 12
@@ -7123,6 +7128,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Green
 
 Aerodactyl @ Aerodactylite
 Level: 58
@@ -7187,6 +7193,7 @@ Music: Female
 Items: Super Potion
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Blue
 
 Staryu
 Level: 18
@@ -7214,6 +7221,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Blue
 
 Cloyster @ Focus Sash
 Level: 58
@@ -7278,6 +7286,7 @@ Music: Male
 Items: Super Potion / Full Heal
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Yellow
 
 Voltorb
 Level: 21
@@ -7313,6 +7322,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Yellow
 
 Electrode @ Focus Sash
 Level: 58
@@ -7377,6 +7387,7 @@ Music: Female
 Items: Hyper Potion / Full Heal
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Green
 
 Victreebel
 Level: 29
@@ -7412,6 +7423,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Green
 
 Exeggutor @ Focus Sash
 Level: 58
@@ -7476,6 +7488,7 @@ Music: Male
 Items: Hyper Potion / Hyper Potion / Full Heal
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Purple
 
 Koffing
 Level: 37
@@ -7519,6 +7532,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Purple
 
 Weezing @ Focus Sash
 Level: 58
@@ -7582,6 +7596,7 @@ Music: Male
 Items: Hyper Potion / Hyper Potion / Full Heal
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Yellow
 
 Growlithe
 Level: 42
@@ -7625,6 +7640,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Yellow
 
 Ninetales @ Heat Rock
 Level: 58
@@ -7689,6 +7705,7 @@ Music: Female
 Items: Hyper Potion / Hyper Potion / Full Heal
 Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
+Mugshot: Pink
 
 Kadabra
 Level: 38
@@ -7732,6 +7749,7 @@ Items: Full Restore / Full Restore
 Difficulty: Hard
 Double Battle: No
 AI: Basic Trainer / Try To Faint / Check Bad Move / Check Viability / Smart Switching / Force Setup First Turn
+Mugshot: Pink
 
 Slowbro @ Leftovers
 Level: 59

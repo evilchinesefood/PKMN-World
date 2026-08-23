@@ -11,7 +11,7 @@ Four suites need a battery save instead, and one of those saves is not in the tr
 
 ## What's in this directory
 
-`Testing/lua/` holds **27 `.lua` files**: 23 suites plus four that are not suites and must never be
+`Testing/lua/` holds **28 `.lua` files**: 24 suites plus four that are not suites and must never be
 launched directly.
 
 | File | Role |
@@ -70,7 +70,7 @@ builds old, for a suite that cannot run at all. So it:
 
 1. **Deletes every `.PASS`/`.FAIL` in `_pwtest/` first**, so any sentinel left afterwards is one
    this sweep wrote.
-2. Runs the 19 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
+2. Runs the 20 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
    per suite.
 3. **Audits the sentinels**: each expected suite must have a `.PASS` *and* it must carry
    `rom=<md5 of the ROM under test>`. A `.FAIL`, a missing sentinel, or a stale md5 each fail the
@@ -78,7 +78,7 @@ builds old, for a suite that cannot run at all. So it:
 4. Prints suites it knows about but could not run, under `NOT RUN`.
 
 ```
-green 22 / 22 expected
+green 23 / 23 expected
 SWEEP OK - every expected suite produced a fresh PASS stamped rom=<md5>
 ```
 
@@ -88,9 +88,9 @@ Exit code is **0** only for that. **1** means the sweep failed and the message s
 
 ### What a clean sweep looks like
 
-On the owner's machine: **23/23, `SWEEP OK`, exit 0.**
+On the owner's machine: **24/24, `SWEEP OK`, exit 0.**
 
-On a fresh clone: **22 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
+On a fresh clone: **23 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
 reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,
 and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough, so no
 clone can ever have one. It is therefore listed in `run-all.sh`'s `OPTIONAL_SAVE` rather than
@@ -171,6 +171,7 @@ is clean; keep it that way.
 | [`BnetTerminal1F.lua`](#bnetterminal1flua) | fresh new game | The Battle Net wall terminal on one map per placement row, and the BP payout invariants. |
 | [`LevelUpSummary.lua`](#levelupsummarylua) | fresh new game | The post-battle "Your team grew stronger!" box, which `make check` cannot reach by construction. |
 | [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
+| [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -375,6 +376,30 @@ table lookup changes), the same-tileset `0x2D2` control, all three
 `*_door_id_also_has_a_foreign_row` controls, the SSAqua-1F-vs-cabin `0x03D` pair, and Violet City's,
 Lavender Town's and S.S. Anne's cross-map twins.
 
+### `JohtoVictoryRoadTiles.lua`
+
+`JohtoVictoryRoad_1F` / `_B1F` / `_B2F` were tagged `layout_version: "johto"` while their primary
+tileset is the 512-metatile `gTileset_General`. `GetNumMetatilesInPrimary` returns **640** for a
+layout whose `isFrlg` or `isJohto` byte is set, so the id space was split at 640 over a 512-entry
+primary and every id in 512..639 indexed 128 entries past the end of `gMetatiles_General` — into
+`gMetatiles_SecretBaseSecondary`. Nothing bounds-checks that, in either
+`GetAttributeByMetatileIdAndMapLayout` or `DrawMetatileAt`, so it corrupted what was **drawn** as
+well as the behaviour byte: 1989 of 1F's 2070 tiles sit in that band, and `_1F` and `_B1F` use no id
+below 512 at all — about 96% of the first floor was rendering someone's secret base. The fix retags
+all three to `"emerald"`, moving the split back to 512. **What needs a running ROM** (the host-side
+validators can only re-derive the same spreadsheet the fix was reasoned from): that the retag
+reached the binary (`MapLayout.isJohto` is 0), that the split the game will use fits the tileset it
+splits (512 <= 512, both read live), and that the floor **draws** as a cave — the suite
+reconstructs *both* candidate resolutions for the 16x16 metatile window the camera is showing from
+live ROM pointers, reads the three overworld BG tilemaps straight out of VRAM, and asks which model
+explains them. On the pre-fix ROM the answer flips and both halves fail, which is what keeps it from
+degenerating into "the screen has tiles on it". **The control** is the Hoenn twin: `VictoryRoad_1F`
+/`_B1F` pair the identical `gTileset_General` + `gTileset_Cave` at identical dimensions and were
+always `"emerald"`, and the Johto floors are copies of them down to the warp coordinates — so the
+Hoenn floor is read first and the Johto floors must report the same pointers and the same split.
+No trainer suppression: one step per floor, onto a tile picked to sit outside every sight cone, so
+the suite carries no hard-coded defeat flags to go stale.
+
 ### `VerifyV7Migrate.lua`
 
 The one test that could not be written after the fact (issue #59): `fixtures/v7.srm` was harvested from the last PRE-EDIT build — a fresh game debug-warped into Oldale's Pokémon Center and manually saved at (7,4), where the saved `mapView` window covers both the Town Map poster and the escalator this branch removed. Proves `SAVE_FORMAT_LAYOUT_MIN` stayed 7 (Continue loads the save instead of refusing it), the v7→v8 ladder step ran (`saveVersion` reads 8 in RAM), and — the part that needs the fixture — the stale `mapView` did NOT repaint the old room: the live map grid holds the terminal metatiles and stair fills at the exact edited cells. On any post-edit save `mapView` is already clean and that check would pass vacuously.
@@ -472,7 +497,7 @@ links and boots clean, then faults or reads as broken later in play.
 | `../ValidateMapEvents.py` | Object-event consistency — who is standing there, whether the sprite matches the role, whether the trainer behind it belongs to the team it claims. Carries a REVIEW tier with recorded baselines; `--report` lists them. |
 | `../GenObstacleTable.py --check` | Drift in the committed cut-tree / smashable-rock index table. The array index **is** the save bit index, so that table is save-layout-affecting data. |
 | `../SavePatch.py --check` | The save tool's hard-coded sector geometry and SaveBlock sizes still matching the tree. A format bump that leaves them stale fails no build — it silently writes checksums into the wrong place. |
-| `../ValidateDoorAnims.py --max 0` | Animated-door warps with no matching `sDoorAnimGraphicsTable` row. `GetDoorGraphics` matches on the metatile id **and** the tileset pointer, so a tileset that borrows another's door metatile silently loses its animation — no build error, no crash, just a warp through a shut door. Gated at zero; lower the ceiling when a batch is fixed, never raise it. A second gate, `--max-unresolved` (baseline **18**), pins the warps whose behaviour cannot be read at all — three Johto Victory Road floors tagged `layout_version: johto` over the 512-metatile `gTileset_General`, plus Route 28 and Route 34's day care painting past the end of their secondaries. Those are a separate authoring bug, but they are holes in the census, and a hole makes the dead count go *down*, so growth has to fail on its own. A third gate catches the trap that having a row is not sufficient: `CopyDoorTilesToVram` overwrites a VRAM window at the top of the tile space while a door plays, so art *drawing* from that window is corrupted for as long as the door is open. The window is **not fixed** — it is 8 tiles at `NUM_TILES_TOTAL-8` normally but **16** at `NUM_TILES_TOTAL-16` for a `size 2` row on a non-FRLG/Johto layout, so checking only the 8-tile range would miss half of it. The check computes it per warp from the matched row's `size` and the layout's flags, exactly as the engine does, and counts every metatile the map can actually **draw** — which is more than its own blockdata. The border block is drawn all round the map, and a connected map's fringe is copied into `gBackupMapLayout` and rendered with *this* map's tilesets, so both are exposed to this map's window. The fringe depths mirror the four `Fill*Connection` routines and are **not uniform**: 7 rows/columns for north, south and west, but **8** for east, because `MAP_OFFSET_W = MAP_OFFSET * 2 + 1` makes the horizontal margin asymmetric. Using 7 for east skips its last column — 295 distinct metatile ids across 77 neighbours sit only there. That is not academic: three Goldenrod metatiles drawing tiles 1020-1023 are reachable **only** through its connection fringes, and a blockdata-only scan missed all three (41 findings vs 44 on the pre-fix data). Placement is still what keeps it honest, though — `gTileset_Johto_Building` has two metatiles drawing tile 1021, but the only maps placing either have no animated door, so flagging the tileset would be a false alarm. Four tilesets really did collide (Mahogany, Battle Frontier Outside East, Goldenrod, Goldenrod Dept. Store); their tiles were relocated and the gate is now at zero. |
+| `../ValidateDoorAnims.py --max 0` | Animated-door warps with no matching `sDoorAnimGraphicsTable` row. `GetDoorGraphics` matches on the metatile id **and** the tileset pointer, so a tileset that borrows another's door metatile silently loses its animation — no build error, no crash, just a warp through a shut door. Gated at zero; lower the ceiling when a batch is fixed, never raise it. A second gate, `--max-unresolved` (baseline **8**), pins the warps the census cannot read at all — it counts warps outside their map's rectangle *plus* warps whose metatile behaviour cannot be resolved, because either kind is a hole, and a hole makes the dead count go *down*. On this tree it sits at exactly its baseline with no slack: **8 out of bounds, 0 unreadable**. The eight are all coordinate errors, not tileset overflow — `BattleFrontier_BattleDomeCorridor` (6,8) and (7,8), `BattleFrontier_BattleDomePreBattleRoom` (6,8) and (7,8), `SlateportCity` (40,7), `SlateportCity_Harbor` (19,15) and (20,15), and `TinTower_8F` (-1,10). The overflow cases this gate used to hold — the Johto Victory Road floors, Route 28, Route 34's day care, Route 26 North, Mahogany Gym, the Goldenrod flower shop and the Indigo Plateau — have all had their blockdata repainted back inside their tilesets and no longer appear. A third gate catches the trap that having a row is not sufficient: `CopyDoorTilesToVram` overwrites a VRAM window at the top of the tile space while a door plays, so art *drawing* from that window is corrupted for as long as the door is open. The window is **not fixed** — it is 8 tiles at `NUM_TILES_TOTAL-8` normally but **16** at `NUM_TILES_TOTAL-16` for a `size 2` row on a non-FRLG/Johto layout, so checking only the 8-tile range would miss half of it. The check computes it per warp from the matched row's `size` and the layout's flags, exactly as the engine does, and counts every metatile the map can actually **draw** — which is more than its own blockdata. The border block is drawn all round the map, and a connected map's fringe is copied into `gBackupMapLayout` and rendered with *this* map's tilesets, so both are exposed to this map's window. The fringe depths mirror the four `Fill*Connection` routines and are **not uniform**: 7 rows/columns for north, south and west, but **8** for east, because `MAP_OFFSET_W = MAP_OFFSET * 2 + 1` makes the horizontal margin asymmetric. Using 7 for east skips its last column — 295 distinct metatile ids across 77 neighbours sit only there. That is not academic: three Goldenrod metatiles drawing tiles 1020-1023 are reachable **only** through its connection fringes, and a blockdata-only scan missed all three (41 findings vs 44 on the pre-fix data). Placement is still what keeps it honest, though — `gTileset_Johto_Building` has two metatiles drawing tile 1021, but the only maps placing either have no animated door, so flagging the tileset would be a false alarm. Four tilesets really did collide (Mahogany, Battle Frontier Outside East, Goldenrod, Goldenrod Dept. Store); their tiles were relocated and the gate is now at zero. |
 
 Where they run:
 

@@ -67,7 +67,7 @@
             "flag": "0"
         },
         {
-            "graphics_id": "OBJ_EVENT_GFX_WOMAN_1",
+            "graphics_id": "OBJ_EVENT_GFX_CLAIR",
             "x": 29,
             "y": 14,
             "elevation": 0,
@@ -457,7 +457,7 @@
             "flag": "FLAG_HIDE_DRAGONS_DEN_CAVERN_LANCE"
         },
         {
-            "graphics_id": "OBJ_EVENT_GFX_WOMAN_1",
+            "graphics_id": "OBJ_EVENT_GFX_CLAIR",
             "x": 31,
             "y": 19,
             "elevation": 0,

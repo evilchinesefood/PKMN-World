@@ -1,0 +1,9 @@
+-iquote
+include
+-Iinclude
+-std=gnu17
+-DMODERN=1
+-DTESTING=0
+-DEMERALD
+-DALL_REGIONS=1
+-Wno-trigraphs

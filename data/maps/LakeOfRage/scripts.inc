@@ -45,7 +45,6 @@ LakeOfRage_EventScript_Pryce::
     setflag FLAG_HIDE_LAKE_PRYCE
     removeobject LOCALID_LAKE_PRYCE
     fadescreenswapbuffers FADE_FROM_BLACK
-    clearflag FLAG_HIDE_DOJO_PRYCE
     release
     end
 

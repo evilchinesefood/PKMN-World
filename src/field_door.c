@@ -182,6 +182,7 @@ static const u8 sDoorAnimTiles_EcruteakCity_Door[] = INCGFX_U8("graphics/door_an
 static const u8 sDoorAnimTiles_BlackthornCity_Door[] = INCGFX_U8("graphics/door_anims/blackthorn_city.png", ".4bpp");
 static const u8 sDoorAnimTiles_JohtoSafariZone_Door[] = INCGFX_U8("graphics/door_anims/johto_safari_zone.png", ".4bpp");
 static const u8 sDoorAnimTiles_JohtoDeptStoreElevator[] = INCGFX_U8("graphics/door_anims/johto_dept_store_elevator.png", ".4bpp");
+static const u8 sDoorAnimTiles_RocketElevator[] = INCGFX_U8("graphics/door_anims/rocket_elevator.png", ".4bpp");
 
 static const struct DoorAnimFrame sDoorOpenAnimFrames[] =
 {
@@ -353,6 +354,7 @@ static const u8 sDoorAnimPalettes_EcruteakCity_Door[] = {10, 10, 10, 10, 10, 10,
 static const u8 sDoorAnimPalettes_BlackthornCity_Door[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_JohtoSafariZone_Door[] = {9, 9, 9, 9, 9, 9, 9, 9};
 static const u8 sDoorAnimPalettes_JohtoDeptStore_Door[] = {8, 8, 8, 8, 8, 8, 8, 8};
+static const u8 sDoorAnimPalettes_RocketElevator[] = {2, 2, 2, 2, 2, 2, 2, 2};
 
 static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 {
@@ -531,6 +533,8 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     // before. gTileset_BattleFrontierOutsideEast needed the same treatment for one tile (1023).
     {METATILE_MahoganyTown_Door,                            &gTileset_MahoganyTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Sevii123, sDoorAnimPalettes_Sevii123},
     {METATILE_JohtoShop_Door,                               &gTileset_GoldenrodDepartmentStore, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoDeptStoreElevator, sDoorAnimPalettes_JohtoDeptStore_Door},
+    // The Rocket Hideout elevator door, reused for the Battle Tower's inner lift.
+    {METATILE_BattleTowerInner_Door,                        &gTileset_BattleTowerInner, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_RocketElevator, sDoorAnimPalettes_RocketElevator},
     // Region merge (Johto port): Johto_South / NorthEast / NorthWest are regional recolours of
     // Johto_General that keep its door metatiles unchanged, but GetDoorGraphics matches on the
     // tileset POINTER as well as the metatile id -- so a clone needs its own row or its doors
@@ -558,8 +562,6 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 
 static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
 {
-    u32 numTiles;
-
     if (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto)
     {
         // An FRLG-format frame is one metatile's bottom layer per metatile the door covers:
@@ -569,7 +571,8 @@ static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct Doo
         // 4 tiles past the end of the 384-byte array on the last frame (offset 256 + 256 > 384)
         // and would scribble those 4 stray tiles over VRAM 1020-1023, which a size 1 draw
         // never uses -- DrawCurrentDoorAnimFrameFrlg builds only DOOR_TILE_START_SIZE1 + 0..3.
-        numTiles = (gfx->size == 2) ? 8 : 4;
+        u32 numTiles = (gfx->size == 2) ? 8 : 4;
+
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), numTiles * TILE_SIZE_4BPP);
     }
     else if (gfx->size == 2)

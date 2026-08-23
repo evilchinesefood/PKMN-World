@@ -158,7 +158,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_NORMAN",
+      "graphics_id": "OBJ_EVENT_GFX_JASMINE",
       "x": 156,
       "y": 9,
       "elevation": 0,
@@ -388,14 +388,14 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "17"
     },
     {
       "x": 108,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "18"
     },
     {
       "x": 107,
@@ -430,14 +430,14 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "21"
     },
     {
       "x": 79,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "22"
     },
     {
       "x": 78,
@@ -458,28 +458,28 @@
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "23"
     },
     {
       "x": 68,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "24"
     },
     {
       "x": 49,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "27"
     },
     {
       "x": 50,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "28"
     },
     {
       "x": 49,
@@ -500,14 +500,14 @@
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "33"
     },
     {
       "x": 21,
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_LIGHTHOUSE",
-      "dest_warp_id": "0"
+      "dest_warp_id": "34"
     },
     {
       "x": 136,

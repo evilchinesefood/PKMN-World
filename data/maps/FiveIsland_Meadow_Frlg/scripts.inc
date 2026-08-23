@@ -50,11 +50,6 @@ FiveIsland_Meadow_EventScript_Rocket3::
 	msgbox FiveIsland_Meadow_Text_Rocket3PostBattle, MSGBOX_AUTOCLOSE
 	end
 
-@ Unused
-FiveIsland_Meadow_Text_DoorNeedsTwoPasswords::
-	.string "とびらを　あけるには\n"
-	.string "パスワードが　2つ　いるようだ$"
-
 FiveIsland_Meadow_Text_EnteredPasswordAnotherNeeded::
 	.string "{PLAYER} entered a password.\p"
 	.string "“GOLDEEN need log.”\p"

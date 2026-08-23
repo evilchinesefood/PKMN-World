@@ -116,16 +116,27 @@ RadioTower1F_EventScript_ReceptionQuiz4::
 
 RadioTower1F_EventScript_ReceptionQuiz5::
 	msgbox RadioTower1F_Text_QuizQuestion5, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, FALSE, RadioTower1F_EventScript_ReceptionGiveRadio
+	goto_if_eq VAR_RESULT, FALSE, RadioTower1F_EventScript_ReceptionQuizWon
 	msgbox RadioTower1F_Text_WrongAnswer, MSGBOX_DEFAULT
 	closemessage
 	release
 	end
 
-RadioTower1F_EventScript_ReceptionGiveRadio::
+@ Region merge (Johto): the quiz is the whole reward here - there is deliberately no
+@ RADIO item. In GSC/HGSS the quiz prize is a radio card for the Pokegear, whose only
+@ mechanical function is the Poke Flute channel that wakes the Kanto Snorlax. This tree
+@ ships the real ITEM_POKE_FLUTE instead (Mr Fuji, LavenderTown_VolunteerPokemonHouse_Frlg)
+@ and both roadblocks gate on FLAG_GOT_POKE_FLUTE, so a radio would carry no mechanics -
+@ only flavour message boxes - and this tree has no Pokegear to host it (we run Emerald's
+@ Pokenav, which has no radio app). ITEM_RADIO is therefore pinned to ITEM_NONE in
+@ include/constants/johto_compat_ids.h and the prize text was rewritten to promise nothing.
+@ FLAG_ENABLE_RADIO below is a misnomer inherited from upstream: it means "quiz completed",
+@ and its only readers are the receptionist's repeat-visit branch and the Whitney object's
+@ visibility flag. Cut confirmed by the owner, issue #101 - do not re-derive this.
+RadioTower1F_EventScript_ReceptionQuizWon::
 	msgbox RadioTower1F_Text_QuizWin, MSGBOX_DEFAULT
 	closemessage
-	msgbox RadioTower1F_Text_TuneIn, MSGBOX_DEFAULT
+	msgbox RadioTower1F_Text_QuizThanks, MSGBOX_DEFAULT
 	closemessage
 	playse SE_PIN
 	applymovement LOCALID_GOLDENROD_RADIOTOWER_WHITNEY, Common_Movement_ExclamationMark
@@ -214,8 +225,10 @@ RadioTower1F_Text_QuizWin:
     .string "You really know your stuff!\n"
     .string "Take our listeners' applause!$"
 
-RadioTower1F_Text_TuneIn:
-    .string "Please tune in to our RADIO shows.$"
+RadioTower1F_Text_QuizThanks:
+    .string "Thanks for playing along!\p"
+    .string "Drop by the RADIO TOWER again\n"
+    .string "whenever you're in GOLDENROD.$"
 
 RadioTower1F_Text_WrongAnswer:
     .string "Oh, dear.\n"

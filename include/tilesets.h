@@ -91,5 +91,15 @@ extern const struct Tileset gTileset_Blackthorn;
 extern const struct Tileset gTileset_MahoganyTown;
 extern const struct Tileset gTileset_SafariZoneJohto;
 extern const struct Tileset gTileset_GoldenrodDepartmentStore;
+extern const struct Tileset gTileset_ssaqua;
+extern const struct Tileset gTileset_Johto_South;
+extern const struct Tileset gTileset_Johto_NorthEast;
+extern const struct Tileset gTileset_Johto_NorthWest;
+extern const struct Tileset gTileset_Cave_DragonsDen;
+extern const struct Tileset gTileset_BellchimeTrail;
+extern const struct Tileset gTileset_MahoganyTown;
+extern const struct Tileset gTileset_BattleTowerInner;
 
 #endif //GUARD_tilesets_H
+extern const struct Tileset gTileset_JohtoDayCare;
+extern const struct Tileset gTileset_MahoganyTownGym;

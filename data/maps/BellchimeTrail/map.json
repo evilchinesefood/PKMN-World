@@ -632,7 +632,7 @@
       "flag": "FLAG_NIGHT_POKEMON"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M",
+      "graphics_id": "OBJ_EVENT_GFX_MORTY",
       "x": 54,
       "y": 59,
       "elevation": 0,

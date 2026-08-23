@@ -1,3 +1,7 @@
+@ Local ids are (index in map.json's object_events array) + 1 - this map declares no explicit
+@ "local_id" keys, so array order is the id. The SAGE is the 7th entry.
+.set LOCALID_ROUTE47_SAGE, 7
+
 Route47_MapScripts::
 	.byte 0
 
@@ -102,9 +106,84 @@ Route47_EventScript_Sage::
 	lock
 	faceplayer
 	msgbox EmbeddedTower_Text_OldManIntro, MSGBOX_DEFAULT
+	goto_if_unset FLAG_JOHTO_CHAMPION, Route47_EventScript_SageWarnsOff
 	closemessage
 	release
 	end
+
+@ Talk-to half of the EMBEDDED TOWER gate, so the condition is discoverable without
+@ walking into the trigger tile. Same shape as the Route 23 badge guards, which pair a
+@ talk-to script with a step-on trigger over one check.
+Route47_EventScript_SageWarnsOff::
+	msgbox Route47_Text_SageWontLetYouIn, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+@ === EMBEDDED TOWER post-game gate (issue #127) ===
+@
+@ Three level-70 legendaries stand in MAP_EMBEDDED_TOWER. Access to them is gated here, at
+@ the cave mouth, and NOT by FLAG_HIDE_RAYQUAZA / _GROUDON / _KYOGRE: those three belong to
+@ the tower's own encounter scripts (which SET them on capture) and to the Hall of Fame
+@ respawn block, whose header says outright that respawns are for UNRESOLVED encounters only.
+@ Touching them here would either resurrect a caught legendary or delete an uncaught one.
+@
+@ Geometry: the tower warp is Route47 (40,44). Its only walkable neighbour is (40,45) - the
+@ three other neighbours are collision-1 cliff - so (40,45) is a true one-tile chokepoint and
+@ one coord event covers every approach. The gate sits on the approach tile rather than on
+@ (40,44) itself: TryStartCoordEventScript runs before TryStartWarpEventScript, so a trigger
+@ on the warp tile would swallow the warp, and the push-back would have to start from inside
+@ the doorway.
+@
+@ The trigger is armed by FLAG_JOHTO_CHAMPION being CLEAR (map.json "var" is a flag, not a
+@ var - ShouldTriggerScriptRun falls back to FlagGet for non-var ids; RegionHub's intro-tour
+@ triggers use the same form). It therefore disarms itself the moment the player is crowned,
+@ and costs a champion nothing.
+Route47_EventScript_EmbeddedTowerGate::
+	@ Fail-safe. The map.json trigger already restricts this to pre-championship saves; the
+	@ check is repeated here so that a champion can never be shut out of the tower even if
+	@ the trigger were ever rearmed. Runs before any lock, so a champion sees no hitch.
+	goto_if_set FLAG_JOHTO_CHAMPION, Route47_EventScript_EmbeddedTowerGateOpen
+	lockall
+	playse SE_PIN
+	@ Deliberately no waitmovement on the SAGE: his object carries a hide flag this commit
+	@ does not own, so a missing object must not be able to hang the script.
+	applymovement LOCALID_ROUTE47_SAGE, Common_Movement_ExclamationMark
+	delay 20
+	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	msgbox Route47_Text_EmbeddedTowerSealed, MSGBOX_DEFAULT
+	closemessage
+	@ (40,46) is collision 0, elevation 5 and holds no object event, so the bounce always
+	@ lands the player on a walkable tile facing away from the door. Bouncing south is
+	@ correct from all three approaches - (39,45) is the SAGE, and the other two are
+	@ (41,45) and (40,46) itself.
+	applymovement OBJ_EVENT_ID_PLAYER, Route47_Movement_ForcePlayerFromEmbeddedTower
+	waitmovement 0
+	releaseall
+	end
+
+@ Never locked, so there is nothing to release; the player's step continues into the warp.
+Route47_EventScript_EmbeddedTowerGateOpen::
+	end
+
+Route47_Movement_ForcePlayerFromEmbeddedTower:
+	walk_down
+	step_end
+
+Route47_Text_EmbeddedTowerSealed:
+	.string "Hold on there!\p"
+	.string "What sleeps beneath this hole once\n"
+	.string "stirred the sky, the land and the\l"
+	.string "sea all at once.\p"
+	.string "Come back when JOHTO calls you its\n"
+	.string "CHAMPION. Not one day sooner.$"
+
+Route47_Text_SageWontLetYouIn:
+	.string "The way down is not for you.\n"
+	.string "Not yet.\p"
+	.string "Become the CHAMPION of JOHTO, and\n"
+	.string "I will trouble you no further.$"
 
 EmbeddedTower_Text_OldManIntro:
 	.string "Well, hello!\p"

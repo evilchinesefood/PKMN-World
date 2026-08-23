@@ -4175,6 +4175,26 @@ const u16 gTilesetPalettes_ssaqua[][16] =
     INCGFX_U16("data/tilesets/secondary/ssaqua/palettes/12.pal", ".gbapal"),
 };
 
+// === Region merge: Johto Battle Tower interior tileset ===
+const u32 gTilesetTiles_BattleTowerInner[] = INCGFX_U32("data/tilesets/secondary/battle_tower_inner/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_BattleTowerInner[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/battle_tower_inner/palettes/12.pal", ".gbapal"),
+};
+
 // === Region merge: Johto Safari Zone tilesets ===
 const u32 gTilesetTiles_SafariZoneJohto[] = INCGFX_U32("data/tilesets/secondary/safari_zone_johto/tiles.png", ".4bpp.fastSmol");
 
@@ -4253,3 +4273,40 @@ const u16 gTilesetPalettes_PokemonCenter_White[][16] =
     INCGFX_U16("data/tilesets/secondary/pokemon_center_white/palettes/12.pal", ".gbapal"),
 };
 
+const u32 gTilesetTiles_JohtoDayCare[] = INCGFX_U32("data/tilesets/secondary/johto_day_care/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_JohtoDayCare[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_day_care/palettes/12.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_MahoganyTownGym[] = INCGFX_U32("data/tilesets/secondary/mahogany_town_gym/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_MahoganyTownGym[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/12.pal", ".gbapal"),
+};

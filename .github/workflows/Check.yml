@@ -69,6 +69,12 @@ jobs:
       - name: Map object-event consistency
         run: python3 Testing/ValidateMapEvents.py
 
+      # DrawMetatileAt bounds-checks the 1024 split and nothing else, so a metatile id past the
+      # end of its tileset indexes .rodata and draws the next symbol along (issue #93). Pins an
+      # exact per-layout count for the maps that already do this, and fails if any count moves.
+      - name: Map metatile bounds
+        run: python3 Testing/ValidateMetatileBounds.py
+
       - name: Cleared-obstacle table freshness
         run: python3 Testing/GenObstacleTable.py --check
 

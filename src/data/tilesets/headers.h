@@ -1411,7 +1411,7 @@ const struct Tileset gTileset_Johto_General =
     .tiles = gTilesetTiles_Johto_General,
     .palettes = gTilesetPalettes_Johto_General,
     TILESET_METATILES(gMetatiles_Johto_General, gMetatileAttributes_Johto_General),
-    .callback = NULL,
+    .callback = InitTilesetAnim_JohtoGeneral,
 };
 
 const struct Tileset gTileset_Johto_Building =
@@ -1492,7 +1492,7 @@ const struct Tileset gTileset_Johto_NorthEast =
     .tiles = gTilesetTiles_Johto_NorthEast,
     .palettes = gTilesetPalettes_Johto_NorthEast,
     TILESET_METATILES(gMetatiles_Johto_NorthEast, gMetatileAttributes_Johto_NorthEast),
-    .callback = NULL,
+    .callback = InitTilesetAnim_JohtoGeneral,
 };
 
 const struct Tileset gTileset_Gate_Standard =
@@ -1572,7 +1572,7 @@ const struct Tileset gTileset_EcruteakTheater =
     .tiles = gTilesetTiles_EcruteakTheater,
     .palettes = gTilesetPalettes_EcruteakTheater,
     TILESET_METATILES(gMetatiles_EcruteakTheater, gMetatileAttributes_EcruteakTheater),
-    .callback = NULL,
+    .callback = InitTilesetAnim_EcruteakTheater,
 };
 
 const struct Tileset gTileset_TrainerSchool =
@@ -1595,7 +1595,7 @@ const struct Tileset gTileset_Johto_South =
     .tiles = gTilesetTiles_Johto_South,
     .palettes = gTilesetPalettes_Johto_South,
     TILESET_METATILES(gMetatiles_Johto_South, gMetatileAttributes_Johto_South),
-    .callback = NULL,
+    .callback = InitTilesetAnim_JohtoGeneral,
 };
 
 const struct Tileset gTileset_AzaleaTown =
@@ -1615,7 +1615,7 @@ const struct Tileset gTileset_AzaleaTown_Gym =
     .tiles = gTilesetTiles_AzaleaTown_Gym,
     .palettes = gTilesetPalettes_AzaleaTown_Gym,
     TILESET_METATILES(gMetatiles_AzaleaTown_Gym, gMetatileAttributes_AzaleaTown_Gym),
-    .callback = NULL,
+    .callback = InitTilesetAnim_AzaleaTownGym,
 };
 
 const struct Tileset gTileset_Barn =
@@ -1655,7 +1655,7 @@ const struct Tileset gTileset_Goldenrod =
     .tiles = gTilesetTiles_Goldenrod,
     .palettes = gTilesetPalettes_Goldenrod,
     TILESET_METATILES(gMetatiles_Goldenrod, gMetatileAttributes_Goldenrod),
-    .callback = NULL,
+    .callback = InitTilesetAnim_Goldenrod,
 };
 
 const struct Tileset gTileset_IlexForest =
@@ -1776,7 +1776,7 @@ const struct Tileset gTileset_NationalPark =
     .tiles = gTilesetTiles_NationalPark,
     .palettes = gTilesetPalettes_NationalPark,
     TILESET_METATILES(gMetatiles_NationalPark, gMetatileAttributes_NationalPark),
-    .callback = NULL,
+    .callback = InitTilesetAnim_NationalPark,
 };
 
 const struct Tileset gTileset_ShopRooftop =
@@ -1838,7 +1838,7 @@ const struct Tileset gTileset_Johto_NorthWest =
     .tiles = gTilesetTiles_Johto_NorthWest,
     .palettes = gTilesetPalettes_Johto_NorthWest,
     TILESET_METATILES(gMetatiles_Johto_NorthWest, gMetatileAttributes_Johto_NorthWest),
-    .callback = NULL,
+    .callback = InitTilesetAnim_JohtoGeneral,
 };
 
 
@@ -1988,6 +1988,16 @@ const struct Tileset gTileset_ssaqua =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_BattleTowerInner =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_BattleTowerInner,
+    .palettes = gTilesetPalettes_BattleTowerInner,
+    TILESET_METATILES(gMetatiles_BattleTowerInner, gMetatileAttributes_BattleTowerInner),
+    .callback = NULL,
+};
+
 const struct Tileset gTileset_SafariZoneJohto =
 {
     .isCompressed = TRUE,
@@ -2028,3 +2038,22 @@ const struct Tileset gTileset_PokemonCenter_White =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_JohtoDayCare =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoDayCare,
+    .palettes = gTilesetPalettes_JohtoDayCare,
+    TILESET_METATILES(gMetatiles_JohtoDayCare, gMetatileAttributes_JohtoDayCare),
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_MahoganyTownGym =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_MahoganyTownGym,
+    .palettes = gTilesetPalettes_MahoganyTownGym,
+    TILESET_METATILES(gMetatiles_MahoganyTownGym, gMetatileAttributes_MahoganyTownGym),
+    .callback = NULL,
+};

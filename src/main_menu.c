@@ -284,6 +284,19 @@ static const u8 gText_ContinueMenuTime[] = _("TIME");
 static const u8 gText_ContinueMenuPokedex[] = _("POKéDEX");
 static const u8 gText_ContinueMenuBadges[] = _("BADGES");
 
+// Build stamp (issue #109). PW_VERSION is normally handed to this one translation
+// unit by the Makefile as the output of `git describe --tags --always --dirty`;
+// see the "Build stamp" block there. It is deliberately NOT a global -D: the value
+// changes on every commit, and a global define would either churn the whole ROM or
+// (because nothing here fingerprints the flags) silently go stale.
+// The fallback below covers a source drop with no .git, and it is what clangd sees
+// when it parses this file through compile_flags.txt, which carries no -DPW_VERSION.
+#ifndef PW_VERSION
+#define PW_VERSION "v1.4"
+#endif
+
+static const u8 sText_BuildStamp[] = _(PW_VERSION);
+
 #define MENU_LEFT 2
 #define MENU_TOP_WIN0 1
 #define MENU_TOP_WIN1 5
@@ -305,6 +318,19 @@ static const u8 gText_ContinueMenuBadges[] = _("BADGES");
 #define MENU_TOP_ERROR 15
 #define MENU_WIDTH_ERROR 26
 #define MENU_HEIGHT_ERROR 4
+
+// Build stamp window. The frames drawn by DrawMainMenuWindowBorder eat one tile row
+// above and below each menu box, so the NEW GAME/OPTION layout owns rows 0-7 and the
+// CONTINUE/NEW GAME/OPTION layout owns rows 0-15. Rows 16-19 are free in both; row 18
+// leaves a two-row gap under the OPTION frame and sits flush with the screen bottom.
+// (The MYSTERY GIFT/EVENTS layouts fill all 20 rows -- they get no stamp, see
+// MainMenu_PrintBuildStamp.) Columns match the menu boxes' content, so the right-aligned
+// text lines up with the right edge of the text inside them, not with their frame.
+#define MENU_WIN_VERSION 8
+#define MENU_LEFT_VERSION MENU_LEFT
+#define MENU_TOP_VERSION 18
+#define MENU_WIDTH_VERSION MENU_WIDTH
+#define MENU_HEIGHT_VERSION 2
 
 #define MENU_SHADOW_PADDING 1
 
@@ -396,6 +422,23 @@ static const struct WindowTemplate sWindowTemplates_MainMenu[] =
         .paletteNum = 15,
         .baseBlock = 0x16D
     },
+    // Build stamp. Never framed, so DrawMainMenuWindowBorder is not called for it.
+    // The error window above ends at 0x16D + 26*4 = 0x1D5, and MAIN_MENU_BORDER_TILE
+    // puts the 9 frame tiles (0x120 bytes) LoadMainMenuWindowFrameTiles loads at
+    // 0x1D5..0x1DD, so the first free tile is 0x1DE. These hand-picked baseBlocks are
+    // only honoured because InitMainMenu passes 0 to ResetBgsAndClearDma3BusyFlags:
+    // with gWindowTileAutoAllocEnabled set, InitWindowsUnchecked overwrites every
+    // baseBlock and would hand some window the frame tiles at 0x1D5.
+    [MENU_WIN_VERSION] =
+    {
+        .bg = 0,
+        .tilemapLeft = MENU_LEFT_VERSION,
+        .tilemapTop = MENU_TOP_VERSION,
+        .width = MENU_WIDTH_VERSION,
+        .height = MENU_HEIGHT_VERSION,
+        .paletteNum = 15,
+        .baseBlock = 0x1DE
+    },
     DUMMY_WIN_TEMPLATE
 };
 
@@ -440,6 +483,13 @@ static const u16 sMainMenuTextPal[] = INCGFX_U16("graphics/interface/main_menu_t
 
 static const u8 sTextColor_Headers[] = {TEXT_DYNAMIC_COLOR_1, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_3};
 static const u8 sTextColor_MenuInfo[] = {TEXT_DYNAMIC_COLOR_1, TEXT_COLOR_WHITE, TEXT_DYNAMIC_COLOR_3};
+// Same glyph and shadow entries as sTextColor_Headers -- only the background differs.
+// The stamp has no frame, so it must not paint a white panel over the menu backdrop
+// (BG palette 0 colour 0, a light blue); a transparent background leaves just the text.
+// On screen it still reads darker than a menu header: the stamp always sits outside
+// WIN0 (which only ever covers the selected menu box), so BLDCNT's darken-BG0 effect
+// applies to its glyphs, while the backdrop showing through is not a blend target.
+static const u8 sTextColor_BuildStamp[] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_3};
 
 static const struct BgTemplate sMainMenuBgTemplates[] = {
     {
@@ -803,6 +853,38 @@ static void Task_WaitForBatteryDryErrorWindow(u8 taskId)
     }
 }
 
+// Draws the build stamp in the bottom-right corner, below every menu box.
+// Called only from Task_DisplayMainMenu, once its layout switch has finished.
+//
+// On colour safety: AddTextPrinter calls GenerateFontHalfRowLookupTable unconditionally,
+// BEFORE it branches on the speed, so this stamp clobbers that single global lookup table
+// exactly like every other printer does. What makes that harmless is that no printer is
+// ever left parked on this screen, not anything about this function:
+//   - InitMainMenu does ResetTasks + DeactivateAllTextPrinters, and CB2_MainMenu never
+//     calls RunTextPrinters, so the printer list starts and stays empty.
+//   - Every printer here passes TEXT_SKIP_DRAW, which takes AddTextPrinter's synchronous
+//     branch: the whole string is blitted into the window buffer before it returns, and
+//     pixels already in that buffer cannot be recoloured by a later table regeneration.
+//   - The one animated printer on this screen is the error window (window 7, speed 2);
+//     Task_WaitForSaveFileErrorWindow and Task_WaitForBatteryDryErrorWindow each gate on
+//     IsTextPrinterActiveOnWindow(7) before the task chain can reach Task_DisplayMainMenu.
+// Add an animated printer to the main menu and it is that invariant which breaks.
+static void MainMenu_PrintBuildStamp(void)
+{
+    s32 x = GetStringRightAlignXOffset(FONT_SMALL, sText_BuildStamp, MENU_WIDTH_VERSION * 8);
+
+    if (x < 0)  // Absurdly long tag; clip on the right rather than wrap the u8 x.
+        x = 0;
+
+    FillWindowPixelBuffer(MENU_WIN_VERSION, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized3(MENU_WIN_VERSION, FONT_SMALL, x, 2, sTextColor_BuildStamp, TEXT_SKIP_DRAW, sText_BuildStamp);
+    PutWindowTilemap(MENU_WIN_VERSION);
+    // COPYWIN_FULL, not COPYWIN_GFX: the menu boxes get their tilemap to VRAM as a side
+    // effect of DrawMainMenuWindowBorder's CopyBgTilemapBufferToVram, and this window is
+    // both unframed and drawn last, so nothing would flush the tilemap buffer after it.
+    CopyWindowToVram(MENU_WIN_VERSION, COPYWIN_FULL);
+}
+
 static void Task_DisplayMainMenu(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -935,6 +1017,21 @@ static void Task_DisplayMainMenu(u8 taskId)
                 tIsScrolled = TRUE;
                 gTasks[tScrollArrowTaskId].tArrowTaskIsScrolled = TRUE;
             }
+            break;
+        }
+        // The MYSTERY GIFT and MYSTERY EVENTS layouts run their last OPTION frame down
+        // to tile row 19, and the EVENTS one scrolls BG0/BG1 by four rows on top of
+        // that, so there is no row left that the stamp could use without covering a
+        // menu item. Those two are unreachable while LINK_MYSTERY_GIFT is FALSE
+        // (see Task_MainMenuCheckSaveFile), but skip the stamp rather than break the
+        // layout for whoever turns it back on.
+        switch (gTasks[taskId].tMenuType)
+        {
+        case HAS_NO_SAVED_GAME:
+        case HAS_SAVED_GAME:
+            MainMenu_PrintBuildStamp();
+            break;
+        default:
             break;
         }
         gTasks[taskId].func = Task_HighlightSelectedMainMenuItem;

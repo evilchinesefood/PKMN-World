@@ -275,17 +275,6 @@ PokemonLeague_ChampionsRoom_Text_Defeat::
 	.string "My reign is over already?\n"
 	.string "It's not fair!$"
 
-PokemonLeague_ChampionsRoom_Text_Victory::
-	.string "はーはッ！\n"
-	.string "かった！　かった！　かった！\p"
-	.string "{PLAYER}に　まける　ような\n"
-	.string "おれさま　では　なーい！\p"
-	.string "ま！　ポケモンの\n"
-	.string "てんさい　{RIVAL}さま　あいてに\l"
-	.string "ここまで　よく　がんばった！\p"
-	.string "ほめて　つかわす！\n"
-	.string "はーッ！　はーはッはッ！$"
-
 PokemonLeague_ChampionsRoom_Text_PostBattle::
 	.string "Why?\n"
 	.string "Why did I lose?\p"

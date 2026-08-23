@@ -275,6 +275,14 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_JOHTO_DECOR);
     FlagSet(FLAG_HIDE_SILVER_CHERRYGROVE);
     FlagSet(FLAG_HIDE_MRPOKEMON);
+    // The Ilex Forest shrine cast is spawned by the Celebi cutscene (addobject) and by the
+    // Hall of Fame second-chance clear - never at new game. None of the three flags was
+    // registered here, so all three objects rendered from the first minute of a fresh save:
+    // Celebi and Kurt loitering in the forest, and the post-game second Celebi standing one
+    // tile below the shrine sign, fightable with no GS Ball, badge or story gate at all.
+    FlagSet(FLAG_HIDE_CELEBI);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_KURT);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

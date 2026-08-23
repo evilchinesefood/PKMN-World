@@ -657,13 +657,11 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 //     tree to derive it into.
 //
 // So reviving this needs a quest starter AND an authored area->species mapping the shipped
-// geography cannot supply: new game design, not a port. Two more signs the HnS port was abandoned
-// mid-flight — Text_BaobaLastMon (the "I can't take your last POKEMON!" refusal) is defined and
-// never referenced, and the four stages pay out 200k/300k/400k/400k, which is both more than
-// MAX_MONEY (999999, include/money.h) can even hold and four times the next-largest `addmoney`
-// anywhere in data/ (100,000, LakeOfRage_House2). Nobody balanced those numbers because nobody
-// could reach them. See the file-head note in
-// SafariZoneGate_SafariZoneEntrance/scripts.inc.
+// geography cannot supply: new game design, not a direct port. This is a divergence in Pokémon
+// World, not evidence that upstream HnS abandoned the quest: HnS arms it from FuchsiaCity and
+// supplies the matching HGSS-style areas. Its unused Text_BaobaLastMon and large payouts are
+// therefore not proof of incompleteness either. See the file-head note in
+// SafariZoneGate_SafariZoneEntrance/scripts.inc for this tree's intentional unreachable state.
 void ScrCmd_baobacheckmon_Compat(struct ScriptContext *ctx)
 {
     u16 number = ScriptReadHalfword(ctx);

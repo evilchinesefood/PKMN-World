@@ -1110,4 +1110,7 @@
 #define METATILE_MahoganyTown_Door           0x2A2 // gTileset_MahoganyTown
 #define METATILE_JohtoShop_Door              0x28D // gTileset_GoldenrodDepartmentStore
 
+// gTileset_BattleTowerInner
+#define METATILE_BattleTowerInner_Door       0x2C3
+
 #endif // GUARD_METATILE_LABELS_H

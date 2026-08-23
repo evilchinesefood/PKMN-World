@@ -15,6 +15,8 @@ SSAnne_CaptainsOffice_EventScript_Captain::
 	applymovement LOCALID_SS_ANNE_CAPTAIN, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox SSAnne_CaptainsOffice_Text_ThankYouHaveHMForCut
+	checkitemspace ITEM_HM01
+	goto_if_eq VAR_RESULT, FALSE, SSAnne_CaptainsOffice_EventScript_NoRoomForCut
 	giveitem_msg SSAnne_CaptainsOffice_Text_ObtainedHM01FromCaptain, ITEM_HM01, 1, MUS_RG_OBTAIN_KEY_ITEM
 	msgbox SSAnne_CaptainsOffice_Text_ExplainCut
 	setflag FLAG_GOT_HM01
@@ -22,7 +24,6 @@ SSAnne_CaptainsOffice_EventScript_Captain::
 	release
 	end
 
-@ Unused
 SSAnne_CaptainsOffice_EventScript_NoRoomForCut::
 	msgbox SSAnne_CaptainsOffice_Text_YouHaveNoRoomForThis
 	closemessage

@@ -1,30 +1,57 @@
 @ === Safari Zone gate, entrance (region merge) — Warden Baoba ===
 @
-@ READ THIS BEFORE DEBUGGING THE BAOBA QUEST: it is unreachable dead content, WONTFIX under
-@ issue #66, and the missing trigger you are about to go looking for does not exist.
+@ READ THIS BEFORE DEBUGGING THE BAOBA QUEST: it is unreachable dead content HERE, WONTFIX under
+@ issue #66, and the missing trigger you are about to go looking for was never in this tree. It is
+@ in HnS, it works there, and the path to it is below — this is our regression, not their bug.
 @
 @ Everything from EventScript_BaobaBeach through EventScript_BaobaDone is gated on
 @ VAR_BAOBA_QUEST_STATE. That var is read by the goto_if chain in EventScript_Baoba below, and
 @ written ONLY as 2/3/4/5 — by the four stage-completion branches themselves. Nothing anywhere in
-@ the tree ever sets it to 1. Vars are zero-initialised, so EventScript_Baoba always falls through
+@ this tree ever sets it to 1. Vars are zero-initialised, so EventScript_Baoba always falls through
 @ to the generic Text_Baoba greeting, no stage ever arms, and the four `baobacheckmon` calls below
 @ cannot run in normal play without externally forcing the var.
 @
-@ Two things that look like leads and are not. (1) There are two real Baoba phone calls, and
+@ WHERE THE IGNITION WENT. Upstream the quest is fully wired, and it is armed from HnS's Fuchsia
+@ City script file: FuchsiaCity_EventScript_BaobaCall (data/maps/FuchsiaCity/scripts.inc:13) plays
+@ a pokenavcall and then `setvar VAR_BAOBA_QUEST_STATE, 1` (line 17). Note where that script is
+@ actually installed — the FuchsiaCity_OnFrame table it sits in (`map_script_2
+@ VAR_FUCHSIA_CITY_STATE, 0`) is NOT registered by FuchsiaCity_MapScripts, which only carries an
+@ ON_TRANSITION entry; it is registered by FuchsiaCity_Route15_Gate_MapScripts
+@ (data/maps/FuchsiaCity_Route15_Gate/scripts.inc:2). So upstream arms the quest the first time the
+@ player walks through the Fuchsia/Route 15 gate, and HnS zeroes the var on new game
+@ (data/scripts/new_game.inc:274).
+@
+@ This tree has neither of those two maps. Fuchsia here is FRLG-authentic: we ship FuchsiaCity_Frlg
+@ and Route15_WestEntrance_{1F,2F}_Frlg, there is no data/maps/FuchsiaCity and no
+@ FuchsiaCity_Route15_Gate anywhere, and VAR_FUCHSIA_CITY_STATE does not exist in this tree at all.
+@ The quest body survived the merge because it lives on this Johto gate map; its ignition did not,
+@ because it lived on the two Kanto maps the FRLG swap replaced. Nothing else consumed it, so it
+@ went out silently.
+@
+@ Two things that look like leads here and are not. (1) There are two real Baoba phone calls, and
 @ neither starts the quest: Route27_EventScript_BaobaCall announces the Safari Zone west expansion
 @ and sets VAR_ROUTE27_BAOBA_CALL, and OlivineCity_EventScript_BaobaCall advances
 @ VAR_SAFARI_ZONE_GATE_STATE. (2) The prompts ask for exotic mons from the BEACH / BRUSH /
-@ MOUNTAIN / CAVE areas of the FUCHSIA SAFARI ZONE. Those areas do not exist: the Fuchsia safari
-@ that shipped with the Kanto merge is the FRLG Center/East/North/West set, and this gate warps
-@ into the JOHTO safari (MAP_SAFARI_ZONE_ENTERANCE) anyway. Text_BaobaLastMon is likewise defined
-@ and never referenced — this is a half-finished HnS port, not a wired quest with one broken link.
+@ MOUNTAIN / CAVE areas of the FUCHSIA SAFARI ZONE. Those areas do not exist here: the Fuchsia
+@ safari that shipped with the Kanto merge is the FRLG Center/East/North/West set, and this gate
+@ warps into the JOHTO safari (MAP_SAFARI_ZONE_ENTERANCE) anyway.
+@
+@ That second point is why simply restoring the setvar is not the fix, and why re-arming the quest
+@ is a separate design call: the four prompts and their species would have to be rewritten against
+@ FRLG geography, or HnS's four Fuchsia safari areas imported as a fourth safari zone.
+@
+@ Do NOT read the loose ends below as proof of an abandoned port. Text_BaobaLastMon (defined, never
+@ referenced), EventScript_Test (a leftover debug give-4-mons script) and the 200k/300k/400k/400k
+@ payouts are all present, identically, in HnS's own copy of this file. They are upstream's loose
+@ ends, faithfully carried over — not a port that stopped halfway.
 @
 @ Full reasoning, including why reviving it is game design rather than a port fix, lives with the
-@ compat handler: ScrCmd_baobacheckmon_Compat in src/scrcmd_johto_compat.c. The scripts and text
-@ are deliberately left in place — they assemble, they cost only ROM space, and they are the HnS
-@ dialogue and payout structure a future designer would start from.
-@
-@ (EventScript_Test further down is likewise unreferenced: a leftover debug give-4-mons script.)
+@ compat handler: ScrCmd_baobacheckmon_Compat in src/scrcmd_johto_compat.c — see its
+@ VAR_BAOBA_QUEST_STATE bullet (around line 639; cited by label because line numbers drift). The
+@ scripts and text are deliberately left in place — they assemble, they cost only ROM space, and
+@ they are the HnS dialogue and payout structure a future designer would start from. The working
+@ reference implementation is the HnS tree, PokemonHnS-Development/pokemonHnS, at the two paths
+@ named above.
 
 .set LOCALID_SAFARIZONEGATE_BAOBA, 1
 

@@ -16,8 +16,31 @@ IlexForest_MapScripts::
 IlexForest_OnTransition: 
 	call_if_eq VAR_ILEX_FOREST_FARFETCHD, 1, IlexForest_EventScript_ReenterWhenFarfetchdLeaving
 	call_if_eq VAR_ILEX_FOREST_FARFETCHD, 2, IlexForest_EventScript_ReenterDuringCutScene
+	call_if_lt VAR_AZALEA_TOWN_STATE, 9, IlexForest_EventScript_HideShrineCast
+	call IlexForest_EventScript_SyncSecondCelebi
 	callnative SetTimeBasedEncounters
 	end	
+
+@ Celebi, Kurt and the post-game second Celebi are spawned by script - the shrine cutscene
+@ below, and the Johto Hall of Fame's second-chance clear. Flags default to 0 (= visible),
+@ so re-hide them here the way Route25_Frlg does for Suicune. src/new_game.c registers all
+@ three for new files; ON_TRANSITION runs before objects spawn, so this is what repairs a
+@ save that already exists. These only ever SET - the clears stay with the scripts that own
+@ the encounter, so this can never hand out an encounter the player has not earned.
+IlexForest_EventScript_HideShrineCast::
+	setflag FLAG_HIDE_CELEBI
+	setflag FLAG_HIDE_ILEX_FOREST_KURT
+	return
+
+IlexForest_EventScript_SyncSecondCelebi::
+	goto_if_set FLAG_CAUGHT_CELEBI, IlexForest_EventScript_HideSecondCelebi
+	goto_if_unset FLAG_JOHTO_CHAMPION, IlexForest_EventScript_HideSecondCelebi
+	goto_if_lt VAR_AZALEA_TOWN_STATE, 10, IlexForest_EventScript_HideSecondCelebi
+	return
+
+IlexForest_EventScript_HideSecondCelebi::
+	setflag FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI
+	return
 
 IlexForest_EventScript_ReenterWhenFarfetchdLeaving::
 	setobjectxyperm LOCALID_ILEX_FOREST_FARFETCHD_1, 33, 51
@@ -247,7 +270,7 @@ IlexForest_EventScript_HeadbuttTutorFinite::
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_HEADBUTT, MoveTutor_EventScript_HeadbuttTaught
 	msgbox MoveTutor_Text_HeadbuttTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MoveTutor_EventScript_HeadbuttDeclined
-	call Johto_EventScript_NopReturn
+	call MoveTutor_EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, MoveTutor_EventScript_HeadbuttDeclined
 	msgbox MoveTutor_Text_HeadbuttWhichMon, MSGBOX_DEFAULT
 	setvar VAR_0x8005, TUTOR_MOVE_HEADBUTT
@@ -343,6 +366,10 @@ IlexForest_EventScript_SecondCelebi::
 waitstate
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, IlexForest_EventScript_SecondCelebiRan
+	@ Record the catch here too. The Hall of Fame rematch branch re-runs SetGameClearFlags on
+	@ every subsequent championship, so without this marker a player who caught the second
+	@ Celebi would have the hide flag cleared again and again - a farmable duplicate.
+	call_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, IlexForest_EventScript_Shrine_Caught
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_ILEX_FOREST_SECOND_CELEBI
 	setflag FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI

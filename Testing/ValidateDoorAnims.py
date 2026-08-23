@@ -45,38 +45,45 @@ from collections import Counter, defaultdict
 # Small helpers
 # ---------------------------------------------------------------------------
 
-# Warps whose metatile behavior cannot be read AT ALL, because the layout paints a metatile
-# id past the end of the tileset actually wired to it. The engine does the same unbounded
-# read -- GetAttributeByMetatileIdAndMapLayout and DrawMetatileAt both index
-# tileset->metatileAttributes[] / ->metatiles[] with no bounds check -- so these tiles draw
-# and behave as whatever .rodata happens to follow the array. An unresolvable warp is a HOLE
-# in the census, and a hole makes the dead count go DOWN, so the number is pinned rather
-# than ignored. Tracked separately from the door work; see #93.
+# Warps whose metatile behavior cannot be read AT ALL. An unreadable warp is a HOLE in the
+# census: it is not counted live and it is NOT counted dead, so a new one makes the dead
+# count go DOWN. That is why the number is pinned rather than ignored, and why it is gated
+# separately from the dead count. Tracked apart from the door work; see #93.
 #
-# Was 18. The JohtoVictoryRoad_1F/B1F/B2F half of that (16 warps) is fixed: those three
-# floors were tagged layout_version "johto", which makes GetNumMetatilesInPrimary use the
-# 640 split, while their primary is the 512-metatile gTileset_General -- so ids 512-639 ran
-# off its end. They are ports of the Hoenn VictoryRoad_1F/B1F maps, which use the identical
-# gTileset_General + gTileset_Cave pairing at the identical dimensions tagged "emerald", and
-# retagging them to match puts every id they use back in bounds (512-639 -> gTileset_Cave
-# local 0-127, and the ids >=640 -> local up to 374, all inside its 414 entries). It was not
-# a harmless mislabel: gMetatiles_General is followed in .rodata by
-# gMetatileAttributes_SecretBaseSecondary / gMetatiles_SecretBaseSecondary, so ~96% of
-# JohtoVictoryRoad_1F was drawing Secret Base graphics.
+# The gate spans BOTH ways a warp can go unread, because both punch the same hole:
 #
-# The 2 that remain are the other cause and have no in-tree fix: Route28 and
-# Route34_DayCare paint SECONDARY ids past the end of gTileset_ViridianCity (95 entries) and
-# gTileset_PokemonDayCare (68 entries). Their blockdata was authored against richer source
-# tilesets that were never imported -- no tileset in this tree is a superset of either, and
-# both metatiles.bin have been untouched since the initial commit while the map.bin files
-# arrived much later with the Johto port. Fixing them needs art, not a rewire.
+#   (a) the warp's x/y is outside its own layout's rectangle, so there is no blockdata word
+#       to read. All 8 of today's baseline are this: BattleFrontier_BattleDomeCorridor x2,
+#       BattleFrontier_BattleDomePreBattleRoom x2, SlateportCity, SlateportCity_Harbor x2
+#       and TinTower_8F (x = -1). Vanilla-shaped authoring slop, harmless to walk past.
+#   (b) the layout paints a metatile id past the end of the tileset actually wired to it.
+#       The engine does the same unbounded read -- GetAttributeByMetatileIdAndMapLayout and
+#       DrawMetatileAt both index tileset->metatileAttributes[] / ->metatiles[] with no
+#       bounds check -- so those tiles draw and behave as whatever .rodata happens to follow
+#       the array. Today this class is EMPTY, which is the point of pinning it.
 #
-# NOTE: this counts only warp tiles, which is all this script walks. A repo-wide metatile
-# bounds scan finds the same Cause-B pattern on four further live Johto maps whose bad ids
-# do not happen to sit on a warp: Route26North, MahoganyTown_Gym, GoldenrodCity_FlowerShop
-# and JohtoIndigoPlateau. Those are out of this script's scope, not fixed, and not counted
-# here -- do not read a passing run as "no map draws out of bounds".
-UNRESOLVED_BASELINE = 2
+# Was 18 when this script landed, all of it class (b). Two separate fixes cleared it:
+#
+#   JohtoVictoryRoad_1F/B1F/B2F (16 warps) were tagged layout_version "johto", which makes
+#   GetNumMetatilesInPrimary use the 640 split, while their primary is the 512-metatile
+#   gTileset_General -- so ids 512-639 ran off its end. They are ports of the Hoenn
+#   VictoryRoad_1F/B1F maps, which use the identical gTileset_General + gTileset_Cave
+#   pairing at the identical dimensions tagged "emerald", and retagging them to match puts
+#   every id they use back in bounds (512-639 -> gTileset_Cave local 0-127, and the ids
+#   >=640 -> local up to 374, all inside its 414 entries). It was not a harmless mislabel:
+#   gMetatiles_General is followed in .rodata by gMetatileAttributes_SecretBaseSecondary /
+#   gMetatiles_SecretBaseSecondary, so ~96% of JohtoVictoryRoad_1F was drawing Secret Base
+#   graphics.
+#
+#   Route28 and Route34_DayCare (2 warps) painted SECONDARY ids past the end of
+#   gTileset_ViridianCity (95 entries) and gTileset_PokemonDayCare (68 entries), and their
+#   blockdata has since been repainted back inside those tilesets.
+#
+# NOTE: this walks warp tiles only. A bad metatile id that does not happen to sit on a warp
+# is invisible here, so a passing run is NOT "no map draws out of bounds" -- that is
+# Testing/ValidateMetatileBounds.py's job, which sweeps every layout's map.bin and
+# border.bin and carries its own allowlist. Run both.
+UNRESOLVED_BASELINE = 8
 
 BLOCK_COMMENT = re.compile(r"/\*.*?\*/", re.S)
 LINE_COMMENT = re.compile(r"//[^\n]*")
@@ -676,7 +683,9 @@ def main(argv=None):
                     help="do not fail when map art draws from the VRAM window a door borrows")
     ap.add_argument("--max-unresolved", type=int, default=UNRESOLVED_BASELINE,
                     help="exit 1 if more than N warps cannot have their behavior read "
-                         "at all (default: today's baseline of %d)" % UNRESOLVED_BASELINE)
+                         "at all -- out of the map rectangle, or on a metatile past the "
+                         "end of its tileset (default: today's baseline of %d)"
+                         % UNRESOLVED_BASELINE)
     ap.add_argument("--root", default=None,
                     help="repo root (default: the parent of this script's directory)")
     ap.add_argument("--verbose", action="store_true",
@@ -1022,11 +1031,6 @@ def main(argv=None):
         print("FAIL: %d dead animated doors exceeds --max %d" % (len(dead), args.max))
         return 1
 
-    # The blind spot behind the zero. A warp whose behavior cannot be read is NOT counted
-    # dead -- but it is not counted live either, so a new one is a hole in the census, and
-    # holes make the dead count go DOWN. Gating it at the known baseline means the day
-    # someone paints a warp onto an out-of-range metatile, this says so instead of quietly
-    # shrinking the population it checks.
     if scratch and not args.allow_scratch_collisions:
         print("FAIL: %d metatile placement(s) draw a tile that the door animation on their own "
               "map overwrites while it plays. Registering a door is not enough -- the art on that "
@@ -1038,12 +1042,21 @@ def main(argv=None):
               "pixels AND the same palette numbers." % len(scratch))
         return 1
 
-    if len(problems) > args.max_unresolved:
+    # The blind spot behind the zero. A warp whose behavior cannot be read is NOT counted
+    # dead -- but it is not counted live either, so a new one is a hole in the census, and
+    # holes make the dead count go DOWN. Gating it at the known baseline means the day
+    # someone paints a warp onto an out-of-range metatile -- or moves one off the edge of
+    # its own map -- this says so instead of quietly shrinking the population it checks.
+    # BOTH classes count: a warp outside the map rectangle is just as unread as one on an
+    # out-of-range metatile, so counting only the latter would let the former grow freely.
+    unresolved_count = len(out_of_bounds) + len(problems)
+    if unresolved_count > args.max_unresolved:
         print("FAIL: %d warps could not be resolved, over the baseline of %d. These are NOT "
               "counted dead, so a new one SHRINKS the census rather than failing it -- which "
-              "is why it is gated separately. Either fix the layout/tileset mismatch or, if "
-              "the growth is genuinely intended, raise --max-unresolved deliberately."
-              % (len(problems), args.max_unresolved))
+              "is why it is gated separately. Either fix the layout/tileset mismatch or the "
+              "stray warp coordinate or, if the growth is genuinely intended, raise "
+              "--max-unresolved deliberately."
+              % (unresolved_count, args.max_unresolved))
         return 1
     return 0
 

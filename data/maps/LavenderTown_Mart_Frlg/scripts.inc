@@ -57,9 +57,3 @@ LavenderTown_Mart_Text_TrainerDuosCanChallengeYou::
 	.string "at the same time.\p"
 	.string "If that happens, you have to send\n"
 	.string "out two POKéMON to battle, too.$"
-
-LavenderTown_Mart_Text_SoldNuggetFromMountainsFor5000::
-	.string "この　あいだ　やまおくで\n"
-	.string "きんのたまを　ひろい　ましてね！\p"
-	.string "つかえない　しなもの　ですが\n"
-	.string "うったら　なんと　5000¥でした$"

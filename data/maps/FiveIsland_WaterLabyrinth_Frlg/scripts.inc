@@ -92,12 +92,6 @@ FiveIsland_WaterLabyrinth_Text_DontHaveSpaceInYourParty::
 	.string "You'd better come back for it\n"
 	.string "another time.$"
 
-@ Unused
-FiveIsland_WaterLabyrinth_Text_YouveComeBackForTheEgg::
-	.string "やあ\n"
-	.string "タマゴを　もらいに\l"
-	.string "きて　くれたんだね$"
-
 FiveIsland_WaterLabyrinth_Text_GladIMetSomeoneLikeYou::
 	.string "I received that EGG while I was\n"
 	.string "traveling.\p"

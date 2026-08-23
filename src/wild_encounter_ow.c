@@ -974,6 +974,14 @@ static bool32 StartWildBattleWithOWE_CheckDoubleBattle(struct ObjectEvent *owe, 
     const struct WildPokemonInfo *wildMonInfo;
     u32 metatileBehavior = MapGridGetMetatileBehaviorAt(owe->currentCoords.x, owe->currentCoords.y);
 
+    // StartWildBattleWithOWE() reaches here with headerId still HEADER_NONE on any map that has no
+    // encounter table and is not a Battle Pike/Pyramid layout (those two return earlier, out of
+    // StartWildBattleWithOWE_CheckBattleFrontier). Both branches below index gWildMonHeaders[headerId]
+    // directly, so guard before the indexing, exactly as CreateEnemyPartyOWE() already does.
+    // Falling through to FALSE keeps the single-battle path, which is the correct behaviour anyway.
+    if (headerId == HEADER_NONE)
+        return FALSE;
+
     if (TryDoDoubleWildBattle())
     {
         struct Pokemon mon1 = gParties[B_TRAINER_OPPONENT_A][0];

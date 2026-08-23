@@ -550,6 +550,25 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_SSAnne,                OBJ_EVENT_PAL_TAG_SS_ANNE},
     {gObjectEventPal_MagnetTrain,           OBJ_EVENT_PAL_TAG_MAGNET_TRAIN},
     {gObjectEventPal_Seagallop,             OBJ_EVENT_PAL_TAG_SEAGALLOP},
+    {gObjectEventPal_Eusine,                OBJ_EVENT_PAL_TAG_EUSINE},
+    {gObjectEventPal_Falkner,               OBJ_EVENT_PAL_TAG_FALKNER},
+    {gObjectEventPal_Bugsy,                 OBJ_EVENT_PAL_TAG_BUGSY},
+    {gObjectEventPal_Whitney,               OBJ_EVENT_PAL_TAG_WHITNEY},
+    {gObjectEventPal_Morty,                 OBJ_EVENT_PAL_TAG_MORTY},
+    {gObjectEventPal_Chuck,                 OBJ_EVENT_PAL_TAG_CHUCK},
+    {gObjectEventPal_Jasmine,               OBJ_EVENT_PAL_TAG_JASMINE},
+    {gObjectEventPal_Pryce,                 OBJ_EVENT_PAL_TAG_PRYCE},
+    {gObjectEventPal_Clair,                 OBJ_EVENT_PAL_TAG_CLAIR},
+    {gObjectEventPal_Will,                  OBJ_EVENT_PAL_TAG_WILL},
+    {gObjectEventPal_Karen,                 OBJ_EVENT_PAL_TAG_KAREN},
+    {gObjectEventPal_Janine,                OBJ_EVENT_PAL_TAG_JANINE},
+    {gObjectEventPal_Elm,                   OBJ_EVENT_PAL_TAG_ELM},
+    {gObjectEventPal_Kimono,                OBJ_EVENT_PAL_TAG_KIMONO},
+    {gObjectEventPal_Rocket2,               OBJ_EVENT_PAL_TAG_ROCKET_2},
+    {gObjectEventPal_Rocket3,               OBJ_EVENT_PAL_TAG_ROCKET_3},
+    {gObjectEventPal_Rocket4,               OBJ_EVENT_PAL_TAG_ROCKET_4},
+    {gObjectEventPal_Sage,                  OBJ_EVENT_PAL_TAG_SAGE},
+    {gObjectEventPal_Lance,                 OBJ_EVENT_PAL_TAG_LANCE},
 #if OW_FOLLOWERS_POKEBALLS
     {gObjectEventPal_MasterBall,            OBJ_EVENT_PAL_TAG_BALL_MASTER},
     {gObjectEventPal_UltraBall,             OBJ_EVENT_PAL_TAG_BALL_ULTRA},
@@ -2807,6 +2826,8 @@ bool32 CheckMsgCondition(const struct MsgCondition *cond, struct Pokemon *mon, e
         if (multi)
             gSpecialVar_Result = multi;
         return multi;
+    case MSG_COND_OUTDOORS:
+        return IsMapTypeOutdoors(gMapHeader.mapType);
     case MSG_COND_NONE:
     // fallthrough
     default:

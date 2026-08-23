@@ -142,9 +142,10 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Love::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_LOVE_BALL, 5
-	removeitem ITEM_PECHA_BERRY, 5
+	checkitemspace ITEM_LOVE_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_PECHA_BERRY, 5
+	giveitem ITEM_LOVE_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -166,9 +167,10 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Lure::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_LURE_BALL, 5
-	removeitem ITEM_RAWST_BERRY, 5
+	checkitemspace ITEM_LURE_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_RAWST_BERRY, 5
+	giveitem ITEM_LURE_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -190,9 +192,10 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Friend::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_FRIEND_BALL, 5
-	removeitem ITEM_CHERI_BERRY, 5
+	checkitemspace ITEM_FRIEND_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_CHERI_BERRY, 5
+	giveitem ITEM_FRIEND_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -214,9 +217,10 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Heavy::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_HEAVY_BALL, 5
-	removeitem ITEM_ORAN_BERRY, 5
+	checkitemspace ITEM_HEAVY_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_ORAN_BERRY, 5
+	giveitem ITEM_HEAVY_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -238,9 +242,10 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Moon::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_MOON_BALL, 5
-	removeitem ITEM_CHESTO_BERRY, 5
+	checkitemspace ITEM_MOON_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_CHESTO_BERRY, 5
+	giveitem ITEM_MOON_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -262,9 +267,10 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Fast::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_FAST_BALL, 5
-	removeitem ITEM_ASPEAR_BERRY, 5
+	checkitemspace ITEM_FAST_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_ASPEAR_BERRY, 5
+	giveitem ITEM_FAST_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
@@ -286,21 +292,25 @@ AzaleaTown_KurtsHouse_EventScript_Kurt_Level::
 	faceplayer
 	msgbox KurtsHouse_Text_KurtJustFinishedYourBall, MSGBOX_DEFAULT
 	waitmessage
-	giveitem ITEM_LEVEL_BALL, 5
-	removeitem ITEM_PERSIM_BERRY, 5
+	checkitemspace ITEM_LEVEL_BALL, 5
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	removeitem ITEM_PERSIM_BERRY, 5
+	giveitem ITEM_LEVEL_BALL, 5
 	msgbox KurtsHouse_Text_KurtTurnedOutGreat, MSGBOX_DEFAULT
 	closemessage
 	turnobject LOCALID_AZALEA_TOWN_KURT, DIR_NORTH
 	release
 	end
 
+@ Loops back to the recipe menu, so the lock taken in _Kurt is deliberately
+@ still held: every exit from that menu (a craft branch, _KurtCancel, or
+@ Common_EventScript_ShowBagIsFull) releases it. A release here would hand
+@ control back to the player while the multichoice is still about to open.
+@ The release/end that used to sit after the goto were unreachable.
 AzaleaTown_KurtsHouse_EventScript_DontHaveBerry::
 	msgbox KurtsHouse_Text_KurtThatsALetdown, MSGBOX_DEFAULT
 	closemessage
 	goto AzaleaTown_KurtsHouse_EventScript_Kurt2
-	release
-	end
 	
 AzaleaTown_KurtsHouse_EventScript_KurtCancel::
 	closemessage

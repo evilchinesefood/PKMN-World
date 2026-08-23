@@ -9,6 +9,8 @@
 #include "secret_base.h"
 #include "item_menu.h"
 #include "party_menu.h"
+#include "pokemon.h"
+#include "pokemon_storage_system.h"
 #include "strings.h"
 #include "load_save.h"
 #include "item_use.h"
@@ -226,10 +228,43 @@ bool32 CheckBagHasItem(enum Item itemId, u16 count)
     return BagPocket_CheckHasItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
 }
 
-// Region merge (A1): with one global bag, key-class items (Key Items pocket + HMs)
-// must never land twice across regions. TRUE if itemId is key-class and already
-// in the bag. ITEM_METEORITE is exempt: the Hoenn (Cozmo) and Sevii (Two Island)
-// delivery quests each give and consume their own copy of the same id.
+// An item can be sitting on a Pokemon instead of in the bag or the item PC, and wearing one
+// is owning one. Only reached once the caller has established itemId is key-class, i.e. a
+// handful of gives per playthrough — the box sweep is the same cost as IsPokemonStorageFull(),
+// which scripts already pay. Held item is read without a species guard on purpose: an empty
+// slot decodes to ITEM_NONE, which no key-class id can equal.
+static bool32 IsItemHeldByPlayerMon(enum Item itemId)
+{
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_HELD_ITEM) == itemId)
+            return TRUE;
+    }
+
+    for (u32 boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
+    {
+        for (u32 boxPosition = 0; boxPosition < IN_BOX_COUNT; boxPosition++)
+        {
+            if (GetBoxMonDataAt(boxId, boxPosition, MON_DATA_HELD_ITEM) == itemId)
+                return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+// Region merge (A1): with one global bag, key-class items (Key Items pocket + HMs) must never
+// land twice across regions. TRUE if itemId is key-class and the player already owns one.
+//
+// ITEM_METEORITE is exempt: the Hoenn (Cozmo) and Sevii (Two Island) delivery quests each give
+// and consume their own copy of the same id.
+//
+// ITEM_EXP_SHARE is deliberately NOT key-class, though six scripted sources across three regions
+// hand one out (Rustboro Devon Corp 3F, Kanto Route 15's aide, Mr. Pokemon's House, the Violet
+// City PC aide, the Goldenrod dept. store basement ball, and either lottery). With
+// I_EXP_SHARE_ITEM == GEN_5 (include/config/item.h) it is an ordinary POCKET_ITEMS held item that
+// only boosts the mon carrying it, so accumulating several is legitimate and intended here — see
+// issue #130. Do not "fix" this by classing it key-class; that caps the player at one copy.
 bool32 IsDuplicateKeyClassItem(enum Item itemId)
 {
     if (itemId == ITEM_METEORITE)
@@ -238,7 +273,8 @@ bool32 IsDuplicateKeyClassItem(enum Item itemId)
         return FALSE;
     // The item PC accepts key-class items too — a copy parked there must still block the
     // second give, or the A1 "never receive a second one" guarantee is one deposit deep.
-    return CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1);
+    // Same reasoning for a copy attached to a party or boxed Pokemon.
+    return CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1) || IsItemHeldByPlayerMon(itemId);
 }
 
 // Script special for the Std_ObtainItem/Std_FindItem paths (item id in VAR_0x8006).
@@ -384,6 +420,11 @@ bool32 AddBagItem(enum Item itemId, u16 count)
 static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item itemId, u16 count)
 {
     u32 itemLookupIndex, itemRemoveIndex = 0, totalQuantity = 0;
+    // How much is still owed. Must be tracked across slots: `count` is the TOTAL to
+    // remove, so charging the full `count` against every matching slot over-removes
+    // whenever the item is split across more than one stack. Holding 5 and 10 and
+    // removing 8 used to take 5 from the first and 8 from the second - 13 in all.
+    u32 remainingToRemove = count;
     struct ItemSlot tempItem;
     u16 *tempPocketSlotQuantities = AllocZeroed(sizeof(u16) * pocket->capacity);
 
@@ -392,13 +433,16 @@ static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item i
         tempItem = BagPocket_GetSlotData(pocket, itemLookupIndex);
         if (tempItem.itemId == itemId)
         {
+            u32 takenFromSlot = (tempItem.quantity <= remainingToRemove) ? tempItem.quantity : remainingToRemove;
+
             // Index for the next loop - where we should start removing items
             if (!itemRemoveIndex)
                 itemRemoveIndex = itemLookupIndex + 1;
 
             // Gather quantities (+ 1 to tempPocketSlotQuantities so that even if setting to 0 we know which indices to target)
             totalQuantity += tempItem.quantity;
-            tempPocketSlotQuantities[itemLookupIndex] = (tempItem.quantity <= count ? 0 : tempItem.quantity - count) + 1;
+            remainingToRemove -= takenFromSlot;
+            tempPocketSlotQuantities[itemLookupIndex] = (tempItem.quantity - takenFromSlot) + 1;
         }
     }
 
@@ -418,7 +462,10 @@ static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item i
         }
     }
 
-    if (totalQuantity == count)
+    // Must match the >= used by the branch above that actually does the removing. With
+    // `==`, a removal that emptied an earlier slot while totalQuantity > count skipped
+    // compaction and left a hole mid-pocket.
+    if (totalQuantity >= count)
         BagPocket_CompactItems(pocket);
 
     Free(tempPocketSlotQuantities);

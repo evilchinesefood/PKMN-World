@@ -63,7 +63,8 @@ enum MessageCondition
     MSG_COND_WEATHER,
     MSG_COND_MUSIC,
     MSG_COND_TIME_OF_DAY,
-    MSG_COND_NEAR_MB
+    MSG_COND_NEAR_MB,
+    MSG_COND_OUTDOORS
 };
 
 #define MATCH_U24(type, value) {type, {.raw = value}}
@@ -86,6 +87,8 @@ enum MessageCondition
 #define MATCH_TIME_OF_DAY(time) MATCH_U24(MSG_COND_TIME_OF_DAY, time)
 // Matches metatile behavior within a '+' shape of size `distance`
 #define MATCH_NEAR_MB(mb, distance) MATCH_U8(MSG_COND_NEAR_MB, mb, distance, 0)
+// Matches any map the game considers outdoors (see IsMapTypeOutdoors); takes no payload
+#define MATCH_OUTDOORS() MATCH_U24(MSG_COND_OUTDOORS, 0)
 
 enum ConditionalMessage
 {

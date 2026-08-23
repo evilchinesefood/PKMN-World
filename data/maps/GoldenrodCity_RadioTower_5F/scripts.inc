@@ -13,8 +13,23 @@ GoldenrodCity_RadioTower_5F_OnLoad::
 	end
 
 GoldenrodCity_RadioTower_5F_MapScript_HidePetrel::
+	call_if_not_defeated TRAINER_PETREL_2, GoldenrodCity_RadioTower_5F_MapScript_RestoreDirectorDisguise
+	call_if_defeated TRAINER_PETREL_2, GoldenrodCity_RadioTower_5F_MapScript_KeepPetrelRevealed
+	return
+
+GoldenrodCity_RadioTower_5F_MapScript_RestoreDirectorDisguise::
 	clearflag FLAG_HIDE_GOLDENROD_RADIOTOWER_DIRECTOR
 	setflag FLAG_HIDE_GOLDENROD_RADIOTOWER_PETREL
+	return
+
+@ PETREL beaten while VAR_GOLDENROD_CITY_STATE is still 6 means the BASEMENT KEY did not
+@ fit in the BAG. Putting the DIRECTOR disguise back would replay the reveal and the battle,
+@ and the retry would then advance the state without ever running the object swap below -
+@ leaving the DIRECTOR standing in the office for good, re-givable and able to setvar the
+@ state back to 7 from 8 or 9. Keep PETREL revealed instead and retry the give from him.
+GoldenrodCity_RadioTower_5F_MapScript_KeepPetrelRevealed::
+	setflag FLAG_HIDE_GOLDENROD_RADIOTOWER_DIRECTOR
+	clearflag FLAG_HIDE_GOLDENROD_RADIOTOWER_PETREL
 	return
 
 
@@ -37,6 +52,11 @@ GoldenrodCity_RadioTower_5F_EventScript_Petrel::
 	waitmovement 0
 	msgbox GoldenrodCity_RadioTower_5F_Text_FakeDirector2, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_PETREL_2, GoldenrodCity_RadioTower_5F_Text_FakeDirectorWin
+
+@ Re-entry point for a give that could not fit: PETREL is already beaten, so the
+@ disguise cutscene and the battle are not replayed, and VAR_GOLDENROD_CITY_STATE
+@ only advances once the BASEMENT KEY is actually in the BAG.
+GoldenrodCity_RadioTower_5F_EventScript_PetrelGiveBasementKey::
 	msgbox GoldenrodCity_RadioTower_5F_Text_FakeDirectorAfter, MSGBOX_DEFAULT
 	giveitem ITEM_BASEMENT_KEY
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
@@ -53,6 +73,14 @@ GoldenrodCity_RadioTower_5F_EventScript_PetrelNorth::
 GoldenrodCity_RadioTower_5F_EventScript_Petrel2::
 	lock
 	faceplayer
+	goto_if_ge VAR_GOLDENROD_CITY_STATE, 7, GoldenrodCity_RadioTower_5F_EventScript_PetrelAfter
+	@ Below state 7 the BASEMENT KEY did not fit in the BAG. PETREL is already
+	@ beaten and still standing here, so hand it over again on the spot instead of
+	@ making the player leave the room to reset the scene.
+	goto_if_defeated TRAINER_PETREL_2, GoldenrodCity_RadioTower_5F_EventScript_PetrelGiveBasementKey
+	goto GoldenrodCity_RadioTower_5F_EventScript_PetrelAfter
+
+GoldenrodCity_RadioTower_5F_EventScript_PetrelAfter::
 	msgbox GoldenrodCity_RadioTower_5F_Text_FakeDirectorAfter2, MSGBOX_DEFAULT
 	closemessage
 	release

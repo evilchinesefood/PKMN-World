@@ -5026,7 +5026,10 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
                 || opponentTrainerClass == TRAINER_CLASS_CHAMPION
                 || opponentTrainerClass == TRAINER_CLASS_LEADER_JOHTO
                 || opponentTrainerClass == TRAINER_CLASS_CHAMPION_JOHTO
-                || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR_JOHTO))
+                || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR_JOHTO
+                || opponentTrainerClass == TRAINER_CLASS_LEADER_FRLG
+                || opponentTrainerClass == TRAINER_CLASS_ELITE_FOUR_FRLG
+                || opponentTrainerClass == TRAINER_CLASS_CHAMPION_FRLG))
                 return;
         }
 

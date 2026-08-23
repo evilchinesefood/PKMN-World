@@ -3951,8 +3951,13 @@ static void Cmd_getexp(void)
             }
             else
             {
+                // Participation is binary here, not fractional: everyone who was sent out takes
+                // the whole pot, and B_EXP_SHARE_DIVISOR decides what the bench takes. At the
+                // Gen6+ value of 2 the mon that fought always earned exactly twice what the rest
+                // of the party did; at 1 the share is even. The sent-out mon never double-dips
+                // either way -- case 2 below only adds the share when its own reward came out 0.
                 *exp = calculatedExp;
-                gBattleStruct->expShareExpValue = calculatedExp / 2;
+                gBattleStruct->expShareExpValue = calculatedExp / B_EXP_SHARE_DIVISOR;
                 if (gBattleStruct->expShareExpValue == 0)
                     gBattleStruct->expShareExpValue = 1;
             }
@@ -4057,17 +4062,26 @@ static void Cmd_getexp(void)
                     PREPARE_STRING_BUFFER(gBattleTextBuff2, i);
                     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff3, 6, gBattleStruct->battlerExpReward);
 
-                    if (wasSentOut || holdEffect == HOLD_EFFECT_EXP_SHARE)
-                    {
-                        PrepareStringBattle(STRINGID_PKMNGAINEDEXP, gBattleStruct->expGetterBattlerId);
-                    }
-                    else if (IsGen6ExpShareEnabled() && !gBattleStruct->teamGotExpMsgPrinted) // Print 'the rest of your team got exp' message once, when all of the sent-in mons were given experience
-                    {
-                        gLastUsedItem = ITEM_EXP_SHARE;
-                        PrepareStringBattle(STRINGID_TEAMGAINEDEXP, gBattleStruct->expGetterBattlerId);
-                        gBattleStruct->teamGotExpMsgPrinted = TRUE;
-                    }
+                    // QoL: the EXP-gain lines are deliberately not printed. Both of them end in
+                    // \p, which is a hard wait on an A press (src/text.c:1294), so every KO cost
+                    // two button presses to tell the player a number they can read off the EXP bar
+                    // anyway. Restoring them is just un-commenting the two PrepareStringBattle
+                    // calls below.
+                    //
+                    // Nothing waits on these strings. Case 3 gates on gBattleControllerExecFlags
+                    // == 0, which is already true when no controller command was emitted, so it
+                    // runs on the next frame exactly as before; Controller_WaitForString completes
+                    // immediately when no text printer is active (src/battle_controllers.c:2221).
+                    // The EXP bar is driven by BtlController_EmitExpUpdate in case 3, and level-ups
+                    // by RET_VALUE_LEVELED_UP in case 4 -- neither reads a string.
+                    //
+                    //   if (wasSentOut || holdEffect == HOLD_EFFECT_EXP_SHARE)
+                    //       PrepareStringBattle(STRINGID_PKMNGAINEDEXP, gBattleStruct->expGetterBattlerId);
+                    //   else if (IsGen6ExpShareEnabled() && !gBattleStruct->teamGotExpMsgPrinted)
+                    //       ... STRINGID_TEAMGAINEDEXP, once per fainted opponent ...
 
+                    // NOT part of the message: EVs are awarded here for every eligible party
+                    // member, and always were. Keep this outside any message branch.
                     MonGainEVs(&gParties[B_TRAINER_PLAYER][*expMonId], gBattleMons[gBattlerFainted].species);
                 }
                 gBattleScripting.getexpState++;
@@ -4110,7 +4124,15 @@ static void Cmd_getexp(void)
                 PREPARE_BYTE_NUMBER_BUFFER(gBattleTextBuff2, 3, GetMonData(&gParties[B_TRAINER_PLAYER][*expMonId], MON_DATA_LEVEL));
 
                 gLeveledUpInBattle |= 1 << *expMonId;
-                BattleScriptCall(BattleScript_LevelUp);
+                // QoL: remember the level this slot came into the battle on, but only the FIRST
+                // time it levels -- a mon that goes 25 -> 26 -> 27 must still report "25 -> 27".
+                // beforeLvlUp->level is the pre-gain level snapshotted in case 3 above.
+                if (gLevelUpStartLevels[*expMonId] == 0)
+                    gLevelUpStartLevels[*expMonId] = gBattleResources->beforeLvlUp->level;
+                // Silent during the fight; the levels are reported once after it. See the comment
+                // on BattleScript_LevelUpQuiet -- only presentation is skipped, move learning still
+                // runs here and now.
+                BattleScriptCall(BattleScript_LevelUpQuiet);
                 gBattleStruct->battlerExpReward = T1_READ_32(&gBattleResources->bufferB[expBattler][2]);
                 AdjustFriendship(&gParties[B_TRAINER_PLAYER][*expMonId], FRIENDSHIP_EVENT_GROW_LEVEL);
 

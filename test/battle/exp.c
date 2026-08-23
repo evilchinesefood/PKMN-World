@@ -148,4 +148,43 @@ WILD_BATTLE_TEST("Exp Share(held) gives Experience to mons which did not partici
     }
 }
 
+// B_EXP_SHARE_DIVISOR is the knob behind "the first Pokemon always gets the most EXP". Gen6+ hands
+// a non-participant calculatedExp / 2, so the mon that fought visibly out-earned the rest of the
+// party no matter what the player did; at 1 the share is even.
+//
+// WHAT MAKES THIS DISCRIMINATE: it reads MON_DATA_EXP off BOTH party slots and compares them.
+// EXPERIENCE_BAR() cannot see this — TestRunner_Battle_RecordExp is only reached from the ACTIVE
+// battler's bar (src/battle_controller_player.c), so party members 2-6 are invisible to it. The
+// comparison is against the mon that fought rather than a hardcoded number, so it stays honest if
+// the base EXP formula or the scaling factors are ever retuned.
+//
+// BOTH MONS ARE THE SAME SPECIES AND LEVEL ON PURPOSE. ApplyExperienceMultipliers weights per mon:
+// B_SCALED_EXP divides by the recipient's own level, and B_UNEVOLVED_EXP_MULTIPLIER gives a ~1.2x
+// bonus to a mon sitting past its evolution level. A Wynaut in slot 2 would collect that bonus and
+// a Wobbuffet in slot 1 would not, so an equal split would still read as unequal EXP.
+WILD_BATTLE_TEST("Exp Share splits EXP evenly with the Pokemon that fought")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Level(25); }
+        PLAYER(SPECIES_WOBBUFFET) { Level(25); Item(ITEM_EXP_SHARE); }
+        OPPONENT(SPECIES_CATERPIE) { Level(10); HP(1); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SCRATCH); }
+    } THEN {
+        u32 startExp = gExperienceTables[gSpeciesInfo[SPECIES_WOBBUFFET].growthRate][25];
+        u32 fought  = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_EXP) - startExp;
+        u32 benched = GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_EXP) - startExp;
+
+        EXPECT_GT(fought, 0);
+        EXPECT_GT(benched, 0);
+        // A runtime branch on the compile-time constant, deliberately: an #if here would silently
+        // compile the assertion away if the divisor were ever changed back, which reads as a green
+        // build with no coverage.
+        if (B_EXP_SHARE_DIVISOR == 1)
+            EXPECT_EQ(benched, fought);
+        else
+            EXPECT_LT(benched, fought);
+    }
+}
+
 #endif // I_EXP_SHARE_ITEM

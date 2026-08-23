@@ -37,6 +37,7 @@ import argparse
 import json
 import os
 import re
+import struct
 import sys
 from collections import Counter, defaultdict
 
@@ -44,19 +45,44 @@ from collections import Counter, defaultdict
 # Small helpers
 # ---------------------------------------------------------------------------
 
-# Warps whose metatile behavior cannot be read AT ALL, because the layout paints a metatile
-# id past the end of the tileset actually wired to it. Two separate pre-existing authoring
-# bugs, neither of them about doors: JohtoVictoryRoad_1F/B1F/B2F are tagged
-# layout_version "johto" (which makes GetNumMetatilesInPrimary use the 640 split) while
-# their primary is the 512-metatile gTileset_General, so ids 512-639 run off the end of it;
-# and Route28 / Route34_DayCare paint secondary ids past the end of gTileset_ViridianCity
-# (95 entries) and gTileset_PokemonDayCare (68 entries). The engine does the same unbounded
-# read -- GetAttributeByMetatileIdAndMapLayout and DrawMetatileAt both index
-# tileset->metatileAttributes[] / ->metatiles[] with no bounds check -- so these tiles draw
-# and behave as whatever .rodata happens to follow the array. On the current build none of
-# them lands on MB_ANIMATED_DOOR, which is why the dead count is a true zero today; but that
-# is an accident of link order, not a design fact, so the number is pinned rather than
-# ignored. Tracked separately from the door work.
+# Warps whose metatile behavior cannot be read AT ALL. An unreadable warp is a HOLE in the
+# census: it is not counted live and it is NOT counted dead, so a new one makes the dead
+# count go DOWN. That is why the number is pinned rather than ignored, and why it is gated
+# separately from the dead count. Tracked apart from the door work; see #93.
+#
+# The gate spans BOTH ways a warp can go unread, because both punch the same hole:
+#
+#   (a) the warp's x/y is outside its own layout's rectangle, so there is no blockdata word
+#       to read. All 8 of today's baseline are this: BattleFrontier_BattleDomeCorridor x2,
+#       BattleFrontier_BattleDomePreBattleRoom x2, SlateportCity, SlateportCity_Harbor x2
+#       and TinTower_8F (x = -1). Vanilla-shaped authoring slop, harmless to walk past.
+#   (b) the layout paints a metatile id past the end of the tileset actually wired to it.
+#       The engine does the same unbounded read -- GetAttributeByMetatileIdAndMapLayout and
+#       DrawMetatileAt both index tileset->metatileAttributes[] / ->metatiles[] with no
+#       bounds check -- so those tiles draw and behave as whatever .rodata happens to follow
+#       the array. Today this class is EMPTY, which is the point of pinning it.
+#
+# Was 18 when this script landed, all of it class (b). Two separate fixes cleared it:
+#
+#   JohtoVictoryRoad_1F/B1F/B2F (16 warps) were tagged layout_version "johto", which makes
+#   GetNumMetatilesInPrimary use the 640 split, while their primary is the 512-metatile
+#   gTileset_General -- so ids 512-639 ran off its end. They are ports of the Hoenn
+#   VictoryRoad_1F/B1F maps, which use the identical gTileset_General + gTileset_Cave
+#   pairing at the identical dimensions tagged "emerald", and retagging them to match puts
+#   every id they use back in bounds (512-639 -> gTileset_Cave local 0-127, and the ids
+#   >=640 -> local up to 374, all inside its 414 entries). It was not a harmless mislabel:
+#   gMetatiles_General is followed in .rodata by gMetatileAttributes_SecretBaseSecondary /
+#   gMetatiles_SecretBaseSecondary, so ~96% of JohtoVictoryRoad_1F was drawing Secret Base
+#   graphics.
+#
+#   Route28 and Route34_DayCare (2 warps) painted SECONDARY ids past the end of
+#   gTileset_ViridianCity (95 entries) and gTileset_PokemonDayCare (68 entries), and their
+#   blockdata has since been repainted back inside those tilesets.
+#
+# NOTE: this walks warp tiles only. A bad metatile id that does not happen to sit on a warp
+# is invisible here, so a passing run is NOT "no map draws out of bounds" -- that is
+# Testing/ValidateMetatileBounds.py's job, which sweeps every layout's map.bin and
+# border.bin and carries its own allowlist. Run both.
 UNRESOLVED_BASELINE = 8
 
 BLOCK_COMMENT = re.compile(r"/\*.*?\*/", re.S)
@@ -145,6 +171,26 @@ def parse_primary_counts(root):
     )
 
 
+def parse_map_offset(root):
+    """MAP_OFFSET from include/fieldmap.h -- how deep a connected map's fringe is copied into
+    gBackupMapLayout, and therefore how much of a neighbour can be on screen."""
+    path = os.path.join(root, "include", "fieldmap.h")
+    d = parse_define_ints(path, "MAP_")
+    if "MAP_OFFSET" not in d:
+        raise Fatal("could not find MAP_OFFSET in %s" % path)
+    return d["MAP_OFFSET"]
+
+
+def parse_tile_total(root):
+    """NUM_TILES_TOTAL from include/fieldmap.h. The door scratch window is defined off it
+    (DOOR_TILE_START_SIZE1/2 = NUM_TILES_TOTAL - 8 / - 16), so it is read, never assumed."""
+    path = os.path.join(root, "include", "fieldmap.h")
+    d = parse_define_ints(path, "NUM_TILES_")
+    if "NUM_TILES_TOTAL" not in d:
+        raise Fatal("could not find NUM_TILES_TOTAL in %s" % path)
+    return d["NUM_TILES_TOTAL"]
+
+
 def parse_behavior_enum(root):
     """Number the MB_* enum in include/constants/metatile_behaviors.h."""
     path = os.path.join(root, "include", "constants", "metatile_behaviors.h")
@@ -231,6 +277,7 @@ def parse_tilesets(root):
         bytes_per_attr = (attr_size * 16) // mt_size
         tilesets[name] = {
             "metatiles_path": mt_rel,
+            "metatiles_abs": mt_abs,
             "attributes_path": attr_rel,
             "attributes_abs": attr_abs,
             "num_metatiles": num_metatiles,
@@ -310,9 +357,13 @@ def parse_door_table(root, labels):
         raise Fatal("unterminated sDoorAnimGraphicsTable in %s" % path)
     body = strip_c_comments(text[start + 1:end])
 
+    # `size` is captured because it, together with the LAYOUT's isFrlg/isJohto, decides how much
+    # VRAM the animation borrows: CopyDoorTilesToVram writes 16 tiles at NUM_TILES_TOTAL-16 for a
+    # size-2 row on a non-FRLG, non-Johto layout, and 8 tiles at NUM_TILES_TOTAL-8 otherwise.
     row_re = re.compile(
         r"\{\s*(?P<mt>[A-Za-z_]\w*|0[xX][0-9A-Fa-f]+|\d+)\s*,"
         r"\s*(?P<ts>&\s*\w+|NULL)\s*,"
+        r"(?:\s*(?P<sound>\w+)\s*,\s*(?P<size>\d+)\s*,)?"
     )
     # GetDoorGraphics walks the table with `while (gfx->tiles != NULL)`, so the
     # FIRST row with no tiles ends it. In the source that row is the bare `{}`
@@ -331,6 +382,7 @@ def parse_door_table(root, labels):
     body = body[:term.start()]
 
     rows = []
+    sizes = {}
     unresolved = []
     null_tileset_rows = []
     for m2 in row_re.finditer(body):
@@ -349,6 +401,11 @@ def parse_door_table(root, labels):
             null_tileset_rows.append((raw_mt, mt))
             continue
         rows.append((mt, raw_ts, raw_mt))
+        # No size parsed means the row shape changed; assume the WIDER window rather than
+        # silently checking too little.
+        raw_size = m2.group("size")
+        sz = int(raw_size) if raw_size is not None else 2
+        sizes[(mt, raw_ts)] = max(sz, sizes.get((mt, raw_ts), 0))
     if unresolved:
         raise Fatal(
             "unresolved metatile symbols in sDoorAnimGraphicsTable: %s"
@@ -366,7 +423,7 @@ def parse_door_table(root, labels):
     index = defaultdict(set)
     for mt, ts, _raw in rows:
         index[mt].add(ts)
-    return rows, dict(index), null_tileset_rows
+    return rows, dict(index), null_tileset_rows, sizes
 
 
 # ---------------------------------------------------------------------------
@@ -408,6 +465,7 @@ def parse_layouts(root, num_primary_emerald, num_primary_frlg):
             "primary": entry.get("primary_tileset"),
             "secondary": entry.get("secondary_tileset"),
             "blockdata": entry.get("blockdata_filepath"),
+            "border": entry.get("border_filepath"),
             "version": version,
             "is_frlg": is_frlg,
             "is_johto": is_johto,
@@ -437,6 +495,7 @@ def parse_maps(root):
                 "id": data.get("id", ""),
                 "layout": data.get("layout"),
                 "warps": data.get("warp_events") or [],
+                "connections": data.get("connections") or [],
             }
         )
     if not maps:
@@ -457,6 +516,70 @@ class BlockdataReader:
             abs_path = os.path.join(self.root, key)
             self._cache[key] = read_bytes(abs_path)
         return self._cache[key]
+
+    def _ids(self, blob):
+        return {(int.from_bytes(blob[i:i + 2], "little") & self.mask) >> self.shift
+                for i in range(0, len(blob) - 1, 2)}
+
+    def placed_ids(self, layout):
+        """Every distinct metatile id actually placed on this layout."""
+        return self._ids(self.grid(layout))
+
+    def border_ids(self, layout):
+        """The border block, which is drawn all round the map and is therefore on screen for
+        any door near an edge -- and, on a map smaller than the camera, everywhere."""
+        rel = layout.get("border")
+        if not rel:
+            return set()
+        abs_path = os.path.join(self.root, rel)
+        if not os.path.exists(abs_path):
+            return set()
+        key = "border:" + rel
+        if key not in self._cache:
+            self._cache[key] = read_bytes(abs_path)
+        return self._ids(self._cache[key])
+
+    def fringe_ids(self, layout, direction, map_offset):
+        """The strip of a CONNECTED map that FillConnection copies into gBackupMapLayout.
+        Drawn with the CURRENT map's tilesets, so it is resolved through the door map's pair,
+        not the neighbour's.
+
+        map.json's direction strings map to the engine's routines via asm/macros/map.inc:
+        down -> CONNECTION_SOUTH, up -> CONNECTION_NORTH, left -> CONNECTION_WEST,
+        right -> CONNECTION_EAST. (dive/emerge are not drawn adjacently and are ignored.)
+
+        The four depths mirror src/fieldmap.c exactly, and they are NOT all the same:
+
+            FillSouthConnection  y2 = 0                  height = MAP_OFFSET      -> top 7 rows
+            FillNorthConnection  y2 = cHeight-MAP_OFFSET  height = MAP_OFFSET      -> bottom 7 rows
+            FillWestConnection   x2 = cWidth-MAP_OFFSET   width  = MAP_OFFSET      -> right 7 cols
+            FillEastConnection   x2 = 0                   width  = MAP_OFFSET + 1  -> left 8 cols
+
+        East is one wider because the horizontal margin is asymmetric:
+        MAP_OFFSET_W = MAP_OFFSET * 2 + 1, i.e. 7 on the left and 8 on the right, while
+        MAP_OFFSET_H = MAP_OFFSET * 2 is an even 7 and 7. Using MAP_OFFSET for east would
+        miss its eighth column."""
+        blob = self.grid(layout)
+        w, h = layout["width"], layout["height"]
+        if len(blob) < w * h * 2:
+            return set()
+
+        def at(x, y):
+            off = (y * w + x) * 2
+            return (int.from_bytes(blob[off:off + 2], "little") & self.mask) >> self.shift
+
+        east_depth = map_offset + 1          # MAP_OFFSET_W - MAP_OFFSET
+        if direction == "up":
+            ys, xs = range(max(0, h - map_offset), h), range(w)
+        elif direction == "down":
+            ys, xs = range(0, min(map_offset, h)), range(w)
+        elif direction == "left":
+            xs, ys = range(max(0, w - map_offset), w), range(h)
+        elif direction == "right":
+            xs, ys = range(0, min(east_depth, w)), range(h)
+        else:
+            return set()
+        return {at(x, y) for y in ys for x in xs}
 
     def metatile_at(self, layout, x, y):
         """Return (metatile_id, None) or (None, reason)."""
@@ -479,13 +602,90 @@ class BlockdataReader:
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# The door animation borrows VRAM while it runs.
+# ---------------------------------------------------------------------------
+# CopyDoorTilesToVram (src/field_door.c) writes the live frame into a scratch
+# window at the top of the tile space, and the NOTE above it says any pre-existing
+# tile visible in that region is overwritten. Registering a door therefore has a
+# SECOND precondition beyond having a table row: the tilesets on that map must not
+# DRAW from the window, or opening the door silently corrupts whatever does -- for
+# as long as it is open, and again in reverse when it shuts. It is invisible until
+# someone animates a door on that map, which is exactly how it slipped through:
+# Mahogany's roof lost its ridge detail the moment its door started working.
+#
+# The window is NOT one fixed range. CopyDoorTilesToVram picks it from the row's
+# `size` AND the layout's flags:
+#
+#     size == 2 && !isFrlg && !isJohto  ->  16 tiles at NUM_TILES_TOTAL - 16
+#     otherwise                         ->   8 tiles at NUM_TILES_TOTAL -  8
+#
+# so a size-2 door on an Emerald layout reaches eight tiles LOWER than everything
+# else. Checking only the 8-tile window would silently miss that half. The caller
+# therefore computes the widest window each tileset is actually exposed to, from
+# the live warps that reach it, and passes that in.
+#
+# Metatile tile ids are GLOBAL, so no primary/secondary split is needed here -- a
+# tile id at or above the window start is inside it whichever half it resolves
+# through.
+
+
+def door_scratch_collisions(tilesets, exposure, n_prim_em, n_prim_frlg):
+    """Metatiles that are ACTUALLY PLACED on a map with a live animated door and that
+    draw a tile inside the VRAM window that map's door animation overwrites.
+
+    `exposure` maps map name -> (window_start, layout, placed metatile id set).
+    Placement is what makes this precise: gTileset_Johto_Building has two metatiles
+    drawing tile 1021, but the only maps that place either of them are three Radio
+    Tower floors whose warps are not animated doors -- so nothing is ever corrupted
+    and flagging the tileset would be a false alarm.
+
+    Returns (map, tileset, local metatile, window start, offending tile ids) per hit."""
+    cache = {}
+
+    def words(ts_name, local):
+        blob = cache.get(ts_name)
+        if blob is None:
+            rec = tilesets.get(ts_name)
+            if not rec or rec.get("error") or not rec.get("metatiles_abs"):
+                cache[ts_name] = b""
+                return None
+            blob = cache[ts_name] = read_bytes(rec["metatiles_abs"])
+        if not blob or (local + 1) * 16 > len(blob):
+            return None
+        return [struct.unpack_from("<H", blob, local * 16 + i * 2)[0] & 0x3FF
+                for i in range(8)]
+
+    out = []
+    for map_name, (start_tile, layout, placed) in sorted(exposure.items()):
+        split = n_prim_frlg if layout["version"] in ("frlg", "johto") else n_prim_em
+        for gid in sorted(placed):
+            if gid < split:
+                ts_name, local = layout["primary"], gid
+            else:
+                ts_name, local = layout["secondary"], gid - split
+            if ts_name is None:
+                continue
+            w = words(ts_name, local)
+            if not w:
+                continue
+            hits = sorted({t for t in w if t >= start_tile})
+            if hits:
+                out.append((map_name, ts_name, local, start_tile, hits))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--max", type=int, default=None,
                     help="exit 1 if the dead-door count exceeds N")
+    ap.add_argument("--allow-scratch-collisions", action="store_true",
+                    help="do not fail when map art draws from the VRAM window a door borrows")
     ap.add_argument("--max-unresolved", type=int, default=UNRESOLVED_BASELINE,
                     help="exit 1 if more than N warps cannot have their behavior read "
-                         "at all (default: today's baseline of %d)" % UNRESOLVED_BASELINE)
+                         "at all -- out of the map rectangle, or on a metatile past the "
+                         "end of its tileset (default: today's baseline of %d)"
+                         % UNRESOLVED_BASELINE)
     ap.add_argument("--root", default=None,
                     help="repo root (default: the parent of this script's directory)")
     ap.add_argument("--verbose", action="store_true",
@@ -499,10 +699,12 @@ def main(argv=None):
         grid_mask, grid_shift = parse_mapgrid_masks(root)
         attr_masks = parse_attr_masks(root)
         n_prim_em, n_prim_frlg, n_total = parse_primary_counts(root)
+        NUM_TILES_TOTAL_VAL = parse_tile_total(root)
+        map_offset = parse_map_offset(root)
         behaviors = parse_behavior_enum(root)
         labels = parse_metatile_labels(root)
         tilesets = parse_tilesets(root)
-        door_rows, door_index, null_rows = parse_door_table(root, labels)
+        door_rows, door_index, null_rows, door_sizes = parse_door_table(root, labels)
         layouts = parse_layouts(root, n_prim_em, n_prim_frlg)
         maps = parse_maps(root)
     except Fatal as exc:
@@ -600,6 +802,9 @@ def main(argv=None):
     total_warps = 0
     scanned_warps = 0
     animated_warps = 0
+    scratch_exposure = {}
+    # Connections name their neighbour by MAP_ id, so index the maps that way once.
+    maps_by_id = {m["id"]: m for m in maps if m.get("id")}
     live = []
     dead = []
     out_of_bounds = []
@@ -666,6 +871,30 @@ def main(argv=None):
                 if cand is not None and cand in row_tilesets:
                     matched = cand
                     break
+
+            # How much VRAM this particular door borrows, computed exactly as
+            # CopyDoorTilesToVram does: the row's size AND this layout's isFrlg/isJohto.
+            # Both halves of the pair are at risk, because either can draw into the window.
+            if matched is not None:
+                sz = door_sizes.get((gid, matched), 2)
+                wide = sz == 2 and layout["version"] not in ("frlg", "johto")
+                start = (NUM_TILES_TOTAL_VAL - 16) if wide else (NUM_TILES_TOTAL_VAL - 8)
+                prev = scratch_exposure.get(mp["name"])
+                if prev is None:
+                    drawable = blocks.placed_ids(layout) | blocks.border_ids(layout)
+                    # A connected map's fringe is copied into gBackupMapLayout and drawn with
+                    # THIS map's tilesets, so it is exposed to THIS map's door window.
+                    for conn in mp.get("connections") or []:
+                        neighbour = maps_by_id.get(conn.get("map"))
+                        if neighbour is None:
+                            continue
+                        nlayout = layouts.get(neighbour.get("layout"))
+                        if nlayout is None or not nlayout.get("blockdata"):
+                            continue
+                        drawable |= blocks.fringe_ids(nlayout, conn.get("direction"), map_offset)
+                    scratch_exposure[mp["name"]] = (start, layout, drawable)
+                elif start < prev[0]:
+                    scratch_exposure[mp["name"]] = (start, prev[1], prev[2])
 
             record = {
                 "map": mp["name"],
@@ -773,6 +1002,22 @@ def main(argv=None):
             print("  %-38s %s" % (name, lay))
         print()
 
+    scratch = door_scratch_collisions(tilesets, scratch_exposure, n_prim_em, n_prim_frlg)
+    widest = min((v[0] for v in scratch_exposure.values()), default=NUM_TILES_TOTAL_VAL - 8)
+    print("--- Map art vs the VRAM window the door animation borrows ---")
+    print("  window is 8 tiles at %d, or 16 at %d for a size-2 row on a non-FRLG/Johto layout"
+          % (NUM_TILES_TOTAL_VAL - 8, NUM_TILES_TOTAL_VAL - 16))
+    print("  maps with a live animated door : %d   widest window any of them opens: %d-%d"
+          % (len(scratch_exposure), widest, NUM_TILES_TOTAL_VAL - 1))
+    if scratch:
+        print("  These metatiles are PLACED on a map whose door animation overwrites the tiles")
+        print("  they draw, so they are corrupted for as long as that door is open:")
+        for mn, ts, local, start, hits in scratch:
+            print("  %-38s %s local %d  window %d+  tiles %s" % (mn, ts, local, start, hits))
+    else:
+        print("  none -- no metatile placed on a door map draws from that map's window")
+    print()
+
     # Liveness floor. Every remaining way this script can be wrong drives the dead
     # count DOWN, so "0 dead" is only meaningful alongside "and it actually found
     # and matched doors". A scan that resolved nothing is a broken scan, not a pass.
@@ -786,17 +1031,31 @@ def main(argv=None):
         print("FAIL: %d dead animated doors exceeds --max %d" % (len(dead), args.max))
         return 1
 
+    if scratch and not args.allow_scratch_collisions:
+        print("FAIL: %d metatile placement(s) draw a tile that the door animation on their own "
+              "map overwrites while it plays. Registering a door is not enough -- the art on that "
+              "map has to stay out of the window the animation borrows, or opening the door "
+              "corrupts it until it shuts. Each line gives that map's window start; note a size-2 "
+              "row on a non-FRLG/Johto layout borrows 16 tiles, not 8. Fix by moving the offending "
+              "tiles to free slots and repointing the metatiles -- the move must be an identity, "
+              "so verify it by compositing every metatile before and after and requiring the same "
+              "pixels AND the same palette numbers." % len(scratch))
+        return 1
+
     # The blind spot behind the zero. A warp whose behavior cannot be read is NOT counted
     # dead -- but it is not counted live either, so a new one is a hole in the census, and
     # holes make the dead count go DOWN. Gating it at the known baseline means the day
-    # someone paints a warp onto an out-of-range metatile, this says so instead of quietly
-    # shrinking the population it checks.
+    # someone paints a warp onto an out-of-range metatile -- or moves one off the edge of
+    # its own map -- this says so instead of quietly shrinking the population it checks.
+    # BOTH classes count: a warp outside the map rectangle is just as unread as one on an
+    # out-of-range metatile, so counting only the latter would let the former grow freely.
     unresolved_count = len(out_of_bounds) + len(problems)
     if unresolved_count > args.max_unresolved:
         print("FAIL: %d warps could not be resolved, over the baseline of %d. These are NOT "
               "counted dead, so a new one SHRINKS the census rather than failing it -- which "
-              "is why it is gated separately. Either fix the layout/tileset mismatch or, if "
-              "the growth is genuinely intended, raise --max-unresolved deliberately."
+              "is why it is gated separately. Either fix the layout/tileset mismatch or the "
+              "stray warp coordinate or, if the growth is genuinely intended, raise "
+              "--max-unresolved deliberately."
               % (unresolved_count, args.max_unresolved))
         return 1
     return 0

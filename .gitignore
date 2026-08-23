@@ -102,3 +102,6 @@ fixes.md
 
 # clangd index cache (generated from compile_flags.txt; never tracked)
 .cache/
+
+# Codex plugin scratch (hook leases, local hook config); never tracked
+.codex/

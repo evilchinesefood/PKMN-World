@@ -409,8 +409,16 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_BattleFrontier_Door_MultiCorridor,            &gTileset_BattleFrontier, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_BattleTowerMultiCorridor, sDoorAnimPalettes_BattleTowerMultiCorridor},
     {METATILE_BattleFrontierOutsideWest_Door,               &gTileset_BattleFrontierOutsideWest, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BattleFrontier, sDoorAnimPalettes_BattleFrontier},
     {METATILE_BattleFrontierOutsideWest_Door_Sliding,       &gTileset_BattleFrontierOutsideWest, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleFrontierSliding, sDoorAnimPalettes_BattleFrontier},
-    // East uses the same door metatiles and primary graphics, but door lookup also
-    // compares the secondary tileset pointer, so it requires its own registrations.
+    // The East map's six door warps reuse the West tileset's door metatile ids (0x3FC / 0x396),
+    // but GetDoorGraphics also tests the tileset POINTER, so the West rows above never match on
+    // the East map and those doors warp without ever animating. The East METATILE_* labels have
+    // existed unreferenced since vanilla Emerald; these two rows are what finally use them.
+    // Reuse is exact rather than merely similar: both door metatiles reference only tile ids
+    // < 512, which resolve to the shared primary gTileset_General, so East and West draw the
+    // very same pixels from the very same file. Palette 1 likewise belongs to the primary. The
+    // animation also redraws the metatile ABOVE the door (x, y-1) -- 0x3F4 and 0x38E, which DO
+    // reach secondary tiles 767 and 654, and 255 of the 512 secondary tiles differ between East
+    // and West. Those two do not: both metatiles are byte-equal and both tiles pixel-equal.
     {METATILE_BattleFrontierOutsideEast_Door,               &gTileset_BattleFrontierOutsideEast, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BattleFrontier, sDoorAnimPalettes_BattleFrontier},
     {METATILE_BattleFrontierOutsideEast_Door_Sliding,       &gTileset_BattleFrontierOutsideEast, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleFrontierSliding, sDoorAnimPalettes_BattleFrontier},
     {METATILE_BattleDome_Door_PreBattleRoom,                &gTileset_BattleDome, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleDomePreBattleRoom, sDoorAnimPalettes_BattleDomePreBattleRoom},
@@ -449,8 +457,18 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_PokemonCenterFrlg_CableClubDoor,              &gTileset_PokemonCenterFrlg, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_CableClubFrlg, sDoorAnimPalettes_CableClubFrlg},
     {METATILE_SilphCo_HideoutElevatorDoor,                  &gTileset_SilphCo, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_HideoutElevator, sDoorAnimPalettes_HideoutElevator},
     {METATILE_SSAnne_Door,                                  &gTileset_SSAnne, DOOR_SOUND_NORMAL,  2, sDoorAnimTiles_SSAnne, sDoorAnimPalettes_SSAnne},
-    // S.S. Aqua kept the S.S. Anne door metatile and graphics. The four cabin
-    // layouts also carry the matching door header above it (see #92).
+    // S.S. Aqua is the Johto port of this interior and kept the door metatile byte-for-byte:
+    // all 256 tiles of ss_anne_frlg are identical to the first 256 of ssaqua, and palette 7 is
+    // the same sixteen colours once quantised to the GBA's five bits per channel. size MUST
+    // stay 2 -- the frames are 8 tiles each, and a size-1 row would draw their upper half over
+    // the door itself. (Issue #92 read this door as unported art; that was an artefact of
+    // decoding ssaqua's 8bpp tiles.png as packed 4bpp, which blanks every other pixel column.)
+    // Because size is 2, the animation also redraws the metatile ABOVE the door. Every S.S.
+    // Anne placement and SSAqua 1F carry 0x3BF there (wall + ledge + door-top); the four cabins
+    // carried 0x28C, flat wall, so opening the door painted a door-top onto blank panelling and
+    // shutting it wiped the header away again. That was map data, not this row -- the four words
+    // are now 0x3BF like every other placement, which is also what they should have looked like
+    // shut. See data/layouts/SSAqua_{PlayersRoom,RoomNW,RoomNE,RoomNNE}/map.bin.
     {METATILE_SSAnne_Door,                                  &gTileset_ssaqua, DOOR_SOUND_NORMAL,  2, sDoorAnimTiles_SSAnne, sDoorAnimPalettes_SSAnne},
     {METATILE_SilphCo_ElevatorDoor,                         &gTileset_SilphCo, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_SilphCoElevator, sDoorAnimPalettes_SilphCoElevator},
     {METATILE_SeaCottage_Teleporter_Door,                   &gTileset_SeaCottage, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_Teleporter, sDoorAnimPalettes_Teleporter},
@@ -465,21 +483,65 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_NewBarkTown_Door_Blue,                        &gTileset_NewBarkTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Cerulean, sDoorAnimPalettes_NewBarkTown_Door_Blue},
     {METATILE_Cherrygrove_Door_Red,                         &gTileset_CherrygroveCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_NewBarkTown_Door_Red, sDoorAnimPalettes_CherryGrove_Door_Red},
     {METATILE_VioletCity_Dojo_Door,                         &gTileset_VioletCity, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_VioletCity_Dojo_Door, sDoorAnimPalettes_VioletCity_Dojo_Door},
+    // Dragon's Den's shrine entrance is the same dojo door under a different metatile id. The
+    // two metatiles are NOT byte-equal -- they name different tile ids, and their bottom layers
+    // differ entirely -- but the tiles are pixel-identical pairwise, so the composited 16x16 top
+    // layer matches in all 256 pixels, and that top layer is fully opaque, so the differing
+    // bottom layer is never visible. palettes/12.pal is byte-identical between the two tilesets.
+    // Without this row the shrine -- reachable only through this door -- never opens.
     {METATILE_CaveDragonsDen_Door,                          &gTileset_Cave_DragonsDen, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_VioletCity_Dojo_Door, sDoorAnimPalettes_VioletCity_Dojo_Door},
     // Region merge (Johto port, less-common towns): Goldenrod, Cianwood, Olivine, Ecruteak, Blackthorn, Johto Safari, Johto dept-store elevator.
     {METATILE_Goldenrod_Goldenrod,                          &gTileset_Goldenrod, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Goldenrod, sDoorAnimPalettes_Goldenrod},
     {METATILE_CianwoodSafariGate_Cianwood,                  &gTileset_CianwoodCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Cianwood, sDoorAnimPalettes_Cianwood},
     {METATILE_Olivine_6_Door,                               &gTileset_OlivineCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_OlivineCity_Door, sDoorAnimPalettes_OlivineCity_Door},
     {METATILE_Ecruteak_City_Door,                           &gTileset_Ecruteak_City, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_EcruteakCity_Door, sDoorAnimPalettes_EcruteakCity_Door},
+    // Bellchime Trail carries Ecruteak City's door metatile (0x333) byte-for-byte and shares its
+    // primary, gTileset_Johto_NorthWest, so Ecruteak's frames are exact -- the two secondary tiles
+    // the door's top layer draws are identical, as is the palette 10 they use.
     {METATILE_Ecruteak_City_Door,                           &gTileset_BellchimeTrail, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_EcruteakCity_Door, sDoorAnimPalettes_EcruteakCity_Door},
     {METATILE_Blackthorn_Door,                              &gTileset_Blackthorn, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BlackthornCity_Door, sDoorAnimPalettes_BlackthornCity_Door},
     {METATILE_SafariZoneJohto_Safari,                       &gTileset_SafariZoneJohto, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoSafariZone_Door, sDoorAnimPalettes_JohtoSafariZone_Door},
+    // The gate door above (0x2D2) was registered; the town door in the same tileset (0x2BF) was
+    // not. It is a FuchsiaCity derivative -- all sixteen metatile bytes match, the four tiles its
+    // top layer draws are byte-identical, and both go through palette 8 of their own secondary,
+    // so Fuchsia's frames and palette array are exact. As at Dragon's Den it is the TOP layer
+    // that carries this: the bottom-layer tiles come from different primaries and differ (588 by
+    // 41 of 64 pixels), and the composite matches only because the top layer is opaque.
+    // Palette 8 entry 15 was an unused black padding slot here and is now Fuchsia's grey --
+    // safe because no metatile in this tileset pairs palette 8 with a tile using index 15 (the
+    // highest index any of them reaches is 12), and CHOSEN because fuchsia.png draws the door's
+    // outline in 15. The two palettes agree on linework, not on colour, so this is an art call
+    // rather than something the data forced.
     {METATILE_SafariZoneJohto_Door,                         &gTileset_SafariZoneJohto, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Fuchsia, sDoorAnimPalettes_Fuchsia},
+    // Mahogany Town's door is byte-for-byte the FRLG Sevii Islands door metatile (0x297 in
+    // gTileset_SeviiIslands123), not -- despite sharing an id with it -- the Lavender Town one:
+    // Lavender's 0x2A2 shares this metatile's bottom layer byte-for-byte but its top layer is a
+    // different, green panelled door on a different palette, and animating Mahogany with
+    // Lavender's frames visibly swaps the slats and jamb mid-open. Palette 5 lives in the
+    // PRIMARY, and johto_north_east/05.pal matches general_frlg/05.pal on every index the Sevii
+    // frames use ONCE QUANTISED to five bits per channel -- four of the six raw entries differ,
+    // and gbagfx truncates rather than rounds (tools/gbagfx/gfx.c), so the truncation is the
+    // operative fact. As above, the bottom-layer tiles come from two different primaries and
+    // differ by up to 64 of 64 pixels; the composite matches because the top layer is opaque.
+    // Animating this door meant clearing the scratch window first. CopyDoorTilesToVram writes the
+    // live frame over VRAM tiles 1016-1023 (see the NOTE above it), and gTileset_MahoganyTown had
+    // 20 metatiles drawing tiles 1016/1017 -- one of them two rows above each of these four doors
+    // -- so the roof's ridge detail was wiped for the ~9 frames the door stood open. That art now
+    // lives at local tiles 1/2 (global 641/642) instead, and the 35 metatile words that referenced
+    // it were repointed. The move is an identity: the relocated tiles are pixel-identical, the
+    // flip and palette bits are untouched, and all 318 metatiles composite to the same pixels as
+    // before. gTileset_BattleFrontierOutsideEast needed the same treatment for one tile (1023).
     {METATILE_MahoganyTown_Door,                            &gTileset_MahoganyTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Sevii123, sDoorAnimPalettes_Sevii123},
     {METATILE_JohtoShop_Door,                               &gTileset_GoldenrodDepartmentStore, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoDeptStoreElevator, sDoorAnimPalettes_JohtoDeptStore_Door},
+    // The Rocket Hideout elevator door, reused for the Battle Tower's inner lift.
     {METATILE_BattleTowerInner_Door,                        &gTileset_BattleTowerInner, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_RocketElevator, sDoorAnimPalettes_RocketElevator},
-    // These regional primaries preserve Johto_General's door ids and art. They
-    // still need separate rows because GetDoorGraphics compares pointers.
+    // Region merge (Johto port): Johto_South / NorthEast / NorthWest are regional recolours of
+    // Johto_General that keep its door metatiles unchanged, but GetDoorGraphics matches on the
+    // tileset POINTER as well as the metatile id -- so a clone needs its own row or its doors
+    // silently skip the animation and warp straight through. Reusing Johto_General's frames is
+    // exact here: metatiles 0x03D/0x062/0x15B and every tile they reference are byte-identical
+    // across all four primaries, and the palettes these doors draw from are identical too
+    // (palette 3 everywhere; the palette 2 entries the doors use are untouched by the recolours).
     {METATILE_Johto_General_Door,                           &gTileset_Johto_South, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
     {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_South, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
     {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_South, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
@@ -502,16 +564,27 @@ static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct Doo
 {
     if (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto)
     {
-        // FRLG/Johto doors are one metatile wide. A large door has two stacked
-        // metatiles (8 tiles); a small door has one (4 tiles).
-        u32 numTiles = gfx->size == 2 ? 8 : 4;
+        // An FRLG-format frame is one metatile's bottom layer per metatile the door covers:
+        // 4 tiles for a size 1 row (a 16x48 sheet, three 4-tile frames at a 4-tile stride --
+        // sDoorAnimFrames_*SmallFrlg) and 8 for a size 2 row (16x96, an 8-tile stride --
+        // sDoorAnimFrames_*LargeFrlg). Copying the size 2 width for a size 1 row would read
+        // 4 tiles past the end of the 384-byte array on the last frame (offset 256 + 256 > 384)
+        // and would scribble those 4 stray tiles over VRAM 1020-1023, which a size 1 draw
+        // never uses -- DrawCurrentDoorAnimFrameFrlg builds only DOOR_TILE_START_SIZE1 + 0..3.
+        u32 numTiles = (gfx->size == 2) ? 8 : 4;
 
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), numTiles * TILE_SIZE_4BPP);
     }
     else if (gfx->size == 2)
+    {
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE2)), 16 * TILE_SIZE_4BPP);
+    }
     else
+    {
+        // An Emerald-format frame is 8 tiles for a size 1 row (two stacked metatiles) and 16
+        // for a size 2 row (a 2x2 block), matching the 0x100 / 0x200 frame strides above.
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), 8 * TILE_SIZE_4BPP);
+    }
 }
 
 static void BuildDoorTiles(u16 *tiles, u16 tileNum, const u8 *paletteNums)
@@ -726,6 +799,14 @@ static void DrawOpenedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
     const struct DoorAnimFrame *doorAnimFrames;
 
+    // The frame list has to be picked by the row's size, exactly as StartDoorOpenAnimation
+    // picks it -- the two lists put their LAST frame at different offsets, and this function
+    // draws that last frame as the door's static open state (FieldSetDoorOpened, i.e. the door
+    // left standing open behind the player after a warp). Assuming the small list gave offset
+    // 256, which is the final frame of a size 1 array but only the MIDDLE frame of a size 2
+    // one, so every size 2 door stood half-open. Likewise on the Emerald side: 0x200 is the
+    // last frame of sDoorOpenAnimFrames but the middle of sBigDoorOpenAnimFrames.
+    // gfx must be resolved first, since size lives on the resolved row.
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
     if (gfx == NULL)
         return;

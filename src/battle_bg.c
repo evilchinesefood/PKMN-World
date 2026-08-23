@@ -379,6 +379,15 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
         .paletteNum = 5,
         .baseBlock = 0x0350,
     },
+    [B_WIN_LEVEL_UP_SUMMARY] = {
+        .bg = 1,
+        .tilemapLeft = 15,
+        .tilemapTop = 4,
+        .width = 14,
+        .height = 10,
+        .paletteNum = 5,
+        .baseBlock = 0x0100,
+    },
     DUMMY_WIN_TEMPLATE
 };
 
@@ -618,6 +627,15 @@ static const struct WindowTemplate sKantoTutorialBattleWindowTemplates[] =
         .paletteNum = 7,
         .baseBlock = 0x090
     },
+    [B_WIN_LEVEL_UP_SUMMARY] = {
+        .bg = 1,
+        .tilemapLeft = 15,
+        .tilemapTop = 4,
+        .width = 14,
+        .height = 10,
+        .paletteNum = 5,
+        .baseBlock = 0x0100,
+    },
     DUMMY_WIN_TEMPLATE
 };
 
@@ -838,6 +856,15 @@ static const struct WindowTemplate sBattleArenaWindowTemplates[] =
         .height = 6,
         .paletteNum = 5,
         .baseBlock = 0x0350,
+    },
+    [B_WIN_LEVEL_UP_SUMMARY] = {
+        .bg = 1,
+        .tilemapLeft = 15,
+        .tilemapTop = 4,
+        .width = 14,
+        .height = 10,
+        .paletteNum = 5,
+        .baseBlock = 0x0100,
     },
     DUMMY_WIN_TEMPLATE
 };

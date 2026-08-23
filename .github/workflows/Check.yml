@@ -78,6 +78,23 @@ jobs:
       - name: Cleared-obstacle table freshness
         run: python3 Testing/GenObstacleTable.py --check
 
+      # Door animations are matched on (metatile id, tileset POINTER), so a map that borrows
+      # another tileset's door metatile silently loses its animation -- no build error, no
+      # crash, just a warp through a shut door. This counts those and fails if the number
+      # grows. Lower the ceiling whenever a batch is fixed; never raise it.
+      - name: Animated doors are all registered
+        run: python3 Testing/ValidateDoorAnims.py --max 0
+
+      # A tileset's .palettes is a bare `const u16 (*)[16]` -- the row COUNT is thrown
+      # away at the declaration, so an array one row short compiles, links and boots
+      # exactly like a correct one and then feeds whatever .rodata follows it into the
+      # BG palette buffer. This recomputes what the three readers actually reach
+      # (LoadPrimaryTilesetPalette, LoadSecondaryTilesetPalette, UpdateAltBgPalettes)
+      # and fails if any tileset declares fewer rows than that. See issue #94, whose
+      # premise "the loader copies slots 7..15" was wrong -- it copies 7..12.
+      - name: Tileset palette arrays are long enough
+        run: python3 Testing/ValidateTilesetPalettes.py
+
       # The save tool hard-codes the sector geometry and SaveBlock sizes it patches with.
       # A format bump that leaves them stale would not fail any build -- it would silently
       # write a save whose checksums land in the wrong place. This is that tripwire.

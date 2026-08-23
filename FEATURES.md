@@ -279,7 +279,15 @@ on:
 
 - **EXP RATE** and **CATCH RATE** multipliers in the Options menu — 0.5× / 1× / 1.5× / 2× each,
   defaulting to 1×.
-- **SHARED EXP** toggle — party-wide Exp. Share, off by default.
+- **SHARED EXP** toggle — party-wide Exp. Share, off by default. When it is on the share is **even**:
+  a Pokémon that sat out earns the same base EXP as the one that fought, not the Gen 6+ half. Level
+  weighting still applies per Pokémon, so an under-levelled party member still gains a little more
+  and an over-levelled one a little less.
+- **Level-ups are quiet.** No fanfare stall, no "grew to Lv." page and no stat box mid-battle; the
+  Pokémon on the field still shows its level-up sparkle and its level ticking up in the healthbox.
+  One **"Your team grew stronger!"** box after the battle lists everyone that levelled, with the
+  levels they started and finished on. Move-learning prompts are unchanged and still appear as they
+  are earned. EXP-gain messages are not printed — the EXP bar already shows it.
 - **RUN SHORTCUT** for fleeing wild battles — Off / Cursor (B jumps to Run) / Instant. Cursor is
   the default.
 - **AUTO RUN** and **NICKNAMES** toggles (the latter skips the catch/hatch naming prompt; prompts

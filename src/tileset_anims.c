@@ -1568,6 +1568,20 @@ static const u16 *const sTilesetAnims_EcruteakTheater_Flower[] = {
     sTilesetAnims_EcruteakTheater_Flower_Frame4
 };
 
+// The Goldenrod fountain sheet is a two-frame animation for the rooftop satellite-dish
+// centre (named "fountain" upstream). Metatile 0x46 mirrors local tile 107 for
+// its top row and local tile 123 for its bottom row, so only the left-hand tile
+// from each row needs to be copied; the metatile supplies the horizontal flips.
+// goldenrod/anim/windy_water is an inherited Rustboro sheet with no Goldenrod
+// metatile target; the city's water comes from the animated Johto primary.
+static const u16 sTilesetAnims_Goldenrod_Fountain_Frame0[] = INCGFX_U16("data/tilesets/secondary/goldenrod/anim/fountain/0.png", ".4bpp");
+static const u16 sTilesetAnims_Goldenrod_Fountain_Frame1[] = INCGFX_U16("data/tilesets/secondary/goldenrod/anim/fountain/1.png", ".4bpp");
+
+static const u16 *const sTilesetAnims_Goldenrod_Fountain[] = {
+    sTilesetAnims_Goldenrod_Fountain_Frame0,
+    sTilesetAnims_Goldenrod_Fountain_Frame1
+};
+
 // Only the yellow_flower sheet is registered: azalea_town_gym/anim/red_flower has no home in the
 // tileset (its frames match no tile run, and dropping them on the yellow flower's slot repalettes
 // the bed to grey), so it is left unused exactly as upstream leaves it.
@@ -1683,6 +1697,28 @@ void InitTilesetAnim_EcruteakTheater(void)
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 960;
     sSecondaryTilesetAnimCallback = TilesetAnim_EcruteakTheater;
+}
+
+static void QueueAnimTiles_Goldenrod_Fountain(u16 timer)
+{
+    u16 i = timer % ARRAY_COUNT(sTilesetAnims_Goldenrod_Fountain);
+    const u16 *frame = sTilesetAnims_Goldenrod_Fountain[i];
+
+    AppendTilesetAnimToBuffer(frame, (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY_FRLG + 107)), TILE_SIZE_4BPP);
+    AppendTilesetAnimToBuffer(frame + 2 * (TILE_SIZE_4BPP / sizeof(u16)), (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY_FRLG + 123)), TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_Goldenrod(u16 timer)
+{
+    if (timer % 16 == 0)
+        QueueAnimTiles_Goldenrod_Fountain(timer / 16);
+}
+
+void InitTilesetAnim_Goldenrod(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 256;
+    sSecondaryTilesetAnimCallback = TilesetAnim_Goldenrod;
 }
 
 static void QueueAnimTiles_AzaleaTownGym_Flower(u16 timer)

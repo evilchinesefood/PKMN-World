@@ -44,6 +44,7 @@ void InitTilesetAnim_MtEmber(void);
 void InitTilesetAnim_JohtoGeneral(void);
 void InitTilesetAnim_NationalPark(void);
 void InitTilesetAnim_EcruteakTheater(void);
+void InitTilesetAnim_Goldenrod(void);
 void InitTilesetAnim_AzaleaTownGym(void);
 
 #endif // GUARD_TILESET_ANIMS_H

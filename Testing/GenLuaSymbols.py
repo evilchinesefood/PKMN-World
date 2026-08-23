@@ -66,6 +66,10 @@ WANT = [
     # gWindows[sMenu.windowId].window.height IS the drawn frame — AddWindow copies the template
     # verbatim (src/window.c) — so the "snug box" is assertable in RAM, not screenshot-only.
     "gWindows", "gMapHeader", "sGlobalScriptContext",
+    # Animated-door lookup and its runtime task. The table and task function are
+    # file-local symbols, but nm exposes them and the emulator suite needs their
+    # live addresses to reproduce GetDoorGraphics' pointer comparison.
+    "sDoorAnimGraphicsTable", "gTileset_General", "gTasks", "Task_AnimateDoor",
     # The four TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
     # scriptPtr land inside one of these proves the shutdown branch independently of the tile,
     # which is what caught issue #57's mis-dispatch (New Bark ran May's script on a female save).
@@ -147,7 +151,16 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- gWindows[i].window is a verbatim copy of
                                                             --   the WindowTemplate (sizeof 8), and
                                                             --   .height is what the frame is drawn at.
-  MapHeader    = { mapLayoutId = 0x12 },
+  MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12 },
+  MapLayout    = { width = 0x00, height = 0x04, border = 0x08, map = 0x0C,
+                   primaryTileset = 0x10, secondaryTileset = 0x14,
+                   isFrlg = 0x18, borderWidth = 0x19, borderHeight = 0x1A, isJohto = 0x1B },
+  Tileset      = { size = 0x18, flags0 = 0x00, flags1 = 0x01, tiles = 0x04, palettes = 0x08,
+                   metatiles = 0x0C, metatileAttributes = 0x10, callback = 0x14,
+                   isSecondaryBit = 1 << 0, hasFrlgAttributesBit = 1 << 1 },
+  DoorGraphics = { stride = 20, metatileNum = 0, tileset = 4, sound = 8, size = 9,
+                   tiles = 12, palettes = 16 },
+  Task         = { stride = 40, func = 0, isActive = 4, count = 16, data = 8 },
   ScriptCtx    = { scriptPtr = 8 },                         -- struct ScriptContext
   Hours        = { MORNING_BEGIN = 6, MORNING_END = 10, DAY_BEGIN = 10, DAY_END = 19,
                    EVENING_BEGIN = 19, EVENING_END = 20, NIGHT_BEGIN = 20, NIGHT_END = 6 },
@@ -209,6 +222,66 @@ def saveblock3_offsets(root):
                      f"the Lua suites read that bank and would silently read the wrong address")
         out[field] = base + int(m.group(1), 0)
     return out
+
+
+def behavior_enum(root):
+    """Number the MB_* enum in include/constants/metatile_behaviors.h."""
+    path = os.path.join(root, "include", "constants", "metatile_behaviors.h")
+    try:
+        src = open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path} to derive metatile behaviours: {e}")
+    src = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", src, flags=re.S))
+    m = re.search(r"enum\s*\{(.*?)\}\s*;", src, re.S)
+    if not m:
+        sys.exit(f"{path}: could not find the MB_* enum")
+    values, counter = {}, 0
+    for entry in m.group(1).split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        if "=" in entry:
+            name, val = entry.split("=", 1)
+            counter, name = int(val.strip(), 0), name.strip()
+        else:
+            name = entry
+        values[name] = counter
+        counter += 1
+    return values
+
+
+def defines(path, prefix, names):
+    """Parse numeric #defines needed by the door suite, failing on drift."""
+    out = {}
+    pat = re.compile(r"^\s*#define\s+(" + re.escape(prefix)
+                     + r"\w+)\s+\(?\s*(0[xX][0-9a-fA-F]+|\d+)\s*\)?\s*$")
+    try:
+        text = open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path}: {e}")
+    for line in text.splitlines():
+        m = pat.match(re.sub(r"//[^\n]*", "", line))
+        if m:
+            out[m.group(1)] = int(m.group(2), 0)
+    for name in names:
+        if name not in out:
+            sys.exit(f"{path}: no `#define {name}` — the Lua suite cannot safely assume it")
+    return out
+
+
+def door_constants(root):
+    beh = behavior_enum(root)
+    for name in ("MB_ANIMATED_DOOR", "MB_PETALBURG_GYM_DOOR"):
+        if name not in beh:
+            sys.exit(f"include/constants/metatile_behaviors.h: {name} not found")
+    counts = defines(os.path.join(root, "include", "fieldmap.h"), "NUM_METATILES_",
+                     ("NUM_METATILES_IN_PRIMARY", "NUM_METATILES_IN_PRIMARY_FRLG",
+                      "NUM_METATILES_TOTAL"))
+    attrs = defines(os.path.join(root, "include", "global.fieldmap.h"), "METATILE_ATTR_",
+                    ("METATILE_ATTR_BEHAVIOR_MASK", "METATILE_ATTR_BEHAVIOR_MASK_FRLG"))
+    grid = defines(os.path.join(root, "include", "global.fieldmap.h"), "MAPGRID_",
+                   ("MAPGRID_METATILE_ID_MASK", "MAPGRID_METATILE_ID_SHIFT"))
+    return beh, counts, attrs, grid
 
 
 def rom_hashes(elf):
@@ -274,6 +347,16 @@ def main():
     print(OFFSETS_LUA.replace("@SB1@", ", ".join(f"{k} = {sb1[k]}" for k in SB1_FIELDS)), end="")
     # Derived from src/load_save.c's compiler-enforced asserts — never hand-edit these.
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
+    beh, counts, attrs, grid = door_constants(root)
+    print("  MetatileBehavior = { ANIMATED_DOOR = %d, PETALBURG_GYM_DOOR = %d },"
+          % (beh["MB_ANIMATED_DOOR"], beh["MB_PETALBURG_GYM_DOOR"]))
+    print("  Metatiles    = { inPrimary = %d, inPrimaryFrlg = %d, total = %d,"
+          % (counts["NUM_METATILES_IN_PRIMARY"], counts["NUM_METATILES_IN_PRIMARY_FRLG"],
+             counts["NUM_METATILES_TOTAL"]))
+    print("                   behaviorMask = 0x%08X, behaviorMaskFrlg = 0x%08X,"
+          % (attrs["METATILE_ATTR_BEHAVIOR_MASK"], attrs["METATILE_ATTR_BEHAVIOR_MASK_FRLG"]))
+    print("                   idMask = 0x%04X, idShift = %d },"
+          % (grid["MAPGRID_METATILE_ID_MASK"], grid["MAPGRID_METATILE_ID_SHIFT"]))
     print()
     print("  -- Binds this symbol table to the ROM it was generated from. lib.new() refuses to run")
     print("  -- against anything else: `make -j12` does NOT refresh symbols.lua (only `make symbols`")

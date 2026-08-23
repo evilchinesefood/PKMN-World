@@ -1103,8 +1103,14 @@
 #define METATILE_CianwoodSafariGate_Cianwood 0x29A // gTileset_CianwoodCity
 #define METATILE_Olivine_6_Door              0x312 // gTileset_OlivineCity
 #define METATILE_Ecruteak_City_Door          0x333 // gTileset_Ecruteak_City
+#define METATILE_CaveDragonsDen_Door         0x2FF // gTileset_Cave_DragonsDen
 #define METATILE_Blackthorn_Door             0x291 // gTileset_Blackthorn
 #define METATILE_SafariZoneJohto_Safari      0x2D2 // gTileset_SafariZoneJohto
+#define METATILE_SafariZoneJohto_Door        0x2BF // gTileset_SafariZoneJohto
+#define METATILE_MahoganyTown_Door           0x2A2 // gTileset_MahoganyTown
 #define METATILE_JohtoShop_Door              0x28D // gTileset_GoldenrodDepartmentStore
+
+// gTileset_BattleTowerInner
+#define METATILE_BattleTowerInner_Door       0x2C3
 
 #endif // GUARD_METATILE_LABELS_H

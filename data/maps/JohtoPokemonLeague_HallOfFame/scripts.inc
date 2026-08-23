@@ -71,9 +71,11 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	@ Respawns are for UNRESOLVED encounters only - unconditional hide-flag clears made
 	@ already-caught statics respawn as farmable duplicates.
 	call_if_unset FLAG_CAUGHT_LATIAS_OR_LATIOS, JohtoHoF_RespawnLatis
-	call_if_unset FLAG_DEFEATED_RAYQUAZA, JohtoHoF_RespawnRayquaza
-	call_if_unset FLAG_DEFEATED_GROUDON, JohtoHoF_RespawnGroudon
-	call_if_unset FLAG_DEFEATED_KYOGRE, JohtoHoF_RespawnKyogre
+	@ Embedded Tower uses independent hide flags; Hoenn's defeated flags cannot
+	@ decide whether these encounters were caught. Each helper checks the Pokédex.
+	call JohtoHoF_RespawnRayquaza
+	call JohtoHoF_RespawnGroudon
+	call JohtoHoF_RespawnKyogre
 	call_if_unset FLAG_FOUGHT_MEWTWO, JohtoHoF_RespawnMewtwo
 	clearflag FLAG_HIDE_VERMILION_SNORLAX
 	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
@@ -96,8 +98,9 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	@ states 4-8 live on HGSS-styled Kanto maps; ours are VermilionCity_Frlg, Route14_Frlg,
 	@ CeruleanCity_Gym_Frlg and Route25_Frlg, so every LOCALID, coord trigger, movement path
 	@ and map.json entry would be new authorship rather than a port - ~500 lines. Suicune is
-	@ already catchable via the static Route25_Frlg spawn below, so this was a missing
-	@ questline, never a softlock. Producers stop at 3 on purpose; do not "fix" the ladder.
+	@ catchable via the static Route25_Frlg spawn below. Producers stop at 3 on purpose;
+	@ do not "fix" the ladder. The static encounter uses caught state (not battle outcome)
+	@ so a fainted Suicune is restored here on the next Hall of Fame clear.
 	@ Celebi's retry must include players who fainted/fled it, not only successful catchers -
 	@ hence the state gate rather than a caught-flag gate. It must still exclude players who
 	@ DID catch it, or the shrine Celebi plus this one is two Celebi from one playthrough
@@ -126,6 +129,9 @@ JohtoPokemonLeague_HallOfFame_EventScript_SpawnRoamers::
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSuicune::
+	getcaughtmon SPECIES_SUICUNE
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	clearflag FLAG_FOUGHT_SUICUNE
 	clearflag FLAG_HIDE_ROUTE25_SUICUNE
 	return
 
@@ -135,14 +141,20 @@ JohtoHoF_RespawnLatis::
 	return
 
 JohtoHoF_RespawnRayquaza::
+	getcaughtmon SPECIES_RAYQUAZA
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_RAYQUAZA
 	return
 
 JohtoHoF_RespawnGroudon::
+	getcaughtmon SPECIES_GROUDON
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_GROUDON
 	return
 
 JohtoHoF_RespawnKyogre::
+	getcaughtmon SPECIES_KYOGRE
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_KYOGRE
 	return
 
@@ -246,4 +258,3 @@ JohtoPokemonLeague_HallOfFame_Rematch_LanceText:
     .string "{PLAYER}, it is my honor to register\n"
     .string "you, and your trusted partners,\l"
     .string "as champions once again.$"
-

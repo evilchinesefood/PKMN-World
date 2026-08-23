@@ -7,7 +7,32 @@
 .set LOCALID_EMBEDDEDKYOGRE, 3
 
 EmbeddedTower_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, EmbeddedTower_OnTransition
 	.byte 0
+
+@ The hide flags predate caught-state checks, so migrate old saves (and catches
+@ made elsewhere) whenever the map loads. Hall of Fame only clears a tower flag
+@ when that species is still uncaught.
+EmbeddedTower_OnTransition::
+	getcaughtmon SPECIES_RAYQUAZA
+	call_if_eq VAR_RESULT, TRUE, EmbeddedTower_HideRayquaza
+	getcaughtmon SPECIES_GROUDON
+	call_if_eq VAR_RESULT, TRUE, EmbeddedTower_HideGroudon
+	getcaughtmon SPECIES_KYOGRE
+	call_if_eq VAR_RESULT, TRUE, EmbeddedTower_HideKyogre
+	end
+
+EmbeddedTower_HideRayquaza::
+	setflag FLAG_HIDE_RAYQUAZA
+	return
+
+EmbeddedTower_HideGroudon::
+	setflag FLAG_HIDE_GROUDON
+	return
+
+EmbeddedTower_HideKyogre::
+	setflag FLAG_HIDE_KYOGRE
+	return
 
 EmbeddedTower_EventScript_Groudon::
 	lock
@@ -23,6 +48,12 @@ waitstate
 	@ guard the fall-through removes the object and sets the hide flag, deleting the encounter
 	@ for good. Matches SkyPillar_Top / TerraCave_End / MarineCave_End.
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, EmbeddedTower_EventScript_GroudonRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, EmbeddedTower_EventScript_GroudonResolved
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, EmbeddedTower_EventScript_GroudonResolved
+	release
+	end
+
+EmbeddedTower_EventScript_GroudonResolved::
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_EMBEDDEDGROUDON
 	setflag FLAG_HIDE_GROUDON
@@ -45,6 +76,12 @@ waitstate
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, EmbeddedTower_EventScript_KyogreRan
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, EmbeddedTower_EventScript_KyogreRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, EmbeddedTower_EventScript_KyogreResolved
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, EmbeddedTower_EventScript_KyogreResolved
+	release
+	end
+
+EmbeddedTower_EventScript_KyogreResolved::
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_EMBEDDEDKYOGRE
 	setflag FLAG_HIDE_KYOGRE
@@ -68,6 +105,12 @@ waitstate
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, EmbeddedTower_EventScript_RayquazaRan
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, EmbeddedTower_EventScript_RayquazaRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, EmbeddedTower_EventScript_RayquazaResolved
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, EmbeddedTower_EventScript_RayquazaResolved
+	release
+	end
+
+EmbeddedTower_EventScript_RayquazaResolved::
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_EMBEDDEDRAYQUAZA
 	setflag FLAG_HIDE_RAYQUAZA

@@ -11,7 +11,7 @@ Four suites need a battery save instead, and one of those saves is not in the tr
 
 ## What's in this directory
 
-`Testing/lua/` holds **25 `.lua` files**: 21 suites plus four that are not suites and must never be
+`Testing/lua/` holds **26 `.lua` files**: 22 suites plus four that are not suites and must never be
 launched directly.
 
 | File | Role |
@@ -70,7 +70,7 @@ builds old, for a suite that cannot run at all. So it:
 
 1. **Deletes every `.PASS`/`.FAIL` in `_pwtest/` first**, so any sentinel left afterwards is one
    this sweep wrote.
-2. Runs the 17 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
+2. Runs the 18 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
    per suite.
 3. **Audits the sentinels**: each expected suite must have a `.PASS` *and* it must carry
    `rom=<md5 of the ROM under test>`. A `.FAIL`, a missing sentinel, or a stale md5 each fail the
@@ -78,7 +78,7 @@ builds old, for a suite that cannot run at all. So it:
 4. Prints suites it knows about but could not run, under `NOT RUN`.
 
 ```
-green 20 / 20 expected
+green 21 / 21 expected
 SWEEP OK - every expected suite produced a fresh PASS stamped rom=<md5>
 ```
 
@@ -88,9 +88,9 @@ Exit code is **0** only for that. **1** means the sweep failed and the message s
 
 ### What a clean sweep looks like
 
-On the owner's machine: **21/21, `SWEEP OK`, exit 0.**
+On the owner's machine: **22/22, `SWEEP OK`, exit 0.**
 
-On a fresh clone: **20 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
+On a fresh clone: **21 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
 reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,
 and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough, so no
 clone can ever have one. It is therefore listed in `run-all.sh`'s `OPTIONAL_SAVE` rather than
@@ -169,6 +169,7 @@ is clean; keep it that way.
 | [`OlivineHarborBoard.lua`](#olivineharborboardlua) | fresh new game | The OLIVINE board's BATTLE FRONTIER row now demands the S.S. TICKET. |
 | [`SSAquaKantoCrossing.lua`](#ssaquakantocrossinglua) | fresh new game | The S.S. Aqua Kanto crossing in both directions, plus the persisted ferry departure record. |
 | [`BnetTerminal1F.lua`](#bnetterminal1flua) | fresh new game | The Battle Net wall terminal on one map per placement row, and the BP payout invariants. |
+| [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Door-table pointer matching on every repaired #92 warp, with live animation checks. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -259,6 +260,10 @@ Issue #65's S.S. Aqua Kanto disembark, both directions, on one fresh new game. *
 ### `BnetTerminal1F.lua`
 
 The Battle Net wall terminal (issue #59), on one map per distinct row of the issue's placement table — all six 1F layouts, both League lobbies, One Island and the hub. Per map: standing on the pedestal facing the screen opens the combined menu (cursor read from menu.c's `sMenu`, never counted blind), EXIT closes it, and control returns with no orphaned lock — the `lock`/`release` pairing the sign form depends on. Once, on the hub: holding Up into the screen for 60 frames opens nothing, because the terminal's metatile behaviour is 0, not signpost-family — only the bg_event answers. The payout invariants carry forward from the retired `BnetCounter2F.lua` (whose 2F counter slots lost their staircase): a real Scaling win pays 1 BP through `ScalingRun`'s call-across-a-battle, and a Leader Sim win pays 2 BP and NOTHING else — whole-bag snapshot either side, quantities decrypted against the roaming encryption key. New here: the 0x24 bytes at `gObjectEvents[16]` are snapshotted around the whole Leader Sim launch and must come back identical — the sign form runs with `VAR_LAST_TALKED = LOCALID_NONE`, which is exactly the out-of-bounds recipe the no-reveal battle entry (D3) exists to prevent, so any regression writes precisely there.
+
+### `DoorAnimsRegistered.lua`
+
+Issues #92, #95, and #105, driven from a fresh save. The suite visits every formerly unmatched FRLG/Johto door in the repaired table and checks that opening it creates a live field-door task rather than merely finding a pointer-shaped table entry. It covers the S.S. Aqua cabins, Battle Frontier east exterior, Dragon's Den, Bellchime Trail, Johto Safari Zone, Mahogany, all three split Johto primary tilesets, and the restored Battle Tower lobby elevator. The companion static validator checks every map warp against the registered metatile/tileset pairs and pins the eight pre-existing out-of-bounds warp destinations separately, so malformed maps cannot masquerade as missing animations.
 
 ### `VerifyV7Migrate.lua`
 

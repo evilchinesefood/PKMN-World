@@ -182,6 +182,7 @@ static const u8 sDoorAnimTiles_EcruteakCity_Door[] = INCGFX_U8("graphics/door_an
 static const u8 sDoorAnimTiles_BlackthornCity_Door[] = INCGFX_U8("graphics/door_anims/blackthorn_city.png", ".4bpp");
 static const u8 sDoorAnimTiles_JohtoSafariZone_Door[] = INCGFX_U8("graphics/door_anims/johto_safari_zone.png", ".4bpp");
 static const u8 sDoorAnimTiles_JohtoDeptStoreElevator[] = INCGFX_U8("graphics/door_anims/johto_dept_store_elevator.png", ".4bpp");
+static const u8 sDoorAnimTiles_RocketElevator[] = INCGFX_U8("graphics/door_anims/rocket_elevator.png", ".4bpp");
 
 static const struct DoorAnimFrame sDoorOpenAnimFrames[] =
 {
@@ -353,6 +354,7 @@ static const u8 sDoorAnimPalettes_EcruteakCity_Door[] = {10, 10, 10, 10, 10, 10,
 static const u8 sDoorAnimPalettes_BlackthornCity_Door[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_JohtoSafariZone_Door[] = {9, 9, 9, 9, 9, 9, 9, 9};
 static const u8 sDoorAnimPalettes_JohtoDeptStore_Door[] = {8, 8, 8, 8, 8, 8, 8, 8};
+static const u8 sDoorAnimPalettes_RocketElevator[] = {2, 2, 2, 2, 2, 2, 2, 2};
 
 static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 {
@@ -407,6 +409,10 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_BattleFrontier_Door_MultiCorridor,            &gTileset_BattleFrontier, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_BattleTowerMultiCorridor, sDoorAnimPalettes_BattleTowerMultiCorridor},
     {METATILE_BattleFrontierOutsideWest_Door,               &gTileset_BattleFrontierOutsideWest, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BattleFrontier, sDoorAnimPalettes_BattleFrontier},
     {METATILE_BattleFrontierOutsideWest_Door_Sliding,       &gTileset_BattleFrontierOutsideWest, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleFrontierSliding, sDoorAnimPalettes_BattleFrontier},
+    // East uses the same door metatiles and primary graphics, but door lookup also
+    // compares the secondary tileset pointer, so it requires its own registrations.
+    {METATILE_BattleFrontierOutsideEast_Door,               &gTileset_BattleFrontierOutsideEast, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BattleFrontier, sDoorAnimPalettes_BattleFrontier},
+    {METATILE_BattleFrontierOutsideEast_Door_Sliding,       &gTileset_BattleFrontierOutsideEast, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleFrontierSliding, sDoorAnimPalettes_BattleFrontier},
     {METATILE_BattleDome_Door_PreBattleRoom,                &gTileset_BattleDome, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleDomePreBattleRoom, sDoorAnimPalettes_BattleDomePreBattleRoom},
     {METATILE_BattleTent_Door,                              &gTileset_BattleTent, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleTentInterior, sDoorAnimPalettes_BattleTentInterior},
     {METATILE_TrainerHill_Door_Elevator_Lobby,              &gTileset_TrainerHill, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_TrainerHillLobbyElevator, sDoorAnimPalettes_TrainerHillLobbyElevator},
@@ -443,6 +449,9 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_PokemonCenterFrlg_CableClubDoor,              &gTileset_PokemonCenterFrlg, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_CableClubFrlg, sDoorAnimPalettes_CableClubFrlg},
     {METATILE_SilphCo_HideoutElevatorDoor,                  &gTileset_SilphCo, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_HideoutElevator, sDoorAnimPalettes_HideoutElevator},
     {METATILE_SSAnne_Door,                                  &gTileset_SSAnne, DOOR_SOUND_NORMAL,  2, sDoorAnimTiles_SSAnne, sDoorAnimPalettes_SSAnne},
+    // S.S. Aqua kept the S.S. Anne door metatile and graphics. The four cabin
+    // layouts also carry the matching door header above it (see #92).
+    {METATILE_SSAnne_Door,                                  &gTileset_ssaqua, DOOR_SOUND_NORMAL,  2, sDoorAnimTiles_SSAnne, sDoorAnimPalettes_SSAnne},
     {METATILE_SilphCo_ElevatorDoor,                         &gTileset_SilphCo, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_SilphCoElevator, sDoorAnimPalettes_SilphCoElevator},
     {METATILE_SeaCottage_Teleporter_Door,                   &gTileset_SeaCottage, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_Teleporter, sDoorAnimPalettes_Teleporter},
     {METATILE_TrainerTower_LobbyElevatorDoor,               &gTileset_TrainerTower, DOOR_SOUND_SLIDING, 2, sDoorAnimTiles_TrainerTowerLobbyElevator, sDoorAnimPalettes_TrainerTowerLobbyElevator},
@@ -456,14 +465,30 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_NewBarkTown_Door_Blue,                        &gTileset_NewBarkTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Cerulean, sDoorAnimPalettes_NewBarkTown_Door_Blue},
     {METATILE_Cherrygrove_Door_Red,                         &gTileset_CherrygroveCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_NewBarkTown_Door_Red, sDoorAnimPalettes_CherryGrove_Door_Red},
     {METATILE_VioletCity_Dojo_Door,                         &gTileset_VioletCity, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_VioletCity_Dojo_Door, sDoorAnimPalettes_VioletCity_Dojo_Door},
+    {METATILE_CaveDragonsDen_Door,                          &gTileset_Cave_DragonsDen, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_VioletCity_Dojo_Door, sDoorAnimPalettes_VioletCity_Dojo_Door},
     // Region merge (Johto port, less-common towns): Goldenrod, Cianwood, Olivine, Ecruteak, Blackthorn, Johto Safari, Johto dept-store elevator.
     {METATILE_Goldenrod_Goldenrod,                          &gTileset_Goldenrod, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Goldenrod, sDoorAnimPalettes_Goldenrod},
     {METATILE_CianwoodSafariGate_Cianwood,                  &gTileset_CianwoodCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Cianwood, sDoorAnimPalettes_Cianwood},
     {METATILE_Olivine_6_Door,                               &gTileset_OlivineCity, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_OlivineCity_Door, sDoorAnimPalettes_OlivineCity_Door},
     {METATILE_Ecruteak_City_Door,                           &gTileset_Ecruteak_City, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_EcruteakCity_Door, sDoorAnimPalettes_EcruteakCity_Door},
+    {METATILE_Ecruteak_City_Door,                           &gTileset_BellchimeTrail, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_EcruteakCity_Door, sDoorAnimPalettes_EcruteakCity_Door},
     {METATILE_Blackthorn_Door,                              &gTileset_Blackthorn, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_BlackthornCity_Door, sDoorAnimPalettes_BlackthornCity_Door},
     {METATILE_SafariZoneJohto_Safari,                       &gTileset_SafariZoneJohto, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoSafariZone_Door, sDoorAnimPalettes_JohtoSafariZone_Door},
+    {METATILE_SafariZoneJohto_Door,                         &gTileset_SafariZoneJohto, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Fuchsia, sDoorAnimPalettes_Fuchsia},
+    {METATILE_MahoganyTown_Door,                            &gTileset_MahoganyTown, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Sevii123, sDoorAnimPalettes_Sevii123},
     {METATILE_JohtoShop_Door,                               &gTileset_GoldenrodDepartmentStore, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoDeptStoreElevator, sDoorAnimPalettes_JohtoDeptStore_Door},
+    {METATILE_BattleTowerInner_Door,                        &gTileset_BattleTowerInner, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_RocketElevator, sDoorAnimPalettes_RocketElevator},
+    // These regional primaries preserve Johto_General's door ids and art. They
+    // still need separate rows because GetDoorGraphics compares pointers.
+    {METATILE_Johto_General_Door,                           &gTileset_Johto_South, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
+    {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_South, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
+    {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_South, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
+    {METATILE_Johto_General_Door,                           &gTileset_Johto_NorthEast, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
+    {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_NorthEast, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
+    {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_NorthEast, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
+    {METATILE_Johto_General_Door,                           &gTileset_Johto_NorthWest, DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_JohtoGeneral, sDoorAnimPalettes_JohtoGeneral},
+    {METATILE_Johto_General_Door_Sliding,                   &gTileset_Johto_NorthWest, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoPokeCenter, sDoorAnimPalettes_JohtoPokeCenter},
+    {METATILE_Johto_General_Door_Gym,                       &gTileset_Johto_NorthWest, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_JohtoGym, sDoorAnimPalettes_JohtoGym},
     {},
 };
 
@@ -475,7 +500,15 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 
 static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
 {
-    if (gfx->size == 2 && !gMapHeader.mapLayout->isFrlg && !gMapHeader.mapLayout->isJohto)
+    if (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto)
+    {
+        // FRLG/Johto doors are one metatile wide. A large door has two stacked
+        // metatiles (8 tiles); a small door has one (4 tiles).
+        u32 numTiles = gfx->size == 2 ? 8 : 4;
+
+        CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), numTiles * TILE_SIZE_4BPP);
+    }
+    else if (gfx->size == 2)
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE2)), 16 * TILE_SIZE_4BPP);
     else
         CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), 8 * TILE_SIZE_4BPP);
@@ -691,10 +724,18 @@ static void DrawClosedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 
 static void DrawOpenedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
-    const struct DoorAnimFrame *doorAnimFrames = (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto) ? sDoorAnimFrames_OpenSmallFrlg : sDoorOpenAnimFrames;
+    const struct DoorAnimFrame *doorAnimFrames;
+
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx != NULL)
-        DrawDoor(gfx, GetLastDoorFrame(doorAnimFrames, doorAnimFrames), x, y);
+    if (gfx == NULL)
+        return;
+
+    if (gfx->size == 2)
+        doorAnimFrames = (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto) ? sDoorAnimFrames_OpenLargeFrlg : sBigDoorOpenAnimFrames;
+    else
+        doorAnimFrames = (gMapHeader.mapLayout->isFrlg || gMapHeader.mapLayout->isJohto) ? sDoorAnimFrames_OpenSmallFrlg : sDoorOpenAnimFrames;
+
+    DrawDoor(gfx, GetLastDoorFrame(doorAnimFrames, doorAnimFrames), x, y);
 }
 
 static s8 StartDoorOpenAnimation(const struct DoorGraphics *gfx, u32 x, u32 y)

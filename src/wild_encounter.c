@@ -974,9 +974,23 @@ bool8 SweetScentWildEncounter(void)
 bool8 DoesCurrentMapHaveFishingMons(void)
 {
     u32 headerId = GetCurrentMapWildMonHeaderId();
-    enum TimeOfDay timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_FISHING);
+    enum TimeOfDay timeOfDay;
 
-    if (headerId != HEADER_NONE && gWildMonHeaders[headerId].encounterTypes[timeOfDay].fishingMonsInfo != NULL)
+    // HEADER_NONE is an *expected* input here — detecting the no-table case is what this function
+    // is for — and GetTimeOfDayForEncounters() indexes gWildMonHeaders[headerId], so the guard has
+    // to come before that call, not after it. The old `headerId != HEADER_NONE && gWildMonHeaders[
+    // headerId]...` test was fine on its own (&& short-circuits, so the index was never reached and
+    // the returned bool was always correct); what it could not protect was the call in the
+    // initializer above it. gWildMonHeaders[0xFFFF] is +5.25 MB, which still lands inside the 32 MB
+    // cartridge image, so it silently returns arbitrary ROM rather than faulting. Maps with fishable
+    // water but no encounter header (both harbors, Battle Frontier Outside West/East, Aqua Hideout
+    // 1F) reach here every time the player casts a rod.
+    if (headerId == HEADER_NONE)
+        return FALSE;
+
+    timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_FISHING);
+
+    if (gWildMonHeaders[headerId].encounterTypes[timeOfDay].fishingMonsInfo != NULL)
         return TRUE;
     else
         return FALSE;
@@ -1249,7 +1263,13 @@ bool8 TryDoDoubleWildBattle(void)
 bool8 StandardWildEncounter_Debug(void)
 {
     u32 headerId = GetCurrentMapWildMonHeaderId();
-    enum TimeOfDay timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND);
+    enum TimeOfDay timeOfDay;
+
+    // Same shape as DoesCurrentMapHaveFishingMons(): guard before indexing gWildMonHeaders[].
+    if (headerId == HEADER_NONE)
+        return FALSE;
+
+    timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND);
 
     if (TryGenerateWildMon(gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo, WILD_AREA_LAND, 0) != TRUE)
         return FALSE;

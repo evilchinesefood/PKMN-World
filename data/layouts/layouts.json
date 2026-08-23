@@ -3424,14 +3424,14 @@
       "id": "LAYOUT_BATTLE_FRONTIER_BATTLE_TOWER_LOBBY",
       "name": "BattleFrontier_BattleTowerLobby_Layout",
       "width": 25,
-      "height": 10,
+      "height": 11,
       "border_width": 0,
       "border_height": 0,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_BattleFrontier",
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BattleTowerInner",
       "border_filepath": "data/layouts/BattleFrontier_BattleTowerLobby/border.bin",
       "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerLobby/map.bin",
-      "layout_version": "emerald"
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_BATTLE_FRONTIER_OUTSIDE_WEST",
@@ -3466,11 +3466,11 @@
       "height": 5,
       "border_width": 0,
       "border_height": 0,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_BattleFrontier",
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BattleTowerInner",
       "border_filepath": "data/layouts/BattleFrontier_BattleTowerCorridor/border.bin",
       "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerCorridor/map.bin",
-      "layout_version": "emerald"
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM",
@@ -3479,11 +3479,11 @@
       "height": 9,
       "border_width": 0,
       "border_height": 0,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_BattleFrontier",
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BattleTowerInner",
       "border_filepath": "data/layouts/BattleFrontier_BattleTowerBattleRoom/border.bin",
       "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerBattleRoom/map.bin",
-      "layout_version": "emerald"
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_RUSTBORO_CITY_DEVON_CORP_3F",
@@ -5065,11 +5065,11 @@
       "height": 15,
       "border_width": 0,
       "border_height": 0,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_BattleFrontier",
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BattleTowerInner",
       "border_filepath": "data/layouts/BattleFrontier_BattleTowerMultiPartnerRoom/border.bin",
       "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerMultiPartnerRoom/map.bin",
-      "layout_version": "emerald"
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR",
@@ -5078,11 +5078,11 @@
       "height": 5,
       "border_width": 0,
       "border_height": 0,
-      "primary_tileset": "gTileset_Building",
-      "secondary_tileset": "gTileset_BattleFrontier",
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BattleTowerInner",
       "border_filepath": "data/layouts/BattleFrontier_BattleTowerMultiCorridor/border.bin",
       "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerMultiCorridor/map.bin",
-      "layout_version": "emerald"
+      "layout_version": "johto"
     },
     {
       "id": "LAYOUT_ROUTE111_NO_MIRAGE_TOWER",
@@ -10851,7 +10851,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonDayCare",
+      "secondary_tileset": "gTileset_JohtoDayCare",
       "border_filepath": "data/layouts/Route34_DayCare/border.bin",
       "blockdata_filepath": "data/layouts/Route34_DayCare/map.bin",
       "layout_version": "johto"
@@ -11124,7 +11124,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonDayCare",
+      "secondary_tileset": "gTileset_JohtoDayCare",
       "border_filepath": "data/layouts/GoldenrodCity_FlowerShop/border.bin",
       "blockdata_filepath": "data/layouts/GoldenrodCity_FlowerShop/map.bin",
       "layout_version": "johto"
@@ -12216,7 +12216,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_SootopolisGym",
+      "secondary_tileset": "gTileset_MahoganyTownGym",
       "border_filepath": "data/layouts/MahoganyTown_Gym/border.bin",
       "blockdata_filepath": "data/layouts/MahoganyTown_Gym/map.bin",
       "layout_version": "johto"

@@ -86,9 +86,18 @@ The Johto assets in the shipped ROM are HnS's own files, unmodified. Every Johto
 that exists in both trees is md5-identical across all of its files — `johto_general`,
 `johto_building`, `ecruteak_city` (and its gym), `goldenrod` (and its station, game corner,
 department store and three underground sets), `burned_tower`, `whirl_islands`, the three
-`ruins_of_alph_*` sets, `national_park`, `ilex_forest`, `lighthouse`, `cave_ice`, and
-`mt_silver_snow` — matching file for file even where this tree renamed the directory, as are
-the Johto region map in both its Poké Nav and Pokédex copies and the Johto door animations.
+`ruins_of_alph_*` sets, `national_park`, `ilex_forest`, `lighthouse`, `cave_ice`,
+`mt_silver_snow`, `johto_day_care`, and `mahogany_town_gym` — matching file for file even where
+this tree renamed the directory, as are the Johto region map in both its Poké Nav and Pokédex
+copies and the Johto door animations. (`johto_day_care` is HnS's `pokemon_day_care`, which HnS
+rebuilt as a 202-metatile Johto interior set; it is imported here under a new name because this
+tree also still ships the 68-metatile Hoenn `pokemon_day_care` that Route 117's day care needs.
+It backs the Goldenrod City Flower Shop and the Route 34 Day Care.
+`mahogany_town_gym` is the same story: it is HnS's `sootopolis_gym`, which HnS rebuilt from
+Hoenn's 122-metatile version into a 200-metatile set holding Pryce's ice-puzzle gym, and it is
+imported here under a new name because this tree still ships — and still needs — the original
+122-metatile `sootopolis_gym` for Sootopolis City Gym 1F and B1F. It backs the Mahogany Town
+Gym.)
 The Johto map scripts are near-identical, most differing from HnS's by only a handful of
 lines out of several hundred.
 

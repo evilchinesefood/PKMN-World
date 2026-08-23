@@ -1655,7 +1655,7 @@ const struct Tileset gTileset_Goldenrod =
     .tiles = gTilesetTiles_Goldenrod,
     .palettes = gTilesetPalettes_Goldenrod,
     TILESET_METATILES(gMetatiles_Goldenrod, gMetatileAttributes_Goldenrod),
-    .callback = NULL,
+    .callback = InitTilesetAnim_Goldenrod,
 };
 
 const struct Tileset gTileset_IlexForest =
@@ -1988,6 +1988,16 @@ const struct Tileset gTileset_ssaqua =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_BattleTowerInner =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_BattleTowerInner,
+    .palettes = gTilesetPalettes_BattleTowerInner,
+    TILESET_METATILES(gMetatiles_BattleTowerInner, gMetatileAttributes_BattleTowerInner),
+    .callback = NULL,
+};
+
 const struct Tileset gTileset_SafariZoneJohto =
 {
     .isCompressed = TRUE,
@@ -2028,3 +2038,22 @@ const struct Tileset gTileset_PokemonCenter_White =
     .callback = NULL,
 };
 
+const struct Tileset gTileset_JohtoDayCare =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoDayCare,
+    .palettes = gTilesetPalettes_JohtoDayCare,
+    TILESET_METATILES(gMetatiles_JohtoDayCare, gMetatileAttributes_JohtoDayCare),
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_MahoganyTownGym =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_MahoganyTownGym,
+    .palettes = gTilesetPalettes_MahoganyTownGym,
+    TILESET_METATILES(gMetatiles_MahoganyTownGym, gMetatileAttributes_MahoganyTownGym),
+    .callback = NULL,
+};

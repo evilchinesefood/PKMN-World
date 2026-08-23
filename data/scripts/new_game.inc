@@ -110,7 +110,6 @@ EventScript_ResetAllBerries::
 
 	@ Mirage Island
 	setberrytree BERRY_TREE_ROUTE_130_LIECHI, BERRY_ID_LIECHI, BERRY_STAGE_BERRIES
-	return
 
 	@ Johto (issue #104 follow-up). These 11 trees used to share BERRY_TREE_ROUTE_102_ORAN,
 	@ _PECHA and BERRY_TREE_ROUTE_118_SITRUS_1 with live Hoenn trees, so one save slot backed
@@ -128,6 +127,24 @@ EventScript_ResetAllBerries::
 	setberrytree BERRY_TREE_JOHTO_LEPPA_1,   BERRY_ID_LEPPA,  BERRY_STAGE_BERRIES
 	setberrytree BERRY_TREE_JOHTO_LEPPA_2,   BERRY_ID_LEPPA,  BERRY_STAGE_BERRIES
 	setberrytree BERRY_TREE_JOHTO_LUM_1,     BERRY_ID_LUM,    BERRY_STAGE_BERRIES
+
+	@ Kanto (issue #104). FRLG shipped no berry trees, so Kanto grew nothing at all. Twelve new
+	@ trees, one per major route, on dedicated slots 101-112. Weighted to Cheri and Persim
+	@ because Kurt's Friend Ball and Level Ball need them and Persim still grows nowhere but
+	@ Hoenn; the remaining four give Kanto its own Sitrus and the only Lum outside Johto.
+	setberrytree BERRY_TREE_KANTO_CHERI_1,   BERRY_ID_CHERI,  BERRY_STAGE_BERRIES  @ Route 1
+	setberrytree BERRY_TREE_KANTO_PERSIM_1,  BERRY_ID_PERSIM, BERRY_STAGE_BERRIES  @ Route 3
+	setberrytree BERRY_TREE_KANTO_CHERI_2,   BERRY_ID_CHERI,  BERRY_STAGE_BERRIES  @ Route 4
+	setberrytree BERRY_TREE_KANTO_PERSIM_2,  BERRY_ID_PERSIM, BERRY_STAGE_BERRIES  @ Route 5
+	setberrytree BERRY_TREE_KANTO_CHERI_3,   BERRY_ID_CHERI,  BERRY_STAGE_BERRIES  @ Route 6
+	setberrytree BERRY_TREE_KANTO_PERSIM_3,  BERRY_ID_PERSIM, BERRY_STAGE_BERRIES  @ Route 7
+	setberrytree BERRY_TREE_KANTO_CHERI_4,   BERRY_ID_CHERI,  BERRY_STAGE_BERRIES  @ Route 8
+	setberrytree BERRY_TREE_KANTO_PERSIM_4,  BERRY_ID_PERSIM, BERRY_STAGE_BERRIES  @ Route 11
+	setberrytree BERRY_TREE_KANTO_SITRUS_1,  BERRY_ID_SITRUS, BERRY_STAGE_BERRIES  @ Route 13
+	setberrytree BERRY_TREE_KANTO_LUM_1,     BERRY_ID_LUM,    BERRY_STAGE_BERRIES  @ Route 16
+	setberrytree BERRY_TREE_KANTO_LUM_2,     BERRY_ID_LUM,    BERRY_STAGE_BERRIES  @ Route 24
+	setberrytree BERRY_TREE_KANTO_SITRUS_2,  BERRY_ID_SITRUS, BERRY_STAGE_BERRIES  @ Route 25
+	return
 
 EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_CONTEST_POKE_BALL

@@ -167,7 +167,35 @@ enum __attribute__((__packed__)) Flavor
 #define BERRY_TREE_JOHTO_LEPPA_2      99
 #define BERRY_TREE_JOHTO_LUM_1        100
 
-// Remainder are unused
+// Region merge (Kanto): FRLG shipped no berry trees at all, so Kanto had no way to grow the
+// berries Kurt's Friend Ball (Cheri) and Level Ball (Persim) need. Twelve trees, one per major
+// route, carved from the same unused tail of the 128-slot berryTrees[] array - no save growth.
+//
+// The same rule as the Johto block applies and is the whole reason these constants exist: ONE ID
+// IS ONE SAVE SLOT. A new tree needs its own slot here AND a setberrytree line in
+// data/scripts/new_game.inc; reusing an id makes two trees share state, and the symptom (harvest
+// one, another empties, possibly in another region) is invisible until someone harvests.
+//
+//   101 Route 1  (12,16)   105 Route 6  (2,4)    109 Route 13 (26,4)
+//   102 Route 3  (62,10)   106 Route 7  (5,1)    110 Route 16 (12,2)
+//   103 Route 4  (88,16)   107 Route 8  (65,5)   111 Route 24 (3,6)
+//   104 Route 5  (14,21)   108 Route 11 (11,7)   112 Route 25 (25,7)
+#define BERRY_TREE_KANTO_CHERI_1      101
+#define BERRY_TREE_KANTO_PERSIM_1     102
+#define BERRY_TREE_KANTO_CHERI_2      103
+#define BERRY_TREE_KANTO_PERSIM_2     104
+#define BERRY_TREE_KANTO_CHERI_3      105
+#define BERRY_TREE_KANTO_PERSIM_3     106
+#define BERRY_TREE_KANTO_CHERI_4      107
+#define BERRY_TREE_KANTO_PERSIM_4     108
+#define BERRY_TREE_KANTO_SITRUS_1     109
+#define BERRY_TREE_KANTO_LUM_1        110
+#define BERRY_TREE_KANTO_LUM_2        111
+#define BERRY_TREE_KANTO_SITRUS_2     112
+
+// Remainder (113-127, 15 slots) are unused. BERRY_TREES_COUNT sizes
+// gSaveBlock1Ptr->berryTrees[] (include/global.h), so it is save layout: growing it is a save
+// break. These 15 are the entire remaining budget for the life of the format.
 
 #define BERRY_TREES_COUNT 128
 

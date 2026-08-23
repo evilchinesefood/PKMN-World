@@ -1221,10 +1221,6 @@ CableClub_Text_BattleUsingLinkCable_Frlg::
 	.string "You may battle another TRAINER\n"
 	.string "using a GBA Game Link cable.$"
 
-@ Unused, translated in Emerald
-CableClub_Text_CloseThisMenu_Frlg::
-	.string "おわります$"
-
 CableClub_Text_NeedTwoMonsForDoubleBattle_Frlg::
 	.string "For a DOUBLE BATTLE, you must\n"
 	.string "have at least two POKéMON.$"
@@ -1254,11 +1250,6 @@ CableClub_Text_StartLinkWithXPlayersAConfirmBCancel_Frlg::
 CableClub_Text_AwaitingLinkupBCancel_Frlg::
 	.string "Awaiting linkup…\n"
 	.string "… … B Button: Cancel$"
-
-@ Unused, translated in Emerald
-CableClub_Text_OkayToSaveProgress_Frlg::
-	.string "はじめる　まえに　レポートを\n"
-	.string "かきますが　よろしいですか？$"
 
 CableClub_Text_PleaseEnter_Frlg::
 	.string "Please enter.$"
@@ -1332,10 +1323,6 @@ Text_TakeSeatStartTrade_Frlg::
 	.string "Please take your seat and start\n"
 	.string "your trade.$"
 
-@ Unused, leftover from RS
-RecordCorner_Text_ThanksForComing_Frlg::
-	.string "ごりよう　ありがとう　ございました$"
-
 CableClub_Text_TrainerCardDataOverwritten_Frlg::
 	.string "The TRAINER CARD data will\n"
 	.string "be overwritten.$"
@@ -1364,14 +1351,6 @@ CableClub_Text_ParticipantsStepUpToCounter_Frlg::
 	.string "Participants are asked to step up\n"
 	.string "to the reception counter.$"
 
-@ Unused, translated in Emerald
-CableClub_Text_Hello_Frlg::
-	.string "こんにちは！$"
-
-@ Unused, translated in Emerald
-CableClub_Text_PleaseWait_Frlg::
-	.string "しょうしょう　おまちください$"
-
 CableClub_Text_YouMayTradeHere_Frlg::
 	.string "You may trade your POKéMON here\n"
 	.string "with another TRAINER.$"
@@ -1384,21 +1363,8 @@ CableClub_Text_CanMakeBerryPowder_Frlg::
 	.string "Two to five TRAINERS can make\n"
 	.string "BERRY POWDER together.$"
 
-@ Unused, Record Mix nopped
-CableClub_Text_CanMixRecords_Frlg::
-	.string "ワイヤレス　クラブでの\n"
-	.string "あそびかたを　せつめいします$"
-
 CableClub_Text_CancelSelectedItem_Frlg::
 	.string "Cancels the selected MENU item.$"
-
-@ Unused, translated in Emerald
-CableClub_Text_WhichBattleMode_Frlg::
-	.string "どちらの　しょうぶに　しますか？$"
-
-@ Unused, translated in Emerald
-CableClub_Text_ReturnsToPreviousStep_Frlg::
-	.string "ひとつ　まえに　もどります$"
 
 CableClub_Text_NeedBerryForBerryCrush_Frlg::
 	.string "To use the BERRY CRUSH service,\n"
@@ -1481,11 +1447,6 @@ Text_AllGoodToGo_Frlg::
 	.string "Okay, you're all good to go.\n"
 	.string "Don't let the others beat you!$"
 
-@ Unused, translated in Emerald
-Text_LeavingDoComeAgain_Frlg::
-	.string "きょうは　けえるのか？\n"
-	.string "またこいよ！$"
-
 EventScript_ExplainPokemonJumpRequirements_Frlg::
 	.string "It doesn't look like you have any\n"
 	.string "POKéMON that you can enter…\p"
@@ -1506,11 +1467,6 @@ Text_OnlyDodrioAllowed_Frlg::
 	.string "Well, the name says it all.\p"
 	.string "You have to have a DODRIO to play\n"
 	.string "this game.$"
-
-@ Unused, translated in Emerald
-Text_RetryFromStartPlease_Frlg::
-	.string "もういちど　はじめから\n"
-	.string "やりなおして　みて　くれ$"
 
 CableClub_Text_WelcomeWhichDirectCornerRoom_Frlg::
 	.string "Welcome to the POKéMON WIRELESS\n"

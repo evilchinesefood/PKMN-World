@@ -118,10 +118,6 @@ Text_Bookshelf::
 	.string "It's crammed full of POKéMON\n"
 	.string "books.$"
 
-Text_NothingButPokemonBooks::
-	.string "ほんだなに　ならんでいるのは\n"
-	.string "ポケモンの　ほん　ばかりだ$"
-
 Text_ATownMap::
 	.string "A TOWN MAP.$"
 

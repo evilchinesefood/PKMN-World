@@ -5593,16 +5593,22 @@ static void Cmd_handlelearnnewmove(void)
 
     if (B_LEVEL_UP_NOTIFICATION >= GEN_9 && gBattleResources->beforeLvlUp->learnMultipleMoves)
     {
-        while (gBattleResources->beforeLvlUp->level < currLvl)
+        // TryLearnMoveLoop calls this with FALSE to offer extra learnset
+        // entries at the same level. Incrementing first skips them.
+        if (!cmd->isFirstMove)
+        {
+            learnMove = MonTryLearningNewMoveAtLevel(&gParties[B_TRAINER_PLAYER][monId], FALSE, gBattleResources->beforeLvlUp->level);
+            while (learnMove == MON_ALREADY_KNOWS_MOVE)
+                learnMove = MonTryLearningNewMoveAtLevel(&gParties[B_TRAINER_PLAYER][monId], FALSE, gBattleResources->beforeLvlUp->level);
+        }
+
+        while (learnMove == MOVE_NONE && gBattleResources->beforeLvlUp->level < currLvl)
         {
             gBattleResources->beforeLvlUp->level++;
             learnMove = MonTryLearningNewMoveAtLevel(&gParties[B_TRAINER_PLAYER][monId], cmd->isFirstMove, gBattleResources->beforeLvlUp->level);
 
             while (learnMove == MON_ALREADY_KNOWS_MOVE)
                 learnMove = MonTryLearningNewMoveAtLevel(&gParties[B_TRAINER_PLAYER][monId], FALSE, gBattleResources->beforeLvlUp->level);
-
-            if (learnMove != MOVE_NONE)
-                break;
         }
     }
     else
@@ -5612,7 +5618,8 @@ static void Cmd_handlelearnnewmove(void)
             learnMove = MonTryLearningNewMove(&gParties[B_TRAINER_PLAYER][monId], FALSE);
     }
 
-    if (learnMove == MOVE_NONE || RECORDED_WILD_BATTLE)
+    // Recorded wild playback has no inputs for the yes/no; tests still need the prompts.
+    if (learnMove == MOVE_NONE || (RECORDED_WILD_BATTLE && !gTestRunnerEnabled))
     {
         gBattlescriptCurrInstr = cmd->nothingToLearnPtr;
     }

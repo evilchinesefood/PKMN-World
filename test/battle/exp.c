@@ -188,3 +188,80 @@ WILD_BATTLE_TEST("Exp Share splits EXP evenly with the Pokemon that fought")
 }
 
 #endif // I_EXP_SHARE_ITEM
+
+static bool32 TestMonKnowsMove(struct Pokemon *mon, enum Move move)
+{
+    u32 i;
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (GetMonData(mon, MON_DATA_MOVE1 + i) == move)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// #116: GEN9+ applies a multi-level EXP dump in one shot, then
+// Cmd_handlelearnnewmove walks beforeLvlUp->level up to the new level.
+WILD_BATTLE_TEST("Leveling multiple levels at once teaches a move only on the final level")
+{
+    u32 startLevel = 0;
+    u32 foeLevel = 0;
+
+    PARAMETRIZE { startLevel = 13; foeLevel = 13; } // 13→15
+    PARAMETRIZE { startLevel = 12; foeLevel = 15; } // 12→15
+
+    GIVEN {
+        ASSUME(B_LEVEL_UP_NOTIFICATION >= GEN_9);
+        const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(SPECIES_MAGIKARP);
+        ASSUME(learnset[1].level == 15 && learnset[1].move == MOVE_TACKLE);
+        ASSUME(learnset[2].level == 25 && learnset[2].move == MOVE_FLAIL);
+        PLAYER(SPECIES_MAGIKARP) { Level(startLevel); }
+        OPPONENT(SPECIES_BLISSEY) { Level(foeLevel); HP(1); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SCRATCH); }
+    } SCENE {
+        MESSAGE("The wild Blissey fainted!");
+        EXPERIENCE_BAR(player);
+    } THEN {
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_LEVEL), 15);
+        EXPECT_EQ(gLevelUpStartLevels[0], startLevel);
+        EXPECT(TestMonKnowsMove(&gParties[B_TRAINER_PLAYER][0], MOVE_TACKLE));
+        EXPECT(!TestMonKnowsMove(&gParties[B_TRAINER_PLAYER][0], MOVE_FLAIL));
+    }
+}
+
+WILD_BATTLE_TEST("Leveling multiple levels at once teaches both moves learned at the same level")
+{
+    u32 startLevel = 0;
+    u32 foeLevel = 0;
+    u32 expectedLevel = 0;
+    enum Item item = ITEM_NONE;
+
+    PARAMETRIZE { startLevel = 13; foeLevel = 9;  expectedLevel = 15; item = ITEM_NONE; }      // 2-level, dual at landing
+    PARAMETRIZE { startLevel = 12; foeLevel = 10; expectedLevel = 15; item = ITEM_NONE; }      // 3-level, dual at landing
+    PARAMETRIZE { startLevel = 14; foeLevel = 10; expectedLevel = 16; item = ITEM_EVERSTONE; } // 2-level, dual in the middle
+
+    GIVEN {
+        ASSUME(B_LEVEL_UP_NOTIFICATION >= GEN_9);
+        const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(SPECIES_BULBASAUR);
+        ASSUME(learnset[5].level == 12 && learnset[5].move == MOVE_RAZOR_LEAF);
+        ASSUME(learnset[6].level == 15 && learnset[6].move == MOVE_POISON_POWDER);
+        ASSUME(learnset[7].level == 15 && learnset[7].move == MOVE_SLEEP_POWDER);
+        ASSUME(learnset[8].level == 18 && learnset[8].move == MOVE_SEED_BOMB);
+        PLAYER(SPECIES_BULBASAUR) { Level(startLevel); Item(item); }
+        OPPONENT(SPECIES_BLISSEY) { Level(foeLevel); HP(1); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE); }
+    } SCENE {
+        MESSAGE("The wild Blissey fainted!");
+        EXPERIENCE_BAR(player);
+    } THEN {
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_LEVEL), expectedLevel);
+        EXPECT_EQ(gLevelUpStartLevels[0], startLevel);
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_MOVE2), MOVE_POISON_POWDER);
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_MOVE3), MOVE_SLEEP_POWDER);
+        EXPECT(!TestMonKnowsMove(&gParties[B_TRAINER_PLAYER][0], MOVE_RAZOR_LEAF));
+        EXPECT(!TestMonKnowsMove(&gParties[B_TRAINER_PLAYER][0], MOVE_SEED_BOMB));
+    }
+}

@@ -123,6 +123,7 @@ enum ConditionalMessage
     COND_MSG_DAY,
     COND_MSG_NIGHT,
     COND_MSG_ABNORMAL_WEATHER,
+    COND_MSG_OUTDOORS,
     COND_MSG_COUNT,
 };
 

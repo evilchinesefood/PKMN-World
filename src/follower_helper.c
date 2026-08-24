@@ -75,6 +75,10 @@ static const u8 sCondMsg45[] = _("Your POKéMON is staring spellbound\nat the ni
 static const u8 sCondMsg46[] = _("Your POKéMON is happily gazing at\nthe beautiful, starry sky!");
 static const u8* const sNightTexts[] = {sCondMsg45, sCondMsg46, NULL};
 static const u8 sCondMsg50[] = _("{STR_VAR_1} is disturbed by the\nabnormal weather!");
+static const u8 sCondMsg51[] = _("{STR_VAR_1} is sniffing at the open\nair.");
+static const u8 sCondMsg52[] = _("The breeze ruffled {STR_VAR_1}\nand it looked pleased.");
+static const u8 sCondMsg53[] = _("Your POKéMON took a deep breath of\nfresh air.");
+static const u8* const sOutdoorsTexts[] = {sCondMsg51, sCondMsg52, sCondMsg53, NULL};
 
 // See the struct definition in follower_helper.h for more info
 const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT] =
@@ -390,6 +394,22 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
             MATCH_NOT_SPECIES(SPECIES_GROUDON),
             MATCH_NOT_SPECIES(SPECIES_RAYQUAZA),
         }
+    },
+    // Grass/Bug followers react to being out in the open. MATCH_OUTDOORS() matches every
+    // outdoor map in the game, so it is deliberately paired with a type condition: message
+    // selection is a weighted reservoir sample over all matching entries, and an unpaired
+    // outdoors entry would compete against every location-specific line everywhere.
+    [COND_MSG_OUTDOORS] =
+    {
+        .text = (u8*)sOutdoorsTexts,
+        .textSpread = 1,
+        .script = EventScript_FollowerLookAround,
+        .emotion = FOLLOWER_EMOTION_HAPPY,
+        .conditions =
+        {
+            MATCH_OUTDOORS(),
+            MATCH_TYPES(TYPE_GRASS, TYPE_BUG),
+        },
     },
 };
 

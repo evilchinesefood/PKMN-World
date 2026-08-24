@@ -1,5 +1,5 @@
 .set LOCALID_GUIDE_GENT, 1
-.set LOCALID_CHERRYGROVE_SILVER, 14
+.set LOCALID_CHERRYGROVE_SILVER, 10
 
 CherrygroveCity_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, CherryGroveCity_OnTransition

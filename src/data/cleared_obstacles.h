@@ -302,7 +302,7 @@ static const u32 sClearedObstacleKeys[CLEARED_OBSTACLE_COUNT] =
     0x4B0407, // group 75, map 4, localId 7
     // Route32
     0x4B0508, // group 75, map 5, localId 8
-    0x4B0520, // group 75, map 5, localId 32
+    0x4B0513, // group 75, map 5, localId 19
     // VioletCity
     0x4B0608, // group 75, map 6, localId 8
     // IlexForest

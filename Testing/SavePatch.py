@@ -146,7 +146,7 @@ PROBED = {
     'RS.clearedObstacleBits': ('offsetof(struct RegionSave, clearedObstacleBits)', 1136),
     'RS.johtoTrainerFlags': ('offsetof(struct RegionSave, johtoTrainerFlags)', 1200),
     'NUM_JOHTO_TRAINER_FLAG_BYTES': ('NUM_JOHTO_TRAINER_FLAG_BYTES', 32),
-    'CLEARED_OBSTACLE_TABLE_HASH': ('CLEARED_OBSTACLE_TABLE_HASH', 0x233ED09C),
+    'CLEARED_OBSTACLE_TABLE_HASH': ('CLEARED_OBSTACLE_TABLE_HASH', 0xC49C3AC5),
 
     # v9 renumber/repoint inputs. Derived, never typed: MAP_NUM changes when a map group is
     # reordered, and hard-coding it is the exact mistake sDeletedTwinMaps avoids.

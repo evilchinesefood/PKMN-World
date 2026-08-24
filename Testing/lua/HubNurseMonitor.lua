@@ -8,7 +8,6 @@ local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "HubNurseMonitor")
-F.done = F.finish
 
 local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF
 local LOCALID_NURSE, LOCALID_CHANSEY = 1, 2
@@ -376,7 +375,7 @@ end
 F.run(function()
   if not F.boot(HUB_G) then
     F.check("boot to the hub", false)
-    F.done(); return
+    F.finish(); return
   end
   assertAlive("boot")
   F.check("booted on MAP_REGION_HUB", F.grp() == HUB_G and F.mapn() == HUB_M,
@@ -451,7 +450,7 @@ F.run(function()
     string.format("at (%d,%d) want stand (%d,%d) adjacent=%s", rx, ry, STAND_X, STAND_Y, tostring(adjacent)))
   if not (atStand or adjacent or throughCounter) then
     F.shot("never_reached_nurse")
-    F.done(); return
+    F.finish(); return
   end
   standX, standY = rx, ry
   F.shot("at_stand")
@@ -523,5 +522,5 @@ F.run(function()
   assertAlive("hub")
   F.L(string.format("  RESULT stand=(%d,%d) face=%s healRan=%s kind=%s tileset=%s",
     standX, standY, faceDir, tostring(healRan), hk, tilesetName(tsAfter)))
-  F.done()
+  F.finish()
 end)

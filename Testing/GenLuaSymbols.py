@@ -49,6 +49,9 @@ WANT = [
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
     "gStringVar1",
+    "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
+    "gSpecialVar_Result", "gSpecialVar_0x8004",
+    "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
     # The in-game clock. gLocalTime is recomputed from the RTC inside UpdateTimeOfDay() itself
     # (overworld.c:1857), so it is fresh whenever gTimeOfDay is, and a suite can read both to
     # prove the Johto day/night flags agree with the clock rather than with its own seeding.
@@ -163,7 +166,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   pocketed by ScriptHideFollower stays active at its last tile with
                                                             --   this bit set, so an active-only check reads it as still on the map.
                                                             -- facing: low nibble of the u16 at 0x18 (DIR_SOUTH 1 / NORTH 2 / WEST 3 / EAST 4)
-  SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, @SB1@ },
+  SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, lastHealLocation = 0x1C, @SB1@ },
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768,
                    playerGender = 8, localTimeOffset = 0x98 },

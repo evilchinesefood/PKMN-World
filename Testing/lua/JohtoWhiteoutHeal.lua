@@ -16,7 +16,7 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "JohtoWhiteoutHeal")
 
-local HEAL_OFF = 0x1C
+local HEAL_OFF = S.SaveBlock1.lastHealLocation
 local MAIN_VBLANK_COUNTER1 = 0x20
 local PKMN_SIZE, OFF_HP, OFF_MAXHP = 100, 86, 88
 local BP_STRIDE, BP_HP = 140, 42

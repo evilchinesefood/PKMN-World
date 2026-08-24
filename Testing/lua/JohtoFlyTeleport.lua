@@ -10,7 +10,7 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "JohtoFlyTeleport")
 
-local HEAL_OFF = 0x1C
+local HEAL_OFF = S.SaveBlock1.lastHealLocation
 local MAIN_VBLANK_COUNTER1 = 0x20
 local WARP_ID_NONE = 255
 local REGION_JOHTO = 2
@@ -57,9 +57,9 @@ local CB2_PARTY_INIT   = S.CB2_InitPartyMenu
 local CB2_PARTY_START  = S.CB2_PartyMenuFromStartMenu
 local CB2_FLY_MAP      = S.CB2_FlyMap
 local CB2_OPEN_FLY     = S.CB2_OpenFlyMap
-local ADDR_S_USM_STATE = 0x020378B0
-local ADDR_S_REGION_MAP = 0x020330D8
-local ADDR_S_FLY_MAP    = 0x020330DC
+local ADDR_S_USM_STATE = S.sUsmState
+local ADDR_S_REGION_MAP = S.sRegionMap
+local ADDR_S_FLY_MAP    = S.sFlyMap
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
 

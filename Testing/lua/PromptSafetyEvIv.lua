@@ -31,11 +31,11 @@ local ADDR = {
   Task_AskHardMode              = S.Task_OakSpeech_AskHardMode,
   Task_EvIvChangerHandleInput   = S.Task_EvIvChangerHandleInput,
 }
-local GBAG            = 0x02036F40   -- gBagPosition
-local GSTRINGVAR4     = 0x02036850
-local GSPECIAL_ITEM   = 0x02036F3C   -- gSpecialVar_ItemId
-local SUSMSTATE_PTR   = 0x020378B0   -- sUsmState
-local SFIRSTPRINTER   = 0x02037278   -- sFirstTextPrinter
+local GBAG            = S.gBagPosition
+local GSTRINGVAR4     = S.gStringVar4
+local GSPECIAL_ITEM   = S.gSpecialVar_ItemId
+local SUSMSTATE_PTR   = S.sUsmState
+local SFIRSTPRINTER   = S.sFirstTextPrinter
 
 -- include/constants/items.h: ITEM_GS_BALL=881, then Squirt Bottle..Sky Charm, then these.
 -- Give-item spinner min=1 so the field is 1+100h+10t+o (OlivineHarborBoard.lua).
@@ -46,8 +46,8 @@ local USM_ICO_BAG        = 2
 local PLAYER_OUTFIT_RED, PLAYER_OUTFIT_BLUE = 0, 1
 local VARS_START, VAR_PLAYER_PALETTE = 0x4000, 0x40FC
 local HUB_GROUP = 100
-local TASK_STRIDE, TASK_FUNC, TASK_ACTIVE, TASK_DATA = 40, 0, 4, 8
-local WIN_STRIDE = 12
+local TASK_STRIDE, TASK_FUNC, TASK_ACTIVE, TASK_DATA = S.Task.stride, S.Task.func, S.Task.isActive, S.Task.data
+local WIN_STRIDE = S.Window.stride
 
 -- ---- memory helpers --------------------------------------------------------------------------
 local function cb2() return F.cb2() end

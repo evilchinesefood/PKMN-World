@@ -18,8 +18,8 @@ local BOX_SIZE  = S.BoxPokemon.size
 local DAYCARE_OFF = 0x3434
 local DAYCARE_MON = 140             -- second mon at 0x34C0 = 0x3434+140
 local FLAG_PENDING_EGG = 0x86
-local VAR_RESULT = 0x02001806
-local VAR_8004   = 0x02001816
+local VAR_RESULT = S.gSpecialVar_Result
+local VAR_8004   = S.gSpecialVar_0x8004
 local LOCALID_MAN = 12
 local SPECIES_PIDGEY, SPECIES_DITTO = 16, 132
 local ROW_PARTY_MENU, ROW_SET = 2, 9

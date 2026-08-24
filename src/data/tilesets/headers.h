@@ -1975,7 +1975,7 @@ const struct Tileset gTileset_BlackthornGym =
     .tiles = gTilesetTiles_BlackthornGym,
     .palettes = gTilesetPalettes_BlackthornGym,
     TILESET_METATILES(gMetatiles_BlackthornGym, gMetatileAttributes_BlackthornGym),
-    .callback = InitTilesetAnim_Lavaridge,
+    .callback = NULL,
 };
 
 const struct Tileset gTileset_ssaqua =

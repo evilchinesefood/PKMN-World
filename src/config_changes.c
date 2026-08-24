@@ -21,6 +21,9 @@ const struct ConfigChanges sConfigChanges =
 };
 
 #if TESTING
+// Backing storage for the per-test config overrides. This is deliberately STATIC and not heap
+// allocated -- see TestInitConfigData below for why the heap version could not be made correct.
+static EWRAM_DATA struct ConfigChanges sConfigChangesTestStorage = {0};
 EWRAM_DATA struct ConfigChanges *gConfigChangesTestOverride = NULL;
 #define UNPACK_CONFIG_OVERRIDE_GETTERS(_name, _field, ...)   case CONFIG_##_name: return gConfigChangesTestOverride->_field;
 #define UNPACK_CONFIG_GETTERS(_name, _field, ...) case CONFIG_##_name: return sConfigChanges._field;
@@ -118,13 +121,26 @@ void SetConfig(enum ConfigTag _config, u32 _value)
 #if TESTING
 void TestInitConfigData(void)
 {
-    Free(gConfigChangesTestOverride);
-    gConfigChangesTestOverride = Alloc(sizeof(sConfigChanges));
+    // Points at static storage rather than Alloc()ing, because the heap version had no correct
+    // form. The runner calls InitHeap() on the way into every test (test/test_runner.c) and battle
+    // tests re-enter this once per PARAMETRIZE parameter, so the pointer routinely outlives the
+    // heap it came from:
+    //
+    //   - freeing it in TestFreeConfigData() walks a MemBlock header that InitHeap() has already
+    //     zeroed. That trips AGB_ASSERT(block->magic == MALLOC_SYSTEM_ID) and corrupts the free
+    //     list, killing every test that runs afterwards in that process. In issue #120 that was
+    //     18 tests, all TO_DO ones, each reported only as a bare "CRASH".
+    //   - NOT freeing it instead trips the runner's own leak check
+    //     ("src/config_changes.c: 112 bytes not freed").
+    //
+    // Static storage sidesteps both: nothing to free, nothing to dangle, and the 112 bytes exist
+    // only in the TESTING build.
+    gConfigChangesTestOverride = &sConfigChangesTestStorage;
     memcpy(gConfigChangesTestOverride, &sConfigChanges, sizeof(sConfigChanges));
 }
 
 void TestFreeConfigData(void)
 {
-    FREE_AND_SET_NULL(gConfigChangesTestOverride);
+    gConfigChangesTestOverride = NULL;
 }
 #endif

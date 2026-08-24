@@ -4136,7 +4136,13 @@ static void Cmd_getexp(void)
                 // QoL: remember the level this slot came into the battle on, but only the FIRST
                 // time it levels -- a mon that goes 25 -> 26 -> 27 must still report "25 -> 27".
                 // beforeLvlUp->level is the pre-gain level snapshotted in case 3 above.
-                if (gLevelUpStartLevels[*expMonId] == 0)
+                //
+                // BOUNDS CHECK IS LOAD-BEARING: expGettersOrder is terminated with the sentinel
+                // value PARTY_SIZE (see case 1), so *expMonId can legitimately be 6. Upstream's
+                // own writes here are a bitmask shift, which is harmless at 6; ours is an index
+                // into a u8[PARTY_SIZE], where it is a one-byte overrun that corrupts whatever
+                // follows in BSS. That is what crashed 18 tests after the EXP cases in #120.
+                if (*expMonId < PARTY_SIZE && gLevelUpStartLevels[*expMonId] == 0)
                     gLevelUpStartLevels[*expMonId] = gBattleResources->beforeLvlUp->level;
                 // Silent during the fight; the levels are reported once after it. See the comment
                 // on BattleScript_LevelUpQuiet -- only presentation is skipped, move learning still

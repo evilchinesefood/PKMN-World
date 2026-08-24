@@ -185,7 +185,13 @@ REVIEW_BASELINE = {
     # Radio Tower, Mt. Mortar). Those Johto copies now have dedicated TRAINER_*_JT ids.
     "DUPLICATE-TRAINER": 0,
     "NUMERIC-LOCALID": 0,
-    "SCRIPT-GFX-OUTLIER": 0,
+    # One: EventScript_Whirlpool is deliberately shared by two kinds of object. Each of the 8
+    # whirlpool sites is an OBJ_EVENT_GFX_WHIRLPOOL marker ringed by four invisible
+    # OBJ_EVENT_GFX_ARCHER blockers, and ALL 40 run the same script so the player can trigger the
+    # crossing by bumping any of them -- which is the whole point, since the blockers are what
+    # they actually walk into. 8 markers against 32 blockers reads as an outlier to this check.
+    # Upstream is identical. A SECOND entry here means a script really did get shared by accident.
+    "SCRIPT-GFX-OUTLIER": 1,
     # Nine upstream cutscene actors staged on the tile just inside a door -- the rival at the top
     # of the stairs in Littleroot, Archie and two grunts at the Oceanic Museum landing, Wallace
     # and Birch in the Champions Room. Each is real by this check's definition and harmless in

@@ -410,6 +410,7 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Petrel;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Proton;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Firebreather;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sage;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Whirlpool;
 // Begin Pokémon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Follower;
@@ -836,6 +837,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_PROTON]                   = &gObjectEventGraphicsInfo_Proton,
     [OBJ_EVENT_GFX_FIREBREATHER]             = &gObjectEventGraphicsInfo_Firebreather,
     [OBJ_EVENT_GFX_SAGE]                     = &gObjectEventGraphicsInfo_Sage,
+    [OBJ_EVENT_GFX_WHIRLPOOL]                = &gObjectEventGraphicsInfo_Whirlpool,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

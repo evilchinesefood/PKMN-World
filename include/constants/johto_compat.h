@@ -25,8 +25,6 @@
 #define Common_Movement_WalkDown1      Common_Movement_WalkDown
 
 // === Ecruteak area aliases ===
-// Tin Tower legendary beam descent has no target movement type -> stand still for now
-#define MOVEMENT_TYPE_TOWER_BEAM    MOVEMENT_TYPE_NONE
 
 // === Olivine area aliases ===
 

@@ -168,6 +168,8 @@ MahoganyTown_Gym_Text_ReceivedBadge:
 MahoganyTown_Gym_Text_GlacierBadgeSpeech:
     .string "That BADGE will raise the SPECIAL\n"
     .string "ATTACK of POKéMON.\p"
+    .string "It also lets your POKéMON use\n"
+    .string "WHIRLPOOL to cross swirling water.\p"
     .string "It also marks you as a TRAINER\n"
     .string "whose spirit never melts.\p"
     .string "And this… This is a gift from me!$"

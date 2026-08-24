@@ -436,6 +436,7 @@ enum
     OBJ_EVENT_GFX_PROTON,
     OBJ_EVENT_GFX_FIREBREATHER,
     OBJ_EVENT_GFX_SAGE,
+    OBJ_EVENT_GFX_WHIRLPOOL,
     NUM_OBJ_EVENT_GFX,
 };
 
@@ -610,6 +611,7 @@ enum
 #define OBJ_EVENT_PAL_TAG_ROCKET_4                0x1145
 #define OBJ_EVENT_PAL_TAG_SAGE                    0x1146
 #define OBJ_EVENT_PAL_TAG_LANCE                   0x1147
+#define OBJ_EVENT_PAL_TAG_WHIRLPOOL               0x1149
 
 #if OW_FOLLOWERS_POKEBALLS
 // Vanilla

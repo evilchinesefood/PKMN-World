@@ -476,3 +476,84 @@ Text_MonUsedRockClimb:
 Text_CantRockClimb:
 	.string "The cliff is steep.\n"
 	.string "A Pokémon may be able to climb it.$"
+
+@ Whirlpool (issue #160). Route 41 and Dragon's Den ship 8 whirlpool sites -- a visible marker
+@ ringed by four invisible, solid blockers -- and all 40 objects pointed at Johto_EventScript_Nop,
+@ a silent releaseall+end. MOVEMENT_TYPE_INVISIBLE is a render flag only and elevation 0 collides
+@ at every elevation, so they were permanent invisible walls. They sealed all four Whirl Islands
+@ entrances (Lugia unreachable) and the only warp to the Dragon's Den Shrine.
+@
+@ Deliberately NOT a field move: there is no FIELD_MOVE_WHIRLPOOL, no party-menu entry and no
+@ tool item. Upstream HnS implements it exactly this way -- bump the object, press A, badge check,
+@ slide three tiles -- and its own party-move check is commented out because checkpartymove cannot
+@ reach the 8th HM's learnset bit. The whirlpool is never removed; it is re-crossed every time.
+EventScript_Whirlpool::
+	lockall
+	goto_if_unset FLAG_JOHTO_BADGE_7, EventScript_CantWhirlpool
+	playse SE_M_WHIRLPOOL
+	goto_if_eq VAR_FACING, DIR_NORTH, EventScript_WhirlpoolGoNorth
+	goto_if_eq VAR_FACING, DIR_SOUTH, EventScript_WhirlpoolGoSouth
+	goto_if_eq VAR_FACING, DIR_EAST, EventScript_WhirlpoolGoEast
+	goto_if_eq VAR_FACING, DIR_WEST, EventScript_WhirlpoolGoWest
+	releaseall
+	end
+
+EventScript_WhirlpoolGoNorth::
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_WhirlpoolNorth
+	waitmovement 0
+	releaseall
+	end
+
+EventScript_WhirlpoolGoSouth::
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_WhirlpoolSouth
+	waitmovement 0
+	releaseall
+	end
+
+EventScript_WhirlpoolGoEast::
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_WhirlpoolEast
+	waitmovement 0
+	releaseall
+	end
+
+EventScript_WhirlpoolGoWest::
+	applymovement OBJ_EVENT_ID_PLAYER, Movement_WhirlpoolWest
+	waitmovement 0
+	releaseall
+	end
+
+EventScript_CantWhirlpool::
+	msgbox Text_CantWhirlpool, MSGBOX_DEFAULT
+	closemessage
+	releaseall
+	end
+
+@ Three slide_ steps: two to cross the 2x2 blocker quad, one to land clear on the far side.
+@ applymovement performs no collision check, so the player is walked straight over the blockers.
+Movement_WhirlpoolNorth:
+	slide_up
+	slide_up
+	slide_up
+	step_end
+
+Movement_WhirlpoolSouth:
+	slide_down
+	slide_down
+	slide_down
+	step_end
+
+Movement_WhirlpoolEast:
+	slide_right
+	slide_right
+	slide_right
+	step_end
+
+Movement_WhirlpoolWest:
+	slide_left
+	slide_left
+	slide_left
+	step_end
+
+Text_CantWhirlpool:
+	.string "The water is swirling and spinning\n"
+	.string "around with a mighty roar.$"

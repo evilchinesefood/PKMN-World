@@ -350,6 +350,14 @@ static const struct SpriteFrameImage sPicTable_Teala[] = {
     overworld_ascending_frames(gObjectEventPic_Teala, 2, 4),
 };
 
+static const struct SpriteFrameImage sPicTable_Whirlpool[] = {
+    overworld_frame(gObjectEventPic_Whirlpool, 8, 8, 0),
+    overworld_frame(gObjectEventPic_Whirlpool, 8, 8, 1),
+    overworld_frame(gObjectEventPic_Whirlpool, 8, 8, 2),
+    overworld_frame(gObjectEventPic_Whirlpool, 8, 8, 3),
+    overworld_frame(gObjectEventPic_Whirlpool, 8, 8, 4),
+};
+
 static const struct SpriteFrameImage sPicTable_BreakableRock[] = {
     overworld_ascending_frames(gObjectEventPic_BreakableRock, 2, 2),
 };

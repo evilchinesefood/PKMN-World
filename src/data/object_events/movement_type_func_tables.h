@@ -466,3 +466,12 @@ u8 (*const gMovementTypeFuncs_Invisible[])(struct ObjectEvent *, struct Sprite *
     MovementType_Invisible_Step1,
     MovementType_Invisible_Step2,
 };
+
+// Whirlpool spin (issue #160). Step0 kicks off, 1-3 chain the in-place turns, 4 loops back.
+u8 (*const gMovementTypeFuncs_TowerBeam[])(struct ObjectEvent *, struct Sprite *) = {
+    MovementType_TowerBeam_Step0,
+    MovementType_TowerBeam_Step1,
+    MovementType_TowerBeam_Step2,
+    MovementType_TowerBeam_Step3,
+    MovementType_TowerBeam_Step4,
+};

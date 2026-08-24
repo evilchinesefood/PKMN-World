@@ -350,9 +350,6 @@ static const u32 sClearedObstacleKeys[CLEARED_OBSTACLE_COUNT] =
     0x5E0B09, // group 94, map 11, localId 9
     0x5E0B0A, // group 94, map 11, localId 10
     0x5E0B0B, // group 94, map 11, localId 11
-    // DragonsDen_Cavern
-    0x5E0C17, // group 94, map 12, localId 23
-    0x5E0C18, // group 94, map 12, localId 24
     // DarkCave_NorthSide
     0x5E0F04, // group 94, map 15, localId 4
     0x5E0F05, // group 94, map 15, localId 5

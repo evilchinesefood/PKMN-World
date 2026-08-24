@@ -221,6 +221,8 @@ const u32 gObjectEventPic_BigRegiceDoll[] = INCGFX_U32("graphics/object_events/p
 const u32 gObjectEventPic_BigRegisteelDoll[] = INCGFX_U32("graphics/object_events/pics/dolls/big_registeel_doll.png", ".4bpp");
 const u32 gObjectEventPic_CuttableTree[] = INCGFX_U32("graphics/object_events/pics/misc/cuttable_tree.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u32 gObjectEventPic_BreakableRock[] = INCGFX_U32("graphics/object_events/pics/misc/breakable_rock.png", ".4bpp", "-mwidth 2 -mheight 2");
+// 5 frames of 64x64 (issue #160). The visible art is ~32x32, bottom-aligned in each frame.
+const u32 gObjectEventPic_Whirlpool[] = INCGFX_U32("graphics/object_events/pics/misc/whirlpool.png", ".4bpp", "-mwidth 8 -mheight 8");
 const u32 gObjectEventPic_PushableBoulder[] = INCGFX_U32("graphics/object_events/pics/misc/pushable_boulder.png", ".4bpp");
 const u32 gObjectEventPic_MrBrineysBoat[] = INCGFX_U32("graphics/object_events/pics/misc/mr_brineys_boat.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u32 gObjectEventPic_Fossil[] = INCGFX_U32("graphics/object_events/pics/misc/fossil.png", ".4bpp");
@@ -545,6 +547,7 @@ const u16 gObjectEventPal_Rocket2[] = INCGFX_U16("graphics/object_events/palette
 const u16 gObjectEventPal_Rocket3[] = INCGFX_U16("graphics/object_events/palettes/rocket_3.pal", ".gbapal");
 const u16 gObjectEventPal_Rocket4[] = INCGFX_U16("graphics/object_events/palettes/rocket_4.pal", ".gbapal");
 const u16 gObjectEventPal_Sage[] = INCGFX_U16("graphics/object_events/palettes/sage.pal", ".gbapal");
+const u16 gObjectEventPal_Whirlpool[] = INCGFX_U16("graphics/object_events/palettes/whirlpool.pal", ".gbapal");
 const u16 gObjectEventPal_Lance[] = INCGFX_U16("graphics/object_events/palettes/lance.pal", ".gbapal");
 const u16 gObjectEventPic_LittleBoyFrlg[] = INCGFX_U16("graphics/object_events/pics/people/little_boy_frlg.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_LittleGirlFrlg[] = INCGFX_U16("graphics/object_events/pics/people/little_girl_frlg.png", ".4bpp", "-mwidth 2 -mheight 2");

@@ -775,6 +775,28 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
     UpdateFarawayIslandStepCounter();
     UpdateFollowerStepCounter();
 
+    // Whirlpools draw UNDER the player (issue #160). EventScript_Whirlpool slides the player
+    // straight over the whirlpool tile, and the sprite is 64x64, so without this it covers them
+    // mid-crossing. Ported as-is from upstream.
+    //
+    // The local ids are POSITIONAL -- marker objects at array indices 33-38 on Route 41 and 22-23
+    // in Dragon's Den, i.e. local ids 34-39 and 23-24. Reordering either map's object_events
+    // silently repoints these at the wrong objects.
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE41)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE41))
+    {
+        u32 i;
+
+        for (i = 34; i <= 39; i++)
+            SetObjectSubpriority(i, MAP_NUM(MAP_ROUTE41), MAP_GROUP(MAP_ROUTE41), 99 + 83);
+    }
+    else if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_DRAGONS_DEN_CAVERN)
+          && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_DRAGONS_DEN_CAVERN))
+    {
+        SetObjectSubpriority(23, MAP_NUM(MAP_DRAGONS_DEN_CAVERN), MAP_GROUP(MAP_DRAGONS_DEN_CAVERN), 99 + 83);
+        SetObjectSubpriority(24, MAP_NUM(MAP_DRAGONS_DEN_CAVERN), MAP_GROUP(MAP_DRAGONS_DEN_CAVERN), 99 + 83);
+    }
+
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) && !MetatileBehavior_IsForcedMovementTile(metatileBehavior))
     {
     #if OW_POISON_DAMAGE < GEN_5

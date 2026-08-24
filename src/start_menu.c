@@ -32,6 +32,7 @@
 #include "pokedex.h"
 #include "pokenav.h"
 #include "regions.h"
+#include "bug_contest.h"
 #include "safari_zone.h"
 #include "save.h"
 #include "scanline_effect.h"
@@ -265,6 +266,7 @@ static void AddStartMenuAction(u8 action);
 static void BuildNormalStartMenu(void);
 static void BuildDebugStartMenu(void);
 static void BuildSafariZoneStartMenu(void);
+static void BuildBugContestStartMenu(void);
 static void BuildLinkModeStartMenu(void);
 static void BuildUnionRoomStartMenu(void);
 static void BuildBattlePikeStartMenu(void);
@@ -316,6 +318,10 @@ static void BuildStartMenuActions(void)
     else if (GetSafariZoneFlag() == TRUE)
     {
         BuildSafariZoneStartMenu();
+    }
+    else if (GetBugContestFlag() == TRUE)
+    {
+        BuildBugContestStartMenu();
     }
     else if (InBattlePike())
     {
@@ -391,6 +397,34 @@ static void BuildSafariZoneStartMenu(void)
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
     AddStartMenuAction(MENU_ACTION_PLAYER);
+    AddStartMenuAction(MENU_ACTION_OPTION);
+    AddStartMenuAction(MENU_ACTION_EXIT);
+}
+
+// Same as the normal menu, minus Save. Contest entry writes the held party into
+// SaveBlock1.playerParty, then zeros slots 2-6; a later SavePlayerParty would
+// overwrite that backup with the 1-mon contest party.
+static void BuildBugContestStartMenu(void)
+{
+    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
+        AddStartMenuAction(MENU_ACTION_POKEDEX);
+
+    if (DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET))
+        AddStartMenuAction(MENU_ACTION_DEXNAV);
+
+    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
+        AddStartMenuAction(MENU_ACTION_POKEMON);
+
+    AddStartMenuAction(MENU_ACTION_BAG);
+
+    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
+        AddStartMenuAction(MENU_ACTION_POKENAV);
+
+    AddStartMenuAction(MENU_ACTION_PLAYER);
+#if QUEST_MENU
+    if (FlagGet(FLAG_SYS_QUEST_MENU_GET))
+        AddStartMenuAction(MENU_ACTION_QUEST_MENU);
+#endif
     AddStartMenuAction(MENU_ACTION_OPTION);
     AddStartMenuAction(MENU_ACTION_EXIT);
 }

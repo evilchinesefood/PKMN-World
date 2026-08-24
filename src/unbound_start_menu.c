@@ -50,6 +50,7 @@
 #include "pokedex.h"
 #include "pokenav.h"
 #include "quests.h"
+#include "bug_contest.h"
 #include "safari_zone.h"
 #include "save_dialog.h"
 #include "script.h"
@@ -1003,7 +1004,7 @@ static bool32 Usm_IsItemAvailable(enum Usm_Icons item)
         case USM_ICO_DEXNAV:  return DEXNAV_ENABLED && DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET);
         case USM_ICO_QUESTS:  return QUEST_MENU && FlagGet(FLAG_SYS_QUEST_MENU_GET);
         case USM_ICO_RETIRE:  return Usm_IsPlayerInBattlePyramid() || GetSafariZoneFlag();
-        case USM_ICO_SAVE:    return !GetSafariZoneFlag() && !Usm_IsPlayerInBattlePyramid();
+        case USM_ICO_SAVE:    return !GetSafariZoneFlag() && !GetBugContestFlag() && !Usm_IsPlayerInBattlePyramid();
         case USM_ICO_REST:    return Usm_IsPlayerInBattlePyramid();
         case USM_ICO_DEBUG:   return DEBUG_OVERWORLD_MENU && DEBUG_OVERWORLD_IN_MENU;
         default:              return TRUE;

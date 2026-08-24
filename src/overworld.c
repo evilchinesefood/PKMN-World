@@ -1697,12 +1697,13 @@ static const struct WindowTemplate sAutosaveWindowTemplate = {
 };
 
 // Contexts that must never autosave. Mirrors BuildStartMenuActions' SAVE-hiding branches
-// (link, Union Room, multi partner room, Safari Zone, Battle Pike, Battle Pyramid) and adds:
-// Trainer Hill + live frontier challenges (both own their save mode - SAVE_LINK/special
-// sectors, resumed via challengeStatus on load), Sky Charm flight (same IsPlayerFlying()
-// guardrail as the manual save dialogs), pending region first-visit arrival scenes
-// (VAR_REGION_ARRIVAL, armed while the party-boxing intro hasn't finished), and a
-// different-file save that must go through the manual overwrite confirmation first.
+// (link, Union Room, multi partner room, Safari Zone, Bug Contest, Battle Pike, Battle
+// Pyramid) and adds: Trainer Hill + live frontier challenges (both own their save mode -
+// SAVE_LINK/special sectors, resumed via challengeStatus on load), Sky Charm flight
+// (same IsPlayerFlying() guardrail as the manual save dialogs), pending region
+// first-visit arrival scenes (VAR_REGION_ARRIVAL, armed while the party-boxing intro
+// hasn't finished), and a different-file save that must go through the manual overwrite
+// confirmation first.
 static bool32 IsAutosaveBlocked(void)
 {
     return !gSaveBlock2Ptr->optionsAutosave
@@ -1712,6 +1713,7 @@ static bool32 IsAutosaveBlocked(void)
         || InUnionRoom()
         || InMultiPartnerRoom()
         || GetSafariZoneFlag()
+        || GetBugContestFlag()
         || InBattlePike()
         || InTrainerHill()
         || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE

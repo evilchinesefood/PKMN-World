@@ -18,11 +18,10 @@ FuchsiaCity_House2_EventScript_AlreadyGotGoodRod::
 
 FuchsiaCity_House2_EventScript_GiveGoodRod::
 	msgbox FuchsiaCity_House2_Text_LikeYourStyleTakeThis
-	checkitemspace ITEM_GOOD_ROD
+	giveitem ITEM_GOOD_ROD
 	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_House2_EventScript_NoRoomForGoodRod
-	giveitem_msg FuchsiaCity_House2_Text_ReceivedGoodRod, ITEM_GOOD_ROD
-	msgbox FuchsiaCity_House2_Text_GoodRodCanCatchBetterMons
 	setflag FLAG_GOT_GOOD_ROD
+	msgbox FuchsiaCity_House2_Text_GoodRodCanCatchBetterMons
 	release
 	end
 

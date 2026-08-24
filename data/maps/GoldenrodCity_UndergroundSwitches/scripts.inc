@@ -454,12 +454,12 @@ GoldenrodCity_UndergroundSwitches_EventScript_Grunt20::
 	end
 
 GoldenrodCity_UndergroundSwitches_EventScript_Duncan::
-    trainerbattle_single TRAINER_DUNCAN, GoldenrodUnderground_Text_BurglarDuncanSeen, GoldenrodUnderground_Text_BurglarDuncanBeaten
+    trainerbattle_single TRAINER_DUNCAN_JT, GoldenrodUnderground_Text_BurglarDuncanSeen, GoldenrodUnderground_Text_BurglarDuncanBeaten
 	msgbox GoldenrodUnderground_Text_BurglarDuncanAfter, MSGBOX_AUTOCLOSE
 	end
 
 GoldenrodCity_UndergroundSwitches_EventScript_Eddie::
-    trainerbattle_single TRAINER_EDDIE, GoldenrodUnderground_Text_BurglarEddieSeen, GoldenrodUnderground_Text_BurglarEddieBeaten
+    trainerbattle_single TRAINER_EDDIE_JT, GoldenrodUnderground_Text_BurglarEddieSeen, GoldenrodUnderground_Text_BurglarEddieBeaten
 	msgbox GoldenrodUnderground_Text_BurglarEddieAfter, MSGBOX_AUTOCLOSE
 	end
 

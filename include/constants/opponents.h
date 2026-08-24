@@ -1186,7 +1186,31 @@
 #define TRAINER_RONALD_JT                         1770   // MahoganyTown_Gym
 #define TRAINER_DOUGLAS_JT                        1771   // MahoganyTown_Gym
 #define TRAINER_CLARISSA_JT                       1772   // MahoganyTown_Gym
-#define JOHTO_EXT_TRAINERS_COUNT           46
+// Johto copies of the remaining 21 shared ids (ValidateMapEvents DUPLICATE-TRAINER).
+// ALBERT_JT / EDGAR_JT / SAMUEL_JT already name Route 32/44/34, so the Victory Road
+// copies (a parked Hoenn roster) take _VR_JT. Felix/Dianne were wired to NORMAN/KENJI.
+#define TRAINER_EDGAR_VR_JT                       1773   // JohtoVictoryRoad_1F
+#define TRAINER_ALBERT_VR_JT                      1774   // JohtoVictoryRoad_1F
+#define TRAINER_HOPE_JT                           1775   // JohtoVictoryRoad_1F
+#define TRAINER_QUINCY_JT                         1776   // JohtoVictoryRoad_1F
+#define TRAINER_KATELYNN_JT                       1777   // JohtoVictoryRoad_1F
+#define TRAINER_SAMUEL_VR_JT                      1778   // JohtoVictoryRoad_B1F
+#define TRAINER_SHANNON_JT                        1779   // JohtoVictoryRoad_B1F
+#define TRAINER_MICHELLE_JT                       1780   // JohtoVictoryRoad_B1F
+#define TRAINER_MITCHELL_JT                       1781   // JohtoVictoryRoad_B1F
+#define TRAINER_VITO_JT                           1782   // JohtoVictoryRoad_B2F
+#define TRAINER_OWEN_JT                           1783   // JohtoVictoryRoad_B2F
+#define TRAINER_CAROLINE_JT                       1784   // JohtoVictoryRoad_B2F
+#define TRAINER_JULIE_JT                          1785   // JohtoVictoryRoad_B2F
+#define TRAINER_FELIX_JT                          1786   // JohtoVictoryRoad_B2F
+#define TRAINER_DIANNE_JT                         1787   // JohtoVictoryRoad_B2F
+#define TRAINER_DONALD_JT                         1788   // GoldenrodCity_UndergroundTunnel
+#define TRAINER_ERIC_JT                           1789   // GoldenrodCity_UndergroundTunnel
+#define TRAINER_DUNCAN_JT                         1790   // GoldenrodCity_UndergroundSwitches
+#define TRAINER_EDDIE_JT                          1791   // GoldenrodCity_UndergroundSwitches
+#define TRAINER_MARC_JT                           1792   // GoldenrodCity_RadioTower_3F
+#define TRAINER_HUGH_JT                           1793   // MtMortar_2F
+#define JOHTO_EXT_TRAINERS_COUNT           67
 #else
 // Vanilla/FRLG builds: no Johto bank, keep the previous shared Hoenn ids.
 #define JOHTO_EXT_TRAINER_ID_OFFSET        TRAINERS_COUNT_HOENN_JOHTO
@@ -1236,11 +1260,32 @@
 #define TRAINER_RONALD_JT                         TRAINER_RONALD
 #define TRAINER_DOUGLAS_JT                        TRAINER_DOUGLAS
 #define TRAINER_CLARISSA_JT                       TRAINER_CLARISSA
+#define TRAINER_EDGAR_VR_JT                       TRAINER_EDGAR
+#define TRAINER_ALBERT_VR_JT                      TRAINER_ALBERT
+#define TRAINER_HOPE_JT                           TRAINER_HOPE
+#define TRAINER_QUINCY_JT                         TRAINER_QUINCY
+#define TRAINER_KATELYNN_JT                       TRAINER_KATELYNN
+#define TRAINER_SAMUEL_VR_JT                      TRAINER_SAMUEL
+#define TRAINER_SHANNON_JT                        TRAINER_SHANNON
+#define TRAINER_MICHELLE_JT                       TRAINER_MICHELLE
+#define TRAINER_MITCHELL_JT                       TRAINER_MITCHELL
+#define TRAINER_VITO_JT                           TRAINER_VITO
+#define TRAINER_OWEN_JT                           TRAINER_OWEN
+#define TRAINER_CAROLINE_JT                       TRAINER_CAROLINE
+#define TRAINER_JULIE_JT                          TRAINER_JULIE
+#define TRAINER_FELIX_JT                          TRAINER_FELIX
+#define TRAINER_DIANNE_JT                         TRAINER_DIANNE
+#define TRAINER_DONALD_JT                         TRAINER_DONALD
+#define TRAINER_ERIC_JT                           TRAINER_ERIC
+#define TRAINER_DUNCAN_JT                         TRAINER_DUNCAN
+#define TRAINER_EDDIE_JT                          TRAINER_EDDIE
+#define TRAINER_MARC_JT                           TRAINER_MARC
+#define TRAINER_HUGH_JT                           TRAINER_HUGH
 #define JOHTO_EXT_TRAINERS_COUNT           0
 #endif
 
 #if ALL_REGIONS
-#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1765
+#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1794
 #else
 #define TRAINERS_COUNT_EMERALD     TRAINERS_COUNT_HOENN_JOHTO
 #endif

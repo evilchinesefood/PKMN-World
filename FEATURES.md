@@ -51,10 +51,10 @@ Elite Four, Champion and Hall of Fame, and you choose the order.
 - **Johto** — ported in: **251 maps** with tilesets and scripts, **312 distinct trainers**,
   wild-encounter tables, the Johto town map with Fly and heal locations, rival **GARY** again, and
   the Johto League (Will / Koga / Bruno / Karen → **Champion Lance**) with HGSS-style portrait art
-  for the eight gym leaders, the Elite Four and Lance. 46 route and dungeon trainers that used to
-  share a Hoenn trainer's ID — and therefore its party and its defeat flag — were moved onto their
-  own ID bank in save format v9, and now run their authentic GSC parties. Post-game: **Red at Mt.
-  Silver**, the roaming beasts, the **Celebi** GS Ball chain, the **Ruins of Alph** puzzles, the
+  for the eight gym leaders, the Elite Four and Lance. 67 trainers that used to share a Hoenn
+  trainer's ID — and therefore its party and its defeat flag — were moved onto their own ID bank
+  in save format v9; route, dungeon and gym copies run authentic GSC parties. Post-game: **Red at
+  Mt. Silver**, the roaming beasts, the **Celebi** GS Ball chain, the **Ruins of Alph** puzzles, the
   National Park **Bug-Catching Contest**, and the Ho-Oh / Lugia events.
 - **Hoenn** — the native Emerald campaign, plus the **Battle Frontier** as the shared post-game
   facility. It's reachable from the hub once you've cleared at least one region's league.

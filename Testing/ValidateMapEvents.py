@@ -181,11 +181,9 @@ PLAYER_IS_ZERO = True
 # passes, but adding one fails. Lower these as they get triaged; never raise one without saying
 # why in the commit.
 REVIEW_BASELINE = {
-    # Johto maps reusing Hoenn trainer ids: the two Victory Roads share most of their roster.
-    # The eight gym trainers that reused a Hoenn id (Azalea Benny/Josh, Goldenrod
-    # Bridget/Victoria/Samantha, Mahogany Ronald/Douglas/Clarissa) were repointed to dedicated
-    # TRAINER_*_JT ids with authentic GSC parties, which is what took this from 28 to 21.
-    "DUPLICATE-TRAINER": 21,
+    # Was 21: Johto maps reusing Hoenn trainer ids (Victory Road, Goldenrod Underground,
+    # Radio Tower, Mt. Mortar). Those Johto copies now have dedicated TRAINER_*_JT ids.
+    "DUPLICATE-TRAINER": 0,
     "NUMERIC-LOCALID": 0,
     "SCRIPT-GFX-OUTLIER": 0,
     # Nine upstream cutscene actors staged on the tile just inside a door -- the rival at the top

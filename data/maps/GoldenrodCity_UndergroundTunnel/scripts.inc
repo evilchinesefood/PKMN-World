@@ -124,7 +124,7 @@ GoldenrodCity_UndergroundTunnel_Text_Kimono2:
 	.string "I must go now.$"
 
 GoldenrodUnderground_EventScript_Eric::
-	trainerbattle_single TRAINER_ERIC GoldenrodUnderground_Text_SupernerdEricSeen, GoldenrodUnderground_Text_SupernerdEricBeaten
+	trainerbattle_single TRAINER_ERIC_JT GoldenrodUnderground_Text_SupernerdEricSeen, GoldenrodUnderground_Text_SupernerdEricBeaten
 	msgbox GoldenrodUnderground_Text_SupernerdEricAfterBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -139,7 +139,7 @@ GoldenrodUnderground_EventScript_Issac::
 	end
 
 GoldenrodUnderground_EventScript_Donald::
-	trainerbattle_single TRAINER_DONALD GoldenrodUnderground_Text_PokemaniacDonaldSeen, GoldenrodUnderground_Text_PokemaniacDonaldBeaten
+	trainerbattle_single TRAINER_DONALD_JT GoldenrodUnderground_Text_PokemaniacDonaldSeen, GoldenrodUnderground_Text_PokemaniacDonaldBeaten
 	msgbox GoldenrodUnderground_Text_PokemaniacDonaldAfterBattle, MSGBOX_AUTOCLOSE
 	end
 

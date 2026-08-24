@@ -299,13 +299,19 @@ on:
 
 - **DexNav** — granted with each region's Pokédex; the hidden-Pokémon detector unlocks with your
   first championship. Hidden encounters are authored for **every land encounter table** in the
-  three regions (400 of the 411 tables; the 11 without are Battle Pyramid and Battle Pike rooms),
+  three regions (405 of the 416 tables; the 11 without are Battle Pyramid and Battle Pike rooms),
   skewing rarer and slightly higher-level than the local grass.
 - **Visible overworld encounters** run *alongside* vanilla random grass encounters — both fire on
   the same map by design.
 - **Each region's starters are catchable** on its first route at roughly 10% each — Route 101,
   Route 1 and Route 29 — so the two you didn't pick are obtainable.
 - **Cut trees and smashed rocks stay gone** when you leave and re-enter a map.
+- **Encounter tables are flat** — every Pokémon is catchable at any hour. Time of day still drives
+  the lighting and which Pokémon walk the overworld; it does not gate what the grass gives you.
+- **Whirlpool** clears the whirlpools on Route 41 and in the Dragon's Den, opening the Whirl
+  Islands (and Lugia) and the Dragon's Den Shrine. It is gated on the **Glacier Badge** and works
+  by walking into the whirlpool rather than from the party menu — the whirlpool stays put and is
+  crossed again each time, as in HG/SS.
 - **Kanto VS Seeker** — rematches from **85 trainer groups**, with teams that escalate as you earn
   badges. The Kanto offer state lives in EWRAM rather than the save, so offers don't survive
   saving and quitting; recharge the Seeker after reloading. Hoenn keeps Match Call, whose offers

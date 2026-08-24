@@ -5,6 +5,10 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+_Nothing yet._
+
+## v1.5 — 2026-08-24
+
 > **Save format is now v9** (from v1.4's v7). v1.4 saves migrate forward
 > automatically on load — v8 for the reworked Pokémon Center 1F layouts, v9
 > for the Johto work below. Saves from v1.3.6 or earlier are still refused —
@@ -142,6 +146,55 @@ All notable player-facing changes. For the full feature reference see
   nothing either, so ~800 lines of visibility bookkeeping were inert (it
   never showed, because the spawn doesn't read those flags). *If you saved
   inside the gym, the old sprites stay until you step out and back in.*
+
+- **Whirlpool works, and Lugia is reachable** (#160). Route 41 and the
+  Dragon's Den shipped eight whirlpool sites — a marker ringed by four
+  invisible, solid blockers — and every one of the forty objects ran a
+  silent do-nothing script. They were permanent walls, not obstacles:
+  flagging an object invisible only stops it *drawing*, and at the
+  elevation these used it collides at every height. A flood fill of the
+  cavern's own collision data puts the damage at 393 sealed tiles. Between
+  them they closed all four Whirl Islands entrances — the only way to
+  **Lugia** — and the only door to the **Dragon's Den Shrine**.
+
+  Whirlpool is now a real crossing: walk into one with the **Glacier Badge**
+  and your Pokémon carries you over. It is deliberately not a party-menu
+  field move; it is the obstacle itself that responds, which is how HG/SS
+  does it. The whirlpool stays where it is and is re-crossed every time.
+  Dragon's Den's two "breakable rocks" were never rocks — they were these,
+  wearing the wrong sprite, which is why Rock Smash never did anything to
+  them.
+
+- **Wild encounters are flat: every Pokémon is catchable at any hour**
+  (#110). Day/night encounter tables are gone by design. The clock still
+  changes how the world *looks* and which Pokémon wander the overworld — it
+  no longer decides what the grass will give you.
+
+  Two species come back from the dead on the way. **Roselia** existed in
+  exactly one slot in the entire game, at 5%, in a table the game never
+  read — so Roselia, **Budew** and **Roserade** were all unobtainable.
+  Roselia now grows on Route 123 at any hour. Budew needed one more thing:
+  its only route is breeding with a **Rose Incense**, and that item was
+  never placed anywhere in the world. It is now sold in the Goldenrod
+  Department Store, next door to the Day Care it serves.
+
+- **Johto's music pass is finished** (#173). Cycling and surfing play
+  Johto's own themes instead of falling through to Hoenn's. Trainers who
+  spot you in Johto get HG/SS approach jingles rather than Hoenn ones. The
+  Radio Tower plays the Rocket occupation theme while Rocket holds it,
+  matching the city outside instead of reverting to the peacetime theme the
+  moment you walk in. Lance's prize money was double Blue's for the same
+  job; it is now the same.
+
+  One real regression is fixed with it: repointing Johto's map music in the
+  previous pass silently killed your **follower's reactions** in every Johto
+  mart and in Victory Road, because those lines are keyed to the music id.
+
+- **Followers notice the outdoors.** Grass- and Bug-type followers now have
+  something to say about fresh air.
+
+- **The Day Care flowers move.** Route 34's Day Care and the Goldenrod
+  Flower Shop shipped flower animation frames that nothing ever played.
 
 ### Fixes
 
@@ -301,6 +354,34 @@ All notable player-facing changes. For the full feature reference see
 - **EV/IV Changer**: START also flips the EVs/IVs page (shoulder buttons
   still work).
 
+- **Nine Johto berry trees shared save slots with nine others** (#163).
+  Two trees on different routes wrote the same entry in your save, so
+  harvesting Azalea's Leppa emptied Route 43's, Route 31's Rawst emptied
+  Route 38's, and so on for all nine pairs. Each tree now owns its slot.
+  The symptom was invisible until someone harvested, which is exactly how
+  it survived the pass that was supposed to have fixed it.
+
+  On an existing save the nine become bare plantable spots rather than
+  pre-grown trees. Nothing else changes.
+
+- **185 floating girls and twelve invisible walls removed** (#123). The
+  decoration markers left over from the Johto port had been hidden behind a
+  flag rather than deleted, so any save made before that flag existed still
+  showed all 185 of them standing in the air. They are gone from the map
+  data now, so no save can show them.
+
+  The twelve walls were the fix for a previous eyesore: nine stationary
+  Rayquaza on the Tin Tower floors and three more in Sprout Tower had been
+  made invisible — which stops them drawing but not colliding, leaving an
+  invisible wall on the centre tile of every floor. They carried no script
+  and no behaviour, so they are deleted outright.
+
+- **Every previously-cut tree and smashed rock regrows once.** The two
+  changes above shift entries in the cleared-obstacle table, which is
+  bound to your save by a hash. On a mismatch the game clears the bits and
+  re-stamps them, so obstacles come back exactly once rather than drifting
+  silently out of step. This is the designed behaviour, not a bug.
+
 ### Developer & tooling
 
 - **macOS support** (#64): the build, the pre-push gate, and the Lua
@@ -371,6 +452,41 @@ All notable player-facing changes. For the full feature reference see
   unreachable dead content (its quest state is never set, and its prompts
   name areas the shipped Fuchsia safari doesn't have), and the `chooseitem`
   macro has had no callers since the Ice Path berry puzzle was reworked.
+
+- **Caught up with upstream pokeemerald-expansion** (#120). This tree was
+  further behind than its own version header claimed: it read 1.16.2 while
+  actually sitting on upstream master from 2026-06-25, seventeen commits
+  *before* 1.16.2 was tagged, with about twenty later PRs replayed on top
+  in no particular order. The base was established by matching file
+  contents against 133 upstream commits rather than by trusting the header,
+  and the tree is now merged up to upstream master of 2026-08-23 — 193
+  commits, past their 1.16.3 release. The header now records the exact
+  upstream commit and date, so the next reader can diff against a real
+  point in history.
+
+  Five of the eight known hazards in that merge produce no conflict marker
+  and are wrong by default — a "keep ours" resolution would have silently
+  reverted an upstream fix, and one of ours would have printed the wrong
+  rival's name in a Kanto tutorial. Each was resolved deliberately. Two new
+  battle options that arrived switched on are pinned to preserve current
+  behaviour, so changing them stays a visible decision rather than a side
+  effect of the merge.
+
+  It also fixes a Lua suite that had been red on master for some time:
+  the Johto Victory Road tileset check, which the merge repairs without
+  being aimed at it.
+
+- **A test-suite heap bug that reported as eighteen unrelated failures**
+  (#120). One dangling free corrupted the heap in a single test-runner
+  process, and every test that landed on that process afterwards died
+  reporting only "CRASH". The count moved around whenever an unrelated test
+  was touched, because that reshuffled which tests were unlucky. The free
+  is gone; the test suite is clean.
+
+- **A berry-slot suite that actually discriminates.** The new
+  `JohtoBerrySlots` check reads the save's berry-tree bank directly and
+  was verified to fail on a build without its fix — 22/22 fixed, 12/22
+  unfixed — because a suite that passes either way proves nothing.
 
 ## v1.4 — 2026-07-27
 

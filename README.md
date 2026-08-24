@@ -56,8 +56,8 @@ ROM, and the emulator suites can't run there.
 
 ## Status
 
-**Last tagged release: v1.4** (2026-07-27). `master` is well ahead of it — see the *Unreleased*
-section of the [changelog](CHANGELOG.md) for what has landed since, most notably:
+**Last tagged release: v1.5** (2026-08-24). See the [changelog](CHANGELOG.md) for the full
+entry; the headline items since v1.4:
 
 - The link-era features (Mystery Gift/Event, Union Room, record mixing, Cable Club) and the
   never-populated quest engine are **compiled out**.
@@ -67,6 +67,13 @@ section of the [changelog](CHANGELOG.md) for what has landed since, most notably
   your team intact.
 - A long run of Johto script, trainer-data and save-migration fixes. The save format is now
   **v9**; v7 and v8 saves migrate forward, anything older is refused at load with an explanation.
+- **Whirlpool is implemented**, which unseals **Lugia** and the **Dragon's Den Shrine** — both
+  were unreachable in every save, walled off by invisible blockers that no move could clear.
+- **Wild encounters are flat**: every Pokémon is catchable at any hour. The clock still changes
+  the light and which Pokémon roam the overworld, but no longer gates the grass.
+- Johto's **music pass is finished** — its own cycling, surfing and trainer-approach themes, and
+  the Radio Tower plays the occupation theme while Rocket holds it.
+- Caught up with **upstream pokeemerald-expansion** (merged to their master of 2026-08-23).
 
 All three campaigns are playable end to end, including each region's post-game. What's left is a
 **full-length human playthrough** of all three for story pacing and balance — the Battle Net in

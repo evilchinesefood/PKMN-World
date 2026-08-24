@@ -139,18 +139,26 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
         .textSpread = 1,
         .script = EventScript_FollowerLookAround,
         .emotion = FOLLOWER_EMOTION_NEUTRAL,
+        // Johto's 14 mart maps play MUS_HG_POKE_MART after the #172 repoint, so matching only the
+        // Hoenn id silently killed this reaction across the whole region. orFlag makes the two
+        // music ids alternatives rather than an impossible both-at-once requirement.
+        .orFlag = 1,
         .conditions =
         {
-            MATCH_MUSIC(MUS_POKE_MART)
+            MATCH_MUSIC(MUS_POKE_MART),
+            MATCH_MUSIC(MUS_HG_POKE_MART),
         },
     },
     [COND_MSG_VICTORY_ROAD] =
     {
         .text = sCondMsg11,
         .emotion = FOLLOWER_EMOTION_PENSIVE,
+        // Same repoint: Johto Victory Road's 3 maps play MUS_HG_VICTORY_ROAD.
+        .orFlag = 1,
         .conditions =
         {
-            MATCH_MUSIC(MUS_VICTORY_ROAD)
+            MATCH_MUSIC(MUS_VICTORY_ROAD),
+            MATCH_MUSIC(MUS_HG_VICTORY_ROAD),
         },
     },
     [COND_MSG_BIKE_SHOP] =

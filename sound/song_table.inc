@@ -676,6 +676,17 @@ gSongTable::
 	song mus_hg_vs_rocket, MUSIC_PLAYER_BGM, 0
 	song mus_hg_vs_trainer, MUSIC_PLAYER_BGM, 0
 	song mus_hg_vs_wild, MUSIC_PLAYER_BGM, 0
+	song mus_hg_cycling, MUSIC_PLAYER_BGM, 0
+	song mus_hg_surf, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_boy_1, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_boy_2, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_girl_1, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_girl_2, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_suspicious_1, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_suspicious_2, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_sage, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_kimono_girl, MUSIC_PLAYER_BGM, 0
+	song mus_hg_encounter_rocket, MUSIC_PLAYER_BGM, 0
 
 	.align 2
 dummy_song_header:

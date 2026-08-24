@@ -1298,8 +1298,9 @@ void GetOnOffBike(u8 transitionFlags)
     {
         EndORASDowsing();
         SetPlayerAvatarTransitionFlags(transitionFlags);
-        Overworld_SetSavedMusic((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : MUS_CYCLING);
-        Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : MUS_CYCLING);
+        // Johto fell through to Hoenn's MUS_CYCLING: the gate was Kanto-only (issue #173).
+        Overworld_SetSavedMusic((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_CYCLING : MUS_CYCLING);
+        Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_CYCLING : MUS_CYCLING);
     }
 }
 

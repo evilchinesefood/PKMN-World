@@ -1810,6 +1810,40 @@ void PlayTrainerEncounterMusic(void)
     if (TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
         && TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
     {
+        // Region branch for the approach jingle. Every arm below returns a Hoenn MUS_ENCOUNTER_*,
+        // so Johto trainers walked up to Hoenn music (issue #173).
+        //
+        // This is a per-CLASS branch rather than new per-trainer ids on purpose: encounterMusic is
+        // a 4-bit bitfield (include/data.h:134), the existing ids already run 0..13, and only 14
+        // and 15 are left -- nowhere near enough for the nine HG jingles. Upstream HnS does add
+        // ids, but it also repoints its id 12 (SILVER), which in THIS tree is INTERVIEWER.
+        //
+        // Classes with no sensible HG counterpart fall through and keep their Hoenn track.
+        if (GetCurrentRegion() == REGION_JOHTO)
+        {
+            switch (GetTrainerEncounterMusicId(trainerId))
+            {
+            case TRAINER_ENCOUNTER_MUSIC_MALE:
+                PlayNewMapMusic(MUS_HG_ENCOUNTER_BOY_1);
+                return;
+            case TRAINER_ENCOUNTER_MUSIC_FEMALE:
+                PlayNewMapMusic(MUS_HG_ENCOUNTER_GIRL_1);
+                return;
+            case TRAINER_ENCOUNTER_MUSIC_GIRL:
+                PlayNewMapMusic(MUS_HG_ENCOUNTER_GIRL_2);
+                return;
+            case TRAINER_ENCOUNTER_MUSIC_COOL:
+                PlayNewMapMusic(MUS_HG_ENCOUNTER_BOY_2);
+                return;
+            case TRAINER_ENCOUNTER_MUSIC_SUSPICIOUS:
+                PlayNewMapMusic(MUS_HG_ENCOUNTER_SUSPICIOUS_1);
+                return;
+            case TRAINER_ENCOUNTER_MUSIC_INTENSE:
+                PlayNewMapMusic(MUS_HG_ENCOUNTER_SUSPICIOUS_2);
+                return;
+            }
+        }
+
         switch (GetTrainerEncounterMusicId(trainerId))
         {
         case TRAINER_ENCOUNTER_MUSIC_MALE:

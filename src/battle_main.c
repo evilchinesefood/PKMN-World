@@ -446,7 +446,9 @@ const struct TrainerClass gTrainerClasses[TRAINER_CLASS_COUNT] =
     [TRAINER_CLASS_LADY_FRLG] =            { _("LADY"), 50, BALL_LUXURY },
     [TRAINER_CLASS_PAINTER_FRLG] =         { _("PAINTER"), 4 },
     [TRAINER_CLASS_LEADER_JOHTO] =         { _("LEADER"), 25, B_TRAINER_CLASS_POKE_BALLS >= GEN_8 ? BALL_ULTRA : BALL_POKE },
-    [TRAINER_CLASS_CHAMPION_JOHTO] =       { _("CHAMPION"), 50, BALL_ULTRA },
+    // 25, matching TRAINER_CLASS_CHAMPION_FRLG. Payout is 4 * level * multiplier * money, so the
+    // inherited Hoenn 50 made Lance pay exactly twice what Blue does at equal level (issue #173).
+    [TRAINER_CLASS_CHAMPION_JOHTO] =       { _("CHAMPION"), 25, BALL_ULTRA },
     [TRAINER_CLASS_ELITE_FOUR_JOHTO] =     { _("ELITE FOUR"), 25, BALL_ULTRA },
     [TRAINER_CLASS_RIVAL_JOHTO] =          { _("{PKMN} TRAINER"), 15 },
 };

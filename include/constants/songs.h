@@ -606,6 +606,20 @@
 #define MUS_HG_VS_TRAINER           667
 #define MUS_HG_VS_WILD              668
 
+// Imported from HnS upstream for issue #173. Ids continue the HG block; the song table is
+// positional, so sound/song_table.inc must list these in exactly this order.
+#define MUS_HG_CYCLING              669
+#define MUS_HG_SURF                 670
+#define MUS_HG_ENCOUNTER_BOY_1      671
+#define MUS_HG_ENCOUNTER_BOY_2      672
+#define MUS_HG_ENCOUNTER_GIRL_1     673
+#define MUS_HG_ENCOUNTER_GIRL_2     674
+#define MUS_HG_ENCOUNTER_SUSPICIOUS_1 675
+#define MUS_HG_ENCOUNTER_SUSPICIOUS_2 676
+#define MUS_HG_ENCOUNTER_SAGE       677
+#define MUS_HG_ENCOUNTER_KIMONO_GIRL 678
+#define MUS_HG_ENCOUNTER_ROCKET     679
+
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 
 #define MUS_NONE                    0xFFFF

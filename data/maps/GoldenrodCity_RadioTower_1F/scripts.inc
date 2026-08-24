@@ -3,7 +3,24 @@
 .set LOCALID_GOLDENROD_LOTTERY_CLERK, 2
 
 GoldenrodCity_RadioTower_1F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, GoldenrodCity_RadioTower_1F_OnTransition
 	.byte 0
+
+@ Rocket occupation theme. GoldenrodCity's own coord_events already switch the CITY to
+@ MUS_HG_ROCKET_TAKEOVER for VAR_GOLDENROD_CITY_STATE in [6,11), but the tower floors kept the
+@ plain MUS_HG_GOLDENROD header music throughout the takeover -- so walking into the occupied
+@ building made the music revert to the peacetime city theme (issue #173).
+@
+@ Same state window as GoldenrodCity_Trigger_Music, so the two agree at every point in the story
+@ and both stop at state 11, which is where RadioTower_5F's post-fight playbgm restores the city
+@ theme. savebgm in ON_TRANSITION is the idiomatic override here (cf. CinnabarIsland_Frlg).
+GoldenrodCity_RadioTower_1F_OnTransition::
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 6, GoldenrodCity_RadioTower_1F_NoTakeoverMusic
+	goto_if_ge VAR_GOLDENROD_CITY_STATE, 11, GoldenrodCity_RadioTower_1F_NoTakeoverMusic
+	savebgm MUS_HG_ROCKET_TAKEOVER
+GoldenrodCity_RadioTower_1F_NoTakeoverMusic::
+	end
+
 
 RadioTower1F_EventScript_Grunt::
 	lock

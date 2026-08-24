@@ -1,5 +1,14 @@
 GoldenrodCity_RadioTower_2F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, GoldenrodCity_RadioTower_2F_OnTransition
 	.byte 0
+
+GoldenrodCity_RadioTower_2F_OnTransition::
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 6, GoldenrodCity_RadioTower_2F_NoTakeoverMusic
+	goto_if_ge VAR_GOLDENROD_CITY_STATE, 11, GoldenrodCity_RadioTower_2F_NoTakeoverMusic
+	savebgm MUS_HG_ROCKET_TAKEOVER
+GoldenrodCity_RadioTower_2F_NoTakeoverMusic::
+	end
+
 
 GoldenrodRaidoTower2_EventScript_Grunt3::
 	trainerbattle_single TRAINER_GRUNT_3 GoldenrodCity_RadioTower_2F_Text_GruntM4Seen, GoldenrodCity_RadioTower_2F_Text_GruntM4Beaten

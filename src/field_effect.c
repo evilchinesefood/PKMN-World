@@ -3369,7 +3369,7 @@ u8 FldEff_UseSurf(void)
     u8 taskId = CreateTask(Task_SurfFieldEffect, 0xff);
     gTasks[taskId].tMonId = gFieldEffectArguments[0];
     Overworld_ClearSavedMusic();
-    Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : MUS_SURF);
+    Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_SURF : MUS_SURF);
     return FALSE;
 }
 

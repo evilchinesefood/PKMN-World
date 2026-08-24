@@ -1332,7 +1332,7 @@ void Overworld_PlaySpecialMapMusic(void)
         else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
             music = MUS_UNDERWATER;
         else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-            music = ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : MUS_SURF);
+            music = ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_SURF : MUS_SURF);
     }
 
     // Also restart when the BGM player was left paused (e.g. a fanfare whose
@@ -1367,10 +1367,10 @@ static void TransitionMapMusic(void)
         u16 currentMusic = GetCurrentMapMusic();
         if (newMusic != MUS_ABNORMAL_WEATHER && newMusic != MUS_NONE)
         {
-            if (currentMusic == MUS_UNDERWATER || currentMusic == ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : MUS_SURF))
+            if (currentMusic == MUS_UNDERWATER || currentMusic == ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_SURF : MUS_SURF))
                 return;
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-                newMusic = ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : MUS_SURF);
+                newMusic = ((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_SURF : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_SURF : MUS_SURF);
         }
         if (newMusic != currentMusic || IsBGMPausedOrStopped())
         {

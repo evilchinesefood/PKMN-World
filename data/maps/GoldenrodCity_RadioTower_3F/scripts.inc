@@ -1,6 +1,15 @@
 GoldenrodCity_RadioTower_3F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, GoldenrodCity_RadioTower_3F_OnTransition
 	map_script MAP_SCRIPT_ON_LOAD, GoldenrodCity_RadioTower_3F_OnLoad
 	.byte 0
+
+GoldenrodCity_RadioTower_3F_OnTransition::
+	goto_if_lt VAR_GOLDENROD_CITY_STATE, 6, GoldenrodCity_RadioTower_3F_NoTakeoverMusic
+	goto_if_ge VAR_GOLDENROD_CITY_STATE, 11, GoldenrodCity_RadioTower_3F_NoTakeoverMusic
+	savebgm MUS_HG_ROCKET_TAKEOVER
+GoldenrodCity_RadioTower_3F_NoTakeoverMusic::
+	end
+
 
 GoldenrodCity_RadioTower_3F_OnLoad::
 	call_if_set FLAG_HIDE_RADIOTOWER_GATE, GoldenrodCity_RadioTower_3F_HideGate

@@ -20447,6 +20447,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .moveEffect = MOVE_EFFECT_TERA_BLAST,
             .self = TRUE,
         }),
+        .metronomeBanned = TRUE,
         .battleAnimScript = gBattleAnimMove_TeraBlast,
     },
 
@@ -21714,6 +21715,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .copycatBanned = TRUE,
         .mimicBanned = TRUE,
         .sketchBanned = (B_SKETCH_BANS >= GEN_9),
+        .metronomeBanned = TRUE,
         .battleAnimScript = gBattleAnimMove_TeraStarstorm,
     },
 

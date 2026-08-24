@@ -86,3 +86,9 @@ DOUBLE_BATTLE_TEST("Metronome's called spread move does not hit the user's partn
         EXPECT_LT(opponentRight->hp, opponentRight->maxHP);
     }
 }
+
+TEST("Tera Blast and Tera Starstorm are invalid Metronome moves")
+{
+    EXPECT(IsMoveMetronomeBanned(MOVE_TERA_BLAST));
+    EXPECT(IsMoveMetronomeBanned(MOVE_TERA_STARSTORM));
+}

@@ -778,6 +778,11 @@ static void AnimAuroraBeamRings_Step(struct Sprite *sprite)
 // Updates the palette on the rainbow rings used in Aurora Beam to make them appear to be rotating counterclockwise
 void AnimTask_RotateAuroraRingColors(u8 taskId)
 {
+    if (!TryLoadPal(ANIM_TAG_RAINBOW_RINGS))
+    {
+        DestroyAnimVisualTask(taskId);
+        return;
+    }
     gTasks[taskId].data[0] = gBattleAnimArgs[0];
     gTasks[taskId].data[2] = OBJ_PLTT_ID(IndexOfSpritePaletteTag(ANIM_TAG_RAINBOW_RINGS));
     gTasks[taskId].func = AnimTask_RotateAuroraRingColors_Step;
@@ -1852,7 +1857,6 @@ static void CreateWaterPulseRingBubbles(struct Sprite *sprite, int xDiff, int yD
     s16 combinedY;
     s16 i;
     s16 something;
-    s16 unusedVar = 1; //unusedVar is needed to match
     s16 randomSomethingY;
     s16 randomSomethingX;
     u8 spriteId;
@@ -1860,8 +1864,6 @@ static void CreateWaterPulseRingBubbles(struct Sprite *sprite, int xDiff, int yD
     something = sprite->data[0] / 2;
     combinedX = sprite->x + sprite->x2;
     combinedY = sprite->y + sprite->y2;
-    if (yDiff < 0)
-        unusedVar *= -1; //Needed to match
     randomSomethingY = yDiff + (Random2() % 10) - 5;
     randomSomethingX = -xDiff + (Random2() % 10) - 5;
 

@@ -372,7 +372,8 @@ Route34_DayCare_EventScript_TryRetrieveMon::
 	end
 
 Route34_DayCare_EventScript_CostPrompt::
-	special GetDaycareCost
+	@ upstream renamed this special (issue #120); our Johto Day Care still named the old one
+	special GetDaycareCostAndPrepareString
 	msgbox Route34_DayCare_Text_ItWillCostX, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, Route34_DayCare_EventScript_CheckEnoughMoney
 	goto Route34_DayCare_EventScript_ComeAgain

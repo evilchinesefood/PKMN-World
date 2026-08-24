@@ -1743,7 +1743,7 @@ void SetSubspriteTables(struct Sprite *sprite, const struct SubspriteTable *subs
 bool8 AddSpriteToOamBuffer(struct Sprite *sprite, u8 *oamIndex)
 {
     if (*oamIndex >= gOamLimit)
-        return 1;
+        return TRUE;
 
     if (!sprite->subspriteTables || sprite->subspriteMode == SUBSPRITES_OFF)
     {
@@ -1754,12 +1754,12 @@ bool8 AddSpriteToOamBuffer(struct Sprite *sprite, u8 *oamIndex)
         if (sprite->copyToObjWin)
         {
             if (*oamIndex >= gOamLimit)
-                return 1;
+                return TRUE;
             gMain.oamBuffer[*oamIndex] = sprite->oam;
             gMain.oamBuffer[*oamIndex].objMode = ST_OAM_OBJ_WINDOW;
             (*oamIndex)++;
         }
-        return 0;
+        return FALSE;
     }
     else
     {
@@ -1773,7 +1773,7 @@ bool8 AddSubspritesToOamBuffer(struct Sprite *sprite, struct OamData *destOam, u
     struct OamData *oam;
 
     if (*oamIndex >= gOamLimit)
-        return 1;
+        return TRUE;
 
     subspriteTable = &sprite->subspriteTables[sprite->subspriteTableNum];
     oam = &sprite->oam;
@@ -1782,7 +1782,7 @@ bool8 AddSubspritesToOamBuffer(struct Sprite *sprite, struct OamData *destOam, u
     {
         *destOam = *oam;
         (*oamIndex)++;
-        return 0;
+        return FALSE;
     }
     else
     {
@@ -1807,7 +1807,7 @@ bool8 AddSubspritesToOamBuffer(struct Sprite *sprite, struct OamData *destOam, u
             u16 y;
 
             if (*oamIndex >= gOamLimit)
-                return 1;
+                return TRUE;
 
             x = subspriteTable->subsprites[i].x;
             y = subspriteTable->subsprites[i].y;
@@ -1842,7 +1842,7 @@ bool8 AddSubspritesToOamBuffer(struct Sprite *sprite, struct OamData *destOam, u
         }
     }
 
-    return 0;
+    return FALSE;
 }
 
 static const u8 sSpanPerImage[4][4] =
@@ -2019,19 +2019,19 @@ static void FillSpriteRect(u32 spriteId, u32 left, u32 top, u32 width, u32 heigh
             srcMask = 0xFFFFFFFF >> (BITS_PER_PIXEL * (PIXELS_PER_TILE - currWidth));
             dstMask = ~srcMask;
         }
-        else if (remainingWidth > PIXELS_PER_TILE || remainingWidth + currStart % PIXELS_PER_TILE == PIXELS_PER_TILE)
+        else if (remainingWidth + (currStart % PIXELS_PER_TILE) >= PIXELS_PER_TILE || remainingWidth + currStart % PIXELS_PER_TILE == PIXELS_PER_TILE)
         {
             //  Start of area, offset start, covers rest of tile
             currWidth = PIXELS_PER_TILE - (currStart % PIXELS_PER_TILE);
-            srcMask = 0xFFFFFFFF << (BITS_PER_PIXEL * currWidth);
-            dstMask = ~srcMask;
+            dstMask = 0xFFFFFFFF >> (BITS_PER_PIXEL * currWidth);
+            srcMask = ~dstMask;
         }
         else
         {
             //  Area doesn't start or end at a tile boundry
             currWidth = remainingWidth;
-            u32 leftMask = 0xFFFFFFFF << (BITS_PER_PIXEL * currStart);
-            u32 rightMask = 0xFFFFFFFF >> (BITS_PER_PIXEL * (PIXELS_PER_TILE - currStart - currWidth));
+            u32 leftMask = 0xFFFFFFFF << (BITS_PER_PIXEL * (currStart % PIXELS_PER_TILE));
+            u32 rightMask = 0xFFFFFFFF >> (BITS_PER_PIXEL * (PIXELS_PER_TILE - (currStart % PIXELS_PER_TILE) - currWidth));
             srcMask = leftMask & rightMask;
             dstMask = ~srcMask;
         }

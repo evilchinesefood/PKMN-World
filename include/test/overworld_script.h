@@ -46,6 +46,16 @@
 // TODO: Find a better approach to this.
 asm(".set FALSE, 0\n"
     ".set TRUE, 1\n"
+    // enum ComparisonOperators (constants/comparison_operators.h). goto_if_eq and friends now
+    // expand to `trycompare <op>, ...` instead of a literal, and nothing cpp-processes this
+    // block -- without these, `.byte EQUAL` emits an undefined symbol and make check fails at
+    // LINK, which reads as unrelated breakage. Upstream ships the same gap (issue #120).
+    ".set LESS_THAN, 0\n"
+    ".set EQUAL, 1\n"
+    ".set GREATER_THAN, 2\n"
+    ".set LESS_THAN_OR_EQUAL, 3\n"
+    ".set GREATER_THAN_OR_EQUAL, 4\n"
+    ".set NOT_EQUAL, 5\n"
     ".set PARTY_SIZE, " STR(PARTY_SIZE) "\n"
     ".set VARS_START, " STR(VARS_START) "\n"
     ".set VARS_END, " STR(VARS_END) "\n"

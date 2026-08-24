@@ -1805,6 +1805,27 @@ DOUBLE_BATTLE_TEST("Dynamax: G-Max Volt Crash paralyzes other opponent even if i
     }
 }
 
+SINGLE_BATTLE_TEST("Dynamax: Max Move power is based on the base move", s16 damage)
+{
+    u32 move;
+
+    PARAMETRIZE { move = MOVE_SCRATCH; }
+    PARAMETRIZE { move = MOVE_MEGA_KICK; }
+
+    GIVEN {
+        ASSUME(GetMovePower(MOVE_SCRATCH) == 40);
+        ASSUME(GetMovePower(MOVE_MEGA_KICK) == 120);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, move, gimmick: GIMMICK_DYNAMAX); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_GT(results[1].damage, results[0].damage);
+    }
+}
+
 SINGLE_BATTLE_TEST("Dynamax: Gravity does not prevent Max Guard derived from a Gravity-banned status move")
 {
     enum Move move;

@@ -129,7 +129,7 @@ FourIsland_EventScript_CheckOnTwoMons::
 FourIsland_EventScript_OldWoman::
 	lock
 	faceplayer
-	goto_if_set FLAG_IS_CHAMPION, FourIsland_EventScript_OldWomanLoreleiLeft
+	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6, FourIsland_EventScript_OldWomanLoreleiLeft
 	msgbox FourIsland_Text_LoreleiHasReturned
 	release
 	end

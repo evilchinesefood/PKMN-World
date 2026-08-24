@@ -212,8 +212,10 @@ void NewGameInitData(void)
 #if ALL_REGIONS
     // Region merge: stamp the save format; travel-pass / other intro bits and the
     // per-region var/flag banks default clear (SaveBlock3 zeroed by ClearSav3 above).
+    // hoennIntroDone stays FALSE: ALL_REGIONS WarpToTruck() lands in the hub, not the
+    // truck, so the Hoenn first-visit bedroom path must still run (issue #174). Truck-era
+    // saves are migrated true in load_save.c v0->v1.
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
-    gSaveBlock2Ptr->hoennIntroDone = TRUE; // the truck intro IS the Hoenn intro; unset caused a stray hub-arrival MOM line + autosave block
     // Stamp the obstacle table hash NOW, not on the first load. ClearSav3() just zeroed it, and
     // the hash check only runs on load — so without this, every tree cut and rock smashed during
     // the FIRST session would be wiped the first time the player reloads, as the 0 hash read as

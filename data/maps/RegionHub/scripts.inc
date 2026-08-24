@@ -217,18 +217,41 @@ RegionHub_EventScript_AttendantHoennBoard::
 	callnative RegionHub_ScrTargetIntroDone
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnHoenn
-	@ The hub path skips the truck intro, whose scripts normally hide both
-	@ house trucks - hide them here or two trucks render in Littleroot.
-	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
-	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
+	@ Hub skips the truck. Apply its flag work (InsideOfTruck_EventScript_SetIntroFlags
+	@ Male/Female) so Brendan/May 1F does not show both families, the 2F poke ball is
+	@ the player's, and whiteout respawn is the gender bedroom rather than the rival
+	@ Mom tile. VAR_LITTLEROOT_INTRO_STATE is 4 (told to set the clock) instead of
+	@ the truck's 1/2 — those fire LittlerootTown_EventScript_StepOffTruck* on town
+	@ entry. 4 is where vanilla first enters 2F; Route 101's starter is independent
+	@ of this var. Hide BOTH trucks: the player did not arrive in one.
 	checkplayergender
 	goto_if_eq VAR_RESULT, FEMALE, RegionHub_EventScript_FirstVisitHoennFemale
+	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F
+	setvar VAR_LITTLEROOT_INTRO_STATE, 4
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_SIBLING
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F_POKE_BALL
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 1
+	setdynamicwarp MAP_LITTLEROOT_TOWN, 3, 10
 	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 4, 4
 	waitstate
 	release
 	end
 
 RegionHub_EventScript_FirstVisitHoennFemale::
+	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F
+	setvar VAR_LITTLEROOT_INTRO_STATE, 4
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_SIBLING
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
+	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 1
+	setdynamicwarp MAP_LITTLEROOT_TOWN, 12, 10
 	warp MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F, 4, 4
 	waitstate
 	release

@@ -52,9 +52,9 @@ RadioTower1F_EventScript_Whitney::
 RadioTower1F_Text_Whitney1::
 	.string "WHITNEY: Hi!\p"
 	.string "My name is WHITNEY!\p"
-	.string "I heard about the QUIZ to win a\n"
-	.string "RADIO, so I came here to get\l"
-	.string "one…\p"
+	.string "I heard about the QUIZ to win our\n"
+	.string "listeners' applause, so I came\l"
+	.string "here…\p"
 	.string "But this QUIZ is so hard!$"
 
 RadioTower1F_Text_Whitney2::
@@ -185,9 +185,7 @@ RadioTower1F_Text_RadioCardWomanOfferQuiz:
     .string "We have a special QUIZ campaign on\n"
     .string "right now.\p"
     .string "Answer five questions correctly to\n"
-    .string "win a RADIO.\p"
-    .string "You and your POKéMON can use it to\n"
-    .string "play music anytime, anywhere.\p"
+    .string "win our listeners' applause!\p"
     .string "Would you like to take the QUIZ?$"
 
 RadioTower1F_Text_QuizQuestion1:

@@ -569,4 +569,8 @@
 // it is set in Azalea's flag heap so he stays hidden until the cutscene.
 #define FLAG_HIDE_SLOWPOKE_WELL_KURT_STANDING       FLAG_JOHTO_SLICE(0x25b)
 
+// Olivine Lighthouse TM ball. Olivine-area item ids 0x144-0x154 are packed;
+// 0x25c is the next free Johto slice (no save-format bump).
+#define FLAG_ITEM_LIGHTHOUSE_TM_BULK_UP             FLAG_JOHTO_SLICE(0x25c)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

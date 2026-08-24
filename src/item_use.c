@@ -421,7 +421,9 @@ static void Task_UseHubReturnOnField(u8 taskId)
 {
     SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 16, 4);
     DoWarp();
-    ResetInitialPlayerAvatarState();
+    // Same field-state teardown as Fly (Cycling Road, cruise, Flash, Strength, Safari vars).
+    Overworld_ResetStateAfterFly();
+    VarSet(VAR_SS_TIDAL_STATE, 0); // Fly reset does not cover the SS Tidal state machine
     DestroyTask(taskId);
 }
 

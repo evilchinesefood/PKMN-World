@@ -11,7 +11,7 @@ CianwoodPokecenter_OnTransition::
 CianwoodPokemoncenter_EventScript_Fisher::
 	lock
 	faceplayer
-	goto_if_set FLAG_TEMP_1, CianwoodPokemoncenter_EventScript_FisherNormal
+	goto_if_set FLAG_GOT_TENTACOOL, CianwoodPokemoncenter_EventScript_FisherNormal
 	checkfieldmove FIELD_MOVE_SURF
 	goto_if_eq VAR_RESULT, PARTY_SIZE, CianwoodPokemoncenter_EventScript_FisherGiveTentacool
 CianwoodPokemoncenter_EventScript_FisherNormal::
@@ -27,12 +27,21 @@ CianwoodPokemoncenter_EventScript_FisherGiveTentacool::
 	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TENTACOOL
 	bufferspeciesname STR_VAR_1, SPECIES_TENTACOOL
 	givemon SPECIES_TENTACOOL, 25
-	call Johto_EventScript_NopReturn
-	setflag FLAG_TEMP_1
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, CianwoodPokemoncenter_EventScript_FisherNoRoom
+	copyvar VAR_TEMP_1, VAR_RESULT
+	playfanfare MUS_LEVEL_UP
+	msgbox CianwoodPokemoncenter_Text_ReceivedTentacool, MSGBOX_DEFAULT
+	waitfanfare
+	call_if_eq VAR_TEMP_1, MON_GIVEN_TO_PC, Common_EventScript_TransferredToPC
+	setflag FLAG_GOT_TENTACOOL
 	callnative EnableStaticRandomizer
 	closemessage
 	release
 	end
+
+CianwoodPokemoncenter_EventScript_FisherNoRoom::
+	callnative EnableStaticRandomizer
+	goto Common_EventScript_NoMoreRoomForPokemon
 
 CianwoodPokemoncenter_Text_Fisher1:
 	.string "As far as water POKéMON go,\n"
@@ -43,6 +52,9 @@ CianwoodPokemoncenter_Text_Fisher2:
 	.string "You seem like you need a water\n"
 	.string "POKéMON.\p"
 	.string "Here, take this one, I have plenty.$"
+
+CianwoodPokemoncenter_Text_ReceivedTentacool:
+	.string "{PLAYER} received TENTACOOL.$"
 
 CianwoodPokecenter_EventScript_Lass::
 	lock

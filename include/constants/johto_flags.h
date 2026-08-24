@@ -573,4 +573,7 @@
 // 0x25c is the next free Johto slice (no save-format bump).
 #define FLAG_ITEM_LIGHTHOUSE_TM_BULK_UP             FLAG_JOHTO_SLICE(0x25c)
 
+// One-time Cianwood Poké Center Tentacool gift (no-Surf safety net).
+#define FLAG_GOT_TENTACOOL                             FLAG_JOHTO_SLICE(0x25d)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

@@ -11,13 +11,11 @@ IcePath_B1F_MapScripts::
 
 IcePath_B1F_OnTransition: 
 	copyvar VAR_ICE_STEP_COUNT, 1
-	callnative SetTimeBasedEncounters
 	end
 
 IcePath_B1F_SetHoleWarp:
 	setstepcallback STEP_CB_CRACKED_FLOOR
 	setholewarp MAP_ICE_PATH_B2F
-	callnative SetTimeBasedEncounters
 	end
 
 IcePath_B1F_EventScript_PuzzleSkipButton::

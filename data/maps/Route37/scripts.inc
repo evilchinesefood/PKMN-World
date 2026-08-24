@@ -4,7 +4,6 @@ Route37_MapScripts::
 	.byte 0
 
 Route37_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 

@@ -4,7 +4,6 @@ MtSilver_1F_WaterfallRoom_MapScripts::
 	.byte 0
 
 MtSilver_1F_WaterfallRoom_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 MtSilver_1F_WaterfallRoom_EventScript_MaxPotion::

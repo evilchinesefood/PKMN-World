@@ -18,7 +18,6 @@ IlexForest_OnTransition:
 	call_if_eq VAR_ILEX_FOREST_FARFETCHD, 2, IlexForest_EventScript_ReenterDuringCutScene
 	call_if_lt VAR_AZALEA_TOWN_STATE, 9, IlexForest_EventScript_HideShrineCast
 	call IlexForest_EventScript_SyncSecondCelebi
-	callnative SetTimeBasedEncounters
 	end	
 
 @ Celebi, Kurt and the post-game second Celebi are spawned by script - the shrine cutscene

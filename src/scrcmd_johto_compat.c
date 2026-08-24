@@ -72,14 +72,6 @@ void EnableStaticRandomizer(struct ScriptContext *ctx)
     (void)ctx;
 }
 
-// HnS time-based-encounter selector (sets VAR_TIME_BASED_ENCOUNTER from the RTC and
-// the alt-spawns mode). Phase-2 flattens day/night encounters to a single table
-// (see recipe Risk #15), so this is a no-op for the slice.
-void SetTimeBasedEncounters(struct ScriptContext *ctx)
-{
-    (void)ctx;
-}
-
 // HnS rival-naming special. Picks a default name then opens the rival naming screen,
 // storing into gSaveBlock1Ptr->rivalName (where the target's {RIVAL} placeholder
 // reads it under the always-on FRLG path).

@@ -24,7 +24,6 @@ BlackthornCity_OnFrame::
 
 BlackthornCity_EventScript_CityEnter:: 
 	setflag FLAG_VISITED_BLACKTHORN_CITY
-	callnative SetTimeBasedEncounters
 	end
 
 BlackthornCity_EventScript_Call::

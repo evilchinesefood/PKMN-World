@@ -4,7 +4,6 @@ DarkCave_NorthSide_MapScripts::
 	.byte 0
 
 DarkCave_NorthSide_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 DarkCave2_EventScript_Item_BlackFlute::

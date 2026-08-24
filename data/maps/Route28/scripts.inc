@@ -4,7 +4,6 @@ Route28_MapScripts::
 	.byte 0
 
 Route28_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route28_EventScript_Sign::

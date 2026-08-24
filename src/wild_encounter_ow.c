@@ -1170,6 +1170,32 @@ static u32 GetSpeciesByOWESpawnSlot(u32 spawnSlot)
     return OW_SPECIES(owe);
 }
 
+// An overworld Pokemon is a SOLID object, so one standing in a one-tile passage is a wall the
+// player cannot push past. Tin Tower 8F is the case that made this concrete: row 11 is the only
+// way west toward the roof stairs, and an OWE spawning at (9,11) sealed the route -- the player
+// bumped the same tile for 24+ consecutive steps with the overworld still live, which reads as a
+// softlock rather than as a wandering Pokemon.
+//
+// The test is deliberately narrow: reject only a tile whose walkable orthogonal neighbours are
+// exactly ONE opposing pair (west+east, or north+south). That is the signature of a true corridor.
+// Open floor, corners and T-junctions all have another way around and are left alone, so this
+// costs almost no spawn sites.
+static bool32 IsOneTileCorridor(s16 x, s16 y)
+{
+    bool32 north = !MapGridGetCollisionAt(x, y - 1);
+    bool32 south = !MapGridGetCollisionAt(x, y + 1);
+    bool32 west  = !MapGridGetCollisionAt(x - 1, y);
+    bool32 east  = !MapGridGetCollisionAt(x + 1, y);
+
+    if (west && east && !north && !south)
+        return TRUE;
+
+    if (north && south && !west && !east)
+        return TRUE;
+
+    return FALSE;
+}
+
 static bool32 TrySelectTileForOWE(s32* outX, s32* outY)
 {
     u32 elevation;
@@ -1232,6 +1258,11 @@ static bool32 TrySelectTileForOWE(s32* outX, s32* outY)
     if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS
      || gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
         isEncounterTile = TRUE;
+
+    // Never wall off a one-tile passage (see IsOneTileCorridor). Water spawns are exempt: the
+    // player surfs over them rather than colliding on foot.
+    if (isEncounterTile && !ShouldSpawnWaterOWE() && IsOneTileCorridor(x, y))
+        return FALSE;
 
     if (isEncounterTile && !MapGridGetCollisionAt(x, y))
     {

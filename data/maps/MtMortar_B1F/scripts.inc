@@ -4,7 +4,6 @@ MtMortar_B1F_MapScripts::
 	.byte 0
 
 MtMortar_B1F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 MtMortar_B1F_EventScript_Item_HyperPotion::

@@ -4,11 +4,9 @@ JohtoVictoryRoad_B2F_MapScripts::
 	.byte 0
 
 JohtoVictoryRoad_B2F_OnResume:
-	callnative SetTimeBasedEncounters
 	end
 
 JohtoVictoryRoad_B2F_OnTransition:
-	callnative SetTimeBasedEncounters
 	goto_if_set FLAG_UNLOCK_BIRDS, JohtoVictoryRoad_B2F_SwitchToModern
 	end
 

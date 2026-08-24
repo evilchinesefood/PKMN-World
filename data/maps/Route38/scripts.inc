@@ -4,7 +4,6 @@ Route38_MapScripts::
 	.byte 0
 
 Route38_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route38_EventScript_Toby::

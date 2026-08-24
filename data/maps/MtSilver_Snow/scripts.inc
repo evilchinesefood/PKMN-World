@@ -4,7 +4,6 @@ MtSilver_Snow_MapScripts::
 	.byte 0
 
 MtSilver_Snow_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 MtSilver_Snow_EventScript_RareCandy::

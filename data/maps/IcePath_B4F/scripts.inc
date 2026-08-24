@@ -4,7 +4,6 @@ IcePath_B4F_MapScripts::
 	.byte 0
 
 IcePath_B4F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 IcePath_B4F_EventScript_Item_NeverMeltIce::

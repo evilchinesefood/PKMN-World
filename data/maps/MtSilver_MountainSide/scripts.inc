@@ -4,5 +4,4 @@ MtSilver_MountainSide_MapScripts::
 	.byte 0
 
 MtSilver_MountainSide_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end

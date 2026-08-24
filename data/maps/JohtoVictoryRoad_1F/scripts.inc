@@ -6,7 +6,6 @@ JohtoVictoryRoad_1F_MapScripts::
 	.byte 0
 
 JohtoVictoryRoad_1F_OnTransition:
-	callnative SetTimeBasedEncounters
 	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 1, JohtoVictoryRoad_1F_EventScript_SetEntranceWallyPos1
 	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 2, JohtoVictoryRoad_1F_EventScript_SetEntranceWallyPos2
 	end

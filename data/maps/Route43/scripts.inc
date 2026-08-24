@@ -5,7 +5,6 @@ Route43_MapScripts::
 
 Route43_MapScript_OnTransition::
 	call_if_set FLAG_HIDE_ROUTE42_SUICUNE, Route42_MapScript_HideTrigger
-	callnative SetTimeBasedEncounters
 	end
 
 Route43_EventScript_Ben::

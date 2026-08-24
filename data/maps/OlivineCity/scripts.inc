@@ -7,7 +7,6 @@ OlivineCity_MapScripts::
 	.byte 0
 
 OlivineCity_MapScript_OnTransition::
-	callnative SetTimeBasedEncounters
 	goto_if_ge VAR_OLIVINE_CITY_STATE, 5, OlivineCity_MapScript_ClearWeather
 	end
 

@@ -8,7 +8,6 @@ Route32_MapScripts::
 	.byte 0
 
 Route32_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route32_EventScript_FisherJustin::

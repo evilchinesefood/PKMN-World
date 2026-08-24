@@ -7,7 +7,6 @@ CherrygroveCity_MapScripts::
 	.byte 0
 
 CherryGroveCity_OnTransition::
-	callnative SetTimeBasedEncounters
 	end
 
 CherryGroveCity_EventScript_TriggerGent_Top::

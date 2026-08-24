@@ -7,7 +7,6 @@ EcruteakCity_MapScripts::
 	.byte 0
 
 EcruteakCity_OnTransition::
-	callnative SetTimeBasedEncounters
 	end
 
 

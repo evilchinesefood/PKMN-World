@@ -48,12 +48,10 @@ NewBarkTown_OnTransition::
 NewBarkTown_Set_TalkToElm::
 	clearflag FLAG_HIDE_SILVER_NEWBARKTOWN
 	setobjectxyperm LOCALID_LASS, 0, 11
-	callnative SetTimeBasedEncounters
 	end
 
 NewBarkTown_Set_TalkToMom::
 	setobjectxyperm LOCALID_LASS, 0, 11
-	callnative SetTimeBasedEncounters
 	end
 
 NewBarkTown_EventScript_LabSign::
@@ -283,7 +281,6 @@ NewBarkTown_Text_ElmsHouse:
 
 @ Slice shim: shared ON_RESUME handler referenced by NewBark/Cherrygrove/Route29/Route30
 SetTimeEncounters::
-	callnative SetTimeBasedEncounters
 	end
 
 @ Slice shim: Elm's intro pokenav call text (source lived in out-of-slice Blackthorn)

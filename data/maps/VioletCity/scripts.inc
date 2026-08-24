@@ -13,7 +13,6 @@ VioletCity_OnFrame::
 	.2byte 0
 
 VioletCity_OnTransition::
-	callnative SetTimeBasedEncounters
 	end
 
 VioletCity_EventScript_Trigger::

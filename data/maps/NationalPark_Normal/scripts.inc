@@ -4,7 +4,6 @@ NationalPark_Normal_MapScripts::
 	.byte 0
 
 NationalPark_Normal_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 NationalPark_Normal_EventScript_Lass::

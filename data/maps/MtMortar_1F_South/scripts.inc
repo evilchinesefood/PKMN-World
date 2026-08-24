@@ -4,7 +4,6 @@ MtMortar_1F_South_MapScripts::
 	.byte 0
 
 MtMortar_1F_South_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 

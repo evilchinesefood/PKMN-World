@@ -6,7 +6,6 @@ MtSilver_1F_MoltresRoom_MapScripts::
 	.byte 0
 
 MtSilver_1F_MoltresRoom_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 

@@ -4,7 +4,6 @@ MtMortar_1F_North_MapScripts::
 	.byte 0
 
 MtMortar_1F_North_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 MtMortar_1F_North_EventScript_Item_MaxRepel::

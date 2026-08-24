@@ -5,7 +5,6 @@ IcePath_1F_MapScripts::
 	.byte 0
 
 IcePath_1F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 IcePath_1F_EventScript_Item_PpUp::

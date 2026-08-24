@@ -14,6 +14,12 @@ GoldenrodDeptStore4_EventScript_Cooltrainer::
 
 	.align 2
 GoldenrodDeptStore4_Pokemart_FeathersAndMints::
+	@ Rose Incense is the ONLY route to Budew and therefore to Roserade: Budew appears in no wild
+	@ table, and AlterEggSpeciesWithIncenseItem downgrades a Budew egg back to Roselia unless a
+	@ parent holds this. It had zero references outside its own item definition -- no mart, no
+	@ ground item, no gift -- so both were unobtainable. Sold here because the Day Care this
+	@ serves is next door on Route 34. (The other incenses are sold at SafariZoneGate.)
+	.2byte ITEM_ROSE_INCENSE
 	.2byte ITEM_HEALTH_FEATHER
 	.2byte ITEM_MUSCLE_FEATHER
 	.2byte ITEM_RESIST_FEATHER

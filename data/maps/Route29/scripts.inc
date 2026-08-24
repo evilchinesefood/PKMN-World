@@ -4,7 +4,6 @@ Route29_MapScripts::
 	.byte 0
 
 Route29_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route29_Trigger_Monview::

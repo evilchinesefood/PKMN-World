@@ -4,7 +4,6 @@ RuinsOfAlph_Outside_MapScripts::
 	.byte 0
 
 RuinsOfAlph_Outside_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end	
 
 RuinsOfAlph_Outside_EventScript_Quagsire::

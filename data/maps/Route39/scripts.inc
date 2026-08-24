@@ -7,7 +7,6 @@ Route39_MapScripts::
 	.byte 0
 
 Route39_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route39_EventScript_Item_TM::

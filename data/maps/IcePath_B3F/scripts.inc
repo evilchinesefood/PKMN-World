@@ -8,7 +8,6 @@ IcePath_B3F_MapScripts::
 	.byte 0
 
 IcePath_B3F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 IcePath_B3F_Trigger_Swinub_Jump::

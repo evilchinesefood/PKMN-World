@@ -4,7 +4,6 @@ Route46_MapScripts::
 	.byte 0
 
 Route46_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route46_EventScript_Bailey::

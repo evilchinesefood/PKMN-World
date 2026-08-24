@@ -4,7 +4,6 @@ Route35_MapScripts::
 	.byte 0
 
 Route35_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end	
 
 Route35_EventScript_CamperIvan::

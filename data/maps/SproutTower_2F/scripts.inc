@@ -4,7 +4,6 @@ SproutTower_2F_MapScripts::
 	.byte 0
 
 SproutTower_2F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 SproutTower_2F_EventScript_SageNico::

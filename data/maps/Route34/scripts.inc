@@ -8,7 +8,6 @@ Route34_MapScripts::
 Route34_OnTransition: 
 	specialvar VAR_RESULT, GetDaycareState
 	call_if_eq VAR_RESULT, DAYCARE_EGG_WAITING, Route34_MapScript_EggReady
-	callnative SetTimeBasedEncounters
 	end	
 
 Route34_MapScript_EggReady::

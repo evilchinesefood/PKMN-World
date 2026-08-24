@@ -4,5 +4,4 @@ MtSilver_2F_MapScripts::
 	.byte 0
 
 MtSilver_2F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end

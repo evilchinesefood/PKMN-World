@@ -6,7 +6,6 @@ Route27_MapScripts::
 	.byte 0
 
 Route27_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route27_EventScript_BaobaCall::

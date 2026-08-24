@@ -7,7 +7,6 @@ Route36_MapScripts::
 	.byte 0
 
 Route36_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route36_EventScript_RockSmashGuy::

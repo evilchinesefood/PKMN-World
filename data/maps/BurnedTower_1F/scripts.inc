@@ -9,7 +9,6 @@ BurnedTower_1F_MapScripts::
 	.byte 0
 
 BurnedTower_1F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 BurnedTower_1F_OnLoad::

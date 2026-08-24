@@ -2601,7 +2601,16 @@ bool32 TryFindHiddenPokemon(void)
             }
             else
             {
-                species = gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->wildPokemon[ChooseWildMonIndex_Land()].species;
+                // hiddenMonsInfo is null-checked above, but landMonsInfo is a SEPARATE slot and can
+                // be NULL independently -- a map may define hidden mons and no land table. The
+                // timeOfDay here was resolved for WILD_AREA_HIDDEN, so it is not even guaranteed to
+                // be the bucket this slot is populated under. Guard it rather than deref blind.
+                const struct WildPokemonInfo *landInfo = gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo;
+
+                if (landInfo == NULL)
+                    return FALSE;
+
+                species = landInfo->wildPokemon[ChooseWildMonIndex_Land()].species;
                 environment = ENCOUNTER_TYPE_LAND;
             }
             break;
@@ -2619,9 +2628,14 @@ bool32 TryFindHiddenPokemon(void)
                 }
                 else
                 {
-                    species = gWildMonHeaders[headerId].encounterTypes[timeOfDay].waterMonsInfo->wildPokemon[ChooseWildMonIndex_Water()].species;
-                    environment = ENCOUNTER_TYPE_WATER;
+                    // Same hazard as the land branch above: a separate slot, independently NULL-able.
+                    const struct WildPokemonInfo *waterInfo = gWildMonHeaders[headerId].encounterTypes[timeOfDay].waterMonsInfo;
 
+                    if (waterInfo == NULL)
+                        return FALSE;
+
+                    species = waterInfo->wildPokemon[ChooseWildMonIndex_Water()].species;
+                    environment = ENCOUNTER_TYPE_WATER;
                 }
             }
             else

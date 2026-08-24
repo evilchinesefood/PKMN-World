@@ -4,7 +4,6 @@ IcePath_B2F_MapScripts::
 	.byte 0
 
 IcePath_B2F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 IcePath_B2F_EventScript_Item_FullHeal::

@@ -4,7 +4,6 @@ MtMortar_2F_MapScripts::
 	.byte 0
 
 MtMortar_2F_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 MtMortar_2F_EventScript_Item_Iron::

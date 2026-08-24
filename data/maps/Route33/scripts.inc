@@ -4,7 +4,6 @@ Route33_MapScripts::
 	.byte 0
 
 Route33_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route33_EventScript_HikerAnthony::

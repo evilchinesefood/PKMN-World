@@ -4,7 +4,6 @@ Route44_MapScripts::
 	.byte 0
 
 Route44_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route44_EventScript_Wilton::

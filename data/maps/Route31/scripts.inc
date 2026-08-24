@@ -4,7 +4,6 @@ Route31_MapScripts::
 	.byte 0
 
 Route31_OnTransition: 
-	callnative SetTimeBasedEncounters
 	end
 
 Route31_EventScript_Bugcatcher_Wade::

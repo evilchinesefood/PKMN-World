@@ -966,9 +966,7 @@ NewBarkTown_Lab_Text_Officer1:
 	.string "male with long, red hair…\p"
 	.string "What?\p"
 	.string "You battled a trainer like\n"
-	.string "that?\p"
-	.string "Did you happen to get his\n"
-	.string "name?$"
+	.string "that?$"
 
 NewBarkTown_Lab_Text_Officer2_1:
 	.string "So {RIVAL} is the one who took it…\n"
@@ -977,9 +975,6 @@ NewBarkTown_Lab_Text_Officer2_1:
 NewBarkTown_Lab_Text_Officer2:
 	.string "Thanks for helping my\n"
 	.string "investigation!$"
-
-NewBarkTown_Lab_Text_OfficerNo:
-	.string "Surely you got his name?!$"
 
 NewBarkTown_Lab_Text_Elm_CallMe:
 	.string "Ah, {PLAYER}!\p"

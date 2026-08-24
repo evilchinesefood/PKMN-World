@@ -307,7 +307,7 @@ CherrygroveCity_Text_GuideGentRoute30:
 
 CherrygroveCity_Text_GuideGentSea:
 	.string "This is the sea, as you can see.\p"
-	.string "Some POKéMON are found only in\n"
+	.string "Some POKéMON are found only\n"
 	.string "in water.$"
 
 CherrygroveCity_Text_GuideGentMap:

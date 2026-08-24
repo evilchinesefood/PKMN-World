@@ -77,13 +77,13 @@ GoldenrodDeptStore_Text_4FGameboyKid:
     .string "being traded via a Game Link\l"
     .string "cable.\p"
     .string "Pfft…\p"
-    .string "Such misinformation.\p"
+    .string "You just need a LINKING CORD.\p"
     .string "I know some of the rumoured\n"
     .string "POKéMON:\l"
     .string "MACHOKE, KADABRA, HAUNTER and,\l"
-    .string "um, GRAVELER,\l"
-    .string "but they all evolve through\l"
-    .string "level up.$"
+    .string "um, GRAVELER.\p"
+    .string "They even sell LINKING CORDS\n"
+    .string "in MAHOGANY TOWN.$"
 
 GoldenrodDeptStore_Text_4FDirectory:
     .string "Let Us Pump Up Your POKéMON!\p"

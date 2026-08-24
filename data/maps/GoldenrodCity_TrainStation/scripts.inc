@@ -120,6 +120,7 @@ GoldenrodCity_TrainStation_EventScript_GentHasPass::
 
 GoldenrodCity_TrainStation_EventScript_Boy::
 	lock
+	faceplayer
 	msgbox GoldenrodCity_TrainStation_Text_Boy, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -127,6 +128,7 @@ GoldenrodCity_TrainStation_EventScript_Boy::
 
 GoldenrodCity_TrainStation_EventScript_Psychic::
 	lock
+	faceplayer
 	msgbox GoldenrodCity_TrainStation_Text_Psychic, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -371,7 +373,7 @@ GoldenrodMagnetTrainStation_Text_PresidentBagFull:
     .string "again. I'll be right here.$"
 
 GoldenrodCity_TrainStation_Text_Boy:
-	.string "You brought the MAGNET TRAIN PASS,\n"
+	.string "You brought the rail PASS,\n"
 	.string "right?$"
 
 GoldenrodCity_TrainStation_Text_Psychic:

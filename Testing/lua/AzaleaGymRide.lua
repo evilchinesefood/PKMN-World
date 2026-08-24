@@ -16,7 +16,6 @@ local OBJ_EVENT_MON = 1 << 14
 local SPECIES_MASK = 0x8FFF
 local SPECIES_ARIADOS = 168
 local GFX_LASS = 47
-local GFX_ARIADOS = SPECIES_ARIADOS + OBJ_EVENT_MON  -- 0x40A8
 local TEMPLATES = 3988
 local TEMPLATE = { stride = 24, localId = 0, graphicsId = 1, x = 4, y = 6, flagId = 20 }
 local GYM_OBJECTS = 13
@@ -93,8 +92,6 @@ local function scanTemplates()
       bad[#bad + 1] = string.format("template %d localId %d is LASS at (%d,%d)", i, localId, x, y)
     end
     if (gfx & OBJ_EVENT_MON) ~= 0 and (gfx & SPECIES_MASK) == SPECIES_ARIADOS then
-      found = found + 1
-    elseif gfx == GFX_ARIADOS then
       found = found + 1
     end
   end

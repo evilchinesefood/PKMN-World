@@ -9,9 +9,6 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "JohtoMusicPass")
 
-local gMPlayInfo_BGM = S.gMPlayInfo_BGM
-local gSongTable     = S.gSongTable
-
 local MUS_DUMMY            = 0
 local MUS_SURF             = 365
 local MUS_CYCLING          = 403
@@ -63,10 +60,10 @@ local function region() return F.r32(S.gCurrentRegion) end
 local function avatarFlags() return F.r8(S.gPlayerAvatar) end
 
 local function playingSong()
-  local hdr = F.r32(gMPlayInfo_BGM)
+  local hdr = F.r32(S.gMPlayInfo_BGM)
   if hdr == 0 then return 0 end
   for id = 0, 700 do
-    if F.r32(gSongTable + id * 8) == hdr then return id end
+    if F.r32(S.gSongTable + id * 8) == hdr then return id end
   end
   return -1
 end

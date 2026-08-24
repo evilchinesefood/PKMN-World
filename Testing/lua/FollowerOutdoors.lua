@@ -13,11 +13,11 @@ local F = require("lib").new(S, "FollowerOutdoors")
 local HUB_GROUP = 100
 local GRP_TOWN, MAP_TOWN, WARP_TOWN = 75, 0, 1  -- New Bark, player's house door
 local GRP_R29, MAP_R29, WARP_R29 = 75, 2, 0     -- Route 29, MAP_TYPE_ROUTE
-local ROW_PARTY_MENU, ROW_SET = 2, 9
 local FOLLOWER = 0xFE
-local OBJ_EVENT_MON, SPECIES_MASK = 1 << 14, 0x8FFF
-local SPECIES_WOBBUFFET, SPECIES_ODDISH = 202, 43
-local PKMN_SIZE, OFF_HP, OFF_MAXHP, OFF_CHECKSUM, OFF_SECURE = 100, 86, 88, 28, 32
+local SPECIES_MASK = 0x8FFF
+local SPECIES_ODDISH = 43
+local OFF_HP, OFF_MAXHP = S.Pokemon.hp, S.Pokemon.maxHP
+local OFF_CHECKSUM, OFF_SECURE = 28, 32
 local SUB_STRIDE, NRAW = 12, 12
 local SUB0 = { [0]=0,0,0,0,0,0,1,1,2,3,2,3,1,1,2,3,2,3,1,1,2,3,2,3 }
 
@@ -25,10 +25,8 @@ local MSG_SNIFF  = S.sCondMsg51
 local MSG_BREEZE = S.sCondMsg52
 local MSG_BREATH = S.sCondMsg53
 local MSG_HAPPY  = S.sCondMsg43  -- day-pool "happy to see what's outdoors", not this claim
-local SCRIPT_FOLLOWER = S.EventScript_Follower
-local SCRIPT_LOOKAROUND = S.EventScript_FollowerLookAround
-local GSTRINGVAR4 = S.gStringVar4
-local CTX_STATUS, CTX_SCRIPT, CTX_DATA0 = S.sGlobalScriptContextStatus, 8, 100
+local CTX_STATUS = S.sGlobalScriptContextStatus
+local CTX_SCRIPT, CTX_DATA0 = S.ScriptCtx.scriptPtr, 100
 local CONTEXT_SHUTDOWN = 2
 local TALKS = 80
 local ROW_GIVE, ROW_MON_BASIC = 3, 1
@@ -219,19 +217,18 @@ F.run(function()
     F.r8(S.gMapHeader + 24), F.grp(), F.mapn()))
   -- Warp respawns the follower invisible. A warp-exit step can be copy-locked so
   -- the ball-emerge is skipped; keep stepping, then force the invisible bit.
-  local shown = false
+  local o
   for _, dir in ipairs({ "Down", "Left", "Right", "Up", "Down" }) do
     F.step(dir); F.idle(24)
     o = obj(FOLLOWER)
-    if o and not o.invisible then shown = true; break end
+    if o and not o.invisible then break end
   end
   o = obj(FOLLOWER)
   if o and o.invisible then
     F.w8(o.b + S.ObjectEvent.flags1, F.r8(o.b + S.ObjectEvent.flags1) & ~0x20)
     F.step("Left"); F.idle(24)
     o = obj(FOLLOWER)
-    shown = o ~= nil and not o.invisible
-    F.L("  forced follower visible bit; now " .. (shown and "visible" or "still hidden"))
+    F.L("  forced follower visible bit; now " .. ((o and not o.invisible) and "visible" or "still hidden"))
   end
   o = obj(FOLLOWER)
   F.L(string.format("  follower after emerge: %s", o and string.format("(%d,%d) gfx=0x%04X inv=%s", o.x, o.y, o.gfx, tostring(o.invisible)) or "ABSENT"))
@@ -261,7 +258,7 @@ F.run(function()
     end
     local p = F.r32(S.sGlobalScriptContext + CTX_DATA0)
     local sptr = F.r32(S.sGlobalScriptContext + CTX_SCRIPT)
-    local buf = decode(GSTRINGVAR4, 120)
+    local buf = decode(S.gStringVar4, 120)
     local rom = (p >= 0x08000000 and p < 0x0A000000) and decode(p) or "?"
     lines[#lines + 1] = string.format("n=%d ptr=%s script=0x%08X rom='%s' buf='%s'",
       n, msgName(p), sptr, rom, buf)

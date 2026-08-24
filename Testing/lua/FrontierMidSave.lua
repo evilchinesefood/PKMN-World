@@ -26,11 +26,6 @@ local VAR_FRONTIER_FACILITY    = 0x40CF
 local VAR_TEMP_CHALLENGE_STATUS = 0x4000
 local LOCALID_SINGLES = 1
 local MARK_JOHTO, MARK_KANTO, MARK_OBS = 0xA5, 0x5A, 0x3C
-local A_SAVE_COUNTER     = S.gSaveCounter
-local A_READWRITE_SECTOR = S.gReadWriteSector
-local A_DAMAGED_SECTORS  = S.gDamagedSaveSectors
-local A_LAST_WRITTEN     = S.gLastWrittenSector
-local A_SAVE_ATTEMPT     = S.gSaveAttemptStatus
 local FLASH              = 0x0E000000
 local SECTOR_SIZE        = 0x1000
 local SB3_CHUNK_OFF      = 3968
@@ -90,8 +85,8 @@ end
 local function dumpSaveMeta(tag)
   F.L(string.format(
     "  saveMeta[%s] attempt=%d counter=%d lastWritten=%d damaged=0x%X rw=0x%08X",
-    tag, F.r16(A_SAVE_ATTEMPT), F.r32(A_SAVE_COUNTER), F.r16(A_LAST_WRITTEN),
-    F.r32(A_DAMAGED_SECTORS), F.r32(A_READWRITE_SECTOR)))
+    tag, F.r16(S.gSaveAttemptStatus), F.r32(S.gSaveCounter), F.r16(S.gLastWrittenSector),
+    F.r32(S.gDamagedSaveSectors), F.r32(S.gReadWriteSector)))
 end
 
 local function dumpFlash(tag)
@@ -295,7 +290,7 @@ F.run(function()
   F.check("still on hub after SAVE_NORMAL", F.grp() == HUB_GROUP and F.ow(),
     string.format("grp=%d map=%d ow=%s", F.grp(), F.mapn(), tostring(F.ow())))
   F.L(string.format("  SAVE_NORMAL slot write attempt=%d counter=%d (informational; USM may not be on Save)",
-    F.r16(A_SAVE_ATTEMPT), F.r32(A_SAVE_COUNTER)))
+    F.r16(S.gSaveAttemptStatus), F.r32(S.gSaveCounter)))
 
   sb1FlagSet(FLAG_SYS_GAME_CLEAR)
   sb1FlagSet(FLAG_HOENN_CHAMPION)

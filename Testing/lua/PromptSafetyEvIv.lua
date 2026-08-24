@@ -13,30 +13,6 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "PromptSafetyEvIv")
 
--- Task/CB2 pointers from symbols.lua. Window geometry is the fallback when a task is not live.
-local ADDR = {
-  CB2_Overworld                 = S.CB2_Overworld,
-  CB2_NewGameScene              = S.CB2_NewGameScene,
-  CB2_NamingScreen              = S.CB2_NamingScreen,
-  CB2_Bag                       = S.CB2_Bag,
-  CB2_BagMenuRun                = S.CB2_BagMenuRun,
-  CB2_ShowPartyMenuForItemUse   = S.CB2_ShowPartyMenuForItemUse,
-  CB2_PartyMenuFromStartMenu    = S.CB2_PartyMenuFromStartMenu,
-  Task_HandleGenderInput        = S.Task_OakSpeech_HandleGenderInput,
-  Task_HandleOutfitInput        = S.Task_OakSpeech_HandleOutfitInput,
-  Task_HandleHardModeInput      = S.Task_OakSpeech_HandleHardModeInput,
-  Task_HandleConfirmNameInput   = S.Task_OakSpeech_HandleConfirmNameInput,
-  Task_HardModeEcho             = S.Task_OakSpeech_HardModeEcho,
-  Task_ShowHardModeYesNo        = S.Task_OakSpeech_ShowHardModeYesNo,
-  Task_AskHardMode              = S.Task_OakSpeech_AskHardMode,
-  Task_EvIvChangerHandleInput   = S.Task_EvIvChangerHandleInput,
-}
-local GBAG            = S.gBagPosition
-local GSTRINGVAR4     = S.gStringVar4
-local GSPECIAL_ITEM   = S.gSpecialVar_ItemId
-local SUSMSTATE_PTR   = S.sUsmState
-local SFIRSTPRINTER   = S.sFirstTextPrinter
-
 -- include/constants/items.h: ITEM_GS_BALL=881, then Squirt Bottle..Sky Charm, then these.
 -- Give-item spinner min=1 so the field is 1+100h+10t+o (OlivineHarborBoard.lua).
 local ITEM_EV_IV_CHANGER = 892       -- spin(8,9,1)
@@ -46,8 +22,6 @@ local USM_ICO_BAG        = 2
 local PLAYER_OUTFIT_RED, PLAYER_OUTFIT_BLUE = 0, 1
 local VARS_START, VAR_PLAYER_PALETTE = 0x4000, 0x40FC
 local HUB_GROUP = 100
-local TASK_STRIDE, TASK_FUNC, TASK_ACTIVE, TASK_DATA = S.Task.stride, S.Task.func, S.Task.isActive, S.Task.data
-local WIN_STRIDE = S.Window.stride
 
 -- ---- memory helpers --------------------------------------------------------------------------
 local function cb2() return F.cb2() end
@@ -58,7 +32,7 @@ local function gender() return F.r8(F.sb2() + S.SaveBlock2.playerGender) end
 local function palette()
   return F.r16(F.sb1() + S.SaveBlock1.vars + (VAR_PLAYER_PALETTE - VARS_START) * 2)
 end
-local function itemId() return F.r16(GSPECIAL_ITEM) end
+local function itemId() return F.r16(S.gSpecialVar_ItemId) end
 
 local function pokeChar(b)
   if b == 0xFF or b == 0xFA or b == 0xFB then return "" end
@@ -85,14 +59,14 @@ local function pokeStr(addr, n)
   return table.concat(t)
 end
 local function dumpPrinter()
-  local p = F.r32(SFIRSTPRINTER)
+  local p = F.r32(S.sFirstTextPrinter)
   if p < 0x02000000 or p >= 0x02040000 then return "" end
   local cur = F.r32(p)
   if cur >= 0x08000000 and cur < 0x0A000000 then return pokeStr(cur, 96) end
   if cur >= 0x02000000 and cur < 0x02040000 then return pokeStr(cur, 96) end
   return ""
 end
-local function dumpGStringVar4() return pokeStr(GSTRINGVAR4, 96) end
+local function dumpGStringVar4() return pokeStr(S.gStringVar4, 96) end
 
 -- "one-way" in the Pokémon charset: o n e - w a y
 local ONEWAY = { 0xE3, 0xE2, 0xD9, 0xAE, 0xEB, 0xD5, 0xED }
@@ -108,7 +82,7 @@ local function bufHasOneWay(addr, n)
   return false
 end
 local function printerHasOneWay()
-  local p = F.r32(SFIRSTPRINTER)
+  local p = F.r32(S.sFirstTextPrinter)
   if p >= 0x02000000 and p < 0x02040000 then
     local cur = F.r32(p)
     if cur >= 0x08000000 and cur < 0x0A000000 then
@@ -123,14 +97,14 @@ local function printerHasOneWay()
       end
     end
   end
-  return bufHasOneWay(GSTRINGVAR4, 0x200)
+  return bufHasOneWay(S.gStringVar4, 0x200)
 end
 
 local function findWin(left, top, w, h)
   for i = 0, 31 do
-    local b = S.gWindows + i * WIN_STRIDE
-    if F.r8(b + 1) == left and F.r8(b + 2) == top
-       and F.r8(b + 3) == w and F.r8(b + 4) == h then
+    local b = S.gWindows + i * S.Window.stride
+    if F.r8(b + S.Window.tilemapLeft) == left and F.r8(b + S.Window.tilemapTop) == top
+       and F.r8(b + S.Window.width) == w and F.r8(b + S.Window.height) == h then
       return i
     end
   end
@@ -138,16 +112,16 @@ local function findWin(left, top, w, h)
 end
 local function oakTaskFn()
   for i = 0, 15 do
-    local b = S.gTasks + i * TASK_STRIDE
-    if F.r8(b + TASK_ACTIVE) ~= 0 then
-      local fn = F.r32(b + TASK_FUNC) & ~1
-      if fn == ADDR.Task_HandleGenderInput
-         or fn == ADDR.Task_HandleOutfitInput
-         or fn == ADDR.Task_HandleHardModeInput
-         or fn == ADDR.Task_HandleConfirmNameInput
-         or fn == ADDR.Task_HardModeEcho
-         or fn == ADDR.Task_ShowHardModeYesNo
-         or fn == ADDR.Task_AskHardMode then
+    local b = S.gTasks + i * S.Task.stride
+    if F.r8(b + S.Task.isActive) ~= 0 then
+      local fn = F.r32(b + S.Task.func) & ~1
+      if fn == S.Task_OakSpeech_HandleGenderInput
+         or fn == S.Task_OakSpeech_HandleOutfitInput
+         or fn == S.Task_OakSpeech_HandleHardModeInput
+         or fn == S.Task_OakSpeech_HandleConfirmNameInput
+         or fn == S.Task_OakSpeech_HardModeEcho
+         or fn == S.Task_OakSpeech_ShowHardModeYesNo
+         or fn == S.Task_OakSpeech_AskHardMode then
         return fn, i
       end
     end
@@ -156,19 +130,19 @@ local function oakTaskFn()
 end
 local function evIvTaskBase()
   for i = 0, 15 do
-    local b = S.gTasks + i * TASK_STRIDE
-    if F.r8(b + TASK_ACTIVE) ~= 0 then
-      local fn = F.r32(b + TASK_FUNC) & ~1
-      if fn == ADDR.Task_EvIvChangerHandleInput then return b, i end
+    local b = S.gTasks + i * S.Task.stride
+    if F.r8(b + S.Task.isActive) ~= 0 then
+      local fn = F.r32(b + S.Task.func) & ~1
+      if fn == S.Task_EvIvChangerHandleInput then return b, i end
     end
   end
   -- fallback: the EV/IV window is up; any task with data[1] in {0,1} and data[0] in 0..5
   if findWin(19, 1, 10, 13) then
     for i = 0, 15 do
-      local b = S.gTasks + i * TASK_STRIDE
-      if F.r8(b + TASK_ACTIVE) ~= 0 then
-        local page = F.rs16(b + TASK_DATA + 2)
-        local cur  = F.rs16(b + TASK_DATA + 0)
+      local b = S.gTasks + i * S.Task.stride
+      if F.r8(b + S.Task.isActive) ~= 0 then
+        local page = F.rs16(b + S.Task.data + 2)
+        local cur  = F.rs16(b + S.Task.data + 0)
         if (page == 0 or page == 1) and cur >= 0 and cur <= 5 then return b, i end
       end
     end
@@ -178,7 +152,7 @@ end
 local function evIvPage()
   local b = evIvTaskBase()
   if not b then return nil end
-  return F.rs16(b + TASK_DATA + 2)
+  return F.rs16(b + S.Task.data + 2)
 end
 
 local lastFnLog = -1
@@ -200,19 +174,18 @@ local function winHardMode()    return findWin(22, 2, 6, 4) end
 local function winFieldYesNo()  return findWin(21, 9, 5, 4) end
 local function winEvIv()        return findWin(19, 1, 10, 13) end
 
-local function inNaming() return cb2() == ADDR.CB2_NamingScreen end
+local function inNaming() return cb2() == S.CB2_NamingScreen end
 local function inBag()
   local c = cb2()
-  return c == ADDR.CB2_Bag or c == ADDR.CB2_BagMenuRun
+  return c == S.CB2_Bag or c == S.CB2_BagMenuRun
 end
 local function inParty()
   local c = cb2()
-  return c == ADDR.CB2_ShowPartyMenuForItemUse or c == ADDR.CB2_PartyMenuFromStartMenu
+  return c == S.CB2_ShowPartyMenuForItemUse or c == S.CB2_PartyMenuFromStartMenu
 end
 
 -- ---- input cadence ---------------------------------------------------------------------------
 local function tapA() F.press("A", 2); F.idle(8) end
-local function tapB() F.press("B", 2); F.idle(8) end
 local function tapStart() F.press("Start", 2); F.idle(12) end
 
 -- ---- intro driver ----------------------------------------------------------------------------
@@ -220,7 +193,7 @@ local function skipTitle(budget)
   F.L("  skipTitle: A+Start until CB2_NewGameScene")
   for f = 1, (budget or 90000) do
     local c = cb2()
-    if c == ADDR.CB2_NewGameScene then
+    if c == S.CB2_NewGameScene then
       F.L(string.format("  skipTitle: NewGameScene at frame %d", f))
       F.idle(20)
       return true
@@ -278,7 +251,7 @@ local function handleOutfit()
     curBlue == PLAYER_OUTFIT_BLUE, "cursor=" .. tostring(curBlue))
   -- B must not commit
   F.press("B", 2); F.idle(20)
-  local still = winOutfitMenu() ~= nil or oakTaskFn() == ADDR.Task_HandleOutfitInput
+  local still = winOutfitMenu() ~= nil or oakTaskFn() == S.Task_OakSpeech_HandleOutfitInput
   local g1, p1, cur1 = gender(), palette(), F.mcur()
   F.L(string.format("  outfit after B still=%s gender=%d pal=%d cursor=%d fn=0x%08X",
     tostring(still), g1, p1, cur1, oakTaskFn()))
@@ -323,9 +296,9 @@ local function handleHardMode()
     logOak("echo-wait")
     local fn = oakTaskFn()
     local pr = dumpPrinter()
-    if fn == ADDR.Task_HardModeEcho and F.r32(SFIRSTPRINTER) == 0 then break end
+    if fn == S.Task_OakSpeech_HardModeEcho and F.r32(S.sFirstTextPrinter) == 0 then break end
     if pr:find("normal way") or dumpGStringVar4():find("normal way") then
-      if F.r32(SFIRSTPRINTER) == 0 or i > 40 then break end
+      if F.r32(S.sFirstTextPrinter) == 0 or i > 40 then break end
     end
     F.idle(4)
   end
@@ -354,7 +327,7 @@ local function driveIntro(budget)
     if inNaming() then
       sawName = true
       handleNaming()
-    elseif winHardMode() or oakTaskFn() == ADDR.Task_HandleHardModeInput then
+    elseif winHardMode() or oakTaskFn() == S.Task_OakSpeech_HandleHardModeInput then
       if not hardDone then
         sawHard = true
         handleHardMode()
@@ -362,18 +335,18 @@ local function driveIntro(budget)
       else
         tapA()
       end
-    elseif (winOutfitMenu() or oakTaskFn() == ADDR.Task_HandleOutfitInput) and not outfitDone then
+    elseif (winOutfitMenu() or oakTaskFn() == S.Task_OakSpeech_HandleOutfitInput) and not outfitDone then
       sawOutfit = true
       handleOutfit()
       outfitDone = true
     elseif winOutfitPrompt() and not outfitDone then
       -- finish the prompt printer, then wait for the grid; do not A-commit RED
-      if F.r32(SFIRSTPRINTER) ~= 0 then tapA() else F.idle(4) end
-    elseif winGender() or oakTaskFn() == ADDR.Task_HandleGenderInput then
+      if F.r32(S.sFirstTextPrinter) ~= 0 then tapA() else F.idle(4) end
+    elseif winGender() or oakTaskFn() == S.Task_OakSpeech_HandleGenderInput then
       sawGender = true
       -- cursor 0 = BOY; A confirms. B is ignored.
       tapA()
-    elseif winNameConfirm() or oakTaskFn() == ADDR.Task_HandleConfirmNameInput then
+    elseif winNameConfirm() or oakTaskFn() == S.Task_OakSpeech_HandleConfirmNameInput then
       -- name confirm defaults to YES (0)
       tapA()
     else
@@ -427,7 +400,7 @@ local function setParty()
 end
 
 local function usmPtr()
-  local p = F.r32(SUSMSTATE_PTR)
+  local p = F.r32(S.sUsmState)
   if p >= 0x02000000 and p < 0x02040000 then return p end
   return nil
 end
@@ -476,10 +449,10 @@ local function openBagFromStart()
 end
 
 local function bagPocket()
-  return F.r8(GBAG + 5)
+  return F.r8(S.gBagPosition + 5)
 end
 local function bagCursor(pocket)
-  return F.r16(GBAG + 8 + pocket * 2), F.r16(GBAG + 8 + 10 + pocket * 2)
+  return F.r16(S.gBagPosition + 8 + pocket * 2), F.r16(S.gBagPosition + 8 + 10 + pocket * 2)
 end
 local function keyItemAtCursor()
   local ptr = F.r32(S.gBagPockets + POCKET_KEY * S.BagPocket.stride)
@@ -493,7 +466,7 @@ end
 local function waitBag(frames)
   for _ = 1, (frames or 180) do
     -- CB2_Bag is the fade/init; input lives on CB2_BagMenuRun
-    if cb2() == ADDR.CB2_BagMenuRun then return true end
+    if cb2() == S.CB2_BagMenuRun then return true end
     F.idle(4)
   end
   return inBag()
@@ -654,7 +627,7 @@ local function testEvIv()
   -- fades to the party menu; A on the lead mon opens the editor
   for i = 1, 100 do
     if winEvIv() or evIvPage() ~= nil then break end
-    if inParty() or cb2() ~= ADDR.CB2_Overworld then
+    if inParty() or cb2() ~= S.CB2_Overworld then
       F.press("A", 2); F.idle(16)
     else
       F.idle(8)

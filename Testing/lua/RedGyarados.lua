@@ -15,7 +15,6 @@ local OBJ_EVENT_MON       = 1 << 14
 local OBJ_EVENT_MON_SHINY = 1 << 13
 local SPECIES_MASK        = 0x8FFF
 local SPECIES_GYARADOS    = 130
-local SPECIES_DRATINI     = 147
 local EXPECT_GFX          = SPECIES_GYARADOS + OBJ_EVENT_MON + OBJ_EVENT_MON_SHINY -- 0x6082
 
 local TEMPLATES = 3988
@@ -38,11 +37,12 @@ local ELDER_TILE = { 6, 9 }
 
 local HUB_GROUP = 100
 local ROW_PARTY_MENU, ROW_SET = 2, 9
-local PARTY_SIZE, POKEMON_SIZE = 6, 100
+local PARTY_SIZE = 6
+local POKEMON_SIZE = S.Pokemon.size
 local B_TRAINER_PLAYER, B_TRAINER_OPPONENT_A = 0, 1
 local SHINY_ODDS = 512
 local BOX_PERSONALITY, BOX_OTID, BOX_SHINY_U16 = 0, 4, 30
-local MON_LEVEL = 84
+local MON_LEVEL = S.Pokemon.level
 
 local function johtoFlagGet(id)
   local a = F.sb3() + S.SaveBlock3.johtoFlags + ((id - FLAG_JOHTO_BASE) // 8)
@@ -219,41 +219,12 @@ local function writeObjXY(b, x, y)
   end
 end
 
-local function scriptRunning()
-  local p = F.r32(S.sGlobalScriptContext + S.ScriptCtx.scriptPtr)
-  return p >= 0x08000000 and p < 0x0A000000
-end
-
 -- Wild battles set gBattleTypeFlags = 0, so flags~=0 is the wrong test.
 local function leftOverworld()
   return (not F.ow()) or F.battlers() >= 2
 end
 
-local function tryTalk(dir, frames)
-  F.face(dir)
-  idleCrash(20, "face")
-  local sawScript = false
-  for t = 1, frames do
-    if t % 12 == 0 then F.press("A", 2) end
-    F.idle(1)
-    if t % 60 == 0 and F.reportCrash("battle_wait") then return false end
-    if scriptRunning() then sawScript = true end
-    if leftOverworld() then return true end
-  end
-  -- Cry + msgbox can outlast the first window; if a script took the lock, keep waiting.
-  if sawScript or scriptRunning() then
-    F.L("  script took the lock; waiting for battle/overworld")
-    for t = 1, 1800 do
-      if t % 16 == 0 then F.press("A", 2) end
-      F.idle(1)
-      if t % 60 == 0 and F.reportCrash("battle_wait2") then return false end
-      if leftOverworld() then return true end
-    end
-  end
-  return leftOverworld()
-end
-
-local DIR_NORTH, DIR_SOUTH, DIR_WEST, DIR_EAST = 2, 1, 3, 4
+local DIR_NORTH, DIR_WEST, DIR_EAST = 2, 3, 4
 
 local function playerObj()
   for i = 0, 15 do

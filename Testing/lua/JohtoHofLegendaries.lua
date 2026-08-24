@@ -25,7 +25,8 @@ local FLAG_HIDE_DEOXYS     = 0x2FB
 local FLAG_JOHTO_CHAMPION  = 0xA49            -- SaveBlock1 Kanto-bank gap
 local FLAG_IS_KANTO_CHAMPION = FLAG_JOHTO_BASE + 0x13D
 local SCRIPT_SETFLAGS = S.JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags
-local CTX_STATUS, CTX_SCRIPT = S.sGlobalScriptContextStatus, 8
+local CTX_STATUS = S.sGlobalScriptContextStatus
+local CTX_SCRIPT = S.ScriptCtx.scriptPtr
 local CONTEXT_SHUTDOWN = 2
 local BUDGET = 9000
 

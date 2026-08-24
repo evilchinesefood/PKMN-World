@@ -13,10 +13,9 @@ local F = require("lib").new(S, "DaycareFullPartyEgg")
 
 local PKMN_SIZE = S.Pokemon.size
 local BOX_SIZE  = S.BoxPokemon.size
--- Stale global.h comment says 0x3030; GiveEggFromDaycare's literal pool is
--- gSaveBlock1Ptr+0x3434 (offspringPersonality at +0x354C = 0x3434+280).
+-- GiveEggFromDaycare uses gSaveBlock1Ptr+0x3434 (offspringPersonality at +280).
 local DAYCARE_OFF = 0x3434
-local DAYCARE_MON = 140             -- second mon at 0x34C0 = 0x3434+140
+local DAYCARE_MON = 140             -- second mon at +140
 local FLAG_PENDING_EGG = 0x86
 local VAR_RESULT = S.gSpecialVar_Result
 local VAR_8004   = S.gSpecialVar_0x8004
@@ -28,7 +27,6 @@ local ROW_POKE_BASIC = 1
 local ROW_DAYCARE_EGG = 8
 
 local R34_G, R34_M, R34_W = 80, 2, 4   -- MAP_ROUTE34 warp 4 = daycare door (31,30)
-local DC_G,  DC_M,  DC_W  = 81, 5, 0   -- MAP_ROUTE34_DAY_CARE
 
 local SUB0 = {0,0,0,0,0,0,1,1,2,3,2,3,1,1,2,3,2,3,1,1,2,3,2,3}
 
@@ -77,7 +75,7 @@ for i = 0, 25 do CHARMAP[0xBB + i] = string.char(65 + i) end
 for i = 0, 25 do CHARMAP[0xD5 + i] = string.char(97 + i) end
 CHARMAP[0x00] = ""; CHARMAP[0xFF] = ""; CHARMAP[0x7F] = " "
 CHARMAP[0xB8] = "."; CHARMAP[0xAE] = "?"; CHARMAP[0xAB] = "!"; CHARMAP[0xB0] = "-"
-CHARMAP[0xB1] = "-"; CHARMAP[0x00] = ""; CHARMAP[0xFC] = " "
+CHARMAP[0xB1] = "-"; CHARMAP[0xFC] = " "
 local function pokeStr(addr, n)
   local t = {}
   for i = 0, (n or 16) - 1 do
@@ -86,11 +84,6 @@ local function pokeStr(addr, n)
     t[#t + 1] = CHARMAP[c] or string.format("[%02X]", c)
   end
   return table.concat(t)
-end
-local function hexbytes(addr, n)
-  local t = {}
-  for i = 0, n - 1 do t[#t + 1] = string.format("%02X", F.r8(addr + i)) end
-  return table.concat(t, " ")
 end
 
 local function snapMon(i)
@@ -297,7 +290,7 @@ local function armEgg()
     partyCount() == 6 and snapMon(5).pid == orig[5].pid,
     fmtMon(snapMon(5)))
 
-  -- Confirm the copies landed at 0x3030 / +140 by pid.
+  -- Confirm the copies landed at daycare+0 / +140 by pid.
   local p0, p1 = F.r32(daycareMon(0)), F.r32(daycareMon(1))
   F.check("daycare slot 0 has a BoxPokemon pid", p0 ~= 0, string.format("pid=%08X", p0))
   F.check("daycare slot 1 has a BoxPokemon pid", p1 ~= 0, string.format("pid=%08X", p1))
@@ -587,7 +580,6 @@ F.run(function()
 
   -- ---- Attempt 2: free one slot, collect the egg -----------------------------
   -- Zero slot 5 (the 6th). Compact is unnecessary: 0-4 stay filled, 5 empty.
-  local slot5BeforeFree = snapMon(5)
   zeroBytes(slot(5), PKMN_SIZE)
   F.w8(S.gPartiesCount, 5)
   dumpParty("slot5_cleared")

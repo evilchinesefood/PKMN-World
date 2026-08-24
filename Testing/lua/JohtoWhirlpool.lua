@@ -7,7 +7,7 @@
 -- north entrance at (31,3); the only land-to-water edge that does not need a prior
 -- Surf is the dock at (31,15) facing the 1C6 channel, then the e3->e1 drop at
 -- (31,20). F.leg is axis-first, so a greedy walk toward (24,22) from (31,3) dies
--- immediately (only x=31 is open at y=3) -- that is the leftover stuck shot.
+-- immediately (only x=31 is open at y=3).
 --
 -- Run via Testing/mgba-run.sh Testing/lua/JohtoWhirlpool.lua
 
@@ -39,7 +39,6 @@ local VAR_BLACKTHORN_CITY_STATE = 0xA080 + 0x2B        -- VAR_JOHTO_SLICE(0x2B)
 -- ITEM_POKEVIAL=874, then CUT_TOOL, SURF_TOOL. Give-item spinner min=1 so
 -- spin(h,t,o) yields 1+100h+10t+o; 876 = 1+800+70+5.
 local ITEM_SURF_TOOL = 876
-local SPECIES_LAPRAS = 131                             -- spinner min=1: spin(1,3,0)
 local PLAYER_AVATAR_FLAG_SURFING = 1 << 3
 local OBJ_EVENT_MON = 1 << 14
 local ID_PLAYER, ID_FOLLOWER = 255, 254
@@ -191,25 +190,6 @@ local function parkFollower()
   end
 end
 
--- byte0 bit6 = heldMovementActive. applymovement while SURFING can leave this
--- set after waitmovement, which makes F.step a 30-frame no-op.
-local function waitHeldClear(tag)
-  for n = 1, 40 do
-    local b = playerObj()
-    local flags = F.r8(b)
-    if (flags & 0x40) == 0 then
-      if n > 1 then F.L(string.format("  heldMovement cleared after %d waits (%s) byte0=0x%02X", n, tag, flags)) end
-      return true
-    end
-    F.idle(8)
-  end
-  local b = playerObj()
-  local flags = F.r8(b)
-  F.L(string.format("  heldMovement STILL active (%s) byte0=0x%02X -- clearing bit 6", tag, flags))
-  F.w8(b, flags & ~0x40)
-  return false
-end
-
 -- applymovement-while-surfing leaves player byte0=0xC1 (heldMovementActive+Finished)
 -- with action FACE_RIGHT, rewritten every frame. F.step is then a no-op until the
 -- bits are cleared on the SAME frame as the input.
@@ -315,7 +295,7 @@ local function giveLapras()
   F.dbg(); F.idle(60)
   tapDown(3); F.press("A", 3); F.idle(60)               -- Give X…
   tapDown(1); F.press("A", 3); F.idle(60)               -- Pokémon (Basic)
-  F.spin(1, 3, 0)                                      -- species 131
+  F.spin(1, 3, 0)                                      -- SPECIES_LAPRAS=131 (spinner min=1)
   F.spin(0, 9, 9)                                      -- level 1+90+9 = 100 (3-digit, min=1)
   F.idle(90)
   F.bOut(4); F.idle(60)
@@ -370,7 +350,7 @@ F.run(function()
   F.shot("dragons_den")
 
   -- Attempt 1: walk the x=31 corridor to the dock. Do NOT greedy-path toward the
-  -- whirlpool -- leftover JohtoWhirlpool_01_to_whirlpool_stuck was that walk.
+  -- whirlpool: only x=31 is open at y=3.
   local onDock = routeSafe({ { 31, 15 } }, "to_dock")
   F.check("walked the entrance corridor to the dock at (31,15)", onDock, here())
   if not onDock then F.finish(); return end

@@ -26,15 +26,11 @@ local VAR_OLIVINE_CITY_STATE = 0xA080 + 0x24
 
 local ITEM_SURF_TOOL = 876
 local PLAYER_AVATAR_FLAG_SURFING = 1 << 3
-local OBJ_EVENT_MON = 1 << 14
 local ID_PLAYER, ID_FOLLOWER = 255, 254
-local LOCALID_OWE_END, OWE_SPAWNS_MAX = 252, 4
 local MAP_OFFSET = 7
 local REGION_JOHTO = 2
 local DIR_SOUTH, DIR_NORTH, DIR_WEST, DIR_EAST = 1, 2, 3, 4
 
-local gMPlayInfo_BGM = S.gMPlayInfo_BGM
-local gSongTable     = S.gSongTable
 local gWeather       = 0x02001b20
 local WEATHER_CURR, WEATHER_NEXT = 0x210, 0x211
 local WEATHER_TARGET_RAIN, WEATHER_RAIN_COUNT = 0x219, 0x21A
@@ -108,10 +104,10 @@ local function savedMusic()
 end
 
 local function playingSong()
-  local hdr = F.r32(gMPlayInfo_BGM)
+  local hdr = F.r32(S.gMPlayInfo_BGM)
   if hdr == 0 then return 0 end
   for id = 0, 700 do
-    if F.r32(gSongTable + id * 8) == hdr then return id end
+    if F.r32(S.gSongTable + id * 8) == hdr then return id end
   end
   return -1
 end

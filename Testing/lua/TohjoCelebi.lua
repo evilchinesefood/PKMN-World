@@ -17,15 +17,15 @@ local ROW_PARTY_MENU, ROW_SET = 2, 9
 local FOLLOWER = 0xFE
 local OBJ_EVENT_MON, SPECIES_MASK = 1 << 14, 0x8FFF
 local SPECIES_WOBBUFFET, SPECIES_CELEBI = 202, 251
-local PKMN_SIZE, OFF_HP, OFF_MAXHP, OFF_CHECKSUM, OFF_SECURE = 100, 86, 88, 28, 32
+local OFF_HP, OFF_MAXHP = S.Pokemon.hp, S.Pokemon.maxHP
+local OFF_CHECKSUM, OFF_SECURE = 28, 32
 local SUB_STRIDE, NRAW = 12, 12
 local REGION_VARS_START = 0xA000
 local VAR_TOHJO = 0xA080 + 0x3A               -- VAR_TOHJO_FALLS_GIOVANNI_STATE
 local SCRIPT_SCENE = S.TohjoFalls_EventScript_GiovanniScene
-local SCRIPT_LEFT  = S.TohjoFalls_EventScript_GiovanniSceneLeft
 local SCRIPT_RIGHT = S.TohjoFalls_EventScript_GiovanniSceneRight
-local CTX_STATUS, CTX_SCRIPT, CTX_MODE = S.sGlobalScriptContextStatus, 8, 1
-local CONTEXT_SHUTDOWN = 2
+local CTX_STATUS = S.sGlobalScriptContextStatus
+local CTX_SCRIPT = S.ScriptCtx.scriptPtr
 
 local SUB0 = { [0]=0,0,0,0,0,0,1,1,2,3,2,3,1,1,2,3,2,3,1,1,2,3,2,3 }
 

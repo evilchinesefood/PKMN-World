@@ -1,6 +1,6 @@
 -- World Transit hub nurse heal must spawn the FRLG 32x16 monitor.
--- Fresh new game. Prior JohtoWhiteoutHeal.lua stood on (14,12) (Chansey column)
--- so A never started RegionHub_EventScript_Nurse. This run stands on (13,11) facing Up.
+-- Fresh new game. Stand on (13,12) facing Up — talk-through the FRLG desk at (13,11)
+-- to the nurse at (13,10). (14,12) is the Chansey column.
 --
 -- Run via Testing/mgba-run.sh Testing/lua/HubNurseMonitor.lua
 
@@ -327,7 +327,7 @@ local function nurseAdjacent(x, y)
 end
 
 -- South aisle in front of the desk. y=11 is the counter (solid); (13,12) is the
--- talk-through tile. Prior JohtoWhiteoutHeal used (14,12) and hit Chansey.
+-- talk-through tile. (14,12) faces Chansey.
 local AISLE = { { 16, 6 }, { 6, 6 }, { 6, 12 }, { STAND_X, STAND_Y } }
 
 local function tryStand(x, y, way, tag)

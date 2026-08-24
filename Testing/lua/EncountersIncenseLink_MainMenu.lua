@@ -9,7 +9,7 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "EncountersIncenseLink_MainMenu")
 
-local HAS_NO_SAVED_GAME, HAS_SAVED_GAME = 0, 1
+local HAS_SAVED_GAME = 1
 local HAS_MYSTERY_GIFT, HAS_MYSTERY_EVENTS = 2, 3
 local MENU_TYPE_NAME = {
   [0] = "HAS_NO_SAVED_GAME",
@@ -20,11 +20,6 @@ local MENU_TYPE_NAME = {
 
 local SYSTEM_FLAGS = 0x948
 local FLAG_SYS_MYSTERY_GIFT_ENABLE = SYSTEM_FLAGS + 0x7B  -- 0x9C3
-
-local function cb2()
-  local v = F.r32(S.gMain + 4)
-  return v - (v % 2)
-end
 
 local function taskBase(i)
   return S.gTasks + i * S.Task.stride
@@ -105,7 +100,7 @@ F.run(function()
       reachedMenu = true
       break
     end
-    local c = cb2()
+    local c = F.cb2()
     if c == S.CB2_InitMainMenu or (S.CB2_MainMenu and c == S.CB2_MainMenu) then
       reachedMenu = true
       break
@@ -117,7 +112,7 @@ F.run(function()
     F.idle(1)
   end
   F.check("reached main menu after save+reboot (no boot mash)", reachedMenu,
-    "cb2=0x" .. string.format("%08x", cb2()))
+    "cb2=0x" .. string.format("%08x", F.cb2()))
 
   -- Start skips intro and opens the main menu. A would select CONTINUE.
   local menuI, menuType, menuCur, menuN
@@ -135,12 +130,12 @@ F.run(function()
 
   F.check("main menu task appeared (CONTINUE exists)", menuI ~= nil,
     menuI and string.format("task=%d type=%s itemCount=%d", menuI, MENU_TYPE_NAME[menuType] or "?", menuN)
-          or ("cb2=0x" .. string.format("%08x", cb2())))
+          or ("cb2=0x" .. string.format("%08x", F.cb2())))
   if not menuI then F.shot("main_menu_missing"); F.finish(); return end
 
   menuType, menuCur, menuN = taskMenu(menuI)
   F.L(string.format("  tMenuType=%d (%s) tCurrItem=%d tItemCount=%d cb2=0x%08x",
-    menuType, MENU_TYPE_NAME[menuType] or "?", menuCur, menuN, cb2()))
+    menuType, MENU_TYPE_NAME[menuType] or "?", menuCur, menuN, F.cb2()))
   F.L(string.format("  window heights 2/3/4/5 = %d/%d/%d/%d (CONTINUE is win2 height 6)",
     winHeight(2), winHeight(3), winHeight(4), winHeight(5)))
 

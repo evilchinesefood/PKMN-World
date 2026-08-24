@@ -18,8 +18,8 @@ local F = require("lib").new(S, "JohtoWhiteoutHeal")
 
 local HEAL_OFF = S.SaveBlock1.lastHealLocation
 local MAIN_VBLANK_COUNTER1 = 0x20
-local PKMN_SIZE, OFF_HP, OFF_MAXHP = 100, 86, 88
-local BP_STRIDE, BP_HP = 140, 42
+local PKMN_SIZE, OFF_HP, OFF_MAXHP = S.Pokemon.size, S.Pokemon.hp, S.Pokemon.maxHP
+local BP_STRIDE, BP_HP = S.BattlePokemon.size, S.BattlePokemon.hp
 local B_OUTCOME_LOST = 2
 local WARP_ID_NONE = 255
 
@@ -58,8 +58,6 @@ local VIOLET_G, VIOLET_M = 75, 6
 local VIOLET_PC_G, VIOLET_PC_M = 78, 4
 local VIOLET_HEAL = { x = 39, y = 46 }
 local VIOLET_OLD  = { x = 30, y = 18 }
-local VIOLET_DOOR = { x = 39, y = 45 }
-local VIOLET_PC_STAND = { x = 7, y = 4 }   -- whiteout cutscene dest inside the Center
 
 -- Outdoor door tiles vs heal aprons from data/maps/*/map.json + data/heal_locations.json.
 local CENTERS = {
@@ -405,7 +403,7 @@ F.run(function()
   F.check("Set Party published a Pokemon", nSet > 0, "count=" .. tostring(nSet))
 
   writeLastHeal(VIOLET_G, VIOLET_M, WARP_ID_NONE, VIOLET_HEAL.x, VIOLET_HEAL.y)
-  local xBefore, yBefore, heal0 = logPos("before_whiteout")
+  local _, _, heal0 = logPos("before_whiteout")
   F.shot("before_whiteout")
   F.check("lastHealLocation is Violet City (75,6)",
     heal0.g == VIOLET_G and heal0.n == VIOLET_M,

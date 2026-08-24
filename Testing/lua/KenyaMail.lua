@@ -16,8 +16,10 @@ local REGION_VARS_START = 0xA000
 local VAR_KENYA = 0xA080 + 0x09            -- VAR_JOHTO_SLICE(0x09)
 local ITEM_RETRO_MAIL, ITEM_TM41 = 210, 622
 local MAIL_NONE, MAIL_COUNT, MAIL_STRIDE = 0xFF, 16, 36
-local MAIL_ARRAY, MAIL_NAME, MAIL_TID, MAIL_SPECIES, MAIL_ITEM = 0x2BE0, 0x12, 0x1A, 0x1E, 0x20
-local PKMN_SIZE, OFF_LEVEL, OFF_MAIL, OFF_HP, OFF_MAXHP = 100, 84, 85, 86, 88
+local MAIL_NAME, MAIL_TID, MAIL_SPECIES, MAIL_ITEM = 0x12, 0x1A, 0x1E, 0x20
+local PKMN_SIZE = S.Pokemon.size
+local OFF_LEVEL, OFF_HP, OFF_MAXHP = S.Pokemon.level, S.Pokemon.hp, S.Pokemon.maxHP
+local OFF_MAIL = 85
 local ROW_PARTY_MENU, ROW_SET = 2, 9
 local HUB_GROUP = 100
 
@@ -49,9 +51,9 @@ local function hexbytes(addr, n)
   return table.concat(t, " ")
 end
 
--- global.h's /*0x2BE0*/ mail comment is stale (everything after berryTrees has moved).
--- After Kenya is given, scan SaveBlock1 for ITEM_RETRO_MAIL and pin the array from mailId.
-local mailArrayOff = MAIL_ARRAY  -- filled in by locateMailArray()
+-- SaveBlock1.mail is not a linker symbol. 0x2BE0 is the scan starting guess;
+-- locateMailArray() re-pins from Kenya's ITEM_RETRO_MAIL after the gift.
+local mailArrayOff = 0x2BE0
 
 local function mailAddr(id) return F.sb1() + mailArrayOff + id * MAIL_STRIDE end
 

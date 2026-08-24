@@ -21,9 +21,6 @@ local RED_TILE, YEL_TILE = TILE_PRIMARY_FRLG + 88, TILE_PRIMARY_FRLG + 92
 local RED_VRAM = VRAM + RED_TILE * TILE_SIZE
 local YEL_VRAM = VRAM + YEL_TILE * TILE_SIZE
 local CTRL_VRAM = VRAM + (TILE_PRIMARY_FRLG + 0) * TILE_SIZE  -- non-flower secondary tile 0
-local CB_SECONDARY = S.sSecondaryTilesetAnimCallback
-local CNT_SECONDARY = S.sSecondaryTilesetAnimCounter
-local ANIM_JOHTO_DAYCARE = S.TilesetAnim_JohtoDayCare
 local IDLE_FRAMES = 120
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
@@ -72,12 +69,12 @@ local function dumpObjs(tag)
 end
 
 local function watchMap(tag)
-  local cb = F.r32(CB_SECONDARY)
-  local cnt0 = F.r16(CNT_SECONDARY)
+  local cb = F.r32(S.sSecondaryTilesetAnimCallback)
+  local cnt0 = F.r16(S.sSecondaryTilesetAnimCounter)
   F.L(string.format("  %s callback=0x%08X counter=%d want~=0x%08X",
-    tag, cb, cnt0, ANIM_JOHTO_DAYCARE))
+    tag, cb, cnt0, S.TilesetAnim_JohtoDayCare))
   F.check(tag .. ": JohtoDayCare tileset callback is hooked",
-    (cb & ~1) == ANIM_JOHTO_DAYCARE,
+    (cb & ~1) == S.TilesetAnim_JohtoDayCare,
     string.format("callback=0x%08X", cb))
 
   dumpObjs(tag .. "_start")
@@ -92,7 +89,7 @@ local function watchMap(tag)
   for f = 1, IDLE_FRAMES do
     F.idle(1)
     local red, yel, ctrl = tileSig(RED_VRAM), tileSig(YEL_VRAM), tileSig(CTRL_VRAM)
-    local cnt = F.r16(CNT_SECONDARY)
+    local cnt = F.r16(S.sSecondaryTilesetAnimCounter)
     if cnt ~= cntLast then cntChanged = true; cntLast = cnt end
     if red ~= redLast then
       if not redSeen[red] then nRed = nRed + 1; redSeen[red] = true end

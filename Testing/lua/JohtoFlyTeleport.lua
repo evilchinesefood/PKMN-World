@@ -15,8 +15,8 @@ local MAIN_VBLANK_COUNTER1 = 0x20
 local WARP_ID_NONE = 255
 local REGION_JOHTO = 2
 
-local PKMN_SIZE = S.Pokemon.size
-local OFF_HP, OFF_MAXHP, OFF_CHECKSUM, OFF_SECURE = 86, 88, 28, 32
+local OFF_HP, OFF_MAXHP = S.Pokemon.hp, S.Pokemon.maxHP
+local OFF_CHECKSUM, OFF_SECURE = 28, 32
 local SUB_STRIDE, NRAW = 12, 12
 -- src/pokemon.c sSubstructOffsets[SUBSTRUCT_TYPE_0 / 1]
 local SUB0 = { [0]=0,0,0,0,0,0,1,1,2,3,2,3,1,1,2,3,2,3,1,1,2,3,2,3 }
@@ -49,17 +49,8 @@ local NURSE = { 7, 4 }
 -- MAP_ROUTE33 = (1 | (80 << 8)), MAP_TYPE_ROUTE (Teleport/Fly allowed). Warp 0 = Union Cave door.
 local R33_G, R33_M, R33_W = 80, 1, 0
 local MAP_TYPE_ROUTE, MAP_TYPE_TOWN, MAP_TYPE_INDOOR = 3, 1, 8
-local MAPSEC_AZALEA_TOWN, MAPSEC_ROUTE_33 = 219, 220
+local MAPSEC_AZALEA_TOWN = 219
 local MAPSECTYPE_CITY_CANFLY = 2
-
-local CB2_PARTY_UPDATE = S.CB2_UpdatePartyMenu
-local CB2_PARTY_INIT   = S.CB2_InitPartyMenu
-local CB2_PARTY_START  = S.CB2_PartyMenuFromStartMenu
-local CB2_FLY_MAP      = S.CB2_FlyMap
-local CB2_OPEN_FLY     = S.CB2_OpenFlyMap
-local ADDR_S_USM_STATE = S.sUsmState
-local ADDR_S_REGION_MAP = S.sRegionMap
-local ADDR_S_FLY_MAP    = S.sFlyMap
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
 
@@ -322,12 +313,12 @@ end
 
 local function inPartyMenu()
   local c = F.cb2()
-  return c == CB2_PARTY_UPDATE or c == CB2_PARTY_INIT or c == CB2_PARTY_START
+  return c == S.CB2_UpdatePartyMenu or c == S.CB2_InitPartyMenu or c == S.CB2_PartyMenuFromStartMenu
 end
 
 local function inFlyMap()
   local c = F.cb2()
-  return c == CB2_FLY_MAP or c == CB2_OPEN_FLY
+  return c == S.CB2_FlyMap or c == S.CB2_OpenFlyMap
 end
 
 local function openStartMenu()
@@ -343,7 +334,7 @@ end
 -- USM stays on CB2_Overworld. Find PARTY by reading the saved icon list, then
 -- Left/Right from the live cursor (sUsmState.selectedVisibleIdx + itemOffset).
 local function usmCursor()
-  local st = F.r32(ADDR_S_USM_STATE)
+  local st = F.r32(S.sUsmState)
   if st < 0x02000000 or st >= 0x02040000 then return -1, 0, {} end
   local vis = F.r8(st + 5)
   local off = F.r8(st + 10)
@@ -465,7 +456,7 @@ local function waitLand(wantG, wantM, tag, frames)
 end
 
 local function flyMapInfo()
-  local p = F.r32(ADDR_S_REGION_MAP)
+  local p = F.r32(S.sRegionMap)
   if p < 0x02000000 or p >= 0x02040000 then
     return { sec = -1, typ = -1, cx = -1, cy = -1, ptr = p }
   end

@@ -19,7 +19,7 @@ local HUB_GROUP = 100
 local LOCALID_KURT_LYING, LOCALID_GRUNT21, LOCALID_GRUNT22, LOCALID_PROTON = 1, 2, 3, 4
 local LOCALID_KURT_STANDING, LOCALID_JESSIE, LOCALID_JAMES = 8, 12, 13
 
--- include/constants/event_objects.h (enum index, python-counted against this tree)
+-- include/constants/event_objects.h
 local GFX_LASS, GFX_MAGMA_M, GFX_MAGMA_F = 47, 119, 120
 local GFX_ROCKET_M, GFX_ROCKET_F = 276, 277
 local GFX_KURT, GFX_KURT_LYING, GFX_PROTON = 402, 403, 408

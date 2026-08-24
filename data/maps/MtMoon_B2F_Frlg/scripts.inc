@@ -55,8 +55,9 @@ MtMoon_B2F_EventScript_DomeFossil::
 	faceplayer
 	msgbox MtMoon_B2F_Text_YouWantDomeFossil, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MtMoon_B2F_EventScript_DontTakeFossil
+	giveitem ITEM_DOME_FOSSIL
+	goto_if_eq VAR_RESULT, FALSE, MtMoon_B2F_EventScript_NoRoomForFossil
 	removeobject LOCALID_DOME_FOSSIL
-	giveitem_msg MtMoon_B2F_Text_ObtainedDomeFossil, ITEM_DOME_FOSSIL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	closemessage
 	delay 10
 	applymovement LOCALID_MIGUEL, MtMoon_B2F_Movement_MiguelToHelixFossil
@@ -85,8 +86,9 @@ MtMoon_B2F_EventScript_HelixFossil::
 	faceplayer
 	msgbox MtMoon_B2F_Text_YouWantHelixFossil, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MtMoon_B2F_EventScript_DontTakeFossil
+	giveitem ITEM_HELIX_FOSSIL
+	goto_if_eq VAR_RESULT, FALSE, MtMoon_B2F_EventScript_NoRoomForFossil
 	removeobject LOCALID_HELIX_FOSSIL
-	giveitem_msg MtMoon_B2F_Text_ObtainedHelixFossil, ITEM_HELIX_FOSSIL, 1, MUS_RG_OBTAIN_KEY_ITEM
 	closemessage
 	delay 10
 	applymovement LOCALID_MIGUEL, MtMoon_B2F_Movement_MiguelToDomeFossil
@@ -104,6 +106,11 @@ MtMoon_B2F_EventScript_HelixFossil::
 	end
 
 MtMoon_B2F_EventScript_DontTakeFossil::
+	release
+	end
+
+MtMoon_B2F_EventScript_NoRoomForFossil::
+	msgbox gText_TooBadBagIsFull
 	release
 	end
 

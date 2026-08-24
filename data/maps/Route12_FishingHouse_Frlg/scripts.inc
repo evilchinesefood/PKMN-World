@@ -12,11 +12,9 @@ Route12_FishingHouse_EventScript_FishingGuruBrother::
 	end
 
 Route12_FishingHouse_EventScript_GiveSuperRod::
-	checkitemspace ITEM_SUPER_ROD
-	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForSuperRod
-	additem ITEM_SUPER_ROD
 	msgbox Route12_FishingHouse_Text_TakeThisAndFish
-	msgreceiveditem Route12_FishingHouse_Text_ReceivedSuperRod, ITEM_SUPER_ROD
+	giveitem ITEM_SUPER_ROD
+	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForSuperRod
 	setflag FLAG_GOT_SUPER_ROD
 	msgbox Route12_FishingHouse_Text_IfYouCatchBigMagikarpShowMe
 	release
@@ -71,10 +69,10 @@ Route12_FishingHouse_EventScript_TieRecordMagikarp::
 	end
 
 Route12_FishingHouse_EventScript_NewRecordMagikarp::
-	setflag FLAG_GOT_RECORD_SETTING_MAGIKARP
 	msgbox Route12_FishingHouse_Text_WhoaXInchesTakeThis
 	giveitem ITEM_NET_BALL
 	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForNetBall
+	setflag FLAG_GOT_RECORD_SETTING_MAGIKARP
 	msgbox Route12_FishingHouse_Text_LookForwardToGreaterRecords
 	release
 	end

@@ -55,6 +55,7 @@ FiveIsland_RocketWarehouse_EventScript_Admin2Trigger::
 
 FiveIsland_RocketWarehouse_EventScript_Gideon::
 	trainerbattle_single TRAINER_SCIENTIST_GIDEON, FiveIsland_RocketWarehouse_Text_GideonIntro, FiveIsland_RocketWarehouse_Text_GideonDefeat, FiveIsland_RocketWarehouse_EventScript_DefeatedGideon
+	goto_if_unset FLAG_RECOVERED_SAPPHIRE, FiveIsland_RocketWarehouse_EventScript_DefeatedGideon
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6, FiveIsland_RocketWarehouse_EventScript_MentionGiovannisKid
 	msgbox FiveIsland_RocketWarehouse_Text_GetLostLeaveMeBe, MSGBOX_AUTOCLOSE
 	end
@@ -66,8 +67,9 @@ FiveIsland_RocketWarehouse_EventScript_MentionGiovannisKid::
 
 FiveIsland_RocketWarehouse_EventScript_DefeatedGideon::
 	msgbox FiveIsland_RocketWarehouse_Text_GideonPostBattle
-	setflag FLAG_RECOVERED_SAPPHIRE
 	giveitem ITEM_SAPPHIRE
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+	setflag FLAG_RECOVERED_SAPPHIRE
 	release
 	end
 

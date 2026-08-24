@@ -32,9 +32,9 @@ CeruleanCity_BikeShop_EventScript_ClerkGoodbye::
 
 CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher::
 	msgbox CeruleanCity_BikeShop_Text_OhBikeVoucherHereYouGo
-	msgreceiveditem CeruleanCity_BikeShop_Text_ExchangedVoucherForBicycle, ITEM_BICYCLE, 1, MUS_RG_OBTAIN_KEY_ITEM
+	giveitem ITEM_BICYCLE
+	goto_if_eq VAR_RESULT, FALSE, CeruleanCity_BikeShop_EventScript_NoRoomForBicycle
 	setflag FLAG_GOT_BICYCLE
-	additem ITEM_BICYCLE
 	removeitem ITEM_BIKE_VOUCHER
 	msgbox CeruleanCity_BikeShop_Text_ThankYouComeAgain
 	release
@@ -45,7 +45,6 @@ CeruleanCity_BikeShop_EventScript_AlreadyGotBicycle::
 	release
 	end
 
-@ Unused
 CeruleanCity_BikeShop_EventScript_NoRoomForBicycle::
 	msgbox CeruleanCity_BikeShop_Text_MakeRoomForBicycle
 	release

@@ -291,7 +291,7 @@ GoldenrodCity_RadioTower_5F_EventScript_WingBagFull::
 	msgbox GoldenrodCity_RadioTower_5F_Text_WingBagFull, MSGBOX_DEFAULT
 	closemessage
 	release
-	end
+	return
 
 GoldenrodCity_RadioTower_5F_Text_WingBagFull:
 	.string "Your BAG is full!\n"

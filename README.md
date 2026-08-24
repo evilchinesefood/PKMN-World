@@ -48,7 +48,7 @@ Full setup, toolchain notes and troubleshooting live in **[INSTALL.md](INSTALL.m
 | `make modern` | Build the ROM (this is the normal build) |
 | `make validate` | Host-side content checks — Gen 1–3 rule, script pointers, map events. Seconds, no build needed |
 | `make check` | The inherited battle-engine test suite (~5,500 tests, ~23 min) |
-| `Testing/run-all.sh` | 20 in-game overworld suites on a patched headless mGBA. Local only — see `Testing/mgba/README.md` |
+| `Testing/run-all.sh` | 43 in-game overworld suites on a patched headless mGBA (44 with the optional owner save). Local only — see `Testing/mgba/README.md` |
 | `make RELEASE=1` | Optimized build with the debug menu stripped |
 
 CI (`.github/workflows/Check.yml`) runs the host validators and `make check`. It never uploads a

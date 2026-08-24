@@ -11,7 +11,7 @@ Four suites need a battery save instead, and one of those saves is not in the tr
 
 ## What's in this directory
 
-`Testing/lua/` holds **28 `.lua` files**: 24 suites plus four that are not suites and must never be
+`Testing/lua/` holds **48 `.lua` files**: 44 suites plus four that are not suites and must never be
 launched directly.
 
 | File | Role |
@@ -64,13 +64,12 @@ FAILURE, not a pass** — a suite that aborted before its first check must not r
 Testing/run-all.sh [rom.gba]        # defaults to ./pokemonworld.gba
 ```
 
-It takes about **90 seconds** for the current list. It is not just a loop: it exists because
-"21/21 green" was once reported from 20 fresh runs plus one `.PASS` that was six days and many
-builds old, for a suite that cannot run at all. So it:
+It is not just a loop: it exists because "21/21 green" was once reported from 20 fresh runs plus
+one `.PASS` that was six days and many builds old, for a suite that cannot run at all. So it:
 
 1. **Deletes every `.PASS`/`.FAIL` in `_pwtest/` first**, so any sentinel left afterwards is one
    this sweep wrote.
-2. Runs the 20 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
+2. Runs the 40 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
    per suite.
 3. **Audits the sentinels**: each expected suite must have a `.PASS` *and* it must carry
    `rom=<md5 of the ROM under test>`. A `.FAIL`, a missing sentinel, or a stale md5 each fail the
@@ -78,7 +77,7 @@ builds old, for a suite that cannot run at all. So it:
 4. Prints suites it knows about but could not run, under `NOT RUN`.
 
 ```
-green 23 / 23 expected
+green 43 / 43 expected
 SWEEP OK - every expected suite produced a fresh PASS stamped rom=<md5>
 ```
 
@@ -88,9 +87,9 @@ Exit code is **0** only for that. **1** means the sweep failed and the message s
 
 ### What a clean sweep looks like
 
-On the owner's machine: **24/24, `SWEEP OK`, exit 0.**
+On the owner's machine: **44/44, `SWEEP OK`, exit 0.**
 
-On a fresh clone: **23 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
+On a fresh clone: **43 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
 reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,
 and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough, so no
 clone can ever have one. It is therefore listed in `run-all.sh`'s `OPTIONAL_SAVE` rather than
@@ -172,6 +171,26 @@ is clean; keep it that way.
 | [`LevelUpSummary.lua`](#levelupsummarylua) | fresh new game | The post-battle "Your team grew stronger!" box, which `make check` cannot reach by construction. |
 | [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
+| [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
+| [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
+| [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
+| [`DaycareFullPartyEgg.lua`](#daycarefullpartyegglua) | fresh new game | A Route 34 daycare egg with a full party of 6 does not overwrite slot 5. |
+| [`EncountersIncenseLink.lua`](#encountersincenselinklua) | fresh new game | Flat wild tables, Route 123 Roselia, Rose Incense mart, quest compile-out, Center 2F sealed. |
+| [`EncountersIncenseLink_MainMenu.lua`](#encountersincenselink_mainmenulua) | fresh new game | Mystery Gift is compiled out of the title/main menu even with the flag set. |
+| [`FollowerOutdoors.lua`](#followeroutdoorslua) | fresh new game | Grass/Bug followers comment on the outdoors (sniff / breeze / deep breath). |
+| [`FrontierMidSave.lua`](#frontiermidsavelua) | fresh new game | A paused Battle Tower SAVE_LINK persists SaveBlock3 past the old 5-sector window. |
+| [`HubNurseMonitor.lua`](#hubnursemonitorlua) | fresh new game | World Transit hub nurse heal spawns the FRLG 32x16 monitor, not Hoenn 24x16. |
+| [`JohtoFlyTeleport.lua`](#johtoflyteleportlua) | fresh new game | Fly and Teleport land on Johto heal aprons, not Center doors. |
+| [`JohtoHofLegendaries.lua`](#johtohoflegendarieslua) | fresh new game | Johto HOF rematch does not re-arm already-caught Mew/Deoxys. |
+| [`JohtoMusicPass.lua`](#johtomusicpasslua) | fresh new game | Johto outdoor maps, cycling, and Radio Tower occupation play MUS_HG_*. |
+| [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
+| [`JohtoWhiteoutHeal.lua`](#johtowhiteoutheallua) | fresh new game | Johto whiteout lands on the Violet apron, Center heals store aprons, FRLG monitor. |
+| [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
+| [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro Hard Mode defaults NO; outfit B is not a silent RED; EV/IV START flips page. |
+| [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
+| [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
+| [`SlowpokeWellRescue.lua`](#slowpokewellrescuelua) | fresh new game | Slowpoke Well Jessie/James gate, Kurt no longer seals Proton, Rocket walk-out. |
+| [`TohjoCelebi.lua`](#tohjocelebilua) | fresh new game | A full-HP Celebi follower arms the Tohjo Falls Giovanni scene. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -400,6 +419,139 @@ Hoenn floor is read first and the Johto floors must report the same pointers and
 No trainer suppression: one step per floor, onto a tile picked to sit outside every sight cone, so
 the suite carries no hard-coded defeat flags to go stale.
 
+### `JohtoBerrySlots.lua`
+
+Issue #163: nine Johto berry trees shared save slots with nine other Johto berry trees, because
+`johto_compat.h` aliased `BERRY_TREE_<berry>_<n>` onto `BERRY_TREE_JOHTO_<berry>_<n>`. The suite
+reads `SaveBlock1.berryTrees[]` after a new game: slots 113-121 hold the right berry at
+`BERRY_STAGE_BERRIES` (those indices were never written on the pre-fix ROM), and the total number
+of seeded slots equals the number of `setberrytree` lines — so a future collision anywhere, not
+just these nine, drops the count.
+
+### `AzaleaGymRide.lua`
+
+Issue #89: Azalea Gym Ariados ride carriers. Templates must be `OBJ_EVENT_GFX_SPECIES(ARIADOS)`,
+not a generic Lass. Warps into the gym, checks spawned graphicsIds, then walks onto trigger 2 and
+requires the ride to finish at trigger 6.
+
+### `DayCareFlowers.lua`
+
+Issue #165: Route 34 Day Care and Goldenrod Flower Shop have no flower object events — animation
+is a tileset callback (`TilesetAnim_JohtoDayCare`) copying red/yellow flower sheets into VRAM.
+The suite asserts that callback is hooked and that the flower tiles' VRAM signatures change over
+an idle, rather than staying stuck on frame 0.
+
+### `DaycareFullPartyEgg.lua`
+
+A Route 34 daycare egg with a full party of 6 must not overwrite party slot 5: the overworld
+"no room" branch has to actually run. Fresh new game, Debug Set Party, clone slot 0 across six
+slots, RAM-stuff two compatible parents into the daycare, then talk to the Route 34 man. Slot 5's
+pid/species stay put, the egg stays pending, and a message box opens.
+
+### `EncountersIncenseLink.lua`
+
+v1.5 wild-encounter / incense / link compile-outs on a fresh game: `gWildMonHeaders` is a flat
+table (no time-of-day pointer fan-out), Route 123's land table can roll Roselia, Goldenrod 4F
+stocks Rose Incense, the start-menu QUEST row is compiled out, and Oldale Pokémon Center 2F is
+sealed. Title-screen Mystery Gift absence is the sibling suite.
+
+### `EncountersIncenseLink_MainMenu.lua`
+
+Issue #59: Mystery Gift compiled out of the title/main menu. Boots a fresh game, sets
+`FLAG_SYS_MYSTERY_GIFT_ENABLE`, saves from the Start wheel, reboots, and waits for
+`CB2_InitMainMenu` without `F.boot()` mash (that would Continue). `tMenuType` stays
+`HAS_SAVED_GAME` with 3 rows; a compile-in would promote to 4. Never presses A on a menu item.
+
+### `FollowerOutdoors.lua`
+
+Issue #167: Grass/Bug followers comment on the outdoors. `COND_MSG_OUTDOORS` is
+`MATCH_OUTDOORS + MATCH_TYPES(GRASS, BUG)` with `sOutdoorsTexts` { sniffing, breeze, deep breath }.
+The suite puts an Oddish out on Route 29 and talks repeatedly until those three `sCondMsg51/52/53`
+strings appear; the "happy to see what's outdoors" day-pool line is a negative control.
+
+### `FrontierMidSave.lua`
+
+A paused Battle Tower challenge saves through `SaveGameFrontier` → `TrySavingData(SAVE_LINK)`.
+Unique SaveBlock3 bytes past the old 5-sector window (SB3[0..579]) must survive a core reboot
+and Continue. Discriminates a save that only flushed the first five sectors.
+
+### `HubNurseMonitor.lua`
+
+World Transit hub nurse heal must spawn the FRLG 32×16 monitor, not Hoenn's 24×16. Fresh new
+game, Debug Set Party, stand on (13,12) facing the desk (not Chansey's column), mash A through
+the heal, and classify the sprite by OAM shape/size plus the live secondary tileset pointer.
+
+### `JohtoFlyTeleport.lua`
+
+v1.5 Fly and Teleport land on Johto heal **aprons**, not Center doors. Teleport copies
+`lastHealLocation`; Fly uses the town-map picker / `HEAL_LOCATION_AZALEA_TOWN`. Both must be
+Azalea (31,16), one tile south of the door (31,15).
+
+### `JohtoHofLegendaries.lua`
+
+Johto HOF rematch must not re-arm already-caught Mew/Deoxys.
+`JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags` clears `FLAG_DEFEATED_MEW` /
+`FLAG_DEFEATED_DEOXYS` (unresolved retries) and must leave `FLAG_CAUGHT_MEW` and
+`FLAG_BATTLED_DEOXYS` (the caught markers) and the hide flags set.
+
+### `JohtoMusicPass.lua`
+
+Issue #173: Johto outdoor maps, cycling, and Radio Tower occupation play `MUS_HG_*` rather
+than Hoenn/Kanto themes. Reads `gMPlayInfo_BGM` against `gSongTable` after each warp / bike /
+occupation flag.
+
+### `JohtoWhirlpool.lua`
+
+Issue #160: Whirlpool / Glacier Badge. Without `FLAG_JOHTO_BADGE_7` the tile refuses with the
+swirling-water message; with it, `applymovement` slides three tiles in the facing direction and
+walks over the 2×2 invisible Archer blockers. Dragon's Den Cavern, from the dock, is the bed.
+
+### `JohtoWhiteoutHeal.lua`
+
+Johto whiteout / heal-tile landings plus Center monitor sprite. Fresh new game: Debug Set Party,
+write `lastHealLocation` to the Violet apron (39,46), force a debug-battle whiteout, and require
+the landing is that apron rather than the old Sprout Tower door (30,18). Azalea / Goldenrod /
+Safari Gate heals store the apron, not the door; Johto Center heal animation is the FRLG 32×16
+monitor keyed off tileset, including the hub (`MAPSEC_DYNAMIC`).
+
+### `KenyaMail.lua`
+
+Issue #66: Randy's Kenya gift carries RetroMail, the Route 31 sleeper actually removes her, and
+TM41 bag-full is checked before the take. Talks Randy in the Goldenrod/Route 35 gate, then the
+sleeper on Route 31, with a full TM pocket as the bag-full discriminator.
+
+### `PromptSafetyEvIv.lua`
+
+v1.5 prompt safety: intro Hard Mode defaults NO, outfit B is not a silent RED commit, Hub Pass
+one-way confirm rests on NO, EV/IV Changer START flips page. Drives the Oak intro itself —
+stock `F.boot()` would mash A+Start through the Hard Mode yes/no — reading oak-speech task
+funcs / `sMenu` / `gWindows` before A.
+
+### `RedGyarados.lua`
+
+Issue #66: "The Red Gyarados is red". Lake of Rage template + spawned `graphicsId` is
+`MON|SHINY|GYARADOS`; then Set Party, start the scripted fight, and read opponent shininess.
+Dragon's Den elder Dratini (perfect-quiz shiny) is attempted only if a cheap warp works.
+
+### `Route41SurfBgm.lua`
+
+`FldEff_UseSurf` on Route 41 itself must play `MUS_HG_SURF` (670), not Hoenn `MUS_SURF` (365).
+Does not surf across the Route 40 y=60 `warp_def` row — that `LoadMapFromWarp` drops SURFING
+and never re-runs `FldEff`. Warps to Route 41 land, stands on an elev-3 beach, A → Surf Yes.
+
+### `SlowpokeWellRescue.lua`
+
+Issue #89: Slowpoke Well Jessie/James corridor gate, Kurt no longer seals Proton's chamber,
+and beating Rocket walks you to Kurt's house. Coords from `SlowpokeWell_B1F/map.json`.
+
+### `TohjoCelebi.lua`
+
+Tohjo Falls Celebi gate. Arriving with a full-HP Celebi follower arms
+`VAR_TOHJO_FALLS_GIOVANNI_STATE`. `CheckCelebi` requires lead SPECIES_CELEBI, HP==maxHP, and a
+visible follower; `ON_TRANSITION` runs before `ResetObjectEvents`, so it sees the leftover
+follower from the previous map. The suite then watches `sGlobalScriptContext` enter the
+Giovanni scene.
+
 ### `VerifyV7Migrate.lua`
 
 The one test that could not be written after the fact (issue #59): `fixtures/v7.srm` was harvested from the last PRE-EDIT build — a fresh game debug-warped into Oldale's Pokémon Center and manually saved at (7,4), where the saved `mapView` window covers both the Town Map poster and the escalator this branch removed. Proves `SAVE_FORMAT_LAYOUT_MIN` stayed 7 (Continue loads the save instead of refusing it), the v7→v8 ladder step ran (`saveVersion` reads 8 in RAM), and — the part that needs the fixture — the stale `mapView` did NOT repaint the old room: the live map grid holds the terminal metatiles and stair fills at the exact edited cells. On any post-edit save `mapView` is already clean and that check would pass vacuously.
@@ -522,10 +674,10 @@ build, and a three-leg feature-flag off-switch compile matrix.
 
 ## Not promoted
 
-`_pwtest/` is gitignored scratch and, by design, nothing in it is a durable artifact. Historically it
-held a large corpus of one-off scripts driving specific mid-playthrough saves (Battle Net floors, Mt
-Mortar shards, gym rematches) that a fresh clone cannot reproduce, so they could never satisfy the
-"runs on a fresh build" bar. **Those scripts are not in this working tree** — the directory now holds
-run output only (logs, screenshots, sentinels). Do not send anyone to a `_pwtest/*.lua` path; the
-durable techniques all live in `lib.lua` and [`../BizHawkTesting.md`](../BizHawkTesting.md), and the
-suites in this directory are the reference implementations.
+`_pwtest/` is gitignored scratch and, by design, nothing in it is a durable artifact. The v1.5
+playtests that had a PASS on a fresh (or freshly-seeded) game now live in this directory. What
+remains in `_pwtest/` is run output (logs, screenshots, sentinels) plus one-offs that still
+cannot satisfy the "runs on a fresh build" bar — including `Route41Whirlpool.lua`, which has no
+PASS. Do not send anyone to a `_pwtest/*.lua` path; the durable techniques all live in `lib.lua`
+and [`../BizHawkTesting.md`](../BizHawkTesting.md), and the suites in this directory are the
+reference implementations.

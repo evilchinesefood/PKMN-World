@@ -38,7 +38,14 @@ FRESH=(SmokeBoot HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
        VerifyBagLayout VerifyBedroomPC VerifyPCScreen OwMonSprites VioletMart
        JohtoDayNightWorld JohtoDayNightLive NationalParkTiles TinTowerRoof
        OlivineHarborBoard SSAquaKantoCrossing BnetTerminal1F LevelUpSummary
-       DoorAnimsRegistered JohtoVictoryRoadTiles JohtoBerrySlots)
+       DoorAnimsRegistered JohtoVictoryRoadTiles JohtoBerrySlots
+       AzaleaGymRide DayCareFlowers DaycareFullPartyEgg
+       EncountersIncenseLink EncountersIncenseLink_MainMenu
+       FollowerOutdoors FrontierMidSave HubNurseMonitor
+       JohtoFlyTeleport JohtoHofLegendaries JohtoMusicPass
+       JohtoWhirlpool JohtoWhiteoutHeal KenyaMail
+       PromptSafetyEvIv RedGyarados Route41SurfBgm
+       SlowpokeWellRescue TohjoCelebi)
 
 # Suites that need a specific battery save to mean anything: "<suite>:<fixture>".
 # VerifyV7Migrate MUST use v7dirty, not v7 -- its own header records that v7 happens to hold

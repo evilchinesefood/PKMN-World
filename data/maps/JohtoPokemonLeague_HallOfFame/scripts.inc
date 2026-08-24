@@ -65,6 +65,10 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	setvar VAR_LEAGUE_STATE, 1
 	setvar VAR_NEWBARK_TOWN_STATE, 6
 	setvar VAR_SSAQUA_STATE, 0
+	@ Unchosen beast is VAR_COMPLETED_* = 3 (Theater). Without this, first Johto
+	@ clear never writes 4, and the chamber ON_TRANSITION re-hides it every entry.
+	call_if_unset FLAG_CAUGHT_LUGIA, JohtoHoF_RespawnLugia
+	call_if_unset FLAG_CAUGHT_HO_OH, JohtoHoF_RespawnHoOh
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::

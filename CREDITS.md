@@ -128,7 +128,7 @@ original sources.
   sprite was re-encoded from 8-bit to 4-bit indexed with its palette and every pixel index
   preserved, and the palette ships unchanged.
 - **Johto overworld cast** — the overworld sprites and palettes for the eight Johto gym
-  leaders, Will, Karen, Professor Elm, Kurt, the Kimono Girl, Silver, Janine, the four Team
+  leaders, Will, Karen, Professor Elm, Kurt, the Kimono Girl, Janine, the four Team
   Rocket executives, the Sage and the Firebreather are HnS's own
   `graphics/object_events/pics/people/` and `graphics/object_events/palettes/` files. So are
   the nine-frame walking sheets that replace this project's three-frame FRLG stills for

@@ -1,4 +1,4 @@
-.set LOCALID_BELLCHIME_MORTY, 52
+.set LOCALID_BELLCHIME_MORTY, 48
 
 BellchimeTrail_MapScripts::
 	.byte 0
@@ -22,7 +22,7 @@ BellchimeTrail_Text_Morty:
 	.string "But that does not mean that I\n"
 	.string "have lost out on my future.\p"
 	.string "I will continue my training until I\n"
-	.string "I discover a new future for me.\p"
+	.string "discover a new future for me.\p"
 	.string "If you seek another battle, find\n"
 	.string "me at the FIGHTING DOJO.$"
 

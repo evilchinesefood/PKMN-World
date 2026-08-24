@@ -9,7 +9,7 @@ Route103_OnTransition:
 	end
 
 Route103_OnLoad:
-	call_if_set FLAG_SYS_GAME_CLEAR, Route103_EventScript_OpenAlteringCave
+	call_if_set FLAG_HOENN_CHAMPION, Route103_EventScript_OpenAlteringCave
 	end
 
 Route103_EventScript_OpenAlteringCave::

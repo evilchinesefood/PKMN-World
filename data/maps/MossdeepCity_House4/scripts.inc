@@ -4,7 +4,7 @@ MossdeepCity_House4_MapScripts::
 MossdeepCity_House4_EventScript_Woman::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, MossdeepCity_House4_EventScript_CanBattleAtSecretBases
+	goto_if_set FLAG_HOENN_CHAMPION, MossdeepCity_House4_EventScript_CanBattleAtSecretBases
 	msgbox MossdeepCity_House4_Text_BrotherLikesToFindBases, MSGBOX_DEFAULT
 	release
 	end

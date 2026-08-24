@@ -141,7 +141,7 @@ MossdeepCity_SpaceCenter_1F_EventScript_GaveSunStoneMagma::
 MossdeepCity_SpaceCenter_1F_EventScript_Woman::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, MossdeepCity_SpaceCenter_1F_EventScript_WomanNormal
+	goto_if_set FLAG_HOENN_CHAMPION, MossdeepCity_SpaceCenter_1F_EventScript_WomanNormal
 	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_WomanMagma
 	goto_if_lt VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_WomanNormal
 	goto MossdeepCity_SpaceCenter_1F_EventScript_WomanMagma
@@ -160,7 +160,7 @@ MossdeepCity_SpaceCenter_1F_EventScript_WomanMagma::
 MossdeepCity_SpaceCenter_1F_EventScript_OldMan::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, MossdeepCity_SpaceCenter_1F_EventScript_OldManNormal
+	goto_if_set FLAG_HOENN_CHAMPION, MossdeepCity_SpaceCenter_1F_EventScript_OldManNormal
 	goto_if_eq VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_OldManMagma
 	goto_if_lt VAR_MOSSDEEP_CITY_STATE, 2, MossdeepCity_SpaceCenter_1F_EventScript_OldManNormal
 	goto MossdeepCity_SpaceCenter_1F_EventScript_OldManMagma

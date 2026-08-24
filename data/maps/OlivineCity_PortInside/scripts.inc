@@ -250,11 +250,12 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 @ three times, so a refusal without the buffer prints an empty name), then the branch.
 @
 @ It deliberately does NOT mirror the Hoenn-side attendant, which is the obvious-looking answer and
-@ the wrong one. BattleFrontier_OutsideWest_EventScript_FerryAttendant demands FLAG_SYS_GAME_CLEAR
-@ AND ITEM_SS_TICKET, but FLAG_SYS_GAME_CLEAR is HOENN's clear flag: a Johto champion is given
-@ FLAG_IS_CHAMPION and FLAG_JOHTO_CHAMPION instead (JohtoPokemonLeague_HallOfFame/scripts.inc:61-62
-@ - checked, not assumed) and never touches Hoenn's. Copying that gate literally would shut this
-@ row for precisely the players this board exists for. Only the ticket half is taken.
+@ the wrong one. BattleFrontier_OutsideWest_EventScript_FerryAttendant demands FLAG_HOENN_CHAMPION
+@ AND ITEM_SS_TICKET. FLAG_SYS_GAME_CLEAR is the any-region first-HOF bit (GameClear / EnterHallOfFame
+@ set it from Hoenn, Johto, Kanto, and Red); Hoenn postgame uses FLAG_HOENN_CHAMPION. A Johto
+@ champion is given FLAG_IS_CHAMPION and FLAG_JOHTO_CHAMPION (JohtoPokemonLeague_HallOfFame/scripts.inc:61-62
+@ - checked, not assumed). Copying the Hoenn attendant's champion gate would shut this row for
+@ precisely the players this board exists for. Only the ticket half is taken.
 @
 @ What the ticket check is, therefore, is a consistency guarantee rather than a new obstacle. The
 @ board is already behind VAR_SSAQUA_STATE >= 7 (:112), which is only reached by completing a full

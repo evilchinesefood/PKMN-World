@@ -1351,7 +1351,7 @@
 #define FLAG_SYS_POKEDEX_GET                         (SYSTEM_FLAGS + 0x1)
 #define FLAG_SYS_POKENAV_GET                         (SYSTEM_FLAGS + 0x2)
 #define FLAG_SYS_QUEST_MENU_GET                      (SYSTEM_FLAGS + 0x3) // add QUESTS to start menu
-#define FLAG_SYS_GAME_CLEAR                          (SYSTEM_FLAGS + 0x4)
+#define FLAG_SYS_GAME_CLEAR                          (SYSTEM_FLAGS + 0x4) // any-region first HOF; Hoenn postgame uses FLAG_HOENN_CHAMPION
 #define FLAG_SYS_CHAT_USED                           (SYSTEM_FLAGS + 0x5)
 #define FLAG_UNLOCKED_TRENDY_SAYINGS                 (SYSTEM_FLAGS + 0x6)
 

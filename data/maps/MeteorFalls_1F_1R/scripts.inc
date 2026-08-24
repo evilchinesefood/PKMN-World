@@ -3,7 +3,7 @@ MeteorFalls_1F_1R_MapScripts::
 	.byte 0
 
 MeteorFalls_1F_1R_OnLoad:
-	call_if_set FLAG_SYS_GAME_CLEAR, MeteorFalls_1F_1R_EventScript_OpenStevensCave
+	call_if_set FLAG_HOENN_CHAMPION, MeteorFalls_1F_1R_EventScript_OpenStevensCave
 	end
 
 MeteorFalls_1F_1R_EventScript_OpenStevensCave::

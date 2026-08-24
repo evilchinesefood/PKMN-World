@@ -175,7 +175,7 @@ SlateportCity_Harbor_EventScript_HubShuttle::
 	end
 
 SlateportCity_Harbor_EventScript_HubDeclined::
-	goto_if_set FLAG_SYS_GAME_CLEAR, SlateportCity_Harbor_EventScript_AskForTicket
+	goto_if_set FLAG_HOENN_CHAMPION, SlateportCity_Harbor_EventScript_AskForTicket
 	release
 	end
 
@@ -281,7 +281,7 @@ SlateportCity_Harbor_Movement_BoardFerryNorth:
 SlateportCity_Harbor_EventScript_Sailor::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, SlateportCity_Harbor_EventScript_SailorNoAbnormalWeather
+	goto_if_unset FLAG_HOENN_CHAMPION, SlateportCity_Harbor_EventScript_SailorNoAbnormalWeather
 	setvar VAR_0x8004, 0
 	call_if_set FLAG_DEFEATED_KYOGRE, SlateportCity_Harbor_EventScript_CountDefeatedLegendary
 	call_if_set FLAG_DEFEATED_GROUDON, SlateportCity_Harbor_EventScript_CountDefeatedLegendary
@@ -337,7 +337,7 @@ SlateportCity_Harbor_EventScript_CaptSternFerryOrScannerComment::
 	goto_if_eq VAR_TEMP_1, 1, SlateportCity_Harbor_EventScript_TradedScanner
 	checkitem ITEM_SCANNER
 	goto_if_eq VAR_RESULT, TRUE, SlateportCity_Harbor_EventScript_AskToTradeScanner
-	goto_if_set FLAG_SYS_GAME_CLEAR, SlateportCity_Harbor_EventScript_FerryFinished
+	goto_if_set FLAG_HOENN_CHAMPION, SlateportCity_Harbor_EventScript_FerryFinished
 	msgbox SlateportCity_Harbor_Text_WontBeLongBeforeWeFinishFerry, MSGBOX_DEFAULT
 	release
 	end

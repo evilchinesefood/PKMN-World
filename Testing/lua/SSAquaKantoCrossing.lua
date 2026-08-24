@@ -89,6 +89,7 @@ local FERRY_DEPART_VERMILION = 3
 -- are plain literals. Hardcoded with citations for the same reason VAR_SSAQUA_STATE above is:
 -- GenLuaSymbols.py resolves LINKER symbols, and a #define never reaches the symbol table.
 local FLAG_SYS_GAME_CLEAR              = 0x948 + 0x4
+local FLAG_HOENN_CHAMPION              = 0xA4A  -- include/constants/region_flags.h
 local FLAG_ENABLE_SHIP_BIRTH_ISLAND    = 0x948 + 0x75
 local FLAG_SHOWN_AURORA_TICKET         = 0x1AF
 local FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL = 0x35D
@@ -916,7 +917,7 @@ F.run(function()
   -- proved as one journey rather than as two halves that happen to agree on a constant.
   --
   -- Preconditions for LilycoveCity_Harbor_EventScript_FerryAttendant to reach the AURORA row:
-  --   FLAG_SYS_GAME_CLEAR              — the whole conversation sits behind it (scripts.inc:37)
+  --   FLAG_HOENN_CHAMPION              — the whole conversation sits behind it (scripts.inc:37)
   --   FLAG_ENABLE_SHIP_BIRTH_ISLAND + ITEM_AURORA_TICKET — GetAuroraTicketState wants both
   --   FLAG_SHOWN_AURORA_TICKET clear   — makes VAR_TEMP_D 2 rather than 1, i.e. the FIRST-TIME
   --     branch, which is the one with NO multichoice to steer: with the Aurora ticket as the only
@@ -926,13 +927,14 @@ F.run(function()
   --   FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL clear — new_game.inc:188 SETS it and hall_of_fame.inc:17
   --     clears it, so on this fresh save the ferry object the boarding cutscene applymovements
   --     (Common_EventScript_FerryDepart, via VAR_0x8004) is not spawned. Clearing it is part of
-  --     the same post-game state FLAG_SYS_GAME_CLEAR above stands for, not a fudge.
+  --     the same Hoenn post-game state FLAG_HOENN_CHAMPION above stands for, not a fudge.
   --
   -- That branch boards through LilycoveCity_Harbor_EventScript_BoardFerryWithSailor, which is the
   -- write site easiest to miss: it is a SEPARATE helper from BoardFerry rather than a wrapper
   -- around it, so a fix that patched only the obvious one would leave every first-time event
   -- ticket with no departure record. This leg is what would catch that.
   globalFlagSet(FLAG_SYS_GAME_CLEAR, true)
+  globalFlagSet(FLAG_HOENN_CHAMPION, true)
   globalFlagSet(FLAG_ENABLE_SHIP_BIRTH_ISLAND, true)
   globalFlagSet(FLAG_SHOWN_AURORA_TICKET, false)
   globalFlagSet(FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL, false)

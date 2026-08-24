@@ -1088,9 +1088,9 @@ static u16 GetPrizeItemId(void)
 
     // Now get which prize list to use from the set. See GetPrizeListId for details.
     // The below conditional will always be true, because a Trainer Hill challenge can't be entered
-    // until the player has entered the Hall of Fame (FLAG_SYS_GAME_CLEAR is set) and because all
+    // until the player is the Hoenn champion (FLAG_HOENN_CHAMPION is set) and because all
     // of the available challenge modes have the full 8 trainers (NUM_TRAINER_HILL_TRAINERS).
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && sHillData->challenge.numTrainers == NUM_TRAINER_HILL_TRAINERS)
+    if (FlagGet(FLAG_HOENN_CHAMPION) && sHillData->challenge.numTrainers == NUM_TRAINER_HILL_TRAINERS)
         i = GetPrizeListId(TRUE);
     else
         i = GetPrizeListId(FALSE);

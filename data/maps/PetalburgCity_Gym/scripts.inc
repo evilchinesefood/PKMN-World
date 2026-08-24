@@ -38,7 +38,7 @@ PetalburgCity_Gym_EventScript_UnlockAllDoors::
 PetalburgCity_Gym_OnTransition:
 	call_if_eq VAR_PETALBURG_GYM_STATE, 1, PetalburgCity_Gym_EventScript_MoveWallyToEntrance
 	call_if_lt VAR_PETALBURG_GYM_STATE, 6, PetalburgCity_Gym_EventScript_MoveNormanToEntrance
-	call_if_set FLAG_SYS_GAME_CLEAR, PetalburgCity_Gym_EventScript_CheckNormanForRematch
+	call_if_set FLAG_HOENN_CHAMPION, PetalburgCity_Gym_EventScript_CheckNormanForRematch
 	end
 
 PetalburgCity_Gym_EventScript_MoveWallyToEntrance::
@@ -331,7 +331,6 @@ PetalburgCity_Gym_EventScript_NormanPostBattle::
 	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_GiveEnigmaBerry
 	goto_if_unset FLAG_RECEIVED_TM_FACADE, PetalburgCity_Gym_EventScript_GiveFacade2
 	goto_if_set FLAG_HOENN_CHAMPION, PetalburgCity_Gym_EventScript_NormanOfferRematch
-	goto_if_set FLAG_SYS_GAME_CLEAR, PetalburgCity_Gym_EventScript_NoAmountOfTrainingIsEnough
 	msgbox PetalburgCity_Gym_Text_DadGoingToKeepTraining, MSGBOX_DEFAULT
 	release
 	end

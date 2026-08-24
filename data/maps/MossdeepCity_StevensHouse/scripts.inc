@@ -5,7 +5,7 @@ MossdeepCity_StevensHouse_MapScripts::
 	.byte 0
 
 MossdeepCity_StevensHouse_OnLoad:
-	call_if_unset FLAG_SYS_GAME_CLEAR, MossdeepCity_StevensHouse_EventScript_HideStevensNote
+	call_if_unset FLAG_HOENN_CHAMPION, MossdeepCity_StevensHouse_EventScript_HideStevensNote
 	end
 
 MossdeepCity_StevensHouse_EventScript_HideStevensNote::

@@ -27,13 +27,14 @@
 --                                                                    standing on the Frontier dock)
 -- With the hunk restored it is 20/20.
 --
--- ★ The gate deliberately does NOT include FLAG_SYS_GAME_CLEAR, which is what the Hoenn-side
+-- ★ The gate deliberately does NOT include FLAG_HOENN_CHAMPION, which is what the Hoenn-side
 -- BattleFrontier_OutsideWest_EventScript_FerryAttendant demands on top of the ticket. That flag is
--- HOENN's clear flag; a Johto champion gets FLAG_IS_CHAMPION / FLAG_JOHTO_CHAMPION instead
+-- Hoenn's champion bit; FLAG_SYS_GAME_CLEAR is the any-region first-HOF bit (GameClear sets it from
+-- Johto too). A Johto champion gets FLAG_IS_CHAMPION / FLAG_JOHTO_CHAMPION instead
 -- (data/maps/JohtoPokemonLeague_HallOfFame/scripts.inc:61-62), so mirroring the attendant would
 -- shut this row for precisely the players the board exists for. That is why this suite never sets
--- a clear flag and still expects segment A to sail: a build that "fixed" #79 by copying the Hoenn
--- gate literally would go red here rather than pass quietly.
+-- a Hoenn champion flag and still expects segment A to sail: a build that "fixed" #79 by copying
+-- the Hoenn gate literally would go red here rather than pass quietly.
 
 package.path = (debug.getinfo(1, "S").source:sub(2):match("^(.*[/\\])") or "") .. "?.lua;" .. package.path
 local S = require("symbols")

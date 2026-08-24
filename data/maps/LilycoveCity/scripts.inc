@@ -168,7 +168,7 @@ LilycoveCity_EventScript_MuseumSignNoPaintings::
 
 LilycoveCity_EventScript_HarborSign::
 	lockall
-	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_EventScript_HarborSignFerryReady
+	goto_if_set FLAG_HOENN_CHAMPION, LilycoveCity_EventScript_HarborSignFerryReady
 	msgbox LilycoveCity_Text_HarborSignUnderConstruction, MSGBOX_DEFAULT
 	releaseall
 	end
@@ -342,7 +342,7 @@ LilycoveCity_EventScript_MayCollectBadges::
 	return
 
 LilycoveCity_EventScript_MayPokemonLeague::
-	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_EventScript_MayBattleFrontier
+	goto_if_set FLAG_HOENN_CHAMPION, LilycoveCity_EventScript_MayBattleFrontier
 	msgbox LilycoveCity_Text_MayYouGoingToPokemonLeague, MSGBOX_DEFAULT
 	return
 
@@ -366,7 +366,7 @@ LilycoveCity_EventScript_BrendanCollectBadges::
 	return
 
 LilycoveCity_EventScript_BrendanPokemonLeague::
-	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_EventScript_BrendanBattleFrontier
+	goto_if_set FLAG_HOENN_CHAMPION, LilycoveCity_EventScript_BrendanBattleFrontier
 	msgbox LilycoveCity_Text_BrendanYouGoingToPokemonLeague, MSGBOX_DEFAULT
 	return
 

@@ -81,7 +81,7 @@ Route110_TrickHouseEntrance_EventScript_CheckReadyForPuzzle7::
 	return
 
 Route110_TrickHouseEntrance_EventScript_CheckReadyForPuzzle8::
-	call_if_unset FLAG_SYS_GAME_CLEAR, Route110_TrickHouseEntrance_EventScript_NotReadyForPuzzle
+	call_if_unset FLAG_HOENN_CHAMPION, Route110_TrickHouseEntrance_EventScript_NotReadyForPuzzle
 	return
 
 Route110_TrickHouseEntrance_EventScript_FinishedPuzzles::

@@ -23,6 +23,8 @@ int GameClear(void)
 
     HealPlayerParty();
 
+    // FLAG_SYS_GAME_CLEAR is the any-region first-HOF bit (HOF records). Per-region
+    // league/postgame gates use FLAG_*_CHAMPION, not this flag.
     if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
     {
         gHasHallOfFameRecords = TRUE;
@@ -108,6 +110,8 @@ bool8 EnterHallOfFame(void)
     int i;
     bool8 gaveAtLeastOneRibbon;
     HealPlayerParty();
+    // FLAG_SYS_GAME_CLEAR is the any-region first-HOF bit (HOF records). Per-region
+    // league/postgame gates use FLAG_*_CHAMPION, not this flag.
     if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
     {
         gHasHallOfFameRecords = TRUE;

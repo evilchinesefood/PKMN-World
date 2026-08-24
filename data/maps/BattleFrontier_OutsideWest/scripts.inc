@@ -31,9 +31,10 @@ BattleFrontier_OutsideWest_Text_HubShuttle:
 BattleFrontier_OutsideWest_EventScript_FerryAttendant::
 	lock
 	faceplayer
-	@ A1 gate policy: match the Slateport harbor ferry, which already requires
-	@ FLAG_SYS_GAME_CLEAR on top of the S.S. TICKET.
-	goto_if_unset FLAG_SYS_GAME_CLEAR, BattleFrontier_OutsideWest_EventScript_FerryNotRunning
+	@ A1 gate policy: match the Slateport harbor ferry, which requires
+	@ FLAG_HOENN_CHAMPION on top of the S.S. TICKET. FLAG_SYS_GAME_CLEAR is the
+	@ any-region first-HOF bit; the S.S. Tidal is Hoenn postgame.
+	goto_if_unset FLAG_HOENN_CHAMPION, BattleFrontier_OutsideWest_EventScript_FerryNotRunning
 	msgbox BattleFrontier_OutsideWest_Text_MayISeeYourTicket, MSGBOX_DEFAULT
 	checkitem ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_OutsideWest_EventScript_NoSSTicket

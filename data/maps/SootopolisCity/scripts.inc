@@ -830,7 +830,7 @@ SootopolisCity_EventScript_Boy1::
 	applymovement LOCALID_SOOTOPOLIS_BOY_1, Common_Movement_FacePlayer
 	waitmovement 0
 	goto_if_eq VAR_SOOTOPOLIS_CITY_STATE, 5, SootopolisCity_EventScript_Boy1Rayquaza
-	goto_if_set FLAG_SYS_GAME_CLEAR, SootopolisCity_EventScript_Boy1GameClear
+	goto_if_set FLAG_HOENN_CHAMPION, SootopolisCity_EventScript_Boy1GameClear
 	goto_if_ge VAR_SOOTOPOLIS_CITY_STATE, 6, SootopolisCity_EventScript_Boy1Normal
 	goto_if_le VAR_SOOTOPOLIS_CITY_STATE, 1, SootopolisCity_EventScript_Boy1Normal
 	msgbox SootopolisCity_Text_GiantPokemonSuddenlyAppeared, MSGBOX_DEFAULT

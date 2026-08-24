@@ -119,9 +119,9 @@ struct DexNavGUI
     MainCallback savedCallback;
     u8 state;
     u8 cursorSpriteId;
-    enum Species landSpecies[LAND_WILD_COUNT];
-    enum Species waterSpecies[WATER_WILD_COUNT];
-    enum Species hiddenSpecies[HIDDEN_WILD_COUNT];
+    enum Species landSpecies[NUM_LAND_MONS_ENCOUNTER_SLOTS];
+    enum Species waterSpecies[NUM_WATER_MONS_ENCOUNTER_SLOTS];
+    enum Species hiddenSpecies[NUM_HIDDEN_MONS_ENCOUNTER_SLOTS];
     u8 cursorRow;
     u8 cursorCol;
     u8 environment;
@@ -958,21 +958,21 @@ static bool32 DexNavSpeciesInCurrentMapEncounters(enum Species species, u32 head
     timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND);
     info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo;
     if (info != NULL && info->encounterRate != 0)
-        for (i = 0; i < LAND_WILD_COUNT; i++)
+        for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
             if (info->wildPokemon[i].species == species)
                 return TRUE;
 
     timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_WATER);
     info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].waterMonsInfo;
     if (info != NULL && info->encounterRate != 0)
-        for (i = 0; i < WATER_WILD_COUNT; i++)
+        for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; i++)
             if (info->wildPokemon[i].species == species)
                 return TRUE;
 
     timeOfDay = GetTimeOfDayForEncounters(headerId, WILD_AREA_HIDDEN);
     info = gWildMonHeaders[headerId].encounterTypes[timeOfDay].hiddenMonsInfo;
     if (info != NULL) // no rate guard: hidden encounterRate is 0=land/1=water, not a rate
-        for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+        for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; i++)
             if (info->wildPokemon[i].species == species)
                 return TRUE;
 
@@ -1526,7 +1526,7 @@ static u8 GetEncounterLevelFromMapData(enum Species species, enum EncounterType 
         if (landMonsInfo == NULL)
             return MON_LEVEL_NONEXISTENT; //Hidden Pokémon should only appear on walkable tiles or surf tiles
 
-        for (i = 0; i < LAND_WILD_COUNT; i++)
+        for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
         {
             if (landMonsInfo->wildPokemon[i].species == species)
             {
@@ -1542,7 +1542,7 @@ static u8 GetEncounterLevelFromMapData(enum Species species, enum EncounterType 
         if (waterMonsInfo == NULL)
             return MON_LEVEL_NONEXISTENT; //Hidden Pokémon should only appear on walkable tiles or surf tiles
 
-        for (i = 0; i < WATER_WILD_COUNT; i++)
+        for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; i++)
         {
             if (waterMonsInfo->wildPokemon[i].species == species)
             {
@@ -1558,7 +1558,7 @@ static u8 GetEncounterLevelFromMapData(enum Species species, enum EncounterType 
         if (hiddenMonsInfo == NULL)
             return MON_LEVEL_NONEXISTENT;
 
-        for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+        for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; i++)
         {
             if (hiddenMonsInfo->wildPokemon[i].species == species)
             {
@@ -1737,7 +1737,7 @@ static bool8 CapturedAllLandMons(u32 headerId)
 
     if (landMonsInfo != NULL)
     {
-        for (i = 0; i < LAND_WILD_COUNT; ++i)
+        for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; ++i)
         {
             species = landMonsInfo->wildPokemon[i].species;
             if (species != SPECIES_NONE)
@@ -1749,7 +1749,7 @@ static bool8 CapturedAllLandMons(u32 headerId)
             }
         }
 
-        if (i >= LAND_WILD_COUNT && count > 0) //All land mons caught
+        if (i >= NUM_LAND_MONS_ENCOUNTER_SLOTS && count > 0) //All land mons caught
             return TRUE;
     }
     else
@@ -1772,7 +1772,7 @@ static bool8 CapturedAllWaterMons(u32 headerId)
 
     if (waterMonsInfo != NULL)
     {
-        for (i = 0; i < WATER_WILD_COUNT; ++i)
+        for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; ++i)
         {
             species = waterMonsInfo->wildPokemon[i].species;
             if (species != SPECIES_NONE)
@@ -1783,7 +1783,7 @@ static bool8 CapturedAllWaterMons(u32 headerId)
             }
         }
 
-        if (i >= WATER_WILD_COUNT && count > 0)
+        if (i >= NUM_WATER_MONS_ENCOUNTER_SLOTS && count > 0)
             return TRUE;
     }
     else
@@ -1805,7 +1805,7 @@ static bool8 CapturedAllHiddenMons(u32 headerId)
 
     if (hiddenMonsInfo != NULL)
     {
-        for (i = 0; i < HIDDEN_WILD_COUNT; ++i)
+        for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; ++i)
         {
             species = hiddenMonsInfo->wildPokemon[i].species;
             if (species != SPECIES_NONE)
@@ -1816,7 +1816,7 @@ static bool8 CapturedAllHiddenMons(u32 headerId)
             }
         }
 
-        if (i >= HIDDEN_WILD_COUNT && count > 0)
+        if (i >= NUM_HIDDEN_MONS_ENCOUNTER_SLOTS && count > 0)
             return TRUE;
     }
     else
@@ -1909,21 +1909,21 @@ static bool8 SpeciesInArray(enum Species species, u8 section)
     switch (section)
     {
     case 0: //land
-        for (i = 0; i < LAND_WILD_COUNT; i++)
+        for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
         {
             if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->landSpecies[i]) == dexNum)
                 return TRUE;
         }
         break;
     case 1: //water
-        for (i = 0; i < WATER_WILD_COUNT; i++)
+        for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; i++)
         {
             if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->waterSpecies[i]) == dexNum)
                 return TRUE;
         }
         break;
     case 2: //hidden
-        for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+        for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; i++)
         {
             if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->hiddenSpecies[i]) == dexNum)
                 return TRUE;
@@ -1965,7 +1965,7 @@ static void DexNavLoadEncounterData(void)
     // land mons
     if (landMonsInfo != NULL && landMonsInfo->encounterRate != 0)
     {
-        for (i = 0; i < LAND_WILD_COUNT; i++)
+        for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
         {
             species = landMonsInfo->wildPokemon[i].species;
             if (species != SPECIES_NONE && !SpeciesInArray(species, 0))
@@ -1976,7 +1976,7 @@ static void DexNavLoadEncounterData(void)
     // water mons
     if (waterMonsInfo != NULL && waterMonsInfo->encounterRate != 0)
     {
-        for (i = 0; i < WATER_WILD_COUNT; i++)
+        for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; i++)
         {
             species = waterMonsInfo->wildPokemon[i].species;
             if (species != SPECIES_NONE && !SpeciesInArray(species, 1))
@@ -1987,7 +1987,7 @@ static void DexNavLoadEncounterData(void)
     // hidden mons
     if (hiddenMonsInfo != NULL) // no encounter rate check since 0 means land, 1 means water encounters
     {
-        for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+        for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; i++)
         {
             species = hiddenMonsInfo->wildPokemon[i].species;
             if (species != SPECIES_NONE && !SpeciesInArray(species, 2))
@@ -2002,13 +2002,13 @@ static bool32 DexNavBoundSpeciesAvailableInUi(enum Species species)
 {
     u32 i;
 
-    for (i = 0; i < LAND_WILD_COUNT; i++)
+    for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
         if (sDexNavUiDataPtr->landSpecies[i] == species)
             return TRUE;
-    for (i = 0; i < WATER_WILD_COUNT; i++)
+    for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; i++)
         if (sDexNavUiDataPtr->waterSpecies[i] == species)
             return TRUE;
-    for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+    for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; i++)
         if (sDexNavUiDataPtr->hiddenSpecies[i] == species)
             return TRUE;
     return FALSE;
@@ -2031,7 +2031,7 @@ static void DrawSpeciesIcons(void)
     enum Species species;
 
     LoadCompressedSpriteSheetUsingHeap(&sNoDataIconSpriteSheet);
-    for (i = 0; i < LAND_WILD_COUNT; i++)
+    for (i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
     {
         species = sDexNavUiDataPtr->landSpecies[i];
         x = ROW_LAND_ICON_X + (24 * (i % COL_LAND_COUNT));
@@ -2039,7 +2039,7 @@ static void DrawSpeciesIcons(void)
         TryDrawIconInSlot(species, x, y);
     }
 
-    for (i = 0; i < WATER_WILD_COUNT; i++)
+    for (i = 0; i < NUM_WATER_MONS_ENCOUNTER_SLOTS; i++)
     {
         species = sDexNavUiDataPtr->waterSpecies[i];
         x = ROW_WATER_ICON_X + 24 * i;
@@ -2047,7 +2047,7 @@ static void DrawSpeciesIcons(void)
         TryDrawIconInSlot(species, x, y);
     }
 
-    for (i = 0; i < HIDDEN_WILD_COUNT; i++)
+    for (i = 0; i < NUM_HIDDEN_MONS_ENCOUNTER_SLOTS; i++)
     {
         species = sDexNavUiDataPtr->hiddenSpecies[i];
         x = ROW_HIDDEN_ICON_X + 24 * i;

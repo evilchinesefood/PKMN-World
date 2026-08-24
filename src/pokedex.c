@@ -1597,7 +1597,7 @@ void CB2_OpenPokedex(void)
     default:
         SetVBlankCallback(NULL);
         ResetOtherVideoRegisters(0);
-        DmaFillLarge16(3, 0, (u8 *)VRAM, VRAM_SIZE, 0x1000);
+        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
         DmaClear32(3, OAM, OAM_SIZE);
         DmaClear16(3, PLTT, PLTT_SIZE);
         gMain.state = 1;
@@ -4665,7 +4665,9 @@ bool16 HasAllMons(void)
         // completion, or the diploma and the hub's tier-3 reward become unreachable.
         if (j == SPECIES_NONE)
             continue;
-        if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
+        // GetSetPokedexFlag takes a NATIONAL DEX NUMBER, so it is i, not j. Passing j was
+        // upstream's own bug at our base commit; we inherited it and upstream has since fixed it.
+        if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
             return FALSE;
     }
 

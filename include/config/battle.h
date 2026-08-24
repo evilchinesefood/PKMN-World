@@ -132,6 +132,15 @@
 #define B_TRANSFORM_USER_FAIL       GEN_LATEST // In Gen5+, Transform fails if the user is already transformed.
 #define B_TRANSFORM_SUBSTITUTE_FAIL GEN_LATEST // In Gen5+, Transform fails if the target is behind a Substitute.
 #define B_TRANSFORM_SHINY           GEN_LATEST // In Gen4+, Transform will copy the shiny state of the opponent instead of maintaining its own shiny state.
+// PINNED (issue #120). Arrives at GEN_LATEST, which would silently change behaviour as a side
+// effect of the merge. For a Transformed mon, battleMon->species holds the COPIED species and
+// volatiles.transformedMonSpecies the original; the pre-merge code used ->species directly,
+// which is exactly the GEN_3/GEN_4 arm. GEN_3 therefore preserves today's behaviour. Flipping
+// this to GEN_LATEST is a deliberate one-line commit, not a merge artefact.
+#define B_TRANSFORM_CATCH_RATE      GEN_3 // In Gen3 and Geb 4, Transform'ed will have the catch rate of the tranformed species but they will keep their original catch rate in other generations
+// PINNED (issue #120), same reasoning as B_TRANSFORM_CATCH_RATE above: GEN_3 keeps EXP/EV yield
+// on the copied species, which is what this tree did before the config existed.
+#define B_TRANSFORM_BATTLE_REWARDS  GEN_3 // In Gen3 and Gen 4, a Transform'ed Pokemon will give the xp and ev yield of its copied species whereas it gives the xp and ev yield of the original species in other gens
 #define B_TRANSFORM_FORM_CHANGES    GEN_LATEST // In Gen5+, Transformed Pokemon cannot change forms.
 #define B_WIDE_GUARD                GEN_LATEST // In Gen5 only, Wide Guard has a chance to fail if used consecutively.
 #define B_QUICK_GUARD               GEN_LATEST // In Gen5 only, Quick Guard has a chance to fail if used consecutively.
@@ -198,6 +207,10 @@
 #define B_BATTLE_BOND               GEN_LATEST // In Gen9+, Battle Bond increases Atk, SpAtk and Speed by one stage, once per battle
 #define B_ATE_MULTIPLIER            GEN_LATEST // In Gen7+, -ate abilities (Aerilate, Galvanize, Normalize, Pixilate, Refrigerate) multiply damage by 1.2. Otherwise, it's 1.3, except Normalize which has no multiplier.
 #define B_DEFIANT_STICKY_WEB        GEN_LATEST // In Gen9+, Defiant activates on Sticky Web regardless of who set it up. In Gen8, Defiant does not activate on Sticky Web set up by an ally after Court Change swaps its side.
+// NOT pinned, unlike the Transform pair above (issue #120). The pinning rule is "preserve
+// today's behaviour", and for this knob there is no today: the entire stickyWeb branch is new
+// upstream code, so neither arm is the status quo. Left at the upstream default, which is also
+// what upstream's own sticky_web.c tests assert -- GEN_8 fails two of them.
 #define B_MIRROR_ARMOR_STICKY_WEB   GEN_LATEST // In Gen9+, Mirror Armor does not reflect the Sticky Web stat change even if the original Sticky Web user is still on the field
 #define B_POWDER_OVERCOAT           GEN_LATEST // In Gen6+, Overcoat blocks powder and spore moves from affecting the user.
 #define B_INFILTRATOR_SUBSTITUTE    GEN_LATEST // In Gen6+, Infiltrator bypasses Substitute when using a move, excluding Transform and Sky Drop.

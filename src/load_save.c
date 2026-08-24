@@ -522,6 +522,12 @@ STATIC_ASSERT(offsetof(struct SaveBlock2, regionChecksum) == 0x94, SaveBlock2Reg
 STATIC_ASSERT(offsetof(struct SaveBlock1, flags) == 5524, SaveBlock1FlagsMoved_RegenLuaSymbols);
 STATIC_ASSERT(offsetof(struct SaveBlock1, vars) == 6042, SaveBlock1VarsMoved_RegenLuaSymbols);
 STATIC_ASSERT(offsetof(struct SaveBlock1, money) == 1168, SaveBlock1MoneyMoved_RegenLuaSymbols);
+// #163: the berry-tree suite reads this bank directly to prove the nine Johto trees that used to
+// share slots 92-100 through the johto_compat.h aliases now own 113-121. Probe-verified with the
+// repo CFLAGS (-mabi=apcs-gnu -march=armv4t); sizeof(struct BerryTree) is 8, so slot N is at
+// berryTrees + 8*N.
+STATIC_ASSERT(offsetof(struct SaveBlock1, berryTrees) == 6812, SaveBlock1BerryTreesMoved_RegenLuaSymbols);
+STATIC_ASSERT(sizeof(struct BerryTree) == 8, BerryTreeSizeChanged_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

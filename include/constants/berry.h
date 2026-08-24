@@ -193,9 +193,34 @@ enum __attribute__((__packed__)) Flavor
 #define BERRY_TREE_KANTO_LUM_2        111
 #define BERRY_TREE_KANTO_SITRUS_2     112
 
-// Remainder (113-127, 15 slots) are unused. BERRY_TREES_COUNT sizes
+// Region merge (Johto, second pass): nine Johto trees used to reach these slots through
+// BERRY_TREE_* aliases in constants/johto_compat.h that pointed straight at the
+// BERRY_TREE_JOHTO_* ids above - so two map objects on different routes wrote the same
+// berryTrees[] index and harvesting one emptied the other. The alias block is gone; each of
+// the nine now owns a slot here. Issue #163.
+//
+//   113 Route 38 (21,24)
+//   114 Route 39 (12,27)
+//   115 Route 47 (51,8)
+//   116 Route 44 (7,10)
+//   117 Route 45 (24,87)
+//   118 Route 42 (40,19)
+//   119 Route 43 (3,27)
+//   120 Route 43 (4,25)
+//   121 Route 46 (9,11)
+#define BERRY_TREE_JOHTO_RAWST_3      113
+#define BERRY_TREE_JOHTO_RAWST_4      114
+#define BERRY_TREE_JOHTO_SITRUS_2     115
+#define BERRY_TREE_JOHTO_ASPEAR_3     116
+#define BERRY_TREE_JOHTO_ASPEAR_4     117
+#define BERRY_TREE_JOHTO_CHESTO_3     118
+#define BERRY_TREE_JOHTO_LEPPA_3      119
+#define BERRY_TREE_JOHTO_LEPPA_4      120
+#define BERRY_TREE_JOHTO_LUM_2        121
+
+// Remainder (122-127, 6 slots) are unused. BERRY_TREES_COUNT sizes
 // gSaveBlock1Ptr->berryTrees[] (include/global.h), so it is save layout: growing it is a save
-// break. These 15 are the entire remaining budget for the life of the format.
+// break. These 6 are the entire remaining budget for the life of the format.
 
 #define BERRY_TREES_COUNT 128
 

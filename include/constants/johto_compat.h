@@ -3,12 +3,14 @@
 
 // Region merge (Johto port): aliases for HnS symbols the expansion lacks, mapped to
 // the nearest target equivalents so Johto scripts link. Cosmetic remaps (movement
-// labels, multichoice, berry-tree slots) — refine in the Stage-4 content pass.
-// NOTE: the berry-tree aliases below now map to dedicated Johto slots (BERRY_TREE_JOHTO_*,
-// defined in constants/berry.h), so they no longer share state with the Hoenn trees.
+// labels, multichoice) — refine in the Stage-4 content pass.
+// NOTE: the berry-tree aliases are GONE (issue #163). They mapped BERRY_TREE_<berry>_<n>
+// straight onto BERRY_TREE_JOHTO_<berry>_<n>, so a map object naming the short form and
+// one naming the long form wrote the SAME berryTrees[] index - two trees, one save slot,
+// and harvesting either emptied the other. Every Johto tree now names its own
+// BERRY_TREE_JOHTO_* id from constants/berry.h directly. Do not reintroduce a short-form
+// alias: one id is one save slot, and the symptom is invisible until someone harvests.
 #define Common_Movement_WalkLeft1   Common_Movement_WalkLeft
-#define BERRY_TREE_CHERI_1          BERRY_TREE_JOHTO_CHERI_1
-#define BERRY_TREE_CHERI_2          BERRY_TREE_JOHTO_CHERI_2
 
 // === Azalea area aliases ===
 #define Common_Movement_WalkRight1  Common_Movement_WalkRight
@@ -25,15 +27,10 @@
 // === Ecruteak area aliases ===
 // Tin Tower legendary beam descent has no target movement type -> stand still for now
 #define MOVEMENT_TYPE_TOWER_BEAM    MOVEMENT_TYPE_NONE
-// Ecruteak berry trees borrow Hoenn slots (own slots in Stage 4)
-#define BERRY_TREE_RAWST_1          BERRY_TREE_JOHTO_RAWST_1
-#define BERRY_TREE_RAWST_2          BERRY_TREE_JOHTO_RAWST_2
 
 // === Olivine area aliases ===
 
 // === Cianwood area aliases ===
-// Cianwood City Sitrus berry tree borrows a real suffixed Hoenn slot (own slot in Stage 4).
-#define BERRY_TREE_SITRUS_1         BERRY_TREE_JOHTO_SITRUS_1
 
 // === Mahogany area aliases ===
 // Lance vs Ariana+Grunt multi-battle: the HnS special-battle id has no target equivalent, so
@@ -53,10 +50,6 @@
 // The dead labels this left behind are documented at MahoganyHideout_B2F/scripts.inc.
 #define SPECIAL_BATTLE_LANCE        SPECIAL_BATTLE_MULTI
 // Mahogany-area berry trees borrow real suffixed Hoenn slots (own slots in Stage 4).
-#define BERRY_TREE_ASPEAR_1         BERRY_TREE_JOHTO_ASPEAR_1
-#define BERRY_TREE_CHESTO_2         BERRY_TREE_JOHTO_CHESTO_2
-#define BERRY_TREE_LEPPA_1          BERRY_TREE_JOHTO_LEPPA_1
-#define BERRY_TREE_LEPPA_2          BERRY_TREE_JOHTO_LEPPA_2
 
 // === Blackthorn area aliases ===
 // Dragon's Den elder quiz: HnS bespoke multichoice sets have no target equivalents;
@@ -66,8 +59,6 @@
 // and the Rising Badge (8th) is obtainable.
 
 // Blackthorn-area berry trees -> Hoenn slots (Stage-4 own slots)
-#define BERRY_TREE_ASPEAR_2  BERRY_TREE_JOHTO_ASPEAR_2
-#define BERRY_TREE_LUM_1     BERRY_TREE_JOHTO_LUM_1
 
 // === removenamedmon result codes ===
 // Written to gSpecialVar_Result by ScrCmd_removenamedmon_Compat (src/scrcmd_johto_compat.c) and

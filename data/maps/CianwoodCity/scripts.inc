@@ -13,9 +13,17 @@ CianwoodCity_RemoveEusine::
 	setflag FLAG_HIDE_CIANWOOD_EUSINE
 	end
 
+@ VAR_TEMP_1 is the on-frame latch (cleared on map load). Latch first so a
+@ bag-full give cannot re-fire this every field tick. VAR_GETFLY stays 1 until
+@ HM FLY is actually in the BAG; the talk path and a later map re-entry retry.
 CianwoodCity_OnFrame::
-	map_script_2 VAR_GETFLY, 1, CianwoodCity_EventScript_Flytrigger
+	map_script_2 VAR_TEMP_1, 0, CianwoodCity_EventScript_TryFlytrigger
 	.2byte 0
+
+CianwoodCity_EventScript_TryFlytrigger::
+	setvar VAR_TEMP_1, 1
+	goto_if_eq VAR_GETFLY, 1, CianwoodCity_EventScript_Flytrigger
+	end
 
 CianwoodCity_EventScript_CityEnter::
 	setflag FLAG_VISITED_CIANWOOD_CITY
@@ -43,6 +51,7 @@ CianwoodCity_EventScript_Flytrigger::
 	waitmovement 0
 	msgbox CianwoodCity_Text_ChucksWifeGiveHM, MSGBOX_DEFAULT
 	giveitem ITEM_HM_FLY
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox CianwoodCity_Text_ChucksWifeFlySpeech, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_GETFLY, 2
@@ -76,9 +85,12 @@ CianwoodCity_EventScript_ChucksWife::
 	release
 	end
 
+@ Re-entry for a give that could not fit: VAR_GETFLY is only set once FLY is
+@ actually in the BAG. checkitem above keeps this reachable after a failed give.
 CianwoodCity_EventScript_ChucksWifeGiveFly::
 	msgbox CianwoodCity_Text_ChucksWifeGiveHM, MSGBOX_DEFAULT
 	giveitem ITEM_HM_FLY
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox CianwoodCity_Text_ChucksWifeFlySpeech, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_GETFLY, 2

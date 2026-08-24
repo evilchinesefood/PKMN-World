@@ -30,7 +30,8 @@
 -- attribute blobs; see the #53 analysis. The corridor is deliberately routed over tiles that are NOT
 -- encounter tiles under EITHER read, so the walk doubles as the negative control, and the battle is
 -- attributed to the tile only after `gSpecialVar_LastTalked` rules out an overworld-Pokemon bump —
--- see battleWasABump below for why proximity cannot decide that.
+-- see battleWasABump below for why proximity cannot decide that. Generated OWEs (local ids 249-252)
+-- spawn on this band; they are parked off it for the grass walk so they cannot steal the check.
 
 local hereDir = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = hereDir .. "?.lua;" .. package.path
@@ -75,8 +76,79 @@ local GRASS_BUDGET = 60           -- ~3 passes of the band; land_mons encounter_
 -- `TryTriggerOverworldWildEncounter` sets it to the wild mon's local id and hands over to
 -- `InteractWithOverworldWildEncounter` — a script, so field input stops running and the value
 -- survives into the battle. Zero means the tile did it.
+--
+-- ★ Generated OWEs (issue #170) are a separate thief from the map-placed 15. `WE_OW_ENCOUNTERS`
+-- is TRUE, so live spawns occupy local ids 249-252 (`LOCALID_OW_ENCOUNTER_END` / `OWE_SPAWNS_MAX`).
+-- There is no `object_events` row at (10,29); the first grass step from the staging tile walked
+-- into id 251 and LastTalked correctly refused attribution. The map is right. The band is not a
+-- clean probe while those spawns sit on it, so the grass walk parks them off the band every frame
+-- (CB2 `UpdateOverworldWildEncounter` runs after CB1 movement, so a once-before-the-loop clear
+-- loses the race on the next frame). Map-placed mons are left alone; LastTalked must still be 0.
 local OBJ_EVENT_MON = 1 << 14
 local LOCALID_NONE, ID_PLAYER, ID_FOLLOWER = 0, 255, 254
+local LOCALID_OWE_END, OWE_SPAWNS_MAX = 252, 4
+local function isGeneratedOWE(localId)
+  return localId > (LOCALID_OWE_END - OWE_SPAWNS_MAX) and localId <= LOCALID_OWE_END
+end
+
+-- Park generated OWEs at map (1,1) and drop their active bit + sprite. Clearing `active` alone
+-- frees the spawn slot, so a new one lands on the band the same frame; the sprite `inUse` bit
+-- has to go too or ~30-frame respawns leak `gSprites` slots into `CreateSprite`'s fatal. Collision
+-- also matches `previousCoords`, so both pairs move. Map-placed mons (and the follower) are not
+-- touched — LastTalked==0 is still the grass-tile claim.
+local PARK_X, PARK_Y = 1 + 7, 1 + 7
+local OBJ_PREV_X, OBJ_SPRITE_ID = 0x14, 0x23
+local function despawnGeneratedOWEs()
+  local n = 0
+  for i = 0, 15 do
+    local b = S.gObjectEvents + i * S.ObjectEvent.stride
+    if (F.r8(b) & 1) == 1 then
+      local id = F.r8(b + S.ObjectEvent.localId)
+      if isGeneratedOWE(id) then
+        local sid = F.r8(b + OBJ_SPRITE_ID)
+        if sid < S.Sprite.count then
+          local sp = S.gSprites + sid * S.Sprite.stride
+          F.w16(sp + S.Sprite.inUse, F.r16(sp + S.Sprite.inUse) & ~1)
+        end
+        F.w16(b + S.ObjectEvent.x, PARK_X)
+        F.w16(b + S.ObjectEvent.y, PARK_Y)
+        F.w16(b + OBJ_PREV_X, PARK_X)
+        F.w16(b + OBJ_PREV_X + 2, PARK_Y)
+        F.w8(b, F.r8(b) & ~1)
+        n = n + 1
+      end
+    end
+  end
+  return n
+end
+
+-- F.step, parking generated OWEs on every frame so a CB2 spawn cannot survive into the next
+-- CB1 collision. Same 30-hold / 14-finish / 4-idle cadence as lib.step.
+local function stepGrass(dir)
+  local x0, y0 = F.pos()
+  for _ = 1, 30 do
+    despawnGeneratedOWEs()
+    joypad.set({ [dir] = true }); emu.frameadvance()
+    local x, y = F.pos()
+    if x ~= x0 or y ~= y0 then
+      for _ = 1, 14 do
+        despawnGeneratedOWEs()
+        joypad.set({ [dir] = true }); emu.frameadvance()
+      end
+      for _ = 1, 4 do
+        despawnGeneratedOWEs()
+        joypad.set({}); emu.frameadvance()
+      end
+      return true
+    end
+  end
+  for _ = 1, 4 do
+    despawnGeneratedOWEs()
+    joypad.set({}); emu.frameadvance()
+  end
+  return false
+end
+
 local function battleWasABump(tag)
   local px, py = F.pos()
   local lastTalked = F.r8(S.gSpecialVar_LastTalked)
@@ -253,12 +325,17 @@ local function main()
   F.shot("staging_tile")
 
   -- Walk the band. Every step lands on a tile that only has encounters because of the fix, so the
-  -- tile the player is standing on when the battle starts is the attribution.
+  -- tile the player is standing on when the battle starts is the attribution. Generated OWEs are
+  -- parked off the band for the whole walk; the LastTalked==0 check is unchanged.
   local fired, steps, tileX, tileY, bumped, lastTalked = false, 0, -1, -1, false, 0
   local dir = "Right"
   if at(STAGE) then
+    local parked = despawnGeneratedOWEs()
+    if parked > 0 then
+      F.L(string.format("  despawned %d generated OWE(s) off the grass band before the walk", parked))
+    end
     for i = 1, GRASS_BUDGET do
-      F.step(dir)
+      stepGrass(dir)
       steps = i
       local x, y = F.pos()
       if not F.ow() then

@@ -15,8 +15,9 @@ Route39House_EventScript_FarmerFAfter::
 	goto_if_set FLAG_GOT_TM_SNATCH, Route39House_EventScript_FarmerFAfterTM
 	msgbox Route39_Text_FarmerFHealedMiltank, MSGBOX_DEFAULT
 	giveitem ITEM_TM_SNATCH
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox Route39_Text_FarmerFSnatchSpeech, MSGBOX_DEFAULT
-	closemessage 
+	closemessage
 	setflag FLAG_GOT_TM_SNATCH
 	release
 	end
@@ -37,6 +38,7 @@ Route39_FarmHouse_EventScript_FarmerM::
 	msgbox Route39_Text_FarmerMNoSale, MSGBOX_DEFAULT
 	hidemoneybox
 	closemessage
+	release
 	end
 
 Route39_FarmHouse_EventScript_FarmerMBuyMilk::

@@ -46,5 +46,6 @@ void InitTilesetAnim_NationalPark(void);
 void InitTilesetAnim_EcruteakTheater(void);
 void InitTilesetAnim_Goldenrod(void);
 void InitTilesetAnim_AzaleaTownGym(void);
+void InitTilesetAnim_JohtoDayCare(void);
 
 #endif // GUARD_TILESET_ANIMS_H

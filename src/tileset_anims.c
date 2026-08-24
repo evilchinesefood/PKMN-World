@@ -1574,6 +1574,21 @@ static const u16 *const sTilesetAnims_EcruteakTheater_Flower[] = {
 // from each row needs to be copied; the metatile supplies the horizontal flips.
 // goldenrod/anim/windy_water is an inherited Rustboro sheet with no Goldenrod
 // metatile target; the city's water comes from the animated Johto primary.
+//
+// #165 read this callback as mis-targeted -- "writes local 107/123, a dish metatile" while the
+// plaza water at ~(26,18) stays static. The targeting is right and deliberate: metatile 0x46's
+// upper layer is exactly {S107, S107h, S123, S123h}, so two tiles plus the metatile's own
+// horizontal flips cover the whole 2x2 feature. What the issue actually found is that the plaza
+// WATER has no animation, which is true and stays true -- both goldenrod anim sheets are
+// byte-identical Rustboro copies, and neither has a home here: the closest 4-tile run in the
+// 384-tile sheet differs from anim/fountain by 208 of 256 pixels and from anim/windy_water by
+// 217. There is nothing to point at the plaza without drawing new art.
+//
+// A caution for anyone re-checking this by eye: tileset PNGs store palette INDICES, and the
+// metatile entry picks the palette (these use p3). Rendering a tile with the PNG's own embedded
+// palette shows colours the game never displays. And a resting tile legitimately differs from
+// its own anim frames -- azalea_town_gym's working flower differs from frame 0 by 106 of 256
+// pixels -- so "the art does not match" is not evidence of a bug on its own.
 static const u16 sTilesetAnims_Goldenrod_Fountain_Frame0[] = INCGFX_U16("data/tilesets/secondary/goldenrod/anim/fountain/0.png", ".4bpp");
 static const u16 sTilesetAnims_Goldenrod_Fountain_Frame1[] = INCGFX_U16("data/tilesets/secondary/goldenrod/anim/fountain/1.png", ".4bpp");
 
@@ -1594,6 +1609,40 @@ static const u16 *const sTilesetAnims_AzaleaTownGym_Flower[] = {
     sTilesetAnims_AzaleaTownGym_Flower_Frame1,
     sTilesetAnims_AzaleaTownGym_Flower_Frame2,
     sTilesetAnims_AzaleaTownGym_Flower_Frame1
+};
+
+// johto_day_care ships red_flower and yellow_flower sheets that nothing referenced, so the
+// flowerbeds at the Route 34 Day Care and the Goldenrod Flower Shop sat frozen while Azalea
+// Gym's animated. Unlike azalea_town_gym/anim/red_flower above, both of these DO have a home:
+// the tileset holds each sheet's frame 0 as its resting art, and the metatiles reference them.
+//
+// Local tile ids derived from the data, not copied from a comparable tileset -- guessing an
+// offset is how the Goldenrod plaza fountain ended up writing a dish metatile (issue #165):
+//   - frame 0 of red_flower    matches tiles.png local 88..91 to within 4 of 256 pixels
+//     (frames 1 and 2 differ by 82 and 104, i.e. the motion), and yellow_flower frame 0 matches
+//     local 92..95 to within 2 of 256.
+//   - metatiles.bin confirms it independently: 15 metatiles reference these tiles, and metatile
+//     188 uses exactly {88,89,90,91} while 189 uses exactly {92,93,94,95} -- one flower each.
+static const u16 sTilesetAnims_JohtoDayCare_RedFlower_Frame0[] = INCGFX_U16("data/tilesets/secondary/johto_day_care/anim/red_flower/0.png", ".4bpp");
+static const u16 sTilesetAnims_JohtoDayCare_RedFlower_Frame1[] = INCGFX_U16("data/tilesets/secondary/johto_day_care/anim/red_flower/1.png", ".4bpp");
+static const u16 sTilesetAnims_JohtoDayCare_RedFlower_Frame2[] = INCGFX_U16("data/tilesets/secondary/johto_day_care/anim/red_flower/2.png", ".4bpp");
+
+static const u16 *const sTilesetAnims_JohtoDayCare_RedFlower[] = {
+    sTilesetAnims_JohtoDayCare_RedFlower_Frame0,
+    sTilesetAnims_JohtoDayCare_RedFlower_Frame1,
+    sTilesetAnims_JohtoDayCare_RedFlower_Frame2,
+    sTilesetAnims_JohtoDayCare_RedFlower_Frame1
+};
+
+static const u16 sTilesetAnims_JohtoDayCare_YellowFlower_Frame0[] = INCGFX_U16("data/tilesets/secondary/johto_day_care/anim/yellow_flower/0.png", ".4bpp");
+static const u16 sTilesetAnims_JohtoDayCare_YellowFlower_Frame1[] = INCGFX_U16("data/tilesets/secondary/johto_day_care/anim/yellow_flower/1.png", ".4bpp");
+static const u16 sTilesetAnims_JohtoDayCare_YellowFlower_Frame2[] = INCGFX_U16("data/tilesets/secondary/johto_day_care/anim/yellow_flower/2.png", ".4bpp");
+
+static const u16 *const sTilesetAnims_JohtoDayCare_YellowFlower[] = {
+    sTilesetAnims_JohtoDayCare_YellowFlower_Frame0,
+    sTilesetAnims_JohtoDayCare_YellowFlower_Frame1,
+    sTilesetAnims_JohtoDayCare_YellowFlower_Frame2,
+    sTilesetAnims_JohtoDayCare_YellowFlower_Frame1
 };
 
 // Primary tiles 416..433: the shoreline and the open water that meets it.
@@ -1738,4 +1787,25 @@ void InitTilesetAnim_AzaleaTownGym(void)
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 960;
     sSecondaryTilesetAnimCallback = TilesetAnim_AzaleaTownGym;
+}
+
+static void QueueAnimTiles_JohtoDayCare_Flowers(u16 timer)
+{
+    u16 i = timer % ARRAY_COUNT(sTilesetAnims_JohtoDayCare_RedFlower);
+
+    AppendTilesetAnimToBuffer(sTilesetAnims_JohtoDayCare_RedFlower[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY_FRLG + 88)), 4 * TILE_SIZE_4BPP);
+    AppendTilesetAnimToBuffer(sTilesetAnims_JohtoDayCare_YellowFlower[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY_FRLG + 92)), 4 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_JohtoDayCare(u16 timer)
+{
+    if (timer % 10 == 0)
+        QueueAnimTiles_JohtoDayCare_Flowers(timer / 10);
+}
+
+void InitTilesetAnim_JohtoDayCare(void)
+{
+    sSecondaryTilesetAnimCounter = 0;
+    sSecondaryTilesetAnimCounterMax = 960;
+    sSecondaryTilesetAnimCallback = TilesetAnim_JohtoDayCare;
 }

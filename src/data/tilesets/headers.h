@@ -2045,7 +2045,7 @@ const struct Tileset gTileset_JohtoDayCare =
     .tiles = gTilesetTiles_JohtoDayCare,
     .palettes = gTilesetPalettes_JohtoDayCare,
     TILESET_METATILES(gMetatiles_JohtoDayCare, gMetatileAttributes_JohtoDayCare),
-    .callback = NULL,
+    .callback = InitTilesetAnim_JohtoDayCare,
 };
 
 const struct Tileset gTileset_MahoganyTownGym =

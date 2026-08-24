@@ -345,6 +345,9 @@
 // Clean Johto-bank range above Olivine items' highest (0x154).
 // Story / hide / gym flags.
 #define FLAG_DEFEATED_VIRIDIAN_GYM                     FLAG_JOHTO_SLICE(0x155)
+// Route 47 Embedded Tower sage (39,45). Unused so he stays visible; the championship
+// gate is FLAG_JOHTO_CHAMPION at (40,45), independent of this object.
+#define FLAG_HIDE_ROUTE47_SAGE                         FLAG_JOHTO_SLICE(0x156)
 #define FLAG_HIDE_GROUDON                              FLAG_JOHTO_SLICE(0x157)
 #define FLAG_HIDE_KYOGRE                               FLAG_JOHTO_SLICE(0x158)
 #define FLAG_HIDE_RAYQUAZA                             FLAG_JOHTO_SLICE(0x159)

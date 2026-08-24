@@ -146,8 +146,8 @@ Route47_EventScript_EmbeddedTowerGate::
 	goto_if_set FLAG_JOHTO_CHAMPION, Route47_EventScript_EmbeddedTowerGateOpen
 	lockall
 	playse SE_PIN
-	@ Deliberately no waitmovement on the SAGE: his object carries a hide flag this commit
-	@ does not own, so a missing object must not be able to hang the script.
+	@ Deliberately no waitmovement on the SAGE: FLAG_HIDE_ROUTE47_SAGE is unused today,
+	@ but a missing object must not be able to hang the script.
 	applymovement LOCALID_ROUTE47_SAGE, Common_Movement_ExclamationMark
 	delay 20
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft

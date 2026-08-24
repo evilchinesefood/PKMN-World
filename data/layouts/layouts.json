@@ -13546,6 +13546,19 @@
       "border_filepath": "data/layouts/SafariZone_Top_Left/border.bin",
       "blockdata_filepath": "data/layouts/SafariZone_Top_Left/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_BATTLE_FRONTIER_BATTLE_TOWER_ELEVATOR",
+      "name": "BattleFrontier_BattleTowerElevator_Layout",
+      "width": 5,
+      "height": 7,
+      "border_width": 0,
+      "border_height": 0,
+      "primary_tileset": "gTileset_Johto_Building",
+      "secondary_tileset": "gTileset_BattleTowerInner",
+      "border_filepath": "data/layouts/BattleFrontier_BattleTowerElevator/border.bin",
+      "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerElevator/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

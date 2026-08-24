@@ -2081,25 +2081,32 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
     {
         tMoveCounter++;
 
-        if (!tDescending)
+        // LAYOUT_BATTLE_FRONTIER_BATTLE_TOWER_ELEVATOR is a Johto-inner clone of the
+        // shared Emerald LAYOUT_BATTLE_ELEVATOR. These frames are BattleFrontier ids
+        // at the 512 split; painting them on the 640 clone would draw the wrong
+        // tileset. Trainer Hill / Lilycove keep the Emerald layout and still animate.
+        if (gMapHeader.mapLayout->secondaryTileset != &gTileset_BattleTowerInner)
         {
-            // Ascending
-            for (y = 0; y < ELEVATOR_WINDOW_HEIGHT; y++)
+            if (!tDescending)
             {
-                for (x = 0; x < ELEVATOR_WINDOW_WIDTH; x++)
-                    MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, sElevatorWindowTiles_Ascending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
+                // Ascending
+                for (y = 0; y < ELEVATOR_WINDOW_HEIGHT; y++)
+                {
+                    for (x = 0; x < ELEVATOR_WINDOW_WIDTH; x++)
+                        MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, sElevatorWindowTiles_Ascending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
+                }
             }
-        }
-        else
-        {
-            // Descending
-            for (y = 0; y < ELEVATOR_WINDOW_HEIGHT; y++)
+            else
             {
-                for (x = 0; x < ELEVATOR_WINDOW_WIDTH; x++)
-                    MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, sElevatorWindowTiles_Descending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
+                // Descending
+                for (y = 0; y < ELEVATOR_WINDOW_HEIGHT; y++)
+                {
+                    for (x = 0; x < ELEVATOR_WINDOW_WIDTH; x++)
+                        MapGridSetMetatileIdAt(x + MAP_OFFSET + 1, y + MAP_OFFSET, sElevatorWindowTiles_Descending[y][tMoveCounter % ELEVATOR_LIGHT_STAGES] | MAPGRID_IMPASSABLE);
+                }
             }
+            DrawWholeMapView();
         }
-        DrawWholeMapView();
         tTimer = 0;
         if (tMoveCounter == tTotalMoves)
             DestroyTask(taskId);

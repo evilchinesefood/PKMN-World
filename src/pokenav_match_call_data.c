@@ -162,7 +162,7 @@ static void MatchCall_GetNameAndDescByRematchIdx(u32, const u8 **, const u8 **);
 // exactly 3 calls after the call associated with this flag, with text
 // that follows this format:
 // - Call 1: A basic 'preparing for a rematch' call.
-//           Remains active until the player beats the game (FLAG_SYS_GAME_CLEAR).
+//           Remains active until the player becomes Hoenn champion (FLAG_HOENN_CHAMPION).
 // - Call 2: Congratulating the player on their success, still preparing.
 //           Remains active until the gym leader is ready for a rematch.
 // - Call 3: Requesting the rematch. Active whenever the gym leader is ready.
@@ -194,7 +194,7 @@ static const struct MatchCallStructNPC sMrStoneMatchCallHeader =
         { MatchCall_Text_MrStone8,  FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT, NO_FLAG_TO_SET },
         { MatchCall_Text_MrStone9,  FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, NO_FLAG_TO_SET },
         { MatchCall_Text_MrStone10, FLAG_DEFEATED_SOOTOPOLIS_GYM,        NO_FLAG_TO_SET },
-        { MatchCall_Text_MrStone11, FLAG_SYS_GAME_CLEAR,                 NO_FLAG_TO_SET },
+        { MatchCall_Text_MrStone11, FLAG_HOENN_CHAMPION,                 NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -214,9 +214,9 @@ static const struct MatchCallStructTrainer sNormanMatchCallHeader =
         { MatchCall_Text_Norman4,                  FLAG_DEFEATED_PETALBURG_GYM,   NO_FLAG_TO_SET },
         { MatchCall_Text_Norman5,                  FLAG_RECEIVED_RED_OR_BLUE_ORB, NO_FLAG_TO_SET },
         { MatchCall_Text_Norman_Preparing,         REMATCH_CALL_START,            NO_FLAG_TO_SET },
-        { MatchCall_Text_Norman_PreparingPostGame, FLAG_SYS_GAME_CLEAR,           NO_FLAG_TO_SET },
-        { MatchCall_Text_Norman_RematchReady,      FLAG_SYS_GAME_CLEAR,           NO_FLAG_TO_SET },
-        { MatchCall_Text_Norman_PostRematch,       FLAG_SYS_GAME_CLEAR,           NO_FLAG_TO_SET },
+        { MatchCall_Text_Norman_PreparingPostGame, FLAG_HOENN_CHAMPION,           NO_FLAG_TO_SET },
+        { MatchCall_Text_Norman_RematchReady,      FLAG_HOENN_CHAMPION,           NO_FLAG_TO_SET },
+        { MatchCall_Text_Norman_PostRematch,       FLAG_HOENN_CHAMPION,           NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -233,7 +233,7 @@ static const struct MatchCallBirch sProfBirchMatchCallHeader =
 static const match_call_text_data_t sMomTextScripts[] = {
     { MatchCall_Text_Mom1, ALWAYS_AVAILABLE,            NO_FLAG_TO_SET },
     { MatchCall_Text_Mom2, FLAG_DEFEATED_PETALBURG_GYM, NO_FLAG_TO_SET },
-    { MatchCall_Text_Mom3, FLAG_SYS_GAME_CLEAR,         NO_FLAG_TO_SET },
+    { MatchCall_Text_Mom3, FLAG_HOENN_CHAMPION,         NO_FLAG_TO_SET },
     MATCH_CALL_TEXT_END
 };
 
@@ -247,7 +247,7 @@ static const struct MatchCallStructNPC sMomMatchCallHeader =
     .textData = (const match_call_text_data_t[]) {
         { MatchCall_Text_Mom1, ALWAYS_AVAILABLE,            NO_FLAG_TO_SET },
         { MatchCall_Text_Mom2, FLAG_DEFEATED_PETALBURG_GYM, NO_FLAG_TO_SET },
-        { MatchCall_Text_Mom3, FLAG_SYS_GAME_CLEAR,         NO_FLAG_TO_SET },
+        { MatchCall_Text_Mom3, FLAG_HOENN_CHAMPION,         NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -266,7 +266,7 @@ static const struct MatchCallStructNPC sStevenMatchCallHeader =
         { MatchCall_Text_Steven4, FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, NO_FLAG_TO_SET },
         { MatchCall_Text_Steven5, FLAG_DEFEATED_MOSSDEEP_GYM,          NO_FLAG_TO_SET },
         { MatchCall_Text_Steven6, FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, NO_FLAG_TO_SET },
-        { MatchCall_Text_Steven7, FLAG_SYS_GAME_CLEAR,                 NO_FLAG_TO_SET },
+        { MatchCall_Text_Steven7, FLAG_HOENN_CHAMPION,                 NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END,
     }
 };
@@ -295,7 +295,7 @@ static const struct MatchCallRival sMayMatchCallHeader =
         { MatchCall_Text_May12, FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, NO_FLAG_TO_SET },
         { MatchCall_Text_May13, FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, NO_FLAG_TO_SET },
         { MatchCall_Text_May14, FLAG_DEFEATED_SOOTOPOLIS_GYM,        NO_FLAG_TO_SET },
-        { MatchCall_Text_May15, FLAG_SYS_GAME_CLEAR,                 NO_FLAG_TO_SET },
+        { MatchCall_Text_May15, FLAG_HOENN_CHAMPION,                 NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -322,7 +322,7 @@ static const struct MatchCallRival sBrendanMatchCallHeader =
         { MatchCall_Text_Brendan12, FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, NO_FLAG_TO_SET },
         { MatchCall_Text_Brendan13, FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, NO_FLAG_TO_SET },
         { MatchCall_Text_Brendan14, FLAG_DEFEATED_SOOTOPOLIS_GYM,        NO_FLAG_TO_SET },
-        { MatchCall_Text_Brendan15, FLAG_SYS_GAME_CLEAR,                 NO_FLAG_TO_SET },
+        { MatchCall_Text_Brendan15, FLAG_HOENN_CHAMPION,                 NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -366,7 +366,7 @@ static const struct MatchCallStructNPC sScottMatchCallHeader =
         { MatchCall_Text_Scott4, FLAG_RECEIVED_RED_OR_BLUE_ORB,       NO_FLAG_TO_SET },
         { MatchCall_Text_Scott5, FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, NO_FLAG_TO_SET },
         { MatchCall_Text_Scott6, FLAG_DEFEATED_SOOTOPOLIS_GYM,        NO_FLAG_TO_SET },
-        { MatchCall_Text_Scott7, FLAG_SYS_GAME_CLEAR,                 NO_FLAG_TO_SET },
+        { MatchCall_Text_Scott7, FLAG_HOENN_CHAMPION,                 NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -383,7 +383,7 @@ static const struct MatchCallStructTrainer sRoxanneMatchCallHeader =
         { MatchCall_Text_Roxanne_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_Roxanne_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_Roxanne_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_Roxanne_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_Roxanne_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -400,7 +400,7 @@ static const struct MatchCallStructTrainer sBrawlyMatchCallHeader =
         { MatchCall_Text_Brawly_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_Brawly_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_Brawly_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_Brawly_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_Brawly_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -417,7 +417,7 @@ static const struct MatchCallStructTrainer sWattsonMatchCallHeader =
         { MatchCall_Text_Wattson_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_Wattson_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_Wattson_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_Wattson_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_Wattson_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -434,7 +434,7 @@ static const struct MatchCallStructTrainer sFlanneryMatchCallHeader =
         { MatchCall_Text_Flannery_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_Flannery_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_Flannery_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_Flannery_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_Flannery_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -451,7 +451,7 @@ static const struct MatchCallStructTrainer sWinonaMatchCallHeader =
         { MatchCall_Text_Winona_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_Winona_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_Winona_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_Winona_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_Winona_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -468,7 +468,7 @@ static const struct MatchCallStructTrainer sTateLizaMatchCallHeader =
         { MatchCall_Text_TateLiza_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_TateLiza_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_TateLiza_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_TateLiza_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_TateLiza_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -485,7 +485,7 @@ static const struct MatchCallStructTrainer sJuanMatchCallHeader =
         { MatchCall_Text_Juan_Preparing,         REMATCH_CALL_START,  NO_FLAG_TO_SET },
         { MatchCall_Text_Juan_PreparingPostGame, ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
         { MatchCall_Text_Juan_RematchReady,      ALWAYS_AVAILABLE,    NO_FLAG_TO_SET },
-        { MatchCall_Text_Juan_PostRematch,       FLAG_SYS_GAME_CLEAR, NO_FLAG_TO_SET },
+        { MatchCall_Text_Juan_PostRematch,       FLAG_HOENN_CHAMPION, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -1029,7 +1029,7 @@ static void MatchCall_BufferCallMessageTextByRematchTeam(const match_call_text_d
     }
     else
     {
-        if (FlagGet(FLAG_SYS_GAME_CLEAR))
+        if (FlagGet(FLAG_HOENN_CHAMPION))
         {
             do
             {
@@ -1043,7 +1043,7 @@ static void MatchCall_BufferCallMessageTextByRematchTeam(const match_call_text_d
                 else i++;
             } while (0);
         }
-        // If the game hasn't been cleared yet, the index remains on the basic "preparing for rematch" call.
+        // If the player isn't Hoenn champion yet, the index remains on the basic "preparing for rematch" call.
         StringExpandPlaceholders(dest, textData[i].text);
     }
 #endif //FREE_MATCH_CALL

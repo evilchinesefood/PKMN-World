@@ -102,7 +102,12 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	applymovement LOCALID_CELIO, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
-	giveitem_msg OneIsland_PokemonCenter_1F_Text_ObtainedTriPass, ITEM_TRI_PASS, 1, MUS_RG_OBTAIN_KEY_ITEM
+	@ #205: giveitem_msg is additem + msgreceiveditem with NO VAR_RESULT check, so a full Key
+	@ Items pocket dropped the Tri Pass silently while still printing "obtained". Split into the
+	@ checked halves so a full bag says so; the success path prints exactly the same text as before.
+	additem ITEM_TRI_PASS
+	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_TriPassReceived
 	msgbox OneIsland_PokemonCenter_1F_Text_PassLetsYouTravelBetweenIslands
 	call_if_ge VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage
 	call_if_lt VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap
@@ -135,11 +140,26 @@ OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage::
 	call EventScript_RestorePrevTextColor
 	return
 
+@ #205: Common_EventScript_BagIsFull ends in `return`, so it is only stack-correct when reached
+@ by `call`. This was reached by `goto_if_eq` from a script that is itself `call_if_lt`'d by the
+@ Celio cutscene, so on a full bag the helper's `return` popped the CUTSCENE's frame -- skipping
+@ the flag/var below and resuming at `setflag FLAG_SYS_SEVII_MAP_123`, which advances the scene
+@ for good and stops Celio ever re-offering the map. Same call_if_eq shape as Clair's TM gift in
+@ DragonsDen_Cavern; both branches fall through to this script's own `return`, so Bill and Celio
+@ still walk off exactly as before.
 OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap::
 	giveitem ITEM_TOWN_MAP
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_TownMapReceived
+	return
+
+OneIsland_PokemonCenter_1F_EventScript_TownMapReceived::
 	setflag FLAG_HIDE_TOWN_MAP
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
+	return
+
+OneIsland_PokemonCenter_1F_EventScript_TriPassReceived::
+	msgreceiveditem OneIsland_PokemonCenter_1F_Text_ObtainedTriPass, ITEM_TRI_PASS, 1, MUS_RG_OBTAIN_KEY_ITEM
 	return
 
 OneIsland_PokemonCenter_1F_Movement_PlayerWalkToCelio::

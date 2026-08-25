@@ -7,6 +7,9 @@ All notable player-facing changes. For the full feature reference see
 
 ### Fixes
 
+- **Celio's Town Map and Tri Pass survive a full bag** (#205). A full Key Items pocket used to pop the cutscene's call frame (Town Map) or print "obtained" and drop the item (Tri Pass). Both now use the same checked `call_if_eq` shape as Clair's TM gift.
+- **Johto/Kanto-first Hoenn is no longer a bedroom lock, and Continue of pre-fix hub saves is no longer a Slateport dump** (#195). The wall clock now advances the intro if you already set it in another region, and v10 clears the stale "Hoenn intro done" bit on any save that has never actually run that intro — including files already standing in Slateport Harbor, so the next hub trip to Hoenn is the bedroom instead of another dump.
+- **Hoenn champion content no longer unlocks for a Johto or Kanto champion** (#198). Match Call, contests, and the TV/record-mix sanitizers now gate on `FLAG_HOENN_CHAMPION` instead of the any-region Hall of Fame bit.
 - **Magikarp-record Net Ball and Water Path Nest Ball no longer vanish on a full bag** (#196). The expansion merge put `setflag` back before `giveitem` on those two sites; a full ball pocket consumed the gift.
 
 ### Docs / tests
@@ -361,6 +364,32 @@ All notable player-facing changes. For the full feature reference see
   commits RED), and the HUB PASS confirm/description say it's one-way.
 - **EV/IV Changer**: START also flips the EVs/IVs page (shoulder buttons
   still work).
+- **The Bug-Catching Contest could delete your party** (#175). The attendant
+  says she'll hold your POKeMON, and the way she held them was to write your
+  team into the same save-block party every save path copies from, then blank
+  slots 2-6. Saving from the START menu - or Autosave firing on the way in,
+  which is on by default - overwrote the six-Pokemon backup with the
+  one-Pokemon contest party, and those five were gone for good whether you
+  finished the contest or reset. Save is hidden for the duration now, exactly
+  as it is in the Safari Zone, and autosave is blocked there too.
+- **A Hoenn-first save began in Slateport with no Pokemon** (#174). New games
+  pre-set the "Hoenn intro already done" bit, so the World Transit attendant
+  always took the *returning* path and dropped you at Slateport Harbor -
+  mid-region, empty party, and Oldale's west tile still shut, so you could not
+  walk back to Littleroot either. The first trip to Hoenn now runs the intro
+  properly and starts you in your bedroom, with Birch, the rival and Route 101
+  still ahead of you.
+- **HUB PASS left field state behind** (#186). The pass warped you out without
+  the teardown every other leave-this-map trip does. Used on Cycling Road it
+  left the bike flag set and the bike then refused to mount anywhere, in any
+  region; used aboard the S.S. Tidal it left cruise mode on, which forces you
+  on foot outdoors and breaks Surf. It now runs the same reset Fly and
+  Teleport use, plus the S.S. Tidal state that reset doesn't cover.
+- **Blackthorn Gym's steam animated the wrong tiles** (#184). Clair's gym is a
+  Johto layout but was still running Lavaridge's animation callback, which
+  writes at Emerald tile offsets. Steam frames painted over unrelated art
+  while the real steam never moved. Its lava and steam are static Crystal art
+  now, like every other Johto interior without frames of its own.
 
 - **Nine Johto berry trees shared save slots with nine others** (#163).
   Two trees on different routes wrote the same entry in your save, so
@@ -384,11 +413,15 @@ All notable player-facing changes. For the full feature reference see
   invisible wall on the centre tile of every floor. They carried no script
   and no behaviour, so they are deleted outright.
 
-- **Every previously-cut tree and smashed rock regrows once.** The two
-  changes above shift entries in the cleared-obstacle table, which is
-  bound to your save by a hash. On a mismatch the game clears the bits and
-  re-stamps them, so obstacles come back exactly once rather than drifting
-  silently out of step. This is the designed behaviour, not a bug.
+- **Every previously-cut tree and smashed rock regrows once.** Two changes
+  this release move the cleared-obstacle table: Dragon's Den's two fake
+  smash-rocks became real whirlpools (#160), taking it from 295 entries to
+  293, and deleting the 185 decor stubs (#123) renumbered Route 32's
+  cuttable tree. The table is bound to your save by a hash, so on a mismatch
+  the game clears the bits and re-stamps them - obstacles come back exactly
+  once rather than drifting silently out of step. This is the designed
+  behaviour, not a bug. (The berry-slot fix above does not touch this table;
+  berry trees are not obstacles.)
 
 ### Developer & tooling
 
@@ -436,8 +469,9 @@ All notable player-facing changes. For the full feature reference see
   `boot()` could settle in the wrong map and run its assertions there, and
   the stale-ROM guard failed open off macOS. `Testing/run-all.sh` clears
   every sentinel, runs the battery and demands a fresh pass stamped with the
-  ROM under test: 20/20 in about a minute, naming anything it couldn't run
-  instead of counting it. Crash screens are now decoded to FILE.C:LINE
+  ROM under test - 24 suites on a fresh clone in about a minute at this
+  release, 25 if the owner's personal save happens to be on the machine -
+  naming anything it couldn't run instead of counting it. Crash screens are now decoded to FILE.C:LINE
   rather than surfacing as "the game stopped responding" (the crash screen's
   *colours* are wrong in this build — read the text, not the palette).
 - **New emulator suites**: the Olivine harbor board, the map renumber, and a

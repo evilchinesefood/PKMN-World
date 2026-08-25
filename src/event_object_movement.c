@@ -1930,7 +1930,7 @@ static bool32 IsObstacleGraphicsId(u16 graphicsId)
 
 // Map {mapGroup, mapNum, localId} -> its generated save-bit index, or -1 if this obstacle is not
 // in the table (a newly placed one on a tree that predates a regeneration, or a non-obstacle).
-// The table is sorted ascending on the same packed key, so this is a binary search over 297
+// The table is sorted ascending on the same packed key, so this is a binary search over 293
 // entries: ~9 comparisons, against the 104-entry linear scan it replaces.
 static s32 ObstacleIndex(u8 mapGroup, u8 mapNum, u8 localId)
 {

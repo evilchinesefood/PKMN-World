@@ -260,7 +260,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare"]
 
 
 def load_save_src(root):
@@ -312,6 +312,24 @@ def saveblock3_offsets(root):
 # so inserting a behaviour above it renumbers it and a hardcoded 105 would then match some other
 # behaviour entirely; the primary metatile counts pick which half of the tileset pair a metatile id
 # belongs to, and getting that wrong reads a completely different tileset's attributes.
+def save_format_version(root):
+    """Derive SAVE_FORMAT_VERSION from the header instead of letting suites hand-type it.
+
+    Three migration suites each carried their own `local SAVE_FORMAT_VERSION = 9`. Bumping the
+    real constant for issue #195 broke all three at once with a bare "ver=10" and nothing saying
+    which number was authoritative. The version is the header's to define; the suites read it.
+    """
+    path = os.path.join(root, "include", "constants", "global.h")
+    try:
+        src = open(path, encoding="utf-8", errors="replace").read()
+    except OSError as e:
+        sys.exit(f"cannot read {path} to derive SAVE_FORMAT_VERSION: {e}")
+    m = re.search(r"^#define\s+SAVE_FORMAT_VERSION\s+(\d+)", src, re.M)
+    if not m:
+        sys.exit(f"{path}: no #define SAVE_FORMAT_VERSION — the migration suites read this")
+    return int(m.group(1))
+
+
 def behavior_enum(root):
     """Number the MB_* enum in include/constants/metatile_behaviors.h."""
     path = os.path.join(root, "include", "constants", "metatile_behaviors.h")
@@ -436,6 +454,9 @@ def main():
     print("return {")
     print("\n".join(lines))
     print(OFFSETS_LUA.replace("@SB1@", ", ".join(f"{k} = {sb1[k]}" for k in SB1_FIELDS)), end="")
+    # Derived from include/constants/global.h — never hand-edit this either.
+    print("  SAVE_FORMAT_VERSION = %d,   -- from include/constants/global.h"
+          % save_format_version(root))
     # Derived from src/load_save.c's compiler-enforced asserts — never hand-edit these.
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
     # Derived from the headers by door_constants() — never hand-edit these either.

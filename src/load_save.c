@@ -379,15 +379,15 @@ void MigrateSaveFormatIfNeeded(void)
     // actually played Hoenn's intro, so the hub sends it to the Littleroot bedroom instead of
     // dumping it in Slateport Harbor with no party. VAR_LITTLEROOT_INTRO_STATE is Hoenn-only and
     // monotonic - nothing in the repo ever resets it - so 0 means no Hoenn intro script has EVER
-    // run on this file. A save that genuinely finished Birch's lab sits at 7, so this cannot
-    // re-fire the bedroom on a completed Hoenn game. currentRegion != REGION_HOENN additionally
-    // refuses to touch a file that is mid-Hoenn right now. Guarded by savedVersion < 10, so it
-    // runs at most once per save, ever.
+    // run on this file. That includes a file already dumped in Slateport (currentRegion is
+    // REGION_HOENN, intro state still 0): the hub first-visit path sets the var to 4 before
+    // warping, so a genuine mid-intro save cannot sit at 0. A save that finished Birch's lab
+    // sits at 7, so this cannot re-fire the bedroom on a completed Hoenn game. Guarded by
+    // savedVersion < 10, so it runs at most once per save, ever.
     if (savedVersion < 10)
     {
         if (gSaveBlock2Ptr->hoennIntroDone
-         && VarGet(VAR_LITTLEROOT_INTRO_STATE) == 0
-         && gSaveBlock2Ptr->currentRegion != REGION_HOENN)
+         && VarGet(VAR_LITTLEROOT_INTRO_STATE) == 0)
             gSaveBlock2Ptr->hoennIntroDone = FALSE;
     }
 

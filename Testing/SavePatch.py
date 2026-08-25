@@ -101,7 +101,8 @@ SAVE_FORMAT_LAYOUT_MIN = 7
 HOENN_INTRO_DONE_BIT = 2
 VARS_START = 0x4000
 VAR_LITTLEROOT_INTRO_STATE = 0x4092
-REGION_HOENN = 3                                         # regions.h enum: NONE,KANTO,JOHTO,HOENN
+# include/constants/regions.h enum Region
+REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
 
 # --- probed values ------------------------------------------------------------
 # name -> (C expression, value). --probe compiles the expressions and diffs the values, so
@@ -297,6 +298,64 @@ def require_pins():
             sys.stderr.write(f'  - {b}\n')
         sys.stderr.write('Re-derive with --probe and update PROBED/PINS before touching a save.\n')
         raise SystemExit(2)
+
+
+def v10_clear_stale_hoenn_intro(had, intro_state, _current_region):
+    """Whether v9 -> v10 should clear hoennIntroDone. Must match src/load_save.c.
+
+    _current_region is not part of the predicate: introState == 0 already means no Hoenn
+    intro has run. The argument stays so --check can name the Slateport-stranded case.
+    """
+    return bool(had) and intro_state == 0
+
+
+def check_v10_hoenn_intro():
+    """#195 discrimination. introState == 0 means no Hoenn intro script has ever run.
+
+    The hub first-visit path sets VAR_LITTLEROOT_INTRO_STATE to 4 *before* warping, so a
+    genuine mid-intro file cannot sit at 0. introState 0 with currentRegion == REGION_HOENN
+    is the Slateport dump: they already took the returning-player warp on the stale bit.
+    Excluding that region would stamp v10 and make the repair unreachable.
+    """
+    cases = [
+        (True,  0, REGION_JOHTO, True,  'Johto-first, never visited Hoenn'),
+        (True,  7, REGION_JOHTO, False, 'finished Birch lab'),
+        (True,  0, REGION_HOENN, True,  'stranded in Slateport'),
+        (True,  4, REGION_HOENN, False, 'mid-intro (hub first-visit)'),
+        (True,  0, REGION_KANTO, True,  'Kanto-first, never visited Hoenn'),
+        (True,  0, REGION_NONE,  True,  'new hub file, never visited Hoenn'),
+        (False, 0, REGION_JOHTO, False, 'already clear'),
+        (False, 0, REGION_HOENN, False, 'already clear, standing in Hoenn'),
+    ]
+    bad = []
+    for had, intro, region, expect, label in cases:
+        got = bool(v10_clear_stale_hoenn_intro(had, intro, region))
+        if got != expect:
+            bad.append(f'v9->v10 {label}: had={int(had)} introState={intro} '
+                       f'region={region} -> {got}, want {expect}')
+    return bad
+
+
+def check_v10_c_mirrors():
+    """The C ladder must not re-introduce the region exclusion --check just proved wrong."""
+    path = os.path.join(REPO, 'src/load_save.c')
+    try:
+        with open(path, encoding='utf-8') as fh:
+            text = fh.read()
+    except OSError as e:
+        return [f'src/load_save.c: cannot read ({e})']
+    start = text.find('v9 -> v10: issue #195')
+    if start < 0:
+        return ['src/load_save.c: v9 -> v10 #195 block missing']
+    end = text.find('gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;', start)
+    block = text[start:end if end > start else start + 1200]
+    bad = []
+    if 'currentRegion != REGION_HOENN' in block:
+        bad.append('src/load_save.c v9->v10 excludes currentRegion==REGION_HOENN '
+                   '(that is the stranded Slateport victim, not mid-intro)')
+    if 'VarGet(VAR_LITTLEROOT_INTRO_STATE) == 0' not in block:
+        bad.append('src/load_save.c v9->v10 lost the introState==0 guard')
+    return bad
 
 
 def probe():
@@ -647,7 +706,7 @@ def migrate(sv):
             intro = sv.u16(sv.sb1, vars_off)
             region = sv.sb2[V['SB2.currentRegion']]
             had = (sv.sb2[bits_off] >> HOENN_INTRO_DONE_BIT) & 1
-            if had and intro == 0 and region != REGION_HOENN:
+            if v10_clear_stale_hoenn_intro(had, intro, region):
                 sv.sb2[bits_off] &= ~(1 << HOENN_INTRO_DONE_BIT) & 0xFF
                 log.append('v9->v10 hoennIntroDone cleared (never played the Hoenn intro: '
                            f'VAR_LITTLEROOT_INTRO_STATE=0, currentRegion={region})')
@@ -789,6 +848,12 @@ def main():
             sys.stderr.write(f'{len(bad)}/{len(PINS)} save-format constants have drifted; '
                              'SavePatch.py must be updated (--probe re-derives them) before '
                              'it is used on a real save.\n')
+            return 1
+        v10_bad = check_v10_hoenn_intro() + check_v10_c_mirrors()
+        for b in v10_bad:
+            sys.stderr.write(f'  FAIL {b}\n')
+        if v10_bad:
+            sys.stderr.write(f'{len(v10_bad)} v9->v10 hoennIntroDone check(s) failed.\n')
             return 1
         if args.verbose:
             print(f'{len(PINS)}/{len(PINS)} constants match the tree')

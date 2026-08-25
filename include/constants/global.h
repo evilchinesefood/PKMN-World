@@ -33,7 +33,9 @@
 //     from REGION_NONE is a no-op) and Oldale still walled off. That commit fixed new games but
 //     declared "save format unchanged", so a pre-fix and a post-fix save are BOTH stamped v9 and
 //     cannot be told apart by version. This bump is what makes the repair reachable: v9 saves get
-//     the one-shot check below, v10 saves never re-enter it.
+//     the one-shot check below, v10 saves never re-enter it. The check is introState == 0 only
+//     — a file already dumped in Slateport has currentRegion == REGION_HOENN and must still
+//     clear, because the hub first-visit path sets the var to 4 before warping.
 #define SAVE_FORMAT_VERSION 10
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which

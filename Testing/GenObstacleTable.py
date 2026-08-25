@@ -5,11 +5,11 @@ Why this exists
 ---------------
 Cleared obstacles used to persist as a list of {mapGroup, mapNum, localId} triples capped at
 CLEARED_OBSTACLE_MAX = 104, with NO eviction: past 104 clears, new cut trees and smashed rocks
-silently stopped persisting and regrew on every rezone. This repo has **297** such obstacles, so
+silently stopped persisting and regrew on every rezone. This repo has **293** such obstacles, so
 that is not a theoretical ceiling a completionist might brush - it is reached less than half way
 through the game.
 
-One bit per obstacle costs 38 bytes for today's 297 against 313 bytes for the 104-entry list, so
+One bit per obstacle costs 37 bytes for today's 293 against 313 bytes for the 104-entry list, so
 the bitfield both removes the cap and gives SaveBlock3 back ~350 bytes.
 
 The stability problem, and the guard

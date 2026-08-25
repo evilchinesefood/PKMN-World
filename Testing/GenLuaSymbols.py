@@ -52,6 +52,9 @@ WANT = [
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
+    # Overworld weather object. Route41SurfBgm.lua zeros curr/next/rain so a
+    # Route 41 surf check cannot pass on a raining map (or fail on one).
+    "gWeather",
     # The in-game clock. gLocalTime is recomputed from the RTC inside UpdateTimeOfDay() itself
     # (overworld.c:1857), so it is fresh whenever gTimeOfDay is, and a suite can read both to
     # prove the Johto day/night flags agree with the clock rather than with its own seeding.
@@ -124,6 +127,13 @@ WANT = [
     "Task_OakSpeech_HandleConfirmNameInput", "Task_OakSpeech_HardModeEcho",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
+
+# Feature-gated: compiled out of some flag-matrix builds. Emit 0 rather than
+# failing the ROM (symbols.lua is a prerequisite of `make`). Suites that need
+# these already range-check the pointer and fail closed at 0.
+OPTIONAL = {
+    "sUsmState",  # PW_GRAPHICAL_START_MENU
+}
 
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,
 # not a rebuild), so they live here as a curated table rather than being re-derived each build.
@@ -396,6 +406,9 @@ def main():
     for name in WANT:
         ent = syms.get(name)
         if not ent:
+            if name in OPTIONAL:
+                lines.append(f"  {name} = 0,  -- absent in this build")
+                continue
             sys.exit(f"symbol not found in {elf}: {name}")
         # Fail loud on AMBIGUOUS names too, not just missing ones: a file-local static shadowing a
         # global (or a symbol in a discarded section) would otherwise silently resolve to whichever

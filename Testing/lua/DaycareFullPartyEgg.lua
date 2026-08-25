@@ -13,8 +13,11 @@ local F = require("lib").new(S, "DaycareFullPartyEgg")
 
 local PKMN_SIZE = S.Pokemon.size
 local BOX_SIZE  = S.BoxPokemon.size
--- GiveEggFromDaycare uses gSaveBlock1Ptr+0x3434 (offspringPersonality at +280).
-local DAYCARE_OFF = 0x3434
+-- GiveEggFromDaycare uses gSaveBlock1Ptr + offsetof(SaveBlock1, daycare) (offspringPersonality
+-- at +280). #203: this was hardcoded 0x3434 while global.h claimed /*0x3030*/ and nothing pinned
+-- either. It is now ELF-bound via src/load_save.c's STATIC_ASSERT, so a SaveBlock1 insert breaks
+-- the build instead of quietly moving this write into a neighbouring field.
+local DAYCARE_OFF = S.SaveBlock1.daycare
 local DAYCARE_MON = 140             -- second mon at +140
 local FLAG_PENDING_EGG = 0x86
 local VAR_RESULT = S.gSpecialVar_Result

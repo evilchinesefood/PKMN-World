@@ -22,7 +22,7 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(require("symbols"), "VerifyOwnerSave")
 
-local SAVE_FORMAT_VERSION = 9
+local SAVE_FORMAT_VERSION = S.SAVE_FORMAT_VERSION   -- generated from include/constants/global.h
 
 -- SaveBlock1 warp fields (include/global.h). WarpData is 8 bytes, and the three s8s are followed
 -- by a PAD byte before the s16s align: 0 group, 1 num, 2 warpId, 3 pad, 4 x, 6 y. Reading x at +3

@@ -34,7 +34,7 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(require("symbols"), "VerifyV7Migrate")
 
-local SAVE_FORMAT_VERSION = 9
+local SAVE_FORMAT_VERSION = S.SAVE_FORMAT_VERSION   -- generated from include/constants/global.h
 local MAPVIEW_OFF = 0x34            -- include/global.h: /*0x34*/ u16 mapView[0x100]
 
 -- LAYOUT_POKEMON_CENTER_1F after the edit (ApplyMaps.py): the cells the stale

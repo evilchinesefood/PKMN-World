@@ -375,6 +375,22 @@ void MigrateSaveFormatIfNeeded(void)
         MigrateMovedHealLocations();
     }
 
+    // v9 -> v10: issue #195. Clear the stale forced-TRUE hoennIntroDone on a save that has never
+    // actually played Hoenn's intro, so the hub sends it to the Littleroot bedroom instead of
+    // dumping it in Slateport Harbor with no party. VAR_LITTLEROOT_INTRO_STATE is Hoenn-only and
+    // monotonic - nothing in the repo ever resets it - so 0 means no Hoenn intro script has EVER
+    // run on this file. A save that genuinely finished Birch's lab sits at 7, so this cannot
+    // re-fire the bedroom on a completed Hoenn game. currentRegion != REGION_HOENN additionally
+    // refuses to touch a file that is mid-Hoenn right now. Guarded by savedVersion < 10, so it
+    // runs at most once per save, ever.
+    if (savedVersion < 10)
+    {
+        if (gSaveBlock2Ptr->hoennIntroDone
+         && VarGet(VAR_LITTLEROOT_INTRO_STATE) == 0
+         && gSaveBlock2Ptr->currentRegion != REGION_HOENN)
+            gSaveBlock2Ptr->hoennIntroDone = FALSE;
+    }
+
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
 
@@ -486,7 +502,7 @@ STATIC_ASSERT(offsetof(struct RegionSave, usmSaved) == 896, RegionSaveUsmSavedMo
 STATIC_ASSERT(offsetof(struct RegionSave, kantoTrainerFlags) == 909, RegionSaveKantoTrainerFlagsMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, route5DayCareMon) == 992, RegionSaveRoute5DayCareMonMoved_BumpSaveFormatVersion);
 // v7 reshaped the tail: a u8 count + 104 {group,num,localId} triples became a u32 table hash + a
-// 512-bit field, removing the 104 cap (the map data holds 297 obstacles) and shrinking
+// 512-bit field, removing the 104 cap (the map data holds 293 obstacles) and shrinking
 // sizeof(struct RegionSave) 1552 -> 1200, i.e. 352 bytes back to SaveBlock3.
 STATIC_ASSERT(offsetof(struct RegionSave, obstacleTableHash) == 1132, RegionSaveObstacleHashMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleBits) == 1136, RegionSaveObstacleBitsMoved_BumpSaveFormatVersion);
@@ -528,6 +544,14 @@ STATIC_ASSERT(offsetof(struct SaveBlock1, money) == 1168, SaveBlock1MoneyMoved_R
 // berryTrees + 8*N.
 STATIC_ASSERT(offsetof(struct SaveBlock1, berryTrees) == 6812, SaveBlock1BerryTreesMoved_RegenLuaSymbols);
 STATIC_ASSERT(sizeof(struct BerryTree) == 8, BerryTreeSizeChanged_RegenLuaSymbols);
+// #203: DaycareFullPartyEgg.lua RAM-stuffs the daycare bank to force the "no room for the egg"
+// branch. It hardcoded 0x3434 while global.h's comment said /*0x3030*/, and nothing pinned either
+// number. Probe-verified under the repo CFLAGS (-mabi=apcs-gnu -march=armv4t) against the two
+// asserts above as controls: the probe reproduces flags == 5524 and berryTrees == 6812 exactly, so
+// its daycare answer is trustworthy - 13364 (0x3434). The Lua constant was right and the header
+// comment was the stale one; the comments have been corrected. Pinned so the next SaveBlock1
+// insert breaks the BUILD instead of letting the suite stuff a neighbouring field and still pass.
+STATIC_ASSERT(offsetof(struct SaveBlock1, daycare) == 13364, SaveBlock1DaycareMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

@@ -48,7 +48,8 @@ F.run(function()
   if not F.boot(START_GROUP, true) then F.check("crafted save boots", false); F.finish(); return end
 
   local ver = F.r8(F.sb2() + S.SaveBlock2.saveVersion)
-  F.check("saveVersion migrated to 9", ver == 9, "ver=" .. ver)
+  F.check("saveVersion migrated to " .. S.SAVE_FORMAT_VERSION, ver == S.SAVE_FORMAT_VERSION,
+          "ver=" .. ver)
 
   -- Goldenrod: 19 sat after the deleted index 11, so it must now read 18.
   local hg, hn = warp(HEAL_OFF)

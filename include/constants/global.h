@@ -26,7 +26,15 @@
 //     no existing bank - every pinned offsetof below is unchanged - so v8 saves still LOAD;
 //     the ladder step only has to zero the new bank, whose bytes are uninitialised flash on
 //     a v8 save. Without that zeroing a fresh Johto trainer can read as already defeated.
-#define SAVE_FORMAT_VERSION 9
+// v10: issue #195. Before dbc1b1aa17 every ALL_REGIONS new game stamped hoennIntroDone = TRUE
+//     in NewGameInitData, including Johto/Kanto-first files that had never set foot in Hoenn.
+//     RegionHub_ScrTargetIntroDone therefore took the "returning" branch on their FIRST Hoenn
+//     trip and warped them to Slateport Harbor mid-region with an empty party (DepositPartyToPC
+//     from REGION_NONE is a no-op) and Oldale still walled off. That commit fixed new games but
+//     declared "save format unchanged", so a pre-fix and a post-fix save are BOTH stamped v9 and
+//     cannot be told apart by version. This bump is what makes the repair reachable: v9 saves get
+//     the one-shot check below, v10 saves never re-enter it.
+#define SAVE_FORMAT_VERSION 10
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
 // only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.

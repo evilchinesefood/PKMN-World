@@ -95,7 +95,33 @@ PlayersHouse_2F_EventScript_MomComesUpstairsFemale::
 	waitmovement 0
 	return
 
+@ #195: FLAG_SET_WALL_CLOCK is ONE global flag shared by every region's player house. A
+@ Johto/Kanto-first player arriving in Hoenn through the hub lands here at
+@ VAR_LITTLEROOT_INTRO_STATE 4, which 2F's ON_TRANSITION immediately turns into 5 (the "go set
+@ the clock" stairs block) -- but they ALREADY set the clock in New Bark or Pallet, so the
+@ branch above always jumps here and the state never reaches 6. Mom bounced them back upstairs
+@ forever. This is the same case NewBarkTown_PlayersHouse_2F_Script_ClockAlreadySet handles.
+@ Only states 4/5 with the flag already set can be the cross-region arrival: a Hoenn-first
+@ player sets the clock and the flag in the same script, so they never sit at 5 with it set.
+@ Every ordinary clock check later in the game falls through to the plain view unchanged.
 PlayersHouse_2F_EventScript_CheckWallClock::
+	goto_if_eq VAR_LITTLEROOT_INTRO_STATE, 4, PlayersHouse_2F_EventScript_ClockAlreadySetElsewhere
+	goto_if_eq VAR_LITTLEROOT_INTRO_STATE, 5, PlayersHouse_2F_EventScript_ClockAlreadySetElsewhere
+	incrementgamestat GAME_STAT_CHECKED_CLOCK
+	fadescreen FADE_TO_BLACK
+	special Special_ViewWallClock
+	releaseall
+	end
+
+@ Advance exactly what reaching state 6 by the normal route would have set: the state itself and
+@ the two movers' hide flags. The Mom-comes-upstairs beat is deliberately NOT replayed here --
+@ which Hoenn intro beats a cross-region arrival should see is the owner call #195 flags. From 6
+@ the player can walk downstairs into the existing PetalburgGymReport scene and the intro
+@ continues on its own.
+PlayersHouse_2F_EventScript_ClockAlreadySetElsewhere::
+	setvar VAR_LITTLEROOT_INTRO_STATE, 6
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2
 	incrementgamestat GAME_STAT_CHECKED_CLOCK
 	fadescreen FADE_TO_BLACK
 	special Special_ViewWallClock

@@ -69,7 +69,6 @@ Route12_FishingHouse_EventScript_TieRecordMagikarp::
 	end
 
 Route12_FishingHouse_EventScript_NewRecordMagikarp::
-	setflag FLAG_GOT_RECORD_SETTING_MAGIKARP
 	msgbox Route12_FishingHouse_Text_WhoaXSizeTakeThis
 	giveitem ITEM_NET_BALL
 	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForNetBall

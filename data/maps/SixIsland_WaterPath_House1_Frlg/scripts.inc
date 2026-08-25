@@ -47,7 +47,6 @@ SixIsland_WaterPath_House1_EventScript_ShownTiedHeracross::
 	end
 
 SixIsland_WaterPath_House1_EventScript_ShownBigHeracross::
-	setflag FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1
 	msgbox SixIsland_WaterPath_House1_Text_ItsXSizeDeserveReward
 	giveitem ITEM_NEST_BALL
 	goto_if_eq VAR_RESULT, FALSE, SixIsland_WaterPath_House1_EventScript_NoRoomForNestBall

@@ -299,8 +299,8 @@ on:
 
 - **DexNav** — granted with each region's Pokédex; the hidden-Pokémon detector unlocks with your
   first championship. Hidden encounters are authored for **every land encounter table** in the
-  three regions (405 of the 416 tables; the 11 without are Battle Pyramid and Battle Pike rooms),
-  skewing rarer and slightly higher-level than the local grass.
+  three regions (405 of 405). The 11 Battle Pyramid / Battle Pike dummy headers are not land
+  tables. Hidden slots skew rarer and slightly higher-level than the local grass.
 - **Visible overworld encounters** run *alongside* vanilla random grass encounters — both fire on
   the same map by design.
 - **Each region's starters are catchable** on its first route at roughly 10% each — Route 101,

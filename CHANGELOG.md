@@ -5,7 +5,15 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
-_Nothing yet._
+### Fixes
+
+- **Magikarp-record Net Ball and Water Path Nest Ball no longer vanish on a full bag** (#196). The expansion merge put `setflag` back before `giveitem` on those two sites; a full ball pocket consumed the gift.
+
+### Docs / tests
+
+- DexNav coverage is 405/405 land tables, not “405 of 416” (#201).
+- `GenLuaSymbols.py` no longer fails the ROM when `sUsmState` is compiled out (`PW_GRAPHICAL_START_MENU=FALSE`) (#197), and `Route41SurfBgm.lua` reads `gWeather` from the ELF (#200).
+- Dropped the leftover duplicate `NUM_HIDDEN_MONS_ENCOUNTER_SLOTS` the merge claimed to remove (#199).
 
 ## v1.5 — 2026-08-24
 
@@ -107,9 +115,9 @@ _Nothing yet._
   rows ask for theirs. Nobody who reached the board legitimately is short
   one — the maiden voyage that opens the board already demanded the ticket,
   and the ticket can't be tossed or sold. It is deliberately *not* also
-  gated on a game-clear flag: that flag is Hoenn's, and a Johto champion
-  never sets it, so copying the Hoenn-side attendant would have shut the row
-  for exactly the players it exists for.
+  gated on `FLAG_HOENN_CHAMPION`: a Johto champion never sets that, so
+  copying the Hoenn-side attendant would have shut the row for exactly the
+  players it exists for. (`FLAG_SYS_GAME_CLEAR` is any-region first HOF.)
 - **Vermilion's port terminal is a building you can walk back into** (#68):
   the arrival hall was one visit long. Its city-side warp sat on an ordinary
   plank with no warp tile under it, so the terminal had no door, the pier
@@ -467,10 +475,12 @@ _Nothing yet._
   Five of the eight known hazards in that merge produce no conflict marker
   and are wrong by default — a "keep ours" resolution would have silently
   reverted an upstream fix, and one of ours would have printed the wrong
-  rival's name in a Kanto tutorial. Each was resolved deliberately. Two new
-  battle options that arrived switched on are pinned to preserve current
-  behaviour, so changing them stays a visible decision rather than a side
-  effect of the merge.
+  rival's name in a Kanto tutorial. The code paths were resolved deliberately.
+  Three of those still need in-game confirmation a green build cannot see
+  (battle healthboxes, a Kanto catch tutorial, day/night tint) — tracked on
+  #120. Two new battle options that arrived switched on are pinned to
+  preserve current behaviour, so changing them stays a visible decision
+  rather than a side effect of the merge.
 
   It also fixes a Lua suite that had been red on master for some time:
   the Johto Victory Road tileset check, which the merge repairs without

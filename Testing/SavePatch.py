@@ -90,8 +90,18 @@ FLASH_SIZE = SECTOR_SIZE * 32                            # 131072
 ID_SB2, ID_SB1_START, ID_SB1_END = 0, 1, 4
 ID_PK_START, ID_PK_END = 5, 13
 
-SAVE_FORMAT_VERSION = 9
+SAVE_FORMAT_VERSION = 10
 SAVE_FORMAT_LAYOUT_MIN = 7
+
+# --- v9 -> v10 (issue #195) ---------------------------------------------------
+# These cannot go in the probed table below: hoennIntroDone is a BITFIELD, and C forbids
+# offsetof on one. The byte is derived from saveVersion's own probed offset instead, so it
+# still moves with the struct; only the bit index is by hand, and it follows global.h's
+# declaration order (kantoIntroDone:1, johtoIntroDone:1, hoennIntroDone:1) at /*0x92*/.
+HOENN_INTRO_DONE_BIT = 2
+VARS_START = 0x4000
+VAR_LITTLEROOT_INTRO_STATE = 0x4092
+REGION_HOENN = 3                                         # regions.h enum: NONE,KANTO,JOHTO,HOENN
 
 # --- probed values ------------------------------------------------------------
 # name -> (C expression, value). --probe compiles the expressions and diffs the values, so
@@ -205,6 +215,10 @@ PINS = [
      r'^#define SAVE_FORMAT_VERSION\s+(\d+)', SAVE_FORMAT_VERSION),
     ('SAVE_FORMAT_LAYOUT_MIN', 'include/constants/global.h',
      r'^#define SAVE_FORMAT_LAYOUT_MIN\s+(\d+)', SAVE_FORMAT_LAYOUT_MIN),
+    ('VAR_LITTLEROOT_INTRO_STATE', 'include/constants/vars.h',
+     r'^#define VAR_LITTLEROOT_INTRO_STATE\s+(0x[0-9A-Fa-f]+)', VAR_LITTLEROOT_INTRO_STATE),
+    ('VARS_START', 'include/constants/vars.h', r'^#define VARS_START\s+(0x[0-9A-Fa-f]+)',
+     VARS_START),
     ('SECTOR_DATA_SIZE', 'include/save.h',
      r'^#define SECTOR_DATA_SIZE\s+(\d+)', SECTOR_DATA_SIZE),
     ('SAVE_BLOCK_3_CHUNK_SIZE', 'include/save.h',
@@ -623,6 +637,23 @@ def migrate(sv):
                     struct.pack_into('<hh', sv.sb1, o + 4, nx, ny)
                     log.append(f'v8->v9 lastHealLocation {g}/{m} ({ox},{oy}) -> ({nx},{ny})')
                     break
+
+        # v9 -> v10: clear a stale forced-TRUE hoennIntroDone (issue #195). Mirrors the step in
+        # src/load_save.c exactly; if the two ever disagree, a save patched here loads with the
+        # game's own ladder already satisfied and the repair silently skipped.
+        if ver < 10:
+            bits_off = V['SB2.saveVersion'] + 1          # the /*0x92*/ intro-bits byte
+            vars_off = V['SB1.vars'] + (VAR_LITTLEROOT_INTRO_STATE - VARS_START) * 2
+            intro = sv.u16(sv.sb1, vars_off)
+            region = sv.sb2[V['SB2.currentRegion']]
+            had = (sv.sb2[bits_off] >> HOENN_INTRO_DONE_BIT) & 1
+            if had and intro == 0 and region != REGION_HOENN:
+                sv.sb2[bits_off] &= ~(1 << HOENN_INTRO_DONE_BIT) & 0xFF
+                log.append('v9->v10 hoennIntroDone cleared (never played the Hoenn intro: '
+                           f'VAR_LITTLEROOT_INTRO_STATE=0, currentRegion={region})')
+            else:
+                log.append(f'v9->v10 hoennIntroDone left alone (set={had} '
+                           f'introState={intro} currentRegion={region})')
 
         sv.sb2[V['SB2.saveVersion']] = SAVE_FORMAT_VERSION
         log.append(f'saveVersion {ver} -> {SAVE_FORMAT_VERSION}')

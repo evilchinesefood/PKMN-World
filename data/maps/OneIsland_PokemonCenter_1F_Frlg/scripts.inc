@@ -97,8 +97,11 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CanYouDeliverThisMeteoritePlayer
-	msgreceiveditem OneIsland_PokemonCenter_1F_Text_AcceptedMeteoriteFromBill, ITEM_METEORITE, 1, MUS_RG_OBTAIN_KEY_ITEM
+	@ Meteorite used to print "accepted" then additem with no VAR_RESULT check: a full Key
+	@ Items pocket kept the fanfare and dropped the item. Same checked halves as Tri Pass.
 	additem ITEM_METEORITE
+	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_MeteoriteReceived
 	applymovement LOCALID_CELIO, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
@@ -108,10 +111,8 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	additem ITEM_TRI_PASS
 	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
 	call_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_TriPassReceived
-	msgbox OneIsland_PokemonCenter_1F_Text_PassLetsYouTravelBetweenIslands
 	call_if_ge VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage
 	call_if_lt VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap
-	setflag FLAG_SYS_SEVII_MAP_123
 	msgbox OneIsland_PokemonCenter_1F_Text_BillCatchYouLater
 	closemessage
 	applymovement LOCALID_ONE_ISLAND_POKEMON_CENTER_BILL, Common_Movement_WalkInPlaceFasterUp
@@ -138,6 +139,7 @@ OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage::
 	waitmessage
 	waitfanfare
 	call EventScript_RestorePrevTextColor
+	setflag FLAG_SYS_SEVII_MAP_123
 	return
 
 @ #205: Common_EventScript_BagIsFull ends in `return`, so it is only stack-correct when reached
@@ -156,10 +158,16 @@ OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap::
 OneIsland_PokemonCenter_1F_EventScript_TownMapReceived::
 	setflag FLAG_HIDE_TOWN_MAP
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
+	setflag FLAG_SYS_SEVII_MAP_123
+	return
+
+OneIsland_PokemonCenter_1F_EventScript_MeteoriteReceived::
+	msgreceiveditem OneIsland_PokemonCenter_1F_Text_AcceptedMeteoriteFromBill, ITEM_METEORITE, 1, MUS_RG_OBTAIN_KEY_ITEM
 	return
 
 OneIsland_PokemonCenter_1F_EventScript_TriPassReceived::
 	msgreceiveditem OneIsland_PokemonCenter_1F_Text_ObtainedTriPass, ITEM_TRI_PASS, 1, MUS_RG_OBTAIN_KEY_ITEM
+	msgbox OneIsland_PokemonCenter_1F_Text_PassLetsYouTravelBetweenIslands
 	return
 
 OneIsland_PokemonCenter_1F_Movement_PlayerWalkToCelio::
@@ -225,6 +233,11 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5, OneIsland_PokemonCenter_1F_EventScript_ExplainRainbowPass
 	goto_if_set FLAG_GOT_RUBY, OneIsland_PokemonCenter_1F_EventScript_GiveCelioRuby
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 4, OneIsland_PokemonCenter_1F_EventScript_CelioWaitingForRuby
+	@ Scene 1+ is already past the meeting cutscene (ON_FRAME at 0 would replay it), so a full
+	@ bag during MeetCelioScene can only be recovered here. Rainbow Pass (scene 5) removes the
+	@ Tri Pass; don't re-offer after that.
+	call OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedFirstGifts
+	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioDoneGiving
 	specialvar VAR_RESULT, IsNationalPokedexEnabled
 	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3, OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex
@@ -234,6 +247,48 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 	waitmovement 0
 	release
 	end
+
+OneIsland_PokemonCenter_1F_EventScript_CelioDoneGiving::
+	release
+	end
+
+@ VAR_0x8000 is the "offered something this talk" latch. Meteorite is only re-offered before
+@ Two Island consumes it (scene < 2). Tri Pass / Town Map stay offerable until Rainbow Pass.
+OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedFirstGifts::
+	setvar VAR_0x8000, 0
+	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 2, OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedTriPass
+	checkitem ITEM_METEORITE
+	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedTriPass
+	additem ITEM_METEORITE
+	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_MeteoriteReceived
+	setvar VAR_0x8000, 1
+OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedTriPass::
+	checkitem ITEM_TRI_PASS
+	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedTownMap
+	additem ITEM_TRI_PASS
+	call_if_eq VAR_RESULT, FALSE, Common_EventScript_BagIsFull
+	call_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_TriPassReceived
+	setvar VAR_0x8000, 1
+OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedTownMap::
+	checkitem ITEM_TOWN_MAP
+	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_EnsureSeviiMap123
+	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, OneIsland_PokemonCenter_1F_EventScript_RetryTownMapPage
+	call OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap
+	setvar VAR_0x8000, 1
+	goto OneIsland_PokemonCenter_1F_EventScript_FinishMissedFirstGifts
+OneIsland_PokemonCenter_1F_EventScript_RetryTownMapPage::
+	goto_if_set FLAG_SYS_SEVII_MAP_123, OneIsland_PokemonCenter_1F_EventScript_FinishMissedFirstGifts
+	call OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage
+	setvar VAR_0x8000, 1
+	goto OneIsland_PokemonCenter_1F_EventScript_FinishMissedFirstGifts
+OneIsland_PokemonCenter_1F_EventScript_EnsureSeviiMap123::
+	goto_if_set FLAG_SYS_SEVII_MAP_123, OneIsland_PokemonCenter_1F_EventScript_FinishMissedFirstGifts
+	setflag FLAG_SYS_SEVII_MAP_123
+	setvar VAR_0x8000, 1
+OneIsland_PokemonCenter_1F_EventScript_FinishMissedFirstGifts::
+	copyvar VAR_RESULT, VAR_0x8000
+	return
 
 OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact::
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioHearingRumorsAboutYou

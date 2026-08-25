@@ -1633,7 +1633,7 @@ static void TryStartRandomMassOutbreak(void)
     u16 outbreakIdx;
     TVShow *show;
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
+    if (FlagGet(FLAG_HOENN_CHAMPION))
     {
         for (i = 0; i < LAST_TVSHOW_IDX; i++)
         {
@@ -2504,7 +2504,7 @@ void IncrementDailyBattlePoints(u16 delta)
 
 static void TryPutRandomPokeNewsOnAir(void)
 {
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
+    if (FlagGet(FLAG_HOENN_CHAMPION))
     {
         sCurTVShowSlot = GetFirstEmptyPokeNewsSlot(gSaveBlock1Ptr->pokeNews);
         if (sCurTVShowSlot != -1 && rbernoulli(1, 100) != TRUE)
@@ -2690,7 +2690,7 @@ static void UpdatePokeNewsCountdown(u16 days)
             else
             {
                 // Progress countdown to news event
-                if (gSaveBlock1Ptr->pokeNews[i].state == POKENEWS_STATE_INACTIVE && FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
+                if (gSaveBlock1Ptr->pokeNews[i].state == POKENEWS_STATE_INACTIVE && FlagGet(FLAG_HOENN_CHAMPION) == TRUE)
                     gSaveBlock1Ptr->pokeNews[i].state = POKENEWS_STATE_UPCOMING;
 
                 gSaveBlock1Ptr->pokeNews[i].dayCountdown -= days;
@@ -3749,7 +3749,7 @@ static void DeactivateGameCompleteShowsIfNotUnlocked(void)
 {
     u16 i;
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) != TRUE)
+    if (FlagGet(FLAG_HOENN_CHAMPION) != TRUE)
     {
         for (i = 0; i < LAST_TVSHOW_IDX; i++)
         {
@@ -3900,7 +3900,7 @@ static void ClearPokeNewsIfGameNotComplete(void)
 {
     u8 i;
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) != TRUE)
+    if (FlagGet(FLAG_HOENN_CHAMPION) != TRUE)
     {
         for (i = 0; i < POKE_NEWS_COUNT; i++)
             gSaveBlock1Ptr->pokeNews[i].state = POKENEWS_STATE_INACTIVE;

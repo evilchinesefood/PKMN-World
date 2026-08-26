@@ -721,12 +721,47 @@ The intended extended walk was also never achieved: a reproducible movement/inpu
 particular `keepScene=true` boot path reduced the movement evidence to a single confirmed 3-tile
 sample, which is far too short to show or exclude accumulation.
 
-**H5 is therefore OPEN, not closed.** The right way at it does not need the real save at all, because
-the hypothesis is about accumulation during ordinary non-warp play: walk a fresh save for thousands
-of steps with no warp (a warp calls `ResetSpriteData()` and erases the signal) and look for a
-*monotonic* climb, or statically audit sprite alloc/free pairing on the paths that never reset the
-pool. `Route37CrossingProbe.lua` already walks 100+ steps cleanly with ordinary `F.step()` on a
-fresh save, so it is the better starting point than this probe.
+**H5 was therefore reopened after this probe, and settled by `SustainedWalkLeakProbe.lua` below** —
+which needs no real save at all, because the hypothesis is about accumulation during ordinary
+non-warp play. Keep this section as the worked example of a measurement that cannot bear the
+conclusion drawn from it.
+
+### `SustainedWalkLeakProbe.lua`
+The probe H5 actually needed. Fresh save, follower out, **one** warp at the very start and never
+again, then 60 laps / **3,820 steps**: cross south over the Route37<->Route36 connection, dip into
+Route36 and back, cross north, walk up through Route 37's object-dense stretch (4 `LIGHT_SPRITE`s,
+day/night VULPIX/PIDGEY) and back. Sampled every tile.
+
+**The signal is the per-lap FLOOR, not the peak** — a pool oscillating high and low forever is
+healthy; a rising *minimum* is the leak. Reading only the peak is what made earlier numbers look
+reassuring. Result: the floor sat at 10, blipping to 12 three times in 60 laps, longest
+consecutive-rising run **1 lap**. Object floor flat at 2-3. Run-max 9/16 and 27/64, consistent with
+every other probe. Warp-free by construction and by assertion.
+
+**★ Methodology hazard this probe hit, worth reusing:** the follower lost a wild battle mid-run and
+the whiteout teleported it to Petalburg — a whiteout is a warp-style load, i.e. exactly the
+`ResetSpriteData()` this probe exists to avoid, and it would have voided the invariant silently.
+Fixed by leveling the follower to 100 and asserting `grp() == 83` after every battle settle. Any
+long-walk probe needs that guard, or it can quietly measure nothing.
+
+Why this closes H5 rather than merely failing to reproduce: every warp AND every battle init calls
+`ResetSpriteData()` (`src/battle_main.c:609`), so the only window in which sprites can accumulate at
+all is a walking stretch between resets. 3,820 steps far exceeds any window real play can produce.
+
+Static audit done alongside it: `TrySetupObjectEventSprite` -> `RemoveObjectEventInternal` ->
+`DestroySprite` is paired; `SpawnLightSprite` dedups and self-cleans via `UpdateLightSprite`;
+`GetAvailableObjectEventId` dedups by localId+map so repeated walk-bys cannot double-spawn a
+template. One genuine asymmetry, **masked today and not an explanation for anything here**:
+`DespawnOWEOnBattleStart()` (`src/wild_encounter_ow.c:1551`) calls `ClearObjectEvent()` rather than
+`RemoveObjectEvent()`, so it never `DestroySprite()`s — harmless only because battle init resets the
+whole pool moments later. A refactor that reorders or skips that reset would turn it into a real
+leak.
+
+Also worth knowing, since it sets the failure mode for the whole investigation: the defensive
+`>= MAX_SPRITES` bailouts in `TrySetupObjectEventSprite` and `SpawnLightSprite` are dead code,
+because `CreateSprite()` (`src/sprite.c:433`) `fatal_assertf`s before it could return that sentinel.
+True pool exhaustion red-crashes rather than degrading gracefully — so the crash shape is consistent
+with exhaustion, it is just that nothing tested across four rounds got past 27/64.
 **★ Harness trap this probe found:** `mgba-headless` autoload chokes on the 16-byte mGBA RTC
 trailer. A 131,088-byte `.sav` does not fail loudly — it silently boots to **NEW GAME**, so a probe
 that believes it is driving a real save is driving a fresh file. Truncate to the raw 131,072-byte
@@ -741,11 +776,12 @@ view — not a climb. Both clock levers matter here; see the `JohtoDayNightLive`
 `SaveBlock2.localTimeOffset` and `sHoursOverride` are not interchangeable and why the TOD tick is
 180 frames, not a minute.
 
-**Status: FOUR hypotheses disconfirmed** — slot pressure at the crossing, loader divergence,
-follower teardown, and the day/night race. **H5 (accumulated sprite leak in ordinary non-warp play)
-is still open**; see the correction above, and do not let the 3/16, 7/64 figure retire it.
+**Status: all five hypotheses disconfirmed by measurement** — slot pressure at the crossing, loader
+divergence, follower teardown, the day/night race, and the accumulated leak. Note the leak took two
+attempts: the real-save baseline could never have tested it (see the ★ above), and only the 3,820-step
+warp-free walk actually did. If you are tempted to retire a hypothesis on a single number, check
+first that the measurement can physically exhibit the thing you are ruling out.
 
-Two live moves, in order of value: get the crash screenshot, which names its own assert site
-(`F.crashScreen()` decodes `FILE.C:LINE` straight out of VRAM — never key off the screen's colour,
-that palette is broken, see [`../BizHawkTesting.md`](../BizHawkTesting.md)); and run the long
-fresh-save walk described above, which is the probe H5 actually needs.
+The next move is not another probe. It is the crash screenshot, which names its own assert site:
+`F.crashScreen()` decodes `FILE.C:LINE` straight out of VRAM. Never key off the screen's colour;
+that palette is broken (see [`../BizHawkTesting.md`](../BizHawkTesting.md)).

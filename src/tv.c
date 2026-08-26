@@ -3745,19 +3745,31 @@ static void DeactivateShowIfNotSeenSpecies(enum Species species, u8 showIdx)
         gSaveBlock1Ptr->tvShows[showIdx].common.active = FALSE;
 }
 
+// #206: this used to gate BOTH shows on one flag, and ce1816e6e5 retargeted that single flag from
+// FLAG_SYS_GAME_CLEAR to FLAG_HOENN_CHAMPION. The two shows do not share a region, so one flag
+// cannot serve both: a Johto or Kanto champion had every received Bravo Trainer Battle Tower show
+// wiped on each record mix.
+//
+// Mass Outbreak IS Hoenn postgame content (StartMassOutbreak seeds a Hoenn route), so it keeps
+// FLAG_HOENN_CHAMPION. Bravo Trainer Battle Tower is not gated here at all: the show only exists
+// because someone recorded an interview at the Frontier lobby reporter, which is already gated on
+// VAR_BRAVO_TRAINER_BATTLE_TOWER_ON (data/scripts/interview.inc:299). A champion check on top of
+// that is a second lock on a door that is already locked.
+//
+// Only caller is ReceiveTvShowsData (record-mixing receive). It runs AFTER the merge, though, so
+// it walks locally generated shows too -- a local MASS_OUTBREAK on a non-Hoenn-champion file is
+// deactivated here. That is pre-existing vanilla behaviour, unchanged by this split.
 static void DeactivateGameCompleteShowsIfNotUnlocked(void)
 {
     u16 i;
 
-    if (FlagGet(FLAG_HOENN_CHAMPION) != TRUE)
+    if (FlagGet(FLAG_HOENN_CHAMPION) == TRUE)
+        return;
+
+    for (i = 0; i < LAST_TVSHOW_IDX; i++)
     {
-        for (i = 0; i < LAST_TVSHOW_IDX; i++)
-        {
-            if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE)
-                gSaveBlock1Ptr->tvShows[i].common.active = FALSE;
-            else if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
-                gSaveBlock1Ptr->tvShows[i].common.active = FALSE;
-        }
+        if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
+            gSaveBlock1Ptr->tvShows[i].common.active = FALSE;
     }
 }
 

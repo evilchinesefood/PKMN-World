@@ -681,3 +681,52 @@ cannot satisfy the "runs on a fresh build" bar — including `Route41Whirlpool.l
 PASS. Do not send anyone to a `_pwtest/*.lua` path; the durable techniques all live in `lib.lua`
 and [`../BizHawkTesting.md`](../BizHawkTesting.md), and the suites in this directory are the
 reference implementations.
+
+## Instrumentation probes (Route 37 red crash — open, unreproduced)
+
+These three are **not suites and not gates**. They are deliberately absent from `run-all.sh`'s
+`FRESH`/`WITH_SAVE` lists (which are explicit, not globbed), so the sweep neither runs nor expects
+them. They are kept because the Route 37 crash is still open and each one closes a hypothesis with a
+measurement — re-deriving that ground would cost far more than reading them.
+
+The report: a red (`fatalf`) crash walking Route 37 shortly after entering from the bottom (from
+Route 36), follower out, 2026-08-04, on the v8 save. Still **unreproduced**. Previously eliminated by
+measurement: sprite pool, OBJ palettes, heap (all via a *warp* into Route 37 — see the asymmetry
+below, which is why those numbers did not cover the crossing).
+
+### `Route37CrossingProbe.lua`
+Exercises the Route36 <-> Route37 map **connection** on foot rather than by warp, follower out,
+sampling `gObjectEvents`/`gSprites` every step. A host-side collision scan of both `map.bin`s
+establishes the connection is walkable at exactly one place — Route37 x=12..19 / Route36 x=34..41 —
+so this is complete coverage of the crossing, not a sample. Result: both directions plus a deep walk
+into Route 37's object cluster peaked at **8/16 objects, 23/64 sprites**. 41 slots of headroom kills
+slot pressure at the crossing, and the crossing itself completes cleanly.
+**Why a warp is not a substitute:** `ResumeMap()` calls `ResetSpriteData()` on the warp path, but
+`LoadMapFromCameraTransition` deliberately does not (it must preserve on-screen sprites). Every
+measurement taken after a warp is therefore measuring a pool that was just wiped.
+
+### `OwnerSaveLeakProbe.lua`
+Tests whether the pool was already elevated by a long real session, with the crossing merely tipping
+it over. Loads a real save with `keepScene=true` so nothing moves the player before the first sample.
+Result on the v8 save (`bak-prev8.sav`; player Dave, 6h30m06s, counter 20, `saveVersion 8`, verified
+by parsing the flash image rather than trusting mtime): **3/16 objects, 7/64 sprites** before any
+movement, flat across a confirmed walk. Lower than a fresh save. No leak.
+**★ Harness trap this probe found:** `mgba-headless` autoload chokes on the 16-byte mGBA RTC
+trailer. A 131,088-byte `.sav` does not fail loudly — it silently boots to **NEW GAME**, so a probe
+that believes it is driving a real save is driving a fresh file. Truncate to the raw 131,072-byte
+flash image; `VerifyOwnerSave.lua` went 0/1 -> 7/7 on nothing but that. Always run
+`VerifyOwnerSave.lua` as the control before trusting any real-save measurement.
+
+### `DayNightCrossingProbe.lua`
+Drives the Johto day/night flip across the crossing: 3 alignments (flip before / on / after the
+boundary step) x 2 directions x 2 polarities = 12 scenarios, 40 checks, follower out. All passed;
+occupancy peaked at 10/16, 27/64 and fluctuated both ways as day/night mons swapped in and out of
+view — not a climb. Both clock levers matter here; see the `JohtoDayNightLive` notes above for why
+`SaveBlock2.localTimeOffset` and `sHoursOverride` are not interchangeable and why the TOD tick is
+180 frames, not a minute.
+
+**Status: all five hypotheses disconfirmed** (slot pressure, loader divergence, follower teardown,
+day/night race, accumulated leak). The reproducible search space is exhausted. The next move is not
+another probe — it is the crash screenshot, which names its own assert site: `F.crashScreen()`
+decodes `FILE.C:LINE` straight out of VRAM. Never key off the screen's colour; that palette is
+broken (see [`../BizHawkTesting.md`](../BizHawkTesting.md)).

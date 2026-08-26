@@ -1557,6 +1557,10 @@ void DespawnOWEOnBattleStart(void)
     if (IsOverworldWildEncounter(owe, OWE_MANUAL))
         FlagSet(GetObjectEventFlagIdByLocalIdAndMap(owe->localId, owe->mapNum, owe->mapGroup));
 
+    // Battle-start: DestroySprite + Clear, not RemoveObjectEvent (no flee anim / SE_FLEE).
+    u8 spriteId = owe->spriteId;
+    if (spriteId < MAX_SPRITES && gSprites[spriteId].inUse)
+        DestroySprite(&gSprites[spriteId]);
     ClearObjectEvent(owe);
     SetNewOWESpawnCountdown();
     gSpecialVar_LastTalked = LOCALID_NONE;

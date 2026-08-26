@@ -56,7 +56,8 @@ void Task_LinkContest_StartCommunicationEm(u8 taskId)
     }
 
     gContestMons[gContestPlayerMonIndex].highestRank = gHighestRibbonRank;
-    gameCleared = FlagGet(FLAG_SYS_GAME_CLEAR) > 0;
+    // Match SetContestants (#198): Hoenn champ, not any-region HOF.
+    gameCleared = FlagGet(FLAG_HOENN_CHAMPION) > 0;
     gContestMons[gContestPlayerMonIndex].gameCleared = gameCleared;
     SetTaskFuncWithFollowupFunc(taskId, Task_LinkContest_CommunicateMonsEm, Task_LinkContest_StartCommunicateRngEm);
 }

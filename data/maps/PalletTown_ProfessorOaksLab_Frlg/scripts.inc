@@ -570,7 +570,10 @@ PalletTown_ProfessorOaksLab_EventScript_ProfOak::
 	goto_if_set SHOWED_OAK_COMPLETE_DEX, PalletTown_ProfessorOaksLab_EventScript_OakJustShownCompleteDex
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 9, PalletTown_ProfessorOaksLab_EventScript_RatePokedex
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 8, PalletTown_ProfessorOaksLab_EventScript_MonsAroundWorldWait
-	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_TryStartNationalDexScene
+	@ FLAG_KANTO_CHAMPION, not FLAG_SYS_GAME_CLEAR: a Hoenn/Johto champ walking
+	@ in pre-Kanto-E4 would skip parcel/rival branches and jump to a dex rating
+	@ that then releases without falling through.
+	goto_if_set FLAG_KANTO_CHAMPION, PalletTown_ProfessorOaksLab_EventScript_TryStartNationalDexScene
 	goto_if_eq VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1, PalletTown_ProfessorOaksLab_EventScript_RatePokedex
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6, PalletTown_ProfessorOaksLab_EventScript_RatePokedexOrTryGiveBalls
 	@ Gate the hand-over on the PARCEL actually having reached the BAG, not on the MART
@@ -1257,7 +1260,7 @@ PalletTown_ProfessorOaksLab_EventScript_LastPokeBall::
 PalletTown_ProfessorOaksLab_EventScript_Aide1::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear
+	goto_if_set FLAG_KANTO_CHAMPION, PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear
 	msgbox PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide
 	release
 	end
@@ -1271,7 +1274,7 @@ PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear::
 PalletTown_ProfessorOaksLab_EventScript_Aide2::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_Aide2GameClear
+	goto_if_set FLAG_KANTO_CHAMPION, PalletTown_ProfessorOaksLab_EventScript_Aide2GameClear
 	msgbox PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide
 	release
 	end

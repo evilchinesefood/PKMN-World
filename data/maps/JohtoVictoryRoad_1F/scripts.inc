@@ -20,10 +20,16 @@ JohtoVictoryRoad_1F_OnTransition:
 	setflag FLAG_GARBAGEFLAG
 	end
 
-@ A save made standing on this map before the Wally removal replays its own object array
-@ verbatim (SpawnObjectEventsOnReturnToField never re-reads the hide flags), so the two stale
-@ objects would still spawn once. Despawn them after the fact; a no-op in every other case.
+@ ON_TRANSITION does not run on a plain Continue, so a save made standing on this map needs
+@ the flag set here too -- and it must be set UNCONDITIONALLY, not left to removeobject.
+@ RemoveObjectEventByLocalIdAndMap() only FlagSets inside its successful-lookup branch
+@ (event_object_movement.c:1711), so if neither object is in the camera window at the moment
+@ of the resume it is a pure no-op, the flag stays clear, and TrySpawnObjectEvents() spawns
+@ the stale object off the SAVED template as soon as the player walks within range of
+@ (12,25) or (31,9) -- it gates on nothing but !FlagGet(template->flagId).
+@ setflag closes that window; the removeobjects then clear whichever one did spawn.
 JohtoVictoryRoad_1F_OnReturnToField:
+	setflag FLAG_GARBAGEFLAG
 	removeobject LOCALID_UNUSED_WALLY_1
 	removeobject LOCALID_UNUSED_WALLY_2
 	end

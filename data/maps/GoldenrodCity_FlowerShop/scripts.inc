@@ -18,7 +18,8 @@ GoldenrodCity_FlowerShop_HideMintClerk::
 GoldenrodCity_FlowerShop_ShowMintClerkPostgame::
 	clearflag FLAG_MINTS_CLERK
 	addobject LOCALID_MINT_CLERK
-	end
+	@ return: goto'd from HideMintClerk (a call_if_unset sub); end would abort OnTransition
+	return
 
 GoldenrodCity_FlowerShop_ShowMintClerk::
 	clearflag FLAG_MINTS_CLERK

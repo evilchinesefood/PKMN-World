@@ -1,6 +1,32 @@
+@ Local ids 4 and 7 held Hoenn's Wally set-piece, removed in favour of Hoenn's own copy.
+@ The two object slots are RETAINED, permanently hidden, and must stay at these indices:
+@ LoadSaveblockObjEventScripts() (src/overworld.c:596) re-points a resumed save's templates
+@ at the ROM table BY INDEX, and a plain Continue reaches neither map loader (see the comment
+@ at src/overworld.c:2356), so deleting them outright would hand a save made inside this map
+@ the wrong scripts for the item balls, and read past the end of the table for the last two
+@ trainers.
+.set LOCALID_UNUSED_WALLY_1, 4
+.set LOCALID_UNUSED_WALLY_2, 7
+
 JohtoVictoryRoad_1F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, JohtoVictoryRoad_1F_OnTransition
 	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
+	map_script MAP_SCRIPT_ON_RETURN_TO_FIELD, JohtoVictoryRoad_1F_OnReturnToField
 	.byte 0
+
+@ Keeps both unused slots despawned on every ordinary entry to the map, old saves included --
+@ ON_TRANSITION runs after the templates load but before objects spawn.
+JohtoVictoryRoad_1F_OnTransition:
+	setflag FLAG_GARBAGEFLAG
+	end
+
+@ A save made standing on this map before the Wally removal replays its own object array
+@ verbatim (SpawnObjectEventsOnReturnToField never re-reads the hide flags), so the two stale
+@ objects would still spawn once. Despawn them after the fact; a no-op in every other case.
+JohtoVictoryRoad_1F_OnReturnToField:
+	removeobject LOCALID_UNUSED_WALLY_1
+	removeobject LOCALID_UNUSED_WALLY_2
+	end
 
 JohtoVictoryRoad_1F_EventScript_Edgar::
 	trainerbattle_single TRAINER_EDGAR_VR_JT, JohtoVictoryRoad_1F_Text_EdgarIntro, JohtoVictoryRoad_1F_Text_EdgarDefeat

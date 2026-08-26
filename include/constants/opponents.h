@@ -1217,7 +1217,12 @@
 // leader_rematch_hook shared her id too). TRAINER_HALLE_JT is free, so no _VR_ suffix is
 // needed here - unlike EDGAR_VR_JT / ALBERT_VR_JT / SAMUEL_VR_JT above.
 #define TRAINER_HALLE_JT                          1794   // JohtoVictoryRoad_B1F
-#define JOHTO_EXT_TRAINERS_COUNT           68
+// MtMortar_B1F's Kiyo is the GSC Karate King who gifts TYROGUE; he fought TRAINER_KIYO,
+// i.e. Hoenn Route 132's Black Belt (single Lv34 Hariyama). Mt. Mortar battles him with
+// trainerbattle_no_intro (no flag check) while Route 132 uses trainerbattle_single (which
+// checks), so beating the Karate King silently pre-defeated the Route 132 trainer.
+#define TRAINER_KIYO_JT                           1795   // MtMortar_B1F
+#define JOHTO_EXT_TRAINERS_COUNT           69
 #else
 // Vanilla/FRLG builds: no Johto bank, keep the previous shared Hoenn ids.
 #define JOHTO_EXT_TRAINER_ID_OFFSET        TRAINERS_COUNT_HOENN_JOHTO
@@ -1289,11 +1294,12 @@
 #define TRAINER_MARC_JT                           TRAINER_MARC
 #define TRAINER_HUGH_JT                           TRAINER_HUGH
 #define TRAINER_HALLE_JT                          TRAINER_HALLE
+#define TRAINER_KIYO_JT                           TRAINER_KIYO
 #define JOHTO_EXT_TRAINERS_COUNT           0
 #endif
 
 #if ALL_REGIONS
-#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1795
+#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1796
 #else
 #define TRAINERS_COUNT_EMERALD     TRAINERS_COUNT_HOENN_JOHTO
 #endif

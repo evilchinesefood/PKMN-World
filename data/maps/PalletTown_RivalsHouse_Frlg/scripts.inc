@@ -22,10 +22,23 @@ PalletTown_RivalsHouse_EventScript_Daisy::
 	lock
 	faceplayer
 	famechecker FAMECHECKER_DAISY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
-	goto_if_set FLAG_KANTO_CHAMPION, PalletTown_RivalsHouse_EventScript_GroomMon
+	@ #206: FLAG_SYS_GAME_CLEAR, not FLAG_KANTO_CHAMPION. DAISY's grooming is an
+	@ any-region convenience - a friendship service, the same class of thing as a
+	@ vitamin vendor - not Kanto story, so it opens at the player's first Hall of Fame
+	@ whichever league that was. b3397bf44a swept it onto FLAG_KANTO_CHAMPION with the
+	@ genuine Kanto postgame; the owner's split on #206 puts it back. Do not re-sweep.
+	@ The hand-over arm is hoisted ABOVE the grooming check, and that ordering is part of the
+	@ revert rather than incidental. On FLAG_KANTO_CHAMPION this could not bite: a Kanto champion
+	@ has long since taken the TOWN MAP. On FLAG_SYS_GAME_CLEAR it can -- a Hoenn or Johto champion
+	@ walking into PALLET TOWN has the flag set with the scene var still at 1, so grooming would
+	@ answer first and DAISY would never hand the map over. Not a dead end (BILL also gives it at
+	@ OneIsland_PokemonCenter_1F_Frlg/scripts.inc:152, setting this same scene var and hiding the
+	@ table object) but it lands a long way late. Only the scene==1 + flag-set case changes; the
+	@ next visit sits at 2 and falls through to grooming as before.
+	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1, PalletTown_RivalsHouse_EventScript_GiveTownMap
+	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_RivalsHouse_EventScript_GroomMon
 	goto_if_eq RECEIVED_TOWN_MAP, TRUE, PalletTown_RivalsHouse_EventScript_PleaseGiveMonsRest
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2, PalletTown_RivalsHouse_EventScript_ExplainTownMap
-	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 1, PalletTown_RivalsHouse_EventScript_GiveTownMap
 	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 1, PalletTown_RivalsHouse_EventScript_HeardBattledRival
 	msgbox PalletTown_RivalsHouse_Text_HiBrothersAtLab
 	closemessage

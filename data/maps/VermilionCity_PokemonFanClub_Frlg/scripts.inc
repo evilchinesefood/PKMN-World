@@ -34,10 +34,15 @@ VermilionCity_PokemonFanClub_EventScript_NoRoomForBikeVoucher::
 	release
 	end
 
+@ #206: FLAG_SYS_GAME_CLEAR, not FLAG_KANTO_CHAMPION. One flavour line plus a Fame Checker unlock
+@ (FAMECHECKER_DAISY, 1) -- Kanto trivia, not Kanto story -- so it reads the any-region first Hall
+@ of Fame like every other convenience. b3397bf44a swept it onto FLAG_KANTO_CHAMPION together with
+@ the genuine Kanto postgame; the owner's split on #206 puts it back. Unlike the CELADON tea lady
+@ this branch hands out nothing and latches no flag, so its position here is free. Do not re-sweep.
 VermilionCity_PokemonFanClub_EventScript_WorkerF::
 	lock
 	faceplayer
-	goto_if_set FLAG_KANTO_CHAMPION, VermilionCity_PokemonFanClub_EventScript_WorkerFGameClear
+	goto_if_set FLAG_SYS_GAME_CLEAR, VermilionCity_PokemonFanClub_EventScript_WorkerFGameClear
 	msgbox VermilionCity_PokemonFanClub_Text_ChairmanVeryVocalAboutPokemon
 	release
 	end

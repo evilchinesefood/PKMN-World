@@ -10,7 +10,14 @@ TwoIsland_OnTransition::
 
 TwoIsland_EventScript_SetShopState::
 	goto_if_ge VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6, TwoIsland_EventScript_SetShopStateAfterHoennLink
-	goto_if_set FLAG_KANTO_CHAMPION, TwoIsland_EventScript_SetShopStateAfterChampion
+	@ #206: FLAG_SYS_GAME_CLEAR, not FLAG_KANTO_CHAMPION. Shop stock is a commodity
+	@ convenience, not Kanto story, so the champion tier opens at the player's first
+	@ Hall of Fame in any region. b3397bf44a moved this line on the stated grounds that
+	@ it "expanded shop stock before Lostelle". It did not: SetShopStateAfterChampion's
+	@ own goto_if_unset FLAG_RESCUED_LOSTELLE collapses an early champion straight back
+	@ to SetShopInitial, and that guard PRE-DATES b3397bf44a - it is untouched in that
+	@ diff. The LOSTELLE prerequisite lives there, not here. Do not re-sweep this line.
+	goto_if_set FLAG_SYS_GAME_CLEAR, TwoIsland_EventScript_SetShopStateAfterChampion
 	goto_if_set FLAG_RESCUED_LOSTELLE, TwoIsland_EventScript_SetShopStateAfterLostelleRescue
 	goto TwoIsland_EventScript_SetShopStateDefault
 	end

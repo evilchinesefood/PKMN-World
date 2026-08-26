@@ -11,7 +11,7 @@ Four suites need a battery save instead, and one of those saves is not in the tr
 
 ## What's in this directory
 
-`Testing/lua/` holds **48 `.lua` files**: 44 suites plus four that are not suites and must never be
+`Testing/lua/` holds **50 `.lua` files**: 46 suites plus four that are not suites and must never be
 launched directly.
 
 | File | Role |
@@ -87,7 +87,7 @@ Exit code is **0** only for that. **1** means the sweep failed and the message s
 
 ### What a clean sweep looks like
 
-On the owner's machine: **44/44, `SWEEP OK`, exit 0.**
+On the owner's machine: **46/46, `SWEEP OK`, exit 0.**
 
 On a fresh clone: **43 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
 reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,

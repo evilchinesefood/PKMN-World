@@ -46,7 +46,8 @@ FRESH=(SmokeBoot HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
        JohtoWhirlpool JohtoWhiteoutHeal KenyaMail
        PromptSafetyEvIv RedGyarados Route41SurfBgm
        SlowpokeWellRescue TohjoCelebi
-       CelioBagFull HoennIntroClock)
+       CelioBagFull HoennIntroClock
+       ExpansionHealthboxes CatchTutorial DayNightTint)
 
 # Suites that need a specific battery save to mean anything: "<suite>:<fixture>".
 # VerifyV7Migrate MUST use v7dirty, not v7 -- its own header records that v7 happens to hold

@@ -54,7 +54,7 @@
 // offsetof STATIC_ASSERT in load_save.c still holds. The v8 -> v9 ladder step only has to
 // zero it, because on a v8 save those bytes are uninitialised flash.
 //
-// 256 flags reserved; used = TRAINERS_COUNT - JOHTO_EXT_TRAINER_ID_OFFSET (67 today)
+// 256 flags reserved; used = TRAINERS_COUNT - JOHTO_EXT_TRAINER_ID_OFFSET (68 today)
 // -> plenty of headroom (bound enforced by the STATIC_ASSERT in battle_setup.c; recompute
 // from that formula rather than trusting this figure).
 #define FLAG_JOHTO_TRAINER_BASE      0x6680 // directly above the Kanto trainer bank

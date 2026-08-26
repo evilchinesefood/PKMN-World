@@ -1210,7 +1210,14 @@
 #define TRAINER_EDDIE_JT                          1791   // GoldenrodCity_UndergroundSwitches
 #define TRAINER_MARC_JT                           1792   // GoldenrodCity_RadioTower_3F
 #define TRAINER_HUGH_JT                           1793   // MtMortar_2F
-#define JOHTO_EXT_TRAINERS_COUNT           67
+// Born-wrong ids: these Johto scripts pointed at a Hoenn/gym trainer that was never a copy
+// of the same NPC, so the collision was not a parked Hoenn roster - it shipped that way.
+// JohtoVictoryRoad_B1F's Cooltrainer "Halle" fought TRAINER_PRYCE_1, i.e. Mahogany Gym's
+// LEADER PRYCE, mugshot and all, and beating Pryce in the gym pre-defeated her (the gym's
+// leader_rematch_hook shared her id too). TRAINER_HALLE_JT is free, so no _VR_ suffix is
+// needed here - unlike EDGAR_VR_JT / ALBERT_VR_JT / SAMUEL_VR_JT above.
+#define TRAINER_HALLE_JT                          1794   // JohtoVictoryRoad_B1F
+#define JOHTO_EXT_TRAINERS_COUNT           68
 #else
 // Vanilla/FRLG builds: no Johto bank, keep the previous shared Hoenn ids.
 #define JOHTO_EXT_TRAINER_ID_OFFSET        TRAINERS_COUNT_HOENN_JOHTO
@@ -1281,11 +1288,12 @@
 #define TRAINER_EDDIE_JT                          TRAINER_EDDIE
 #define TRAINER_MARC_JT                           TRAINER_MARC
 #define TRAINER_HUGH_JT                           TRAINER_HUGH
+#define TRAINER_HALLE_JT                          TRAINER_HALLE
 #define JOHTO_EXT_TRAINERS_COUNT           0
 #endif
 
 #if ALL_REGIONS
-#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1794
+#define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1795
 #else
 #define TRAINERS_COUNT_EMERALD     TRAINERS_COUNT_HOENN_JOHTO
 #endif

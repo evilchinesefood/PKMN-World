@@ -706,11 +706,27 @@ slot pressure at the crossing, and the crossing itself completes cleanly.
 measurement taken after a warp is therefore measuring a pool that was just wiped.
 
 ### `OwnerSaveLeakProbe.lua`
-Tests whether the pool was already elevated by a long real session, with the crossing merely tipping
-it over. Loads a real save with `keepScene=true` so nothing moves the player before the first sample.
-Result on the v8 save (`bak-prev8.sav`; player Dave, 6h30m06s, counter 20, `saveVersion 8`, verified
-by parsing the flash image rather than trusting mtime): **3/16 objects, 7/64 sprites** before any
-movement, flat across a confirmed walk. Lower than a fresh save. No leak.
+Aimed at H5 — was the pool already elevated by a long real session, with the crossing merely tipping
+it over? Loads a real save with `keepScene=true` so nothing moves the player before the first sample.
+Measured on the v8 save (`bak-prev8.sav`; player Dave, 6h30m06s, counter 20, `saveVersion 8`,
+verified by parsing the flash image rather than trusting mtime): **3/16 objects, 7/64 sprites** before
+any movement.
+
+**★ Read this before citing that number: it does NOT disconfirm H5, and the probe as designed
+cannot.** Sprite-pool occupancy is RAM, not save data. Loading a save therefore always begins from a
+freshly initialised pool, so the accumulated state H5 posits is destroyed by the very act of loading
+the save — the 3/16, 7/64 figure describes a fresh boot, not the machine state the owner was in after
+hours of play. It is evidence about this save's *resume-position object density* and nothing more.
+The intended extended walk was also never achieved: a reproducible movement/input anomaly on this
+particular `keepScene=true` boot path reduced the movement evidence to a single confirmed 3-tile
+sample, which is far too short to show or exclude accumulation.
+
+**H5 is therefore OPEN, not closed.** The right way at it does not need the real save at all, because
+the hypothesis is about accumulation during ordinary non-warp play: walk a fresh save for thousands
+of steps with no warp (a warp calls `ResetSpriteData()` and erases the signal) and look for a
+*monotonic* climb, or statically audit sprite alloc/free pairing on the paths that never reset the
+pool. `Route37CrossingProbe.lua` already walks 100+ steps cleanly with ordinary `F.step()` on a
+fresh save, so it is the better starting point than this probe.
 **★ Harness trap this probe found:** `mgba-headless` autoload chokes on the 16-byte mGBA RTC
 trailer. A 131,088-byte `.sav` does not fail loudly — it silently boots to **NEW GAME**, so a probe
 that believes it is driving a real save is driving a fresh file. Truncate to the raw 131,072-byte
@@ -725,8 +741,11 @@ view — not a climb. Both clock levers matter here; see the `JohtoDayNightLive`
 `SaveBlock2.localTimeOffset` and `sHoursOverride` are not interchangeable and why the TOD tick is
 180 frames, not a minute.
 
-**Status: all five hypotheses disconfirmed** (slot pressure, loader divergence, follower teardown,
-day/night race, accumulated leak). The reproducible search space is exhausted. The next move is not
-another probe — it is the crash screenshot, which names its own assert site: `F.crashScreen()`
-decodes `FILE.C:LINE` straight out of VRAM. Never key off the screen's colour; that palette is
-broken (see [`../BizHawkTesting.md`](../BizHawkTesting.md)).
+**Status: FOUR hypotheses disconfirmed** — slot pressure at the crossing, loader divergence,
+follower teardown, and the day/night race. **H5 (accumulated sprite leak in ordinary non-warp play)
+is still open**; see the correction above, and do not let the 3/16, 7/64 figure retire it.
+
+Two live moves, in order of value: get the crash screenshot, which names its own assert site
+(`F.crashScreen()` decodes `FILE.C:LINE` straight out of VRAM — never key off the screen's colour,
+that palette is broken, see [`../BizHawkTesting.md`](../BizHawkTesting.md)); and run the long
+fresh-save walk described above, which is the probe H5 actually needs.

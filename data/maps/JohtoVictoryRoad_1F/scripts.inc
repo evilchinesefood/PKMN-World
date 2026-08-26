@@ -1,99 +1,37 @@
-.set LOCALID_WALLY_ENTRANCE, 4
+@ Local ids 4 and 7 held Hoenn's Wally set-piece, removed in favour of Hoenn's own copy.
+@ The two object slots are RETAINED, permanently hidden, and must stay at these indices:
+@ LoadSaveblockObjEventScripts() (src/overworld.c:596) re-points a resumed save's templates
+@ at the ROM table BY INDEX, and a plain Continue reaches neither map loader (see the comment
+@ at src/overworld.c:2356), so deleting them outright would hand a save made inside this map
+@ the wrong scripts for the item balls, and read past the end of the table for the last two
+@ trainers.
+.set LOCALID_UNUSED_WALLY_1, 4
+.set LOCALID_UNUSED_WALLY_2, 7
 
 JohtoVictoryRoad_1F_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, JohtoVictoryRoad_1F_OnTransition
 	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
+	map_script MAP_SCRIPT_ON_RETURN_TO_FIELD, JohtoVictoryRoad_1F_OnReturnToField
 	.byte 0
 
+@ Keeps both unused slots despawned on every ordinary entry to the map, old saves included --
+@ ON_TRANSITION runs after the templates load but before objects spawn.
 JohtoVictoryRoad_1F_OnTransition:
-	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 1, JohtoVictoryRoad_1F_EventScript_SetEntranceWallyPos1
-	call_if_eq VAR_VICTORY_ROAD_1F_STATE, 2, JohtoVictoryRoad_1F_EventScript_SetEntranceWallyPos2
+	setflag FLAG_GARBAGEFLAG
 	end
 
-JohtoVictoryRoad_1F_EventScript_SetEntranceWallyPos1::
-	setobjectxyperm LOCALID_WALLY_ENTRANCE, 2, 24
-	setobjectmovementtype LOCALID_WALLY_ENTRANCE, MOVEMENT_TYPE_FACE_DOWN
-	return
-
-JohtoVictoryRoad_1F_EventScript_SetEntranceWallyPos2::
-	setobjectxyperm LOCALID_WALLY_ENTRANCE, 3, 24
-	setobjectmovementtype LOCALID_WALLY_ENTRANCE, MOVEMENT_TYPE_FACE_DOWN
-	return
-
-JohtoVictoryRoad_1F_EventScript_WallyBattleTrigger1::
-	lockall
-	setvar VAR_0x8008, 1
-	addobject LOCALID_WALLY_ENTRANCE
-	applymovement LOCALID_WALLY_ENTRANCE, JohtoVictoryRoad_1F_Movement_WallyApproachPlayer1
-	waitmovement 0
-	goto JohtoVictoryRoad_1F_EventScript_WallyEntranceBattle
-	end
-
-JohtoVictoryRoad_1F_EventScript_WallyBattleTrigger2::
-	lockall
-	setvar VAR_0x8008, 2
-	addobject LOCALID_WALLY_ENTRANCE
-	applymovement LOCALID_WALLY_ENTRANCE, JohtoVictoryRoad_1F_Movement_WallyApproachPlayer2
-	waitmovement 0
-	goto JohtoVictoryRoad_1F_EventScript_WallyEntranceBattle
-	end
-
-JohtoVictoryRoad_1F_EventScript_WallyEntranceBattle::
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterDown
-	waitmovement 0
-	msgbox JohtoVictoryRoad_1F_Text_WallyNotGoingToLoseAnymore, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_WALLY_VR_1, JohtoVictoryRoad_1F_Text_WallyEntranceDefeat
-	msgbox JohtoVictoryRoad_1F_Text_WallyPostEntranceBattle, MSGBOX_DEFAULT
-	clearflag FLAG_GARBAGEFLAG
-	copyobjectxytoperm LOCALID_WALLY_ENTRANCE
-	setflag FLAG_DEFEATED_WALLY_VICTORY_ROAD
-	copyvar VAR_VICTORY_ROAD_1F_STATE, VAR_0x8008
-	releaseall
-	end
-
-JohtoVictoryRoad_1F_Movement_WallyApproachPlayer1:
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_up
-	step_end
-
-JohtoVictoryRoad_1F_Movement_WallyApproachPlayer2:
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_left
-	walk_up
-	step_end
-
-@ This Wally appears near the entrance once his battle is triggered and remains there until the Hall of Fame is entered
-JohtoVictoryRoad_1F_EventScript_EntranceWally::
-	msgbox JohtoVictoryRoad_1F_Text_WallyPostEntranceBattle, MSGBOX_NPC
-	end
-
-@ This Wally appears and remains at the exit after the Hall of Fame is entered
-JohtoVictoryRoad_1F_EventScript_ExitWally::
-	trainerbattle_single TRAINER_WALLY_VR_2, JohtoVictoryRoad_1F_Text_WallyIntro, JohtoVictoryRoad_1F_Text_WallyDefeat
-	specialvar VAR_RESULT, ShouldTryRematchBattle
-	goto_if_eq VAR_RESULT, TRUE, JohtoVictoryRoad_1F_EventScript_RematchWally
-	msgbox JohtoVictoryRoad_1F_Text_WallyPostBattle, MSGBOX_AUTOCLOSE
-	end
-
-JohtoVictoryRoad_1F_EventScript_RematchWally::
-	trainerbattle_rematch TRAINER_WALLY_VR_2, JohtoVictoryRoad_1F_Text_WallyIntro, JohtoVictoryRoad_1F_Text_WallyDefeat
-	msgbox JohtoVictoryRoad_1F_Text_WallyPostBattle, MSGBOX_AUTOCLOSE
+@ ON_TRANSITION does not run on a plain Continue, so a save made standing on this map needs
+@ the flag set here too -- and it must be set UNCONDITIONALLY, not left to removeobject.
+@ RemoveObjectEventByLocalIdAndMap() only FlagSets inside its successful-lookup branch
+@ (event_object_movement.c:1711), so if neither object is in the camera window at the moment
+@ of the resume it is a pure no-op, the flag stays clear, and TrySpawnObjectEvents() spawns
+@ the stale object off the SAVED template as soon as the player walks within range of
+@ (12,25) or (31,9) -- it gates on nothing but !FlagGet(template->flagId).
+@ setflag closes that window; the removeobjects then clear whichever one did spawn.
+JohtoVictoryRoad_1F_OnReturnToField:
+	setflag FLAG_GARBAGEFLAG
+	removeobject LOCALID_UNUSED_WALLY_1
+	removeobject LOCALID_UNUSED_WALLY_2
 	end
 
 JohtoVictoryRoad_1F_EventScript_Edgar::
@@ -120,43 +58,6 @@ JohtoVictoryRoad_1F_EventScript_Katelynn::
 	trainerbattle_single TRAINER_KATELYNN_JT, JohtoVictoryRoad_1F_Text_KatelynnIntro, JohtoVictoryRoad_1F_Text_KatelynnDefeat
 	msgbox JohtoVictoryRoad_1F_Text_KatelynnPostBattle, MSGBOX_AUTOCLOSE
 	end
-
-JohtoVictoryRoad_1F_Text_WallyNotGoingToLoseAnymore:
-	.string "WALLY: Hi! {PLAYER}!\p"
-	.string "I bet you're surprised to see me here!\p"
-	.string "I made it all the way here, and it's\n"
-	.string "all thanks to you!\p"
-	.string "{PLAYER}, losing to you that time\n"
-	.string "made me stronger!\p"
-	.string "But I'm not going to lose anymore!\p"
-	.string "I'm going to win! For the POKéMON who\n"
-	.string "gave me courage and strength!\p"
-	.string "Okay… Here I come!$"
-
-JohtoVictoryRoad_1F_Text_WallyEntranceDefeat:
-	.string "Wow!\n"
-	.string "{PLAYER}, you are strong, after all!$"
-
-JohtoVictoryRoad_1F_Text_WallyPostEntranceBattle:
-	.string "WALLY: I couldn't beat you today,\n"
-	.string "{PLAYER}, but one of these days, I'll\l"
-	.string "catch up to you!$"
-
-JohtoVictoryRoad_1F_Text_WallyIntro:
-	.string "WALLY: Hi! {PLAYER}!\p"
-	.string "I've gotten stronger since that last\n"
-	.string "time! I wanted to show you, {PLAYER}!\p"
-	.string "Okay… Here I come!$"
-
-JohtoVictoryRoad_1F_Text_WallyDefeat:
-	.string "Wow!\n"
-	.string "{PLAYER}, you are strong, after all!$"
-
-JohtoVictoryRoad_1F_Text_WallyPostBattle:
-	.string "WALLY: I couldn't beat you this time,\n"
-	.string "too… But one of these days, {PLAYER},\l"
-	.string "I'm going to catch up to you…\p"
-	.string "And challenge the POKéMON LEAGUE!$"
 
 JohtoVictoryRoad_1F_Text_EdgarIntro:
 	.string "I've made it this far a couple times,\n"

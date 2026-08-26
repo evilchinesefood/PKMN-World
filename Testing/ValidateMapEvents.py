@@ -166,6 +166,37 @@ SHARED_FLAG_OK = {"FLAG_HIDE_JOHTO_DECOR", "FLAG_DAY_POKEMON", "FLAG_NIGHT_POKEM
 SHARED_FLAG_OK_PREFIX = ("FLAG_TEMP", "FLAG_ITEM", "FLAG_HIDDEN_ITEM", "FLAG_UNUSED",
                          "FLAG_SYS", "FLAG_DAILY", "FLAG_VISITED")
 
+# Trainer ids that really are battled from more than one map, on purpose. Named here rather than
+# folded into REVIEW_BASELINE's count so that each one carries its reason and a NEW collision on
+# an unlisted id still fails, and so that an entry which stops firing is reported as stale instead
+# of quietly covering for a future bug. Keep the reason in the value: it is what a reviewer reads.
+DUPLICATE_TRAINER_OK = {
+    # Vanilla Emerald's two rival placements around Rustboro. The player fights the rival on
+    # Route 104 before Rustboro (gated on FLAG_DEFEATED_RIVAL_ROUTE_104) or outside the Devon
+    # building after it (FLAG_DEFEATED_RIVAL_RUSTBORO) -- two scenes, two story flags, and both
+    # use trainerbattle_no_intro, which never reads the trainer's defeat flag. One id per starter
+    # per rival, so six.
+    "TRAINER_BRENDAN_RUSTBORO_TREECKO": "Route104 / RustboroCity rival scenes, vanilla",
+    "TRAINER_BRENDAN_RUSTBORO_TORCHIC": "Route104 / RustboroCity rival scenes, vanilla",
+    "TRAINER_BRENDAN_RUSTBORO_MUDKIP":  "Route104 / RustboroCity rival scenes, vanilla",
+    "TRAINER_MAY_RUSTBORO_TREECKO":     "Route104 / RustboroCity rival scenes, vanilla",
+    "TRAINER_MAY_RUSTBORO_TORCHIC":     "Route104 / RustboroCity rival scenes, vanilla",
+    "TRAINER_MAY_RUSTBORO_MUDKIP":      "Route104 / RustboroCity rival scenes, vanilla",
+    # Gabby & Ty relocate between Route 111, 118 and 120 as VAR_GABBY_AND_TY_STATE advances, and
+    # only one site is ever unhidden (FLAG_HIDE_ROUTE_{111,118,120}_GABBY_AND_TY_*). _6 is their
+    # final party, and gabby_and_ty.inc does `cleartrainerflag TRAINER_GABBY_AND_TY_6` outright
+    # "to allow infinite rematches" -- the shared defeat flag is the feature. Vanilla.
+    "TRAINER_GABBY_AND_TY_6": "roaming interview duo, flag cleared on purpose for rematches",
+    # Jessie & James turn up at five sites (Mt. Moon, Rocket Hideout, Slowpoke Well, Radio Tower,
+    # Route 118) with one id pair for the early appearances and one for the late ones. Every site
+    # uses trainerbattle_two_trainers, which reads no defeat flag, and each has its own
+    # FLAG_HIDE_JESSIE_JAMES_* so exactly one is live at a time.
+    "TRAINER_ROCKET_JESSIE":   "5-site recurring duo, trainerbattle_two_trainers, per-site hide flag",
+    "TRAINER_ROCKET_JAMES":    "5-site recurring duo, trainerbattle_two_trainers, per-site hide flag",
+    "TRAINER_ROCKET_JESSIE_2": "5-site recurring duo, trainerbattle_two_trainers, per-site hide flag",
+    "TRAINER_ROCKET_JAMES_2":  "5-site recurring duo, trainerbattle_two_trainers, per-site hide flag",
+}
+
 # Object-id arguments. A bare integer here is a landmine: inserting one object into the map json
 # renumbers every object after it and these silently start addressing the wrong NPC. This is how
 # Slowpoke Well ended up with `removeobject 11/12/13` hard-coding three Rocket grunts.
@@ -183,6 +214,10 @@ PLAYER_IS_ZERO = True
 REVIEW_BASELINE = {
     # Was 21: Johto maps reusing Hoenn trainer ids (Victory Road, Goldenrod Underground,
     # Radio Tower, Mt. Mortar). Those Johto copies now have dedicated TRAINER_*_JT ids.
+    # Stays 0 through the 2026-08-26 widening: the check now counts every trainerbattle* in a
+    # map's scripts instead of only the ones behind an object with a trainer_type, and the
+    # legitimate cross-map reuse that surfaced is named in DUPLICATE_TRAINER_OK rather than
+    # absorbed into this number. Raising this hides a real pre-defeated trainer.
     "DUPLICATE-TRAINER": 0,
     "NUMERIC-LOCALID": 0,
     # One: EventScript_Whirlpool is deliberately shared by two kinds of object. Each of the 8
@@ -343,18 +378,31 @@ def has_trainerbattle(body_lines):
     return any(BATTLE_CMDS.match(l) for l in body_lines)
 
 
-def reachable_bodies(label, bodies, seen=None, depth=0):
-    """Lines of `label` plus everything it goto/call's, so a check sees the whole event."""
+def reachable_labels(label, bodies, seen=None, depth=0):
+    """`label` plus every label it goto/call's, in traversal order.
+
+    Split out of reachable_bodies so a check can ask WHICH script a line came from and not
+    just what the lines are; reachable_bodies is now a thin wrapper over it and behaves
+    exactly as before (same order, same `seen` sharing, same depth cap).
+    """
     if seen is None:
         seen = set()
     if label in seen or depth > 12 or label not in bodies:
         return []
     seen.add(label)
-    lines = list(bodies[label])
+    labels = [label]
     for line in bodies[label]:
         m = re.match(r"(?:goto|call|goto_if\w*|call_if\w*)\s+(?:[^,]+,\s*)?(\w+)\s*$", line)
         if m and m.group(1) in bodies:
-            lines += reachable_bodies(m.group(1), bodies, seen, depth + 1)
+            labels += reachable_labels(m.group(1), bodies, seen, depth + 1)
+    return labels
+
+
+def reachable_bodies(label, bodies, seen=None, depth=0):
+    """Lines of `label` plus everything it goto/call's, so a check sees the whole event."""
+    lines = []
+    for lbl in reachable_labels(label, bodies, seen, depth):
+        lines += bodies[lbl]
     return lines
 
 
@@ -459,29 +507,90 @@ def check_trainer_type(maps, bodies):
     return errs
 
 
-def check_duplicate_trainer(maps, bodies, trainers):
-    """One TRAINER_X wired to object events on two different maps.
+def check_duplicate_trainer(maps, bodies, owner, trainers):
+    """One TRAINER_X battled from two different maps.
 
     The defeated flag is per trainer id, so beating either one marks both beaten and the second
     NPC becomes a permanently pre-defeated trainer.
+
+    This used to look only at object events whose `trainer_type` was not TRAINER_TYPE_NONE, and
+    that gate is what let every collision found in the 2026-08-26 sweep through: each one had a
+    TRAINER_TYPE_NONE side, so the id counted on one map only and the gate read clean on a broken
+    tree. Mt. Mortar's Kiyo is a gift NPC (no trainer_type, battled from inside his dialogue),
+    Mahogany Gym's Pryce object is the standard gym-leader script object, and so were both Wally
+    objects. Nothing about a shared defeat flag cares what the object's trainer_type is.
+
+    So attribute every `trainerbattle*` LINE to a map instead, and take the id from that line's
+    own arguments:
+
+      * a battle written in `data/maps/<Dir>/scripts.inc` belongs to <Dir>'s map, full stop --
+        no object needs to reach it, and its trainer_type is irrelevant;
+      * a battle written in a shared script (data/scripts/**) belongs to every map whose object,
+        coord or bg events can reach it. That is the mechanism the old check used, kept so the
+        FRLG trainer table (data/scripts/trainers_frlg.inc, 227 ids) and the roaming
+        Gabby & Ty script stay covered.
+
+    Attributing per line rather than per id is what keeps the two-floor gyms quiet: Lavaridge
+    Gym's ELI/JACE/JEFF/KEEGAN battles are written in LavaridgeTown_Gym_1F/scripts.inc but the
+    objects that run them stand on LavaridgeTown_Gym_B1F. That is ONE battle site, and a per-id
+    union of "file owner" and "object owner" would report it as two. Same shape for
+    MtPyre_4F/5F, Route26/Route26North and SSAqua_1F/B1F.
+
+    Only CROSS-map reuse is a collision. Same-map reuse is the norm (~136 ids): the
+    trainerbattle_single + trainerbattle_rematch Match Call pair, the gym leaders'
+    no_intro + rematch_double set, and trainerbattle_double emitted once per half of a
+    pair (TRAINER_KATE_AND_JOY, AMY_AND_LIV_1, ANNA_AND_MEG_1).
+
+    Two things deliberately do NOT count. A trainer named in a comment is invisible because
+    load_script_labels strips `@` (BattleFrontier_BattlePyramidFloor's "@ TRAINER_PHILLIP is used
+    as a placeholder"). And a bare defeat-flag READ is not a battle, which is why the S.S. Tidal
+    submaps need no exception: SSTidalRooms / SSTidalLowerDeck fight those trainers and
+    SSTidalCorridor only does `goto_if_not_defeated` on them.
     """
-    seen = collections.defaultdict(set)
+    # Which maps' event scripts can reach each label, for battles in shared (non-map) scripts.
+    reach = collections.defaultdict(set)
     for name, d in maps.items():
-        for i, o in enumerate(d.get("object_events", []), 1):
-            s = o.get("script")
+        entries = [o.get("script") for o in d.get("object_events", [])]
+        entries += [e.get("script") for e in d.get("coord_events", [])]
+        entries += [e.get("script") for e in d.get("bg_events", [])]
+        for s in entries:
             if not s or s in ("NULL", "0x0", "0") or s not in bodies:
                 continue
-            if o.get("trainer_type", "TRAINER_TYPE_NONE") in ("TRAINER_TYPE_NONE", "0", 0):
+            for lbl in reachable_labels(s, bodies):
+                reach[lbl].add(name)
+
+    home_of_dir = {}
+    for name, d in maps.items():
+        m = re.match(r"data/maps/([^/]+)/map\.json$", d["_path"])
+        if m:
+            home_of_dir[m.group(1)] = name
+
+    seen = collections.defaultdict(set)
+    for label, (rel, mapdir) in owner.items():
+        home = home_of_dir.get(mapdir) if mapdir else None
+        sites = {home} if home else reach.get(label, set())
+        if not sites:
+            continue
+        for line in bodies[label]:
+            if not BATTLE_CMDS.match(line):
                 continue
-            for t in script_trainers(reachable_bodies(s, bodies)):
-                # TRAINER_NONE and TRAINER_BATTLE_CONTINUE_SCRIPT are macro sentinels that appear
-                # in a trainerbattle argument list without naming a trainer. Requiring the id to
-                # exist in trainers.party drops both without naming them here.
+            # Take the id from the battle command's own argument list. TRAINER_NONE and the
+            # TRAINER_BATTLE_* type sentinels also appear there without naming a trainer;
+            # requiring the id to exist in trainers.party drops them all.
+            for t in script_trainers([line]):
                 if t in trainers:
-                    seen[t].add(name)
-    return [f"{t} is fought from object events on {len(ms)} maps ({', '.join(sorted(ms))}) -- "
-            f"one defeated flag covers them all"
-            for t, ms in sorted(seen.items()) if len(ms) > 1]
+                    seen[t] |= sites
+
+    dup = {t: ms for t, ms in seen.items() if len(ms) > 1}
+    errs = [f"{t} is battled from {len(ms)} maps ({', '.join(sorted(ms))}) -- one defeated flag "
+            f"covers them all"
+            for t, ms in sorted(dup.items()) if t not in DUPLICATE_TRAINER_OK]
+    # An exception that stops firing has to be deleted, or the next real collision on that id
+    # would be waved through by a comment describing a fix that already landed.
+    errs += [f"{t} is in DUPLICATE_TRAINER_OK but is no longer battled from more than one map -- "
+             f"delete the exception ({DUPLICATE_TRAINER_OK[t]})"
+             for t in sorted(DUPLICATE_TRAINER_OK) if t not in dup]
+    return errs
 
 
 def check_trainer_faction(trainers):
@@ -933,7 +1042,7 @@ def main():
     ]
     reviews = [
         ("SCRIPT-GFX-OUTLIER", check_script_gfx_outlier(by_script, where)),
-        ("DUPLICATE-TRAINER", check_duplicate_trainer(maps, bodies, trainers)),
+        ("DUPLICATE-TRAINER", check_duplicate_trainer(maps, bodies, owner, trainers)),
         ("NUMERIC-LOCALID", localid_review),
         ("CUTSCENE-SEALS-MAP", check_cutscene_seals_map(maps, bodies, owner, grids)),
     ]

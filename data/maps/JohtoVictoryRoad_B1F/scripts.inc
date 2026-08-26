@@ -24,7 +24,7 @@ JohtoVictoryRoad_B1F_EventScript_Mitchell::
 	end
 
 JohtoVictoryRoad_B1F_EventScript_Halle::
-	trainerbattle_single TRAINER_PRYCE_1, JohtoVictoryRoad_B1F_Text_HalleIntro, JohtoVictoryRoad_B1F_Text_HalleDefeat
+	trainerbattle_single TRAINER_HALLE_JT, JohtoVictoryRoad_B1F_Text_HalleIntro, JohtoVictoryRoad_B1F_Text_HalleDefeat
 	msgbox JohtoVictoryRoad_B1F_Text_HallePostBattle, MSGBOX_AUTOCLOSE
 	end
 

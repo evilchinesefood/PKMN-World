@@ -63,7 +63,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "JohtoVictoryRoad_1F_EventScript_EntranceWally",
+      "script": "0",
       "flag": "FLAG_GARBAGEFLAG"
     },
     {
@@ -102,7 +102,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "JohtoVictoryRoad_1F_EventScript_ExitWally",
+      "script": "0",
       "flag": "FLAG_GARBAGEFLAG"
     },
     {
@@ -169,26 +169,7 @@
       "dest_warp_id": "4"
     }
   ],
-  "coord_events": [
-    {
-      "type": "trigger",
-      "x": 2,
-      "y": 23,
-      "elevation": 4,
-      "var": "VAR_VICTORY_ROAD_1F_STATE",
-      "var_value": "0",
-      "script": "JohtoVictoryRoad_1F_EventScript_WallyBattleTrigger1"
-    },
-    {
-      "type": "trigger",
-      "x": 3,
-      "y": 23,
-      "elevation": 4,
-      "var": "VAR_VICTORY_ROAD_1F_STATE",
-      "var_value": "0",
-      "script": "JohtoVictoryRoad_1F_EventScript_WallyBattleTrigger2"
-    }
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "hidden_item",

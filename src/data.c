@@ -256,7 +256,7 @@ STATIC_ASSERT(KANTO_TRAINER_ID_OFFSET == TRAINER_LANCE_2 + 1, KantoTrainerBlockM
 STATIC_ASSERT(TRAINER_ROCKET_JAMES_2 == JOHTO_EXT_TRAINER_ID_OFFSET - 1, KantoTrainerBlockMustEndAtJohtoExtBlock);
 // Johto route/dungeon/gym block geometry (v9): starts right after Kanto, ends at TRAINERS_COUNT-1.
 STATIC_ASSERT(TRAINER_WAYNE_JT == JOHTO_EXT_TRAINER_ID_OFFSET, JohtoExtBlockMustStartAtItsOffset);
-STATIC_ASSERT(TRAINER_HUGH_JT == TRAINERS_COUNT - 1, JohtoExtBlockMustEndAtTrainersCount);
+STATIC_ASSERT(TRAINER_KIYO_JT == TRAINERS_COUNT - 1, JohtoExtBlockMustEndAtTrainersCount);
 #endif
 
 #include "data/text/follower_messages.h"

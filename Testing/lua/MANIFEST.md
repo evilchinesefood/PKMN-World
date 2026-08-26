@@ -194,7 +194,7 @@ is clean; keep it that way.
 | [`ExpansionHealthboxes.lua`](#expansionhealthboxeslua) | fresh new game | Issue #120 A: Safari leftover-ball text (FillSpriteRect left=55), singles nick/HP numbers, doubles healthboxes. |
 | [`CatchTutorial.lua`](#catchtutoriallua) | fresh new game | Issue #120 B: Viridian Old Man tutorial does not say WALLY; Petalburg Wally control still does. |
 | [`DayNightTint.lua`](#daynighttintlua) | fresh new game | Issue #120 C: day/night palette tint on Hoenn/Kanto/Johto routes, cave control, night fade-in. |
-| [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | Issue #195: the Hoenn hub gate seeds Littleroot ONCE; a HUB PASS re-cross does not rewind; walking out latches `hoennIntroDone`. |
+| [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | Issue #195: the Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; a HUB PASS re-cross does not rewind; walking out latches `hoennIntroDone`. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -571,7 +571,7 @@ Issue #120 playtest C. This is palette tint, **not** Johto object swap — `Joht
 
 ### `HubPassReCross.lua`
 
-Issue #195's three scenarios on one fresh new game, driven end to end through the real scripts —
+Issue #195's five scenarios on one fresh new game, driven end to end through the real scripts —
 no `warpTo` anywhere in the journey. `hoennIntroDone` (`SaveBlock2 +0x92` bit 2) is written by
 **one** site, `region_intro_done_hook` on Littleroot Town's `ON_FRAME`, so a player who takes the
 HUB PASS back out of the bedroom before ever stepping outside still reads as a first visit, and
@@ -585,16 +585,43 @@ arrival box is still up, then assert the hook latched the bit and cleared the va
 the claim without reading any struct offset at all, by crossing again and landing on SLATEPORT
 HARBOR (`RegionHub_EventScript_ReturnHoenn`) instead of the bedroom.
 
+**S4/S5 are the same fix on the FEMALE branch,** added as a second segment rather than a sibling
+suite. S1–S3 pin `playerGender == MALE`, so every one of their assertions walks straight past
+`goto_if_eq VAR_RESULT, FEMALE` and `RegionHub_EventScript_FirstVisitHoennFemale` — which got the
+identical `call_if_eq VAR_LITTLEROOT_INTRO_STATE, 0` guard — had **no coverage at all**. It is not a
+copy of the male script either: it writes `VAR_LITTLEROOT_HOUSES_STATE_MAY` (`0x4082`, *not*
+`..._BRENDAN + 1`), a different six hide flags, `HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F` and a
+warp to May's 2F, so a regression there is invisible to S1/S2/S3. **S4** rewrites the four persisted
+facts that define a Hoenn first-timer (`playerGender`, the intro state, the houses state and
+`hoennIntroDone`) and clears the six female seed flags, then HUB PASSes
+back to the hub and crosses for real — landing in `MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F` `(1,3)` is by
+itself proof the gender branch was taken, since only `goto_if_eq VAR_RESULT, FEMALE` reaches that
+map. **S5** repeats S1 on that branch: clock → 6, stage houses(MAY) = 2 and an OLDALE respawn, HUB
+PASS out, re-cross, assert nothing rewound. Nothing about the *journey* is forged — the pass is used
+from the field and the gate's own scripts pick the branch, seed the state and place the warp.
+
 **Discrimination measured, not assumed.** Against a ROM built at `549ff1400f` without the guard the
-suite drops **42/42 → 29/32**, and all three failures name the defect: `intro=5 houses=1` after the
-re-cross, then the downstream mom-bounce that puts the player back on 2F. Three fixed runs and two
-unfixed runs were byte-identical, ~5 s each.
+suite drops **67/67 → 52/57**, and every failure names the defect: `intro=5 houses=1` after the male
+re-cross and the downstream mom-bounce that puts the player back on 2F, then `intro=5 housesMay=1`
+after the female one. Three fixed and three unfixed runs were byte-identical, ~10 s each.
+
+**★ Two traps the May segment paid for.** May's house is the horizontal **mirror** of Brendan's
+(`x → 8−x` on the 9-wide 2F layout), so the male coordinates do **not** carry over — except the two
+that sit on the mirror axis, which is why the gate warps both genders to `4, 4` and both heal
+locations are `(4,2)`. The wall clock sign is at `(3,1)` — stand on `(3,2)` facing Up, against the
+male `(5,1)`/`(5,2)` — and the stairs are at `(1,1)`, not `(7,1)`. And the route to the clock needs an explicit waypoint up the `x=4` column:
+`leg()` walks x before y, so a bare route from the arrival tile `(4,4)` hops through `(3,4)`, which
+is where May's 2F parks its PICHU DOLL (Brendan's has an ITEM BALL there, which is why the male
+segment never met it). Separately, **both `FLAG_HIDE_..._TRUCK` flags are in both seed lists** — the
+hub hides both trucks whichever gender crosses — so S4 clears all six female seed flags before its
+cross, or two of its six flag assertions would pass on S2's leftovers no matter what the female
+script did.
 
 **★ The respawn is a CONTRACT check, not a discriminator, and the suite says so in its own
 assertion name.** `setrespawn` deliberately stays *outside* the guard — the gate warps the player to
 2F on every visit, so 2F is the right respawn on every visit — so it reads `(1,1)@(4,2)` on both
-ROMs. An earlier draft asserted "the respawn was not stomped back to the bedroom" and failed on the
-**fixed** ROM; the bytecode at `RegionHub_EventScript_AttendantHoennBoard` (`setrespawn` at
+ROMs — and `(1,3)@(4,2)` for the female twin. An earlier draft asserted "the respawn was not
+stomped back to the bedroom" and failed on the **fixed** ROM; the bytecode at `RegionHub_EventScript_AttendantHoennBoard` (`setrespawn` at
 `0x083AFEC4`, *before* the `compare`/`call_if`) is what settled it. Assert the fix's scope, not the
 issue title's.
 

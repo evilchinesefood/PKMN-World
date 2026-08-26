@@ -20,10 +20,21 @@
 -- whole journey through the real scripts and is ~4x longer, so folding them together would make
 -- a clock-skip regression and a gate regression share one verdict line.
 --
--- Three scenarios, in the only order that can produce them from one fresh save:
+-- Five scenarios, in the only order that can produce them from one fresh save:
 --   S2  a genuine first visit still seeds  (the regression risk the guard creates)
---   S1  the HUB PASS re-cross does NOT rewind  (the bug; the ONLY discriminating phase)
+--   S1  the HUB PASS re-cross does NOT rewind  (the bug; the first discriminating phase)
 --   S3  walking out to town latches hoennIntroDone  (coverage nothing else has)
+--   S4  the SAME gate on the FEMALE branch still seeds MAY's own state on a genuine first visit
+--   S5  the FEMALE re-cross does NOT rewind either  (the second discriminating phase)
+--
+-- S4/S5 are a SEGMENT of this suite, not a sibling suite. S1-S3 pin `playerGender == MALE`, so
+-- every assertion above walks straight past `goto_if_eq VAR_RESULT, FEMALE` and the female half of
+-- the fix had no coverage at all -- and that half is not a copy of the male one: it writes a
+-- different var (VAR_LITTLEROOT_HOUSES_STATE_MAY), a different six hide flags, a different respawn
+-- and a different destination map, so a regression there is invisible to S1/S2/S3. Everything
+-- expensive is already paid for by the time S4 starts (the fresh boot, the derived HUB PASS id, the
+-- yesNo() driver, FLAG_SET_WALL_CLOCK, FLAG_HUB_INTRO_TOUR_DONE), so a sibling suite would re-run
+-- all of it and split one regression across two verdict lines.
 --
 -- Run via: Testing/mgba-run.sh Testing/lua/HubPassReCross.lua <rom.gba>
 
@@ -46,6 +57,9 @@ local VAR_INTRO          = 0x4092  -- VAR_LITTLEROOT_INTRO_STATE
 local VAR_HOUSES_BRENDAN = 0x408C  -- VAR_LITTLEROOT_HOUSES_STATE_BRENDAN
 local VAR_REGION_ARRIVAL = 0x40FD
 
+local MAY2F_G, MAY2F_M = 1, 3     -- MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F (S4/S5's destination)
+local VAR_HOUSES_MAY   = 0x4082   -- VAR_LITTLEROOT_HOUSES_STATE_MAY. NOT ..._BRENDAN + 1.
+
 local FLAG_SET_WALL_CLOCK      = 0x51
 local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF   -- FLAG_WORLD_MAP_BANK (0xD40) + 0x8F
 -- The six hide flags RegionHub_EventScript_SeedFirstVisitHoennMale sets. These are idempotent, so
@@ -58,6 +72,18 @@ local SEED_FLAGS = {
   { 0x331, "BRENDANS_HOUSE_2F_POKE_BALL" },
   { 0x2F9, "BRENDANS_HOUSE_TRUCK" },
 }
+-- RegionHub_EventScript_SeedFirstVisitHoennFemale's six. Only four of them are new: BOTH truck
+-- flags are in BOTH seed lists (the hub hides both trucks whichever gender crosses), so S4 clears
+-- all six before its cross -- otherwise those two assertions would pass on S2's leftovers no matter
+-- what the female script did, which is exactly the vacuous check this suite exists to avoid.
+local MAY_SEED_FLAGS = {
+  { 0x2F6, "BRENDANS_HOUSE_MOM" },
+  { 0x2F9, "BRENDANS_HOUSE_TRUCK" },
+  { 0x311, "MAYS_HOUSE_RIVAL_MOM" },
+  { 0x2E0, "MAYS_HOUSE_RIVAL_SIBLING" },
+  { 0x332, "MAYS_HOUSE_2F_POKE_BALL" },
+  { 0x2FA, "MAYS_HOUSE_TRUCK" },
+}
 
 -- SaveBlock2 +0x92 packs three first-visit bits (include/global.h:629): bit0 kanto, bit1 johto,
 -- bit2 hoenn. Read through S so a struct move is a symbols.lua edit, not 40 suite edits — and the
@@ -69,6 +95,25 @@ local HOENN_INTRO_DONE_BIT = 2
 local ATTENDANT_HOENN = { 21, 3 }   -- talk tile below the TEALA at (21,2)
 local HUB_ARRIVE      = { 16, 4 }   -- Task_UseHubReturnOnField's fixed re-entry tile
 
+-- ---- May's 2F floor plan (data/maps/LittlerootTown_MaysHouse_2F/map.json) ----------------------
+-- May's house is the horizontal MIRROR of Brendan's (x -> 8-x on the 9-wide 2F layout), so the male
+-- coordinates do NOT carry over -- only the two that sit on the mirror axis do, which is why the
+-- gate's arrival tile (4,4) and the respawn (4,2) read the same for both genders and everything
+-- else does not. The wall clock sign is at (3,1) against the male (5,1), and row 1 is solid apart
+-- from the stairs, so the player stands on (3,2) facing Up (male: (5,2)).
+-- The waypoint is not decoration. leg() walks x before y, so a bare route to (3,2) from (4,4) hops
+-- through (3,4) -- the tile May's 2F parks its PICHU DOLL on (object 14, where Brendan's 2F has an
+-- ITEM BALL, which is why the male segment never had to think about it). That doll is elevation 4
+-- against the tile's 3, so it may well not collide at all; going up the x=4 column and then west
+-- along row 2 sidesteps the question, because (4,3), (4,2) and (3,2) hold no object on this map.
+local MAY_CLOCK_ROUTE = { { 4, 2 }, { 3, 2 } }
+
+-- The HUB PASS id S2 derives, and whether Phase 0 ever got a controllable overworld. Both are file
+-- scope because the May segment is a separate function: a bail inside the male journey must end
+-- THAT journey, not skip S4/S5 and leave the coverage they add with no verdict at all.
+local hubPass
+local booted = false
+
 -- ---- small readers -----------------------------------------------------------------------------
 local function varAddr(id) return F.sb1() + S.SaveBlock1.vars + (id - VARS_START) * 2 end
 local function varGet(id) return F.r16(varAddr(id)) end
@@ -77,6 +122,7 @@ local function varSet(id, v) F.w16(varAddr(id), v) end
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + (id // 8) end
 local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
 local function flagSet(id) F.w8(flagAddr(id), F.r8(flagAddr(id)) | (1 << (id % 8))) end
+local function flagClear(id) F.w8(flagAddr(id), F.r8(flagAddr(id)) & ~(1 << (id % 8)) & 0xFF) end
 
 -- struct WarpData { s8 mapGroup; s8 mapNum; s8 warpId; s16 x, y; } (include/global.h:710)
 local function healAddr() return F.sb1() + S.SaveBlock1.lastHealLocation end
@@ -94,6 +140,18 @@ local function introDone()
   return (F.r8(F.sb2() + S.SaveBlock2.introDoneBits) & (1 << HOENN_INTRO_DONE_BIT)) ~= 0
 end
 
+-- S4 has to un-latch the bit S3 latched. Clear-only: nothing in this suite ever wants to SET it by
+-- hand -- S3's whole point is watching the game latch it -- and a settable version would be a dead
+-- branch. On a run where S3 got that far this is also a second angle on the offset: if 0x92 were
+-- the wrong byte the real bit would still be set, the gate would take
+-- RegionHub_EventScript_ReturnHoenn, and S4's "landed in May's 2F" would fail on SLATEPORT HARBOR
+-- rather than pass. That corroboration only exists when S3 ran to completion, which on a ROM
+-- without the guard it does not -- there the write is a no-op and S4 leans on S3's own assertion.
+local function clearIntroDone()
+  local a = F.sb2() + S.SaveBlock2.introDoneBits
+  F.w8(a, F.r8(a) & ~(1 << HOENN_INTRO_DONE_BIT) & 0xFF)
+end
+
 local function keyItems()
   local _, dump = F.keyItemSlot(0xFFFF)   -- an id nothing can match: dump only
   return dump
@@ -106,6 +164,14 @@ end
 local function state()
   return string.format("intro=%d houses=%d heal=%s arrival=%d introDone=%s",
     varGet(VAR_INTRO), varGet(VAR_HOUSES_BRENDAN), healStr(),
+    varGet(VAR_REGION_ARRIVAL), tostring(introDone()))
+end
+-- The May segment's own one-line state dump. Deliberately a SECOND function rather than widening
+-- state(): the male assertions' detail strings stay byte-identical to the runs the MANIFEST entry
+-- quotes, so an A/B diff of this suite still shows only the lines that actually changed.
+local function stateMay()
+  return string.format("intro=%d housesMay=%d heal=%s arrival=%d introDone=%s",
+    varGet(VAR_INTRO), varGet(VAR_HOUSES_MAY), healStr(),
     varGet(VAR_REGION_ARRIVAL), tostring(introDone()))
 end
 local function dumpObjects(tag)
@@ -164,8 +230,11 @@ local function mashToMap(g, m, tag, budget)
   return mapIs(g, m)
 end
 
--- Talk to the Hoenn attendant and answer YES. Leaves the player wherever the gate warped them.
-local function crossToHoenn(tag)
+-- Talk to the Hoenn attendant and answer YES, then wait for the gate's own destination. That
+-- destination is a PARAMETER, not BRENDANS_2F: mashToMap presses A until the map matches, so a
+-- female cross waiting on the male bedroom would mash its whole budget standing in May's and report
+-- a walk failure for what is really a wrong-branch bug.
+local function crossToHoenn(tag, dg, dm)
   if not F.route({ { HUB_ARRIVE[1], HUB_ARRIVE[2] }, { ATTENDANT_HOENN[1], HUB_ARRIVE[2] },
                    ATTENDANT_HOENN }, "walk_" .. tag) then
     return false
@@ -174,15 +243,27 @@ local function crossToHoenn(tag)
   F.press("A", 3); F.idle(50)
   if not yesNo(0, "travelHoenn_" .. tag) then F.shot(tag .. "_noyesno"); return false end
   -- TryGiveHubPass' give box (first cross only), then the gate's warp.
-  return mashToMap(BR2F_G, BR2F_M, tag)
+  return mashToMap(dg or BR2F_G, dm or BR2F_M, tag)
 end
 
-F.run(function()
+-- SELECT the registered HUB PASS and answer YES, ending in the hub. Registering to SELECT rather
+-- than driving the BAG UI is the male segment's trick and its reasoning holds here too: the field
+-- callback (ItemUseOutOfBattle_HubReturn) is the one the BAG's USE reaches, and a pocket cursor
+-- cannot get lost. The confirm rests on NO by design (item_use.c: the warp is one-way).
+local function hubPassOut(tag)
+  F.w16(F.sb1() + S.SaveBlock1.registeredItem, hubPass)
+  F.press("Select", 2); F.idle(90)
+  if not yesNo(0, "hubPass_" .. tag) then F.shot(tag .. "_noconfirm"); return false end
+  return mashToMap(HUB_G, HUB_M, "hubPass_" .. tag)
+end
+
+local function maleJourney()
   ------------------------------------------------------------------------------------------------
   -- Phase 0 — preconditions. A fresh save must really be a Hoenn first-timer, or S2 proves
   -- nothing and S1 cannot reach the bug at all.
   ------------------------------------------------------------------------------------------------
-  if not F.boot(HUB_G) then F.check("boot", false, where()); F.finish(); return end
+  if not F.boot(HUB_G) then F.check("boot", false, where()); return end
+  booted = true
   F.check("booted in the World Transit hub", mapIs(HUB_G, HUB_M), where())
   F.check("player is MALE (the seed path under test)",
     F.r8(F.sb2() + S.SaveBlock2.playerGender) == 0,
@@ -209,7 +290,7 @@ F.run(function()
   ------------------------------------------------------------------------------------------------
   local crossed = crossToHoenn("first")
   F.check("S2 first cross landed in Brendan's 2F", crossed, where())
-  if not crossed then F.shot("s2_lost"); F.finish(); return end
+  if not crossed then F.shot("s2_lost"); return end
   F.shot("s2_first_arrival")
 
   -- 2F's ON_TRANSITION runs BlockStairsUntilClockIsSet on state 4, so 4 is already 5 by the time
@@ -238,11 +319,10 @@ F.run(function()
   local bagAfter = keyItems()
   local seen = {}
   for _, id in ipairs(bagBefore) do seen[id] = true end
-  local hubPass
   for _, id in ipairs(bagAfter) do if not seen[id] then hubPass = id break end end
   F.check("S2 the gate handed over the HUB PASS", hubPass ~= nil,
     string.format("before=%d after=%d id=%s", #bagBefore, #bagAfter, tostring(hubPass)))
-  if not hubPass then F.finish(); return end
+  if not hubPass then return end
   F.L(string.format("  HUB PASS item id = %d", hubPass))
 
   ------------------------------------------------------------------------------------------------
@@ -256,7 +336,7 @@ F.run(function()
   F.shot("after_clock")
   local at6 = varGet(VAR_INTRO) == 6
   F.check("clock-already-set branch advanced intro to 6", at6, state())
-  if not at6 then F.finish(); return end
+  if not at6 then return end
 
   -- Advance the houses state so "unchanged" is a real claim: left at 1 it would be
   -- indistinguishable from a rewind TO 1. 2 = "Met Rival's Mom", the next value the intro reaches.
@@ -288,14 +368,14 @@ F.run(function()
   F.check("S1 the HUB PASS confirm opened inside the house and took YES", said, where())
   local backInHub = said and mashToMap(HUB_G, HUB_M, "hubpass") or false
   F.check("S1 the HUB PASS warped out of the bedroom to the hub", backInHub, where())
-  if not backInHub then F.shot("s1_pass_failed"); F.finish(); return end
+  if not backInHub then F.shot("s1_pass_failed"); return end
   F.shot("s1_back_in_hub")
   F.check("S1 hoennIntroDone STILL clear, so the gate re-runs its first-visit branch",
     not introDone(), state())
 
   local recrossed = crossToHoenn("recross")
   F.check("S1 re-cross landed in Brendan's 2F again", recrossed, where())
-  if not recrossed then F.shot("s1_lost"); F.finish(); return end
+  if not recrossed then F.shot("s1_lost"); return end
   F.shot("s1_after_recross")
 
   -- ---- the three assertions that fail on a ROM without the guard -------------------------------
@@ -334,7 +414,7 @@ F.run(function()
   -- straight back to 2F, so an on-arrival sample reports 1F for a run that got bounced.
   F.check("S3 still on 1F after the arrival scene, not a mom-bounce back onto 2F",
     mapIs(BR1F_G, BR1F_M), where() .. " " .. state())
-  if not mapIs(BR1F_G, BR1F_M) then F.shot("s3_stairs"); F.finish(); return end
+  if not mapIs(BR1F_G, BR1F_M) then F.shot("s3_stairs"); return end
   dumpObjects("1F")
   F.L("  1F player at " .. where() .. "  " .. state())
 
@@ -351,7 +431,7 @@ F.run(function()
   end
   F.idle(120)
   F.check("S3 stepped out into Littleroot Town", mapIs(TOWN_G, TOWN_M), where())
-  if not mapIs(TOWN_G, TOWN_M) then F.shot("s3_door"); F.finish(); return end
+  if not mapIs(TOWN_G, TOWN_M) then F.shot("s3_door"); return end
   F.shot("s3_littleroot")
 
   -- ON_TRANSITION's region_arrival_hook armed the scene; the ON_FRAME msgbox is blocking, so the
@@ -387,6 +467,167 @@ F.run(function()
     F.check("S3b intro-done routes the gate to SLATEPORT HARBOR, not the bedroom",
       mapIs(HARB_G, HARB_M), where() .. " bedroom=(1,1)")
   end
+end
 
+--------------------------------------------------------------------------------------------------
+-- S4 / S5 — the SAME gate, the FEMALE branch.
+--
+-- `RegionHub_EventScript_FirstVisitHoennFemale` got the identical one-shot guard
+-- (`call_if_eq VAR_LITTLEROOT_INTRO_STATE, 0` around `..._SeedFirstVisitHoennFemale`) and, before
+-- this segment, nothing anywhere in the tree ran it. The female seed is a different script writing
+-- different state — VAR_LITTLEROOT_HOUSES_STATE_MAY (0x4082) not ..._BRENDAN, a different six hide
+-- flags, HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F and a warp to May's 2F rather than Brendan's
+-- — so every assertion above could stay green while the female half regressed.
+--
+-- Why it re-enters through forged state instead of a second fresh boot: one mGBA session gets one
+-- new game. What "a Hoenn first-timer" means is exactly four persisted facts (gender, the intro
+-- state, the houses state, and hoennIntroDone) plus the six hide flags, and every one of them is
+-- written here in the open. Nothing about the JOURNEY is forged: the HUB PASS is used from the
+-- field, the attendant is walked to and talked to, and the gate's own scripts pick the branch,
+-- seed the state and place the warp. That is the part under test.
+--
+-- Where this starts is deliberately NOT assumed. On a fixed ROM the male journey ends in SLATEPORT
+-- HARBOR (S3b); on an unfixed one it ends bailing out of S3 on Brendan's 2F. The HUB PASS is legal
+-- in both (CannotUseHubReturnHere refuses only Safari, the bug contest, link rooms, the Frontier
+-- facilities and an in-progress challenge, underwater, championship mode and an escorted NPC —
+-- src/item_use.c) and lands on the same fixed hub tile either way, so S4 opens from wherever the
+-- male journey happened to stop.
+--------------------------------------------------------------------------------------------------
+local function mayJourney()
+  F.L("== S4/S5: the FEMALE branch of the same gate ==")
+  if not hubPass then
+    F.check("S4 the May segment inherited the HUB PASS the male segment derived", false,
+      "the male segment never got one, so S4/S5 cannot drive the gate")
+    return
+  end
+
+  -- Settle wherever the male journey left off before touching anything: on an unfixed ROM that is
+  -- the tail of the mom-bounce cutscene, and a half-finished script eats the SELECT below.
+  F.dismiss(20)
+
+  F.w8(F.sb2() + S.SaveBlock2.playerGender, 1)   -- FEMALE
+  varSet(VAR_INTRO, 0)
+  varSet(VAR_HOUSES_MAY, 0)
+  clearIntroDone()
+  for _, f in ipairs(MAY_SEED_FLAGS) do flagClear(f[1]) end
+
+  F.check("S4 forged playerGender = FEMALE (the branch under test)",
+    F.r8(F.sb2() + S.SaveBlock2.playerGender) == 1,
+    "gender=" .. F.r8(F.sb2() + S.SaveBlock2.playerGender))
+  F.check("S4 reset to a Hoenn first-timer: intro state 0, houses(MAY) 0, hoennIntroDone clear",
+    varGet(VAR_INTRO) == 0 and varGet(VAR_HOUSES_MAY) == 0 and not introDone(), stateMay())
+  local stillSet = {}
+  for _, f in ipairs(MAY_SEED_FLAGS) do
+    if flagGet(f[1]) then stillSet[#stillSet + 1] = f[2] end
+  end
+  local leftovers = table.concat(stillSet, ",")
+  F.check("S4 cleared all six FEMALE seed flags first, so the flag checks below cannot pass on the "
+          .. "MALE seed's leftovers (both TRUCK flags are in both seed lists)",
+    #stillSet == 0, "still set: " .. (leftovers ~= "" and leftovers or "none"))
+
+  ------------------------------------------------------------------------------------------------
+  -- S4 — a genuine first visit as MAY must still be seeded. Same regression risk the guard creates
+  -- on the male side, on the script that actually runs for a female save.
+  ------------------------------------------------------------------------------------------------
+  local inHub = hubPassOut("may_reset")
+  F.check("S4 the HUB PASS returned MAY to the hub to start the female journey", inHub, where())
+  if not inHub then F.shot("s4_no_hub"); return end
+
+  local crossedMay = crossToHoenn("may_first", MAY2F_G, MAY2F_M)
+  -- This one assertion is the whole gender branch: BRENDANS_HOUSE_2F and MAYS_HOUSE_2F are separate
+  -- maps, so landing in (1,3) is only reachable through goto_if_eq VAR_RESULT, FEMALE.
+  F.check("S4 first cross as MAY landed in MAY's 2F, so the gate took the FEMALE branch",
+    crossedMay, where() .. " may=(1,3) brendan=(1,1) harbor=(9,9)")
+  if not crossedMay then F.shot("s4_lost"); return end
+  F.idle(120)
+  F.shot("s4_may_first_arrival")
+
+  -- May's 2F ON_TRANSITION calls the SAME shared PlayersHouse_2F_EventScript_BlockStairsUntilClock
+  -- IsSet on state 4, so 4 is already 5 by the time anything can read it — identical to S2.
+  F.check("S4 seed ran: intro state is 5 (seeded 4, May's 2F ON_TRANSITION advanced it)",
+    varGet(VAR_INTRO) == 5, stateMay())
+  F.check("S4 seed ran: VAR_LITTLEROOT_HOUSES_STATE_MAY is 1", varGet(VAR_HOUSES_MAY) == 1,
+    stateMay())
+  -- Same contract, mirrored: HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F, and its `setrespawn`
+  -- sits OUTSIDE the female guard exactly as the male one does. Reads the same on both ROMs.
+  local hg, hm = healLoc()
+  F.check("S4 the cross arms MAY's 2F respawn (contract, both ROMs)",
+    hg == MAY2F_G and hm == MAY2F_M,
+    string.format("heal=%s want=(%d,%d)", healStr(), MAY2F_G, MAY2F_M))
+  for _, f in ipairs(MAY_SEED_FLAGS) do
+    F.check("S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_" .. f[2] .. " set", flagGet(f[1]))
+  end
+
+  ------------------------------------------------------------------------------------------------
+  -- Reach state 6 the way the #195 player does. The two houses have their own sign scripts
+  -- (LittlerootTown_{Brendans,Mays}House_2F_EventScript_WallClock, data/scripts/players_house.inc),
+  -- but they only setvar VAR_0x8004 MALE/FEMALE before a shared goto: the branch that actually
+  -- matters here, PlayersHouse_2F_EventScript_CheckWallClock -> ClockAlreadySetElsewhere, is one
+  -- gender-agnostic script. So what differs for this segment is the sign's COORDINATE, because
+  -- May's house is mirrored.
+  ------------------------------------------------------------------------------------------------
+  F.check("route to MAY's wall clock tile (3,2)", F.route(MAY_CLOCK_ROUTE, "clock_may"), where())
+  F.face("Up")
+  F.press("A", 3); F.idle(40)
+  for _ = 1, 40 do F.press("A", 2); F.idle(16); F.press("B", 2); F.idle(16) end
+  F.dismiss(20)
+  F.shot("s5_after_clock_may")
+  local mayAt6 = varGet(VAR_INTRO) == 6
+  F.check("S5 clock-already-set branch advanced MAY's intro to 6", mayAt6, stateMay())
+  if not mayAt6 then return end
+
+  -- Same reason as S1: left at 1 an "unchanged" claim is indistinguishable from a rewind TO 1.
+  varSet(VAR_HOUSES_MAY, 2)
+  F.check("S5 staged VAR_LITTLEROOT_HOUSES_STATE_MAY = 2 (Met Rival's Mom)",
+    varGet(VAR_HOUSES_MAY) == 2, stateMay())
+  setHealLoc(PCEN_G, PCEN_M, 6, 8)
+  F.check("S5 staged an OLDALE POKeMON CENTER respawn over MAY's bedroom",
+    select(1, healLoc()) == PCEN_G and select(2, healLoc()) == PCEN_M, stateMay())
+  F.check("S5 hoennIntroDone still clear (MAY never walked outside either)", not introDone(),
+    stateMay())
+
+  ------------------------------------------------------------------------------------------------
+  -- S5 — HUB PASS out of MAY's bedroom, re-cross, nothing rewinds. The second discriminating phase.
+  ------------------------------------------------------------------------------------------------
+  local mayOut = hubPassOut("may_recross")
+  F.check("S5 the HUB PASS warped MAY out of the bedroom to the hub", mayOut, where())
+  if not mayOut then F.shot("s5_pass_failed"); return end
+  F.shot("s5_back_in_hub")
+  -- Weaker than its S1 twin, and worth saying so. S1 had EARNED its reading: the player really had
+  -- crossed, and the bit's state was the game's answer. Here it only restates what S4 forged, and
+  -- the female journey never enters Littleroot Town, so nothing on this path could set it. Keep it
+  -- as a tripwire on the branch the gate is about to take -- not as evidence.
+  F.check("S5 hoennIntroDone STILL clear, so the gate re-runs its first-visit branch",
+    not introDone(), stateMay())
+
+  local mayRecrossed = crossToHoenn("may_recross", MAY2F_G, MAY2F_M)
+  F.check("S5 re-cross landed in MAY's 2F again", mayRecrossed, where())
+  if not mayRecrossed then F.shot("s5_lost"); return end
+  F.idle(120)
+  F.shot("s5_after_recross")
+
+  -- ---- the two assertions that fail on a ROM without the FEMALE guard --------------------------
+  F.check("S5 intro state NOT rewound (still 6, not re-seeded to 4/5)", varGet(VAR_INTRO) == 6,
+    stateMay())
+  F.check("S5 VAR_LITTLEROOT_HOUSES_STATE_MAY NOT rewound to 1", varGet(VAR_HOUSES_MAY) == 2,
+    stateMay())
+  -- CONTRACT, not a discriminator — the female `setrespawn` is outside the guard too, so this reads
+  -- (1,3)@(4,2) on both ROMs. It is worth asserting for the same reason S1's twin is: it is what
+  -- catches someone "tidying" the setrespawn inside the guard and silently leaving a re-crossing
+  -- player's respawn on whatever SetRegionArrivalRespawn armed.
+  local rg, rm = healLoc()
+  F.check("S5 CONTRACT (not a discriminator): the cross re-arms the respawn to MAY's 2F, so the "
+          .. "stale cross-region POKeMON CENTER does not survive",
+    rg == MAY2F_G and rm == MAY2F_M,
+    string.format("heal=%s  want=(%d,%d) sentinel=(%d,%d)",
+      healStr(), MAY2F_G, MAY2F_M, PCEN_G, PCEN_M))
+end
+
+-- One verdict for both halves of one fix. maleJourney() bails by RETURNING, not by finishing, so an
+-- early exit up there still leaves S4/S5 a chance to report — and their absence from the count is
+-- itself the signal that something went wrong before them.
+F.run(function()
+  maleJourney()
+  if booted then mayJourney() end
   F.finish()
 end)

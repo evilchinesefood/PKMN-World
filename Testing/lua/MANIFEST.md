@@ -194,6 +194,7 @@ is clean; keep it that way.
 | [`ExpansionHealthboxes.lua`](#expansionhealthboxeslua) | fresh new game | Issue #120 A: Safari leftover-ball text (FillSpriteRect left=55), singles nick/HP numbers, doubles healthboxes. |
 | [`CatchTutorial.lua`](#catchtutoriallua) | fresh new game | Issue #120 B: Viridian Old Man tutorial does not say WALLY; Petalburg Wally control still does. |
 | [`DayNightTint.lua`](#daynighttintlua) | fresh new game | Issue #120 C: day/night palette tint on Hoenn/Kanto/Johto routes, cave control, night fade-in. |
+| [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | Issue #195: the Hoenn hub gate seeds Littleroot ONCE; a HUB PASS re-cross does not rewind; walking out latches `hoennIntroDone`. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -566,6 +567,55 @@ Issue #120 playtest B. `GetCurrentRegion()==REGION_KANTO` chooses "The old man" 
 ### `DayNightTint.lua`
 
 Issue #120 playtest C. This is palette tint, **not** Johto object swap — `JohtoDayNightLive.lua` already crosses 19:59→20:00 on Route 37 and asserts flags/objects. Standing still, no warp during the tick: outdoor Hoenn Route 101, Kanto Route 1, Johto Route 37, plus Granite Cave 1F as the indoor control (`MapHasNaturalLight` is false for `MAP_TYPE_UNDERGROUND`, so `ApplyWeatherColorMapIfIdle` is skipped). Clock lever is `SaveBlock2.localTimeOffset` (survives a warp); `gTimeUpdateCounter=0` forces the tick. Outdoors: after 20:00, `gTimeOfDay` is night AND (`gTimeBlend` words changed). Cave: `gTimeOfDay` may still advance but map pals in `gPlttBufferFaded` must not take the night tint. Fade-in at night warps into Route 101 with a night clock (the `field_weather.c` TRUE path).
+
+
+### `HubPassReCross.lua`
+
+Issue #195's three scenarios on one fresh new game, driven end to end through the real scripts —
+no `warpTo` anywhere in the journey. `hoennIntroDone` (`SaveBlock2 +0x92` bit 2) is written by
+**one** site, `region_intro_done_hook` on Littleroot Town's `ON_FRAME`, so a player who takes the
+HUB PASS back out of the bedroom before ever stepping outside still reads as a first visit, and
+`RegionHub_EventScript_AttendantHoennBoard` re-ran its whole seed on the next cross. **S2** — a
+genuine first visit still seeds (intro state 5, because 2F's `ON_TRANSITION` turns the seeded 4
+into 5 before anything can read it; houses state 1; the six hide flags; `setrespawn` overriding the
+arrival respawn). **S1** — reach state 6 through the clock-already-set branch, stage a houses state
+of 2 and an OLDALE POKéMON CENTER respawn, SELECT the HUB PASS out of the bedroom, re-cross, and
+assert nothing rewound. **S3** — walk 2F → 1F → outdoors, catch `VAR_REGION_ARRIVAL` at 1 while the
+arrival box is still up, then assert the hook latched the bit and cleared the var; **S3b** repeats
+the claim without reading any struct offset at all, by crossing again and landing on SLATEPORT
+HARBOR (`RegionHub_EventScript_ReturnHoenn`) instead of the bedroom.
+
+**Discrimination measured, not assumed.** Against a ROM built at `549ff1400f` without the guard the
+suite drops **42/42 → 29/32**, and all three failures name the defect: `intro=5 houses=1` after the
+re-cross, then the downstream mom-bounce that puts the player back on 2F. Three fixed runs and two
+unfixed runs were byte-identical, ~5 s each.
+
+**★ The respawn is a CONTRACT check, not a discriminator, and the suite says so in its own
+assertion name.** `setrespawn` deliberately stays *outside* the guard — the gate warps the player to
+2F on every visit, so 2F is the right respawn on every visit — so it reads `(1,1)@(4,2)` on both
+ROMs. An earlier draft asserted "the respawn was not stomped back to the bedroom" and failed on the
+**fixed** ROM; the bytecode at `RegionHub_EventScript_AttendantHoennBoard` (`setrespawn` at
+`0x083AFEC4`, *before* the `compare`/`call_if`) is what settled it. Assert the fix's scope, not the
+issue title's.
+
+**★ Four more traps this suite paid for.** `lib`'s `pick()` cannot drive a YES/NO: both
+`ScriptMenu_YesNo` and the field item confirm run `Menu_ProcessInputNoWrapClearOnChoose`, so Down at
+the bottom row does **not** wrap and `pick()`'s Down-only walk burns its whole budget — and the HUB
+PASS confirm rests on **NO** by design (`item_use.c`), so a suite that only presses Down/A declines
+the warp. The local `yesNo()` probes with Down *then* Up and then drives the cursor by reading
+`sMenu`. The HUB PASS item id is **derived**, not hardcoded: `ITEM_HUB_RETURN` is the one key item
+that appears across the first cross, so an `ITEMS_COUNT` shift cannot make the suite drive the wrong
+item. `"downstairs is 1F"` must be re-read **after** the arrival scene, not on the frame the warp
+lands: at the rewound state 5, 1F's `ON_TRANSITION` parks Mom on the stairs and
+`GoUpstairsToSetClock` warps you straight back to 2F, so the on-arrival sample reports 1F for a run
+that got bounced — that is the single assertion that turned S3 from a cascade into a diagnosis. And
+1F's `PetalburgGymReport` cutscene applymovements the player to the TV at (4,5), where both Right
+*and* Down are furniture: walk back out the way the cutscene walked you in (east to (8,5)), then
+south onto the door mat.
+
+**Symbols added for it:** `SaveBlock2.introDoneBits = 0x92` (the table used to jump `0x91 → 0x93`,
+so #195's only persisted observable was unreadable) and `SaveBlock1.registeredItem = 0x496`, both in
+`Testing/GenLuaSymbols.py`. Regenerating `symbols.lua` from the same ELF is otherwise byte-identical.
 
 ### `VerifyV7Migrate.lua`
 

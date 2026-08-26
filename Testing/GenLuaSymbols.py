@@ -189,10 +189,28 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   pocketed by ScriptHideFollower stays active at its last tile with
                                                             --   this bit set, so an active-only check reads it as still on the map.
                                                             -- facing: low nibble of the u16 at 0x18 (DIR_SOUTH 1 / NORTH 2 / WEST 3 / EAST 4)
-  SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, lastHealLocation = 0x1C, @SB1@ },
+  SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, lastHealLocation = 0x1C,
+                   registeredItem = 0x496, @SB1@ },
+                                                            -- lastHealLocation is the BASE of a
+                                                            --   struct WarpData (global.h:710):
+                                                            --   +0 s8 mapGroup, +1 s8 mapNum,
+                                                            --   +2 s8 warpId, +4 s16 x, +6 s16 y.
+                                                            -- registeredItem (global.h:1231) is the
+                                                            --   SELECT-button key item. Writing it is
+                                                            --   how a suite fires a field item-use
+                                                            --   callback without driving the BAG UI
+                                                            --   (JohtoMusicPass, HubPassReCross).
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
-                   currentRegion = 0x90, saveVersion = 0x91, followerSlot = 0x93, bp = 3768,
+                   currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
+                   followerSlot = 0x93, bp = 3768,
                    playerGender = 8, localTimeOffset = 0x98 },
+                                                            -- introDoneBits (global.h:629-632) packs
+                                                            --   the three region first-visit bits into
+                                                            --   ONE byte: bit0 kanto, bit1 johto,
+                                                            --   bit2 hoenn (LSB-first bitfields). The
+                                                            --   table used to jump 0x91 -> 0x93 and
+                                                            --   skip it, so #195's only persisted
+                                                            --   observable was unreadable.
                                                             -- playerGender: MALE 0 / FEMALE 1. Both
                                                             --   Littleroot bedroom PCs are gender-gated
                                                             --   (Brendan's MALE-only, May's FEMALE-only),

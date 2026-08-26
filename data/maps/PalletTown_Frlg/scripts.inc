@@ -51,9 +51,10 @@ PalletTown_EventScript_KantoArrival::
 	releaseall
 	end
 
+@ #195: narration, not MOM -- she has no sprite here. See LittlerootTown_Text_MomNewHome.
 PalletTown_Text_MomNewHome:
-	.string "MOM: Well, here we are - our new\n"
-	.string "home in PALLET TOWN, KANTO!\p"
+	.string "You've arrived in PALLET TOWN,\n"
+	.string "KANTO.\p"
 	.string "Why don't you go see PROF. OAK?\n"
 	.string "He gives new TRAINERS their first\l"
 	.string "POKéMON.$"

@@ -11,7 +11,7 @@ Four suites need a battery save instead, and one of those saves is not in the tr
 
 ## What's in this directory
 
-`Testing/lua/` holds **50 `.lua` files**: 46 suites plus four that are not suites and must never be
+`Testing/lua/` holds **53 `.lua` files**: 49 suites plus four that are not suites and must never be
 launched directly.
 
 | File | Role |
@@ -191,6 +191,9 @@ is clean; keep it that way.
 | [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
 | [`SlowpokeWellRescue.lua`](#slowpokewellrescuelua) | fresh new game | Slowpoke Well Jessie/James gate, Kurt no longer seals Proton, Rocket walk-out. |
 | [`TohjoCelebi.lua`](#tohjocelebilua) | fresh new game | A full-HP Celebi follower arms the Tohjo Falls Giovanni scene. |
+| [`ExpansionHealthboxes.lua`](#expansionhealthboxeslua) | fresh new game | Issue #120 A: Safari leftover-ball text (FillSpriteRect left=55), singles nick/HP numbers, doubles healthboxes. |
+| [`CatchTutorial.lua`](#catchtutoriallua) | fresh new game | Issue #120 B: Viridian Old Man tutorial does not say WALLY; Petalburg Wally control still does. |
+| [`DayNightTint.lua`](#daynighttintlua) | fresh new game | Issue #120 C: day/night palette tint on Hoenn/Kanto/Johto routes, cave control, night fade-in. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -551,6 +554,18 @@ Tohjo Falls Celebi gate. Arriving with a full-HP Celebi follower arms
 visible follower; `ON_TRANSITION` runs before `ResetObjectEvents`, so it sees the leftover
 follower from the previous map. The suite then watches `sGlobalScriptContext` enter the
 Giovanni scene.
+
+### `ExpansionHealthboxes.lua`
+
+Issue #120 playtest A, which `make check` cannot see: `FillSpriteRect` healthbox text. Safari leftover-ball text is the only `FillSpriteRectColor(..., left=55, ...)` caller (`src/battle_interface.c:1963`, `55%8=7`, the unaligned case). The suite warps to Safari Zone South, sets `FLAG_SYS_SAFARI_MODE` and `gNumSafariBalls=30`, walks grass until `gBattleTypeFlags` has `BATTLE_TYPE_SAFARI`, screenshots the "Safari Balls / Left: $N" box at 30, throws, and requires `gNumSafariBalls` 30→29 with a second screenshot. Singles is Start Debug Battle: trainer flag, in-battle, an HP word in `gBattleMons` actually changed (so a clean HP *bar* from `MoveBattleBar` cannot pass it), player and foe healthbox sprites live. Doubles cannot use the debug trainer (`Battle Type: Singles`); the Trainers debug menu's Try Battle with trainer 1 + trainer 2 sets `BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TWO_OPPONENTS`. If that battle is not reached, `doubles_healthbox_reached` FAILs rather than skipping. **★ Set Party before any battle.** Safari step counter must be written too: 0 fires the times-up script on the first step.
+
+### `CatchTutorial.lua`
+
+Issue #120 playtest B. `GetCurrentRegion()==REGION_KANTO` chooses "The old man" / `SetControllerToOakOrOldMan`; otherwise "WALLY" / `SetControllerToWally`. The pre-fix `IS_FRLG` arm was hard-0 in ALL_REGIONS, so every catch tutorial printed WALLY — including Viridian. **The load-bearing assert is `kanto_text_has_no_WALLY`:** pokeStr of `gDisplayedStringBattle` during `StartOldManTutorialBattle` (WEEDLE) must contain OLD MAN / WEEDLE and must not contain WALLY. The Petalburg control (`StartWallyTutorialBattle`, region Hoenn via a warp first) must contain WALLY / RALTS and must not contain OLD MAN, so a suite that never printed anything cannot go green. Do not use debug Cheat start: `IS_FRLG` is hard-0 and it always runs Hoenn CheatStart.
+
+### `DayNightTint.lua`
+
+Issue #120 playtest C. This is palette tint, **not** Johto object swap — `JohtoDayNightLive.lua` already crosses 19:59→20:00 on Route 37 and asserts flags/objects. Standing still, no warp during the tick: outdoor Hoenn Route 101, Kanto Route 1, Johto Route 37, plus Granite Cave 1F as the indoor control (`MapHasNaturalLight` is false for `MAP_TYPE_UNDERGROUND`, so `ApplyWeatherColorMapIfIdle` is skipped). Clock lever is `SaveBlock2.localTimeOffset` (survives a warp); `gTimeUpdateCounter=0` forces the tick. Outdoors: after 20:00, `gTimeOfDay` is night AND (`gTimeBlend` words changed). Cave: `gTimeOfDay` may still advance but map pals in `gPlttBufferFaded` must not take the night tint. Fade-in at night warps into Route 101 with a night clock (the `field_weather.c` TRUE path).
 
 ### `VerifyV7Migrate.lua`
 

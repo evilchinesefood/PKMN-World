@@ -27,6 +27,13 @@ WANT = [
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
+    # Issue #120 playtests A/B. gDisplayedStringBattle is the expanded battle line
+    # (u8[425]); CatchTutorial pokeStrs it for "old man" vs "WALLY". gNumSafariBalls
+    # is the leftover-ball counter UpdateLeftNoOfBallsTextOnHealthbox prints at
+    # left=55 (the unaligned FillSpriteRectColor case). gSafariZoneStepCounter must
+    # be non-zero or the first step fires the times-up script instead of a battle.
+    "gDisplayedStringBattle", "gNumSafariBalls", "gSafariZoneStepCounter",
+    "gHealthboxSpriteIds", "gActionSelectionCursor",
     # Post-battle level-up summary. gLevelUpStartLevels is the u8[PARTY_SIZE] of pre-battle levels
     # that drives the box, and sLevelUpSummaryState is its stage machine — the only way a suite can
     # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
@@ -59,6 +66,12 @@ WANT = [
     # (overworld.c:1857), so it is fresh whenever gTimeOfDay is, and a suite can read both to
     # prove the Johto day/night flags agree with the clock rather than with its own seeding.
     "gLocalTime", "gTimeOfDay",
+    # Issue #120 playtest C (day/night tint, not Johto objects). gTimeBlend is the
+    # TimeBlendSettings OverworldBasic snapshots; gPlttBufferFaded/Unfaded are the
+    # software palettes ApplyWeatherColorMapIfIdle writes. BG_PLTT (0x05000000) is
+    # the hardware copy, but VBlank restores from faded, so the buffer is the
+    # discriminating read.
+    "gTimeBlend", "gPlttBufferFaded", "gPlttBufferUnfaded",
     # sHoursOverride is the debug time menu's lever (SetTimeOfDay, src/overworld.c:4110) and it
     # lives in EWRAM, NOT in the save. That is what makes it the only way to build the state issue
     # #56 item 3 needs: a save whose flags disagree with its own clock. Wind localTimeOffset (which
@@ -194,6 +207,11 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   Time         = { size = 8, days = 0, hours = 2, minutes = 3, seconds = 4 },
                                                             -- size is 8, NOT the hand-summed 6
   TimeOfDay    = { MORNING = 0, DAY = 1, EVENING = 2, NIGHT = 3 },
+  TimeBlend    = { size = 12, startBlend = 0, endBlend = 4, weight = 8, altWeight = 10 },
+                                                            -- struct TimeBlendSettings: two BlendSettings
+                                                            --   (u32 each) then two u16 weights. OverworldBasic
+                                                            --   diffs the first 12 bytes as three u32s.
+
   Menu         = { size = 12, left = 0, top = 1, cursorPos = 2, minCursorPos = 3,
                    maxCursorPos = 4, windowId = 5 },
                                                             -- struct Menu, src/menu.c:38. rows/columns

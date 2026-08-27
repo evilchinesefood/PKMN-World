@@ -1260,7 +1260,10 @@ PalletTown_ProfessorOaksLab_EventScript_LastPokeBall::
 PalletTown_ProfessorOaksLab_EventScript_Aide1::
 	lock
 	faceplayer
-	goto_if_set FLAG_KANTO_CHAMPION, PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear
+	@ #206: FLAG_SYS_GAME_CLEAR, not FLAG_KANTO_CHAMPION. This aide hands out a FAME CHECKER
+	@ entry and one flavour line -- Kanto trivia, not Kanto story -- so it opens at the player's
+	@ first Hall of Fame in any region, like the CELADON and VERMILION trivia NPCs.
+	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear
 	msgbox PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide
 	release
 	end
@@ -1274,7 +1277,13 @@ PalletTown_ProfessorOaksLab_EventScript_Aide1GameClear::
 PalletTown_ProfessorOaksLab_EventScript_Aide2::
 	lock
 	faceplayer
-	goto_if_set FLAG_KANTO_CHAMPION, PalletTown_ProfessorOaksLab_EventScript_Aide2GameClear
+	@ #206: FLAG_SYS_GAME_CLEAR, not FLAG_KANTO_CHAMPION. This aide hands out a FAME CHECKER
+	@ entry and one flavour line -- Kanto trivia, not Kanto story -- so it opens at the player's
+	@ first Hall of Fame in any region, like the CELADON and VERMILION trivia NPCs.
+	@ Aide2 specifically: he is the NPC who TELLS you DAISY grooms, and grooming itself is on
+	@ FLAG_SYS_GAME_CLEAR (PalletTown_RivalsHouse_Frlg). Gating the hint behind a Kanto champion
+	@ while the service is already open put the explanation after the thing it explains.
+	goto_if_set FLAG_SYS_GAME_CLEAR, PalletTown_ProfessorOaksLab_EventScript_Aide2GameClear
 	msgbox PalletTown_ProfessorOaksLab_Text_StudyAsOaksAide
 	release
 	end

@@ -46,7 +46,7 @@ FRESH=(SmokeBoot HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
        JohtoWhirlpool JohtoWhiteoutHeal KenyaMail
        PromptSafetyEvIv RedGyarados Route41SurfBgm
        SlowpokeWellRescue TohjoCelebi
-       CelioBagFull HoennIntroClock
+       CelioBagFull HoennIntroClock HubPassReCross
        ExpansionHealthboxes CatchTutorial DayNightTint)
 
 # Suites that need a specific battery save to mean anything: "<suite>:<fixture>".

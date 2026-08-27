@@ -226,7 +226,44 @@ RegionHub_EventScript_AttendantHoennBoard::
 	@ of this var. Hide BOTH trucks: the player did not arrive in one.
 	checkplayergender
 	goto_if_eq VAR_RESULT, FEMALE, RegionHub_EventScript_FirstVisitHoennFemale
+	@ #195: seed the truck-equivalent state ONLY on a genuine first visit. hoennIntroDone latches
+	@ from Littleroot Town's ON_FRAME (region_intro_done_hook), so a player who took the Hub Pass
+	@ out of the bedroom before ever stepping outside still reads as "first visit" on the next
+	@ cross -- and this block re-ran, rewinding VAR_LITTLEROOT_INTRO_STATE from 6/7 back to 4 and
+	@ VAR_LITTLEROOT_HOUSES_STATE_* back to 1. The six hide flags were idempotent; those two
+	@ setvars were not, and they are the whole bug.
+	@
+	@ Premise of the == 0 test: every other writer of the var is unreachable before the first hub
+	@ cross. WarpToTruck (src/new_game.c:146) sends every ALL_REGIONS new game to MAP_REGION_HUB,
+	@ never MAP_INSIDE_OF_TRUCK, so the truck's setvar 1/2 is dead; GoInsideWithMom needs the
+	@ truck; players_house.inc needs to already be in the house. Only debug.inc:33's setvar 7 can
+	@ violate it, and a debug user who then hub-crosses gets an unseeded Littleroot. This is also
+	@ load_save.c:388's v9->v10 predicate -- keep the two in sync if either moves.
+	@
+	@ setrespawn stays OUTSIDE the guard, exactly as before this change: the player is warped to
+	@ 2F on every visit, so the 2F bedroom is the right respawn on every visit. Be precise about
+	@ what it does and does not do. It cannot protect a Pokemon Center the player had registered --
+	@ RegionHub_ScrEnterRegion overwrote that one callnative earlier, unconditionally
+	@ (SetRegionArrivalRespawn, src/region_switch.c:284), and that is deliberate: it stops a
+	@ whiteout teleporting the player into the region they just left. But guarding this line would
+	@ NOT be a no-op either. SetRegionArrivalRespawn arms HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_
+	@ HOUSE, which resolves to MAP_LITTLEROOT_TOWN (5,9) -- the doorstep, OUTDOORS -- and this
+	@ setrespawn then overwrites it with the _2F entry, MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F
+	@ (4,2). Guard it and a re-crossing player respawns on the town tile, not the bedroom they
+	@ arrived in. Measured, not reasoned: HubPassReCross.lua asserts heal=(1,1)@(4,2) as a contract
+	@ check on both ROMs.
+	@ The warp must stay outside too -- it is what makes the player arrive. setdynamicwarp is a
+	@ cheap re-stamp of a slot secret bases and elevators overwrite freely; it is NOT load-bearing
+	@ for the exit door, which is a static warp to MAP_LITTLEROOT_TOWN (BrendansHouse_1F map.json).
 	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F
+	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 0, RegionHub_EventScript_SeedFirstVisitHoennMale
+	setdynamicwarp MAP_LITTLEROOT_TOWN, 3, 10
+	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 4, 4
+	waitstate
+	release
+	end
+
+RegionHub_EventScript_SeedFirstVisitHoennMale::
 	setvar VAR_LITTLEROOT_INTRO_STATE, 4
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
@@ -235,14 +272,19 @@ RegionHub_EventScript_AttendantHoennBoard::
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F_POKE_BALL
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
 	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 1
-	setdynamicwarp MAP_LITTLEROOT_TOWN, 3, 10
-	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 4, 4
+	return
+
+RegionHub_EventScript_FirstVisitHoennFemale::
+	@ #195: same one-shot guard as the male path above; setrespawn likewise stays outside it.
+	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F
+	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 0, RegionHub_EventScript_SeedFirstVisitHoennFemale
+	setdynamicwarp MAP_LITTLEROOT_TOWN, 12, 10
+	warp MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F, 4, 4
 	waitstate
 	release
 	end
 
-RegionHub_EventScript_FirstVisitHoennFemale::
-	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F
+RegionHub_EventScript_SeedFirstVisitHoennFemale::
 	setvar VAR_LITTLEROOT_INTRO_STATE, 4
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_MOM
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
@@ -251,11 +293,7 @@ RegionHub_EventScript_FirstVisitHoennFemale::
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
 	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 1
-	setdynamicwarp MAP_LITTLEROOT_TOWN, 12, 10
-	warp MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F, 4, 4
-	waitstate
-	release
-	end
+	return
 
 RegionHub_EventScript_ReturnHoenn::
 	warp MAP_SLATEPORT_CITY_HARBOR, 0

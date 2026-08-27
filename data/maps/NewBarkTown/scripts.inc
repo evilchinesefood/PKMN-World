@@ -22,9 +22,10 @@ NewBarkTown_EventScript_JohtoArrival::
 	releaseall
 	end
 
+@ #195: narration, not MOM -- she has no sprite here. See LittlerootTown_Text_MomNewHome.
 NewBarkTown_Text_MomNewHome:
-	.string "MOM: We've settled into our new\n"
-	.string "home in NEW BARK TOWN, JOHTO!\p"
+	.string "You've arrived in NEW BARK TOWN,\n"
+	.string "JOHTO.\p"
 	.string "PROF. ELM next door is looking for\n"
 	.string "you - go see him about a POKéMON.$"
 

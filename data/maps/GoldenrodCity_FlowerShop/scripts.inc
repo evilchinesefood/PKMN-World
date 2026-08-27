@@ -1,30 +1,72 @@
-.set LOCALID_MINT_CLERK, 3
-
 GoldenrodCity_FlowerShop_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, GoldenrodCity_FlowerShop_OnTransition
 	.byte 0
 
-GoldenrodCity_FlowerShop_OnTransition::
-	call_if_unset FLAG_MINTS_ENABLED, GoldenrodCity_FlowerShop_HideMintClerk
-	call_if_set FLAG_MINTS_ENABLED, GoldenrodCity_FlowerShop_ShowMintClerk
+@ #208: the mint clerk is ungated. She was a Johto_EventScript_Nop stub from the Goldenrod port
+@ (53f21e0fff) -- visible post-Game-Clear but mute, because the HGSS seller script was never
+@ ported. Mints are commodity items already sold at the hub vitamin vendor, Goldenrod Dept 4F,
+@ Celadon Dept 5F and Lilycove Dept 4F, so a champion gate on a fifth vendor guarded nothing.
+@ Her object_event "flag" is now 0 rather than FLAG_MINTS_CLERK. The old OnTransition ran
+@ setflag FLAG_MINTS_CLERK (set = hidden) in the branch taken when the gate FAILED, so the bit is
+@ SET on a save whose most recent entry to this shop predates Game Clear. It is CLEAR on a save
+@ that has come in since (the postgame arm ran clearflag) and on one that never came in at all.
+@ Keeping the flag field would leave her hidden on that first group. Flag id 0 is unconditional
+@ spawn by construction: GetFlagPointer returns NULL for id 0
+@ (src/event_data.c:273), so it can never be read or written.
+@ One transient, not worth a migration: objectEventTemplates[] is persisted, and Continue refreshes
+@ only .script, not .flagId (src/overworld.c:596). A save made INSIDE this shop keeps the stale
+@ flagId for that one session; she appears on the next re-entry. Self-healing.
+@
+@ Both flags stay defined in johto_flags.h, but for DIFFERENT reasons -- do not collapse them:
+@   FLAG_MINTS_CLERK (0xE4) is genuinely dirty. Live saves carry it SET (above), so handing 0xE4
+@     to a future flag would inherit a pre-set garbage bit. Reserved.
+@   FLAG_MINTS_ENABLED (0xE5) is provably CLEAR on every save that has ever existed: it has had no
+@     writer at any point in this repo's history (git log -S finds none), which is why the old
+@     call_if_set arm was dead code. Reusing 0xE5 would in fact be safe; it is kept only so the
+@     pair stays legible next to its sibling.
+@ Neither is kept to avoid renumbering -- the bank assigns literal slices and already has a hole
+@ at 0xD6, so deleting a define shifts nothing.
+GoldenrodCity_FlowerShop_EventScript_MintClerk::
+	lock
+	faceplayer
+	msgbox GoldenrodCity_FlowerShop_Text_MintClerkIntro, MSGBOX_DEFAULT
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart GoldenrodCity_FlowerShop_Pokemart_Mints
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
 	end
 
-GoldenrodCity_FlowerShop_HideMintClerk::
-	goto_if_set FLAG_SYS_GAME_CLEAR, GoldenrodCity_FlowerShop_ShowMintClerkPostgame
-	setflag FLAG_MINTS_CLERK
-	removeobject LOCALID_MINT_CLERK
-	return
+	.align 2
+GoldenrodCity_FlowerShop_Pokemart_Mints::
+	.2byte ITEM_LONELY_MINT
+	.2byte ITEM_ADAMANT_MINT
+	.2byte ITEM_NAUGHTY_MINT
+	.2byte ITEM_BRAVE_MINT
+	.2byte ITEM_BOLD_MINT
+	.2byte ITEM_IMPISH_MINT
+	.2byte ITEM_LAX_MINT
+	.2byte ITEM_RELAXED_MINT
+	.2byte ITEM_MODEST_MINT
+	.2byte ITEM_MILD_MINT
+	.2byte ITEM_RASH_MINT
+	.2byte ITEM_QUIET_MINT
+	.2byte ITEM_CALM_MINT
+	.2byte ITEM_GENTLE_MINT
+	.2byte ITEM_CAREFUL_MINT
+	.2byte ITEM_SASSY_MINT
+	.2byte ITEM_TIMID_MINT
+	.2byte ITEM_HASTY_MINT
+	.2byte ITEM_JOLLY_MINT
+	.2byte ITEM_NAIVE_MINT
+	.2byte ITEM_SERIOUS_MINT
+	pokemartlistend
 
-GoldenrodCity_FlowerShop_ShowMintClerkPostgame::
-	clearflag FLAG_MINTS_CLERK
-	addobject LOCALID_MINT_CLERK
-	@ return: goto'd from HideMintClerk (a call_if_unset sub); end would abort OnTransition
-	return
-
-GoldenrodCity_FlowerShop_ShowMintClerk::
-	clearflag FLAG_MINTS_CLERK
-	addobject LOCALID_MINT_CLERK
-	return
+GoldenrodCity_FlowerShop_Text_MintClerkIntro:
+	.string "Our mints are grown right here in\n"
+	.string "GOLDENROD.\p"
+	.string "One will coax a POKéMON's nature\n"
+	.string "toward a new temperament - though it\l"
+	.string "never forgets the one it was born with.$"
 
 GoldenrodCity_FlowerShop_EventScript_Owner::
 	lock

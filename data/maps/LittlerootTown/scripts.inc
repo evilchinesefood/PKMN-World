@@ -119,9 +119,11 @@ LittlerootTown_EventScript_HoennArrival::
 	releaseall
 	end
 
+@ #195: narration, not MOM. She has no sprite on any of the three arrival maps, so attributing
+@ the line to her read as a disembodied voice. Same reword applied in New Bark and Pallet.
 LittlerootTown_Text_MomNewHome:
-	.string "MOM: Here we are - our new home in\n"
-	.string "LITTLEROOT TOWN, HOENN!\p"
+	.string "You've arrived in LITTLEROOT TOWN,\n"
+	.string "HOENN.\p"
 	.string "PROF. BIRCH studies POKéMON nearby.\n"
 	.string "Go see him to get your first one.$"
 

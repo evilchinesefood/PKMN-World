@@ -14,6 +14,8 @@ Gate_NationalPark_EventScript_Attendant::
 Gate_NationalPark_EventScript_AttendantStart::
 	checkitemspace ITEM_SAFARI_BALL, 30
 	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_NoRoomForBalls
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_NoRoomInStorage
 	msgbox Route35NationalParkGate_Text_OfficerAskToUseFirstMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_AttendantCancel
 	getpartysize
@@ -96,6 +98,12 @@ Gate_NationalPark_EventScript_NoRoomForBalls::
 	release
 	end
 
+Gate_NationalPark_EventScript_NoRoomInStorage::
+	msgbox Route35NationalParkGate_Text_MakeRoom, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
 Gate_NationalPark_EventScript_AttendantExit::
 	special LoadPlayerParty
 	setvar VAR_BUG_CONTEST_STATE, 0
@@ -133,6 +141,8 @@ Gate_NationalPark_EventScript_BAttendant::
 Gate_NationalPark_EventScript_BAttendantStart::
 	checkitemspace ITEM_SAFARI_BALL, 30
 	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_NoRoomForBalls
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_NoRoomInStorage
 	msgbox Route35NationalParkGate_Text_OfficerAskToUseFirstMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, Gate_NationalPark_EventScript_AttendantCancel
 	getpartysize

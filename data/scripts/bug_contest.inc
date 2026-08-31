@@ -46,15 +46,25 @@ BugContestEventScript_Judging::
 	call_if_eq VAR_RESULT, 1, BugContest_EventScript_First
 	call_if_eq VAR_RESULT, 2, BugContest_EventScript_Second
 	call_if_eq VAR_RESULT, 3, BugContest_EventScript_Third
+	copyvar VAR_TEMP_2, VAR_0x8005
+BugContest_EventScript_TransferKeep::
 	special TransferBugContestMon
+	goto_if_ne VAR_RESULT, MON_GIVEN_TO_PC, BugContest_EventScript_NeedBoxSpace
 	delay 20
-	giveitem VAR_0x8005
+	giveitem VAR_TEMP_2
 	msgbox BugContest_Text_TransferAndReturn, MSGBOX_DEFAULT
 	playse SE_SUCCESS
 	waitse
 	msgbox BugContest_Text_TakePartInFuture, MSGBOX_DEFAULT
 	closemessage
 	goto BugContest_EventScript_End
+	end
+
+BugContest_EventScript_NeedBoxSpace::
+	msgbox BugContest_Text_BoxesFullMakeRoom, MSGBOX_DEFAULT
+	closemessage
+	special ShowPokemonStorageSystemPC
+	goto BugContest_EventScript_TransferKeep
 	end
 
 BugContest_EventScript_Didntcatch::
@@ -201,3 +211,8 @@ BugContest_Text_TransferAndReturn:
 	.string "Your chosen BUG POKéMON will now\n"
 	.string "be sent to the PC and your party\l"
 	.string "will be returned to you.$"
+
+BugContest_Text_BoxesFullMakeRoom:
+	.string "Your PC BOXES are full.\p"
+	.string "Please make room so your BUG POKéMON\n"
+	.string "can be sent to the PC.$"

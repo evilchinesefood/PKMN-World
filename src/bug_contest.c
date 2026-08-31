@@ -22,6 +22,11 @@
 static bool32 IsPlayerDefeated(u32 battleOutcome);
 static u32 sBugContestStartTime;
 static bool8 sBugContestTimerActive;
+// Copied out of the contest party before CopyMonToPC so a full-box retry can
+// open the PC without CompactPartySlots moving VAR_0x8004. LoadPlayerParty must
+// not run while this is set.
+static EWRAM_DATA struct Pokemon sBugContestKeep = {0};
+static bool8 sHasBugContestKeep;
 
 
 bool32 GetBugContestFlag(void)
@@ -41,6 +46,8 @@ void EnterBugContestMode(void)
     FlagSet(FLAG_SYS_BUG_CONTEST_MODE);
     sBugContestStartTime = gMain.vblankCounter1;
     sBugContestTimerActive = TRUE;
+    sHasBugContestKeep = FALSE;
+    ZeroMonData(&sBugContestKeep);
 }
 
 void ExitBugContestMode(void)
@@ -70,29 +77,37 @@ bool8 BugContestCheckTimeLimit(void)
 
 bool8 TransferBugContestMon(void)
 {
-    u8 monIndex = VarGet(VAR_0x8004);
+    u8 monIndex;
     struct Pokemon *mon;
 
-    // VAR_0x8004 is shared script scratch that survives the warp into the contest map —
-    // bound it here (like ScrCmd_removegenericmon_Compat) rather than trusting the script
-    // convention: past PARTY_SIZE this would ZeroMonData 100 bytes into the enemy parties.
-    if (monIndex >= PARTY_SIZE)
+    if (!sHasBugContestKeep)
     {
-        gSpecialVar_Result = MON_CANT_GIVE;
-        return FALSE;
-    }
-    mon = &gPlayerParty[monIndex];
-    if (GetMonData(mon, MON_DATA_SPECIES, NULL) == SPECIES_NONE)
-    {
-        gSpecialVar_Result = MON_CANT_GIVE;
-        return FALSE;
-    }
-
-    if (CopyMonToPC(mon) == MON_GIVEN_TO_PC)
-    {
-        ZeroMonData(mon);  // Remove mon from party after storing
+        // VAR_0x8004 is shared script scratch that survives the warp into the contest map —
+        // bound it here (like ScrCmd_removegenericmon_Compat) rather than trusting the script
+        // convention: past PARTY_SIZE this would ZeroMonData 100 bytes into the enemy parties.
+        monIndex = VarGet(VAR_0x8004);
+        if (monIndex >= PARTY_SIZE)
+        {
+            gSpecialVar_Result = MON_GIVEN_TO_PC; // nothing to send; don't block contest end
+            return FALSE;
+        }
+        mon = &gPlayerParty[monIndex];
+        if (GetMonData(mon, MON_DATA_SPECIES, NULL) == SPECIES_NONE)
+        {
+            gSpecialVar_Result = MON_GIVEN_TO_PC;
+            return FALSE;
+        }
+        CopyMon(&sBugContestKeep, mon, sizeof(sBugContestKeep));
+        sHasBugContestKeep = TRUE;
+        ZeroMonData(mon);
         CompactPartySlots();
         CalculatePlayerPartyCount(); // CompactPartySlots only shuffles/zeroes; it never touches the count
+    }
+
+    if (CopyMonToPC(&sBugContestKeep) == MON_GIVEN_TO_PC)
+    {
+        ZeroMonData(&sBugContestKeep);
+        sHasBugContestKeep = FALSE;
         gSpecialVar_Result = MON_GIVEN_TO_PC;
     }
     else

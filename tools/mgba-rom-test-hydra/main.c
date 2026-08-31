@@ -812,6 +812,15 @@ int main(int argc, char *argv[])
             fwrite(runners[i].output_buffer, 1, runners[i].output_buffer_size, stdout);
         if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) > exit_code)
             exit_code = WEXITSTATUS(wstatus);
+        else if (!WIFEXITED(wstatus))
+        {
+            if (WIFSIGNALED(wstatus))
+                fprintf(stderr, "runner %d died from signal %d\n", i, WTERMSIG(wstatus));
+            else
+                fprintf(stderr, "runner %d died\n", i);
+            if (exit_code < 2)
+                exit_code = 2;
+        }
         passes += runners[i].passes;
         expected_fails += runners[i].expected_fails;
         expected_fails_passing += runners[i].expected_fails_passing;

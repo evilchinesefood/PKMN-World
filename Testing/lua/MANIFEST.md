@@ -194,7 +194,7 @@ is clean; keep it that way.
 | [`ExpansionHealthboxes.lua`](#expansionhealthboxeslua) | fresh new game | Issue #120 A: Safari leftover-ball text (FillSpriteRect left=55), singles nick/HP numbers, doubles healthboxes. |
 | [`CatchTutorial.lua`](#catchtutoriallua) | fresh new game | Issue #120 B: Viridian Old Man tutorial does not say WALLY; Petalburg Wally control still does. |
 | [`DayNightTint.lua`](#daynighttintlua) | fresh new game | Issue #120 C: day/night palette tint on Hoenn/Kanto/Johto routes, cave control, night fade-in. |
-| [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | Issue #195: the Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; a HUB PASS re-cross does not rewind; walking out latches `hoennIntroDone`. |
+| [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
@@ -581,9 +581,10 @@ into 5 before anything can read it; houses state 1; the six hide flags; `setresp
 arrival respawn). **S1** — reach state 6 through the clock-already-set branch, stage a houses state
 of 2 and an OLDALE POKéMON CENTER respawn, SELECT the HUB PASS out of the bedroom, re-cross, and
 assert nothing rewound. **S3** — walk 2F → 1F → outdoors, catch `VAR_REGION_ARRIVAL` at 1 while the
-arrival box is still up, then assert the hook latched the bit and cleared the var; **S3b** repeats
-the claim without reading any struct offset at all, by crossing again and landing on SLATEPORT
-HARBOR (`RegionHub_EventScript_ReturnHoenn`) instead of the bedroom.
+arrival box is still up, then assert the hook latched the bit and cleared the var. **S3b** proves
+that latch is not the travel unlock: with `hoennIntroDone` set but the Stone Badge clear, the same
+attendant returns the player to Brendan's 2F. **S3c** changes only `FLAG_BADGE01_GET`, crosses
+again, and requires SLATEPORT HARBOR (`RegionHub_EventScript_ReturnHoenn`).
 
 **S4/S5 are the same fix on the FEMALE branch,** added as a second segment rather than a sibling
 suite. S1–S3 pin `playerGender == MALE`, so every one of their assertions walks straight past
@@ -591,9 +592,9 @@ suite. S1–S3 pin `playerGender == MALE`, so every one of their assertions walk
 identical `call_if_eq VAR_LITTLEROOT_INTRO_STATE, 0` guard — had **no coverage at all**. It is not a
 copy of the male script either: it writes `VAR_LITTLEROOT_HOUSES_STATE_MAY` (`0x4082`, *not*
 `..._BRENDAN + 1`), a different six hide flags, `HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F` and a
-warp to May's 2F, so a regression there is invisible to S1/S2/S3. **S4** rewrites the four persisted
-facts that define a Hoenn first-timer (`playerGender`, the intro state, the houses state and
-`hoennIntroDone`) and clears the six female seed flags, then HUB PASSes
+warp to May's 2F, so a regression there is invisible to S1/S2/S3. **S4** rewrites the persisted
+facts that define a Hoenn first-timer (`playerGender`, the intro state, the houses state,
+`hoennIntroDone`, and the Stone Badge) and clears the six female seed flags, then HUB PASSes
 back to the hub and crosses for real — landing in `MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F` `(1,3)` is by
 itself proof the gender branch was taken, since only `goto_if_eq VAR_RESULT, FEMALE` reaches that
 map. **S5** repeats S1 on that branch: clock → 6, stage houses(MAY) = 2 and an OLDALE respawn, HUB

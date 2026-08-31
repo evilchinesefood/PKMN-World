@@ -8,11 +8,11 @@
 -- The fix guards those two setvars (and the idempotent hide flags) behind
 -- `call_if_eq VAR_LITTLEROOT_INTRO_STATE, 0`.
 --
--- SCOPE, because it is easy to over-assert here: `setrespawn` and the `warp` deliberately stay
--- OUTSIDE the guard (data/maps/RegionHub/scripts.inc, the comment above the call_if_eq) -- the
--- gate warps the player to 2F on EVERY visit, so 2F is the right respawn on every visit, and
--- RegionHub_ScrEnterRegion re-arms the respawn from C one callnative earlier regardless. So the
--- respawn is a CONTRACT check below, not a #195 discriminator: it reads the same on both ROMs.
+-- SCOPE, because it is easy to over-assert here: `setrespawn` and the home `warp` deliberately
+-- stay OUTSIDE the guard (data/maps/RegionHub/scripts.inc, the comment above the call_if_eq). The
+-- gate warps the player to 2F on every PRE-BADGE visit, so 2F is the right respawn on those visits,
+-- and RegionHub_ScrEnterRegion re-arms the respawn from C one callnative earlier regardless. So
+-- the respawn is a CONTRACT check below, not a #195 discriminator: it reads the same on both ROMs.
 --
 -- This is a SIBLING of HoennIntroClock.lua, not an extension of it. That suite warps straight to
 -- Brendan's 2F with the arrival state forged and stops at "the stairs let me through"; it never
@@ -23,7 +23,7 @@
 -- Five scenarios, in the only order that can produce them from one fresh save:
 --   S2  a genuine first visit still seeds  (the regression risk the guard creates)
 --   S1  the HUB PASS re-cross does NOT rewind  (the bug; the first discriminating phase)
---   S3  walking out to town latches hoennIntroDone  (coverage nothing else has)
+--   S3  walking out latches hoennIntroDone, but only the first badge unlocks Slateport
 --   S4  the SAME gate on the FEMALE branch still seeds MAY's own state on a genuine first visit
 --   S5  the FEMALE re-cross does NOT rewind either  (the second discriminating phase)
 --
@@ -62,6 +62,7 @@ local VAR_HOUSES_MAY   = 0x4082   -- VAR_LITTLEROOT_HOUSES_STATE_MAY. NOT ..._BR
 
 local FLAG_SET_WALL_CLOCK      = 0x51
 local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF   -- FLAG_WORLD_MAP_BANK (0xD40) + 0x8F
+local FLAG_BADGE01_GET         = 0x94F   -- Hoenn Stone Badge; exact late-arrival unlock
 -- The six hide flags RegionHub_EventScript_SeedFirstVisitHoennMale sets. These are idempotent, so
 -- they are S2 evidence (did the seed run at all) rather than S1 evidence.
 local SEED_FLAGS = {
@@ -142,11 +143,8 @@ end
 
 -- S4 has to un-latch the bit S3 latched. Clear-only: nothing in this suite ever wants to SET it by
 -- hand -- S3's whole point is watching the game latch it -- and a settable version would be a dead
--- branch. On a run where S3 got that far this is also a second angle on the offset: if 0x92 were
--- the wrong byte the real bit would still be set, the gate would take
--- RegionHub_EventScript_ReturnHoenn, and S4's "landed in May's 2F" would fail on SLATEPORT HARBOR
--- rather than pass. That corroboration only exists when S3 ran to completion, which on a ROM
--- without the guard it does not -- there the write is a no-op and S4 leans on S3's own assertion.
+-- branch. The destination no longer corroborates this offset: hoennIntroDone controls only the
+-- one-time arrival narration, while FLAG_BADGE01_GET independently controls the hub destination.
 local function clearIntroDone()
   local a = F.sb2() + S.SaveBlock2.introDoneBits
   F.w8(a, F.r8(a) & ~(1 << HOENN_INTRO_DONE_BIT) & 0xFF)
@@ -370,7 +368,7 @@ local function maleJourney()
   F.check("S1 the HUB PASS warped out of the bedroom to the hub", backInHub, where())
   if not backInHub then F.shot("s1_pass_failed"); return end
   F.shot("s1_back_in_hub")
-  F.check("S1 hoennIntroDone STILL clear, so the gate re-runs its first-visit branch",
+  F.check("S1 hoennIntroDone is still clear before the first outdoor arrival",
     not introDone(), state())
 
   local recrossed = crossToHoenn("recross")
@@ -447,9 +445,9 @@ local function maleJourney()
     varGet(VAR_REGION_ARRIVAL) == 0, state())
 
   ------------------------------------------------------------------------------------------------
-  -- S3b — the same claim without reading a struct offset. With the bit set, the gate must take
-  -- RegionHub_EventScript_ReturnHoenn (Slateport harbour) instead of the bedroom. If the bit read
-  -- above were the wrong byte, this contradicts it.
+  -- S3b — hoennIntroDone is only the one-time narration latch. With that bit set but the Stone
+  -- Badge still clear, the gate must return to the bedroom, not skip the early campaign by landing
+  -- in Slateport Harbor.
   ------------------------------------------------------------------------------------------------
   F.w16(F.sb1() + S.SaveBlock1.registeredItem, hubPass)
   F.press("Select", 2); F.idle(90)
@@ -462,10 +460,27 @@ local function maleJourney()
     F.face("Up")
     F.press("A", 3); F.idle(50)
     F.check("S3b the returning-traveller YES/NO opened", yesNo(0, "travelHoenn_return"), where())
-    mashToMap(HARB_G, HARB_M, "return", 150)
-    F.shot("s3b_return_destination")
-    F.check("S3b intro-done routes the gate to SLATEPORT HARBOR, not the bedroom",
-      mapIs(HARB_G, HARB_M), where() .. " bedroom=(1,1)")
+    F.check("S3b Stone Badge is still clear before the pre-badge crossing",
+      not flagGet(FLAG_BADGE01_GET))
+    local preBadgeHome = mashToMap(BR2F_G, BR2F_M, "return_prebadge", 150)
+    F.shot("s3b_prebadge_destination")
+    F.check("S3b intro-done without the Stone Badge still returns to Brendan's 2F",
+      preBadgeHome, where() .. " harbor=(9,9)")
+
+    ----------------------------------------------------------------------------------------------
+    -- S3c — the first badge is the exact unlock. Change only that flag, return to the same
+    -- attendant, and the destination must switch from the bedroom to Slateport Harbor.
+    ----------------------------------------------------------------------------------------------
+    local hub3 = preBadgeHome and hubPassOut("postbadge") or false
+    F.check("S3c HUB PASS returned to the hub from the pre-badge bedroom", hub3, where())
+    if hub3 then
+      flagSet(FLAG_BADGE01_GET)
+      F.check("S3c set the Hoenn Stone Badge", flagGet(FLAG_BADGE01_GET))
+      local postBadgeHarbor = crossToHoenn("return_postbadge", HARB_G, HARB_M)
+      F.shot("s3c_postbadge_destination")
+      F.check("S3c the Stone Badge unlocks SLATEPORT HARBOR instead of the bedroom",
+        postBadgeHarbor, where() .. " bedroom=(1,1)")
+    end
   end
 end
 
@@ -480,14 +495,14 @@ end
 -- — so every assertion above could stay green while the female half regressed.
 --
 -- Why it re-enters through forged state instead of a second fresh boot: one mGBA session gets one
--- new game. What "a Hoenn first-timer" means is exactly four persisted facts (gender, the intro
--- state, the houses state, and hoennIntroDone) plus the six hide flags, and every one of them is
+-- new game. What "a Hoenn first-timer" means here is the persisted gender, intro state, houses
+-- state, hoennIntroDone and first-badge flag plus the six hide flags, and every one of them is
 -- written here in the open. Nothing about the JOURNEY is forged: the HUB PASS is used from the
 -- field, the attendant is walked to and talked to, and the gate's own scripts pick the branch,
 -- seed the state and place the warp. That is the part under test.
 --
 -- Where this starts is deliberately NOT assumed. On a fixed ROM the male journey ends in SLATEPORT
--- HARBOR (S3b); on an unfixed one it ends bailing out of S3 on Brendan's 2F. The HUB PASS is legal
+-- HARBOR (S3c); on an unfixed one it may end bailing out earlier. The HUB PASS is legal
 -- in both (CannotUseHubReturnHere refuses only Safari, the bug contest, link rooms, the Frontier
 -- facilities and an in-progress challenge, underwater, championship mode and an escorted NPC —
 -- src/item_use.c) and lands on the same fixed hub tile either way, so S4 opens from wherever the
@@ -509,13 +524,15 @@ local function mayJourney()
   varSet(VAR_INTRO, 0)
   varSet(VAR_HOUSES_MAY, 0)
   clearIntroDone()
+  flagClear(FLAG_BADGE01_GET)
   for _, f in ipairs(MAY_SEED_FLAGS) do flagClear(f[1]) end
 
   F.check("S4 forged playerGender = FEMALE (the branch under test)",
     F.r8(F.sb2() + S.SaveBlock2.playerGender) == 1,
     "gender=" .. F.r8(F.sb2() + S.SaveBlock2.playerGender))
-  F.check("S4 reset to a Hoenn first-timer: intro state 0, houses(MAY) 0, hoennIntroDone clear",
-    varGet(VAR_INTRO) == 0 and varGet(VAR_HOUSES_MAY) == 0 and not introDone(), stateMay())
+  F.check("S4 reset to a Hoenn first-timer: state 0, houses(MAY) 0, intro/narration and badge clear",
+    varGet(VAR_INTRO) == 0 and varGet(VAR_HOUSES_MAY) == 0 and not introDone()
+      and not flagGet(FLAG_BADGE01_GET), stateMay())
   local stillSet = {}
   for _, f in ipairs(MAY_SEED_FLAGS) do
     if flagGet(f[1]) then stillSet[#stillSet + 1] = f[2] end
@@ -597,8 +614,8 @@ local function mayJourney()
   -- crossed, and the bit's state was the game's answer. Here it only restates what S4 forged, and
   -- the female journey never enters Littleroot Town, so nothing on this path could set it. Keep it
   -- as a tripwire on the branch the gate is about to take -- not as evidence.
-  F.check("S5 hoennIntroDone STILL clear, so the gate re-runs its first-visit branch",
-    not introDone(), stateMay())
+  F.check("S5 Hoenn's first badge is still clear, so the gate must return home",
+    not flagGet(FLAG_BADGE01_GET), stateMay())
 
   local mayRecrossed = crossToHoenn("may_recross", MAY2F_G, MAY2F_M)
   F.check("S5 re-cross landed in MAY's 2F again", mayRecrossed, where())

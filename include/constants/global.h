@@ -28,7 +28,7 @@
 //     a v8 save. Without that zeroing a fresh Johto trainer can read as already defeated.
 // v10: issue #195. Before dbc1b1aa17 every ALL_REGIONS new game stamped hoennIntroDone = TRUE
 //     in NewGameInitData, including Johto/Kanto-first files that had never set foot in Hoenn.
-//     RegionHub_ScrTargetIntroDone therefore took the "returning" branch on their FIRST Hoenn
+//     The hub's former intro-done predicate therefore took the "returning" branch on their FIRST Hoenn
 //     trip and warped them to Slateport Harbor mid-region with an empty party (DepositPartyToPC
 //     from REGION_NONE is a no-op) and Oldale still walled off. That commit fixed new games but
 //     declared "save format unchanged", so a pre-fix and a post-fix save are BOTH stamped v9 and

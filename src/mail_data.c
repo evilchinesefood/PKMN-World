@@ -133,7 +133,8 @@ void TakeMailFromMon(struct Pokemon *mon)
     if (MonHasMail(mon))
     {
         mailId = GetMonData(mon, MON_DATA_MAIL);
-        gSaveBlock1Ptr->mail[mailId].itemId = ITEM_NONE;
+        if (mailId < MAIL_COUNT)
+            gSaveBlock1Ptr->mail[mailId].itemId = ITEM_NONE;
         mailId = MAIL_NONE;
         heldItem[0] = ITEM_NONE;
         heldItem[1] = ITEM_NONE << 8;

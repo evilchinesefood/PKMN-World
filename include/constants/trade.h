@@ -63,5 +63,10 @@ enum InGameTradeID
 #define CANT_REGISTER_MON     2
 #define CANT_REGISTER_EGG     3
 
+// gSpecialVar_Result after an in-game PC trade that received mail
+#define TRADE_MAIL_TO_PC_NONE      0
+#define TRADE_MAIL_TO_PC_SAVED     1
+#define TRADE_MAIL_TO_PC_NOT_SAVED 2
+
 
 #endif //GUARD_CONSTANTS_TRADE_H

@@ -94,6 +94,8 @@ static void Task_PlayMapChosenOrBattleBGM(u8 taskId);
 void TrySpecialOverworldEvo();
 
 EWRAM_DATA static u8 sLearningMoveTableID = 0;
+EWRAM_DATA static u16 sSpeciesPreEvolution[NUM_SPECIES] = {0};
+EWRAM_DATA static bool8 sSpeciesPreEvolutionReady = FALSE;
 EWRAM_DATA u8 gPartiesCount[MAX_BATTLE_TRAINERS] = {0};
 EWRAM_DATA struct Pokemon gParties[MAX_BATTLE_TRAINERS][PARTY_SIZE] = {0};
 EWRAM_DATA struct SpriteTemplate gMultiuseSpriteTemplate = {0};
@@ -6668,27 +6670,44 @@ enum PokemonCry GetCryIdBySpecies(enum Species species)
     return gSpeciesInfo[species].cryId;
 }
 
-enum Species GetSpeciesPreEvolution(enum Species species)
+static void BuildSpeciesPreEvolutionTable(void)
 {
-    int i, j;
+    u32 i, j;
+
+    if (sSpeciesPreEvolutionReady)
+        return;
 
     for (i = SPECIES_BULBASAUR; i < NUM_SPECIES; i++)
     {
+        const struct Evolution *evolutions;
+
         if (!IsSpeciesEnabled(i))
             continue;
 
-        const struct Evolution *evolutions = GetSpeciesEvolutions(i);
+        evolutions = GetSpeciesEvolutions(i);
         if (evolutions == NULL)
             continue;
 
         for (j = 0; evolutions[j].method != EVOLUTIONS_END; j++)
         {
-            if (IsSpeciesEnabled(evolutions[j].targetSpecies) && SanitizeSpeciesId(evolutions[j].targetSpecies) == species)
-                return i;
+            u32 target = evolutions[j].targetSpecies;
+
+            if (target < NUM_SPECIES
+             && IsSpeciesEnabled(target)
+             && sSpeciesPreEvolution[target] == SPECIES_NONE)
+                sSpeciesPreEvolution[target] = i;
         }
     }
 
-    return SPECIES_NONE;
+    sSpeciesPreEvolutionReady = TRUE;
+}
+
+enum Species GetSpeciesPreEvolution(enum Species species)
+{
+    BuildSpeciesPreEvolutionTable();
+    if (species >= NUM_SPECIES)
+        return SPECIES_NONE;
+    return sSpeciesPreEvolution[species];
 }
 
 void UpdateDaysPassedSinceFormChange(u16 days)

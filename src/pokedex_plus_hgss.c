@@ -6211,38 +6211,36 @@ static u8 PrintPreEvolutions(u8 taskId, enum Species species)
     }
 
     //Calculate previous evolution
-    for (i = 0; i < NUM_SPECIES; i++)
+    preEvolutionOne = GetSpeciesPreEvolution(species);
+    if (preEvolutionOne != SPECIES_NONE)
+        numPreEvolutions = 1;
+
+    if (HasTwoPreEvolutions(species))
     {
-        if (!IsSpeciesEnabled(i))
-            continue;
-
-        const struct Evolution *evolutions = GetSpeciesEvolutions(i);
-        if (evolutions == NULL)
-            continue;
-
-        for (j = 0; evolutions[j].method != EVOLUTIONS_END; j++)
+        for (i = 0; i < NUM_SPECIES; i++)
         {
-            if (evolutions[j].targetSpecies == species)
+            const struct Evolution *evolutions;
+
+            if (!IsSpeciesEnabled(i) || i == preEvolutionOne)
+                continue;
+
+            evolutions = GetSpeciesEvolutions(i);
+            if (evolutions == NULL)
+                continue;
+
+            for (j = 0; evolutions[j].method != EVOLUTIONS_END; j++)
             {
-                if (numPreEvolutions == 0)
-                {
-                    preEvolutionOne = i;
-                    numPreEvolutions += 1;
-                    if (!HasTwoPreEvolutions(species))
-                        break;
-                }
-                else
+                if (evolutions[j].targetSpecies == species)
                 {
                     preEvolutionTwo = i;
                     numPreEvolutions += 1;
                     break;
                 }
             }
+            if (preEvolutionTwo != SPECIES_NONE)
+                break;
         }
-    }
 
-    if (HasTwoPreEvolutions(species))
-    {
         CreateCaughtBallEvolutionScreen(preEvolutionOne, base_x - 9, base_y + base_y_offset*0, 0);
         HandlePreEvolutionSpeciesPrint(taskId, preEvolutionOne, species, base_x, base_y, base_y_offset, 0);
 
@@ -6260,26 +6258,12 @@ static u8 PrintPreEvolutions(u8 taskId, enum Species species)
     //Calculate if previous evolution also has a previous evolution
     if (numPreEvolutions != 0)
     {
-        for (i = 0; i < NUM_SPECIES; i++)
+        preEvolutionTwo = GetSpeciesPreEvolution(preEvolutionOne);
+        if (preEvolutionTwo != SPECIES_NONE)
         {
-            if (!IsSpeciesEnabled(i))
-                continue;
-
-            const struct Evolution *evolutions = GetSpeciesEvolutions(i);
-            if (evolutions == NULL)
-                continue;
-
-            for (j = 0; evolutions[j].method != EVOLUTIONS_END; j++)
-            {
-                if (evolutions[j].targetSpecies == preEvolutionOne)
-                {
-                    preEvolutionTwo = i;
-                    numPreEvolutions += 1;
-                    CreateCaughtBallEvolutionScreen(preEvolutionTwo, base_x - 9, base_y + base_y_offset*0, 0);
-                    HandlePreEvolutionSpeciesPrint(taskId, preEvolutionTwo, preEvolutionOne, base_x, base_y, base_y_offset, 0);
-                    break;
-                }
-            }
+            numPreEvolutions += 1;
+            CreateCaughtBallEvolutionScreen(preEvolutionTwo, base_x - 9, base_y + base_y_offset*0, 0);
+            HandlePreEvolutionSpeciesPrint(taskId, preEvolutionTwo, preEvolutionOne, base_x, base_y, base_y_offset, 0);
         }
     }
 

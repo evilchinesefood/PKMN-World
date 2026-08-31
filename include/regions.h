@@ -4,6 +4,8 @@
 #include "global.h"
 #include "constants/regions.h"
 
+struct ScriptContext;
+
 enum KantoSubRegion GetKantoSubregion(u32 mapSecId);
 
 static inline enum Region GetRegionForSectionId(u32 sectionId)
@@ -40,6 +42,9 @@ void SyncDifficultyForRegion(enum Region region);
 bool8 IsRegionChampion(enum Region region);
 // Re-seed the volatile EWRAM gCurrentRegion from the current map on field load (skips the hub).
 void ResyncCurrentRegionFromMap(void);
+// Hub attendant destination gate: the target region's first badge alone unlocks its later
+// World Transit arrival point; before that, the attendant returns the player to their home.
+void RegionHub_ScrTargetHasFirstBadge(struct ScriptContext *ctx);
 // Refresh Johto's two day/night HIDE flags from the RTC. Called from both map loaders, from the
 // per-minute overworld tick, and on Continue. Returns TRUE if a flag moved, i.e. the objects
 // currently spawned no longer match the clock.

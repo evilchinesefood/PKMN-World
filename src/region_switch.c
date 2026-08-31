@@ -314,22 +314,27 @@ void RegionHub_ScrSetIntroDone(struct ScriptContext *ctx)
     }
 }
 
-// D5: in the hub gate (AFTER ScrEnterRegion set gCurrentRegion to the TARGET), report whether
-// that target region's first-visit intro is already done -> VAR_RESULT. The gate then warps to
-// the region's access point (return) vs its start town (first visit). Uses gCurrentRegion (the
-// explicit target), NOT the map-derived GetCurrentRegion() which still reads the hub here.
-void RegionHub_ScrTargetIntroDone(struct ScriptContext *ctx)
+// In the hub gate (AFTER ScrEnterRegion set gCurrentRegion to the TARGET), report whether the
+// target region's first badge has been earned. That badge is the exact unlock for the region's
+// World Transit access point; until then every trip returns the player to the starting home so
+// the opening campaign cannot resume halfway across the region. The intro-done bits are separate:
+// they only suppress each starting town's one-time arrival narration.
+//
+// Use gCurrentRegion (the explicit target), NOT the map-derived GetCurrentRegion() which still
+// reads the hub here.
+void RegionHub_ScrTargetHasFirstBadge(struct ScriptContext *ctx)
 {
-    bool8 done;
-
     switch (gCurrentRegion)
     {
-    case REGION_KANTO: done = gSaveBlock2Ptr->kantoIntroDone; break;
-    case REGION_JOHTO: done = gSaveBlock2Ptr->johtoIntroDone; break;
-    case REGION_HOENN: done = gSaveBlock2Ptr->hoennIntroDone; break;
-    default:           done = FALSE; break;
+    case REGION_KANTO:
+    case REGION_JOHTO:
+    case REGION_HOENN:
+        gSpecialVar_Result = HasBadge(gCurrentRegion, 0);
+        break;
+    default:
+        gSpecialVar_Result = FALSE;
+        break;
     }
-    gSpecialVar_Result = done;
 }
 
 // World-tour board (R8). Counts the player's gym badges across all three regions' badge

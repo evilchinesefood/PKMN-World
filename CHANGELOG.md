@@ -7,6 +7,7 @@ All notable player-facing changes. For the full feature reference see
 
 ### Fixes
 
+- **Hub later-arrivals stay at home until that region's first gym badge.** Walking out of Pallet, New Bark, or Littleroot used to send the next hub trip to Vermilion, Goldenrod Station, or Slateport Harbor. Those access points now unlock on the first badge; intro-done only suppresses the one-time arrival narration. Mid-intro saves that already walked outside will land in the bedroom on the next hub re-cross, not at the harbor.
 - **Celio's Town Map and Tri Pass survive a full bag** (#205). A full Key Items pocket used to pop the cutscene's call frame (Town Map) or print "obtained" and drop the item (Tri Pass). Both now use the same checked `call_if_eq` shape as Clair's TM gift. The Meteorite two lines earlier is checked the same way, and talking to Celio after the meeting re-offers anything that did not fit.
 - **Johto/Kanto-first Hoenn is no longer a bedroom lock, and Continue of pre-fix hub saves is no longer a Slateport dump** (#195). The wall clock now advances the intro if you already set it in another region, and v10 clears the stale "Hoenn intro done" bit on any save that has never actually run that intro — including files already standing in Slateport Harbor, so the next hub trip to Hoenn is the bedroom instead of another dump.
 - **Hoenn champion content no longer unlocks for a Johto or Kanto champion** (#198). Match Call, contests, and the TV/record-mix sanitizers now gate on `FLAG_HOENN_CHAMPION` instead of the any-region Hall of Fame bit.

@@ -14,9 +14,9 @@ RegionHub_MapScripts::
 @ TALKING to a platform attendant and confirming; the old walk-on gate pads are gone. Each
 @ region attendant sets the active region and boxes the carried party ONLY when crossing
 @ regions (callnative RegionHub_ScrEnterRegion), then warps to the player's BEDROOM in that
-@ region on a first visit (the region's new-game opening then plays out from home, like a
-@ fresh start; Hoenn picks Brendan's/May's house by gender) or to its World Transit access
-@ point on a return (RegionHub_ScrTargetIntroDone, D5). The Frontier attendant blocks the
+@ region until its first badge is earned (the region's new-game opening then plays out from home,
+@ like a fresh start; Hoenn picks Brendan's/May's house by gender) or to its World Transit access
+@ point after that badge (RegionHub_ScrTargetHasFirstBadge). The Frontier attendant blocks the
 @ old league door, is region-agnostic and never boxes
 @ the party. Also here: the healing nurse (FRLG pattern; whiteout respawn is REGIONAL now - see task 5a below),
 @ a storage PC (MB_PC metatile at (17,9)), the front-desk GENERAL MART on the west wall (all
@@ -144,7 +144,7 @@ RegionHub_EventScript_AttendantKantoBoard::
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelNoRoom
 	setvar VAR_RESULT, 0
 	callnative RegionHub_ScrEnterRegion
-	callnative RegionHub_ScrTargetIntroDone
+	callnative RegionHub_ScrTargetHasFirstBadge
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnKanto
 	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6
@@ -152,8 +152,7 @@ RegionHub_EventScript_AttendantKantoBoard::
 	release
 	end
 
-@ D5 resume: on a return visit (intro-done set) land at the region's World Transit access
-@ point instead of the start town, so progress + team resume where the player left off.
+@ After the first Kanto badge, land at the region's World Transit access point instead of home.
 RegionHub_EventScript_ReturnKanto::
 	warp MAP_VERMILION_CITY, 0
 	waitstate
@@ -180,7 +179,7 @@ RegionHub_EventScript_AttendantJohtoBoard::
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelNoRoom
 	setvar VAR_RESULT, 1
 	callnative RegionHub_ScrEnterRegion
-	callnative RegionHub_ScrTargetIntroDone
+	callnative RegionHub_ScrTargetHasFirstBadge
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnJohto
 	warp MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_2F, 1
@@ -214,7 +213,7 @@ RegionHub_EventScript_AttendantHoennBoard::
 	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelNoRoom
 	setvar VAR_RESULT, 2
 	callnative RegionHub_ScrEnterRegion
-	callnative RegionHub_ScrTargetIntroDone
+	callnative RegionHub_ScrTargetHasFirstBadge
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnHoenn
 	@ Hub skips the truck. Apply its flag work (InsideOfTruck_EventScript_SetIntroFlags
@@ -241,8 +240,9 @@ RegionHub_EventScript_AttendantHoennBoard::
 	@ load_save.c:388's v9->v10 predicate -- keep the two in sync if either moves.
 	@
 	@ setrespawn stays OUTSIDE the guard, exactly as before this change: the player is warped to
-	@ 2F on every visit, so the 2F bedroom is the right respawn on every visit. Be precise about
-	@ what it does and does not do. It cannot protect a Pokemon Center the player had registered --
+	@ 2F on every PRE-BADGE visit (ReturnHoenn is the post-badge path), so the 2F bedroom is the
+	@ right respawn on those visits. Be precise about what it does and does not do. It cannot
+	@ protect a Pokemon Center the player had registered --
 	@ RegionHub_ScrEnterRegion overwrote that one callnative earlier, unconditionally
 	@ (SetRegionArrivalRespawn, src/region_switch.c:284), and that is deliberate: it stops a
 	@ whiteout teleporting the player into the region they just left. But guarding this line would

@@ -510,23 +510,10 @@ u8 CountUsedPCItemSlots(void)
     return BagPocket_CountUsedItemSlots(&dummyPocket);
 }
 
-static bool32 NONNULL BagPocket_CheckPocketForItemCount(struct BagPocket *pocket, enum Item itemId, u16 count)
-{
-    struct ItemSlot tempItem;
-
-    for (u32 i = 0; i < pocket->capacity; i++)
-    {
-        tempItem = BagPocket_GetSlotData(pocket, i);
-        if (tempItem.itemId == itemId && tempItem.quantity >= count)
-            return TRUE;
-    }
-    return FALSE;
-}
-
 bool32 CheckPCHasItem(enum Item itemId, u16 count)
 {
     struct BagPocket dummyPocket = DUMMY_PC_BAG_POCKET;
-    return BagPocket_CheckPocketForItemCount(&dummyPocket, itemId, count);
+    return BagPocket_CheckHasItem(&dummyPocket, itemId, count);
 }
 
 bool32 AddPCItem(enum Item itemId, u16 count)

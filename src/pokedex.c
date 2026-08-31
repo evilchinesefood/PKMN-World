@@ -4621,15 +4621,39 @@ bool16 HasAllRegionalMons(void)
     return HasAllHoennMons();
 }
 
+// Obtainable National Dex occupancy. One species-forward pass (cached) instead of
+// NationalPokedexNumToSpecies per regional slot — that lookup is a linear species
+// scan, and trainer card population calls HasAllRegionalMons twice.
+static const u8 *GetObtainableNationalDexSlots(void)
+{
+    static u8 sOccupied[(NATIONAL_DEX_COUNT >> 3) + 1];
+    static u8 sBuilt;
+
+    if (!sBuilt)
+    {
+        u16 s, dn;
+
+        for (s = 1; s < NUM_SPECIES; s++)
+        {
+            dn = gSpeciesInfo[s].natDexNum;
+            if (dn != 0 && dn <= NATIONAL_DEX_COUNT && IsSpeciesEnabled(s))
+                sOccupied[dn >> 3] |= 1 << (dn & 7);
+        }
+        sBuilt = TRUE;
+    }
+    return sOccupied;
+}
+
 bool16 HasAllHoennMons(void)
 {
+    const u8 *occupied = GetObtainableNationalDexSlots();
     u32 i, j;
 
     for (i = 0; i < HOENN_DEX_COUNT - 1; i++)
     {
         j = HoennToNationalOrder(i + 1);
         // world-strip: mirror HasAllMons - a disabled family must not gate completion
-        if (NationalPokedexNumToSpecies(j) == SPECIES_NONE)
+        if (j == 0 || j > NATIONAL_DEX_COUNT || !(occupied[j >> 3] & (1 << (j & 7))))
             continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;
@@ -4639,6 +4663,7 @@ bool16 HasAllHoennMons(void)
 
 bool16 HasAllKantoMons(void)
 {
+    const u8 *occupied = GetObtainableNationalDexSlots();
     u32 i, j;
 
     // -1 excludes Mew
@@ -4646,7 +4671,7 @@ bool16 HasAllKantoMons(void)
     {
         j = KantoToNationalOrder(i + 1);
         // world-strip: mirror HasAllMons - a disabled family must not gate completion
-        if (NationalPokedexNumToSpecies(j) == SPECIES_NONE)
+        if (j == 0 || j > NATIONAL_DEX_COUNT || !(occupied[j >> 3] & (1 << (j & 7))))
             continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;

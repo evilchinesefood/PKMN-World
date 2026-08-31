@@ -162,6 +162,8 @@ static void InitDomeTrainers(void);
 
 static EWRAM_DATA struct TourneyTreeInfoCard *sInfoCard = {0};
 static EWRAM_DATA u8 *sTilemapBuffer = NULL;
+static EWRAM_DATA u16 sDomeMoveLearnCounts[MOVES_COUNT];
+static EWRAM_DATA bool8 sDomeMoveLearnCountsReady;
 
 // This array is searched in-order to determine what battle style a tourney trainer uses.
 // If the sum of the points for the party's moves meets/exceeds all the point totals of an element, then they use that battle style
@@ -4050,25 +4052,37 @@ static bool32 IsDomeStatusMove(enum Move move)
 
 static bool32 IsDomeRareMove(enum Move move)
 {
-    u16 i, j;
-    enum Species species = SPECIES_NONE;
-    for (i = 0; i < NUM_SPECIES; i++)
+    u32 i, j, k;
+    u16 threshold = NUM_SPECIES / 20;
+
+    if (move >= MOVES_COUNT)
+        return TRUE;
+
+    if (!sDomeMoveLearnCountsReady)
     {
-        if (!IsSpeciesEnabled(i))
-            continue;
-        const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(i);
-        for (j = 0; learnset[j].move != LEVEL_UP_MOVE_END; j++)
+        for (i = 0; i < NUM_SPECIES; i++)
         {
-            if (learnset[j].move == move)
+            if (!IsSpeciesEnabled(i))
+                continue;
+            const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(i);
+            for (j = 0; learnset[j].move != LEVEL_UP_MOVE_END; j++)
             {
-                species++;
-                break;
+                enum Move learned = learnset[j].move;
+                if (learned >= MOVES_COUNT || sDomeMoveLearnCounts[learned] >= threshold)
+                    continue;
+                for (k = 0; k < j; k++)
+                {
+                    if (learnset[k].move == learned)
+                        break;
+                }
+                if (k == j)
+                    sDomeMoveLearnCounts[learned]++;
             }
         }
-        if (species >= NUM_SPECIES / 20) // At least 5% of all mons can learn this move
-            return FALSE;
+        sDomeMoveLearnCountsReady = TRUE;
     }
-    return TRUE;
+
+    return sDomeMoveLearnCounts[move] < threshold;
 }
 
 static bool32 IsDomeComboMove(enum Move move)

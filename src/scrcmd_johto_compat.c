@@ -140,9 +140,10 @@ static const u8 sEeveeOtName[PLAYER_NAME_LENGTH + 1]      = _("BILL");
 // HnS `removenamedmon <giftId>`: hands a delivered story mon back to the NPC who asked for it.
 // Two call sites: data/maps/Route31/scripts.inc (gift 1, Kenya, the sleeping man Randy sends you
 // to) and data/maps/CianwoodHouse3/scripts.inc (gift 2, Shuckie, returned to Kirk). Shuckie is
-// wired here too so the Cianwood half needs no second handler - note that script also branches on
-// a bare `3`, HnS's "SHUCKLE likes you, keep it" friendship outcome, which is why
-// REMOVE_NAMED_MON_KEPT is reserved and the new refusal codes start at 4.
+// wired here too so the Cianwood half needs no second handler. Gift 2 reports
+// REMOVE_NAMED_MON_KEPT when friendship is in Johto's high band (FRIENDSHIP_150_TO_199,
+// the same 150+ cutoff Goldenrod Return / Route 27 Sandstorm use), which is why 3 is
+// reserved and the new refusal codes start at 4.
 //
 // This shipped as a stub that read its operand and returned WITHOUT ever writing
 // gSpecialVar_Result. The MSGBOX_YESNO immediately before it leaves VAR_RESULT == TRUE (1) and
@@ -229,6 +230,14 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
             gSpecialVar_Result = REMOVE_NAMED_MON_WRONG_MAIL;
             return;
         }
+    }
+
+    // Gift 2 only. Same 150+ cutoff Johto uses for Return/Sandstorm. Before last-mon
+    // because keeping does not empty the party.
+    if (giftId == 2 && GetMonFriendshipScore(target) >= FRIENDSHIP_150_TO_199)
+    {
+        gSpecialVar_Result = REMOVE_NAMED_MON_KEPT;
+        return;
     }
 
     // Last, so the more specific refusals win the message: a player whose only mon is a mail-less

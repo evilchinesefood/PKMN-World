@@ -115,11 +115,25 @@ jobs:
       # and the Makefile hardcodes -DMODERN=1, so apt's gcc-arm-none-eabi + newlib is exactly
       # right here and none of the local symlink workarounds are needed.
       - name: Install toolchain
+        timeout-minutes: 10
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-            libpng-dev libelf1 python3
+          n=1
+          max=3
+          delay=5
+          until sudo apt-get update -o Acquire::Retries=5 && \
+                sudo apt-get install -y --no-install-recommends \
+                  -o Acquire::Retries=5 \
+                  binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
+                  libpng-dev libelf1 python3; do
+            if [ "$n" -ge "$max" ]; then
+              echo "apt-get failed after ${max} attempts" >&2
+              exit 1
+            fi
+            echo "apt-get failed (attempt ${n}/${max}); retrying in ${delay}s" >&2
+            sleep "$delay"
+            n=$((n + 1))
+            delay=$((delay * 2))
+          done
 
       - name: Cache build tools
         uses: actions/cache@v4
@@ -162,11 +176,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install toolchain
+        timeout-minutes: 10
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-            libpng-dev libelf1 python3
+          n=1
+          max=3
+          delay=5
+          until sudo apt-get update -o Acquire::Retries=5 && \
+                sudo apt-get install -y --no-install-recommends \
+                  -o Acquire::Retries=5 \
+                  binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
+                  libpng-dev libelf1 python3; do
+            if [ "$n" -ge "$max" ]; then
+              echo "apt-get failed after ${max} attempts" >&2
+              exit 1
+            fi
+            echo "apt-get failed (attempt ${n}/${max}); retrying in ${delay}s" >&2
+            sleep "$delay"
+            n=$((n + 1))
+            delay=$((delay * 2))
+          done
       - name: Cache build tools
         uses: actions/cache@v4
         with:
@@ -210,11 +238,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install toolchain
+        timeout-minutes: 10
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-            libpng-dev libelf1 python3
+          n=1
+          max=3
+          delay=5
+          until sudo apt-get update -o Acquire::Retries=5 && \
+                sudo apt-get install -y --no-install-recommends \
+                  -o Acquire::Retries=5 \
+                  binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
+                  libpng-dev libelf1 python3; do
+            if [ "$n" -ge "$max" ]; then
+              echo "apt-get failed after ${max} attempts" >&2
+              exit 1
+            fi
+            echo "apt-get failed (attempt ${n}/${max}); retrying in ${delay}s" >&2
+            sleep "$delay"
+            n=$((n + 1))
+            delay=$((delay * 2))
+          done
       - name: Cache build tools
         uses: actions/cache@v4
         with:

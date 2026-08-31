@@ -4621,15 +4621,39 @@ bool16 HasAllRegionalMons(void)
     return HasAllHoennMons();
 }
 
+// Obtainable National Dex occupancy. One species-forward pass (cached) instead of
+// NationalPokedexNumToSpecies per regional slot — that lookup is a linear species
+// scan, and trainer card population calls HasAllRegionalMons twice.
+static const u8 *GetObtainableNationalDexSlots(void)
+{
+    static u8 sOccupied[(NATIONAL_DEX_COUNT >> 3) + 1];
+    static u8 sBuilt;
+
+    if (!sBuilt)
+    {
+        u16 s, dn;
+
+        for (s = 1; s < NUM_SPECIES; s++)
+        {
+            dn = gSpeciesInfo[s].natDexNum;
+            if (dn != 0 && dn <= NATIONAL_DEX_COUNT && IsSpeciesEnabled(s))
+                sOccupied[dn >> 3] |= 1 << (dn & 7);
+        }
+        sBuilt = TRUE;
+    }
+    return sOccupied;
+}
+
 bool16 HasAllHoennMons(void)
 {
+    const u8 *occupied = GetObtainableNationalDexSlots();
     u32 i, j;
 
     for (i = 0; i < HOENN_DEX_COUNT - 1; i++)
     {
         j = HoennToNationalOrder(i + 1);
         // world-strip: mirror HasAllMons - a disabled family must not gate completion
-        if (NationalPokedexNumToSpecies(j) == SPECIES_NONE)
+        if (j == 0 || j > NATIONAL_DEX_COUNT || !(occupied[j >> 3] & (1 << (j & 7))))
             continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;
@@ -4639,6 +4663,7 @@ bool16 HasAllHoennMons(void)
 
 bool16 HasAllKantoMons(void)
 {
+    const u8 *occupied = GetObtainableNationalDexSlots();
     u32 i, j;
 
     // -1 excludes Mew
@@ -4646,7 +4671,7 @@ bool16 HasAllKantoMons(void)
     {
         j = KantoToNationalOrder(i + 1);
         // world-strip: mirror HasAllMons - a disabled family must not gate completion
-        if (NationalPokedexNumToSpecies(j) == SPECIES_NONE)
+        if (j == 0 || j > NATIONAL_DEX_COUNT || !(occupied[j >> 3] & (1 << (j & 7))))
             continue;
         if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
             return FALSE;
@@ -4656,18 +4681,28 @@ bool16 HasAllKantoMons(void)
 
 bool16 HasAllMons(void)
 {
-    u32 i, j;
+    u8 required[(NATIONAL_DEX_COUNT >> 3) + 1] = {0};
+    u32 s, dn;
 
-    for (i = 1; i < NATIONAL_DEX_COUNT + 1; i++)
+    // One species pass. NationalPokedexNumToSpecies is a linear gSpeciesInfo scan, so
+    // calling it per National Dex slot is O(NATIONAL_DEX_COUNT × NUM_SPECIES) and froze
+    // the diploma / hub reward NPC for several seconds on a complete Dex.
+    for (s = 1; s < NUM_SPECIES; s++)
     {
-        j = NationalPokedexNumToSpecies(i);
-        // world-strip: disabled families resolve to SPECIES_NONE and must not gate
-        // completion, or the diploma and the hub's tier-3 reward become unreachable.
-        if (j == SPECIES_NONE)
+        dn = gSpeciesInfo[s].natDexNum;
+        // world-strip: disabled families have no natDexNum / are not enabled, and must
+        // not gate completion (diploma and hub tier-3 reward).
+        if (dn == 0 || dn > NATIONAL_DEX_COUNT || !IsSpeciesEnabled(s))
             continue;
-        // GetSetPokedexFlag takes a NATIONAL DEX NUMBER, so it is i, not j. Passing j was
-        // upstream's own bug at our base commit; we inherited it and upstream has since fixed it.
-        if (!(gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired) && !GetSetPokedexFlag(i, FLAG_GET_CAUGHT))
+        if (gSpeciesInfo[s].isMythical && !gSpeciesInfo[s].dexForceRequired)
+            continue;
+        required[dn >> 3] |= 1 << (dn & 7);
+    }
+
+    // GetSetPokedexFlag takes a NATIONAL DEX NUMBER, not a species id.
+    for (dn = 1; dn < NATIONAL_DEX_COUNT + 1; dn++)
+    {
+        if ((required[dn >> 3] & (1 << (dn & 7))) && !GetSetPokedexFlag(dn, FLAG_GET_CAUGHT))
             return FALSE;
     }
 

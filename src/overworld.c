@@ -66,6 +66,7 @@
 #include "sound.h"
 #include "start_menu.h"
 #include "string_util.h"
+#include "strings.h"
 #include "task.h"
 #include "tileset_anims.h"
 #include "time_events.h"
@@ -1737,18 +1738,56 @@ static void Task_Autosave(u8 taskId)
         tState++;
         break;
     case 1:
+    {
+        u32 savedGameStat;
+
         SaveMapView(); // both manual flows snapshot runtime tile edits before writing
+        savedGameStat = GetGameStat(GAME_STAT_SAVED_GAME);
         IncrementGameStat(GAME_STAT_SAVED_GAME);
         if (TrySavingData(SAVE_NORMAL) == SAVE_STATUS_OK)
+        {
             PlaySE(SE_SAVE);
-        tHoldTimer = 60;
-        tState++;
+            tHoldTimer = 60;
+            tState++;
+        }
+        else
+        {
+            // Flash was not updated; don't leave RAM counting a save that never landed.
+            SetGameStat(GAME_STAT_SAVED_GAME, savedGameStat);
+            ClearStdWindowAndFrameToTransparent(tWindowId, TRUE);
+            RemoveWindow(tWindowId);
+            StringExpandPlaceholders(gStringVar4, gText_SaveError);
+            LoadMessageBoxAndFrameGfx(0, TRUE);
+            AddTextPrinterForMessage(TRUE);
+            tState = 3;
+        }
         break;
+    }
     case 2:
         if (--tHoldTimer == 0)
         {
             ClearStdWindowAndFrameToTransparent(tWindowId, TRUE);
             RemoveWindow(tWindowId);
+            UnlockPlayerFieldControls();
+            DestroyTask(taskId);
+        }
+        break;
+    case 3: // gText_SaveError, including the \p A-press
+        if (!RunTextPrintersAndIsPrinter0Active())
+        {
+            PlaySE(SE_BOO);
+            tHoldTimer = 60;
+            tState++;
+        }
+        break;
+    case 4: // same hold as start_menu.c SaveErrorTimer, then A to dismiss
+        if (tHoldTimer != 0)
+        {
+            tHoldTimer--;
+        }
+        else if (JOY_HELD(A_BUTTON))
+        {
+            ClearDialogWindowAndFrameToTransparent(0, TRUE);
             UnlockPlayerFieldControls();
             DestroyTask(taskId);
         }

@@ -1992,7 +1992,28 @@ EventScript_DoInGameTrade::
 	special DoInGameTradeScene
 	lock
 	faceplayer
+	call EventScript_ShowReceivedTradeMailToPcStatus
 	return
+
+EventScript_ShowReceivedTradeMailToPcStatus::
+	call_if_eq VAR_RESULT, TRADE_MAIL_TO_PC_SAVED, EventScript_ReceivedTradeMailSentToPC
+	call_if_eq VAR_RESULT, TRADE_MAIL_TO_PC_NOT_SAVED, EventScript_ReceivedTradeMailCouldNotBeSaved
+	return
+
+EventScript_ReceivedTradeMailSentToPC::
+	msgbox Text_ReceivedTradeMailSentToPC
+	return
+
+EventScript_ReceivedTradeMailCouldNotBeSaved::
+	msgbox Text_ReceivedTradeMailCouldNotBeSaved
+	return
+
+Text_ReceivedTradeMailSentToPC::
+	.string "The MAIL was sent to your PC.$"
+
+Text_ReceivedTradeMailCouldNotBeSaved::
+	.string "The MAIL couldn't be saved.\n"
+	.string "Your PC's MAILBOX is full.$"
 
 EventScript_SelectWithoutRegisteredItem::
 	msgbox gText_SelectWithoutRegisteredItem, MSGBOX_SIGN

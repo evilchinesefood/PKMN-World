@@ -3064,7 +3064,8 @@ void UpdateLightSprite(struct Sprite *sprite)
         DestroySprite(sprite);
         FieldEffectFreeTilesIfUnused(sheetTileStart);
         FieldEffectFreePaletteIfUnused(paletteNum);
-        Weather_SetBlendCoeffs(7, BASE_SHADOW_INTENSITY); // TODO: Restore original blend coeffs at dawn
+        if (gTimeOfDay == TIME_NIGHT)
+            Weather_SetBlendCoeffs(7, BASE_SHADOW_INTENSITY);
         return;
     }
 

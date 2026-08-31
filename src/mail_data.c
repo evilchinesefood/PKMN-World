@@ -133,13 +133,26 @@ void TakeMailFromMon(struct Pokemon *mon)
     if (MonHasMail(mon))
     {
         mailId = GetMonData(mon, MON_DATA_MAIL);
-        gSaveBlock1Ptr->mail[mailId].itemId = ITEM_NONE;
+        if (mailId < MAIL_COUNT)
+            gSaveBlock1Ptr->mail[mailId].itemId = ITEM_NONE;
         mailId = MAIL_NONE;
         heldItem[0] = ITEM_NONE;
         heldItem[1] = ITEM_NONE << 8;
         SetMonData(mon, MON_DATA_MAIL, &mailId);
         SetMonData(mon, MON_DATA_HELD_ITEM, heldItem);
     }
+}
+
+// Clears the mon's mail id and held item without indexing gSaveBlock1Ptr->mail.
+// Use this when the id refers to a transient buffer (e.g. gTradeMail) rather than
+// a local party-mail slot; TakeMailFromMon would erase an unrelated slot.
+void DetachMailFromMon(struct Pokemon *mon)
+{
+    u8 mailId = MAIL_NONE;
+    u32 heldItem = ITEM_NONE;
+
+    SetMonData(mon, MON_DATA_MAIL, &mailId);
+    SetMonData(mon, MON_DATA_HELD_ITEM, &heldItem);
 }
 
 void ClearMailItemId(u8 mailId)

@@ -2030,14 +2030,20 @@ void OWEApproachForBattle(struct ScriptContext *ctx)
         FreezeObjectEvent(owe);
         return;
     }
-    
-    u32 taskId = CreateTask(Task_OWEApproachForBattle, 2);
-    if (FindTaskIdByFunc(Task_OWEApproachForBattle) == TASK_NONE)
+
+    if (FuncIsActiveTask(Task_OWEApproachForBattle))
     {
         FreezeObjectEvent(owe);
         return;
     }
-    
+
+    u32 taskId = CreateTask(Task_OWEApproachForBattle, 2);
+    if (gTasks[taskId].func != Task_OWEApproachForBattle || !gTasks[taskId].isActive)
+    {
+        FreezeObjectEvent(owe);
+        return;
+    }
+
     ScriptContext_Stop();
     gTasks[taskId].tObjectId = objectEventId;
 }

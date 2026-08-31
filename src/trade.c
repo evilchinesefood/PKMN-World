@@ -175,6 +175,7 @@ static EWRAM_DATA u8 *sMenuTextTileBuffers[NUM_MENU_TEXT_SPRITES] = {NULL};
 
 EWRAM_DATA struct Mail gTradeMail[PARTY_SIZE] = {0};
 EWRAM_DATA u8 gSelectedTradeMonPositions[2] = {0};
+static EWRAM_DATA u8 sReceivedTradeMailToPcStatus = 0;
 static EWRAM_DATA struct {
     u8 bg2hofs;
     u8 bg3hofs;
@@ -3084,6 +3085,7 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
 {
     u8 friendship;
     struct Pokemon *playerMon, *partnerMon;
+    sReceivedTradeMailToPcStatus = TRADE_MAIL_TO_PC_NONE;
     if (playerPartyIdx == PC_MON_CHOSEN)
         playerMon = &gParties[B_TRAINER_OPPONENT_A][TRADEMON_FROM_PC];
     else
@@ -3109,9 +3111,14 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
     {
         if (playerPartyIdx == PC_MON_CHOSEN)
         {
-            //TODO: add message explaining mail has been send to PC OR couldn't be saved
-            SaveMailToPC(&gTradeMail[partnerMail]);
-            TakeMailFromMon(playerMon);
+            // Boxed mons can't carry mail (CopyMonToPC copies only BoxPokemon),
+            // and a leftover mail item is immovable in storage. partnerMail
+            // indexes gTradeMail, not the local party mailbox.
+            if (SaveMailToPC(&gTradeMail[partnerMail]) != MAIL_NONE)
+                sReceivedTradeMailToPcStatus = TRADE_MAIL_TO_PC_SAVED;
+            else
+                sReceivedTradeMailToPcStatus = TRADE_MAIL_TO_PC_NOT_SAVED;
+            DetachMailFromMon(playerMon);
         }
         else
         {
@@ -4557,6 +4564,9 @@ static void BufferInGameTradeMonName(void)
     GetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8005], MON_DATA_NICKNAME, nickname);
     StringCopy_Nickname(gStringVar1, nickname);
     StringCopy(gStringVar2, GetSpeciesName(inGameTrade->species));
+    // After evolution, which can clobber VAR_RESULT.
+    gSpecialVar_Result = sReceivedTradeMailToPcStatus;
+    sReceivedTradeMailToPcStatus = TRADE_MAIL_TO_PC_NONE;
 }
 
 static void CreateInGameTradePokemonInternal(u8 whichPlayerMon, u8 whichInGameTrade)

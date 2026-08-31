@@ -1,8 +1,10 @@
 #include "global.h"
 #include "daycare.h"
 #include "event_data.h"
+#include "mail.h"
 #include "malloc.h"
 #include "party_menu.h"
+#include "pokemon.h"
 #include "regions.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
@@ -164,4 +166,67 @@ TEST("(Daycare) Pokémon with regional forms give the correct offspring")
     STORE_IN_DAYCARE_AND_GET_EGG();
 
     EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES), offspring);
+}
+
+TEST("(Daycare) StorePokemonInDaycare copies in-range mail and clears the slot")
+{
+    u8 mailId = 0;
+    u16 heldItem = ITEM_ORANGE_MAIL;
+
+    ASSUME(ItemIsMail(ITEM_ORANGE_MAIL));
+    ASSUME(MAIL_COUNT > 0);
+
+    ZeroPlayerPartyMons();
+    ClearMail(&gSaveBlock1Ptr->mail[0]);
+    gSaveBlock1Ptr->mail[0].itemId = ITEM_ORANGE_MAIL;
+    gSaveBlock1Ptr->mail[0].words[0] = 0x1234;
+    memset(&gSaveBlock1Ptr->daycare.mons[0], 0, sizeof(struct DaycareMon));
+
+    RUN_OVERWORLD_SCRIPT(givemon SPECIES_WOBBUFFET, 5;);
+    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HELD_ITEM, &heldItem);
+    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_MAIL, &mailId);
+
+    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveBlock1Ptr->daycare.mons[0]);
+
+    EXPECT_EQ(gSaveBlock1Ptr->daycare.mons[0].mail.message.itemId, ITEM_ORANGE_MAIL);
+    EXPECT_EQ(gSaveBlock1Ptr->daycare.mons[0].mail.message.words[0], 0x1234);
+    EXPECT_EQ(gSaveBlock1Ptr->mail[0].itemId, ITEM_NONE);
+    EXPECT_EQ(GetBoxMonData(&gSaveBlock1Ptr->daycare.mons[0].mon, MON_DATA_HELD_ITEM), ITEM_NONE);
+}
+
+TEST("(Daycare) StorePokemonInDaycare rejects out-of-range mailId")
+{
+    u32 mailId = 0;
+    u8 mailIdByte;
+    u16 heldItem = ITEM_ORANGE_MAIL;
+    u32 i;
+
+    // MAIL_COUNT is 16; MAIL_NONE is 0xFF. Cover the open range the issue called out.
+    PARAMETRIZE { mailId = MAIL_COUNT; }
+    PARAMETRIZE { mailId = MAIL_COUNT + 1; }
+    PARAMETRIZE { mailId = 127; }
+    PARAMETRIZE { mailId = MAIL_NONE - 1; }
+
+    ASSUME(ItemIsMail(ITEM_ORANGE_MAIL));
+    ASSUME(MAIL_NONE == 0xFF);
+    ASSUME(mailId >= MAIL_COUNT && mailId != MAIL_NONE);
+
+    ZeroPlayerPartyMons();
+    memset(&gSaveBlock1Ptr->daycare.mons[0], 0, sizeof(struct DaycareMon));
+    for (i = 0; i < MAIL_COUNT; i++)
+        ClearMail(&gSaveBlock1Ptr->mail[i]);
+    gSaveBlock1Ptr->mail[0].itemId = ITEM_RETRO_MAIL;
+    gSaveBlock1Ptr->mail[MAIL_COUNT - 1].itemId = ITEM_FAB_MAIL;
+
+    RUN_OVERWORLD_SCRIPT(givemon SPECIES_WOBBUFFET, 5;);
+    mailIdByte = mailId;
+    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HELD_ITEM, &heldItem);
+    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_MAIL, &mailIdByte);
+
+    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveBlock1Ptr->daycare.mons[0]);
+
+    EXPECT_EQ(gSaveBlock1Ptr->mail[0].itemId, ITEM_RETRO_MAIL);
+    EXPECT_EQ(gSaveBlock1Ptr->mail[MAIL_COUNT - 1].itemId, ITEM_FAB_MAIL);
+    EXPECT_EQ(gSaveBlock1Ptr->daycare.mons[0].mail.message.itemId, ITEM_NONE);
+    EXPECT_EQ(GetBoxMonData(&gSaveBlock1Ptr->daycare.mons[0].mon, MON_DATA_HELD_ITEM), ITEM_NONE);
 }

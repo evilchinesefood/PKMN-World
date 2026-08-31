@@ -194,6 +194,32 @@ TEST("Removing across two stacks takes the requested total, not that total from 
     EXPECT_EQ(pocket->itemSlots[1].itemId, ITEM_NONE);
 }
 
+TEST("CheckPCHasItem sums matching stacks instead of requiring one slot to hold the full count")
+{
+    struct BagPocket pcPocket = { .id = POCKET_DUMMY, .capacity = PC_ITEMS_COUNT, .itemSlots = gSaveBlock1Ptr->pcItems };
+
+    memset(gSaveBlock1Ptr->pcItems, 0, sizeof(gSaveBlock1Ptr->pcItems));
+
+    ASSUME(GetItemPocket(ITEM_POTION) == POCKET_ITEMS);
+
+    // Two stacks of one item. AddPCItem would merge them into a single slot, so build
+    // the split by hand - it is the state the PC reaches through stack-limit splitting
+    // or a partial withdraw from one of two stacks.
+    BagPocket_SetSlotItemIdAndCount(&pcPocket, 0, ITEM_POTION, 5);
+    BagPocket_SetSlotItemIdAndCount(&pcPocket, 1, ITEM_POTION, 10);
+
+    // 5 + 10 = 15. The old check required a single slot >= count, so 12 was FALSE.
+    EXPECT_EQ(CheckPCHasItem(ITEM_POTION, 12), TRUE);
+    EXPECT_EQ(CheckPCHasItem(ITEM_POTION, 15), TRUE);
+    EXPECT_EQ(CheckPCHasItem(ITEM_POTION, 16), FALSE);
+
+    // count 0 is vacuously TRUE, matching BagPocket_CheckHasItem / CheckBagHasItem.
+    EXPECT_EQ(CheckPCHasItem(ITEM_POTION, 0), TRUE);
+    memset(gSaveBlock1Ptr->pcItems, 0, sizeof(gSaveBlock1Ptr->pcItems));
+    EXPECT_EQ(CheckPCHasItem(ITEM_POTION, 0), TRUE);
+    EXPECT_EQ(CheckPCHasItem(ITEM_POTION, 1), FALSE);
+}
+
 // Region merge (A1): helper for the dedup tests below - wipe every place a copy of an
 // item can be "owned" so each assertion starts from a known-empty state.
 static void ClearAllItemOwnership(void)

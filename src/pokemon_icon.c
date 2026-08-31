@@ -222,10 +222,15 @@ u16 GetUnownLetterByPersonality(u32 personality)
 
 enum Species GetIconSpeciesNoPersonality(enum Species species)
 {
-    species = SanitizeSpeciesId(species);
+    u16 unownLetter;
 
-    if (MailSpeciesToSpecies(species, &species) == SPECIES_UNOWN)
-        return species += SPECIES_UNOWN_B; // TODO
+    if (MailSpeciesToSpecies(species, &unownLetter) == SPECIES_UNOWN)
+    {
+        if (unownLetter == 0)
+            return SPECIES_UNOWN;
+        return unownLetter + SPECIES_UNOWN_B - 1;
+    }
+
     return GetIconSpecies(species, 0);
 }
 

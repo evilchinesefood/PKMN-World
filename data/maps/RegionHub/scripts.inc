@@ -240,8 +240,9 @@ RegionHub_EventScript_AttendantHoennBoard::
 	@ load_save.c:388's v9->v10 predicate -- keep the two in sync if either moves.
 	@
 	@ setrespawn stays OUTSIDE the guard, exactly as before this change: the player is warped to
-	@ 2F on every visit, so the 2F bedroom is the right respawn on every visit. Be precise about
-	@ what it does and does not do. It cannot protect a Pokemon Center the player had registered --
+	@ 2F on every PRE-BADGE visit (ReturnHoenn is the post-badge path), so the 2F bedroom is the
+	@ right respawn on those visits. Be precise about what it does and does not do. It cannot
+	@ protect a Pokemon Center the player had registered --
 	@ RegionHub_ScrEnterRegion overwrote that one callnative earlier, unconditionally
 	@ (SetRegionArrivalRespawn, src/region_switch.c:284), and that is deliberate: it stops a
 	@ whiteout teleporting the player into the region they just left. But guarding this line would

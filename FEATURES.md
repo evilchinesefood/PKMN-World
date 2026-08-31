@@ -105,8 +105,10 @@ you. You can withdraw anything from any region at any time.
 **Getting back to the hub** is the **HUB PASS**, a key item that warps you there from the bag.
 It's a one-way trip, so you re-enter regions through the departure gates. The Charm Curator hands
 it over, and every gate attendant force-gives it before letting you cross, so you can't strand
-yourself. Each region also has its own in-world access point that the hub returns you to on later
-visits: the **Goldenrod Magnet Train station**, **Vermilion City**, and the **Slateport harbor**.
+yourself. Each region also has its own in-world access point — the **Goldenrod Magnet Train
+station**, **Vermilion City**, and the **Slateport harbor** — that the hub returns you to after
+that region's first gym badge. Until then, later visits still drop you at home so the opening
+campaign cannot resume halfway across the region.
 
 **Johto ↔ Kanto by sea** is the one crossing that isn't a hub gate. Elm's S.S. Ticket sends the
 new Johto Champion out of the **Olivine harbor** on the maiden voyage; you disembark in the

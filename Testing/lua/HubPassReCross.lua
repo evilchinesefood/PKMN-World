@@ -383,8 +383,8 @@ local function maleJourney()
     varGet(VAR_HOUSES_BRENDAN) == 2, state())
   -- CONTRACT, not a discriminator. The gate's `setrespawn` is deliberately outside the guard, so
   -- this reads (1,1)@(4,2) on the fixed AND the unfixed ROM. It is worth an assertion anyway: it
-  -- is the documented invariant ("the player is warped to 2F on every visit, so 2F is the right
-  -- respawn on every visit"), and it is the one that would catch someone moving `setrespawn`
+  -- is the documented invariant ("warped to 2F on every PRE-BADGE visit, so 2F is the right
+  -- respawn on those visits"), and it is the one that would catch someone moving `setrespawn`
   -- inside the guard as a tidy-up -- which leaves a returning player's respawn on whatever
   -- SetRegionArrivalRespawn armed (Littleroot Town's door), a silent behaviour change.
   local rg, rm = healLoc()
@@ -610,10 +610,9 @@ local function mayJourney()
   F.check("S5 the HUB PASS warped MAY out of the bedroom to the hub", mayOut, where())
   if not mayOut then F.shot("s5_pass_failed"); return end
   F.shot("s5_back_in_hub")
-  -- Weaker than its S1 twin, and worth saying so. S1 had EARNED its reading: the player really had
-  -- crossed, and the bit's state was the game's answer. Here it only restates what S4 forged, and
-  -- the female journey never enters Littleroot Town, so nothing on this path could set it. Keep it
-  -- as a tripwire on the branch the gate is about to take -- not as evidence.
+  -- S3c set FLAG_BADGE01_GET on the male path. S4's flagClear is what makes this crossing go
+  -- home rather than Slateport; without it the gate would take ReturnHoenn and S5 would fail
+  -- on the harbor. This is a leftover-badge tripwire, not a vacuous intro-done reread.
   F.check("S5 Hoenn's first badge is still clear, so the gate must return home",
     not flagGet(FLAG_BADGE01_GET), stateMay())
 

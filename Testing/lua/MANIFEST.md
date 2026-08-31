@@ -620,7 +620,7 @@ script did.
 
 **★ The respawn is a CONTRACT check, not a discriminator, and the suite says so in its own
 assertion name.** `setrespawn` deliberately stays *outside* the guard — the gate warps the player to
-2F on every visit, so 2F is the right respawn on every visit — so it reads `(1,1)@(4,2)` on both
+2F on every PRE-BADGE visit, so 2F is the right respawn on those visits — so it reads `(1,1)@(4,2)` on both
 ROMs — and `(1,3)@(4,2)` for the female twin. An earlier draft asserted "the respawn was not
 stomped back to the bedroom" and failed on the **fixed** ROM; the bytecode at `RegionHub_EventScript_AttendantHoennBoard` (`setrespawn` at
 `0x083AFEC4`, *before* the `compare`/`call_if`) is what settled it. Assert the fix's scope, not the

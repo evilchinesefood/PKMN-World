@@ -67,12 +67,13 @@
 //
 // 3 is RESERVED, not free: CianwoodHouse3 already branched on a bare `3` (now spelled
 // REMOVE_NAMED_MON_KEPT) into CianwoodCity_EventScript_KirkKeepShuckie ("SHUCKLE likes you — keep
-// it"), HnS's high-friendship outcome for returning Shuckie. That path is unimplemented here (this
-// handler never emits 3 today), but numbering a new reason 3 would silently arm it the moment
-// gift 2's return is finished. The new refusals therefore start at 4.
+// it"), HnS's high-friendship outcome for returning Shuckie. Gift 2 emits 3 when friendship
+// is in the FRIENDSHIP_150_TO_199 band or higher (the same cutoff Goldenrod Return / Route 27
+// Sandstorm use). Numbering a new reason 3 would collide with that path. The extra refusals
+// therefore start at 4.
 #define REMOVE_NAMED_MON_REMOVED     0
 #define REMOVE_NAMED_MON_NOT_FOUND   2
-#define REMOVE_NAMED_MON_KEPT        3  // HnS: the NPC lets the player keep the mon (not emitted yet)
+#define REMOVE_NAMED_MON_KEPT        3  // HnS: Kirk lets the player keep Shuckie (FRIENDSHIP_150_TO_199+)
 #define REMOVE_NAMED_MON_NO_MAIL     4
 #define REMOVE_NAMED_MON_WRONG_MAIL  5
 #define REMOVE_NAMED_MON_LAST_MON    6

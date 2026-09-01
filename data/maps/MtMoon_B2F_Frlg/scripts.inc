@@ -36,7 +36,12 @@ MtMoon_B2F_EventScript_MiguelTrigger::
 MtMoon_B2F_EventScript_Miguel::
 	lock
 	faceplayer
-	goto_if_set FLAG_GOT_FOSSIL_FROM_MT_MOON, MtMoon_B2F_EventScript_MiguelFossilPicked
+	goto_if_unset FLAG_GOT_DOME_FOSSIL, MtMoon_B2F_EventScript_MiguelNotDone
+	goto_if_unset FLAG_GOT_HELIX_FOSSIL, MtMoon_B2F_EventScript_MiguelNotDone
+	goto MtMoon_B2F_EventScript_MiguelFossilPicked
+	end
+
+MtMoon_B2F_EventScript_MiguelNotDone::
 	goto_if_defeated TRAINER_SUPER_NERD_MIGUEL, MtMoon_B2F_EventScript_MiguelGoPickFossil
 	call MtMoon_B2F_EventScript_BattleMiguel
 	release

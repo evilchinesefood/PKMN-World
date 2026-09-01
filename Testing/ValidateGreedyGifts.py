@@ -84,6 +84,13 @@ def main():
         bad.append("Mt. Moon still has the anti-greedy line")
     if "Then this fossil is mine" in mtmoon:
         bad.append("Mt. Moon still has Miguel claiming the leftover fossil")
+    miguel = script_body(mtmoon, "MtMoon_B2F_EventScript_Miguel")
+    if miguel is None:
+        bad.append("Mt. Moon Miguel script missing")
+    elif "FLAG_GOT_FOSSIL_FROM_MT_MOON" in miguel:
+        bad.append("Miguel still treats FLAG_GOT_FOSSIL_FROM_MT_MOON as fully done after one fossil")
+    elif "FLAG_GOT_DOME_FOSSIL" not in miguel or "FLAG_GOT_HELIX_FOSSIL" not in miguel:
+        bad.append("Miguel does not wait for both GOT fossil flags before the Cinnabar line")
 
     fuchsia = read(FUCHSIA)
     sign = script_body(fuchsia, "FuchsiaCity_EventScript_FossilMonSign")

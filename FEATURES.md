@@ -306,7 +306,10 @@ on:
 - **Visible overworld encounters** run *alongside* vanilla random grass encounters — both fire on
   the same map by design.
 - **Each region's starters are catchable** on its first route at roughly 10% each — Route 101,
-  Route 1 and Route 29 — so the two you didn't pick are obtainable.
+  Route 1 and Route 29 — so the two you didn't pick are obtainable. Lab gifts stay exclusive.
+- **Saffron Dojo Hitmons and Mt. Moon fossils are both obtainable.** Taking one no longer
+  locks the other. Miguel does not steal the leftover fossil. Regional starters (Oak, Elm,
+  Route 101 Birch, Birch’s post-National Dex Johto trio) stay one-choice.
 - **Cut trees and smashed rocks stay gone** when you leave and re-enter a map.
 - **Encounter tables are flat** — every Pokémon is catchable at any hour. Time of day still drives
   the lighting and which Pokémon walk the overworld; it does not gate what the grass gives you.

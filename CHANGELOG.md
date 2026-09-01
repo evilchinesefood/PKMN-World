@@ -5,6 +5,10 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Quality of life
+
+- **Greedy gift choices** (#240). The Saffron Fighting Dojo Hitmonlee/Hitmonchan balls and the Mt. Moon Dome/Helix fossils no longer lock the leftover behind a shared “you already picked one” flag. Miguel does not claim the other fossil. Old saves that already took one can pick up the remainder (Dojo may also re-offer the same Hitmon once if the old shared flag is set without a per-ball hide). Regional starters stay exclusive. Fuchsia’s zoo shows both fossil Pokémon if you own both; Cinnabar will revive both.
+
 ### Fixes
 
 - **Hub later-arrivals stay at home until that region's first gym badge.** Walking out of Pallet, New Bark, or Littleroot used to send the next hub trip to Vermilion, Goldenrod Station, or Slateport Harbor. Those access points now unlock on the first badge; intro-done only suppresses the one-time arrival narration. Mid-intro saves that already walked outside will land in the bedroom on the next hub re-cross, not at the harbor.

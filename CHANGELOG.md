@@ -7,7 +7,7 @@ All notable player-facing changes. For the full feature reference see
 
 ### Quality of life
 
-- **Greedy gift choices** (#240). The Saffron Fighting Dojo Hitmonlee/Hitmonchan balls and the Mt. Moon Dome/Helix fossils no longer lock the leftover behind a shared “you already picked one” flag. Miguel does not claim the other fossil. Old saves that already took one can pick up the remainder (Dojo may also re-offer the same Hitmon once if the old shared flag is set without a per-ball hide). Regional starters stay exclusive. Fuchsia’s zoo shows both fossil Pokémon if you own both; Cinnabar will revive both.
+- **Greedy gift choices** (#240). The Saffron Fighting Dojo Hitmonlee/Hitmonchan balls and the Mt. Moon Dome/Helix fossils no longer lock the leftover behind a shared “you already picked one” flag. Miguel does not claim the other fossil. Old saves that already took one can pick up the remainder (Dojo may also re-offer the same Hitmon once if the old shared flag is set without a per-ball hide). Regional starters stay exclusive. Fuchsia’s fossil sign shows both species if you own both (the zoo still has one sprite). Cinnabar will revive both.
 
 ### Fixes
 

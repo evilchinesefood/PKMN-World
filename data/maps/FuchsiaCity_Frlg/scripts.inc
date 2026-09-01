@@ -120,7 +120,25 @@ FuchsiaCity_EventScript_LaprasSign::
 
 FuchsiaCity_EventScript_FossilMonSign::
 	lockall
-	goto_if_set FLAG_GOT_DOME_FOSSIL, FuchsiaCity_EventScript_OmanyteSign
+	goto_if_set FLAG_GOT_DOME_FOSSIL, FuchsiaCity_EventScript_FossilMonSignHasDome
+	goto FuchsiaCity_EventScript_KabutoSign
+	end
+
+FuchsiaCity_EventScript_FossilMonSignHasDome::
+	goto_if_set FLAG_GOT_HELIX_FOSSIL, FuchsiaCity_EventScript_FossilMonSignBoth
+	goto FuchsiaCity_EventScript_OmanyteSign
+	end
+
+FuchsiaCity_EventScript_FossilMonSignBoth::
+	setvar VAR_0x8004, SPECIES_OMANYTE
+	special SetSeenMon
+	showmonpic SPECIES_OMANYTE, 10, 3
+	msgbox FuchsiaCity_Text_OmanyteSign
+	hidemonpic
+	goto FuchsiaCity_EventScript_KabutoSign
+	end
+
+FuchsiaCity_EventScript_KabutoSign::
 	setvar VAR_0x8004, SPECIES_KABUTO
 	special SetSeenMon
 	showmonpic SPECIES_KABUTO, 10, 3

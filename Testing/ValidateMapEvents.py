@@ -500,8 +500,10 @@ def check_trainer_type(maps, bodies):
                 continue
             # HandleBoulderFallThroughHole stores the FLAG_HIDE_* that reveals the
             # boulder on the floor below in trainerType, not a trainer class.
-            if o.get("graphics_id") in ("OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-                                       "OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG"):
+            # Skip only for FLAG_HIDE_* reuse, not for real trainer types.
+            if (o.get("graphics_id") in ("OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+                                        "OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG")
+                    and isinstance(tt, str) and tt.startswith("FLAG_HIDE_")):
                 continue
             if not s or s in ("NULL", "0x0", "0"):
                 errs.append(f"{name} obj {i}: {tt} with no script at all")

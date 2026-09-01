@@ -26,8 +26,8 @@
       "x": 9,
       "y": 16,
       "elevation": 0,
-      "dest_map": "MAP_TIN_TOWER_3F",
-      "dest_warp_id": "1"
+      "dest_map": "MAP_TIN_TOWER_7F",
+      "dest_warp_id": "4"
     }
   ],
   "coord_events": [],

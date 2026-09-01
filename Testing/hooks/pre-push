@@ -40,6 +40,7 @@ run "Save-format constants"          Testing/SavePatch.py --check
 run "Animated doors registered"      Testing/ValidateDoorAnims.py --max 0
 run "Tileset palette array bounds"   Testing/ValidateTilesetPalettes.py
 run "Celio first-gift bag-full retry" Testing/ValidateCelioGifts.py
+run "Greedy exclusive-choice gifts"   Testing/ValidateGreedyGifts.py
 
 if [ "$fail" -ne 0 ]; then
   cat >&2 <<'EOF'

@@ -50,12 +50,25 @@ TEST("(Daycare) Pokémon can breed with Ditto if they don't belong to the Ditto 
 {
     u32 j = 0;
     u32 parentSpecies = 0;
+    u32 seenGroups = 0;
 
     ZeroPlayerPartyMons();
+    // One enabled species per egg group, not every species. Each case runs
+    // givemon + StorePokemonInDaycare + GiveEggFromDaycare; PARAMETRIZE over
+    // NUM_SPECIES parked that work on one hydra runner for ~8 minutes with no
+    // result line, and GitHub SIGTERM'd `make check` (PR #242 / master after #236).
     for (j = 1; j < NUM_SPECIES; j++)
     {
-        if (IsSpeciesEnabled(j))
-            PARAMETRIZE { parentSpecies = j; }
+        u32 group;
+        if (!IsSpeciesEnabled(j))
+            continue;
+        group = gSpeciesInfo[j].eggGroups[0];
+        if (group > EGG_GROUP_NO_EGGS_DISCOVERED)
+            continue;
+        if (seenGroups & (1u << group))
+            continue;
+        seenGroups |= (1u << group);
+        PARAMETRIZE { parentSpecies = j; }
     }
     VarSet(VAR_TEMP_C, parentSpecies);
     RUN_OVERWORLD_SCRIPT(

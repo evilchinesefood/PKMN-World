@@ -519,7 +519,7 @@ static enum Species GetEggSpecies(enum Species species)
             const struct Evolution *evolutions = GetSpeciesEvolutions(j);
             if (evolutions == NULL)
                 continue;
-            for (k = 0; evolutions[k].method != EVOLUTIONS_END; k++)
+            for (k = 0; k < 32 && evolutions[k].method != EVOLUTIONS_END; k++)
             {
                 if (SanitizeSpeciesId(evolutions[k].targetSpecies) == species)
                 {
@@ -789,7 +789,7 @@ u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
     species = GetMonData(pokemon, MON_DATA_SPECIES);
     eggMoveLearnset = GetSpeciesEggMoves(species);
 
-    for (i = 0; eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT && eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         eggMoves[i] = eggMoveLearnset[i];
         numEggMoves++;
@@ -807,7 +807,7 @@ u8 GetEggMovesBySpecies(enum Species species, u16 *eggMoves)
     numEggMoves = 0;
     eggMoveLearnset = GetSpeciesEggMoves(species);
 
-    for (i = 0; eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT && eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         eggMoves[i] = eggMoveLearnset[i];
         numEggMoves++;
@@ -821,7 +821,7 @@ bool8 SpeciesCanLearnEggMove(enum Species species, enum Move move) //Move search
     u32 i;
     const u16 *eggMoveLearnset = GetSpeciesEggMoves(species);
 
-    for (i = 0; eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT && eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         if (eggMoveLearnset[i] == move)
             return TRUE;

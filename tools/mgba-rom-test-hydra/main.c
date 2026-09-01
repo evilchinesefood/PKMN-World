@@ -30,6 +30,7 @@
 #endif
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <time.h>
 #include <unistd.h>
 #include "elf.h"
 
@@ -168,6 +169,29 @@ struct SymbolTable {
 static unsigned nrunners = 0;
 static unsigned runners_digits = 0;
 static struct Runner *runners = NULL;
+static time_t sLastStdoutTime = 0;
+
+static void NoteStdout(void)
+{
+    sLastStdoutTime = time(NULL);
+}
+
+// GitHub Actions SIGTERMs a step after a few minutes with no log output. A
+// PARAMETRIZE case prints ":N" (test name only) without a result line, so poll
+// keeps waking and the previous "nready == 0" keep-alive never fired. Emit the
+// still-running names from wall-clock time since the last result line instead.
+static void PrintStillRunningIfSilent(void)
+{
+    if (time(NULL) - sLastStdoutTime < 30)
+        return;
+    for (int i = 0; i < (int)nrunners; i++)
+    {
+        if (runners[i].outfd >= 0)
+            fprintf(stdout, "[%0*d] still running: %s\n", runners_digits, i, runners[i].test_name);
+    }
+    fflush(stdout);
+    NoteStdout();
+}
 
 // TODO: Build the symbol table on demand.
 static struct SymbolTable symbol_table = { NULL, 0 };
@@ -332,6 +356,7 @@ add_to_results:
                     fprint_buffer(stdout, runner->output_buffer, runner->output_buffer_size);
                     strcpy(runner->test_name, "WAITING...");
                     runner->output_buffer_size = 0;
+                    NoteStdout();
                     break;
 
                 default:
@@ -574,6 +599,7 @@ int main(int argc, char *argv[])
             fprintf(stdout, "[%0*d] %s\n", runners_digits, i, runners[i].test_name);
     }
     fflush(stdout);
+    NoteStdout();
     atexit(unlink_roms);
     signal(SIGINT, exit2);
     signal(SIGTERM, exit2);
@@ -745,51 +771,44 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "\e[%dF\e[J", scrollback);
         }
 
-        // CI logs go silent when one runner is on a long PARAMETRIZE test and the
-        // others have finished. GitHub then SIGTERMs the step (exit 143) after a
-        // few minutes with no output — seen on master after #236, not a test FAIL.
-        // Wake every 30s when not a tty and print the still-running names.
-        int nready = poll(pollfds, nrunners, tty ? -1 : 30000);
+        // Always wake at 30s so a silent PARAMETRIZE case still emits keep-alive
+        // even when ":N" traffic would otherwise keep poll from timing out.
+        int nready = poll(pollfds, nrunners, 30000);
         if (nready == -1)
         {
             perror("poll failed");
             exit(2);
         }
-        if (nready == 0)
+        if (nready > 0)
         {
             for (int i = 0; i < nrunners; i++)
             {
-                if (runners[i].outfd >= 0)
-                    fprintf(stdout, "[%0*d] still running: %s\n", runners_digits, i, runners[i].test_name);
-            }
-            fflush(stdout);
-            continue;
-        }
-        for (int i = 0; i < nrunners; i++)
-        {
-            if (pollfds[i].revents & POLLIN)
-            {
-                int n;
-                if ((n = read(pollfds[i].fd, runners[i].input_buffer + runners[i].input_buffer_size, runners[i].input_buffer_capacity - runners[i].input_buffer_size)) == -1)
+                if (pollfds[i].revents & POLLIN)
                 {
-                    perror("read pollfds[i] failed");
-                    exit(2);
+                    int n;
+                    if ((n = read(pollfds[i].fd, runners[i].input_buffer + runners[i].input_buffer_size, runners[i].input_buffer_capacity - runners[i].input_buffer_size)) == -1)
+                    {
+                        perror("read pollfds[i] failed");
+                        exit(2);
+                    }
+                    runners[i].input_buffer_size += n;
+                    handle_read(i, &runners[i]);
                 }
-                runners[i].input_buffer_size += n;
-                handle_read(i, &runners[i]);
-            }
 
-            if (pollfds[i].revents & (POLLERR | POLLHUP))
-            {
-                if (close(pollfds[i].fd) == -1)
+                if (pollfds[i].revents & (POLLERR | POLLHUP))
                 {
-                    perror("close pollfds[i] failed");
-                    exit(2);
+                    if (close(pollfds[i].fd) == -1)
+                    {
+                        perror("close pollfds[i] failed");
+                        exit(2);
+                    }
+                    runners[i].outfd = pollfds[i].fd = -pollfds[i].fd;
+                    openfds--;
                 }
-                runners[i].outfd = pollfds[i].fd = -pollfds[i].fd;
-                openfds--;
             }
         }
+        if (!tty)
+            PrintStillRunningIfSilent();
 
         if (tty)
         {

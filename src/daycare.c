@@ -519,7 +519,7 @@ static enum Species GetEggSpecies(enum Species species)
             const struct Evolution *evolutions = GetSpeciesEvolutions(j);
             if (evolutions == NULL)
                 continue;
-            for (k = 0; k < 32 && evolutions[k].method != EVOLUTIONS_END; k++)
+            for (k = 0; evolutions[k].method != EVOLUTIONS_END; k++)
             {
                 if (SanitizeSpeciesId(evolutions[k].targetSpecies) == species)
                 {

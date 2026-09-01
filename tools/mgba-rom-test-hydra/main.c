@@ -745,10 +745,25 @@ int main(int argc, char *argv[])
                 fprintf(stdout, "\e[%dF\e[J", scrollback);
         }
 
-        if (poll(pollfds, nrunners, -1) == -1)
+        // CI logs go silent when one runner is on a long PARAMETRIZE test and the
+        // others have finished. GitHub then SIGTERMs the step (exit 143) after a
+        // few minutes with no output — seen on master after #236, not a test FAIL.
+        // Wake every 30s when not a tty and print the still-running names.
+        int nready = poll(pollfds, nrunners, tty ? -1 : 30000);
+        if (nready == -1)
         {
             perror("poll failed");
             exit(2);
+        }
+        if (nready == 0)
+        {
+            for (int i = 0; i < nrunners; i++)
+            {
+                if (runners[i].outfd >= 0)
+                    fprintf(stdout, "[%0*d] still running: %s\n", runners_digits, i, runners[i].test_name);
+            }
+            fflush(stdout);
+            continue;
         }
         for (int i = 0; i < nrunners; i++)
         {

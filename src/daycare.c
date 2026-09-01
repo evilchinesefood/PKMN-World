@@ -117,8 +117,17 @@ static const u8 sJapaneseEggNickname[] = _("タマゴ"); // "tamago" ("egg" in J
 u8 *GetMonNicknameVanilla(struct Pokemon *mon, u8 *dest)
 {
     u8 nickname[POKEMON_NAME_BUFFER_SIZE];
+    u8 i;
+
     GetMonData(mon, MON_DATA_NICKNAME, nickname);
-    return StringCopyN(dest, nickname, VANILLA_POKEMON_NAME_LENGTH);
+    for (i = 0; i < VANILLA_POKEMON_NAME_LENGTH; i++)
+    {
+        dest[i] = nickname[i];
+        if (dest[i] == EOS)
+            return &dest[i];
+    }
+    dest[i] = EOS;
+    return &dest[i];
 }
 
 u8 *GetBoxMonNickname(struct BoxPokemon *mon, u8 *dest)
@@ -255,7 +264,7 @@ void StorePokemonInDaycare(struct Pokemon *mon, struct DaycareMon *daycareMon)
         // mailId indexes straight into the save block. Same guard as ScrCmd_removenamedmon_Compat.
         if (mailId < MAIL_COUNT)
         {
-            StringCopy(daycareMon->mail.otName, gSaveBlock2Ptr->playerName);
+            StringCopy_PlayerName(daycareMon->mail.otName, gSaveBlock2Ptr->playerName);
             GetMonNicknameVanilla(mon, daycareMon->mail.monName);
             StripExtCtrlCodes(daycareMon->mail.monName);
             daycareMon->mail.gameLanguage = GAME_LANGUAGE;
@@ -789,7 +798,7 @@ u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
     species = GetMonData(pokemon, MON_DATA_SPECIES);
     eggMoveLearnset = GetSpeciesEggMoves(species);
 
-    for (i = 0; eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT && eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         eggMoves[i] = eggMoveLearnset[i];
         numEggMoves++;
@@ -807,7 +816,7 @@ u8 GetEggMovesBySpecies(enum Species species, u16 *eggMoves)
     numEggMoves = 0;
     eggMoveLearnset = GetSpeciesEggMoves(species);
 
-    for (i = 0; eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT && eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         eggMoves[i] = eggMoveLearnset[i];
         numEggMoves++;
@@ -821,7 +830,7 @@ bool8 SpeciesCanLearnEggMove(enum Species species, enum Move move) //Move search
     u32 i;
     const u16 *eggMoveLearnset = GetSpeciesEggMoves(species);
 
-    for (i = 0; eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT && eggMoveLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         if (eggMoveLearnset[i] == move)
             return TRUE;

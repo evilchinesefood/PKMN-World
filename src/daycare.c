@@ -513,37 +513,17 @@ static void UNUSED ClearAllDaycareData(struct DayCare *daycare)
 // given species.
 static enum Species GetEggSpecies(enum Species species)
 {
-    int i, j, k;
-    bool8 found;
+    int i;
+    enum Species preEvolution;
 
     // Working backwards up to 5 times seems arbitrary, since the maximum number
     // of times would only be 3 for 3-stage evolutions.
     for (i = 0; i < 5; i++)
     {
-        found = FALSE;
-        for (j = 1; j < NUM_SPECIES; j++)
-        {
-            if (!IsSpeciesEnabled(j))
-                continue;
-            const struct Evolution *evolutions = GetSpeciesEvolutions(j);
-            if (evolutions == NULL)
-                continue;
-            for (k = 0; evolutions[k].method != EVOLUTIONS_END; k++)
-            {
-                if (SanitizeSpeciesId(evolutions[k].targetSpecies) == species)
-                {
-                    species = j;
-                    found = TRUE;
-                    break;
-                }
-            }
-
-            if (found)
-                break;
-        }
-
-        if (j == NUM_SPECIES)
+        preEvolution = GetSpeciesPreEvolution(species);
+        if (preEvolution == SPECIES_NONE)
             break;
+        species = preEvolution;
     }
 
     return species;

@@ -18,17 +18,86 @@
 
 TEST("(Daycare) Pokémon generate Eggs of the lowest member of the evolutionary family")
 {
-    ASSUME(P_FAMILY_PIKACHU == TRUE);
-    ASSUME(P_GEN_2_CROSS_EVOS == TRUE);
+    u32 parent = 0, offspring = 0;
+
+    PARAMETRIZE { parent = SPECIES_PIKACHU;   offspring = SPECIES_PICHU; }
+    PARAMETRIZE { parent = SPECIES_RAICHU;    offspring = SPECIES_PICHU; }
+    PARAMETRIZE { parent = SPECIES_VENUSAUR;  offspring = SPECIES_BULBASAUR; }
+    PARAMETRIZE { parent = SPECIES_BEAUTIFLY; offspring = SPECIES_WURMPLE; }
+    PARAMETRIZE { parent = SPECIES_DUSTOX;    offspring = SPECIES_WURMPLE; }
+    PARAMETRIZE { parent = SPECIES_GARDEVOIR; offspring = SPECIES_RALTS; }
+
+    ASSUME(IsSpeciesEnabled(parent) == TRUE);
+    ASSUME(IsSpeciesEnabled(offspring) == TRUE);
 
     ZeroPlayerPartyMons();
+    VarSet(VAR_0x8000, parent);
     RUN_OVERWORLD_SCRIPT(
-        givemon SPECIES_PIKACHU, 100, gender=MON_MALE;
-        givemon SPECIES_PIKACHU, 100, gender=MON_FEMALE;
+        givemon VAR_0x8000, 100, gender=MON_MALE;
+        givemon VAR_0x8000, 100, gender=MON_FEMALE;
     );
     STORE_IN_DAYCARE_AND_GET_EGG();
 
-    EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES), SPECIES_PICHU);
+    EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES), offspring);
+}
+
+TEST("(Daycare) Male-only branched evolutions generate Eggs of the shared baby")
+{
+    u32 parent = 0;
+
+    PARAMETRIZE { parent = SPECIES_HITMONLEE; }
+    PARAMETRIZE { parent = SPECIES_HITMONCHAN; }
+    PARAMETRIZE { parent = SPECIES_HITMONTOP; }
+
+    ASSUME(IsSpeciesEnabled(parent) == TRUE);
+    ASSUME(IsSpeciesEnabled(SPECIES_TYROGUE) == TRUE);
+    ASSUME(IsSpeciesEnabled(SPECIES_DITTO) == TRUE);
+
+    ZeroPlayerPartyMons();
+    VarSet(VAR_0x8000, parent);
+    RUN_OVERWORLD_SCRIPT(
+        givemon VAR_0x8000, 100;
+        givemon SPECIES_DITTO, 100;
+    );
+    STORE_IN_DAYCARE_AND_GET_EGG();
+
+    EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES), SPECIES_TYROGUE);
+}
+
+TEST("(Daycare) GetSpeciesPreEvolution keeps the first enabled predecessor")
+{
+    ASSUME(IsSpeciesEnabled(SPECIES_GHOLDENGO) == TRUE);
+    ASSUME(IsSpeciesEnabled(SPECIES_GIMMIGHOUL_CHEST) == TRUE);
+    ASSUME(IsSpeciesEnabled(SPECIES_GIMMIGHOUL_ROAMING) == TRUE);
+    EXPECT_LT(SPECIES_GIMMIGHOUL_CHEST, SPECIES_GIMMIGHOUL_ROAMING);
+    EXPECT_EQ(GetSpeciesPreEvolution(SPECIES_GHOLDENGO), SPECIES_GIMMIGHOUL_CHEST);
+}
+
+TEST("(Daycare) GetSpeciesPreEvolution skips disabled species")
+{
+    u32 species = 0;
+    enum Species pre;
+    u32 steps;
+
+    PARAMETRIZE { species = SPECIES_VENUSAUR; }
+    PARAMETRIZE { species = SPECIES_GHOLDENGO; }
+    PARAMETRIZE { species = SPECIES_NONE; }
+
+    pre = GetSpeciesPreEvolution(species);
+    if (!IsSpeciesEnabled(species))
+    {
+        EXPECT_EQ(pre, SPECIES_NONE);
+    }
+    else
+    {
+        for (steps = 0; pre != SPECIES_NONE && steps < 5; steps++)
+        {
+            EXPECT(IsSpeciesEnabled(pre) == TRUE);
+            species = pre;
+            pre = GetSpeciesPreEvolution(species);
+        }
+        EXPECT_EQ(pre, SPECIES_NONE);
+    }
 }
 
 TEST("(Daycare) Pokémon offspring species is based off the mother's species")

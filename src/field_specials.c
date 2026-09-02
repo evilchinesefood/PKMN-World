@@ -1697,6 +1697,11 @@ enum Species ScriptGetSelectedMonSpecies(void)
     return GetBoxMonData(boxmon, MON_DATA_SPECIES_OR_EGG);
 }
 
+u16 ScriptGetDayOfWeek(void)
+{
+    return GetDayOfWeek();
+}
+
 // Removed for Emerald
 void TryInitBattleTowerAwardManObjectEvent(void)
 {

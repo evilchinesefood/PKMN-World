@@ -232,8 +232,15 @@ F.run(function()
     local function addRun(fromX, fromY, toX, toY)
       local dx = (toX > fromX and 1) or (toX < fromX and -1) or 0
       local dy = (toY > fromY and 1) or (toY < fromY and -1) or 0
+      if dx ~= 0 and dy ~= 0 then
+        error("addRun requires axis-aligned endpoints")
+      end
       local x, y = fromX, fromY
+      local cap = math.abs(toX - fromX) + math.abs(toY - fromY) + 1
+      local n = 0
       while x ~= toX or y ~= toY do
+        n = n + 1
+        if n > cap then error("addRun exceeded cap") end
         x = x + dx; y = y + dy
         loopPath[#loopPath + 1] = { x, y }
       end

@@ -1,7 +1,18 @@
 .set LOCALID_UNION_CAVE_LAPRAS, 6
+.set WEEKDAY_FRI, 5
 
 UnionCave_B2F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, UnionCave_B2F_OnTransition
 	.byte 0
+
+UnionCave_B2F_OnTransition::
+	setflag FLAG_HIDE_UNION_CAVE_LAPRAS
+	goto_if_set FLAG_CAUGHT_UNION_CAVE_LAPRAS, UnionCave_B2F_OnTransitionDone
+	specialvar VAR_RESULT, ScriptGetDayOfWeek
+	goto_if_ne VAR_RESULT, WEEKDAY_FRI, UnionCave_B2F_OnTransitionDone
+	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
+UnionCave_B2F_OnTransitionDone::
+	end
 
 UnionCave_B2F_EventScript_CooltrainerNick::
 	trainerbattle_single TRAINER_NICK, UnionCave_B2F_Text_CooltrainermNickSeen, UnionCave_B2F_Text_CooltrainermNickBeaten
@@ -27,9 +38,20 @@ UnionCave_B2F_EventScript_Lapras::
 	dowildbattle
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, UnionCave_B2F_EventScript_LaprasRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, UnionCave_B2F_EventScript_LaprasRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, UnionCave_B2F_EventScript_LaprasCaught
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_UNION_CAVE_LAPRAS
 	setflag FLAG_HIDE_UNION_CAVE_LAPRAS
+	fadescreenswapbuffers FADE_FROM_BLACK
+	release
+	end
+
+UnionCave_B2F_EventScript_LaprasCaught::
+	fadescreenswapbuffers FADE_TO_BLACK
+	removeobject LOCALID_UNION_CAVE_LAPRAS
+	setflag FLAG_HIDE_UNION_CAVE_LAPRAS
+	setflag FLAG_CAUGHT_UNION_CAVE_LAPRAS
 	fadescreenswapbuffers FADE_FROM_BLACK
 	release
 	end

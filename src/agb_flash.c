@@ -119,6 +119,8 @@ void SetReadFlash1(u16 *dest)
     src = (u16 *)((s32)src ^ 1);
 
     i = ((s32)SetReadFlash1 - (s32)ReadFlash1) >> 1;
+    if (i > 0x20)
+        i = 0x20;
 
     while (i != 0)
     {

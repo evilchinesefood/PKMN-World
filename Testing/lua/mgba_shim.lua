@@ -182,9 +182,17 @@ if not chunk then
 end
 
 local suite = coroutine.create(chunk)
+local maxFrames = tonumber(os.getenv("PW_MAX_FRAMES")) or 300000
+local frameCount = 0
 
 callbacks:add("frame", function()
   if finished then return end
+  frameCount = frameCount + 1
+  if frameCount > maxFrames then
+    mconsole:error("suite exceeded PW_MAX_FRAMES=" .. tostring(maxFrames))
+    finish(4)
+    return
+  end
   if coroutine.status(suite) == "dead" then
     -- Ran to completion without calling client.exit(). This used to `finish(0)` -- "treat as a
     -- pass" -- which quietly bypassed lib.lua's deliberate "zero assertions is a FAILURE" guard,

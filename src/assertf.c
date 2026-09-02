@@ -347,8 +347,8 @@ static void CrashScreen(enum Mode mode, const void *return1, const void *return0
     // Allocate on stack if possible.
     if (!backup)
     {
-        extern char __iwram_end[];
-        size_t stack_free = (char *)__builtin_frame_address(0) - __iwram_end;
+        extern char __bss_end[];
+        size_t stack_free = (char *)__builtin_frame_address(0) - __bss_end;
         if (stack_free > sizeof(*backup) + 128)
         {
             backup = alloca(sizeof(*backup));

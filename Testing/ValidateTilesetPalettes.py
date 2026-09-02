@@ -108,6 +108,8 @@ def read_text(path):
 class Fatal(Exception):
     pass
 
+MIN_TILESETS = 150
+
 
 # ---------------------------------------------------------------------------
 # 1. Constants pulled out of headers
@@ -291,6 +293,9 @@ def parse_tilesets(root):
         }
     if not tilesets:
         raise Fatal("no tilesets parsed from %s" % path)
+    if len(tilesets) < MIN_TILESETS:
+        raise Fatal("parsed %d tilesets from %s, floor is %d"
+                    % (len(tilesets), path, MIN_TILESETS))
     return tilesets
 
 

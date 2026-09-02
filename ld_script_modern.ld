@@ -46,6 +46,7 @@ SECTIONS {
         src/*.o(COMMON);
         *libc.a:*.o(COMMON);
         *libnosys.a:*.o(COMMON);
+        __bss_end = .;
     } > IWRAM
 
     /* BEGIN ROM DATA */

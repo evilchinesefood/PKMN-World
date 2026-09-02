@@ -28,7 +28,7 @@ VioletCity_EventScript_Trigger::
 	clearflag FLAG_HIDE_SUDOWOODO
 	clearflag FLAG_GOT_HARD_STONE
 	clearflag FLAG_GOT_POISON_BARB
-	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
+	@ Lapras visibility is UnionCave_B2F_OnTransition (Friday and uncaught only).
 	clearflag FLAG_GOT_BLACK_GLASSES
 	
 	setvar VAR_SLOWPOKE_TAIL, 0

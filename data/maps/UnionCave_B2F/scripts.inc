@@ -1,5 +1,4 @@
 .set LOCALID_UNION_CAVE_LAPRAS, 6
-.set WEEKDAY_FRI, 5
 
 UnionCave_B2F_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, UnionCave_B2F_OnTransition

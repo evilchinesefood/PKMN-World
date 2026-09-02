@@ -69,8 +69,11 @@ echo "rtc   : $RTC ($(date -r "$RTC" '+%Y-%m-%d %H:%M:%S %Z'))"
 echo "---"
 
 # -l 0 silences mGBA's per-DMA/BIOS chatter; console.log from the suite still reaches stdout.
+# PW_TIMEOUT is a wall-clock cap so a hung emulator cannot block run-all.sh forever.
+PW_TIMEOUT="${PW_TIMEOUT:-300}"
 set +e
-"$MGBA" -l 0 --rtc "$RTC" --script "$REPO/Testing/lua/mgba_shim.lua" "$WORK/Verify1.gba"
+perl -e 'alarm shift; exec @ARGV' "$PW_TIMEOUT" \
+  "$MGBA" -l 0 --rtc "$RTC" --script "$REPO/Testing/lua/mgba_shim.lua" "$WORK/Verify1.gba"
 rc=$?
 set -e
 

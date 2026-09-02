@@ -4616,8 +4616,7 @@ u16 GetKantoPokedexCount(u8 caseID)
 
 bool16 HasAllRegionalMons(void)
 {
-    if (GetCurrentRegion() == REGION_KANTO)
-        return HasAllKantoMons();
+    // Match GetRegionalPokedexCount: the on-screen regional list is still Hoenn-only.
     return HasAllHoennMons();
 }
 

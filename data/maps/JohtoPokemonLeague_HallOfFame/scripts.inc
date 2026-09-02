@@ -82,7 +82,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	call JohtoHoF_RespawnKyogre
 	call_if_unset FLAG_FOUGHT_MEWTWO, JohtoHoF_RespawnMewtwo
 	clearflag FLAG_HIDE_VERMILION_SNORLAX
-	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
+	call_if_unset FLAG_CAUGHT_UNION_CAVE_LAPRAS, JohtoHoF_RespawnLapras
 	clearflag FLAG_HIDE_SUDOWOODO
 	call_if_unset FLAG_FOUGHT_ZAPDOS, JohtoHoF_RespawnZapdos
 	call_if_unset FLAG_FOUGHT_ARTICUNO, JohtoHoF_RespawnArticuno
@@ -176,6 +176,10 @@ JohtoHoF_RespawnArticuno::
 
 JohtoHoF_RespawnMoltres::
 	clearflag FLAG_HIDE_MOLTRES
+	return
+
+JohtoHoF_RespawnLapras::
+	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
 	return
 
 JohtoHoF_RespawnLugia::

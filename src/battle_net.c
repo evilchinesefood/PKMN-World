@@ -579,8 +579,20 @@ void DoBattleNetSimBattle(void)
         return;
     }
 
+    if (mode > BNET_MODE_LC)
+    {
+        gSpecialVar_Result = 0;
+        return;
+    }
     if (mode == BNET_MODE_SCALING || mode == BNET_MODE_MONOTYPE)
-        type = sBnetTypes[gSpecialVar_0x8005 < ARRAY_COUNT(sBnetTypes) ? gSpecialVar_0x8005 : 0];
+    {
+        if (gSpecialVar_0x8005 >= ARRAY_COUNT(sBnetTypes))
+        {
+            gSpecialVar_Result = 0;
+            return;
+        }
+        type = sBnetTypes[gSpecialVar_0x8005];
+    }
     else if (mode == BNET_MODE_STREAK)
         type = sBnetTypes[Random() % ARRAY_COUNT(sBnetTypes)];
 

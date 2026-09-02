@@ -185,6 +185,8 @@ SlateportCity_Harbor_Text_FerryToHub:
 
 SlateportCity_Harbor_EventScript_AskForTicket::
 	msgbox SlateportCity_Harbor_Text_MayISeeYourTicket, MSGBOX_DEFAULT
+	checkitem ITEM_SS_TICKET
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_Harbor_EventScript_NoTicket
 	message SlateportCity_Harbor_Text_FlashedTicketWhereTo
 	waitmessage
 	goto SlateportCity_Harbor_EventScript_ChooseDestination

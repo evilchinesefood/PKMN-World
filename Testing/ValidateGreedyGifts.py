@@ -115,6 +115,12 @@ def main():
     oak = read(OAK)
     if "Probably shouldn't touch" not in elm:
         bad.append("Elm lab starter lock text missing; regional starters must stay exclusive")
+    for ball in ("ChikoritaBall", "CyndaquilBall", "TotodileBall"):
+        body = script_body(elm, "NewBarkTown_Lab_EventScript_" + ball)
+        if body is None:
+            bad.append("Elm %s script missing" % ball)
+        elif "FLAG_JOHTO_STARTER_CHOSEN" not in body:
+            bad.append("Elm %s no longer gates on FLAG_JOHTO_STARTER_CHOSEN" % ball)
     if "Better leave the others alone" not in birch:
         bad.append("Birch Johto-trio lock text missing; regional starters must stay exclusive")
     if "VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB" not in oak:

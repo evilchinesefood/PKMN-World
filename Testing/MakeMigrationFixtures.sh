@@ -61,7 +61,7 @@ for V in "$@"; do
 import sys; open(sys.argv[1], 'wb').write(b'\xff' * 131072)
 PY
 
-  cmd.exe /c "$BIZHAWK_WIN\\EmuHawk.exe $BIZHAWK_WIN\\FixGen.gba --lua=$REPO_WIN\\_pwtest\\SaveHarvest_v$V.lua" >/dev/null 2>&1 || true
+  timeout 180 cmd.exe /c "$BIZHAWK_WIN\\EmuHawk.exe $BIZHAWK_WIN\\FixGen.gba --lua=$REPO_WIN\\_pwtest\\SaveHarvest_v$V.lua" >/dev/null 2>&1
 
   # harvest the raw 128KB body (drop BizHawk's 16-byte footer) and sanity-check a save was written
   python3 - "$V" "$BIZHAWK/GBA/SaveRAM/FixGen.SaveRAM" "$FIXDIR" <<'PY'

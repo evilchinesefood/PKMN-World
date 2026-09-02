@@ -350,6 +350,8 @@ gSpecials::
 	def_special SetRoute123Weather
 	def_special GetContestMultiplayerId
 	def_special ScriptGetPartyMonSpecies
+	def_special ScriptGetSelectedMonSpecies
+	def_special ScriptGetDayOfWeek
 	def_special IsSelectedMonEgg
 	def_special Special_HasMoveToRelearn
 	def_special TryInitBattleTowerAwardManObjectEvent

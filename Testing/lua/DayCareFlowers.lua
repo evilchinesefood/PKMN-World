@@ -113,6 +113,8 @@ local function watchMap(tag)
     nRed >= 2, "unique_sigs=" .. nRed)
   F.check(tag .. ": yellow flower VRAM actually changes (not stuck on frame 0)",
     nYel >= 2, "unique_sigs=" .. nYel)
+  F.check(tag .. ": control tile did not change",
+    nCtrl == 1, "ctrl_changes=" .. tostring(nCtrl - 1))
 end
 
 F.run(function()

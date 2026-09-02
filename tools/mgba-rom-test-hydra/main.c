@@ -114,6 +114,7 @@ struct Runner
     int assumption_fails;
     int fails;
     int results;
+    time_t last_progress;
 };
 
 void push_summary_result(struct SummaryResults *summaries, const struct Runner *runner)
@@ -595,6 +596,7 @@ int main(int argc, char *argv[])
         runners[i].output_buffer_capacity = 4096;
         runners[i].output_buffer = malloc(runners[i].output_buffer_capacity);
         strcpy(runners[i].test_name, "WAITING...");
+        runners[i].last_progress = time(NULL);
         if (tty)
             fprintf(stdout, "[%0*d] %s\n", runners_digits, i, runners[i].test_name);
     }
@@ -792,6 +794,7 @@ int main(int argc, char *argv[])
                         exit(2);
                     }
                     runners[i].input_buffer_size += n;
+                    runners[i].last_progress = time(NULL);
                     handle_read(i, &runners[i]);
                 }
 
@@ -809,6 +812,27 @@ int main(int argc, char *argv[])
         }
         if (!tty)
             PrintStillRunningIfSilent();
+
+        {
+            time_t now = time(NULL);
+            for (int i = 0; i < nrunners; i++)
+            {
+                if (runners[i].outfd < 0)
+                    continue;
+                if (now - runners[i].last_progress < 120)
+                    continue;
+                fprintf(stderr, "[%0*d] silent for 120s, killing %s\n",
+                        runners_digits, i, runners[i].test_name);
+                kill(runners[i].pid, SIGKILL);
+                if (close(pollfds[i].fd) == -1)
+                {
+                    perror("close pollfds[i] failed");
+                    exit(2);
+                }
+                runners[i].outfd = pollfds[i].fd = -pollfds[i].fd;
+                openfds--;
+            }
+        }
 
         if (tty)
         {

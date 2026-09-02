@@ -206,6 +206,44 @@ vector<string> get_existing_maps() {
     return v;
 }
 
+// MAP_* ids that exist in the project but may be omitted from the map_groups.h
+// enum (region-filtered maps, required_map_defines leftovers).
+vector<string> get_known_project_map_ids() {
+    static vector<string> ids;
+    static bool loaded = false;
+    if (loaded)
+        return ids;
+    loaded = true;
+
+    if (std::filesystem::exists("data/maps")) {
+        for (const auto &entry : std::filesystem::directory_iterator("data/maps")) {
+            if (!entry.is_directory())
+                continue;
+            std::filesystem::path map_path = entry.path() / "map.json";
+            if (!std::filesystem::exists(map_path))
+                continue;
+            string err;
+            Json map_data = Json::parse(read_text_file(map_path.string()), err);
+            if (map_data == Json())
+                continue;
+            string id = json_to_string(map_data, "id", true);
+            if (!id.empty())
+                ids.push_back(id);
+        }
+    }
+
+    string map_constants = read_text_file("include/constants/map_groups.h");
+    std::regex def_regex("#define (MAP_\\w+)");
+    for (std::smatch sm; regex_search(map_constants, sm, def_regex);)
+    {
+        if (sm[1] != "MAP_GROUPS_COUNT")
+            ids.push_back(sm[1]);
+        map_constants = sm.suffix();
+    }
+
+    return ids;
+}
+
 string generate_map_connections_text(Json map_data) {
     if (map_data["connections"] == Json())
         return string("\n");
@@ -217,18 +255,26 @@ string generate_map_connections_text(Json map_data) {
     text << get_generated_warning("data/maps/" + mapName + "/map.json", true);
     text << mapName << "_MapConnectionsList:\n";
 
+    size_t connection_count = 0;
     for (auto &connection : map_data["connections"].array_items()) {
-        auto it = find(existing_maps.begin(), existing_maps.end(), json_to_string(connection, "map"));
-        if (it == existing_maps.end())
-            continue;
+        string dest_map = json_to_string(connection, "map");
+        auto it = find(existing_maps.begin(), existing_maps.end(), dest_map);
+        if (it == existing_maps.end()) {
+            vector<string> known_maps = get_known_project_map_ids();
+            auto known = find(known_maps.begin(), known_maps.end(), dest_map);
+            if (known != known_maps.end())
+                continue;
+            FATAL_ERROR("Unknown map '%s' in connections for %s.\n", dest_map.c_str(), mapName.c_str());
+        }
         text << "\tconnection "
              << json_to_string(connection, "direction") << ", "
              << json_to_string(connection, "offset") << ", "
-             << json_to_string(connection, "map") << "\n";
+             << dest_map << "\n";
+        connection_count++;
     }
 
     text << "\n" << mapName << "_MapConnections:\n"
-         << "\t.4byte " << map_data["connections"].array_items().size() << "\n"
+         << "\t.4byte " << connection_count << "\n"
          << "\t.4byte " << mapName << "_MapConnectionsList\n\n";
 
     return text.str();

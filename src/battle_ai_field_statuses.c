@@ -122,17 +122,29 @@ bool32 FieldStatusChecker(enum BattlerId battler, u32 fieldStatus, enum FieldEff
         if (fieldStatus & STATUS_FIELD_TRICK_ROOM)
             result = BenefitsFromTrickRoom(battler);
 
-        battler = GetPartnerBattler(battler);
+        if (battlerIndex == 0)
+            firstResult = result;
 
-        if (result != FIELD_EFFECT_NEUTRAL)
+        battler = GetPartnerBattler(battler);
+    }
+
+    if (battlersOnSide == 2)
+    {
+        if (fieldStatus & STATUS_FIELD_TRICK_ROOM)
         {
-            // Trick room wants both Pokémon to agree, not just one
-            if (fieldStatus & STATUS_FIELD_TRICK_ROOM && battlerIndex == 0 && battlersOnSide == 2)
-                firstResult = result;
+            // Trick Room wants both Pokémon to agree; NEUTRAL counts as agreement.
+            if (result == FIELD_EFFECT_NEUTRAL)
+                result = firstResult;
+            else if (firstResult != FIELD_EFFECT_NEUTRAL && firstResult != result)
+                return FALSE;
+        }
+        else if (firstResult != FIELD_EFFECT_NEUTRAL)
+        {
+            // Mixed non-Trick-Room results default to the setter.
+            result = firstResult;
         }
     }
-    if (firstResult != FIELD_EFFECT_NEUTRAL)
-        return (firstResult == result) && (result == desiredResult);
+
     return (result == desiredResult);
 }
 
@@ -501,7 +513,12 @@ static enum FieldEffectOutcome BenefitsFromTrickRoom(enum BattlerId battler)
         }
     }
 
-    // If we are faster or tie, we don't want trick room.
+    // If we tie both foes, we shouldn't change Trick Room state.
+    if (gAiLogicData->speedStats[battler] == gAiLogicData->speedStats[GetBattlerLeftFoe(battler)]
+     && gAiLogicData->speedStats[battler] == gAiLogicData->speedStats[GetBattlerRightFoe(battler)])
+        return FIELD_EFFECT_NEUTRAL;
+
+    // If we are faster or tie vs either foe, we don't want Trick Room.
     if ((gAiLogicData->speedStats[battler] >= gAiLogicData->speedStats[GetBattlerLeftFoe(battler)]) || (gAiLogicData->speedStats[battler] >= gAiLogicData->speedStats[GetBattlerRightFoe(battler)]))
         return FIELD_EFFECT_NEGATIVE;
 

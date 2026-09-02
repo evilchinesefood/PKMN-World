@@ -65,6 +65,7 @@
 
 #define MAX_AREA_HIGHLIGHTS 64 // Maximum number of rectangular route highlights
 #define MAX_AREA_MARKERS 32 // Maximum number of circular spot highlights
+#define NUM_REGION_MAP_TYPES (REGION_MAP_JOHTO + 1)
 
 #define LABEL_WINDOW_BG 1
 #define NUM_LABEL_WINDOWS 2
@@ -79,6 +80,12 @@ struct OverworldArea
 {
     u8 mapGroup;
     u8 mapNum;
+    mapsec_u16_t regionMapSectionId;
+};
+
+struct WildHeaderRegionRef
+{
+    u16 headerId;
     mapsec_u16_t regionMapSectionId;
 };
 
@@ -116,7 +123,14 @@ struct
 
 EWRAM_DATA u8 gAreaTimeOfDay = 0;
 
+// Lazy RegionMapType index of gWildMonHeaders (ROM-const). Preserves table order
+// for Altering Cave; file-static so time-of-day refreshes reuse it.
+static bool8 sWildHeaderRegionIndexReady;
+static u16 sWildHeaderRegionStart[NUM_REGION_MAP_TYPES + 1];
+static struct WildHeaderRegionRef *sWildHeadersByRegion;
+
 static void FindMapsWithMon(enum Species);
+static void BuildWildHeaderRegionIndex(void);
 static void BuildAreaGlowTilemap(void);
 static void SetAreaHasMon(u16, u16);
 static void SetSpecialMapHasMon(u16, u16);
@@ -286,10 +300,54 @@ static bool8 DrawAreaGlow(void)
     return TRUE;
 }
 
+static void BuildWildHeaderRegionIndex(void)
+{
+    u16 i;
+    u16 n;
+    u16 counts[NUM_REGION_MAP_TYPES];
+    u16 next[NUM_REGION_MAP_TYPES];
+
+    if (sWildHeaderRegionIndexReady)
+        return;
+
+    for (i = 0; i < NUM_REGION_MAP_TYPES; i++)
+        counts[i] = 0;
+
+    n = 0;
+    for (i = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
+    {
+        u32 headerSectionId = Overworld_GetMapHeaderByGroupAndId(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum)->regionMapSectionId;
+        counts[GetRegionMapType(headerSectionId)]++;
+        n++;
+    }
+
+    sWildHeaderRegionStart[0] = 0;
+    for (i = 0; i < NUM_REGION_MAP_TYPES; i++)
+    {
+        next[i] = sWildHeaderRegionStart[i];
+        sWildHeaderRegionStart[i + 1] = sWildHeaderRegionStart[i] + counts[i];
+    }
+
+    sWildHeadersByRegion = Alloc(n * sizeof(*sWildHeadersByRegion));
+    for (i = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
+    {
+        u32 headerSectionId = Overworld_GetMapHeaderByGroupAndId(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum)->regionMapSectionId;
+        enum RegionMapType type = GetRegionMapType(headerSectionId);
+        u16 slot = next[type]++;
+
+        sWildHeadersByRegion[slot].headerId = i;
+        sWildHeadersByRegion[slot].regionMapSectionId = headerSectionId;
+    }
+
+    sWildHeaderRegionIndexReady = TRUE;
+}
+
 static void FindMapsWithMon(enum Species species)
 {
     enum RegionMapType currentRegionMapType;
     u16 i;
+    u16 start;
+    u16 end;
     struct Roamer *roamer;
 
     sPokedexAreaScreen->alteringCaveCounter = 0;
@@ -333,29 +391,31 @@ static void FindMapsWithMon(enum Species species)
     }
 
     currentRegionMapType = GetRegionMapType(gMapHeader.regionMapSectionId);
-    // Add regular species to the area map
-    for (i = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
+    BuildWildHeaderRegionIndex();
+    start = sWildHeaderRegionStart[currentRegionMapType];
+    end = sWildHeaderRegionStart[currentRegionMapType + 1];
+    // Add regular species to the area map. Only headers for currentRegionMapType.
+    for (i = start; i < end; i++)
     {
-        u32 headerSectionId = Overworld_GetMapHeaderByGroupAndId(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum)->regionMapSectionId;
-
-        if (GetRegionMapType(headerSectionId) != currentRegionMapType)
-            continue;
+        u16 headerId = sWildHeadersByRegion[i].headerId;
+        u32 headerSectionId = sWildHeadersByRegion[i].regionMapSectionId;
+        const struct WildPokemonHeader *header = &gWildMonHeaders[headerId];
 
         // Pass the whole per-time array, not one bucket: MapHasSpecies() resolves each area's table
         // individually so an empty bucket falls back the same way encounters do (see ResolveAreaTable).
-        if (MapHasSpecies(gWildMonHeaders[i].encounterTypes, headerSectionId, species))
+        if (MapHasSpecies(header->encounterTypes, headerSectionId, species))
         {
-            switch (gWildMonHeaders[i].mapGroup)
+            switch (header->mapGroup)
             {
             case MAP_GROUP_TOWNS_AND_ROUTES:
             case MAP_GROUP_TOWNS_AND_ROUTES_FRLG:
-                SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                SetAreaHasMon(header->mapGroup, header->mapNum);
                 break;
             case MAP_GROUP_DUNGEONS:
             case MAP_GROUP_DUNGEONS_FRLG:
             case MAP_GROUP_SPECIAL_AREA:
             case MAP_GROUP_SPECIAL_AREA_FRLG:
-                SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                SetSpecialMapHasMon(header->mapGroup, header->mapNum);
                 break;
             }
         }

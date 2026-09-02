@@ -56,6 +56,11 @@ static inline u16 LocalRandom(rng_value_t *val)
 u32 Random32(void);
 u32 Random2_32(void);
 
+#if TESTING
+extern void (*gRandom32IntrHook)(void);
+extern u32 gRandom32CallCount;
+#endif
+
 static inline u16 Random(void)
 {
     return Random32() >> 16;

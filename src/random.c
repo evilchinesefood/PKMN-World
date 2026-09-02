@@ -11,6 +11,11 @@ COMMON_DATA rng_value_t gRng2Value = {0};
 
 EWRAM_DATA static volatile bool8 sRngLoopUnlocked;
 
+#if TESTING
+EWRAM_DATA void (*gRandom32IntrHook)(void);
+EWRAM_DATA u32 gRandom32CallCount;
+#endif
+
 // Streams allow generators seeded the same to have separate outputs.
 #define STREAM1 1
 #define STREAM2 29
@@ -42,7 +47,7 @@ static void SFC32_Seed(struct Sfc32State *state, u32 seed, u8 stream)
 /*This ASM implementation uses some shortcuts and is generally faster on the GBA.
 * It's not necessarily faster if inlined, or on other platforms.
 * In addition, it's extremely non-portable. */
-u32 NAKED Random32(void)
+static u32 NAKED Random32Core(void)
 {
     asm(".thumb\n\
     push {r4, r5, r6}\n\
@@ -68,6 +73,28 @@ u32 NAKED Random32(void)
     bx lr\n\
     .ltorg"
     );
+}
+
+u32 Random32(void)
+{
+    u32 result;
+    // Skip VBlank AdvanceRandom across the load-modify-store of gRngValue.
+    sRngLoopUnlocked = FALSE;
+#if TESTING
+    gRandom32CallCount++;
+    if (gRandom32IntrHook != NULL)
+    {
+        struct Sfc32State state = gRngValue;
+        gRandom32IntrHook();
+        result = _SFC32_Next_Stream(&state, STREAM1);
+        gRngValue = state;
+        sRngLoopUnlocked = TRUE;
+        return result;
+    }
+#endif
+    result = Random32Core();
+    sRngLoopUnlocked = TRUE;
+    return result;
 }
 
 u32 Random2_32(void)

@@ -31,7 +31,14 @@ with f as file:
         print("file not an ELF: '{}'".format(args.filename))
         quit(2)
 
-result = subprocess.run(['arm-none-eabi-objdump', '-t', args.filename], stdout=subprocess.PIPE)
+try:
+    result = subprocess.run(['arm-none-eabi-objdump', '-t', args.filename], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+except FileNotFoundError:
+    print("arm-none-eabi-objdump: not found")
+    quit(2)
+except subprocess.CalledProcessError as e:
+    print(e.stderr.decode('utf-8'), end='')
+    quit(e.returncode)
 
 Symbol = collections.namedtuple('Symbol', 'name address_start address_end')
 

@@ -1,6 +1,49 @@
 #include "global.h"
+#include "agb_flash.h"
+#include "load_save.h"
 #include "pokemon_storage_system.h"
+#include "save.h"
 #include "test/test.h"
+
+static u32 IndexOfByteNotEqual(const void *buf, u8 value, u32 size)
+{
+    const u8 *bytes = buf;
+    u32 i;
+
+    for (i = 0; i < size; i++)
+    {
+        if (bytes[i] != value)
+            return i;
+    }
+    return size;
+}
+
+static void WriteCraftedOutOfRangeIdSector(u16 flashSector)
+{
+    memset(&gSaveDataBuffer, 0xFF, sizeof(gSaveDataBuffer));
+    gSaveDataBuffer.id = 0xFFFF;
+    gSaveDataBuffer.signature = SECTOR_SIGNATURE;
+    gSaveDataBuffer.checksum = 0;
+    gSaveDataBuffer.counter = 0;
+    ASSUME(ProgramFlashSectorAndVerify(flashSector, (u8 *)&gSaveDataBuffer) == 0);
+}
+
+// Slot 1 with every logical id present and an odd counter so CopySaveSlotData
+// reads flash sectors 14-27 (save slot 2).
+static void WriteValidSlot1WithOddCounter(void)
+{
+    u32 i;
+
+    for (i = 0; i < NUM_SECTORS_PER_SLOT; i++)
+    {
+        memset(&gSaveDataBuffer, 0, sizeof(gSaveDataBuffer));
+        gSaveDataBuffer.id = i;
+        gSaveDataBuffer.signature = SECTOR_SIGNATURE;
+        gSaveDataBuffer.counter = 1;
+        gSaveDataBuffer.checksum = 0;
+        ASSUME(ProgramFlashSectorAndVerify(i, (u8 *)&gSaveDataBuffer) == 0);
+    }
+}
 
 // If you would like to ensure save compatibility, update the values below with those for your hack. You can find these through the debug menu.
 // Please note that this simple check is not 100% foolproof, but should be able to catch most unintended shifts.
@@ -59,3 +102,34 @@ TEST("PokemonStorage is backwards compatible")
 #undef T_SAVEBLOCK2_SIZE
 #undef T_SAVEBLOCK3_SIZE
 #undef T_POKEMONSTORAGE_SIZE
+
+// A sector with SECTOR_SIGNATURE and id 0xFFFF used to index locations[] and
+// 1 << id past gRamSaveSectorLocations (NUM_SECTORS_PER_SLOT == 14).
+TEST("LoadGameSave ignores flash sectors with out-of-range ids")
+{
+    u32 slot = 0;
+
+    PARAMETRIZE { slot = 0; } // GetSaveValidStatus + CopySaveSlotData on slot 1
+    PARAMETRIZE { slot = 1; } // GetSaveValidStatus + CopySaveSlotData on slot 2
+
+    if (!gFlashMemoryPresent)
+        CheckForFlashMemory();
+    ASSUME(gFlashMemoryPresent == TRUE);
+
+    ClearSaveData();
+    if (slot == 1)
+        WriteValidSlot1WithOddCounter();
+    WriteCraftedOutOfRangeIdSector(slot * NUM_SECTORS_PER_SLOT);
+    if (slot == 0)
+        WriteCraftedOutOfRangeIdSector(NUM_SECTORS_PER_SLOT);
+
+    memset(gSaveBlock1Ptr, 0xA5, sizeof(struct SaveBlock1));
+    memset(gSaveBlock2Ptr, 0x5A, sizeof(struct SaveBlock2));
+    memset(gPokemonStoragePtr, 0x3C, sizeof(struct PokemonStorage));
+
+    LoadGameSave(SAVE_NORMAL);
+
+    EXPECT_EQ(IndexOfByteNotEqual(gSaveBlock1Ptr, 0xA5, sizeof(struct SaveBlock1)), sizeof(struct SaveBlock1));
+    EXPECT_EQ(IndexOfByteNotEqual(gSaveBlock2Ptr, 0x5A, sizeof(struct SaveBlock2)), sizeof(struct SaveBlock2));
+    EXPECT_EQ(IndexOfByteNotEqual(gPokemonStoragePtr, 0x3C, sizeof(struct PokemonStorage)), sizeof(struct PokemonStorage));
+}

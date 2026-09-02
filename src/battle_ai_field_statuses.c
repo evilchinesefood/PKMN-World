@@ -68,7 +68,6 @@ bool32 WeatherChecker(enum BattlerId battler, u32 weather, enum FieldEffectOutco
         return (FIELD_EFFECT_BLOCKED == desiredResult);
 
     enum FieldEffectOutcome result = FIELD_EFFECT_NEUTRAL;
-    enum FieldEffectOutcome firstResult = FIELD_EFFECT_NEUTRAL;
 
     u32 battlersOnSide = 1;
 
@@ -77,25 +76,21 @@ bool32 WeatherChecker(enum BattlerId battler, u32 weather, enum FieldEffectOutco
 
     for (u32 battlerIndex = 0; battlerIndex < battlersOnSide; battlerIndex++)
     {
-        if (weather & B_WEATHER_RAIN)
-            result = BenefitsFromRain(battler);
-        else if (weather & B_WEATHER_SUN)
-            result = BenefitsFromSun(battler);
-        else if (weather & B_WEATHER_SANDSTORM)
-            result = BenefitsFromSandstorm(battler);
-        else if (weather & B_WEATHER_ICY_ANY)
-            result = BenefitsFromHailOrSnow(battler, weather);
+        // Keep the setter's non-neutral result; mixed POSITIVE/NEGATIVE defaults to the setter.
+        if (result == FIELD_EFFECT_NEUTRAL)
+        {
+            if (weather & B_WEATHER_RAIN)
+                result = BenefitsFromRain(battler);
+            else if (weather & B_WEATHER_SUN)
+                result = BenefitsFromSun(battler);
+            else if (weather & B_WEATHER_SANDSTORM)
+                result = BenefitsFromSandstorm(battler);
+            else if (weather & B_WEATHER_ICY_ANY)
+                result = BenefitsFromHailOrSnow(battler, weather);
+        }
 
         battler = GetPartnerBattler(battler);
-
-        if (result != FIELD_EFFECT_NEUTRAL)
-        {
-            if (weather & B_WEATHER_DAMAGING_ANY && battlerIndex == 0 && battlersOnSide == 2)
-                firstResult = result;
-        }
     }
-    if (firstResult != FIELD_EFFECT_NEUTRAL)
-        return (firstResult == result) && (result == desiredResult);
     return (result == desiredResult);
 }
 

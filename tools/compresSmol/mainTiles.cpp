@@ -15,7 +15,17 @@ int main(int argc, char *argv[])
         if (compression.failed)
             return 1;
         std::ofstream fileOut(outputName, std::ios::out | std::ios::binary);
+        if (!fileOut.is_open())
+        {
+            fprintf(stderr, "Error: Couldn't open %s for writing\n", outputName.c_str());
+            return 1;
+        }
         fileOut.write(reinterpret_cast<const char *>(compression.writeVec.data()), compression.writeVec.size()*4);
+        if (!fileOut)
+        {
+            fprintf(stderr, "Error: Couldn't write %s\n", outputName.c_str());
+            return 1;
+        }
         fileOut.close();
         return 0;
     }

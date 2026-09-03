@@ -50,20 +50,25 @@ static const u8 *const sBirchDexRatingTexts[BIRCH_DEX_STRINGS] =
 // This shows your Hoenn Pokédex rating and not your National Dex.
 const u8 *GetPokedexRatingText(u32 count)
 {
-    u32 i, j;
+    u32 i, species, nationalDexNo, index;
     u16 maxDex = REGIONAL_DEX_COUNT - 1;
     // doesNotCountForRegionalPokedex
     for (i = 0; i < REGIONAL_DEX_COUNT; i++)
     {
-        j = NationalPokedexNumToSpecies(RegionalToNationalOrder(i + 1));
-        if (gSpeciesInfo[j].isMythical && !gSpeciesInfo[j].dexForceRequired)
+        nationalDexNo = RegionalToNationalOrder(i + 1);
+        species = NationalPokedexNumToSpecies(nationalDexNo);
+        if (gSpeciesInfo[species].isMythical && !gSpeciesInfo[species].dexForceRequired)
         {
-            if (GetSetPokedexFlag(j, FLAG_GET_CAUGHT))
+            // GetSetPokedexFlag takes a National Dex number, not a species id.
+            if (count > 0 && GetSetPokedexFlag(nationalDexNo, FLAG_GET_CAUGHT))
                 count--;
             maxDex--;
         }
     }
-    return sBirchDexRatingTexts[(count * (BIRCH_DEX_STRINGS - 1)) / maxDex];
+    index = (count * (BIRCH_DEX_STRINGS - 1)) / maxDex;
+    if (index >= BIRCH_DEX_STRINGS)
+        index = BIRCH_DEX_STRINGS - 1;
+    return sBirchDexRatingTexts[index];
 }
 
 void ShowPokedexRatingMessage(void)

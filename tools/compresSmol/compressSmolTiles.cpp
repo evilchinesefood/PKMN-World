@@ -42,7 +42,10 @@ CompressionResult compressTileset(std::string fileName)
     std::vector<unsigned short> tiles = readFileAsUS(fileName);
     std::vector<unsigned short> origTiles = tiles;
     if (tiles.size() == 0)
+    {
+        result.failed = true;
         return result;
+    }
     result.tilemapSize = tiles.size()*2;
     deltaEncodeTileNums(&tiles);
     result.vecs = compressVector(&tiles);

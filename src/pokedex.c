@@ -124,6 +124,8 @@ static EWRAM_DATA struct PokedexView *sPokedexView = NULL;
 static EWRAM_DATA u16 sLastSelectedPokemon = 0;
 static EWRAM_DATA u8 sPokeBallRotation = 0;
 static EWRAM_DATA struct PokedexListItem *sPokedexListItem = NULL;
+static EWRAM_DATA enum Species sPokedexSpeciesByDex[NATIONAL_DEX_COUNT + 1];
+static EWRAM_DATA bool8 sPokedexSpeciesByDexBuilt;
 
 COMMON_DATA void (*gPokedexVBlankCB)(void) = NULL;
 
@@ -165,6 +167,7 @@ struct PokedexListItem
     u16 dexNum;
     u16 seen:1;
     u16 owned:1;
+    enum Species species;
 };
 
 struct PokedexView
@@ -228,6 +231,7 @@ static bool8 LoadPokedexListPage(u8);
 static void LoadPokedexBgPalette(bool8);
 static void FreeWindowAndBgBuffers(void);
 static void CreatePokedexList(u8, u8);
+static void StorePokedexListSpecies(void);
 static void CreateMonDexNum(u16, u8, u8, u16);
 static void CreateCaughtBall(u16, u8, u8, u16);
 static u8 CreateMonName(u16, u8, u8);
@@ -1541,10 +1545,12 @@ static void ResetPokedexView(struct PokedexView *pokedexView)
         pokedexView->pokedexList[i].dexNum = 0xFFFF;
         pokedexView->pokedexList[i].seen = FALSE;
         pokedexView->pokedexList[i].owned = FALSE;
+        pokedexView->pokedexList[i].species = SPECIES_NONE;
     }
     pokedexView->pokedexList[NATIONAL_DEX_COUNT].dexNum = 0;
     pokedexView->pokedexList[NATIONAL_DEX_COUNT].seen = FALSE;
     pokedexView->pokedexList[NATIONAL_DEX_COUNT].owned = FALSE;
+    pokedexView->pokedexList[NATIONAL_DEX_COUNT].species = SPECIES_NONE;
     pokedexView->pokemonListCount = 0;
     pokedexView->selectedPokemon = 0;
     pokedexView->selectedPokemonBackup = 0;
@@ -2175,6 +2181,34 @@ static void FreeWindowAndBgBuffers(void)
         Free(tilemapBuffer);
 }
 
+// One species-forward pass (cached) instead of NationalPokedexNumToSpecies per list row —
+// that lookup is a linear gSpeciesInfo scan, so search was O(list × NUM_SPECIES) per filter.
+static void StorePokedexListSpecies(void)
+{
+    u16 i, dn;
+    u32 s;
+
+    if (!sPokedexSpeciesByDexBuilt)
+    {
+        for (s = 1; s < NUM_SPECIES; s++)
+        {
+            dn = gSpeciesInfo[s].natDexNum;
+            if (dn != 0 && dn <= NATIONAL_DEX_COUNT && sPokedexSpeciesByDex[dn] == SPECIES_NONE)
+                sPokedexSpeciesByDex[dn] = GET_BASE_SPECIES_ID((enum Species)s);
+        }
+        sPokedexSpeciesByDexBuilt = TRUE;
+    }
+
+    for (i = 0; i < sPokedexView->pokemonListCount; i++)
+    {
+        dn = sPokedexView->pokedexList[i].dexNum;
+        if (dn != 0 && dn <= NATIONAL_DEX_COUNT)
+            sPokedexView->pokedexList[i].species = sPokedexSpeciesByDex[dn];
+        else
+            sPokedexView->pokedexList[i].species = SPECIES_NONE;
+    }
+}
+
 static void CreatePokedexList(u8 dexMode, u8 order)
 {
     u32 vars[3]; //I have no idea why three regular variables are stored in an array, but whatever.
@@ -2313,11 +2347,14 @@ static void CreatePokedexList(u8 dexMode, u8 order)
         break;
     }
 
+    StorePokedexListSpecies();
+
     for (i = sPokedexView->pokemonListCount; i < NATIONAL_DEX_COUNT; i++)
     {
         sPokedexView->pokedexList[i].dexNum = 0xFFFF;
         sPokedexView->pokedexList[i].seen = FALSE;
         sPokedexView->pokedexList[i].owned = FALSE;
+        sPokedexView->pokedexList[i].species = SPECIES_NONE;
     }
 }
 
@@ -5011,7 +5048,7 @@ static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, enum BodyColor bod
         {
             u8 firstLetter;
 
-            species = NationalPokedexNumToSpecies(sPokedexView->pokedexList[i].dexNum);
+            species = sPokedexView->pokedexList[i].species;
             firstLetter = GetSpeciesName(species)[0];
             if (LETTER_IN_RANGE_UPPER(firstLetter, abcGroup) || LETTER_IN_RANGE_LOWER(firstLetter, abcGroup))
             {
@@ -5027,7 +5064,7 @@ static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, enum BodyColor bod
     {
         for (i = 0, resultsCount = 0; i < sPokedexView->pokemonListCount; i++)
         {
-            species = NationalPokedexNumToSpecies(sPokedexView->pokedexList[i].dexNum);
+            species = sPokedexView->pokedexList[i].species;
 
             if (bodyColor == gSpeciesInfo[species].bodyColor)
             {
@@ -5053,7 +5090,7 @@ static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, enum BodyColor bod
             {
                 if (sPokedexView->pokedexList[i].owned)
                 {
-                    species = NationalPokedexNumToSpecies(sPokedexView->pokedexList[i].dexNum);
+                    species = sPokedexView->pokedexList[i].species;
 
                     types[0] = GetSpeciesType(species, 0);
                     types[1] = GetSpeciesType(species, 1);
@@ -5071,7 +5108,7 @@ static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, enum BodyColor bod
             {
                 if (sPokedexView->pokedexList[i].owned)
                 {
-                    species = NationalPokedexNumToSpecies(sPokedexView->pokedexList[i].dexNum);
+                    species = sPokedexView->pokedexList[i].species;
 
                     types[0] = GetSpeciesType(species, 0);
                     types[1] = GetSpeciesType(species, 1);
@@ -5093,6 +5130,7 @@ static int DoPokedexSearch(u8 dexMode, u8 order, u8 abcGroup, enum BodyColor bod
             sPokedexView->pokedexList[i].dexNum = 0xFFFF;
             sPokedexView->pokedexList[i].seen = FALSE;
             sPokedexView->pokedexList[i].owned = FALSE;
+            sPokedexView->pokedexList[i].species = SPECIES_NONE;
         }
     }
 

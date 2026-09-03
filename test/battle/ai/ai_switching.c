@@ -2706,3 +2706,22 @@ AI_SINGLE_BATTLE_TEST("AI can switch out if it loses the 1v1")
         TURN { EXPECT_SWITCH(opponent, 1); }
     }
 }
+
+AI_DOUBLE_BATTLE_TEST("AI still sets Trick Room and Electric Terrain when the partner is field-neutral")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_RISING_VOLTAGE) == EFFECT_TERRAIN_BOOST);
+        ASSUME(GetMoveTerrainBoost_Terrain(MOVE_RISING_VOLTAGE) == STATUS_FIELD_ELECTRIC_TERRAIN);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
+        PLAYER(SPECIES_WOBBUFFET) { Speed(50); Moves(MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WOBBUFFET) { Speed(50); Moves(MOVE_CELEBRATE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(10); Moves(MOVE_RISING_VOLTAGE, MOVE_CELEBRATE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(50); Moves(MOVE_CELEBRATE); }
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_CELEBRATE); MOVE(playerRight, MOVE_CELEBRATE); }
+    } THEN {
+        enum BattlerId user = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+        EXPECT(ShouldSetFieldStatus(user, STATUS_FIELD_TRICK_ROOM));
+        EXPECT(ShouldSetFieldStatus(user, STATUS_FIELD_ELECTRIC_TERRAIN));
+    }
+}

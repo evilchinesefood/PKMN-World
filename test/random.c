@@ -283,3 +283,36 @@ TEST("Thumb and C SFC32 implementations produce the same results")
 
     EXPECT_EQ(thumbSum, cSum);
 }
+
+static void InjectAdvanceRandom(void)
+{
+    // Prevent infinite re-entry if the loop lock is not held.
+    gRandom32IntrHook = NULL;
+    AdvanceRandom();
+}
+
+TEST("Random32 advances once when nested AdvanceRandom is injected")
+{
+    u32 i;
+    rng_value_t expected;
+
+    SeedRng(0);
+    expected = gRngValue;
+    gRandom32CallCount = 0;
+
+    for (i = 0; i < 64; i++)
+    {
+        u32 result;
+        u32 expectedResult;
+        gRandom32IntrHook = InjectAdvanceRandom;
+        result = Random32();
+        expectedResult = _SFC32_Next(&expected);
+        EXPECT_EQ(result, expectedResult);
+        EXPECT_EQ(gRngValue.a, expected.a);
+        EXPECT_EQ(gRngValue.b, expected.b);
+        EXPECT_EQ(gRngValue.c, expected.c);
+        EXPECT_EQ(gRngValue.ctr, expected.ctr);
+    }
+
+    EXPECT_EQ(gRandom32CallCount, 64);
+}

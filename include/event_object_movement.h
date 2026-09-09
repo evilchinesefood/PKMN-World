@@ -158,6 +158,8 @@ struct ObjectEvent *GetFollowerObject(void);
 enum Direction GetDirectionToFace(s16, s16, s16, s16);
 void UpdateLightSprite(struct Sprite *);
 void TrySpawnObjectEvents(s16 cameraX, s16 cameraY);
+// Optional field sprites may return MAX_SPRITES when the pool is full.
+u8 CreateObjectGraphicsSpriteUnchecked(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority);
 u8 CreateObjectGraphicsSpriteWithTag(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u16 paletteTag);
 u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority);
 u8 TrySpawnObjectEvent(u8 localId, u8 mapNum, u8 mapGroup);

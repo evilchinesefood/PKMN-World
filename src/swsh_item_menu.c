@@ -3976,7 +3976,7 @@ static void Task_KeyItemWheel(u8 taskId)
         for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
         {
             u16 regItem = GetRegisteredItem(i);
-            tBoxSprite[i] = j = CreateSprite(&sSpriteTemplate_KeyItemBox, sKeyItemBoxXPos[i], sKeyItemBoxYPos[i], 0);
+            tBoxSprite[i] = j = CreateSpriteUnchecked(&sSpriteTemplate_KeyItemBox, sKeyItemBoxXPos[i], sKeyItemBoxYPos[i], 0);
             if (j < MAX_SPRITES)
                 StartSpriteAffineAnim(&gSprites[j], i);
             tBoxWinSprite[i] = MAX_SPRITES;
@@ -4033,7 +4033,7 @@ static void Task_KeyItemWheel(u8 taskId)
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
         SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_OBJ);
         for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
-            tBoxWinSprite[i] = CreateSprite(&sSpriteTemplate_KeyItemBoxWin, sKeyItemBoxXPos[i], sKeyItemBoxYPos[i], 0);
+            tBoxWinSprite[i] = CreateSpriteUnchecked(&sSpriteTemplate_KeyItemBoxWin, sKeyItemBoxXPos[i], sKeyItemBoxYPos[i], 0);
         tState = 1;
         break;
     }

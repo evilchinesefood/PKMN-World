@@ -2124,13 +2124,20 @@ static u32 LoadDynamicFollowerPaletteFromGraphicsId(u16 graphicsId, struct Sprit
 }
 
 // Used to create a sprite using a graphicsId associated with object events.
-u8 CreateObjectGraphicsSpriteWithTag(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u16 paletteTag)
+static u8 CreateObjectGraphicsSpriteWithTagUnchecked(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u16 paletteTag)
 {
     struct SpriteTemplate *spriteTemplate;
     const struct SubspriteTable *subspriteTables;
     const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     struct Sprite *sprite;
     u8 spriteId;
+
+    // Avoid loading graphics/palettes when no sprite can own them.
+    for (spriteId = 0; spriteId < MAX_SPRITES; spriteId++)
+        if (!gSprites[spriteId].inUse)
+            break;
+    if (spriteId == MAX_SPRITES)
+        return MAX_SPRITES;
 
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, callback, spriteTemplate, &subspriteTables);
@@ -2153,7 +2160,7 @@ u8 CreateObjectGraphicsSpriteWithTag(u16 graphicsId, void (*callback)(struct Spr
         LoadObjectEventPalette(spriteTemplate->paletteTag);
     }
 
-    spriteId = CreateSprite(spriteTemplate, x, y, subpriority);
+    spriteId = CreateSpriteUnchecked(spriteTemplate, x, y, subpriority);
 
     Free(spriteTemplate);
 
@@ -2166,6 +2173,18 @@ u8 CreateObjectGraphicsSpriteWithTag(u16 graphicsId, void (*callback)(struct Spr
         sprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
     }
     return spriteId;
+}
+
+u8 CreateObjectGraphicsSpriteWithTag(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u16 paletteTag)
+{
+    u8 spriteId = CreateObjectGraphicsSpriteWithTagUnchecked(graphicsId, callback, x, y, subpriority, paletteTag);
+    fatal_assertf(spriteId < MAX_SPRITES, "Out of sprite slots");
+    return spriteId;
+}
+
+u8 CreateObjectGraphicsSpriteUnchecked(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)
+{
+    return CreateObjectGraphicsSpriteWithTagUnchecked(graphicsId, callback, x, y, subpriority, TAG_NONE);
 }
 
 u8 CreateObjectGraphicsSprite(u16 graphicsId, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)

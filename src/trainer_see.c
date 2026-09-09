@@ -1076,19 +1076,25 @@ u8 FldEff_QuestionMarkIcon(void)
     {
         // Use follower emotes
         u8 emotion = gFieldEffectArguments[7];
-        spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emote, 0, 0, 0x52);
+        spriteId = CreateSpriteAtEndUnchecked(&sSpriteTemplate_Emote, 0, 0, 0x52);
         if (spriteId == MAX_SPRITES)
+        {
+            FieldEffectActiveListRemove(FLDEFF_EMOTE);
             return 0;
+        }
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EMOTE, emotion); // Set animation based on emotion
         UpdateSpritePaletteByTemplate(&sSpriteTemplate_Emote, &gSprites[spriteId]);
         return 0;
     }
-    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
-
+    spriteId = CreateSpriteAtEndUnchecked(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x52);
     if (spriteId != MAX_SPRITES)
     {
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 1);
         UpdateSpritePaletteByTemplate(&sSpriteTemplate_ExclamationQuestionMark, &gSprites[spriteId]);
+    }
+    else
+    {
+        FieldEffectActiveListRemove(FLDEFF_QUESTION_MARK_ICON);
     }
 
     return 0;
@@ -1096,8 +1102,7 @@ u8 FldEff_QuestionMarkIcon(void)
 
 u8 FldEff_HeartIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
-
+    u8 spriteId = CreateSpriteAtEndUnchecked(&sSpriteTemplate_HeartIcon, 0, 0, 0x52);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
@@ -1105,14 +1110,17 @@ u8 FldEff_HeartIcon(void)
         SetIconSpriteData(sprite, FLDEFF_HEART_ICON, 0);
         UpdateSpritePaletteByTemplate(&sSpriteTemplate_HeartIcon, sprite);
     }
+    else
+    {
+        FieldEffectActiveListRemove(FLDEFF_HEART_ICON);
+    }
 
     return 0;
 }
 
 u8 FldEff_DoubleExclMarkIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
-
+    u8 spriteId = CreateSpriteAtEndUnchecked(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
@@ -1120,14 +1128,17 @@ u8 FldEff_DoubleExclMarkIcon(void)
         SetIconSpriteData(sprite, FLDEFF_DOUBLE_EXCL_MARK_ICON, 2);
         UpdateSpritePaletteByTemplate(&sSpriteTemplate_ExclamationQuestionMark, sprite);
     }
+    else
+    {
+        FieldEffectActiveListRemove(FLDEFF_DOUBLE_EXCL_MARK_ICON);
+    }
 
     return 0;
 }
 
 u8 FldEff_XIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
-
+    u8 spriteId = CreateSpriteAtEndUnchecked(&sSpriteTemplate_ExclamationQuestionMark, 0, 0, 0x53);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
@@ -1135,16 +1146,23 @@ u8 FldEff_XIcon(void)
         SetIconSpriteData(sprite, FLDEFF_X_ICON, 3);
         UpdateSpritePaletteByTemplate(&sSpriteTemplate_ExclamationQuestionMark, sprite);
     }
+    else
+    {
+        FieldEffectActiveListRemove(FLDEFF_X_ICON);
+    }
 
     return 0;
 }
 
 u8 FldEff_SmileyFaceIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x53);
-
+    u8 spriteId = CreateSpriteAtEndUnchecked(&sSpriteTemplate_Emoticons, 0, 0, 0x53);
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_SMILEY_FACE_ICON, 3);
+    else
+    {
+        FieldEffectActiveListRemove(FLDEFF_SMILEY_FACE_ICON);
+    }
 
     return 0;
 }

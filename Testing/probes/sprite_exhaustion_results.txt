@@ -1,0 +1,107 @@
+Baseline commit: 0a1438d0df3dd278f5d2b55c1d129f58b8907f4b
+Command: make check -j8 TESTS=Sprite audit probe (argument passed as one quoted value)
+Expected-crash markers removed in temporary test copy to expose exact diagnostics.
+Result: exit 1, 51 intentional failures, all at Out of sprite slots.
+
+[14] Sprite audit probe 081: CreateAshSprites: CRASH
+src/sprite.c:452: Out of sprite slots
+[00] Sprite audit probe 159: FldEff_SmileyFaceIcon: CRASH
+src/sprite.c:452: Out of sprite slots
+[00] Sprite audit probe 080: CreateFogHorizontalSprites: CRASH
+src/sprite.c:452: Out of sprite slots
+[00] Sprite audit probe 061: FldEff_ShakingGrass: CRASH
+src/sprite.c:452: Out of sprite slots
+[01] Sprite audit probe 158: FldEff_XIcon: CRASH
+src/sprite.c:452: Out of sprite slots
+[01] Sprite audit probe 079: CreateSnowflakeSprite: CRASH
+src/sprite.c:452: Out of sprite slots
+[01] Sprite audit probe 060: FldEff_HotSpringsWater: CRASH
+src/sprite.c:452: Out of sprite slots
+[02] Sprite audit probe 157: FldEff_DoubleExclMarkIcon: CRASH
+src/sprite.c:452: Out of sprite slots
+[02] Sprite audit probe 078: CreateCloudSprites: CRASH
+src/sprite.c:436: Out of sprite slots
+[02] Sprite audit probe 059: FldEff_Ripple: CRASH
+src/sprite.c:452: Out of sprite slots
+[03] Sprite audit probe 156: FldEff_HeartIcon: CRASH
+src/sprite.c:452: Out of sprite slots
+[03] Sprite audit probe 074: FldEff_Sparkle: CRASH
+src/sprite.c:452: Out of sprite slots
+[03] Sprite audit probe 058: FldEff_FeetInFlowingWater: CRASH
+src/sprite.c:452: Out of sprite slots
+[04] Sprite audit probe 155: FldEff_QuestionMarkIcon: CRASH
+src/sprite.c:452: Out of sprite slots
+[05] Sprite audit probe 154: FldEff_QuestionMarkIcon: CRASH
+src/sprite.c:452: Out of sprite slots
+[05] Sprite audit probe 072: FldEff_BerryTreeGrowthSparkle: CRASH
+src/sprite.c:452: Out of sprite slots
+[06] Sprite audit probe 104: FldEff_ORASDowsing: CRASH
+src/sprite.c:452: Out of sprite slots
+[06] Sprite audit probe 071: FldEff_Bubbles: CRASH
+src/sprite.c:452: Out of sprite slots
+[07] Sprite audit probe 103: FldEff_ORASDowsing: CRASH
+src/sprite.c:452: Out of sprite slots
+[07] Sprite audit probe 070: FldEff_SandPile: CRASH
+src/sprite.c:452: Out of sprite slots
+[08] Sprite audit probe 087: CreateRecordMixingLights: CRASH
+src/sprite.c:436: Out of sprite slots
+[08] Sprite audit probe 069: FldEff_RockClimbDust: CRASH
+src/sprite.c:452: Out of sprite slots
+[09] Sprite audit probe 086: DoSecretBaseGlitterMatSparkle: CRASH
+src/sprite.c:452: Out of sprite slots
+[09] Sprite audit probe 068: FldEff_Dust: CRASH
+src/sprite.c:452: Out of sprite slots
+[10] Sprite audit probe 085: CreateBubbleSprite: CRASH
+src/sprite.c:452: Out of sprite slots
+[10] Sprite audit probe 067: FldEff_SurfBlob: CRASH
+src/sprite.c:452: Out of sprite slots
+[11] Sprite audit probe 084: CreateSwirlSandstormSprites: CRASH
+src/sprite.c:452: Out of sprite slots
+[11] Sprite audit probe 065: FldEff_Ash: CRASH
+src/sprite.c:452: Out of sprite slots
+[12] Sprite audit probe 083: CreateSandstormSprites: CRASH
+src/sprite.c:452: Out of sprite slots
+[12] Sprite audit probe 064: FldEff_WaterSurfacing: CRASH
+src/sprite.c:452: Out of sprite slots
+[13] Sprite audit probe 082: CreateFogDiagonalSprites: CRASH
+src/sprite.c:452: Out of sprite slots
+[13] Sprite audit probe 063: FldEff_UnusedSand: CRASH
+src/sprite.c:452: Out of sprite slots
+[14] Sprite audit probe 062: FldEff_ShakingGrass2: CRASH
+src/sprite.c:452: Out of sprite slots
+[14] Sprite audit probe 047: FldEff_JumpLongGrass: CRASH
+src/sprite.c:452: Out of sprite slots
+[00] Sprite audit probe 046: FldEff_LongGrass: CRASH
+src/sprite.c:452: Out of sprite slots
+[01] Sprite audit probe 045: FldEff_JumpTallGrass: CRASH
+src/sprite.c:452: Out of sprite slots
+[02] Sprite audit probe 044: FldEff_TallGrass: CRASH
+src/sprite.c:452: Out of sprite slots
+[03] Sprite audit probe 042: FldEff_CaveDust: CRASH
+src/sprite.c:452: Out of sprite slots
+[04] Sprite audit probe 073: ShowDisguiseFieldEffect: CRASH
+src/sprite.c:452: Out of sprite slots
+[05] Sprite audit probe 056: FldEff_JumpSmallSplash: CRASH
+src/sprite.c:452: Out of sprite slots
+[05] Sprite audit probe 126: Task_KeyItemWheel: CRASH
+src/sprite.c:436: Out of sprite slots
+[06] Sprite audit probe 055: FldEff_Splash: CRASH
+src/sprite.c:452: Out of sprite slots
+[07] Sprite audit probe 054: FldEff_TracksSlither: CRASH
+src/sprite.c:452: Out of sprite slots
+[08] Sprite audit probe 053: FldEff_BikeTireTracks: CRASH
+src/sprite.c:452: Out of sprite slots
+[09] Sprite audit probe 052: FldEff_TracksSpot: CRASH
+src/sprite.c:452: Out of sprite slots
+[10] Sprite audit probe 051: FldEff_TracksBug: CRASH
+src/sprite.c:452: Out of sprite slots
+[11] Sprite audit probe 050: FldEff_DeepSandFootprints: CRASH
+src/sprite.c:452: Out of sprite slots
+[12] Sprite audit probe 049: FldEff_SandFootprints: CRASH
+src/sprite.c:452: Out of sprite slots
+[13] Sprite audit probe 048: FldEff_ShortGrass: CRASH
+src/sprite.c:452: Out of sprite slots
+[04] Sprite audit probe 057: FldEff_JumpBigSplash: CRASH
+src/sprite.c:452: Out of sprite slots
+[04] Sprite audit probe 034: CreateObjectGraphicsSpriteWithTag: CRASH
+src/sprite.c:436: Out of sprite slots

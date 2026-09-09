@@ -80,6 +80,16 @@ control-flow analysis, a complete caller audit, or an exact count of bugs. It ca
 wrapper-mediated/distant checks and include reassigned variables. It deliberately does
 not fail `make validate` or automatically rewrite allocations.
 
-Follow-up: audit the remaining effect lifecycles, weather variants, and optional overworld
-visuals. Keep each change paired with exhaustion and recovery tests before expanding into UI
-and battle code. The current PR does not claim to fix every heuristic candidate.
+The [follow-up triage](SpriteExhaustionTriage.md) reviews all 166 remaining matches:
+61 confirmed under exhaustion, 30 set aside for this build/scope, and 75 requiring
+further scene evidence. Keep each fix paired with exhaustion and recovery tests.
+The current PR does not claim to fix every heuristic candidate.
+
+
+## Follow-up implementation
+
+PR #285 now also addresses the 61 selected sites from the follow-up inventory,
+with recovery regressions and caller cleanup. The remaining scanner output is
+105 candidates: 75 tracked in [#286](https://github.com/evilchinesefood/PKMN-World/issues/286)
+and 30 set aside for this build/scope. See the triage report for the baseline
+classifications, implementation details, and coverage limits.

@@ -631,14 +631,26 @@ static void Task_CloseItemfinderMessage(u8 taskId)
     DestroyTask(taskId);
 }
 
+static s16 *GetItemfinderData(u8 taskId)
+{
+    u8 spriteId = gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId;
+
+    if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG) && spriteId < MAX_SPRITES)
+        return gSprites[spriteId].data;
+    if (taskId < NUM_TASKS)
+        return gTasks[taskId].data;
+    return NULL;
+}
+
 bool8 ItemfinderCheckForHiddenItems(const struct MapEvents *events, u8 taskId)
 {
     s16 playerX, playerY, i, distanceX, distanceY;
+    s16 *data = GetItemfinderData(taskId);
+
+    if (data == NULL)
+        return FALSE;
     PlayerGetDestCoords(&playerX, &playerY);
-    if (I_ORAS_DOWSING_FLAG != 0)
-        gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId].tItemFound = FALSE;
-    else
-        gTasks[taskId].tItemFound = FALSE;
+    tItemFound = FALSE;
 
     for (i = 0; i < events->bgEventCount; i++)
     {
@@ -656,10 +668,7 @@ bool8 ItemfinderCheckForHiddenItems(const struct MapEvents *events, u8 taskId)
     }
 
     CheckForHiddenItemsInMapConnection(taskId);
-    if (gTasks[taskId].tItemFound == TRUE || gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId].tItemFound)
-        return TRUE;
-    else
-        return FALSE;
+    return tItemFound != FALSE;
 }
 
 static bool8 IsHiddenItemPresentAtCoords(const struct MapEvents *events, s16 x, s16 y)
@@ -753,10 +762,11 @@ static void CheckForHiddenItemsInMapConnection(u8 taskId)
 
 static void SetDistanceOfClosestHiddenItem(u8 taskId, s16 itemDistanceX, s16 itemDistanceY)
 {
-    s16 *data = gTasks[taskId].data;
+    s16 *data = GetItemfinderData(taskId);
     s16 oldItemAbsX, oldItemAbsY, newItemAbsX, newItemAbsY;
-    if (I_ORAS_DOWSING_FLAG != 0)
-        data = gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId].data;
+
+    if (data == NULL)
+        return;
 
     if (tItemFound == FALSE)
     {

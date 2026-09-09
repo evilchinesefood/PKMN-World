@@ -600,7 +600,8 @@ static void Task_FinishSurfDismount(u8 taskId)
     }
 
     SetFollowerNPCSprite(FOLLOWER_NPC_SPRITE_INDEX_NORMAL);
-    DestroySprite(&gSprites[gTasks[taskId].tSpriteId]);
+    if (gTasks[taskId].tSpriteId < MAX_SPRITES)
+        DestroySprite(&gSprites[gTasks[taskId].tSpriteId]);
     UnfreezeObjectEvents();
     DestroyTask(taskId);
     gPlayerAvatar.preventStep = FALSE;
@@ -1426,7 +1427,8 @@ void HideNPCFollower(void)
     if (GetFollowerNPCData(FNPC_DATA_SURF_BLOB) == FNPC_SURF_BLOB_RECREATE || GetFollowerNPCData(FNPC_DATA_SURF_BLOB) == FNPC_SURF_BLOB_DESTROY)
     {
         SetSurfBlob_BobState(gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId, 2);
-        DestroySprite(&gSprites[gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId]);
+        if (gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId < MAX_SPRITES)
+            DestroySprite(&gSprites[gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId]);
         gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId = 0;
     }
 

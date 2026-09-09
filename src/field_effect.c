@@ -3649,7 +3649,7 @@ static void FlyOutFieldEffect_JumpOnBird(struct Task *task)
         StartSpriteAnim(&gSprites[objectEvent->spriteId], ANIM_GET_ON_OFF_POKEMON_WEST);
         objectEvent->inanimate = TRUE;
         ObjectEventSetHeldMovement(objectEvent, MOVEMENT_ACTION_JUMP_IN_PLACE_LEFT);
-        if (task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING)
+        if ((task->tAvatarFlags & PLAYER_AVATAR_FLAG_SURFING) && objectEvent->fieldEffectSpriteId < MAX_SPRITES)
         {
             u8 mountPalNum = gSprites[objectEvent->fieldEffectSpriteId].oam.paletteNum;
 
@@ -4152,7 +4152,7 @@ static void CreateDeoxysRockFragments(struct Sprite *sprite)
 
     for (i = 0; i < 4; i++)
     {
-        u8 spriteId = CreateSprite(&sSpriteTemplate_DeoxysRockFragment, xPos, yPos, 0);
+        u8 spriteId = CreateSpriteUnchecked(&sSpriteTemplate_DeoxysRockFragment, xPos, yPos, 0);
         if (spriteId != MAX_SPRITES)
         {
             StartSpriteAnim(&gSprites[spriteId], i);
@@ -4265,11 +4265,15 @@ u8 FldEff_CaveDust(void)
     u8 spriteId;
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
-    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_CAVE_DUST], gFieldEffectArguments[0], gFieldEffectArguments[1], 0xFF);
+    spriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_CAVE_DUST], gFieldEffectArguments[0], gFieldEffectArguments[1], 0xFF);
     if (spriteId != MAX_SPRITES)
     {
         gSprites[spriteId].coordOffsetEnabled = TRUE;
         gSprites[spriteId].data[0] = 22;
+    }
+    else
+    {
+        FieldEffectActiveListRemove(FLDEFF_CAVE_DUST);
     }
 
     return spriteId;
@@ -4300,7 +4304,7 @@ static u8 CreateRockClimbBlob(void)
     struct Sprite *sprite;
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
-    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_ROCK_CLIMB_BLOB], gFieldEffectArguments[0], gFieldEffectArguments[1], 0x96);
+    spriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_ROCK_CLIMB_BLOB], gFieldEffectArguments[0], gFieldEffectArguments[1], 0x96);
     if (spriteId != MAX_SPRITES)
     {
         sprite = &gSprites[spriteId];
@@ -4515,7 +4519,8 @@ static bool8 RockClimb_WaitStopRockClimb(struct Task *task, struct ObjectEvent *
         objectEvent->noShadow = FALSE; // restore shadow
         UnfreezeObjectEvents();
         UnlockPlayerFieldControls();
-        DestroySprite(&gSprites[objectEvent->fieldEffectSpriteId]);
+        if (objectEvent->fieldEffectSpriteId < MAX_SPRITES)
+            DestroySprite(&gSprites[objectEvent->fieldEffectSpriteId]);
         FieldEffectActiveListRemove(FLDEFF_USE_ROCK_CLIMB);
         objectEvent->triggerGroundEffectsOnMove = TRUE; // e.g. if dismount on grass
         DestroyTask(FindTaskIdByFunc(Task_UseRockClimb));

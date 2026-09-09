@@ -188,7 +188,7 @@ static void CreateCloudSprites(void)
     LoadCustomWeatherSpritePalette(gCloudsWeatherPalette);
     for (i = 0; i < NUM_CLOUD_SPRITES; i++)
     {
-        spriteId = CreateSprite(&sCloudSpriteTemplate, 0, 0, 0xFF);
+        spriteId = CreateSpriteUnchecked(&sCloudSpriteTemplate, 0, 0, 0xFF);
         if (spriteId != MAX_SPRITES)
         {
             gWeatherPtr->sprites.s1.cloudSprites[i] = &gSprites[spriteId];
@@ -677,7 +677,7 @@ static bool8 CreateRainSprite(void)
         return FALSE;
 
     spriteIndex = gWeatherPtr->rainSpriteCount;
-    spriteId = CreateSpriteAtEnd(&sRainSpriteTemplate,
+    spriteId = CreateSpriteAtEndUnchecked(&sRainSpriteTemplate,
       sRainSpriteCoords[spriteIndex].x, sRainSpriteCoords[spriteIndex].y, 78);
 
     if (spriteId != MAX_SPRITES)
@@ -727,13 +727,19 @@ static bool8 UpdateVisibleRainSprites(void)
         gWeatherPtr->rainSpriteVisibleCounter = 0;
         if (gWeatherPtr->curRainSpriteIndex < gWeatherPtr->targetRainSpriteCount)
         {
-            gWeatherPtr->sprites.s1.rainSprites[gWeatherPtr->curRainSpriteIndex++]->tActive = TRUE;
+            struct Sprite *sprite = gWeatherPtr->sprites.s1.rainSprites[gWeatherPtr->curRainSpriteIndex++];
+            if (sprite != NULL)
+                sprite->tActive = TRUE;
         }
         else
         {
             gWeatherPtr->curRainSpriteIndex--;
-            gWeatherPtr->sprites.s1.rainSprites[gWeatherPtr->curRainSpriteIndex]->tActive = FALSE;
-            gWeatherPtr->sprites.s1.rainSprites[gWeatherPtr->curRainSpriteIndex]->invisible = TRUE;
+            struct Sprite *sprite = gWeatherPtr->sprites.s1.rainSprites[gWeatherPtr->curRainSpriteIndex];
+            if (sprite != NULL)
+            {
+                sprite->tActive = FALSE;
+                sprite->invisible = TRUE;
+            }
         }
     }
     return TRUE;
@@ -834,7 +840,11 @@ static bool8 UpdateVisibleSnowflakeSprites(void)
     {
         gWeatherPtr->snowflakeVisibleCounter = 0;
         if (gWeatherPtr->snowflakeSpriteCount < gWeatherPtr->targetSnowflakeSpriteCount)
-            CreateSnowflakeSprite();
+        {
+            // InitAll runs synchronously: a full pool cannot clear while it waits.
+            if (!CreateSnowflakeSprite())
+                gWeatherPtr->targetSnowflakeSpriteCount = gWeatherPtr->snowflakeSpriteCount;
+        }
         else
             DestroySnowflakeSprite();
     }
@@ -904,7 +914,7 @@ static const struct SpriteTemplate sSnowflakeSpriteTemplate =
 
 static bool8 CreateSnowflakeSprite(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSnowflakeSpriteTemplate, 0, 0, 78);
+    u8 spriteId = CreateSpriteAtEndUnchecked(&sSnowflakeSpriteTemplate, 0, 0, 78);
     if (spriteId == MAX_SPRITES)
         return FALSE;
 
@@ -1484,7 +1494,7 @@ static void CreateFogHorizontalSprites(void)
         LoadSpriteSheet(&fogHorizontalSpriteSheet);
         for (i = 0; i < NUM_FOG_HORIZONTAL_SPRITES; i++)
         {
-            spriteId = CreateSpriteAtEnd(&sFogHorizontalSpriteTemplate, 0, 0, 0xFF);
+            spriteId = CreateSpriteAtEndUnchecked(&sFogHorizontalSpriteTemplate, 0, 0, 0xFF);
             if (spriteId != MAX_SPRITES)
             {
                 sprite = &gSprites[spriteId];
@@ -1671,7 +1681,7 @@ static void CreateAshSprites(void)
     {
         for (i = 0; i < NUM_ASH_SPRITES; i++)
         {
-            spriteId = CreateSpriteAtEnd(&sAshSpriteTemplate, 0, 0, 0x4E);
+            spriteId = CreateSpriteAtEndUnchecked(&sAshSpriteTemplate, 0, 0, 0x4E);
             if (spriteId != MAX_SPRITES)
             {
                 sprite = &gSprites[spriteId];
@@ -1888,7 +1898,7 @@ static void CreateFogDiagonalSprites(void)
         LoadSpriteSheet(&fogDiagonalSpriteSheet);
         for (i = 0; i < NUM_FOG_DIAGONAL_SPRITES; i++)
         {
-            spriteId = CreateSpriteAtEnd(&sFogDiagonalSpriteTemplate, 0, (i / 5) * 64, 0xFF);
+            spriteId = CreateSpriteAtEndUnchecked(&sFogDiagonalSpriteTemplate, 0, (i / 5) * 64, 0xFF);
             if (spriteId != MAX_SPRITES)
             {
                 sprite = &gSprites[spriteId];
@@ -2150,7 +2160,7 @@ static void CreateSandstormSprites(void)
         LoadCustomWeatherSpritePalette(gSandstormWeatherPalette);
         for (i = 0; i < NUM_SANDSTORM_SPRITES; i++)
         {
-            spriteId = CreateSpriteAtEnd(&sSandstormSpriteTemplate, 0, (i / 5) * 64, 1);
+            spriteId = CreateSpriteAtEndUnchecked(&sSandstormSpriteTemplate, 0, (i / 5) * 64, 1);
             if (spriteId != MAX_SPRITES)
             {
                 gWeatherPtr->sprites.s2.sandstormSprites1[i] = &gSprites[spriteId];
@@ -2178,7 +2188,7 @@ static void CreateSwirlSandstormSprites(void)
     {
         for (i = 0; i < NUM_SWIRL_SANDSTORM_SPRITES; i++)
         {
-            spriteId = CreateSpriteAtEnd(&sSandstormSpriteTemplate, i * 48 + 24, 208, 1);
+            spriteId = CreateSpriteAtEndUnchecked(&sSandstormSpriteTemplate, i * 48 + 24, 208, 1);
             if (spriteId != MAX_SPRITES)
             {
                 gWeatherPtr->sprites.s2.sandstormSprites2[i] = &gSprites[spriteId];
@@ -2386,7 +2396,7 @@ static void CreateBubbleSprite(u16 coordsIndex)
 {
     s16 x = sBubbleStartCoords[coordsIndex][0];
     s16 y = sBubbleStartCoords[coordsIndex][1] - gSpriteCoordOffsetY;
-    u8 spriteId = CreateSpriteAtEnd(&sBubbleSpriteTemplate, x, y, 0);
+    u8 spriteId = CreateSpriteAtEndUnchecked(&sBubbleSpriteTemplate, x, y, 0);
     if (spriteId != MAX_SPRITES)
     {
         gSprites[spriteId].oam.priority = 1;
@@ -2410,9 +2420,10 @@ static void DestroyBubbleSprites(void)
                 DestroySprite(&gSprites[i]);
         }
 
-        FreeSpriteTilesByTag(GFXTAG_BUBBLE);
         gWeatherPtr->bubblesSpriteCount = 0;
     }
+    // The sheet is loaded even when every bubble allocation fails.
+    FreeSpriteTilesByTag(GFXTAG_BUBBLE);
 }
 
 static void UpdateBubbleSprite(struct Sprite *sprite)

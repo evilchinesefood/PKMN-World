@@ -1,7 +1,10 @@
 #include "global.h"
 #include "event_object_movement.h"
+#include "field_effect.h"
 #include "sprite.h"
 #include "test/test.h"
+#include "constants/event_object_movement.h"
+#include "constants/event_objects.h"
 
 static const u32 sFrame16x32[256 / sizeof(u32)] = {0};
 static const u32 sFrame32x32[512 / sizeof(u32)] = {0};
@@ -40,6 +43,76 @@ static const struct ObjectEventGraphicsInfo sGraphicsInfo32x32 = {
 };
 
 extern u16 LoadSheetGraphicsInfo(const struct ObjectEventGraphicsInfo *info, u16 uuid, struct Sprite *sprite);
+extern u32 FldEff_Shadow(void);
+extern void UpdateShadowFieldEffect(struct Sprite *sprite);
+
+static void FillOverworldSpritePool(void)
+{
+    ResetSpriteData();
+    FreeAllSpritePalettes();
+    memset(gObjectEvents, 0, sizeof(gObjectEvents));
+    for (u32 i = 0; i < MAX_SPRITES; i++)
+        CreateSprite(&gDummySpriteTemplate, 0, 0, 0);
+}
+
+TEST("Overworld sprite exhaustion: object spawn rolls back and can retry")
+{
+    static const struct ObjectEventTemplate template = {
+        .localId = 1,
+        .graphicsId = OBJ_EVENT_GFX_LITTLE_BOY,
+        .kind = OBJ_KIND_NORMAL,
+        .movementType = MOVEMENT_TYPE_FACE_DOWN,
+        .x = 5,
+        .y = 5,
+    };
+    u8 objectEventId;
+
+    FillOverworldSpritePool();
+    EXPECT_EQ(TrySpawnObjectEventTemplate(&template, 0, 0, 0, 0), OBJECT_EVENTS_COUNT);
+    for (u32 i = 0; i < OBJECT_EVENTS_COUNT; i++)
+        EXPECT(!gObjectEvents[i].active);
+
+    DestroySprite(&gSprites[0]);
+    objectEventId = TrySpawnObjectEventTemplate(&template, 0, 0, 0, 0);
+    EXPECT(objectEventId < OBJECT_EVENTS_COUNT);
+    EXPECT(gObjectEvents[objectEventId].active);
+    EXPECT_EQ(gObjectEvents[objectEventId].spriteId, 0);
+    EXPECT(gSprites[0].inUse);
+}
+
+TEST("Overworld sprite exhaustion: virtual object skips creation and can retry")
+{
+    FillOverworldSpritePool();
+    EXPECT_EQ(CreateVirtualObject(OBJ_EVENT_GFX_LITTLE_BOY, 1, 5, 5, 0, DIR_SOUTH), MAX_SPRITES);
+
+    DestroySprite(&gSprites[MAX_SPRITES - 1]);
+    EXPECT_EQ(CreateVirtualObject(OBJ_EVENT_GFX_LITTLE_BOY, 1, 5, 5, 0, DIR_SOUTH), MAX_SPRITES - 1);
+    EXPECT(gSprites[MAX_SPRITES - 1].inUse);
+}
+
+TEST("Overworld sprite exhaustion: shadow skips creation and can retry")
+{
+    FillOverworldSpritePool();
+    gObjectEvents[0].active = TRUE;
+    gObjectEvents[0].localId = 1;
+    gObjectEvents[0].graphicsId = OBJ_EVENT_GFX_LITTLE_BOY;
+    gFieldEffectArguments[0] = 1;
+    gFieldEffectArguments[1] = 0;
+    gFieldEffectArguments[2] = 0;
+    ASSUME(GetObjectEventGraphicsInfo(OBJ_EVENT_GFX_LITTLE_BOY)->shadowSize != SHADOW_SIZE_NONE);
+
+    FldEff_Shadow();
+    for (u32 i = 0; i < MAX_SPRITES; i++)
+    {
+        EXPECT(gSprites[i].inUse);
+        EXPECT(gSprites[i].callback == SpriteCallbackDummy);
+    }
+
+    DestroySprite(&gSprites[MAX_SPRITES - 1]);
+    FldEff_Shadow();
+    EXPECT(gSprites[MAX_SPRITES - 1].inUse);
+    EXPECT(gSprites[MAX_SPRITES - 1].callback == UpdateShadowFieldEffect);
+}
 
 TEST("LoadSheetGraphicsInfo reallocates non-sheet sprites when frame size changes")
 {

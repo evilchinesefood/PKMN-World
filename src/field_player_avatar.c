@@ -1106,7 +1106,7 @@ static void CreateFlightMountSprite(void)
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     struct Sprite *playerSprite = &gSprites[playerObjEvent->spriteId];
 
-    sFlightMountSpriteId = CreateObjectGraphicsSprite(GetFlightMountGraphicsId(), SpriteCB_FlightMount,
+    sFlightMountSpriteId = CreateObjectGraphicsSpriteUnchecked(GetFlightMountGraphicsId(), SpriteCB_FlightMount,
                                                       playerSprite->x, playerSprite->y + 8, 150);
     sFlightOverlaySpriteId = MAX_SPRITES;
     if (sFlightMountSpriteId != MAX_SPRITES)
@@ -1121,7 +1121,7 @@ static void CreateFlightMountSprite(void)
     // This one is driven directly by SpriteCB_FlightMount and lives for the whole flight.
     // Normal (walking) shadow size - the large one read as a dark slab under the pair.
     LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_M], 0, 0);
-    sFlightShadowSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_M],
+    sFlightShadowSpriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SHADOW_M],
                                               playerSprite->x, playerSprite->y + 14, 0xFF);
     if (sFlightShadowSpriteId != MAX_SPRITES)
     {
@@ -1135,7 +1135,7 @@ static void CreateFlightMountSprite(void)
     // looped for the whole flight; its own template callback is parked with Dummy.
     // (No LoadSpriteSheetByTemplate: this template's tileTag is TAG_NONE, so it loads via the
     // per-frame image path - a sheet load would be a no-op.)
-    sFlightWindSpriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ],
+    sFlightWindSpriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLIGHT_WIND_FLDEFFOBJ],
                                             playerSprite->x, playerSprite->y + 8, 0xFF);
     if (sFlightWindSpriteId != MAX_SPRITES)
     {
@@ -2086,7 +2086,8 @@ void InitPlayerAvatar(s16 x, s16 y, enum Direction direction, enum Gender gender
 void SetPlayerInvisibility(bool8 invisible)
 {
     gObjectEvents[gPlayerAvatar.objectEventId].invisible = invisible;
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING)
+     && gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId < MAX_SPRITES)
         gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId].invisible = invisible;
 }
 
@@ -2363,16 +2364,16 @@ static void Task_WaitStopSurfing(u8 taskId)
 
     if (ObjectEventClearHeldMovementIfFinished(playerObjEvent))
     {
-        u8 mountPalNum = gSprites[playerObjEvent->fieldEffectSpriteId].oam.paletteNum;
-
         ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
         ObjectEventSetHeldMovement(playerObjEvent, GetFaceDirectionMovementAction(playerObjEvent->facingDirection));
         gPlayerAvatar.preventStep = FALSE;
         UnlockPlayerFieldControls();
-        DestroySprite(&gSprites[playerObjEvent->fieldEffectSpriteId]);
-        // Dynamic surf mount may hold a species palette; the vanilla blob's
-        // player palette is always in use, so this is a no-op for it.
-        FieldEffectFreePaletteIfUnused(mountPalNum);
+        if (playerObjEvent->fieldEffectSpriteId < MAX_SPRITES)
+        {
+            u8 mountPalNum = gSprites[playerObjEvent->fieldEffectSpriteId].oam.paletteNum;
+            DestroySprite(&gSprites[playerObjEvent->fieldEffectSpriteId]);
+            FieldEffectFreePaletteIfUnused(mountPalNum);
+        }
 #ifdef BUGFIX
         // If this is not defined but the player steps into grass from surfing, they will appear over the grass instead of in the grass.
         playerObjEvent->triggerGroundEffectsOnMove = TRUE;

@@ -135,3 +135,38 @@ TEST("Sprite exhaustion audit: actual Dome final audience script tolerates limit
     for (u32 i = 0; i < occupied; i++)
         EXPECT(gSprites[i].callback == SpriteCallbackDummy);
 }
+
+TEST("Sprite exhaustion audit: failed registered shadows do not fill the active list")
+{
+    OccupySpriteSlots(MAX_SPRITES);
+    memset(gObjectEvents, 0, sizeof(gObjectEvents));
+    gObjectEvents[0].active = TRUE;
+    gObjectEvents[0].localId = 1;
+    gObjectEvents[0].graphicsId = OBJ_EVENT_GFX_LITTLE_BOY;
+    memset(gFieldEffectArguments, 0, sizeof(gFieldEffectArguments));
+    gFieldEffectArguments[0] = 1;
+
+    for (u32 i = 0; i < 40; i++)
+    {
+        FieldEffectStart(FLDEFF_SHADOW);
+        EXPECT(!FieldEffectActiveListContains(FLDEFF_SHADOW));
+    }
+    FieldEffectActiveListAdd(FLDEFF_TALL_GRASS);
+    EXPECT(FieldEffectActiveListContains(FLDEFF_TALL_GRASS));
+
+    // Direct allocation failure must leave another caller's registration alone.
+    FieldEffectActiveListAdd(FLDEFF_SHADOW);
+    SetUpShadow(&gObjectEvents[0]);
+    EXPECT(FieldEffectActiveListContains(FLDEFF_SHADOW));
+    FieldEffectActiveListRemove(FLDEFF_SHADOW);
+
+    DestroySprite(&gSprites[MAX_SPRITES - 1]);
+    FieldEffectStart(FLDEFF_SHADOW);
+    EXPECT(FieldEffectActiveListContains(FLDEFF_SHADOW));
+    EXPECT_EQ(gSprites[MAX_SPRITES - 1].callback, UpdateShadowFieldEffect);
+    // A repeated request finds the existing sprite and must retire its extra entry.
+    FieldEffectStart(FLDEFF_SHADOW);
+    FieldEffectStop(&gSprites[MAX_SPRITES - 1], FLDEFF_SHADOW);
+    EXPECT(!FieldEffectActiveListContains(FLDEFF_SHADOW));
+    EXPECT(FieldEffectActiveListContains(FLDEFF_TALL_GRASS));
+}

@@ -45,7 +45,7 @@ static void SynchronizeSurfPosition(struct ObjectEvent *, struct Sprite *);
 static void UpdateBobbingEffect(struct ObjectEvent *, struct Sprite *, struct Sprite *);
 static void SpriteCB_UnderwaterSurfBlob(struct Sprite *);
 static u32 ShowDisguiseFieldEffect(u8, u8, u8);
-u32 FldEff_Shadow(void);
+static bool32 TryCreateShadowFieldEffect(void);
 
 // Data used by all the field effects that share UpdateJumpImpactEffect
 #define sJumpElevation  data[0]
@@ -64,7 +64,7 @@ void SetUpShadow(struct ObjectEvent *objectEvent)
     gFieldEffectArguments[0] = objectEvent->localId;
     gFieldEffectArguments[1] = objectEvent->mapNum;
     gFieldEffectArguments[2] = objectEvent->mapGroup;
-    FldEff_Shadow();
+    TryCreateShadowFieldEffect();
 }
 
 void SetUpReflection(struct ObjectEvent *objectEvent, struct Sprite *sprite, bool8 stillReflection)
@@ -353,6 +353,15 @@ const u16 gShadowVerticalOffsets[] = {
 
 u32 FldEff_Shadow(void)
 {
+    // Only the script entry owns an active-list registration. SetUpShadow calls
+    // the creation helper directly and must not remove another effect's entry.
+    if (!TryCreateShadowFieldEffect())
+        FieldEffectActiveListRemove(FLDEFF_SHADOW);
+    return 0;
+}
+
+static bool32 TryCreateShadowFieldEffect(void)
+{
     u8 objectEventId;
     const struct ObjectEventGraphicsInfo *graphicsInfo;
     u8 spriteId;
@@ -364,16 +373,16 @@ u32 FldEff_Shadow(void)
          && gSprites[i].sLocalId == gFieldEffectArguments[0]
          && gSprites[i].sMapNum == gFieldEffectArguments[1]
          && gSprites[i].sMapGroup == gFieldEffectArguments[2])
-            return 0;
+            return FALSE;
     }
     objectEventId = GetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     // The overworld-flight pair carries its own dedicated ground shadow; the
     // standard object shadow would double it (ground effects re-arm it every step).
     if (gObjectEvents[objectEventId].isPlayer && IsPlayerFlying())
-        return 0;
+        return FALSE;
     graphicsInfo = GetObjectEventGraphicsInfo(gObjectEvents[objectEventId].graphicsId);
     if (graphicsInfo->shadowSize == SHADOW_SIZE_NONE) // don't create a shadow at all
-        return 0;
+        return FALSE;
     LoadSpriteSheetByTemplate(gFieldEffectObjectTemplatePointers[sShadowEffectTemplateIds[graphicsInfo->shadowSize]], 0, 0);
     spriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[sShadowEffectTemplateIds[graphicsInfo->shadowSize]], 0, 0, OW_OBJECT_SUBPRIORITY + 1);
     if (spriteId != MAX_SPRITES)
@@ -390,7 +399,7 @@ u32 FldEff_Shadow(void)
         gSprites[spriteId].sYOffset = (graphicsInfo->height >> 1) - gShadowVerticalOffsets[graphicsInfo->shadowSize];
         #endif
     }
-    return 0;
+    return spriteId != MAX_SPRITES;
 }
 
 void UpdateShadowFieldEffect(struct Sprite *sprite)

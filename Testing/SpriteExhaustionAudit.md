@@ -93,3 +93,13 @@ with recovery regressions and caller cleanup. The remaining scanner output is
 105 candidates: 75 tracked in [#286](https://github.com/evilchinesefood/PKMN-World/issues/286)
 and 30 set aside for this build/scope. See the triage report for the baseline
 classifications, implementation details, and coverage limits.
+
+
+## Shadow registration review follow-up
+
+The PR review identified a registration leak on failed shadow creation. Script
+requests now remove their registration when no new sprite is created (including
+allocation failure and duplicate/suppressed shadows). `SetUpShadow` calls the
+creation helper directly so it does not remove another caller's registration.
+The added regression checks 40 consecutive failures, direct-call ownership,
+successful retry, and duplicate-request cleanup.

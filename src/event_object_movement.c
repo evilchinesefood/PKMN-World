@@ -1888,7 +1888,7 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     if (objectEvent->graphicsId & OBJ_EVENT_MON && objectEvent->graphicsId & OBJ_EVENT_MON_SHINY)
         objectEvent->shiny = TRUE;
 
-    spriteId = CreateSprite(spriteTemplate, 0, 0, 0);
+    spriteId = CreateSpriteUnchecked(spriteTemplate, 0, 0, 0);
     if (spriteId == MAX_SPRITES)
     {
         gObjectEvents[objectEventId].active = FALSE;
@@ -2204,7 +2204,7 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
         LoadObjectEventPalette(spriteTemplate.paletteTag);
     }
 
-    spriteId = CreateSpriteAtEnd(&spriteTemplate, x, y, 0);
+    spriteId = CreateSpriteAtEndUnchecked(&spriteTemplate, x, y, 0);
     if (spriteId != MAX_SPRITES)
     {
         sprite = &gSprites[spriteId];
@@ -3115,11 +3115,9 @@ static void SpawnLightSprite(s16 x, s16 y, s16 camX, s16 camY, u32 lightType)
     lightType = min(lightType, ARRAY_COUNT(gFieldEffectLightTemplates) - 1); // bounds checking
     template = gFieldEffectLightTemplates[lightType];
     LoadSpriteSheetByTemplate(template, 0, 0);
-    // Region merge fix: CreateSprite returns MAX_SPRITES when the 64-sprite pool is
-    // exhausted (e.g. Violet City has 25 light sprites that come into view at once).
-    // The original code did gSprites[CreateSprite(...)] with no check -> gSprites[MAX_SPRITES]
-    // is OOB and the writes below corrupted memory -> crash on first entry to Violet. Bail out.
-    i = CreateSprite(template, 0, 0, 0);
+    // Dense maps can exhaust the sprite pool (e.g. Violet City's lights).
+    // A missing light is optional; let its allocation fail and retry later.
+    i = CreateSpriteUnchecked(template, 0, 0, 0);
     if (i >= MAX_SPRITES)
         return;
     sprite = &gSprites[i];

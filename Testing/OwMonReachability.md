@@ -3,6 +3,9 @@
 `ValidateOwMonPlacements.py` now checks whether an outdoor, scriptless,
 non-cutscene Pokemon has an approach tile connected to a warp or map edge.
 The model includes collision, elevation, Surf and directional ledge jumps.
+Surf entry and exit across elevations require an elevation-3 shore, matching
+`IsPlayerFacingSurfableFishableWater` and `CanStopSurfing`; water cannot
+connect an elevated bank merely because it is adjacent.
 It deliberately ignores NPC/story gates and does not simulate ice, Strength,
 Rock Climb, holes, whirlpools, or complex stairs. It is a content review aid,
 not proof that a player can complete a map.
@@ -16,7 +19,8 @@ inspection before moving their objects.
 For #288, placement changes are limited to towns/routes with at least 60%
 walk coverage and Burned Tower. Moves are within ten Manhattan tiles and
 avoid occupied/event tiles, warp approaches and one-tile corridors. Original
-land/water terrain is preserved. Unresolved cases remain in the baseline.
+land/water terrain is preserved. Review reverted a proposed Route 26 Rapidash
+move after the corrected Surf model showed its new approach was still isolated. Unresolved cases remain in the baseline.
 
 For #291, an explicit habitat policy covers aquatic scenery such as fish,
 Tentacool, Mantine, and Corsola. It does not treat every Water type as

@@ -79,9 +79,9 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(RAPIDASH)",
-      "x": 16,
-      "y": 56,
-      "elevation": 4,
+      "x": 15,
+      "y": 50,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_LEFT_AND_RIGHT",
       "movement_range_x": 8,
       "movement_range_y": 1,

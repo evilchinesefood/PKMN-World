@@ -69,7 +69,10 @@ def flood(layouts, data, names, water, all_maps, map_names):
             # transitions and multilevel tiles follow IsElevationMismatchAt.
             compatible = (a['elevation'] in (0, 15) or b['elevation'] in (0, 15)
                           or a['elevation'] == b['elevation']
-                          or (a['behavior'] in water) != (b['behavior'] in water))
+                          or (a['behavior'] in water and b['behavior'] not in water
+                              and b['elevation'] == 3)
+                          or (a['behavior'] not in water and b['behavior'] in water
+                              and a['elevation'] == 3))
             if compatible:
                 reached.add(q); queue.append(q)
     total = sum(walkable(p) for p in tiles)

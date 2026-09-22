@@ -29,6 +29,11 @@ class ReachabilityTests(unittest.TestCase):
     def test_surf_reaches_water_from_shore(self):
         reached, _, _ = self.fill([[(3,0,0),(1,0,1),(1,0,1)]])
         self.assertIn((2,0), reached)
+    def test_surf_cannot_climb_elevated_bank(self):
+        reached, _, _ = self.fill([[(1,0,1),(5,0,0)]])
+        self.assertNotIn((1,0), reached)
+        reached, _, _ = self.fill([[(5,0,0),(1,0,1)]])
+        self.assertNotIn((1,0), reached)
     def test_south_ledge_jumps_to_landing(self):
         reached, _, _ = self.fill([[(3,0,0)],[(3,1,2)],[(3,0,0)]])
         self.assertIn((0,2), reached)

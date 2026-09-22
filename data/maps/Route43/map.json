@@ -97,9 +97,9 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FURRET)",
-      "x": 7,
+      "x": 10,
       "y": 35,
-      "elevation": 0,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -123,9 +123,9 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FARFETCHD)",
-      "x": 6,
+      "x": 10,
       "y": 34,
-      "elevation": 4,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -136,9 +136,9 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FLAAFFY)",
-      "x": 29,
+      "x": 25,
       "y": 22,
-      "elevation": 4,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -149,8 +149,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(RATICATE)",
-      "x": 27,
-      "y": 43,
+      "x": 25,
+      "y": 38,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
@@ -162,8 +162,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(SKARMORY)",
-      "x": 28,
-      "y": 44,
+      "x": 24,
+      "y": 39,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
@@ -188,7 +188,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(GIRAFARIG)",
-      "x": 6,
+      "x": 3,
       "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -201,7 +201,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FARFETCHD)",
-      "x": 7,
+      "x": 3,
       "y": 6,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -302,9 +302,7 @@
       "dest_warp_id": "1"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",

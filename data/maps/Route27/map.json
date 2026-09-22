@@ -157,7 +157,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DODRIO)",
-      "x": 58,
+      "x": 65,
       "y": 14,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_SEQUENCE_DOWN_LEFT_UP_RIGHT",
@@ -183,8 +183,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PONYTA)",
-      "x": 58,
-      "y": 16,
+      "x": 65,
+      "y": 15,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_SEQUENCE_LEFT_UP_RIGHT_DOWN",
       "movement_range_x": 3,
@@ -210,8 +210,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CHIKORITA)",
       "x": 30,
-      "y": 17,
-      "elevation": 4,
+      "y": 20,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 7,
       "movement_range_y": 0,
@@ -222,7 +222,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CYNDAQUIL)",
-      "x": 72,
+      "x": 69,
       "y": 15,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_RIGHT_AND_LEFT",
@@ -236,8 +236,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DODRIO)",
       "x": 110,
-      "y": 8,
-      "elevation": 4,
+      "y": 11,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_RIGHT_AND_LEFT",
       "movement_range_x": 15,
       "movement_range_y": 0,
@@ -249,8 +249,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(ARBOK)",
       "x": 109,
-      "y": 9,
-      "elevation": 4,
+      "y": 12,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_RIGHT_AND_LEFT",
       "movement_range_x": 15,
       "movement_range_y": 0,

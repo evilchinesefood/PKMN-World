@@ -115,6 +115,9 @@ jobs:
       - name: Region map icon positions
         run: python3 Testing/ValidateRegionMap.py
 
+      - name: Lance Rocket HQ multi battle
+        run: python3 Testing/ValidateLanceMultiBattle.py
+
   test:
     name: make check (battle test suite)
     runs-on: ubuntu-latest

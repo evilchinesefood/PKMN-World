@@ -53,12 +53,24 @@ static const struct WindowTemplate sKeyItemWheelStaleWindows[] = {
     DUMMY_WIN_TEMPLATE,
 };
 
+static const struct WindowTemplate sKeyItemWheelNoWindows[] = {
+    DUMMY_WIN_TEMPLATE,
+};
+
 static void LeaveStaleKeyItemWheelWindowRecords(void)
 {
     ResetBgsAndClearDma3BusyFlags(FALSE);
     InitBgsFromTemplates(0, &sKeyItemWheelStaleBg, 1);
     InitWindows(sKeyItemWheelStaleWindows);
     FreeAllWindowBuffers();
+}
+
+// Later tests in the same run boot into whatever BG and window records are left.
+// Put the screen back to an invisible background and empty window list.
+static void ClearKeyItemWheelWindowLeakSetup(void)
+{
+    ResetBgsAndClearDma3BusyFlags(FALSE);
+    InitWindows(sKeyItemWheelNoWindows);
 }
 
 extern u32 FldEff_Ash(void);
@@ -160,6 +172,7 @@ TEST("Sprite exhaustion recovery 126: item wheel cancels with partial sprites, i
         EXPECT(gSprites[i].inUse == (i < MAX_SPRITES - available));
     for (u32 i = 0; i < NUM_TASKS; i++)
         EXPECT(!gTasks[i].isActive);
+    ClearKeyItemWheelWindowLeakSetup();
 }
 
 TEST("Sprite exhaustion recovery 034: CreateObjectGraphicsSpriteWithTag")

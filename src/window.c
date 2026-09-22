@@ -282,6 +282,30 @@ void RemoveAllWindowsOnBg(u32 bgId)
     }
 }
 
+// FreeAllWindowBuffers drops tile bytes but leaves window records naming their BG.
+// RemoveWindow then refuses to free a tilemap installed later, because those
+// records still count. Release the buffer once nothing on the BG owns tile data.
+void FreeWindowBgTilemapIfNoTileData(u32 bg)
+{
+    u32 i;
+
+    if (bg >= NUM_BACKGROUNDS)
+        return;
+
+    for (i = 0; i < WINDOWS_MAX; i++)
+    {
+        if (gWindows[i].window.bg == bg && gWindows[i].tileData != NULL)
+            return;
+    }
+
+    if (gWindowBgTilemapBuffers[bg] != NULL && gWindowBgTilemapBuffers[bg] != DummyWindowBgTilemap)
+    {
+        Free(gWindowBgTilemapBuffers[bg]);
+        gWindowBgTilemapBuffers[bg] = NULL;
+        UnsetBgTilemapBuffer(bg);
+    }
+}
+
 void FreeAllWindowBuffers(void)
 {
     int i;

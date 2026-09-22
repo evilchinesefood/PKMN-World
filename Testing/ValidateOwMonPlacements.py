@@ -615,6 +615,8 @@ def main():
 
     violations = validate(rows, encounter_behaviors, have_overworld, species_family,
                           disabled_families)
+    from OwMonReachability import validate as validate_walk_and_habitat
+    violations.extend(validate_walk_and_habitat(ROOT, layouts, rows, behavior_names))
     if violations:
         print(f"FAIL - {len(violations)} overworld-Pokemon placement violation(s) "
               f"across {len({v.split()[0] for v in violations})} map(s):")

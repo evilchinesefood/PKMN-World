@@ -2499,6 +2499,14 @@ void BtlController_HandleDrawTrainerPic(enum BattlerId battler, enum TrainerPicI
 
 void BtlController_HandleTrainerSlide(enum BattlerId battler, enum TrainerPicID trainerPicId)
 {
+    if (IsOnPlayerSide(battler) && !HasTrainerBackPic(trainerPicId))
+    {
+        BtlController_HandleDrawTrainerPic(battler, trainerPicId, TRUE, 80, 80, 30);
+        gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].x2 = -96;
+        gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].sSpeedX = 2;
+        return;
+    }
+
     if (IsOnPlayerSide(battler))
     {
         LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));

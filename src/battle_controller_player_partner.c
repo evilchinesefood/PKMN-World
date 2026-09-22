@@ -224,13 +224,13 @@ static void PlayerPartnerHandleDrawTrainerPic(enum BattlerId battler)
     {
         trainerPicId = TRAINER_PIC_STEVEN;
         xPos = 90;
-        yPos = (8 - GetTrainerBackPicCoords(trainerPicId)->size) * 4 + 80;
+        yPos = HasTrainerBackPic(trainerPicId) ? (8 - GetTrainerBackPicCoords(trainerPicId)->size) * 4 + 80 : 80;
     }
     else if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
     {
         trainerPicId = PlayerPartnerGetTrainerBackPicId(difficulty);
         xPos = 90;
-        yPos = (8 - GetTrainerBackPicCoords(trainerPicId)->size) * 4 + 80;
+        yPos = HasTrainerBackPic(trainerPicId) ? (8 - GetTrainerBackPicCoords(trainerPicId)->size) * 4 + 80 : 80;
     }
     else if (IsAiVsAiBattle())
     {
@@ -245,8 +245,8 @@ static void PlayerPartnerHandleDrawTrainerPic(enum BattlerId battler)
         yPos = 80;
     }
 
-    // Use back pic only if the partner Steven or is custom.
-    if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
+    // Custom partners without back artwork use the same front-pic path as Frontier partners.
+    if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE) && HasTrainerBackPic(trainerPicId))
         isFrontPic = FALSE;
     else
         isFrontPic = TRUE;
@@ -326,7 +326,10 @@ static void PlayerPartnerHandleIntroTrainerBallThrow(enum BattlerId battler)
     enum DifficultyLevel difficulty = GetBattlePartnerDifficultyLevel(gPartnerTrainerId);
 
     if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
-        trainerPal = GetTrainerBackPicPalette(gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic);
+    {
+        enum TrainerPicID pic = gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic;
+        trainerPal = HasTrainerBackPic(pic) ? GetTrainerBackPicPalette(pic) : GetTrainerFrontPicPalette(pic);
+    }
     else if (IsAiVsAiBattle())
         trainerPal = GetTrainerFrontPicPalette(GetTrainerPicFromId(gPartnerTrainerId));
     else

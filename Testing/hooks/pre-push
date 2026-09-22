@@ -42,6 +42,7 @@ run "Tileset palette array bounds"   Testing/ValidateTilesetPalettes.py
 run "Celio first-gift bag-full retry" Testing/ValidateCelioGifts.py
 run "Greedy exclusive-choice gifts"   Testing/ValidateGreedyGifts.py
 run "Region map icon positions"       Testing/ValidateRegionMap.py
+run "Lance Rocket HQ multi battle"    Testing/ValidateLanceMultiBattle.py
 
 if [ "$fail" -ne 0 ]; then
   cat >&2 <<'EOF'

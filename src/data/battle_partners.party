@@ -42,3 +42,20 @@ EVs: 252 Atk / 252 SpA / 6 SpD
 - Protect
 - Solar Beam
 - Dragon Claw
+
+=== PARTNER_LANCE ===
+Name: LANCE
+Class: Pkmn Trainer 1
+Pic: TRAINER_PIC_CHAMPION_LANCE
+Gender: Male
+Music: Male
+AI: Basic Trainer
+
+Dragonite
+Hardy Nature
+Level: 40
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Fly
+- Twister
+- Thunder Wave
+- Hyper Beam

@@ -179,8 +179,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PINECO)",
       "x": 49,
-      "y": 37,
-      "elevation": 4,
+      "y": 33,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -258,9 +258,7 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Check region-map icon rectangles against the grids used by the cursor.
 
-Non-Johto exceptions preserve upstream icon adjustments. Pin the actual
+Exceptions preserve upstream icon adjustments and the Hoenn Trainer Hill
+section reused in the Johto grid. Pin the actual
 rectangles, not just a count, so a new mismatch cannot replace an old one.
 """
 import json
@@ -12,8 +13,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'src/data/region_map'
 FIELDS = ('x', 'y', 'width', 'height')
-# Populated with the existing upstream adjustments; Johto has no exceptions.
-EXCEPTIONS = {('region_map_layout.h', 'MAPSEC_MT_CHIMNEY'): ((6, 2, 1, 1), (6, 1, 2, 2)),
+# Existing adjustments and cross-region section reuse.
+EXCEPTIONS = {('region_map_layout_johto.h', 'MAPSEC_TRAINER_HILL'): ((8, 4, 1, 1), (5, 3, 1, 1)),
+ ('region_map_layout.h', 'MAPSEC_MT_CHIMNEY'): ((6, 2, 1, 1), (6, 1, 2, 2)),
  ('region_map_layout.h', 'MAPSEC_ROUTE_106'): ((0, 13, 2, 1), (0, 13, 3, 1)),
  ('region_map_layout_kanto.h', 'MAPSEC_ROUTE_10'): ((18, 3, 1, 3), (18, 4, 1, 2)),
  ('region_map_layout_kanto.h', 'MAPSEC_ROUTE_4'): ((8, 3, 6, 1), (9, 3, 5, 1)),

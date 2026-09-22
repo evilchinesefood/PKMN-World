@@ -84,7 +84,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FURRET)",
-      "x": 27,
+      "x": 23,
       "y": 6,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
@@ -97,9 +97,9 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(FLAAFFY)",
-      "x": 29,
-      "y": 17,
-      "elevation": 4,
+      "x": 28,
+      "y": 14,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -124,8 +124,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(EKANS)",
       "x": 6,
-      "y": 2,
-      "elevation": 4,
+      "y": 7,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -137,8 +137,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(GIRAFARIG)",
       "x": 8,
-      "y": 16,
-      "elevation": 4,
+      "y": 15,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,

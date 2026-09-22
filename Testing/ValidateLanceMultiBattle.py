@@ -8,6 +8,10 @@ scene = script.split('MahoganyHideout_B2F_EventScript_DoLanceMultiBattle::')[1].
 assert re.search(r'multi_2_vs_2\s+TRAINER_ARIANA_1,\s*MahoganyHideout_B2F_Text_ArianaLoss,\s*TRAINER_GRUNT_23,\s*MahoganyHideout_B2F_Text_GruntLoss,\s*PARTNER_LANCE',scene), 'scene must initialize Ariana, Grunt and Lance'
 assert 'SPECIAL_BATTLE_LANCE' not in scene
 assert 'ReducePlayerPartyToSelectedMons' not in scene, 'multi macro owns party reduction/restoration'
+party = (root/'src/data/trainers.party').read_text()
+for name in ('TRAINER_ARIANA_1', 'TRAINER_GRUNT_23'):
+    block = party.split(f'=== {name} ===', 1)[1].split('===', 1)[0]
+    assert re.search(r'(?m)^Multi Party:\s*Half\s*$', block), f'{name} must be a half multi party so only the chosen three are sent'
 partners=(root/'src/data/battle_partners.party').read_text()
 lance=partners.split('=== PARTNER_LANCE ===')[1]
 assert 'TRAINER_PIC_CHAMPION_LANCE' in lance and 'Dragonite' in lance

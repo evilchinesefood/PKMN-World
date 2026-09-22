@@ -55,7 +55,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(WEEDLE)",
-      "x": 35,
+      "x": 32,
       "y": 8,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
@@ -68,7 +68,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(METAPOD)",
-      "x": 4,
+      "x": 7,
       "y": 10,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
@@ -82,7 +82,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(KAKUNA)",
       "x": 26,
-      "y": 49,
+      "y": 47,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
@@ -94,7 +94,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PARAS)",
-      "x": 35,
+      "x": 33,
       "y": 33,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -108,7 +108,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(VENONAT)",
       "x": 6,
-      "y": 33,
+      "y": 28,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 1,
@@ -120,7 +120,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(BUTTERFREE)",
-      "x": 3,
+      "x": 11,
       "y": 43,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
@@ -134,7 +134,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(BEEDRILL)",
       "x": 13,
-      "y": 2,
+      "y": 6,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_LEFT_AND_RIGHT",
       "movement_range_x": 5,
@@ -186,7 +186,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(SCYTHER)",
       "x": 25,
-      "y": 2,
+      "y": 4,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_LEFT_AND_RIGHT",
       "movement_range_x": 2,
@@ -198,8 +198,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PINSIR)",
-      "x": 37,
-      "y": 47,
+      "x": 35,
+      "y": 46,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_UP_AND_DOWN",
       "movement_range_x": 0,
@@ -211,7 +211,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CATERPIE)",
-      "x": 2,
+      "x": 4,
       "y": 25,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_UP_AND_DOWN",

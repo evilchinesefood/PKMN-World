@@ -82,7 +82,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MISDREAVUS)",
       "x": 23,
-      "y": 0,
+      "y": 3,
       "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,
@@ -95,7 +95,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(KOFFING)",
       "x": 20,
-      "y": 0,
+      "y": 3,
       "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,
@@ -108,7 +108,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(ZUBAT)",
       "x": 8,
-      "y": 0,
+      "y": 3,
       "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 2,
@@ -121,7 +121,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(MAGMAR)",
       "x": 25,
-      "y": 17,
+      "y": 13,
       "elevation": 4,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 2,

@@ -145,8 +145,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TANGELA)",
       "x": 18,
-      "y": 16,
-      "elevation": 4,
+      "y": 21,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -158,8 +158,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(LICKITUNG)",
       "x": 19,
-      "y": 14,
-      "elevation": 4,
+      "y": 6,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -171,7 +171,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(WEEPINBELL)",
       "x": 37,
-      "y": 18,
+      "y": 15,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -184,7 +184,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIDGEOTTO)",
       "x": 38,
-      "y": 20,
+      "y": 23,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -197,7 +197,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(ELECTABUZZ)",
       "x": 40,
-      "y": 18,
+      "y": 15,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -210,7 +210,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TANGELA)",
       "x": 41,
-      "y": 19,
+      "y": 23,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -223,7 +223,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TANGELA)",
       "x": 43,
-      "y": 20,
+      "y": 23,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -236,7 +236,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TANGELA)",
       "x": 43,
-      "y": 18,
+      "y": 15,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -249,8 +249,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(LICKITUNG)",
       "x": 33,
-      "y": 10,
-      "elevation": 4,
+      "y": 13,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -262,8 +262,8 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(WEEPINBELL)",
       "x": 25,
-      "y": 7,
-      "elevation": 4,
+      "y": 5,
+      "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
@@ -274,7 +274,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIDGEOTTO)",
-      "x": 55,
+      "x": 50,
       "y": 5,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_RIGHT",
@@ -287,8 +287,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(ELECTABUZZ)",
-      "x": 56,
-      "y": 5,
+      "x": 51,
+      "y": 6,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_LEFT",
       "movement_range_x": 0,
@@ -301,7 +301,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TANGELA)",
       "x": 16,
-      "y": 9,
+      "y": 7,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
       "movement_range_x": 0,
@@ -313,7 +313,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(WEEPINBELL)",
-      "x": 13,
+      "x": 10,
       "y": 11,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
@@ -340,7 +340,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TANGELA)",
       "x": 33,
-      "y": 19,
+      "y": 22,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
       "movement_range_x": 0,
@@ -386,9 +386,7 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",

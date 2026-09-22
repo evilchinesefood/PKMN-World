@@ -84,9 +84,9 @@
         },
         {
             "graphics_id": "OBJ_EVENT_GFX_SPECIES(KRABBY)",
-            "x": 11,
+            "x": 18,
             "y": 11,
-            "elevation": 4,
+            "elevation": 3,
             "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
             "movement_range_x": 0,
             "movement_range_y": 0,
@@ -176,8 +176,8 @@
         {
             "graphics_id": "OBJ_EVENT_GFX_SPECIES(MEOWTH)",
             "x": 19,
-            "y": 31,
-            "elevation": 4,
+            "y": 30,
+            "elevation": 3,
             "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
             "movement_range_x": 0,
             "movement_range_y": 0,
@@ -227,9 +227,9 @@
         },
         {
             "graphics_id": "OBJ_EVENT_GFX_SPECIES(KRABBY)",
-            "x": 9,
-            "y": 24,
-            "elevation": 4,
+            "x": 7,
+            "y": 25,
+            "elevation": 3,
             "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
             "movement_range_x": 0,
             "movement_range_y": 0,
@@ -240,7 +240,7 @@
         },
         {
             "graphics_id": "OBJ_EVENT_GFX_SPECIES(MEOWTH)",
-            "x": 26,
+            "x": 21,
             "y": 17,
             "elevation": 3,
             "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -253,7 +253,7 @@
         },
         {
             "graphics_id": "OBJ_EVENT_GFX_SPECIES(MAGNEMITE)",
-            "x": 11,
+            "x": 18,
             "y": 16,
             "elevation": 3,
             "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -266,7 +266,7 @@
         },
         {
             "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIDGEY)",
-            "x": 14,
+            "x": 18,
             "y": 9,
             "elevation": 3,
             "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",

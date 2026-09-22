@@ -577,4 +577,7 @@
 // One-time Cianwood Poké Center Tentacool gift (no-Surf safety net).
 #define FLAG_GOT_TENTACOOL                             FLAG_JOHTO_SLICE(0x25d)
 
+// Bill's receipt is separate from Celadon's Kanto Eevee flag. Formerly unused.
+#define FLAG_GOT_BILLS_EEVEE                        FLAG_JOHTO_SLICE(0x25e)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

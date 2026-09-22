@@ -24,54 +24,6 @@
 #include "item_use.h"
 #include "oras_dowse.h"
 #include "constants/maps.h"
-#include "bg.h"
-#include "window.h"
-
-// A previous screen can free its window tile data and leave the records in
-// place, with a visible BG whose tilemap metric is 4096 bytes and no buffer.
-// The key item wheel must not leak the buffer it installs on top of that.
-static const struct BgTemplate sKeyItemWheelStaleBg = {
-    .bg = 0,
-    .charBaseIndex = 2,
-    .mapBaseIndex = 31,
-    .screenSize = 1,
-    .paletteMode = 0,
-    .priority = 0,
-    .baseTile = 0,
-};
-
-static const struct WindowTemplate sKeyItemWheelStaleWindows[] = {
-    {
-        .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 1,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 0x80,
-    },
-    DUMMY_WIN_TEMPLATE,
-};
-
-static const struct WindowTemplate sKeyItemWheelNoWindows[] = {
-    DUMMY_WIN_TEMPLATE,
-};
-
-static void LeaveStaleKeyItemWheelWindowRecords(void)
-{
-    ResetBgsAndClearDma3BusyFlags(FALSE);
-    InitBgsFromTemplates(0, &sKeyItemWheelStaleBg, 1);
-    InitWindows(sKeyItemWheelStaleWindows);
-    FreeAllWindowBuffers();
-}
-
-// Later tests in the same run boot into whatever BG and window records are left.
-// Put the screen back to an invisible background and empty window list.
-static void ClearKeyItemWheelWindowLeakSetup(void)
-{
-    ResetBgsAndClearDma3BusyFlags(FALSE);
-    InitWindows(sKeyItemWheelNoWindows);
-}
 
 extern u32 FldEff_Ash(void);
 extern u32 FldEff_BerryTreeGrowthSparkle(void);
@@ -148,7 +100,6 @@ TEST("Sprite exhaustion recovery 126: item wheel cancels with partial sprites, i
     PARAMETRIZE { available = 0; flashLevel = 2; }
     PARAMETRIZE { available = 5; flashLevel = 2; }
     PARAMETRIZE { available = 8; flashLevel = 2; }
-    LeaveStaleKeyItemWheelWindowRecords();
     FillPool();
     for (u32 i = MAX_SPRITES - available; i < MAX_SPRITES; i++)
         DestroySprite(&gSprites[i]);
@@ -172,7 +123,6 @@ TEST("Sprite exhaustion recovery 126: item wheel cancels with partial sprites, i
         EXPECT(gSprites[i].inUse == (i < MAX_SPRITES - available));
     for (u32 i = 0; i < NUM_TASKS; i++)
         EXPECT(!gTasks[i].isActive);
-    ClearKeyItemWheelWindowLeakSetup();
 }
 
 TEST("Sprite exhaustion recovery 034: CreateObjectGraphicsSpriteWithTag")

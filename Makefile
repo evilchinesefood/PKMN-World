@@ -461,6 +461,7 @@ validate:
 	python3 Testing/ValidateTilesetPalettes.py
 	python3 Testing/ValidateCelioGifts.py
 	python3 Testing/ValidateGreedyGifts.py
+	python3 Testing/ValidateRegionMap.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the

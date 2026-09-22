@@ -15,6 +15,8 @@ import subprocess, sys, re, os, hashlib
 # Runtime symbols scripts need. sMenu is disambiguated by size (the 12-byte definition backs
 # script multichoice / yes-no; the other same-named symbols are 4-byte pointers from other TUs).
 WANT = [
+    "MahoganyHideout_B2F_EventScript_DoLanceMultiBattle",
+    "gSelectedOrderFromParty", "gPartnerTrainerId",
     "CB2_Overworld",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar",

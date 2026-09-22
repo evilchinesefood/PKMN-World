@@ -304,24 +304,16 @@ MahoganyHideout_B2F_EventScript_ChoosePartyForMultiBattle::
 	special SavePlayerParty
 	fadescreen FADE_TO_BLACK
 	special ChooseHalfPartyForBattle
-	waitstate
 	goto_if_ne VAR_RESULT, 0, MahoganyHideout_B2F_EventScript_DoLanceMultiBattle
 	special LoadPlayerParty
 	goto MahoganyHideout_B2F_EventScript_ReadyForBattlePrompt
 
 MahoganyHideout_B2F_EventScript_DoLanceMultiBattle::
-	special ReducePlayerPartyToSelectedMons
-	frontier_set FRONTIER_DATA_SELECTED_MON_ORDER
-	setvar VAR_0x8004, SPECIAL_BATTLE_LANCE
-	setvar VAR_0x8005, 0
 	applymovement LOCALID_ROCKETHIDEOUT2_ARIANA, Common_Movement_WalkUp1
 	applymovement LOCALID_ROCKETHIDEOUT2_GRUNT, Common_Movement_WalkUp1
 	waitmovement 0
 	turnobject LOCALID_ROCKETHIDEOUT2_GRUNT, DIR_WEST
-	special DoSpecialTrainerBattle
-	waitstate
-	frontier_saveparty
-	special LoadPlayerParty
+	multi_2_vs_2 TRAINER_ARIANA_1, MahoganyHideout_B2F_Text_ArianaLoss, TRAINER_GRUNT_23, MahoganyHideout_B2F_Text_GruntLoss, PARTNER_LANCE
 	switch VAR_RESULT
 	case 1, MahoganyHideout_B2F_EventScript_DefeatedAriana
 	fadescreen FADE_TO_BLACK
@@ -329,27 +321,6 @@ MahoganyHideout_B2F_EventScript_DoLanceMultiBattle::
 	setflag FLAG_HIDE_ROCKETHIDEOUT2_ARIANA_AND_GRUNT
 	special SetCB2WhiteOut
 	waitstate
-
-@ Region merge, WONTFIX (issue #66). The HnS SET_TRAINER_A/B multi-battle setup ops have no
-@ target equivalent, so the Lance fight above goes through the generic multi-battle alias
-@ instead (SPECIAL_BATTLE_LANCE -> SPECIAL_BATTLE_MULTI; the full reasoning and what a faithful
-@ version would cost live at include/constants/johto_compat.h, next to that #define).
-@
-@ These two labels are HnS leftovers; with the setup ops gone, nothing references them at all.
-@ The old comment's "never branched to in normal flow" claim was re-verified when reclassifying:
-@ grepping the whole tree — every scripts.inc and every map.json object/trigger `script` field —
-@ finds nothing but the two definitions below. They are unreachable, full stop, so the bare `end`
-@ never executes and costs one dead opcode each.
-@
-@ They stay neutered rather than deleted: they are the marker for what is missing, and reviving
-@ the HGSS set piece means authoring Ariana's and the Grunt's parties and wiring Lance up as the
-@ in-game partner. That is new content work, not a port fix, and it is not planned. (The previous
-@ "lands in Stage 4" promise is withdrawn — there is no such scheduled work.)
-MahoganyHideout_B2F_EventScript_ArianaTrainer::
-	end
-
-MahoganyHideout_B2F_EventScript_GruntTrainer::
-	end
 
 MahoganyHideout_B2F_EventScript_DefeatedAriana::
 	clearflag FLAG_ROCKETHIDEOUT2_BATTLE

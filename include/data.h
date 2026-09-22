@@ -374,6 +374,11 @@ static inline enum TrainerPicID SanitizeFrontTrainerPic(enum TrainerPicID traine
     return trainerPicId;
 }
 
+static inline bool32 HasTrainerBackPic(enum TrainerPicID trainerPicId)
+{
+    return gTrainerPicInfo[SanitizeTrainerPic(trainerPicId)].backPic != NULL;
+}
+
 static inline enum TrainerPicID SanitizeBackTrainerPic(enum TrainerPicID trainerPicId)
 {
     trainerPicId = SanitizeTrainerPic(trainerPicId);

@@ -3,9 +3,10 @@
 Reviewed all **166 candidates in 42 files** at commit
 `0a1438d0df3dd278f5d2b55c1d129f58b8907f4b`, after the fixes in PR #285.
 The follow-up in [PR #285](https://github.com/evilchinesefood/PKMN-World/pull/285)
-addresses all 61 selected allocation sites. The 75 uncertain candidates are tracked
-in [issue #286](https://github.com/evilchinesefood/PKMN-World/issues/286); the 30
-current-scope dismissals remain unchanged. The scanner now reports 105 matches.
+addresses all 61 selected allocation sites. The 75 candidates that were still
+unconfirmed are measured in
+[SpriteExhaustionIssue286.md](SpriteExhaustionIssue286.md) and dismissed there.
+The 30 current-scope dismissals remain unchanged. The scanner now reports 105 matches.
 The inventory preserves the original line numbers/verdicts and adds a resolution
 column; the classifications below describe the pre-fix audit.
 
@@ -13,7 +14,7 @@ column; the classifications below describe the pre-fix audit.
 | --- | ---: | --- |
 | Confirmed under exhaustion | 61 | Field allocation paths use an asserting allocator despite needing allocation-failure handling. 51 reproduced with emulator probes; 10 confirmed by source/caller tracing only. |
 | Ignore for current scope | 30 | Disabled/unreachable code, a false scan match, bounded scenes, or an intentional required-allocation assertion. |
-| Unconfirmed; keep assertions pending investigation | 75 | A nearby guard alone does not prove a player-facing bug or a safe fallback. Scene occupancy and lifecycle evidence are still needed. |
+| Unconfirmed at the time of this audit; since measured and dismissed | 75 | Scene budgets were measured later. Every one stays under 64 sprites, so the asserting allocator stays. See [SpriteExhaustionIssue286.md](SpriteExhaustionIssue286.md). |
 
 The [complete inventory](SpriteExhaustionTriage.tsv) records a verdict, evidence,
 and individual reasoning for every candidate. IDs are stable for this snapshot;
@@ -110,19 +111,19 @@ directly consume its result. Its redundant guard does not justify removing the
 factory's assertion globally. This classification is scoped to the current
 build and callers, not a claim that disabled configurations are safe.
 
-## Why 75 remain unconfirmed
+## Why the 75 were dismissed
 
-Most are battle animations or UI scenes. Resetting the pool on scene entry is
-insufficient proof that later allocations fit; conversely, forcing every
-required UI allocation to fail is insufficient proof of a normal gameplay bug.
-The inventory describes the missing occupancy or lifecycle evidence per site.
+The follow-up measurement is [SpriteExhaustionIssue286.md](SpriteExhaustionIssue286.md).
+The fullest scene is the PC with Move Items, the info panel, and the message
+window: 61 sprites. Field evolution spray reaches 58, and a doubles battle
+plus every Glare eye dot reaches 48. None of the 75 calls can fill the pool.
 
-Some apparent fallbacks are unsafe already: the older condition-sparkle helper
-uses a sprite after a failed creation loop, the SwSh storage marking cursor has
-later unchecked consumers, and a hail child-allocation failure can leave its
-owner's active count outstanding. These observations argue against bulk
-replacement with unchecked allocators. They do not establish natural sprite
-exhaustion in those scenes.
+The old failure paths are still not safe recovery. Hail's impact sprite
+would leave its owner's child count outstanding, the condition-sparkle
+helper indexes `sprites[count]` after a short loop, and the SwSh markings
+cursor is dereferenced on left and right. Those paths stay unreachable
+because the asserting allocator is not asked for a 65th sprite. Do not
+replace these allocators until a scene budget in that document changes.
 
 ## Reproduce
 

@@ -27,7 +27,7 @@ GoldenrodCity_BillsHouse_EventScript_Mom2::
 GoldenrodCity_BillsHouse_EventScript_Bill::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_EEVEE, GoldenrodCity_BillsHouse_EventScript_Bill_Eevee
+	goto_if_unset FLAG_GOT_BILLS_EEVEE, GoldenrodCity_BillsHouse_EventScript_Bill_Eevee
 	msgbox BillHouse_Text_PopWontWork, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -46,7 +46,7 @@ GoldenrodCity_BillsHouse_EventScript_Bill_Eevee::
 
     
 
-	setflag FLAG_GOT_EEVEE
+	setflag FLAG_GOT_BILLS_EEVEE
 	msgbox BillHouse_Text_EeveeMayEvolve, MSGBOX_DEFAULT
 	closemessage
 	release

@@ -3960,6 +3960,9 @@ static void FreeKeyItemWheelGfx(s16 *data)
         CopyWindowToVram(tIconWindow[i], COPYWIN_MAP);
         RemoveWindow(tIconWindow[i]);
     }
+    // Stale window records (tile data already freed) keep RemoveWindow from
+    // dropping the BG tilemap this wheel installed. Nothing left owns tiles.
+    FreeWindowBgTilemapIfNoTileData(0);
     SetHBlankCallback(NULL);
     DisableInterrupts(INTR_FLAG_HBLANK);
 }

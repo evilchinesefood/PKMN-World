@@ -21,7 +21,6 @@ GoldenrodCity_EventScript_Trigger:: @flagheap
 	clearflag FLAG_GOT_FRUSTRATION
 	clearflag FLAG_RECEIVED_BIKE
 	clearflag FLAG_RECEIVED_SQUIRTBOTTLE
-	clearflag FLAG_GOT_EEVEE
 	clearflag FLAG_SYS_PC_BILL
 	clearflag FLAG_RETURNED_MACHINE_PART
 	clearflag FLAG_UNLOCKED_GOLDENROD_UNDERGROUND_DOOR

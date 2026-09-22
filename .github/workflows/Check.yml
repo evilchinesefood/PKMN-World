@@ -112,6 +112,9 @@ jobs:
       - name: Greedy exclusive-choice gifts
         run: python3 Testing/ValidateGreedyGifts.py
 
+      - name: Region map icon positions
+        run: python3 Testing/ValidateRegionMap.py
+
   test:
     name: make check (battle test suite)
     runs-on: ubuntu-latest

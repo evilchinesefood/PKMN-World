@@ -35,6 +35,8 @@ def script_body(text, name):
 
 
 def main():
+    from ValidateEeveeGifts import validate as validate_eevee
+    validate_eevee()
     bad = []
 
     dojo = read(DOJO)

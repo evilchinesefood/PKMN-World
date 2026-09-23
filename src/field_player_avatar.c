@@ -1116,6 +1116,12 @@ static void CreateFlightMountSprite(void)
         // synced every frame by SpriteCB_FlightMount.
         sFlightOverlaySpriteId = CreateMountOverlaySprite(sFlightMountSpriteId);
     }
+    else
+    {
+        // No mount callback to pin the rider above the map layers; fixedPriority keeps this.
+        playerSprite->oam.priority = 0;
+        playerSprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
+    }
     // Dedicated ground shadow. FLDEFF_SHADOW is unusable here: UpdateShadowFieldEffect
     // stops it the moment the flyer crosses water/puddles/grass and it never respawns.
     // This one is driven directly by SpriteCB_FlightMount and lives for the whole flight.

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/branding/pokemon-world/logos/pokemon-world.png" width="340" height="170" alt="Pokémon World logo">
+<img src="assets/branding/logos/pokemon-world.png" width="340" height="170" alt="Pokémon World logo">
 
 # World
 
@@ -39,15 +39,15 @@ Captured from the game in mGBA at the GBA's native 240 × 160 resolution.
 
 | Title screen | World Transit hub |
 |---|---|
-| ![Pokémon World title screen](assets/branding/pokemon-world/screenshots/01-title-screen.png) | ![World Transit hub](assets/branding/pokemon-world/screenshots/02-world-hub.png) |
+| ![Pokémon World title screen](assets/branding/screenshots/01-title-screen.png) | ![World Transit hub](assets/branding/screenshots/02-world-hub.png) |
 
 | Kanto — Vermilion City | Johto — Cherrygrove City |
 |---|---|
-| ![Vermilion City waterfront](assets/branding/pokemon-world/screenshots/03-kanto-vermilion-city.png) | ![Cherrygrove City's cherry blossoms](assets/branding/pokemon-world/screenshots/04-johto-cherrygrove-city.png) |
+| ![Vermilion City waterfront](assets/branding/screenshots/03-kanto-vermilion-city.png) | ![Cherrygrove City's cherry blossoms](assets/branding/screenshots/04-johto-cherrygrove-city.png) |
 
 | Hoenn — Fortree City | Pokémon battle |
 |---|---|
-| ![Fortree City's treetop walkways](assets/branding/pokemon-world/screenshots/05-hoenn-fortree-city.png) | ![Charizard facing a wild Cyndaquil](assets/branding/pokemon-world/screenshots/06-pokemon-battle.png) |
+| ![Fortree City's treetop walkways](assets/branding/screenshots/05-hoenn-fortree-city.png) | ![Charizard facing a wild Cyndaquil](assets/branding/screenshots/06-pokemon-battle.png) |
 
 ## Build it
 

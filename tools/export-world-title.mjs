@@ -1,15 +1,15 @@
-// Technical export of generated artwork and the game's existing title-screen fog.
-// Run: node assets/branding/pokemon-world/export-gba.mjs
+// Convert the finished artwork into native GBA title resources.
+// Run: node tools/export-world-title.mjs
 // Requires Node.js, ImageMagick (`magick`), and this repo's tools/gbagfx/gbagfx.
 import { execFileSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { deflateSync } from 'node:zlib';
 import assert from 'node:assert/strict';
 
-const root = dirname(fileURLToPath(import.meta.url));
-const out = join(root, 'game/gba');
+const repo = join(dirname(fileURLToPath(import.meta.url)), '..');
+const root = join(repo, 'assets/branding/pokemon-world');
+const out = join(repo, 'graphics/title_screen/world');
 mkdirSync(out, { recursive: true });
 const W = 240, H = 160;
 
@@ -22,7 +22,6 @@ function decode(path, width, height, filter = 'Lanczos') {
 }
 
 const to5 = value => value >>> 3;
-const to8 = value => Math.round(value * 255 / 31);
 function rgb5(rgba, i) { return [to5(rgba[i]), to5(rgba[i + 1]), to5(rgba[i + 2])]; }
 function key(c) { return c[0] | c[1] << 5 | c[2] << 10; }
 
@@ -81,38 +80,10 @@ function paletteBinary(palette, length) {
   return bytes;
 }
 
-function crc32(bytes) {
-  let crc = 0xffffffff;
-  for (const byte of bytes) {
-    crc ^= byte;
-    for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
-function chunk(type, data) {
-  const payload = Buffer.concat([Buffer.from(type), data]);
-  const head = Buffer.alloc(4), tail = Buffer.alloc(4);
-  head.writeUInt32BE(data.length); tail.writeUInt32BE(crc32(payload));
-  return Buffer.concat([head, payload, tail]);
-}
-function savePng(name, pixels, width, height, palette) {
-  const header = Buffer.alloc(13);
-  header.writeUInt32BE(width, 0); header.writeUInt32BE(height, 4);
-  header[8] = 8; header[9] = 3;
-  const rows = Buffer.alloc((width + 1) * height);
-  for (let y = 0; y < height; y++) pixels.copy(rows, y * (width + 1) + 1, y * width, (y + 1) * width);
-  writeFileSync(join(out, name), Buffer.concat([
-    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', header),
-    chunk('PLTE', Buffer.from(palette.flatMap(c => c.map(to8)))),
-    chunk('tRNS', Buffer.from([0, ...palette.slice(1).map(() => 255)])),
-    chunk('IDAT', deflateSync(rows)), chunk('IEND', Buffer.alloc(0)),
-  ]));
-}
-
 function copyRgba(source, sw, sh, target, tw, x, y) {
   for (let row = 0; row < sh; row++) source.copy(target, ((y + row) * tw + x) * 4, row * sw * 4, (row + 1) * sw * 4);
 }
-const scenery = decode('game/masters/title-background.png', W, H);
+const scenery = decode('artwork/title-background.png', W, H);
 function logoLayer(path, width, y) {
   const [sourceWidth, sourceHeight] = execFileSync('magick', ['identify', '-format', '%w %h', join(root, path)], { encoding: 'utf8' }).trim().split(' ').map(Number);
   const height = Math.round(width * sourceHeight / sourceWidth);
@@ -133,24 +104,23 @@ function logoLayer(path, width, y) {
   assert(x >= 0 && x + width <= W && y + height <= H, 'Logo must fit');
   const rgba = Buffer.alloc(W * H * 4);
   copyRgba(pixels, width, height, rgba, W, x, y);
-  return { rgba, layout: { x, y, width, height, sourceWidth, sourceHeight, visibleWidth, margins } };
+  return rgba;
 }
 const logo = logoLayer('logos/pokemon-world.png', 160, 4);
 const worldLogo = logoLayer('logos/world.png', 144, 20);
 // Reserve palette bank 15 for the existing 4bpp cloud layer.
-const artPalette = paletteFor([scenery, logo.rgba, worldLogo.rgba], 239);
-const cloudPalette = readFileSync(join(root, 'game/fog/cloud-palette-source.pal'), 'utf8')
+// Retain the alternate wordmark's shared palette and tile allocation so this
+// relocation reproduces the already validated game resources exactly.
+const artPalette = paletteFor([scenery, logo, worldLogo], 239);
+const cloudPalette = readFileSync(join(repo, 'graphics/title_screen/rayquaza_and_clouds.pal'), 'utf8')
   .trim().split(/\r?\n/).slice(3).map(row => row.trim().split(/\s+/).map(Number).map(to5));
 assert.equal(cloudPalette.length, 16);
 const bgPalette = [...artPalette];
 while (bgPalette.length < 240) bgPalette.push([0, 0, 0]);
 bgPalette.push(...cloudPalette);
 const sceneryIndex = indexPixels(scenery, artPalette);
-const logoIndex = indexPixels(logo.rgba, artPalette), worldIndex = indexPixels(worldLogo.rgba, artPalette);
-savePng('background.png', sceneryIndex, W, H, bgPalette);
-savePng('logo-layer.png', logoIndex, W, H, bgPalette);
-savePng('world-logo-layer.png', worldIndex, W, H, bgPalette);
-writeFileSync(join(out, 'background.gbapal'), paletteBinary(bgPalette, 256));
+const logoIndex = indexPixels(logo, artPalette), worldIndex = indexPixels(worldLogo, artPalette);
+writeFileSync(join(out, 'palette.bin'), paletteBinary(bgPalette, 256));
 
 // Both regular 32x32 text maps refer to one deduplicated 8bpp tileset.
 const tiles = [Buffer.alloc(64)], tileIds = new Map([[tiles[0].toString('hex'), 0]]);
@@ -166,12 +136,11 @@ function textMap(pixels) {
   return map;
 }
 const sceneryMap = textMap(sceneryIndex), logoMap = textMap(logoIndex), worldMap = textMap(worldIndex);
-const fogCharBase = 3, fogTileOffset = 192, fogAddress = 0xD800;
+const fogTileOffset = 192, fogAddress = 0xD800;
 assert(tiles.length * 64 <= fogAddress, `${tiles.length} BG tiles overlap the fog allocation`);
-writeFileSync(join(out, 'background.8bpp'), Buffer.concat(tiles));
-writeFileSync(join(out, 'background-map.bin'), sceneryMap);
-writeFileSync(join(out, 'logo-map.bin'), logoMap);
-writeFileSync(join(out, 'world-logo-map.bin'), worldMap);
+writeFileSync(join(out, 'background_tiles.bin'), Buffer.concat(tiles));
+writeFileSync(join(out, 'background_map.bin'), sceneryMap);
+writeFileSync(join(out, 'logo_map.bin'), logoMap);
 
 function unpackMap(map) {
   const image = Buffer.alloc(W * H);
@@ -186,56 +155,20 @@ assert.deepEqual(unpackMap(logoMap), logoIndex);
 assert.deepEqual(unpackMap(worldMap), worldIndex);
 
 // Preserve the game's existing cloud indices, tile pattern and map flips.
-execFileSync(join(root, '../../../tools/gbagfx/gbagfx'), [
-  join(root, 'game/fog/cloud-tiles-source.png'), join(out, 'fog.4bpp'),
+execFileSync(join(repo, 'tools/gbagfx/gbagfx'), [
+  join(repo, 'graphics/title_screen/clouds.png'), join(out, 'fog_tiles.4bpp'),
 ]);
-const fogTiles = readFileSync(join(out, 'fog.4bpp'));
+renameSync(join(out, 'fog_tiles.4bpp'), join(out, 'fog_tiles.bin'));
+const fogTiles = readFileSync(join(out, 'fog_tiles.bin'));
 assert.equal(fogTiles.length, 112 * 32);
 assert(fogAddress + fogTiles.length <= 29 * 2048, 'Fog overlaps the tilemaps');
-const fogMapSource = readFileSync(join(root, 'game/fog/cloud-map-source.bin'));
-const fogMap = Buffer.alloc(fogMapSource.length), fogPixels = Buffer.alloc(256 * 256);
+const fogMapSource = readFileSync(join(repo, 'graphics/title_screen/clouds.bin'));
+const fogMap = Buffer.alloc(fogMapSource.length);
 for (let cell = 0; cell < 1024; cell++) {
   const entry = fogMapSource.readUInt16LE(cell * 2), tile = entry & 1023;
   assert(tile * 32 < fogTiles.length);
   fogMap.writeUInt16LE((15 << 12) | (entry & 0xC00) | (tile + fogTileOffset), cell * 2);
-  for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
-    const sx = entry & 0x400 ? 7 - x : x, sy = entry & 0x800 ? 7 - y : y;
-    const byte = fogTiles[tile * 32 + sy * 4 + Math.floor(sx / 2)];
-    fogPixels[(Math.floor(cell / 32) * 8 + y) * 256 + (cell % 32) * 8 + x] = (byte >> ((sx % 2) * 4)) & 15;
-  }
 }
-savePng('fog-layer.png', fogPixels, 256, 256, cloudPalette);
-writeFileSync(join(out, 'fog-map.bin'), fogMap);
-writeFileSync(join(out, 'fog.gbapal'), paletteBinary(cloudPalette, 16));
-// Match the original Q8.8 sine table and integer truncation used by GenerateWave.
-const sineText = readFileSync(join(root, '../../../src/trig.c'), 'utf8').split('const s16 gSineTable[] =')[1].split('};')[0];
-const sine = [...sineText.matchAll(/Q_8_8\(([-\d.]+)\)/g)].slice(0, 256).map(m => Number(m[1]) * 256);
-assert.equal(sine.length, 256);
-const wave = Array.from({ length: 64 }, (_, i) => Math.trunc(sine[(i * 4) & 255] * 4 / 256));
-const animation = { fps: 60, scrollFramesPerPixel: 4, wave, blend: { foreground: 6, background: 15, denominator: 16 } };
-writeFileSync(join(root, 'game/fog/animation.json'), JSON.stringify(animation, null, 2) + '\n');
-// A classic script also works when the review page is opened through file://.
-writeFileSync(join(out, 'preview-config.js'), `window.WORLD_TITLE_CONFIG = ${JSON.stringify(animation)};\n`);
-const manifest = {
-  screen: { width: W, height: H, mode: 0 },
-  background: { bpp: 8, artColors: artPalette.length, tiles: tiles.length, tileBytes: tiles.length * 64,
-    charBase: 0, sceneryScreenBase: 30, logoScreenBase: 31, sceneryPriority: 2, logoPriority: 0,
-    logos: { full: logo.layout, world: worldLogo.layout } },
-  fog: { source: 'graphics/title_screen/clouds.png + clouds.bin + rayquaza_and_clouds.pal',
-    bpp: 4, charBase: fogCharBase, tileOffset: fogTileOffset, vramOffset: fogAddress,
-    tileBytes: fogTiles.length, screenBase: 29, paletteBank: 15, priority: 1, ...animation },
-  sprites: { actors: [], bytes: 0 },
-  preview: { movement: 'Existing title-screen cloud map, vertical scroll and scanline wave; no Pokémon sprites.' },
-  integration: 'CB2_InitTitleScreen selects src/title_screen_world.c for ALL_REGIONS builds. Canonical engine binaries: graphics/title_screen/world/.',
-};
-writeFileSync(join(out, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-// Install the raw hardware resources consumed by the ROM's INCBIN declarations.
-const engine = join(root, '../../../graphics/title_screen/world');
-mkdirSync(engine, { recursive: true });
-for (const [source, target] of Object.entries({
-  'background.8bpp': 'background_tiles.bin', 'background.gbapal': 'palette.bin',
-  'background-map.bin': 'background_map.bin', 'logo-map.bin': 'logo_map.bin',
-  'fog.4bpp': 'fog_tiles.bin', 'fog-map.bin': 'fog_map.bin',
-})) copyFileSync(join(out, source), join(engine, target));
-console.log(`Exported ${tiles.length} background tiles (${tiles.length * 64} bytes), three artwork maps, and ${fogTiles.length} bytes of existing fog tiles.`);
-console.log('Validated artwork tilemap round trips, logo aspect ratios, fog tile references, palette allocation, and VRAM budgets.');
+writeFileSync(join(out, 'fog_map.bin'), fogMap);
+console.log(`Exported ${tiles.length} artwork tiles (${tiles.length * 64} bytes) and ${fogTiles.length} bytes of existing fog tiles.`);
+console.log('Validated tilemaps, visible logo centering, palette allocation and VRAM limits.');

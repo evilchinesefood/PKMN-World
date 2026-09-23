@@ -33,6 +33,22 @@ references one.
 - **Engine:** pokeemerald-expansion 1.16.2 (`include/constants/expansion.h`)
 - **ROM:** `pokemonworld.gba` — title `POKEMON WRLD`, code `BPEE`
 
+## Screenshots
+
+Captured from the game in mGBA at the GBA's native 240 × 160 resolution.
+
+| Title screen | World Transit hub |
+|---|---|
+| ![Pokémon World title screen](assets/branding/pokemon-world/screenshots/01-title-screen.png) | ![World Transit hub](assets/branding/pokemon-world/screenshots/02-world-hub.png) |
+
+| Kanto — Vermilion City | Johto — Cherrygrove City |
+|---|---|
+| ![Vermilion City waterfront](assets/branding/pokemon-world/screenshots/03-kanto-vermilion-city.png) | ![Cherrygrove City's cherry blossoms](assets/branding/pokemon-world/screenshots/04-johto-cherrygrove-city.png) |
+
+| Hoenn — Fortree City | Pokémon battle |
+|---|---|
+| ![Fortree City's treetop walkways](assets/branding/pokemon-world/screenshots/05-hoenn-fortree-city.png) | ![Charizard facing a wild Cyndaquil](assets/branding/pokemon-world/screenshots/06-pokemon-battle.png) |
+
 ## Build it
 
 You need devkitARM. The build is modern-toolchain only — agbcc is not used.

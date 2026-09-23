@@ -20,6 +20,11 @@ WANT = [
     "CB2_Overworld",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar",
+    # RedGyarados.lua points the wandering Gyarados sprite at this callback.
+    # movement_type_def emits it as a global. The walk-sequence callback is
+    # chosen once at spawn, so writing ObjectEvent.movementType alone does not
+    # stop the object. nm's address has the Thumb bit clear; the suite sets it.
+    "MovementType_FaceDirection",
     # The 64-sprite pool and the 16 OBJ palette tags. CreateSprite/CreateSpriteAtEnd FATAL on
     # exhaustion (src/sprite.c:436/452), so "how close does this map get to the cap" is a
     # measurable quantity rather than something to argue about from object counts.

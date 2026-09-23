@@ -198,7 +198,7 @@ end
 
 -- Interaction looks up (facing tile, player elevation). Elevation 1 (surf) never
 -- matches land elevation 3; 0 is ELEVATION_TRANSITION and matches anything.
--- Do not freeze or zero movementType: faceplayer waits on heldMovementFinished.
+-- faceplayer does not wait on heldMovementFinished (scrcmd.c ScrCmd_faceplayer).
 local function writeObjXY(b, x, y)
   local mx, my = x + 7, y + 7
   F.w16(b + 0x0C, mx); F.w16(b + 0x0E, my)
@@ -243,12 +243,24 @@ end
 
 local function lastTalked() return F.r16(S.gSpecialVar_LastTalked) end
 
--- Don't freeze/inanimate: the script's faceplayer waits on heldMovementFinished.
+-- Freeze (ObjectEvent bitfield at +0x01, bit 0) so the walk sequence cannot
+-- leave the tile we just wrote. faceplayer does not wait: it calls
+-- ObjectEventSetHeldMovement, which unfreezes, then the script continues.
 local function prepMon(b)
+  F.w8(b + 0x06, 0x08) -- MOVEMENT_TYPE_FACE_DOWN
+  F.w8(b + 0x21, 0)    -- directionSequenceIndex
   F.w8(b + 0x0B, 0x00)
   local f1 = F.r8(b + 1)
-  F.w8(b + 1, f1 & ~0x60)
-  F.w8(b, F.r8(b) | 0x80)
+  F.w8(b + 1, (f1 & ~0x60) | 0x01)
+  F.w8(b, (F.r8(b) | 0x80) & ~0x02)
+  local sid = F.r8(b + 0x23)
+  local face = S.MovementType_FaceDirection
+  if sid < 64 and face and face ~= 0 then
+    local sp = S.gSprites + sid * S.Sprite.stride
+    if face % 2 == 0 then face = face + 1 end
+    F.w32(sp + 0x1C, face) -- Sprite.callback
+    F.w16(sp + 0x30, 0)    -- sTypeFuncId (data[1])
+  end
 end
 
 local function tryStartBattle(gyara)
@@ -279,7 +291,14 @@ local function tryStartBattle(gyara)
     F.shot("facing_gyarados")
     F.w16(S.gSpecialVar_LastTalked, 0)
     for t = 1, 90 do
-      F.press("A", 1); F.idle(20)
+      -- Rewrite from the live object each tap. A long idle lets the walk
+      -- sequence (and its elevation) drift off the tile the press is aimed at.
+      gyara = objByLocalId(LOCALID_GYARADOS) or gyara
+      if not gyara then return false end
+      writeObjXY(gyara.b, s[1], s[2])
+      prepMon(gyara.b)
+      setFacing(s[3])
+      F.press("A", 1); F.idle(8)
       if t % 15 == 0 and F.reportCrash("battle_wait") then return false end
       local lt = lastTalked()
       if lt == LOCALID_GYARADOS then

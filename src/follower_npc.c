@@ -64,53 +64,65 @@ static void SetSurfJump(void);
 static void SetUpSurfBlobFieldEffect(struct ObjectEvent *npc);
 static void SetSurfDismount(void);
 static void Task_BindSurfBlobToFollowerNPC(u8 taskId);
-static void Task_FinishSurfDismount(u8 taskId);
+void Task_FinishSurfDismount(u8 taskId);
 static void Task_ReallowPlayerMovement(u8 taskId);
 static void Task_FollowerNPCHandleEscalator(u8 taskId);
 static void Task_FollowerNPCHandleEscalatorFinish(u8 taskId);
 static void CalculateFollowerNPCEscalatorTrajectoryUp(struct Task *task);
 static void CalculateFollowerNPCEscalatorTrajectoryDown(struct Task *task);
 
+// FNPC_ENABLE_NPC_FOLLOWERS is off, so the save block has no follower record.
+// The test ROM keeps one in RAM so HideNPCFollower can be run without moving
+// that layout. The shipping build leaves these functions empty.
+#if !FNPC_ENABLE_NPC_FOLLOWERS && TESTING
+static struct NPCFollower sTestFollowerNPC;
+#endif
+
 void SetFollowerNPCData(enum FollowerNPCDataTypes type, u32 value)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
+    struct NPCFollower *npc = &gSaveBlock3Ptr->NPCfollower;
+#elif TESTING
+    struct NPCFollower *npc = &sTestFollowerNPC;
+#endif
+#if FNPC_ENABLE_NPC_FOLLOWERS || TESTING
     switch (type)
     {
     case FNPC_DATA_IN_PROGRESS:
-        gSaveBlock3Ptr->NPCfollower.inProgress = value;
+        npc->inProgress = value;
         break;
     case FNPC_DATA_WARP_END:
-        gSaveBlock3Ptr->NPCfollower.warpEnd = value;
+        npc->warpEnd = value;
         break;
     case FNPC_DATA_SURF_BLOB:
-        gSaveBlock3Ptr->NPCfollower.createSurfBlob = value;
+        npc->createSurfBlob = value;
         break;
     case FNPC_DATA_COME_OUT_DOOR:
-        gSaveBlock3Ptr->NPCfollower.comeOutDoorStairs = value;
+        npc->comeOutDoorStairs = value;
         break;
     case FNPC_DATA_FORCED_MOVEMENT:
-        gSaveBlock3Ptr->NPCfollower.forcedMovement = value;
+        npc->forcedMovement = value;
         break;
     case FNPC_DATA_OBJ_ID:
-        gSaveBlock3Ptr->NPCfollower.objId = value;
+        npc->objId = value;
         break;
     case FNPC_DATA_CURRENT_SPRITE:
-        gSaveBlock3Ptr->NPCfollower.currentSprite = value;
+        npc->currentSprite = value;
         break;
     case FNPC_DATA_DELAYED_STATE:
-        gSaveBlock3Ptr->NPCfollower.delayedState = value;
+        npc->delayedState = value;
         break;
     case FNPC_DATA_EVENT_FLAG:
-        gSaveBlock3Ptr->NPCfollower.flag = value;
+        npc->flag = value;
         break;
     case FNPC_DATA_GFX_ID:
-        gSaveBlock3Ptr->NPCfollower.graphicsId = value;
+        npc->graphicsId = value;
         break;
     case FNPC_DATA_FOLLOWER_FLAGS:
-        gSaveBlock3Ptr->NPCfollower.flags = value;
+        npc->flags = value;
         break;
     case FNPC_DATA_BATTLE_PARTNER:
-        gSaveBlock3Ptr->NPCfollower.battlePartner = value;
+        npc->battlePartner = value;
         break;
     }
 #endif
@@ -144,32 +156,37 @@ const u8 *GetFollowerNPCScriptPointer(void)
 u32 GetFollowerNPCData(enum FollowerNPCDataTypes type)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
+    struct NPCFollower *npc = &gSaveBlock3Ptr->NPCfollower;
+#elif TESTING
+    struct NPCFollower *npc = &sTestFollowerNPC;
+#endif
+#if FNPC_ENABLE_NPC_FOLLOWERS || TESTING
     switch (type)
     {
     case FNPC_DATA_IN_PROGRESS:
-        return gSaveBlock3Ptr->NPCfollower.inProgress;
+        return npc->inProgress;
     case FNPC_DATA_WARP_END:
-        return gSaveBlock3Ptr->NPCfollower.warpEnd;
+        return npc->warpEnd;
     case FNPC_DATA_SURF_BLOB:
-        return gSaveBlock3Ptr->NPCfollower.createSurfBlob;
+        return npc->createSurfBlob;
     case FNPC_DATA_COME_OUT_DOOR:
-        return gSaveBlock3Ptr->NPCfollower.comeOutDoorStairs;
+        return npc->comeOutDoorStairs;
     case FNPC_DATA_FORCED_MOVEMENT:
-        return gSaveBlock3Ptr->NPCfollower.forcedMovement;
+        return npc->forcedMovement;
     case FNPC_DATA_OBJ_ID:
-        return gSaveBlock3Ptr->NPCfollower.objId;
+        return npc->objId;
     case FNPC_DATA_CURRENT_SPRITE:
-        return gSaveBlock3Ptr->NPCfollower.currentSprite;
+        return npc->currentSprite;
     case FNPC_DATA_DELAYED_STATE:
-        return gSaveBlock3Ptr->NPCfollower.delayedState;
+        return npc->delayedState;
     case FNPC_DATA_EVENT_FLAG:
-        return gSaveBlock3Ptr->NPCfollower.flag;
+        return npc->flag;
     case FNPC_DATA_GFX_ID:
-        return gSaveBlock3Ptr->NPCfollower.graphicsId;
+        return npc->graphicsId;
     case FNPC_DATA_FOLLOWER_FLAGS:
-        return gSaveBlock3Ptr->NPCfollower.flags;
+        return npc->flags;
     case FNPC_DATA_BATTLE_PARTNER:
-        return gSaveBlock3Ptr->NPCfollower.battlePartner;
+        return npc->battlePartner;
     }
 #endif
     return 0;
@@ -179,6 +196,8 @@ void ClearFollowerNPCData(void)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
     memset(&gSaveBlock3Ptr->NPCfollower, 0, sizeof(gSaveBlock3Ptr->NPCfollower));
+#elif TESTING
+    memset(&sTestFollowerNPC, 0, sizeof(sTestFollowerNPC));
 #endif
 }
 
@@ -584,7 +603,7 @@ static void Task_BindSurfBlobToFollowerNPC(u8 taskId)
     return;
 }
 
-static void Task_FinishSurfDismount(u8 taskId)
+void Task_FinishSurfDismount(u8 taskId)
 {
     struct ObjectEvent *npc = &gObjectEvents[GetFollowerNPCObjectId()];
     // Wait for the animation to finish.
@@ -601,7 +620,13 @@ static void Task_FinishSurfDismount(u8 taskId)
 
     SetFollowerNPCSprite(FOLLOWER_NPC_SPRITE_INDEX_NORMAL);
     if (gTasks[taskId].tSpriteId < MAX_SPRITES)
+    {
+        u8 mountPalNum = gSprites[gTasks[taskId].tSpriteId].oam.paletteNum;
+
         DestroySprite(&gSprites[gTasks[taskId].tSpriteId]);
+        // The id past the pool still reports palette 0. Freeing that drops slot 0.
+        FieldEffectFreePaletteIfUnused(mountPalNum);
+    }
     UnfreezeObjectEvents();
     DestroyTask(taskId);
     gPlayerAvatar.preventStep = FALSE;
@@ -1427,10 +1452,18 @@ void HideNPCFollower(void)
 
     if (GetFollowerNPCData(FNPC_DATA_SURF_BLOB) == FNPC_SURF_BLOB_RECREATE || GetFollowerNPCData(FNPC_DATA_SURF_BLOB) == FNPC_SURF_BLOB_DESTROY)
     {
-        SetSurfBlob_BobState(gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId, 2);
-        if (gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId < MAX_SPRITES)
-            DestroySprite(&gSprites[gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId]);
-        gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId = MAX_SPRITES;
+        struct ObjectEvent *follower = &gObjectEvents[GetFollowerNPCObjectId()];
+
+        SetSurfBlob_BobState(follower->fieldEffectSpriteId, 2);
+        if (follower->fieldEffectSpriteId < MAX_SPRITES)
+        {
+            u8 mountPalNum = gSprites[follower->fieldEffectSpriteId].oam.paletteNum;
+
+            DestroySprite(&gSprites[follower->fieldEffectSpriteId]);
+            // The id past the pool still reports palette 0. Freeing that drops slot 0.
+            FieldEffectFreePaletteIfUnused(mountPalNum);
+        }
+        follower->fieldEffectSpriteId = MAX_SPRITES;
     }
 
     SetFollowerNPCData(FNPC_DATA_COME_OUT_DOOR, FNPC_DOOR_NONE);

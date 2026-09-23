@@ -24,6 +24,7 @@
 #include "rotating_gate.h"
 #include "item_use.h"
 #include "oras_dowse.h"
+#include "follower_npc.h"
 #include "constants/maps.h"
 
 extern u32 FldEff_Ash(void);
@@ -1061,6 +1062,7 @@ TEST("Sprite exhaustion recovery: Rock Climb completes without a blob")
 
 extern void SetMewAboveGrass(void);
 extern void DestroyMewEmergingGrassSprite(void);
+extern void Task_FinishSurfDismount(u8 taskId);
 
 TEST("Sprite exhaustion recovery: Mew grass skips creation and can retry")
 {
@@ -1123,6 +1125,47 @@ TEST("Sprite exhaustion recovery: Deoxys rock fragments skip missing slots")
         RunTasks();
     EXPECT(!FieldEffectActiveListContains(FLDEFF_DESTROY_DEOXYS_ROCK));
     EXPECT(!gTasks[0].isActive);
+}
+
+TEST("Sprite exhaustion recovery: NPC follower surf dismount without a blob")
+{
+    struct Sprite sentinel;
+    u8 taskId;
+    FillPool();
+    LoadUnusedPaletteInSlotZero();
+    ASSUME(IndexOfSpritePaletteTag(0x7777) == 0);
+    sentinel = gSprites[MAX_SPRITES];
+    gObjectEvents[0].heldMovementActive = FALSE;
+    taskId = CreateTask(Task_FinishSurfDismount, 0);
+    gTasks[taskId].data[0] = MAX_SPRITES;
+    RunTasks();
+    EXPECT(!gTasks[taskId].isActive);
+    EXPECT_EQ(IndexOfSpritePaletteTag(0x7777), 0);
+    EXPECT_EQ(memcmp(&sentinel, &gSprites[MAX_SPRITES], sizeof(sentinel)), 0);
+}
+
+TEST("Sprite exhaustion recovery: HideNPCFollower without a blob")
+{
+    struct ObjectEvent *follower;
+    struct Sprite sentinel;
+    FillPool();
+    LoadUnusedPaletteInSlotZero();
+    ASSUME(IndexOfSpritePaletteTag(0x7777) == 0);
+    sentinel = gSprites[MAX_SPRITES];
+    ClearFollowerNPCData();
+    SetFollowerNPCData(FNPC_DATA_IN_PROGRESS, TRUE);
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, 1);
+    SetFollowerNPCData(FNPC_DATA_SURF_BLOB, FNPC_SURF_BLOB_DESTROY);
+    follower = &gObjectEvents[1];
+    follower->invisible = FALSE;
+    follower->fieldEffectSpriteId = MAX_SPRITES;
+    HideNPCFollower();
+    EXPECT(follower->invisible);
+    EXPECT_EQ(follower->fieldEffectSpriteId, MAX_SPRITES);
+    EXPECT_EQ(IndexOfSpritePaletteTag(0x7777), 0);
+    EXPECT_EQ(memcmp(&sentinel, &gSprites[MAX_SPRITES], sizeof(sentinel)), 0);
+    ClearFollowerNPCData();
+    follower->invisible = FALSE;
 }
 
 extern u32 FldEff_OWE_SpawnAnim(void);

@@ -432,7 +432,7 @@ static bool8 TryInterruptObjectEventSpecialAnim(struct ObjectEvent *playerObjEve
 
             if (playerObjEvent->movementDirection != direction)
             {
-                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG))
+                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG) && playerObj->fieldEffectSpriteId < MAX_SPRITES)
                     gSprites[playerObj->fieldEffectSpriteId].sCounter = 0;
 
                 ObjectEventClearHeldMovement(playerObjEvent);
@@ -441,7 +441,7 @@ static bool8 TryInterruptObjectEventSpecialAnim(struct ObjectEvent *playerObjEve
 
             if (CheckForPlayerAvatarStaticCollision(direction) == COLLISION_NONE)
             {
-                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG))
+                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG) && playerObj->fieldEffectSpriteId < MAX_SPRITES)
                 {
                     gSprites[playerObj->fieldEffectSpriteId].sCounter = 0;
                     gSprites[playerObj->fieldEffectSpriteId].y2 = 0;

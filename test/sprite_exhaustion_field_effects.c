@@ -844,6 +844,29 @@ TEST("Sprite exhaustion recovery: missing disguises finish revealing and retry")
     EXPECT(UpdateRevealDisguise(object));
 }
 
+TEST("Sprite exhaustion recovery: disguise movement retries after a full pool")
+{
+    struct ObjectEvent *object;
+    u16 map[32 * 32] = {0};
+    FillPool();
+    gBackupMapLayout.width = 32;
+    gBackupMapLayout.height = 32;
+    gBackupMapLayout.map = map;
+    object = &gObjectEvents[0];
+    object->spriteId = 0;
+    object->currentCoords.x = 10;
+    object->currentCoords.y = 10;
+    object->movementType = MOVEMENT_TYPE_TREE_DISGUISE;
+    MovementType_TreeDisguise(&gSprites[0]);
+    EXPECT_EQ(object->fieldEffectSpriteId, MAX_SPRITES);
+    EXPECT_EQ(object->directionSequenceIndex, 0);
+    DestroySprite(&gSprites[MAX_SPRITES - 1]);
+    MovementType_TreeDisguise(&gSprites[0]);
+    EXPECT_EQ(object->fieldEffectSpriteId, MAX_SPRITES - 1);
+    EXPECT_EQ(gSprites[MAX_SPRITES - 1].callback, UpdateDisguiseFieldEffect);
+    EXPECT_EQ(object->directionSequenceIndex, 1);
+}
+
 TEST("Sprite exhaustion recovery: missing surf blob ignores bob and visibility updates")
 {
     struct Sprite sentinel;

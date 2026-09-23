@@ -1862,6 +1862,17 @@ u16 LoadSheetGraphicsInfo(const struct ObjectEventGraphicsInfo *info, u16 uuid, 
     return tag;
 }
 
+// Graphics and palettes loaded for a sprite that cannot be created have no owner to free them.
+static bool32 HasFreeSpriteSlot(void)
+{
+    u32 i;
+
+    for (i = 0; i < MAX_SPRITES; i++)
+        if (!gSprites[i].inUse)
+            return TRUE;
+    return FALSE;
+}
+
 static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEventTemplate, struct SpriteTemplate *spriteTemplate, u8 mapNum, u8 mapGroup, s16 cameraX, s16 cameraY)
 {
     u8 spriteId;
@@ -1873,6 +1884,12 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     objectEventId = InitObjectEventStateFromTemplate(objectEventTemplate, mapNum, mapGroup);
     if (objectEventId == OBJECT_EVENTS_COUNT)
         return OBJECT_EVENTS_COUNT;
+
+    if (!HasFreeSpriteSlot())
+    {
+        gObjectEvents[objectEventId].active = FALSE;
+        return OBJECT_EVENTS_COUNT;
+    }
 
     objectEvent = &gObjectEvents[objectEventId];
     graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
@@ -2132,11 +2149,7 @@ static u8 CreateObjectGraphicsSpriteWithTagUnchecked(u16 graphicsId, void (*call
     struct Sprite *sprite;
     u8 spriteId;
 
-    // Avoid loading graphics/palettes when no sprite can own them.
-    for (spriteId = 0; spriteId < MAX_SPRITES; spriteId++)
-        if (!gSprites[spriteId].inUse)
-            break;
-    if (spriteId == MAX_SPRITES)
+    if (!HasFreeSpriteSlot())
         return MAX_SPRITES;
 
     spriteTemplate = Alloc(sizeof(struct SpriteTemplate));
@@ -2207,6 +2220,9 @@ u8 CreateVirtualObject(u16 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevati
     struct SpriteTemplate spriteTemplate;
     const struct SubspriteTable *subspriteTables;
     const struct ObjectEventGraphicsInfo *graphicsInfo;
+
+    if (!HasFreeSpriteSlot())
+        return MAX_SPRITES;
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     CopyObjectGraphicsInfoToSpriteTemplate(graphicsId, SpriteCB_VirtualObject, &spriteTemplate, &subspriteTables);
@@ -6399,8 +6415,12 @@ void MovementType_TreeDisguise(struct Sprite *sprite)
     {
         ObjectEventGetLocalIdAndMap(objectEvent, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
         objectEvent->fieldEffectSpriteId = FieldEffectStart(FLDEFF_TREE_DISGUISE);
-        objectEvent->directionSequenceIndex = 1;
-        sprite->data[7]++;
+        // A full sprite pool leaves the object undisguised; retry on a later frame.
+        if (objectEvent->fieldEffectSpriteId < MAX_SPRITES)
+        {
+            objectEvent->directionSequenceIndex = 1;
+            sprite->data[7]++;
+        }
     }
     UpdateObjectEventCurrentMovement(&gObjectEvents[sprite->sObjEventId], sprite, MovementType_Disguise_Callback);
 }
@@ -6420,8 +6440,12 @@ void MovementType_MountainDisguise(struct Sprite *sprite)
     {
         ObjectEventGetLocalIdAndMap(objectEvent, &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
         objectEvent->fieldEffectSpriteId = FieldEffectStart(FLDEFF_MOUNTAIN_DISGUISE);
-        objectEvent->directionSequenceIndex = 1;
-        sprite->data[7]++;
+        // A full sprite pool leaves the object undisguised; retry on a later frame.
+        if (objectEvent->fieldEffectSpriteId < MAX_SPRITES)
+        {
+            objectEvent->directionSequenceIndex = 1;
+            sprite->data[7]++;
+        }
     }
     UpdateObjectEventCurrentMovement(&gObjectEvents[sprite->sObjEventId], sprite, MovementType_Disguise_Callback);
 }

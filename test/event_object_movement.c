@@ -67,10 +67,15 @@ TEST("Overworld sprite exhaustion: object spawn rolls back and can retry")
     };
     u8 objectEventId;
 
+    u16 paletteTag = GetObjectEventGraphicsInfo(OBJ_EVENT_GFX_LITTLE_BOY)->paletteTag;
+
+    ASSUME(paletteTag != TAG_NONE && paletteTag != OBJ_EVENT_PAL_TAG_DYNAMIC);
     FillOverworldSpritePool();
     EXPECT_EQ(TrySpawnObjectEventTemplate(&template, 0, 0, 0, 0), OBJECT_EVENTS_COUNT);
     for (u32 i = 0; i < OBJECT_EVENTS_COUNT; i++)
         EXPECT(!gObjectEvents[i].active);
+    // A spawn that cannot get a sprite must not leave its palette behind.
+    EXPECT_EQ(IndexOfSpritePaletteTag(paletteTag), 0xFF);
 
     DestroySprite(&gSprites[0]);
     objectEventId = TrySpawnObjectEventTemplate(&template, 0, 0, 0, 0);
@@ -82,8 +87,12 @@ TEST("Overworld sprite exhaustion: object spawn rolls back and can retry")
 
 TEST("Overworld sprite exhaustion: virtual object skips creation and can retry")
 {
+    u16 paletteTag = GetObjectEventGraphicsInfo(OBJ_EVENT_GFX_LITTLE_BOY)->paletteTag;
+
+    ASSUME(paletteTag != TAG_NONE && paletteTag != OBJ_EVENT_PAL_TAG_DYNAMIC);
     FillOverworldSpritePool();
     EXPECT_EQ(CreateVirtualObject(OBJ_EVENT_GFX_LITTLE_BOY, 1, 5, 5, 0, DIR_SOUTH), MAX_SPRITES);
+    EXPECT_EQ(IndexOfSpritePaletteTag(paletteTag), 0xFF);
 
     DestroySprite(&gSprites[MAX_SPRITES - 1]);
     EXPECT_EQ(CreateVirtualObject(OBJ_EVENT_GFX_LITTLE_BOY, 1, 5, 5, 0, DIR_SOUTH), MAX_SPRITES - 1);

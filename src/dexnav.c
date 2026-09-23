@@ -1028,7 +1028,8 @@ void EndDexNavSearch(void)
     if (sDexNavSearchDataPtr != NULL)
     {
         RemoveDexNavWindowAndGfx();
-        FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
+        if (sDexNavSearchDataPtr->fldEffSpriteId < MAX_SPRITES)
+            FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
         FREE_AND_SET_NULL(sDexNavSearchDataPtr);
     }
     FlagClear(DN_FLAG_SEARCHING);
@@ -1161,7 +1162,8 @@ bool32 OnStep_DexNavSearch(void)
         && sDexNavSearchDataPtr->proximity < GetMovementProximityBySearchLevel() && sDexNavSearchDataPtr->movementCount < 2
         && !sDexNavSearchDataPtr->hiddenSearch)
     {
-        FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
+        if (sDexNavSearchDataPtr->fldEffSpriteId < MAX_SPRITES)
+            FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
 
         if (!TryStartHiddenMonFieldEffect(sDexNavSearchDataPtr->environment, 10, 10, TRUE))
         {

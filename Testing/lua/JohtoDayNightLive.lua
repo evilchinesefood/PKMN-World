@@ -8,11 +8,11 @@
 -- correctly while inverting the whole world, so no gate but this one can catch it).
 --
 -- Route 37 is the test bed because it is unusually clean for this:
---   local id  5 = VULPIX  (17,7) flag FLAG_NIGHT_POKEMON  -> visible at NIGHT
---   local id 11 = PIDGEY  (18,7) flag FLAG_DAY_POKEMON    -> visible by DAY
--- Adjacent tiles, three rows above warp 0 at (17,10), and only four of the map's 18 templates fall
--- inside TrySpawnObjectEvents' window from there (the other two are LIGHT_SPRITEs, which take no
--- gObjectEvents slot) — so there is no slot pressure to confound a "did it spawn" check.
+--   local id  5 = VULPIX  (16,12) flag FLAG_NIGHT_POKEMON -> visible at NIGHT
+--   local id 11 = PIDGEY  (19,12) flag FLAG_DAY_POKEMON   -> visible by DAY
+-- Those tiles are the walkable spots from the ambient-Pokémon placement fix. Both still fall
+-- inside TrySpawnObjectEvents' window from warp 0 at (17,10), so a "did it spawn" check is not
+-- confounded by the object being out of range.
 -- Window, from src/event_object_movement.c:3114 with MAP_OFFSET 7 / _W 15 / _H 14:
 --   npc.x in [pos.x-9, pos.x+10], npc.y in [pos.y-7, pos.y+9].
 --
@@ -32,8 +32,8 @@ local F = require("lib").new(require("symbols"), "JohtoDayNightLive")
 local GRP_ROUTE37, MAP_ROUTE37 = 83, 3          -- MAP_ROUTE37 = (3 | (83 << 8))
 local WARP0_X, WARP0_Y = 17, 10
 
-local LOCALID_VULPIX, VULPIX_X, VULPIX_Y = 5, 17, 7   -- FLAG_NIGHT_POKEMON -> shows at night
-local LOCALID_PIDGEY, PIDGEY_X, PIDGEY_Y = 11, 18, 7  -- FLAG_DAY_POKEMON   -> shows by day
+local LOCALID_VULPIX, VULPIX_X, VULPIX_Y = 5, 16, 12  -- FLAG_NIGHT_POKEMON -> shows at night
+local LOCALID_PIDGEY, PIDGEY_X, PIDGEY_Y = 11, 19, 12 -- FLAG_DAY_POKEMON   -> shows by day
 
 local FLAG_JOHTO_BASE = 0x6000
 local FLAG_DAY_POKEMON, FLAG_NIGHT_POKEMON = 0x6040, 0x6041

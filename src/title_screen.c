@@ -561,6 +561,10 @@ static void VBlankCB(void)
 
 void CB2_InitTitleScreen(void)
 {
+#if ALL_REGIONS
+    CB2_InitWorldTitleScreen();
+    return;
+#endif
     if (IS_FRLG)
     {
         CB2_InitTitleScreenFrlg();

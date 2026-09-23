@@ -121,6 +121,8 @@ WANT = [
     "sSpriteTemplate_PokecenterMonitor_FrLg", "sSpriteTemplate_PokecenterMonitor",
     "TilesetAnim_JohtoDayCare", "InitTilesetAnim_JohtoDayCare",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
+    "MainCB2_WorldTitleScreen", "gBattle_BG1_Y", "gScanlineEffect",
+    "CB2_InitClearSaveDataScreen", "CB2_InitResetRtcScreen",
     "CB2_NewGameScene",
     "CB2_NamingScreen", "CB2_BagMenuRun", "CB2_ShowPartyMenuForItemUse",
     "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
@@ -147,6 +149,7 @@ SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 # failing the ROM (symbols.lua is a prerequisite of `make`). Suites that need
 # these already range-check the pointer and fail closed at 0.
 OPTIONAL = {
+    "MainCB2_WorldTitleScreen",  # ALL_REGIONS title screen
     "sUsmState",  # PW_GRAPHICAL_START_MENU
 }
 
@@ -453,13 +456,20 @@ def load_syms(elf, nm):
 
 def main():
     if len(sys.argv) < 2:
-        sys.exit("usage: GenLuaSymbols.py <pokemonworld.elf> [nm]")
+        sys.exit("usage: GenLuaSymbols.py <pokemonworld.elf> [nm] [--title]")
     elf = sys.argv[1]
-    nm = sys.argv[2] if len(sys.argv) > 2 else "arm-none-eabi-nm"
+    args = [arg for arg in sys.argv[2:] if arg != "--title"]
+    nm = args[0] if args else "arm-none-eabi-nm"
+    # LTO release builds discard unrelated debug/menu symbols. The title suite
+    # needs only these surviving callbacks and globals, still bound to the ROM hash.
+    title_only = "--title" in sys.argv[2:]
+    wanted = ["gMain", "MainCB2_WorldTitleScreen", "gBattle_BG1_Y",
+              "gScanlineEffect", "CB2_MainMenu", "CB2_InitClearSaveDataScreen",
+              "CB2_Overworld"] if title_only else WANT
     syms = load_syms(elf, nm)
 
     lines = []
-    for name in WANT:
+    for name in wanted:
         ent = syms.get(name)
         if not ent:
             if name in OPTIONAL:
@@ -475,7 +485,7 @@ def main():
             sys.exit(f"AMBIGUOUS symbol {name}: {sorted(hex(a) for a in addrs)} "
                      f"— disambiguate by size in SIZED before trusting an address")
         lines.append(f"  {name} = 0x{ent[0][0]:08x},")
-    for name, want_size in SIZED.items():
+    for name, want_size in ({} if title_only else SIZED).items():
         ent = syms.get(name, [])
         pick = [a for (a, s) in ent if s == want_size]
         if not pick:
@@ -487,7 +497,7 @@ def main():
     sb3 = saveblock3_offsets(root)
     romName, romMD5, romSHA1 = rom_hashes(elf)
 
-    print("-- AUTO-GENERATED from pokemonworld.elf by Testing/GenLuaSymbols.py — do not edit.")
+    print(f"-- AUTO-GENERATED from {os.path.basename(elf)} by Testing/GenLuaSymbols.py — do not edit.")
     print("-- Regenerated every build (`make symbols`); addresses move each rebuild.")
     print("return {")
     print("\n".join(lines))

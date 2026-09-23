@@ -1,0 +1,5 @@
+# Keep this self-contained asset pack's ready-to-load binary exports.
+!*.4bpp
+!*.8bpp
+!*.gbapal
+!preview-config.js

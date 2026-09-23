@@ -34,7 +34,7 @@ ROM_MD5="$( { md5 -q "$ROM" 2>/dev/null || md5sum "$ROM" | cut -d' ' -f1; } | tr
 mkdir -p "$OUT"
 
 # Suites that boot a fresh new game and need no battery save.
-FRESH=(SmokeBoot HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
+FRESH=(SmokeBoot WorldTitle HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
        VerifyBagLayout VerifyBedroomPC VerifyPCScreen OwMonSprites VioletMart
        JohtoDayNightWorld JohtoDayNightLive NationalParkTiles TinTowerRoof
        OlivineHarborBoard SSAquaKantoCrossing BnetTerminal1F LevelUpSummary

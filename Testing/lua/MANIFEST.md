@@ -152,6 +152,7 @@ is clean; keep it that way.
 | Suite | Needs | What it covers |
 |---|---|---|
 | [`SmokeBoot.lua`](#smokebootlua) | fresh new game | Harness self-test: symbols + lib load, boot to the hub, party / step / object dump all read correctly. |
+| `WorldTitle.lua` | fresh boot, ALL_REGIONS | Native title tiles/maps/palette and layer registers; scrolling fog and wrap; Start/A, service-chord guard, clear-save cancel, music-end intro loop, development quickstart. Screenshots at each transition. Release/LTO symbols: `GenLuaSymbols.py pokemonworld-release.elf [nm] --title`, then set `PW_TITLE_SYMBOLS` to that generated file. |
 | [`HubIntroTour.lua`](#hubintrotourlua) | fresh new game | The World Transit intro tour — all five reachable paths on one fresh game. |
 | [`HubIntroTourFollower.lua`](#hubintrotourfollowerlua) | fresh new game | The same escort with a follower out, at the exact sprite budget. |
 | [`HubStairsGate.lua`](#hubstairsgatelua) | fresh new game | The champion-gated hub escalator: refusal, admission, and the ride back down. |

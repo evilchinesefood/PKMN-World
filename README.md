@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".github/pokemon_world_logo.png" width="340" alt="Pokémon World logo">
+<img src="assets/branding/pokemon-world/logos/pokemon-world.png" width="340" height="170" alt="Pokémon World logo">
 
 # World
 

@@ -1,0 +1,138 @@
+{
+  "screen": {
+    "width": 240,
+    "height": 160,
+    "mode": 0
+  },
+  "background": {
+    "bpp": 8,
+    "artColors": 240,
+    "tiles": 832,
+    "tileBytes": 53248,
+    "charBase": 0,
+    "sceneryScreenBase": 30,
+    "logoScreenBase": 31,
+    "sceneryPriority": 2,
+    "logoPriority": 0,
+    "logos": {
+      "full": {
+        "x": 39,
+        "y": 4,
+        "width": 160,
+        "height": 80,
+        "sourceWidth": 1774,
+        "sourceHeight": 887,
+        "visibleWidth": 153,
+        "margins": {
+          "left": 43,
+          "right": 44
+        }
+      },
+      "world": {
+        "x": 48,
+        "y": 20,
+        "width": 144,
+        "height": 48,
+        "sourceWidth": 2172,
+        "sourceHeight": 724,
+        "visibleWidth": 135,
+        "margins": {
+          "left": 52,
+          "right": 53
+        }
+      }
+    }
+  },
+  "fog": {
+    "source": "graphics/title_screen/clouds.png + clouds.bin + rayquaza_and_clouds.pal",
+    "bpp": 4,
+    "charBase": 3,
+    "tileOffset": 192,
+    "vramOffset": 55296,
+    "tileBytes": 3584,
+    "screenBase": 29,
+    "paletteBank": 15,
+    "priority": 1,
+    "fps": 60,
+    "scrollFramesPerPixel": 4,
+    "wave": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      -1,
+      -1,
+      -1,
+      -2,
+      -2,
+      -2,
+      -3,
+      -3,
+      -3,
+      -3,
+      -3,
+      -3,
+      -3,
+      -4,
+      -3,
+      -3,
+      -3,
+      -3,
+      -3,
+      -3,
+      -3,
+      -2,
+      -2,
+      -2,
+      -1,
+      -1,
+      -1,
+      0,
+      0
+    ],
+    "blend": {
+      "foreground": 6,
+      "background": 15,
+      "denominator": 16
+    }
+  },
+  "sprites": {
+    "actors": [],
+    "bytes": 0
+  },
+  "preview": {
+    "movement": "Existing title-screen cloud map, vertical scroll and scanline wave; no Pokémon sprites."
+  },
+  "integration": "CB2_InitTitleScreen selects src/title_screen_world.c for ALL_REGIONS builds. Canonical engine binaries: graphics/title_screen/world/."
+}

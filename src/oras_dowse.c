@@ -329,7 +329,8 @@ u32 FldEff_ORASDowsing(void)
     }
     else
     {
-        FlagClear(I_ORAS_DOWSING_FLAG);
+        // Leave the flag alone: a fresh start never set it, and a resumed
+        // dowse stays on so the next map load can retry the sprite.
         playerObj->fieldEffectSpriteId = MAX_SPRITES;
     }
     FieldEffectActiveListRemove(FLDEFF_ORAS_DOWSE);
@@ -550,7 +551,8 @@ void EndORASDowsing(void)
 
 void Script_ClearDowsingColor(void)
 {
-    if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG))
+    if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG)
+     && gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId < MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId];
         ClearDowsingColor(sprite);
@@ -560,6 +562,7 @@ void Script_ClearDowsingColor(void)
 
 void Script_UpdateDowseState(void)
 {
-    if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG))
+    if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG)
+     && gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId < MAX_SPRITES)
         UpdateDowseState(&gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId]);
 }

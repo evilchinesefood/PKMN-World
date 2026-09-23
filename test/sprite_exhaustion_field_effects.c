@@ -11,6 +11,7 @@
 #include "task.h"
 #include "test/test.h"
 #include "constants/event_objects.h"
+#include "constants/event_object_movement.h"
 #include "constants/items.h"
 #include "constants/field_effects.h"
 #include "event_data.h"
@@ -817,7 +818,26 @@ TEST("Sprite exhaustion recovery: weather finishes with zero or partial capacity
         EXPECT_LT(frames, 2048);
         for (u32 i = 0; i < MAX_SPRITES; i++)
             EXPECT(gSprites[i].inUse == (i < MAX_SPRITES - available));
+        // The bubble sheet is loaded even when no bubble fits, so finishing must free it.
+        if (init == Bubbles_InitAll)
+            EXPECT_EQ(GetSpriteTileStartByTag(GFXTAG_BUBBLE), 0xFFFF);
     }
+}
+
+TEST("Sprite exhaustion recovery: snow started per frame refills after the pool frees")
+{
+    u32 frames;
+    FillPool();
+    Snow_InitVars();
+    for (frames = 0; frames < 40; frames++)
+        Snow_Main();
+    EXPECT_EQ(gWeatherPtr->snowflakeSpriteCount, 0);
+    EXPECT(!gWeatherPtr->weatherGfxLoaded);
+    for (u32 i = MAX_SPRITES - NUM_SNOWFLAKE_SPRITES; i < MAX_SPRITES; i++)
+        DestroySprite(&gSprites[i]);
+    for (frames = 0; frames < 40 * NUM_SNOWFLAKE_SPRITES && !gWeatherPtr->weatherGfxLoaded; frames++)
+        Snow_Main();
+    EXPECT_EQ(gWeatherPtr->snowflakeSpriteCount, NUM_SNOWFLAKE_SPRITES);
 }
 
 TEST("Sprite exhaustion recovery: missing disguises finish revealing and retry")
@@ -842,6 +862,29 @@ TEST("Sprite exhaustion recovery: missing disguises finish revealing and retry")
     EXPECT_EQ(gSprites[MAX_SPRITES - 1].data[0], 1);
     gSprites[MAX_SPRITES - 1].data[7] = TRUE;
     EXPECT(UpdateRevealDisguise(object));
+}
+
+TEST("Sprite exhaustion recovery: disguise movement retries after a full pool")
+{
+    struct ObjectEvent *object;
+    u16 map[32 * 32] = {0};
+    FillPool();
+    gBackupMapLayout.width = 32;
+    gBackupMapLayout.height = 32;
+    gBackupMapLayout.map = map;
+    object = &gObjectEvents[0];
+    object->spriteId = 0;
+    object->currentCoords.x = 10;
+    object->currentCoords.y = 10;
+    object->movementType = MOVEMENT_TYPE_TREE_DISGUISE;
+    MovementType_TreeDisguise(&gSprites[0]);
+    EXPECT_EQ(object->fieldEffectSpriteId, MAX_SPRITES);
+    EXPECT_EQ(object->directionSequenceIndex, 0);
+    DestroySprite(&gSprites[MAX_SPRITES - 1]);
+    MovementType_TreeDisguise(&gSprites[0]);
+    EXPECT_EQ(object->fieldEffectSpriteId, MAX_SPRITES - 1);
+    EXPECT_EQ(gSprites[MAX_SPRITES - 1].callback, UpdateDisguiseFieldEffect);
+    EXPECT_EQ(object->directionSequenceIndex, 1);
 }
 
 TEST("Sprite exhaustion recovery: missing surf blob ignores bob and visibility updates")
@@ -903,8 +946,12 @@ TEST("Sprite exhaustion recovery: flight enters and exits with missing mount dec
     sentinel = gSprites[MAX_SPRITES];
     gObjectEvents[0].movementDirection = DIR_SOUTH;
     gObjectEvents[0].facingDirection = DIR_SOUTH;
+    gSprites[gObjectEvents[0].spriteId].oam.priority = 2;
     StartOverworldFlight();
     EXPECT(IsPlayerFlying());
+    // With or without a mount, the rider draws above every map layer.
+    if (available == 0)
+        EXPECT(gSprites[gObjectEvents[0].spriteId].oam.priority == 0);
     for (u32 i = MAX_SPRITES - available; i < MAX_SPRITES; i++)
         if (gSprites[i].inUse)
             gSprites[i].callback(&gSprites[i]);
@@ -917,6 +964,70 @@ TEST("Sprite exhaustion recovery: flight enters and exits with missing mount dec
         EXPECT(gSprites[i].inUse);
         EXPECT_EQ(gSprites[i].callback, SpriteCallbackDummy);
     }
+}
+
+extern void SeafoamIslandsB4F_CurrentDumpsPlayerOnLand(void);
+
+// Palette slot 0 holds a palette no pool sprite uses; the sentinel sprite's paletteNum is 0,
+// so freeing "the missing blob's palette" would drop it.
+static void LoadUnusedPaletteInSlotZero(void)
+{
+    static const u16 sPaletteData[16] = {0};
+    static const struct SpritePalette sPalette = {sPaletteData, 0x7777};
+    LoadSpritePalette(&sPalette);
+    for (u32 i = 0; i < MAX_SPRITES; i++)
+        gSprites[i].oam.paletteNum = 1;
+}
+
+TEST("Sprite exhaustion recovery: surf dismount without a blob")
+{
+    struct ObjectEvent *object;
+    struct Sprite sentinel;
+    FillPool();
+    ASSUME(IndexOfSpritePaletteTag(0x7777) == 0xFF);
+    LoadUnusedPaletteInSlotZero();
+    ASSUME(IndexOfSpritePaletteTag(0x7777) == 0);
+    sentinel = gSprites[MAX_SPRITES];
+    object = &gObjectEvents[0];
+    object->movementDirection = DIR_NORTH;
+    object->facingDirection = DIR_NORTH;
+    object->fieldEffectSpriteId = MAX_SPRITES;
+    gPlayerAvatar.flags = PLAYER_AVATAR_FLAG_SURFING;
+    SeafoamIslandsB4F_CurrentDumpsPlayerOnLand();
+    for (u32 i = 0; i < 4 && gTasks[0].isActive; i++)
+    {
+        object->heldMovementFinished = TRUE;
+        RunTasks();
+    }
+    EXPECT(!gTasks[0].isActive);
+    EXPECT(!gPlayerAvatar.preventStep);
+    EXPECT_EQ(IndexOfSpritePaletteTag(0x7777), 0);
+    EXPECT_EQ(memcmp(&sentinel, &gSprites[MAX_SPRITES], sizeof(sentinel)), 0);
+}
+
+TEST("Sprite exhaustion recovery: fly out while surfing without a blob")
+{
+    struct ObjectEvent *object;
+    struct Sprite sentinel;
+    FillPool();
+    LoadUnusedPaletteInSlotZero();
+    ASSUME(IndexOfSpritePaletteTag(0x7777) == 0);
+    sentinel = gSprites[MAX_SPRITES];
+    object = &gObjectEvents[0];
+    object->movementDirection = DIR_SOUTH;
+    object->facingDirection = DIR_SOUTH;
+    object->fieldEffectSpriteId = MAX_SPRITES;
+    FieldEffectStart(FLDEFF_USE_FLY);
+    ASSUME(gTasks[0].isActive);
+    // Enter the jump-on-bird stage with the surfing flags captured at takeoff.
+    gTasks[0].data[0] = 5;
+    gTasks[0].data[2] = 7;
+    gTasks[0].data[15] = PLAYER_AVATAR_FLAG_SURFING;
+    RunTasks();
+    EXPECT_EQ(gTasks[0].data[0], 6);
+    EXPECT_EQ(IndexOfSpritePaletteTag(0x7777), 0);
+    EXPECT_EQ(memcmp(&sentinel, &gSprites[MAX_SPRITES], sizeof(sentinel)), 0);
+    DestroyTask(0);
 }
 
 TEST("Sprite exhaustion recovery: Rock Climb completes without a blob")

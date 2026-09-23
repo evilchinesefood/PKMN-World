@@ -561,7 +561,7 @@ static void SetSurfDismount(void)
     task = CreateTask(Task_FinishSurfDismount, 1);
     gTasks[task].tSpriteId = follower->fieldEffectSpriteId;
     SetSurfBlob_BobState(follower->fieldEffectSpriteId, 2);
-    follower->fieldEffectSpriteId = 0;
+    follower->fieldEffectSpriteId = MAX_SPRITES;
     FollowerNPC_HandleSprite();
 
     follower = &gObjectEvents[GetFollowerNPCObjectId()];
@@ -1224,7 +1224,8 @@ void NPCFollow(struct ObjectEvent *npc, u32 state, bool32 ignoreScriptActive)
         SetFollowerNPCData(FNPC_DATA_COME_OUT_DOOR, FNPC_DOOR_NONE);
 
     // Follower changes to normal sprite after getting off surf blob.
-    if (GetFollowerNPCData(FNPC_DATA_CURRENT_SPRITE) == FOLLOWER_NPC_SPRITE_INDEX_SURF && !CheckFollowerNPCFlag(PLAYER_AVATAR_FLAG_SURFING) && follower->fieldEffectSpriteId == 0)
+    if (GetFollowerNPCData(FNPC_DATA_CURRENT_SPRITE) == FOLLOWER_NPC_SPRITE_INDEX_SURF && !CheckFollowerNPCFlag(PLAYER_AVATAR_FLAG_SURFING)
+     && (follower->fieldEffectSpriteId == 0 || follower->fieldEffectSpriteId >= MAX_SPRITES)) // 0 was the old no-blob value
     {
         SetFollowerNPCSprite(FOLLOWER_NPC_SPRITE_INDEX_NORMAL);
         SetFollowerNPCData(FNPC_DATA_SURF_BLOB, FNPC_SURF_BLOB_NONE);
@@ -1429,7 +1430,7 @@ void HideNPCFollower(void)
         SetSurfBlob_BobState(gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId, 2);
         if (gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId < MAX_SPRITES)
             DestroySprite(&gSprites[gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId]);
-        gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId = 0;
+        gObjectEvents[GetFollowerNPCObjectId()].fieldEffectSpriteId = MAX_SPRITES;
     }
 
     SetFollowerNPCData(FNPC_DATA_COME_OUT_DOOR, FNPC_DOOR_NONE);

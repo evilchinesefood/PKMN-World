@@ -432,7 +432,7 @@ static bool8 TryInterruptObjectEventSpecialAnim(struct ObjectEvent *playerObjEve
 
             if (playerObjEvent->movementDirection != direction)
             {
-                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG))
+                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG) && playerObj->fieldEffectSpriteId < MAX_SPRITES)
                     gSprites[playerObj->fieldEffectSpriteId].sCounter = 0;
 
                 ObjectEventClearHeldMovement(playerObjEvent);
@@ -441,7 +441,7 @@ static bool8 TryInterruptObjectEventSpecialAnim(struct ObjectEvent *playerObjEve
 
             if (CheckForPlayerAvatarStaticCollision(direction) == COLLISION_NONE)
             {
-                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG))
+                if (I_ORAS_DOWSING_FLAG != 0 && FlagGet(I_ORAS_DOWSING_FLAG) && playerObj->fieldEffectSpriteId < MAX_SPRITES)
                 {
                     gSprites[playerObj->fieldEffectSpriteId].sCounter = 0;
                     gSprites[playerObj->fieldEffectSpriteId].y2 = 0;
@@ -1115,6 +1115,12 @@ static void CreateFlightMountSprite(void)
         // Rider-in-front strip of the mount (see CreateMountOverlaySprite);
         // synced every frame by SpriteCB_FlightMount.
         sFlightOverlaySpriteId = CreateMountOverlaySprite(sFlightMountSpriteId);
+    }
+    else
+    {
+        // No mount callback to pin the rider above the map layers; fixedPriority keeps this.
+        playerSprite->oam.priority = 0;
+        playerSprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
     }
     // Dedicated ground shadow. FLDEFF_SHADOW is unusable here: UpdateShadowFieldEffect
     // stops it the moment the flyer crosses water/puddles/grass and it never respawns.

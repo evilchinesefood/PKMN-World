@@ -776,6 +776,9 @@ static bool8 CreateSnowflakeSprite(void);
 static bool8 DestroySnowflakeSprite(void);
 static void InitSnowflakeSpriteMovement(struct Sprite *);
 
+// Snow_InitAll runs synchronously, so a full pool cannot clear while it waits.
+static bool8 sSnowInitAllRunning;
+
 void Snow_InitVars(void)
 {
     gWeatherPtr->initStep = 0;
@@ -793,12 +796,14 @@ void Snow_InitAll(void)
     u16 i;
 
     Snow_InitVars();
+    sSnowInitAllRunning = TRUE;
     while (gWeatherPtr->weatherGfxLoaded == FALSE)
     {
         Snow_Main();
         for (i = 0; i < gWeatherPtr->snowflakeSpriteCount; i++)
             UpdateSnowflakeSprite(gWeatherPtr->sprites.s1.snowflakeSprites[i]);
     }
+    sSnowInitAllRunning = FALSE;
 }
 
 void Snow_Main(void)
@@ -841,8 +846,8 @@ static bool8 UpdateVisibleSnowflakeSprites(void)
         gWeatherPtr->snowflakeVisibleCounter = 0;
         if (gWeatherPtr->snowflakeSpriteCount < gWeatherPtr->targetSnowflakeSpriteCount)
         {
-            // InitAll runs synchronously: a full pool cannot clear while it waits.
-            if (!CreateSnowflakeSprite())
+            // Per frame, a failed flake retries on the next tick instead.
+            if (!CreateSnowflakeSprite() && sSnowInitAllRunning)
                 gWeatherPtr->targetSnowflakeSpriteCount = gWeatherPtr->snowflakeSpriteCount;
         }
         else

@@ -5,23 +5,45 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+## v1.6 — 2026-09-23
+
+> **Save format is now v10** (v1.5 was v9). v7, v8, and v9 saves still load.
+> v9 files get a one-shot repair: a Johto- or Kanto-first save that was stamped
+> as if the Hoenn intro had already happened — including one already standing
+> in Slateport Harbor — has that bit cleared, so the next hub trip to Hoenn is
+> the bedroom instead of another harbor dump. v10 saves do not run that repair
+> again. Saves from v1.3.6 or earlier are still refused.
+>
+> The last commit that still writes v9 is tagged `v1.6-last-v9-save`.
+
+Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play reports below. The overworld crash, the stranded map objects, the softlock at sea, the shared gift flags, and the Rocket HQ battle all came from those reports.
+
+### World & systems
+
+- **The title screen is Pokémon World.** The centered logo and the six game screenshots replace the Emerald title.
+- **A crowded screen no longer crashes the game** (#284, #293, #300, #303–#315). When the sprite pool or overworld tile memory is full, the game skips the thing that would not fit and tries again once a slot frees, instead of halting on "OUT OF SPRITE SLOTS" or "could not load sprite tiles". That covers field effects, DexNav, dowsing, disguises, snow, flight, and a follower's surf blob.
+- **Kanto Victory Road can be finished** (#282). Pressing the 3F switch now reveals the boulder on 2F, so floor switch 2 can be reached.
+- **Seafoam Islands boulders reveal the hole on the floor below** (#239).
+- **Route 41 keeps you on the water** (#289). Surfing in from Route 40 no longer drops you on foot in the open sea.
+- **The Johto town map marker sits on the town you are in** (#287).
+- **Ambient Pokémon stand where you can meet them** (#288, #291). Water-only Pokémon are back in the water, and the ones on roofs, the Ecruteak pond, the Burned Tower upper floors, and the Route 35–38 trees were moved onto walkable ground. The Route 40 north gate no longer opens onto an empty strip above Olivine (#292).
+- **Bill's Goldenrod Eevee is no longer the same gift as Celadon's** (#290). Taking the Celadon Eevee no longer locks out Bill's.
+- **Greedy gift choices** (#238, #240). The Saffron Dojo Hitmonlee/Hitmonchan balls and the Mt. Moon Dome/Helix fossils no longer lock the leftover behind one shared flag. Miguel does not claim the other fossil. Old saves that already took one can pick up the remainder. Regional starters stay exclusive. Cinnabar will revive both fossils.
+- **The Rocket HQ multi battle starts** (#294). Lance and the player against Ariana and the grunt no longer crash with "Opponent needs a valid name".
+- **Johto trainers who were copies of Hoenn trainers are themselves.** Mt. Mortar's Karate King is no longer Route 132's Black Belt Kiyo, Johto Victory Road no longer hosts Hoenn's Wally set-piece, and Routes 117 and 120 no longer field Rival Blue with a level-5 starter.
+
 ### Quality of life
 
-- **Greedy gift choices** (#240). The Saffron Fighting Dojo Hitmonlee/Hitmonchan balls and the Mt. Moon Dome/Helix fossils no longer lock the leftover behind a shared “you already picked one” flag. Miguel does not claim the other fossil. Old saves that already took one can pick up the remainder (Dojo may also re-offer the same Hitmon once if the old shared flag is set without a per-ball hide). Regional starters stay exclusive. Fuchsia’s fossil sign shows both species if you own both (the zoo still has one sprite). Cinnabar will revive both.
+- **Hub later-arrivals stay at home until that region's first gym badge.** Walking out of Pallet, New Bark, or Littleroot used to send the next hub trip to Vermilion, Goldenrod Station, or Slateport Harbor. Those access points now unlock on the first badge.
+- **Oak's aides hand out the Fame Checker after any region's Hall of Fame** (#206). Kanto post-game gates on the Kanto championship, not on "a championship somewhere".
+- **The Goldenrod mint clerk sells all 21 mints** (#208), not only after a post-game flag.
+- **Celio's Town Map and Tri Pass survive a full bag** (#205). A full Key Items pocket used to drop them. Talking to him again re-offers anything that did not fit. The Meteorite is checked the same way.
+- **Magikarp-record Net Ball and Water Path Nest Ball no longer vanish on a full bag** (#196).
 
 ### Fixes
 
-- **Hub later-arrivals stay at home until that region's first gym badge.** Walking out of Pallet, New Bark, or Littleroot used to send the next hub trip to Vermilion, Goldenrod Station, or Slateport Harbor. Those access points now unlock on the first badge; intro-done only suppresses the one-time arrival narration. Mid-intro saves that already walked outside will land in the bedroom on the next hub re-cross, not at the harbor.
-- **Celio's Town Map and Tri Pass survive a full bag** (#205). A full Key Items pocket used to pop the cutscene's call frame (Town Map) or print "obtained" and drop the item (Tri Pass). Both now use the same checked `call_if_eq` shape as Clair's TM gift. The Meteorite two lines earlier is checked the same way, and talking to Celio after the meeting re-offers anything that did not fit.
-- **Johto/Kanto-first Hoenn is no longer a bedroom lock, and Continue of pre-fix hub saves is no longer a Slateport dump** (#195). The wall clock now advances the intro if you already set it in another region, and v10 clears the stale "Hoenn intro done" bit on any save that has never actually run that intro — including files already standing in Slateport Harbor, so the next hub trip to Hoenn is the bedroom instead of another dump.
-- **Hoenn champion content no longer unlocks for a Johto or Kanto champion** (#198). Match Call, contests, and the TV/record-mix sanitizers now gate on `FLAG_HOENN_CHAMPION` instead of the any-region Hall of Fame bit.
-- **Magikarp-record Net Ball and Water Path Nest Ball no longer vanish on a full bag** (#196). The expansion merge put `setflag` back before `giveitem` on those two sites; a full ball pocket consumed the gift.
-
-### Docs / tests
-
-- DexNav coverage is 405/405 land tables, not “405 of 416” (#201).
-- `GenLuaSymbols.py` no longer fails the ROM when `sUsmState` is compiled out (`PW_GRAPHICAL_START_MENU=FALSE`) (#197), and `Route41SurfBgm.lua` reads `gWeather` from the ELF (#200).
-- Dropped the leftover duplicate `NUM_HIDDEN_MONS_ENCOUNTER_SLOTS` the merge claimed to remove (#199).
+- **Hoenn champion content no longer unlocks for a Johto or Kanto champion** (#198). Match Call, contests, and the TV sanitizers gate on the Hoenn championship.
+- **Contest rewards and mail survive a full PC** (#219, #232). A full box no longer destroys the caught contest Pokémon or the mail on a traded Pokémon.
 
 ## v1.5 — 2026-08-24
 

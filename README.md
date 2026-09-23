@@ -72,8 +72,16 @@ ROM, and the emulator suites can't run there.
 
 ## Status
 
-**Last tagged release: v1.5** (2026-08-24). See the [changelog](CHANGELOG.md) for the full
-entry; the headline items since v1.4:
+**Last tagged release: v1.6** (2026-09-23). See the [changelog](CHANGELOG.md) for the full
+entry. Save format is **v10**; v7 and newer migrate forward, anything older is refused.
+Headline items since v1.5:
+
+- A crowded overworld **skips a sprite it cannot fit** instead of crashing.
+- **Victory Road, Seafoam Islands, Route 41, the Johto map marker, Bill's Eevee,
+  the Dojo and Mt. Moon gifts, and the Rocket HQ multi battle** are fixed.
+- The title screen is **Pokémon World**.
+
+The v1.5 headlines, still in this build:
 
 - The link-era features (Mystery Gift/Event, Union Room, record mixing, Cable Club) and the
   never-populated quest engine are **compiled out**.
@@ -81,8 +89,8 @@ entry; the headline items since v1.4:
   old Center 2Fs are sealed.
 - The **S.S. Aqua actually lands in Kanto** — you disembark at the new Vermilion City port with
   your team intact.
-- A long run of Johto script, trainer-data and save-migration fixes. The save format is now
-  **v9**; v7 and v8 saves migrate forward, anything older is refused at load with an explanation.
+- A long run of Johto script, trainer-data and save-migration fixes. v1.5 moved the save
+  format to v9; v1.6 moves it to v10. Pre-v7 saves are still refused at load.
 - **Whirlpool is implemented**, which unseals **Lugia** and the **Dragon's Den Shrine** — both
   were unreachable in every save, walled off by invisible blockers that no move could clear.
 - **Wild encounters are flat**: every Pokémon is catchable at any hour. The clock still changes

@@ -72,6 +72,15 @@ local function sb1FlagSet(id, on)
 end
 local function regionVarSet(id, val) F.w16(F.sb3() + S.SaveBlock3.regionVars + (id - REGION_VARS_START) * 2, val) end
 
+-- VAR_REPEL_STEP_COUNT (include/constants/vars.h). The debug party lead is level 100,
+-- and every Slowpoke Well species is level 24 or lower, so a live repel blocks the
+-- cave roll that used to open a wild battle in the middle of PATH_TO_JJ.
+local VARS_START = 0x4000
+local VAR_REPEL_STEP_COUNT = 0x4021
+local function armRepel()
+  F.w16(F.sb1() + S.SaveBlock1.vars + (VAR_REPEL_STEP_COUNT - VARS_START) * 2, 2000)
+end
+
 local function gfxName(gfx)
   local names = {
     [GFX_LASS] = "LASS", [GFX_MAGMA_M] = "MAGMA_M", [GFX_MAGMA_F] = "MAGMA_F",
@@ -442,6 +451,7 @@ F.run(function()
     toApproach ~= nil, toApproach and ((#toApproach - 1) .. " steps") or "NO PATH")
 
   F.L("  walking PATH_TO_JJ (entrance -> (22,2))")
+  armRepel()
   local walked = walkPath(PATH_TO_JJ, "to_jj")
   F.check("walked to (22,2) east of Jessie", walked and select(1, F.pos()) == 22 and select(2, F.pos()) == 2,
     string.format("at (%d,%d)", select(1, F.pos()), select(2, F.pos())))

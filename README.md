@@ -2,8 +2,6 @@
 
 <img src="assets/branding/logos/pokemon-world.png" width="340" height="170" alt="Pokémon World logo">
 
-# World
-
 **Three regions. Three complete adventures. One cartridge.**
 
 A Game Boy Advance ROM hack built on

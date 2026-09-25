@@ -6363,6 +6363,16 @@ bool32 IsItemSweet(enum Item item)
     return item >= ITEM_STRAWBERRY_SWEET && item <= ITEM_RIBBON_SWEET;
 }
 
+static bool32 HasLaterEvolutionRowToSpecies(const struct Evolution *evolutions, u32 from, u32 count, enum Species targetSpecies)
+{
+    for (u32 j = from; j < count; j++)
+    {
+        if (evolutions[j].targetSpecies == targetSpecies)
+            return TRUE;
+    }
+    return FALSE;
+}
+
 static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species, u8 depth, u32 *depth_i, u32 alreadyPrintedIcons[], u32 *icon_depth_i, u32 numLines)
 {
     int i;
@@ -6754,7 +6764,13 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
 
         sPokedexView->sEvoScreenData.arrowSpriteDist[*depth_i + 1] = numLines;
 
-        PrintEvolutionTargetSpeciesAndMethod(taskId, targetSpecies, depth+1, depth_i, alreadyPrintedIcons, icon_depth_i, numLines);
+        // Several rows can reach the same species (e.g. Pichu by friendship or at Lv. 12). List every
+        // method, but draw that species' own evolutions once, under the last of those rows.
+        // The skipped call would also have set the next row's arrow offset, so set it here.
+        if (!HasLaterEvolutionRowToSpecies(evolutions, i + 1, times, targetSpecies))
+            PrintEvolutionTargetSpeciesAndMethod(taskId, targetSpecies, depth+1, depth_i, alreadyPrintedIcons, icon_depth_i, numLines);
+        else
+            sPokedexView->sEvoScreenData.arrowSpriteDist[*depth_i] = numLines;
     }//For loop end
 }
 

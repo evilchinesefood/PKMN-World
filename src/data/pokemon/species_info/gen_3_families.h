@@ -6031,7 +6031,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sBudewLevelUpLearnset,
         .teachableLearnset = sBudewTeachableLearnset,
         .eggMoveLearnset = sBudewEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_ROSELIA, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD},{IF_NOT_TIME, TIME_NIGHT})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_ROSELIA, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD},{IF_NOT_TIME, TIME_NIGHT})},
+                                {EVO_LEVEL, 15, SPECIES_ROSELIA}),
     },
 #endif //P_GEN_4_CROSS_EVOS
 
@@ -10229,7 +10230,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .levelUpLearnset = sChinglingLevelUpLearnset,
         .teachableLearnset = sChinglingTeachableLearnset,
         .eggMoveLearnset = sChinglingEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CHIMECHO, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD},{IF_TIME, TIME_NIGHT})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CHIMECHO, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD},{IF_TIME, TIME_NIGHT})},
+                                {EVO_LEVEL, 20, SPECIES_CHIMECHO}),
     },
 #endif //P_GEN_4_CROSS_EVOS
 

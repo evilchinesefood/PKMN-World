@@ -5,6 +5,12 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Quality of life
+
+- **Evolutions that needed friendship, a particular move, or a party partner now also happen at a level.** The old method still works and whichever comes first wins: Pichu, Cleffa, Igglybuff and Azurill at 12; Togepi and Budew at 15; Bonsly at 17; Mime Jr. at 18; Chingling at 20; Mantyke at 25; Munchlax and Stantler at 30; Golbat, Aipom, Girafarig and Dunsparce at 32; Lickitung, Tangela and Yanma at 33; Primeape at 35; Chansey at 40; Piloswine at 45. A Pokémon already past its new level evolves at its next level-up.
+- **Eevee evolves by stone only.** Sun Stone gives Espeon, Moon Stone gives Umbreon and Shiny Stone gives Sylveon, alongside the Thunder, Water, Fire, Leaf and Ice Stones. Friendship, the time of day, a Fairy-type move, or levelling up in Petalburg Woods or the Shoal Cave ice room no longer evolve it, so an Eevee never turns into something you did not choose.
+- **Happiny, Gligar and Sneasel evolve at any hour.** The Oval Stone, Razor Fang and Razor Claw no longer depend on day or night.
+
 ## v1.6 — 2026-09-23
 
 > **Save format is now v10** (v1.5 was v9). v7, v8, and v9 saves still load.

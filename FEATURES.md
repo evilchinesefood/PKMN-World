@@ -335,6 +335,9 @@ on:
 - **HMs are forgettable** like any other move, and **trade evolutions work offline** — use a
   **Linking Cord** (sold in the Celadon and Lilycove department stores, the Mahogany shop and the
   hub) like an evolution stone.
+- **No fiddly evolutions.** Friendship, move and party-partner evolutions also happen at a
+  set level, Eevee evolves by stone only (Sun → Espeon, Moon → Umbreon, Shiny → Sylveon, plus the
+  usual five), and Happiny, Gligar and Sneasel evolve with their item at any hour.
 - **Nicknames** can be changed from the party menu or summary screen.
 - **Item descriptions are shown on pickup**, and IV/EV pages are available in the summary screen.
 - **HGSS-style Pokédex** — the main page is region-aware: your campaign region's SEEN/CAUGHT

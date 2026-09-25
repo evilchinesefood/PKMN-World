@@ -21,8 +21,8 @@ EcruteakMart_Text_SuperNerd:
 	.string "My EEVEE evolved into an ESPEON.\p"
 	.string "But my friend's EEVEE turned into\n"
 	.string "an UMBREON.\p"
-	.string "I wonder why? We both were raising\n"
-	.string "our EEVEE in the same way…$"
+	.string "Turns out I used a SUN STONE,\n"
+	.string "and my friend used a MOON STONE!$"
 
 EcruteakMart_Text_Granny:
 	.string "If you use REVIVE, a POKéMON that's\n"

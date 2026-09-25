@@ -107,10 +107,25 @@ function logoLayer(path, width, y) {
   return rgba;
 }
 const logo = logoLayer('logos/pokemon-world.png', 160, 4);
+// The shared master includes World's approved optical offset. At title scale,
+// its visible center is four pixels right of the centered Pokemon wordmark.
+// Measure below the upper lettering so future master edits cannot silently
+// recenter World or move PRESS START to follow the lower word.
+function horizontalBounds(rgba, firstRow = 0) {
+  let left = W, right = -1;
+  for (let y = firstRow; y < H; y++) for (let x = 0; x < W; x++) {
+    if (rgba[(y * W + x) * 4 + 3] < 128) continue;
+    left = Math.min(left, x); right = Math.max(right, x);
+  }
+  assert(right >= left, 'Measured logo region must contain visible pixels');
+  return { left, right };
+}
+const stackBounds = horizontalBounds(logo), worldBounds = horizontalBounds(logo, 64);
+assert.equal(worldBounds.left + worldBounds.right - stackBounds.left - stackBounds.right, 8,
+  'World must remain four pixels right of the centered Pokemon logo');
 const worldLogo = logoLayer('logos/world.png', 144, 20);
 // Reserve palette bank 15 for the existing 4bpp cloud layer.
-// Retain the alternate wordmark's shared palette and tile allocation so this
-// relocation reproduces the already validated game resources exactly.
+// Retain the alternate wordmark's shared palette and tile allocation.
 const artPalette = paletteFor([scenery, logo, worldLogo], 239);
 const cloudPalette = readFileSync(join(repo, 'graphics/title_screen/rayquaza_and_clouds.pal'), 'utf8')
   .trim().split(/\r?\n/).slice(3).map(row => row.trim().split(/\s+/).map(Number).map(to5));
@@ -170,5 +185,9 @@ for (let cell = 0; cell < 1024; cell++) {
   fogMap.writeUInt16LE((15 << 12) | (entry & 0xC00) | (tile + fogTileOffset), cell * 2);
 }
 writeFileSync(join(out, 'fog_map.bin'), fogMap);
+// Keep the older GitHub branding path on the same approved master as the README.
+execFileSync('magick', [join(root, 'logos/pokemon-world.png'), '-resize', '165x',
+  '-strip', '-define', 'png:exclude-chunks=date,time',
+  join(repo, '.github/pokemon_world_logo.png')]);
 console.log(`Exported ${tiles.length} artwork tiles (${tiles.length * 64} bytes) and ${fogTiles.length} bytes of existing fog tiles.`);
-console.log('Validated tilemaps, visible logo centering, palette allocation and VRAM limits.');
+console.log('Validated tilemaps, centered logo stack, World +4px alignment, palette allocation and VRAM limits.');

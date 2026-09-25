@@ -49,7 +49,7 @@ end
 local function checkHorizontalAlignment()
   -- Measure actual visible pixels from hardware tilemaps / OAM, so transparent
   -- source padding or an off-by-one sprite tile cannot pass as centered artwork.
-  local logoLeft, logoRight = 240, -1
+  local logoLeft, logoRight, worldLeft, worldRight = 240, -1, 240, -1
   for y = 0, 159 do
     for x = 0, 239 do
       local entry = F.r16(0x0600F800 + ((y // 8) * 32 + x // 8) * 2)
@@ -58,13 +58,21 @@ local function checkHorizontalAlignment()
       if (entry & 0x800) ~= 0 then ty = 7 - ty end
       if F.r8(0x06000000 + (entry & 1023) * 64 + ty * 8 + tx) ~= 0 then
         logoLeft, logoRight = math.min(logoLeft, x), math.max(logoRight, x)
+        -- Below the Pokemon lettering, the World wordmark has an intentional
+        -- four-pixel optical offset within the centered logo stack.
+        if y >= 64 then
+          worldLeft, worldRight = math.min(worldLeft, x), math.max(worldRight, x)
+        end
       end
     end
   end
 
-  local promptLeft, promptRight, pieces = 240, -1, 0
+  local promptLeft, promptRight, pieces, hudPieces = 240, -1, 0, 0
   for i = 0, 127 do
     local a0, a1, a2 = F.r16(0x07000000 + i * 8), F.r16(0x07000002 + i * 8), F.r16(0x07000004 + i * 8)
+    if (a0 & 0xE300) == 0x4000 and (a1 & 0xC000) == 0xC000 and (a0 & 255) < 160 then
+      hudPieces = hudPieces + 1
+    end
     -- Non-affine, enabled 4bpp 32x8 objects in the visible screen. The quickstart
     -- HUD is 64x32; it must not influence the PRESS START bounds.
     if (a0 & 0xE300) == 0x4000 and (a1 & 0xC000) == 0x4000 and (a0 & 255) < 160 then
@@ -93,6 +101,10 @@ local function checkHorizontalAlignment()
   F.check("logo and PRESS START share the horizontal center within half a pixel",
     logoRight >= logoLeft and promptRight >= promptLeft
       and math.abs(logoLeft + logoRight - promptLeft - promptRight) <= 1)
+  F.check("World wordmark is four pixels right of the Pokemon logo center",
+    worldRight >= worldLeft and worldLeft + worldRight - logoLeft - logoRight == 8,
+    string.format("World=%d..%d logo=%d..%d", worldLeft, worldRight, logoLeft, logoRight))
+  F.check("SELECT / New Game badge is absent", hudPieces == 0)
 end
 
 F.run(function()
@@ -159,11 +171,9 @@ F.run(function()
     checkResource("title reload restores the full palette", 0x05000000, "palette.bin")
     F.shot("title_after_intro_loop")
   end
-  if not S.romName:match("release") then
-    F.press("Select", 1)
-    F.check("development SELECT quickstart reaches overworld", waitFor(S.CB2_Overworld, 3000))
-    F.idle(180)
-    F.shot("quickstart")
-  end
+  F.press("Select", 1)
+  F.idle(180)
+  F.check("SELECT alone does not start a new game", F.cb2() == S.MainCB2_WorldTitleScreen)
+  F.shot("select_disabled")
   F.finish()
 end)

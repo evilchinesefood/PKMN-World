@@ -205,8 +205,8 @@ TEST("Evo methods: original methods still work below the new level")
 
 // The HGSS dex evolution page (src/pokedex_plus_hgss.c) lists a species' pre-evolutions and then
 // every evolution row, recursing into each target once (under the last row that reaches it). Its
-// per-page arrays hold 10 entries and it writes arrowSpriteDist[row + 1] after each row, so a page
-// longer than 8 rows writes past the end of sEvoScreenData. Mirror that walk and hold every page to 8.
+// per-page arrays hold 10 entries and after the Nth row (1-based) it writes arrowSpriteDist[N + 1],
+// so a page longer than 8 rows writes past the end of sEvoScreenData. Mirror that walk and hold every page to 8.
 #define HGSS_DEX_MAX_PAGE_ROWS 8
 
 static u32 CountDexEvolutionRows(enum Species species)
@@ -245,7 +245,8 @@ TEST("Evo methods: every dex evolution page fits the page arrays (8 rows)")
 
     for (species = 1; species < NUM_SPECIES; species++)
     {
-        // Milcery's Alcremie table is upstream Gen 8 data (not in this hack) that the dex caps at 9 rows.
+        // Milcery's upstream Alcremie table is capped at 9 rows by the dex, which still overflows by one;
+        // Milcery is unobtainable here, so its page is only reachable from debug-seen flags.
         if (!IsSpeciesEnabled(species) || species == SPECIES_MILCERY)
             continue;
         rows = CountDexEvolutionRows(species);

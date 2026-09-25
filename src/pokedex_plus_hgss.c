@@ -6766,8 +6766,11 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
 
         // Several rows can reach the same species (e.g. Pichu by friendship or at Lv. 12). List every
         // method, but draw that species' own evolutions once, under the last of those rows.
+        // The skipped call would also have set the next row's arrow offset, so set it here.
         if (!HasLaterEvolutionRowToSpecies(evolutions, i + 1, times, targetSpecies))
             PrintEvolutionTargetSpeciesAndMethod(taskId, targetSpecies, depth+1, depth_i, alreadyPrintedIcons, icon_depth_i, numLines);
+        else
+            sPokedexView->sEvoScreenData.arrowSpriteDist[*depth_i] = numLines;
     }//For loop end
 }
 

@@ -2856,7 +2856,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sPichuTeachableLearnset,
         .eggMoveLearnset = sPichuEggMoveLearnset,
         .formSpeciesIdTable = sPichuFormSpeciesIdTable,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_PIKACHU, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_PIKACHU, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})},
+                                {EVO_LEVEL, 12, SPECIES_PIKACHU}),
     },
 
     [SPECIES_PICHU_SPIKY_EARED] =
@@ -5056,7 +5057,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sCleffaLevelUpLearnset,
         .teachableLearnset = sCleffaTeachableLearnset,
         .eggMoveLearnset = sCleffaEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CLEFAIRY, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CLEFAIRY, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})},
+                                {EVO_LEVEL, 12, SPECIES_CLEFAIRY}),
     },
 #endif //P_GEN_2_CROSS_EVOS
 
@@ -5651,7 +5653,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sIgglybuffLevelUpLearnset,
         .teachableLearnset = sIgglybuffTeachableLearnset,
         .eggMoveLearnset = sIgglybuffEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_JIGGLYPUFF, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_JIGGLYPUFF, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})},
+                                {EVO_LEVEL, 12, SPECIES_JIGGLYPUFF}),
     },
 #endif //P_GEN_2_CROSS_EVOS
 
@@ -6013,7 +6016,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sGolbatLevelUpLearnset,
         .teachableLearnset = sGolbatTeachableLearnset,
     #if P_GEN_2_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CROBAT, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CROBAT, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})},
+                                {EVO_LEVEL, 32, SPECIES_CROBAT}),
     #endif
     },
 
@@ -7894,7 +7898,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sPrimeapeLevelUpLearnset,
         .teachableLearnset = sPrimeapeTeachableLearnset,
     #if P_GEN_9_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_ANNIHILAPE, CONDITIONS({IF_USED_MOVE_X_TIMES, MOVE_RAGE_FIST, 20})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_ANNIHILAPE, CONDITIONS({IF_USED_MOVE_X_TIMES, MOVE_RAGE_FIST, 20})},
+                                {EVO_LEVEL, 35, SPECIES_ANNIHILAPE}),
     #endif
     },
 
@@ -14269,7 +14274,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sLickitungTeachableLearnset,
         .eggMoveLearnset = sLickitungEggMoveLearnset,
     #if P_GEN_4_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_LICKILICKY, CONDITIONS({IF_KNOWS_MOVE, MOVE_ROLLOUT})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_LICKILICKY, CONDITIONS({IF_KNOWS_MOVE, MOVE_ROLLOUT})},
+                                {EVO_LEVEL, 33, SPECIES_LICKILICKY}),
     #endif
     },
 
@@ -14908,8 +14914,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sHappinyLevelUpLearnset,
         .teachableLearnset = sHappinyTeachableLearnset,
         .eggMoveLearnset = sHappinyEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CHANSEY, CONDITIONS({IF_NOT_TIME, TIME_NIGHT},{IF_HOLD_ITEM, ITEM_OVAL_STONE})},
-                                {EVO_ITEM, ITEM_OVAL_STONE, SPECIES_CHANSEY, CONDITIONS({IF_NOT_TIME, TIME_NIGHT})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_CHANSEY, CONDITIONS({IF_HOLD_ITEM, ITEM_OVAL_STONE})},
+                                {EVO_ITEM, ITEM_OVAL_STONE, SPECIES_CHANSEY}),
     },
 #endif //P_GEN_4_CROSS_EVOS
 
@@ -14981,7 +14987,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sChanseyTeachableLearnset,
         .eggMoveLearnset = sChanseyEggMoveLearnset,
     #if P_GEN_2_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_BLISSEY, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_BLISSEY, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})},
+                                {EVO_LEVEL, 40, SPECIES_BLISSEY}),
     #endif
     },
 
@@ -15134,7 +15141,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sTangelaTeachableLearnset,
         .eggMoveLearnset = sTangelaEggMoveLearnset,
     #if P_GEN_4_CROSS_EVOS
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_TANGROWTH, CONDITIONS({IF_KNOWS_MOVE, MOVE_ANCIENT_POWER})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_TANGROWTH, CONDITIONS({IF_KNOWS_MOVE, MOVE_ANCIENT_POWER})},
+                                {EVO_LEVEL, 33, SPECIES_TANGROWTH}),
     #endif
     },
 
@@ -16077,7 +16085,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sMimeJrLevelUpLearnset,
         .teachableLearnset = sMimeJrTeachableLearnset,
         .eggMoveLearnset = sMimeJrEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_MR_MIME, CONDITIONS({IF_KNOWS_MOVE, MOVE_MIMIC}, {IF_NOT_REGION, REGION_GALAR})}
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_MR_MIME, CONDITIONS({IF_KNOWS_MOVE, MOVE_MIMIC}, {IF_NOT_REGION, REGION_GALAR})},
+                                {EVO_LEVEL, 18, SPECIES_MR_MIME, CONDITIONS({IF_NOT_REGION, REGION_GALAR})}
                             #if P_GALARIAN_FORMS
                                 ,{EVO_LEVEL, 0, SPECIES_MR_MIME_GALAR, CONDITIONS({IF_KNOWS_MOVE, MOVE_MIMIC}, {IF_REGION, REGION_GALAR})}
                             #endif
@@ -18206,21 +18215,21 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggMoveLearnset = sEeveeEggMoveLearnset,
         .formSpeciesIdTable = sEeveeFormSpeciesIdTable,
         .formChangeTable = sEeveeFormChangeTable,
+        // Stones only: every branch has its own stone, so which Eeveelution you get never depends on
+        // friendship, the clock, a Fairy move, or where you happen to level up.
         .evolutions = EVOLUTION({EVO_ITEM, ITEM_THUNDER_STONE, SPECIES_JOLTEON},
                                 {EVO_ITEM, ITEM_WATER_STONE, SPECIES_VAPOREON},
                                 {EVO_ITEM, ITEM_FIRE_STONE, SPECIES_FLAREON}
-                            #if P_GEN_6_CROSS_EVOS
-                                ,{EVO_LEVEL, 0, SPECIES_SYLVEON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_KNOWS_MOVE_TYPE, TYPE_FAIRY})}
-                            #endif
                             #if P_GEN_2_CROSS_EVOS
-                                ,{EVO_LEVEL, 0, SPECIES_ESPEON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_NOT_TIME, TIME_NIGHT})},
-                                {EVO_LEVEL, 0, SPECIES_UMBREON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_TIME, TIME_NIGHT})}
+                                ,{EVO_ITEM, ITEM_SUN_STONE, SPECIES_ESPEON},
+                                {EVO_ITEM, ITEM_MOON_STONE, SPECIES_UMBREON}
                             #endif
                             #if P_GEN_4_CROSS_EVOS
-                                ,{EVO_LEVEL, 0, SPECIES_LEAFEON, CONDITIONS({IF_IN_MAP, MAP_PETALBURG_WOODS})},
-                                {EVO_ITEM, ITEM_LEAF_STONE, SPECIES_LEAFEON},
-                                {EVO_LEVEL, 0, SPECIES_GLACEON, CONDITIONS({IF_IN_MAP, MAP_SHOAL_CAVE_LOW_TIDE_ICE_ROOM})},
+                                ,{EVO_ITEM, ITEM_LEAF_STONE, SPECIES_LEAFEON},
                                 {EVO_ITEM, ITEM_ICE_STONE, SPECIES_GLACEON}
+                            #endif
+                            #if P_GEN_6_CROSS_EVOS
+                                ,{EVO_ITEM, ITEM_SHINY_STONE, SPECIES_SYLVEON}
                             #endif
                             ),
     },
@@ -19664,7 +19673,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sMunchlaxLevelUpLearnset,
         .teachableLearnset = sMunchlaxTeachableLearnset,
         .eggMoveLearnset = sMunchlaxEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_SNORLAX, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_SNORLAX, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD})},
+                                {EVO_LEVEL, 30, SPECIES_SNORLAX}),
     },
 #endif //P_GEN_4_CROSS_EVOS
 

@@ -1,0 +1,28 @@
+suite : /tmp/pkmn-world-digits-study/study-build/punctuation/VerifyPCScreen.lua
+rom   : /tmp/pkmn-world-digits-study/study-build/punctuation.gba
+md5   : 43002E2BB2CA2126DCAE9FBAADE02C56
+out   : /tmp/pkmn-world-visual-work/Testing/visual-studies/digits/evidence/punctuation/VerifyPCScreen
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+hub: screen tile took ids 98, 99
+  shot VerifyPCScreen_1_hub_pc
+  [PASS] hub PC tile starts as the unlit PC metatile 98
+  [PASS] hub PC screen LIGHTS UP (mt 99 appears) — this never happened before the fix -- the hub read its u32 attributes as u16, saw behaviour 0x5A, and skipped the effect entirely
+  [PASS] hub PC never writes Hoenn's ids
+  [PASS] hub PC tile is back to 98 after closing -- tile = 98
+  WARP warp to Cherrygrove PC ok (7,8)
+  [PASS] arrived at Cherrygrove City Pokemon Center -- group=77 num=0
+johto: screen tile took ids 98, 99
+  shot VerifyPCScreen_2_johto_pc
+  [PASS] Johto PC tile starts as the unlit PC metatile 98
+  [PASS] ★ Johto PC NEVER writes Hoenn's METATILE_Building_PC_On (5) or _Off (4) -- this is the reported bug: mt 5 in gTileset_Johto_Building is a plain MB_NORMAL wall
+  [PASS] Johto PC screen lights up with its own tileset's mt 99
+  [PASS] ★ Johto PC tile is still the PC metatile after closing (98) -- tile = 98 — mt 5 here is what made the PC unusable until a map reload
+johto_reopen: screen tile took ids 98, 99
+  shot VerifyPCScreen_3_johto_pc_reopen
+  [PASS] ★ the PC still works immediately, without leaving and re-entering the map -- the reported symptom was that the second interaction did nothing
+VERDICT VerifyPCScreen: 10/10 PASS
+---
+exit code: 0

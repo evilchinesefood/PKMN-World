@@ -1,0 +1,2260 @@
+{
+  "0x000": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x000",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x010",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x033",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x05F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0BC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0C2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x1B1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x1B2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x242",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x27D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x286",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x287",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x28C",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x293",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x294",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x296",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x29B",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x29C",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2A0",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2A7",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2A8",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2AF",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2B0",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2B7",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2B8",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2C0",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2C8",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2D0",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2D5",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2D7",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2D8",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2E0",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2E6",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2E7",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2E8",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2ED",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2EF",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x2FF",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x305",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x306",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x307",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x30A",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x30D",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x30E",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x30F",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x310",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x311",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x312",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x313",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x314",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x315",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x316",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x317",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x318",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x319",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x31A",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x31B",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x31C",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x31D",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x31E",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x31F",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x322",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x323",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x324",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x325",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x326",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x327",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x32A",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x32B",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x32C",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x32D",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x32E",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x32F",
+      "tileset": "gTileset_CherrygroveCity"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x000",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x010",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x033",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x05F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0BC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0C2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x1B1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x1B2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x242",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x27D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x280",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x286",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x287",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x288",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x28E",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x28F",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x290",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x296",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x297",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x298",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x29E",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x29F",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2A2",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2A6",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2A7",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2B0",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2B7",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2B8",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2C0",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2C7",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2C8",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2CF",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2D6",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2D8",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2DE",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2E0",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2E6",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2E7",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2E8",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2EE",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2EF",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2F0",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2F6",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2F7",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2F8",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2FC",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x2FE",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x300",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x301",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x302",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x303",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x304",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x305",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x306",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x307",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x30A",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x30B",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x30C",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x30D",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x30E",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x30F",
+      "tileset": "gTileset_NewBarkTown"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x000",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x010",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x033",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x05F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0BC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0C2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x1B1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x1B2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x242",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x27D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x283",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x284",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x29B",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x29C",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x2B1",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x2C4",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x336",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x37C",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x37D",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x385",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x38D",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x38F",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x395",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x39D",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3A2",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3A8",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3A9",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3AA",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3AB",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3AC",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3AD",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3AE",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3BD",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3BE",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C2",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C3",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C4",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C5",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C6",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C7",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C8",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3C9",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3CA",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3CB",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3CC",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3CD",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3CE",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3CF",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3D0",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3D1",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3D2",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x3D3",
+      "tileset": "gTileset_VioletCity"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x000",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x010",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x033",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x05F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0BC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0C2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x1B1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x1B2",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x242",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x27D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NationalPark_Normal",
+      "metatile": "0x008",
+      "tileset": "gTileset_General_Frlg"
+    }
+  ],
+  "0x001": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x001",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x011",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x001",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x011",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x001",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x011",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x001",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x011",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x002": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x002",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x002",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x002",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x002",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x008": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x008",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x008",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x008",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x008",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NationalPark_Normal",
+      "metatile": "0x010",
+      "tileset": "gTileset_General_Frlg"
+    }
+  ],
+  "0x009": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x009",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x009",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x009",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x009",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x01C": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x01C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x01C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x01C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x01C",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x01D": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x01D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x01D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x01D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x01D",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x01E": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x01A",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x01E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x029",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x01A",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x01E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x029",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x01A",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x01E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x029",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x01A",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x01E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x029",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x01F": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x01B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x01F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x028",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x01B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x01F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x028",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x01B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x01F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x028",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x01B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x01F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x028",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x022": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x022",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x022",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x022",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x022",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x023": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x023",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x023",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x023",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x023",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x024": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x024",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x024",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x024",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x024",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x025": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x025",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x025",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x025",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x025",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x05B": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x05B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x05B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x05B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x05B",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x060": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x060",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x060",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x060",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x060",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x062": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x062",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x062",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x062",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x062",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x074": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x074",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x074",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x074",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x074",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x083": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x083",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x083",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x083",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x083",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x084": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x084",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x084",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x084",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x084",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x085": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x085",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x085",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x085",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x085",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x086": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x086",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x086",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x086",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x086",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x08D": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x08D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x08D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x08D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x08D",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x08E": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x08E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x08E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x08E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x08E",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x09B": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x09B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x09B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x09B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x09B",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0A1": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0A1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0A1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0A1",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0A1",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0CA": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0CA",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0CA",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0CA",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0CA",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0E7": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0E7",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0E7",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0E7",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0E7",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0EC": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0EC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0EC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0EC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0EC",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0ED": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0ED",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0ED",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0ED",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0ED",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0EE": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0EE",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0EE",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0EE",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0EE",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0EF": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0EF",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0EF",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0EF",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0EF",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0F4": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0F4",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0F4",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0F4",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0F4",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0F5": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0F5",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0F5",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0F5",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0F5",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0F6": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0F6",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0F6",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0F6",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0F6",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x0FC": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x0FC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x0FC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x0FC",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x0FC",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x13D": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x13D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x13D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x13D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x13D",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x13E": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x13E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x13E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x13E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x13E",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x13F": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x13F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x13F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x13F",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x13F",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x150": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x150",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x150",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x150",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x150",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x151": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x151",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x151",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x151",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x151",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x152": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x152",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x152",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x152",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x152",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x154": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x154",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x154",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x154",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x154",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x155": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x155",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x155",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x155",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x155",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x156": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x156",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x156",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x156",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x156",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x15B": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x15B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x15B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x15B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x15B",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x161": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x161",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x161",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x161",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x161",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x169": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x169",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x169",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x169",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x169",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x17C": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x17C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x17C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x17C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x17C",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x17D": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x17D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x17D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x17D",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x17D",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x17E": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x17E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x17E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x17E",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x17E",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x18B": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x18B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x18B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x18B",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x18B",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x18C": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x18C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x18C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x18C",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x18C",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x194": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x194",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x194",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x194",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x194",
+      "tileset": "gTileset_Johto_General"
+    }
+  ],
+  "0x197": [
+    {
+      "worldMapTilesetReference": "CherrygroveCity",
+      "metatile": "0x197",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "NewBarkTown",
+      "metatile": "0x197",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "VioletCity",
+      "metatile": "0x197",
+      "tileset": "gTileset_Johto_General"
+    },
+    {
+      "worldMapTilesetReference": "GoldenrodCity",
+      "metatile": "0x197",
+      "tileset": "gTileset_Johto_General"
+    }
+  ]
+}

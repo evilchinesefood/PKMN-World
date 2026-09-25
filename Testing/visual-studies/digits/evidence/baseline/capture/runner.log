@@ -1,0 +1,50 @@
+suite : /private/tmp/pkmn-world-visual-work/Testing/visual-studies/digits/capture.lua
+rom   : /tmp/pkmn-world-digits-study/study-build/baseline.gba
+md5   : 12387F838E60DF2FA37FE61DF880B879
+out   : /tmp/pkmn-world-visual-work/Testing/visual-studies/digits/evidence/baseline/capture
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] boot into field
+  [PASS] six fixture Pokemon
+  [PASS] fixture callback returned
+  shot DigitsStudy_1_summary_info_level1
+  shot DigitsStudy_2_summary_stats_hp1
+  shot DigitsStudy_3_summary_ivs31
+  shot DigitsStudy_4_summary_evs252_total510
+  shot DigitsStudy_5_summary_pp1_40_10_5
+  shot DigitsStudy_6_summary_move_detail
+  shot DigitsStudy_7_summary_move_dash_state
+  [PASS] summary returns to field
+  shot DigitsStudy_8_summary_info_slot1
+  shot DigitsStudy_9_summary_stats_slot1
+  [PASS] summary returns to field
+  shot DigitsStudy_10_summary_info_slot2
+  shot DigitsStudy_11_summary_stats_slot2
+  [PASS] summary returns to field
+  shot DigitsStudy_12_summary_info_slot3
+  shot DigitsStudy_13_summary_stats_slot3
+  [PASS] summary returns to field
+  shot DigitsStudy_14_summary_info_slot4
+  shot DigitsStudy_15_summary_stats_slot4
+  [PASS] summary returns to field
+  shot DigitsStudy_16_summary_info_slot5
+  shot DigitsStudy_17_summary_stats_slot5
+  shot DigitsStudy_18_summary_long_move_name
+  [PASS] summary returns to field
+  shot DigitsStudy_19_bag_quantities_1_9_10_99
+  shot DigitsStudy_20_bag_quantity99
+  shot DigitsStudy_21_bag_longest_item_name
+  [PASS] bag returns to field
+  shot DigitsStudy_22_bag_tm_info
+  shot DigitsStudy_23_bag_tm_info2
+  shot DigitsStudy_24_bag_tm_dash_state
+  [PASS] TM bag returns to field
+  shot DigitsStudy_25_storage_box
+  shot DigitsStudy_26_storage_info_level1
+  shot DigitsStudy_27_storage_narrower_name
+  [PASS] storage callback active
+VERDICT DigitsStudy: 12/12 PASS
+---
+exit code: 0

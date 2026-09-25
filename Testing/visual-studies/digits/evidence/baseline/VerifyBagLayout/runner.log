@@ -1,0 +1,41 @@
+suite : /tmp/pkmn-world-digits-study/study-build/baseline/VerifyBagLayout.lua
+rom   : /tmp/pkmn-world-digits-study/study-build/baseline.gba
+md5   : 12387F838E60DF2FA37FE61DF880B879
+out   : /tmp/pkmn-world-visual-work/Testing/visual-studies/digits/evidence/baseline/VerifyBagLayout
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] cap Items == 60 -- got 60
+  [PASS] cap PokeBalls == 16 -- got 16
+  [PASS] cap TMHM == 64 -- got 64
+  [PASS] cap Berries == 46 -- got 46
+  [PASS] cap KeyItems == 99 -- got 99
+  [PASS] gap Items->KeyItems == 240 B -- got 240
+  [PASS] gap KeyItems->PokeBalls == 396 B -- got 396
+  [PASS] gap PokeBalls->TMHM == 64 B -- got 64
+  [PASS] gap TMHM->Berries == 256 B -- got 256
+  [PASS] Items pocket ptr inside SaveBlock1 and 4-aligned -- +0x6F8
+  [PASS] PokeBalls pocket ptr inside SaveBlock1 and 4-aligned -- +0x974
+  [PASS] TMHM pocket ptr inside SaveBlock1 and 4-aligned -- +0x9B4
+  [PASS] Berries pocket ptr inside SaveBlock1 and 4-aligned -- +0xAB4
+  [PASS] KeyItems pocket ptr inside SaveBlock1 and 4-aligned -- +0x7E8
+  [PASS] bag offset == pcItems + PC_ITEMS_COUNT*4 -- bag at +0x6F8, expected +0x6F8
+  seeded Items slot 45 with item 28
+  seeded KeyItems slot 90 with item 28
+  [PASS] Items slot 45 (> old cap 30) holds the written id -- read 28
+  [PASS] Key Items slot 90 (> old cap 30) holds the written id -- read 28
+  occupied: Items=1 KeyItems=1
+  saved; rebooting core
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] reboot + reload reaches the overworld
+  after reload: Items=1 KeyItems=1
+  [PASS] Items slot 45 survived save/reload -- read 28
+  [PASS] Key Items slot 90 survived save/reload -- read 28
+  [PASS] Items pocket occupancy survived save/reload -- before=1 after=1
+  [PASS] Key Items pocket occupancy survived save/reload -- before=1 after=1
+  [PASS] capacities still correct after reload -- items=60 key=99
+  shot VerifyBagLayout_1_reloaded
+VERDICT VerifyBagLayout: 23/23 PASS
+---
+exit code: 0

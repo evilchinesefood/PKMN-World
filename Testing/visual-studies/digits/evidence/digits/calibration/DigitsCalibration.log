@@ -1,0 +1,5 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] boot
+  shot DigitsCalibration_1_SHORT_SHORT_NARROW_SHORT_NARROWER_NORMALcontrol
+VERDICT DigitsCalibration: 1/1 PASS

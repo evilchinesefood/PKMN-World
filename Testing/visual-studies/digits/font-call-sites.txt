@@ -1,0 +1,158 @@
+include/text.h:20:    FONT_SHORT,
+include/text.h:21:    FONT_SHORT_COPY_1,
+include/text.h:22:    FONT_SHORT_COPY_2,
+include/text.h:23:    FONT_SHORT_COPY_3,
+include/text.h:30:    FONT_SHORT_NARROW,
+include/text.h:31:    FONT_SHORT_NARROWER,
+src/map_name_popup.c:985:        AddTextPrinterParameterized(mapNamePopUpWindowId, FONT_SHORT, mapDisplayHeader, 8, 2, TEXT_SKIP_DRAW, NULL);
+src/berry_crush.c:1571:    left = (left * 4) - (GetStringWidth(FONT_SHORT, string, -1) / 2u);
+src/berry_crush.c:1572:    AddTextPrinterParameterized3(windowId, FONT_SHORT, left, 0, sTextColorTable[colorId], 0, string);
+src/berry_crush.c:1632:        x = GetStringRightAlignXOffset(FONT_SHORT, gStringVar4, sp14 - 4);
+src/berry_crush.c:1633:        AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+src/berry_crush.c:1641:        AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, 4, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+src/berry_crush.c:1656:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gText_TimeColon);
+src/berry_crush.c:1659:    x = 176 - (u8)GetStringWidth(FONT_SHORT, gText_SpaceSec, -1);
+src/berry_crush.c:1660:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gText_SpaceSec);
+src/berry_crush.c:1666:    x -= GetStringWidth(FONT_SHORT, gStringVar4, -1);
+src/berry_crush.c:1667:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+src/berry_crush.c:1670:    x -= GetStringWidth(FONT_SHORT, gText_SpaceMin, -1);
+src/berry_crush.c:1671:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gText_SpaceMin);
+src/berry_crush.c:1676:    x -= GetStringWidth(FONT_SHORT, gStringVar4, -1);
+src/berry_crush.c:1677:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+src/berry_crush.c:1681:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, 0, y, sTextColorTable[COLORID_GRAY], 0, gText_PressingSpeed);
+src/berry_crush.c:1682:    x = 176 - (u8)GetStringWidth(FONT_SHORT, gText_TimesPerSec, -1);
+src/berry_crush.c:1683:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gText_TimesPerSec);
+src/berry_crush.c:1692:    x -= GetStringWidth(FONT_SHORT, gStringVar4, -1);
+src/berry_crush.c:1694:        AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_RED], 0, gStringVar4);
+src/berry_crush.c:1696:        AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+src/berry_crush.c:1700:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, 0, y, sTextColorTable[COLORID_GRAY], 0, gText_Silkiness);
+src/berry_crush.c:1705:    x = 176 - (u8)GetStringWidth(FONT_SHORT, gStringVar4, -1);
+src/berry_crush.c:1706:    AddTextPrinterParameterized3(game->gfx.resultsWindowId, FONT_SHORT, x, y, sTextColorTable[COLORID_GRAY], 0, gStringVar4);
+src/berry_crush.c:1893:                FONT_SHORT,
+src/berry_crush.c:1894:                36 - GetStringWidth(FONT_SHORT, game->players[i].name, 0) / 2u,
+src/berry_crush.c:1908:                FONT_SHORT,
+src/berry_crush.c:1909:                36 - GetStringWidth(FONT_SHORT, game->players[i].name, 0) / 2u,
+src/link.c:1599:    AddTextPrinterParameterized3(WIN_LINK_ERROR_TOP, FONT_SHORT_COPY_1, 2, 6, sTextColors, 0, gText_CommErrorEllipsis);
+src/link.c:1600:    AddTextPrinterParameterized3(WIN_LINK_ERROR_BOTTOM, FONT_SHORT_COPY_1, 2, 1, sTextColors, 0, gText_MoveCloserToLinkPartner);
+src/link.c:1612:    AddTextPrinterParameterized3(WIN_LINK_ERROR_MID, FONT_SHORT_COPY_1, 2, 0, sTextColors, 0, gText_CommErrorCheckConnections);
+src/link.c:1647:            AddTextPrinterParameterized3(WIN_LINK_ERROR_TOP, FONT_SHORT_COPY_1, 2, 20, sTextColors, 0, gText_ABtnTitleScreen);
+src/link.c:1649:            AddTextPrinterParameterized3(WIN_LINK_ERROR_TOP, FONT_SHORT_COPY_1, 2, 20, sTextColors, 0, gText_ABtnRegistrationCounter);
+src/swsh_summary_screen.c:155:#define PSS_DEFAULT_FONT FONT_SHORT_NARROW
+src/swsh_summary_screen.c:3833:        // Print the level number with FONT_SHORT_NARROW, positioned after "Lv." (10) + space (1)
+src/swsh_summary_screen.c:6667:            narrowerFontId = FONT_SHORT_NARROWER;
+src/battle_dome.c:4235:    textPrinter.fontId = FONT_SHORT;
+src/battle_dome.c:4295:        textPrinter.fontId = GetFontIdToFit(textPrinter.currentChar, FONT_SHORT, 0, 60);
+src/battle_dome.c:4307:    textPrinter.fontId = FONT_SHORT;
+src/battle_dome.c:4853:    textPrinter.fontId = FONT_SHORT;
+src/battle_dome.c:5321:        textPrinter.fontId = FONT_SHORT;
+src/battle_dome.c:5507:            textPrinter.fontId = FONT_SHORT;
+src/union_room_chat.c:2892:    AddTextPrinterParameterized3(WIN_TEXT_ENTRY, FONT_SHORT, x * 8, 1, color, TEXT_SKIP_DRAW, strBuffer);
+src/union_room_chat.c:3002:    PrintMenuActionTextsAtPos(WIN_SWAP_MENU, FONT_SHORT, 8, 1, 14, ARRAY_COUNT(sKeyboardPageTitleTexts), sKeyboardPageTitleTexts);
+src/union_room_chat.c:3003:    InitMenuNormal(WIN_SWAP_MENU, FONT_SHORT, 0, 1, 14, 5, GetCurrentKeyboardPage());
+src/union_room_chat.c:3021:    AddTextPrinterParameterized3(WIN_CHAT_HISTORY, FONT_SHORT, 0, row * 15 + 1, color, TEXT_SKIP_DRAW, str);
+src/text.c:86:    { FONT_SHORT,          GetGlyphWidth_Short },
+src/text.c:87:    { FONT_SHORT_COPY_1,   GetGlyphWidth_Short },
+src/text.c:88:    { FONT_SHORT_COPY_2,   GetGlyphWidth_Short },
+src/text.c:89:    { FONT_SHORT_COPY_3,   GetGlyphWidth_Short },
+src/text.c:95:    { FONT_SHORT_NARROW,   GetGlyphWidth_ShortNarrow },
+src/text.c:96:    { FONT_SHORT_NARROWER, GetGlyphWidth_ShortNarrower },
+src/text.c:147:    [FONT_SHORT] = {
+src/text.c:158:    [FONT_SHORT_COPY_1] = {
+src/text.c:169:    [FONT_SHORT_COPY_2] = {
+src/text.c:180:    [FONT_SHORT_COPY_3] = {
+src/text.c:257:    [FONT_SHORT_NARROW] = {
+src/text.c:268:    [FONT_SHORT_NARROWER] = {
+src/text.c:285:    [FONT_SHORT]          = { 8,  14 },
+src/text.c:286:    [FONT_SHORT_COPY_1]   = { 8,  14 },
+src/text.c:287:    [FONT_SHORT_COPY_2]   = { 8,  14 },
+src/text.c:288:    [FONT_SHORT_COPY_3]   = { 8,  14 },
+src/text.c:295:    [FONT_SHORT_NARROW]   = { 8,  14 },
+src/text.c:296:    [FONT_SHORT_NARROWER] = { 8,  14 },
+src/text.c:1075:        textPrinter->fontId = FONT_SHORT;
+src/text.c:1085:        textPrinter->fontId = FONT_SHORT_COPY_1;
+src/text.c:1095:        textPrinter->fontId = FONT_SHORT_COPY_2;
+src/text.c:1105:        textPrinter->fontId = FONT_SHORT_COPY_3;
+src/text.c:1155:        textPrinter->fontId = FONT_SHORT_NARROW;
+src/text.c:1165:        textPrinter->fontId = FONT_SHORT_NARROWER;
+src/text.c:1626:        case FONT_SHORT:
+src/text.c:1627:        case FONT_SHORT_COPY_1:
+src/text.c:1628:        case FONT_SHORT_COPY_2:
+src/text.c:1629:        case FONT_SHORT_COPY_3:
+src/text.c:1644:        case FONT_SHORT_NARROW:
+src/text.c:1647:        case FONT_SHORT_NARROWER:
+src/text.c:2647:    [FONT_SHORT] = FONT_SHORT_NARROW,
+src/text.c:2648:    [FONT_SHORT_COPY_1] = FONT_SHORT_NARROW,
+src/text.c:2649:    [FONT_SHORT_COPY_2] = FONT_SHORT_NARROW,
+src/text.c:2650:    [FONT_SHORT_COPY_3] = FONT_SHORT_NARROW,
+src/text.c:2657:    [FONT_SHORT_NARROW] = FONT_SHORT_NARROWER,
+src/text.c:2658:    [FONT_SHORT_NARROWER] = -1,
+src/mystery_gift_view.c:427:        AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 0, 1, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->titleText);
+src/mystery_gift_view.c:428:        x = 160 - GetStringWidth(FONT_SHORT_COPY_1, sWonderCardData->subtitleText, GetFontAttribute(FONT_SHORT_COPY_1, FONTATTR_LETTER_SPACING));
+src/mystery_gift_view.c:431:        AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, x, 17, sCard_TextColorTable[sWonderCardData->gfx->titleTextPal], 0, sWonderCardData->subtitleText);
+src/mystery_gift_view.c:441:            AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 0, 16 * i + 2, sCard_TextColorTable[sWonderCardData->gfx->bodyTextPal], 0, sWonderCardData->bodyText[i]);
+src/mystery_gift_view.c:445:        AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 0,
+src/mystery_gift_view.c:455:            AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 0,
+src/mystery_gift_view.c:464:            s32 spacing = GetFontAttribute(FONT_SHORT_COPY_1, FONTATTR_LETTER_SPACING);
+src/mystery_gift_view.c:468:                AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, x, y, sCard_TextColorTable[sWonderCardData->gfx->footerTextPal], 0, sWonderCardData->statTextData[i].statText);
+src/mystery_gift_view.c:472:                    x += GetStringWidth(FONT_SHORT_COPY_1, sWonderCardData->statTextData[i].statText, spacing);
+src/mystery_gift_view.c:473:                    AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, x, y,
+src/mystery_gift_view.c:476:                    x += GetStringWidth(FONT_SHORT_COPY_1, sWonderCardData->statTextData[i].statNumberText, spacing) + sWonderCardData->statTextData[i].width;
+src/mystery_gift_view.c:895:    x = (224 - GetStringWidth(FONT_SHORT_COPY_1, sWonderNewsData->titleText, GetFontAttribute(FONT_SHORT_COPY_1, FONTATTR_LETTER_SPACING))) / 2;
+src/mystery_gift_view.c:898:    AddTextPrinterParameterized3(sWonderNewsData->windowIds[NEWS_WIN_TITLE], FONT_SHORT_COPY_1, x, 6, sNews_TextColorTable[sWonderNewsData->gfx->titleTextPal], 0, sWonderNewsData->titleText);
+src/mystery_gift_view.c:902:        AddTextPrinterParameterized3(sWonderNewsData->windowIds[NEWS_WIN_BODY], FONT_SHORT_COPY_1, 0,
+src/swsh_item_menu.c:2555:    fontId = FormatDescriptionByWidth(desc, maxWidth, FONT_SHORT_NARROW, str, GetFontAttribute(FONT_SHORT_NARROW, FONTATTR_LETTER_SPACING));
+src/swsh_item_menu.c:3583:        WrapFontIdToFit(gStringVar1, end, FONT_SHORT_NARROW, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
+src/swsh_item_menu.c:3586:        BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, gStringVar4, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:3597:    WrapFontIdToFit(gStringVar1, end, FONT_SHORT_NARROW, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
+src/swsh_item_menu.c:3601:    BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, gStringVar4, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:3643:    WrapFontIdToFit(gStringVar1, end, FONT_SHORT_NARROW, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
+src/swsh_item_menu.c:3647:    BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, gStringVar4, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:4273:        WrapFontIdToFit(gStringVar1, end, FONT_SHORT_NARROW, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
+src/swsh_item_menu.c:4276:        BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, gStringVar4, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:4316:        BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, sText_CantStoreImportantItems, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:4323:        WrapFontIdToFit(gStringVar1, end, FONT_SHORT_NARROW, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
+src/swsh_item_menu.c:4326:        BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, gStringVar4, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:4332:        BagMenu_Print(WIN_DESCRIPTION, FONT_SHORT_NARROW, sText_NoRoomForItems, 3, 1, 0, 1, 0, COLORID_NORMAL);
+src/swsh_item_menu.c:4492:    u8 offset = GetStringCenterAlignXOffset(FONT_SHORT, name, 88);
+src/swsh_item_menu.c:4494:    BagMenu_Print(WIN_POCKET_NAME, FONT_SHORT, name, offset, 1, 0, 0, TEXT_SKIP_DRAW, COLORID_POCKET_NAME);
+src/swsh_item_menu.c:4733:        BagMenu_Print(WIN_PP_INFO, FONT_SHORT_NARROW, gText_ThreeDashes,
+src/swsh_item_menu.c:4734:            GetStringRightAlignXOffset(FONT_SHORT_NARROW, gText_ThreeDashes, ppInfoWidth), 0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4735:        BagMenu_Print(WIN_POW_ACC_INFO, FONT_SHORT_NARROW, gText_ThreeDashes,
+src/swsh_item_menu.c:4736:            GetStringRightAlignXOffset(FONT_SHORT_NARROW, gText_ThreeDashes, valInfoWidth), 0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4737:        BagMenu_Print(WIN_POW_ACC_INFO, FONT_SHORT_NARROW, gText_ThreeDashes,
+src/swsh_item_menu.c:4738:            GetStringRightAlignXOffset(FONT_SHORT_NARROW, gText_ThreeDashes, valInfoWidth), 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4750:    BagMenu_Print(WIN_PP_INFO, FONT_SHORT_NARROW, gStringVar1,
+src/swsh_item_menu.c:4751:        GetStringRightAlignXOffset(FONT_SHORT_NARROW, gStringVar1, ppInfoWidth), 0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4763:    BagMenu_Print(WIN_POW_ACC_INFO, FONT_SHORT_NARROW, text,
+src/swsh_item_menu.c:4764:        GetStringRightAlignXOffset(FONT_SHORT_NARROW, text, valInfoWidth), 1, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4775:    BagMenu_Print(WIN_POW_ACC_INFO, FONT_SHORT_NARROW, text,
+src/swsh_item_menu.c:4776:        GetStringRightAlignXOffset(FONT_SHORT_NARROW, text, valInfoWidth), 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4807:    fontId = FormatDescriptionByWidth(desc, maxWidth, FONT_SHORT_NARROW, str, GetFontAttribute(FONT_SHORT_NARROW, FONTATTR_LETTER_SPACING));
+src/swsh_item_menu.c:4831:        BagMenu_Print(WIN_PP_LABEL, FONT_SHORT_NARROW, sText_MoveInfoPP, 0, 0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4837:            BagMenu_Print(WIN_POW_ACC_LABEL, FONT_SHORT_NARROW, sText_MoveInfoPower,
+src/swsh_item_menu.c:4838:                GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_MoveInfoPower, winWidth), 1, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4839:            BagMenu_Print(WIN_POW_ACC_LABEL, FONT_SHORT_NARROW, sText_MoveInfoAccuracy,
+src/swsh_item_menu.c:4840:                GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_MoveInfoAccuracy, winWidth), 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4888:        BagMenu_Print(WIN_PP_LABEL, FONT_SHORT_NARROW, sText_MoveInfoPP, 0, 0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4893:        BagMenu_Print(WIN_APP_JAM_LABEL, FONT_SHORT_NARROW, sText_MoveInfoAppeal,
+src/swsh_item_menu.c:4894:            GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_MoveInfoAppeal, winWidth), 1, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4895:        BagMenu_Print(WIN_APP_JAM_LABEL, FONT_SHORT_NARROW, sText_MoveInfoJam,
+src/swsh_item_menu.c:4896:            GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_MoveInfoJam, winWidth), 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:4963:    BagMenu_Print(WIN_PP_INFO, FONT_SHORT_NARROW, gStringVar1,
+src/swsh_item_menu.c:4964:        GetStringRightAlignXOffset(FONT_SHORT_NARROW, gStringVar1, ppInfoWidth), 0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5481:        if (fontId == FONT_SHORT_NARROW)
+src/swsh_item_menu.c:5483:            fontId = FONT_SHORT_NARROWER;
+src/swsh_item_menu.c:5528:            BagMenu_Print(WIN_BERRY_INFO, FONT_SHORT_NARROW, gStringVar4, GetStringCenterAlignXOffset(FONT_SHORT_NARROW, gStringVar4, 56), 2, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5532:            BagMenu_Print(WIN_BERRY_INFO, FONT_SHORT_NARROW, sBerryFirmnessStrings[berryInfo->firmness], GetStringCenterAlignXOffset(FONT_SHORT_NARROW, sBerryFirmnessStrings[berryInfo->firmness], 56), 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5534:        BagMenu_Print(WIN_BERRY_FLAVORS, FONT_SHORT_NARROW, sText_BerryFlavorSpicy,   0,  0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5535:        BagMenu_Print(WIN_BERRY_FLAVORS, FONT_SHORT_NARROW, sText_BerryFlavorDry,    40,  0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5536:        BagMenu_Print(WIN_BERRY_FLAVORS, FONT_SHORT_NARROW, sText_BerryFlavorSweet,  71,  0, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5537:        BagMenu_Print(WIN_BERRY_FLAVORS, FONT_SHORT_NARROW, sText_BerryFlavorBitter, 14, 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/swsh_item_menu.c:5538:        BagMenu_Print(WIN_BERRY_FLAVORS, FONT_SHORT_NARROW, sText_BerryFlavorSour,   60, 16, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+src/pokemon_storage_system.c:4081:        AddTextPrinterParameterized(WIN_DISPLAY_INFO, GetFontIdToFit(sStorage->displayMonNameText, FONT_SHORT, 0, WindowWidthPx(WIN_DISPLAY_INFO) - 12), sStorage->displayMonSpeciesName, 6, 15, TEXT_SKIP_DRAW, NULL);
+src/pokemon_storage_system.c:4082:        AddTextPrinterParameterized(WIN_DISPLAY_INFO, FONT_SHORT, sStorage->displayMonGenderLvlText, 10, 29, TEXT_SKIP_DRAW, NULL);
+src/pokemon_storage_system.c:4089:        AddTextPrinterParameterized(WIN_DISPLAY_INFO, GetFontIdToFit(sStorage->displayMonSpeciesName, FONT_SHORT, 0, WindowWidthPx(WIN_DISPLAY_INFO) - 12), sStorage->displayMonSpeciesName, 6, 28, TEXT_SKIP_DRAW, NULL);
+src/pokemon_storage_system.c:4090:        AddTextPrinterParameterized(WIN_DISPLAY_INFO, FONT_SHORT, sStorage->displayMonGenderLvlText, 10, 42, TEXT_SKIP_DRAW, NULL);
+src/swsh_storage_system.c:4385:        AddTextPrinterParameterized4(windowId, FONT_SHORT_NARROWER, lvStartX, 1, 0, 0, sTextColors[1], 0, sText_Lv);
+src/swsh_storage_system.c:4394:    u8 font = FONT_SHORT_NARROW;
+src/swsh_storage_system.c:4553:        UpdateGenderIconSprite(FONT_SHORT_NARROW);

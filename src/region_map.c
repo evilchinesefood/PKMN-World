@@ -285,7 +285,7 @@ static const mapsec_u8_t sMapSecIdsOffMap[] =
     MAPSEC_NAVEL_ROCK
 };
 
-static const u16 sRegionMapFramePal[] = INCGFX_U16("graphics/pokenav/region_map/frame.png", ".gbapal");
+static const u16 sRegionMapFramePal[] = INCGFX_U16("graphics/pokenav/region_map/frame.pal", ".gbapal");
 static const u32 sRegionMapFrameGfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/frame.png", ".4bpp.smol");
 static const u32 sRegionMapFrameTilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/frame.bin", ".smolTM");
 static const u16 sFlyTargetIcons_Pal[] = INCGFX_U16("graphics/pokenav/region_map/fly_target_icons.png", ".gbapal");

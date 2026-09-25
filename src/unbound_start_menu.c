@@ -754,7 +754,9 @@ static void Usm_PrintIconLabel(void)
 static void Usm_PrintButtonHints(void)
 {
     u8 winId = sUsmMemory->windowIds[USM_WIN_HINTS];
-    const u8* text = COMPOUND_STRING("{SELECT_BUTTON} Move");
+    const u8 *text = sUsmState->mode == USM_MODE_MOVE
+        ? COMPOUND_STRING("{SELECT_BUTTON} Done")
+        : COMPOUND_STRING("{SELECT_BUTTON} Move");
     s16 x = GetStringCenterAlignXOffset(FONT_SMALL_NARROWER, text, GetWindowAttribute(winId, WINDOW_WIDTH) * 8);
     FillWindowPixelBuffer(winId, PIXEL_FILL(Usm_GetWindowBaseColor(USM_WIN_HINTS)));
     Usm_PrintText(winId, FONT_SMALL_NARROWER, x, 0, sUsmWinFontColors[FONT_WHITE], text);
@@ -1166,6 +1168,7 @@ static void Usm_HandleMainInput(void)
         PlaySE(SE_SELECT);
 
         sUsmState->mode = USM_MODE_MOVE;
+        Usm_PrintButtonHints();
         sUsmState->move.grabIndex = sUsmState->itemOffset + sUsmState->selectedVisibleIdx;
 
         struct Sprite *sprite = Usm_GetSelectedSprite();
@@ -1196,6 +1199,7 @@ static void Usm_HandleMoveInput(void)
         FreeSpriteTilesByTag(USM_TILETAG_HAND);
 
         sUsmState->mode = USM_MODE_NORMAL;
+        Usm_PrintButtonHints();
 
         Usm_RedrawIcons();
         return;

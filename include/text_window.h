@@ -18,6 +18,7 @@ void LoadStdWindowGfx(u8 windowId, u16 tileStart, u8 palette);
 void LoadSignBoxGfx(u8 windowId, u16 destOffset, u8 palOffset);
 void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset);
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset);
+void LoadBattleWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset);
 void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset);
 void LoadUserWindowBorderGfxOnBg(u8 bg, u16 destOffset, u8 palOffset);
 void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum);

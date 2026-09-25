@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ambient_ripples.h"
 #include "sprite.h"
 #include "main.h"
 #include "overworld.h"
@@ -439,9 +440,14 @@ u32 CreateSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpri
 
 u32 CreateSpriteUnchecked(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority)
 {
-    for (u32 i = 0; i < MAX_SPRITES; i++)
-        if (!gSprites[i].inUse)
-            return CreateSpriteAt(i, template, x, y, subpriority);
+    for (u32 attempt = 0; attempt < 2; attempt++)
+    {
+        for (u32 i = 0; i < MAX_SPRITES; i++)
+            if (!gSprites[i].inUse)
+                return CreateSpriteAt(i, template, x, y, subpriority);
+        if (attempt != 0 || !ReclaimAmbientRipples())
+            break;
+    }
 
     return MAX_SPRITES;
 }
@@ -455,9 +461,14 @@ u32 CreateSpriteAtEnd(const struct SpriteTemplate *template, s16 x, s16 y, u32 s
 
 u32 CreateSpriteAtEndUnchecked(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority)
 {
-    for (s32 i = MAX_SPRITES - 1; i > -1; i--)
-        if (!gSprites[i].inUse)
-            return CreateSpriteAt(i, template, x, y, subpriority);
+    for (u32 attempt = 0; attempt < 2; attempt++)
+    {
+        for (s32 i = MAX_SPRITES - 1; i >= 0; i--)
+            if (!gSprites[i].inUse)
+                return CreateSpriteAt(i, template, x, y, subpriority);
+        if (attempt != 0 || !ReclaimAmbientRipples())
+            break;
+    }
 
     return MAX_SPRITES;
 }
@@ -539,29 +550,13 @@ u32 CreateSpriteAt(u32 index, const struct SpriteTemplate *template, s16 x, s16 
 
 u32 CreateSpriteAndAnimate(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority)
 {
-    u32 i;
-
-    for (i = 0; i < MAX_SPRITES; i++)
-    {
-        struct Sprite *sprite = &gSprites[i];
-
-        if (!gSprites[i].inUse)
-        {
-            u32 index = CreateSpriteAt(i, template, x, y, subpriority);
-
-            if (index == MAX_SPRITES)
-                return MAX_SPRITES;
-
-            gSprites[i].callback(sprite);
-
-            if (gSprites[i].inUse)
-                AnimateSprite(sprite);
-
-            return index;
-        }
-    }
-
-    return MAX_SPRITES;
+    u32 index = CreateSpriteUnchecked(template, x, y, subpriority);
+    if (index == MAX_SPRITES)
+        return MAX_SPRITES;
+    gSprites[index].callback(&gSprites[index]);
+    if (gSprites[index].inUse)
+        AnimateSprite(&gSprites[index]);
+    return index;
 }
 
 void DestroySprite(struct Sprite *sprite)
@@ -576,6 +571,43 @@ void DestroySprite(struct Sprite *sprite)
                 FREE_SPRITE_TILE(i);
         }
         ResetSprite(sprite);
+    }
+}
+
+void DestroySpriteAndClearFrameImages(struct Sprite *sprite)
+{
+    if (sprite->inUse && !sprite->usingSheet)
+    {
+        u32 start = sprite->oam.tileNum;
+        u32 end = start + sprite->images->size / TILE_SIZE_4BPP;
+        const u8 *first = (u8 *)OBJ_VRAM0 + start * TILE_SIZE_4BPP;
+        const u8 *last = (u8 *)OBJ_VRAM0 + end * TILE_SIZE_4BPP;
+        u32 kept = 0;
+        u16 ime = REG_IME;
+
+        // Late allocation can reclaim these tiles after BuildOamBuffer. Keep
+        // VBlank from processing the queue while its entries are compacted.
+        REG_IME = 0;
+        for (u32 i = 0; i < sSpriteCopyRequestCount; i++)
+        {
+            const struct SpriteCopyRequest *request = &sSpriteCopyRequests[i];
+            if (request->dest >= last || request->dest + request->size <= first)
+                sSpriteCopyRequests[kept++] = *request;
+        }
+        sSpriteCopyRequestCount = kept;
+        for (u32 i = 0; i < ARRAY_COUNT(gMain.oamBuffer); i++)
+        {
+            struct OamData *oam = &gMain.oamBuffer[i];
+            if (oam->tileNum >= start && oam->tileNum < end)
+            {
+                // affineParam belongs to the shared matrix table, not this OBJ.
+                u16 affineParam = oam->affineParam;
+                *oam = gDummyOamData;
+                oam->affineParam = affineParam;
+            }
+        }
+        DestroySprite(sprite);
+        REG_IME = ime;
     }
 }
 
@@ -648,7 +680,7 @@ void CalcCenterToCornerVec(struct Sprite *sprite, u8 shape, u8 size, u8 affineMo
     sprite->centerToCornerVecY = y;
 }
 
-s16 AllocSpriteTiles(u16 tileCount)
+static s16 AllocSpriteTilesInternal(u16 tileCount)
 {
     u16 i;
     s16 start;
@@ -698,6 +730,14 @@ s16 AllocSpriteTiles(u16 tileCount)
     for (i = start; i < tileCount + start; i++)
         ALLOC_SPRITE_TILE(i);
 
+    return start;
+}
+
+s16 AllocSpriteTiles(u16 tileCount)
+{
+    s16 start = AllocSpriteTilesInternal(tileCount);
+    if (start < 0 && ReclaimAmbientRipples())
+        start = AllocSpriteTilesInternal(tileCount);
     return start;
 }
 
@@ -1643,6 +1683,11 @@ u32 LoadSpritePalette(const struct SpritePalette *palette)
         return index;
 
     index = IndexOfSpritePaletteTag(TAG_NONE);
+
+    // Cosmetic rings yield before generated-encounter eviction. Their private
+    // palette tag cannot be a resource loaded for an imminent gameplay sprite.
+    if (index == 0xFF && ReclaimAmbientRipples())
+        index = IndexOfSpritePaletteTag(TAG_NONE);
 
     if (index == 0xFF)
     {

@@ -239,14 +239,14 @@ static const u8 sText_PlusSymbol[] = _("+");
 
 // static .rodata graphics
 
-static const u16 sPokedexPlusHGSS_Default_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_default.pal", ".gbapal");
-static const u16 sPokedexPlusHGSS_National_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_national.pal", ".gbapal");
+static const u16 sPokedexPlusHGSS_Default_Pal[3 * 16] = INCGFX_U16("graphics/pokedex/hgss/palette_default.pal", ".gbapal");
+static const u16 sPokedexPlusHGSS_National_Pal[3 * 16] = INCGFX_U16("graphics/pokedex/hgss/palette_national.pal", ".gbapal");
 static const u16 sPokedexPlusHGSS_MenuSearch_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_search_menu.pal", ".gbapal");
-static const u16 sPokedexPlusHGSS_SearchResults_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_search_results.pal", ".gbapal");
-static const u16 sPokedexPlusHGSS_Default_dark_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_default_dark.pal", ".gbapal");
-static const u16 sPokedexPlusHGSS_National_dark_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_national_dark.pal", ".gbapal");
+static const u16 sPokedexPlusHGSS_SearchResults_Pal[3 * 16] = INCGFX_U16("graphics/pokedex/hgss/palette_search_results.pal", ".gbapal");
+static const u16 sPokedexPlusHGSS_Default_dark_Pal[3 * 16] = INCGFX_U16("graphics/pokedex/hgss/palette_default_dark.pal", ".gbapal");
+static const u16 sPokedexPlusHGSS_National_dark_Pal[3 * 16] = INCGFX_U16("graphics/pokedex/hgss/palette_national_dark.pal", ".gbapal");
 static const u16 sPokedexPlusHGSS_MenuSearch_dark_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_search_menu_dark.pal", ".gbapal");
-static const u16 sPokedexPlusHGSS_SearchResults_dark_Pal[] = INCGFX_U16("graphics/pokedex/hgss/palette_search_results_dark.pal", ".gbapal");
+static const u16 sPokedexPlusHGSS_SearchResults_dark_Pal[3 * 16] = INCGFX_U16("graphics/pokedex/hgss/palette_search_results_dark.pal", ".gbapal");
 static const u32 sPokedexPlusHGSS_MenuList_Gfx[] = INCGFX_U32("graphics/pokedex/hgss/tileset_menu_list.png", ".4bpp.smol");
 static const u32 sPokedexPlusHGSS_MenuList_DECA_Gfx[] = INCGFX_U32("graphics/pokedex/hgss/tileset_menu_list_DECA.png", ".4bpp.smol");
 static const u32 sPokedexPlusHGSS_Interface_Gfx[] = INCGFX_U32("graphics/pokedex/hgss/tileset_interface.png", ".4bpp.smol");
@@ -2337,28 +2337,26 @@ static void Task_ClosePokedex(u8 taskId)
 
 static void LoadPokedexBgPalette(bool8 isSearchResults)
 {
-    if (!HGSS_DARK_MODE)
-    {
-        if (isSearchResults == TRUE)
-            LoadPalette(sPokedexPlusHGSS_SearchResults_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(6 * 16 - 1));
-        else if (!IsNationalPokedexEnabled())
-            LoadPalette(sPokedexPlusHGSS_Default_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(6 * 16 - 1));
-        else
-            LoadPalette(sPokedexPlusHGSS_National_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(6 * 16 - 1));
-    }
-    else
-    {
-        if (isSearchResults == TRUE)
-            LoadPalette(sPokedexPlusHGSS_SearchResults_dark_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(6 * 16 - 1));
-        else if (!IsNationalPokedexEnabled())
-            LoadPalette(sPokedexPlusHGSS_Default_dark_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(6 * 16 - 1));
-        else
-            LoadPalette(sPokedexPlusHGSS_National_dark_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(6 * 16 - 1));
-    }
+    const u16 *palette;
 
+    if (isSearchResults)
+        palette = HGSS_DARK_MODE ? sPokedexPlusHGSS_SearchResults_dark_Pal : sPokedexPlusHGSS_SearchResults_Pal;
+    else if (IsNationalPokedexEnabled())
+        palette = HGSS_DARK_MODE ? sPokedexPlusHGSS_National_dark_Pal : sPokedexPlusHGSS_National_Pal;
+    else
+        palette = HGSS_DARK_MODE ? sPokedexPlusHGSS_Default_dark_Pal : sPokedexPlusHGSS_Default_Pal;
+
+    // Each list/detail palette contains three banks, not six. Preserve the
+    // backdrop at entry 0; never read adjacent ROM data for banks 3..5.
+    LoadPalette(palette + 1, BG_PLTT_ID(0) + 1, sizeof(sPokedexPlusHGSS_Default_Pal) - sizeof(*palette));
+    // Bank 3 is the auxiliary info/caught-text palette. Its neutral colors
+    // match bank 0, including before the page's first text/flicker update.
+    LoadPalette(palette, BG_PLTT_ID(3), PLTT_SIZE_4BPP);
+    // No list/detail tilemap or window consumes banks 4/5. The area map owns
+    // and reloads its own palettes when entered; don't retain search colors.
+    FillPalette(RGB_BLACK, BG_PLTT_ID(4), 2 * PLTT_SIZE_4BPP);
     LoadPalette(GetOverworldTextboxPalettePtr(), BG_PLTT_ID(15), PLTT_SIZE_4BPP);
 }
-
 
 //************************************
 //*                                  *

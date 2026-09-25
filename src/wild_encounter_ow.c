@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ambient_ripples.h"
 #include "wild_encounter_ow.h"
 #include "battle_setup.h"
 #include "battle_main.h"
@@ -1317,17 +1318,16 @@ static u32 GetGraphicsIdForOWE(const struct InfoOWE *info)
 
 static bool32 CheckCanLoadOWE(enum Species speciesId, bool32 isFemale, bool32 isShiny, s32 x, s32 y)
 {
-    if (!CheckCanLoadOWE_Palette(speciesId, isFemale, isShiny, x, y))
+    for (u32 attempt = 0; attempt < 2; attempt++)
     {
-        return FALSE;
+        if (CheckCanLoadOWE_Palette(speciesId, isFemale, isShiny, x, y)
+            && CheckCanLoadOWE_Tiles(speciesId, isFemale, isShiny, x, y))
+            return TRUE;
+        // Retry the already-selected encounter without rerolling gameplay RNG.
+        if (attempt != 0 || !ReclaimAmbientRipples())
+            break;
     }
-
-    if (!CheckCanLoadOWE_Tiles(speciesId, isFemale, isShiny, x, y))
-    {
-        return FALSE;
-    }
-
-    return TRUE;
+    return FALSE;
 }
 
 static bool32 CheckCanLoadOWE_Palette(enum Species speciesId, bool32 isFemale, bool32 isShiny, s32 x, s32 y)

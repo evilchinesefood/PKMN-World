@@ -282,6 +282,8 @@ u32 CreateSpriteAtEndUnchecked(const struct SpriteTemplate *template, s16 x, s16
 u32 CreateInvisibleSprite(void (*callback)(struct Sprite *));
 u32 CreateSpriteAndAnimate(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority);
 void DestroySprite(struct Sprite *sprite);
+// For privately owned per-frame images: also retire queued copies and buffered OAM.
+void DestroySpriteAndClearFrameImages(struct Sprite *sprite);
 void ResetOamRange(u32 start, u32 end);
 void LoadOam(void);
 void SetOamMatrix(u8 matrixNum, u16 a, u16 b, u16 c, u16 d);

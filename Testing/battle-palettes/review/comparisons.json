@@ -1,0 +1,234 @@
+[
+  {
+    "check": "unchanged UI ice_1f",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ ice_1f",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT ice_1f",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI ice_b1f",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ ice_b1f",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT ice_b1f",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI ice_b2f",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ ice_b2f",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT ice_b2f",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI ice_b3f",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ ice_b3f",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT ice_b3f",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI ice_b4f",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ ice_b4f",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT ice_b4f",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI snow_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ snow_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT snow_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI summit_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ summit_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT summit_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI granite",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ granite",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT granite",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI hoenn_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ hoenn_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT hoenn_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI hoenn_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ hoenn_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT hoenn_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI johto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ johto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT johto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI johto_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ johto_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT johto_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI kanto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ kanto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT kanto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI kanto_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ kanto_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT kanto_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI hoenn_morning",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ hoenn_morning",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT hoenn_morning",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI hoenn_evening",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ hoenn_evening",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT hoenn_evening",
+    "pass": true
+  },
+  {
+    "check": "unchanged UI snow_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged OBJ snow_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged ENVIRONMENT snow_night",
+    "pass": true
+  },
+  {
+    "check": "unchanged background hoenn_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged background johto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged background kanto_day",
+    "pass": true
+  },
+  {
+    "check": "unchanged background granite",
+    "pass": true
+  },
+  {
+    "check": "hoenn night differs from day",
+    "pass": true
+  },
+  {
+    "check": "johto night differs from day",
+    "pass": true
+  },
+  {
+    "check": "kanto night differs from day",
+    "pass": true
+  }
+]

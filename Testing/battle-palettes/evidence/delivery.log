@@ -1,0 +1,11 @@
+BOOTED grp=94 map=7 pos=(19,24)
+  [PASS] prepared save boots into Ice Path
+  shot BattlePaletteDelivery_1_ready_to_play
+  [PASS] prepared party has six members
+  [PASS] normal movement works
+  [PASS] walking starts a natural encounter
+  [PASS] natural encounter reaches commands
+  shot BattlePaletteDelivery_2_natural_battle
+  shot BattlePaletteDelivery_3_original_l_window
+  [PASS] normal Run returns to Ice Path
+VERDICT BattlePaletteDelivery: 6/6 PASS

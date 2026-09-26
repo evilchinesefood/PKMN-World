@@ -70,6 +70,13 @@ void VisualFeatureFixture(void)
     case 205:
         gSpecialVar_0x8005 = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES);
         break;
+    case 206:
+        // Start the owner on an existing MB_CAVE encounter tile. The entrance
+        // approach used for map screenshots has encounter-free mountain tiles.
+        gIsDebugBattle = FALSE;
+        SetWarpDestination(MAP_GROUP(MAP_ICE_PATH_1F), MAP_NUM(MAP_ICE_PATH_1F), WARP_ID_NONE, 19, 24);
+        DoWarp();
+        break;
     case 251:
     {
         // Probe the actual restoration entry points, including all palette banks.

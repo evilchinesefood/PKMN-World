@@ -1,0 +1,281 @@
+[
+  {
+    "file": "media/before-ice_1f.png",
+    "source": "BattlePaletteCapture_03_ice_1f_moves.png",
+    "sha256": "2d5d255d3f2422e5791fa83ddfe815b95d5a521f17a14a19e7823803d839788f"
+  },
+  {
+    "file": "media/after-ice_1f.png",
+    "source": "BattlePaletteCapture_03_ice_1f_moves.png",
+    "sha256": "78d6443032d04dddd73fb380d6c05a4a0da267da9fba89962d9fd000639c825a"
+  },
+  {
+    "file": "media/field-ice_1f.png",
+    "source": "BattlePaletteCapture_01_ice_1f_field.png",
+    "sha256": "911b81348fbdc4503ea48ddb38397e81544b71474540e879934cb63d5342ff52"
+  },
+  {
+    "file": "media/before-snow_day.png",
+    "source": "BattlePaletteCapture_18_snow_day_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/after-snow_day.png",
+    "source": "BattlePaletteCapture_18_snow_day_moves.png",
+    "sha256": "b5c1662cf08f7e0e294f078256d0ee5bce3699858ca19ff00e8a72cd494694e5"
+  },
+  {
+    "file": "media/field-snow_day.png",
+    "source": "BattlePaletteCapture_16_snow_day_field.png",
+    "sha256": "e32f87348f5513334c35ec73c52a967c5d91fe040d3c64db0c1042f3a0961ff0"
+  },
+  {
+    "file": "media/before-snow_night.png",
+    "source": "BattlePaletteCapture_51_snow_night_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/after-snow_night.png",
+    "source": "BattlePaletteCapture_51_snow_night_moves.png",
+    "sha256": "d152b3bd3c1421bb030ffb96cdaa85062ccf7d4b9b767c74f9f0e0c94b24aedf"
+  },
+  {
+    "file": "media/field-snow_night.png",
+    "source": "BattlePaletteCapture_49_snow_night_field.png",
+    "sha256": "6104b47105a610d90b7b1468c2a594fd20950d0647b8b86340edfc346575f5a0"
+  },
+  {
+    "file": "media/contrast-ice_1f_commands.png",
+    "source": "BattlePaletteCapture_02_ice_1f_commands.png",
+    "sha256": "e75dfd23442e946b37188c4d2b874a0a4022f2cdd64eccf4f61d39ecade5438e"
+  },
+  {
+    "file": "media/contrast-contrast_0_1.png",
+    "source": "BattlePaletteCapture_52_contrast_0_1.png",
+    "sha256": "cb0f4b41e8842aec20e6cb73950e3b0c84e4585c620d54e69083d6f9c63a5fa0"
+  },
+  {
+    "file": "media/contrast-contrast_0_2.png",
+    "source": "BattlePaletteCapture_53_contrast_0_2.png",
+    "sha256": "bdfe7ad687cf4c84e1c570f6bfbe8861277f97bed503d8f5e4037db1c6269ed0"
+  },
+  {
+    "file": "media/contrast-snow_day_commands.png",
+    "source": "BattlePaletteCapture_17_snow_day_commands.png",
+    "sha256": "23d06b626a42251714f08b0de0f2f23b6170dc90a10528e306ce252bf3e254d4"
+  },
+  {
+    "file": "media/contrast-contrast_5_1.png",
+    "source": "BattlePaletteCapture_54_contrast_5_1.png",
+    "sha256": "f17653ca0fd57a4739e77b33d243fa2024c75e3bb018ed74623e58de8910ba38"
+  },
+  {
+    "file": "media/contrast-contrast_5_2.png",
+    "source": "BattlePaletteCapture_55_contrast_5_2.png",
+    "sha256": "81ff7164af9d19053543560899c77a90b013303de8765ca1be781248aff3fab3"
+  },
+  {
+    "file": "media/before-hoenn_night.png",
+    "source": "BattlePaletteCapture_30_hoenn_night_moves.png",
+    "sha256": "edd0eb71ba3a74cb46220893074ad0f584654942800d22e6c523536f68b64741"
+  },
+  {
+    "file": "media/after-hoenn_night.png",
+    "source": "BattlePaletteCapture_30_hoenn_night_moves.png",
+    "sha256": "1bc0ed3c9b0e0b91535c65cadfd0ddf5a193cdea7e0de7e6d1e3876996663804"
+  },
+  {
+    "file": "media/field-hoenn_night.png",
+    "source": "BattlePaletteCapture_28_hoenn_night_field.png",
+    "sha256": "b86dfc725e0ef040936361dc51d65bed2e4f9057a634fd5b838e950817338747"
+  },
+  {
+    "file": "media/before-johto_night.png",
+    "source": "BattlePaletteCapture_36_johto_night_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/after-johto_night.png",
+    "source": "BattlePaletteCapture_36_johto_night_moves.png",
+    "sha256": "69565d2264394795876a062af8d8469a520c885e3427108405e705e4c0321bbf"
+  },
+  {
+    "file": "media/field-johto_night.png",
+    "source": "BattlePaletteCapture_34_johto_night_field.png",
+    "sha256": "8ebb4b47a5de3561e6d15d9f9712d65919d9e4092e4130c2aac06350974aa8dd"
+  },
+  {
+    "file": "media/before-kanto_night.png",
+    "source": "BattlePaletteCapture_42_kanto_night_moves.png",
+    "sha256": "6e2daf0b94f3b4ae1b5eb85a87b52b9710d4d18ab9f5ec3ee24aef6a40d757f2"
+  },
+  {
+    "file": "media/after-kanto_night.png",
+    "source": "BattlePaletteCapture_42_kanto_night_moves.png",
+    "sha256": "721076448fbb1c95ff8d8a71282fb598735f0ff6c31f4c73c33ffaff748a29d1"
+  },
+  {
+    "file": "media/field-kanto_night.png",
+    "source": "BattlePaletteCapture_40_kanto_night_field.png",
+    "sha256": "9859aadfa74ed9d19eb4d779b4c934b17db545673b93768a1fe82b23d1ec150e"
+  },
+  {
+    "file": "media/clock-hoenn_morning.png",
+    "source": "BattlePaletteCapture_45_hoenn_morning_moves.png",
+    "sha256": "69565d2264394795876a062af8d8469a520c885e3427108405e705e4c0321bbf"
+  },
+  {
+    "file": "media/clock-hoenn_day.png",
+    "source": "BattlePaletteCapture_27_hoenn_day_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/clock-hoenn_evening.png",
+    "source": "BattlePaletteCapture_48_hoenn_evening_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/clock-hoenn_night.png",
+    "source": "BattlePaletteCapture_30_hoenn_night_moves.png",
+    "sha256": "1bc0ed3c9b0e0b91535c65cadfd0ddf5a193cdea7e0de7e6d1e3876996663804"
+  },
+  {
+    "file": "media/before-ice_b1f.png",
+    "source": "BattlePaletteCapture_06_ice_b1f_moves.png",
+    "sha256": "c6dd24128e3ff204da5487961adccafc8c68857220ca331b767894f0c654f8b5"
+  },
+  {
+    "file": "media/after-ice_b1f.png",
+    "source": "BattlePaletteCapture_06_ice_b1f_moves.png",
+    "sha256": "8e4362c277cb30a78413f75eafd19ae057c3d0cb586206c91db34990eee2fa8f"
+  },
+  {
+    "file": "media/before-ice_b2f.png",
+    "source": "BattlePaletteCapture_09_ice_b2f_moves.png",
+    "sha256": "c6dd24128e3ff204da5487961adccafc8c68857220ca331b767894f0c654f8b5"
+  },
+  {
+    "file": "media/after-ice_b2f.png",
+    "source": "BattlePaletteCapture_09_ice_b2f_moves.png",
+    "sha256": "8e4362c277cb30a78413f75eafd19ae057c3d0cb586206c91db34990eee2fa8f"
+  },
+  {
+    "file": "media/before-ice_b3f.png",
+    "source": "BattlePaletteCapture_12_ice_b3f_moves.png",
+    "sha256": "c6dd24128e3ff204da5487961adccafc8c68857220ca331b767894f0c654f8b5"
+  },
+  {
+    "file": "media/after-ice_b3f.png",
+    "source": "BattlePaletteCapture_12_ice_b3f_moves.png",
+    "sha256": "8e4362c277cb30a78413f75eafd19ae057c3d0cb586206c91db34990eee2fa8f"
+  },
+  {
+    "file": "media/before-ice_b4f.png",
+    "source": "BattlePaletteCapture_15_ice_b4f_moves.png",
+    "sha256": "c6dd24128e3ff204da5487961adccafc8c68857220ca331b767894f0c654f8b5"
+  },
+  {
+    "file": "media/after-ice_b4f.png",
+    "source": "BattlePaletteCapture_15_ice_b4f_moves.png",
+    "sha256": "8e4362c277cb30a78413f75eafd19ae057c3d0cb586206c91db34990eee2fa8f"
+  },
+  {
+    "file": "media/before-summit_day.png",
+    "source": "BattlePaletteCapture_21_summit_day_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/after-summit_day.png",
+    "source": "BattlePaletteCapture_21_summit_day_moves.png",
+    "sha256": "b5c1662cf08f7e0e294f078256d0ee5bce3699858ca19ff00e8a72cd494694e5"
+  },
+  {
+    "file": "media/before-granite.png",
+    "source": "BattlePaletteCapture_24_granite_moves.png",
+    "sha256": "2d5d255d3f2422e5791fa83ddfe815b95d5a521f17a14a19e7823803d839788f"
+  },
+  {
+    "file": "media/after-granite.png",
+    "source": "BattlePaletteCapture_24_granite_moves.png",
+    "sha256": "2d5d255d3f2422e5791fa83ddfe815b95d5a521f17a14a19e7823803d839788f"
+  },
+  {
+    "file": "media/before-hoenn_day.png",
+    "source": "BattlePaletteCapture_27_hoenn_day_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/after-hoenn_day.png",
+    "source": "BattlePaletteCapture_27_hoenn_day_moves.png",
+    "sha256": "c8a31b67cb2dfbb4f26de19377e4e998488278874abc04bb4b8188ab80585717"
+  },
+  {
+    "file": "media/before-johto_day.png",
+    "source": "BattlePaletteCapture_33_johto_day_moves.png",
+    "sha256": "edd0eb71ba3a74cb46220893074ad0f584654942800d22e6c523536f68b64741"
+  },
+  {
+    "file": "media/after-johto_day.png",
+    "source": "BattlePaletteCapture_33_johto_day_moves.png",
+    "sha256": "edd0eb71ba3a74cb46220893074ad0f584654942800d22e6c523536f68b64741"
+  },
+  {
+    "file": "media/before-kanto_day.png",
+    "source": "BattlePaletteCapture_39_kanto_day_moves.png",
+    "sha256": "6e2daf0b94f3b4ae1b5eb85a87b52b9710d4d18ab9f5ec3ee24aef6a40d757f2"
+  },
+  {
+    "file": "media/after-kanto_day.png",
+    "source": "BattlePaletteCapture_39_kanto_day_moves.png",
+    "sha256": "6e2daf0b94f3b4ae1b5eb85a87b52b9710d4d18ab9f5ec3ee24aef6a40d757f2"
+  },
+  {
+    "file": "media/ice_entry.webp",
+    "frames": 180,
+    "duration_ms": 9000,
+    "lossless_verified": true,
+    "sha256": "2ec966fe9ab027aed791bf767b35857f08dafeead9c9dc4792b74fb5240efc67"
+  },
+  {
+    "file": "media/snow_entry.webp",
+    "frames": 180,
+    "duration_ms": 9000,
+    "lossless_verified": true,
+    "sha256": "33cfa360ed15dfc0f85cb97a7ebdfaab9bdfcd6bce5f65a3d58675928ee4946b"
+  },
+  {
+    "file": "media/night_entry.webp",
+    "frames": 180,
+    "duration_ms": 9000,
+    "lossless_verified": true,
+    "sha256": "8505e292609241ab9835f85758a80fe0f788defcb6b92560db5de210ef70731f"
+  },
+  {
+    "file": "media/bag_return.webp",
+    "frames": 65,
+    "duration_ms": 3250,
+    "lossless_verified": true,
+    "sha256": "42ff3458cfc7869325bedc47c65e08c1c1f3de72fe3e7ea3e55c496866eac09f"
+  },
+  {
+    "file": "media/grassy_terrain.webp",
+    "frames": 160,
+    "duration_ms": 8000,
+    "lossless_verified": true,
+    "sha256": "8433b3d35d44910eefe9153d19ed967b7e832bba251f3dd7f5325bdac234cae0"
+  },
+  {
+    "file": "media/splash_4.webp",
+    "frames": 160,
+    "duration_ms": 8000,
+    "lossless_verified": true,
+    "sha256": "505a5bfb4dfced89c694a79a2f1417c598e568a0d9a1b310d60200d0c3451401"
+  },
+  {
+    "file": "media/shadow_ball.webp",
+    "frames": 160,
+    "duration_ms": 8000,
+    "lossless_verified": true,
+    "sha256": "8f1d482a27f32f2381ecec8f2007365cd0b324f67d22e498f75a93a0d3439596"
+  }
+]

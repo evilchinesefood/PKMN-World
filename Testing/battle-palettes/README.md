@@ -57,3 +57,27 @@ Run the existing BW suites against this fixture with
 Development and release configurations are build checks. Per `RELEASING.md`, the
 owner package uses the tested development ROM, distributed locally, without the
 fixture hook. No ROM or personal save is committed or uploaded to GitHub.
+
+## Review evidence
+
+[Validation and delivery identifiers](evidence/validation.md) ·
+[Code review](evidence/code-review.md) ·
+[Interactive gallery source](review/index.html)
+
+| Scene | Before | After |
+|---|---|---|
+| Ice Path | ![Ice Path before](review/media/before-ice_1f.png) | ![Ice Path after](review/media/after-ice_1f.png) |
+| Snowy Mt. Silver | ![Snow before](review/media/before-snow_day.png) | ![Snow after](review/media/after-snow_day.png) |
+| Night on Route 101 | ![Night before](review/media/before-hoenn_night.png) | ![Night after](review/media/after-hoenn_night.png) |
+
+[Snow entrance](review/media/snow_entry.webp) ·
+[Terrain expires normally](review/media/splash_4.webp) ·
+[Shadow Ball restores the night palette](review/media/shadow_ball.webp)
+
+Generate the gallery from retained run directories with:
+
+```sh
+python3 Testing/battle-palettes/render_review.py \
+  --before /tmp/pkmn-world-327-before-final \
+  --after /tmp/pkmn-world-327-final --out Testing/battle-palettes/review
+```

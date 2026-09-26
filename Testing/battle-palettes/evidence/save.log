@@ -1,0 +1,10 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] prepared Ice Path save written
+BOOTED grp=94 map=7 pos=(19,24)
+  [PASS] prepared save reloads
+  [PASS] Ice Path location persisted
+  [PASS] prepared party persisted
+  [PASS] normal walking works
+  shot BattlePaletteSave_1_prepared_ice_path
+VERDICT BattlePaletteSave: 5/5 PASS

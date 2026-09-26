@@ -1,7 +1,7 @@
 package.path=assert(os.getenv('PW_FEATURE_LIB'))..'/?.lua;'..package.path
 local F,S,U,X,tap,hook=require('bw_helpers')('BattlePaletteSave')
 F.run(function()
- assert(F.boot(100));hook(202,0);hook(200,0,480);hook(9,0,1200)
+ assert(F.boot(100));hook(202,0);hook(206,0,480);hook(9,0,1200)
  F.check('prepared Ice Path save written',F.r16(X.gSpecialVar_0x8005)==1)
  local group,map=F.grp(),F.mapn()
  client.reboot_core();F.idle(5);F.check('prepared save reloads',F.boot(group))

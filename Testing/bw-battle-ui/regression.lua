@@ -47,7 +47,7 @@ F.run(function()
  F.check('ability popup released its palette',palette(0xd720)==nil)
  F.check('popup kept live info palette',palette(0xe723)~=nil)
  F.shot('info_after_popup');tap('B');assert(action())
- hook(104,0,1)
+ hook(104,0,60) -- Exhaustion/unwind completes across several emulator frames.
  F.check('cursor allocation failure is bounded',F.r16(X.gSpecialVar_0x8005)==1)
  F.check('move trigger allocation failure is bounded',F.r16(U.gSpecialVar_0x8006)==1)
  F.check('ball trigger allocation failure is bounded',F.r16(U.gSpecialVar_0x8007)==1)

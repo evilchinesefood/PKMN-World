@@ -1,0 +1,46 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted -- overworld reached
+== day pass (clock DAY) ==
+  [PASS] day_seed_var -- VAR_COMPLETED_HO_OH=2
+  WARP day_to8F ok (11,9)
+  [PASS] day_reached_roof -- walked 8F (6,11) -> roof
+  landed grp=86 map=21 layout=892 weather=2 pos=(10,14)
+  shot TinTowerRoof_1_day_roof
+  clock 14:31 timeOfDay=1 day=false night=true
+  [PASS] day_clock -- localTime 14:31, wanted hour 14
+  [PASS] day_time_of_day -- gTimeOfDay=1 (TIME_NIGHT=3)
+  [PASS] day_flags_from_clock -- day=false night=true (want day=false)
+  [PASS] day_map_is_roof_day -- grp=86 map=21 (want 86/21)
+  [PASS] day_layout -- layout=892 want=892
+  [PASS] day_hooh_unhidden -- FLAG_HIDE_HO_OH cleared by OnTransition
+  [PASS] day_kimono_spawned -- Zuki at (10,12)
+  [PASS] day_weather -- weather=2 want=2
+  shot TinTowerRoof_2_day_hooh
+  [PASS] day_hooh_descended -- Ho-Oh at (10,6)
+  [PASS] day_cutscene_released -- player regained control after the cutscene
+  objects after cutscene: id255(10,9) id2(11,10) id3(10,11) id4(9,10) id5(12,9) id6(8,9) id7(10,6)
+  [PASS] day_can_face_hooh -- player at (10,7), want (10,7)
+  shot TinTowerRoof_3_day_facing
+== night pass (clock NIGHT) ==
+  [PASS] night_seed_var -- VAR_COMPLETED_HO_OH=2
+  WARP night_to8F ok (11,9)
+  [PASS] night_reached_roof -- walked 8F (6,11) -> roof
+  landed grp=86 map=21 layout=905 weather=0 pos=(10,14)
+  shot TinTowerRoof_4_night_roof
+  clock 22:31 timeOfDay=3 day=true night=false
+  [PASS] night_clock -- localTime 22:31, wanted hour 22
+  [PASS] night_time_of_day -- gTimeOfDay=3 (TIME_NIGHT=3)
+  [PASS] night_flags_from_clock -- day=true night=false (want day=true)
+  [PASS] night_map_is_roof_day -- grp=86 map=21 (want 86/21)
+  [PASS] night_layout -- layout=905 want=905
+  [PASS] night_hooh_unhidden -- FLAG_HIDE_HO_OH cleared by OnTransition
+  [PASS] night_kimono_spawned -- Zuki at (10,12)
+  [PASS] night_weather -- weather=0 want=0
+  shot TinTowerRoof_5_night_hooh
+  [PASS] night_hooh_descended -- Ho-Oh at (10,6)
+  [PASS] night_cutscene_released -- player regained control after the cutscene
+  objects after cutscene: id255(10,9) id2(11,10) id3(10,11) id4(9,10) id5(12,9) id6(8,9) id7(10,6)
+  [PASS] night_can_face_hooh -- player at (10,7), want (10,7)
+  shot TinTowerRoof_6_night_facing
+VERDICT TinTowerRoof: 27/27 PASS

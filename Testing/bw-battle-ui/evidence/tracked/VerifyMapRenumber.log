@@ -1,0 +1,6 @@
+BOOTED grp=2 map=2 pos=(7,4)
+  [PASS] saveVersion migrated to 10 -- ver=10
+  [PASS] lastHealLocation renumbered 84/19 -> 84/18 -- 84/18
+  [PASS] escapeWarp renumbered 97/11 -> 97/10 -- 97/10
+  [PASS] both warps inside their shortened groups -- goldenrod=18/28 mtsilver=10/12
+VERDICT VerifyMapRenumber: 4/4 PASS

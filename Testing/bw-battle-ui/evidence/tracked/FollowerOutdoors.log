@@ -1,0 +1,23 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot FollowerOutdoors_1_give_species
+  after Give: count=1 species=43 hp=29/29 nick='Oddish'
+  [PASS] Give Oddish published a party -- count=1
+  [PASS] slot 0 is Oddish (Grass/Poison) -- species=43
+  authored outdoors lines:
+    SNIFF  {VAR} is sniffing at the open/air.
+    BREEZE The breeze ruffled {VAR}/and it looked pleased.
+    BREATH Your POK[1B]MON took a deep breath of/fresh air.
+  WARP route29 ok (34,11)
+  shot FollowerOutdoors_2_arrival
+  mapType=3 (TOWN=1 ROUTE=3) grp=75 map=2
+  follower after emerge: (34,11) gfx=0x502B inv=false
+  [PASS] Oddish follower is visible outdoors -- gfx=0x502B inv=false
+  shot FollowerOutdoors_3_follower_out
+  talk n=1 ptr=other=0x00000000 script=0x084252CC rom='?' buf='Warp[F0][5A]/000[5A]/[5A]/[7B][2E]1[7C]        [5A]'
+  talk n=2 ptr=other=0x084F0C24 script=0x00000000 rom='{VAR} is making a face like/it's angry!' buf='Oddish is making a face like/it's angry!'
+  talk n=3 ptr=other=0x00000000 script=0x084252CC rom='?' buf='Oddish is making a face like/it's angry!'
+  talk n=4 ptr=SNIFF script=0x00000000 rom='{VAR} is sniffing at the open/air.' buf='Oddish is sniffing at the open/air.'
+  shot FollowerOutdoors_4_outdoors_line
+  [PASS] an outdoors-conditional Grass/Bug line was spoken -- talk 4 SNIFF rom='{VAR} is sniffing at the open/air.' buf='Oddish is sniffing at the open/air.'
+VERDICT FollowerOutdoors: 4/4 PASS

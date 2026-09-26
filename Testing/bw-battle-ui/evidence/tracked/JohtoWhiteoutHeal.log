@@ -1,0 +1,95 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] no crash screen (boot) -- clear
+  [PASS] vblank advancing (boot) -- vblank 6807 -> 6815 cb2=0x08191EA8 ow=true
+  [PASS] booted on MAP_REGION_HUB -- grp=100 map=0
+  shot JohtoWhiteoutHeal_1_dbg_setparty_cursor
+  Set Party count=1
+  [PASS] Set Party published a Pokemon -- count=1
+  before_whiteout map=(100,0) pos=(16,4) cb2=0x08191EA8 ow=true heal grp=75 map=6 warp=255 xy=(39,46) region=0
+  shot JohtoWhiteoutHeal_2_before_whiteout
+  [PASS] lastHealLocation is Violet City (75,6) -- grp=75 map=6 warp=255 xy=(39,46)
+  [PASS] lastHealLocation warpId is WARP_ID_NONE (255) -- warp=255
+  [PASS] lastHealLocation is the migrated apron (39,46), not Sprout Tower (30,18) -- grp=75 map=6 warp=255 xy=(39,46)
+  shot JohtoWhiteoutHeal_3_dbg_battle_cursor
+  [PASS] Start Debug Battle left the overworld -- cb2=0x081920AC battlers=0 outcome=0
+  shot JohtoWhiteoutHeal_4_battle_started
+  [PASS] debug battle published a battler count -- battlers=2
+  whiteout_ow map=(78,4) pos=(7,4) cb2=0x08191EA8 ow=true heal grp=75 map=6 warp=255 xy=(39,46) region=2
+  shot JohtoWhiteoutHeal_5_whiteout_landed
+  whiteout monitor frlg32 slot60 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=yes tileset=0x08CA6E68
+  shot JohtoWhiteoutHeal_6_whiteout_glow
+  after_whiteout map=(78,4) pos=(7,4) cb2=0x08191EA8 ow=true heal grp=75 map=6 warp=255 xy=(39,46) region=2
+  shot JohtoWhiteoutHeal_7_after_whiteout
+  [PASS] no crash screen (after_whiteout) -- clear
+  [PASS] vblank advancing (after_whiteout) -- vblank 11958 -> 11966 cb2=0x08191EA8 ow=true
+  [PASS] whiteout returned to the overworld on a Violet map (not a win-return to the ruins) -- land=violet map=(78,4) pos=(7,4) outcome=2 cb2=0x08191EA8
+  [PASS] whiteout did NOT land on the old Sprout Tower door (30,18) -- map=(78,4) pos=(7,4)
+  [PASS] whiteout landed on the migrated Violet heal (Center interior or apron (39,46)) -- map=(78,4) pos=(7,4) (Center is 78/4; apron is 75/6 (39,46))
+  [PASS] lastHealLocation is still the migrated Violet apron after whiteout -- grp=75 map=6 warp=255 xy=(39,46)
+  [PASS] violet_center_secondary_tileset_is_gTileset_Kanto_PokemonCenter -- gTileset_Kanto_PokemonCenter
+  [PASS] violet_center_tileset_is_in_UsesFrlgPokecenterMonitor -- gTileset_Kanto_PokemonCenter
+  violet_whiteout monitor verdict frlg32 slot60 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=no
+  [PASS] violet_whiteout_heal_created_a_monitor_sprite -- frlg32
+  [PASS] violet_whiteout_monitor_is_FRLG_wide_32x16_not_Emerald_24x16 -- kind=frlg32 slot60 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=no tileset=0x08CA6E68 region=2
+  [PASS] violet_whiteout_monitor_oam_is_32x16 -- shape=1 size=2 (want shape=1 size=2)
+  [PASS] violet_whiteout_monitor_has_no_emerald_subsprite_table -- subs=0x00000000
+  WARP azalea ok (7,8)
+  [PASS] no crash screen (azalea_arrive) -- clear
+  [PASS] vblank advancing (azalea_arrive) -- vblank 13005 -> 13013 cb2=0x08191EA8 ow=true
+  shot JohtoWhiteoutHeal_8_azalea_inside
+  azalea walk to counter (7,4) from (7,8)
+  [PASS] azalea_reached_nurse_tile -- at (7,4) want (7,4)
+  azalea monitor frlg32 slot53 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=yes tileset=0x08CA6E68
+  shot JohtoWhiteoutHeal_9_azalea_glow
+  azalea lastHeal grp=80 map=0 warp=255 xy=(31,16) (want apron (31,16) door (31,15))
+  [PASS] azalea_lastHeal_map_is_the_outdoor_town -- grp=80 map=0 warp=255 xy=(31,16)
+  [PASS] azalea_lastHeal_xy_is_the_apron_from_heal_locations.json -- grp=80 map=0 warp=255 xy=(31,16) want (31,16)
+  [PASS] azalea_lastHeal_is_NOT_the_Center_door_tile -- grp=80 map=0 warp=255 xy=(31,16) door=(31,15)
+  [PASS] azalea_lastHeal_is_one_tile_south_of_the_door -- grp=80 map=0 warp=255 xy=(31,16) door=(31,15)
+  [PASS] no crash screen (azalea) -- clear
+  [PASS] vblank advancing (azalea) -- vblank 14687 -> 14695 cb2=0x08191EA8 ow=true
+  WARP goldenrod ok (7,8)
+  [PASS] no crash screen (goldenrod_arrive) -- clear
+  [PASS] vblank advancing (goldenrod_arrive) -- vblank 15804 -> 15812 cb2=0x08191EA8 ow=true
+  shot JohtoWhiteoutHeal_10_goldenrod_inside
+  goldenrod walk to counter (7,4) from (7,8)
+  [PASS] goldenrod_reached_nurse_tile -- at (7,4) want (7,4)
+  goldenrod monitor frlg32 slot52 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=yes tileset=0x08CA6E68
+  shot JohtoWhiteoutHeal_11_goldenrod_glow
+  goldenrod lastHeal grp=83 map=0 warp=255 xy=(28,37) (want apron (28,37) door (28,36))
+  [PASS] goldenrod_lastHeal_map_is_the_outdoor_town -- grp=83 map=0 warp=255 xy=(28,37)
+  [PASS] goldenrod_lastHeal_xy_is_the_apron_from_heal_locations.json -- grp=83 map=0 warp=255 xy=(28,37) want (28,37)
+  [PASS] goldenrod_lastHeal_is_NOT_the_Center_door_tile -- grp=83 map=0 warp=255 xy=(28,37) door=(28,36)
+  [PASS] goldenrod_lastHeal_is_one_tile_south_of_the_door -- grp=83 map=0 warp=255 xy=(28,37) door=(28,36)
+  [PASS] no crash screen (goldenrod) -- clear
+  [PASS] vblank advancing (goldenrod) -- vblank 17486 -> 17494 cb2=0x08191EA8 ow=true
+  WARP safari ok (7,8)
+  [PASS] no crash screen (safari_arrive) -- clear
+  [PASS] vblank advancing (safari_arrive) -- vblank 18563 -> 18571 cb2=0x08191EA8 ow=true
+  shot JohtoWhiteoutHeal_12_safari_inside
+  safari walk to counter (7,4) from (7,8)
+  [PASS] safari_reached_nurse_tile -- at (7,4) want (7,4)
+  safari monitor frlg32 slot53 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=yes tileset=0x08CA6E68
+  shot JohtoWhiteoutHeal_13_safari_glow
+  safari lastHeal grp=96 map=0 warp=255 xy=(11,16) (want apron (11,16) door (11,15))
+  [PASS] safari_lastHeal_map_is_the_outdoor_town -- grp=96 map=0 warp=255 xy=(11,16)
+  [PASS] safari_lastHeal_xy_is_the_apron_from_heal_locations.json -- grp=96 map=0 warp=255 xy=(11,16) want (11,16)
+  [PASS] safari_lastHeal_is_NOT_the_Center_door_tile -- grp=96 map=0 warp=255 xy=(11,16) door=(11,15)
+  [PASS] safari_lastHeal_is_one_tile_south_of_the_door -- grp=96 map=0 warp=255 xy=(11,16) door=(11,15)
+  [PASS] no crash screen (safari) -- clear
+  [PASS] vblank advancing (safari) -- vblank 20245 -> 20253 cb2=0x08191EA8 ow=true
+  WARP hub ok (16,4)
+  [PASS] no crash screen (hub_arrive) -- clear
+  [PASS] vblank advancing (hub_arrive) -- vblank 21172 -> 21180 cb2=0x08191EA8 ow=true
+  shot JohtoWhiteoutHeal_14_hub_inside
+  hub tileset=gTileset_PokemonCenterFrlg region=2 mapsec=DYNAMIC
+  [PASS] hub_secondary_tileset_is_gTileset_PokemonCenterFrlg -- gTileset_PokemonCenterFrlg
+  [PASS] hub_tileset_is_in_UsesFrlgPokecenterMonitor -- gTileset_PokemonCenterFrlg
+  [PASS] hub_tileset_is_NOT_Emerald_gTileset_PokemonCenter -- gTileset_PokemonCenterFrlg
+  hub walk to counter (14,12) from (16,4)
+  [PASS] hub_reached_nurse_tile -- at (14,12) want (14,12)
+  hub nurse heal did not spawn a monitor; tileset discriminator stands
+  [PASS] no crash screen (hub) -- clear
+  [PASS] vblank advancing (hub) -- vblank 25841 -> 25849 cb2=0x08191EA8 ow=true
+VERDICT JohtoWhiteoutHeal: 56/56 PASS

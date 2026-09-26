@@ -1,0 +1,11 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Illusion break clears long nickname, side 0
+  [PASS] Illusion shows disguise gender and actual level, side 0
+  [PASS] Illusion break clears long nickname, side 1
+  [PASS] Illusion shows disguise gender and actual level, side 1
+  shot BWHealthbox_1_scope_reveal
+  [PASS] scope reveal preserves commands
+  [PASS] scope reveal preserves move screen
+  shot BWHealthbox_2_scope_reveal_moves
+VERDICT BWHealthbox: 6/6 PASS

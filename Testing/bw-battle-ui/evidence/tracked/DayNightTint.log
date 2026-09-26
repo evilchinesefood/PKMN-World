@@ -1,0 +1,70 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] player is free before the clock work
+  WARP hoenn_route101 ok (10,10)
+  [PASS] hoenn_route101_on_map -- grp=0 map=16
+  hoenn_route101_day: clock 14:30 tod=1 mapType=3 blend=00000000 00000000 01000100 fadedDigest=0x0D6A2E7E BG_PLTT[0,1,16,17]=0000 7FFF 28A3 7FFF
+  shot DayNightTint_1_hoenn_route101_day
+  [PASS] hoenn_route101_day_is_day_or_morning -- tod=1
+  hoenn_route101_1959: clock 19:59 tod=2 mapType=3 blend=00000000 09A8B0E0 00820005 fadedDigest=0x08A508A5 BG_PLTT[0,1,16,17]=0000 52BB 28A3 52BB
+  shot DayNightTint_2_hoenn_route101_1959
+  hoenn_route101_2000: clock 20:00 tod=3 mapType=3 blend=09A8B0E0 159D7474 00800100 fadedDigest=0x08A508A5 BG_PLTT[0,1,16,17]=0000 52BB 28A3 52BB
+  shot DayNightTint_3_hoenn_route101_night
+  [PASS] hoenn_route101_no_warp_during_tick -- leftOw=false map 0/16 -> 0/16 ow=true
+  [PASS] hoenn_route101_player_did_not_move -- (10,10)->(10,10)
+  hoenn_route101: palWordsChanged=135/192 blendChanged=true tod 1->3
+  [PASS] hoenn_route101_gTimeOfDay_is_night_after_20 -- tod=3
+  [PASS] hoenn_route101_outdoor_tint_changed -- palChanged=135/192 blend 00000000/00000000/01000100 -> 09A8B0E0/159D7474/00800100
+  [PASS] hoenn_route101_gTimeBlend_words_changed -- 00000000 00000000 01000100 -> 09A8B0E0 159D7474 00800100
+  WARP kanto_route1 ok (12,20)
+  [PASS] kanto_route1_on_map -- grp=37 map=19
+  kanto_route1_day: clock 14:30 tod=1 mapType=3 blend=00000000 00000000 01000100 fadedDigest=0x166CE6D2 BG_PLTT[0,1,16,17]=0000 47F7 0000 739B
+  shot DayNightTint_4_kanto_route1_day
+  [PASS] kanto_route1_day_is_day_or_morning -- tod=1
+  kanto_route1_1959: clock 19:59 tod=2 mapType=3 blend=00000000 09A8B0E0 00820005 fadedDigest=0x0EE0F0C7 BG_PLTT[0,1,16,17]=0000 2EB4 0000 4A77
+  shot DayNightTint_5_kanto_route1_1959
+  kanto_route1_2000: clock 20:00 tod=3 mapType=3 blend=09A8B0E0 159D7474 00800100 fadedDigest=0x0EE0F0C7 BG_PLTT[0,1,16,17]=0000 2EB4 0000 4A77
+  shot DayNightTint_6_kanto_route1_night
+  [PASS] kanto_route1_no_warp_during_tick -- leftOw=false map 37/19 -> 37/19 ow=true
+  [PASS] kanto_route1_player_did_not_move -- (12,20)->(12,20)
+  kanto_route1: palWordsChanged=160/192 blendChanged=true tod 1->3
+  [PASS] kanto_route1_gTimeOfDay_is_night_after_20 -- tod=3
+  [PASS] kanto_route1_outdoor_tint_changed -- palChanged=160/192 blend 00000000/00000000/01000100 -> 09A8B0E0/159D7474/00800100
+  [PASS] kanto_route1_gTimeBlend_words_changed -- 00000000 00000000 01000100 -> 09A8B0E0 159D7474 00800100
+  WARP johto_route37 ok (17,10)
+  [PASS] johto_route37_on_map -- grp=83 map=3
+  johto_route37_day: clock 14:30 tod=1 mapType=3 blend=00000000 00000000 01000100 fadedDigest=0x11F2EEB6 BG_PLTT[0,1,16,17]=0000 47F7 0000 739B
+  shot DayNightTint_7_johto_route37_day
+  [PASS] johto_route37_day_is_day_or_morning -- tod=1
+  johto_route37_1959: clock 19:59 tod=2 mapType=3 blend=00000000 09A8B0E0 00820005 fadedDigest=0x0B9BF0FB BG_PLTT[0,1,16,17]=0000 2EB4 0000 4A77
+  shot DayNightTint_8_johto_route37_1959
+  johto_route37_2000: clock 20:00 tod=3 mapType=3 blend=09A8B0E0 159D7474 00800100 fadedDigest=0x0BA6E352 BG_PLTT[0,1,16,17]=0000 2EB4 0000 4A77
+  shot DayNightTint_9_johto_route37_night
+  [PASS] johto_route37_no_warp_during_tick -- leftOw=false map 83/3 -> 83/3 ow=true
+  [PASS] johto_route37_player_did_not_move -- (17,10)->(17,10)
+  johto_route37: palWordsChanged=180/192 blendChanged=true tod 1->3
+  [PASS] johto_route37_gTimeOfDay_is_night_after_20 -- tod=3
+  [PASS] johto_route37_outdoor_tint_changed -- palChanged=180/192 blend 00000000/00000000/01000100 -> 09A8B0E0/159D7474/00800100
+  [PASS] johto_route37_gTimeBlend_words_changed -- 00000000 00000000 01000100 -> 09A8B0E0 159D7474 00800100
+  WARP cave_granite ok (37,12)
+  [PASS] cave_granite_on_map -- grp=24 map=7
+  cave_granite_day: clock 14:30 tod=1 mapType=4 blend=00000000 00000000 01000100 fadedDigest=0x0C2A9633 BG_PLTT[0,1,16,17]=0000 7FFF 28A3 7FFF
+  shot DayNightTint_10_cave_granite_day
+  [PASS] cave_granite_day_is_day_or_morning -- tod=1
+  cave_granite_1959: clock 19:59 tod=2 mapType=4 blend=00000000 09A8B0E0 00820005 fadedDigest=0x0C2A9633 BG_PLTT[0,1,16,17]=0000 7FFF 28A3 7FFF
+  shot DayNightTint_11_cave_granite_1959
+  cave_granite_2000: clock 20:00 tod=3 mapType=4 blend=09A8B0E0 159D7474 00800100 fadedDigest=0x0C2A9633 BG_PLTT[0,1,16,17]=0000 7FFF 28A3 7FFF
+  shot DayNightTint_12_cave_granite_night
+  [PASS] cave_granite_no_warp_during_tick -- leftOw=false map 24/7 -> 24/7 ow=true
+  [PASS] cave_granite_player_did_not_move -- (37,12)->(37,12)
+  cave_granite: palWordsChanged=0/192 blendChanged=true tod 1->3
+  [PASS] cave_granite_gTimeOfDay_is_night_after_20 -- tod=3
+  [PASS] cave_granite_cave_mapType_is_underground -- mapType=4
+  [PASS] cave_granite_cave_map_pals_not_night_tinted -- palChanged=0/192 (cave should stay put; outdoor night flips most of these)
+  WARP fadein_route101 ok (10,10)
+  fadein_night: clock 22:00 tod=3 mapType=3 blend=159D7474 159D7474 00000100 fadedDigest=0x07F7FAD3 BG_PLTT[0,1,16,17]=0000 4DCE 28A3 4DCE
+  [PASS] fadein_night_is_night -- tod=3
+  [PASS] fadein_night_is_outdoor_route -- mapType=3
+  [PASS] fadein_night_gTimeBlend_is_nonzero_tint -- blend 159D7474 159D7474 00000100
+  shot DayNightTint_13_fadein_night_outdoor
+VERDICT DayNightTint: 32/32 PASS

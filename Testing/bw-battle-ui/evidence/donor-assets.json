@@ -1,0 +1,228 @@
+{
+  "donor": "mudskipper13/pokeemerald",
+  "commit": "b798929811ec7d070616c7ef47e46cfc6a7f1501",
+  "assets": [
+    {
+      "path": "graphics/battle_interface/bw/ability_pop_up.png",
+      "sha256": "df6f88cced7f03c73e42d2952c0ead20ca78e69055a955b5f4fdcf1805db7e22",
+      "donor_sha256": "df6f88cced7f03c73e42d2952c0ead20ca78e69055a955b5f4fdcf1805db7e22",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/actionbox.png",
+      "sha256": "e4c430b7240e2bcaa1f9eb49a4374a2b80fab41193f6dc6179b9ef8121c1bfd7",
+      "donor_sha256": "e4c430b7240e2bcaa1f9eb49a4374a2b80fab41193f6dc6179b9ef8121c1bfd7",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/ball_caught_indicator.png",
+      "sha256": "52488172f19ca2f8ed587083126bee98a92fe86d3bffb8b04e09f71d19f7eaac",
+      "donor_sha256": "52488172f19ca2f8ed587083126bee98a92fe86d3bffb8b04e09f71d19f7eaac",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/ball_display.png",
+      "sha256": "89970f98f7617b08dec590c501f1bdd9102b22c51c8982bf82c423072001b6b7",
+      "donor_sha256": "89970f98f7617b08dec590c501f1bdd9102b22c51c8982bf82c423072001b6b7",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/ball_status_bar.png",
+      "sha256": "68c023407522bc7186d4bf809aee341d4f76adb32d3bef49212514e3deb3cf96",
+      "donor_sha256": "68c023407522bc7186d4bf809aee341d4f76adb32d3bef49212514e3deb3cf96",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/burst_trigger.png",
+      "sha256": "3d6d967fbb05214b30df84eee217bcb84d7936285e057eaf937f2f3683c93d3d",
+      "donor_sha256": "3d6d967fbb05214b30df84eee217bcb84d7936285e057eaf937f2f3683c93d3d",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/cursor.png",
+      "sha256": "2d58ebdbe3b826b2da4cf64a2013d9c95161fd7401586f5ecf02051ff10687ea",
+      "donor_sha256": "2d58ebdbe3b826b2da4cf64a2013d9c95161fd7401586f5ecf02051ff10687ea",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/dynamax_trigger.png",
+      "sha256": "9572a3bd4904847c2445e58df7971ce7d3d38f413a7668a80300fcb395b5bd70",
+      "donor_sha256": "9572a3bd4904847c2445e58df7971ce7d3d38f413a7668a80300fcb395b5bd70",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/expbar.png",
+      "sha256": "c0b4d0c8929356ea14a1383e28d2b25ab5f63f65dc8bcb9843ed5bf650f610ca",
+      "donor_sha256": "c0b4d0c8929356ea14a1383e28d2b25ab5f63f65dc8bcb9843ed5bf650f610ca",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/healthbox_doubles_opponent.png",
+      "sha256": "c4715517cc74b63c6b9200e9396c17f397f2e2183c363163fbfe0896d3a2ab4f",
+      "donor_sha256": "c4715517cc74b63c6b9200e9396c17f397f2e2183c363163fbfe0896d3a2ab4f",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/healthbox_doubles_player.png",
+      "sha256": "a957e949706bf6e3e303a1c197bee484c6ebec809c4f2f5d94f7d3fc94646e26",
+      "donor_sha256": "a957e949706bf6e3e303a1c197bee484c6ebec809c4f2f5d94f7d3fc94646e26",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/healthbox_end_frames.png",
+      "sha256": "9f93af42ec8515fc939b8845fde21330e9c293983138850341efcf27501f9496",
+      "donor_sha256": "9f93af42ec8515fc939b8845fde21330e9c293983138850341efcf27501f9496",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/healthbox_safari.png",
+      "sha256": "d8237d866b76749f6a448fd121de0a1e43e82d48f0c35226d57757b20bda6bf9",
+      "donor_sha256": "d8237d866b76749f6a448fd121de0a1e43e82d48f0c35226d57757b20bda6bf9",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/healthbox_singles_opponent.png",
+      "sha256": "c4715517cc74b63c6b9200e9396c17f397f2e2183c363163fbfe0896d3a2ab4f",
+      "donor_sha256": "c4715517cc74b63c6b9200e9396c17f397f2e2183c363163fbfe0896d3a2ab4f",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/healthbox_singles_player.png",
+      "sha256": "81688bb3d013b64e4e336a12d9fc0ae0edd240df4f2ae53787d6a541340af601",
+      "donor_sha256": "81688bb3d013b64e4e336a12d9fc0ae0edd240df4f2ae53787d6a541340af601",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/hpbar.png",
+      "sha256": "2651b4d02c68b4d10136269a5bfa6096d087a7519ccb19a3b8202fcef17daa8d",
+      "donor_sha256": "2651b4d02c68b4d10136269a5bfa6096d087a7519ccb19a3b8202fcef17daa8d",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/hpbar_anims.png",
+      "sha256": "2a3d736e98bca08f8eb32211566a94c2e25504ea6bb791f7c4a27431a4663c45",
+      "donor_sha256": "2a3d736e98bca08f8eb32211566a94c2e25504ea6bb791f7c4a27431a4663c45",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/hpbar_none.png",
+      "sha256": "d9d35c15cbcc00abae8e908f95e9a33451398d72481d5985610a82dab13997bb",
+      "donor_sha256": "d9d35c15cbcc00abae8e908f95e9a33451398d72481d5985610a82dab13997bb",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/last_used_ball_l.png",
+      "sha256": "151bf47e01b141507239395d39d801b45fa84047192837c9e08c818468d23ebd",
+      "donor_sha256": "151bf47e01b141507239395d39d801b45fa84047192837c9e08c818468d23ebd",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/last_used_ball_r.png",
+      "sha256": "6b59165b75b22320d9babc69f96ffe719136629f2c077bee6f1938f77a805760",
+      "donor_sha256": "6b59165b75b22320d9babc69f96ffe719136629f2c077bee6f1938f77a805760",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/level_up_banner.png",
+      "sha256": "119a6b214c84b7e38efa42839c37512472ce9f32b53b2e0a278c411449b3c092",
+      "donor_sha256": "119a6b214c84b7e38efa42839c37512472ce9f32b53b2e0a278c411449b3c092",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/mega_trigger.png",
+      "sha256": "0b236b3dd90536ff42f428db1cfa159029170474d2466dfbf6d1e5d4516272ec",
+      "donor_sha256": "0b236b3dd90536ff42f428db1cfa159029170474d2466dfbf6d1e5d4516272ec",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/move_info_l.png",
+      "sha256": "0dff9c315bc7ddac9c8aba7d0c919fa5d5ca847f7083ba63378714bb8406874d",
+      "donor_sha256": "0dff9c315bc7ddac9c8aba7d0c919fa5d5ca847f7083ba63378714bb8406874d",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/move_info_r.png",
+      "sha256": "911c1f7b11c0608f5802f5e5744e4bff13f6fa190d5cb45b316af20f65b5b3e4",
+      "donor_sha256": "911c1f7b11c0608f5802f5e5744e4bff13f6fa190d5cb45b316af20f65b5b3e4",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/movebox.png",
+      "sha256": "69077738b80abfa099cc4964aa2a6e5dbc9c0c103510509daecf3fa439b78884",
+      "donor_sha256": "69077738b80abfa099cc4964aa2a6e5dbc9c0c103510509daecf3fa439b78884",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/movebox_types.png",
+      "sha256": "6a4a18e3d2d8a95c43d122fbd71ae30d0ccf207b3612c8c77860899e018ddac3",
+      "donor_sha256": "6a4a18e3d2d8a95c43d122fbd71ae30d0ccf207b3612c8c77860899e018ddac3",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/movebox_z.png",
+      "sha256": "ccbf697df1050b7ac0e07ec568c09a6b933cc5ea7ae4646d39edddf668b23ecd",
+      "donor_sha256": "ccbf697df1050b7ac0e07ec568c09a6b933cc5ea7ae4646d39edddf668b23ecd",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/status.pal",
+      "sha256": "0f55139756ae25de5b0bde4f55d50256187fc6423271143aab4565fde7b4dab1",
+      "donor_sha256": "1e0c53326b5f135a22b734564edcf77adf8057d88c12c9c57c94a73d3b1710d5",
+      "pal_line_endings_normalized": true
+    },
+    {
+      "path": "graphics/battle_interface/bw/tera_trigger.png",
+      "sha256": "bde16e18523fbf2fedd8b6e72bad16abf6d20275943978ba09429f79f8706be6",
+      "donor_sha256": "bde16e18523fbf2fedd8b6e72bad16abf6d20275943978ba09429f79f8706be6",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/textbox.bin",
+      "sha256": "469a866fe10af029afea67a23f5ab0c0102c675d6a16115089712d1717550d2d",
+      "donor_sha256": "469a866fe10af029afea67a23f5ab0c0102c675d6a16115089712d1717550d2d",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/textbox.png",
+      "sha256": "400bd58316f3934944df149db9b2560800e5da5df7e21a18469e2311e7664324",
+      "donor_sha256": "400bd58316f3934944df149db9b2560800e5da5df7e21a18469e2311e7664324",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/battle_interface/bw/textbox_0.pal",
+      "sha256": "54037f2e90e5dc1f851c14fdac4891e7b086362f204eddf7c715529dbca6c55d",
+      "donor_sha256": "2b3a642123241a82efd61339b0950132718a2701865c5f4c72c66943384cabca",
+      "pal_line_endings_normalized": true
+    },
+    {
+      "path": "graphics/battle_interface/bw/textbox_1.pal",
+      "sha256": "b403ca41fd1b4479d555bfc24aa4b4bafbfad049950695aa1a9e9c5430bb47aa",
+      "donor_sha256": "a7ec97d07daa3a0f8e6745e8bbb320127fdb3940bfa8ec54f32dcf5869bd53bc",
+      "pal_line_endings_normalized": true
+    },
+    {
+      "path": "graphics/battle_interface/bw/z_move_trigger.png",
+      "sha256": "6b3cdcc015c0ae21705702d3b9f835fde59e0a5fe488c99950b9a7910a9a8fcd",
+      "donor_sha256": "6b3cdcc015c0ae21705702d3b9f835fde59e0a5fe488c99950b9a7910a9a8fcd",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/fonts/latin_outlined.png",
+      "sha256": "b3c9c0f37661ceafee9bbd7e216a220aba3662b196a354ac1a3a484a8a384bf9",
+      "donor_sha256": "b3c9c0f37661ceafee9bbd7e216a220aba3662b196a354ac1a3a484a8a384bf9",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/fonts/latin_outlined_narrow.png",
+      "sha256": "67f8254da4cdb8fcb3189b03ae2a0ff18fec3f8e286e42c6c30a913a7eee0dcc",
+      "donor_sha256": "67f8254da4cdb8fcb3189b03ae2a0ff18fec3f8e286e42c6c30a913a7eee0dcc",
+      "pal_line_endings_normalized": false
+    },
+    {
+      "path": "graphics/fonts/latin_battle_ui_element.png",
+      "sha256": "6433d4ab283b492274920983b3f43acf8b473f29f1e6c36139340cbd15a4d5b2",
+      "donor_sha256": "6433d4ab283b492274920983b3f43acf8b473f29f1e6c36139340cbd15a4d5b2",
+      "pal_line_endings_normalized": false
+    }
+  ]
+}

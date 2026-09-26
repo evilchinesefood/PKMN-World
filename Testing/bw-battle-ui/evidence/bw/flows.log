@@ -1,0 +1,21 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot BWFlows_1_contest_commands
+  [PASS] contest capture returns through field callback
+  [PASS] contest mode remains active after capture
+  [PASS] contest capture retains captured mon
+  [PASS] double battle enters target selection
+  shot BWFlows_2_double_target
+  [PASS] target cycling changes target
+  [PASS] target cancel returns to moves
+  [PASS] second battler command choice
+  shot BWFlows_3_second_commands
+  [PASS] second action cancellation returns to first battler
+  [PASS] double battle completes a real turn
+  [PASS] recorded double battle saved
+  [PASS] recording starts playback
+  shot BWFlows_4_recorded_intro
+  [PASS] recorded battle playback returns
+  shot BWFlows_5_recorded_return
+  [PASS] fresh battle after recording
+VERDICT BWFlows: 13/13 PASS

@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 SUITES = ('capture', 'preview', 'healthbox', 'gimmicks', 'catching', 'bagthrow',
-          'shared', 'palettes', 'pressure', 'flows', 'turns', 'regression', 'save')
+          'shared', 'palettes', 'pressure', 'flows', 'turns', 'regression', 'save', 'motion')
 p = argparse.ArgumentParser()
 p.add_argument('--repo', type=Path, required=True)
 p.add_argument('--fixture', type=Path, required=True)

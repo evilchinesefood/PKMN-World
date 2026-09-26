@@ -1,0 +1,38 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP daycare ok (1,4)
+  shot DayCareFlowers_1_daycare_arrival
+  daycare callback=0x0822743D counter=303 want~=0x0822743C
+  [PASS] daycare: JohtoDayCare tileset callback is hooked -- callback=0x0822743D
+  objects[daycare_start]:
+    i=0 local=255 gfx=0x0000 xy=(1,4) sprite=0 acmd=1 aframe=72
+    i=1 local=1 gfx=0x001E xy=(3,8) sprite=1 acmd=1 aframe=72
+    i=2 local=3 gfx=0x4085 xy=(11,4) sprite=2 acmd=3 aframe=4
+    i=3 local=4 gfx=0x0122 xy=(10,3) sprite=3 acmd=1 aframe=72
+  daycare t0 red=03887111 yel=045CBDBB ctrl=0417D5B8
+  daycare t60 red=034A8292(3) yel=0471BC3B(3) ctrl_changes=0 counter=363
+  daycare t120 red=03887111(3) yel=045CBDBB(3) ctrl_changes=0 counter=423
+  shot DayCareFlowers_2_daycare_idle
+  [PASS] daycare: secondary anim counter advances -- counter stuck at 303
+  [PASS] daycare: red flower VRAM actually changes (not stuck on frame 0) -- unique_sigs=3
+  [PASS] daycare: yellow flower VRAM actually changes (not stuck on frame 0) -- unique_sigs=3
+  [PASS] daycare: control tile did not change -- ctrl_changes=0
+  WARP flowershop ok (6,9)
+  shot DayCareFlowers_3_flowershop_arrival
+  flowershop callback=0x0822743D counter=303 want~=0x0822743C
+  [PASS] flowershop: JohtoDayCare tileset callback is hooked -- callback=0x0822743D
+  objects[flowershop_start]:
+    i=0 local=255 gfx=0x0000 xy=(6,9) sprite=0 acmd=1 aframe=72
+    i=1 local=1 gfx=0x0008 xy=(2,4) sprite=1 acmd=1 aframe=72
+    i=2 local=2 gfx=0x0014 xy=(10,8) sprite=2 acmd=1 aframe=72
+    i=3 local=3 gfx=0x0122 xy=(8,4) sprite=3 acmd=0 aframe=7
+    i=4 local=4 gfx=0x0006 xy=(11,5) sprite=4 acmd=1 aframe=72
+  flowershop t0 red=03887111 yel=045CBDBB ctrl=0417D5B8
+  flowershop t60 red=034A8292(3) yel=0471BC3B(3) ctrl_changes=0 counter=363
+  flowershop t120 red=03887111(3) yel=045CBDBB(3) ctrl_changes=0 counter=423
+  shot DayCareFlowers_4_flowershop_idle
+  [PASS] flowershop: secondary anim counter advances -- counter stuck at 303
+  [PASS] flowershop: red flower VRAM actually changes (not stuck on frame 0) -- unique_sigs=3
+  [PASS] flowershop: yellow flower VRAM actually changes (not stuck on frame 0) -- unique_sigs=3
+  [PASS] flowershop: control tile did not change -- ctrl_changes=0
+VERDICT DayCareFlowers: 10/10 PASS

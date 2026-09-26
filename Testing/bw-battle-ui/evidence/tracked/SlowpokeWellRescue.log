@@ -1,0 +1,114 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] boot reached overworld
+  [PASS] no crash screen (boot) -- clear
+  [PASS] vblank advancing (boot) -- vblank 6807 -> 6815 cb2=0x08191EA8 ow=true
+  [PASS] Set Party published a live party -- count=1
+  [PASS] grunt trainer flags seeded (stay out of sight cones)
+  WARP well_fresh ok (26,29)
+  [PASS] on Slowpoke Well B1F -- grp=82 map=5
+  shot SlowpokeWellRescue_1_well_fresh
+  [PASS] no crash screen (well_fresh) -- clear
+  [PASS] vblank advancing (well_fresh) -- vblank 8587 -> 8595 cb2=0x08191EA8 ow=true
+  flags: HIDE_ROCKETS=false HIDE_KURT=false HIDE_KURT_STANDING=true HIDE_JJ=false
+  --- objectEventTemplates fresh ---
+    t00 localId=  1 (27,26) KURT_LYING flag=0x607B
+    t01 localId=  2 (28,8) ROCKET_M flag=0x6075
+    t02 localId=  3 (21,5) ROCKET_F flag=0x6075
+    t03 localId=  4 (14,3) PROTON flag=0x6075
+    t04 localId=  5 (13,7) ROCKET_M flag=0x6075
+    t05 localId=  6 (10,3) gfx=87 flag=0x0
+    t06 localId=  7 (22,6) gfx=239 flag=0x60AA
+    t07 localId=  8 (14,8) KURT flag=0x625B
+    t08 localId=  9 (12,15) gfx=239 flag=0x60AB
+    t09 localId= 10 (21,15) gfx=239 flag=0x60A8
+    t10 localId= 11 (23,21) gfx=239 flag=0x60A7
+    t11 localId= 12 (21,2) ROCKET_F flag=0xD79
+    t12 localId= 13 (20,2) ROCKET_M flag=0xD79
+  --- gObjectEvents fresh (n=3) ---
+    slot00 localId=255 (26,29) gfx=0 vis=yes
+    slot01 localId=  1 (27,26) KURT_LYING vis=yes
+    slot02 localId=254 (26,29) gfx=20682 vis=no
+  [PASS] Jessie template is at corridor (21,2) -- (21,2) ROCKET_F
+  [PASS] James template is at corridor (20,2) -- (20,2) ROCKET_M
+  [PASS] Jessie template is ROCKET_F, not MAGMA/LASS -- ROCKET_F
+  [PASS] James template is ROCKET_M, not MAGMA/LASS -- ROCKET_M
+  [PASS] Proton template is at (14,3) -- (14,3) PROTON
+  [PASS] standing Kurt template is at (14,8), not the (17,8) choke -- (14,8)
+  [PASS] lying Kurt is at the entrance (27,26), not the choke -- (27,26) KURT_LYING
+  [PASS] standing Kurt is hidden on a fresh load (post-Rocket scene not active) -- absent
+  [PASS] nobody occupies the old door tile (17,8) -- clear
+  BFS occupancy from templates + spawned objects
+  [PASS] Jessie/James cut the Proton path from the entrance -- no path (gate holds)
+  [PASS] east approach tile (22,2) is reachable -- 33 steps
+  walking PATH_TO_JJ (entrance -> (22,2))
+  [PASS] walked to (22,2) east of Jessie -- at (22,2)
+  shot SlowpokeWellRescue_2_jj_corridor
+  --- gObjectEvents at_corridor (n=9) ---
+    slot00 localId=255 (22,2) gfx=0 vis=yes
+    slot01 localId=  2 (28,8) ROCKET_M vis=yes
+    slot02 localId=254 (23,2) gfx=20682 vis=yes
+    slot03 localId= 12 (21,2) ROCKET_F vis=yes
+    slot04 localId=  4 (14,3) PROTON vis=yes
+    slot05 localId=  7 (22,6) gfx=239 vis=yes
+    slot06 localId=  3 (21,5) ROCKET_F vis=yes
+    slot07 localId= 13 (20,2) ROCKET_M vis=yes
+    slot08 localId=  5 (13,7) ROCKET_M vis=yes
+  [PASS] Jessie spawned in camera range at (21,2) -- (21,2) ROCKET_F
+  [PASS] James spawned in camera range at (20,2) -- (20,2) ROCKET_M
+  [PASS] spawned Jessie is not MAGMA/LASS -- ROCKET_F
+  [PASS] spawned James is not MAGMA/LASS -- ROCKET_M
+  [PASS] Proton spawned at (14,3) once in range -- (14,3) PROTON
+  [PASS] no crash screen (at_corridor) -- clear
+  [PASS] vblank advancing (at_corridor) -- vblank 9286 -> 9294 cb2=0x08191EA8 ow=true
+  [PASS] Jessie/James battle started from the east approach tile -- ow=false battlers=4
+  [PASS] returned to overworld after Jessie/James
+  --- gObjectEvents after_jj (n=7) ---
+    slot00 localId=255 (22,2) gfx=0 vis=yes
+    slot01 localId=  2 (28,8) ROCKET_M vis=yes
+    slot02 localId=254 (23,2) gfx=20682 vis=yes
+    slot04 localId=  4 (14,3) PROTON vis=yes
+    slot05 localId=  7 (22,6) gfx=239 vis=yes
+    slot06 localId=  3 (21,5) ROCKET_F vis=yes
+    slot08 localId=  5 (13,7) ROCKET_M vis=yes
+  [PASS] Jessie removed after the battle
+  [PASS] James removed after the battle
+  [PASS] FLAG_HIDE_JESSIE_JAMES_SLOWPOKE_WELL is set
+  [PASS] Proton path opens after Jessie/James are gone -- 19 steps
+  shot SlowpokeWellRescue_3_after_jj
+  [PASS] no crash screen (after_jj) -- clear
+  [PASS] vblank advancing (after_jj) -- vblank 11971 -> 11979 cb2=0x08191EA8 ow=true
+  --- gObjectEvents pre_proton (n=7) ---
+    slot00 localId=255 (22,2) gfx=0 vis=yes
+    slot01 localId=  2 (28,8) ROCKET_M vis=yes
+    slot02 localId=254 (23,2) gfx=20682 vis=yes
+    slot04 localId=  4 (14,3) PROTON vis=yes
+    slot05 localId=  7 (22,6) gfx=239 vis=yes
+    slot06 localId=  3 (21,5) ROCKET_F vis=yes
+    slot08 localId=  5 (13,7) ROCKET_M vis=yes
+  [PASS] reached Proton's tile from the west approach -- at (14,4)
+  shot SlowpokeWellRescue_4_at_proton
+  [PASS] Proton battle started -- ow=false battlers=4
+  [PASS] Proton scene warped to MAP_AZALEA_TOWN_KURTS_HOUSE -- grp=81 map=2
+  shot SlowpokeWellRescue_5_after_proton
+  [PASS] no crash screen (after_proton) -- clear
+  [PASS] vblank advancing (after_proton) -- vblank 15196 -> 15204 cb2=0x08154A78 ow=false
+  resolveLock well_armed_prewarp ow=false battlers=2 cb2=0x08154A78 pos=(15,4)
+  WARP well_armed ok (11,19)
+  [PASS] reloaded B1F via warp 1 (west/Proton side)
+  shot SlowpokeWellRescue_6_well_armed
+  --- gObjectEvents armed (n=4) ---
+    slot00 localId=255 (11,19) gfx=0 vis=yes
+    slot01 localId=  9 (12,15) gfx=239 vis=yes
+    slot02 localId= 10 (21,15) gfx=239 vis=yes
+    slot03 localId=254 (11,19) gfx=20682 vis=no
+  [PASS] no crash screen (well_armed) -- clear
+  [PASS] vblank advancing (well_armed) -- vblank 16819 -> 16827 cb2=0x08191EA8 ow=true
+  [PASS] armed reload: nothing on the old door tile (17,8) -- clear
+  standing Kurt did not spawn (ON_TRANSITION re-hid him). That is the stale-save fix;
+  the template tile is (14,8), so even a spawn would not seal (17,8).
+  [PASS] standing Kurt not occupying any tile after armed reload -- hidden by ON_TRANSITION
+  [PASS] Kurt walk-home scene reached MAP_AZALEA_TOWN_KURTS_HOUSE this run -- Proton cutscene (and/or standing-Kurt talk) warped home
+  [PASS] no crash screen (end) -- clear
+  [PASS] vblank advancing (end) -- vblank 16827 -> 16835 cb2=0x08191EA8 ow=true
+VERDICT SlowpokeWellRescue: 48/48 PASS

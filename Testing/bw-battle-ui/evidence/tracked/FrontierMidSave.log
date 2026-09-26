@@ -1,0 +1,59 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot FrontierMidSave_1_booted
+  [PASS] boot to the hub
+  [PASS] Set Party published a party -- count=1
+  [PASS] party has 3 mons -- count=3
+  shot FrontierMidSave_2_party_ready
+  [PASS] unique SB3 bytes are 0 before SAVE_NORMAL (no false-pass) -- johto=0x00 kanto=0x00 obs=0x00
+  pre-SAVE_NORMAL johto=0x00 kanto=0x00 obs=0x00
+  saveMeta[pre_savenormal] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  shot FrontierMidSave_3_savenormal_menu
+  shot FrontierMidSave_4_after_savenormal
+  [after_savenormal] grp=100 map=0 pos=(16,4) ow=true challengeStatus=0 tempStatus=0 party=3 johto=0x00 kanto=0x00 obs=0x00 crash=false
+  saveMeta[after_savenormal] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  flash[after_savenormal] signed sectors: NONE
+  [PASS] still on hub after SAVE_NORMAL -- grp=100 map=0 ow=true
+  SAVE_NORMAL slot write attempt=0 counter=0 (informational; USM may not be on Save)
+  [seeded] grp=100 map=0 pos=(16,4) ow=true challengeStatus=2 tempStatus=0 party=3 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[seeded] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [PASS] seeded unique SB3 bytes (must not be 0) -- johto=0xA5 kanto=0x5A obs=0x3C
+  [PASS] challengeStatus is PAUSED(2) -- status=2
+  shot FrontierMidSave_5_after_seed
+  WARP tower ok map=5 (12,9) t=1
+  [PASS] warped to Battle Tower lobby (group 26) -- grp=26 map=5
+  shot FrontierMidSave_6_tower_arrival
+  [after_warp] grp=26 map=5 pos=(12,9) ow=true challengeStatus=2 tempStatus=0 party=3 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[after_warp] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [resume_t120] grp=26 map=5 pos=(12,9) ow=true challengeStatus=2 tempStatus=2 party=3 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[resume_t120] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [resume_t240] grp=26 map=5 pos=(12,9) ow=true challengeStatus=2 tempStatus=2 party=3 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[resume_t240] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [resume_t360] grp=26 map=5 pos=(12,9) ow=true challengeStatus=2 tempStatus=2 party=3 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[resume_t360] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [resume_t480] grp=26 map=5 pos=(12,9) ow=true challengeStatus=1 tempStatus=0 party=0 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[resume_t480] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [resume_t600] grp=26 map=5 pos=(12,9) ow=true challengeStatus=1 tempStatus=0 party=0 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[resume_t600] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [after_resume_wait] grp=26 map=5 pos=(12,9) ow=true challengeStatus=1 tempStatus=0 party=0 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[after_resume_wait] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  shot FrontierMidSave_7_after_resume
+  [PASS] SAVE_LINK ran (challengeStatus became SAVING=1) -- status=1 temp=0
+  SaveGameFrontier returned (party restored) t+22
+  flash[after_savelink] signed sectors: NONE
+  [after_save_insession] grp=26 map=5 pos=(12,9) ow=true challengeStatus=1 tempStatus=0 party=3 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[after_save_insession] attempt=1 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  shot FrontierMidSave_8_after_save
+  [PASS] unique SB3 bytes still in RAM after save -- johto=0xA5 kanto=0x5A obs=0x3C
+== reboot_core then Continue ==
+BOOTED grp=0 map=0 pos=(10,20)
+  [PASS] Continue reached the overworld -- ow=true grp=0 map=0
+  shot FrontierMidSave_9_after_continue
+  [after_reboot] grp=0 map=0 pos=(10,20) ow=true challengeStatus=1 tempStatus=0 party=0 johto=0xA5 kanto=0x5A obs=0x3C crash=false
+  saveMeta[after_reboot] attempt=0 counter=0 lastWritten=0 damaged=0x0 rw=0x02034D54
+  [PASS] unique SB3 bytes survived the load (regression=0x00) -- johto=0xA5 kanto=0x5A obs=0x3C
+  [PASS] johtoFlags[0] survived as 0xA5 -- 0xA5
+  [PASS] kantoTrainerFlags[0] survived as 0x5A -- 0x5A
+  [PASS] clearedObstacleBits[0] survived as 0x3C -- 0x3C
+SUMMARY saveLink=true before=johto=0xA5 kanto=0x5A obs=0x3C afterSave=johto=0xA5 kanto=0x5A obs=0x3C afterReboot=johto=0xA5 kanto=0x5A obs=0x3C land=grp0/map0
+VERDICT FrontierMidSave: 15/15 PASS

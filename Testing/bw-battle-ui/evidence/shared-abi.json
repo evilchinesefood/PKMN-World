@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "TextPrinter.size": 48,
+    "TextPrinter.nextPrinter": 44,
+    "Subsprite.size": 4,
+    "TextPrinterTemplate.size": 28,
+    "FONT_SMALL": 0,
+    "FONT_NORMAL": 1,
+    "FONT_SHORT": 2
+  },
+  "bw": {
+    "TextPrinter.size": 48,
+    "TextPrinter.nextPrinter": 44,
+    "Subsprite.size": 4,
+    "TextPrinterTemplate.size": 28,
+    "FONT_SMALL": 0,
+    "FONT_NORMAL": 1,
+    "FONT_SHORT": 2
+  }
+}

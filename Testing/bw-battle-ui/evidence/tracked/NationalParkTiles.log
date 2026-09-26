@@ -1,0 +1,33 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP park_w0 ok (12,49)
+  [PASS] warp_to_park_south_gate -- expected (12,49), got (12,49)
+  shot NationalParkTiles_1_park_south_gate
+  [PASS] stepped_off_gate_tile -- expected (12,48), got (12,48)
+  south_arrow: warped after 59 held frames
+  [PASS] south_arrow_warp_fires -- MB_SOUTH_ARROW_WARP at (12,49) must warp to Gate_NationalPark; on the pre-fix ROM that tile reads MB_NORMAL and nothing happens
+  shot NationalParkTiles_2_gate_from_south
+  WARP park_w2 ok (40,19)
+  [PASS] warp_to_park_east_gate -- expected (40,19), got (40,19)
+  east_arrow: warped after 36 held frames
+  [PASS] east_arrow_warp_fires -- MB_EAST_ARROW_WARP at (40,19) must warp to Gate_NationalPark
+  shot NationalParkTiles_3_gate_from_east
+  WARP contest_w0 ok (12,49)
+  [PASS] warp_to_contest_south_gate -- expected (12,49), got (12,49)
+  [PASS] contest_stepped_off_gate_tile -- expected (12,48), got (12,48)
+  [PASS] contest_retire_prompt_still_fires -- retire YES/NO live at (12,49)
+  shot NationalParkTiles_4_contest_retire_prompt
+  pick retire_no row 1 ok
+  [PASS] contest_released_after_no -- field control after declining retirement, at (12,48)
+  WARP park_w0b ok (12,49)
+  [PASS] warp_back_to_park -- at (12,49) ow=true (warpTo returned true)
+  [PASS] party_seeded -- gPartiesCount = 1
+  [PASS] safe_corridor_no_encounter -- 35 non-encounter steps, ended at (9,29)
+  shot NationalParkTiles_5_staging_tile
+  despawned 3 generated OWE(s) off the grass band before the walk
+  grass_battle: player (19,29) gSpecialVar_LastTalked=0, neighbours within 2: id255(19,29)gfx=0x0000=player id254(18,29)gfx=0x50CA=follower
+  [PASS] grass_encounter_fires -- battle after 10 grass steps at (19,29), battlers=2, flags=0x00000004
+  [PASS] encounter_was_wild -- flags=0x00000004 battlers=2 (a wild single battle is exactly BATTLE_TYPE_IS_MASTER with 2 battlers)
+  [PASS] encounter_on_a_gained_grass_tile -- battle started at (19,29); the gained-grass band is y=29 x=10..31
+  shot NationalParkTiles_6_grass_encounter
+VERDICT NationalParkTiles: 15/15 PASS

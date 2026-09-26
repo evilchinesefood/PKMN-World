@@ -1,0 +1,33 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] player is free before the debug work
+  [PASS] Set Party published a party -- count=1
+  [PASS] a step is possible with the new party
+  [PASS] follower is on screen after one step -- (16,4) gfx=0x50CA sp=202 visible
+  shot TohjoCelebi_1_follower_out
+  [PASS] decrypt reads the debug lead as Wobbuffet -- species=202
+  gate[wobbuffet] species=202 hp=521/521 VAR=0 fol=(16,4) gfx=0x50CA sp=202 visible
+  WARP neg_noncelebi ok (5,8)
+  gate[after_wobbuffet_warp] species=202 hp=521/521 VAR=0 fol=(5,8) gfx=0x50CA sp=202 invisible
+  shot TohjoCelebi_2_neg_noncelebi
+  [PASS] non-Celebi follower does not arm the Giovanni event -- VAR_TOHJO=0
+  follower out via Left: (5,8) gfx=0x50CA sp=202 visible
+  [PASS] slot 0 is now Celebi -- species=251
+  gate[celebi_hurt] species=251 hp=520/521 VAR=0 fol=(5,8) gfx=0x40FB sp=251 visible
+  WARP neg_hurt ok (5,8)
+  gate[after_hurt_warp] species=251 hp=520/521 VAR=0 fol=(5,8) gfx=0x40FB sp=251 invisible
+  shot TohjoCelebi_3_neg_hurt
+  [PASS] hurt Celebi (HP < maxHP) does not arm the Giovanni event -- VAR_TOHJO=0 hp=520/521
+  follower out via Left: (5,8) gfx=0x40FB sp=251 visible
+  gate[celebi_full] species=251 hp=521/521 VAR=0 fol=(5,8) gfx=0x40FB sp=251 visible
+  WARP pos_full ok (5,8)
+  gate[after_full_warp] species=251 hp=521/521 VAR=1 fol=(5,8) gfx=0x40FB sp=251 invisible
+  shot TohjoCelebi_4_pos_armed
+  [PASS] full-HP Celebi follower arms VAR_TOHJO_FALLS_GIOVANNI_STATE=1 on arrival -- VAR=1 species=251 hp=521/521 fol=(5,8) gfx=0x40FB sp=251 invisible
+  arrived at (5,8) VAR=1 script=0x00000000 status=2
+  after Up (5,7) VAR=1 script=0x083B108F status=0
+  shot TohjoCelebi_5_on_trigger
+  [PASS] walking the trigger keeps the event armed (VAR stays 1, not CancelScene) -- VAR_TOHJO=1
+  [PASS] Giovanni scene script started or the armed var survived the trigger -- script=0x083B108F status=0 VAR=1
+  shot TohjoCelebi_6_cutscene
+VERDICT TohjoCelebi: 11/11 PASS

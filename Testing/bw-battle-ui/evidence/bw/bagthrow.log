@@ -1,0 +1,8 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot BWBagThrow_1_balls_in_bag
+  shot BWBagThrow_2_ball_action
+  [PASS] Bag throw resolves capture and returns to field
+  [PASS] Bag consumed the only Master Ball
+  [PASS] Bag capture stored the full-party catch
+VERDICT BWBagThrow: 3/3 PASS

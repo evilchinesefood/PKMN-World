@@ -1,0 +1,13 @@
+BOOTED grp=2 map=2 pos=(7,4)
+  [PASS] Continue landed inside the Center (v7 still loads) -- grp=2 map=2
+  [PASS] player at the harvested save spot (7,4) -- pos=(7,4)
+  [PASS] saveVersion migrated 7 -> 10 -- ver=10
+  [PASS] johtoTrainerFlags bank zeroed by the v8 -> v9 step -- dirty bytes=0 first=-1
+  [PASS] map grid (11,1) holds mt743 (terminal screen) -- got mt743
+  [PASS] map grid (11,2) holds mt751 (terminal pedestal) -- got mt751
+  [PASS] map grid (12,1) holds mt531 (poster row-1 fill) -- got mt531
+  [PASS] map grid (12,0) holds mt523 (poster row-0 fill) -- got mt523
+  [PASS] map grid (0,5) holds mt544 (stair wall fill (0,5)) -- got mt544
+  [PASS] map grid (1,6) holds mt514 (stair floor fill (1,6)) -- got mt514
+  [PASS] SaveBlock1.mapView is zeroed -- nonzero entries=0
+VERDICT VerifyV7Migrate: 11/11 PASS

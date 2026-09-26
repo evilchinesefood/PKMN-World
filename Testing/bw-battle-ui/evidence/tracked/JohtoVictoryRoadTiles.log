@@ -1,0 +1,51 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP hoenn_vr_1f ok (9,14)
+  [PASS] hoenn_control_warp -- expected (9,14) on VictoryRoad_1F, got (9,14)
+  hoenn VictoryRoad_1F: layout=0x08F49E20 46x45 isFrlg=0 isJohto=0 split=512 primary=0x08CA7BA0(cap 512) secondary=0x08CA79D8
+  [PASS] hoenn_control_is_emerald_split -- layout=0x08F49E20 46x45 isFrlg=0 isJohto=0 split=512 primary=0x08CA7BA0(cap 512) secondary=0x08CA79D8
+  [PASS] hoenn_control_primary_is_gTileset_General -- primary=0x08CA7BA0, gTileset_General=0x08CA7BA0 -- if this ever stops matching, the twin is no longer the same pairing and the comparisons below are not a control
+  shot JohtoVictoryRoadTiles_1_hoenn_victory_road_1f
+---- JohtoVictoryRoad_1F ----
+  WARP jvr_1F ok (9,14)
+  [PASS] 1F_warp -- expected (9,14), got (9,14)
+  [PASS] 1F_no_crash_screen -- a metatile overrun that walks off the end of an array is exactly the shape of fault that lands on an assertf, so read the screen rather than inferring from silence
+  layout=0x090940B8 46x45 isFrlg=0 isJohto=0 split=512 primary=0x08CA7BA0(cap 512) secondary=0x08CA79D8
+  [PASS] 1F_layout_is_not_johto_tagged -- isJohto=0 isFrlg=0 -- either one set makes GetNumMetatilesInPrimary return 640 for a layout whose primary holds 512
+  [PASS] 1F_split_fits_primary_tileset -- split=512 primary capacity=512; a split above the capacity means ids 512..511 index past the end of the primary's metatile array
+  [PASS] 1F_matches_hoenn_twin -- this floor primary=0x08CA7BA0 secondary=0x08CA79D8 split=512; VictoryRoad_1F primary=0x08CA7BA0 secondary=0x08CA79D8 split=512
+  [PASS] 1F_sampled_ids_resolve_into_cave -- (9,15) id=529 -> Cave[17] [under the 640 split this id was gMetatiles_General[529], 17 past its 512-metatile end]; (18,17) id=699 -> Cave[187]; (17,28) id=848 -> Cave[336]
+  window models: emerald-split 45 distinct entries, johto-split 17; screen shows 44
+  [PASS] 1F_drawn_tiles_are_the_cave_resolution -- 0 of 44 distinct tile entries on screen are NOT produced by resolving this window's metatiles at the 512 split
+  [PASS] 1F_johto_split_would_have_drawn_something_else -- 44 of 44 entries on screen are unique to the 512 split; 0 would mean the two resolutions are indistinguishable here and the check above proves nothing
+  shot JohtoVictoryRoadTiles_2_johto_victory_road_1F
+  [PASS] 1F_stepped_off_warp_tile -- step Down from the warp tile: at (9,15) ow=true (wanted (9,15)); a trainer intercept or a softlock both land here
+---- JohtoVictoryRoad_B1F ----
+  WARP jvr_B1F ok (17,16)
+  [PASS] B1F_warp -- expected (17,16), got (17,16)
+  [PASS] B1F_no_crash_screen -- a metatile overrun that walks off the end of an array is exactly the shape of fault that lands on an assertf, so read the screen rather than inferring from silence
+  layout=0x09094C00 46x31 isFrlg=0 isJohto=0 split=512 primary=0x08CA7BA0(cap 512) secondary=0x08CA79D8
+  [PASS] B1F_layout_is_not_johto_tagged -- isJohto=0 isFrlg=0 -- either one set makes GetNumMetatilesInPrimary return 640 for a layout whose primary holds 512
+  [PASS] B1F_split_fits_primary_tileset -- split=512 primary capacity=512; a split above the capacity means ids 512..511 index past the end of the primary's metatile array
+  [PASS] B1F_matches_hoenn_twin -- this floor primary=0x08CA7BA0 secondary=0x08CA79D8 split=512; VictoryRoad_1F primary=0x08CA7BA0 secondary=0x08CA79D8 split=512
+  [PASS] B1F_sampled_ids_resolve_into_cave -- (17,17) id=513 -> Cave[1] [under the 640 split this id was gMetatiles_General[513], 1 past its 512-metatile end]; (11,4) id=848 -> Cave[336]; (11,6) id=850 -> Cave[338]
+  window models: emerald-split 77 distinct entries, johto-split 40; screen shows 76
+  [PASS] B1F_drawn_tiles_are_the_cave_resolution -- 0 of 76 distinct tile entries on screen are NOT produced by resolving this window's metatiles at the 512 split
+  [PASS] B1F_johto_split_would_have_drawn_something_else -- 71 of 76 entries on screen are unique to the 512 split; 0 would mean the two resolutions are indistinguishable here and the check above proves nothing
+  shot JohtoVictoryRoadTiles_3_johto_victory_road_B1F
+  [PASS] B1F_stepped_off_warp_tile -- step Down from the warp tile: at (17,17) ow=true (wanted (17,17)); a trainer intercept or a softlock both land here
+---- JohtoVictoryRoad_B2F ----
+  WARP jvr_B2F ok (19,12)
+  [PASS] B2F_warp -- expected (19,12), got (19,12)
+  [PASS] B2F_no_crash_screen -- a metatile overrun that walks off the end of an array is exactly the shape of fault that lands on an assertf, so read the screen rather than inferring from silence
+  layout=0x09095748 46x31 isFrlg=0 isJohto=0 split=512 primary=0x08CA7BA0(cap 512) secondary=0x08CA79D8
+  [PASS] B2F_layout_is_not_johto_tagged -- isJohto=0 isFrlg=0 -- either one set makes GetNumMetatilesInPrimary return 640 for a layout whose primary holds 512
+  [PASS] B2F_split_fits_primary_tileset -- split=512 primary capacity=512; a split above the capacity means ids 512..511 index past the end of the primary's metatile array
+  [PASS] B2F_matches_hoenn_twin -- this floor primary=0x08CA7BA0 secondary=0x08CA79D8 split=512; VictoryRoad_1F primary=0x08CA7BA0 secondary=0x08CA79D8 split=512
+  [PASS] B2F_sampled_ids_resolve_into_cave -- (19,13) id=513 -> Cave[1] [under the 640 split this id was gMetatiles_General[513], 1 past its 512-metatile end]; (10,5) id=852 -> Cave[340]; (27,12) id=886 -> Cave[374]
+  window models: emerald-split 99 distinct entries, johto-split 121; screen shows 98
+  [PASS] B2F_drawn_tiles_are_the_cave_resolution -- 0 of 98 distinct tile entries on screen are NOT produced by resolving this window's metatiles at the 512 split
+  [PASS] B2F_johto_split_would_have_drawn_something_else -- 37 of 98 entries on screen are unique to the 512 split; 0 would mean the two resolutions are indistinguishable here and the check above proves nothing
+  shot JohtoVictoryRoadTiles_4_johto_victory_road_B2F
+  [PASS] B2F_stepped_off_warp_tile -- step Down from the warp tile: at (19,13) ow=true (wanted (19,13)); a trainer intercept or a softlock both land here
+VERDICT JohtoVictoryRoadTiles: 30/30 PASS

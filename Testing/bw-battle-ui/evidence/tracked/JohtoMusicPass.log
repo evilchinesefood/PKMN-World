@@ -1,0 +1,42 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP route31 ok (4,10)
+  shot JohtoMusicPass_1_route31
+  music[route31] play=MUS_HG_ROUTE30(644) header=MUS_HG_ROUTE30(644) saved=MUS_DUMMY(0) region=2 avatar=0x21 pos=(4,10) grp=75 map=4
+  [PASS] Route 31 gCurrentRegion is JOHTO -- region=2
+  [PASS] Route 31 header is MUS_HG_ROUTE30 -- MUS_HG_ROUTE30(644)
+  [PASS] Route 31 is playing MUS_HG_ROUTE30 (not a Hoenn/Kanto route theme) -- MUS_HG_ROUTE30(644)
+  [PASS] Route 31 is not playing Hoenn MUS_CYCLING/MUS_SURF by accident -- MUS_HG_ROUTE30(644)
+  WARP goldenrod ok (33,8)
+  shot JohtoMusicPass_2_goldenrod
+  music[goldenrod] play=MUS_HG_GOLDENROD(624) header=MUS_HG_GOLDENROD(624) saved=MUS_DUMMY(0) region=2 avatar=0x21 pos=(33,8) grp=83 map=0
+  [PASS] Goldenrod City header is MUS_HG_GOLDENROD -- MUS_HG_GOLDENROD(624)
+  [PASS] Goldenrod City is playing MUS_HG_GOLDENROD -- MUS_HG_GOLDENROD(624)
+  [PASS] seeded VAR_GOLDENROD_CITY_STATE=6 -- state=6
+  WARP radio_occupied ok (9,10)
+  shot JohtoMusicPass_3_radio_occupied
+  music[radio_occupied] play=MUS_HG_ROCKET_TAKEOVER(641) header=MUS_HG_GOLDENROD(624) saved=MUS_HG_ROCKET_TAKEOVER(641) region=2 avatar=0x21 pos=(9,10) grp=84 map=18
+  [PASS] occupied Radio Tower 1F header stays MUS_HG_GOLDENROD (override is savebgm, not the header) -- MUS_HG_GOLDENROD(624)
+  [PASS] occupied Radio Tower 1F savedMusic is MUS_HG_ROCKET_TAKEOVER -- MUS_HG_ROCKET_TAKEOVER(641)
+  [PASS] occupied Radio Tower 1F is playing MUS_HG_ROCKET_TAKEOVER -- MUS_HG_ROCKET_TAKEOVER(641)
+  [PASS] cleared VAR_GOLDENROD_CITY_STATE=0 -- state=0
+  WARP gate_between ok (7,9)
+  music[gate_between] play=MUS_HG_ROUTE34(645) header=MUS_HG_ROUTE34(645) saved=MUS_DUMMY(0) region=2 avatar=0x21 pos=(7,9) grp=83 map=6
+  WARP radio_peace ok (9,10)
+  shot JohtoMusicPass_4_radio_peace
+  music[radio_peace] play=MUS_HG_GOLDENROD(624) header=MUS_HG_GOLDENROD(624) saved=MUS_DUMMY(0) region=2 avatar=0x21 pos=(9,10) grp=84 map=18
+  [PASS] peacetime Radio Tower 1F header is MUS_HG_GOLDENROD -- MUS_HG_GOLDENROD(624)
+  [PASS] peacetime Radio Tower 1F savedMusic is cleared -- MUS_DUMMY(0)
+  [PASS] peacetime Radio Tower 1F is playing MUS_HG_GOLDENROD (not leftover takeover) -- MUS_HG_GOLDENROD(624)
+  WARP route31_bike ok (4,10)
+  music[pre_bike] play=MUS_HG_ROUTE30(644) header=MUS_HG_ROUTE30(644) saved=MUS_DUMMY(0) region=2 avatar=0x21 pos=(4,10) grp=75 map=4
+  [PASS] wrote ITEM_BICYCLE into Key Items and registered it -- key0=706
+  shot JohtoMusicPass_5_cycling
+  music[cycling] play=MUS_HG_CYCLING(669) header=MUS_HG_ROUTE30(644) saved=MUS_HG_CYCLING(669) region=2 avatar=0x24 pos=(4,10) grp=75 map=4
+  [PASS] Select mounted the bicycle on Route 31 -- avatar=0x24
+  [PASS] cycling in Johto plays MUS_HG_CYCLING (not MUS_CYCLING / MUS_RG_CYCLING) -- MUS_HG_CYCLING(669)
+  [PASS] cycling savedMusic is MUS_HG_CYCLING -- MUS_HG_CYCLING(669)
+  SKIP surf: no Surf user / water approach in this suite (FldEff_UseSurf is GetCurrentRegion-gated the same way as GetOnOffBike)
+  SKIP #167 follower Grass/Bug outdoor message (not trivial)
+  SKIP #165 Day Care flower animCmdIndex (not driven)
+VERDICT JohtoMusicPass: 18/18 PASS

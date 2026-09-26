@@ -4,6 +4,25 @@ The [visual review](index.html) pairs native before/after captures and short mot
 
 Baseline: `12934378f9ca2cb11a95cafe94669f90f9a0ff23`. Donor: `mudskipper13/pokeemerald` at `b798929811ec7d070616c7ef47e46cfc6a7f1501`, feature-only parent `68a5890c8548bc04e92b9cdf188aedc11345fc87`. The donor inventory is 65 files, including 37 graphics. `verify_assets.py` compares those graphics with the pinned commit; JASC palette line endings follow World's checkout rules. Mudskip, RHH and pret are credited in [CREDITS.md](../../CREDITS.md). No explicit standalone BW license was found; the author's public feature listing supplies provenance, not an invented blanket license.
 
+## Verified delivery
+
+The tested game-code commit is `be68ae5e1422e9c66625923e4e3bd53c6974c265`. The following evidence commit adds only review material and test-harness refinements; it does not change game code. The local package is `_pwtest/bw-battle-ui-336/PokemonWorld-BW-be68ae5e.zip`, containing the unpatched ROM and a same-named synthetic Route101 save. ROM SHA-256: `f31983017ee34a6f043c16a0950970b974e8b6e511f60c263b9e4e38097b9230`.
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| BW integration and resource fixtures | 509/509 assertions, 14 suites | [Results](evidence/results.json), [suite log](evidence/bw-suites.log) |
+| Tracked game regressions, exact delivered ROM | 50/50 suites; fresh matching-ROM sentinels | [Sweep](evidence/lua-sweep.log), [individual logs](evidence/tracked) |
+| Lance multi battle | 7/7 | [Log](evidence/lance.log) |
+| Unpatched ROM + supplied save | 5/5; boot, party, Bag, wheel exit and movement | [Log](evidence/delivery.log) |
+| Full battle-engine suite | 5,076 passes; 14 known failures, 595 TODO, 8 expected failures; no unexpected failures | [Log](evidence/battle-engine.log) |
+| Development / release compilation | Both succeed | [Development](evidence/build-development.log), [release](evidence/build-release.log) |
+| BW disabled | Compiles; classic capture/return 7/7 | [Build](evidence/build-bw-disabled.log), [capture](evidence/bw-disabled-capture.log) |
+| Content validation | Exit 0; seven existing region-map position reports | [Log](evidence/validate.log) |
+| Donor art / shared ABI | 37/37 assets; unchanged shared sizes/offsets | [Assets](evidence/donor-assets.json), [ABI](evidence/shared-abi.json) |
+| Independent Standards / Spec reviews | Findings resolved; axes reported separately | [Review](evidence/code-review.md) |
+
+Captured text logs have terminal color codes and trailing whitespace removed. The [delivery manifest](evidence/delivery.json) records build hashes and limits. The [fixture manifest](evidence/fixture-manifest.json) identifies the disposable patched test ROM, which is different from the delivered ROM. Before captures use the [baseline fixture](evidence/baseline-fixture-manifest.json). The [approved issue snapshot](evidence/approved-spec.md) and [media provenance](evidence/media-manifest.json) retain scope and capture inputs. The 41 unchanged PNGs and seven lossless animated WebP clips preserve native 240×160 output; every decoded clip sample was compared with its source PNG.
+
 ## Integration decisions
 
 - Full move names use a measured name/icon/PP budget with four pixels of separation. The bundled narrow font fits normal cases; exceptionally long names use a second row while retaining the complete name, PP and effectiveness. Empty slots clear stale text. A fixture checks every move name against the fallback width.
@@ -46,6 +65,8 @@ make validate
 make release TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 python3 Testing/bw-battle-ui/verify_assets.py --donor /path/to/pinned/donor
 ```
+
+`render_review.py --after /tmp/bw-checks --before /tmp/baseline-capture --sweep /tmp/tracked-sweep --out Testing/bw-battle-ui` generates the gallery from completed captures. It requires Pillow with WebP support. Run the capture suite against a separately built baseline fixture for matched before images. Clips use lossless encoding with recorded sample intervals; no image synthesis or rescaling is applied.
 
 `run_all.py` removes old sentinels, requires matching fixture-ROM hashes and reports every suite. The symbol exporter resolves duplicate local controller names by their owning object's address range in the exact ELF/map. Long rendering hooks wait for completion before reading results. The fixture records ROM/ELF/map/configuration/source hashes. It supplies obedient test Pokémon, fixed RTC, real battle/capture calculations and actual hatch/trade scenes. Trainer cleanup in the repeated resource loop is forced at a command boundary; `turns.lua` separately earns a real victory/level, faints and replaces a mon, and loses through whiteout.
 

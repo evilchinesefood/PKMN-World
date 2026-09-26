@@ -1,0 +1,27 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] the S.S.TICKET reached the KEY ITEMS pocket -- slot=0 pocket=[727]
+  WARP olivineTicketed ok (8,10)
+  [PASS] A: OLIVINE port entered with the board state seeded
+  [PASS] A: VAR_SSAQUA_STATE reads 7 on the map (the region-var write landed) -- state=7
+  [PASS] A: reached the harbour sailor on OAK's (now hidden) tile
+  [PASS] A: the six-row AfterKanto destination board opens -- maxCursorPos=5
+  [PASS] A: the cursor reached the BATTLE FRONTIER row -- cursor=4
+  [PASS] A: with the S.S.TICKET the BATTLE FRONTIER row still sails -- grp=26 map=4 pos=(20,67)
+  [PASS] A: the boarding leaves no assert screen (the main loop is still running) -- gMain.vblankCounter1 9722 -> 9752 across 30 frames
+  [PASS] A: the Frontier row makes no region claim (issue #69's decision) -- region=0 (was 0)
+  [PASS] A: control returns on the Frontier dock -- grp=26 map=4 pos=(20,67)
+  shot OlivineHarborBoard_1_frontier_boarded
+  [PASS] B: the S.S.TICKET is out of the bag -- slot=-1 pocket=[]
+  WARP olivineTicketless ok (8,10)
+  [PASS] B: OLIVINE port re-entered ticketless
+  [PASS] B: the board is still open to this player (VAR_SSAQUA_STATE is still 7) -- state=7
+  [PASS] B: back at the harbour sailor
+  [PASS] B: the destination board still opens without the ticket -- maxCursorPos=5
+  [PASS] B: the cursor reached the BATTLE FRONTIER row again -- cursor=4
+  shot OlivineHarborBoard_2_frontier_refused
+  [PASS] B: the refusal names the item it wants (bufferitemname populated STR_VAR_1) -- gStringVar1[0]=0xCD
+  [PASS] B: without the S.S.TICKET the BATTLE FRONTIER row refuses and does not sail -- grp=88 map=8 pos=(8,16)
+  [PASS] B: the refusal is a spoken one (NoCredentials opened a box)
+  [PASS] B: and control comes back rather than dead-ending -- pos=(8,15)
+VERDICT OlivineHarborBoard: 20/20 PASS

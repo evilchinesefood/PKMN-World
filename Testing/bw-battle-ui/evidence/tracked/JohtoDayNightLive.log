@@ -1,0 +1,42 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted to the RegionHub (map group 100) -- grp=100
+  WARP to_route37 ok (17,10)
+  [PASS] arrived on Route 37 warp 0 tile (17,10) -- (17,10)
+    on_arrival: i0:id255(17,10) i1:id6(12,17) i2:id11(19,12)
+  [PASS] map load set the DAY flags -- day=false night=true
+  [PASS] day mon PIDGEY spawned by the map load -- (19,12)
+  [PASS] night mon VULPIX is hidden by day -- local id 5 absent
+== flip to NIGHT (hour 22) from map 83/3 at (17,10), 3 objects active ==
+  after 134 frames: clock 22:30 timeOfDay=3 day=true night=false
+    day_to_night: i0:id255(17,10) i1:id5(16,12) i2:id9(12,17)
+  [PASS] day_to_night_tick_flipped_flags -- waited 134 frames; day=true night=false
+  [PASS] day_to_night_no_map_reload -- leftOverworld=false map 83/3 -> 83/3
+  [PASS] day_to_night_player_did_not_move -- (17,10) -> (17,10)
+  [PASS] day_to_night_shown_mon_spawned -- local id 5 at (16,12) slot 1, want (16,12)
+  [PASS] day_to_night_hidden_mon_despawned -- local id 11 is gone
+  [PASS] day_to_night_object_count_stable -- 3 active before, 3 after
+  shot JohtoDayNightLive_1_day_to_night
+== flip to DAY (hour 14) from map 83/3 at (17,10), 3 objects active ==
+  after 180 frames: clock 14:30 timeOfDay=1 day=false night=true
+    night_to_day: i0:id255(17,10) i1:id6(11,17) i2:id11(19,12)
+  [PASS] night_to_day_tick_flipped_flags -- waited 180 frames; day=false night=true
+  [PASS] night_to_day_no_map_reload -- leftOverworld=false map 83/3 -> 83/3
+  [PASS] night_to_day_player_did_not_move -- (17,10) -> (17,10)
+  [PASS] night_to_day_shown_mon_spawned -- local id 11 at (19,12) slot 2, want (19,12)
+  [PASS] night_to_day_hidden_mon_despawned -- local id 5 is gone
+  [PASS] night_to_day_object_count_stable -- 3 active before, 3 after
+  shot JohtoDayNightLive_2_night_to_day
+== save a DAY world against a NIGHT clock, then resume (issue #56 item 3) ==
+  override in force: gLocalTime 22:30, timeOfDay=1, day=false night=true
+  [PASS] override holds the world in DAY against a NIGHT clock -- clock hour=22 dayFlag=false pidgey=true
+  saved a DAY world; rebooting the core, which clears the EWRAM override
+BOOTED grp=83 map=3 pos=(17,10)
+  [PASS] Continue reaches the overworld on Route 37 -- grp=83 map=3
+  resumed: clock 22:28 timeOfDay=3 day=true night=false
+    after_continue: i0:id255(17,10) i1:id5(16,12) i2:id9(11,17)
+  [PASS] Continue recomputed the day/night flags from the clock -- day=true night=false
+  [PASS] Continue despawned the stale day mon -- local id 11 is gone
+  [PASS] Continue spawned the night mon -- local id 5 at (16,12)
+  shot JohtoDayNightLive_3_after_continue
+VERDICT JohtoDayNightLive: 22/22 PASS

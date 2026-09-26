@@ -1,0 +1,103 @@
+== phase 1: warp-in auto-offer, declined ==
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh new game lands on the arrival crest -- (16,4)
+  [PASS] the tour fires with no input on a brand-new game (guide left his post) -- (17,4) facing 3
+  [PASS] guide finishes his approach beside the player at (17,4) -- (17,4) facing 3
+  [PASS] guide turns to face the player -- (17,4) facing 3
+  [PASS] flag is still clear while the prompt is open
+  shot HubIntroTour_1_offer
+  [PASS] the player is locked by the prompt
+  answer crest-no row 1 ok
+  [PASS] decline the offer (cursor lands on NO)
+  [PASS] declining sets FLAG_HUB_INTRO_TOUR_DONE
+  [PASS] declining leaves the player on the crest -- (16,4)
+  [PASS] the player is released after declining
+  [PASS] guide walks back to his post at (22,7) -- (22,7) facing 1
+  [PASS] guide faces down at his post -- (22,7) facing 1
+  shot HubIntroTour_2_declined
+  [PASS] stepping back onto the crest does not re-trigger the tour
+== phase 2: Curator re-offer, declined ==
+  [PASS] route to the Curator
+  answer curator-no row 1 ok
+  [PASS] decline the Curator's re-offer (cursor rests on NO)
+  [PASS] declining falls straight through to the HUB PASS + POKeVIAL gives -- key items 0 -> 2
+  [PASS] the player is released after the Curator chat
+  shot HubIntroTour_3_curator_declined
+== phase 3: Curator re-offer, accepted — the full escort ==
+  [PASS] standing next to the Curator before accepting -- (22,6)
+  answer curator-yes row 0 ok
+  [PASS] accept the Curator's re-offer
+  stop 1 HOENN gate reached at frame 164
+  shot HubIntroTour_4_stop1
+  stop 2 JOHTO gate reached at frame 734
+  shot HubIntroTour_5_stop2
+  stop 3 KANTO gate reached at frame 1766
+  shot HubIntroTour_6_stop3
+  stop 4 FRONTIER gate reached at frame 2421
+  shot HubIntroTour_7_stop4
+  stop 5 world tour board reached at frame 3007
+  shot HubIntroTour_8_stop5
+  stop 6 POKeMART counter reached at frame 3590
+  shot HubIntroTour_9_stop6
+  stop 7 POKeMON CENTER counter reached at frame 4335
+  shot HubIntroTour_10_stop7
+  stop 8 BATTLE NET terminal reached at frame 4958
+  shot HubIntroTour_11_stop8
+  stop 9 flagship stairs reached at frame 5757
+  shot HubIntroTour_12_stop9
+  [PASS] accepting from the Curator walks the player back to the crest first
+  [PASS] stop 1: HOENN gate at (21,3) -- frame 164
+  [PASS] stop 2: JOHTO gate at (16,3) -- frame 734
+  [PASS] stop 3: KANTO gate at (11,3) -- frame 1766
+  [PASS] stop 4: FRONTIER gate at (4,3) -- frame 2421
+  [PASS] stop 5: world tour board at (2,2) -- frame 3007
+  [PASS] stop 6: POKeMART counter at (2,7) -- frame 3590
+  [PASS] stop 7: POKeMON CENTER counter at (13,12) -- frame 4335
+  [PASS] stop 8: BATTLE NET terminal at (9,11) -- frame 4958
+  [PASS] stop 9: flagship stairs at (4,13) -- frame 5757
+  shot HubIntroTour_13_stop7
+  [PASS] the tour ends at the flagship stairs (#59 stop 9) -- (4,13)
+  [PASS] the player is released and free to walk
+  [PASS] the flag stays set after a completed tour
+  shot HubIntroTour_14_tour_end
+== phase 4: map reload ==
+  WARP hubReload ok (16,4)
+  [PASS] warp out and back into the hub
+  [PASS] guide is still at (22,7) after a map reload -- (22,7) facing 1
+  [PASS] guide still faces down after a map reload -- (22,7) facing 1
+  [PASS] guide has no stale held movement after the escort
+  [PASS] no tour re-triggers on a later arrival at the crest
+== phase 5: walk-on crest trigger ==
+  [PASS] flag cleared by hand to simulate a save that never saw the intro
+  standing at (16,4) before stepping south
+  [PASS] the southern crest trigger steps the player up onto (16,4) -- (16,4)
+  [PASS] the walk-on trigger brings the guide over to (17,4) -- (17,4) facing 3
+  shot HubIntroTour_15_walkon_offer
+  answer walkon-no row 1 ok
+  [PASS] decline the walk-on offer
+  [PASS] declining the walk-on offer re-sets the flag
+  [PASS] the player is released after the walk-on decline
+  [PASS] guide is home again after the walk-on decline -- (22,7) facing 1
+== phase 6: the (16,4) crest coord_event, entered from the west ==
+  [PASS] step west off the crest
+  [PASS] standing beside the crest at (15,4) -- (15,4)
+  [PASS] walking east onto (16,4) fires the crest trigger -- (16,4)
+  [PASS] the (16,4) trigger brings the guide over -- (17,4) facing 3
+  answer crest164-no row 1 ok
+  [PASS] decline the (16,4) offer
+  [PASS] declining the (16,4) offer sets the flag
+  [PASS] the player is released after the (16,4) decline
+== phase 7: Curator entry normalised from (21,7) ==
+  [PASS] route to the west-side talk tile
+  [PASS] standing west of the Curator at (21,7) -- (21,7)
+  answer west-yes row 0 ok
+  [PASS] accept the tour from (21,7)
+  [PASS] the (21,7) branch normalises the player onto the crest
+  [PASS] all nine stops still run in order from the (21,7) entry
+  [PASS] the (21,7) escort also ends at the flagship stairs -- (4,13)
+  [PASS] the player is released after the (21,7) escort
+  WARP westGuide ok (16,4)
+  [PASS] warp back for the guide check
+  [PASS] guide is home after the (21,7) escort -- (22,7) facing 1
+  shot HubIntroTour_16_west_entry_end
+VERDICT HubIntroTour: 60/60 PASS

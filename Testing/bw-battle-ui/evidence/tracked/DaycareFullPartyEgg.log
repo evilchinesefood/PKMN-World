@@ -1,0 +1,329 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+BOOTED grp=100 map=0 pos=(16,4) count=0
+  shot DaycareFullPartyEgg_1_booted
+  party[boot] gPartiesCount=0
+    slot0 EMPTY
+    slot1 EMPTY
+    slot2 EMPTY
+    slot3 EMPTY
+    slot4 EMPTY
+    slot5 EMPTY
+  [PASS] standing in group 100 -- grp=100
+  shot DaycareFullPartyEgg_2_dbg_setparty_cursor
+  party[cloned_six] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  [PASS] party count is 6 -- count=6
+  [PASS] boot party is 6 -- count=6
+  party[slots45_cleared] gPartiesCount=4
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 EMPTY
+    slot5 EMPTY
+  party[after_give_ditto] gPartiesCount=5
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=132 pid=B99B8984 ot=C9BFAE1A lv=1 hp=12/12 egg=n nick=Ditto
+    slot5 EMPTY
+  give ditto wanted species 132, new slot species=132
+  party[after_give_pidgey] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=132 pid=B99B8984 ot=C9BFAE1A lv=1 hp=12/12 egg=n nick=Ditto
+    slot5 sp=16 pid=E2F324B1 ot=C9BFAE1A lv=1 hp=12/12 egg=n nick=Pidgey
+  give pidgey wanted species 16, new slot species=16
+  [PASS] debug-gave SPECIES_DITTO (132) -- see after_give_ditto dump
+  [PASS] debug-gave SPECIES_PIDGEY (16) -- see after_give_pidgey dump
+  after gifts count=6
+  gift slots: 4,0 (n=2) dittoSlot=4
+  daycare[stuffed_from_gifts] offspringPid=00000000 pendingFlag=false VAR_RESULT=0 VAR_8004=16 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=0 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=0 nick=Buffie
+    gStringVar1=001
+  party[restored_original_six] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  [PASS] party restored to original 6 after stuffing daycare -- slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  [PASS] daycare slot 0 has a BoxPokemon pid -- pid=B99B8984
+  [PASS] daycare slot 1 has a BoxPokemon pid -- pid=6DCE613C
+  stuffed species dc0=132 dc1=202
+  shot DaycareFullPartyEgg_3_dbg_daycare_egg_cursor
+  shot DaycareFullPartyEgg_4_dbg_daycare_egg_after
+  debug Daycare Egg: pid 00000000 -> BB59DFD7 script=false
+  daycare[armed] offspringPid=BB59DFD7 pendingFlag=true VAR_RESULT=0 VAR_8004=16 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=0 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=0 nick=Buffie
+    gStringVar1=001
+  [PASS] egg is pending (offspringPersonality != 0) -- pid=BB59DFD7 flag=true
+  [PASS] original six still in party after arming -- slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  WARP route34 ok (31,30)
+  [PASS] on Route 34 -- grp=80 map=2
+  Route 34 spawn (31,30)
+  shot DaycareFullPartyEgg_5_route34_arrival
+  daycare[on_route34] offspringPid=BB59DFD7 pendingFlag=true VAR_RESULT=1 VAR_8004=16 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=0 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=0 nick=Buffie
+    gStringVar1=004
+  daycare man at (30,34) facing=3
+  [PASS] egg-ready man is at the perm tile (30,34) or default (31,34) -- (30,34)
+  aroundToMan from (31,30) man=(30,34)
+  walk wp_28_30 (31,30)->(28,30)
+  walk wp_27_30 (28,30)->(27,30)
+  walk wp_27_36 (27,30)->(27,36)
+  walk wp_28_36 (27,36)->(28,36)
+  walk wp_29_34 (28,36)->(29,34)
+  [PASS] reached a tile adjacent to the daycare man -- pos=(29,34) man=(30,34)
+  shot DaycareFullPartyEgg_6_full_before_talk
+  vars[full_before] RESULT=1 8004=16 script=0x00000000 locked=false
+  party[full_before] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  daycare[full_before] offspringPid=BB59DFD7 pendingFlag=true VAR_RESULT=1 VAR_8004=16 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=14 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=14 nick=Buffie
+    gStringVar1=004
+  [PASS] full: daycare man script opened -- script=0x083CCB39
+  shot DaycareFullPartyEgg_7_full_opened
+  shot DaycareFullPartyEgg_8_full_t4
+  vars[full_t4] RESULT=1 8004=16 script=0x083CCB39 locked=true
+  party[full_t4] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  shot DaycareFullPartyEgg_9_full_t10
+  vars[full_t10] RESULT=1 8004=16 script=0x083CCB39 locked=true
+  party[full_t10] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  shot DaycareFullPartyEgg_10_full_t20
+  vars[full_t20] RESULT=1 8004=16 script=0x083CCB39 locked=true
+  party[full_t20] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  shot DaycareFullPartyEgg_11_full_noroom_box
+  vars[full_guard] RESULT=6 8004=6 script=0x083CCB31 locked=true
+  shot DaycareFullPartyEgg_12_full_after_accept
+  vars[full_after] RESULT=6 8004=6 script=0x00000000 locked=false
+  party[full_after] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  daycare[full_after] offspringPid=BB59DFD7 pendingFlag=true VAR_RESULT=6 VAR_8004=6 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=14 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=14 nick=Buffie
+    gStringVar1=Ditto
+  full var trail:
+    t=1 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=2 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=3 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=4 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=5 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=6 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=7 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=8 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=9 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=10 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=11 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=12 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=13 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=14 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=15 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=16 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=17 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=18 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=19 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=20 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=21 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=22 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=23 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=24 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=25 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=26 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=27 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=28 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=29 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=30 RESULT=1 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB39
+    t=31 RESULT=255 8004=16 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB3C
+    t=32 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=33 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=34 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=35 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=36 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=37 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=38 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB31
+    t=39 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x083CCB32
+    t=40 RESULT=6 8004=6 count=6 offPid=BB59DFD7 s5pid=6DCE613C egg=false script=0x00000000
+  [PASS] full-party: party count stays 6 -- count=6
+  [PASS] full-party: slot 5 pid UNCHANGED -- before slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie | after slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+  [PASS] full-party: slot 5 species UNCHANGED -- before sp=202 after sp=202
+  [PASS] full-party: all 6 original pids intact -- see party dump
+  [PASS] full-party: a message box / script ran (no-room or otherwise) -- opened=true
+  [PASS] full-party: egg still pending (personality not cleared) -- pid=BB59DFD7
+  [PASS] full-party: FLAG_PENDING_DAYCARE_EGG still set -- flag=true
+  last VAR_RESULT=6 VAR_0x8004=6 (6==6 means guard compared equal)
+  slot 5 survived the full-party collect attempt (pid+species intact)
+  [PASS] full-party: GetMaxPartySize (VAR_0x8004) compared equal to party count (VAR_RESULT) -- RESULT=6 8004=6
+  party[slot5_cleared] gPartiesCount=5
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 EMPTY
+  [PASS] cleared slot 5, party count 5 -- count=5
+  shot DaycareFullPartyEgg_13_slot5_cleared
+  daycare[before_attempt2] offspringPid=BB59DFD7 pendingFlag=true VAR_RESULT=6 VAR_8004=6 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=14 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=14 nick=Buffie
+    gStringVar1=Ditto
+  aroundToMan from (29,34) man=(30,34)
+  shot DaycareFullPartyEgg_14_room_before_talk
+  vars[room_before] RESULT=6 8004=6 script=0x00000000 locked=false
+  party[room_before] gPartiesCount=5
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 EMPTY
+  daycare[room_before] offspringPid=BB59DFD7 pendingFlag=true VAR_RESULT=6 VAR_8004=6 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=14 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=14 nick=Buffie
+    gStringVar1=Ditto
+  [PASS] room: daycare man script opened -- script=0x083CCB39
+  shot DaycareFullPartyEgg_15_room_opened
+  shot DaycareFullPartyEgg_16_room_t4
+  vars[room_t4] RESULT=1 8004=6 script=0x083CCB39 locked=true
+  party[room_t4] gPartiesCount=5
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 EMPTY
+  shot DaycareFullPartyEgg_17_room_t10
+  vars[room_t10] RESULT=1 8004=6 script=0x083CCB39 locked=true
+  party[room_t10] gPartiesCount=5
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 EMPTY
+  shot DaycareFullPartyEgg_18_room_t20
+  vars[room_t20] RESULT=1 8004=6 script=0x083CCB39 locked=true
+  party[room_t20] gPartiesCount=5
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 EMPTY
+  shot DaycareFullPartyEgg_19_room_receive_box
+  vars[room_guard] RESULT=255 8004=6 script=0x083CCB3C locked=true
+  shot DaycareFullPartyEgg_20_room_after_accept
+  vars[room_after] RESULT=5 8004=6 script=0x00000000 locked=false
+  party[room_after] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=360 pid=BB59DFD7 ot=C9BFAE1A lv=1 hp=12/12 egg=Y nick=[60][6F][8B]
+  daycare[room_after] offspringPid=00000000 pendingFlag=false VAR_RESULT=5 VAR_8004=6 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=14 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=14 nick=Buffie
+    gStringVar1=Ditto
+  room var trail:
+    t=1 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=2 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=3 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=4 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=5 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=6 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=7 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=8 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=9 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=10 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=11 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=12 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=13 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=14 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=15 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=16 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=17 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=18 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=19 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=20 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=21 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=22 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=23 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=24 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=25 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=26 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=27 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=28 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=29 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=30 RESULT=1 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB39
+    t=31 RESULT=255 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB3C
+    t=32 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x0837DDA0
+    t=33 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x0837DDA0
+    t=34 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x0837DDA0
+    t=35 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x0837DDA0
+    t=36 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x0837DDA1
+    t=37 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB31
+    t=38 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB31
+    t=39 RESULT=5 8004=6 count=5 offPid=BB59DFD7 s5pid=00000000 egg=false script=0x083CCB32
+    t=40 RESULT=5 8004=6 count=6 offPid=00000000 s5pid=BB59DFD7 egg=true script=0x00000000
+  [PASS] with-room: party count is 6 -- count=6
+  [PASS] with-room: an egg is in the party -- eggSlot=5
+  [PASS] with-room: slots 0-4 (the previous 5 non-egg mons) are intact -- see dump
+  [PASS] with-room: pending personality cleared (egg was taken) -- pid=00000000
+  [PASS] with-room: FLAG_PENDING_DAYCARE_EGG cleared -- flag=false
+  shot DaycareFullPartyEgg_21_final
+  party[final] gPartiesCount=6
+    slot0 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot1 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot2 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot3 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot4 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie
+    slot5 sp=360 pid=BB59DFD7 ot=C9BFAE1A lv=1 hp=12/12 egg=Y nick=[60][6F][8B]
+  daycare[final] offspringPid=00000000 pendingFlag=false VAR_RESULT=5 VAR_8004=6 script=0x00000000
+    dc[0] sp=132 pid=B99B8984 has=true egg=false steps=14 nick=Ditto
+    dc[1] sp=202 pid=6DCE613C has=true egg=false steps=14 nick=Buffie
+    gStringVar1=Ditto
+  orig slot5 was slot5 sp=202 pid=6DCE613C ot=C54F198D lv=100 hp=521/521 egg=n nick=Buffie; after-free it was EMPTY; after-collect slot5=slot5 sp=360 pid=BB59DFD7 ot=C9BFAE1A lv=1 hp=12/12 egg=Y nick=[60][6F][8B] eggSlot=5
+VERDICT DaycareFullPartyEgg: 29/29 PASS

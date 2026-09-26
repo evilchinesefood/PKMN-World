@@ -1,0 +1,18 @@
+suite : /private/tmp/pkmn-world-bw-336/Testing/bw-battle-ui/verify_delivery.lua
+rom   : /tmp/pkmn-world-bw-336/pokemonworld.gba
+md5   : 502779B9113688290EBBB8E3BA16541C
+out   : /tmp/pkmn-world-336-delivery-verified
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+BOOTED grp=0 map=16 pos=(9,9)
+  [PASS] prepared save boots in Route101
+  [PASS] six prepared party members
+  shot BWDelivery_1_prepared_route
+  [PASS] normal wheel opens Bag
+  shot BWDelivery_2_prepared_bag
+  [PASS] normal Bag returns to the field wheel
+  [PASS] normal controls released
+  shot BWDelivery_3_prepared_controls
+VERDICT BWDelivery: 5/5 PASS
+---
+exit code: 0

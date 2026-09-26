@@ -1,0 +1,30 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Lapras reached the party (QOL_FIELD_MOVES_NO_TEACH can then Surf) -- gPartiesCount=1
+  [PASS] ITEM_SURF_TOOL is in KEY ITEMS (unlocks Surf without Fog Badge) -- slot=0
+  [PASS] FLAG_JOHTO_BADGE_4 (Fog / Surf) is set
+  WARP route41 ok (37,12)
+  [PASS] warp_to_route41_land -- grp=87 map=2 pos=(37,12)
+  [PASS] standing on Route 41 (not Route 40) -- grp=87 map=2 pos=(37,12)
+  dump route41_arrival at (37,12) surf=true script=0x00000000 flags=0x28 preventStep=0 elev=1/1 facing=1
+    y=10 119/10  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=11 12B/01  1CB/10  1CC/10  12B/10  12B/10  12B/10  12B/10
+    y=12 12B/01  1D3/10  1D4/10  12B/01* 12B/01  12B/01  12B/01
+    y=13 1CC/10  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=14 1D4/10  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+  music[route41_arrival] play=MUS_HG_SURF(670) header=MUS_HG_ROUTE38(646) saved=MUS_DUMMY(0) region=2 avatar=0x28 surf=true pos=(37,12) grp=87 map=2
+  shot Route41SurfBgm_1_route41_land
+  Surf-start candidate after warp 4: (37,12) warpTile=true
+  shot Route41SurfBgm_2_facing_water
+  tryStartSurf Down from (37,12) seam_south front=(37,13) 12B/01 beh=21 warp=false
+  after surf attempt seam_south surf=true (37,12)->(37,12)
+  [PASS] player is surfing on Route 41 after FldEff_UseSurf (A → Surf Yes) -- grp=87 map=2 pos=(37,12) surf=true
+  music[route41_fld_eff] play=MUS_HG_SURF(670) header=MUS_HG_ROUTE38(646) saved=MUS_DUMMY(0) region=2 avatar=0x28 surf=true pos=(37,12) grp=87 map=2
+  shot Route41SurfBgm_3_route41_fld_eff
+  [PASS] gCurrentRegion is JOHTO -- region=2
+  [PASS] avatar SURFING flag is set -- avatar=0x28
+  [PASS] still on Route 41 (grp=87 map=2) -- grp=87 map=2 pos=(37,12)
+  [PASS] FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF -- MUS_HG_SURF(670) saved=MUS_DUMMY(0) header=MUS_HG_ROUTE38(646)
+  [PASS] not playing Hoenn MUS_SURF / MUS_RG_SURF -- MUS_HG_SURF(670)
+  RESULT start=(37,12) now=grp=87 map=2 pos=(37,12) play=MUS_HG_SURF(670) header=MUS_HG_ROUTE38(646) saved=MUS_DUMMY(0) region=2 avatar=0x28
+VERDICT Route41SurfBgm: 11/11 PASS

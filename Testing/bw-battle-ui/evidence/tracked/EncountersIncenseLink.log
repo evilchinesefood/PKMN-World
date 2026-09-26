@@ -1,0 +1,62 @@
+  [PASS] S.gWildMonHeaders[0] is Route101 (group 0 map 16) -- group=0 map=16
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted to the RegionHub (map group 100) -- grp=100
+  [PASS] start_menu_opened
+  start-menu items (4): BAG,TRAINER,SAVE,OPTIONS ids={2,5,7,9}
+  [PASS] start menu has no QUEST/MISSION row -- items=BAG,TRAINER,SAVE,OPTIONS
+  [PASS] start menu has at least BAG/TRAINER/SAVE/OPTION -- count=4
+  shot EncountersIncenseLink_1_start_menu
+  [PASS] start menu closed back to overworld
+  WARP to_route123 ok (22,7)
+  [PASS] on Route 123 -- grp=0 map=38
+  [PASS] Route 123 has a wild header
+  on_arrival land slots: tod0=0x08eb06b4 tod1=0x00000000 tod2=0x00000000 tod3=0x00000000
+  [PASS] TIME_MORNING land table is non-NULL -- ptr=0x08eb06b4
+  [PASS] TIME_DAY land slot is empty (no separate day table) -- ptr=0x00000000
+  [PASS] TIME_NIGHT land slot is empty (no separate night table) -- ptr=0x00000000
+  day clock 14:30 tod=1 after 2 frames
+  [PASS] clock wound to DAY (gTimeOfDay=TIME_DAY) -- tod=1
+  day game-used land ptr=0x08eb06b4 (index-by-gTimeOfDay -> tod 0 ptr=0x08eb06b4)
+  day species {261,353,262,353,262,43,315,44,278,278,278,352}
+  shot EncountersIncenseLink_2_route123_day
+  night clock 22:30 tod=3 after 2 frames
+  [PASS] clock wound to NIGHT (gTimeOfDay=TIME_NIGHT) -- tod=3
+  [PASS] gTimeOfDay actually changed day -> night -- tod=3
+  night game-used land ptr=0x08eb06b4 (index-by-gTimeOfDay -> tod 0 ptr=0x08eb06b4)
+  night species {261,353,262,353,262,43,315,44,278,278,278,352}
+  shot EncountersIncenseLink_3_route123_night
+  [PASS] day and night use the SAME land table pointer -- day=0x08eb06b4 night=0x08eb06b4
+  [PASS] day and night species lists are identical -- day {261,353,262,353,262,43,315,44,278,278,278,352} night {261,353,262,353,262,43,315,44,278,278,278,352}
+  [PASS] index-by-gTimeOfDay with fallback also matches -- dayUsed=0x08eb06b4 nightUsed=0x08eb06b4
+  [PASS] SPECIES_ROSELIA is in Route 123 land table -- slot 6 species=315
+  no tall-grass tile within 8 of warp 0; skipping the cheap walk
+  [PASS] Route 123 land table still readable without a grass walk
+  WARP to_dept4f ok (17,5)
+  [PASS] on Goldenrod Dept Store 4F -- grp=84 map=7
+  [PASS] dept4f_approached_clerk -- at (13,7)
+  [PASS] 4F incense clerk opened a shop -- itemCount=28 list=0x08386e60
+  mart items {410,73,74,75,76,77,78,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101}
+  [PASS] ITEM_ROSE_INCENSE is in the 4F mart list -- ids={410,73,74,75,76,77,78,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101} want 410
+  [PASS] Rose Incense is the first item -- first=410
+  shot EncountersIncenseLink_4_dept4f_mart
+  [PASS] cancelling the shop returns field control
+  WARP to_violet_pc ok (7,8)
+  [PASS] on Violet Pokemon Center 1F -- grp=78 map=4
+  Violet PC warps: count=1
+    warp1 (7,8) -> group 75 map 6
+  [PASS] Violet PC has no 2F/Cable Club warp (only the 1F exit) -- warpCount=1
+  [PASS] the one warp is the street exit, not a 2F map -- dest group=75 map=6
+  stair tile (1,6) reached=true still1F=true now=(1,6) map=78/4
+  [PASS] standing on old stair tile (1,6) does not leave 1F -- grp=78 map=4
+  shot EncountersIncenseLink_5_violet_pc
+  [PASS] still on Violet 1F after the stair probe -- grp=78 map=4
+  WARP to_oldale_pc ok (7,8)
+  [PASS] on Oldale Pokemon Center 1F -- grp=2 map=2
+  Oldale PC 1F warps: count=2
+    warp1 (7,8) -> group 0 map 10
+    warp2 (6,8) -> group 0 map 10
+  [PASS] Oldale 1F has no warp to PokemonCenter_2F -- warpCount=2
+  [PASS] Oldale old stair tile does not warp to 2F -- reached=true grp=2 map=2 pos=(1,6)
+  shot EncountersIncenseLink_6_oldale_pc_stairs
+VERDICT EncountersIncenseLink: 33/33 PASS

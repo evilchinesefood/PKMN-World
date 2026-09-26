@@ -1,0 +1,119 @@
+{
+  "fixture_md5": "1FB209CECA71749D9FEC65F50F991F2C",
+  "suites": [
+    {
+      "suite": "capture",
+      "passed": 7,
+      "total": 7,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "preview",
+      "passed": 40,
+      "total": 40,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "healthbox",
+      "passed": 6,
+      "total": 6,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "gimmicks",
+      "passed": 10,
+      "total": 10,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "catching",
+      "passed": 14,
+      "total": 14,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "bagthrow",
+      "passed": 3,
+      "total": 3,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "shared",
+      "passed": 11,
+      "total": 11,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "palettes",
+      "passed": 33,
+      "total": 33,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "pressure",
+      "passed": 12,
+      "total": 12,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "flows",
+      "passed": 13,
+      "total": 13,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "turns",
+      "passed": 8,
+      "total": 8,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "regression",
+      "passed": 344,
+      "total": 344,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "save",
+      "passed": 3,
+      "total": 3,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    },
+    {
+      "suite": "motion",
+      "passed": 5,
+      "total": 5,
+      "ok": true,
+      "exit_code": 0,
+      "fresh_matching_sentinel": true
+    }
+  ],
+  "passed": 509,
+  "total": 509
+}

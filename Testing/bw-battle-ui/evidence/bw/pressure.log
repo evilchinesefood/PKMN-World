@@ -1,0 +1,45 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot BWPressure_1_popups_004
+  shot BWPressure_2_popups_008
+  shot BWPressure_3_popups_012
+  shot BWPressure_4_popups_016
+  shot BWPressure_5_popups_020
+  shot BWPressure_6_popups_024
+  shot BWPressure_7_popups_028
+  shot BWPressure_8_popups_032
+  shot BWPressure_9_popups_036
+  shot BWPressure_10_popups_040
+  shot BWPressure_11_popups_044
+  shot BWPressure_12_popups_048
+  shot BWPressure_13_popups_052
+  shot BWPressure_14_popups_056
+  shot BWPressure_15_popups_060
+  shot BWPressure_16_popups_064
+  shot BWPressure_17_popups_068
+  shot BWPressure_18_popups_072
+  shot BWPressure_19_popups_076
+  shot BWPressure_20_popups_080
+  shot BWPressure_21_popups_084
+  shot BWPressure_22_popups_088
+  shot BWPressure_23_popups_092
+  shot BWPressure_24_popups_096
+  shot BWPressure_25_popups_100
+  shot BWPressure_26_popups_104
+  shot BWPressure_27_popups_108
+  shot BWPressure_28_popups_112
+  shot BWPressure_29_popups_116
+  shot BWPressure_30_popups_120
+  [PASS] two popups preserve background mosaic
+  [PASS] two popups restore prior object mosaic
+  [PASS] both popups release shared palette
+  [PASS] early popup cleanup restores mosaic
+  [PASS] early popup cleanup frees palette
+  [PASS] task exhaustion returns without assertion
+  [PASS] task exhaustion leaves no popup palette
+  [PASS] palette exhaustion rejects cursor safely
+  [PASS] palette exhaustion rejects info trigger safely
+  [PASS] palette exhaustion rejects ball trigger safely
+  [PASS] palette exhaustion returns without assertion
+  [PASS] battle exits after resource pressure
+VERDICT BWPressure: 12/12 PASS

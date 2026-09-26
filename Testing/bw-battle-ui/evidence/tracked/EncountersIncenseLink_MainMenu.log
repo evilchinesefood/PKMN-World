@@ -1,0 +1,16 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FLAG_SYS_MYSTERY_GIFT_ENABLE set before the in-game save
+  saved; rebooting core
+  [PASS] reached main menu after save+reboot (no boot mash) -- cb2=0x0817c06c
+  [PASS] main menu task appeared (CONTINUE exists) -- task=0 type=HAS_SAVED_GAME itemCount=3
+  tMenuType=1 (HAS_SAVED_GAME) tCurrItem=0 tItemCount=3 cb2=0x0817b144
+  window heights 2/3/4/5 = 6/2/2/2 (CONTINUE is win2 height 6)
+  [PASS] tMenuType is HAS_SAVED_GAME (not HAS_MYSTERY_GIFT) -- type=HAS_SAVED_GAME (1)
+  [PASS] main menu has 3 rows (CONTINUE + NEW GAME + OPTION), not 4 -- tItemCount=3
+  [PASS] HAS_MYSTERY_GIFT row does not exist -- HAS_SAVED_GAME
+  cursor max after 6 Downs = 2
+  [PASS] cursor max is 2 (third row), not 3 (Mystery Gift) -- maxCursor=2
+  shot EncountersIncenseLink_MainMenu_1_main_menu
+  [PASS] left the cursor on CONTINUE (row 0); never pressed A -- tCurrItem=0
+VERDICT EncountersIncenseLink_MainMenu: 8/8 PASS

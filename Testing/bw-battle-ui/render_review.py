@@ -6,8 +6,8 @@ import html
 import json
 import re
 import shutil
-import subprocess
 from pathlib import Path
+from PIL import Image
 
 p = argparse.ArgumentParser()
 p.add_argument('--after', type=Path, required=True)
@@ -32,13 +32,14 @@ def one(folder, pattern, name):
 def clip(folder, pattern, name, duration):
     files = sorted(folder.glob(pattern), key=lambda f: int(re.search(r'_(\d+)_', f.name)[1]))
     assert files, (folder, pattern)
-    playlist = media / (name + '.frames.txt')
-    playlist.write_text(''.join("file '" + str(f.resolve()).replace("'", "'\\''") + "'\nduration " + str(duration) + '\n' for f in files))
     target = media / (name + '.webp')
-    subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-f', 'concat',
-                    '-safe', '0', '-i', str(playlist), '-c:v', 'libwebp_anim',
-                    '-lossless', '1', '-loop', '0', '-vsync', 'vfr', str(target)], check=True)
-    playlist.unlink()
+    frames = []
+    for f in files:
+        with Image.open(f) as source:
+            assert source.size == (240, 160), f
+            frames.append(source.convert('RGB'))
+    frames[0].save(target, save_all=True, append_images=frames[1:],
+                   duration=round(duration * 1000), loop=0, lossless=True, method=6)
     provenance.append({'path': str(target.relative_to(a.out)), 'frames': [str(f) for f in files],
                        'seconds_per_sample': duration, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest()})
     return 'evidence/review/' + target.name
@@ -69,7 +70,8 @@ for folder,pattern,name,title,duration,posterpattern in [
     ('regression','*_ability_[0-9][0-9][0-9].png','ability','Long ability popup',.05,'*_info_after_popup.png'),
     ('turns','*_damage_[0-9][0-9][0-9].png','damage','Damage and HP drain',.05,'*_damage_090.png'),
     ('turns','*_experience_[0-9][0-9][0-9].png','exp','EXP and earned level-up',.1,'*_earned_level_summary.png'),
-    ('gimmicks','*_activation_1_[0-9][0-9][0-9].png','zmove','Z-Move activation',.1,'*_selected_1.png')]:
+    ('gimmicks','*_activation_1_[0-9][0-9][0-9].png','zmove','Z-Move activation',.1,'*_selected_1.png'),
+    ('motion','*_menus_[0-9][0-9][0-9].png','menus','Move details and SwSh Bag return',.05,'*_menu_poster.png')]:
     motion=clip(a.after/folder,pattern,name,duration)
     # The level-up screen is deliberately captured several times while waiting.
     matches=sorted((a.after/folder).glob(posterpattern))

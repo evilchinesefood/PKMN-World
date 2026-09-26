@@ -1,0 +1,24 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Set Party published a party
+  flags[seeded] CAUGHT_MEW=true BATTLED_DEOXYS=true DEFEATED_MEW=true DEFEATED_DEOXYS=true HIDE_MEW=true HIDE_DEOXYS=true JOHTO_CHAMP=true KANTO_CHAMP=false LEAGUE_STATE=6
+  [PASS] seeded FLAG_CAUGHT_MEW
+  [PASS] seeded FLAG_BATTLED_DEOXYS
+  [PASS] seeded FLAG_JOHTO_CHAMPION (rematch path)
+  WARP hof ok (5,4)
+  shot JohtoHofLegendaries_1_hof_arrival
+  flags[after_warp] CAUGHT_MEW=true BATTLED_DEOXYS=true DEFEATED_MEW=true DEFEATED_DEOXYS=true HIDE_MEW=true HIDE_DEOXYS=true JOHTO_CHAMP=true KANTO_CHAMP=false LEAGUE_STATE=6
+  [PASS] OnFrame still sees LEAGUE_STATE=6 (or already ran) -- LEAGUE_STATE=6
+  waiting f=300 script=0x083CCB31 status=0 LEAGUE=6
+  waiting f=600 script=0x083CCB31 status=0 LEAGUE=6
+  SetGameClearFlags observed at frame 774 script=0x083AF31D
+  flags[post_setflags] CAUGHT_MEW=true BATTLED_DEOXYS=true DEFEATED_MEW=false DEFEATED_DEOXYS=false HIDE_MEW=true HIDE_DEOXYS=true JOHTO_CHAMP=true KANTO_CHAMP=true LEAGUE_STATE=1
+  shot JohtoHofLegendaries_2_post_setflags
+  [PASS] HOF rematch path ran SetGameClearFlags -- cutscene never reached SetGameClearFlags
+  flags[final] CAUGHT_MEW=true BATTLED_DEOXYS=true DEFEATED_MEW=false DEFEATED_DEOXYS=false HIDE_MEW=true HIDE_DEOXYS=true JOHTO_CHAMP=true KANTO_CHAMP=true LEAGUE_STATE=1
+  [PASS] FLAG_CAUGHT_MEW stayed set (not re-armed as uncaught)
+  [PASS] FLAG_BATTLED_DEOXYS stayed set (caught-Deoxys marker, not cleared)
+  [PASS] FLAG_HIDE_MEW stayed set (Mew stays hidden)
+  [PASS] FLAG_HIDE_DEOXYS stayed set (Deoxys stays hidden)
+  (info) DEFEATED_MEW=false DEFEATED_DEOXYS=false — script is allowed to clear these
+VERDICT JohtoHofLegendaries: 10/10 PASS

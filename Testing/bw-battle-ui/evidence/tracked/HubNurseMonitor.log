@@ -1,0 +1,92 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] no crash screen (boot) -- clear
+  [PASS] vblank advancing (boot) -- vblank 6807 -> 6815 cb2=0x08191EA8 ow=true
+  [PASS] booted on MAP_REGION_HUB -- grp=100 map=0
+  [PASS] FLAG_HUB_INTRO_TOUR_DONE is set
+  after boot pos=(16,4) region=0
+  shot HubNurseMonitor_1_hub_booted
+  hub tileset=gTileset_PokemonCenterFrlg (0x08CA7378)
+  [PASS] hub_secondary_tileset_is_gTileset_PokemonCenterFrlg -- gTileset_PokemonCenterFrlg
+  [PASS] hub_tileset_is_in_UsesFrlgPokecenterMonitor -- gTileset_PokemonCenterFrlg
+  [PASS] hub_tileset_is_NOT_Emerald_gTileset_PokemonCenter -- gTileset_PokemonCenterFrlg
+  tile (6,10) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (7,10) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (8,10) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (9,10) block=0x3381 metatile=0x381 collision=0 behavior=0
+  tile (10,10) block=0x06B1 metatile=0x2B1 collision=1 behavior=128
+  tile (11,10) block=0x06B2 metatile=0x2B2 collision=1 behavior=0
+  tile (12,10) block=0x06B3 metatile=0x2B3 collision=1 behavior=0
+  tile (13,10) block=0x3290 metatile=0x290 collision=0 behavior=0
+  tile (14,10) block=0x3363 metatile=0x363 collision=0 behavior=0
+  tile (15,10) block=0x06B4 metatile=0x2B4 collision=1 behavior=0
+  tile (16,10) block=0x06B5 metatile=0x2B5 collision=1 behavior=128
+  tile (6,11) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (7,11) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (8,11) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (9,11) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (10,11) block=0x06B9 metatile=0x2B9 collision=1 behavior=0
+  tile (11,11) block=0x06BC metatile=0x2BC collision=1 behavior=128
+  tile (12,11) block=0x06BC metatile=0x2BC collision=1 behavior=128
+  tile (13,11) block=0x0698 metatile=0x298 collision=1 behavior=128
+  tile (14,11) block=0x06BC metatile=0x2BC collision=1 behavior=128
+  tile (15,11) block=0x06BC metatile=0x2BC collision=1 behavior=128
+  tile (16,11) block=0x06BD metatile=0x2BD collision=1 behavior=0
+  tile (6,12) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (7,12) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (8,12) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (9,12) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (10,12) block=0x32A3 metatile=0x2A3 collision=0 behavior=0
+  tile (11,12) block=0x32B7 metatile=0x2B7 collision=0 behavior=0
+  tile (12,12) block=0x32B7 metatile=0x2B7 collision=0 behavior=0
+  tile (13,12) block=0x32B7 metatile=0x2B7 collision=0 behavior=0
+  tile (14,12) block=0x32B7 metatile=0x2B7 collision=0 behavior=0
+  tile (15,12) block=0x32B7 metatile=0x2B7 collision=0 behavior=0
+  tile (16,12) block=0x32B7 metatile=0x2B7 collision=0 behavior=0
+  tile (6,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (7,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (8,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (9,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (10,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (11,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (12,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (13,13) block=0x3371 metatile=0x371 collision=0 behavior=0
+  tile (14,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (15,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  tile (16,13) block=0x3281 metatile=0x281 collision=0 behavior=0
+  nurse object at (13,10): localId=1 gfx=0x014D
+  [PASS] nurse object is on (13,10) -- localId=1
+  [PASS] (13,11) is the solid FRLG desk (MB_COUNTER), not a stand tile -- collision=1 behavior=128 (MB_COUNTER=128)
+  [PASS] (12,11) and (14,11) are also MB_COUNTER -- b(12,11)=128 b(14,11)=128
+  [PASS] (13,12) is walkable floor in front of the desk -- collision=0 behavior=0
+  to_nurse walk to (13,12) from (16,4)
+  [PASS] reached (13,11) or a proven nurse-adjacent/counter-talk tile -- at (13,12) want stand (13,12) adjacent=false
+  shot HubNurseMonitor_2_at_stand
+  shot HubNurseMonitor_3_dbg_setparty_cursor
+  Set Party count=1 hp=521/521
+  [PASS] debug Set Party published a party -- count=1
+  [PASS] party HP damaged before heal -- hp=1/521
+  [PASS] still on the stand tile after Set Party -- at (13,12) stand (13,12)
+  hub stand (13,12) face Up lastTalked=0 script=0x00000000
+  shot HubNurseMonitor_4_hub_before_A
+  hub after A lastTalked=1 script=0x083CC942
+  hub monitor frlg32 slot52 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=yes tileset=0x08CA7378
+  shot HubNurseMonitor_5_hub_glow
+  lastTalked_at_A=1 (nurse=1 chansey=2) script=0x083CC942 kind=frlg32
+  [PASS] A started RegionHub_EventScript_Nurse (lastTalked is the nurse, not Chansey) -- lastTalked=1 script=0x083CC942
+  [PASS] heal script ran (party HP heal and/or monitor sprite) -- monitor=frlg32 hp 1/521 -> 521/521 lastTalked=1
+  [PASS] party HP restored to full -- hp=521/521
+  hub monitor verdict frlg32 slot52 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=no
+  [PASS] hub_heal_created_a_monitor_sprite -- frlg32
+  [PASS] hub_monitor_kind_is_frlg32_not_emerald24 -- kind=frlg32 slot52 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=no tileset=0x08CA7378 region=0
+  [PASS] hub_did_not_get_the_Hoenn_narrow_monitor -- kind=frlg32 slot52 oam 32x? shape=1 size=2 xy=(128,24) ccx=-16 pal=0x1007 subs=0x00000000 tmpl=0x08657440 invis=no
+  [PASS] hub_monitor_oam_is_32x16 (shape=1 size=2) -- shape=1 size=2 (want shape=1 size=2)
+  [PASS] hub_monitor_has_no_emerald_subsprite_table -- subs=0x00000000
+  [PASS] hub_monitor_palette_is_POKEBALL_GLOW -- pal=0x1007 want 0x1007
+  [PASS] screenshot of the glow was taken -- true
+  [PASS] hub_tileset_still_gTileset_PokemonCenterFrlg_after_heal -- gTileset_PokemonCenterFrlg
+  shot HubNurseMonitor_6_hub_afterheal
+  [PASS] no crash screen (hub) -- clear
+  [PASS] vblank advancing (hub) -- vblank 9954 -> 9962 cb2=0x08191EA8 ow=true
+  RESULT stand=(13,12) face=Up healRan=true kind=frlg32 tileset=gTileset_PokemonCenterFrlg
+VERDICT HubNurseMonitor: 28/28 PASS

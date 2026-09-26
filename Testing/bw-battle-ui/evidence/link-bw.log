@@ -1,0 +1,30 @@
+starting
+coordinator init
+coordinator initialized
+finding core 0
+core 0 ptr=0x7bb800000 init=0x100bc7004
+core 0 initialized
+core 0 loaded
+core 0 reset
+finding core 1
+core 1 ptr=0x7bb848000 init=0x100bc7004
+core 1 initialized
+core 1 loaded
+core 1 reset
+boot: cb=08191eed/08191eed controllers=00000000/00000000 frames=648/648
+waiting: cb=09f00001/09f00001 controllers=00000000/00000000 frames=648/648
+link=0/0 remote=0/0
+error=0/0
+waiting: cb=0807fc39/0807fc39 controllers=08061a65/08061a65 frames=678/678
+link=228/209 remote=0/0
+error=0/0
+waiting: cb=0807fc39/0807fc39 controllers=08061a65/08061a65 frames=708/708
+link=228/209 remote=0/0
+error=0/0
+waiting: cb=0807fc39/0807fc39 controllers=08061a65/08061a65 frames=738/738
+link=228/209 remote=0/0
+error=0/0
+waiting: cb=081701c5/081701c5 controllers=08061a65/08061a65 frames=768/768
+link=0/0 remote=0/0
+error=2268/2249
+intro timeout: cb=081701c5/081701c5 controllers=08061a65/08061a65 frames=768/768

@@ -14,6 +14,9 @@ F.run(function()
  end
  F.check('normal wheel opens Bag',opened and F.cb2()==S.CB2_BagMenuRun);F.shot('prepared_bag')
  for i=1,8 do tap('B');if F.ow() then break end end
- F.check('normal Bag returns to field',F.ow());F.check('normal controls released',F.ensureFree())
+ F.check('normal Bag returns to the field wheel',F.ow())
+ -- Bag restores the start-menu wheel; its callback is also CB2_Overworld.
+ tap('B')
+ F.check('normal controls released',F.ensureFree());F.shot('prepared_controls')
  F.finish()
 end)

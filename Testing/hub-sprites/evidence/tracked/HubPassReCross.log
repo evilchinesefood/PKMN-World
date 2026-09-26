@@ -1,0 +1,103 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted in the World Transit hub -- grp=100 map=0 pos=(16,4)
+  [PASS] player is MALE (the seed path under test) -- gender=0
+  [PASS] fresh save: VAR_LITTLEROOT_INTRO_STATE is 0 -- intro=0 houses=0 heal=(0,0)@(0,0) arrival=0 introDone=false
+  [PASS] fresh save: hoennIntroDone is clear -- intro=0 houses=0 heal=(0,0)@(0,0) arrival=0 introDone=false
+  [PASS] seeded FLAG_SET_WALL_CLOCK (Johto/Kanto-first player)
+  [PASS] FLAG_HUB_INTRO_TOUR_DONE set (the crest coord_event cannot re-fire)
+  key items before the first cross: 0
+  yesNo travelHoenn_first -> row 0
+  [PASS] S2 first cross landed in Brendan's 2F -- grp=1 map=1 pos=(4,4)
+  shot HubPassReCross_1_s2_first_arrival
+  [PASS] S2 seed ran: intro state is 5 (seeded 4, 2F ON_TRANSITION advanced it) -- intro=5 houses=1 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] S2 seed ran: VAR_LITTLEROOT_HOUSES_STATE_BRENDAN is 1 -- intro=5 houses=1 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] S2 the cross arms the bedroom respawn (contract, both ROMs) -- heal=(1,1) want=(1,1)
+  [PASS] S2 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM set
+  [PASS] S2 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK set
+  [PASS] S2 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_MOM set
+  [PASS] S2 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_SIBLING set
+  [PASS] S2 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F_POKE_BALL set
+  [PASS] S2 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK set
+  [PASS] S2 the gate handed over the HUB PASS -- before=0 after=1 id=893
+  HUB PASS item id = 893
+  [PASS] route to the wall clock tile (5,2) -- grp=1 map=1 pos=(5,2)
+  shot HubPassReCross_2_after_clock
+  [PASS] clock-already-set branch advanced intro to 6 -- intro=6 houses=1 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] staged VAR_LITTLEROOT_HOUSES_STATE_BRENDAN = 2 (Met Rival's Mom) -- intro=6 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] staged an OLDALE POKeMON CENTER respawn over the bedroom -- intro=6 houses=2 heal=(2,2)@(6,8) arrival=0 introDone=false
+  [PASS] hoennIntroDone still clear (never walked outside) -- intro=6 houses=2 heal=(2,2)@(6,8) arrival=0 introDone=false
+  yesNo hubPassConfirm -> row 0
+  [PASS] S1 the HUB PASS confirm opened inside the house and took YES -- grp=1 map=1 pos=(5,2)
+  [PASS] S1 the HUB PASS warped out of the bedroom to the hub -- grp=100 map=0 pos=(16,4)
+  shot HubPassReCross_3_s1_back_in_hub
+  [PASS] S1 hoennIntroDone is still clear before the first outdoor arrival -- intro=6 houses=2 heal=(2,2)@(6,8) arrival=0 introDone=false
+  yesNo travelHoenn_recross -> row 0
+  [PASS] S1 re-cross landed in Brendan's 2F again -- grp=1 map=1 pos=(4,4)
+  shot HubPassReCross_4_s1_after_recross
+  [PASS] S1 intro state NOT rewound (still 6, not re-seeded to 4/5) -- intro=6 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] S1 VAR_LITTLEROOT_HOUSES_STATE_BRENDAN NOT rewound to 1 -- intro=6 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] S1 CONTRACT (not a discriminator): the cross re-arms the respawn to Brendan's 2F, so the stale cross-region POKeMON CENTER does not survive -- heal=(1,1)@(4,2)  want=(1,1) sentinel=(2,2) arrivalRespawn=(0,9)
+  [PASS] route to the 2F stairs tile (7,1) -- grp=1 map=1 pos=(7,1)
+  [PASS] S3 the stairs let us onto 1F at all -- grp=1 map=0 pos=(8,3)
+  shot HubPassReCross_5_s3_on_1f
+  [PASS] S3 still on 1F after the arrival scene, not a mom-bounce back onto 2F -- grp=1 map=0 pos=(4,5) intro=7 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=false
+  objects 1F: 0:(4,5) 1:(2,6)
+  1F player at grp=1 map=0 pos=(4,5)  intro=7 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=false
+  [PASS] route back to the 1F door column (8,5) -- grp=1 map=0 pos=(8,5)
+  [PASS] S3 stepped out into Littleroot Town -- grp=0 map=9 pos=(5,9)
+  shot HubPassReCross_6_s3_littleroot
+  [PASS] S3 arrival scene armed: VAR_REGION_ARRIVAL is 1 -- intro=7 houses=2 heal=(1,1)@(4,2) arrival=1 introDone=false
+  [PASS] S3 hoennIntroDone still clear while the scene is on screen -- intro=7 houses=2 heal=(1,1)@(4,2) arrival=1 introDone=false
+  shot HubPassReCross_7_s3_after_arrival
+  [PASS] S3 region_intro_done_hook latched hoennIntroDone -- intro=7 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=true
+  [PASS] S3 region_intro_done_hook cleared VAR_REGION_ARRIVAL -- intro=7 houses=2 heal=(1,1)@(4,2) arrival=0 introDone=true
+  yesNo hubPassConfirm2 -> row 0
+  [PASS] S3b HUB PASS returned to the hub from Littleroot Town -- grp=100 map=0 pos=(16,4)
+  [PASS] route to the Hoenn attendant -- grp=100 map=0 pos=(21,3)
+  yesNo travelHoenn_return -> row 0
+  [PASS] S3b the returning-traveller YES/NO opened -- grp=1 map=1 pos=(4,4)
+  [PASS] S3b Stone Badge is still clear before the pre-badge crossing
+  shot HubPassReCross_8_s3b_prebadge_destination
+  [PASS] S3b intro-done without the Stone Badge still returns to Brendan's 2F -- grp=1 map=1 pos=(4,4) harbor=(9,9)
+  yesNo hubPass_postbadge -> row 0
+  [PASS] S3c HUB PASS returned to the hub from the pre-badge bedroom -- grp=100 map=0 pos=(16,4)
+  [PASS] S3c set the Hoenn Stone Badge
+  yesNo travelHoenn_return_postbadge -> row 0
+  shot HubPassReCross_9_s3c_postbadge_destination
+  [PASS] S3c the Stone Badge unlocks SLATEPORT HARBOR instead of the bedroom -- grp=9 map=9 pos=(11,14) bedroom=(1,1)
+== S4/S5: the FEMALE branch of the same gate ==
+  [PASS] S4 forged playerGender = FEMALE (the branch under test) -- gender=1
+  [PASS] S4 reset to a Hoenn first-timer: state 0, houses(MAY) 0, intro/narration and badge clear -- intro=0 housesMay=0 heal=(0,9)@(5,9) arrival=0 introDone=false
+  [PASS] S4 cleared all six FEMALE seed flags first, so the flag checks below cannot pass on the MALE seed's leftovers (both TRUCK flags are in both seed lists) -- still set: none
+  yesNo hubPass_may_reset -> row 0
+  [PASS] S4 the HUB PASS returned MAY to the hub to start the female journey -- grp=100 map=0 pos=(16,4)
+  yesNo travelHoenn_may_first -> row 0
+  [PASS] S4 first cross as MAY landed in MAY's 2F, so the gate took the FEMALE branch -- grp=1 map=3 pos=(4,4) may=(1,3) brendan=(1,1) harbor=(9,9)
+  shot HubPassReCross_10_s4_may_first_arrival
+  [PASS] S4 seed ran: intro state is 5 (seeded 4, May's 2F ON_TRANSITION advanced it) -- intro=5 housesMay=1 heal=(1,3)@(4,2) arrival=0 introDone=false
+  [PASS] S4 seed ran: VAR_LITTLEROOT_HOUSES_STATE_MAY is 1 -- intro=5 housesMay=1 heal=(1,3)@(4,2) arrival=0 introDone=false
+  [PASS] S4 the cross arms MAY's 2F respawn (contract, both ROMs) -- heal=(1,3)@(4,2) want=(1,3)
+  [PASS] S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_MOM set
+  [PASS] S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK set
+  [PASS] S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_MOM set
+  [PASS] S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_SIBLING set
+  [PASS] S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL set
+  [PASS] S4 seed ran: FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK set
+  [PASS] route to MAY's wall clock tile (3,2) -- grp=1 map=3 pos=(3,2)
+  shot HubPassReCross_11_s5_after_clock_may
+  [PASS] S5 clock-already-set branch advanced MAY's intro to 6 -- intro=6 housesMay=1 heal=(1,3)@(4,2) arrival=0 introDone=false
+  [PASS] S5 staged VAR_LITTLEROOT_HOUSES_STATE_MAY = 2 (Met Rival's Mom) -- intro=6 housesMay=2 heal=(1,3)@(4,2) arrival=0 introDone=false
+  [PASS] S5 staged an OLDALE POKeMON CENTER respawn over MAY's bedroom -- intro=6 housesMay=2 heal=(2,2)@(6,8) arrival=0 introDone=false
+  [PASS] S5 hoennIntroDone still clear (MAY never walked outside either) -- intro=6 housesMay=2 heal=(2,2)@(6,8) arrival=0 introDone=false
+  yesNo hubPass_may_recross -> row 0
+  [PASS] S5 the HUB PASS warped MAY out of the bedroom to the hub -- grp=100 map=0 pos=(16,4)
+  shot HubPassReCross_12_s5_back_in_hub
+  [PASS] S5 Hoenn's first badge is still clear, so the gate must return home -- intro=6 housesMay=2 heal=(2,2)@(6,8) arrival=0 introDone=false
+  yesNo travelHoenn_may_recross -> row 0
+  [PASS] S5 re-cross landed in MAY's 2F again -- grp=1 map=3 pos=(4,4)
+  shot HubPassReCross_13_s5_after_recross
+  [PASS] S5 intro state NOT rewound (still 6, not re-seeded to 4/5) -- intro=6 housesMay=2 heal=(1,3)@(4,2) arrival=0 introDone=false
+  [PASS] S5 VAR_LITTLEROOT_HOUSES_STATE_MAY NOT rewound to 1 -- intro=6 housesMay=2 heal=(1,3)@(4,2) arrival=0 introDone=false
+  [PASS] S5 CONTRACT (not a discriminator): the cross re-arms the respawn to MAY's 2F, so the stale cross-region POKeMON CENTER does not survive -- heal=(1,3)@(4,2)  want=(1,3) sentinel=(2,2)
+VERDICT HubPassReCross: 71/71 PASS

@@ -1,0 +1,17 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] A: reached (2,13)
+  [PASS] A: non-champion bounced back to (2,13) -- (2,13)
+  [PASS] A: still on the hub 1F
+  [PASS] A: control returned after the bounce
+  WARP reenter ok (16,4)
+  [PASS] B: hub re-entered clean
+  [PASS] B: reached (2,13)
+  [PASS] B: champion admitted onto the apron, no DENIED box -- (2,14)
+  [PASS] B: champion rides up to RegionHub_2F -- grp=100 map=1
+  [PASS] B: control returns on the flagship floor
+  [PASS] C: descent returns to the hub 1F
+  [PASS] C: landed and auto-walked onto the apron (2,14) -- (2,14)
+  [PASS] C: control returns after the descent (D1 guard)
+  shot HubStairsGate_1_stairs_done
+VERDICT HubStairsGate: 12/12 PASS

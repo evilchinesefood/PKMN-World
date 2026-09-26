@@ -1,0 +1,25 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] walk on ordinary floor
+  [PASS] delivery: follower visible and adjacent
+PROBE delivery follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] delivery follower: actor and sprite present
+  [PASS] delivery: expected follower species/shininess
+  [PASS] delivery: follower palette matches its source
+PROBE delivery harbor id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] delivery harbor: actor and sprite present
+  [PASS] delivery harbor: approved FRLG graphics
+  [PASS] delivery harbor: correct palette colors and slot
+  [PASS] delivery harbor: standard dimensions and shadow
+  [PASS] synthetic save written
+BOOTED grp=100 map=0 pos=(5,13)
+  [PASS] prepared save reloads
+  [PASS] normal walking after reload
+  [PASS] reloaded delivery: follower visible and adjacent
+PROBE reloaded delivery follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] reloaded delivery follower: actor and sprite present
+  [PASS] reloaded delivery: expected follower species/shininess
+  [PASS] reloaded delivery: follower palette matches its source
+  shot HubSpritesSave_1_ready_to_play
+Peak active objects=0
+VERDICT HubSpritesSave: 16/16 PASS

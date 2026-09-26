@@ -1,0 +1,1313 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] outfit 0: walk beside curator
+PROBE outfit 0 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 0 curator: actor and sprite present
+  [PASS] outfit 0 curator: approved FRLG graphics
+  [PASS] outfit 0 curator: correct palette colors and slot
+  [PASS] outfit 0 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_1_outfit_0_curator
+  [PASS] outfit_00_normal_12h: normal crest arrival
+  [PASS] outfit_00_normal_12h: leave crest
+  [PASS] outfit_00_normal_12h: actual day/night state
+  [PASS] outfit_00_normal_12h: object budget -- active=13
+  [PASS] outfit_00_normal_12h: follower visible and adjacent
+PROBE outfit_00_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_00_normal_12h follower: actor and sprite present
+  [PASS] outfit_00_normal_12h: expected follower species/shininess
+  [PASS] outfit_00_normal_12h: follower palette matches its source
+  [PASS] outfit_00_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_2_outfit_00_normal_12h
+  shot HubSpritesOutfits_3_outfit_00_normal_12h_menu
+  [PASS] outfit_00_normal_12h: menu returns control
+  [PASS] outfit_00_normal_12h_return: follower visible and adjacent
+PROBE outfit_00_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_00_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_00_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_00_normal_12h_return: follower palette matches its source
+  [PASS] outfit_00_normal_12h: outfit retained after menu
+PROBE outfit_00_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_00_normal_12h_return: actor and sprite present
+  [PASS] outfit_00_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_00_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_00_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_4_outfit_00_normal_12h_return
+  [PASS] outfit_00_normal_22h: normal crest arrival
+  [PASS] outfit_00_normal_22h: leave crest
+  [PASS] outfit_00_normal_22h: actual day/night state
+  [PASS] outfit_00_normal_22h: object budget -- active=13
+  [PASS] outfit_00_normal_22h: follower visible and adjacent
+PROBE outfit_00_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_00_normal_22h follower: actor and sprite present
+  [PASS] outfit_00_normal_22h: expected follower species/shininess
+  [PASS] outfit_00_normal_22h: follower palette matches its source
+  [PASS] outfit_00_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_5_outfit_00_normal_22h
+  shot HubSpritesOutfits_6_outfit_00_normal_22h_menu
+  [PASS] outfit_00_normal_22h: menu returns control
+  [PASS] outfit_00_normal_22h_return: follower visible and adjacent
+PROBE outfit_00_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_00_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_00_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_00_normal_22h_return: follower palette matches its source
+  [PASS] outfit_00_normal_22h: outfit retained after menu
+PROBE outfit_00_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_00_normal_22h_return: actor and sprite present
+  [PASS] outfit_00_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_00_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_00_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_7_outfit_00_normal_22h_return
+  [PASS] outfit_00_west_12h: reach upstairs escalator
+  [PASS] outfit_00_west_12h: actual west stairs arrival
+  [PASS] outfit_00_west_12h: leave west stairs
+  [PASS] outfit_00_west_12h: actual day/night state
+  [PASS] outfit_00_west_12h: object budget -- active=8
+  [PASS] outfit_00_west_12h: follower visible and adjacent
+PROBE outfit_00_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_00_west_12h follower: actor and sprite present
+  [PASS] outfit_00_west_12h: expected follower species/shininess
+  [PASS] outfit_00_west_12h: follower palette matches its source
+  [PASS] outfit_00_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_8_outfit_00_west_12h
+  shot HubSpritesOutfits_9_outfit_00_west_12h_menu
+  [PASS] outfit_00_west_12h: menu returns control
+  [PASS] outfit_00_west_12h_return: follower visible and adjacent
+PROBE outfit_00_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_00_west_12h_return follower: actor and sprite present
+  [PASS] outfit_00_west_12h_return: expected follower species/shininess
+  [PASS] outfit_00_west_12h_return: follower palette matches its source
+  [PASS] outfit_00_west_12h: outfit retained after menu
+PROBE outfit_00_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_00_west_12h_return: actor and sprite present
+  [PASS] outfit_00_west_12h_return: approved FRLG graphics
+  [PASS] outfit_00_west_12h_return: correct palette colors and slot
+  [PASS] outfit_00_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_10_outfit_00_west_12h_return
+  [PASS] outfit_00_west_22h: reach upstairs escalator
+  [PASS] outfit_00_west_22h: actual west stairs arrival
+  [PASS] outfit_00_west_22h: leave west stairs
+  [PASS] outfit_00_west_22h: actual day/night state
+  [PASS] outfit_00_west_22h: object budget -- active=8
+  [PASS] outfit_00_west_22h: follower visible and adjacent
+PROBE outfit_00_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_00_west_22h follower: actor and sprite present
+  [PASS] outfit_00_west_22h: expected follower species/shininess
+  [PASS] outfit_00_west_22h: follower palette matches its source
+  [PASS] outfit_00_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_11_outfit_00_west_22h
+  shot HubSpritesOutfits_12_outfit_00_west_22h_menu
+  [PASS] outfit_00_west_22h: menu returns control
+  [PASS] outfit_00_west_22h_return: follower visible and adjacent
+PROBE outfit_00_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_00_west_22h_return follower: actor and sprite present
+  [PASS] outfit_00_west_22h_return: expected follower species/shininess
+  [PASS] outfit_00_west_22h_return: follower palette matches its source
+  [PASS] outfit_00_west_22h: outfit retained after menu
+PROBE outfit_00_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_00_west_22h_return: actor and sprite present
+  [PASS] outfit_00_west_22h_return: approved FRLG graphics
+  [PASS] outfit_00_west_22h_return: correct palette colors and slot
+  [PASS] outfit_00_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_13_outfit_00_west_22h_return
+  [PASS] outfit 1: walk beside curator
+PROBE outfit 1 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 1 curator: actor and sprite present
+  [PASS] outfit 1 curator: approved FRLG graphics
+  [PASS] outfit 1 curator: correct palette colors and slot
+  [PASS] outfit 1 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_14_outfit_1_curator
+  [PASS] outfit_01_normal_12h: normal crest arrival
+  [PASS] outfit_01_normal_12h: leave crest
+  [PASS] outfit_01_normal_12h: actual day/night state
+  [PASS] outfit_01_normal_12h: object budget -- active=13
+  [PASS] outfit_01_normal_12h: follower visible and adjacent
+PROBE outfit_01_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_01_normal_12h follower: actor and sprite present
+  [PASS] outfit_01_normal_12h: expected follower species/shininess
+  [PASS] outfit_01_normal_12h: follower palette matches its source
+  [PASS] outfit_01_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_15_outfit_01_normal_12h
+  shot HubSpritesOutfits_16_outfit_01_normal_12h_menu
+  [PASS] outfit_01_normal_12h: menu returns control
+  [PASS] outfit_01_normal_12h_return: follower visible and adjacent
+PROBE outfit_01_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_01_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_01_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_01_normal_12h_return: follower palette matches its source
+  [PASS] outfit_01_normal_12h: outfit retained after menu
+PROBE outfit_01_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_01_normal_12h_return: actor and sprite present
+  [PASS] outfit_01_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_01_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_01_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_17_outfit_01_normal_12h_return
+  [PASS] outfit_01_normal_22h: normal crest arrival
+  [PASS] outfit_01_normal_22h: leave crest
+  [PASS] outfit_01_normal_22h: actual day/night state
+  [PASS] outfit_01_normal_22h: object budget -- active=13
+  [PASS] outfit_01_normal_22h: follower visible and adjacent
+PROBE outfit_01_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_01_normal_22h follower: actor and sprite present
+  [PASS] outfit_01_normal_22h: expected follower species/shininess
+  [PASS] outfit_01_normal_22h: follower palette matches its source
+  [PASS] outfit_01_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_18_outfit_01_normal_22h
+  shot HubSpritesOutfits_19_outfit_01_normal_22h_menu
+  [PASS] outfit_01_normal_22h: menu returns control
+  [PASS] outfit_01_normal_22h_return: follower visible and adjacent
+PROBE outfit_01_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_01_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_01_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_01_normal_22h_return: follower palette matches its source
+  [PASS] outfit_01_normal_22h: outfit retained after menu
+PROBE outfit_01_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_01_normal_22h_return: actor and sprite present
+  [PASS] outfit_01_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_01_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_01_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_20_outfit_01_normal_22h_return
+  [PASS] outfit_01_west_12h: reach upstairs escalator
+  [PASS] outfit_01_west_12h: actual west stairs arrival
+  [PASS] outfit_01_west_12h: leave west stairs
+  [PASS] outfit_01_west_12h: actual day/night state
+  [PASS] outfit_01_west_12h: object budget -- active=8
+  [PASS] outfit_01_west_12h: follower visible and adjacent
+PROBE outfit_01_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_01_west_12h follower: actor and sprite present
+  [PASS] outfit_01_west_12h: expected follower species/shininess
+  [PASS] outfit_01_west_12h: follower palette matches its source
+  [PASS] outfit_01_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_21_outfit_01_west_12h
+  shot HubSpritesOutfits_22_outfit_01_west_12h_menu
+  [PASS] outfit_01_west_12h: menu returns control
+  [PASS] outfit_01_west_12h_return: follower visible and adjacent
+PROBE outfit_01_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_01_west_12h_return follower: actor and sprite present
+  [PASS] outfit_01_west_12h_return: expected follower species/shininess
+  [PASS] outfit_01_west_12h_return: follower palette matches its source
+  [PASS] outfit_01_west_12h: outfit retained after menu
+PROBE outfit_01_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_01_west_12h_return: actor and sprite present
+  [PASS] outfit_01_west_12h_return: approved FRLG graphics
+  [PASS] outfit_01_west_12h_return: correct palette colors and slot
+  [PASS] outfit_01_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_23_outfit_01_west_12h_return
+  [PASS] outfit_01_west_22h: reach upstairs escalator
+  [PASS] outfit_01_west_22h: actual west stairs arrival
+  [PASS] outfit_01_west_22h: leave west stairs
+  [PASS] outfit_01_west_22h: actual day/night state
+  [PASS] outfit_01_west_22h: object budget -- active=8
+  [PASS] outfit_01_west_22h: follower visible and adjacent
+PROBE outfit_01_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_01_west_22h follower: actor and sprite present
+  [PASS] outfit_01_west_22h: expected follower species/shininess
+  [PASS] outfit_01_west_22h: follower palette matches its source
+  [PASS] outfit_01_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_24_outfit_01_west_22h
+  shot HubSpritesOutfits_25_outfit_01_west_22h_menu
+  [PASS] outfit_01_west_22h: menu returns control
+  [PASS] outfit_01_west_22h_return: follower visible and adjacent
+PROBE outfit_01_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_01_west_22h_return follower: actor and sprite present
+  [PASS] outfit_01_west_22h_return: expected follower species/shininess
+  [PASS] outfit_01_west_22h_return: follower palette matches its source
+  [PASS] outfit_01_west_22h: outfit retained after menu
+PROBE outfit_01_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_01_west_22h_return: actor and sprite present
+  [PASS] outfit_01_west_22h_return: approved FRLG graphics
+  [PASS] outfit_01_west_22h_return: correct palette colors and slot
+  [PASS] outfit_01_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_26_outfit_01_west_22h_return
+  [PASS] outfit 2: walk beside curator
+PROBE outfit 2 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 2 curator: actor and sprite present
+  [PASS] outfit 2 curator: approved FRLG graphics
+  [PASS] outfit 2 curator: correct palette colors and slot
+  [PASS] outfit 2 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_27_outfit_2_curator
+  [PASS] outfit_02_normal_12h: normal crest arrival
+  [PASS] outfit_02_normal_12h: leave crest
+  [PASS] outfit_02_normal_12h: actual day/night state
+  [PASS] outfit_02_normal_12h: object budget -- active=13
+  [PASS] outfit_02_normal_12h: follower visible and adjacent
+PROBE outfit_02_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_02_normal_12h follower: actor and sprite present
+  [PASS] outfit_02_normal_12h: expected follower species/shininess
+  [PASS] outfit_02_normal_12h: follower palette matches its source
+  [PASS] outfit_02_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_28_outfit_02_normal_12h
+  shot HubSpritesOutfits_29_outfit_02_normal_12h_menu
+  [PASS] outfit_02_normal_12h: menu returns control
+  [PASS] outfit_02_normal_12h_return: follower visible and adjacent
+PROBE outfit_02_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_02_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_02_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_02_normal_12h_return: follower palette matches its source
+  [PASS] outfit_02_normal_12h: outfit retained after menu
+PROBE outfit_02_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_02_normal_12h_return: actor and sprite present
+  [PASS] outfit_02_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_02_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_02_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_30_outfit_02_normal_12h_return
+  [PASS] outfit_02_normal_22h: normal crest arrival
+  [PASS] outfit_02_normal_22h: leave crest
+  [PASS] outfit_02_normal_22h: actual day/night state
+  [PASS] outfit_02_normal_22h: object budget -- active=13
+  [PASS] outfit_02_normal_22h: follower visible and adjacent
+PROBE outfit_02_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_02_normal_22h follower: actor and sprite present
+  [PASS] outfit_02_normal_22h: expected follower species/shininess
+  [PASS] outfit_02_normal_22h: follower palette matches its source
+  [PASS] outfit_02_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_31_outfit_02_normal_22h
+  shot HubSpritesOutfits_32_outfit_02_normal_22h_menu
+  [PASS] outfit_02_normal_22h: menu returns control
+  [PASS] outfit_02_normal_22h_return: follower visible and adjacent
+PROBE outfit_02_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_02_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_02_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_02_normal_22h_return: follower palette matches its source
+  [PASS] outfit_02_normal_22h: outfit retained after menu
+PROBE outfit_02_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_02_normal_22h_return: actor and sprite present
+  [PASS] outfit_02_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_02_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_02_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_33_outfit_02_normal_22h_return
+  [PASS] outfit_02_west_12h: reach upstairs escalator
+  [PASS] outfit_02_west_12h: actual west stairs arrival
+  [PASS] outfit_02_west_12h: leave west stairs
+  [PASS] outfit_02_west_12h: actual day/night state
+  [PASS] outfit_02_west_12h: object budget -- active=8
+  [PASS] outfit_02_west_12h: follower visible and adjacent
+PROBE outfit_02_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_02_west_12h follower: actor and sprite present
+  [PASS] outfit_02_west_12h: expected follower species/shininess
+  [PASS] outfit_02_west_12h: follower palette matches its source
+  [PASS] outfit_02_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_34_outfit_02_west_12h
+  shot HubSpritesOutfits_35_outfit_02_west_12h_menu
+  [PASS] outfit_02_west_12h: menu returns control
+  [PASS] outfit_02_west_12h_return: follower visible and adjacent
+PROBE outfit_02_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_02_west_12h_return follower: actor and sprite present
+  [PASS] outfit_02_west_12h_return: expected follower species/shininess
+  [PASS] outfit_02_west_12h_return: follower palette matches its source
+  [PASS] outfit_02_west_12h: outfit retained after menu
+PROBE outfit_02_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_02_west_12h_return: actor and sprite present
+  [PASS] outfit_02_west_12h_return: approved FRLG graphics
+  [PASS] outfit_02_west_12h_return: correct palette colors and slot
+  [PASS] outfit_02_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_36_outfit_02_west_12h_return
+  [PASS] outfit_02_west_22h: reach upstairs escalator
+  [PASS] outfit_02_west_22h: actual west stairs arrival
+  [PASS] outfit_02_west_22h: leave west stairs
+  [PASS] outfit_02_west_22h: actual day/night state
+  [PASS] outfit_02_west_22h: object budget -- active=8
+  [PASS] outfit_02_west_22h: follower visible and adjacent
+PROBE outfit_02_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_02_west_22h follower: actor and sprite present
+  [PASS] outfit_02_west_22h: expected follower species/shininess
+  [PASS] outfit_02_west_22h: follower palette matches its source
+  [PASS] outfit_02_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_37_outfit_02_west_22h
+  shot HubSpritesOutfits_38_outfit_02_west_22h_menu
+  [PASS] outfit_02_west_22h: menu returns control
+  [PASS] outfit_02_west_22h_return: follower visible and adjacent
+PROBE outfit_02_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_02_west_22h_return follower: actor and sprite present
+  [PASS] outfit_02_west_22h_return: expected follower species/shininess
+  [PASS] outfit_02_west_22h_return: follower palette matches its source
+  [PASS] outfit_02_west_22h: outfit retained after menu
+PROBE outfit_02_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_02_west_22h_return: actor and sprite present
+  [PASS] outfit_02_west_22h_return: approved FRLG graphics
+  [PASS] outfit_02_west_22h_return: correct palette colors and slot
+  [PASS] outfit_02_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_39_outfit_02_west_22h_return
+  [PASS] outfit 3: walk beside curator
+PROBE outfit 3 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 3 curator: actor and sprite present
+  [PASS] outfit 3 curator: approved FRLG graphics
+  [PASS] outfit 3 curator: correct palette colors and slot
+  [PASS] outfit 3 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_40_outfit_3_curator
+  [PASS] outfit_03_normal_12h: normal crest arrival
+  [PASS] outfit_03_normal_12h: leave crest
+  [PASS] outfit_03_normal_12h: actual day/night state
+  [PASS] outfit_03_normal_12h: object budget -- active=13
+  [PASS] outfit_03_normal_12h: follower visible and adjacent
+PROBE outfit_03_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_03_normal_12h follower: actor and sprite present
+  [PASS] outfit_03_normal_12h: expected follower species/shininess
+  [PASS] outfit_03_normal_12h: follower palette matches its source
+  [PASS] outfit_03_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_41_outfit_03_normal_12h
+  shot HubSpritesOutfits_42_outfit_03_normal_12h_menu
+  [PASS] outfit_03_normal_12h: menu returns control
+  [PASS] outfit_03_normal_12h_return: follower visible and adjacent
+PROBE outfit_03_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_03_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_03_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_03_normal_12h_return: follower palette matches its source
+  [PASS] outfit_03_normal_12h: outfit retained after menu
+PROBE outfit_03_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_03_normal_12h_return: actor and sprite present
+  [PASS] outfit_03_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_03_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_03_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_43_outfit_03_normal_12h_return
+  [PASS] outfit_03_normal_22h: normal crest arrival
+  [PASS] outfit_03_normal_22h: leave crest
+  [PASS] outfit_03_normal_22h: actual day/night state
+  [PASS] outfit_03_normal_22h: object budget -- active=13
+  [PASS] outfit_03_normal_22h: follower visible and adjacent
+PROBE outfit_03_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_03_normal_22h follower: actor and sprite present
+  [PASS] outfit_03_normal_22h: expected follower species/shininess
+  [PASS] outfit_03_normal_22h: follower palette matches its source
+  [PASS] outfit_03_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_44_outfit_03_normal_22h
+  shot HubSpritesOutfits_45_outfit_03_normal_22h_menu
+  [PASS] outfit_03_normal_22h: menu returns control
+  [PASS] outfit_03_normal_22h_return: follower visible and adjacent
+PROBE outfit_03_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_03_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_03_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_03_normal_22h_return: follower palette matches its source
+  [PASS] outfit_03_normal_22h: outfit retained after menu
+PROBE outfit_03_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_03_normal_22h_return: actor and sprite present
+  [PASS] outfit_03_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_03_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_03_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_46_outfit_03_normal_22h_return
+  [PASS] outfit_03_west_12h: reach upstairs escalator
+  [PASS] outfit_03_west_12h: actual west stairs arrival
+  [PASS] outfit_03_west_12h: leave west stairs
+  [PASS] outfit_03_west_12h: actual day/night state
+  [PASS] outfit_03_west_12h: object budget -- active=8
+  [PASS] outfit_03_west_12h: follower visible and adjacent
+PROBE outfit_03_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_03_west_12h follower: actor and sprite present
+  [PASS] outfit_03_west_12h: expected follower species/shininess
+  [PASS] outfit_03_west_12h: follower palette matches its source
+  [PASS] outfit_03_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_47_outfit_03_west_12h
+  shot HubSpritesOutfits_48_outfit_03_west_12h_menu
+  [PASS] outfit_03_west_12h: menu returns control
+  [PASS] outfit_03_west_12h_return: follower visible and adjacent
+PROBE outfit_03_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_03_west_12h_return follower: actor and sprite present
+  [PASS] outfit_03_west_12h_return: expected follower species/shininess
+  [PASS] outfit_03_west_12h_return: follower palette matches its source
+  [PASS] outfit_03_west_12h: outfit retained after menu
+PROBE outfit_03_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_03_west_12h_return: actor and sprite present
+  [PASS] outfit_03_west_12h_return: approved FRLG graphics
+  [PASS] outfit_03_west_12h_return: correct palette colors and slot
+  [PASS] outfit_03_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_49_outfit_03_west_12h_return
+  [PASS] outfit_03_west_22h: reach upstairs escalator
+  [PASS] outfit_03_west_22h: actual west stairs arrival
+  [PASS] outfit_03_west_22h: leave west stairs
+  [PASS] outfit_03_west_22h: actual day/night state
+  [PASS] outfit_03_west_22h: object budget -- active=8
+  [PASS] outfit_03_west_22h: follower visible and adjacent
+PROBE outfit_03_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_03_west_22h follower: actor and sprite present
+  [PASS] outfit_03_west_22h: expected follower species/shininess
+  [PASS] outfit_03_west_22h: follower palette matches its source
+  [PASS] outfit_03_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_50_outfit_03_west_22h
+  shot HubSpritesOutfits_51_outfit_03_west_22h_menu
+  [PASS] outfit_03_west_22h: menu returns control
+  [PASS] outfit_03_west_22h_return: follower visible and adjacent
+PROBE outfit_03_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_03_west_22h_return follower: actor and sprite present
+  [PASS] outfit_03_west_22h_return: expected follower species/shininess
+  [PASS] outfit_03_west_22h_return: follower palette matches its source
+  [PASS] outfit_03_west_22h: outfit retained after menu
+PROBE outfit_03_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_03_west_22h_return: actor and sprite present
+  [PASS] outfit_03_west_22h_return: approved FRLG graphics
+  [PASS] outfit_03_west_22h_return: correct palette colors and slot
+  [PASS] outfit_03_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_52_outfit_03_west_22h_return
+  [PASS] outfit 4: walk beside curator
+PROBE outfit 4 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 4 curator: actor and sprite present
+  [PASS] outfit 4 curator: approved FRLG graphics
+  [PASS] outfit 4 curator: correct palette colors and slot
+  [PASS] outfit 4 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_53_outfit_4_curator
+  [PASS] outfit_04_normal_12h: normal crest arrival
+  [PASS] outfit_04_normal_12h: leave crest
+  [PASS] outfit_04_normal_12h: actual day/night state
+  [PASS] outfit_04_normal_12h: object budget -- active=13
+  [PASS] outfit_04_normal_12h: follower visible and adjacent
+PROBE outfit_04_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_04_normal_12h follower: actor and sprite present
+  [PASS] outfit_04_normal_12h: expected follower species/shininess
+  [PASS] outfit_04_normal_12h: follower palette matches its source
+  [PASS] outfit_04_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_54_outfit_04_normal_12h
+  shot HubSpritesOutfits_55_outfit_04_normal_12h_menu
+  [PASS] outfit_04_normal_12h: menu returns control
+  [PASS] outfit_04_normal_12h_return: follower visible and adjacent
+PROBE outfit_04_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_04_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_04_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_04_normal_12h_return: follower palette matches its source
+  [PASS] outfit_04_normal_12h: outfit retained after menu
+PROBE outfit_04_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_04_normal_12h_return: actor and sprite present
+  [PASS] outfit_04_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_04_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_04_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_56_outfit_04_normal_12h_return
+  [PASS] outfit_04_normal_22h: normal crest arrival
+  [PASS] outfit_04_normal_22h: leave crest
+  [PASS] outfit_04_normal_22h: actual day/night state
+  [PASS] outfit_04_normal_22h: object budget -- active=13
+  [PASS] outfit_04_normal_22h: follower visible and adjacent
+PROBE outfit_04_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_04_normal_22h follower: actor and sprite present
+  [PASS] outfit_04_normal_22h: expected follower species/shininess
+  [PASS] outfit_04_normal_22h: follower palette matches its source
+  [PASS] outfit_04_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_57_outfit_04_normal_22h
+  shot HubSpritesOutfits_58_outfit_04_normal_22h_menu
+  [PASS] outfit_04_normal_22h: menu returns control
+  [PASS] outfit_04_normal_22h_return: follower visible and adjacent
+PROBE outfit_04_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_04_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_04_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_04_normal_22h_return: follower palette matches its source
+  [PASS] outfit_04_normal_22h: outfit retained after menu
+PROBE outfit_04_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_04_normal_22h_return: actor and sprite present
+  [PASS] outfit_04_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_04_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_04_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_59_outfit_04_normal_22h_return
+  [PASS] outfit_04_west_12h: reach upstairs escalator
+  [PASS] outfit_04_west_12h: actual west stairs arrival
+  [PASS] outfit_04_west_12h: leave west stairs
+  [PASS] outfit_04_west_12h: actual day/night state
+  [PASS] outfit_04_west_12h: object budget -- active=8
+  [PASS] outfit_04_west_12h: follower visible and adjacent
+PROBE outfit_04_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_04_west_12h follower: actor and sprite present
+  [PASS] outfit_04_west_12h: expected follower species/shininess
+  [PASS] outfit_04_west_12h: follower palette matches its source
+  [PASS] outfit_04_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_60_outfit_04_west_12h
+  shot HubSpritesOutfits_61_outfit_04_west_12h_menu
+  [PASS] outfit_04_west_12h: menu returns control
+  [PASS] outfit_04_west_12h_return: follower visible and adjacent
+PROBE outfit_04_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_04_west_12h_return follower: actor and sprite present
+  [PASS] outfit_04_west_12h_return: expected follower species/shininess
+  [PASS] outfit_04_west_12h_return: follower palette matches its source
+  [PASS] outfit_04_west_12h: outfit retained after menu
+PROBE outfit_04_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_04_west_12h_return: actor and sprite present
+  [PASS] outfit_04_west_12h_return: approved FRLG graphics
+  [PASS] outfit_04_west_12h_return: correct palette colors and slot
+  [PASS] outfit_04_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_62_outfit_04_west_12h_return
+  [PASS] outfit_04_west_22h: reach upstairs escalator
+  [PASS] outfit_04_west_22h: actual west stairs arrival
+  [PASS] outfit_04_west_22h: leave west stairs
+  [PASS] outfit_04_west_22h: actual day/night state
+  [PASS] outfit_04_west_22h: object budget -- active=8
+  [PASS] outfit_04_west_22h: follower visible and adjacent
+PROBE outfit_04_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_04_west_22h follower: actor and sprite present
+  [PASS] outfit_04_west_22h: expected follower species/shininess
+  [PASS] outfit_04_west_22h: follower palette matches its source
+  [PASS] outfit_04_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_63_outfit_04_west_22h
+  shot HubSpritesOutfits_64_outfit_04_west_22h_menu
+  [PASS] outfit_04_west_22h: menu returns control
+  [PASS] outfit_04_west_22h_return: follower visible and adjacent
+PROBE outfit_04_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_04_west_22h_return follower: actor and sprite present
+  [PASS] outfit_04_west_22h_return: expected follower species/shininess
+  [PASS] outfit_04_west_22h_return: follower palette matches its source
+  [PASS] outfit_04_west_22h: outfit retained after menu
+PROBE outfit_04_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_04_west_22h_return: actor and sprite present
+  [PASS] outfit_04_west_22h_return: approved FRLG graphics
+  [PASS] outfit_04_west_22h_return: correct palette colors and slot
+  [PASS] outfit_04_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_65_outfit_04_west_22h_return
+  [PASS] outfit 5: walk beside curator
+PROBE outfit 5 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 5 curator: actor and sprite present
+  [PASS] outfit 5 curator: approved FRLG graphics
+  [PASS] outfit 5 curator: correct palette colors and slot
+  [PASS] outfit 5 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_66_outfit_5_curator
+  [PASS] outfit_05_normal_12h: normal crest arrival
+  [PASS] outfit_05_normal_12h: leave crest
+  [PASS] outfit_05_normal_12h: actual day/night state
+  [PASS] outfit_05_normal_12h: object budget -- active=13
+  [PASS] outfit_05_normal_12h: follower visible and adjacent
+PROBE outfit_05_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_05_normal_12h follower: actor and sprite present
+  [PASS] outfit_05_normal_12h: expected follower species/shininess
+  [PASS] outfit_05_normal_12h: follower palette matches its source
+  [PASS] outfit_05_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_67_outfit_05_normal_12h
+  shot HubSpritesOutfits_68_outfit_05_normal_12h_menu
+  [PASS] outfit_05_normal_12h: menu returns control
+  [PASS] outfit_05_normal_12h_return: follower visible and adjacent
+PROBE outfit_05_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_05_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_05_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_05_normal_12h_return: follower palette matches its source
+  [PASS] outfit_05_normal_12h: outfit retained after menu
+PROBE outfit_05_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_05_normal_12h_return: actor and sprite present
+  [PASS] outfit_05_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_05_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_05_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_69_outfit_05_normal_12h_return
+  [PASS] outfit_05_normal_22h: normal crest arrival
+  [PASS] outfit_05_normal_22h: leave crest
+  [PASS] outfit_05_normal_22h: actual day/night state
+  [PASS] outfit_05_normal_22h: object budget -- active=13
+  [PASS] outfit_05_normal_22h: follower visible and adjacent
+PROBE outfit_05_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_05_normal_22h follower: actor and sprite present
+  [PASS] outfit_05_normal_22h: expected follower species/shininess
+  [PASS] outfit_05_normal_22h: follower palette matches its source
+  [PASS] outfit_05_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_70_outfit_05_normal_22h
+  shot HubSpritesOutfits_71_outfit_05_normal_22h_menu
+  [PASS] outfit_05_normal_22h: menu returns control
+  [PASS] outfit_05_normal_22h_return: follower visible and adjacent
+PROBE outfit_05_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_05_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_05_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_05_normal_22h_return: follower palette matches its source
+  [PASS] outfit_05_normal_22h: outfit retained after menu
+PROBE outfit_05_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_05_normal_22h_return: actor and sprite present
+  [PASS] outfit_05_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_05_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_05_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_72_outfit_05_normal_22h_return
+  [PASS] outfit_05_west_12h: reach upstairs escalator
+  [PASS] outfit_05_west_12h: actual west stairs arrival
+  [PASS] outfit_05_west_12h: leave west stairs
+  [PASS] outfit_05_west_12h: actual day/night state
+  [PASS] outfit_05_west_12h: object budget -- active=8
+  [PASS] outfit_05_west_12h: follower visible and adjacent
+PROBE outfit_05_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_05_west_12h follower: actor and sprite present
+  [PASS] outfit_05_west_12h: expected follower species/shininess
+  [PASS] outfit_05_west_12h: follower palette matches its source
+  [PASS] outfit_05_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_73_outfit_05_west_12h
+  shot HubSpritesOutfits_74_outfit_05_west_12h_menu
+  [PASS] outfit_05_west_12h: menu returns control
+  [PASS] outfit_05_west_12h_return: follower visible and adjacent
+PROBE outfit_05_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_05_west_12h_return follower: actor and sprite present
+  [PASS] outfit_05_west_12h_return: expected follower species/shininess
+  [PASS] outfit_05_west_12h_return: follower palette matches its source
+  [PASS] outfit_05_west_12h: outfit retained after menu
+PROBE outfit_05_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_05_west_12h_return: actor and sprite present
+  [PASS] outfit_05_west_12h_return: approved FRLG graphics
+  [PASS] outfit_05_west_12h_return: correct palette colors and slot
+  [PASS] outfit_05_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_75_outfit_05_west_12h_return
+  [PASS] outfit_05_west_22h: reach upstairs escalator
+  [PASS] outfit_05_west_22h: actual west stairs arrival
+  [PASS] outfit_05_west_22h: leave west stairs
+  [PASS] outfit_05_west_22h: actual day/night state
+  [PASS] outfit_05_west_22h: object budget -- active=8
+  [PASS] outfit_05_west_22h: follower visible and adjacent
+PROBE outfit_05_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_05_west_22h follower: actor and sprite present
+  [PASS] outfit_05_west_22h: expected follower species/shininess
+  [PASS] outfit_05_west_22h: follower palette matches its source
+  [PASS] outfit_05_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_76_outfit_05_west_22h
+  shot HubSpritesOutfits_77_outfit_05_west_22h_menu
+  [PASS] outfit_05_west_22h: menu returns control
+  [PASS] outfit_05_west_22h_return: follower visible and adjacent
+PROBE outfit_05_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_05_west_22h_return follower: actor and sprite present
+  [PASS] outfit_05_west_22h_return: expected follower species/shininess
+  [PASS] outfit_05_west_22h_return: follower palette matches its source
+  [PASS] outfit_05_west_22h: outfit retained after menu
+PROBE outfit_05_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_05_west_22h_return: actor and sprite present
+  [PASS] outfit_05_west_22h_return: approved FRLG graphics
+  [PASS] outfit_05_west_22h_return: correct palette colors and slot
+  [PASS] outfit_05_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_78_outfit_05_west_22h_return
+  [PASS] outfit 6: walk beside curator
+PROBE outfit 6 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 6 curator: actor and sprite present
+  [PASS] outfit 6 curator: approved FRLG graphics
+  [PASS] outfit 6 curator: correct palette colors and slot
+  [PASS] outfit 6 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_79_outfit_6_curator
+  [PASS] outfit_06_normal_12h: normal crest arrival
+  [PASS] outfit_06_normal_12h: leave crest
+  [PASS] outfit_06_normal_12h: actual day/night state
+  [PASS] outfit_06_normal_12h: object budget -- active=13
+  [PASS] outfit_06_normal_12h: follower visible and adjacent
+PROBE outfit_06_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_06_normal_12h follower: actor and sprite present
+  [PASS] outfit_06_normal_12h: expected follower species/shininess
+  [PASS] outfit_06_normal_12h: follower palette matches its source
+  [PASS] outfit_06_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_80_outfit_06_normal_12h
+  shot HubSpritesOutfits_81_outfit_06_normal_12h_menu
+  [PASS] outfit_06_normal_12h: menu returns control
+  [PASS] outfit_06_normal_12h_return: follower visible and adjacent
+PROBE outfit_06_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_06_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_06_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_06_normal_12h_return: follower palette matches its source
+  [PASS] outfit_06_normal_12h: outfit retained after menu
+PROBE outfit_06_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_06_normal_12h_return: actor and sprite present
+  [PASS] outfit_06_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_06_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_06_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_82_outfit_06_normal_12h_return
+  [PASS] outfit_06_normal_22h: normal crest arrival
+  [PASS] outfit_06_normal_22h: leave crest
+  [PASS] outfit_06_normal_22h: actual day/night state
+  [PASS] outfit_06_normal_22h: object budget -- active=13
+  [PASS] outfit_06_normal_22h: follower visible and adjacent
+PROBE outfit_06_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_06_normal_22h follower: actor and sprite present
+  [PASS] outfit_06_normal_22h: expected follower species/shininess
+  [PASS] outfit_06_normal_22h: follower palette matches its source
+  [PASS] outfit_06_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_83_outfit_06_normal_22h
+  shot HubSpritesOutfits_84_outfit_06_normal_22h_menu
+  [PASS] outfit_06_normal_22h: menu returns control
+  [PASS] outfit_06_normal_22h_return: follower visible and adjacent
+PROBE outfit_06_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_06_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_06_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_06_normal_22h_return: follower palette matches its source
+  [PASS] outfit_06_normal_22h: outfit retained after menu
+PROBE outfit_06_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_06_normal_22h_return: actor and sprite present
+  [PASS] outfit_06_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_06_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_06_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_85_outfit_06_normal_22h_return
+  [PASS] outfit_06_west_12h: reach upstairs escalator
+  [PASS] outfit_06_west_12h: actual west stairs arrival
+  [PASS] outfit_06_west_12h: leave west stairs
+  [PASS] outfit_06_west_12h: actual day/night state
+  [PASS] outfit_06_west_12h: object budget -- active=8
+  [PASS] outfit_06_west_12h: follower visible and adjacent
+PROBE outfit_06_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_06_west_12h follower: actor and sprite present
+  [PASS] outfit_06_west_12h: expected follower species/shininess
+  [PASS] outfit_06_west_12h: follower palette matches its source
+  [PASS] outfit_06_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_86_outfit_06_west_12h
+  shot HubSpritesOutfits_87_outfit_06_west_12h_menu
+  [PASS] outfit_06_west_12h: menu returns control
+  [PASS] outfit_06_west_12h_return: follower visible and adjacent
+PROBE outfit_06_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_06_west_12h_return follower: actor and sprite present
+  [PASS] outfit_06_west_12h_return: expected follower species/shininess
+  [PASS] outfit_06_west_12h_return: follower palette matches its source
+  [PASS] outfit_06_west_12h: outfit retained after menu
+PROBE outfit_06_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_06_west_12h_return: actor and sprite present
+  [PASS] outfit_06_west_12h_return: approved FRLG graphics
+  [PASS] outfit_06_west_12h_return: correct palette colors and slot
+  [PASS] outfit_06_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_88_outfit_06_west_12h_return
+  [PASS] outfit_06_west_22h: reach upstairs escalator
+  [PASS] outfit_06_west_22h: actual west stairs arrival
+  [PASS] outfit_06_west_22h: leave west stairs
+  [PASS] outfit_06_west_22h: actual day/night state
+  [PASS] outfit_06_west_22h: object budget -- active=8
+  [PASS] outfit_06_west_22h: follower visible and adjacent
+PROBE outfit_06_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_06_west_22h follower: actor and sprite present
+  [PASS] outfit_06_west_22h: expected follower species/shininess
+  [PASS] outfit_06_west_22h: follower palette matches its source
+  [PASS] outfit_06_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_89_outfit_06_west_22h
+  shot HubSpritesOutfits_90_outfit_06_west_22h_menu
+  [PASS] outfit_06_west_22h: menu returns control
+  [PASS] outfit_06_west_22h_return: follower visible and adjacent
+PROBE outfit_06_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_06_west_22h_return follower: actor and sprite present
+  [PASS] outfit_06_west_22h_return: expected follower species/shininess
+  [PASS] outfit_06_west_22h_return: follower palette matches its source
+  [PASS] outfit_06_west_22h: outfit retained after menu
+PROBE outfit_06_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_06_west_22h_return: actor and sprite present
+  [PASS] outfit_06_west_22h_return: approved FRLG graphics
+  [PASS] outfit_06_west_22h_return: correct palette colors and slot
+  [PASS] outfit_06_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_91_outfit_06_west_22h_return
+  [PASS] outfit 7: walk beside curator
+PROBE outfit 7 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 7 curator: actor and sprite present
+  [PASS] outfit 7 curator: approved FRLG graphics
+  [PASS] outfit 7 curator: correct palette colors and slot
+  [PASS] outfit 7 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_92_outfit_7_curator
+  [PASS] outfit_07_normal_12h: normal crest arrival
+  [PASS] outfit_07_normal_12h: leave crest
+  [PASS] outfit_07_normal_12h: actual day/night state
+  [PASS] outfit_07_normal_12h: object budget -- active=13
+  [PASS] outfit_07_normal_12h: follower visible and adjacent
+PROBE outfit_07_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_07_normal_12h follower: actor and sprite present
+  [PASS] outfit_07_normal_12h: expected follower species/shininess
+  [PASS] outfit_07_normal_12h: follower palette matches its source
+  [PASS] outfit_07_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_93_outfit_07_normal_12h
+  shot HubSpritesOutfits_94_outfit_07_normal_12h_menu
+  [PASS] outfit_07_normal_12h: menu returns control
+  [PASS] outfit_07_normal_12h_return: follower visible and adjacent
+PROBE outfit_07_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_07_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_07_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_07_normal_12h_return: follower palette matches its source
+  [PASS] outfit_07_normal_12h: outfit retained after menu
+PROBE outfit_07_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_07_normal_12h_return: actor and sprite present
+  [PASS] outfit_07_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_07_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_07_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_95_outfit_07_normal_12h_return
+  [PASS] outfit_07_normal_22h: normal crest arrival
+  [PASS] outfit_07_normal_22h: leave crest
+  [PASS] outfit_07_normal_22h: actual day/night state
+  [PASS] outfit_07_normal_22h: object budget -- active=13
+  [PASS] outfit_07_normal_22h: follower visible and adjacent
+PROBE outfit_07_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_07_normal_22h follower: actor and sprite present
+  [PASS] outfit_07_normal_22h: expected follower species/shininess
+  [PASS] outfit_07_normal_22h: follower palette matches its source
+  [PASS] outfit_07_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_96_outfit_07_normal_22h
+  shot HubSpritesOutfits_97_outfit_07_normal_22h_menu
+  [PASS] outfit_07_normal_22h: menu returns control
+  [PASS] outfit_07_normal_22h_return: follower visible and adjacent
+PROBE outfit_07_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_07_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_07_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_07_normal_22h_return: follower palette matches its source
+  [PASS] outfit_07_normal_22h: outfit retained after menu
+PROBE outfit_07_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_07_normal_22h_return: actor and sprite present
+  [PASS] outfit_07_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_07_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_07_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_98_outfit_07_normal_22h_return
+  [PASS] outfit_07_west_12h: reach upstairs escalator
+  [PASS] outfit_07_west_12h: actual west stairs arrival
+  [PASS] outfit_07_west_12h: leave west stairs
+  [PASS] outfit_07_west_12h: actual day/night state
+  [PASS] outfit_07_west_12h: object budget -- active=8
+  [PASS] outfit_07_west_12h: follower visible and adjacent
+PROBE outfit_07_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_07_west_12h follower: actor and sprite present
+  [PASS] outfit_07_west_12h: expected follower species/shininess
+  [PASS] outfit_07_west_12h: follower palette matches its source
+  [PASS] outfit_07_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_99_outfit_07_west_12h
+  shot HubSpritesOutfits_100_outfit_07_west_12h_menu
+  [PASS] outfit_07_west_12h: menu returns control
+  [PASS] outfit_07_west_12h_return: follower visible and adjacent
+PROBE outfit_07_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_07_west_12h_return follower: actor and sprite present
+  [PASS] outfit_07_west_12h_return: expected follower species/shininess
+  [PASS] outfit_07_west_12h_return: follower palette matches its source
+  [PASS] outfit_07_west_12h: outfit retained after menu
+PROBE outfit_07_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_07_west_12h_return: actor and sprite present
+  [PASS] outfit_07_west_12h_return: approved FRLG graphics
+  [PASS] outfit_07_west_12h_return: correct palette colors and slot
+  [PASS] outfit_07_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_101_outfit_07_west_12h_return
+  [PASS] outfit_07_west_22h: reach upstairs escalator
+  [PASS] outfit_07_west_22h: actual west stairs arrival
+  [PASS] outfit_07_west_22h: leave west stairs
+  [PASS] outfit_07_west_22h: actual day/night state
+  [PASS] outfit_07_west_22h: object budget -- active=8
+  [PASS] outfit_07_west_22h: follower visible and adjacent
+PROBE outfit_07_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_07_west_22h follower: actor and sprite present
+  [PASS] outfit_07_west_22h: expected follower species/shininess
+  [PASS] outfit_07_west_22h: follower palette matches its source
+  [PASS] outfit_07_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_102_outfit_07_west_22h
+  shot HubSpritesOutfits_103_outfit_07_west_22h_menu
+  [PASS] outfit_07_west_22h: menu returns control
+  [PASS] outfit_07_west_22h_return: follower visible and adjacent
+PROBE outfit_07_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_07_west_22h_return follower: actor and sprite present
+  [PASS] outfit_07_west_22h_return: expected follower species/shininess
+  [PASS] outfit_07_west_22h_return: follower palette matches its source
+  [PASS] outfit_07_west_22h: outfit retained after menu
+PROBE outfit_07_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_07_west_22h_return: actor and sprite present
+  [PASS] outfit_07_west_22h_return: approved FRLG graphics
+  [PASS] outfit_07_west_22h_return: correct palette colors and slot
+  [PASS] outfit_07_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_104_outfit_07_west_22h_return
+  [PASS] outfit 8: walk beside curator
+PROBE outfit 8 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 8 curator: actor and sprite present
+  [PASS] outfit 8 curator: approved FRLG graphics
+  [PASS] outfit 8 curator: correct palette colors and slot
+  [PASS] outfit 8 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_105_outfit_8_curator
+  [PASS] outfit_08_normal_12h: normal crest arrival
+  [PASS] outfit_08_normal_12h: leave crest
+  [PASS] outfit_08_normal_12h: actual day/night state
+  [PASS] outfit_08_normal_12h: object budget -- active=13
+  [PASS] outfit_08_normal_12h: follower visible and adjacent
+PROBE outfit_08_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_08_normal_12h follower: actor and sprite present
+  [PASS] outfit_08_normal_12h: expected follower species/shininess
+  [PASS] outfit_08_normal_12h: follower palette matches its source
+  [PASS] outfit_08_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_106_outfit_08_normal_12h
+  shot HubSpritesOutfits_107_outfit_08_normal_12h_menu
+  [PASS] outfit_08_normal_12h: menu returns control
+  [PASS] outfit_08_normal_12h_return: follower visible and adjacent
+PROBE outfit_08_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_08_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_08_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_08_normal_12h_return: follower palette matches its source
+  [PASS] outfit_08_normal_12h: outfit retained after menu
+PROBE outfit_08_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_08_normal_12h_return: actor and sprite present
+  [PASS] outfit_08_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_08_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_08_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_108_outfit_08_normal_12h_return
+  [PASS] outfit_08_normal_22h: normal crest arrival
+  [PASS] outfit_08_normal_22h: leave crest
+  [PASS] outfit_08_normal_22h: actual day/night state
+  [PASS] outfit_08_normal_22h: object budget -- active=13
+  [PASS] outfit_08_normal_22h: follower visible and adjacent
+PROBE outfit_08_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_08_normal_22h follower: actor and sprite present
+  [PASS] outfit_08_normal_22h: expected follower species/shininess
+  [PASS] outfit_08_normal_22h: follower palette matches its source
+  [PASS] outfit_08_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_109_outfit_08_normal_22h
+  shot HubSpritesOutfits_110_outfit_08_normal_22h_menu
+  [PASS] outfit_08_normal_22h: menu returns control
+  [PASS] outfit_08_normal_22h_return: follower visible and adjacent
+PROBE outfit_08_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_08_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_08_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_08_normal_22h_return: follower palette matches its source
+  [PASS] outfit_08_normal_22h: outfit retained after menu
+PROBE outfit_08_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_08_normal_22h_return: actor and sprite present
+  [PASS] outfit_08_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_08_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_08_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_111_outfit_08_normal_22h_return
+  [PASS] outfit_08_west_12h: reach upstairs escalator
+  [PASS] outfit_08_west_12h: actual west stairs arrival
+  [PASS] outfit_08_west_12h: leave west stairs
+  [PASS] outfit_08_west_12h: actual day/night state
+  [PASS] outfit_08_west_12h: object budget -- active=8
+  [PASS] outfit_08_west_12h: follower visible and adjacent
+PROBE outfit_08_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_08_west_12h follower: actor and sprite present
+  [PASS] outfit_08_west_12h: expected follower species/shininess
+  [PASS] outfit_08_west_12h: follower palette matches its source
+  [PASS] outfit_08_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_112_outfit_08_west_12h
+  shot HubSpritesOutfits_113_outfit_08_west_12h_menu
+  [PASS] outfit_08_west_12h: menu returns control
+  [PASS] outfit_08_west_12h_return: follower visible and adjacent
+PROBE outfit_08_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_08_west_12h_return follower: actor and sprite present
+  [PASS] outfit_08_west_12h_return: expected follower species/shininess
+  [PASS] outfit_08_west_12h_return: follower palette matches its source
+  [PASS] outfit_08_west_12h: outfit retained after menu
+PROBE outfit_08_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_08_west_12h_return: actor and sprite present
+  [PASS] outfit_08_west_12h_return: approved FRLG graphics
+  [PASS] outfit_08_west_12h_return: correct palette colors and slot
+  [PASS] outfit_08_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_114_outfit_08_west_12h_return
+  [PASS] outfit_08_west_22h: reach upstairs escalator
+  [PASS] outfit_08_west_22h: actual west stairs arrival
+  [PASS] outfit_08_west_22h: leave west stairs
+  [PASS] outfit_08_west_22h: actual day/night state
+  [PASS] outfit_08_west_22h: object budget -- active=8
+  [PASS] outfit_08_west_22h: follower visible and adjacent
+PROBE outfit_08_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_08_west_22h follower: actor and sprite present
+  [PASS] outfit_08_west_22h: expected follower species/shininess
+  [PASS] outfit_08_west_22h: follower palette matches its source
+  [PASS] outfit_08_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_115_outfit_08_west_22h
+  shot HubSpritesOutfits_116_outfit_08_west_22h_menu
+  [PASS] outfit_08_west_22h: menu returns control
+  [PASS] outfit_08_west_22h_return: follower visible and adjacent
+PROBE outfit_08_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_08_west_22h_return follower: actor and sprite present
+  [PASS] outfit_08_west_22h_return: expected follower species/shininess
+  [PASS] outfit_08_west_22h_return: follower palette matches its source
+  [PASS] outfit_08_west_22h: outfit retained after menu
+PROBE outfit_08_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_08_west_22h_return: actor and sprite present
+  [PASS] outfit_08_west_22h_return: approved FRLG graphics
+  [PASS] outfit_08_west_22h_return: correct palette colors and slot
+  [PASS] outfit_08_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_117_outfit_08_west_22h_return
+  [PASS] outfit 9: walk beside curator
+PROBE outfit 9 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 9 curator: actor and sprite present
+  [PASS] outfit 9 curator: approved FRLG graphics
+  [PASS] outfit 9 curator: correct palette colors and slot
+  [PASS] outfit 9 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_118_outfit_9_curator
+  [PASS] outfit_09_normal_12h: normal crest arrival
+  [PASS] outfit_09_normal_12h: leave crest
+  [PASS] outfit_09_normal_12h: actual day/night state
+  [PASS] outfit_09_normal_12h: object budget -- active=13
+  [PASS] outfit_09_normal_12h: follower visible and adjacent
+PROBE outfit_09_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_09_normal_12h follower: actor and sprite present
+  [PASS] outfit_09_normal_12h: expected follower species/shininess
+  [PASS] outfit_09_normal_12h: follower palette matches its source
+  [PASS] outfit_09_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_119_outfit_09_normal_12h
+  shot HubSpritesOutfits_120_outfit_09_normal_12h_menu
+  [PASS] outfit_09_normal_12h: menu returns control
+  [PASS] outfit_09_normal_12h_return: follower visible and adjacent
+PROBE outfit_09_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_09_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_09_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_09_normal_12h_return: follower palette matches its source
+  [PASS] outfit_09_normal_12h: outfit retained after menu
+PROBE outfit_09_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_09_normal_12h_return: actor and sprite present
+  [PASS] outfit_09_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_09_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_09_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_121_outfit_09_normal_12h_return
+  [PASS] outfit_09_normal_22h: normal crest arrival
+  [PASS] outfit_09_normal_22h: leave crest
+  [PASS] outfit_09_normal_22h: actual day/night state
+  [PASS] outfit_09_normal_22h: object budget -- active=13
+  [PASS] outfit_09_normal_22h: follower visible and adjacent
+PROBE outfit_09_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_09_normal_22h follower: actor and sprite present
+  [PASS] outfit_09_normal_22h: expected follower species/shininess
+  [PASS] outfit_09_normal_22h: follower palette matches its source
+  [PASS] outfit_09_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_122_outfit_09_normal_22h
+  shot HubSpritesOutfits_123_outfit_09_normal_22h_menu
+  [PASS] outfit_09_normal_22h: menu returns control
+  [PASS] outfit_09_normal_22h_return: follower visible and adjacent
+PROBE outfit_09_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_09_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_09_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_09_normal_22h_return: follower palette matches its source
+  [PASS] outfit_09_normal_22h: outfit retained after menu
+PROBE outfit_09_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_09_normal_22h_return: actor and sprite present
+  [PASS] outfit_09_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_09_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_09_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_124_outfit_09_normal_22h_return
+  [PASS] outfit_09_west_12h: reach upstairs escalator
+  [PASS] outfit_09_west_12h: actual west stairs arrival
+  [PASS] outfit_09_west_12h: leave west stairs
+  [PASS] outfit_09_west_12h: actual day/night state
+  [PASS] outfit_09_west_12h: object budget -- active=8
+  [PASS] outfit_09_west_12h: follower visible and adjacent
+PROBE outfit_09_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_09_west_12h follower: actor and sprite present
+  [PASS] outfit_09_west_12h: expected follower species/shininess
+  [PASS] outfit_09_west_12h: follower palette matches its source
+  [PASS] outfit_09_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_125_outfit_09_west_12h
+  shot HubSpritesOutfits_126_outfit_09_west_12h_menu
+  [PASS] outfit_09_west_12h: menu returns control
+  [PASS] outfit_09_west_12h_return: follower visible and adjacent
+PROBE outfit_09_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_09_west_12h_return follower: actor and sprite present
+  [PASS] outfit_09_west_12h_return: expected follower species/shininess
+  [PASS] outfit_09_west_12h_return: follower palette matches its source
+  [PASS] outfit_09_west_12h: outfit retained after menu
+PROBE outfit_09_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_09_west_12h_return: actor and sprite present
+  [PASS] outfit_09_west_12h_return: approved FRLG graphics
+  [PASS] outfit_09_west_12h_return: correct palette colors and slot
+  [PASS] outfit_09_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_127_outfit_09_west_12h_return
+  [PASS] outfit_09_west_22h: reach upstairs escalator
+  [PASS] outfit_09_west_22h: actual west stairs arrival
+  [PASS] outfit_09_west_22h: leave west stairs
+  [PASS] outfit_09_west_22h: actual day/night state
+  [PASS] outfit_09_west_22h: object budget -- active=8
+  [PASS] outfit_09_west_22h: follower visible and adjacent
+PROBE outfit_09_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_09_west_22h follower: actor and sprite present
+  [PASS] outfit_09_west_22h: expected follower species/shininess
+  [PASS] outfit_09_west_22h: follower palette matches its source
+  [PASS] outfit_09_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_128_outfit_09_west_22h
+  shot HubSpritesOutfits_129_outfit_09_west_22h_menu
+  [PASS] outfit_09_west_22h: menu returns control
+  [PASS] outfit_09_west_22h_return: follower visible and adjacent
+PROBE outfit_09_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_09_west_22h_return follower: actor and sprite present
+  [PASS] outfit_09_west_22h_return: expected follower species/shininess
+  [PASS] outfit_09_west_22h_return: follower palette matches its source
+  [PASS] outfit_09_west_22h: outfit retained after menu
+PROBE outfit_09_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_09_west_22h_return: actor and sprite present
+  [PASS] outfit_09_west_22h_return: approved FRLG graphics
+  [PASS] outfit_09_west_22h_return: correct palette colors and slot
+  [PASS] outfit_09_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_130_outfit_09_west_22h_return
+  [PASS] outfit 10: walk beside curator
+PROBE outfit 10 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 10 curator: actor and sprite present
+  [PASS] outfit 10 curator: approved FRLG graphics
+  [PASS] outfit 10 curator: correct palette colors and slot
+  [PASS] outfit 10 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_131_outfit_10_curator
+  [PASS] outfit_10_normal_12h: normal crest arrival
+  [PASS] outfit_10_normal_12h: leave crest
+  [PASS] outfit_10_normal_12h: actual day/night state
+  [PASS] outfit_10_normal_12h: object budget -- active=13
+  [PASS] outfit_10_normal_12h: follower visible and adjacent
+PROBE outfit_10_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_10_normal_12h follower: actor and sprite present
+  [PASS] outfit_10_normal_12h: expected follower species/shininess
+  [PASS] outfit_10_normal_12h: follower palette matches its source
+  [PASS] outfit_10_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_132_outfit_10_normal_12h
+  shot HubSpritesOutfits_133_outfit_10_normal_12h_menu
+  [PASS] outfit_10_normal_12h: menu returns control
+  [PASS] outfit_10_normal_12h_return: follower visible and adjacent
+PROBE outfit_10_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_10_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_10_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_10_normal_12h_return: follower palette matches its source
+  [PASS] outfit_10_normal_12h: outfit retained after menu
+PROBE outfit_10_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_10_normal_12h_return: actor and sprite present
+  [PASS] outfit_10_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_10_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_10_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_134_outfit_10_normal_12h_return
+  [PASS] outfit_10_normal_22h: normal crest arrival
+  [PASS] outfit_10_normal_22h: leave crest
+  [PASS] outfit_10_normal_22h: actual day/night state
+  [PASS] outfit_10_normal_22h: object budget -- active=13
+  [PASS] outfit_10_normal_22h: follower visible and adjacent
+PROBE outfit_10_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_10_normal_22h follower: actor and sprite present
+  [PASS] outfit_10_normal_22h: expected follower species/shininess
+  [PASS] outfit_10_normal_22h: follower palette matches its source
+  [PASS] outfit_10_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_135_outfit_10_normal_22h
+  shot HubSpritesOutfits_136_outfit_10_normal_22h_menu
+  [PASS] outfit_10_normal_22h: menu returns control
+  [PASS] outfit_10_normal_22h_return: follower visible and adjacent
+PROBE outfit_10_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_10_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_10_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_10_normal_22h_return: follower palette matches its source
+  [PASS] outfit_10_normal_22h: outfit retained after menu
+PROBE outfit_10_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_10_normal_22h_return: actor and sprite present
+  [PASS] outfit_10_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_10_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_10_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_137_outfit_10_normal_22h_return
+  [PASS] outfit_10_west_12h: reach upstairs escalator
+  [PASS] outfit_10_west_12h: actual west stairs arrival
+  [PASS] outfit_10_west_12h: leave west stairs
+  [PASS] outfit_10_west_12h: actual day/night state
+  [PASS] outfit_10_west_12h: object budget -- active=8
+  [PASS] outfit_10_west_12h: follower visible and adjacent
+PROBE outfit_10_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_10_west_12h follower: actor and sprite present
+  [PASS] outfit_10_west_12h: expected follower species/shininess
+  [PASS] outfit_10_west_12h: follower palette matches its source
+  [PASS] outfit_10_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_138_outfit_10_west_12h
+  shot HubSpritesOutfits_139_outfit_10_west_12h_menu
+  [PASS] outfit_10_west_12h: menu returns control
+  [PASS] outfit_10_west_12h_return: follower visible and adjacent
+PROBE outfit_10_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_10_west_12h_return follower: actor and sprite present
+  [PASS] outfit_10_west_12h_return: expected follower species/shininess
+  [PASS] outfit_10_west_12h_return: follower palette matches its source
+  [PASS] outfit_10_west_12h: outfit retained after menu
+PROBE outfit_10_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_10_west_12h_return: actor and sprite present
+  [PASS] outfit_10_west_12h_return: approved FRLG graphics
+  [PASS] outfit_10_west_12h_return: correct palette colors and slot
+  [PASS] outfit_10_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_140_outfit_10_west_12h_return
+  [PASS] outfit_10_west_22h: reach upstairs escalator
+  [PASS] outfit_10_west_22h: actual west stairs arrival
+  [PASS] outfit_10_west_22h: leave west stairs
+  [PASS] outfit_10_west_22h: actual day/night state
+  [PASS] outfit_10_west_22h: object budget -- active=8
+  [PASS] outfit_10_west_22h: follower visible and adjacent
+PROBE outfit_10_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_10_west_22h follower: actor and sprite present
+  [PASS] outfit_10_west_22h: expected follower species/shininess
+  [PASS] outfit_10_west_22h: follower palette matches its source
+  [PASS] outfit_10_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_141_outfit_10_west_22h
+  shot HubSpritesOutfits_142_outfit_10_west_22h_menu
+  [PASS] outfit_10_west_22h: menu returns control
+  [PASS] outfit_10_west_22h_return: follower visible and adjacent
+PROBE outfit_10_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_10_west_22h_return follower: actor and sprite present
+  [PASS] outfit_10_west_22h_return: expected follower species/shininess
+  [PASS] outfit_10_west_22h_return: follower palette matches its source
+  [PASS] outfit_10_west_22h: outfit retained after menu
+PROBE outfit_10_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_10_west_22h_return: actor and sprite present
+  [PASS] outfit_10_west_22h_return: approved FRLG graphics
+  [PASS] outfit_10_west_22h_return: correct palette colors and slot
+  [PASS] outfit_10_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_143_outfit_10_west_22h_return
+  [PASS] outfit 11: walk beside curator
+PROBE outfit 11 curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit 11 curator: actor and sprite present
+  [PASS] outfit 11 curator: approved FRLG graphics
+  [PASS] outfit 11 curator: correct palette colors and slot
+  [PASS] outfit 11 curator: standard dimensions and shadow
+  shot HubSpritesOutfits_144_outfit_11_curator
+  [PASS] outfit_11_normal_12h: normal crest arrival
+  [PASS] outfit_11_normal_12h: leave crest
+  [PASS] outfit_11_normal_12h: actual day/night state
+  [PASS] outfit_11_normal_12h: object budget -- active=13
+  [PASS] outfit_11_normal_12h: follower visible and adjacent
+PROBE outfit_11_normal_12h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_11_normal_12h follower: actor and sprite present
+  [PASS] outfit_11_normal_12h: expected follower species/shininess
+  [PASS] outfit_11_normal_12h: follower palette matches its source
+  [PASS] outfit_11_normal_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_145_outfit_11_normal_12h
+  shot HubSpritesOutfits_146_outfit_11_normal_12h_menu
+  [PASS] outfit_11_normal_12h: menu returns control
+  [PASS] outfit_11_normal_12h_return: follower visible and adjacent
+PROBE outfit_11_normal_12h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_11_normal_12h_return follower: actor and sprite present
+  [PASS] outfit_11_normal_12h_return: expected follower species/shininess
+  [PASS] outfit_11_normal_12h_return: follower palette matches its source
+  [PASS] outfit_11_normal_12h: outfit retained after menu
+PROBE outfit_11_normal_12h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_11_normal_12h_return: actor and sprite present
+  [PASS] outfit_11_normal_12h_return: approved FRLG graphics
+  [PASS] outfit_11_normal_12h_return: correct palette colors and slot
+  [PASS] outfit_11_normal_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_147_outfit_11_normal_12h_return
+  [PASS] outfit_11_normal_22h: normal crest arrival
+  [PASS] outfit_11_normal_22h: leave crest
+  [PASS] outfit_11_normal_22h: actual day/night state
+  [PASS] outfit_11_normal_22h: object budget -- active=13
+  [PASS] outfit_11_normal_22h: follower visible and adjacent
+PROBE outfit_11_normal_22h follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_11_normal_22h follower: actor and sprite present
+  [PASS] outfit_11_normal_22h: expected follower species/shininess
+  [PASS] outfit_11_normal_22h: follower palette matches its source
+  [PASS] outfit_11_normal_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_148_outfit_11_normal_22h
+  shot HubSpritesOutfits_149_outfit_11_normal_22h_menu
+  [PASS] outfit_11_normal_22h: menu returns control
+  [PASS] outfit_11_normal_22h_return: follower visible and adjacent
+PROBE outfit_11_normal_22h_return follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_11_normal_22h_return follower: actor and sprite present
+  [PASS] outfit_11_normal_22h_return: expected follower species/shininess
+  [PASS] outfit_11_normal_22h_return: follower palette matches its source
+  [PASS] outfit_11_normal_22h: outfit retained after menu
+PROBE outfit_11_normal_22h_return id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] outfit_11_normal_22h_return: actor and sprite present
+  [PASS] outfit_11_normal_22h_return: approved FRLG graphics
+  [PASS] outfit_11_normal_22h_return: correct palette colors and slot
+  [PASS] outfit_11_normal_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_150_outfit_11_normal_22h_return
+  [PASS] outfit_11_west_12h: reach upstairs escalator
+  [PASS] outfit_11_west_12h: actual west stairs arrival
+  [PASS] outfit_11_west_12h: leave west stairs
+  [PASS] outfit_11_west_12h: actual day/night state
+  [PASS] outfit_11_west_12h: object budget -- active=8
+  [PASS] outfit_11_west_12h: follower visible and adjacent
+PROBE outfit_11_west_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_11_west_12h follower: actor and sprite present
+  [PASS] outfit_11_west_12h: expected follower species/shininess
+  [PASS] outfit_11_west_12h: follower palette matches its source
+  [PASS] outfit_11_west_12h: outfit retained across map/time change
+  shot HubSpritesOutfits_151_outfit_11_west_12h
+  shot HubSpritesOutfits_152_outfit_11_west_12h_menu
+  [PASS] outfit_11_west_12h: menu returns control
+  [PASS] outfit_11_west_12h_return: follower visible and adjacent
+PROBE outfit_11_west_12h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_11_west_12h_return follower: actor and sprite present
+  [PASS] outfit_11_west_12h_return: expected follower species/shininess
+  [PASS] outfit_11_west_12h_return: follower palette matches its source
+  [PASS] outfit_11_west_12h: outfit retained after menu
+PROBE outfit_11_west_12h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_11_west_12h_return: actor and sprite present
+  [PASS] outfit_11_west_12h_return: approved FRLG graphics
+  [PASS] outfit_11_west_12h_return: correct palette colors and slot
+  [PASS] outfit_11_west_12h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_153_outfit_11_west_12h_return
+  [PASS] outfit_11_west_22h: reach upstairs escalator
+  [PASS] outfit_11_west_22h: actual west stairs arrival
+  [PASS] outfit_11_west_22h: leave west stairs
+  [PASS] outfit_11_west_22h: actual day/night state
+  [PASS] outfit_11_west_22h: object budget -- active=8
+  [PASS] outfit_11_west_22h: follower visible and adjacent
+PROBE outfit_11_west_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] outfit_11_west_22h follower: actor and sprite present
+  [PASS] outfit_11_west_22h: expected follower species/shininess
+  [PASS] outfit_11_west_22h: follower palette matches its source
+  [PASS] outfit_11_west_22h: outfit retained across map/time change
+  shot HubSpritesOutfits_154_outfit_11_west_22h
+  shot HubSpritesOutfits_155_outfit_11_west_22h_menu
+  [PASS] outfit_11_west_22h: menu returns control
+  [PASS] outfit_11_west_22h_return: follower visible and adjacent
+PROBE outfit_11_west_22h_return follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] outfit_11_west_22h_return follower: actor and sprite present
+  [PASS] outfit_11_west_22h_return: expected follower species/shininess
+  [PASS] outfit_11_west_22h_return: follower palette matches its source
+  [PASS] outfit_11_west_22h: outfit retained after menu
+PROBE outfit_11_west_22h_return id=12 flags=0x33 gfx=0x014C pal=4 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] outfit_11_west_22h_return: actor and sprite present
+  [PASS] outfit_11_west_22h_return: approved FRLG graphics
+  [PASS] outfit_11_west_22h_return: correct palette colors and slot
+  [PASS] outfit_11_west_22h_return: standard dimensions and shadow
+  shot HubSpritesOutfits_156_outfit_11_west_22h_return
+  [PASS] all twelve gender/outfit palettes differ -- unique=12
+Peak active objects=13
+VERDICT HubSpritesOutfits: 997/997 PASS

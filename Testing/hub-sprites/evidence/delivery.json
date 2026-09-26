@@ -1,0 +1,48 @@
+{
+  "game_source_commit": "388338478e17989b7428bbce07a7776ab23db9d3",
+  "integrated_master": "ca5c9d2c99b183a3c52cb036102c6f5b2ef15165",
+  "integration_commit": "d1dafab57ffc4ec23bcdd3a0e6a0a150368dacc1",
+  "changes": [
+    {
+      "event": 12,
+      "field": "graphics_id",
+      "before": "OBJ_EVENT_GFX_SAILOR",
+      "after": "OBJ_EVENT_GFX_SAILOR_FRLG"
+    },
+    {
+      "event": 13,
+      "field": "graphics_id",
+      "before": "OBJ_EVENT_GFX_GENTLEMAN",
+      "after": "OBJ_EVENT_GFX_GENTLEMAN_FRLG"
+    }
+  ],
+  "gameplay_tree_identical_after_merge": true,
+  "files": {
+    "pokemonworld.gba": {
+      "bytes": 33554432,
+      "sha256": "85b1b6e4c2a54285b74e63e307854d118f41850d3d7331da338f534b44c8b411",
+      "md5": "7344a7cfefd0e8c6e360245c2fbd47c0"
+    },
+    "pokemonworld-release.gba": {
+      "bytes": 33554432,
+      "sha256": "c3e1667c2c22a4aa9cca4e53e2c0f5c45910b2a89a94e73ae649e74126457e2d",
+      "md5": "8ce2ad2682d252b1adbba8464d527fad"
+    },
+    "VisualReview.sav": {
+      "bytes": 131088,
+      "sha256": "f63def74cbadcc554b8d69f3a0b08b8589407099c8371cf46252a8edf4ec469e",
+      "md5": "2732425d795ec4616c7ef5e1c3fdc079"
+    }
+  },
+  "fixture_and_suite_sha256": {
+    "verify_delivery.lua": "10b3e564b364bb313470588e51aa0249a11f64b4e6570e40e03dad6438cb2f84",
+    "hub_lib.lua": "c08de195c790e62cc61975090fb397b68d5ef6e15283e42949c74a951ecfcf2d",
+    "HubSpritesOutfits.lua": "4ca246e6a5ff133d71899f19758f0fe36d0ae338118bed4f81c015acb3da1010",
+    "build_fixture.py": "5cc74e270450de0259f3178dd33333d7e617e7c7cfe743195fba21d6937883aa",
+    "HubSpritesServices.lua": "85f711b3d60bd6c840eaf6f0531190f32146bc8d2a846d145d5de5834db2cf0c",
+    "HubSpritesComparison.lua": "499969d3c5375a13f136cf916f1e960d24e259c7f0db1e2ea629c54e3732c4b6",
+    "fixture.c": "79a11672e938dfa2ad8c474b48a4deda84e16b9c45a1eee6dd0360c0c2640931",
+    "HubSpritesReadability.lua": "55ef788eaa7a3bcd535b3d4b3432478613673d9f75a47c2855a3d6eb60724925",
+    "save.lua": "78c3569473598f27b99bccc86195c0702b947b8c4c9badcb656008a84f9d4f83"
+  }
+}

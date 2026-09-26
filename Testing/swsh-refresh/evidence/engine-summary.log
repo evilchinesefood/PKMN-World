@@ -1,0 +1,10 @@
+[06] Hail fails if Desolate Land or Primordial Sea are active: PASS
+[06] Anticipation still triggers with Strong Winds active - Inverse Battle: PASS
+[06] Strong winds remove Flying-type weaknesses of all battlers: PASS
+
+- Tests KNOWN_FAILING:   14
+- Tests TO_DO:           595
+- Tests EXPECT_FAILING:  8
+- Tests PASSED:          5076
+- Tests TOTAL:           5693
+

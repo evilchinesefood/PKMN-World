@@ -1,0 +1,16 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] battle ready
+  [PASS] battler count
+  shot SwShBattle0_1_battle
+  [PASS] battle bag input owns task
+  shot SwShBattle0_2_bag
+  [PASS] cancel restores battle action
+  shot SwShBattle0_3_cancel_return
+  [PASS] battle bag input owns task
+  shot SwShBattle0_4_item_target
+  [PASS] using item resumes battle
+  shot SwShBattle0_5_item_return
+  [PASS] lead is alive after healing
+  [PASS] battle exit reaches field
+VERDICT SwShBattle0: 8/8 PASS

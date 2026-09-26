@@ -1034,6 +1034,9 @@ void DoBerryBlending(void)
     SetMainCallback2(CB2_LoadBerryBlender);
 }
 
+// Reserve all 25 SwSh frame tiles after the full results window. The classic frame also fits.
+#define BLENDER_DLG_WINDOW_BASE_TILE_NUM (0x60 + 21 * 14)
+
 // Show the blender screen initially and prompt to choose a berry
 static void CB2_LoadBerryBlender(void)
 {
@@ -1051,7 +1054,7 @@ static void CB2_LoadBerryBlender(void)
         SetBgTilemapBuffer(1, sBerryBlender->tilemapBuffers[0]);
         SetBgTilemapBuffer(2, sBerryBlender->tilemapBuffers[1]);
         LoadUserWindowBorderGfx(0, 1, BG_PLTT_ID(13));
-        LoadMessageBoxGfx(0, 0x14, BG_PLTT_ID(15));
+        LoadMessageBoxGfx(0, BLENDER_DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(15));
         InitBerryBlenderWindows();
 
         sBerryBlender->mainState++;
@@ -1504,7 +1507,7 @@ static void InitBlenderBgs(void)
     SetBgTilemapBuffer(1, sBerryBlender->tilemapBuffers[0]);
     SetBgTilemapBuffer(2, sBerryBlender->tilemapBuffers[1]);
     LoadUserWindowBorderGfx(0, 1, BG_PLTT_ID(13));
-    LoadMessageBoxGfx(0, 0x14, BG_PLTT_ID(15));
+    LoadMessageBoxGfx(0, BLENDER_DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(15));
     InitBerryBlenderWindows();
 
     sBerryBlender->unk0 = 0;
@@ -3873,7 +3876,7 @@ static bool32 PrintMessage(s16 *textState, const u8 *string, s32 textSpeed)
     switch (*textState)
     {
     case 0:
-        DrawDialogFrameWithCustomTileAndPalette(WIN_MSG, FALSE, 0x14, 0xF);
+        DrawDialogFrameWithCustomTileAndPalette(WIN_MSG, FALSE, BLENDER_DLG_WINDOW_BASE_TILE_NUM, 0xF);
         Blender_AddTextPrinter(WIN_MSG, string, 0, 1, textSpeed, 0);
         PutWindowTilemap(WIN_MSG);
         CopyWindowToVram(WIN_MSG, COPYWIN_FULL);

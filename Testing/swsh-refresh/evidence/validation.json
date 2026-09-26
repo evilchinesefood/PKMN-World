@@ -1,0 +1,48 @@
+{
+  "build_source_commit": "732f541a6d4a245b90634c4c76e08749285e1577",
+  "baseline_commit": "8f98876d0237b5e845707471b2f4e821bb61cc82",
+  "rom_sha256": "142b908855ae147c2d1a72d010e6e71c9681cd6b9c0e14f611c5e5cc0306587f",
+  "rom_md5": "2CD4575E104D2B4805F062501B9CB120",
+  "prepared_save_sha256": "9d6242efa93a08d58511a741e9c556bb585c2ccc8ff39efa868d5966dfb18edb",
+  "lua_sweep": {
+    "passed": 50,
+    "expected": 50,
+    "personal_save": "not used"
+  },
+  "battle_engine": {
+    "passed": 5076,
+    "expected_failures": 8,
+    "known_failures": 14,
+    "todo": 595,
+    "unexpected_failures": 0
+  },
+  "focused_assertions": {
+    "capture": 20,
+    "summary_pc_save_lifecycle": 293,
+    "item_return_flows": 19,
+    "transitions": 7,
+    "singles": 8,
+    "doubles": 8,
+    "partner": 11,
+    "classic_messages": 20,
+    "unpatched_delivery_save": 7,
+    "deposit_withdraw_swap": 10
+  },
+  "builds": {
+    "development": "pass",
+    "release_compile_only": "pass",
+    "classic_messages": "pass",
+    "bag_options_and_summary_effects_off": "pass"
+  },
+  "native_before_after_pairs": 46,
+  "clips_per_version": [
+    "conditions_enter",
+    "conditions_leave",
+    "wallpaper_fade"
+  ],
+  "scope_limits": [
+    "BW battle UI #336 is not yet installed; tested transitions use the current battle UI.",
+    "Final owner playtest is appearance judgment. No personal save was used or modified."
+  ],
+  "review_browser": "46 image pairs, three before/after clips, native scaling, links and download passed; no console errors"
+}

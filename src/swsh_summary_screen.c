@@ -337,6 +337,7 @@ static void PutPageWindowTilemaps(u8);
 static void ClearPageWindowTilemaps(u8);
 static void RemoveWindowByIndex(u8);
 static void PrintPageSpecificText(u8);
+static void DestroyTextPrinterTask(u8);
 static void CreateTextPrinterTask(u8);
 static void PrintInfoPageText(void);
 static void Task_PrintInfoPage(u8);
@@ -363,6 +364,7 @@ static void Task_PrintBattleMoves(u8);
 #if SWSH_SUMMARY_SHOW_CONTEST_PAGES
 static void PrintConditionsPageText(void);
 static void Task_PrintConditionsPage(u8);
+static void CloseConditionsPage(void);
 static void CreateConditionsPageCategoryIcons(void);
 static void DestroyContestCategoryIcons(void);
 static void CreateSheenSparkleSprites(void);
@@ -2565,11 +2567,15 @@ static void CloseSummaryScreen(u8 taskId)
 {
     if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && !gPaletteFade.active)
     {
-        if (SWSH_SUMMARY_BG_BLEND || SWSH_SUMMARY_MON_SHADOWS)
-        {
-            SetGpuReg(REG_OFFSET_BLDCNT, 0);
-            SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-        }
+        SetGpuReg(REG_OFFSET_BLDCNT, 0);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+        for (u32 i = 0; i < ARRAY_COUNT(sTextPrinterTasks); i++)
+            DestroyTextPrinterTask(i);
+#if SWSH_SUMMARY_SHOW_CONTEST_PAGES
+        ScanlineEffect_Stop();
+        ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_WIN1_ON);
+        SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_ALL);
+#endif
         if (sMonSummaryScreen->callback == gInitialSummaryScreenCallback)
             gInitialSummaryScreenCallback = NULL;
         SetMainCallback2(sMonSummaryScreen->callback);
@@ -3636,12 +3642,17 @@ static void Task_ShowEffectTilemap(u8 taskId)
         else
             SetBgTilemapBuffer(1, sMonSummaryScreen->bg1TilemapBuffers[PSS_EFFECT_BATTLE]);
         ScheduleBgCopyTilemapToVram(1);
-        ShowBg(1);
         SetGpuRegBits(REG_OFFSET_BG1CNT, BGCNT_MOSAIC);
         tMoveTaskState++;
     }
+    else if (tMoveTaskState == 1)
+    {
+        // The scheduled tilemap copy must reach VRAM before exposing this background.
+        ShowBg(1);
+        tMoveTaskState++;
+    }
     // attenuate mosaic effect
-    else if (tMoveTaskState <= 4)
+    else if (tMoveTaskState <= 5)
     {
         tMosaicStrength -= 1;
         SetGpuReg(REG_OFFSET_MOSAIC, (tMosaicStrength & 15) * 17);
@@ -4036,27 +4047,7 @@ static void ClearPageWindowTilemaps(u8 page)
         break;
 #if SWSH_SUMMARY_SHOW_CONTEST_PAGES
     case PSS_PAGE_CONDITIONS:
-        ScanlineEffect_Clear();
-        HideBg(1);
-        ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_WIN1_ON);
-        if (SWSH_SUMMARY_MON_SHADOWS)
-        {
-            u8 shadowId = sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHADOW];
-            LoadPalette(sMonShadow_Pal, OBJ_PLTT_ID(gSprites[shadowId].oam.paletteNum), PLTT_SIZE_4BPP);
-        }
-        if (SWSH_SUMMARY_BG_BLEND || SWSH_SUMMARY_MON_SHADOWS)
-        {
-            if (SWSH_SUMMARY_BG_BLEND)
-                SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_BG3 | BLDCNT_TGT2_BG2 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG1);
-            else
-                SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_BG3 | BLDCNT_TGT2_BG2 | BLDCNT_EFFECT_BLEND);
-            SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(14, 6));
-        }
-        else
-        {
-            SetGpuReg(REG_OFFSET_BLDCNT, 0);
-            SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-        }
+        CloseConditionsPage();
         break;
 #endif
     case PSS_PAGE_CONTEST_MOVES:
@@ -4108,8 +4099,16 @@ static void PrintPageSpecificText(u8 pageIndex)
     sTextPrinterFunctions[pageIndex]();
 }
 
+static void DestroyTextPrinterTask(u8 pageIndex)
+{
+    u8 taskId = FindTaskIdByFunc(sTextPrinterTasks[pageIndex]);
+    if (taskId != TASK_NONE)
+        DestroyTask(taskId);
+}
+
 static void CreateTextPrinterTask(u8 pageIndex)
 {
+    DestroyTextPrinterTask(pageIndex);
     CreateTask(sTextPrinterTasks[pageIndex], 16);
 }
 
@@ -5387,6 +5386,33 @@ static void DestroyContestCategoryIcons(void)
             DestroySprite(&gSprites[sMonSummaryScreen->spriteIds[arrId]]);
             sMonSummaryScreen->spriteIds[arrId] = SPRITE_NONE;
         }
+    }
+}
+
+static void CloseConditionsPage(void)
+{
+    DestroyTextPrinterTask(PSS_PAGE_CONDITIONS);
+    ScanlineEffect_Stop();
+    HideBg(1);
+    ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_WIN1_ON);
+    SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_ALL);
+    if (SWSH_SUMMARY_MON_SHADOWS)
+    {
+        u8 shadowId = sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHADOW];
+        LoadPalette(sMonShadow_Pal, OBJ_PLTT_ID(gSprites[shadowId].oam.paletteNum), PLTT_SIZE_4BPP);
+    }
+    if (SWSH_SUMMARY_BG_BLEND || SWSH_SUMMARY_MON_SHADOWS)
+    {
+        if (SWSH_SUMMARY_BG_BLEND)
+            SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_BG3 | BLDCNT_TGT2_BG2 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG1);
+        else
+            SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_BG3 | BLDCNT_TGT2_BG2 | BLDCNT_EFFECT_BLEND);
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(14, 6));
+    }
+    else
+    {
+        SetGpuReg(REG_OFFSET_BLDCNT, 0);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     }
 }
 

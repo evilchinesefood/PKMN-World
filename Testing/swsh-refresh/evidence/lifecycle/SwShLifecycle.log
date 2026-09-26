@@ -1,0 +1,334 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot SwShLifecycle_1_healing_target
+  [PASS] HP bar mapped
+  shot SwShLifecycle_2_healing_quantity
+  shot SwShLifecycle_3_healing_result
+  [PASS] heal returns to field
+  [PASS] Potion heals exactly 20 HP -- hp=21
+  [PASS] Conditions uses scanline window 1
+  [PASS] Conditions window cleared 1
+  [PASS] Conditions DMA stopped 1
+  [PASS] single printer 1 Task_PrintConditionsPage
+  [PASS] single printer 1 Task_PrintInfoPage
+  [PASS] single printer 1 Task_PrintSkillsPage
+  [PASS] single printer 1 Task_PrintBattleMoves
+  [PASS] single printer 1 Task_PrintContestMoves
+  [PASS] single printer 1 Task_PrintMemoPage
+  [PASS] summary 1 returns to field
+  [PASS] summary 1 no Task_PrintConditionsPage
+  [PASS] summary 1 no Task_PrintInfoPage
+  [PASS] summary 1 no Task_PrintSkillsPage
+  [PASS] summary 1 no Task_PrintBattleMoves
+  [PASS] summary 1 no Task_PrintContestMoves
+  [PASS] summary 1 no Task_PrintMemoPage
+  [PASS] summary 1 no Task_ShowEffectTilemap
+  [PASS] summary 1 summary state freed
+  [PASS] summary 1 scanline DMA stopped
+  [PASS] Conditions uses scanline window 2
+  [PASS] Conditions window cleared 2
+  [PASS] Conditions DMA stopped 2
+  [PASS] single printer 2 Task_PrintConditionsPage
+  [PASS] single printer 2 Task_PrintInfoPage
+  [PASS] single printer 2 Task_PrintSkillsPage
+  [PASS] single printer 2 Task_PrintBattleMoves
+  [PASS] single printer 2 Task_PrintContestMoves
+  [PASS] single printer 2 Task_PrintMemoPage
+  [PASS] summary 2 returns to field
+  [PASS] summary 2 no Task_PrintConditionsPage
+  [PASS] summary 2 no Task_PrintInfoPage
+  [PASS] summary 2 no Task_PrintSkillsPage
+  [PASS] summary 2 no Task_PrintBattleMoves
+  [PASS] summary 2 no Task_PrintContestMoves
+  [PASS] summary 2 no Task_PrintMemoPage
+  [PASS] summary 2 no Task_ShowEffectTilemap
+  [PASS] summary 2 summary state freed
+  [PASS] summary 2 scanline DMA stopped
+  [PASS] Conditions uses scanline window 3
+  [PASS] Conditions window cleared 3
+  [PASS] Conditions DMA stopped 3
+  [PASS] single printer 3 Task_PrintConditionsPage
+  [PASS] single printer 3 Task_PrintInfoPage
+  [PASS] single printer 3 Task_PrintSkillsPage
+  [PASS] single printer 3 Task_PrintBattleMoves
+  [PASS] single printer 3 Task_PrintContestMoves
+  [PASS] single printer 3 Task_PrintMemoPage
+  [PASS] summary 3 returns to field
+  [PASS] summary 3 no Task_PrintConditionsPage
+  [PASS] summary 3 no Task_PrintInfoPage
+  [PASS] summary 3 no Task_PrintSkillsPage
+  [PASS] summary 3 no Task_PrintBattleMoves
+  [PASS] summary 3 no Task_PrintContestMoves
+  [PASS] summary 3 no Task_PrintMemoPage
+  [PASS] summary 3 no Task_ShowEffectTilemap
+  [PASS] summary 3 summary state freed
+  [PASS] summary 3 scanline DMA stopped
+  [PASS] no summary heap growth 3 -- bytes=11520 expected=11520
+  [PASS] Conditions uses scanline window 4
+  [PASS] Conditions window cleared 4
+  [PASS] Conditions DMA stopped 4
+  [PASS] single printer 4 Task_PrintConditionsPage
+  [PASS] single printer 4 Task_PrintInfoPage
+  [PASS] single printer 4 Task_PrintSkillsPage
+  [PASS] single printer 4 Task_PrintBattleMoves
+  [PASS] single printer 4 Task_PrintContestMoves
+  [PASS] single printer 4 Task_PrintMemoPage
+  [PASS] summary 4 returns to field
+  [PASS] summary 4 no Task_PrintConditionsPage
+  [PASS] summary 4 no Task_PrintInfoPage
+  [PASS] summary 4 no Task_PrintSkillsPage
+  [PASS] summary 4 no Task_PrintBattleMoves
+  [PASS] summary 4 no Task_PrintContestMoves
+  [PASS] summary 4 no Task_PrintMemoPage
+  [PASS] summary 4 no Task_ShowEffectTilemap
+  [PASS] summary 4 summary state freed
+  [PASS] summary 4 scanline DMA stopped
+  [PASS] no summary heap growth 4 -- bytes=11520 expected=11520
+  [PASS] Conditions uses scanline window 5
+  [PASS] Conditions window cleared 5
+  [PASS] Conditions DMA stopped 5
+  [PASS] single printer 5 Task_PrintConditionsPage
+  [PASS] single printer 5 Task_PrintInfoPage
+  [PASS] single printer 5 Task_PrintSkillsPage
+  [PASS] single printer 5 Task_PrintBattleMoves
+  [PASS] single printer 5 Task_PrintContestMoves
+  [PASS] single printer 5 Task_PrintMemoPage
+  [PASS] summary 5 returns to field
+  [PASS] summary 5 no Task_PrintConditionsPage
+  [PASS] summary 5 no Task_PrintInfoPage
+  [PASS] summary 5 no Task_PrintSkillsPage
+  [PASS] summary 5 no Task_PrintBattleMoves
+  [PASS] summary 5 no Task_PrintContestMoves
+  [PASS] summary 5 no Task_PrintMemoPage
+  [PASS] summary 5 no Task_ShowEffectTilemap
+  [PASS] summary 5 summary state freed
+  [PASS] summary 5 scanline DMA stopped
+  [PASS] no summary heap growth 5 -- bytes=11520 expected=11520
+  [PASS] Conditions uses scanline window 6
+  [PASS] Conditions window cleared 6
+  [PASS] Conditions DMA stopped 6
+  [PASS] single printer 6 Task_PrintConditionsPage
+  [PASS] single printer 6 Task_PrintInfoPage
+  [PASS] single printer 6 Task_PrintSkillsPage
+  [PASS] single printer 6 Task_PrintBattleMoves
+  [PASS] single printer 6 Task_PrintContestMoves
+  [PASS] single printer 6 Task_PrintMemoPage
+  [PASS] summary 6 returns to field
+  [PASS] summary 6 no Task_PrintConditionsPage
+  [PASS] summary 6 no Task_PrintInfoPage
+  [PASS] summary 6 no Task_PrintSkillsPage
+  [PASS] summary 6 no Task_PrintBattleMoves
+  [PASS] summary 6 no Task_PrintContestMoves
+  [PASS] summary 6 no Task_PrintMemoPage
+  [PASS] summary 6 no Task_ShowEffectTilemap
+  [PASS] summary 6 summary state freed
+  [PASS] summary 6 scanline DMA stopped
+  [PASS] no summary heap growth 6 -- bytes=11520 expected=11520
+  [PASS] Conditions uses scanline window 7
+  [PASS] Conditions window cleared 7
+  [PASS] Conditions DMA stopped 7
+  [PASS] single printer 7 Task_PrintConditionsPage
+  [PASS] single printer 7 Task_PrintInfoPage
+  [PASS] single printer 7 Task_PrintSkillsPage
+  [PASS] single printer 7 Task_PrintBattleMoves
+  [PASS] single printer 7 Task_PrintContestMoves
+  [PASS] single printer 7 Task_PrintMemoPage
+  [PASS] summary 7 returns to field
+  [PASS] summary 7 no Task_PrintConditionsPage
+  [PASS] summary 7 no Task_PrintInfoPage
+  [PASS] summary 7 no Task_PrintSkillsPage
+  [PASS] summary 7 no Task_PrintBattleMoves
+  [PASS] summary 7 no Task_PrintContestMoves
+  [PASS] summary 7 no Task_PrintMemoPage
+  [PASS] summary 7 no Task_ShowEffectTilemap
+  [PASS] summary 7 summary state freed
+  [PASS] summary 7 scanline DMA stopped
+  [PASS] no summary heap growth 7 -- bytes=11520 expected=11520
+  [PASS] Conditions uses scanline window 8
+  [PASS] Conditions window cleared 8
+  [PASS] Conditions DMA stopped 8
+  [PASS] single printer 8 Task_PrintConditionsPage
+  [PASS] single printer 8 Task_PrintInfoPage
+  [PASS] single printer 8 Task_PrintSkillsPage
+  [PASS] single printer 8 Task_PrintBattleMoves
+  [PASS] single printer 8 Task_PrintContestMoves
+  [PASS] single printer 8 Task_PrintMemoPage
+  [PASS] summary 8 returns to field
+  [PASS] summary 8 no Task_PrintConditionsPage
+  [PASS] summary 8 no Task_PrintInfoPage
+  [PASS] summary 8 no Task_PrintSkillsPage
+  [PASS] summary 8 no Task_PrintBattleMoves
+  [PASS] summary 8 no Task_PrintContestMoves
+  [PASS] summary 8 no Task_PrintMemoPage
+  [PASS] summary 8 no Task_ShowEffectTilemap
+  [PASS] summary 8 summary state freed
+  [PASS] summary 8 scanline DMA stopped
+  [PASS] no summary heap growth 8 -- bytes=11520 expected=11520
+  shot SwShLifecycle_4_summary_shiny
+  [PASS] shiny returns to field
+  [PASS] shiny no Task_PrintConditionsPage
+  [PASS] shiny no Task_PrintInfoPage
+  [PASS] shiny no Task_PrintSkillsPage
+  [PASS] shiny no Task_PrintBattleMoves
+  [PASS] shiny no Task_PrintContestMoves
+  [PASS] shiny no Task_PrintMemoPage
+  [PASS] shiny no Task_ShowEffectTilemap
+  [PASS] shiny summary state freed
+  [PASS] shiny scanline DMA stopped
+  shot SwShLifecycle_5_summary_egg
+  [PASS] egg returns to field
+  [PASS] egg no Task_PrintConditionsPage
+  [PASS] egg no Task_PrintInfoPage
+  [PASS] egg no Task_PrintSkillsPage
+  [PASS] egg no Task_PrintBattleMoves
+  [PASS] egg no Task_PrintContestMoves
+  [PASS] egg no Task_PrintMemoPage
+  [PASS] egg no Task_ShowEffectTilemap
+  [PASS] egg summary state freed
+  [PASS] egg scanline DMA stopped
+  shot SwShLifecycle_6_party_before_pc
+  [PASS] party R enters storage
+  [PASS] party caller recorded
+  shot SwShLifecycle_7_party_after_pc
+  [PASS] PC returns to party
+  [PASS] PC return callback consumed
+  [PASS] party returns to field
+  [PASS] storage opened
+  shot SwShLifecycle_8_terminal_after_party
+  [PASS] terminal has no stale caller
+  shot SwShLifecycle_9_pc_mon_info
+  [PASS] PC info visible text tiles intact -- windows=6 mismatched bytes=0
+  [PASS] PC main and text palettes independent
+  [PASS] PC standard menus own bank 15
+  [PASS] PC mon menu visible text tiles intact -- windows=1 mismatched bytes=0
+  shot SwShLifecycle_10_pc_summary
+  [PASS] PC summary owns summary state
+  [PASS] PC summary returns to storage
+  [PASS] PC return clears scanline
+  shot SwShLifecycle_11_pc_markings
+  [PASS] pc terminal returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 0 preserves main/text palette
+  [PASS] wallpaper 0 preserves standard menu palette
+  shot SwShLifecycle_12_wallpaper_0
+  [PASS] wallpaper 0 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 1 preserves main/text palette
+  [PASS] wallpaper 1 preserves standard menu palette
+  shot SwShLifecycle_13_wallpaper_1
+  [PASS] wallpaper 1 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 2 preserves main/text palette
+  [PASS] wallpaper 2 preserves standard menu palette
+  shot SwShLifecycle_14_wallpaper_2
+  [PASS] wallpaper 2 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 3 preserves main/text palette
+  [PASS] wallpaper 3 preserves standard menu palette
+  shot SwShLifecycle_15_wallpaper_3
+  [PASS] wallpaper 3 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 4 preserves main/text palette
+  [PASS] wallpaper 4 preserves standard menu palette
+  shot SwShLifecycle_16_wallpaper_4
+  [PASS] wallpaper 4 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 5 preserves main/text palette
+  [PASS] wallpaper 5 preserves standard menu palette
+  shot SwShLifecycle_17_wallpaper_5
+  [PASS] wallpaper 5 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 6 preserves main/text palette
+  [PASS] wallpaper 6 preserves standard menu palette
+  shot SwShLifecycle_18_wallpaper_6
+  [PASS] wallpaper 6 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 7 preserves main/text palette
+  [PASS] wallpaper 7 preserves standard menu palette
+  shot SwShLifecycle_19_wallpaper_7
+  [PASS] wallpaper 7 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 8 preserves main/text palette
+  [PASS] wallpaper 8 preserves standard menu palette
+  shot SwShLifecycle_20_wallpaper_8
+  [PASS] wallpaper 8 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 9 preserves main/text palette
+  [PASS] wallpaper 9 preserves standard menu palette
+  shot SwShLifecycle_21_wallpaper_9
+  [PASS] wallpaper 9 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 10 preserves main/text palette
+  [PASS] wallpaper 10 preserves standard menu palette
+  shot SwShLifecycle_22_wallpaper_10
+  [PASS] wallpaper 10 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 11 preserves main/text palette
+  [PASS] wallpaper 11 preserves standard menu palette
+  shot SwShLifecycle_23_wallpaper_11
+  [PASS] wallpaper 11 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 12 preserves main/text palette
+  [PASS] wallpaper 12 preserves standard menu palette
+  shot SwShLifecycle_24_wallpaper_12
+  [PASS] wallpaper 12 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 13 preserves main/text palette
+  [PASS] wallpaper 13 preserves standard menu palette
+  shot SwShLifecycle_25_wallpaper_13
+  [PASS] wallpaper 13 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 14 preserves main/text palette
+  [PASS] wallpaper 14 preserves standard menu palette
+  shot SwShLifecycle_26_wallpaper_14
+  [PASS] wallpaper 14 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 15 preserves main/text palette
+  [PASS] wallpaper 15 preserves standard menu palette
+  shot SwShLifecycle_27_wallpaper_15
+  [PASS] wallpaper 15 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 16 preserves main/text palette
+  [PASS] wallpaper 16 preserves standard menu palette
+  shot SwShLifecycle_28_wallpaper_16
+  [PASS] wallpaper 16 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 17 preserves main/text palette
+  [PASS] wallpaper 17 preserves standard menu palette
+  shot SwShLifecycle_29_wallpaper_17
+  [PASS] wallpaper 17 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 18 preserves main/text palette
+  [PASS] wallpaper 18 preserves standard menu palette
+  shot SwShLifecycle_30_wallpaper_18
+  [PASS] wallpaper 18 returns to field
+  [PASS] storage opened
+  [PASS] wallpaper 19 preserves main/text palette
+  [PASS] wallpaper 19 preserves standard menu palette
+  shot SwShLifecycle_31_wallpaper_19
+  [PASS] wallpaper 19 returns to field
+  [PASS] empty pocket 0 visible text tiles intact -- windows=3 mismatched bytes=0
+  shot SwShLifecycle_32_empty_pocket_0
+  [PASS] empty pocket 0 returns to field
+  [PASS] empty pocket 1 visible text tiles intact -- windows=3 mismatched bytes=0
+  shot SwShLifecycle_33_empty_pocket_1
+  [PASS] empty pocket 1 returns to field
+  [PASS] empty pocket 2 visible text tiles intact -- windows=3 mismatched bytes=0
+  shot SwShLifecycle_34_empty_pocket_2
+  [PASS] empty pocket 2 returns to field
+  [PASS] empty pocket 3 visible text tiles intact -- windows=3 mismatched bytes=0
+  shot SwShLifecycle_35_empty_pocket_3
+  [PASS] empty pocket 3 returns to field
+  [PASS] empty pocket 4 visible text tiles intact -- windows=3 mismatched bytes=0
+  shot SwShLifecycle_36_empty_pocket_4
+  [PASS] empty pocket 4 returns to field
+  [PASS] synthetic save written -- status=1
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] saved fixture reloads
+  [PASS] money survives reload
+  [PASS] chosen wallpaper survives reload
+  [PASS] party HP survives reload
+  [PASS] saved storage opens
+  shot SwShLifecycle_37_pc_after_save_reload
+  [PASS] saved PC returns to field
+VERDICT SwShLifecycle: 293/293 PASS

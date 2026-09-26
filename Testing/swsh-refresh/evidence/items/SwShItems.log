@@ -1,0 +1,35 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot SwShItems_1_pp_moves
+  [PASS] pp_return intact bag input
+  shot SwShItems_2_pp_return
+  [PASS] PP returns to field
+  [PASS] Ether restores PP -- pp=10
+  [PASS] give_return intact bag input
+  shot SwShItems_3_give_return
+  [PASS] Give returns to field
+  [PASS] Give equips Leftovers -- held item=472
+  shot SwShItems_4_evolution_target
+  shot SwShItems_5_evolution
+  [PASS] evolution_return intact bag input
+  shot SwShItems_6_evolution_return
+  [PASS] Evolution returns to field
+  [PASS] Water Stone evolves Eevee to Vaporeon -- species=134
+  [PASS] TM opens move replacement Summary
+  shot SwShItems_7_tm_replace
+  [PASS] tm_return intact bag input
+  shot SwShItems_8_tm_return
+  [PASS] TM returns to field
+  [PASS] TM teaches Focus Punch in fourth move slot -- move=264
+  shot SwShItems_9_sort_menu
+  [PASS] sort_return intact bag input
+  shot SwShItems_10_sort_return
+  [PASS] Sort returns to field
+  [PASS] sorting preserves potion quantity
+  shot SwShItems_11_sell_quantity
+  shot SwShItems_12_sell_confirm
+  [PASS] sell_return intact bag input
+  shot SwShItems_13_sell_return
+  [PASS] Sell returns to field
+  [PASS] selling three decrements quantity -- qty=96
+VERDICT SwShItems: 19/19 PASS

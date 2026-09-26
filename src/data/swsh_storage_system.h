@@ -55,7 +55,6 @@ static const u32 sSwShStorage_BG1_Tilemap[]   = INCBIN_U32("graphics/pokemon_sto
 static const u32 sSwShStorage_BG2_Tilemap[]   = INCBIN_U32("graphics/pokemon_storage/swsh/bg2.bin.smolTM");
 static const u32 sMonInfo_Gfx[]               = INCBIN_U32("graphics/pokemon_storage/swsh/mon_info.4bpp.smol");
 static const u32 sMonInfo_Tilemap[]           = INCBIN_U32("graphics/pokemon_storage/swsh/mon_info.bin.smolTM");
-static const u16 sTextWindows_Pal[]           = INCBIN_U16("graphics/pokemon_storage/swsh/text_windows.gbapal");
 
 static const u32 sBoxTitleFrame_Gfx[]         = INCBIN_U32("graphics/pokemon_storage/swsh/box_title_frame.4bpp.smol");
 static const u32 sBoxTitleArrow_Gfx[]         = INCBIN_U32("graphics/pokemon_storage/swsh/box_title_arrow.4bpp.smol");
@@ -289,6 +288,15 @@ static const struct StorageMessage sMessages[] =
 // Window Templates
 // ============================================================================
 
+// Keep art, information text, wallpaper and standard menus in separate banks.
+#define PAL_STORAGE_MAIN       0
+#define PAL_STORAGE_TEXT       1
+#define PAL_STORAGE_WALLPAPER  2
+#define PAL_STORAGE_FRAME      14
+#define PAL_STORAGE_STD_MENU   15
+
+STATIC_ASSERT(sizeof(sSwShStorage_Pal) == 2 * PLTT_SIZE_4BPP, StorageMainAndTextPaletteSize);
+
 static const struct WindowTemplate sWindowTemplate_MainMenu =
 {
     .bg = 0,
@@ -296,7 +304,7 @@ static const struct WindowTemplate sWindowTemplate_MainMenu =
     .tilemapTop = 1,
     .width = 17,
     .height = 10,
-    .paletteNum = 15,
+    .paletteNum = PAL_STORAGE_STD_MENU,
     .baseBlock = 0x1,
 };
 
@@ -307,7 +315,7 @@ static const struct WindowTemplate sYesNoWindowTemplate =
     .tilemapTop = 11,
     .width = 5,
     .height = 4,
-    .paletteNum = 15,
+    .paletteNum = PAL_STORAGE_STD_MENU,
     .baseBlock = 0x5C,
 };
 
@@ -330,7 +338,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 17,
         .width = 20,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 44,
     },
     [WIN_ITEM_DESC] = {
@@ -339,7 +347,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 13,
         .width = 21,
         .height = 7,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 44,
     },
     [WIN_MON_INFO_NICKNAME_LEFT] = {
@@ -348,7 +356,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 23,
         .width = 8,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 202
     },
     [WIN_MON_INFO_LEVEL_LEFT] = {
@@ -357,7 +365,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 23,
         .width = 4,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 218
     },
     [WIN_MON_INFO_STATS_COL1_LEFT] = {
@@ -366,7 +374,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 27,
         .width = 3,
         .height = 6,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 226
     },
     [WIN_MON_INFO_STATS_COL2_LEFT] = {
@@ -375,7 +383,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 27,
         .width = 3,
         .height = 6,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 244
     },
     [WIN_MON_INFO_ABILITY_LEFT] = {
@@ -384,7 +392,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 34,
         .width = 9,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 262
     },
     [WIN_MON_INFO_ITEM_LEFT] = {
@@ -393,7 +401,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 36,
         .width = 9,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 280
     },
     [WIN_MON_INFO_NICKNAME_RIGHT] = {
@@ -402,7 +410,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 43,
         .width = 8,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 202
     },
     [WIN_MON_INFO_LEVEL_RIGHT] = {
@@ -411,7 +419,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 43,
         .width = 4,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 218
     },
     [WIN_MON_INFO_STATS_COL1_RIGHT] = {
@@ -420,7 +428,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 47,
         .width = 3,
         .height = 6,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 226
     },
     [WIN_MON_INFO_STATS_COL2_RIGHT] = {
@@ -429,7 +437,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 47,
         .width = 3,
         .height = 6,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 244
     },
     [WIN_MON_INFO_ABILITY_RIGHT] = {
@@ -438,7 +446,7 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 54,
         .width = 9,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 262
     },
     [WIN_MON_INFO_ITEM_RIGHT] = {
@@ -447,20 +455,28 @@ static const struct WindowTemplate sWindowTemplates[] =
         .tilemapTop = 56,
         .width = 9,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = PAL_STORAGE_TEXT,
         .baseBlock = 280
     },
     DUMMY_WIN_TEMPLATE
 };
 
-static const u8 sTextColors[][3] =
-{
-    {1, 2, 3}, // Standard menus, mon info (stats, ability, item)
-    {4, 2, 5}, // Mon info (nickname and level) (grey BG)
-    {0, 4, 7}, // Choose box menu - actually uses PALTAG_MISC_3 and not bg pal 15
-    {0, 1, 6}, // Main message window
+enum {
+    COLORID_PC_MAIN_MENU,
+    COLORID_MON_INFO_NAME,
+    COLORID_MON_INFO,
+    COLORID_CHOOSE_BOX,
+    COLORID_MESSAGE,
 };
 
+static const u8 sFontColorTable[][3] =
+{
+    [COLORID_PC_MAIN_MENU]  = {1, 2, 3},
+    [COLORID_MON_INFO_NAME] = {4, 2, 5},
+    [COLORID_MON_INFO]      = {1, 2, 3},
+    [COLORID_CHOOSE_BOX]    = {0, 4, 7}, // OBJ palette PALTAG_MISC_3
+    [COLORID_MESSAGE]       = {0, 1, 6},
+};
 
 // ============================================================================
 // BG Templates

@@ -198,15 +198,20 @@ TEST("Ambient ripples: same-frame sprite pressure reclaims before failing")
 
 TEST("Ambient ripples: same-frame tile pressure reclaims exact owned tiles")
 {
+    u32 fragmented;
+    PARAMETRIZE { fragmented = FALSE; }
+    PARAMETRIZE { fragmented = TRUE; }
     struct RippleFixture saved = SetUpPond(MAP_PETALBURG_CITY, LAYOUT_PETALBURG_CITY, WEATHER_SUNNY, MB_POND_WATER);
     FillRings();
     for (u32 i = 0; i < 1024; i++)
-        SpriteTileAllocBitmapOp(i, 1);
+        if (!fragmented || i < 12 || (i & 1))
+            SpriteTileAllocBitmapOp(i, 1);
     EXPECT(!CanAllocSpriteTiles(8));
     EXPECT_EQ(AllocSpriteTiles(8), 0);
     EXPECT_EQ(RingCount(), 0);
     for (u32 i = 12; i < 1024; i++)
-        EXPECT_NE(SpriteTileAllocBitmapOp(i, 2), 0);
+        EXPECT_EQ(SpriteTileAllocBitmapOp(i, 2) != 0, !fragmented || (i & 1));
+    EXPECT_EQ(AllocSpriteTiles(16), -1); // exhausted/fragmented after bounded reclamation
     TearDownPond(&saved);
 }
 

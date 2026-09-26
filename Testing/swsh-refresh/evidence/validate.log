@@ -1,0 +1,35 @@
+  swapPalettes : whatever (i + 9) % 16 reaches for the bits actually set,
+                 up to all 16 rows. 0 tileset(s) set it today.
+
+--- Population ---
+  tilesets declared            : 203  (10 primary, 193 secondary)
+  distinct palette arrays      : 203
+  arrays reached by a tileset  : 202
+  tilesets with swapPalettes!=0: 0
+  tilesets on a 13-row array   : 55
+  tilesets on a 16-row array   : 148
+  arrays no tileset points at  : 1 -> gTilesetPalettes_Building
+
+==============================================================================
+PASS: all 203 tileset(s) declare enough palette rows
+==============================================================================
+  primaries checked at   >= 7 rows : 10 ok
+  secondaries checked at >= 13 rows : 193 ok
+  swapPalettes arms evaluated       : 0
+  (rows 13..15 exist only for the UpdateAltBgPalettes alternate-palette blend;
+   the loaders stop at row 12 -- see issue #94, whose premise that they copy
+   7..15 was wrong)
+python3 Testing/ValidateCelioGifts.py
+OK — Celio first gifts: Meteorite is checked, later talk can re-offer, Sevii map flag is not set from the cutscene parent.
+python3 Testing/ValidateGreedyGifts.py
+PASS: independent Eevee receipt flags; failed delivery and Goldenrod entry preserve eligibility
+OK — Dojo and Mt. Moon gifts are per-slot, Cinnabar/Fuchsia follow both fossils, starters stay exclusive.
+python3 Testing/ValidateRegionMap.py
+region_map_layout.h: 2 mismatches
+region_map_layout_johto.h: 1 mismatches
+region_map_layout_kanto.h: 2 mismatches
+region_map_layout_sevii123.h: 1 mismatches
+region_map_layout_sevii45.h: 1 mismatches
+region_map_layout_sevii67.h: 0 mismatches
+python3 Testing/ValidateLanceMultiBattle.py
+PASS: Rocket HQ uses explicit trainers and the standard multi-battle party lifecycle

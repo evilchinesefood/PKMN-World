@@ -1,0 +1,26 @@
+package.path=assert(os.getenv('PW_FEATURE_LIB'))..'/?.lua;'..package.path
+local F,S,U,X,tap,hook,close,tasks,windows=require('swsh_helpers')('SwShItems')
+local function ready(tag)
+ for i=1,60 do if tasks(U.Task_BagMenu_HandleInput)==1 then break end;tap('B') end
+ F.check(tag..' intact bag input',tasks(U.Task_BagMenu_HandleInput)==1);F.shot(tag)
+end
+F.run(function()
+ assert(F.boot(100));hook(0);hook(1,0)
+ tap('Down',2);tap('A',3);F.shot('pp_moves');tap('A');tap('B');ready('pp_return');close('PP')
+ hook(14,0);F.check('Ether restores PP',F.r16(U.gSpecialVar_0x8007)==10,'pp='..F.r16(U.gSpecialVar_0x8007))
+ hook(0);hook(1,0);tap('Down',5);tap('A');tap('Right');tap('A',2);tap('B');ready('give_return');close('Give')
+ hook(18,0);F.check('Give equips Leftovers',F.r16(U.gSpecialVar_0x8006)~=0,'held item='..F.r16(U.gSpecialVar_0x8006))
+ hook(0);hook(1,0);tap('Down',4);tap('A',2);tap('Down',5);F.shot('evolution_target');tap('A',1,600)
+ F.shot('evolution');tap('A',4,300);ready('evolution_return');close('Evolution')
+ hook(18,5);F.check('Water Stone evolves Eevee to Vaporeon',F.r16(X.gSpecialVar_0x8005)==134,'species='..F.r16(X.gSpecialVar_0x8005))
+ hook(0);hook(1,2)
+ for i=1,14 do if F.r32(U.sMonSummaryScreen)~=0 then break end;tap('A',1,180) end
+ F.check('TM opens move replacement Summary',F.r32(U.sMonSummaryScreen)~=0);F.shot('tm_replace')
+ tap('Down',3);tap('A',2,180);ready('tm_return');close('TM')
+ hook(18,0);F.check('TM teaches Focus Punch in fourth move slot',F.r16(U.gSpecialVar_0x8007)==264,'move='..F.r16(U.gSpecialVar_0x8007))
+ hook(0);hook(19);hook(1,0);tap('Start');F.shot('sort_menu');tap('A');ready('sort_return');close('Sort')
+ hook(14,0);F.check('sorting preserves potion quantity',F.r16(U.gSpecialVar_0x8006)==99)
+ hook(0);hook(2,0);tap('A');tap('Up',2);F.shot('sell_quantity');tap('A');F.shot('sell_confirm');tap('A');tap('B');ready('sell_return');close('Sell')
+ hook(14,0);F.check('selling three decrements quantity',F.r16(U.gSpecialVar_0x8006)==96,'qty='..F.r16(U.gSpecialVar_0x8006))
+ F.finish()
+end)

@@ -1,0 +1,21 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] battle ready
+  [PASS] battler count
+  [PASS] partner battle
+  shot SwShBattle2_1_battle
+  [PASS] battle bag input owns task
+  shot SwShBattle2_2_bag
+  [PASS] partner page selected
+  shot SwShBattle2_3_partner_team
+  [PASS] player page restored
+  shot SwShBattle2_4_player_team
+  [PASS] cancel restores battle action
+  shot SwShBattle2_5_cancel_return
+  [PASS] battle bag input owns task
+  shot SwShBattle2_6_item_target
+  [PASS] using item resumes battle
+  shot SwShBattle2_7_item_return
+  [PASS] lead is alive after healing
+  [PASS] battle exit reaches field
+VERDICT SwShBattle2: 11/11 PASS

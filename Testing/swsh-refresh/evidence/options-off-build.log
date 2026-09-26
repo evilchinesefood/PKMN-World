@@ -1,0 +1,35 @@
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/BlackthornCity_House3/scripts.inc:133:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/BlackthornCity_House3/scripts.inc:144:  Info: macro invoked from here
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/IcePath_B1F/scripts.inc:14:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:129:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:152:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:175:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:198:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/MtSilver_1F_MoltresRoom/scripts.inc:21:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/MtSilver_SummitDay/scripts.inc:51:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/JohtoPokemonLeague_HallOfFame/scripts.inc:31:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/JohtoPokemonLeague_HallOfFame/scripts.inc:53:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/scripts/bug_contest.inc:27:  Info: macro invoked from here
+arm-none-eabi-ld: warning: ../../pokemonworld.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      235008 B       256 KB     89.65%
+           IWRAM:       28176 B        32 KB     85.99%
+             ROM:    22760372 B        32 MB     67.83%
+cd build/emerald && arm-none-eabi-ld -Map ../../pokemonworld.map --print-memory-usage --gc-sections -T ../../ld_script_modern.ld -o ../../pokemonworld.elf <objs> <libs> | cat
+tools/gbafix/gbafix pokemonworld.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokemonworld.elf pokemonworld.gba
+tools/gbafix/gbafix pokemonworld.gba -p --silent
+python3 Testing/GenLuaSymbols.py pokemonworld.elf arm-none-eabi-nm > Testing/lua/symbols.lua.tmp && mv -f Testing/lua/symbols.lua.tmp Testing/lua/symbols.lua || { rm -f Testing/lua/symbols.lua.tmp; exit 1; }
+wrote Testing/lua/symbols.lua

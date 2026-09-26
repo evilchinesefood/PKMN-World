@@ -1,0 +1,69 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh fixture boots
+  shot SwShRefresh_1_bag_items
+  shot SwShRefresh_2_bag_swap
+  shot SwShRefresh_3_bag_context
+  shot SwShRefresh_4_bag_party_target
+  [PASS] pocket 1
+  shot SwShRefresh_5_bag_pocket_1
+  [PASS] pocket 2
+  shot SwShRefresh_6_bag_pocket_2
+  shot SwShRefresh_7_bag_tm_info_1
+  shot SwShRefresh_8_bag_tm_info_2
+  shot SwShRefresh_9_bag_tm_info_3
+  shot SwShRefresh_10_bag_tm_info_4
+  [PASS] pocket 3
+  shot SwShRefresh_11_bag_pocket_3
+  shot SwShRefresh_12_bag_berry_info_1
+  shot SwShRefresh_13_bag_berry_info_2
+  shot SwShRefresh_14_bag_berry_info_3
+  [PASS] pocket 4
+  shot SwShRefresh_15_bag_pocket_4
+  [PASS] bag returns to field
+  shot SwShRefresh_16_bag_sell
+  shot SwShRefresh_17_bag_sell_quantity
+  [PASS] sell returns to field
+  [PASS] summary owns state
+  shot SwShRefresh_18_summary_info
+  shot SwShRefresh_19_summary_skills
+  shot SwShRefresh_20_summary_ivs
+  shot SwShRefresh_21_summary_evs
+  shot SwShRefresh_22_summary_moves
+  shot SwShRefresh_23_summary_contest_moves
+  shot SwShRefresh_24_summary_conditions
+  shot SwShRefresh_25_summary_memo
+  shot SwShRefresh_26_summary_conditions_return
+  shot SwShRefresh_27_summary_conditions_exit
+  [PASS] summary returns to field
+  [PASS] summary state freed
+  shot SwShRefresh_28_pc_main
+  shot SwShRefresh_29_pc_box
+  [PASS] storage owns state
+  shot SwShRefresh_30_pc_context
+  [PASS] PC context visible text tiles intact -- windows=1 mismatched bytes=0
+  shot SwShRefresh_31_pc_info
+  shot SwShRefresh_32_pc_box_next
+  [PASS] pc returns to field
+  shot SwShRefresh_33_shop_menu
+  shot SwShRefresh_34_shop_buy
+  shot SwShRefresh_35_shop_quantity
+  shot SwShRefresh_36_shop_confirm
+  [PASS] Shop confirmation visible text tiles intact -- windows=4 mismatched bytes=0
+  [PASS] shop returns to field
+  shot SwShRefresh_37_pyramid_bag
+  shot SwShRefresh_38_pyramid_action
+  shot SwShRefresh_39_pyramid_toss
+  shot SwShRefresh_40_pyramid_confirm
+  [PASS] Pyramid confirmation visible text tiles intact -- windows=3 mismatched bytes=0
+  [PASS] pyramid returns to field
+  shot SwShRefresh_41_pokeblock_case
+  shot SwShRefresh_42_pokeblock_action
+  shot SwShRefresh_43_pokeblock_toss
+  [PASS] Pokeblock confirmation visible text tiles intact -- windows=10 mismatched bytes=0
+  [PASS] pokeblock returns to field
+  shot SwShRefresh_44_blender_prompt
+  [PASS] Blender dialogue visible text tiles intact -- windows=1 mismatched bytes=0
+  shot SwShRefresh_45_blender_bag
+  shot SwShRefresh_46_blender_return
+VERDICT SwShRefresh: 20/20 PASS

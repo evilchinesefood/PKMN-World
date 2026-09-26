@@ -1,0 +1,19 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] six party members before deposit
+  [PASS] deposit screen opened
+  shot SwShTransfer_1_deposit
+  shot SwShTransfer_2_deposit_box_choice
+  shot SwShTransfer_3_deposit_result
+  [PASS] deposit returns to field
+  [PASS] deposit removes one party member -- party=5
+  [PASS] withdraw screen opened
+  shot SwShTransfer_4_withdraw
+  shot SwShTransfer_5_withdraw_result
+  [PASS] withdraw returns to field
+  [PASS] withdraw restores six party members -- party=6
+  shot SwShTransfer_6_bag_reordered
+  [PASS] swap returns control to Bag
+  [PASS] swap returns to field
+  [PASS] swap changes first item to previous second
+VERDICT SwShTransfer: 10/10 PASS

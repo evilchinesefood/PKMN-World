@@ -1,0 +1,35 @@
+    inlined from 'CreateShedinja' at ../../src/evolution_scene.c:594,
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:840:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:791:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:791:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_TradeEvolutionScene' at ../../src/evolution_scene.c:1218:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_TradeEvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_TradeEvolutionScene' at ../../src/evolution_scene.c:1218:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_TradeEvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//ccv0b3ps.s: Assembler messages:
+/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//ccv0b3ps.s: Warning: section `.rodata.compound_string.dabab14a276922ea' size (0x16) is not a multiple of its entry size 0xa
+/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/16.1.0/../../../../arm-none-eabi/bin/ld: warning: ../../pokemonworld-release.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      234808 B       256 KB     89.57%
+           IWRAM:       28100 B        32 KB     85.75%
+             ROM:    22817212 B        32 MB     68.00%
+tools/gbafix/gbafix pokemonworld-release.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokemonworld-release.elf pokemonworld-release.gba
+tools/gbafix/gbafix pokemonworld-release.gba -p --silent

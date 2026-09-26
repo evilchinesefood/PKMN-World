@@ -1,0 +1,61 @@
+sweep : 2026-09-26T04:23:46Z
+rom   : /private/tmp/pkmn-world-swsh-328/pokemonworld.gba
+md5   : 2CD4575E104D2B4805F062501B9CB120
+out   : /tmp/pkmn-world-328-final-sweep
+
+SmokeBoot                rc=0   VERDICT SmokeBoot: 10/10 PASS
+WorldTitle               rc=0   VERDICT WorldTitle: 37/37 PASS
+HubIntroTour             rc=0   VERDICT HubIntroTour: 60/60 PASS
+HubIntroTourFollower     rc=0   VERDICT HubIntroTourFollower: 27/27 PASS
+HubStairsGate            rc=0   VERDICT HubStairsGate: 12/12 PASS
+DebugParty               rc=0   VERDICT DebugParty: 23/23 PASS
+VerifyBagLayout          rc=0   VERDICT VerifyBagLayout: 23/23 PASS
+VerifyBedroomPC          rc=0   VERDICT VerifyBedroomPC: 72/72 PASS
+VerifyPCScreen           rc=0   VERDICT VerifyPCScreen: 10/10 PASS
+OwMonSprites             rc=0   VERDICT OwMonSprites: 15/15 PASS
+VioletMart               rc=0   VERDICT VioletMart: 13/13 PASS
+JohtoDayNightWorld       rc=0   VERDICT JohtoDayNightWorld: 21/21 PASS
+JohtoDayNightLive        rc=0   VERDICT JohtoDayNightLive: 22/22 PASS
+NationalParkTiles        rc=0   VERDICT NationalParkTiles: 15/15 PASS
+TinTowerRoof             rc=0   VERDICT TinTowerRoof: 27/27 PASS
+OlivineHarborBoard       rc=0   VERDICT OlivineHarborBoard: 20/20 PASS
+SSAquaKantoCrossing      rc=0   VERDICT SSAquaKantoCrossing: 94/94 PASS
+BnetTerminal1F           rc=0   VERDICT BnetTerminal1F: 60/60 PASS
+LevelUpSummary           rc=0   VERDICT LevelUpSummary: 13/13 PASS
+DoorAnimsRegistered      rc=0   VERDICT DoorAnimsRegistered: 114/114 PASS
+JohtoVictoryRoadTiles    rc=0   VERDICT JohtoVictoryRoadTiles: 30/30 PASS
+JohtoBerrySlots          rc=0   VERDICT JohtoBerrySlots: 22/22 PASS
+AzaleaGymRide            rc=0   VERDICT AzaleaGymRide: 13/13 PASS
+DayCareFlowers           rc=0   VERDICT DayCareFlowers: 10/10 PASS
+DaycareFullPartyEgg      rc=0   VERDICT DaycareFullPartyEgg: 29/29 PASS
+EncountersIncenseLink    rc=0   VERDICT EncountersIncenseLink: 33/33 PASS
+EncountersIncenseLink_MainMenu rc=0   VERDICT EncountersIncenseLink_MainMenu: 8/8 PASS
+FollowerOutdoors         rc=0   VERDICT FollowerOutdoors: 4/4 PASS
+FrontierMidSave          rc=0   VERDICT FrontierMidSave: 15/15 PASS
+HubNurseMonitor          rc=0   VERDICT HubNurseMonitor: 28/28 PASS
+JohtoFlyTeleport         rc=0   VERDICT JohtoFlyTeleport: 31/31 PASS
+JohtoHofLegendaries      rc=0   VERDICT JohtoHofLegendaries: 10/10 PASS
+JohtoMusicPass           rc=0   VERDICT JohtoMusicPass: 18/18 PASS
+JohtoWhirlpool           rc=0   VERDICT JohtoWhirlpool: 16/16 PASS
+JohtoWhiteoutHeal        rc=0   VERDICT JohtoWhiteoutHeal: 56/56 PASS
+KenyaMail                rc=0   VERDICT KenyaMail: 21/21 PASS
+PromptSafetyEvIv         rc=0   VERDICT PromptSafetyEvIv: 30/30 PASS
+RedGyarados              rc=0   VERDICT RedGyarados: 14/14 PASS
+Route41SurfBgm           rc=0   VERDICT Route41SurfBgm: 11/11 PASS
+SlowpokeWellRescue       rc=0   VERDICT SlowpokeWellRescue: 48/48 PASS
+TohjoCelebi              rc=0   VERDICT TohjoCelebi: 11/11 PASS
+CelioBagFull             rc=0   VERDICT CelioBagFull: 12/12 PASS
+HoennIntroClock          rc=0   VERDICT HoennIntroClock: 8/8 PASS
+HubPassReCross           rc=0   VERDICT HubPassReCross: 71/71 PASS
+ExpansionHealthboxes     rc=0   VERDICT ExpansionHealthboxes: 24/24 PASS
+CatchTutorial            rc=0   VERDICT CatchTutorial: 15/15 PASS
+DayNightTint             rc=0   VERDICT DayNightTint: 32/32 PASS
+VerifyV7Migrate          rc=0   VERDICT VerifyV7Migrate: 11/11 PASS
+MigrateFixtures          rc=0   VERDICT MigrateFixtures: 7/7 PASS
+VerifyMapRenumber        rc=0   VERDICT VerifyMapRenumber: 4/4 PASS
+VerifyOwnerSave          OPTIONAL - no pokemonworld.sav on this machine, not counted
+
+--- sentinel audit (a .PASS only counts if this sweep wrote it, against THIS rom) ---
+
+green 50 / 50 expected
+SWEEP OK - every expected suite produced a fresh PASS stamped rom=2CD4575E104D2B4805F062501B9CB120

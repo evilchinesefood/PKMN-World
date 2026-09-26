@@ -43,15 +43,14 @@ Build with the repository's toolchain and Lua-enabled mGBA described in [Testing
 
 ```sh
 make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
-python3 Testing/visual-features/build_fixture.py --repo . \
+python3 Testing/swsh-refresh/build_fixture.py --repo . \
   --rom "$PWD/pokemonworld.gba" --elf "$PWD/pokemonworld.elf" \
-  --source Testing/swsh-refresh/fixture.c --out /tmp/swsh-fixture
-python3 Testing/swsh-refresh/export_symbols.py pokemonworld.elf /tmp/swsh-fixture
+  --source-ref "$(git rev-parse HEAD)" --out /tmp/swsh-fixture
 python3 Testing/visual-features/run_fixture.py --repo . \
   --fixture /tmp/swsh-fixture --suite Testing/swsh-refresh/capture.lua --out /tmp/swsh-capture
 ```
 
-Run `regression.lua`, `items.lua`, `transitions.lua` the same way. Run `battle.lua` three times with `PW_BATTLE_MODE=0`, `1`, `2` for singles, doubles and full partner teams. `verify_assets.py --donor /path/to/donor-checkout` requires the five pinned donor objects; it does not fetch or import anything.
+Run `regression.lua`, `items.lua`, `pc_transfer.lua`, `transitions.lua` the same way. Run `battle.lua` three times with `PW_BATTLE_MODE=0`, `1`, `2` for singles, doubles and full partner teams. `verify_assets.py --donor /path/to/donor-checkout` requires the five pinned donor objects; it does not fetch or import anything.
 
 The helper resolves duplicate local symbols by the owning object's linked address range in the matching `.map`, not by `nm` order. It checks only on-screen window allocations; the PC's off-screen information panels intentionally reuse tiles. GBA scroll registers are write-only, so visibility uses the game's GPU register buffer. Palette comparisons omit transparent backdrop entry 0, which the renderer forces black. All other main/text colors are checked, including throughout the wallpaper animation.
 
@@ -61,6 +60,6 @@ The fixture sets the existing L/R button-mode option to exercise Bag partner-pag
 
 The final evidence and delivery manifest accompany the gallery. Development and release configurations are compiled; only the tested development ROM is delivered, following [RELEASING.md](../../RELEASING.md). Additional compile probes use classic messages and disable contest/berry/direct-use options and Summary contest/blend/shadow options in an isolated copy.
 
-The focused suites cover all pockets and empty pockets, 999 quantities, sorting across a seeded gap, healing, PP recovery, Give, TM replacement through Summary, evolution/reentry, selling, PC/party callback reuse, all wallpaper IDs, real wallpaper transitions, PC Summary/markings, repeated Summary page/mon changes and heap stability, egg/status cases, all four secondary-frame prompts, and synthetic save/reload. The repository sweep covers Hub Pass, EV/IV prompts, tutorial battles, region travel and save migrations.
+The focused suites cover all pockets and empty pockets, 999 quantities, sorting across a seeded gap, healing, PP recovery, Give, TM replacement through Summary, evolution/reentry, selling, PC/party callback reuse, all wallpaper IDs, real wallpaper transitions, PC Summary/markings, deposit/withdraw, actual item swapping, repeated Summary page/mon changes and heap stability, egg/status cases, all four secondary-frame prompts, and synthetic save/reload. The repository sweep covers Hub Pass, EV/IV prompts, tutorial battles, region travel and save migrations.
 
 The owner review should take 5–10 minutes: compare Bag/TM/berry/sell screens, inspect PC information and wallpaper transitions, watch Conditions entry/exit, then use normal Bag/PC/Summary controls in the prepared build. This is final appearance judgment; engineering validation is the agent's responsibility.

@@ -1,0 +1,12 @@
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] prepared save boots in hub
+  [PASS] six prepared party members
+  [PASS] money preserved
+  [PASS] normal field movement
+  shot SwShDelivery_1_prepared_hub
+  [PASS] normal start wheel opens Bag
+  shot SwShDelivery_2_prepared_bag
+  shot SwShDelivery_3_prepared_tm_pocket
+  [PASS] normal Bag returns to field
+  [PASS] field controls released
+VERDICT SwShDelivery: 7/7 PASS

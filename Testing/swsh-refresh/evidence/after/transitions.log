@@ -1,0 +1,91 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot SwShTransitions_1_conditions_enter_001
+  shot SwShTransitions_2_conditions_enter_005
+  shot SwShTransitions_3_conditions_enter_009
+  shot SwShTransitions_4_conditions_enter_013
+  shot SwShTransitions_5_conditions_enter_017
+  shot SwShTransitions_6_conditions_enter_021
+  shot SwShTransitions_7_conditions_enter_025
+  shot SwShTransitions_8_conditions_enter_029
+  shot SwShTransitions_9_conditions_enter_033
+  shot SwShTransitions_10_conditions_enter_037
+  shot SwShTransitions_11_conditions_enter_041
+  shot SwShTransitions_12_conditions_enter_045
+  shot SwShTransitions_13_conditions_enter_049
+  shot SwShTransitions_14_conditions_enter_053
+  shot SwShTransitions_15_conditions_enter_057
+  shot SwShTransitions_16_conditions_enter_061
+  shot SwShTransitions_17_conditions_enter_065
+  shot SwShTransitions_18_conditions_enter_069
+  shot SwShTransitions_19_conditions_enter_073
+  shot SwShTransitions_20_conditions_enter_077
+  shot SwShTransitions_21_conditions_enter_081
+  shot SwShTransitions_22_conditions_enter_085
+  shot SwShTransitions_23_conditions_enter_089
+  shot SwShTransitions_24_conditions_enter_093
+  [PASS] Conditions window active
+  shot SwShTransitions_25_conditions_leave_001
+  shot SwShTransitions_26_conditions_leave_005
+  shot SwShTransitions_27_conditions_leave_009
+  shot SwShTransitions_28_conditions_leave_013
+  shot SwShTransitions_29_conditions_leave_017
+  shot SwShTransitions_30_conditions_leave_021
+  shot SwShTransitions_31_conditions_leave_025
+  shot SwShTransitions_32_conditions_leave_029
+  shot SwShTransitions_33_conditions_leave_033
+  shot SwShTransitions_34_conditions_leave_037
+  shot SwShTransitions_35_conditions_leave_041
+  shot SwShTransitions_36_conditions_leave_045
+  shot SwShTransitions_37_conditions_leave_049
+  shot SwShTransitions_38_conditions_leave_053
+  shot SwShTransitions_39_conditions_leave_057
+  shot SwShTransitions_40_conditions_leave_061
+  shot SwShTransitions_41_conditions_leave_065
+  shot SwShTransitions_42_conditions_leave_069
+  shot SwShTransitions_43_conditions_leave_073
+  shot SwShTransitions_44_conditions_leave_077
+  shot SwShTransitions_45_conditions_leave_081
+  shot SwShTransitions_46_conditions_leave_085
+  shot SwShTransitions_47_conditions_leave_089
+  shot SwShTransitions_48_conditions_leave_093
+  [PASS] Conditions window cleared
+  [PASS] Conditions DMA stopped
+  [PASS] summary returns to field
+  shot SwShTransitions_49_box_menu
+  shot SwShTransitions_50_wallpaper_menu
+  shot SwShTransitions_51_wallpaper_fade_004
+  shot SwShTransitions_52_wallpaper_fade_008
+  shot SwShTransitions_53_wallpaper_fade_012
+  shot SwShTransitions_54_wallpaper_fade_016
+  shot SwShTransitions_55_wallpaper_fade_020
+  shot SwShTransitions_56_wallpaper_fade_024
+  shot SwShTransitions_57_wallpaper_fade_028
+  shot SwShTransitions_58_wallpaper_fade_032
+  shot SwShTransitions_59_wallpaper_fade_036
+  shot SwShTransitions_60_wallpaper_fade_040
+  shot SwShTransitions_61_wallpaper_fade_044
+  shot SwShTransitions_62_wallpaper_fade_048
+  shot SwShTransitions_63_wallpaper_fade_052
+  shot SwShTransitions_64_wallpaper_fade_056
+  shot SwShTransitions_65_wallpaper_fade_060
+  shot SwShTransitions_66_wallpaper_fade_064
+  shot SwShTransitions_67_wallpaper_fade_068
+  shot SwShTransitions_68_wallpaper_fade_072
+  shot SwShTransitions_69_wallpaper_fade_076
+  shot SwShTransitions_70_wallpaper_fade_080
+  shot SwShTransitions_71_wallpaper_fade_084
+  shot SwShTransitions_72_wallpaper_fade_088
+  shot SwShTransitions_73_wallpaper_fade_092
+  shot SwShTransitions_74_wallpaper_fade_096
+  shot SwShTransitions_75_wallpaper_fade_100
+  shot SwShTransitions_76_wallpaper_fade_104
+  shot SwShTransitions_77_wallpaper_fade_108
+  shot SwShTransitions_78_wallpaper_fade_112
+  shot SwShTransitions_79_wallpaper_fade_116
+  shot SwShTransitions_80_wallpaper_fade_120
+  [PASS] wallpaper fade targets expected bank
+  [PASS] wallpaper fade leaves text colors intact -- changed samples=0
+  shot SwShTransitions_81_wallpaper_changed
+  [PASS] wallpaper returns to field
+VERDICT SwShTransitions: 7/7 PASS

@@ -1,0 +1,35 @@
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/title_screen.o src/title_screen.c
+src/swsh_item_menu.c:8116:13: warning: 'BagMenu_SwapFusionMonMoves' defined but not used [-Wunused-function]
+ 8116 | static void BagMenu_SwapFusionMonMoves(struct Pokemon *mon, const u16 moveTable[][2], u32 mode)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/title_screen_frlg.o src/title_screen_frlg.c
+src/swsh_party_menu.c:8648:13: warning: 'SwapFusionMonMoves' defined but not used [-Wunused-function]
+ 8648 | static void SwapFusionMonMoves(struct Pokemon *mon, const u16 moveTable[][2], u32 mode)
+      |             ^~~~~~~~~~~~~~~~~~
+src/swsh_storage_system.c: In function 'CreatePartyMonsSprites':
+src/swsh_storage_system.c:5095:12: warning: variable 'count' set but not used [-Wunused-but-set-variable=]
+ 5095 |     u16 i, count;
+      |            ^~~~~
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/trade.o src/trade.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/trainer_card.o src/trainer_card.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/unbound_start_menu.o src/unbound_start_menu.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/union_room_chat.o src/union_room_chat.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/wallclock.o src/wallclock.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/wireless_communication_status_screen.o src/wireless_communication_status_screen.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/battle_transition.o src/battle_transition.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/graphics.o src/graphics.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/move_relearner.o src/move_relearner.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/pokemon_storage_system.o src/pokemon_storage_system.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/roulette.o src/roulette.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/slot_machine.o src/slot_machine.c
+arm-none-eabi-ld: warning: ../../pokemonworld.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      235020 B       256 KB     89.65%
+           IWRAM:       28200 B        32 KB     86.06%
+             ROM:    22794484 B        32 MB     67.93%
+cd build/emerald && arm-none-eabi-ld -Map ../../pokemonworld.map --print-memory-usage --gc-sections -T ../../ld_script_modern.ld -o ../../pokemonworld.elf <objs> <libs> | cat
+tools/gbafix/gbafix pokemonworld.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokemonworld.elf pokemonworld.gba
+tools/gbafix/gbafix pokemonworld.gba -p --silent
+python3 Testing/GenLuaSymbols.py pokemonworld.elf arm-none-eabi-nm > Testing/lua/symbols.lua.tmp && mv -f Testing/lua/symbols.lua.tmp Testing/lua/symbols.lua || { rm -f Testing/lua/symbols.lua.tmp; exit 1; }
+wrote Testing/lua/symbols.lua

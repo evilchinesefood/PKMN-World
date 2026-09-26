@@ -607,6 +607,7 @@ static void CB2_InitBattleInternal(void)
     if (TestRunner_Battle_GetForcedEnvironment())
         gBattleEnvironment = TestRunner_Battle_GetForcedEnvironment() - 1;
 
+    CaptureBattlePresentation();
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();
     ResetSpriteData();

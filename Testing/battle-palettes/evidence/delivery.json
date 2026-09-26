@@ -1,0 +1,26 @@
+{
+  "source_commit": "05b37db1a9b1dd8efda95233e4a61822680bba7b",
+  "baseline_game_source": "4bea54bfffd2ea73fcea7c34a4c36fede7cdceb2",
+  "merged_base": "f1c1fd23921a6bc90618906ecdf3c629dc6ea34f",
+  "rom_sha256": "4e144fe18d7ebb5c5466dd5ad03e9f76af5a27c31493db5034469dfcb532a95e",
+  "rom_md5": "BCEEC6CA0CCBD45640C84A4F81ED99C3",
+  "release_build_sha256": "efe33d3bd65d1a5470c63664083af3855aa4fda29a19927bd78dec3495ae8b79",
+  "synthetic_save_sha256": "0e537fb524a9a328c52e0e24fcfbe819c898a08185b2551d6c26395a719cb24c",
+  "fixture_hook_in_delivery": false,
+  "native_media_count": 53,
+  "palette_comparison_checks": 58,
+  "feature_and_delivery_assertions": 179,
+  "bw_assertions": 514,
+  "tracked_suites": 50,
+  "lance_assertions": 7,
+  "engine": {
+    "passed": 5084,
+    "known_failing": 14,
+    "todo": 594,
+    "expected_failures": 8,
+    "total": 5700
+  },
+  "owner_review": "5\u201310 minutes: compare cold/day-night scenes, watch entry and terrain restoration clips, then walk in Ice Path and play a battle.",
+  "package_sha256": "59b1d22692c85a53360bba6ba8fc4e5543104f774d93d628bfb14adc6991c4f6",
+  "package_filename": "PokemonWorld-BattlePalettes-05b37db1.zip"
+}

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "bw_battle_ui.h"
 #include "battle.h"
+#include "battle_bg.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
 #include "malloc.h"
@@ -72,6 +73,7 @@ void AllocateBattleResources(void)
 
 void FreeBattleResources(void)
 {
+    ResetBattlePresentation();
     BattleUI_ResetGraphics();
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
         FreeTrainerTowerBattleStruct();

@@ -1,0 +1,36 @@
+[
+  {
+    "suite": "capture",
+    "passed": 88,
+    "total": 88,
+    "fixture_md5": "B6CC06A31217E167FEA0274EDC33CEFA"
+  },
+  {
+    "suite": "restoration",
+    "passed": 55,
+    "total": 55,
+    "fixture_md5": "B6CC06A31217E167FEA0274EDC33CEFA"
+  },
+  {
+    "suite": "menu_memory",
+    "passed": 15,
+    "total": 15,
+    "fixture_md5": "B6CC06A31217E167FEA0274EDC33CEFA"
+  },
+  {
+    "suite": "entry_evolution",
+    "passed": 10,
+    "total": 10,
+    "fixture_md5": "B6CC06A31217E167FEA0274EDC33CEFA"
+  },
+  {
+    "suite": "save",
+    "passed": 5,
+    "total": 5
+  },
+  {
+    "suite": "unpatched_delivery",
+    "passed": 6,
+    "total": 6
+  }
+]

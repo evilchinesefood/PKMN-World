@@ -107,6 +107,7 @@ void HandleIntroSlide(u8 environment)
     }
     else
     {
+        environment = GetBattleIntroVisualEnvironment(environment);
         if (environment >= NELEMS(gBattleEnvironmentInfo)
          || gBattleEnvironmentInfo[environment].battleIntroSlide == NULL)
             environment = BATTLE_ENVIRONMENT_PLAIN;

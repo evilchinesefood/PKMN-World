@@ -53,8 +53,11 @@ static void CB2_ReshowBattleScreenAfterMenu(void)
     {
     case 0:
         ScanlineEffect_Clear();
-        BattleInitBgsAndWindows();
+        // Match initial battle allocation order. Rebuilding windows first splits
+        // the freed animation-buffer space and can strand the 13 KB terrain
+        // decompression allocation after returning from Bag or Party.
         AllocateBattleGfxResources();
+        BattleInitBgsAndWindows();
         SetBgAttribute(1, BG_ATTR_CHARBASEINDEX, 0);
         SetBgAttribute(2, BG_ATTR_CHARBASEINDEX, 0);
         ShowBg(0);

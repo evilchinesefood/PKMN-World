@@ -1,0 +1,18 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Bag return 1 reaches commands
+  [PASS] Bag return 1 retains contiguous animation memory
+  [PASS] Party return 1 reaches commands
+  [PASS] Party return 1 retains contiguous animation memory
+  [PASS] Bag return 2 reaches commands
+  [PASS] Bag return 2 retains contiguous animation memory
+  [PASS] Party return 2 reaches commands
+  [PASS] Party return 2 retains contiguous animation memory
+  [PASS] Bag return 3 reaches commands
+  [PASS] Bag return 3 retains contiguous animation memory
+  [PASS] Party return 3 reaches commands
+  [PASS] Party return 3 retains contiguous animation memory
+  [PASS] Grassy Terrain animation does not exhaust memory
+  [PASS] real terrain turn returns to commands
+  [PASS] normal battle exit
+VERDICT BattleMenuMemory: 15/15 PASS

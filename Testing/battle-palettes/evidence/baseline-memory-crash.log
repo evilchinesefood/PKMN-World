@@ -1,0 +1,22 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Bag return 1 reaches commands
+  [FAIL] Bag return 1 retains contiguous animation memory
+  [PASS] Party return 1 reaches commands
+  [FAIL] Party return 1 retains contiguous animation memory
+  [PASS] Bag return 2 reaches commands
+  [FAIL] Bag return 2 retains contiguous animation memory
+  [PASS] Party return 2 reaches commands
+  [FAIL] Party return 2 retains contiguous animation memory
+  [PASS] Bag return 3 reaches commands
+  [FAIL] Bag return 3 retains contiguous animation memory
+  [PASS] Party return 3 reaches commands
+  [FAIL] Party return 3 retains contiguous animation memory
+  *** CRASH SCREEN (terrain) ***
+  *** SRC/MALLOC.C:209: SRC/DECOMPRE | SS.C:990: OUT OF MEMORY TRYING |  TO ALLOCATE 13024 BYTES |   IN: 810ADF5 |   IN: 817C2DF
+  *** BG_PLTT[0]=0x0000 (see the screenshot for blue vs red)
+  shot BattleMenuMemory_1_crash_terrain
+  [FAIL] Grassy Terrain animation does not exhaust memory
+  shot BattleMenuMemory_2_action_timeout
+  [FAIL] real terrain turn returns to commands
+VERDICT BattleMenuMemory: 6/14 PASS

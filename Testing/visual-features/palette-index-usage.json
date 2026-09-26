@@ -1,0 +1,47 @@
+[
+  {
+    "asset": "graphics/pokenav/region_map/frame.png",
+    "indices": [
+      3,
+      4
+    ],
+    "pixels": {
+      "3": 113,
+      "4": 16
+    },
+    "dimensions": [
+      24,
+      16
+    ]
+  },
+  {
+    "asset": "graphics/pokedex/hgss/tileset_menu_list.png",
+    "indices": [
+      2,
+      3
+    ],
+    "pixels": {
+      "2": 0,
+      "3": 1872
+    },
+    "dimensions": [
+      128,
+      104
+    ]
+  },
+  {
+    "asset": "graphics/pokedex/hgss/tileset_interface.png",
+    "indices": [
+      2,
+      3
+    ],
+    "pixels": {
+      "2": 0,
+      "3": 0
+    },
+    "dimensions": [
+      32,
+      512
+    ]
+  }
+]

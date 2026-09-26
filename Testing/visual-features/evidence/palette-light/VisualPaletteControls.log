@@ -1,0 +1,10 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot VisualPaletteControls_1_regional_list
+  [PASS] regional list clears unused banks
+  shot VisualPaletteControls_2_regional_info
+  [PASS] regional info clears unused banks
+  [PASS] regional dex returns
+  shot VisualPaletteControls_3_national_restored
+  [PASS] national restored clears unused banks
+VERDICT VisualPaletteControls: 4/4 PASS

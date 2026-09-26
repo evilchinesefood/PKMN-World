@@ -205,6 +205,11 @@ menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
 - Built on top of the **pokeemerald-expansion** menu/storage/overworld systems (RHH and
   contributors, credited above).
 
+### Ambient pond ripples — OriginalGRE inspiration
+
+- **[OriginalGRE](https://github.com/OriginalGRE/pokeemerald-expansion/tree/ambient_pond_ripples)** — behavioral inspiration for occasional rings on still ponds and rainy puddles.
+- World's implementation is independent and uses the existing ripple artwork and animation. No donor code or new artwork was imported. World adds private palette ownership, independent cosmetic randomness, and resource reclamation that yields to gameplay sprites.
+
 ### Quests system — PokemonSanFran/pokeemerald
 
 *(No longer in the shipped ROM: the engine was compiled out on 2026-07-27, having never

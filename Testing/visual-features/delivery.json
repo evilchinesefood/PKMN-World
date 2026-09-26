@@ -1,0 +1,24 @@
+{
+  "implementation_commit": "59214f5b6bb19b9a3588c91deedbcdee5e610451",
+  "base_commit": "45e1bf82ca5c2728910127863b926e627d4f18fc",
+  "artifact_checksums": {
+    "VisualReview.sav": "03e5101f0d9342feb2f7d4145733d0b42e955b73a8ac3f49e1ed0fa5cd5ae4a7",
+    "PLAYTEST.txt": "541227e8f37a7f533f84138a0bc28a03862d02958f954079498442b9d754f08f",
+    "VisualReview.gba": "4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3"
+  },
+  "lua_suites": 50,
+  "c_tests": {
+    "passed": 5076,
+    "expected_failures": 8,
+    "known_failures": 14,
+    "todo": 595,
+    "unexpected_failures": 0
+  },
+  "native_scenes": 37,
+  "after_capture_assertions": 46,
+  "before_capture_assertions": 35,
+  "control_capture_assertions": 46,
+  "after_stress_assertions": 133,
+  "before_stress_assertions": 132,
+  "prepared_save_assertions": 8
+}

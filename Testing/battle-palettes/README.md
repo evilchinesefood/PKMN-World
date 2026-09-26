@@ -79,5 +79,11 @@ Generate the gallery from retained run directories with:
 ```sh
 python3 Testing/battle-palettes/render_review.py \
   --before /tmp/pkmn-world-327-before-final \
-  --after /tmp/pkmn-world-327-final --out Testing/battle-palettes/review
+  --after /tmp/pkmn-world-327-final --out Testing/battle-palettes/review \
+  --before-source 4bea54bfffd2ea73fcea7c34a4c36fede7cdceb2 \
+  --after-source 05b37db1a9b1dd8efda95233e4a61822680bba7b
 ```
+
+Both source labels are required: use the revisions that produced the selected
+captures, not the current checkout. The generator escapes them in the page and
+records them in `capture-sources.json`.

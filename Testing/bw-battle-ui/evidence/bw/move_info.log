@@ -1,0 +1,10 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Fight reaches moves
+  shot BWMoveInfo_1_restored_details
+  [PASS] move information preserves move-cell tiles
+  [PASS] move information preserves BW UI palettes
+  shot BWMoveInfo_2_restored_moves
+  [PASS] details restore selected move
+  [PASS] normal exit restores field
+VERDICT BWMoveInfo: 5/5 PASS

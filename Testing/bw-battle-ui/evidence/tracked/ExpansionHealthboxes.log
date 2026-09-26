@@ -1,0 +1,56 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] player is free before the debug work
+  [PASS] Set Party published a non-empty party -- count=1
+  shot ExpansionHealthboxes_1_after_set_party
+  WARP safari_south ok (32,34)
+  [PASS] on Safari Zone South -- grp=26 map=3
+  [PASS] FLAG_SYS_SAFARI_MODE is set
+  [PASS] gNumSafariBalls seeded at 30 -- balls=30
+  nearest grass: (27,30) beh=2 (player at 32,34)
+  shot ExpansionHealthboxes_2_safari_field
+    leg BLOCKED Up at (27,32)->(27,30)
+  ROUTE to_safari_grass stuck wp1 at (27,32)
+  shot ExpansionHealthboxes_3_to_safari_grass_stuck
+  [PASS] safari battle started (BATTLE_TYPE_SAFARI) -- started=true flags=0x84 ow=false balls=30
+  safari ready: flags=0x84 balls=30 battlers=2 hb0=true
+  [PASS] Safari healthbox sprite is live
+  [PASS] gNumSafariBalls still 30 before the throw -- balls=30
+  shot ExpansionHealthboxes_4_safari_balls_30
+  after throw: balls=29 (want 29) flags=0x84
+  [PASS] gNumSafariBalls dropped from 30 (FillSpriteRect left=55 path ran) -- balls 30 -> 29
+  [PASS] gNumSafariBalls is 29 after one throw -- balls=29
+  shot ExpansionHealthboxes_5_safari_balls_29
+  [PASS] field control returns after Safari
+  WARP hub_after_safari ok (16,4)
+  [PASS] back on hub for singles -- grp=100 map=0
+  [PASS] Start Debug Battle is a trainer battle -- started=true flags=0xC ow=false
+  [PASS] singles is in-battle (CB2 not overworld, flags~=0) -- ow=false flags=0xC cb2=0x0808163C
+  singles action prompt: WHAT WILL
+BUFFIE DO
+  [PASS] player healthbox is live
+  [PASS] foe healthbox is live
+  shot ExpansionHealthboxes_6_singles_sendout
+  singles HP before: player=521 foe=115 ready=true cursor=0
+  singles mash 15 hp=521/115 text=THE OPPOSING METANG USED REFLECT
+  singles mash 30 hp=521/115 text=REFLECT MADE THEOPPOSING TEAM
+STRONGER AGAINST P
+  singles mash 45 hp=521/115 text=THE OPPOSING METANG USED
+LIGHTSCREEN
+  singles mash 60 hp=521/115 text=WHAT WILL
+BUFFIE DO
+  singles mash 75 hp=521/115 text=THE OPPOSING METANG USED METALCLAW
+  singles HP after: player=499 foe=115 text=A CRITICAL HIT
+  [PASS] an HP word changed (not the bar alone) -- player 521->499 foe 115->115
+  shot ExpansionHealthboxes_7_singles_hp_change
+  [PASS] field control returns after singles
+  [PASS] party cloned to 2 for doubles -- count=2
+  shot ExpansionHealthboxes_8_doubles_trainers_menu
+  doubles: flags=0x800D battlers=4 ow=false
+  [PASS] doubles_healthbox_reached -- flags=0x800D battlers=4 ow=false (need BATTLE_TYPE_DOUBLE)
+  [PASS] doubles has at least 3 battlers -- battlers=4
+  [PASS] two-opponent or doubles flag is set -- flags=0x800D
+  [PASS] a doubles healthbox sprite is live
+  shot ExpansionHealthboxes_9_doubles_healthboxes
+  [PASS] field control returns after doubles
+VERDICT ExpansionHealthboxes: 24/24 PASS

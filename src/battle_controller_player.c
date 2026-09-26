@@ -1,4 +1,5 @@
 #include "global.h"
+#include "constants/hold_effects.h"
 #include "palette_swap.h"
 #include "battle.h"
 #include "battle_anim.h"
@@ -31,10 +32,13 @@
 #include "task.h"
 #include "test_runner.h"
 #include "text.h"
+#include "text_window.h"
 #include "trainer.h"
 #include "util.h"
 #include "window.h"
 #include "line_break.h"
+#include "bw_battle_ui.h"
+#include "config/bw_battle_ui.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_move_effects.h"
 #include "constants/battle_partner.h"
@@ -324,6 +328,7 @@ static void HandleInputChooseAction(enum BattlerId battler)
             BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
             break;
         }
+
         BtlController_Complete(battler);
     }
     else if (JOY_NEW(DPAD_LEFT))
@@ -529,12 +534,11 @@ void HandleInputChooseTarget(enum BattlerId battler)
                  || (moveTarget == TARGET_OPPONENT && IsOnPlayerSide(gMultiUsePlayerCursor)))
                     validTarget = FALSE;
 
-                if (B_SHOW_EFFECTIVENESS && validTarget)
-                    MoveSelectionDisplayMoveEffectiveness(CheckTypeEffectiveness(battler, gMultiUsePlayerCursor), battler);
-
             } while (!validTarget);
         }
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_ShowAsMoveTarget;
+        if (B_SHOW_EFFECTIVENESS)
+            MoveSelectionDisplayMoveEffectiveness(CheckTypeEffectiveness(battler, gMultiUsePlayerCursor), battler);
     }
     else if (JOY_NEW(DPAD_RIGHT | DPAD_DOWN))
     {
@@ -578,8 +582,6 @@ void HandleInputChooseTarget(enum BattlerId battler)
                 default:
                     break;
                 }
-                if (B_SHOW_EFFECTIVENESS)
-                    MoveSelectionDisplayMoveEffectiveness(CheckTypeEffectiveness(battler, gMultiUsePlayerCursor), battler);
 
                 if (!CanTargetBattler(battler, gMultiUsePlayerCursor, move)
                  || (moveTarget == TARGET_OPPONENT && IsOnPlayerSide(gMultiUsePlayerCursor)))
@@ -588,6 +590,10 @@ void HandleInputChooseTarget(enum BattlerId battler)
         }
 
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCB_ShowAsMoveTarget;
+        // update *after* the valid target loop, otherwise it may flicker strangely
+        // due to said loop going over the attacking battler
+        if (B_SHOW_EFFECTIVENESS)
+            MoveSelectionDisplayMoveEffectiveness(CheckTypeEffectiveness(battler, gMultiUsePlayerCursor), battler);
     }
 }
 
@@ -824,10 +830,13 @@ void HandleInputChooseMove(enum BattlerId battler)
             gMoveSelectionCursor[battler] ^= 1;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
-            if (B_SHOW_EFFECTIVENESS)
-                MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
-            MoveSelectionDisplayPPNumber(battler);
-            MoveSelectionDisplayMoveType(battler);
+            if (!(BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX))
+            {
+                if (B_SHOW_EFFECTIVENESS)
+                    MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
+                MoveSelectionDisplayPPNumber(battler);
+                MoveSelectionDisplayMoveType(battler);
+            }
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -841,10 +850,13 @@ void HandleInputChooseMove(enum BattlerId battler)
             gMoveSelectionCursor[battler] ^= 1;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
-            if (B_SHOW_EFFECTIVENESS)
-                MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
-            MoveSelectionDisplayPPNumber(battler);
-            MoveSelectionDisplayMoveType(battler);
+            if (!(BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX))
+            {
+                if (B_SHOW_EFFECTIVENESS)
+                    MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
+                MoveSelectionDisplayPPNumber(battler);
+                MoveSelectionDisplayMoveType(battler);
+            }
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -857,10 +869,13 @@ void HandleInputChooseMove(enum BattlerId battler)
             gMoveSelectionCursor[battler] ^= 2;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
-            if (B_SHOW_EFFECTIVENESS)
-                MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
-            MoveSelectionDisplayPPNumber(battler);
-            MoveSelectionDisplayMoveType(battler);
+            if (!(BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX))
+            {
+                if (B_SHOW_EFFECTIVENESS)
+                    MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
+                MoveSelectionDisplayPPNumber(battler);
+                MoveSelectionDisplayMoveType(battler);
+            }
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -874,10 +889,13 @@ void HandleInputChooseMove(enum BattlerId battler)
             gMoveSelectionCursor[battler] ^= 2;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
-            if (B_SHOW_EFFECTIVENESS)
-                MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
-            MoveSelectionDisplayPPNumber(battler);
-            MoveSelectionDisplayMoveType(battler);
+            if (!(BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX))
+            {
+                if (B_SHOW_EFFECTIVENESS)
+                    MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
+                MoveSelectionDisplayPPNumber(battler);
+                MoveSelectionDisplayMoveType(battler);
+            }
             TryMoveSelectionDisplayMoveDescription(battler);
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
@@ -910,13 +928,16 @@ void HandleInputChooseMove(enum BattlerId battler)
             }
 
             FillWindowPixelBuffer(B_WIN_MOVE_DESCRIPTION, PIXEL_FILL(0));
-            ClearStdWindowAndFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
-            CopyWindowToVram(B_WIN_MOVE_DESCRIPTION, COPYWIN_GFX);
+            ClearStdWindowAndFrameToTransparent(B_WIN_MOVE_DESCRIPTION, FALSE);
+            CopyWindowToVram(B_WIN_MOVE_DESCRIPTION, COPYWIN_FULL);
             PlaySE(SE_SELECT);
-            if (B_SHOW_EFFECTIVENESS)
-                MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
-            MoveSelectionDisplayPPNumber(battler);
-            MoveSelectionDisplayMoveType(battler);
+            if (!(BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX))
+            {
+                if (B_SHOW_EFFECTIVENESS)
+                    MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
+                MoveSelectionDisplayPPNumber(battler);
+                MoveSelectionDisplayMoveType(battler);
+            }
         }
     }
     else if (JOY_NEW(B_MOVE_DESCRIPTION_BUTTON) &&
@@ -942,6 +963,12 @@ void HandleInputChooseMove(enum BattlerId battler)
 
 static void ReloadMoveNames(enum BattlerId battler)
 {
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        BattleUI_DisplayMoveBox(battler);
+        return;
+    }
+
     if (gBattleStruct->zmove.viable && !gBattleStruct->zmove.viewing)
     {
         struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
@@ -1696,6 +1723,8 @@ static void MoveSelectionDisplayPPString(enum BattlerId battler)
 
 static void MoveSelectionDisplayPPNumber(enum BattlerId battler)
 {
+    if (BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX)
+        return;
     u8 *txtPtr;
     struct ChooseMoveStruct *moveInfo;
 
@@ -1713,6 +1742,8 @@ static void MoveSelectionDisplayPPNumber(enum BattlerId battler)
 
 static void MoveSelectionDisplayMoveType(enum BattlerId battler)
 {
+    if (BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX)
+        return;
     u8 *txtPtr, *end;
     enum Species speciesId = gBattleMons[battler].species;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
@@ -1779,15 +1810,28 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
         acc = 0;
     }
 
-    u8 pwr_num[3], acc_num[3];
+    u8 pwr_num[4], acc_num[4];
     u8 cat_desc[7] = _("CAT: ");
     u8 pwr_desc[7] = _("PWR: ");
     u8 acc_desc[7] = _("ACC: ");
     u8 cat_start[] = _("{CLEAR_TO 3}");
     u8 pwr_start[] = _("{CLEAR_TO 56}");
     u8 acc_start[] = _("{CLEAR_TO 108}");
-    LoadMessageBoxAndBorderGfx();
-    DrawStdWindowFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
+    if (BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX)
+    {
+        // Preserve World's selected (default SwSh) frame. Standard menu tile
+        // 0x21A overlaps BW move cells, so place its nine tiles after this window.
+        u16 frameTileStart = GetWindowAttribute(B_WIN_MOVE_DESCRIPTION, WINDOW_BASE_BLOCK)
+                          + GetWindowAttribute(B_WIN_MOVE_DESCRIPTION, WINDOW_WIDTH)
+                          * GetWindowAttribute(B_WIN_MOVE_DESCRIPTION, WINDOW_HEIGHT);
+        LoadUserWindowBorderGfx(B_WIN_MOVE_DESCRIPTION, frameTileStart, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
+        DrawStdFrameWithCustomTileAndPalette(B_WIN_MOVE_DESCRIPTION, FALSE, frameTileStart, STD_WINDOW_PALETTE_NUM);
+    }
+    else
+    {
+        LoadMessageBoxAndBorderGfx();
+        DrawStdWindowFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
+    }
     if (pwr < 2)
         StringCopy(pwr_num, gText_BattleSwitchWhich5);
     else
@@ -1818,41 +1862,54 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
 
 void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
 {
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        return;
+    }
+
     u16 src[2];
     src[0] = baseTileNum + 1;
     src[1] = baseTileNum + 2;
 
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 1, 55 + (cursorPosition & 2), 1, 2, 0x11);
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 1, 55 + (cursorPosition & 2), 1, 2, BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX ? 0 : 0x11);
     CopyBgTilemapBufferToVram(0);
 }
 
 void MoveSelectionDestroyCursorAt(u8 cursorPosition)
 {
-    u16 src[2];
-    src[0] = 0x1016;
-    src[1] = 0x1016;
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        return;
+    }
 
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 1, 55 + (cursorPosition & 2), 1, 2, 0x11);
+    u16 empty = BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX ? 0x20 : 0x1016;
+    u16 src[2] = { empty, empty };
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 9 * (cursorPosition & 1) + 1, 55 + (cursorPosition & 2), 1, 2, BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX ? 0 : 0x11);
     CopyBgTilemapBufferToVram(0);
 }
 
 void ActionSelectionCreateCursorAt(u8 cursorPosition, u8 baseTileNum)
 {
-    u16 src[2];
-    src[0] = 1;
-    src[1] = 2;
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        return;
+    }
 
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 7 * (cursorPosition & 1) + 16, 35 + (cursorPosition & 2), 1, 2, 0x11);
+    u16 src[2] = { 1, 2 };
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 7 * (cursorPosition & 1) + 16, 35 + (cursorPosition & 2), 1, 2, BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX ? 0 : 0x11);
     CopyBgTilemapBufferToVram(0);
 }
 
 void ActionSelectionDestroyCursorAt(u8 cursorPosition)
 {
-    u16 src[2];
-    src[0] = 0x1016;
-    src[1] = 0x1016;
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        return;
+    }
 
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 7 * (cursorPosition & 1) + 16, 35 + (cursorPosition & 2), 1, 2, 0x11);
+    u16 empty = BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX ? 0x20 : 0x1016;
+    u16 src[2] = { empty, empty };
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 7 * (cursorPosition & 1) + 16, 35 + (cursorPosition & 2), 1, 2, BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX ? 0 : 0x11);
     CopyBgTilemapBufferToVram(0);
 }
 
@@ -2029,6 +2086,7 @@ static void PlayerHandleChooseAction(enum BattlerId battler)
         ActionSelectionDestroyCursorAt(i);
 
     TryRestoreLastUsedBall();
+    BattleUI_CreateCursorSprite(battler);
     ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler]);
     BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
@@ -2145,8 +2203,15 @@ void PlayerHandleChooseMove(enum BattlerId battler)
 void InitMoveSelectionsVarsAndStrings(enum BattlerId battler)
 {
     LoadTypeIcons(battler);
-    MoveSelectionDisplayMoveNames(battler);
+
     gMultiUsePlayerCursor = 0xFF;
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        BattleUI_DisplayMoveBox(battler);
+        return;
+    }
+
+    MoveSelectionDisplayMoveNames(battler);
     MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
     if (B_SHOW_EFFECTIVENESS)
         MoveSelectionDisplayMoveEffectiveness(CheckTargetTypeEffectiveness(battler), battler);
@@ -2392,6 +2457,8 @@ static bool32 ShouldShowTypeEffectiveness(u32 targetId)
 
 static u32 CheckTypeEffectiveness(enum BattlerId battlerAtk, enum BattlerId battlerDef)
 {
+    if (BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX)
+        return EFFECTIVENESS_CANNOT_VIEW;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battlerAtk][4]);
     struct DamageContext ctx = {0};
     ctx.battlerAtk = battlerAtk;
@@ -2407,19 +2474,32 @@ static u32 CheckTypeEffectiveness(enum BattlerId battlerAtk, enum BattlerId batt
     uq4_12_t modifier = CalcTypeEffectivenessMultiplier(&ctx);
 
     if (!ShouldShowTypeEffectiveness(battlerDef))
+    {
         return EFFECTIVENESS_CANNOT_VIEW;
+    }
 
     if (modifier == UQ_4_12(0.0))
+    {
         return EFFECTIVENESS_NO_EFFECT; // No effect
+    }
     else if (modifier <= UQ_4_12(0.5))
+    {
         return EFFECTIVENESS_NOT_VERY_EFFECTIVE; // Not very effective
+    }
     else if (modifier >= UQ_4_12(2.0))
+    {
         return EFFECTIVENESS_SUPER_EFFECTIVE; // Super effective
+    }
+
     return EFFECTIVENESS_NORMAL; // Normal effectiveness
 }
 
 static u32 CheckTargetTypeEffectiveness(enum BattlerId battler)
 {
+    // BW computes each cell against its current target. Avoid the classic
+    // selected-move preview, whose engine helpers update battle bookkeeping.
+    if (BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX)
+        return EFFECTIVENESS_CANNOT_VIEW;
     enum BattlerId battlerFoe = GetOppositeBattler(battler);
     u32 foeEffectiveness = CheckTypeEffectiveness(battler, battlerFoe);
 
@@ -2436,13 +2516,91 @@ static u32 CheckTargetTypeEffectiveness(enum BattlerId battler)
     return foeEffectiveness; // fallthrough for any other circumstance
 }
 
+static const u8 noIcon[] =  _("");
+static const u8 effectiveIcon[] =  _("{CIRCLE_HOLLOW}");
+static const u8 superEffectiveIcon[] =  _("{CIRCLE_DOT}");
+static const u8 notVeryEffectiveIcon[] =  _("{TRIANGLE}");
+static const u8 immuneIcon[] =  _("{BIG_MULT_X}");
+
+enum Type BattleUI_GetMoveType(enum BattlerId battler, enum Move move)
+{
+    bool32 ateBoost = gBattleStruct->battlerState[battler].ateBoost;
+    bool32 moldBreaker = gBattleStruct->moldBreakerActive;
+    enum BattlerId itemBattler = gPotentialItemEffectBattler;
+    // A previous action's Mold Breaker state must not suppress the menu's
+    // attacker ability. GetDynamicMoveType also writes the -ate damage flag.
+    gBattleStruct->moldBreakerActive = FALSE;
+    enum Type type = CheckDynamicMoveType(GetBattlerMon(battler), move, battler, MON_IN_BATTLE);
+    gBattleStruct->moldBreakerActive = moldBreaker;
+    gBattleStruct->battlerState[battler].ateBoost = ateBoost;
+    gPotentialItemEffectBattler = itemBattler;
+    return type;
+}
+
+const u8 *BattleUI_GetTypeEffectivenessSymbol(enum BattlerId battler, enum Move move)
+{
+    if (!B_SHOW_EFFECTIVENESS || move == MOVE_NONE || IsBattleMoveStatus(move))
+        return noIcon;
+
+    enum BattlerId target = GetOppositeBattler(battler);
+    if (gBattlerControllerFuncs[battler] == HandleInputChooseTarget
+     && gMultiUsePlayerCursor < gBattlersCount)
+        target = gMultiUsePlayerCursor;
+    else if (!IsBattlerAlive(target) && IsDoubleBattle())
+        target = GetPartnerBattler(target);
+    if (target >= gBattlersCount || !IsBattlerAlive(target) || !ShouldShowTypeEffectiveness(target))
+        return noIcon;
+
+    enum BattlerId itemBattler = gPotentialItemEffectBattler;
+    bool32 moldBreaker = gBattleStruct->moldBreakerActive;
+    gBattleStruct->moldBreakerActive = FALSE;
+    struct DamageContext ctx = {0};
+    ctx.battlerAtk = battler;
+    ctx.battlerDef = target;
+    ctx.move = ctx.chosenMove = ctx.baseMove = move;
+    ctx.moveType = BattleUI_GetMoveType(battler, move);
+    ctx.weather = GetWeather();
+    ctx.updateFlags = FALSE;
+    for (enum BattlerId i = 0; i < gBattlersCount; i++)
+    {
+        ctx.abilities[i] = GetBattlerAbilityIgnoreMoldBreaker(i);
+        ctx.holdEffects[i] = GetBattlerHoldEffect(i);
+    }
+    // Inspection must not call IsMoldBreakerTypeAbility: it records the ability.
+    enum Ability ability = ctx.abilities[battler];
+    if ((ability == ABILITY_MOLD_BREAKER || ability == ABILITY_TERAVOLT || ability == ABILITY_TURBOBLAZE
+         || MoveIgnoresTargetAbility(move))
+     && ctx.holdEffects[target] != HOLD_EFFECT_ABILITY_SHIELD
+     && gAbilitiesInfo[ctx.abilities[target]].breakable)
+        ctx.abilities[target] = ABILITY_NONE;
+    uq4_12_t modifier = CalcTypeEffectivenessMultiplier(&ctx);
+    // Absorption queries still prepare healing/message scratch data even with
+    // runScript=FALSE. Preserve both so opening a menu cannot alter a turn.
+    s32 hpUpdate = gBattleStruct->passiveHpUpdate[target];
+    u8 message = gBattleCommunication[MULTISTRING_CHOOSER];
+    if (CanAbilityAbsorbMove(&ctx))
+        modifier = UQ_4_12(0.0);
+    gBattleStruct->passiveHpUpdate[target] = hpUpdate;
+    gBattleCommunication[MULTISTRING_CHOOSER] = message;
+    gPotentialItemEffectBattler = itemBattler;
+    gBattleStruct->moldBreakerActive = moldBreaker;
+    if (modifier == UQ_4_12(0.0))
+        return immuneIcon;
+    if (modifier <= UQ_4_12(0.5))
+        return notVeryEffectiveIcon;
+    if (modifier >= UQ_4_12(2.0))
+        return superEffectiveIcon;
+    return effectiveIcon;
+}
+
 static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum BattlerId battler)
 {
-    static const u8 noIcon[] =  _("");
-    static const u8 effectiveIcon[] =  _("{CIRCLE_HOLLOW}");
-    static const u8 superEffectiveIcon[] =  _("{CIRCLE_DOT}");
-    static const u8 notVeryEffectiveIcon[] =  _("{TRIANGLE}");
-    static const u8 immuneIcon[] =  _("{BIG_MULT_X}");
+    if (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX && BW_BATTLE_UI_INPUTBOX)
+    {
+        BattleUI_DisplayMoveBox(battler);
+        return;
+    }
+
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u8 *txtPtr;
 

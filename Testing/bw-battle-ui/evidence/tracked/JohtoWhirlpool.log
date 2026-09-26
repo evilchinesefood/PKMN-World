@@ -1,0 +1,84 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Lapras reached the party (QOL_FIELD_MOVES_NO_TEACH can then Surf) -- gPartiesCount=1
+  [PASS] ITEM_SURF_TOOL is in KEY ITEMS (unlocks Surf without Fog Badge) -- slot=0
+  [PASS] FLAG_JOHTO_BADGE_7 is unset on a fresh save -- set=false
+  WARP dragonsden ok (31,4)
+  [PASS] warp_to_dragons_den_cavern_entrance -- grp=94 map=12 pos=(31,4)
+  dump arrival at (31,4) surf=false script=0x00000000 flags=0x21 preventStep=0
+    y=2 2C4/10  2C4/10  2C4/10  28C/10  2C4/10  2C4/10  2C4/10
+    y=3 299/10  33B/10  299/10  294/03  299/10  33B/10  299/10
+    y=4 2D9/03  342/10  2D9/03  2D9/03* 2D9/03  342/10  2D9/03
+    y=5 29D/10  29E/10  2D9/03  2D9/03  2D9/03  283/10  282/10
+    y=6 2A5/10  2A6/10  2D9/03  2D9/03  2D9/03  2D9/03  282/10
+  shot JohtoWhirlpool_1_dragons_den
+  [PASS] walked the entrance corridor to the dock at (31,15) -- grp=94 map=12 pos=(31,15)
+  dump dock at (31,15) surf=false script=0x00000000 flags=0x01 preventStep=0
+    y=13 292/10  282/10  2D9/03  2D9/03  2D9/03  2D9/03  2D9/03
+    y=14 29A/10  2E1/03  2E1/03  2E1/03  2E1/03  2E1/03  2E1/03
+    y=15 2C4/10  2C4/10  284/03  284/03* 284/03  2C4/10  2C4/10
+    y=16 2D4/01  2D4/01  1C5/03  1C6/03  1C7/03  2D4/01  2D4/01
+    y=17 12B/01  12B/01  1C5/03  1C6/03  1C7/03  12B/01  12B/01
+  shot JohtoWhirlpool_2_dock
+  stepped south of the dock onto grp=94 map=12 pos=(31,16)
+  dump channel at (31,19) surf=false script=0x00000000 flags=0x01 preventStep=0
+    y=17 12B/01  12B/01  1C5/03  1C6/03  1C7/03  12B/01  12B/01
+    y=18 12B/01  12B/01  1C5/03  1C6/03  1C7/03  12B/01  12B/01
+    y=19 12B/01  12B/01  1C5/03  1C6/03* 1C7/03  12B/01  12B/01
+    y=20 12B/01  12B/01  1CD/01  1CE/01  1CF/01  12B/01  12B/01
+    y=21 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+  shot JohtoWhirlpool_3_channel
+  tryStartSurf Down from (31,19) channel_drop
+  after surf attempt channel_drop surf=true (31,19)->(31,20)
+  [PASS] player is surfing in Dragon's Den (needed to reach either whirlpool) -- grp=94 map=12 pos=(31,20) surf=true
+  shot JohtoWhirlpool_4_after_surf
+  [PASS] reached the (24,22) whirlpool's west approach at (23,22) -- grp=94 map=12 pos=(23,22)
+  dump wp1_approach at (23,22) surf=true script=0x00000000 flags=0x08 preventStep=0
+    y=20 2F7/10  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=21 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=22 12B/01  12B/01  12B/01  12B/01* 12B/01  12B/01  12B/01
+    y=23 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=24 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+  shot JohtoWhirlpool_5_wp1_approach
+  shot JohtoWhirlpool_6_no_badge_box
+  [PASS] without FLAG_JOHTO_BADGE_7 a bump locks the player (swirling-water box) -- grp=94 map=12 pos=(23,22) script=0x083CCB31
+  [PASS] without the badge the player does not slide 3 tiles -- (23,22)->(23,22)
+  [PASS] FLAG_JOHTO_BADGE_7 is now set in SaveBlock3.johtoFlags
+  shot JohtoWhirlpool_7_with_badge_slid
+  dump after_slide at (26,22) surf=true script=0x00000000 flags=0x08 preventStep=0
+    y=20 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=21 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=22 12B/01  12B/01  12B/01  12B/01* 12B/01  12B/01  12B/01
+    y=23 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    y=24 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+  [PASS] with FLAG_JOHTO_BADGE_7 the player slides 3 tiles to the far side -- (23,22)->(26,22) want (26,22)
+  post-slide settle grp=94 map=12 pos=(26,22) obj=(26,22) byte0=0xC1 action=0x03
+  [PASS] reached the (15,39) whirlpool's north approach at (15,37) -- grp=94 map=12 pos=(15,37)
+  shot JohtoWhirlpool_8_wp2_approach
+  shot JohtoWhirlpool_9_wp2_slid
+  [PASS] the shrine-path whirlpool also slides 3 tiles south -- (15,37)->(15,40)
+    legSafe BLOCKED Right at (30,47)->(31,47)
+  ROUTE to_shrine stuck wp4 at (30,47)
+  dump to_shrine_stuck at (30,47) surf=false script=0x00000000 flags=0x01 preventStep=0
+    y=45 36D/03  328/10  329/10  32A/10  32B/10  32C/10  32D/10
+    y=46 375/10  330/10  331/10  332/10  2FF/10  334/10  335/10
+    y=47 1C6/03  1C6/03  1C6/03  1C6/03* 1C6/03  1C6/03  1C6/03
+    y=48 1CE/01  1CE/01  1CE/01  1CE/01  1CE/01  1CE/01  1CE/01
+    y=49 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+    obj i=0 (37,47)
+    obj i=1 (30,47)
+  shot JohtoWhirlpool_10_to_shrine_stuck
+  resynced SaveBlock to obj (37,47)
+  [PASS] walked to the shrine door's south tile (31,47) after the crossing -- grp=94 map=12 pos=(31,47)
+  shot JohtoWhirlpool_11_shrine_front
+  dump shrine_front at (31,47) surf=false script=0x00000000 flags=0x01 preventStep=0
+    y=45 328/10  329/10  32A/10  32B/10  32C/10  32D/10  32E/10
+    y=46 330/10  331/10  332/10  2FF/10  334/10  335/10  336/10
+    y=47 1C6/03  1C6/03  1C6/03  1C6/03* 1C6/03  1C6/03  1C6/03
+    y=48 1CE/01  1CE/01  1CE/01  1CE/01  1CE/01  1CE/01  1CE/01
+    y=49 12B/01  12B/01  12B/01  12B/01  12B/01  12B/01  12B/01
+  [PASS] shrine door tile (31,46) is MB_ANIMATED_DOOR -- metatile=0x2FF behavior=105
+  [PASS] MAP_DRAGONS_DEN_SHRINE is reachable by walking in after the crossing -- grp=94 map=14 pos=(6,16)
+  shot JohtoWhirlpool_12_shrine_arrival
+  shrineWalkable=true
+VERDICT JohtoWhirlpool: 16/16 PASS

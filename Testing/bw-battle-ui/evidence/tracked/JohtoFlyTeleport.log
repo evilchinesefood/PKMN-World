@@ -1,0 +1,83 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] no crash screen (boot) -- clear
+  [PASS] vblank advancing (boot) -- vblank 6807 -> 6815 cb2=0x08191EA8 ow=true
+  [PASS] region forced to Johto (2) -- region=2
+  booted map=(100,0) pos=(16,4) cb2=0x08191EA8 ow=true heal grp=0 map=0 warp=0 xy=(0,0) region=2 mapType=8 mapsec=87
+  WARP azalea_pc ok (7,8)
+  [PASS] no crash screen (azalea_pc_arrive) -- clear
+  [PASS] vblank advancing (azalea_pc_arrive) -- vblank 7854 -> 7862 cb2=0x08191EA8 ow=true
+  shot JohtoFlyTeleport_1_azalea_inside
+  azalea walk to counter (7,4) from (7,8)
+  [PASS] azalea_reached_nurse_tile -- at (7,4) want (7,4)
+  azalea lastHeal set on mash 1: grp=80 map=0 warp=255 xy=(31,16)
+  after_nurse map=(81,4) pos=(7,4) cb2=0x08191EA8 ow=true heal grp=80 map=0 warp=255 xy=(31,16) region=2 mapType=8 mapsec=219
+  [PASS] lastHeal map is Azalea Town (80,0) before Teleport -- grp=80 map=0 warp=255 xy=(31,16)
+  [PASS] lastHeal warpId is WARP_ID_NONE (255) -- warp=255
+  [PASS] lastHeal xy is the apron (31,16) before Teleport -- grp=80 map=0 warp=255 xy=(31,16)
+  [PASS] lastHeal is NOT the Center door (31,15) -- grp=80 map=0 warp=255 xy=(31,16)
+  shot JohtoFlyTeleport_2_abra_species
+  abra after Give: count=1 species=63 move1=100
+  [PASS] abra_party_has_the_species -- count=1 species=63 want 63
+  [PASS] abra_party_knows_the_field_move -- move1=100 want 100
+  lastHeal BEFORE Teleport: grp=80 map=0 warp=255 xy=(31,16)
+  WARP route33_tp ok (27,18)
+  [PASS] no crash screen (route33_tp_arrive) -- clear
+  [PASS] vblank advancing (route33_tp_arrive) -- vblank 10679 -> 10687 cb2=0x08191EA8 ow=true
+  route33_tp stepped Down (27,18)->(27,19) map=(80,1)
+  route33_before_teleport map=(80,1) pos=(27,19) cb2=0x08191EA8 ow=true heal grp=80 map=0 warp=255 xy=(31,16) region=2 mapType=3 mapsec=220
+  [PASS] Route 33 mapType allows Teleport (TOWN/ROUTE) -- mapType=3 (indoor=8)
+  shot JohtoFlyTeleport_3_route33_before_teleport
+  teleport USM items (5): PARTY,BAG,TRAINER,SAVE,OPTIONS
+  shot JohtoFlyTeleport_4_teleport_usm_1
+  teleport USM cursor=0 count=5 live=PARTY,BAG,TRAINER,SAVE,OPTIONS
+  teleport party menu cb2=0x0820212C after 24 frames
+  shot JohtoFlyTeleport_5_teleport_party
+  shot JohtoFlyTeleport_6_teleport_actions
+  teleport action cursor=1 (want row 1)
+  teleport left party menu after confirm t=9 cb2=0x08191EA8
+  teleport land map=(80,0) pos=(31,16) ow=true cb2=0x08191EA8
+  shot JohtoFlyTeleport_7_teleport_landed
+  after_teleport map=(80,0) pos=(31,16) cb2=0x08191EA8 ow=true heal grp=80 map=0 warp=255 xy=(31,16) region=2 mapType=1 mapsec=219
+  [PASS] no crash screen (after_teleport) -- clear
+  [PASS] vblank advancing (after_teleport) -- vblank 11720 -> 11728 cb2=0x08191EA8 ow=true
+  [PASS] teleport_landed_on_Azalea_Town_80_0 -- map=(80,0) pos=(31,16)
+  [PASS] teleport_landed_on_apron_31_16 -- pos=(31,16) want (31,16)
+  [PASS] teleport_did_NOT_land_on_Center_door_31_15 -- pos=(31,16) door=(31,15)
+  [PASS] Teleport returned to the overworld -- cb2=0x08191EA8
+  Teleport landing: map=(80,0) pos=(31,16) lastHeal grp=80 map=0 warp=255 xy=(31,16)
+  [PASS] FLAG_JOHTO_BADGE_6 is set -- 0x63FD
+  [PASS] FLAG_VISITED_AZALEA_TOWN is set -- 0x6088
+  Abra move2=19 (FLY=19) move1=100
+  WARP route33_fly ok (27,18)
+  [PASS] no crash screen (route33_fly_arrive) -- clear
+  [PASS] vblank advancing (route33_fly_arrive) -- vblank 12727 -> 12735 cb2=0x08191EA8 ow=true
+  route33_fly stepped Down (27,18)->(27,19) map=(80,1)
+  route33_before_fly map=(80,1) pos=(27,19) cb2=0x08191EA8 ow=true heal grp=80 map=0 warp=255 xy=(31,16) region=2 mapType=3 mapsec=220
+  shot JohtoFlyTeleport_8_route33_before_fly
+  [PASS] Fly origin mapType allows Fly (TOWN/ROUTE) -- mapType=3
+  fly USM items (5): PARTY,BAG,TRAINER,SAVE,OPTIONS
+  shot JohtoFlyTeleport_9_fly_usm_1
+  fly USM cursor=0 count=5 live=PARTY,BAG,TRAINER,SAVE,OPTIONS
+  fly party menu cb2=0x0820212C after 24 frames
+  shot JohtoFlyTeleport_10_fly_party
+  shot JohtoFlyTeleport_11_fly_actions
+  fly action cursor=2 (want row 2)
+  fly fly map cb2=0x081D09CC t=1
+  shot JohtoFlyTeleport_12_fly_flymap
+  fly fly start sec=220 type=1 cursor=(13,15) ptr=0x020158BC
+  shot JohtoFlyTeleport_13_fly_cursor0
+  fly attempt1 Left#1 sec=220 type=1 cursor=(12,15)
+  fly attempt1 Left#2 sec=219 type=2 cursor=(11,15)
+  shot JohtoFlyTeleport_14_fly_cursor1
+  Fly pick Azalea=true sec=219 type=2 cursor=(11,15)
+  fly land map=(80,0) pos=(31,16) ow=true cb2=0x08191EA8
+  shot JohtoFlyTeleport_15_fly_landed
+  after_fly map=(80,0) pos=(31,16) cb2=0x08191EA8 ow=true heal grp=80 map=0 warp=255 xy=(31,16) region=2 mapType=1 mapsec=219
+  [PASS] no crash screen (after_fly) -- clear
+  [PASS] vblank advancing (after_fly) -- vblank 13646 -> 13654 cb2=0x08191EA8 ow=true
+  [PASS] fly_landed_on_Azalea_Town_80_0 -- map=(80,0) pos=(31,16)
+  [PASS] fly_landed_on_apron_31_16 -- pos=(31,16) want (31,16)
+  [PASS] fly_did_NOT_land_on_Center_door_31_15 -- pos=(31,16) door=(31,15)
+  VERDICT INPUT lastHealBeforeTp=grp=80 map=0 warp=255 xy=(31,16) tpLand=true flyAttempted=true flyPicked=true flyLanded=true
+VERDICT JohtoFlyTeleport: 31/31 PASS

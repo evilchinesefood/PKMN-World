@@ -1,0 +1,43 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] player is free before the debug work
+  shot RedGyarados_1_set_party_cursor
+  [PASS] Set Party published a non-empty party -- count=1
+  shot RedGyarados_2_after_set_party
+  FLAG_HIDE_LAKE_OF_RAGE_GYARADOS=CLEAR (want clear)
+  WARP lakeofrage ok (39,42)
+  [PASS] warped to Lake of Rage (group 91 map 4) -- grp=91 map=4
+  shot RedGyarados_3_lake_arrival
+  map objectEventCount=17
+  templates: id8 gfx=0x6082 sp=130 SHINY (32,28) flag=0x616E | id13 gfx=0x40CC sp=204 (49,33) flag=0x0000 | id14 gfx=0x4066 sp=102 (16,0) flag=0x0000 | id16 gfx=0x4095 sp=149 (31,37) flag=0x616F
+  [PASS] Lake of Rage loaded its object templates -- count=17
+  [PASS] a GYARADOS template is present -- localId=8 gfx=0x6082 (32,28)
+  [PASS] template graphicsId is OBJ_EVENT_MON | OBJ_EVENT_MON_SHINY | SPECIES_GYARADOS -- gfx=0x6082 want 0x6082 (MON=Y SHINY=Y species=130)
+  [PASS] template sits at map.json (32,28) -- (32,28)
+  spawned mons: i=4 (31,37) gfx=0x4095 species=149 mon=Y shinyId=N objShiny=N | i=5 (39,42) gfx=0x50CA species=202 mon=Y shinyId=N objShiny=N invisible
+  gyarados not in spawn range on arrival; player at (39,42) grp=91 map=4
+    leg BLOCKED Up at (38,42)->(38,40)
+  ROUTE to_shore stuck wp2 at (38,42)
+  shot RedGyarados_4_to_shore_stuck
+  after shore walk (31,35) grp=91 map=4
+  shot RedGyarados_5_south_shore
+  spawned mons: i=4 (31,37) gfx=0x4095 species=149 mon=Y shinyId=N objShiny=N | i=5 (31,36) gfx=0x50CA species=202 mon=Y shinyId=N objShiny=N | i=7 (39,28) gfx=0x6082 species=130 mon=Y shinyId=Y objShiny=Y
+  [PASS] a spawned object matches the shiny GYARADOS -- i=7 (39,28) gfx=0x6082 species=130 mon=Y shinyId=Y objShiny=Y
+  [PASS] spawned graphicsId is exactly MON|SHINY|130 -- gfx=0x6082
+  [PASS] spawned ObjectEvent.shiny bit is set -- i=7 (39,28) gfx=0x6082 species=130 mon=Y shinyId=Y objShiny=Y
+  shot RedGyarados_6_overworld_gyarados
+  player (31,35) avatar flags=0x01 prevent=0 trans=0 lastTalked=0
+  gyarados at (31,34) elev=0 facing=2 lastTalked=0: i=7 (31,34) gfx=0x6082 species=130 mon=Y shinyId=Y objShiny=Y
+  shot RedGyarados_7_facing_gyarados
+  lastTalked=GYARADOS at tap 1
+  gyarados script engaged; waiting for battle
+  shot RedGyarados_8_gyarados_script
+  shot RedGyarados_9_battle_started
+  [PASS] scripted GYARADOS battle started -- battlers=0 flags=0x0
+  shot RedGyarados_10_gyarados_battle
+  opponent count=1 level=30 pid=0xB2152FD5 ot=0xC9BFAE1A shinyMod=1 shinyValue=64101 battleSpecies=0
+  [PASS] opponent party has a mon -- count=1
+  [PASS] scripted wild is level 30 -- level=30
+  [PASS] battler is shiny (MON_DATA_IS_SHINY formula) -- pid=0xB2152FD5 ot=0xC9BFAE1A mod=1 sv=64101
+  still in battle; skipping Dragon's Den elder (not cheap from here)
+VERDICT RedGyarados: 14/14 PASS

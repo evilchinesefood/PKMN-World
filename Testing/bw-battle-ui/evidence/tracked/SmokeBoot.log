@@ -1,0 +1,15 @@
+  [PASS] symbols loaded (gMain in IWRAM)
+  [PASS] symbols loaded (CB2_Overworld in ROM)
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted to the RegionHub (map group 100) -- grp=100
+  [PASS] fresh boot lands at hub crest (16,4) -- (16,4)
+  [PASS] fresh boot party is empty -- cnt=0
+  [PASS] coordinate-verified step moves the player
+  [PASS] gObjectEvents: player object index 0 is active -- #objs=12
+  [PASS] gObjectEvents agrees with gSaveBlock1Ptr on player position -- obj=(16,5) sb1=(16,5)
+hub clock 07:01 timeOfDay=0 clockSet=false day=false night=true
+  [PASS] hub: exactly one Johto day/night HIDE flag is set -- day=false night=true
+  [PASS] hub: day/night HIDE flags agree with gTimeOfDay (clockSet=false) -- timeOfDay=0 isNight=false day=false night=true
+  shot SmokeBoot_1_hub
+VERDICT SmokeBoot: 10/10 PASS

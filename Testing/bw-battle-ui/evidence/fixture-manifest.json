@@ -1,0 +1,24 @@
+{
+  "input_rom_sha256": "5c486d4f76dac5f55ffbaba01212b81adeb2a8396d65a36045c6085b400e7e1e",
+  "fixture_rom_sha256": "8f619a10d5bd7ce96439a45c0e105e0cc4914400b2d16598a89ab07c54ebabac",
+  "fixture_bytes": 5308,
+  "fixture_source_sha256": "268948c83cb62a1fa145eefb98b8228ba23f29075498fc700ddf577c36e56919",
+  "entry": "0x9f00001",
+  "working_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "configuration": {
+    "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+    "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+    "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+  },
+  "fixture_build_context_commit": "4bea54bfffd2ea73fcea7c34a4c36fede7cdceb2",
+  "input_source_ref": "4bea54bfffd2ea73fcea7c34a4c36fede7cdceb2",
+  "input_elf_sha256": "343b3403f037710143ae0014e387a11085d5ae57e93cfa8c33e42f3d0a00f802",
+  "input_map_sha256": "ab3176f2a70c8621214aa75c05765736f8cd8c2c8df1148d8200358637029254",
+  "fixture_header_context": {
+    "include/config/battle.h": "c45e0a93da8d7dee0097e7b56428e4a67c317ac064ac8df9b10ef4385be0c5a5",
+    "include/battle.h": "b7803e2a38ebfc531dd386143364f327f8350a32109d6a9a5d95c8eadcfd35fe",
+    "include/text.h": "be3458e19bc306855173f6905afa65d002ffc8483796340e7aa1d6b2f08431e8",
+    "include/sprite.h": "1ba44ca9962e7b426099e532cbbb33bf03bf5279a402f358feafb7b1c7f7072e",
+    "include/config/swsh_item_menu.h": "f39bc283cdc5a58a42ac59da27fd269935fd305e7ecbce099791d24f1d47c02c"
+  }
+}

@@ -1,0 +1,39 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] player is free before the debug work
+  starting on group 100 map 0
+  [PASS] a fresh save starts with an empty party -- count=0
+  [PASS] no follower is out with an empty party -- ABSENT
+  shot DebugParty_1_set1_cursor
+  [PASS] Set Party publishes the party count -- count=1
+  [PASS] the published count matches the debug trainer's party size -- count=1
+  [PASS] Set Party spawns the follower immediately, with no map reload -- (16,4) gfx=0x40CA species=202 invisible
+  [PASS] the follower is the party's lead POKéMON -- (16,4) gfx=0x40CA species=202 invisible
+  [PASS] the freshly spawned follower is hidden under the player -- (16,4) gfx=0x40CA species=202 invisible player (16,4)
+  shot DebugParty_2_after_set
+  [PASS] a step is possible with the new party
+  [PASS] the follower is on screen after one step -- (16,4) gfx=0x40CA species=202 visible
+  shot DebugParty_3_follower_visible
+  shot DebugParty_4_clear_cursor
+  [PASS] Clear Party zeroes the party count -- count=0
+  [PASS] Clear Party removes the follower immediately -- ABSENT
+  shot DebugParty_5_after_clear
+  shot DebugParty_6_set2_cursor
+  [PASS] Set Party works a second time -- count=1
+  [PASS] the follower comes back on the second Set Party -- (15,4) gfx=0x40CA species=202 invisible
+  [PASS] the round trip never left the map -- group 100 map 0
+  shot DebugParty_7_after_set2
+  shot DebugParty_8_set3_cursor
+  [PASS] Set Party over an existing follower keeps the count right -- count=1
+  [PASS] Set Party over an existing follower leaves exactly one follower object -- followers=1
+  [PASS] the refreshed follower still matches the party lead -- (14,4) gfx=0x40CA species=202 visible
+  shot DebugParty_9_battle_cursor
+  [PASS] Start Debug Battle leaves the overworld -- cb2=0x0808163C
+  [PASS] the player party count is published during the battle -- count=1
+  shot DebugParty_10_battle
+  shot DebugParty_11_battle_party_menu
+  [PASS] the in-battle party menu actually opens -- battle cb2=0x0808163C, now 0x0820212C
+  [PASS] the in-battle party menu reads a valid party count -- count=1
+  [PASS] the in-battle party menu closes back to the battle -- cb2=0x0808163C
+  shot DebugParty_12_battle_after_menu
+VERDICT DebugParty: 23/23 PASS

@@ -1,0 +1,53 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh VAR_KENYA is 0 -- VAR_KENYA=0
+  [PASS] fresh party is empty -- count=0
+  shot KenyaMail_1_setparty_cursor
+  party[after_setparty] count=1 VAR_KENYA=0
+    slot0 lv=100 mail=255 hp=521/521
+  [PASS] Set Party gave a second body (Wobbuffet) -- count=1
+  WARP gate ok (7,9)
+  [PASS] on Goldenrod/Route 35 gate -- grp=83 map=6
+  gate spawn (7,9)
+  shot KenyaMail_2_gate_arrival
+  [PASS] reached Randy's talk tile (8,8) -- pos=(8,8)
+  shot KenyaMail_3_before_randy
+  party[after_randy] count=2 VAR_KENYA=1
+    slot0 lv=100 mail=255 hp=521/521
+    slot1 lv=20 mail=0 hp=46/46
+  mail[slot1] id=0 item=0 species=0 tid=00 00 00 00 name=00 00 00 00 00 00 00 00 words=00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  shot KenyaMail_4_after_randy
+  [PASS] VAR_KENYA became 1 after talking to Randy -- VAR_KENYA=1
+  [PASS] party grew by one -- before=1 after=2
+  [PASS] a lv20 mail-holding party slot exists (Kenya) -- slot=1 mail=0
+  RETRO_MAIL u16 hits at sb1+0x3004
+  mail[] pinned at sb1+0x2FE4 (from mailId=0 itemId @ +0x3004)
+  [PASS] SaveBlock1 contains an ITEM_RETRO_MAIL record for Kenya's mailId -- mailId=0
+  mail[kenya] id=0 item=210 species=21 tid=29 EF 00 00 name=CC CF BE D3 00 00 FF FF words=28 0A 33 0A 02 0A 34 16 39 10 21 14 0C 16 16 1C 15 08
+  [PASS] Kenya's mail record is ITEM_RETRO_MAIL (210) -- itemId=210 array=0x2FE4
+  Kenya slot=1 mailId=0 item=210 tid=29 EF 00 00 name=CC CF BE D3 00 00 FF FF
+  WARP route31 ok (4,10)
+  [PASS] on Route 31 -- grp=75 map=4
+  route31 spawn (4,10)
+  shot KenyaMail_5_route31_arrival
+  [PASS] reached the sleeper's north talk tile (18,10) -- pos=(18,10)
+  [PASS] TM pocket write landed (64 occupied slots, no TM41) -- filled=true tm41count=0 cap=64
+  shot KenyaMail_6_before_sleeper_bagfull
+  party[after_bagfull] count=2 VAR_KENYA=1
+    slot0 lv=100 mail=255 hp=521/521
+    slot1 lv=20 mail=0 hp=46/46
+  mail[slot1] id=0 item=210 species=21 tid=29 EF 00 00 name=CC CF BE D3 00 00 FF FF words=28 0A 33 0A 02 0A 34 16 39 10 21 14 0C 16 16 1C 15 08
+  shot KenyaMail_7_after_sleeper_bagfull
+  [PASS] bag-full does not take Kenya -- kenya slot=1
+  [PASS] bag-full leaves VAR_KENYA at 1 -- VAR_KENYA=1
+  [PASS] bag-full leaves party count unchanged -- before=2 after=2 (kenyaVar was 1 now 1)
+  [PASS] TM pocket emptied again -- tm41=0
+  shot KenyaMail_8_before_sleeper_give
+  party[after_give] count=1 VAR_KENYA=2
+    slot0 lv=100 mail=255 hp=521/521
+  shot KenyaMail_9_after_sleeper_give
+  [PASS] VAR_KENYA became 2 after the hand-over -- VAR_KENYA=2
+  [PASS] Kenya is gone from the party -- slot=-1 count=1
+  [PASS] party shrank by one -- before=2 after=1
+  [PASS] TM41 (Torment) is now in the bag -- tm41count=1
+VERDICT KenyaMail: 21/21 PASS

@@ -1,0 +1,11 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] legacy fixture reaches the overworld without crashing
+  [PASS] no pre-v7 save is live after boot (layout gate held) -- ver=10
+  [PASS] johtoFlags bank is clean (no legacy bytes in the shifted layout) -- byte0=0
+  [PASS] kantoTrainerFlags bank is clean -- byte0=0
+  [PASS] regionVars Johto-slice cell is 0 -- cell=0
+  [PASS] obstacle table hash is stamped (not 0) -- hash=0xCF719B0B
+  [PASS] cleared-obstacle bits start empty -- byte0=0
+  shot MigrateFixtures_1_gated
+VERDICT MigrateFixtures: 7/7 PASS

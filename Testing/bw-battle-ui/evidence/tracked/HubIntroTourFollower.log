@@ -1,0 +1,68 @@
+BOOTED grp=100 map=0 pos=(16,4)
+  answer boot-no row 1 ok
+  [PASS] decline the fresh-boot offer
+  [PASS] player is free before the debug work
+  shot HubIntroTourFollower_1_dbg_root
+  shot HubIntroTourFollower_2_dbg_party
+  shot HubIntroTourFollower_3_dbg_cursor_before_A
+  shot HubIntroTourFollower_4_dbg_after_A
+  [PASS] debug Set Party publishes the party count (issue #44) -- count=1
+  WARP hubReload ok (16,4)
+  [PASS] reload the hub so the follower spawns
+  [PASS] follower POKéMON is out on the map -- (16,4)
+  [PASS] object table is at or under the 16 spawn cap -- live=13
+  live objects with a follower out: 13
+  shot HubIntroTourFollower_5_follower_out
+  [PASS] tour flag cleared for the escort run
+  standing at (16,4) after the reload
+  [PASS] the guide comes over for the offer -- (17,4)
+  answer tour-yes row 0 ok
+  [PASS] accept the tour
+  stop 1 reached at frame 34
+    t=400 player (21,3) waiting for stop 2 (16,3)
+  stop 2 reached at frame 686
+    t=800 player (16,3) waiting for stop 3 (11,3)
+  shot HubIntroTourFollower_6_escort_t800
+    t=1200 player (16,3) waiting for stop 3 (11,3)
+    t=1600 player (16,3) waiting for stop 3 (11,3)
+  stop 3 reached at frame 1814
+    t=2000 player (11,3) waiting for stop 4 (4,3)
+    t=2400 player (11,3) waiting for stop 4 (4,3)
+  stop 4 reached at frame 2517
+    t=2800 player (4,3) waiting for stop 5 (2,2)
+  stop 5 reached at frame 3199
+    t=3200 player (2,2) waiting for stop 6 (2,7)
+    t=3600 player (2,2) waiting for stop 6 (2,7)
+  stop 6 reached at frame 3878
+    t=4000 player (2,7) waiting for stop 7 (13,12)
+  shot HubIntroTourFollower_7_escort_t4000
+    t=4400 player (2,7) waiting for stop 7 (13,12)
+  stop 7 reached at frame 4719
+    t=4800 player (13,12) waiting for stop 8 (9,11)
+    t=5200 player (13,12) waiting for stop 8 (9,11)
+  stop 8 reached at frame 5414
+    t=5600 player (9,11) waiting for stop 9 (4,13)
+    t=6000 player (9,11) waiting for stop 9 (4,13)
+  stop 9 reached at frame 6285
+  follower sampled: 1571 active, 0 of those actually visible; worst on-screen gap 0
+  [PASS] stop 1 at (21,3) reached with a follower out -- frame 34
+  [PASS] stop 2 at (16,3) reached with a follower out -- frame 686
+  [PASS] stop 3 at (11,3) reached with a follower out -- frame 1814
+  [PASS] stop 4 at (4,3) reached with a follower out -- frame 2517
+  [PASS] stop 5 at (2,2) reached with a follower out -- frame 3199
+  [PASS] stop 6 at (2,7) reached with a follower out -- frame 3878
+  [PASS] stop 7 at (13,12) reached with a follower out -- frame 4719
+  [PASS] stop 8 at (9,11) reached with a follower out -- frame 5414
+  [PASS] stop 9 at (4,13) reached with a follower out -- frame 6285
+  [PASS] the escort ends at the flagship stairs (#59 stop 9) -- (4,13)
+  [PASS] the player is released
+  [PASS] the follower is out again after the escort -- (3,13)
+  [PASS] the follower is beside the player at the end -- player (4,13) follower (3,13)
+  [PASS] the follower never desynced during the escort (pocketed, or kept within one tile) -- 1571 active samples, 0 visible, max on-screen gap 0
+  [PASS] the engine pocketed the follower for the scripted escort -- 1571 active samples, 0 visible
+  WARP guideCheck ok (16,4)
+  [PASS] warp back for the guide check
+  [PASS] the guide still gets home to (22,7) with a follower out -- (22,7)
+  [PASS] the tour flag is set after the escort
+  shot HubIntroTourFollower_8_follower_tour_end
+VERDICT HubIntroTourFollower: 27/27 PASS

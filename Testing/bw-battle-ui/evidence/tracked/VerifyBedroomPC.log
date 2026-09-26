@@ -1,0 +1,109 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted to the RegionHub (map group 100) -- grp=100
+== NewBark (group 76 map 4, MALE) ==
+  WARP NewBark ok (1,6)
+  [PASS] NewBark_landed -- (1,6) want (1,6)
+  [PASS] NewBark_layout -- mapLayoutId=796 want=796
+  [PASS] NewBark_pc_opened -- numOptions=3 rows=3
+  numOptions=3 rows=3 winId=1 winH=6 options={0,1,3} tile 648->650
+  [PASS] NewBark_option_count -- 3 want 3
+  [PASS] NewBark_menu_rows -- sMenu rows=3 want 3
+  [PASS] NewBark_option_table -- sTopMenuOptionOrder=0x08806444 want sBedroomPC_NoDecorOptionOrder=0x08806444
+  [PASS] NewBark_option_ids -- {0,1,3} want {0,1,3}
+  [PASS] NewBark_decoration_entry -- DECORATION present=false want=false
+  [PASS] NewBark_window_height -- height=6 want 6 (=2*3 rows)
+  shot VerifyBedroomPC_1_NewBark_menu
+  [PASS] NewBark_turnoff_cursor -- cursor row 2 of 3
+  [PASS] NewBark_turnoff_script -- scriptPtr 0x083718EB in NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC
+  tile 648 (before) -> 650 (menu open) -> 648 (after TURN OFF)
+  [PASS] NewBark_screen_on -- tile 648 -> 650 while open
+  [PASS] NewBark_screen_off -- tile 650 -> 648 after TURN OFF
+  shot VerifyBedroomPC_2_NewBark_after
+== Pallet (group 38 map 1, MALE) ==
+  WARP Pallet ok (10,2)
+  [PASS] Pallet_landed -- (10,2) want (10,2)
+  [PASS] Pallet_layout -- mapLayoutId=443 want=443
+  [PASS] Pallet_pc_opened -- numOptions=3 rows=3
+  numOptions=3 rows=3 winId=1 winH=6 options={0,1,3} tile 655->650
+  [PASS] Pallet_option_count -- 3 want 3
+  [PASS] Pallet_menu_rows -- sMenu rows=3 want 3
+  [PASS] Pallet_option_table -- sTopMenuOptionOrder=0x08806444 want sBedroomPC_NoDecorOptionOrder=0x08806444
+  [PASS] Pallet_option_ids -- {0,1,3} want {0,1,3}
+  [PASS] Pallet_decoration_entry -- DECORATION present=false want=false
+  [PASS] Pallet_window_height -- height=6 want 6 (=2*3 rows)
+  shot VerifyBedroomPC_3_Pallet_menu
+  [PASS] Pallet_turnoff_cursor -- cursor row 2 of 3
+  [PASS] Pallet_turnoff_script -- scriptPtr 0x083D24DE in EventScript_PalletTown_PlayersHouse_2F_ShutDownPC
+  tile 655 (before) -> 650 (menu open) -> 655 (after TURN OFF)
+  [PASS] Pallet_screen_on -- tile 655 -> 650 while open
+  [PASS] Pallet_screen_off -- tile 650 -> 655 after TURN OFF
+  shot VerifyBedroomPC_4_Pallet_after
+== Brendans (group 1 map 1, MALE) ==
+  WARP Brendans ok (7,2)
+  [PASS] Brendans_landed -- (7,2) want (7,2)
+  [PASS] Brendans_layout -- mapLayoutId=55 want=55
+  [PASS] Brendans_pc_opened -- numOptions=4 rows=4
+  numOptions=4 rows=4 winId=1 winH=8 options={0,1,2,3} tile 602->639
+  [PASS] Brendans_option_count -- 4 want 4
+  [PASS] Brendans_menu_rows -- sMenu rows=4 want 4
+  [PASS] Brendans_option_table -- sTopMenuOptionOrder=0x08806448 want sBedroomPC_OptionOrder=0x08806448
+  [PASS] Brendans_option_ids -- {0,1,2,3} want {0,1,2,3}
+  [PASS] Brendans_decoration_entry -- DECORATION present=true want=true
+  [PASS] Brendans_window_height -- height=8 want 8 (=2*4 rows)
+  shot VerifyBedroomPC_5_Brendans_menu
+  [PASS] Brendans_turnoff_cursor -- cursor row 3 of 4
+  [PASS] Brendans_turnoff_script -- scriptPtr 0x082AB74A in LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC
+  tile 602 (before) -> 639 (menu open) -> 602 (after TURN OFF)
+  [PASS] Brendans_screen_on -- tile 602 -> 639 while open
+  [PASS] Brendans_screen_off -- tile 639 -> 602 after TURN OFF
+  shot VerifyBedroomPC_6_Brendans_after
+  [PASS] Brendans_decor_reopened -- numOptions=4 rows=4
+  [PASS] Brendans_decor_cursor -- cursor at DECORATION row
+  window width: PC menu=10, decoration menu=8, rows=4
+  [PASS] Brendans_decor_menu_opened -- rows=4 (want 4), width 10 -> 8 (must differ)
+  shot VerifyBedroomPC_7_Brendans_decor
+== Mays (group 1 map 3, FEMALE) ==
+  WARP Mays ok (1,2)
+  [PASS] Mays_landed -- (1,2) want (1,2)
+  [PASS] Mays_layout -- mapLayoutId=57 want=57
+  [PASS] Mays_pc_opened -- numOptions=4 rows=4
+  numOptions=4 rows=4 winId=1 winH=8 options={0,1,2,3} tile 601->638
+  [PASS] Mays_option_count -- 4 want 4
+  [PASS] Mays_menu_rows -- sMenu rows=4 want 4
+  [PASS] Mays_option_table -- sTopMenuOptionOrder=0x08806448 want sBedroomPC_OptionOrder=0x08806448
+  [PASS] Mays_option_ids -- {0,1,2,3} want {0,1,2,3}
+  [PASS] Mays_decoration_entry -- DECORATION present=true want=true
+  [PASS] Mays_window_height -- height=8 want 8 (=2*4 rows)
+  shot VerifyBedroomPC_8_Mays_menu
+  [PASS] Mays_turnoff_cursor -- cursor row 3 of 4
+  [PASS] Mays_turnoff_script -- scriptPtr 0x082AC697 in LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC
+  tile 601 (before) -> 638 (menu open) -> 601 (after TURN OFF)
+  [PASS] Mays_screen_on -- tile 601 -> 638 while open
+  [PASS] Mays_screen_off -- tile 638 -> 601 after TURN OFF
+  shot VerifyBedroomPC_9_Mays_after
+  [PASS] Mays_decor_reopened -- numOptions=4 rows=4
+  [PASS] Mays_decor_cursor -- cursor at DECORATION row
+  window width: PC menu=10, decoration menu=8, rows=4
+  [PASS] Mays_decor_menu_opened -- rows=4 (want 4), width 10 -> 8 (must differ)
+  shot VerifyBedroomPC_10_Mays_decor
+== NewBarkFemale (group 76 map 4, FEMALE) ==
+  WARP NewBarkFemale ok (1,6)
+  [PASS] NewBarkFemale_landed -- (1,6) want (1,6)
+  [PASS] NewBarkFemale_layout -- mapLayoutId=796 want=796
+  [PASS] NewBarkFemale_pc_opened -- numOptions=3 rows=3
+  numOptions=3 rows=3 winId=1 winH=6 options={0,1,3} tile 648->650
+  [PASS] NewBarkFemale_option_count -- 3 want 3
+  [PASS] NewBarkFemale_menu_rows -- sMenu rows=3 want 3
+  [PASS] NewBarkFemale_option_table -- sTopMenuOptionOrder=0x08806444 want sBedroomPC_NoDecorOptionOrder=0x08806444
+  [PASS] NewBarkFemale_option_ids -- {0,1,3} want {0,1,3}
+  [PASS] NewBarkFemale_decoration_entry -- DECORATION present=false want=false
+  [PASS] NewBarkFemale_window_height -- height=6 want 6 (=2*3 rows)
+  shot VerifyBedroomPC_11_NewBarkFemale_menu
+  [PASS] NewBarkFemale_turnoff_cursor -- cursor row 2 of 3
+  [PASS] NewBarkFemale_turnoff_script -- scriptPtr 0x083718EB in NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC
+  tile 648 (before) -> 650 (menu open) -> 648 (after TURN OFF)
+  [PASS] NewBarkFemale_screen_on -- tile 648 -> 650 while open
+  [PASS] NewBarkFemale_screen_off -- tile 650 -> 648 after TURN OFF
+  shot VerifyBedroomPC_12_NewBarkFemale_after
+VERDICT VerifyBedroomPC: 72/72 PASS

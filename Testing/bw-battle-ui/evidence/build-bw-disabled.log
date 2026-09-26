@@ -1,0 +1,13 @@
+tools/scaninc/scaninc -M /tmp/pkmn-world-336-off-build/emerald/src/battle_main.d -g /tmp/pkmn-world-336-off-build/assets -I include -I tools/agbcc/include src/battle_main.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o /tmp/pkmn-world-336-off-build/emerald/src/battle_main.o src/battle_main.c
+arm-none-eabi-ld: warning: ../../pkmn-world-336-bw-off.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      235028 B       256 KB     89.66%
+           IWRAM:       28200 B        32 KB     86.06%
+             ROM:    22932892 B        32 MB     68.35%
+cd /tmp/pkmn-world-336-off-build/emerald && arm-none-eabi-ld -Map ../../pkmn-world-336-bw-off.map --print-memory-usage --gc-sections -T ../../ld_script_modern.ld -o ../../pkmn-world-336-bw-off.elf <objs> <libs> | cat
+tools/gbafix/gbafix pkmn-world-336-bw-off.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pkmn-world-336-bw-off.elf pkmn-world-336-bw-off.gba
+tools/gbafix/gbafix pkmn-world-336-bw-off.gba -p --silent
+python3 Testing/GenLuaSymbols.py pkmn-world-336-bw-off.elf arm-none-eabi-nm > Testing/lua/symbols.lua.tmp && mv -f Testing/lua/symbols.lua.tmp Testing/lua/symbols.lua || { rm -f Testing/lua/symbols.lua.tmp; exit 1; }
+wrote Testing/lua/symbols.lua

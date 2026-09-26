@@ -1,0 +1,169 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] door_table_walk_terminates -- 117 usable rows before the tiles==NULL terminator at 0x086476EC (a wrong stride either runs away or terminates almost immediately)
+  [PASS] door_table_decode_matches_source -- row 0 decodes as metatile 0x021 tileset 0x08CA7BA0 (source says METATILE_General_Door 0x021, &gTileset_General 0x08CA7BA0), sound=0 size=1 tiles=0x08656034
+  WARP bfeast ok (10,29)
+  [PASS] warp_to_battle_frontier_outside_east -- map 26.14 at (10,29)
+  BattleFrontier_OutsideEast layout 0x08F75630: primary=0x08CA7BA0 secondary=0x08CA7A38
+  shot DoorAnimsRegistered_1_bf_east_arrival
+  [PASS] bf_sliding_door_1_is_an_animated_door -- (5,8) metatile 0x396 (want 0x396) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_sliding_door_1_has_a_door_anim_row -- metatile 0x396 matched row 50, tileset 0x08CA7A38 (secondary half), sound=1 size=1
+  [PASS] bf_sliding_door_2_is_an_animated_door -- (4,44) metatile 0x396 (want 0x396) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_sliding_door_2_has_a_door_anim_row -- metatile 0x396 matched row 50, tileset 0x08CA7A38 (secondary half), sound=1 size=1
+  [PASS] bf_sliding_door_3_is_an_animated_door -- (14,51) metatile 0x396 (want 0x396) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_sliding_door_3_has_a_door_anim_row -- metatile 0x396 matched row 50, tileset 0x08CA7A38 (secondary half), sound=1 size=1
+  [PASS] bf_normal_door_1_is_an_animated_door -- (10,28) metatile 0x3FC (want 0x3FC) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_normal_door_1_has_a_door_anim_row -- metatile 0x3FC matched row 49, tileset 0x08CA7A38 (secondary half), sound=0 size=1
+  [PASS] bf_normal_door_2_is_an_animated_door -- (22,51) metatile 0x3FC (want 0x3FC) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_normal_door_2_has_a_door_anim_row -- metatile 0x3FC matched row 49, tileset 0x08CA7A38 (secondary half), sound=0 size=1
+  [PASS] bf_normal_door_3_is_an_animated_door -- (65,31) metatile 0x3FC (want 0x3FC) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_normal_door_3_has_a_door_anim_row -- metatile 0x3FC matched row 49, tileset 0x08CA7A38 (secondary half), sound=0 size=1
+  [PASS] bf_battle_tower_door_is_an_animated_door -- (16,14) metatile 0x329 (want 0x329) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bf_battle_tower_door_has_a_door_anim_row -- metatile 0x329 matched row 37, tileset 0x08CA7A38 (secondary half), sound=1 size=1
+  [PASS] bf_non_door_metatile_is_not_a_door -- (16,15) metatile 0x319 behavior 0
+  [PASS] bf_non_door_metatile_has_no_row -- metatile 0x319 matches no row against (primary=0x08CA7BA0, secondary=0x08CA7A38); rows carrying this id: none
+  [PASS] bf_foreign_tileset_door_id_has_no_row -- metatile 0x333 matches no row against (primary=0x08CA7BA0, secondary=0x08CA7A38); rows carrying this id: row100->tileset=0x08CA6C10 row101->tileset=0x08CA6B38
+  shot DoorAnimsRegistered_2_bf_normal_door_door_animation
+  [PASS] bf_normal_door_live_door_animation_runs -- Task_AnimateDoor went live 2 frames into the door warp; reached map 26.42 after 93 frames
+  WARP bellchime ok (35,42)
+  [PASS] warp_to_bellchime_trail -- map 85.3 at (35,42)
+  BellchimeTrail layout 0x0903FE54: primary=0x08CA6AD8 secondary=0x08CA6B38
+  shot DoorAnimsRegistered_3_bellchime_arrival
+  [PASS] bellchime_tin_tower_door_is_an_animated_door -- (35,41) metatile 0x333 (want 0x333) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] bellchime_tin_tower_door_has_a_door_anim_row -- metatile 0x333 matched row 101, tileset 0x08CA6B38 (secondary half), sound=0 size=1
+  [PASS] bellchime_non_door_metatile_is_not_a_door -- (35,42) metatile 0x2E3 behavior 0
+  [PASS] bellchime_non_door_metatile_has_no_row -- metatile 0x2E3 matches no row against (primary=0x08CA6AD8, secondary=0x08CA6B38); rows carrying this id: none
+  [PASS] bellchime_foreign_tileset_door_id_has_no_row -- metatile 0x021 matches no row against (primary=0x08CA6AD8, secondary=0x08CA6B38); rows carrying this id: row0->tileset=0x08CA7BA0
+  shot DoorAnimsRegistered_4_bellchime_tin_tower_door_door_animation
+  [PASS] bellchime_tin_tower_door_live_door_animation_runs -- Task_AnimateDoor went live 2 frames into the door warp; reached map 86.12 after 81 frames
+  WARP ecruteak ok (39,23)
+  [PASS] warp_to_ecruteak_city -- map 85.0 at (39,23)
+  EcruteakCity layout 0x090396CC: primary=0x08CA6AD8 secondary=0x08CA6C10
+  [PASS] ecruteak_shares_bellchime_primary_not_secondary -- Ecruteak (0x08CA6AD8, 0x08CA6C10) vs Bellchime (0x08CA6AD8, 0x08CA6B38) — the two maps must differ ONLY in the secondary, or the 0x333 pair below proves nothing about the tileset pointer
+  shot DoorAnimsRegistered_5_ecruteak_arrival
+  [PASS] ecruteak_door_1_is_an_animated_door -- (39,22) metatile 0x333 (want 0x333) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ecruteak_door_1_has_a_door_anim_row -- metatile 0x333 matched row 100, tileset 0x08CA6C10 (secondary half), sound=0 size=1
+  [PASS] ecruteak_door_2_is_an_animated_door -- (39,40) metatile 0x333 (want 0x333) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ecruteak_door_2_has_a_door_anim_row -- metatile 0x333 matched row 100, tileset 0x08CA6C10 (secondary half), sound=0 size=1
+  [PASS] ecruteak_door_3_is_an_animated_door -- (19,40) metatile 0x333 (want 0x333) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ecruteak_door_3_has_a_door_anim_row -- metatile 0x333 matched row 100, tileset 0x08CA6C10 (secondary half), sound=0 size=1
+  [PASS] ecruteak_door_4_is_an_animated_door -- (28,47) metatile 0x333 (want 0x333) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ecruteak_door_4_has_a_door_anim_row -- metatile 0x333 matched row 100, tileset 0x08CA6C10 (secondary half), sound=0 size=1
+  WARP dragonsden ok (31,47)
+  [PASS] warp_to_dragons_den_cavern -- map 94.12 at (31,47)
+  DragonsDen_Cavern layout 0x090768DC: primary=0x08CA6E08 secondary=0x08CA69D0
+  shot DoorAnimsRegistered_6_dragons_den_arrival
+  [PASS] dragons_den_shrine_door_is_an_animated_door -- (31,46) metatile 0x2FF (want 0x2FF) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] dragons_den_shrine_door_has_a_door_anim_row -- metatile 0x2FF matched row 96, tileset 0x08CA69D0 (secondary half), sound=1 size=1
+  [PASS] dragons_den_non_door_metatile_is_not_a_door -- (31,47) metatile 0x1C6 behavior 0
+  [PASS] dragons_den_non_door_metatile_has_no_row -- metatile 0x1C6 matches no row against (primary=0x08CA6E08, secondary=0x08CA69D0); rows carrying this id: none
+  [PASS] dragons_den_foreign_tileset_door_id_has_no_row -- metatile 0x32B matches no row against (primary=0x08CA6E08, secondary=0x08CA69D0); rows carrying this id: row95->tileset=0x08CA6D60
+  WARP violet ok (30,14)
+  [PASS] warp_to_violet_city -- map 75.6 at (30,14)
+  VioletCity layout 0x09017374: primary=0x08CA6EC8 secondary=0x08CA6D60
+  [PASS] violet_and_dragons_den_share_no_tileset -- Violet (0x08CA6EC8, 0x08CA6D60) vs Dragon's Den (0x08CA6E08, 0x08CA69D0) — the two maps must have no tileset in common, or the pair below proves nothing about the tileset pointer
+  shot DoorAnimsRegistered_7_violet_arrival
+  [PASS] violet_dojo_door_1_is_an_animated_door -- (30,13) metatile 0x32B (want 0x32B) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] violet_dojo_door_1_has_a_door_anim_row -- metatile 0x32B matched row 95, tileset 0x08CA6D60 (secondary half), sound=1 size=1
+  [PASS] violet_dojo_door_2_is_an_animated_door -- (39,36) metatile 0x32B (want 0x32B) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] violet_dojo_door_2_has_a_door_anim_row -- metatile 0x32B matched row 95, tileset 0x08CA6D60 (secondary half), sound=1 size=1
+  WARP safari2 ok (35,12)
+  [PASS] warp_to_safari_zone2 -- map 96.11 at (35,12)
+  SafariZone2 layout 0x09080C80: primary=0x08CA6E08 secondary=0x08CA6958
+  shot DoorAnimsRegistered_8_safari_zone2_arrival
+  [PASS] safari_johto_town_door_is_an_animated_door -- (35,11) metatile 0x2BF (want 0x2BF) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] safari_johto_town_door_has_a_door_anim_row -- metatile 0x2BF matched row 104, tileset 0x08CA6958 (secondary half), sound=0 size=1
+  [PASS] safari_johto_gate_door_id_resolves_on_this_tileset -- metatile 0x2D2 matched row 103, tileset 0x08CA6958 (secondary half) — 0x2D2 is the other &gTileset_SafariZoneJohto door and predates the fix
+  [PASS] safari_johto_town_door_id_also_has_a_foreign_row -- metatile 0x2BF is carried by 1 row(s) bound to a tileset this map does not use (row69->tileset=0x08CA73F0) as well as 1 of its own — 0x2BF is METATILE_FuchsiaCity_Door as well, so the pre-fix lookup had the id and rejected it on the tileset pointer
+  [PASS] safari_johto_non_door_metatile_is_not_a_door -- (35,12) metatile 0x009 behavior 0
+  [PASS] safari_johto_non_door_metatile_has_no_row -- metatile 0x009 matches no row against (primary=0x08CA6E08, secondary=0x08CA6958); rows carrying this id: none
+  [PASS] safari_johto_foreign_tileset_door_id_has_no_row -- metatile 0x333 matches no row against (primary=0x08CA6E08, secondary=0x08CA6958); rows carrying this id: row100->tileset=0x08CA6C10 row101->tileset=0x08CA6B38
+  WARP safarigate ok (16,9)
+  [PASS] warp_to_safari_zone_gate -- map 96.0 at (16,9)
+  SafariZoneGate layout 0x0907B854: primary=0x08CA6E08 secondary=0x08CA6958
+  [PASS] safari_gate_shares_safari_zone2_tilesets -- gate (0x08CA6E08, 0x08CA6958) vs SafariZone2 (0x08CA6E08, 0x08CA6958) — the 0x2D2 lookup control on SafariZone2 is only legitimate if the pairs are identical
+  shot DoorAnimsRegistered_9_safari_gate_arrival
+  [PASS] safari_gate_door_is_an_animated_door -- (16,8) metatile 0x2D2 (want 0x2D2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] safari_gate_door_has_a_door_anim_row -- metatile 0x2D2 matched row 103, tileset 0x08CA6958 (secondary half), sound=1 size=1
+  WARP mahogany ok (15,11)
+  [PASS] warp_to_mahogany_town -- map 91.0 at (15,11)
+  Mahoganytown layout 0x0905E024: primary=0x08CA6E08 secondary=0x08CA6A30
+  shot DoorAnimsRegistered_10_mahogany_arrival
+  [PASS] mahogany_door_1_is_an_animated_door -- (15,10) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] mahogany_door_1_has_a_door_anim_row -- metatile 0x2A2 matched row 105, tileset 0x08CA6A30 (secondary half), sound=0 size=1
+  [PASS] mahogany_door_2_is_an_animated_door -- (27,10) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] mahogany_door_2_has_a_door_anim_row -- metatile 0x2A2 matched row 105, tileset 0x08CA6A30 (secondary half), sound=0 size=1
+  [PASS] mahogany_door_id_also_has_a_foreign_row -- metatile 0x2A2 is carried by 1 row(s) bound to a tileset this map does not use (row65->tileset=0x08CA7438) as well as 1 of its own — 0x2A2 is METATILE_LavenderTown_Door as well, so on the pre-fix ROM the id was in the table and these doors still never opened
+  [PASS] mahogany_non_door_metatile_is_not_a_door -- (15,11) metatile 0x0D3 behavior 0
+  [PASS] mahogany_non_door_metatile_has_no_row -- metatile 0x0D3 matches no row against (primary=0x08CA6E08, secondary=0x08CA6A30); rows carrying this id: none
+  [PASS] mahogany_foreign_tileset_door_id_has_no_row -- metatile 0x2D2 matches no row against (primary=0x08CA6E08, secondary=0x08CA6A30); rows carrying this id: row70->tileset=0x08CA73F0 row103->tileset=0x08CA6958
+  shot DoorAnimsRegistered_11_mahogany_door_door_animation
+  [PASS] mahogany_door_live_door_animation_runs -- Task_AnimateDoor went live 2 frames into the door warp; reached map 92.3 after 93 frames
+  WARP lakeofrage ok (15,5)
+  [PASS] warp_to_lake_of_rage -- map 91.4 at (15,5)
+  LakeOfRage layout 0x09063970: primary=0x08CA6E08 secondary=0x08CA6A30
+  [PASS] lake_of_rage_shares_mahogany_tilesets -- Lake of Rage (0x08CA6E08, 0x08CA6A30) vs Mahogany Town (0x08CA6E08, 0x08CA6A30) — the single row is only reaching all four doors if the pairs are identical
+  shot DoorAnimsRegistered_12_lake_of_rage_arrival
+  [PASS] lake_of_rage_door_1_is_an_animated_door -- (15,4) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] lake_of_rage_door_1_has_a_door_anim_row -- metatile 0x2A2 matched row 105, tileset 0x08CA6A30 (secondary half), sound=0 size=1
+  [PASS] lake_of_rage_door_2_is_an_animated_door -- (39,41) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] lake_of_rage_door_2_has_a_door_anim_row -- metatile 0x2A2 matched row 105, tileset 0x08CA6A30 (secondary half), sound=0 size=1
+  WARP lavender ok (10,12)
+  [PASS] warp_to_lavender_town -- map 37.4 at (10,12)
+  LavenderTown layout 0x08F9AAD0: primary=0x08CA74B0 secondary=0x08CA7438
+  [PASS] lavender_and_mahogany_share_no_tileset -- Lavender (0x08CA74B0, 0x08CA7438) vs Mahogany (0x08CA6E08, 0x08CA6A30) — the two maps must have no tileset in common, or the shared 0x2A2 proves nothing
+  shot DoorAnimsRegistered_13_lavender_arrival
+  [PASS] lavender_door_1_is_an_animated_door -- (10,11) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] lavender_door_1_has_a_door_anim_row -- metatile 0x2A2 matched row 65, tileset 0x08CA7438 (secondary half), sound=0 size=1
+  [PASS] lavender_door_2_is_an_animated_door -- (5,16) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] lavender_door_2_has_a_door_anim_row -- metatile 0x2A2 matched row 65, tileset 0x08CA7438 (secondary half), sound=0 size=1
+  [PASS] lavender_door_3_is_an_animated_door -- (10,16) metatile 0x2A2 (want 0x2A2) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] lavender_door_3_has_a_door_anim_row -- metatile 0x2A2 matched row 65, tileset 0x08CA7438 (secondary half), sound=0 size=1
+  WARP ssaqua1f ok (29,2)
+  [PASS] warp_to_ssaqua_1f -- map 95.0 at (29,2)
+  SSAqua_1F layout 0x0907A53C: primary=0x08CA6EC8 secondary=0x08CA6988
+  shot DoorAnimsRegistered_14_ssaqua_1f_arrival
+  [PASS] ssaqua_1f_gangway_door_is_an_animated_door -- (29,1) metatile 0x281 (want 0x281) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ssaqua_1f_gangway_door_has_a_door_anim_row -- metatile 0x281 matched row 83, tileset 0x08CA6988 (secondary half), sound=0 size=2
+  [PASS] ssaqua_1f_non_door_metatile_is_not_a_door -- (29,2) metatile 0x2C1 behavior 0
+  [PASS] ssaqua_1f_non_door_metatile_has_no_row -- metatile 0x2C1 matches no row against (primary=0x08CA6EC8, secondary=0x08CA6988); rows carrying this id: none
+  [PASS] ssaqua_1f_door_id_also_has_a_foreign_row -- metatile 0x281 is carried by 1 row(s) bound to a tileset this map does not use (row82->tileset=0x08CA71E0) as well as 1 of its own — 0x281 is METATILE_SSAnne_Door, whose &gTileset_SSAnne row predates the fix and is neither half of this map's pair
+  [PASS] ssaqua_1f_johto_general_door_id_resolves -- metatile 0x03D matched row 88, tileset 0x08CA6EC8 (primary half) — 0x03D is registered for &gTileset_Johto_General, which IS this map's primary -- it predates the fix and holds on every build
+  WARP ssaquaplayers ok (2,2)
+  [PASS] warp_to_ssaqua_players_room -- map 95.3 at (2,2)
+  SSAqua_players_room layout 0x0907AC48: primary=0x08CA6EB0 secondary=0x08CA6988
+  shot DoorAnimsRegistered_15_ssaqua_players_room_arrival
+  [PASS] ssaqua_players_room_door_is_an_animated_door -- (2,1) metatile 0x281 (want 0x281) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ssaqua_players_room_door_has_a_door_anim_row -- metatile 0x281 matched row 83, tileset 0x08CA6988 (secondary half), sound=0 size=2
+  WARP ssaquanw ok (2,2)
+  [PASS] warp_to_ssaqua_room_nw -- map 95.4 at (2,2)
+  SSAqua_room_nw layout 0x0907AD0C: primary=0x08CA6EB0 secondary=0x08CA6988
+  shot DoorAnimsRegistered_16_ssaqua_room_nw_arrival
+  [PASS] ssaqua_room_nw_door_is_an_animated_door -- (2,1) metatile 0x281 (want 0x281) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ssaqua_room_nw_door_has_a_door_anim_row -- metatile 0x281 matched row 83, tileset 0x08CA6988 (secondary half), sound=0 size=2
+  WARP ssaquane ok (2,2)
+  [PASS] warp_to_ssaqua_room_ne -- map 95.5 at (2,2)
+  SSAqua_room_ne layout 0x0907ADD0: primary=0x08CA6EB0 secondary=0x08CA6988
+  shot DoorAnimsRegistered_17_ssaqua_room_ne_arrival
+  [PASS] ssaqua_room_ne_door_is_an_animated_door -- (2,1) metatile 0x281 (want 0x281) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ssaqua_room_ne_door_has_a_door_anim_row -- metatile 0x281 matched row 83, tileset 0x08CA6988 (secondary half), sound=0 size=2
+  WARP ssaquanne ok (2,2)
+  [PASS] warp_to_ssaqua_room_nne -- map 95.6 at (2,2)
+  SSAqua_room_nne layout 0x0907AE94: primary=0x08CA6EB0 secondary=0x08CA6988
+  shot DoorAnimsRegistered_18_ssaqua_room_nne_arrival
+  [PASS] ssaqua_room_nne_door_is_an_animated_door -- (2,1) metatile 0x281 (want 0x281) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ssaqua_room_nne_door_has_a_door_anim_row -- metatile 0x281 matched row 83, tileset 0x08CA6988 (secondary half), sound=0 size=2
+  [PASS] ssaqua_cabins_share_1f_secondary_not_primary -- cabin (0x08CA6EB0, 0x08CA6988) vs SSAqua 1F (0x08CA6EC8, 0x08CA6988) -- the five warps are only reached by ONE row if the secondary is shared, and the 0x03D pair below only means anything if the primary is not
+  [PASS] ssaqua_cabin_foreign_tileset_door_id_has_no_row -- metatile 0x03D matches no row against (primary=0x08CA6EB0, secondary=0x08CA6988); rows carrying this id: row55->tileset=0x08CA74B0 row88->tileset=0x08CA6EC8 row108->tileset=0x08CA6D18 row111->tileset=0x08CA6E08 row114->tileset=0x08CA6AD8
+  [PASS] ssaqua_cabin_non_door_metatile_is_not_a_door -- (2,2) metatile 0x31E behavior 0
+  [PASS] ssaqua_cabin_non_door_metatile_has_no_row -- metatile 0x31E matches no row against (primary=0x08CA6EB0, secondary=0x08CA6988); rows carrying this id: none
+  shot DoorAnimsRegistered_19_ssaqua_room_nne_door_door_animation
+  [PASS] ssaqua_room_nne_door_live_door_animation_runs -- Task_AnimateDoor went live 2 frames into the door warp; reached map 95.0 after 81 frames
+  WARP ssanne ok (2,2)
+  [PASS] warp_to_ssanne_1f_room1 -- map 35.12 at (2,2)
+  SSAnne_1F_Room1 layout 0x08FD4334: primary=0x08CA74B0 secondary=0x08CA71E0
+  [PASS] ssanne_and_ssaqua_share_no_tileset -- SSAnne (0x08CA74B0, 0x08CA71E0) vs SSAqua 1F (0x08CA6EC8, 0x08CA6988) and the cabins' primary 0x08CA6EB0 -- the maps must have no tileset in common, or the shared 0x281 proves nothing about the tileset pointer
+  shot DoorAnimsRegistered_20_ssanne_1f_room1_arrival
+  [PASS] ssanne_1f_room1_door_is_an_animated_door -- (2,1) metatile 0x281 (want 0x281) behavior 105 (want MB_ANIMATED_DOOR=105)
+  [PASS] ssanne_1f_room1_door_has_a_door_anim_row -- metatile 0x281 matched row 82, tileset 0x08CA71E0 (secondary half), sound=0 size=2
+VERDICT DoorAnimsRegistered: 114/114 PASS

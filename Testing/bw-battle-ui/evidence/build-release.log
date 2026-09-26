@@ -1,0 +1,73 @@
+tools/scaninc/scaninc -M build/emerald-release/src/battle_controller_player.d -g build/assets -I include -I tools/agbcc/include src/battle_controller_player.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/battle_controller_player.o src/battle_controller_player.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/main_menu.o src/main_menu.c
+src/main_menu.c:1459:13: warning: 'Task_NewGameBirchSpeech_Init' defined but not used [-Wunused-function]
+ 1459 | static void Task_NewGameBirchSpeech_Init(u8 taskId)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cd build/emerald-release && arm-none-eabi-gcc -march=armv4t -mabi=apcs-gnu -mcpu=arm7tdmi -Xlinker -Map=../../pokemonworld-release.map -Xlinker --print-memory-usage -Xassembler -meabi=5 -Xassembler -march=armv4t -Xassembler -mcpu=arm7tdmi -Xlinker --gc-sections -Xlinker -flto=auto -T ../../ld_script_modern.ld -o ../../pokemonworld-release.elf <objs> <libs>
+../../include/faraway_island.h:4: warning: type of 'GetMewMoveDirection' does not match original declaration [-Wlto-type-mismatch]
+../../src/faraway_island.c:46: note: return value type mismatch
+../../src/faraway_island.c:46: note: type 'Direction' should match type 'u32'
+../../src/faraway_island.c:46: note: 'GetMewMoveDirection' was previously declared here
+In function 'GetSetPokedexFlag',
+    inlined from 'DebugAction_FlagsVars_PokedexFlags_Reset' at ../../src/debug.c:2447:
+../../src/pokedex.c:4570: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'DebugAction_FlagsVars_PokedexFlags_Reset':
+../../include/global.h:1317: note: at offset 536870911 into destination object 'dexCaught' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'DebugAction_FlagsVars_PokedexFlags_Reset' at ../../src/debug.c:2447:
+../../src/pokedex.c:4570: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'DebugAction_FlagsVars_PokedexFlags_Reset':
+../../include/global.h:1317: note: at offset 536870911 into destination object 'dexCaught' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'DebugAction_FlagsVars_PokedexFlags_Reset' at ../../src/debug.c:2460:
+../../src/pokedex.c:4570: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'DebugAction_FlagsVars_PokedexFlags_Reset':
+../../include/global.h:1317: note: at offset 536870911 into destination object 'dexCaught' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'DebugAction_FlagsVars_PokedexFlags_Reset' at ../../src/debug.c:2460:
+../../src/pokedex.c:4570: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'DebugAction_FlagsVars_PokedexFlags_Reset':
+../../include/global.h:1317: note: at offset 536870911 into destination object 'dexCaught' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'CreateShedinja' at ../../src/evolution_scene.c:594,
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:840:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'CreateShedinja' at ../../src/evolution_scene.c:594,
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:840:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:791:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_EvolutionScene' at ../../src/evolution_scene.c:791:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_EvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_TradeEvolutionScene' at ../../src/evolution_scene.c:1218:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_TradeEvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+In function 'GetSetPokedexFlag',
+    inlined from 'Task_TradeEvolutionScene' at ../../src/evolution_scene.c:1218:
+../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+../../include/global.h: In function 'Task_TradeEvolutionScene':
+../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
+/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//ccpznXjk.s: Assembler messages:
+/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//ccpznXjk.s: Warning: section `.rodata.compound_string.dabab14a276922ea' size (0x16) is not a multiple of its entry size 0xa
+/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/16.1.0/../../../../arm-none-eabi/bin/ld: warning: ../../pokemonworld-release.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      234832 B       256 KB     89.58%
+           IWRAM:       28116 B        32 KB     85.80%
+             ROM:    22923944 B        32 MB     68.32%
+tools/gbafix/gbafix pokemonworld-release.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokemonworld-release.elf pokemonworld-release.gba
+tools/gbafix/gbafix pokemonworld-release.gba -p --silent

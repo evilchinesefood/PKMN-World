@@ -1,0 +1,26 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot JohtoBerrySlots_1_booted
+  [PASS] slot 113 (JOHTO_RAWST_3, Route 38 (21,24)) is seeded -- berryId=4 stage=5 (wanted berryId=4 stage=5); reads all-zero on a build where this tree still aliases slot 92
+  [PASS] slot 114 (JOHTO_RAWST_4, Route 39 (12,27)) is seeded -- berryId=4 stage=5 (wanted berryId=4 stage=5); reads all-zero on a build where this tree still aliases slot 93
+  [PASS] slot 115 (JOHTO_SITRUS_2, Route 47 (51,8)) is seeded -- berryId=10 stage=5 (wanted berryId=10 stage=5); reads all-zero on a build where this tree still aliases slot 94
+  [PASS] slot 116 (JOHTO_ASPEAR_3, Route 44 (7,10)) is seeded -- berryId=5 stage=5 (wanted berryId=5 stage=5); reads all-zero on a build where this tree still aliases slot 95
+  [PASS] slot 117 (JOHTO_ASPEAR_4, Route 45 (24,87)) is seeded -- berryId=5 stage=5 (wanted berryId=5 stage=5); reads all-zero on a build where this tree still aliases slot 96
+  [PASS] slot 118 (JOHTO_CHESTO_3, Route 42 (40,19)) is seeded -- berryId=2 stage=5 (wanted berryId=2 stage=5); reads all-zero on a build where this tree still aliases slot 97
+  [PASS] slot 119 (JOHTO_LEPPA_3, Route 43 (3,27)) is seeded -- berryId=6 stage=5 (wanted berryId=6 stage=5); reads all-zero on a build where this tree still aliases slot 98
+  [PASS] slot 120 (JOHTO_LEPPA_4, Route 43 (4,25)) is seeded -- berryId=6 stage=5 (wanted berryId=6 stage=5); reads all-zero on a build where this tree still aliases slot 99
+  [PASS] slot 121 (JOHTO_LUM_2, Route 46 (9,11)) is seeded -- berryId=9 stage=5 (wanted berryId=9 stage=5); reads all-zero on a build where this tree still aliases slot 100
+  [PASS] slot 90 still holds its original Johto tree -- berryId=1 stage=5 (wanted berryId=1)
+  [PASS] slot 91 still holds its original Johto tree -- berryId=1 stage=5 (wanted berryId=1)
+  [PASS] slot 92 still holds its original Johto tree -- berryId=4 stage=5 (wanted berryId=4)
+  [PASS] slot 93 still holds its original Johto tree -- berryId=4 stage=5 (wanted berryId=4)
+  [PASS] slot 94 still holds its original Johto tree -- berryId=10 stage=5 (wanted berryId=10)
+  [PASS] slot 95 still holds its original Johto tree -- berryId=5 stage=5 (wanted berryId=5)
+  [PASS] slot 96 still holds its original Johto tree -- berryId=5 stage=5 (wanted berryId=5)
+  [PASS] slot 97 still holds its original Johto tree -- berryId=2 stage=5 (wanted berryId=2)
+  [PASS] slot 98 still holds its original Johto tree -- berryId=6 stage=5 (wanted berryId=6)
+  [PASS] slot 99 still holds its original Johto tree -- berryId=6 stage=5 (wanted berryId=6)
+  [PASS] slot 100 still holds its original Johto tree -- berryId=9 stage=5 (wanted berryId=9)
+  [PASS] every seeded tree owns its own slot (no two resolve to the same index) -- 112 slots seeded, 112 expected -- short by 0, i.e. that many trees are sharing an index with another tree instead of owning one
+  [PASS] slots 122-127 are still unspent reserve -- 6 slots remain
+VERDICT JohtoBerrySlots: 22/22 PASS

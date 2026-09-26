@@ -1,0 +1,103 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] debug gave a party -- count=1
+== RegionHub terminal ==
+  [PASS] hub: reached the pedestal
+  [PASS] hub: holding Up into the terminal opens nothing
+  pick hub_menu row 2 ok
+  [PASS] hub: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] hub: control returns, no orphaned lock
+== HoennOldale (group 2, map 2) ==
+  WARP HoennOldale ok (7,8)
+  [PASS] HoennOldale: warped in
+  [PASS] HoennOldale: reached the pedestal
+  pick HoennOldale_menu row 2 ok
+  [PASS] HoennOldale: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] HoennOldale: control returns, no orphaned lock
+== Lavaridge (group 4, map 5) ==
+  WARP Lavaridge ok (7,8)
+  [PASS] Lavaridge: warped in
+  [PASS] Lavaridge: reached the pedestal
+  pick Lavaridge_menu row 2 ok
+  [PASS] Lavaridge: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] Lavaridge: control returns, no orphaned lock
+== EverGrande1F (group 16, map 10) ==
+  WARP EverGrande1F ok (9,11)
+  [PASS] EverGrande1F: warped in
+  [PASS] EverGrande1F: reached the pedestal
+  pick EverGrande1F_menu row 2 ok
+  [PASS] EverGrande1F: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] EverGrande1F: control returns, no orphaned lock
+== KantoViridian (group 39, map 4) ==
+  WARP KantoViridian ok (6,8)
+  [PASS] KantoViridian: warped in
+  [PASS] KantoViridian: reached the pedestal
+  pick KantoViridian_menu row 2 ok
+  [PASS] KantoViridian: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] KantoViridian: control returns, no orphaned lock
+== IndigoPlateau (group 47, map 0) ==
+  WARP IndigoPlateau ok (11,16)
+  [PASS] IndigoPlateau: warped in
+  [PASS] IndigoPlateau: reached the pedestal
+  pick IndigoPlateau_menu row 2 ok
+  [PASS] IndigoPlateau: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] IndigoPlateau: control returns, no orphaned lock
+== OneIsland (group 64, map 0) ==
+  WARP OneIsland ok (14,7)
+  [PASS] OneIsland: warped in
+  [PASS] OneIsland: reached the pedestal
+  pick OneIsland_menu row 2 ok
+  [PASS] OneIsland: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] OneIsland: control returns, no orphaned lock
+== JohtoViolet (group 78, map 4) ==
+  WARP JohtoViolet ok (7,8)
+  [PASS] JohtoViolet: warped in
+  [PASS] JohtoViolet: reached the pedestal
+  pick JohtoViolet_menu row 2 ok
+  [PASS] JohtoViolet: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] JohtoViolet: control returns, no orphaned lock
+== MtSilver (group 97, map 9) ==
+  WARP MtSilver ok (7,8)
+  [PASS] MtSilver: warped in
+  [PASS] MtSilver: reached the pedestal
+  pick MtSilver_menu row 2 ok
+  [PASS] MtSilver: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] MtSilver: control returns, no orphaned lock
+== JohtoIndigo (group 99, map 4) ==
+  WARP JohtoIndigo ok (19,16)
+  [PASS] JohtoIndigo: warped in
+  [PASS] JohtoIndigo: reached the pedestal
+  pick JohtoIndigo_menu row 2 ok
+  [PASS] JohtoIndigo: terminal opens the combined menu (cursor reached EXIT)
+  [PASS] JohtoIndigo: control returns, no orphaned lock
+== Scaling match from the Oldale terminal ==
+  WARP scaling ok (7,8)
+  pickTop row_scaling ok
+  [PASS] combined menu -> SCALING row
+  pick pick_NORMAL row 0 ok
+  [PASS] type picker opened
+  [PASS] Scaling launched a battle -- flags=0000010C
+  [PASS] battle ended, back to the overworld
+  [PASS] the match was won -- gBattleOutcome=1
+  pick another_no row 1 ok
+  [PASS] script returned from ScalingRun to the retry prompt
+  [PASS] Scaling win paid 1 BP -- bp 0 -> 1
+  [PASS] Scaling match: control returns, no orphaned lock
+== Leader Sim from the hub terminal ==
+  WARP hub2 ok (16,4)
+  pick row_leadersim row 1 ok
+  [PASS] combined menu -> LEADER SIM row
+  pick pick_HOENN row 0 ok
+  [PASS] region picker opened
+  pick pick_ROXANNE row 0 ok
+  [PASS] leader picker opened
+  [PASS] Leader Sim launched a battle -- flags=00000008
+  [PASS] launch never touched gObjectEvents[16] -- dirty bytes=0
+  [PASS] Leader Sim battle ended
+  [PASS] the sim was won -- gBattleOutcome=1
+  pick sim_another_no row 1 ok
+  [PASS] returned to the retry prompt
+  [PASS] Leader Sim win paid 2 BP -- bp 1 -> 3
+  [PASS] Leader Sim win paid NO shard or stone (bag unchanged) -- before=[0:149=1,4:743=1,4:753=1,4:713=1] after=[0:149=1,4:743=1,4:753=1,4:713=1]
+  [PASS] Leader Sim match: control returns, no orphaned lock
+VERDICT BnetTerminal1F: 60/60 PASS

@@ -1,0 +1,43 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] rain Weather Ball effectiveness
+  [PASS] rain Weather Ball type
+  [PASS] rain Weather Ball leaves battle state unchanged
+  [PASS] sun Weather Ball effectiveness
+  [PASS] sun Weather Ball type
+  [PASS] sun Weather Ball leaves battle state unchanged
+  [PASS] grassy Terrain Pulse effectiveness
+  [PASS] grassy Terrain Pulse type
+  [PASS] grassy Terrain Pulse leaves battle state unchanged
+  [PASS] electric Terrain Pulse effectiveness
+  [PASS] electric Terrain Pulse type
+  [PASS] electric Terrain Pulse leaves battle state unchanged
+  [PASS] Hidden Power effectiveness
+  [PASS] Hidden Power type
+  [PASS] Hidden Power leaves battle state unchanged
+  [PASS] Pixilate effectiveness
+  [PASS] Pixilate type
+  [PASS] Pixilate leaves battle state unchanged
+  [PASS] Normalize effectiveness
+  [PASS] Normalize type
+  [PASS] Normalize leaves battle state unchanged
+  [PASS] Levitate effectiveness
+  [PASS] Levitate type
+  [PASS] Levitate leaves battle state unchanged
+  [PASS] Mold Breaker effectiveness
+  [PASS] Mold Breaker type
+  [PASS] Mold Breaker leaves battle state unchanged
+  [PASS] Ability Shield effectiveness
+  [PASS] Ability Shield type
+  [PASS] Ability Shield leaves battle state unchanged
+  [PASS] Water Absorb effectiveness
+  [PASS] Water Absorb type
+  [PASS] Water Absorb leaves battle state unchanged
+  [PASS] Flash Fire effectiveness
+  [PASS] Flash Fire type
+  [PASS] Flash Fire leaves battle state unchanged
+  [PASS] Air Balloon effectiveness
+  [PASS] Air Balloon type
+  [PASS] Air Balloon leaves battle state unchanged
+  [PASS] all full move names fit fallback row -- count=0 last move=0
+VERDICT BWPreview: 40/40 PASS

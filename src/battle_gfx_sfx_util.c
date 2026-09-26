@@ -1,4 +1,6 @@
 #include "global.h"
+#include "bw_battle_ui.h"
+#include "config/bw_battle_ui.h"
 #include "battle.h"
 #include "battle_controllers.h"
 #include "battle_ai_main.h"
@@ -238,7 +240,6 @@ u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
             if ((numMovesPerGroup & (0xF << 4)) >= (2 << 8))
 #endif
                 numMultipleMoveGroups++;
-
 
             // By this point we already know the battler only has usable moves from at most 2 of the 3 move groups,
             // because they had no usable moves from the move group that was selected based on Nature.
@@ -734,6 +735,11 @@ void BattleLoadAllHealthBoxesGfxAtOnce(void)
 
 bool8 BattleLoadAllHealthBoxesGfx(u8 state)
 {
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+        return BattleUI_LoadAllHealthboxGfx(state);
+    }
+
     bool8 retVal = FALSE;
 
     if (state != 0)
@@ -973,8 +979,12 @@ void HandleSpeciesGfxDataChange(enum BattlerId battlerAtk, enum BattlerId battle
     if (changeType == SPECIES_GFX_CHANGE_GHOST_UNVEIL)
     {
         SetMonData(&gParties[B_TRAINER_OPPONENT_A][gBattlerPartyIndexes[battlerAtk]], MON_DATA_NICKNAME, gSpeciesInfo[targetSpecies].speciesName);
-        UpdateNickInHealthbox(gHealthboxSpriteIds[battlerAtk], &gParties[B_TRAINER_OPPONENT_A][gBattlerPartyIndexes[battlerAtk]]);
-        TryAddPokeballIconToHealthbox(gHealthboxSpriteIds[battlerAtk], TRUE);
+        struct Pokemon *mon = &gParties[B_TRAINER_OPPONENT_A][gBattlerPartyIndexes[battlerAtk]];
+        UpdateHealthboxAttribute(gHealthboxSpriteIds[battlerAtk], mon, HEALTHBOX_NICK);
+        if (BW_BATTLE_UI_HEALTHBOX == TRUE)
+            UpdateHealthboxAttribute(gHealthboxSpriteIds[battlerAtk], mon, HEALTHBOX_STATUS_ICON);
+        else
+            TryAddPokeballIconToHealthbox(gHealthboxSpriteIds[battlerAtk], TRUE);
     }
     else if (changeType == SPECIES_GFX_CHANGE_TRANSFORM)
     {

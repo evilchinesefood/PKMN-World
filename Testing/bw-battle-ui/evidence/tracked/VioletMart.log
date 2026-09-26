@@ -1,0 +1,19 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP VioletMart ok (4,7)
+  [PASS] warped into VioletCity_Mart (group 78, map 3) -- grp=78 map=3
+  [PASS] no shop open on arrival (baseline itemCount == 0) -- itemCount=0
+  [PASS] fresh game arrives with VAR_NEWBARK_TOWN_STATE < 5 -- state=0
+  shot VioletMart_1_shop_low_tier
+  [PASS] clerk opened a shop with a NON-EMPTY item list (issue #48) -- itemCount=2 list=0x08371ab8
+  [PASS] low tier sells exactly POTION, ANTIDOTE -- got {28,43} want {28,43}
+  [PASS] cancelling the shop returns field control
+  [PASS] player is still on the counter tile after cancelling -- (4,3)
+  [PASS] VAR_NEWBARK_TOWN_STATE reads back as 5 -- state=5
+  shot VioletMart_2_shop_upgraded_tier
+  [PASS] upgraded tier opened a shop with a NON-EMPTY item list -- itemCount=4
+  [PASS] upgraded tier sells POKE BALL, POTION, ANTIDOTE, PARALYZE HEAL -- got {1,28,43,44}
+  [PASS] the two tiers are different lists (the progression gate really branches) -- {28,43} vs {1,28,43,44}
+  [PASS] cancelling the upgraded shop returns field control
+  [PASS] player can still walk away afterwards -- (4,3)
+VERDICT VioletMart: 13/13 PASS

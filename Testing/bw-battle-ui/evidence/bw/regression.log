@@ -1,0 +1,436 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] four expected effectiveness categories
+  [PASS] effectiveness does not consume RNG
+  [PASS] status moves omit effectiveness
+  shot BWRegression_1_long_moves
+  shot BWRegression_2_status_empty_zero_pp
+  shot BWRegression_3_details
+  [PASS] details preserve selected move
+  shot BWRegression_4_ability_001
+  shot BWRegression_5_ability_002
+  shot BWRegression_6_ability_003
+  shot BWRegression_7_ability_004
+  shot BWRegression_8_ability_005
+  shot BWRegression_9_ability_006
+  shot BWRegression_10_ability_007
+  shot BWRegression_11_ability_008
+  shot BWRegression_12_ability_009
+  shot BWRegression_13_ability_010
+  shot BWRegression_14_ability_011
+  shot BWRegression_15_ability_012
+  shot BWRegression_16_ability_013
+  shot BWRegression_17_ability_014
+  shot BWRegression_18_ability_015
+  shot BWRegression_19_ability_016
+  shot BWRegression_20_ability_017
+  shot BWRegression_21_ability_018
+  shot BWRegression_22_ability_019
+  shot BWRegression_23_ability_020
+  shot BWRegression_24_ability_021
+  shot BWRegression_25_ability_022
+  shot BWRegression_26_ability_023
+  shot BWRegression_27_ability_024
+  shot BWRegression_28_ability_025
+  shot BWRegression_29_ability_026
+  shot BWRegression_30_ability_027
+  shot BWRegression_31_ability_028
+  shot BWRegression_32_ability_029
+  shot BWRegression_33_ability_030
+  shot BWRegression_34_ability_031
+  shot BWRegression_35_ability_032
+  shot BWRegression_36_ability_033
+  shot BWRegression_37_ability_034
+  shot BWRegression_38_ability_035
+  shot BWRegression_39_ability_036
+  shot BWRegression_40_ability_037
+  shot BWRegression_41_ability_038
+  shot BWRegression_42_ability_039
+  shot BWRegression_43_ability_040
+  shot BWRegression_44_ability_041
+  shot BWRegression_45_ability_042
+  shot BWRegression_46_ability_043
+  shot BWRegression_47_ability_044
+  shot BWRegression_48_ability_045
+  shot BWRegression_49_ability_046
+  shot BWRegression_50_ability_047
+  shot BWRegression_51_ability_048
+  shot BWRegression_52_ability_049
+  shot BWRegression_53_ability_050
+  [PASS] ability popup released its palette
+  [PASS] popup kept live info palette
+  shot BWRegression_54_info_after_popup
+  [PASS] cursor allocation failure is bounded
+  [PASS] move trigger allocation failure is bounded
+  [PASS] ball trigger allocation failure is bounded
+  [PASS] no assertion under sprite exhaustion
+  [PASS] pressure cursor recovers
+  [PASS] pressure case exits normally
+  [PASS] pressure cursor palette released
+  [PASS] pressure shortcut palette released
+  [PASS] pressure popup palette released
+  [PASS] cycle 1 commands
+  [PASS] cycle 1 bag owns input
+  shot BWRegression_55_bag
+  [PASS] cycle 1 bag return
+  [PASS] cycle 1 moves
+  [PASS] cycle 1 info return
+  [PASS] cycle 1 field return
+  [PASS] cycle 1 cursor palette released
+  [PASS] cycle 1 shortcut palette released
+  [PASS] cycle 1 popup palette released
+cycle 1 field heap=11520
+  [PASS] cycle 2 commands
+  [PASS] cycle 2 bag owns input
+  [PASS] cycle 2 bag return
+  [PASS] cycle 2 moves
+  [PASS] cycle 2 info return
+  [PASS] cycle 2 field return
+  [PASS] cycle 2 cursor palette released
+  [PASS] cycle 2 shortcut palette released
+  [PASS] cycle 2 popup palette released
+cycle 2 field heap=11520
+  [PASS] cycle 3 commands
+  [PASS] cycle 3 bag owns input
+  [PASS] cycle 3 bag return
+  [PASS] cycle 3 moves
+  [PASS] cycle 3 info return
+  [PASS] cycle 3 field return
+  [PASS] cycle 3 cursor palette released
+  [PASS] cycle 3 shortcut palette released
+  [PASS] cycle 3 popup palette released
+  [PASS] cycle 3 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 3 field heap=11520
+  [PASS] cycle 3 stable heap
+  [PASS] cycle 4 commands
+  [PASS] cycle 4 bag owns input
+  [PASS] cycle 4 bag return
+  [PASS] cycle 4 moves
+  [PASS] cycle 4 info return
+  [PASS] cycle 4 field return
+  [PASS] cycle 4 cursor palette released
+  [PASS] cycle 4 shortcut palette released
+  [PASS] cycle 4 popup palette released
+  [PASS] cycle 4 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 4 field heap=11520
+  [PASS] cycle 4 stable heap
+  [PASS] cycle 5 commands
+  [PASS] cycle 5 bag owns input
+  [PASS] cycle 5 bag return
+  [PASS] cycle 5 moves
+  [PASS] cycle 5 info return
+  [PASS] cycle 5 field return
+  [PASS] cycle 5 cursor palette released
+  [PASS] cycle 5 shortcut palette released
+  [PASS] cycle 5 popup palette released
+  [PASS] cycle 5 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 5 field heap=11520
+  [PASS] cycle 5 stable heap
+  [PASS] cycle 6 commands
+  [PASS] cycle 6 bag owns input
+  [PASS] cycle 6 bag return
+  [PASS] cycle 6 moves
+  [PASS] cycle 6 info return
+  [PASS] cycle 6 field return
+  [PASS] cycle 6 cursor palette released
+  [PASS] cycle 6 shortcut palette released
+  [PASS] cycle 6 popup palette released
+  [PASS] cycle 6 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 6 field heap=11520
+  [PASS] cycle 6 stable heap
+  [PASS] cycle 7 commands
+  [PASS] cycle 7 bag owns input
+  [PASS] cycle 7 bag return
+  [PASS] cycle 7 moves
+  [PASS] cycle 7 info return
+  [PASS] cycle 7 field return
+  [PASS] cycle 7 cursor palette released
+  [PASS] cycle 7 shortcut palette released
+  [PASS] cycle 7 popup palette released
+  [PASS] cycle 7 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 7 field heap=11520
+  [PASS] cycle 7 stable heap
+  [PASS] cycle 8 commands
+  [PASS] cycle 8 bag owns input
+  [PASS] cycle 8 bag return
+  [PASS] cycle 8 moves
+  [PASS] cycle 8 info return
+  [PASS] cycle 8 field return
+  [PASS] cycle 8 cursor palette released
+  [PASS] cycle 8 shortcut palette released
+  [PASS] cycle 8 popup palette released
+  [PASS] cycle 8 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 8 field heap=11520
+  [PASS] cycle 8 stable heap
+  [PASS] cycle 9 commands
+  [PASS] cycle 9 bag owns input
+  [PASS] cycle 9 bag return
+  [PASS] cycle 9 moves
+  [PASS] cycle 9 info return
+  [PASS] cycle 9 field return
+  [PASS] cycle 9 cursor palette released
+  [PASS] cycle 9 shortcut palette released
+  [PASS] cycle 9 popup palette released
+  [PASS] cycle 9 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 9 field heap=11520
+  [PASS] cycle 9 stable heap
+  [PASS] cycle 10 commands
+  [PASS] cycle 10 bag owns input
+  [PASS] cycle 10 bag return
+  [PASS] cycle 10 moves
+  [PASS] cycle 10 info return
+  [PASS] cycle 10 field return
+  [PASS] cycle 10 cursor palette released
+  [PASS] cycle 10 shortcut palette released
+  [PASS] cycle 10 popup palette released
+  [PASS] cycle 10 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 10 field heap=11520
+  [PASS] cycle 10 stable heap
+  [PASS] cycle 11 commands
+  [PASS] cycle 11 bag owns input
+  [PASS] cycle 11 bag return
+  [PASS] cycle 11 moves
+  [PASS] cycle 11 info return
+  [PASS] cycle 11 field return
+  [PASS] cycle 11 cursor palette released
+  [PASS] cycle 11 shortcut palette released
+  [PASS] cycle 11 popup palette released
+  [PASS] cycle 11 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 11 field heap=11520
+  [PASS] cycle 11 stable heap
+  [PASS] cycle 12 commands
+  [PASS] cycle 12 bag owns input
+  [PASS] cycle 12 bag return
+  [PASS] cycle 12 moves
+  [PASS] cycle 12 info return
+  [PASS] cycle 12 field return
+  [PASS] cycle 12 cursor palette released
+  [PASS] cycle 12 shortcut palette released
+  [PASS] cycle 12 popup palette released
+  [PASS] cycle 12 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 12 field heap=11520
+  [PASS] cycle 12 stable heap
+  [PASS] cycle 13 commands
+  [PASS] cycle 13 bag owns input
+  [PASS] cycle 13 bag return
+  [PASS] cycle 13 moves
+  [PASS] cycle 13 info return
+  [PASS] cycle 13 field return
+  [PASS] cycle 13 cursor palette released
+  [PASS] cycle 13 shortcut palette released
+  [PASS] cycle 13 popup palette released
+  [PASS] cycle 13 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 13 field heap=11520
+  [PASS] cycle 13 stable heap
+  [PASS] cycle 14 commands
+  [PASS] cycle 14 bag owns input
+  [PASS] cycle 14 bag return
+  [PASS] cycle 14 moves
+  [PASS] cycle 14 info return
+  [PASS] cycle 14 field return
+  [PASS] cycle 14 cursor palette released
+  [PASS] cycle 14 shortcut palette released
+  [PASS] cycle 14 popup palette released
+  [PASS] cycle 14 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 14 field heap=11520
+  [PASS] cycle 14 stable heap
+  [PASS] cycle 15 commands
+  [PASS] cycle 15 bag owns input
+  [PASS] cycle 15 bag return
+  [PASS] cycle 15 moves
+  [PASS] cycle 15 info return
+  [PASS] cycle 15 field return
+  [PASS] cycle 15 cursor palette released
+  [PASS] cycle 15 shortcut palette released
+  [PASS] cycle 15 popup palette released
+  [PASS] cycle 15 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 15 field heap=11520
+  [PASS] cycle 15 stable heap
+  [PASS] cycle 16 commands
+  [PASS] cycle 16 bag owns input
+  [PASS] cycle 16 bag return
+  [PASS] cycle 16 moves
+  [PASS] cycle 16 info return
+  [PASS] cycle 16 field return
+  [PASS] cycle 16 cursor palette released
+  [PASS] cycle 16 shortcut palette released
+  [PASS] cycle 16 popup palette released
+  [PASS] cycle 16 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 16 field heap=11520
+  [PASS] cycle 16 stable heap
+  [PASS] cycle 17 commands
+  [PASS] cycle 17 bag owns input
+  [PASS] cycle 17 bag return
+  [PASS] cycle 17 moves
+  [PASS] cycle 17 info return
+  [PASS] cycle 17 field return
+  [PASS] cycle 17 cursor palette released
+  [PASS] cycle 17 shortcut palette released
+  [PASS] cycle 17 popup palette released
+  [PASS] cycle 17 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 17 field heap=11520
+  [PASS] cycle 17 stable heap
+  [PASS] cycle 18 commands
+  [PASS] cycle 18 bag owns input
+  [PASS] cycle 18 bag return
+  [PASS] cycle 18 moves
+  [PASS] cycle 18 info return
+  [PASS] cycle 18 field return
+  [PASS] cycle 18 cursor palette released
+  [PASS] cycle 18 shortcut palette released
+  [PASS] cycle 18 popup palette released
+  [PASS] cycle 18 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 18 field heap=11520
+  [PASS] cycle 18 stable heap
+  [PASS] cycle 19 commands
+  [PASS] cycle 19 bag owns input
+  [PASS] cycle 19 bag return
+  [PASS] cycle 19 moves
+  [PASS] cycle 19 info return
+  [PASS] cycle 19 field return
+  [PASS] cycle 19 cursor palette released
+  [PASS] cycle 19 shortcut palette released
+  [PASS] cycle 19 popup palette released
+  [PASS] cycle 19 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 19 field heap=11520
+  [PASS] cycle 19 stable heap
+  [PASS] cycle 20 commands
+  [PASS] cycle 20 bag owns input
+  [PASS] cycle 20 bag return
+  [PASS] cycle 20 moves
+  [PASS] cycle 20 info return
+  [PASS] cycle 20 field return
+  [PASS] cycle 20 cursor palette released
+  [PASS] cycle 20 shortcut palette released
+  [PASS] cycle 20 popup palette released
+  [PASS] cycle 20 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 20 field heap=11520
+  [PASS] cycle 20 stable heap
+  [PASS] cycle 21 commands
+  [PASS] cycle 21 bag owns input
+  [PASS] cycle 21 bag return
+  [PASS] cycle 21 moves
+  [PASS] cycle 21 info return
+  [PASS] cycle 21 field return
+  [PASS] cycle 21 cursor palette released
+  [PASS] cycle 21 shortcut palette released
+  [PASS] cycle 21 popup palette released
+  [PASS] cycle 21 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 21 field heap=11520
+  [PASS] cycle 21 stable heap
+  [PASS] cycle 22 commands
+  [PASS] cycle 22 bag owns input
+  [PASS] cycle 22 bag return
+  [PASS] cycle 22 moves
+  [PASS] cycle 22 info return
+  [PASS] cycle 22 field return
+  [PASS] cycle 22 cursor palette released
+  [PASS] cycle 22 shortcut palette released
+  [PASS] cycle 22 popup palette released
+  [PASS] cycle 22 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 22 field heap=11520
+  [PASS] cycle 22 stable heap
+  [PASS] cycle 23 commands
+  [PASS] cycle 23 bag owns input
+  [PASS] cycle 23 bag return
+  [PASS] cycle 23 moves
+  [PASS] cycle 23 info return
+  [PASS] cycle 23 field return
+  [PASS] cycle 23 cursor palette released
+  [PASS] cycle 23 shortcut palette released
+  [PASS] cycle 23 popup palette released
+  [PASS] cycle 23 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 23 field heap=11520
+  [PASS] cycle 23 stable heap
+  [PASS] cycle 24 commands
+  [PASS] cycle 24 bag owns input
+  [PASS] cycle 24 bag return
+  [PASS] cycle 24 moves
+  [PASS] cycle 24 info return
+  [PASS] cycle 24 field return
+  [PASS] cycle 24 cursor palette released
+  [PASS] cycle 24 shortcut palette released
+  [PASS] cycle 24 popup palette released
+  [PASS] cycle 24 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 24 field heap=11520
+  [PASS] cycle 24 stable heap
+  [PASS] cycle 25 commands
+  [PASS] cycle 25 bag owns input
+  [PASS] cycle 25 bag return
+  [PASS] cycle 25 moves
+  [PASS] cycle 25 info return
+  [PASS] cycle 25 field return
+  [PASS] cycle 25 cursor palette released
+  [PASS] cycle 25 shortcut palette released
+  [PASS] cycle 25 popup palette released
+  [PASS] cycle 25 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 25 field heap=11520
+  [PASS] cycle 25 stable heap
+  [PASS] cycle 26 commands
+  [PASS] cycle 26 bag owns input
+  [PASS] cycle 26 bag return
+  [PASS] cycle 26 moves
+  [PASS] cycle 26 info return
+  [PASS] cycle 26 field return
+  [PASS] cycle 26 cursor palette released
+  [PASS] cycle 26 shortcut palette released
+  [PASS] cycle 26 popup palette released
+  [PASS] cycle 26 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 26 field heap=11520
+  [PASS] cycle 26 stable heap
+  [PASS] cycle 27 commands
+  [PASS] cycle 27 bag owns input
+  [PASS] cycle 27 bag return
+  [PASS] cycle 27 moves
+  [PASS] cycle 27 info return
+  [PASS] cycle 27 field return
+  [PASS] cycle 27 cursor palette released
+  [PASS] cycle 27 shortcut palette released
+  [PASS] cycle 27 popup palette released
+  [PASS] cycle 27 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 27 field heap=11520
+  [PASS] cycle 27 stable heap
+  [PASS] cycle 28 commands
+  [PASS] cycle 28 bag owns input
+  [PASS] cycle 28 bag return
+  [PASS] cycle 28 moves
+  [PASS] cycle 28 info return
+  [PASS] cycle 28 field return
+  [PASS] cycle 28 cursor palette released
+  [PASS] cycle 28 shortcut palette released
+  [PASS] cycle 28 popup palette released
+  [PASS] cycle 28 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 28 field heap=11520
+  [PASS] cycle 28 stable heap
+  [PASS] cycle 29 commands
+  [PASS] cycle 29 bag owns input
+  [PASS] cycle 29 bag return
+  [PASS] cycle 29 moves
+  [PASS] cycle 29 info return
+  [PASS] cycle 29 field return
+  [PASS] cycle 29 cursor palette released
+  [PASS] cycle 29 shortcut palette released
+  [PASS] cycle 29 popup palette released
+  [PASS] cycle 29 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 29 field heap=11520
+  [PASS] cycle 29 stable heap
+  [PASS] cycle 30 commands
+  [PASS] cycle 30 bag owns input
+  [PASS] cycle 30 bag return
+  [PASS] cycle 30 moves
+  [PASS] cycle 30 info return
+  [PASS] cycle 30 field return
+  [PASS] cycle 30 cursor palette released
+  [PASS] cycle 30 shortcut palette released
+  [PASS] cycle 30 popup palette released
+  [PASS] cycle 30 stable sprites/tasks/printers/tiles -- 30:0:4:134
+cycle 30 field heap=11520
+  [PASS] cycle 30 stable heap
+  [PASS] full partner commands
+  shot BWRegression_56_partner_commands
+  shot BWRegression_57_partner_moves
+  shot BWRegression_58_partner_bag
+  shot BWRegression_59_partner_bag_right
+  [PASS] partner bag return
+  [PASS] partner returns to field
+VERDICT BWRegression: 344/344 PASS

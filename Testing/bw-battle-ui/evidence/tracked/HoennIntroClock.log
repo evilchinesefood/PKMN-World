@@ -1,0 +1,15 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FLAG_SET_WALL_CLOCK is set
+  [PASS] seeded intro state 4 -- state=4
+  WARP brendan_2f ok (7,2)
+  [PASS] on Brendan 2F -- grp=1 map=1
+  [PASS] 2F ON_TRANSITION advanced intro 4 -> 5 -- state=5
+  shot HoennIntroClock_1_2f_arrival
+  [PASS] reached the clock tile (5,2) -- pos=(5,2)
+  shot HoennIntroClock_2_after_clock
+  [PASS] clock-already-set branch advanced intro to 6 -- state=6
+  [PASS] reached the 2F stairs tile (7,1) -- pos=(7,1)
+  shot HoennIntroClock_3_after_stairs
+  [PASS] downstairs is 1F, not a mom-bounce back onto 2F -- grp=1 map=0 intro=6
+VERDICT HoennIntroClock: 8/8 PASS

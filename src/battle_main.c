@@ -69,6 +69,7 @@
 #include "util.h"
 #include "wild_encounter.h"
 #include "window.h"
+#include "bw_battle_ui.h"
 #include "constants/abilities.h"
 #include "constants/battle_ai.h"
 #include "constants/battle_move_effects.h"
@@ -508,7 +509,9 @@ const u8 *const gStatusConditionStringsTable[][2] =
 
 void CB2_InitBattle(void)
 {
-    if (!gTestRunnerEnabled)
+    // Playback already owns a heap-allocated party backup from PlayRecordedBattle.
+    // Resetting the heap here invalidates it before CB2_RecordedBattleEnd restores it.
+    if (!gTestRunnerEnabled && !(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
         MoveSaveBlocks_ResetHeap();
     AllocateBattleResources();
     AllocateBattleSpritesData();
@@ -2219,7 +2222,7 @@ void CB2_InitEndLinkBattle(void)
         gBattle_BG3_Y = 0;
 
         InitBattleBgsVideo();
-        LoadPalette(gBattleTextboxPalette, BG_PLTT_ID(0), 2 * PLTT_SIZE_4BPP);
+        LoadPalette(BattleUI_GetTextboxPalette(), BG_PLTT_ID(0), 2 * PLTT_SIZE_4BPP);
         LoadBattleMenuWindowGfx();
         ResetSpriteData();
         ResetTasks();
@@ -2446,7 +2449,6 @@ static void CB2_AskRecordBattle(void)
     UpdatePaletteFade();
     RunTasks();
 }
-
 
 // States for AskRecordBattle
 #define STATE_INIT             0
@@ -5837,6 +5839,7 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
 
         ClearCurrentTrainerWantRematchVsSeeker();
         gDexNavSpecies = SPECIES_NONE;
+        BattleUI_ResetGraphics();
         ResetSpriteData();
         if ((!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_RECORDED_LINK

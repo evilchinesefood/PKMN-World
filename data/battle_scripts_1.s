@@ -1,5 +1,6 @@
 #include "config/general.h"
 #include "config/battle.h"
+#include "config/bw_battle_ui.h"
 #include "constants/global.h"
 #include "constants/battle.h"
 #include "constants/pokemon.h"
@@ -4521,7 +4522,11 @@ BattleScript_AbilityPopUpTarget::
 BattleScript_AbilityPopUp::
 	tryactivateabilityshield BS_ABILITY_BATTLER
 	showabilitypopup
+#if BW_BATTLE_UI && BW_BATTLE_UI_ABILITY_POP_UP
+	pause B_WAIT_TIME_MED
+#else
 	pause B_WAIT_TIME_SHORT
+#endif
 	recordability BS_ABILITY_BATTLER
 	sethword sABILITY_OVERWRITE, 0
 	return

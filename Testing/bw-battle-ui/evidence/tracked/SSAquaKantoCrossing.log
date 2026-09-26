@@ -1,0 +1,127 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] 0: the S.S.TICKET reached the KEY ITEMS pocket -- slot=0 pocket=[727]
+  WARP olivineMaiden ok (8,10)
+  [PASS] 0: OLIVINE port entered on a pre-voyage save
+  [PASS] 0: reached the harbour sailor on OAK's (now hidden) tile
+  [PASS] 0: the maiden voyage boards and lands the player on the S.S.AQUA -- grp=95 map=0 pos=(29,3)
+  [PASS] 0: the boarding leaves no assert screen (the main loop is still running) -- gMain.vblankCounter1 9880 -> 9910 across 30 frames
+  [PASS] B: boarding at OLIVINE does not change the active region -- region=0 (was 0)
+  [PASS] 0: the departure record was UNSET on a fresh save -- VAR_FERRY_DEPARTURE=0
+  [PASS] 0: boarding at OLIVINE records OLIVINE as the departure harbour -- VAR_FERRY_DEPARTURE=2
+  [PASS] 0: the maiden voyage set VAR_SSAQUA_STATE to 1 -- state=1
+  [PASS] 0: control returns aboard, with no lock left behind
+  shot SSAquaKantoCrossing_1_maiden_voyage
+  WARP backAshore ok (8,10)
+  [PASS] 0: parked ashore so segment A's boarding warp really warps
+  WARP ssaqua ok (19,9)
+  [PASS] A: warped aboard the S.S.AQUA
+  aboard at (19,9)
+  [PASS] A: walked the corridor to the door sailor
+  [PASS] A: door sailor puts the player ashore in MAP_VERMILION_CITY_PORT_INSIDE -- grp=43 map=8
+  shot SSAquaKantoCrossing_2_vermilion_port
+  [PASS] A: arrival scene advanced VAR_SSAQUA_STATE to 7 -- state=7
+  [PASS] B: active region is KANTO after the crossing -- region=1
+  [PASS] A: the disembark writes no SaveBlock1 flag at all
+  [PASS] A: the only region var it writes is VAR_SSAQUA_STATE -- byte 336: 06->07
+  [PASS] A: control returns in the terminal
+  [PASS] C: walked up to the terminal door
+  [PASS] C: terminal door reaches VERMILION CITY -- grp=37 map=5
+  [PASS] C: landed on the port apron at (26,30) -- (26,30)
+  shot SSAquaKantoCrossing_3_vermilion_pier
+  [PASS] C: the landing tile connects to the city on foot
+  [PASS] C: walked back down to the berth
+  [PASS] C: the pier sailor hands the crossing off instead of sailing it -- grp=37 map=5
+  [PASS] C: the pier sailor still answers (a box opened)
+  [PASS] C: and hands control back rather than dead-ending
+  [PASS] C: walked back to the port door
+  [PASS] C: the city-side door walks back into the terminal -- grp=43 map=8
+  shot SSAquaKantoCrossing_4_port_door_reentry
+  [PASS] C: the berth sailor is reachable on a return visit
+  [PASS] C: below the gate the berth sailor declines and does not sail -- freed=true grp=43 map=8
+  [PASS] C: back at the berth sailor with the gate open
+  [PASS] C: the terminal desk sails the return leg to OLIVINE CITY's port -- grp=88 map=8
+  [PASS] B: active region is JOHTO after the return leg -- region=2
+  WARP olivineport ok (8,10)
+  [PASS] D: OLIVINE port re-entered clean
+  [PASS] D: VAR_SSAQUA_STATE still 7 (arrival scene is one-shot) -- state=7
+  [PASS] D: reached the OLIVINE harbour sailor
+  [PASS] D: the six-row AfterKanto destination board opens -- maxCursorPos=5
+  shot SSAquaKantoCrossing_5_olivine_menu
+  [PASS] D: the cursor rests on VERMILION -- cursor=0
+  [PASS] D: the VERMILION run sails and lands in the KANTO terminal -- grp=43 map=8
+  [PASS] E: repeat crossing left VAR_SSAQUA_STATE at 7 -- state=7
+  [PASS] B: active region is KANTO again -- region=1
+  [PASS] D: control returns after the repeat crossing
+  shot SSAquaKantoCrossing_6_second_crossing
+  WARP lilycoveharbor ok (11,14)
+  [PASS] F: reached LILYCOVE CITY's harbor as a Johto-region player
+  [PASS] F: arriving there claims REGION_HOENN (persisted) -- region=3
+  [PASS] F: and the EWRAM mirror agrees -- gCurrentRegion=3
+  [PASS] F: control returns after the ON_TRANSITION region claim
+  shot SSAquaKantoCrossing_7_lilycove_harbor
+  [PASS] G: debug party published a count -- count=1
+  WARP vermpier ok (26,30)
+  [PASS] G: back on the VERMILION port apron at (26,30) -- (26,30)
+  [PASS] G: the follower is out -- (26,30) visible
+  [PASS] G: walked back to the port door
+  [PASS] G: walked in through the city-side door to the KANTO terminal -- grp=43 map=8
+  [PASS] G: the follower came through the door too -- (8,10) visible
+  [PASS] G: reached the berth sailor
+  [PASS] G: the terminal's boarding cutscene sails to OLIVINE with a follower out -- grp=88 map=8
+  [PASS] B: active region is JOHTO after the terminal crossing -- region=2
+  [PASS] G: control returns on the far shore
+  [PASS] G: the follower came across too -- (8,16) visible
+  shot SSAquaKantoCrossing_8_follower_crossing
+  WARP islandJohto ok (8,3)
+  [PASS] H: a JOHTO-booked island trip sails home to OLIVINE, not Lilycove -- grp=88 map=8
+  [PASS] H: the #80 record was UNSET on the BIRTH ISLAND Johto leg, so the probe decided it -- VAR_FERRY_DEPARTURE=0
+  WARP islandHoenn ok (8,3)
+  [PASS] H: a HOENN-booked one still sails home to LILYCOVE (no regression) -- grp=13 map=10
+  [PASS] H: the #80 record was UNSET on the BIRTH ISLAND Hoenn leg, so the probe decided it -- VAR_FERRY_DEPARTURE=0
+  shot SSAquaKantoCrossing_9_island_home
+  WARP navelHoenn ok (8,3)
+  [PASS] H: a HOENN-booked NAVEL ROCK trip still sails home to LILYCOVE (no regression) -- grp=13 map=10
+  [PASS] H: the HOENN booking survived the warp onto the island -- gCurrentRegion=3
+  [PASS] H: the #80 record was UNSET on the NAVEL ROCK Hoenn leg, so the probe decided it -- VAR_FERRY_DEPARTURE=0
+  WARP navelJohto ok (8,3)
+  [PASS] H: a JOHTO-booked NAVEL ROCK trip sails home to OLIVINE -- grp=88 map=8
+  [PASS] H: the JOHTO booking survived the warp onto a REGION_HOENN island map -- gCurrentRegion=2
+  [PASS] H: the #80 record was UNSET on the NAVEL ROCK Johto leg, so the probe decided it -- VAR_FERRY_DEPARTURE=0
+  WARP navelKanto ok (8,3)
+  [PASS] H: a KANTO-booked NAVEL ROCK trip sails home to VERMILION's terminal -- grp=43 map=8
+  [PASS] H: the KANTO booking survived the warp onto a REGION_HOENN island map -- gCurrentRegion=1
+  [PASS] H: the #80 record was UNSET on the NAVEL ROCK Kanto leg, so the probe decided it -- VAR_FERRY_DEPARTURE=0
+  [PASS] H: the KANTO arm landed on the berth tile and the arrival scene did not run -- (8,16) state=7
+  [PASS] H: control returns in the KANTO terminal after the island run
+  shot SSAquaKantoCrossing_10_navelrock_home
+  WARP recordOlivine ok (8,3)
+  [PASS] I: an OLIVINE record beats a HOENN active region (the REGION_NONE legacy save's state) -- grp=88 map=8
+  [PASS] I: the record survived the warp onto the island -- VAR_FERRY_DEPARTURE=2
+  [PASS] I: the OLIVINE arm lands on the BERTH (8,16), not the north door (8,9) -- (8,16)
+  shot SSAquaKantoCrossing_11_olivine_berth_landing
+  [PASS] I: control returns on the OLIVINE berth
+  WARP recordLilycove ok (8,3)
+  [PASS] I: a LILYCOVE record beats a JOHTO active region -- grp=13 map=10
+  WARP recordVermilion ok (8,3)
+  [PASS] I: a VERMILION record beats a HOENN active region -- grp=43 map=8
+  [PASS] I: the VERMILION arm lands on its berth (8,16) too — the two arms now match -- (8,16)
+  [PASS] I: the AURORA TICKET reached the KEY ITEMS pocket -- slot=1 pocket=[727,730]
+  WARP lilycoveBoard ok (11,14)
+  [PASS] I: LILYCOVE harbour re-entered to board for real -- grp=13 map=10
+  [PASS] I: walked to the LILYCOVE ferry attendant
+  [PASS] I: the LILYCOVE first-time AURORA boarding sails to BIRTH ISLAND -- grp=26 map=59
+  [PASS] I: BoardFerryWithSailor recorded LILYCOVE as the departure harbour -- VAR_FERRY_DEPARTURE=1
+  [PASS] I: the JOHTO region forge survived the crossing, so the probe would say OLIVINE -- gCurrentRegion=2
+  [PASS] I: walked to the BIRTH ISLAND sailor
+  [PASS] I: the round trip returns to LILYCOVE, the harbour it was actually booked at -- grp=13 map=10
+  [PASS] I: arriving home consumed the record, so no stale harbour can outlive the voyage -- VAR_FERRY_DEPARTURE=0
+  shot SSAquaKantoCrossing_12_lilycove_round_trip
+  [PASS] I: the OLD SEA MAP reached the KEY ITEMS pocket -- slot=2 pocket=[727,730,731]
+  WARP lilycoveSeaMap ok (11,14)
+  [PASS] I: LILYCOVE harbour re-entered for the OLD SEA MAP row -- grp=13 map=10
+  [PASS] I: walked to the attendant for the OLD SEA MAP row
+  [PASS] I: the OLD SEA MAP row boards inline with Briney and sails to FARAWAY ISLAND -- grp=26 map=56
+  [PASS] I: the inline Briney boarding recorded LILYCOVE too -- VAR_FERRY_DEPARTURE=1
+  shot SSAquaKantoCrossing_13_faraway_old_sea_map
+VERDICT SSAquaKantoCrossing: 94/94 PASS

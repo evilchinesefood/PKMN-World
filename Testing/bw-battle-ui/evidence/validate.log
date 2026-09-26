@@ -1,0 +1,161 @@
+python3 Testing/ValidateGen13.py
+families disabled: 339 | species mapped: 1571 (+1025 names) | wild entries: 9707
+OK — no disabled-species references in obtainable content; all Gen 4+ families stripped.
+python3 Testing/ValidateScripts.py
+macros parsed: 454 | pointer-taking: 116 | invocations scanned: 28913
+OK — 219 warp-family commands, every one either waits or cannot reach `end`.
+OK — every script pointer argument in data/ is a label, not a bare integer.
+python3 Testing/ValidateOwMonPlacements.py
+OK - 819 overworld Pokemon across 143 maps: real species graphics, in bounds, reachable, elevation matches the tile, indoor ones scripted, none stacked.
+OK - graphics_id variants parsed: 1 shiny, 0 female (OBJ_EVENT_GFX_SPECIES[_SHINY][_FEMALE]).
+OK - 203 tilesets declare a derivable attribute width (64 FRLG u32, 139 Emerald u16), all via TILESET_METATILES.
+python3 Testing/ValidateMapEvents.py
+REVIEW - SCRIPT-GFX-OUTLIER: 1 finding(s) at baseline 1 (--report to list)
+REVIEW - CUTSCENE-SEALS-MAP: 9 finding(s) at baseline 9 (--report to list)
+OK - 6605 object events across 1194 maps: every script and flag they name is defined, no object id runs off a map's table.
+OK - 1795 trainers: no class/portrait faction mismatch, no overworld sprite fighting for the wrong team, every trainer_type object can actually battle.
+OK - role consistency: 3790 object-carrying scripts checked for sprite outliers, prop sprites checked for dialogue.
+python3 Testing/ValidateMetatileBounds.py
+OK - 855865 blocks across 1043 layouts decoded against their own tilesets: every metatile id resolves inside the tileset it lands in, except the 1611 placement(s) in 5 allowlisted layout(s).
+REVIEW - 325 blank-metatile reference(s) across 30 layout(s), all at baseline (--report to list, --strict to fail on them).
+python3 Testing/GenObstacleTable.py --check
+OK — obstacle table current: 293 obstacles, hash 0xCF719B0B
+python3 Testing/SavePatch.py --check
+python3 Testing/ValidateDoorAnims.py --max 0
+==============================================================================
+DEAD ANIMATED DOOR REPORT
+repo root: /private/tmp/pkmn-world-bw-336
+==============================================================================
+
+--- Derived constants (read from the tree, not assumed) ---
+  map-grid metatile id      : mask 0x03FF, shift 0  (include/global.fieldmap.h)
+  behavior, 2-byte attrs    : mask 0x000000FF, shift 0  (Emerald format)
+  behavior, 4-byte attrs    : mask 0x000001FF, shift 0  (FRLG format)
+  MB_ANIMATED_DOOR          : 105 (0x69)
+  NUM_METATILES_IN_PRIMARY  : 512 (Emerald layouts)
+  ..._IN_PRIMARY_FRLG       : 640 (FRLG + Johto layouts)
+  NUM_METATILES_TOTAL       : 1024
+  primary-count selection   : GetNumMetatilesInPrimary() = (isFrlg || isJohto) ? 640 : 512
+  layout_version -> flags    : frlg=isFrlg, johto=isJohto, everything else = neither (tools/mapjson/mapjson.cpp)
+
+--- Metatile-attribute format, detected PER TILESET ---
+  (src/fieldmap.c GetTilesetMetatileAttribute() keys off tileset->hasFrlgAttributes,
+   which TILESET_METATILES derives as sizeof(attrs) * 16 / sizeof(metatiles) == 4)
+    2 bytes/entry :  139 tilesets   (Emerald u16, behavior in bits 0-7)
+    4 bytes/entry :   64 tilesets   (FRLG u32, behavior in bits 0-8)
+
+--- Cross-check on known-good doors ---
+  OK    METATILE_General_Door            0x021 in gTileset_General           local  33 -> behavior 105 == MB_ANIMATED_DOOR
+  OK    METATILE_Johto_General_Door      0x03D in gTileset_Johto_General     local  61 -> behavior 105 == MB_ANIMATED_DOOR
+  OK    METATILE_GeneralFrlg_Door        0x03D in gTileset_General_Frlg      local  61 -> behavior 105 == MB_ANIMATED_DOOR
+
+--- Door table ---
+  usable rows in sDoorAnimGraphicsTable : 116
+  distinct metatile ids covered         : 87
+  distinct tilesets referenced          : 63
+  EXCLUDED row with NULL tileset        : 0x3B0 (0x3B0) -- a NULL tileset can never
+                                          equal a real layout's tileset pointer
+
+--- Scan totals ---
+  layouts parsed            : 1043
+  maps parsed               : 1194
+  warp events found         : 3395
+  warp events resolved      : 3387
+  warps out of map bounds   : 8
+  other unresolvable warps  : 0
+
+  ANIMATED-DOOR warps       : 487
+    LIVE  (table row match) : 487
+    DEAD  (no match)        : 0
+
+--- A few LIVE doors (proof the matching actually matches) ---
+  AbandonedShip_Corridors_1F             ( 14,  9)  metatile 0x22B  matched row tileset gTileset_InsideShip
+  AbandonedShip_HiddenFloorRooms         (  6,  1)  metatile 0x297  matched row tileset gTileset_InsideShip
+  AzaleaTown                             ( 19, 11)  metatile 0x03D  matched row tileset gTileset_Johto_South
+  AzaleaTown                             ( 31, 15)  metatile 0x062  matched row tileset gTileset_Johto_South
+  AzaleaTown                             ( 23, 24)  metatile 0x15B  matched row tileset gTileset_Johto_South
+  BattleFrontier_BattlePalaceCorridor    (  6,  3)  metatile 0x219  matched row tileset gTileset_BattlePalace
+  BattleFrontier_BattleTowerLobby        (  6,  1)  metatile 0x2C3  matched row tileset gTileset_BattleTowerInner
+  BattleFrontier_OutsideEast             ( 16, 14)  metatile 0x329  matched row tileset gTileset_BattleFrontierOutsideEast
+
+==============================================================================
+DEAD ANIMATED DOORS: 0
+==============================================================================
+TOTAL DEAD ANIMATED DOORS: 0
+TOTAL LIVE ANIMATED DOORS: 487
+TOTAL ANIMATED-DOOR WARPS: 487
+
+--- Warps outside their map's bounds (skipped, not counted) ---
+  BattleFrontier_BattleDomeCorridor      (  6,  8)  layout BattleFrontier_BattleDomeCorridor_Layout: out of bounds (map is 48x7)
+  BattleFrontier_BattleDomeCorridor      (  7,  8)  layout BattleFrontier_BattleDomeCorridor_Layout: out of bounds (map is 48x7)
+  BattleFrontier_BattleDomePreBattleRoom (  6,  8)  layout BattleFrontier_BattleDomePreBattleRoom_Layout: out of bounds (map is 9x8)
+  BattleFrontier_BattleDomePreBattleRoom (  7,  8)  layout BattleFrontier_BattleDomePreBattleRoom_Layout: out of bounds (map is 9x8)
+  SlateportCity                          ( 40,  7)  layout SlateportCity_Layout: out of bounds (map is 40x60)
+  SlateportCity_Harbor                   ( 19, 15)  layout Harbor_Layout: out of bounds (map is 24x15)
+  SlateportCity_Harbor                   ( 20, 15)  layout Harbor_Layout: out of bounds (map is 24x15)
+  TinTower_8F                            ( -1, 10)  layout TinTower_8F_Layout: out of bounds (map is 22x18)
+
+--- Map art vs the VRAM window the door animation borrows ---
+  window is 8 tiles at 1016, or 16 at 1008 for a size-2 row on a non-FRLG/Johto layout
+  maps with a live animated door : 183   widest window any of them opens: 1016-1023
+  none -- no metatile placed on a door map draws from that map's window
+
+python3 Testing/ValidateTilesetPalettes.py
+==============================================================================
+TILESET PALETTE ARRAY BOUNDS
+repo root: /private/tmp/pkmn-world-bw-336
+==============================================================================
+
+--- Derived constants (read from the tree, not assumed) ---
+  NUM_PALS_IN_PRIMARY       : 6 (Emerald layouts)        include/fieldmap.h
+  NUM_PALS_IN_PRIMARY_FRLG  : 7 (FRLG + Johto layouts)   include/fieldmap.h
+  NUM_PALS_TOTAL            : 13                          include/fieldmap.h
+  PALETTES_MAP              : 0x00001FFF                include/palette.h
+  alt-palette index         : (i + 9) % 16               src/overworld.c UpdateAltBgPalettes
+  blend mask after ^(1<<0)  : 0x00001FFE -> palettes 1..12 may blend
+  primary-count selection   : GetNumPalsInPrimary() = (isFrlg || isJohto) ? 7 : 6
+  layout_version -> regime  : frlg/johto = FRLG regime, everything else = Emerald (tools/mapjson/mapjson.cpp)
+
+--- Bounds these imply ---
+  primary      : >= 7 rows -- the loader reads 0..6. Held at the FRLG/Johto
+                 count for EVERY primary, because pairing one into a Johto
+                 layout is a one-line layouts.json edit and that edit must
+                 not be able to create a silent overread.
+  secondary    : >= 13 rows -- the loader reads 6..12 (Emerald) or 7..12
+                 (FRLG/Johto). The START moves with the regime, the END does
+                 not, so 13 is the flat bound. NOT 16, and not row 15.
+  swapPalettes : whatever (i + 9) % 16 reaches for the bits actually set,
+                 up to all 16 rows. 0 tileset(s) set it today.
+
+--- Population ---
+  tilesets declared            : 203  (10 primary, 193 secondary)
+  distinct palette arrays      : 203
+  arrays reached by a tileset  : 202
+  tilesets with swapPalettes!=0: 0
+  tilesets on a 13-row array   : 55
+  tilesets on a 16-row array   : 148
+  arrays no tileset points at  : 1 -> gTilesetPalettes_Building
+
+==============================================================================
+PASS: all 203 tileset(s) declare enough palette rows
+==============================================================================
+  primaries checked at   >= 7 rows : 10 ok
+  secondaries checked at >= 13 rows : 193 ok
+  swapPalettes arms evaluated       : 0
+  (rows 13..15 exist only for the UpdateAltBgPalettes alternate-palette blend;
+   the loaders stop at row 12 -- see issue #94, whose premise that they copy
+   7..15 was wrong)
+python3 Testing/ValidateCelioGifts.py
+OK — Celio first gifts: Meteorite is checked, later talk can re-offer, Sevii map flag is not set from the cutscene parent.
+python3 Testing/ValidateGreedyGifts.py
+PASS: independent Eevee receipt flags; failed delivery and Goldenrod entry preserve eligibility
+OK — Dojo and Mt. Moon gifts are per-slot, Cinnabar/Fuchsia follow both fossils, starters stay exclusive.
+python3 Testing/ValidateRegionMap.py
+region_map_layout.h: 2 mismatches
+region_map_layout_johto.h: 1 mismatches
+region_map_layout_kanto.h: 2 mismatches
+region_map_layout_sevii123.h: 1 mismatches
+region_map_layout_sevii45.h: 1 mismatches
+region_map_layout_sevii67.h: 0 mismatches
+python3 Testing/ValidateLanceMultiBattle.py
+PASS: Rocket HQ uses explicit trainers and the standard multi-battle party lifecycle

@@ -1,0 +1,23 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  seeded: gBattlersCount=2
+  [PASS] a debug battle started
+  [PASS] gLevelUpStartLevels is clear at the start of a battle -- non-zero slots=0
+  [PASS] the debug party has Pokemon in it -- count=1
+  [PASS] party filled to six for the layout check -- count=6
+  B_WIN_MSG bg=0 base=0x090 26x4 tiles at 0x06001200 digest=0xB7E524D1
+  shot LevelUpSummary_1_seeded_box
+  [PASS] the summary box comes up and waits for a press -- state=3
+  B_WIN_MSG bg=0 base=0x090 26x4 tiles at 0x06001200 digest=0x69BB9B82
+  [PASS] the summary printed its own line over the battle-end text -- baseline=0xB7E524D1 final=0x69BB9B82
+  [PASS] the message line actually rendered glyphs -- fg(idx1)=283 shadow(idx6)=352 bg(idx15)=6021
+  [PASS] the message line is drawn in its own colours, not the box's -- illegal none
+  [PASS] the summary closes on a button press -- state=5
+  [PASS] field control returns after the summary
+  control: gBattlersCount=2
+  [PASS] a second debug battle started
+  B_WIN_MSG bg=0 base=0x090 26x4 tiles at 0x06001200 digest=0xB7E524D1
+  shot LevelUpSummary_2_control_nobox
+  [PASS] no summary box when nothing levelled up -- state=5
+  [PASS] field control returns without a summary
+VERDICT LevelUpSummary: 13/13 PASS

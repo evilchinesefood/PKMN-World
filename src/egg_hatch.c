@@ -37,6 +37,8 @@
 #include "trade.h"
 #include "data.h"
 #include "battle.h" // to get rid of later
+#include "bw_battle_ui.h"
+#include "config/bw_battle_ui.h"
 #include "constants/rgb.h"
 #include "party_menu.h"
 
@@ -536,9 +538,9 @@ static void CB2_LoadEggHatch(void)
         gMain.state++;
         break;
     case 2:
-        DecompressAndLoadBgGfxUsingHeap(0, gBattleTextboxTiles, 0, 0, 0);
-        CopyToBgTilemapBuffer(0, gBattleTextboxTilemap, 0, 0);
-        LoadPalette(gBattleTextboxPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
+        DecompressAndLoadBgGfxUsingHeap(0, BattleUI_GetTextboxTiles(), 0, 0, 0);
+        CopyToBgTilemapBuffer(0, BattleUI_GetTextboxTilemap(), 0, 0);
+        LoadPalette(BattleUI_GetTextboxPalette(), BG_PLTT_ID(0), PLTT_SIZE_4BPP);
         gMain.state++;
         break;
     case 3:
@@ -963,8 +965,8 @@ static void EggHatchPrintMessage(u8 windowId, u8 *string, u8 x, u8 y, u8 speed)
 {
     FillWindowPixelBuffer(windowId, PIXEL_FILL(15));
     sEggHatchData->textColor[0] = 0;
-    sEggHatchData->textColor[1] = 5;
-    sEggHatchData->textColor[2] = 6;
+    sEggHatchData->textColor[1] = (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX) ? 1 : 5;
+    sEggHatchData->textColor[2] = (BW_BATTLE_UI && BW_BATTLE_UI_TEXTBOX) ? 9 : 6;
     AddTextPrinterParameterized4(windowId, FONT_NORMAL, x, y, 0, 0, sEggHatchData->textColor, speed, string);
 }
 

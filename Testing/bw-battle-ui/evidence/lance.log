@@ -1,0 +1,20 @@
+suite : /private/tmp/pkmn-world-bw-336/Testing/lua/LanceMultiBattle.lua
+rom   : /private/tmp/pkmn-world-bw-336/pokemonworld.gba
+md5   : 502779B9113688290EBBB8E3BA16541C
+out   : /tmp/pkmn-world-336-lance-final
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP rocket_hq ok (3,21)
+  [PASS] warp to Rocket HQ B2F
+  [PASS] four battlers initialized
+  [PASS] Ariana opens with Arbok
+  [PASS] Lance opens with Dragonite
+  [PASS] Grunt opens with his existing Golbat
+  [PASS] Lance remains initialized after trainer intro
+  [PASS] trainer intro did not assert
+  shot LanceMultiBattle_1_battle_intro
+VERDICT LanceMultiBattle: 7/7 PASS
+---
+exit code: 0

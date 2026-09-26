@@ -1,0 +1,15 @@
+healthbox: 6/6 PASS
+preview: 40/40 PASS
+capture: 7/7 PASS
+bagthrow: 3/3 PASS
+gimmicks: 10/10 PASS
+catching: 14/14 PASS
+shared: 11/11 PASS
+pressure: 12/12 PASS
+flows: 13/13 PASS
+turns: 8/8 PASS
+palettes: 33/33 PASS
+save: 3/3 PASS
+move_info: 5/5 PASS
+motion: 5/5 PASS
+regression: 344/344 PASS

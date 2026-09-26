@@ -1,0 +1,70 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] player is free before the debug work
+  [PASS] Set Party published a non-empty party -- count=1
+  shot CatchTutorial_1_after_set_party
+  WARP viridian ok (26,27)
+  [PASS] on Viridian City -- grp=37 map=1
+  [PASS] gCurrentRegion is Kanto -- region=1
+  shot CatchTutorial_2_viridian_arrival
+  viridian arrival (26,27); pathing west then north
+  after route (22,8) ow=true
+  [PASS] Kanto catch tutorial battle started -- started=true flags=0x204 region=1
+  [PASS] region is still Kanto in the Old Man battle -- region=1
+  shot CatchTutorial_3_kanto_tutorial_start
+  [kanto text]
+  [kanto text] Weedle
+  shot CatchTutorial_4_kanto_weedle
+  [kanto text] You encountered a wild Weedle!
+  [kanto text] What will the | old man do?
+  shot CatchTutorial_5_kanto_old_man_line
+  [kanto text] Theoldman used PokeBall!
+  shot CatchTutorial_6_kanto_used_ball
+  [kanto text] Gotcha! Weedle was caught!
+  shot CatchTutorial_7_kanto_gotcha
+  shot CatchTutorial_8_kanto_end
+  kanto blob:                                                                                                                                                                                                          || WEEDLE || YOU ENCOUNTERED A WILD WEEDLE! || WHAT WILL THE
+OLD MAN DO? || THEOLDMAN USED POKEBALL! || GOTCHA! WEEDLE WAS CAUGHT!
+  [PASS] kanto text names the old man --
+  [PASS] kanto text names WEEDLE (StartOldManTutorialBattle) --
+  [PASS] kanto_text_has_no_WALLY --                                                                                                                                                                                                          || WEEDLE || YOU ENCOUNTERED A WILD WEE
+  shot CatchTutorial_9_after_kanto_tutorial
+  WARP petalburg ok (10,20)
+  [PASS] on Petalburg City -- grp=0 map=0
+  [PASS] gCurrentRegion is Hoenn for the Wally control -- region=3
+  shot CatchTutorial_10_petalburg_arrival
+  shot CatchTutorial_11_wally_tutorial_cursor
+  [PASS] Wally catch tutorial battle started -- started=true flags=0x204 region=3
+  shot CatchTutorial_12_wally_tutorial_start
+  [wally text] Ralts
+  shot CatchTutorial_13_wally_ralts
+  [wally text] You encountered a wild Ralts!
+  [wally text] Go! Zigzagoon!
+  [wally text] Zigzagoon
+  [wally text] It traced Zigzagoons Gluttony!
+  [wally text] What will | WALLY do?
+  shot CatchTutorial_14_wally_wally_line
+  [wally text] Zigzagoon used Tackle!
+  [wally text] The wild Ralts used DisarmingVoice!
+  [wally text] 2224
+  [wally text] 2024
+  [wally text] 1824
+  [wally text] The wild Ralts used DoubleTeam!
+  [wally text] The wild Raltss evasiveness rose!
+  [wally text] Zigzagoon, thats enough! Come back!
+  [wally text] You throw a Ball now, right? | I Ill do my best!
+  [wally text] WALLY used PokeBall!
+  shot CatchTutorial_15_wally_used_ball
+  [wally text] Gotcha! Ralts was caught!
+  shot CatchTutorial_16_wally_gotcha
+  shot CatchTutorial_17_wally_end
+  wally blob: RALTS || YOU ENCOUNTERED A WILD RALTS! || GO! ZIGZAGOON! || ZIGZAGOON || IT TRACED ZIGZAGOONS GLUTTONY! || WHAT WILL
+WALLY DO? || ZIGZAGOON USED TACKLE! || THE WILD RALTS USED DISARMINGVOICE! || 2224 || 2024 || 1824 || THE WILD RALTS USED DOUBLETEAM! || THE WILD RALTSS EVASIVENESS ROSE! || ZIGZAGOON, THATS ENOUGH! COME BACK! || YOU THROW A BALL NOW, RIGHT?
+I ILL DO MY BEST! || WALLY USED POKEBALL!
+  [PASS] wally text names WALLY -- RALTS || YOU ENCOUNTERED A WILD RALTS! || GO! ZIGZAGOON! || ZIGZAGOON || IT TRACED ZIGZAGOONS GLUTTONY! || WHAT WILL
+WALLY DO? || ZIGZAGOON USED TACKLE! || THE WILD RALTS USED DISA
+  [PASS] wally text names RALTS (StartWallyTutorialBattle) -- RALTS || YOU ENCOUNTERED A WILD RALTS! || GO! ZIGZAGOON! || ZIGZAGOON || IT TRACED ZIGZAGOONS GLUTTONY! || WHAT WILL
+WALLY DO? || ZIGZAGOON USED TACKLE! || THE WILD RALTS USED DISA
+  [PASS] wally_text_has_no_old_man -- RALTS || YOU ENCOUNTERED A WILD RALTS! || GO! ZIGZAGOON! || ZIGZAGOON || IT TRACED ZIGZAGOONS GLUTTONY! || WHAT WILL
+WALLY DO? || ZIGZAGOON USED TACKLE! || THE WILD RALTS USED DISARMINGVOICE! || 2224 || 2024 || 1824 || THE WILD RALTS USED D
+VERDICT CatchTutorial: 15/15 PASS

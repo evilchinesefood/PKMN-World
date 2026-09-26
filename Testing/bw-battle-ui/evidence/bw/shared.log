@@ -1,0 +1,81 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] battle party owns input
+  shot BWShared_1_battle_party
+  shot BWShared_2_party_context
+  [PASS] battle Summary opened
+  shot BWShared_3_summary
+  shot BWShared_4_summary_page_1
+  shot BWShared_5_summary_page_2
+  shot BWShared_6_summary_page_3
+  shot BWShared_7_summary_page_4
+  shot BWShared_8_summary_page_5
+  [PASS] Summary returned to party
+  [PASS] party returned to battle
+  shot BWShared_9_party_return
+  shot BWShared_10_hatch_012
+  shot BWShared_11_hatch_024
+  shot BWShared_12_hatch_036
+  shot BWShared_13_hatch_048
+  shot BWShared_14_hatch_060
+  shot BWShared_15_hatch_072
+  shot BWShared_16_hatch_084
+  shot BWShared_17_hatch_096
+  shot BWShared_18_hatch_108
+  shot BWShared_19_hatch_120
+  shot BWShared_20_hatch_message
+  shot BWShared_21_hatch_132
+  shot BWShared_22_hatch_144
+  shot BWShared_23_hatch_156
+  shot BWShared_24_hatch_168
+  shot BWShared_25_hatch_180
+  shot BWShared_26_hatch_192
+  shot BWShared_27_hatch_204
+  shot BWShared_28_hatch_216
+  shot BWShared_29_hatch_228
+  shot BWShared_30_hatch_240
+  shot BWShared_31_hatch_252
+  shot BWShared_32_hatch_264
+  shot BWShared_33_hatch_276
+  shot BWShared_34_hatch_288
+  shot BWShared_35_hatch_300
+  shot BWShared_36_hatch_312
+  shot BWShared_37_hatch_324
+  shot BWShared_38_hatch_336
+  shot BWShared_39_hatch_348
+  shot BWShared_40_hatch_360
+  shot BWShared_41_hatch_372
+  shot BWShared_42_hatch_384
+  shot BWShared_43_hatch_396
+  [PASS] actual hatch callback ran
+  [PASS] hatch returned to field
+  [PASS] hatched Eevee is not an egg
+  shot BWShared_44_trade_0024
+  shot BWShared_45_trade_0048
+  shot BWShared_46_trade_0072
+  shot BWShared_47_trade_0096
+  shot BWShared_48_trade_0120
+  shot BWShared_49_trade_0144
+  shot BWShared_50_trade_0168
+  shot BWShared_51_trade_0192
+  shot BWShared_52_trade_0216
+  shot BWShared_53_trade_0240
+  shot BWShared_54_trade_0264
+  shot BWShared_55_trade_0288
+  shot BWShared_56_trade_0312
+  shot BWShared_57_trade_0336
+  shot BWShared_58_trade_0360
+  shot BWShared_59_trade_0384
+  shot BWShared_60_trade_0408
+  shot BWShared_61_trade_0432
+  shot BWShared_62_trade_0456
+  shot BWShared_63_trade_0480
+  shot BWShared_64_trade_0504
+  shot BWShared_65_trade_0528
+  shot BWShared_66_trade_0552
+  [PASS] actual trade animation ran
+  [PASS] trade returned to field
+  [PASS] trade received Magikarp
+  [PASS] battle reopens after shared scenes
+  shot BWShared_67_battle_after_shared
+VERDICT BWShared: 11/11 PASS

@@ -1,0 +1,7 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] synthetic save written -- status=1
+BOOTED grp=0 map=16 pos=(9,9)
+  [PASS] synthetic save reloads
+  [PASS] prepared party persisted
+VERDICT BWSave: 3/3 PASS

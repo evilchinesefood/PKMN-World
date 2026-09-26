@@ -1,0 +1,17 @@
+package.path=assert(os.getenv('PW_FEATURE_LIB'))..'/?.lua;'..package.path
+local F,S,U,X,tap,hook,controller,action,exitBattle=require('bw_helpers')('BWCapture')
+F.run(function()
+ assert(F.boot(100));hook(0);hook(4,0,300);hook(1,0,600)
+ F.check('battle reaches commands',action());assert(controller('HandleInputChooseAction'))
+ F.shot('commands');tap('A',1,90)
+ F.check('Fight reaches move selection',controller('HandleInputChooseMove'));F.shot('moves')
+ tap('Down');F.shot('moves_resisted');tap('Up');tap('L');F.shot('move_details')
+ tap('L');F.check('move information returns',controller('HandleInputChooseMove'));F.shot('move_details_return')
+ tap('B');F.check('cancel reaches commands',controller('HandleInputChooseAction'))
+ F.press('R',4);F.shot('ball_shortcut');F.idle(1)
+ for i=1,160 do F.idle(3);F.shot(string.format('ball_%03d',i)) end
+ F.check('throw returns to commands',action());F.shot('ball_return')
+ F.check('exit returns to field',exitBattle());hook(2)
+ F.check('one Poke Ball consumed',F.r16(X.gSpecialVar_0x8005)==4)
+ F.finish()
+end)

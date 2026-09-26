@@ -1,0 +1,54 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] booted to the RegionHub (map group 100) -- grp=100
+== setmaplayoutindex swaps ==
+  WARP summit_day ok (10,21)
+  summit_day: (10,21) clock 14:31 timeOfDay=1 day=false night=true layout=1013
+  [PASS] summit_day_flags -- day=false night=true (want day=false)
+  [PASS] summit_day_layout -- layout=1013 want=1013 (day)
+  shot JohtoDayNightWorld_1_summit_day
+  WARP dept7f_day ok (22,5)
+  dept7f_day: (22,5) clock 14:30 timeOfDay=1 day=false night=true layout=854
+  [PASS] dept7f_day_flags -- day=false night=true (want day=false)
+  [PASS] dept7f_day_layout -- layout=854 want=854 (day)
+  shot JohtoDayNightWorld_2_dept7f_day
+  WARP summit_night ok (10,21)
+  summit_night: (10,21) clock 22:30 timeOfDay=3 day=true night=false layout=1014
+  [PASS] summit_night_flags -- day=true night=false (want day=true)
+  [PASS] summit_night_layout -- layout=1014 want=1014 (night)
+  shot JohtoDayNightWorld_3_summit_night
+  WARP dept7f_night ok (22,5)
+  dept7f_night: (22,5) clock 22:31 timeOfDay=3 day=true night=false layout=855
+  [PASS] dept7f_night_flags -- day=true night=false (want day=true)
+  [PASS] dept7f_night_layout -- layout=855 want=855 (night)
+  shot JohtoDayNightWorld_4_dept7f_night
+== Route 35 Policeman Dirk (night-only, never spawned before) ==
+  WARP dirk_night ok (17,6)
+  dirk_night: (17,6) clock 22:30 timeOfDay=3 day=true night=false layout=875
+  [PASS] dirk_night_flags -- day=true night=false (want day=true)
+    dirk_night: id255(17,6) id6(15,11) id8(20,6) id12(11,12)
+  [PASS] dirk_spawns_at_night -- local id 8 at (20,6)
+  shot JohtoDayNightWorld_5_dirk_night
+== Goldenrod Underground haircut brothers (a day/night pair) ==
+  WARP underground_night ok (12,10)
+  underground_night: (12,10) clock 22:30 timeOfDay=3 day=true night=false layout=872
+  [PASS] underground_night_flags -- day=true night=false (want day=true)
+  [PASS] underground_night_stepped_into_window -- at (12,11) after step=true
+    underground_night: id255(12,11) id4(6,16) id5(4,10) id6(4,7) id8(13,13) id12(13,12)
+  [PASS] night_brother_spawns -- CLERK at (6,16)
+  [PASS] day_brother_hidden_at_night -- local id 3 absent
+  shot JohtoDayNightWorld_6_underground_night
+  WARP dirk_day ok (17,6)
+  dirk_day: (17,6) clock 14:31 timeOfDay=1 day=false night=true layout=875
+  [PASS] dirk_day_flags -- day=false night=true (want day=false)
+    dirk_day: id255(17,6) id6(15,11) id12(11,12) id252(24,9)
+  [PASS] dirk_hidden_by_day -- local id 8 absent
+  WARP underground_day ok (12,10)
+  underground_day: (12,10) clock 14:30 timeOfDay=1 day=false night=true layout=872
+  [PASS] underground_day_flags -- day=false night=true (want day=false)
+  [PASS] underground_day_stepped_into_window -- at (12,11) after step=true
+    underground_day: id255(12,11) id5(4,10) id6(4,7) id8(13,13) id12(13,12) id3(6,20)
+  [PASS] day_brother_spawns -- WORKER_M at (6,20)
+  [PASS] night_brother_hidden_by_day -- local id 4 absent
+  shot JohtoDayNightWorld_7_underground_day
+VERDICT JohtoDayNightWorld: 21/21 PASS

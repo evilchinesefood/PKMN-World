@@ -1,0 +1,35 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] no crash screen (boot) -- clear
+  [PASS] vblank advancing (boot) -- vblank 6807 -> 6815 cb2=0x08191EA8 ow=true
+  WARP gym ok (11,44)
+  [PASS] on Azalea Gym -- grp=81 map=0
+  shot AzaleaGymRide_1_gym_arrival
+  [PASS] no crash screen (gym_arrival) -- clear
+  [PASS] vblank advancing (gym_arrival) -- vblank 7774 -> 7782 cb2=0x08191EA8 ow=true
+  templates: t0 id=1 (12,42) gfx=312; t1 id=2 (11,6) gfx=391; t2 id=3 (5,26) gfx=6; t3 id=4 (6,26) gfx=6; t4 id=5 (17,26) gfx=36; t5 id=6 (17,5) gfx=36; t6 id=7 (6,6) gfx=36; t7 id=8 (6,33) ARIADOS; t8 id=9 (11,33) ARIADOS; t9 id=10 (16,33) ARIADOS; t10 id=11 (6,17) ARIADOS; t11 id=12 (11,17) ARIADOS; t12 id=13 (16,17) ARIADOS
+  [PASS] six ARIADOS templates loaded (OBJ_EVENT_MON | SPECIES_ARIADOS) -- found 6/6
+  [PASS] no gym carrier template is OBJ_EVENT_GFX_LASS -- none
+  --- gObjectEvents arrival (n=2) ---
+    slot00 localId=255 (11,44) gfx=0 vis=yes
+    slot01 localId=  1 (12,42) gfx=312 vis=yes
+  [PASS] no LASS sprite spawned as a ride carrier -- lass=0
+  spawned ARIADOS on arrival: 0 (expected 0; hide flags set on transition)
+  gym warp landing (11,44); trigger 2 is (11,39)
+  [PASS] stepped onto trigger 2 (11,39) -- at (11,39)
+  shot AzaleaGymRide_2_on_trigger
+  --- gObjectEvents ride_t40 (n=3) ---
+    slot00 localId=255 (11,39) gfx=0 vis=yes
+    slot01 localId=  1 (12,42) gfx=312 vis=yes
+    slot02 localId=  9 (11,38) ARIADOS vis=yes
+  shot AzaleaGymRide_3_ride_mid
+  --- gObjectEvents ride_end (n=3) ---
+    slot00 localId=255 (16,27) gfx=0 vis=yes
+    slot02 localId=  9 (16,28) ARIADOS vis=yes
+    slot05 localId=  5 (17,26) gfx=36 vis=yes
+  shot AzaleaGymRide_4_ride_end
+  [PASS] no crash screen (ride_end) -- clear
+  [PASS] vblank advancing (ride_end) -- vblank 8143 -> 8151 cb2=0x08191EA8 ow=true
+  [PASS] ride carrier that spawned was ARIADOS (not LASS) -- ariados=true lass=false
+  [PASS] player finished the trigger-2 ride at (16,27) -- (16,27) vblank +274
+VERDICT AzaleaGymRide: 13/13 PASS

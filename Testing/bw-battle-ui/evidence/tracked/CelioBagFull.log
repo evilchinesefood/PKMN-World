@@ -1,0 +1,20 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Key Items pocket filled (99 occupied, none of the three gifts) -- filled=true met=0 tri=0 map=0 cap=99
+  WARP oneisland_pc ok (14,7)
+  [PASS] on One Island Pokemon Center 1F -- grp=64 map=0
+  shot CelioBagFull_1_arrival
+  shot CelioBagFull_2_after_cutscene
+  [PASS] scene advanced to 1 (cutscene cannot replay) -- scene=1
+  [PASS] Meteorite not taken into a full pocket -- count=0
+  [PASS] Tri Pass not taken into a full pocket -- count=0
+  [PASS] Town Map not taken into a full pocket -- count=0
+  [PASS] emptied Key Items pocket for retry
+  [PASS] pocket empty before retry
+  [PASS] reached Celio's talk tile (15,7) -- pos=(15,7)
+  shot CelioBagFull_3_before_retry
+  shot CelioBagFull_4_after_retry
+  [PASS] Meteorite received on Celio retry -- count=1
+  [PASS] Tri Pass received on Celio retry -- count=1
+  [PASS] Town Map received on Celio retry -- count=1
+VERDICT CelioBagFull: 12/12 PASS

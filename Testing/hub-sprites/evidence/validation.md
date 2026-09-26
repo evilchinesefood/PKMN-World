@@ -2,11 +2,13 @@
 
 ## Scope and source
 
-- Game source: `388338478e17989b7428bbce07a7776ab23db9d3`.
+- Game source: `13478c088b0dcb2a28c3c453ed6eac0e8040364b`.
 - Integrated master: `ca5c9d2c99b183a3c52cb036102c6f5b2ef15165` (PR #340 merged after its follow-up review and all CI checks passed). The subsequent branch merge changes no gameplay inputs relative to the tested source.
 - Before repository source: `732f15cec3f8459da98c4d7076e72b084c4abda4`; its ROM was compiled from `05b37db1a9b1dd8efda95233e4a61822680bba7b`. The intervening commits only add/fix evidence and documentation.
 - Parsed map comparison proves exactly two changed `graphics_id` fields, events 12 and 13. All other map fields, fourteen events, scripts, positions, elevations, flags and movement types are identical. No global graphics definition or asset was edited.
 - ROM/save hashes, fixture and suite hashes: [delivery.json](delivery.json). Full fixture provenance: [baseline](baseline-fixture.json), [feature](feature-fixture.json).
+
+The clean committed build stamp is `v1.6-31-g13478c088b`, verified against the ROM's encoded text. [Binary comparison](rom-byte-diff.json) finds exactly sixteen changed bytes: four bytes for the two graphics IDs and twelve version-text bytes. The original artwork change is commit `388338478e17989b7428bbce07a7776ab23db9d3`. The delivery was rebuilt after committing so its visible version matches its source, then all checks below were rerun on that final binary.
 
 ## Results
 

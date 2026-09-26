@@ -1,7 +1,7 @@
-sweep : 2026-09-26T20:00:57Z
+sweep : 2026-09-26T20:29:27Z
 rom   : /private/tmp/pkmn-world-hub-sprites-330/pokemonworld.gba
-md5   : 7344A7CFEFD0E8C6E360245C2FBD47C0
-out   : /tmp/pkmn-world-330-tracked
+md5   : 5B63F9A27407F27A0AE5A4F0EBEFCFA7
+out   : /tmp/pkmn-world-330-clean-tracked
 
 SmokeBoot                rc=0   VERDICT SmokeBoot: 10/10 PASS
 WorldTitle               rc=0   VERDICT WorldTitle: 37/37 PASS
@@ -58,4 +58,4 @@ VerifyOwnerSave          OPTIONAL - no pokemonworld.sav on this machine, not cou
 --- sentinel audit (a .PASS only counts if this sweep wrote it, against THIS rom) ---
 
 green 50 / 50 expected
-SWEEP OK - every expected suite produced a fresh PASS stamped rom=7344A7CFEFD0E8C6E360245C2FBD47C0
+SWEEP OK - every expected suite produced a fresh PASS stamped rom=5B63F9A27407F27A0AE5A4F0EBEFCFA7

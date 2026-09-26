@@ -1,0 +1,104 @@
+{
+  "before_sha256": "4e144fe18d7ebb5c5466dd5ad03e9f76af5a27c31493db5034469dfcb532a95e",
+  "after_sha256": "c1ab590a6adba9f2c051533fdf752f02f681ba58c54487d6435682c3372bf843",
+  "after_build_stamp": "v1.6-31-g13478c088b",
+  "build_stamp_offset": "0x7d2818",
+  "changes": [
+    {
+      "offset": "0x7d281d",
+      "before": 163,
+      "after": 164,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d281e",
+      "before": 166,
+      "after": 162,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2821",
+      "before": 161,
+      "after": 162,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2822",
+      "before": 166,
+      "after": 164,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2823",
+      "before": 214,
+      "after": 165,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2824",
+      "before": 164,
+      "after": 168,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2825",
+      "before": 168,
+      "after": 169,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2826",
+      "before": 216,
+      "after": 215,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2827",
+      "before": 214,
+      "after": 161,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2828",
+      "before": 162,
+      "after": 169,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d2829",
+      "before": 213,
+      "after": 169,
+      "build_stamp": true
+    },
+    {
+      "offset": "0x7d282a",
+      "before": 170,
+      "after": 214,
+      "build_stamp": true
+    },
+    {
+      "offset": "0xeeea9d",
+      "before": 49,
+      "after": 76,
+      "build_stamp": false
+    },
+    {
+      "offset": "0xeeea9e",
+      "before": 0,
+      "after": 1,
+      "build_stamp": false
+    },
+    {
+      "offset": "0xeeeab5",
+      "before": 48,
+      "after": 75,
+      "build_stamp": false
+    },
+    {
+      "offset": "0xeeeab6",
+      "before": 0,
+      "after": 1,
+      "build_stamp": false
+    }
+  ]
+}

@@ -41,13 +41,13 @@ PW_OUT=/tmp/hub-runs/delivery Testing/mgba-run.sh \
   /tmp/hub-runs/save/VisualReview.sav
 ```
 
-For the baseline, build `732f15cec3f8459da98c4d7076e72b084c4abda4` in a second worktree. Run this branch's `build_fixture.py` with `--repo` pointing at that worktree, then run this branch's `HubSpritesComparison.lua` against its fixture with `PW_HUB_AFTER=0` and `--out /tmp/hub-runs/before`. This omits the new-FRLG assertions while retaining follower/palette/resource checks. Keep both fixture manifests alongside the evidence.
+For the baseline, build `05b37db1a9b1dd8efda95233e4a61822680bba7b` in a second worktree. Run this branch's `build_fixture.py` with `--repo` pointing at that worktree, then run this branch's `HubSpritesComparison.lua` against its fixture with `PW_HUB_AFTER=0` and `--out /tmp/hub-runs/before`. This omits the new-FRLG assertions while retaining follower/palette/resource checks. Keep both fixture manifests alongside the evidence.
 
 ```sh
 python3 Testing/hub-sprites/render_review.py \
   --runs /tmp/hub-runs --out /tmp/hub-review \
-  --before-source 732f15cec3f8459da98c4d7076e72b084c4abda4 \
-  --after-source 388338478e17989b7428bbce07a7776ab23db9d3
+  --before-source 05b37db1a9b1dd8efda95233e4a61822680bba7b \
+  --after-source 13478c088b0dcb2a28c3c453ed6eac0e8040364b
 ```
 
 Supply the actual source IDs if using different revisions. The renderer requires both labels, checks complete passing run verdicts, rejects ambiguous/missing screenshots and records media hashes. `capture-sources.json` records the chosen labels and all eleven matched pixel comparisons.

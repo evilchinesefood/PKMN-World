@@ -6,6 +6,7 @@
 #include "battle_message.h"
 #include "battle_setup.h"
 #include "battle_environment.h"
+#include "battle_presentation.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -31,7 +32,12 @@
 #include "constants/trainers.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_partner.h"
+#include "constants/maps.h"
 #include "data/battle_environment.h"
+
+static EWRAM_DATA struct BattlePresentation sBattlePresentation = {0};
+static EWRAM_DATA bool8 sBattlePresentationCaptured = FALSE;
+static const struct BattlePresentation *GetBattlePresentation(void);
 
 // .rodata
 
@@ -1033,25 +1039,25 @@ static u8 GetBattleEnvironmentByMapScene(u8 mapBattleScene)
 }
 
 // Loads the initial battle environment.
-static void LoadBattleEnvironmentGfx(u16 environment)
+static void LoadBattleEnvironmentGfx(void)
 {
-    if (environment >= NELEMS(gBattleEnvironmentInfo))
-        environment = BATTLE_ENVIRONMENT_PLAIN;  // If higher than the number of entries in gBattleEnvironmentInfo, use the default.
+    const struct BattlePresentation *presentation = GetBattlePresentation();
+    u16 palette[BATTLE_PRESENTATION_COLORS];
+    BuildBattlePresentationPalette(presentation, palette);
     // Copy to bg3
-    DecompressDataWithHeaderVram(gBattleEnvironmentInfo[environment].background.tileset, (void *)(BG_CHAR_ADDR(2)));
-    DecompressDataWithHeaderVram(gBattleEnvironmentInfo[environment].background.tilemap, (void *)(BG_SCREEN_ADDR(26)));
-    LoadPalette(gBattleEnvironmentInfo[environment].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+    DecompressDataWithHeaderVram(presentation->background.tileset, (void *)(BG_CHAR_ADDR(2)));
+    DecompressDataWithHeaderVram(presentation->background.tilemap, (void *)(BG_SCREEN_ADDR(26)));
+    LoadPalette(palette, BG_PLTT_ID(2), sizeof(palette));
 }
 
 // Loads the entry associated with the battle environment.
 // This can be the grass moving on the screen at the start of a wild encounter in tall grass.
-static void LoadBattleEnvironmentEntryGfx(u16 environment)
+static void LoadBattleEnvironmentEntryGfx(void)
 {
-    if (environment >= NELEMS(gBattleEnvironmentInfo))
-        environment = BATTLE_ENVIRONMENT_PLAIN;
+    const struct BattlePresentation *presentation = GetBattlePresentation();
     // Copy to bg1
-    DecompressDataWithHeaderVram(gBattleEnvironmentInfo[environment].entry.tileset, (void *)BG_CHAR_ADDR(1));
-    DecompressDataWithHeaderVram(gBattleEnvironmentInfo[environment].entry.tilemap, (void *)BG_SCREEN_ADDR(28));
+    DecompressDataWithHeaderVram(presentation->entry.tileset, (void *)BG_CHAR_ADDR(1));
+    DecompressDataWithHeaderVram(presentation->entry.tilemap, (void *)BG_SCREEN_ADDR(28));
 }
 
 static u8 GetBattleEnvironmentOverride(void)
@@ -1059,6 +1065,7 @@ static u8 GetBattleEnvironmentOverride(void)
     u8 battleScene = GetCurrentMapBattleScene();
 
     if (TestRunner_Battle_GetForcedEnvironment()
+     && gBattleEnvironment < BATTLE_ENVIRONMENT_COUNT
      && gBattleEnvironmentInfo[gBattleEnvironment].background.tilemap
      && gBattleEnvironmentInfo[gBattleEnvironment].background.tileset)
     {
@@ -1093,6 +1100,61 @@ static u8 GetBattleEnvironmentOverride(void)
         return gBattleEnvironment;
 
     return GetBattleEnvironmentByMapScene(battleScene);
+}
+
+static void ResolveCurrentBattlePresentation(bool32 useFieldColors)
+{
+    u16 environment = GetBattleEnvironmentOverride();
+    u16 entryEnvironment = gBattleEnvironment;
+    bool32 forced = TestRunner_Battle_GetForcedEnvironment() != 0;
+    bool32 forcedGraphics = forced && gBattleEnvironment < BATTLE_ENVIRONMENT_COUNT
+        && gBattleEnvironmentInfo[gBattleEnvironment].background.tileset != NULL
+        && gBattleEnvironmentInfo[gBattleEnvironment].background.tilemap != NULL;
+
+    // Retain the original entry-art precedence independently of the background.
+    if (!forcedGraphics)
+    {
+        if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
+            entryEnvironment = BATTLE_ENVIRONMENT_BUILDING;
+        else if ((gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
+              || environment == BATTLE_ENVIRONMENT_LEADER || environment == BATTLE_ENVIRONMENT_CHAMPION)
+            entryEnvironment = environment;
+    }
+    struct BattlePresentationContext context = {
+        .environment = environment,
+        .entryEnvironment = entryEnvironment,
+        .introEnvironment = gBattleEnvironment,
+        .map = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum,
+        .mapType = gMapHeader.mapType,
+        .battleTypeFlags = gBattleTypeFlags,
+        .preserveOriginal = !useFieldColors || forced || GetCurrentMapBattleScene() != MAP_BATTLE_SCENE_NORMAL,
+        .time = gTimeBlend,
+    };
+    ResolveBattlePresentation(&context, &sBattlePresentation);
+}
+
+void CaptureBattlePresentation(void)
+{
+    ResolveCurrentBattlePresentation(TRUE);
+    sBattlePresentationCaptured = TRUE;
+}
+
+void ResetBattlePresentation(void)
+{
+    sBattlePresentationCaptured = FALSE;
+}
+
+u8 GetBattleIntroVisualEnvironment(u8 fallback)
+{
+    return sBattlePresentationCaptured ? sBattlePresentation.introEnvironment : fallback;
+}
+
+static const struct BattlePresentation *GetBattlePresentation(void)
+{
+    // Evolution and other nonbattle consumers keep their original presentation.
+    if (!sBattlePresentationCaptured)
+        ResolveCurrentBattlePresentation(FALSE);
+    return &sBattlePresentation;
 }
 
 void BattleInitBgsAndWindows(void)
@@ -1149,7 +1211,7 @@ void LoadBattleMenuWindowGfx(void)
 
 void DrawMainBattleBackground(void)
 {
-    LoadBattleEnvironmentGfx(GetBattleEnvironmentOverride());
+    LoadBattleEnvironmentGfx();
 }
 
 void LoadBattleTextboxAndBackground(void)
@@ -1442,14 +1504,15 @@ void DrawBattleEntryBackground(void)
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
     {
         if (TestRunner_Battle_GetForcedEnvironment()
+         && gBattleEnvironment < BATTLE_ENVIRONMENT_COUNT
          && gBattleEnvironmentInfo[gBattleEnvironment].background.tilemap
          && gBattleEnvironmentInfo[gBattleEnvironment].background.tileset)
         {
-            LoadBattleEnvironmentEntryGfx(gBattleEnvironment);
+            LoadBattleEnvironmentEntryGfx();
         }
         else if (!(gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) || gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
         {
-            LoadBattleEnvironmentEntryGfx(BATTLE_ENVIRONMENT_BUILDING);
+            LoadBattleEnvironmentEntryGfx();
         }
         else
         {
@@ -1465,7 +1528,7 @@ void DrawBattleEntryBackground(void)
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
     {
-        LoadBattleEnvironmentEntryGfx(GetBattleEnvironmentOverride());
+        LoadBattleEnvironmentEntryGfx();
     }
     else
     {
@@ -1476,18 +1539,19 @@ void DrawBattleEntryBackground(void)
              || trainerClass == TRAINER_CLASS_LEADER_JOHTO || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO
              || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
             {
-                LoadBattleEnvironmentEntryGfx(GetBattleEnvironmentOverride());
+                LoadBattleEnvironmentEntryGfx();
                 return;
             }
         }
 
-        LoadBattleEnvironmentEntryGfx(gBattleEnvironment);
+        LoadBattleEnvironmentEntryGfx();
     }
 }
 
 bool8 LoadChosenBattleElement(u8 caseId)
 {
     bool8 ret = FALSE;
+    bool32 terrainActive = B_TERRAIN_BG_CHANGE && (gFieldStatuses & STATUS_FIELD_TERRAIN_ANY);
 
     switch (caseId)
     {
@@ -1502,13 +1566,22 @@ bool8 LoadChosenBattleElement(u8 caseId)
         LoadPalette(BattleUI_GetTextboxPalette(), BG_PLTT_ID(0), 2 * PLTT_SIZE_4BPP);
         break;
     case 3:
-        DecompressDataWithHeaderVram(gBattleEnvironmentInfo[GetBattleEnvironmentOverride()].background.tileset, (void *)(BG_CHAR_ADDR(2)));
+        if (terrainActive)
+            DrawTerrainTypeBattleBackground();
+        else
+            DecompressDataWithHeaderVram(GetBattlePresentation()->background.tileset, (void *)(BG_CHAR_ADDR(2)));
         break;
     case 4:
-        DecompressDataWithHeaderVram(gBattleEnvironmentInfo[GetBattleEnvironmentOverride()].background.tilemap, (void *)(BG_SCREEN_ADDR(26)));
+        if (!terrainActive)
+            DecompressDataWithHeaderVram(GetBattlePresentation()->background.tilemap, (void *)(BG_SCREEN_ADDR(26)));
         break;
     case 5:
-        LoadPalette(gBattleEnvironmentInfo[GetBattleEnvironmentOverride()].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+        if (!terrainActive)
+        {
+            u16 palette[BATTLE_PRESENTATION_COLORS];
+            BuildBattlePresentationPalette(GetBattlePresentation(), palette);
+            LoadPalette(palette, BG_PLTT_ID(2), sizeof(palette));
+        }
         break;
     case 6:
         LoadBattleMenuWindowGfx();

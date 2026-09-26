@@ -239,6 +239,7 @@ void EvolutionScene(struct Pokemon *mon, enum Species postEvoSpecies, bool32 can
     gBattle_BG3_Y = 0;
 
     gBattleEnvironment = BATTLE_ENVIRONMENT_PLAIN;
+    ResetBattlePresentation();
 
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();
@@ -345,6 +346,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     gBattle_BG3_Y = 0;
 
     gBattleEnvironment = BATTLE_ENVIRONMENT_PLAIN;
+    ResetBattlePresentation();
 
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();

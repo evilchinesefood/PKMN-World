@@ -32,6 +32,7 @@
 #include "task.h"
 #include "test_runner.h"
 #include "text.h"
+#include "text_window.h"
 #include "trainer.h"
 #include "util.h"
 #include "window.h"
@@ -1817,7 +1818,15 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
     u8 pwr_start[] = _("{CLEAR_TO 56}");
     u8 acc_start[] = _("{CLEAR_TO 108}");
     if (BW_BATTLE_UI && BW_BATTLE_UI_INPUTBOX)
-        DrawStdFrameWithCustomTileAndPalette(B_WIN_MOVE_DESCRIPTION, FALSE, 0x22, 1);
+    {
+        // Preserve World's selected (default SwSh) frame. Standard menu tile
+        // 0x21A overlaps BW move cells, so place its nine tiles after this window.
+        u16 frameTileStart = GetWindowAttribute(B_WIN_MOVE_DESCRIPTION, WINDOW_BASE_BLOCK)
+                          + GetWindowAttribute(B_WIN_MOVE_DESCRIPTION, WINDOW_WIDTH)
+                          * GetWindowAttribute(B_WIN_MOVE_DESCRIPTION, WINDOW_HEIGHT);
+        LoadUserWindowBorderGfx(B_WIN_MOVE_DESCRIPTION, frameTileStart, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
+        DrawStdFrameWithCustomTileAndPalette(B_WIN_MOVE_DESCRIPTION, FALSE, frameTileStart, STD_WINDOW_PALETTE_NUM);
+    }
     else
     {
         LoadMessageBoxAndBorderGfx();

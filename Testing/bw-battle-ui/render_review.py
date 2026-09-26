@@ -47,8 +47,9 @@ def clip(folder, pattern, name, duration):
 sections = []
 def card(title, src, text=''):
     return '<figure><img loading="lazy" src="' + src + '" alt="' + html.escape(title) + '"><figcaption><b>' + html.escape(title) + '</b><p>' + html.escape(text) + '</p></figcaption></figure>'
-def section(title, cards, text=''):
-    sections.append('<section><h2>' + html.escape(title) + '</h2><p>' + html.escape(text) + '</p><div class="grid">' + ''.join(cards) + '</div></section>')
+def section(title, cards, text='', section_id=None):
+    anchor = ' id="' + html.escape(section_id, quote=True) + '"' if section_id else ''
+    sections.append('<section' + anchor + '><h2>' + html.escape(title) + '</h2><p>' + html.escape(text) + '</p><div class="grid">' + ''.join(cards) + '</div></section>')
 def compare(name, pattern, title):
     before = one(a.before, pattern, 'before-' + name)
     after = one(a.after/'capture', pattern, name)
@@ -56,7 +57,10 @@ def compare(name, pattern, title):
 
 compare('commands', '*_commands.png', '1. Command panel')
 compare('moves', '*_moves.png', '2. Move names, PP and effectiveness')
-compare('details', '*_move_details.png', '3. L-button move information')
+section('3. L-button move information — original window preserved', [
+    card('Original World window', one(a.before, '*_move_details.png', 'before-details')),
+    card('BW with the original World window', one(a.after/'capture', '*_move_details.png', 'details'))],
+    'The existing rounded SwSh frame and text layout are retained. The move grid and healthboxes use BW.', 'move-info')
 section('Long names and unusual slots', [
     card('Complete long move names', one(a.after/'regression', '*_long_moves.png', 'long-moves')),
     card('Status, empty and zero-PP slots', one(a.after/'regression', '*_status_empty_zero_pp.png', 'special-slots')),

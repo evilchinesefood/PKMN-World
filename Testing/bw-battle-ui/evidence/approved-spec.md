@@ -1,5 +1,7 @@
 Feature: adopt Mudskipper's BW battle UI across Pokémon World
 
+Owner amendment, 2026-09-26: retain World's pre-port L-button move-information window (existing SwSh frame), as shown in review section 3's original capture. The BW battle grid and other approved components remain selected. This amendment supersedes any donor-frame interpretation for that popup in the original issue text below.
+
 ## Decision and result
 The owner selected **Mudskipper's BW battle UI** after reviewing real donor emulator captures of move selection, all four effectiveness indicators, the move-info popup, the R-button ball shortcut and a Poké Ball throw.
 

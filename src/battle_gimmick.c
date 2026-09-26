@@ -7,6 +7,7 @@
 #include "battle_z_move.h"
 #include "battle_setup.h"
 #include "battle_util.h"
+#include "bw_battle_ui.h"
 #include "item.h"
 #include "palette.h"
 #include "pokemon.h"
@@ -15,6 +16,7 @@
 #include "test_runner.h"
 
 #include "data/gimmicks.h"
+#include "config/bw_battle_ui.h"
 
 // Populates gBattleStruct->gimmick.usableGimmick for each battler.
 void AssignUsableGimmicks(void)
@@ -124,7 +126,8 @@ void SetGimmickAsActivated(enum BattlerId battler, enum Gimmick gimmick)
 
 void ChangeGimmickTriggerSprite(u32 spriteId, u32 animId)
 {
-    StartSpriteAnim(&gSprites[spriteId], animId);
+    if (spriteId < MAX_SPRITES)
+        StartSpriteAnim(&gSprites[spriteId], animId);
 }
 
 void CreateGimmickTriggerSprite(enum BattlerId battler)
@@ -140,22 +143,32 @@ void CreateGimmickTriggerSprite(enum BattlerId battler)
         return;
     }
 
-    LoadSpritePalette(gimmick->triggerPal);
-    if (GetSpriteTileStartByTag(TAG_GIMMICK_TRIGGER_TILE) == 0xFFFF)
-        LoadSpriteSheet(gimmick->triggerSheet);
-
-    if (gBattleStruct->gimmick.triggerSpriteId == 0xFF)
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
     {
-        if (GetBattlerCoordsIndex(battler) == BATTLE_COORDS_DOUBLES)
-            gBattleStruct->gimmick.triggerSpriteId = CreateSprite(gimmick->triggerTemplate,
-                                                                  gSprites[gHealthboxSpriteIds[battler]].x - DOUBLES_GIMMICK_TRIGGER_POS_X_SLIDE,
-                                                                  gSprites[gHealthboxSpriteIds[battler]].y - DOUBLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
-        else
-            gBattleStruct->gimmick.triggerSpriteId = CreateSprite(gimmick->triggerTemplate,
-                                                                  gSprites[gHealthboxSpriteIds[battler]].x - SINGLES_GIMMICK_TRIGGER_POS_X_SLIDE,
-                                                                  gSprites[gHealthboxSpriteIds[battler]].y - SINGLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
+        if (gBattleStruct->gimmick.triggerSpriteId == 0xFF)
+            gBattleStruct->gimmick.triggerSpriteId = BattleUI_CreateGimmickTriggerSprite(battler);
+    }
+    else
+    {
+        LoadSpritePalette(gimmick->triggerPal);
+        if (GetSpriteTileStartByTag(TAG_GIMMICK_TRIGGER_TILE) == 0xFFFF)
+            LoadSpriteSheet(gimmick->triggerSheet);
+
+        if (gBattleStruct->gimmick.triggerSpriteId == 0xFF)
+        {
+            if (GetBattlerCoordsIndex(battler) == BATTLE_COORDS_DOUBLES)
+                gBattleStruct->gimmick.triggerSpriteId = CreateSprite(gimmick->triggerTemplate,
+                                                                      gSprites[gHealthboxSpriteIds[battler]].x - DOUBLES_GIMMICK_TRIGGER_POS_X_SLIDE,
+                                                                      gSprites[gHealthboxSpriteIds[battler]].y - DOUBLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
+            else
+                gBattleStruct->gimmick.triggerSpriteId = CreateSprite(gimmick->triggerTemplate,
+                                                                      gSprites[gHealthboxSpriteIds[battler]].x - SINGLES_GIMMICK_TRIGGER_POS_X_SLIDE,
+                                                                      gSprites[gHealthboxSpriteIds[battler]].y - SINGLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
+        }
     }
 
+    if (gBattleStruct->gimmick.triggerSpriteId >= MAX_SPRITES)
+        return;
     gSprites[gBattleStruct->gimmick.triggerSpriteId].tBattler = battler;
     gSprites[gBattleStruct->gimmick.triggerSpriteId].tHide = FALSE;
 
@@ -282,6 +295,8 @@ static void SpriteCb_GimmickIndicator(struct Sprite *sprite)
 
 static inline u32 GetIndicatorSpriteId(u32 healthboxId)
 {
+    if (healthboxId >= MAX_SPRITES)
+        return MAX_SPRITES;
     return gBattleStruct->gimmick.indicatorSpriteId[gSprites[healthboxId].hMain_Battler];
 }
 
@@ -325,6 +340,9 @@ u32 GetIndicatorPalTag(enum BattlerId battler)
 
 void UpdateIndicatorVisibilityAndType(u32 healthboxId, bool32 invisible)
 {
+    u32 spriteId = GetIndicatorSpriteId(healthboxId);
+    if (spriteId == 0 || spriteId >= MAX_SPRITES)
+        return;
     enum BattlerId battler = gSprites[healthboxId].hMain_Battler;
     u32 palTag = GetIndicatorPalTag(battler);
     struct Sprite *sprite = &gSprites[GetIndicatorSpriteId(healthboxId)];
@@ -354,11 +372,23 @@ void UpdateIndicatorVisibilityAndType(u32 healthboxId, bool32 invisible)
 
 void UpdateIndicatorOamPriority(u32 healthboxId, u32 oamPriority)
 {
-    gSprites[GetIndicatorSpriteId(healthboxId)].oam.priority = oamPriority;
+    u32 spriteId = GetIndicatorSpriteId(healthboxId);
+    if (spriteId != 0 && spriteId < MAX_SPRITES)
+        gSprites[spriteId].oam.priority = oamPriority;
 }
 
 void UpdateIndicatorLevelData(u32 healthboxId, u32 level)
 {
+    u32 spriteId = GetIndicatorSpriteId(healthboxId);
+    if (spriteId == 0 || spriteId >= MAX_SPRITES)
+        return;
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+         struct Sprite *sprite = &gSprites[GetIndicatorSpriteId(healthboxId)];
+         sprite->tLevelXDelta = BattleUI_GetGimmickIndicatorXOffset(sprite->tBattler);
+         return;
+    }
+
     s32 xDelta = 0;
 
     if (level >= 100)
@@ -386,15 +416,35 @@ void CreateIndicatorSprite(enum BattlerId battler)
     position = GetBattlerPosition(battler);
     GetBattlerHealthboxCoords(battler, &xHealthbox, &y);
 
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+        s16 temp;
+        BattleUI_GetGimmickIndicatorCoords(position, &x, &temp);
+        y += temp;
+    }
+    else
+    {
     x = sIndicatorPositions[position][0];
     y += sIndicatorPositions[position][1];
+    }
 
-    LoadSpriteSheet(&sBattler_GimmickSpritesheets[battler]);
-    spriteId = CreateSprite(&(sSpriteTemplate_BattlerIndicators[battler]), 0, y, 0);
+    gBattleStruct->gimmick.indicatorSpriteId[battler] = MAX_SPRITES;
+    if (LoadSpriteSheet(&sBattler_GimmickSpritesheets[battler]) == 0xFFFF)
+        return;
+    spriteId = CreateSpriteUnchecked(&(sSpriteTemplate_BattlerIndicators[battler]), 0, y, 0);
     gBattleStruct->gimmick.indicatorSpriteId[battler] = spriteId;
+    if (spriteId >= MAX_SPRITES)
+    {
+        FreeSpriteTilesByTag(BATTLER_INDICATOR_TAG + battler);
+        return;
+    }
     gSprites[spriteId].tBattler = battler;
     gSprites[spriteId].tPosX = x;
     gSprites[spriteId].invisible = FALSE;
+    if (BW_BATTLE_UI && BW_BATTLE_UI_HEALTHBOX)
+    {
+         gSprites[spriteId].tLevelXDelta = BattleUI_GetGimmickIndicatorXOffset(battler);
+    }
 }
 
 #undef tBattler

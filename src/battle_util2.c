@@ -1,4 +1,5 @@
 #include "global.h"
+#include "bw_battle_ui.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
@@ -28,6 +29,7 @@ static void FreeBattleGfxResources(void)
 
 void CloseMainBattleScreen(void)
 {
+    BattleUI_ResetGraphics();
     FreeBattleGfxResources();
     FreeAllWindowBuffers();
 }
@@ -70,6 +72,7 @@ void AllocateBattleResources(void)
 
 void FreeBattleResources(void)
 {
+    BattleUI_ResetGraphics();
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
         FreeTrainerTowerBattleStruct();
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)

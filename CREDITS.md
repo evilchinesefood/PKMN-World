@@ -208,6 +208,12 @@ menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
 - Built on top of the **pokeemerald-expansion** menu/storage/overworld systems (RHH and
   contributors, credited above).
 
+### Black/White battle UI — Mudskip / mudskipper13
+
+- **Mudskip / Mudskipper** ([mudskipper13](https://github.com/mudskipper13)) — BW demake battle interface code, artwork, and outlined fonts. Selectively adapted from [feature/bwBattleUI at `b798929811ec7d070616c7ef47e46cfc6a7f1501`](https://github.com/mudskipper13/pokeemerald/tree/b798929811ec7d070616c7ef47e46cfc6a7f1501), retaining World's engine, gameplay and SwSh menus.
+- Built on **RHH/pokeemerald-expansion** and **pret/pokeemerald**; their credits and inherited source/asset notices remain in place.
+- The pinned donor tree has **no explicit standalone license found** for this component. The author's [public feature listing](https://github.com/TeamAquasHideout/Team-Aquas-Asset-Repo/wiki/Feature-Branches#bw-battle-ui) documents its provenance; no blanket MIT/CC license is claimed.
+
 ### Ambient pond ripples — OriginalGRE inspiration
 
 - **[OriginalGRE](https://github.com/OriginalGRE/pokeemerald-expansion/tree/ambient_pond_ripples)** — behavioral inspiration for occasional rings on still ponds and rainy puddles.

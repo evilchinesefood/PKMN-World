@@ -768,12 +768,15 @@ static void BuyMenuDecompressBgGraphics(void)
     LoadPalette(gShopMenu_Pal, BG_PLTT_ID(SHOP_MENU_PALETTE_ID), PLTT_SIZE_4BPP);
 }
 
+// Reserve all 25 SwSh frame tiles after the buy menu Yes/No window. The classic frame also fits.
+#define SHOP_DLG_WINDOW_BASE_TILE_NUM (0x20E + 5 * 4)
+
 static void BuyMenuInitWindows(void)
 {
     InitWindows(sShopBuyMenuWindowTemplates);
     DeactivateAllTextPrinters();
     LoadUserWindowBorderGfx(WIN_MONEY, 1, BG_PLTT_ID(13));
-    LoadMessageBoxGfx(WIN_MONEY, 0xA, BG_PLTT_ID(14));
+    LoadMessageBoxGfx(WIN_MONEY, SHOP_DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(14));
     PutWindowTilemap(WIN_MONEY);
     PutWindowTilemap(WIN_ITEM_LIST);
     PutWindowTilemap(WIN_ITEM_DESCRIPTION);
@@ -786,7 +789,7 @@ static void BuyMenuPrint(u8 windowId, const u8 *text, u8 x, u8 y, s8 speed, u8 c
 
 static void BuyMenuDisplayMessage(u8 taskId, const u8 *text, TaskFunc callback)
 {
-    DisplayMessageAndContinueTask(taskId, WIN_MESSAGE, 10, 14, FONT_NORMAL, GetPlayerTextSpeedDelay(), text, callback);
+    DisplayMessageAndContinueTask(taskId, WIN_MESSAGE, SHOP_DLG_WINDOW_BASE_TILE_NUM, 14, FONT_NORMAL, GetPlayerTextSpeedDelay(), text, callback);
     ScheduleBgCopyTilemapToVram(0);
 }
 

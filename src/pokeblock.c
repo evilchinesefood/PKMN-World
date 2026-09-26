@@ -679,6 +679,9 @@ static bool8 LoadPokeblockMenuGfx(void)
     return FALSE;
 }
 
+// Reserve all 25 SwSh frame tiles after the toss Yes/No window. The classic frame also fits.
+#define POKEBLOCK_DLG_WINDOW_BASE_TILE_NUM (0x20A + 5 * 4)
+
 static void HandleInitWindows(void)
 {
     u8 i;
@@ -686,7 +689,7 @@ static void HandleInitWindows(void)
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
     LoadUserWindowBorderGfx(0, 1, BG_PLTT_ID(14));
-    LoadMessageBoxGfx(0, 0xA, BG_PLTT_ID(13));
+    LoadMessageBoxGfx(0, POKEBLOCK_DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(13));
     LoadPalette(gStandardMenuPalette, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
 
     for (i = 0; i < ARRAY_COUNT(sWindowTemplates) - 1; i++)
@@ -1210,7 +1213,7 @@ static void PokeblockAction_Toss(u8 taskId)
     ClearStdWindowAndFrameToTransparent(tWindowId, FALSE);
     StringCopy(gStringVar1, gPokeblockNames[gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId].color]);
     StringExpandPlaceholders(gStringVar4, sText_ThrowAwayVar1);
-    DisplayMessageAndContinueTask(taskId, WIN_TOSS_MSG, 10, 13, FONT_NORMAL, GetPlayerTextSpeedDelay(), gStringVar4, CreateTossPokeblockYesNoMenu);
+    DisplayMessageAndContinueTask(taskId, WIN_TOSS_MSG, POKEBLOCK_DLG_WINDOW_BASE_TILE_NUM, 13, FONT_NORMAL, GetPlayerTextSpeedDelay(), gStringVar4, CreateTossPokeblockYesNoMenu);
 }
 
 static void CreateTossPokeblockYesNoMenu(u8 taskId)
@@ -1221,7 +1224,7 @@ static void CreateTossPokeblockYesNoMenu(u8 taskId)
 static void TossedPokeblockMessage(u8 taskId)
 {
     StringExpandPlaceholders(gStringVar4, sText_Var1ThrownAway);
-    DisplayMessageAndContinueTask(taskId, WIN_TOSS_MSG, 10, 13, FONT_NORMAL, GetPlayerTextSpeedDelay(), gStringVar4, TossPokeblock);
+    DisplayMessageAndContinueTask(taskId, WIN_TOSS_MSG, POKEBLOCK_DLG_WINDOW_BASE_TILE_NUM, 13, FONT_NORMAL, GetPlayerTextSpeedDelay(), gStringVar4, TossPokeblock);
 }
 
 static void TossPokeblock(u8 taskId)

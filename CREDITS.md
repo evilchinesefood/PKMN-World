@@ -197,9 +197,12 @@ menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
 **[montmoguri/pokeemerald-expansion](https://github.com/montmoguri/pokeemerald-expansion)**.
 
 - **Montblanc** ([montmoguri](https://github.com/montmoguri)) — primary author of the
-  SwSh UI suite and of the **comfy_anim** shared animation library that drives its
-  spring/easing animations. (Confirmed via the project's git history and the
-  `Montblanc note:` author comment retained in `src/swsh_summary_screen.c`.)
+  SwSh UI suite. The selective menu refresh and its pinned donor commits are recorded
+  in [the #328 port notes](Testing/swsh-refresh/README.md).
+- **ShantyTown** — author of **comfy_anim**; **Archie** — introduced the library to
+  Montblanc, per the donor's [Bag documentation](https://github.com/montmoguri/pokeemerald-expansion/wiki/Sword-%26-Shield-Bag-Menu).
+- **Kasen** — Bag multi-use support; **Zatsu** — visual feedback; **PCG** — playtesting.
+  Existing component credits, including **RavePossum**, remain applicable.
 - **LOuroboros** and **FosterProgramming** — additional contributions to the SwSh UI
   branches in that repo.
 - Built on top of the **pokeemerald-expansion** menu/storage/overworld systems (RHH and
@@ -232,9 +235,10 @@ complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in
 
 ### comfy_anim shared animation library
 
-- **Montblanc** ([montmoguri](https://github.com/montmoguri)) — introduced and authored
-  in the montmoguri/pokeemerald-expansion SwSh work; brought into Pokémon World as the
-  shared easing/spring animation layer the SwSh UI depends on.
+- **ShantyTown** — library author; **Archie** — introduced it to Montblanc.
+- **Montblanc** ([montmoguri](https://github.com/montmoguri)) — integrated the library
+  into the SwSh suite from which World's easing/spring animation layer was ported.
+  Attribution follows the donor's [Bag documentation](https://github.com/montmoguri/pokeemerald-expansion/wiki/Sword-%26-Shield-Bag-Menu).
 
 ### ORAS key-item registration wheel (`I_KEY_ITEM_WHEEL`)
 

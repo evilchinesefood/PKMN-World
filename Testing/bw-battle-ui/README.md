@@ -6,20 +6,24 @@ Baseline: `12934378f9ca2cb11a95cafe94669f90f9a0ff23`. Donor: `mudskipper13/pokee
 
 ## Verified delivery
 
-The tested game-code commit is `be68ae5e1422e9c66625923e4e3bd53c6974c265`. The following evidence commit adds only review material and test-harness refinements; it does not change game code. The local package is `_pwtest/bw-battle-ui-336/PokemonWorld-BW-be68ae5e.zip`, containing the unpatched ROM and a same-named synthetic Route101 save. ROM SHA-256: `f31983017ee34a6f043c16a0950970b974e8b6e511f60c263b9e4e38097b9230`.
+The tested game-code commit is `4bea54bfffd2ea73fcea7c34a4c36fede7cdceb2`. The following evidence commit adds only review material and test-harness refinements; it does not change game code. The local package is `_pwtest/bw-battle-ui-336/PokemonWorld-BW-4bea54bf.zip`, containing the unpatched ROM and a same-named synthetic Route101 save. ROM SHA-256: `5c486d4f76dac5f55ffbaba01212b81adeb2a8396d65a36045c6085b400e7e1e`.
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| BW integration and resource fixtures | 509/509 assertions, 14 suites | [Results](evidence/results.json), [suite log](evidence/bw-suites.log) |
-| Tracked game regressions, exact delivered ROM | 50/50 suites; fresh matching-ROM sentinels | [Sweep](evidence/lua-sweep.log), [individual logs](evidence/tracked) |
-| Lance multi battle | 7/7 | [Log](evidence/lance.log) |
+| BW integration and resource fixtures, revised ROM | 514/514 assertions, 15 suites | [Results](evidence/results.json), [suite log](evidence/bw-suites.log) |
+| Full tracked game regressions, initial port `be68ae5e14` | 50/50 suites; fresh matching-ROM sentinels | [Sweep](evidence/lua-sweep.log), [individual logs](evidence/tracked) |
+| Lance multi battle, initial port | 7/7 | [Log](evidence/lance.log) |
+| Frame-adjacent tracked regressions, revised ROM | Healthboxes 24/24, catching tutorials 15/15, level summary 13/13 | [Logs and sentinels](evidence/move-info-revision) |
+| Original L-window appearance | 9,764/9,764 opaque frame/content pixels identical; rejected BW frame differs at 2,068 pixels | [Restored comparison](evidence/move-info-revision/pixel-comparison.json), [rejected comparison](evidence/move-info-revision/rejected-frame-comparison.json) |
 | Unpatched ROM + supplied save | 5/5; boot, party, Bag, wheel exit and movement | [Log](evidence/delivery.log) |
-| Full battle-engine suite | 5,076 passes; 14 known failures, 595 TODO, 8 expected failures; no unexpected failures | [Log](evidence/battle-engine.log) |
+| Full battle-engine suite, initial port | 5,076 passes; 14 known failures, 595 TODO, 8 expected failures; no unexpected failures | [Log](evidence/battle-engine.log) |
 | Development / release compilation | Both succeed | [Development](evidence/build-development.log), [release](evidence/build-release.log) |
-| BW disabled | Compiles; classic capture/return 7/7 | [Build](evidence/build-bw-disabled.log), [capture](evidence/bw-disabled-capture.log) |
+| BW disabled, initial port | Compiles; classic capture/return 7/7 | [Build](evidence/build-bw-disabled.log), [capture](evidence/bw-disabled-capture.log) |
 | Content validation | Exit 0; seven existing region-map position reports | [Log](evidence/validate.log) |
 | Donor art / shared ABI | 37/37 assets; unchanged shared sizes/offsets | [Assets](evidence/donor-assets.json), [ABI](evidence/shared-abi.json) |
-| Independent Standards / Spec reviews | Findings resolved; axes reported separately | [Review](evidence/code-review.md) |
+| Independent Standards / Spec reviews, initial port | Findings resolved; axes reported separately | [Review](evidence/code-review.md) |
+
+The L-window correction reran every BW suite, the three adjacent tracked suites and the supplied-save check, plus both builds. The original full-game and battle-engine results remain identified by their original code revision in [initial delivery](evidence/initial-delivery.json); they are not presented as reruns of this frame-only correction.
 
 Captured text logs have terminal color codes and trailing whitespace removed. The [delivery manifest](evidence/delivery.json) records build hashes and limits. The [fixture manifest](evidence/fixture-manifest.json) identifies the disposable patched test ROM, which is different from the delivered ROM. Before captures use the [baseline fixture](evidence/baseline-fixture-manifest.json). The [approved issue snapshot](evidence/approved-spec.md) and [media provenance](evidence/media-manifest.json) retain scope and capture inputs. The 41 unchanged PNGs and seven lossless animated WebP clips preserve native 240×160 output; every decoded clip sample was compared with its source PNG.
 
@@ -39,6 +43,7 @@ Captured text logs have terminal color codes and trailing whitespace removed. Th
 | --- | --- |
 | BG palettes 0–1, 10–13 | BW textbox, command/move cells; environment palettes stay in 2–4. Runtime comparisons cover grass, sand, cave, Ice Path and snowy Mt. Silver. |
 | BG0 charblock 0, screenblocks 24–25 | Text/command/move windows. Normal/Z layouts are mutually exclusive. Move window bases are `0x200`, `0x2AC`, `0x2D6`, `0x300`; description starts at `0x32A`. Regional first-battle/Oak and level-summary windows retain separate entries. |
+| BG0 tiles `0x396`–`0x39E`, BG palette 14 | Original user-selected L-window border, loaded after its content tiles without touching BW cells or UI palettes. |
 | BG1/2 charblock 1, screenblocks 28–31 | Existing animation/entry surfaces; sprite-to-BG clearing uses tile zero for BW outside contests. |
 | BG3 charblock 2, screenblocks 26–27 | Existing battlefield selection/art; this port does not recolor environments. |
 | Cursor OBJ tag `0x9999` | BW cursor only; create/close/menu-return teardown. |

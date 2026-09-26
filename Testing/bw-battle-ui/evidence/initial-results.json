@@ -1,5 +1,5 @@
 {
-  "fixture_md5": "E13EE8401DC75E9BA70F7A8DCE53DC02",
+  "fixture_md5": "1FB209CECA71749D9FEC65F50F991F2C",
   "suites": [
     {
       "suite": "capture",
@@ -112,16 +112,8 @@
       "ok": true,
       "exit_code": 0,
       "fresh_matching_sentinel": true
-    },
-    {
-      "suite": "move_info",
-      "passed": 5,
-      "total": 5,
-      "ok": true,
-      "exit_code": 0,
-      "fresh_matching_sentinel": true
     }
   ],
-  "passed": 514,
-  "total": 514
+  "passed": 509,
+  "total": 509
 }

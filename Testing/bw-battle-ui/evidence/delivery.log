@@ -1,7 +1,7 @@
 suite : /private/tmp/pkmn-world-bw-336/Testing/bw-battle-ui/verify_delivery.lua
 rom   : /tmp/pkmn-world-bw-336/pokemonworld.gba
-md5   : 502779B9113688290EBBB8E3BA16541C
-out   : /tmp/pkmn-world-336-delivery-verified
+md5   : 223ED60A6F9DF12F1D1EC740E1803B11
+out   : /tmp/pkmn-world-336-info-delivery
 rtc   : 1704110400 (2024-01-01 07:00:00 EST)
 ---
 BOOTED grp=0 map=16 pos=(9,9)

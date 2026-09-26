@@ -6,7 +6,7 @@ arm-none-eabi-ld: warning: ../../pokemonworld.elf has a LOAD segment with RWX pe
 Memory region         Used Size  Region Size  %age Used
            EWRAM:      235028 B       256 KB     89.66%
            IWRAM:       28216 B        32 KB     86.11%
-             ROM:    22918428 B        32 MB     68.30%
+             ROM:    22918460 B        32 MB     68.30%
 cd build/emerald && arm-none-eabi-ld -Map ../../pokemonworld.map --print-memory-usage --gc-sections -T ../../ld_script_modern.ld -o ../../pokemonworld.elf <objs> <libs> | cat
 tools/gbafix/gbafix pokemonworld.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
 arm-none-eabi-objcopy -O binary pokemonworld.elf pokemonworld.gba

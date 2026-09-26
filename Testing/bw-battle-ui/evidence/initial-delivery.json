@@ -1,0 +1,32 @@
+{
+  "code_commit": "be68ae5e1422e9c66625923e4e3bd53c6974c265",
+  "baseline_commit": "12934378f9ca2cb11a95cafe94669f90f9a0ff23",
+  "configuration": "development; BW UI and all components enabled; no injected fixture in delivered ROM",
+  "rom_sha256": "f31983017ee34a6f043c16a0950970b974e8b6e511f60c263b9e4e38097b9230",
+  "rom_md5": "502779B9113688290EBBB8E3BA16541C",
+  "synthetic_save_sha256": "9b216527628ee1c40dd1e602052b1fd4c464cde9bfc2b6148721714179b90e70",
+  "bw_config_sha256": "915779e5fffc163e56a6d681ea843998f8350591db3399fdf22b8d1257bb8368",
+  "release_compile_rom_sha256": "18754d81ba3579ca3e8d28c8abdb99a0d55dac28f12c73c01dbe346c571c22ee",
+  "results": {
+    "bw_assertions": 509,
+    "bw_suites": 14,
+    "tracked_suites": 50,
+    "lance_assertions": 7,
+    "delivery_assertions": 5,
+    "engine": {
+      "passed": 5076,
+      "known_failing": 14,
+      "to_do": 595,
+      "expected_failing": 8,
+      "total": 5693
+    }
+  },
+  "engine_note": "Full suite ran on the final production logic before the code commit stamp; subsequent game-source edit was indentation only. Engine tests use their own TEST build.",
+  "local_package": "_pwtest/bw-battle-ui-336/PokemonWorld-BW-be68ae5e.zip",
+  "limitations": [
+    "Cable Club is disabled; baseline and BW direct-link SIO harness both fail protocol checksum exchange before battle UI. No successful live link or hardware timing claim.",
+    "Snow/ice metadata IDs lack art in baseline. Actual Ice Path and snowy Mt. Silver map-selected backgrounds were tested. New background art remains #327.",
+    "make validate exits zero with seven pre-existing region-map position mismatch reports. Release compile retains existing compiler warnings; delivered ROM is development per RELEASING.md."
+  ],
+  "decoded_rom_build_stamp": "v1.6-19-gbe68ae5e14"
+}

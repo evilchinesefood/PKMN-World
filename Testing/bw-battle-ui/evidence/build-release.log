@@ -1,9 +1,5 @@
-tools/scaninc/scaninc -M build/emerald-release/src/bw_battle_ui.d -g build/assets -I include -I tools/agbcc/include src/bw_battle_ui.c
-tools/scaninc/scaninc -M build/emerald-release/src/battle_main.d -g build/assets -I include -I tools/agbcc/include src/battle_main.c
-tools/scaninc/scaninc -M build/emerald-release/src/battle_gimmick.d -g build/assets -I include -I tools/agbcc/include src/battle_gimmick.c
-/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/battle_gimmick.o src/battle_gimmick.c
-/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/battle_main.o src/battle_main.c
-/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/bw_battle_ui.o src/bw_battle_ui.c
+tools/scaninc/scaninc -M build/emerald-release/src/battle_controller_player.d -g build/assets -I include -I tools/agbcc/include src/battle_controller_player.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/battle_controller_player.o src/battle_controller_player.c
 /opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/main_menu.o src/main_menu.c
 src/main_menu.c:1459:13: warning: 'Task_NewGameBirchSpeech_Init' defined but not used [-Wunused-function]
  1459 | static void Task_NewGameBirchSpeech_Init(u8 taskId)
@@ -65,13 +61,13 @@ In function 'GetSetPokedexFlag',
 ../../src/pokedex.c:4567: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
 ../../include/global.h: In function 'Task_TradeEvolutionScene':
 ../../include/global.h:1316: note: at offset 536870911 into destination object 'dexSeen' of size 129
-/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//cc4ZGQCc.s: Assembler messages:
-/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//cc4ZGQCc.s: Warning: section `.rodata.compound_string.dabab14a276922ea' size (0x16) is not a multiple of its entry size 0xa
+/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//ccpznXjk.s: Assembler messages:
+/var/folders/xb/b79l87vn1cs4gsrtytyh49b00000gn/T//ccpznXjk.s: Warning: section `.rodata.compound_string.dabab14a276922ea' size (0x16) is not a multiple of its entry size 0xa
 /opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/16.1.0/../../../../arm-none-eabi/bin/ld: warning: ../../pokemonworld-release.elf has a LOAD segment with RWX permissions
 Memory region         Used Size  Region Size  %age Used
            EWRAM:      234832 B       256 KB     89.58%
            IWRAM:       28116 B        32 KB     85.80%
-             ROM:    22923912 B        32 MB     68.32%
+             ROM:    22923944 B        32 MB     68.32%
 tools/gbafix/gbafix pokemonworld-release.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
 arm-none-eabi-objcopy -O binary pokemonworld-release.elf pokemonworld-release.gba
 tools/gbafix/gbafix pokemonworld-release.gba -p --silent

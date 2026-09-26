@@ -1,0 +1,191 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+cycle 1 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+cycle 2 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 2 heap stable
+  [PASS] cycle 2 sprites/tiles/palettes stable
+cycle 3 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 3 heap stable
+  [PASS] cycle 3 sprites/tiles/palettes stable
+cycle 4 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 4 heap stable
+  [PASS] cycle 4 sprites/tiles/palettes stable
+  [PASS] battle 5 entered
+  shot VisualStress_1_battle_entered
+  [PASS] battle 5 Run selected
+  [PASS] battle 5 fled normally
+cycle 5 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 5 heap stable
+  [PASS] cycle 5 sprites/tiles/palettes stable
+cycle 6 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 6 heap stable
+  [PASS] cycle 6 sprites/tiles/palettes stable
+cycle 7 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 7 heap stable
+  [PASS] cycle 7 sprites/tiles/palettes stable
+cycle 8 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 8 heap stable
+  [PASS] cycle 8 sprites/tiles/palettes stable
+cycle 9 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 9 heap stable
+  [PASS] cycle 9 sprites/tiles/palettes stable
+  [PASS] battle 10 entered
+  [PASS] battle 10 Run selected
+  [PASS] battle 10 fled normally
+cycle 10 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 10 heap stable
+  [PASS] cycle 10 sprites/tiles/palettes stable
+cycle 11 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 11 heap stable
+  [PASS] cycle 11 sprites/tiles/palettes stable
+cycle 12 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 12 heap stable
+  [PASS] cycle 12 sprites/tiles/palettes stable
+cycle 13 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 13 heap stable
+  [PASS] cycle 13 sprites/tiles/palettes stable
+cycle 14 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 14 heap stable
+  [PASS] cycle 14 sprites/tiles/palettes stable
+  [PASS] battle 15 entered
+  [PASS] battle 15 Run selected
+  [PASS] battle 15 fled normally
+cycle 15 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 15 heap stable
+  [PASS] cycle 15 sprites/tiles/palettes stable
+cycle 16 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 16 heap stable
+  [PASS] cycle 16 sprites/tiles/palettes stable
+cycle 17 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 17 heap stable
+  [PASS] cycle 17 sprites/tiles/palettes stable
+cycle 18 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 18 heap stable
+  [PASS] cycle 18 sprites/tiles/palettes stable
+cycle 19 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 19 heap stable
+  [PASS] cycle 19 sprites/tiles/palettes stable
+  [PASS] battle 20 entered
+  [PASS] battle 20 Run selected
+  [PASS] battle 20 fled normally
+cycle 20 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 20 heap stable
+  [PASS] cycle 20 sprites/tiles/palettes stable
+cycle 21 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 21 heap stable
+  [PASS] cycle 21 sprites/tiles/palettes stable
+cycle 22 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 22 heap stable
+  [PASS] cycle 22 sprites/tiles/palettes stable
+cycle 23 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 23 heap stable
+  [PASS] cycle 23 sprites/tiles/palettes stable
+cycle 24 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 24 heap stable
+  [PASS] cycle 24 sprites/tiles/palettes stable
+  [PASS] battle 25 entered
+  [PASS] battle 25 Run selected
+  [PASS] battle 25 fled normally
+cycle 25 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 25 heap stable
+  [PASS] cycle 25 sprites/tiles/palettes stable
+cycle 26 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 26 heap stable
+  [PASS] cycle 26 sprites/tiles/palettes stable
+cycle 27 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 27 heap stable
+  [PASS] cycle 27 sprites/tiles/palettes stable
+cycle 28 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 28 heap stable
+  [PASS] cycle 28 sprites/tiles/palettes stable
+cycle 29 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 29 heap stable
+  [PASS] cycle 29 sprites/tiles/palettes stable
+  [PASS] battle 30 entered
+  [PASS] battle 30 Run selected
+  [PASS] battle 30 fled normally
+cycle 30 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 30 heap stable
+  [PASS] cycle 30 sprites/tiles/palettes stable
+cycle 31 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 31 heap stable
+  [PASS] cycle 31 sprites/tiles/palettes stable
+cycle 32 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 32 heap stable
+  [PASS] cycle 32 sprites/tiles/palettes stable
+cycle 33 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 33 heap stable
+  [PASS] cycle 33 sprites/tiles/palettes stable
+cycle 34 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 34 heap stable
+  [PASS] cycle 34 sprites/tiles/palettes stable
+  [PASS] battle 35 entered
+  [PASS] battle 35 Run selected
+  [PASS] battle 35 fled normally
+cycle 35 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 35 heap stable
+  [PASS] cycle 35 sprites/tiles/palettes stable
+cycle 36 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 36 heap stable
+  [PASS] cycle 36 sprites/tiles/palettes stable
+cycle 37 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 37 heap stable
+  [PASS] cycle 37 sprites/tiles/palettes stable
+cycle 38 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 38 heap stable
+  [PASS] cycle 38 sprites/tiles/palettes stable
+cycle 39 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 39 heap stable
+  [PASS] cycle 39 sprites/tiles/palettes stable
+  [PASS] battle 40 entered
+  [PASS] battle 40 Run selected
+  [PASS] battle 40 fled normally
+cycle 40 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 40 heap stable
+  [PASS] cycle 40 sprites/tiles/palettes stable
+cycle 41 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 41 heap stable
+  [PASS] cycle 41 sprites/tiles/palettes stable
+cycle 42 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 42 heap stable
+  [PASS] cycle 42 sprites/tiles/palettes stable
+cycle 43 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 43 heap stable
+  [PASS] cycle 43 sprites/tiles/palettes stable
+cycle 44 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 44 heap stable
+  [PASS] cycle 44 sprites/tiles/palettes stable
+  [PASS] battle 45 entered
+  [PASS] battle 45 Run selected
+  [PASS] battle 45 fled normally
+cycle 45 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 45 heap stable
+  [PASS] cycle 45 sprites/tiles/palettes stable
+cycle 46 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 46 heap stable
+  [PASS] cycle 46 sprites/tiles/palettes stable
+cycle 47 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 47 heap stable
+  [PASS] cycle 47 sprites/tiles/palettes stable
+cycle 48 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 48 heap stable
+  [PASS] cycle 48 sprites/tiles/palettes stable
+cycle 49 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 49 heap stable
+  [PASS] cycle 49 sprites/tiles/palettes stable
+  [PASS] battle 50 entered
+  [PASS] battle 50 Run selected
+  [PASS] battle 50 fled normally
+cycle 50 sprites=16 tiles=62 palettes=7 heap=11520 rings=0
+  [PASS] cycle 50 heap stable
+  [PASS] cycle 50 sprites/tiles/palettes stable
+  shot VisualStress_2_after_50_transitions
+  [PASS] 30 seconds stable overworld
+  [PASS] follower visible during rain
+  [PASS] OWE visible during rain
+30-second metrics peakRings=0 oweFrames=1800 followerFrames=1800 unchangedVblankCounter=0
+save callback=08191498
+save status=1
+  [PASS] prepared playtest save written
+  shot VisualStress_3_prepared_save
+VERDICT VisualStress: 132/132 PASS

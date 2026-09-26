@@ -105,10 +105,13 @@ local function winBattle()
     if mx > 0 then F.w16(S.gParties + S.Pokemon.hp, mx) end
   end
   forceWin()
-  for _ = 1, 1200 do
+  -- Hold long enough to span text/battle input polling. Two-frame pulses can
+  -- repeatedly miss the continue prompt at a fixed cadence after battle.
+  -- Keep the original ~9600-frame timeout (685 * 14 instead of 1200 * 8).
+  for _ = 1, 685 do
     if F.ow() then return true end
     forceWin()
-    F.press("A", 2); F.idle(6)
+    F.press("A", 8); F.idle(6)
   end
   return false
 end

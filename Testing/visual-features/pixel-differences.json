@@ -1,0 +1,322 @@
+[
+  {
+    "scene": "VisualFeatures_01_options_frame1.png",
+    "changed_pixels": 5792,
+    "bounds": [
+      9,
+      1,
+      231,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_02_options_frame2.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_03_options_frame20.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_04_wheel_normal.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_05_wheel_move.png",
+    "changed_pixels": 13,
+    "bounds": [
+      126,
+      148,
+      137,
+      156
+    ]
+  },
+  {
+    "scene": "VisualFeatures_06_wheel_done.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_07_card_front.png",
+    "changed_pixels": 666,
+    "bounds": [
+      69,
+      112,
+      164,
+      122
+    ]
+  },
+  {
+    "scene": "VisualFeatures_08_card_region2.png",
+    "changed_pixels": 633,
+    "bounds": [
+      69,
+      112,
+      164,
+      122
+    ]
+  },
+  {
+    "scene": "VisualFeatures_09_card_region3.png",
+    "changed_pixels": 589,
+    "bounds": [
+      69,
+      112,
+      164,
+      122
+    ]
+  },
+  {
+    "scene": "VisualFeatures_10_card_back.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_11_card_front_return.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_12_dex_list.png",
+    "changed_pixels": 4734,
+    "bounds": [
+      11,
+      7,
+      240,
+      157
+    ]
+  },
+  {
+    "scene": "VisualFeatures_13_dex_detail.png",
+    "changed_pixels": 3687,
+    "bounds": [
+      0,
+      20,
+      240,
+      160
+    ]
+  },
+  {
+    "scene": "VisualFeatures_14_dex_area.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_15_dex_stats.png",
+    "changed_pixels": 4880,
+    "bounds": [
+      6,
+      19,
+      240,
+      160
+    ]
+  },
+  {
+    "scene": "VisualFeatures_16_dex_evo.png",
+    "changed_pixels": 1538,
+    "bounds": [
+      6,
+      19,
+      240,
+      160
+    ]
+  },
+  {
+    "scene": "VisualFeatures_17_dex_cry.png",
+    "changed_pixels": 937,
+    "bounds": [
+      0,
+      20,
+      240,
+      96
+    ]
+  },
+  {
+    "scene": "VisualFeatures_18_dex_size.png",
+    "changed_pixels": 1053,
+    "bounds": [
+      0,
+      20,
+      240,
+      134
+    ]
+  },
+  {
+    "scene": "VisualFeatures_19_dex_search.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_20_dex_search_results.png",
+    "changed_pixels": 4463,
+    "bounds": [
+      7,
+      7,
+      240,
+      157
+    ]
+  },
+  {
+    "scene": "VisualFeatures_21_petalburg_water_180.png",
+    "changed_pixels": 48,
+    "bounds": [
+      63,
+      61,
+      75,
+      69
+    ]
+  },
+  {
+    "scene": "VisualFeatures_22_petalburg_water_360.png",
+    "changed_pixels": 128,
+    "bounds": [
+      84,
+      59,
+      178,
+      132
+    ]
+  },
+  {
+    "scene": "VisualFeatures_23_petalburg_field_map.png",
+    "changed_pixels": 2192,
+    "bounds": [
+      129,
+      1,
+      239,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_24_petalburg_fly_map.png",
+    "changed_pixels": 3835,
+    "bounds": [
+      0,
+      0,
+      240,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_25_petalburg_card.png",
+    "changed_pixels": 666,
+    "bounds": [
+      69,
+      112,
+      164,
+      122
+    ]
+  },
+  {
+    "scene": "VisualFeatures_26_violet_water_180.png",
+    "changed_pixels": 96,
+    "bounds": [
+      50,
+      80,
+      97,
+      117
+    ]
+  },
+  {
+    "scene": "VisualFeatures_27_violet_water_360.png",
+    "changed_pixels": 96,
+    "bounds": [
+      115,
+      15,
+      189,
+      117
+    ]
+  },
+  {
+    "scene": "VisualFeatures_28_violet_field_map.png",
+    "changed_pixels": 2192,
+    "bounds": [
+      129,
+      1,
+      239,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_29_violet_fly_map.png",
+    "changed_pixels": 3835,
+    "bounds": [
+      0,
+      0,
+      240,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_30_violet_card.png",
+    "changed_pixels": 589,
+    "bounds": [
+      69,
+      112,
+      164,
+      122
+    ]
+  },
+  {
+    "scene": "VisualFeatures_31_fuchsia_water_180.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_32_fuchsia_water_360.png",
+    "changed_pixels": 0,
+    "bounds": null
+  },
+  {
+    "scene": "VisualFeatures_33_fuchsia_field_map.png",
+    "changed_pixels": 2192,
+    "bounds": [
+      129,
+      1,
+      239,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_34_fuchsia_fly_map.png",
+    "changed_pixels": 3835,
+    "bounds": [
+      0,
+      0,
+      240,
+      159
+    ]
+  },
+  {
+    "scene": "VisualFeatures_35_fuchsia_card.png",
+    "changed_pixels": 633,
+    "bounds": [
+      69,
+      112,
+      164,
+      122
+    ]
+  },
+  {
+    "scene": "VisualFeatures_36_route119_water_180.png",
+    "changed_pixels": 20,
+    "bounds": [
+      100,
+      109,
+      108,
+      115
+    ]
+  },
+  {
+    "scene": "VisualFeatures_37_route119_water_360.png",
+    "changed_pixels": 31,
+    "bounds": [
+      97,
+      107,
+      111,
+      117
+    ]
+  }
+]

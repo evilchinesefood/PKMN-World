@@ -1,4 +1,5 @@
 #include "global.h"
+#include "ambient_ripples.h"
 #include "bike.h"
 #include "clock.h"
 #include "event_data.h"
@@ -155,6 +156,7 @@ static void Task_RunPerStepCallback(u8 taskId)
 {
     int idx = gTasks[taskId].tCallbackId;
     sPerStepCallbacks[idx](taskId);
+    UpdateAmbientRipples();
 }
 
 #define tState           data[0]
@@ -198,6 +200,7 @@ void SetUpFieldTasks(void)
 {
     if (!FuncIsActiveTask(Task_RunPerStepCallback))
     {
+        ResetAmbientRipples();
         u8 taskId = CreateTask(Task_RunPerStepCallback, 80);
         gTasks[taskId].tCallbackId = STEP_CB_DUMMY;
     }
@@ -231,6 +234,8 @@ void ResetFieldTasksArgs(void)
 {
     u8 taskId;
     s16 *data;
+
+    ResetAmbientRipples();
 
     taskId = FindTaskIdByFunc(Task_RunPerStepCallback);
     if (taskId != TASK_NONE)

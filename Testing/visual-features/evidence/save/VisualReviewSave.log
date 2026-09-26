@@ -1,0 +1,13 @@
+  boot: cleared an on-arrival scene in 40 B presses -- STILL NOT FREE
+BOOTED grp=0 map=0 pos=(7,22)
+  [PASS] prepared save boots
+  [PASS] Petalburg loaded
+  [PASS] normal overworld callback
+  shot VisualReviewSave_1_prepared_day_pond
+  [PASS] player can walk normally
+  [PASS] normal start wheel opens
+  shot VisualReviewSave_2_prepared_wheel_move
+  [PASS] move mode opens
+  [PASS] Done returns to normal mode
+  [PASS] wheel closes normally
+VERDICT VisualReviewSave: 8/8 PASS

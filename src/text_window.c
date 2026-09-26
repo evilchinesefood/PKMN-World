@@ -31,6 +31,11 @@ static const u8 sTextWindowFrame19_Gfx[] = INCGFX_U8("graphics/text_window/19.pn
 static const u8 sTextWindowFrame20_Gfx[] = INCGFX_U8("graphics/text_window/20.png", ".4bpp");
 
 const u16 gTextWindowFrame1_Pal[] = INCGFX_U16("graphics/text_window/1.png", ".gbapal");
+#if SWSH_MESSAGE_BOX
+static const u8 sSwShWindowFrame_Gfx[] = INCGFX_U8("graphics/text_window/swsh/1.png", ".4bpp");
+// This nine-tile frame uses indices 1/2/14, unlike std_menu's text palette.
+static const u16 sSwShWindowFrame_Pal[] = INCGFX_U16("graphics/text_window/swsh/1.png", ".gbapal");
+#endif
 static const u16 sTextWindowFrame2_Pal[] = INCGFX_U16("graphics/text_window/2.png", ".gbapal");
 static const u16 sTextWindowFrame3_Pal[] = INCGFX_U16("graphics/text_window/3.png", ".gbapal");
 static const u16 sTextWindowFrame4_Pal[] = INCGFX_U16("graphics/text_window/4.png", ".gbapal");
@@ -66,7 +71,11 @@ static const u16 sTextWindowPalettes[][16] =
 
 static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
 {
+#if SWSH_MESSAGE_BOX
+    {sSwShWindowFrame_Gfx, sSwShWindowFrame_Pal},
+#else
     {gTextWindowFrame1_Gfx, gTextWindowFrame1_Pal},
+#endif
     {sTextWindowFrame2_Gfx, sTextWindowFrame2_Pal},
     {sTextWindowFrame3_Gfx, sTextWindowFrame3_Pal},
     {sTextWindowFrame4_Gfx, sTextWindowFrame4_Pal},
@@ -129,13 +138,31 @@ void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
 
 void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 {
-    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), sWindowFrames[frameId].tiles, 0x120, destOffset);
-    LoadPalette(sWindowFrames[frameId].pal, palOffset, PLTT_SIZE_4BPP);
+    const struct TilesPal *frame = GetWindowFrameTilesPal(frameId);
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), frame->tiles, 0x120, destOffset);
+    LoadPalette(frame->pal, palOffset, PLTT_SIZE_4BPP);
 }
 
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
+}
+
+void LoadBattleWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    u8 frameId = gSaveBlock2Ptr->optionsWindowFrameType;
+
+    // Battle palette 1 and its auxiliary windows retain their classic FRAME1.
+    // Other saved frame choices keep the same meaning in both interfaces.
+    if (frameId == 0 || frameId >= WINDOW_FRAMES_COUNT)
+    {
+        LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gTextWindowFrame1_Gfx, 0x120, destOffset);
+        LoadPalette(gTextWindowFrame1_Pal, palOffset, PLTT_SIZE_4BPP);
+    }
+    else
+    {
+        LoadWindowGfx(windowId, frameId, destOffset, palOffset);
+    }
 }
 
 void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)
@@ -218,8 +245,9 @@ const u16 *GetOverworldTextboxPalettePtr(void)
 // Effectively LoadUserWindowBorderGfx but specifying the bg directly instead of a window from that bg
 void LoadUserWindowBorderGfxOnBg(u8 bg, u16 destOffset, u8 palOffset)
 {
-    LoadBgTiles(bg, sWindowFrames[gSaveBlock2Ptr->optionsWindowFrameType].tiles, 0x120, destOffset);
-    LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, palOffset, PLTT_SIZE_4BPP);
+    const struct TilesPal *frame = GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType);
+    LoadBgTiles(bg, frame->tiles, 0x120, destOffset);
+    LoadPalette(frame->pal, palOffset, PLTT_SIZE_4BPP);
 }
 
 void LoadDexNavWindowGfx(u8 windowId, u16 destOffset, u8 palOffset)

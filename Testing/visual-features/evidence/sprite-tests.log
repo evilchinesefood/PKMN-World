@@ -1,0 +1,87 @@
+cd build/emerald-test && arm-none-eabi-ld -T ld_script_test.ld -o ../../pokemonworld-test.elf <objects> <test-objects> <lib>
+arm-none-eabi-ld: warning: ../../pokemonworld-test.elf has a LOAD segment with RWX permissions
+tools/gbafix/gbafix pokemonworld-test.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 -d0 --silent
+tools/patchelf/patchelf pokemonworld-test.elf gTestRunnerArgv "Sprite exhaustion\0"
+tools/patchelf/patchelf pokemonworld-test-headless.elf gTestRunnerHeadless '\x01' gTestRunnerSkipIsFail "\x00"
+tools/mgba-rom-test-hydra/mgba-rom-test-hydra tools/mgba/mgba-rom-test-mac arm-none-eabi-objcopy pokemonworld-test-headless.elf
+[02] Sprite exhaustion audit: map light skips allocation and retries when a slot opens: PASS
+[02] Sprite exhaustion recovery: flight enters and exits with missing mount decorations: PASS
+[02] Sprite exhaustion recovery 104: FldEff_ORASDowsing: PASS
+[02] Sprite exhaustion recovery 071: FldEff_Bubbles: PASS
+[02] Sprite exhaustion recovery 055: FldEff_Splash: PASS
+[04] Sprite exhaustion audit: rain initializes, changes intensity and tears down with missing sprites: PASS
+[04] Sprite exhaustion recovery: optional object graphics retry without allocating in a full pool: PASS
+[04] Sprite exhaustion recovery 087: CreateRecordMixingLights: PASS
+[04] Sprite exhaustion recovery 069: FldEff_RockClimbDust: PASS
+[04] Sprite exhaustion recovery 053: FldEff_BikeTireTracks: PASS
+[00] Sprite exhaustion audit: failed registered shadows do not fill the active list: PASS
+[11] Sprite exhaustion recovery: Deoxys rock fragments skip missing slots: PASS
+[00] Sprite exhaustion recovery: fly out while surfing without a blob: PASS
+[00] Sprite exhaustion recovery 155: FldEff_QuestionMarkIcon: PASS
+[05] Sprite exhaustion audit: warp arrow can report allocation failure: PASS
+[07] Sprite exhaustion recovery: surf mount tolerates missing overlay and shadow: PASS
+[08] Sprite exhaustion recovery: encounter decoration skips a full pool: PASS
+[08] Sprite exhaustion recovery: snow started per frame refills after the pool frees: PASS
+[11] Sprite exhaustion recovery 159: FldEff_SmileyFaceIcon: PASS
+[00] Sprite exhaustion recovery 073: ShowDisguiseFieldEffect: PASS
+[03] Sprite exhaustion audit: trainer exclamation must not leave encounters waiting: PASS
+[05] Sprite exhaustion recovery: missing surf blob ignores bob and visibility updates: PASS
+[06] Sprite exhaustion recovery: dowsing rolls back, retries, and stops: PASS
+[11] Sprite exhaustion recovery 080: CreateFogHorizontalSprites: PASS
+[07] Sprite exhaustion recovery: missing disguises finish revealing and retry: PASS
+[01] Sprite exhaustion audit: actual Dome final audience script tolerates limited capacity: PASS
+[08] Sprite exhaustion recovery 083: CreateSandstormSprites: PASS
+[10] Sprite exhaustion recovery: NPC follower surf dismount without a blob: PASS
+[00] Sprite exhaustion recovery 057: FldEff_JumpBigSplash: PASS
+[01] Sprite exhaustion recovery: surf dismount without a blob: PASS
+[03] Sprite exhaustion recovery: ash applies the tile change without a sprite: PASS
+[05] Sprite exhaustion recovery 086: DoSecretBaseGlitterMatSparkle: PASS
+[06] Sprite exhaustion recovery: disguise movement retries after a full pool: PASS
+[07] Sprite exhaustion recovery 084: CreateSwirlSandstormSprites: PASS
+[08] Sprite exhaustion recovery 064: FldEff_WaterSurfacing: PASS
+[09] Sprite exhaustion recovery: HideNPCFollower without a blob: PASS
+[11] Sprite exhaustion recovery 061: FldEff_ShakingGrass: PASS
+[12] Sprite exhaustion recovery: rotating gates retry when the camera updates: PASS
+[13] Sprite exhaustion recovery: Mew grass skips creation and can retry: PASS
+[14] Sprite exhaustion recovery: Rock Climb completes without a blob: PASS
+[03] Sprite exhaustion recovery 103: FldEff_ORASDowsing: PASS
+[05] Sprite exhaustion recovery 068: FldEff_Dust: PASS
+[06] Sprite exhaustion recovery 085: CreateBubbleSprite: PASS
+[07] Sprite exhaustion recovery 065: FldEff_Ash: PASS
+[08] Sprite exhaustion recovery 049: FldEff_SandFootprints: PASS
+[11] Sprite exhaustion recovery 046: FldEff_LongGrass: PASS
+[13] Sprite exhaustion recovery 157: FldEff_DoubleExclMarkIcon: PASS
+[00] Sprite exhaustion recovery 034: CreateObjectGraphicsSpriteWithTag: PASS
+[01] Sprite exhaustion recovery 154: FldEff_QuestionMarkIcon: PASS
+[03] Sprite exhaustion recovery 070: FldEff_SandPile: PASS
+[05] Sprite exhaustion recovery 052: FldEff_TracksSpot: PASS
+[07] Sprite exhaustion recovery 050: FldEff_DeepSandFootprints: PASS
+[12] Sprite exhaustion recovery 158: FldEff_XIcon: PASS
+[13] Sprite exhaustion recovery 078: CreateCloudSprites: PASS
+[14] Sprite exhaustion recovery 156: FldEff_HeartIcon: PASS
+[06] Sprite exhaustion recovery 067: FldEff_SurfBlob: PASS
+[03] Sprite exhaustion recovery 054: FldEff_TracksSlither: PASS
+[12] Sprite exhaustion recovery 079: CreateSnowflakeSprite: PASS
+[13] Sprite exhaustion recovery 059: FldEff_Ripple: PASS
+[14] Sprite exhaustion recovery 074: FldEff_Sparkle: PASS
+[01] Sprite exhaustion recovery 072: FldEff_BerryTreeGrowthSparkle: PASS
+[06] Sprite exhaustion recovery 051: FldEff_TracksBug: PASS
+[12] Sprite exhaustion recovery 060: FldEff_HotSpringsWater: PASS
+[13] Sprite exhaustion recovery 044: FldEff_TallGrass: PASS
+[14] Sprite exhaustion recovery 058: FldEff_FeetInFlowingWater: PASS
+[01] Sprite exhaustion recovery 056: FldEff_JumpSmallSplash: PASS
+[12] Sprite exhaustion recovery 045: FldEff_JumpTallGrass: PASS
+[14] Sprite exhaustion recovery 042: FldEff_CaveDust: PASS
+[10] Sprite exhaustion recovery: field scripts can retry and release their sprites: PASS
+[01] Sprite exhaustion recovery 126: item wheel cancels with partial sprites, including dark caves: PASS
+[09] Sprite exhaustion recovery: weather finishes with zero or partial capacity and can restart: PASS
+[10] Sprite exhaustion recovery 081: CreateAshSprites: PASS
+[09] Sprite exhaustion recovery 082: CreateFogDiagonalSprites: PASS
+[10] Sprite exhaustion recovery 062: FldEff_ShakingGrass2: PASS
+[10] Sprite exhaustion recovery 047: FldEff_JumpLongGrass: PASS
+[09] Sprite exhaustion recovery 063: FldEff_UnusedSand: PASS
+[09] Sprite exhaustion recovery 048: FldEff_ShortGrass: PASS
+
+- Tests PASSED:          77
+- Tests TOTAL:           77
+

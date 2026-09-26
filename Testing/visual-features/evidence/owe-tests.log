@@ -1,0 +1,12 @@
+cd build/emerald-test && arm-none-eabi-ld -T ld_script_test.ld -o ../../pokemonworld-test.elf <objects> <test-objects> <lib>
+arm-none-eabi-ld: warning: ../../pokemonworld-test.elf has a LOAD segment with RWX permissions
+tools/gbafix/gbafix pokemonworld-test.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 -d0 --silent
+tools/patchelf/patchelf pokemonworld-test.elf gTestRunnerArgv "Overworld encounter graphics\0"
+tools/patchelf/patchelf pokemonworld-test-headless.elf gTestRunnerHeadless '\x01' gTestRunnerSkipIsFail "\x00"
+tools/mgba-rom-test-hydra/mgba-rom-test-hydra tools/mgba/mgba-rom-test-mac arm-none-eabi-objcopy pokemonworld-test-headless.elf
+[00] Overworld encounter graphics: full tile pool skips spawn and recovers: PASS
+[01] Overworld encounter graphics: palette exhaustion skips spawn: PASS
+
+- Tests PASSED:          2
+- Tests TOTAL:           2
+

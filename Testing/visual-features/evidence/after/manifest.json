@@ -1,0 +1,14 @@
+{
+  "input_rom_sha256": "4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3",
+  "fixture_rom_sha256": "43116b91a5b6b6a1e7534dc2e4cc49de6f56829b35ed72079832a571ed5f95a5",
+  "fixture_bytes": 704,
+  "fixture_source_sha256": "ed403ca2136dccdc636bc67b2c41212550d32488a08c8507fbc2c2825ebf0576",
+  "entry": "0x9f00001",
+  "base_commit": "e89847ba1e367eead76c4e1f8c1df2f09c8c1c21",
+  "working_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "configuration": {
+    "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+    "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+    "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+  }
+}

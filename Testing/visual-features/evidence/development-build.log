@@ -1,0 +1,15 @@
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/main_menu.o src/main_menu.c
+src/main_menu.c:1459:13: warning: 'Task_NewGameBirchSpeech_Init' defined but not used [-Wunused-function]
+ 1459 | static void Task_NewGameBirchSpeech_Init(u8 taskId)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-ld: warning: ../../pokemonworld.elf has a LOAD segment with RWX permissions
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      235020 B       256 KB     89.65%
+           IWRAM:       28184 B        32 KB     86.01%
+             ROM:    22794228 B        32 MB     67.93%
+cd build/emerald && arm-none-eabi-ld -Map ../../pokemonworld.map --print-memory-usage --gc-sections -T ../../ld_script_modern.ld -o ../../pokemonworld.elf <objs> <libs> | cat
+tools/gbafix/gbafix pokemonworld.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokemonworld.elf pokemonworld.gba
+tools/gbafix/gbafix pokemonworld.gba -p --silent
+python3 Testing/GenLuaSymbols.py pokemonworld.elf arm-none-eabi-nm > Testing/lua/symbols.lua.tmp && mv -f Testing/lua/symbols.lua.tmp Testing/lua/symbols.lua || { rm -f Testing/lua/symbols.lua.tmp; exit 1; }
+wrote Testing/lua/symbols.lua

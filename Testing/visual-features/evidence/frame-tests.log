@@ -1,0 +1,13 @@
+tools/scaninc/scaninc -M build/emerald-test/test/visual_window_frames.d -g build/assets -I include -I tools/agbcc/include test/visual_window_frames.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-test/test/visual_window_frames.o test/visual_window_frames.c
+cd build/emerald-test && arm-none-eabi-ld -T ld_script_test.ld -o ../../pokemonworld-test.elf <objects> <test-objects> <lib>
+arm-none-eabi-ld: warning: ../../pokemonworld-test.elf has a LOAD segment with RWX permissions
+tools/gbafix/gbafix pokemonworld-test.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 -d0 --silent
+tools/patchelf/patchelf pokemonworld-test.elf gTestRunnerArgv "Visual window frames\0"
+tools/patchelf/patchelf pokemonworld-test-headless.elf gTestRunnerHeadless '\x01' gTestRunnerSkipIsFail "\x00"
+tools/mgba-rom-test-hydra/mgba-rom-test-hydra tools/mgba/mgba-rom-test-mac arm-none-eabi-objcopy pokemonworld-test-headless.elf
+[00] Visual window frames: actual battle loader preserves selected art and palette: PASS
+
+- Tests PASSED:          1
+- Tests TOTAL:           1
+

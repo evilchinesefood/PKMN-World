@@ -974,11 +974,23 @@ static void RedrawBadgesForPage(void)
 
 static void PrintRegionLabelOnCard(void)
 {
+    const u8 *left = COMPOUND_STRING("{L_BUTTON}");
+    const u8 *right = COMPOUND_STRING("{R_BUTTON}");
+    const u8 *region = sRegionPageNames[sData->badgePage];
+    u32 leftWidth = GetStringWidth(FONT_NORMAL, left, 0);
+    u32 regionWidth = GetStringWidth(FONT_NORMAL, region, 0);
+    u32 rightWidth = GetStringWidth(FONT_NORMAL, right, 0);
+    u32 x = 61 + (120 - (leftWidth + regionWidth + rightWidth + 8)) / 2;
+
     if (sData->isLink)
         return; // link cards show only the partner's Hoenn badges; no page label
     // Sits just right of the card art's "BADGES" caption, same spot for all regions.
     FillWindowPixelRect(WIN_CARD_TEXT, PIXEL_FILL(0), 61, 101, 120, 15);
-    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, 61, 101, sTrainerCardTextColors, TEXT_SKIP_DRAW, sRegionPageNames[sData->badgePage]);
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, 101, sTrainerCardTextColors, TEXT_SKIP_DRAW, left);
+    x += leftWidth + 4;
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, 101, sTrainerCardTextColors, TEXT_SKIP_DRAW, region);
+    x += regionWidth + 4;
+    AddTextPrinterParameterized3(WIN_CARD_TEXT, FONT_NORMAL, x, 101, sTrainerCardTextColors, TEXT_SKIP_DRAW, right);
 }
 
 static void InitGpuRegs(void)

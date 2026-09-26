@@ -1,0 +1,98 @@
+suite : /private/tmp/pkmn-world-visual-work/Testing/visual-features/capture.lua
+rom   : /tmp/pkmn-world-feature-capture/controls/VerifyFeatures.gba
+md5   : 648240D71F21D7E0D83F495E38E96556
+out   : /tmp/pkmn-world-feature-capture/controls/evidence
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] boot ready
+  shot VisualFeatures_1_options_frame1
+  [PASS] options frame1 returns to overworld
+  [PASS] saved frame selection retained
+  shot VisualFeatures_2_options_frame2
+  [PASS] options frame2 returns to overworld
+  [PASS] saved frame selection retained
+  shot VisualFeatures_3_options_frame20
+  [PASS] options frame20 returns to overworld
+  [PASS] saved frame selection retained
+  shot VisualFeatures_4_wheel_normal
+  [PASS] wheel allocated
+  shot VisualFeatures_5_wheel_move
+  [PASS] wheel enters MOVE
+  shot VisualFeatures_6_wheel_done
+  [PASS] wheel exits MOVE
+  [PASS] wheel returns to overworld
+  shot VisualFeatures_7_card_front
+  shot VisualFeatures_8_card_region2
+  shot VisualFeatures_9_card_region3
+  shot VisualFeatures_10_card_back
+  shot VisualFeatures_11_card_front_return
+  [PASS] card returns to overworld
+  shot VisualFeatures_12_dex_list
+  [PASS] dex list unused banks4/5 deterministic
+  shot VisualFeatures_13_dex_detail
+  [PASS] dex detail unused banks4/5 deterministic
+  shot VisualFeatures_14_dex_area
+  shot VisualFeatures_15_dex_stats
+  shot VisualFeatures_16_dex_evo
+  shot VisualFeatures_17_dex_cry
+  shot VisualFeatures_18_dex_size
+  [PASS] dex returns to overworld
+  shot VisualFeatures_19_dex_search
+  shot VisualFeatures_20_dex_search_results
+  [PASS] dex results unused banks4/5 deterministic
+  [PASS] dex search returns to overworld
+  [PASS] petalburg warp
+  [PASS] petalburg controllable overworld
+  shot VisualFeatures_21_petalburg_water_180
+  shot VisualFeatures_22_petalburg_water_360
+petalburg peak rings=3 frames with rings=510
+  [PASS] petalburg visible ambient rings
+  [PASS] petalburg cap
+  shot VisualFeatures_23_petalburg_field_map
+  [PASS] petalburg map returns to overworld
+  shot VisualFeatures_24_petalburg_fly_map
+  [PASS] petalburg fly map returns to overworld
+  shot VisualFeatures_25_petalburg_card
+  [PASS] petalburg card returns to overworld
+  [PASS] petalburg no crash screen
+  [PASS] violet warp
+  [PASS] violet controllable overworld
+  shot VisualFeatures_26_violet_water_180
+  shot VisualFeatures_27_violet_water_360
+violet peak rings=3 frames with rings=598
+  [PASS] violet visible ambient rings
+  [PASS] violet cap
+  shot VisualFeatures_28_violet_field_map
+  [PASS] violet map returns to overworld
+  shot VisualFeatures_29_violet_fly_map
+  [PASS] violet fly map returns to overworld
+  shot VisualFeatures_30_violet_card
+  [PASS] violet card returns to overworld
+  [PASS] violet no crash screen
+  [PASS] fuchsia warp
+  [PASS] fuchsia controllable overworld
+  shot VisualFeatures_31_fuchsia_water_180
+  shot VisualFeatures_32_fuchsia_water_360
+fuchsia peak rings=1 frames with rings=139
+  [PASS] fuchsia visible ambient rings
+  [PASS] fuchsia cap
+  shot VisualFeatures_33_fuchsia_field_map
+  [PASS] fuchsia map returns to overworld
+  shot VisualFeatures_34_fuchsia_fly_map
+  [PASS] fuchsia fly map returns to overworld
+  shot VisualFeatures_35_fuchsia_card
+  [PASS] fuchsia card returns to overworld
+  [PASS] fuchsia no crash screen
+  [PASS] route119 warp
+  [PASS] route119 controllable overworld
+  shot VisualFeatures_36_route119_water_180
+  shot VisualFeatures_37_route119_water_360
+route119 peak rings=2 frames with rings=525
+  [PASS] route119 visible ambient rings
+  [PASS] route119 cap
+  [PASS] route119 no crash screen
+VERDICT VisualFeatures: 46/46 PASS
+---
+exit code: 0

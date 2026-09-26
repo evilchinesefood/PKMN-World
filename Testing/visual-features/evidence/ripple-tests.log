@@ -1,0 +1,25 @@
+tools/scaninc/scaninc -M build/emerald-test/test/ambient_ripples.d -g build/assets -I include -I tools/agbcc/include test/ambient_ripples.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-test/test/ambient_ripples.o test/ambient_ripples.c
+/opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-test/src/main_menu.o src/main_menu.c
+src/main_menu.c:1459:13: warning: 'Task_NewGameBirchSpeech_Init' defined but not used [-Wunused-function]
+ 1459 | static void Task_NewGameBirchSpeech_Init(u8 taskId)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cd build/emerald-test && arm-none-eabi-ld -T ld_script_test.ld -o ../../pokemonworld-test.elf <objects> <test-objects> <lib>
+arm-none-eabi-ld: warning: ../../pokemonworld-test.elf has a LOAD segment with RWX permissions
+tools/gbafix/gbafix pokemonworld-test.elf -t"POKEMON WRLD" -cBPEE -m01 -r0 -d0 --silent
+tools/patchelf/patchelf pokemonworld-test.elf gTestRunnerArgv "Ambient ripples\0"
+tools/patchelf/patchelf pokemonworld-test-headless.elf gTestRunnerHeadless '\x01' gTestRunnerSkipIsFail "\x00"
+tools/mgba-rom-test-hydra/mgba-rom-test-hydra tools/mgba/mgba-rom-test-mac arm-none-eabi-objcopy pokemonworld-test-headless.elf
+[05] Ambient ripples: same-frame sprite pressure reclaims before failing: PASS
+[02] Ambient ripples: late reclamation cancels stale copies and OAM before tile reuse: PASS
+[06] Ambient ripples: reclaim preserves gameplay ripples and cached sheet zero: PASS
+[01] Ambient ripples: OWE admission retries the selected species without RNG: PASS
+[03] Ambient ripples: same-frame palette demand reclaims before OWE eviction: PASS
+[04] Ambient ripples: same-frame tile pressure reclaims exact owned tiles: PASS
+[07] Ambient ripples: unsupported weather, maps, surfaces and locked controls skip: PASS
+[00] Ambient ripples: reset, reused slots and fifty lifecycle cycles retain ownership: PASS
+[08] Ambient ripples: eligible maps cap rings and preserve both RNG streams: PASS
+
+- Tests PASSED:          9
+- Tests TOTAL:           9
+

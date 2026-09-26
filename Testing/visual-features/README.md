@@ -10,7 +10,7 @@
 
 **R-Fly is disabled by the current `OW_FLAG_POKE_RIDER = 0` configuration.** Production correctly displays no shortcut. Its enabled appearance was verified in an isolated configuration with `FLAG_TEMP_1`; this feature does not grant Fly eligibility or change destinations. The same control build uses `SWSH_MESSAGE_BOX = FALSE` and `HGSS_DARK_MODE = TRUE` to verify those existing alternatives.
 
-The HnS and digit studies are separate: [#331](../visual-studies/hns/README.md), [#334](../visual-studies/digits/README.md). Neither candidate was adopted. The title/logo and cancelled regional palette proposal are untouched.
+The owner rejected the Fuchsia tileset and compact-digit proposals (#331 and #334). Their comparison assets and review prompts have been removed; existing Fuchsia art and menu digits remain in use. The title/logo and cancelled regional palette proposal are untouched.
 
 ## Verification
 

@@ -717,5 +717,8 @@
     "HubSpritesReadability": 480,
     "HubSpritesSave": 16,
     "HubSpritesDelivery": 9
+  },
+  "baseline_checks": {
+    "HubSpritesComparison": 30
   }
 }

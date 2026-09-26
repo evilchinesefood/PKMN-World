@@ -15,17 +15,43 @@ p.add_argument('--out', type=Path, required=True)
 p.add_argument('--before-source', required=True)
 p.add_argument('--after-source', required=True)
 a = p.parse_args()
-media = a.out / 'media'
-media.mkdir(parents=True, exist_ok=True)
 manifest = {'before_source': a.before_source, 'after_source': a.after_source, 'media': [], 'comparisons': [], 'checks': {}}
 
+
+def validate_verdict(run):
+    """Require a positive finished run and its matching, non-failed sentinel."""
+    directory = a.runs / run
+    logs = [path for path in directory.glob('*.log') if path.name != 'runner.log']
+    if len(logs) != 1:
+        raise ValueError(f'{run}: exactly one suite log required')
+    lines = logs[0].read_text(encoding='utf-8').strip().splitlines()
+    verdict = re.fullmatch(r'VERDICT ([^:]+): (\d+)/(\d+) PASS', lines[-1] if lines else '')
+    if not verdict or not (int(verdict[2]) == int(verdict[3]) > 0):
+        raise ValueError(f'{run}: positive complete PASS required')
+    label, count = verdict[1], int(verdict[2])
+    sentinel = directory / f'{label}.PASS'
+    if not sentinel.is_file() or (directory / f'{label}.FAIL').exists():
+        raise ValueError(f'{run}: current PASS sentinel required without FAIL')
+    stamp = sentinel.read_text(encoding='utf-8').strip()
+    if not re.fullmatch(rf'PASS {count}/{count} rom=[A-Fa-f0-9]{{32,40}} at=\S+ suite={re.escape(label)}', stamp):
+        raise ValueError(f'{run}: sentinel must match the completed verdict')
+    # A hash/ROM-name guard can abort before lib.lua opens its suite log. In
+    # that case run_fixture.py still writes a fresh runner log: reject the old
+    # suite log and PASS left beside the new, aborted run.
+    runner = directory / 'runner.log'
+    if runner.exists() and lines[-1] not in runner.read_text(encoding='utf-8').splitlines():
+        raise ValueError(f'{run}: runner did not report this completed verdict')
+    return label, count
+
+
+baseline_label, baseline_count = validate_verdict('before')
+manifest['baseline_checks'] = {baseline_label: baseline_count}
 for run in ('after', 'HubSpritesServices', 'HubSpritesOutfits', 'HubSpritesReadability', 'save', 'delivery'):
-    logs = [path for path in (a.runs / run).glob('*.log') if path.name != 'runner.log']
-    assert len(logs) == 1, (run, logs)
-    verdict = re.search(r'VERDICT ([^:]+): (\d+)/(\d+) PASS', logs[0].read_text())
-    assert verdict and verdict[2] == verdict[3], f'{run}: complete PASS required'
-    manifest['checks'][verdict[1]] = int(verdict[2])
+    label, count = validate_verdict(run)
+    manifest['checks'][label] = count
 targeted_checks = sum(manifest['checks'].values())
+media = a.out / 'media'
+media.mkdir(parents=True, exist_ok=True)
 
 
 def one(run, pattern):
@@ -143,6 +169,6 @@ parts.append('''</main><script>
 for(const button of document.querySelectorAll('[data-scale]'))button.addEventListener('click',()=>{document.documentElement.style.setProperty('--zoom',button.dataset.scale);for(const other of document.querySelectorAll('[data-scale]'))other.setAttribute('aria-pressed',String(other===button));});
 fetch('../delivery.json').then(r=>r.ok?r.json():null).then(d=>{if(d&&/^[A-Za-z0-9.-]+\\.zip$/.test(d.file)){document.querySelector('#download').href='../'+d.file;document.querySelector('#delivery').hidden=false;}}).catch(()=>{});
 </script></html>''')
-(a.out / 'index.html').write_text('\n'.join(parts))
-(a.out / 'capture-sources.json').write_text(json.dumps(manifest, indent=2) + '\n')
+(a.out / 'index.html').write_text('\n'.join(parts), encoding='utf-8')
+(a.out / 'capture-sources.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 print(f'{len(manifest["media"])} media; {len(manifest["comparisons"])} matched comparisons')

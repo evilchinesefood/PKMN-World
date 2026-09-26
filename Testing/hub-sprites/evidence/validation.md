@@ -48,3 +48,15 @@ Only the two Hub graphics IDs ship. Fixtures are linked into verified-unused pad
 Initial fixture runs caught incorrect *test* assumptions: static palette slots, an approach below the curator's counter, tree-tile outdoor viewpoints, and checking flash-save completion too early. Those fixture assumptions were corrected; the game change stayed at two graphics IDs. Curator dialogue is allowed to finish fully before walking resumes. Only the completed corrected runs are included and counted here.
 
 Validation uses the repository's Lua-enabled headless mGBA and pinned RTC. Hardware and other emulator frontends were not run. The optimized release configuration was compiled; per `RELEASING.md`, the prepared owner package uses the fully tested development configuration. No ROM or save is committed or uploaded to GitHub.
+
+## Gallery review follow-up
+
+The renderer now requires a positive completed baseline and every feature run,
+matching PASS sentinels, no FAIL sentinel, and a completed runner verdict when
+a runner log is present. Baseline checks are recorded separately from the
+1,980 targeted total. Failed preflight creates no output. The README now
+packages `review/`, `evidence/` and its guide under one serving root; the
+optional download manifest/ZIP share that root. HTML and manifest writes use
+explicit UTF-8. [Black-box checks](renderer-check.log) cover seven rejected
+stale/failed inputs, ASCII-locale output, totals, label escaping and all HTML
+file links. No game source, ROM, save or media pixels changed in this follow-up.

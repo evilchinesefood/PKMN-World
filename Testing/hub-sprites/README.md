@@ -45,11 +45,31 @@ For the baseline, build `05b37db1a9b1dd8efda95233e4a61822680bba7b` in a second w
 
 ```sh
 python3 Testing/hub-sprites/render_review.py \
-  --runs /tmp/hub-runs --out /tmp/hub-review \
+  --runs /tmp/hub-runs --out /tmp/hub-review/review \
   --before-source 05b37db1a9b1dd8efda95233e4a61822680bba7b \
   --after-source 13478c088b0dcb2a28c3c453ed6eac0e8040364b
+cp Testing/hub-sprites/README.md /tmp/hub-review/README.md
+cp -R Testing/hub-sprites/evidence /tmp/hub-review/evidence
+python3 -m http.server 8771 --bind 127.0.0.1 --directory /tmp/hub-review
 ```
 
-Supply the actual source IDs if using different revisions. The renderer requires both labels, checks complete passing run verdicts, rejects ambiguous/missing screenshots and records media hashes. `capture-sources.json` records the chosen labels and all eleven matched pixel comparisons.
+Open `http://127.0.0.1:8771/review/`. The package root contains `README.md`,
+`evidence/` and `review/`; the HTML's parent-relative evidence links resolve
+inside this root. The optional local download also belongs at the root:
+`delivery.json` contains `{"file": "YourBuild.zip"}`, and `YourBuild.zip` sits
+beside it. Without these optional files, the download panel stays hidden.
+Keep ROM/save packages outside the tracked repository.
+
+Supply the actual source IDs if using different revisions. The renderer requires both labels, requires positive, complete verdicts and matching PASS sentinels for the baseline and feature runs, rejects ambiguous/missing screenshots and records media hashes. `capture-sources.json` records the chosen labels and all eleven matched pixel comparisons.
 
 The fixture uses normal engine APIs for spawning, movement, warps, palettes and saving. Its commands are confined to `fixture.c`; the builder exports addresses from the matching ELF and uses the existing ROM-hash guard. `hub_lib.lua` records real active/visible events, loaded palettes and coordinates. Camera culling, day/night hiding, menu returns and the intro's temporary follower pocketing are accounted for explicitly.
+
+Renderer boundary regressions can be rerun against a complete capture set:
+
+```sh
+python3 Testing/hub-sprites/check_renderer.py --runs /tmp/hub-runs
+```
+
+This deliberately supplies failed/zero-check baselines, missing/conflicting/stale
+verdict sentinels and an aborted runner, then verifies UTF-8 under an ASCII
+locale and every generated file link in the documented package layout.

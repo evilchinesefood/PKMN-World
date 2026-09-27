@@ -1,0 +1,77 @@
+[
+  {
+    "scene": "house",
+    "time": "noon",
+    "verified_pixels": 108
+  },
+  {
+    "scene": "house",
+    "time": "dusk",
+    "verified_pixels": 108
+  },
+  {
+    "scene": "house",
+    "time": "night",
+    "verified_pixels": 108
+  },
+  {
+    "scene": "school",
+    "time": "noon",
+    "verified_pixels": 108
+  },
+  {
+    "scene": "school",
+    "time": "dusk",
+    "verified_pixels": 108
+  },
+  {
+    "scene": "school",
+    "time": "night",
+    "verified_pixels": 108
+  },
+  {
+    "scene": "center",
+    "time": "noon",
+    "verified_pixels": 200
+  },
+  {
+    "scene": "center",
+    "time": "dusk",
+    "verified_pixels": 200
+  },
+  {
+    "scene": "center",
+    "time": "night",
+    "verified_pixels": 200
+  },
+  {
+    "scene": "mart",
+    "time": "noon",
+    "verified_pixels": 360
+  },
+  {
+    "scene": "mart",
+    "time": "dusk",
+    "verified_pixels": 360
+  },
+  {
+    "scene": "mart",
+    "time": "night",
+    "verified_pixels": 360
+  },
+  {
+    "scene": "gym",
+    "time": "noon",
+    "verified_pixels": 288
+  },
+  {
+    "scene": "gym",
+    "time": "dusk",
+    "verified_pixels": 288
+  },
+  {
+    "scene": "gym",
+    "time": "night",
+    "verified_pixels": 288
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "baseline": "cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d",
+  "changed_cells": 25,
+  "appended_metatiles": 0,
+  "collision_elevation_cells_verified": 1920,
+  "nonvisual_attributes_verified": 1920,
+  "protected_cells_verified": 380,
+  "garden_cells_verified": 69,
+  "path_cells_verified": 70,
+  "unchanged_glass_pixels": {
+    "house": 108,
+    "school": 108,
+    "center": 200,
+    "mart": 360,
+    "gym": 288
+  },
+  "walking_components": {
+    "door_26_26": 843,
+    "door_25_11": 843,
+    "door_36_10": 843,
+    "door_25_18": 843,
+    "door_36_19": 843,
+    "route1": 843,
+    "route2": 843,
+    "route22": 843
+  },
+  "unchanged_shared_routes": [
+    "Route2_Layout",
+    "Route22_Layout",
+    "Route28_Layout",
+    "Route26North_Layout"
+  ],
+  "append_only": true,
+  "source_art_and_palettes_unchanged": true
+}

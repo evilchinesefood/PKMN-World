@@ -1,0 +1,63 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] house noon: clock
+  [PASS] house noon: visible follower
+  [PASS] house noon: hardware palette
+  shot ViridianFrontagesCapture_1_house_noon
+  [PASS] house dusk: clock
+  [PASS] house dusk: visible follower
+  [PASS] house dusk: hardware palette
+  shot ViridianFrontagesCapture_2_house_dusk
+  [PASS] house night: clock
+  [PASS] house night: visible follower
+  [PASS] house night: hardware palette
+  shot ViridianFrontagesCapture_3_house_night
+  [PASS] school noon: clock
+  [PASS] school noon: visible follower
+  [PASS] school noon: hardware palette
+  shot ViridianFrontagesCapture_4_school_noon
+  [PASS] school dusk: clock
+  [PASS] school dusk: visible follower
+  [PASS] school dusk: hardware palette
+  shot ViridianFrontagesCapture_5_school_dusk
+  [PASS] school night: clock
+  [PASS] school night: visible follower
+  [PASS] school night: hardware palette
+  shot ViridianFrontagesCapture_6_school_night
+  [PASS] center noon: clock
+  [PASS] center noon: visible follower
+  [PASS] center noon: hardware palette
+  shot ViridianFrontagesCapture_7_center_noon
+  [PASS] center dusk: clock
+  [PASS] center dusk: visible follower
+  [PASS] center dusk: hardware palette
+  shot ViridianFrontagesCapture_8_center_dusk
+  [PASS] center night: clock
+  [PASS] center night: visible follower
+  [PASS] center night: hardware palette
+  shot ViridianFrontagesCapture_9_center_night
+  [PASS] mart noon: clock
+  [PASS] mart noon: visible follower
+  [PASS] mart noon: hardware palette
+  shot ViridianFrontagesCapture_10_mart_noon
+  [PASS] mart dusk: clock
+  [PASS] mart dusk: visible follower
+  [PASS] mart dusk: hardware palette
+  shot ViridianFrontagesCapture_11_mart_dusk
+  [PASS] mart night: clock
+  [PASS] mart night: visible follower
+  [PASS] mart night: hardware palette
+  shot ViridianFrontagesCapture_12_mart_night
+  [PASS] gym noon: clock
+  [PASS] gym noon: visible follower
+  [PASS] gym noon: hardware palette
+  shot ViridianFrontagesCapture_13_gym_noon
+  [PASS] gym dusk: clock
+  [PASS] gym dusk: visible follower
+  [PASS] gym dusk: hardware palette
+  shot ViridianFrontagesCapture_14_gym_dusk
+  [PASS] gym night: clock
+  [PASS] gym night: visible follower
+  [PASS] gym night: hardware palette
+  shot ViridianFrontagesCapture_15_gym_night
+VERDICT ViridianFrontagesCapture: 45/45 PASS

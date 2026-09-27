@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Viridian frontages · before and after</title><style>
+*{box-sizing:border-box}body{margin:0;background:#101c20;color:#e9f0e9;font:17px/1.55 system-ui,sans-serif}
+main{max-width:1080px;margin:0 auto;padding:28px 20px 64px}h1{font-size:clamp(28px,5vw,43px);line-height:1.15;margin:10px 0}
+h2{font-size:22px;margin:0 0 12px}p{max-width:850px}a{color:#b5dfb8}.eyebrow{color:#a9bcae;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.controls{position:sticky;top:0;z-index:2;background:#101c20ee;padding:13px 0;display:flex;gap:10px;backdrop-filter:blur(8px)}
+button{font:inherit;border:1px solid #506558;border-radius:8px;padding:8px 20px;background:#25382c;color:inherit;cursor:pointer}
+button[aria-pressed=true]{background:#c9e8b0;color:#142416;border-color:#c9e8b0}button:focus-visible,a:focus-visible{outline:3px solid #efcf75;outline-offset:4px}
+article,details{margin:22px 0;padding:20px;border:1px solid #3b5145;border-radius:12px;background:#192a23}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0;min-width:0}figcaption{color:#b9cabe;margin:0 0 7px}
+img{display:block;width:100%;height:auto;image-rendering:pixelated;background:#0b1711}summary{cursor:pointer;font-weight:650}
+details[open] summary{margin-bottom:18px}.muted{color:#b0c3b6;font-size:15px}code{overflow-wrap:anywhere}
+@media(max-width:620px){main{padding:18px 12px}.pair{grid-template-columns:1fr}article,details{padding:12px}button{padding:7px 15px}}
+</style></head><body><main>
+<div class="eyebrow">Pokémon World · Viridian City · issue #348</div>
+<h1>Planted frontages, clear entrances</h1>
+<p>The northern house borrows the school’s flower boxes. The Center gets paired plantings, the Mart a smaller planted side, and the school and gym get restrained lawn edging. All 25 edits reuse existing map tiles; the earlier gardens and paths remain intact.</p>
+<p class="muted">Five-minute review: compare these three views in daylight, then switch to night. Check the house’s flower boxes, the space around the service-building doors, and how the plants sit beside the player. The optional views show the school and the more open gym frontage.</p>
+<div class="controls" role="group" aria-label="Time of day"><button type="button" data-time="noon" aria-pressed="true">Day</button><button type="button" data-time="dusk" aria-pressed="false">Dusk</button><button type="button" data-time="night" aria-pressed="false">Night</button></div>
+<article><h2>Northern house</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="house" src="media/before_house_noon.png" alt="Before house"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="house" src="media/after_house_noon.png" alt="After house"></figure></div></article><article><h2>Pokémon Center</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="center" src="media/before_center_noon.png" alt="Before center"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="center" src="media/after_center_noon.png" alt="After center"></figure></div></article><article><h2>Poké Mart</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="mart" src="media/before_mart_noon.png" alt="Before mart"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="mart" src="media/after_mart_noon.png" alt="After mart"></figure></div></article>
+<details><summary>Two more views</summary><h2>School reference</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="school" src="media/before_school_noon.png" alt="Before school"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="school" src="media/after_school_noon.png" alt="After school"></figure></div><h2>Gym forecourt</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="gym" src="media/before_gym_noon.png" alt="Before gym"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="gym" src="media/after_gym_noon.png" alt="After gym"></figure></div></details>
+<details><summary>Whole-map composition · source renders</summary><p class="muted">These are source-map renders without actors. The comparisons above are native 240×160 emulator captures.</p>
+<div class="pair"><figure><figcaption>Before</figcaption><img src="source-before.png" alt="Full original Viridian map"></figure><figure><figcaption>After</figcaption><img src="source-after.png" alt="Full landscaped Viridian map"></figure></div></details>
+<details><summary>Verification and exact scope</summary>
+<p>25 map cells changed. No tileset definitions, bitmap art, palettes or gameplay code changed.</p>
+<p>All 1,920 cells preserve collision, elevation and nonvisual attributes. 380 protected gameplay cells are untouched. All 69 garden cells and 70 prior path edits are identical. All five door approaches and three entrances keep the same walking component. Four routes sharing this tileset render identically.</p>
+<p>148 focused assertions passed, plus 50 full regression suites (1,331 assertions). All 15 paired runtime background-palette snapshots match. All five doors, four signs, three bidirectional connections, both roadblock states, the gym’s lock/recoil and old-man dialogue in both states, and the catch tutorial pass. Player and follower passage covers all planted edges. The prepared save also passes on the unpatched delivery ROM.</p>
+<p><a href="manifest.json">ROM and capture provenance</a> · <a href="audit.json">Map audit</a> · <a href="edits.json">Exact tile edits</a> · <a href="panes.json">Native window-pixel checks</a> · <a href="scope.png">Protected cells and edited cells</a> · <a href="atlas.png">Existing ground-piece atlas</a> · <a href="regression.log">Full regression result</a> · <a href="verification/actors-on-planted-edge.png">Player and follower at a planted edge</a></p>
+<p>The 1,064 tracked facade-glass pixels keep their positions and palette ownership. Their rendered colors and visibility match at noon, dusk and night: 3,192 native pixel comparisons. Existing warm glass stays warm; previously unlit decorative panes keep their normal tint.</p>
+<p class="muted">The fixture creates a synthetic later-story state for ordinary entry/exit checks; it is absent from the delivery ROM. The existing catch-tutorial regression separately exercises the early-story sequence.</p></details>
+<p class="muted">This completes the three-stage Viridian map-art pilot. The earlier landscaping and path galleries remain available in the repository.</p>
+</main><script>
+document.querySelectorAll('button[data-time]').forEach(button=>button.addEventListener('click',()=>{
+document.querySelectorAll('button[data-time]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+document.querySelectorAll('img[data-scene]').forEach(img=>img.src=`media/${img.dataset.side}_${img.dataset.scene}_${button.dataset.time}.png`);
+}));
+</script></body></html>

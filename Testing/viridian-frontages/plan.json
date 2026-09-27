@@ -1,0 +1,277 @@
+{
+  "issue": 348,
+  "baseline": "cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d",
+  "map": "ViridianCity_Frlg",
+  "baseline_rom_sha256": "8ae3f112239b7c4434d1b3c958d08b7f18f3dfdedcaaa8f3806b475f0c4acbfc",
+  "zones": {
+    "house": [
+      23,
+      9,
+      29,
+      12
+    ],
+    "school": [
+      23,
+      16,
+      29,
+      19
+    ],
+    "gym": [
+      32,
+      9,
+      39,
+      12
+    ],
+    "mart": [
+      33,
+      18,
+      38,
+      20
+    ],
+    "center": [
+      23,
+      25,
+      29,
+      27
+    ]
+  },
+  "edits": [
+    {
+      "zone": "house",
+      "x": 24,
+      "y": 11,
+      "old": 669,
+      "new": 664
+    },
+    {
+      "zone": "house",
+      "x": 26,
+      "y": 11,
+      "old": 677,
+      "new": 666
+    },
+    {
+      "zone": "house",
+      "x": 27,
+      "y": 11,
+      "old": 678,
+      "new": 667
+    },
+    {
+      "zone": "house",
+      "x": 28,
+      "y": 11,
+      "old": 679,
+      "new": 668
+    },
+    {
+      "zone": "house",
+      "x": 24,
+      "y": 12,
+      "old": 206,
+      "new": 672
+    },
+    {
+      "zone": "house",
+      "x": 26,
+      "y": 12,
+      "old": 206,
+      "new": 674
+    },
+    {
+      "zone": "house",
+      "x": 29,
+      "y": 9,
+      "old": 8,
+      "new": 191
+    },
+    {
+      "zone": "house",
+      "x": 29,
+      "y": 10,
+      "old": 16,
+      "new": 199
+    },
+    {
+      "zone": "house",
+      "x": 29,
+      "y": 11,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 16,
+      "old": 8,
+      "new": 191
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 17,
+      "old": 17,
+      "new": 199
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 18,
+      "old": 9,
+      "new": 199
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 19,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "center",
+      "x": 23,
+      "y": 25,
+      "old": 8,
+      "new": 741
+    },
+    {
+      "zone": "center",
+      "x": 23,
+      "y": 26,
+      "old": 1,
+      "new": 205
+    },
+    {
+      "zone": "center",
+      "x": 29,
+      "y": 25,
+      "old": 8,
+      "new": 735
+    },
+    {
+      "zone": "center",
+      "x": 29,
+      "y": 26,
+      "old": 1,
+      "new": 207
+    },
+    {
+      "zone": "mart",
+      "x": 33,
+      "y": 18,
+      "old": 9,
+      "new": 741
+    },
+    {
+      "zone": "mart",
+      "x": 33,
+      "y": 19,
+      "old": 8,
+      "new": 205
+    },
+    {
+      "zone": "mart",
+      "x": 38,
+      "y": 18,
+      "old": 9,
+      "new": 191
+    },
+    {
+      "zone": "mart",
+      "x": 38,
+      "y": 19,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "gym",
+      "x": 32,
+      "y": 11,
+      "old": 8,
+      "new": 205
+    },
+    {
+      "zone": "gym",
+      "x": 33,
+      "y": 11,
+      "old": 9,
+      "new": 207
+    },
+    {
+      "zone": "gym",
+      "x": 37,
+      "y": 11,
+      "old": 9,
+      "new": 205
+    },
+    {
+      "zone": "gym",
+      "x": 38,
+      "y": 11,
+      "old": 1,
+      "new": 207
+    }
+  ],
+  "scenes": [
+    {
+      "name": "house",
+      "label": "Northern house",
+      "x": 25,
+      "y": 12,
+      "facade": [
+        24,
+        11,
+        28,
+        11
+      ]
+    },
+    {
+      "name": "school",
+      "label": "School reference",
+      "x": 25,
+      "y": 19,
+      "facade": [
+        24,
+        18,
+        28,
+        18
+      ]
+    },
+    {
+      "name": "center",
+      "label": "Pok\u00e9mon Center",
+      "x": 30,
+      "y": 26,
+      "facade": [
+        24,
+        25,
+        28,
+        26
+      ]
+    },
+    {
+      "name": "mart",
+      "label": "Pok\u00e9 Mart",
+      "x": 32,
+      "y": 19,
+      "facade": [
+        34,
+        18,
+        37,
+        19
+      ]
+    },
+    {
+      "name": "gym",
+      "label": "Gym forecourt",
+      "x": 35,
+      "y": 11,
+      "facade": [
+        33,
+        9,
+        38,
+        10
+      ]
+    }
+  ]
+}

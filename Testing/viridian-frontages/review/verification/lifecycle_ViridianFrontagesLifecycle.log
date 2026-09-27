@@ -1,0 +1,65 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] house: frontage traversable
+  [PASS] house: follower remains visible
+  [PASS] school: frontage traversable
+  [PASS] school: follower remains visible
+  [PASS] center: frontage traversable
+  [PASS] center: follower remains visible
+  shot ViridianFrontagesLifecycle_1_actors_on_planted_edge
+  [PASS] mart: frontage traversable
+  [PASS] mart: follower remains visible
+  [PASS] gym_west: frontage traversable
+  [PASS] gym_west: follower remains visible
+  [PASS] gym_east: frontage traversable
+  [PASS] gym_east: follower remains visible
+  [PASS] house: correct door entry
+  [PASS] house: normal door exit
+  [PASS] house: night tint restored
+  [PASS] school: correct door entry
+  [PASS] school: normal door exit
+  [PASS] school: night tint restored
+  [PASS] mart: correct door entry
+  [PASS] mart: normal door exit
+  [PASS] mart: night tint restored
+  [PASS] center: correct door entry
+  [PASS] center: normal door exit
+  [PASS] center: night tint restored
+  [PASS] gym: correct door entry
+  [PASS] gym: normal door exit
+  [PASS] gym: night tint restored
+  [PASS] Route1: normal connection exit
+  [PASS] Route1: normal connection return
+  [PASS] Route2: normal connection exit
+  [PASS] Route2: normal connection return
+  [PASS] Route22: normal connection exit
+  [PASS] Route22: normal connection return
+gym_sign text: VIRIDIAN CITY POKMON GYM
+  [PASS] gym_sign: correct sign text
+  [PASS] gym_sign: returns control
+city_sign text: VIRIDIAN CITY  The Eternally Green Paradise
+  [PASS] city_sign: correct sign text
+  [PASS] city_sign: returns control
+south_tips text: TRAINER TIPSThe battle moves of POKMON are limited by their POWER POINTS PPTo replenish PP rest your tired POKMON at a POKMON CENTER
+  [PASS] south_tips: correct sign text
+  [PASS] south_tips: returns control
+north_tips text: TRAINER TIPSCatch POKMON and expand your collectionThe more you have the easier it is to battle
+  [PASS] north_tips: correct sign text
+  [PASS] north_tips: returns control
+  [PASS] early-story roadblock still opens its dialogue
+  [PASS] roadblock returns the player south
+  [PASS] post-tutorial corridor opens
+  [PASS] gym locked-door message remains correct
+  [PASS] locked gym returns to unchanged jump-back tile
+  [PASS] gym old man locked: correct dialogue
+  [PASS] gym old man locked: returns control
+  [PASS] gym old man unlocked: correct dialogue
+  [PASS] gym old man unlocked: returns control
+  [PASS] menu returns to field
+  [PASS] menu preserves map palettes and night blend
+  [PASS] synthetic save written
+BOOTED grp=37 map=1 pos=(30,26)
+  [PASS] Continue returns to Viridian
+  [PASS] Continue preserves night tint and walking
+  shot ViridianFrontagesLifecycle_2_night_continue
+VERDICT ViridianFrontagesLifecycle: 55/55 PASS

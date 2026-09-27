@@ -1,0 +1,177 @@
+{
+  "baseline_commit": "cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d",
+  "before_sha256": "8ae3f112239b7c4434d1b3c958d08b7f18f3dfdedcaaa8f3806b475f0c4acbfc",
+  "delivery_md5": "1F81D47C9D3831F26417B3E7F2248E82",
+  "delivery_sha256": "cbaed7c02c2f4f3a3a27407f0b5e66e98371eebb50b691592286c4c889d8977d",
+  "fixtures": {
+    "before": {
+      "input_rom_sha256": "8ae3f112239b7c4434d1b3c958d08b7f18f3dfdedcaaa8f3806b475f0c4acbfc",
+      "fixture_rom_sha256": "bc9cfa3d3f5fbceea0b0930172662bf94b0a70515e265a7762b7e0ba3b4b52c5",
+      "fixture_bytes": 478,
+      "fixture_source_sha256": "91cf576dfd80a08822f0410eea6f30ea88dd04cc740398fbfc117e6726b6122c",
+      "entry": "0x9f00001",
+      "base_commit": "cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d",
+      "working_diff_sha256": "e983bca2eebd8abab2ca81f8cda784079a2158fd3eb0ed7caccc5738ad5ae4ee",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "after": {
+      "input_rom_sha256": "cbaed7c02c2f4f3a3a27407f0b5e66e98371eebb50b691592286c4c889d8977d",
+      "fixture_rom_sha256": "334d2ea5b1552ebbf05cf53bf845d9b7fd669a4e14b7a784cb7edd3bd90ad1d1",
+      "fixture_bytes": 478,
+      "fixture_source_sha256": "91cf576dfd80a08822f0410eea6f30ea88dd04cc740398fbfc117e6726b6122c",
+      "entry": "0x9f00001",
+      "base_commit": "cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d",
+      "working_diff_sha256": "e983bca2eebd8abab2ca81f8cda784079a2158fd3eb0ed7caccc5738ad5ae4ee",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    }
+  },
+  "checks": {
+    "before": 45,
+    "after": 45,
+    "lifecycle": 55,
+    "delivery": 3,
+    "regression_suites": 50,
+    "regression_assertions": 1331
+  },
+  "unchanged_runtime_palette_snapshots": 15,
+  "images": [
+    {
+      "file": "media/before_house_noon.png",
+      "sha256": "c87b684f95bcf6ceccefe6642271e8a70d28e7566b6cee2f0d1ed466539eaf42"
+    },
+    {
+      "file": "media/after_house_noon.png",
+      "sha256": "19e9f889b5ae0bee5dffbd6172828cdddbcfa45fb06d9ac5161b4f72f4d1d591"
+    },
+    {
+      "file": "media/before_house_dusk.png",
+      "sha256": "1f6ee6017af95dea34b8f1cf7571c6f078383c14b5fbaa68df582b8cd8fc86c3"
+    },
+    {
+      "file": "media/after_house_dusk.png",
+      "sha256": "0d89d5a1808eb94919167e13b220714365a40b94c310e646c172016b0b4f2b04"
+    },
+    {
+      "file": "media/before_house_night.png",
+      "sha256": "7c7d77c1846b21972b6d751334c9de21285f3a697b0f430f2fdd4b36ff17cdd9"
+    },
+    {
+      "file": "media/after_house_night.png",
+      "sha256": "5ee5b6e48d25dfd49fb774e869c15babd69abf3d702b4b5337db5cb1116139f5"
+    },
+    {
+      "file": "media/before_school_noon.png",
+      "sha256": "922f41a5fbb07b60a7b00b38101c14602d9e702bafbfb387719dc6fc73f12a86"
+    },
+    {
+      "file": "media/after_school_noon.png",
+      "sha256": "607bb7d2275a85c5b899954e86fbba3379cc6744b705f374b88ace6c3a89af03"
+    },
+    {
+      "file": "media/before_school_dusk.png",
+      "sha256": "d1153fc620f6801d5c8ab7fa2472f79a15e1e95946141a9f37d14630b4383c5e"
+    },
+    {
+      "file": "media/after_school_dusk.png",
+      "sha256": "7b2351bd421b0da397e85a8ef316161eff2651b16a36628b3ff5fd66cf3ca041"
+    },
+    {
+      "file": "media/before_school_night.png",
+      "sha256": "afa5c59d379d59870f2ad9b99a54aade93939fce8d1bfbc8f493f8d101361a47"
+    },
+    {
+      "file": "media/after_school_night.png",
+      "sha256": "fb94586b4a3afd33182a85e51bca0d4e580c633ce5d2116ea2fa3e382a739e89"
+    },
+    {
+      "file": "media/before_center_noon.png",
+      "sha256": "acdbdd6657023e852d149cddbcaded8320cd72fafa50483bf3c75d6037a42198"
+    },
+    {
+      "file": "media/after_center_noon.png",
+      "sha256": "c314c75fc50ecd9e87f76f40fdb68cfa5545df9fd295cdce4b22e3a70112dc31"
+    },
+    {
+      "file": "media/before_center_dusk.png",
+      "sha256": "e8822665e7bf9b727a15d71c55c9367a92cd60063a733db2f49a6ab42f0e7619"
+    },
+    {
+      "file": "media/after_center_dusk.png",
+      "sha256": "6fcbaceff81a163b40a28e6995c7e682c9bfdf0156d5fc8efe06eb47ca97ab5d"
+    },
+    {
+      "file": "media/before_center_night.png",
+      "sha256": "0b4f4d88cf9845ecfdb04a6235c14a422fcbb25832b929a998373771934a23d8"
+    },
+    {
+      "file": "media/after_center_night.png",
+      "sha256": "54d625fd7532859c7df2b4078a405aa170aa192ad03cafee0f3777c93702a931"
+    },
+    {
+      "file": "media/before_mart_noon.png",
+      "sha256": "be147efad00bb68b12a895fbb760e04eb86603192d01559bc80275e6bced1402"
+    },
+    {
+      "file": "media/after_mart_noon.png",
+      "sha256": "f5e3bda6ba1df216592d62415f5b3cb8db12ca40b305b78cba3b4f74625ab170"
+    },
+    {
+      "file": "media/before_mart_dusk.png",
+      "sha256": "c700df7e442e8c4212dc66af16130207e7db587d697117533a66892b00680578"
+    },
+    {
+      "file": "media/after_mart_dusk.png",
+      "sha256": "dc3d0806c1d36ce5e7692aefc2d09830d8f696ab4a5a1f2ac45d0722a892ebb0"
+    },
+    {
+      "file": "media/before_mart_night.png",
+      "sha256": "419c94a9b4379960059eaba2dd2bf92b7b342b8e95bf8d2f75c4afdad070efb4"
+    },
+    {
+      "file": "media/after_mart_night.png",
+      "sha256": "21cfb40487cac95a54958a6b0fe47651ba7fee1eb454523376e05d1429e7d39b"
+    },
+    {
+      "file": "media/before_gym_noon.png",
+      "sha256": "d2b66c9e08fc106a32dc9fc7c54d3cce7c55dd2f2eeacba6b0f01e62c1e8f212"
+    },
+    {
+      "file": "media/after_gym_noon.png",
+      "sha256": "a2a45c3ce2da25899b3c0c54a6c2f2beb30b77f7c9ccbd6a8530145bb590354c"
+    },
+    {
+      "file": "media/before_gym_dusk.png",
+      "sha256": "1d01cd2a78e90778e310fc032283612f75a1e51ce133e7f650758032fedce1a9"
+    },
+    {
+      "file": "media/after_gym_dusk.png",
+      "sha256": "c7e211dcd12d00fb1d68107b8c2e31b360568df0318bfb78228e0373cc8642d2"
+    },
+    {
+      "file": "media/before_gym_night.png",
+      "sha256": "f9960ebaa75bda157b700bcac11f2b2f9a8a07f9e0907ca783a3d69a54e2e8f0"
+    },
+    {
+      "file": "media/after_gym_night.png",
+      "sha256": "10c1b9fbd5c8f42c658396667ae9fa4e92c3eca0f88ccb977dab762551c75275"
+    }
+  ],
+  "native_glass_pixel_comparisons": 3192,
+  "pane_checker_sha256": "7aa4c10d5b4d64f7e9786c02af8d39a37f23d1ee7b5aca43c5122d49ca146d3b",
+  "actor_layering_image": {
+    "file": "verification/actors-on-planted-edge.png",
+    "sha256": "9dac4fd171ce206f66fffd0450eff12dd13baf3fdb8fba2f421a82f7ef2666bf"
+  },
+  "fixture_sha256": "91cf576dfd80a08822f0410eea6f30ea88dd04cc740398fbfc117e6726b6122c",
+  "capture_script_sha256": "457b70cf5af85366e2896923da1e2f32586738a9fc6a89e8d330b0dac347bda8",
+  "lifecycle_script_sha256": "52a8139c01cfc0617d8b3c93ccc64b2d3232f71bb29938429d4ea40aae3ad5a3",
+  "delivery_script_sha256": "92122d5954f1e0a54744a66883dad94a6fe567df5e5353cc583c147e6c5b0806"
+}

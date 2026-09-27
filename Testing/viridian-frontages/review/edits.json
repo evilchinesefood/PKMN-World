@@ -1,0 +1,196 @@
+{
+  "issue": 348,
+  "baseline": "cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d",
+  "edits": [
+    {
+      "zone": "house",
+      "x": 24,
+      "y": 11,
+      "old": 669,
+      "new": 664
+    },
+    {
+      "zone": "house",
+      "x": 26,
+      "y": 11,
+      "old": 677,
+      "new": 666
+    },
+    {
+      "zone": "house",
+      "x": 27,
+      "y": 11,
+      "old": 678,
+      "new": 667
+    },
+    {
+      "zone": "house",
+      "x": 28,
+      "y": 11,
+      "old": 679,
+      "new": 668
+    },
+    {
+      "zone": "house",
+      "x": 24,
+      "y": 12,
+      "old": 206,
+      "new": 672
+    },
+    {
+      "zone": "house",
+      "x": 26,
+      "y": 12,
+      "old": 206,
+      "new": 674
+    },
+    {
+      "zone": "house",
+      "x": 29,
+      "y": 9,
+      "old": 8,
+      "new": 191
+    },
+    {
+      "zone": "house",
+      "x": 29,
+      "y": 10,
+      "old": 16,
+      "new": 199
+    },
+    {
+      "zone": "house",
+      "x": 29,
+      "y": 11,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 16,
+      "old": 8,
+      "new": 191
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 17,
+      "old": 17,
+      "new": 199
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 18,
+      "old": 9,
+      "new": 199
+    },
+    {
+      "zone": "school",
+      "x": 29,
+      "y": 19,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "center",
+      "x": 23,
+      "y": 25,
+      "old": 8,
+      "new": 741
+    },
+    {
+      "zone": "center",
+      "x": 23,
+      "y": 26,
+      "old": 1,
+      "new": 205
+    },
+    {
+      "zone": "center",
+      "x": 29,
+      "y": 25,
+      "old": 8,
+      "new": 735
+    },
+    {
+      "zone": "center",
+      "x": 29,
+      "y": 26,
+      "old": 1,
+      "new": 207
+    },
+    {
+      "zone": "mart",
+      "x": 33,
+      "y": 18,
+      "old": 9,
+      "new": 741
+    },
+    {
+      "zone": "mart",
+      "x": 33,
+      "y": 19,
+      "old": 8,
+      "new": 205
+    },
+    {
+      "zone": "mart",
+      "x": 38,
+      "y": 18,
+      "old": 9,
+      "new": 191
+    },
+    {
+      "zone": "mart",
+      "x": 38,
+      "y": 19,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "gym",
+      "x": 32,
+      "y": 11,
+      "old": 8,
+      "new": 205
+    },
+    {
+      "zone": "gym",
+      "x": 33,
+      "y": 11,
+      "old": 9,
+      "new": 207
+    },
+    {
+      "zone": "gym",
+      "x": 37,
+      "y": 11,
+      "old": 9,
+      "new": 205
+    },
+    {
+      "zone": "gym",
+      "x": 38,
+      "y": 11,
+      "old": 1,
+      "new": 207
+    }
+  ],
+  "composites": [],
+  "assets": {
+    "data/layouts/ViridianCity_Frlg/map.bin": {
+      "before_sha256": "4fbd11f58d7abf6ef5f2dae4675f358832db54df6d493da2b198d7abcd472571",
+      "after_sha256": "00d4858dfc09a30353bfe55070e47e2f38a3f541a27dd463f3fc0a5ced26527e"
+    },
+    "data/tilesets/secondary/viridian_city_frlg/metatiles.bin": {
+      "before_sha256": "b3f92796621182fab6e24e8580b6bdded67b88a0ca1c69e892ad568ee2636830",
+      "after_sha256": "b3f92796621182fab6e24e8580b6bdded67b88a0ca1c69e892ad568ee2636830"
+    },
+    "data/tilesets/secondary/viridian_city_frlg/metatile_attributes.bin": {
+      "before_sha256": "473463e555a014100e19236202ffbfa2c10ecd1e1e581463ef8eaaa749bdeecb",
+      "after_sha256": "473463e555a014100e19236202ffbfa2c10ecd1e1e581463ef8eaaa749bdeecb"
+    }
+  }
+}

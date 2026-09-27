@@ -12,6 +12,13 @@ interactive comparison, or inspect the complete
 [before sheet](review/media/before-colorways.png) directly. Native screenshots
 and lossless send-out clips cover all twelve character/outfit combinations.
 
+The source gallery includes screenshots and clips, but the ROM/save bundle is
+provided separately. On the owner's machine it is at
+`_pwtest/player-outfits-342/PokemonWorld-Outfits-342.zip` relative to the repository
+root; serving a fresh clone does not provide that download. The gallery's local
+playtest link opens these setup instructions instead of assuming a ZIP exists at
+the web server root.
+
 ## Palette contract
 
 | Layout | Recolored entries | Protected entries |

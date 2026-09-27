@@ -1,0 +1,12 @@
+{
+  "before_sha256": "c1ab590a6adba9f2c051533fdf752f02f681ba58c54487d6435682c3372bf843",
+  "after_sha256": "a70354d7a31d6660bb9b25fee8bddaedb2eda66a1bc045bcbd6e599bafd170a0",
+  "changed_bytes": 77,
+  "changes_by_symbol": {
+    "gTileset_NewBarkTown": 1,
+    "gTileset_CherrygroveCity": 1,
+    "gTilesetPalettes_NewBarkTown": 32,
+    "gTilesetPalettes_CherrygroveCity": 32,
+    "sText_BuildStamp": 11
+  }
+}

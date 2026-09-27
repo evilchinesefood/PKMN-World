@@ -1,0 +1,5 @@
+/private/tmp/pkmn-world-warm-windows-335/Testing/warm-windows/render_review.py:76: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  for p0,p1 in zip(before.getdata(),after.getdata()):
+/private/tmp/pkmn-world-warm-windows-335/Testing/warm-windows/render_review.py:89: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  assert all((p0,p1) in pairs for p0,p1 in zip(before.getdata(),after.getdata()) if p0!=p1), tag
+PASS: 40 native before/after comparisons; 10 decoded lossless clips; 530 runtime assertions.

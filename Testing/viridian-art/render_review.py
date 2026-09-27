@@ -14,6 +14,7 @@ import tempfile
 from PIL import Image
 
 import art
+from run_suite import verify_run
 
 spec = importlib.util.spec_from_file_location('lighting_review', art.REPO/'Testing/night-lighting/render_review.py')
 lighting_review = importlib.util.module_from_spec(spec)
@@ -47,6 +48,7 @@ def main():
                  'after-fixture', 'before', 'after', 'lifecycle', 'delivery-run', 'regression', 'out'):
         parser.add_argument('--'+name, type=Path, required=True)
     args = parser.parse_args()
+    assert digest(args.before_rom) == art.PLAN['baseline_rom_sha256'], 'not the pinned baseline ROM'
     generated, edits = art.expected()
     rom_assets(args.before_rom, args.before_elf, {p: art.original(p) for p in generated})
     rom_assets(args.delivery, args.delivery_elf, generated)
@@ -58,7 +60,10 @@ def main():
         assert fixtures[side]['fixture_source_sha256'] == digest(art.HERE/'fixture.c')
         assert fixtures[side]['fixture_rom_sha256'] == digest(directory/'VerifyFeatures.gba')
         fixture_md5[side] = digest(directory/'VerifyFeatures.gba', 'md5')
+        verify_run(getattr(args, side), art.HERE/'capture.lua', directory/'VerifyFeatures.gba')
         counts[side] = lighting_review.passed(getattr(args, side), fixture_md5[side], 'ViridianArtCapture')
+    verify_run(args.lifecycle, art.HERE/'lifecycle.lua', args.after_fixture/'VerifyFeatures.gba')
+    verify_run(args.delivery_run, art.HERE/'delivery.lua', args.delivery)
     counts['lifecycle'] = lighting_review.passed(args.lifecycle, fixture_md5['after'], 'ViridianArtLifecycle')
     md5 = digest(args.delivery, 'md5').upper()
     counts['delivery'] = lighting_review.passed(args.delivery_run, md5, 'ViridianArtDelivery', require_runner_log=False)
@@ -111,6 +116,7 @@ def main():
                                   ('after', args.after, 'ViridianArtCapture'),
                                   ('lifecycle', args.lifecycle, 'ViridianArtLifecycle'),
                                   ('delivery', args.delivery_run, 'ViridianArtDelivery')):
+        shutil.copyfile(directory/'run-provenance.json', verification/(key+'_run-provenance.json'))
         for suffix in ('log', 'PASS'):
             shutil.copyfile(directory/(suite+'.'+suffix), verification/(key+'_'+suite+'.'+suffix))
     shutil.copyfile(args.regression/'sweep.log', args.out/'regression.log')

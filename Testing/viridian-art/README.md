@@ -66,7 +66,7 @@ Use the same `fixture.c` for both clean-baseline and changed ROM captures:
 ```sh
 python3 Testing/visual-features/build_fixture.py --repo . \
   --rom "$ROM" --elf "$ELF" --out "$FIXTURE" --source Testing/viridian-art/fixture.c
-python3 Testing/visual-features/run_fixture.py --repo . --fixture "$FIXTURE" \
+python3 Testing/viridian-art/run_suite.py --repo . --fixture "$FIXTURE" \
   --suite Testing/viridian-art/capture.lua --out "$CAPTURES"
 ```
 
@@ -74,10 +74,11 @@ Run `lifecycle.lua` through the same runner on the changed fixture, then verify 
 generated `VisualReview.sav` on the unpatched ROM:
 
 ```sh
-python3 Testing/visual-features/run_fixture.py --repo . --fixture "$AFTER_FIXTURE" \
+python3 Testing/viridian-art/run_suite.py --repo . --fixture "$AFTER_FIXTURE" \
   --suite Testing/viridian-art/lifecycle.lua --out /tmp/viridian-runs/lifecycle
-PW_OUT=/tmp/viridian-runs/delivery Testing/mgba-run.sh \
-  Testing/viridian-art/delivery.lua "$DELIVERY_ROM" /tmp/viridian-runs/lifecycle/VisualReview.sav
+python3 Testing/viridian-art/run_suite.py --repo . \
+  --suite Testing/viridian-art/delivery.lua --rom "$DELIVERY_ROM" \
+  --save /tmp/viridian-runs/lifecycle/VisualReview.sav --out /tmp/viridian-runs/delivery
 python3 Testing/viridian-art/render_review.py \
   --before-rom "$BEFORE_ROM" --before-elf "$BEFORE_ELF" \
   --delivery "$DELIVERY_ROM" --delivery-elf "$DELIVERY_ELF" \
@@ -87,6 +88,9 @@ python3 Testing/viridian-art/render_review.py \
   --regression /tmp/viridian-runs/regression --out Testing/viridian-art/review
 ```
 
+Publication first requires the exact baseline ROM SHA-256 pinned in `plan.json`.
+`run_suite.py` records the suite-source and ROM hashes at execution time; publication
+rejects stale source hashes, failed runs and missing records.
 Publication verifies the map/metatile/attribute bytes actually linked in both ROMs
 against the baseline and authored source, validates fixture hashes and all positive
 run verdicts, and reruns the source audit. An existing audit file is never an input.

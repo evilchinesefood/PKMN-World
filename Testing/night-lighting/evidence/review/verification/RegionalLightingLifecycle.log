@@ -1,0 +1,75 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot RegionalLightingLifecycle_1_Hoenn_lamp_front
+  [PASS] Hoenn: lamp base blocks walking
+  [PASS] Hoenn: can leave a save position under the new lamp
+  shot RegionalLightingLifecycle_2_Kanto_lamp_front
+  [PASS] Kanto: lamp base blocks walking
+  [PASS] Kanto: can leave a save position under the new lamp
+  shot RegionalLightingLifecycle_3_Johto_lamp_front
+  [PASS] Johto: lamp base blocks walking
+  [PASS] Johto: can leave a save position under the new lamp
+  shot RegionalLightingLifecycle_4_Dock_lamp_front
+  [PASS] Dock: lamp base blocks walking
+  [PASS] Dock: can leave a save position under the new lamp
+  [PASS] Hoenn: menu closes
+  [PASS] Hoenn menu: daylight/alternate sources restored
+  [PASS] Hoenn menu: night blend restored
+  [PASS] Hoenn: normal door entry
+  shot RegionalLightingLifecycle_5_Hoenn_inside
+  [PASS] Hoenn: normal door exit
+  [PASS] Hoenn door: daylight/alternate sources restored
+  [PASS] Hoenn door: night blend restored
+  shot RegionalLightingLifecycle_6_Hoenn_door_return
+  [PASS] Hoenn: real battle entered
+  [PASS] Hoenn: Run selected
+  [PASS] Hoenn: escaped normally
+  [PASS] Hoenn battle: daylight/alternate sources restored
+  [PASS] Hoenn battle: night blend restored
+  [PASS] Hoenn: save written
+BOOTED grp=0 map=10 pos=(6,17)
+  [PASS] Hoenn: Continue returns to the same town
+  [PASS] Hoenn Continue: daylight/alternate sources restored
+  [PASS] Hoenn Continue: night blend restored
+  shot RegionalLightingLifecycle_7_Hoenn_continue
+  [PASS] Kanto: menu closes
+  [PASS] Kanto menu: daylight/alternate sources restored
+  [PASS] Kanto menu: night blend restored
+  [PASS] Kanto: normal door entry
+  shot RegionalLightingLifecycle_8_Kanto_inside
+  [PASS] Kanto: normal door exit
+  [PASS] Kanto door: daylight/alternate sources restored
+  [PASS] Kanto door: night blend restored
+  shot RegionalLightingLifecycle_9_Kanto_door_return
+  [PASS] Kanto: real battle entered
+  [PASS] Kanto: Run selected
+  [PASS] Kanto: escaped normally
+  [PASS] Kanto battle: daylight/alternate sources restored
+  [PASS] Kanto battle: night blend restored
+  [PASS] Kanto: save written
+BOOTED grp=37 map=8 pos=(14,12)
+  [PASS] Kanto: Continue returns to the same town
+  [PASS] Kanto Continue: daylight/alternate sources restored
+  [PASS] Kanto Continue: night blend restored
+  shot RegionalLightingLifecycle_10_Kanto_continue
+  [PASS] Johto: menu closes
+  [PASS] Johto menu: daylight/alternate sources restored
+  [PASS] Johto menu: night blend restored
+  [PASS] Johto: normal door entry
+  shot RegionalLightingLifecycle_11_Johto_inside
+  [PASS] Johto: normal door exit
+  [PASS] Johto door: daylight/alternate sources restored
+  [PASS] Johto door: night blend restored
+  shot RegionalLightingLifecycle_12_Johto_door_return
+  [PASS] Johto: real battle entered
+  [PASS] Johto: Run selected
+  [PASS] Johto: escaped normally
+  [PASS] Johto battle: daylight/alternate sources restored
+  [PASS] Johto battle: night blend restored
+  [PASS] Johto: save written
+BOOTED grp=75 map=1 pos=(34,14)
+  [PASS] Johto: Continue returns to the same town
+  [PASS] Johto Continue: daylight/alternate sources restored
+  [PASS] Johto Continue: night blend restored
+  shot RegionalLightingLifecycle_13_Johto_continue
+VERDICT RegionalLightingLifecycle: 56/56 PASS

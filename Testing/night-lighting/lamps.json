@@ -1,0 +1,1658 @@
+{
+  "donors": {
+    "modern": [
+      "OlivineCity",
+      "348",
+      "350 top",
+      "358 bottom"
+    ],
+    "lantern": [
+      "BlackthornCity",
+      "298",
+      "2A0"
+    ]
+  },
+  "placements": [
+    {
+      "town": "AzaleaTown",
+      "x": 30,
+      "y": 19,
+      "metatiles": [
+        1022,
+        1021
+      ],
+      "height": 2
+    },
+    {
+      "town": "AzaleaTown",
+      "x": 39,
+      "y": 15,
+      "metatiles": [
+        1020,
+        1021
+      ],
+      "height": 2
+    },
+    {
+      "town": "CeladonCity_Frlg",
+      "x": 42,
+      "y": 22,
+      "metatiles": [
+        880,
+        881
+      ],
+      "height": 2
+    },
+    {
+      "town": "CeladonCity_Frlg",
+      "x": 12,
+      "y": 25,
+      "metatiles": [
+        882,
+        883
+      ],
+      "height": 2
+    },
+    {
+      "town": "CeruleanCity_Frlg",
+      "x": 24,
+      "y": 22,
+      "metatiles": [
+        774,
+        775
+      ],
+      "height": 2
+    },
+    {
+      "town": "CeruleanCity_Frlg",
+      "x": 21,
+      "y": 14,
+      "metatiles": [
+        776,
+        777
+      ],
+      "height": 2
+    },
+    {
+      "town": "CherrygroveCity",
+      "x": 32,
+      "y": 18,
+      "metatiles": [
+        840,
+        841
+      ],
+      "height": 2
+    },
+    {
+      "town": "CherrygroveCity",
+      "x": 37,
+      "y": 15,
+      "metatiles": [
+        842,
+        843
+      ],
+      "height": 2
+    },
+    {
+      "town": "CianwoodCity",
+      "x": 15,
+      "y": 27,
+      "metatiles": [
+        880,
+        881
+      ],
+      "height": 2
+    },
+    {
+      "town": "CianwoodCity",
+      "x": 20,
+      "y": 41,
+      "metatiles": [
+        882,
+        881
+      ],
+      "height": 2
+    },
+    {
+      "town": "CinnabarIsland_Frlg",
+      "x": 12,
+      "y": 13,
+      "metatiles": [
+        704,
+        705
+      ],
+      "height": 2
+    },
+    {
+      "town": "CinnabarIsland_Frlg",
+      "x": 21,
+      "y": 13,
+      "metatiles": [
+        706,
+        707
+      ],
+      "height": 2
+    },
+    {
+      "town": "DewfordTown",
+      "x": 3,
+      "y": 14,
+      "metatiles": [
+        891,
+        892
+      ],
+      "height": 2
+    },
+    {
+      "town": "EverGrandeCity",
+      "x": 26,
+      "y": 52,
+      "metatiles": [
+        680,
+        681
+      ],
+      "height": 2
+    },
+    {
+      "town": "EverGrandeCity",
+      "x": 19,
+      "y": 10,
+      "metatiles": [
+        682,
+        683
+      ],
+      "height": 2
+    },
+    {
+      "town": "FallarborTown",
+      "x": 4,
+      "y": 13,
+      "metatiles": [
+        879,
+        880
+      ],
+      "height": 2
+    },
+    {
+      "town": "FiveIsland_Frlg",
+      "x": 14,
+      "y": 8,
+      "metatiles": [
+        792,
+        793
+      ],
+      "height": 2
+    },
+    {
+      "town": "FortreeCity",
+      "x": 3,
+      "y": 9,
+      "metatiles": [
+        792,
+        793
+      ],
+      "height": 2
+    },
+    {
+      "town": "FourIsland_Frlg",
+      "x": 21,
+      "y": 22,
+      "metatiles": [
+        794,
+        795
+      ],
+      "height": 2
+    },
+    {
+      "town": "FourIsland_Frlg",
+      "x": 19,
+      "y": 28,
+      "metatiles": [
+        792,
+        795
+      ],
+      "height": 2
+    },
+    {
+      "town": "FuchsiaCity_Frlg",
+      "x": 28,
+      "y": 21,
+      "metatiles": [
+        832,
+        833
+      ],
+      "height": 2
+    },
+    {
+      "town": "FuchsiaCity_Frlg",
+      "x": 22,
+      "y": 33,
+      "metatiles": [
+        834,
+        833
+      ],
+      "height": 2
+    },
+    {
+      "town": "IndigoPlateau_Exterior_Frlg",
+      "x": 10,
+      "y": 10,
+      "metatiles": [
+        816,
+        817
+      ],
+      "height": 2
+    },
+    {
+      "town": "JohtoIndigoPlateau",
+      "x": 11,
+      "y": 11,
+      "metatiles": [
+        818,
+        819
+      ],
+      "height": 2
+    },
+    {
+      "town": "LakeOfRage",
+      "x": 34,
+      "y": 43,
+      "metatiles": [
+        958,
+        959
+      ],
+      "height": 2
+    },
+    {
+      "town": "LavaridgeTown",
+      "x": 16,
+      "y": 9,
+      "metatiles": [
+        953,
+        954
+      ],
+      "height": 2
+    },
+    {
+      "town": "LavenderTown_Frlg",
+      "x": 4,
+      "y": 8,
+      "metatiles": [
+        858,
+        859
+      ],
+      "height": 2
+    },
+    {
+      "town": "LilycoveCity",
+      "x": 38,
+      "y": 19,
+      "metatiles": [
+        863,
+        864
+      ],
+      "height": 2
+    },
+    {
+      "town": "LilycoveCity",
+      "x": 26,
+      "y": 17,
+      "metatiles": [
+        865,
+        866
+      ],
+      "height": 2
+    },
+    {
+      "town": "LittlerootTown",
+      "x": 5,
+      "y": 11,
+      "metatiles": [
+        656,
+        657
+      ],
+      "height": 2
+    },
+    {
+      "town": "Mahoganytown",
+      "x": 15,
+      "y": 14,
+      "metatiles": [
+        960,
+        961
+      ],
+      "height": 2
+    },
+    {
+      "town": "Mahoganytown",
+      "x": 25,
+      "y": 21,
+      "metatiles": [
+        962,
+        961
+      ],
+      "height": 2
+    },
+    {
+      "town": "MauvilleCity",
+      "x": 10,
+      "y": 9,
+      "metatiles": [
+        1022,
+        933
+      ],
+      "height": 2
+    },
+    {
+      "town": "MauvilleCity",
+      "x": 3,
+      "y": 7,
+      "metatiles": [
+        932,
+        918
+      ],
+      "height": 2
+    },
+    {
+      "town": "MossdeepCity",
+      "x": 29,
+      "y": 20,
+      "metatiles": [
+        966,
+        967
+      ],
+      "height": 2
+    },
+    {
+      "town": "MossdeepCity",
+      "x": 45,
+      "y": 10,
+      "metatiles": [
+        968,
+        967
+      ],
+      "height": 2
+    },
+    {
+      "town": "MtSilver_Outside",
+      "x": 28,
+      "y": 17,
+      "metatiles": [
+        963,
+        964
+      ],
+      "height": 2
+    },
+    {
+      "town": "NewBarkTown",
+      "x": 16,
+      "y": 14,
+      "metatiles": [
+        784,
+        785
+      ],
+      "height": 2
+    },
+    {
+      "town": "NewBarkTown",
+      "x": 20,
+      "y": 23,
+      "metatiles": [
+        786,
+        787
+      ],
+      "height": 2
+    },
+    {
+      "town": "OldaleTown",
+      "x": 3,
+      "y": 10,
+      "metatiles": [
+        658,
+        659
+      ],
+      "height": 2
+    },
+    {
+      "town": "OldaleTown",
+      "x": 13,
+      "y": 12,
+      "metatiles": [
+        660,
+        659
+      ],
+      "height": 2
+    },
+    {
+      "town": "OneIsland_Frlg",
+      "x": 10,
+      "y": 13,
+      "metatiles": [
+        925,
+        926
+      ],
+      "height": 2
+    },
+    {
+      "town": "PacifidlogTown",
+      "x": 10,
+      "y": 16,
+      "metatiles": [
+        715
+      ],
+      "height": 1
+    },
+    {
+      "town": "PalletTown_Frlg",
+      "x": 20,
+      "y": 8,
+      "metatiles": [
+        729,
+        730
+      ],
+      "height": 2
+    },
+    {
+      "town": "PetalburgCity",
+      "x": 13,
+      "y": 22,
+      "metatiles": [
+        656,
+        657
+      ],
+      "height": 2
+    },
+    {
+      "town": "PetalburgCity",
+      "x": 22,
+      "y": 19,
+      "metatiles": [
+        661,
+        657
+      ],
+      "height": 2
+    },
+    {
+      "town": "PewterCity_Frlg",
+      "x": 25,
+      "y": 20,
+      "metatiles": [
+        719,
+        720
+      ],
+      "height": 2
+    },
+    {
+      "town": "PewterCity_Frlg",
+      "x": 19,
+      "y": 10,
+      "metatiles": [
+        721,
+        720
+      ],
+      "height": 2
+    },
+    {
+      "town": "RustboroCity",
+      "x": 18,
+      "y": 41,
+      "metatiles": [
+        862,
+        863
+      ],
+      "height": 2
+    },
+    {
+      "town": "RustboroCity",
+      "x": 30,
+      "y": 22,
+      "metatiles": [
+        862,
+        863
+      ],
+      "height": 2
+    },
+    {
+      "town": "SafariZoneGate",
+      "x": 14,
+      "y": 18,
+      "metatiles": [
+        952,
+        953
+      ],
+      "height": 2
+    },
+    {
+      "town": "SafariZoneGate",
+      "x": 9,
+      "y": 24,
+      "metatiles": [
+        954,
+        955
+      ],
+      "height": 2
+    },
+    {
+      "town": "SaffronCity_Connection_Frlg",
+      "x": 19,
+      "y": 27,
+      "metatiles": [
+        840,
+        841
+      ],
+      "height": 2
+    },
+    {
+      "town": "SaffronCity_Connection_Frlg",
+      "x": 7,
+      "y": 18,
+      "metatiles": [
+        840,
+        841
+      ],
+      "height": 2
+    },
+    {
+      "town": "SaffronCity_Frlg",
+      "x": 17,
+      "y": 25,
+      "metatiles": [
+        840,
+        841
+      ],
+      "height": 2
+    },
+    {
+      "town": "SaffronCity_Frlg",
+      "x": 32,
+      "y": 43,
+      "metatiles": [
+        840,
+        841
+      ],
+      "height": 2
+    },
+    {
+      "town": "SevenIsland_Frlg",
+      "x": 8,
+      "y": 11,
+      "metatiles": [
+        880,
+        881
+      ],
+      "height": 2
+    },
+    {
+      "town": "SixIsland_Frlg",
+      "x": 20,
+      "y": 19,
+      "metatiles": [
+        882,
+        883
+      ],
+      "height": 2
+    },
+    {
+      "town": "SlateportCity",
+      "x": 11,
+      "y": 29,
+      "metatiles": [
+        918,
+        919
+      ],
+      "height": 2
+    },
+    {
+      "town": "SlateportCity",
+      "x": 3,
+      "y": 30,
+      "metatiles": [
+        920,
+        921
+      ],
+      "height": 2
+    },
+    {
+      "town": "SootopolisCity",
+      "x": 13,
+      "y": 32,
+      "metatiles": [
+        766,
+        767
+      ],
+      "height": 2
+    },
+    {
+      "town": "SootopolisCity",
+      "x": 43,
+      "y": 40,
+      "metatiles": [
+        768,
+        769
+      ],
+      "height": 2
+    },
+    {
+      "town": "ThreeIsland_Frlg",
+      "x": 9,
+      "y": 30,
+      "metatiles": [
+        927,
+        928
+      ],
+      "height": 2
+    },
+    {
+      "town": "TwoIsland_Frlg",
+      "x": 20,
+      "y": 12,
+      "metatiles": [
+        929,
+        930
+      ],
+      "height": 2
+    },
+    {
+      "town": "TwoIsland_Frlg",
+      "x": 44,
+      "y": 8,
+      "metatiles": [
+        931,
+        932
+      ],
+      "height": 2
+    },
+    {
+      "town": "VerdanturfTown",
+      "x": 11,
+      "y": 7,
+      "metatiles": [
+        911,
+        918
+      ],
+      "height": 2
+    },
+    {
+      "town": "VerdanturfTown",
+      "x": 16,
+      "y": 10,
+      "metatiles": [
+        911,
+        1013
+      ],
+      "height": 2
+    },
+    {
+      "town": "VermilionCity_Frlg",
+      "x": 23,
+      "y": 20,
+      "metatiles": [
+        808,
+        809
+      ],
+      "height": 2
+    },
+    {
+      "town": "VermilionCity_Frlg",
+      "x": 10,
+      "y": 20,
+      "metatiles": [
+        810,
+        811
+      ],
+      "height": 2
+    },
+    {
+      "town": "ViridianCity_Frlg",
+      "x": 23,
+      "y": 28,
+      "metatiles": [
+        735,
+        736
+      ],
+      "height": 2
+    },
+    {
+      "town": "ViridianCity_Frlg",
+      "x": 33,
+      "y": 21,
+      "metatiles": [
+        735,
+        736
+      ],
+      "height": 2
+    }
+  ],
+  "modified_paths": [
+    "data/layouts/AzaleaTown/map.bin",
+    "data/layouts/CeladonCity_Frlg/map.bin",
+    "data/layouts/CeruleanCity_Frlg/map.bin",
+    "data/layouts/CherrygroveCity/map.bin",
+    "data/layouts/CianwoodCity/map.bin",
+    "data/layouts/CinnabarIsland_Frlg/map.bin",
+    "data/layouts/DewfordTown/map.bin",
+    "data/layouts/EverGrandeCity/map.bin",
+    "data/layouts/FallarborTown/map.bin",
+    "data/layouts/FiveIsland_Frlg/map.bin",
+    "data/layouts/FortreeCity/map.bin",
+    "data/layouts/FourIsland_Frlg/map.bin",
+    "data/layouts/FuchsiaCity_Frlg/map.bin",
+    "data/layouts/IndigoPlateau_Exterior_Frlg/map.bin",
+    "data/layouts/JohtoIndigoPlateau/map.bin",
+    "data/layouts/LakeOfRage/map.bin",
+    "data/layouts/LavaridgeTown/map.bin",
+    "data/layouts/LavenderTown_Frlg/map.bin",
+    "data/layouts/LilycoveCity/map.bin",
+    "data/layouts/LittlerootTown/map.bin",
+    "data/layouts/Mahoganytown/map.bin",
+    "data/layouts/MauvilleCity/map.bin",
+    "data/layouts/MossdeepCity/map.bin",
+    "data/layouts/MtSilver_Outside/map.bin",
+    "data/layouts/NewBarkTown/map.bin",
+    "data/layouts/OldaleTown/map.bin",
+    "data/layouts/OneIsland_Frlg/map.bin",
+    "data/layouts/PacifidlogTown/map.bin",
+    "data/layouts/PalletTown_Frlg/map.bin",
+    "data/layouts/PetalburgCity/map.bin",
+    "data/layouts/PewterCity_Frlg/map.bin",
+    "data/layouts/RustboroCity/map.bin",
+    "data/layouts/SafariZoneGate/map.bin",
+    "data/layouts/SaffronCity_Connection_Frlg/map.bin",
+    "data/layouts/SaffronCity_Frlg/map.bin",
+    "data/layouts/SevenIsland_Frlg/map.bin",
+    "data/layouts/SixIsland_Frlg/map.bin",
+    "data/layouts/SlateportCity/map.bin",
+    "data/layouts/SootopolisCity/map.bin",
+    "data/layouts/ThreeIsland_Frlg/map.bin",
+    "data/layouts/TwoIsland_Frlg/map.bin",
+    "data/layouts/VerdanturfTown/map.bin",
+    "data/layouts/VermilionCity_Frlg/map.bin",
+    "data/layouts/ViridianCity_Frlg/map.bin",
+    "data/tilesets/primary/general/tiles.png",
+    "data/tilesets/primary/general_frlg/tiles.png",
+    "data/tilesets/primary/johto_general/tiles.png",
+    "data/tilesets/primary/johto_north_east/tiles.png",
+    "data/tilesets/primary/johto_north_west/tiles.png",
+    "data/tilesets/primary/johto_south/tiles.png",
+    "data/tilesets/secondary/azalea_town/metatile_attributes.bin",
+    "data/tilesets/secondary/azalea_town/metatiles.bin",
+    "data/tilesets/secondary/celadon_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/celadon_city_frlg/metatiles.bin",
+    "data/tilesets/secondary/cerulean_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/cerulean_city_frlg/metatiles.bin",
+    "data/tilesets/secondary/cherrygrove_city/metatile_attributes.bin",
+    "data/tilesets/secondary/cherrygrove_city/metatiles.bin",
+    "data/tilesets/secondary/cianwood_city/metatile_attributes.bin",
+    "data/tilesets/secondary/cianwood_city/metatiles.bin",
+    "data/tilesets/secondary/cinnabar_island_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/cinnabar_island_frlg/metatiles.bin",
+    "data/tilesets/secondary/dewford/metatile_attributes.bin",
+    "data/tilesets/secondary/dewford/metatiles.bin",
+    "data/tilesets/secondary/ever_grande/metatile_attributes.bin",
+    "data/tilesets/secondary/ever_grande/metatiles.bin",
+    "data/tilesets/secondary/fallarbor/metatile_attributes.bin",
+    "data/tilesets/secondary/fallarbor/metatiles.bin",
+    "data/tilesets/secondary/fortree/metatile_attributes.bin",
+    "data/tilesets/secondary/fortree/metatiles.bin",
+    "data/tilesets/secondary/fuchsia_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/fuchsia_city_frlg/metatiles.bin",
+    "data/tilesets/secondary/indigo_plateau_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/indigo_plateau_frlg/metatiles.bin",
+    "data/tilesets/secondary/lavaridge/metatile_attributes.bin",
+    "data/tilesets/secondary/lavaridge/metatiles.bin",
+    "data/tilesets/secondary/lavender_town_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/lavender_town_frlg/metatiles.bin",
+    "data/tilesets/secondary/lilycove/metatile_attributes.bin",
+    "data/tilesets/secondary/lilycove/metatiles.bin",
+    "data/tilesets/secondary/mahogany_town/metatile_attributes.bin",
+    "data/tilesets/secondary/mahogany_town/metatiles.bin",
+    "data/tilesets/secondary/mauville/metatile_attributes.bin",
+    "data/tilesets/secondary/mauville/metatiles.bin",
+    "data/tilesets/secondary/mossdeep/metatile_attributes.bin",
+    "data/tilesets/secondary/mossdeep/metatiles.bin",
+    "data/tilesets/secondary/new_bark_town/metatile_attributes.bin",
+    "data/tilesets/secondary/new_bark_town/metatiles.bin",
+    "data/tilesets/secondary/pacifidlog/metatile_attributes.bin",
+    "data/tilesets/secondary/pacifidlog/metatiles.bin",
+    "data/tilesets/secondary/pallet_town_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/pallet_town_frlg/metatiles.bin",
+    "data/tilesets/secondary/petalburg/metatile_attributes.bin",
+    "data/tilesets/secondary/petalburg/metatiles.bin",
+    "data/tilesets/secondary/pewter_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/pewter_city_frlg/metatiles.bin",
+    "data/tilesets/secondary/rustboro/metatile_attributes.bin",
+    "data/tilesets/secondary/rustboro/metatiles.bin",
+    "data/tilesets/secondary/safari_zone_johto/metatile_attributes.bin",
+    "data/tilesets/secondary/safari_zone_johto/metatiles.bin",
+    "data/tilesets/secondary/saffron_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/saffron_city_frlg/metatiles.bin",
+    "data/tilesets/secondary/sevii_islands_123_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/sevii_islands_123_frlg/metatiles.bin",
+    "data/tilesets/secondary/sevii_islands_45_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/sevii_islands_45_frlg/metatiles.bin",
+    "data/tilesets/secondary/sevii_islands_67_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/sevii_islands_67_frlg/metatiles.bin",
+    "data/tilesets/secondary/slateport/metatile_attributes.bin",
+    "data/tilesets/secondary/slateport/metatiles.bin",
+    "data/tilesets/secondary/sootopolis/metatile_attributes.bin",
+    "data/tilesets/secondary/sootopolis/metatiles.bin",
+    "data/tilesets/secondary/vermilion_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/vermilion_city_frlg/metatiles.bin",
+    "data/tilesets/secondary/viridian_city_frlg/metatile_attributes.bin",
+    "data/tilesets/secondary/viridian_city_frlg/metatiles.bin"
+  ],
+  "tiles": {
+    "gTileset_GeneralNight": {
+      "palette": 12,
+      "style": "modern",
+      "cells": [
+        [
+          0,
+          0,
+          49210,
+          49319
+        ],
+        [
+          49320,
+          49321,
+          49335,
+          49338
+        ]
+      ]
+    },
+    "gTileset_General_FrlgNight": {
+      "palette": 7,
+      "style": "modern",
+      "cells": [
+        [
+          0,
+          0,
+          29157,
+          29158
+        ],
+        [
+          29159,
+          29160,
+          29161,
+          29162
+        ]
+      ]
+    },
+    "gTileset_Johto_General": {
+      "palette": 3,
+      "style": "lantern",
+      "cells": [
+        [
+          12315,
+          12331,
+          12332,
+          12341
+        ],
+        [
+          12348,
+          12349,
+          12363,
+          12364
+        ]
+      ]
+    },
+    "gTileset_Johto_NorthEast": {
+      "palette": 3,
+      "style": "lantern",
+      "cells": [
+        [
+          12331,
+          12332,
+          12341,
+          12348
+        ],
+        [
+          12349,
+          12363,
+          12367,
+          12371
+        ]
+      ]
+    },
+    "gTileset_Johto_NorthWest": {
+      "palette": 3,
+      "style": "lantern",
+      "cells": [
+        [
+          12296,
+          12298,
+          12299,
+          12300
+        ],
+        [
+          12301,
+          12313,
+          12315,
+          12316
+        ]
+      ]
+    },
+    "gTileset_Johto_South": {
+      "palette": 3,
+      "style": "lantern",
+      "cells": [
+        [
+          12296,
+          12298,
+          12299,
+          12300
+        ],
+        [
+          12301,
+          12315,
+          12316,
+          12317
+        ]
+      ]
+    }
+  },
+  "metatiles": [
+    {
+      "tileset": "gTileset_AzaleaTown",
+      "id": 1022,
+      "source": 203,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_AzaleaTown",
+      "id": 1021,
+      "source": 197,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_AzaleaTown",
+      "id": 1020,
+      "source": 197,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CeladonCity",
+      "id": 880,
+      "source": 198,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CeladonCity",
+      "id": 881,
+      "source": 206,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CeladonCity",
+      "id": 882,
+      "source": 366,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CeladonCity",
+      "id": 883,
+      "source": 374,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CeruleanCity",
+      "id": 774,
+      "source": 16,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CeruleanCity",
+      "id": 775,
+      "source": 212,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CeruleanCity",
+      "id": 776,
+      "source": 220,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CeruleanCity",
+      "id": 777,
+      "source": 228,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CherrygroveCity",
+      "id": 840,
+      "source": 640,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CherrygroveCity",
+      "id": 841,
+      "source": 648,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CherrygroveCity",
+      "id": 842,
+      "source": 219,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CherrygroveCity",
+      "id": 843,
+      "source": 258,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CianwoodCity",
+      "id": 880,
+      "source": 258,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CianwoodCity",
+      "id": 881,
+      "source": 277,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CianwoodCity",
+      "id": 882,
+      "source": 277,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CinnabarIsland",
+      "id": 704,
+      "source": 16,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CinnabarIsland",
+      "id": 705,
+      "source": 209,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_CinnabarIsland",
+      "id": 706,
+      "source": 216,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_CinnabarIsland",
+      "id": 707,
+      "source": 254,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Dewford",
+      "id": 891,
+      "source": 292,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Dewford",
+      "id": 892,
+      "source": 292,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_EverGrande",
+      "id": 680,
+      "source": 636,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_EverGrande",
+      "id": 681,
+      "source": 662,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_EverGrande",
+      "id": 682,
+      "source": 573,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_EverGrande",
+      "id": 683,
+      "source": 573,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Fallarbor",
+      "id": 879,
+      "source": 633,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Fallarbor",
+      "id": 880,
+      "source": 633,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands45",
+      "id": 792,
+      "source": 8,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands45",
+      "id": 793,
+      "source": 9,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Fortree",
+      "id": 792,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Fortree",
+      "id": 793,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands45",
+      "id": 794,
+      "source": 307,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands45",
+      "id": 795,
+      "source": 16,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_FuchsiaCity",
+      "id": 832,
+      "source": 220,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_FuchsiaCity",
+      "id": 833,
+      "source": 220,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_FuchsiaCity",
+      "id": 834,
+      "source": 212,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_IndigoPlateau",
+      "id": 816,
+      "source": 649,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_IndigoPlateau",
+      "id": 817,
+      "source": 649,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_IndigoPlateau",
+      "id": 818,
+      "source": 650,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_IndigoPlateau",
+      "id": 819,
+      "source": 650,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 958,
+      "source": 0,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 959,
+      "source": 191,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Lavaridge",
+      "id": 953,
+      "source": 290,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Lavaridge",
+      "id": 954,
+      "source": 289,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_LavenderTown",
+      "id": 858,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_LavenderTown",
+      "id": 859,
+      "source": 16,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Lilycove",
+      "id": 863,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Lilycove",
+      "id": 864,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Lilycove",
+      "id": 865,
+      "source": 555,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Lilycove",
+      "id": 866,
+      "source": 571,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Petalburg",
+      "id": 656,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Petalburg",
+      "id": 657,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 960,
+      "source": 220,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 961,
+      "source": 220,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 962,
+      "source": 212,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Mauville",
+      "id": 1022,
+      "source": 257,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Mauville",
+      "id": 933,
+      "source": 273,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Mauville",
+      "id": 932,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Mauville",
+      "id": 918,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Mossdeep",
+      "id": 966,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Mossdeep",
+      "id": 967,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Mossdeep",
+      "id": 968,
+      "source": 2,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 963,
+      "source": 209,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_MahoganyTown",
+      "id": 964,
+      "source": 225,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_NewBarkTown",
+      "id": 784,
+      "source": 190,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_NewBarkTown",
+      "id": 785,
+      "source": 198,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_NewBarkTown",
+      "id": 786,
+      "source": 195,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_NewBarkTown",
+      "id": 787,
+      "source": 206,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Petalburg",
+      "id": 658,
+      "source": 464,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Petalburg",
+      "id": 659,
+      "source": 473,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Petalburg",
+      "id": 660,
+      "source": 473,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 925,
+      "source": 196,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 926,
+      "source": 206,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Pacifidlog",
+      "id": 715,
+      "source": 545,
+      "half": 2
+    },
+    {
+      "tileset": "gTileset_PalletTown",
+      "id": 729,
+      "source": 662,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_PalletTown",
+      "id": 730,
+      "source": 662,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Petalburg",
+      "id": 661,
+      "source": 297,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_PewterCity",
+      "id": 719,
+      "source": 441,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_PewterCity",
+      "id": 720,
+      "source": 449,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_PewterCity",
+      "id": 721,
+      "source": 449,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Rustboro",
+      "id": 862,
+      "source": 761,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Rustboro",
+      "id": 863,
+      "source": 777,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SafariZoneJohto",
+      "id": 952,
+      "source": 203,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SafariZoneJohto",
+      "id": 953,
+      "source": 197,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SafariZoneJohto",
+      "id": 954,
+      "source": 0,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SafariZoneJohto",
+      "id": 955,
+      "source": 4,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SaffronCity",
+      "id": 840,
+      "source": 745,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SaffronCity",
+      "id": 841,
+      "source": 745,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands67",
+      "id": 880,
+      "source": 198,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands67",
+      "id": 881,
+      "source": 198,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands67",
+      "id": 882,
+      "source": 195,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands67",
+      "id": 883,
+      "source": 206,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Slateport",
+      "id": 918,
+      "source": 571,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Slateport",
+      "id": 919,
+      "source": 530,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Slateport",
+      "id": 920,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Slateport",
+      "id": 921,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Sootopolis",
+      "id": 766,
+      "source": 729,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Sootopolis",
+      "id": 767,
+      "source": 729,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Sootopolis",
+      "id": 768,
+      "source": 1,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Sootopolis",
+      "id": 769,
+      "source": 1,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 927,
+      "source": 261,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 928,
+      "source": 221,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 929,
+      "source": 9,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 930,
+      "source": 17,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 931,
+      "source": 198,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_SeviiIslands123",
+      "id": 932,
+      "source": 198,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_Mauville",
+      "id": 911,
+      "source": 516,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_Mauville",
+      "id": 1013,
+      "source": 516,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_VermilionCity",
+      "id": 808,
+      "source": 16,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_VermilionCity",
+      "id": 809,
+      "source": 8,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_VermilionCity",
+      "id": 810,
+      "source": 486,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_VermilionCity",
+      "id": 811,
+      "source": 16,
+      "half": 1
+    },
+    {
+      "tileset": "gTileset_ViridianCity",
+      "id": 735,
+      "source": 358,
+      "half": 0
+    },
+    {
+      "tileset": "gTileset_ViridianCity",
+      "id": 736,
+      "source": 366,
+      "half": 1
+    }
+  ]
+}

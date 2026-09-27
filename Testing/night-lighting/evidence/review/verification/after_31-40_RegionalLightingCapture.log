@@ -1,0 +1,102 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] OneIsland_Frlg noon: clock blend
+  [PASS] OneIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_1_OneIsland_Frlg_noon
+  [PASS] OneIsland_Frlg dusk: clock blend
+  [PASS] OneIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_2_OneIsland_Frlg_dusk
+  [PASS] OneIsland_Frlg night: clock blend
+  [PASS] OneIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_3_OneIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] PacifidlogTown noon: clock blend
+  [PASS] PacifidlogTown noon: hardware palette
+  shot RegionalLightingCapture_4_PacifidlogTown_noon
+  [PASS] PacifidlogTown dusk: clock blend
+  [PASS] PacifidlogTown dusk: hardware palette
+  shot RegionalLightingCapture_5_PacifidlogTown_dusk
+  [PASS] PacifidlogTown night: clock blend
+  [PASS] PacifidlogTown night: hardware palette
+  shot RegionalLightingCapture_6_PacifidlogTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] PalletTown_Frlg noon: clock blend
+  [PASS] PalletTown_Frlg noon: hardware palette
+  shot RegionalLightingCapture_7_PalletTown_Frlg_noon
+  [PASS] PalletTown_Frlg dusk: clock blend
+  [PASS] PalletTown_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_8_PalletTown_Frlg_dusk
+  [PASS] PalletTown_Frlg night: clock blend
+  [PASS] PalletTown_Frlg night: hardware palette
+  shot RegionalLightingCapture_9_PalletTown_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] PetalburgCity noon: clock blend
+  [PASS] PetalburgCity noon: hardware palette
+  shot RegionalLightingCapture_10_PetalburgCity_noon
+  [PASS] PetalburgCity dusk: clock blend
+  [PASS] PetalburgCity dusk: hardware palette
+  shot RegionalLightingCapture_11_PetalburgCity_dusk
+  [PASS] PetalburgCity night: clock blend
+  [PASS] PetalburgCity night: hardware palette
+  shot RegionalLightingCapture_12_PetalburgCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] PewterCity_Frlg noon: clock blend
+  [PASS] PewterCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_13_PewterCity_Frlg_noon
+  [PASS] PewterCity_Frlg dusk: clock blend
+  [PASS] PewterCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_14_PewterCity_Frlg_dusk
+  [PASS] PewterCity_Frlg night: clock blend
+  [PASS] PewterCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_15_PewterCity_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] RustboroCity noon: clock blend
+  [PASS] RustboroCity noon: hardware palette
+  shot RegionalLightingCapture_16_RustboroCity_noon
+  [PASS] RustboroCity dusk: clock blend
+  [PASS] RustboroCity dusk: hardware palette
+  shot RegionalLightingCapture_17_RustboroCity_dusk
+  [PASS] RustboroCity night: clock blend
+  [PASS] RustboroCity night: hardware palette
+  shot RegionalLightingCapture_18_RustboroCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SafariZoneGate noon: clock blend
+  [PASS] SafariZoneGate noon: hardware palette
+  shot RegionalLightingCapture_19_SafariZoneGate_noon
+  [PASS] SafariZoneGate dusk: clock blend
+  [PASS] SafariZoneGate dusk: hardware palette
+  shot RegionalLightingCapture_20_SafariZoneGate_dusk
+  [PASS] SafariZoneGate night: clock blend
+  [PASS] SafariZoneGate night: hardware palette
+  shot RegionalLightingCapture_21_SafariZoneGate_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SaffronCity_Connection_Frlg noon: clock blend
+  [PASS] SaffronCity_Connection_Frlg noon: hardware palette
+  shot RegionalLightingCapture_22_SaffronCity_Connection_Frlg_noon
+  [PASS] SaffronCity_Connection_Frlg dusk: clock blend
+  [PASS] SaffronCity_Connection_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_23_SaffronCity_Connection_Frlg_dusk
+  [PASS] SaffronCity_Connection_Frlg night: clock blend
+  [PASS] SaffronCity_Connection_Frlg night: hardware palette
+  shot RegionalLightingCapture_24_SaffronCity_Connection_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SaffronCity_Frlg noon: clock blend
+  [PASS] SaffronCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_25_SaffronCity_Frlg_noon
+  [PASS] SaffronCity_Frlg dusk: clock blend
+  [PASS] SaffronCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_26_SaffronCity_Frlg_dusk
+  [PASS] SaffronCity_Frlg night: clock blend
+  [PASS] SaffronCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_27_SaffronCity_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SevenIsland_Frlg noon: clock blend
+  [PASS] SevenIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_28_SevenIsland_Frlg_noon
+  [PASS] SevenIsland_Frlg dusk: clock blend
+  [PASS] SevenIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_29_SevenIsland_Frlg_dusk
+  [PASS] SevenIsland_Frlg night: clock blend
+  [PASS] SevenIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_30_SevenIsland_Frlg_night
+VERDICT RegionalLightingCapture: 60/60 PASS

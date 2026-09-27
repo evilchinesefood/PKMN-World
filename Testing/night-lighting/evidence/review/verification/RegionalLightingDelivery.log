@@ -1,0 +1,6 @@
+BOOTED grp=75 map=1 pos=(34,14)
+  [PASS] prepared save continues on unpatched ROM
+  [PASS] night lighting is live
+  [PASS] player can walk after Continue
+  shot RegionalLightingDelivery_1_night_continue
+VERDICT RegionalLightingDelivery: 3/3 PASS

@@ -1,0 +1,92 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SixIsland_Frlg noon: clock blend
+  [PASS] SixIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_1_SixIsland_Frlg_noon
+  [PASS] SixIsland_Frlg dusk: clock blend
+  [PASS] SixIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_2_SixIsland_Frlg_dusk
+  [PASS] SixIsland_Frlg night: clock blend
+  [PASS] SixIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_3_SixIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SlateportCity noon: clock blend
+  [PASS] SlateportCity noon: hardware palette
+  shot RegionalLightingCapture_4_SlateportCity_noon
+  [PASS] SlateportCity dusk: clock blend
+  [PASS] SlateportCity dusk: hardware palette
+  shot RegionalLightingCapture_5_SlateportCity_dusk
+  [PASS] SlateportCity night: clock blend
+  [PASS] SlateportCity night: hardware palette
+  shot RegionalLightingCapture_6_SlateportCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SootopolisCity noon: clock blend
+  [PASS] SootopolisCity noon: hardware palette
+  shot RegionalLightingCapture_7_SootopolisCity_noon
+  [PASS] SootopolisCity dusk: clock blend
+  [PASS] SootopolisCity dusk: hardware palette
+  shot RegionalLightingCapture_8_SootopolisCity_dusk
+  [PASS] SootopolisCity night: clock blend
+  [PASS] SootopolisCity night: hardware palette
+  shot RegionalLightingCapture_9_SootopolisCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] ThreeIsland_Frlg noon: clock blend
+  [PASS] ThreeIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_10_ThreeIsland_Frlg_noon
+  [PASS] ThreeIsland_Frlg dusk: clock blend
+  [PASS] ThreeIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_11_ThreeIsland_Frlg_dusk
+  [PASS] ThreeIsland_Frlg night: clock blend
+  [PASS] ThreeIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_12_ThreeIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] TwoIsland_Frlg noon: clock blend
+  [PASS] TwoIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_13_TwoIsland_Frlg_noon
+  [PASS] TwoIsland_Frlg dusk: clock blend
+  [PASS] TwoIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_14_TwoIsland_Frlg_dusk
+  [PASS] TwoIsland_Frlg night: clock blend
+  [PASS] TwoIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_15_TwoIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] VerdanturfTown noon: clock blend
+  [PASS] VerdanturfTown noon: hardware palette
+  shot RegionalLightingCapture_16_VerdanturfTown_noon
+  [PASS] VerdanturfTown dusk: clock blend
+  [PASS] VerdanturfTown dusk: hardware palette
+  shot RegionalLightingCapture_17_VerdanturfTown_dusk
+  [PASS] VerdanturfTown night: clock blend
+  [PASS] VerdanturfTown night: hardware palette
+  shot RegionalLightingCapture_18_VerdanturfTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] VermilionCity_Frlg noon: clock blend
+  [PASS] VermilionCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_19_VermilionCity_Frlg_noon
+  [PASS] VermilionCity_Frlg dusk: clock blend
+  [PASS] VermilionCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_20_VermilionCity_Frlg_dusk
+  [PASS] VermilionCity_Frlg night: clock blend
+  [PASS] VermilionCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_21_VermilionCity_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] VioletCity noon: clock blend
+  [PASS] VioletCity noon: hardware palette
+  shot RegionalLightingCapture_22_VioletCity_noon
+  [PASS] VioletCity dusk: clock blend
+  [PASS] VioletCity dusk: hardware palette
+  shot RegionalLightingCapture_23_VioletCity_dusk
+  [PASS] VioletCity night: clock blend
+  [PASS] VioletCity night: hardware palette
+  shot RegionalLightingCapture_24_VioletCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] ViridianCity_Frlg noon: clock blend
+  [PASS] ViridianCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_25_ViridianCity_Frlg_noon
+  [PASS] ViridianCity_Frlg dusk: clock blend
+  [PASS] ViridianCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_26_ViridianCity_Frlg_dusk
+  [PASS] ViridianCity_Frlg night: clock blend
+  [PASS] ViridianCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_27_ViridianCity_Frlg_night
+VERDICT RegionalLightingCapture: 54/54 PASS

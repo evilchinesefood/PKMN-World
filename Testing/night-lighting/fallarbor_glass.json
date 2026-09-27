@@ -1,0 +1,32 @@
+{
+  "changes": [
+    {
+      "metatile": 670,
+      "cell": 6,
+      "tile": 522
+    },
+    {
+      "metatile": 670,
+      "cell": 7,
+      "tile": 522
+    },
+    {
+      "metatile": 678,
+      "cell": 4,
+      "tile": 523
+    },
+    {
+      "metatile": 678,
+      "cell": 5,
+      "tile": 523
+    }
+  ],
+  "modified_paths": [
+    "data/tilesets/secondary/fallarbor/tiles.png",
+    "data/tilesets/secondary/fallarbor/metatiles.bin",
+    "data/tilesets/secondary/fallarbor/palettes/12.pal",
+    "data/tilesets/secondary/fallarbor/palettes/12.pla",
+    "data/tilesets/secondary/fallarbor/palettes/05.pal",
+    "data/tilesets/secondary/fallarbor/palettes/05.pla"
+  ]
+}

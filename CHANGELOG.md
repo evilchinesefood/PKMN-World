@@ -5,6 +5,10 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Visuals
+
+- **Warmer nights across Johto, Hoenn, Kanto and Sevii.** Town windows use warm nighttime palettes, with 71 new lamps and lanterns filling gaps around buildings. Existing Johto lamp networks remain in place; original daytime art is preserved apart from the added fixtures.
+
 ### Quality of life
 
 - **Evolutions that needed friendship, a particular move, or a party partner now also happen at a level.** The old method still works and whichever comes first wins: Pichu, Cleffa, Igglybuff and Azurill at 12; Togepi and Budew at 15; Bonsly at 17; Mime Jr. at 18; Chingling at 20; Mantyke at 25; Munchlax and Stantler at 30; Golbat, Aipom, Girafarig and Dunsparce at 32; Lickitung, Tangela and Yanma at 33; Primeape at 35; Chansey at 40; Piloswine at 45. A Pokémon already past its new level evolves at its next level-up.

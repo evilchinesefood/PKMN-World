@@ -1,0 +1,1250 @@
+{
+  "baseline_commit": "017a59de342ce5d8244144260da197b89f1239a0",
+  "delivery_md5": "F431A6EADEFEC583EF6ABA7CAF911EAC",
+  "delivery_sha256": "52270ea63d3ebe9aa17c93ee765e99caf88825b640d850be594e5627692e102c",
+  "fixtures": {
+    "before": {
+      "input_rom_sha256": "9de37b1e4a1485945fefe27bc4e42b24ee23dcfbd7e30ff752eb50c402d02e44",
+      "fixture_rom_sha256": "174b9ee5fe99c8c515d2957d2c3d8c750fea5f09d0de057e62e6dbe27dbe2233",
+      "fixture_bytes": 532,
+      "fixture_source_sha256": "88bb87140fd03feac86cca1fb388e7f0865a6d5042882c5223a5a1d1a891e2f2",
+      "entry": "0x9f00001",
+      "base_commit": "017a59de342ce5d8244144260da197b89f1239a0",
+      "working_diff_sha256": "11767d3135941055bae331dbb74d30cbb61cb09620efa23d0158066eb8de0c13",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "after": {
+      "input_rom_sha256": "52270ea63d3ebe9aa17c93ee765e99caf88825b640d850be594e5627692e102c",
+      "fixture_rom_sha256": "ff6e926cb9ff9e595aa16c9a98e6e5c0122ee8aeadf83eadcefa8f2ea967a11f",
+      "fixture_bytes": 532,
+      "fixture_source_sha256": "88bb87140fd03feac86cca1fb388e7f0865a6d5042882c5223a5a1d1a891e2f2",
+      "entry": "0x9f00001",
+      "base_commit": "017a59de342ce5d8244144260da197b89f1239a0",
+      "working_diff_sha256": "d4f77d1d9427b3a5f845608bf0588ab17e38ac49d0d22258862dc806f9351a0e",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "lifecycle": {
+      "input_rom_sha256": "52270ea63d3ebe9aa17c93ee765e99caf88825b640d850be594e5627692e102c",
+      "fixture_rom_sha256": "a8e636620c04b0d1e244482b1eb92170c9883f4a4cd5be1b785a70430c2846ec",
+      "fixture_bytes": 656,
+      "fixture_source_sha256": "65eb50f848fa205ad9f33eb353ab520c0835aeedd7db255e4e220cc729e2319b",
+      "entry": "0x9f00001",
+      "base_commit": "017a59de342ce5d8244144260da197b89f1239a0",
+      "working_diff_sha256": "d4f77d1d9427b3a5f845608bf0588ab17e38ac49d0d22258862dc806f9351a0e",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    }
+  },
+  "checks": {
+    "lifecycle": 56,
+    "before": 294,
+    "after": 294,
+    "regression_suites": 50,
+    "regression_assertions": 1331
+  },
+  "images": [
+    {
+      "file": "media/before_AzaleaTown_noon.png",
+      "sha256": "6e8583ebf8606b04bf4d270117749b13ff5e83d594a78d5f3611ec3a607e3f41"
+    },
+    {
+      "file": "media/after_AzaleaTown_noon.png",
+      "sha256": "e923a0945e2bece1ed3c5aa9ba056ba10cb0dc4550b6d14ffbdc157a8ef5ea2b"
+    },
+    {
+      "file": "media/before_AzaleaTown_dusk.png",
+      "sha256": "1d5c45a4ba3cf040f26261c48e138ceec1acd40111001773f3cced2f12c3399d"
+    },
+    {
+      "file": "media/after_AzaleaTown_dusk.png",
+      "sha256": "30096c209c1d0be1dcf8aa619cceb3aee08d5c2cda66f80c17f6e834c1355b97"
+    },
+    {
+      "file": "media/before_AzaleaTown_night.png",
+      "sha256": "e96d2e9889d05118959c849f0064e91e28e11b45128e882202e19b05189c8a3d"
+    },
+    {
+      "file": "media/after_AzaleaTown_night.png",
+      "sha256": "46b5b9a142a12b787cf72f8600f11789492a938d7a468942f72cdedd178b9a62"
+    },
+    {
+      "file": "media/before_BlackthornCity_noon.png",
+      "sha256": "469fcdf4ede76f864ad4803985d9f7b5a2326e556d68eb13e282cbc0c3d7d342"
+    },
+    {
+      "file": "media/after_BlackthornCity_noon.png",
+      "sha256": "469fcdf4ede76f864ad4803985d9f7b5a2326e556d68eb13e282cbc0c3d7d342"
+    },
+    {
+      "file": "media/before_BlackthornCity_dusk.png",
+      "sha256": "9952f28fb132b94b6d87078f29d29b81d351da7b5d94601d2f71e71a6ccdddaa"
+    },
+    {
+      "file": "media/after_BlackthornCity_dusk.png",
+      "sha256": "4c758d3f4a15ca8053a31320c5ab798c19875aac7c6704096099de5a4a41f306"
+    },
+    {
+      "file": "media/before_BlackthornCity_night.png",
+      "sha256": "bb44d7f7f6c0b287beb5406a0c51038df18c3ac44e64c229b791d30f84a02c61"
+    },
+    {
+      "file": "media/after_BlackthornCity_night.png",
+      "sha256": "1b04834d33c3891275244489149e659f4508e894c725238a09ab2d0e74ea5e45"
+    },
+    {
+      "file": "media/before_CeladonCity_Frlg_noon.png",
+      "sha256": "cc20b5344a8d8aa1508d4dc79c5f154627f9d86bf714485e1992822c3d832bbc"
+    },
+    {
+      "file": "media/after_CeladonCity_Frlg_noon.png",
+      "sha256": "cc20b5344a8d8aa1508d4dc79c5f154627f9d86bf714485e1992822c3d832bbc"
+    },
+    {
+      "file": "media/before_CeladonCity_Frlg_dusk.png",
+      "sha256": "8a718e69441724fbceaa16e336468ed5c7e733593dc622a88ef17a40e58eb413"
+    },
+    {
+      "file": "media/after_CeladonCity_Frlg_dusk.png",
+      "sha256": "297bfe89dfafe505c142c9dcb4baa6d8039714570525f35ce7f13e3ab5c44dd1"
+    },
+    {
+      "file": "media/before_CeladonCity_Frlg_night.png",
+      "sha256": "d8a39a932a056007690d3babe428ed6df6cca5248762177ea8d1b8d7343b74f0"
+    },
+    {
+      "file": "media/after_CeladonCity_Frlg_night.png",
+      "sha256": "db8a953b48beab0633d4699ed4e20434fe666509fadde4042f28b14185e1ea9b"
+    },
+    {
+      "file": "media/before_CeruleanCity_Frlg_noon.png",
+      "sha256": "b7baf2b58ca3f5243c8c3c881bc20e43199fe595f8787bb826a96015e00db9fa"
+    },
+    {
+      "file": "media/after_CeruleanCity_Frlg_noon.png",
+      "sha256": "0f70a47acbee9b400085ff8385b035ced07cbd06edcfb7ea87e50948121877e9"
+    },
+    {
+      "file": "media/before_CeruleanCity_Frlg_dusk.png",
+      "sha256": "8bbfbff7a7b823433be9d9ac40470806d1a1851fa3f6b9451c4cbd44df7ff47e"
+    },
+    {
+      "file": "media/after_CeruleanCity_Frlg_dusk.png",
+      "sha256": "f20ed99f135c43fac055da12730b518fb9bfdd4707b3962483b212cfcdfaaa8f"
+    },
+    {
+      "file": "media/before_CeruleanCity_Frlg_night.png",
+      "sha256": "ddfe873b521583c86be723eaf15babff0127606b62b36c9c5dd838e2d0e88ba8"
+    },
+    {
+      "file": "media/after_CeruleanCity_Frlg_night.png",
+      "sha256": "08cc7542b2d4ce624cdebeb3cee74db5f707df667a8b63b5d16610dd8fb715ec"
+    },
+    {
+      "file": "media/before_CherrygroveCity_noon.png",
+      "sha256": "ffbe45c32142336f9acef70b65729c7000a4f94da0fa4c9cfdff430bdbb66a2e"
+    },
+    {
+      "file": "media/after_CherrygroveCity_noon.png",
+      "sha256": "a52e64c7b9746561e4a764219636f9c6e6be9e8d84c3b445112efbbbb79a99b8"
+    },
+    {
+      "file": "media/before_CherrygroveCity_dusk.png",
+      "sha256": "76d6ae8667f26a0651f13478067f8c9ccd9d29c74d38246455c9914845ea55b0"
+    },
+    {
+      "file": "media/after_CherrygroveCity_dusk.png",
+      "sha256": "9bbcb6862f56873f912adfca1b71bc08d0885a257b24ed9eaeff9ef71c100aa4"
+    },
+    {
+      "file": "media/before_CherrygroveCity_night.png",
+      "sha256": "824104aa4ab9398d3608102953ba9b05594fbc58a2e743407d2040fdb79a5a15"
+    },
+    {
+      "file": "media/after_CherrygroveCity_night.png",
+      "sha256": "08c3b666825986ab078830cee0926e6eb5d48e4756aed6ff02f77adb04b1bc64"
+    },
+    {
+      "file": "media/before_CianwoodCity_noon.png",
+      "sha256": "551ac9f7b323ff8b48522d7e4278094aeb1a5d3fd412c1f706a64c6ef070d4c8"
+    },
+    {
+      "file": "media/after_CianwoodCity_noon.png",
+      "sha256": "5447260e2ef593b91e02df37aad0a4f87ec915d324e908977ed5ac457e02e6c3"
+    },
+    {
+      "file": "media/before_CianwoodCity_dusk.png",
+      "sha256": "3cc71f287073d0c8dfc24ead9526e279bc92d540e6efc217c0011b02801d60ff"
+    },
+    {
+      "file": "media/after_CianwoodCity_dusk.png",
+      "sha256": "19d2b557b07263ae5adb30d1a5345c2a697af22081f135dc0ec48053f1ecf672"
+    },
+    {
+      "file": "media/before_CianwoodCity_night.png",
+      "sha256": "74bfe4115969acf479121fc47f530a6574c52866029b7f90df8cbb565791239a"
+    },
+    {
+      "file": "media/after_CianwoodCity_night.png",
+      "sha256": "c4c182f9c86420e4791bb4cc59acd148935fecf67064b3560d9f15f5c34b3e83"
+    },
+    {
+      "file": "media/before_CinnabarIsland_Frlg_noon.png",
+      "sha256": "b0654cb7d519d0ad3781b41085b5dd4ab8066010915d71670afbf33e43b225e0"
+    },
+    {
+      "file": "media/after_CinnabarIsland_Frlg_noon.png",
+      "sha256": "2479bf957ed78bebc6bb215751b1dfbe82a95c3a53c4ca3e9129623930bff576"
+    },
+    {
+      "file": "media/before_CinnabarIsland_Frlg_dusk.png",
+      "sha256": "513c0330fe19e482a7114fce1b78e0dccc011de3ae35318326e214ca1f7ba737"
+    },
+    {
+      "file": "media/after_CinnabarIsland_Frlg_dusk.png",
+      "sha256": "bc6baec3357db76e2818ef4a29a5ff688baf6638427c4b1b81b5de6fe178307a"
+    },
+    {
+      "file": "media/before_CinnabarIsland_Frlg_night.png",
+      "sha256": "3f3b01ff9567ef41971ac01a7b51932cc8ab920588845d45faa6b43967c283f7"
+    },
+    {
+      "file": "media/after_CinnabarIsland_Frlg_night.png",
+      "sha256": "b2d87ac410633e8ddf3bb5c9c643dca53c4ab8f8e41657670e793b3ead3850ba"
+    },
+    {
+      "file": "media/before_DewfordTown_noon.png",
+      "sha256": "568e7bc59b696235bf6ae26cf3b770410a7bd69efa1d2ef094fc0d95233abb41"
+    },
+    {
+      "file": "media/after_DewfordTown_noon.png",
+      "sha256": "7beac5a11fc6ccb09b1b9dfac1125bff11b4586a7ef4840a6a24e6cd5c61912b"
+    },
+    {
+      "file": "media/before_DewfordTown_dusk.png",
+      "sha256": "766c506503285df2a656d2fda8a24744f78d370fa636f0873b4e7013787fb8db"
+    },
+    {
+      "file": "media/after_DewfordTown_dusk.png",
+      "sha256": "8207c6c1e693e53cecde4b3b655fc536689a031d02f29f84715daea007ed4f47"
+    },
+    {
+      "file": "media/before_DewfordTown_night.png",
+      "sha256": "71944dd2901994e4df0339b0571cbbee37dd6c86a49a8610badc02fbd6b58c62"
+    },
+    {
+      "file": "media/after_DewfordTown_night.png",
+      "sha256": "8ada9b15150ad9934118d0c6edb73bb02edcc8a42b9998824ca3399eed1d298c"
+    },
+    {
+      "file": "media/before_EcruteakCity_noon.png",
+      "sha256": "e6925341b7ad546921c6372b4365880981df660f8b981279c7a5751ccdb12217"
+    },
+    {
+      "file": "media/after_EcruteakCity_noon.png",
+      "sha256": "e6925341b7ad546921c6372b4365880981df660f8b981279c7a5751ccdb12217"
+    },
+    {
+      "file": "media/before_EcruteakCity_dusk.png",
+      "sha256": "eeeed93e879fe4dfb683a201a5a3de64c06549613f21eeee6f5e362bd4e30f8a"
+    },
+    {
+      "file": "media/after_EcruteakCity_dusk.png",
+      "sha256": "2fbe804cd501649b6577e4f27ba4938f2882167ad407889537fc1f4dd7d5d25a"
+    },
+    {
+      "file": "media/before_EcruteakCity_night.png",
+      "sha256": "0488979ca15b4eec6da80e068466b9a302c6d5e13032a13dd40ae3d930cd9fdd"
+    },
+    {
+      "file": "media/after_EcruteakCity_night.png",
+      "sha256": "d2d50aaced5df866c0dfac5da98b88a5c0c93c97be03774d5185856df4fe073a"
+    },
+    {
+      "file": "media/before_EverGrandeCity_noon.png",
+      "sha256": "b69d9f878bbe7e1bd12cccf9dcd5bd10d4b84dc17895d9d19d595dadbfd46a82"
+    },
+    {
+      "file": "media/after_EverGrandeCity_noon.png",
+      "sha256": "4976a0a29c60f7207ed6fd2f2ac594945b50ad916fd54bcc7790a06e6fc3c9fe"
+    },
+    {
+      "file": "media/before_EverGrandeCity_dusk.png",
+      "sha256": "e4b4bf72fbc0490cb4894e74999e6c2f19920f67dcdf86b8e110e39cf3dbfee7"
+    },
+    {
+      "file": "media/after_EverGrandeCity_dusk.png",
+      "sha256": "4c9a6d0584961ae00f8eebfe43c5ea388d411383d96ec0c5b8511098c1117b9a"
+    },
+    {
+      "file": "media/before_EverGrandeCity_night.png",
+      "sha256": "23203bbf7e8f5cfad15b2fcae8d1aaa96739230937e9898626c36fc6ab167ced"
+    },
+    {
+      "file": "media/after_EverGrandeCity_night.png",
+      "sha256": "e42c7533e13b8b57b0369b7a9c5a0e8e195319584def75132374893be7086027"
+    },
+    {
+      "file": "media/before_FallarborTown_noon.png",
+      "sha256": "dfb16aa73ea467351ab2ecf61df286c2785b5849272aa36886e9d697938d5dd5"
+    },
+    {
+      "file": "media/after_FallarborTown_noon.png",
+      "sha256": "dfb16aa73ea467351ab2ecf61df286c2785b5849272aa36886e9d697938d5dd5"
+    },
+    {
+      "file": "media/before_FallarborTown_dusk.png",
+      "sha256": "24131d0a8721ba4531a3b6038d523fd18930b2262b1d67213b30eda33a14cbf2"
+    },
+    {
+      "file": "media/after_FallarborTown_dusk.png",
+      "sha256": "76c3901be66eb8e3af31ee71df050e78d4b402c2f376d38d495bb5476494656b"
+    },
+    {
+      "file": "media/before_FallarborTown_night.png",
+      "sha256": "6edde9c262a38c3564ee21d06cd4ec07a37933ff303843c33b222617c54a5fb6"
+    },
+    {
+      "file": "media/after_FallarborTown_night.png",
+      "sha256": "ba93dfb68b4dfe388e239ca90226cc80eeef6ff750ddd2347e541d82244a5ab7"
+    },
+    {
+      "file": "media/before_FiveIsland_Frlg_noon.png",
+      "sha256": "4069ec617f096a1b042f2f14146e17eec14c39328d49c036bed1c8de6ebaedab"
+    },
+    {
+      "file": "media/after_FiveIsland_Frlg_noon.png",
+      "sha256": "86d0419d77ac8888889c66012e460136d2b56a605b282bb4295f5f40e7f8c663"
+    },
+    {
+      "file": "media/before_FiveIsland_Frlg_dusk.png",
+      "sha256": "17f9f50fb6a3d7cfbcf804f5b7396b72f3b2d2035a997e62b510b77e5fef0e42"
+    },
+    {
+      "file": "media/after_FiveIsland_Frlg_dusk.png",
+      "sha256": "95fb073535b30ded11bf1c0bc50b188661484bab8f3ad16a80afb73aa41be616"
+    },
+    {
+      "file": "media/before_FiveIsland_Frlg_night.png",
+      "sha256": "c55782ec2281af1765208cc2ff87a575194c1e80b41e86e392ed15c8abe8abb4"
+    },
+    {
+      "file": "media/after_FiveIsland_Frlg_night.png",
+      "sha256": "ef88d4ab3b90525782b5ea2f967cafa567e80b77beeddd7c38f3de520e112b0b"
+    },
+    {
+      "file": "media/before_FortreeCity_noon.png",
+      "sha256": "9301e568193e53bfb1e347c911d0cda5f9f76cbd9d2864fb2c6d651ceb663930"
+    },
+    {
+      "file": "media/after_FortreeCity_noon.png",
+      "sha256": "9301e568193e53bfb1e347c911d0cda5f9f76cbd9d2864fb2c6d651ceb663930"
+    },
+    {
+      "file": "media/before_FortreeCity_dusk.png",
+      "sha256": "82a16f149d9a1d8b6f90cf64eabe9e5f10242648d7365ec4bd94465d12ef03d8"
+    },
+    {
+      "file": "media/after_FortreeCity_dusk.png",
+      "sha256": "82b5a23d86a0561f8a6f1cf4dfb6edcc130bbebb8a5c2b8555c1af8bbf1afcd5"
+    },
+    {
+      "file": "media/before_FortreeCity_night.png",
+      "sha256": "635407ce00217c3e388a46459339ef84bfea956eaf21407d8c692e6cbf14f9ef"
+    },
+    {
+      "file": "media/after_FortreeCity_night.png",
+      "sha256": "e4ef36da701c62b94f0af555e34ed3022d7ea69405ce435589b5a08489934255"
+    },
+    {
+      "file": "media/before_FourIsland_Frlg_noon.png",
+      "sha256": "05e72492c7cc49e3d8f4dd6b5ec33adebdf21ed458ed4eb7da7b2853567e18af"
+    },
+    {
+      "file": "media/after_FourIsland_Frlg_noon.png",
+      "sha256": "f97977df834efe3ff42841bc74e9bc13cb65aeccafafb1d7b58cc8aa620e3f7f"
+    },
+    {
+      "file": "media/before_FourIsland_Frlg_dusk.png",
+      "sha256": "a16281878a00821ea191658b5367e01588f1be819087249873ab4ca89479c449"
+    },
+    {
+      "file": "media/after_FourIsland_Frlg_dusk.png",
+      "sha256": "f24c00446af2e8563006067c11c18c641cc495abf3c6d39eaa7037b9b924626b"
+    },
+    {
+      "file": "media/before_FourIsland_Frlg_night.png",
+      "sha256": "7ea2565e8de9113ee9e9f07c80e9b03511324df6238647f443805d2defde1119"
+    },
+    {
+      "file": "media/after_FourIsland_Frlg_night.png",
+      "sha256": "2ae8342c95b8a66a99f76927ced5d3ac4d38d7b7ced1ced1c06769fac644a205"
+    },
+    {
+      "file": "media/before_FuchsiaCity_Frlg_noon.png",
+      "sha256": "5a1cd75c8742002e3ece61fdd258f5d087380d9d638e58268653f9b59f1ae1ac"
+    },
+    {
+      "file": "media/after_FuchsiaCity_Frlg_noon.png",
+      "sha256": "024ee407ae53c927ead8825b86e4c015d0907320e587625d50f9503284b2be20"
+    },
+    {
+      "file": "media/before_FuchsiaCity_Frlg_dusk.png",
+      "sha256": "1315c1d66aac0d1f9113561d37c32db1138b9db1a2269013fa335e1ef3380854"
+    },
+    {
+      "file": "media/after_FuchsiaCity_Frlg_dusk.png",
+      "sha256": "11f2a5d2fde39116b81d8598b6454f4aee2fe6aa358b5c8798d819a2712d2c97"
+    },
+    {
+      "file": "media/before_FuchsiaCity_Frlg_night.png",
+      "sha256": "dc287b94d60560000a075c14c5c84a8abd95480246c3554e6890d1ef12b76905"
+    },
+    {
+      "file": "media/after_FuchsiaCity_Frlg_night.png",
+      "sha256": "6bfba15d84b59e250fed0f5c7c5722dab2a295bdd518d00f14751e50915bc064"
+    },
+    {
+      "file": "media/before_GoldenrodCity_noon.png",
+      "sha256": "0c134e84efb78de88859f01f64f611c6666c030355b3b0a1a2163f2e0341a065"
+    },
+    {
+      "file": "media/after_GoldenrodCity_noon.png",
+      "sha256": "0c134e84efb78de88859f01f64f611c6666c030355b3b0a1a2163f2e0341a065"
+    },
+    {
+      "file": "media/before_GoldenrodCity_dusk.png",
+      "sha256": "316d63a5aef165d556f33d31874ae36de6d143b728f998a5e8349d6a52df5c1f"
+    },
+    {
+      "file": "media/after_GoldenrodCity_dusk.png",
+      "sha256": "3437993f45e91c1b986b873a7fae61828caf03ba064e69d24fc5482b118f8d49"
+    },
+    {
+      "file": "media/before_GoldenrodCity_night.png",
+      "sha256": "b707b680b23775b1636c432cb5602ed8c0cca6e89e4d6677c8e06b74529e972f"
+    },
+    {
+      "file": "media/after_GoldenrodCity_night.png",
+      "sha256": "1e948da3178705efb7dd0d7ed84d61680443c6d2ece56c899c22c903573d7c4c"
+    },
+    {
+      "file": "media/before_IndigoPlateau_Exterior_Frlg_noon.png",
+      "sha256": "0cc539d6272f0f7ee3ee88795317d057c9d6b462dfbbc7adc3182750abdf4db7"
+    },
+    {
+      "file": "media/after_IndigoPlateau_Exterior_Frlg_noon.png",
+      "sha256": "6703032629a7c4130358a24508a488c7468fdc313fc4e565303b8f989af74ade"
+    },
+    {
+      "file": "media/before_IndigoPlateau_Exterior_Frlg_dusk.png",
+      "sha256": "259c487a4fb292952d8a3c76f5efdb5f6c099fafa4d6fad79b6efe28866b79aa"
+    },
+    {
+      "file": "media/after_IndigoPlateau_Exterior_Frlg_dusk.png",
+      "sha256": "051972fe26e0108779360746babef68025b34050529b7aa4ff7138d52aa0ab3b"
+    },
+    {
+      "file": "media/before_IndigoPlateau_Exterior_Frlg_night.png",
+      "sha256": "6bb5053256091c3edc3b394a0fa2ca7c6c6ff21a0dde4cd21c662528195c379c"
+    },
+    {
+      "file": "media/after_IndigoPlateau_Exterior_Frlg_night.png",
+      "sha256": "23c8550c93a29e5a9f65c36bb9e4e29fe4c165780f09cb51255c3999789c59e3"
+    },
+    {
+      "file": "media/before_JohtoIndigoPlateau_noon.png",
+      "sha256": "df3752b1463c2d14878fdacdd621b8fdea3030a079e940b9c78b293a34292d2f"
+    },
+    {
+      "file": "media/after_JohtoIndigoPlateau_noon.png",
+      "sha256": "57413b55adee31250b011dcf66eda903dd7c3935bc7226a3b847c16f5fba5cf8"
+    },
+    {
+      "file": "media/before_JohtoIndigoPlateau_dusk.png",
+      "sha256": "f05cc946a6ea239a1c6dd8d7bbe882567e9ed537e460ae81f5b20210b73cea42"
+    },
+    {
+      "file": "media/after_JohtoIndigoPlateau_dusk.png",
+      "sha256": "f2a7e1c91e3a1a49c1a7b6ae231a78b4ba39369f06201cb63c55ed3ad7d39cd1"
+    },
+    {
+      "file": "media/before_JohtoIndigoPlateau_night.png",
+      "sha256": "e14204710e102e433bca1ead5f40dcca61d88cfe55fd285c71028654e6c30936"
+    },
+    {
+      "file": "media/after_JohtoIndigoPlateau_night.png",
+      "sha256": "2e9f40fb2a15f23b36b5a8e1e6a89baf86cabfafc02bce6300d1125b14ee93a1"
+    },
+    {
+      "file": "media/before_LakeOfRage_noon.png",
+      "sha256": "11346b7307d9d6c7cc571d8dd05978de05b3a0b26fe011a177d95d27f5fd0ef6"
+    },
+    {
+      "file": "media/after_LakeOfRage_noon.png",
+      "sha256": "4c7a6f9c5b733bbe6a7872363811190305c29cc1d58301af6665b1df71733000"
+    },
+    {
+      "file": "media/before_LakeOfRage_dusk.png",
+      "sha256": "500afdb4897461badc0761d2f1c6fa1faa7c997a289133b76e752dbb512c9635"
+    },
+    {
+      "file": "media/after_LakeOfRage_dusk.png",
+      "sha256": "a8356120c6dd3d19a9b694888e5b445d7ba18c8187622fd26ae9917dbe875967"
+    },
+    {
+      "file": "media/before_LakeOfRage_night.png",
+      "sha256": "d7dbbea41a353280a8e05a6a5453984907e7453b69121f3383437d9aa8c506d2"
+    },
+    {
+      "file": "media/after_LakeOfRage_night.png",
+      "sha256": "57de2af6f9db588da506703d88a8a03bab7791f110a5c7addbef1706640d62ed"
+    },
+    {
+      "file": "media/before_LavaridgeTown_noon.png",
+      "sha256": "c825f6607fb5c85eae2149bb7e4e4ea7eb3b548a5d549853aed37ceb683df5a4"
+    },
+    {
+      "file": "media/after_LavaridgeTown_noon.png",
+      "sha256": "7009fc92a6fedc6129bef164c6088df13eba917ea8f6a9bb1a9c0e3f27129f03"
+    },
+    {
+      "file": "media/before_LavaridgeTown_dusk.png",
+      "sha256": "ef15fbb3eaa967a5216bd249e08dfac418570aaacaeb7570aa33ebaa17b98e20"
+    },
+    {
+      "file": "media/after_LavaridgeTown_dusk.png",
+      "sha256": "94af80a58b7887af0c9e00da96f9f3640ef37e622789431fdb0b13780d43f0a9"
+    },
+    {
+      "file": "media/before_LavaridgeTown_night.png",
+      "sha256": "a5a29c460865d813e5a711881b8e9442c8713b75a29346ea30e75fefe30791b1"
+    },
+    {
+      "file": "media/after_LavaridgeTown_night.png",
+      "sha256": "56f586faeb5f3db45cd2d060f5e9ef28b7604e3398e842ec52b9dd33d9cd3b82"
+    },
+    {
+      "file": "media/before_LavenderTown_Frlg_noon.png",
+      "sha256": "675c0b63333538bbb82eb73318aedf551045f40dacac09fd820c1147d789b3c8"
+    },
+    {
+      "file": "media/after_LavenderTown_Frlg_noon.png",
+      "sha256": "8257034b6a6e0672cc82178b8200bb7c110736531b34dab67b020a6d1f883290"
+    },
+    {
+      "file": "media/before_LavenderTown_Frlg_dusk.png",
+      "sha256": "8f758314cf044ec58fd623c71db8bcfbfee7bac71c916dc08f3c55ee671407c0"
+    },
+    {
+      "file": "media/after_LavenderTown_Frlg_dusk.png",
+      "sha256": "12b6c27c689dc16cd56373bd6a258bb0d2bdf8f7efc01789646217fde2a53ac4"
+    },
+    {
+      "file": "media/before_LavenderTown_Frlg_night.png",
+      "sha256": "4f274224dcf4d8ee6ff96c39880e7eb598b7bd28c978f4b988b49220e45c1f1b"
+    },
+    {
+      "file": "media/after_LavenderTown_Frlg_night.png",
+      "sha256": "4c2f0c876149c5f69405bb26e2e316d6ffb59794bc2b243d1c6759c070c52fba"
+    },
+    {
+      "file": "media/before_LilycoveCity_noon.png",
+      "sha256": "e00acc405c8849f08323fc12a1b21903fe148c31ec82f0d421be6c410406ccd6"
+    },
+    {
+      "file": "media/after_LilycoveCity_noon.png",
+      "sha256": "9af164ba92e1b7325982ebb3a35f20c02dacb45d347169cf61830bad81520f1e"
+    },
+    {
+      "file": "media/before_LilycoveCity_dusk.png",
+      "sha256": "a831e2d901f3b42a2154fe8b5069b176c25ea60ef67c08ed782a4a328c364cc7"
+    },
+    {
+      "file": "media/after_LilycoveCity_dusk.png",
+      "sha256": "e63dfb3994654731439b7d1809f26d7a84af7e91219e6af862bf6fdfa03c5e49"
+    },
+    {
+      "file": "media/before_LilycoveCity_night.png",
+      "sha256": "33b491bb27c777cefe4bd1b56be4b4eb5f5a2aa9080671f586193b56e3dd543b"
+    },
+    {
+      "file": "media/after_LilycoveCity_night.png",
+      "sha256": "b7d7e3578e4f6a3dee25f064a647e24a6df7bc1179d8c3348952759e7665ff06"
+    },
+    {
+      "file": "media/before_LittlerootTown_noon.png",
+      "sha256": "1a2971b3d4f15650cc6a02be92eb7ddb16448cc97753901d9ac6692e69291afe"
+    },
+    {
+      "file": "media/after_LittlerootTown_noon.png",
+      "sha256": "2f0f6f509bd3cf6dd7fab02f3ec3ecca3ed31aad4105d7d7a4ba727539ecc886"
+    },
+    {
+      "file": "media/before_LittlerootTown_dusk.png",
+      "sha256": "6d737cf151d94ed7cb9ba080c3ea30614634f4cef0776d110051891fc3a7d78e"
+    },
+    {
+      "file": "media/after_LittlerootTown_dusk.png",
+      "sha256": "c065528329cb90548779f4e84285350225e8f3568f35446f22ed1e6b7fd3ff46"
+    },
+    {
+      "file": "media/before_LittlerootTown_night.png",
+      "sha256": "7884f37437b64d41368ba8c98a6efcb475f9dd97be0440d36ba87d9b060395b4"
+    },
+    {
+      "file": "media/after_LittlerootTown_night.png",
+      "sha256": "e40ab3eaeaef2b7773189fcd7dd1cec411d2351b40e287636e251a8a7a1644d9"
+    },
+    {
+      "file": "media/before_Mahoganytown_noon.png",
+      "sha256": "b4eff69cec0f12a5800a1d421d4867f82493337f0b2e7f5c4348c49538f40175"
+    },
+    {
+      "file": "media/after_Mahoganytown_noon.png",
+      "sha256": "07deb4bf3354af806bc2087921a2daf8fa8986f59a94e23e466ea06533647d35"
+    },
+    {
+      "file": "media/before_Mahoganytown_dusk.png",
+      "sha256": "3a77295b7d693223a597f8df1dd1180701dcd64112d44dcb26600025926cdddc"
+    },
+    {
+      "file": "media/after_Mahoganytown_dusk.png",
+      "sha256": "4465fcadd4f886e9166f691175f3742d8c736916cf1302b60435f6536e151f03"
+    },
+    {
+      "file": "media/before_Mahoganytown_night.png",
+      "sha256": "0f8ab7c830b2901e526ad51852170e0159dfcebf6975e10749a9d02f374f3f9a"
+    },
+    {
+      "file": "media/after_Mahoganytown_night.png",
+      "sha256": "1d38a100d4c1616ddefa538b5211a328500c80ae51b37c71fd3970ccac0f9ec0"
+    },
+    {
+      "file": "media/before_MauvilleCity_noon.png",
+      "sha256": "cb3c918b040e54e2ef354ba1fbb3142d19a8e553e00c9994c46c1fb12dfba786"
+    },
+    {
+      "file": "media/after_MauvilleCity_noon.png",
+      "sha256": "cb3c918b040e54e2ef354ba1fbb3142d19a8e553e00c9994c46c1fb12dfba786"
+    },
+    {
+      "file": "media/before_MauvilleCity_dusk.png",
+      "sha256": "c42878c74267549c148e946f5e9e03b8963e10af4aceccee82a12fa5dd76e819"
+    },
+    {
+      "file": "media/after_MauvilleCity_dusk.png",
+      "sha256": "62951c556b4e2bbfa87944fde21856b9654f64ccecd1a16119a2e68c25015970"
+    },
+    {
+      "file": "media/before_MauvilleCity_night.png",
+      "sha256": "fd8dae12afd3e4a5cc698e37f868a605f1d1e7b7b8e2d2b67feea99c3ba8e60a"
+    },
+    {
+      "file": "media/after_MauvilleCity_night.png",
+      "sha256": "6ed0ae6b7e9ac31d42d4392d51b8731217b198d1d706f16e02ffee05d36a6b9c"
+    },
+    {
+      "file": "media/before_MossdeepCity_noon.png",
+      "sha256": "75b5cd3626330a72971f20740abb196f49ad36963ce46e7293d2f257e2619cde"
+    },
+    {
+      "file": "media/after_MossdeepCity_noon.png",
+      "sha256": "75b5cd3626330a72971f20740abb196f49ad36963ce46e7293d2f257e2619cde"
+    },
+    {
+      "file": "media/before_MossdeepCity_dusk.png",
+      "sha256": "b6e32e56887994f07e88623e31a76bd1a1b9eac5058da5cb2f0017e6a858a33f"
+    },
+    {
+      "file": "media/after_MossdeepCity_dusk.png",
+      "sha256": "3a4a636a25e752b430c9b6128cc628b7646a288451512468c787e66a49346cde"
+    },
+    {
+      "file": "media/before_MossdeepCity_night.png",
+      "sha256": "e5018ce516299747f1a38b1b9a62d32119a081ca3693a9189f08f46398dc0123"
+    },
+    {
+      "file": "media/after_MossdeepCity_night.png",
+      "sha256": "6cbd5d92c91131c50bd76a6bd733e1aadecb24a0b8a4a74ef84f0b83fd6fb9b5"
+    },
+    {
+      "file": "media/before_MtSilver_Outside_noon.png",
+      "sha256": "3ca6d0c5f6da058b60f199712943a997364649f6f44dc7996771be2e94681549"
+    },
+    {
+      "file": "media/after_MtSilver_Outside_noon.png",
+      "sha256": "3c386dc6a4cd3e6d5e05f04fa7d503c1e3f1f52894148aec623d496ef242dabf"
+    },
+    {
+      "file": "media/before_MtSilver_Outside_dusk.png",
+      "sha256": "53a81f2fa27d8b38a5e5f04112daadcf670f0f55d70e8e282983eeed7a76c694"
+    },
+    {
+      "file": "media/after_MtSilver_Outside_dusk.png",
+      "sha256": "cb7a7969a632fe605deb84a4d82db95b004a6b86c62079d0dfbfc012b304f8a9"
+    },
+    {
+      "file": "media/before_MtSilver_Outside_night.png",
+      "sha256": "35b9c37492093275d73a39c3c31f2ff82d552116cb25c88526493db99f5bf5bf"
+    },
+    {
+      "file": "media/after_MtSilver_Outside_night.png",
+      "sha256": "6b57404424ea2bc8aa0987803358a5526aa66044ae36c4c67c6a25449b8de864"
+    },
+    {
+      "file": "media/before_NewBarkTown_noon.png",
+      "sha256": "36d54542008b2ca7b5fff0ae467ad3ce036a069a14b89e6204b45fff9ed95f56"
+    },
+    {
+      "file": "media/after_NewBarkTown_noon.png",
+      "sha256": "2b230374a7796d3356876fd08d7a9ae8acd35258650d7af9dd0bb72176a68d4e"
+    },
+    {
+      "file": "media/before_NewBarkTown_dusk.png",
+      "sha256": "f1e05dc621cf499e745ff3925a6fe337d17ca3dfaa194d113672b01ca90a9f8a"
+    },
+    {
+      "file": "media/after_NewBarkTown_dusk.png",
+      "sha256": "62160bbd95a51f6d890759d4e66600db4d0e1b39365ae0b4f60137fa291c43d8"
+    },
+    {
+      "file": "media/before_NewBarkTown_night.png",
+      "sha256": "54954f87c49865302965d0624735765f6f5e42cb4ad356bc3d5f1161d48dc13b"
+    },
+    {
+      "file": "media/after_NewBarkTown_night.png",
+      "sha256": "d6a8baae7ebaa55c5795563d4990df082dc13bcf8580cae20dcc315a2f7e8ee2"
+    },
+    {
+      "file": "media/before_OldaleTown_noon.png",
+      "sha256": "e09aea8908aaf0cd5bfb5b141296fcd55bc2267f41db6634e7eadc663269f03a"
+    },
+    {
+      "file": "media/after_OldaleTown_noon.png",
+      "sha256": "7575ab9be87836d26c3b493dfe650a54b724a111be1d1dba2023d37c5b7b55dc"
+    },
+    {
+      "file": "media/before_OldaleTown_dusk.png",
+      "sha256": "f37bcf0c18a34ba02b99acb61aff7b82dfc4886968acde179c8f0c81030f61b8"
+    },
+    {
+      "file": "media/after_OldaleTown_dusk.png",
+      "sha256": "d93b4b296b9922dc1454f0088715d199025897adc02de20e11d38a2d2ea3d21c"
+    },
+    {
+      "file": "media/before_OldaleTown_night.png",
+      "sha256": "6d3b0e58b8e10df38a7bc406e70040d6d719c666615ca6dbc7373ccf4e361861"
+    },
+    {
+      "file": "media/after_OldaleTown_night.png",
+      "sha256": "4e72810fd47ff77bd77930ae8631b70ded6bbfc1f534d26665b6c0737ee1ec8d"
+    },
+    {
+      "file": "media/before_OlivineCity_noon.png",
+      "sha256": "983767ea1f551e039843b6b2011b33a04629e6cecc4f09d39e443b5273e30437"
+    },
+    {
+      "file": "media/after_OlivineCity_noon.png",
+      "sha256": "9cbb341d4e76349927c5211092a6f145e39ccc8417f66839fa25b1b979f1afbf"
+    },
+    {
+      "file": "media/before_OlivineCity_dusk.png",
+      "sha256": "767df7364687b44012de303e37aa2c6d26e17d8fbdbc8bee05b18804971aa54d"
+    },
+    {
+      "file": "media/after_OlivineCity_dusk.png",
+      "sha256": "405db6504ce03baf5f1cb70a08cfd2db5f5116f5ed694bd50aeac957f149fc4d"
+    },
+    {
+      "file": "media/before_OlivineCity_night.png",
+      "sha256": "dbfe08ef4ac957987c20e2a3f469ab4af87353160a00ae1f21cbb317c73f83dc"
+    },
+    {
+      "file": "media/after_OlivineCity_night.png",
+      "sha256": "b7c077e861fc721869373b2a186c6808f4f82fdf90f5fa3252fbafe27f48f4e4"
+    },
+    {
+      "file": "media/before_OneIsland_Frlg_noon.png",
+      "sha256": "0fce720dd776522f9003b74e94747c5359efe346d52082fbae71435b85890bd5"
+    },
+    {
+      "file": "media/after_OneIsland_Frlg_noon.png",
+      "sha256": "ea31f6a0f5a97058d909926f636bb8a3d37aba643d03c502b5bff45c0593302f"
+    },
+    {
+      "file": "media/before_OneIsland_Frlg_dusk.png",
+      "sha256": "9947700b352af571b6194f95197ef6ca251d090ebf7f13e5349e609afc8390a0"
+    },
+    {
+      "file": "media/after_OneIsland_Frlg_dusk.png",
+      "sha256": "9816ba9265ec350ea55890277ed4d47a5a6632b10c5d0e8746fd73940272b6eb"
+    },
+    {
+      "file": "media/before_OneIsland_Frlg_night.png",
+      "sha256": "c5c51a52bf0411220f362e449fc1287184cf4151392827ddbf331622e4dd74ba"
+    },
+    {
+      "file": "media/after_OneIsland_Frlg_night.png",
+      "sha256": "1d6d833c9f3d574f0698fb40efff2e917d4b84fc1edb4fe85d4b053bf9ccd98c"
+    },
+    {
+      "file": "media/before_PacifidlogTown_noon.png",
+      "sha256": "ccff1e18e248b4250cfe651167da37c4aa65d1a9d61e47d182d2283662c3b4f2"
+    },
+    {
+      "file": "media/after_PacifidlogTown_noon.png",
+      "sha256": "3fa3fead5fea6b9de45ca77ab2fdb4ca9acd545f1ab07fc6aa79a0c96298449a"
+    },
+    {
+      "file": "media/before_PacifidlogTown_dusk.png",
+      "sha256": "972e58e3961424c06dcb0934dc21429990f5965efc2b4ab07c17999d86a5ef5c"
+    },
+    {
+      "file": "media/after_PacifidlogTown_dusk.png",
+      "sha256": "82b7972152696c204bca269b01e1277df760e4bddb216ae40874d1799bbf422a"
+    },
+    {
+      "file": "media/before_PacifidlogTown_night.png",
+      "sha256": "8b71b5cb8e9b6917f0dc471c404fc84ad402e9696d274e5c723d268c1575b066"
+    },
+    {
+      "file": "media/after_PacifidlogTown_night.png",
+      "sha256": "54741a505a5fe963347209cf9f366d268196a1088b75bb3c3d7c0fa0358c66fd"
+    },
+    {
+      "file": "media/before_PalletTown_Frlg_noon.png",
+      "sha256": "2ab9f2cbc568951134bd17da9ec09134a992060fbcedfb10d97aeb5555bf00a9"
+    },
+    {
+      "file": "media/after_PalletTown_Frlg_noon.png",
+      "sha256": "2ab9f2cbc568951134bd17da9ec09134a992060fbcedfb10d97aeb5555bf00a9"
+    },
+    {
+      "file": "media/before_PalletTown_Frlg_dusk.png",
+      "sha256": "d0ce77427716da1ce462684808fd5ece7b58fa244f755f930e9000baf643bf27"
+    },
+    {
+      "file": "media/after_PalletTown_Frlg_dusk.png",
+      "sha256": "f6f725ad6e1ad793a029ac9c9b1447e88911e3c20c9ba98706da024fbbd7c7a9"
+    },
+    {
+      "file": "media/before_PalletTown_Frlg_night.png",
+      "sha256": "83e377806b16dee064eba91edb55772c57ef324d78ba756682919822f60898ef"
+    },
+    {
+      "file": "media/after_PalletTown_Frlg_night.png",
+      "sha256": "9b2ab3f95bf530d1ff2d7f5ac3d382c8bc1b9a91f2f2aeea614c9cb6845fc488"
+    },
+    {
+      "file": "media/before_PetalburgCity_noon.png",
+      "sha256": "6fe2b8cb17e368aa7e4fb2af2ccd2d61582a4c0c5724e4c3889cfcb223b1bd94"
+    },
+    {
+      "file": "media/after_PetalburgCity_noon.png",
+      "sha256": "6fe2b8cb17e368aa7e4fb2af2ccd2d61582a4c0c5724e4c3889cfcb223b1bd94"
+    },
+    {
+      "file": "media/before_PetalburgCity_dusk.png",
+      "sha256": "18e07cc6daa1d1a7eea0b85af4bfc5e2ec9fb2bd86bc4422448e6c0365a07be1"
+    },
+    {
+      "file": "media/after_PetalburgCity_dusk.png",
+      "sha256": "d5fd7dea7f60501399baebea5c02b2832460934a69ad075aaa5eeadc1c8e87c5"
+    },
+    {
+      "file": "media/before_PetalburgCity_night.png",
+      "sha256": "dfe98962d2ff3affcce2df82d209407501c3e34c95d8600177779776f34c373b"
+    },
+    {
+      "file": "media/after_PetalburgCity_night.png",
+      "sha256": "aefd24a0177459a94ab78c833fa9cd3905e5e22e56bbbf7d711e757822ce2335"
+    },
+    {
+      "file": "media/before_PewterCity_Frlg_noon.png",
+      "sha256": "3a5ff9bb0956c8d67a5712d5c19f02fc234e18b01ec90ce6b6301d17bd53425c"
+    },
+    {
+      "file": "media/after_PewterCity_Frlg_noon.png",
+      "sha256": "16297d4e8f4f531a50b27b8d340ed3d8bff197ce6bc34094021943c81171d619"
+    },
+    {
+      "file": "media/before_PewterCity_Frlg_dusk.png",
+      "sha256": "cab20a2f2ce5b27609d34afdf28423ec355cf2ccf2fe50c3b448828b00bb5f2b"
+    },
+    {
+      "file": "media/after_PewterCity_Frlg_dusk.png",
+      "sha256": "e1f7d5220267c89cc50c9a5399315cca9ef55f106c8df61c4d655800fcf34ab7"
+    },
+    {
+      "file": "media/before_PewterCity_Frlg_night.png",
+      "sha256": "867e2837349da7b25c205fb0eec56f1d97dea1f3bb323b284c09b368108bb38b"
+    },
+    {
+      "file": "media/after_PewterCity_Frlg_night.png",
+      "sha256": "12cb3756b0ffc466624344243f53228e6f1c15780abb59740ab26e4a3f799270"
+    },
+    {
+      "file": "media/before_RustboroCity_noon.png",
+      "sha256": "926b95352e8408facd2869bc0803c99d17c5953638e913d3eacb3082ab6ea1b9"
+    },
+    {
+      "file": "media/after_RustboroCity_noon.png",
+      "sha256": "0b88594c2d8a12eb92c5ef62b88436ba151053245742ebc9adcc227b307e0a3c"
+    },
+    {
+      "file": "media/before_RustboroCity_dusk.png",
+      "sha256": "9b9e073c7533bc752d4d2c0d856e69945126175d734895586a9f8423aeba3371"
+    },
+    {
+      "file": "media/after_RustboroCity_dusk.png",
+      "sha256": "43b4a75a712565a5f571459c39bd8bcfe94caeba22c93bc32864807430b50315"
+    },
+    {
+      "file": "media/before_RustboroCity_night.png",
+      "sha256": "00ca5ef122969def4dfdc2e67f412af1bb79f381258eb84ab262716ed06d4a02"
+    },
+    {
+      "file": "media/after_RustboroCity_night.png",
+      "sha256": "9eac38e83ad2ceb515eaaec80b027d6327c41c46ed70330ff4edee6534e7e7cc"
+    },
+    {
+      "file": "media/before_SafariZoneGate_noon.png",
+      "sha256": "0acfb4243393f602a79bea5ef794b649758881f972e98a5fbf434c591cc7aeeb"
+    },
+    {
+      "file": "media/after_SafariZoneGate_noon.png",
+      "sha256": "ddfcdf81f28db675bb3f47691b2d68715cb0cd3feb63a61627fbe33707ff5990"
+    },
+    {
+      "file": "media/before_SafariZoneGate_dusk.png",
+      "sha256": "fedc44122a4bc476221b746ccbf16174ed06d619063ad14915a9d271e66ad97d"
+    },
+    {
+      "file": "media/after_SafariZoneGate_dusk.png",
+      "sha256": "b66fb2c8727bbc82a82e3a9cee2dffb94d53fd6575d5c7a02a544a226a38adfb"
+    },
+    {
+      "file": "media/before_SafariZoneGate_night.png",
+      "sha256": "37b3cfb3e5d44379227abcb17d6719e64ef8b1ef696bba6396acca01770f6d8a"
+    },
+    {
+      "file": "media/after_SafariZoneGate_night.png",
+      "sha256": "48dd448ebc70aa2afa5967b5ca3919af7f00c6bf1c44948c2724114c1dccce58"
+    },
+    {
+      "file": "media/before_SaffronCity_Connection_Frlg_noon.png",
+      "sha256": "aad7aa7d9e7c06355a5a49a31619e0285e0504f55e6cd6b6115ae3fc65ee0fb6"
+    },
+    {
+      "file": "media/after_SaffronCity_Connection_Frlg_noon.png",
+      "sha256": "aad7aa7d9e7c06355a5a49a31619e0285e0504f55e6cd6b6115ae3fc65ee0fb6"
+    },
+    {
+      "file": "media/before_SaffronCity_Connection_Frlg_dusk.png",
+      "sha256": "a6690d429f59e40760c907456f4e1c8ccb5451f253fbaed399db3e2e246c24ec"
+    },
+    {
+      "file": "media/after_SaffronCity_Connection_Frlg_dusk.png",
+      "sha256": "3b1619c1621457057303a3dc8a98120862afe4cee582336d275f67c9b9903ee4"
+    },
+    {
+      "file": "media/before_SaffronCity_Connection_Frlg_night.png",
+      "sha256": "48c16750d1de90e9c04f22cb3611264cef4f94b0e36fd5f0d94ce68f47bfe586"
+    },
+    {
+      "file": "media/after_SaffronCity_Connection_Frlg_night.png",
+      "sha256": "003d37cde4e09d0fa16b2c1ee7b03d96c575ce2d1a3e2ffabdbb1383662ea7c7"
+    },
+    {
+      "file": "media/before_SaffronCity_Frlg_noon.png",
+      "sha256": "aad7aa7d9e7c06355a5a49a31619e0285e0504f55e6cd6b6115ae3fc65ee0fb6"
+    },
+    {
+      "file": "media/after_SaffronCity_Frlg_noon.png",
+      "sha256": "aad7aa7d9e7c06355a5a49a31619e0285e0504f55e6cd6b6115ae3fc65ee0fb6"
+    },
+    {
+      "file": "media/before_SaffronCity_Frlg_dusk.png",
+      "sha256": "a6690d429f59e40760c907456f4e1c8ccb5451f253fbaed399db3e2e246c24ec"
+    },
+    {
+      "file": "media/after_SaffronCity_Frlg_dusk.png",
+      "sha256": "3b1619c1621457057303a3dc8a98120862afe4cee582336d275f67c9b9903ee4"
+    },
+    {
+      "file": "media/before_SaffronCity_Frlg_night.png",
+      "sha256": "48c16750d1de90e9c04f22cb3611264cef4f94b0e36fd5f0d94ce68f47bfe586"
+    },
+    {
+      "file": "media/after_SaffronCity_Frlg_night.png",
+      "sha256": "003d37cde4e09d0fa16b2c1ee7b03d96c575ce2d1a3e2ffabdbb1383662ea7c7"
+    },
+    {
+      "file": "media/before_SevenIsland_Frlg_noon.png",
+      "sha256": "18a675564c7d663c2c4e384c9f072fcf619dde18eb239bd05e52c425f9230d6d"
+    },
+    {
+      "file": "media/after_SevenIsland_Frlg_noon.png",
+      "sha256": "c78446bd4bc9c8a84b4da2a349502880ea98829d9ec67a30b9522cb994bd9054"
+    },
+    {
+      "file": "media/before_SevenIsland_Frlg_dusk.png",
+      "sha256": "68fa7954cf6e6ce21a646536f6e575d9fa791454c96424cba5d068c50a4e2225"
+    },
+    {
+      "file": "media/after_SevenIsland_Frlg_dusk.png",
+      "sha256": "f2e435f4b2950f8e7e1b8aa1bdbe0235020facb0af752c5450e021d3bb951ae7"
+    },
+    {
+      "file": "media/before_SevenIsland_Frlg_night.png",
+      "sha256": "9cf132203c1aae14db06d64830c64ea6cba1f2fa9440267c31432f7a16e9d358"
+    },
+    {
+      "file": "media/after_SevenIsland_Frlg_night.png",
+      "sha256": "06e4adb8da962866feb190b9251d483ad96fbd31afce3ff53318146f3435b8ff"
+    },
+    {
+      "file": "media/before_SixIsland_Frlg_noon.png",
+      "sha256": "67f4f739dd0f0c2539da746ba8416c42ce8e309476a112a21375a428fe3941d6"
+    },
+    {
+      "file": "media/after_SixIsland_Frlg_noon.png",
+      "sha256": "67f4f739dd0f0c2539da746ba8416c42ce8e309476a112a21375a428fe3941d6"
+    },
+    {
+      "file": "media/before_SixIsland_Frlg_dusk.png",
+      "sha256": "4b201191e5278bab412dbbf67c64921f0edb7d0d240849fc3b1c11e5d0c8bdf7"
+    },
+    {
+      "file": "media/after_SixIsland_Frlg_dusk.png",
+      "sha256": "8ea3af7b1d75807b036c08e2addbdadf20bb21ed2f4fd0312ad7239b186b3b71"
+    },
+    {
+      "file": "media/before_SixIsland_Frlg_night.png",
+      "sha256": "aff475c0b276354edfcddca01a65b0feb72729c69533cf7d3060b3a628c0254c"
+    },
+    {
+      "file": "media/after_SixIsland_Frlg_night.png",
+      "sha256": "3df59feb194f9da7a66b640f48abc7959196cb66fdeeb96bf849596352832dfd"
+    },
+    {
+      "file": "media/before_SlateportCity_noon.png",
+      "sha256": "616adca87da4b47753337f4b199fb205d59d438fb99a0ce06cd56834b5cd07b3"
+    },
+    {
+      "file": "media/after_SlateportCity_noon.png",
+      "sha256": "197f03fcbbe0e7a06882e79269dcaa72f37d9db6d33d553a151101da1683d8d2"
+    },
+    {
+      "file": "media/before_SlateportCity_dusk.png",
+      "sha256": "a293efb0dcadb37db1d943448bd3e7434d322a9c126f22c11a4c849fc03ef107"
+    },
+    {
+      "file": "media/after_SlateportCity_dusk.png",
+      "sha256": "b24cea2d0a852f6e710d778a23e9d539220b794e9b7d4e010b24ea5d3a187a0c"
+    },
+    {
+      "file": "media/before_SlateportCity_night.png",
+      "sha256": "dba0670e5e5480b2e5f5bc424aa98d66bc5f87b1eb8022991e087537fb7f004f"
+    },
+    {
+      "file": "media/after_SlateportCity_night.png",
+      "sha256": "acd006f221fe78ad8343ca3da9e8e7f42a6fdc1a0c814e7973ce287f2ff2b833"
+    },
+    {
+      "file": "media/before_SootopolisCity_noon.png",
+      "sha256": "946421707fa81f51ae303081653d887f87e0c1836214fe0f6f1e5dc1022045cb"
+    },
+    {
+      "file": "media/after_SootopolisCity_noon.png",
+      "sha256": "946421707fa81f51ae303081653d887f87e0c1836214fe0f6f1e5dc1022045cb"
+    },
+    {
+      "file": "media/before_SootopolisCity_dusk.png",
+      "sha256": "82a27c144f577973adbbfe7d1f980276657cdca3bf7da49fa434eba11fe7679a"
+    },
+    {
+      "file": "media/after_SootopolisCity_dusk.png",
+      "sha256": "1512133643ccfd0ac9f681f157b956c3ea7cc28b6442973cc8c374f75f860f3c"
+    },
+    {
+      "file": "media/before_SootopolisCity_night.png",
+      "sha256": "a4ec469ce0eccc91eb4eac40aec561d88d7bdef239e9866e018a031a04a64623"
+    },
+    {
+      "file": "media/after_SootopolisCity_night.png",
+      "sha256": "47cf8c9a45382ddf3f469128f5798fb77d1d7aaad76aff38c159b73fd273f14c"
+    },
+    {
+      "file": "media/before_ThreeIsland_Frlg_noon.png",
+      "sha256": "88fd3bfae70adfdbfd59b0e8c8e2bceee83aa76d58df833d885bd5a11f9e5056"
+    },
+    {
+      "file": "media/after_ThreeIsland_Frlg_noon.png",
+      "sha256": "88fd3bfae70adfdbfd59b0e8c8e2bceee83aa76d58df833d885bd5a11f9e5056"
+    },
+    {
+      "file": "media/before_ThreeIsland_Frlg_dusk.png",
+      "sha256": "96809012295fc10f09eac08c84b6496c004f79a131ba1b6ab525d57f2e06546a"
+    },
+    {
+      "file": "media/after_ThreeIsland_Frlg_dusk.png",
+      "sha256": "03be0c07a870783e60e1d99901670357fc7da043fe5a16c53e528c8d28bd92e6"
+    },
+    {
+      "file": "media/before_ThreeIsland_Frlg_night.png",
+      "sha256": "7ed0a2de4c59dadd48d83670a807ee508525eaa226cf9117e6006f72ca48e88c"
+    },
+    {
+      "file": "media/after_ThreeIsland_Frlg_night.png",
+      "sha256": "15831da93c4e434066e24a0e91aa261f5f925f37d71c3d62c810005e8cbde028"
+    },
+    {
+      "file": "media/before_TwoIsland_Frlg_noon.png",
+      "sha256": "02800364bd67692dcbd834b646fe962d7628316ae113d499f958ee079dfac28f"
+    },
+    {
+      "file": "media/after_TwoIsland_Frlg_noon.png",
+      "sha256": "90d676575f02e05480df10d89711979b711edb8a4c10f1fea0b60e97f0ebf066"
+    },
+    {
+      "file": "media/before_TwoIsland_Frlg_dusk.png",
+      "sha256": "5bd6e0743d132fa8db4684b63d30e51eb61b37e158a828b2f3e49098d248348c"
+    },
+    {
+      "file": "media/after_TwoIsland_Frlg_dusk.png",
+      "sha256": "e2b1ded13ef8ccf2c84e9185ba5170ae2845012bcd709d2bf785eaad4baa240c"
+    },
+    {
+      "file": "media/before_TwoIsland_Frlg_night.png",
+      "sha256": "b81c14b504005e8a5775ff237eeb4d8b9255d19fa27b07a48d0a12d5b19669a3"
+    },
+    {
+      "file": "media/after_TwoIsland_Frlg_night.png",
+      "sha256": "7c65d77c4420fc02aed525daad8bddb76cad75485b506936171f2edc9d104181"
+    },
+    {
+      "file": "media/before_VerdanturfTown_noon.png",
+      "sha256": "35f34f8f3210275d46c6dfa0a7d8a86995b23897d9edc3a5b6d1b6995cd3dd56"
+    },
+    {
+      "file": "media/after_VerdanturfTown_noon.png",
+      "sha256": "d3e7c4370c5f5acfcdb30e5811de04a451a7a78245d7037fcf165a7ab4de9070"
+    },
+    {
+      "file": "media/before_VerdanturfTown_dusk.png",
+      "sha256": "5d05b21d81b71db5456277029b525e2e43601179fe6870195e98c36cddbb5612"
+    },
+    {
+      "file": "media/after_VerdanturfTown_dusk.png",
+      "sha256": "358297c0bba68a18479a3812e4a81f16e96280fca5dae57785eaa3e9fafcc292"
+    },
+    {
+      "file": "media/before_VerdanturfTown_night.png",
+      "sha256": "8efb4229a3820a9133caac059c2afb7d62a545e70fd0349399fe62e6832a79cc"
+    },
+    {
+      "file": "media/after_VerdanturfTown_night.png",
+      "sha256": "3373df6d7c459c654b498eef3455dd3f496159feb3fa720ac09c30bdfdc9fb3c"
+    },
+    {
+      "file": "media/before_VermilionCity_Frlg_noon.png",
+      "sha256": "22bb564e2a60d51fb0d2f0618e3b869dc524dd4fcf8e8db1871ed77071fc8a97"
+    },
+    {
+      "file": "media/after_VermilionCity_Frlg_noon.png",
+      "sha256": "e9a28943a69b558d459a70aad7ecc705e516367c401691e08e9ae82229ed9e75"
+    },
+    {
+      "file": "media/before_VermilionCity_Frlg_dusk.png",
+      "sha256": "53c2a1054e4a9a430f3ea352e24b25f4552444cd2563714dff8fd9fcf21d4bfb"
+    },
+    {
+      "file": "media/after_VermilionCity_Frlg_dusk.png",
+      "sha256": "8413e552653c99f1b8cf290daf180510ec1098322043dba376a9837962a018cc"
+    },
+    {
+      "file": "media/before_VermilionCity_Frlg_night.png",
+      "sha256": "92df8409d40f0d3a0d2cdfb1ad650533e0f0a6cef125c8dbbff1da3c131f0611"
+    },
+    {
+      "file": "media/after_VermilionCity_Frlg_night.png",
+      "sha256": "609526a9765b589cf544b0a83a9dfb349c95440fa6f537cc92665bbf61899f9d"
+    },
+    {
+      "file": "media/before_VioletCity_noon.png",
+      "sha256": "2a33c1ec844707771eafc4eb04227f8c5fb0e6fb7582f7126db7360c9f443304"
+    },
+    {
+      "file": "media/after_VioletCity_noon.png",
+      "sha256": "2a33c1ec844707771eafc4eb04227f8c5fb0e6fb7582f7126db7360c9f443304"
+    },
+    {
+      "file": "media/before_VioletCity_dusk.png",
+      "sha256": "d5af6d8abd21502083fc62f143df60f452a2696d080696072246f913fdf99da6"
+    },
+    {
+      "file": "media/after_VioletCity_dusk.png",
+      "sha256": "d5af6d8abd21502083fc62f143df60f452a2696d080696072246f913fdf99da6"
+    },
+    {
+      "file": "media/before_VioletCity_night.png",
+      "sha256": "bce358bbabb39ff00d19c0614f9c91480bd3993e68a4a7f3f15fc1e8bc2338b6"
+    },
+    {
+      "file": "media/after_VioletCity_night.png",
+      "sha256": "bce358bbabb39ff00d19c0614f9c91480bd3993e68a4a7f3f15fc1e8bc2338b6"
+    },
+    {
+      "file": "media/before_ViridianCity_Frlg_noon.png",
+      "sha256": "bab6c81b2ac18d2f5b7bfb57e547da069493c19ec55b8dfa490b4a65a2b9a505"
+    },
+    {
+      "file": "media/after_ViridianCity_Frlg_noon.png",
+      "sha256": "c83317e98776739f2ad5426c01d65709af56b7000f9cf2ba1631326eddce608c"
+    },
+    {
+      "file": "media/before_ViridianCity_Frlg_dusk.png",
+      "sha256": "3e5d32006775822db431cbd36571f8d89b33267848b14047a232874cb3412e85"
+    },
+    {
+      "file": "media/after_ViridianCity_Frlg_dusk.png",
+      "sha256": "5914b788011b18a52639bbde7651cad007d935cc1e7dea43ba364bbcfa3938ea"
+    },
+    {
+      "file": "media/before_ViridianCity_Frlg_night.png",
+      "sha256": "b69307d1ddf19b36811668cbdcef0c4c33a18e17054c421069f0e1b9b55e0cae"
+    },
+    {
+      "file": "media/after_ViridianCity_Frlg_night.png",
+      "sha256": "038792fac6dea7fed50a14f23367d2a399c7d0c8a888d054650e58a204bc793e"
+    },
+    {
+      "file": "media/lamp_Hoenn.png",
+      "sha256": "7964397478d2ad8e28118c34c3b5f02dc2afffce0e627e1373ba69206fd84d86"
+    },
+    {
+      "file": "media/lamp_Kanto.png",
+      "sha256": "750d8b90274a3dd2ba111be26d9c4f32b429f68b4760c2104a6f67c481ed8799"
+    },
+    {
+      "file": "media/lamp_Johto.png",
+      "sha256": "20b5c95498b0478deda0ea2d6d775c754c7be4f5e660024ba9a7f7dc0b0de010"
+    },
+    {
+      "file": "media/lamp_Dock.png",
+      "sha256": "f9f418c77f26af25cf0c75475028983777fe92af9bb5a18bc25a24ea9f928b58"
+    }
+  ]
+}

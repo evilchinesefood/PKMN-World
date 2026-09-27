@@ -66,7 +66,7 @@ function M.new(name)
     return weight
   end
   local function dump(tag)
-    local out = assert(io.open(F.out..tag..".pal", "wb"))
+    local out = assert(io.open(F.out..tag..".pal.bin", "wb"))
     for i = 0,255 do
       local v = F.r16(S.gPlttBufferFaded+i*2)
       out:write(string.char(v&255, v>>8))

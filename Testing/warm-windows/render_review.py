@@ -69,7 +69,7 @@ def main():
             tag = scene+'_'+time
             name = f'WarmWindowsCapture_{n*4+t+1:02}_{tag}.png'
             before, after = [native(args.runs/side/name) for side in ('before','after')]
-            pals = [struct.unpack('<256H', (args.runs/side/f'{tag}.pal').read_bytes()) for side in ('before','after')]
+            pals = [struct.unpack('<256H', (args.runs/side/f'{tag}.pal.bin').read_bytes()) for side in ('before','after')]
             changed = [i for i in range(256) if pals[0][i] != pals[1][i]]
             assert changed == ([] if time=='noon' else [136,137,138]), (tag,changed)
             count = 0

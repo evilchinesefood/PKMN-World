@@ -1,6 +1,6 @@
 tools/scaninc/scaninc -M build/emerald/src/tilesets.d -g build/assets -I include -I tools/agbcc/include src/tilesets.c
-tools/gbagfx/gbagfx data/tilesets/secondary/cherrygrove_city/palettes/01.pal build/assets/data/tilesets/secondary/cherrygrove_city/palettes/01.pal.gbapal 
-tools/gbagfx/gbagfx data/tilesets/secondary/new_bark_town/palettes/01.pal build/assets/data/tilesets/secondary/new_bark_town/palettes/01.pal.gbapal 
+tools/gbagfx/gbagfx data/tilesets/secondary/cherrygrove_city/palettes/01.pal build/assets/data/tilesets/secondary/cherrygrove_city/palettes/01.pal.gbapal
+tools/gbagfx/gbagfx data/tilesets/secondary/new_bark_town/palettes/01.pal build/assets/data/tilesets/secondary/new_bark_town/palettes/01.pal.gbapal
 /opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/main_menu.o src/main_menu.c
 /opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald/src/tilesets.o src/tilesets.c
 src/main_menu.c:1459:13: warning: 'Task_NewGameBirchSpeech_Init' defined but not used [-Wunused-function]

@@ -870,28 +870,28 @@ include/pokemon.h:703:31: note: declared here
 src/scrcmd.c: In function 'ScrCmd_nop_u8':
 src/scrcmd.c:154:6: warning: value computed is not used [-Wunused-value]
   154 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 src/scrcmd.c: In function 'ScrCmd_nop_u8u8':
 src/scrcmd.c:161:6: warning: value computed is not used [-Wunused-value]
   161 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 src/scrcmd.c:162:6: warning: value computed is not used [-Wunused-value]
   162 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 src/scrcmd.c: In function 'ScrCmd_nop_u8u8u8':
 src/scrcmd.c:169:6: warning: value computed is not used [-Wunused-value]
   169 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 src/scrcmd.c:170:6: warning: value computed is not used [-Wunused-value]
   170 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 src/scrcmd.c:171:6: warning: value computed is not used [-Wunused-value]
   171 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 src/scrcmd.c: In function 'ScrCmd_nop_u8u16u16':
 src/scrcmd.c:178:6: warning: value computed is not used [-Wunused-value]
   178 |     ScriptReadByte(ctx);
-      |     ~^~~~~~~~~~~~~~~~~~~ 
+      |     ~^~~~~~~~~~~~~~~~~~~
 /opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/sliding_puzzle.o src/sliding_puzzle.c
 /opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/slot_machine.o src/slot_machine.c
 /opt/devkitpro/devkitARM/libexec/gcc/arm-none-eabi/16.1.0/cc1 -quiet <flags> -o build/emerald-release/src/sound.o src/sound.c

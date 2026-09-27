@@ -94,17 +94,24 @@ PW_OUT=/tmp/lighting-runs/delivery/ Testing/mgba-run.sh Testing/night-lighting/d
 Build a clean baseline and repeat the capture with the same `fixture.c` for the
 before side. Each town starts from an independent synthetic save reset. The
 gallery publisher requires all fixture hashes, positive terminal verdicts,
-matching PASS sentinels, the exact delivery ROM, and a green full sweep:
+matching PASS sentinels, the exact delivery ROM and its successful delivery run,
+and a green full sweep. It recomputes the map audit from the baseline and current
+source assets on every publication; a saved audit is never accepted as input:
 
 ```sh
-python3 Testing/night-lighting/render_review.py --repo . \
+python3 Testing/night-lighting/render_review.py --base "$BASE" --repo . \
   --before /tmp/lighting-runs/before --after /tmp/lighting-runs/after \
   --before-fixture /tmp/lighting-before-capture --after-fixture /tmp/lighting-capture \
   --lifecycle /tmp/lighting-runs/lifecycle --lifecycle-fixture /tmp/lighting-lifecycle \
   --regression /tmp/lighting-runs/regression \
-  --data-audit /tmp/regional-lighting-data/data-audit.json \
-  --delivery /tmp/lighting-after/pokemonworld.gba --out Testing/night-lighting/evidence/review
+  --delivery /tmp/lighting-after/pokemonworld.gba --delivery-run /tmp/lighting-runs/delivery \
+  --out Testing/night-lighting/evidence/review
 ```
+
+Publisher rejection checks also passed: missing delivery PASS, failed verdict,
+wrong ROM, wrong suite, a FAIL sentinel, and changed metatile attributes in either
+the baseline or reviewed source all abort before publication. A successful
+`mgba-run.sh` delivery log/PASS is accepted without a `runner.log`.
 
 The focused checks cover all 49 maps at noon, dusk and night (294 assertions per
 build), plus 48 lifecycle assertions: normal doors, menus, wild battle/Run, and

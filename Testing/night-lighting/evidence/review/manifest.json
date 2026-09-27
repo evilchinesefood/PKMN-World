@@ -48,6 +48,7 @@
   },
   "checks": {
     "lifecycle": 48,
+    "delivery": 3,
     "before": 294,
     "after": 294,
     "regression_suites": 50,

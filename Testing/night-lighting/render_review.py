@@ -7,6 +7,9 @@ import json
 from pathlib import Path
 import re
 import shutil
+import subprocess
+import sys
+import tempfile
 
 from PIL import Image
 
@@ -15,26 +18,29 @@ def digest(path, algorithm='sha256'):
     return hashlib.new(algorithm, path.read_bytes()).hexdigest()
 
 
-def passed(directory, md5):
+def passed(directory, md5, suite=None, require_runner_log=True):
     logs = [p for p in directory.glob('*.log') if p.name != 'runner.log']
     assert len(logs) == 1, directory
     verdict = logs[0].read_text().strip().splitlines()[-1]
     match = re.fullmatch(r'VERDICT ([^:]+): (\d+)/(\d+) PASS', verdict)
     assert match and int(match[2]) == int(match[3]) > 0, directory
+    assert suite is None or match[1] == suite, directory
     assert not list(directory.glob('*.FAIL')), directory
     stamp = (directory/f'{match[1]}.PASS').read_text().strip()
     assert re.fullmatch(rf'PASS {match[2]}/{match[3]} rom={md5.upper()} at=\S+ suite={match[1]}', stamp), directory
-    assert (directory/'runner.log').read_text().strip().splitlines()[-1] == verdict, directory
+    if require_runner_log:
+        assert (directory/'runner.log').read_text().strip().splitlines()[-1] == verdict, directory
     return int(match[2])
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    for name in ('repo', 'before', 'after', 'before-fixture', 'after-fixture',
-                 'lifecycle', 'lifecycle-fixture', 'regression', 'data-audit',
-                 'delivery', 'out'):
+    for name in ('base', 'repo', 'before', 'after', 'before-fixture', 'after-fixture',
+                 'lifecycle', 'lifecycle-fixture', 'regression',
+                 'delivery', 'delivery-run', 'out'):
         p.add_argument('--'+name, type=Path, required=True)
     a = p.parse_args()
+    assert a.base.resolve() != a.repo.resolve(), 'Use a separate baseline checkout'
     here = a.repo/'Testing/night-lighting'
     scenes = json.loads((here/'scenes.json').read_text())
     fixtures = {key: json.loads((getattr(a, key+'_fixture')/'manifest.json').read_text())
@@ -48,12 +54,14 @@ def main():
         rom = getattr(a, key+'_fixture')/'VerifyFeatures.gba'
         assert digest(rom) == manifest['fixture_rom_sha256']
         fixture_md5[key] = digest(rom, 'md5')
-    counts = {'lifecycle': passed(a.lifecycle, fixture_md5['lifecycle'])}
+    md5 = digest(a.delivery, 'md5').upper()
+    counts = {'lifecycle': passed(a.lifecycle, fixture_md5['lifecycle']),
+              'delivery': passed(a.delivery_run, md5, 'RegionalLightingDelivery',
+                                 require_runner_log=False)}
     for key in ('before', 'after'):
         counts[key] = sum(passed(getattr(a, key)/f'{first:02}-{min(first+9,len(scenes)):02}', fixture_md5[key])
                           for first in range(1, len(scenes)+1, 10))
     sweep = (a.regression/'sweep.log').read_text()
-    md5 = digest(a.delivery, 'md5').upper()
     assert f'SWEEP OK - every expected suite produced a fresh PASS stamped rom={md5}' in sweep
     suite_rows = re.findall(r'^(\S+)\s+rc=0\s+VERDICT \S+: (\d+)/(\d+) PASS$', sweep, re.M)
     assert len(suite_rows) == 50 and all(x == y for _, x, y in suite_rows)
@@ -62,7 +70,13 @@ def main():
         assert f'PASS {n}/{n} rom={md5} ' in (a.regression/f'{name}.PASS').read_text()
     counts['regression_suites'] = len(suite_rows)
     counts['regression_assertions'] = sum(int(n) for _, n, _ in suite_rows)
-    audit = json.loads(a.data_audit.read_text())
+    # Recompute against the supplied baseline and current assets before writing
+    # any publication. A previously passing audit is never an accepted input.
+    with tempfile.TemporaryDirectory(prefix='pw-window-audit-') as temporary:
+        subprocess.run([sys.executable, str(here/'check_data.py'),
+                        '--base', str(a.base), '--repo', str(a.repo),
+                        '--out', temporary], check=True)
+        audit = json.loads((Path(temporary)/'data-audit.json').read_text())
     assert len(audit['towns']) == len(scenes) == 49 and audit['new_lamps'] == 0 and audit['all_map_cells_unchanged'] and audit['all_metatile_attributes_unchanged']
     a.out.mkdir(parents=True, exist_ok=True)
     media = a.out/'media'
@@ -83,7 +97,7 @@ def main():
             filename = f'RegionalLightingCapture_{(i%10)*3+t+1:02}_{tag}.png'
             for side in ('before', 'after'):
                 copy_native(getattr(a, side)/batch/filename, f'{side}_{tag}.png')
-    shutil.copyfile(a.data_audit, a.out/'data-audit.json')
+    (a.out/'data-audit.json').write_text(json.dumps(audit, indent=2)+'\n')
     shutil.copyfile(a.regression/'sweep.log', a.out/'regression.log')
     evidence = a.out/'verification'
     evidence.mkdir(exist_ok=True)
@@ -94,6 +108,8 @@ def main():
                     shutil.copyfile(directory/name, evidence/f'{side}_{directory.name}_{name}')
     for name in ('RegionalLightingLifecycle.PASS', 'RegionalLightingLifecycle.log'):
         shutil.copyfile(a.lifecycle/name, evidence/name)
+    for name in ('RegionalLightingDelivery.PASS', 'RegionalLightingDelivery.log'):
+        shutil.copyfile(a.delivery_run/name, evidence/name)
     manifest = {'baseline_commit': '017a59de342ce5d8244144260da197b89f1239a0',
                 'delivery_md5': md5, 'delivery_sha256': digest(a.delivery),
                 'fixtures': fixtures, 'checks': counts, 'images': records}
@@ -131,6 +147,7 @@ def main():
 <p>This is a first coverage pass, not a claim that every decorative pane is lit. Existing unlit panels and special structures remain where their colors cannot safely be shared.</p>
 <p>All screenshots are native 240×160 emulator captures with synthetic saves, shown with nearest-neighbor scaling. NPC positions and animation frames may differ between builds; static checks separately verify {audit['daylight_metatiles_verified']:,} original daytime metatile renderings. Intro props visible in Littleroot belong to the synthetic setup.</p>
 <p>{counts['before']+counts['after']+counts['lifecycle']} focused assertions passed, plus {counts['regression_suites']} full regression suites ({counts['regression_assertions']:,} assertions). The National Park test's unsafe manual sprite deletion was corrected; no encounter code changed.</p>
+<p>{counts['delivery']} delivery assertions also pass on the unpatched playtest ROM. The map-preservation audit is recomputed from the baseline and current source assets whenever this gallery is published.</p>
 <p><a href="manifest.json">Capture provenance</a> · <a href="data-audit.json">Map preservation checks</a> · <a href="regression.log">Full regression result</a></p>
 <p class="muted">Tested development ROM: {md5}. Disposable capture hooks are absent from the playtest ROM.</p></details>
 <script>

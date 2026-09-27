@@ -91,30 +91,26 @@ local function isGeneratedOWE(localId)
   return localId > (LOCALID_OWE_END - OWE_SPAWNS_MAX) and localId <= LOCALID_OWE_END
 end
 
--- Park generated OWEs at map (1,1) and drop their active bit + sprite. Clearing `active` alone
--- frees the spawn slot, so a new one lands on the band the same frame; the sprite `inUse` bit
--- has to go too or ~30-frame respawns leak `gSprites` slots into `CreateSprite`'s fatal. Collision
--- also matches `previousCoords`, so both pairs move. Map-placed mons (and the follower) are not
--- touched — LastTalked==0 is still the grass-tile claim.
+-- Park generated OWEs at map (1,1), frozen and invisible, while retaining their allocation.
+-- Clearing object.active and sprite.inUse by hand bypasses engine cleanup: on the regional
+-- lighting build that made the player stop responding and drift into trees. Keeping both live
+-- lets ordinary off-screen despawning clean up safely. Collision also matches previousCoords,
+-- so both pairs move. Map-placed mons (and the follower) remain untouched; LastTalked==0 is
+-- still the grass-tile claim. This is test isolation, not a change to encounter behavior.
 local PARK_X, PARK_Y = 1 + 7, 1 + 7
-local OBJ_PREV_X, OBJ_SPRITE_ID = 0x14, 0x23
-local function despawnGeneratedOWEs()
+local OBJ_PREV_X = 0x14
+local function parkGeneratedOWEs()
   local n = 0
   for i = 0, 15 do
     local b = S.gObjectEvents + i * S.ObjectEvent.stride
     if (F.r8(b) & 1) == 1 then
       local id = F.r8(b + S.ObjectEvent.localId)
       if isGeneratedOWE(id) then
-        local sid = F.r8(b + OBJ_SPRITE_ID)
-        if sid < S.Sprite.count then
-          local sp = S.gSprites + sid * S.Sprite.stride
-          F.w16(sp + S.Sprite.inUse, F.r16(sp + S.Sprite.inUse) & ~1)
-        end
         F.w16(b + S.ObjectEvent.x, PARK_X)
         F.w16(b + S.ObjectEvent.y, PARK_Y)
         F.w16(b + OBJ_PREV_X, PARK_X)
         F.w16(b + OBJ_PREV_X + 2, PARK_Y)
-        F.w8(b, F.r8(b) & ~1)
+        F.w8(b + S.ObjectEvent.flags1, F.r8(b + S.ObjectEvent.flags1) | 0x21)
         n = n + 1
       end
     end
@@ -127,23 +123,23 @@ end
 local function stepGrass(dir)
   local x0, y0 = F.pos()
   for _ = 1, 30 do
-    despawnGeneratedOWEs()
+    parkGeneratedOWEs()
     joypad.set({ [dir] = true }); emu.frameadvance()
     local x, y = F.pos()
     if x ~= x0 or y ~= y0 then
       for _ = 1, 14 do
-        despawnGeneratedOWEs()
+        parkGeneratedOWEs()
         joypad.set({ [dir] = true }); emu.frameadvance()
       end
       for _ = 1, 4 do
-        despawnGeneratedOWEs()
+        parkGeneratedOWEs()
         joypad.set({}); emu.frameadvance()
       end
       return true
     end
   end
   for _ = 1, 4 do
-    despawnGeneratedOWEs()
+    parkGeneratedOWEs()
     joypad.set({}); emu.frameadvance()
   end
   return false
@@ -328,16 +324,21 @@ local function main()
   -- tile the player is standing on when the battle starts is the attribution. Generated OWEs are
   -- parked off the band for the whole walk; the LastTalked==0 check is unchanged.
   local fired, steps, tileX, tileY, bumped, lastTalked = false, 0, -1, -1, false, 0
+  local stayedOnBand = true
   local dir = "Right"
   if at(STAGE) then
-    local parked = despawnGeneratedOWEs()
+    local parked = parkGeneratedOWEs()
     if parked > 0 then
-      F.L(string.format("  despawned %d generated OWE(s) off the grass band before the walk", parked))
+      F.L(string.format("  parked %d generated OWE(s) off the grass band before the walk", parked))
     end
     for i = 1, GRASS_BUDGET do
       stepGrass(dir)
       steps = i
       local x, y = F.pos()
+      if y ~= GRASS_ROW or x < GRASS_X0 - 1 or x > GRASS_X1 then
+        stayedOnBand = false
+        break
+      end
       if not F.ow() then
         fired = true; tileX, tileY = x, y
         bumped, lastTalked = battleWasABump("grass_battle")
@@ -350,6 +351,7 @@ local function main()
   -- frame the overworld callback drops reports 0 — which reads exactly like "not really a battle".
   F.idle(240)
   local flags, battlers = F.battleFlags(), F.battlers()
+  F.check("grass_walk_stays_on_band", stayedOnBand, "test isolation retained the player's grass route")
   F.check("grass_encounter_fires", fired,
           fired and string.format("battle after %d grass steps at (%d,%d), battlers=%d, flags=0x%08X",
                                   steps, tileX, tileY, battlers, flags)

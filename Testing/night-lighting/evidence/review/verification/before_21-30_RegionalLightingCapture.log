@@ -1,0 +1,102 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] LavenderTown_Frlg noon: clock blend
+  [PASS] LavenderTown_Frlg noon: hardware palette
+  shot RegionalLightingCapture_1_LavenderTown_Frlg_noon
+  [PASS] LavenderTown_Frlg dusk: clock blend
+  [PASS] LavenderTown_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_2_LavenderTown_Frlg_dusk
+  [PASS] LavenderTown_Frlg night: clock blend
+  [PASS] LavenderTown_Frlg night: hardware palette
+  shot RegionalLightingCapture_3_LavenderTown_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] LilycoveCity noon: clock blend
+  [PASS] LilycoveCity noon: hardware palette
+  shot RegionalLightingCapture_4_LilycoveCity_noon
+  [PASS] LilycoveCity dusk: clock blend
+  [PASS] LilycoveCity dusk: hardware palette
+  shot RegionalLightingCapture_5_LilycoveCity_dusk
+  [PASS] LilycoveCity night: clock blend
+  [PASS] LilycoveCity night: hardware palette
+  shot RegionalLightingCapture_6_LilycoveCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] LittlerootTown noon: clock blend
+  [PASS] LittlerootTown noon: hardware palette
+  shot RegionalLightingCapture_7_LittlerootTown_noon
+  [PASS] LittlerootTown dusk: clock blend
+  [PASS] LittlerootTown dusk: hardware palette
+  shot RegionalLightingCapture_8_LittlerootTown_dusk
+  [PASS] LittlerootTown night: clock blend
+  [PASS] LittlerootTown night: hardware palette
+  shot RegionalLightingCapture_9_LittlerootTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Mahoganytown noon: clock blend
+  [PASS] Mahoganytown noon: hardware palette
+  shot RegionalLightingCapture_10_Mahoganytown_noon
+  [PASS] Mahoganytown dusk: clock blend
+  [PASS] Mahoganytown dusk: hardware palette
+  shot RegionalLightingCapture_11_Mahoganytown_dusk
+  [PASS] Mahoganytown night: clock blend
+  [PASS] Mahoganytown night: hardware palette
+  shot RegionalLightingCapture_12_Mahoganytown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] MauvilleCity noon: clock blend
+  [PASS] MauvilleCity noon: hardware palette
+  shot RegionalLightingCapture_13_MauvilleCity_noon
+  [PASS] MauvilleCity dusk: clock blend
+  [PASS] MauvilleCity dusk: hardware palette
+  shot RegionalLightingCapture_14_MauvilleCity_dusk
+  [PASS] MauvilleCity night: clock blend
+  [PASS] MauvilleCity night: hardware palette
+  shot RegionalLightingCapture_15_MauvilleCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] MossdeepCity noon: clock blend
+  [PASS] MossdeepCity noon: hardware palette
+  shot RegionalLightingCapture_16_MossdeepCity_noon
+  [PASS] MossdeepCity dusk: clock blend
+  [PASS] MossdeepCity dusk: hardware palette
+  shot RegionalLightingCapture_17_MossdeepCity_dusk
+  [PASS] MossdeepCity night: clock blend
+  [PASS] MossdeepCity night: hardware palette
+  shot RegionalLightingCapture_18_MossdeepCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] MtSilver_Outside noon: clock blend
+  [PASS] MtSilver_Outside noon: hardware palette
+  shot RegionalLightingCapture_19_MtSilver_Outside_noon
+  [PASS] MtSilver_Outside dusk: clock blend
+  [PASS] MtSilver_Outside dusk: hardware palette
+  shot RegionalLightingCapture_20_MtSilver_Outside_dusk
+  [PASS] MtSilver_Outside night: clock blend
+  [PASS] MtSilver_Outside night: hardware palette
+  shot RegionalLightingCapture_21_MtSilver_Outside_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] NewBarkTown noon: clock blend
+  [PASS] NewBarkTown noon: hardware palette
+  shot RegionalLightingCapture_22_NewBarkTown_noon
+  [PASS] NewBarkTown dusk: clock blend
+  [PASS] NewBarkTown dusk: hardware palette
+  shot RegionalLightingCapture_23_NewBarkTown_dusk
+  [PASS] NewBarkTown night: clock blend
+  [PASS] NewBarkTown night: hardware palette
+  shot RegionalLightingCapture_24_NewBarkTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] OldaleTown noon: clock blend
+  [PASS] OldaleTown noon: hardware palette
+  shot RegionalLightingCapture_25_OldaleTown_noon
+  [PASS] OldaleTown dusk: clock blend
+  [PASS] OldaleTown dusk: hardware palette
+  shot RegionalLightingCapture_26_OldaleTown_dusk
+  [PASS] OldaleTown night: clock blend
+  [PASS] OldaleTown night: hardware palette
+  shot RegionalLightingCapture_27_OldaleTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] OlivineCity noon: clock blend
+  [PASS] OlivineCity noon: hardware palette
+  shot RegionalLightingCapture_28_OlivineCity_noon
+  [PASS] OlivineCity dusk: clock blend
+  [PASS] OlivineCity dusk: hardware palette
+  shot RegionalLightingCapture_29_OlivineCity_dusk
+  [PASS] OlivineCity night: clock blend
+  [PASS] OlivineCity night: hardware palette
+  shot RegionalLightingCapture_30_OlivineCity_night
+VERDICT RegionalLightingCapture: 60/60 PASS

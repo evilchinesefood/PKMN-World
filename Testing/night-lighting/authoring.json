@@ -1,0 +1,995 @@
+{
+  "primary_variants": {
+    "gTileset_GeneralNight": {
+      "original": "gTileset_General",
+      "allocations": [
+        {
+          "source": 4312,
+          "target": 1,
+          "glass": [
+            10
+          ]
+        },
+        {
+          "source": 20646,
+          "target": 15,
+          "glass": [
+            2,
+            3
+          ]
+        },
+        {
+          "source": 20662,
+          "target": 26,
+          "glass": [
+            3,
+            4
+          ]
+        },
+        {
+          "source": 20886,
+          "target": 31,
+          "glass": [
+            2,
+            10
+          ]
+        },
+        {
+          "source": 20887,
+          "target": 42,
+          "glass": [
+            2,
+            10
+          ]
+        }
+      ],
+      "colors": [
+        [
+          [
+            65,
+            74,
+            106
+          ],
+          false
+        ],
+        [
+          [
+            98,
+            98,
+            123
+          ],
+          false
+        ],
+        [
+          [
+            98,
+            172,
+            238
+          ],
+          true
+        ],
+        [
+          [
+            156,
+            180,
+            222
+          ],
+          false
+        ],
+        [
+          [
+            156,
+            180,
+            222
+          ],
+          true
+        ],
+        [
+          [
+            189,
+            205,
+            230
+          ],
+          false
+        ],
+        [
+          [
+            189,
+            205,
+            230
+          ],
+          true
+        ],
+        [
+          [
+            205,
+            156,
+            82
+          ],
+          false
+        ],
+        [
+          [
+            213,
+            180,
+            106
+          ],
+          false
+        ],
+        [
+          [
+            222,
+            230,
+            238
+          ],
+          true
+        ]
+      ]
+    },
+    "gTileset_General_FrlgNight": {
+      "original": "gTileset_General_Frlg",
+      "allocations": [
+        {
+          "source": 12484,
+          "target": 1,
+          "glass": [
+            10,
+            12,
+            13
+          ]
+        },
+        {
+          "source": 12536,
+          "target": 35,
+          "glass": [
+            10,
+            12
+          ]
+        },
+        {
+          "source": 12537,
+          "target": 61,
+          "glass": [
+            10,
+            12
+          ]
+        },
+        {
+          "source": 12555,
+          "target": 188,
+          "glass": [
+            10,
+            13
+          ]
+        },
+        {
+          "source": 12557,
+          "target": 392,
+          "glass": [
+            12,
+            13
+          ]
+        },
+        {
+          "source": 12559,
+          "target": 399,
+          "glass": [
+            10,
+            12,
+            13
+          ]
+        },
+        {
+          "source": 12573,
+          "target": 408,
+          "glass": [
+            10,
+            12
+          ]
+        },
+        {
+          "source": 12580,
+          "target": 413,
+          "glass": [
+            12,
+            13
+          ]
+        },
+        {
+          "source": 12581,
+          "target": 414,
+          "glass": [
+            10,
+            12
+          ]
+        },
+        {
+          "source": 12622,
+          "target": 415,
+          "glass": [
+            13
+          ]
+        },
+        {
+          "source": 12623,
+          "target": 482,
+          "glass": [
+            13
+          ]
+        },
+        {
+          "source": 12845,
+          "target": 483,
+          "glass": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "source": 12846,
+          "target": 484,
+          "glass": [
+            10,
+            11,
+            12
+          ]
+        }
+      ],
+      "colors": [
+        [
+          [
+            65,
+            74,
+            106
+          ],
+          false
+        ],
+        [
+          [
+            74,
+            131,
+            197
+          ],
+          true
+        ],
+        [
+          [
+            90,
+            90,
+            115
+          ],
+          false
+        ],
+        [
+          [
+            98,
+            164,
+            222
+          ],
+          true
+        ],
+        [
+          [
+            115,
+            189,
+            246
+          ],
+          true
+        ],
+        [
+          [
+            123,
+            123,
+            131
+          ],
+          false
+        ],
+        [
+          [
+            148,
+            164,
+            180
+          ],
+          false
+        ],
+        [
+          [
+            156,
+            213,
+            255
+          ],
+          true
+        ],
+        [
+          [
+            172,
+            189,
+            205
+          ],
+          false
+        ],
+        [
+          [
+            205,
+            180,
+            106
+          ],
+          false
+        ],
+        [
+          [
+            205,
+            222,
+            238
+          ],
+          false
+        ],
+        [
+          [
+            246,
+            246,
+            255
+          ],
+          false
+        ]
+      ]
+    }
+  },
+  "palettes": {
+    "gTileset_Dewford": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_EverGrande": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Fallarbor": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Fortree": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Lavaridge": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Lilycove": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Mauville": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Mossdeep": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Pacifidlog": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Petalburg": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Rustboro": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Slateport": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_Sootopolis": {
+      "bank": 12,
+      "alternate": 5,
+      "glass": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    "gTileset_CeladonCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_CeruleanCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_CinnabarIsland": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_FuchsiaCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_IndigoPlateau": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_LavenderTown": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_PalletTown": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_PewterCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_SaffronCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_SeviiIslands123": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_SeviiIslands45": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_SeviiIslands67": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_VermilionCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    },
+    "gTileset_ViridianCity": {
+      "bank": 7,
+      "alternate": 0,
+      "glass": [
+        2,
+        4,
+        5,
+        8
+      ]
+    }
+  },
+  "layouts": [
+    "PetalburgCity_Layout",
+    "SlateportCity_Layout",
+    "MauvilleCity_Layout",
+    "RustboroCity_Layout",
+    "FortreeCity_Layout",
+    "LilycoveCity_Layout",
+    "MossdeepCity_Layout",
+    "SootopolisCity_Layout",
+    "EverGrandeCity_Layout",
+    "LittlerootTown_Layout",
+    "OldaleTown_Layout",
+    "DewfordTown_Layout",
+    "LavaridgeTown_Layout",
+    "FallarborTown_Layout",
+    "VerdanturfTown_Layout",
+    "PacifidlogTown_Layout",
+    "Route101_Layout",
+    "Route102_Layout",
+    "Route103_Layout",
+    "Route104_Layout",
+    "Route105_Layout",
+    "Route106_Layout",
+    "Route107_Layout",
+    "Route108_Layout",
+    "Route109_Layout",
+    "Route110_Layout",
+    "Route111_Layout",
+    "Route112_Layout",
+    "Route113_Layout",
+    "Route114_Layout",
+    "Route115_Layout",
+    "Route116_Layout",
+    "Route117_Layout",
+    "Route118_Layout",
+    "Route119_Layout",
+    "Route120_Layout",
+    "Route121_Layout",
+    "Route122_Layout",
+    "Route123_Layout",
+    "Route124_Layout",
+    "Route125_Layout",
+    "Route126_Layout",
+    "Route127_Layout",
+    "Route128_Layout",
+    "Route129_Layout",
+    "Route131_Layout",
+    "Route132_Layout",
+    "Route133_Layout",
+    "Route134_Layout",
+    "Route114_FossilManiacsTunnel_Layout",
+    "PetalburgWoods_Layout",
+    "MtChimney_Layout",
+    "SeafloorCavern_Room6_Layout",
+    "SeafloorCavern_Room7_Layout",
+    "SafariZone_Northwest_Layout",
+    "SafariZone_North_Layout",
+    "SafariZone_Southwest_Layout",
+    "SafariZone_South_Layout",
+    "Route104_Prototype_Layout",
+    "SouthernIsland_Exterior_Layout",
+    "SouthernIsland_Interior_Layout",
+    "JaggedPass_Layout",
+    "FieryPath_Layout",
+    "Route131_SkyPillar_Layout",
+    "SkyPillar_Outside_Layout",
+    "SkyPillar_1F_Layout",
+    "SkyPillar_2F_Layout",
+    "SkyPillar_3F_Layout",
+    "SkyPillar_4F_Layout",
+    "SkyPillar_5F_Layout",
+    "SkyPillar_Top_Layout",
+    "MagmaHideout_1F_Layout",
+    "MagmaHideout_2F_1R_Layout",
+    "MagmaHideout_2F_2R_Layout",
+    "MagmaHideout_3F_1R_Layout",
+    "MagmaHideout_3F_2R_Layout",
+    "MagmaHideout_4F_Layout",
+    "SootopolisCity_LegendsBattle_Layout",
+    "MagmaHideout_3F_3R_Layout",
+    "MagmaHideout_2F_3R_Layout",
+    "Route111_NoMirageTower_Layout",
+    "SafariZone_Northeast_Layout",
+    "SafariZone_Southeast_Layout",
+    "FarawayIsland_Entrance_Layout",
+    "FarawayIsland_Interior_Layout",
+    "BirthIsland_Exterior_Layout",
+    "NavelRock_Exterior_Layout",
+    "SkyPillar_1F_Clean_Layout",
+    "SkyPillar_2F_Clean_Layout",
+    "SkyPillar_3F_Clean_Layout",
+    "SkyPillar_4F_Clean_Layout",
+    "SkyPillar_5F_Clean_Layout",
+    "SkyPillar_Top_Clean_Layout",
+    "RS_SafariZone_Northeast_Layout",
+    "RS_SafariZone_Southwest_Layout",
+    "RS_SafariZone_Southeast_Layout",
+    "RS_BattleTower_Layout",
+    "PalletTown_Layout",
+    "ViridianCity_Layout",
+    "PewterCity_Layout",
+    "CeruleanCity_Layout",
+    "LavenderTown_Layout",
+    "VermilionCity_Layout",
+    "CeladonCity_Layout",
+    "FuchsiaCity_Layout",
+    "CinnabarIsland_Layout",
+    "IndigoPlateau_Exterior_Layout",
+    "SaffronCity_Connection_Layout",
+    "Route1_Layout",
+    "Route2_Layout",
+    "Route3_Layout",
+    "Route4_Layout",
+    "Route5_Layout",
+    "Route6_Layout",
+    "Route7_Layout",
+    "Route8_Layout",
+    "Route9_Layout",
+    "Route10_Layout",
+    "Route11_Layout",
+    "Route12_Layout",
+    "Route13_Layout",
+    "Route14_Layout",
+    "Route15_Layout",
+    "Route16_Layout",
+    "Route17_Layout",
+    "Route18_Layout",
+    "Route19_Layout",
+    "Route20_Layout",
+    "Route21_North_Layout",
+    "Route22_Layout",
+    "Route23_Layout",
+    "Route24_Layout",
+    "Route25_Layout",
+    "SSAnne_Exterior_Layout",
+    "SafariZone_Center_Layout",
+    "SafariZone_East_Layout",
+    "SafariZone_North_FRLG_Layout",
+    "SafariZone_West_Layout",
+    "SaffronCity_Layout",
+    "Route21_South_Layout",
+    "OneIsland_Layout",
+    "TwoIsland_Layout",
+    "ThreeIsland_Layout",
+    "FourIsland_Layout",
+    "FiveIsland_Layout",
+    "SevenIsland_Layout",
+    "SixIsland_Layout",
+    "OneIsland_KindleRoad_Layout",
+    "OneIsland_TreasureBeach_Layout",
+    "TwoIsland_CapeBrink_Layout",
+    "ThreeIsland_BondBridge_Layout",
+    "ThreeIsland_Port_Layout",
+    "Prototype_SeviiIsle_6_Layout",
+    "Prototype_SeviiIsle_7_Layout",
+    "Prototype_SeviiIsle_8_Layout",
+    "Prototype_SeviiIsle_9_Layout",
+    "FiveIsland_ResortGorgeous_Layout",
+    "FiveIsland_WaterLabyrinth_Layout",
+    "FiveIsland_Meadow_Layout",
+    "FiveIsland_MemorialPillar_Layout",
+    "SixIsland_OutcastIsland_Layout",
+    "SixIsland_GreenPath_Layout",
+    "SixIsland_WaterPath_Layout",
+    "SixIsland_RuinValley_Layout",
+    "SevenIsland_TrainerTower_Layout",
+    "SevenIsland_SevaultCanyon_Entrance_Layout",
+    "SevenIsland_SevaultCanyon_Layout",
+    "SevenIsland_TanobyRuins_Layout",
+    "Prototype_SeviiIsle_22_Layout",
+    "Prototype_SeviiIsle_23_East_Layout",
+    "Prototype_SeviiIsle_23_West_Layout",
+    "Prototype_SeviiIsle_24_Layout",
+    "MtEmber_Exterior_Layout",
+    "MtEmber_Summit_Layout",
+    "BirthIsland_Exterior_FRLG_Layout",
+    "NavelRock_Exterior_FRLG_Layout"
+  ],
+  "local_glass": {
+    "gTileset_Petalburg": {
+      "6": [
+        9,
+        10
+      ],
+      "8": [
+        9,
+        10
+      ],
+      "9": [
+        9,
+        10
+      ],
+      "10": [
+        9,
+        10
+      ]
+    },
+    "gTileset_CeladonCity": {
+      "8": [
+        12,
+        13
+      ],
+      "10": [
+        10,
+        11,
+        12
+      ]
+    },
+    "gTileset_CinnabarIsland": {
+      "9": [
+        9,
+        10
+      ]
+    },
+    "gTileset_EverGrande": {
+      "8": [
+        9,
+        10
+      ]
+    },
+    "gTileset_FuchsiaCity": {
+      "8": [
+        11,
+        12
+      ]
+    },
+    "gTileset_Lilycove": {
+      "8": [
+        9,
+        10
+      ]
+    },
+    "gTileset_PewterCity": {
+      "8": [
+        8,
+        9,
+        10
+      ],
+      "9": [
+        8,
+        9,
+        10
+      ],
+      "11": [
+        5,
+        6,
+        12
+      ]
+    },
+    "gTileset_SaffronCity": {
+      "9": [
+        12,
+        13,
+        14
+      ],
+      "12": [
+        13,
+        15
+      ]
+    },
+    "gTileset_SeviiIslands123": {
+      "9": [
+        1,
+        2
+      ],
+      "11": [
+        8,
+        9
+      ]
+    },
+    "gTileset_SeviiIslands45": {
+      "9": [
+        14,
+        15
+      ]
+    },
+    "gTileset_Slateport": {
+      "10": [
+        10
+      ]
+    },
+    "gTileset_VermilionCity": {
+      "9": [
+        8,
+        9,
+        10,
+        14,
+        15
+      ]
+    }
+  },
+  "johto_glass": {
+    "gTileset_AzaleaTown": {
+      "10": [
+        2,
+        3
+      ]
+    },
+    "gTileset_CherrygroveCity": {
+      "11": [
+        8,
+        9,
+        10
+      ]
+    },
+    "gTileset_CianwoodCity": {
+      "10": [
+        9,
+        10
+      ]
+    },
+    "gTileset_Goldenrod": {
+      "9": [
+        13,
+        14
+      ],
+      "8": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "10": [
+        8,
+        9
+      ],
+      "12": [
+        8,
+        9
+      ],
+      "7": [
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    "gTileset_Johto_General": {
+      "3": [
+        8,
+        15
+      ]
+    },
+    "gTileset_Johto_NorthEast": {
+      "3": [
+        8,
+        15
+      ]
+    },
+    "gTileset_Johto_NorthWest": {
+      "3": [
+        8,
+        15
+      ]
+    },
+    "gTileset_Johto_South": {
+      "3": [
+        8,
+        15
+      ]
+    },
+    "gTileset_NewBarkTown": {
+      "9": [
+        8,
+        9,
+        10
+      ]
+    },
+    "gTileset_OlivineCity": {
+      "9": [
+        9,
+        10
+      ],
+      "8": [
+        13
+      ]
+    },
+    "gTileset_VioletCity": {
+      "10": [
+        10,
+        11
+      ]
+    }
+  }
+}

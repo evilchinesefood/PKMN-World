@@ -1,0 +1,102 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FallarborTown noon: clock blend
+  [PASS] FallarborTown noon: hardware palette
+  shot RegionalLightingCapture_1_FallarborTown_noon
+  [PASS] FallarborTown dusk: clock blend
+  [PASS] FallarborTown dusk: hardware palette
+  shot RegionalLightingCapture_2_FallarborTown_dusk
+  [PASS] FallarborTown night: clock blend
+  [PASS] FallarborTown night: hardware palette
+  shot RegionalLightingCapture_3_FallarborTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FiveIsland_Frlg noon: clock blend
+  [PASS] FiveIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_4_FiveIsland_Frlg_noon
+  [PASS] FiveIsland_Frlg dusk: clock blend
+  [PASS] FiveIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_5_FiveIsland_Frlg_dusk
+  [PASS] FiveIsland_Frlg night: clock blend
+  [PASS] FiveIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_6_FiveIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FortreeCity noon: clock blend
+  [PASS] FortreeCity noon: hardware palette
+  shot RegionalLightingCapture_7_FortreeCity_noon
+  [PASS] FortreeCity dusk: clock blend
+  [PASS] FortreeCity dusk: hardware palette
+  shot RegionalLightingCapture_8_FortreeCity_dusk
+  [PASS] FortreeCity night: clock blend
+  [PASS] FortreeCity night: hardware palette
+  shot RegionalLightingCapture_9_FortreeCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FourIsland_Frlg noon: clock blend
+  [PASS] FourIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_10_FourIsland_Frlg_noon
+  [PASS] FourIsland_Frlg dusk: clock blend
+  [PASS] FourIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_11_FourIsland_Frlg_dusk
+  [PASS] FourIsland_Frlg night: clock blend
+  [PASS] FourIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_12_FourIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] FuchsiaCity_Frlg noon: clock blend
+  [PASS] FuchsiaCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_13_FuchsiaCity_Frlg_noon
+  [PASS] FuchsiaCity_Frlg dusk: clock blend
+  [PASS] FuchsiaCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_14_FuchsiaCity_Frlg_dusk
+  [PASS] FuchsiaCity_Frlg night: clock blend
+  [PASS] FuchsiaCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_15_FuchsiaCity_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] GoldenrodCity noon: clock blend
+  [PASS] GoldenrodCity noon: hardware palette
+  shot RegionalLightingCapture_16_GoldenrodCity_noon
+  [PASS] GoldenrodCity dusk: clock blend
+  [PASS] GoldenrodCity dusk: hardware palette
+  shot RegionalLightingCapture_17_GoldenrodCity_dusk
+  [PASS] GoldenrodCity night: clock blend
+  [PASS] GoldenrodCity night: hardware palette
+  shot RegionalLightingCapture_18_GoldenrodCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] IndigoPlateau_Exterior_Frlg noon: clock blend
+  [PASS] IndigoPlateau_Exterior_Frlg noon: hardware palette
+  shot RegionalLightingCapture_19_IndigoPlateau_Exterior_Frlg_noon
+  [PASS] IndigoPlateau_Exterior_Frlg dusk: clock blend
+  [PASS] IndigoPlateau_Exterior_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_20_IndigoPlateau_Exterior_Frlg_dusk
+  [PASS] IndigoPlateau_Exterior_Frlg night: clock blend
+  [PASS] IndigoPlateau_Exterior_Frlg night: hardware palette
+  shot RegionalLightingCapture_21_IndigoPlateau_Exterior_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] JohtoIndigoPlateau noon: clock blend
+  [PASS] JohtoIndigoPlateau noon: hardware palette
+  shot RegionalLightingCapture_22_JohtoIndigoPlateau_noon
+  [PASS] JohtoIndigoPlateau dusk: clock blend
+  [PASS] JohtoIndigoPlateau dusk: hardware palette
+  shot RegionalLightingCapture_23_JohtoIndigoPlateau_dusk
+  [PASS] JohtoIndigoPlateau night: clock blend
+  [PASS] JohtoIndigoPlateau night: hardware palette
+  shot RegionalLightingCapture_24_JohtoIndigoPlateau_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] LakeOfRage noon: clock blend
+  [PASS] LakeOfRage noon: hardware palette
+  shot RegionalLightingCapture_25_LakeOfRage_noon
+  [PASS] LakeOfRage dusk: clock blend
+  [PASS] LakeOfRage dusk: hardware palette
+  shot RegionalLightingCapture_26_LakeOfRage_dusk
+  [PASS] LakeOfRage night: clock blend
+  [PASS] LakeOfRage night: hardware palette
+  shot RegionalLightingCapture_27_LakeOfRage_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] LavaridgeTown noon: clock blend
+  [PASS] LavaridgeTown noon: hardware palette
+  shot RegionalLightingCapture_28_LavaridgeTown_noon
+  [PASS] LavaridgeTown dusk: clock blend
+  [PASS] LavaridgeTown dusk: hardware palette
+  shot RegionalLightingCapture_29_LavaridgeTown_dusk
+  [PASS] LavaridgeTown night: clock blend
+  [PASS] LavaridgeTown night: hardware palette
+  shot RegionalLightingCapture_30_LavaridgeTown_night
+VERDICT RegionalLightingCapture: 60/60 PASS

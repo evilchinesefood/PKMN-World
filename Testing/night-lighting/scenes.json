@@ -1,0 +1,345 @@
+[
+  {
+    "name": "AzaleaTown",
+    "map": "MAP_AZALEA_TOWN",
+    "x": 31,
+    "y": 18,
+    "region": "johto"
+  },
+  {
+    "name": "BlackthornCity",
+    "map": "MAP_BLACKTHORN_CITY",
+    "x": 27,
+    "y": 28,
+    "region": "johto"
+  },
+  {
+    "name": "CeladonCity_Frlg",
+    "map": "MAP_CELADON_CITY",
+    "x": 28,
+    "y": 21,
+    "region": "frlg"
+  },
+  {
+    "name": "CeruleanCity_Frlg",
+    "map": "MAP_CERULEAN_CITY",
+    "x": 22,
+    "y": 22,
+    "region": "frlg"
+  },
+  {
+    "name": "CherrygroveCity",
+    "map": "MAP_CHERRYGROVE_CITY",
+    "x": 32,
+    "y": 16,
+    "region": "johto"
+  },
+  {
+    "name": "CianwoodCity",
+    "map": "MAP_CIANWOOD_CITY",
+    "x": 12,
+    "y": 28,
+    "region": "johto"
+  },
+  {
+    "name": "CinnabarIsland_Frlg",
+    "map": "MAP_CINNABAR_ISLAND",
+    "x": 14,
+    "y": 14,
+    "region": "frlg"
+  },
+  {
+    "name": "DewfordTown",
+    "map": "MAP_DEWFORD_TOWN",
+    "x": 2,
+    "y": 13,
+    "region": "emerald"
+  },
+  {
+    "name": "EcruteakCity",
+    "map": "MAP_ECRUTEAK_CITY",
+    "x": 36,
+    "y": 28,
+    "region": "johto"
+  },
+  {
+    "name": "EverGrandeCity",
+    "map": "MAP_EVER_GRANDE_CITY",
+    "x": 27,
+    "y": 51,
+    "region": "emerald"
+  },
+  {
+    "name": "FallarborTown",
+    "map": "MAP_FALLARBOR_TOWN",
+    "x": 14,
+    "y": 10,
+    "region": "emerald"
+  },
+  {
+    "name": "FiveIsland_Frlg",
+    "map": "MAP_FIVE_ISLAND",
+    "x": 18,
+    "y": 9,
+    "region": "frlg"
+  },
+  {
+    "name": "FortreeCity",
+    "map": "MAP_FORTREE_CITY",
+    "x": 20,
+    "y": 13,
+    "region": "emerald"
+  },
+  {
+    "name": "FourIsland_Frlg",
+    "map": "MAP_FOUR_ISLAND",
+    "x": 18,
+    "y": 23,
+    "region": "frlg"
+  },
+  {
+    "name": "FuchsiaCity_Frlg",
+    "map": "MAP_FUCHSIA_CITY",
+    "x": 25,
+    "y": 34,
+    "region": "frlg"
+  },
+  {
+    "name": "GoldenrodCity",
+    "map": "MAP_GOLDENROD_CITY",
+    "x": 27,
+    "y": 23,
+    "region": "johto"
+  },
+  {
+    "name": "IndigoPlateau_Exterior_Frlg",
+    "map": "MAP_INDIGO_PLATEAU_EXTERIOR",
+    "x": 11,
+    "y": 9,
+    "region": "frlg"
+  },
+  {
+    "name": "JohtoIndigoPlateau",
+    "map": "MAP_JOHTO_INDIGO_PLATEAU",
+    "x": 11,
+    "y": 9,
+    "region": "johto"
+  },
+  {
+    "name": "LakeOfRage",
+    "map": "MAP_LAKE_OF_RAGE",
+    "x": 39,
+    "y": 44,
+    "region": "johto"
+  },
+  {
+    "name": "LavaridgeTown",
+    "map": "MAP_LAVARIDGE_TOWN",
+    "x": 9,
+    "y": 9,
+    "region": "emerald"
+  },
+  {
+    "name": "LavenderTown_Frlg",
+    "map": "MAP_LAVENDER_TOWN",
+    "x": 6,
+    "y": 8,
+    "region": "frlg"
+  },
+  {
+    "name": "LilycoveCity",
+    "map": "MAP_LILYCOVE_CITY",
+    "x": 24,
+    "y": 17,
+    "region": "emerald"
+  },
+  {
+    "name": "LittlerootTown",
+    "map": "MAP_LITTLEROOT_TOWN",
+    "x": 10,
+    "y": 10,
+    "region": "emerald"
+  },
+  {
+    "name": "Mahoganytown",
+    "map": "MAP_MAHOGANYTOWN",
+    "x": 17,
+    "y": 13,
+    "region": "johto"
+  },
+  {
+    "name": "MauvilleCity",
+    "map": "MAP_MAUVILLE_CITY",
+    "x": 22,
+    "y": 8,
+    "region": "emerald"
+  },
+  {
+    "name": "MossdeepCity",
+    "map": "MAP_MOSSDEEP_CITY",
+    "x": 37,
+    "y": 20,
+    "region": "emerald"
+  },
+  {
+    "name": "MtSilver_Outside",
+    "map": "MAP_MT_SILVER_OUTSIDE",
+    "x": 23,
+    "y": 16,
+    "region": "johto"
+  },
+  {
+    "name": "NewBarkTown",
+    "map": "MAP_NEW_BARK_TOWN",
+    "x": 14,
+    "y": 23,
+    "region": "johto"
+  },
+  {
+    "name": "OldaleTown",
+    "map": "MAP_OLDALE_TOWN",
+    "x": 14,
+    "y": 9,
+    "region": "emerald"
+  },
+  {
+    "name": "OlivineCity",
+    "map": "MAP_OLIVINE_CITY",
+    "x": 30,
+    "y": 35,
+    "region": "johto"
+  },
+  {
+    "name": "OneIsland_Frlg",
+    "map": "MAP_ONE_ISLAND",
+    "x": 12,
+    "y": 10,
+    "region": "frlg"
+  },
+  {
+    "name": "PacifidlogTown",
+    "map": "MAP_PACIFIDLOG_TOWN",
+    "x": 8,
+    "y": 18,
+    "region": "emerald"
+  },
+  {
+    "name": "PalletTown_Frlg",
+    "map": "MAP_PALLET_TOWN",
+    "x": 8,
+    "y": 10,
+    "region": "frlg"
+  },
+  {
+    "name": "PetalburgCity",
+    "map": "MAP_PETALBURG_CITY",
+    "x": 14,
+    "y": 10,
+    "region": "emerald"
+  },
+  {
+    "name": "PewterCity_Frlg",
+    "map": "MAP_PEWTER_CITY",
+    "x": 28,
+    "y": 21,
+    "region": "frlg"
+  },
+  {
+    "name": "RustboroCity",
+    "map": "MAP_RUSTBORO_CITY",
+    "x": 24,
+    "y": 21,
+    "region": "emerald"
+  },
+  {
+    "name": "SafariZoneGate",
+    "map": "MAP_SAFARI_ZONE_GATE",
+    "x": 13,
+    "y": 17,
+    "region": "johto"
+  },
+  {
+    "name": "SaffronCity_Connection_Frlg",
+    "map": "MAP_SAFFRON_CITY_CONNECTION",
+    "x": 30,
+    "y": 17,
+    "region": "frlg"
+  },
+  {
+    "name": "SaffronCity_Frlg",
+    "map": "MAP_SAFFRON_CITY",
+    "x": 40,
+    "y": 24,
+    "region": "frlg"
+  },
+  {
+    "name": "SevenIsland_Frlg",
+    "map": "MAP_SEVEN_ISLAND",
+    "x": 12,
+    "y": 6,
+    "region": "frlg"
+  },
+  {
+    "name": "SixIsland_Frlg",
+    "map": "MAP_SIX_ISLAND",
+    "x": 11,
+    "y": 14,
+    "region": "frlg"
+  },
+  {
+    "name": "SlateportCity",
+    "map": "MAP_SLATEPORT_CITY",
+    "x": 13,
+    "y": 29,
+    "region": "emerald"
+  },
+  {
+    "name": "SootopolisCity",
+    "map": "MAP_SOOTOPOLIS_CITY",
+    "x": 30,
+    "y": 34,
+    "region": "emerald"
+  },
+  {
+    "name": "ThreeIsland_Frlg",
+    "map": "MAP_THREE_ISLAND",
+    "x": 18,
+    "y": 15,
+    "region": "frlg"
+  },
+  {
+    "name": "TwoIsland_Frlg",
+    "map": "MAP_TWO_ISLAND",
+    "x": 21,
+    "y": 10,
+    "region": "frlg"
+  },
+  {
+    "name": "VerdanturfTown",
+    "map": "MAP_VERDANTURF_TOWN",
+    "x": 12,
+    "y": 6,
+    "region": "emerald"
+  },
+  {
+    "name": "VermilionCity_Frlg",
+    "map": "MAP_VERMILION_CITY",
+    "x": 29,
+    "y": 20,
+    "region": "frlg"
+  },
+  {
+    "name": "VioletCity",
+    "map": "MAP_VIOLET_CITY",
+    "x": 27,
+    "y": 26,
+    "region": "johto"
+  },
+  {
+    "name": "ViridianCity_Frlg",
+    "map": "MAP_VIRIDIAN_CITY",
+    "x": 26,
+    "y": 29,
+    "region": "frlg"
+  }
+]

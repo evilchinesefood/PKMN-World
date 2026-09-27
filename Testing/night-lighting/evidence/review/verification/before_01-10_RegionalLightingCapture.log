@@ -1,0 +1,102 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] AzaleaTown noon: clock blend
+  [PASS] AzaleaTown noon: hardware palette
+  shot RegionalLightingCapture_1_AzaleaTown_noon
+  [PASS] AzaleaTown dusk: clock blend
+  [PASS] AzaleaTown dusk: hardware palette
+  shot RegionalLightingCapture_2_AzaleaTown_dusk
+  [PASS] AzaleaTown night: clock blend
+  [PASS] AzaleaTown night: hardware palette
+  shot RegionalLightingCapture_3_AzaleaTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] BlackthornCity noon: clock blend
+  [PASS] BlackthornCity noon: hardware palette
+  shot RegionalLightingCapture_4_BlackthornCity_noon
+  [PASS] BlackthornCity dusk: clock blend
+  [PASS] BlackthornCity dusk: hardware palette
+  shot RegionalLightingCapture_5_BlackthornCity_dusk
+  [PASS] BlackthornCity night: clock blend
+  [PASS] BlackthornCity night: hardware palette
+  shot RegionalLightingCapture_6_BlackthornCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] CeladonCity_Frlg noon: clock blend
+  [PASS] CeladonCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_7_CeladonCity_Frlg_noon
+  [PASS] CeladonCity_Frlg dusk: clock blend
+  [PASS] CeladonCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_8_CeladonCity_Frlg_dusk
+  [PASS] CeladonCity_Frlg night: clock blend
+  [PASS] CeladonCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_9_CeladonCity_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] CeruleanCity_Frlg noon: clock blend
+  [PASS] CeruleanCity_Frlg noon: hardware palette
+  shot RegionalLightingCapture_10_CeruleanCity_Frlg_noon
+  [PASS] CeruleanCity_Frlg dusk: clock blend
+  [PASS] CeruleanCity_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_11_CeruleanCity_Frlg_dusk
+  [PASS] CeruleanCity_Frlg night: clock blend
+  [PASS] CeruleanCity_Frlg night: hardware palette
+  shot RegionalLightingCapture_12_CeruleanCity_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] CherrygroveCity noon: clock blend
+  [PASS] CherrygroveCity noon: hardware palette
+  shot RegionalLightingCapture_13_CherrygroveCity_noon
+  [PASS] CherrygroveCity dusk: clock blend
+  [PASS] CherrygroveCity dusk: hardware palette
+  shot RegionalLightingCapture_14_CherrygroveCity_dusk
+  [PASS] CherrygroveCity night: clock blend
+  [PASS] CherrygroveCity night: hardware palette
+  shot RegionalLightingCapture_15_CherrygroveCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] CianwoodCity noon: clock blend
+  [PASS] CianwoodCity noon: hardware palette
+  shot RegionalLightingCapture_16_CianwoodCity_noon
+  [PASS] CianwoodCity dusk: clock blend
+  [PASS] CianwoodCity dusk: hardware palette
+  shot RegionalLightingCapture_17_CianwoodCity_dusk
+  [PASS] CianwoodCity night: clock blend
+  [PASS] CianwoodCity night: hardware palette
+  shot RegionalLightingCapture_18_CianwoodCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] CinnabarIsland_Frlg noon: clock blend
+  [PASS] CinnabarIsland_Frlg noon: hardware palette
+  shot RegionalLightingCapture_19_CinnabarIsland_Frlg_noon
+  [PASS] CinnabarIsland_Frlg dusk: clock blend
+  [PASS] CinnabarIsland_Frlg dusk: hardware palette
+  shot RegionalLightingCapture_20_CinnabarIsland_Frlg_dusk
+  [PASS] CinnabarIsland_Frlg night: clock blend
+  [PASS] CinnabarIsland_Frlg night: hardware palette
+  shot RegionalLightingCapture_21_CinnabarIsland_Frlg_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] DewfordTown noon: clock blend
+  [PASS] DewfordTown noon: hardware palette
+  shot RegionalLightingCapture_22_DewfordTown_noon
+  [PASS] DewfordTown dusk: clock blend
+  [PASS] DewfordTown dusk: hardware palette
+  shot RegionalLightingCapture_23_DewfordTown_dusk
+  [PASS] DewfordTown night: clock blend
+  [PASS] DewfordTown night: hardware palette
+  shot RegionalLightingCapture_24_DewfordTown_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] EcruteakCity noon: clock blend
+  [PASS] EcruteakCity noon: hardware palette
+  shot RegionalLightingCapture_25_EcruteakCity_noon
+  [PASS] EcruteakCity dusk: clock blend
+  [PASS] EcruteakCity dusk: hardware palette
+  shot RegionalLightingCapture_26_EcruteakCity_dusk
+  [PASS] EcruteakCity night: clock blend
+  [PASS] EcruteakCity night: hardware palette
+  shot RegionalLightingCapture_27_EcruteakCity_night
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] EverGrandeCity noon: clock blend
+  [PASS] EverGrandeCity noon: hardware palette
+  shot RegionalLightingCapture_28_EverGrandeCity_noon
+  [PASS] EverGrandeCity dusk: clock blend
+  [PASS] EverGrandeCity dusk: hardware palette
+  shot RegionalLightingCapture_29_EverGrandeCity_dusk
+  [PASS] EverGrandeCity night: clock blend
+  [PASS] EverGrandeCity night: hardware palette
+  shot RegionalLightingCapture_30_EverGrandeCity_night
+VERDICT RegionalLightingCapture: 60/60 PASS

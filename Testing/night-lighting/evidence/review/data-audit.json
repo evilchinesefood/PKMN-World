@@ -1,0 +1,382 @@
+{
+  "daylight_metatiles_verified": 35180,
+  "baseline_invalid_metatiles": [
+    [
+      "RS_SafariZone_Entrance_Layout",
+      707
+    ],
+    [
+      "RS_SafariZone_Entrance_Layout",
+      712
+    ],
+    [
+      "RS_SafariZone_Entrance_Layout",
+      720
+    ],
+    [
+      "RS_SafariZone_Entrance_Layout",
+      721
+    ],
+    [
+      "RS_SafariZone_Entrance_Layout",
+      722
+    ],
+    [
+      "RS_SafariZone_Entrance_Layout",
+      723
+    ],
+    [
+      "RS_SafariZone_Entrance_Layout",
+      724
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      784
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      791
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      792
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      794
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      799
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      803
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      807
+    ],
+    [
+      "RS_SafariZone_Northeast_Layout",
+      717
+    ],
+    [
+      "RS_SafariZone_Southwest_Layout",
+      793
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      786
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      787
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      788
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      789
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      790
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      795
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      796
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      797
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      798
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      800
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      801
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      802
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      804
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      805
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      806
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      808
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      809
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      813
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      816
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      817
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      815
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      819
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      822
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      823
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      824
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      825
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      834
+    ],
+    [
+      "RS_SafariZone_Southeast_Layout",
+      836
+    ]
+  ],
+  "towns": [
+    {
+      "town": "AzaleaTown",
+      "building_light_metatiles": 26
+    },
+    {
+      "town": "BlackthornCity",
+      "building_light_metatiles": 24
+    },
+    {
+      "town": "CeladonCity_Frlg",
+      "building_light_metatiles": 56
+    },
+    {
+      "town": "CeruleanCity_Frlg",
+      "building_light_metatiles": 25
+    },
+    {
+      "town": "CherrygroveCity",
+      "building_light_metatiles": 17
+    },
+    {
+      "town": "CianwoodCity",
+      "building_light_metatiles": 18
+    },
+    {
+      "town": "CinnabarIsland_Frlg",
+      "building_light_metatiles": 11
+    },
+    {
+      "town": "DewfordTown",
+      "building_light_metatiles": 6
+    },
+    {
+      "town": "EcruteakCity",
+      "building_light_metatiles": 82
+    },
+    {
+      "town": "EverGrandeCity",
+      "building_light_metatiles": 29
+    },
+    {
+      "town": "FallarborTown",
+      "building_light_metatiles": 6
+    },
+    {
+      "town": "FiveIsland_Frlg",
+      "building_light_metatiles": 1
+    },
+    {
+      "town": "FortreeCity",
+      "building_light_metatiles": 7
+    },
+    {
+      "town": "FourIsland_Frlg",
+      "building_light_metatiles": 4
+    },
+    {
+      "town": "FuchsiaCity_Frlg",
+      "building_light_metatiles": 13
+    },
+    {
+      "town": "GoldenrodCity",
+      "building_light_metatiles": 522
+    },
+    {
+      "town": "IndigoPlateau_Exterior_Frlg",
+      "building_light_metatiles": 1
+    },
+    {
+      "town": "JohtoIndigoPlateau",
+      "building_light_metatiles": 1
+    },
+    {
+      "town": "LakeOfRage",
+      "building_light_metatiles": 4
+    },
+    {
+      "town": "LavaridgeTown",
+      "building_light_metatiles": 11
+    },
+    {
+      "town": "LavenderTown_Frlg",
+      "building_light_metatiles": 2
+    },
+    {
+      "town": "LilycoveCity",
+      "building_light_metatiles": 29
+    },
+    {
+      "town": "LittlerootTown",
+      "building_light_metatiles": 9
+    },
+    {
+      "town": "Mahoganytown",
+      "building_light_metatiles": 20
+    },
+    {
+      "town": "MauvilleCity",
+      "building_light_metatiles": 7
+    },
+    {
+      "town": "MossdeepCity",
+      "building_light_metatiles": 7
+    },
+    {
+      "town": "MtSilver_Outside",
+      "building_light_metatiles": 5
+    },
+    {
+      "town": "NewBarkTown",
+      "building_light_metatiles": 21
+    },
+    {
+      "town": "OldaleTown",
+      "building_light_metatiles": 8
+    },
+    {
+      "town": "OlivineCity",
+      "building_light_metatiles": 91
+    },
+    {
+      "town": "OneIsland_Frlg",
+      "building_light_metatiles": 4
+    },
+    {
+      "town": "PacifidlogTown",
+      "building_light_metatiles": 1
+    },
+    {
+      "town": "PalletTown_Frlg",
+      "building_light_metatiles": 10
+    },
+    {
+      "town": "PetalburgCity",
+      "building_light_metatiles": 15
+    },
+    {
+      "town": "PewterCity_Frlg",
+      "building_light_metatiles": 23
+    },
+    {
+      "town": "RustboroCity",
+      "building_light_metatiles": 7
+    },
+    {
+      "town": "SafariZoneGate",
+      "building_light_metatiles": 5
+    },
+    {
+      "town": "SaffronCity_Connection_Frlg",
+      "building_light_metatiles": 286
+    },
+    {
+      "town": "SaffronCity_Frlg",
+      "building_light_metatiles": 286
+    },
+    {
+      "town": "SevenIsland_Frlg",
+      "building_light_metatiles": 2
+    },
+    {
+      "town": "SixIsland_Frlg",
+      "building_light_metatiles": 2
+    },
+    {
+      "town": "SlateportCity",
+      "building_light_metatiles": 14
+    },
+    {
+      "town": "SootopolisCity",
+      "building_light_metatiles": 7
+    },
+    {
+      "town": "ThreeIsland_Frlg",
+      "building_light_metatiles": 2
+    },
+    {
+      "town": "TwoIsland_Frlg",
+      "building_light_metatiles": 18
+    },
+    {
+      "town": "VerdanturfTown",
+      "building_light_metatiles": 2
+    },
+    {
+      "town": "VermilionCity_Frlg",
+      "building_light_metatiles": 45
+    },
+    {
+      "town": "VioletCity",
+      "building_light_metatiles": 45
+    },
+    {
+      "town": "ViridianCity_Frlg",
+      "building_light_metatiles": 7
+    }
+  ],
+  "new_lamps": 0,
+  "all_map_cells_unchanged": true,
+  "all_metatile_attributes_unchanged": true
+}

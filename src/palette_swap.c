@@ -20,10 +20,8 @@ u8 GetPlayerOutfit(void)
 // authored colors is stable, so any path that reloads the player palette
 // (return-to-field, battle send-out) lands correctly.
 //
-// PKMN-World port note: the target has no day/night engine, so instead of the
-// reference's DayNight_PaletteFadedWrite we write BOTH palette buffers directly
-// (unfaded + faded) — palette.c mirrors these two buffers, and a direct write to
-// both is what a plain LoadPalette does under the hood.
+// Match LoadPalette by writing both buffers. The normal weather/time palette
+// refresh paths and the dynamic reflection filters consume the authored source.
 static void WriteOutfitClothing(const u16 *colors, const u8 *indices, u8 count, u16 plttOffset)
 {
     u8 i;
@@ -85,7 +83,10 @@ void ApplyPlayerPaletteSwapBackPic(u16 plttOffset)
         WriteOutfitClothing(sOutfitBackPic_Male[outfit], sBackPicClothingIdx_Male, ARRAY_COUNT(sBackPicClothingIdx_Male), plttOffset);
 }
 
-// The reflection slot is patched from a pre-tinted "reflection" palette set that
+// Legacy reflection-slot path, retained for callers of
+// LoadPlayerObjectReflectionPalette. Live water reflections instead derive
+// their filtered colors from the current OW palette in field_effect_helpers.c.
+// The legacy slot is patched from a pre-tinted "reflection" palette set that
 // only carries RED. Mirror the outfit's OW clothing colors over the reflection
 // slot so non-RED outfits read correctly in water reflections (trades the subtle
 // blue cast for outfit-accurate color, matching the reference behavior).

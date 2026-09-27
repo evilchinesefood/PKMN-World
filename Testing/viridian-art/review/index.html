@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Viridian gardens · before and after</title><style>
+*{box-sizing:border-box}body{margin:0;background:#101c20;color:#e9f0e9;font:17px/1.55 system-ui,sans-serif}
+main{max-width:1080px;margin:0 auto;padding:28px 20px 64px}h1{font-size:clamp(28px,5vw,43px);line-height:1.15;margin:10px 0}
+h2{font-size:22px;margin:0 0 12px}p{max-width:850px}a{color:#b5dfb8}.eyebrow{color:#a9bcae;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.controls{position:sticky;top:0;z-index:2;background:#101c20ee;padding:13px 0;display:flex;gap:10px;backdrop-filter:blur(8px)}
+button{font:inherit;border:1px solid #506558;border-radius:8px;padding:8px 20px;background:#25382c;color:inherit;cursor:pointer}
+button[aria-pressed=true]{background:#c9e8b0;color:#142416;border-color:#c9e8b0}button:focus-visible,a:focus-visible{outline:3px solid #efcf75;outline-offset:4px}
+article,details{margin:22px 0;padding:20px;border:1px solid #3b5145;border-radius:12px;background:#192a23}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0;min-width:0}figcaption{color:#b9cabe;margin:0 0 7px}
+img{display:block;width:100%;height:auto;image-rendering:pixelated;background:#0b1711}summary{cursor:pointer;font-weight:650}
+details[open] summary{margin-bottom:18px}.muted{color:#b0c3b6;font-size:15px}code{overflow-wrap:anywhere}
+@media(max-width:620px){main{padding:18px 12px}.pair{grid-template-columns:1fr}article,details{padding:12px}button{padding:7px 15px}}
+</style></head><body><main>
+<div class="eyebrow">Pokémon World · Viridian City · issue #346</div>
+<h1>Small gardens, clearer composition</h1>
+<p>Existing Kanto flowers and mown-grass tiles now form grouped gardens at the west entrance, pond and eastern green. The southern flowers form separated clusters. This is the first of three map-art stages.</p>
+<p class="muted">Five-minute review: compare these three views in daylight, then switch to night. Judge the grouping, spacing and readability around the player and follower.</p>
+<div class="controls" role="group" aria-label="Time of day"><button type="button" data-time="noon" aria-pressed="true">Day</button><button type="button" data-time="dusk" aria-pressed="false">Dusk</button><button type="button" data-time="night" aria-pressed="false">Night</button></div>
+<article><h2>Eastern garden</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="eastern_garden" src="media/before_eastern_garden_noon.png" alt="Before eastern garden"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="eastern_garden" src="media/after_eastern_garden_noon.png" alt="After eastern garden"></figure></div></article><article><h2>West approach</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="west_entry" src="media/before_west_entry_noon.png" alt="Before west entry"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="west_entry" src="media/after_west_entry_noon.png" alt="After west entry"></figure></div></article><article><h2>Pond-side garden</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="pond_walk" src="media/before_pond_walk_noon.png" alt="Before pond walk"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="pond_walk" src="media/after_pond_walk_noon.png" alt="After pond walk"></figure></div></article>
+<details><summary>Two more views</summary><h2>Northeast verge</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="northeast_verge" src="media/before_northeast_verge_noon.png" alt="Before northeast verge"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="northeast_verge" src="media/after_northeast_verge_noon.png" alt="After northeast verge"></figure></div><h2>Southern flower clusters</h2><div class="pair"><figure><figcaption>Before</figcaption><img width="240" height="160" data-side="before" data-scene="southern_verge" src="media/before_southern_verge_noon.png" alt="Before southern verge"></figure><figure><figcaption>After</figcaption><img width="240" height="160" data-side="after" data-scene="southern_verge" src="media/after_southern_verge_noon.png" alt="After southern verge"></figure></div></details>
+<details><summary>Whole-map composition · source renders</summary><p class="muted">These are source-map renders without actors. The comparisons above are native 240×160 emulator captures.</p>
+<div class="pair"><figure><figcaption>Before</figcaption><img src="source-before.png" alt="Full original Viridian map"></figure><figure><figcaption>After</figcaption><img src="source-after.png" alt="Full landscaped Viridian map"></figure></div></details>
+<details><summary>Verification and exact scope</summary>
+<p>59 map cells changed. 7 local compositions reuse existing tile words; bitmap art and palettes are unchanged.</p>
+<p>All 1,920 cells preserve collision, elevation and nonvisual attributes. 65 protected gameplay cells are untouched. All five door approaches and three entrances keep the same walking component. Four routes sharing this tileset render identically.</p>
+<p>132 focused assertions passed, plus 50 full regression suites (1,331 assertions). All 15 paired runtime background-palette snapshots match. The prepared save also passes on the unpatched delivery ROM.</p>
+<p><a href="manifest.json">ROM and capture provenance</a> · <a href="audit.json">Map audit</a> · <a href="edits.json">Exact tile edits</a> · <a href="regression.log">Full regression result</a> · <a href="verification/actors-on-flowers.png">Player and follower on flowers</a></p>
+<p class="muted">The fixture creates a synthetic later-story state for ordinary entry/exit checks; it is absent from the delivery ROM. The existing catch-tutorial regression separately exercises the early-story sequence.</p></details>
+<p class="muted">Next: <a href="https://github.com/evilchinesefood/PKMN-World/issues/347">#347 path transitions</a>, then <a href="https://github.com/evilchinesefood/PKMN-World/issues/348">#348 building frontages</a>.</p>
+</main><script>
+document.querySelectorAll('button[data-time]').forEach(button=>button.addEventListener('click',()=>{
+document.querySelectorAll('button[data-time]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+document.querySelectorAll('img[data-scene]').forEach(img=>img.src=`media/${img.dataset.side}_${img.dataset.scene}_${button.dataset.time}.png`);
+}));
+</script></body></html>

@@ -1,0 +1,45 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] west_entry: garden traversable
+  [PASS] west_entry: follower remains visible
+  [PASS] western_lawn: garden traversable
+  [PASS] western_lawn: follower remains visible
+  [PASS] pond_walk: garden traversable
+  [PASS] pond_walk: follower remains visible
+  [PASS] eastern_garden: garden traversable
+  [PASS] eastern_garden: follower remains visible
+  shot ViridianArtLifecycle_1_actors_on_flowers
+  [PASS] northeast_verge: garden traversable
+  [PASS] northeast_verge: follower remains visible
+  [PASS] southern_verge: garden traversable
+  [PASS] southern_verge: follower remains visible
+  [PASS] house: correct door entry
+  [PASS] house: normal door exit
+  [PASS] house: night tint restored
+  [PASS] school: correct door entry
+  [PASS] school: normal door exit
+  [PASS] school: night tint restored
+  [PASS] mart: correct door entry
+  [PASS] mart: normal door exit
+  [PASS] mart: night tint restored
+  [PASS] center: correct door entry
+  [PASS] center: normal door exit
+  [PASS] center: night tint restored
+  [PASS] gym: correct door entry
+  [PASS] gym: normal door exit
+  [PASS] gym: night tint restored
+  [PASS] Route1: normal connection exit
+  [PASS] Route1: normal connection return
+  [PASS] Route2: normal connection exit
+  [PASS] Route2: normal connection return
+  [PASS] Route22: normal connection exit
+  [PASS] Route22: normal connection return
+  [PASS] locked gym returns to unchanged jump-back tile
+  [PASS] menu returns to field
+  [PASS] menu preserves map palettes and night blend
+  [PASS] synthetic save written
+BOOTED grp=37 map=1 pos=(31,27)
+  [PASS] Continue returns to Viridian
+  [PASS] Continue preserves night tint and walking
+  shot ViridianArtLifecycle_2_night_continue
+VERDICT ViridianArtLifecycle: 39/39 PASS

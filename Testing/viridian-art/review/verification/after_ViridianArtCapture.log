@@ -1,0 +1,63 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] west_entry noon: clock
+  [PASS] west_entry noon: visible follower
+  [PASS] west_entry noon: hardware palette
+  shot ViridianArtCapture_1_west_entry_noon
+  [PASS] west_entry dusk: clock
+  [PASS] west_entry dusk: visible follower
+  [PASS] west_entry dusk: hardware palette
+  shot ViridianArtCapture_2_west_entry_dusk
+  [PASS] west_entry night: clock
+  [PASS] west_entry night: visible follower
+  [PASS] west_entry night: hardware palette
+  shot ViridianArtCapture_3_west_entry_night
+  [PASS] pond_walk noon: clock
+  [PASS] pond_walk noon: visible follower
+  [PASS] pond_walk noon: hardware palette
+  shot ViridianArtCapture_4_pond_walk_noon
+  [PASS] pond_walk dusk: clock
+  [PASS] pond_walk dusk: visible follower
+  [PASS] pond_walk dusk: hardware palette
+  shot ViridianArtCapture_5_pond_walk_dusk
+  [PASS] pond_walk night: clock
+  [PASS] pond_walk night: visible follower
+  [PASS] pond_walk night: hardware palette
+  shot ViridianArtCapture_6_pond_walk_night
+  [PASS] eastern_garden noon: clock
+  [PASS] eastern_garden noon: visible follower
+  [PASS] eastern_garden noon: hardware palette
+  shot ViridianArtCapture_7_eastern_garden_noon
+  [PASS] eastern_garden dusk: clock
+  [PASS] eastern_garden dusk: visible follower
+  [PASS] eastern_garden dusk: hardware palette
+  shot ViridianArtCapture_8_eastern_garden_dusk
+  [PASS] eastern_garden night: clock
+  [PASS] eastern_garden night: visible follower
+  [PASS] eastern_garden night: hardware palette
+  shot ViridianArtCapture_9_eastern_garden_night
+  [PASS] northeast_verge noon: clock
+  [PASS] northeast_verge noon: visible follower
+  [PASS] northeast_verge noon: hardware palette
+  shot ViridianArtCapture_10_northeast_verge_noon
+  [PASS] northeast_verge dusk: clock
+  [PASS] northeast_verge dusk: visible follower
+  [PASS] northeast_verge dusk: hardware palette
+  shot ViridianArtCapture_11_northeast_verge_dusk
+  [PASS] northeast_verge night: clock
+  [PASS] northeast_verge night: visible follower
+  [PASS] northeast_verge night: hardware palette
+  shot ViridianArtCapture_12_northeast_verge_night
+  [PASS] southern_verge noon: clock
+  [PASS] southern_verge noon: visible follower
+  [PASS] southern_verge noon: hardware palette
+  shot ViridianArtCapture_13_southern_verge_noon
+  [PASS] southern_verge dusk: clock
+  [PASS] southern_verge dusk: visible follower
+  [PASS] southern_verge dusk: hardware palette
+  shot ViridianArtCapture_14_southern_verge_dusk
+  [PASS] southern_verge night: clock
+  [PASS] southern_verge night: visible follower
+  [PASS] southern_verge night: hardware palette
+  shot ViridianArtCapture_15_southern_verge_night
+VERDICT ViridianArtCapture: 45/45 PASS

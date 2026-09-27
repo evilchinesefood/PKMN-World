@@ -1,0 +1,6 @@
+BOOTED grp=37 map=1 pos=(31,27)
+  [PASS] unpatched ROM continues in Viridian
+  [PASS] night lighting is active
+  [PASS] player retains control
+  shot ViridianArtDelivery_1_night_continue
+VERDICT ViridianArtDelivery: 3/3 PASS

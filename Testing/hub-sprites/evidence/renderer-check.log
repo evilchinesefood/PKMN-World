@@ -1,0 +1,12 @@
+PASS: failed baseline rejected before output
+PASS: zero-check baseline rejected before output
+PASS: zero-check feature rejected before output
+PASS: missing PASS rejected before output
+PASS: conflicting FAIL rejected before output
+PASS: mismatched PASS count rejected before output
+PASS: aborted runner with stale log and PASS rejected before output
+PASS: missing delivery runner rejected before output
+PASS: aborted delivery with stale log and PASS rejected before output
+PASS: ASCII-locale process emits valid UTF-8 and escaped labels
+PASS: baseline 30 separate from targeted 1980; 80 media generated
+PASS: documented package layout resolves all HTML file links

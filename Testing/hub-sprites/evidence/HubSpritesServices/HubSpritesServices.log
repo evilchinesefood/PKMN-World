@@ -1,0 +1,554 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] pichu: accept intro tour
+  [PASS] pichu_tour_1: object budget -- active=11
+  shot HubSpritesServices_1_pichu_tour_1
+  [PASS] pichu_tour_2: object budget -- active=13
+  shot HubSpritesServices_2_pichu_tour_2
+  [PASS] pichu_tour_3: object budget -- active=13
+  shot HubSpritesServices_3_pichu_tour_3
+  [PASS] pichu_tour_4: object budget -- active=10
+  shot HubSpritesServices_4_pichu_tour_4
+  [PASS] pichu_tour_5: object budget -- active=8
+  shot HubSpritesServices_5_pichu_tour_5
+  [PASS] pichu_tour_6: object budget -- active=9
+  shot HubSpritesServices_6_pichu_tour_6
+  [PASS] pichu_tour_7: object budget -- active=10
+  shot HubSpritesServices_7_pichu_tour_7
+  [PASS] pichu_tour_8: object budget -- active=10
+  shot HubSpritesServices_8_pichu_tour_8
+  [PASS] pichu_tour_9: object budget -- active=9
+  shot HubSpritesServices_9_pichu_tour_9
+  [PASS] pichu: all nine tour stops reached
+  [PASS] pichu: tour follower safely pocketed or adjacent -- active=1571 visible=0 maxGap=0
+  [PASS] pichu: tour releases control
+  [PASS] pichu_tour_end: follower visible and adjacent
+PROBE pichu_tour_end follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] pichu_tour_end follower: actor and sprite present
+  [PASS] pichu_tour_end: expected follower species/shininess
+  [PASS] pichu_tour_end: follower palette matches its source
+  [PASS] pichu_harbor: service approach reachable
+  [PASS] pichu_harbor: object budget -- active=7
+  [PASS] pichu_harbor: follower visible and adjacent
+PROBE pichu_harbor follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_harbor follower: actor and sprite present
+  [PASS] pichu_harbor: expected follower species/shininess
+  [PASS] pichu_harbor: follower palette matches its source
+  [PASS] pichu_harbor: service NPC visible
+PROBE pichu_harbor id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] pichu_harbor: actor and sprite present
+  [PASS] pichu_harbor: approved FRLG graphics
+  [PASS] pichu_harbor: correct palette colors and slot
+  [PASS] pichu_harbor: standard dimensions and shadow
+  shot HubSpritesServices_10_pichu_harbor_dialogue
+  [PASS] pichu_harbor: dialogue returns control
+  shot HubSpritesServices_11_pichu_harbor
+  [PASS] pichu_clerk: service approach reachable
+  [PASS] pichu_clerk: object budget -- active=8
+  [PASS] pichu_clerk: follower visible and adjacent
+PROBE pichu_clerk follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] pichu_clerk follower: actor and sprite present
+  [PASS] pichu_clerk: expected follower species/shininess
+  [PASS] pichu_clerk: follower palette matches its source
+  [PASS] pichu_clerk: service NPC visible
+  shot HubSpritesServices_12_pichu_clerk
+  [PASS] pichu_frontier: service approach reachable
+  [PASS] pichu_frontier: object budget -- active=9
+  [PASS] pichu_frontier: follower visible and adjacent
+PROBE pichu_frontier follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] pichu_frontier follower: actor and sprite present
+  [PASS] pichu_frontier: expected follower species/shininess
+  [PASS] pichu_frontier: follower palette matches its source
+  [PASS] pichu_frontier: service NPC visible
+  shot HubSpritesServices_13_pichu_frontier
+  [PASS] pichu_kanto: service approach reachable
+  [PASS] pichu_kanto: object budget -- active=12
+  [PASS] pichu_kanto: follower visible and adjacent
+PROBE pichu_kanto follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_kanto follower: actor and sprite present
+  [PASS] pichu_kanto: expected follower species/shininess
+  [PASS] pichu_kanto: follower palette matches its source
+  [PASS] pichu_kanto: service NPC visible
+  shot HubSpritesServices_14_pichu_kanto
+  [PASS] pichu_johto: service approach reachable
+  [PASS] pichu_johto: object budget -- active=13
+  [PASS] pichu_johto: follower visible and adjacent
+PROBE pichu_johto follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_johto follower: actor and sprite present
+  [PASS] pichu_johto: expected follower species/shininess
+  [PASS] pichu_johto: follower palette matches its source
+  [PASS] pichu_johto: service NPC visible
+  shot HubSpritesServices_15_pichu_johto
+  [PASS] pichu_hoenn: service approach reachable
+  [PASS] pichu_hoenn: object budget -- active=11
+  [PASS] pichu_hoenn: follower visible and adjacent
+PROBE pichu_hoenn follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_hoenn follower: actor and sprite present
+  [PASS] pichu_hoenn: expected follower species/shininess
+  [PASS] pichu_hoenn: follower palette matches its source
+  [PASS] pichu_hoenn: service NPC visible
+  shot HubSpritesServices_16_pichu_hoenn
+  [PASS] pichu_sky_charm: service approach reachable
+  [PASS] pichu_sky_charm: object budget -- active=11
+  [PASS] pichu_sky_charm: follower visible and adjacent
+PROBE pichu_sky_charm follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] pichu_sky_charm follower: actor and sprite present
+  [PASS] pichu_sky_charm: expected follower species/shininess
+  [PASS] pichu_sky_charm: follower palette matches its source
+  [PASS] pichu_sky_charm: service NPC visible
+  shot HubSpritesServices_17_pichu_sky_charm
+  [PASS] pichu_dex_reward: service approach reachable
+  [PASS] pichu_dex_reward: object budget -- active=14
+  [PASS] pichu_dex_reward: follower visible and adjacent
+PROBE pichu_dex_reward follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_dex_reward follower: actor and sprite present
+  [PASS] pichu_dex_reward: expected follower species/shininess
+  [PASS] pichu_dex_reward: follower palette matches its source
+  [PASS] pichu_dex_reward: service NPC visible
+  shot HubSpritesServices_18_pichu_dex_reward
+  [PASS] pichu_curator: service approach reachable
+  [PASS] pichu_curator: object budget -- active=10
+  [PASS] pichu_curator: follower visible and adjacent
+PROBE pichu_curator follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_curator follower: actor and sprite present
+  [PASS] pichu_curator: expected follower species/shininess
+  [PASS] pichu_curator: follower palette matches its source
+  [PASS] pichu_curator: service NPC visible
+PROBE pichu_curator id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] pichu_curator: actor and sprite present
+  [PASS] pichu_curator: approved FRLG graphics
+  [PASS] pichu_curator: correct palette colors and slot
+  [PASS] pichu_curator: standard dimensions and shadow
+  shot HubSpritesServices_19_pichu_curator_dialogue
+  [PASS] pichu_curator: dialogue returns control
+  shot HubSpritesServices_20_pichu_curator
+  [PASS] pichu_nurse: service approach reachable
+  [PASS] pichu_nurse: object budget -- active=10
+  [PASS] pichu_nurse: follower visible and adjacent
+PROBE pichu_nurse follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_nurse follower: actor and sprite present
+  [PASS] pichu_nurse: expected follower species/shininess
+  [PASS] pichu_nurse: follower palette matches its source
+  [PASS] pichu_nurse: service NPC visible
+  shot HubSpritesServices_21_pichu_nurse
+  [PASS] pichu_chansey: service approach reachable
+  [PASS] pichu_chansey: object budget -- active=10
+  [PASS] pichu_chansey: follower visible and adjacent
+PROBE pichu_chansey follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_chansey follower: actor and sprite present
+  [PASS] pichu_chansey: expected follower species/shininess
+  [PASS] pichu_chansey: follower palette matches its source
+  [PASS] pichu_chansey: service NPC visible
+  shot HubSpritesServices_22_pichu_chansey
+  [PASS] pichu_pc: service approach reachable
+  [PASS] pichu_pc: object budget -- active=10
+  [PASS] pichu_pc: follower visible and adjacent
+PROBE pichu_pc follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] pichu_pc follower: actor and sprite present
+  [PASS] pichu_pc: expected follower species/shininess
+  [PASS] pichu_pc: follower palette matches its source
+  shot HubSpritesServices_23_pichu_pc
+  [PASS] pichu_bnet: service approach reachable
+  [PASS] pichu_bnet: object budget -- active=9
+  [PASS] pichu_bnet: follower visible and adjacent
+PROBE pichu_bnet follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] pichu_bnet follower: actor and sprite present
+  [PASS] pichu_bnet: expected follower species/shininess
+  [PASS] pichu_bnet: follower palette matches its source
+  shot HubSpritesServices_24_pichu_bnet
+  [PASS] pichu_tm_vendor: service approach reachable
+  [PASS] pichu_tm_vendor: object budget -- active=10
+  [PASS] pichu_tm_vendor: follower visible and adjacent
+PROBE pichu_tm_vendor follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_tm_vendor follower: actor and sprite present
+  [PASS] pichu_tm_vendor: expected follower species/shininess
+  [PASS] pichu_tm_vendor: follower palette matches its source
+  [PASS] pichu_tm_vendor: service NPC visible
+  shot HubSpritesServices_25_pichu_tm_vendor
+  [PASS] pichu_vitamin_vendor: service approach reachable
+  [PASS] pichu_vitamin_vendor: object budget -- active=9
+  [PASS] pichu_vitamin_vendor: follower visible and adjacent
+PROBE pichu_vitamin_vendor follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_vitamin_vendor follower: actor and sprite present
+  [PASS] pichu_vitamin_vendor: expected follower species/shininess
+  [PASS] pichu_vitamin_vendor: follower palette matches its source
+  [PASS] pichu_vitamin_vendor: service NPC visible
+  shot HubSpritesServices_26_pichu_vitamin_vendor
+  [PASS] pichu_battle_depot: service approach reachable
+  [PASS] pichu_battle_depot: object budget -- active=7
+  [PASS] pichu_battle_depot: follower visible and adjacent
+PROBE pichu_battle_depot follower id=254 flags=0x33 gfx=0x50AC pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] pichu_battle_depot follower: actor and sprite present
+  [PASS] pichu_battle_depot: expected follower species/shininess
+  [PASS] pichu_battle_depot: follower palette matches its source
+  [PASS] pichu_battle_depot: service NPC visible
+  shot HubSpritesServices_27_pichu_battle_depot
+  [PASS] snorlax: accept intro tour
+  [PASS] snorlax_tour_1: object budget -- active=11
+  shot HubSpritesServices_28_snorlax_tour_1
+  [PASS] snorlax_tour_2: object budget -- active=13
+  shot HubSpritesServices_29_snorlax_tour_2
+  [PASS] snorlax_tour_3: object budget -- active=13
+  shot HubSpritesServices_30_snorlax_tour_3
+  [PASS] snorlax_tour_4: object budget -- active=10
+  shot HubSpritesServices_31_snorlax_tour_4
+  [PASS] snorlax_tour_5: object budget -- active=8
+  shot HubSpritesServices_32_snorlax_tour_5
+  [PASS] snorlax_tour_6: object budget -- active=9
+  shot HubSpritesServices_33_snorlax_tour_6
+  [PASS] snorlax_tour_7: object budget -- active=10
+  shot HubSpritesServices_34_snorlax_tour_7
+  [PASS] snorlax_tour_8: object budget -- active=10
+  shot HubSpritesServices_35_snorlax_tour_8
+  [PASS] snorlax_tour_9: object budget -- active=9
+  shot HubSpritesServices_36_snorlax_tour_9
+  [PASS] snorlax: all nine tour stops reached
+  [PASS] snorlax: tour follower safely pocketed or adjacent -- active=1571 visible=0 maxGap=0
+  [PASS] snorlax: tour releases control
+  [PASS] snorlax_tour_end: follower visible and adjacent
+PROBE snorlax_tour_end follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] snorlax_tour_end follower: actor and sprite present
+  [PASS] snorlax_tour_end: expected follower species/shininess
+  [PASS] snorlax_tour_end: follower palette matches its source
+  [PASS] snorlax_harbor: service approach reachable
+  [PASS] snorlax_harbor: object budget -- active=7
+  [PASS] snorlax_harbor: follower visible and adjacent
+PROBE snorlax_harbor follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_harbor follower: actor and sprite present
+  [PASS] snorlax_harbor: expected follower species/shininess
+  [PASS] snorlax_harbor: follower palette matches its source
+  [PASS] snorlax_harbor: service NPC visible
+PROBE snorlax_harbor id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] snorlax_harbor: actor and sprite present
+  [PASS] snorlax_harbor: approved FRLG graphics
+  [PASS] snorlax_harbor: correct palette colors and slot
+  [PASS] snorlax_harbor: standard dimensions and shadow
+  shot HubSpritesServices_37_snorlax_harbor_dialogue
+  [PASS] snorlax_harbor: dialogue returns control
+  shot HubSpritesServices_38_snorlax_harbor
+  [PASS] snorlax_clerk: service approach reachable
+  [PASS] snorlax_clerk: object budget -- active=8
+  [PASS] snorlax_clerk: follower visible and adjacent
+PROBE snorlax_clerk follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] snorlax_clerk follower: actor and sprite present
+  [PASS] snorlax_clerk: expected follower species/shininess
+  [PASS] snorlax_clerk: follower palette matches its source
+  [PASS] snorlax_clerk: service NPC visible
+  shot HubSpritesServices_39_snorlax_clerk
+  [PASS] snorlax_frontier: service approach reachable
+  [PASS] snorlax_frontier: object budget -- active=9
+  [PASS] snorlax_frontier: follower visible and adjacent
+PROBE snorlax_frontier follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] snorlax_frontier follower: actor and sprite present
+  [PASS] snorlax_frontier: expected follower species/shininess
+  [PASS] snorlax_frontier: follower palette matches its source
+  [PASS] snorlax_frontier: service NPC visible
+  shot HubSpritesServices_40_snorlax_frontier
+  [PASS] snorlax_kanto: service approach reachable
+  [PASS] snorlax_kanto: object budget -- active=12
+  [PASS] snorlax_kanto: follower visible and adjacent
+PROBE snorlax_kanto follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_kanto follower: actor and sprite present
+  [PASS] snorlax_kanto: expected follower species/shininess
+  [PASS] snorlax_kanto: follower palette matches its source
+  [PASS] snorlax_kanto: service NPC visible
+  shot HubSpritesServices_41_snorlax_kanto
+  [PASS] snorlax_johto: service approach reachable
+  [PASS] snorlax_johto: object budget -- active=13
+  [PASS] snorlax_johto: follower visible and adjacent
+PROBE snorlax_johto follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_johto follower: actor and sprite present
+  [PASS] snorlax_johto: expected follower species/shininess
+  [PASS] snorlax_johto: follower palette matches its source
+  [PASS] snorlax_johto: service NPC visible
+  shot HubSpritesServices_42_snorlax_johto
+  [PASS] snorlax_hoenn: service approach reachable
+  [PASS] snorlax_hoenn: object budget -- active=11
+  [PASS] snorlax_hoenn: follower visible and adjacent
+PROBE snorlax_hoenn follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_hoenn follower: actor and sprite present
+  [PASS] snorlax_hoenn: expected follower species/shininess
+  [PASS] snorlax_hoenn: follower palette matches its source
+  [PASS] snorlax_hoenn: service NPC visible
+  shot HubSpritesServices_43_snorlax_hoenn
+  [PASS] snorlax_sky_charm: service approach reachable
+  [PASS] snorlax_sky_charm: object budget -- active=11
+  [PASS] snorlax_sky_charm: follower visible and adjacent
+PROBE snorlax_sky_charm follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] snorlax_sky_charm follower: actor and sprite present
+  [PASS] snorlax_sky_charm: expected follower species/shininess
+  [PASS] snorlax_sky_charm: follower palette matches its source
+  [PASS] snorlax_sky_charm: service NPC visible
+  shot HubSpritesServices_44_snorlax_sky_charm
+  [PASS] snorlax_dex_reward: service approach reachable
+  [PASS] snorlax_dex_reward: object budget -- active=14
+  [PASS] snorlax_dex_reward: follower visible and adjacent
+PROBE snorlax_dex_reward follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_dex_reward follower: actor and sprite present
+  [PASS] snorlax_dex_reward: expected follower species/shininess
+  [PASS] snorlax_dex_reward: follower palette matches its source
+  [PASS] snorlax_dex_reward: service NPC visible
+  shot HubSpritesServices_45_snorlax_dex_reward
+  [PASS] snorlax_curator: service approach reachable
+  [PASS] snorlax_curator: object budget -- active=10
+  [PASS] snorlax_curator: follower visible and adjacent
+PROBE snorlax_curator follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_curator follower: actor and sprite present
+  [PASS] snorlax_curator: expected follower species/shininess
+  [PASS] snorlax_curator: follower palette matches its source
+  [PASS] snorlax_curator: service NPC visible
+PROBE snorlax_curator id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] snorlax_curator: actor and sprite present
+  [PASS] snorlax_curator: approved FRLG graphics
+  [PASS] snorlax_curator: correct palette colors and slot
+  [PASS] snorlax_curator: standard dimensions and shadow
+  shot HubSpritesServices_46_snorlax_curator_dialogue
+  [PASS] snorlax_curator: dialogue returns control
+  shot HubSpritesServices_47_snorlax_curator
+  [PASS] snorlax_nurse: service approach reachable
+  [PASS] snorlax_nurse: object budget -- active=10
+  [PASS] snorlax_nurse: follower visible and adjacent
+PROBE snorlax_nurse follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_nurse follower: actor and sprite present
+  [PASS] snorlax_nurse: expected follower species/shininess
+  [PASS] snorlax_nurse: follower palette matches its source
+  [PASS] snorlax_nurse: service NPC visible
+  shot HubSpritesServices_48_snorlax_nurse
+  [PASS] snorlax_chansey: service approach reachable
+  [PASS] snorlax_chansey: object budget -- active=10
+  [PASS] snorlax_chansey: follower visible and adjacent
+PROBE snorlax_chansey follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_chansey follower: actor and sprite present
+  [PASS] snorlax_chansey: expected follower species/shininess
+  [PASS] snorlax_chansey: follower palette matches its source
+  [PASS] snorlax_chansey: service NPC visible
+  shot HubSpritesServices_49_snorlax_chansey
+  [PASS] snorlax_pc: service approach reachable
+  [PASS] snorlax_pc: object budget -- active=10
+  [PASS] snorlax_pc: follower visible and adjacent
+PROBE snorlax_pc follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] snorlax_pc follower: actor and sprite present
+  [PASS] snorlax_pc: expected follower species/shininess
+  [PASS] snorlax_pc: follower palette matches its source
+  shot HubSpritesServices_50_snorlax_pc
+  [PASS] snorlax_bnet: service approach reachable
+  [PASS] snorlax_bnet: object budget -- active=9
+  [PASS] snorlax_bnet: follower visible and adjacent
+PROBE snorlax_bnet follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] snorlax_bnet follower: actor and sprite present
+  [PASS] snorlax_bnet: expected follower species/shininess
+  [PASS] snorlax_bnet: follower palette matches its source
+  shot HubSpritesServices_51_snorlax_bnet
+  [PASS] snorlax_tm_vendor: service approach reachable
+  [PASS] snorlax_tm_vendor: object budget -- active=10
+  [PASS] snorlax_tm_vendor: follower visible and adjacent
+PROBE snorlax_tm_vendor follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_tm_vendor follower: actor and sprite present
+  [PASS] snorlax_tm_vendor: expected follower species/shininess
+  [PASS] snorlax_tm_vendor: follower palette matches its source
+  [PASS] snorlax_tm_vendor: service NPC visible
+  shot HubSpritesServices_52_snorlax_tm_vendor
+  [PASS] snorlax_vitamin_vendor: service approach reachable
+  [PASS] snorlax_vitamin_vendor: object budget -- active=9
+  [PASS] snorlax_vitamin_vendor: follower visible and adjacent
+PROBE snorlax_vitamin_vendor follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_vitamin_vendor follower: actor and sprite present
+  [PASS] snorlax_vitamin_vendor: expected follower species/shininess
+  [PASS] snorlax_vitamin_vendor: follower palette matches its source
+  [PASS] snorlax_vitamin_vendor: service NPC visible
+  shot HubSpritesServices_53_snorlax_vitamin_vendor
+  [PASS] snorlax_battle_depot: service approach reachable
+  [PASS] snorlax_battle_depot: object budget -- active=7
+  [PASS] snorlax_battle_depot: follower visible and adjacent
+PROBE snorlax_battle_depot follower id=254 flags=0x33 gfx=0x408F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] snorlax_battle_depot follower: actor and sprite present
+  [PASS] snorlax_battle_depot: expected follower species/shininess
+  [PASS] snorlax_battle_depot: follower palette matches its source
+  [PASS] snorlax_battle_depot: service NPC visible
+  shot HubSpritesServices_54_snorlax_battle_depot
+  [PASS] shiny_snorlax: accept intro tour
+  [PASS] shiny_snorlax_tour_1: object budget -- active=11
+  shot HubSpritesServices_55_shiny_snorlax_tour_1
+  [PASS] shiny_snorlax_tour_2: object budget -- active=13
+  shot HubSpritesServices_56_shiny_snorlax_tour_2
+  [PASS] shiny_snorlax_tour_3: object budget -- active=13
+  shot HubSpritesServices_57_shiny_snorlax_tour_3
+  [PASS] shiny_snorlax_tour_4: object budget -- active=10
+  shot HubSpritesServices_58_shiny_snorlax_tour_4
+  [PASS] shiny_snorlax_tour_5: object budget -- active=8
+  shot HubSpritesServices_59_shiny_snorlax_tour_5
+  [PASS] shiny_snorlax_tour_6: object budget -- active=9
+  shot HubSpritesServices_60_shiny_snorlax_tour_6
+  [PASS] shiny_snorlax_tour_7: object budget -- active=10
+  shot HubSpritesServices_61_shiny_snorlax_tour_7
+  [PASS] shiny_snorlax_tour_8: object budget -- active=10
+  shot HubSpritesServices_62_shiny_snorlax_tour_8
+  [PASS] shiny_snorlax_tour_9: object budget -- active=9
+  shot HubSpritesServices_63_shiny_snorlax_tour_9
+  [PASS] shiny_snorlax: all nine tour stops reached
+  [PASS] shiny_snorlax: tour follower safely pocketed or adjacent -- active=1571 visible=0 maxGap=0
+  [PASS] shiny_snorlax: tour releases control
+  [PASS] shiny_snorlax_tour_end: follower visible and adjacent
+PROBE shiny_snorlax_tour_end follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] shiny_snorlax_tour_end follower: actor and sprite present
+  [PASS] shiny_snorlax_tour_end: expected follower species/shininess
+  [PASS] shiny_snorlax_tour_end: follower palette matches its source
+  [PASS] shiny_snorlax_harbor: service approach reachable
+  [PASS] shiny_snorlax_harbor: object budget -- active=7
+  [PASS] shiny_snorlax_harbor: follower visible and adjacent
+PROBE shiny_snorlax_harbor follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_harbor follower: actor and sprite present
+  [PASS] shiny_snorlax_harbor: expected follower species/shininess
+  [PASS] shiny_snorlax_harbor: follower palette matches its source
+  [PASS] shiny_snorlax_harbor: service NPC visible
+PROBE shiny_snorlax_harbor id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] shiny_snorlax_harbor: actor and sprite present
+  [PASS] shiny_snorlax_harbor: approved FRLG graphics
+  [PASS] shiny_snorlax_harbor: correct palette colors and slot
+  [PASS] shiny_snorlax_harbor: standard dimensions and shadow
+  shot HubSpritesServices_64_shiny_snorlax_harbor_dialogue
+  [PASS] shiny_snorlax_harbor: dialogue returns control
+  shot HubSpritesServices_65_shiny_snorlax_harbor
+  [PASS] shiny_snorlax_clerk: service approach reachable
+  [PASS] shiny_snorlax_clerk: object budget -- active=8
+  [PASS] shiny_snorlax_clerk: follower visible and adjacent
+PROBE shiny_snorlax_clerk follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] shiny_snorlax_clerk follower: actor and sprite present
+  [PASS] shiny_snorlax_clerk: expected follower species/shininess
+  [PASS] shiny_snorlax_clerk: follower palette matches its source
+  [PASS] shiny_snorlax_clerk: service NPC visible
+  shot HubSpritesServices_66_shiny_snorlax_clerk
+  [PASS] shiny_snorlax_frontier: service approach reachable
+  [PASS] shiny_snorlax_frontier: object budget -- active=9
+  [PASS] shiny_snorlax_frontier: follower visible and adjacent
+PROBE shiny_snorlax_frontier follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] shiny_snorlax_frontier follower: actor and sprite present
+  [PASS] shiny_snorlax_frontier: expected follower species/shininess
+  [PASS] shiny_snorlax_frontier: follower palette matches its source
+  [PASS] shiny_snorlax_frontier: service NPC visible
+  shot HubSpritesServices_67_shiny_snorlax_frontier
+  [PASS] shiny_snorlax_kanto: service approach reachable
+  [PASS] shiny_snorlax_kanto: object budget -- active=12
+  [PASS] shiny_snorlax_kanto: follower visible and adjacent
+PROBE shiny_snorlax_kanto follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_kanto follower: actor and sprite present
+  [PASS] shiny_snorlax_kanto: expected follower species/shininess
+  [PASS] shiny_snorlax_kanto: follower palette matches its source
+  [PASS] shiny_snorlax_kanto: service NPC visible
+  shot HubSpritesServices_68_shiny_snorlax_kanto
+  [PASS] shiny_snorlax_johto: service approach reachable
+  [PASS] shiny_snorlax_johto: object budget -- active=13
+  [PASS] shiny_snorlax_johto: follower visible and adjacent
+PROBE shiny_snorlax_johto follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_johto follower: actor and sprite present
+  [PASS] shiny_snorlax_johto: expected follower species/shininess
+  [PASS] shiny_snorlax_johto: follower palette matches its source
+  [PASS] shiny_snorlax_johto: service NPC visible
+  shot HubSpritesServices_69_shiny_snorlax_johto
+  [PASS] shiny_snorlax_hoenn: service approach reachable
+  [PASS] shiny_snorlax_hoenn: object budget -- active=11
+  [PASS] shiny_snorlax_hoenn: follower visible and adjacent
+PROBE shiny_snorlax_hoenn follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_hoenn follower: actor and sprite present
+  [PASS] shiny_snorlax_hoenn: expected follower species/shininess
+  [PASS] shiny_snorlax_hoenn: follower palette matches its source
+  [PASS] shiny_snorlax_hoenn: service NPC visible
+  shot HubSpritesServices_70_shiny_snorlax_hoenn
+  [PASS] shiny_snorlax_sky_charm: service approach reachable
+  [PASS] shiny_snorlax_sky_charm: object budget -- active=11
+  [PASS] shiny_snorlax_sky_charm: follower visible and adjacent
+PROBE shiny_snorlax_sky_charm follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] shiny_snorlax_sky_charm follower: actor and sprite present
+  [PASS] shiny_snorlax_sky_charm: expected follower species/shininess
+  [PASS] shiny_snorlax_sky_charm: follower palette matches its source
+  [PASS] shiny_snorlax_sky_charm: service NPC visible
+  shot HubSpritesServices_71_shiny_snorlax_sky_charm
+  [PASS] shiny_snorlax_dex_reward: service approach reachable
+  [PASS] shiny_snorlax_dex_reward: object budget -- active=14
+  [PASS] shiny_snorlax_dex_reward: follower visible and adjacent
+PROBE shiny_snorlax_dex_reward follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_dex_reward follower: actor and sprite present
+  [PASS] shiny_snorlax_dex_reward: expected follower species/shininess
+  [PASS] shiny_snorlax_dex_reward: follower palette matches its source
+  [PASS] shiny_snorlax_dex_reward: service NPC visible
+  shot HubSpritesServices_72_shiny_snorlax_dex_reward
+  [PASS] shiny_snorlax_curator: service approach reachable
+  [PASS] shiny_snorlax_curator: object budget -- active=10
+  [PASS] shiny_snorlax_curator: follower visible and adjacent
+PROBE shiny_snorlax_curator follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_curator follower: actor and sprite present
+  [PASS] shiny_snorlax_curator: expected follower species/shininess
+  [PASS] shiny_snorlax_curator: follower palette matches its source
+  [PASS] shiny_snorlax_curator: service NPC visible
+PROBE shiny_snorlax_curator id=13 flags=0x33 gfx=0x014B pal=7 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] shiny_snorlax_curator: actor and sprite present
+  [PASS] shiny_snorlax_curator: approved FRLG graphics
+  [PASS] shiny_snorlax_curator: correct palette colors and slot
+  [PASS] shiny_snorlax_curator: standard dimensions and shadow
+  shot HubSpritesServices_73_shiny_snorlax_curator_dialogue
+  [PASS] shiny_snorlax_curator: dialogue returns control
+  shot HubSpritesServices_74_shiny_snorlax_curator
+  [PASS] shiny_snorlax_nurse: service approach reachable
+  [PASS] shiny_snorlax_nurse: object budget -- active=10
+  [PASS] shiny_snorlax_nurse: follower visible and adjacent
+PROBE shiny_snorlax_nurse follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_nurse follower: actor and sprite present
+  [PASS] shiny_snorlax_nurse: expected follower species/shininess
+  [PASS] shiny_snorlax_nurse: follower palette matches its source
+  [PASS] shiny_snorlax_nurse: service NPC visible
+  shot HubSpritesServices_75_shiny_snorlax_nurse
+  [PASS] shiny_snorlax_chansey: service approach reachable
+  [PASS] shiny_snorlax_chansey: object budget -- active=10
+  [PASS] shiny_snorlax_chansey: follower visible and adjacent
+PROBE shiny_snorlax_chansey follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_chansey follower: actor and sprite present
+  [PASS] shiny_snorlax_chansey: expected follower species/shininess
+  [PASS] shiny_snorlax_chansey: follower palette matches its source
+  [PASS] shiny_snorlax_chansey: service NPC visible
+  shot HubSpritesServices_76_shiny_snorlax_chansey
+  [PASS] shiny_snorlax_pc: service approach reachable
+  [PASS] shiny_snorlax_pc: object budget -- active=10
+  [PASS] shiny_snorlax_pc: follower visible and adjacent
+PROBE shiny_snorlax_pc follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] shiny_snorlax_pc follower: actor and sprite present
+  [PASS] shiny_snorlax_pc: expected follower species/shininess
+  [PASS] shiny_snorlax_pc: follower palette matches its source
+  shot HubSpritesServices_77_shiny_snorlax_pc
+  [PASS] shiny_snorlax_bnet: service approach reachable
+  [PASS] shiny_snorlax_bnet: object budget -- active=9
+  [PASS] shiny_snorlax_bnet: follower visible and adjacent
+PROBE shiny_snorlax_bnet follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] shiny_snorlax_bnet follower: actor and sprite present
+  [PASS] shiny_snorlax_bnet: expected follower species/shininess
+  [PASS] shiny_snorlax_bnet: follower palette matches its source
+  shot HubSpritesServices_78_shiny_snorlax_bnet
+  [PASS] shiny_snorlax_tm_vendor: service approach reachable
+  [PASS] shiny_snorlax_tm_vendor: object budget -- active=10
+  [PASS] shiny_snorlax_tm_vendor: follower visible and adjacent
+PROBE shiny_snorlax_tm_vendor follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_tm_vendor follower: actor and sprite present
+  [PASS] shiny_snorlax_tm_vendor: expected follower species/shininess
+  [PASS] shiny_snorlax_tm_vendor: follower palette matches its source
+  [PASS] shiny_snorlax_tm_vendor: service NPC visible
+  shot HubSpritesServices_79_shiny_snorlax_tm_vendor
+  [PASS] shiny_snorlax_vitamin_vendor: service approach reachable
+  [PASS] shiny_snorlax_vitamin_vendor: object budget -- active=9
+  [PASS] shiny_snorlax_vitamin_vendor: follower visible and adjacent
+PROBE shiny_snorlax_vitamin_vendor follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_vitamin_vendor follower: actor and sprite present
+  [PASS] shiny_snorlax_vitamin_vendor: expected follower species/shininess
+  [PASS] shiny_snorlax_vitamin_vendor: follower palette matches its source
+  [PASS] shiny_snorlax_vitamin_vendor: service NPC visible
+  shot HubSpritesServices_80_shiny_snorlax_vitamin_vendor
+  [PASS] shiny_snorlax_battle_depot: service approach reachable
+  [PASS] shiny_snorlax_battle_depot: object budget -- active=7
+  [PASS] shiny_snorlax_battle_depot: follower visible and adjacent
+PROBE shiny_snorlax_battle_depot follower id=254 flags=0x33 gfx=0x608F pal=3 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] shiny_snorlax_battle_depot follower: actor and sprite present
+  [PASS] shiny_snorlax_battle_depot: expected follower species/shininess
+  [PASS] shiny_snorlax_battle_depot: follower palette matches its source
+  [PASS] shiny_snorlax_battle_depot: service NPC visible
+  shot HubSpritesServices_81_shiny_snorlax_battle_depot
+  [PASS] all fourteen Hub NPCs visibly sampled across the route
+Peak active objects=14
+VERDICT HubSpritesServices: 412/412 PASS

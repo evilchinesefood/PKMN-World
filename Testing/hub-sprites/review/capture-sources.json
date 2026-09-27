@@ -1,0 +1,724 @@
+{
+  "before_source": "05b37db1a9b1dd8efda95233e4a61822680bba7b",
+  "after_source": "13478c088b0dcb2a28c3c453ed6eac0e8040364b",
+  "media": [
+    {
+      "path": "media/before_HubSpritesComparison_01_harbor_default.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_01_harbor_default.png",
+      "sha256": "a713c1b6909b0053ffa77e38542aafa38072f73ffbbc7c985b9fc4ee0c99b4a6"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_01_harbor_default.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_01_harbor_default.png",
+      "sha256": "6fe8d22a9d45181094cf42046b3507842b4ca5bfa5ee12ac4276f2015b7d3c0d"
+    },
+    {
+      "path": "media/before_harbor_motion.webp",
+      "run": "before",
+      "source_frames": [
+        "clip_harbor_walk_001.png",
+        "clip_harbor_walk_005.png",
+        "clip_harbor_walk_009.png",
+        "clip_harbor_walk_013.png",
+        "clip_harbor_walk_017.png",
+        "clip_harbor_walk_021.png",
+        "clip_harbor_walk_025.png",
+        "clip_harbor_walk_029.png",
+        "clip_harbor_return_001.png",
+        "clip_harbor_return_005.png",
+        "clip_harbor_return_009.png",
+        "clip_harbor_return_013.png",
+        "clip_harbor_return_017.png",
+        "clip_harbor_return_021.png",
+        "clip_harbor_return_025.png",
+        "clip_harbor_return_029.png",
+        "clip_harbor_shadow_001.png",
+        "clip_harbor_shadow_005.png",
+        "clip_harbor_shadow_009.png",
+        "clip_harbor_shadow_013.png",
+        "clip_harbor_shadow_017.png",
+        "clip_harbor_shadow_021.png",
+        "clip_harbor_shadow_025.png",
+        "clip_harbor_shadow_029.png",
+        "clip_harbor_shadow_033.png",
+        "clip_harbor_shadow_037.png",
+        "clip_harbor_shadow_041.png",
+        "clip_harbor_shadow_045.png"
+      ],
+      "duration_ms": 1867,
+      "sha256": "3d200dbd22bd651d00ad0f0f1e5f7105905a4a2e92b7c0501e790a2d9dcf9fba"
+    },
+    {
+      "path": "media/after_harbor_motion.webp",
+      "run": "after",
+      "source_frames": [
+        "clip_harbor_walk_001.png",
+        "clip_harbor_walk_005.png",
+        "clip_harbor_walk_009.png",
+        "clip_harbor_walk_013.png",
+        "clip_harbor_walk_017.png",
+        "clip_harbor_walk_021.png",
+        "clip_harbor_walk_025.png",
+        "clip_harbor_walk_029.png",
+        "clip_harbor_return_001.png",
+        "clip_harbor_return_005.png",
+        "clip_harbor_return_009.png",
+        "clip_harbor_return_013.png",
+        "clip_harbor_return_017.png",
+        "clip_harbor_return_021.png",
+        "clip_harbor_return_025.png",
+        "clip_harbor_return_029.png",
+        "clip_harbor_shadow_001.png",
+        "clip_harbor_shadow_005.png",
+        "clip_harbor_shadow_009.png",
+        "clip_harbor_shadow_013.png",
+        "clip_harbor_shadow_017.png",
+        "clip_harbor_shadow_021.png",
+        "clip_harbor_shadow_025.png",
+        "clip_harbor_shadow_029.png",
+        "clip_harbor_shadow_033.png",
+        "clip_harbor_shadow_037.png",
+        "clip_harbor_shadow_041.png",
+        "clip_harbor_shadow_045.png"
+      ],
+      "duration_ms": 1867,
+      "sha256": "481d24fb3de7697776ee045354ebaea64b4a39cc6a8b33ead82b7b761f09b038"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_06_curator_default.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_06_curator_default.png",
+      "sha256": "fa4b3cbeb28aa4895f23574998b379e511fca2fe23c97e0aa84044218b72c30e"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_06_curator_default.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_06_curator_default.png",
+      "sha256": "58d3e631331ba6f182842df64ce82e582ce79038d8c42102709086bb7bd1419e"
+    },
+    {
+      "path": "media/before_curator_motion.webp",
+      "run": "before",
+      "source_frames": [
+        "clip_curator_walk_001.png",
+        "clip_curator_walk_005.png",
+        "clip_curator_walk_009.png",
+        "clip_curator_walk_013.png",
+        "clip_curator_walk_017.png",
+        "clip_curator_walk_021.png",
+        "clip_curator_walk_025.png",
+        "clip_curator_walk_029.png",
+        "clip_curator_return_001.png",
+        "clip_curator_return_005.png",
+        "clip_curator_return_009.png",
+        "clip_curator_return_013.png",
+        "clip_curator_return_017.png",
+        "clip_curator_return_021.png",
+        "clip_curator_return_025.png",
+        "clip_curator_return_029.png",
+        "clip_curator_shadow_001.png",
+        "clip_curator_shadow_005.png",
+        "clip_curator_shadow_009.png",
+        "clip_curator_shadow_013.png",
+        "clip_curator_shadow_017.png",
+        "clip_curator_shadow_021.png",
+        "clip_curator_shadow_025.png",
+        "clip_curator_shadow_029.png",
+        "clip_curator_shadow_033.png",
+        "clip_curator_shadow_037.png",
+        "clip_curator_shadow_041.png",
+        "clip_curator_shadow_045.png"
+      ],
+      "duration_ms": 1867,
+      "sha256": "327005cc5aef440584af607b45efe4060cfb0a220033331dd2557a49417f8979"
+    },
+    {
+      "path": "media/after_curator_motion.webp",
+      "run": "after",
+      "source_frames": [
+        "clip_curator_walk_001.png",
+        "clip_curator_walk_005.png",
+        "clip_curator_walk_009.png",
+        "clip_curator_walk_013.png",
+        "clip_curator_walk_017.png",
+        "clip_curator_walk_021.png",
+        "clip_curator_walk_025.png",
+        "clip_curator_walk_029.png",
+        "clip_curator_return_001.png",
+        "clip_curator_return_005.png",
+        "clip_curator_return_009.png",
+        "clip_curator_return_013.png",
+        "clip_curator_return_017.png",
+        "clip_curator_return_021.png",
+        "clip_curator_return_025.png",
+        "clip_curator_return_029.png",
+        "clip_curator_shadow_001.png",
+        "clip_curator_shadow_005.png",
+        "clip_curator_shadow_009.png",
+        "clip_curator_shadow_013.png",
+        "clip_curator_shadow_017.png",
+        "clip_curator_shadow_021.png",
+        "clip_curator_shadow_025.png",
+        "clip_curator_shadow_029.png",
+        "clip_curator_shadow_033.png",
+        "clip_curator_shadow_037.png",
+        "clip_curator_shadow_041.png",
+        "clip_curator_shadow_045.png"
+      ],
+      "duration_ms": 1867,
+      "sha256": "99618fded615b2883b7720fbcac43ad0272a70a98b7ef43751a70ff833cd371b"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_02_harbor_facing_1.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_02_harbor_facing_1.png",
+      "sha256": "2fa7930ec86bfe76d1c49fbe12638938a45e5167ecd19ea8b4833fdd901363a2"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_02_harbor_facing_1.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_02_harbor_facing_1.png",
+      "sha256": "f6a3fee7d46189cfc41951adbdc4c85eb4cbaaf60bd8842327f5fdaac1bd3ad7"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_03_harbor_facing_2.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_03_harbor_facing_2.png",
+      "sha256": "af33c823d88536d1f78ea620f86d0efe4b4a8b342d4e4d1291a100ddf3928348"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_03_harbor_facing_2.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_03_harbor_facing_2.png",
+      "sha256": "3d6fbd495599dd37d3ef87fb3114065932d18d3e147c61e5e5d41d1453ec3424"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_04_harbor_facing_3.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_04_harbor_facing_3.png",
+      "sha256": "971218819cca1536c98d8ced32f7031056f56572940a073fd6601626eb4eed1a"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_04_harbor_facing_3.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_04_harbor_facing_3.png",
+      "sha256": "e97aa4de0a371b06d880a5790f2ffc9f551cccd0d6c30a7218a76c946c628798"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_05_harbor_facing_4.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_05_harbor_facing_4.png",
+      "sha256": "fde0ed8b30ac3274f186707363a807e74cbafaea7f5a3218052cd19397fe2c6f"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_05_harbor_facing_4.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_05_harbor_facing_4.png",
+      "sha256": "e4d4fe2500bed216def2f9c5851a15afccf7764b142e3213dbc309b078163416"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_07_curator_facing_1.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_07_curator_facing_1.png",
+      "sha256": "fa4b3cbeb28aa4895f23574998b379e511fca2fe23c97e0aa84044218b72c30e"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_07_curator_facing_1.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_07_curator_facing_1.png",
+      "sha256": "58d3e631331ba6f182842df64ce82e582ce79038d8c42102709086bb7bd1419e"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_08_curator_facing_2.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_08_curator_facing_2.png",
+      "sha256": "d1be409fa9c5d25d14ea36d9228e2368591901f3449359bc13c3266b601b7384"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_08_curator_facing_2.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_08_curator_facing_2.png",
+      "sha256": "f1aa5493a7e87d51186d508672ce2b366425a61ec19c46cbbd1194b3d5a362bb"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_09_curator_facing_3.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_09_curator_facing_3.png",
+      "sha256": "e6ed527637b3a0420cb4c2486242ccf26be531554213c1725116d90eb952ddcf"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_09_curator_facing_3.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_09_curator_facing_3.png",
+      "sha256": "44fd98ab596a53f910330c45e5c2066ad2aa63f203a2ac822e85f4136748ae55"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_10_curator_facing_4.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_10_curator_facing_4.png",
+      "sha256": "5516c607ef0ee31745eebf3d39c6e4d5114b71da81263bd266deae05213b1533"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_10_curator_facing_4.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_10_curator_facing_4.png",
+      "sha256": "060dbd95ddcbc87cdd3da454e81cf3d6102699ca0631379bff9d7c1d479f89cf"
+    },
+    {
+      "path": "media/before_HubSpritesComparison_11_nurse_and_chansey.png",
+      "run": "before",
+      "capture": "HubSpritesComparison_11_nurse_and_chansey.png",
+      "sha256": "2331785da3ff8d0515c393e19c1d8c5ee29dd82a33c001098ea609770bcdbdf8"
+    },
+    {
+      "path": "media/after_HubSpritesComparison_11_nurse_and_chansey.png",
+      "run": "after",
+      "capture": "HubSpritesComparison_11_nurse_and_chansey.png",
+      "sha256": "2331785da3ff8d0515c393e19c1d8c5ee29dd82a33c001098ea609770bcdbdf8"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_01_outfit_0_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_01_outfit_0_curator.png",
+      "sha256": "58d3e631331ba6f182842df64ce82e582ce79038d8c42102709086bb7bd1419e"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_14_outfit_1_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_14_outfit_1_curator.png",
+      "sha256": "ec9df71b02a4602e1627512b041a50534e33d72fc263a5afae8ff19d8f9e4d0c"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_27_outfit_2_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_27_outfit_2_curator.png",
+      "sha256": "42ce21095b85fa0c09ca56b38ddf2b1a6a9d167c50d9c66abe00429dbbd21ccd"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_40_outfit_3_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_40_outfit_3_curator.png",
+      "sha256": "c665f435f16be43a0fd6e7b3660c5c9cd5f88869b32c490139097d876cb19fe0"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_53_outfit_4_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_53_outfit_4_curator.png",
+      "sha256": "30dae4a2512a8aae57bd38df5089f66e42527573c332d9daf4d0e2662b4b331e"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_66_outfit_5_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_66_outfit_5_curator.png",
+      "sha256": "c6e9ba36a827b076cb867b4aac8f7b97dbb9de9092675d12c184c5cc876af024"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_79_outfit_6_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_79_outfit_6_curator.png",
+      "sha256": "a7b55429f6420a14802aa2899bee91b44358fa87129d943cebe8bb3b13047724"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_92_outfit_7_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_92_outfit_7_curator.png",
+      "sha256": "880ac8c3c2fcfcf023903dbf27f12941066e2aab5aaad2e1cecc90289d391716"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_105_outfit_8_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_105_outfit_8_curator.png",
+      "sha256": "cc172db8e2c583d0e0b1bc5f6549512712333da0a595a2c29c03189c67bc0ed6"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_118_outfit_9_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_118_outfit_9_curator.png",
+      "sha256": "569c3f46f5cee40c640c25077d02421dcbd0b3d8a9d83ebe18090f0a1a49b6e2"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_131_outfit_10_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_131_outfit_10_curator.png",
+      "sha256": "179f293e73f4fb4fa3e529897efe365e6e9cfa94cf598de00f917f31ab4e03e7"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_144_outfit_11_curator.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_144_outfit_11_curator.png",
+      "sha256": "b92c7c081371bbdb4a3ce962c81ed2b2e26db7d586c049f2638985b22f426781"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_10_outfit_00_west_12h_return.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_10_outfit_00_west_12h_return.png",
+      "sha256": "5d3e5e89c9f722738669235b9ce60c2448e50d8c20c1bf259d87fc3e3ff42899"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_13_outfit_00_west_22h_return.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_13_outfit_00_west_22h_return.png",
+      "sha256": "5d3e5e89c9f722738669235b9ce60c2448e50d8c20c1bf259d87fc3e3ff42899"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_153_outfit_11_west_12h_return.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_153_outfit_11_west_12h_return.png",
+      "sha256": "e115eac31ab7103a8cb948046b4e04566eb679a5bf2a5b5226243d27589f4ee1"
+    },
+    {
+      "path": "media/HubSpritesOutfits_HubSpritesOutfits_156_outfit_11_west_22h_return.png",
+      "run": "HubSpritesOutfits",
+      "capture": "HubSpritesOutfits_156_outfit_11_west_22h_return.png",
+      "sha256": "e115eac31ab7103a8cb948046b4e04566eb679a5bf2a5b5226243d27589f4ee1"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_01_pichu_tour_1.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_01_pichu_tour_1.png",
+      "sha256": "33c7a8e9f79309800a687c807a833d0397f06c1a8ad84365bfeb93e8437aaa9a"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_09_pichu_tour_9.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_09_pichu_tour_9.png",
+      "sha256": "d45e90aa94cd93988ef6067181eb05ef140145d945b63b4eff07aeefadc385c2"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_11_pichu_harbor.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_11_pichu_harbor.png",
+      "sha256": "550096162d94190c801614f24d75d9729da7d0f2249bf822fd2bb6a032d6e35e"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_20_pichu_curator.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_20_pichu_curator.png",
+      "sha256": "cc3cac14b038bac1b2b674795538d34e897bb07a600020f9aab3953c02987951"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_21_pichu_nurse.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_21_pichu_nurse.png",
+      "sha256": "1cf50430572121ed90e55eab9d9147115b756b7878eb64d7dc111598d79bc6f3"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_27_pichu_battle_depot.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_27_pichu_battle_depot.png",
+      "sha256": "1a8e43940ae744540bc8b771181e534044e88a06d995d361ae57e661814bd9d6"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_28_snorlax_tour_1.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_28_snorlax_tour_1.png",
+      "sha256": "33c7a8e9f79309800a687c807a833d0397f06c1a8ad84365bfeb93e8437aaa9a"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_36_snorlax_tour_9.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_36_snorlax_tour_9.png",
+      "sha256": "a6db50e73f05fb412e515dd5e286e752e3bb82eba111379f2850e4c4add656d8"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_38_snorlax_harbor.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_38_snorlax_harbor.png",
+      "sha256": "e8ad54489cf966cce9efc0ffd7130133bbe3dafe338bdae99118c421ccccebd1"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_47_snorlax_curator.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_47_snorlax_curator.png",
+      "sha256": "96132e41c7a47c59d3c223bf366cc0ae1011e3d3e3bb669962ce67bab7ce3190"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_48_snorlax_nurse.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_48_snorlax_nurse.png",
+      "sha256": "0b588decd18ee559c8c321f2f2e423e6980426169b9c0c41b072a8903d1b32fb"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_54_snorlax_battle_depot.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_54_snorlax_battle_depot.png",
+      "sha256": "4c1ea07bb36a18724b203c3984e4a55d682dcb40b0a1308199f701eca15ba7af"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_55_shiny_snorlax_tour_1.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_55_shiny_snorlax_tour_1.png",
+      "sha256": "33c7a8e9f79309800a687c807a833d0397f06c1a8ad84365bfeb93e8437aaa9a"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_63_shiny_snorlax_tour_9.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_63_shiny_snorlax_tour_9.png",
+      "sha256": "2a630af32cd1a1c6caaac7bf3ee6c5787e8300df13db11fcf3c763891c533d8b"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_65_shiny_snorlax_harbor.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_65_shiny_snorlax_harbor.png",
+      "sha256": "247661360bc26303e60cbd73a7c946f602acd8253af2bddf27f6d71a229d6e54"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_74_shiny_snorlax_curator.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_74_shiny_snorlax_curator.png",
+      "sha256": "d1007184bae65b8770529a63814b4f3621f302cdb749211a18fde903355e4af2"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_75_shiny_snorlax_nurse.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_75_shiny_snorlax_nurse.png",
+      "sha256": "bb41726dfbbb915cccd8b484a1d8f6453d61ad746baf2092d4124466bdba9d59"
+    },
+    {
+      "path": "media/HubSpritesServices_HubSpritesServices_81_shiny_snorlax_battle_depot.png",
+      "run": "HubSpritesServices",
+      "capture": "HubSpritesServices_81_shiny_snorlax_battle_depot.png",
+      "sha256": "9c828af669db1eba8e9bcd07e0cdf01de5cad78b1f0926674797c5e5241cfa44"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_21_Route35_10_39_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_21_Route35_10_39_follower1_12h.png",
+      "sha256": "b568250164fd9a7562b7a68022b099b6155d708d9fd7bc346a6d824bb790c1cb"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_31_Route35_10_39_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_31_Route35_10_39_follower1_22h.png",
+      "sha256": "8a5d76f80c0ba76b84684553ef8abe6f40cab93ea9c36ac356c65ddecf6abe32"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_22_Route35_12_16_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_22_Route35_12_16_follower1_12h.png",
+      "sha256": "ada718011a354b0afa1be55872cf1947bfb48b288d28dfd1ba326ac15ac9977e"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_32_Route35_12_16_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_32_Route35_12_16_follower1_22h.png",
+      "sha256": "1ba1434e2ad1099f17d87a2bd58215c82949ff80f351b63b5ce076a7e4db4df5"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_23_Route35_12_19_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_23_Route35_12_19_follower1_12h.png",
+      "sha256": "fb1a8b2c40562cbd58c80f5912e25af68b79c32bb767e76c800ab0f389945741"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_33_Route35_12_19_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_33_Route35_12_19_follower1_22h.png",
+      "sha256": "25c3225355598014f48b09fcd5190b49e8a7d3d86f004a666578db42e13bce0b"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_24_Route35_26_16_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_24_Route35_26_16_follower1_12h.png",
+      "sha256": "11139b9a97820afd67a945bd708c733d4a226b5d5e289ffbcb70e55a65b8e5a6"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_34_Route35_26_16_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_34_Route35_26_16_follower1_22h.png",
+      "sha256": "a3e85beefe9a6e8b783777796fde49b673206564a3ac5939143c4434f275ae8c"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_25_Route35_28_9_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_25_Route35_28_9_follower1_12h.png",
+      "sha256": "6e4dbf1485f330080cb7462e7a6852be776e5635eac93664da05ff0c57df6e77"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_35_Route35_28_9_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_35_Route35_28_9_follower1_22h.png",
+      "sha256": "d72ce9f8db95e5ffb464f94572aaa471ac17b4770fb004f53eecf6052ed1eaa4"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_26_Route35_32_45_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_26_Route35_32_45_follower1_12h.png",
+      "sha256": "9c9fac0e2fd053ea1a0737505a350d7b68404fd10f970338c9f4a55ea5be2d07"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_36_Route35_32_45_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_36_Route35_32_45_follower1_22h.png",
+      "sha256": "086ef7b730bd7be698fc070f02ede29ed34b160e3f841e209567a7aff7b27d6d"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_27_Park_14_47_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_27_Park_14_47_follower1_12h.png",
+      "sha256": "2fde212c640f3b7fc5da17a42a51fc8ebdf39b2da5f7252b88981e2d4c1ac51a"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_37_Park_14_47_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_37_Park_14_47_follower1_22h.png",
+      "sha256": "20c961b96793fe72e3bb19a24c3c0f61afa4cf5e95f0127959502a8ab3b0a843"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_28_Park_25_44_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_28_Park_25_44_follower1_12h.png",
+      "sha256": "e830b5342aeebf1368cbd962e3462dbce761ec6d844a223cc8e687a665032c25"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_38_Park_25_44_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_38_Park_25_44_follower1_22h.png",
+      "sha256": "a3339d41e3358cdae5b6dd4d9eb36482d4ca769a8a3ce5f6ae1384f0f698c8ad"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_29_Park_29_44_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_29_Park_29_44_follower1_12h.png",
+      "sha256": "4d152a93c11181512410eccba25a7e1bc74ee42fd6f5461a6b7ab14c5f69503c"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_39_Park_29_44_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_39_Park_29_44_follower1_22h.png",
+      "sha256": "2c5f1cb111c5066d64f456e8bf7ebddcb2c59a805c6e5ff2ed6ff672a96d79d6"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_30_Park_26_47_follower1_12h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_30_Park_26_47_follower1_12h.png",
+      "sha256": "fc33b6a5d3b2792ea96d9a58030922f536ae19b12565e386e19d478eb92f8b9d"
+    },
+    {
+      "path": "media/HubSpritesReadability_HubSpritesReadability_40_Park_26_47_follower1_22h.png",
+      "run": "HubSpritesReadability",
+      "capture": "HubSpritesReadability_40_Park_26_47_follower1_22h.png",
+      "sha256": "7f510c9092e367a49972401edec0933579afb857ba4e30d3631c7f5b56df0f27"
+    }
+  ],
+  "comparisons": [
+    {
+      "capture": "HubSpritesComparison_01_harbor_default.png",
+      "changed_bounds": [
+        80,
+        83,
+        96,
+        103
+      ],
+      "changed_pixels": 214
+    },
+    {
+      "capture": "HubSpritesComparison_02_harbor_facing_1.png",
+      "changed_bounds": [
+        80,
+        83,
+        96,
+        103
+      ],
+      "changed_pixels": 206
+    },
+    {
+      "capture": "HubSpritesComparison_03_harbor_facing_2.png",
+      "changed_bounds": [
+        80,
+        83,
+        96,
+        103
+      ],
+      "changed_pixels": 214
+    },
+    {
+      "capture": "HubSpritesComparison_04_harbor_facing_3.png",
+      "changed_bounds": [
+        82,
+        83,
+        96,
+        103
+      ],
+      "changed_pixels": 198
+    },
+    {
+      "capture": "HubSpritesComparison_05_harbor_facing_4.png",
+      "changed_bounds": [
+        80,
+        83,
+        94,
+        103
+      ],
+      "changed_pixels": 198
+    },
+    {
+      "capture": "HubSpritesComparison_06_curator_default.png",
+      "changed_bounds": [
+        129,
+        82,
+        143,
+        103
+      ],
+      "changed_pixels": 206
+    },
+    {
+      "capture": "HubSpritesComparison_07_curator_facing_1.png",
+      "changed_bounds": [
+        129,
+        82,
+        143,
+        103
+      ],
+      "changed_pixels": 206
+    },
+    {
+      "capture": "HubSpritesComparison_08_curator_facing_2.png",
+      "changed_bounds": [
+        129,
+        82,
+        143,
+        103
+      ],
+      "changed_pixels": 212
+    },
+    {
+      "capture": "HubSpritesComparison_09_curator_facing_3.png",
+      "changed_bounds": [
+        129,
+        82,
+        142,
+        103
+      ],
+      "changed_pixels": 185
+    },
+    {
+      "capture": "HubSpritesComparison_10_curator_facing_4.png",
+      "changed_bounds": [
+        130,
+        82,
+        143,
+        103
+      ],
+      "changed_pixels": 185
+    },
+    {
+      "capture": "HubSpritesComparison_11_nurse_and_chansey.png",
+      "changed_bounds": null,
+      "changed_pixels": 0
+    }
+  ],
+  "checks": {
+    "HubSpritesComparison": 66,
+    "HubSpritesServices": 412,
+    "HubSpritesOutfits": 997,
+    "HubSpritesReadability": 480,
+    "HubSpritesSave": 16,
+    "HubSpritesDelivery": 9
+  },
+  "baseline_checks": {
+    "HubSpritesComparison": 30
+  }
+}

@@ -1,0 +1,14 @@
+BOOTED grp=100 map=0 pos=(5,13)
+  [PASS] prepared save starts in Hub
+  [PASS] harbor master reachable
+  [PASS] FRLG sailor visible
+  shot HubSpritesDelivery_1_harbor_dialogue
+  [PASS] harbor dialogue closes
+  [PASS] curator reachable
+  [PASS] FRLG gentleman visible
+  shot HubSpritesDelivery_2_curator_dialogue
+  [PASS] curator dialogue closes
+  [PASS] walk past nurse
+  [PASS] follower remains visible beside nurse
+  shot HubSpritesDelivery_3_nurse_follower
+VERDICT HubSpritesDelivery: 9/9 PASS

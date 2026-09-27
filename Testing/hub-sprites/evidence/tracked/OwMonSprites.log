@@ -1,0 +1,44 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+== Route35 (group 83, map 1; 22 objects, 8 of them Pokemon)
+  WARP Route35 ok (13,48)
+  [PASS] Route35: all 8 templates are real species -- 8/8 found: ABRAx1 GROWLITHEx1 PIDGEYx2 PSYDUCKx1 SNUBBULLx2 YANMAx1
+  [PASS] Route35: every spawned overworld Pokemon is a real species sprite -- none in spawn range on arrival
+  shot OwMonSprites_1_Route35
+== Route36 (group 83, map 2; 21 objects, 15 of them Pokemon)
+  WARP Route36 ok (56,25)
+  [PASS] Route36: all 15 templates are real species -- 15/15 found: BELLSPROUTx4 GROWLITHEx2 PIDGEYx4 RATTATAx4 SUDOWOODOx1
+  [PASS] Route36: every spawned overworld Pokemon is a real species sprite -- none in spawn range on arrival
+  shot OwMonSprites_2_Route36
+== NationalPark_Normal (group 83, map 4; 49 objects, 15 of them Pokemon)
+  WARP NationalPark_Normal ok (12,49)
+  [PASS] NationalPark_Normal: all 15 templates are real species -- 15/15 found: CATERPIEx2 NIDORAN_Fx3 NIDORAN_Mx3 PERSIANx1 SCYTHERx2 SUNKERNx2 WEEDLEx2
+   spawned localId  27 gfx 0x401D species   29 NIDORAN_F    (13,47)
+  [PASS] NationalPark_Normal: every spawned overworld Pokemon is a real species sprite -- 1 spawned: NIDORAN_Fx1
+  shot OwMonSprites_3_NationalPark_Normal
+== EcruteakCity (group 85, map 0; 49 objects, 23 of them Pokemon)
+  WARP EcruteakCity ok (8,35)
+  [PASS] EcruteakCity: all 23 templates are real species -- 23/23 found: EEVEEx5 HOOTHOOTx3 MEOWTHx4 PIDGEYx3 POLIWAGx3 POLIWHIRLx1 VULPIXx4
+  [PASS] EcruteakCity: every spawned overworld Pokemon is a real species sprite -- none in spawn range on arrival
+  shot OwMonSprites_4_EcruteakCity
+== BellchimeTrail (group 85, map 3; 64 objects, 46 of them Pokemon)
+  WARP BellchimeTrail ok (8,37)
+  [PASS] BellchimeTrail: all 46 templates are real species -- 46/46 found: GROWLITHEx5 LEDIANx6 MEOWTHx5 PIDGEOTTOx5 PIDGEYx5 POLIWAGx2 POLIWHIRLx1 RATICATEx5 STANTLERx6 VULPIXx6
+   spawned localId  42 gfx 0x4014 species   20 RATICATE     (5,46)
+  [PASS] BellchimeTrail: every spawned overworld Pokemon is a real species sprite -- 1 spawned: RATICATEx1
+  shot OwMonSprites_5_BellchimeTrail
+== Route46 (group 93, map 2; 13 objects, 8 of them Pokemon)
+  WARP Route46 ok (10,40)
+  [PASS] Route46: all 8 templates are real species -- 8/8 found: GEODUDEx2 PHANPYx2 RATTATAx2 SPEAROWx2
+   spawned localId   8 gfx 0x40E7 species  231 PHANPY       (17,33)
+  [PASS] Route46: every spawned overworld Pokemon is a real species sprite -- 1 spawned: PHANPYx1
+  shot OwMonSprites_6_Route46
+== WhirlIslands_LugiaChamber (group 88, map 16; 8 objects, 3 of them Pokemon)
+  WARP WhirlIslands_LugiaChamber ok (29,35)
+  [PASS] WhirlIslands_LugiaChamber: all 3 templates are real species -- 3/3 found: HORSEAx1 LUGIAx1 TENTACOOLx1
+   spawned localId   7 gfx 0x4074 species  116 HORSEA       (23,30)
+   spawned localId   8 gfx 0x4048 species   72 TENTACOOL    (30,30)
+  [PASS] WhirlIslands_LugiaChamber: every spawned overworld Pokemon is a real species sprite -- 2 spawned: HORSEAx1 TENTACOOLx1
+  shot OwMonSprites_7_WhirlIslands_LugiaChamber
+  [PASS] the engine really spawned overworld Pokemon somewhere -- 5 across 7 maps: HORSEAx1 NIDORAN_Fx1 PHANPYx1 RATICATEx1 TENTACOOLx1
+VERDICT OwMonSprites: 15/15 PASS

@@ -1,0 +1,604 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Route35_10_39_follower0_12h: actual day/night state
+  [PASS] Route35_10_39_follower0_12h: player can walk beside capture target
+  [PASS] Route35_10_39_follower0_12h: object budget -- active=5
+  [PASS] Route35_10_39_follower0_12h: follower visible and adjacent
+PROBE Route35_10_39_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_10_39_follower0_12h follower: actor and sprite present
+  [PASS] Route35_10_39_follower0_12h: expected follower species/shininess
+  [PASS] Route35_10_39_follower0_12h: follower palette matches its source
+  [PASS] Route35_10_39_follower0_12h: target visibility matches its real hide flag -- id=18 runtime=(10,39) visible=true
+  shot HubSpritesReadability_1_Route35_10_39_follower0_12h
+  [PASS] Route35_12_16_follower0_12h: actual day/night state
+  [PASS] Route35_12_16_follower0_12h: player can walk beside capture target
+  [PASS] Route35_12_16_follower0_12h: object budget -- active=11
+  [PASS] Route35_12_16_follower0_12h: follower visible and adjacent
+PROBE Route35_12_16_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] Route35_12_16_follower0_12h follower: actor and sprite present
+  [PASS] Route35_12_16_follower0_12h: expected follower species/shininess
+  [PASS] Route35_12_16_follower0_12h: follower palette matches its source
+  [PASS] Route35_12_16_follower0_12h: target visibility matches its real hide flag -- id=17 runtime=(11,16) visible=true
+  shot HubSpritesReadability_2_Route35_12_16_follower0_12h
+  [PASS] Route35_12_19_follower0_12h: actual day/night state
+  [PASS] Route35_12_19_follower0_12h: player can walk beside capture target
+  [PASS] Route35_12_19_follower0_12h: object budget -- active=9
+  [PASS] Route35_12_19_follower0_12h: follower visible and adjacent
+PROBE Route35_12_19_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] Route35_12_19_follower0_12h follower: actor and sprite present
+  [PASS] Route35_12_19_follower0_12h: expected follower species/shininess
+  [PASS] Route35_12_19_follower0_12h: follower palette matches its source
+  [PASS] Route35_12_19_follower0_12h: target visibility matches its real hide flag -- id=16 runtime=(12,19) visible=true
+  shot HubSpritesReadability_3_Route35_12_19_follower0_12h
+  [PASS] Route35_26_16_follower0_12h: actual day/night state
+  [PASS] Route35_26_16_follower0_12h: player can walk beside capture target
+  [PASS] Route35_26_16_follower0_12h: object budget -- active=7
+  [PASS] Route35_26_16_follower0_12h: follower visible and adjacent
+PROBE Route35_26_16_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_26_16_follower0_12h follower: actor and sprite present
+  [PASS] Route35_26_16_follower0_12h: expected follower species/shininess
+  [PASS] Route35_26_16_follower0_12h: follower palette matches its source
+  [PASS] Route35_26_16_follower0_12h: target visibility matches its real hide flag -- id=14 runtime=(25,16) visible=true
+  shot HubSpritesReadability_4_Route35_26_16_follower0_12h
+  [PASS] Route35_28_9_follower0_12h: actual day/night state
+  [PASS] Route35_28_9_follower0_12h: player can walk beside capture target
+  [PASS] Route35_28_9_follower0_12h: object budget -- active=8
+  [PASS] Route35_28_9_follower0_12h: follower visible and adjacent
+PROBE Route35_28_9_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_28_9_follower0_12h follower: actor and sprite present
+  [PASS] Route35_28_9_follower0_12h: expected follower species/shininess
+  [PASS] Route35_28_9_follower0_12h: follower palette matches its source
+  [PASS] Route35_28_9_follower0_12h: target visibility matches its real hide flag -- id=15 runtime=(29,9) visible=true
+  shot HubSpritesReadability_5_Route35_28_9_follower0_12h
+  [PASS] Route35_32_45_follower0_12h: actual day/night state
+  [PASS] Route35_32_45_follower0_12h: player can walk beside capture target
+  [PASS] Route35_32_45_follower0_12h: object budget -- active=4
+  [PASS] Route35_32_45_follower0_12h: follower visible and adjacent
+PROBE Route35_32_45_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=4 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_32_45_follower0_12h follower: actor and sprite present
+  [PASS] Route35_32_45_follower0_12h: expected follower species/shininess
+  [PASS] Route35_32_45_follower0_12h: follower palette matches its source
+  [PASS] Route35_32_45_follower0_12h: target visibility matches its real hide flag -- id=13 runtime=(32,45) visible=true
+  shot HubSpritesReadability_6_Route35_32_45_follower0_12h
+  [PASS] Park_14_47_follower0_12h: actual day/night state
+  [PASS] Park_14_47_follower0_12h: player can walk beside capture target
+  [PASS] Park_14_47_follower0_12h: object budget -- active=5
+  [PASS] Park_14_47_follower0_12h: follower visible and adjacent
+PROBE Park_14_47_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_14_47_follower0_12h follower: actor and sprite present
+  [PASS] Park_14_47_follower0_12h: expected follower species/shininess
+  [PASS] Park_14_47_follower0_12h: follower palette matches its source
+  [PASS] Park_14_47_follower0_12h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_7_Park_14_47_follower0_12h
+  [PASS] Park_25_44_follower0_12h: actual day/night state
+  [PASS] Park_25_44_follower0_12h: player can walk beside capture target
+  [PASS] Park_25_44_follower0_12h: object budget -- active=6
+  [PASS] Park_25_44_follower0_12h: follower visible and adjacent
+PROBE Park_25_44_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_25_44_follower0_12h follower: actor and sprite present
+  [PASS] Park_25_44_follower0_12h: expected follower species/shininess
+  [PASS] Park_25_44_follower0_12h: follower palette matches its source
+  [PASS] Park_25_44_follower0_12h: target visibility matches its real hide flag -- id=15 runtime=(25,44) visible=true
+  shot HubSpritesReadability_8_Park_25_44_follower0_12h
+  [PASS] Park_29_44_follower0_12h: actual day/night state
+  [PASS] Park_29_44_follower0_12h: player can walk beside capture target
+  [PASS] Park_29_44_follower0_12h: object budget -- active=6
+  [PASS] Park_29_44_follower0_12h: follower visible and adjacent
+PROBE Park_29_44_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_29_44_follower0_12h follower: actor and sprite present
+  [PASS] Park_29_44_follower0_12h: expected follower species/shininess
+  [PASS] Park_29_44_follower0_12h: follower palette matches its source
+  [PASS] Park_29_44_follower0_12h: target visibility matches its real hide flag -- id=16 runtime=(29,44) visible=true
+  shot HubSpritesReadability_9_Park_29_44_follower0_12h
+  [PASS] Park_26_47_follower0_12h: actual day/night state
+  [PASS] Park_26_47_follower0_12h: player can walk beside capture target
+  [PASS] Park_26_47_follower0_12h: object budget -- active=6
+  [PASS] Park_26_47_follower0_12h: follower visible and adjacent
+PROBE Park_26_47_follower0_12h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_26_47_follower0_12h follower: actor and sprite present
+  [PASS] Park_26_47_follower0_12h: expected follower species/shininess
+  [PASS] Park_26_47_follower0_12h: follower palette matches its source
+  [PASS] Park_26_47_follower0_12h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_10_Park_26_47_follower0_12h
+  [PASS] Route35_10_39_follower0_22h: actual day/night state
+  [PASS] Route35_10_39_follower0_22h: player can walk beside capture target
+  [PASS] Route35_10_39_follower0_22h: object budget -- active=5
+  [PASS] Route35_10_39_follower0_22h: follower visible and adjacent
+PROBE Route35_10_39_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_10_39_follower0_22h follower: actor and sprite present
+  [PASS] Route35_10_39_follower0_22h: expected follower species/shininess
+  [PASS] Route35_10_39_follower0_22h: follower palette matches its source
+  [PASS] Route35_10_39_follower0_22h: target visibility matches its real hide flag -- id=18 runtime=(10,39) visible=true
+  shot HubSpritesReadability_11_Route35_10_39_follower0_22h
+  [PASS] Route35_12_16_follower0_22h: actual day/night state
+  [PASS] Route35_12_16_follower0_22h: player can walk beside capture target
+  [PASS] Route35_12_16_follower0_22h: object budget -- active=11
+  [PASS] Route35_12_16_follower0_22h: follower visible and adjacent
+PROBE Route35_12_16_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] Route35_12_16_follower0_22h follower: actor and sprite present
+  [PASS] Route35_12_16_follower0_22h: expected follower species/shininess
+  [PASS] Route35_12_16_follower0_22h: follower palette matches its source
+  [PASS] Route35_12_16_follower0_22h: target visibility matches its real hide flag -- id=17 runtime=(11,16) visible=true
+  shot HubSpritesReadability_12_Route35_12_16_follower0_22h
+  [PASS] Route35_12_19_follower0_22h: actual day/night state
+  [PASS] Route35_12_19_follower0_22h: player can walk beside capture target
+  [PASS] Route35_12_19_follower0_22h: object budget -- active=9
+  [PASS] Route35_12_19_follower0_22h: follower visible and adjacent
+PROBE Route35_12_19_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] Route35_12_19_follower0_22h follower: actor and sprite present
+  [PASS] Route35_12_19_follower0_22h: expected follower species/shininess
+  [PASS] Route35_12_19_follower0_22h: follower palette matches its source
+  [PASS] Route35_12_19_follower0_22h: target visibility matches its real hide flag -- id=16 runtime=(12,19) visible=true
+  shot HubSpritesReadability_13_Route35_12_19_follower0_22h
+  [PASS] Route35_26_16_follower0_22h: actual day/night state
+  [PASS] Route35_26_16_follower0_22h: player can walk beside capture target
+  [PASS] Route35_26_16_follower0_22h: object budget -- active=7
+  [PASS] Route35_26_16_follower0_22h: follower visible and adjacent
+PROBE Route35_26_16_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_26_16_follower0_22h follower: actor and sprite present
+  [PASS] Route35_26_16_follower0_22h: expected follower species/shininess
+  [PASS] Route35_26_16_follower0_22h: follower palette matches its source
+  [PASS] Route35_26_16_follower0_22h: target visibility matches its real hide flag -- id=14 runtime=(25,16) visible=true
+  shot HubSpritesReadability_14_Route35_26_16_follower0_22h
+  [PASS] Route35_28_9_follower0_22h: actual day/night state
+  [PASS] Route35_28_9_follower0_22h: player can walk beside capture target
+  [PASS] Route35_28_9_follower0_22h: object budget -- active=9
+  [PASS] Route35_28_9_follower0_22h: follower visible and adjacent
+PROBE Route35_28_9_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_28_9_follower0_22h follower: actor and sprite present
+  [PASS] Route35_28_9_follower0_22h: expected follower species/shininess
+  [PASS] Route35_28_9_follower0_22h: follower palette matches its source
+  [PASS] Route35_28_9_follower0_22h: target visibility matches its real hide flag -- id=15 runtime=(27,9) visible=true
+  shot HubSpritesReadability_15_Route35_28_9_follower0_22h
+  [PASS] Route35_32_45_follower0_22h: actual day/night state
+  [PASS] Route35_32_45_follower0_22h: player can walk beside capture target
+  [PASS] Route35_32_45_follower0_22h: object budget -- active=4
+  [PASS] Route35_32_45_follower0_22h: follower visible and adjacent
+PROBE Route35_32_45_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=4 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_32_45_follower0_22h follower: actor and sprite present
+  [PASS] Route35_32_45_follower0_22h: expected follower species/shininess
+  [PASS] Route35_32_45_follower0_22h: follower palette matches its source
+  [PASS] Route35_32_45_follower0_22h: target visibility matches its real hide flag -- id=13 runtime=(32,45) visible=true
+  shot HubSpritesReadability_16_Route35_32_45_follower0_22h
+  [PASS] Park_14_47_follower0_22h: actual day/night state
+  [PASS] Park_14_47_follower0_22h: player can walk beside capture target
+  [PASS] Park_14_47_follower0_22h: object budget -- active=5
+  [PASS] Park_14_47_follower0_22h: follower visible and adjacent
+PROBE Park_14_47_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_14_47_follower0_22h follower: actor and sprite present
+  [PASS] Park_14_47_follower0_22h: expected follower species/shininess
+  [PASS] Park_14_47_follower0_22h: follower palette matches its source
+  [PASS] Park_14_47_follower0_22h: target visibility matches its real hide flag -- id=19 runtime=(14,47) visible=true
+  shot HubSpritesReadability_17_Park_14_47_follower0_22h
+  [PASS] Park_25_44_follower0_22h: actual day/night state
+  [PASS] Park_25_44_follower0_22h: player can walk beside capture target
+  [PASS] Park_25_44_follower0_22h: object budget -- active=5
+  [PASS] Park_25_44_follower0_22h: follower visible and adjacent
+PROBE Park_25_44_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_25_44_follower0_22h follower: actor and sprite present
+  [PASS] Park_25_44_follower0_22h: expected follower species/shininess
+  [PASS] Park_25_44_follower0_22h: follower palette matches its source
+  [PASS] Park_25_44_follower0_22h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_18_Park_25_44_follower0_22h
+  [PASS] Park_29_44_follower0_22h: actual day/night state
+  [PASS] Park_29_44_follower0_22h: player can walk beside capture target
+  [PASS] Park_29_44_follower0_22h: object budget -- active=5
+  [PASS] Park_29_44_follower0_22h: follower visible and adjacent
+PROBE Park_29_44_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_29_44_follower0_22h follower: actor and sprite present
+  [PASS] Park_29_44_follower0_22h: expected follower species/shininess
+  [PASS] Park_29_44_follower0_22h: follower palette matches its source
+  [PASS] Park_29_44_follower0_22h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_19_Park_29_44_follower0_22h
+  [PASS] Park_26_47_follower0_22h: actual day/night state
+  [PASS] Park_26_47_follower0_22h: player can walk beside capture target
+  [PASS] Park_26_47_follower0_22h: object budget -- active=5
+  [PASS] Park_26_47_follower0_22h: follower visible and adjacent
+PROBE Park_26_47_follower0_22h follower id=254 flags=0x33 gfx=0x50AC pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_26_47_follower0_22h follower: actor and sprite present
+  [PASS] Park_26_47_follower0_22h: expected follower species/shininess
+  [PASS] Park_26_47_follower0_22h: follower palette matches its source
+  [PASS] Park_26_47_follower0_22h: target visibility matches its real hide flag -- id=23 runtime=(27,47) visible=true
+  shot HubSpritesReadability_20_Park_26_47_follower0_22h
+  [PASS] Route35_10_39_follower1_12h: actual day/night state
+  [PASS] Route35_10_39_follower1_12h: player can walk beside capture target
+  [PASS] Route35_10_39_follower1_12h: object budget -- active=5
+  [PASS] Route35_10_39_follower1_12h: follower visible and adjacent
+PROBE Route35_10_39_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_10_39_follower1_12h follower: actor and sprite present
+  [PASS] Route35_10_39_follower1_12h: expected follower species/shininess
+  [PASS] Route35_10_39_follower1_12h: follower palette matches its source
+  [PASS] Route35_10_39_follower1_12h: target visibility matches its real hide flag -- id=18 runtime=(10,39) visible=true
+  shot HubSpritesReadability_21_Route35_10_39_follower1_12h
+  [PASS] Route35_12_16_follower1_12h: actual day/night state
+  [PASS] Route35_12_16_follower1_12h: player can walk beside capture target
+  [PASS] Route35_12_16_follower1_12h: object budget -- active=11
+  [PASS] Route35_12_16_follower1_12h: follower visible and adjacent
+PROBE Route35_12_16_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] Route35_12_16_follower1_12h follower: actor and sprite present
+  [PASS] Route35_12_16_follower1_12h: expected follower species/shininess
+  [PASS] Route35_12_16_follower1_12h: follower palette matches its source
+  [PASS] Route35_12_16_follower1_12h: target visibility matches its real hide flag -- id=17 runtime=(11,16) visible=true
+  shot HubSpritesReadability_22_Route35_12_16_follower1_12h
+  [PASS] Route35_12_19_follower1_12h: actual day/night state
+  [PASS] Route35_12_19_follower1_12h: player can walk beside capture target
+  [PASS] Route35_12_19_follower1_12h: object budget -- active=9
+  [PASS] Route35_12_19_follower1_12h: follower visible and adjacent
+PROBE Route35_12_19_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] Route35_12_19_follower1_12h follower: actor and sprite present
+  [PASS] Route35_12_19_follower1_12h: expected follower species/shininess
+  [PASS] Route35_12_19_follower1_12h: follower palette matches its source
+  [PASS] Route35_12_19_follower1_12h: target visibility matches its real hide flag -- id=16 runtime=(12,19) visible=true
+  shot HubSpritesReadability_23_Route35_12_19_follower1_12h
+  [PASS] Route35_26_16_follower1_12h: actual day/night state
+  [PASS] Route35_26_16_follower1_12h: player can walk beside capture target
+  [PASS] Route35_26_16_follower1_12h: object budget -- active=7
+  [PASS] Route35_26_16_follower1_12h: follower visible and adjacent
+PROBE Route35_26_16_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_26_16_follower1_12h follower: actor and sprite present
+  [PASS] Route35_26_16_follower1_12h: expected follower species/shininess
+  [PASS] Route35_26_16_follower1_12h: follower palette matches its source
+  [PASS] Route35_26_16_follower1_12h: target visibility matches its real hide flag -- id=14 runtime=(25,16) visible=true
+  shot HubSpritesReadability_24_Route35_26_16_follower1_12h
+  [PASS] Route35_28_9_follower1_12h: actual day/night state
+  [PASS] Route35_28_9_follower1_12h: player can walk beside capture target
+  [PASS] Route35_28_9_follower1_12h: object budget -- active=8
+  [PASS] Route35_28_9_follower1_12h: follower visible and adjacent
+PROBE Route35_28_9_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_28_9_follower1_12h follower: actor and sprite present
+  [PASS] Route35_28_9_follower1_12h: expected follower species/shininess
+  [PASS] Route35_28_9_follower1_12h: follower palette matches its source
+  [PASS] Route35_28_9_follower1_12h: target visibility matches its real hide flag -- id=15 runtime=(28,8) visible=true
+  shot HubSpritesReadability_25_Route35_28_9_follower1_12h
+  [PASS] Route35_32_45_follower1_12h: actual day/night state
+  [PASS] Route35_32_45_follower1_12h: player can walk beside capture target
+  [PASS] Route35_32_45_follower1_12h: object budget -- active=4
+  [PASS] Route35_32_45_follower1_12h: follower visible and adjacent
+PROBE Route35_32_45_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=4 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_32_45_follower1_12h follower: actor and sprite present
+  [PASS] Route35_32_45_follower1_12h: expected follower species/shininess
+  [PASS] Route35_32_45_follower1_12h: follower palette matches its source
+  [PASS] Route35_32_45_follower1_12h: target visibility matches its real hide flag -- id=13 runtime=(32,45) visible=true
+  shot HubSpritesReadability_26_Route35_32_45_follower1_12h
+  [PASS] Park_14_47_follower1_12h: actual day/night state
+  [PASS] Park_14_47_follower1_12h: player can walk beside capture target
+  [PASS] Park_14_47_follower1_12h: object budget -- active=5
+  [PASS] Park_14_47_follower1_12h: follower visible and adjacent
+PROBE Park_14_47_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_14_47_follower1_12h follower: actor and sprite present
+  [PASS] Park_14_47_follower1_12h: expected follower species/shininess
+  [PASS] Park_14_47_follower1_12h: follower palette matches its source
+  [PASS] Park_14_47_follower1_12h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_27_Park_14_47_follower1_12h
+  [PASS] Park_25_44_follower1_12h: actual day/night state
+  [PASS] Park_25_44_follower1_12h: player can walk beside capture target
+  [PASS] Park_25_44_follower1_12h: object budget -- active=6
+  [PASS] Park_25_44_follower1_12h: follower visible and adjacent
+PROBE Park_25_44_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_25_44_follower1_12h follower: actor and sprite present
+  [PASS] Park_25_44_follower1_12h: expected follower species/shininess
+  [PASS] Park_25_44_follower1_12h: follower palette matches its source
+  [PASS] Park_25_44_follower1_12h: target visibility matches its real hide flag -- id=15 runtime=(25,44) visible=true
+  shot HubSpritesReadability_28_Park_25_44_follower1_12h
+  [PASS] Park_29_44_follower1_12h: actual day/night state
+  [PASS] Park_29_44_follower1_12h: player can walk beside capture target
+  [PASS] Park_29_44_follower1_12h: object budget -- active=6
+  [PASS] Park_29_44_follower1_12h: follower visible and adjacent
+PROBE Park_29_44_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_29_44_follower1_12h follower: actor and sprite present
+  [PASS] Park_29_44_follower1_12h: expected follower species/shininess
+  [PASS] Park_29_44_follower1_12h: follower palette matches its source
+  [PASS] Park_29_44_follower1_12h: target visibility matches its real hide flag -- id=16 runtime=(29,44) visible=true
+  shot HubSpritesReadability_29_Park_29_44_follower1_12h
+  [PASS] Park_26_47_follower1_12h: actual day/night state
+  [PASS] Park_26_47_follower1_12h: player can walk beside capture target
+  [PASS] Park_26_47_follower1_12h: object budget -- active=6
+  [PASS] Park_26_47_follower1_12h: follower visible and adjacent
+PROBE Park_26_47_follower1_12h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_26_47_follower1_12h follower: actor and sprite present
+  [PASS] Park_26_47_follower1_12h: expected follower species/shininess
+  [PASS] Park_26_47_follower1_12h: follower palette matches its source
+  [PASS] Park_26_47_follower1_12h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_30_Park_26_47_follower1_12h
+  [PASS] Route35_10_39_follower1_22h: actual day/night state
+  [PASS] Route35_10_39_follower1_22h: player can walk beside capture target
+  [PASS] Route35_10_39_follower1_22h: object budget -- active=5
+  [PASS] Route35_10_39_follower1_22h: follower visible and adjacent
+PROBE Route35_10_39_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_10_39_follower1_22h follower: actor and sprite present
+  [PASS] Route35_10_39_follower1_22h: expected follower species/shininess
+  [PASS] Route35_10_39_follower1_22h: follower palette matches its source
+  [PASS] Route35_10_39_follower1_22h: target visibility matches its real hide flag -- id=18 runtime=(10,39) visible=true
+  shot HubSpritesReadability_31_Route35_10_39_follower1_22h
+  [PASS] Route35_12_16_follower1_22h: actual day/night state
+  [PASS] Route35_12_16_follower1_22h: player can walk beside capture target
+  [PASS] Route35_12_16_follower1_22h: object budget -- active=11
+  [PASS] Route35_12_16_follower1_22h: follower visible and adjacent
+PROBE Route35_12_16_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] Route35_12_16_follower1_22h follower: actor and sprite present
+  [PASS] Route35_12_16_follower1_22h: expected follower species/shininess
+  [PASS] Route35_12_16_follower1_22h: follower palette matches its source
+  [PASS] Route35_12_16_follower1_22h: target visibility matches its real hide flag -- id=17 runtime=(11,16) visible=true
+  shot HubSpritesReadability_32_Route35_12_16_follower1_22h
+  [PASS] Route35_12_19_follower1_22h: actual day/night state
+  [PASS] Route35_12_19_follower1_22h: player can walk beside capture target
+  [PASS] Route35_12_19_follower1_22h: object budget -- active=9
+  [PASS] Route35_12_19_follower1_22h: follower visible and adjacent
+PROBE Route35_12_19_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] Route35_12_19_follower1_22h follower: actor and sprite present
+  [PASS] Route35_12_19_follower1_22h: expected follower species/shininess
+  [PASS] Route35_12_19_follower1_22h: follower palette matches its source
+  [PASS] Route35_12_19_follower1_22h: target visibility matches its real hide flag -- id=16 runtime=(12,19) visible=true
+  shot HubSpritesReadability_33_Route35_12_19_follower1_22h
+  [PASS] Route35_26_16_follower1_22h: actual day/night state
+  [PASS] Route35_26_16_follower1_22h: player can walk beside capture target
+  [PASS] Route35_26_16_follower1_22h: object budget -- active=7
+  [PASS] Route35_26_16_follower1_22h: follower visible and adjacent
+PROBE Route35_26_16_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_26_16_follower1_22h follower: actor and sprite present
+  [PASS] Route35_26_16_follower1_22h: expected follower species/shininess
+  [PASS] Route35_26_16_follower1_22h: follower palette matches its source
+  [PASS] Route35_26_16_follower1_22h: target visibility matches its real hide flag -- id=14 runtime=(27,16) visible=true
+  shot HubSpritesReadability_34_Route35_26_16_follower1_22h
+  [PASS] Route35_28_9_follower1_22h: actual day/night state
+  [PASS] Route35_28_9_follower1_22h: player can walk beside capture target
+  [PASS] Route35_28_9_follower1_22h: object budget -- active=9
+  [PASS] Route35_28_9_follower1_22h: follower visible and adjacent
+PROBE Route35_28_9_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_28_9_follower1_22h follower: actor and sprite present
+  [PASS] Route35_28_9_follower1_22h: expected follower species/shininess
+  [PASS] Route35_28_9_follower1_22h: follower palette matches its source
+  [PASS] Route35_28_9_follower1_22h: target visibility matches its real hide flag -- id=15 runtime=(27,9) visible=true
+  shot HubSpritesReadability_35_Route35_28_9_follower1_22h
+  [PASS] Route35_32_45_follower1_22h: actual day/night state
+  [PASS] Route35_32_45_follower1_22h: player can walk beside capture target
+  [PASS] Route35_32_45_follower1_22h: object budget -- active=4
+  [PASS] Route35_32_45_follower1_22h: follower visible and adjacent
+PROBE Route35_32_45_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=4 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_32_45_follower1_22h follower: actor and sprite present
+  [PASS] Route35_32_45_follower1_22h: expected follower species/shininess
+  [PASS] Route35_32_45_follower1_22h: follower palette matches its source
+  [PASS] Route35_32_45_follower1_22h: target visibility matches its real hide flag -- id=13 runtime=(32,45) visible=true
+  shot HubSpritesReadability_36_Route35_32_45_follower1_22h
+  [PASS] Park_14_47_follower1_22h: actual day/night state
+  [PASS] Park_14_47_follower1_22h: player can walk beside capture target
+  [PASS] Park_14_47_follower1_22h: object budget -- active=5
+  [PASS] Park_14_47_follower1_22h: follower visible and adjacent
+PROBE Park_14_47_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_14_47_follower1_22h follower: actor and sprite present
+  [PASS] Park_14_47_follower1_22h: expected follower species/shininess
+  [PASS] Park_14_47_follower1_22h: follower palette matches its source
+  [PASS] Park_14_47_follower1_22h: target visibility matches its real hide flag -- id=19 runtime=(14,47) visible=true
+  shot HubSpritesReadability_37_Park_14_47_follower1_22h
+  [PASS] Park_25_44_follower1_22h: actual day/night state
+  [PASS] Park_25_44_follower1_22h: player can walk beside capture target
+  [PASS] Park_25_44_follower1_22h: object budget -- active=5
+  [PASS] Park_25_44_follower1_22h: follower visible and adjacent
+PROBE Park_25_44_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_25_44_follower1_22h follower: actor and sprite present
+  [PASS] Park_25_44_follower1_22h: expected follower species/shininess
+  [PASS] Park_25_44_follower1_22h: follower palette matches its source
+  [PASS] Park_25_44_follower1_22h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_38_Park_25_44_follower1_22h
+  [PASS] Park_29_44_follower1_22h: actual day/night state
+  [PASS] Park_29_44_follower1_22h: player can walk beside capture target
+  [PASS] Park_29_44_follower1_22h: object budget -- active=5
+  [PASS] Park_29_44_follower1_22h: follower visible and adjacent
+PROBE Park_29_44_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_29_44_follower1_22h follower: actor and sprite present
+  [PASS] Park_29_44_follower1_22h: expected follower species/shininess
+  [PASS] Park_29_44_follower1_22h: follower palette matches its source
+  [PASS] Park_29_44_follower1_22h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_39_Park_29_44_follower1_22h
+  [PASS] Park_26_47_follower1_22h: actual day/night state
+  [PASS] Park_26_47_follower1_22h: player can walk beside capture target
+  [PASS] Park_26_47_follower1_22h: object budget -- active=5
+  [PASS] Park_26_47_follower1_22h: follower visible and adjacent
+PROBE Park_26_47_follower1_22h follower id=254 flags=0x33 gfx=0x408F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_26_47_follower1_22h follower: actor and sprite present
+  [PASS] Park_26_47_follower1_22h: expected follower species/shininess
+  [PASS] Park_26_47_follower1_22h: follower palette matches its source
+  [PASS] Park_26_47_follower1_22h: target visibility matches its real hide flag -- id=23 runtime=(26,46) visible=true
+  shot HubSpritesReadability_40_Park_26_47_follower1_22h
+  [PASS] Route35_10_39_follower2_12h: actual day/night state
+  [PASS] Route35_10_39_follower2_12h: player can walk beside capture target
+  [PASS] Route35_10_39_follower2_12h: object budget -- active=5
+  [PASS] Route35_10_39_follower2_12h: follower visible and adjacent
+PROBE Route35_10_39_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_10_39_follower2_12h follower: actor and sprite present
+  [PASS] Route35_10_39_follower2_12h: expected follower species/shininess
+  [PASS] Route35_10_39_follower2_12h: follower palette matches its source
+  [PASS] Route35_10_39_follower2_12h: target visibility matches its real hide flag -- id=18 runtime=(10,39) visible=true
+  shot HubSpritesReadability_41_Route35_10_39_follower2_12h
+  [PASS] Route35_12_16_follower2_12h: actual day/night state
+  [PASS] Route35_12_16_follower2_12h: player can walk beside capture target
+  [PASS] Route35_12_16_follower2_12h: object budget -- active=11
+  [PASS] Route35_12_16_follower2_12h: follower visible and adjacent
+PROBE Route35_12_16_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] Route35_12_16_follower2_12h follower: actor and sprite present
+  [PASS] Route35_12_16_follower2_12h: expected follower species/shininess
+  [PASS] Route35_12_16_follower2_12h: follower palette matches its source
+  [PASS] Route35_12_16_follower2_12h: target visibility matches its real hide flag -- id=17 runtime=(11,16) visible=true
+  shot HubSpritesReadability_42_Route35_12_16_follower2_12h
+  [PASS] Route35_12_19_follower2_12h: actual day/night state
+  [PASS] Route35_12_19_follower2_12h: player can walk beside capture target
+  [PASS] Route35_12_19_follower2_12h: object budget -- active=9
+  [PASS] Route35_12_19_follower2_12h: follower visible and adjacent
+PROBE Route35_12_19_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] Route35_12_19_follower2_12h follower: actor and sprite present
+  [PASS] Route35_12_19_follower2_12h: expected follower species/shininess
+  [PASS] Route35_12_19_follower2_12h: follower palette matches its source
+  [PASS] Route35_12_19_follower2_12h: target visibility matches its real hide flag -- id=16 runtime=(12,19) visible=true
+  shot HubSpritesReadability_43_Route35_12_19_follower2_12h
+  [PASS] Route35_26_16_follower2_12h: actual day/night state
+  [PASS] Route35_26_16_follower2_12h: player can walk beside capture target
+  [PASS] Route35_26_16_follower2_12h: object budget -- active=7
+  [PASS] Route35_26_16_follower2_12h: follower visible and adjacent
+PROBE Route35_26_16_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_26_16_follower2_12h follower: actor and sprite present
+  [PASS] Route35_26_16_follower2_12h: expected follower species/shininess
+  [PASS] Route35_26_16_follower2_12h: follower palette matches its source
+  [PASS] Route35_26_16_follower2_12h: target visibility matches its real hide flag -- id=14 runtime=(26,16) visible=true
+  shot HubSpritesReadability_44_Route35_26_16_follower2_12h
+  [PASS] Route35_28_9_follower2_12h: actual day/night state
+  [PASS] Route35_28_9_follower2_12h: player can walk beside capture target
+  [PASS] Route35_28_9_follower2_12h: object budget -- active=8
+  [PASS] Route35_28_9_follower2_12h: follower visible and adjacent
+PROBE Route35_28_9_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_28_9_follower2_12h follower: actor and sprite present
+  [PASS] Route35_28_9_follower2_12h: expected follower species/shininess
+  [PASS] Route35_28_9_follower2_12h: follower palette matches its source
+  [PASS] Route35_28_9_follower2_12h: target visibility matches its real hide flag -- id=15 runtime=(29,8) visible=true
+  shot HubSpritesReadability_45_Route35_28_9_follower2_12h
+  [PASS] Route35_32_45_follower2_12h: actual day/night state
+  [PASS] Route35_32_45_follower2_12h: player can walk beside capture target
+  [PASS] Route35_32_45_follower2_12h: object budget -- active=4
+  [PASS] Route35_32_45_follower2_12h: follower visible and adjacent
+PROBE Route35_32_45_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=4 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_32_45_follower2_12h follower: actor and sprite present
+  [PASS] Route35_32_45_follower2_12h: expected follower species/shininess
+  [PASS] Route35_32_45_follower2_12h: follower palette matches its source
+  [PASS] Route35_32_45_follower2_12h: target visibility matches its real hide flag -- id=13 runtime=(32,45) visible=true
+  shot HubSpritesReadability_46_Route35_32_45_follower2_12h
+  [PASS] Park_14_47_follower2_12h: actual day/night state
+  [PASS] Park_14_47_follower2_12h: player can walk beside capture target
+  [PASS] Park_14_47_follower2_12h: object budget -- active=5
+  [PASS] Park_14_47_follower2_12h: follower visible and adjacent
+PROBE Park_14_47_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_14_47_follower2_12h follower: actor and sprite present
+  [PASS] Park_14_47_follower2_12h: expected follower species/shininess
+  [PASS] Park_14_47_follower2_12h: follower palette matches its source
+  [PASS] Park_14_47_follower2_12h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_47_Park_14_47_follower2_12h
+  [PASS] Park_25_44_follower2_12h: actual day/night state
+  [PASS] Park_25_44_follower2_12h: player can walk beside capture target
+  [PASS] Park_25_44_follower2_12h: object budget -- active=6
+  [PASS] Park_25_44_follower2_12h: follower visible and adjacent
+PROBE Park_25_44_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_25_44_follower2_12h follower: actor and sprite present
+  [PASS] Park_25_44_follower2_12h: expected follower species/shininess
+  [PASS] Park_25_44_follower2_12h: follower palette matches its source
+  [PASS] Park_25_44_follower2_12h: target visibility matches its real hide flag -- id=15 runtime=(25,44) visible=true
+  shot HubSpritesReadability_48_Park_25_44_follower2_12h
+  [PASS] Park_29_44_follower2_12h: actual day/night state
+  [PASS] Park_29_44_follower2_12h: player can walk beside capture target
+  [PASS] Park_29_44_follower2_12h: object budget -- active=6
+  [PASS] Park_29_44_follower2_12h: follower visible and adjacent
+PROBE Park_29_44_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_29_44_follower2_12h follower: actor and sprite present
+  [PASS] Park_29_44_follower2_12h: expected follower species/shininess
+  [PASS] Park_29_44_follower2_12h: follower palette matches its source
+  [PASS] Park_29_44_follower2_12h: target visibility matches its real hide flag -- id=16 runtime=(29,44) visible=true
+  shot HubSpritesReadability_49_Park_29_44_follower2_12h
+  [PASS] Park_26_47_follower2_12h: actual day/night state
+  [PASS] Park_26_47_follower2_12h: player can walk beside capture target
+  [PASS] Park_26_47_follower2_12h: object budget -- active=6
+  [PASS] Park_26_47_follower2_12h: follower visible and adjacent
+PROBE Park_26_47_follower2_12h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_26_47_follower2_12h follower: actor and sprite present
+  [PASS] Park_26_47_follower2_12h: expected follower species/shininess
+  [PASS] Park_26_47_follower2_12h: follower palette matches its source
+  [PASS] Park_26_47_follower2_12h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_50_Park_26_47_follower2_12h
+  [PASS] Route35_10_39_follower2_22h: actual day/night state
+  [PASS] Route35_10_39_follower2_22h: player can walk beside capture target
+  [PASS] Route35_10_39_follower2_22h: object budget -- active=5
+  [PASS] Route35_10_39_follower2_22h: follower visible and adjacent
+PROBE Route35_10_39_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_10_39_follower2_22h follower: actor and sprite present
+  [PASS] Route35_10_39_follower2_22h: expected follower species/shininess
+  [PASS] Route35_10_39_follower2_22h: follower palette matches its source
+  [PASS] Route35_10_39_follower2_22h: target visibility matches its real hide flag -- id=18 runtime=(10,39) visible=true
+  shot HubSpritesReadability_51_Route35_10_39_follower2_22h
+  [PASS] Route35_12_16_follower2_22h: actual day/night state
+  [PASS] Route35_12_16_follower2_22h: player can walk beside capture target
+  [PASS] Route35_12_16_follower2_22h: object budget -- active=11
+  [PASS] Route35_12_16_follower2_22h: follower visible and adjacent
+PROBE Route35_12_16_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=2
+  [PASS] Route35_12_16_follower2_22h follower: actor and sprite present
+  [PASS] Route35_12_16_follower2_22h: expected follower species/shininess
+  [PASS] Route35_12_16_follower2_22h: follower palette matches its source
+  [PASS] Route35_12_16_follower2_22h: target visibility matches its real hide flag -- id=17 runtime=(11,16) visible=true
+  shot HubSpritesReadability_52_Route35_12_16_follower2_22h
+  [PASS] Route35_12_19_follower2_22h: actual day/night state
+  [PASS] Route35_12_19_follower2_22h: player can walk beside capture target
+  [PASS] Route35_12_19_follower2_22h: object budget -- active=9
+  [PASS] Route35_12_19_follower2_22h: follower visible and adjacent
+PROBE Route35_12_19_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=1
+  [PASS] Route35_12_19_follower2_22h follower: actor and sprite present
+  [PASS] Route35_12_19_follower2_22h: expected follower species/shininess
+  [PASS] Route35_12_19_follower2_22h: follower palette matches its source
+  [PASS] Route35_12_19_follower2_22h: target visibility matches its real hide flag -- id=16 runtime=(12,19) visible=true
+  shot HubSpritesReadability_53_Route35_12_19_follower2_22h
+  [PASS] Route35_26_16_follower2_22h: actual day/night state
+  [PASS] Route35_26_16_follower2_22h: player can walk beside capture target
+  [PASS] Route35_26_16_follower2_22h: object budget -- active=7
+  [PASS] Route35_26_16_follower2_22h: follower visible and adjacent
+PROBE Route35_26_16_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=5 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_26_16_follower2_22h follower: actor and sprite present
+  [PASS] Route35_26_16_follower2_22h: expected follower species/shininess
+  [PASS] Route35_26_16_follower2_22h: follower palette matches its source
+  [PASS] Route35_26_16_follower2_22h: target visibility matches its real hide flag -- id=14 runtime=(26,16) visible=true
+  shot HubSpritesReadability_54_Route35_26_16_follower2_22h
+  [PASS] Route35_28_9_follower2_22h: actual day/night state
+  [PASS] Route35_28_9_follower2_22h: player can walk beside capture target
+  [PASS] Route35_28_9_follower2_22h: object budget -- active=9
+  [PASS] Route35_28_9_follower2_22h: follower visible and adjacent
+PROBE Route35_28_9_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_28_9_follower2_22h follower: actor and sprite present
+  [PASS] Route35_28_9_follower2_22h: expected follower species/shininess
+  [PASS] Route35_28_9_follower2_22h: follower palette matches its source
+  [PASS] Route35_28_9_follower2_22h: target visibility matches its real hide flag -- id=15 runtime=(27,9) visible=true
+  shot HubSpritesReadability_55_Route35_28_9_follower2_22h
+  [PASS] Route35_32_45_follower2_22h: actual day/night state
+  [PASS] Route35_32_45_follower2_22h: player can walk beside capture target
+  [PASS] Route35_32_45_follower2_22h: object budget -- active=4
+  [PASS] Route35_32_45_follower2_22h: follower visible and adjacent
+PROBE Route35_32_45_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=4 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Route35_32_45_follower2_22h follower: actor and sprite present
+  [PASS] Route35_32_45_follower2_22h: expected follower species/shininess
+  [PASS] Route35_32_45_follower2_22h: follower palette matches its source
+  [PASS] Route35_32_45_follower2_22h: target visibility matches its real hide flag -- id=13 runtime=(32,45) visible=true
+  shot HubSpritesReadability_56_Route35_32_45_follower2_22h
+  [PASS] Park_14_47_follower2_22h: actual day/night state
+  [PASS] Park_14_47_follower2_22h: player can walk beside capture target
+  [PASS] Park_14_47_follower2_22h: object budget -- active=5
+  [PASS] Park_14_47_follower2_22h: follower visible and adjacent
+PROBE Park_14_47_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_14_47_follower2_22h follower: actor and sprite present
+  [PASS] Park_14_47_follower2_22h: expected follower species/shininess
+  [PASS] Park_14_47_follower2_22h: follower palette matches its source
+  [PASS] Park_14_47_follower2_22h: target visibility matches its real hide flag -- id=19 runtime=(14,47) visible=true
+  shot HubSpritesReadability_57_Park_14_47_follower2_22h
+  [PASS] Park_25_44_follower2_22h: actual day/night state
+  [PASS] Park_25_44_follower2_22h: player can walk beside capture target
+  [PASS] Park_25_44_follower2_22h: object budget -- active=5
+  [PASS] Park_25_44_follower2_22h: follower visible and adjacent
+PROBE Park_25_44_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_25_44_follower2_22h follower: actor and sprite present
+  [PASS] Park_25_44_follower2_22h: expected follower species/shininess
+  [PASS] Park_25_44_follower2_22h: follower palette matches its source
+  [PASS] Park_25_44_follower2_22h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_58_Park_25_44_follower2_22h
+  [PASS] Park_29_44_follower2_22h: actual day/night state
+  [PASS] Park_29_44_follower2_22h: player can walk beside capture target
+  [PASS] Park_29_44_follower2_22h: object budget -- active=5
+  [PASS] Park_29_44_follower2_22h: follower visible and adjacent
+PROBE Park_29_44_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_29_44_follower2_22h follower: actor and sprite present
+  [PASS] Park_29_44_follower2_22h: expected follower species/shininess
+  [PASS] Park_29_44_follower2_22h: follower palette matches its source
+  [PASS] Park_29_44_follower2_22h: target visibility matches its real hide flag -- not active
+  shot HubSpritesReadability_59_Park_29_44_follower2_22h
+  [PASS] Park_26_47_follower2_22h: actual day/night state
+  [PASS] Park_26_47_follower2_22h: player can walk beside capture target
+  [PASS] Park_26_47_follower2_22h: object budget -- active=5
+  [PASS] Park_26_47_follower2_22h: follower visible and adjacent
+PROBE Park_26_47_follower2_22h follower id=254 flags=0x33 gfx=0x608F pal=6 tag=0x1124 size=32x32 shadow=1 dir=3
+  [PASS] Park_26_47_follower2_22h follower: actor and sprite present
+  [PASS] Park_26_47_follower2_22h: expected follower species/shininess
+  [PASS] Park_26_47_follower2_22h: follower palette matches its source
+  [PASS] Park_26_47_follower2_22h: target visibility matches its real hide flag -- id=23 runtime=(27,47) visible=true
+  shot HubSpritesReadability_60_Park_26_47_follower2_22h
+Peak active objects=11
+VERDICT HubSpritesReadability: 480/480 PASS

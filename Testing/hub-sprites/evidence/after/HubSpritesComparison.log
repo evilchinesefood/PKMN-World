@@ -1,0 +1,96 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] harbor: step with follower
+  [PASS] harbor: object budget -- active=8
+  [PASS] harbor: follower visible and adjacent
+PROBE harbor follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] harbor follower: actor and sprite present
+  [PASS] harbor: expected follower species/shininess
+  [PASS] harbor: follower palette matches its source
+PROBE harbor id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] harbor: actor and sprite present
+  [PASS] harbor: approved FRLG graphics
+  [PASS] harbor: correct palette colors and slot
+  [PASS] harbor: standard dimensions and shadow
+  shot HubSpritesComparison_1_harbor_default
+PROBE harbor_facing_1 id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=1
+  [PASS] harbor_facing_1: actor and sprite present
+  [PASS] harbor_facing_1: approved FRLG graphics
+  [PASS] harbor_facing_1: correct palette colors and slot
+  [PASS] harbor_facing_1: standard dimensions and shadow
+  shot HubSpritesComparison_2_harbor_facing_1
+PROBE harbor_facing_2 id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=2
+  [PASS] harbor_facing_2: actor and sprite present
+  [PASS] harbor_facing_2: approved FRLG graphics
+  [PASS] harbor_facing_2: correct palette colors and slot
+  [PASS] harbor_facing_2: standard dimensions and shadow
+  shot HubSpritesComparison_3_harbor_facing_2
+PROBE harbor_facing_3 id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=3
+  [PASS] harbor_facing_3: actor and sprite present
+  [PASS] harbor_facing_3: approved FRLG graphics
+  [PASS] harbor_facing_3: correct palette colors and slot
+  [PASS] harbor_facing_3: standard dimensions and shadow
+  shot HubSpritesComparison_4_harbor_facing_3
+PROBE harbor_facing_4 id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=4
+  [PASS] harbor_facing_4: actor and sprite present
+  [PASS] harbor_facing_4: approved FRLG graphics
+  [PASS] harbor_facing_4: correct palette colors and slot
+  [PASS] harbor_facing_4: standard dimensions and shadow
+  shot HubSpritesComparison_5_harbor_facing_4
+PROBE harbor_post_animation id=12 flags=0x33 gfx=0x014C pal=2 tag=0x112A size=16x32 shadow=1 dir=1
+  [PASS] harbor_post_animation: actor and sprite present
+  [PASS] harbor_post_animation: approved FRLG graphics
+  [PASS] harbor_post_animation: correct palette colors and slot
+  [PASS] harbor_post_animation: standard dimensions and shadow
+  [PASS] curator: step with follower
+  [PASS] curator: object budget -- active=11
+  [PASS] curator: follower visible and adjacent
+PROBE curator follower id=254 flags=0x33 gfx=0x608F pal=7 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] curator follower: actor and sprite present
+  [PASS] curator: expected follower species/shininess
+  [PASS] curator: follower palette matches its source
+PROBE curator id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] curator: actor and sprite present
+  [PASS] curator: approved FRLG graphics
+  [PASS] curator: correct palette colors and slot
+  [PASS] curator: standard dimensions and shadow
+  shot HubSpritesComparison_6_curator_default
+PROBE curator_facing_1 id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] curator_facing_1: actor and sprite present
+  [PASS] curator_facing_1: approved FRLG graphics
+  [PASS] curator_facing_1: correct palette colors and slot
+  [PASS] curator_facing_1: standard dimensions and shadow
+  shot HubSpritesComparison_7_curator_facing_1
+PROBE curator_facing_2 id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=2
+  [PASS] curator_facing_2: actor and sprite present
+  [PASS] curator_facing_2: approved FRLG graphics
+  [PASS] curator_facing_2: correct palette colors and slot
+  [PASS] curator_facing_2: standard dimensions and shadow
+  shot HubSpritesComparison_8_curator_facing_2
+PROBE curator_facing_3 id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=3
+  [PASS] curator_facing_3: actor and sprite present
+  [PASS] curator_facing_3: approved FRLG graphics
+  [PASS] curator_facing_3: correct palette colors and slot
+  [PASS] curator_facing_3: standard dimensions and shadow
+  shot HubSpritesComparison_9_curator_facing_3
+PROBE curator_facing_4 id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=4
+  [PASS] curator_facing_4: actor and sprite present
+  [PASS] curator_facing_4: approved FRLG graphics
+  [PASS] curator_facing_4: correct palette colors and slot
+  [PASS] curator_facing_4: standard dimensions and shadow
+  shot HubSpritesComparison_10_curator_facing_4
+PROBE curator_post_animation id=13 flags=0x33 gfx=0x014B pal=6 tag=0x112C size=16x32 shadow=1 dir=1
+  [PASS] curator_post_animation: actor and sprite present
+  [PASS] curator_post_animation: approved FRLG graphics
+  [PASS] curator_post_animation: correct palette colors and slot
+  [PASS] curator_post_animation: standard dimensions and shadow
+  [PASS] walk past nurse
+  [PASS] nurse: object budget -- active=10
+  [PASS] nurse: follower visible and adjacent
+PROBE nurse follower id=254 flags=0x33 gfx=0x608F pal=8 tag=0x1124 size=32x32 shadow=1 dir=4
+  [PASS] nurse follower: actor and sprite present
+  [PASS] nurse: expected follower species/shininess
+  [PASS] nurse: follower palette matches its source
+  shot HubSpritesComparison_11_nurse_and_chansey
+Peak active objects=11
+VERDICT HubSpritesComparison: 66/66 PASS

@@ -1428,6 +1428,7 @@ const struct Tileset gTileset_NewBarkTown =
 {
     .isCompressed = TRUE,
     .isSecondary = TRUE,
+    .swapPalettes = (1 << 1), // Johto physical bank 8; alternate palette 1.
     .tiles = gTilesetTiles_NewBarkTown,
     .palettes = gTilesetPalettes_NewBarkTown,
     TILESET_METATILES(gMetatiles_NewBarkTown, gMetatileAttributes_NewBarkTown),
@@ -1438,6 +1439,7 @@ const struct Tileset gTileset_CherrygroveCity =
 {
     .isCompressed = TRUE,
     .isSecondary = TRUE,
+    .swapPalettes = (1 << 1), // Johto physical bank 8; alternate palette 1.
     .tiles = gTilesetTiles_CherrygroveCity,
     .palettes = gTilesetPalettes_CherrygroveCity,
     TILESET_METATILES(gMetatiles_CherrygroveCity, gMetatileAttributes_CherrygroveCity),

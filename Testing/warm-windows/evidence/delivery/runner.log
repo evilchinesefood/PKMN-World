@@ -1,0 +1,26 @@
+suite : /private/tmp/pkmn-world-warm-windows-335/Testing/warm-windows/verify_delivery.lua
+rom   : pokemonworld.gba
+md5   : 2BD2993845547C5F91D6E2BDC0D75F18
+out   : /tmp/pkmn-world-335-runs/delivery
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+BOOTED grp=75 map=1 pos=(34,16)
+  [PASS] prepared save starts in Cherrygrove
+  [PASS] Continue: full night
+  [PASS] Continue: amber glass in hardware
+  shot WarmWindowsDelivery_1_west_window
+  [PASS] walk to middle house
+  shot WarmWindowsDelivery_2_middle_window
+  [PASS] walking east: full night
+  [PASS] walking east: amber glass in hardware
+  [PASS] walk around east house
+  shot WarmWindowsDelivery_3_east_window
+  [PASS] east house: full night
+  [PASS] east house: amber glass in hardware
+  shot WarmWindowsDelivery_4_menu
+  [PASS] menu closes and normal walking works
+  [PASS] menu return: full night
+  [PASS] menu return: amber glass in hardware
+VERDICT WarmWindowsDelivery: 12/12 PASS
+---
+exit code: 0

@@ -1,0 +1,11 @@
+PASS: accepted completed fixture run
+PASS: accepted completed ordinary-ROM runner
+PASS: rejected missing runner stdout
+PASS: rejected ROM guard abort with stale PASS/log
+PASS: rejected error after verdict
+PASS: rejected failed process
+PASS: rejected empty suite log
+PASS: rejected partial verdict
+PASS: rejected zero assertions
+PASS: rejected contradictory FAIL sentinel
+PASS: rejected wrong ROM sentinel

@@ -1,0 +1,203 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] new_bark_noon: glass follows alternate weight 256
+  [PASS] new_bark_noon: glass keeps protected-light flag
+  [PASS] new_bark_noon: hardware palette matches
+  [PASS] new_bark_noon: correct blend weight
+  shot WarmWindowsCapture_1_new_bark_noon
+  [PASS] new_bark_dusk: glass follows alternate weight 128
+  [PASS] new_bark_dusk: glass keeps protected-light flag
+  [PASS] new_bark_dusk: hardware palette matches
+  [PASS] new_bark_dusk: correct blend weight
+  shot WarmWindowsCapture_2_new_bark_dusk
+  [PASS] new_bark_night: glass follows alternate weight 0
+  [PASS] new_bark_night: glass keeps protected-light flag
+  [PASS] new_bark_night: hardware palette matches
+  [PASS] new_bark_night: correct blend weight
+  shot WarmWindowsCapture_3_new_bark_night
+  [PASS] new_bark_dawn: glass follows alternate weight 128
+  [PASS] new_bark_dawn: glass keeps protected-light flag
+  [PASS] new_bark_dawn: hardware palette matches
+  [PASS] new_bark_dawn: correct blend weight
+  shot WarmWindowsCapture_4_new_bark_dawn
+  [PASS] cherrygrove_west_noon: glass follows alternate weight 256
+  [PASS] cherrygrove_west_noon: glass keeps protected-light flag
+  [PASS] cherrygrove_west_noon: hardware palette matches
+  [PASS] cherrygrove_west_noon: correct blend weight
+  shot WarmWindowsCapture_5_cherrygrove_west_noon
+  [PASS] cherrygrove_west_dusk: glass follows alternate weight 128
+  [PASS] cherrygrove_west_dusk: glass keeps protected-light flag
+  [PASS] cherrygrove_west_dusk: hardware palette matches
+  [PASS] cherrygrove_west_dusk: correct blend weight
+  shot WarmWindowsCapture_6_cherrygrove_west_dusk
+  [PASS] cherrygrove_west_night: glass follows alternate weight 0
+  [PASS] cherrygrove_west_night: glass keeps protected-light flag
+  [PASS] cherrygrove_west_night: hardware palette matches
+  [PASS] cherrygrove_west_night: correct blend weight
+  shot WarmWindowsCapture_7_cherrygrove_west_night
+  [PASS] cherrygrove_west_dawn: glass follows alternate weight 128
+  [PASS] cherrygrove_west_dawn: glass keeps protected-light flag
+  [PASS] cherrygrove_west_dawn: hardware palette matches
+  [PASS] cherrygrove_west_dawn: correct blend weight
+  shot WarmWindowsCapture_8_cherrygrove_west_dawn
+  [PASS] cherrygrove_middle_noon: glass follows alternate weight 256
+  [PASS] cherrygrove_middle_noon: glass keeps protected-light flag
+  [PASS] cherrygrove_middle_noon: hardware palette matches
+  [PASS] cherrygrove_middle_noon: correct blend weight
+  shot WarmWindowsCapture_9_cherrygrove_middle_noon
+  [PASS] cherrygrove_middle_dusk: glass follows alternate weight 128
+  [PASS] cherrygrove_middle_dusk: glass keeps protected-light flag
+  [PASS] cherrygrove_middle_dusk: hardware palette matches
+  [PASS] cherrygrove_middle_dusk: correct blend weight
+  shot WarmWindowsCapture_10_cherrygrove_middle_dusk
+  [PASS] cherrygrove_middle_night: glass follows alternate weight 0
+  [PASS] cherrygrove_middle_night: glass keeps protected-light flag
+  [PASS] cherrygrove_middle_night: hardware palette matches
+  [PASS] cherrygrove_middle_night: correct blend weight
+  shot WarmWindowsCapture_11_cherrygrove_middle_night
+  [PASS] cherrygrove_middle_dawn: glass follows alternate weight 128
+  [PASS] cherrygrove_middle_dawn: glass keeps protected-light flag
+  [PASS] cherrygrove_middle_dawn: hardware palette matches
+  [PASS] cherrygrove_middle_dawn: correct blend weight
+  shot WarmWindowsCapture_12_cherrygrove_middle_dawn
+  [PASS] cherrygrove_east_noon: glass follows alternate weight 256
+  [PASS] cherrygrove_east_noon: glass keeps protected-light flag
+  [PASS] cherrygrove_east_noon: hardware palette matches
+  [PASS] cherrygrove_east_noon: correct blend weight
+  shot WarmWindowsCapture_13_cherrygrove_east_noon
+  [PASS] cherrygrove_east_dusk: glass follows alternate weight 128
+  [PASS] cherrygrove_east_dusk: glass keeps protected-light flag
+  [PASS] cherrygrove_east_dusk: hardware palette matches
+  [PASS] cherrygrove_east_dusk: correct blend weight
+  shot WarmWindowsCapture_14_cherrygrove_east_dusk
+  [PASS] cherrygrove_east_night: glass follows alternate weight 0
+  [PASS] cherrygrove_east_night: glass keeps protected-light flag
+  [PASS] cherrygrove_east_night: hardware palette matches
+  [PASS] cherrygrove_east_night: correct blend weight
+  shot WarmWindowsCapture_15_cherrygrove_east_night
+  [PASS] cherrygrove_east_dawn: glass follows alternate weight 128
+  [PASS] cherrygrove_east_dawn: glass keeps protected-light flag
+  [PASS] cherrygrove_east_dawn: hardware palette matches
+  [PASS] cherrygrove_east_dawn: correct blend weight
+  shot WarmWindowsCapture_16_cherrygrove_east_dawn
+  [PASS] route30_north_noon: glass follows alternate weight 256
+  [PASS] route30_north_noon: glass keeps protected-light flag
+  [PASS] route30_north_noon: hardware palette matches
+  [PASS] route30_north_noon: correct blend weight
+  shot WarmWindowsCapture_17_route30_north_noon
+  [PASS] route30_north_dusk: glass follows alternate weight 128
+  [PASS] route30_north_dusk: glass keeps protected-light flag
+  [PASS] route30_north_dusk: hardware palette matches
+  [PASS] route30_north_dusk: correct blend weight
+  shot WarmWindowsCapture_18_route30_north_dusk
+  [PASS] route30_north_night: glass follows alternate weight 0
+  [PASS] route30_north_night: glass keeps protected-light flag
+  [PASS] route30_north_night: hardware palette matches
+  [PASS] route30_north_night: correct blend weight
+  shot WarmWindowsCapture_19_route30_north_night
+  [PASS] route30_north_dawn: glass follows alternate weight 128
+  [PASS] route30_north_dawn: glass keeps protected-light flag
+  [PASS] route30_north_dawn: hardware palette matches
+  [PASS] route30_north_dawn: correct blend weight
+  shot WarmWindowsCapture_20_route30_north_dawn
+  [PASS] route30_south_noon: glass follows alternate weight 256
+  [PASS] route30_south_noon: glass keeps protected-light flag
+  [PASS] route30_south_noon: hardware palette matches
+  [PASS] route30_south_noon: correct blend weight
+  shot WarmWindowsCapture_21_route30_south_noon
+  [PASS] route30_south_dusk: glass follows alternate weight 128
+  [PASS] route30_south_dusk: glass keeps protected-light flag
+  [PASS] route30_south_dusk: hardware palette matches
+  [PASS] route30_south_dusk: correct blend weight
+  shot WarmWindowsCapture_22_route30_south_dusk
+  [PASS] route30_south_night: glass follows alternate weight 0
+  [PASS] route30_south_night: glass keeps protected-light flag
+  [PASS] route30_south_night: hardware palette matches
+  [PASS] route30_south_night: correct blend weight
+  shot WarmWindowsCapture_23_route30_south_night
+  [PASS] route30_south_dawn: glass follows alternate weight 128
+  [PASS] route30_south_dawn: glass keeps protected-light flag
+  [PASS] route30_south_dawn: hardware palette matches
+  [PASS] route30_south_dawn: correct blend weight
+  shot WarmWindowsCapture_24_route30_south_dawn
+  [PASS] route29_noon: glass follows alternate weight 256
+  [PASS] route29_noon: glass keeps protected-light flag
+  [PASS] route29_noon: hardware palette matches
+  [PASS] route29_noon: correct blend weight
+  shot WarmWindowsCapture_25_route29_noon
+  [PASS] route29_dusk: glass follows alternate weight 128
+  [PASS] route29_dusk: glass keeps protected-light flag
+  [PASS] route29_dusk: hardware palette matches
+  [PASS] route29_dusk: correct blend weight
+  shot WarmWindowsCapture_26_route29_dusk
+  [PASS] route29_night: glass follows alternate weight 0
+  [PASS] route29_night: glass keeps protected-light flag
+  [PASS] route29_night: hardware palette matches
+  [PASS] route29_night: correct blend weight
+  shot WarmWindowsCapture_27_route29_night
+  [PASS] route29_dawn: glass follows alternate weight 128
+  [PASS] route29_dawn: glass keeps protected-light flag
+  [PASS] route29_dawn: hardware palette matches
+  [PASS] route29_dawn: correct blend weight
+  shot WarmWindowsCapture_28_route29_dawn
+  [PASS] route27_noon: glass follows alternate weight 256
+  [PASS] route27_noon: glass keeps protected-light flag
+  [PASS] route27_noon: hardware palette matches
+  [PASS] route27_noon: correct blend weight
+  shot WarmWindowsCapture_29_route27_noon
+  [PASS] route27_dusk: glass follows alternate weight 128
+  [PASS] route27_dusk: glass keeps protected-light flag
+  [PASS] route27_dusk: hardware palette matches
+  [PASS] route27_dusk: correct blend weight
+  shot WarmWindowsCapture_30_route27_dusk
+  [PASS] route27_night: glass follows alternate weight 0
+  [PASS] route27_night: glass keeps protected-light flag
+  [PASS] route27_night: hardware palette matches
+  [PASS] route27_night: correct blend weight
+  shot WarmWindowsCapture_31_route27_night
+  [PASS] route27_dawn: glass follows alternate weight 128
+  [PASS] route27_dawn: glass keeps protected-light flag
+  [PASS] route27_dawn: hardware palette matches
+  [PASS] route27_dawn: correct blend weight
+  shot WarmWindowsCapture_32_route27_dawn
+  [PASS] route31_noon: glass follows alternate weight 256
+  [PASS] route31_noon: glass keeps protected-light flag
+  [PASS] route31_noon: hardware palette matches
+  [PASS] route31_noon: correct blend weight
+  shot WarmWindowsCapture_33_route31_noon
+  [PASS] route31_dusk: glass follows alternate weight 128
+  [PASS] route31_dusk: glass keeps protected-light flag
+  [PASS] route31_dusk: hardware palette matches
+  [PASS] route31_dusk: correct blend weight
+  shot WarmWindowsCapture_34_route31_dusk
+  [PASS] route31_night: glass follows alternate weight 0
+  [PASS] route31_night: glass keeps protected-light flag
+  [PASS] route31_night: hardware palette matches
+  [PASS] route31_night: correct blend weight
+  shot WarmWindowsCapture_35_route31_night
+  [PASS] route31_dawn: glass follows alternate weight 128
+  [PASS] route31_dawn: glass keeps protected-light flag
+  [PASS] route31_dawn: hardware palette matches
+  [PASS] route31_dawn: correct blend weight
+  shot WarmWindowsCapture_36_route31_dawn
+  [PASS] route46_noon: glass follows alternate weight 256
+  [PASS] route46_noon: glass keeps protected-light flag
+  [PASS] route46_noon: hardware palette matches
+  [PASS] route46_noon: correct blend weight
+  shot WarmWindowsCapture_37_route46_noon
+  [PASS] route46_dusk: glass follows alternate weight 128
+  [PASS] route46_dusk: glass keeps protected-light flag
+  [PASS] route46_dusk: hardware palette matches
+  [PASS] route46_dusk: correct blend weight
+  shot WarmWindowsCapture_38_route46_dusk
+  [PASS] route46_night: glass follows alternate weight 0
+  [PASS] route46_night: glass keeps protected-light flag
+  [PASS] route46_night: hardware palette matches
+  [PASS] route46_night: correct blend weight
+  shot WarmWindowsCapture_39_route46_night
+  [PASS] route46_dawn: glass follows alternate weight 128
+  [PASS] route46_dawn: glass keeps protected-light flag
+  [PASS] route46_dawn: hardware palette matches
+  [PASS] route46_dawn: correct blend weight
+  shot WarmWindowsCapture_40_route46_dawn
+VERDICT WarmWindowsCapture: 160/160 PASS

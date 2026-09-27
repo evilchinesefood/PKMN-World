@@ -1,0 +1,12 @@
+{
+  "issue": 335,
+  "pull_request": "https://github.com/evilchinesefood/PKMN-World/pull/343",
+  "build_commit": "3bc343d0331064646d4ce99b4b691291e1a6bf0c",
+  "build_stamp": "v1.6-36-g3bc343d033",
+  "rom_sha256": "a70354d7a31d6660bb9b25fee8bddaedb2eda66a1bc045bcbd6e599bafd170a0",
+  "save_sha256": "770a2f52610b359ddfec0b410a86a904accdaab223e247db134af9b9c6b54fa8",
+  "download": "PokemonWorld-WarmWindows-3bc343d033.zip",
+  "delivery_test": "12/12 on the unmodified ROM",
+  "tracked_regressions": "50/50 expected suites",
+  "zip_sha256": "c49dee4b45deeb83ddf78beb7cfcb1b303d4558653da0e0e6b51b0b4244e38be"
+}

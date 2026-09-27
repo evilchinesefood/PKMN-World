@@ -1,0 +1,385 @@
+{
+  "before_source": "13478c088b0dcb2a28c3c453ed6eac0e8040364b",
+  "after_source": "3bc343d0331064646d4ce99b4b691291e1a6bf0c",
+  "checks": {
+    "before": 160,
+    "after": 160,
+    "before-lifecycle": 99,
+    "after-lifecycle": 99,
+    "delivery": 12
+  },
+  "comparisons": [
+    {
+      "scene": "new_bark_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "new_bark_dusk",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "new_bark_night",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "new_bark_dawn",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_west_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "cherrygrove_west_dusk",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_west_night",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_west_dawn",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_middle_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "cherrygrove_middle_dusk",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_middle_night",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_middle_dawn",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_east_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "cherrygrove_east_dusk",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_east_night",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "cherrygrove_east_dawn",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route30_north_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "route30_north_dusk",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route30_north_night",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route30_north_dawn",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route30_south_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "route30_south_dusk",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route30_south_night",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route30_south_dawn",
+      "changed_pixels": 50,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route29_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "route29_dusk",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route29_night",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route29_dawn",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route27_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "route27_dusk",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route27_night",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route27_dawn",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route31_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "route31_dusk",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route31_night",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route31_dawn",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route46_noon",
+      "changed_pixels": 0,
+      "changed_palette_entries": []
+    },
+    {
+      "scene": "route46_dusk",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route46_night",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    },
+    {
+      "scene": "route46_dawn",
+      "changed_pixels": 0,
+      "changed_palette_entries": [
+        136,
+        137,
+        138
+      ]
+    }
+  ],
+  "clips": {
+    "sweep_dusk": {
+      "source_frames": 9,
+      "duration_ms": 6300,
+      "sha256": "a4beeb6a3615b8cfa57f12434b2577502b5a09a2578f2dee9b00f5675ff932b4"
+    },
+    "sweep_dawn": {
+      "source_frames": 9,
+      "duration_ms": 6300,
+      "sha256": "608c606321a98f553b6c05dadc0a43ec194eb6d2823735a7b6c8dd9b97c36a09"
+    },
+    "natural_dusk": {
+      "source_frames": 100,
+      "duration_ms": 4000,
+      "sha256": "18ca74e95c5917f47811762f7673aef9bc43455bd9e73dc5233d1c1b2d72ddbc"
+    },
+    "natural_dawn": {
+      "source_frames": 100,
+      "duration_ms": 4000,
+      "sha256": "8508d246b415330c3a5cf5c5e9e65ca26aa8645a841ae0e7fd5c1c9576b2f8c0"
+    },
+    "menu": {
+      "source_frames": 10,
+      "duration_ms": 1000,
+      "sha256": "5157ba83fbcda4836d66ccc8bcd661bfa825f6883eeadbe946f775c8a37e27fa"
+    },
+    "house_entry": {
+      "source_frames": 15,
+      "duration_ms": 1500,
+      "sha256": "76ac1e1823396f0627cd521008b9824cdb93cdd9c10530b79f3dd32a0bc6d22d"
+    },
+    "house_exit": {
+      "source_frames": 15,
+      "duration_ms": 1500,
+      "sha256": "660707e5df40d7490ff68556aa9092f2266c60a4902bf4d8dc46e538de0d6fcd"
+    },
+    "battle_return": {
+      "source_frames": 30,
+      "duration_ms": 3000,
+      "sha256": "cb0548870e084ed74061e002755c86fb988d47abd803b79c90a4dc899953c253"
+    },
+    "connection_out": {
+      "source_frames": 10,
+      "duration_ms": 1000,
+      "sha256": "b227c139a9fb1a08d6bbf9e8ad09b0932251bea11884e5c241cb271631565086"
+    },
+    "connection_back": {
+      "source_frames": 15,
+      "duration_ms": 1500,
+      "sha256": "65302a7041d254819e808b891650c86919e98719a2cf65a04db9f821341ddbc4"
+    }
+  }
+}

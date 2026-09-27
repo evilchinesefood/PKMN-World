@@ -1,0 +1,110 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] dusk sweep 0: glass follows alternate weight 256
+  [PASS] dusk sweep 0: glass keeps protected-light flag
+  [PASS] dusk sweep 0: hardware palette matches
+  [PASS] dusk sweep 1: glass follows alternate weight 224
+  [PASS] dusk sweep 1: glass keeps protected-light flag
+  [PASS] dusk sweep 1: hardware palette matches
+  [PASS] dusk sweep 2: glass follows alternate weight 192
+  [PASS] dusk sweep 2: glass keeps protected-light flag
+  [PASS] dusk sweep 2: hardware palette matches
+  [PASS] dusk sweep 3: glass follows alternate weight 160
+  [PASS] dusk sweep 3: glass keeps protected-light flag
+  [PASS] dusk sweep 3: hardware palette matches
+  [PASS] dusk sweep 4: glass follows alternate weight 128
+  [PASS] dusk sweep 4: glass keeps protected-light flag
+  [PASS] dusk sweep 4: hardware palette matches
+  [PASS] dusk sweep 5: glass follows alternate weight 96
+  [PASS] dusk sweep 5: glass keeps protected-light flag
+  [PASS] dusk sweep 5: hardware palette matches
+  [PASS] dusk sweep 6: glass follows alternate weight 64
+  [PASS] dusk sweep 6: glass keeps protected-light flag
+  [PASS] dusk sweep 6: hardware palette matches
+  [PASS] dusk sweep 7: glass follows alternate weight 32
+  [PASS] dusk sweep 7: glass keeps protected-light flag
+  [PASS] dusk sweep 7: hardware palette matches
+  [PASS] dusk sweep 8: glass follows alternate weight 0
+  [PASS] dusk sweep 8: glass keeps protected-light flag
+  [PASS] dusk sweep 8: hardware palette matches
+  [PASS] dawn sweep 0: glass follows alternate weight 0
+  [PASS] dawn sweep 0: glass keeps protected-light flag
+  [PASS] dawn sweep 0: hardware palette matches
+  [PASS] dawn sweep 1: glass follows alternate weight 32
+  [PASS] dawn sweep 1: glass keeps protected-light flag
+  [PASS] dawn sweep 1: hardware palette matches
+  [PASS] dawn sweep 2: glass follows alternate weight 64
+  [PASS] dawn sweep 2: glass keeps protected-light flag
+  [PASS] dawn sweep 2: hardware palette matches
+  [PASS] dawn sweep 3: glass follows alternate weight 96
+  [PASS] dawn sweep 3: glass keeps protected-light flag
+  [PASS] dawn sweep 3: hardware palette matches
+  [PASS] dawn sweep 4: glass follows alternate weight 128
+  [PASS] dawn sweep 4: glass keeps protected-light flag
+  [PASS] dawn sweep 4: hardware palette matches
+  [PASS] dawn sweep 5: glass follows alternate weight 160
+  [PASS] dawn sweep 5: glass keeps protected-light flag
+  [PASS] dawn sweep 5: hardware palette matches
+  [PASS] dawn sweep 6: glass follows alternate weight 192
+  [PASS] dawn sweep 6: glass keeps protected-light flag
+  [PASS] dawn sweep 6: hardware palette matches
+  [PASS] dawn sweep 7: glass follows alternate weight 224
+  [PASS] dawn sweep 7: glass keeps protected-light flag
+  [PASS] dawn sweep 7: hardware palette matches
+  [PASS] dawn sweep 8: glass follows alternate weight 256
+  [PASS] dawn sweep 8: glass keeps protected-light flag
+  [PASS] dawn sweep 8: hardware palette matches
+  [PASS] natural_dusk: clock crossed boundary naturally
+  [PASS] natural_dusk: blend moved monotonically
+  [PASS] natural_dusk: no map reload or player movement
+  [PASS] natural_dusk: glass follows alternate weight 124
+  [PASS] natural_dusk: glass keeps protected-light flag
+  [PASS] natural_dusk: hardware palette matches
+  [PASS] natural_dawn: clock crossed boundary naturally
+  [PASS] natural_dawn: blend moved monotonically
+  [PASS] natural_dawn: no map reload or player movement
+  [PASS] natural_dawn: glass follows alternate weight 130
+  [PASS] natural_dawn: glass keeps protected-light flag
+  [PASS] natural_dawn: hardware palette matches
+  [PASS] before returns: glass follows alternate weight 0
+  [PASS] before returns: glass keeps protected-light flag
+  [PASS] before returns: hardware palette matches
+  [PASS] start menu opens and responds
+  [PASS] start menu closes
+  [PASS] menu return: glass follows alternate weight 0
+  [PASS] menu return: glass keeps protected-light flag
+  [PASS] menu return: hardware palette matches
+  shot WarmWindowsLifecycle_1_menu_return
+  [PASS] normal house entry
+inside house (4,8) map 77/2
+  [PASS] normal house exit
+  [PASS] house return: glass follows alternate weight 0
+  [PASS] house return: glass keeps protected-light flag
+  [PASS] house return: hardware palette matches
+  shot WarmWindowsLifecycle_2_house_return
+  [PASS] wild battle entered
+  shot WarmWindowsLifecycle_3_battle
+  [PASS] Run selected
+  [PASS] escaped normally
+  [PASS] battle return: glass follows alternate weight 0
+  [PASS] battle return: glass keeps protected-light flag
+  [PASS] battle return: hardware palette matches
+  shot WarmWindowsLifecycle_4_battle_return
+  [PASS] walked into Route29
+  [PASS] connection outward: glass follows alternate weight 0
+  [PASS] connection outward: glass keeps protected-light flag
+  [PASS] connection outward: hardware palette matches
+  [PASS] walked back into New Bark
+  [PASS] connection return: glass follows alternate weight 0
+  [PASS] connection return: glass keeps protected-light flag
+  [PASS] connection return: hardware palette matches
+  shot WarmWindowsLifecycle_5_connection_return
+  [PASS] synthetic night save written
+BOOTED grp=75 map=1 pos=(34,16)
+  [PASS] save returns to Cherrygrove
+  [PASS] save reload: glass follows alternate weight 0
+  [PASS] save reload: glass keeps protected-light flag
+  [PASS] save reload: hardware palette matches
+  shot WarmWindowsLifecycle_6_save_reload
+  [PASS] normal controls after reload
+VERDICT WarmWindowsLifecycle: 99/99 PASS

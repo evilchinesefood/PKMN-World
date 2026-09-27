@@ -1,0 +1,680 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] outfit_00: walk along shore
+  [PASS] outfit_00_ow: all 16 source colors
+  [PASS] outfit_00_ow: hardware palette
+  [PASS] outfit_00: reflection is visible and blended
+  [PASS] outfit_00_reflection: all 16 source colors
+  [PASS] outfit_00_reflection: hardware palette
+  shot OutfitSurfaces_1_outfit_00_pond
+  [PASS] outfit_00_card: all 16 source colors
+  [PASS] outfit_00_card: hardware palette
+  shot OutfitSurfaces_2_outfit_00_card
+  [PASS] outfit_00_card_return: all 16 source colors
+  [PASS] outfit_00_card_return: hardware palette
+  [PASS] outfit_00: one live sprite owns trainer palette
+  [PASS] outfit_00_sendout: all 16 source colors
+  [PASS] outfit_00_sendout: hardware palette
+  shot OutfitSurfaces_3_outfit_00_throw_033
+  shot OutfitSurfaces_4_outfit_00_throw_036
+  shot OutfitSurfaces_5_outfit_00_throw_039
+  shot OutfitSurfaces_6_outfit_00_throw_042
+  shot OutfitSurfaces_7_outfit_00_throw_045
+  shot OutfitSurfaces_8_outfit_00_throw_048
+  shot OutfitSurfaces_9_outfit_00_throw_051
+  shot OutfitSurfaces_10_outfit_00_throw_054
+  shot OutfitSurfaces_11_outfit_00_throw_057
+  shot OutfitSurfaces_12_outfit_00_throw_060
+  shot OutfitSurfaces_13_outfit_00_throw_063
+  shot OutfitSurfaces_14_outfit_00_throw_066
+  shot OutfitSurfaces_15_outfit_00_throw_069
+  shot OutfitSurfaces_16_outfit_00_throw_072
+  shot OutfitSurfaces_17_outfit_00_throw_075
+  shot OutfitSurfaces_18_outfit_00_throw_078
+  shot OutfitSurfaces_19_outfit_00_throw_081
+  shot OutfitSurfaces_20_outfit_00_throw_084
+  shot OutfitSurfaces_21_outfit_00_throw_087
+  shot OutfitSurfaces_22_outfit_00_throw_090
+  shot OutfitSurfaces_23_outfit_00_throw_093
+  shot OutfitSurfaces_24_outfit_00_throw_096
+  shot OutfitSurfaces_25_outfit_00_throw_099
+  shot OutfitSurfaces_26_outfit_00_throw_102
+  shot OutfitSurfaces_27_outfit_00_throw_105
+  shot OutfitSurfaces_28_outfit_00_throw_108
+  shot OutfitSurfaces_29_outfit_00_throw_111
+  shot OutfitSurfaces_30_outfit_00_throw_114
+  shot OutfitSurfaces_31_outfit_00_throw_117
+  shot OutfitSurfaces_32_outfit_00_throw_120
+  shot OutfitSurfaces_33_outfit_00_throw_123
+  shot OutfitSurfaces_34_outfit_00_throw_126
+  shot OutfitSurfaces_35_outfit_00_throw_129
+  [PASS] outfit_00: sendout observed
+  [PASS] outfit_00: battle returns control
+  [PASS] outfit_00_battle_return: all 16 source colors
+  [PASS] outfit_00_battle_return: hardware palette
+  [PASS] outfit_01: walk along shore
+  [PASS] outfit_01_ow: all 16 source colors
+  [PASS] outfit_01_ow: hardware palette
+  [PASS] outfit_01: reflection is visible and blended
+  [PASS] outfit_01_reflection: all 16 source colors
+  [PASS] outfit_01_reflection: hardware palette
+  shot OutfitSurfaces_36_outfit_01_pond
+  [PASS] outfit_01_card: all 16 source colors
+  [PASS] outfit_01_card: hardware palette
+  shot OutfitSurfaces_37_outfit_01_card
+  [PASS] outfit_01_card_return: all 16 source colors
+  [PASS] outfit_01_card_return: hardware palette
+  [PASS] outfit_01: one live sprite owns trainer palette
+  [PASS] outfit_01_sendout: all 16 source colors
+  [PASS] outfit_01_sendout: hardware palette
+  shot OutfitSurfaces_38_outfit_01_throw_033
+  shot OutfitSurfaces_39_outfit_01_throw_036
+  shot OutfitSurfaces_40_outfit_01_throw_039
+  shot OutfitSurfaces_41_outfit_01_throw_042
+  shot OutfitSurfaces_42_outfit_01_throw_045
+  shot OutfitSurfaces_43_outfit_01_throw_048
+  shot OutfitSurfaces_44_outfit_01_throw_051
+  shot OutfitSurfaces_45_outfit_01_throw_054
+  shot OutfitSurfaces_46_outfit_01_throw_057
+  shot OutfitSurfaces_47_outfit_01_throw_060
+  shot OutfitSurfaces_48_outfit_01_throw_063
+  shot OutfitSurfaces_49_outfit_01_throw_066
+  shot OutfitSurfaces_50_outfit_01_throw_069
+  shot OutfitSurfaces_51_outfit_01_throw_072
+  shot OutfitSurfaces_52_outfit_01_throw_075
+  shot OutfitSurfaces_53_outfit_01_throw_078
+  shot OutfitSurfaces_54_outfit_01_throw_081
+  shot OutfitSurfaces_55_outfit_01_throw_084
+  shot OutfitSurfaces_56_outfit_01_throw_087
+  shot OutfitSurfaces_57_outfit_01_throw_090
+  shot OutfitSurfaces_58_outfit_01_throw_093
+  shot OutfitSurfaces_59_outfit_01_throw_096
+  shot OutfitSurfaces_60_outfit_01_throw_099
+  shot OutfitSurfaces_61_outfit_01_throw_102
+  shot OutfitSurfaces_62_outfit_01_throw_105
+  shot OutfitSurfaces_63_outfit_01_throw_108
+  shot OutfitSurfaces_64_outfit_01_throw_111
+  shot OutfitSurfaces_65_outfit_01_throw_114
+  shot OutfitSurfaces_66_outfit_01_throw_117
+  shot OutfitSurfaces_67_outfit_01_throw_120
+  shot OutfitSurfaces_68_outfit_01_throw_123
+  shot OutfitSurfaces_69_outfit_01_throw_126
+  shot OutfitSurfaces_70_outfit_01_throw_129
+  [PASS] outfit_01: sendout observed
+  [PASS] outfit_01: battle returns control
+  [PASS] outfit_01_battle_return: all 16 source colors
+  [PASS] outfit_01_battle_return: hardware palette
+  [PASS] outfit_02: walk along shore
+  [PASS] outfit_02_ow: all 16 source colors
+  [PASS] outfit_02_ow: hardware palette
+  [PASS] outfit_02: reflection is visible and blended
+  [PASS] outfit_02_reflection: all 16 source colors
+  [PASS] outfit_02_reflection: hardware palette
+  shot OutfitSurfaces_71_outfit_02_pond
+  [PASS] outfit_02_card: all 16 source colors
+  [PASS] outfit_02_card: hardware palette
+  shot OutfitSurfaces_72_outfit_02_card
+  [PASS] outfit_02_card_return: all 16 source colors
+  [PASS] outfit_02_card_return: hardware palette
+  [PASS] outfit_02: one live sprite owns trainer palette
+  [PASS] outfit_02_sendout: all 16 source colors
+  [PASS] outfit_02_sendout: hardware palette
+  shot OutfitSurfaces_73_outfit_02_throw_033
+  shot OutfitSurfaces_74_outfit_02_throw_036
+  shot OutfitSurfaces_75_outfit_02_throw_039
+  shot OutfitSurfaces_76_outfit_02_throw_042
+  shot OutfitSurfaces_77_outfit_02_throw_045
+  shot OutfitSurfaces_78_outfit_02_throw_048
+  shot OutfitSurfaces_79_outfit_02_throw_051
+  shot OutfitSurfaces_80_outfit_02_throw_054
+  shot OutfitSurfaces_81_outfit_02_throw_057
+  shot OutfitSurfaces_82_outfit_02_throw_060
+  shot OutfitSurfaces_83_outfit_02_throw_063
+  shot OutfitSurfaces_84_outfit_02_throw_066
+  shot OutfitSurfaces_85_outfit_02_throw_069
+  shot OutfitSurfaces_86_outfit_02_throw_072
+  shot OutfitSurfaces_87_outfit_02_throw_075
+  shot OutfitSurfaces_88_outfit_02_throw_078
+  shot OutfitSurfaces_89_outfit_02_throw_081
+  shot OutfitSurfaces_90_outfit_02_throw_084
+  shot OutfitSurfaces_91_outfit_02_throw_087
+  shot OutfitSurfaces_92_outfit_02_throw_090
+  shot OutfitSurfaces_93_outfit_02_throw_093
+  shot OutfitSurfaces_94_outfit_02_throw_096
+  shot OutfitSurfaces_95_outfit_02_throw_099
+  shot OutfitSurfaces_96_outfit_02_throw_102
+  shot OutfitSurfaces_97_outfit_02_throw_105
+  shot OutfitSurfaces_98_outfit_02_throw_108
+  shot OutfitSurfaces_99_outfit_02_throw_111
+  shot OutfitSurfaces_100_outfit_02_throw_114
+  shot OutfitSurfaces_101_outfit_02_throw_117
+  shot OutfitSurfaces_102_outfit_02_throw_120
+  shot OutfitSurfaces_103_outfit_02_throw_123
+  shot OutfitSurfaces_104_outfit_02_throw_126
+  shot OutfitSurfaces_105_outfit_02_throw_129
+  [PASS] outfit_02: sendout observed
+  [PASS] outfit_02: battle returns control
+  [PASS] outfit_02_battle_return: all 16 source colors
+  [PASS] outfit_02_battle_return: hardware palette
+  [PASS] outfit_03: walk along shore
+  [PASS] outfit_03_ow: all 16 source colors
+  [PASS] outfit_03_ow: hardware palette
+  [PASS] outfit_03: reflection is visible and blended
+  [PASS] outfit_03_reflection: all 16 source colors
+  [PASS] outfit_03_reflection: hardware palette
+  shot OutfitSurfaces_106_outfit_03_pond
+  [PASS] outfit_03: night active
+  [PASS] outfit_03_night: all 16 source colors
+  [PASS] outfit_03_night: hardware palette
+  [PASS] outfit_03_night: reflection is visible and blended
+  [PASS] outfit_03_night_reflection: all 16 source colors
+  [PASS] outfit_03_night_reflection: hardware palette
+  shot OutfitSurfaces_107_outfit_03_night
+  [PASS] outfit_03_card: all 16 source colors
+  [PASS] outfit_03_card: hardware palette
+  shot OutfitSurfaces_108_outfit_03_card
+  [PASS] outfit_03_card_return: all 16 source colors
+  [PASS] outfit_03_card_return: hardware palette
+  [PASS] outfit_03: one live sprite owns trainer palette
+  [PASS] outfit_03_sendout: all 16 source colors
+  [PASS] outfit_03_sendout: hardware palette
+  shot OutfitSurfaces_109_outfit_03_throw_033
+  shot OutfitSurfaces_110_outfit_03_throw_036
+  shot OutfitSurfaces_111_outfit_03_throw_039
+  shot OutfitSurfaces_112_outfit_03_throw_042
+  shot OutfitSurfaces_113_outfit_03_throw_045
+  shot OutfitSurfaces_114_outfit_03_throw_048
+  shot OutfitSurfaces_115_outfit_03_throw_051
+  shot OutfitSurfaces_116_outfit_03_throw_054
+  shot OutfitSurfaces_117_outfit_03_throw_057
+  shot OutfitSurfaces_118_outfit_03_throw_060
+  shot OutfitSurfaces_119_outfit_03_throw_063
+  shot OutfitSurfaces_120_outfit_03_throw_066
+  shot OutfitSurfaces_121_outfit_03_throw_069
+  shot OutfitSurfaces_122_outfit_03_throw_072
+  shot OutfitSurfaces_123_outfit_03_throw_075
+  shot OutfitSurfaces_124_outfit_03_throw_078
+  shot OutfitSurfaces_125_outfit_03_throw_081
+  shot OutfitSurfaces_126_outfit_03_throw_084
+  shot OutfitSurfaces_127_outfit_03_throw_087
+  shot OutfitSurfaces_128_outfit_03_throw_090
+  shot OutfitSurfaces_129_outfit_03_throw_093
+  shot OutfitSurfaces_130_outfit_03_throw_096
+  shot OutfitSurfaces_131_outfit_03_throw_099
+  shot OutfitSurfaces_132_outfit_03_throw_102
+  shot OutfitSurfaces_133_outfit_03_throw_105
+  shot OutfitSurfaces_134_outfit_03_throw_108
+  shot OutfitSurfaces_135_outfit_03_throw_111
+  shot OutfitSurfaces_136_outfit_03_throw_114
+  shot OutfitSurfaces_137_outfit_03_throw_117
+  shot OutfitSurfaces_138_outfit_03_throw_120
+  shot OutfitSurfaces_139_outfit_03_throw_123
+  shot OutfitSurfaces_140_outfit_03_throw_126
+  shot OutfitSurfaces_141_outfit_03_throw_129
+  [PASS] outfit_03: sendout observed
+  [PASS] outfit_03: battle returns control
+  [PASS] outfit_03_battle_return: all 16 source colors
+  [PASS] outfit_03_battle_return: hardware palette
+  [PASS] outfit_04: walk along shore
+  [PASS] outfit_04_ow: all 16 source colors
+  [PASS] outfit_04_ow: hardware palette
+  [PASS] outfit_04: reflection is visible and blended
+  [PASS] outfit_04_reflection: all 16 source colors
+  [PASS] outfit_04_reflection: hardware palette
+  shot OutfitSurfaces_142_outfit_04_pond
+  [PASS] outfit_04: night active
+  [PASS] outfit_04_night: all 16 source colors
+  [PASS] outfit_04_night: hardware palette
+  [PASS] outfit_04_night: reflection is visible and blended
+  [PASS] outfit_04_night_reflection: all 16 source colors
+  [PASS] outfit_04_night_reflection: hardware palette
+  shot OutfitSurfaces_143_outfit_04_night
+  [PASS] outfit_04_card: all 16 source colors
+  [PASS] outfit_04_card: hardware palette
+  shot OutfitSurfaces_144_outfit_04_card
+  [PASS] outfit_04_card_return: all 16 source colors
+  [PASS] outfit_04_card_return: hardware palette
+  [PASS] outfit_04: one live sprite owns trainer palette
+  [PASS] outfit_04_sendout: all 16 source colors
+  [PASS] outfit_04_sendout: hardware palette
+  shot OutfitSurfaces_145_outfit_04_throw_033
+  shot OutfitSurfaces_146_outfit_04_throw_036
+  shot OutfitSurfaces_147_outfit_04_throw_039
+  shot OutfitSurfaces_148_outfit_04_throw_042
+  shot OutfitSurfaces_149_outfit_04_throw_045
+  shot OutfitSurfaces_150_outfit_04_throw_048
+  shot OutfitSurfaces_151_outfit_04_throw_051
+  shot OutfitSurfaces_152_outfit_04_throw_054
+  shot OutfitSurfaces_153_outfit_04_throw_057
+  shot OutfitSurfaces_154_outfit_04_throw_060
+  shot OutfitSurfaces_155_outfit_04_throw_063
+  shot OutfitSurfaces_156_outfit_04_throw_066
+  shot OutfitSurfaces_157_outfit_04_throw_069
+  shot OutfitSurfaces_158_outfit_04_throw_072
+  shot OutfitSurfaces_159_outfit_04_throw_075
+  shot OutfitSurfaces_160_outfit_04_throw_078
+  shot OutfitSurfaces_161_outfit_04_throw_081
+  shot OutfitSurfaces_162_outfit_04_throw_084
+  shot OutfitSurfaces_163_outfit_04_throw_087
+  shot OutfitSurfaces_164_outfit_04_throw_090
+  shot OutfitSurfaces_165_outfit_04_throw_093
+  shot OutfitSurfaces_166_outfit_04_throw_096
+  shot OutfitSurfaces_167_outfit_04_throw_099
+  shot OutfitSurfaces_168_outfit_04_throw_102
+  shot OutfitSurfaces_169_outfit_04_throw_105
+  shot OutfitSurfaces_170_outfit_04_throw_108
+  shot OutfitSurfaces_171_outfit_04_throw_111
+  shot OutfitSurfaces_172_outfit_04_throw_114
+  shot OutfitSurfaces_173_outfit_04_throw_117
+  shot OutfitSurfaces_174_outfit_04_throw_120
+  shot OutfitSurfaces_175_outfit_04_throw_123
+  shot OutfitSurfaces_176_outfit_04_throw_126
+  shot OutfitSurfaces_177_outfit_04_throw_129
+  [PASS] outfit_04: sendout observed
+  [PASS] outfit_04: battle returns control
+  [PASS] outfit_04_battle_return: all 16 source colors
+  [PASS] outfit_04_battle_return: hardware palette
+  [PASS] outfit_05: walk along shore
+  [PASS] outfit_05_ow: all 16 source colors
+  [PASS] outfit_05_ow: hardware palette
+  [PASS] outfit_05: reflection is visible and blended
+  [PASS] outfit_05_reflection: all 16 source colors
+  [PASS] outfit_05_reflection: hardware palette
+  shot OutfitSurfaces_178_outfit_05_pond
+  [PASS] outfit_05: night active
+  [PASS] outfit_05_night: all 16 source colors
+  [PASS] outfit_05_night: hardware palette
+  [PASS] outfit_05_night: reflection is visible and blended
+  [PASS] outfit_05_night_reflection: all 16 source colors
+  [PASS] outfit_05_night_reflection: hardware palette
+  shot OutfitSurfaces_179_outfit_05_night
+  [PASS] outfit_05_card: all 16 source colors
+  [PASS] outfit_05_card: hardware palette
+  shot OutfitSurfaces_180_outfit_05_card
+  [PASS] outfit_05_card_return: all 16 source colors
+  [PASS] outfit_05_card_return: hardware palette
+  [PASS] outfit_05: one live sprite owns trainer palette
+  [PASS] outfit_05_sendout: all 16 source colors
+  [PASS] outfit_05_sendout: hardware palette
+  shot OutfitSurfaces_181_outfit_05_throw_033
+  shot OutfitSurfaces_182_outfit_05_throw_036
+  shot OutfitSurfaces_183_outfit_05_throw_039
+  shot OutfitSurfaces_184_outfit_05_throw_042
+  shot OutfitSurfaces_185_outfit_05_throw_045
+  shot OutfitSurfaces_186_outfit_05_throw_048
+  shot OutfitSurfaces_187_outfit_05_throw_051
+  shot OutfitSurfaces_188_outfit_05_throw_054
+  shot OutfitSurfaces_189_outfit_05_throw_057
+  shot OutfitSurfaces_190_outfit_05_throw_060
+  shot OutfitSurfaces_191_outfit_05_throw_063
+  shot OutfitSurfaces_192_outfit_05_throw_066
+  shot OutfitSurfaces_193_outfit_05_throw_069
+  shot OutfitSurfaces_194_outfit_05_throw_072
+  shot OutfitSurfaces_195_outfit_05_throw_075
+  shot OutfitSurfaces_196_outfit_05_throw_078
+  shot OutfitSurfaces_197_outfit_05_throw_081
+  shot OutfitSurfaces_198_outfit_05_throw_084
+  shot OutfitSurfaces_199_outfit_05_throw_087
+  shot OutfitSurfaces_200_outfit_05_throw_090
+  shot OutfitSurfaces_201_outfit_05_throw_093
+  shot OutfitSurfaces_202_outfit_05_throw_096
+  shot OutfitSurfaces_203_outfit_05_throw_099
+  shot OutfitSurfaces_204_outfit_05_throw_102
+  shot OutfitSurfaces_205_outfit_05_throw_105
+  shot OutfitSurfaces_206_outfit_05_throw_108
+  shot OutfitSurfaces_207_outfit_05_throw_111
+  shot OutfitSurfaces_208_outfit_05_throw_114
+  shot OutfitSurfaces_209_outfit_05_throw_117
+  shot OutfitSurfaces_210_outfit_05_throw_120
+  shot OutfitSurfaces_211_outfit_05_throw_123
+  shot OutfitSurfaces_212_outfit_05_throw_126
+  shot OutfitSurfaces_213_outfit_05_throw_129
+  [PASS] outfit_05: sendout observed
+  [PASS] outfit_05: battle returns control
+  [PASS] outfit_05_battle_return: all 16 source colors
+  [PASS] outfit_05_battle_return: hardware palette
+  [PASS] outfit_06: walk along shore
+  [PASS] outfit_06_ow: all 16 source colors
+  [PASS] outfit_06_ow: hardware palette
+  [PASS] outfit_06: reflection is visible and blended
+  [PASS] outfit_06_reflection: all 16 source colors
+  [PASS] outfit_06_reflection: hardware palette
+  shot OutfitSurfaces_214_outfit_06_pond
+  [PASS] outfit_06_card: all 16 source colors
+  [PASS] outfit_06_card: hardware palette
+  shot OutfitSurfaces_215_outfit_06_card
+  [PASS] outfit_06_card_return: all 16 source colors
+  [PASS] outfit_06_card_return: hardware palette
+  [PASS] outfit_06: one live sprite owns trainer palette
+  [PASS] outfit_06_sendout: all 16 source colors
+  [PASS] outfit_06_sendout: hardware palette
+  shot OutfitSurfaces_216_outfit_06_throw_033
+  shot OutfitSurfaces_217_outfit_06_throw_036
+  shot OutfitSurfaces_218_outfit_06_throw_039
+  shot OutfitSurfaces_219_outfit_06_throw_042
+  shot OutfitSurfaces_220_outfit_06_throw_045
+  shot OutfitSurfaces_221_outfit_06_throw_048
+  shot OutfitSurfaces_222_outfit_06_throw_051
+  shot OutfitSurfaces_223_outfit_06_throw_054
+  shot OutfitSurfaces_224_outfit_06_throw_057
+  shot OutfitSurfaces_225_outfit_06_throw_060
+  shot OutfitSurfaces_226_outfit_06_throw_063
+  shot OutfitSurfaces_227_outfit_06_throw_066
+  shot OutfitSurfaces_228_outfit_06_throw_069
+  shot OutfitSurfaces_229_outfit_06_throw_072
+  shot OutfitSurfaces_230_outfit_06_throw_075
+  shot OutfitSurfaces_231_outfit_06_throw_078
+  shot OutfitSurfaces_232_outfit_06_throw_081
+  shot OutfitSurfaces_233_outfit_06_throw_084
+  shot OutfitSurfaces_234_outfit_06_throw_087
+  shot OutfitSurfaces_235_outfit_06_throw_090
+  shot OutfitSurfaces_236_outfit_06_throw_093
+  shot OutfitSurfaces_237_outfit_06_throw_096
+  shot OutfitSurfaces_238_outfit_06_throw_099
+  shot OutfitSurfaces_239_outfit_06_throw_102
+  shot OutfitSurfaces_240_outfit_06_throw_105
+  shot OutfitSurfaces_241_outfit_06_throw_108
+  shot OutfitSurfaces_242_outfit_06_throw_111
+  shot OutfitSurfaces_243_outfit_06_throw_114
+  shot OutfitSurfaces_244_outfit_06_throw_117
+  shot OutfitSurfaces_245_outfit_06_throw_120
+  shot OutfitSurfaces_246_outfit_06_throw_123
+  shot OutfitSurfaces_247_outfit_06_throw_126
+  shot OutfitSurfaces_248_outfit_06_throw_129
+  [PASS] outfit_06: sendout observed
+  [PASS] outfit_06: battle returns control
+  [PASS] outfit_06_battle_return: all 16 source colors
+  [PASS] outfit_06_battle_return: hardware palette
+  [PASS] outfit_07: walk along shore
+  [PASS] outfit_07_ow: all 16 source colors
+  [PASS] outfit_07_ow: hardware palette
+  [PASS] outfit_07: reflection is visible and blended
+  [PASS] outfit_07_reflection: all 16 source colors
+  [PASS] outfit_07_reflection: hardware palette
+  shot OutfitSurfaces_249_outfit_07_pond
+  [PASS] outfit_07_card: all 16 source colors
+  [PASS] outfit_07_card: hardware palette
+  shot OutfitSurfaces_250_outfit_07_card
+  [PASS] outfit_07_card_return: all 16 source colors
+  [PASS] outfit_07_card_return: hardware palette
+  [PASS] outfit_07: one live sprite owns trainer palette
+  [PASS] outfit_07_sendout: all 16 source colors
+  [PASS] outfit_07_sendout: hardware palette
+  shot OutfitSurfaces_251_outfit_07_throw_033
+  shot OutfitSurfaces_252_outfit_07_throw_036
+  shot OutfitSurfaces_253_outfit_07_throw_039
+  shot OutfitSurfaces_254_outfit_07_throw_042
+  shot OutfitSurfaces_255_outfit_07_throw_045
+  shot OutfitSurfaces_256_outfit_07_throw_048
+  shot OutfitSurfaces_257_outfit_07_throw_051
+  shot OutfitSurfaces_258_outfit_07_throw_054
+  shot OutfitSurfaces_259_outfit_07_throw_057
+  shot OutfitSurfaces_260_outfit_07_throw_060
+  shot OutfitSurfaces_261_outfit_07_throw_063
+  shot OutfitSurfaces_262_outfit_07_throw_066
+  shot OutfitSurfaces_263_outfit_07_throw_069
+  shot OutfitSurfaces_264_outfit_07_throw_072
+  shot OutfitSurfaces_265_outfit_07_throw_075
+  shot OutfitSurfaces_266_outfit_07_throw_078
+  shot OutfitSurfaces_267_outfit_07_throw_081
+  shot OutfitSurfaces_268_outfit_07_throw_084
+  shot OutfitSurfaces_269_outfit_07_throw_087
+  shot OutfitSurfaces_270_outfit_07_throw_090
+  shot OutfitSurfaces_271_outfit_07_throw_093
+  shot OutfitSurfaces_272_outfit_07_throw_096
+  shot OutfitSurfaces_273_outfit_07_throw_099
+  shot OutfitSurfaces_274_outfit_07_throw_102
+  shot OutfitSurfaces_275_outfit_07_throw_105
+  shot OutfitSurfaces_276_outfit_07_throw_108
+  shot OutfitSurfaces_277_outfit_07_throw_111
+  shot OutfitSurfaces_278_outfit_07_throw_114
+  shot OutfitSurfaces_279_outfit_07_throw_117
+  shot OutfitSurfaces_280_outfit_07_throw_120
+  shot OutfitSurfaces_281_outfit_07_throw_123
+  shot OutfitSurfaces_282_outfit_07_throw_126
+  shot OutfitSurfaces_283_outfit_07_throw_129
+  [PASS] outfit_07: sendout observed
+  [PASS] outfit_07: battle returns control
+  [PASS] outfit_07_battle_return: all 16 source colors
+  [PASS] outfit_07_battle_return: hardware palette
+  [PASS] outfit_08: walk along shore
+  [PASS] outfit_08_ow: all 16 source colors
+  [PASS] outfit_08_ow: hardware palette
+  [PASS] outfit_08: reflection is visible and blended
+  [PASS] outfit_08_reflection: all 16 source colors
+  [PASS] outfit_08_reflection: hardware palette
+  shot OutfitSurfaces_284_outfit_08_pond
+  [PASS] outfit_08_card: all 16 source colors
+  [PASS] outfit_08_card: hardware palette
+  shot OutfitSurfaces_285_outfit_08_card
+  [PASS] outfit_08_card_return: all 16 source colors
+  [PASS] outfit_08_card_return: hardware palette
+  [PASS] outfit_08: one live sprite owns trainer palette
+  [PASS] outfit_08_sendout: all 16 source colors
+  [PASS] outfit_08_sendout: hardware palette
+  shot OutfitSurfaces_286_outfit_08_throw_033
+  shot OutfitSurfaces_287_outfit_08_throw_036
+  shot OutfitSurfaces_288_outfit_08_throw_039
+  shot OutfitSurfaces_289_outfit_08_throw_042
+  shot OutfitSurfaces_290_outfit_08_throw_045
+  shot OutfitSurfaces_291_outfit_08_throw_048
+  shot OutfitSurfaces_292_outfit_08_throw_051
+  shot OutfitSurfaces_293_outfit_08_throw_054
+  shot OutfitSurfaces_294_outfit_08_throw_057
+  shot OutfitSurfaces_295_outfit_08_throw_060
+  shot OutfitSurfaces_296_outfit_08_throw_063
+  shot OutfitSurfaces_297_outfit_08_throw_066
+  shot OutfitSurfaces_298_outfit_08_throw_069
+  shot OutfitSurfaces_299_outfit_08_throw_072
+  shot OutfitSurfaces_300_outfit_08_throw_075
+  shot OutfitSurfaces_301_outfit_08_throw_078
+  shot OutfitSurfaces_302_outfit_08_throw_081
+  shot OutfitSurfaces_303_outfit_08_throw_084
+  shot OutfitSurfaces_304_outfit_08_throw_087
+  shot OutfitSurfaces_305_outfit_08_throw_090
+  shot OutfitSurfaces_306_outfit_08_throw_093
+  shot OutfitSurfaces_307_outfit_08_throw_096
+  shot OutfitSurfaces_308_outfit_08_throw_099
+  shot OutfitSurfaces_309_outfit_08_throw_102
+  shot OutfitSurfaces_310_outfit_08_throw_105
+  shot OutfitSurfaces_311_outfit_08_throw_108
+  shot OutfitSurfaces_312_outfit_08_throw_111
+  shot OutfitSurfaces_313_outfit_08_throw_114
+  shot OutfitSurfaces_314_outfit_08_throw_117
+  shot OutfitSurfaces_315_outfit_08_throw_120
+  shot OutfitSurfaces_316_outfit_08_throw_123
+  shot OutfitSurfaces_317_outfit_08_throw_126
+  shot OutfitSurfaces_318_outfit_08_throw_129
+  [PASS] outfit_08: sendout observed
+  [PASS] outfit_08: battle returns control
+  [PASS] outfit_08_battle_return: all 16 source colors
+  [PASS] outfit_08_battle_return: hardware palette
+  [PASS] outfit_09: walk along shore
+  [PASS] outfit_09_ow: all 16 source colors
+  [PASS] outfit_09_ow: hardware palette
+  [PASS] outfit_09: reflection is visible and blended
+  [PASS] outfit_09_reflection: all 16 source colors
+  [PASS] outfit_09_reflection: hardware palette
+  shot OutfitSurfaces_319_outfit_09_pond
+  [PASS] outfit_09: night active
+  [PASS] outfit_09_night: all 16 source colors
+  [PASS] outfit_09_night: hardware palette
+  [PASS] outfit_09_night: reflection is visible and blended
+  [PASS] outfit_09_night_reflection: all 16 source colors
+  [PASS] outfit_09_night_reflection: hardware palette
+  shot OutfitSurfaces_320_outfit_09_night
+  [PASS] outfit_09_card: all 16 source colors
+  [PASS] outfit_09_card: hardware palette
+  shot OutfitSurfaces_321_outfit_09_card
+  [PASS] outfit_09_card_return: all 16 source colors
+  [PASS] outfit_09_card_return: hardware palette
+  [PASS] outfit_09: one live sprite owns trainer palette
+  [PASS] outfit_09_sendout: all 16 source colors
+  [PASS] outfit_09_sendout: hardware palette
+  shot OutfitSurfaces_322_outfit_09_throw_033
+  shot OutfitSurfaces_323_outfit_09_throw_036
+  shot OutfitSurfaces_324_outfit_09_throw_039
+  shot OutfitSurfaces_325_outfit_09_throw_042
+  shot OutfitSurfaces_326_outfit_09_throw_045
+  shot OutfitSurfaces_327_outfit_09_throw_048
+  shot OutfitSurfaces_328_outfit_09_throw_051
+  shot OutfitSurfaces_329_outfit_09_throw_054
+  shot OutfitSurfaces_330_outfit_09_throw_057
+  shot OutfitSurfaces_331_outfit_09_throw_060
+  shot OutfitSurfaces_332_outfit_09_throw_063
+  shot OutfitSurfaces_333_outfit_09_throw_066
+  shot OutfitSurfaces_334_outfit_09_throw_069
+  shot OutfitSurfaces_335_outfit_09_throw_072
+  shot OutfitSurfaces_336_outfit_09_throw_075
+  shot OutfitSurfaces_337_outfit_09_throw_078
+  shot OutfitSurfaces_338_outfit_09_throw_081
+  shot OutfitSurfaces_339_outfit_09_throw_084
+  shot OutfitSurfaces_340_outfit_09_throw_087
+  shot OutfitSurfaces_341_outfit_09_throw_090
+  shot OutfitSurfaces_342_outfit_09_throw_093
+  shot OutfitSurfaces_343_outfit_09_throw_096
+  shot OutfitSurfaces_344_outfit_09_throw_099
+  shot OutfitSurfaces_345_outfit_09_throw_102
+  shot OutfitSurfaces_346_outfit_09_throw_105
+  shot OutfitSurfaces_347_outfit_09_throw_108
+  shot OutfitSurfaces_348_outfit_09_throw_111
+  shot OutfitSurfaces_349_outfit_09_throw_114
+  shot OutfitSurfaces_350_outfit_09_throw_117
+  shot OutfitSurfaces_351_outfit_09_throw_120
+  shot OutfitSurfaces_352_outfit_09_throw_123
+  shot OutfitSurfaces_353_outfit_09_throw_126
+  shot OutfitSurfaces_354_outfit_09_throw_129
+  [PASS] outfit_09: sendout observed
+  [PASS] outfit_09: battle returns control
+  [PASS] outfit_09_battle_return: all 16 source colors
+  [PASS] outfit_09_battle_return: hardware palette
+  [PASS] outfit_10: walk along shore
+  [PASS] outfit_10_ow: all 16 source colors
+  [PASS] outfit_10_ow: hardware palette
+  [PASS] outfit_10: reflection is visible and blended
+  [PASS] outfit_10_reflection: all 16 source colors
+  [PASS] outfit_10_reflection: hardware palette
+  shot OutfitSurfaces_355_outfit_10_pond
+  [PASS] outfit_10: night active
+  [PASS] outfit_10_night: all 16 source colors
+  [PASS] outfit_10_night: hardware palette
+  [PASS] outfit_10_night: reflection is visible and blended
+  [PASS] outfit_10_night_reflection: all 16 source colors
+  [PASS] outfit_10_night_reflection: hardware palette
+  shot OutfitSurfaces_356_outfit_10_night
+  [PASS] outfit_10_card: all 16 source colors
+  [PASS] outfit_10_card: hardware palette
+  shot OutfitSurfaces_357_outfit_10_card
+  [PASS] outfit_10_card_return: all 16 source colors
+  [PASS] outfit_10_card_return: hardware palette
+  [PASS] outfit_10: one live sprite owns trainer palette
+  [PASS] outfit_10_sendout: all 16 source colors
+  [PASS] outfit_10_sendout: hardware palette
+  shot OutfitSurfaces_358_outfit_10_throw_033
+  shot OutfitSurfaces_359_outfit_10_throw_036
+  shot OutfitSurfaces_360_outfit_10_throw_039
+  shot OutfitSurfaces_361_outfit_10_throw_042
+  shot OutfitSurfaces_362_outfit_10_throw_045
+  shot OutfitSurfaces_363_outfit_10_throw_048
+  shot OutfitSurfaces_364_outfit_10_throw_051
+  shot OutfitSurfaces_365_outfit_10_throw_054
+  shot OutfitSurfaces_366_outfit_10_throw_057
+  shot OutfitSurfaces_367_outfit_10_throw_060
+  shot OutfitSurfaces_368_outfit_10_throw_063
+  shot OutfitSurfaces_369_outfit_10_throw_066
+  shot OutfitSurfaces_370_outfit_10_throw_069
+  shot OutfitSurfaces_371_outfit_10_throw_072
+  shot OutfitSurfaces_372_outfit_10_throw_075
+  shot OutfitSurfaces_373_outfit_10_throw_078
+  shot OutfitSurfaces_374_outfit_10_throw_081
+  shot OutfitSurfaces_375_outfit_10_throw_084
+  shot OutfitSurfaces_376_outfit_10_throw_087
+  shot OutfitSurfaces_377_outfit_10_throw_090
+  shot OutfitSurfaces_378_outfit_10_throw_093
+  shot OutfitSurfaces_379_outfit_10_throw_096
+  shot OutfitSurfaces_380_outfit_10_throw_099
+  shot OutfitSurfaces_381_outfit_10_throw_102
+  shot OutfitSurfaces_382_outfit_10_throw_105
+  shot OutfitSurfaces_383_outfit_10_throw_108
+  shot OutfitSurfaces_384_outfit_10_throw_111
+  shot OutfitSurfaces_385_outfit_10_throw_114
+  shot OutfitSurfaces_386_outfit_10_throw_117
+  shot OutfitSurfaces_387_outfit_10_throw_120
+  shot OutfitSurfaces_388_outfit_10_throw_123
+  shot OutfitSurfaces_389_outfit_10_throw_126
+  shot OutfitSurfaces_390_outfit_10_throw_129
+  [PASS] outfit_10: sendout observed
+  [PASS] outfit_10: battle returns control
+  [PASS] outfit_10_battle_return: all 16 source colors
+  [PASS] outfit_10_battle_return: hardware palette
+  [PASS] outfit_11: walk along shore
+  [PASS] outfit_11_ow: all 16 source colors
+  [PASS] outfit_11_ow: hardware palette
+  [PASS] outfit_11: reflection is visible and blended
+  [PASS] outfit_11_reflection: all 16 source colors
+  [PASS] outfit_11_reflection: hardware palette
+  shot OutfitSurfaces_391_outfit_11_pond
+  [PASS] outfit_11: night active
+  [PASS] outfit_11_night: all 16 source colors
+  [PASS] outfit_11_night: hardware palette
+  [PASS] outfit_11_night: reflection is visible and blended
+  [PASS] outfit_11_night_reflection: all 16 source colors
+  [PASS] outfit_11_night_reflection: hardware palette
+  shot OutfitSurfaces_392_outfit_11_night
+  [PASS] outfit_11_card: all 16 source colors
+  [PASS] outfit_11_card: hardware palette
+  shot OutfitSurfaces_393_outfit_11_card
+  [PASS] outfit_11_card_return: all 16 source colors
+  [PASS] outfit_11_card_return: hardware palette
+  [PASS] outfit_11: one live sprite owns trainer palette
+  [PASS] outfit_11_sendout: all 16 source colors
+  [PASS] outfit_11_sendout: hardware palette
+  shot OutfitSurfaces_394_outfit_11_throw_033
+  shot OutfitSurfaces_395_outfit_11_throw_036
+  shot OutfitSurfaces_396_outfit_11_throw_039
+  shot OutfitSurfaces_397_outfit_11_throw_042
+  shot OutfitSurfaces_398_outfit_11_throw_045
+  shot OutfitSurfaces_399_outfit_11_throw_048
+  shot OutfitSurfaces_400_outfit_11_throw_051
+  shot OutfitSurfaces_401_outfit_11_throw_054
+  shot OutfitSurfaces_402_outfit_11_throw_057
+  shot OutfitSurfaces_403_outfit_11_throw_060
+  shot OutfitSurfaces_404_outfit_11_throw_063
+  shot OutfitSurfaces_405_outfit_11_throw_066
+  shot OutfitSurfaces_406_outfit_11_throw_069
+  shot OutfitSurfaces_407_outfit_11_throw_072
+  shot OutfitSurfaces_408_outfit_11_throw_075
+  shot OutfitSurfaces_409_outfit_11_throw_078
+  shot OutfitSurfaces_410_outfit_11_throw_081
+  shot OutfitSurfaces_411_outfit_11_throw_084
+  shot OutfitSurfaces_412_outfit_11_throw_087
+  shot OutfitSurfaces_413_outfit_11_throw_090
+  shot OutfitSurfaces_414_outfit_11_throw_093
+  shot OutfitSurfaces_415_outfit_11_throw_096
+  shot OutfitSurfaces_416_outfit_11_throw_099
+  shot OutfitSurfaces_417_outfit_11_throw_102
+  shot OutfitSurfaces_418_outfit_11_throw_105
+  shot OutfitSurfaces_419_outfit_11_throw_108
+  shot OutfitSurfaces_420_outfit_11_throw_111
+  shot OutfitSurfaces_421_outfit_11_throw_114
+  shot OutfitSurfaces_422_outfit_11_throw_117
+  shot OutfitSurfaces_423_outfit_11_throw_120
+  shot OutfitSurfaces_424_outfit_11_throw_123
+  shot OutfitSurfaces_425_outfit_11_throw_126
+  shot OutfitSurfaces_426_outfit_11_throw_129
+  [PASS] outfit_11: sendout observed
+  [PASS] outfit_11: battle returns control
+  [PASS] outfit_11_battle_return: all 16 source colors
+  [PASS] outfit_11_battle_return: hardware palette
+  [PASS] synthetic review save written
+BOOTED grp=0 map=0 pos=(7,22)
+  [PASS] Continue restores pond map
+  [PASS] Continue restores female BLACK
+  [PASS] continue: all 16 source colors
+  [PASS] continue: hardware palette
+  [PASS] continue: reflection is visible and blended
+  [PASS] continue_reflection: all 16 source colors
+  [PASS] continue_reflection: hardware palette
+  shot OutfitSurfaces_427_continue
+  [PASS] Continue restores walking
+VERDICT OutfitSurfaces: 249/249 PASS

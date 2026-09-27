@@ -1,0 +1,34 @@
+  [PASS] selected gender
+  [PASS] picker cursor 0
+  [PASS] picker_0: all 16 source colors
+  [PASS] picker_0: hardware palette
+  shot OutfitPicker1_1_picker_0
+  [PASS] picker cursor 1
+  [PASS] picker_1: all 16 source colors
+  [PASS] picker_1: hardware palette
+  shot OutfitPicker1_2_picker_1
+  [PASS] picker cursor 2
+  [PASS] picker_2: all 16 source colors
+  [PASS] picker_2: hardware palette
+  shot OutfitPicker1_3_picker_2
+  [PASS] picker cursor 3
+  [PASS] picker_3: all 16 source colors
+  [PASS] picker_3: hardware palette
+  shot OutfitPicker1_4_picker_3
+  [PASS] picker cursor 4
+  [PASS] picker_4: all 16 source colors
+  [PASS] picker_4: hardware palette
+  shot OutfitPicker1_5_picker_4
+  [PASS] picker cursor 5
+  [PASS] picker_5: all 16 source colors
+  [PASS] picker_5: hardware palette
+  shot OutfitPicker1_6_picker_5
+  [PASS] B stays on pink preview
+  [PASS] return to RED
+  [PASS] picker_red_restored: all 16 source colors
+  [PASS] picker_red_restored: hardware palette
+  [PASS] picker confirmed into game
+  [PASS] picker_persisted_ow: all 16 source colors
+  [PASS] picker_persisted_ow: hardware palette
+  shot OutfitPicker1_7_picker_persisted_hub
+VERDICT OutfitPicker1: 26/26 PASS

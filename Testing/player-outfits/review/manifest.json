@@ -1,0 +1,57 @@
+{
+  "sources": {
+    "before": "3bc343d0331064646d4ce99b4b691291e1a6bf0c",
+    "after": "fab489026058484960b7bd3ef7418e14466c6356"
+  },
+  "runs": {
+    "before/surfaces": 249,
+    "before/picker0": 26,
+    "before/picker1": 26,
+    "after/surfaces": 249,
+    "after/picker0": 26,
+    "after/picker1": 26,
+    "delivery": 12
+  },
+  "red_pixel_identity": [
+    "0/pond",
+    "0/card",
+    "0/battle",
+    "0/throw",
+    "0/picker",
+    "6/pond",
+    "6/card",
+    "6/battle",
+    "6/throw",
+    "6/picker"
+  ],
+  "before_fixture": {
+    "input_rom_sha256": "a70354d7a31d6660bb9b25fee8bddaedb2eda66a1bc045bcbd6e599bafd170a0",
+    "fixture_rom_sha256": "add906bd20a2d7ff3dafa1a64b679af718bb892916532eb75622621d214893f5",
+    "fixture_bytes": 352,
+    "fixture_source_sha256": "dfbed412f44818153bb70c86cbddcc6d548279e38cd3334b2d932d322cf57612",
+    "entry": "0x9f00001",
+    "base_commit": "8a1abe1495facd00e69241ebca1742d572d89689",
+    "working_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configuration": {
+      "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+      "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+      "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+    }
+  },
+  "after_fixture": {
+    "input_rom_sha256": "01bcb9a70f0cd964737a50c9f7b04b799646ae7cc2c519588ffcf6dd5e71c19c",
+    "fixture_rom_sha256": "fecde302d6219baab6411d44968660636f8dbcf6c966b6e1c83cefea83a33dd0",
+    "fixture_bytes": 352,
+    "fixture_source_sha256": "dfbed412f44818153bb70c86cbddcc6d548279e38cd3334b2d932d322cf57612",
+    "entry": "0x9f00001",
+    "base_commit": "fab489026058484960b7bd3ef7418e14466c6356",
+    "working_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configuration": {
+      "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+      "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+      "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+    }
+  },
+  "delivery_md5": "02052ab0077c430cd6aece2873f8eaf5",
+  "delivery_sha256": "01bcb9a70f0cd964737a50c9f7b04b799646ae7cc2c519588ffcf6dd5e71c19c"
+}

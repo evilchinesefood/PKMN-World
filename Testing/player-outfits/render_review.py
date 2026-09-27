@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""Publish only verified captures; build a compact before/after owner review."""
+import argparse
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import shutil
+
+from PIL import Image, ImageChops
+
+root = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location('window_review', root/'../warm-windows/render_review.py')
+validation = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(validation)
+OUTFITS = ('RED', 'BLUE', 'GREEN', 'PURPLE', 'BLACK', 'PINK')
+
+
+def clip(paths, destination):
+    frames = [validation.native(p) for p in paths]
+    frames[0].save(destination, save_all=True, append_images=frames[1:],
+                   format='WEBP', lossless=True, method=1, duration=200, loop=0)
+    # Identical adjacent frames may be coalesced by WebP. Verify decoded pixels
+    # against the source at every original timestamp, and total duration.
+    decoded = Image.open(destination)
+    end, position = 0, 0
+    for i in range(decoded.n_frames):
+        decoded.seek(i)
+        rgb = decoded.convert('RGB')
+        end += decoded.info['duration']
+        while position < len(frames) and position*200 < end:
+            assert ImageChops.difference(rgb, frames[position]).getbbox() is None
+            position += 1
+    assert position == len(frames) and end == len(frames)*200
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--runs', type=Path, required=True)
+    p.add_argument('--out', type=Path, required=True)
+    p.add_argument('--before-source', required=True)
+    p.add_argument('--after-source', required=True)
+    p.add_argument('--delivery-rom', type=Path, required=True)
+    a = p.parse_args()
+    proof = {'sources': {'before':a.before_source, 'after':a.after_source}, 'runs':{}, 'red_pixel_identity':[]}
+    for side in ('before','after'):
+        fixture = a.runs/side/'fixture'
+        md5 = hashlib.md5((fixture/'VerifyFeatures.gba').read_bytes()).hexdigest()
+        proof[side+'_fixture'] = json.loads((fixture/'manifest.json').read_text())
+        for suite in ('surfaces','picker0','picker1'):
+            proof['runs'][side+'/'+suite] = validation.passed(a.runs/side/suite, md5)
+    rom = a.delivery_rom.read_bytes()
+    proof['delivery_md5'] = hashlib.md5(rom).hexdigest()
+    proof['delivery_sha256'] = hashlib.sha256(rom).hexdigest()
+    proof['runs']['delivery'] = validation.passed(a.runs/'delivery', proof['delivery_md5'])
+    assert proof['delivery_sha256'] == proof['after_fixture']['input_rom_sha256']
+    media = a.out/'media'
+    media.mkdir(parents=True, exist_ok=True)
+    evidence = a.out.parent/'evidence'
+    evidence.mkdir(exist_ok=True)
+    def one(directory, pattern):
+        matches = list(directory.glob(pattern))
+        assert len(matches)==1, (directory,pattern,matches)
+        return matches[0]
+    for side in ('before','after'):
+        source = a.runs/side
+        shutil.copy2(source/'assets/colorways.png', media/f'{side}-colorways.png')
+        shutil.copy2(source/'assets/asset-audit.json', evidence/f'{side}-asset-audit.json')
+        for suite in ('surfaces','picker0','picker1'):
+            dest = evidence/side/suite
+            dest.mkdir(parents=True,exist_ok=True)
+            for pattern in ('*.log','*.PASS','*.pal.bin'):
+                for path in (source/suite).glob(pattern): shutil.copy2(path,dest/path.name)
+    for n in range(12):
+        pairs = {}
+        for side in ('before','after'):
+            source = a.runs/side
+            surfaces = source/'surfaces'
+            pics = {key:one(surfaces,f'*outfit_{n:02}_{suffix}.png') for key,suffix in
+                    [('pond','pond'),('card','card'),('battle','throw_105'),('throw','throw_123')]}
+            pics['picker'] = one(source/f'picker{n//6}',f'*_picker_{n%6}.png')
+            if n%6>=3: pics['night'] = one(surfaces,f'*outfit_{n:02}_night.png')
+            pairs[side] = {}
+            for kind,path in pics.items():
+                pairs[side][kind] = validation.native(path)
+                shutil.copy2(path,media/f'{side}-{n}-{kind}.png')
+            frames = sorted(surfaces.glob(f'*outfit_{n:02}_throw_*.png'),key=lambda p:int(p.stem.rsplit('_',1)[1]))
+            assert len(frames)>=30
+            clip(frames, media/f'{side}-{n}-battle.webp')
+        if n%6==0:
+            for kind in pairs['before']:
+                assert ImageChops.difference(pairs['before'][kind],pairs['after'][kind]).getbbox() is None, (n,kind)
+                proof['red_pixel_identity'].append(f'{n}/{kind}')
+    dest = evidence/'delivery'
+    dest.mkdir(exist_ok=True)
+    for pattern in ('*.log','*.PASS','*.pal.bin'):
+        for path in (a.runs/'delivery').glob(pattern): shutil.copy2(path,dest/path.name)
+    (a.out/'manifest.json').write_text(json.dumps(proof,indent=2)+'\n')
+    (a.out/'index.html').write_text(HTML)
+    print(json.dumps({'checks':proof['runs'],'red_pixel_identity':proof['red_pixel_identity']}))
+
+
+HTML = '''<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pokémon World · outfit colorways</title>
+<style>
+:root{color-scheme:dark;font:16px/1.5 system-ui;background:#111925;color:#edf2f7}*{box-sizing:border-box}
+body{max-width:1150px;margin:auto;padding:28px}h1{font-size:32px;line-height:1.2;margin-bottom:12px}h2{font-size:21px}
+p{max-width:920px;color:#becbda}a{color:#8ccaff}button,select{font:inherit;color:inherit;background:#26364a;border:1px solid #62748c;border-radius:7px;padding:8px 12px;cursor:pointer}
+button[aria-pressed=true]{background:#38618b;border-color:#8ccaff}button:focus-visible,select:focus-visible{outline:3px solid #f2ce69;outline-offset:3px}
+nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:0;background:#111925ed;padding:14px 0;z-index:1}
+.note{border-left:3px solid #6fc5b2;padding:8px 15px;background:#192a35}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.screen{margin-bottom:28px}
+figure{margin:0}figcaption{color:#b9c8d8;font-size:14px;margin-bottom:6px}img{max-width:100%;image-rendering:pixelated;background:#192532}.pair img{width:480px;height:auto}
+.sheet img{width:100%;background:#1c2b3b}.sheet{margin:20px 0 30px}details{border:1px solid #3c4c61;border-radius:8px;padding:14px;margin-top:24px}
+summary{cursor:pointer}small{color:#9fadc1}label{display:flex;align-items:center;gap:8px}.legend{color:#f0d08d}footer{margin-top:30px;font-size:14px}
+@media(max-width:600px){body{padding:16px}h1{font-size:26px}.pair{gap:6px}nav{position:static}.pair figcaption{font-size:12px}}
+</style>
+<h1>Player outfits, with proper shading</h1>
+<p>Five authored colorways for Brendan and May. Each sprite size has its own ramp, bags keep their highlights, and shared hair/outline shades stay fixed. Red remains vanilla.</p>
+<p class="note"><strong>Your review: about 5 minutes.</strong> Compare Black, Purple and Pink below, then scan the full sheet. Engineering checks are complete; the remaining decision is whether you like the colors.</p>
+<p><a href="/PokemonWorld-Outfits-342.zip">Download the tested game + ready-to-play save</a> · <a href="../README.md">Implementation and test notes</a></p>
+<nav aria-label="Choose outfit"><label>Character <select id="gender"><option value="0">Brendan</option><option value="1" selected>May</option></select></label><span id="outfits"></span></nav>
+<p id="description" class="legend"></p>
+<main id="screens"></main>
+<details open><summary>All outfits × both characters × all three sprite layouts</summary>
+<p>The sheets use the actual indexed sprites and GBA RGB5 values. Oak's picker and your trainer card both use the front sprite. Tiny overworld sprites are shown from three directions.</p>
+<div class="sheet"><figcaption>AFTER — authored colorways</figcaption><a href="media/after-colorways.png"><img src="media/after-colorways.png" alt="All revised outfit sprite layouts"></a></div>
+<div class="sheet"><figcaption>BEFORE — generic palette swap</figcaption><a href="media/before-colorways.png"><img src="media/before-colorways.png" alt="All original outfit sprite layouts"></a></div></details>
+<details><summary>Optional one-minute playtest</summary><p>Unzip the download and keep the matching .gba and .sav together. Open the ROM in mGBA and choose Continue. You begin beside Petalburg's pond as May in Black. Walk up and back down to inspect the reflection; open Start → Trainer to compare the larger sprite. The normal build and this save have already passed that route.</p><p>The gallery covers the other eleven combinations, Oak's picker, and the send-out animations, so you do not need to start twelve new games.</p></details>
+<details><summary>Verified coverage and limits</summary><p>249 focused checks per build, 26 picker checks per character per build, 12 ordinary-build delivery checks, and all 50 existing regression suites passed. The ten Red comparison frames below are pixel-identical before and after. RGB5 palette snapshots agree with emulator palette RAM; physical handheld display preferences remain subjective.</p><p>Live water reflections derive from the current player palette. The old shared Red/Leaf portrait and reflection-file path are unused. The underwater sprite keeps its existing dedicated palette. No new artwork, save layout, or game logic was introduced.</p><p><a href="manifest.json">Exact source commits, ROM hashes, and verification manifest</a></p></details>
+<footer>Issue #342 · Native 240 × 160 captures · Before / After use identical test routes. Send-out loops play at the captured 200 ms frame interval.</footer>
+<script>
+const names=['Red','Blue','Green','Purple','Black','Pink'];
+const descriptions=['Vanilla — unchanged on every surface.','Cobalt and slate, with gold accents.','Jade and earth tones, with warm accents.','Blue-violet and silver; kept distinct from rose pink.','Graphite with teal accents; lighter than the black outline.','Rose with plum and cream; separate light and shadow shades.'];
+let outfit=4;const gender=document.getElementById('gender'),buttons=document.getElementById('outfits');
+names.forEach((name,i)=>{const b=document.createElement('button');b.textContent=name;b.style.margin='3px';b.onclick=()=>{outfit=i;render()};buttons.append(b)});
+function render(){const n=Number(gender.value)*6+outfit;document.getElementById('description').textContent=names[outfit]+' · '+descriptions[outfit];[...buttons.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(i===outfit)));
+const sections=[['pond','Overworld and real water reflection'],['picker',"Oak’s live outfit picker"],['card','Your trainer card'],['battle','Battle send-out']];if(outfit>=3)sections.push(['night','Nighttime readability']);
+document.getElementById('screens').innerHTML=sections.map(([kind,title])=>`<section class="screen"><h2>${title}</h2><div class="pair">${['before','after'].map(side=>`<figure><figcaption>${side.toUpperCase()}</figcaption><a href="media/${side}-${n}-${kind}.png"><img src="media/${side}-${n}-${kind}.${kind==='battle'?'webp':'png'}" alt="${side}: ${names[outfit]} ${gender.options[gender.selectedIndex].text} ${title}" width="240" height="160"></a></figure>`).join('')}</div></section>`).join('');}
+gender.onchange=render;render();
+</script></html>'''
+
+if __name__=='__main__':
+    main()

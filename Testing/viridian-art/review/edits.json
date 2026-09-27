@@ -1,0 +1,491 @@
+{
+  "issue": 346,
+  "baseline": "63c328ee3d6299bd94ce75d049a5ef3a7009bf72",
+  "edits": [
+    {
+      "zone": "west_entry",
+      "x": 7,
+      "y": 15,
+      "old": 9,
+      "new": 189
+    },
+    {
+      "zone": "west_entry",
+      "x": 8,
+      "y": 15,
+      "old": 9,
+      "new": 735
+    },
+    {
+      "zone": "west_entry",
+      "x": 7,
+      "y": 16,
+      "old": 9,
+      "new": 736
+    },
+    {
+      "zone": "west_entry",
+      "x": 8,
+      "y": 16,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "western_lawn",
+      "x": 8,
+      "y": 20,
+      "old": 1,
+      "new": 189
+    },
+    {
+      "zone": "western_lawn",
+      "x": 9,
+      "y": 20,
+      "old": 9,
+      "new": 737
+    },
+    {
+      "zone": "western_lawn",
+      "x": 10,
+      "y": 20,
+      "old": 8,
+      "new": 190
+    },
+    {
+      "zone": "western_lawn",
+      "x": 11,
+      "y": 20,
+      "old": 9,
+      "new": 737
+    },
+    {
+      "zone": "western_lawn",
+      "x": 12,
+      "y": 20,
+      "old": 16,
+      "new": 191
+    },
+    {
+      "zone": "western_lawn",
+      "x": 8,
+      "y": 21,
+      "old": 17,
+      "new": 205
+    },
+    {
+      "zone": "western_lawn",
+      "x": 9,
+      "y": 21,
+      "old": 16,
+      "new": 206
+    },
+    {
+      "zone": "western_lawn",
+      "x": 10,
+      "y": 21,
+      "old": 17,
+      "new": 738
+    },
+    {
+      "zone": "western_lawn",
+      "x": 11,
+      "y": 21,
+      "old": 8,
+      "new": 206
+    },
+    {
+      "zone": "western_lawn",
+      "x": 12,
+      "y": 21,
+      "old": 9,
+      "new": 207
+    },
+    {
+      "zone": "pond_walk",
+      "x": 17,
+      "y": 26,
+      "old": 16,
+      "new": 189
+    },
+    {
+      "zone": "pond_walk",
+      "x": 18,
+      "y": 26,
+      "old": 17,
+      "new": 190
+    },
+    {
+      "zone": "pond_walk",
+      "x": 19,
+      "y": 26,
+      "old": 16,
+      "new": 191
+    },
+    {
+      "zone": "pond_walk",
+      "x": 17,
+      "y": 27,
+      "old": 8,
+      "new": 197
+    },
+    {
+      "zone": "pond_walk",
+      "x": 18,
+      "y": 27,
+      "old": 9,
+      "new": 739
+    },
+    {
+      "zone": "pond_walk",
+      "x": 19,
+      "y": 27,
+      "old": 8,
+      "new": 199
+    },
+    {
+      "zone": "pond_walk",
+      "x": 17,
+      "y": 28,
+      "old": 16,
+      "new": 197
+    },
+    {
+      "zone": "pond_walk",
+      "x": 18,
+      "y": 28,
+      "old": 17,
+      "new": 739
+    },
+    {
+      "zone": "pond_walk",
+      "x": 19,
+      "y": 28,
+      "old": 16,
+      "new": 199
+    },
+    {
+      "zone": "pond_walk",
+      "x": 17,
+      "y": 29,
+      "old": 8,
+      "new": 205
+    },
+    {
+      "zone": "pond_walk",
+      "x": 18,
+      "y": 29,
+      "old": 9,
+      "new": 206
+    },
+    {
+      "zone": "pond_walk",
+      "x": 19,
+      "y": 29,
+      "old": 8,
+      "new": 740
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 34,
+      "y": 23,
+      "old": 4,
+      "new": 189
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 35,
+      "y": 23,
+      "old": 9,
+      "new": 190
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 36,
+      "y": 23,
+      "old": 4,
+      "new": 190
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 37,
+      "y": 23,
+      "old": 9,
+      "new": 190
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 38,
+      "y": 23,
+      "old": 9,
+      "new": 191
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 34,
+      "y": 24,
+      "old": 9,
+      "new": 197
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 35,
+      "y": 24,
+      "old": 4,
+      "new": 739
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 36,
+      "y": 24,
+      "old": 17,
+      "new": 198
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 37,
+      "y": 24,
+      "old": 4,
+      "new": 739
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 38,
+      "y": 24,
+      "old": 17,
+      "new": 199
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 34,
+      "y": 25,
+      "old": 4,
+      "new": 197
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 35,
+      "y": 25,
+      "old": 9,
+      "new": 198
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 36,
+      "y": 25,
+      "old": 4,
+      "new": 739
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 37,
+      "y": 25,
+      "old": 9,
+      "new": 739
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 38,
+      "y": 25,
+      "old": 9,
+      "new": 199
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 34,
+      "y": 26,
+      "old": 8,
+      "new": 205
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 35,
+      "y": 26,
+      "old": 4,
+      "new": 206
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 36,
+      "y": 26,
+      "old": 17,
+      "new": 206
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 37,
+      "y": 26,
+      "old": 4,
+      "new": 206
+    },
+    {
+      "zone": "eastern_garden",
+      "x": 38,
+      "y": 26,
+      "old": 8,
+      "new": 207
+    },
+    {
+      "zone": "northeast_verge",
+      "x": 32,
+      "y": 13,
+      "old": 16,
+      "new": 741
+    },
+    {
+      "zone": "northeast_verge",
+      "x": 33,
+      "y": 13,
+      "old": 8,
+      "new": 190
+    },
+    {
+      "zone": "northeast_verge",
+      "x": 34,
+      "y": 13,
+      "old": 16,
+      "new": 191
+    },
+    {
+      "zone": "northeast_verge",
+      "x": 32,
+      "y": 14,
+      "old": 9,
+      "new": 205
+    },
+    {
+      "zone": "northeast_verge",
+      "x": 33,
+      "y": 14,
+      "old": 16,
+      "new": 206
+    },
+    {
+      "zone": "northeast_verge",
+      "x": 34,
+      "y": 14,
+      "old": 16,
+      "new": 740
+    },
+    {
+      "zone": "southern_verge",
+      "x": 26,
+      "y": 31,
+      "old": 8,
+      "new": 4
+    },
+    {
+      "zone": "southern_verge",
+      "x": 27,
+      "y": 31,
+      "old": 9,
+      "new": 4
+    },
+    {
+      "zone": "southern_verge",
+      "x": 30,
+      "y": 31,
+      "old": 4,
+      "new": 8
+    },
+    {
+      "zone": "southern_verge",
+      "x": 33,
+      "y": 31,
+      "old": 8,
+      "new": 4
+    },
+    {
+      "zone": "southern_verge",
+      "x": 34,
+      "y": 31,
+      "old": 9,
+      "new": 4
+    },
+    {
+      "zone": "southern_verge",
+      "x": 36,
+      "y": 31,
+      "old": 4,
+      "new": 8
+    },
+    {
+      "zone": "southern_verge",
+      "x": 39,
+      "y": 31,
+      "old": 16,
+      "new": 4
+    }
+  ],
+  "composites": [
+    {
+      "id": 735,
+      "lower_metatile": 191,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    },
+    {
+      "id": 736,
+      "lower_metatile": 205,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    },
+    {
+      "id": 737,
+      "lower_metatile": 190,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    },
+    {
+      "id": 738,
+      "lower_metatile": 206,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    },
+    {
+      "id": 739,
+      "lower_metatile": 198,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    },
+    {
+      "id": 740,
+      "lower_metatile": 207,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    },
+    {
+      "id": 741,
+      "lower_metatile": 189,
+      "upper_metatile": 4,
+      "source": "data/tilesets/primary/general_frlg/night_metatiles.bin",
+      "attribute_source": "data/tilesets/primary/general_frlg/metatile_attributes.bin",
+      "attribute_metatile": 4
+    }
+  ],
+  "assets": {
+    "data/layouts/ViridianCity_Frlg/map.bin": {
+      "before_sha256": "6cce51b3d3f6c2f0ac21d1de49935515134946b24b4dddf52d3d5c0b6bc76888",
+      "after_sha256": "1ad221f00a7aa505530dbd16ca77b6e720607999bf12de2679ff4c1e4a2fe1e8"
+    },
+    "data/tilesets/secondary/viridian_city_frlg/metatiles.bin": {
+      "before_sha256": "8491038f93b038fd271a50821b51eaee2d3b3cf9aa99050632ed96306232f4e5",
+      "after_sha256": "b3f92796621182fab6e24e8580b6bdded67b88a0ca1c69e892ad568ee2636830"
+    },
+    "data/tilesets/secondary/viridian_city_frlg/metatile_attributes.bin": {
+      "before_sha256": "6e2643efb546a161feb0d3b0346fbd345f744997ddce4fe0d0379e9c51cf3d34",
+      "after_sha256": "473463e555a014100e19236202ffbfa2c10ecd1e1e581463ef8eaaa749bdeecb"
+    }
+  }
+}

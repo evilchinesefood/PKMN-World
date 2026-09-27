@@ -1,0 +1,175 @@
+{
+  "baseline_commit": "e97b94307fca9e1b4de128433419f4bf35caeaf7",
+  "before_sha256": "32c72a40069ebf3e16088e364e0a306ad2cfb0f2ce31a53eefec6eea51ad189c",
+  "delivery_md5": "7FCA3FBA9483DC1EB6921235F55F88A9",
+  "delivery_sha256": "ba4e998f4ef8f28260ca68f528cc2a4d81ac0d645d65349dfad1d37eae58dfba",
+  "fixtures": {
+    "before": {
+      "input_rom_sha256": "32c72a40069ebf3e16088e364e0a306ad2cfb0f2ce31a53eefec6eea51ad189c",
+      "fixture_rom_sha256": "b47372b117f6ef4db00491b7625cd725f6ee675e101aa0ad0f711faecc092683",
+      "fixture_bytes": 542,
+      "fixture_source_sha256": "05bfcd3eb2b04de12c111b85ecb02e6badc4ac4ddb1e12395773c00faa7a4ae6",
+      "entry": "0x9f00001",
+      "base_commit": "e97b94307fca9e1b4de128433419f4bf35caeaf7",
+      "working_diff_sha256": "c0e033731cbe09c05a5a2ed6a695df50d8e0543e9311caa29f61b708c8c60a14",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "after": {
+      "input_rom_sha256": "ba4e998f4ef8f28260ca68f528cc2a4d81ac0d645d65349dfad1d37eae58dfba",
+      "fixture_rom_sha256": "1c55ac96e7d3fa27c4c8086745c3d7b30c0a5a813427eb364a2fd0e3d5fca6db",
+      "fixture_bytes": 542,
+      "fixture_source_sha256": "05bfcd3eb2b04de12c111b85ecb02e6badc4ac4ddb1e12395773c00faa7a4ae6",
+      "entry": "0x9f00001",
+      "base_commit": "e97b94307fca9e1b4de128433419f4bf35caeaf7",
+      "working_diff_sha256": "c0e033731cbe09c05a5a2ed6a695df50d8e0543e9311caa29f61b708c8c60a14",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    }
+  },
+  "checks": {
+    "before": 45,
+    "after": 45,
+    "lifecycle": 60,
+    "delivery": 3,
+    "regression_suites": 50,
+    "regression_assertions": 1331
+  },
+  "unchanged_runtime_palette_snapshots": 15,
+  "images": [
+    {
+      "file": "media/before_west_entry_noon.png",
+      "sha256": "f557873843a0c216901bf792f5039469fb5278467afafc14f554bc9a3869c47c"
+    },
+    {
+      "file": "media/after_west_entry_noon.png",
+      "sha256": "2e274caeb9bcfb0e84a164c5d57c131aaa248e9d57a74e254ef635b61f1c3799"
+    },
+    {
+      "file": "media/before_west_entry_dusk.png",
+      "sha256": "a63cd12d074e8ddc31e5558a26fbc5922f124758564e1856568a3d839a466325"
+    },
+    {
+      "file": "media/after_west_entry_dusk.png",
+      "sha256": "3ba674a11bf9ab034d4d88c28557d0432af3796f62f077a05fd139686a3c16cc"
+    },
+    {
+      "file": "media/before_west_entry_night.png",
+      "sha256": "ee2af49004bb383c421c9f0c577d5b2e12b1637bde59729c65681adc57f18db7"
+    },
+    {
+      "file": "media/after_west_entry_night.png",
+      "sha256": "949ef6fd504f9a3e5dd0fa7c8fc6ace9742602aa61ec06c8a882b554d7822923"
+    },
+    {
+      "file": "media/before_central_junction_noon.png",
+      "sha256": "62a8649e2aed8a11098559e5567366c0fb61e8bd1716ef5062b2941e0dc4e3a7"
+    },
+    {
+      "file": "media/after_central_junction_noon.png",
+      "sha256": "da4cfa0d00309d13a0108433d2ec55f329730311bbb0ff2bcb2c7cbef523fe68"
+    },
+    {
+      "file": "media/before_central_junction_dusk.png",
+      "sha256": "4ce67615be8eace23f0163c846269ea4eaf1cbfb73598de4f4b32e8b9756a312"
+    },
+    {
+      "file": "media/after_central_junction_dusk.png",
+      "sha256": "804775d0fba28a4b1237c6f138dcfac24b1f28bae9c74471f21a80ec1a0a59fa"
+    },
+    {
+      "file": "media/before_central_junction_night.png",
+      "sha256": "6c413c18cbda5ad78794684d7a4b035a5caca8af6b6a066ea58a54f7d3f3dfc4"
+    },
+    {
+      "file": "media/after_central_junction_night.png",
+      "sha256": "5a29488a43ea5526588f16462b420c749e7e80636a07e81ec6d5dd0262db33ed"
+    },
+    {
+      "file": "media/before_east_loop_noon.png",
+      "sha256": "5fe8ff73d1f6b19395175c61987ca913ce685168f60683fe7da370dccf02aa83"
+    },
+    {
+      "file": "media/after_east_loop_noon.png",
+      "sha256": "7f342b712820c1d482eb091a36a661590e8a5ac7582e23dd6326014728c531a1"
+    },
+    {
+      "file": "media/before_east_loop_dusk.png",
+      "sha256": "6cc21221876901b00c0572070418c97950ce6daf85b236f25a498c86ae74e5c0"
+    },
+    {
+      "file": "media/after_east_loop_dusk.png",
+      "sha256": "5e2150aa30bcef10ce16383e1d07ac49dd902b3aece40e156fb0c006f7aa994d"
+    },
+    {
+      "file": "media/before_east_loop_night.png",
+      "sha256": "3ffe0d1eb9782138f265865faf60cc673de802d0161fbdf3e5029840891d9c5c"
+    },
+    {
+      "file": "media/after_east_loop_night.png",
+      "sha256": "652f45e8caea734d7f33ee4107787bed03afcd6cebe7126ab4fa825b9b0687ca"
+    },
+    {
+      "file": "media/before_south_approach_noon.png",
+      "sha256": "6f93a33ca07f5ba5429dae34d289e07157607a5dea8a03f9b0ecdf7a85828cb2"
+    },
+    {
+      "file": "media/after_south_approach_noon.png",
+      "sha256": "12e37ec677331c8c572dcac38330c7be8a8009fe1d59764462518b01856c5565"
+    },
+    {
+      "file": "media/before_south_approach_dusk.png",
+      "sha256": "c18d9083ce8b52cefe69b42be6d4f5020487ce0da72aed00b02be2532149c211"
+    },
+    {
+      "file": "media/after_south_approach_dusk.png",
+      "sha256": "c8edac4d3b13d0c664b433ee59f23f4f7b6bdb2767ece9026228d04946b30fe4"
+    },
+    {
+      "file": "media/before_south_approach_night.png",
+      "sha256": "6ebc6ca4f67dc30d8e59dc7a283d6cb77cf4bcf1d15a61183795954206b166d8"
+    },
+    {
+      "file": "media/after_south_approach_night.png",
+      "sha256": "837a065c7aac6512c0ecf8f637cccbce47cb6944dfbcc2d452b42e51a6438607"
+    },
+    {
+      "file": "media/before_south_verge_noon.png",
+      "sha256": "63a150c07aa9e287bc4b51a1fc86d5d1e13e48941656540d2e54a91b4be32a0b"
+    },
+    {
+      "file": "media/after_south_verge_noon.png",
+      "sha256": "ca1be807fc20a796b4d7dd9744cda73c04826685c1945532a5015721354f2d81"
+    },
+    {
+      "file": "media/before_south_verge_dusk.png",
+      "sha256": "fd69491757c6a909c30164345db47ec0f6760ec0b4bf2b7c86071328fb0269e3"
+    },
+    {
+      "file": "media/after_south_verge_dusk.png",
+      "sha256": "f32b4277314c8b7834abb435b8c2a3ca8a3d9e8082488cfade699fc2df96d054"
+    },
+    {
+      "file": "media/before_south_verge_night.png",
+      "sha256": "14bb30ae38f5a8279ddef8c9ecdb34ab16c8660ac5f443fd6fdfff79858d7926"
+    },
+    {
+      "file": "media/after_south_verge_night.png",
+      "sha256": "cd35c33530e1f85d4bd4a821093ce9dacb97a4849e38b167d81a11dd8c9aeb60"
+    }
+  ],
+  "actor_layering_image": {
+    "file": "verification/actors-on-path.png",
+    "sha256": "d2d3264a2054f64ecbcfc397dc7e98706992116ba86e161672798b7e4c4599c6"
+  },
+  "fixture_sha256": "05bfcd3eb2b04de12c111b85ecb02e6badc4ac4ddb1e12395773c00faa7a4ae6",
+  "capture_script_sha256": "d50e01101c9f678bc68162e5a40b1eaf6ac8c19cb4abb28d7bf35dc217776cd1",
+  "lifecycle_script_sha256": "e6a791337012119556d61c6a2ee3c82935404f96aa61c68227c0082a74b51bb4",
+  "delivery_script_sha256": "59af814acf767258d6a4607c41475a9efe156e0122d88e9a496466b32cfcfbc7"
+}

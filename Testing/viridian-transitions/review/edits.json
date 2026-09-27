@@ -1,0 +1,511 @@
+{
+  "issue": 347,
+  "baseline": "e97b94307fca9e1b4de128433419f4bf35caeaf7",
+  "edits": [
+    {
+      "x": 13,
+      "y": 18,
+      "old": 365,
+      "new": 373,
+      "zone": "west_entry"
+    },
+    {
+      "x": 14,
+      "y": 18,
+      "old": 366,
+      "new": 413,
+      "zone": "west_entry"
+    },
+    {
+      "x": 13,
+      "y": 19,
+      "old": 373,
+      "new": 8,
+      "zone": "west_entry"
+    },
+    {
+      "x": 14,
+      "y": 19,
+      "old": 374,
+      "new": 373,
+      "zone": "west_entry"
+    },
+    {
+      "x": 22,
+      "y": 19,
+      "old": 367,
+      "new": 406,
+      "zone": "central_junction"
+    },
+    {
+      "x": 23,
+      "y": 19,
+      "old": 205,
+      "new": 359,
+      "zone": "central_junction"
+    },
+    {
+      "x": 22,
+      "y": 20,
+      "old": 406,
+      "new": 366,
+      "zone": "central_junction"
+    },
+    {
+      "x": 23,
+      "y": 20,
+      "old": 358,
+      "new": 406,
+      "zone": "central_junction"
+    },
+    {
+      "x": 32,
+      "y": 22,
+      "old": 414,
+      "new": 366,
+      "zone": "east_loop"
+    },
+    {
+      "x": 33,
+      "y": 22,
+      "old": 374,
+      "new": 414,
+      "zone": "east_loop"
+    },
+    {
+      "x": 32,
+      "y": 23,
+      "old": 367,
+      "new": 414,
+      "zone": "east_loop"
+    },
+    {
+      "x": 33,
+      "y": 23,
+      "old": 17,
+      "new": 375,
+      "zone": "east_loop"
+    },
+    {
+      "x": 34,
+      "y": 28,
+      "old": 366,
+      "new": 414,
+      "zone": "east_loop"
+    },
+    {
+      "x": 35,
+      "y": 28,
+      "old": 366,
+      "new": 374,
+      "zone": "east_loop"
+    },
+    {
+      "x": 36,
+      "y": 28,
+      "old": 366,
+      "new": 374,
+      "zone": "east_loop"
+    },
+    {
+      "x": 37,
+      "y": 28,
+      "old": 366,
+      "new": 374,
+      "zone": "east_loop"
+    },
+    {
+      "x": 38,
+      "y": 28,
+      "old": 366,
+      "new": 374,
+      "zone": "east_loop"
+    },
+    {
+      "x": 39,
+      "y": 28,
+      "old": 366,
+      "new": 374,
+      "zone": "east_loop"
+    },
+    {
+      "x": 40,
+      "y": 28,
+      "old": 366,
+      "new": 374,
+      "zone": "east_loop"
+    },
+    {
+      "x": 41,
+      "y": 28,
+      "old": 367,
+      "new": 375,
+      "zone": "east_loop"
+    },
+    {
+      "x": 34,
+      "y": 29,
+      "old": 374,
+      "new": 375,
+      "zone": "east_loop"
+    },
+    {
+      "x": 35,
+      "y": 29,
+      "old": 374,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 36,
+      "y": 29,
+      "old": 374,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 37,
+      "y": 29,
+      "old": 374,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 38,
+      "y": 29,
+      "old": 374,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 39,
+      "y": 29,
+      "old": 374,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 40,
+      "y": 29,
+      "old": 374,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 41,
+      "y": 29,
+      "old": 375,
+      "new": 8,
+      "zone": "east_loop"
+    },
+    {
+      "x": 14,
+      "y": 32,
+      "old": 211,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 15,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 16,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 17,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 18,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 19,
+      "y": 32,
+      "old": 212,
+      "new": 211,
+      "zone": "south_approach"
+    },
+    {
+      "x": 25,
+      "y": 32,
+      "old": 212,
+      "new": 213,
+      "zone": "south_approach"
+    },
+    {
+      "x": 26,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 27,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 28,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 29,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 30,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 31,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 32,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 33,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 34,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 35,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 36,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 37,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 38,
+      "y": 32,
+      "old": 212,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 39,
+      "y": 32,
+      "old": 213,
+      "new": 8,
+      "zone": "south_approach"
+    },
+    {
+      "x": 14,
+      "y": 33,
+      "old": 219,
+      "new": 211,
+      "zone": "south_approach"
+    },
+    {
+      "x": 15,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 16,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 17,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 18,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 19,
+      "y": 33,
+      "old": 220,
+      "new": 258,
+      "zone": "south_approach"
+    },
+    {
+      "x": 25,
+      "y": 33,
+      "old": 220,
+      "new": 259,
+      "zone": "south_approach"
+    },
+    {
+      "x": 26,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 27,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 28,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 29,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 30,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 31,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 32,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 33,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 34,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 35,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 36,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 37,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 38,
+      "y": 33,
+      "old": 220,
+      "new": 212,
+      "zone": "south_approach"
+    },
+    {
+      "x": 39,
+      "y": 33,
+      "old": 221,
+      "new": 213,
+      "zone": "south_approach"
+    }
+  ],
+  "composites": [],
+  "assets": {
+    "data/layouts/ViridianCity_Frlg/map.bin": {
+      "before_sha256": "1ad221f00a7aa505530dbd16ca77b6e720607999bf12de2679ff4c1e4a2fe1e8",
+      "after_sha256": "4fbd11f58d7abf6ef5f2dae4675f358832db54df6d493da2b198d7abcd472571"
+    },
+    "data/tilesets/secondary/viridian_city_frlg/metatiles.bin": {
+      "before_sha256": "b3f92796621182fab6e24e8580b6bdded67b88a0ca1c69e892ad568ee2636830",
+      "after_sha256": "b3f92796621182fab6e24e8580b6bdded67b88a0ca1c69e892ad568ee2636830"
+    },
+    "data/tilesets/secondary/viridian_city_frlg/metatile_attributes.bin": {
+      "before_sha256": "473463e555a014100e19236202ffbfa2c10ecd1e1e581463ef8eaaa749bdeecb",
+      "after_sha256": "473463e555a014100e19236202ffbfa2c10ecd1e1e581463ef8eaaa749bdeecb"
+    }
+  }
+}

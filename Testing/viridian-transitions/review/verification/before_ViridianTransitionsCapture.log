@@ -1,0 +1,63 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] west_entry noon: clock
+  [PASS] west_entry noon: visible follower
+  [PASS] west_entry noon: hardware palette
+  shot ViridianTransitionsCapture_1_west_entry_noon
+  [PASS] west_entry dusk: clock
+  [PASS] west_entry dusk: visible follower
+  [PASS] west_entry dusk: hardware palette
+  shot ViridianTransitionsCapture_2_west_entry_dusk
+  [PASS] west_entry night: clock
+  [PASS] west_entry night: visible follower
+  [PASS] west_entry night: hardware palette
+  shot ViridianTransitionsCapture_3_west_entry_night
+  [PASS] central_junction noon: clock
+  [PASS] central_junction noon: visible follower
+  [PASS] central_junction noon: hardware palette
+  shot ViridianTransitionsCapture_4_central_junction_noon
+  [PASS] central_junction dusk: clock
+  [PASS] central_junction dusk: visible follower
+  [PASS] central_junction dusk: hardware palette
+  shot ViridianTransitionsCapture_5_central_junction_dusk
+  [PASS] central_junction night: clock
+  [PASS] central_junction night: visible follower
+  [PASS] central_junction night: hardware palette
+  shot ViridianTransitionsCapture_6_central_junction_night
+  [PASS] east_loop noon: clock
+  [PASS] east_loop noon: visible follower
+  [PASS] east_loop noon: hardware palette
+  shot ViridianTransitionsCapture_7_east_loop_noon
+  [PASS] east_loop dusk: clock
+  [PASS] east_loop dusk: visible follower
+  [PASS] east_loop dusk: hardware palette
+  shot ViridianTransitionsCapture_8_east_loop_dusk
+  [PASS] east_loop night: clock
+  [PASS] east_loop night: visible follower
+  [PASS] east_loop night: hardware palette
+  shot ViridianTransitionsCapture_9_east_loop_night
+  [PASS] south_approach noon: clock
+  [PASS] south_approach noon: visible follower
+  [PASS] south_approach noon: hardware palette
+  shot ViridianTransitionsCapture_10_south_approach_noon
+  [PASS] south_approach dusk: clock
+  [PASS] south_approach dusk: visible follower
+  [PASS] south_approach dusk: hardware palette
+  shot ViridianTransitionsCapture_11_south_approach_dusk
+  [PASS] south_approach night: clock
+  [PASS] south_approach night: visible follower
+  [PASS] south_approach night: hardware palette
+  shot ViridianTransitionsCapture_12_south_approach_night
+  [PASS] south_verge noon: clock
+  [PASS] south_verge noon: visible follower
+  [PASS] south_verge noon: hardware palette
+  shot ViridianTransitionsCapture_13_south_verge_noon
+  [PASS] south_verge dusk: clock
+  [PASS] south_verge dusk: visible follower
+  [PASS] south_verge dusk: hardware palette
+  shot ViridianTransitionsCapture_14_south_verge_dusk
+  [PASS] south_verge night: clock
+  [PASS] south_verge night: visible follower
+  [PASS] south_verge night: hardware palette
+  shot ViridianTransitionsCapture_15_south_verge_night
+VERDICT ViridianTransitionsCapture: 45/45 PASS

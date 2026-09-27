@@ -41,6 +41,14 @@ def main():
         p.add_argument('--'+name, type=Path, required=True)
     a = p.parse_args()
     assert a.base.resolve() != a.repo.resolve(), 'Use a separate baseline checkout'
+    baseline_commit = subprocess.run(
+        ['git', '-C', str(a.base), 'rev-parse', 'HEAD'],
+        check=True, capture_output=True, text=True).stdout.strip()
+    assert baseline_commit == '017a59de342ce5d8244144260da197b89f1239a0', baseline_commit
+    baseline_status = subprocess.run(
+        ['git', '-C', str(a.base), 'status', '--porcelain'],
+        check=True, capture_output=True, text=True).stdout
+    assert not baseline_status.strip(), 'Baseline checkout must be clean'
     here = a.repo/'Testing/night-lighting'
     scenes = json.loads((here/'scenes.json').read_text())
     fixtures = {key: json.loads((getattr(a, key+'_fixture')/'manifest.json').read_text())
@@ -110,7 +118,7 @@ def main():
         shutil.copyfile(a.lifecycle/name, evidence/name)
     for name in ('RegionalLightingDelivery.PASS', 'RegionalLightingDelivery.log'):
         shutil.copyfile(a.delivery_run/name, evidence/name)
-    manifest = {'baseline_commit': '017a59de342ce5d8244144260da197b89f1239a0',
+    manifest = {'baseline_commit': baseline_commit,
                 'delivery_md5': md5, 'delivery_sha256': digest(a.delivery),
                 'fixtures': fixtures, 'checks': counts, 'images': records}
     (a.out/'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')

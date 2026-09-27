@@ -96,7 +96,9 @@ before side. Each town starts from an independent synthetic save reset. The
 gallery publisher requires all fixture hashes, positive terminal verdicts,
 matching PASS sentinels, the exact delivery ROM and its successful delivery run,
 and a green full sweep. It recomputes the map audit from the baseline and current
-source assets on every publication; a saved audit is never accepted as input:
+source assets on every publication; a saved audit is never accepted as input.
+The publisher verifies the baseline's Git revision and requires a clean working
+tree before recording that revision in the gallery manifest:
 
 ```sh
 python3 Testing/night-lighting/render_review.py --base "$BASE" --repo . \
@@ -112,6 +114,7 @@ Publisher rejection checks also passed: missing delivery PASS, failed verdict,
 wrong ROM, wrong suite, a FAIL sentinel, and changed metatile attributes in either
 the baseline or reviewed source all abort before publication. A successful
 `mgba-run.sh` delivery log/PASS is accepted without a `runner.log`.
+Wrong baseline revisions and tracked or untracked baseline edits are also rejected.
 
 The focused checks cover all 49 maps at noon, dusk and night (294 assertions per
 build), plus 48 lifecycle assertions: normal doors, menus, wild battle/Run, and

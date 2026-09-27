@@ -1,0 +1,27 @@
+{
+  "baseline": "e97b94307fca9e1b4de128433419f4bf35caeaf7",
+  "changed_cells": 70,
+  "appended_metatiles": 0,
+  "collision_elevation_cells_verified": 1920,
+  "nonvisual_attributes_verified": 1920,
+  "protected_cells_verified": 310,
+  "garden_cells_verified": 69,
+  "walking_components": {
+    "door_26_26": 843,
+    "door_25_11": 843,
+    "door_36_10": 843,
+    "door_25_18": 843,
+    "door_36_19": 843,
+    "route1": 843,
+    "route2": 843,
+    "route22": 843
+  },
+  "unchanged_shared_routes": [
+    "Route2_Layout",
+    "Route22_Layout",
+    "Route28_Layout",
+    "Route26North_Layout"
+  ],
+  "append_only": true,
+  "source_art_and_palettes_unchanged": true
+}

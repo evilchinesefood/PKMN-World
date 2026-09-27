@@ -36,9 +36,10 @@ done
 python3 Testing/visual-features/run_fixture.py \
   --repo "$PWD" --fixture /tmp/hub-fixture \
   --suite Testing/hub-sprites/save.lua --out /tmp/hub-runs/save
+mkdir -p /tmp/hub-runs/delivery
 PW_OUT=/tmp/hub-runs/delivery Testing/mgba-run.sh \
   Testing/hub-sprites/verify_delivery.lua pokemonworld.gba \
-  /tmp/hub-runs/save/VisualReview.sav
+  /tmp/hub-runs/save/VisualReview.sav > /tmp/hub-runs/delivery/runner.log 2>&1
 ```
 
 For the baseline, build `05b37db1a9b1dd8efda95233e4a61822680bba7b` in a second worktree. Run this branch's `build_fixture.py` with `--repo` pointing at that worktree, then run this branch's `HubSpritesComparison.lua` against its fixture with `PW_HUB_AFTER=0` and `--out /tmp/hub-runs/before`. This omits the new-FRLG assertions while retaining follower/palette/resource checks. Keep both fixture manifests alongside the evidence.
@@ -73,3 +74,7 @@ python3 Testing/hub-sprites/check_renderer.py --runs /tmp/hub-runs
 This deliberately supplies failed/zero-check baselines, missing/conflicting/stale
 verdict sentinels and an aborted runner, then verifies UTF-8 under an ASCII
 locale and every generated file link in the documented package layout.
+
+Every run, including delivery, must retain its current `runner.log`. The shell
+redirection above truncates delivery output before launch, so a ROM/hash guard
+abort cannot reuse a previous success. A missing runner log fails preflight.

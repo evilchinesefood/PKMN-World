@@ -36,10 +36,10 @@ def validate_verdict(run):
     if not re.fullmatch(rf'PASS {count}/{count} rom=[A-Fa-f0-9]{{32,40}} at=\S+ suite={re.escape(label)}', stamp):
         raise ValueError(f'{run}: sentinel must match the completed verdict')
     # A hash/ROM-name guard can abort before lib.lua opens its suite log. In
-    # that case run_fixture.py still writes a fresh runner log: reject the old
-    # suite log and PASS left beside the new, aborted run.
+    # that case every documented runner writes fresh stdout: reject the old
+    # suite log and PASS left beside the new, aborted run, including delivery.
     runner = directory / 'runner.log'
-    if runner.exists() and lines[-1] not in runner.read_text(encoding='utf-8').splitlines():
+    if not runner.is_file() or lines[-1] not in runner.read_text(encoding='utf-8').splitlines():
         raise ValueError(f'{run}: runner did not report this completed verdict')
     return label, count
 

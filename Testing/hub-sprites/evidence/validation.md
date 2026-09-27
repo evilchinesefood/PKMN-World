@@ -52,11 +52,16 @@ Validation uses the repository's Lua-enabled headless mGBA and pinned RTC. Hardw
 ## Gallery review follow-up
 
 The renderer now requires a positive completed baseline and every feature run,
-matching PASS sentinels, no FAIL sentinel, and a completed runner verdict when
-a runner log is present. Baseline checks are recorded separately from the
+matching PASS sentinels, no FAIL sentinel, and a completed current runner verdict for every run, including delivery. Baseline checks are recorded separately from the
 1,980 targeted total. Failed preflight creates no output. The README now
 packages `review/`, `evidence/` and its guide under one serving root; the
 optional download manifest/ZIP share that root. HTML and manifest writes use
-explicit UTF-8. [Black-box checks](renderer-check.log) cover seven rejected
+explicit UTF-8. [Black-box checks](renderer-check.log) cover nine rejected
 stale/failed inputs, ASCII-locale output, totals, label escaping and all HTML
 file links. No game source, ROM, save or media pixels changed in this follow-up.
+
+The delivery command redirects stdout before launch. Its runner output is
+mandatory, so early ROM-guard failures cannot reuse an older delivery log and
+PASS sentinel. Missing delivery output and an aborted delivery retaining old
+artifacts are both regression cases. The documented command was rerun on the
+unmodified delivery ROM: 9/9.

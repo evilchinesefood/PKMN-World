@@ -181,298 +181,202 @@
   "towns": [
     {
       "town": "AzaleaTown",
-      "building_light_metatiles": 26,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 26
     },
     {
       "town": "BlackthornCity",
-      "building_light_metatiles": 24,
-      "new_lamps": 0,
-      "existing_lamps": true
+      "building_light_metatiles": 24
     },
     {
       "town": "CeladonCity_Frlg",
-      "building_light_metatiles": 56,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 56
     },
     {
       "town": "CeruleanCity_Frlg",
-      "building_light_metatiles": 25,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 25
     },
     {
       "town": "CherrygroveCity",
-      "building_light_metatiles": 17,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 17
     },
     {
       "town": "CianwoodCity",
-      "building_light_metatiles": 18,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 18
     },
     {
       "town": "CinnabarIsland_Frlg",
-      "building_light_metatiles": 11,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 11
     },
     {
       "town": "DewfordTown",
-      "building_light_metatiles": 6,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 6
     },
     {
       "town": "EcruteakCity",
-      "building_light_metatiles": 82,
-      "new_lamps": 0,
-      "existing_lamps": true
+      "building_light_metatiles": 82
     },
     {
       "town": "EverGrandeCity",
-      "building_light_metatiles": 29,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 29
     },
     {
       "town": "FallarborTown",
-      "building_light_metatiles": 6,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 6
     },
     {
       "town": "FiveIsland_Frlg",
-      "building_light_metatiles": 1,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 1
     },
     {
       "town": "FortreeCity",
-      "building_light_metatiles": 7,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 7
     },
     {
       "town": "FourIsland_Frlg",
-      "building_light_metatiles": 4,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 4
     },
     {
       "town": "FuchsiaCity_Frlg",
-      "building_light_metatiles": 13,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 13
     },
     {
       "town": "GoldenrodCity",
-      "building_light_metatiles": 522,
-      "new_lamps": 0,
-      "existing_lamps": true
+      "building_light_metatiles": 522
     },
     {
       "town": "IndigoPlateau_Exterior_Frlg",
-      "building_light_metatiles": 1,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 1
     },
     {
       "town": "JohtoIndigoPlateau",
-      "building_light_metatiles": 1,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 1
     },
     {
       "town": "LakeOfRage",
-      "building_light_metatiles": 4,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 4
     },
     {
       "town": "LavaridgeTown",
-      "building_light_metatiles": 11,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 11
     },
     {
       "town": "LavenderTown_Frlg",
-      "building_light_metatiles": 2,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 2
     },
     {
       "town": "LilycoveCity",
-      "building_light_metatiles": 29,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 29
     },
     {
       "town": "LittlerootTown",
-      "building_light_metatiles": 9,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 9
     },
     {
       "town": "Mahoganytown",
-      "building_light_metatiles": 20,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 20
     },
     {
       "town": "MauvilleCity",
-      "building_light_metatiles": 7,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 7
     },
     {
       "town": "MossdeepCity",
-      "building_light_metatiles": 7,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 7
     },
     {
       "town": "MtSilver_Outside",
-      "building_light_metatiles": 5,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 5
     },
     {
       "town": "NewBarkTown",
-      "building_light_metatiles": 21,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 21
     },
     {
       "town": "OldaleTown",
-      "building_light_metatiles": 8,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 8
     },
     {
       "town": "OlivineCity",
-      "building_light_metatiles": 91,
-      "new_lamps": 0,
-      "existing_lamps": true
+      "building_light_metatiles": 91
     },
     {
       "town": "OneIsland_Frlg",
-      "building_light_metatiles": 4,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 4
     },
     {
       "town": "PacifidlogTown",
-      "building_light_metatiles": 1,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 1
     },
     {
       "town": "PalletTown_Frlg",
-      "building_light_metatiles": 10,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 10
     },
     {
       "town": "PetalburgCity",
-      "building_light_metatiles": 15,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 15
     },
     {
       "town": "PewterCity_Frlg",
-      "building_light_metatiles": 23,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 23
     },
     {
       "town": "RustboroCity",
-      "building_light_metatiles": 7,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 7
     },
     {
       "town": "SafariZoneGate",
-      "building_light_metatiles": 5,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 5
     },
     {
       "town": "SaffronCity_Connection_Frlg",
-      "building_light_metatiles": 286,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 286
     },
     {
       "town": "SaffronCity_Frlg",
-      "building_light_metatiles": 286,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 286
     },
     {
       "town": "SevenIsland_Frlg",
-      "building_light_metatiles": 2,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 2
     },
     {
       "town": "SixIsland_Frlg",
-      "building_light_metatiles": 2,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 2
     },
     {
       "town": "SlateportCity",
-      "building_light_metatiles": 14,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 14
     },
     {
       "town": "SootopolisCity",
-      "building_light_metatiles": 7,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 7
     },
     {
       "town": "ThreeIsland_Frlg",
-      "building_light_metatiles": 2,
-      "new_lamps": 1,
-      "existing_lamps": false
+      "building_light_metatiles": 2
     },
     {
       "town": "TwoIsland_Frlg",
-      "building_light_metatiles": 18,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 18
     },
     {
       "town": "VerdanturfTown",
-      "building_light_metatiles": 2,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 2
     },
     {
       "town": "VermilionCity_Frlg",
-      "building_light_metatiles": 45,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 45
     },
     {
       "town": "VioletCity",
-      "building_light_metatiles": 45,
-      "new_lamps": 0,
-      "existing_lamps": true
+      "building_light_metatiles": 45
     },
     {
       "town": "ViridianCity_Frlg",
-      "building_light_metatiles": 7,
-      "new_lamps": 2,
-      "existing_lamps": false
+      "building_light_metatiles": 7
     }
   ],
-  "new_lamps": 71
+  "new_lamps": 0,
+  "all_map_cells_unchanged": true,
+  "all_metatile_attributes_unchanged": true
 }

@@ -1,23 +1,21 @@
-# Regional night lighting
+# Regional window lighting
 
-Owner scope: extend lit windows and street fixtures through Johto, Hoenn and
-Kanto using the existing engine and repo artwork, with automated verification
-and a short final visual review. Sevii is included with Kanto.
+Owner scope: extend warm window lighting through Johto, Hoenn and Kanto using
+the existing engine and repo artwork. Sevii is included with Kanto. The owner
+rejected the added lamp posts: all 71 additions have been removed, including
+lanterns and the small dock fixture. Existing street fixtures are retained.
 
 Open [the visual review](evidence/review/index.html) in a browser. It contains
-three highlighted before/after comparisons, day/dusk/night controls, four lamp
-examples, and optional captures of all 49 maps. Native screenshots are in
+three highlighted before/after comparisons, day/dusk/night controls, and
+optional captures of all 49 maps. Native screenshots are in
 [media](evidence/review/media); no ROM or save is published here.
 
 ## Coverage and implementation
 
-- All 49 maps classified as towns/cities have building lighting and either new
-  fixtures or an existing lamp network. This includes 14 Johto maps, 16 Hoenn
+- All 49 maps classified as towns/cities have building lighting. This includes
+  14 Johto maps, 16 Hoenn
   maps and 19 Kanto/Sevii maps. These are map counts: both Indigo exteriors,
   Saffron's connection map, Lake of Rage, Mt. Silver and Safari Zone Gate count.
-- 71 lamps/lanterns are added to 44 maps. Violet, Goldenrod, Ecruteak, Olivine
-  and Blackthorn retain their existing networks. The exact coordinates, new
-  metatile IDs and source tiles are recorded in [lamps.json](lamps.json).
 - Hoenn and Kanto shared window graphics are copied into unused primary tile
   slots. New primary variants point those cells at dedicated secondary palette
   banks: Hoenn bank 12 / alternate 5, Kanto bank 7 / alternate 0. Existing
@@ -37,19 +35,16 @@ examples, and optional captures of all 49 maps. Native screenshots are in
   reserved palette bank retain the original primary. These exceptions prevent
   palette and graphic conflicts on neighboring maps.
 
-The modern lamp reuses Olivine's cap, bulb and foot
-(`data/tilesets/secondary/olivine_city`, metatiles 0x348, 0x350, 0x358).
-Johto additions reuse Blackthorn's lantern
-(`data/tilesets/secondary/blackthorn_city`, 0x298, 0x2A0).
-Pacifidlog uses a one-cell cap/bulb fixture beside its Pokémon Center to preserve
-the narrow dock. All donor art already belongs to the repo; the existing
-[credits](../../CREDITS.md) continue to apply. No HnS Fuchsia graphics are added.
+All map cells, borders, metatile attributes, events and original street-fixture
+placements match the baseline. The unused graphics and metatile definitions
+created solely for the added lamps are removed. Window palettes and primary
+window definitions are byte-identical to the version the owner approved. All
+147 runtime background-palette snapshots (49 maps × day/dusk/night) also match
+that version exactly; see [the retention check](evidence/review/window-retention.json).
 
-No new lighting engine, object sprites, lamp scripts, save fields or story flags
-are introduced. Lamps are map tiles: their foot blocks movement, while the head
-uses the appropriate drawing layer. Original ground effects and elevation are
-retained. Allocation excludes animation DMA ranges, referenced/named metatiles,
-script literal IDs and reserved metatile 1023 (`MAPGRID_UNDEFINED`).
+No new lighting engine, object sprites, scripts, save fields or story flags are
+introduced. Existing repo [credits](../../CREDITS.md) continue to apply. No HnS
+Fuchsia graphics are added. Graphic allocation excludes animation DMA ranges.
 
 ## Reproduce the asset pass
 
@@ -59,16 +54,14 @@ of `017a59de342ce5d8244144260da197b89f1239a0`. Run these from the feature checko
 ```sh
 BASE=/path/to/baseline
 python3 Testing/night-lighting/author.py --base "$BASE" --out .
-python3 Testing/night-lighting/lamps.py --base "$BASE" --out .
 python3 Testing/night-lighting/fallarbor_glass.py --out .
 python3 Testing/night-lighting/check_data.py --base "$BASE" --repo . --out /tmp/regional-lighting-data
 make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 make validate
 ```
 
-Run the three authors in order. They regenerate the listed assets and town map
-cells; use a clean feature checkout, not a checkout containing hand-edited map
-work. Placement overrides are explicit in `placement_overrides.json`.
+Run the two authors in order. They regenerate the window assets; use a clean
+feature checkout, not a checkout containing hand-edited tileset work.
 `prepare_capture.py` is an authoring aid that rewrites camera positions and the
 capture fixture. Do not rerun it for ordinary verification: changing viewpoints
 requires recapturing **both** sides.
@@ -114,14 +107,12 @@ python3 Testing/night-lighting/render_review.py --repo . \
 ```
 
 The focused checks cover all 49 maps at noon, dusk and night (294 assertions per
-build), plus 56 lifecycle assertions: lamp collision, leaving a loaded position
-under a new fixture, normal doors, menus, wild battle/Run, and Save/Continue in
-each region. `check_data.py` compares 35,180 original metatile renderings, checks
-every new lamp has a lit bulb and preserved ground/depth, and rejects event/NPC
-overlap or disconnected walking areas. Grid connectivity excludes water and
-does not model directional ledges. The audit records 44 pre-existing invalid
-metatile references rather than silently treating them as verified.
-The original metatile attributes are also compared using their native blob width.
+build), plus 48 lifecycle assertions: normal doors, menus, wild battle/Run, and
+Save/Continue in each region. `check_data.py` compares 35,180 original daytime
+metatile renderings and requires all map cells, borders, events and metatile
+attribute blobs to match the baseline. This verifies original collision,
+elevation and walking effects for every map. The audit records 44 pre-existing
+invalid metatile references rather than silently treating them as verified.
 Three delivery checks prove the prepared save loads at night and can move on the
 unpatched ROM; fixture hooks are not needed to continue playing.
 
@@ -135,12 +126,10 @@ No encounter implementation changes are part of the lighting pass.
 
 This establishes town coverage; it does not promise every decorative window is
 lit. Closed panes and special structures whose colors cannot safely be separated
-remain unchanged. Lamps have bright bulbs, without new ground-light pools.
-The conservative placement pass adds one or two fixtures per uncovered map,
-not a full street grid. Some surrounding routes inherit shared window palettes.
+remain unchanged. Some surrounding routes inherit shared window palettes.
 
 Source-art checks isolate daytime preservation from animation/NPC timing in
 the captures. Synthetic saves may show intro props (notably Littleroot's trucks).
-The final owner review is warmth, visual fit and lamp placement; the automated
+The final owner review is window warmth and visual fit; the automated
 checks already cover the listed functional flows. The local playtest bundle uses
 the unpatched development ROM, as required by `RELEASING.md`.

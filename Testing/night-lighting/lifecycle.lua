@@ -26,17 +26,8 @@ local function battlePrompt()
 end
 F.run(function()
   assert(F.boot(100),"boot failed");W.invoke(0)
-  for i,name in ipairs({"Hoenn","Kanto","Johto","Dock"}) do
-    W.invoke(4,i-1,360);W.clock(22)
-    local x,y=F.pos();F.shot(name.."_lamp_front")
-    F.press("Up",24);F.idle(30)
-    local nx,ny=F.pos();F.check(name..": lamp base blocks walking",nx==x and ny==y)
-    W.invoke(5,i-1,360);local sx,sy=F.pos()
-    F.press("Down",16);F.idle(30)
-    nx,ny=F.pos();F.check(name..": can leave a save position under the new lamp",nx==sx and ny>sy)
-  end
   for i,name in ipairs({"Hoenn","Kanto","Johto"}) do
-    W.invoke(6,i-1,360);W.clock(22)
+    W.invoke(4,i-1,360);W.clock(22)
     local group,map=F.grp(),F.mapn();local values=snapshot()
     tap("Start");tap("Right");tap("Left");tap("B");F.idle(120)
     F.check(name..": menu closes",F.ow());restored(values,name.." menu")

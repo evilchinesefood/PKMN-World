@@ -63,7 +63,7 @@ def main():
     counts['regression_suites'] = len(suite_rows)
     counts['regression_assertions'] = sum(int(n) for _, n, _ in suite_rows)
     audit = json.loads(a.data_audit.read_text())
-    assert len(audit['towns']) == len(scenes) == 49 and audit['new_lamps'] == 71
+    assert len(audit['towns']) == len(scenes) == 49 and audit['new_lamps'] == 0 and audit['all_map_cells_unchanged'] and audit['all_metatile_attributes_unchanged']
     a.out.mkdir(parents=True, exist_ok=True)
     media = a.out/'media'
     media.mkdir(exist_ok=True)
@@ -83,8 +83,6 @@ def main():
             filename = f'RegionalLightingCapture_{(i%10)*3+t+1:02}_{tag}.png'
             for side in ('before', 'after'):
                 copy_native(getattr(a, side)/batch/filename, f'{side}_{tag}.png')
-    for n, region in enumerate(('Hoenn', 'Kanto', 'Johto', 'Dock'), 1):
-        copy_native(a.lifecycle/f'RegionalLightingLifecycle_{n:02}_{region}_lamp_front.png', f'lamp_{region}.png')
     shutil.copyfile(a.data_audit, a.out/'data-audit.json')
     shutil.copyfile(a.regression/'sweep.log', a.out/'regression.log')
     evidence = a.out/'verification'
@@ -117,25 +115,23 @@ def main():
     for key, region in names.items():
         details = ''.join(f'<details><summary>{label(s["name"])}</summary>{pair(s)}</details>' for s in scenes if s['region']==key)
         all_maps += f'<details class="region"><summary>{region} · {sum(s["region"]==key for s in scenes)} maps</summary>{details}</details>'
-    lamps = ''.join(f'<figure><img loading="lazy" width="240" height="160" src="media/lamp_{region}.png" alt="{region} lamp"><figcaption>{region if region!="Dock" else "Pacifidlog dock light"}</figcaption></figure>' for region in ('Hoenn', 'Kanto', 'Johto', 'Dock'))
     (a.out/'index.html').write_text(f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pokémon World · regional night lighting</title><style>
-*{{box-sizing:border-box}}body{{background:#111b28;color:#e9eff5;font:16px/1.5 system-ui;margin:0 auto;padding:24px;max-width:1080px}}h1{{font-size:28px;margin-bottom:8px}}h2{{font-size:20px}}p{{max-width:850px}}a{{color:#a8d9ff}}.muted,figcaption{{color:#b7c7d8}}nav{{position:sticky;top:0;background:#111b28f5;padding:12px 0;z-index:1;border-bottom:1px solid #405368}}button{{font:inherit;padding:8px 18px;color:inherit;background:#22334b;border:1px solid #5e748c;border-radius:6px;cursor:pointer;margin-right:8px}}button[aria-pressed=true]{{background:#cbe3fa;color:#112133}}.pair,.lamps{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}figure{{margin:8px 0}}img{{display:block;width:480px;max-width:100%;height:auto;image-rendering:pixelated;background:#000}}details{{padding:12px 0;border-top:1px solid #405368}}summary{{cursor:pointer;font-weight:600}}.region>details{{margin-left:16px}}article{{padding:8px 0 16px}}@media(max-width:600px){{.pair,.lamps{{grid-template-columns:1fr}}body{{padding:16px}}}}:focus-visible{{outline:3px solid #ffd78c;outline-offset:3px}}
+<title>Pokémon World · regional window lighting</title><style>
+*{{box-sizing:border-box}}body{{background:#111b28;color:#e9eff5;font:16px/1.5 system-ui;margin:0 auto;padding:24px;max-width:1080px}}h1{{font-size:28px;margin-bottom:8px}}h2{{font-size:20px}}p{{max-width:850px}}a{{color:#a8d9ff}}.muted,figcaption{{color:#b7c7d8}}nav{{position:sticky;top:0;background:#111b28f5;padding:12px 0;z-index:1;border-bottom:1px solid #405368}}button{{font:inherit;padding:8px 18px;color:inherit;background:#22334b;border:1px solid #5e748c;border-radius:6px;cursor:pointer;margin-right:8px}}button[aria-pressed=true]{{background:#cbe3fa;color:#112133}}.pair{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}figure{{margin:8px 0}}img{{display:block;width:480px;max-width:100%;height:auto;image-rendering:pixelated;background:#000}}details{{padding:12px 0;border-top:1px solid #405368}}summary{{cursor:pointer;font-weight:600}}.region>details{{margin-left:16px}}article{{padding:8px 0 16px}}@media(max-width:600px){{.pair{{grid-template-columns:1fr}}body{{padding:16px}}}}:focus-visible{{outline:3px solid #ffd78c;outline-offset:3px}}
 </style></head><body>
-<h1>Regional night lighting</h1>
-<p>49 town and city maps now have lit building details and street fixtures across Johto, Hoenn, Kanto and Sevii. There are 71 new lamps or lanterns; five Johto cities retain their existing networks. All artwork comes from the repo.</p>
-<p><strong>Five-minute review:</strong> compare the three scenes below at night and dusk, then check the lamp examples. Judge warmth and placement. Doors, collisions, menus, battle returns and saves have already been checked automatically.</p>
+<h1>Regional window lighting</h1>
+<p>Warm window lighting across 49 town and city maps in Johto, Hoenn, Kanto and Sevii. All added lamps and lanterns have been removed. Existing street fixtures remain in their original locations.</p>
+<p><strong>Five-minute review:</strong> compare the three scenes below at night and dusk. Judge the window warmth. Doors, menus, battle returns and saves have already been checked automatically.</p>
 <nav aria-label="Time of day"><button data-time="noon" aria-pressed="false">Day</button><button data-time="dusk" aria-pressed="false">Dusk</button><button data-time="night" aria-pressed="true">Night</button><span id="time-label" aria-live="polite">22:00</span></nav>
 {cards}
-<h2>Street fixtures · night</h2><p class="muted">Modern lamps reuse Olivine artwork; Johto uses Blackthorn lanterns. Pacifidlog gets a small dock light that leaves the walkway open. These four views stay at night.</p><div class="lamps">{lamps}</div>
 <details><summary>Optional · every town and city map</summary><p>The time control also applies here. The 49-map count includes both Indigo Plateau exteriors, Saffron's connection map, Lake of Rage, Mt. Silver and Safari Zone Gate.</p>{all_maps}</details>
 <details><summary>What changed and what was verified</summary>
-<p>Shared glass colors are isolated from roofs, water and walls before the existing day/night system warms them. Daytime source art is unchanged except for the new fixtures. Town tilesets are shared by some surrounding routes, so those routes inherit compatible window lighting.</p>
-<p>This is a first coverage pass, not a claim that every decorative pane is lit. Existing unlit panels and special structures remain where their colors cannot safely be shared. The fixtures have bright bulbs, without new pools of light on the ground.</p>
+<p>Shared glass colors are isolated from roofs, water and walls before the existing day/night system warms them. Daytime source art, map cells and collision attributes are unchanged. Town tilesets are shared by some surrounding routes, so those routes inherit compatible window lighting.</p>
+<p>This is a first coverage pass, not a claim that every decorative pane is lit. Existing unlit panels and special structures remain where their colors cannot safely be shared.</p>
 <p>All screenshots are native 240×160 emulator captures with synthetic saves, shown with nearest-neighbor scaling. NPC positions and animation frames may differ between builds; static checks separately verify {audit['daylight_metatiles_verified']:,} original daytime metatile renderings. Intro props visible in Littleroot belong to the synthetic setup.</p>
 <p>{counts['before']+counts['after']+counts['lifecycle']} focused assertions passed, plus {counts['regression_suites']} full regression suites ({counts['regression_assertions']:,} assertions). The National Park test's unsafe manual sprite deletion was corrected; no encounter code changed.</p>
-<p><a href="manifest.json">Capture provenance</a> · <a href="data-audit.json">Map and placement checks</a> · <a href="regression.log">Full regression result</a></p>
+<p><a href="manifest.json">Capture provenance</a> · <a href="data-audit.json">Map preservation checks</a> · <a href="regression.log">Full regression result</a></p>
 <p class="muted">Tested development ROM: {md5}. Disposable capture hooks are absent from the playtest ROM.</p></details>
 <script>
 document.querySelectorAll('button[data-time]').forEach(button=>button.addEventListener('click',()=>{{

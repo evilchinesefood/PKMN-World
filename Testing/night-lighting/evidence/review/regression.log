@@ -1,7 +1,7 @@
-sweep : 2026-09-27T14:28:37Z
-rom   : /tmp/night-delivery/pokemonworld.gba
-md5   : F431A6EADEFEC583EF6ABA7CAF911EAC
-out   : /tmp/night-runs/regression-verified
+sweep : 2026-09-27T15:03:20Z
+rom   : /tmp/windows-only-delivery/pokemonworld.gba
+md5   : B9401D84AEAB29A4AC87F8443B43ECE6
+out   : /tmp/windows-only-runs/regression
 
 SmokeBoot                rc=0   VERDICT SmokeBoot: 10/10 PASS
 WorldTitle               rc=0   VERDICT WorldTitle: 37/37 PASS
@@ -58,4 +58,4 @@ VerifyOwnerSave          OPTIONAL - no pokemonworld.sav on this machine, not cou
 --- sentinel audit (a .PASS only counts if this sweep wrote it, against THIS rom) ---
 
 green 50 / 50 expected
-SWEEP OK - every expected suite produced a fresh PASS stamped rom=F431A6EADEFEC583EF6ABA7CAF911EAC
+SWEEP OK - every expected suite produced a fresh PASS stamped rom=B9401D84AEAB29A4AC87F8443B43ECE6

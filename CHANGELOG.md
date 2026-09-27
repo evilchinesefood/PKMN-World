@@ -7,7 +7,7 @@ All notable player-facing changes. For the full feature reference see
 
 ### Visuals
 
-- **Warmer nights across Johto, Hoenn, Kanto and Sevii.** Town windows use warm nighttime palettes, with 71 new lamps and lanterns filling gaps around buildings. Existing Johto lamp networks remain in place; original daytime art is preserved apart from the added fixtures.
+- **Warmer nights across Johto, Hoenn, Kanto and Sevii.** Town windows use warm nighttime palettes. Original daytime art, map layouts and existing street fixtures are preserved.
 
 ### Quality of life
 

@@ -107,23 +107,7 @@ void VisualFeatureFixture(void)
     }
     else if (command == 3)
         gSpecialVar_0x8005 = TrySavingData(SAVE_NORMAL);
-    else if (command == 4 || command == 5)
-    {
-        static const struct { u16 map; s8 x, y; } lamps[] =
-        {
-            {MAP_LITTLEROOT_TOWN, 5, 11},
-            {MAP_PALLET_TOWN, 20, 8},
-            {MAP_CHERRYGROVE_CITY, 32, 18},
-            {MAP_PACIFIDLOG_TOWN, 10, 16},
-        };
-        if (arg < ARRAY_COUNT(lamps))
-        {
-            SetWarpDestination(MAP_GROUP(lamps[arg].map), MAP_NUM(lamps[arg].map),
-                               WARP_ID_NONE, lamps[arg].x, lamps[arg].y + (command == 4));
-            DoWarp();
-        }
-    }
-    else if (command == 6)
+    else if (command == 4)
     {
         static const struct { u16 map; s8 x, y; } doors[] =
         {

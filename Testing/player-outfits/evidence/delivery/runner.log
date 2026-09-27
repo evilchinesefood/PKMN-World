@@ -1,0 +1,25 @@
+suite : /private/tmp/pkmn-world-player-outfits-342/Testing/player-outfits/OutfitDelivery.lua
+rom   : pokemonworld.gba
+md5   : 02052AB0077C430CD6AECE2873F8EAF5
+out   : /tmp/pkmn-world-342-delivery
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+BOOTED grp=0 map=0 pos=(7,22)
+  [PASS] Continue starts at Petalburg pond
+  [PASS] Continue retains female BLACK
+  [PASS] delivery_ow: all 16 source colors
+  [PASS] delivery_ow: hardware palette
+  [PASS] delivery: reflection is visible and blended
+  [PASS] delivery_reflection: all 16 source colors
+  [PASS] delivery_reflection: hardware palette
+  shot OutfitDelivery_1_prepared_pond
+  [PASS] delivery_card: all 16 source colors
+  [PASS] delivery_card: hardware palette
+  shot OutfitDelivery_2_prepared_card
+  [PASS] card returns normal walking
+  [PASS] delivery_return: all 16 source colors
+  [PASS] delivery_return: hardware palette
+  shot OutfitDelivery_3_prepared_return
+VERDICT OutfitDelivery: 12/12 PASS
+---
+exit code: 0

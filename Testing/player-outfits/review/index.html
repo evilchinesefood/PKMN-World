@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pokémon World · outfit colorways</title>
+<style>
+:root{color-scheme:dark;font:16px/1.5 system-ui;background:#111925;color:#edf2f7}*{box-sizing:border-box}
+body{max-width:1150px;margin:auto;padding:28px}h1{font-size:32px;line-height:1.2;margin-bottom:12px}h2{font-size:21px}
+p{max-width:920px;color:#becbda}a{color:#8ccaff}button,select{font:inherit;color:inherit;background:#26364a;border:1px solid #62748c;border-radius:7px;padding:8px 12px;cursor:pointer}
+button[aria-pressed=true]{background:#38618b;border-color:#8ccaff}button:focus-visible,select:focus-visible{outline:3px solid #f2ce69;outline-offset:3px}
+nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:0;background:#111925ed;padding:14px 0;z-index:1}
+.note{border-left:3px solid #6fc5b2;padding:8px 15px;background:#192a35}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.screen{margin-bottom:28px}
+figure{margin:0}figcaption{color:#b9c8d8;font-size:14px;margin-bottom:6px}img{max-width:100%;image-rendering:pixelated;background:#192532}.pair img{width:480px;height:auto}
+.sheet img{width:100%;background:#1c2b3b}.sheet{margin:20px 0 30px}details{border:1px solid #3c4c61;border-radius:8px;padding:14px;margin-top:24px}
+summary{cursor:pointer}small{color:#9fadc1}label{display:flex;align-items:center;gap:8px}.legend{color:#f0d08d}footer{margin-top:30px;font-size:14px}
+@media(max-width:600px){body{padding:16px}h1{font-size:26px}.pair{gap:6px}nav{position:static}.pair figcaption{font-size:12px}}
+</style>
+<h1>Player outfits, with proper shading</h1>
+<p>Five authored colorways for Brendan and May. Each sprite size has its own ramp, bags keep their highlights, and shared hair/outline shades stay fixed. Red remains vanilla.</p>
+<p class="note"><strong>Your review: about 5 minutes.</strong> Compare Black, Purple and Pink below, then scan the full sheet. Engineering checks are complete; the remaining decision is whether you like the colors.</p>
+<p><a href="#playtest">Local playtest instructions</a> · <a href="../README.md">Implementation and test notes</a></p>
+<nav aria-label="Choose outfit"><label>Character <select id="gender"><option value="0">Brendan</option><option value="1" selected>May</option></select></label><span id="outfits"></span></nav>
+<p id="description" class="legend"></p>
+<main id="screens"></main>
+<details open><summary>All outfits × both characters × all three sprite layouts</summary>
+<p>The sheets use the actual indexed sprites and GBA RGB5 values. Oak's picker and your trainer card both use the front sprite. Tiny overworld sprites are shown from three directions.</p>
+<div class="sheet"><figcaption>AFTER — authored colorways</figcaption><a href="media/after-colorways.png"><img src="media/after-colorways.png" alt="All revised outfit sprite layouts"></a></div>
+<div class="sheet"><figcaption>BEFORE — generic palette swap</figcaption><a href="media/before-colorways.png"><img src="media/before-colorways.png" alt="All original outfit sprite layouts"></a></div></details>
+<details id="playtest" open><summary>Optional one-minute playtest</summary><p>The tested ROM and prepared save are supplied separately from this source gallery. On the owner's machine, the bundle is <code>_pwtest/player-outfits-342/PokemonWorld-Outfits-342.zip</code> relative to the repository root. A fresh clone includes the screenshots and clips; obtain the separate playtest bundle to try the game.</p><p>Unzip that bundle and keep the matching .gba and .sav together. Open the ROM in mGBA and choose Continue. You begin beside Petalburg's pond as May in Black. Walk up and back down to inspect the reflection; open Start → Trainer to compare the larger sprite. The normal build and this save have already passed that route.</p><p>The gallery covers the other eleven combinations, Oak's picker, and the send-out animations, so you do not need to start twelve new games.</p></details>
+<details><summary>Verified coverage and limits</summary><p>249 focused checks per build, 26 picker checks per character per build, 12 ordinary-build delivery checks, and all 50 existing regression suites passed. The ten Red comparison frames below are pixel-identical before and after. RGB5 palette snapshots agree with emulator palette RAM; physical handheld display preferences remain subjective.</p><p>Live water reflections derive from the current player palette. The old shared Red/Leaf portrait and reflection-file path are unused. The underwater sprite keeps its existing dedicated palette. No new artwork, save layout, or game logic was introduced.</p><p><a href="manifest.json">Exact source commits, ROM hashes, and verification manifest</a></p></details>
+<footer>Issue #342 · Native 240 × 160 captures · Before / After use identical test routes. Send-out loops play at the captured 200 ms frame interval.</footer>
+<script>
+const names=['Red','Blue','Green','Purple','Black','Pink'];
+const descriptions=['Vanilla — unchanged on every surface.','Cobalt and slate, with gold accents.','Jade and earth tones, with warm accents.','Blue-violet and silver; kept distinct from rose pink.','Graphite with teal accents; lighter than the black outline.','Rose with plum and cream; separate light and shadow shades.'];
+let outfit=4;const gender=document.getElementById('gender'),buttons=document.getElementById('outfits');
+names.forEach((name,i)=>{const b=document.createElement('button');b.textContent=name;b.style.margin='3px';b.onclick=()=>{outfit=i;render()};buttons.append(b)});
+function render(){const n=Number(gender.value)*6+outfit;document.getElementById('description').textContent=names[outfit]+' · '+descriptions[outfit];[...buttons.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(i===outfit)));
+const sections=[['pond','Overworld and real water reflection'],['picker',"Oak’s live outfit picker"],['card','Your trainer card'],['battle','Battle send-out']];if(outfit>=3)sections.push(['night','Nighttime readability']);
+document.getElementById('screens').innerHTML=sections.map(([kind,title])=>`<section class="screen"><h2>${title}</h2><div class="pair">${['before','after'].map(side=>`<figure><figcaption>${side.toUpperCase()}</figcaption><a href="media/${side}-${n}-${kind}.png"><img src="media/${side}-${n}-${kind}.${kind==='battle'?'webp':'png'}" alt="${side}: ${names[outfit]} ${gender.options[gender.selectedIndex].text} ${title}" width="240" height="160"></a></figure>`).join('')}</div></section>`).join('');}
+gender.onchange=render;render();
+</script></html>

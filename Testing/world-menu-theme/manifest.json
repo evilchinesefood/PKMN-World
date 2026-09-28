@@ -1,0 +1,75 @@
+{
+  "note": "Curated unchanged emulator captures. Main Menu refinement was built after the other screens. Animated WebP files contain unmodified native frames.",
+  "main": {
+    "change": "Main Menu readability and non-overlapping rounded borders",
+    "rom_sha256": "8a83d763f49d635780ec8a2c96ff28e81ef24c302aa11943c02d4b50a41c2cae",
+    "emulator_checks": [
+      "PASS 1/1 rom=11BD8D17C554F04D7368873143D5FEA9 at=2026-09-28T00:39:21Z suite=UIBoot",
+      "PASS 3/3 rom=11BD8D17C554F04D7368873143D5FEA9 at=2026-09-28T00:39:16Z suite=WorldPanels38"
+    ],
+    "motion_checks": [
+      "background moves",
+      "header remains fixed",
+      "save details remain fixed"
+    ]
+  },
+  "world_panels": {
+    "source": "Working tree: World Panels A",
+    "rom_sha256": "3166a183af4720692b7ba3cd4ac3c3b442c36e62b63d86f9516ebefaabf75af1",
+    "checks": [
+      {
+        "suite": "SwShBattle0",
+        "passed": 8,
+        "total": 8
+      },
+      {
+        "suite": "UIBoot",
+        "passed": 1,
+        "total": 1
+      },
+      {
+        "suite": "WorldPanels38",
+        "passed": 3,
+        "total": 3
+      },
+      {
+        "suite": "UIOptions",
+        "passed": 1,
+        "total": 1
+      },
+      {
+        "suite": "WorldPanels37",
+        "passed": 3,
+        "total": 3
+      }
+    ],
+    "motion_checks": {
+      "passed": 9,
+      "checks": [
+        "main: background scrolls",
+        "main: header stationary",
+        "main: text stationary",
+        "options: background scrolls",
+        "options: header stationary",
+        "options: text stationary",
+        "relearn: background scrolls",
+        "relearn: header stationary",
+        "relearn: text stationary"
+      ]
+    }
+  },
+  "included_files": {
+    "main.png": "030e6d6baee51edeff1037de4ea78c480bba2da878c245d2c0563238d254afb6",
+    "main-before.png": "eac567c97ece1092e80a19c5e3a2b9ec69db9342a525a14212ec30903497d8fa",
+    "main-new-game.png": "c4dc428a4cd9847086346b35de41811c689daca234a5b7611e1585f8e1032391",
+    "main-no-save.png": "36d0c29680d874dc541747472f0dc9a157254dd2e7cfbe03b9342ba316dc264c",
+    "main.webp": "056cc44aec0858e59a32f5188d553e637f8a4f4dd842304e62df89e3761d5558",
+    "options.png": "295fa0680ce65821a073573bc2e586ebed4ff9d68ed38ce2fab6fde8f748ea23",
+    "options.webp": "c9afb5edcc3d0f44fb88056e166d3c5ef6e7ea0df3ec6b6ef03647291f0fd69c",
+    "relearn.png": "fdd0cc6e651abbb6417b5e9abdc2cbac4db93853ff6aa876e4e6783ca0b968c3",
+    "relearn.webp": "12a7aca69280f6d0c48c5d06dae1ad390c8e2fb660fa55c37df725b1ef625631",
+    "relearn-contest.png": "ffa6c5aacf2355776a6ceb115f2d28d0ef4e8f9b0094bbc326cd374dbd46cd03",
+    "battle.png": "6c77509421e1b7aeecefa8494485d580ff9a8515c372a84d078ade1a6bcbdc29",
+    "comparison.png": "d6336096e97ae600d90f74d3205924786cf70f9f097a4877c65be54534109124"
+  }
+}

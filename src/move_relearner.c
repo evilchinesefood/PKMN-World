@@ -1,4 +1,5 @@
 #include "global.h"
+#include "world_menu_theme.h"
 #include "main.h"
 #include "battle.h"
 #include "battle_util.h"
@@ -155,11 +156,11 @@ static const struct SpritePalette sMoveRelearnerPalette =
 static const struct ScrollArrowsTemplate sDisplayModeArrowsTemplate =
 {
     .firstArrowType = SCROLL_ARROW_LEFT,
-    .firstX = 27,
-    .firstY = 16,
+    .firstX = 123,
+    .firstY = 32,
     .secondArrowType = SCROLL_ARROW_RIGHT,
-    .secondX = 117,
-    .secondY = 16,
+    .secondX = 213,
+    .secondY = 32,
     .fullyUpThreshold = -1,
     .fullyDownThreshold = -1,
     .tileTag = TAG_MODE_ARROWS,
@@ -170,11 +171,11 @@ static const struct ScrollArrowsTemplate sDisplayModeArrowsTemplate =
 static const struct ScrollArrowsTemplate sMoveListScrollArrowsTemplate =
 {
     .firstArrowType = SCROLL_ARROW_UP,
-    .firstX = 192,
-    .firstY = 8,
+    .firstX = 48,
+    .firstY = 24,
     .secondArrowType = SCROLL_ARROW_DOWN,
-    .secondX = 192,
-    .secondY = 104,
+    .secondX = 48,
+    .secondY = 112,
     .fullyUpThreshold = 0,
     .fullyDownThreshold = 0,
     .tileTag = TAG_LIST_ARROWS,
@@ -445,11 +446,13 @@ static void InitMoveRelearnerBackgroundLayers(void)
                                   DISPCNT_OBJ_ON);
     ShowBg(0);
     ShowBg(1);
+    WorldMenu_InitBackground(2);
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
 }
 
 static void CB2_MoveRelearnerMain(void)
 {
+    WorldMenu_UpdateBackground();
     RunTasks();
     AnimateSprites();
     BuildOamBuffer();
@@ -694,13 +697,13 @@ static void CreateUISprites(void)
 
     // These are the appeal hearts.
     for (i = 0; i < 8; i++)
-        sMoveRelearnerStruct->heartSpriteIds[i] = CreateSprite(&sConstestMoveHeartSprite, (i - (i / 4) * 4) * 8 + 104, (i / 4) * 8 + 36, 0);
+        sMoveRelearnerStruct->heartSpriteIds[i] = CreateSprite(&sConstestMoveHeartSprite, (i - (i / 4) * 4) * 8 + 200, (i / 4) * 8 + 52, 0);
 
     // These are the jam harts.
     // The animation is used to toggle between full/empty heart sprites.
     for (i = 0; i < 8; i++)
     {
-        sMoveRelearnerStruct->heartSpriteIds[i + 8] = CreateSprite(&sConstestMoveHeartSprite, (i - (i / 4) * 4) * 8 + 104, (i / 4) * 8 + 52, 0);
+        sMoveRelearnerStruct->heartSpriteIds[i + 8] = CreateSprite(&sConstestMoveHeartSprite, (i - (i / 4) * 4) * 8 + 200, (i / 4) * 8 + 68, 0);
         StartSpriteAnim(&gSprites[sMoveRelearnerStruct->heartSpriteIds[i + 8]], 2);
     }
 
@@ -815,7 +818,7 @@ void MoveRelearnerShowHideCategoryIcon(s32 moveId)
     else
     {
         if (sMoveRelearnerStruct->categoryIconSpriteId == 0xFF)
-            sMoveRelearnerStruct->categoryIconSpriteId = CreateSprite(&gSpriteTemplate_CategoryIcons, 66, 40, 0);
+            sMoveRelearnerStruct->categoryIconSpriteId = CreateSprite(&gSpriteTemplate_CategoryIcons, 162, 56, 0);
 
         gSprites[sMoveRelearnerStruct->categoryIconSpriteId].invisible = FALSE;
         StartSpriteAnim(&gSprites[sMoveRelearnerStruct->categoryIconSpriteId], GetBattleMoveCategory(moveId));

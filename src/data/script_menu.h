@@ -39,11 +39,11 @@ static const struct MenuAction MultichoiceList_ElderQuiz5[] =
     {COMPOUND_STRING("Both")},
 };
 
-const u8 gText_Info2[] = _("INFO");
+const u8 gText_Info2[] = _("Info");
 
 static const struct MenuAction MultichoiceList_EnterInfo[] =
 {
-    {COMPOUND_STRING("ENTER")},
+    {COMPOUND_STRING("Enter")},
     {gText_Info2},
     {gText_Exit},
 };
@@ -66,9 +66,9 @@ static const struct MenuAction MultichoiceList_ContestType[] =
     {gText_Exit},
 };
 
-const u8 gText_Decoration2[] = _("DECORATION");
-const u8 gText_PackUp[] = _("PACK UP");
-const u8 gText_Registry[] = _("REGISTRY");
+const u8 gText_Decoration2[] = _("Decoration");
+const u8 gText_PackUp[] = _("Pack Up");
+const u8 gText_Registry[] = _("Registry");
 
 static const struct MenuAction MultichoiceList_BasePCWithRegistry[] =
 {
@@ -130,8 +130,8 @@ static const struct MenuAction MultichoiceList_YesNoInfo2[] =
 
 static const struct MenuAction MultichoiceList_ChallengeInfo[] =
 {
-    {COMPOUND_STRING("CHALLENGE")},
-    {COMPOUND_STRING("INFO")},
+    {COMPOUND_STRING("Challenge")},
+    {COMPOUND_STRING("Info")},
     {gText_Exit},
 };
 
@@ -265,9 +265,9 @@ static const struct MenuAction MultichoiceList_MachBikeInfo[] =
 
 static const struct MenuAction MultichoiceList_AcroBikeInfo[] =
 {
-    {COMPOUND_STRING("WHEELIES")},
-    {COMPOUND_STRING("BUNNY-HOPS")},
-    {COMPOUND_STRING("JUMP")},
+    {COMPOUND_STRING("Wheelies")},
+    {COMPOUND_STRING("Bunny-Hops")},
+    {COMPOUND_STRING("Jump")},
     {gText_Exit},
 };
 
@@ -480,10 +480,10 @@ static const struct MenuAction MultichoiceList_ShardsRYBG[] =
 
 const u8 gText_Opponent[] = _("OPPONENT");
 const u8 gText_Tourney_Tree[] = _("TOURNEY TREE");
-const u8 gText_ReadyToStart[] = _("READY TO START");
-const u8 gText_Record2[] = _("RECORD");
-const u8 gText_Rest[] = _("REST");
-const u8 gText_Retire[] = _("RETIRE");
+const u8 gText_ReadyToStart[] = _("Ready to Start");
+const u8 gText_Record2[] = _("Record");
+const u8 gText_Rest[] = _("Rest");
+const u8 gText_Retire[] = _("Retire");
 
 static const struct MenuAction MultichoiceList_TourneyWithRecord[] =
 {
@@ -573,8 +573,8 @@ static const struct MenuAction MultichoiceList_WirelessMinigame[] =
 
 static const struct MenuAction MultichoiceList_LinkLeader[] =
 {
-    {COMPOUND_STRING("JOIN GROUP")},
-    {COMPOUND_STRING("BECOME LEADER")},
+    {COMPOUND_STRING("Join Group")},
+    {COMPOUND_STRING("Become Leader")},
     {gText_Exit},
 };
 
@@ -668,7 +668,7 @@ static const struct MenuAction MultichoiceList_Fossil[] =
 static const struct MenuAction MultichoiceList_YesNo[] =
 {
     {gText_Yes},
-    {COMPOUND_STRING("NO")},
+    {COMPOUND_STRING("No")},
 };
 
 static const struct MenuAction MultichoiceList_FrontierRules[] =
@@ -683,9 +683,9 @@ static const struct MenuAction MultichoiceList_FrontierRules[] =
 
 static const struct MenuAction MultichoiceList_FrontierPassInfo[] =
 {
-    {COMPOUND_STRING("SYMBOLS")},
-    {COMPOUND_STRING("RECORD")},
-    {COMPOUND_STRING("BATTLE PTS")},
+    {COMPOUND_STRING("Symbols")},
+    {COMPOUND_STRING("Record")},
+    {COMPOUND_STRING("Battle Pts")},
     {gText_Exit},
 };
 
@@ -762,7 +762,7 @@ static const struct MenuAction MultichoiceList_BattlePikeRules[] =
     {gText_Exit},
 };
 
-const u8 gText_GoOn[] = _("GO ON");
+const u8 gText_GoOn[] = _("Go On");
 
 static const struct MenuAction MultichoiceList_GoOnRecordRestRetire[] =
 {
@@ -852,7 +852,7 @@ static const struct MenuAction MultichoiceList_BerryPlot[] =
 
 static const struct MenuAction sMultichoiceList_BikeShop[] = {
     {COMPOUND_STRING("BICYCLE{CLEAR_TO 73}{FONT_SMALL}¥1,000,000")},
-    {COMPOUND_STRING("NO THANKS")}
+    {COMPOUND_STRING("No Thanks")}
 };
 
 static const struct MenuAction sMultichoiceList_Eeveelutions[] = {
@@ -939,7 +939,7 @@ static const struct MenuAction sMultichoiceList_SeagallopVermilion[] = {
     {gText_Exit}
 };
 
-const u8 sText_NoThanks[] = _("NO THANKS");
+const u8 sText_NoThanks[] = _("No Thanks");
 
 static const struct MenuAction sMultichoiceList_GameCornerPokemonPrizes[] = {
     {COMPOUND_STRING("ABRA{CLEAR_TO 85}{FONT_SMALL} 180 COINS")},
@@ -1238,7 +1238,7 @@ static const struct MenuAction MultichoiceList_BnetVendorStone[] =
     {COMPOUND_STRING("VENUSAURITE{CLEAR_TO 88}35")},    {COMPOUND_STRING("CHARIZARDITE X{CLEAR_TO 88}35")},
     {COMPOUND_STRING("CHARIZARDITE Y{CLEAR_TO 88}35")}, {COMPOUND_STRING("BLASTOISINITE{CLEAR_TO 88}35")},
     {COMPOUND_STRING("SCEPTILITE{CLEAR_TO 88}35")},
-    {COMPOUND_STRING("MORE STONES")},
+    {COMPOUND_STRING("More Stones")},
     {gText_Exit},
 };
 
@@ -1247,7 +1247,7 @@ static const struct MenuAction MultichoiceList_BnetVendorStone2[] =
     {COMPOUND_STRING("BLAZIKENITE{CLEAR_TO 88}35")},    {COMPOUND_STRING("SWAMPERTITE{CLEAR_TO 88}35")},
     {COMPOUND_STRING("GARDEVOIRITE{CLEAR_TO 88}35")},   {COMPOUND_STRING("PINSIRITE{CLEAR_TO 88}20")},
     {COMPOUND_STRING("MAWILITE{CLEAR_TO 88}20")},
-    {COMPOUND_STRING("BACK")},
+    {COMPOUND_STRING("Back")},
     {gText_Exit},
 };
 
@@ -1263,7 +1263,7 @@ static const struct MenuAction MultichoiceList_BnetShardColor[] =
 // order here is load-bearing. Index 6 pages, index 7 exits, like the vendor.
 static const struct MenuAction MultichoiceList_BnetSimMenu[] =
 {
-    {COMPOUND_STRING("TYPE TRAINER")}, {COMPOUND_STRING("LEADER SIM")},
+    {COMPOUND_STRING("Type Trainer")}, {COMPOUND_STRING("Leader Sim")},
     {gText_Exit},
 };
 
@@ -1279,7 +1279,7 @@ static const struct MenuAction MultichoiceList_BnetType1[] =
     {COMPOUND_STRING("NORMAL")}, {COMPOUND_STRING("FIGHTING")},
     {COMPOUND_STRING("FLYING")}, {COMPOUND_STRING("POISON")},
     {COMPOUND_STRING("GROUND")}, {COMPOUND_STRING("ROCK")},
-    {COMPOUND_STRING("MORE")},   {gText_Exit},
+    {COMPOUND_STRING("More")},   {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetType2[] =
@@ -1287,7 +1287,7 @@ static const struct MenuAction MultichoiceList_BnetType2[] =
     {COMPOUND_STRING("BUG")},   {COMPOUND_STRING("GHOST")},
     {COMPOUND_STRING("STEEL")}, {COMPOUND_STRING("FIRE")},
     {COMPOUND_STRING("WATER")}, {COMPOUND_STRING("GRASS")},
-    {COMPOUND_STRING("MORE")},  {gText_Exit},
+    {COMPOUND_STRING("More")},  {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetType3[] =
@@ -1295,7 +1295,7 @@ static const struct MenuAction MultichoiceList_BnetType3[] =
     {COMPOUND_STRING("ELECTRIC")}, {COMPOUND_STRING("PSYCHIC")},
     {COMPOUND_STRING("ICE")},      {COMPOUND_STRING("DRAGON")},
     {COMPOUND_STRING("DARK")},     {COMPOUND_STRING("FAIRY")},
-    {COMPOUND_STRING("BACK")},     {gText_Exit},
+    {COMPOUND_STRING("Back")},     {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetRegion[] =
@@ -1308,42 +1308,42 @@ static const struct MenuAction MultichoiceList_BnetLeaderH1[] =
 {
     {COMPOUND_STRING("ROXANNE")},  {COMPOUND_STRING("BRAWLY")},
     {COMPOUND_STRING("WATTSON")},  {COMPOUND_STRING("FLANNERY")},
-    {COMPOUND_STRING("MORE")},     {gText_Exit},
+    {COMPOUND_STRING("More")},     {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetLeaderH2[] =
 {
     {COMPOUND_STRING("NORMAN")},      {COMPOUND_STRING("WINONA")},
     {COMPOUND_STRING("TATE & LIZA")}, {COMPOUND_STRING("JUAN")},
-    {COMPOUND_STRING("BACK")},        {gText_Exit},
+    {COMPOUND_STRING("Back")},        {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetLeaderJ1[] =
 {
     {COMPOUND_STRING("FALKNER")}, {COMPOUND_STRING("BUGSY")},
     {COMPOUND_STRING("WHITNEY")}, {COMPOUND_STRING("MORTY")},
-    {COMPOUND_STRING("MORE")},    {gText_Exit},
+    {COMPOUND_STRING("More")},    {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetLeaderJ2[] =
 {
     {COMPOUND_STRING("CHUCK")}, {COMPOUND_STRING("JASMINE")},
     {COMPOUND_STRING("PRYCE")}, {COMPOUND_STRING("CLAIR")},
-    {COMPOUND_STRING("BACK")},  {gText_Exit},
+    {COMPOUND_STRING("Back")},  {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetLeaderK1[] =
 {
     {COMPOUND_STRING("BROCK")},     {COMPOUND_STRING("MISTY")},
     {COMPOUND_STRING("LT. SURGE")}, {COMPOUND_STRING("ERIKA")},
-    {COMPOUND_STRING("MORE")},      {gText_Exit},
+    {COMPOUND_STRING("More")},      {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_BnetLeaderK2[] =
 {
     {COMPOUND_STRING("KOGA")},    {COMPOUND_STRING("BLAINE")},
     {COMPOUND_STRING("SABRINA")}, {COMPOUND_STRING("GIOVANNI")},
-    {COMPOUND_STRING("BACK")},    {gText_Exit},
+    {COMPOUND_STRING("Back")},    {gText_Exit},
 };
 
 static const struct MultichoiceListStruct sMultichoiceLists[] =

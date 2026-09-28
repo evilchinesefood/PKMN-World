@@ -400,7 +400,7 @@ static void VBlankCB_NamingScreen(void);
 static void NamingScreen_ShowBgs(void);
 static bool8 IsWideLetter(u8);
 
-static const u8 sText_MoveOkBack[] = _("{DPAD_NONE}MOVE  {A_BUTTON}OK  {B_BUTTON}BACK");
+static const u8 sText_MoveOkBack[] = _("{DPAD_NONE}Move  {A_BUTTON}OK  {B_BUTTON}Back");
 
 void DoNamingScreen(u8 templateNum, u8 *destBuffer, u16 monSpeciesOrPlayerGender, u16 monGender, u32 monPersonality, MainCallback returnCallback)
 {

@@ -871,11 +871,11 @@ struct {
     const u8 *desc;
 } static const sMainMenuTexts[OPTIONS_COUNT] =
 {
-    [OPTION_WITHDRAW]   = {COMPOUND_STRING("WITHDRAW POKéMON"), COMPOUND_STRING("Move POKéMON stored in BOXES to\nyour party.")},
-    [OPTION_DEPOSIT]    = {COMPOUND_STRING("DEPOSIT POKéMON"),  COMPOUND_STRING("Store POKéMON in your party in BOXES.")},
-    [OPTION_MOVE_MONS]  = {COMPOUND_STRING("MOVE POKéMON"),     COMPOUND_STRING("Organize the POKéMON in BOXES and\nin your party.")},
-    [OPTION_MOVE_ITEMS] = {COMPOUND_STRING("MOVE ITEMS"),       COMPOUND_STRING("Move items held by any POKéMON\nin a BOX or your party.")},
-    [OPTION_EXIT]       = {COMPOUND_STRING("SEE YA!"),          COMPOUND_STRING("Return to the previous menu.")}
+    [OPTION_WITHDRAW]   = {COMPOUND_STRING("Withdraw Pokémon"), COMPOUND_STRING("Move POKéMON stored in BOXES to\nyour party.")},
+    [OPTION_DEPOSIT]    = {COMPOUND_STRING("Deposit Pokémon"),  COMPOUND_STRING("Store POKéMON in your party in BOXES.")},
+    [OPTION_MOVE_MONS]  = {COMPOUND_STRING("Move Pokémon"),     COMPOUND_STRING("Organize the POKéMON in BOXES and\nin your party.")},
+    [OPTION_MOVE_ITEMS] = {COMPOUND_STRING("Move Items"),       COMPOUND_STRING("Move items held by any POKéMON\nin a BOX or your party.")},
+    [OPTION_EXIT]       = {COMPOUND_STRING("See Ya!"),          COMPOUND_STRING("Return to the previous menu.")}
 };
 
 static const struct WindowTemplate sWindowTemplate_MainMenu =
@@ -8133,28 +8133,28 @@ static void InitMenu(void)
     sStorage->menuWindow.baseBlock = 92;
 }
 
-static const u8 gPCText_Give[] = _("GIVE");
+static const u8 gPCText_Give[] = _("Give");
 
 static const u8 *const sMenuTexts[] =
 {
-    [MENU_CANCEL]     = COMPOUND_STRING("CANCEL"),
-    [MENU_STORE]      = COMPOUND_STRING("STORE"),
-    [MENU_WITHDRAW]   = COMPOUND_STRING("WITHDRAW"),
-    [MENU_MOVE]       = COMPOUND_STRING("MOVE"),
-    [MENU_SHIFT]      = COMPOUND_STRING("SHIFT"),
-    [MENU_PLACE]      = COMPOUND_STRING("PLACE"),
-    [MENU_SUMMARY]    = COMPOUND_STRING("SUMMARY"),
-    [MENU_RELEASE]    = COMPOUND_STRING("RELEASE"),
-    [MENU_MARK]       = COMPOUND_STRING("MARK"),
-    [MENU_JUMP]       = COMPOUND_STRING("JUMP"),
-    [MENU_WALLPAPER]  = COMPOUND_STRING("WALLPAPER"),
-    [MENU_NAME]       = COMPOUND_STRING("NAME"),
-    [MENU_TAKE]       = COMPOUND_STRING("TAKE"),
+    [MENU_CANCEL]     = COMPOUND_STRING("Cancel"),
+    [MENU_STORE]      = COMPOUND_STRING("Store"),
+    [MENU_WITHDRAW]   = COMPOUND_STRING("Withdraw"),
+    [MENU_MOVE]       = COMPOUND_STRING("Move"),
+    [MENU_SHIFT]      = COMPOUND_STRING("Shift"),
+    [MENU_PLACE]      = COMPOUND_STRING("Place"),
+    [MENU_SUMMARY]    = COMPOUND_STRING("Summary"),
+    [MENU_RELEASE]    = COMPOUND_STRING("Release"),
+    [MENU_MARK]       = COMPOUND_STRING("Mark"),
+    [MENU_JUMP]       = COMPOUND_STRING("Jump"),
+    [MENU_WALLPAPER]  = COMPOUND_STRING("Wallpaper"),
+    [MENU_NAME]       = COMPOUND_STRING("Name"),
+    [MENU_TAKE]       = COMPOUND_STRING("Take"),
     [MENU_GIVE]       = gPCText_Give,
     [MENU_GIVE_2]     = gPCText_Give,
-    [MENU_SWITCH]     = COMPOUND_STRING("SWITCH"),
-    [MENU_BAG]        = COMPOUND_STRING("BAG"),
-    [MENU_INFO]       = COMPOUND_STRING("INFO"),
+    [MENU_SWITCH]     = COMPOUND_STRING("Switch"),
+    [MENU_BAG]        = COMPOUND_STRING("Bag"),
+    [MENU_INFO]       = COMPOUND_STRING("Info"),
     [MENU_SCENERY_1]  = COMPOUND_STRING("SCENERY 1"),
     [MENU_SCENERY_2]  = COMPOUND_STRING("SCENERY 2"),
     [MENU_SCENERY_3]  = COMPOUND_STRING("SCENERY 3"),
@@ -8176,7 +8176,7 @@ static const u8 *const sMenuTexts[] =
     [MENU_POKECENTER] = COMPOUND_STRING("POKéCENTER"),
     [MENU_MACHINE]    = COMPOUND_STRING("MACHINE"),
     [MENU_SIMPLE]     = COMPOUND_STRING("SIMPLE"),
-    [MENU_SELECT]     = COMPOUND_STRING("SELECT"),
+    [MENU_SELECT]     = COMPOUND_STRING("Select"),
 };
 
 static void SetMenuText(u8 textId)

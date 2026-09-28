@@ -204,7 +204,7 @@ static const struct WindowTemplate sMatchCallInfoBoxWindowTemplate =
 
 static const u8 *const sMatchCallOptionTexts[MATCH_CALL_OPTION_COUNT] =
 {
-    [MATCH_CALL_OPTION_CALL]   = COMPOUND_STRING("CALL"),
+    [MATCH_CALL_OPTION_CALL]   = COMPOUND_STRING("Call"),
     [MATCH_CALL_OPTION_CHECK]  = COMPOUND_STRING("Check"),
     [MATCH_CALL_OPTION_CANCEL] = COMPOUND_STRING("Cancel")
 };

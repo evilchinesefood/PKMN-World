@@ -265,8 +265,8 @@ static const struct MenuAction MultichoiceList_MachBikeInfo[] =
 
 static const struct MenuAction MultichoiceList_AcroBikeInfo[] =
 {
-    {COMPOUND_STRING("WHEELIES")},
-    {COMPOUND_STRING("BUNNY-HOPS")},
+    {COMPOUND_STRING("Wheelies")},
+    {COMPOUND_STRING("Bunny-Hops")},
     {COMPOUND_STRING("Jump")},
     {gText_Exit},
 };
@@ -574,7 +574,7 @@ static const struct MenuAction MultichoiceList_WirelessMinigame[] =
 static const struct MenuAction MultichoiceList_LinkLeader[] =
 {
     {COMPOUND_STRING("Join Group")},
-    {COMPOUND_STRING("BECOME LEADER")},
+    {COMPOUND_STRING("Become Leader")},
     {gText_Exit},
 };
 
@@ -683,9 +683,9 @@ static const struct MenuAction MultichoiceList_FrontierRules[] =
 
 static const struct MenuAction MultichoiceList_FrontierPassInfo[] =
 {
-    {COMPOUND_STRING("SYMBOLS")},
+    {COMPOUND_STRING("Symbols")},
     {COMPOUND_STRING("Record")},
-    {COMPOUND_STRING("BATTLE PTS")},
+    {COMPOUND_STRING("Battle Pts")},
     {gText_Exit},
 };
 

@@ -1,0 +1,30 @@
+e38ee10ffb01c45d5e125dc7cfc5601a467c7c29 Merge pull request #352 from evilchinesefood/feature/world-menu-panels
+1c74905686e5ab95305c541f10ee8560945b75e9 Finish title case for reviewed menu actions
+24aec5f0e397dc72efd3356112e78d1a97b31fdd Unify world menu panels and improve action label readability
+bb5d17896a268062c0901096ef0e47b554e8bc07 Merge pull request #351 from evilchinesefood/feature/viridian-frontages
+4c7e578c9eca40ce7e0a3913c3d806630c2b18a2 Refine Viridian building frontages using existing art
+cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d Merge pull request #350 from evilchinesefood/feature/viridian-transitions
+bca2206cb4d5bdc9839ba3b183c1523bffd1520c Refine Viridian road edges and garden verges
+e97b94307fca9e1b4de128433419f4bf35caeaf7 Merge pull request #349 from evilchinesefood/feature/viridian-landscaping
+78e9c1f985d9c002de68dae2e76cc50979795dbf Bind Viridian visual evidence to baseline ROM and executed suites
+a1cba5f7facaedf394fa38c60b72026fa6f6394e Compose Viridian gardens using existing Kanto artwork
+63c328ee3d6299bd94ce75d049a5ef3a7009bf72 Merge pull request #345 from evilchinesefood/feature/regional-night-lighting
+adccc8bcfb0237081a3cbc1385f4b872f93b225d Verify the clean baseline revision before publishing lighting review
+f597f3b77cba9e28794e4fc215100c4e2c888f8a Gate lighting gallery on delivery proof and fresh map audit
+c211371569944d3f4e0ae5768f9789d6db9eeb26 Remove added lamps while retaining warm window lighting
+e54f2bfabb56d82b6843e5d2806cffc64cc92efa Extend warm night windows and lamps across all regions
+017a59de342ce5d8244144260da197b89f1239a0 Merge pull request #344 from evilchinesefood/feature/player-outfits-342
+64a6575b9ed8c61673fa99be23e7cb03e5e4900b Make outfit gallery playtest instructions portable
+56b7f93ad4b82e42f94a7f888ca3ae5adf500b3c Capture and document outfit colorways across live game screens
+fab489026058484960b7bd3ef7418e14466c6356 Author player outfit colorways for each sprite surface
+58d972c6c3e9a002061e51c1a98cc391a33132b3 Merge pull request #343 from evilchinesefood/feature/warm-windows-335
+8a1abe1495facd00e69241ebca1742d572d89689 Keep runtime palette snapshots binary in review evidence
+11409b5f75f68ed11d0f4e300b3b3ca692a35942 Verify and document warm Johto window palette transitions
+3bc343d0331064646d4ce99b4b691291e1a6bf0c Warm six Johto glass panes through existing night palettes
+5defc44ffd5e13e326656d1ba62c5f1aeb5e088f Merge pull request #341 from evilchinesefood/feature/hub-sprites-330
+124e190e1afc36e673bfe372022ac092fafd42a1 Require current delivery runner output in visual reviews
+01faa52405f8392dd86e55d6e2b9727d7ce4c05e Reject failed capture runs before publishing the Hub gallery
+42f99d80692a8dc0ba99ebb455550c31d77312e0 Refresh Hub review evidence for the clean committed build
+13478c088b0dcb2a28c3c453ed6eac0e8040364b Document Hub sprite validation and visual review evidence
+d1dafab57ffc4ec23bcdd3a0e6a0a150368dacc1 Merge remote-tracking branch 'origin/master' into feature/hub-sprites-330
+ca5c9d2c99b183a3c52cb036102c6f5b2ef15165 Merge pull request #340 from evilchinesefood/feature/battle-palettes-327

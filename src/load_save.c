@@ -191,7 +191,7 @@ static const struct { u16 oldId; u16 newId; } sKantoVarRebase[] = {
 //
 // The dead steps are kept, not deleted, because they document exactly what each historical bump
 // changed and any future append-only bump re-uses the mechanism unchanged. Note the fixtures in
-// Testing/lua/fixtures/ (v3/v4/v5) exercise the GATE, not the ladder; MigrateFixtures.lua was
+// test/overworld/lua/fixtures/ (v3/v4/v5) exercise the GATE, not the ladder; MigrateFixtures.lua was
 // rewritten to assert the refusal. The v7 fixture is the one that exercises a real migration.
 // Save format v9 deleted MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7FNIGHT and MAP_MT_SILVER_SUMMIT_NIGHT
 // (issue #51). Both were unreachable dead twins of a setmaplayoutindex day/night pair, but neither
@@ -396,7 +396,7 @@ void MigrateSaveFormatIfNeeded(void)
 
 // Bind the saved obstacle bits to the generated table they were written under (issue #16).
 //
-// The bit index for a cut tree comes from Testing/GenObstacleTable.py's build-time enumeration of
+// The bit index for a cut tree comes from test/overworld/GenObstacleTable.py's build-time enumeration of
 // data/maps/, so adding or removing ANY obstacle renumbers every obstacle after it. Without this,
 // a map edit would silently re-point saved bits at different trees — some regrowing, others
 // pre-cleared, with nothing anywhere to explain it. Comparing the stored hash turns that into a
@@ -527,7 +527,7 @@ STATIC_ASSERT(offsetof(struct SaveBlock2, regionChecksum) == 0x94, SaveBlock2Reg
 #endif // ALL_REGIONS
 
 // The three SaveBlock1 banks the BizHawk/Lua suites read. These used to be hand-typed numbers in
-// Testing/GenLuaSymbols.py's curated table, and they ROTTED: save format v7 reshaped SaveBlock1
+// test/overworld/GenLuaSymbols.py's curated table, and they ROTTED: save format v7 reshaped SaveBlock1
 // (bag/pcItems capacities grew) and pushed flags 4728 -> 5524 and vars 5246 -> 6042, but the
 // generator kept emitting the pre-v7 values. A wrong offset here does not crash and does not read
 // back as an error - FlagGet-style reads just land in neighbouring save data, so a suite that sets

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 
 const repo = join(dirname(fileURLToPath(import.meta.url)), '..');
-const root = join(repo, 'assets/branding');
+const root = join(repo, 'graphics/branding');
 const out = join(repo, 'graphics/title_screen/world');
 mkdirSync(out, { recursive: true });
 const W = 240, H = 160;

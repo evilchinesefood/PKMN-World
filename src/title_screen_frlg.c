@@ -83,53 +83,53 @@ static void DeactivateSlashSprite(u8 spriteId);
 static bool32 IsSlashSpriteDeactivated(u8 spriteId);
 static void SpriteCallback_Slash(struct Sprite *sprite);
 
-static const u8 sBorderBgTiles[] = INCGFX_U8("graphics/title_screen_frlg/border_bg.png", ".4bpp.smol");
+static const u8 sBorderBgTiles[] = INCGFX_U8("graphics/title_screen/frlg/border_bg.png", ".4bpp.smol");
 
 #if defined(FIRERED)
-static const u8 sBorderBgMap[] = INCBIN_U8("graphics/title_screen_frlg/firered/border_bg.bin.smolTM");
+static const u8 sBorderBgMap[] = INCBIN_U8("graphics/title_screen/frlg/firered/border_bg.bin.smolTM");
 #elif defined(LEAFGREEN)
-static const u8 sBorderBgMap[] = INCBIN_U8("graphics/title_screen_frlg/leafgreen/border_bg.bin.smolTM");
+static const u8 sBorderBgMap[] = INCBIN_U8("graphics/title_screen/frlg/leafgreen/border_bg.bin.smolTM");
 #endif
 
-static const u32 sSlash_Gfx[] = INCGFX_U32("graphics/title_screen_frlg/slash.png", ".4bpp.smol");
+static const u32 sSlash_Gfx[] = INCGFX_U32("graphics/title_screen/frlg/slash.png", ".4bpp.smol");
 
 #if defined(FIRERED)
-static const u16 sFlames_Pal[] = INCGFX_U16("graphics/title_screen_frlg/firered/flames.png", ".gbapal");
-static const u32 sFlames_Gfx[] = INCGFX_U32("graphics/title_screen_frlg/firered/flames.png", ".4bpp.smol");
-static const u32 sBlankFlames_Gfx[] = INCGFX_U32("graphics/title_screen_frlg/firered/blank_flames.png", ".4bpp.smol");
+static const u16 sFlames_Pal[] = INCGFX_U16("graphics/title_screen/frlg/firered/flames.png", ".gbapal");
+static const u32 sFlames_Gfx[] = INCGFX_U32("graphics/title_screen/frlg/firered/flames.png", ".4bpp.smol");
+static const u32 sBlankFlames_Gfx[] = INCGFX_U32("graphics/title_screen/frlg/firered/blank_flames.png", ".4bpp.smol");
 #elif defined(LEAFGREEN)
-static const u16 sLeaves_Pal[] = INCGFX_U16("graphics/title_screen_frlg/leafgreen/leaves.png", ".gbapal");
-static const u32 sLeaves_Gfx[] = INCGFX_U32("graphics/title_screen_frlg/leafgreen/leaves.png", ".4bpp.smol");
-static const u32 sStreak_Gfx[] = INCGFX_U32("graphics/title_screen_frlg/leafgreen/streak.png", ".4bpp.smol");
+static const u16 sLeaves_Pal[] = INCGFX_U16("graphics/title_screen/frlg/leafgreen/leaves.png", ".gbapal");
+static const u32 sLeaves_Gfx[] = INCGFX_U32("graphics/title_screen/frlg/leafgreen/leaves.png", ".4bpp.smol");
+static const u32 sStreak_Gfx[] = INCGFX_U32("graphics/title_screen/frlg/leafgreen/streak.png", ".4bpp.smol");
 #endif
 
 #ifdef FIRERED
-const u16 gGraphics_TitleScreen_GameTitleLogoPals[] = INCGFX_U16("graphics/title_screen_frlg/firered/game_title_logo.pal", ".gbapal");
-const u8 gGraphics_TitleScreen_GameTitleLogoTiles[] = INCGFX_U8("graphics/title_screen_frlg/firered/game_title_logo.png", ".8bpp.smol");
-const u8 gGraphics_TitleScreen_GameTitleLogoMap[] = INCBIN_U8("graphics/title_screen_frlg/firered/game_title_logo.bin.smolTM");
-const u16 gGraphics_TitleScreen_BoxArtMonPals[] = INCGFX_U16("graphics/title_screen_frlg/firered/box_art_mon.pal", ".gbapal");
-const u8 gGraphics_TitleScreen_BoxArtMonTiles[] = INCGFX_U8("graphics/title_screen_frlg/firered/box_art_mon.png", ".4bpp.smol");
-const u8 gGraphics_TitleScreen_BoxArtMonMap[] = INCBIN_U8("graphics/title_screen_frlg/firered/box_art_mon.bin.smolTM");
-const u16 gGraphics_TitleScreen_BackgroundPals[] = INCGFX_U16("graphics/title_screen_frlg/firered/background.pal", ".gbapal");
-const u8 gGraphics_TitleScreen_CopyrightPressStartTiles[] = INCGFX_U8("graphics/title_screen_frlg/copyright_press_start.png", ".4bpp.smol");
-const u8 gGraphics_TitleScreen_CopyrightPressStartMap[] = INCBIN_U8("graphics/title_screen_frlg/copyright_press_start.bin.smolTM");
-const u16 gTitleScreen_Slash_Pal[] = INCGFX_U16("graphics/title_screen_frlg/firered/slash.pal", ".gbapal");
+const u16 gGraphics_TitleScreen_GameTitleLogoPals[] = INCGFX_U16("graphics/title_screen/frlg/firered/game_title_logo.pal", ".gbapal");
+const u8 gGraphics_TitleScreen_GameTitleLogoTiles[] = INCGFX_U8("graphics/title_screen/frlg/firered/game_title_logo.png", ".8bpp.smol");
+const u8 gGraphics_TitleScreen_GameTitleLogoMap[] = INCBIN_U8("graphics/title_screen/frlg/firered/game_title_logo.bin.smolTM");
+const u16 gGraphics_TitleScreen_BoxArtMonPals[] = INCGFX_U16("graphics/title_screen/frlg/firered/box_art_mon.pal", ".gbapal");
+const u8 gGraphics_TitleScreen_BoxArtMonTiles[] = INCGFX_U8("graphics/title_screen/frlg/firered/box_art_mon.png", ".4bpp.smol");
+const u8 gGraphics_TitleScreen_BoxArtMonMap[] = INCBIN_U8("graphics/title_screen/frlg/firered/box_art_mon.bin.smolTM");
+const u16 gGraphics_TitleScreen_BackgroundPals[] = INCGFX_U16("graphics/title_screen/frlg/firered/background.pal", ".gbapal");
+const u8 gGraphics_TitleScreen_CopyrightPressStartTiles[] = INCGFX_U8("graphics/title_screen/frlg/copyright_press_start.png", ".4bpp.smol");
+const u8 gGraphics_TitleScreen_CopyrightPressStartMap[] = INCBIN_U8("graphics/title_screen/frlg/copyright_press_start.bin.smolTM");
+const u16 gTitleScreen_Slash_Pal[] = INCGFX_U16("graphics/title_screen/frlg/firered/slash.pal", ".gbapal");
 #endif
 
 #ifdef LEAFGREEN
-const u16 gGraphics_TitleScreen_GameTitleLogoPals[] = INCGFX_U16("graphics/title_screen_frlg/leafgreen/game_title_logo.pal", ".gbapal");
-const u8 gGraphics_TitleScreen_GameTitleLogoTiles[] = INCGFX_U8("graphics/title_screen_frlg/leafgreen/game_title_logo.png", ".8bpp.smol");
-const u8 gGraphics_TitleScreen_GameTitleLogoMap[] = INCBIN_U8("graphics/title_screen_frlg/leafgreen/game_title_logo.bin.smolTM");
-const u16 gGraphics_TitleScreen_BoxArtMonPals[] = INCGFX_U16("graphics/title_screen_frlg/leafgreen/box_art_mon.pal", ".gbapal");
-const u8 gGraphics_TitleScreen_BoxArtMonTiles[] = INCGFX_U8("graphics/title_screen_frlg/leafgreen/box_art_mon.png", ".4bpp.smol");
-const u8 gGraphics_TitleScreen_BoxArtMonMap[] = INCBIN_U8("graphics/title_screen_frlg/leafgreen/box_art_mon.bin.smolTM");
-const u16 gGraphics_TitleScreen_BackgroundPals[] = INCGFX_U16("graphics/title_screen_frlg/leafgreen/background.pal", ".gbapal");
-const u8 gGraphics_TitleScreen_CopyrightPressStartTiles[] = INCGFX_U8("graphics/title_screen_frlg/copyright_press_start.png", ".4bpp.smol");
-const u8 gGraphics_TitleScreen_CopyrightPressStartMap[] = INCBIN_U8("graphics/title_screen_frlg/copyright_press_start.bin.smolTM");
-const u16 gTitleScreen_Slash_Pal[] = INCGFX_U16("graphics/title_screen_frlg/leafgreen/slash.pal", ".gbapal");
+const u16 gGraphics_TitleScreen_GameTitleLogoPals[] = INCGFX_U16("graphics/title_screen/frlg/leafgreen/game_title_logo.pal", ".gbapal");
+const u8 gGraphics_TitleScreen_GameTitleLogoTiles[] = INCGFX_U8("graphics/title_screen/frlg/leafgreen/game_title_logo.png", ".8bpp.smol");
+const u8 gGraphics_TitleScreen_GameTitleLogoMap[] = INCBIN_U8("graphics/title_screen/frlg/leafgreen/game_title_logo.bin.smolTM");
+const u16 gGraphics_TitleScreen_BoxArtMonPals[] = INCGFX_U16("graphics/title_screen/frlg/leafgreen/box_art_mon.pal", ".gbapal");
+const u8 gGraphics_TitleScreen_BoxArtMonTiles[] = INCGFX_U8("graphics/title_screen/frlg/leafgreen/box_art_mon.png", ".4bpp.smol");
+const u8 gGraphics_TitleScreen_BoxArtMonMap[] = INCBIN_U8("graphics/title_screen/frlg/leafgreen/box_art_mon.bin.smolTM");
+const u16 gGraphics_TitleScreen_BackgroundPals[] = INCGFX_U16("graphics/title_screen/frlg/leafgreen/background.pal", ".gbapal");
+const u8 gGraphics_TitleScreen_CopyrightPressStartTiles[] = INCGFX_U8("graphics/title_screen/frlg/copyright_press_start.png", ".4bpp.smol");
+const u8 gGraphics_TitleScreen_CopyrightPressStartMap[] = INCBIN_U8("graphics/title_screen/frlg/copyright_press_start.bin.smolTM");
+const u16 gTitleScreen_Slash_Pal[] = INCGFX_U16("graphics/title_screen/frlg/leafgreen/slash.pal", ".gbapal");
 #endif
 
-const u32 gTitleScreen_BlankSprite_Tiles[] = INCGFX_U32("graphics/title_screen_frlg/blank_sprite.png", ".4bpp.smol");
+const u32 gTitleScreen_BlankSprite_Tiles[] = INCGFX_U32("graphics/title_screen/frlg/blank_sprite.png", ".4bpp.smol");
 
 static const struct OamData sOamData_FlameOrLeaf = {
     .objMode = ST_OAM_OBJ_NORMAL,
@@ -361,12 +361,12 @@ static const u16 sStreakYPositions[] = {
 };
 #endif
 
-static const u32 sUnused_Tilemap1[] = INCGFX_U32("graphics/title_screen_frlg/unused1.bin", ".smolTM");
-static const u32 sUnused_Tilemap2[] = INCGFX_U32("graphics/title_screen_frlg/unused2.bin", ".smolTM");
-static const u32 sUnused_Tilemap3[] = INCGFX_U32("graphics/title_screen_frlg/unused3.bin", ".smolTM");
-static const u32 sUnused_Tilemap4[] = INCGFX_U32("graphics/title_screen_frlg/unused4.bin", ".smolTM");
-static const u32 sUnused_Tilemap5[] = INCGFX_U32("graphics/title_screen_frlg/unused5.bin", ".smolTM");
-static const u32 sUnused_Tilemap6[] = INCGFX_U32("graphics/title_screen_frlg/unused6.bin", ".smolTM");
+static const u32 sUnused_Tilemap1[] = INCGFX_U32("graphics/title_screen/frlg/unused1.bin", ".smolTM");
+static const u32 sUnused_Tilemap2[] = INCGFX_U32("graphics/title_screen/frlg/unused2.bin", ".smolTM");
+static const u32 sUnused_Tilemap3[] = INCGFX_U32("graphics/title_screen/frlg/unused3.bin", ".smolTM");
+static const u32 sUnused_Tilemap4[] = INCGFX_U32("graphics/title_screen/frlg/unused4.bin", ".smolTM");
+static const u32 sUnused_Tilemap5[] = INCGFX_U32("graphics/title_screen/frlg/unused5.bin", ".smolTM");
+static const u32 sUnused_Tilemap6[] = INCGFX_U32("graphics/title_screen/frlg/unused6.bin", ".smolTM");
 
 static const u32 *const sUnused_Tilemaps[] = {
     sUnused_Tilemap1,

@@ -10,11 +10,11 @@ Master is both the dev branch and the release branch. There is no release branch
 
 1. **`make check`** — the battle-engine suite in `test/`. Locally, or via the CI `test` job.
 
-2. **The full Lua sweep** — `Testing/run-all.sh`, against the exact commit being tagged:
+2. **The full Lua sweep** — `test/overworld/run-all.sh`, against the exact commit being tagged:
 
    ```console
    make modern -j$(sysctl -n hw.ncpu)     # symbols.lua is a prerequisite of the ROM build
-   Testing/run-all.sh
+   test/overworld/run-all.sh
    ```
 
    Use `run-all.sh`, not `mgba-run.sh` — the latter runs a single suite. `run-all.sh` clears
@@ -24,11 +24,11 @@ Master is both the dev branch and the release branch. There is no release branch
    stale green cannot be counted. Anything short of a clean exit 0 is not a release.
 
    These suites run nowhere else — CI cannot run them (they need a locally patched Lua-enabled
-   headless mGBA; see `Testing/mgba/README.md`). A release is the moment they must actually
+   headless mGBA; see `test/overworld/mgba/README.md`). A release is the moment they must actually
    have run.
 
 3. **`make validate`** — the six host-side content validators. The CI `validate` job mirrors
-   them, and so does the `pre-push` hook if you installed it (`Testing/hooks/install.sh`).
+   them, and so does the `pre-push` hook if you installed it (`test/overworld/hooks/install.sh`).
 
 4. **Default-config `make`** — the ROM that actually ships must build. CI `build` job.
 

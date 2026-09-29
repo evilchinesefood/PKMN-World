@@ -1,7 +1,7 @@
 # Features
 
 **Pokémon World** merges Kanto, Johto and Hoenn into one GBA game, built on
-[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion) 1.16.2
+[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion) 1.16.4 dev (upstream `82598c4d88`, 2026-08-23)
 (`include/constants/expansion.h`). It inherits most of the expansion's engine work, adds the
 three-region merge on top, and ships a handful of ported community features.
 
@@ -37,6 +37,7 @@ Worth knowing up front, because the upstream feature list advertises all of it:
 - [Character customization](#character-customization)
 - [Riding your Pokémon](#riding-your-pokémon)
 - [Ported features](#ported-features)
+- [World presentation](#world-presentation)
 - [Quality-of-life defaults](#quality-of-life-defaults)
 - [For developers](#for-developers)
 
@@ -48,7 +49,7 @@ Elite Four, Champion and Hall of Fame, and you choose the order.
 - **Kanto** — the FireRed campaign, wired live: every FRLG trainer fights its real FRLG party,
   with the real gym leader / Elite Four / Champion rosters, rival **GARY** (who is also the Kanto
   Champion), and the Route 23 badge checkpoints guarding Victory Road.
-- **Johto** — ported in: **251 maps** with tilesets and scripts, **312 distinct trainers**,
+- **Johto** — ported in: **252 registered maps** with tilesets, scripts and dedicated trainer rosters,
   wild-encounter tables, the Johto town map with Fly and heal locations, rival **GARY** again, and
   the Johto League (Will / Koga / Bruno / Karen → **Champion Lance**) with HGSS-style portrait art
   for the eight gym leaders, the Elite Four and Lance. 67 trainers that used to share a Hoenn
@@ -67,7 +68,7 @@ cross-gen evolution items are sold in-world, and those evolutions count toward t
 
 This is enforced, not just a style guide. Every Gen 4–9 family is `FALSE` in
 `include/config/species_enabled.h`. A reference to a disabled species compiles clean and then
-blue-screens at battle start, so `Testing/ValidateGen13.py` — run by `make validate` and the
+blue-screens at battle start, so `test/overworld/ValidateGen13.py` — run by `make validate` and the
 pre-push hook — scans every obtainable-species source and fails on any disabled reference.
 
 ## World Transit hub
@@ -122,7 +123,7 @@ trip — sail from Olivine and you come home to Olivine; sail from Lilycove and 
 Lilycove.
 
 **Saves.** The active region and hub state live in a versioned save format with a migration
-reader. The current format is **v9**; v7 and v8 saves migrate forward on load. Anything older is
+reader. The current format is **v10**; v7, v8 and v9 saves migrate forward on load. Anything older is
 **refused at load with an explanation** rather than migrated — the v7 bag/PC resize reshaped the
 layout, and a legacy save would otherwise half-load with silently misaligned flags and vars.
 
@@ -213,14 +214,19 @@ EXP, so the sims train you up to your cap, not past it.
 **Every Pokémon Center lobby** — 50 rooms in all, covering the three regions, the Sevii Islands,
 the league lobbies, Mt. Silver, the Battle Frontier and the hub — has a **Battle Net wall
 terminal** beside the PC carrying the Scaling Type Trainer and Leader Sim, so the sim economy
-travels with you. The old Center 2Fs (and the link-era rooms they hosted) are gone; the hub's
+travels with you. The old Center 2Fs (and the link-era rooms they hosted) are sealed off; the hub's
 flagship floor gained a real staircase.
 
 ## Character customization
 
 You play as Brendan or May in every region. A **six-outfit palette-swap** system is chosen in the
 new-game intro with a live preview on the trainer sprite, and applies everywhere: overworld,
-battle back-sprite and trainer card.
+battle back-sprite and trainer card. Blue, Green, Purple, Black and Pink have
+separate ramps for each live gender/layout; Red preserves the original palette.
+Skin, hair/ink and white accents are protected. Oak uses the same front-sprite
+palettes as the local trainer card, and water reflections inherit the live
+overworld palette before the existing water/time filter. The underwater sprite
+retains its dedicated palette.
 
 ## Riding your Pokémon
 
@@ -274,6 +280,37 @@ on:
   without being taught it. Badge gates still apply.
 - `QOL_FIELD_MOVES_ITEM_GATE` — owning the matching tool item (`ITEM_CUT_TOOL` … `ITEM_DIVE_TOOL`)
   unlocks that field move outright.
+
+## World presentation
+
+- **Pokémon World title screen** — native logo, island panorama and centered
+  PRESS START. Branding source and exporter live under `graphics/branding/` and
+  `tools/export-world-title.mjs`.
+- **World Panels** — Main Menu, Options and Relearn Moves share light moving
+  diagonal backgrounds, white panels and red headers. Main Menu save details
+  use dark readable text; text-rendered action labels use title case. Battle
+  command labels keep their established uppercase layout.
+- **Selectable window frames** — Options previews the current frame, and battle
+  window loaders honor the chosen art/palette while preserving special scenes.
+- **BW-style battle UI** — healthboxes, party-summary bar, command/input windows,
+  ability pop-ups and move-description/last-ball shortcuts are enabled by
+  `include/config/bw_battle_ui.h`. The battle bag keeps the SwSh item screen.
+- **Location/time-aware battle backgrounds** — Ice Path uses ice-cave colors;
+  snowy Mt. Silver uses snow/rock colors. Ordinary regional battles inherit the
+  captured overworld time tint and restore correctly after Bag/Party and move
+  animation backgrounds. Gameplay terrain remains separate from visual selection.
+- **Warm night windows in 49 towns across the three regions** — existing night
+  palettes/metatiles provide the light. Added lamp posts were removed; town
+  geometry, collision, warps and events remain unchanged. Palette `.pla` marker
+  changes are tracked by incremental builds.
+- **Viridian art pass** — gardens, road edges/verges and building frontages reuse
+  existing Kanto artwork while preserving events and walkability.
+- **Hub staff art** — revised researcher and gentleman sprites/palettes fit the
+  regional staff; these are specific sprite replacements, not an NPC-system rewrite.
+
+The [final source/test audit](maintenance/final-pass/README.md) records verification
+and its limits. The feature catalog describes implemented source and enabled
+configuration; it is not an end-to-end campaign completion certificate.
 
 ## Quality-of-life defaults
 
@@ -364,9 +401,9 @@ and `mgba-rom-test-hydra` test runners.
 
 | Command | What it covers |
 |---|---|
-| `make validate` | Host-side, no build: the Gen 1–3 species rule, bare-integer script pointers, overworld Pokémon placements, map object events, plus the obstacle table and save-patch self-checks. Also run by the pre-push hook. |
-| `make check` | The inherited battle-engine test framework in `test/`, ~5,500 tests through the bundled `mgba-rom-test` runners. Also runs in CI. |
-| `Testing/run-all.sh` | 43 in-game overworld suites driven by a patched headless mGBA (44 with the optional owner save). **Local only** — the emulator is built from mGBA master with a local patch and isn't in the tree (`Testing/mgba/README.md`). |
+| `make validate` | Host-side, no build: the Gen 1–3 species rule, bare-integer script pointers, overworld Pokémon placements, map object events, layouts, warp destinations/indexes, connections and encounter references, plus the obstacle table and save-patch self-checks. Also run by the pre-push hook. |
+| `make check` | The inherited battle-engine test framework in `test/`, 5,700 cases (including upstream known-failing/TODO categories) through the bundled `mgba-rom-test` runners. Also runs in CI. |
+| `test/overworld/run-all.sh` | 50 mandatory in-game overworld suites driven by a patched headless mGBA (51 with the optional owner save). **Local only** — the emulator is built from mGBA master with a local patch and isn't in the tree (`test/overworld/mgba/README.md`). |
 
 **Debug menu.** Available in default builds — hold R and press START in the overworld — for warps,
 flag/var toggling, Pokémon and item generation, Fly-to-map and more, with hold-to-repeat on

@@ -1,0 +1,66 @@
+suite : /Users/dayers/Github/PKMN-World/maintenance/final-pass/capture_world.lua
+rom   : /Users/dayers/Github/PKMN-World/pokemonworld.gba
+md5   : FE895EAEE1A58E10DDB5687BF6B46DA1
+out   : /tmp/pkmn-final-final-world
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  [PASS] World title visible
+  shot ShowcaseWorld_1_title
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] synthetic showcase team exists
+  WARP RegionHub ok (16,4)
+  [PASS] RegionHub loaded
+  [PASS] RegionHub no crash
+  shot ShowcaseWorld_2_RegionHub
+  WARP ViridianCity_Frlg ok (26,27)
+  [PASS] ViridianCity_Frlg loaded
+  [PASS] ViridianCity_Frlg no crash
+  shot ShowcaseWorld_3_ViridianCity_Frlg
+  WARP VermilionCity_Frlg ok (22,34)
+  [PASS] VermilionCity_Frlg loaded
+  [PASS] VermilionCity_Frlg no crash
+  shot ShowcaseWorld_4_VermilionCity_Frlg
+  WARP CeladonCity_Frlg ok (34,22)
+  [PASS] CeladonCity_Frlg loaded
+  [PASS] CeladonCity_Frlg no crash
+  shot ShowcaseWorld_5_CeladonCity_Frlg
+  WARP CherrygroveCity ok (41,8)
+  [PASS] CherrygroveCity loaded
+  [PASS] CherrygroveCity no crash
+  shot ShowcaseWorld_6_CherrygroveCity
+  WARP EcruteakCity ok (8,35)
+  [PASS] EcruteakCity loaded
+  [PASS] EcruteakCity no crash
+  shot ShowcaseWorld_7_EcruteakCity
+  WARP OlivineCity ok (39,50)
+  [PASS] OlivineCity loaded
+  [PASS] OlivineCity no crash
+  shot ShowcaseWorld_8_OlivineCity
+  WARP MossdeepCity ok (28,10)
+  [PASS] MossdeepCity loaded
+  [PASS] MossdeepCity no crash
+  shot ShowcaseWorld_9_MossdeepCity
+  WARP RustboroCity ok (27,20)
+  [PASS] RustboroCity loaded
+  [PASS] RustboroCity no crash
+  shot ShowcaseWorld_10_RustboroCity
+  WARP FortreeCity ok (5,7)
+  [PASS] FortreeCity loaded
+  [PASS] FortreeCity no crash
+  shot ShowcaseWorld_11_FortreeCity
+  WARP SootopolisCity ok (43,32)
+  [PASS] SootopolisCity loaded
+  [PASS] SootopolisCity no crash
+  shot ShowcaseWorld_12_SootopolisCity
+  WARP BattleFrontier_OutsideEast ok (16,15)
+  [PASS] BattleFrontier_OutsideEast loaded
+  [PASS] BattleFrontier_OutsideEast no crash
+  shot ShowcaseWorld_13_BattleFrontier_OutsideEast
+  WARP RegionHub_2F ok (1,6)
+  [PASS] RegionHub_2F loaded
+  [PASS] RegionHub_2F no crash
+  shot ShowcaseWorld_14_RegionHub_2F
+VERDICT ShowcaseWorld: 28/28 PASS
+---
+exit code: 0

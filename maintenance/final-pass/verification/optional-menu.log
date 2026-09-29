@@ -1,0 +1,20 @@
+suite : /Users/dayers/Github/PKMN-World/test/overworld/world-menu-theme/check_optional_rows.lua
+rom   : /Users/dayers/Github/PKMN-World/pokemonworld.gba
+md5   : FE895EAEE1A58E10DDB5687BF6B46DA1
+out   : /tmp/pkmn-final-optional-clean
+rtc   : 1704110400 (2024-01-01 07:00:00 EST)
+---
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Gift Options: BG0 scroll fits the optional layout
+  [PASS] Gift Options: selected frame fits the display
+  shot MainMenuOptionalRows_1_gift_options
+  [PASS] Gift leaving Options restores scroll
+  [PASS] Gift restored Options: BG0 scroll fits the optional layout
+  [PASS] Gift restored Options: selected frame fits the display
+  [PASS] Events Options: BG0 scroll fits the optional layout
+  [PASS] Events Options: selected frame fits the display
+  [PASS] no crash
+VERDICT MainMenuOptionalRows: 8/8 PASS
+---
+exit code: 0

@@ -386,7 +386,7 @@ ALIGNED(4) const u8 gCreditsString_POKeMON_Designers_3[] = _("POKéMON Designers
 ALIGNED(4) const u8 gCreditsString_Atsuko_Nishida_Muneo_Saito_Rena_Yoshikawa_Jun_Okutani[] = _("\nAtsuko Nishida\nMuneo Saito\nRena Yoshikawa\nJun Okutani\n\n");
 ALIGNED(4) const u8 gCreditsString_Supporting_Programmers[] = _("Supporting Programmers\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Teruyuki_Yoshioka_Takao_Nakano_Satoshi_Mitsuhara_Daisuke_Hoshino[] = _("\nTeruyuki Yoshioka\nTakao Nakano\n\nSatoshi Mitsuhara\nDaisuke Hoshino\n");
-ALIGNED(4) const u8 gCreditsString_NCL_Product_Testing[] = _("\n\nNCL Product Testing\n\n\n\n");
+ALIGNED(4) const u8 gCreditsString_NCL_Product_Testing[] = _("\n\nNCL Product test\overworld\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_NCL_Super_Mario_Club[] = _("\n\n\nNCL Super Mario Club\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Special_Thanks[] = _("Special Thanks\n\n\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Hiro_Nakamura_Hiroyuki_Uesugi_Teruki_Murakawa_Kazuya_Suyama[] = _("\nHiro Nakamura\nHiroyuki Uesugi\nTeruki Murakawa\n\nKazuya Suyama\n");
@@ -418,7 +418,7 @@ ALIGNED(4) const u8 gCreditsString_Programmers_2[] = _("Programmers\n\n\n\n\n\n"
 ALIGNED(4) const u8 gCreditsString_Teruki_Murakawa_Souichi_Yamamoto_Yuichiro_Ito_Akira_Kinashi[] = _("\nTeruki Murakawa\nSouichi Yamamoto\nYuichiro Ito\nAkira Kinashi\n\n");
 ALIGNED(4) const u8 gCreditsString_Environment_Tool_Programmers[] = _("\nEnvironment & Tool Programmers\n\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Teruki_Murakawa_Souichi_Yamamoto_Kimiko_Nakamichi[] = _("\n\nTeruki Murakawa\nSouichi Yamamoto\nKimiko Nakamichi\n\n");
-ALIGNED(4) const u8 gCreditsString_NOA_Product_Testing[] = _("NOA Product Testing\n\n\n\n\n\n");
+ALIGNED(4) const u8 gCreditsString_NOA_Product_Testing[] = _("NOA Product test\overworld\n\n\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Thomas_Hertzog_Kathy_Huguenard_Mika_Kurosawa[] = _("\nThomas Hertzog\nKathy Huguenard\nMika Kurosawa\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Braille_Code_Check_2[] = _("Braille Code Check\n\n\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_National_Federation_of_the_Blind_Patricia_A_Maurer_Japan_Braille_Library_European_Blind_Union[] = _("\nNational Federation\n{CLEAR_TO 19}of the Blind\nPatricia A. Maurer\nJapan Braille Library\nEuropean Blind Union\n");
@@ -433,43 +433,43 @@ ALIGNED(4) const u8 gCreditsString_The_Royal_New_Zealand_Foundation_of_the_Blind
 ALIGNED(4) const u8 gCreditsString_Graphic_Designer[] = _("\n\nGraphic Designer\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Akira_Kinashi[] = _("\n\n\nAkira Kinashi\n\n\n");
 
-static const u16 sCreditsMonCircle_Pal[] = INCGFX_U16("graphics/credits_frlg/white_circle.pal", ".gbapal");
-static const u32 sCreditsMonCircle_Tiles[] = INCGFX_U32("graphics/credits_frlg/white_circle.png", ".8bpp.smol");
-static const u32 sCreditsMonCircle_Tilemap[] = INCGFX_U32("graphics/credits_frlg/white_circle.bin", ".smolTM");
+static const u16 sCreditsMonCircle_Pal[] = INCGFX_U16("graphics/credits/frlg/white_circle.pal", ".gbapal");
+static const u32 sCreditsMonCircle_Tiles[] = INCGFX_U32("graphics/credits/frlg/white_circle.png", ".8bpp.smol");
+static const u32 sCreditsMonCircle_Tilemap[] = INCGFX_U32("graphics/credits/frlg/white_circle.bin", ".smolTM");
 
-static const u32 sCharizard1_Tiles[] = INCGFX_U32("graphics/credits_frlg/charizard_1.png", ".4bpp.smol");
-static const u32 sCharizard2_Tiles[] = INCGFX_U32("graphics/credits_frlg/charizard_2.png", ".4bpp.smol");
+static const u32 sCharizard1_Tiles[] = INCGFX_U32("graphics/credits/frlg/charizard_1.png", ".4bpp.smol");
+static const u32 sCharizard2_Tiles[] = INCGFX_U32("graphics/credits/frlg/charizard_2.png", ".4bpp.smol");
 
-static const u32 sVenusaurUnused_Tiles[] = INCGFX_U32("graphics/credits_frlg/venusaur_unused.png", ".4bpp.smol");
-static const u32 sVenusaur1_Tiles[] = INCGFX_U32("graphics/credits_frlg/venusaur_1.png", ".4bpp.smol");
-static const u32 sVenusaur2_Tiles[] = INCGFX_U32("graphics/credits_frlg/venusaur_2.png", ".4bpp.smol");
+static const u32 sVenusaurUnused_Tiles[] = INCGFX_U32("graphics/credits/frlg/venusaur_unused.png", ".4bpp.smol");
+static const u32 sVenusaur1_Tiles[] = INCGFX_U32("graphics/credits/frlg/venusaur_1.png", ".4bpp.smol");
+static const u32 sVenusaur2_Tiles[] = INCGFX_U32("graphics/credits/frlg/venusaur_2.png", ".4bpp.smol");
 
-static const u32 sBlastoise1_Tiles[] = INCGFX_U32("graphics/credits_frlg/blastoise_1.png", ".4bpp.smol");
-static const u32 sBlastoise2_Tiles[] = INCGFX_U32("graphics/credits_frlg/blastoise_2.png", ".4bpp.smol");
+static const u32 sBlastoise1_Tiles[] = INCGFX_U32("graphics/credits/frlg/blastoise_1.png", ".4bpp.smol");
+static const u32 sBlastoise2_Tiles[] = INCGFX_U32("graphics/credits/frlg/blastoise_2.png", ".4bpp.smol");
 
-static const u32 sPikachu1_Tiles[] = INCGFX_U32("graphics/credits_frlg/pikachu_1.png", ".4bpp.smol");
-static const u32 sPikachu2_Tiles[] = INCGFX_U32("graphics/credits_frlg/pikachu_2.png", ".4bpp.smol");
+static const u32 sPikachu1_Tiles[] = INCGFX_U32("graphics/credits/frlg/pikachu_1.png", ".4bpp.smol");
+static const u32 sPikachu2_Tiles[] = INCGFX_U32("graphics/credits/frlg/pikachu_2.png", ".4bpp.smol");
 
 static const u32 sUnused = 0xF0;
 
-static const u16 sTheEnd_Pal[] = INCGFX_U16("graphics/credits_frlg/the_end.png", ".gbapal");
-static const u8 sTheEnd_Tiles[] = INCGFX_U8("graphics/credits_frlg/the_end.png", ".4bpp.smol");
-static const u8 sTheEnd_Tilemap[] = INCBIN_U8("graphics/credits_frlg/the_end.bin.smolTM");
+static const u16 sTheEnd_Pal[] = INCGFX_U16("graphics/credits/frlg/the_end.png", ".gbapal");
+static const u8 sTheEnd_Tiles[] = INCGFX_U8("graphics/credits/frlg/the_end.png", ".4bpp.smol");
+static const u8 sTheEnd_Tilemap[] = INCBIN_U8("graphics/credits/frlg/the_end.bin.smolTM");
 
-const u16 gCreditsCopyright_Pal[] = INCGFX_U16("graphics/credits_frlg/copyright.png", ".gbapal");
-const u8 gCreditsCopyright_Tiles[] = INCGFX_U8("graphics/credits_frlg/copyright.png", ".4bpp.smol");
-const u8 gCreditsCopyright_Tilemap[] = INCBIN_U8("graphics/credits_frlg/copyright.bin.smolTM");
+const u16 gCreditsCopyright_Pal[] = INCGFX_U16("graphics/credits/frlg/copyright.png", ".gbapal");
+const u8 gCreditsCopyright_Tiles[] = INCGFX_U8("graphics/credits/frlg/copyright.png", ".4bpp.smol");
+const u8 gCreditsCopyright_Tilemap[] = INCBIN_U8("graphics/credits/frlg/copyright.bin.smolTM");
 
 const u16 gCreditsMonPokeball_Pals[][16] =
 {
-    INCGFX_U16("graphics/credits_frlg/pokeball_charizard.pal", ".gbapal"),
-    INCGFX_U16("graphics/credits_frlg/pokeball_venusaur.pal", ".gbapal"),
-    INCGFX_U16("graphics/credits_frlg/pokeball_blastoise.pal", ".gbapal"),
-    INCGFX_U16("graphics/credits_frlg/pokeball_pikachu.pal", ".gbapal"),
+    INCGFX_U16("graphics/credits/frlg/pokeball_charizard.pal", ".gbapal"),
+    INCGFX_U16("graphics/credits/frlg/pokeball_venusaur.pal", ".gbapal"),
+    INCGFX_U16("graphics/credits/frlg/pokeball_blastoise.pal", ".gbapal"),
+    INCGFX_U16("graphics/credits/frlg/pokeball_pikachu.pal", ".gbapal"),
 };
 
-const u32 gCreditsMonPokeball_Tiles[] = INCGFX_U32("graphics/credits_frlg/pokeball.png", ".4bpp.smol");
-const u32 gCreditsMonPokeball_Tilemap[] = INCGFX_U32("graphics/credits_frlg/pokeball.bin", ".smolTM");
+const u32 gCreditsMonPokeball_Tiles[] = INCGFX_U32("graphics/credits/frlg/pokeball.png", ".4bpp.smol");
+const u32 gCreditsMonPokeball_Tilemap[] = INCGFX_U32("graphics/credits/frlg/pokeball.bin", ".smolTM");
 
 static const struct CompressedGraphicsHeader sCopyrightOrTheEndGfxHeaders[] = {
     {
@@ -573,18 +573,18 @@ static const struct WindowTemplate sCreditsWindowTemplate = {
     .baseBlock = 0x008
 };
 
-static const u16 sPlayerMale_Pal[]     = INCGFX_U16("graphics/credits_frlg/player_male.png", ".gbapal");
-static const u32 sPlayerMale_Tiles[]   = INCGFX_U32("graphics/credits_frlg/player_male.png", ".4bpp.smol");
-static const u16 sPlayerFemale_Pal[]   = INCGFX_U16("graphics/credits_frlg/player_female.png", ".gbapal");
-static const u32 sPlayerFemale_Tiles[] = INCGFX_U32("graphics/credits_frlg/player_female.png", ".4bpp.smol");
-static const u16 sRival_Pal[]          = INCGFX_U16("graphics/credits_frlg/rival.png", ".gbapal");
-static const u32 sRival_Tiles[]        = INCGFX_U32("graphics/credits_frlg/rival.png", ".4bpp.smol");
-static const u16 sGround_Grass_Pal[]   = INCGFX_U16("graphics/credits_frlg/ground_grass.png", ".gbapal");
-static const u32 sGround_Grass_Tiles[] = INCGFX_U32("graphics/credits_frlg/ground_grass.png", ".4bpp.smol");
-static const u16 sGround_Dirt_Pal[]    = INCGFX_U16("graphics/credits_frlg/ground_dirt.png", ".gbapal");
-static const u32 sGround_Dirt_Tiles[]  = INCGFX_U32("graphics/credits_frlg/ground_dirt.png", ".4bpp.smol");
-static const u16 sGround_City_Pal[]    = INCGFX_U16("graphics/credits_frlg/ground_city.png", ".gbapal");
-static const u32 sGround_City_Tiles[]  = INCGFX_U32("graphics/credits_frlg/ground_city.png", ".4bpp.smol");
+static const u16 sPlayerMale_Pal[]     = INCGFX_U16("graphics/credits/frlg/player_male.png", ".gbapal");
+static const u32 sPlayerMale_Tiles[]   = INCGFX_U32("graphics/credits/frlg/player_male.png", ".4bpp.smol");
+static const u16 sPlayerFemale_Pal[]   = INCGFX_U16("graphics/credits/frlg/player_female.png", ".gbapal");
+static const u32 sPlayerFemale_Tiles[] = INCGFX_U32("graphics/credits/frlg/player_female.png", ".4bpp.smol");
+static const u16 sRival_Pal[]          = INCGFX_U16("graphics/credits/frlg/rival.png", ".gbapal");
+static const u32 sRival_Tiles[]        = INCGFX_U32("graphics/credits/frlg/rival.png", ".4bpp.smol");
+static const u16 sGround_Grass_Pal[]   = INCGFX_U16("graphics/credits/frlg/ground_grass.png", ".gbapal");
+static const u32 sGround_Grass_Tiles[] = INCGFX_U32("graphics/credits/frlg/ground_grass.png", ".4bpp.smol");
+static const u16 sGround_Dirt_Pal[]    = INCGFX_U16("graphics/credits/frlg/ground_dirt.png", ".gbapal");
+static const u32 sGround_Dirt_Tiles[]  = INCGFX_U32("graphics/credits/frlg/ground_dirt.png", ".4bpp.smol");
+static const u16 sGround_City_Pal[]    = INCGFX_U16("graphics/credits/frlg/ground_city.png", ".gbapal");
+static const u32 sGround_City_Tiles[]  = INCGFX_U32("graphics/credits/frlg/ground_city.png", ".4bpp.smol");
 
 static const u16 sPlayerRivalSpriteParams[][3] = {
     { 0, 3, 1 },

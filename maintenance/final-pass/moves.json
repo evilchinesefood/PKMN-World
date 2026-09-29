@@ -1,0 +1,8 @@
+{
+  "Testing": "test/overworld",
+  "assets/branding": "graphics/branding",
+  "graphics/intro_frlg": "graphics/intro/frlg",
+  "graphics/credits_frlg": "graphics/credits/frlg",
+  "graphics/title_screen_frlg": "graphics/title_screen/frlg",
+  "graphics/berry_fix": "graphics/berries/fix"
+}

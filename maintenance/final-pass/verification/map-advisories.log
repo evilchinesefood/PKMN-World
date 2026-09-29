@@ -1,0 +1,23 @@
+-- census: 1191 maps, 6605 object events, 44482 script labels, 1795 trainers, 3419 flag defines
+-- mute-NPC census: 46 flag-gated mute objects considered; 45 excluded because the hide flag is re-set elsewhere and 1 because a script removes the object (both mean scene machinery); 46 spawn-and-stay hide flags remain judgeable
+-- role table: 3790 scripts carry objects; 5 use more than one sprite; 2 of those are within MAX_ROLE_GFX=3 and get an outlier vote, 3 are treated as generic
+     [generic] BattlePyramid_TrainerBattle: 13xPOKEFAN_F, 8xLITTLE_GIRL, 6xGIRL_3, 6xRICH_BOY, 5xBOY_2, 5xFAT_MAN, 5xLITTLE_BOY, 4xGIRL_2, 4xWOMAN_1, 1xNINJA_BOY, 1xBOY_3, 1xTWIN, 1xBOY_1, 1xFISHERMAN, 1xMAN_3, 1xWOMAN_2, 1xGIRL_1
+     [generic] FourIsland_LoreleisHouse_EventScript_Doll: 1xWIGGLYTUFF, 1xSEEL, 1xPIKACHU, 1xSLOWPOKE, 1xSLOWBRO, 1xPSYDUCK, 1xMEOWTH, 1xCHANSEY, 1xJIGGLYPUFF, 1xNIDORAN_F, 1xNIDORAN_M, 1xPIDGEOT, 1xFEAROW, 1xLAPRAS_DOLL
+     [generic] RustboroCity_Flat1_2F_EventScript_PokeDoll: 1xSKITTY_DOLL, 1xTREECKO_DOLL, 1xTORCHIC_DOLL, 1xMUDKIP_DOLL, 1xPIKACHU_DOLL
+     [role   ] Common_EventScript_WirelessClubAttendant: 19xCABLE_CLUB_RECEPTIONIST, 17xTEALA
+     [role   ] EventScript_Whirlpool: 32xARCHER, 8xWHIRLPOOL
+REVIEW - SCRIPT-GFX-OUTLIER: 1 finding(s), baseline 1
+    'EventScript_Whirlpool': 8x OBJ_EVENT_GFX_WHIRLPOOL vs 32x ARCHER -- DragonsDen_Cavern obj 23, DragonsDen_Cavern obj 24, Route41 obj 34, Route41 obj 35, Route41 obj 36, Route41 obj 37 (+2 more)
+REVIEW - CUTSCENE-SEALS-MAP: 9 finding(s), baseline 9
+    BattleFrontier_BattlePalaceBattleRoom: addobject LOCALID_PALACE_BATTLE_OPPONENT stages an actor on (13, 1), which seals 1 tile(s) off from every warp on the map while it stands there (from BattleFrontier_BattlePalaceBattleRoom_EventScript_BattleSpenser, BattleFrontier_BattlePalaceBattleRoom_EventScript_NextOpponentEnter)
+    EverGrandeCity_ChampionsRoom: addobject LOCALID_CHAMPIONS_ROOM_BIRCH stages an actor on (6, 12), which seals 53 tile(s) off from every warp on the map while it stands there (from EverGrandeCity_ChampionsRoom_EventScript_BirchArrivesExitForHoF)
+    EverGrandeCity_ChampionsRoom: addobject LOCALID_CHAMPIONS_ROOM_RIVAL stages an actor on (6, 12), which seals 53 tile(s) off from every warp on the map while it stands there (from EverGrandeCity_ChampionsRoom_EventScript_Defeated)
+    LittlerootTown_BrendansHouse_2F: addobject LOCALID_RIVALS_HOUSE_2F_RIVAL stages an actor on (7, 1), which seals 53 tile(s) off from every warp on the map while it stands there (from LittlerootTown_BrendansHouse_2F_EventScript_MeetBrendan)
+    LittlerootTown_MaysHouse_2F: addobject LOCALID_RIVALS_HOUSE_2F_RIVAL stages an actor on (1, 1), which seals 53 tile(s) off from every warp on the map while it stands there (from LittlerootTown_MaysHouse_2F_EventScript_MeetMay)
+    SlateportCity_OceanicMuseum_2F: addobject LOCALID_OCEANIC_MUSEUM_2F_ARCHIE stages an actor on (6, 1), which seals 114 tile(s) off from every warp on the map while it stands there (from SlateportCity_OceanicMuseum_2F_EventScript_CaptStern)
+    SlateportCity_OceanicMuseum_2F: addobject LOCALID_OCEANIC_MUSEUM_2F_GRUNT_1 stages an actor on (6, 1), which seals 114 tile(s) off from every warp on the map while it stands there (from SlateportCity_OceanicMuseum_2F_EventScript_CaptStern)
+    SlateportCity_OceanicMuseum_2F: addobject LOCALID_OCEANIC_MUSEUM_2F_GRUNT_2 stages an actor on (6, 1), which seals 114 tile(s) off from every warp on the map while it stands there (from SlateportCity_OceanicMuseum_2F_EventScript_CaptStern)
+    TwoIsland_JoyfulGameCorner_Frlg: addobject LOCALID_JOYFUL_GAME_CORNER_BIKER stages an actor on (5, 8), which seals 62 tile(s) off from every warp on the map while it stands there (from TwoIsland_JoyfulGameCorner_EventScript_HelpFindLostelleScene)
+OK - 6605 object events across 1191 maps: every script and flag they name is defined, no object id runs off a map's table.
+OK - 1795 trainers: no class/portrait faction mismatch, no overworld sprite fighting for the wrong team, every trainer_type object can actually battle.
+OK - role consistency: 3790 object-carrying scripts checked for sprite outliers, prop sprites checked for dialogue.

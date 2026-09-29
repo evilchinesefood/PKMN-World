@@ -1,0 +1,15 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot ShowcaseMenus_1_party
+  [PASS] party visible text tiles intact -- windows=7 mismatched bytes=0
+  [PASS] party returns to field
+  shot ShowcaseMenus_2_bag
+  [PASS] bag visible text tiles intact -- windows=3 mismatched bytes=0
+  [PASS] bag returns to field
+  shot ShowcaseMenus_3_summary
+  [PASS] summary visible text tiles intact -- windows=4 mismatched bytes=0
+  [PASS] summary returns to field
+  WARP Route101 ok (10,10)
+  shot ShowcaseMenus_4_dexnav
+  [PASS] dexnav returns to field
+VERDICT ShowcaseMenus: 7/7 PASS

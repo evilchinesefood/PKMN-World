@@ -1,0 +1,93 @@
+-- census: 1043 layouts, 2086 blockdata/border files, 855865 blocks decoded, 205 tilesets resolved
+-- 31 layout(s) carry a finding: 1611 out-of-bounds and 325 blank reference(s) in total
+-- 5 with OOB, 30 with blank
+-- splits: emerald=439 layouts @ 512, frlg=345 layouts @ 640, johto=259 layouts @ 640
+
+layout                                          ver        OOB   pin  BLANK   pin  tilesets
+LAYOUT_UNUSED_OUTDOOR_AREA                      emerald   1512  1512      0     -  gTileset_General(512) + 0(0) @ split 512
+                                                OOB   ids: 515=S[3]x717 519=S[7]x200 615=S[103]x72 526=S[14]x54 527=S[15]x54 534=S[22]x54 535=S[23]x54 514=S[2]x32 516=S[4]x20 568=S[56]x20 611=S[99]x18 614=S[102]x16 +73 more
+LAYOUT_RS_SAFARI_ZONE_SOUTHEAST                 frlg        74    74      2     2  gTileset_General_FrlgNight(640) + gTileset_CinnabarIsland(64) @ split 640
+                                                OOB   ids: 809=S[169]x9 817=S[177]x9 825=S[185]x9 787=S[147]x5 789=S[149]x4 795=S[155]x3 796=S[156]x3 801=S[161]x3 822=S[182]x3 823=S[183]x3 790=S[150]x2 797=S[157]x2 +18 more
+                                                BLANK ids: 116=P[116]x2
+LAYOUT_RS_SAFARI_ZONE_ENTRANCE                  frlg        13    13     11    11  gTileset_BuildingFrlg(640) + gTileset_Mart(67) @ split 640
+                                                OOB   ids: 720=S[80]x4 721=S[81]x3 707=S[67]x2 712=S[72]x1 722=S[82]x1 723=S[83]x1 724=S[84]x1
+                                                BLANK ids: 640=S[0]x7 534=P[534]x2 535=P[535]x2
+LAYOUT_RS_SAFARI_ZONE_NORTHEAST                 frlg        10    10     12    12  gTileset_General_FrlgNight(640) + gTileset_CinnabarIsland(64) @ split 640
+                                                OOB   ids: 784=S[144]x2 792=S[152]x2 717=S[77]x1 791=S[151]x1 794=S[154]x1 799=S[159]x1 803=S[163]x1 807=S[167]x1
+                                                BLANK ids: 116=P[116]x12
+LAYOUT_RS_SAFARI_ZONE_SOUTHWEST                 frlg         2     2      3     3  gTileset_General_FrlgNight(640) + gTileset_CinnabarIsland(64) @ split 640
+                                                OOB   ids: 784=S[144]x1 793=S[153]x1
+                                                BLANK ids: 116=P[116]x3
+LAYOUT_MOSSDEEP_CITY_EREADER_TRAINER_HOUSE_2F   frlg         0     -    102   102  gTileset_BuildingFrlg(640) + gTileset_HoennBuilding(512) @ split 640
+                                                BLANK ids: 547=P[547]x52 548=P[548]x10 517=P[517]x9 525=P[525]x7 569=P[569]x4 566=P[566]x2 574=P[574]x2 582=P[582]x2 514=P[514]x1 515=P[515]x1 516=P[516]x1 522=P[522]x1 +10 more
+LAYOUT_MOSSDEEP_CITY_EREADER_TRAINER_HOUSE_1F   frlg         0     -     70    70  gTileset_BuildingFrlg(640) + gTileset_HoennBuilding(512) @ split 640
+                                                BLANK ids: 547=P[547]x36 548=P[548]x5 569=P[569]x5 517=P[517]x2 546=P[546]x2 554=P[554]x2 555=P[555]x2 556=P[556]x2 514=P[514]x1 515=P[515]x1 516=P[516]x1 518=P[518]x1 +10 more
+LAYOUT_RS_SAFARI_ZONE_REST_HOUSE                frlg         0     -     66    66  gTileset_BuildingFrlg(640) + gTileset_HoennBuilding(512) @ split 640
+                                                BLANK ids: 547=P[547]x26 548=P[548]x10 517=P[517]x8 525=P[525]x8 569=P[569]x4 519=P[519]x2 527=P[527]x2 564=P[564]x2 572=P[572]x2 520=P[520]x1 521=P[521]x1
+LAYOUT_RS_BATTLE_TOWER                          frlg         0     -     22    22  gTileset_General_FrlgNight(640) + gTileset_PewterCity(79) @ split 640
+                                                BLANK ids: 116=P[116]x12 644=S[4]x8 601=P[601]x1 643=S[3]x1
+LAYOUT_JOHTO_POKEMON_LEAGUE_CHAMPIONS_ROOM      johto        0     -     15    15  gTileset_Johto_Building(640) + gTileset_PokemonLeague(384) @ split 640
+                                                BLANK ids: 1011=S[371]x3 983=S[343]x2 990=S[350]x2 975=S[335]x1 982=S[342]x1 991=S[351]x1 996=S[356]x1 997=S[357]x1 1003=S[363]x1 1004=S[364]x1 1005=S[365]x1
+LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_UNUSED  emerald      0     -      2     2  gTileset_Building(8) + gTileset_BattlePike(347) @ split 512
+                                                BLANK ids: 0=P[0]x1 662=S[150]x1
+LAYOUT_UNUSED_CONTEST_ROOM1                     emerald      0     -      1     1  gTileset_Building(8) + gTileset_Contest(233) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CONTEST_ROOM2                     emerald      0     -      1     1  gTileset_Building(8) + gTileset_Contest(233) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CONTEST_ROOM3                     emerald      0     -      1     1  gTileset_Building(8) + gTileset_Contest(233) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE1                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE2                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE3                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE4                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE5                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE6                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE7                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE8                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE9                             emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE10                            emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE11                            emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE12                            emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE13                            emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_UNUSED_CAVE14                            emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_CAVE_OF_ORIGIN_UNUSED_B4F_LAVA           emerald      0     -      1     1  gTileset_General(512) + gTileset_Cave(414) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB_WITH_TABLE emerald      0     -      1     1  gTileset_Building(8) + gTileset_Lab(158) @ split 512
+                                                BLANK ids: 0=P[0]x1
+LAYOUT_JOHTO_POKEMON_LEAGUE_HALL_OF_FAME        johto        0     -      1     1  gTileset_Johto_Building(640) + gTileset_HallOfFame(118) @ split 640
+                                                BLANK ids: 695=S[55]x1
+
+-- tileset capacities referenced by a layout with a finding:
+     0                                     0 metatiles,    0 blank
+     gTileset_BattlePike                 347 metatiles,  128 blank
+     gTileset_Building                     8 metatiles,    1 blank
+     gTileset_BuildingFrlg               640 metatiles,  201 blank
+     gTileset_Cave                       414 metatiles,    6 blank
+     gTileset_CinnabarIsland              64 metatiles,    0 blank
+     gTileset_Contest                    233 metatiles,   28 blank
+     gTileset_General                    512 metatiles,    8 blank
+     gTileset_General_FrlgNight          640 metatiles,   29 blank
+     gTileset_HallOfFame                 118 metatiles,    5 blank
+     gTileset_HoennBuilding              512 metatiles,    7 blank
+     gTileset_Johto_Building             640 metatiles,    4 blank
+     gTileset_Lab                        158 metatiles,    3 blank
+     gTileset_Mart                        67 metatiles,    1 blank
+     gTileset_PewterCity                  79 metatiles,   20 blank
+     gTileset_PokemonLeague              384 metatiles,   51 blank
+
+OK - 855865 blocks across 1043 layouts decoded against their own tilesets: every metatile id resolves inside the tileset it lands in, except the 1611 placement(s) in 5 allowlisted layout(s).
+REVIEW - 325 blank-metatile reference(s) across 30 layout(s), all at baseline (--report to list, --strict to fail on them).

@@ -10,7 +10,7 @@
 // Front/back: Brendan's garment fill is 5/6, trim 12/13 and band/bag 10/11;
 // 7/8 remain fixed hair/ink shades. May uses 12/13 for her top, 5/6 for dark
 // shorts/gloves, and 10/11 for the band/bag. Skin 1-4, white 9/14 and outline
-// 15 are never written. Audit sheets and native captures: Testing/player-outfits.
+// 15 are never written. Audit sheets and native captures: test/overworld/player-outfits.
 //
 // BLUE: cobalt/slate with gold. GREEN: jade/earth with copper.
 // PURPLE: blue-violet with silver. BLACK: graphite with teal and gold trim.

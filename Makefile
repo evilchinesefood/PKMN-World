@@ -351,7 +351,7 @@ C_SRCS_IN := $(wildcard $(C_SUBDIR)/*.c $(C_SUBDIR)/*/*.c $(C_SUBDIR)/*/*/*.c)
 C_SRCS := $(foreach src,$(C_SRCS_IN),$(if $(findstring .inc.c,$(src)),,$(src)))
 C_OBJS := $(patsubst $(C_SUBDIR)/%.c,$(C_BUILDDIR)/%.o,$(C_SRCS))
 
-TEST_SRCS_IN := $(wildcard $(TEST_SUBDIR)/*.c $(TEST_SUBDIR)/*/*.c $(TEST_SUBDIR)/*/*/*.c)
+TEST_SRCS_IN := $(filter-out $(TEST_SUBDIR)/overworld/%,$(wildcard $(TEST_SUBDIR)/*.c $(TEST_SUBDIR)/*/*.c $(TEST_SUBDIR)/*/*/*.c))
 TEST_SRCS := $(foreach src,$(TEST_SRCS_IN),$(if $(findstring .inc.c,$(src)),,$(src)))
 TEST_OBJS := $(patsubst $(TEST_SUBDIR)/%.c,$(TEST_BUILDDIR)/%.o,$(TEST_SRCS))
 TEST_OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(TEST_OBJS))
@@ -411,7 +411,7 @@ check: $(TESTELF)
 # .party files and wild_encounters.json, never the generated headers. A disabled-species
 # reference builds AND boots clean, then blue-screens at battle send-out, so this is the
 # only automated thing standing between a bad edit and a crash in play. Also run by the
-# .git/hooks/pre-push gate (tracked at Testing/hooks/pre-push; install via Testing/hooks/install.sh).
+# .git/hooks/pre-push gate (tracked at test/overworld/hooks/pre-push; install via test/overworld/hooks/install.sh).
 #
 # ValidateScripts.py is the same shape of check for event scripts (issue #48). A script pointer
 # argument written as a bare integer (`pokemart 0`) assembles, links and boots clean, then faults
@@ -450,19 +450,20 @@ check: $(TESTELF)
 # than trusting a remembered number: #94 itself asserted the loader copies slots 7..15, and it
 # copies 7..12. The 52 arrays that declare exactly 13 rows are CORRECT; do not pad them.
 validate:
-	python3 Testing/ValidateGen13.py
-	python3 Testing/ValidateScripts.py
-	python3 Testing/ValidateOwMonPlacements.py
-	python3 Testing/ValidateMapEvents.py
-	python3 Testing/ValidateMetatileBounds.py
-	python3 Testing/GenObstacleTable.py --check
-	python3 Testing/SavePatch.py --check
-	python3 Testing/ValidateDoorAnims.py --max 0
-	python3 Testing/ValidateTilesetPalettes.py
-	python3 Testing/ValidateCelioGifts.py
-	python3 Testing/ValidateGreedyGifts.py
-	python3 Testing/ValidateRegionMap.py
-	python3 Testing/ValidateLanceMultiBattle.py
+	python3 test/overworld/ValidateGen13.py
+	python3 test/overworld/ValidateScripts.py
+	python3 test/overworld/ValidateOwMonPlacements.py
+	python3 test/overworld/ValidateMapEvents.py
+	python3 test/overworld/ValidateMetatileBounds.py
+	python3 test/overworld/GenObstacleTable.py --check
+	python3 test/overworld/SavePatch.py --check
+	python3 test/overworld/ValidateDoorAnims.py --max 0
+	python3 test/overworld/ValidateTilesetPalettes.py
+	python3 test/overworld/ValidateCelioGifts.py
+	python3 test/overworld/ValidateGreedyGifts.py
+	python3 test/overworld/ValidateRegionMap.py
+	python3 test/overworld/ValidateLanceMultiBattle.py
+	python3 test/overworld/ValidateZoneStructure.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the
@@ -470,17 +471,17 @@ validate:
 # Regenerating after a map edit that adds/removes an obstacle changes CLEARED_OBSTACLE_TABLE_HASH,
 # which makes every existing save's obstacles regrow once — intended, and self-healing.
 obstacles:
-	python3 Testing/GenObstacleTable.py
+	python3 test/overworld/GenObstacleTable.py
 
 # Regenerate the BizHawk/Lua test symbol table from the freshly built ELF. Addresses move every
-# rebuild, so the promoted suites in Testing/lua/ `require("symbols")` instead of hardcoding them.
-# The output is a build artifact (gitignored); commit Testing/GenLuaSymbols.py, not symbols.lua.
+# rebuild, so the promoted suites in test/overworld/lua/ `require("symbols")` instead of hardcoding them.
+# The output is a build artifact (gitignored); commit test/overworld/GenLuaSymbols.py, not symbols.lua.
 #
 # These two MUST stay above the `rom:` rule. Prerequisites are expanded when the rule is READ, so
 # with the assignment below `rom:`, `$(LUA_SYMBOLS)` expanded to the empty string and the
 # prerequisite silently vanished — `make` reported success and left symbols.lua stale, which is
 # precisely the failure this was added to prevent.
-LUA_TESTDIR := Testing/lua
+LUA_TESTDIR := test/overworld/lua
 LUA_SYMBOLS := $(LUA_TESTDIR)/symbols.lua
 
 # RELEASE builds do NOT generate the table (issue #124). Release enables LTO plus --gc-sections,
@@ -514,9 +515,9 @@ symbols: $(LUA_SYMBOLS)
 # next good build (issue #124). .DELETE_ON_ERROR (see above) does not save us either — it only
 # removes a target it can see was rewritten; with the temp file $@'s mtime never moves, so a
 # failed run leaves the last known-good table exactly where it was.
-$(LUA_SYMBOLS): $(ELF) $(ROM) Testing/GenLuaSymbols.py
+$(LUA_SYMBOLS): $(ELF) $(ROM) test/overworld/GenLuaSymbols.py
 	@mkdir -p $(LUA_TESTDIR)
-	python3 Testing/GenLuaSymbols.py $(ELF) $(NM) > $@.tmp && mv -f $@.tmp $@ || { rm -f $@.tmp; exit 1; }
+	python3 test/overworld/GenLuaSymbols.py $(ELF) $(NM) > $@.tmp && mv -f $@.tmp $@ || { rm -f $@.tmp; exit 1; }
 	@echo "wrote $@"
 
 clean: tidy clean-tools clean-check-tools clean-generated clean-assets
@@ -653,7 +654,7 @@ else
 	$(AS) $(ASFLAGS) -o $@ $(C_BUILDDIR)/$*.s
 endif
 
-$(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.c
+$(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.c $(SCANINC)
 	$(SCANINC) -M $@ -g $(ASSETS_DIR_NAME) $(INCLUDE_SCANINC_ARGS) -I tools/agbcc/include $<
 
 ifneq ($(NODEP),1)
@@ -666,7 +667,7 @@ $(TEST_BUILDDIR)/%.o: $(TEST_SUBDIR)/%.c
 	@echo "$(CC1) <flags> -o $@ $<"
 	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i -g $(ASSETS_DIR_NAME) $< charmap.txt | $(CC1) $(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $(AS) $(ASFLAGS) -o $@ -
 
-$(TEST_BUILDDIR)/%.d: $(TEST_SUBDIR)/%.c
+$(TEST_BUILDDIR)/%.d: $(TEST_SUBDIR)/%.c $(SCANINC)
 	$(SCANINC) -M $@ -g $(ASSETS_DIR_NAME) $(INCLUDE_SCANINC_ARGS) -I tools/agbcc/include $<
 
 ifneq ($(NODEP),1)
@@ -677,7 +678,7 @@ endif
 $(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(ASM_BUILDDIR)/%.d: $(ASM_SUBDIR)/%.s
+$(ASM_BUILDDIR)/%.d: $(ASM_SUBDIR)/%.s $(SCANINC)
 	$(SCANINC) -M $@ -g $(ASSETS_DIR_NAME) $(INCLUDE_SCANINC_ARGS) -I "" $<
 
 ifneq ($(NODEP),1)
@@ -687,7 +688,7 @@ endif
 $(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.s
 	$(PREPROC) $< charmap.txt | $(CPP) $(CPPFLAGS) $(INCLUDE_SCANINC_ARGS) - | $(PREPROC) -ie $< charmap.txt | $(AS) $(ASFLAGS) -o $@
 
-$(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.s
+$(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.s $(SCANINC)
 	$(SCANINC) -M $@ -g $(ASSETS_DIR_NAME) $(INCLUDE_SCANINC_ARGS) -I "" $<
 
 ifneq ($(NODEP),1)
@@ -697,7 +698,7 @@ endif
 $(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s
 	$(PREPROC) -s $< charmap.txt | $(CPP) $(CPPFLAGS) $(INCLUDE_SCANINC_ARGS) - | $(PREPROC) -ie $< charmap.txt | $(AS) $(ASFLAGS) -o $@
 
-$(DATA_ASM_BUILDDIR)/%.d: $(DATA_ASM_SUBDIR)/%.s
+$(DATA_ASM_BUILDDIR)/%.d: $(DATA_ASM_SUBDIR)/%.s $(SCANINC)
 	$(SCANINC) -M $@ -g $(ASSETS_DIR_NAME) $(INCLUDE_SCANINC_ARGS) -I "" $<
 
 ifneq ($(NODEP),1)

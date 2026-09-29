@@ -1,0 +1,4 @@
+make modern BUILD_DIR=build-final-clean -j8: exit 0; all game objects/assets reassembled in fresh build directories.
+make modern -j8 after palette dependency fix: exit 0; ROM byte-identical to fresh build.
+EWRAM 235064 / 262144 bytes; IWRAM 28216 / 32768 bytes; ROM 22939200 / 33554432 bytes.
+Existing unused-function and RWX-segment warnings remain; no build errors.

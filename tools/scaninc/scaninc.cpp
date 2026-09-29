@@ -158,7 +158,19 @@ int main(int argc, char **argv)
             // ".smol" doesn't require any arguments.
             size_t dot_pos = incgfx.extensions.find_first_of('.', 1);
             auto firstTarget = gfx_root + incgfx.source + arguments_as_path + incgfx.extensions.substr(0, dot_pos);
-            dependencies_gfx_rules[firstTarget] = std::make_pair(incgfx.source, rule);
+            std::string prerequisites = incgfx.source;
+            if (incgfx.source.size() >= 4 && incgfx.source.substr(incgfx.source.size() - 4) == ".pal")
+            {
+                // gbagfx also reads an optional .pla light-marker sidecar. Evaluate
+                // its presence each time Make reads this rule. The source directory
+                // also changes when a sidecar is added or removed, so cached palettes
+                // cannot retain markers from a deleted file.
+                auto sidecar = incgfx.source.substr(0, incgfx.source.size() - 4) + ".pla";
+                auto slash = incgfx.source.find_last_of('/');
+                auto directory = slash == std::string::npos ? "." : incgfx.source.substr(0, slash);
+                prerequisites += " $(wildcard " + sidecar + ") " + directory;
+            }
+            dependencies_gfx_rules[firstTarget] = std::make_pair(prerequisites, rule);
         }
         for (auto include : file.GetIncludes())
         {

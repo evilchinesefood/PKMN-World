@@ -1,0 +1,42 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot UIOptions_1_entry
+  shot UIOptions_2_animation_1
+  shot UIOptions_3_animation_2
+  shot UIOptions_4_animation_3
+  shot UIOptions_5_animation_4
+  shot UIOptions_6_animation_5
+  shot UIOptions_7_animation_6
+  shot UIOptions_8_animation_7
+  shot UIOptions_9_animation_8
+  shot UIOptions_10_animation_9
+  shot UIOptions_11_animation_10
+  shot UIOptions_12_animation_11
+  shot UIOptions_13_animation_12
+  shot UIOptions_14_animation_13
+  shot UIOptions_15_animation_14
+  shot UIOptions_16_animation_15
+  shot UIOptions_17_animation_16
+  shot UIOptions_18_animation_17
+  shot UIOptions_19_animation_18
+  shot UIOptions_20_animation_19
+  shot UIOptions_21_animation_20
+  shot UIOptions_22_animation_21
+  shot UIOptions_23_animation_22
+  shot UIOptions_24_animation_23
+  shot UIOptions_25_animation_24
+  shot UIOptions_26_animation_25
+  shot UIOptions_27_animation_26
+  shot UIOptions_28_animation_27
+  shot UIOptions_29_animation_28
+  shot UIOptions_30_animation_29
+  shot UIOptions_31_animation_30
+  shot UIOptions_32_animation_31
+  shot UIOptions_33_animation_32
+  shot UIOptions_34_motion
+  shot UIOptions_35_frame_preview
+  shot UIOptions_36_middle
+  shot UIOptions_37_bottom
+  shot UIOptions_38_save_prompt
+  [PASS] no crash
+VERDICT UIOptions: 1/1 PASS

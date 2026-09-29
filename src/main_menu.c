@@ -321,7 +321,7 @@ static const u8 sText_BuildStamp[] = _(PW_VERSION);
 #define MENU_HEIGHT_ERROR 4
 
 // The standard save layout ends at row 17; rows 18-19 hold the build stamp.
-// Optional Mystery Gift/Events layouts scroll and omit the stamp.
+// Optional Mystery Gift/Events layouts scroll four/six tile rows and omit the stamp.
 #define MENU_WIN_VERSION 8
 #define MENU_WIN_HEADER 9
 #define MENU_LEFT_VERSION MENU_LEFT
@@ -334,6 +334,7 @@ static const u8 sText_BuildStamp[] = _(PW_VERSION);
 #define MENU_WIN_HCOORDS WIN_RANGE(((MENU_LEFT - 1) * 8) + MENU_SHADOW_PADDING, (MENU_LEFT + MENU_WIDTH + 1) * 8 - MENU_SHADOW_PADDING)
 #define MENU_WIN_VCOORDS(n) WIN_RANGE(((MENU_TOP_WIN##n - 1) * 8) + MENU_SHADOW_PADDING, (MENU_TOP_WIN##n + MENU_HEIGHT_WIN##n + 1) * 8 - MENU_SHADOW_PADDING)
 #define MENU_SCROLL_SHIFT WIN_RANGE(32, 32)
+#define MENU_EVENTS_SCROLL_SHIFT WIN_RANGE(48, 48)
 
 static const struct WindowTemplate sWindowTemplates_MainMenu[] =
 {
@@ -975,6 +976,12 @@ static void Task_DisplayMainMenu(u8 taskId)
             DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[3], MAIN_MENU_BORDER_TILE);
             DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[4], MAIN_MENU_BORDER_TILE);
             DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[5], MAIN_MENU_BORDER_TILE);
+            if (sCurrItemAndOptionMenuCheck == 3)
+            {
+                ChangeBgY(0, 0x2000, BG_COORD_ADD);
+                ChangeBgY(1, 0x2000, BG_COORD_ADD);
+                tIsScrolled = TRUE;
+            }
             break;
         case HAS_MYSTERY_EVENTS:
             FillWindowPixelBuffer(2, PIXEL_FILL(0xA));
@@ -1005,18 +1012,17 @@ static void Task_DisplayMainMenu(u8 taskId)
             DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[6], MAIN_MENU_BORDER_TILE);
             tScrollArrowTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_MainMenu, &sCurrItemAndOptionMenuCheck);
             gTasks[tScrollArrowTaskId].func = Task_ScrollIndicatorArrowPairOnMainMenu;
-            if (sCurrItemAndOptionMenuCheck == 4)
+            if (sCurrItemAndOptionMenuCheck >= 3)
             {
-                ChangeBgY(0, 0x2000, BG_COORD_ADD);
-                ChangeBgY(1, 0x2000, BG_COORD_ADD);
+                ChangeBgY(0, 0x3000, BG_COORD_ADD);
+                ChangeBgY(1, 0x3000, BG_COORD_ADD);
                 tIsScrolled = TRUE;
                 gTasks[tScrollArrowTaskId].tArrowTaskIsScrolled = TRUE;
             }
             break;
         }
-        // The MYSTERY GIFT and MYSTERY EVENTS layouts run their last OPTION frame down
-        // to tile row 19, and the EVENTS one scrolls BG0/BG1 by four rows on top of
-        // that, so there is no row left that the stamp could use without covering a
+        // The optional layouts put their last OPTION frame below the display and
+        // scroll BG0/BG1 to reveal it, so there is no row left for a stamp without covering a
         // menu item. Those two are unreachable while LINK_MYSTERY_GIFT is FALSE
         // (see Task_MainMenuCheckSaveFile), but skip the stamp rather than break the
         // layout for whoever turns it back on.
@@ -1066,11 +1072,16 @@ static bool8 HandleMainMenuInput(u8 taskId)
     }
     else if ((JOY_NEW(DPAD_UP)) && tCurrItem > 0)
     {
-        if (tMenuType == HAS_MYSTERY_EVENTS && tIsScrolled == TRUE && tCurrItem == 1)
+        if (tIsScrolled == TRUE
+         && ((tMenuType == HAS_MYSTERY_GIFT && tCurrItem == 3)
+          || (tMenuType == HAS_MYSTERY_EVENTS && tCurrItem == 1)))
         {
-            ChangeBgY(0, 0x2000, BG_COORD_SUB);
-            ChangeBgY(1, 0x2000, BG_COORD_SUB);
-            gTasks[tScrollArrowTaskId].tArrowTaskIsScrolled = tIsScrolled = FALSE;
+            u32 scroll = tMenuType == HAS_MYSTERY_GIFT ? 0x2000 : 0x3000;
+            ChangeBgY(0, scroll, BG_COORD_SUB);
+            ChangeBgY(1, scroll, BG_COORD_SUB);
+            tIsScrolled = FALSE;
+            if (tMenuType == HAS_MYSTERY_EVENTS)
+                gTasks[tScrollArrowTaskId].tArrowTaskIsScrolled = FALSE;
         }
         tCurrItem--;
         sCurrItemAndOptionMenuCheck = tCurrItem;
@@ -1078,11 +1089,16 @@ static bool8 HandleMainMenuInput(u8 taskId)
     }
     else if ((JOY_NEW(DPAD_DOWN)) && tCurrItem < tItemCount - 1)
     {
-        if (tMenuType == HAS_MYSTERY_EVENTS && tCurrItem == 3 && tIsScrolled == FALSE)
+        if (tIsScrolled == FALSE
+         && (tMenuType == HAS_MYSTERY_GIFT || tMenuType == HAS_MYSTERY_EVENTS)
+         && tCurrItem == 2)
         {
-            ChangeBgY(0, 0x2000, BG_COORD_ADD);
-            ChangeBgY(1, 0x2000, BG_COORD_ADD);
-            gTasks[tScrollArrowTaskId].tArrowTaskIsScrolled = tIsScrolled = TRUE;
+            u32 scroll = tMenuType == HAS_MYSTERY_GIFT ? 0x2000 : 0x3000;
+            ChangeBgY(0, scroll, BG_COORD_ADD);
+            ChangeBgY(1, scroll, BG_COORD_ADD);
+            tIsScrolled = TRUE;
+            if (tMenuType == HAS_MYSTERY_EVENTS)
+                gTasks[tScrollArrowTaskId].tArrowTaskIsScrolled = TRUE;
         }
         tCurrItem++;
         sCurrItemAndOptionMenuCheck = tCurrItem;
@@ -1423,7 +1439,7 @@ static void HighlightSelectedMainMenuItem(u8 menuType, u8 selectedMenuItem, s16 
             SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(4));
             break;
         case 3:
-            SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(5));
+            SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(5) - (isScrolled ? MENU_SCROLL_SHIFT : 0));
             break;
         }
         break;
@@ -1436,24 +1452,24 @@ static void HighlightSelectedMainMenuItem(u8 menuType, u8 selectedMenuItem, s16 
             break;
         case 1:
             if (isScrolled)
-                SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(3) - MENU_SCROLL_SHIFT);
+                SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(3) - MENU_EVENTS_SCROLL_SHIFT);
             else
                 SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(3));
             break;
         case 2:
             if (isScrolled)
-                SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(4) - MENU_SCROLL_SHIFT);
+                SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(4) - MENU_EVENTS_SCROLL_SHIFT);
             else
                 SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(4));
             break;
         case 3:
             if (isScrolled)
-                SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(5) - MENU_SCROLL_SHIFT);
+                SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(5) - MENU_EVENTS_SCROLL_SHIFT);
             else
                 SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(5));
             break;
         case 4:
-            SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(6) - MENU_SCROLL_SHIFT);
+            SetGpuReg(REG_OFFSET_WIN0V, MENU_WIN_VCOORDS(6) - MENU_EVENTS_SCROLL_SHIFT);
             break;
         }
         break;

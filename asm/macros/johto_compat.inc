@@ -136,7 +136,7 @@
 	@
 	@ It is kept rather than deleted so a future HnS script import still assembles instead of
 	@ erroring out, and so this note stays attached to the decision. Do NOT change the macro's
-	@ signature or body: Testing/ValidateScripts.py parses this file as one of its MACRO_FILES
+	@ signature or body: test/overworld/ValidateScripts.py parses this file as one of its MACRO_FILES
 	@ and derives pointer-vs-value argument slots by symbolically expanding each macro, so
 	@ dropping the argument or introducing a `.4byte` here changes what that validator enforces
 	@ across every event script in data/.

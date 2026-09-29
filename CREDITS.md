@@ -198,7 +198,7 @@ menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
 
 - **Montblanc** ([montmoguri](https://github.com/montmoguri)) — primary author of the
   SwSh UI suite. The selective menu refresh and its pinned donor commits are recorded
-  in [the #328 port notes](Testing/swsh-refresh/README.md).
+  in [the #328 port notes](test/overworld/swsh-refresh/README.md).
 - **ShantyTown** — author of **comfy_anim**; **Archie** — introduced the library to
   Montblanc, per the donor's [Bag documentation](https://github.com/montmoguri/pokeemerald-expansion/wiki/Sword-%26-Shield-Bag-Menu).
 - **Kasen** — Bag multi-use support; **Zatsu** — visual feedback; **PCG** — playtesting.

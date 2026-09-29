@@ -1,8 +1,10 @@
+**Completion status:** Kanto, Johto, Hoenn and the world hub each have **100% registered-map structural audit coverage**. Feature-completion percentages remain **unverified**; full campaign/post-game playthroughs are still required. [Verified scope and remaining checks](maintenance/final-pass/zone-status.md).
+
 <div align="center">
 
-<img src="assets/branding/logos/pokemon-world.png" width="340" height="170" alt="Pokémon World logo">
+<img src="graphics/branding/logos/pokemon-world.png" width="340" height="170" alt="Pokémon World logo">
 
-**Three regions. Three complete adventures. One cartridge.**
+**Three regions. One connected adventure. One cartridge.**
 
 A Game Boy Advance ROM hack built on
 [pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion).
@@ -15,8 +17,8 @@ A Game Boy Advance ROM hack built on
 
 ## What is it?
 
-**Pokémon World** puts **Kanto**, **Johto** and **Hoenn** on one GBA cartridge. Each region is a
-complete adventure — its own story, 8 gyms, Elite Four and Champion — and you pick which to play
+**Pokémon World** puts **Kanto**, **Johto** and **Hoenn** on one GBA cartridge. Each region has
+its own story, 8 gyms, Elite Four and Champion — and you pick which to play
 from a central **World Transit hub**.
 
 Your **PC boxes, Pokédex, bag and money are shared** across all three, so the Pokémon you raise
@@ -28,24 +30,55 @@ lines (Togekiss, Electivire, Weavile, Sylveon…) are kept and obtainable. All 3
 are compiled out, and `make validate` fails if any wild table, gift or trainer party still
 references one.
 
-- **Engine:** pokeemerald-expansion 1.16.2 (`include/constants/expansion.h`)
+- **Engine:** pokeemerald-expansion 1.16.4 dev, untagged: upstream master `82598c4d88` (2026-08-23),
+  past the 1.16.3 release (`include/constants/expansion.h`)
 - **ROM:** `pokemonworld.gba` — title `POKEMON WRLD`, code `BPEE`
 
 ## Screenshots
 
-Captured from the game in mGBA at the GBA's native 240 × 160 resolution.
+Twenty native 240 × 160 mGBA screenshots. Scenes use disposable saves, debug warps
+and synthetic teams/items; menu/battle fixtures invoke the production renderer.
+Images are unretouched. [Capture methods and hashes](graphics/branding/screenshots/showcase/README.md).
 
 | Title screen | World Transit hub |
 |---|---|
-| ![Pokémon World title screen](assets/branding/screenshots/01-title-screen.png) | ![World Transit hub](assets/branding/screenshots/02-world-hub.png) |
+| ![Title screen](graphics/branding/screenshots/showcase/01-title.png) | ![World Transit hub](graphics/branding/screenshots/showcase/02-world-transit.png) |
 
-| Kanto — Vermilion City | Johto — Cherrygrove City |
+| Kanto — Viridian City | Kanto — Vermilion harbor |
 |---|---|
-| ![Vermilion City waterfront](assets/branding/screenshots/03-kanto-vermilion-city.png) | ![Cherrygrove City's cherry blossoms](assets/branding/screenshots/04-johto-cherrygrove-city.png) |
+| ![Kanto — Viridian City](graphics/branding/screenshots/showcase/03-kanto-viridian.png) | ![Kanto — Vermilion harbor](graphics/branding/screenshots/showcase/04-kanto-vermilion.png) |
 
-| Hoenn — Fortree City | Pokémon battle |
+| Kanto — Celadon City | Johto — Cherrygrove City |
 |---|---|
-| ![Fortree City's treetop walkways](assets/branding/screenshots/05-hoenn-fortree-city.png) | ![Charizard facing a wild Cyndaquil](assets/branding/screenshots/06-pokemon-battle.png) |
+| ![Kanto — Celadon City](graphics/branding/screenshots/showcase/05-kanto-celadon.png) | ![Johto — Cherrygrove City](graphics/branding/screenshots/showcase/06-johto-cherrygrove.png) |
+
+| Johto — Ecruteak City | Johto — Olivine lighthouse |
+|---|---|
+| ![Johto — Ecruteak City](graphics/branding/screenshots/showcase/07-johto-ecruteak.png) | ![Johto — Olivine lighthouse](graphics/branding/screenshots/showcase/08-johto-olivine.png) |
+
+| Hoenn — Mossdeep City | Hoenn — Rustboro City |
+|---|---|
+| ![Hoenn — Mossdeep City](graphics/branding/screenshots/showcase/09-hoenn-mossdeep.png) | ![Hoenn — Rustboro City](graphics/branding/screenshots/showcase/10-hoenn-rustboro.png) |
+
+| Hoenn — Fortree City | Hoenn — Sootopolis City |
+|---|---|
+| ![Hoenn — Fortree City](graphics/branding/screenshots/showcase/11-hoenn-fortree.png) | ![Hoenn — Sootopolis City](graphics/branding/screenshots/showcase/12-hoenn-sootopolis.png) |
+
+| Battle Frontier | Battle Net floor |
+|---|---|
+| ![Battle Frontier](graphics/branding/screenshots/showcase/13-battle-frontier.png) | ![Battle Net floor](graphics/branding/screenshots/showcase/14-battle-net.png) |
+
+| Party and follower chooser | Bag |
+|---|---|
+| ![Party and follower chooser](graphics/branding/screenshots/showcase/15-party.png) | ![Bag](graphics/branding/screenshots/showcase/16-bag.png) |
+
+| Pokémon summary | DexNav on Route 101 |
+|---|---|
+| ![Pokémon summary](graphics/branding/screenshots/showcase/17-summary.png) | ![DexNav on Route 101](graphics/branding/screenshots/showcase/18-dexnav.png) |
+
+| Battle commands and BW healthboxes | World Panels Options |
+|---|---|
+| ![Battle commands and BW healthboxes](graphics/branding/screenshots/showcase/19-battle.png) | ![World Panels Options](graphics/branding/screenshots/showcase/20-options.png) |
 
 ## Build it
 
@@ -60,9 +93,9 @@ Full setup, toolchain notes and troubleshooting live in **[INSTALL.md](INSTALL.m
 | Command | What it does |
 |---|---|
 | `make modern` | Build the ROM (this is the normal build) |
-| `make validate` | Host-side content checks — Gen 1–3 rule, script pointers, map events. Seconds, no build needed |
-| `make check` | The inherited battle-engine test suite (~5,500 tests, ~23 min) |
-| `Testing/run-all.sh` | 43 in-game overworld suites on a patched headless mGBA (44 with the optional owner save). Local only — see `Testing/mgba/README.md` |
+| `make validate` | Host-side content checks — species, scripts, map events, layouts/warps/connections and encounters |
+| `make check` | The inherited battle-engine test suite (5,700 cases, including explicit upstream skipped categories) |
+| `test/overworld/run-all.sh` | 50 mandatory in-game overworld suites on a patched headless mGBA (51 with the optional owner save). Local only — see `test/overworld/mgba/README.md` |
 | `make RELEASE=1` | Optimized build with the debug menu stripped |
 
 CI (`.github/workflows/Check.yml`) runs the host validators and `make check`. It never uploads a
@@ -97,9 +130,13 @@ The v1.5 headlines, still in this build:
   the Radio Tower plays the occupation theme while Rocket holds it.
 - Caught up with **upstream pokeemerald-expansion** (merged to their master of 2026-08-23).
 
-All three campaigns are playable end to end, including each region's post-game. What's left is a
-**full-length human playthrough** of all three for story pacing and balance — the Battle Net in
-particular has only been driven by scripted tests, so expect its numbers to move.
+The campaigns and their post-game scripts are implemented. The final pass verified all
+1,190 registered map structures and passed 51 fresh emulator suites, including boot,
+regional travel and targeted progression checks. **Full continuous campaign and post-game
+playthroughs remain unverified**; source presence and targeted tests do not establish a
+feature-complete percentage. Battle Net balance also needs full-length human playtesting.
+See the [final-pass report](maintenance/final-pass/README.md) and
+[per-zone verification limits](maintenance/final-pass/zone-status.md).
 
 <details>
 <summary><b>Region-by-region</b></summary>
@@ -109,7 +146,7 @@ particular has only been driven by scripted tests, so expect its numbers to move
 - **Hoenn** — the native Emerald campaign, plus HARD Elite Four and Champion rematches. The
   Battle Frontier is the shared post-game facility, reachable from the hub once you've cleared
   any one region's league.
-- **Johto** — ported in: 251 maps with tilesets and scripts, 312 distinct trainers, wild tables,
+- **Johto** — ported in: 252 registered maps with tilesets, scripts and dedicated trainer rosters, wild tables,
   the Johto town map with Fly and heal locations, HGSS-style portraits for the gym leaders and
   Elite Four, and the post-game (Red at Mt. Silver, roaming beasts, the Celebi GS Ball chain,
   Ruins of Alph, the Bug-Catching Contest, Ho-Oh and Lugia).
@@ -130,14 +167,14 @@ assets, following pokeemerald / pokeemerald-expansion conventions.
 
 | Path | Contents |
 |---|---|
-| `src/` · `include/` | Game and engine C source (397 `.c` files) and headers. |
+| `src/` · `include/` | Game and engine C source and headers. |
 | `include/config/` | Feature-toggle headers — the first place to look to enable or tune a feature. |
-| `data/` | Event/battle/field scripts, 1,189 maps (Hoenn + Kanto + ported Johto), `layouts/`, `tilesets/`, `text/`. |
-| `graphics/` · `sound/` | Raw image and audio assets, converted to GBA formats at build time. |
+| `data/` | Event/battle/field scripts, 1,190 registered maps (Hoenn + Kanto + ported Johto), `layouts/`, `tilesets/`, `text/`. |
+| `graphics/` · `sound/` | Raw image and audio assets, converted to GBA formats at build time; branding and the screenshot gallery live in `graphics/branding/`. |
 | `asm/` · `constants/` · `libagbsyscall/` | Hand-written assembly and macros, constant includes, GBA BIOS syscall library. |
 | `tools/` | Build tools, compiled automatically by the Makefile. |
 | `test/` | Battle-engine test suite (`make check`). |
-| `Testing/` | This project's own checks: host validators (`Validate*.py`) and the Lua overworld suites. |
+| `test/overworld/` | This project's own checks: host validators (`Validate*.py`) and the Lua overworld suites. |
 
 </details>
 

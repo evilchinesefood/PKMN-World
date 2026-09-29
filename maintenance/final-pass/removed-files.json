@@ -1,0 +1,513 @@
+[
+  {
+    "path": "graphics/bag/swsh/info_prompt.bin",
+    "sha256": "8dfa8fb80eb9c54796ec3fad0c7853d9b3decb83c12ca494851e4da19bf70c1d",
+    "bytes": 84,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/battle_anims/unused/water_gfx.png",
+    "sha256": "5eed28fae917b4fcc97aa8529869669e0c54300b92f8451f1f1dd05c6440e636",
+    "bytes": 286,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/battle_interface/unused_status_summary.png",
+    "sha256": "82b5ec2305b60422540a7c210cef9c4fea7f0c246002bbaad4e0bf6aa98ca748",
+    "bytes": 102,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/field_specials/deoxys_rock_0.pal",
+    "sha256": "087795e63132c35a5ba02f3eab528dac99d9afe0edc07541a0b18f06f4374885",
+    "bytes": 150,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/interface/option_menu_text.pal",
+    "sha256": "24f1543549a05492b5a537f5cfb35f535931a170ac4191b0cb0c29b5e63a73da",
+    "bytes": 166,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/items/icon_palettes/jade_orb.pal",
+    "sha256": "2e29c93f5712be0216b2f43db807f5de937c7cbcb64c9f94c2488958bb57a22b",
+    "bytes": 169,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/items/icon_palettes/key_stone.pal",
+    "sha256": "2a06d544f0b856825df1e36644daf0ad8526b061a7cac1692d5b33f10c70754b",
+    "bytes": 206,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/items/icon_palettes/mega_bracelet.pal",
+    "sha256": "3ae2959afb88ce654b7bb0bb2d5632474e78ab36239e0b2247ee0ab3ea574605",
+    "bytes": 198,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/items/icons/jade_orb.png",
+    "sha256": "9d6ec65dec67b85f60621476c56a96081e94757b124ce0d92b284f17f87750c2",
+    "bytes": 211,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/items/icons/key_stone.png",
+    "sha256": "58de426e9df9a86ef4dab407916a700d98805c3320ddf41af7d50bce3ee240bb",
+    "bytes": 227,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/items/icons/mega_bracelet.png",
+    "sha256": "d25cbb3a57930acdbfd9fac9bf64857a3db31d63ada9e08ccba5a8ee3c21dada",
+    "bytes": 267,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/object_events/pics/people/rich_boy_frlg.png",
+    "sha256": "77604d05a654811fba08d59ff66fb980b30ac0f12df66f00fd0230186fa55e99",
+    "bytes": 772,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/object_events/pics/people/rs_brendan.png",
+    "sha256": "3acf5bbf61053842b1d2948ff56654b360b56fee1b0de20fe015e0b9ca6b1ff4",
+    "bytes": 767,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/object_events/pics/people/rs_may.png",
+    "sha256": "0ea194e8eca3ec45ea807eef681f8080a8a298456d476a9bbb13ce3e6827d39e",
+    "bytes": 738,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/pokedex/region_map_affine.bin",
+    "sha256": "a5499c6c10222dc835eb5e2ca71ffadc1474bb30a23c5b6b0264d73bf36bddce",
+    "bytes": 4096,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/pokedex/region_map_affine.png",
+    "sha256": "9c0e9b276c0acf6595b8a3976215aad3146acd214a4a22cf970ae6c9ee04553b",
+    "bytes": 18412,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/pokenav/region_map/leaf_icon.pal",
+    "sha256": "60fb0fb7ec2f2a94fb4eb0a132b41b54178b3616a363a6d2994bec03098be3f1",
+    "bytes": 208,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/pokenav/region_map/leaf_icon.png",
+    "sha256": "899853ac6d71cdea75b4994f266c46a3d509f51a40c9cfaf1f888a81f6918258",
+    "bytes": 244,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/pokenav/region_map/red_icon.pal",
+    "sha256": "60fb0fb7ec2f2a94fb4eb0a132b41b54178b3616a363a6d2994bec03098be3f1",
+    "bytes": 208,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/pokenav/region_map/red_icon.png",
+    "sha256": "21436cfd27537f034fc57679beaf6d3f980a1df6ef26a7a2c1ff1adda3723b49",
+    "bytes": 233,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/champion_steven_frlg.png",
+    "sha256": "951c975cab346e579f0c7c96cf63596dac9c881a76a15385cafc1368a04d171a",
+    "bytes": 703,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/collector_frlg.png",
+    "sha256": "6f3b7fd6f8fcde683c1578e585faff345a0c1fbf2c696f51b44c318f42ce6016",
+    "bytes": 852,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/cycling_triathlete_f_frlg.png",
+    "sha256": "6a1866af61ca33665f1f7fccc56741183349cd81d8fb765bab8fd3a60f71fcb1",
+    "bytes": 890,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/cycling_triathlete_m_frlg.png",
+    "sha256": "1857bfb882ee641268a32c0011d7f419fd0f439f4cb1c8a8bcd15cb7d188c5b4",
+    "bytes": 900,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/dragon_tamer_frlg.png",
+    "sha256": "26270187f138bf899be0c9d696402a91ab7ca6c2edd4fd4d96879993144b4ee6",
+    "bytes": 710,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/expert_f_frlg.png",
+    "sha256": "36ecbfbf870109b5ea6aa55301afc7ea62a0894600d753951a7fe575a760a2ba",
+    "bytes": 670,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/expert_m_frlg.png",
+    "sha256": "f0f5331874bf68187c220f504ddf92b2ea5d3ce90f1c5e8626b0aea499132921",
+    "bytes": 706,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/guitarist_frlg.png",
+    "sha256": "3ea93eefa6201c3b5f4189f1170d0d6d53ee623c45f9c2ffd60017e6e6794fb8",
+    "bytes": 765,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/hex_maniac_frlg.png",
+    "sha256": "f017c92b1d96e3f386c3f44eda3a36f7005baf38a6bf7fcf853b5a0c60318f16",
+    "bytes": 719,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/interviewer_frlg.png",
+    "sha256": "0e143a0bf82f777fbf59cca99e119edba2da08a20904bb2016b9cb4323a1705e",
+    "bytes": 1032,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/kindler_frlg.png",
+    "sha256": "d6e3001005eacef01afe9678c5416b6669ffcc21d15242e374814947a65f001b",
+    "bytes": 745,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/parasol_lady_frlg.png",
+    "sha256": "6008de72d7ae5a988cddaa6edb8b66cd8802610435211d7c89d4e0054cc00bf1",
+    "bytes": 710,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/pokefan_f_frlg.png",
+    "sha256": "26e3a65acb4bea71c47d0d68d8f891f1c493e2227767158281b4a89ea135b459",
+    "bytes": 849,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/pokefan_m_frlg.png",
+    "sha256": "60b1e0d35dee9b94dc893ea63831820e31527654339d84842fa724a3db8aacde",
+    "bytes": 786,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/rich_boy_frlg.png",
+    "sha256": "8b31cfab1b7b06d9ee8d1d3323c61863289f4d835464ed80056687f8bca030a1",
+    "bytes": 580,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/running_triathlete_f_frlg.png",
+    "sha256": "8c502b1557c542ea799add10574785aabf587a2c034875cd1389c77de08472f9",
+    "bytes": 585,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/running_triathlete_m_frlg.png",
+    "sha256": "38d3457c4974ea56edc027e6c8a03f493499a4fd03770689f02c9bf92b8a37ef",
+    "bytes": 586,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/school_kid_f_frlg.png",
+    "sha256": "9361985712db647ab587b8c0ec47d12b707ee779faadf85e2e024c6abd270045",
+    "bytes": 548,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/school_kid_m_frlg.png",
+    "sha256": "f14ec7c1f2c8e43b4e0dbcad828247e036fd42521aaae948193207a37a5d6430",
+    "bytes": 606,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/sr_and_jr_frlg.png",
+    "sha256": "0788432ca89ee9c913a96ca23b2235c3dce84188bcabb259d967c20f121316bc",
+    "bytes": 1005,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/swimming_triathlete_f_frlg.png",
+    "sha256": "1545e7a8a8dacbbd2707ff9fde223975cbc7ebddea276713df8ee6e2e03e72b9",
+    "bytes": 624,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/swimming_triathlete_m_frlg.png",
+    "sha256": "15acdf46ad6ba8762f8df24e0a771a5945f7bb2b45cf41ed784fe1a202eb3175",
+    "bytes": 675,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/tuber_m_frlg.png",
+    "sha256": "90a920ec767992960c939316610a94e53bd16426fc2b69d017ba88401ff81f40",
+    "bytes": 548,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/front_pics/wally_frlg.png",
+    "sha256": "3a12db1dfb7802b6d4d73c85991f52c14b72daf73bf06c593106423fa04e09b4",
+    "bytes": 616,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/bug_maniac_frlg.pal",
+    "sha256": "8cfcd43c7de81a943166930e7a60c5b0c47434ff08f5720aca225e0f9825b749",
+    "bytes": 211,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/collector_frlg.pal",
+    "sha256": "7161a2037393f7ebb0f2d9319bfe82c74b3e833d0319465328501d5ecc865c77",
+    "bytes": 210,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/cycling_triathlete_f_frlg.pal",
+    "sha256": "03e2415d0bb0e0784b73c2f56e20e32a0ce8b6e9492528eb1a0db76716c7d538",
+    "bytes": 211,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/cycling_triathlete_m_frlg.pal",
+    "sha256": "39ea7d4ac9e069f0b284f01b2ce168ab214e334b6db1f1df4b2a0baed6a6fa03",
+    "bytes": 211,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/dragon_tamer_frlg.pal",
+    "sha256": "6992f8db07b4380eefca2c5bf37a3763a03e0e66549fe100fb86a151f168b8f0",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/expert_f_frlg.pal",
+    "sha256": "ec68f119a5d7f527a03eabeeed6aaaeb1208c4ca37c0c181267e4c5d362a94a4",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/expert_m_frlg.pal",
+    "sha256": "ec68f119a5d7f527a03eabeeed6aaaeb1208c4ca37c0c181267e4c5d362a94a4",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/guitarist_frlg.pal",
+    "sha256": "cc59f386344336b793e3eac212613b8fe7562013fe9dfbdfe4722b4b9bebbdde",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/hex_maniac_frlg.pal",
+    "sha256": "2b09c3816aebfe2cc42c9b13724a1861c462def2d8022a337bdecd9e3194a105",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/kindler_frlg.pal",
+    "sha256": "e816ea8056c6ed55cf29c8d3cf4b4a10081f453421e91f028e5bb1c01592ee23",
+    "bytes": 215,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/old_man_back_pic_frlg.pal",
+    "sha256": "b2ba9a7d497e845bcd88ec34bb94ab04fb250f0ecaa934196fe95c2d44829127",
+    "bytes": 218,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/parasol_lady_frlg.pal",
+    "sha256": "598cdd75a6030baa41ca7c6befd253d7cbb498040646354bb2efa5db73c50cd2",
+    "bytes": 207,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/pokedude_back_pic_frlg.pal",
+    "sha256": "d6c32640e5d04bf6a4088efe8028687061c4e5d61b5a5312d11b029f37b14f0b",
+    "bytes": 213,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/pokefan_f_frlg.pal",
+    "sha256": "0df54d7e373fb902881ed476174dadc4e924965cf3c1768d2ce7a53be6470560",
+    "bytes": 205,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/pokefan_m_frlg.pal",
+    "sha256": "97a228e7aedb5fbfdf9ac672da55ad322f8c30d7ea11812c3f4390aef359d2ea",
+    "bytes": 208,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/rich_boy_frlg.pal",
+    "sha256": "5ff84de0ace2f636e095e494adeb6464c2fe74c2bce842e92bb3723fc74e1dea",
+    "bytes": 207,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/running_triathlete_f_frlg.pal",
+    "sha256": "501b558aa58bd1678af44f951dd54725e98d9caae0d48aa91e0cff39b90ff95b",
+    "bytes": 203,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/running_triathlete_m_frlg.pal",
+    "sha256": "9c0d3e2cb79b60a55b182ec3836a1ae416cdacc689e5f8f3150e28186608908b",
+    "bytes": 204,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/school_kid_f_frlg.pal",
+    "sha256": "58c316352315f5bf534855bf929aec2e7d2e13409cee67f9fe2f243e2151d073",
+    "bytes": 211,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/school_kid_m_frlg.pal",
+    "sha256": "f2a6634a24ab8952808544d00fac78b67e0f37ae795ad9e838e520678a64ed49",
+    "bytes": 211,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/sr_and_jr_frlg.pal",
+    "sha256": "5c0d7f29c5a951221a8ea27fed576f804500abf54128dd6d6a17d60ed491fda1",
+    "bytes": 203,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/steven_frlg.pal",
+    "sha256": "27da96c150054a4290418b759811fd237137453d87fcafbaa5c859c915d7713b",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/swimming_triathlete_f_frlg.pal",
+    "sha256": "501b558aa58bd1678af44f951dd54725e98d9caae0d48aa91e0cff39b90ff95b",
+    "bytes": 203,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/swimming_triathlete_m_frlg.pal",
+    "sha256": "501b558aa58bd1678af44f951dd54725e98d9caae0d48aa91e0cff39b90ff95b",
+    "bytes": 203,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "graphics/trainers/palettes/tuber_m_frlg.pal",
+    "sha256": "bd5ee0121bcb72ddb9323125e3ee78d57d71efcbc978bcdef21ac5b2305454a8",
+    "bytes": 209,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "rg -n -w -F basename stem across code, build rules, tests, tools and documentation: no matches; parameterized font/type/weather and species graphics retained"
+  },
+  {
+    "path": "data/maps/Route19_UnusedHouse_Frlg/map.json",
+    "sha256": "e5848133b908006f6e0063c0ecd9b03b17c1dd0240fc691b1deb1b3540e0b486",
+    "bytes": 578,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "Not registered in map_groups.json; name, map id and script label appear only in these self-definitions; no external warp, connection, script or include reference. Route6 unused house retained because its script is included."
+  },
+  {
+    "path": "data/maps/Route19_UnusedHouse_Frlg/scripts.inc",
+    "sha256": "b1a837f12e8efdec609bf0f594d9682feacba96700d049f32bec227e608c4030",
+    "bytes": 47,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "Not registered in map_groups.json; name, map id and script label appear only in these self-definitions; no external warp, connection, script or include reference. Route6 unused house retained because its script is included."
+  },
+  {
+    "path": "data/maps/Route23_UnusedHouse/map.json",
+    "sha256": "dc806b6121a3b2c3013d9759489d3446b2a0040e1b5b9b9e5e1d19af6b7dc4c7",
+    "bytes": 579,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "Not registered in map_groups.json; name, map id and script label appear only in these self-definitions; no external warp, connection, script or include reference. Route6 unused house retained because its script is included."
+  },
+  {
+    "path": "data/maps/SevenIsland_UnusedHouse/map.json",
+    "sha256": "19eae2d7db0617ca8d92f6d3cbd157ca04bbbf7c32fd56bd2a65fccce80d876b",
+    "bytes": 588,
+    "restore_revision": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+    "reference_check": "Not registered in map_groups.json; name, map id and script label appear only in these self-definitions; no external warp, connection, script or include reference. Route6 unused house retained because its script is included."
+  }
+]

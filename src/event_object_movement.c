@@ -1943,7 +1943,7 @@ static bool32 IsObstacleGraphicsId(u16 graphicsId)
         || graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG;
 }
 
-#include "data/cleared_obstacles.h" // generated sClearedObstacleKeys[]; see Testing/GenObstacleTable.py
+#include "data/cleared_obstacles.h" // generated sClearedObstacleKeys[]; see test/overworld/GenObstacleTable.py
 
 // Map {mapGroup, mapNum, localId} -> its generated save-bit index, or -1 if this obstacle is not
 // in the table (a newly placed one on a tree that predates a regeneration, or a non-obstacle).

@@ -72,10 +72,8 @@ void SetCurrentRegion(enum Region region)
     gSaveBlock2Ptr->currentRegion = region; // persist so a reset / hub trip keeps the context (task 21)
     SyncDifficultyForRegion(region);
 
-    // TODO(region-switch follow-up): when per-region heal/fly defaults exist, reset the
-    // last-heal location to this region's start here. Deferred with the arrival-quest work
-    // (.plans/features/03b-RegionSwitchDesignSpec.md G4/Section 5). The clerk's resume warp
-    // already drops the player at the chosen region's start town.
+    // Hub entry points set the destination respawn via SetRegionArrivalRespawn.
+    // Keep the region mirror/difficulty update independent of that arrival policy.
 }
 
 // Field-load re-sync for the EWRAM active-region mirror. gCurrentRegion lives only in EWRAM and

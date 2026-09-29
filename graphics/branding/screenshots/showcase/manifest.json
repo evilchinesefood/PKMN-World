@@ -1,0 +1,253 @@
+{
+  "captured_on": "2026-09-29",
+  "emulator": "locally patched mGBA headless; test/overworld/mgba/README.md",
+  "production_rom_sha256": "2d3e96daeb12029edf38987e83d2317ea191ad985a7d4d7c6799549fc1b487cf",
+  "production_rom_md5": "FE895EAEE1A58E10DDB5687BF6B46DA1",
+  "description": "Native unretouched emulator screenshots. Overworld uses production debug warps and a synthetic party on a disposable new game with a noon RTC offset. Menu/battle captures attach test-only setup in verified unused ROM padding, invoking production screen and battle code. These are showcases, not proof of campaign completion. No personal saves, ROMs, rescaling or composited art are included.",
+  "fixtures": {
+    "menus": {
+      "input_rom_sha256": "2d3e96daeb12029edf38987e83d2317ea191ad985a7d4d7c6799549fc1b487cf",
+      "fixture_rom_sha256": "66153a8d360b0ddafdb0de8619d6fc8e17ae87063d84c2cc457c92834c540d54",
+      "fixture_bytes": 1958,
+      "fixture_source_sha256": "3f79b4ee08fa0d94978ab80828ad3d017b0a185478b3a7f29efc0892c02b27f4",
+      "entry": "0x9f00001",
+      "base_commit": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+      "working_diff_sha256": "98c108b01b14611238cbc54d7e0e930244ab00141d90e32ac496bd2a20786934",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "battle": {
+      "input_rom_sha256": "2d3e96daeb12029edf38987e83d2317ea191ad985a7d4d7c6799549fc1b487cf",
+      "fixture_rom_sha256": "d9f045327750c231ebad46c6fa8dc013d0064a397d7c1e75daf0ee7f9d159cb4",
+      "fixture_bytes": 1906,
+      "fixture_source_sha256": "8d5538eea3668625b1f311d9f0726357539a70b79a1ca4bca275adb786e030ad",
+      "entry": "0x9f00001",
+      "base_commit": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+      "working_diff_sha256": "98c108b01b14611238cbc54d7e0e930244ab00141d90e32ac496bd2a20786934",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "options": {
+      "input_rom_sha256": "2d3e96daeb12029edf38987e83d2317ea191ad985a7d4d7c6799549fc1b487cf",
+      "fixture_rom_sha256": "d0e00624d6cbced674f202c411fe8754d4476b29c8a7a1c82bdb2eacf09c916a",
+      "fixture_bytes": 780,
+      "fixture_source_sha256": "e997321fe9e28c7038a841c1c27e6c1fb670fda8e0a8561f5a47412922a16adf",
+      "entry": "0x9f00001",
+      "base_commit": "e38ee10ffb01c45d5e125dc7cfc5601a467c7c29",
+      "working_diff_sha256": "98c108b01b14611238cbc54d7e0e930244ab00141d90e32ac496bd2a20786934",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    }
+  },
+  "screenshots": [
+    {
+      "file": "01-title.png",
+      "sha256": "e681010792678615b886fe784677d27a5c3f0d43382edc979281b93ad4cf217b",
+      "capture_file": "ShowcaseWorld_01_title.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "02-world-transit.png",
+      "sha256": "29eea98f59181e83dfb21902a32fad73a3a8f1841f1ebab26abd735085f3419a",
+      "capture_file": "ShowcaseWorld_02_RegionHub.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "03-kanto-viridian.png",
+      "sha256": "5c7d7bedd304fbdd178cac6ae7f7e59db2383905a63ab6b943774509014ca657",
+      "capture_file": "ShowcaseWorld_03_ViridianCity_Frlg.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "04-kanto-vermilion.png",
+      "sha256": "b02050496ec6cd4f105d3eae6a6d64780927a4a21486d3a0b630974619b36431",
+      "capture_file": "ShowcaseWorld_04_VermilionCity_Frlg.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "05-kanto-celadon.png",
+      "sha256": "9bd6a7e4d3a20b574ba43adf4f431cde600de880ecd2947ff6dbecb9d73278c9",
+      "capture_file": "ShowcaseWorld_05_CeladonCity_Frlg.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "06-johto-cherrygrove.png",
+      "sha256": "069707a79b4024d3e66a9d7e2ac7f67b21633d3b293f6b14e473cf4af55ca675",
+      "capture_file": "ShowcaseWorld_06_CherrygroveCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "07-johto-ecruteak.png",
+      "sha256": "21452d954b158043959af54ef076df8eaa7d2c92e80d27a0d91d9a0cf7091493",
+      "capture_file": "ShowcaseWorld_07_EcruteakCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "08-johto-olivine.png",
+      "sha256": "ab3712335989033f2e15d17cad945d7414cf31694e5ae1716c4bc74feb5744e6",
+      "capture_file": "ShowcaseWorld_08_OlivineCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "09-hoenn-mossdeep.png",
+      "sha256": "dbcb3c240e85547877575aee1892bde5996fdb4a2436f9afe59537b8b1ea7b2c",
+      "capture_file": "ShowcaseWorld_09_MossdeepCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "10-hoenn-rustboro.png",
+      "sha256": "9f79aecb83b93dfa2dc00ac8151c1a2228e1431712b5a6b5d2bd7b01047ef1eb",
+      "capture_file": "ShowcaseWorld_10_RustboroCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "11-hoenn-fortree.png",
+      "sha256": "d9b8b8eb9da3d62749934f745b8fb0869993a30d93d3665fe00ac333e5bb1fd8",
+      "capture_file": "ShowcaseWorld_11_FortreeCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "12-hoenn-sootopolis.png",
+      "sha256": "6904e8d6e4919a596f62f76de3b528cda8e8a1b8c00aec1d5e81c79ad9d51907",
+      "capture_file": "ShowcaseWorld_12_SootopolisCity.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "13-battle-frontier.png",
+      "sha256": "6ca783f082092e5d087a291050802bb415fe4704f220ddd682b808dcc5d75a4a",
+      "capture_file": "ShowcaseWorld_13_BattleFrontier_OutsideEast.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "14-battle-net.png",
+      "sha256": "4b8baccfc77fec07fa1a9214f696e9f748bc4d5be7b3f9f47bb0f3a0897dc570",
+      "capture_file": "ShowcaseWorld_14_RegionHub_2F.png",
+      "setup": "production",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "15-party.png",
+      "sha256": "5f5a4876b0bd7e6e64956f6d19d3bd953a792375c9654477bdc07ffa941a9d57",
+      "capture_file": "ShowcaseMenus_01_party.png",
+      "setup": "menus fixture",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "16-bag.png",
+      "sha256": "464d4eae8d2f3c7c7bf249effa53850be14e2dc2c51e3d4a89d795b7289515df",
+      "capture_file": "ShowcaseMenus_02_bag.png",
+      "setup": "menus fixture",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "17-summary.png",
+      "sha256": "05db6981da5b0f03f0d465d767c90b57100de5cbc6ff380ab2091076ebb58e98",
+      "capture_file": "ShowcaseMenus_03_summary.png",
+      "setup": "menus fixture",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "18-dexnav.png",
+      "sha256": "68f6923cd4db53ea60976cc8967a8e798b0fc7c54d171bbeb4d027ed042022d0",
+      "capture_file": "ShowcaseMenus_04_dexnav.png",
+      "setup": "menus fixture",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "19-battle.png",
+      "sha256": "6c77509421e1b7aeecefa8494485d580ff9a8515c372a84d078ade1a6bcbdc29",
+      "capture_file": "SwShBattle0_01_battle.png",
+      "setup": "battle fixture",
+      "resolution": [
+        240,
+        160
+      ]
+    },
+    {
+      "file": "20-options.png",
+      "sha256": "295fa0680ce65821a073573bc2e586ebed4ff9d68ed38ce2fab6fde8f748ea23",
+      "capture_file": "UIOptions_01_entry.png",
+      "setup": "options fixture",
+      "resolution": [
+        240,
+        160
+      ]
+    }
+  ]
+}

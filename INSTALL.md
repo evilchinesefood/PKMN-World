@@ -150,22 +150,22 @@ Install the git hooks. **Do this on every fresh clone** — git does not clone h
 run this the pre-push gate is silently absent:
 
 ```console
-Testing/hooks/install.sh
+test/overworld/hooks/install.sh
 ```
 
-It symlinks `Testing/hooks/pre-push` into `.git/hooks/`. That hook runs six source-only
+It symlinks `test/overworld/hooks/pre-push` into `.git/hooks/`. That hook runs six source-only
 validators (a few seconds, no ROM build) that catch edits which build and boot cleanly and then
 break in play:
 
 | Check | Catches |
 | --- | --- |
-| `Testing/ValidateGen13.py` | references to disabled species |
-| `Testing/ValidateScripts.py` | bare-integer script-pointer arguments |
-| `Testing/ValidateOwMonPlacements.py` | bad overworld-Pokémon placements |
-| `Testing/ValidateMapEvents.py` | object events with the wrong sprite / trainer / team |
-| `Testing/GenObstacleTable.py --check` | a stale cleared-obstacle table |
-| `Testing/SavePatch.py --check` | save-format constants that have drifted from the tree |
-| `Testing/ValidateDoorAnims.py --max 0` | animated-door warps with no `sDoorAnimGraphicsTable` row |
+| `test/overworld/ValidateGen13.py` | references to disabled species |
+| `test/overworld/ValidateScripts.py` | bare-integer script-pointer arguments |
+| `test/overworld/ValidateOwMonPlacements.py` | bad overworld-Pokémon placements |
+| `test/overworld/ValidateMapEvents.py` | object events with the wrong sprite / trainer / team |
+| `test/overworld/GenObstacleTable.py --check` | a stale cleared-obstacle table |
+| `test/overworld/SavePatch.py --check` | save-format constants that have drifted from the tree |
+| `test/overworld/ValidateDoorAnims.py --max 0` | animated-door warps with no `sDoorAnimGraphicsTable` row |
 
 The same seven run as `make validate`, and CI mirrors them in the `validate` job.
 
@@ -201,7 +201,7 @@ make modern -j8            # build pokemonworld.gba
 ```
 
 `modern` is an explicit alias for the default target (`Makefile:340`) — plain `make` does exactly
-the same thing. It is the spelling used by `Testing/mgba-run.sh` and `Testing/lua/MANIFEST.md`,
+the same thing. It is the spelling used by `test/overworld/mgba-run.sh` and `test/overworld/lua/MANIFEST.md`,
 so it is the one used here too.
 
 Pick `-j` to match your core count:
@@ -218,11 +218,11 @@ make modern -j$(sysctl -n hw.ncpu)          # macOS — nproc does not exist her
 
 | Target | What it does |
 | --- | --- |
-| `make` / `make modern` | build `pokemonworld.gba` (+ `.elf`, `.map`, and a refreshed `Testing/lua/symbols.lua`) |
+| `make` / `make modern` | build `pokemonworld.gba` (+ `.elf`, `.map`, and a refreshed `test/overworld/lua/symbols.lua`) |
 | `make check` | build the test ELF and run the battle-engine suite in `test/` under mGBA |
 | `make validate` | run the six host-side content validators (no build) |
 | `make tools` | build only the host tools in `tools/` — the target to use when diagnosing a tools failure |
-| `make symbols` | regenerate `Testing/lua/symbols.lua` from the ELF (the normal ROM build already does this) |
+| `make symbols` | regenerate `test/overworld/lua/symbols.lua` from the ELF (the normal ROM build already does this) |
 | `make obstacles` | regenerate the committed cleared-obstacle table after a map edit |
 | `make debug` | same ROM filename, built with `-Og -g` into `build/emerald-debug` |
 | `make release` | `pokemonworld-release.gba` — optimized, `NDEBUG`, LTO on by default (`config.mk`) |

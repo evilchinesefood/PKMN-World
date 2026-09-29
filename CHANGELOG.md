@@ -285,7 +285,7 @@ Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play report
   pixel-for-pixel unchanged — as does Goldenrod City's and the dept. store's,
   which had the same collision behind doors that were already animating.* That is **18 dead door
   warps**, and with the 19 above it takes the tree-wide count to **zero** —
-  `Testing/ValidateDoorAnims.py` now gates that at zero in `make validate`, the
+  `test/overworld/ValidateDoorAnims.py` now gates that at zero in `make validate`, the
   pre-push hook and CI.
 - **The Pokémon Center heal animation only lit part of the screen** in Johto.
   `CreatePokecenterMonitorSprite` picked the monitor sprite by **region**, but
@@ -465,7 +465,7 @@ Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play report
 - **macOS support** (#64): the build, the pre-push gate, and the Lua
   suites all run on macOS.
 - **Pokévial off-switch builds again** (#61).
-- **A dead-door census** (#92): `Testing/ValidateDoorAnims.py` cross-references
+- **A dead-door census** (#92): `test/overworld/ValidateDoorAnims.py` cross-references
   every warp event in the tree against `sDoorAnimGraphicsTable`, applying
   `GetDoorGraphics`' own two-key rule, and gates the count at zero in `make
   validate`, the pre-push hook and CI. Nothing else catches this class: a door
@@ -473,7 +473,7 @@ Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play report
   *sound*, so it reads as normal play. Everything it needs is derived from the
   tree rather than assumed — including the trap that the primary metatile count
   is 640 for FRLG/Johto layouts and 512 elsewhere, and that the attribute width
-  follows the *tileset*, not the layout (#53). `Testing/lua/DoorAnimsRegistered.lua`
+  follows the *tileset*, not the layout (#53). `test/overworld/lua/DoorAnimsRegistered.lua`
   is its runtime half, evaluating the same condition against the live ROM on
   seventeen maps. A second gate pins the census's own blind spot: 18 warps whose
   behaviour cannot be read *at all*, because three Johto Victory Road floors and
@@ -485,7 +485,7 @@ Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play report
   tileset drawing from that window has its art wiped for as long as the door is
   open. Four did — Mahogany Town, Battle Frontier Outside East, Goldenrod City
   and the Goldenrod dept. store — and their tiles were moved out of the way.
-- **A map-event scanner** (#87, #88, #89): `Testing/ValidateMapEvents.py`,
+- **A map-event scanner** (#87, #88, #89): `test/overworld/ValidateMapEvents.py`,
   wired into `make validate`, the pre-push hook and CI. Run against the tree
   before the fixes above it reports each of them on its own, and it has since
   grown checks for warps missing their wait, heal points on impassable tiles
@@ -494,7 +494,7 @@ Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play report
   proven to fail on the unfixed tree before it's trusted. The "mute story
   NPC" smell was triaged rather than baselined: all 61 findings read and all
   61 correct, so the check now excludes scene machinery and errors at zero.
-- **A save reader and offline migrator** (#89): `Testing/SavePatch.py` reads
+- **A save reader and offline migrator** (#89): `test/overworld/SavePatch.py` reads
   a save file without booting anything and applies the same migration ladder
   to the bytes, so a save copied to a second device carries the fixed values
   instead of waiting for the next in-game save. Guarded three ways: struct
@@ -504,7 +504,7 @@ Thanks to [@lohiaguitar91](https://github.com/lohiaguitar91) for the play report
   three routes through the Lua runner exited 0 having asserted nothing — and
   one of them left the *previous* run's verdict on disk looking current —
   `boot()` could settle in the wrong map and run its assertions there, and
-  the stale-ROM guard failed open off macOS. `Testing/run-all.sh` clears
+  the stale-ROM guard failed open off macOS. `test/overworld/run-all.sh` clears
   every sentinel, runs the battery and demands a fresh pass stamped with the
   ROM under test - 24 suites on a fresh clone in about a minute at this
   release, 25 if the owner's personal save happens to be on the machine -

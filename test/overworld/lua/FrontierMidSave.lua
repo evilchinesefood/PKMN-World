@@ -26,13 +26,6 @@ local VAR_FRONTIER_FACILITY    = 0x40CF
 local VAR_TEMP_CHALLENGE_STATUS = 0x4000
 local LOCALID_SINGLES = 1
 local MARK_JOHTO, MARK_KANTO, MARK_OBS = 0xA5, 0x5A, 0x3C
-local FLASH              = 0x0E000000
-local SECTOR_SIZE        = 0x1000
-local SB3_CHUNK_OFF      = 3968
-local SIG_OFF            = 4088
-local COUNTER_OFF        = 4092
-local ID_OFF             = 4084
-local SECTOR_SIGNATURE   = 0x08012025
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
 
@@ -89,28 +82,6 @@ local function dumpSaveMeta(tag)
     F.r32(S.gDamagedSaveSectors), F.r32(S.gReadWriteSector)))
 end
 
-local function dumpFlash(tag)
-  local found = {}
-  for i = 0, 27 do
-    local base = FLASH + i * SECTOR_SIZE
-    local sig = F.r32(base + SIG_OFF)
-    if sig == SECTOR_SIGNATURE then
-      local id, ctr = F.r16(base + ID_OFF), F.r32(base + COUNTER_OFF)
-      local j = F.r8(base + SB3_CHUNK_OFF + (800 % 116))
-      local k = F.r8(base + SB3_CHUNK_OFF + (941 % 116))
-      local o = F.r8(base + SB3_CHUNK_OFF + (1168 % 116))
-      -- Real unique bytes live in sector ids 6/8/10 (800/941/1168 div 116).
-      local chunkJ = F.r8(base + SB3_CHUNK_OFF + (800 - 6 * 116))
-      local chunkK = F.r8(base + SB3_CHUNK_OFF + (941 - 8 * 116))
-      local chunkO = F.r8(base + SB3_CHUNK_OFF + (1168 - 10 * 116))
-      found[#found + 1] = string.format("s%d:id=%d:ctr=%d", i, id, ctr)
-      if id == 6 then F.L(string.format("  flash[%s] sector %d id=6 johtoFlags[0]=0x%02X", tag, i, chunkJ)) end
-      if id == 8 then F.L(string.format("  flash[%s] sector %d id=8 kantoTrainerFlags[0]=0x%02X", tag, i, chunkK)) end
-      if id == 10 then F.L(string.format("  flash[%s] sector %d id=10 clearedObstacleBits[0]=0x%02X", tag, i, chunkO)) end
-    end
-  end
-  F.L(string.format("  flash[%s] signed sectors: %s", tag, #found > 0 and table.concat(found, " ") or "NONE"))
-end
 
 local function logState(tag)
   local j, k, o = sb3Marks()
@@ -214,7 +185,6 @@ local function saveNormalSlot()
   for _ = 1, 8 do F.press("B", 3); F.idle(20) end
   F.shot("after_savenormal")
   logState("after_savenormal")
-  dumpFlash("after_savenormal")
 end
 
 -- Attendant fallback: Challenge -> Lv50 -> pick 3 mons -> confirm save.
@@ -289,13 +259,17 @@ F.run(function()
   saveNormalSlot()
   F.check("still on hub after SAVE_NORMAL", F.grp() == HUB_GROUP and F.ow(),
     string.format("grp=%d map=%d ow=%s", F.grp(), F.mapn(), tostring(F.ow())))
-  F.L(string.format("  SAVE_NORMAL slot write attempt=%d counter=%d (informational; USM may not be on Save)",
-    F.r16(S.gSaveAttemptStatus), F.r32(S.gSaveCounter)))
+  F.check("baseline SAVE_NORMAL completed before unique-byte seeding",
+    F.r16(S.gSaveAttemptStatus) == 1 and F.r32(S.gSaveCounter) > 0)
+  local baselineCounter = F.r32(S.gSaveCounter)
 
   sb1FlagSet(FLAG_SYS_GAME_CLEAR)
   sb1FlagSet(FLAG_HOENN_CHAMPION)
   seedFrontier()
   seedSb3()
+  -- This test owns disposable RAM. TrySavingData replaces this sentinel only
+  -- after its flash transaction finishes; party count is not a completion cue.
+  F.w16(S.gSaveAttemptStatus, 0xFFFF)
   local beforeJ, beforeK, beforeO = logState("seeded")
   F.check("seeded unique SB3 bytes (must not be 0)", marksOk(beforeJ, beforeK, beforeO),
     fmtMarks(beforeJ, beforeK, beforeO))
@@ -334,17 +308,23 @@ F.run(function()
   F.check("SAVE_LINK ran (challengeStatus became SAVING=1)", saveLink or sawSaving,
     "status=" .. challengeStatus() .. " temp=" .. tempChallengeStatus())
 
-  -- SaveGameFrontier restores the party after TrySavingData returns. If party is
-  -- still 0, the special is still inside the flash write — wait it out.
+  -- LoadPlayerParty runs BEFORE the flash transaction and the baseline already
+  -- contains three mons. Waiting on party>=3 used to reboot midway through a
+  -- genuine SAVE_LINK and leave partially written signatures in the slot.
   for i = 1, 2000 do
-    if F.r8(S.gPartiesCount) >= 3 then
-      F.L("  SaveGameFrontier returned (party restored) t+" .. i)
+    if F.r16(S.gSaveAttemptStatus) ~= 0xFFFF then
+      F.L("  TrySavingData finished t+" .. i)
       break
     end
-    if i % 200 == 0 then logState("savewait_" .. i); dumpFlash("savewait_" .. i) end
+    if i % 200 == 0 then logState("savewait_" .. i) end
     F.press("A", 2); F.idle(4)
   end
-  dumpFlash("after_savelink")
+  local completed = F.r16(S.gSaveAttemptStatus) == 1
+  F.check("SAVE_LINK flash transaction completed successfully before reboot", completed)
+  if not completed then F.finish(); return end
+  F.check("SAVE_LINK kept the baseline save counter unchanged",
+    F.r32(S.gSaveCounter) == baselineCounter)
+  F.idle(2) -- Let SaveGameFrontier restore the party after TrySavingData returns.
   local afterJ, afterK, afterO = logState("after_save_insession")
   F.shot("after_save")
   F.check("unique SB3 bytes still in RAM after save", marksOk(afterJ, afterK, afterO),

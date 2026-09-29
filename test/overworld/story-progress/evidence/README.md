@@ -20,7 +20,21 @@ The shipping ROM MD5 is `7C309CFABD61E42099FDEC246C23AED7`; its SHA-256 is
   Hoenn default and map/position restoration.
 - `make modern` and `make validate`: exit 0. Build memory: EWRAM 235,256 bytes,
   IWRAM 28,216 bytes, ROM 22,977,184 bytes.
-- Full engine and overworld regression results will be recorded after completion.
+- `make check`: exit 0; 5,084 passed, 8 expected failing, 14 known failing,
+  594 TODO (5,700 total). No unexpected failures.
+- Graphical Start flag off: the four affected production modules compile with
+  `PW_GRAPHICAL_START_MENU=0`; the classic caller is also exercised in-emulator.
+- Full overworld sweep: **52/52**, exit 0, each sentinel freshly stamped with
+  the shipping ROM hash (51 mandatory suites plus this machine's optional save).
+- Final Frontier test: **19/19**, adding a save-counter provenance guard to the
+  successful 18/18 run in the sweep. It verifies actual SAVE_NORMAL setup,
+  completed SAVE_LINK, and regional/obstacle bytes across reboot/Continue.
+
+The full sweep initially exposed two obsolete test assumptions. The quest-slot
+assertion now opens the production Story renderer. The Frontier test previously
+reset mid-write once it finally selected the real Save action; it now waits for
+TrySavingData to finish. [Before/after evidence](regression-before-after.log).
+No production save-code change was needed.
 
 ## Captures
 

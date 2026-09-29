@@ -73,7 +73,7 @@ screen, reads current state, and frees all owned windows on return.
 
 - [x] Add host resolver check to validation, CI and pre-push.
 - [x] Document controls/access, coverage, data sources and verification limits.
-- [ ] Run `make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8`, `make validate`,
+- [x] Run `make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8`, `make validate`,
   `make check`, story emulator suite and `test/overworld/run-all.sh`.
-- [ ] Review the complete diff independently, fix material findings and
+- [x] Review the complete diff independently, fix material findings and
   rerun affected checks. Commit implementation and prepare a reviewable PR.

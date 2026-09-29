@@ -1,0 +1,16 @@
+First full regression run (same production ROM MD5 7C309CFABD61E42099FDEC246C23AED7):
+  EncountersIncenseLink 32/33: old no-QUEST-slot assertion rejected reused Story ID 6.
+  FrontierMidSave 12/16: test rebooted during genuine SAVE_LINK flash write.
+
+Targeted corrected reruns:
+  EncountersIncenseLink 34/34: reused icon opens Story even with old quest unlock set.
+  FrontierMidSave 18/18: actual baseline SAVE_NORMAL, TrySavingData completion sentinel,
+  regional/obstacle bytes and three-mon party survive Continue.
+
+The Frontier failure was reproduced and a delayed-reset control passed. Inspection
+of the disposable flash file found incomplete sector signatures (0x080120FF),
+confirming reset occurred before the byte-by-byte flash transaction finished.
+No production save-code change was needed.
+
+Final stronger Frontier provenance guard: 19/19 PASS.
+Full sweep: 52/52 fresh suites, exit 0, same production ROM hash.

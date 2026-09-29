@@ -59,6 +59,8 @@ Kanto → Johto → Hoenn → hub → Kanto, opens every region without travelli
 checks active defaults/state/heap restoration, saves, reboots and Continues.
 It is included in `test/overworld/run-all.sh`. Existing save tests select the
 Save action by ID instead of relying on its position next to the new Story icon.
+The Frontier save test also waits for the actual flash transaction completion
+before rebooting; a party-size check alone could stop during the write.
 `VerifyV7Migrate.lua` also opens Story after loading the tracked legacy fixture,
 checks its active campaign and restores the saved map/position.
 

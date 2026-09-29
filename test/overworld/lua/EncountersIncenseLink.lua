@@ -1,5 +1,5 @@
 -- v1.5 playtest: flat wild tables, Roselia/Route123, Rose Incense mart,
--- start-menu quest compile-out, Pokemon Center 2F sealed.
+-- Story replaces the retired quest icon, Pokemon Center 2F sealed.
 --
 -- Fresh game. Title-screen Mystery Gift absence is EncountersIncenseLink_MainMenu.lua.
 --
@@ -25,10 +25,10 @@ local SPECIES_ROSELIA = 315
 local ITEM_ROSE_INCENSE = 410
 local MART_ITEMLIST, MART_ITEMCOUNT = 8, 12
 local MB_TALL_GRASS = 2
-local USM_ICO_QUESTS = 6
+local USM_ICO_STORY = 6
 local USM_NAMES = {
   [0] = "POKEDEX", "PARTY", "BAG", "POKENAV", "DEXNAV", "TRAINER",
-  "QUESTS", "SAVE", "REST", "OPTIONS", "RETIRE", "DEBUG",
+  "STORY", "SAVE", "REST", "OPTIONS", "RETIRE", "DEBUG",
 }
 
 -- MAP_ROUTE123 = (38|(0<<8)), warp 0 = Berry Master's House door (22,6).
@@ -279,8 +279,7 @@ F.run(function()
   if not F.boot(100) then F.check("boot to overworld", false); F.finish(); return end
   F.check("booted to the RegionHub (map group 100)", F.grp() == 100, "grp=" .. F.grp())
 
-  -- ---- start menu: QUEST compiled out -------------------------------------------------------
-  -- FLAG_SYS_QUEST_MENU_GET would surface a QUESTS icon if QUEST_MENU were TRUE.
+  -- The old unlock flag must not revive the retired quest renderer.
   do
     local id = 0x94B  -- SYSTEM_FLAGS + 3
     local a = F.sb1() + S.SaveBlock1.flags + (id // 8)
@@ -290,13 +289,17 @@ F.run(function()
   F.idle(30)
   local usmItems, usmN = usmSaved()
   F.L("  start-menu items (" .. usmN .. "): " .. fmtUsm(usmItems) .. " ids=" .. fmtList(usmItems))
-  local hasQuest = false
-  for i = 1, #usmItems do if usmItems[i] == USM_ICO_QUESTS then hasQuest = true end end
-  F.check("start menu has no QUEST/MISSION row", not hasQuest,
+  local hasStory = false
+  for i = 1, #usmItems do if usmItems[i] == USM_ICO_STORY then hasStory = true end end
+  F.check("start menu has Story in the reused icon slot", hasStory,
     "items=" .. fmtUsm(usmItems))
   F.check("start menu has at least BAG/TRAINER/SAVE/OPTION", usmN >= 3 and usmN <= 8,
     "count=" .. usmN)
   F.shot("start_menu")
+  assert(F.selectStartIcon(USM_ICO_STORY), "Story unavailable")
+  F.press("A", 2); F.idle(150)
+  F.check("old quest unlock opens the Story renderer", (F.cb2() & ~1) == (S.CB2_Story & ~1))
+  F.press("B", 2); F.idle(150)
   F.press("B", 2); F.idle(60)
   F.check("start menu closed back to overworld", F.ow())
 

@@ -49,7 +49,7 @@
 #include "party_menu.h"
 #include "pokedex.h"
 #include "pokenav.h"
-#include "quests.h"
+#include "story_progress.h"
 #include "bug_contest.h"
 #include "safari_zone.h"
 #include "save_dialog.h"
@@ -371,7 +371,7 @@ static const struct Usm_MenuItem sUsmMenuItems[USM_ICO_COUNT] = {
     [USM_ICO_POKENAV] = USM_MENU_ITEM(Pokenav, "PokéNav"),
     [USM_ICO_DEXNAV]  = USM_MENU_ITEM(Dexnav),
     [USM_ICO_TRAINER] = USM_MENU_ITEM(Trainer),
-    [USM_ICO_QUESTS]  = USM_MENU_ITEM(Quests),
+    [USM_ICO_QUESTS]  = USM_MENU_ITEM(Quests, "Story"),
     [USM_ICO_SAVE]    = USM_MENU_ITEM(Save),
     [USM_ICO_REST]    = USM_MENU_ITEM(Save, "Rest"),
     [USM_ICO_OPTIONS] = USM_MENU_ITEM(Options),
@@ -505,17 +505,9 @@ static bool32 UsmMenuCB_TrainerLinkMode(u32 state)
     return FALSE;
 }
 
-// Same open path as the classic menu's QuestMenuCallback; the quest menu returns
-// through CB2_ReturnToFieldWithOpenMenu, which reopens this menu on the Quests icon.
+// Reuse the retired quest icon's slot so saved icon IDs/layout never move.
 static bool32 UsmMenuCB_Quests(u32 state)
 {
-    // Guarded because Task_QuestMenu_OpenFromStartMenu lives inside src/quests.c's own
-    // `#if QUEST_MENU`, so calling it unconditionally is an undefined reference at link time when
-    // the flag is off. start_menu.c:1566 already guards its copy of this call; this port did not,
-    // which is why QUEST_MENU could not actually be turned off before now. The icon itself is
-    // already gated by `QUEST_MENU && FlagGet(FLAG_SYS_QUEST_MENU_GET)` in UsmIconIsEnabled, so
-    // with the flag off this callback is unreachable and returning FALSE is inert either way.
-#if QUEST_MENU
     switch (state) {
     case 0:
         FadeScreen(FADE_TO_BLACK, 0);
@@ -523,11 +515,11 @@ static bool32 UsmMenuCB_Quests(u32 state)
     default:
         if (!gPaletteFade.active) {
             PlayRainStoppingSoundEffect();
-            CreateTask(Task_QuestMenu_OpenFromStartMenu, 0);
+            CleanupOverworldWindowsAndTilemaps();
+            ShowStoryProgress(CB2_ReturnToFieldWithOpenMenu);
             return TRUE;
         }
     }
-#endif
     return FALSE;
 }
 
@@ -1004,7 +996,7 @@ static bool32 Usm_IsItemAvailable(enum Usm_Icons item)
         case USM_ICO_PARTY:   return FlagGet(FLAG_SYS_POKEMON_GET);
         case USM_ICO_POKENAV: return FlagGet(FLAG_SYS_POKENAV_GET);
         case USM_ICO_DEXNAV:  return DEXNAV_ENABLED && DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET);
-        case USM_ICO_QUESTS:  return QUEST_MENU && FlagGet(FLAG_SYS_QUEST_MENU_GET);
+        case USM_ICO_QUESTS:  return TRUE; // Story is available from the first menu.
         case USM_ICO_RETIRE:  return Usm_IsPlayerInBattlePyramid() || GetSafariZoneFlag();
         case USM_ICO_SAVE:    return !GetSafariZoneFlag() && !GetBugContestFlag() && !Usm_IsPlayerInBattlePyramid();
         case USM_ICO_REST:    return Usm_IsPlayerInBattlePyramid();

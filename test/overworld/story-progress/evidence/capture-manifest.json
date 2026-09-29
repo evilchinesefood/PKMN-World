@@ -1,0 +1,28 @@
+{
+  "input_rom_sha256": "343960c1b8e4fe8f3bd27d68b3b2d3b4cdc037f6a1dbf4a1d6efe151c29099b0",
+  "fixture_rom_sha256": "33538fa027a09920a724fef75bbe21d786d443e4cc49a00c595417b6d6e170eb",
+  "fixture_bytes": 992,
+  "fixture_source_sha256": "5a9d0fb5604114f70e4d5c98359603590620a383a18b23199a71b6455f2db15b",
+  "entry": "0x9f00225",
+  "base_commit": "2deb1f92bb31ea89f071e281968f0c842cb023d3",
+  "working_diff_sha256": "06404a104b2fd2e2aa36bba86289fc407d501605100af18a96aba9d80603a8f4",
+  "configuration": {
+    "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+    "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+    "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+  },
+  "production_sources_sha256": {
+    "include/story_progress.h": "7e985e50d30732097e2738aeacc774073acf46bace770db8c1cc8c41860eaf7a",
+    "src/story_progress.c": "86519405785c867c196805454ec23776e1705e595a9e6be6244813fe950f0cb4",
+    "src/data/story_progress/hoenn.inc": "b9d23859de442e6e4c6e825c6b076c1446c45715739078e287ac2a672ce29fab",
+    "src/data/story_progress/johto.inc": "da1e4bd6eca09b06efa8115544a7337b3b253b929d0a82f575a02f9039c71236",
+    "src/data/story_progress/kanto.inc": "54b68f478476fdccfe9af5fd7178effe67915a926fc78b5d3f27d8a022137106",
+    "src/story_progress_menu.c": "3cf720c807c9ef5e37fa0efa1d57f3ef52873944cced6369fac2c2168ba85158",
+    "src/start_menu.c": "1c38dd14d24d4ebbe4b5c7b6dda883936337aaf892bc0ac22d690a4d68742f47",
+    "src/unbound_start_menu.c": "6b931111ef15dd7a7e0476a925208a3e096fb59d286f626edc143915899d3f10"
+  },
+  "input_elf_sha256": "cf84d619f929c677538038b207951bbd6714b3decdf6567bb247dd12c5f4db3e",
+  "capture_suite_sha256": "660b9856281e20467f73adeb6a6f4627bebcbb3192c21c9d1dc86d392da4ad08",
+  "objective_count": 164,
+  "text_field_count": 820
+}

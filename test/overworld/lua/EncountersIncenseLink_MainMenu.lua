@@ -79,10 +79,10 @@ F.run(function()
   local flagSet = setSb1Flag(FLAG_SYS_MYSTERY_GIFT_ENABLE)
   F.check("FLAG_SYS_MYSTERY_GIFT_ENABLE set before the in-game save", flagSet)
 
-  -- VerifyBagLayout.lua Start-wheel save: pin slot 0, Right Right to Save, A A A.
+  -- Select the Save action by ID, then confirm the real save dialog.
   F.press("Start", 2); F.idle(60)
-  for _ = 1, 10 do F.press("Left", 2); F.idle(8) end
-  F.press("Right", 2); F.idle(12); F.press("Right", 2); F.idle(12)
+  F.check("Save action is selected", F.selectStartIcon(7)) -- USM_ICO_SAVE
+  assert(F.selectStartIcon(7), "Save is unavailable; refusing a positional guess")
   F.press("A", 2); F.idle(90); F.press("A", 2); F.idle(60); F.press("A", 2); F.idle(240)
   F.idle(300)
   F.L("  saved; rebooting core")

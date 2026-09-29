@@ -90,8 +90,8 @@ F.run(function()
 
   -- ---- 5. persistence: save, reboot the core, reload, recount --------------------------------
   F.press("Start", 2); F.idle(60)
-  for _ = 1, 10 do F.press("Left", 2); F.idle(8) end      -- pin wheel slot 0
-  F.press("Right", 2); F.idle(12); F.press("Right", 2); F.idle(12)  -- -> Save
+  F.check("Save action is selected", F.selectStartIcon(7)) -- USM_ICO_SAVE
+  assert(F.selectStartIcon(7), "Save is unavailable; refusing a positional guess")
   F.press("A", 2); F.idle(90); F.press("A", 2); F.idle(60); F.press("A", 2); F.idle(240)
   F.idle(300)                                            -- let flash flush
   F.L("  saved; rebooting core")

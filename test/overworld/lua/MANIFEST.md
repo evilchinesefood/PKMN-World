@@ -9,10 +9,20 @@ Almost everything here runs against a **fresh new game on the current build with
 Four suites need a battery save instead, and one of those saves is not in the tree — see
 [Fixtures](#fixtures) and [Running the whole battery](#running-the-whole-battery).
 
+## Story progress
+
+`StoryProgress.lua` opens the production graphical Start menu, reads all three
+campaign reminders while travelling Kanto → Johto → Hoenn → hub → Kanto, checks
+active-region defaults and repeat visits, then saves, reboots and Continues.
+The companion host resolver boundaries and native renderer/classic-menu fixture
+are in [`../story-progress/`](../story-progress/); coverage and reproducible
+commands are documented in [`../../../docs/story-progress/README.md`](../../../docs/story-progress/README.md).
+
 ## What's in this directory
 
-`test/overworld/lua/` holds **53 `.lua` files**: 49 suites plus four that are not suites and must never be
-launched directly.
+`test/overworld/lua/` holds **61 tracked `.lua` files**: 58 suites/probes and
+three utilities. A build also generates `symbols.lua`, bringing the local total
+to 62. The four support files below must never be launched directly.
 
 | File | Role |
 |---|---|
@@ -69,7 +79,7 @@ one `.PASS` that was six days and many builds old, for a suite that cannot run a
 
 1. **Deletes every `.PASS`/`.FAIL` in `_pwtest/` first**, so any sentinel left afterwards is one
    this sweep wrote.
-2. Runs the 40 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
+2. Runs the 48 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
    per suite.
 3. **Audits the sentinels**: each expected suite must have a `.PASS` *and* it must carry
    `rom=<md5 of the ROM under test>`. A `.FAIL`, a missing sentinel, or a stale md5 each fail the
@@ -77,7 +87,7 @@ one `.PASS` that was six days and many builds old, for a suite that cannot run a
 4. Prints suites it knows about but could not run, under `NOT RUN`.
 
 ```
-green 43 / 43 expected
+green 51 / 51 expected
 SWEEP OK - every expected suite produced a fresh PASS stamped rom=<md5>
 ```
 
@@ -87,9 +97,9 @@ Exit code is **0** only for that. **1** means the sweep failed and the message s
 
 ### What a clean sweep looks like
 
-On the owner's machine: **46/46, `SWEEP OK`, exit 0.**
+On the owner's machine: **52/52, `SWEEP OK`, exit 0.**
 
-On a fresh clone: **43 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
+On a fresh clone: **51 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
 reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,
 and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough, so no
 clone can ever have one. It is therefore listed in `run-all.sh`'s `OPTIONAL_SAVE` rather than

@@ -31,6 +31,7 @@ run() {
 }
 
 run "Gen 1-3 species rules"          test/overworld/ValidateGen13.py
+run "Regional story resolver"        test/overworld/story-progress/run.py
 run "Event-script pointer arguments" test/overworld/ValidateScripts.py
 run "Overworld-Pokemon placements"   test/overworld/ValidateOwMonPlacements.py
 run "Map object-event consistency"   test/overworld/ValidateMapEvents.py

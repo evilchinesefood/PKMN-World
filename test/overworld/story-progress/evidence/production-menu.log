@@ -1,0 +1,41 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] boots to hub
+  [PASS] fresh hub has deliberate Kanto default
+  [PASS] fresh campaigns stay undiscovered
+  shot StoryProgress_1_fresh_overview
+  WARP story_39 ok (6,8)
+  [PASS] active campaign default in 39
+  [PASS] regional objectives survive travel 39
+  [PASS] detail paging works
+  [PASS] all regions review without travel
+  [PASS] browsing preserves campaign/party/flags 39
+  WARP story_77 ok (7,8)
+  [PASS] active campaign default in 77
+  [PASS] regional objectives survive travel 77
+  [PASS] detail paging works
+  [PASS] all regions review without travel
+  [PASS] browsing preserves campaign/party/flags 77
+  WARP story_2 ok (7,8)
+  [PASS] active campaign default in 2
+  [PASS] regional objectives survive travel 2
+  [PASS] detail paging works
+  [PASS] all regions review without travel
+  [PASS] browsing preserves campaign/party/flags 2
+  WARP story_100 ok (16,4)
+  [PASS] active campaign default in 100
+  [PASS] regional objectives survive travel 100
+  [PASS] detail paging works
+  [PASS] all regions review without travel
+  [PASS] browsing preserves campaign/party/flags 100
+  WARP story_39 ok (6,8)
+  [PASS] active campaign default in 39
+  [PASS] regional objectives survive travel 39
+  [PASS] detail paging works
+  [PASS] all regions review without travel
+  [PASS] browsing preserves campaign/party/flags 39
+  [PASS] repeat same-map heap restored
+BOOTED grp=39 map=4 pos=(6,8)
+  [PASS] Continue returns to saved region
+  [PASS] Continue derives same objectives
+VERDICT StoryProgress: 31/31 PASS

@@ -259,6 +259,23 @@ function M.new(S, name, opts)
   local function tap(btn) press(btn, 2); idle(30) end
   self.idle, self.press, self.tap = idle, press, tap
 
+  -- Select a named graphical menu action, including after saved icon reordering
+  -- or a new icon becoming available. The caller has already opened Start.
+  function self.selectStartIcon(icon)
+    if not S.sUsmState or S.sUsmState == 0 then return false end
+    local p = r32(S.sUsmState)
+    if p < 0x02000000 or p >= 0x02040000 then return false end
+    local count = r8(p + 23)
+    if count < 1 or count > 12 then return false end
+    for _ = 1, count do press("Left", 2); idle(12) end
+    for _ = 1, count do
+      local index = r8(p + 10) + r8(p + 5)
+      if index < count and r8(p + 11 + index) == icon then return true end
+      press("Right", 2); idle(12)
+    end
+    return false
+  end
+
   -- screenshots: names embed the step so a shorter rerun can't overwrite a longer run's shots
   local function shot(n)
     self.shotn = self.shotn + 1

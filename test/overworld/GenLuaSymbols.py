@@ -18,6 +18,8 @@ WANT = [
     "MahoganyHideout_B2F_EventScript_DoLanceMultiBattle",
     "gSelectedOrderFromParty", "gPartnerTrainerId",
     "CB2_Overworld",
+    "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
+    "sUsmMemory",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar",
     # RedGyarados.lua points the wandering Gyarados sprite at this callback.
@@ -158,6 +160,7 @@ SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 OPTIONAL = {
     "MainCB2_WorldTitleScreen",  # ALL_REGIONS title screen
     "sUsmState",  # PW_GRAPHICAL_START_MENU
+    "sUsmMemory",  # PW_GRAPHICAL_START_MENU
 }
 
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,

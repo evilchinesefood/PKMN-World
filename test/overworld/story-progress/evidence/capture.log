@@ -1,0 +1,36 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh fixture boots
+  [PASS] every compiled objective fits production font -- fields=820
+  [PASS] production Story opens
+  [PASS] active campaign selected
+  shot StoryProgress_1_overview
+  [PASS] text and background layers visible
+  shot StoryProgress_2_kanto_next
+  shot StoryProgress_3_kanto_where
+  shot StoryProgress_4_kanto_recap
+  [PASS] Johto selected
+  shot StoryProgress_5_johto_next
+  [PASS] Hoenn selected
+  shot StoryProgress_6_hoenn_next
+  [PASS] screen closes to overworld
+  [PASS] state unchanged after browsing
+  [PASS] repeated visits return cleanly
+  [PASS] repeat browsing preserves state
+  [PASS] classic menu remains within screen
+  [PASS] classic menu reaches its last action with scrolling
+  [PASS] classic menu wraps from last to first
+  [PASS] classic menu wraps from first to last
+  [PASS] Story reachable from classic menu
+  shot StoryProgress_7_classic_story
+  [PASS] classic caller restores menu/overworld
+  shot StoryProgress_8_champion_overview
+  shot StoryProgress_9_champion_next
+  [PASS] Champion status retained with started optional chain
+  shot StoryProgress_10_optional_next
+  [PASS] optional action page reachable
+  shot StoryProgress_11_optional_why
+  [PASS] optional prerequisite page reachable
+  [PASS] five-page detail wraps cleanly
+  [PASS] Champion/optional view returns cleanly
+VERDICT StoryProgress: 22/22 PASS

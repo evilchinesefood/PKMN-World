@@ -103,5 +103,20 @@ F.run(function()
   end
   F.check("SaveBlock1.mapView is zeroed", dirty == 0, "nonzero entries=" .. dirty)
 
+  -- The reminder derives old progress without new tracking records or icon IDs.
+  F.press("Start", 2); F.idle(90)
+  local found = F.selectStartIcon(6)
+  F.check("Story is available after v7 migration", found)
+  if found then
+    F.press("A", 2); F.idle(150)
+    F.check("migrated save opens Story on its active Hoenn campaign",
+      (F.cb2() & ~1) == (S.CB2_Story & ~1) and F.r8(S.sStoryRegion) == 2)
+    F.press("B", 2); F.idle(150)
+    F.press("B", 2); F.idle(90)
+    local afterX, afterY = F.pos()
+    F.check("Story restores migrated save's map and position",
+      F.ow() and F.grp() == 2 and F.mapn() == 2 and afterX == x and afterY == y)
+  end
+
   F.finish()
 end)

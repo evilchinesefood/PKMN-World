@@ -25,6 +25,12 @@ Your **PC boxes, Pokédex, bag and money are shared** across all three, so the P
 travel with you. Badges, story flags and trainer defeats stay **per region**, so clearing Hoenn
 doesn't hand you Johto's progress (or Johto's difficulty).
 
+**Returning after a break?** Open **Story** from the Start menu, available from your first
+normal menu in the hub or any region. Review Kanto, Johto and Hoenn without travelling:
+status, regional badges, your current chapter, the next action and its destination,
+prerequisites and last established milestone. Started optional errands have separate pages;
+Champion campaigns keep their **Main story complete** status. [Controls and coverage](docs/story-progress/README.md).
+
 The roster is **Generations 1–3 only**, family trees intact — later-gen evolutions of Gen 1–3
 lines (Togekiss, Electivire, Weavile, Sylveon…) are kept and obtainable. All 339 Gen 4–9 families
 are compiled out, and `make validate` fails if any wild table, gift or trainer party still
@@ -95,7 +101,7 @@ Full setup, toolchain notes and troubleshooting live in **[INSTALL.md](INSTALL.m
 | `make modern` | Build the ROM (this is the normal build) |
 | `make validate` | Host-side content checks — species, scripts, map events, layouts/warps/connections and encounters |
 | `make check` | The inherited battle-engine test suite (5,700 cases, including explicit upstream skipped categories) |
-| `test/overworld/run-all.sh` | 50 mandatory in-game overworld suites on a patched headless mGBA (51 with the optional owner save). Local only — see `test/overworld/mgba/README.md` |
+| `test/overworld/run-all.sh` | 51 mandatory in-game overworld suites on a patched headless mGBA (52 with the optional owner save). Local only — see `test/overworld/mgba/README.md` |
 | `make RELEASE=1` | Optimized build with the debug menu stripped |
 
 CI (`.github/workflows/Check.yml`) runs the host validators and `make check`. It never uploads a

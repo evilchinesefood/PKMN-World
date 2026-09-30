@@ -221,7 +221,8 @@ flagship floor gained a real staircase.
 
 You play as Brendan or May in every region. A **six-outfit palette-swap** system is chosen in the
 new-game intro with a live preview on the trainer sprite, and applies everywhere: overworld,
-battle back-sprite and trainer card. Blue, Green, Purple, Black and Pink have
+battle back-sprite and trainer card. The pick is made once; nothing in the game changes it
+later. Blue, Green, Purple, Black and Pink have
 separate ramps for each live gender/layout; Red preserves the original palette.
 Skin, hair/ink and white accents are protected. Oak uses the same front-sprite
 palettes as the local trainer card, and water reflections inherit the live
@@ -289,8 +290,9 @@ on:
   existing regional script state supplies the reminders without new save fields.
   Coverage and controls: [`docs/story-progress/README.md`](docs/story-progress/README.md).
 - **Pokémon World title screen** — native logo, island panorama and centered
-  PRESS START. Branding source and exporter live under `graphics/branding/` and
-  `tools/export-world-title.mjs`.
+  PRESS START. SELECT no longer skips to a new game (`ENABLE_QUICKSTART` is
+  `FALSE` in `include/config/quickstart.h`). Branding source and exporter live
+  under `graphics/branding/` and `tools/export-world-title.mjs`.
 - **World Panels** — Main Menu, Options and Relearn Moves share light moving
   diagonal backgrounds, white panels and red headers. Main Menu save details
   use dark readable text; text-rendered action labels use title case. Battle
@@ -304,14 +306,19 @@ on:
   snowy Mt. Silver uses snow/rock colors. Ordinary regional battles inherit the
   captured overworld time tint and restore correctly after Bag/Party and move
   animation backgrounds. Gameplay terrain remains separate from visual selection.
-- **Warm night windows in 49 towns across the three regions** — existing night
+- **Ambient water ripples** — small rings appear now and then on the Petalburg,
+  Violet and Fuchsia ponds, and more often in rain, including Route 119's
+  puddles. They reuse the existing ripple art, skip tiles next to the player or
+  an NPC, and yield whenever gameplay needs sprite or palette space.
+- **Warm night windows in 49 town and city maps across Johto, Hoenn, Kanto and Sevii** — existing night
   palettes/metatiles provide the light. Added lamp posts were removed; town
   geometry, collision, warps and events remain unchanged. Palette `.pla` marker
   changes are tracked by incremental builds.
 - **Viridian art pass** — gardens, road edges/verges and building frontages reuse
   existing Kanto artwork while preserving events and walkability.
-- **Hub staff art** — revised researcher and gentleman sprites/palettes fit the
-  regional staff; these are specific sprite replacements, not an NPC-system rewrite.
+- **Hub staff art** — the harbor master and charm curator use the existing FRLG
+  sailor and gentleman sprites to match the regional staff; these are two sprite
+  swaps, not an NPC-system rewrite.
 
 The [final source/test audit](maintenance/final-pass/README.md) records verification
 and its limits. The feature catalog describes implemented source and enabled

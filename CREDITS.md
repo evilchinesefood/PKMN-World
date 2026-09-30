@@ -29,8 +29,9 @@ Pokémon World is built on:
 - **[pokeemerald-expansion](https://github.com/rh-hideout/pokeemerald-expansion)** by
   **RHH (Rom Hacking Hideout)** and its many contributors — the feature-rich base that
   provides modern battle mechanics, Pokémon, abilities, items, moves, and the bulk of
-  the quality-of-life systems. Pokémon World tracks upstream **v1.16.2**
-  (`EXPANSION_VERSION_MAJOR`/`MINOR`/`PATCH` in `include/constants/expansion.h`).
+  the quality-of-life systems. Pokémon World tracks upstream **1.16.4 dev** (master
+  `82598c4d88`, 2026-08-23; `EXPANSION_VERSION_MAJOR`/`MINOR`/`PATCH` in
+  `include/constants/expansion.h`).
 - **[pret/pokeemerald](https://github.com/pret/pokeemerald)** by **pret** — the original
   Pokémon Emerald decompilation that pokeemerald-expansion (and therefore this project)
   is built on top of.
@@ -186,8 +187,8 @@ Four, and Champion Gary).
   FireRed/LeafGreen decompilation the bundled Kanto content derives from.
 - **[evilchinesefood/PKMN-FireRedDavesVersion](https://github.com/evilchinesefood/PKMN-FireRedDavesVersion)**
   — the project lead's own FireRed hack, used as the Kanto story reference and as
-  the source of the **six-outfit palette-swap customization system** (regenerated
-  per-gender for the Brendan/May sprites).
+  the source of the **six-outfit palette-swap customization system**. Its colours
+  are now authored separately for each Brendan/May sprite.
 
 ### Sword/Shield UI suite — montmoguri/pokeemerald-expansion
 

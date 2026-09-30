@@ -42,49 +42,32 @@ references one.
 
 ## Screenshots
 
-Twenty native 240 × 160 mGBA screenshots. Scenes use disposable saves, debug warps
+Native 240 × 160 mGBA screenshots. Scenes use disposable saves, debug warps
 and synthetic teams/items; menu/battle fixtures invoke the production renderer.
 Images are unretouched. [Capture methods and hashes](graphics/branding/screenshots/showcase/README.md).
 
-| Title screen | World Transit hub |
-|---|---|
-| ![Title screen](graphics/branding/screenshots/showcase/01-title.png) | ![World Transit hub](graphics/branding/screenshots/showcase/02-world-transit.png) |
-
-| Kanto — Viridian City | Kanto — Vermilion harbor |
-|---|---|
-| ![Kanto — Viridian City](graphics/branding/screenshots/showcase/03-kanto-viridian.png) | ![Kanto — Vermilion harbor](graphics/branding/screenshots/showcase/04-kanto-vermilion.png) |
-
-| Kanto — Celadon City | Johto — Cherrygrove City |
-|---|---|
-| ![Kanto — Celadon City](graphics/branding/screenshots/showcase/05-kanto-celadon.png) | ![Johto — Cherrygrove City](graphics/branding/screenshots/showcase/06-johto-cherrygrove.png) |
-
-| Johto — Ecruteak City | Johto — Olivine lighthouse |
-|---|---|
-| ![Johto — Ecruteak City](graphics/branding/screenshots/showcase/07-johto-ecruteak.png) | ![Johto — Olivine lighthouse](graphics/branding/screenshots/showcase/08-johto-olivine.png) |
-
-| Hoenn — Mossdeep City | Hoenn — Rustboro City |
-|---|---|
-| ![Hoenn — Mossdeep City](graphics/branding/screenshots/showcase/09-hoenn-mossdeep.png) | ![Hoenn — Rustboro City](graphics/branding/screenshots/showcase/10-hoenn-rustboro.png) |
-
-| Hoenn — Fortree City | Hoenn — Sootopolis City |
-|---|---|
-| ![Hoenn — Fortree City](graphics/branding/screenshots/showcase/11-hoenn-fortree.png) | ![Hoenn — Sootopolis City](graphics/branding/screenshots/showcase/12-hoenn-sootopolis.png) |
-
-| Battle Frontier | Battle Net floor |
-|---|---|
-| ![Battle Frontier](graphics/branding/screenshots/showcase/13-battle-frontier.png) | ![Battle Net floor](graphics/branding/screenshots/showcase/14-battle-net.png) |
-
-| Party and follower chooser | Bag |
-|---|---|
-| ![Party and follower chooser](graphics/branding/screenshots/showcase/15-party.png) | ![Bag](graphics/branding/screenshots/showcase/16-bag.png) |
-
-| Pokémon summary | DexNav on Route 101 |
-|---|---|
-| ![Pokémon summary](graphics/branding/screenshots/showcase/17-summary.png) | ![DexNav on Route 101](graphics/branding/screenshots/showcase/18-dexnav.png) |
-
-| Battle commands and BW healthboxes | World Panels Options |
-|---|---|
-| ![Battle commands and BW healthboxes](graphics/branding/screenshots/showcase/19-battle.png) | ![World Panels Options](graphics/branding/screenshots/showcase/20-options.png) |
+<table>
+  <tr>
+    <td><img src="graphics/branding/screenshots/showcase/01-title.png" width="240" height="160" alt="Title screen" title="Title screen"></td>
+    <td><img src="graphics/branding/screenshots/showcase/02-world-transit.png" width="240" height="160" alt="World Transit hub" title="World Transit hub"></td>
+    <td><img src="graphics/branding/screenshots/showcase/13-battle-frontier.png" width="240" height="160" alt="Battle Frontier" title="Battle Frontier"></td>
+  </tr>
+  <tr>
+    <td><img src="graphics/branding/screenshots/showcase/05-kanto-celadon.png" width="240" height="160" alt="Kanto — Celadon City" title="Kanto — Celadon City"></td>
+    <td><img src="graphics/branding/screenshots/showcase/06-johto-cherrygrove.png" width="240" height="160" alt="Johto — Cherrygrove City" title="Johto — Cherrygrove City"></td>
+    <td><img src="graphics/branding/screenshots/showcase/09-hoenn-mossdeep.png" width="240" height="160" alt="Hoenn — Mossdeep City" title="Hoenn — Mossdeep City"></td>
+  </tr>
+  <tr>
+    <td><img src="graphics/branding/screenshots/showcase/15-party.png" width="240" height="160" alt="Party and follower chooser" title="Party and follower chooser"></td>
+    <td><img src="graphics/branding/screenshots/showcase/16-bag.png" width="240" height="160" alt="Bag" title="Bag"></td>
+    <td><img src="graphics/branding/screenshots/showcase/17-summary.png" width="240" height="160" alt="Pokémon summary" title="Pokémon summary"></td>
+  </tr>
+  <tr>
+    <td><img src="graphics/branding/screenshots/showcase/18-dexnav.png" width="240" height="160" alt="DexNav on Route 101" title="DexNav on Route 101"></td>
+    <td><img src="graphics/branding/screenshots/showcase/19-battle.png" width="240" height="160" alt="Battle commands and BW healthboxes" title="Battle commands and BW healthboxes"></td>
+    <td><img src="graphics/branding/screenshots/showcase/20-options.png" width="240" height="160" alt="World Panels Options" title="World Panels Options"></td>
+  </tr>
+</table>
 
 ## Build it
 
@@ -109,32 +92,24 @@ ROM, and the emulator suites can't run there.
 
 ## Status
 
-**Last tagged release: v1.6** (2026-09-23). See the [changelog](CHANGELOG.md) for the full
-entry. Save format is **v10**; v7 and newer migrate forward, anything older is refused.
-Headline items since v1.5:
+**Last tagged release: v1.7** (2026-09-30). See the [changelog](CHANGELOG.md) for the full
+entry. Save format is **v10**, unchanged from v1.6; v7 and newer migrate forward, anything
+older is refused. Headline items since v1.6:
+
+- A **Black/White-style battle interface**, with battle backgrounds that match Ice Path,
+  Mt. Silver and the time of day.
+- **Story** in the Start menu shows each region's badges, current chapter and next step.
+- Restyled **menus, Bag and PC**, **warm night windows** in 49 town maps, redrawn **outfit
+  colours**, and a landscaped **Viridian City**.
+- Friendship, move and partner evolutions **also happen at a level**, and **Eevee evolves by
+  stone only**.
+
+The v1.6 headlines, still in this build:
 
 - A crowded overworld **skips a sprite it cannot fit** instead of crashing.
 - **Victory Road, Seafoam Islands, Route 41, the Johto map marker, Bill's Eevee,
   the Dojo and Mt. Moon gifts, and the Rocket HQ multi battle** are fixed.
 - The title screen is **Pokémon World**.
-
-The v1.5 headlines, still in this build:
-
-- The link-era features (Mystery Gift/Event, Union Room, record mixing, Cable Club) and the
-  never-populated quest engine are **compiled out**.
-- The Battle Net terminal moved into a **wall unit in all 50 Pokémon Center lobbies**, and the
-  old Center 2Fs are sealed.
-- The **S.S. Aqua actually lands in Kanto** — you disembark at the new Vermilion City port with
-  your team intact.
-- A long run of Johto script, trainer-data and save-migration fixes. v1.5 moved the save
-  format to v9; v1.6 moves it to v10. Pre-v7 saves are still refused at load.
-- **Whirlpool is implemented**, which unseals **Lugia** and the **Dragon's Den Shrine** — both
-  were unreachable in every save, walled off by invisible blockers that no move could clear.
-- **Wild encounters are flat**: every Pokémon is catchable at any hour. The clock still changes
-  the light and which Pokémon roam the overworld, but no longer gates the grass.
-- Johto's **music pass is finished** — its own cycling, surfing and trainer-approach themes, and
-  the Radio Tower plays the occupation theme while Rocket holds it.
-- Caught up with **upstream pokeemerald-expansion** (merged to their master of 2026-08-23).
 
 The campaigns and their post-game scripts are implemented. The final pass verified all
 1,190 registered map structures and passed 51 fresh emulator suites, including boot,

@@ -153,21 +153,29 @@ run this the pre-push gate is silently absent:
 test/overworld/hooks/install.sh
 ```
 
-It symlinks `test/overworld/hooks/pre-push` into `.git/hooks/`. That hook runs six source-only
-validators (a few seconds, no ROM build) that catch edits which build and boot cleanly and then
+It symlinks `test/overworld/hooks/pre-push` into `.git/hooks/`. That hook runs fifteen source-only
+checks (a few seconds, no ROM build) that catch edits which build and boot cleanly and then
 break in play:
 
 | Check | Catches |
 | --- | --- |
 | `test/overworld/ValidateGen13.py` | references to disabled species |
+| `test/overworld/story-progress/run.py` | Story progress resolver giving the wrong objective at a story boundary (compiles the game's resolver with the host C compiler) |
 | `test/overworld/ValidateScripts.py` | bare-integer script-pointer arguments |
 | `test/overworld/ValidateOwMonPlacements.py` | bad overworld-Pokémon placements |
 | `test/overworld/ValidateMapEvents.py` | object events with the wrong sprite / trainer / team |
+| `test/overworld/ValidateMetatileBounds.py` | map blocks that point past their tilesets' metatiles |
 | `test/overworld/GenObstacleTable.py --check` | a stale cleared-obstacle table |
 | `test/overworld/SavePatch.py --check` | save-format constants that have drifted from the tree |
 | `test/overworld/ValidateDoorAnims.py --max 0` | animated-door warps with no `sDoorAnimGraphicsTable` row |
+| `test/overworld/ValidateTilesetPalettes.py` | tileset palette arrays that overrun their bounds |
+| `test/overworld/ValidateCelioGifts.py` | Celio's gifts lost to a full bag |
+| `test/overworld/ValidateGreedyGifts.py` | exclusive-choice gifts sharing one flag |
+| `test/overworld/ValidateRegionMap.py` | misplaced region-map icons |
+| `test/overworld/ValidateLanceMultiBattle.py` | a broken Rocket HQ multi battle with Lance |
+| `test/overworld/ValidateZoneStructure.py` | structural errors in registered maps (layouts, warps, connections, encounters) |
 
-The same seven run as `make validate`, and CI mirrors them in the `validate` job.
+The same fifteen run as `make validate`, and CI mirrors them in the `validate` job.
 
 ---
 
@@ -220,7 +228,7 @@ make modern -j$(sysctl -n hw.ncpu)          # macOS — nproc does not exist her
 | --- | --- |
 | `make` / `make modern` | build `pokemonworld.gba` (+ `.elf`, `.map`, and a refreshed `test/overworld/lua/symbols.lua`) |
 | `make check` | build the test ELF and run the battle-engine suite in `test/` under mGBA |
-| `make validate` | run the six host-side content validators (no build) |
+| `make validate` | run the fifteen host-side content checks (no build) |
 | `make tools` | build only the host tools in `tools/` — the target to use when diagnosing a tools failure |
 | `make symbols` | regenerate `test/overworld/lua/symbols.lua` from the ELF (the normal ROM build already does this) |
 | `make obstacles` | regenerate the committed cleared-obstacle table after a map edit |

@@ -5,15 +5,46 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+## v1.7 — 2026-09-30
+
+> **Save format is unchanged (v10); v1.6 saves load as-is.** No save fields,
+> flags or vars were added or moved. v7, v8 and v9 saves still migrate forward.
+> Saves from v1.3.6 or earlier are still refused.
+>
+> A save made while standing in Viridian City or the World Hub can show the old
+> ground art or staff sprites near you until you leave the map and come back.
+
+Mostly a presentation release: a new battle interface, restyled menus, warmer
+nights, and a Story screen for players coming back after a break.
+
 ### Visuals
 
-- **Warmer nights across Johto, Hoenn, Kanto and Sevii.** Town windows use warm nighttime palettes. Original daytime art, map layouts and existing street fixtures are preserved.
+- **Black/White-style battle interface** (#336). Angular text and command boxes; a 2×2 move grid tinted by type, with PP and an effectiveness mark (○ ◎ △ ×) against the current target; outlined healthboxes for singles, doubles and the Safari Zone; and restyled party balls, Mega Evolution trigger and ability pop-up. The ability pop-up now stays up a little longer. The egg-hatch and trade screens use the same text box. Adapted from Mudskipper's BW battle UI (see [CREDITS.md](CREDITS.md)); `BW_BATTLE_UI` in `include/config/bw_battle_ui.h` turns it off at build time.
+- **Battle backgrounds match the place and the hour** (#327). Ice Path battles use icy cave colours. The Mt. Silver snow slopes and summit use a snow-and-rock background. Ordinary battles in towns, routes and sea routes take the overworld's time-of-day tint, so a night battle looks like night. Gym leader, Champion, Frontier and other special battles keep their usual look.
+- **World Panels menus.** The main menu, Options and the Move Relearner use a red header bar, white panels and a moving diagonal background. Options shows its controls in a footer. Menu action labels are now in title case ("New Game", "Continue", "Give", "Toss") across the Start menu, Bag, party menu, PC, shops and Yes/No prompts. Battle command labels keep their capitals.
+- **Bag and PC refresh** (#328). New SwSh Bag background with money and sell-price frames built in, one info prompt in the top bar, a swap prompt while moving an item, and tidier TM, contest and berry panels. Switching pockets no longer redraws the list row by row. Updated from Montblanc's SwSh work (see [CREDITS.md](CREDITS.md)).
+- **One frame style for menus** (#332, #333). Options frame Type 1 is now the SwSh frame; battle windows keep the classic frame. The Start menu shows "SELECT Move" or "SELECT Done" while you rearrange icons, and the trainer card badge page shows "L Region R".
+- **Ripples on still water** (#329). Small rings appear now and then on the ponds in Petalburg, Violet and Fuchsia, and more often in rain, including on Route 119's puddles. They never appear next to you or an NPC, and they give way whenever the game needs the sprite space.
+- **Warmer nights across Johto, Hoenn, Kanto and Sevii** (#335). Windows in 49 town and city maps use warm nighttime palettes. The glass panes in New Bark Town, Cherrygrove City and Route 30 glow amber. Daytime art, map layouts, collision and existing street fixtures are unchanged.
+- **Redrawn outfit colours** (#342). Blue, Green, Purple, Black and Pink each have their own colours for Brendan and May on the overworld sprite, trainer picture, battle back sprite, Oak's picker and water reflections. Hair and eyes no longer pick up the outfit colour. Red is unchanged. Existing saves show the new colours automatically.
+- **Viridian City landscaping** (#346, #347, #348). Grouped flower gardens, continuous lawn edging along the roads, and planting at the Pokémon Center, Mart, school, gym and northern house. Walkable tiles, warps and events are unchanged.
+- **World Hub staff sprites** (#330). The harbor master and the charm curator use the FRLG sailor and gentleman sprites to match the rest of the hub.
+- **Title logo realigned.** "World" sits slightly right of "Pokémon", as on the box art. PRESS START stays centred.
 
 ### Quality of life
 
+- **A Story screen for returning players** (#353). Open **Story** from either Start menu, in the hub or any region. It lists Kanto, Johto and Hoenn with badges and status (Not started, In progress, Main story complete). Press A on a region for the current chapter, the next action, where to go and why, and the last milestone you reached. Started side errands get their own pages: Lostelle and Celio's Sevii errand in Kanto, Kurt's GS Ball in Johto, and the New Mauville generator in Hoenn. It reads your existing progress; nothing new is saved. With Story added, the classic text Start menu shows up to eight rows and scrolls. See [docs/story-progress/](docs/story-progress/README.md).
 - **Evolutions that needed friendship, a particular move, or a party partner now also happen at a level.** The old method still works and whichever comes first wins: Pichu, Cleffa, Igglybuff and Azurill at 12; Togepi and Budew at 15; Bonsly at 17; Mime Jr. at 18; Chingling at 20; Mantyke at 25; Munchlax and Stantler at 30; Golbat, Aipom, Girafarig and Dunsparce at 32; Lickitung, Tangela and Yanma at 33; Primeape at 35; Chansey at 40; Piloswine at 45. A Pokémon already past its new level evolves at its next level-up.
-- **Eevee evolves by stone only.** Sun Stone gives Espeon, Moon Stone gives Umbreon and Shiny Stone gives Sylveon, alongside the Thunder, Water, Fire, Leaf and Ice Stones. Friendship, the time of day, a Fairy-type move, or levelling up in Petalburg Woods or the Shoal Cave ice room no longer evolve it, so an Eevee never turns into something you did not choose.
+- **Eevee evolves by stone only.** Sun Stone gives Espeon, Moon Stone gives Umbreon and Shiny Stone gives Sylveon, alongside the Thunder, Water, Fire, Leaf and Ice Stones. Friendship, the time of day, a Fairy-type move, or levelling up in Petalburg Woods or the Shoal Cave ice room no longer evolve it, so an Eevee never turns into something you did not choose. Because Eevee now evolves with a Moon Stone, the Moon Ball gets its 4× bonus on wild Eevee. The Ecruteak Mart customer who wondered about Espeon and Umbreon now explains the stones.
 - **Happiny, Gligar and Sneasel evolve at any hour.** The Oval Stone, Razor Fang and Razor Claw no longer depend on day or night.
+- **The HGSS Pokédex evolution page lists each later evolution once**, even when several methods lead to the same Pokémon.
+
+### Fixes
+
+- **SELECT on the title screen no longer starts a new game.** It used to skip the main menu and Continue and drop you into a fresh game with a random gender and default name. The "SEL New Game" badge is gone too.
+- **Leaving the Bag or party menu during Grassy Terrain no longer crashes** (#327), and the terrain background is redrawn when you return to the battle.
+- **Menu screens no longer overlap their tiles.** The shop, Battle Pyramid bag, Pokéblock case and Berry Blender message frames moved to free tile space, and leaving the summary screen resets its blend and window effects.
+- **The HGSS Pokédex no longer loads stray data into three of its background palettes.**
 
 ## v1.6 — 2026-09-23
 

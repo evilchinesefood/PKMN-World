@@ -27,7 +27,7 @@ Master is both the dev branch and the release branch. There is no release branch
    headless mGBA; see `test/overworld/mgba/README.md`). A release is the moment they must actually
    have run.
 
-3. **`make validate`** — the six host-side content validators. The CI `validate` job mirrors
+3. **`make validate`** — the fifteen host-side content checks. The CI `validate` job mirrors
    them, and so does the `pre-push` hook if you installed it (`test/overworld/hooks/install.sh`).
 
 4. **Default-config `make`** — the ROM that actually ships must build. CI `build` job.

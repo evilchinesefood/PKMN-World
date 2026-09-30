@@ -99,8 +99,8 @@ This is a local toolchain workaround; the game code did not need a rollback.
 
 [Twenty native screenshots](../../graphics/branding/screenshots/showcase/README.md)
 cover title, both hub floors, three Kanto towns, three Johto towns, four Hoenn
-towns, Battle Frontier, party, bag, summary, DexNav, battle and Options. All appear
-in the main README. Images are unretouched emulator output. Debug warps, synthetic
+towns, Battle Frontier, party, bag, summary, DexNav, battle and Options. The main
+README shows a 12-image subset. Images are unretouched emulator output. Debug warps, synthetic
 teams/items and test-only fixture hooks set up scenes; no personal save is used
 and these captures are not campaign-completion evidence. The gallery manifest
 records ROM/fixture/per-image hashes.

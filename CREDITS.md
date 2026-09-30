@@ -232,7 +232,7 @@ complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in
 - **psf / Pokémon San Fran** ([pkmnsnfrn](https://github.com/pkmnsnfrn) ·
   [linktr.ee/pkmnsnfrn](https://linktr.ee/pkmnsnfrn)) — original author of the quests
   feature (the "unbound-quest-menu" work).
-- **RubyRaven6** ("Mudskipper" / [Ruby](https://github.com/RubyRaven6)) and **Evan** —
+- **RubyRaven6** ([Ruby](https://github.com/RubyRaven6)) and **Evan** —
   additional quest fixes and changes in that repo.
 - The quest menu itself derives from **FireRed** quest-menu code, **ported from FireRed
   by ghoulslash** (per the attribution comment retained in `src/quests.c`). That lineage

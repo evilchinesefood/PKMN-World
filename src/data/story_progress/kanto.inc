@@ -1,98 +1,98 @@
 // Regional evidence only: see docs/story-progress/kanto.md.
 STORY_OBJECTIVE(sKantoStarter, "kanto.starter",
-    "Starting in PALLET",
-    "Your KANTO journey has begun.",
-    "Meet PROF. OAK and choose\na partner.",
-    "PALLET TOWN\nPROF. OAK'S LAB",
+    "Starting in Pallet",
+    "Your Kanto journey has begun.",
+    "Meet Prof. Oak and choose\na partner.",
+    "Pallet Town\nProf. Oak's Lab",
     "A partner lets you explore.");
 
 STORY_OBJECTIVE(sKantoRival, "kanto.rival",
     "First partner",
     "You chose your first partner.",
     "Finish the rival battle.",
-    "PALLET TOWN\nPROF. OAK'S LAB",
+    "Pallet Town\nProf. Oak's Lab",
     "Your rival is waiting here.");
 
 STORY_OBJECTIVE(sKantoParcel, "kanto.parcel",
-    "OAK'S errand",
+    "Oak's errand",
     "The first lab battle is over.",
-    "Collect OAK'S PARCEL.",
-    "VIRIDIAN CITY MART\nSpeak to the clerk.",
-    "OAK is waiting for his order.\nMake BAG room if needed.");
+    "Collect Oak's Parcel.",
+    "Viridian City Mart\nSpeak to the clerk.",
+    "Oak is waiting for his order.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoDeliverParcel, "kanto.deliver_parcel",
-    "OAK'S errand",
-    "The clerk handed over\nOAK'S PARCEL.",
-    "Bring the PARCEL to OAK.",
-    "PALLET TOWN\nPROF. OAK'S LAB",
-    "Finish the delivery to begin\nyour POKEDEX journey.");
+    "Oak's errand",
+    "The clerk handed over\nOak's Parcel.",
+    "Bring the Parcel to Oak.",
+    "Pallet Town\nProf. Oak's Lab",
+    "Finish the delivery to begin\nyour Pokedex journey.");
 
 STORY_OBJECTIVE(sKantoBrock, "kanto.brock",
     "First Gym",
-    "OAK'S delivery is complete.",
-    "Challenge BROCK.",
-    "PEWTER CITY GYM\nNorth through VIRIDIAN FOREST.",
-    "Earn your first KANTO Badge.");
+    "Oak's delivery is complete.",
+    "Challenge Brock.",
+    "Pewter City Gym\nNorth through Viridian Forest.",
+    "Earn your first Kanto Badge.");
 
 STORY_OBJECTIVE(sKantoMtMoon, "kanto.mt_moon",
-    "Route to CERULEAN",
-    "You earned the BOULDERBADGE.",
-    "Cross MT. MOON and choose\na fossil.",
-    "Route 3, east of PEWTER\nMT. MOON B2F",
-    "The eastern exit leads toward\nCERULEAN. Make BAG room.");
+    "Route to Cerulean",
+    "You earned the Boulder Badge.",
+    "Cross Mt. Moon and choose\na fossil.",
+    "Route 3, east of Pewter\nMt. Moon B2F",
+    "The eastern exit leads toward\nCerulean. Make Bag room.");
 
 STORY_OBJECTIVE(sKantoBill, "kanto.bill",
-    "BILL'S cottage",
-    "The route through MT. MOON\nis behind you.",
-    "Help BILL at his cottage.",
-    "Routes 24 and 25\nSEA COTTAGE, east end",
-    "BILL needs help with his PC.");
+    "Bill's cottage",
+    "The route through Mt. Moon\nis behind you.",
+    "Help Bill at his cottage.",
+    "Routes 24 and 25\nSea Cottage, east end",
+    "Bill needs help with his PC.");
 
 STORY_OBJECTIVE(sKantoTicket, "kanto.ticket",
-    "BILL'S cottage",
-    "You restored BILL.",
-    "Collect BILL'S S.S. TICKET.",
-    "Route 25 SEA COTTAGE\nSpeak to BILL.",
-    "The ticket opens the ship.\nMake BAG room if needed.");
+    "Bill's cottage",
+    "You restored Bill.",
+    "Collect Bill's S.S. Ticket.",
+    "Route 25 Sea Cottage\nSpeak to Bill.",
+    "The ticket opens the ship.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoMisty, "kanto.misty",
-    "CERULEAN Gym",
-    "BILL gave you an S.S. TICKET.",
-    "Challenge MISTY.",
-    "CERULEAN CITY GYM",
-    "The CASCADEBADGE allows CUT\naway from battle.");
+    "Cerulean Gym",
+    "Bill gave you an S.S. Ticket.",
+    "Challenge Misty.",
+    "Cerulean City Gym",
+    "The Cascade Badge allows Cut\naway from battle.");
 
 STORY_OBJECTIVE(sKantoCut, "kanto.cut",
-    "S.S. ANNE",
-    "You earned the CASCADEBADGE.",
+    "S.S. Anne",
+    "You earned the Cascade Badge.",
     "Visit the ship's captain.",
-    "VERMILION CITY harbor\nS.S. ANNE, CAPTAIN'S OFFICE",
-    "Collect CUT from the captain.\nMake BAG room if needed.");
+    "Vermilion City harbor\nS.S. Anne, captain's office",
+    "Collect Cut from the captain.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoSurge, "kanto.surge",
-    "VERMILION Gym",
-    "The captain gave you CUT.",
-    "Use CUT to enter the Gym\nand challenge LT. SURGE.",
-    "VERMILION CITY GYM",
-    "The next KANTO Badge is here.");
+    "Vermilion Gym",
+    "The captain gave you Cut.",
+    "Use Cut to enter the Gym\nand challenge Lt. Surge.",
+    "Vermilion City Gym",
+    "The next Kanto Badge is here.");
 
 STORY_OBJECTIVE(sKantoHideout, "kanto.hideout",
-    "CELADON investigation",
-    "You earned the THUNDERBADGE.",
-    "Inspect the GAME CORNER\nposter behind the Rocket.",
-    "CELADON GAME CORNER\nVia Route 9 and ROCK TUNNEL.",
+    "Celadon investigation",
+    "You earned the Thunder Badge.",
+    "Inspect the Game Corner\nposter behind the Rocket.",
+    "Celadon Game Corner\nVia Route 9 and Rock Tunnel.",
     "Investigate the Rocket here.");
 
 STORY_OBJECTIVE(sKantoLiftKey, "kanto.lift_key",
     "Rocket hideout",
     "You opened the hidden stairs.",
-    "Find the LIFT KEY.",
-    "CELADON Rocket hideout B4F\nDefeat the key-holding grunt.",
-    "The lift reaches deeper rooms.\nMake BAG room for the key.");
+    "Find the Lift Key.",
+    "Celadon Rocket hideout B4F\nDefeat the key-holding grunt.",
+    "The lift reaches deeper rooms.\nMake Bag room for the key.");
 
 STORY_OBJECTIVE(sKantoHideoutBoss, "kanto.hideout_boss",
     "Rocket hideout",
-    "You collected the LIFT KEY.",
+    "You collected the Lift Key.",
     "Clear the hideout's last room.",
     "Rocket hideout B4F\nUse the lift from B2F.",
     "Finish investigating\nthe hideout.");
@@ -100,225 +100,225 @@ STORY_OBJECTIVE(sKantoHideoutBoss, "kanto.hideout_boss",
 STORY_OBJECTIVE(sKantoScope, "kanto.scope",
     "Rocket hideout",
     "The hideout boss left.",
-    "Pick up the SILPH SCOPE.",
+    "Pick up the Silph Scope.",
     "Rocket hideout B4F\nThe boss's room",
-    "The dropped item is waiting.\nMake BAG room if needed.");
+    "The dropped item is waiting.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoTower, "kanto.tower",
-    "LAVENDER investigation",
-    "You collected the SILPH SCOPE.",
-    "Climb POKEMON TOWER.",
-    "LAVENDER TOWN\nPOKEMON TOWER, toward 6F",
-    "Use the SCOPE to investigate\nthe tower's spirits.");
+    "Lavender investigation",
+    "You collected the Silph Scope.",
+    "Climb Pokemon Tower.",
+    "Lavender Town\nPokemon Tower, toward 6F",
+    "Use the Scope to investigate\nthe tower's spirits.");
 
 STORY_OBJECTIVE(sKantoFuji, "kanto.fuji",
-    "POKEMON TOWER",
+    "Pokemon Tower",
     "The spirit on 6F is at rest.",
-    "Reach MR. FUJI on 7F.",
-    "LAVENDER POKEMON TOWER 7F\nClear the Rockets in your way.",
-    "Speak to MR. FUJI.");
+    "Reach Mr. Fuji on 7F.",
+    "Lavender Pokemon Tower 7F\nClear the Rockets in your way.",
+    "Speak to Mr. Fuji.");
 
 STORY_OBJECTIVE(sKantoFlute, "kanto.flute",
-    "MR. FUJI'S thanks",
-    "You rescued MR. FUJI.",
-    "Talk to MR. FUJI at home.",
-    "LAVENDER TOWN\nVOLUNTEER POKEMON HOUSE",
-    "Collect his POKE FLUTE.\nMake BAG room if needed.");
+    "Mr. Fuji's thanks",
+    "You rescued Mr. Fuji.",
+    "Talk to Mr. Fuji at home.",
+    "Lavender Town\nVolunteer Pokemon House",
+    "Collect his Poke Flute.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoErika, "kanto.erika",
-    "CELADON Gym",
-    "MR. FUJI gave you a FLUTE.",
-    "Challenge ERIKA.",
-    "CELADON CITY GYM\nUse CUT at the entrance.",
-    "Earn the RAINBOWBADGE.");
+    "Celadon Gym",
+    "Mr. Fuji gave you a Flute.",
+    "Challenge Erika.",
+    "Celadon City Gym\nUse Cut at the entrance.",
+    "Earn the Rainbow Badge.");
 
 STORY_OBJECTIVE(sKantoSurf, "kanto.surf",
-    "SAFARI ZONE",
-    "You earned the RAINBOWBADGE.",
-    "Find the SAFARI SECRET HOUSE.",
-    "FUCHSIA CITY SAFARI ZONE\nSECRET HOUSE in the west area",
-    "Collect SURF from the man.\nMake BAG room if needed.");
+    "Safari Zone",
+    "You earned the Rainbow Badge.",
+    "Find the Safari Secret House.",
+    "Fuchsia City Safari Zone\nSecret House in the west area",
+    "Collect Surf from the man.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoKoga, "kanto.koga",
-    "FUCHSIA Gym",
-    "You received SURF in SAFARI.",
-    "Challenge KOGA.",
-    "FUCHSIA CITY GYM",
-    "The SOULBADGE allows SURF\naway from battle.");
+    "Fuchsia Gym",
+    "You received Surf in Safari.",
+    "Challenge Koga.",
+    "Fuchsia City Gym",
+    "The Soul Badge allows Surf\naway from battle.");
 
 STORY_OBJECTIVE(sKantoTeeth, "kanto.teeth",
-    "The WARDEN'S request",
-    "You earned the SOULBADGE.",
-    "Find the GOLD TEETH.",
-    "FUCHSIA CITY SAFARI ZONE\nWest area, near SECRET HOUSE",
-    "The WARDEN needs his teeth.\nMake BAG room if needed.");
+    "The Warden's request",
+    "You earned the Soul Badge.",
+    "Find the Gold Teeth.",
+    "Fuchsia City Safari Zone\nWest area, near Secret House",
+    "The Warden needs his teeth.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoStrength, "kanto.strength",
-    "The WARDEN'S request",
-    "You found the GOLD TEETH.",
-    "Bring the teeth to the WARDEN.",
-    "FUCHSIA CITY\nWARDEN'S HOUSE, southeast",
-    "Collect STRENGTH in return.\nMake BAG room if needed.");
+    "The Warden's request",
+    "You found the Gold Teeth.",
+    "Bring the teeth to the Warden.",
+    "Fuchsia City\nWarden's house, southeast",
+    "Collect Strength in return.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoTea, "kanto.tea",
-    "Route to SAFFRON",
-    "The WARDEN gave you STRENGTH.",
-    "Collect TEA in CELADON.",
-    "CELADON CONDOMINIUMS 1F\nSpeak to the elderly woman.",
-    "The guards need a drink.\nMake BAG room if needed.");
+    "Route to Saffron",
+    "The Warden gave you Strength.",
+    "Collect Tea in Celadon.",
+    "Celadon Condominiums 1F\nSpeak to the elderly woman.",
+    "The guards need a drink.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoSaffronGate, "kanto.saffron_gate",
-    "Route to SAFFRON",
-    "You received TEA in CELADON.",
-    "Bring TEA to a SAFFRON guard.",
-    "Route 7 east gate\nBetween CELADON and SAFFRON",
+    "Route to Saffron",
+    "You received Tea in Celadon.",
+    "Bring Tea to a Saffron guard.",
+    "Route 7 east gate\nBetween Celadon and Saffron",
     "The guard can let you through.");
 
 STORY_OBJECTIVE(sKantoCardKey, "kanto.card_key",
-    "SILPH CO.",
-    "The guards opened SAFFRON.",
-    "Find SILPH'S CARD KEY.",
-    "SAFFRON CITY, SILPH CO. 5F\nSouthern corridor",
-    "The key opens locked doors.\nMake BAG room if needed.");
+    "Silph Co.",
+    "The guards opened Saffron.",
+    "Find Silph's Card Key.",
+    "Saffron City, Silph Co. 5F\nSouthern corridor",
+    "The key opens locked doors.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoSilph, "kanto.silph",
-    "SILPH CO.",
-    "You collected the CARD KEY.",
-    "Reach SILPH'S top office.",
-    "SAFFRON CITY, SILPH CO. 11F\nUse doors and warp tiles.",
-    "Clear the Rockets from SILPH.");
+    "Silph Co.",
+    "You collected the Card Key.",
+    "Reach Silph's top office.",
+    "Saffron City, Silph Co. 11F\nUse doors and warp tiles.",
+    "Clear the Rockets from Silph.");
 
 STORY_OBJECTIVE(sKantoSabrina, "kanto.sabrina",
-    "SAFFRON Gym",
-    "The Rockets left SILPH CO.",
-    "Challenge SABRINA.",
-    "SAFFRON CITY GYM",
-    "Earn the MARSHBADGE.");
+    "Saffron Gym",
+    "The Rockets left Silph Co.",
+    "Challenge Sabrina.",
+    "Saffron City Gym",
+    "Earn the Marsh Badge.");
 
 STORY_OBJECTIVE(sKantoSecretKey, "kanto.secret_key",
-    "CINNABAR investigation",
-    "You earned the MARSHBADGE.",
-    "Find the mansion's SECRET KEY.",
-    "CINNABAR POKEMON MANSION B1F\nSURF south from PALLET.",
-    "The key opens CINNABAR GYM.\nMake BAG room if needed.");
+    "Cinnabar investigation",
+    "You earned the Marsh Badge.",
+    "Find the mansion's Secret Key.",
+    "Cinnabar Pokemon Mansion B1F\nSurf south from Pallet.",
+    "The key opens Cinnabar Gym.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoBlaine, "kanto.blaine",
-    "CINNABAR Gym",
-    "You collected the SECRET KEY.",
-    "Challenge BLAINE.",
-    "CINNABAR ISLAND GYM",
-    "Earn the VOLCANOBADGE.");
+    "Cinnabar Gym",
+    "You collected the Secret Key.",
+    "Challenge Blaine.",
+    "Cinnabar Island Gym",
+    "Earn the Volcano Badge.");
 
 STORY_OBJECTIVE(sKantoGiovanni, "kanto.giovanni",
-    "Final KANTO Gym",
-    "You earned seven KANTO Badges.",
-    "Challenge VIRIDIAN'S leader.",
-    "VIRIDIAN CITY GYM",
-    "Earn the final KANTO Badge.");
+    "Final Kanto Gym",
+    "You earned seven Kanto Badges.",
+    "Challenge Viridian's leader.",
+    "Viridian City Gym",
+    "Earn the final Kanto Badge.");
 
 STORY_OBJECTIVE(sKantoLeague, "kanto.league",
-    "The POKEMON LEAGUE",
-    "You earned eight KANTO Badges.",
-    "Take on the POKEMON LEAGUE.",
-    "Routes 22 and 23\nVICTORY ROAD to INDIGO PLATEAU",
-    "Bring SURF and STRENGTH.\nPrepare for several battles.");
+    "The Pokemon League",
+    "You earned eight Kanto Badges.",
+    "Take on the Pokemon League.",
+    "Routes 22 and 23\nVictory Road to Indigo Plateau",
+    "Bring Surf and Strength.\nPrepare for several battles.");
 
 STORY_OBJECTIVE(sKantoChampion, "kanto.champion",
-    "KANTO Champion",
-    "You entered KANTO'S\nHALL OF FAME.",
-    "Try battles at the FRONTIER.",
-    "WORLD TRANSIT hub north gate\nSpeak to FRONTIER attendant.",
-    "Your KANTO story is complete.\nTrain your team beyond KANTO.");
+    "Kanto Champion",
+    "You entered Kanto's\nHall of Fame.",
+    "Try battles at the Frontier.",
+    "World Transit hub north gate\nSpeak to Frontier attendant.",
+    "Your Kanto story is complete.\nTrain your team beyond Kanto.");
 
 STORY_OBJECTIVE(sKantoSeviiGifts, "kanto.sevii_gifts",
-    "BILL'S island errand",
-    "You met BILL and CELIO.",
-    "Collect CELIO'S missed gifts.",
-    "ONE ISLAND POKEMON CENTER\nSpeak to CELIO with BAG room.",
-    "The TRI-PASS and METEORITE\nare needed for BILL'S errand.");
+    "Bill's island errand",
+    "You met Bill and Celio.",
+    "Collect Celio's missed gifts.",
+    "One Island Pokemon Center\nSpeak to Celio with Bag room.",
+    "The Tri-Pass and Meteorite\nare needed for Bill's errand.");
 
 STORY_OBJECTIVE(sKantoSeviiDelivery, "kanto.sevii_delivery",
-    "BILL'S island errand",
-    "You met BILL and CELIO.",
-    "Visit TWO ISLAND GAME CORNER.",
-    "TWO ISLAND\nJOYFUL GAME CORNER",
-    "Take BILL'S METEORITE there.");
+    "Bill's island errand",
+    "You met Bill and Celio.",
+    "Visit Two Island Game Corner.",
+    "Two Island\nJoyful Game Corner",
+    "Take Bill's Meteorite there.");
 
 STORY_OBJECTIVE(sKantoBikers, "kanto.bikers",
-    "LOSTELLE search",
-    "LOSTELLE'S father asked\nfor help.",
-    "Help the THREE ISLAND locals.",
-    "THREE ISLAND town\nSpeak to the bikers.",
-    "Clear the route toward\nBOND BRIDGE.");
+    "Lostelle search",
+    "Lostelle's father asked\nfor help.",
+    "Help the Three Island locals.",
+    "Three Island town\nSpeak to the bikers.",
+    "Clear the route toward\nBond Bridge.");
 
 STORY_OBJECTIVE(sKantoLostelle, "kanto.lostelle",
-    "LOSTELLE search",
-    "The THREE ISLAND bikers left.",
-    "Search for LOSTELLE.",
-    "THREE ISLAND BERRY FOREST\nWest across BOND BRIDGE.",
+    "Lostelle search",
+    "The Three Island bikers left.",
+    "Search for Lostelle.",
+    "Three Island Berry Forest\nWest across Bond Bridge.",
     "Her father is waiting.");
 
 STORY_OBJECTIVE(sKantoMeteorite, "kanto.meteorite",
-    "BILL'S delivery",
-    "You rescued LOSTELLE.",
-    "Give her father the METEORITE.",
-    "TWO ISLAND\nJOYFUL GAME CORNER",
-    "Finish BILL'S delivery.");
+    "Bill's delivery",
+    "You rescued Lostelle.",
+    "Give her father the Meteorite.",
+    "Two Island\nJoyful Game Corner",
+    "Finish Bill's delivery.");
 
 STORY_OBJECTIVE(sKantoMoonStone, "kanto.moon_stone",
-    "BILL'S delivery",
-    "You delivered the METEORITE.",
+    "Bill's delivery",
+    "You delivered the Meteorite.",
     "Collect the father's reward.",
-    "TWO ISLAND JOYFUL GAME CORNER\nSpeak to LOSTELLE'S father.",
-    "Make BAG room for MOON STONE.");
+    "Two Island Joyful Game Corner\nSpeak to Lostelle's father.",
+    "Make Bag room for Moon Stone.");
 
 STORY_OBJECTIVE(sKantoReturnBill, "kanto.return_bill",
-    "BILL'S island errand",
-    "You delivered the METEORITE.",
-    "Return to BILL and CELIO.",
-    "ONE ISLAND POKEMON CENTER",
-    "BILL is ready to return.");
+    "Bill's island errand",
+    "You delivered the Meteorite.",
+    "Return to Bill and Celio.",
+    "One Island Pokemon Center",
+    "Bill is ready to return.");
 
 STORY_OBJECTIVE(sKantoRuby, "kanto.ruby",
-    "CELIO'S gemstone search",
-    "CELIO asked for a gemstone.",
-    "Search MT. EMBER for the gem.",
-    "ONE ISLAND, MT. EMBER\nRuby path, toward B5F",
-    "Help CELIO'S network machine.\nBring STRENGTH and BAG room.");
+    "Celio's gemstone search",
+    "Celio asked for a gemstone.",
+    "Search Mt. Ember for the gem.",
+    "One Island, Mt. Ember\nRuby path, toward B5F",
+    "Help Celio's network machine.\nBring Strength and Bag room.");
 
 STORY_OBJECTIVE(sKantoDeliverRuby, "kanto.deliver_ruby",
-    "CELIO'S gemstone search",
-    "You collected the RUBY.",
-    "Bring the RUBY to CELIO.",
-    "ONE ISLAND POKEMON CENTER",
-    "CELIO is waiting for the gem.");
+    "Celio's gemstone search",
+    "You collected the Ruby.",
+    "Bring the Ruby to Celio.",
+    "One Island Pokemon Center",
+    "Celio is waiting for the gem.");
 
 STORY_OBJECTIVE(sKantoIcefall, "kanto.icefall",
-    "CELIO'S second gemstone",
-    "CELIO received the RUBY.",
-    "Find LORELEI in ICEFALL CAVE.",
-    "FOUR ISLAND ICEFALL CAVE\nWATERFALL leads to the back.",
-    "Help clear the cave.\nFind WATERFALL inside first.");
+    "Celio's second gemstone",
+    "Celio received the Ruby.",
+    "Find Lorelei in Icefall Cave.",
+    "Four Island Icefall Cave\nWaterfall leads to the back.",
+    "Help clear the cave.\nFind Waterfall inside first.");
 
 STORY_OBJECTIVE(sKantoDottedHole, "kanto.dotted_hole",
-    "CELIO'S second gemstone",
-    "You helped LORELEI\nin ICEFALL CAVE.",
-    "Explore the DOTTED HOLE.",
-    "SIX ISLAND RUIN VALLEY\nUse CUT on the marked door.",
-    "Search for CELIO'S other gem.");
+    "Celio's second gemstone",
+    "You helped Lorelei\nin Icefall Cave.",
+    "Explore the Dotted Hole.",
+    "Six Island Ruin Valley\nUse Cut on the marked door.",
+    "Search for Celio's other gem.");
 
 STORY_OBJECTIVE(sKantoWarehouse, "kanto.warehouse",
     "Recover the gemstone",
     "You learned the warehouse's\nsecond password.",
-    "Recover the stolen SAPPHIRE.",
-    "FIVE ISLAND ROCKET WAREHOUSE\nSpeak to GIDEON at the end.",
-    "CELIO still needs the gem.\nMake BAG room if needed.");
+    "Recover the stolen Sapphire.",
+    "Five Island Rocket Warehouse\nSpeak to Gideon at the end.",
+    "Celio still needs the gem.\nMake Bag room if needed.");
 
 STORY_OBJECTIVE(sKantoDeliverSapphire, "kanto.deliver_sapphire",
-    "CELIO'S network machine",
-    "You recovered the SAPPHIRE.",
-    "Bring the SAPPHIRE to CELIO.",
-    "ONE ISLAND POKEMON CENTER",
+    "Celio's network machine",
+    "You recovered the Sapphire.",
+    "Bring the Sapphire to Celio.",
+    "One Island Pokemon Center",
     "Finish repairing the machine.");
 
 static const struct StoryObjective *ResolveKanto(void)

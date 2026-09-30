@@ -5,6 +5,11 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Visuals
+
+- **Kanto's Story pages use mixed case**, like Johto and Hoenn ("Pallet Town", "Prof. Oak's Lab", "Boulder Badge").
+- **The Start menu says "Options"**, matching the main menu. The mock Start menu in the Rustboro PokéNav tutorial matches too.
+
 ## v1.7 — 2026-09-30
 
 > **Save format is unchanged (v10); v1.6 saves load as-is.** No save fields,

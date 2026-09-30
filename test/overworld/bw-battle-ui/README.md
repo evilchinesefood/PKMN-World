@@ -2,7 +2,7 @@
 
 The [visual review](index.html) pairs native before/after captures and short motion clips. The owner selected Mudskipper's angular command/move panels, outlined healthboxes, party bars, ability popups and L/R/gimmick controls. This port retains World's engine, save layout, regional tutorials, SwSh Bag/Party/Summary and existing mechanic eligibility.
 
-Baseline: `12934378f9ca2cb11a95cafe94669f90f9a0ff23`. Donor: `mudskipper13/pokeemerald` at `b798929811ec7d070616c7ef47e46cfc6a7f1501`, feature-only parent `68a5890c8548bc04e92b9cdf188aedc11345fc87`. The donor inventory is 65 files, including 37 graphics. `verify_assets.py` compares those graphics with the pinned commit; JASC palette line endings follow World's checkout rules. Mudskip, RHH and pret are credited in [CREDITS.md](../../../CREDITS.md). No explicit standalone BW license was found; the author's public feature listing supplies provenance, not an invented blanket license.
+Baseline: `12934378f9ca2cb11a95cafe94669f90f9a0ff23`. Donor: `mudskipper13/pokeemerald` at `b798929811ec7d070616c7ef47e46cfc6a7f1501`, feature-only parent `68a5890c8548bc04e92b9cdf188aedc11345fc87`. The donor inventory is 65 files, including 37 graphics. Two of those, `hpbar_none.png` and `level_up_banner.png`, were never referenced and have since been removed; `verify_assets.py` compares the remaining 35 with the pinned commit; JASC palette line endings follow World's checkout rules. Mudskip, RHH and pret are credited in [CREDITS.md](../../../CREDITS.md). No explicit standalone BW license was found; the author's public feature listing supplies provenance, not an invented blanket license.
 
 ## Verified delivery
 

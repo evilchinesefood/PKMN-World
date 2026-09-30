@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Verify the 37 imported bitmaps/palettes against the pinned author's commit."""
+"""Verify the imported bitmaps/palettes against the pinned author's commit.
+
+The import brought 37 graphics; two unused bitmaps (hpbar_none.png and
+level_up_banner.png, never referenced by src/ or the make rules) were later
+removed, so 35 remain. evidence/donor-assets.json records the original 37.
+"""
 import argparse
 import hashlib
 import json
@@ -27,8 +32,8 @@ for f in files:
     results.append({'path': rel, 'sha256': hashlib.sha256(actual).hexdigest(),
                     'donor_sha256': hashlib.sha256(expected).hexdigest(),
                     'pal_line_endings_normalized': f.suffix == '.pal'})
-assert len(results) == 37, len(results)
+assert len(results) == 35, len(results)
 report = {'donor': 'mudskipper13/pokeemerald', 'commit': PIN, 'assets': results}
 if a.out:
     a.out.write_text(json.dumps(report, indent=2) + '\n')
-print('PASS: all 37 BW graphics assets match ' + PIN)
+print('PASS: all 35 BW graphics assets match ' + PIN)

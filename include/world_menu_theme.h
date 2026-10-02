@@ -7,5 +7,6 @@ void WorldMenu_UpdateBackground(void);
 void WorldMenu_LoadTextPalette(u8 palette);
 void WorldMenu_LoadSelectedPalette(u8 palette);
 void WorldMenu_DrawHeader(u8 window, const u8 *title);
+void WorldMenu_RoundWindowTopCorners(u8 window);
 
 #endif

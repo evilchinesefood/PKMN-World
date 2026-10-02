@@ -1009,6 +1009,7 @@ static void DrawHeaderText(void)
     WorldMenu_DrawHeader(WIN_HEADER, gText_Option);
     FillWindowPixelBuffer(WIN_FOOTER, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_FOOTER, FONT_SMALL, COMPOUND_STRING("Left/Right Change    B Done"), 4, 2, TEXT_SKIP_DRAW, NULL);
+    WorldMenu_RoundWindowTopCorners(WIN_FOOTER);
     PutWindowTilemap(WIN_FOOTER);
     CopyWindowToVram(WIN_FOOTER, COPYWIN_FULL);
 }

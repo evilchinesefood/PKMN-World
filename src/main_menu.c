@@ -1058,7 +1058,6 @@ static bool8 HandleMainMenuInput(u8 taskId)
     if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
-        IsWirelessAdapterConnected();   // why bother calling this here? debug? Task_HandleMainMenuAPressed will check too
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
         gTasks[taskId].func = Task_HandleMainMenuAPressed;
     }
@@ -1115,7 +1114,7 @@ static void Task_HandleMainMenuInput(u8 taskId)
 
 static void Task_HandleMainMenuAPressed(u8 taskId)
 {
-    bool8 wirelessAdapterConnected;
+    bool8 wirelessAdapterConnected = FALSE;
     u8 action;
 
     if (!gPaletteFade.active)
@@ -1130,7 +1129,13 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
         ClearStdWindowAndFrame(5, TRUE);
         ClearStdWindowAndFrame(6, TRUE);
         ClearStdWindowAndFrame(7, TRUE);
-        wirelessAdapterConnected = IsWirelessAdapterConnected();
+        // Probing absent RFU hardware blocks the main loop. Only the optional
+        // wireless/e-Reader actions need a fresh adapter check; local actions
+        // must start their transition immediately.
+        if ((gTasks[taskId].tMenuType == HAS_MYSTERY_GIFT && gTasks[taskId].tCurrItem == 2)
+         || (gTasks[taskId].tMenuType == HAS_MYSTERY_EVENTS
+          && (gTasks[taskId].tCurrItem == 2 || gTasks[taskId].tCurrItem == 3)))
+            wirelessAdapterConnected = IsWirelessAdapterConnected();
         switch (gTasks[taskId].tMenuType)
         {
         case HAS_NO_SAVED_GAME:

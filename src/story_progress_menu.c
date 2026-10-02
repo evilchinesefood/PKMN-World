@@ -155,6 +155,7 @@ static void Draw(void)
         }
         Print(WIN_FOOTER, 2, 2, sDetailControls, FALSE);
     }
+    WorldMenu_RoundWindowTopCorners(WIN_FOOTER);
     CopyWindowToVram(WIN_BODY, COPYWIN_FULL);
     CopyWindowToVram(WIN_FOOTER, COPYWIN_FULL);
 }

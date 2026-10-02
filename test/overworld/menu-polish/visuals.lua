@@ -12,11 +12,11 @@ local function footer(tag)
         local value = F.r8(buffer + tile * 32 + (y % 8) * 4 + (x % 8) // 2)
         return (value >> ((x % 2) * 4)) & 15
     end
-    local good = true
-    for _, x in ipairs({0, width - 1}) do
-        for _, y in ipairs({0, height - 1}) do good = good and pixel(x, y) == 0 end
-    end
-    F.check(tag .. ' transparent rounded corners', good)
+    F.check(tag .. ' rounded top corners', pixel(0, 0) == 0 and pixel(width - 1, 0) == 0)
+    local flat = true
+    for x = 0, width - 1 do flat = flat and pixel(x, height - 1) == 1 end
+    F.check(tag .. ' flat white edge at screen bottom',
+        flat and F.r8(p + 2) * 8 + height == 160)
     F.check(tag .. ' panel fill retained', pixel(4, 0) == 1 and pixel(width - 5, height - 1) == 1)
 end
 F.run(function()

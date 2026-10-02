@@ -63,12 +63,12 @@ void WorldMenu_DrawHeader(u8 window, const u8 *title)
     CopyWindowToVram(window, COPYWIN_FULL);
 }
 
-void WorldMenu_RoundWindowCorners(u8 window)
+void WorldMenu_RoundWindowTopCorners(u8 window)
 {
     u32 width = GetWindowAttribute(window, WINDOW_WIDTH) * 8;
-    u32 height = GetWindowAttribute(window, WINDOW_HEIGHT) * 8;
     static const u8 cutouts[] = {3, 1};
 
+    // Round only the top corners so footers stay flush with the screen bottom.
     // Transparent pixels reveal the moving background without extra frame tiles.
     // Apply after text printing, which may paint its background into the corners.
     for (u32 y = 0; y < ARRAY_COUNT(cutouts); y++)
@@ -76,7 +76,5 @@ void WorldMenu_RoundWindowCorners(u8 window)
         u32 inset = cutouts[y];
         FillWindowPixelRect(window, PIXEL_FILL(0), 0, y, inset, 1);
         FillWindowPixelRect(window, PIXEL_FILL(0), width - inset, y, inset, 1);
-        FillWindowPixelRect(window, PIXEL_FILL(0), 0, height - 1 - y, inset, 1);
-        FillWindowPixelRect(window, PIXEL_FILL(0), width - inset, height - 1 - y, inset, 1);
     }
 }

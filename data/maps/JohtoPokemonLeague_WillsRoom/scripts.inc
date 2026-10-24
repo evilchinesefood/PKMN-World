@@ -1,12 +1,24 @@
 JohtoPokemonLeague_WillsRoom_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EliteFourRoom_OnFrame
 	map_script MAP_SCRIPT_ON_RESUME, JohtoPokemonLeague_WillsRoom_OnResume
-	map_script MAP_SCRIPT_ON_LOAD, EliteFourRoom_OnLoad
+	map_script MAP_SCRIPT_ON_LOAD, JohtoPokemonLeague_WillsRoom_OnLoad
 	.byte 0
 
-EliteFourRoom_OnLoad::
+@ Each member's defeat script opens the north exit with setmetatile, and the base layout ships
+@ both exit tiles closed. Nothing used to restore that on load, while the entry seal WAS
+@ restored -- so a save made inside a cleared room reloaded with both doors shut, in an indoor
+@ map with allow_escaping false and no Fly, Dig or Escape Rope. Kanto's rooms already restore
+@ their door this way; see PokemonLeague_LoreleisRoom_OnLoad. Each room keys the restore on the
+@ League state its own member sets.
+JohtoPokemonLeague_WillsRoom_OnLoad::
 	call_if_eq VAR_TEMP_0, 1, EliteFourRoom_CreateDoor
+	call_if_ge VAR_LEAGUE_STATE, 2, EliteFourRoom_OpenExit
 	end
+
+EliteFourRoom_OpenExit::
+	setmetatile 6, 1, 0x28E, FALSE
+	setmetatile 6, 2, 0x296, FALSE
+	return
 
 EliteFourRoom_CreateDoor::
 	setmetatile 5, 11, 0x29D, TRUE

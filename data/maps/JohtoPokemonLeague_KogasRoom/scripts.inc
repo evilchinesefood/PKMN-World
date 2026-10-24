@@ -1,8 +1,14 @@
 JohtoPokemonLeague_KogasRoom_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EliteFourRoom_OnFrame
 	map_script MAP_SCRIPT_ON_RESUME, JohtoPokemonLeague_KogasRoom_OnResume
-	map_script MAP_SCRIPT_ON_LOAD, EliteFourRoom_OnLoad
+	map_script MAP_SCRIPT_ON_LOAD, JohtoPokemonLeague_KogasRoom_OnLoad
 	.byte 0
+
+@ Restore this room's north exit after a reload; see WillsRoom's OnLoad.
+JohtoPokemonLeague_KogasRoom_OnLoad::
+	call_if_eq VAR_TEMP_0, 1, EliteFourRoom_CreateDoor
+	call_if_ge VAR_LEAGUE_STATE, 3, EliteFourRoom_OpenExit
+	end
 
 JohtoPokemonLeague_KogasRoom_OnResume::
 	setvar VAR_0x8004, 1

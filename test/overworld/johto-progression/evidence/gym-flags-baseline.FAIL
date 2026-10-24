@@ -1,0 +1,4 @@
+FAIL 6/9 rom=999B1B1F71D7FD385C3B3F52702E14D9 at=2026-10-08T22:29:43Z suite=JohtoGymAudit
+FAILED: Falkner gym trainer cleared 867 -- 
+FAILED: Falkner gym trainer cleared 856 -- 
+FAILED: Falkner preserves Hoenn gym trainers -- 

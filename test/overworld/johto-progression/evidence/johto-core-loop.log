@@ -1,0 +1,24 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  WARP cherrygrove_center ok (7,8)
+  [PASS] Johto nurse heals injured lead
+  [PASS] Johto nurse releases controls
+  shot JohtoCoreLoop357_1_nurse_complete
+  [PASS] Johto party menu opens
+  shot JohtoCoreLoop357_2_party_menu
+  [PASS] party menu returns to Johto field
+  WARP route29_capture ok (34,11)
+  [PASS] wild capture is in Johto
+  shot JohtoCoreLoop357_3_bag_ball
+  [PASS] Johto Bag capture returns to field
+  [PASS] capture consumes last ball
+  [PASS] full-party catch is stored
+  shot JohtoCoreLoop357_4_capture_complete
+  WARP center_return ok (7,8)
+BOOTED grp=77 map=0 pos=(7,8)
+  [PASS] Johto Center save Continues
+  [PASS] prepared party persists
+  [PASS] caught boxed Pokemon persists
+  [PASS] Continue returns control
+  shot JohtoCoreLoop357_5_continue
+VERDICT JohtoCoreLoop357: 12/12 PASS

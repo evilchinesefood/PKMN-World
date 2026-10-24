@@ -1,0 +1,29 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fixture gender applied
+  [PASS] fixture party created
+  WARP newbark ok (10,10)
+  [PASS] battle started
+landing=76/3 pos=(8,4) script=00000000 native=081dca71 mode=0 status=2
+  shot JohtoDefeat357_1_recovery_state_0
+  [PASS] respawn is New Bark home
+  [PASS] home defeat returns control
+  [PASS] party is healed
+  [PASS] recovery script finished in state 0
+  WARP newbark ok (10,10)
+  [PASS] battle started
+landing=76/3 pos=(8,4) script=00000000 native=081dca71 mode=0 status=2
+  shot JohtoDefeat357_2_recovery_state_2
+  [PASS] respawn is New Bark home
+  [PASS] home defeat returns control
+  [PASS] party is healed
+  [PASS] recovery script finished in state 2
+  WARP newbark ok (10,10)
+  [PASS] battle started
+landing=76/3 pos=(8,4) script=00000000 native=081dca71 mode=0 status=2
+  shot JohtoDefeat357_3_recovery_state_5
+  [PASS] respawn is New Bark home
+  [PASS] home defeat returns control
+  [PASS] party is healed
+  [PASS] recovery script finished in state 5
+VERDICT JohtoDefeat357: 17/17 PASS

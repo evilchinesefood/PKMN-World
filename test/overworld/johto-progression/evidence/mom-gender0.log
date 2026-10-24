@@ -1,0 +1,27 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fixture gender applied
+  [PASS] fixture party exists
+  WARP mom_0 ok (9,8)
+  [PASS] Mom state 0 starts dialogue
+state=0 script=00000000 native=081dcbed mode=0 status=2
+  shot JohtoMom357_1_state_0
+  [PASS] Mom state 0 returns player control
+  WARP mom_2 ok (9,8)
+  [PASS] Mom state 2 starts dialogue
+state=2 script=00000000 native=081dcbed mode=0 status=2
+  shot JohtoMom357_2_state_2
+  [PASS] Mom state 2 returns player control
+  WARP mom_4 ok (9,8)
+  [PASS] Mom state 4 starts dialogue
+state=4 script=00000000 native=081dca71 mode=0 status=2
+  shot JohtoMom357_3_state_4
+  [PASS] Mom state 4 returns player control
+  [PASS] Good luck advances story
+  WARP mom_5 ok (9,8)
+  [PASS] Mom state 5 starts dialogue
+state=5 script=00000000 native=081dca71 mode=0 status=2
+  shot JohtoMom357_4_state_5
+  [PASS] Mom state 5 returns player control
+  [PASS] Mom heals the injured party
+VERDICT JohtoMom357: 12/12 PASS

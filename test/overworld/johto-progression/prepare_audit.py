@@ -30,6 +30,7 @@ STORY_MAPS = [
     'GoldenrodCity_RadioTower_5F', 'GoldenrodCity_UndergroundStorage',
     'MahoganyHideout_B2F', 'GoldenrodCity_RadioTower_3F',
     'GoldenrodCity_FlowerShop', 'Route36', 'IlexForest',
+    'JohtoIndigoPlateau_PokemonCenter', 'Route27',
 ]
 
 def write_lua(name, body):

@@ -37,7 +37,7 @@ F.run(function()
  assert(F.boot(100));hook(0,tonumber(os.getenv("PW_AUDIT_SPECIES")) or 0)
  F.w8(F.sb2()+S.SaveBlock2.currentRegion,2);F.w32(S.gCurrentRegion,2)
  cmd(3,C.FLAG_SYS_POKEMON_GET)
- cmd(3,0x6103) -- Morty's released-beasts prerequisite, explicitly staged.
+ cmd(3,C.FLAG_RELEASED_BEASTS) -- Morty's released-beasts prerequisite, explicitly staged.
  local cases=require('gym_cases')
  local order=os.getenv('PW_AUDIT_ORDER')
  if order then

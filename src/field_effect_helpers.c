@@ -190,7 +190,13 @@ static void LoadObjectRegularReflectionPalette(struct ObjectEvent *objectEvent, 
         else
             ApplyIceFilter(mainSprite->oam.paletteNum, filteredData);
         paletteNum = LoadSpritePalette(&filteredPal);
-        UpdateSpritePaletteWithWeather(paletteNum, TRUE);
+        if (paletteNum != 0xFF)
+            UpdateSpritePaletteWithWeather(paletteNum, TRUE);
+        else
+            // Battle transitions can fill the palette pool while ice/water
+            // reflections are still updating. Share the object's valid palette
+            // until a filtered one can be allocated on a later frame.
+            paletteNum = mainSprite->oam.paletteNum;
     }
     sprite->oam.paletteNum = paletteNum;
     sprite->oam.objMode = ST_OAM_OBJ_BLEND;
@@ -202,9 +208,14 @@ static void LoadObjectHighBridgeReflectionPalette(struct ObjectEvent *objectEven
 {
     u16 blueData[16];
     struct SpritePalette bluePalette = {.tag = HIGH_BRIDGE_PAL_TAG, .data = blueData};
+    u8 paletteNum;
     CpuFill16(0x55C9, blueData, PLTT_SIZE_4BPP);
-    sprite->oam.paletteNum = LoadSpritePalette(&bluePalette);
-    UpdateSpritePaletteWithWeather(sprite->oam.paletteNum, TRUE);
+    paletteNum = LoadSpritePalette(&bluePalette);
+    if (paletteNum != 0xFF)
+        UpdateSpritePaletteWithWeather(paletteNum, TRUE);
+    else
+        paletteNum = gSprites[objectEvent->spriteId].oam.paletteNum;
+    sprite->oam.paletteNum = paletteNum;
 }
 
 static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
@@ -219,9 +230,15 @@ static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
         return;
     }
 
-    // Only filter palette if not using the high bridge blue palette
-    // This is basically a copy of LoadObjectRegularReflectionPalette
-    if (IndexOfSpritePaletteTag(HIGH_BRIDGE_PAL_TAG) != reflectionSprite->oam.paletteNum)
+    // A bridge reflection that temporarily shared its parent palette must
+    // retry the blue palette, rather than turning into a regular reflection.
+    if (reflectionSprite->sReflectionVerticalOffset != 0)
+    {
+        if (IndexOfSpritePaletteTag(HIGH_BRIDGE_PAL_TAG) != reflectionSprite->oam.paletteNum)
+            LoadObjectHighBridgeReflectionPalette(objectEvent, reflectionSprite);
+    }
+    // This is basically a copy of LoadObjectRegularReflectionPalette.
+    else
     {
         u16 baseTag = GetSpritePaletteTagByPaletteNum(mainSprite->oam.paletteNum);
         u16 paletteTag = REFLECTION_PAL_TAG(baseTag, mainSprite->oam.paletteNum);
@@ -240,7 +257,10 @@ static void UpdateObjectReflectionSprite(struct Sprite *reflectionSprite)
             else
                 ApplyIceFilter(mainSprite->oam.paletteNum, filteredData);
             paletteNum = LoadSpritePalette(&filteredPal);
-            UpdateSpritePaletteWithWeather(paletteNum, TRUE);
+            if (paletteNum != 0xFF)
+                UpdateSpritePaletteWithWeather(paletteNum, TRUE);
+            else
+                paletteNum = mainSprite->oam.paletteNum;
         }
         reflectionSprite->oam.paletteNum = paletteNum;
     }

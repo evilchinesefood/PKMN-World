@@ -55,7 +55,11 @@ JohtoPokemonLeague_HallOfFame_EventScript_CutsceneKantoChamp::
 	end
 
 JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
-	clearflag FLAG_HIDE_LEAGUE_BLACKBELT
+	@ The League Black Belt is NOT restored here. He stands on (32,3) in the Plateau Centre,
+	@ the only tile from which the door to Will's Room at (32,2) can be entered, and his line
+	@ is the pre-League "not taking new challengers" gatekeeper. Clearing his hide flag walled
+	@ off the Elite Four again the moment you became Champion, which contradicts the HARD
+	@ rematches set up a few lines below (VAR_DIFFICULTY and VAR_LEAGUE_STATE, 1).
 	setflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD
 	setflag FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD
 	setflag FLAG_IS_CHAMPION

@@ -36,6 +36,12 @@ Route27_EventScript_FirstSteps::
     setflag FLAG_HIDE_VICTORY_ROAD_SILVER
     setflag FLAG_HIDE_INDIGO_PLATEAU_SILVER
     setflag FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK
+    @ The Black Belt stands on (32,3) in the Plateau Centre, the ONLY tile from which warp 1
+    @ at (32,2) -- the door to Will's Room -- can be entered. His hide flag had no setter
+    @ anywhere, so he spawned on every save and the Johto Elite Four could never be reached.
+    @ The Hall of Fame already clears this flag to bring him back, which only makes sense if
+    @ clearing the League approach set it, exactly as it does for Silver two lines above.
+    setflag FLAG_HIDE_LEAGUE_BLACKBELT
     
     clearflag FLAG_GOT_TM_SANDSTORM
     clearflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD

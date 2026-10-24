@@ -544,7 +544,7 @@ AzaleaTown_Gym_EventScript_Bugsy::
 	setflag FLAG_DEFEATED_AZALEA_TOWN_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 2
-	call Common_EventScript_SetGymTrainers
+	call Common_EventScript_SetGymTrainers_Johto
 	setvar VAR_AZALEA_TOWN_STATE, 5
 	setflag FLAG_HIDE_AZALEA_TOWN_FARFETCHD
 	setflag FLAG_GET_HEADBUTT

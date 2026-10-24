@@ -82,7 +82,7 @@ MahoganyTown_Gym_EventScript_PryceVictory::
 	setflag FLAG_DEFEATED_MAHOGANY_TOWN_GYM
     addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 7
-	call Common_EventScript_SetGymTrainers
+	call Common_EventScript_SetGymTrainers_Johto
 	setvar VAR_MAHOGANY_TOWN_STATE, 15
 	setrespawn HEAL_LOCATION_MAHOGANYTOWN
 	goto MahoganyTown_Gym_EventScript_GiveTM

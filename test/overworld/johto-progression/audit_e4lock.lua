@@ -114,8 +114,16 @@ F.run(function()
 
  local outN,nx,ny=tryNorthExit()
  F.L(string.format('  north exit after reload: left=%s stopped=(%s,%s)',tostring(outN),tostring(nx),tostring(ny)))
- local outS,sx2,sy2=trySouthEntry()
- F.L(string.format('  south entry after reload: left=%s stopped=(%s,%s)',tostring(outS),tostring(sx2),tostring(sy2)))
+ -- Only try the south entry if the north exit did NOT work. Once it does, the player is on
+ -- another map, and walking the south route there reads that map's coordinates, can push the
+ -- player through an unrelated warp, and makes the log describe a route that ran somewhere else.
+ local outS,sx2,sy2=false,nx,ny
+ if not outN then
+  outS,sx2,sy2=trySouthEntry()
+  F.L(string.format('  south entry after reload: left=%s stopped=(%s,%s)',tostring(outS),tostring(sx2),tostring(sy2)))
+ else
+  F.L('  south entry not tried: the north exit already left the room')
+ end
  F.shot('after_reload')
 
  -- The headline: a save made in a cleared room must not be a dead end.

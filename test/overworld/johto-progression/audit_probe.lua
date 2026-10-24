@@ -101,15 +101,19 @@ F.run(function()
  -- same script. This pass re-creates that state to show the harm is real, so the removed line
  -- cannot be reinstated without this suite objecting. That the SHIPPED Hall of Fame no longer
  -- clears it is asserted end-to-end in audit_league.lua, which actually plays the ceremony.
- F.L('PROBE restoring-him-reblocks')
+ F.L('PROBE flag-cleared-is-self-healing')
  cmd(5,C.FLAG_HIDE_LEAGUE_BLACKBELT)
- F.check('corridor entered with the Black Belt restored',leaveAndReenter())
- dumpObjects('restored')
- F.check('restoring him puts an object back on the door tile',occupied(BELT_X,BELT_Y))
+ F.check('corridor re-entered after clearing the flag',leaveAndReenter())
+ dumpObjects('cleared')
+ -- JohtoIndigoPlateau_Pokecenter_OnTransition re-asserts the flag for any save past Route 27,
+ -- so a cleared flag heals on the next entry instead of walling the League off again. That
+ -- also covers saves made before the Route 27 fix existed, which would never get its setflag.
+ F.check('entering the Plateau re-hides the Black Belt',flag(C.FLAG_HIDE_LEAGUE_BLACKBELT))
+ F.check('the door stays reachable after the flag was cleared',not occupied(BELT_X,BELT_Y))
  local reachedP,px,py=climbToDoor()
- F.check('restoring him re-blocks the Elite Four door',not reachedP,
+ F.check('a cleared flag cannot re-block the Elite Four door',reachedP,
    string.format('stopped at (%d,%d)',px,py))
- F.shot('restored_reblocks')
+ F.shot('flag_cleared_self_heals')
 
  F.finish()
 end)

@@ -41,6 +41,61 @@ The two additional findings have [reviewable issue drafts](follow-up-issues.md).
 They have not been published: automatic approval review rejected public issue
 creation without explicit publication approval. #357 remains open.
 
+## Second pass — full Johto playthrough review (October 24, 2026)
+
+Base `15d3888b0d` plus the three fixes above. Three further defects found, all confirmed on a
+disposable ROM before being fixed, and all three are progression blockers rather than cosmetic.
+
+4. **The Johto Elite Four was unreachable on every save.** `JohtoIndigoPlateau_PokemonCenter`
+   warp 1 at (32,2) is the door to Will's Room. The layout's collision makes y=2 solid at every
+   column except x=32, so (32,3) is the only tile it can be entered from — and an
+   `OBJ_EVENT_GFX_BLACK_BELT` sits exactly there at elevation 0, colliding at every elevation.
+   He hides behind `FLAG_HIDE_LEAGUE_BLACKBELT`, which is defined once, cleared once by the Hall
+   of Fame, and **never set anywhere**, so he spawned on every save. Route 27's first-steps
+   flagheap already hides Victory Road Silver, Plateau Silver and Mary/Oak; the Black Belt was
+   missing from that list. Measured: before Route 27 the climb stops at (32,4); after it the
+   same climb reaches (32,2) and warps.
+5. **The Hall of Fame re-blocked that same door post-game.** It cleared the hide flag, putting
+   him back on the only approach tile the moment the player became Champion — against the HARD
+   Elite Four rematches the same script enables two lines later. The clear is gone.
+6. **Saving inside a cleared Elite Four room sealed the player in permanently.** Each room opens
+   its north exit with `setmetatile` on victory and seals the south entry behind the player, and
+   the base layout ships both exit tiles closed. The shared `EliteFourRoom_OnLoad` restored only
+   the entry seal, so a reload left both doors shut in an indoor map with `allow_escaping` false
+   and no Fly, Dig or Escape Rope. Kanto's rooms already restore their door
+   (`PokemonLeague_LoreleisRoom_OnLoad`); each Johto room now does too. Measured: beat Will, save
+   at (6,10), reset, Continue — before, the climb stopped at (6,3) and the descent at (6,10);
+   after, the same walk warps through to Koga's Room.
+
+### Open, not fixed
+
+**The continuous suite's final beat stalls in `CB2_HallOfFame`.** Lance is beaten and
+`FLAG_JOHTO_CHAMPION` is recorded, then the ceremony never returns to the field. It reproduces
+only in `audit_continuous.lua`. Ruled out by measurement: the party, a prior save, several
+saves, the save-error path (`gDamagedSaveSectors` is 0), a failed allocation (`gHoFSaveBuffer`
+is valid), this suite's own checkpoints, and the Elite Four gauntlet. What remains is the ~20
+staged beats run beforehand, which are fixture warps rather than a walked path — so this is
+more likely a harness artefact than a player-facing defect, but that is not proven and the
+assertion is deliberately left red.
+
+### Suites added
+
+- `audit_continuous.lua` — one save, the whole arc, no reboot between beats. The other suites
+  each reboot and warp in with hand-set prerequisites, so none of them covered state that
+  accumulates. Reaches the League by walking Route 27 and the Plateau door, which is what makes
+  the blocked door visible. Records "chain gaps" where a beat's prerequisite was not set by the
+  beats before it, then stages it and continues.
+- `audit_probe.lua` — the Elite Four door, walked through the real Route 27 trigger. Checks the
+  gatekeeper still blocks *before* Route 27, that the door opens after it, and that restoring
+  his hide flag re-blocks it, so the removed Hall of Fame line cannot return unnoticed.
+- `audit_e4lock.lua` — beat Will, save in the cleared room, reset, Continue, try both doors.
+- `audit_hof.lua` — the ceremony under a clean save, one prior save and several, with
+  `gDamagedSaveSectors` and `gSaveCounter` read at the end.
+
+`audit_league.lua` now stages `FLAG_HIDE_LEAGUE_BLACKBELT` before the ceremony and asserts the
+Hall of Fame leaves it set; without the staging that check would read clear either way and prove
+nothing.
+
 ## Run the checks
 
 Requires devkitARM and the patched `mgba-headless` in

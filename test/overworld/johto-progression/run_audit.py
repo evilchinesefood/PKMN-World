@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--out', type=Path, default=ROOT / '_pwtest/357-audit')
-p.add_argument('--suite', choices=['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe'])
+p.add_argument('--suite', choices=['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock'])
 a = p.parse_args()
 out = a.out.resolve()
 fixture = out / 'fixture'
@@ -33,13 +33,17 @@ shutil.copy2(HERE / 'audit_helpers.lua', fixture / 'lua/audit_helpers.lua')
 rom = fixture / 'VerifyFeatures.gba'
 md5 = hashlib.md5(rom.read_bytes()).hexdigest().upper()
 results = []
-for suite in ([a.suite] if a.suite else ['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe']):
+for suite in ([a.suite] if a.suite else ['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock']):
     dest = out / suite
     dest.mkdir(exist_ok=True)
     for pattern in ('*.PASS', '*.FAIL'):
         for stale in dest.glob(pattern):
             stale.unlink()
     env=os.environ.copy()
+    # The continuous run plays the whole arc in one boot and ends in the Hall of Fame
+    # ceremony and credits, which do not fit the shared per-suite wall clock.
+    if suite in ('continuous', 'hof', 'e4lock'):
+        env['PW_FIXTURE_TIMEOUT'] = '2400'
     if suite.startswith('gyms-order'):
         env['PW_AUDIT_ORDER'] = 'Pryce,Chuck,Jasmine' if suite.endswith('2') else 'Jasmine,Pryce,Chuck'
     script_suite = 'gyms' if suite.startswith('gyms') else suite

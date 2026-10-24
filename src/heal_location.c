@@ -75,11 +75,14 @@ static bool32 IsLastHealLocation(u32 healLocation)
 
 bool32 IsLastHealLocationPlayerHouse()
 {
+    // New Bark respawns beside Mom too. The Center recovery script waits for
+    // a nurse's movements and heal effect, which cannot finish in this house.
     if (IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE)
         || IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F)
         || IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE)
         || IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F)
-        || IsLastHealLocation(HEAL_LOCATION_PALLET_TOWN))
+        || IsLastHealLocation(HEAL_LOCATION_PALLET_TOWN)
+        || IsLastHealLocation(HEAL_LOCATION_NEW_BARK_TOWN))
         return TRUE;
 
     return FALSE;

@@ -297,6 +297,16 @@ void NewGameInitData(void)
     //     start absent, and their only setter is Route 27 - i.e. after the League.
     FlagSet(FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1);
     FlagSet(FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK);
+    // Azalea's flagheap sets these six, which is the authors' statement that they must start
+    // hidden - but it is reached only from Route 33's coord events, so a player who comes into
+    // Ilex Forest from the Route 34 (Goldenrod) side meets all six. Three of the Farfetch'd sit
+    // in one-tile-wide corridors of the maze, where an elevation-0 object blocks outright.
+    FlagSet(FLAG_HIDE_ILEX_FOREST_MASTER);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_APPRENTICE);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_1);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_2);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_3);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_4);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

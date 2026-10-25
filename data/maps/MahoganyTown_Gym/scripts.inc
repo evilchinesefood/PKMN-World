@@ -83,10 +83,18 @@ MahoganyTown_Gym_EventScript_PryceVictory::
     addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 7
 	call Common_EventScript_SetGymTrainers_Johto
-	setvar VAR_MAHOGANY_TOWN_STATE, 15
+	@ Only advance the town once the Rocket Hideout is actually finished. The gym door is
+	@ reachable from the town's main walkable area from the start, so Pryce can be beaten
+	@ mid-raid -- and states 5..13 are dispatched by exact equality, so writing 15 here killed
+	@ the entire hideout arc, Lance's scenes and the only HM Whirlpool in the tree.
+	call_if_ge VAR_MAHOGANY_TOWN_STATE, 14, MahoganyTown_Gym_EventScript_AdvanceTown
 	setrespawn HEAL_LOCATION_MAHOGANYTOWN
 	goto MahoganyTown_Gym_EventScript_GiveTM
 	end
+
+MahoganyTown_Gym_EventScript_AdvanceTown::
+	setvar VAR_MAHOGANY_TOWN_STATE, 15
+	return
 
 MahoganyTown_Gym_EventScript_GiveTM::
 	giveitem ITEM_TM_HAIL

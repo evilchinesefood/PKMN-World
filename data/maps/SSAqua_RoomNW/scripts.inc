@@ -25,9 +25,17 @@ SSAqua_RoomNW_EventScript_Stanly::
     playse SE_DOOR
     removeobject LOCALID_SSAQUA_SLEEPYSAILOR
     fadescreenswapbuffers FADE_FROM_BLACK
-    setvar VAR_SSAQUA_STATE, 3
+    @ Only ever move the voyage forward. Room NW and the Captain's Room are independent warps
+    @ off the 1F hall, so a player who finds the granddaughter first reaches state 5 and would
+    @ be knocked back to 3 here -- a state nothing can advance, with the door sailor refusing
+    @ to let them off the ship.
+    call_if_lt VAR_SSAQUA_STATE, 3, SSAqua_RoomNW_EventScript_AdvanceVoyage
 	release
 	end
+
+SSAqua_RoomNW_EventScript_AdvanceVoyage::
+    setvar VAR_SSAQUA_STATE, 3
+    return
 
 SSAqua_RoomNW_EventScript_Edward::
     trainerbattle_single TRAINER_EDWARD_JT SSAqua_RoomNW_Text_GentlemanEdwardSeen, SSAqua_RoomNW_Text_GentlemanEdwardBeaten

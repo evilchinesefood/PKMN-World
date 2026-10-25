@@ -19,7 +19,7 @@ KNOWN_HOF_STALL = {
 HERE = Path(__file__).resolve().parent
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--out', type=Path, default=ROOT / '_pwtest/357-audit')
-p.add_argument('--suite', choices=['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock', 'hideflags'])
+p.add_argument('--suite', choices=['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock', 'hideflags', 'statefix'])
 a = p.parse_args()
 out = a.out.resolve()
 fixture = out / 'fixture'
@@ -40,7 +40,7 @@ shutil.copy2(HERE / 'audit_helpers.lua', fixture / 'lua/audit_helpers.lua')
 rom = fixture / 'VerifyFeatures.gba'
 md5 = hashlib.md5(rom.read_bytes()).hexdigest().upper()
 results = []
-for suite in ([a.suite] if a.suite else ['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock', 'hideflags']):
+for suite in ([a.suite] if a.suite else ['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock', 'hideflags', 'statefix']):
     dest = out / suite
     dest.mkdir(exist_ok=True)
     for pattern in ('*.PASS', '*.FAIL'):

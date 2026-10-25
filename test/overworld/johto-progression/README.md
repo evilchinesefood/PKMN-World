@@ -67,6 +67,49 @@ disposable ROM before being fixed, and all three are progression blockers rather
    at (6,10), reset, Continue — before, the climb stopped at (6,3) and the descent at (6,10);
    after, the same walk warps through to Koga's Room.
 
+### Third pass — the static audits' remaining findings (October 24, 2026)
+
+Four findings from the static audits, each reproduced on the unfixed build before being fixed,
+with `PW_STATEFIX_EXPECT=broken` asserting the defect is present. Three held; one did not.
+
+7. **Beating Pryce mid-raid destroyed the Rocket Hideout arc.** `PryceVictory` wrote
+   `VAR_MAHOGANY_TOWN_STATE = 15` unconditionally, and the gym door's approach tile `(10,20)` is
+   in the town's main walkable component from the start. States 5..13 are dispatched by exact
+   equality, so the whole hideout, Lance's scenes and the only `giveitem ITEM_HM_WHIRLPOOL` in
+   the tree became unreachable. Measured: staged at state 5, beating Pryce left state 15.
+
+   The naive guard would have been worse. Mahogany's ON_FRAME Rocket call matches state 15
+   exactly, so a player who beat Pryce early and then finished the hideout would sit at 14 with
+   no way to reach the Radio Tower — a permanent block. The fix closes both orders: Pryce
+   advances only from state >= 14, and `ElectrodeDone` writes 15 directly when the Glacier Badge
+   is already held. Both orders are asserted.
+
+8. **Sailor Stanly rewound the S.S. Aqua voyage.** He wrote `VAR_SSAQUA_STATE = 3`
+   unconditionally. Room NW and the Captain's Room are independent warps off the 1F hall, and
+   the Grandpa quest points at the granddaughter in the Captain's Room — so reaching state 5
+   first and then meeting Stanly dropped the player to 3, which nothing can advance, with the
+   door sailor refusing to let them off the ship. Measured: staged at 5, left at 3. He now only
+   advances the voyage.
+
+9. **Six Ilex Forest objects spawned on a fresh save**, three of them in one-tile-wide corridors
+   of the maze. Azalea's flagheap sets all six, but it is reached only from Route 33, so
+   arriving from the Route 34 side met them all. Registered in `src/new_game.c`. Measured: an
+   object stood at `(42,39)` before the fix and does not after.
+
+**Refuted: the Electrode respawn.** The audit predicted the three Electrodes respawn, letting
+`VAR_ELECTRODES_FAINTED` overshoot the completion trigger's exact `== 3` match and strand the
+player. It does not hold — `removeobject` goes through `RemoveObjectEventByLocalIdAndMap`, which
+`FlagSet`s the object's own hide flag (`src/event_object_movement.c:1713`), so a beaten Electrode
+stays gone. The overshoot only appeared in testing because the probe cleared those flags by hand.
+The same mechanism refutes the claim that Stanly respawns. `audit_statefix.lua` keeps a case
+asserting the `FlagSet` happens, because the conclusion rests on it.
+
+Still unfixed and reported only: the three Electrode hide flags are **crossed** — each covers one
+of Lance's scenery Electrodes at x=20 and one battleable Electrode at x=11 — so beating the
+battleable set despawns Lance's, and his Hyper Beam flourish plays over empty floor. Cosmetic,
+and separating them means allocating new flag slices, so it is left as a decision rather than
+folded into a progression fix.
+
 ### Open, not fixed
 
 **The continuous suite's final beat stalls in `CB2_HallOfFame`.** Lance is beaten and

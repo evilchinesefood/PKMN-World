@@ -477,6 +477,10 @@ MahoganyHideout_B2F_EventScript_Ran_Electrode::
 	release
 	end
 
+MahoganyHideout_B2F_EventScript_TownAlreadyHasGlacier::
+	setvar VAR_MAHOGANY_TOWN_STATE, 15
+	return
+
 MahoganyHideout_B2F_EventScript_ElectrodeDone::
 	playse SE_M_HYPER_BEAM
 	removeobject LOCALID_LANCEELECTRODE1
@@ -521,6 +525,10 @@ MahoganyHideout_B2F_EventScript_ElectrodeDone::
 	removeobject LOCALID_ROCKETHIDEOUT2_LANCE
 	setvar VAR_ELECTRODES_FAINTED, 4
 	setvar VAR_MAHOGANY_TOWN_STATE, 14
+	@ Mahoganytown's ON_FRAME Rocket call matches state 15 exactly, and Pryce now only writes
+	@ 15 from state >= 14. A player who beat Pryce before finishing the hideout would otherwise
+	@ sit at 14 forever with no way to reach the Radio Tower, so close that order here.
+	call_if_set FLAG_JOHTO_BADGE_7, MahoganyHideout_B2F_EventScript_TownAlreadyHasGlacier
 	clearflag FLAG_HIDE_MAHOGANY_COP
 	setflag FLAG_HIDE_MAHOGANY_TOWN_FATMAN
 	setvar VAR_ROCKET_HIDEOUT_STATUE_1, 2

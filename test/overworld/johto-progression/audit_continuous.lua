@@ -307,7 +307,11 @@ F.run(function()
   F.step('Right')
   local ok=finish(1500)
   F.check('generator shut down',state(C.VAR_ELECTRODES_FAINTED)==4)
-  F.check('Mahogany advances',state(C.VAR_MAHOGANY_TOWN_STATE)==14)
+  -- Completion writes 14 normally, or 15 directly when the Glacier Badge is already held.
+  -- This run beats Pryce several beats earlier, so it takes the second path -- which is the
+  -- order that used to lose the whole hideout arc to Pryce's unconditional setvar.
+  local town=state(C.VAR_MAHOGANY_TOWN_STATE)
+  F.check('Mahogany advances past the hideout',town==14 or town==15,'state='..town)
   return ok
  end)
 

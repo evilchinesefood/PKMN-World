@@ -82,11 +82,17 @@ MahoganyTown_Gym_EventScript_PryceVictory::
 	setflag FLAG_DEFEATED_MAHOGANY_TOWN_GYM
     addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 7
-	call Common_EventScript_SetGymTrainers
-	setvar VAR_MAHOGANY_TOWN_STATE, 15
+	call Common_EventScript_SetGymTrainers_Johto
+	@ Preserve an unfinished hideout if this victory runs out of order (e.g. migrated/debug
+	@ state). Normal play gates the Gym with the NPC outside until the hideout is complete.
+	call_if_ge VAR_MAHOGANY_TOWN_STATE, 14, MahoganyTown_Gym_EventScript_AdvanceTown
 	setrespawn HEAL_LOCATION_MAHOGANYTOWN
 	goto MahoganyTown_Gym_EventScript_GiveTM
 	end
+
+MahoganyTown_Gym_EventScript_AdvanceTown::
+	setvar VAR_MAHOGANY_TOWN_STATE, 15
+	return
 
 MahoganyTown_Gym_EventScript_GiveTM::
 	giveitem ITEM_TM_HAIL

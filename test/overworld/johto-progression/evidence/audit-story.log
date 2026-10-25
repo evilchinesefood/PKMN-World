@@ -1,0 +1,192 @@
+STORY errand
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Route30_MrPokemonsHouse map entered
+  [PASS] Mr Pokemon errand finishes -- 0
+  [PASS] VAR_CHERRYGROVE_CITY_STATE advanced to 2 -- actual=2
+  [PASS] VAR_NEWBARKTOWN_LABSTATE advanced to 4 -- actual=4
+  [PASS] NewBarkTown_Lab map entered
+  [PASS] theft return finishes -- 0
+  [PASS] VAR_NEWBARKTOWN_LABSTATE advanced to 5 -- actual=5
+  [PASS] Egg return unlocks adventure
+  [PASS] Egg return returns movement
+  [PASS] aide balls handoff finishes -- 0
+  [PASS] VAR_NEWBARKTOWN_LABSTATE advanced to 6 -- actual=6
+  shot JohtoStoryAudit_1_errand_complete
+STORY sprout
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] SproutTower_3F map entered
+  [PASS] Sage Li battle finishes
+  [PASS] Sage Li returns movement
+  shot JohtoStoryAudit_2_sprout_complete
+STORY egg
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] VioletCity_PokemonCenter map entered
+  [PASS] Violet Egg handoff finishes -- 0
+  [PASS] Togepi Egg received
+  [PASS] aide returns movement
+  shot JohtoStoryAudit_3_egg_complete
+STORY cut
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] IlexForest map entered
+  [PASS] charcoal master Cut handoff finishes -- 0
+  [PASS] VAR_ILEX_FOREST_FARFETCHD advanced to 3 -- actual=3
+  [PASS] Cut received
+  [PASS] Cut handoff returns movement
+  shot JohtoStoryAudit_4_cut_complete
+STORY sudowoodo
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] GoldenrodCity_FlowerShop map entered
+  [PASS] Squirt Bottle gift finishes -- 0
+  [PASS] Squirt Bottle received
+  [PASS] Route36 map entered
+  [PASS] Sudowoodo encounter and reward finish
+  [PASS] Sudowoodo clears road
+  [PASS] Sudowoodo returns movement
+  shot JohtoStoryAudit_5_sudowoodo_complete
+STORY kurt
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] AzaleaTown_KurtsHouse map entered
+  [PASS] Kurt opens Well and finishes -- 0
+  [PASS] Well Rocket removed
+  [PASS] Kurt returns movement
+  shot JohtoStoryAudit_6_kurt_complete
+STORY beasts
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] BurnedTower_B1F map entered
+  [PASS] beast release scene finishes -- 0
+  [PASS] Morty gate unlocked
+  [PASS] VAR_ECRUTEAK_CITY_STATE advanced to 4 -- actual=4
+  [PASS] beast release returns movement
+  shot JohtoStoryAudit_7_beasts_complete
+STORY pharmacy
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] CianwoodShop map entered
+  [PASS] pharmacy medicine handoff finishes -- 0
+  [PASS] VAR_OLIVINE_CITY_STATE advanced to 4 -- actual=4
+  [PASS] pharmacist returns movement
+  shot JohtoStoryAudit_8_pharmacy_complete
+STORY medicine
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Ampharos healing scene finishes -- 0
+  [PASS] VAR_OLIVINE_CITY_STATE advanced to 5 -- actual=5
+  [PASS] Ampharos healed
+  [PASS] lighthouse releases control
+  shot JohtoStoryAudit_9_medicine_complete
+STORY surf
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] EcruteakCity_Theater map entered
+  [PASS] theater Rocket scene finishes
+  [PASS] VAR_ECRUTEAK_CITY_THEATER advanced to 2 -- actual=2
+  [PASS] EcruteakCity_Theater map entered
+  [PASS] Surf gift finishes -- 0
+  [PASS] VAR_ECRUTEAK_CITY_THEATER advanced to 3 -- actual=3
+  [PASS] Surf gift releases control
+  shot JohtoStoryAudit_10_surf_complete
+STORY petrel
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] GoldenrodCity_RadioTower_5F map entered
+  [PASS] Petrel battle and basement key finish
+  [PASS] VAR_GOLDENROD_CITY_STATE advanced to 7 -- actual=7
+  [PASS] Petrel returns movement
+  shot JohtoStoryAudit_11_petrel_complete
+STORY director
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] GoldenrodCity_UndergroundStorage map entered
+  [PASS] Director Card Key handoff finishes -- 0
+  [PASS] VAR_GOLDENROD_CITY_STATE advanced to 9 -- actual=9
+  [PASS] Director returns movement
+  [PASS] GoldenrodCity_RadioTower_3F map entered
+  [PASS] earned Card Key opens shutter without locking -- 0
+  [PASS] Radio Tower gate opens
+  shot JohtoStoryAudit_12_director_complete
+STORY archer
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] GoldenrodCity_RadioTower_5F map entered
+  [PASS] Archer battle and Director wing scene finish
+  [PASS] VAR_GOLDENROD_CITY_STATE advanced to 10 -- actual=10
+  [PASS] Archer returns movement
+  shot JohtoStoryAudit_13_archer_complete
+STORY whirlpool
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] MahoganyHideout_B2F map entered
+  [PASS] generator and Whirlpool handoff finish -- 0
+  [PASS] VAR_ELECTRODES_FAINTED advanced to 4 -- actual=4
+  [PASS] VAR_MAHOGANY_TOWN_STATE advanced to 14 -- actual=14
+  [PASS] generator returns movement
+  shot JohtoStoryAudit_14_whirlpool_complete
+STORY elm-gift
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] NewBarkTown_Lab map entered
+  [PASS] Elm Master Ball handoff finishes -- 0
+  [PASS] VAR_NEWBARKTOWN_LABSTATE advanced to 8 -- actual=8
+  [PASS] Elm returns movement
+  shot JohtoStoryAudit_15_elm-gift_complete
+STORY ss-ticket
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] NewBarkTown_Lab map entered
+  [PASS] Elm SS ticket handoff finishes -- 0
+  [PASS] VAR_NEWBARKTOWN_LABSTATE advanced to 11 -- actual=11
+  [PASS] Elm returns movement
+  shot JohtoStoryAudit_16_ss-ticket_complete
+STORY den-top
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] DragonsDen_Shrine map entered
+  [PASS] Den top quiz and Clair scene finish -- 0
+  [PASS] Den top awards Rising Badge
+  [PASS] VAR_BLACKTHORN_CITY_STATE advanced to 3 -- actual=3
+  [PASS] Den top returns movement
+  shot JohtoStoryAudit_17_den-top_complete
+STORY den-left
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] DragonsDen_Shrine map entered
+  [PASS] Den left quiz and Clair scene finish -- 0
+  [PASS] Den left awards Rising Badge
+  [PASS] VAR_BLACKTHORN_CITY_STATE advanced to 3 -- actual=3
+  [PASS] Den left returns movement
+  shot JohtoStoryAudit_18_den-left_complete
+STORY den-right
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] DragonsDen_Shrine map entered
+  [PASS] Den right quiz and Clair scene finish -- 0
+  [PASS] Den right awards Rising Badge
+  [PASS] VAR_BLACKTHORN_CITY_STATE advanced to 3 -- actual=3
+  [PASS] Den right returns movement
+  shot JohtoStoryAudit_19_den-right_complete
+STORY kimono-1
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] EcruteakCity_Theater map entered
+  [PASS] Kimono 1 gauntlet finishes
+  [PASS] Kimono 1 plays all five battles -- battles=5
+  [PASS] VAR_ECRUTEAK_CITY_THEATER advanced to 7 -- actual=7
+  [PASS] Kimono 1 returns movement
+  shot JohtoStoryAudit_20_kimono-1_complete
+STORY kimono-2
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] EcruteakCity_Theater map entered
+  [PASS] Kimono 2 gauntlet finishes
+  [PASS] Kimono 2 plays all five battles -- battles=5
+  [PASS] VAR_ECRUTEAK_CITY_THEATER advanced to 7 -- actual=7
+  [PASS] Kimono 2 returns movement
+  shot JohtoStoryAudit_21_kimono-2_complete
+VERDICT JohtoStoryAudit: 107/107 PASS

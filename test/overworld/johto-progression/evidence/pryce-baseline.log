@@ -1,0 +1,19 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+GYM Pryce
+  [PASS] Pryce positioned beside leader
+palette tags before talk 1200,1100,1105,112c,112a,113b,4098,1900,1905,192c,192a,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  *** CRASH SCREEN (handoff) ***
+  *** SRC/UTIL.C:228: BLENDPALETTE O | UT OF BOUNDS: PALOFFSET_4336 N | UMENTRIES_16 |   IN: 814F1D1 |   IN: 8246369 |    PRESS START TO CONTINUE.
+  *** BG_PLTT[0]=0x7C00 (see the screenshot for blue vs red)
+  shot JohtoGymAudit_1_crash_handoff
+  [FAIL] Pryce battle reaches command menu
+  [FAIL] Pryce victory script finishes
+LUA ERROR: /Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:45: cannot continue after locked victory
+stack traceback:
+	[C]: in global 'assert'
+	/Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:45: in function </Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:30>
+	[C]: in global 'xpcall'
+	.../Github/PKMN-World/_pwtest/358-audit/fixture/lua/lib.lua:567: in field 'run'
+	/Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:30: in main chunk

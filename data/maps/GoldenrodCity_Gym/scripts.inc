@@ -75,7 +75,7 @@ GoldenrodCity_Gym_EventScript_WhitneyBadge::
 	setflag FLAG_DEFEATED_GOLDENROD_CITY_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 3
-	call Common_EventScript_SetGymTrainers
+	call Common_EventScript_SetGymTrainers_Johto
 	setvar VAR_GOLDENROD_CITY_STATE, 5
 	goto GoldenrodCity_Gym_EventScript_GiveTM
 	end

@@ -1,0 +1,15 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+GYM Falkner
+  [PASS] Falkner positioned beside leader
+palette tags before talk 1200,1100,1135,1129,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Falkner battle reaches command menu
+  [FAIL] Falkner gym trainer cleared 867
+  [FAIL] Falkner gym trainer cleared 856
+  [FAIL] Falkner preserves Hoenn gym trainers
+  [PASS] Falkner victory script finishes
+  [PASS] Falkner awards badge
+  [PASS] Falkner returns movement
+  shot JohtoGymAudit_1_Falkner_complete
+VERDICT JohtoGymAudit: 6/9 PASS

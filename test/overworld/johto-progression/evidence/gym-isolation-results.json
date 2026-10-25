@@ -1,0 +1,83 @@
+[
+  {
+    "production_rom_sha256": "3ce12c7e717c46dc42bf202e1cd85a763fae64f43b9eea0f889a3a6a8c0b6ba4",
+    "fixture_md5": "4F8128922BBF0A3AE341CA3B3F95EE9C",
+    "fixture_sha256": "60ade2483e1fc17b3642872095225f5d91beea155b133ab75fe4b3e1fb6fc307",
+    "fixture_manifest": {
+      "input_rom_sha256": "3ce12c7e717c46dc42bf202e1cd85a763fae64f43b9eea0f889a3a6a8c0b6ba4",
+      "fixture_rom_sha256": "60ade2483e1fc17b3642872095225f5d91beea155b133ab75fe4b3e1fb6fc307",
+      "fixture_bytes": 1000,
+      "fixture_source_sha256": "ac457c689e7950ea18a7949add9210c3edd03134255918407943e1cb11b5a87f",
+      "entry": "0x9f00001",
+      "base_commit": "15d3888b0d81322a04d3c71b0bce18948761ee44",
+      "working_diff_sha256": "4d64e21262ea6bc881ed8136a63f041585ddcfa308a06f619ff9475216321a46",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "suites": [
+      {
+        "suite": "gyms",
+        "passed": true,
+        "exit_code": 0,
+        "matching_rom_sentinel": true
+      }
+    ]
+  },
+  {
+    "production_rom_sha256": "3ce12c7e717c46dc42bf202e1cd85a763fae64f43b9eea0f889a3a6a8c0b6ba4",
+    "fixture_md5": "4F8128922BBF0A3AE341CA3B3F95EE9C",
+    "fixture_sha256": "60ade2483e1fc17b3642872095225f5d91beea155b133ab75fe4b3e1fb6fc307",
+    "fixture_manifest": {
+      "input_rom_sha256": "3ce12c7e717c46dc42bf202e1cd85a763fae64f43b9eea0f889a3a6a8c0b6ba4",
+      "fixture_rom_sha256": "60ade2483e1fc17b3642872095225f5d91beea155b133ab75fe4b3e1fb6fc307",
+      "fixture_bytes": 1000,
+      "fixture_source_sha256": "ac457c689e7950ea18a7949add9210c3edd03134255918407943e1cb11b5a87f",
+      "entry": "0x9f00001",
+      "base_commit": "15d3888b0d81322a04d3c71b0bce18948761ee44",
+      "working_diff_sha256": "4d64e21262ea6bc881ed8136a63f041585ddcfa308a06f619ff9475216321a46",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "suites": [
+      {
+        "suite": "gyms-order2",
+        "passed": true,
+        "exit_code": 0,
+        "matching_rom_sentinel": true
+      }
+    ]
+  },
+  {
+    "production_rom_sha256": "3ce12c7e717c46dc42bf202e1cd85a763fae64f43b9eea0f889a3a6a8c0b6ba4",
+    "fixture_md5": "4F8128922BBF0A3AE341CA3B3F95EE9C",
+    "fixture_sha256": "60ade2483e1fc17b3642872095225f5d91beea155b133ab75fe4b3e1fb6fc307",
+    "fixture_manifest": {
+      "input_rom_sha256": "3ce12c7e717c46dc42bf202e1cd85a763fae64f43b9eea0f889a3a6a8c0b6ba4",
+      "fixture_rom_sha256": "60ade2483e1fc17b3642872095225f5d91beea155b133ab75fe4b3e1fb6fc307",
+      "fixture_bytes": 1000,
+      "fixture_source_sha256": "ac457c689e7950ea18a7949add9210c3edd03134255918407943e1cb11b5a87f",
+      "entry": "0x9f00001",
+      "base_commit": "15d3888b0d81322a04d3c71b0bce18948761ee44",
+      "working_diff_sha256": "4d64e21262ea6bc881ed8136a63f041585ddcfa308a06f619ff9475216321a46",
+      "configuration": {
+        "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+        "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+        "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+      }
+    },
+    "suites": [
+      {
+        "suite": "gyms-order3",
+        "passed": true,
+        "exit_code": 0,
+        "matching_rom_sentinel": true
+      }
+    ]
+  }
+]

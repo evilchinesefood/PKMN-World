@@ -28,7 +28,7 @@ with tempfile.TemporaryDirectory(prefix='pw-visual-fixture-') as tmp:
     result = subprocess.run([mgba, '-l', '0', '--rtc', '1704110400', '--script',
                              str(a.repo/'test/overworld/lua/mgba_shim.lua'), str(isolated)],
                             env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                            text=True, timeout=600)
+                            text=True, timeout=int(os.environ.get('PW_FIXTURE_TIMEOUT', '600')))
     (a.out/'runner.log').write_text(result.stdout)
     print(result.stdout)
     if result.returncode == 0 and isolated.with_suffix('.sav').exists():

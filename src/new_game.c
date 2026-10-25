@@ -285,6 +285,21 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_CELEBI);
     FlagSet(FLAG_HIDE_ILEX_FOREST_KURT);
     FlagSet(FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI);
+    // Seed these objects as hidden before their route-entry flagheaps run. The Radio Tower
+    // grunt should appear during the takeover, not on an early visit; defeating him would
+    // otherwise clear the stairs. Route 27 already hides Oak/Mary on the normal League route.
+    FlagSet(FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1);
+    FlagSet(FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK);
+    // Azalea's flagheap sets these six, which is the authors' statement that they must start
+    // hidden - but it is reached only from Route 33's coord events, so a player who comes into
+    // Ilex Forest from the Route 34 (Goldenrod) side meets all six. Three of the Farfetch'd sit
+    // in one-tile-wide corridors of the maze, where an elevation-0 object blocks outright.
+    FlagSet(FLAG_HIDE_ILEX_FOREST_MASTER);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_APPRENTICE);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_1);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_2);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_3);
+    FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_4);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

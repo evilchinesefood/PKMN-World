@@ -25,9 +25,15 @@ SSAqua_RoomNW_EventScript_Stanly::
     playse SE_DOOR
     removeobject LOCALID_SSAQUA_SLEEPYSAILOR
     fadescreenswapbuffers FADE_FROM_BLACK
-    setvar VAR_SSAQUA_STATE, 3
+    @ Keep voyage progress monotonic if this script runs in an advanced state. Normal play
+    @ gates the captain's corridor through B1F until Stanly has been defeated.
+    call_if_lt VAR_SSAQUA_STATE, 3, SSAqua_RoomNW_EventScript_AdvanceVoyage
 	release
 	end
+
+SSAqua_RoomNW_EventScript_AdvanceVoyage::
+    setvar VAR_SSAQUA_STATE, 3
+    return
 
 SSAqua_RoomNW_EventScript_Edward::
     trainerbattle_single TRAINER_EDWARD_JT SSAqua_RoomNW_Text_GentlemanEdwardSeen, SSAqua_RoomNW_Text_GentlemanEdwardBeaten

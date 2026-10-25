@@ -49,7 +49,7 @@ EcruteakCity_Gym_EventScript_Morty::
 	setflag FLAG_DEFEATED_ECRUTEAK_CITY_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 4
-	call Common_EventScript_SetGymTrainers
+	call Common_EventScript_SetGymTrainers_Johto
 	goto EcruteakCity_Gym_EventScript_GiveTM
 	end
 

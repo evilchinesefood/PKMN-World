@@ -1,0 +1,115 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+GYM Falkner
+  [PASS] Falkner positioned beside leader
+palette tags before talk 1200,1100,1135,1129,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Falkner battle reaches command menu
+  [PASS] Falkner victory script finishes
+  [PASS] Falkner gym trainer cleared 867
+  [PASS] Falkner gym trainer cleared 856
+  [PASS] Falkner preserves all corresponding Hoenn gym trainers
+  [PASS] Falkner awards badge
+  [PASS] Falkner returns movement
+  shot JohtoGymAudit_1_Falkner_complete
+GYM Bugsy
+  [PASS] Bugsy positioned beside leader
+palette tags before talk 1200,1100,1136,1103,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Bugsy battle reaches command menu
+  [PASS] Bugsy victory script finishes
+  [PASS] Bugsy gym trainer cleared 869
+  [PASS] Bugsy gym trainer cleared 1766
+  [PASS] Bugsy gym trainer cleared 1765
+  [PASS] Bugsy gym trainer cleared 870
+  [PASS] Bugsy preserves all corresponding Hoenn gym trainers
+  [PASS] Bugsy awards badge
+  [PASS] Bugsy returns movement
+  shot JohtoGymAudit_2_Bugsy_complete
+GYM Whitney
+  [PASS] Whitney positioned beside leader
+palette tags before talk 1200,1100,1103,1105,1137,1104,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Whitney battle reaches command menu
+  [PASS] Whitney victory script finishes
+  [PASS] Whitney crying state
+Whitney state after exit 3
+Whitney after exit coords=(15,11) state=3
+  [PASS] Whitney exit advances badge state
+  [PASS] Whitney gym trainer cleared 897
+  [PASS] Whitney gym trainer cleared 1767
+  [PASS] Whitney gym trainer cleared 1768
+  [PASS] Whitney gym trainer cleared 1769
+  [PASS] Whitney preserves all corresponding Hoenn gym trainers
+  [PASS] Whitney awards badge
+  [PASS] Whitney returns movement
+  shot JohtoGymAudit_3_Whitney_complete
+GYM Morty
+  [PASS] Morty positioned beside leader
+palette tags before talk 1200,1100,112c,1138,405c,405d,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Morty battle reaches command menu
+  [PASS] Morty victory script finishes
+  [PASS] Morty gym trainer cleared 934
+  [PASS] Morty gym trainer cleared 941
+  [PASS] Morty gym trainer cleared 1069
+  [PASS] Morty gym trainer cleared 1057
+  [PASS] Morty preserves all corresponding Hoenn gym trainers
+  [PASS] Morty awards badge
+  [PASS] Morty returns movement
+  shot JohtoGymAudit_4_Morty_complete
+GYM Chuck
+  [PASS] Chuck positioned beside leader
+palette tags before talk 1200,1100,1139,1105,1103,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Chuck battle reaches command menu
+  [PASS] Chuck victory script finishes
+  [PASS] Chuck gym trainer cleared 971
+  [PASS] Chuck gym trainer cleared 968
+  [PASS] Chuck gym trainer cleared 969
+  [PASS] Chuck gym trainer cleared 1067
+  [PASS] Chuck preserves all corresponding Hoenn gym trainers
+  [PASS] Chuck awards badge
+  [PASS] Chuck returns menu control
+  shot JohtoGymAudit_5_Chuck_complete
+GYM Jasmine
+  [PASS] Jasmine positioned beside leader
+palette tags before talk 1200,1100,113a,1129,1105,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Jasmine battle reaches command menu
+  [PASS] Jasmine victory script finishes
+  [PASS] Jasmine preserves all corresponding Hoenn gym trainers
+  [PASS] Jasmine awards badge
+  [PASS] Jasmine returns movement
+  shot JohtoGymAudit_6_Jasmine_complete
+GYM Pryce
+  [PASS] Pryce positioned beside leader
+palette tags before talk 1200,1100,1105,112c,112a,113b,4096,1900,1905,192c,192a,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Pryce battle reaches command menu
+  [PASS] Pryce victory script finishes
+  [PASS] Pryce gym trainer cleared 1770
+  [PASS] Pryce gym trainer cleared 975
+  [PASS] Pryce gym trainer cleared 1771
+  [PASS] Pryce gym trainer cleared 999
+  [PASS] Pryce gym trainer cleared 1772
+  [PASS] Pryce preserves all corresponding Hoenn gym trainers
+  [PASS] Pryce awards badge
+  [PASS] Pryce returns movement
+  shot JohtoGymAudit_7_Pryce_complete
+GYM Clair
+  [PASS] Clair positioned beside leader
+palette tags before talk 1200,1100,113c,4094,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Clair battle reaches command menu
+  [PASS] Clair victory script finishes
+  [PASS] Clair gym trainer cleared 1007
+  [PASS] Clair gym trainer cleared 1011
+  [PASS] Clair gym trainer cleared 1073
+  [PASS] Clair gym trainer cleared 1017
+  [PASS] Clair gym trainer cleared 1015
+  [PASS] Clair preserves all corresponding Hoenn gym trainers
+  [PASS] Clair opens Dragons Den
+  [PASS] Clair returns movement
+  shot JohtoGymAudit_8_Clair_complete
+VERDICT JohtoGymAudit: 86/86 PASS

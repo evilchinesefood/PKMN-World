@@ -39,7 +39,7 @@ VioletCity_Gym_EventScript_Falkner::
 	setflag FLAG_DEFEATED_VIOLET_GYM
 	addvar VAR_NUM_BADGES, 1
 	setvar VAR_0x8008, 1
-	call Common_EventScript_SetGymTrainers
+	call Common_EventScript_SetGymTrainers_Johto
 	setvar VAR_VIOLET_CITY_STATE, 3
 	setrespawn HEAL_LOCATION_VIOLET_CITY
 	goto VioletCity_Gym_EventScript_GiveTM

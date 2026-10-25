@@ -1,8 +1,14 @@
 JohtoPokemonLeague_KarensRoom_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EliteFourRoom_OnFrame
 	map_script MAP_SCRIPT_ON_RESUME, JohtoPokemonLeague_KarensRoom_OnResume
-	map_script MAP_SCRIPT_ON_LOAD, EliteFourRoom_OnLoad
+	map_script MAP_SCRIPT_ON_LOAD, JohtoPokemonLeague_KarensRoom_OnLoad
 	.byte 0
+
+@ Restore this room's north exit after a reload; see WillsRoom's OnLoad.
+JohtoPokemonLeague_KarensRoom_OnLoad::
+	call_if_eq VAR_TEMP_0, 1, EliteFourRoom_CreateDoor
+	call_if_ge VAR_LEAGUE_STATE, 5, EliteFourRoom_OpenExit
+	end
 
 JohtoPokemonLeague_KarensRoom_OnResume::
 	setvar VAR_0x8004, 3

@@ -167,3 +167,68 @@ EventScript_SetViridianGymTrainers::
 	settrainerflag TRAINER_COOLTRAINER_YUJI
 	settrainerflag TRAINER_COOLTRAINER_WARREN
 	return
+
+@ Johto victories must not mark the corresponding Hoenn gym as defeated.
+Common_EventScript_SetGymTrainers_Johto::
+	switch VAR_0x8008
+	case 1, VioletCity_Gym_SetGymTrainers_Johto
+	case 2, AzaleaTown_Gym_SetGymTrainers_Johto
+	case 3, GoldenrodCity_Gym_SetGymTrainers_Johto
+	case 4, EcruteakCity_Gym_SetGymTrainers_Johto
+	case 5, CianwoodGym_SetGymTrainers_Johto
+	case 6, OlivineCity_Gym_SetGymTrainers_Johto
+	case 7, MahoganyTown_Gym_SetGymTrainers_Johto
+	case 8, BlackthornCity_Gym_SetGymTrainers_Johto
+	return
+
+VioletCity_Gym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_ROD
+	settrainerflag TRAINER_ABE
+	return
+
+AzaleaTown_Gym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_AL
+	settrainerflag TRAINER_JOSH_JT
+	settrainerflag TRAINER_BENNY_JT
+	settrainerflag TRAINER_AMY_AND_MAY
+	return
+
+GoldenrodCity_Gym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_CARRIE
+	settrainerflag TRAINER_BRIDGET_JT
+	settrainerflag TRAINER_VICTORIA_JT
+	settrainerflag TRAINER_SAMANTHA_JT
+	return
+
+EcruteakCity_Gym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_JEFFREY
+	settrainerflag TRAINER_PING
+	settrainerflag TRAINER_MARTHA_JT
+	settrainerflag TRAINER_GRACE_JT
+	return
+
+CianwoodGym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_YOSHI
+	settrainerflag TRAINER_LAO
+	settrainerflag TRAINER_NOB
+	settrainerflag TRAINER_LUNG_JT
+	return
+
+OlivineCity_Gym_SetGymTrainers_Johto::
+	return
+
+MahoganyTown_Gym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_RONALD_JT
+	settrainerflag TRAINER_BRAD
+	settrainerflag TRAINER_DOUGLAS_JT
+	settrainerflag TRAINER_ROXANNE
+	settrainerflag TRAINER_CLARISSA_JT
+	return
+
+BlackthornCity_Gym_SetGymTrainers_Johto::
+	settrainerflag TRAINER_CODY
+	settrainerflag TRAINER_FRAN
+	settrainerflag TRAINER_PAUL_JT
+	settrainerflag TRAINER_MIKE
+	settrainerflag TRAINER_LOLA
+	return

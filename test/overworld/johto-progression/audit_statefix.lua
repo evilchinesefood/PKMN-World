@@ -124,15 +124,18 @@ end
 
 cases['hideout-then-pryce']=function()
  -- Normal order: hideout first, so the town stops at 14 and Pryce supplies 15.
- F.check('hideout completion leaves the town at 14 without the badge',
-   hideoutFinale(false)==14,'state='..state(C.VAR_MAHOGANY_TOWN_STATE))
+ -- 14 both before and after the fix: without the badge nothing changed on this path.
+ want('hideout completion leaves the town at 14 without the badge',14,14,hideoutFinale(false))
 end
 
 cases['pryce-then-hideout']=function()
  -- Reverse order: Pryce already beaten, so completion must jump to 15 itself or the Radio
  -- Tower trigger can never fire.
- F.check('hideout completion reaches 15 when the Glacier Badge is already held',
-   hideoutFinale(true)==15,'state='..state(C.VAR_MAHOGANY_TOWN_STATE))
+ -- On the unfixed build ElectrodeDone writes 14 regardless of the badge, so this case needs
+ -- its broken-mode expectation like the others, or a full PW_STATEFIX_EXPECT=broken run fails
+ -- on the very defect it is meant to reproduce.
+ want('hideout completion reaches 15 when the Glacier Badge is already held',15,14,
+   hideoutFinale(true))
 end
 
 F.run(function()

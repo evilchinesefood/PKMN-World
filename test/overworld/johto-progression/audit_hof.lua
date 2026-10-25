@@ -63,8 +63,10 @@ local function runCase(name)
   for _=1,n do if saveThroughMenu() then landed=landed+1 end end
   F.L(string.format('  %s: %d of %d save attempts landed, counter %d -> %d',
     name,landed,n,before,F.r32(A.gSaveCounter)))
-  F.check(string.format('%s: the cartridge was saved before the ceremony',name),
-    F.r32(A.gSaveCounter)>before,string.format('counter still %d',before))
+  -- Require every attempt: this case exists to put several saves on the cartridge, so one
+  -- landing out of three would run the ceremony without the history it means to test.
+  F.check(string.format('%s: all %d pre-ceremony saves landed',name,n),landed==n,
+    string.format('%d landed, counter %d -> %d',landed,before,F.r32(A.gSaveCounter)))
   F.L(string.format('  before ceremony: gSaveCounter=%d gDamagedSaveSectors=%d',
     F.r32(A.gSaveCounter),F.r32(A.gDamagedSaveSectors)))
  end

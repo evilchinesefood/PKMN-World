@@ -307,11 +307,13 @@ F.run(function()
   F.step('Right')
   local ok=finish(1500)
   F.check('generator shut down',state(C.VAR_ELECTRODES_FAINTED)==4)
-  -- Completion writes 14 normally, or 15 directly when the Glacier Badge is already held.
-  -- This run beats Pryce several beats earlier, so it takes the second path -- which is the
-  -- order that used to lose the whole hideout arc to Pryce's unconditional setvar.
+  -- This run beats Pryce several beats before the hideout, so the Glacier Badge IS held and
+  -- completion must write 15 -- the state Mahogany's ON_FRAME Rocket call matches exactly.
+  -- Accepting 14 here would pass while the reverse-order player sits with no route to the
+  -- Radio Tower, which is the softlock the Pryce fix exists to avoid.
   local town=state(C.VAR_MAHOGANY_TOWN_STATE)
-  F.check('Mahogany advances past the hideout',town==14 or town==15,'state='..town)
+  F.check('Glacier Badge is held before the hideout finale',flag(C.FLAG_JOHTO_BADGE_7))
+  F.check('hideout completion reaches 15 with the badge held',town==15,'state='..town)
   return ok
  end)
 

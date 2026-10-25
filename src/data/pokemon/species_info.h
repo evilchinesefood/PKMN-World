@@ -165,6 +165,8 @@ const struct SpeciesInfo gSpeciesInfo[] =
         .frontPic = gMonFrontPic_Egg,
         .frontPicSize = MON_COORDS_SIZE(24, 24),
         .frontPicYOffset = 20,
+        // Hall of Fame waits for this animation to finish, including unhatched Eggs.
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
         .backPic = gMonFrontPic_Egg,
         .backPicSize = MON_COORDS_SIZE(24, 24),
         .backPicYOffset = 20,

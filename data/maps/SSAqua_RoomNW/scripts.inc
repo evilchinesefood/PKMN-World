@@ -25,10 +25,8 @@ SSAqua_RoomNW_EventScript_Stanly::
     playse SE_DOOR
     removeobject LOCALID_SSAQUA_SLEEPYSAILOR
     fadescreenswapbuffers FADE_FROM_BLACK
-    @ Only ever move the voyage forward. Room NW and the Captain's Room are independent warps
-    @ off the 1F hall, so a player who finds the granddaughter first reaches state 5 and would
-    @ be knocked back to 3 here -- a state nothing can advance, with the door sailor refusing
-    @ to let them off the ship.
+    @ Keep voyage progress monotonic if this script runs in an advanced state. Normal play
+    @ gates the captain's corridor through B1F until Stanly has been defeated.
     call_if_lt VAR_SSAQUA_STATE, 3, SSAqua_RoomNW_EventScript_AdvanceVoyage
 	release
 	end

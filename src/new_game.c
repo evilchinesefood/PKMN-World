@@ -285,16 +285,9 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_CELEBI);
     FlagSet(FLAG_HIDE_ILEX_FOREST_KURT);
     FlagSet(FLAG_HIDE_ILEX_FOREST_SECOND_CELEBI);
-    // Johto registers most hide flags lazily, from a city "flagheap" fired by coord events on
-    // ONE adjacent route - so an object is visible until that trigger runs, and stays visible
-    // at any city entrance the trigger does not cover. Two of those spawned on blocking tiles:
-    //   - the Radio Tower grunt stands ON warp 1 at (22,5), the stairs to 2F, and at elevation
-    //     0 he collides at every elevation. Goldenrod's flagheap is reached only from Route 34,
-    //     so entering from the Route 35 gate sealed the whole Radio Tower arc. Measured: the
-    //     player cannot step onto (22,5) with the flag clear, and can with it set.
-    //   - Prof. Oak and Mary stand in the Champion's Room entrance column before Lance is even
-    //     fought. The victory scene ADDS them with addobject, which only makes sense if they
-    //     start absent, and their only setter is Route 27 - i.e. after the League.
+    // Seed these objects as hidden before their route-entry flagheaps run. The Radio Tower
+    // grunt should appear during the takeover, not on an early visit; defeating him would
+    // otherwise clear the stairs. Route 27 already hides Oak/Mary on the normal League route.
     FlagSet(FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1);
     FlagSet(FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK);
     // Azalea's flagheap sets these six, which is the authors' statement that they must start

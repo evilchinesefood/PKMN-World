@@ -64,7 +64,7 @@ F.run(function()
 
  -- ---- 2. Champion's Room: Oak and Mary must not be in the entrance before Lance ----------
  -- Both are script NULL and the victory scene ADDS them with addobject, which only makes sense
- -- if they start absent. Their only setter is Route 27 -- i.e. after the League is over.
+ -- if they start absent. Route 27 also hides them before the League on the normal route.
  F.L('PROBE champions-room-fresh')
  F.check('Champion\'s Room entered',(enter('JohtoPokemonLeague_ChampionsRoom',6,17)))
  dump('champions-room-fresh')

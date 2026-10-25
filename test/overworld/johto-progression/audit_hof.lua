@@ -1,21 +1,6 @@
--- Does the Johto Hall of Fame ceremony return to the field once the game has been saved?
---
--- The continuous run beat Lance, recorded FLAG_JOHTO_CHAMPION, and then sat in CB2_HallOfFame
--- for 120,000 frames while being fed A. audit_league.lua runs the same ceremony and passes.
---
--- The two runs differ in exactly one way that matters: the continuous run has already written a
--- save, at its mid-arc and late-arc checkpoints, before the ceremony writes its own. Party is
--- NOT the difference -- audit_helpers' boot() grants a Chikorita, so audit_league has a party
--- too. That left the save as the thing to test.
---
--- It matters because src/hall_of_fame.c's Task_Hof_TrySaveData has a dead end: when
--- TrySavingData(SAVE_HALL_OF_FAME) returns SAVE_STATUS_ERROR with damaged sectors it frees its
--- buffers and DestroyTask()s itself without installing another callback and without telling the
--- player. CB2_HallOfFame then remains the main callback with no task left to advance it, which
--- is a permanent hang on precisely the screen observed.
---
--- Both cases mirror audit_league's champion sequence exactly so the only variable is the save.
--- PW_HOF_CASE selects one: 'clean' or 'presaved'.
+-- Hall of Fame must finish with ordinary parties and with the unhatched Violet gift Egg.
+-- The Egg's missing frontAnimFrames previously selected an END-only dummy animation that
+-- never signaled completion. Save-history cases also verify ceremony save/reload behavior.
 package.path=assert(os.getenv('PW_FEATURE_LIB'))..'/?.lua;'..package.path
 local H=require('audit_helpers')('JohtoHallOfFame');local F,S,A,C,tap,cmd,state,flag,finish=H.F,H.S,H.A,H.C,H.tap,H.cmd,H.state,H.flag,H.finish
 local maps=require('story_maps')
@@ -45,6 +30,17 @@ local function runCase(name)
  assert(F.boot(),name..': boot')
  cmd(0,0)
  F.w8(F.sb2()+S.SaveBlock2.currentRegion,2);F.w32(S.gCurrentRegion,2)
+ if name=='egg' then
+  cmd(4,C.VAR_VIOLET_CITY_STATE,3)
+  cmd(3,C.FLAG_JOHTO_BADGE_1)
+  cmd(5,C.FLAG_HIDE_VIOLET_CITY_AIDE)
+  local m=maps.VioletCity_PokemonCenter
+  local o=m.objects.VioletCity_PokemonCenter_EventScript_Aide
+  cmd(1,m.g,m.m,o.x,o.y,300);F.face('Up');tap('A')
+  F.check('egg: gift scene finishes',finish())
+  F.check('egg: gift received',flag(C.FLAG_RECEIVED_TOGEPI_EGG))
+  F.check('egg: party has starter and Egg',F.r8(S.gPartiesCount)==2)
+ end
  F.L('  party count '..F.r8(S.gPartiesCount))
  cmd(4,C.VAR_LEAGUE_STATE,5)
  for i=0,7 do cmd(3,C.FLAG_JOHTO_BADGE_1+i) end
@@ -91,7 +87,7 @@ end
 
 F.run(function()
  local only=os.getenv('PW_HOF_CASE')
- for _,n in ipairs({'clean','presaved','manysaves'}) do
+ for _,n in ipairs({'clean','egg','presaved','manysaves'}) do
   if not only or only==n then runCase(n) end
  end
  F.finish()

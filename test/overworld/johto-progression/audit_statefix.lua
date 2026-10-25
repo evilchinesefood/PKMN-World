@@ -1,23 +1,8 @@
--- Four progression defects raised by the static audits, reproduced before being fixed.
---
--- Each case stages a legitimate mid-story state, performs the ordinary player action, and reads
--- the variable the story depends on afterwards. PW_STATEFIX_EXPECT=broken asserts the defect is
--- present (used to prove the suite reproduces it); the default asserts the fixed behaviour.
---
---   pryce      MahoganyTown_Gym's victory sets VAR_MAHOGANY_TOWN_STATE = 15 unconditionally.
---              The gym door's approach tile is in the town's main walkable component from the
---              start, so Pryce can be beaten mid-hideout -- and states 5..13, the entire Rocket
---              Hideout arc, are dispatched by exact equality and become dead.
---   electrode  REFUTED as a defect, kept as the guard for why. removeobject FlagSets the
---              object's own hide flag, so beaten Electrodes stay gone and the count cannot
---              overshoot the completion trigger's exact == 3 match.
---   ssaqua     Sailor Stanly set VAR_SSAQUA_STATE = 3 unconditionally. From state 5 -- reached
---              by visiting the Captain's Room first, which the Grandpa quest points at -- that
---              is a regression into a state nothing can advance, with the door sailor refusing
---              to let the player off the ship. (He does NOT respawn: removeobject sets his
---              hide flag. That half of the report did not hold.)
---   ilex       Six Ilex Forest objects sit behind flags the Azalea flagheap sets but no
---              new-game registration does, three of them in one-tile-wide corridors.
+-- Staged regression cases for defensive progress guards and initial object visibility.
+-- These tests inject story state. They do not prove normal routes can reach Pryce before
+-- the hideout or the granddaughter before Stanly; the ordinary NPC gates prevent both.
+-- PW_STATEFIX_EXPECT=broken selects the pre-change state writes for baseline comparisons.
+-- Electrode removal is a non-regression case: removeobject sets its object's hide flag.
 package.path=assert(os.getenv('PW_FEATURE_LIB'))..'/?.lua;'..package.path
 local H=require('audit_helpers')('JohtoStateFix');local F,S,A,C,tap,cmd,state,flag,finish=H.F,H.S,H.A,H.C,H.tap,H.cmd,H.state,H.flag,H.finish
 local maps=require('story_maps');local gyms=require('gym_cases')

@@ -41,7 +41,7 @@ The two additional findings have [reviewable issue drafts](follow-up-issues.md).
 They have not been published: automatic approval review rejected public issue
 creation without explicit publication approval. #357 remains open.
 
-## Second pass — full Johto playthrough review (October 24, 2026)
+## Second pass — staged Johto progression review (October 24, 2026)
 
 Base `15d3888b0d` plus the three fixes above. Three further defects found, all confirmed on a
 disposable ROM before being fixed, and all three are progression blockers rather than cosmetic.
@@ -67,34 +67,19 @@ disposable ROM before being fixed, and all three are progression blockers rather
    at (6,10), reset, Continue — before, the climb stopped at (6,3) and the descent at (6,10);
    after, the same walk warps through to Koga's Room.
 
-### Third pass — the static audits' remaining findings (October 24, 2026)
+### Further staged regressions and review corrections
 
-Four findings from the static audits, each reproduced on the unfixed build before being fixed,
-with `PW_STATEFIX_EXPECT=broken` asserting the defect is present. Three held; one did not.
-
-7. **Beating Pryce mid-raid destroyed the Rocket Hideout arc.** `PryceVictory` wrote
-   `VAR_MAHOGANY_TOWN_STATE = 15` unconditionally, and the gym door's approach tile `(10,20)` is
-   in the town's main walkable component from the start. States 5..13 are dispatched by exact
-   equality, so the whole hideout, Lance's scenes and the only `giveitem ITEM_HM_WHIRLPOOL` in
-   the tree became unreachable. Measured: staged at state 5, beating Pryce left state 15.
-
-   The naive guard would have been worse. Mahogany's ON_FRAME Rocket call matches state 15
-   exactly, so a player who beat Pryce early and then finished the hideout would sit at 14 with
-   no way to reach the Radio Tower — a permanent block. The fix closes both orders: Pryce
-   advances only from state >= 14, and `ElectrodeDone` writes 15 directly when the Glacier Badge
-   is already held. Both orders are asserted.
-
-8. **Sailor Stanly rewound the S.S. Aqua voyage.** He wrote `VAR_SSAQUA_STATE = 3`
-   unconditionally. Room NW and the Captain's Room are independent warps off the 1F hall, and
-   the Grandpa quest points at the granddaughter in the Captain's Room — so reaching state 5
-   first and then meeting Stanly dropped the player to 3, which nothing can advance, with the
-   door sailor refusing to let them off the ship. Measured: staged at 5, left at 3. He now only
-   advances the voyage.
-
-9. **Six Ilex Forest objects spawned on a fresh save**, three of them in one-tile-wide corridors
-   of the maze. Azalea's flagheap sets all six, but it is reached only from Route 33, so
-   arriving from the Route 34 side met them all. Registered in `src/new_game.c`. Measured: an
-   object stood at `(42,39)` before the fix and does not after.
+- **Pryce/hideout order:** staged victory at Mahogany state 5 previously wrote 15. The guard
+  preserves unfinished hideout state, and hideout completion advances to 15 if the badge is
+  already held. Normal play blocks the Gym with an NPC until hideout completion; this is
+  defensive handling of abnormal or migrated state, not a demonstrated ordinary-route bug.
+- **S.S. Aqua:** staged interaction with Stanly at voyage state 5 previously rewound it to 3.
+  His update is now monotonic. The B1F sailor gates the captain's corridor in normal play, so
+  the test does not establish a naturally reachable granddaughter-first softlock.
+- **Initial visibility:** new games hide the Radio Tower grunt, Oak/Mary and six Ilex Forest
+  objects before the route-entry flagheaps run. The grunt is removable by battle; Route 27
+  already hides Oak/Mary before a normal League visit. Early appearance/collision was measured
+  using fixture warps; neither proves an unavoidable progression block.
 
 **Refuted: the Electrode respawn.** The audit predicted the three Electrodes respawn, letting
 `VAR_ELECTRODES_FAINTED` overshoot the completion trigger's exact `== 3` match and strand the
@@ -110,16 +95,18 @@ battleable set despawns Lance's, and his Hyper Beam flourish plays over empty fl
 and separating them means allocating new flag slices, so it is left as a decision rather than
 folded into a progression fix.
 
-### Open, not fixed
+### Review correction — Hall of Fame with an Egg (October 25, 2026)
 
-**The continuous suite's final beat stalls in `CB2_HallOfFame`.** Lance is beaten and
-`FLAG_JOHTO_CHAMPION` is recorded, then the ceremony never returns to the field. It reproduces
-only in `audit_continuous.lua`. Ruled out by measurement: the party, a prior save, several
-saves, the save-error path (`gDamagedSaveSectors` is 0), a failed allocation (`gHoFSaveBuffer`
-is valid), this suite's own checkpoints, and the Elite Four gauntlet. What remains is the ~20
-staged beats run beforehand, which are fixture warps rather than a walked path — so this is
-more likely a harness artefact than a player-facing defect, but that is not proven and the
-assertion is deliberately left red.
+The continuous ceremony stall was a game defect. A short League run with Chikorita alone
+completed; adding the real Violet gift Egg reproduced the hang without prior saves or a long
+session. The ceremony waited in `Task_Hof_PrintMonInfoAfterAnimating` on the Egg sprite's
+`WaitAnimEnd` callback. `SPECIES_EGG` had no `frontAnimFrames`, selecting an END-only dummy
+animation that never set `animEnded`. The Egg now uses `sAnims_SingleFramePlaceHolder`.
+
+The earlier claim that party differences were ruled out was incorrect: the continuous run
+contained an Egg, while the isolated League run did not. `audit_hof.lua` now includes the actual
+Violet gift before the ceremony. All audit failures are fatal again; the XFAIL exception was
+removed. This remains a staged audit, not proof of a naturally played complete campaign.
 
 ### Suites added
 
@@ -129,10 +116,10 @@ assertion is deliberately left red.
   the blocked door visible. Records "chain gaps" where a beat's prerequisite was not set by the
   beats before it, then stages it and continues.
 - `audit_probe.lua` — the Elite Four door, walked through the real Route 27 trigger. Checks the
-  gatekeeper still blocks *before* Route 27, that the door opens after it, and that restoring
-  his hide flag re-blocks it, so the removed Hall of Fame line cannot return unnoticed.
+  gatekeeper still blocks *before* Route 27, that the door opens after it, and that a cleared hide flag
+  self-heals on re-entry for saves that already completed Route 27.
 - `audit_e4lock.lua` — beat Will, save in the cleared room, reset, Continue, try both doors.
-- `audit_hof.lua` — the ceremony under a clean save, one prior save and several, with
+- `audit_hof.lua` — the ceremony with the Violet gift Egg, a clean save, one prior save and several, with
   `gDamagedSaveSectors` and `gSaveCounter` read at the end.
 
 `audit_league.lua` now stages `FLAG_HIDE_LEAGUE_BLACKBELT` before the ceremony and asserts the

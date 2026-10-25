@@ -17,22 +17,9 @@
 -- What IS asserted at every beat: no crash screen, the script runs to completion, the overworld
 -- script context comes back free, player control returns, and the beat's own post-state advanced.
 --
--- KNOWN FAILING, UNRESOLVED: the final beat. After Lance is beaten and FLAG_JOHTO_CHAMPION is
--- recorded, the game sits in CB2_HallOfFame indefinitely instead of returning to the field. It
--- reproduces ONLY here, and the obvious explanations have been measured and ruled out:
---   * not the party          -- audit_helpers' boot() grants a Chikorita, so audit_league has
---                               one too, and audit_league's ceremony completes
---   * not a prior save       -- audit_hof.lua's 'presaved' and 'manysaves' cases complete
---   * not the save error path -- gDamagedSaveSectors reads 0 at the stall, so
---                               Task_Hof_TrySaveData's DestroyTask dead end is not being taken
---   * not a failed allocation -- gHoFSaveBuffer reads a valid pointer at the stall
---   * not this suite's checkpoints -- PW_CONTINUOUS_NO_CHECKPOINTS=1 still stalls
---   * not the Elite Four gauntlet -- audit_league plays all four members and Lance, and completes
--- What is left is the ~20 staged beats this suite runs first. Those are fixture warps and forced
--- battle outcomes, not a path a player walks, so this is more likely an artefact of the harness
--- than a player-facing defect -- but it is NOT proven to be one, so the assertion stays red
--- rather than being quietly downgraded. The stall logs gHoFSaveBuffer and the callback for
--- whoever picks it up.
+-- The Violet gift Egg exercises a real Hall of Fame regression: missing frontAnimFrames
+-- previously left the ceremony waiting forever. This run must complete with all assertions
+-- passing; run_audit.py no longer permits the old expected failure.
 package.path=assert(os.getenv('PW_FEATURE_LIB'))..'/?.lua;'..package.path
 local H=require('audit_helpers')('JohtoContinuous');local F,S,A,C,tap,cmd,state,flag,finish,free=H.F,H.S,H.A,H.C,H.tap,H.cmd,H.state,H.flag,H.finish,H.free
 local maps=require('story_maps');local gyms=require('gym_cases')
@@ -105,9 +92,8 @@ end
 -- The expected group is READ before saving rather than written in here. A checkpoint can fall on
 -- an indoor map, and a hard-coded group is the usual cause of a spurious BOOT FAIL -- the suite
 -- then blames the save for a mismatch it invented itself.
--- PW_CONTINUOUS_NO_CHECKPOINTS skips the save/Continue checkpoints. It exists to separate
--- "a long accumulated session" from "the saves this suite makes during it" when chasing the
--- Hall of Fame ceremony stall, which reproduces here and nowhere else.
+-- PW_CONTINUOUS_NO_CHECKPOINTS skips save/Continue checkpoints for diagnostic runs.
+-- The default keeps all checkpoints enabled.
 local SKIP_CHECKPOINTS=os.getenv('PW_CONTINUOUS_NO_CHECKPOINTS')=='1'
 local function checkpoint(tag)
  if SKIP_CHECKPOINTS then F.L('CHECKPOINT '..tag..' skipped');return true end
@@ -450,17 +436,7 @@ F.run(function()
   local o=m.objects.JohtoPokemonLeague_WillsRoom_EventScript_Lance
   if not F.leg(o.x,o.y) then return false end
   F.face('Up');tap('A')
-  -- Lance's victory runs straight into the Hall of Fame ceremony and the credits
-  -- (CB2_HallOfFame), which take far longer than any other script in the run. A 2500 budget
-  -- stops inside the ceremony and reports a stall that is really just impatience.
-  local ok,n=finish(5000)
-  -- If the ceremony is stuck, say WHY rather than just reporting a stall. CB2_DoHallOfFameScreen
-  -- allocates its record buffer with no null check and Task_Hof_InitMonData writes through it
-  -- immediately, so a heap too fragmented to serve it after a long run is a candidate cause.
-  if not ok then
-   F.L(string.format('  HoF stuck: gHoFSaveBuffer=%08x cb2=%08x map=%d/%d',
-     F.r32(A.gHoFSaveBuffer),F.cb2(),F.grp(),F.mapn()))
-  end
+  local ok,n=finish(2500)
   F.check('Lance is a battle',n and n==1)
   F.check('Johto Champion recorded',flag(C.FLAG_JOHTO_CHAMPION))
   F.check('Hall of Fame leaves the League Black Belt hidden',flag(C.FLAG_HIDE_LEAGUE_BLACKBELT))

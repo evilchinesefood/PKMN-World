@@ -1,0 +1,72 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh game boots
+  giveMon species=152 -> party 0 -> 1
+  setMetLevel slot 0: met level 100 -> 5
+  WARP park ok (12,49)
+  [PASS] enter National Park
+  [PASS] Soothe Bell starts uncollected
+  battle WILD flee foe=0 L0 at NationalPark_Normal -> outcome=4 turns=1 lead hp=231/231
+    msg: This tree looks like it can be CUT down! Would you like to CUT it?
+    yes/no -> yes
+    msg: Chikorita used Cut!
+  [PASS] reach and cut the tree
+  [PASS] walk through the cut opening
+controller Right blocked at (32,4), attempt 1
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 2
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 3
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 4
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 5
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 6
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 7
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 8
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 9
+A while blocked battle=false free=true
+controller Right blocked at (32,4), attempt 10
+A while blocked battle=false free=true
+blocked_Right player=(32,4) free=true
+ambient 21 current=(33,4) previous=(33,4) trainerType=0
+ambient 22 current=(32,5) previous=(33,5) trainerType=0
+  shot NationalParkSootheBell_1_blocked_Right
+controller Down blocked at (32,4), attempt 1
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 2
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 3
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 4
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 5
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 6
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 7
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 8
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 9
+A while blocked battle=false free=true
+controller Down blocked at (32,4), attempt 10
+A while blocked battle=false free=true
+blocked_Down player=(32,4) free=true
+ambient 21 current=(33,4) previous=(33,4) trainerType=0
+ambient 22 current=(32,5) previous=(33,5) trainerType=0
+  shot NationalParkSootheBell_2_blocked_Down
+  [FAIL] walk through the upper-right passage
+  [FAIL] collect exactly one Soothe Bell
+  [FAIL] collection hides the item
+soothe_bell_result player=(32,4) free=true
+ambient 21 current=(33,4) previous=(33,4) trainerType=0
+ambient 22 current=(32,5) previous=(33,5) trainerType=0
+  shot NationalParkSootheBell_3_soothe_bell_result
+  [FAIL] return through the passage
+  [PASS] player control returns
+VERDICT NationalParkSootheBell: 6/10 PASS

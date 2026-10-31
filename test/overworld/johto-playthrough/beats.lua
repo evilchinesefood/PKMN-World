@@ -295,7 +295,7 @@ return function(F, N, C, log)
   beat('red_gyarados', function()
     fieldMoves()
     assert(N.travel('LakeOfRage'))
-    assert(N.talk(8))                         -- surf up to it; KO or catch, never run
+    assert(N.chase(8))                        -- it roams the lake; KO or catch, never run
   end, function() return V('VAR_MAHOGANY_TOWN_STATE') >= 2 end)
 
   beat('lance_lake', function()

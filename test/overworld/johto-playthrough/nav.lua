@@ -407,7 +407,7 @@ return function(F, S)
   local STATIONARY = {}
   for name, v in pairs(C) do
     if name:match('^MOVEMENT_TYPE_') and (name:find('FACE') or name:find('LOOK') or name:find('NONE')
-        or name:find('IN_PLACE') or name:find('BERRY') or name:find('INVISIBLE')) then STATIONARY[v] = true end
+        or name:find('IN_PLACE') or name:find('BERRY') or name:find('INVISIBLE') or name:find('ROTATE')) then STATIONARY[v] = true end
   end
 
   local function occupancy(grid)
@@ -855,7 +855,8 @@ return function(F, S)
     opts = opts or {}
     N.avoid = {}
     local tag = opts.tag or 'walk'
-    for attempt = 1, (opts.attempts or 30) do
+    local noPath = 0
+    for attempt = 1, (opts.attempts or 60) do
       if not N.free() then N.settle(opts) end
       local x, y = F.pos()
       if goal(x, y, N.surfing()) then idle(4); return true end
@@ -886,9 +887,11 @@ return function(F, S)
         local objs = {}
         for _, o in ipairs(N.objects()) do objs[#objs + 1] = string.format('%d@(%d,%d)', o.localId, o.x, o.y) end
         L('    objects: ' .. table.concat(objs, ' '))
-        if attempt < 4 then
-          -- An NPC may be standing in a corridor; wait for it to move, then forget temporary blocks.
-          idle(90); N.avoid = {}
+        noPath = noPath + 1
+        if noPath <= 15 then
+          -- A wandering Pokémon or NPC may be standing in a corridor; wait for it to move, then
+          -- forget temporary blocks. (Counted apart from attempts: battles on the way use those.)
+          idle(120); N.avoid = {}
         else
           return false
         end
@@ -968,12 +971,31 @@ return function(F, S)
       if not o then L('  talk: object ' .. tostring(target) .. ' not present on ' .. N.mapName()); return false end
       tx, ty = o.x, o.y
     end
-    for _ = 1, 4 do
-      if not N.approach(tx, ty, opts) then return false end
+    for _ = 1, 12 do
+      if not N.approach(tx, ty, opts) then
+        L(string.format('  talk: cannot reach a side of (%d,%d)', tx, ty))
+        return false
+      end
+      -- A patrolling object may have moved on while we walked: chase it rather than talk to air.
+      if type(target) ~= 'table' then
+        local o = N.object(target)
+        if not o then return false end
+        local px, py = F.pos()
+        local fd = N.facing()
+        if o.x ~= px + DX[fd] or o.y ~= py + DY[fd] then
+          L(string.format('  talk: %d moved to (%d,%d); we are at (%d,%d) facing %d', target, o.x, o.y, px, py, fd))
+          tx, ty = o.x, o.y
+          goto continue
+        end
+      end
+      w16(S.gSpecialVar_LastTalked, 0)
       press('A'); idle(20)
       if not N.free() then
+        local who = r16(S.gSpecialVar_LastTalked)
         N.settle(opts)
-        return true
+        -- Only count it if this object's script ran (not the follower, a sign, or a passer-by).
+        if type(target) == 'table' or who == target then return true end
+        L(string.format('  talk: reached object %d instead of %d; retrying', who, target))
       end
       -- The NPC walked off between planning and pressing A: re-read and retry.
       if type(target) ~= 'table' then
@@ -981,6 +1003,42 @@ return function(F, S)
         if not o then return false end
         tx, ty = o.x, o.y
       end
+      ::continue::
+    end
+    return false
+  end
+
+  -- Talk to an object that keeps moving (the red Gyarados roams the whole lake): re-plan one
+  -- step at a time toward it and press A the moment it is beside us.
+  function N.chase(target, opts)
+    opts = opts or {}
+    for _ = 1, 600 do
+      if not N.free() then N.settle(opts) end
+      local o = N.object(target)
+      if not o then
+        for _, t in ipairs(header(F.grp(), F.mapn()).objs) do
+          if t.localId == target then N.go(t.x, t.y + 3, opts) end
+        end
+        o = N.object(target)
+        if not o then return false end
+      end
+      local x, y = F.pos()
+      for d = 1, 4 do
+        if x + DX[d] == o.x and y + DY[d] == o.y then
+          N.face(d)
+          w16(S.gSpecialVar_LastTalked, 0)
+          press('A'); idle(20)
+          if not N.free() then
+            local who = r16(S.gSpecialVar_LastTalked)
+            N.settle(opts)
+            if who == target then return true end
+          end
+        end
+      end
+      local goals = {}
+      for d = 1, 4 do goals[(o.x + DX[d]) .. ',' .. (o.y + DY[d])] = true end
+      local path = bfs(liveGrid(), x, y, N.elevation(), N.surfing(), function(px, py) return goals[px .. ',' .. py] end, {})
+      if path and path[1] then doEdge(path[1]) else idle(20) end
     end
     return false
   end

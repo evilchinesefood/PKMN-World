@@ -50,12 +50,27 @@ F.run(function()
     assert(F.boot(100), 'fresh hub boot')
     F.check('fresh save has empty party', N.partyCount() == 0)
   end
+  local retries = {}
   for i = start, #BEATS do
     local b = BEATS[i]
     L(string.format('BEAT %d/%d %s', i, #BEATS, b.name))
     local ok, err = pcall(b.run)
     if not ok then L('  beat error: ' .. tostring(err)) end
     local done = ok and (not b.done or b.done())
+    -- One retry from the previous beat's checkpoint: that reloads the exact game state, so it
+    -- only absorbs harness timing (a wandering Pokemon in a corridor). Every retry is reported.
+    local prev = i > 1 and BEATS[i - 1].name
+    if not done and prev and not os.getenv('PW_NO_RETRY') then
+      L(string.format('  RETRY %s from checkpoint %s', b.name, prev))
+      retries[#retries + 1] = b.name
+      F.shot(b.name .. '_before_retry')
+      if N.restore(prev) then
+        F.idle(30); N.debugHeal()
+        ok, err = pcall(b.run)
+        if not ok then L('  beat error (retry): ' .. tostring(err)) end
+        done = ok and (not b.done or b.done())
+      end
+    end
     log(b.name)
     if not F.check('beat ' .. b.name, done, ok and '' or tostring(err)) then
       F.reportCrash('beat_' .. b.name)
@@ -65,6 +80,7 @@ F.run(function()
     N.checkpoint(b.name)
     if TO and b.name == TO then break end
   end
-  L(string.format('TOTAL steps=%d trainer battles=%d wild=%d', N.steps, N.battles.trainer, N.battles.wild))
+  L(string.format('TOTAL steps=%d trainer battles=%d wild=%d heals=%d retries=%d %s', N.steps, N.battles.trainer,
+    N.battles.wild, N.heals or 0, #retries, table.concat(retries, ',')))
   F.finish()
 end)

@@ -46,6 +46,22 @@ without replaying the campaign. The evidence run is the one without `--from`.
   battle, instead of walking to a Pokémon Center.
 - Everything else is walking, talking and battling through the game's own scripts.
 
+## Result (October 31, 2026)
+
+One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
+`FD6A7E3409CDEC44A493B418A8386AEC` (branch `fix/johto-full-playthrough`, all fixes below applied):
+
+- **83/83 checks:** the fresh-save check and all 82 beats. No beat retried, no state edited
+  beyond the two concessions above.
+- **Play:** 9,718 steps, 139 trainer battles, 118 wild encounters. Every gym leader, the Elite
+  Four and Lance were beaten, plus Ho-Oh at Tin Tower (GOLD at Baoba's prompt). The game ends at
+  home in New Bark with `FLAG_JOHTO_CHAMPION` and `FLAG_SYS_GAME_CLEAR` set.
+- **Evidence:** [`evidence/final-run-beats.log`](evidence/final-run-beats.log) has each beat,
+  checkpoint, trainer battle and the final totals, and there are screenshots from the run.
+
+On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
+`johto-progression/run.py` 7/7 and `run_audit.py` 13/13.
+
 ## Bugs found and fixed
 
 Each one was found in play, confirmed against the source, fixed, and re-played.
@@ -67,3 +83,20 @@ Each one was found in play, confirmed against the source, fixed, and re-played.
    Blackthorn, and so to the eighth badge, was shut. It had been moved there when the static
    overworld Pokémon were moved out of walls; its upstream tile is inside the cliff. It now stands
    in the dead-end nook at (64,13). `../lua/IcePathDoor.lua` covers it.
+4. **Kurt's Fast Ball could lock the game.** After the Slowpoke Well, Kurt's gift was an ON_FRAME
+   script keyed only on the story state. If the POKé BALLS pocket was full (16 ball types and no
+   Fast Ball), the gift failed, the state stayed put, and the script fired again on the next
+   frame. The player saw "take it", then "The BAG is full", forever, and could never open the
+   Bag to make room. A long-time player carrying many ball types could hit it. The gift now runs
+   once per entry to the house: a full bag gives control back, and the gift is offered again on
+   the next visit. `kurt_fast_ball.lua` covers it.
+
+## Not bugs, recorded so nobody chases them again
+
+- The Tin Tower guard sage returns to his template tile on paper, but `ON_TRANSITION` moves him
+  aside again with `setobjectxyperm` once the Clear Bell has been shown.
+- An ambient Pidgey wanders on the Burned Tower's one-tile-wide steps and can stand in the way
+  for a while. It always moves on.
+- Overworld wild encounters sometimes leave the script context waiting after
+  `InteractWithOverworldWildEncounter` fails to start a battle. The player's controls are
+  unlocked, so nothing is stuck.

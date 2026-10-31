@@ -1,0 +1,402 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] run starts with a party
+BEAT errand-mr-pokemon
+  [PASS] errand-mr-pokemon: no crash on arrival
+  CHAIN GAP errand-mr-pokemon: VAR_CHERRYGROVE_CITY_STATE=1 was not set by the preceding beats; staging it
+  CHAIN GAP errand-mr-pokemon: VAR_NEWBARKTOWN_LABSTATE=2 was not set by the preceding beats; staging it
+  CHAIN GAP errand-mr-pokemon: FLAG_JOHTO_STARTER_CHOSEN was not set by the preceding beats; staging it
+  [PASS] Route30_MrPokemonsHouse entered
+  [PASS] errand advances Cherrygrove
+  [PASS] errand advances the lab
+  [PASS] errand-mr-pokemon: script finishes
+  [PASS] errand-mr-pokemon: no crash after script
+  [PASS] errand-mr-pokemon: script context free
+  [PASS] errand-mr-pokemon: control returns
+BEAT errand-theft-return
+  [PASS] errand-theft-return: no crash on arrival
+  [PASS] NewBarkTown_Lab entered
+  [PASS] theft return advances the lab
+  [PASS] Egg return unlocks the adventure
+  [PASS] errand-theft-return: script finishes
+  [PASS] errand-theft-return: no crash after script
+  [PASS] errand-theft-return: script context free
+  [PASS] errand-theft-return: control returns
+BEAT sprout-tower
+  [PASS] sprout-tower: no crash on arrival
+  CHAIN GAP sprout-tower: VAR_SPROUT_TOWER=1 was not set by the preceding beats; staging it
+  CHAIN GAP sprout-tower: FLAG_HIDE_SPROUT_TOWER_SILVER was not set by the preceding beats; staging it
+  [PASS] SproutTower_3F entered
+  [PASS] Sage Li battle happens
+  [PASS] sprout-tower: script finishes
+  [PASS] sprout-tower: no crash after script
+  [PASS] sprout-tower: script context free
+  [PASS] sprout-tower: control returns
+BEAT gym-Falkner
+  [PASS] gym-Falkner: no crash on arrival
+  [PASS] Falkner positioned beside leader
+  [PASS] Falkner battle reaches the command menu
+  [PASS] Falkner subordinate cleared 867
+  [PASS] Falkner subordinate cleared 856
+  [PASS] Falkner leaves the Hoenn Gym trainers alone
+  [PASS] Falkner awards its badge
+  [PASS] gym-Falkner: script finishes
+  [PASS] gym-Falkner: no crash after script
+  [PASS] gym-Falkner: script context free
+  [PASS] gym-Falkner: control returns
+BEAT togepi-egg
+  [PASS] togepi-egg: no crash on arrival
+  [PASS] VioletCity_PokemonCenter entered
+  [PASS] Togepi Egg received
+  [PASS] togepi-egg: script finishes
+  [PASS] togepi-egg: no crash after script
+  [PASS] togepi-egg: script context free
+  [PASS] togepi-egg: control returns
+BEAT kurt-slowpoke-well
+  [PASS] kurt-slowpoke-well: no crash on arrival
+  CHAIN GAP kurt-slowpoke-well: VAR_AZALEA_TOWN_STATE=1 was not set by the preceding beats; staging it
+  [PASS] AzaleaTown_KurtsHouse entered
+  [PASS] Well Rocket removed
+  [PASS] kurt-slowpoke-well: script finishes
+  [PASS] kurt-slowpoke-well: no crash after script
+  [PASS] kurt-slowpoke-well: script context free
+  [PASS] kurt-slowpoke-well: control returns
+BEAT gym-Bugsy
+  [PASS] gym-Bugsy: no crash on arrival
+  [PASS] Bugsy positioned beside leader
+  [PASS] Bugsy battle reaches the command menu
+  [PASS] Bugsy subordinate cleared 869
+  [PASS] Bugsy subordinate cleared 1766
+  [PASS] Bugsy subordinate cleared 1765
+  [PASS] Bugsy subordinate cleared 870
+  [PASS] Bugsy leaves the Hoenn Gym trainers alone
+  [PASS] Bugsy awards its badge
+  [PASS] gym-Bugsy: script finishes
+  [PASS] gym-Bugsy: no crash after script
+  [PASS] gym-Bugsy: script context free
+  [PASS] gym-Bugsy: control returns
+BEAT ilex-cut
+  [PASS] ilex-cut: no crash on arrival
+  CHAIN GAP ilex-cut: VAR_ILEX_FOREST_FARFETCHD=2 was not set by the preceding beats; staging it
+  [PASS] IlexForest entered
+  [PASS] Cut received
+  [PASS] Ilex advances
+  [PASS] ilex-cut: script finishes
+  [PASS] ilex-cut: no crash after script
+  [PASS] ilex-cut: script context free
+  [PASS] ilex-cut: control returns
+BEAT gym-Whitney
+  [PASS] gym-Whitney: no crash on arrival
+  [PASS] Whitney positioned beside leader
+  [PASS] Whitney battle reaches the command menu
+  [PASS] Whitney reaches her crying state
+  [PASS] Whitney exit advances badge state
+  [PASS] Whitney subordinate cleared 897
+  [PASS] Whitney subordinate cleared 1767
+  [PASS] Whitney subordinate cleared 1768
+  [PASS] Whitney subordinate cleared 1769
+  [PASS] Whitney leaves the Hoenn Gym trainers alone
+  [PASS] Whitney awards its badge
+  [PASS] gym-Whitney: script finishes
+  [PASS] gym-Whitney: no crash after script
+  [PASS] gym-Whitney: script context free
+  [PASS] gym-Whitney: control returns
+BEAT sudowoodo
+  [PASS] sudowoodo: no crash on arrival
+  [PASS] GoldenrodCity_FlowerShop entered
+  [PASS] Squirt Bottle received
+  [PASS] Route36 entered
+  [PASS] Sudowoodo is a battle
+  [PASS] Sudowoodo clears the road
+  [PASS] sudowoodo: script finishes
+  [PASS] sudowoodo: no crash after script
+  [PASS] sudowoodo: script context free
+  [PASS] sudowoodo: control returns
+CHECKPOINT mid-arc saving in 83/2
+  [PASS] mid-arc: Save icon present
+BOOTED grp=83 map=2 pos=(39,21)
+  [PASS] mid-arc: Continue boots
+  mid-arc saved in 83/2, continued in 83/2
+  [PASS] mid-arc: Continue returns control
+  [PASS] mid-arc: no crash after Continue
+  shot JohtoContinuous_1_mid-arc_continue
+BEAT burned-tower-beasts
+  [PASS] burned-tower-beasts: no crash on arrival
+  CHAIN GAP burned-tower-beasts: VAR_ECRUTEAK_CITY_STATE=3 was not set by the preceding beats; staging it
+  [PASS] BurnedTower_B1F entered
+  [PASS] beasts released
+  [PASS] Ecruteak advances
+  [PASS] burned-tower-beasts: script finishes
+  [PASS] burned-tower-beasts: no crash after script
+  [PASS] burned-tower-beasts: script context free
+  [PASS] burned-tower-beasts: control returns
+BEAT gym-Morty
+  [PASS] gym-Morty: no crash on arrival
+  [PASS] Morty positioned beside leader
+  [PASS] Morty battle reaches the command menu
+  [PASS] Morty subordinate cleared 934
+  [PASS] Morty subordinate cleared 941
+  [PASS] Morty subordinate cleared 1069
+  [PASS] Morty subordinate cleared 1057
+  [PASS] Morty leaves the Hoenn Gym trainers alone
+  [PASS] Morty awards its badge
+  [PASS] gym-Morty: script finishes
+  [PASS] gym-Morty: no crash after script
+  [PASS] gym-Morty: script context free
+  [PASS] gym-Morty: control returns
+BEAT theater-surf
+  [PASS] theater-surf: no crash on arrival
+  CHAIN GAP theater-surf: VAR_ECRUTEAK_CITY_THEATER=1 was not set by the preceding beats; staging it
+  [PASS] EcruteakCity_Theater entered
+  [PASS] theater Rocket is a battle
+  [PASS] theater advances
+  [PASS] EcruteakCity_Theater entered
+  [PASS] Surf granted
+  [PASS] theater-surf: script finishes
+  [PASS] theater-surf: no crash after script
+  [PASS] theater-surf: script context free
+  [PASS] theater-surf: control returns
+BEAT cianwood-pharmacy
+  [PASS] cianwood-pharmacy: no crash on arrival
+  CHAIN GAP cianwood-pharmacy: VAR_OLIVINE_CITY_STATE=3 was not set by the preceding beats; staging it
+  [PASS] CianwoodShop entered
+  [PASS] medicine collected
+  [PASS] cianwood-pharmacy: script finishes
+  [PASS] cianwood-pharmacy: no crash after script
+  [PASS] cianwood-pharmacy: script context free
+  [PASS] cianwood-pharmacy: control returns
+BEAT gym-Chuck
+  [PASS] gym-Chuck: no crash on arrival
+  [PASS] Chuck positioned beside leader
+  [PASS] Chuck battle reaches the command menu
+  [PASS] Chuck subordinate cleared 971
+  [PASS] Chuck subordinate cleared 968
+  [PASS] Chuck subordinate cleared 969
+  [PASS] Chuck subordinate cleared 1067
+  [PASS] Chuck leaves the Hoenn Gym trainers alone
+  [PASS] Chuck awards its badge
+  [PASS] gym-Chuck: script finishes
+  [PASS] gym-Chuck: no crash after script
+  [PASS] gym-Chuck: script context free
+  [PASS] gym-Chuck: control returns
+BEAT lighthouse-ampharos
+  [PASS] lighthouse-ampharos: no crash on arrival
+  [PASS] lighthouse entered
+  [PASS] Ampharos healed
+  [PASS] Olivine advances
+  [PASS] lighthouse-ampharos: script finishes
+  [PASS] lighthouse-ampharos: no crash after script
+  [PASS] lighthouse-ampharos: script context free
+  [PASS] lighthouse-ampharos: control returns
+BEAT gym-Jasmine
+  [PASS] gym-Jasmine: no crash on arrival
+  [PASS] Jasmine positioned beside leader
+  [PASS] Jasmine battle reaches the command menu
+  [PASS] Jasmine leaves the Hoenn Gym trainers alone
+  [PASS] Jasmine awards its badge
+  [PASS] gym-Jasmine: script finishes
+  [PASS] gym-Jasmine: no crash after script
+  [PASS] gym-Jasmine: script context free
+  [PASS] gym-Jasmine: control returns
+BEAT gym-Pryce
+  [PASS] gym-Pryce: no crash on arrival
+  [PASS] Pryce positioned beside leader
+  [PASS] Pryce battle reaches the command menu
+  [PASS] Pryce subordinate cleared 1770
+  [PASS] Pryce subordinate cleared 975
+  [PASS] Pryce subordinate cleared 1771
+  [PASS] Pryce subordinate cleared 999
+  [PASS] Pryce subordinate cleared 1772
+  [PASS] Pryce leaves the Hoenn Gym trainers alone
+  [PASS] Pryce awards its badge
+  [PASS] gym-Pryce: script finishes
+  [PASS] gym-Pryce: no crash after script
+  [PASS] gym-Pryce: script context free
+  [PASS] gym-Pryce: control returns
+BEAT rocket-generator
+  [PASS] rocket-generator: no crash on arrival
+  CHAIN GAP rocket-generator: VAR_MAHOGANY_TOWN_STATE=13 was not set by the preceding beats; staging it
+  CHAIN GAP rocket-generator: VAR_ELECTRODES_FAINTED=3 was not set by the preceding beats; staging it
+  [PASS] MahoganyHideout_B2F entered
+  [PASS] generator shut down
+  [PASS] Glacier Badge is held before the hideout finale
+  [PASS] hideout completion reaches 15 with the badge held -- state=15
+  [PASS] rocket-generator: script finishes
+  [PASS] rocket-generator: no crash after script
+  [PASS] rocket-generator: script context free
+  [PASS] rocket-generator: control returns
+BEAT radio-petrel
+  [PASS] radio-petrel: no crash on arrival
+  CHAIN GAP radio-petrel: VAR_GOLDENROD_CITY_STATE=6 was not set by the preceding beats; staging it
+  [PASS] GoldenrodCity_RadioTower_5F entered
+  [PASS] Petrel is a battle
+  [PASS] Goldenrod advances to 7
+  [PASS] radio-petrel: script finishes
+  [PASS] radio-petrel: no crash after script
+  [PASS] radio-petrel: script context free
+  [PASS] radio-petrel: control returns
+BEAT radio-director
+  [PASS] radio-director: no crash on arrival
+  CHAIN GAP radio-director: VAR_GOLDENROD_CITY_STATE=9 was not set by the preceding beats; staging it
+  [PASS] GoldenrodCity_UndergroundStorage entered
+  [PASS] GoldenrodCity_RadioTower_3F entered
+  [PASS] Card Key opens the shutter
+  [PASS] radio-director: script finishes
+  [PASS] radio-director: no crash after script
+  [PASS] radio-director: script context free
+  [PASS] radio-director: control returns
+BEAT radio-archer
+  [PASS] radio-archer: no crash on arrival
+  [PASS] GoldenrodCity_RadioTower_5F entered
+  [PASS] Archer is a battle
+  [PASS] Goldenrod advances to 10
+  [PASS] radio-archer: script finishes
+  [PASS] radio-archer: no crash after script
+  [PASS] radio-archer: script context free
+  [PASS] radio-archer: control returns
+CHECKPOINT late-arc saving in 84/22
+  [PASS] late-arc: Save icon present
+BOOTED grp=83 map=2 pos=(39,21)
+  [PASS] late-arc: Continue boots
+  late-arc saved in 84/22, continued in 83/2
+  [PASS] late-arc: Continue returns control
+  [PASS] late-arc: no crash after Continue
+  shot JohtoContinuous_2_late-arc_continue
+BEAT gym-Clair
+  [PASS] gym-Clair: no crash on arrival
+  [PASS] Clair positioned beside leader
+  [PASS] Clair battle reaches the command menu
+  [PASS] Clair subordinate cleared 1007
+  [PASS] Clair subordinate cleared 1011
+  [PASS] Clair subordinate cleared 1073
+  [PASS] Clair subordinate cleared 1017
+  [PASS] Clair subordinate cleared 1015
+  [PASS] Clair leaves the Hoenn Gym trainers alone
+  [PASS] Clair opens Dragons Den
+  [PASS] gym-Clair: script finishes
+  [PASS] gym-Clair: no crash after script
+  [PASS] gym-Clair: script context free
+  [PASS] gym-Clair: control returns
+BEAT dragons-den
+  [PASS] dragons-den: no crash on arrival
+  [PASS] DragonsDen_Shrine entered
+  [PASS] Rising Badge awarded
+  [PASS] Blackthorn advances
+  [PASS] dragons-den: script finishes
+  [PASS] dragons-den: no crash after script
+  [PASS] dragons-den: script context free
+  [PASS] dragons-den: control returns
+BEAT kimono-gauntlet
+  [PASS] kimono-gauntlet: no crash on arrival
+  CHAIN GAP kimono-gauntlet: VAR_ECRUTEAK_CITY_THEATER=5 was not set by the preceding beats; staging it
+  [PASS] EcruteakCity_Theater entered
+  [PASS] all five Kimono battles play -- battles=5
+  [PASS] theater reaches 7
+  [PASS] kimono-gauntlet: script finishes
+  [PASS] kimono-gauntlet: no crash after script
+  [PASS] kimono-gauntlet: script context free
+  [PASS] kimono-gauntlet: control returns
+BEAT elm-master-ball
+  [PASS] elm-master-ball: no crash on arrival
+  CHAIN GAP elm-master-ball: VAR_NEWBARKTOWN_LABSTATE=7 was not set by the preceding beats; staging it
+  [PASS] NewBarkTown_Lab entered
+  [PASS] lab advances to 8
+  [PASS] elm-master-ball: script finishes
+  [PASS] elm-master-ball: no crash after script
+  [PASS] elm-master-ball: script context free
+  [PASS] elm-master-ball: control returns
+BEAT elm-ss-ticket
+  [PASS] elm-ss-ticket: no crash on arrival
+  CHAIN GAP elm-ss-ticket: VAR_NEWBARKTOWN_LABSTATE=10 was not set by the preceding beats; staging it
+  [PASS] NewBarkTown_Lab entered
+  [PASS] lab advances to 11
+  [PASS] elm-ss-ticket: script finishes
+  [PASS] elm-ss-ticket: no crash after script
+  [PASS] elm-ss-ticket: script context free
+  [PASS] elm-ss-ticket: control returns
+  CHAIN GAP league: VAR_LEAGUE_STATE=1 was not set by the preceding beats; staging it
+BEAT league-entrance
+  [PASS] league-entrance: no crash on arrival
+  [PASS] Route 27 entered
+  [PASS] first-steps trigger stepped on
+  [PASS] Route 27 clears the League approach
+  [PASS] Plateau Centre entered
+  stopped at (32,2) on the way to the door
+  [PASS] walking the door reaches Will's Room -- at 99/5, wanted 99/5
+  [PASS] league-entrance: script finishes
+  [PASS] league-entrance: no crash after script
+  [PASS] league-entrance: script context free
+  [PASS] league-entrance: control returns
+BEAT league-WillsRoom
+  [PASS] league-WillsRoom: no crash on arrival
+  [PASS] JohtoPokemonLeague_WillsRoom is a battle
+  [PASS] JohtoPokemonLeague_WillsRoom advances the League
+  [PASS] league-WillsRoom: script finishes
+  [PASS] league-WillsRoom: no crash after script
+  [PASS] league-WillsRoom: script context free
+  [PASS] league-WillsRoom: control returns
+BEAT league-KogasRoom
+  [PASS] league-KogasRoom: no crash on arrival
+  [PASS] JohtoPokemonLeague_KogasRoom is a battle
+  [PASS] JohtoPokemonLeague_KogasRoom advances the League
+  [PASS] league-KogasRoom: script finishes
+  [PASS] league-KogasRoom: no crash after script
+  [PASS] league-KogasRoom: script context free
+  [PASS] league-KogasRoom: control returns
+BEAT league-BrunosRoom
+  [PASS] league-BrunosRoom: no crash on arrival
+  [PASS] JohtoPokemonLeague_BrunosRoom is a battle
+  [PASS] JohtoPokemonLeague_BrunosRoom advances the League
+  [PASS] league-BrunosRoom: script finishes
+  [PASS] league-BrunosRoom: no crash after script
+  [PASS] league-BrunosRoom: script context free
+  [PASS] league-BrunosRoom: control returns
+BEAT league-KarensRoom
+  [PASS] league-KarensRoom: no crash on arrival
+  [PASS] JohtoPokemonLeague_KarensRoom is a battle
+  [PASS] JohtoPokemonLeague_KarensRoom advances the League
+  [PASS] league-KarensRoom: script finishes
+  [PASS] league-KarensRoom: no crash after script
+  [PASS] league-KarensRoom: script context free
+  [PASS] league-KarensRoom: control returns
+BEAT league-champion
+  [PASS] league-champion: no crash on arrival
+  [PASS] Lance is a battle
+  [PASS] Johto Champion recorded
+  [PASS] Hall of Fame leaves the League Black Belt hidden
+  [PASS] league-champion: script finishes
+  [PASS] league-champion: no crash after script
+  [PASS] league-champion: script context free
+  [PASS] league-champion: control returns
+CHECKPOINT champion saving in 75/0
+  [PASS] champion: Save icon present
+  boot: cleared an on-arrival scene in 21 B presses
+BOOTED grp=75 map=0 pos=(20,12)
+  [PASS] champion: Continue boots
+  champion saved in 75/0, continued in 75/0
+  [PASS] champion: Continue returns control
+  [PASS] champion: no crash after Continue
+  shot JohtoContinuous_3_champion_continue
+  [PASS] champion save Continues
+  [PASS] Johto Champion persists
+  shot JohtoContinuous_4_champion_end
+CHAIN GAPS: 18
+  gap errand-mr-pokemon: VAR_CHERRYGROVE_CITY_STATE=1
+  gap errand-mr-pokemon: VAR_NEWBARKTOWN_LABSTATE=2
+  gap errand-mr-pokemon: FLAG_JOHTO_STARTER_CHOSEN
+  gap sprout-tower: VAR_SPROUT_TOWER=1
+  gap sprout-tower: FLAG_HIDE_SPROUT_TOWER_SILVER
+  gap kurt-slowpoke-well: VAR_AZALEA_TOWN_STATE=1
+  gap ilex-cut: VAR_ILEX_FOREST_FARFETCHD=2
+  gap burned-tower-beasts: VAR_ECRUTEAK_CITY_STATE=3
+  gap theater-surf: VAR_ECRUTEAK_CITY_THEATER=1
+  gap cianwood-pharmacy: VAR_OLIVINE_CITY_STATE=3
+  gap rocket-generator: VAR_MAHOGANY_TOWN_STATE=13
+  gap rocket-generator: VAR_ELECTRODES_FAINTED=3
+  gap radio-petrel: VAR_GOLDENROD_CITY_STATE=6
+  gap radio-director: VAR_GOLDENROD_CITY_STATE=9
+  gap kimono-gauntlet: VAR_ECRUTEAK_CITY_THEATER=5
+  gap elm-master-ball: VAR_NEWBARKTOWN_LABSTATE=7
+  gap elm-ss-ticket: VAR_NEWBARKTOWN_LABSTATE=10
+  gap league: VAR_LEAGUE_STATE=1
+VERDICT JohtoContinuous: 314/314 PASS

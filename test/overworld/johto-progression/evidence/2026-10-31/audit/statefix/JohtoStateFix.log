@@ -1,0 +1,52 @@
+CASE pryce
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] positioned beside Pryce
+  [PASS] Pryce is a battle
+  [PASS] Pryce victory script finishes
+  [PASS] Glacier Badge awarded
+  VAR_MAHOGANY_TOWN_STATE after Pryce = 5
+  [PASS] beating Pryce mid-hideout leaves the hideout arc intact -- got 5, wanted 5
+  shot JohtoStateFix_1_pryce
+CASE hideout-then-pryce
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Rocket Hideout B2F entered
+  [PASS] generator finale finishes
+  badge=false -> VAR_MAHOGANY_TOWN_STATE=14
+  [PASS] hideout completion leaves the town at 14 without the badge -- got 14, wanted 14
+  shot JohtoStateFix_2_hideout-then-pryce
+CASE pryce-then-hideout
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Rocket Hideout B2F entered
+  [PASS] generator finale finishes
+  badge=true -> VAR_MAHOGANY_TOWN_STATE=15
+  [PASS] hideout completion reaches 15 when the Glacier Badge is already held -- got 15, wanted 15
+  shot JohtoStateFix_3_pryce-then-hideout
+CASE electrode
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Rocket Hideout B2F entered
+  [PASS] an Electrode is present before the battle
+  VAR_ELECTRODES_FAINTED=1 hideFlag1=true
+  [PASS] the count advanced by exactly one -- count=1
+  [PASS] a beaten Electrode sets its hide flag, so it cannot respawn
+  shot JohtoStateFix_4_electrode
+CASE ssaqua
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] S.S. Aqua Room NW entered
+  VAR_SSAQUA_STATE after Stanly = 5
+  [PASS] beating Stanly does not rewind the voyage -- got 5, wanted 5
+  [PASS] Stanly stays gone after the battle
+  shot JohtoStateFix_5_ssaqua
+CASE ilex
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Ilex Forest entered
+  object at the (42,39) corridor: false
+  [PASS] no stray object in the Ilex corridor on a fresh save -- got false, wanted false
+  [PASS] FLAG_HIDE_ILEX_FOREST_FARFETCHD_2 registered at new game
+  shot JohtoStateFix_6_ilex
+VERDICT JohtoStateFix: 21/21 PASS

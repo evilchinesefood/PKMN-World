@@ -1,0 +1,51 @@
+{
+  "base_commit": "a0557b387c30b2b943f159e85bf3777200ea9c13",
+  "rom_md5": "CBF96BB4C1391D2C3B1FE86B8F16AFDA",
+  "rom_sha256": "587ac344543038df56dd15083b68f70792320876de049314b50a36ee83c9cc8c",
+  "heal_source_sha256": "208a4e3a1593e75e04326b2296f103636541292497d47645fc37acb74816f345",
+  "suites": [
+    {
+      "suite": "playthrough",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true
+    },
+    {
+      "suite": "nickname",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true
+    },
+    {
+      "suite": "mom-gender0",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true
+    },
+    {
+      "suite": "mom-gender1",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true
+    },
+    {
+      "suite": "defeat-gender0",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true
+    },
+    {
+      "suite": "defeat-gender1",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true
+    },
+    {
+      "suite": "core-loop",
+      "passed": true,
+      "exit_code": 0,
+      "matching_rom_sentinel": true,
+      "fixture_md5": "BAFB185FCCC651297F222872432319BC"
+    }
+  ]
+}

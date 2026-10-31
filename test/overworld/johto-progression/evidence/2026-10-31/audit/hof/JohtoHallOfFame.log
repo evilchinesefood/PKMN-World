@@ -1,0 +1,52 @@
+HOF CASE clean
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  party count 1
+  [PASS] clean: Champion room entered -- 0
+  [PASS] clean: reached Lance
+  [PASS] clean: Lance is a battle
+  [PASS] clean: ceremony returns to the field
+  [PASS] clean: Johto Champion recorded
+  clean ended at map 75/0 cb2=08192468 gDamagedSaveSectors=0 gSaveCounter=1
+  shot JohtoHallOfFame_1_hof_clean
+HOF CASE egg
+  boot: cleared an on-arrival scene in 21 B presses
+BOOTED grp=75 map=0 pos=(20,12)
+  [PASS] egg: gift scene finishes -- 0
+  [PASS] egg: gift received
+  [PASS] egg: party has starter and Egg
+  party count 2
+  [PASS] egg: Champion room entered -- 0
+  [PASS] egg: reached Lance
+  [PASS] egg: Lance is a battle
+  [PASS] egg: ceremony returns to the field
+  [PASS] egg: Johto Champion recorded
+  egg ended at map 75/0 cb2=08192468 gDamagedSaveSectors=0 gSaveCounter=2
+  shot JohtoHallOfFame_2_hof_egg
+HOF CASE presaved
+BOOTED grp=75 map=0 pos=(20,12)
+  party count 1
+  presaved: 1 of 1 save attempts landed, counter 2 -> 3
+  [PASS] presaved: all 1 pre-ceremony saves landed -- 1 landed, counter 2 -> 3
+  before ceremony: gSaveCounter=3 gDamagedSaveSectors=0
+  [PASS] presaved: Champion room entered -- 0
+  [PASS] presaved: reached Lance
+  [PASS] presaved: Lance is a battle
+  [PASS] presaved: ceremony returns to the field
+  [PASS] presaved: Johto Champion recorded
+  presaved ended at map 75/0 cb2=08192468 gDamagedSaveSectors=0 gSaveCounter=4
+  shot JohtoHallOfFame_3_hof_presaved
+HOF CASE manysaves
+BOOTED grp=75 map=0 pos=(20,12)
+  party count 1
+  manysaves: 3 of 3 save attempts landed, counter 4 -> 7
+  [PASS] manysaves: all 3 pre-ceremony saves landed -- 3 landed, counter 4 -> 7
+  before ceremony: gSaveCounter=7 gDamagedSaveSectors=0
+  [PASS] manysaves: Champion room entered -- 0
+  [PASS] manysaves: reached Lance
+  [PASS] manysaves: Lance is a battle
+  [PASS] manysaves: ceremony returns to the field
+  [PASS] manysaves: Johto Champion recorded
+  manysaves ended at map 75/0 cb2=08192468 gDamagedSaveSectors=0 gSaveCounter=8
+  shot JohtoHallOfFame_4_hof_manysaves
+VERDICT JohtoHallOfFame: 25/25 PASS

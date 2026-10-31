@@ -1,0 +1,35 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Black Belt staged as hidden before the ceremony
+  [PASS] JohtoPokemonLeague_WillsRoom door scene finishes -- 0
+  [PASS] JohtoPokemonLeague_WillsRoom battle and victory finish
+  [PASS] JohtoPokemonLeague_WillsRoom League state advances
+  [PASS] JohtoPokemonLeague_WillsRoom returns movement
+  shot JohtoLeagueAudit_1_elite_1
+  [PASS] JohtoPokemonLeague_KogasRoom door scene finishes -- 0
+  [PASS] JohtoPokemonLeague_KogasRoom battle and victory finish
+  [PASS] JohtoPokemonLeague_KogasRoom League state advances
+  [PASS] JohtoPokemonLeague_KogasRoom returns movement
+  shot JohtoLeagueAudit_2_elite_2
+  [PASS] JohtoPokemonLeague_BrunosRoom door scene finishes -- 0
+  [PASS] JohtoPokemonLeague_BrunosRoom battle and victory finish
+  [PASS] JohtoPokemonLeague_BrunosRoom League state advances
+  [PASS] JohtoPokemonLeague_BrunosRoom returns movement
+  shot JohtoLeagueAudit_3_elite_3
+  [PASS] JohtoPokemonLeague_KarensRoom door scene finishes -- 0
+  [PASS] JohtoPokemonLeague_KarensRoom battle and victory finish
+  [PASS] JohtoPokemonLeague_KarensRoom League state advances
+  [PASS] JohtoPokemonLeague_KarensRoom returns movement
+  shot JohtoLeagueAudit_4_elite_4
+  [PASS] Lance battle and ceremony return to field
+  [PASS] Johto Champion recorded
+  shot JohtoLeagueAudit_5_champion_end
+  [PASS] Hall of Fame leaves the League Black Belt hidden
+  [PASS] Champion return restores movement
+  boot: cleared an on-arrival scene in 21 B presses
+BOOTED grp=75 map=0 pos=(20,12)
+  [PASS] Champion save Continues in New Bark
+  [PASS] Johto Champion persists after Continue
+  [PASS] Champion Continue returns movement
+  shot JohtoLeagueAudit_6_champion_continue
+VERDICT JohtoLeagueAudit: 24/24 PASS

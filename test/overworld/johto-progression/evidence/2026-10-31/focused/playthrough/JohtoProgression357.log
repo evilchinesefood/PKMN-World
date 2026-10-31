@@ -1,0 +1,74 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh save has empty party
+johto_arrival map=76/4 pos=(1,6) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_1_johto_arrival
+  [PASS] Johto attendant arrives in bedroom
+  [PASS] bedroom player control
+clock_completed map=76/4 pos=(10,2) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_2_clock_completed
+  [PASS] clock setup returns to field
+downstairs map=76/3 pos=(10,2) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_3_downstairs
+  [PASS] stairs reach first floor
+mom_intro map=76/3 pos=(10,4) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_4_mom_intro
+  [PASS] Mom intro returns control
+newbark_town map=75/0 pos=(20,12) cb2=08192468 script=083cf615 status=0
+  shot JohtoProgression357_5_newbark_town
+  [PASS] home exit reaches town
+elm_lab map=76/0 pos=(6,12) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_6_elm_lab
+  [PASS] Elm lab entered
+    leg BLOCKED Down at (6,4)->(6,7)
+elm_intro map=76/0 pos=(6,4) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_7_elm_intro
+  [PASS] Elm intro completed
+starter map=76/0 pos=(8,5) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_8_starter
+  [PASS] Elm gives one real starter
+  [PASS] starter selection releases control
+elm_errand map=76/0 pos=(6,4) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_9_elm_errand
+  [PASS] Elm errand returns control
+lab_exit map=75/0 pos=(10,10) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_10_lab_exit
+  [PASS] starter and potion allow town return
+route29 map=75/2 pos=(67,17) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_11_route29
+  [PASS] walk reaches Route 29
+first_wild_battle map=75/2 pos=(65,21) cb2=08081728 script=00000000 status=2
+  shot JohtoProgression357_12_first_wild_battle
+  [PASS] first wild battle starts naturally
+turn 1 moves=33,45,0,0
+turn 2 moves=33,45,0,0
+turn 3 moves=33,45,0,0
+turn 4 moves=33,45,0,0
+turn 5 moves=33,45,0,0
+turn 6 moves=33,45,0,0
+turn 7 moves=33,45,0,0
+turn 8 moves=33,45,0,0
+turn 9 moves=33,45,0,0
+turn 10 moves=33,45,0,0
+turn 11 moves=33,45,0,0
+turn 12 moves=33,45,0,0
+turn 13 moves=33,45,0,0
+turn 14 moves=33,45,0,0
+turn 15 moves=33,45,0,0
+first_defeat_recovery map=76/3 pos=(8,4) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_13_first_defeat_recovery
+  [PASS] first battle is lost through real combat -- outcome=2
+  [PASS] first defeat returns home
+  [PASS] first defeat restores player control
+  [PASS] post-defeat Mom dialogue starts
+  [PASS] post-defeat Mom dialogue completes
+continued_after_defeat map=75/0 pos=(20,12) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_14_continued_after_defeat
+  [PASS] progression continues outside home
+BOOTED grp=75 map=0 pos=(20,12)
+  [PASS] real Johto save reloads in town
+  [PASS] starter persists across save reload
+  [PASS] continued save returns movement control
+johto_continue map=75/0 pos=(20,12) cb2=08192468 script=00000000 status=2
+  shot JohtoProgression357_15_johto_continue
+VERDICT JohtoProgression357: 24/24 PASS

@@ -907,6 +907,8 @@ return function(F, S)
       -- strictTriggers: never fall back to a path over a live trigger (puzzle switches).
       if not path and not opts.strictTriggers then path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, opts) end
       if not path then
+        -- A resumable assertf crash screen keeps the overworld callback, so it looks like a wall.
+        if F.reportCrash and F.reportCrash('walk') then error('crash screen during walk at ' .. N.mapName()) end
         stuckReport(tag .. ' no-path')
         local objs = {}
         for _, o in ipairs(N.objects()) do objs[#objs + 1] = string.format('%d@(%d,%d)', o.localId, o.x, o.y) end

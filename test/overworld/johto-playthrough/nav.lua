@@ -202,7 +202,8 @@ return function(F, S)
     for i = 0, no - 1 do
       local a = op + i * O.ote_size
       if r8(a + 3) == 0 then
-        info.objs[#info.objs + 1] = { localId = r8(a), gfx = r16(a + 1), x = rs16(a + 4), y = rs16(a + 6), flag = r16(a + 0x14) }
+        info.objs[#info.objs + 1] = { localId = r8(a), gfx = r16(a + 1), x = rs16(a + 4), y = rs16(a + 6),
+                                      movement = r8(a + 9), script = r32(a + 0x10), flag = r16(a + 0x14) }
       end
     end
     local nw, wp = r8(ev + 1), r32(ev + 8)
@@ -235,7 +236,12 @@ return function(F, S)
     for y = 0, live.h - 1 do
       for x = 0, live.w - 1 do t[x + y * live.w] = live.get(x, y) end
     end
-    N.mapMemory[g * 256 + m] = { w = live.w, h = live.h, tiles = t }
+    -- Where objects really stood (scripts move NPCs off their template tiles, e.g. the Tin Tower
+    -- guard stepping aside); keep earlier sightings of objects now off camera.
+    local prev = N.mapMemory[g * 256 + m]
+    local objs = prev and prev.objs or {}
+    for _, o in ipairs(N.objects()) do objs[o.localId] = { x = o.x, y = o.y } end
+    N.mapMemory[g * 256 + m] = { w = live.w, h = live.h, tiles = t, objs = objs }
   end
 
   local function staticGrid(info)
@@ -277,6 +283,7 @@ return function(F, S)
   N.run = false   -- hold B while walking once the Running Shoes are owned
   N.canWaterfall = false
   N.canCut, N.canSmash = false, false
+  N.canWhirlpool = false
   N.avoid = {}   -- per-plan temporary blocks: "x,y" -> true
 
   -- One move from (x,y,e,s) in direction d. Returns nx, ny, ne, ns, kind or nil.
@@ -298,6 +305,15 @@ return function(F, S)
       return lx, ly, (le == 15) and e or le, s, 'jump'
     end
     local o = occ[tx .. ',' .. ty]
+    if type(o) == 'table' and s and N.canWhirlpool and o.script == P.EventScript_Whirlpool then
+      -- A whirlpool (or one of its invisible blockers): A from here slides us three tiles across.
+      local lx, ly = x + 3 * DX[d], y + 3 * DY[d]
+      local lv = grid.get(lx, ly)
+      if lv and (lv & 0x0C00) == 0 and surfable(grid.beh(lv & 0x3FF)) and not occ[lx .. ',' .. ly] then
+        return lx, ly, lv >> 12, true, 'whirl'
+      end
+      return nil
+    end
     if type(o) == 'table' and not s and ((o.gfx == C.OBJ_EVENT_GFX_CUTTABLE_TREE and N.canCut)
         or (o.gfx == C.OBJ_EVENT_GFX_BREAKABLE_ROCK and N.canSmash)) and not N.avoid[tx .. ',' .. ty] then
       return tx, ty, e, s, 'clear'   -- Cut the tree / smash the rock, then step in
@@ -328,12 +344,17 @@ return function(F, S)
     if s then
       if surfable(b) then
         if mismatch and te ~= 1 then return nil end
-      else
-        if not mismatch then return nil end   -- CanStopSurfing needs an elevation step onto land
+      elseif mismatch then
+        -- CanStopSurfing: an elevation step onto a default-elevation (3) tile.
+        if te ~= 3 then return nil end
         kind = 'land'
       end
+      -- Otherwise a non-water tile at the surfer's own elevation (a waterfall's foot) is ridden over.
+
     else
-      if surfable(b) then
+      -- Surfing starts only across an elevation step (IsPlayerFacingSurfableFishableWater); a
+      -- surfable tile with no step, like a bridge at elevation 15, is simply walked on.
+      if surfable(b) and mismatch then
         if not N.canSurf then return nil end
         kind = 'surf'
       elseif mismatch then return nil end
@@ -382,21 +403,31 @@ return function(F, S)
     return t
   end
 
+  -- Movement types that keep an object on its template tile (wanderers are re-planned around live).
+  local STATIONARY = {}
+  for name, v in pairs(C) do
+    if name:match('^MOVEMENT_TYPE_') and (name:find('FACE') or name:find('LOOK') or name:find('NONE')
+        or name:find('IN_PLACE') or name:find('BERRY') or name:find('INVISIBLE')) then STATIONARY[v] = true end
+  end
+
   local function occupancy(grid)
     local occ = {}
     if grid.live then
       local seen = {}
+      local tpl = {}
+      for _, t in ipairs(header(F.grp(), F.mapn()).objs) do tpl[t.localId] = t end
       for _, o in ipairs(N.objects()) do
         seen[o.localId] = true
+        o.script = tpl[o.localId] and tpl[o.localId].script
         occ[o.x .. ',' .. o.y] = o
         if o.px ~= o.x or o.py ~= o.y then occ[o.px .. ',' .. o.py] = o end
       end
       -- Objects off camera are not spawned yet but will be by the time we get there (they matter
       -- on ice, where they are what stops a slide): block their template tiles too.
       for _, t in ipairs(header(F.grp(), F.mapn()).objs) do
-        if not seen[t.localId] and (t.flag == 0 or not N.flag(t.flag)) then
+        if not seen[t.localId] and STATIONARY[t.movement] and (t.flag == 0 or not N.flag(t.flag)) then
           local k = t.x .. ',' .. t.y
-          occ[k] = occ[k] or true
+          occ[k] = occ[k] or t
         end
       end
     end
@@ -408,8 +439,8 @@ return function(F, S)
     opts = opts or {}
     local occ = opts.occ or occupancy(grid)
     if opts.allowObj then for k in pairs(opts.allowObj) do occ[k] = nil end end
-    local function key(x, y, s) return x .. ',' .. y .. (s and 's' or '') end
-    local start = key(sx, sy, ss)
+    local function key(x, y, s, e) return x .. ',' .. y .. (s and 's' or '') .. ',' .. (e or '') end
+    local start = key(sx, sy, ss, se)
     local prev = { [start] = false }
     local q = { { sx, sy, se, ss } }
     local head = 1
@@ -418,7 +449,7 @@ return function(F, S)
       local n = q[head]; head = head + 1
       local x, y, e, s = n[1], n[2], n[3], n[4]
       if goal(x, y, s) and head > 1 then
-        local path, k = {}, key(x, y, s)
+        local path, k = {}, key(x, y, s, e)
         while prev[k] do
           local p = prev[k]
           table.insert(path, 1, { d = p.d, x = p.x, y = p.y, kind = p.kind })
@@ -429,9 +460,9 @@ return function(F, S)
       for d = 1, 4 do
         local nx, ny, ne, ns, kind = stepFrom(grid, occ, x, y, e, s, d)
         if nx then
-          local k = key(nx, ny, ns)
+          local k = key(nx, ny, ns, ne)
           if prev[k] == nil then
-            prev[k] = { from = key(x, y, s), d = d, x = nx, y = ny, kind = kind }
+            prev[k] = { from = key(x, y, s, e), d = d, x = nx, y = ny, kind = kind }
             q[#q + 1] = { nx, ny, ne, ns }
           end
         end
@@ -523,6 +554,8 @@ return function(F, S)
              foeTypes = { r8(b1 + O.bm_types), r8(b1 + O.bm_types + 1), r8(b1 + O.bm_types + 2) } }
   end
 
+  -- Slots the game refused this turn (disabled, Taunt, Torment, Choice lock): skip them.
+  N.badSlots = {}
   local function bestMoveSlot()
     local b0 = bmon(N.activeBattler)
     local foe = bmon(1)
@@ -532,7 +565,7 @@ return function(F, S)
     for i = 0, 3 do
       local mv = r16(b0 + O.bm_moves + 2 * i)
       local pp = r8(b0 + O.bm_pp + i)
-      if mv ~= 0 and pp > 0 then
+      if mv ~= 0 and pp > 0 and not N.badSlots[i] then
         local info = N.MOVES[mv]
         local score = 1
         if info then
@@ -619,13 +652,16 @@ return function(F, S)
         if fight then
           press('Up'); idle(4); press('Left'); idle(4); press('A'); idle(20)
           for _ = 1, 30 do if isCtl('HandleInputChooseMove') then break end; idle(2) end
-          if isCtl('HandleInputChooseMove') then chooseMove(bestMoveSlot()) end
+          N.badSlots = {}
+          if isCtl('HandleInputChooseMove') then N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot) end
         else
           press('Down'); idle(4); press('Right'); idle(4); press('A'); idle(30)
         end
         frames = frames + 60
       elseif isCtl('HandleInputChooseMove') then
-        chooseMove(bestMoveSlot()); frames = frames + 40
+        -- Back at the move list without a new turn: the last pick was refused.
+        if N.lastSlot then N.badSlots[N.lastSlot] = true end
+        N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot); frames = frames + 40
       elseif isCtl('HandleInputChooseTarget') or isCtl('HandleInputShowEntireFieldTargets') or isCtl('HandleInputShowTargets') then
         press('A'); idle(20); frames = frames + 22
       elseif isCtl('PlayerHandleYesNoInput') then
@@ -777,6 +813,10 @@ return function(F, S)
       press('A'); idle(30)
       N.settle({ policy = function(t, k) if k == 'yesno' then return 'yes' end return 0 end })
       waitStill(240)
+    elseif e.kind == 'whirl' then
+      N.face(e.d); press('A'); idle(30)
+      N.settle({ policy = function(t, k) if k == 'yesno' then return 'yes' end return 0 end })
+      waitStill(200); idle(180)   -- an early d-pad press re-triggers the slide (JohtoWhirlpool.lua)
     elseif e.kind == 'clear' then
       N.face(e.d); press('A'); idle(30)
       N.settle({ policy = function(t, k) if k == 'yesno' then return 'yes' end return 0 end })
@@ -961,7 +1001,7 @@ return function(F, S)
   -- the reached tile or nil. passGoal lets the goal tile itself read solid (doors in walls).
   local reachCache = {}
   local function staticReach(info, sx, sy, key, goal, surf, passGoal)
-    local k = string.format('%d:%d:%d:%d:%s:%s', info.g, info.m, sx, sy, key, tostring(surf))
+    local k = string.format('%d:%d:%d:%d:%s:%s:%s', info.g, info.m, sx, sy, key, tostring(surf), tostring(N.planIgnoreObjects))
     local c = reachCache[k]
     if c ~= nil then return c or nil end
     local grid = staticGrid(info)
@@ -972,10 +1012,14 @@ return function(F, S)
     N.canSurf, N.passGoal = surf, passGoal
     -- Objects that are currently shown block their template tile (sages, guards, scenery).
     local occ = {}
-    for _, o in ipairs(info.objs) do
+    local mem = N.mapMemory[info.g * 256 + info.m]
+    for _, o in ipairs(N.planIgnoreObjects and {} or info.objs) do
       local clearable = (o.gfx == C.OBJ_EVENT_GFX_CUTTABLE_TREE and N.canCut)
         or (o.gfx == C.OBJ_EVENT_GFX_BREAKABLE_ROCK and N.canSmash)
-      if (o.flag == 0 or not N.flag(o.flag)) and not clearable then occ[o.x .. ',' .. o.y] = true end
+      if (o.flag == 0 or not N.flag(o.flag)) and not clearable then
+        local at = mem and mem.objs and mem.objs[o.localId] or o
+        occ[at.x .. ',' .. at.y] = (o.script == P.EventScript_Whirlpool) and o or true
+      end
     end
     local path = bfs(grid, sx, sy, e, false, function(x, y) return goal(x, y) end, { occ = occ, max = 12000 })
     N.canSurf, N.passGoal = saved, savedPass
@@ -1017,6 +1061,8 @@ return function(F, S)
     return list
   end
 
+  N.exitsOf, N.staticGrid = exitsOf, staticGrid
+
   -- Edge tile test for a connection exit, and the entry tile it leads to.
   local function connGoal(info, ex)
     local d, o, dest = ex.dir, ex.offset, ex.dest
@@ -1035,6 +1081,62 @@ return function(F, S)
   end
   N.connGoal = connGoal
 
+  -- Every tile reachable from (sx,sy) on a map, with its step count. Static (layout plus
+  -- remembered changes and object templates) for other maps; live for where we stand.
+  local flood, floodLive
+  local floodCache = {}
+  local function floodGrid(grid, sx, sy, e, s, occ)
+    -- States are (tile, elevation, surfing): the same tile reached surfing at elevation 1 and on
+    -- foot at elevation 4 leads to different places (a bridge over water).
+    local reach, seen = { [sx .. ',' .. sy] = 0 }, { [sx .. ',' .. sy .. ',' .. e .. tostring(s)] = true }
+    local q, head = { { sx, sy, e, s, 0 } }, 1
+    while head <= #q and head < 60000 do
+      local n = q[head]; head = head + 1
+      for d = 1, 4 do
+        local nx, ny, ne, ns = stepFrom(grid, occ, n[1], n[2], n[3], n[4], d)
+        if nx then
+          local sk = nx .. ',' .. ny .. ',' .. ne .. tostring(ns)
+          if not seen[sk] then
+            seen[sk] = true
+            if reach[nx .. ',' .. ny] == nil then reach[nx .. ',' .. ny] = n[5] + 1 end
+            q[#q + 1] = { nx, ny, ne, ns, n[5] + 1 }
+          end
+        end
+      end
+    end
+    return reach
+  end
+  function flood(info, sx, sy, surf)
+    local k = string.format('%d:%d:%d:%d:%s:%s:%s', info.g, info.m, sx, sy, tostring(surf), tostring(N.canWaterfall), tostring(N.planIgnoreObjects))
+    if floodCache[k] then return floodCache[k] end
+    local grid = staticGrid(info)
+    local v = grid.get(sx, sy)
+    local e = v and (v >> 12) or 0
+    if e == 15 then e = 0 end
+    local startSurf = v ~= nil and surfable(grid.beh(v & 0x3FF))
+    local occ = {}
+    local mem = N.mapMemory[info.g * 256 + info.m]
+    for _, o in ipairs(N.planIgnoreObjects and {} or info.objs) do
+      local clearable = (o.gfx == C.OBJ_EVENT_GFX_CUTTABLE_TREE and N.canCut)
+        or (o.gfx == C.OBJ_EVENT_GFX_BREAKABLE_ROCK and N.canSmash)
+      if (o.flag == 0 or not N.flag(o.flag)) and not clearable then
+        local at = mem and mem.objs and mem.objs[o.localId] or o
+        occ[at.x .. ',' .. at.y] = (o.script == P.EventScript_Whirlpool) and o or true
+      end
+    end
+    local saved = N.canSurf
+    N.canSurf = surf
+    local r = floodGrid(grid, sx, sy, e, startSurf and surf, occ)
+    N.canSurf = saved
+    floodCache[k] = r
+    return r
+  end
+  N.flood = function(...) return flood(...) end
+  function floodLive()
+    local x, y = F.pos()
+    return floodGrid(liveGrid(), x, y, N.elevation(), N.surfing(), {})
+  end
+
   -- Dijkstra over (map, entry tile). Returns the first exit to take from the current position.
   function N.route(target, opts)
     opts = opts or {}
@@ -1052,44 +1154,53 @@ return function(F, S)
       table.sort(frontier, function(a, b) return a.d < b.d end)
       local n = table.remove(frontier, 1)
       visited = visited + 1
+      if N.debugRoute == 'pop' then L(string.format('    pop %s(%d,%d) d=%d', N.mapName(n.g, n.m), n.x, n.y, n.d)) end
       if n.g == tg.g and n.m == tg.m then return first[n.k], n end
       local info = header(n.g, n.m)
-      -- Group connection tiles by (dest map) so we test reachability once per edge row.
-      for _, ex in ipairs(exitsOf(info)) do
-        local reached
-        if ex.kind == 'warp' then
-          reached = staticReach(info, n.x, n.y, 'w' .. ex.x .. ',' .. ex.y,
-            function(x, y) return x == ex.x and y == ex.y end, surf, { [ex.x .. ',' .. ex.y] = true })
-        else
-          reached = staticReach(info, n.x, n.y, 'c' .. ex.g .. ',' .. ex.m, connGoal(info, ex), surf)
+      local isStart = n.g == g0 and n.m == m0 and n.x == sx and n.y == sy
+      local reach = isStart and floodLive() or flood(info, n.x, n.y, surf)
+      local function push(ex, tx, ty, exx, exy)
+        local cost = reach[tx .. ',' .. ty] + 10
+        local k = string.format('%d:%d:%d:%d', ex.g, ex.m, exx, exy)
+        if dist[k] == nil or dist[k] > n.d + cost then
+          dist[k] = n.d + cost
+          -- The first hop remembers which edge tile it planned: rows of one edge can lead into
+          -- different parts of the next map.
+          first[k] = first[n.k] or setmetatable({ edgeX = tx, edgeY = ty }, { __index = ex })
+          frontier[#frontier + 1] = { k = k, g = ex.g, m = ex.m, x = exx, y = exy, d = n.d + cost }
         end
-        if not reached and n.g == g0 and n.m == m0 and n.x == sx and n.y == sy then
-          -- From where we actually stand, ask the live map (it knows setmetatile changes and the
-          -- real elevation we are at, which the static layout does not).
-          local goal = (ex.kind == 'warp') and function(x, y) return x == ex.x and y == ex.y end or connGoal(info, ex)
-          local savedPass = N.passGoal
-          N.passGoal = (ex.kind == 'warp') and { [ex.x .. ',' .. ex.y] = true } or nil
-          local p = bfs(liveGrid(), sx, sy, N.elevation(), N.surfing(), goal, { occ = {} })
-          N.passGoal = savedPass
-          if p then
-            local last = p[#p]
-            reached = last and { x = last.x, y = last.y } or { x = sx, y = sy }
+        return true
+      end
+      for _, ex in ipairs(exitsOf(info)) do
+        local any = false
+        if ex.kind == 'warp' then
+          -- Walk onto it, or (a door in a wall) stand next to it.
+          local best
+          for d = 0, 4 do
+            local ax, ay = ex.x + (d > 0 and DX[d] or 0), ex.y + (d > 0 and DY[d] or 0)
+            local r = reach[ax .. ',' .. ay]
+            if r and (not best or r < reach[best[1] .. ',' .. best[2]]) then best = { ax, ay } end
+          end
+          if best then any = push(ex, best[1], best[2], ex.ex, ex.ey) end
+        else
+          -- Every reachable tile on the edge is a candidate: different rows can lead into
+          -- different, unconnected parts of the neighbouring map.
+          local onEdge = connGoal(info, ex)
+          for k, _ in pairs(reach) do
+            local tx, ty = k:match('(-?%d+),(-?%d+)')
+            tx, ty = tonumber(tx), tonumber(ty)
+            if onEdge(tx, ty) then
+              local exx, exy = connEntry(ex, tx, ty)
+              local dv = staticGrid(ex.dest).get(exx, exy)
+              if dv and (dv & 0x0C00) == 0 then   -- the tile across the seam must be enterable
+                any = push(ex, tx, ty, exx, exy) or any
+              end
+            end
           end
         end
         if N.debugRoute then
           L(string.format('    route %s(%d,%d) -> %s %s %s', N.mapName(n.g, n.m), n.x, n.y, ex.kind,
-            N.mapName(ex.g, ex.m), reached and (reached.x .. ',' .. reached.y) or 'UNREACHED'))
-        end
-        if reached then
-          local exx, exy = ex.ex, ex.ey
-          if ex.kind == 'conn' then exx, exy = connEntry(ex, reached.x, reached.y) end
-          local cost = math.abs(reached.x - n.x) + math.abs(reached.y - n.y) + 10
-          local k = string.format('%d:%d:%d:%d', ex.g, ex.m, exx, exy)
-          if dist[k] == nil or dist[k] > n.d + cost then
-            dist[k] = n.d + cost
-            first[k] = first[n.k] or ex
-            frontier[#frontier + 1] = { k = k, g = ex.g, m = ex.m, x = exx, y = exy, d = n.d + cost }
-          end
+            N.mapName(ex.g, ex.m), any and 'ok' or 'UNREACHED'))
         end
       end
     end
@@ -1140,7 +1251,9 @@ return function(F, S)
         local v = grid.raw(x + DX[ex.dir], y + DY[ex.dir])
         return v ~= nil and (v & 0x0C00) == 0
       end
-      if not N.walk(crossable, { tag = 'edge->' .. N.mapName(ex.g, ex.m), policy = opts.policy }) then
+      local planned = ex.edgeX and function(x, y) return x == ex.edgeX and y == ex.edgeY end
+      if not (planned and N.walk(planned, { tag = 'edge->' .. N.mapName(ex.g, ex.m), policy = opts.policy }))
+          and not N.walk(crossable, { tag = 'edge->' .. N.mapName(ex.g, ex.m), policy = opts.policy }) then
         N.walk(function(x, y) return onEdge(x, y) end, { tag = 'edge->' .. N.mapName(ex.g, ex.m), policy = opts.policy })
       end
       for _ = 1, 3 do
@@ -1265,17 +1378,23 @@ return function(F, S)
   -- Walk onto a specific warp tile on this map and make it fire. True when we went somewhere.
   function N.takeWarp(x, y, opts)
     local g0, m0 = F.grp(), F.mapn()
-    local x0, y0 = F.pos()
-    N.passGoal = { [x .. ',' .. y] = true }
-    N.walk(function(px, py) return px == x and py == y end, { tag = string.format('warp(%d,%d)', x, y), allowWarp = true })
-    N.passGoal = nil
-    idle(30)
-    local px, py = F.pos()
-    if F.grp() == g0 and F.mapn() == m0 and px == x and py == y then N.pushWarp() end
+    for attempt = 1, 3 do
+      N.passGoal = { [x .. ',' .. y] = true }
+      N.walk(function(px, py) return px == x and py == y end, { tag = string.format('warp(%d,%d)', x, y), allowWarp = true })
+      N.passGoal = nil
+      idle(30)
+      if F.grp() ~= g0 or F.mapn() ~= m0 then break end
+      local px, py = F.pos()
+      if px == x and py == y then
+        if N.pushWarp() then waitStill(60); break end
+      end
+      idle(60)   -- something (a wandering Pokémon) was in the way: try again
+    end
     waitStill(60)
     if not N.free() then N.settle(opts) end
-    local nx, ny = F.pos()
-    return F.grp() ~= g0 or F.mapn() ~= m0 or nx ~= x0 or ny ~= y0
+    local px, py = F.pos()
+    -- Success is a map change or an internal warp (we are no longer on, or next to, the warp tile).
+    return F.grp() ~= g0 or F.mapn() ~= m0 or math.abs(px - x) + math.abs(py - y) > 1
   end
 
   function N.travel(target, opts)
@@ -1286,6 +1405,14 @@ return function(F, S)
       N.rememberMap()
       if F.grp() == tg.g and F.mapn() == tg.m then return true end
       local ex = N.route(target, opts)
+      if not ex then
+        -- Objects scripts have moved since (setobjectxyperm) still sit on their template tiles in
+        -- the static view of maps we have not seen this session: plan once without them.
+        N.planIgnoreObjects = true
+        ex = N.route(target, opts)
+        N.planIgnoreObjects = false
+        if ex then L('  travel: planned ignoring off-map objects') end
+      end
       if not ex then L('  travel: no route from ' .. N.mapName() .. ' to ' .. target); F.shot('noroute'); return false end
       L(string.format('  travel %s -> %s via %s (%s,%s) to %s', N.mapName(), target, ex.kind, tostring(ex.x or ex.dir), tostring(ex.y or ''), N.mapName(ex.g, ex.m)))
       if ex.kind == 'warp' and ex.g == F.grp() and ex.m == F.mapn() then

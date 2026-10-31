@@ -226,6 +226,7 @@ return function(F, N, C, log)
     N.canWaterfall = FL('FLAG_JOHTO_BADGE_8')
     N.canCut = FL('FLAG_JOHTO_BADGE_1')
     N.canSmash = FL('FLAG_JOHTO_BADGE_3')
+    N.canWhirlpool = FL('FLAG_JOHTO_BADGE_7')
   end
   N.beatSetup = fieldMoves
 
@@ -526,7 +527,8 @@ return function(F, N, C, log)
   beat('route27', function()
     fieldMoves()
     assert(N.travel('Route27'))           -- Surf east from New Bark; the first-steps trigger
-    assert(N.walk(function(x, y) return V('VAR_ROUTE27_STATE') >= 1 end, { tag = 'first steps', allowTriggers = true }) or true)
+    if V('VAR_ROUTE27_STATE') == 0 then assert(N.go(25, 24, { allowTriggers = true })) end
+    N.settle()
   end, function() return V('VAR_ROUTE27_STATE') >= 1 and FL('FLAG_HIDE_LEAGUE_BLACKBELT') end)
 
   beat('reception_gate', function()
@@ -572,24 +574,20 @@ return function(F, N, C, log)
     end, function() return V('VAR_LEAGUE_STATE') >= i + 1 and not at('JohtoPokemonLeague_' .. room) end)
   end
 
-  beat('lance', function()
+  -- Lance; his defeat runs straight on into the Mary/Oak scene, the walk to the Hall of Fame,
+  -- the ceremony (Champion flag, save) and the credits, ending at home in New Bark.
+  beat('lance_and_hall_of_fame', function()
     N.settle()
-    assert(N.talkFrom(6, 9, 2))
-    N.settle()
-  end, function() return V('VAR_LEAGUE_STATE') >= 6 end)
-
-  -- The Hall of Fame runs on entry, sets the Champion flag, saves and rolls the credits.
-  beat('hall_of_fame', function()
-    assert(N.takeWarp(6, 2) or at('JohtoPokemonLeague_HallOfFame'))
-    local champion = false
+    assert(N.talkFrom(6, 9, 2, { limit = 60 * 60 * 20 }))
     for _ = 1, 60 * 60 * 20 // 12 do
-      if N.flag(C.FLAG_JOHTO_CHAMPION) then champion = true end
-      if champion and F.ow() and N.free() then break end
+      if FL('FLAG_JOHTO_CHAMPION') and F.ow() and N.free() then break end
+      if F.ow() and N.free() and at('JohtoPokemonLeague_ChampionsRoom') then N.takeWarp(6, 2) end
       F.press('A', 2); F.idle(10)
     end
-    L('  Hall of Fame: champion=' .. tostring(champion) .. ' now at ' .. N.mapName())
-    N.champion = champion
-  end, function() return N.champion end)
+    N.settle()
+    L('  after the ceremony: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_JOHTO_CHAMPION'))
+      .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
+  end, function() return FL('FLAG_JOHTO_CHAMPION') and F.ow() end)
 
   return B
 end

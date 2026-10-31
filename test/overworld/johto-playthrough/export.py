@@ -28,8 +28,8 @@ for line in subprocess.check_output([NM, str(ROOT / 'pokemonworld.elf')], text=T
 
 HEADERS = ['constants/flags.h', 'constants/vars.h', 'constants/items.h', 'constants/species.h',
            'constants/moves.h', 'constants/metatile_behaviors.h', 'constants/opponents.h',
-           'constants/event_objects.h', 'constants/battle.h', 'constants/pokemon.h', 'constants/global.h', 'constants/field_specials.h']
-PREFIX = r'(?:FLAG|VAR|ITEM|SPECIES|MOVE|MB|TRAINER|OBJ_EVENT_GFX|BATTLE_TYPE|B_OUTCOME|TYPE|PLAYER_AVATAR_FLAG|COLLISION|DIR)_\w+'
+           'constants/event_objects.h', 'constants/battle.h', 'constants/pokemon.h', 'constants/global.h', 'constants/field_specials.h', 'constants/event_object_movement.h']
+PREFIX = r'(?:FLAG|VAR|ITEM|SPECIES|MOVE|MB|TRAINER|OBJ_EVENT_GFX|BATTLE_TYPE|B_OUTCOME|TYPE|PLAYER_AVATAR_FLAG|COLLISION|DIR|MOVEMENT_TYPE)_\w+'
 names = set()
 scan, seen = list(HEADERS), set()
 while scan:

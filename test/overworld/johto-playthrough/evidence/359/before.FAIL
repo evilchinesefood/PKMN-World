@@ -1,0 +1,5 @@
+FAIL 6/10 rom=CBF96BB4C1391D2C3B1FE86B8F16AFDA at=2026-10-31T20:36:30Z suite=NationalParkSootheBell
+FAILED: walk through the upper-right passage -- 
+FAILED: collect exactly one Soothe Bell -- 
+FAILED: collection hides the item -- 
+FAILED: return through the passage -- 

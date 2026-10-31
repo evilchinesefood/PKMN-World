@@ -1,0 +1,25 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh game boots
+  giveMon species=152 -> party 0 -> 1
+  setMetLevel slot 0: met level 100 -> 5
+  WARP park ok (12,49)
+  [PASS] enter National Park
+  [PASS] Soothe Bell starts uncollected
+    msg: This tree looks like it can be CUT down! Would you like to CUT it?
+    yes/no -> yes
+    msg: Chikorita used Cut!
+  [PASS] reach and cut the tree
+  [PASS] walk through the cut opening
+  [PASS] walk through the upper-right passage
+    msg: TOSH found one Soothe Bell!
+    msg: TOSH put away the Soothe Bell in the ITEMS POCKET.
+  [PASS] collect exactly one Soothe Bell
+  [PASS] collection hides the item
+soothe_bell_result player=(39,14) free=true
+ambient 21 is outside the active view
+ambient 22 current=(29,10) previous=(30,10) trainerType=0
+  shot NationalParkSootheBell_1_soothe_bell_result
+  [PASS] return through the passage
+  [PASS] player control returns
+VERDICT NationalParkSootheBell: 10/10 PASS

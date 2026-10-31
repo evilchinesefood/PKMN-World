@@ -60,7 +60,7 @@ One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
   checkpoint, trainer battle and the final totals, and there are screenshots from the run.
 
 On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
-`johto-progression/run.py` 7/7 and `run_audit.py` 13/13.
+`johto-progression/run.py` 7/7 and `run_audit.py` 12/12.
 
 ## Bugs found and fixed
 

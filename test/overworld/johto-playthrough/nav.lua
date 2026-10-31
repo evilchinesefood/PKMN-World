@@ -1053,8 +1053,6 @@ return function(F, S)
   end
 
   ---------------------------------------------------------------- cross-map travel
-  -- Static reachability inside one map from (sx,sy) to any tile matching goal.
-  local reachCache = {}
   -- Static reachability inside one map from (sx,sy). goal(x,y) picks the target tile(s); returns
   -- the reached tile or nil. passGoal lets the goal tile itself read solid (doors in walls).
   local reachCache = {}
@@ -1143,6 +1141,13 @@ return function(F, S)
   -- remembered changes and object templates) for other maps; live for where we stand.
   local flood, floodLive
   local floodCache = {}
+  -- Reachability depends on field moves, hide flags and remembered maps, none of which are in the
+  -- cache keys: start every planning pass from empty caches.
+  local function resetPlanCaches()
+    for k in pairs(floodCache) do floodCache[k] = nil end
+    for k in pairs(reachCache) do reachCache[k] = nil end
+  end
+  N.resetPlanCaches = resetPlanCaches
   local function floodGrid(grid, sx, sy, e, s, occ)
     -- States are (tile, elevation, surfing): the same tile reached surfing at elevation 1 and on
     -- foot at elevation 4 leads to different places (a bridge over water).
@@ -1198,6 +1203,7 @@ return function(F, S)
   -- Dijkstra over (map, entry tile). Returns the first exit to take from the current position.
   function N.route(target, opts)
     opts = opts or {}
+    resetPlanCaches()
     local tg = MAPS[target]
     assert(tg, 'unknown map ' .. tostring(target))
     local g0, m0 = F.grp(), F.mapn()
@@ -1366,6 +1372,7 @@ return function(F, S)
   -- between "floors" of one map, like the Olivine Lighthouse) when it cannot be walked to.
   function N.goFar(tx, ty, opts)
     opts = opts or {}
+    N.resetPlanCaches()
     local g, m = F.grp(), F.mapn()
     local info = header(g, m)
     local function atT(x, y) return x == tx and y == ty end
@@ -1579,6 +1586,7 @@ return function(F, S)
     local path = F.out .. 'ckpt_' .. name .. '.ss'
     local ok = client.loadstate(path)
     idle(10)
+    N.resetPlanCaches()
     L(string.format('RESTORED %s (%s) at %s (%d,%d)', name, tostring(ok), N.mapName(), F.pos(), select(2, F.pos())))
     return ok
   end

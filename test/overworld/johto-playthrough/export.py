@@ -49,12 +49,12 @@ def build(src, td):
     c, exe = Path(td) / 'c.c', Path(td) / 'c'
     c.write_text('\n'.join(src))
     return exe, subprocess.run(['cc', '-w', '-std=gnu17', '-I', str(ROOT / 'include'), '-I', str(ROOT / 'gflib'),
-                                '-DALL_REGIONS=1', '-DMODERN=1', '-ferror-limit=0', '-o', str(exe), str(c)],
+                                '-DALL_REGIONS=1', '-DMODERN=1', '-o', str(exe), str(c)],
                                capture_output=True, text=True)
 
 
 with tempfile.TemporaryDirectory() as td:
-    for _ in range(6):
+    for _ in range(60):
         exe, r = build(src, td)
         if r.returncode == 0:
             break

@@ -158,11 +158,12 @@ return function(F, N, C, log)
     assert(N.travel('GoldenrodCity'))
   end, function() return V('VAR_GOLDENROD_CITY_STATE') >= 1 end)
 
-  -- The receptionist's quiz unblocks the Gym door. Answered truthfully, from what each question asks.
+  -- The receptionist's quiz unblocks the Gym door. Answered from what the game has told the player:
+  -- this Kurt makes his BALLS from BERRIES ("I make BALLS from BERRIES"), so not apricorns.
   local function quiz(t, k)
     local l = t:lower()
     if k == 'yesno' then
-      if l:find('charmander') then return 'no' end
+      if l:find('charmander') or l:find('apricorn') then return 'no' end
       return 'yes'
     end
     return 0
@@ -406,7 +407,7 @@ return function(F, N, C, log)
     assert(N.travel('GoldenrodCity_UndergroundTunnel'))
     assert(N.travel('GoldenrodCity_RadioTower_3F'))
     assert(N.talkFrom(25, 10, 2))
-  end, function() return FL('FLAG_HIDE_RADIOTOWER_GATE') or true end)
+  end, function() return FL('FLAG_HIDE_RADIOTOWER_GATE') end)
 
   beat('archer', function()
     assert(N.takeWarp(29, 5))          -- 3F -> 4F east room

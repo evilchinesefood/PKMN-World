@@ -199,6 +199,7 @@ is clean; keep it that way.
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro Hard Mode defaults NO; outfit B is not a silent RED; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
+| [`Route41SeaReturn.lua`](#route41seareturnlua) | fresh new game | The Route 40/41 strait is two-way: surf north from a Route 41 sea arrival onto Route 40 past its arrow row. |
 | [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
 | [`SlowpokeWellRescue.lua`](#slowpokewellrescuelua) | fresh new game | Slowpoke Well Jessie/James gate, Kurt no longer seals Proton, Rocket walk-out. |
 | [`TohjoCelebi.lua`](#tohjocelebilua) | fresh new game | A full-HP Celebi follower arms the Tohjo Falls Giovanni scene. |
@@ -547,6 +548,13 @@ funcs / `sMenu` / `gWindows` before A.
 Issue #66: "The Red Gyarados is red". Lake of Rage template + spawned `graphicsId` is
 `MON|SHINY|GYARADOS`; then Set Party, start the scripted fight, and read opponent shininess.
 Dragon's Den elder Dratini (perfect-quiz shiny) is attempted only if a cheap warp works.
+
+### `Route41SeaReturn.lua`
+
+Route 40's water-arrow row is the way to Cianwood, and Route 41 row 11 / Route 40 row 61 used to be
+ocean tiles with the collision bit set, so nothing led back: a Cianwood softlock until Jasmine's badge
+unlocked Fly, which itself needs the Secret Potion from Cianwood. Warps to a sea arrival (41,12) and
+surfs north through both former walls to Route 40 y<=59. Found by `test/overworld/johto-playthrough/`.
 
 ### `Route41SurfBgm.lua`
 

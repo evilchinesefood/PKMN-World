@@ -192,6 +192,7 @@ is clean; keep it that way.
 | [`FrontierMidSave.lua`](#frontiermidsavelua) | fresh new game | A paused Battle Tower SAVE_LINK persists SaveBlock3 past the old 5-sector window. |
 | [`HubNurseMonitor.lua`](#hubnursemonitorlua) | fresh new game | World Transit hub nurse heal spawns the FRLG 32x16 monitor, not Hoenn 24x16. |
 | [`JohtoFlyTeleport.lua`](#johtoflyteleportlua) | fresh new game | Fly and Teleport land on Johto heal aprons, not Center doors. |
+| [`IcePathDoor.lua`](#icepathdoorlua) | fresh new game | Route 44's Ice Path door can be walked into: nothing stands on (68,13), its only approach tile. |
 | [`JohtoHofLegendaries.lua`](#johtohoflegendarieslua) | fresh new game | Johto HOF rematch does not re-arm already-caught Mew/Deoxys. |
 | [`JohtoMusicPass.lua`](#johtomusicpasslua) | fresh new game | Johto outdoor maps, cycling, and Radio Tower occupation play MUS_HG_*. |
 | [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
@@ -542,6 +543,13 @@ v1.5 prompt safety: intro Hard Mode defaults NO, outfit B is not a silent RED co
 one-way confirm rests on NO, EV/IV Changer START flips page. Drives the Oak intro itself —
 stock `F.boot()` would mash A+Start through the Hard Mode yes/no — reading oak-speech task
 funcs / `sMenu` / `gWindows` before A.
+
+### `IcePathDoor.lua`
+
+The Ice Path door on Route 44, warp 0 at (68,12), is entered only from (68,13). A scenery Pidgeotto
+(object 24, flag 0) sat on that tile after the July re-pointing of static overworld Pokemon (its upstream
+tile, (68,9), is inside the cliff), sealing the only land route to Blackthorn. Arrives by debug warp,
+steps back and walks into the door. Found by `test/overworld/johto-playthrough/`.
 
 ### `RedGyarados.lua`
 

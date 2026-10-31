@@ -1,0 +1,25 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+PROBE radiotower-fresh
+  [PASS] Radio Tower 1F entered
+  objects radiotower-fresh: 0@(22,6) 1@(22,8) 2@(23,8) 3@(19,10) 4@(14,10) 5@(13,8) 6@(16,7) 7@(17,7) 8@(22,6)
+  [PASS] FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1 is registered on a fresh save
+  [PASS] no object on the 2F stairs tile
+  [PASS] the 2F stairs tile can be entered on a fresh save -- ended at (22,5)
+  shot JohtoHideFlags_1_radiotower_fresh
+PROBE radiotower-regression
+  objects radiotower-regression: 0@(22,6) 1@(22,8) 2@(23,8) 3@(22,5) 4@(19,10) 5@(14,10) 6@(13,8) 7@(16,7) 8@(17,7) 9@(22,6)
+  [PASS] clearing the flag puts the grunt back on the stairs -- 3
+  [PASS] the grunt blocks the stairs when he spawns -- ended at (22,6)
+  shot JohtoHideFlags_2_radiotower_regression
+PROBE champions-room-fresh
+  [PASS] Champion's Room entered
+  objects champions-room-fresh: 0@(6,11) 1@(6,11) 2@(6,8)
+  [PASS] FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK is registered on a fresh save
+  [PASS] Oak and Mary are absent before Lance is fought
+  shot JohtoHideFlags_3_champions_room_fresh
+PROBE champions-room-regression
+  objects champions-room-regression: 0@(6,11) 1@(6,15) 2@(6,16) 3@(6,11) 4@(6,8)
+  [PASS] clearing the flag puts Oak and Mary back in the entrance
+  shot JohtoHideFlags_4_champions_room_regression
+VERDICT JohtoHideFlags: 10/10 PASS

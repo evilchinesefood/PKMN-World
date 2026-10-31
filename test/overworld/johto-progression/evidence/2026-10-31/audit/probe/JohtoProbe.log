@@ -1,0 +1,29 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+PROBE before-route27
+  [PASS] corridor entered before Route 27
+  objects before-route27: 0@(32,6) 1@(29,10) 2@(30,14) 3@(28,15) 4@(32,3) 5@(32,6)
+  [PASS] Black Belt spawns before Route 27 -- 4
+  [PASS] door is closed before Route 27, as intended -- stopped at (32,4)
+  shot JohtoProbe_1_before_route27
+PROBE route27-trigger
+  [PASS] Route 27 entered
+  [PASS] stepped onto the first-steps trigger
+  [PASS] Route 27 first-steps scene completes -- 0
+  [PASS] Route 27 state advances -- state=1
+  [PASS] Route 27 hides Silver from the Plateau
+  [PASS] Route 27 hides the League Black Belt
+PROBE after-route27
+  [PASS] corridor entered after Route 27
+  objects after-route27: 0@(32,6) 1@(29,10) 2@(30,14) 3@(28,15) 4@(32,6)
+  [PASS] Black Belt is gone after Route 27
+  [PASS] Elite Four door is reachable after Route 27 -- stopped at (32,2)
+  shot JohtoProbe_2_after_route27
+PROBE flag-cleared-is-self-healing
+  [PASS] corridor re-entered after clearing the flag
+  objects cleared: 0@(32,6) 1@(29,10) 2@(30,14) 3@(28,15) 4@(32,6)
+  [PASS] entering the Plateau re-hides the Black Belt
+  [PASS] the door stays reachable after the flag was cleared
+  [PASS] a cleared flag cannot re-block the Elite Four door -- stopped at (32,2)
+  shot JohtoProbe_3_flag_cleared_self_heals
+VERDICT JohtoProbe: 16/16 PASS

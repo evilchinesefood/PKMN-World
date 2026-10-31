@@ -1,0 +1,42 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+GYM Jasmine
+  [PASS] Jasmine positioned beside leader
+palette tags before talk 1200,1100,113a,1129,1105,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Jasmine battle reaches command menu
+  [PASS] Jasmine victory script finishes
+  [PASS] Jasmine preserves all corresponding Hoenn gym trainers
+  [PASS] Jasmine awards badge
+  [PASS] Jasmine returns movement
+  shot JohtoGymAudit_1_Jasmine_complete
+GYM Pryce
+  [PASS] Pryce positioned beside leader
+palette tags before talk 1200,1100,1105,112c,112a,113b,4096,1900,1905,192c,192a,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Pryce battle reaches command menu
+  [PASS] Pryce victory script finishes
+  [PASS] Pryce gym trainer cleared 1770
+  [PASS] Pryce gym trainer cleared 975
+  [PASS] Pryce gym trainer cleared 1771
+  [PASS] Pryce gym trainer cleared 999
+  [PASS] Pryce gym trainer cleared 1772
+  [PASS] Pryce preserves all corresponding Hoenn gym trainers
+  [PASS] Pryce awards badge
+  [PASS] Pryce returns movement
+  shot JohtoGymAudit_2_Pryce_complete
+GYM Chuck
+  [PASS] Chuck positioned beside leader
+palette tags before talk 1200,1100,1139,1105,1103,4096,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff,ffff
+  [PASS] arrival has no crash
+  [PASS] Chuck battle reaches command menu
+  [PASS] Chuck victory script finishes
+  [PASS] Chuck gym trainer cleared 971
+  [PASS] Chuck gym trainer cleared 968
+  [PASS] Chuck gym trainer cleared 969
+  [PASS] Chuck gym trainer cleared 1067
+  [PASS] Chuck preserves all corresponding Hoenn gym trainers
+  [PASS] Chuck awards badge
+  [PASS] Chuck returns menu control
+  shot JohtoGymAudit_3_Chuck_complete
+VERDICT JohtoGymAudit: 30/30 PASS

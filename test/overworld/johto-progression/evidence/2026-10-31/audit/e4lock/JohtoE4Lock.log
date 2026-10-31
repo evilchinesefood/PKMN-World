@@ -1,0 +1,23 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] Will's Room entered
+  [PASS] door scene finishes -- 0
+  [PASS] reached Will
+  [PASS] Will is a battle
+  [PASS] Will's victory script finishes
+  [PASS] League advances past Will -- state=2
+  [PASS] beating Will opens the north exit -- stopped at (6,12)
+  shot JohtoE4Lock_1_exit_open_before_save
+  [PASS] back inside Will's Room
+  saving at (6,10) in 99/5
+  [PASS] saved inside the cleared room
+BOOTED grp=99 map=5 pos=(6,10)
+  [PASS] Continue boots
+  continued in 99/5 at (6,10)
+  [PASS] Continue resumes inside Will's Room
+  [PASS] Continue returns control
+  north exit after reload: left=true stopped=(6,12)
+  south entry not tried: the north exit already left the room
+  shot JohtoE4Lock_2_after_reload
+  [PASS] a cleared Elite Four room can still be left after a reload -- both doors refused; the save is unrecoverable
+VERDICT JohtoE4Lock: 13/13 PASS

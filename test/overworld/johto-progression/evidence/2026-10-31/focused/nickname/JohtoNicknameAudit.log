@@ -1,0 +1,32 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh save has empty party
+johto_arrival map=76/4 pos=(1,6) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_1_johto_arrival
+  [PASS] Johto attendant arrives in bedroom
+  [PASS] bedroom player control
+clock_completed map=76/4 pos=(10,2) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_2_clock_completed
+  [PASS] clock setup returns to field
+downstairs map=76/3 pos=(10,2) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_3_downstairs
+  [PASS] stairs reach first floor
+mom_intro map=76/3 pos=(10,4) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_4_mom_intro
+  [PASS] Mom intro returns control
+newbark_town map=75/0 pos=(20,12) cb2=08192468 script=083cf615 status=0
+  shot JohtoNicknameAudit_5_newbark_town
+  [PASS] home exit reaches town
+elm_lab map=76/0 pos=(6,12) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_6_elm_lab
+  [PASS] Elm lab entered
+    leg BLOCKED Down at (6,4)->(6,7)
+elm_intro map=76/0 pos=(6,4) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_7_elm_intro
+  [PASS] Elm intro completed
+  [PASS] starter nickname screen opens
+nickname_completed map=76/0 pos=(8,5) cb2=08192468 script=00000000 status=2
+  shot JohtoNicknameAudit_8_nickname_completed
+  [PASS] nickname returns to field
+  [PASS] nickname releases player control
+VERDICT JohtoNicknameAudit: 12/12 PASS

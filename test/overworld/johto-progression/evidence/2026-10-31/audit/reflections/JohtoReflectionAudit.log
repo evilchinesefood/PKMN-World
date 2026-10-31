@@ -1,0 +1,64 @@
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] pond full pool shares parent palette
+  [PASS] pond allocation actually exhausted pool
+  [PASS] pond retries dedicated palette when space returns
+  [PASS] pond avoids crash screen
+  [PASS] pond palette ownership preserved 0
+  [PASS] pond palette ownership preserved 1
+  [PASS] pond palette ownership preserved 2
+  [PASS] pond palette ownership preserved 3
+  [PASS] pond palette ownership preserved 4
+  [PASS] pond palette ownership preserved 5
+  [PASS] pond palette ownership preserved 6
+  [PASS] pond palette ownership preserved 7
+  [PASS] pond palette ownership preserved 8
+  [PASS] pond palette ownership preserved 9
+  [PASS] pond palette ownership preserved 10
+  [PASS] pond palette ownership preserved 11
+  [PASS] pond palette ownership preserved 12
+  [PASS] pond palette ownership preserved 13
+  [PASS] pond palette ownership preserved 14
+  [PASS] pond palette ownership preserved 15
+  [PASS] ice full pool shares parent palette
+  [PASS] ice allocation actually exhausted pool
+  [PASS] ice retries dedicated palette when space returns
+  [PASS] ice avoids crash screen
+  [PASS] ice palette ownership preserved 0
+  [PASS] ice palette ownership preserved 1
+  [PASS] ice palette ownership preserved 2
+  [PASS] ice palette ownership preserved 3
+  [PASS] ice palette ownership preserved 4
+  [PASS] ice palette ownership preserved 5
+  [PASS] ice palette ownership preserved 6
+  [PASS] ice palette ownership preserved 7
+  [PASS] ice palette ownership preserved 8
+  [PASS] ice palette ownership preserved 9
+  [PASS] ice palette ownership preserved 10
+  [PASS] ice palette ownership preserved 11
+  [PASS] ice palette ownership preserved 12
+  [PASS] ice palette ownership preserved 13
+  [PASS] ice palette ownership preserved 14
+  [PASS] ice palette ownership preserved 15
+  [PASS] high bridge full pool shares parent palette
+  [PASS] high bridge allocation actually exhausted pool
+  [PASS] high bridge retries dedicated palette when space returns
+  [PASS] high bridge avoids crash screen
+  [PASS] high bridge palette ownership preserved 0
+  [PASS] high bridge palette ownership preserved 1
+  [PASS] high bridge palette ownership preserved 2
+  [PASS] high bridge palette ownership preserved 3
+  [PASS] high bridge palette ownership preserved 4
+  [PASS] high bridge palette ownership preserved 5
+  [PASS] high bridge palette ownership preserved 6
+  [PASS] high bridge palette ownership preserved 7
+  [PASS] high bridge palette ownership preserved 8
+  [PASS] high bridge palette ownership preserved 9
+  [PASS] high bridge palette ownership preserved 10
+  [PASS] high bridge palette ownership preserved 11
+  [PASS] high bridge palette ownership preserved 12
+  [PASS] high bridge palette ownership preserved 13
+  [PASS] high bridge palette ownership preserved 14
+  [PASS] high bridge palette ownership preserved 15
+  [PASS] reflection tests return control
+VERDICT JohtoReflectionAudit: 61/61 PASS

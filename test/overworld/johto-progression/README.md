@@ -1,10 +1,67 @@
-# Johto freeze and progression audit — #357
+# Johto freeze and progression audit for #357
 
-Tested October 8, 2026 on master base
-`15d3888b0d81322a04d3c71b0bce18948761ee44`, with the local changes described below.
-Parent: [#357](https://github.com/evilchinesefood/PKMN-World/issues/357).
+Parent [#357](https://github.com/evilchinesefood/PKMN-World/issues/357) requires
+runtime verification of first-battle recovery, Mom dialogue, and Johto progression.
+[PR #358](https://github.com/evilchinesefood/PKMN-World/pull/358) merged the fixes
+recorded below. [PR #360](https://github.com/evilchinesefood/PKMN-World/pull/360)
+added a continuous controller-driven campaign and three further progression fixes.
 
-## Findings and fixes
+## Current acceptance review on October 31, 2026
+
+The verification target is merged master `a0557b387c30b2b943f159e85bf3777200ea9c13`.
+This review adds evidence and corrects the acceptance record. It does not add a
+second gameplay fix for a Mom freeze that has never been independently reproduced.
+
+The [fresh focused results](evidence/2026-10-31/focused-results.json) pass all
+seven cases and 106 assertions. Each case exited successfully and produced a fresh sentinel with
+the tested ROM hash. The natural first loss returns control, Mom dialogue
+completes, the player leaves home, and Save/Continue preserves the starter and
+movement. Both genders pass the additional Mom and repeated-defeat fixtures.
+The core-loop fixture passes healing, party-menu, capture, storage, and save checks.
+
+The production ROM was built from clean source at the revision above in the
+sibling `johto-open-issues` worktree. The acceptance worktree uses copies of that
+ROM, its matching ELF, map, and generated build headers. Its gameplay source is
+unchanged. The recorded `heal_location.c` SHA-256 matches this checkout.
+The [build manifest](evidence/2026-10-31/build.json) records the production hashes.
+
+- Production ROM MD5 is `CBF96BB4C1391D2C3B1FE86B8F16AFDA`.
+- Production ROM SHA-256 is `587ac344543038df56dd15083b68f70792320876de049314b50a36ee83c9cc8c`.
+- The separate core-loop fixture MD5 is `BAFB185FCCC651297F222872432319BC`.
+- `make validate` passed. Its [raw output](evidence/2026-10-31/validate.log) is retained.
+
+The [fresh staged audit](evidence/2026-10-31/audit-results.json) passes all twelve
+suites and 737 assertions. Every suite exited successfully and produced a fresh
+sentinel for fixture MD5 `BE61E04EE032A85A665667791D933724`. The
+[fixture manifest](evidence/2026-10-31/audit-fixture-manifest.json) ties that
+patched test ROM to the same production SHA-256. The new
+[evidence index](evidence/2026-10-31/README.md) lists each suite and its limits.
+
+The missing map and generated headers initially caused fixture setup errors.
+Copying the matching build inputs corrected setup before the completed tests.
+Those attempts were setup failures, not gameplay regressions.
+
+The five historical follow-up records are [#361](https://github.com/evilchinesefood/PKMN-World/issues/361),
+[#362](https://github.com/evilchinesefood/PKMN-World/issues/362),
+[#363](https://github.com/evilchinesefood/PKMN-World/issues/363),
+[#364](https://github.com/evilchinesefood/PKMN-World/issues/364), and
+[#365](https://github.com/evilchinesefood/PKMN-World/issues/365).
+Their fixes already merged in PR #358. This acceptance PR requests closure of
+#357 and these five records. The [follow-up record](follow-up-issues.md) links
+each issue to its reproduction and regression.
+
+The [continuous campaign record](../johto-playthrough/README.md) reports 83/83
+checks and zero retries on ROM MD5 `6434B3C6074481A1E07D50CB64FC2193`.
+That October 31 run reached the Hall of Fame through all 82 story beats.
+It used a debug-given level-100 party, a met-level adjustment for obedience, and
+debug healing. It supplements the natural first-loss test and staged audit below.
+It does not establish ordinary battle balance or exhaustive optional-quest coverage.
+
+## Historical reproduction and fixes
+
+The original tests started October 8, 2026 on master base
+`15d3888b0d81322a04d3c71b0bce18948761ee44`. The following findings describe that
+baseline and the fixes later merged in PR #358.
 
 1. **First-battle defeat freeze — reproduced and fixed.** New Bark respawns beside
    Mom, but `IsLastHealLocationPlayerHouse()` omitted `HEAL_LOCATION_NEW_BARK_TOWN`.
@@ -37,9 +94,9 @@ Baseline direct dialogue also passed. The original loss freeze prevents any
 subsequent interaction, which may explain the report, but that is an inference;
 an independent Mom defect remains unverified.
 
-The two additional findings have [reviewable issue drafts](follow-up-issues.md).
-They have not been published: automatic approval review rejected public issue
-creation without explicit publication approval. #357 remains open.
+The [follow-up findings](follow-up-issues.md) record the additional confirmed
+bugs and their merged fixes. The original October audit retained local drafts;
+this acceptance review links their GitHub records.
 
 ## Second pass — staged Johto progression review (October 24, 2026)
 
@@ -140,8 +197,10 @@ PW_OUT="$PWD/_pwtest/357-regression" test/overworld/run-all.sh
 ```
 
 `run.py` executes seven opening/Mom/recovery/core-loop cases. `run_audit.py`
-executes six expanded suites (eight leaders, two alternate eastern Gym orders,
-story scenes, League, reflection exhaustion). Both clear old verdicts and require
+executes twelve expanded suites covering Gym victories, two alternate eastern
+Gym orders, story scenes, the League, reflection exhaustion, the staged
+continuous arc, League entry, Hall of Fame parties, room reloads, initial hide
+flags, and regional state transitions. Both clear old verdicts and require
 successful exit plus a fresh sentinel stamped with the tested ROM's MD5. The
 expanded runner exports matching ELF addresses, map coordinates and preprocessed
 constants, rather than reusing addresses from another build. `--suite` can target
@@ -153,7 +212,7 @@ The baseline first-loss reproduction uses the base code without the home-heal
 fix; regenerate symbols/controller addresses for that build. Pryce's baseline is
 the base plus only the home-heal fix, before reflection handling was corrected.
 
-## Build and save provenance
+## Historical build and save provenance
 
 - Final production MD5: `C763D32137B920F2CA308CE5F1C945F5`.
 - Final production SHA-256:
@@ -196,16 +255,15 @@ the base plus only the home-heal fix, before reflection handling was corrected.
 | Allocation exhaustion | Pond, ice and bridge reflections survive a full palette pool during fade, retry their dedicated palette after freeing space, and preserve palette ownership. |
 | Existing production sweep | Johto marts/healing, Azalea gym ride, Slowpoke Well rescue, Red Gyarados, Tin Tower, Tohjo Falls, field moves, travel, save migrations, menus and other regions are exercised by the existing suites. |
 
-This is a detailed **natural opening plus staged later progression audit**, not a
-continuous unmodified eight-badge campaign. The complete Farfetch'd chase,
-Underground switch puzzle, every route/trainer encounter, every starter,
-difficulty setting and optional/postgame quest were not played sequentially.
-Some major scenes are entered by test warp with prerequisites supplied. Existing
-Red Gyarados/Tin Tower/Whirlpool suites also have their own setup limits.
-Accordingly, the audit supplies broad gameplay evidence and fixes confirmed
-blockers; it does **not certify all of Johto bug-free or fully campaign-tested**.
+This runner combines a natural opening with staged later progression. Some
+major scenes use test warps and supplied prerequisites. The separate campaign
+in PR #360 subsequently covered the Farfetch'd chase and Underground switch
+puzzle in sequence, with the debug-party and healing concessions stated above.
+Neither run covers every starter, difficulty, optional quest, or postgame path.
+The evidence supports the tested recovery and progression paths, not a claim
+that all of Johto is bug-free.
 
-## Validation and evidence
+## Historical validation and evidence
 
 - `make modern -j8`: passed; existing map newline/RWX linker warnings.
 - `make validate`: passed all source validators.

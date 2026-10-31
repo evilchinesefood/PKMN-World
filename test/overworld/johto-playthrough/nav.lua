@@ -774,6 +774,9 @@ return function(F, S)
       elseif F.cb2() == (P.CB2_WallClock & ~1) then
         -- Accept the shown time; its own Yes/No opens on No, so Up first.
         press('Up'); idle(6); press('A'); idle(30); frames = frames + 36; freeFor = 0
+      elseif N.screen and N.screen() then
+        -- A campaign-specific full-screen menu (Hoenn's POKéNAV tutorial) took a step.
+        frames = frames + 60; freeFor = 0
       elseif not F.ow() then
         press('A'); idle(10); frames = frames + 12; freeFor = 0
       else
@@ -881,7 +884,8 @@ return function(F, S)
         end
         path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, { occ = occ, allowObj = opts.allowObj })
       end
-      if not path then path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, opts) end
+      -- strictTriggers: never fall back to a path over a live trigger (puzzle switches).
+      if not path and not opts.strictTriggers then path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, opts) end
       if not path then
         stuckReport(tag .. ' no-path')
         local objs = {}
@@ -1043,6 +1047,38 @@ return function(F, S)
     return false
   end
 
+  -- Talk to an object that walks a fixed loop: watch it every few frames, and the moment it is
+  -- beside us turn to it and press A; otherwise take one planned step toward it.
+  function N.intercept(target, opts)
+    opts = opts or {}
+    for i = 1, 3000 do
+      if not N.free() then N.settle(opts) end
+      local o = N.object(target)
+      if not o then return false end
+      local x, y = F.pos()
+      local hit
+      for d = 1, 4 do if x + DX[d] == o.x and y + DY[d] == o.y then hit = d end end
+      if hit then
+        if N.facing() ~= hit then press(KEY[hit], 1); idle(2) end
+        w16(S.gSpecialVar_LastTalked, 0)
+        press('A'); idle(20)
+        if not N.free() then
+          local who = r16(S.gSpecialVar_LastTalked)
+          N.settle(opts)
+          if who == target then return true end
+        end
+      elseif i % 15 == 0 then
+        local goals = {}
+        for d = 1, 4 do goals[(o.x + DX[d]) .. ',' .. (o.y + DY[d])] = true end
+        local path = bfs(liveGrid(), x, y, N.elevation(), N.surfing(), function(px, py) return goals[px .. ',' .. py] end, {})
+        if path and path[1] then doEdge(path[1]) end
+      else
+        idle(2)
+      end
+    end
+    return false
+  end
+
   -- Stand on (x,y), face d and press A (counters, signs, objects behind desks).
   function N.talkFrom(x, y, d, opts)
     opts = opts or {}
@@ -1095,12 +1131,16 @@ return function(F, S)
   end
   N.WARPB = WARPB
 
+  -- Map groups the planner may route through: Johto by default; a campaign sets its own region.
+  N.region = { lo = 75, hi = 99 }
+  local function inRegion(g) return g >= N.region.lo and g <= N.region.hi end
+
   local function exitsOf(info)
     local list = {}
     -- The current map's live grid knows tiles a script swapped in (stairs revealed by setmetatile).
     local grid = (info.g == F.grp() and info.m == F.mapn()) and liveGrid() or staticGrid(info)
     for _, w in ipairs(info.warps) do
-      if w.g >= 75 and w.g <= 99 then
+      if inRegion(w.g) then
         local dest = header(w.g, w.m)
         local dw = dest.warps[w.warpId + 1]
         local v = grid.get(w.x, w.y)
@@ -1110,7 +1150,8 @@ return function(F, S)
       end
     end
     for _, c in ipairs(info.conns) do
-      if c.g >= 75 and c.g <= 99 then
+      -- Directions 5 and 6 are dive/emerge links, not walkable edges (taken by N.dive).
+      if inRegion(c.g) and c.dir <= 4 then
         list[#list + 1] = { kind = 'conn', dir = c.dir, offset = c.offset, g = c.g, m = c.m, dest = header(c.g, c.m) }
       end
     end
@@ -1564,6 +1605,15 @@ return function(F, S)
     F.w32(addr, new ~ key)
     w16(b + 28, sum)
     L(string.format('  setMetLevel slot %d: met level %d -> %d', slot, (old >> 16) & 0x7F, lvl))
+  end
+
+  -- Swap two party slots byte for byte (each mon is encrypted with its own key, so this is safe).
+  function N.swapParty(a, b)
+    local pa, pb = P.gParties + a * O.mon_size, P.gParties + b * O.mon_size
+    for off = 0, O.mon_size - 4, 4 do
+      local va, vb = r32(pa + off), r32(pb + off)
+      F.w32(pa + off, vb); F.w32(pb + off, va)
+    end
   end
 
   function N.debugHeal()

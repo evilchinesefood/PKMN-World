@@ -115,9 +115,12 @@ RadioTower1F_EventScript_ReceptionQuiz2::
 	release
 	end
 
+@ Kurt does make his POKé BALLs from apricorns, so YES is the right answer. Upstream HnS kept the
+@ GSC answer (NO, for a question about HM01) after rewriting the question, which made this
+@ mandatory quiz - the only way past the Beauty at Whitney's Gym door - fail on a truthful answer.
 RadioTower1F_EventScript_ReceptionQuiz3::
 	msgbox RadioTower1F_Text_QuizQuestion3, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, FALSE, RadioTower1F_EventScript_ReceptionQuiz4
+	goto_if_eq VAR_RESULT, TRUE, RadioTower1F_EventScript_ReceptionQuiz4
 	msgbox RadioTower1F_Text_WrongAnswer, MSGBOX_DEFAULT
 	closemessage
 	release

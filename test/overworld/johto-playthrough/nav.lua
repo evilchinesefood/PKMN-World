@@ -278,6 +278,12 @@ return function(F, S)
     else return b == MB.MB_IMPASSABLE_EAST or b == MB.MB_IMPASSABLE_NORTHEAST or b == MB.MB_IMPASSABLE_SOUTHEAST or b == MB.MB_IMPASSABLE_WEST_AND_EAST end
   end
   local function isIce(b) return b == MB.MB_ICE end
+  -- Acro Bike tiles read as open floor but collide unless riding one (CheckAcroBikeCollision).
+  local ACRO = {}
+  for _, name in ipairs({ 'MB_BUMPY_SLOPE', 'MB_ISOLATED_VERTICAL_RAIL', 'MB_ISOLATED_HORIZONTAL_RAIL',
+                          'MB_VERTICAL_RAIL', 'MB_HORIZONTAL_RAIL' }) do
+    if MB[name] then ACRO[MB[name]] = true end
+  end
 
   N.canSurf, N.canCut, N.canSmash = false, false, false
   N.run = false   -- hold B while walking once the Running Shoes are owned
@@ -322,6 +328,7 @@ return function(F, S)
     if N.passGoal and N.passGoal[tx .. ',' .. ty] then return tx, ty, e, s, 'walk' end
     if (v & 0x0C00) ~= 0 then return nil end
     if blockedLeaving(b, OPP[d]) then return nil end
+    if ACRO[b] then return nil end
     local te = v >> 12
     local mismatch = e ~= 0 and te ~= 0 and te ~= 15 and te ~= e
     local kind = 'walk'
@@ -363,6 +370,19 @@ return function(F, S)
     local ns = s
     if kind == 'surf' then ns, ne = true, te end
     if kind == 'land' then ns = false end
+    if b == MB.MB_MUDDY_SLOPE and not ns then
+      -- On foot a muddy slope always slides us south (ForcedMovement_MuddySlope; only a Mach Bike
+      -- climbs it), so it cannot be climbed and stepping on it ends at its foot.
+      if d == 2 then return nil end
+      local sx, sy = tx, ty
+      for _ = 1, 32 do
+        local v2 = grid.get(sx, sy + 1)
+        if not v2 or (v2 & 0x0C00) ~= 0 or occ[sx .. ',' .. (sy + 1)] then break end
+        sy = sy + 1
+        if grid.beh(v2 & 0x3FF) ~= MB.MB_MUDDY_SLOPE then break end
+      end
+      return sx, sy, ne, ns, 'slide'
+    end
     if isIce(b) and not ns then
       -- Slide until the next tile refuses us or a non-ice tile is reached.
       local sx, sy, se = tx, ty, ne

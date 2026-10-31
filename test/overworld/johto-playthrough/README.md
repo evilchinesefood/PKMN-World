@@ -49,7 +49,7 @@ without replaying the campaign. The evidence run is the one without `--from`.
 ## Result (October 31, 2026)
 
 One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
-`FD6A7E3409CDEC44A493B418A8386AEC` (branch `fix/johto-full-playthrough`, all fixes below applied):
+`6434B3C6074481A1E07D50CB64FC2193` (branch `fix/johto-full-playthrough`, all fixes below applied):
 
 - **83/83 checks:** the fresh-save check and all 82 beats. No beat retried, no state edited
   beyond the two concessions above.

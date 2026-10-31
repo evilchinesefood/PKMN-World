@@ -42,9 +42,9 @@ FRESH=(SmokeBoot WorldTitle StoryProgress HubIntroTour HubIntroTourFollower HubS
        AzaleaGymRide DayCareFlowers DaycareFullPartyEgg
        EncountersIncenseLink EncountersIncenseLink_MainMenu
        FollowerOutdoors FrontierMidSave HubNurseMonitor
-       JohtoFlyTeleport JohtoHofLegendaries JohtoMusicPass
+       IcePathDoor JohtoFlyTeleport JohtoHofLegendaries JohtoMusicPass
        JohtoWhirlpool JohtoWhiteoutHeal KenyaMail
-       PromptSafetyEvIv RedGyarados Route41SurfBgm
+       PromptSafetyEvIv RedGyarados Route41SeaReturn Route41SurfBgm
        SlowpokeWellRescue TohjoCelebi
        CelioBagFull HoennIntroClock HubPassReCross
        ExpansionHealthboxes CatchTutorial DayNightTint)

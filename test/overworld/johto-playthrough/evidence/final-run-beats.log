@@ -1,0 +1,393 @@
+  [PASS] fresh save has empty party
+BEAT 1/82 to_johto
+== to_johto: NewBarkTown_PlayersHouse_2F (1,6) party=0 lead=L0 0/0 steps=1 battles=0/0
+  [PASS] beat to_johto
+BEAT 2/82 party
+  giveMon species=150 -> party 0 -> 1
+  giveMon species=384 -> party 1 -> 2
+  setMetLevel slot 0: met level 100 -> 5
+  setMetLevel slot 1: met level 100 -> 5
+== party: NewBarkTown_PlayersHouse_2F (1,6) party=2 lead=L100 354/354 steps=1 battles=0/0
+  [PASS] beat party
+BEAT 3/82 leave_home
+== leave_home: NewBarkTown (20,12) party=2 lead=L100 354/354 steps=20 battles=0/0
+  [PASS] beat leave_home
+BEAT 4/82 elm_intro
+== elm_intro: NewBarkTown_Lab (6,4) party=2 lead=L100 354/354 steps=38 battles=0/0
+  [PASS] beat elm_intro
+BEAT 5/82 starter
+== starter: NewBarkTown_Lab (8,5) party=3 lead=L100 354/354 steps=41 battles=0/0
+  [PASS] beat starter
+BEAT 6/82 elm_errand
+== elm_errand: NewBarkTown (10,10) party=3 lead=L100 354/354 steps=52 battles=0/0
+  [PASS] beat elm_errand
+BEAT 7/82 mr_pokemon
+== mr_pokemon: Route30_MrPokemonsHouse (7,6) party=3 lead=L100 354/354 steps=259 battles=0/5
+  [PASS] beat mr_pokemon
+BEAT 8/82 rival_and_police
+  battle TRAINER fight foe=0 L0 at CherrygroveCity -> outcome=1 turns=1 lead hp=354/354
+== rival_and_police: NewBarkTown_Lab (6,4) party=3 lead=L100 354/354 steps=459 battles=1/9
+  [PASS] beat rival_and_police
+BEAT 9/82 first_balls
+== first_balls: NewBarkTown (10,10) party=3 lead=L100 354/354 steps=467 battles=1/9
+  [PASS] beat first_balls
+BEAT 10/82 mom_farewell
+== mom_farewell: NewBarkTown_PlayersHouse_1F (3,2) party=3 lead=L100 354/354 steps=492 battles=1/9
+  [PASS] beat mom_farewell
+BEAT 11/82 to_violet
+  battle TRAINER fight foe=19 L4 at Route30 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=163 L2 at Route30 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=165 L3 at Route30 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=10 L2 at Route31 -> outcome=1 turns=4 lead hp=354/354
+== to_violet: VioletCity (49,46) party=3 lead=L100 354/354 steps=820 battles=5/13
+  [PASS] beat to_violet
+BEAT 12/82 sprout_tower
+  battle TRAINER fight foe=69 L3 at SproutTower_2F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=69 L3 at SproutTower_1F -> outcome=1 turns=3 lead hp=353/354
+  battle TRAINER fight foe=69 L3 at SproutTower_2F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=187 L7 at SproutTower_3F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=69 L6 at SproutTower_3F -> outcome=1 turns=1 lead hp=354/354
+== sprout_tower: SproutTower_3F (13,7) party=3 lead=L100 354/354 steps=958 battles=10/17
+  [PASS] beat sprout_tower
+BEAT 13/82 falkner
+  battle TRAINER fight foe=16 L7 at VioletCity_Gym -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=21 L9 at VioletCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at VioletCity_Gym -> outcome=1 turns=2 lead hp=354/354
+== falkner: VioletCity_Gym (9,5) party=3 lead=L100 354/354 steps=1097 battles=13/18
+  [PASS] beat falkner
+BEAT 14/82 togepi_egg
+== togepi_egg: VioletCity_PokemonCenter (9,5) party=4 lead=L100 354/354 steps=1150 battles=13/18
+  [PASS] beat togepi_egg
+BEAT 15/82 route32_gate
+== route32_gate: Route32 (27,12) party=4 lead=L100 354/354 steps=1223 battles=13/18
+  [PASS] beat route32_gate
+BEAT 16/82 azalea_arrive
+  battle TRAINER fight foe=19 L6 at Route32 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=29 L9 at Route32 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=32 L9 at Route32 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=194 L10 at Route32 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at UnionCave_1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at UnionCave_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at UnionCave_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at UnionCave_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=74 L11 at Route33 -> outcome=1 turns=2 lead hp=354/354
+== azalea_arrive: AzaleaTown (59,23) party=4 lead=L100 354/354 steps=1479 battles=22/22
+  [PASS] beat azalea_arrive
+BEAT 17/82 kurt
+== kurt: AzaleaTown_KurtsHouse (5,3) party=4 lead=L100 354/354 steps=1537 battles=22/22
+  [PASS] beat kurt
+BEAT 18/82 slowpoke_well
+  battle TRAINER fight foe=0 L0 at SlowpokeWell_B1F -> outcome=1 turns=2 lead hp=351/354
+  battle TRAINER fight foe=0 L0 at SlowpokeWell_B1F -> outcome=1 turns=8 lead hp=0/354
+  battle TRAINER fight foe=0 L0 at SlowpokeWell_B1F -> outcome=1 turns=2 lead hp=353/354
+  battle TRAINER fight foe=0 L0 at SlowpokeWell_B1F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at SlowpokeWell_B1F -> outcome=1 turns=3 lead hp=354/354
+== slowpoke_well: AzaleaTown_KurtsHouse (15,4) party=4 lead=L100 354/354 steps=1642 battles=27/24
+  [PASS] beat slowpoke_well
+BEAT 19/82 bugsy
+  battle TRAINER fight foe=0 L0 at AzaleaTown_Gym -> outcome=1 turns=4 lead hp=348/354
+== bugsy: AzaleaTown_Gym (11,7) party=4 lead=L100 354/354 steps=1698 battles=28/24
+  [PASS] beat bugsy
+BEAT 20/82 azalea_rival
+  battle TRAINER fight foe=0 L0 at AzaleaTown -> outcome=1 turns=3 lead hp=354/354
+== azalea_rival: IlexForest (22,63) party=4 lead=L100 354/354 steps=1756 battles=29/24
+  [PASS] beat azalea_rival
+BEAT 21/82 ilex_chase
+== ilex_chase: IlexForest (26,43) party=4 lead=L100 354/354 steps=1906 battles=29/29
+  [PASS] beat ilex_chase
+BEAT 22/82 ilex_cut
+== ilex_cut: Route34 (31,67) party=4 lead=L100 354/354 steps=2052 battles=29/35
+  [PASS] beat ilex_cut
+BEAT 23/82 goldenrod_arrive
+  battle TRAINER fight foe=184 L15 at Route34 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=56 L12 at Route34 -> outcome=1 turns=2 lead hp=354/354
+== goldenrod_arrive: GoldenrodCity (32,43) party=4 lead=L100 354/354 steps=2125 battles=31/37
+  [PASS] beat goldenrod_arrive
+BEAT 24/82 radio_quiz
+== radio_quiz: GoldenrodCity_RadioTower_1F (14,8) party=4 lead=L100 354/354 steps=2171 battles=31/37
+  [PASS] beat radio_quiz
+BEAT 25/82 whitney
+  battle TRAINER fight foe=113 L18 at GoldenrodCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=52 L16 at GoldenrodCity_Gym -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=161 L9 at GoldenrodCity_Gym -> outcome=1 turns=3 lead hp=353/354
+  battle TRAINER fight foe=39 L15 at GoldenrodCity_Gym -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_Gym -> outcome=1 turns=3 lead hp=354/354
+== whitney: GoldenrodCity_Gym (15,9) party=4 lead=L100 354/354 steps=2289 battles=36/37
+  [PASS] beat whitney
+BEAT 26/82 squirtbottle
+== squirtbottle: GoldenrodCity_FlowerShop (2,5) party=4 lead=L100 354/354 steps=2366 battles=36/37
+  [PASS] beat squirtbottle
+BEAT 27/82 route35_cut
+  battle TRAINER fight foe=37 L18 at Route35 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=27 L16 at Route35 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=25 L18 at Route35 -> outcome=1 turns=1 lead hp=353/354
+  battle TRAINER fight foe=50 L10 at Route35 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=126 L15 at Route35 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=193 L18 at Route35 -> outcome=1 turns=2 lead hp=352/354
+== route35_cut: Route36 (15,27) party=4 lead=L100 354/354 steps=2481 battles=42/38
+  [PASS] beat route35_cut
+BEAT 28/82 sudowoodo
+  battle TRAINER fight foe=63 L13 at Route36 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=114 L16 at Route36 -> outcome=1 turns=1 lead hp=354/354
+== sudowoodo: Route36 (39,20) party=4 lead=L100 354/354 steps=2512 battles=44/39
+  [PASS] beat sudowoodo
+BEAT 29/82 ecruteak_arrive
+== ecruteak_arrive: EcruteakCity (33,55) party=4 lead=L100 354/354 steps=2564 battles=44/39
+  [PASS] beat ecruteak_arrive
+BEAT 30/82 burned_tower
+  battle TRAINER fight foe=0 L0 at BurnedTower_1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at BurnedTower_1F -> outcome=1 turns=4 lead hp=352/354
+== burned_tower: EcruteakCity (22,15) party=4 lead=L100 352/354 steps=2708 battles=46/41
+  [PASS] beat burned_tower
+BEAT 31/82 morty
+  battle TRAINER fight foe=92 L21 at EcruteakCity_Gym -> outcome=1 turns=3 lead hp=352/354
+  battle TRAINER fight foe=93 L20 at EcruteakCity_Gym -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=200 L22 at EcruteakCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=93 L20 at EcruteakCity_Gym -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at EcruteakCity_Gym -> outcome=1 turns=4 lead hp=354/354
+== morty: EcruteakCity_Gym (4,5) party=4 lead=L100 354/354 steps=2822 battles=51/41
+  [PASS] beat morty
+BEAT 32/82 theater_surf
+  battle TRAINER fight foe=0 L0 at EcruteakCity_Theater -> outcome=1 turns=1 lead hp=354/354
+== theater_surf: EcruteakCity_Theater (10,17) party=4 lead=L100 354/354 steps=2890 battles=52/41
+  [PASS] beat theater_surf
+BEAT 33/82 olivine_arrive
+  battle TRAINER fight foe=180 L18 at Route38 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=222 L19 at Route38 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=25 L23 at Route39 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=61 L20 at Route39 -> outcome=1 turns=2 lead hp=354/354
+== olivine_arrive: OlivineCity (21,2) party=4 lead=L100 354/354 steps=3039 battles=56/41
+  [PASS] beat olivine_arrive
+BEAT 34/82 lighthouse_jasmine
+  battle TRAINER fight foe=164 L22 at OlivineCity_Lighthouse -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=61 L20 at OlivineCity_Lighthouse -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=198 L23 at OlivineCity_Lighthouse -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=58 L22 at OlivineCity_Lighthouse -> outcome=1 turns=2 lead hp=352/354
+  battle TRAINER fight foe=90 L23 at OlivineCity_Lighthouse -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=66 L22 at OlivineCity_Lighthouse -> outcome=1 turns=3 lead hp=354/354
+== lighthouse_jasmine: OlivineCity_Lighthouse (156,10) party=4 lead=L100 354/354 steps=3281 battles=62/41
+  [PASS] beat lighthouse_jasmine
+BEAT 35/82 cianwood_potion
+  battle TRAINER fight foe=0 L0 at Route40 -> outcome=1 turns=2 lead hp=354/354
+== cianwood_potion: CianwoodShop (8,9) party=4 lead=L100 354/354 steps=3519 battles=63/48
+  [PASS] beat cianwood_potion
+BEAT 36/82 chuck
+  battle TRAINER fight foe=106 L29 at CianwoodGym -> outcome=1 turns=1 lead hp=351/354
+  battle TRAINER fight foe=66 L27 at CianwoodGym -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at CianwoodGym -> outcome=1 turns=5 lead hp=342/354
+== chuck: CianwoodGym (10,3) party=4 lead=L100 354/354 steps=3568 battles=66/48
+  [PASS] beat chuck
+BEAT 37/82 fly_gift
+== fly_gift: CianwoodCity (15,45) party=4 lead=L100 354/354 steps=3590 battles=66/48
+  [PASS] beat fly_gift
+BEAT 38/82 cianwood_to_olivine
+  battle TRAINER fight foe=0 L0 at Route41 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route41 -> outcome=1 turns=2 lead hp=354/354
+== cianwood_to_olivine: OlivineCity (4,71) party=4 lead=L100 354/354 steps=3752 battles=68/53
+  [PASS] beat cianwood_to_olivine
+BEAT 39/82 deliver_medicine
+== deliver_medicine: OlivineCity_Lighthouse (156,10) party=4 lead=L100 354/354 steps=4046 battles=68/58
+  [PASS] beat deliver_medicine
+BEAT 40/82 jasmine
+  battle TRAINER fight foe=0 L0 at OlivineCity_Gym -> outcome=1 turns=5 lead hp=354/354
+== jasmine: OlivineCity_Gym (8,5) party=4 lead=L100 354/354 steps=4155 battles=69/58
+  [PASS] beat jasmine
+BEAT 41/82 mahogany_arrive
+  battle TRAINER fight foe=122 L19 at Route38 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=30 L16 at Route42 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=75 L24 at Route42 -> outcome=1 turns=2 lead hp=354/354
+== mahogany_arrive: Mahoganytown (2,10) party=4 lead=L100 354/354 steps=4459 battles=72/59
+  [PASS] beat mahogany_arrive
+BEAT 42/82 red_gyarados
+  battle TRAINER fight foe=27 L17 at Route43 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=35 L20 at Route43 -> outcome=1 turns=1 lead hp=354/354
+== red_gyarados: LakeOfRage (35,28) party=4 lead=L100 354/354 steps=4620 battles=74/66
+  [PASS] beat red_gyarados
+BEAT 43/82 lance_lake
+== lance_lake: LakeOfRage (30,38) party=4 lead=L100 354/354 steps=4635 battles=74/66
+  [PASS] beat lance_lake
+BEAT 44/82 shop_raid
+== shop_raid: MahoganyTown_Shop (5,5) party=4 lead=L100 354/354 steps=4718 battles=74/66
+  [PASS] beat shop_raid
+BEAT 45/82 hideout_b1f
+  battle TRAINER fight foe=0 L0 at MahoganyHideout_B1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MahoganyHideout_B1F -> outcome=1 turns=3 lead hp=354/354
+== hideout_b1f: MahoganyHideout_B1F (31,12) party=4 lead=L100 354/354 steps=4767 battles=76/66
+  [PASS] beat hideout_b1f
+BEAT 46/82 hideout_lance_heal
+  battle TRAINER fight foe=115 L28 at MahoganyHideout_B1F -> outcome=1 turns=1 lead hp=344/354
+== hideout_lance_heal: MahoganyHideout_B2F (9,23) party=4 lead=L100 354/354 steps=4826 battles=77/66
+  [PASS] beat hideout_lance_heal
+BEAT 47/82 hideout_passwords
+  battle TRAINER fight foe=42 L29 at MahoganyHideout_B2F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=24 L28 at MahoganyHideout_B3F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=101 L28 at MahoganyHideout_B3F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=124 L28 at MahoganyHideout_B3F -> outcome=1 turns=4 lead hp=354/354
+== hideout_passwords: MahoganyHideout_B3F (5,16) party=4 lead=L100 354/354 steps=4914 battles=81/66
+  [PASS] beat hideout_passwords
+BEAT 48/82 hideout_door
+  battle TRAINER fight foe=49 L31 at MahoganyHideout_B2F -> outcome=1 turns=1 lead hp=354/354
+== hideout_door: MahoganyHideout_B3F (12,13) party=4 lead=L100 354/354 steps=5006 battles=82/66
+  [PASS] beat hideout_door
+BEAT 49/82 hideout_petrel
+  battle TRAINER fight foe=0 L0 at MahoganyHideout_B3F -> outcome=1 turns=7 lead hp=354/354
+== hideout_petrel: MahoganyHideout_B3F (10,4) party=4 lead=L100 354/354 steps=5017 battles=83/66
+  [PASS] beat hideout_petrel
+BEAT 50/82 hideout_murkrow
+== hideout_murkrow: MahoganyHideout_B2F (16,24) party=4 lead=L100 354/354 steps=5138 battles=83/66
+  [PASS] beat hideout_murkrow
+BEAT 51/82 hideout_ariana
+  battle TRAINER fight foe=24 L31 at MahoganyHideout_B2F -> outcome=1 turns=5 lead hp=354/354
+== hideout_ariana: MahoganyHideout_B2F (12,17) party=4 lead=L100 354/354 steps=5145 battles=84/66
+  [PASS] beat hideout_ariana
+BEAT 52/82 hideout_electrodes
+== hideout_electrodes: MahoganyHideout_B2F (14,17) party=4 lead=L100 354/354 steps=5163 battles=84/69
+  [PASS] beat hideout_electrodes
+BEAT 53/82 pryce
+  battle TRAINER fight foe=86 L24 at MahoganyTown_Gym -> outcome=1 turns=3 lead hp=350/354
+  battle TRAINER fight foe=87 L28 at MahoganyTown_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MahoganyTown_Gym -> outcome=1 turns=5 lead hp=354/354
+== pryce: MahoganyTown_Gym (11,4) party=4 lead=L100 354/354 steps=5230 battles=87/69
+  [PASS] beat pryce
+BEAT 54/82 elm_radio_call
+== elm_radio_call: Mahoganytown (10,20) party=4 lead=L100 354/354 steps=5247 battles=87/69
+  [PASS] beat elm_radio_call
+BEAT 55/82 radio_petrel
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_RadioTower_1F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_RadioTower_2F -> outcome=1 turns=8 lead hp=103/354
+  battle TRAINER fight foe=190 L34 at GoldenrodCity_RadioTower_2F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=24 L35 at GoldenrodCity_RadioTower_2F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=190 L34 at GoldenrodCity_RadioTower_3F -> outcome=1 turns=4 lead hp=336/354
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_RadioTower_4F -> outcome=1 turns=8 lead hp=189/354
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_RadioTower_5F -> outcome=1 turns=7 lead hp=354/354
+== radio_petrel: GoldenrodCity_RadioTower_5F (11,10) party=4 lead=L100 354/354 steps=5665 battles=94/71
+  [PASS] beat radio_petrel
+BEAT 56/82 underground_door
+== underground_door: GoldenrodCity_UndergroundTunnel (12,11) party=4 lead=L100 354/354 steps=5801 battles=94/71
+  [PASS] beat underground_door
+BEAT 57/82 underground_switches
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_UndergroundSwitches -> outcome=1 turns=5 lead hp=348/354
+  battle TRAINER fight foe=42 L36 at GoldenrodCity_UndergroundSwitches -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=42 L36 at GoldenrodCity_UndergroundSwitches -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=42 L36 at GoldenrodCity_UndergroundSwitches -> outcome=1 turns=2 lead hp=354/354
+== underground_switches: GoldenrodCity_UndergroundSwitches (22,2) party=4 lead=L100 354/354 steps=5867 battles=98/71
+  [PASS] beat underground_switches
+BEAT 58/82 card_key
+  battle TRAINER fight foe=45 L35 at GoldenrodCity_UndergroundSwitches -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_UndergroundStorage -> outcome=1 turns=6 lead hp=227/354
+  battle TRAINER fight foe=62 L36 at GoldenrodCity_UndergroundStorage -> outcome=1 turns=5 lead hp=354/354
+== card_key: GoldenrodCity_UndergroundStorage (14,8) party=4 lead=L100 354/354 steps=5962 battles=101/71
+  [PASS] beat card_key
+BEAT 59/82 radio_shutter
+  battle TRAINER fight foe=81 L27 at GoldenrodCity_RadioTower_3F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=89 L34 at GoldenrodCity_RadioTower_3F -> outcome=1 turns=2 lead hp=354/354
+== radio_shutter: GoldenrodCity_RadioTower_3F (25,10) party=4 lead=L100 354/354 steps=6195 battles=103/71
+  [PASS] beat radio_shutter
+BEAT 60/82 archer
+  battle TRAINER fight foe=128 L35 at GoldenrodCity_RadioTower_3F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=89 L36 at GoldenrodCity_RadioTower_4F -> outcome=1 turns=5 lead hp=354/354
+  battle TRAINER fight foe=24 L39 at GoldenrodCity_RadioTower_5F -> outcome=1 turns=5 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at GoldenrodCity_RadioTower_5F -> outcome=1 turns=5 lead hp=354/354
+== archer: GoldenrodCity_RadioTower_5F (25,11) party=4 lead=L100 354/354 steps=6221 battles=107/71
+  [PASS] beat archer
+BEAT 61/82 radio_freed
+== radio_freed: GoldenrodCity_RadioTower_4F (29,6) party=4 lead=L100 354/354 steps=6235 battles=107/71
+  [PASS] beat radio_freed
+BEAT 62/82 ice_path_enter
+  battle TRAINER fight foe=18 L36 at Route44 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=12 L40 at Route44 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=5 L27 at Route44 -> outcome=1 turns=1 lead hp=354/354
+== ice_path_enter: IcePath_1F (14,24) party=4 lead=L100 354/354 steps=6766 battles=110/77
+  [PASS] beat ice_path_enter
+BEAT 63/82 ice_path_b1f
+== ice_path_b1f: IcePath_B2F (16,16) party=4 lead=L100 354/354 steps=6866 battles=110/77
+  [PASS] beat ice_path_b1f
+BEAT 64/82 ice_path_lower
+== ice_path_lower: IcePath_1F (50,18) party=4 lead=L100 354/354 steps=6936 battles=110/77
+  [PASS] beat ice_path_lower
+BEAT 65/82 ice_path_kimono
+== ice_path_kimono: IcePath_1F (49,28) party=4 lead=L100 354/354 steps=6945 battles=110/77
+  [PASS] beat ice_path_kimono
+BEAT 66/82 blackthorn_arrive
+== blackthorn_arrive: BlackthornCity (42,23) party=4 lead=L100 354/354 steps=6949 battles=110/77
+  [PASS] beat blackthorn_arrive
+BEAT 67/82 clair
+  battle TRAINER fight foe=0 L0 at BlackthornCity_Gym -> outcome=1 turns=8 lead hp=354/354
+  battle TRAINER fight foe=117 L42 at BlackthornCity_Gym -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at BlackthornCity_Gym -> outcome=1 turns=8 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at BlackthornCity_Gym -> outcome=1 turns=5 lead hp=354/354
+== clair: BlackthornCity_Gym (20,6) party=4 lead=L100 354/354 steps=7098 battles=114/77
+  [PASS] beat clair
+BEAT 68/82 dragons_den
+  battle TRAINER fight foe=0 L0 at DragonsDen_Cavern -> outcome=1 turns=4 lead hp=354/354
+== dragons_den: DragonsDen_Shrine (6,10) party=4 lead=L100 354/354 steps=7286 battles=115/80
+  [PASS] beat dragons_den
+BEAT 69/82 den_exit
+== den_exit: BlackthornCity (26,13) party=4 lead=L100 354/354 steps=7372 battles=115/82
+  [PASS] beat den_exit
+BEAT 70/82 elm_master_ball
+  battle TRAINER fight foe=176 L37 at Route45 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=111 L38 at Route45 -> outcome=1 turns=4 lead hp=335/354
+  battle TRAINER fight foe=22 L38 at Route45 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=76 L40 at Route46 -> outcome=1 turns=5 lead hp=354/354
+== elm_master_ball: NewBarkTown_Lab (6,4) party=4 lead=L100 354/354 steps=7649 battles=119/86
+  [PASS] beat elm_master_ball
+BEAT 71/82 kimono_dances
+  battle TRAINER fight foe=197 L48 at EcruteakCity_Theater -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at EcruteakCity_Theater -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at EcruteakCity_Theater -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at EcruteakCity_Theater -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at EcruteakCity_Theater -> outcome=1 turns=1 lead hp=354/354
+== kimono_dances: EcruteakCity_Theater (10,4) party=4 lead=L100 354/354 steps=8102 battles=124/88
+  [PASS] beat kimono_dances
+BEAT 72/82 tin_tower_guard
+== tin_tower_guard: EcruteakCity_SageOffice1 (16,3) party=4 lead=L100 354/354 steps=8152 battles=124/88
+  [PASS] beat tin_tower_guard
+BEAT 73/82 ho_oh
+== ho_oh: TinTower_RoofDay (10,7) party=4 lead=L100 354/354 steps=8280 battles=124/92
+  [PASS] beat ho_oh
+BEAT 74/82 route27
+== route27: Route27 (25,24) party=4 lead=L100 354/354 steps=8997 battles=124/100
+  [PASS] beat route27
+BEAT 75/82 reception_gate
+  battle TRAINER fight foe=71 L50 at Route26 -> outcome=1 turns=6 lead hp=327/354
+  battle TRAINER fight foe=78 L45 at Route26North -> outcome=1 turns=5 lead hp=354/354
+  battle TRAINER fight foe=91 L45 at Route26North -> outcome=1 turns=5 lead hp=354/354
+== reception_gate: ReceptionGate (11,13) party=4 lead=L100 354/354 steps=9343 battles=127/106
+  [PASS] beat reception_gate
+BEAT 76/82 victory_road
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_B1F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_B2F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_B1F -> outcome=1 turns=2 lead hp=310/354
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_B1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at JohtoVictoryRoad_1F -> outcome=1 turns=3 lead hp=354/354
+== victory_road: JohtoIndigoPlateau (11,18) party=4 lead=L100 354/354 steps=9635 battles=134/118
+  [PASS] beat victory_road
+BEAT 77/82 league_entry
+== league_entry: JohtoPokemonLeague_WillsRoom (6,12) party=4 lead=L100 354/354 steps=9674 battles=134/118
+  [PASS] beat league_entry
+BEAT 78/82 e4_WillsRoom
+  battle TRAINER fight foe=0 L0 at JohtoPokemonLeague_WillsRoom -> outcome=1 turns=5 lead hp=337/354
+== e4_WillsRoom: JohtoPokemonLeague_KogasRoom (6,12) party=4 lead=L100 354/354 steps=9684 battles=135/118
+  [PASS] beat e4_WillsRoom
+BEAT 79/82 e4_KogasRoom
+  battle TRAINER fight foe=0 L0 at JohtoPokemonLeague_KogasRoom -> outcome=1 turns=6 lead hp=354/354
+== e4_KogasRoom: JohtoPokemonLeague_BrunosRoom (6,12) party=4 lead=L100 354/354 steps=9694 battles=136/118
+  [PASS] beat e4_KogasRoom
+BEAT 80/82 e4_BrunosRoom
+  battle TRAINER fight foe=0 L0 at JohtoPokemonLeague_BrunosRoom -> outcome=1 turns=5 lead hp=354/354
+== e4_BrunosRoom: JohtoPokemonLeague_KarensRoom (6,12) party=4 lead=L100 354/354 steps=9704 battles=137/118
+  [PASS] beat e4_BrunosRoom
+BEAT 81/82 e4_KarensRoom
+  battle TRAINER fight foe=0 L0 at JohtoPokemonLeague_KarensRoom -> outcome=1 turns=5 lead hp=354/354
+== e4_KarensRoom: JohtoPokemonLeague_ChampionsRoom (6,19) party=4 lead=L100 354/354 steps=9714 battles=138/118
+  [PASS] beat e4_KarensRoom
+BEAT 82/82 lance_and_hall_of_fame
+  battle TRAINER fight foe=0 L0 at JohtoPokemonLeague_ChampionsRoom -> outcome=1 turns=6 lead hp=325/354
+  after the ceremony: NewBarkTown champion=true game clear=true
+== lance_and_hall_of_fame: NewBarkTown (20,12) party=4 lead=L100 354/354 steps=9718 battles=139/118
+  [PASS] beat lance_and_hall_of_fame
+TOTAL steps=9718 trainer battles=139 wild=118 heals=134 retries=0 
+VERDICT JohtoPlay: 83/83 PASS

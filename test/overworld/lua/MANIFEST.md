@@ -192,6 +192,7 @@ is clean; keep it that way.
 | [`FrontierMidSave.lua`](#frontiermidsavelua) | fresh new game | A paused Battle Tower SAVE_LINK persists SaveBlock3 past the old 5-sector window. |
 | [`HubNurseMonitor.lua`](#hubnursemonitorlua) | fresh new game | World Transit hub nurse heal spawns the FRLG 32x16 monitor, not Hoenn 24x16. |
 | [`JohtoFlyTeleport.lua`](#johtoflyteleportlua) | fresh new game | Fly and Teleport land on Johto heal aprons, not Center doors. |
+| [`IcePathDoor.lua`](#icepathdoorlua) | fresh new game | Route 44's Ice Path door can be walked into: nothing stands on (68,13), its only approach tile. |
 | [`JohtoHofLegendaries.lua`](#johtohoflegendarieslua) | fresh new game | Johto HOF rematch does not re-arm already-caught Mew/Deoxys. |
 | [`JohtoMusicPass.lua`](#johtomusicpasslua) | fresh new game | Johto outdoor maps, cycling, and Radio Tower occupation play MUS_HG_*. |
 | [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
@@ -199,6 +200,7 @@ is clean; keep it that way.
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro Hard Mode defaults NO; outfit B is not a silent RED; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
+| [`Route41SeaReturn.lua`](#route41seareturnlua) | fresh new game | The Route 40/41 strait is two-way: surf north from a Route 41 sea arrival onto Route 40 past its arrow row. |
 | [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
 | [`SlowpokeWellRescue.lua`](#slowpokewellrescuelua) | fresh new game | Slowpoke Well Jessie/James gate, Kurt no longer seals Proton, Rocket walk-out. |
 | [`TohjoCelebi.lua`](#tohjocelebilua) | fresh new game | A full-HP Celebi follower arms the Tohjo Falls Giovanni scene. |
@@ -542,11 +544,25 @@ one-way confirm rests on NO, EV/IV Changer START flips page. Drives the Oak intr
 stock `F.boot()` would mash A+Start through the Hard Mode yes/no — reading oak-speech task
 funcs / `sMenu` / `gWindows` before A.
 
+### `IcePathDoor.lua`
+
+The Ice Path door on Route 44, warp 0 at (68,12), is entered only from (68,13). A scenery Pidgeotto
+(object 24, flag 0) sat on that tile after the July re-pointing of static overworld Pokemon (its upstream
+tile, (68,9), is inside the cliff), sealing the only land route to Blackthorn. Arrives by debug warp,
+steps back and walks into the door. Found by `test/overworld/johto-playthrough/`.
+
 ### `RedGyarados.lua`
 
 Issue #66: "The Red Gyarados is red". Lake of Rage template + spawned `graphicsId` is
 `MON|SHINY|GYARADOS`; then Set Party, start the scripted fight, and read opponent shininess.
 Dragon's Den elder Dratini (perfect-quiz shiny) is attempted only if a cheap warp works.
+
+### `Route41SeaReturn.lua`
+
+Route 40's water-arrow row is the way to Cianwood, and Route 41 row 11 / Route 40 row 61 used to be
+ocean tiles with the collision bit set, so nothing led back: a Cianwood softlock until Jasmine's badge
+unlocked Fly, which itself needs the Secret Potion from Cianwood. Warps to a sea arrival (41,12) and
+surfs north through both former walls to Route 40 y<=59. Found by `test/overworld/johto-playthrough/`.
 
 ### `Route41SurfBgm.lua`
 

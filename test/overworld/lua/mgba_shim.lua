@@ -162,6 +162,9 @@ client = {
   screenshot  = function(path) core:screenshot(path) end,
   reboot_core = function() core:reset() end,
   exit        = function(code) finish(code) end,
+  -- Whole-machine checkpoints, including battery save data, for suites long enough to resume.
+  savestate   = function(path) return core:saveStateFile(path, (C.SAVESTATE and C.SAVESTATE.ALL) or 31) end,
+  loadstate   = function(path) return core:loadStateFile(path, (C.SAVESTATE and C.SAVESTATE.ALL) or 31) end,
 }
 
 -- ---- the coroutine bridge --------------------------------------------------------------------

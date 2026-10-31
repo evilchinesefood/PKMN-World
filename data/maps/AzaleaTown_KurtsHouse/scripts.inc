@@ -10,8 +10,11 @@ AzaleaTown_KurtsHouse_OnTransition::
 	goto_if_eq VAR_AZALEA_TOWN_STATE, 3, AzaleaTown_KurtsHouse_EventScript_ReturnFromWellSetup
 	end
 
+@ The Fast Ball gift runs once per entry to the house (VAR_TEMP_1 is armed on transition, see
+@ ReturnFromWellSetup). Keyed on the story state alone it re-fired every frame when the bag was
+@ full, so a player with a full POKé BALLS pocket was locked in an endless "BAG is full" loop.
 AzaleaTown_KurtsHouse_OnFrame::
-	map_script_2 VAR_AZALEA_TOWN_STATE, 3, AzaleaTown_KurtsHouse_EventScript_ReturnFromWell
+	map_script_2 VAR_TEMP_1, 1, AzaleaTown_KurtsHouse_EventScript_ReturnFromWell
 	.2byte 0
 
 AzaleaTown_KurtsHouse_EventScript_KurtBefore::
@@ -84,9 +87,12 @@ AzaleaTown_KurtsHouse_EventScript_Girl5::
 
 AzaleaTown_KurtsHouse_EventScript_ReturnFromWellSetup::
 	setobjectmovementtype LOCALID_AZALEA_TOWN_KURT, MOVEMENT_TYPE_FACE_DOWN
+	setvar VAR_TEMP_1, 1
 	end
 
+@ A full bag leaves the state at 3; the gift is offered again the next time the player comes in.
 AzaleaTown_KurtsHouse_EventScript_ReturnFromWell::
+	setvar VAR_TEMP_1, 0
 	lock
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	msgbox KurtsHouse_Text_KurtHonoredToMakeBalls, MSGBOX_DEFAULT

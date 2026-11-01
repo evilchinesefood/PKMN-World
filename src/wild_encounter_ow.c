@@ -1034,6 +1034,11 @@ void TryTriggerOverworldWildEncounter(struct ObjectEvent *obstacle, struct Objec
     if (IsPlayerFlying())
         return; // F1 guardrail 4: no overworld-encounter contact while airborne
 
+    // Whatever holds the controls (a running script, a Strength push) unlocks them when it ends,
+    // which would hand the player back mid-encounter and clear VAR_LAST_TALKED under the script.
+    if (ArePlayerFieldControlsLocked())
+        return;
+
     if (WE_OWE_NO_REPEL_DEXNAV_COLLISION && (FlagGet(DN_FLAG_SEARCHING) || REPEL_STEP_COUNT))
         return;
 

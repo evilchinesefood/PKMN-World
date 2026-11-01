@@ -484,5 +484,201 @@ return function(F, N, C, log)
     N.settle()
   end, function() return badge(6) end)
 
+  -- Coord events (25,5..8), VAR_ROUTE121_STATE == 0: the grunts at (30..31,7..8) walk off. Until
+  -- then their templates wall off the route east, so the planner cannot see Route 122 at all.
+  beat('route121_aqua', function()
+    segBMoves()
+    assert(N.travel('Route121'))
+    assert(N.go(25, 6))
+    N.settle()
+  end, function() return V('VAR_ROUTE121_STATE') >= 1 end)
+
+  -- Mt. Pyre 1F west door -> exterior -> summit; row y=7 (x 22..24) at VAR_MT_PYRE_STATE 0 plays
+  -- Archie taking the orb, and the old lady gives the Magma Emblem.
+  beat('mt_pyre', function()
+    segBMoves()
+    assert(N.travel('MtPyre_Summit'))
+    assert(N.go(23, 7))
+    N.settle()
+  end, function()
+    return V('VAR_MT_PYRE_STATE') >= 1 and FL('FLAG_RECEIVED_RED_OR_BLUE_ORB') and N.itemCount(C.ITEM_MAGMA_EMBLEM) > 0
+  end)
+
+  -- Jagged Pass climbs only on an Acro Bike, so ride the cable car and walk down from Mt. Chimney.
+  -- With the Emblem, ON_RESUME sets VAR_JAGGED_PASS_STATE 1; trigger (14,15) then opens the door.
+  beat('jagged_pass_open', function()
+    segBMoves()
+    if not (at('MtChimney_CableCarStation') or at('MtChimney') or at('JaggedPass')) then
+      assert(N.travel('Route112_CableCarStation'))
+      assert(N.talk(1))
+      N.settle()
+      assert(at('MtChimney_CableCarStation'), 'cable car arrived')
+    end
+    assert(N.travel('JaggedPass'))
+    assert(N.go(14, 15))
+    N.settle()
+  end, function() return V('VAR_JAGGED_PASS_STATE') >= 2 end)
+
+  -- Push the boulder in direction d with Strength, activating it first when it is not (every map
+  -- load clears FLAG_SYS_USE_STRENGTH). A wild battle mid-push or an A dropped while the screen
+  -- fades back in from one gets another try.
+  local function shove(d, what)
+    for _ = 1, 4 do
+      if not FL('FLAG_SYS_USE_STRENGTH') then N.face(d); N.press('A'); N.idle(20); N.settle() end
+      local x0, y0 = F.pos()
+      if FL('FLAG_SYS_USE_STRENGTH') and N.push(d) then return end
+      local x, y = F.pos()
+      local objs = {}
+      for _, o in ipairs(N.objects()) do objs[#objs + 1] = string.format('%d@(%d,%d)', o.localId, o.x, o.y) end
+      L(string.format('  shove %s: at (%d,%d) from (%d,%d) facing %d strength=%s objects %s', what, x, y, x0, y0,
+        N.facing(), tostring(FL('FLAG_SYS_USE_STRENGTH')), table.concat(objs, ' ')))
+      if x ~= x0 or y ~= y0 then return end
+      N.idle(60)
+    end
+    error('shove ' .. what)
+  end
+
+  -- 1F: boulders (5,22) (7,22) (6,23) seal the only way north, column x=5. From (7,23) push (6,23)
+  -- west, then from (6,22) push (5,22) west. Every entry respawns them (FLAG_TEMP_11..13).
+  -- Maxie (16,21) is reachable only from (15,21).
+  beat('magma_hideout', function()
+    segBMoves()
+    if not N.mapName():find('^MagmaHideout_[234]F') then
+      assert(N.travel('MagmaHideout_1F'))
+      assert(N.go(7, 23))
+      shove(3, '(6,23) west')
+      assert(N.go(6, 22))
+      shove(3, '(5,22) west')
+    end
+    assert(N.travel('MagmaHideout_4F'))
+    assert(N.talk(6, { side = 3 }), 'Maxie')
+    N.settle()
+  end, function() return FL('FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT') end)
+
+  -- Slateport ON_TRANSITION (city state 1) parks Stern (local 11) in front of the harbor door; his
+  -- interview walks us in. Column x=8 (y 11..14) at VAR_SLATEPORT_HARBOR_STATE 1: Aqua takes the sub.
+  beat('slateport_harbor', function()
+    segBMoves()
+    if N.mapName():find('^MagmaHideout') then
+      -- The boulders are back on 1F, now pushed from the north: (5,22) south, then (7,22) east.
+      assert(N.travel('MagmaHideout_1F'))
+      assert(N.go(5, 21))
+      shove(1, '(5,22) south')
+      assert(N.go(6, 22))
+      shove(4, '(7,22) east')
+    end
+    if V('VAR_SLATEPORT_CITY_STATE') < 2 then
+      assert(N.travel('SlateportCity'))
+      assert(N.talk(11), 'Captain Stern')
+      N.settle()
+    end
+    if not at('SlateportCity_Harbor') then assert(N.travel('SlateportCity_Harbor')) end
+    assert(N.go(8, 13))
+    N.settle()
+  end, function() return FL('FLAG_MET_TEAM_AQUA_HARBOR') end)
+
+  -- Step onto a same-map warp pad (Aqua Hideout, Mossdeep Gym). walk aims at the pad tile and
+  -- re-plans toward it after the jump, so stand beside it and step on once.
+  local function pad(x, y, side)
+    assert(N.approach(x, y, { side = side }), string.format('beside pad (%d,%d)', x, y))
+    N.push(N.facing())
+    for _ = 1, 40 do
+      local px, py = F.pos()
+      if math.abs(px - x) + math.abs(py - y) > 1 then break end
+      N.idle(10)
+    end
+    N.settle()
+    local px, py = F.pos()
+    assert(math.abs(px - x) + math.abs(py - y) > 1, string.format('pad (%d,%d) did not fire', x, y))
+  end
+
+  -- Surf into the water door (70,5) east of Lilycove. Matt's corner of B2F is reached only through
+  -- B1F: door (22,1); pads (27,4) (32,19); door (18,1); pad (31,8); doors (3,3) (12,1); pad (8,8).
+  beat('aqua_hideout', function()
+    segBMoves()
+    if not (at('AquaHideout_B2F') and select(1, F.pos()) >= 20) then
+      assert(N.travel('AquaHideout_1F'))
+      assert(N.takeWarp(22, 1), '1F -> B1F')
+      pad(27, 4)
+      pad(32, 19)
+      assert(N.takeWarp(18, 1), 'B1F -> B2F (18,1)')
+      pad(31, 8)
+      assert(N.takeWarp(3, 3), 'B2F -> B1F (3,3)')
+      assert(N.takeWarp(12, 1), 'B1F -> B2F (12,1)')
+      pad(8, 8)
+    end
+    assert(N.talk(1, { side = 4 }), 'Matt')
+    N.settle()
+  end, function() return FL('FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE') end)
+
+  -- Press a Mossdeep Gym floor switch n times: each press steps onto the coord event, a repeat
+  -- steps off to (ox,oy) and back. Walks never cross another switch or pad (strictTriggers).
+  local function press(sx, sy, ox, oy, n)
+    for i = 1, n do
+      local x, y = F.pos()
+      if x == sx and y == sy then assert(N.go(ox, oy, { strictTriggers = true }), 'step off switch') end
+      assert(N.go(sx, sy, { strictTriggers = true }), string.format('switch (%d,%d) press %d/%d', sx, sy, i, n))
+      N.settle()
+    end
+  end
+
+  -- Rotating statues: each colour switch turns every object on that colour's arrows one step
+  -- (src/rotating_tile_puzzle.c MoveRotatingTileObjects). Rotations survive the gym's own pads and
+  -- reset on re-entry, so the beat starts from the door. Ends at yellow 0, blue 0, green 2,
+  -- purple 3, red 3, which opens the way to Tate and Liza (23,7).
+  beat('tate_liza', function()
+    segBMoves()
+    -- Lilycove was remembered with its Wailmer wall (LilycoveCity_OnLoad paints it until the sub
+    -- escapes), which would leave no sea route east.
+    local ly = require('pwmaps').LilycoveCity
+    N.mapMemory[ly.g * 256 + ly.m] = nil
+    assert(N.travel('MossdeepCity_Gym'))
+    pad(1, 33, 2)                 -- -> (20,24)
+    press(23, 24, 22, 24, 1)      -- purple 1
+    press(15, 34, 16, 34, 2)      -- green 2
+    press(23, 24, 24, 24, 1)      -- purple 2
+    press(23, 21, 23, 22, 1)      -- purple 3
+    pad(23, 20, 1)                -- -> (9,18)
+    pad(7, 18, 4)                 -- -> (8,12)
+    press(8, 10, 8, 11, 3)        -- blue 3
+    press(8, 6, 8, 5, 3)          -- red 3
+    press(6, 7, 7, 7, 4)          -- blue 7
+    press(8, 10, 8, 9, 1)         -- blue 8 = 0
+    pad(11, 3, 1)                 -- -> (11,35)
+    pad(13, 32, 1)                -- -> (21,10)
+    assert(N.talk(1, { side = 1 }), 'Tate')
+    N.settle()
+  end, function() return badge(7) end)
+
+  -- Out by the exit pad (21,6), a coord event that warps to (7,30). Mossdeep's diagonal at
+  -- VAR_MOSSDEEP_CITY_STATE 1 (x 40..42, y 21..26) sends Maxie into the Space Center. 1F: the stair
+  -- guard (local 9). 2F: three grunts ("take us on?" -> yes), then Steven (local 4) twice: the
+  -- second talk opens the half-party picker and the multi battle beside him.
+  beat('space_center', function()
+    segBMoves()
+    if at('MossdeepCity_Gym') and select(2, F.pos()) < 12 then pad(21, 6, 1) end
+    if V('VAR_MOSSDEEP_CITY_STATE') < 2 then
+      assert(N.travel('MossdeepCity'))
+      assert(N.go(41, 23))
+      N.settle()
+    end
+    assert(N.travel('MossdeepCity_SpaceCenter_1F'))
+    if not FL('FLAG_DEFEATED_GRUNT_SPACE_CENTER_1F') then assert(N.talk(9), 'stair guard'); N.settle() end
+    assert(N.travel('MossdeepCity_SpaceCenter_2F'))
+    N.settle()
+    for _ = 1, 3 do
+      if FL('FLAG_DEFEATED_MAGMA_SPACE_CENTER') then break end
+      assert(N.talk(4), 'Steven')
+      N.settle()
+    end
+  end, function() return FL('FLAG_DEFEATED_MAGMA_SPACE_CENTER') end)
+
+  -- VAR_STEVENS_HOUSE_STATE 1: entering the house runs Steven's ON_FRAME gift of HM Dive.
+  beat('dive', function()
+    segBMoves()
+    assert(N.travel('MossdeepCity_StevensHouse'))
+    N.settle()
+  end, function() return FL('FLAG_RECEIVED_HM_DIVE') end)
+
   return B
 end

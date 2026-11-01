@@ -524,7 +524,11 @@ return function(F, N, C, log)
   -- fades back in from one gets another try.
   local function shove(d, what)
     for _ = 1, 4 do
-      if not FL('FLAG_SYS_USE_STRENGTH') then N.face(d); N.press('A'); N.idle(20); N.settle() end
+      if not FL('FLAG_SYS_USE_STRENGTH') then
+        N.face(d)
+        -- A wild battle can start mid-turn; an A facing elsewhere would wake a neighbouring boulder.
+        if N.facing() == d then N.press('A'); N.idle(20); N.settle() end
+      end
       local x0, y0 = F.pos()
       if FL('FLAG_SYS_USE_STRENGTH') and N.push(d) then return end
       local x, y = F.pos()
@@ -679,6 +683,312 @@ return function(F, N, C, log)
     assert(N.travel('MossdeepCity_StevensHouse'))
     N.settle()
   end, function() return FL('FLAG_RECEIVED_HM_DIVE') end)
+
+  -- Dive (badge 7) and Waterfall (badge 8): travel plans dive and emerge hops itself (water.lua).
+  require('water')(F, N, C)
+  local function segDMoves()
+    segBMoves()
+    N.canWaterfall = badge(8)
+  end
+
+  -- Route 128 (38,27) -> Underwater_Route128 -> water door -> surface in the cavern (setdivewarp).
+  beat('seafloor_entrance', function()
+    segDMoves()
+    assert(N.travel('SeafloorCavern_Entrance'))
+  end, function() return at('SeafloorCavern_Entrance') end)
+
+  -- Rock Smash (5,10) on the way, then (5,11) south (east seals row 11) and (12,11) east.
+  beat('seafloor_room1', function()
+    segDMoves()
+    if not at('SeafloorCavern_Room1') then assert(N.travel('SeafloorCavern_Room1')) end
+    assert(N.go(5, 10))
+    shove(1, '(5,11) south')
+    assert(N.go(11, 11))
+    shove(4, '(12,11) east')
+    assert(N.takeWarp(6, 2))
+  end, function() return at('SeafloorCavern_Room2') end)
+
+  -- Rock Smash (8,7) on the way west, then (4,5) north three times, clear of the door (6,1).
+  beat('seafloor_room2', function()
+    segDMoves()
+    assert(N.go(4, 6))
+    for i = 1, 3 do shove(2, '(4,5) north ' .. i) end
+    assert(N.takeWarp(6, 1))
+  end, function() return at('SeafloorCavern_Room6') end)
+
+  -- Currents all the way across; the loop near (14,9) feeds the door (14,8) back to the Entrance.
+  beat('seafloor_room6', function()
+    segDMoves()
+    assert(N.takeWarp(4, 1))
+  end, function() return at('SeafloorCavern_Room3') end)
+
+  -- Shelly (9,5) and a grunt (5,5) both see row 5 at x 6-7: a double battle on the way.
+  beat('seafloor_room3', function()
+    segDMoves()
+    assert(N.takeWarp(8, 1))
+  end, function() return at('SeafloorCavern_Room8') end)
+
+  -- Twelve boulders around the exit: nine pushes, never one onto (5,3) below the door.
+  beat('seafloor_room8', function()
+    segDMoves()
+    for i, p in ipairs({ { 5, 8, 2 }, { 5, 7, 4 }, { 6, 6, 3 }, { 5, 6, 2 }, { 5, 5, 3 }, { 4, 5, 2 },
+                         { 5, 5, 4 }, { 6, 5, 2 }, { 6, 4, 3 } }) do
+      assert(N.go(p[1], p[2]), 'room8 stand ' .. i)
+      shove(p[3], 'room8 push ' .. i)
+    end
+    assert(N.takeWarp(5, 2))
+  end, function() return at('SeafloorCavern_Room9') end)
+
+  -- Coord event (17,42): Archie, Kyogre, Maxie, then a warp to Route 128 (38,22), where the
+  -- ON_FRAME Steven scene sets VAR_ROUTE128_STATE 2.
+  beat('kyogre_awakens', function()
+    segDMoves()
+    N.go(17, 42, { allowTriggers = true, allowWarp = true })
+    N.settle()
+    if not at('Route128') then N.idle(120); N.settle() end
+  end, function()
+    return FL('FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN') and V('VAR_SOOTOPOLIS_CITY_STATE') >= 1
+      and V('VAR_ROUTE128_STATE') >= 2 and at('Route128')
+  end)
+
+  -- Sootopolis is entered only by Dive: Route 126 -> water door -> surface in the crater pool.
+  -- Any arrival but a Fly to (43,32) plays the Dive branch of the legendaries scene (state 1 -> 2).
+  beat('sootopolis_arrive', function()
+    segDMoves()
+    assert(N.travel('SootopolisCity'))
+    N.settle()
+  end, function() return at('SootopolisCity') and V('VAR_SOOTOPOLIS_CITY_STATE') >= 2 end)
+
+  -- Steven (20,36): his walk to the cave is written only for a player facing north or west.
+  beat('steven_sootopolis', function()
+    segDMoves()
+    assert(N.talk(7, { side = 1 }))
+    N.settle()
+  end, function() return FL('FLAG_STEVEN_GUIDES_TO_CAVE_OF_ORIGIN') end)
+
+  -- MULTI_WHERES_RAYQUAZA loops until SKY PILLAR (index 2).
+  beat('wallace_cave_of_origin', function()
+    segDMoves()
+    assert(N.travel('CaveOfOrigin_B1F'))
+    assert(N.talk(1, { policy = pick(2) }))
+    N.settle({ policy = pick(2) })
+  end, function() return FL('FLAG_WALLACE_GOES_TO_SKY_PILLAR') and V('VAR_SOOTOPOLIS_CITY_STATE') >= 3 end)
+
+  -- Route 131's ON_TRANSITION loads LAYOUT_ROUTE131_SKY_PILLAR, the only layout with the door
+  -- (36,6): the planner cannot see Sky Pillar until we stand on the route.
+  beat('to_route131', function()
+    segDMoves()
+    assert(N.travel('Route131'))
+  end, function() return at('Route131') end)
+
+  -- Outside's ON_FRAME (city state 3) is Wallace opening the pillar; it leaves us at (14,7).
+  beat('sky_pillar_wallace', function()
+    segDMoves()
+    assert(N.travel('SkyPillar_Outside'))
+    N.settle()
+  end, function() return V('VAR_SOOTOPOLIS_CITY_STATE') >= 4 end)
+
+  -- Step from where we stand onto the cracked tile in direction d and fall to the floor below,
+  -- landing on the same x,y (CrackedFloorPerStepCallback, CaveHole_CheckFallDownHole).
+  local function fall(d, map, x, y)
+    local from = N.mapName()
+    for _ = 1, 600 do
+      if N.mapName() ~= from then break end
+      if N.free() then joypad.set({ [N.KEY[d]] = true }) end
+      emu.frameadvance()
+    end
+    N.idle(60); N.settle()
+    local px, py = F.pos()
+    assert(at(map) and px == x and py == y, string.format('fell to %s (%d,%d), want %s (%d,%d)', N.mapName(), px, py, map, x, y))
+  end
+
+  -- The floors load their _CLEAN layouts while VAR_SKY_PILLAR_STATE < 2. Clean 4F is split: from
+  -- its east half, fall through the cracked (6,4) into a 3F pocket whose door (7,1) climbs to the
+  -- west half and the 5F stairs. Every cracked tile is a fall below Mach Bike speed.
+  beat('sky_pillar_climb', function()
+    segDMoves()
+    assert(N.travel('SkyPillar_1F'))
+    assert(N.takeWarp(10, 1), '1F -> 2F')
+    assert(N.takeWarp(3, 1), '2F -> 3F')
+    assert(N.takeWarp(11, 1), '3F -> 4F east')
+    assert(N.go(5, 4))
+    fall(4, 'SkyPillar_3F', 6, 4)
+    assert(N.takeWarp(7, 1), '3F pocket -> 4F west')
+    assert(N.takeWarp(3, 1), '4F -> 5F')
+    assert(N.takeWarp(10, 1), '5F -> Top')
+  end, function() return at('SkyPillar_Top') end)
+
+  -- Coord event (14,9): Rayquaza wakes and flies off, no battle.
+  beat('rayquaza_awakens', function()
+    segDMoves()
+    N.go(14, 9, { allowTriggers = true })
+    N.settle()
+  end, function() return V('VAR_SKY_PILLAR_STATE') >= 1 and V('VAR_SOOTOPOLIS_CITY_STATE') >= 5 end)
+
+  -- Down without Fly: 5F's door (3,1) reaches 4F's west half; fall through (1,3) to 3F west.
+  beat('sky_pillar_descend', function()
+    segDMoves()
+    assert(N.takeWarp(16, 14), 'Top -> 5F')
+    assert(N.takeWarp(3, 1), '5F -> 4F west')
+    assert(N.go(1, 2))
+    fall(1, 'SkyPillar_3F', 1, 3)
+    assert(N.travel('Route131'))
+  end, function() return at('Route131') end)
+
+  -- ON_FRAME VAR_SKY_PILLAR_STATE == 1: Rayquaza ends the fight; ON_WARP then sets it to 3.
+  beat('sootopolis_rayquaza', function()
+    segDMoves()
+    assert(N.travel('SootopolisCity'))
+    N.settle()
+  end, function() return at('SootopolisCity') and V('VAR_SKY_PILLAR_STATE') >= 2 end)
+
+  -- State 5 parks Maxie (33,35) and Archie (34,35) by the Gym; the second talk runs
+  -- MaxieArchieLeave, which unlocks the Gym door.
+  beat('archie_and_maxie', function()
+    segDMoves()
+    if not FL('FLAG_MET_ARCHIE_SOOTOPOLIS') then assert(N.talk(17, { side = 1 }), 'Archie') end
+    if not FL('FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE') then assert(N.talk(16, { side = 1 }), 'Maxie') end
+    N.settle()
+  end, function() return FL('FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE') end)
+
+  -- Wallace (31,33) stands on the only tile below the Gym door; facing him from the south, he
+  -- gives HM Waterfall and steps right.
+  beat('wallace_waterfall', function()
+    segDMoves()
+    assert(N.talk(18, { side = 1 }), 'Wallace')
+    N.settle()
+  end, function() return FL('FLAG_RECEIVED_HM_WATERFALL') end)
+
+  -- One step to the adjacent (x,y), finished before the next (thin ice cracks behind us).
+  local function stepTo(x, y)
+    local px, py = F.pos()
+    assert(math.abs(px - x) + math.abs(py - y) == 1, string.format('stepTo (%d,%d) from (%d,%d)', x, y, px, py))
+    N.push((y > py and 1) or (y < py and 2) or (x < px and 3) or 4)
+    local nx, ny = F.pos()
+    assert(at('SootopolisCity_Gym_1F') and nx == x and ny == y,
+      string.format('stepTo (%d,%d) ended on %s (%d,%d)', x, y, N.mapName(), nx, ny))
+  end
+
+  -- Thin ice: every MB_THIN_ICE tile once (a second step falls to B1F). VAR_ICE_STEP_COUNT starts
+  -- at 1 and the ON_FRAME stairs open at 8, 28 and 67, each adding one more.
+  local ICE = {
+    { 8, 24 }, { 8, 23 }, { 8, 22 }, { 8, 21 }, { 8, 20 },
+    { 8, 19 }, { 7, 19 }, { 7, 18 }, { 8, 18 }, { 9, 18 }, { 9, 17 }, { 8, 17 },
+    { 8, 16 }, { 8, 15 },
+    { 8, 14 }, { 9, 14 }, { 10, 14 }, { 11, 14 }, { 11, 13 }, { 11, 12 }, { 10, 12 }, { 9, 12 }, { 9, 13 },
+    { 8, 13 }, { 7, 13 }, { 7, 14 }, { 6, 14 }, { 5, 14 }, { 5, 13 }, { 5, 12 }, { 6, 12 }, { 7, 12 }, { 8, 12 },
+    { 8, 11 }, { 8, 10 },
+    { 8, 9 }, { 7, 9 }, { 6, 9 }, { 6, 8 }, { 5, 8 }, { 5, 9 }, { 4, 9 }, { 3, 9 }, { 3, 8 }, { 3, 7 }, { 3, 6 },
+    { 4, 6 }, { 4, 7 }, { 5, 7 }, { 6, 7 }, { 6, 6 }, { 7, 6 }, { 7, 7 }, { 8, 7 }, { 8, 8 }, { 9, 8 }, { 9, 9 },
+    { 10, 9 }, { 10, 8 }, { 10, 7 }, { 11, 7 }, { 11, 8 }, { 12, 8 }, { 12, 9 }, { 13, 9 }, { 13, 8 }, { 13, 7 },
+    { 13, 6 }, { 12, 6 }, { 11, 6 }, { 10, 6 }, { 9, 6 }, { 8, 6 },
+    { 8, 5 }, { 8, 4 }, { 8, 3 },
+  }
+  local STAIRS = { ['8,17'] = 9, ['8,12'] = 29, ['8,6'] = 68 }
+  beat('juan', function()
+    segDMoves()
+    assert(N.travel('SootopolisCity_Gym_1F'))
+    local x, y = F.pos()
+    assert(x == 8 and y == 25, string.format('gym entry (%d,%d)', x, y))
+    for _, t in ipairs(ICE) do
+      stepTo(t[1], t[2])
+      local want = STAIRS[t[1] .. ',' .. t[2]]
+      if want then
+        for _ = 1, 300 do if V('VAR_ICE_STEP_COUNT') >= want and N.free() then break end; N.idle(1) end
+        N.settle()
+        assert(V('VAR_ICE_STEP_COUNT') >= want, string.format('stairs at (%d,%d): count %d', t[1], t[2], V('VAR_ICE_STEP_COUNT')))
+      end
+    end
+    N.face(2); N.press('A'); N.idle(20)   -- Juan (8,2), no prompt
+    N.settle()
+  end, function() return badge(8) and V('VAR_SOOTOPOLIS_CITY_STATE') >= 6 end)
+
+  -- The way back crosses only cracked ice: the fall to B1F and its ladder are on the route.
+  -- Then Dive out of the crater, east by sea, and up Ever Grande's waterfall.
+  beat('to_victory_road', function()
+    segDMoves()
+    assert(N.travel('VictoryRoad_1F'))
+  end, function() return at('VictoryRoad_1F') end)
+
+  local function smash(d)
+    for _ = 1, 4 do
+      N.face(d)
+      if N.facing() == d then N.press('A'); N.idle(20); N.settle(); return end
+      N.settle()
+    end
+    error('smash: cannot face ' .. d)
+  end
+
+  -- Johto's Victory Road layout and B1F puzzle. Wally's coord events (2,23)/(3,23) fill the only
+  -- corridor to the (9,14) ladder, so the walk there runs his battle.
+  beat('victory_road', function()
+    segDMoves()
+    if not FL('FLAG_DEFEATED_WALLY_VICTORY_ROAD') then
+      assert(N.takeWarp(9, 14), '1F -> B1F (8,3)')
+      assert(FL('FLAG_DEFEATED_WALLY_VICTORY_ROAD'), 'Wally on the way')
+      assert(N.go(5, 7)); shove(3, '(4,7) west')
+      assert(N.go(8, 10)); shove(4, '(9,10) east')
+      assert(N.go(17, 12)); smash(4)
+      assert(N.takeWarp(30, 25), 'B1F -> B2F')
+      assert(N.takeWarp(19, 12), 'B2F -> B1F lower')
+      assert(N.go(19, 25)); smash(4)
+      assert(N.go(20, 25)); shove(1, '(20,26) south')
+      smash(4)
+      assert(N.takeWarp(20, 21), 'B1F -> 1F (21,32)')
+    end
+    assert(N.travel('EverGrandeCity_PokemonLeague_1F'))
+  end, function() return FL('FLAG_DEFEATED_WALLY_VICTORY_ROAD') and at('EverGrandeCity_PokemonLeague_1F') end)
+
+  -- ON_TRANSITION parks the guards on (9,2)/(10,2) until FLAG_ENTERED_ELITE_FOUR; either one
+  -- checks the badges and steps aside.
+  beat('league_gate', function()
+    segDMoves()
+    assert(N.talkFrom(9, 3, 2))
+    N.settle()
+    assert(N.travel('EverGrandeCity_Hall5'))
+  end, function() return FL('FLAG_ENTERED_ELITE_FOUR') and at('EverGrandeCity_Hall5') end)
+
+  -- Each room's ON_FRAME walks us in and seals the door; VAR_ELITE_4_STATE counts entries, so
+  -- progress is the defeat flag. The member (6,5) opens the exit (6,2) when beaten.
+  for _, e in ipairs({ { 'SidneysRoom', 'SIDNEY' }, { 'PhoebesRoom', 'PHOEBE' }, { 'GlaciasRoom', 'GLACIA' },
+                       { 'DrakesRoom', 'DRAKE' } }) do
+    local room, flag = 'EverGrandeCity_' .. e[1], 'FLAG_DEFEATED_ELITE_4_' .. e[2]
+    beat('e4_' .. e[1], function()
+      segDMoves()
+      if not at(room) then assert(N.travel(room)) end
+      N.settle()
+      if not FL(flag) then assert(N.talk(1, { side = 1 }), e[2]) end
+      assert(FL(flag), e[2] .. ' beaten')
+      assert(N.takeWarp(6, 2), 'out of ' .. room)
+    end, function() return FL(flag) and not at(room) end)
+  end
+
+  -- Hall4 (5,2) -> Champion's room: its ON_FRAME walks us to Wallace and starts the battle. Then
+  -- the rival and Birch, the Hall of Fame (FLAG_HOENN_CHAMPION), its save, and a soft reset in
+  -- place of the credits. The title screen's CONTINUE lands in the bedroom.
+  beat('champion', function()
+    segDMoves()
+    assert(N.travel('EverGrandeCity_Hall4'))
+    N.takeWarp(5, 2, { limit = 60 * 60 * 20 })
+    for _ = 1, 60 * 60 * 20 // 12 do
+      if FL('FLAG_HOENN_CHAMPION') and F.ow() and N.free() and N.mapName():find('^LittlerootTown_') then break end
+      if F.ow() and N.free() and at('EverGrandeCity_Hall4') then N.takeWarp(5, 2) end
+      if N.inBattle() then N.settle() else F.press('A', 2); F.idle(10) end
+    end
+    N.settle()
+    L('  after the Hall of Fame: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_HOENN_CHAMPION'))
+      .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
+  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at('LittlerootTown_BrendansHouse_2F') end)
+
+  -- Back under control after the reset: walk downstairs (the 1F ON_FRAME gives the S.S. Ticket).
+  beat('home', function()
+    segDMoves()
+    local x0, y0 = F.pos()
+    assert(N.travel('LittlerootTown_BrendansHouse_1F'))
+    N.settle()
+    local x, y = F.pos()
+    L(string.format('  moved from 2F (%d,%d) to 1F (%d,%d)', x0, y0, x, y))
+  end, function() return FL('FLAG_HOENN_CHAMPION') and at('LittlerootTown_BrendansHouse_1F') and N.free() end)
 
   return B
 end

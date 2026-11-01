@@ -240,6 +240,13 @@ return function(F, N, C)
       N.rememberMap()
       if F.grp() == tg.g and F.mapn() == tg.m then return true end
       local path = N.planWater(target)
+      if not path then
+        -- As nav's travel: objects a script moved (Sootopolis's cave-mouth Expert) still sit on
+        -- their template tiles in maps not seen this session.
+        N.planIgnoreObjects = true
+        path = N.planWater(target)
+        N.planIgnoreObjects = false
+      end
       local wet = false
       for _, h in ipairs(path or {}) do wet = wet or h.kind == 'dive' or h.kind == 'emerge' end
       if not wet then return baseTravel(target, opts) end

@@ -105,7 +105,8 @@ return function(F, S)
   -- whose battle never started) does not stop the player, so it does not count as busy.
   local function scriptBusy()
     local st = status()
-    return st == 0 or (st == 1 and r8(P.sLockFieldControls) ~= 0)
+    -- An incoming Match Call freezes the player with no script running; its "……" page waits for A.
+    return st == 0 or (st == 1 and r8(P.sLockFieldControls) ~= 0) or activeTask(P.ExecuteMatchCall) ~= nil
   end
   N.scriptBusy = scriptBusy
   function N.free() return F.ow() and not scriptBusy() and not activeTask(P.Task_HandleYesNoInput)

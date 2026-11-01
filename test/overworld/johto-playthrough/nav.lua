@@ -654,14 +654,18 @@ return function(F, S)
     while frames < 60 * 60 * 12 do
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first healthy party member not already battling.
+        -- The menu reorders the party into battle order while it is open (UpdatePartyToBattleOrder),
+        -- so the battlers are matched by personality, not by gBattlerPartyIndexes.
         local inBattle = {}
-        for _, b in ipairs({ 0, 2 }) do
-          if r16(bmon(b) + O.bm_hp) > 0 then inBattle[r16(P.gBattlerPartyIndexes + 2 * b)] = true end
+        local double = (r32(P.gBattleTypeFlags) & C.BATTLE_TYPE_DOUBLE) ~= 0
+        for _, b in ipairs(double and { 0, 2 } or { 0 }) do
+          if r16(bmon(b) + O.bm_hp) > 0 then inBattle[r32(bmon(b) + O.bm_personality)] = true end
         end
         local target
         for i = 0, N.partyCount() - 1 do
           local pm = N.partyMon(i)
-          if pm.hp > 0 and pm.level > 0 and not inBattle[i] and not target then target = i end
+          local pid = r32(P.gParties + i * O.mon_size + O.mon_personality)
+          if pm.hp > 0 and pm.level > 0 and not inBattle[pid] and not target then target = i end
         end
         if target then
           for _ = 1, 8 do

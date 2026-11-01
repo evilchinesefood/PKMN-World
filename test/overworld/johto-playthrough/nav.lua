@@ -278,6 +278,10 @@ return function(F, S)
     else return b == MB.MB_IMPASSABLE_EAST or b == MB.MB_IMPASSABLE_NORTHEAST or b == MB.MB_IMPASSABLE_SOUTHEAST or b == MB.MB_IMPASSABLE_WEST_AND_EAST end
   end
   local function isIce(b) return b == MB.MB_ICE end
+  local CURRENT = {}
+  for name, d in pairs({ MB_SOUTHWARD_CURRENT = 1, MB_NORTHWARD_CURRENT = 2, MB_WESTWARD_CURRENT = 3, MB_EASTWARD_CURRENT = 4 }) do
+    if MB[name] then CURRENT[MB[name]] = d end
+  end
   -- Acro Bike tiles read as open floor but collide unless riding one (CheckAcroBikeCollision).
   local ACRO = {}
   for _, name in ipairs({ 'MB_BUMPY_SLOPE', 'MB_ISOLATED_VERTICAL_RAIL', 'MB_ISOLATED_HORIZONTAL_RAIL',
@@ -380,6 +384,22 @@ return function(F, S)
         if not v2 or (v2 & 0x0C00) ~= 0 or occ[sx .. ',' .. (sy + 1)] then break end
         sy = sy + 1
         if grid.beh(v2 & 0x3FF) ~= MB.MB_MUDDY_SLOPE then break end
+      end
+      return sx, sy, ne, ns, 'slide'
+    end
+    if ns and CURRENT[b] then
+      -- A sea current carries the surfer along it until it ends or something stops it
+      -- (ForcedMovement_Pushed*ByCurrent): no steering, so it cannot be ridden upstream.
+      local cd = CURRENT[b]
+      local sx, sy = tx, ty
+      for _ = 1, 128 do
+        local nx2, ny2 = sx + DX[cd], sy + DY[cd]
+        local v2 = grid.get(nx2, ny2)
+        if not v2 or (v2 & 0x0C00) ~= 0 or occ[nx2 .. ',' .. ny2] then break end
+        sx, sy = nx2, ny2
+        local b2 = grid.beh(v2 & 0x3FF)
+        if not CURRENT[b2] then break end
+        cd = CURRENT[b2]
       end
       return sx, sy, ne, ns, 'slide'
     end

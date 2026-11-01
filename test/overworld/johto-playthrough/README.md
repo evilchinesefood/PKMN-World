@@ -17,6 +17,8 @@ python3 test/overworld/johto-playthrough/run.py --from pryce     # resume after 
 python3 test/overworld/johto-playthrough/run.py --suite kurt_fast_ball.lua
 ```
 
+The same runner plays Hoenn with `--campaign hoenn`; see `../hoenn-playthrough/README.md`.
+
 `run.py` regenerates symbols, constants, struct offsets and map ids from the ELF being tested
 (`export.py`), then runs `play.lua`. Every beat ends with a savestate checkpoint in `--out`
 (default `_pwtest/johto-play/`), so a failing beat can be fixed and resumed with `--from`

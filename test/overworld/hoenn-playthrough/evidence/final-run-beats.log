@@ -1,0 +1,415 @@
+BOOTED grp=100 map=0 pos=(16,4)
+  [PASS] fresh save has empty party
+BEAT 1/84 to_hoenn
+== to_hoenn: LittlerootTown_BrendansHouse_2F (4,4) party=0 lead=L0 0/0 steps=6 battles=0/0
+  [PASS] beat to_hoenn
+BEAT 2/84 clock
+== clock: LittlerootTown_BrendansHouse_2F (5,2) party=0 lead=L0 0/0 steps=9 battles=0/0
+  [PASS] beat clock
+BEAT 3/84 meet_rival
+== meet_rival: LittlerootTown_MaysHouse_2F (4,4) party=0 lead=L0 0/0 steps=40 battles=0/0
+  [PASS] beat meet_rival
+BEAT 4/84 rescue_birch
+== rescue_birch: LittlerootTown_ProfessorBirchsLab (6,5) party=1 lead=L5 20/20 steps=69 battles=0/1
+  [PASS] beat rescue_birch
+BEAT 5/84 starter_lab
+== starter_lab: LittlerootTown_ProfessorBirchsLab (6,5) party=1 lead=L5 20/20 steps=69 battles=0/1
+  [PASS] beat starter_lab
+BEAT 6/84 party
+== party: LittlerootTown_ProfessorBirchsLab (6,5) party=3 lead=L100 354/354 steps=69 battles=0/1
+  [PASS] beat party
+BEAT 7/84 route103
+  battle TRAINER fight foe=0 L0 at Route103 -> outcome=1 turns=1 lead hp=354/354
+== route103: Route103 (9,3) party=3 lead=L100 354/354 steps=182 battles=1/3
+  [PASS] beat route103
+BEAT 8/84 pokedex
+== pokedex: LittlerootTown_ProfessorBirchsLab (6,5) party=3 lead=L100 354/354 steps=256 battles=1/3
+  [PASS] beat pokedex
+BEAT 9/84 petalburg
+  battle TRAINER fight foe=261 L5 at Route102 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=265 L4 at Route102 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=263 L4 at Route102 -> outcome=1 turns=2 lead hp=354/354
+== petalburg: PetalburgCity_Gym (4,108) party=3 lead=L100 354/354 steps=418 battles=4/7
+  [PASS] beat petalburg
+BEAT 10/84 woods
+  battle TRAINER fight foe=263 L7 at Route104 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=265 L3 at PetalburgWoods -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=261 L9 at PetalburgWoods -> outcome=1 turns=1 lead hp=354/354
+== woods: PetalburgWoods (26,23) party=3 lead=L100 354/354 steps=533 battles=7/9
+  [PASS] beat woods
+BEAT 11/84 roxanne
+  battle TRAINER fight foe=290 L6 at PetalburgWoods -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=263 L7 at Route104 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route104 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=74 L10 at RustboroCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at RustboroCity_Gym -> outcome=1 turns=8 lead hp=353/354
+  battle TRAINER fight foe=74 L12 at RustboroCity_Gym -> outcome=1 turns=4 lead hp=351/354
+== roxanne: RustboroCity_Gym (4,2) party=3 lead=L100 354/354 steps=715 battles=13/11
+  [PASS] beat roxanne
+BEAT 12/84 devon_stolen
+== devon_stolen: RustboroCity (23,20) party=3 lead=L100 354/354 steps=751 battles=13/11
+  [PASS] beat devon_stolen
+BEAT 13/84 devon_recover
+  battle TRAINER fight foe=265 L8 at Route116 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=285 L9 at Route116 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route116 -> outcome=1 turns=6 lead hp=354/354
+  battle TRAINER fight foe=74 L8 at Route116 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=261 L11 at RusturfTunnel -> outcome=1 turns=1 lead hp=354/354
+== devon_recover: RusturfTunnel (13,5) party=3 lead=L100 354/354 steps=848 battles=18/15
+  [PASS] beat devon_recover
+BEAT 14/84 devon_return
+== devon_return: RustboroCity_DevonCorp_3F (14,5) party=3 lead=L100 354/354 steps=929 battles=18/18
+  [PASS] beat devon_return
+BEAT 15/84 devon_president
+== devon_president: RustboroCity_DevonCorp_3F (17,6) party=3 lead=L100 354/354 steps=935 battles=18/18
+  [PASS] beat devon_president
+BEAT 16/84 sail_dewford
+  battle TRAINER fight foe=0 L0 at RustboroCity -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=270 L6 at Route104 -> outcome=1 turns=2 lead hp=354/354
+== sail_dewford: DewfordTown (11,9) party=3 lead=L100 354/354 steps=1164 battles=20/19
+  [PASS] beat sail_dewford
+BEAT 17/84 steven_letter
+  battle TRAINER fight foe=72 L11 at Route106 -> outcome=1 turns=1 lead hp=354/354
+== steven_letter: GraniteCave_StevensRoom (7,7) party=3 lead=L100 353/354 steps=1375 battles=21/26
+  [PASS] beat steven_letter
+BEAT 18/84 brawly
+  battle TRAINER fight foe=0 L0 at DewfordTown_Gym -> outcome=1 turns=3 lead hp=353/354
+== brawly: DewfordTown_Gym (4,4) party=3 lead=L100 354/354 steps=1504 battles=22/27
+  [PASS] beat brawly
+BEAT 19/84 sail_slateport
+== sail_slateport: Route109 (21,23) party=3 lead=L100 354/354 steps=1559 battles=22/27
+  [PASS] beat sail_slateport
+BEAT 20/84 devon_dock
+  battle TRAINER fight foe=0 L0 at Route109 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=183 L13 at Route109 -> outcome=1 turns=1 lead hp=354/354
+== devon_dock: SlateportCity_SternsShipyard_1F (4,5) party=3 lead=L100 354/354 steps=1627 battles=24/27
+  [PASS] beat devon_dock
+BEAT 21/84 devon_stern
+  battle TRAINER fight foe=0 L0 at SlateportCity_OceanicMuseum_2F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=41 L14 at SlateportCity_OceanicMuseum_2F -> outcome=1 turns=2 lead hp=354/354
+== devon_stern: SlateportCity_OceanicMuseum_2F (12,6) party=3 lead=L100 354/354 steps=1688 battles=26/27
+  [PASS] beat devon_stern
+BEAT 22/84 route110
+  battle TRAINER fight foe=0 L0 at Route110 -> outcome=1 turns=10 lead hp=353/354
+  battle TRAINER fight foe=304 L15 at Route110 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route110 -> outcome=1 turns=4 lead hp=354/354
+== route110: Route110 (33,56) party=3 lead=L100 354/354 steps=1821 battles=29/27
+  [PASS] beat route110
+BEAT 23/84 wally_mauville
+  battle TRAINER fight foe=0 L0 at Route110 -> outcome=1 turns=4 lead hp=353/354
+  battle TRAINER fight foe=0 L0 at MauvilleCity -> outcome=1 turns=1 lead hp=354/354
+== wally_mauville: MauvilleCity (8,7) party=3 lead=L100 354/354 steps=1964 battles=31/28
+  [PASS] beat wally_mauville
+BEAT 24/84 wattson
+  battle TRAINER fight foe=0 L0 at MauvilleCity_Gym -> outcome=1 turns=14 lead hp=353/354
+  battle TRAINER fight foe=263 L17 at MauvilleCity_Gym -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MauvilleCity_Gym -> outcome=1 turns=8 lead hp=349/354
+  battle TRAINER fight foe=100 L20 at MauvilleCity_Gym -> outcome=1 turns=4 lead hp=350/354
+== wattson: MauvilleCity_Gym (5,3) party=3 lead=L100 354/354 steps=2025 battles=35/28
+  [PASS] beat wattson
+BEAT 25/84 rock_smash
+== rock_smash: MauvilleCity_House1 (3,4) party=3 lead=L100 354/354 steps=2079 battles=35/28
+  [PASS] beat rock_smash
+BEAT 26/84 to_fiery_path
+  battle TRAINER fight foe=285 L17 at Route111 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=27 L18 at Route111 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=276 L17 at Route112 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=74 L16 at Route112 -> outcome=1 turns=3 lead hp=354/354
+== to_fiery_path: FieryPath (26,36) party=3 lead=L100 354/354 steps=2241 battles=39/29
+  [PASS] beat to_fiery_path
+BEAT 27/84 fiery_path
+== fiery_path: Route112 (22,10) party=3 lead=L100 354/354 steps=2285 battles=39/29
+  [PASS] beat fiery_path
+BEAT 28/84 to_meteor_falls
+  battle TRAINER fight foe=0 L0 at Route112 -> outcome=1 turns=8 lead hp=266/354
+  battle TRAINER fight foe=309 L17 at Route111 -> outcome=1 turns=4 lead hp=353/354
+  battle TRAINER fight foe=278 L17 at Route111 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=328 L19 at Route113 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=322 L19 at Route113 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route113 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=183 L18 at Route114 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=218 L18 at Route114 -> outcome=1 turns=2 lead hp=353/354
+  battle TRAINER fight foe=0 L0 at Route114 -> outcome=1 turns=8 lead hp=352/354
+  battle TRAINER fight foe=74 L18 at Route114 -> outcome=1 turns=2 lead hp=354/354
+== to_meteor_falls: MeteorFalls_1F_1R (27,18) party=3 lead=L100 354/354 steps=2642 battles=49/33
+  [PASS] beat to_meteor_falls
+BEAT 29/84 meteor_falls
+== meteor_falls: MeteorFalls_1F_1R (13,18) party=3 lead=L100 354/354 steps=2655 battles=49/33
+  [PASS] beat meteor_falls
+BEAT 30/84 back_to_fiery_path
+== back_to_fiery_path: Route112 (11,36) party=3 lead=L100 354/354 steps=3057 battles=49/38
+  [PASS] beat back_to_fiery_path
+BEAT 31/84 cable_car_up
+  battle TRAINER fight foe=322 L17 at Route112 -> outcome=1 turns=2 lead hp=354/354
+== cable_car_up: MtChimney_CableCarStation (6,7) party=3 lead=L100 354/354 steps=3089 battles=50/38
+  [PASS] beat cable_car_up
+BEAT 32/84 mt_chimney
+  battle TRAINER fight foe=0 L0 at MtChimney -> outcome=1 turns=4 lead hp=353/354
+  battle TRAINER fight foe=322 L18 at MtChimney -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=262 L24 at MtChimney -> outcome=1 turns=3 lead hp=354/354
+== mt_chimney: MtChimney (13,7) party=3 lead=L100 354/354 steps=3165 battles=53/38
+  [PASS] beat mt_chimney
+BEAT 33/84 jagged_pass
+  battle TRAINER fight foe=0 L0 at JaggedPass -> outcome=1 turns=4 lead hp=351/354
+  battle TRAINER fight foe=263 L20 at JaggedPass -> outcome=1 turns=2 lead hp=354/354
+== jagged_pass: LavaridgeTown (17,10) party=3 lead=L100 354/354 steps=3279 battles=55/38
+  [PASS] beat jagged_pass
+BEAT 34/84 flannery
+  battle TRAINER fight foe=352 L23 at LavaridgeTown_Gym_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=322 L24 at LavaridgeTown_Gym_1F -> outcome=1 turns=4 lead hp=354/354
+== flannery: LavaridgeTown_Gym_1F (13,10) party=3 lead=L100 354/354 steps=3373 battles=57/38
+  [PASS] beat flannery
+BEAT 35/84 go_goggles
+== go_goggles: LavaridgeTown (5,16) party=3 lead=L100 354/354 steps=3385 battles=57/38
+  [PASS] beat go_goggles
+BEAT 36/84 to_rustboro
+  battle TRAINER fight foe=274 L18 at Route112 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route111 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=293 L11 at Route117 -> outcome=1 turns=7 lead hp=353/354
+  battle TRAINER fight foe=269 L16 at Route117 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=278 L11 at Route117 -> outcome=1 turns=6 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at RusturfTunnel -> outcome=1 turns=3 lead hp=354/354
+== to_rustboro: RustboroCity (39,13) party=3 lead=L100 354/354 steps=3730 battles=63/41
+  [PASS] beat to_rustboro
+BEAT 37/84 to_petalburg_gym
+== to_petalburg_gym: PetalburgCity_Gym (4,111) party=3 lead=L100 354/354 steps=3957 battles=63/41
+  [PASS] beat to_petalburg_gym
+BEAT 38/84 norman
+  battle TRAINER fight foe=301 L26 at PetalburgCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=40 L26 at PetalburgCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=335 L26 at PetalburgCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at PetalburgCity_Gym -> outcome=1 turns=4 lead hp=354/354
+== norman: PetalburgCity_WallysHouse (2,4) party=3 lead=L100 354/354 steps=4005 battles=67/41
+  [PASS] beat norman
+BEAT 39/84 surf
+== surf: PetalburgCity_WallysHouse (2,4) party=3 lead=L100 354/354 steps=4005 battles=67/41
+  [PASS] beat surf
+BEAT 40/84 to_route118
+  battle TRAINER fight foe=129 L5 at Route103 -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=300 L15 at Route103 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route103 -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=285 L14 at Route103 -> outcome=1 turns=2 lead hp=354/354
+== to_route118: Route118 (2,11) party=3 lead=L100 354/354 steps=4365 battles=71/49
+  [PASS] beat to_route118
+BEAT 41/84 route118_steven
+  battle TRAINER fight foe=0 L0 at Route118 -> outcome=1 turns=10 lead hp=353/354
+  battle TRAINER fight foe=72 L25 at Route118 -> outcome=1 turns=2 lead hp=354/354
+== route118_steven: Route118 (44,11) party=3 lead=L100 354/354 steps=4412 battles=73/50
+  [PASS] beat route118_steven
+BEAT 42/84 weather_institute
+  battle TRAINER fight foe=276 L25 at Route118 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=44 L26 at Route119 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=286 L27 at Route119 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route119 -> outcome=1 turns=8 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route119_WeatherInstitute_1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route119_WeatherInstitute_2F -> outcome=1 turns=8 lead hp=350/354
+  battle TRAINER fight foe=0 L0 at Route119_WeatherInstitute_2F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route119_WeatherInstitute_2F -> outcome=1 turns=2 lead hp=354/354
+== weather_institute: Route119_WeatherInstitute_2F (5,6) party=4 lead=L100 354/354 steps=4660 battles=81/53
+  [PASS] beat weather_institute
+BEAT 43/84 castform
+== castform: Route119_WeatherInstitute_2F (5,6) party=4 lead=L100 354/354 steps=4660 battles=81/53
+  [PASS] beat castform
+BEAT 44/84 route119_rival
+  battle TRAINER fight foe=0 L0 at Route119 -> outcome=1 turns=3 lead hp=354/354
+== route119_rival: Route119 (25,31) party=4 lead=L100 354/354 steps=4724 battles=82/53
+  [PASS] beat route119_rival
+BEAT 45/84 devon_scope
+  battle TRAINER fight foe=0 L0 at Route119 -> outcome=1 turns=4 lead hp=348/354
+  battle TRAINER fight foe=315 L28 at Route120 -> outcome=1 turns=2 lead hp=354/354
+== devon_scope: Route120 (13,16) party=4 lead=L100 354/354 steps=4855 battles=84/54
+  [PASS] beat devon_scope
+BEAT 46/84 fortree_kecleon
+== fortree_kecleon: FortreeCity (25,7) party=4 lead=L100 354/354 steps=4925 battles=84/56
+  [PASS] beat fortree_kecleon
+BEAT 47/84 winona
+  battle TRAINER fight foe=0 L0 at FortreeCity_Gym -> outcome=1 turns=8 lead hp=346/354
+  battle TRAINER fight foe=357 L30 at FortreeCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=333 L29 at FortreeCity_Gym -> outcome=1 turns=6 lead hp=354/354
+== winona: FortreeCity_Gym (15,3) party=4 lead=L100 354/354 steps=4934 battles=87/56
+  [PASS] beat winona
+BEAT 48/84 route121_aqua
+  battle TRAINER fight foe=278 L28 at Route120 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=269 L29 at Route121 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=352 L29 at Route121 -> outcome=1 turns=2 lead hp=354/354
+== route121_aqua: Route121 (25,6) party=4 lead=L100 354/354 steps=5204 battles=90/59
+  [PASS] beat route121_aqua
+BEAT 49/84 mt_pyre
+  battle TRAINER fight foe=0 L0 at MtPyre_Summit -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MtPyre_Summit -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MtPyre_Summit -> outcome=1 turns=8 lead hp=301/354
+== mt_pyre: MtPyre_Summit (23,7) party=4 lead=L100 354/354 steps=5410 battles=93/62
+  [PASS] beat mt_pyre
+BEAT 50/84 jagged_pass_open
+  battle TRAINER fight foe=0 L0 at Route123 -> outcome=1 turns=8 lead hp=334/354
+  battle TRAINER fight foe=0 L0 at Route123 -> outcome=1 turns=8 lead hp=245/354
+  battle TRAINER fight foe=0 L0 at Route123 -> outcome=1 turns=8 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route123 -> outcome=1 turns=4 lead hp=346/354
+  battle TRAINER fight foe=0 L0 at Route123 -> outcome=1 turns=4 lead hp=327/354
+  battle TRAINER fight foe=278 L26 at Route118 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=81 L15 at Route118 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=74 L20 at JaggedPass -> outcome=1 turns=2 lead hp=354/354
+== jagged_pass_open: JaggedPass (14,15) party=4 lead=L100 354/354 steps=5976 battles=101/70
+  [PASS] beat jagged_pass_open
+BEAT 51/84 magma_hideout
+  battle TRAINER fight foe=0 L0 at MagmaHideout_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MagmaHideout_2F_1R -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MagmaHideout_2F_1R -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MagmaHideout_3F_1R -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MagmaHideout_3F_1R -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MagmaHideout_4F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MagmaHideout_4F -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=322 L26 at MagmaHideout_4F -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=262 L37 at MagmaHideout_4F -> outcome=1 turns=3 lead hp=354/354
+== magma_hideout: MagmaHideout_4F (15,21) party=4 lead=L100 354/354 steps=6288 battles=110/82
+  [PASS] beat magma_hideout
+BEAT 52/84 slateport_harbor
+== slateport_harbor: SlateportCity_Harbor (8,13) party=4 lead=L100 354/354 steps=6783 battles=110/94
+  [PASS] beat slateport_harbor
+BEAT 53/84 aqua_hideout
+  battle TRAINER fight foe=355 L29 at Route121 -> outcome=1 turns=2 lead hp=340/354
+  battle TRAINER fight foe=310 L29 at Route121 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=294 L29 at Route121 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at AquaHideout_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at AquaHideout_B1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at AquaHideout_B1F -> outcome=1 turns=8 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at AquaHideout_B2F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at AquaHideout_B2F -> outcome=1 turns=4 lead hp=334/354
+  battle TRAINER fight foe=0 L0 at AquaHideout_B2F -> outcome=1 turns=2 lead hp=354/354
+== aqua_hideout: AquaHideout_B2F (24,19) party=4 lead=L100 354/354 steps=7920 battles=119/109
+  [PASS] beat aqua_hideout
+BEAT 54/84 tate_liza
+  battle TRAINER fight foe=0 L0 at Route124 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route124 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=281 L36 at MossdeepCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MossdeepCity_Gym -> outcome=1 turns=4 lead hp=354/354
+  battle TRAINER fight foe=177 L36 at MossdeepCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=281 L36 at MossdeepCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=307 L36 at MossdeepCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=280 L36 at MossdeepCity_Gym -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at MossdeepCity_Gym -> outcome=1 turns=8 lead hp=140/354
+== tate_liza: MossdeepCity_Gym (23,8) party=4 lead=L100 354/354 steps=8269 battles=128/110
+  [PASS] beat tate_liza
+BEAT 55/84 space_center
+  battle TRAINER fight foe=0 L0 at MossdeepCity_SpaceCenter_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=262 L26 at MossdeepCity_SpaceCenter_1F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=41 L32 at MossdeepCity_SpaceCenter_2F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=262 L32 at MossdeepCity_SpaceCenter_2F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=343 L32 at MossdeepCity_SpaceCenter_2F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=262 L42 at MossdeepCity_SpaceCenter_2F -> outcome=1 turns=6 lead hp=343/354
+== space_center: MossdeepCity_SpaceCenter_2F (2,8) party=4 lead=L100 354/354 steps=8377 battles=134/110
+  [PASS] beat space_center
+BEAT 56/84 dive
+== dive: MossdeepCity_StevensHouse (3,7) party=4 lead=L100 354/354 steps=8486 battles=134/110
+  [PASS] beat dive
+BEAT 57/84 seafloor_entrance
+== seafloor_entrance: SeafloorCavern_Entrance (10,17) party=4 lead=L100 354/354 steps=8656 battles=134/111
+  [PASS] beat seafloor_entrance
+BEAT 58/84 seafloor_room1
+  battle TRAINER fight foe=0 L0 at SeafloorCavern_Room1 -> outcome=1 turns=1 lead hp=354/354
+== seafloor_room1: SeafloorCavern_Room2 (10,7) party=4 lead=L100 354/354 steps=8704 battles=135/112
+  [PASS] beat seafloor_room1
+BEAT 59/84 seafloor_room2
+== seafloor_room2: SeafloorCavern_Room6 (11,21) party=4 lead=L100 354/354 steps=8715 battles=135/112
+  [PASS] beat seafloor_room2
+BEAT 60/84 seafloor_room6
+== seafloor_room6: SeafloorCavern_Room3 (4,15) party=4 lead=L100 354/354 steps=8728 battles=135/112
+  [PASS] beat seafloor_room6
+BEAT 61/84 seafloor_room3
+  battle TRAINER fight foe=0 L0 at SeafloorCavern_Room3 -> outcome=1 turns=14 lead hp=252/354
+== seafloor_room3: SeafloorCavern_Room8 (5,12) party=4 lead=L100 354/354 steps=8746 battles=136/112
+  [PASS] beat seafloor_room3
+BEAT 62/84 seafloor_room8
+== seafloor_room8: SeafloorCavern_Room9 (5,4) party=4 lead=L100 354/354 steps=8759 battles=136/114
+  [PASS] beat seafloor_room8
+BEAT 63/84 kyogre_awakens
+  battle TRAINER fight foe=262 L41 at SeafloorCavern_Room9 -> outcome=1 turns=3 lead hp=354/354
+== kyogre_awakens: Route128 (38,22) party=4 lead=L100 354/354 steps=8821 battles=137/114
+  [PASS] beat kyogre_awakens
+BEAT 64/84 sootopolis_arrive
+== sootopolis_arrive: SootopolisCity (29,53) party=4 lead=L100 354/354 steps=8957 battles=137/116
+  [PASS] beat sootopolis_arrive
+BEAT 65/84 steven_sootopolis
+== steven_sootopolis: CaveOfOrigin_Entrance (9,20) party=4 lead=L100 354/354 steps=8984 battles=137/116
+  [PASS] beat steven_sootopolis
+BEAT 66/84 wallace_cave_of_origin
+== wallace_cave_of_origin: CaveOfOrigin_B1F (8,13) party=4 lead=L100 354/354 steps=9041 battles=137/116
+  [PASS] beat wallace_cave_of_origin
+BEAT 67/84 to_route131
+  battle TRAINER fight foe=0 L0 at Route126 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route127 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route129 -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route130 -> outcome=1 turns=2 lead hp=354/354
+== to_route131: Route131 (55,22) party=4 lead=L100 354/354 steps=9496 battles=141/120
+  [PASS] beat to_route131
+BEAT 68/84 sky_pillar_wallace
+  battle TRAINER fight foe=0 L0 at Route131 -> outcome=1 turns=1 lead hp=354/354
+== sky_pillar_wallace: SkyPillar_Outside (14,7) party=4 lead=L100 354/354 steps=9567 battles=142/121
+  [PASS] beat sky_pillar_wallace
+BEAT 69/84 sky_pillar_climb
+== sky_pillar_climb: SkyPillar_Top (16,15) party=4 lead=L100 354/354 steps=9692 battles=142/122
+  [PASS] beat sky_pillar_climb
+BEAT 70/84 rayquaza_awakens
+== rayquaza_awakens: SkyPillar_Top (14,9) party=4 lead=L100 354/354 steps=9704 battles=142/122
+  [PASS] beat rayquaza_awakens
+BEAT 71/84 sky_pillar_descend
+== sky_pillar_descend: Route131 (36,7) party=4 lead=L100 354/354 steps=9812 battles=142/125
+  [PASS] beat sky_pillar_descend
+BEAT 72/84 sootopolis_rayquaza
+  battle TRAINER fight foe=0 L0 at Route129 -> outcome=1 turns=2 lead hp=354/354
+== sootopolis_rayquaza: SootopolisCity (29,53) party=4 lead=L100 354/354 steps=10143 battles=143/132
+  [PASS] beat sootopolis_rayquaza
+BEAT 73/84 archie_and_maxie
+== archie_and_maxie: SootopolisCity (31,34) party=4 lead=L100 354/354 steps=10168 battles=143/132
+  [PASS] beat archie_and_maxie
+BEAT 74/84 wallace_waterfall
+== wallace_waterfall: SootopolisCity (31,34) party=4 lead=L100 354/354 steps=10168 battles=143/132
+  [PASS] beat wallace_waterfall
+BEAT 75/84 juan
+  battle TRAINER fight foe=370 L41 at SootopolisCity_Gym_1F -> outcome=1 turns=5 lead hp=354/354
+== juan: SootopolisCity_Gym_1F (8,3) party=4 lead=L100 354/354 steps=10170 battles=144/132
+  [PASS] beat juan
+BEAT 76/84 to_victory_road
+  battle TRAINER fight foe=0 L0 at Route128 -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at Route128 -> outcome=1 turns=1 lead hp=354/354
+== to_victory_road: VictoryRoad_1F (15,40) party=4 lead=L100 354/354 steps=10511 battles=146/140
+  [PASS] beat to_victory_road
+BEAT 77/84 victory_road
+  battle TRAINER fight foe=0 L0 at VictoryRoad_1F -> outcome=1 turns=5 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_1F -> outcome=1 turns=1 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_B1F -> outcome=1 turns=3 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_B2F -> outcome=1 turns=3 lead hp=349/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_B1F -> outcome=1 turns=2 lead hp=316/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_B1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_1F -> outcome=1 turns=2 lead hp=354/354
+  battle TRAINER fight foe=0 L0 at VictoryRoad_1F -> outcome=1 turns=10 lead hp=354/354
+== victory_road: EverGrandeCity_PokemonLeague_1F (9,11) party=4 lead=L100 332/354 steps=10828 battles=154/152
+  [PASS] beat victory_road
+BEAT 78/84 league_gate
+== league_gate: EverGrandeCity_Hall5 (5,12) party=4 lead=L100 332/354 steps=10838 battles=154/152
+  [PASS] beat league_gate
+BEAT 79/84 e4_SidneysRoom
+  battle TRAINER fight foe=0 L0 at EverGrandeCity_SidneysRoom -> outcome=1 turns=5 lead hp=332/354
+== e4_SidneysRoom: EverGrandeCity_Hall1 (5,12) party=4 lead=L100 354/354 steps=10855 battles=155/152
+  [PASS] beat e4_SidneysRoom
+BEAT 80/84 e4_PhoebesRoom
+  battle TRAINER fight foe=0 L0 at EverGrandeCity_PhoebesRoom -> outcome=1 turns=5 lead hp=354/354
+== e4_PhoebesRoom: EverGrandeCity_Hall2 (5,12) party=4 lead=L100 354/354 steps=10872 battles=156/152
+  [PASS] beat e4_PhoebesRoom
+BEAT 81/84 e4_GlaciasRoom
+  battle TRAINER fight foe=0 L0 at EverGrandeCity_GlaciasRoom -> outcome=1 turns=5 lead hp=354/354
+== e4_GlaciasRoom: EverGrandeCity_Hall3 (5,12) party=4 lead=L100 354/354 steps=10889 battles=157/152
+  [PASS] beat e4_GlaciasRoom
+BEAT 82/84 e4_DrakesRoom
+  battle TRAINER fight foe=0 L0 at EverGrandeCity_DrakesRoom -> outcome=1 turns=5 lead hp=354/354
+== e4_DrakesRoom: EverGrandeCity_Hall4 (5,33) party=4 lead=L100 354/354 steps=10906 battles=158/152
+  [PASS] beat e4_DrakesRoom
+BEAT 83/84 champion
+  battle TRAINER fight foe=0 L0 at EverGrandeCity_ChampionsRoom -> outcome=1 turns=6 lead hp=354/354
+== champion: LittlerootTown_BrendansHouse_2F (4,2) party=4 lead=L100 354/354 steps=10937 battles=159/152
+  [PASS] beat champion
+BEAT 84/84 home
+== home: LittlerootTown_BrendansHouse_1F (4,5) party=4 lead=L100 354/354 steps=10941 battles=159/152
+  [PASS] beat home
+TOTAL steps=10941 trainer battles=159 wild=152 heals=155 retries=0 
+VERDICT HoennPlay: 85/85 PASS

@@ -11,9 +11,11 @@ ROOT = Path(__file__).resolve().parents[3]
 for m in sys.argv[1:]:
     d = json.loads((ROOT / 'data/maps' / m / 'map.json').read_text())
     print('##', m, d.get('layout'))
+    if 'shared_events_map' in d:
+        d = json.loads((ROOT / 'data/maps' / d['shared_events_map'] / 'map.json').read_text())
     for i, o in enumerate(d['object_events'], 1):
         gfx = o.get('graphics_id', '').replace('OBJ_EVENT_GFX_', '')
-        print(f" obj {i} {o.get('local_id') or ''} ({o['x']},{o['y']}) e{o.get('elevation')} {gfx} {o.get('movement_type','').replace('MOVEMENT_TYPE_','')} {o['script']} {o.get('flag')} {o.get('trainer_type','')}")
+        print(f" obj {i} {o.get('local_id') or ''} ({o['x']},{o['y']}) e{o.get('elevation')} {gfx} {o.get('movement_type','').replace('MOVEMENT_TYPE_','')} {o.get('script', '')} {o.get('flag')} {o.get('trainer_type','')}")
     for c in d.get('coord_events', []):
         print(f" coord ({c['x']},{c['y']}) {c.get('var')}=={c.get('var_value')} {c.get('script')}")
     for b in d.get('bg_events', []):

@@ -9,6 +9,7 @@
 P(sb1_flags, offsetof(struct SaveBlock1, flags))
 P(sb1_vars, offsetof(struct SaveBlock1, vars))
 P(sb1_money, offsetof(struct SaveBlock1, money))
+P(bs_prevSelectedPartySlot, offsetof(struct BattleStruct, prevSelectedPartySlot))
 P(bm_size, sizeof(struct BattlePokemon))
 P(bm_species, offsetof(struct BattlePokemon, species))
 P(bm_moves, offsetof(struct BattlePokemon, moves))

@@ -837,9 +837,25 @@ return function(F, S)
         end
       end
     end
+    N.reportCallbacks()
     L('  settle TIMEOUT at ' .. N.mapName() .. string.format(' (%d,%d) status=%d script=%08x', F.pos(), select(2, F.pos()), status(), scriptPtr()))
     F.shot('settle_timeout')
     return false
+  end
+
+  -- Names the running callbacks and tasks, so a hang says which screen it is on.
+  function N.reportCallbacks()
+    local function name(addr)
+      addr = addr & ~1
+      for k, v in pairs(P) do if (v & ~1) == addr then return k end end
+      return string.format('%08x', addr)
+    end
+    local tasks = {}
+    for i = 0, 15 do
+      local t = P.gTasks + i * 40
+      if F.r8(t + 4) ~= 0 then tasks[#tasks + 1] = name(F.r32(t)) end
+    end
+    L('  callbacks: cb1=' .. name(F.r32(P.gMain)) .. ' cb2=' .. name(F.r32(P.gMain + 4)) .. ' tasks=' .. table.concat(tasks, ','))
   end
 
   ---------------------------------------------------------------- walking

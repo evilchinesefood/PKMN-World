@@ -112,15 +112,15 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
 };
 
 // Region-aware starter trios. VAR_STARTER_MON stores the chosen ball INDEX (0/1/2). Hoenn and
-// Johto use the natural grass/fire/water order; KANTO follows the bundled FRLG champion room's
-// convention (index 0 = Charmander, 1 = Bulbasaur, 2 = Squirtle) so Blue's VAR_STARTER_MON
-// variant-select stays correct WITHOUT editing the champion battle scripts. Picked at runtime
-// by GetCurrentRegion() (the player is on the region's start town when ChooseStarter runs).
+// Johto use the natural grass/fire/water order. Kanto's index is the Pallet Lab ball the player
+// took (0 = Bulbasaur, 1 = Squirtle, 2 = Charmander), so this row names the PLAYER'S starter;
+// Blue's team is chosen by the same VAR_STARTER_MON in the rival/champion scripts, which map
+// each value to the rival's counter-pick themselves. Picked at runtime by GetCurrentRegion().
 // Unpopulated regions fall back to the Hoenn trio.
 static const u16 sStarterMon[REGIONS_COUNT][STARTER_MON_COUNT] =
 {
     [REGION_HOENN] = { SPECIES_TREECKO,    SPECIES_TORCHIC,   SPECIES_MUDKIP   },
-    [REGION_KANTO] = { SPECIES_CHARMANDER, SPECIES_BULBASAUR, SPECIES_SQUIRTLE },
+    [REGION_KANTO] = { SPECIES_BULBASAUR,  SPECIES_SQUIRTLE,  SPECIES_CHARMANDER },
     [REGION_JOHTO] = { SPECIES_CHIKORITA,  SPECIES_CYNDAQUIL, SPECIES_TOTODILE },
 };
 
@@ -359,6 +359,13 @@ u16 GetStarterPokemon(u16 chosenStarterId)
     if (region != REGION_KANTO && region != REGION_JOHTO)
         region = REGION_HOENN;
     return sStarterMon[region][chosenStarterId];
+}
+
+// For scripts: `specialvar` passes no argument, so reading the chosen index here keeps the
+// species in step with VAR_STARTER_MON.
+u16 GetPlayerStarterSpecies(void)
+{
+    return GetStarterPokemon(VarGet(VAR_STARTER_MON));
 }
 
 static void VblankCB_StarterChoose(void)

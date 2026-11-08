@@ -37,31 +37,37 @@ Party after battles. Everything else is walking, talking and battling through th
 
 ## Result (November 8, 2026)
 
-Four uninterrupted runs from fresh saves to the Hall of Fame and back home, all on ROM
-`A27070BD1DC7DF76BD0FCABE2A16DA03`, each with no crash screen, hang or retried beat:
+Fresh saves to the Hall of Fame and back home, on ROM `929D25FED5FFF260666D20064C800A82` (built
+from `a5dfa11af9`). None had a crash screen, a hang or a retried beat:
 
 | Run | Variation | Checks | Steps | Trainer | Wild |
 | --- | --- | --- | --- | --- | --- |
-| `base` | boy, Torchic, clock pinned to the default | 85/85 | 10,922 | 159 | 152 |
+| `base` | boy, Torchic, default clock | 85/85 | 10,918 | 159 | 156 |
 | `alt` | different clock and RNG | 85/85 | 10,913 | 157 | 143 |
-| `g1` | girl, Torchic | 85/85 | 10,937 | 157 | 167 |
+| `g1` | girl, Torchic | 85/85 | 10,917 | 155 | 165 |
 | `briney` | Hub Pass detour after sailing to Dewford | 86/86 | 11,008 | 157 | 155 |
 
-`evidence/final-run-beats.log` is the `base` run. The other nine combinations of clock, gender
-and starter tried on the earlier build also reached the Hall of Fame, apart from the two runs that
-hit the evolution freeze below. A run is deterministic for a given build and clock.
+`evidence/final-run-beats.log` is the `base` run. On the earlier build, eleven runs across clock,
+gender and starter ran: nine finished clean or with a harness retry, `g1` froze once and got
+past it on retry, and `alt` froze on both attempts.
 
-Vary a run with `PW_RTC=<epoch>`, `PW_GENDER=F`, `PW_STARTER=0|2` and `PW_DETOUR=briney|stern`.
+A fresh run is deterministic for a given build and clock. Resuming from a checkpoint is not: the
+restore heals the party, which changes the RNG, so a retry can pass a beat a fresh run fails.
+
+Vary a run with `PW_RTC=<epoch>`, `PW_GENDER=F`, `PW_STARTER=0|2` and
+`PW_DETOUR=briney|stern|evolve`.
 
 ## Bugs found and fixed
 
 Each one was reproduced first, then fixed and re-played.
 
 1. **The game froze on a "?" sprite during evolution.** If a Pokemon evolved, wanted a move with
-   four already known, and the player said yes, the scene never recovered. It hit two of eleven
-   runs. `StopShadowAnimDelayTask` (`src/pokemon.c`) trusted a task id that is zero at power-on,
-   so the first summary or party screen destroyed task slot 0, which here was the evolution
-   itself. It now checks the task is live and still its own.
+   four already known, and the player said yes, the scene never recovered. `StopShadowAnimDelayTask`
+   (`src/pokemon.c`) trusted a task id that is zero at power-on, so the first summary or party
+   screen destroyed task slot 0, which here was the evolution itself. It now checks the task is
+   live and still its own. `PW_DETOUR=evolve` forces the case: a build without the fix stops with
+   no tasks and the fixed build finishes. The Mauville Gym freeze was traced directly; the Route
+   118 one has the same signature.
 2. **Using the Hub Pass with Mr. Briney docked at Dewford, before Surf, ended the story.** The
    gate lands at Slateport and nothing reachable from there leads back to Dewford, so Brawly, and
    every badge after him, were out of reach. The Slateport gate now brings him to Route 109, and
@@ -74,15 +80,14 @@ Each one was reproduced first, then fixed and re-played.
    Strength push (`db227a714c`). Reads past the object event array (`481598c4ad`).
 
 Fixed by reading, not played: the Johto PokeGear set `FLAG_REGISTER_RIVAL_POKENAV`, which only
-Route 104 reads, so a Johto-first player skipped the Hoenn rival's Match Call registration.
+Route 104 reads, so a Johto-first player skipped the Hoenn rival's Match Call registration. Saves
+that already received the PokeGear keep the old behaviour.
 
 ## Not bugs, recorded so nobody chases them again
 
 - Losing the Space Center double battle with Steven has no `waitstate` after
   `special SetCB2WhiteOut`. A forced loss whites out home normally and leaves Steven's victory
   flags unset, so it was left alone.
-- `shove` retries in Seafloor Cavern and Victory Road come from a wild battle starting during
-  the push. They pass on retry.
 - Mr. Briney paces a loop in his cottage, and the POKéNAV tutorial accepts only MATCH CALL, then
   only SWITCH OFF. Both are vanilla; the harness drives them.
 

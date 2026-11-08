@@ -89,16 +89,22 @@ return function(F, S)
   local INPUT = { 'HandleInputChooseAction', 'HandleInputChooseMove', 'HandleInputChooseTarget',
                   'HandleInputShowEntireFieldTargets', 'HandleInputShowTargets', 'PlayerHandleYesNoInput' }
   local function controller(b) return r32(P.gBattlerControllerFuncs + 4 * (b or N.activeBattler)) & ~1 end
+  local function isSym(addr, name)
+    for _, a in ipairs(P._all[name] or { P[name] }) do
+      if addr == (a & ~1) then return true end
+    end
+    return false
+  end
   local function pickActive()
     for _, b in ipairs({ 0, 2 }) do
       local c = controller(b)
       for _, name in ipairs(INPUT) do
-        if P[name] and c == (P[name] & ~1) then N.activeBattler = b; return b end
+        if isSym(c, name) then N.activeBattler = b; return b end
       end
     end
     N.activeBattler = 0
   end
-  local function isCtl(name) return controller() == (P[name] & ~1) end
+  local function isCtl(name) return isSym(controller(), name) end
   N.isCtl = isCtl
   function N.inBattle() return F.cb2() == (P.BattleMainCB2 & ~1) end
   -- A script left waiting with the player's controls unlocked (e.g. an overworld wild encounter

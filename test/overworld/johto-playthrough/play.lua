@@ -1,13 +1,15 @@
--- Johto story playthrough from a fresh save, by controller input.
+-- Story playthrough from a fresh save, by controller input. PW_CAMPAIGN picks the region's
+-- beats.lua from test/overworld/<campaign>-playthrough/ (default johto).
 --
 -- Run through test/overworld/johto-playthrough/run.py. Each beat ends with a checkpoint
 -- (a savestate in PW_OUT), so a failing beat can be fixed and resumed with PW_FROM=<beat>
 -- instead of replaying the whole story; the final evidence run plays every beat in one go.
 local here = (debug.getinfo(1, 'S').source:sub(2)):match('^(.*[/\\])')
-package.path = here .. '?.lua;' .. here .. '../lua/?.lua;' .. assert(os.getenv('PW_PLAY_LUA')) .. '/?.lua;' .. package.path
+local CAMPAIGN = os.getenv('PW_CAMPAIGN') or 'johto'
+package.path = here .. '../' .. CAMPAIGN .. '-playthrough/?.lua;' .. here .. '?.lua;' .. here .. '../lua/?.lua;' .. assert(os.getenv('PW_PLAY_LUA')) .. '/?.lua;' .. package.path
 local S = require('symbols')
 local FROM, TO = os.getenv('PW_FROM'), os.getenv('PW_TO')
-local F = require('lib').new(S, 'JohtoPlay' .. (FROM and ('_from_' .. FROM) or ''))
+local F = require('lib').new(S, CAMPAIGN:sub(1, 1):upper() .. CAMPAIGN:sub(2) .. 'Play' .. (FROM and ('_from_' .. FROM) or ''))
 local N = require('nav')(F, S)
 local C = require('pwconst')
 local L = F.L

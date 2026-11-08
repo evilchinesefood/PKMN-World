@@ -105,7 +105,8 @@ return function(F, S)
   -- whose battle never started) does not stop the player, so it does not count as busy.
   local function scriptBusy()
     local st = status()
-    return st == 0 or (st == 1 and r8(P.sLockFieldControls) ~= 0)
+    -- An incoming Match Call freezes the player with no script running; its "……" page waits for A.
+    return st == 0 or (st == 1 and r8(P.sLockFieldControls) ~= 0) or activeTask(P.ExecuteMatchCall) ~= nil
   end
   N.scriptBusy = scriptBusy
   function N.free() return F.ow() and not scriptBusy() and not activeTask(P.Task_HandleYesNoInput)
@@ -278,6 +279,16 @@ return function(F, S)
     else return b == MB.MB_IMPASSABLE_EAST or b == MB.MB_IMPASSABLE_NORTHEAST or b == MB.MB_IMPASSABLE_SOUTHEAST or b == MB.MB_IMPASSABLE_WEST_AND_EAST end
   end
   local function isIce(b) return b == MB.MB_ICE end
+  local CURRENT = {}
+  for name, d in pairs({ MB_SOUTHWARD_CURRENT = 1, MB_NORTHWARD_CURRENT = 2, MB_WESTWARD_CURRENT = 3, MB_EASTWARD_CURRENT = 4 }) do
+    if MB[name] then CURRENT[MB[name]] = d end
+  end
+  -- Acro Bike tiles read as open floor but collide unless riding one (CheckAcroBikeCollision).
+  local ACRO = {}
+  for _, name in ipairs({ 'MB_BUMPY_SLOPE', 'MB_ISOLATED_VERTICAL_RAIL', 'MB_ISOLATED_HORIZONTAL_RAIL',
+                          'MB_VERTICAL_RAIL', 'MB_HORIZONTAL_RAIL' }) do
+    if MB[name] then ACRO[MB[name]] = true end
+  end
 
   N.canSurf, N.canCut, N.canSmash = false, false, false
   N.run = false   -- hold B while walking once the Running Shoes are owned
@@ -322,6 +333,7 @@ return function(F, S)
     if N.passGoal and N.passGoal[tx .. ',' .. ty] then return tx, ty, e, s, 'walk' end
     if (v & 0x0C00) ~= 0 then return nil end
     if blockedLeaving(b, OPP[d]) then return nil end
+    if ACRO[b] then return nil end
     local te = v >> 12
     local mismatch = e ~= 0 and te ~= 0 and te ~= 15 and te ~= e
     local kind = 'walk'
@@ -363,6 +375,35 @@ return function(F, S)
     local ns = s
     if kind == 'surf' then ns, ne = true, te end
     if kind == 'land' then ns = false end
+    if b == MB.MB_MUDDY_SLOPE and not ns then
+      -- On foot a muddy slope always slides us south (ForcedMovement_MuddySlope; only a Mach Bike
+      -- climbs it), so it cannot be climbed and stepping on it ends at its foot.
+      if d == 2 then return nil end
+      local sx, sy = tx, ty
+      for _ = 1, 32 do
+        local v2 = grid.get(sx, sy + 1)
+        if not v2 or (v2 & 0x0C00) ~= 0 or occ[sx .. ',' .. (sy + 1)] then break end
+        sy = sy + 1
+        if grid.beh(v2 & 0x3FF) ~= MB.MB_MUDDY_SLOPE then break end
+      end
+      return sx, sy, ne, ns, 'slide'
+    end
+    if ns and CURRENT[b] then
+      -- A sea current carries the surfer along it until it ends or something stops it
+      -- (ForcedMovement_Pushed*ByCurrent): no steering, so it cannot be ridden upstream.
+      local cd = CURRENT[b]
+      local sx, sy = tx, ty
+      for _ = 1, 128 do
+        local nx2, ny2 = sx + DX[cd], sy + DY[cd]
+        local v2 = grid.get(nx2, ny2)
+        if not v2 or (v2 & 0x0C00) ~= 0 or occ[nx2 .. ',' .. ny2] then break end
+        sx, sy = nx2, ny2
+        local b2 = grid.beh(v2 & 0x3FF)
+        if not CURRENT[b2] then break end
+        cd = CURRENT[b2]
+      end
+      return sx, sy, ne, ns, 'slide'
+    end
     if isIce(b) and not ns then
       -- Slide until the next tile refuses us or a non-ice tile is reached.
       local sx, sy, se = tx, ty, ne
@@ -613,14 +654,18 @@ return function(F, S)
     while frames < 60 * 60 * 12 do
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first healthy party member not already battling.
+        -- The menu reorders the party into battle order while it is open (UpdatePartyToBattleOrder),
+        -- so the battlers are matched by personality, not by gBattlerPartyIndexes.
         local inBattle = {}
-        for _, b in ipairs({ 0, 2 }) do
-          if r16(bmon(b) + O.bm_hp) > 0 then inBattle[r16(P.gBattlerPartyIndexes + 2 * b)] = true end
+        local double = (r32(P.gBattleTypeFlags) & C.BATTLE_TYPE_DOUBLE) ~= 0
+        for _, b in ipairs(double and { 0, 2 } or { 0 }) do
+          if r16(bmon(b) + O.bm_hp) > 0 then inBattle[r32(bmon(b) + O.bm_personality)] = true end
         end
         local target
         for i = 0, N.partyCount() - 1 do
           local pm = N.partyMon(i)
-          if pm.hp > 0 and pm.level > 0 and not inBattle[i] and not target then target = i end
+          local pid = r32(P.gParties + i * O.mon_size + O.mon_personality)
+          if pm.hp > 0 and pm.level > 0 and not inBattle[pid] and not target then target = i end
         end
         if target then
           for _ = 1, 8 do
@@ -774,6 +819,9 @@ return function(F, S)
       elseif F.cb2() == (P.CB2_WallClock & ~1) then
         -- Accept the shown time; its own Yes/No opens on No, so Up first.
         press('Up'); idle(6); press('A'); idle(30); frames = frames + 36; freeFor = 0
+      elseif N.screen and N.screen() then
+        -- A campaign-specific full-screen menu (Hoenn's POKéNAV tutorial) took a step.
+        frames = frames + 60; freeFor = 0
       elseif not F.ow() then
         press('A'); idle(10); frames = frames + 12; freeFor = 0
       else
@@ -881,8 +929,11 @@ return function(F, S)
         end
         path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, { occ = occ, allowObj = opts.allowObj })
       end
-      if not path then path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, opts) end
+      -- strictTriggers: never fall back to a path over a live trigger (puzzle switches).
+      if not path and not opts.strictTriggers then path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, opts) end
       if not path then
+        -- A resumable assertf crash screen keeps the overworld callback, so it looks like a wall.
+        if F.reportCrash and F.reportCrash('walk') then error('crash screen during walk at ' .. N.mapName()) end
         stuckReport(tag .. ' no-path')
         local objs = {}
         for _, o in ipairs(N.objects()) do objs[#objs + 1] = string.format('%d@(%d,%d)', o.localId, o.x, o.y) end
@@ -1043,6 +1094,38 @@ return function(F, S)
     return false
   end
 
+  -- Talk to an object that walks a fixed loop: watch it every few frames, and the moment it is
+  -- beside us turn to it and press A; otherwise take one planned step toward it.
+  function N.intercept(target, opts)
+    opts = opts or {}
+    for i = 1, 3000 do
+      if not N.free() then N.settle(opts) end
+      local o = N.object(target)
+      if not o then return false end
+      local x, y = F.pos()
+      local hit
+      for d = 1, 4 do if x + DX[d] == o.x and y + DY[d] == o.y then hit = d end end
+      if hit then
+        if N.facing() ~= hit then press(KEY[hit], 1); idle(2) end
+        w16(S.gSpecialVar_LastTalked, 0)
+        press('A'); idle(20)
+        if not N.free() then
+          local who = r16(S.gSpecialVar_LastTalked)
+          N.settle(opts)
+          if who == target then return true end
+        end
+      elseif i % 15 == 0 then
+        local goals = {}
+        for d = 1, 4 do goals[(o.x + DX[d]) .. ',' .. (o.y + DY[d])] = true end
+        local path = bfs(liveGrid(), x, y, N.elevation(), N.surfing(), function(px, py) return goals[px .. ',' .. py] end, {})
+        if path and path[1] then doEdge(path[1]) end
+      else
+        idle(2)
+      end
+    end
+    return false
+  end
+
   -- Stand on (x,y), face d and press A (counters, signs, objects behind desks).
   function N.talkFrom(x, y, d, opts)
     opts = opts or {}
@@ -1095,12 +1178,16 @@ return function(F, S)
   end
   N.WARPB = WARPB
 
+  -- Map groups the planner may route through: Johto by default; a campaign sets its own region.
+  N.region = { lo = 75, hi = 99 }
+  local function inRegion(g) return g >= N.region.lo and g <= N.region.hi end
+
   local function exitsOf(info)
     local list = {}
     -- The current map's live grid knows tiles a script swapped in (stairs revealed by setmetatile).
     local grid = (info.g == F.grp() and info.m == F.mapn()) and liveGrid() or staticGrid(info)
     for _, w in ipairs(info.warps) do
-      if w.g >= 75 and w.g <= 99 then
+      if inRegion(w.g) then
         local dest = header(w.g, w.m)
         local dw = dest.warps[w.warpId + 1]
         local v = grid.get(w.x, w.y)
@@ -1110,7 +1197,8 @@ return function(F, S)
       end
     end
     for _, c in ipairs(info.conns) do
-      if c.g >= 75 and c.g <= 99 then
+      -- Directions 5 and 6 are dive/emerge links, not walkable edges (taken by N.dive).
+      if inRegion(c.g) and c.dir <= 4 then
         list[#list + 1] = { kind = 'conn', dir = c.dir, offset = c.offset, g = c.g, m = c.m, dest = header(c.g, c.m) }
       end
     end
@@ -1564,6 +1652,15 @@ return function(F, S)
     F.w32(addr, new ~ key)
     w16(b + 28, sum)
     L(string.format('  setMetLevel slot %d: met level %d -> %d', slot, (old >> 16) & 0x7F, lvl))
+  end
+
+  -- Swap two party slots byte for byte (each mon is encrypted with its own key, so this is safe).
+  function N.swapParty(a, b)
+    local pa, pb = P.gParties + a * O.mon_size, P.gParties + b * O.mon_size
+    for off = 0, O.mon_size - 4, 4 do
+      local va, vb = r32(pa + off), r32(pb + off)
+      F.w32(pa + off, vb); F.w32(pb + off, va)
+    end
   end
 
   function N.debugHeal()

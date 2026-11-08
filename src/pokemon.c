@@ -5732,11 +5732,13 @@ void StopPokemonAnimationDelayTask(void)
 
 void StopShadowAnimDelayTask(void)
 {
-    if (sShadowAnimDelayTaskId != TASK_NONE)
-    {
+    // The id is zero until the first shadow animation and goes stale after ResetTasks, and
+    // destroying slot 0 unchecked killed Task_EvolutionScene when a move-replace opened the summary.
+    if (sShadowAnimDelayTaskId != TASK_NONE
+     && gTasks[sShadowAnimDelayTaskId].isActive
+     && gTasks[sShadowAnimDelayTaskId].func == Task_PokemonSummaryAnimateAfterDelay)
         DestroyTask(sShadowAnimDelayTaskId);
-        sShadowAnimDelayTaskId = TASK_NONE;
-    }
+    sShadowAnimDelayTaskId = TASK_NONE;
 }
 
 void BattleAnimateBackSprite(struct Sprite *sprite, enum Species species)

@@ -36,6 +36,7 @@ return function(F, N, C, log)
     return kantoPolicy(t, k)
   end
 
+  local DETOUR = os.getenv('PW_DETOUR')
   local function moves()
     N.run = true
     N.clearItems = true
@@ -66,6 +67,21 @@ return function(F, N, C, log)
     N.settle()
   end, function() return V(LAB) == 2 and at('PalletTown_ProfessorOaksLab_Frlg') end)
 
+  -- PW_DETOUR=starter: leave Oak's lab by Hub Pass with the three balls still on the table.
+  -- Without a Pokemon the Viridian Mart parcel scene must not be reachable.
+  if DETOUR == 'starter' then
+    beat('detour_starter', function()
+      N.useHubPass()
+      N.crossGate(11)
+      L('  gate landed at ' .. N.mapName() .. ' lab=' .. V(LAB))
+      if not at('PalletTown_ProfessorOaksLab_Frlg') then
+        assert(N.travel('ViridianCity_Mart_Frlg'))
+        N.settle()
+      end
+      L('  after: ' .. N.mapName() .. ' lab=' .. V(LAB) .. ' mart=' .. V('VAR_MAP_SCENE_VIRIDIAN_CITY_MART') .. ' party=' .. N.partyCount())
+    end, function() return at('PalletTown_ProfessorOaksLab_Frlg') and V(LAB) == 2 end)
+  end
+
   beat('starter', function()
     moves()
     assert(N.talk(BALLS[STARTER], { side = 1 }))
@@ -74,6 +90,23 @@ return function(F, N, C, log)
 
   -- Parties are per region, so this happens in Kanto, after the starter is chosen normally.
   -- Lv100 Mewtwo and Rayquaza from the debug Give menu, met level lowered to 5 for obedience.
+  -- PW_DETOUR=empty: bank the party by crossing to Johto, come home without withdrawing it, and
+  -- walk into the rival's lab fight.
+  if DETOUR == 'empty' then
+    beat('detour_empty', function()
+      N.useHubPass()
+      N.crossGate(16)
+      L('  crossed to ' .. N.mapName() .. ' party=' .. N.partyCount())
+      N.useHubPass()
+      N.crossGate(11)
+      L('  home at ' .. N.mapName() .. ' party=' .. N.partyCount() .. ' lab=' .. V(LAB))
+      assert(N.travel('PalletTown_ProfessorOaksLab_Frlg'))
+      N.go(6, 8, { allowTriggers = true })
+      N.settle()
+      L('  after the trigger: ' .. N.mapName() .. ' party=' .. N.partyCount() .. ' lab=' .. V(LAB))
+    end, function() return F.ow() and N.free() end)
+  end
+
   beat('party', function()
     assert(N.giveMon({ species = C.SPECIES_MEWTWO, level = 100, evs = { 4, 0, 0, 252, 252, 0 },
       moves = { C.MOVE_PSYSTRIKE, C.MOVE_AURA_SPHERE, C.MOVE_ICE_BEAM, C.MOVE_FLAMETHROWER } }))
@@ -151,6 +184,20 @@ return function(F, N, C, log)
   end, function() return badge(1) end)
 
   ------------------------------------------------------------------ Mt. Moon to Cerulean
+  -- PW_DETOUR=ship: with only the Boulder Badge and no ticket, the Vermilion gate must not put the
+  -- player past the S.S. Anne ticket check.
+  if DETOUR == 'ship' then
+    beat('detour_ship', function()
+      N.useHubPass()
+      N.crossGate(11)
+      local x, y = F.pos()
+      L(string.format('  gate landed at %s (%d,%d)', N.mapName(), x, y))
+      N.push(1)
+      N.idle(120); N.settle()
+      L('  after Down: ' .. N.mapName())
+    end, function() return at('VermilionCity_Frlg') end)
+  end
+
   beat('mt_moon_fossil', function()
     moves()
     assert(N.travel('MtMoon_B2F_Frlg', { tile = { 13, 7 } }))

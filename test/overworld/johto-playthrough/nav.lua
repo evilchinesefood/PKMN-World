@@ -578,6 +578,7 @@ return function(F, S)
 
   -- One step in direction d, pushing whatever is there (Strength boulders). True if we moved.
   function N.push(d)
+    if not N.free() then N.settle() end   -- arriving beside the boulder can start a wild battle
     local ok = holdUntilMoved(d, 60)
     waitStill(90)
     if not N.free() then N.settle() end
@@ -1782,6 +1783,34 @@ return function(F, S)
       local va, vb = r32(pa + off), r32(pb + off)
       F.w32(pa + off, vb); F.w32(pb + off, va)
     end
+  end
+
+  -- SELECT a registered Hub Pass and answer its confirm, which opens on NO after a page of text.
+  function N.useHubPass()
+    F.w16(F.sb1() + F.S.SaveBlock1.registeredItem, C.ITEM_HUB_RETURN)
+    press('Select'); idle(90)
+    local function confirmOpen()
+      return activeTask(P.Task_CallYesOrNoCallback) ~= nil or activeTask(P.Task_HandleYesNoInput) ~= nil
+    end
+    for _ = 1, 40 do
+      if confirmOpen() then idle(30); press('Up'); idle(12); press('A'); idle(60); break end
+      press('A'); idle(30)
+    end
+    for _ = 1, 400 do
+      if N.mapName() == 'RegionHub' and N.free() then break end
+      press('A'); idle(10)
+    end
+    assert(N.mapName() == 'RegionHub', 'Hub Pass left us at ' .. N.mapName())
+  end
+
+  -- Talk to the hub attendant standing at (x, 2) and board.
+  function N.crossGate(x)
+    assert(N.approach(x, 2, { side = 1 }), 'hub attendant')
+    for _ = 1, 500 do
+      press('A'); idle(20)
+      if N.mapName() ~= 'RegionHub' then break end
+    end
+    idle(200); N.settle()
   end
 
   function N.debugHeal()

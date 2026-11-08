@@ -625,6 +625,7 @@ return function(F, N, C, log)
   -- fades back in from one gets another try.
   local function shove(d, what)
     for _ = 1, 4 do
+      if not N.free() then N.settle() end   -- arriving on the tile can start a wild battle
       if not FL('FLAG_SYS_USE_STRENGTH') then
         N.face(d)
         -- A wild battle can start mid-turn; an A facing elsewhere would wake a neighbouring boulder.

@@ -1359,19 +1359,21 @@ return function(F, S)
     return r
   end
   N.flood = function(...) return flood(...) end
-  -- Wandering objects are ignored here (they move), but a pushed boulder on this map blocks
-  -- until something else moves it, so it counts as solid.
+  -- Wandering objects are ignored here (they move). A campaign whose boulders can seal the exit it
+  -- would plan through sets N.solidBoulders (Kanto's Victory Road); the others keep their routes.
   local BOULDER = { [C.OBJ_EVENT_GFX_PUSHABLE_BOULDER] = true, [C.OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG] = true }
   function floodLive()
     local x, y = F.pos()
     local occ = {}
-    local seen = {}
-    for _, o in ipairs(N.objects()) do
-      seen[o.localId] = true
-      if BOULDER[o.gfx] then occ[o.x .. ',' .. o.y] = true end
-    end
-    for _, t in ipairs(header(F.grp(), F.mapn()).objs) do
-      if BOULDER[t.gfx] and not seen[t.localId] and (t.flag == 0 or not N.flag(t.flag)) then occ[t.x .. ',' .. t.y] = true end
+    if N.solidBoulders then
+      local seen = {}
+      for _, o in ipairs(N.objects()) do
+        seen[o.localId] = true
+        if BOULDER[o.gfx] then occ[o.x .. ',' .. o.y] = true end
+      end
+      for _, t in ipairs(header(F.grp(), F.mapn()).objs) do
+        if BOULDER[t.gfx] and not seen[t.localId] and (t.flag == 0 or not N.flag(t.flag)) then occ[t.x .. ',' .. t.y] = true end
+      end
     end
     return floodGrid(liveGrid(), x, y, N.elevation(), N.surfing(), occ)
   end

@@ -45,8 +45,8 @@ Cut is needed. Vary a run with `PW_GENDER=F`, `PW_STARTER`, and `PW_RTC=<epoch>`
 
 ## Result
 
-Fresh saves to the Hall of Fame and back home, on ROM `87CCBDAA63124D60B512244777C6296D` (built
-from `cf348aca43`). None had a crash screen, a hang or a retried beat:
+Fresh saves to the Hall of Fame and back home, on ROM `F084480F35949013D519D3A15050630A` (built
+from `e2462e6187`). None had a crash screen, a hang or a retried beat:
 
 | Run | Variation | Checks | Steps | Trainer | Wild |
 | --- | --- | --- | --- | --- | --- |

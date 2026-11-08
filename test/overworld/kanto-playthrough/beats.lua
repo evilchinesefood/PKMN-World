@@ -41,6 +41,7 @@ return function(F, N, C, log)
     N.run = true
     N.clearItems = true
     N.solidBoulders = true
+    N.resetAvoid = true
     -- The gates' guards refuse the player until Tea is delivered, but the planner can't see that.
     -- Route 17 is the Cycling Road: its gates turn away a player with no Bicycle.
     N.noEnter = { Route17_Frlg = true, SaffronCity_Frlg = V('VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES') == 0 or nil }

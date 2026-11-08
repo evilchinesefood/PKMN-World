@@ -578,7 +578,6 @@ return function(F, S)
 
   -- One step in direction d, pushing whatever is there (Strength boulders). True if we moved.
   function N.push(d)
-    if not N.free() then N.settle() end   -- arriving beside the boulder can start a wild battle
     local ok = holdUntilMoved(d, 60)
     waitStill(90)
     if not N.free() then N.settle() end
@@ -1392,7 +1391,7 @@ return function(F, S)
   function N.route(target, opts)
     opts = opts or {}
     resetPlanCaches()
-    N.avoid = {}   -- a walk's bumps are per map and per attempt; they must not poison a cross-map plan
+    if N.resetAvoid then N.avoid = {} end   -- a walk's bumps must not poison a cross-map plan
     local tg = MAPS[target]
     assert(tg, 'unknown map ' .. tostring(target))
     local g0, m0 = F.grp(), F.mapn()
@@ -1661,7 +1660,7 @@ return function(F, S)
     for hop = 1, 60 do
       if not N.free() then N.settle(opts) end
       N.rememberMap()
-      N.avoid = {}
+      if N.resetAvoid then N.avoid = {} end
       if F.grp() == tg.g and F.mapn() == tg.m and (not opts.tile or reachesTile(floodLive(), opts.tile)) then return true end
       local ex = N.route(target, opts)
       if not ex then

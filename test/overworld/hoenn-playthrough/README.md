@@ -38,23 +38,24 @@ Party after battles. Everything else is walking, talking and battling through th
 ## Result (October 31, 2026)
 
 One uninterrupted run, from a fresh hub save to the Hall of Fame and back home, on ROM
-`AF8DEF850A0CA001501E96C0C080DAE1` (branch `test/hoenn-playthrough`, both fixes below applied):
+`7388AFA6EF54DBF8FFAE3B46F548A0E0` (branch `fix/pr368-review-findings`, every fix below applied):
 
 - **85/85 checks:** the fresh-save check and all 84 beats. No beat retried, no state edited beyond
   the two concessions above.
-- **Play:** 10,941 steps, 159 trainer battles, 152 wild encounters. All eight gym leaders, the
+- **Play:** 10,918 steps, 159 trainer battles, 156 wild encounters. All eight gym leaders, the
   Elite Four and Champion Wallace were beaten. Kyogre was woken at Seafloor Cavern and Rayquaza at
   Sky Pillar. The game ends under player control in the bedroom after the Hall of Fame's soft
   reset, with `FLAG_HOENN_CHAMPION` set.
 - **Evidence:** [`evidence/final-run-beats.log`](evidence/final-run-beats.log) has each beat and
-  trainer battle and the final totals. A second run from scratch gave identical totals.
+  trainer battle and the final totals. An earlier ROM gave identical totals across two runs from
+  scratch, so the campaign is deterministic on a given build.
 
 After the planner changes this campaign needed, the Johto campaign still passes 83/83 with its
 recorded totals.
 
 ## Bugs found and fixed
 
-Each one was found in play, confirmed against the source, fixed, and re-played.
+Each one was confirmed against the source, fixed, and re-played.
 
 1. **A crash screen on Route 116.** Walking toward Rusturf Tunnel, the game stopped on "could
    not spawn generated overworld encounter. too many object events exist". Route 116 shows 14
@@ -69,6 +70,11 @@ Each one was found in play, confirmed against the source, fixed, and re-played.
    localid: 0" (`src/wild_encounter_ow.c:805`). Encounter contact is now ignored while the field
    controls are locked (`db227a714c`). A probe that pushed at 150 frame offsets crashed 19 times
    before the fix and never after.
+
+3. **Reads past the object event array.** Found in code review, not in play. An unused overworld
+   encounter slot has no object, so its id is `OBJECT_EVENTS_COUNT`, and four places in
+   `src/wild_encounter_ow.c` indexed `gObjectEvents` with it. It caused no crash we saw.
+   `GetOWEBySpawnSlot` now returns `NULL` for an unused slot.
 
 ## Not bugs, recorded so nobody chases them again
 

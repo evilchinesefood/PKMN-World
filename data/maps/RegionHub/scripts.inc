@@ -296,10 +296,24 @@ RegionHub_EventScript_SeedFirstVisitHoennFemale::
 	return
 
 RegionHub_EventScript_ReturnHoenn::
+	call RegionHub_EventScript_BringBrineyToRoute109
 	warp MAP_SLATEPORT_CITY_HARBOR, 0
 	waitstate
 	release
 	end
+
+@ This gate lands at Slateport. Before Surf the only way to Dewford is Mr. Briney's boat, and a
+@ Hub Pass used on Dewford leaves him docked there with no route back. Route 109 is the shore
+@ the gate can walk to, and he offers Dewford from it.
+RegionHub_EventScript_BringBrineyToRoute109::
+	goto_if_set FLAG_DEFEATED_PETALBURG_GYM, Common_EventScript_NopReturn
+	goto_if_set FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN, Common_EventScript_NopReturn
+	setflag FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN
+	setflag FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN
+	clearflag FLAG_HIDE_ROUTE_109_MR_BRINEY
+	clearflag FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT
+	setvar VAR_BRINEY_LOCATION, 3
+	return
 
 @ Battle Frontier capstone - region-agnostic (no SetCurrentRegion; the destination MAPSEC
 @ self-derives the region) and does NOT box the party. Gated on having cleared at least ONE

@@ -406,6 +406,7 @@ BEAT 82/84 e4_DrakesRoom
   [PASS] beat e4_DrakesRoom
 BEAT 83/84 champion
   battle TRAINER fight foe=0 L0 at EverGrandeCity_ChampionsRoom -> outcome=1 turns=6 lead hp=354/354
+  after the Hall of Fame: LittlerootTown_BrendansHouse_2F champion=true game clear=true
 == champion: LittlerootTown_BrendansHouse_2F (4,2) party=4 lead=L100 354/354 steps=10914 battles=159/156
   [PASS] beat champion
 BEAT 84/84 home

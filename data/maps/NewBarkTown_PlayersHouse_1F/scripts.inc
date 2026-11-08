@@ -99,7 +99,6 @@ NewBarkTown_PlayersHouse_1F_EventScript_GivePokeGear::
 	setflag FLAG_SYS_POKENAV_GET
 	setflag FLAG_RECEIVED_POKENAV
 	setflag FLAG_ADDED_MATCH_CALL_TO_POKENAV
-	setflag FLAG_REGISTER_RIVAL_POKENAV
 	msgbox NewBarkTown_PlayersHouse_1F_Text_ExplainPokeGear, MSGBOX_DEFAULT
 	closemessage
 	delay 30

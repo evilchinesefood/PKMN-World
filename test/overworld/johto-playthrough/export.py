@@ -18,13 +18,17 @@ NM = '/opt/devkitpro/devkitARM/bin/arm-none-eabi-nm'
 out = Path(sys.argv[1]).resolve()
 out.mkdir(parents=True, exist_ok=True)
 
-syms = {}
+syms, every = {}, {}
 for line in subprocess.check_output([NM, str(ROOT / 'pokemonworld.elf')], text=True).splitlines():
     p = line.split()
     if len(p) == 3 and re.fullmatch(r'[A-Za-z_]\w*', p[2]):
         syms[p[2]] = int(p[0], 16)
+        every.setdefault(p[2], []).append(int(p[0], 16))
+# Statics share names across files (HandleInputChooseAction has three), and nm's order among them
+# changes between builds, so one value per name can silently be the wrong function.
+all_lua = ''.join(f"{k}={{{','.join(f'0x{a:x}' for a in v)}}},\n" for k, v in sorted(every.items()) if len(v) > 1)
 (out / 'pwsym.lua').write_text('return {\n' + ''.join(
-    f'{k}=0x{v:x},\n' for k, v in sorted(syms.items())) + '}\n')
+    f'{k}=0x{v:x},\n' for k, v in sorted(syms.items())) + '_all={\n' + all_lua + '},\n}\n')
 
 HEADERS = ['constants/flags.h', 'constants/vars.h', 'constants/items.h', 'constants/species.h',
            'constants/moves.h', 'constants/metatile_behaviors.h', 'constants/opponents.h',

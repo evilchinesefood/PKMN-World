@@ -10,6 +10,13 @@ return function(F, N, C, log)
   local function badge(n) return FL('FLAG_BADGE0' .. n .. '_GET') end
   N.region = { lo = 0, hi = 33 }   -- Hoenn's map groups (data/maps/map_groups.json)
 
+  -- PW_GENDER=F plays as the girl: set in the hub, before the first crossing reads it.
+  -- PW_STARTER=0|2 picks that ball from Birch's bag (1, the cursor's default, needs no input).
+  local GIRL = os.getenv('PW_GENDER') == 'F'
+  local STARTER = tonumber(os.getenv('PW_STARTER') or '')
+  local HOME = GIRL and 'LittlerootTown_MaysHouse' or 'LittlerootTown_BrendansHouse'
+  local RIVAL_HOME = GIRL and 'LittlerootTown_BrendansHouse' or 'LittlerootTown_MaysHouse'
+
   -- Rustboro's Match Call tutorial opens a start menu and insists on POKéNAV (slot 3).
   local basePolicy = N.defaultPolicy
   N.defaultPolicy = function(t, k)
@@ -37,23 +44,67 @@ return function(F, N, C, log)
     return true
   end
 
+  local pokenavScreen = N.screen
+  N.screen = function()
+    if STARTER and STARTER ~= 1 and not N.starterMoved and F.cb2() == (P.CB2_StarterChoose & ~1) then
+      N.idle(120); N.press(STARTER == 0 and 'Left' or 'Right'); N.idle(20)
+      N.starterMoved = true
+      return true
+    end
+    return pokenavScreen()
+  end
+
+  -- Hub Pass out and back through the Hoenn gate (HubPassReCross.lua's registered-item trick).
+  -- Lands at Slateport Harbor once the Stone Badge is held.
+  local yes = function(t, k) if k == 'yesno' then return 'yes' end return 0 end
+  local function hubPassRoundTrip()
+    F.w16(F.r32(P.gSaveBlock1Ptr) + F.S.SaveBlock1.registeredItem, C.ITEM_HUB_RETURN)
+    N.press('Select'); N.idle(90)
+    -- The confirm opens on NO after a page of text: A pages it, and only the box may take Up.
+    local function yesNoOpen()
+      for i = 0, 15 do
+        local t = P.gTasks + i * 40
+        if F.r8(t + 4) ~= 0 and ((F.r32(t) & ~1) == (P.Task_HandleYesNoInput & ~1) or (F.r32(t) & ~1) == (P.Task_CallYesOrNoCallback & ~1)) then return true end
+      end
+      return false
+    end
+    for _ = 1, 40 do
+      if yesNoOpen() then N.idle(30); N.press('Up'); N.idle(12); N.press('A'); N.idle(60); break end
+      N.press('A'); N.idle(30)
+    end
+    for _ = 1, 400 do
+      if at('RegionHub') and N.free() then break end
+      N.press('A'); N.idle(10)
+    end
+    L('  Hub Pass arrived at ' .. N.mapName())
+    assert(at('RegionHub'), 'Hub Pass left us at ' .. N.mapName())
+    assert(N.approach(21, 2, { side = 1 }), 'hub Hoenn attendant')
+    for _ = 1, 500 do
+      N.press('A'); N.idle(20)
+      if not at('RegionHub') then break end
+    end
+    N.idle(200); N.settle()
+    L('  back through the gate at ' .. N.mapName())
+  end
+
   beat('to_hoenn', function()
+    if GIRL then F.w8(F.r32(P.gSaveBlock2Ptr) + 8, 1) end
     assert(N.approach(21, 2, { side = 1 }), 'hub Hoenn attendant')
     for _ = 1, 500 do
       N.press('A'); N.idle(20)
       if F.grp() == 1 then break end
     end
     N.idle(200); N.settle()
-  end, function() return at('LittlerootTown_BrendansHouse_2F') end)
+  end, function() return at(HOME .. '_2F') end)
 
   beat('clock', function()
-    assert(N.talk({ 5, 1 }, { side = 1 }))
+    assert(N.talk(GIRL and { 3, 1 } or { 5, 1 }, { side = 1 }))
     N.settle()
   end, function() return FL('FLAG_SET_WALL_CLOCK') end)
 
   beat('meet_rival', function()
-    assert(N.travel('LittlerootTown_MaysHouse_2F'))
-    assert(N.talk({ 5, 4 }))
+    assert(N.travel(RIVAL_HOME .. '_2F'))
+    assert(N.talk(GIRL and { 3, 4 } or { 5, 4 }))
     N.settle()
   end, function() return V('VAR_LITTLEROOT_RIVAL_STATE') >= 3 end)
 
@@ -68,7 +119,7 @@ return function(F, N, C, log)
     N.settle()
     if not at('LittlerootTown_ProfessorBirchsLab') then assert(N.travel('LittlerootTown_ProfessorBirchsLab')) end
     N.settle()
-  end, function() return V('VAR_BIRCH_LAB_STATE') >= 3 end)
+  end, function() return V('VAR_BIRCH_LAB_STATE') >= 3 and (not STARTER or V('VAR_STARTER_MON') == STARTER) end)
 
   -- Parties are per region, so this happens in Hoenn, after the starter is chosen normally.
   -- Lv100 Mewtwo and Rayquaza from the debug Give menu, met level lowered to 5 for obedience.
@@ -82,12 +133,29 @@ return function(F, N, C, log)
     N.swapParty(0, 1)   -- Mewtwo leads; the starter stays in the party
   end, function() return N.partyCount() == 3 and N.partyMon(0).level == 100 end)
 
+  -- PW_DETOUR=evolve: a Lv15 Torchic one Exp point short of Lv16 leads with four moves known, so
+  -- the rival fight evolves it into a learned move that needs a replacement.
+  if os.getenv('PW_DETOUR') == 'evolve' then
+    beat('detour_evolve', function()
+      assert(N.giveMon({ species = C.SPECIES_TORCHIC, level = 15, evs = { 0, 0, 0, 0, 0, 0 },
+        moves = { C.MOVE_SCRATCH, C.MOVE_GROWL, C.MOVE_FOCUS_ENERGY, C.MOVE_EMBER } }))
+      local slot = N.partyCount() - 1
+      N.setMetLevel(slot, 5)
+      N.setExp(slot, 2534)
+      N.swapParty(0, slot)
+      N.acceptPrompts = true   -- answer YES to the move replacement, the path that froze
+    end, function() return N.partyMon(0).level == 15 end)
+  end
+
   beat('route103', function()
     N.run = true
     assert(N.travel('Route103'))
     assert(N.talk(2))
     N.settle()
-  end, function() return FL('FLAG_DEFEATED_RIVAL_ROUTE103') end)
+  end, function()
+    return FL('FLAG_DEFEATED_RIVAL_ROUTE103')
+      and (os.getenv('PW_DETOUR') ~= 'evolve' or N.partyMon(0).level == 16)
+  end)
 
   beat('pokedex', function()
     assert(N.travel('LittlerootTown_ProfessorBirchsLab'))
@@ -113,6 +181,18 @@ return function(F, N, C, log)
     assert(N.travel('RustboroCity_Gym'))
     assert(N.talk(1))
   end, function() return badge(1) end)
+
+  -- PW_DETOUR=stern: reach Slateport through the gate with no Devon Parts in the bag.
+  if os.getenv('PW_DETOUR') == 'stern' then
+    beat('detour_stern', function()
+      hubPassRoundTrip()
+      assert(at('SlateportCity_Harbor'), 'gate landed at ' .. N.mapName())
+      assert(N.travel('SlateportCity_SternsShipyard_1F'))
+      assert(N.talk(1))
+      N.settle()
+      L('  after Dock: rejected=' .. tostring(FL('FLAG_DOCK_REJECTED_DEVON_GOODS')) .. ' aqua=' .. tostring(FL('FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA')))
+    end, function() return not FL('FLAG_DOCK_REJECTED_DEVON_GOODS') and not FL('FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA') end)
+  end
 
   -- Leaving the Gym, the thief runs past on x = 23; then the Devon employee by the corp asks for help.
   beat('devon_stolen', function()
@@ -145,6 +225,21 @@ return function(F, N, C, log)
     assert(N.intercept(1))   -- he paces a loop around the room
     N.settle()
   end, function() return at('DewfordTown') end)
+
+  -- PW_DETOUR=briney: the boat is parked at Dewford and there is no Surf yet, so Dewford is
+  -- reachable only if Briney can be found from where the gate lands.
+  if os.getenv('PW_DETOUR') == 'briney' then
+    beat('detour_briney', function()
+      hubPassRoundTrip()
+      assert(at('SlateportCity_Harbor'), 'gate landed at ' .. N.mapName())
+      L(string.format('  briney hide flags: route109=%s boat109=%s dewford=%s',
+        tostring(FL('FLAG_HIDE_ROUTE_109_MR_BRINEY')), tostring(FL('FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT')),
+        tostring(FL('FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN'))))
+      assert(N.travel('Route109'))
+      assert(N.talk(2))
+      N.settle({ policy = yes })
+    end, function() return at('DewfordTown') end)
+  end
 
   beat('steven_letter', function()
     assert(N.travel('GraniteCave_StevensRoom'))
@@ -530,6 +625,7 @@ return function(F, N, C, log)
   -- fades back in from one gets another try.
   local function shove(d, what)
     for _ = 1, 4 do
+      if not N.free() then N.settle() end   -- arriving on the tile can start a wild battle
       if not FL('FLAG_SYS_USE_STRENGTH') then
         N.face(d)
         -- A wild battle can start mid-turn; an A facing elsewhere would wake a neighbouring boulder.
@@ -984,17 +1080,17 @@ return function(F, N, C, log)
     N.settle()
     L('  after the Hall of Fame: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_HOENN_CHAMPION'))
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
-  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at('LittlerootTown_BrendansHouse_2F') end)
+  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at(HOME .. '_2F') end)
 
   -- Back under control after the reset: walk downstairs (the 1F ON_FRAME gives the S.S. Ticket).
   beat('home', function()
     segDMoves()
     local x0, y0 = F.pos()
-    assert(N.travel('LittlerootTown_BrendansHouse_1F'))
+    assert(N.travel(HOME .. '_1F'))
     N.settle()
     local x, y = F.pos()
     L(string.format('  moved from 2F (%d,%d) to 1F (%d,%d)', x0, y0, x, y))
-  end, function() return FL('FLAG_HOENN_CHAMPION') and at('LittlerootTown_BrendansHouse_1F') and N.free() end)
+  end, function() return FL('FLAG_HOENN_CHAMPION') and at(HOME .. '_1F') and N.free() end)
 
   return B
 end

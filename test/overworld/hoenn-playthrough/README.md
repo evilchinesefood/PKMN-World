@@ -35,46 +35,53 @@ added through the debug Give menu, with met level lowered to 5 so Gen 8+ obedien
 Mewtwo leads; the starter stays in the party. HP and PP are restored with the debug menu's Heal
 Party after battles. Everything else is walking, talking and battling through the game's scripts.
 
-## Result (October 31, 2026)
+## Result (November 8, 2026)
 
-One uninterrupted run, from a fresh hub save to the Hall of Fame and back home, on ROM
-`7388AFA6EF54DBF8FFAE3B46F548A0E0` (branch `fix/pr368-review-findings`, every fix below applied):
+Fresh saves to the Hall of Fame and back home, on ROM `929D25FED5FFF260666D20064C800A82` (built
+from `a5dfa11af9`). None had a crash screen, a hang or a retried beat:
 
-- **85/85 checks:** the fresh-save check and all 84 beats. No beat retried, no state edited beyond
-  the two concessions above.
-- **Play:** 10,918 steps, 159 trainer battles, 156 wild encounters. All eight gym leaders, the
-  Elite Four and Champion Wallace were beaten. Kyogre was woken at Seafloor Cavern and Rayquaza at
-  Sky Pillar. The game ends under player control in the bedroom after the Hall of Fame's soft
-  reset, with `FLAG_HOENN_CHAMPION` set.
-- **Evidence:** [`evidence/final-run-beats.log`](evidence/final-run-beats.log) has each beat and
-  trainer battle and the final totals. An earlier ROM gave identical totals across two runs from
-  scratch, so the campaign is deterministic on a given build.
+| Run | Variation | Checks | Steps | Trainer | Wild |
+| --- | --- | --- | --- | --- | --- |
+| `base` | boy, Torchic, default clock | 85/85 | 10,918 | 159 | 156 |
+| `alt` | different clock and RNG | 85/85 | 10,913 | 157 | 143 |
+| `g1` | girl, Torchic | 85/85 | 10,917 | 155 | 165 |
+| `briney` | Hub Pass detour after sailing to Dewford | 86/86 | 11,008 | 157 | 155 |
 
-After the planner changes this campaign needed, the Johto campaign still passes 83/83 with its
-recorded totals.
+`evidence/final-run-beats.log` is the `base` run. On the earlier build, eleven runs across clock,
+gender and starter ran: nine finished clean or with a harness retry, `g1` froze once and got
+past it on retry, and `alt` froze on both attempts.
+
+A fresh run is deterministic for a given build and clock. Resuming from a checkpoint is not: the
+restore heals the party, which changes the RNG, so a retry can pass a beat a fresh run fails.
+
+Vary a run with `PW_RTC=<epoch>`, `PW_GENDER=F`, `PW_STARTER=0|2` and
+`PW_DETOUR=briney|stern|evolve`.
 
 ## Bugs found and fixed
 
-Each one was confirmed against the source, fixed, and re-played.
+Each one was reproduced first, then fixed and re-played.
 
-1. **A crash screen on Route 116.** Walking toward Rusturf Tunnel, the game stopped on "could
-   not spawn generated overworld encounter. too many object events exist". Route 116 shows 14
-   NPCs and wandering Pokémon; with the player and the follower that fills all 16 object slots.
-   The failed spawn was checked with `assertf` (`src/wild_encounter_ow.c:319`), which stops a
-   non-release build before its own recovery runs. It is now a plain check: the spawn is skipped
-   and retried later (`ba14668cc8`).
-2. **A crash screen after a Strength push.** In Magma Hideout 1F, a wandering overworld Pokémon
-   that touched the player while a boulder was still moving started its encounter script.
-   `PushBoulder_End` then unlocked the controls mid-script, the next frame reset
-   `VAR_LAST_TALKED` to 0, and the script stopped on "species was not found for specified object.
-   localid: 0" (`src/wild_encounter_ow.c:805`). Encounter contact is now ignored while the field
-   controls are locked (`db227a714c`). A probe that pushed at 150 frame offsets crashed 19 times
-   before the fix and never after.
+1. **The game froze on a "?" sprite during evolution.** If a Pokemon evolved, wanted a move with
+   four already known, and the player said yes, the scene never recovered. `StopShadowAnimDelayTask`
+   (`src/pokemon.c`) trusted a task id that is zero at power-on, so the first summary or party
+   screen destroyed task slot 0, which here was the evolution itself. It now checks the task is
+   live and still its own. `PW_DETOUR=evolve` forces the case: a build without the fix stops with
+   no tasks and the fixed build finishes. The Mauville Gym freeze was traced directly; the Route
+   118 one has the same signature.
+2. **Using the Hub Pass with Mr. Briney docked at Dewford, before Surf, ended the story.** The
+   gate lands at Slateport and nothing reachable from there leads back to Dewford, so Brawly, and
+   every badge after him, were out of reach. The Slateport gate now brings him to Route 109, and
+   he offers Dewford from there.
+3. **Capt. Stern took Devon Parts the player never had.** Arriving at Slateport through the gate
+   and talking to Dock cleared the Aqua grunts from the museum door. Dock now only mutters until
+   the parts are in the bag, so the grunts stay and Stern stays out of reach.
+4. **Earlier runs, kept for the record.** A crash screen on Route 116 when all 16 object slots
+   were full (`ba14668cc8`). A crash screen when a wandering Pokemon touched the player during a
+   Strength push (`db227a714c`). Reads past the object event array (`481598c4ad`).
 
-3. **Reads past the object event array.** Found in code review, not in play. An unused overworld
-   encounter slot has no object, so its id is `OBJECT_EVENTS_COUNT`, and four places in
-   `src/wild_encounter_ow.c` indexed `gObjectEvents` with it. It caused no crash we saw.
-   `GetOWEBySpawnSlot` now returns `NULL` for an unused slot.
+Fixed by reading, not played: the Johto PokeGear set `FLAG_REGISTER_RIVAL_POKENAV`, which only
+Route 104 reads, so a Johto-first player skipped the Hoenn rival's Match Call registration. Saves
+that already received the PokeGear keep the old behaviour.
 
 ## Not bugs, recorded so nobody chases them again
 

@@ -45,18 +45,32 @@ Cut is needed. Vary a run with `PW_GENDER=F`, `PW_STARTER`, and `PW_RTC=<epoch>`
 
 ## Result
 
-RESULT_TABLE
+Fresh saves to the Hall of Fame and back home, on ROM `87CCBDAA63124D60B512244777C6296D` (built
+from `cf348aca43`). None had a crash screen, a hang or a retried beat:
+
+| Run | Variation | Checks | Steps | Trainer | Wild |
+| --- | --- | --- | --- | --- | --- |
+| `base` | boy, Bulbasaur, default clock | 56/56 | 8,857 | 129 | 102 |
+| `girl` | `PW_GENDER=F`, Bulbasaur | 56/56 | 8,834 | 129 | 101 |
+| `squirtle` | `PW_STARTER=1`, with the Rattata catch | 57/57 | 8,830 | 129 | 97 |
+| `charmander` | `PW_STARTER=2` | 56/56 | 8,840 | 130 | 94 |
+| `alt` | `PW_RTC=1760000000` | 56/56 | 8,845 | 129 | 81 |
+
+`evidence/final-run-beats.log` is the `base` run, and `evidence/KantoPlay_55_home.png` is its last
+frame: the player back in control inside the house at Pallet Town.
 
 ## Bugs found and fixed
 
 Each one was reproduced first, then fixed and re-played.
 
-1. **Oak named the wrong starter at the end of the game.** `specialvar VAR_RESULT, GetStarterPokemon`
-   in the Champion's Room read the Kanto row of `sStarterMon` (`src/starter_choose.c`), which was
-   ordered for Blue's counter-pick (Charmander/Bulbasaur/Squirtle), so a player who chose Bulbasaur
-   was told "since you first left with Charmander". The row now lists the balls the player picks
-   from. Before: `_pwtest/kanto-oak-before.out` (Bulbasaur run, "left with Charmander"). After: the
-   evidence run's Champion beat ("left with Bulbasaur").
+1. **Oak always named the same starter at the end of the game.** The Champion's Room ran
+   `specialvar VAR_RESULT, GetStarterPokemon`, but `specialvar` passes no argument, so the function
+   read a garbage index, clamped it to 0, and always returned the first species of the Kanto row:
+   every player heard "since you first left with Charmander". The Kanto row was also ordered for
+   Blue's counter-pick instead of the lab balls. A new `GetPlayerStarterSpecies` special reads
+   `VAR_STARTER_MON`, and the row is now Bulbasaur, Squirtle, Charmander, which also corrects the
+   starter the credits show. Before the fix a Bulbasaur run heard Charmander; with only the table
+   fix, Squirtle and Charmander runs heard Bulbasaur; the runs above name each run's own starter.
 
 ## Not bugs, recorded so nobody chases them again
 

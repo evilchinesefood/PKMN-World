@@ -38,7 +38,8 @@ local function topUp()
   if m.maxHP > 0 and m.hp * 2 < m.maxHP then L('  topUp: lead at ' .. m.hp .. '/' .. m.maxHP); N.debugHeal() end
 end
 
-local BEATS = require('beats')(F, N, C, log)
+-- Straight from the campaign's directory: require would fall back to Johto's beats on a typo.
+local BEATS = assert(loadfile(here .. '../' .. CAMPAIGN .. '-playthrough/beats.lua'))()(F, N, C, log)
 
 F.run(function()
   local start = 1

@@ -69,5 +69,10 @@ F.run(function()
     and took('dive Route126') and took('-> Underwater_SootopolisCity') and took('emerge Underwater_SootopolisCity'),
     N.mapName())
   F.shot('sootopolis')
+  ok = N.travel('Route126')
+  L('  trail: ' .. table.concat(N.waterTrail, ' | '))
+  F.check('Sootopolis back out to Route 126', ok and at('Route126') and took('dive SootopolisCity'), N.mapName())
+  F.check('every dive and emerge landed where planned', #N.waterLandingMisses == 0,
+    table.concat(N.waterLandingMisses, '; '))
   F.finish()
 end)

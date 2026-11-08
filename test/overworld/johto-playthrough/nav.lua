@@ -299,7 +299,7 @@ return function(F, S)
 
   -- One move from (x,y,e,s) in direction d. Returns nx, ny, ne, ns, kind or nil.
   -- kind: 'walk' | 'jump' | 'slide' | 'surf' (start surfing) | 'land' (stop surfing)
-  local function stepFrom(grid, occ, x, y, e, s, d)
+  local function stepFrom(grid, occ, x, y, e, s, d, oneStep)
     local cur = grid.get(x, y)
     local curB = cur and grid.beh(cur & 0x3FF) or 0
     if blockedLeaving(curB, d) then return nil end
@@ -388,21 +388,20 @@ return function(F, S)
       end
       return sx, sy, ne, ns, 'slide'
     end
-    if ns and CURRENT[b] then
+    if ns and CURRENT[b] and not oneStep then
       -- A sea current carries the surfer along it until it ends or something stops it
-      -- (ForcedMovement_Pushed*ByCurrent): no steering, so it cannot be ridden upstream.
+      -- (ForcedMovement_Pushed*ByCurrent): no steering, so it cannot be ridden upstream. Each
+      -- push obeys the same collision rules as a step, so one can end by landing on the shore.
       local cd = CURRENT[b]
-      local sx, sy = tx, ty
+      local sx, sy, se, ss = tx, ty, ne, ns
       for _ = 1, 128 do
-        local nx2, ny2 = sx + DX[cd], sy + DY[cd]
-        local v2 = grid.get(nx2, ny2)
-        if not v2 or (v2 & 0x0C00) ~= 0 or occ[nx2 .. ',' .. ny2] then break end
-        sx, sy = nx2, ny2
-        local b2 = grid.beh(v2 & 0x3FF)
-        if not CURRENT[b2] then break end
-        cd = CURRENT[b2]
+        local nx2, ny2, ne2, ns2, k2 = stepFrom(grid, occ, sx, sy, se, ss, cd, true)
+        if not nx2 or (k2 ~= 'walk' and k2 ~= 'land') then break end
+        sx, sy, se, ss = nx2, ny2, ne2, ns2
+        cd = CURRENT[grid.beh(grid.get(sx, sy) & 0x3FF)]
+        if not ss or not cd then break end
       end
-      return sx, sy, ne, ns, 'slide'
+      return sx, sy, se, ss, 'slide'
     end
     if isIce(b) and not ns then
       -- Slide until the next tile refuses us or a non-ice tile is reached.
@@ -653,19 +652,22 @@ return function(F, S)
     local turns, frames = 0, 0
     while frames < 60 * 60 * 12 do
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
-        -- In-battle party screen: send out the first healthy party member not already battling.
-        -- The menu reorders the party into battle order while it is open (UpdatePartyToBattleOrder),
-        -- so the battlers are matched by personality, not by gBattlerPartyIndexes.
-        local inBattle = {}
-        local double = (r32(P.gBattleTypeFlags) & C.BATTLE_TYPE_DOUBLE) ~= 0
-        for _, b in ipairs(double and { 0, 2 } or { 0 }) do
-          if r16(bmon(b) + O.bm_hp) > 0 then inBattle[r32(bmon(b) + O.bm_personality)] = true end
-        end
+        -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.
+        -- The menu shows the party in battle order (UpdatePartyToBattleOrder), and
+        -- gBattlerPartyIndexes holds field order, so each menu slot goes through
+        -- gBattlePartyCurrentOrder. A partner's battler indexes a different party.
+        local flags = r32(P.gBattleTypeFlags)
+        local partner = (flags & (C.BATTLE_TYPE_MULTI | C.BATTLE_TYPE_INGAME_PARTNER)) ~= 0
+        local taken = { [r16(P.gBattlerPartyIndexes)] = true }
+        if (flags & C.BATTLE_TYPE_DOUBLE) ~= 0 and not partner then taken[r16(P.gBattlerPartyIndexes + 4)] = true end
+        -- Both battlers fainted: the first replacement is reserved but not in battle yet.
+        if not partner then taken[r8(r32(P.gBattleStruct) + O.bs_prevSelectedPartySlot)] = true end
         local target
         for i = 0, N.partyCount() - 1 do
           local pm = N.partyMon(i)
-          local pid = r32(P.gParties + i * O.mon_size + O.mon_personality)
-          if pm.hp > 0 and pm.level > 0 and not inBattle[pid] and not target then target = i end
+          local order = r8(P.gBattlePartyCurrentOrder + (i // 2))
+          local fieldId = (i % 2 == 1) and (order & 0xF) or (order >> 4)
+          if pm.hp > 0 and pm.level > 0 and not taken[fieldId] and not target then target = i end
         end
         if target then
           for _ = 1, 8 do
@@ -1287,6 +1289,7 @@ return function(F, S)
     local x, y = F.pos()
     return floodGrid(liveGrid(), x, y, N.elevation(), N.surfing(), {})
   end
+  N.floodLive = function() return floodLive() end
 
   -- Dijkstra over (map, entry tile). Returns the first exit to take from the current position.
   function N.route(target, opts)

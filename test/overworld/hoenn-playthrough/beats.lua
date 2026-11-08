@@ -209,14 +209,20 @@ return function(F, N, C, log)
   local function solveSwitches(switches, tx, ty, stateVar)
     local tmp = F.out .. 'switch_'
     local n = 0
-    local function save() n = n + 1; local f = tmp .. n .. '.ss'; client.savestate(f); return f end
+    local function save()
+      n = n + 1
+      local f = tmp .. n .. '.ss'
+      client.savestate(f)
+      return { file = f, steps = N.steps, trainer = N.battles.trainer, wild = N.battles.wild, heals = N.heals }
+    end
     local function key() return V(stateVar) .. ':' .. table.concat({ F.pos() }, ',') .. ':' .. tostring(FL('FLAG_MAUVILLE_GYM_BARRIERS_STATE')) end
     if reachable(tx, ty) then return true end
     local q, head, seen = { save() }, 1, { [key()] = true }
     while head <= #q and n < 60 do
       local node = q[head]; head = head + 1
       for i, sw in ipairs(switches) do
-        client.loadstate(node); N.idle(10); N.resetPlanCaches()
+        client.loadstate(node.file); N.idle(10); N.resetPlanCaches()
+        N.steps, N.battles.trainer, N.battles.wild, N.heals = node.steps, node.trainer, node.wild, node.heals
         if V(stateVar) ~= i and N.go(sw[1], sw[2], { attempts = 4, strictTriggers = true, allowTriggers = false }) then
           N.settle()
           local k = key()

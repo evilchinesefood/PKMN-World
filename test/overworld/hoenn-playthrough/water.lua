@@ -67,14 +67,19 @@ return function(F, N, C)
     return true
   end
 
+  local function restoreRun()
+    if not N.underwater() and runAfter then N.run, runAfter = true, nil end
+  end
   function N.dive()
     noRun()
-    return useDive('A')
+    local ok = useDive('A')
+    restoreRun()
+    return ok
   end
   function N.emerge()
     noRun()
     local ok = useDive('B')
-    if ok and not N.underwater() and runAfter then N.run, runAfter = true, nil end
+    restoreRun()
     return ok
   end
 
@@ -93,6 +98,7 @@ return function(F, N, C)
     local fixed = not conn and FIXED[N.mapName(info.g, info.m)]
     if not conn and not fixed then return {} end
     local kind = conn and (conn.dir == DIVE and 'dive' or 'emerge') or fixed.kind
+    if kind == 'dive' and not N.flag(C.FLAG_BADGE07_GET) then return {} end
     local grid = N.staticGrid(info)
     local launch = {}
     for k, cost in pairs(reach) do
@@ -186,7 +192,7 @@ return function(F, N, C)
           return path
         end
         local info = N.header(n.g, n.m)
-        local reach = N.flood(info, n.x, n.y, N.canSurf)
+        local reach = n.k == startK and N.floodLive() or N.flood(info, n.x, n.y, N.canSurf)
         for _, list in ipairs({ landHops(info, reach), waterHops(info, reach) }) do
           for _, h in ipairs(list) do
             local k = key(h.tg, h.tm, h.ex, h.ey)
@@ -204,7 +210,7 @@ return function(F, N, C)
   ---------------------------------------------------------------- executing
   local function crossEdge(h)
     local g0, m0 = F.grp(), F.mapn()
-    N.go(h.x, h.y, { tag = 'edge->' .. N.mapName(h.tg, h.tm) })
+    if not N.go(h.x, h.y, { tag = 'edge->' .. N.mapName(h.tg, h.tm) }) then return false end
     -- Land on this side, water on the other: walking into it does nothing, so Surf across.
     local grid = N.liveGrid()
     local v = grid.raw(h.x + N.DX[h.dir], h.y + N.DY[h.dir])
@@ -230,6 +236,7 @@ return function(F, N, C)
   end
 
   N.waterTrail = {}   -- hops taken by the wrapper, e.g. 'dive Route128 (38,27) -> Underwater_Route128'
+  N.waterLandingMisses = {}   -- dive and emerge hops that did not arrive where they were planned to
   local baseTravel = N.travel
   function N.travel(target, opts)
     opts = opts or {}
@@ -255,6 +262,14 @@ return function(F, N, C)
       L('  water: ' .. line .. string.format(' [%d hops to %s]', #path, target))
       if not takeHop(h) then L('  water: hop failed: ' .. line); F.shot('waterfail'); return false end
       N.waterTrail[#N.waterTrail + 1] = line
+      if h.kind == 'dive' or h.kind == 'emerge' then
+        local x, y = F.pos()
+        if F.grp() ~= h.tg or F.mapn() ~= h.tm or x ~= h.ex or y ~= h.ey then
+          local miss = string.format('%s landed at %s (%d,%d), planned (%d,%d)', line, N.mapName(), x, y, h.ex, h.ey)
+          L('  water: ' .. miss)
+          N.waterLandingMisses[#N.waterLandingMisses + 1] = miss
+        end
+      end
       N.settle(opts)
     end
     return F.grp() == tg.g and F.mapn() == tg.m

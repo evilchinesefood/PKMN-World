@@ -159,6 +159,7 @@ static bool32 CheckCanLoadOWE_Palette(enum Species speciesId, bool32 isFemale, b
 static bool32 CheckCanLoadOWE_Tiles(enum Species speciesId, bool32 isFemale, bool32 isShiny, s32 x, s32 y);
 static void SortOWEAges(void);
 static bool32 ShouldDespawnGeneratedForNewOWE(struct ObjectEvent *owe);
+static struct ObjectEvent *GetOWEBySpawnSlot(u32 spawnSlot);
 static void SetNewOWESpawnCountdown(void);
 static void DoOWESpawnAnim(struct ObjectEvent *owe);
 static void DoOWEDespawnAnim(struct ObjectEvent *owe);
@@ -310,11 +311,10 @@ void UpdateOverworldWildEncounter(void)
         .movementType = OWE_GetMovementTypeFromSpecies(infoOWE.speciesId),
         .trainerType = TRAINER_TYPE_OW_WILD_ENCOUNTER,
     };
-    u32 objectEventId = GetObjectEventIdByLocalId(infoOWE.localId);
-    struct ObjectEvent *owe = &gObjectEvents[objectEventId];
-    if (ShouldDespawnGeneratedForNewOWE(owe))
+    struct ObjectEvent *owe = GetOWEBySpawnSlot(spawnSlot);
+    if (owe != NULL && ShouldDespawnGeneratedForNewOWE(owe))
         RemoveObjectEvent(owe);
-    objectEventId = SpawnSpecialObjectEvent(&objectEventTemplate);
+    u32 objectEventId = SpawnSpecialObjectEvent(&objectEventTemplate);
 
     if (objectEventId >= OBJECT_EVENTS_COUNT)
     {
@@ -1113,13 +1113,13 @@ static bool32 CheckCurrentWildMonHeaderForOWE(bool32 shouldSpawnWaterMons)
 
 static u32 GetOldestActiveOWESlot(bool32 forceRemove)
 {
-    struct ObjectEvent *slotMon, *oldest = &gObjectEvents[GetObjectEventIdByLocalId(LOCALID_OW_ENCOUNTER_END)];
+    struct ObjectEvent *slotMon, *oldest = NULL;
     u32 spawnSlot;
 
     for (spawnSlot = 0; spawnSlot < OWE_SPAWNS_MAX; spawnSlot++)
     {
-        slotMon = &gObjectEvents[GetObjectEventIdByLocalId(GetLocalIdByOWESpawnSlot(spawnSlot))];
-        if (OW_SPECIES(slotMon) != SPECIES_NONE && (!HasOWENoDespawnFlag(slotMon) || forceRemove == TRUE))
+        slotMon = GetOWEBySpawnSlot(spawnSlot);
+        if (slotMon != NULL && OW_SPECIES(slotMon) != SPECIES_NONE && (!HasOWENoDespawnFlag(slotMon) || forceRemove == TRUE))
         {
             oldest = slotMon;
             break;
@@ -1131,8 +1131,8 @@ static u32 GetOldestActiveOWESlot(bool32 forceRemove)
 
     for (u32 i = spawnSlot; i < OWE_SPAWNS_MAX; i++)
     {
-        slotMon = &gObjectEvents[GetObjectEventIdByLocalId(GetLocalIdByOWESpawnSlot(i))];
-        if (OW_SPECIES(slotMon) != SPECIES_NONE && (!HasOWENoDespawnFlag(slotMon) || forceRemove == TRUE))
+        slotMon = GetOWEBySpawnSlot(i);
+        if (slotMon != NULL && OW_SPECIES(slotMon) != SPECIES_NONE && (!HasOWENoDespawnFlag(slotMon) || forceRemove == TRUE))
         {
             if (slotMon->sOverworldEncounterAge > oldest->sOverworldEncounterAge)
                 oldest = slotMon;
@@ -1427,9 +1427,9 @@ static void SortOWEAges(void)
 
     for (i = 0; i < OWE_SPAWNS_MAX; i++)
     {
-        slotMon = &gObjectEvents[GetObjectEventIdByLocalId(GetLocalIdByOWESpawnSlot(i))];
+        slotMon = GetOWEBySpawnSlot(i);
         // OWE_ANY can be used here as localId is guarenteed to be in the OWE_GENERATED range by GetLocalIdByOWESpawnSlot.
-        if (IsOverworldWildEncounter(slotMon, OWE_ANY) && OW_SPECIES(slotMon) != SPECIES_NONE)
+        if (slotMon != NULL && IsOverworldWildEncounter(slotMon, OWE_ANY) && OW_SPECIES(slotMon) != SPECIES_NONE)
         {
             array[count].slot = i;
             array[count].age = slotMon->sOverworldEncounterAge;
@@ -1595,6 +1595,14 @@ u32 RemoveOldestGeneratedOWE(void)
     u32 objectEventId = GetObjectEventIdByLocalId(GetLocalIdByOWESpawnSlot(oldestSlot));
     RemoveObjectEvent(&gObjectEvents[objectEventId]);
     return objectEventId;
+}
+
+// An unused spawn slot has no object event, so its id is OBJECT_EVENTS_COUNT: past gObjectEvents.
+static struct ObjectEvent *GetOWEBySpawnSlot(u32 spawnSlot)
+{
+    u32 objectEventId = GetObjectEventIdByLocalId(GetLocalIdByOWESpawnSlot(spawnSlot));
+
+    return objectEventId < OBJECT_EVENTS_COUNT ? &gObjectEvents[objectEventId] : NULL;
 }
 
 static bool32 ShouldDespawnGeneratedForNewOWE(struct ObjectEvent *owe)

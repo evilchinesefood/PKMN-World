@@ -690,7 +690,7 @@ return function(F, S)
         -- A battle can be followed by evolution, a Pokédex entry or a nickname prompt.
         if F.ow() then break end
         if F.cb2() == (P.CB2_NamingScreen & ~1) then press('Start'); idle(20); press('A'); idle(40)
-        elseif frames % 600 > 480 then press('B'); idle(10)   -- back out of a summary screen opened by mistake
+        elseif frames % 600 > 480 and not N.acceptPrompts then press('B'); idle(10)   -- back out of a summary screen opened by mistake
         else press('A'); idle(10) end
         frames = frames + 12
       elseif isCtl('HandleInputChooseAction') then
@@ -853,7 +853,7 @@ return function(F, S)
   function N.reportCallbacks()
     local function name(addr)
       addr = addr & ~1
-      for k, v in pairs(P) do if (v & ~1) == addr then return k end end
+      for k, v in pairs(P) do if type(v) == 'number' and (v & ~1) == addr then return k end end
       return string.format('%08x', addr)
     end
     local tasks = {}
@@ -1677,6 +1677,22 @@ return function(F, S)
     F.w32(addr, new ~ key)
     w16(b + 28, sum)
     L(string.format('  setMetLevel slot %d: met level %d -> %d', slot, (old >> 16) & 0x7F, lvl))
+  end
+
+  -- Experience, the low 21 bits of the growth substruct's second word.
+  local SUBSTRUCT_ORDER = { 'GAEM', 'GAME', 'GEAM', 'GEMA', 'GMAE', 'GMEA', 'AGEM', 'AGME', 'AEGM', 'AEMG', 'AMGE', 'AMEG',
+    'EGAM', 'EGMA', 'EAGM', 'EAMG', 'EMGA', 'EMAG', 'MGAE', 'MGEA', 'MAGE', 'MAEG', 'MEGA', 'MEAG' }
+  function N.setExp(slot, exp)
+    local b = P.gParties + slot * O.mon_size
+    local pid, otid = r32(b), r32(b + 4)
+    local key = pid ~ otid
+    local addr = b + 32 + 12 * (SUBSTRUCT_ORDER[(pid % 24) + 1]:find('G') - 1) + 4
+    local old = r32(addr) ~ key
+    local new = (old & ~0x1FFFFF) | (exp & 0x1FFFFF)
+    local function halves(v) return (v & 0xFFFF) + (v >> 16) end
+    local sum = (r16(b + 28) - halves(old) + halves(new)) & 0xFFFF
+    F.w32(addr, new ~ key)
+    w16(b + 28, sum)
   end
 
   -- Swap two party slots byte for byte (each mon is encrypted with its own key, so this is safe).

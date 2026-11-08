@@ -133,12 +133,29 @@ return function(F, N, C, log)
     N.swapParty(0, 1)   -- Mewtwo leads; the starter stays in the party
   end, function() return N.partyCount() == 3 and N.partyMon(0).level == 100 end)
 
+  -- PW_DETOUR=evolve: a Lv15 Torchic one Exp point short of Lv16 leads with four moves known, so
+  -- the rival fight evolves it into a learned move that needs a replacement.
+  if os.getenv('PW_DETOUR') == 'evolve' then
+    beat('detour_evolve', function()
+      assert(N.giveMon({ species = C.SPECIES_TORCHIC, level = 15, evs = { 0, 0, 0, 0, 0, 0 },
+        moves = { C.MOVE_SCRATCH, C.MOVE_GROWL, C.MOVE_FOCUS_ENERGY, C.MOVE_EMBER } }))
+      local slot = N.partyCount() - 1
+      N.setMetLevel(slot, 5)
+      N.setExp(slot, 2534)
+      N.swapParty(0, slot)
+      N.acceptPrompts = true   -- answer YES to the move replacement, the path that froze
+    end, function() return N.partyMon(0).level == 15 end)
+  end
+
   beat('route103', function()
     N.run = true
     assert(N.travel('Route103'))
     assert(N.talk(2))
     N.settle()
-  end, function() return FL('FLAG_DEFEATED_RIVAL_ROUTE103') end)
+  end, function()
+    return FL('FLAG_DEFEATED_RIVAL_ROUTE103')
+      and (os.getenv('PW_DETOUR') ~= 'evolve' or N.partyMon(0).level == 16)
+  end)
 
   beat('pokedex', function()
     assert(N.travel('LittlerootTown_ProfessorBirchsLab'))

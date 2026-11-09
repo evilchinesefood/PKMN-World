@@ -120,6 +120,22 @@ Each one was reproduced first, then fixed and re-played.
    scene from 1 to 4 and skipped the Meteorite errand. The gate is now `FLAG_KANTO_CHAMPION`.
    `PW_DETOUR=celio` with `--to detour_celio` shows scene 4 before the fix and scene 1 after.
 
+6. **Touching a visible wild Pokemon with an empty party locked the game for good.** A region
+   switch boxes the party, and the encounter script then waited on a battle that
+   `BattleSetup_StartWildBattle` refuses to start. The script now releases first. `PW_DETOUR=grass`
+   with `--to detour_grass` froze at Route 1 (16,16) before the fix and finishes after it.
+7. **Bringing the Meteorite late rewound Celio's story.** A champion can take his Ruby request
+   first, and the delivery then forced his scene back to 2. It now only moves him forward.
+   `PW_SEVII=1 PW_DETOUR=meteorite` with `--to sevii_meteorite` fails before the fix and passes after.
+
+## Route 22
+
+`PW_ROUTE22=0|1|2` adds a beat that steps on that row of the rival's trigger, north, middle or south,
+each with its own approach. It plays once after Oak's parcel and again after Giovanni, and the early
+one checks the north gate turns away a player with no badge. Combined with `PW_STARTER`, all three
+early rival teams were fought, and all three rows win and lose early. The late rival was fought on
+all three rows and lost on the middle one. The results are on ROM `D309CFD1CB01B8CC40ECF237E52BB6DB`.
+
 ## Not bugs, recorded so nobody chases them again
 
 - Coming back without withdrawing the party and walking into the lab's rival trigger does not start

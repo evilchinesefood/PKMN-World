@@ -81,6 +81,7 @@ local function playThrownBeat(b)
   end
   if ok or err ~= N.LOSS_PLAYED then
     F.check('loss ' .. b.name .. ': the loss played out', false, ok and 'beat finished first' or tostring(err))
+    F.check('loss ' .. b.name .. ': no crash screen', not F.reportCrash('loss_' .. b.name))
     N.threw = nil
     return ok, err
   end
@@ -91,6 +92,10 @@ local function playThrownBeat(b)
 end
 
 F.run(function()
+  -- A misspelt PW_LOSE beat would otherwise pass without losing anything.
+  local known = {}
+  for _, b in ipairs(BEATS) do known[b.name] = true end
+  for name in pairs(LOSE) do assert(known[name], 'PW_LOSE names no such beat: ' .. name) end
   local start = 1
   if FROM then
     for i, b in ipairs(BEATS) do if b.name == FROM then start = i + 1 end end

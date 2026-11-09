@@ -171,11 +171,14 @@ return function(F, N, C, log)
       route22()
       if not at('Route22_Frlg') or V('VAR_MAP_SCENE_ROUTE22') ~= 2 then return end
       assert(N.travel('Route22_NorthEntrance_Frlg'))
+      local seen = #N.transcript
       N.go(7, 2, { allowTriggers = true })
       N.settle()
       local x, y = F.pos()
-      L(string.format('  at the guard with no badge: %s (%d,%d)', N.mapName(), x, y))
-      refused = at('Route22_NorthEntrance_Frlg') and y > 2 and N.free()
+      local warned = false
+      for i = seen + 1, #N.transcript do warned = warned or N.transcript[i]:find('BADGE', 1, true) ~= nil end
+      L(string.format('  at the guard with no badge: %s (%d,%d) warned=%s', N.mapName(), x, y, tostring(warned)))
+      refused = at('Route22_NorthEntrance_Frlg') and y > 2 and N.free() and warned
     end, function() return V('VAR_MAP_SCENE_ROUTE22') == 2 and refused end)
   end
 

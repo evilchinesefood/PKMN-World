@@ -703,15 +703,21 @@ return function(F, S)
     if kind == 'any' then return true end
     if kind == 'trainer' then return trainer end
     if kind == 'wild' then return not trainer end
-    return trainer and r16(P.gTrainerBattleParameter + O.tbp_opponentA) == assert(C[kind], kind)
+    local wanted = assert(C[kind], kind)
+    return trainer and (r16(P.gTrainerBattleParameter + O.tbp_opponentA) == wanted
+      or r16(P.gTrainerBattleParameter + O.tbp_opponentB) == wanted)
   end
   local function throwBattle()
-    local onField = { [r16(P.gBattlerPartyIndexes)] = 0 }
-    if (r32(P.gBattleTypeFlags) & C.BATTLE_TYPE_DOUBLE) ~= 0 then onField[r16(P.gBattlerPartyIndexes + 4)] = 2 end
+    -- A partner's battler indexes its own party, so only our battlers mark party slots.
+    local flags = r32(P.gBattleTypeFlags)
+    local double = (flags & C.BATTLE_TYPE_DOUBLE) ~= 0
+    local partner = (flags & (C.BATTLE_TYPE_MULTI | C.BATTLE_TYPE_INGAME_PARTNER)) ~= 0
+    local mine = { [r16(P.gBattlerPartyIndexes)] = true }
+    if double and not partner then mine[r16(P.gBattlerPartyIndexes + 4)] = true end
     for i = 0, N.partyCount() - 1 do
-      F.w16(P.gParties + i * O.mon_size + O.mon_hp, onField[i] and 1 or 0)
+      F.w16(P.gParties + i * O.mon_size + O.mon_hp, mine[i] and 1 or 0)
     end
-    for _, battler in pairs(onField) do
+    for _, battler in ipairs(double and { 0, 2 } or { 0 }) do
       local m = bmon(battler)
       F.w16(m + O.bm_hp, 1)
       for i = 0, 3 do F.w16(m + O.bm_moves + 2 * i, C.MOVE_GROWL) end

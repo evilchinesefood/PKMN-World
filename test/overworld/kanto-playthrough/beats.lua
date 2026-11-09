@@ -705,7 +705,7 @@ return function(F, N, C, log)
     -- this one with --to sevii_meteorite.
     beat('sevii_meteorite', function()
       moves()
-      if DETOUR == 'meteorite' then F.w16(F.sb1() + O.sb1_vars + (C[PC_SCENE] - 0x4000) * 2, 5) end
+      if DETOUR == 'meteorite' then N.setVar(C[PC_SCENE], 5) end
       assert(N.talk(1, { side = 1 }), 'Lostelle father')
       N.settle()
     end, function()

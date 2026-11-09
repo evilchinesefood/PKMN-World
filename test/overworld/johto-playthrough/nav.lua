@@ -44,6 +44,10 @@ return function(F, S)
     end
     return (r8(base + (n >> 3)) & (1 << (n & 7))) ~= 0
   end
+  function N.setVar(id, v)
+    if id >= 0xA000 then F.w16(F.sb3() + S.SaveBlock3.regionVars + (id - 0xA000) * 2, v)
+    else F.w16(F.sb1() + O.sb1_vars + (id - 0x4000) * 2, v) end
+  end
   function N.var(id)
     if id >= 0xA000 then return r16(F.sb3() + S.SaveBlock3.regionVars + (id - 0xA000) * 2) end
     return r16(F.sb1() + O.sb1_vars + (id - 0x4000) * 2)

@@ -746,13 +746,14 @@ return function(F, S)
             turns, N.activeBattler, r16(me), r16(me + O.bm_hp), r16(f1), r16(f1 + O.bm_hp), r16(f3), r16(f3 + O.bm_hp), bestMoveSlot()))
           if turns <= 12 then F.shot('turn' .. turns) end
         end
+        -- Evaluated per turn: at the battle's first instant the foe's data isn't loaded yet.
+        local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(C.ITEM_POKE_BALL) > 0
         -- A foe with Arena Trap or Shadow Tag can't be fled: after two failed tries, fight it.
-        if not fight then
+        if not fight and not catching then
           N.fleeTries = (N.fleeTries or 0) + 1
           if N.fleeTries > 2 then fight = true; L('  flee failed twice, fighting') end
         end
-        -- Evaluated per turn: at the battle's first instant the foe's data isn't loaded yet.
-        if not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(C.ITEM_POKE_BALL) > 0 then
+        if catching then
           useBall()
         elseif fight then
           press('Up'); idle(4); press('Left'); idle(4); press('A'); idle(20)
@@ -1810,6 +1811,7 @@ return function(F, S)
       if N.mapName() ~= 'RegionHub' then break end
     end
     idle(200); N.settle()
+    assert(N.mapName() ~= 'RegionHub', 'the gate did not board')
   end
 
   function N.debugHeal()

@@ -92,7 +92,7 @@ return function(F, N, C, log)
   -- Parties are per region, so this happens in Kanto, after the starter is chosen normally.
   -- Lv100 Mewtwo and Rayquaza from the debug Give menu, met level lowered to 5 for obedience.
   -- PW_DETOUR=empty: bank the party by crossing to Johto, come home without withdrawing it, and
-  -- walk into the rival's lab fight.
+  -- walk into the rival's lab fight. The starter stays boxed, so run this with --to detour_empty.
   if DETOUR == 'empty' then
     beat('detour_empty', function()
       N.useHubPass()
@@ -101,11 +101,15 @@ return function(F, N, C, log)
       N.useHubPass()
       N.crossGate(11)
       L('  home at ' .. N.mapName() .. ' party=' .. N.partyCount() .. ' lab=' .. V(LAB))
+      assert(N.partyCount() == 0, 'the party should still be boxed')
       assert(N.travel('PalletTown_ProfessorOaksLab_Frlg'))
       N.go(6, 8, { allowTriggers = true })
       N.settle()
       L('  after the trigger: ' .. N.mapName() .. ' party=' .. N.partyCount() .. ' lab=' .. V(LAB))
-    end, function() return F.ow() and N.free() end)
+    end, function()
+      return F.ow() and N.free() and at('PalletTown_ProfessorOaksLab_Frlg') and V(LAB) == 3
+        and N.partyCount() == 0 and V('VAR_TEMP_2') ~= 0   -- the rival trigger ran and was refused
+    end)
   end
 
   beat('party', function()
@@ -193,6 +197,7 @@ return function(F, N, C, log)
       N.crossGate(11)
       local x, y = F.pos()
       L(string.format('  gate landed at %s (%d,%d)', N.mapName(), x, y))
+      assert(y < 33, 'landed at or past the ticket check')
       N.push(1)
       N.idle(120); N.settle()
       L('  after Down: ' .. N.mapName())

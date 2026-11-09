@@ -238,8 +238,10 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 	@ Tri Pass; don't re-offer after that.
 	call OneIsland_PokemonCenter_1F_EventScript_TryGiveMissedFirstGifts
 	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioDoneGiving
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
+	@ FRLG gated this on the National Dex, a post-League reward there. Here every POKeDEX holder has
+	@ it (ResyncCurrentRegionFromMap), so the League itself is the gate: without this, talking to
+	@ him right after the first meeting starts the gemstone chain and skips the Meteorite errand.
+	goto_if_set FLAG_KANTO_CHAMPION, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3, OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex
 	msgbox OneIsland_PokemonCenter_1F_Text_SorryForBeingPoorHost
 	closemessage

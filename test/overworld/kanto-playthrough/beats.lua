@@ -30,10 +30,15 @@ return function(F, N, C, log)
   end
 
   -- Bill's Sevii invitation after Blaine is optional; declining keeps the run on the mainland.
-  local kantoPolicy = N.defaultPolicy
-  N.defaultPolicy = function(t, k)
-    if k == 'yesno' and t:lower():find('spending time with me') then return 'no' end
-    return kantoPolicy(t, k)
+  -- PW_SEVII=1 accepts it and plays the islands (the two 'PW_SEVII' blocks below).
+  local SEVII = os.getenv('PW_SEVII') ~= nil
+  local seviiFerry
+  if not SEVII then
+    local kantoPolicy = N.defaultPolicy
+    N.defaultPolicy = function(t, k)
+      if k == 'yesno' and t:lower():find('spending time with me') then return 'no' end
+      return kantoPolicy(t, k)
+    end
   end
 
   local DETOUR = os.getenv('PW_DETOUR')
@@ -48,6 +53,7 @@ return function(F, N, C, log)
     N.canCut = badge(2)
     N.canSurf = badge(5)
     N.canSmash = badge(6)
+    if SEVII then N.canWaterfall = badge(7); N.passWild = badge(7) end
   end
 
   beat('to_kanto', function()
@@ -592,6 +598,127 @@ return function(F, N, C, log)
     N.settle()
   end, function() return badge(7) end)
 
+  if SEVII then
+    ---------------------------------------------------------------- Sevii Islands, before the League
+    local PC_SCENE = 'VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F'
+    local HARBOR = { [0] = 'VermilionCity_Frlg', 'OneIsland_Harbor_Frlg', 'TwoIsland_Harbor_Frlg', 'ThreeIsland_Harbor_Frlg',
+                     'FourIsland_Harbor_Frlg', 'FiveIsland_Harbor_Frlg', 'SixIsland_Harbor_Frlg', 'SevenIsland_Harbor_Frlg' }
+
+    -- The ferry menu entries in order for one trip: 0 is Vermilion, 1..7 the islands. From a Rainbow
+    -- Pass (scene 5) the menu is paged: Vermilion and islands up to 4 first, "OTHER" (index 4) for the rest.
+    local function ferryPicks(origin, dest)
+      if V(PC_SCENE) >= 5 then
+        local page0, page1 = {}, {}
+        for d = 0, 7 do if d ~= origin and #page0 < 4 then page0[#page0 + 1] = d end end
+        for d = (origin < 5) and 5 or 4, 7 do if d ~= origin and #page1 < 3 then page1[#page1 + 1] = d end end
+        for i, d in ipairs(page0) do if d == dest then return { i - 1 } end end
+        for i, d in ipairs(page1) do if d == dest then return { 4, i - 1 } end end
+        error('no ferry entry for ' .. dest .. ' from ' .. origin)
+      end
+      local list = {}
+      if origin ~= 0 and V('VAR_MAP_SCENE_CINNABAR_ISLAND') >= 4 then list[1] = 0 end
+      for d = 1, 3 do if d ~= origin then list[#list + 1] = d end end
+      for i, d in ipairs(list) do if d == dest then return { i - 1 } end end
+      error('no ferry entry for ' .. dest .. ' from ' .. origin)
+    end
+
+    local function sail(origin, dest)
+      if not at(HARBOR[origin]) then assert(N.travel(HARBOR[origin]), 'to the harbor') end
+      local picks, n = ferryPicks(origin, dest), 0
+      local function policy(t, k)
+        if k == 'yesno' then
+          if t:lower():find('set sail') then return 'no' end   -- Vermilion's World Transit prompt
+          return N.defaultPolicy(t, k)
+        end
+        n = n + 1
+        return picks[math.min(n, #picks)]
+      end
+      assert(N.talk(origin == 0 and 6 or 2, { side = 2, policy = policy }), 'ferry sailor')
+      N.settle()
+      assert(at(HARBOR[dest]), 'ferry reached ' .. HARBOR[dest] .. ', now at ' .. N.mapName())
+    end
+
+    local function center(town, centerMap)
+      assert(N.travel(centerMap), 'to ' .. centerMap)
+      N.settle()
+      L('  visited ' .. centerMap)
+      assert(N.travel(town), 'back out to ' .. town)
+    end
+
+    seviiFerry = { picks = ferryPicks, sail = sail, center = center }
+
+    beat('sevii_invite', function()
+      moves()
+      N.travel('CinnabarIsland_Frlg')   -- Bill's ON_FRAME scene sails us away mid-travel; the loop below ends it
+      for _ = 1, 40 do
+        if V(PC_SCENE) >= 1 and F.ow() and N.free() and at('OneIsland_PokemonCenter_1F_Frlg') then break end
+        N.settle()
+      end
+    end, function() return V(PC_SCENE) == 1 and N.itemCount(C.ITEM_METEORITE) > 0 and N.itemCount(C.ITEM_TRI_PASS) > 0 end)
+
+    -- PW_DETOUR=celio: before the League Celio must not start the gemstone chain; stop with --to detour_celio.
+    if DETOUR == 'celio' then
+      beat('detour_celio', function()
+        moves()
+        assert(N.talk(3), 'Celio')
+        N.settle()
+        L('  after talking to Celio: scene=' .. V(PC_SCENE) .. ' champion=' .. tostring(FL('FLAG_KANTO_CHAMPION')))
+      end, function() return V(PC_SCENE) == 1 and V('VAR_MAP_SCENE_MT_EMBER_EXTERIOR') == 0 end)
+    end
+
+    beat('sevii_one_town', function()
+      moves()
+      assert(N.travel('OneIsland_Frlg'))
+    end, function() return at('OneIsland_Frlg') end)
+
+    beat('sevii_two', function()
+      moves()
+      sail(1, 2)
+      center('TwoIsland_Frlg', 'TwoIsland_PokemonCenter_1F_Frlg')
+      assert(N.travel('TwoIsland_JoyfulGameCorner_Frlg'))
+      N.settle()
+    end, function() return V('VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER') == 1 and V('VAR_MAP_SCENE_THREE_ISLAND') == 2 end)
+
+    -- Two coord rows south of the Biker gang: the boss's intro, then the four battles.
+    beat('sevii_bikers', function()
+      moves()
+      sail(2, 3)
+      assert(N.travel('ThreeIsland_Frlg'))
+      if V('VAR_MAP_SCENE_THREE_ISLAND') == 2 then assert(N.go(9, 27)); N.settle() end
+      if V('VAR_MAP_SCENE_THREE_ISLAND') == 3 then assert(N.go(9, 26)); N.settle() end
+    end, function() return V('VAR_MAP_SCENE_THREE_ISLAND') == 4 end)
+
+    beat('sevii_three_center', function()
+      moves()
+      center('ThreeIsland_Frlg', 'ThreeIsland_PokemonCenter_1F_Frlg')
+    end, function() return at('ThreeIsland_Frlg') end)
+
+    beat('sevii_lostelle', function()
+      moves()
+      assert(N.travel('ThreeIsland_BerryForest_Frlg', { tile = { 4, 9 } }))
+      assert(N.talk(1, { side = 1 }), 'Lostelle')
+      N.settle()
+    end, function() return FL('FLAG_RESCUED_LOSTELLE') and at('TwoIsland_JoyfulGameCorner_Frlg') and V('VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER') == 3 end)
+
+    beat('sevii_meteorite', function()
+      moves()
+      assert(N.talk(1, { side = 1 }), 'Lostelle father')
+      N.settle()
+    end, function() return V(PC_SCENE) == 2 and FL('FLAG_GOT_MOON_STONE_FROM_JOYFUL_GAME_CORNER') end)
+
+    -- Bill leaves from the Center's x=12 column: the scene then sails back to Cinnabar.
+    beat('sevii_return_bill', function()
+      moves()
+      sail(2, 1)
+      assert(N.travel('OneIsland_PokemonCenter_1F_Frlg'))
+      assert(N.go(12, 7, { allowTriggers = true }))
+      for _ = 1, 40 do
+        if V(PC_SCENE) == 3 and F.ow() and N.free() and at('CinnabarIsland_Frlg') and V('VAR_MAP_SCENE_CINNABAR_ISLAND') == 4 then break end
+        N.settle()
+      end
+    end, function() return V(PC_SCENE) == 3 and at('CinnabarIsland_Frlg') and V('VAR_MAP_SCENE_CINNABAR_ISLAND') == 4 end)
+  end
+
   ------------------------------------------------------------------ Viridian and the League
   -- Push the boulder in direction d with Strength, activating it first when it is not (every map
   -- load clears FLAG_SYS_USE_STRENGTH). A wild battle mid-push gets another try.
@@ -739,6 +866,172 @@ return function(F, N, C, log)
     local x, y = F.pos()
     L(string.format('  moved to %s (%d,%d)', N.mapName(), x, y))
   end, function() return FL('FLAG_KANTO_CHAMPION') and F.ow() and N.free() and at('PalletTown_PlayersHouse_1F_Frlg') end)
+
+  if SEVII then
+    ---------------------------------------------------------------- Sevii Islands, the post-game
+    local PC_SCENE = 'VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F'
+    local ferryPicks, sail, center = seviiFerry.picks, seviiFerry.sail, seviiFerry.center
+
+    beat('sevii_ferry_out', function()
+      moves()
+      sail(0, 1)
+    end, function() return at('OneIsland_Harbor_Frlg') end)
+
+    beat('sevii_ruby_request', function()
+      moves()
+      assert(N.travel('OneIsland_PokemonCenter_1F_Frlg'))
+      for _ = 1, 3 do
+        assert(N.talk(3), 'Celio')
+        N.settle()
+        if V(PC_SCENE) == 4 then break end
+      end
+    end, function() return V(PC_SCENE) == 4 end)
+
+    beat('sevii_ember_spa', function()
+      moves()
+      assert(N.travel('OneIsland_KindleRoad_EmberSpa_Frlg'))
+      assert(N.talk(5), 'HM06 giver')
+      N.settle()
+    end, function() return FL('FLAG_GOT_HM06') end)
+
+    -- The password guards stand on Mt. Ember's door: the coord row sets scene 2, then both must be beaten.
+    beat('sevii_ember_grunts', function()
+      moves()
+      assert(N.travel('MtEmber_Exterior_Frlg', { tile = { 38, 44 } }))
+      if V('VAR_MAP_SCENE_MT_EMBER_EXTERIOR') == 1 then assert(N.go(38, 43)); N.settle() end
+      assert(N.talk(2), 'grunt 1'); N.settle()
+      assert(N.talk(3), 'grunt 2'); N.settle()
+    end, function() return V('VAR_MAP_SCENE_MT_EMBER_EXTERIOR') >= 2 and not N.object(2) and not N.object(3) end)
+
+    beat('sevii_ruby', function()
+      moves()
+      assert(N.travel('MtEmber_RubyPath_B2F_Frlg'))
+      pushes({ { 8, 3, 4 }, { 9, 3, 4 }, { 11, 5, 4 }, { 12, 3, 2 } }, 'Ruby Path B2F')
+      N.settle()
+      assert(N.travel('MtEmber_RubyPath_B3F_Frlg'))
+      pushes({ { 9, 4, 4 }, { 11, 3, 1 }, { 16, 13, 3 }, { 15, 13, 3 }, { 14, 13, 3 }, { 13, 13, 3 }, { 12, 13, 3 }, { 11, 13, 3 },
+               { 10, 13, 3 }, { 9, 13, 3 }, { 8, 13, 3 } }, 'Ruby Path B3F')
+      N.settle()
+      assert(N.travel('MtEmber_RubyPath_B5F_Frlg', { tile = { 7, 8 } }))
+      assert(N.talk(1, { side = 1 }), 'the Ruby')
+      N.settle()
+    end, function() return FL('FLAG_GOT_RUBY') and N.itemCount(C.ITEM_RUBY) > 0 end)
+
+    -- Boulders reset when a floor reloads, so the way back shoves them aside again from the far side.
+    beat('sevii_leave_ember', function()
+      moves()
+      assert(N.travel('MtEmber_RubyPath_B3F_Frlg'))
+      pushes({ { 14, 13, 4 }, { 15, 13, 4 }, { 16, 13, 4 }, { 11, 4, 3 }, { 10, 4, 3 } }, 'Ruby Path B3F return')
+      N.settle()
+      assert(N.travel('MtEmber_RubyPath_B2F_Frlg'))
+      pushes({ { 13, 5, 3 }, { 10, 3, 3 }, { 9, 3, 3 } }, 'Ruby Path B2F return')
+      N.settle()
+      assert(N.travel('MtEmber_Exterior_Frlg'))
+    end, function() return at('MtEmber_Exterior_Frlg') end)
+
+    beat('sevii_deliver_ruby', function()
+      moves()
+      assert(N.travel('OneIsland_PokemonCenter_1F_Frlg'))
+      assert(N.talk(3), 'Celio')
+      N.settle()
+    end, function() return V(PC_SCENE) == 5 and N.itemCount(C.ITEM_RAINBOW_PASS) > 0 end)
+
+    beat('sevii_four', function()
+      moves()
+      sail(1, 4)
+      assert(N.travel('FourIsland_Frlg'))
+      N.settle()
+      center('FourIsland_Frlg', 'FourIsland_PokemonCenter_1F_Frlg')
+    end, function() return at('FourIsland_Frlg') and V('VAR_MAP_SCENE_FOUR_ISLAND') >= 1 end)
+
+    beat('sevii_icefall', function()
+      moves()
+      assert(N.travel('FourIsland_IcefallCave_Back_Frlg', { tile = { 12, 19 } }))
+      assert(N.go(12, 18))
+      N.settle()
+    end, function() return V('VAR_MAP_SCENE_ICEFALL_CAVE_BACK') == 1 and FL('FLAG_HIDE_RUIN_VALLEY_SCIENTIST') end)
+
+    beat('sevii_six', function()
+      moves()
+      assert(N.travel('FourIsland_Frlg'))
+      sail(4, 6)
+      assert(N.travel('SixIsland_Frlg'))
+      center('SixIsland_Frlg', 'SixIsland_PokemonCenter_1F_Frlg')
+    end, function() return at('SixIsland_Frlg') end)
+
+    beat('sevii_dotted_hole', function()
+      moves()
+      assert(N.travel('SixIsland_RuinValley_Frlg', { tile = { 24, 25 } }))
+      assert(N.go(24, 25))
+      N.face(2)
+      N.press('A'); N.idle(20)
+      N.settle()
+      assert(FL('FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE'), 'Ruin Valley door opened')
+      assert(N.travel('SixIsland_DottedHole_1F_Frlg'))
+      assert(N.takeWarp(6, 5), '1F to B1F')
+      assert(N.takeWarp(6, 1), 'B1F Up')
+      assert(N.takeWarp(1, 5), 'B2F Left')
+      assert(N.takeWarp(11, 5), 'B3F Right')
+      assert(N.takeWarp(6, 9), 'B4F Down')
+      assert(at('SixIsland_DottedHole_SapphireRoom_Frlg'), 'reached the Sapphire room')
+      assert(N.talk(1), 'Sapphire')
+      N.settle()
+    end, function() return FL('FLAG_LEARNED_YES_NAH_CHANSEY') end)
+
+    beat('sevii_five', function()
+      moves()
+      assert(N.travel('SixIsland_Harbor_Frlg'))
+      sail(6, 5)
+      assert(N.travel('FiveIsland_Frlg'))
+      center('FiveIsland_Frlg', 'FiveIsland_PokemonCenter_1F_Frlg')
+    end, function() return at('FiveIsland_Frlg') end)
+
+    beat('sevii_warehouse', function()
+      moves()
+      assert(N.travel('FiveIsland_Meadow_Frlg', { tile = { 12, 22 } }))
+      assert(N.go(12, 22))
+      N.face(2)
+      N.press('A'); N.idle(20)
+      N.settle()
+      assert(FL('FLAG_UNLOCKED_ROCKET_WAREHOUSE'), 'passwords')
+      assert(N.travel('FiveIsland_RocketWarehouse_Frlg', { tile = { 26, 4 } }))
+      N.settle()
+      assert(N.talk(6, { side = 1 }), 'Gideon')
+      N.settle()
+    end, function() return FL('FLAG_RECOVERED_SAPPHIRE') end)
+
+    beat('sevii_seven', function()
+      moves()
+      assert(N.travel('FiveIsland_Harbor_Frlg'))
+      sail(5, 7)
+      assert(N.travel('SevenIsland_Frlg'))
+      center('SevenIsland_Frlg', 'SevenIsland_PokemonCenter_1F_Frlg')
+    end, function() return at('SevenIsland_Frlg') end)
+
+    beat('sevii_lorelei', function()
+      moves()
+      assert(N.travel('SevenIsland_Harbor_Frlg'))
+      sail(7, 4)
+      assert(N.travel('FourIsland_LoreleisHouse_Frlg'))
+      assert(N.talk(1), 'Lorelei')
+      N.settle()
+    end, function() return FL('FLAG_TALKED_TO_LORELEI_AFTER_WAREHOUSE') end)
+
+    beat('sevii_deliver_sapphire', function()
+      moves()
+      assert(N.travel('FourIsland_Harbor_Frlg'))
+      sail(4, 1)
+      assert(N.travel('OneIsland_PokemonCenter_1F_Frlg'))
+      assert(N.talk(3), 'Celio')
+      N.settle()
+    end, function() return V(PC_SCENE) >= 6 end)
+
+    beat('sevii_ferry_home', function()
+      moves()
+      assert(N.travel('OneIsland_Harbor_Frlg'))
+      sail(1, 0)
+    end, function() return at('VermilionCity_Frlg') end)
+  end
 
   return B
 end

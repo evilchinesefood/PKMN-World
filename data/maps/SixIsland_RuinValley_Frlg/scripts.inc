@@ -28,6 +28,21 @@ SixIsland_RuinValley_EventScript_DottedHoleDoor::
 	goto_if_eq VAR_RESULT, NO, SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor
 	msgbox SixIsland_RuinValley_Text_SeveralDotsOnTheDoor
 	braillemsgbox Braille_Text_Cut
+	@ The door opens with CUT used from the party menu (CutMoveRuinValleyCheck), which lists only
+	@ moves a POKeMON knows. With QOL_FIELD_MOVES_NO_TEACH nobody has to know CUT, so offer it here.
+	checkfieldmove FIELD_MOVE_CUT, TRUE
+	goto_if_eq VAR_RESULT, PARTY_SIZE, SixIsland_RuinValley_EventScript_DottedHoleDoorRelease
+	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	msgbox SixIsland_RuinValley_Text_UseCutOnDoor, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor
+	msgbox SixIsland_RuinValley_Text_MonUsedCut
+	closemessage
+	setflag FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE
+	call SixIsland_RuinValley_EventScript_OpenDottedHoleDoor
+	special DrawWholeMapView
+	playse SE_BANG
+	waitse
+SixIsland_RuinValley_EventScript_DottedHoleDoorRelease::
 	releaseall
 	end
 
@@ -53,6 +68,13 @@ SixIsland_RuinValley_Text_IFoundThisPlace::
 SixIsland_RuinValley_Text_CheckDoorMoreThoroughly::
 	.string "The door doesn't budge at all.\n"
 	.string "Check it more thoroughly?$"
+
+SixIsland_RuinValley_Text_UseCutOnDoor::
+	.string "The dots spell CUT!\n"
+	.string "Would you like to use CUT?$"
+
+SixIsland_RuinValley_Text_MonUsedCut::
+	.string "{STR_VAR_1} used CUT!$"
 
 SixIsland_RuinValley_Text_LeftDoorAlone::
 	.string "{PLAYER} left the door alone.$"

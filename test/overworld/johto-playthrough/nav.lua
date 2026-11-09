@@ -493,8 +493,12 @@ return function(F, S)
       for _, o in ipairs(N.objects()) do
         seen[o.localId] = true
         o.script = tpl[o.localId] and tpl[o.localId].script
-        occ[o.x .. ',' .. o.y] = o
-        if o.px ~= o.x or o.py ~= o.y then occ[o.px .. ',' .. o.py] = o end
+        -- Objects with no template are wandering wild Pokemon: walking into one starts its battle
+        -- instead of blocking the corridor. Only campaigns that set N.passWild plan through them.
+        if tpl[o.localId] or not N.passWild then
+          occ[o.x .. ',' .. o.y] = o
+          if o.px ~= o.x or o.py ~= o.y then occ[o.px .. ',' .. o.py] = o end
+        end
       end
       -- Objects off camera are not spawned yet but will be by the time we get there (they matter
       -- on ice, where they are what stops a slide): block their template tiles too.

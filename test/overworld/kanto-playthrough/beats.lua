@@ -700,11 +700,17 @@ return function(F, N, C, log)
       N.settle()
     end, function() return FL('FLAG_RESCUED_LOSTELLE') and at('TwoIsland_JoyfulGameCorner_Frlg') and V('VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER') == 3 end)
 
+    -- PW_DETOUR=meteorite: a champion may start Celio's gemstones first and bring the Meteorite last.
+    -- With the Ruby already in the machine (scene 5) the delivery must not rewind his story. Stop
+    -- this one with --to sevii_meteorite.
     beat('sevii_meteorite', function()
       moves()
+      if DETOUR == 'meteorite' then F.w16(F.sb1() + O.sb1_vars + (C[PC_SCENE] - 0x4000) * 2, 5) end
       assert(N.talk(1, { side = 1 }), 'Lostelle father')
       N.settle()
-    end, function() return V(PC_SCENE) == 2 and FL('FLAG_GOT_MOON_STONE_FROM_JOYFUL_GAME_CORNER') end)
+    end, function()
+      return V(PC_SCENE) == (DETOUR == 'meteorite' and 5 or 2) and FL('FLAG_GOT_MOON_STONE_FROM_JOYFUL_GAME_CORNER')
+    end)
 
     -- Bill leaves from the Center's x=12 column: the scene then sails back to Cinnabar.
     beat('sevii_return_bill', function()

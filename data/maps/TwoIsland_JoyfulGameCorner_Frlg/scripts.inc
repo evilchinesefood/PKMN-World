@@ -149,7 +149,7 @@ TwoIsland_JoyfulGameCorner_EventScript_LostellesDaddy::
 TwoIsland_JoyfulGameCorner_EventScript_GiveDaddyMeteorite::
 	goto_if_set FLAG_NO_ROOM_FOR_JOYFUL_GAME_CORNER_MOON_STONE, TwoIsland_JoyfulGameCorner_EventScript_ReceiveMoonStone
 	msgbox TwoIsland_JoyfulGameCorner_Text_ThisIsForMe
-	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 2
+	call_if_lt VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 2, TwoIsland_JoyfulGameCorner_EventScript_BillReadyToLeave
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	playfanfare MUS_OBTAIN_TMHM
 	message TwoIsland_JoyfulGameCorner_Text_HandedMeteoriteToLostellesDaddy
@@ -160,6 +160,11 @@ TwoIsland_JoyfulGameCorner_EventScript_GiveDaddyMeteorite::
 	msgbox TwoIsland_JoyfulGameCorner_Text_OhThisIsFromBill
 	goto TwoIsland_JoyfulGameCorner_EventScript_ReceiveMoonStone
 	end
+
+@ A champion can start Celio's gemstones before this errand, and rewinding him then loses the Ruby.
+TwoIsland_JoyfulGameCorner_EventScript_BillReadyToLeave::
+	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 2
+	return
 
 TwoIsland_JoyfulGameCorner_EventScript_ReceiveMoonStone::
 	checkitemspace ITEM_MOON_STONE

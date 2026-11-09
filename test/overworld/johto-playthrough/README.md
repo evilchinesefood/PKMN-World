@@ -55,7 +55,7 @@ up in control in the right region with the party healed, then plays the beat aga
 `trainer` (default), `wild`, `any`, or a `TRAINER_` constant to single out one opponent. The faint
 is forced: the party is fainted behind the lead, which drops to 1 HP knowing only Growl. Everything
 after the faint is the game's own code. `kind` can also be a `SPECIES_` constant for one wild
-Pokemon. A beat can pass a fourth argument with `check` (the story state a loss should leave),
+Pokémon. A beat can pass a fourth argument with `check` (the story state a loss should leave),
 `replayFrom` (restart from an earlier beat, for league rooms) or `replay` (what is left to do).
 Otherwise the replay walks back, using the debug warp where the planner has no route. In partner
 battles both sides go down. `evidence/early-losses.log` holds the early losses of all three regions

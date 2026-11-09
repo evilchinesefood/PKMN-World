@@ -80,16 +80,21 @@ end
 local function walkBack(map, x, y)
   L(string.format('  walking back to %s (%d,%d)', map, x, y))
   local walked = pcall(function() assert(N.travel(map, { tile = { x, y } })) end)
-  if walked and N.mapName() == map then return true end
-  local m, digit = require('pwmaps')[map], function(n, place) return (n // place) % 10 end
-  L('  planner could not get there; debug warp to ' .. map)
-  if not F.warpTo(digit(m.g, 100), digit(m.g, 10), digit(m.g, 1), digit(m.m, 100), digit(m.m, 10), digit(m.m, 1), 0, 0, 0, m.g, m.m, 'replay') then
-    return false
+  if not (walked and N.mapName() == map) then
+    local m, digit = require('pwmaps')[map], function(n, place) return (n // place) % 10 end
+    L('  planner could not get there; debug warp to ' .. map)
+    if not F.warpTo(digit(m.g, 100), digit(m.g, 10), digit(m.g, 1), digit(m.m, 100), digit(m.m, 10), digit(m.m, 1), 0, 0, 0, m.g, m.m, 'replay') then
+      return false
+    end
+    N.settle()
+    pcall(N.go, x, y)
+    N.settle()
   end
-  N.settle()
-  pcall(N.go, x, y)
-  N.settle()
-  return true
+  -- Don't insist on the start tile: walking onto it can trip a pad or a trigger, and it can sit
+  -- behind a door the warp skipped. Beats open with their own travel and their done check decides.
+  local px, py = F.pos()
+  if px ~= x or py ~= y then L(string.format('  replaying from (%d,%d), the beat began at (%d,%d)', px, py, x, y)) end
+  return N.mapName() == map
 end
 
 local function playThrownBeat(b, index)

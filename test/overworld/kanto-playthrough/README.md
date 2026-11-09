@@ -41,7 +41,9 @@ never requires them, so the run declines and stays on the mainland.
 
 `PW_STARTER=0|1|2` picks Bulbasaur, Squirtle or Charmander (their lab balls in that order). Squirtle
 and the two legendaries cannot learn Cut, so a Squirtle run catches a Rattata on Route 1 before
-Cut is needed. Vary a run with `PW_GENDER=F`, `PW_STARTER`, `PW_RTC=<epoch>` and `PW_DETOUR=starter|ship|empty`.
+Cut is needed. Vary a run with `PW_GENDER=F`, `PW_STARTER` and `PW_RTC=<epoch>`. `PW_DETOUR=starter|ship|empty` plays a
+Hub Pass detour. Stop `ship` and `empty` with `--to detour_ship` and `--to detour_empty`, because they
+leave the story somewhere the next beat can't continue from.
 
 ## Result
 

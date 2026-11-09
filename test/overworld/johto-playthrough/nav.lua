@@ -686,6 +686,33 @@ return function(F, S)
     press('A', 2); idle(30)
   end
 
+  -- Deliberate losses (PW_LOSE, see play.lua). N.throw is { kind = 'trainer' | 'wild' | 'any' |
+  -- a TRAINER_ constant name }. Everything after the faint is the game's own code; only getting to
+  -- the faint is forced: the party is fainted behind the lead, which drops to 1 HP knowing only Growl.
+  local function throwMatches(trainer)
+    local kind = N.throw and N.throw.kind
+    if not kind then return false end
+    if kind == 'any' then return true end
+    if kind == 'trainer' then return trainer end
+    if kind == 'wild' then return not trainer end
+    return trainer and r16(P.gTrainerBattleParameter + O.tbp_opponentA) == assert(C[kind], kind)
+  end
+  local function throwBattle()
+    local onField = { [r16(P.gBattlerPartyIndexes)] = 0 }
+    if (r32(P.gBattleTypeFlags) & C.BATTLE_TYPE_DOUBLE) ~= 0 then onField[r16(P.gBattlerPartyIndexes + 4)] = 2 end
+    for i = 0, N.partyCount() - 1 do
+      F.w16(P.gParties + i * O.mon_size + O.mon_hp, onField[i] and 1 or 0)
+    end
+    for _, battler in pairs(onField) do
+      local m = bmon(battler)
+      F.w16(m + O.bm_hp, 1)
+      for i = 0, 3 do F.w16(m + O.bm_moves + 2 * i, C.MOVE_GROWL) end
+    end
+    N.threw = { kind = N.throw.kind, map = N.mapName(), money = N.money(), region = F.grp() }
+    N.throw = nil
+    L('  THROWING this battle at ' .. N.threw.map)
+  end
+
   -- Drive one battle to its end. fight=true attacks; otherwise wild battles are fled.
   function N.battle(opts)
     opts = opts or {}
@@ -746,6 +773,7 @@ return function(F, S)
             turns, N.activeBattler, r16(me), r16(me + O.bm_hp), r16(f1), r16(f1 + O.bm_hp), r16(f3), r16(f3 + O.bm_hp), bestMoveSlot()))
           if turns <= 12 then F.shot('turn' .. turns) end
         end
+        if throwMatches(trainer) then throwBattle(); fight = true end
         -- Evaluated per turn: at the battle's first instant the foe's data isn't loaded yet.
         local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(C.ITEM_POKE_BALL) > 0
         -- A foe with Arena Trap or Shadow Tag can't be fled: after two failed tries, fight it.
@@ -883,13 +911,15 @@ return function(F, S)
       elseif N.screen and N.screen() then
         -- A campaign-specific full-screen menu (Hoenn's POKéNAV tutorial) took a step.
         frames = frames + 60; freeFor = 0
-      elseif not F.ow() then
+      elseif not F.ow() or activeTask(P.Task_RushInjuredPokemonToCenter) then
+        -- The second case is the whiteout's "scurried back" page, which waits for A with no script.
         press('A'); idle(10); frames = frames + 12; freeFor = 0
       else
         idle(2); frames = frames + 2
         freeFor = freeFor + 2
-        if freeFor >= (opts.quiet or 24) then
+        if freeFor >= (opts.quiet or 24) and (not N.threw or N.free()) then
           scriptedFlag = false
+          if N.threw then N.needHeal = false; error(N.LOSS_PLAYED, 0) end
           -- Restore HP and PP after trainer battles (debug heal; a documented concession).
           if N.needHeal and not opts.noHeal then N.needHeal = false; N.debugHeal() end
           return true
@@ -1812,6 +1842,11 @@ return function(F, S)
     end
     idle(200); N.settle()
     assert(N.mapName() ~= 'RegionHub', 'the gate did not board')
+  end
+
+  N.LOSS_PLAYED = 'deliberate loss played out'
+  function N.money()
+    return F.r32(F.sb1() + O.sb1_money) ~ F.r32(F.r32(P.gSaveBlock2Ptr) + O.sb2_encryptionKey)
   end
 
   function N.debugHeal()

@@ -144,6 +144,72 @@ return function(F, N, C, log)
   end, function() return V(LAB) == 6 and FL('FLAG_SYS_POKEDEX_GET') end)
 
 
+  -- PW_ROUTE22=0|1|2 steps on that row of Route 22's rival trigger: north, middle or south, each
+  -- with its own approach. Early here, and late once Giovanni arms the trigger again.
+  local ROW22 = tonumber(os.getenv('PW_ROUTE22') or '')
+  local function route22(want)
+    moves()
+    assert(N.travel('Route22_Frlg'))
+    N.settle()
+    L(string.format('  scene %d, walking onto (33,%d)', V('VAR_MAP_SCENE_ROUTE22'), 4 + ROW22))
+    N.go(33, 4 + ROW22, { allowTriggers = true })
+    N.settle()
+    local x, y = F.pos()
+    L(string.format('  after the rival: scene %d at (%d,%d), rival object %s', V('VAR_MAP_SCENE_ROUTE22'), x, y, tostring(N.object(1) ~= nil)))
+    assert(N.free(), 'control after the rival')
+  end
+  -- The rival warns that the guard wants a badge: with none, the north gate must turn the player back.
+  local refused
+  if ROW22 then
+    beat('detour_route22', function()
+      route22()
+      if not at('Route22_Frlg') or V('VAR_MAP_SCENE_ROUTE22') ~= 2 then return end
+      assert(N.travel('Route22_NorthEntrance_Frlg'))
+      N.go(7, 2, { allowTriggers = true })
+      N.settle()
+      local x, y = F.pos()
+      L(string.format('  at the guard with no badge: %s (%d,%d)', N.mapName(), x, y))
+      refused = at('Route22_NorthEntrance_Frlg') and y > 2 and N.free()
+    end, function() return V('VAR_MAP_SCENE_ROUTE22') == 2 and refused end)
+  end
+
+  -- PW_DETOUR=grass: bank the party by crossing to Johto, come home without withdrawing it, and
+  -- walk Route 1's grass with nobody to send out. Stop this one with --to detour_grass.
+  local touched
+  if DETOUR == 'grass' then
+    beat('detour_grass', function()
+      moves()
+      N.useHubPass(); N.crossGate(16)
+      N.useHubPass(); N.crossGate(11)
+      L('  home at ' .. N.mapName() .. ' party=' .. N.partyCount())
+      assert(N.partyCount() == 0, 'the party should still be boxed')
+      assert(N.travel('Route1_Frlg'))
+      local g, tiles = N.liveGrid(), {}
+      for y = 0, g.h - 1 do
+        for x = 0, g.w - 1 do
+          local v = g.get(x, y)
+          if v and (v & 0x0C00) == 0 and g.beh(v & 0x3FF) == C.MB_TALL_GRASS then tiles[#tiles + 1] = { x, y } end
+        end
+      end
+      table.sort(tiles, function(a, b) return a[2] < b[2] end)
+      local a, b, wild0 = tiles[1], tiles[#tiles], N.battles.wild
+      for i = 1, 60 do
+        local t = (i % 2 == 0) and a or b
+        N.go(t[1], t[2])
+        N.settle()
+        -- Touching a visible wild Pokemon with nobody to send out used to lock the game for good.
+        for _, o in ipairs(N.objects()) do
+          if not touched and o.localId >= 249 and o.localId <= 252 and N.talk(o.localId) then
+            N.settle()
+            touched = N.free()
+            L(string.format('  touched wild object %d with an empty party: free=%s', o.localId, tostring(touched)))
+          end
+        end
+      end
+      L(string.format('  60 grass walks with an empty party: wild battles %d, at %s, party=%d', N.battles.wild - wild0, N.mapName(), N.partyCount()))
+    end, function() return F.ow() and N.free() and at('Route1_Frlg') and N.partyCount() == 0 and touched end)
+  end
+
   -- Squirtle can't learn Cut, and neither can Mewtwo or Rayquaza: catch a Rattata in Route 1's
   -- grass with Oak's Poke Balls. Bulbasaur and Charmander carry it themselves.
   if STARTER == 1 then
@@ -560,6 +626,10 @@ return function(F, N, C, log)
     assert(N.talk(8, { side = 1 }), 'Giovanni')
     N.settle()
   end, function() return badge(8) end)
+
+  if ROW22 then
+    beat('detour_route22_late', function() route22() end, function() return V('VAR_MAP_SCENE_ROUTE22') == 4 end)
+  end
 
   -- Route 22's late rival fills the road west, and Route 23's guards check every badge.
   beat('to_victory_road', function()

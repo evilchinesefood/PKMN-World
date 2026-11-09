@@ -2,6 +2,7 @@
 // each value is emitted as the size of a char array (offset + 1) and read back with nm -S.
 #include "global.h"
 #include "battle.h"
+#include "battle_setup.h"
 #include "pokemon.h"
 #include "event_object_movement.h"
 #include "global.fieldmap.h"
@@ -9,6 +10,8 @@
 P(sb1_flags, offsetof(struct SaveBlock1, flags))
 P(sb1_vars, offsetof(struct SaveBlock1, vars))
 P(sb1_money, offsetof(struct SaveBlock1, money))
+P(sb2_encryptionKey, offsetof(struct SaveBlock2, encryptionKey))
+P(tbp_opponentA, offsetof(TrainerBattleParameter, params.opponentA))
 P(bs_prevSelectedPartySlot, offsetof(struct BattleStruct, prevSelectedPartySlot))
 P(bm_size, sizeof(struct BattlePokemon))
 P(bm_species, offsetof(struct BattlePokemon, species))

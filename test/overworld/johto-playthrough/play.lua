@@ -41,6 +41,55 @@ end
 -- Straight from the campaign's directory: require would fall back to Johto's beats on a typo.
 local BEATS = assert(loadfile(here .. '../' .. CAMPAIGN .. '-playthrough/beats.lua'))()(F, N, C, log)
 
+-- PW_LOSE=beat[:kind],... loses the first matching battle of each named beat on purpose, checks
+-- what the game did about it, and plays the beat again. kind is trainer (default), wild, any, or a
+-- TRAINER_ constant to single out one opponent. See N.throw in nav.lua for how the loss is forced.
+local LOSE = {}
+for tok in (os.getenv('PW_LOSE') or ''):gmatch('[^,]+') do
+  local beat, kind = tok:match('^([^:]+):?(.*)$')
+  LOSE[beat] = kind ~= '' and kind or 'trainer'
+end
+
+local function reportLoss(b)
+  local t, x, y = N.threw, F.pos()
+  local hp, full = {}, true
+  for i = 0, N.partyCount() - 1 do
+    local m = N.partyMon(i)
+    hp[#hp + 1] = m.hp .. '/' .. m.maxHP
+    full = full and m.hp == m.maxHP
+  end
+  L(string.format('  LOSS at %s, control back at %s (%d,%d) party %s money %d -> %d done=%s', t.map, N.mapName(), x, y,
+    table.concat(hp, ' '), t.money, N.money(), tostring(b.done and b.done())))
+  F.shot(b.name .. '_after_loss')
+  F.check('loss ' .. b.name .. ': no crash screen', not F.reportCrash('loss_' .. b.name))
+  F.check('loss ' .. b.name .. ': player in control', N.free())
+  F.check('loss ' .. b.name .. ': party healed', full, table.concat(hp, ' '))
+  if N.region then
+    F.check('loss ' .. b.name .. ': still in the region', F.grp() >= N.region.lo and F.grp() <= N.region.hi, N.mapName())
+  end
+  N.threw = nil
+end
+
+local function playThrownBeat(b)
+  if not LOSE[b.name] then return pcall(b.run) end
+  N.throw = { kind = LOSE[b.name] }
+  local ok, err = pcall(b.run)
+  N.throw = nil
+  if not N.threw then
+    F.check('loss ' .. b.name .. ': a matching battle happened', false, ok and 'none' or tostring(err))
+    return ok, err
+  end
+  if ok or err ~= N.LOSS_PLAYED then
+    F.check('loss ' .. b.name .. ': the loss played out', false, ok and 'beat finished first' or tostring(err))
+    N.threw = nil
+    return ok, err
+  end
+  reportLoss(b)
+  if b.done and b.done() then return true end
+  L('  playing ' .. b.name .. ' again after the loss')
+  return pcall(b.run)
+end
+
 F.run(function()
   local start = 1
   if FROM then
@@ -57,7 +106,7 @@ F.run(function()
   for i = start, #BEATS do
     local b = BEATS[i]
     L(string.format('BEAT %d/%d %s', i, #BEATS, b.name))
-    local ok, err = pcall(b.run)
+    local ok, err = playThrownBeat(b)
     if not ok then L('  beat error: ' .. tostring(err)) end
     local done = ok and (not b.done or b.done())
     -- One retry from the previous beat's checkpoint: that reloads the exact game state, so it

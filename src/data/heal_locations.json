@@ -268,7 +268,9 @@
       "x": 11,
       "y": 7,
       "respawn_map": "MAP_INDIGO_PLATEAU_POKEMON_CENTER_1F",
-      "respawn_npc": "LOCALID_LEAGUE_NURSE"
+      "respawn_npc": "LOCALID_INDIGO_LEAGUE_NURSE",
+      "respawn_x": 13,
+      "respawn_y": 12
     },
     {
       "id": "HEAL_LOCATION_SAFFRON_CITY",

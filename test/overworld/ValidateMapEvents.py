@@ -935,6 +935,33 @@ def check_heal_respawn_sealed(maps, grids):
     return errors
 
 
+def check_heal_respawn_npc(maps):
+    """A whiteout healer that is not on the map the player respawns on.
+
+    The whiteout script bows VAR_LAST_TALKED and waits for it. Kanto's Indigo Plateau named
+    Ever Grande's LOCALID_LEAGUE_NURSE, which is 1, so the waitmovement waited on a clerk parked
+    off screen and every Kanto Elite Four loss froze the game for good.
+    """
+    path = os.path.join(ROOT, "src/data/heal_locations.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            entries = json.load(fh)["heal_locations"]
+    except (OSError, ValueError, KeyError):
+        die("could not read src/data/heal_locations.json -- HEAL-RESPAWN-NPC cannot run")
+    by_id = {d.get("id"): d for d in maps.values() if d.get("id")}
+    out = []
+    for entry in entries:
+        npc = entry.get("respawn_npc")
+        if not npc or npc == "LOCALID_NONE":
+            continue
+        respawn = by_id.get(entry.get("respawn_map"))
+        if respawn is None:
+            out.append(f"{entry.get('id')}: respawn_map {entry.get('respawn_map')} does not exist")
+        elif not any(o.get("local_id") == npc for o in respawn.get("object_events", [])):
+            out.append(f"{entry.get('id')}: {npc} is not an object on {entry.get('respawn_map')}")
+    return out
+
+
 def check_heal_point_stranded(maps, grids):
     """A heal location's own x/y is impassable, or nowhere near the door it belongs to.
 
@@ -1045,6 +1072,7 @@ def main():
         ("OBJECT-TRAINER-FACTION", check_object_trainer_faction(maps, bodies, trainers)),
         ("MUTE-STORY-NPC", check_mute_story_npc(maps, bodies, mute_stats)),
         ("HEAL-RESPAWN-SEALED", check_heal_respawn_sealed(maps, grids)),
+        ("HEAL-RESPAWN-NPC", check_heal_respawn_npc(maps)),
         ("HEAL-POINT-STRANDED", check_heal_point_stranded(maps, grids)),
     ]
     reviews = [

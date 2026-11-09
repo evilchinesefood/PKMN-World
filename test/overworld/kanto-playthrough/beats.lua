@@ -3,7 +3,7 @@
 return function(F, N, C, log)
   local L = F.L
   local B = {}
-  local function beat(name, run, done) B[#B + 1] = { name = name, run = run, done = done } end
+  local function beat(name, run, done, loss) B[#B + 1] = { name = name, run = run, done = done, loss = loss } end
   local function V(name) return N.var(C[name]) end
   local function FL(name) return N.flag(C[name]) end
   local function at(map) return N.mapName() == map end
@@ -823,6 +823,12 @@ return function(F, N, C, log)
     N.settle()
   end, function() return at('PokemonLeague_LoreleisRoom_Frlg') end)
 
+  -- Losing anywhere in the League sends the challenger back to the first room.
+  local LEAGUE_LOSS = { replayFrom = 'to_league', check = function()
+    return not FL('FLAG_DEFEATED_LORELEI') and V('VAR_MAP_SCENE_POKEMON_LEAGUE') == 0,
+      string.format('Lorelei beaten=%s scene=%d', tostring(FL('FLAG_DEFEATED_LORELEI')), V('VAR_MAP_SCENE_POKEMON_LEAGUE'))
+  end }
+
   -- Room scripts walk the player to the member and seal the south door; the member's defeat opens
   -- the north one.
   for _, e in ipairs({ { 'LoreleisRoom', 'LORELEI', 'BrunosRoom' }, { 'BrunosRoom', 'BRUNO', 'AgathasRoom' },
@@ -837,7 +843,7 @@ return function(F, N, C, log)
       assert(FL(flag), e[2] .. ' beaten')
       assert(N.takeWarp(6, 2), 'out of ' .. room)
       N.settle()
-    end, function() return FL(flag) and at(next) end)
+    end, function() return FL(flag) and at(next) end, LEAGUE_LOSS)
   end
 
   beat('e4_lance', function()
@@ -847,7 +853,7 @@ return function(F, N, C, log)
     N.settle()
     if not FL('FLAG_DEFEATED_LANCE') then assert(N.talk(1, { side = 1 }), 'Lance') end
     N.settle()
-  end, function() return FL('FLAG_DEFEATED_LANCE') end)
+  end, function() return FL('FLAG_DEFEATED_LANCE') end, LEAGUE_LOSS)
 
   -- Lance's room door (6,5) leads to the champion; the room's ON_FRAME battle, then Oak and the
   -- Hall of Fame and the credits. Mash A until the game hands control back.
@@ -863,7 +869,7 @@ return function(F, N, C, log)
     N.settle()
     L('  after the Hall of Fame: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_KANTO_CHAMPION'))
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
-  end, function() return FL('FLAG_KANTO_CHAMPION') and F.ow() end)
+  end, function() return FL('FLAG_KANTO_CHAMPION') and F.ow() end, LEAGUE_LOSS)
 
   -- Back under control after the credits: walk home to prove the save resumes in play.
   beat('home', function()

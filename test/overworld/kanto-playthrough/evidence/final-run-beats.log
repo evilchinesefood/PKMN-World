@@ -3,43 +3,34 @@ BOOTED grp=100 map=0 pos=(16,4)
 BEAT 1/55 to_kanto
 == to_kanto: PalletTown_PlayersHouse_2F_Frlg (6,6) party=0 lead=L0 0/0 steps=6 battles=0/0
   [PASS] beat to_kanto
-CHECKPOINT to_kanto -> ckpt_to_kanto.ss (true) at PalletTown_PlayersHouse_2F_Frlg (6,6)
 BEAT 2/55 oak_lab
 == oak_lab: PalletTown_ProfessorOaksLab_Frlg (6,4) party=0 lead=L0 0/0 steps=39 battles=0/0
   [PASS] beat oak_lab
-CHECKPOINT oak_lab -> ckpt_oak_lab.ss (true) at PalletTown_ProfessorOaksLab_Frlg (6,4)
 BEAT 3/55 starter
 == starter: PalletTown_ProfessorOaksLab_Frlg (8,5) party=1 lead=L5 20/20 steps=42 battles=0/0
   [PASS] beat starter
-CHECKPOINT starter -> ckpt_starter.ss (true) at PalletTown_ProfessorOaksLab_Frlg (8,5)
 BEAT 4/55 party
 == party: PalletTown_ProfessorOaksLab_Frlg (8,5) party=3 lead=L100 354/354 steps=42 battles=0/0
   [PASS] beat party
-CHECKPOINT party -> ckpt_party.ss (true) at PalletTown_ProfessorOaksLab_Frlg (8,5)
 BEAT 5/55 rival_lab
   battle TRAINER fight foe=4 L5 at PalletTown_ProfessorOaksLab_Frlg -> outcome=1 turns=1 lead hp=354/354
 == rival_lab: PalletTown_ProfessorOaksLab_Frlg (6,8) party=3 lead=L100 354/354 steps=47 battles=1/0
   [PASS] beat rival_lab
-CHECKPOINT rival_lab -> ckpt_rival_lab.ss (true) at PalletTown_ProfessorOaksLab_Frlg (6,8)
 BEAT 6/55 parcel
 == parcel: ViridianCity_Mart_Frlg (4,3) party=3 lead=L100 354/354 steps=164 battles=1/2
   [PASS] beat parcel
-CHECKPOINT parcel -> ckpt_parcel.ss (true) at ViridianCity_Mart_Frlg (4,3)
 BEAT 7/55 deliver_parcel
 == deliver_parcel: PalletTown_ProfessorOaksLab_Frlg (6,4) party=3 lead=L100 354/354 steps=269 battles=1/3
   [PASS] beat deliver_parcel
-CHECKPOINT deliver_parcel -> ckpt_deliver_parcel.ss (true) at PalletTown_ProfessorOaksLab_Frlg (6,4)
 BEAT 8/55 to_pewter
   battle TRAINER fight foe=13 L9 at ViridianForest_Frlg -> outcome=1 turns=1 lead hp=354/354
 == to_pewter: PewterCity_Frlg (20,38) party=3 lead=L100 354/354 steps=611 battles=2/17
   [PASS] beat to_pewter
-CHECKPOINT to_pewter -> ckpt_to_pewter.ss (true) at PewterCity_Frlg (20,38)
 BEAT 9/55 brock
   battle TRAINER fight foe=74 L10 at PewterCity_Gym_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=74 L12 at PewterCity_Gym_Frlg -> outcome=1 turns=2 lead hp=354/354
 == brock: PewterCity_Gym_Frlg (6,6) party=3 lead=L100 354/354 steps=674 battles=4/17
   [PASS] beat brock
-CHECKPOINT brock -> ckpt_brock.ss (true) at PewterCity_Gym_Frlg (6,6)
 BEAT 10/55 mt_moon_fossil
   battle TRAINER fight foe=10 L10 at Route3_Frlg -> outcome=1 turns=3 lead hp=354/354
   battle TRAINER fight foe=19 L11 at Route3_Frlg -> outcome=1 turns=2 lead hp=354/354
@@ -51,11 +42,9 @@ BEAT 10/55 mt_moon_fossil
   battle TRAINER fight foe=0 L0 at MtMoon_B2F_Frlg -> outcome=1 turns=3 lead hp=354/354
 == mt_moon_fossil: MtMoon_B2F_Frlg (13,8) party=3 lead=L100 354/354 steps=1097 battles=12/24
   [PASS] beat mt_moon_fossil
-CHECKPOINT mt_moon_fossil -> ckpt_mt_moon_fossil.ss (true) at MtMoon_B2F_Frlg (13,8)
 BEAT 11/55 to_cerulean
 == to_cerulean: CeruleanCity_Frlg (2,20) party=3 lead=L100 354/354 steps=1204 battles=12/24
   [PASS] beat to_cerulean
-CHECKPOINT to_cerulean -> ckpt_to_cerulean.ss (true) at CeruleanCity_Frlg (2,20)
 BEAT 12/55 bill
   battle TRAINER fight foe=0 L0 at CeruleanCity_Frlg -> outcome=1 turns=4 lead hp=353/354
   battle TRAINER fight foe=10 L10 at Route24_Frlg -> outcome=1 turns=4 lead hp=354/354
@@ -73,18 +62,15 @@ BEAT 12/55 bill
   battle TRAINER fight foe=43 L13 at Route25_Frlg -> outcome=1 turns=3 lead hp=354/354
 == bill: Route25_SeaCottage_Frlg (4,6) party=3 lead=L100 354/354 steps=1361 battles=26/24
   [PASS] beat bill
-CHECKPOINT bill -> ckpt_bill.ss (true) at Route25_SeaCottage_Frlg (4,6)
 BEAT 13/55 ticket
 == ticket: Route25_SeaCottage_Frlg (6,6) party=3 lead=L100 354/354 steps=1363 battles=26/24
   [PASS] beat ticket
-CHECKPOINT ticket -> ckpt_ticket.ss (true) at Route25_SeaCottage_Frlg (6,6)
 BEAT 14/55 misty
   battle TRAINER fight foe=116 L16 at CeruleanCity_Gym_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=118 L19 at CeruleanCity_Gym_Frlg -> outcome=1 turns=1 lead hp=354/354
   battle TRAINER fight foe=120 L18 at CeruleanCity_Gym_Frlg -> outcome=1 turns=2 lead hp=354/354
 == misty: CeruleanCity_Gym_Frlg (8,7) party=3 lead=L100 354/354 steps=1508 battles=29/24
   [PASS] beat misty
-CHECKPOINT misty -> ckpt_misty.ss (true) at CeruleanCity_Gym_Frlg (8,7)
 BEAT 15/55 cut
   battle TRAINER fight foe=12 L20 at Route6_Frlg -> outcome=1 turns=1 lead hp=354/354
   battle TRAINER fight foe=16 L16 at Route6_Frlg -> outcome=1 turns=3 lead hp=354/354
@@ -92,18 +78,15 @@ BEAT 15/55 cut
   battle TRAINER fight foe=0 L0 at SSAnne_2F_Corridor_Frlg -> outcome=1 turns=4 lead hp=354/354
 == cut: SSAnne_CaptainsOffice_Frlg (5,5) party=3 lead=L100 354/354 steps=1833 battles=33/26
   [PASS] beat cut
-CHECKPOINT cut -> ckpt_cut.ss (true) at SSAnne_CaptainsOffice_Frlg (5,5)
 BEAT 16/55 ship_sails
 == ship_sails: VermilionCity_Frlg (23,30) party=3 lead=L100 354/354 steps=1910 battles=33/26
   [PASS] beat ship_sails
-CHECKPOINT ship_sails -> ckpt_ship_sails.ss (true) at VermilionCity_Frlg (23,30)
 BEAT 17/55 surge
   battle TRAINER fight foe=25 L21 at VermilionCity_Gym_Frlg -> outcome=1 turns=2 lead hp=353/354
   battle TRAINER fight foe=25 L23 at VermilionCity_Gym_Frlg -> outcome=1 turns=1 lead hp=354/354
   battle TRAINER fight foe=100 L21 at VermilionCity_Gym_Frlg -> outcome=1 turns=3 lead hp=351/354
 == surge: VermilionCity_Gym_Frlg (5,3) party=3 lead=L100 354/354 steps=1987 battles=36/26
   [PASS] beat surge
-CHECKPOINT surge -> ckpt_surge.ss (true) at VermilionCity_Gym_Frlg (5,3)
 BEAT 18/55 to_celadon
   battle TRAINER fight foe=43 L18 at Route9_Frlg -> outcome=1 turns=4 lead hp=354/354
   battle TRAINER fight foe=66 L20 at Route9_Frlg -> outcome=1 turns=2 lead hp=354/354
@@ -125,17 +108,14 @@ BEAT 18/55 to_celadon
   battle TRAINER fight foe=35 L22 at Route8_Frlg -> outcome=1 turns=2 lead hp=354/354
 == to_celadon: CeladonCity_Frlg (57,15) party=3 lead=L100 354/354 steps=2833 battles=54/36
   [PASS] beat to_celadon
-CHECKPOINT to_celadon -> ckpt_to_celadon.ss (true) at CeladonCity_Frlg (57,15)
 BEAT 19/55 game_corner
   battle TRAINER fight foe=20 L20 at CeladonCity_GameCorner_Frlg -> outcome=1 turns=2 lead hp=354/354
 == game_corner: CeladonCity_GameCorner_Frlg (11,2) party=3 lead=L100 354/354 steps=2877 battles=55/36
   [PASS] beat game_corner
-CHECKPOINT game_corner -> ckpt_game_corner.ss (true) at CeladonCity_GameCorner_Frlg (11,2)
 BEAT 20/55 lift_key
   battle TRAINER fight foe=109 L21 at RocketHideout_B4F_Frlg -> outcome=1 turns=2 lead hp=354/354
 == lift_key: RocketHideout_B4F_Frlg (3,3) party=3 lead=L100 354/354 steps=2982 battles=56/36
   [PASS] beat lift_key
-CHECKPOINT lift_key -> ckpt_lift_key.ss (true) at RocketHideout_B4F_Frlg (3,3)
 BEAT 21/55 hideout_boss
   battle TRAINER fight foe=41 L17 at RocketHideout_B2F_Frlg -> outcome=1 turns=5 lead hp=354/354
   battle TRAINER fight foe=27 L23 at RocketHideout_B4F_Frlg -> outcome=1 turns=3 lead hp=354/354
@@ -143,18 +123,14 @@ BEAT 21/55 hideout_boss
   battle TRAINER fight foe=0 L0 at RocketHideout_B4F_Frlg -> outcome=1 turns=3 lead hp=354/354
 == hideout_boss: RocketHideout_B4F_Frlg (19,5) party=3 lead=L100 354/354 steps=3117 battles=60/36
   [PASS] beat hideout_boss
-CHECKPOINT hideout_boss -> ckpt_hideout_boss.ss (true) at RocketHideout_B4F_Frlg (19,5)
 BEAT 22/55 scope
 == scope: RocketHideout_B4F_Frlg (19,5) party=3 lead=L100 354/354 steps=3117 battles=60/36
   [PASS] beat scope
-CHECKPOINT scope -> ckpt_scope.ss (true) at RocketHideout_B4F_Frlg (19,5)
 BEAT 23/55 leave_hideout
   battle TRAINER fight foe=88 L22 at RocketHideout_B1F_Frlg -> outcome=1 turns=2 lead hp=354/354
-  talk: 5 moved to (23,27); we are at (22,27) facing 3
   battle TRAINER fight foe=96 L21 at RocketHideout_B1F_Frlg -> outcome=1 turns=2 lead hp=354/354
 == leave_hideout: CeladonCity_GameCorner_Frlg (15,2) party=3 lead=L100 354/354 steps=3196 battles=62/36
   [PASS] beat leave_hideout
-CHECKPOINT leave_hideout -> ckpt_leave_hideout.ss (true) at CeladonCity_GameCorner_Frlg (15,2)
 BEAT 24/55 tower
   battle TRAINER fight foe=100 L20 at Route8_Frlg -> outcome=1 turns=4 lead hp=354/354
   battle TRAINER fight foe=0 L0 at PokemonTower_2F_Frlg -> outcome=1 turns=5 lead hp=349/354
@@ -168,18 +144,15 @@ BEAT 24/55 tower
   battle TRAINER fight foe=92 L24 at PokemonTower_6F_Frlg -> outcome=1 turns=1 lead hp=354/354
 == tower: PokemonTower_6F_Frlg (11,15) party=3 lead=L100 354/354 steps=3590 battles=72/41
   [PASS] beat tower
-CHECKPOINT tower -> ckpt_tower.ss (true) at PokemonTower_6F_Frlg (11,15)
 BEAT 25/55 fuji
   battle TRAINER fight foe=41 L25 at PokemonTower_7F_Frlg -> outcome=1 turns=3 lead hp=354/354
   battle TRAINER fight foe=109 L26 at PokemonTower_7F_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=41 L23 at PokemonTower_7F_Frlg -> outcome=1 turns=4 lead hp=354/354
 == fuji: LavenderTown_VolunteerPokemonHouse_Frlg (4,7) party=3 lead=L100 354/354 steps=3602 battles=75/42
   [PASS] beat fuji
-CHECKPOINT fuji -> ckpt_fuji.ss (true) at LavenderTown_VolunteerPokemonHouse_Frlg (4,7)
 BEAT 26/55 flute
 == flute: LavenderTown_VolunteerPokemonHouse_Frlg (3,4) party=3 lead=L100 354/354 steps=3606 battles=75/42
   [PASS] beat flute
-CHECKPOINT flute -> ckpt_flute.ss (true) at LavenderTown_VolunteerPokemonHouse_Frlg (3,4)
 BEAT 27/55 erika
   battle TRAINER fight foe=69 L23 at CeladonCity_Gym_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=43 L21 at CeladonCity_Gym_Frlg -> outcome=1 turns=4 lead hp=354/354
@@ -187,7 +160,6 @@ BEAT 27/55 erika
   battle TRAINER fight foe=71 L29 at CeladonCity_Gym_Frlg -> outcome=1 turns=3 lead hp=354/354
 == erika: CeladonCity_Gym_Frlg (6,5) party=3 lead=L100 354/354 steps=3905 battles=79/42
   [PASS] beat erika
-CHECKPOINT erika -> ckpt_erika.ss (true) at CeladonCity_Gym_Frlg (6,5)
 BEAT 28/55 snorlax
   battle TRAINER fight foe=118 L22 at Route12_Frlg -> outcome=1 turns=3 lead hp=354/354
   battle TRAINER fight foe=72 L24 at Route12_Frlg -> outcome=1 turns=2 lead hp=354/354
@@ -195,7 +167,6 @@ BEAT 28/55 snorlax
   battle TRAINER fight foe=60 L21 at Route12_Frlg -> outcome=1 turns=4 lead hp=354/354
 == snorlax: Route12_Frlg (14,69) party=3 lead=L100 354/354 steps=4316 battles=83/43
   [PASS] beat snorlax
-CHECKPOINT snorlax -> ckpt_snorlax.ss (true) at Route12_Frlg (14,69)
 BEAT 29/55 to_fuchsia
   battle TRAINER fight foe=100 L29 at Route12_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=129 L24 at Route12_Frlg -> outcome=1 turns=2 lead hp=354/354
@@ -204,15 +175,12 @@ BEAT 29/55 to_fuchsia
   battle TRAINER fight foe=21 L28 at Route14_Frlg -> outcome=1 turns=3 lead hp=354/354
 == to_fuchsia: FuchsiaCity_Frlg (45,21) party=3 lead=L100 354/354 steps=4629 battles=88/46
   [PASS] beat to_fuchsia
-CHECKPOINT to_fuchsia -> ckpt_to_fuchsia.ss (true) at FuchsiaCity_Frlg (45,21)
 BEAT 30/55 surf
 == surf: SafariZone_SecretHouse_Frlg (6,6) party=3 lead=L100 354/354 steps=4967 battles=88/50
   [PASS] beat surf
-CHECKPOINT surf -> ckpt_surf.ss (true) at SafariZone_SecretHouse_Frlg (6,6)
 BEAT 31/55 teeth
 == teeth: SafariZone_West_Frlg (27,14) party=3 lead=L100 354/354 steps=4993 battles=88/50
   [PASS] beat teeth
-CHECKPOINT teeth -> ckpt_teeth.ss (true) at SafariZone_West_Frlg (27,14)
 BEAT 32/55 koga
   battle TRAINER fight foe=97 L38 at FuchsiaCity_Gym_Frlg -> outcome=1 turns=1 lead hp=354/354
   battle TRAINER fight foe=96 L31 at FuchsiaCity_Gym_Frlg -> outcome=1 turns=4 lead hp=354/354
@@ -220,11 +188,9 @@ BEAT 32/55 koga
   battle TRAINER fight foe=109 L37 at FuchsiaCity_Gym_Frlg -> outcome=1 turns=4 lead hp=354/354
 == koga: FuchsiaCity_Gym_Frlg (7,14) party=3 lead=L100 354/354 steps=5388 battles=92/57
   [PASS] beat koga
-CHECKPOINT koga -> ckpt_koga.ss (true) at FuchsiaCity_Gym_Frlg (7,14)
 BEAT 33/55 strength
 == strength: FuchsiaCity_WardensHouse_Frlg (4,5) party=3 lead=L100 354/354 steps=5473 battles=92/57
   [PASS] beat strength
-CHECKPOINT strength -> ckpt_strength.ss (true) at FuchsiaCity_WardensHouse_Frlg (4,5)
 BEAT 34/55 tea
   battle TRAINER fight foe=109 L29 at Route14_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=17 L29 at Route14_Frlg -> outcome=1 turns=2 lead hp=351/354
@@ -232,17 +198,14 @@ BEAT 34/55 tea
   battle TRAINER fight foe=16 L24 at Route13_Frlg -> outcome=1 turns=5 lead hp=354/354
 == tea: CeladonCity_Condominiums_1F_Frlg (3,9) party=3 lead=L100 354/354 steps=6134 battles=96/60
   [PASS] beat tea
-CHECKPOINT tea -> ckpt_tea.ss (true) at CeladonCity_Condominiums_1F_Frlg (3,9)
 BEAT 35/55 saffron_gate
 == saffron_gate: Route7_EastEntrance_Frlg (6,4) party=3 lead=L100 354/354 steps=6207 battles=96/60
   [PASS] beat saffron_gate
-CHECKPOINT saffron_gate -> ckpt_saffron_gate.ss (true) at Route7_EastEntrance_Frlg (6,4)
 BEAT 36/55 card_key
   battle TRAINER fight foe=82 L26 at SilphCo_5F_Frlg -> outcome=1 turns=4 lead hp=354/354
   battle TRAINER fight foe=24 L33 at SilphCo_5F_Frlg -> outcome=1 turns=1 lead hp=354/354
 == card_key: SilphCo_5F_Frlg (21,21) party=3 lead=L100 354/354 steps=6348 battles=98/60
   [PASS] beat card_key
-CHECKPOINT card_key -> ckpt_card_key.ss (true) at SilphCo_5F_Frlg (21,21)
 BEAT 37/55 silph
   battle TRAINER fight foe=20 L28 at SilphCo_3F_Frlg -> outcome=1 turns=3 lead hp=354/354
   battle TRAINER fight foe=0 L0 at SilphCo_7F_Frlg -> outcome=1 turns=5 lead hp=354/354
@@ -250,26 +213,21 @@ BEAT 37/55 silph
   battle TRAINER fight foe=0 L0 at SilphCo_11F_Frlg -> outcome=1 turns=4 lead hp=354/354
 == silph: SilphCo_11F_Frlg (5,15) party=3 lead=L100 354/354 steps=6446 battles=102/60
   [PASS] beat silph
-CHECKPOINT silph -> ckpt_silph.ss (true) at SilphCo_11F_Frlg (5,15)
 BEAT 38/55 sabrina
   battle TRAINER fight foe=79 L33 at SaffronCity_Gym_Frlg -> outcome=1 turns=3 lead hp=354/354
   battle TRAINER fight foe=64 L38 at SaffronCity_Gym_Frlg -> outcome=1 turns=4 lead hp=354/354
 == sabrina: SaffronCity_Gym_Frlg (14,12) party=3 lead=L100 354/354 steps=6630 battles=104/60
   [PASS] beat sabrina
-CHECKPOINT sabrina -> ckpt_sabrina.ss (true) at SaffronCity_Gym_Frlg (14,12)
 BEAT 39/55 to_cinnabar
 == to_cinnabar: CinnabarIsland_Frlg (12,2) party=3 lead=L100 350/354 steps=7232 battles=104/68
   [PASS] beat to_cinnabar
-CHECKPOINT to_cinnabar -> ckpt_to_cinnabar.ss (true) at CinnabarIsland_Frlg (12,2)
 BEAT 40/55 secret_key
   battle TRAINER fight foe=101 L29 at PokemonMansion_1F_Frlg -> outcome=1 turns=2 lead hp=350/354
 == secret_key: PokemonMansion_B1F_Frlg (5,6) party=3 lead=L100 354/354 steps=7473 battles=105/74
   [PASS] beat secret_key
-CHECKPOINT secret_key -> ckpt_secret_key.ss (true) at PokemonMansion_B1F_Frlg (5,6)
 BEAT 41/55 leave_mansion
 == leave_mansion: CinnabarIsland_Frlg (8,4) party=3 lead=L100 348/354 steps=7626 battles=105/83
   [PASS] beat leave_mansion
-CHECKPOINT leave_mansion -> ckpt_leave_mansion.ss (true) at CinnabarIsland_Frlg (8,4)
 BEAT 42/55 blaine
   battle TRAINER fight foe=58 L36 at CinnabarIsland_Gym_Frlg -> outcome=1 turns=3 lead hp=344/354
   battle TRAINER fight foe=77 L34 at CinnabarIsland_Gym_Frlg -> outcome=1 turns=4 lead hp=354/354
@@ -280,7 +238,6 @@ BEAT 42/55 blaine
   battle TRAINER fight foe=58 L42 at CinnabarIsland_Gym_Frlg -> outcome=1 turns=4 lead hp=354/354
 == blaine: CinnabarIsland_Gym_Frlg (5,5) party=3 lead=L100 354/354 steps=7716 battles=112/83
   [PASS] beat blaine
-CHECKPOINT blaine -> ckpt_blaine.ss (true) at CinnabarIsland_Gym_Frlg (5,5)
 BEAT 43/55 giovanni
   battle TRAINER fight foe=0 L0 at Route21_South_Frlg -> outcome=1 turns=2 lead hp=354/354
   battle TRAINER fight foe=0 L0 at Route21_South_Frlg -> outcome=1 turns=1 lead hp=354/354
@@ -290,68 +247,53 @@ BEAT 43/55 giovanni
   battle TRAINER fight foe=111 L45 at ViridianCity_Gym_Frlg -> outcome=1 turns=5 lead hp=354/354
 == giovanni: ViridianCity_Gym_Frlg (2,3) party=3 lead=L100 354/354 steps=8104 battles=118/83
   [PASS] beat giovanni
-CHECKPOINT giovanni -> ckpt_giovanni.ss (true) at ViridianCity_Gym_Frlg (2,3)
 BEAT 44/55 to_victory_road
   battle TRAINER fight foe=0 L0 at Route22_Frlg -> outcome=1 turns=6 lead hp=354/354
 == to_victory_road: VictoryRoad_1F_Frlg (11,20) party=3 lead=L100 354/354 steps=8409 battles=119/86
   [PASS] beat to_victory_road
-CHECKPOINT to_victory_road -> ckpt_to_victory_road.ss (true) at VictoryRoad_1F_Frlg (11,20)
 BEAT 45/55 victory_road_1f
   battle TRAINER fight foe=0 L0 at VictoryRoad_1F_Frlg -> outcome=1 turns=5 lead hp=351/354
   battle TRAINER fight foe=0 L0 at VictoryRoad_1F_Frlg -> outcome=1 turns=5 lead hp=354/354
 == victory_road_1f: VictoryRoad_2F_Frlg (1,9) party=3 lead=L100 354/354 steps=8498 battles=121/91
   [PASS] beat victory_road_1f
-CHECKPOINT victory_road_1f -> ckpt_victory_road_1f.ss (true) at VictoryRoad_2F_Frlg (1,9)
 BEAT 46/55 victory_road_2f
   battle TRAINER fight foe=0 L0 at VictoryRoad_2F_Frlg -> outcome=1 turns=3 lead hp=354/354
 == victory_road_2f: VictoryRoad_3F_Frlg (34,9) party=3 lead=L100 354/354 steps=8587 battles=122/94
   [PASS] beat victory_road_2f
-CHECKPOINT victory_road_2f -> ckpt_victory_road_2f.ss (true) at VictoryRoad_3F_Frlg (34,9)
 BEAT 47/55 victory_road_3f
   battle TRAINER fight foe=0 L0 at VictoryRoad_3F_Frlg -> outcome=1 turns=5 lead hp=354/354
 == victory_road_3f: VictoryRoad_2F_Frlg (34,19) party=3 lead=L100 354/354 steps=8706 battles=123/100
   [PASS] beat victory_road_3f
-CHECKPOINT victory_road_3f -> ckpt_victory_road_3f.ss (true) at VictoryRoad_2F_Frlg (34,19)
 BEAT 48/55 victory_road_exit
   battle TRAINER fight foe=0 L0 at VictoryRoad_3F_Frlg -> outcome=1 turns=4 lead hp=331/354
 == victory_road_exit: IndigoPlateau_Exterior_Frlg (12,17) party=3 lead=L100 354/354 steps=8794 battles=124/102
   [PASS] beat victory_road_exit
-CHECKPOINT victory_road_exit -> ckpt_victory_road_exit.ss (true) at IndigoPlateau_Exterior_Frlg (12,17)
 BEAT 49/55 to_league
 == to_league: PokemonLeague_LoreleisRoom_Frlg (6,7) party=3 lead=L100 354/354 steps=8828 battles=124/102
   [PASS] beat to_league
-CHECKPOINT to_league -> ckpt_to_league.ss (true) at PokemonLeague_LoreleisRoom_Frlg (6,7)
 BEAT 50/55 e4_LoreleisRoom
   battle TRAINER fight foe=0 L0 at PokemonLeague_LoreleisRoom_Frlg -> outcome=1 turns=11 lead hp=324/354
 == e4_LoreleisRoom: PokemonLeague_BrunosRoom_Frlg (6,7) party=3 lead=L100 354/354 steps=8835 battles=125/102
   [PASS] beat e4_LoreleisRoom
-CHECKPOINT e4_LoreleisRoom -> ckpt_e4_LoreleisRoom.ss (true) at PokemonLeague_BrunosRoom_Frlg (6,7)
 BEAT 51/55 e4_BrunosRoom
   battle TRAINER fight foe=0 L0 at PokemonLeague_BrunosRoom_Frlg -> outcome=1 turns=5 lead hp=346/354
 == e4_BrunosRoom: PokemonLeague_AgathasRoom_Frlg (6,7) party=3 lead=L100 354/354 steps=8842 battles=126/102
   [PASS] beat e4_BrunosRoom
-CHECKPOINT e4_BrunosRoom -> ckpt_e4_BrunosRoom.ss (true) at PokemonLeague_AgathasRoom_Frlg (6,7)
 BEAT 52/55 e4_AgathasRoom
   battle TRAINER fight foe=0 L0 at PokemonLeague_AgathasRoom_Frlg -> outcome=1 turns=5 lead hp=354/354
 == e4_AgathasRoom: PokemonLeague_LancesRoom_Frlg (6,10) party=3 lead=L100 354/354 steps=8849 battles=127/102
   [PASS] beat e4_AgathasRoom
-CHECKPOINT e4_AgathasRoom -> ckpt_e4_AgathasRoom.ss (true) at PokemonLeague_LancesRoom_Frlg (6,10)
 BEAT 53/55 e4_lance
   battle TRAINER fight foe=0 L0 at PokemonLeague_LancesRoom_Frlg -> outcome=1 turns=5 lead hp=354/354
 == e4_lance: PokemonLeague_LancesRoom_Frlg (6,9) party=3 lead=L100 354/354 steps=8850 battles=128/102
   [PASS] beat e4_lance
-CHECKPOINT e4_lance -> ckpt_e4_lance.ss (true) at PokemonLeague_LancesRoom_Frlg (6,9)
 BEAT 54/55 champion
   battle TRAINER fight foe=0 L0 at PokemonLeague_ChampionsRoom_Frlg -> outcome=1 turns=6 lead hp=354/354
-    msg: OAK: So, you’ve won! Sincerely, congratulations! You’re the new POKéMON LEAGUE CHAMPION! You’ve grown up so much since you first left with Bulbasaur to wo
+  after the Hall of Fame: PalletTown_Frlg champion=true game clear=true
 == champion: PalletTown_Frlg (6,8) party=3 lead=L100 354/354 steps=8856 battles=129/102
   [PASS] beat champion
-CHECKPOINT champion -> ckpt_champion.ss (true) at PalletTown_Frlg (6,8)
 BEAT 55/55 home
-  under control at PalletTown_Frlg (6,8)
-  moved to PalletTown_PlayersHouse_1F_Frlg (4,8)
 == home: PalletTown_PlayersHouse_1F_Frlg (4,8) party=3 lead=L100 354/354 steps=8857 battles=129/102
   [PASS] beat home
-CHECKPOINT home -> ckpt_home.ss (true) at PalletTown_PlayersHouse_1F_Frlg (4,8)
 TOTAL steps=8857 trainer battles=129 wild=102 heals=129 retries=0 
 VERDICT KantoPlay: 56/56 PASS

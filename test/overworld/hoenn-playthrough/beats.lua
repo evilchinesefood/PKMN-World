@@ -3,7 +3,7 @@
 return function(F, N, C, log)
   local L = F.L
   local B = {}
-  local function beat(name, run, done) B[#B + 1] = { name = name, run = run, done = done } end
+  local function beat(name, run, done, loss) B[#B + 1] = { name = name, run = run, done = done, loss = loss } end
   local function V(name) return N.var(C[name]) end
   local function FL(name) return N.flag(C[name]) end
   local function at(map) return N.mapName() == map end
@@ -752,7 +752,10 @@ return function(F, N, C, log)
       assert(N.talk(4), 'Steven')
       N.settle()
     end
-  end, function() return FL('FLAG_DEFEATED_MAGMA_SPACE_CENTER') end)
+  end, function() return FL('FLAG_DEFEATED_MAGMA_SPACE_CENTER') end, { check = function()
+    return not FL('FLAG_DEFEATED_MAGMA_SPACE_CENTER') and V('VAR_MOSSDEEP_CITY_STATE') ~= 3,
+      'state ' .. V('VAR_MOSSDEEP_CITY_STATE')
+  end })
 
   -- VAR_STEVENS_HOUSE_STATE 1: entering the house runs Steven's ON_FRAME gift of HM Dive.
   beat('dive', function()
@@ -1027,6 +1030,11 @@ return function(F, N, C, log)
 
   -- Each room's ON_FRAME walks us in and seals the door; VAR_ELITE_4_STATE counts entries, so
   -- progress is the defeat flag. The member (6,5) opens the exit (6,2) when beaten.
+  local LEAGUE_LOSS = { replayFrom = 'e4_SidneysRoom', check = function()
+    local any = FL('FLAG_DEFEATED_ELITE_4_SIDNEY') or FL('FLAG_DEFEATED_ELITE_4_PHOEBE')
+      or FL('FLAG_DEFEATED_ELITE_4_GLACIA') or FL('FLAG_DEFEATED_ELITE_4_DRAKE')
+    return not any and V('VAR_ELITE_4_STATE') == 0, 'flag set=' .. tostring(any) .. ' state=' .. V('VAR_ELITE_4_STATE')
+  end }
   for _, e in ipairs({ { 'SidneysRoom', 'SIDNEY' }, { 'PhoebesRoom', 'PHOEBE' }, { 'GlaciasRoom', 'GLACIA' },
                        { 'DrakesRoom', 'DRAKE' } }) do
     local room, flag = 'EverGrandeCity_' .. e[1], 'FLAG_DEFEATED_ELITE_4_' .. e[2]
@@ -1037,7 +1045,7 @@ return function(F, N, C, log)
       if not FL(flag) then assert(N.talk(1, { side = 1 }), e[2]) end
       assert(FL(flag), e[2] .. ' beaten')
       assert(N.takeWarp(6, 2), 'out of ' .. room)
-    end, function() return FL(flag) and not at(room) end)
+    end, function() return FL(flag) and not at(room) end, e[1] ~= 'SidneysRoom' and LEAGUE_LOSS or nil)
   end
 
   -- Hall4 (5,2) -> Champion's room: its ON_FRAME walks us to Wallace and starts the battle. Then
@@ -1055,7 +1063,7 @@ return function(F, N, C, log)
     N.settle()
     L('  after the Hall of Fame: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_HOENN_CHAMPION'))
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
-  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at(HOME .. '_2F') end)
+  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at(HOME .. '_2F') end, LEAGUE_LOSS)
 
   -- Back under control after the reset: walk downstairs (the 1F ON_FRAME gives the S.S. Ticket).
   beat('home', function()

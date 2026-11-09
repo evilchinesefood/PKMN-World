@@ -703,6 +703,7 @@ return function(F, S)
     if kind == 'any' then return true end
     if kind == 'trainer' then return trainer end
     if kind == 'wild' then return not trainer end
+    if kind:sub(1, 8) == 'SPECIES_' then return not trainer and r16(bmon(1)) == assert(C[kind], kind) end
     local wanted = assert(C[kind], kind)
     return trainer and (r16(P.gTrainerBattleParameter + O.tbp_opponentA) == wanted
       or r16(P.gTrainerBattleParameter + O.tbp_opponentB) == wanted)
@@ -716,6 +717,14 @@ return function(F, S)
     if double and not partner then mine[r16(P.gBattlerPartyIndexes + 4)] = true end
     for i = 0, N.partyCount() - 1 do
       F.w16(P.gParties + i * O.mon_size + O.mon_hp, mine[i] and 1 or 0)
+    end
+    -- A surviving partner fights on alone and can win, so its side goes down the same way.
+    if partner then
+      local base, kept = P.gParties + C.B_TRAINER_PARTNER * 6 * O.mon_size, r16(P.gBattlerPartyIndexes + 4)
+      for i = 0, 5 do
+        local mon = base + i * O.mon_size
+        if r16(mon + O.mon_maxHP) ~= 0 then F.w16(mon + O.mon_hp, i == kept and 1 or 0) end
+      end
     end
     for _, battler in ipairs(double and { 0, 2 } or { 0 }) do
       local m = bmon(battler)
@@ -741,6 +750,7 @@ return function(F, S)
     if trainer then N.battles.trainer = N.battles.trainer + 1 else N.battles.wild = N.battles.wild + 1 end
     local turns, frames = 0, 0
     N.fleeTries = 0
+    N.pickerTries = 0   -- its A and Start alternate, so a second picker has to start the cycle afresh
     while frames < 60 * 60 * 12 do
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.

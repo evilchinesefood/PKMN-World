@@ -50,7 +50,7 @@ for tok in (os.getenv('PW_LOSE') or ''):gmatch('[^,]+') do
   LOSE[beat] = kind ~= '' and kind or 'trainer'
 end
 
-local function reportLoss(b)
+local function reportLoss(b, partyBefore)
   local t, x, y = N.threw, F.pos()
   local hp, full = {}, true
   for i = 0, N.partyCount() - 1 do
@@ -64,14 +64,38 @@ local function reportLoss(b)
   F.check('loss ' .. b.name .. ': no crash screen', not F.reportCrash('loss_' .. b.name))
   F.check('loss ' .. b.name .. ': player in control', N.free())
   F.check('loss ' .. b.name .. ': party healed', full, table.concat(hp, ' '))
+  F.check('loss ' .. b.name .. ': whole party back', N.partyCount() == partyBefore, N.partyCount() .. ' of ' .. partyBefore)
+  if b.loss and b.loss.check then
+    local good, detail = b.loss.check()
+    F.check('loss ' .. b.name .. ': story state', good, detail or '')
+  end
   if N.region then
     F.check('loss ' .. b.name .. ': still in the region', F.grp() >= N.region.lo and F.grp() <= N.region.hi, N.mapName())
   end
   N.threw = nil
 end
 
-local function playThrownBeat(b)
+-- Walk to where the beat began. The planner has no Fly or cable car, so a respawn across the map
+-- may need the debug warp, which leaves the story state the loss produced untouched.
+local function walkBack(map, x, y)
+  L(string.format('  walking back to %s (%d,%d)', map, x, y))
+  local walked = pcall(function() assert(N.travel(map, { tile = { x, y } })) end)
+  if walked and N.mapName() == map then return true end
+  local m, digit = require('pwmaps')[map], function(n, place) return (n // place) % 10 end
+  L('  planner could not get there; debug warp to ' .. map)
+  if not F.warpTo(digit(m.g, 100), digit(m.g, 10), digit(m.g, 1), digit(m.m, 100), digit(m.m, 10), digit(m.m, 1), 0, 0, 0, m.g, m.m, 'replay') then
+    return false
+  end
+  N.settle()
+  pcall(N.go, x, y)
+  N.settle()
+  return true
+end
+
+local function playThrownBeat(b, index)
   if not LOSE[b.name] then return pcall(b.run) end
+  local startMap, startX, startY, partyBefore = N.mapName(), F.pos()
+  partyBefore = N.partyCount()
   N.throw = { kind = LOSE[b.name] }
   local ok, err = pcall(b.run)
   N.throw = nil
@@ -85,8 +109,28 @@ local function playThrownBeat(b)
     N.threw = nil
     return ok, err
   end
-  reportLoss(b)
+  reportLoss(b, partyBefore)
   if b.done and b.done() then return true end
+  -- A loss sends the player away. Rooms that reset on a loss restart from loss.replayFrom; anything
+  -- else walks back to where the beat began.
+  if b.loss and b.loss.replay then
+    L('  playing the rest of ' .. b.name .. ' after the loss')
+    return pcall(b.loss.replay)
+  end
+  local from = b.loss and b.loss.replayFrom
+  if from then
+    local first
+    for i = 1, index - 1 do if BEATS[i].name == from then first = i end end
+    assert(first, 'no such replayFrom beat: ' .. from)
+    for i = first, index - 1 do
+      L('  replaying ' .. BEATS[i].name .. ' after the loss')
+      local good, why = pcall(BEATS[i].run)
+      if not good then return false, why end
+      if BEATS[i].done and not BEATS[i].done() then return false, BEATS[i].name .. ' did not finish on replay' end
+    end
+  elseif N.mapName() ~= startMap and not walkBack(startMap, startX, startY) then
+    return false, 'could not get back to ' .. startMap
+  end
   L('  playing ' .. b.name .. ' again after the loss')
   return pcall(b.run)
 end
@@ -111,7 +155,7 @@ F.run(function()
   for i = start, #BEATS do
     local b = BEATS[i]
     L(string.format('BEAT %d/%d %s', i, #BEATS, b.name))
-    local ok, err = playThrownBeat(b)
+    local ok, err = playThrownBeat(b, i)
     if not ok then L('  beat error: ' .. tostring(err)) end
     local done = ok and (not b.done or b.done())
     -- One retry from the previous beat's checkpoint: that reloads the exact game state, so it

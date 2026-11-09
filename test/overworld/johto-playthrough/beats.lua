@@ -3,7 +3,7 @@
 return function(F, N, C, log)
   local L = F.L
   local B = {}
-  local function beat(name, run, done) B[#B + 1] = { name = name, run = run, done = done } end
+  local function beat(name, run, done, loss) B[#B + 1] = { name = name, run = run, done = done, loss = loss } end
   local function V(name) return N.var(C[name]) end
   local function FL(name) return N.flag(C[name]) end
   local function at(map) return N.mapName() == map end
@@ -135,7 +135,10 @@ return function(F, N, C, log)
     assert(N.go(11, 27)); N.settle()      -- ride to (6,39)
     assert(N.travel('AzaleaTown'))
     assert(N.travel('IlexForest'))        -- Silver's trigger guards the gate
-  end, function() return V('VAR_AZALEA_TOWN_STATE') >= 6 and at('IlexForest') end)
+  end, function() return V('VAR_AZALEA_TOWN_STATE') >= 6 and at('IlexForest') end, { replay = function()
+    assert(N.travel('AzaleaTown'))        -- the gym's rides only matter on the way out
+    assert(N.travel('IlexForest'))
+  end })
 
   -- Farfetch'd: south of bird 1, north of bird 2 (sends bird 1 home), north of bird 1 (var 1),
   -- then east of it at (33,51) (var 2). Talking from its west or north at var 1 resets the chase.
@@ -353,7 +356,9 @@ return function(F, N, C, log)
 
   beat('hideout_ariana', function()
     assert(N.go(15, 18)); N.settle()   -- multi battle beside Lance; the party picker takes the lead
-  end, function() return V('VAR_MAHOGANY_TOWN_STATE') >= 13 end)
+  end, function() return V('VAR_MAHOGANY_TOWN_STATE') >= 13 end, { check = function()
+    return V('VAR_MAHOGANY_TOWN_STATE') < 13, 'hideout state ' .. V('VAR_MAHOGANY_TOWN_STATE')
+  end })
 
   beat('hideout_electrodes', function()
     assert(N.talkFrom(12, 15, 3)); assert(N.talkFrom(12, 12, 3)); assert(N.talkFrom(12, 9, 3))
@@ -376,7 +381,7 @@ return function(F, N, C, log)
   beat('radio_petrel', function()
     fieldMoves()
     assert(N.travel('GoldenrodCity_RadioTower_1F'))
-    assert(N.talk(3, { side = 1 }))    -- the grunt standing on the 2F stairs
+    N.talk(3, { side = 1 })            -- the grunt on the 2F stairs, already gone on a replay
     assert(N.travel('GoldenrodCity_RadioTower_5F'))
     assert(N.talkFrom(11, 10, 2))      -- Petrel ignores you from the north
   end, function() return V('VAR_GOLDENROD_CITY_STATE') >= 7 and N.itemCount(C.ITEM_BASEMENT_KEY) > 0 end)
@@ -566,13 +571,16 @@ return function(F, N, C, log)
     assert(N.takeWarp(32, 2))                         -- the door to Will's room
   end, function() return V('VAR_LEAGUE_STATE') >= 1 and at('JohtoPokemonLeague_WillsRoom') end)
 
+  local LEAGUE_LOSS = { replayFrom = 'league_entry', check = function()
+    return V('VAR_LEAGUE_STATE') == 1, 'league state ' .. V('VAR_LEAGUE_STATE')
+  end }
   for i, room in ipairs({ 'WillsRoom', 'KogasRoom', 'BrunosRoom', 'KarensRoom' }) do
     beat('e4_' .. room, function()
       N.settle()                                      -- the door seals behind us
       assert(N.talkFrom(6, 7, 2))
       assert(V('VAR_LEAGUE_STATE') >= i + 1, 'leader beaten')
       assert(N.takeWarp(6, 2))
-    end, function() return V('VAR_LEAGUE_STATE') >= i + 1 and not at('JohtoPokemonLeague_' .. room) end)
+    end, function() return V('VAR_LEAGUE_STATE') >= i + 1 and not at('JohtoPokemonLeague_' .. room) end, LEAGUE_LOSS)
   end
 
   -- Lance; his defeat runs straight on into the Mary/Oak scene, the walk to the Hall of Fame,
@@ -588,7 +596,7 @@ return function(F, N, C, log)
     N.settle()
     L('  after the ceremony: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_JOHTO_CHAMPION'))
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
-  end, function() return FL('FLAG_JOHTO_CHAMPION') and F.ow() end)
+  end, function() return FL('FLAG_JOHTO_CHAMPION') and F.ow() end, LEAGUE_LOSS)
 
   return B
 end

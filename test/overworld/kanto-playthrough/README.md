@@ -128,6 +128,13 @@ Each one was reproduced first, then fixed and re-played.
    first, and the delivery then forced his scene back to 2. It now only moves him forward.
    `PW_SEVII=1 PW_DETOUR=meteorite` with `--to sevii_meteorite` fails before the fix and passes after.
 
+8. **Losing in the Elite Four froze the game for good.** Indigo Plateau's whiteout named Ever
+   Grande's nurse id, which on this map is a clerk parked off screen, so the bow waited forever. It
+   now names its own nurse, and `ValidateMapEvents.py` rejects a healer who isn't on the respawn map.
+9. **A Kanto Elite Four loss kept the rooms you had already beaten.** A whiteout reset only
+   Hoenn's league. It now resets Kanto's too. `PW_LOSE=e4_BrunosRoom` shows Lorelei still beaten
+   before the fix and the run restarting at her after it.
+
 ## Route 22
 
 `PW_ROUTE22=0|1|2` adds a beat that steps on that row of the rival's trigger, north, middle or south,

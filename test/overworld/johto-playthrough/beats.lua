@@ -41,6 +41,21 @@ return function(F, N, C, log)
     N.settle()
   end, function() return V('VAR_NEWBARKTOWN_LABSTATE') >= 1 end)
 
+  -- PW_DETOUR=opening: leave by Hub Pass while Elm's starters are still on the table, and try to
+  -- walk off without one. Elm's lab has to take the player back.
+  if os.getenv('PW_DETOUR') == 'opening' then
+    beat('detour_opening', function()
+      N.useHubPass()
+      N.crossGate(16)
+      L('  gate landed at ' .. N.mapName() .. ' lab=' .. V('VAR_NEWBARKTOWN_LABSTATE'))
+      local walked = pcall(function() assert(N.travel('Route29')) end)
+      N.settle()
+      L('  tried Route 29: reached=' .. tostring(walked) .. ' at ' .. N.mapName() .. ' chosen=' .. tostring(FL('FLAG_JOHTO_STARTER_CHOSEN')))
+      assert(N.travel('NewBarkTown_Lab'))
+      N.settle()
+    end, function() return at('NewBarkTown_Lab') and N.free() and not FL('FLAG_JOHTO_STARTER_CHOSEN') end)
+  end
+
   beat('starter', function()
     assert(N.talk(4, { side = 1 }))     -- Chikorita's ball at (8,4), from below
   end, function() return FL('FLAG_JOHTO_STARTER_CHOSEN') and N.partyCount() == 3 end)
@@ -93,6 +108,20 @@ return function(F, N, C, log)
     assert(N.travel('VioletCity_Gym'))
     assert(N.talk(1, { side = 1 }))
   end, function() return FL('FLAG_JOHTO_BADGE_1') and V('VAR_VIOLET_CITY_STATE') >= 3 end)
+
+  -- PW_DETOUR=goldenrod: the Hub Pass right after Falkner lands in Goldenrod, on the far side of
+  -- Ilex Forest. Falkner's badge is what unlocks Cut here, so the tree can be cut from the north.
+  -- Stop this one with --to detour_goldenrod.
+  if os.getenv('PW_DETOUR') == 'goldenrod' then
+    beat('detour_goldenrod', function()
+      N.useHubPass()
+      N.crossGate(16)
+      local x, y = F.pos()
+      L(string.format('  gate landed at %s (%d,%d)', N.mapName(), x, y))
+      N.beatSetup()
+      assert(N.travel('AzaleaTown'), 'no way on to Azalea')
+    end, function() return at('AzaleaTown') end)
+  end
 
   beat('togepi_egg', function()
     assert(N.travel('VioletCity_PokemonCenter'))

@@ -48,6 +48,15 @@ without replaying the campaign. The evidence run is the one without `--from`.
   battle, instead of walking to a Pokémon Center.
 - Everything else is walking, talking and battling through the game's own scripts.
 
+## Losing on purpose
+
+`PW_LOSE=beat[:kind],...` loses the first matching battle of each named beat, checks the player ends
+up in control in the right region with the party healed, then plays the beat again. `kind` is
+`trainer` (default), `wild`, `any`, or a `TRAINER_` constant to single out one opponent. The faint
+is forced: the party is fainted behind the lead, which drops to 1 HP knowing only Growl. Everything
+after the faint is the game's own code. `evidence/early-losses.log` holds the early losses of all
+three regions.
+
 ## Result (October 31, 2026)
 
 One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM

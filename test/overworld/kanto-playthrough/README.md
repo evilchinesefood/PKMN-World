@@ -36,8 +36,8 @@ lets them act. Mewtwo leads; the starter stays in the party. HP and PP are resto
 menu's Heal Party after battles. Everything else is walking, talking and battling through the
 game's scripts.
 
-The Sevii Islands are not played: Bill's invitation after Blaine is optional. The main story
-never requires them, so the run declines and stays on the mainland.
+Bill's Sevii invitation after Blaine is optional and the main story never requires the islands, so
+the default run declines and stays on the mainland. `PW_SEVII=1` plays them instead (see below).
 
 `PW_STARTER=0|1|2` picks Bulbasaur, Squirtle or Charmander (their lab balls in that order). Squirtle
 and the two legendaries cannot learn Cut, so a Squirtle run catches a Rattata on Route 1 before
@@ -61,6 +61,33 @@ from `8e06ecfdb9`). None had a crash screen, a hang or a retried beat:
 The Hub Pass detours (`PW_DETOUR=starter|ship|empty`) pass on the same ROM. `evidence/final-run-beats.log` is the `base` run, and `evidence/KantoPlay_55_home.png` is its last
 frame: the player back in control inside the house at Pallet Town.
 
+## The Sevii route
+
+`PW_SEVII=1` accepts Bill's invitation and adds two blocks of beats, leaving default runs alone:
+
+- Before the League: the One Island meeting, Two Island's Game Corner, the Three Island bikers,
+  Lostelle in Berry Forest, the Meteorite and Moon Stone, and Bill's return to Cinnabar.
+- After the `home` beat: the ferry out of Vermilion, Celio's request, Ember Spa, the Mt. Ember
+  password guards, the Ruby and the Rainbow Pass, Icefall Cave with Lorelei, the Dotted Hole and
+  the theft, the Rocket Warehouse and Gideon, the Sapphire back to Celio, and the ferry home.
+  Boulders reset per floor, so Ruby Path has separate push lists for the way in and the way out.
+
+Every island's main town and Pokemon Center is visited at least once.
+
+```sh
+PW_SEVII=1 python3 test/overworld/johto-playthrough/run.py --campaign kanto --out _pwtest/sevii-play
+```
+
+On ROM `461B450088D5CAD31AD2DA0B4ECF996E` a fresh save reached the end with 81/81 checks in one
+uninterrupted run: 11,672 steps, 155 trainer battles, 147 wild battles and no retried beat.
+`evidence/sevii-final-run-beats.log` is that run, and `evidence/KantoPlay_81_sevii_ferry_home.png`
+is its last frame.
+
+Not played: the Moltres summit of Mt. Ember, Trainer Tower, Cape Brink, Tanoby Ruins, Lost Cave,
+Sevault Canyon, Altering Cave, Birth and Navel Rock, and the Waterfall HM on Icefall Cave 1F. The
+route only needs Waterfall to be usable, which the Volcano Badge and a party member that can learn
+it already give.
+
 ## Bugs found and fixed
 
 Each one was reproduced first, then fixed and re-played.
@@ -82,6 +109,32 @@ Each one was reproduced first, then fixed and re-played.
 3. **The Vermilion gate landed on the S.S. Anne warp tile.** One Down boarded the ship with no
    ticket, even after it had sailed. The gate now lands north of the ticket check.
    `PW_DETOUR=ship` shows both.
+
+4. **The Dotted Hole door only opened to a Pokemon that knew Cut.** The door opens when Cut is used
+   from the party menu, and the party menu lists only moves a Pokemon knows, while
+   `QOL_FIELD_MOVES_NO_TEACH` means nobody needs to know it. A Cut-capable party could only read
+   the braille. Reading the door now offers Cut. Before the fix the door stayed shut at
+   `FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE` unset; after it, "Bulbasaur used CUT!" and the warp opens.
+5. **Celio asked for the Ruby before the League.** FRLG gated the request on the National Dex, which
+   PKMN-World gives with the first Pokedex, so talking to Celio right after meeting him moved his
+   scene from 1 to 4 and skipped the Meteorite errand. The gate is now `FLAG_KANTO_CHAMPION`.
+   `PW_DETOUR=celio` with `--to detour_celio` shows scene 4 before the fix and scene 1 after.
+
+6. **Touching a visible wild Pokemon with an empty party locked the game for good.** A region
+   switch boxes the party, and the encounter script then waited on a battle that
+   `BattleSetup_StartWildBattle` refuses to start. The script now releases first. `PW_DETOUR=grass`
+   with `--to detour_grass` froze at Route 1 (16,16) before the fix and finishes after it.
+7. **Bringing the Meteorite late rewound Celio's story.** A champion can take his Ruby request
+   first, and the delivery then forced his scene back to 2. It now only moves him forward.
+   `PW_SEVII=1 PW_DETOUR=meteorite` with `--to sevii_meteorite` fails before the fix and passes after.
+
+## Route 22
+
+`PW_ROUTE22=0|1|2` adds a beat that steps on that row of the rival's trigger, north, middle or south,
+each with its own approach. It plays once after Oak's parcel and again after Giovanni, and the early
+one checks the north gate turns away a player with no badge. Combined with `PW_STARTER`, all three
+early rival teams were fought, and all three rows win and lose early. The late rival was fought on
+all three rows and lost on the middle one. The results are on ROM `D309CFD1CB01B8CC40ECF237E52BB6DB`.
 
 ## Not bugs, recorded so nobody chases them again
 

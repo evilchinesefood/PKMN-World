@@ -86,7 +86,7 @@ return function(F, S)
   -- The player's battlers are 0 and (in doubles) 2. N.activeBattler is whichever one is waiting
   -- for input; isCtl checks that battler's controller.
   N.activeBattler = 0
-  local INPUT = { 'HandleInputChooseAction', 'HandleInputChooseMove', 'HandleInputChooseTarget',
+  local INPUT = { 'HandleInputChooseAction', 'HandleInputChooseMove', 'OakOldManHandleInputChooseMove', 'HandleInputChooseTarget',
                   'HandleInputShowEntireFieldTargets', 'HandleInputShowTargets', 'PlayerHandleYesNoInput' }
   local function controller(b) return r32(P.gBattlerControllerFuncs + 4 * (b or N.activeBattler)) & ~1 end
   local function isSym(addr, name)
@@ -106,6 +106,7 @@ return function(F, S)
   end
   local function isCtl(name) return isSym(controller(), name) end
   N.isCtl = isCtl
+  local function choosingMove() return isCtl('HandleInputChooseMove') or isCtl('OakOldManHandleInputChooseMove') end
   function N.inBattle() return F.cb2() == (P.BattleMainCB2 & ~1) end
   -- A script left waiting with the player's controls unlocked (e.g. an overworld wild encounter
   -- whose battle never started) does not stop the player, so it does not count as busy.
@@ -296,7 +297,18 @@ return function(F, S)
     if MB[name] then ACRO[MB[name]] = true end
   end
 
+  -- FRLG arrow floors: the player spins from tile to tile until a stop tile or a collision.
+  local SPIN = {}
+  for name, d in pairs({ MB_SPIN_RIGHT = 4, MB_SPIN_LEFT = 3, MB_SPIN_UP = 2, MB_SPIN_DOWN = 1 }) do
+    if MB[name] then SPIN[MB[name]] = d end
+  end
+
   N.canSurf, N.canCut, N.canSmash = false, false, false
+  -- Cuttable trees and breakable rocks exist as separate Hoenn and FRLG object graphics.
+  local CLEARS_CUT = { [C.OBJ_EVENT_GFX_CUTTABLE_TREE] = true, [C.OBJ_EVENT_GFX_CUTTABLE_TREE_FRLG] = true }
+  local CLEARS_SMASH = { [C.OBJ_EVENT_GFX_BREAKABLE_ROCK] = true, [C.OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG] = true }
+  -- Item balls that sit in a one-tile corridor are picked up on the way (N.clearItems).
+  local CLEARS_ITEM = { [C.OBJ_EVENT_GFX_ITEM_BALL] = true }
   N.run = false   -- hold B while walking once the Running Shoes are owned
   N.canWaterfall = false
   N.canCut, N.canSmash = false, false
@@ -331,8 +343,8 @@ return function(F, S)
       end
       return nil
     end
-    if type(o) == 'table' and not s and ((o.gfx == C.OBJ_EVENT_GFX_CUTTABLE_TREE and N.canCut)
-        or (o.gfx == C.OBJ_EVENT_GFX_BREAKABLE_ROCK and N.canSmash)) and not N.avoid[tx .. ',' .. ty] then
+    if type(o) == 'table' and not s and ((CLEARS_CUT[o.gfx] and N.canCut)
+        or (CLEARS_SMASH[o.gfx] and N.canSmash) or (CLEARS_ITEM[o.gfx] and N.clearItems)) and not N.avoid[tx .. ',' .. ty] then
       return tx, ty, e, s, 'clear'   -- Cut the tree / smash the rock, then step in
     end
     if occ[tx .. ',' .. ty] or N.avoid[tx .. ',' .. ty] then return nil end
@@ -408,6 +420,22 @@ return function(F, S)
         if not ss or not cd then break end
       end
       return sx, sy, se, ss, 'slide'
+    end
+    if SPIN[b] and not ns then
+      local sx, sy, se, sd = tx, ty, ne, SPIN[b]
+      for _ = 1, 256 do
+        local nx2, ny2 = sx + DX[sd], sy + DY[sd]
+        local v2 = grid.get(nx2, ny2)
+        if not v2 or (v2 & 0x0C00) ~= 0 or occ[nx2 .. ',' .. ny2] then break end
+        local e2 = v2 >> 12
+        if se ~= 0 and e2 ~= 0 and e2 ~= 15 and e2 ~= se then break end
+        sx, sy = nx2, ny2
+        if e2 ~= 15 then se = e2 end
+        local b2 = grid.beh(v2 & 0x3FF)
+        if b2 == MB.MB_STOP_SPINNING then break end
+        if SPIN[b2] then sd = SPIN[b2] end
+      end
+      return sx, sy, se, ns, 'slide'
     end
     if isIce(b) and not ns then
       -- Slide until the next tile refuses us or a non-ice tile is reached.
@@ -632,6 +660,21 @@ return function(F, S)
     return best
   end
 
+  -- Throw a Poke Ball from the in-battle bag: Bag (top right of the action menu), the balls pocket
+  -- (gBagPosition.pocket == 1), the first entry, Use.
+  local function useBall()
+    press('Up'); idle(4); press('Left'); idle(4); press('Right'); idle(4); press('A'); idle(30)
+    for _ = 1, 240 do
+      if F.cb2() == (P.CB2_BagMenuRun & ~1) then break end
+      idle(1)
+    end
+    for _ = 1, 8 do
+      if r8(P.gBagPosition + 5) == 1 then break end
+      press('Right'); idle(24)
+    end
+    press('A'); idle(30); press('A'); idle(30)
+  end
+
   N.battles = { trainer = 0, wild = 0, fled = 0 }
   N.battleLog = {}
   local scriptedFlag = false
@@ -656,6 +699,7 @@ return function(F, S)
       snap.foeSpecies, snap.foeLevel, N.mapName())
     if trainer then N.battles.trainer = N.battles.trainer + 1 else N.battles.wild = N.battles.wild + 1 end
     local turns, frames = 0, 0
+    N.fleeTries = 0
     while frames < 60 * 60 * 12 do
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.
@@ -702,16 +746,25 @@ return function(F, S)
             turns, N.activeBattler, r16(me), r16(me + O.bm_hp), r16(f1), r16(f1 + O.bm_hp), r16(f3), r16(f3 + O.bm_hp), bestMoveSlot()))
           if turns <= 12 then F.shot('turn' .. turns) end
         end
-        if fight then
+        -- Evaluated per turn: at the battle's first instant the foe's data isn't loaded yet.
+        local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(C.ITEM_POKE_BALL) > 0
+        -- A foe with Arena Trap or Shadow Tag can't be fled: after two failed tries, fight it.
+        if not fight and not catching then
+          N.fleeTries = (N.fleeTries or 0) + 1
+          if N.fleeTries > 2 then fight = true; L('  flee failed twice, fighting') end
+        end
+        if catching then
+          useBall()
+        elseif fight then
           press('Up'); idle(4); press('Left'); idle(4); press('A'); idle(20)
-          for _ = 1, 30 do if isCtl('HandleInputChooseMove') then break end; idle(2) end
+          for _ = 1, 30 do if choosingMove() then break end; idle(2) end
           N.badSlots = {}
-          if isCtl('HandleInputChooseMove') then N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot) end
+          if choosingMove() then N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot) end
         else
           press('Down'); idle(4); press('Right'); idle(4); press('A'); idle(30)
         end
         frames = frames + 60
-      elseif isCtl('HandleInputChooseMove') then
+      elseif choosingMove() then
         -- Back at the move list without a new turn: the last pick was refused.
         if N.lastSlot then N.badSlots[N.lastSlot] = true end
         N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot); frames = frames + 40
@@ -1177,8 +1230,8 @@ return function(F, S)
     local occ = {}
     local mem = N.mapMemory[info.g * 256 + info.m]
     for _, o in ipairs(N.planIgnoreObjects and {} or info.objs) do
-      local clearable = (o.gfx == C.OBJ_EVENT_GFX_CUTTABLE_TREE and N.canCut)
-        or (o.gfx == C.OBJ_EVENT_GFX_BREAKABLE_ROCK and N.canSmash)
+      local clearable = (CLEARS_CUT[o.gfx] and N.canCut) or (CLEARS_SMASH[o.gfx] and N.canSmash)
+        or (CLEARS_ITEM[o.gfx] and N.clearItems)
       if (o.flag == 0 or not N.flag(o.flag)) and not clearable then
         local at = mem and mem.objs and mem.objs[o.localId] or o
         occ[at.x .. ',' .. at.y] = (o.script == P.EventScript_Whirlpool) and o or true
@@ -1292,8 +1345,8 @@ return function(F, S)
     local occ = {}
     local mem = N.mapMemory[info.g * 256 + info.m]
     for _, o in ipairs(N.planIgnoreObjects and {} or info.objs) do
-      local clearable = (o.gfx == C.OBJ_EVENT_GFX_CUTTABLE_TREE and N.canCut)
-        or (o.gfx == C.OBJ_EVENT_GFX_BREAKABLE_ROCK and N.canSmash)
+      local clearable = (CLEARS_CUT[o.gfx] and N.canCut) or (CLEARS_SMASH[o.gfx] and N.canSmash)
+        or (CLEARS_ITEM[o.gfx] and N.clearItems)
       if (o.flag == 0 or not N.flag(o.flag)) and not clearable then
         local at = mem and mem.objs and mem.objs[o.localId] or o
         occ[at.x .. ',' .. at.y] = (o.script == P.EventScript_Whirlpool) and o or true
@@ -1307,16 +1360,39 @@ return function(F, S)
     return r
   end
   N.flood = function(...) return flood(...) end
+  -- Wandering objects are ignored here (they move). A campaign whose boulders can seal the exit it
+  -- would plan through sets N.solidBoulders (Kanto's Victory Road); the others keep their routes.
+  local BOULDER = { [C.OBJ_EVENT_GFX_PUSHABLE_BOULDER] = true, [C.OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG] = true }
   function floodLive()
     local x, y = F.pos()
-    return floodGrid(liveGrid(), x, y, N.elevation(), N.surfing(), {})
+    local occ = {}
+    if N.solidBoulders then
+      local seen = {}
+      for _, o in ipairs(N.objects()) do
+        seen[o.localId] = true
+        if BOULDER[o.gfx] then occ[o.x .. ',' .. o.y] = true end
+      end
+      for _, t in ipairs(header(F.grp(), F.mapn()).objs) do
+        if BOULDER[t.gfx] and not seen[t.localId] and (t.flag == 0 or not N.flag(t.flag)) then occ[t.x .. ',' .. t.y] = true end
+      end
+    end
+    return floodGrid(liveGrid(), x, y, N.elevation(), N.surfing(), occ)
   end
   N.floodLive = function() return floodLive() end
+
+  local function reachesTile(reach, t)
+    if reach[t[1] .. ',' .. t[2]] then return true end
+    for d = 1, 4 do
+      if reach[(t[1] + DX[d]) .. ',' .. (t[2] + DY[d])] then return true end
+    end
+    return false
+  end
 
   -- Dijkstra over (map, entry tile). Returns the first exit to take from the current position.
   function N.route(target, opts)
     opts = opts or {}
     resetPlanCaches()
+    if N.resetAvoid then N.avoid = {} end   -- a walk's bumps must not poison a cross-map plan
     local tg = MAPS[target]
     assert(tg, 'unknown map ' .. tostring(target))
     local g0, m0 = F.grp(), F.mapn()
@@ -1332,10 +1408,12 @@ return function(F, S)
       local n = table.remove(frontier, 1)
       visited = visited + 1
       if N.debugRoute == 'pop' then L(string.format('    pop %s(%d,%d) d=%d', N.mapName(n.g, n.m), n.x, n.y, n.d)) end
-      if n.g == tg.g and n.m == tg.m then return first[n.k], n end
       local info = header(n.g, n.m)
       local isStart = n.g == g0 and n.m == m0 and n.x == sx and n.y == sy
       local reach = isStart and floodLive() or flood(info, n.x, n.y, surf)
+      -- With opts.tile the destination is that tile or a neighbour of it, not just the map: a map
+      -- can be several unconnected pieces (Mt. Moon's fossil chamber).
+      if n.g == tg.g and n.m == tg.m and (not opts.tile or reachesTile(reach, opts.tile)) then return first[n.k], n end
       local function push(ex, tx, ty, exx, exy)
         local cost = reach[tx .. ',' .. ty] + 10
         local k = string.format('%d:%d:%d:%d', ex.g, ex.m, exx, exy)
@@ -1350,6 +1428,7 @@ return function(F, S)
       end
       for _, ex in ipairs(exitsOf(info)) do
         local any = false
+        if N.noEnter and N.noEnter[N.mapName(ex.g, ex.m)] then goto nextExit end
         if ex.kind == 'warp' then
           -- Walk onto it, or (a door in a wall) stand next to it.
           local best
@@ -1379,6 +1458,7 @@ return function(F, S)
           L(string.format('    route %s(%d,%d) -> %s %s %s', N.mapName(n.g, n.m), n.x, n.y, ex.kind,
             N.mapName(ex.g, ex.m), any and 'ok' or 'UNREACHED'))
         end
+        ::nextExit::
       end
     end
     return nil
@@ -1581,7 +1661,8 @@ return function(F, S)
     for hop = 1, 60 do
       if not N.free() then N.settle(opts) end
       N.rememberMap()
-      if F.grp() == tg.g and F.mapn() == tg.m then return true end
+      if N.resetAvoid then N.avoid = {} end
+      if F.grp() == tg.g and F.mapn() == tg.m and (not opts.tile or reachesTile(floodLive(), opts.tile)) then return true end
       local ex = N.route(target, opts)
       if not ex then
         -- Objects scripts have moved since (setobjectxyperm) still sit on their template tiles in
@@ -1704,6 +1785,35 @@ return function(F, S)
     end
   end
 
+  -- SELECT a registered Hub Pass and answer its confirm, which opens on NO after a page of text.
+  function N.useHubPass()
+    F.w16(F.sb1() + F.S.SaveBlock1.registeredItem, C.ITEM_HUB_RETURN)
+    press('Select'); idle(90)
+    local function confirmOpen()
+      return activeTask(P.Task_CallYesOrNoCallback) ~= nil or activeTask(P.Task_HandleYesNoInput) ~= nil
+    end
+    for _ = 1, 40 do
+      if confirmOpen() then idle(30); press('Up'); idle(12); press('A'); idle(60); break end
+      press('A'); idle(30)
+    end
+    for _ = 1, 400 do
+      if N.mapName() == 'RegionHub' and N.free() then break end
+      press('A'); idle(10)
+    end
+    assert(N.mapName() == 'RegionHub', 'Hub Pass left us at ' .. N.mapName())
+  end
+
+  -- Talk to the hub attendant standing at (x, 2) and board.
+  function N.crossGate(x)
+    assert(N.approach(x, 2, { side = 1 }), 'hub attendant')
+    for _ = 1, 500 do
+      press('A'); idle(20)
+      if N.mapName() ~= 'RegionHub' then break end
+    end
+    idle(200); N.settle()
+    assert(N.mapName() ~= 'RegionHub', 'the gate did not board')
+  end
+
   function N.debugHeal()
     dbg(); idle(30)
     downs(2); press('A', 3); idle(50)   -- Party…
@@ -1725,6 +1835,7 @@ return function(F, S)
     local ok = client.loadstate(path)
     idle(10)
     N.resetPlanCaches()
+    N.mapMemory = {}   -- a restore returns to the past; the remembered grids describe a later state
     L(string.format('RESTORED %s (%s) at %s (%d,%d)', name, tostring(ok), N.mapName(), F.pos(), select(2, F.pos())))
     return ok
   end

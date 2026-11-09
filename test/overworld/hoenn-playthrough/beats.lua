@@ -54,36 +54,11 @@ return function(F, N, C, log)
     return pokenavScreen()
   end
 
-  -- Hub Pass out and back through the Hoenn gate (HubPassReCross.lua's registered-item trick).
-  -- Lands at Slateport Harbor once the Stone Badge is held.
-  local yes = function(t, k) if k == 'yesno' then return 'yes' end return 0 end
+  -- Hub Pass out and back through the Hoenn gate, which lands at Slateport Harbor once the Stone
+  -- Badge is held.
   local function hubPassRoundTrip()
-    F.w16(F.r32(P.gSaveBlock1Ptr) + F.S.SaveBlock1.registeredItem, C.ITEM_HUB_RETURN)
-    N.press('Select'); N.idle(90)
-    -- The confirm opens on NO after a page of text: A pages it, and only the box may take Up.
-    local function yesNoOpen()
-      for i = 0, 15 do
-        local t = P.gTasks + i * 40
-        if F.r8(t + 4) ~= 0 and ((F.r32(t) & ~1) == (P.Task_HandleYesNoInput & ~1) or (F.r32(t) & ~1) == (P.Task_CallYesOrNoCallback & ~1)) then return true end
-      end
-      return false
-    end
-    for _ = 1, 40 do
-      if yesNoOpen() then N.idle(30); N.press('Up'); N.idle(12); N.press('A'); N.idle(60); break end
-      N.press('A'); N.idle(30)
-    end
-    for _ = 1, 400 do
-      if at('RegionHub') and N.free() then break end
-      N.press('A'); N.idle(10)
-    end
-    L('  Hub Pass arrived at ' .. N.mapName())
-    assert(at('RegionHub'), 'Hub Pass left us at ' .. N.mapName())
-    assert(N.approach(21, 2, { side = 1 }), 'hub Hoenn attendant')
-    for _ = 1, 500 do
-      N.press('A'); N.idle(20)
-      if not at('RegionHub') then break end
-    end
-    N.idle(200); N.settle()
+    N.useHubPass()
+    N.crossGate(21)
     L('  back through the gate at ' .. N.mapName())
   end
 

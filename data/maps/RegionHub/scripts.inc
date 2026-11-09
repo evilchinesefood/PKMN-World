@@ -147,14 +147,24 @@ RegionHub_EventScript_AttendantKantoBoard::
 	callnative RegionHub_ScrTargetHasFirstBadge
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnKanto
+	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, RegionHub_EventScript_ReturnToOaksLab
 	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6
 	waitstate
 	release
 	end
 
+@ A Hub Pass used before the starter is taken would otherwise land in the bedroom, past the lab's
+@ exit triggers, and the Viridian Mart parcel scene then uses up all three balls.
+RegionHub_EventScript_ReturnToOaksLab::
+	warp MAP_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6, 7
+	waitstate
+	release
+	end
+
 @ After the first Kanto badge, land at the region's World Transit access point instead of home.
+@ Lands north of the S.S. Anne ticket check: the harbor warp tile would let Down board the ship.
 RegionHub_EventScript_ReturnKanto::
-	warp MAP_VERMILION_CITY, 0
+	warp MAP_VERMILION_CITY, 22, 32
 	waitstate
 	release
 	end

@@ -632,7 +632,7 @@ gSpecials::
 	def_special EnterHallOfFame
 	def_special CB2_StartCreditsSequence
 	def_special DoPokemonLeagueLightingEffect
-	def_special GetStarterPokemon
+	def_special GetPlayerStarterSpecies
 	def_special SetIcefallCaveCrackedIceMetatiles
 	def_special UpdateLoreleiDollCollection
 	def_special SampleResortGorgeousMonAndReward

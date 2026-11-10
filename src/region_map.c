@@ -2627,6 +2627,7 @@ void SetFlyDestination(struct RegionMap* regionMap)
 {
     u32 flyDestination = FilterFlyDestination(regionMap);
 
+    RegionHub_ClaimRegionForFlyDestination(regionMap->mapSecId);
     if (flyDestination != WARP_ID_NONE)
         SetWarpDestinationToHealLocation(flyDestination);
     else

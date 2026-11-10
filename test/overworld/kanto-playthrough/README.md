@@ -88,6 +88,29 @@ Sevault Canyon, Altering Cave, Birth and Navel Rock, and the Waterfall HM on Ice
 route only needs Waterfall to be usable, which the Volcano Badge and a party member that can learn
 it already give.
 
+## Post-game
+
+`PW_SEVII=1 PW_POSTGAME=1` adds beats after `sevii_ferry_home`, in `postgame.lua`:
+
+```sh
+PW_SEVII=1 PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign kanto --out _pwtest/kanto-pg
+```
+
+It plays every gym rematch at HARD (rewards, one stone only, a full Items pocket forfeiting the
+shard and holding the stone), a second Elite Four run through to a second Hall of Fame, Cerulean
+Cave and Mewtwo, Moltres on Mt. Ember with its boulder routes, Cape Brink, Lost Cave's rooms to
+Selphy, Altering Cave, the Tanoby Key puzzle and a chamber's Unown, Trainer Tower's closed door,
+every Sevii nurse with a hurt party, Birth Island with Deoxys, and Navel Rock with Ho-Oh and Lugia.
+
+On ROM `8D6BD60D4F1FD21E3C70E2C4A6C632D2` a fresh save reached the end with 196/196 checks in one
+uninterrupted run: 19,846 steps, 191 trainer battles, 271 wild battles and no retried beat.
+`evidence/postgame-final-run-beats.log` is that run.
+
+Concessions beyond the base run: no Fly, so Victory Road is walked again with its boulders; Cape
+Brink only plays the tutor's refusal (he teaches a fully evolved, max-friendship starter, and the
+run's Ivysaur is neither); the Aurora and Mystic Tickets come from outside a Kanto save (Olivine and
+the Hub), so the beat grants them with the debug menu and sets the ship flags.
+
 ## Bugs found and fixed
 
 Each one was reproduced first, then fixed and re-played.
@@ -134,6 +157,11 @@ Each one was reproduced first, then fixed and re-played.
 9. **A Kanto Elite Four loss kept the rooms you had already beaten.** A whiteout reset only
    Hoenn's league. It now resets Kanto's too. `PW_LOSE=e4_BrunosRoom` shows Lorelei still beaten
    before the fix and the run restarting at her after it.
+10. **A second talk with Giovanni could lose his rematch for good.** After the League his gym
+    offers a rematch, but talking to him again before becoming Champion ran `removeobject`, which
+    sets `FLAG_HIDE_VIRIDIAN_GIOVANNI`, and nothing cleared it. A champion's next visit to the gym now
+    brings him back. `PW_POSTGAME=1` shows him gone and the rematch impossible before the fix
+    (`evidence/postgame-giovanni-before.log`), and a HARD rematch against him after it.
 
 ## Route 22
 

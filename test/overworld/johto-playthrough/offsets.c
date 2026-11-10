@@ -7,10 +7,16 @@
 #include "pokemon_storage_system.h"
 #include "event_object_movement.h"
 #include "global.fieldmap.h"
+#include "region_map.h"
 #define P(name, expr) char p_##name[(expr) + 1];
 P(sb1_flags, offsetof(struct SaveBlock1, flags))
 P(sb1_vars, offsetof(struct SaveBlock1, vars))
 P(sb1_money, offsetof(struct SaveBlock1, money))
+P(sb1_roamer, offsetof(struct SaveBlock1, roamer))
+P(roamer_size, sizeof(struct Roamer))
+P(roamer_species, offsetof(struct Roamer, species))
+P(roamer_hp, offsetof(struct Roamer, hp))
+P(roamer_active, offsetof(struct Roamer, active))
 P(sb2_encryptionKey, offsetof(struct SaveBlock2, encryptionKey))
 P(tbp_opponentA, offsetof(TrainerBattleParameter, params.opponentA))
 P(tbp_opponentB, offsetof(TrainerBattleParameter, params.opponentB))
@@ -46,3 +52,5 @@ P(oe_graphicsId, offsetof(struct ObjectEvent, graphicsId))
 P(ote_size, sizeof(struct ObjectEventTemplate))
 P(pa_flags, offsetof(struct PlayerAvatar, flags))
 P(pa_objectEventId, offsetof(struct PlayerAvatar, objectEventId))
+P(rm_cursorPosX, offsetof(struct RegionMap, cursorPosX))
+P(rm_cursorPosY, offsetof(struct RegionMap, cursorPosY))

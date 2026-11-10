@@ -504,6 +504,12 @@ v1.5 Fly and Teleport land on Johto heal **aprons**, not Center doors. Teleport 
 `lastHealLocation`; Fly uses the town-map picker / `HEAL_LOCATION_AZALEA_TOWN`. Both must be
 Azalea (31,16), one tile south of the door (31,15).
 
+### `JohtoHofUnchosenBirdReach.lua`
+
+The Johto Hall of Fame's first clear offers the bird the player did not pick, and must clear what
+blocks it: the Whirl Islands Tentacruel on a GOLD save and the Tin Tower sage on a SILVER save. The
+suite seeds the branch the campaign doesn't play and runs the real ceremony script.
+
 ### `JohtoHofLegendaries.lua`
 
 Johto HOF rematch must not re-arm already-caught Mew/Deoxys.

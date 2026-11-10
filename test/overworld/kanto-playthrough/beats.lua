@@ -32,6 +32,8 @@ return function(F, N, C, log)
   -- Bill's Sevii invitation after Blaine is optional; declining keeps the run on the mainland.
   -- PW_SEVII=1 accepts it and plays the islands (the two 'PW_SEVII' blocks below).
   local SEVII = os.getenv('PW_SEVII') ~= nil
+  -- PW_POSTGAME=1 (with PW_SEVII=1) adds the post-game beats after sevii_ferry_home.
+  local POSTGAME = SEVII and os.getenv('PW_POSTGAME') ~= nil
   local seviiFerry
   if not SEVII then
     local kantoPolicy = N.defaultPolicy
@@ -779,6 +781,16 @@ return function(F, N, C, log)
     N.settle()
   end, function() return badge(8) end)
 
+  -- A second talk before the League used to remove Giovanni permanently, losing his rematch.
+  if POSTGAME then
+    beat('pg_giovanni_again', function()
+      moves()
+      assert(N.talk(8, { side = 1 }), 'Giovanni again')
+      N.settle()
+      L('  Giovanni still on the map: ' .. tostring(N.object(8) ~= nil))
+    end, function() return badge(8) and F.ow() and N.free() end)
+  end
+
   if ROW22 then
     beat('detour_route22_late', function() route22() end, function() return V('VAR_MAP_SCENE_ROUTE22') == 4 end)
   end
@@ -790,26 +802,26 @@ return function(F, N, C, log)
   end, function() return at('VictoryRoad_1F_Frlg') end)
 
   -- 1F: boulder (7,18) onto the switch (20,16), computed push by push.
-  beat('victory_road_1f', function()
-    moves()
+  local function victoryRoad1F()
     pushes({ { 7, 17, 1 }, { 6, 19, 4 }, { 7, 19, 4 }, { 8, 19, 4 }, { 9, 19, 4 }, { 11, 20, 2 }, { 10, 18, 4 }, { 12, 19, 2 },
              { 11, 17, 4 }, { 12, 17, 4 }, { 13, 17, 4 }, { 14, 17, 4 }, { 15, 17, 4 }, { 16, 17, 4 }, { 17, 17, 4 }, { 19, 18, 2 },
              { 19, 17, 2 }, { 18, 15, 4 }, { 20, 14, 1 } }, '1F boulder')
     N.settle()
     assert(N.travel('VictoryRoad_2F_Frlg'))
-  end, function() return V('VAR_MAP_SCENE_VICTORY_ROAD_1F') == 100 end)
+  end
+  beat('victory_road_1f', function() moves(); victoryRoad1F() end, function() return V('VAR_MAP_SCENE_VICTORY_ROAD_1F') == 100 end)
 
   -- 2F: the boulder (6,17) onto the west switch, then the east ladder to 3F (34,9).
-  beat('victory_road_2f', function()
-    moves()
+  local function victoryRoad2F()
     pushes({ { 6, 16, 1 }, { 7, 18, 3 }, { 6, 18, 3 }, { 4, 17, 1 }, { 5, 19, 3 }, { 4, 19, 3 } }, '2F west boulder')
     N.settle()
     assert(N.travel('VictoryRoad_3F_Frlg', { tile = { 34, 9 } }))
-  end, function() return V('VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1') == 100 and at('VictoryRoad_3F_Frlg') end)
+  end
+  beat('victory_road_2f', function() moves(); victoryRoad2F() end,
+    function() return V('VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1') == 100 and at('VictoryRoad_3F_Frlg') end)
 
   -- 3F: boulder (32,5) to the far switch (7,7); then its neighbour (33,18) into the hole (34,18).
-  beat('victory_road_3f', function()
-    moves()
+  local function victoryRoad3F()
     pushes({ { 32, 6, 2 }, { 32, 5, 2 }, { 33, 3, 3 }, { 32, 3, 3 }, { 31, 3, 3 }, { 30, 3, 3 }, { 29, 3, 3 }, { 28, 3, 3 }, { 27, 3, 3 },
              { 26, 3, 3 }, { 25, 3, 3 }, { 24, 3, 3 }, { 23, 3, 3 }, { 22, 3, 3 }, { 21, 3, 3 }, { 20, 3, 3 }, { 19, 3, 3 }, { 18, 3, 3 },
              { 17, 3, 3 }, { 16, 3, 3 }, { 15, 3, 3 }, { 14, 3, 3 }, { 13, 3, 3 }, { 11, 2, 1 }, { 12, 4, 3 }, { 11, 4, 3 }, { 10, 4, 3 },
@@ -818,11 +830,12 @@ return function(F, N, C, log)
     assert(N.go(32, 18))
     shove(4, 'boulder into the hole')
     assert(N.takeWarp(34, 18), 'fall through the hole')
-  end, function() return V('VAR_MAP_SCENE_VICTORY_ROAD_3F') == 100 and at('VictoryRoad_2F_Frlg') end)
+  end
+  beat('victory_road_3f', function() moves(); victoryRoad3F() end,
+    function() return V('VAR_MAP_SCENE_VICTORY_ROAD_3F') == 100 and at('VictoryRoad_2F_Frlg') end)
 
   -- 2F: the fallen boulder along row 19 onto the second switch, then the exit to Route 23 north.
-  beat('victory_road_exit', function()
-    moves()
+  local function victoryRoadExit()
     if N.object(12) then
       pushes({ { 34, 19, 3 }, { 33, 19, 3 }, { 32, 19, 3 }, { 31, 19, 3 }, { 30, 19, 3 }, { 29, 19, 3 }, { 28, 19, 3 }, { 27, 19, 3 },
                { 26, 19, 3 }, { 25, 19, 3 }, { 24, 19, 3 }, { 23, 19, 3 }, { 22, 19, 3 }, { 21, 19, 3 }, { 20, 19, 3 }, { 19, 19, 3 },
@@ -830,7 +843,8 @@ return function(F, N, C, log)
       N.settle()
     end
     assert(N.travel('IndigoPlateau_Exterior_Frlg'))
-  end, function() return at('IndigoPlateau_Exterior_Frlg') end)   -- Route 23's ON_TRANSITION resets the boulder vars
+  end
+  beat('victory_road_exit', function() moves(); victoryRoadExit() end, function() return at('IndigoPlateau_Exterior_Frlg') end)   -- Route 23's ON_TRANSITION resets the boulder vars
 
   ------------------------------------------------------------------ The League
   beat('to_league', function()
@@ -1062,6 +1076,11 @@ return function(F, N, C, log)
       assert(N.travel('OneIsland_Harbor_Frlg'))
       sail(1, 0)
     end, function() return at('VermilionCity_Frlg') end)
+  end
+
+  if POSTGAME then
+    require('postgame')(F, N, C, { beat = beat, moves = moves, V = V, FL = FL, at = at, ferry = seviiFerry, pushes = pushes,
+      victoryRoad = { victoryRoad1F, victoryRoad2F, victoryRoad3F, victoryRoadExit } })
   end
 
   return B

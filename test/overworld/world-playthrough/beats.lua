@@ -40,6 +40,7 @@ return function(F, N, C, log)
           'hoenn', 'johto', 'kanto', 'hoenn', 'johto', 'hoenn', 'hoenn' },
     B = { 'hoenn', 'hoenn', 'johto', 'johto', 'kanto', 'kanto', 'hoenn', 'hoenn', 'johto', 'johto', 'kanto', 'kanto', 'hoenn', 'hoenn',
           'johto', 'johto', 'kanto', 'kanto', 'hoenn', 'hoenn', 'johto' },
+    J = { 'johto', 'johto', 'johto', 'johto', 'johto', 'johto', 'johto' },   -- for PW_POSTGAME: a Johto champion who never left
   }
   local order = assert(ORDERS[os.getenv('PW_WORLD') or 'A'], 'PW_WORLD')
 
@@ -156,6 +157,12 @@ return function(F, N, C, log)
       end, done = b.done, loss = loss }
     end
     last = region
+  end
+  if os.getenv('PW_POSTGAME') then
+    B = assert(loadfile(here .. 'postgame.lua'))()(F, N, C, log, B, {
+      enter = enter, snapshot = snapshot, restore = restore, keepParty = keepParty, restoreParty = restoreParty,
+      regions = REGIONS, gates = { johto = 16, kanto = 11, hoenn = 21 },
+    })
   end
   return B
 end

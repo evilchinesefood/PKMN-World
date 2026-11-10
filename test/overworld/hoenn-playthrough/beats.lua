@@ -1085,5 +1085,14 @@ return function(F, N, C, log)
     L(string.format('  moved from 2F (%d,%d) to 1F (%d,%d)', x0, y0, x, y))
   end, function() return FL('FLAG_HOENN_CHAMPION') and at(HOME .. '_1F') and N.free() end)
 
+  if os.getenv('PW_POSTGAME') then
+    local here = debug.getinfo(1, 'S').source:sub(2):match('^(.*[/\\])')
+    assert(loadfile(here .. 'postgame.lua'))()(F, N, C, log, {
+      beat = beat, V = V, FL = FL, at = at, HOME = HOME, segDMoves = segDMoves,
+      hop = hop, walkScript = walkScript, pad = pad, press = press,
+      shove = shove, smash = smash, stepTo = stepTo, ICE = ICE, STAIRS = STAIRS,
+    })
+  end
+
   return B
 end

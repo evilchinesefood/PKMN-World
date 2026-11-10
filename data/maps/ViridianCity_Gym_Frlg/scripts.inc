@@ -1,5 +1,15 @@
 ViridianCity_Gym_Frlg_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, ViridianCity_Gym_Frlg_OnTransition
 	.byte 0
+
+@ Talking to him again before the League removes him for the story; he returns for rematches.
+ViridianCity_Gym_Frlg_OnTransition::
+	call_if_set FLAG_KANTO_CHAMPION, ViridianCity_Gym_EventScript_RestoreGiovanni
+	end
+
+ViridianCity_Gym_EventScript_RestoreGiovanni::
+	clearflag FLAG_HIDE_VIRIDIAN_GIOVANNI
+	return
 
 ViridianCity_Gym_EventScript_Giovanni::
 	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005

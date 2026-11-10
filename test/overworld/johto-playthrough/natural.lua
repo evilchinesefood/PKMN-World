@@ -406,6 +406,65 @@ return function(F, N, S, here)
     return moved
   end
 
+  ---------------------------------------------------------------- Potions in the field
+  -- Through the Start menu's Bag, one target at a time, for places with no Center to walk to.
+  local function bagRowCursor(row)
+    for _ = 1, 40 do
+      local cur = r16(P.gBagPosition + 8) + r16(P.gBagPosition + 18)
+      if cur == row then return true end
+      press(cur < row and 'Down' or 'Up'); idle(10)
+    end
+  end
+  function Nat.fieldHeal()
+    local healed = 0
+    for slot = 0, N.partyCount() - 1 do
+      local pm = N.partyMon(slot)
+      while member(slot) and pm.hp > 0 and pm.hp * 10 < pm.maxHP * 6 do
+        local id
+        for _, name in ipairs(POTIONS) do if C[name] and qty(C[name]) > 0 then id = C[name]; break end end
+        if not id then return healed end
+        press('Start'); idle(60)
+        if not F.selectStartIcon(2) then return healed end
+        press('A'); idle(90)
+        local open = false
+        for _ = 1, 300 do
+          if F.cb2() == (P.CB2_BagMenuRun & ~1) then open = true; break end
+          idle(1)
+        end
+        if not open then return healed end
+        idle(30)
+        for _ = 1, 8 do
+          if r8(P.gBagPosition + 5) == 0 then break end
+          press('Left'); idle(20)
+        end
+        bagRowCursor(itemRow(id))
+        press('A'); idle(30)        -- context menu
+        press('A'); idle(50)        -- Use
+        local t = activeAny('Task_BagMenu_PartyInput')
+        for _ = 1, 8 do
+          if not t or r16(t + 8 + 8) == slot then break end
+          press('Down'); idle(16)
+        end
+        local before = qty(id)
+        press('A'); idle(70)
+        for _ = 1, 40 do
+          if not activeAny('Task_BagMenu_PartyInput') and not activeAny('Task_ContinueTaskAfterMessagePrints') then break end
+          press('A'); idle(14)
+        end
+        for _ = 1, 4 do press('B'); idle(30) end
+        for _ = 1, 200 do
+          if N.free() then break end
+          press('B'); idle(12)
+        end
+        pm = N.partyMon(slot)
+        if qty(id) >= before then return healed end
+        healed = healed + 1
+        stats.fieldPotions = (stats.fieldPotions or 0) + 1
+      end
+    end
+    return healed
+  end
+
   ---------------------------------------------------------------- Pokemon Centers
   local function teamCondition()
     local fainted, hp, max = 0, 0, 0
@@ -480,7 +539,12 @@ return function(F, N, S, here)
       BLOCKED[from] = true
       return false
     end
-    local ok = N.talk({ 7, 3 }, { side = 1 })
+    -- Most Centers put the nurse at (7,2) behind a counter; league buildings do not.
+    local nurseAt = { 7, 2 }
+    for _, o in ipairs(N.header(F.grp(), F.mapn()).objs) do
+      if o.gfx == C.OBJ_EVENT_GFX_NURSE then nurseAt = { o.x, o.y } end
+    end
+    local ok = N.talk({ nurseAt[1], nurseAt[2] + 1 }, { side = 1 })
     stats.centerTrips = stats.centerTrips + 1
     L(string.format('NAT center %s (%s) from %s: nurse talk %s, steps %d, party %s', reached, why or 'hp', from, tostring(ok),
       N.steps - steps0, Nat.partyText()))
@@ -518,11 +582,16 @@ return function(F, N, S, here)
     return activeAny(name) ~= nil
   end
   -- Back to the field through the shop's own exits. N.settle would mash A and buy the first item.
+  -- The field is briefly "free" while the shop menu fades back in, so insist it stays free.
   local function leaveShop()
-    for _ = 1, 60 do
-      if N.free() then return end
-      if activeAny('Task_BuyMenu') or activeAny('Task_ShopMenu') then press('B'); idle(50)
-      else press('A'); idle(25) end
+    local quiet = 0
+    for _ = 1, 80 do
+      if activeAny('Task_BuyMenu') or activeAny('Task_ShopMenu') then press('B'); idle(50); quiet = 0
+      elseif N.free() then
+        quiet = quiet + 1
+        if quiet >= 3 then return end
+        idle(30)
+      else press('A'); idle(25); quiet = 0 end
     end
   end
   local function buy(itemId, count)
@@ -536,9 +605,10 @@ return function(F, N, S, here)
       if N.go(clerk.x + side[1], clerk.y + side[2]) then
         N.face(side[3])
         press('A'); idle(30)
-        for _ = 1, 12 do
+        for _ = 1, 3 do
           if activeAny('Task_ShopMenu') then inMenu = true; break end
-          press('A'); idle(30)
+          press('A'); idle(40)
+          if activeAny('Task_ShopMenu') then inMenu = true end
         end
         if inMenu then break end
         leaveShop()
@@ -584,11 +654,16 @@ return function(F, N, S, here)
     if not N.free() or potionsCarried() >= (CFG.potionTarget or 6) then return end
     local money = N.money()
     if money < 1500 then return end
-    local map = martMap()
+    local here = N.header(F.grp(), F.mapn())
+    local hasClerk = false
+    for _, o in ipairs(here.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK then hasClerk = true end end
+    local map = hasClerk and N.mapName() or martMap()
     if not map then return end
-    local ok, res = pcall(N.travel, map, { policy = N.defaultPolicy })
-    if not ok then if res == N.WHITEOUT then error(res, 0) end; L('NAT shop: ' .. tostring(res)); return end
-    if not res or N.mapName() ~= map then L('NAT shop: could not reach ' .. map); return end
+    if not hasClerk then
+      local ok, res = pcall(N.travel, map, { policy = N.defaultPolicy })
+      if not ok then if res == N.WHITEOUT then error(res, 0) end; L('NAT shop: ' .. tostring(res)); return end
+      if not res or N.mapName() ~= map then L('NAT shop: could not reach ' .. map); return end
+    end
     local afford = math.min(10, (money - 400) // 300)
     local before = money
     local n = buy(C.ITEM_SUPER_POTION, math.min(8, afford))
@@ -750,7 +825,10 @@ return function(F, N, S, here)
     if N.beatSetup then N.beatSetup() end
     local g = GYM[b.name]
     if not g then
-      if needCenter(false) then Nat.heal(false, 'before ' .. b.name) end
+      if needCenter(false) and not Nat.heal(false, 'before ' .. b.name) then
+        local n = Nat.fieldHeal()
+        if n > 0 then L(string.format('NAT field heal before %s: %d potions, party %s', b.name, n, Nat.partyText())) end
+      end
       return
     end
     Nat.heal(true, 'pre-gym')

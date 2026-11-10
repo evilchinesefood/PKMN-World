@@ -177,7 +177,7 @@ return function(F, N, C, log, B, ctx)
     end
     F.check('harbor: Mystic Ticket at three champions', N.itemCount(C.ITEM_MYSTIC_TICKET) == 1 and FL('FLAG_ENABLE_SHIP_NAVEL_ROCK'))
     from = harbor()
-    F.check('harbor: nothing left to give', (said(from, 'ALL')) or (said(from, 'all')), table.concat(N.transcript, ' | ', from + 1))
+    F.check('harbor: nothing left to give', (said(from, 'in your hands')), table.concat(N.transcript, ' | ', from + 1))
   end
 
   local function frontierGate()
@@ -239,11 +239,13 @@ return function(F, N, C, log, B, ctx)
     L(string.format('  fly cursor on mapsec %d (wanted %d) type %d', F.r16(map), mapsec, F.r8(map + 2)))
     assert(F.r16(map) == mapsec, 'fly cursor reached the city')
     N.press('A', 2)
-    F.idle(120)
-    for _ = 1, 400 do
-      if F.ow() and N.free() then break end
+    local g0, m0 = F.grp(), F.mapn()
+    for _ = 1, 600 do
       F.idle(5)
+      if F.grp() ~= g0 or F.mapn() ~= m0 then break end
     end
+    F.shot('after_fly_pick')
+    L('  after fly pick: ' .. N.mapName() .. string.format(' cb2=%08x', F.cb2()))
     N.settle()
   end
 
@@ -374,6 +376,8 @@ return function(F, N, C, log, B, ctx)
     { species = 'SPECIES_DRAGONITE', evs = { 0, 252, 0, 252, 0, 0 }, moves = { 'MOVE_DRAGON_CLAW', 'MOVE_EARTHQUAKE', 'MOVE_FIRE_PUNCH', 'MOVE_THUNDER_PUNCH' } },
     { species = 'SPECIES_ALAKAZAM', evs = { 0, 0, 0, 252, 252, 0 }, moves = { 'MOVE_PSYCHIC', 'MOVE_FIRE_PUNCH', 'MOVE_ICE_PUNCH', 'MOVE_THUNDER_PUNCH' } },
   }
+  BUILD.banned1 = { species = 'SPECIES_MEWTWO', evs = { 0, 0, 0, 252, 252, 0 }, moves = { 'MOVE_PSYSTRIKE', 'MOVE_ICE_BEAM', 'MOVE_FLAMETHROWER', 'MOVE_THUNDERBOLT' } }
+  BUILD.banned2 = { species = 'SPECIES_RAYQUAZA', evs = { 4, 252, 0, 252, 0, 0 }, moves = { 'MOVE_EARTHQUAKE', 'MOVE_DRAGON_CLAW', 'MOVE_EXTREME_SPEED', 'MOVE_THUNDERBOLT' } }
   local function give(i)
     local b = BUILD[i]
     local moves = {}
@@ -392,7 +396,8 @@ return function(F, N, C, log, B, ctx)
   local function towerRefusals()
     assert(N.travel('BattleFrontier_BattleTowerLobby'))
     N.settle()
-    retainParty(2)
+    retainParty(0)
+    give('banned1'); give('banned2')             -- Mewtwo and Rayquaza: banned at the Frontier
     local from = towerAttendant(6, frontierPolicy(1))
     F.check('tower singles: refused with no eligible team', (said(from, 'eligible')), table.concat(N.transcript, ' | ', from + 1))
     F.check('tower singles: refusal returns control', N.free() and N.mapName() == 'BattleFrontier_BattleTowerLobby', N.mapName())
@@ -409,12 +414,13 @@ return function(F, N, C, log, B, ctx)
 
   local function lastRow() return F.r8(S.sMenu + 4) end
 
-  local function towerFirstBattle()
+  local function towerFirstBattle(rest)
     assert(N.travel('BattleFrontier_BattleTowerLobby'))
     N.settle()
-    retainParty(2)
+    retainParty(0)
+    give('banned1'); give('banned2')
     for i = 1, 4 do give(i) end
-    local stage, screen = 0, N.screen
+    local stage, screen, rested, retired = 0, N.screen, false, false
     N.noPicker = true
     N.screen = function()
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
@@ -429,7 +435,8 @@ return function(F, N, C, log, B, ctx)
       stage = stage + 1
       if stage == 1 then return 0 end
       if stage == 2 then return 1 end             -- open level
-      if t:find('cancel your') then return 0 end
+      if t:find('cancel your') then retired = true; return 0 end
+      if rest and not rested then rested = true; L('  choosing REST'); return lastRow() - 1 end
       return lastRow()                            -- RETIRE is always the bottom row
     end
     local battles0 = N.battles.trainer
@@ -438,7 +445,7 @@ return function(F, N, C, log, B, ctx)
     for i = 1, 40 do
       N.settle({ policy = policy, noHeal = true, limit = 60 * 60 * 2 })
       L(string.format('  tower %d: %s (%d,%d)', i, N.mapName(), F.pos()))
-      if N.mapName() == 'BattleFrontier_BattleTowerLobby' and N.battles.trainer > battles0 then break end
+      if N.mapName() == 'BattleFrontier_BattleTowerLobby' and retired and N.free() then break end
       if N.battles.trainer > battles0 + 1 then break end
       F.idle(30)
     end
@@ -562,6 +569,8 @@ return function(F, N, C, log, B, ctx)
       L('  flew to ' .. N.mapName())
       F.check('frontier fly: landed in Hoenn', N.mapName() == 'MauvilleCity', N.mapName())
       tier('frontier fly', 'hoenn')
+      local home, group = ctx.regions.hoenn.config.region, respawnGroup()
+      F.check('frontier fly: whiteout respawn is in Hoenn', group >= home.lo and group <= home.hi, 'respawn group ' .. group)
     end)
   end
 
@@ -640,6 +649,11 @@ return function(F, N, C, log, B, ctx)
     local johto = wildBattle('Route29', 'johto obedience')
     F.check('obedience follows Johto (8 badges): the Lv100 lead obeyed', johto == 0, johto .. ' lines')
     N.setMetLevel(0, 5)
+    warpMap('OlivineCity_PortInside')
+    talkAt(8, 17, 2)
+    F.check('repeat crossing lands in Vermilion', N.mapName() == 'VermilionCity_PortInside', N.mapName())
+    tier('repeat crossing', 'kanto')
+    F.check('repeat crossing: party not boxed', N.partyCount() == n1, N.partyCount())
   end)
 
   detour('h_home', 'ferry_slateport_from_johto_party', 'hoenn', function()
@@ -693,6 +707,13 @@ return function(F, N, C, log, B, ctx)
     towerRefusals()
     towerFirstBattle()
     exchange()
+  end)
+  detour(FINAL, 'tower_rest_resume', FINAL_REGION, function()
+    N.useHubPass()
+    N.crossGate(4)
+    N.settle()
+    N.region = FRONTIER
+    towerFirstBattle(true)
   end)
 
   return B

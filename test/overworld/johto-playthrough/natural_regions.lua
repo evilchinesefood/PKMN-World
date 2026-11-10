@@ -11,6 +11,7 @@ return {
       { beat = 'league_entry', ace = 56, limit = 2000 },
     },
     exclude = { 'SPECIES_TOGEPI', 'SPECIES_TOGETIC', 'SPECIES_TOGEKISS' },
+    noDetour = { 'VictoryRoad' },
     catches = {
       { after = 'mom_farewell', map = 'Route31', species = 'SPECIES_MAREEP', budget = 500 },
       { after = 'route32_gate', map = 'Route32', species = 'SPECIES_WOOPER', budget = 400 },
@@ -28,6 +29,7 @@ return {
       { beat = 'blaine', ace = 47, limit = 1000 }, { beat = 'giovanni', ace = 50, limit = 1000 },
       { beat = 'to_league', ace = 63, limit = 2000 },
     },
+    noDetour = { 'VictoryRoad' },
     catches = {
       { after = 'brock', map = 'MtMoon_1F_Frlg', species = 'SPECIES_GEODUDE', budget = 600, cave = true },
     },
@@ -48,6 +50,7 @@ return {
       { after = 'route110', map = 'Route110', species = 'SPECIES_ELECTRIKE', budget = 400 },
     },
     exclude = { 'SPECIES_CASTFORM', 'SPECIES_WYNAUT', 'SPECIES_WOBBUFFET' },
+    noDetour = { 'Sootopolis', 'SeafloorCavern', 'CaveOfOrigin', 'SkyPillar', 'VictoryRoad' },
     done = {},
   },
 }

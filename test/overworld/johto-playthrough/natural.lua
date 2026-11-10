@@ -520,9 +520,13 @@ return function(F, N, S, here)
   end
 
   local BLOCKED = {}
+  local function noDetour()
+    for _, pat in ipairs(CFG.noDetour or {}) do if N.mapName():find(pat) then return true end end
+    return false
+  end
   function Nat.heal(force, why)
     -- Leaving Victory Road resets its Strength boulders, so a detour there seals the way on.
-    if N.mapName():find('VictoryRoad') then return false end
+    if noDetour() then return false end
     if healing or BLOCKED[N.mapName()] or not N.free() then return false end
     if not needCenter(force) then return false end
     local from = N.mapName()
@@ -654,7 +658,7 @@ return function(F, N, S, here)
 
   -- Top up the Potions at the nearest Mart when the wallet allows it.
   function Nat.restock()
-    if not N.free() or potionsCarried() >= (CFG.potionTarget or 6) then return end
+    if noDetour() or not N.free() or potionsCarried() >= (CFG.potionTarget or 6) then return end
     local money = N.money()
     if money < 1500 then return end
     local here = N.header(F.grp(), F.mapn())

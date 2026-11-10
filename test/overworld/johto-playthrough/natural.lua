@@ -548,9 +548,10 @@ return function(F, N, S, here)
     -- Most Centers put the nurse at (7,2) behind a counter; league buildings do not.
     local nurseAt = { 7, 2 }
     for _, o in ipairs(N.header(F.grp(), F.mapn()).objs) do
-      if o.gfx == C.OBJ_EVENT_GFX_NURSE then nurseAt = { o.x, o.y } end
+      if o.gfx == C.OBJ_EVENT_GFX_NURSE or o.gfx == C.OBJ_EVENT_GFX_NURSE_FRLG then nurseAt = { o.x, o.y } end
     end
     local ok = N.talk({ nurseAt[1], nurseAt[2] + 1 }, { side = 1 })
+    if not ok then BLOCKED[from] = true end   -- walking back here again would loop forever
     stats.centerTrips = stats.centerTrips + 1
     L(string.format('NAT center %s (%s) from %s: nurse talk %s, steps %d, party %s', reached, why or 'hp', from, tostring(ok),
       N.steps - steps0, Nat.partyText()))

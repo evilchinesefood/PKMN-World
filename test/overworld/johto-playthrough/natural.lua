@@ -825,6 +825,7 @@ return function(F, N, S, here)
           press('Down'); idle(12)
         end
         press('A'); idle(30)
+        if activeAny('Task_HandleSelectionMenuInput') then press('A'); idle(30) end   -- Enter
       end
     end
   end

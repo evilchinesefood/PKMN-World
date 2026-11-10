@@ -842,8 +842,9 @@ return function(F, S)
         frames = frames + 30
       else
         -- Battle text and the script's own Yes/No boxes ("Will you change POKéMON?", "Stop
-        -- learning?"): B advances text and answers No.
-        press('B'); idle(8); frames = frames + 10
+        -- learning?"): B advances text and answers No. Natural play fights wild battles, and a
+        -- B that lands on the action menu arms the run shortcut, so it advances with A.
+        press(N.natural and 'A' or 'B'); idle(8); frames = frames + 10
       end
     end
     local outcome = r8(S.gBattleOutcome)

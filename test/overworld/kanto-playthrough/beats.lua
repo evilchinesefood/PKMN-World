@@ -55,6 +55,7 @@ return function(F, N, C, log)
     N.canSmash = badge(6)
     if SEVII then N.canWaterfall = badge(7); N.passWild = badge(7) end
   end
+  if N.natural then N.beatSetup = moves end
 
   beat('to_kanto', function()
     if GIRL then F.w8(F.r32(P.gSaveBlock2Ptr) + 8, 1) end

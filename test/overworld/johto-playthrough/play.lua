@@ -39,16 +39,17 @@ local function topUp()
   if m.maxHP > 0 and m.hp * 2 < m.maxHP then L('  topUp: lead at ' .. m.hp .. '/' .. m.maxHP); N.debugHeal() end
 end
 
--- Straight from the campaign's directory: require would fall back to Johto's beats on a typo.
-local BEATS = assert(loadfile(here .. '../' .. CAMPAIGN .. '-playthrough/beats.lua'))()(F, N, C, log)
-
--- PW_NATURAL=1: natural-difficulty play, see README.md.
+-- PW_NATURAL=1: natural-difficulty play, see README.md. Installed before the beats load, so a
+-- campaign can tell.
 local Nat
 if os.getenv('PW_NATURAL') then
   Nat = require('natural')(F, N, S, here)
   Nat.install()
-  BEATS = Nat.patchBeats(BEATS)
 end
+
+-- Straight from the campaign's directory: require would fall back to Johto's beats on a typo.
+local BEATS = assert(loadfile(here .. '../' .. CAMPAIGN .. '-playthrough/beats.lua'))()(F, N, C, log)
+if Nat then BEATS = Nat.patchBeats(BEATS) end
 
 -- PW_LOSE=beat[:kind],... loses the first matching battle of each named beat on purpose, checks
 -- what the game did about it, and plays the beat again. kind is trainer (default), wild, any, or a
@@ -92,6 +93,7 @@ local function walkBack(map, x, y)
   if not (walked and N.mapName() == map) then
     local m, digit = require('pwmaps')[map], function(n, place) return (n // place) % 10 end
     L('  planner could not get there; debug warp to ' .. map)
+    if Nat then Nat.stats.warps = Nat.stats.warps + 1 end
     if not F.warpTo(digit(m.g, 100), digit(m.g, 10), digit(m.g, 1), digit(m.m, 100), digit(m.m, 10), digit(m.m, 1), 0, 0, 0, m.g, m.m, 'replay') then
       return false
     end
@@ -135,6 +137,8 @@ local function playNaturalBeat(b, index)
   local startMap, startX, startY = N.mapName(), F.pos()
   local preOk, preErr = pcall(Nat.beforeBeat, b)
   if not preOk and preErr ~= N.WHITEOUT then return false, preErr end
+  -- A beat assumes it starts where the last one ended; a Center trip must not change that.
+  if N.mapName() ~= startMap and not walkBack(startMap, startX, startY) then return false, 'could not get back to ' .. startMap end
   local ok, err = pcall(b.run)
   local attempts = 0
   while not ok and err == N.WHITEOUT do

@@ -724,8 +724,14 @@ return function(F, N, S, here)
 
   -- Before a gym: a full heal if it costs little, and a grind to ace minus 3 inside the allowance.
   function Nat.beforeBeat(b)
+    -- Cut trees and smashed rocks respawn when a Center trip leaves the map, so the planner needs
+    -- the field moves from the start of every beat, not only where the beat wrote them in.
+    if N.beatSetup then N.beatSetup() end
     local g = GYM[b.name]
-    if not g then return end
+    if not g then
+      if needCenter(false) then Nat.heal(false, 'before ' .. b.name) end
+      return
+    end
     Nat.heal(true, 'pre-gym')
     pcall(Nat.restock)
     local s = stats.gyms[b.name] or { attempts = 0, grind = 0, won = false }
@@ -750,7 +756,11 @@ return function(F, N, S, here)
     local target = math.max(g and (g.ace - 3) or 0, avg + attempts)
     local budget = (g and g.limit or CFG.storyGrind or 400) * attempts
     local spent = Nat.grind(target, budget, CFG.grindMap and CFG.grindMap[b.name])
-    if g then local s = stats.gyms[b.name]; s.grind = s.grind + spent end
+    if g then
+      local s = stats.gyms[b.name]
+      s.grind = s.grind + spent
+      s.attempts = s.attempts + 1
+    end
   end
 
   function Nat.afterBeat(b, won)
@@ -802,6 +812,21 @@ return function(F, N, S, here)
     F.w8(flagBase + (id // 8), r8(flagBase + (id // 8)) | (1 << (id % 8)))
     assert(LEARN_OP, 'Cmd_yesnoboxlearnmove is not in the opcode table')
     L('NAT setup: Exp Share on, Hard Mode off, Exp 1x, opcode ' .. LEARN_OP)
+  end
+
+  -- The SwSh picker before a partner battle: mark the healthy team members, then Start confirms.
+  function Nat.picker(tries)
+    if tries > 1 then return end
+    for i = 0, N.partyCount() - 1 do
+      local pm = N.partyMon(i)
+      if pm.hp > 0 and member(i) then
+        for _ = 1, 8 do
+          if r8(P.gPartyMenu + 9) == i then break end
+          press('Down'); idle(12)
+        end
+        press('A'); idle(30)
+      end
+    end
   end
 
   function Nat.report()

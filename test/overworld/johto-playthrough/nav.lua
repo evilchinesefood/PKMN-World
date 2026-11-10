@@ -941,7 +941,8 @@ return function(F, S)
         idle(30)
         local tries = (N.pickerTries or 0) + 1
         N.pickerTries = tries
-        if tries % 2 == 1 then press('A'); idle(30) end
+        if N.natural then N.natural.picker(tries)
+        elseif tries % 2 == 1 then press('A'); idle(30) end
         press('Start'); idle(60)
         L('  party picker: A + Start (try ' .. tries .. ')')
         frames = frames + 120; freeFor = 0

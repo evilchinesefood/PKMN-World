@@ -146,7 +146,7 @@ return function(F, N, C, log)
 
   beat('slowpoke_well', function()
     assert(N.travel('SlowpokeWell_B1F'))
-    assert(N.talk(12, { side = 4 }))      -- Jessie & James, from (22,2)
+    assert(N.talk(12, { side = 4 }) or N.natural)   -- Jessie & James, from (22,2); gone on a replay
     assert(N.talk(4, { side = 1 }))       -- Proton, from (14,4); Kurt walks us home
     N.settle()
   end, function() return V('VAR_AZALEA_TOWN_STATE') >= 4 end)

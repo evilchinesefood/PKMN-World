@@ -647,7 +647,7 @@ return function(F, S)
     for i = 0, 3 do
       local mv = r16(b0 + O.bm_moves + 2 * i)
       local pp = r8(b0 + O.bm_pp + i)
-      if mv ~= 0 and pp > 0 and not N.badSlots[i] then
+      if mv ~= 0 and pp > 0 and not N.badSlots[i] and not (N.avoidMoves and N.avoidMoves[mv]) then
         local info = N.MOVES[mv]
         local score = 1
         if info then
@@ -792,6 +792,7 @@ return function(F, S)
         turns = turns + 1
         if turns == 1 then N.firstFoeLevel = r8(bmon(1) + O.bm_level) end
         if turns > 200 then error('battle runaway: ' .. tag) end
+        N.lastFoe = { species = r16(bmon(1)), level = r8(bmon(1) + O.bm_level) }
         if N.battleDebug then
           local me, f1, f3 = bmon(N.activeBattler), bmon(1), bmon(3)
           L(string.format('    turn %d battler %d: me %d hp %d | foe1 %d hp %d | foe3 %d hp %d | slot %d',

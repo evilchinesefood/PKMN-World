@@ -639,6 +639,7 @@ return function(F, S)
   -- Slots the game refused this turn (disabled, Taunt, Torment, Choice lock): skip them.
   N.badSlots = {}
   local function bestMoveSlot()
+    if N.natural then return N.natural.bestSlot(N.activeBattler, N.badSlots) end
     local b0 = bmon(N.activeBattler)
     local foe = bmon(1)
     if r16(foe + O.bm_hp) == 0 and r16(bmon(3) + O.bm_hp) > 0 then foe = bmon(3) end
@@ -751,6 +752,7 @@ return function(F, S)
     local turns, frames = 0, 0
     N.fleeTries = 0
     N.pickerTries = 0   -- its A and Start alternate, so a second picker has to start the cycle afresh
+    if N.natural then N.natural.battleStart() end
     while frames < 60 * 60 * 12 do
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.
@@ -770,6 +772,13 @@ return function(F, S)
           local fieldId = (i % 2 == 1) and (order & 0xF) or (order >> 4)
           if pm.hp > 0 and pm.level > 0 and not taken[fieldId] and not target then target = i end
         end
+        if N.natural and not partner then
+          target = N.natural.pickSendOut(function(i)
+            local order = r8(P.gBattlePartyCurrentOrder + (i // 2))
+            local fieldId = (i % 2 == 1) and (order & 0xF) or (order >> 4)
+            return not taken[fieldId]
+          end) or target
+        end
         if target then
           for _ = 1, 8 do
             if r8(P.gPartyMenu + 9) == target then break end
@@ -784,7 +793,9 @@ return function(F, S)
       elseif (pickActive() or true) and not N.inBattle() then
         -- A battle can be followed by evolution, a Pokédex entry or a nickname prompt.
         if F.ow() then break end
-        if F.cb2() == (P.CB2_NamingScreen & ~1) then press('Start'); idle(20); press('A'); idle(40)
+        if N.natural and N.natural.menu() then
+          -- handled: an evolution's learn-move prompt or the forget-a-move screen
+        elseif F.cb2() == (P.CB2_NamingScreen & ~1) then press('Start'); idle(20); press('A'); idle(40)
         elseif frames % 600 > 480 and not N.acceptPrompts then press('B'); idle(10)   -- back out of a summary screen opened by mistake
         else press('A'); idle(10) end
         frames = frames + 12
@@ -805,7 +816,9 @@ return function(F, S)
           N.fleeTries = (N.fleeTries or 0) + 1
           if N.fleeTries > 2 then fight = true; L('  flee failed twice, fighting') end
         end
-        if catching then
+        if fight and not catching and N.natural and N.natural.turn(trainer) then
+          frames = frames + 60
+        elseif catching then
           useBall()
         elseif fight then
           press('Up'); idle(4); press('Left'); idle(4); press('A'); idle(20)
@@ -825,6 +838,8 @@ return function(F, S)
       elseif isCtl('PlayerHandleYesNoInput') then
         -- "Will you switch POKéMON?" -- no.
         press('B'); idle(20); frames = frames + 22
+      elseif N.natural and N.natural.battleText() then
+        frames = frames + 30
       else
         -- Battle text and the script's own Yes/No boxes ("Will you change POKéMON?", "Stop
         -- learning?"): B advances text and answers No.
@@ -842,6 +857,7 @@ return function(F, S)
     local after = N.partyMon(0)
     L(string.format('  battle %s -> outcome=%d turns=%d lead hp=%d/%d', tag, outcome, turns, after.hp, after.maxHP))
     N.battleLog[#N.battleLog + 1] = { tag = tag, outcome = outcome }
+    if N.natural then N.natural.battleEnd(trainer, outcome) end
     if trainer or after.hp * 5 < after.maxHP * 3 then N.needHeal = true end
     scriptedFlag = false
     return outcome
@@ -943,6 +959,7 @@ return function(F, S)
         freeFor = freeFor + 2
         if freeFor >= (opts.quiet or 24) and (not N.threw or N.free()) then
           scriptedFlag = false
+          if N.natural and N.natural.takeWhiteout() then N.needHeal = false; error(N.WHITEOUT, 0) end
           if N.threw then N.needHeal = false; error(N.LOSS_PLAYED, 0) end
           -- Restore HP and PP after trainer battles (debug heal; a documented concession).
           if N.needHeal and not opts.noHeal then N.needHeal = false; N.debugHeal() end
@@ -1715,6 +1732,7 @@ return function(F, S)
     for hop = 1, 60 do
       if not N.free() then N.settle(opts) end
       N.rememberMap()
+      if N.natural then N.natural.maybeHeal() end
       if N.resetAvoid then N.avoid = {} end
       if F.grp() == tg.g and F.mapn() == tg.m and (not opts.tile or reachesTile(floodLive(), opts.tile)) then return true end
       local ex = N.route(target, opts)
@@ -1869,6 +1887,7 @@ return function(F, S)
   end
 
   N.LOSS_PLAYED = 'deliberate loss played out'
+  N.WHITEOUT = 'whited out in natural mode'
   function N.money()
     return F.r32(F.sb1() + O.sb1_money) ~ F.r32(F.r32(P.gSaveBlock2Ptr) + O.sb2_encryptionKey)
   end

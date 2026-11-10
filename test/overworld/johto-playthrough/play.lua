@@ -211,7 +211,7 @@ F.run(function()
       if N.restore(prev) then
         F.idle(30); N.debugHeal()
         if Nat then Nat.loadCheckpoint(prev) end
-        ok, err = pcall(b.run)
+        if Nat then ok, err = playNaturalBeat(b, i) else ok, err = pcall(b.run) end
         if not ok then L('  beat error (retry): ' .. tostring(err)) end
         done = ok and (not b.done or b.done())
       end

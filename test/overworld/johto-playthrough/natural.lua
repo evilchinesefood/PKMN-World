@@ -38,6 +38,7 @@ return function(F, N, S, here)
     return r32(base) ~ key, r32(base + 4) ~ key, r32(base + 8) ~ key
   end
   local function partySpecies(slot) return (subWords(slot, 'G')) & 0x7FF end
+  local function partyPP(slot) local _, _, w2 = subWords(slot, 'A'); return { w2 & 0xFF, (w2 >> 8) & 0xFF, (w2 >> 16) & 0xFF, (w2 >> 24) & 0xFF } end
   local function partyMoves(slot)
     local w0, w1 = subWords(slot, 'A')
     return { w0 & 0xFFFF, w0 >> 16, w1 & 0xFFFF, w1 >> 16 }
@@ -205,6 +206,7 @@ return function(F, N, S, here)
   end
   -- After a battle (evolution scene, summary screen). True when it pressed something.
   function Nat.menu()
+    if F.cb2() == (P.CB2_BagMenuRun & ~1) then press('B'); idle(20); return true end
     local t = activeAny('Task_HandleReplaceMoveInput')
     if t then
       if not forgetDone then
@@ -276,11 +278,20 @@ return function(F, N, S, here)
     return true
   end
 
+  local potionsOff = false
   local POTIONS = { 'ITEM_FULL_RESTORE', 'ITEM_MAX_POTION', 'ITEM_HYPER_POTION', 'ITEM_SUPER_POTION', 'ITEM_POTION' }
   local function itemRow(id)
     local ptr = r32(P.gBagPockets)
     for s = 0, F.pocketCap(0) - 1 do if r16(ptr + s * 4) == id then return s end end
   end
+  local function qty(id)
+    local ptr = r32(P.gBagPockets)
+    for s = 0, F.pocketCap(0) - 1 do
+      if r16(ptr + s * 4) == id then return r16(ptr + s * 4 + 2) ~ (r32(r32(P.gSaveBlock2Ptr) + O.sb2_encryptionKey) & 0xFFFF) end
+    end
+    return 0
+  end
+  Nat.qty = qty
   local function usePotion()
     local id, row
     for _, name in ipairs(POTIONS) do
@@ -303,25 +314,34 @@ return function(F, N, S, here)
       if cur == row then break end
       press(cur < row and 'Down' or 'Up'); idle(10)
     end
+    local before = qty(id)
     press('A'); idle(30)        -- context menu
     press('A'); idle(40)        -- Use
-    for _ = 1, active do press('Down'); idle(12) end
-    press('A'); idle(40)
-    for _ = 1, 30 do
-      if F.cb2() == (P.BattleMainCB2 & ~1) then break end
-      press('A'); idle(10)
+    idle(40)                    -- the party input waits for its icon animation
+    local slotTask = activeAny('Task_BagMenu_PartyInput')
+    L(string.format('NAT potion: party input task %s, slot cursor %d, want %d', tostring(slotTask ~= nil), slotTask and r16(slotTask + 8 + 8) or -1, active))
+    for _ = 1, 10 do
+      if not slotTask or r16(slotTask + 8 + 8) == active then break end
+      press('Down'); idle(16)
     end
-    L('NAT potion: item ' .. id .. ' on slot ' .. active)
+    press('A'); idle(50)
+    for i = 1, 40 do
+      if F.cb2() == (P.BattleMainCB2 & ~1) then break end
+      press((i % 3 == 0) and 'B' or 'A'); idle(10)
+    end
+    local used = before > qty(id)
+    L(string.format('NAT potion: item %d on slot %d used=%s (%d -> %d) back=%s', id, active, tostring(used), before, qty(id), tostring(F.cb2() == (P.BattleMainCB2 & ~1))))
+    if not used then potionsOff = true; return false end
     stats.potions = stats.potions + 1
     return true
   end
 
   local battleMap
-  function Nat.battleStart() switches = 0; battleMap = N.mapName() end
+  function Nat.battleStart() switches = 0; potionsOff = false; battleMap = N.mapName() end
   function Nat.turn(trainer)
     local b = bmon(N.activeBattler)
     local hp, max = r16(b + O.bm_hp), r16(b + O.bm_maxHP)
-    if (trainer or grinding) and max > 0 and hp * 3 < max and usePotion() then return true end
+    if (trainer or grinding) and not potionsOff and max > 0 and hp * 3 < max and usePotion() then return true end
     if switches < 3 then
       local _, score = Nat.bestSlot(N.activeBattler, N.badSlots)
       if score == 0 then
@@ -378,10 +398,24 @@ return function(F, N, S, here)
     end
     return fainted, max > 0 and hp / max or 1
   end
+  -- Damaging PP left across the team; grinding runs it dry long before HP.
+  local function teamPP()
+    local total = 0
+    for i = 0, N.partyCount() - 1 do
+      if member(i) then
+        local types = speciesTypes(partySpecies(i))
+        local pp = partyPP(i)
+        for j, mv in ipairs(partyMoves(i)) do
+          if baseScore(mv, types) > 0 then total = total + pp[j] end
+        end
+      end
+    end
+    return total
+  end
   local function needCenter(force)
     local fainted, frac = teamCondition()
     if force then return fainted > 0 or frac < 0.999 end
-    return fainted > 0 or frac < 0.5
+    return fainted > 0 or frac < 0.5 or teamPP() < 8
   end
   -- Centers, nearest first by map hops over warps and connections from where we stand.
   local function centersByHops()
@@ -433,8 +467,119 @@ return function(F, N, S, here)
   end
   function Nat.maybeHeal() if needCenter(false) then Nat.heal(false, 'low hp') end end
 
+  ---------------------------------------------------------------- Poke Marts
+  local function martMap()
+    local lo, hi = N.region.lo, N.region.hi
+    local start = F.grp() * 256 + F.mapn()
+    local seen, q, head = { [start] = true }, { { F.grp(), F.mapn() } }, 1
+    while head <= #q and head < 120 do
+      local g, m = q[head][1], q[head][2]; head = head + 1
+      for _, ex in ipairs(N.exitsOf(N.header(g, m))) do
+        local k = ex.g * 256 + ex.m
+        if not seen[k] and ex.g >= lo and ex.g <= hi then
+          seen[k] = true
+          if N.mapName(ex.g, ex.m):find('Mart') then return N.mapName(ex.g, ex.m) end
+          q[#q + 1] = { ex.g, ex.m }
+        end
+      end
+    end
+  end
+  local function potionsCarried()
+    local n = 0
+    for _, name in ipairs(POTIONS) do if C[name] then n = n + qty(C[name]) end end
+    return n
+  end
+  local function waitTask(name, frames)
+    for _ = 1, frames or 300 do
+      if activeAny(name) then return true end
+      idle(1)
+    end
+    return activeAny(name) ~= nil
+  end
+  -- Back to the field through the shop's own exits. N.settle would mash A and buy the first item.
+  local function leaveShop()
+    for _ = 1, 60 do
+      if N.free() then return end
+      if activeAny('Task_BuyMenu') or activeAny('Task_ShopMenu') then press('B'); idle(50)
+      else press('A'); idle(25) end
+    end
+  end
+  local function buy(itemId, count)
+    local info = N.header(F.grp(), F.mapn())
+    local clerk
+    for _, o in ipairs(info.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK then clerk = o end end
+    if not clerk then L('NAT shop: no clerk at ' .. N.mapName()); return 0 end
+    -- The counter is between the clerk and the floor; the side differs by map, so try each.
+    local inMenu
+    for _, side in ipairs({ { 2, 0, 3 }, { 0, 2, 2 }, { -2, 0, 4 } }) do
+      if N.go(clerk.x + side[1], clerk.y + side[2]) then
+        N.face(side[3])
+        press('A'); idle(30)
+        for _ = 1, 12 do
+          if activeAny('Task_ShopMenu') then inMenu = true; break end
+          press('A'); idle(30)
+        end
+        if inMenu then break end
+        leaveShop()
+      end
+    end
+    if not inMenu then L('NAT shop: no shop menu at ' .. N.mapName()); return 0 end
+    press('A')   -- Buy
+    if not waitTask('Task_BuyMenu', 600) then L('NAT shop: no buy menu'); N.settle(); return 0 end
+    idle(30)
+    local list, cnt = r32(P.sMartInfo + 8), r16(P.sMartInfo + 12)
+    local row
+    for i = 0, cnt - 1 do if r16(list + i * 2) == itemId then row = i end end
+    if not row then
+      L('NAT shop: item ' .. itemId .. ' not in this mart')
+      leaveShop()
+      return 0
+    end
+    for _ = 1, 12 do
+      local cur = r16(r32(P.sShopData) + 0x2006) + r16(r32(P.sShopData) + 0x2008)
+      if cur == row then break end
+      press(cur < row and 'Down' or 'Up'); idle(12)
+    end
+    press('A'); idle(40)
+    if not waitTask('Task_BuyHowManyDialogueHandleInput', 300) then
+      L('NAT shop: no quantity prompt')
+      leaveShop()
+      return 0
+    end
+    for _ = 2, count do press('Up'); idle(12) end
+    press('A'); idle(40)
+    for _ = 1, 8 do
+      if activeAny('Task_CallYesOrNoCallback') then break end
+      press('A'); idle(30)
+    end
+    press('A'); idle(40)                 -- Yes
+    press('A'); idle(40)                 -- "Here you go"
+    leaveShop()
+    return count
+  end
+
+  -- Top up the Potions at the nearest Mart when the wallet allows it.
+  function Nat.restock()
+    if not N.free() or potionsCarried() >= (CFG.potionTarget or 6) then return end
+    local money = N.money()
+    if money < 1500 then return end
+    local map = martMap()
+    if not map then return end
+    local ok, res = pcall(N.travel, map, { policy = N.defaultPolicy })
+    if not ok then if res == N.WHITEOUT then error(res, 0) end; L('NAT shop: ' .. tostring(res)); return end
+    if not res or N.mapName() ~= map then L('NAT shop: could not reach ' .. map); return end
+    local afford = math.min(10, (money - 400) // 300)
+    local before = money
+    local n = buy(C.ITEM_SUPER_POTION, math.min(8, afford))
+    if n == 0 then n = buy(C.ITEM_POTION, afford) end
+    stats.bought = (stats.bought or 0) + n
+    L(string.format('NAT shop: bought %d at %s, money %d -> %d, carrying %d', n, map, before, N.money(), potionsCarried()))
+  end
+
   ---------------------------------------------------------------- grass and grinding
   local GRASS = { [C.MB_TALL_GRASS] = true, [C.MB_LONG_GRASS] = true, [C.MB_ASHGRASS or -1] = true }
+  -- Tiles worth pacing on: grass, or any open floor when the map is a cave (encounters everywhere).
+  local cavePacing = false
   local function grassTiles()
     local g = N.liveGrid()
     local reach = N.floodLive()
@@ -443,7 +588,7 @@ return function(F, N, S, here)
     for y = 0, g.h - 1 do
       for x = 0, g.w - 1 do
         local v = g.get(x, y)
-        if v and (v & 0x0C00) == 0 and GRASS[g.beh(v & 0x3FF)] and reach[x .. ',' .. y] then
+        if v and (v & 0x0C00) == 0 and (cavePacing or GRASS[g.beh(v & 0x3FF)]) and reach[x .. ',' .. y] then
           tiles[#tiles + 1] = { x, y, reach[x .. ',' .. y] }
         end
       end
@@ -552,8 +697,10 @@ return function(F, N, S, here)
     local before = N.partyCount()
     local s0 = N.steps
     if spec.map then assert(N.travel(spec.map), 'no route to catch map') end
+    cavePacing = spec.cave or false
     pace(function() return N.partyCount() > before or N.itemCount(C.ITEM_POKE_BALL) == 0 end, spec.budget or 400, spec.map,
       { fight = true, policy = N.defaultPolicy })
+    cavePacing = false
     N.catchWanted = nil
     stats.catchSteps = stats.catchSteps + (N.steps - s0)
     L(string.format('NAT catch %s: party %d -> %d after %d steps', spec.species, before, N.partyCount(), N.steps - s0))
@@ -580,6 +727,7 @@ return function(F, N, S, here)
     local g = GYM[b.name]
     if not g then return end
     Nat.heal(true, 'pre-gym')
+    pcall(Nat.restock)
     local s = stats.gyms[b.name] or { attempts = 0, grind = 0, won = false }
     stats.gyms[b.name] = s
     if s.attempts == 0 then stats.order[#stats.order + 1] = b.name end
@@ -591,15 +739,18 @@ return function(F, N, S, here)
     L(string.format('NAT enter %s attempt %d: L%d/%d/%d, party %s', b.name, s.attempts, s.entryMin, s.entryAvg, s.entryMax, Nat.partyText()))
   end
 
-  -- After losing a gym attempt: grind harder, one level past where we were, then play it again.
+  -- After a loss: grind past where we were, then play it again. Gyms get their allowance; a story
+  -- battle (Slowpoke Well, the Radio Tower) gets a smaller one, counted the same way.
   function Nat.afterLoss(b, attempts)
     local g = GYM[b.name]
-    if not g then return end
-    local s = stats.gyms[b.name]
     local _, avg = Nat.level()
-    local target = math.max(g.ace - 3, avg + attempts)
-    local spent = Nat.grind(target, g.limit * attempts, CFG.grindMap and CFG.grindMap[b.name])
-    s.grind = s.grind + spent
+    stats.beatWhiteouts = stats.beatWhiteouts or {}
+    stats.beatWhiteouts[b.name] = (stats.beatWhiteouts[b.name] or 0) + 1
+    Nat.restock()
+    local target = math.max(g and (g.ace - 3) or 0, avg + attempts)
+    local budget = (g and g.limit or CFG.storyGrind or 400) * attempts
+    local spent = Nat.grind(target, budget, CFG.grindMap and CFG.grindMap[b.name])
+    if g then local s = stats.gyms[b.name]; s.grind = s.grind + spent end
   end
 
   function Nat.afterBeat(b, won)

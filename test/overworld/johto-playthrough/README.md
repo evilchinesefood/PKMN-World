@@ -95,6 +95,95 @@ checks in 23,449 steps, with 1 retry (`pg_second_to_league`). The retry reloads 
 also clears the planner's remembered maps. [`evidence/postgame-final-run.log`](evidence/postgame-final-run.log)
 has each beat.
 
+## Natural difficulty (`PW_NATURAL=1`)
+
+`PW_NATURAL=1` plays a region with a team caught in that region instead of the debug pair. The
+hooks in `nav.lua` do nothing without it, so default campaigns are unchanged. `natural.lua` holds
+the behaviour and `natural_regions.lua` holds each region's gyms, ace levels, grind allowances and
+catches.
+
+```sh
+PW_NATURAL=1 python3 test/overworld/johto-playthrough/run.py --out _pwtest/nat/johto
+PW_NATURAL=1 PW_STARTER=1 python3 test/overworld/johto-playthrough/run.py --campaign kanto --out _pwtest/nat/kanto
+PW_NATURAL=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn --out _pwtest/nat/hoenn
+```
+
+The mode sets Exp. Share on and Hard Mode off by writing the save, and Exp stays at 1x. It:
+
+- scores moves from `gMovesInfo` and `gTypeEffectivenessTable`, checked against known moves at startup
+- switches when the active Pokemon has no move that can hurt the foe
+- heals at Centers, on the way between maps and before each beat when the team is hurt
+- buys Potions at Marts and uses them in battle and, where no Center is reachable, from the Bag
+- accepts a level-up move that beats the weakest known move
+- treats a whiteout as a loss: it grinds in grass and plays the beat again, up to six retries
+  (`PW_NATURAL_ATTEMPTS` changes that)
+
+Teams are Chikorita, Mareep, Wooper (Johto); Squirtle, Rattata, Geodude (Kanto); Torchic, Mudkip,
+Electrike (Hoenn). A Togepi Egg and gift Pokemon stay in the party but are not counted as team.
+
+### Results (November 10, 2026, ROM `7EF02FB9B011CAE8E9801644F288C75D`)
+
+Logs are `evidence/natural-johto.log`, `natural-kanto.log` and `natural-hoenn.log`. Limits are the
+plan's: enter at ace minus 3, win in 2 attempts, at most 1,000 grind steps (2,000 at Koga, Tate and
+Liza, and the Champion). The team level is average (min to max), and attempts include losses to the
+trainers on the way to the leader.
+
+| Region | Reached | Whiteouts | Steps (baseline) | Potions used | Debug warps |
+| --- | --- | --- | --- | --- | --- |
+| Johto | Hall of Fame, 84/84 in one fresh run | 13 | 26,668 (9,718) | 96 | 0 |
+| Kanto | Hall of Fame and home | 42 | 40,942 (8,857) | 41 | 0 |
+| Hoenn | Hall of Fame and home | 24 | 27,113 (11,132) | 117 | 1 |
+
+Debug heals were 0 in all three. Kanto and Hoenn are fresh runs to a League checkpoint, continued on
+the same ROM after a harness-only fix (the battle time limit, the Victory Road replay and corridor)
+and with `PW_NATURAL_ATTEMPTS=30`, because the default of six retries ran out. Most of Kanto's
+whiteouts were in the League: 13 at Bruno, 23 at Agatha and 3 at the Champion, grinding from level 52
+to 79. Hoenn lost 9 times to the Champion.
+
+| Johto gym | Level | Ace | Attempts | Grind |
+| --- | --- | --- | --- | --- |
+| Falkner | 10 (9-11) | 11 | 1 | 0 |
+| Bugsy | 18 (17-20) | 16 | 1 | 0 |
+| Whitney | 20 (19-21) | 21 | 1 | 0 |
+| Morty | 25 (24-26) | 25 | 3 | 357 |
+| Chuck | 33 (33-34) | 31 | 1 | 0 |
+| Jasmine | 35 (35-36) | 36 | 5 | 2,354 |
+| Pryce | 48 (47-49) | 38 | 1 | 0 |
+| Clair | 56 (55-57) | 45 | 1 | 0 |
+| League gate (Champion ace) | 64 (63-65) | 56 | 1 | 0 |
+
+| Kanto gym | Level | Ace | Attempts | Grind |
+| --- | --- | --- | --- | --- |
+| Brock | 11 (10-12) | 14 | 1 | 237 |
+| Misty | 19 (18-22) | 21 | 1 | 0 |
+| Surge | 23 (21-25) | 24 | 1 | 0 |
+| Erika | 34 (33-35) | 29 | 3 | 892 |
+| Koga | 40 (39-41) | 43 | 1 | 154 |
+| Sabrina | 41 (35-46) | 43 | 1 | 0 |
+| Blaine | 44 (38-48) | 47 | 1 | 115 |
+| Giovanni | 47 (41-51) | 50 | 1 | 683 |
+| League gate (Champion ace) | 52 (48-57) | 63 | 1 | 319 |
+
+| Hoenn gym | Level | Ace | Attempts | Grind |
+| --- | --- | --- | --- | --- |
+| Roxanne | 12 (11-13) | 15 | 3 | 537 |
+| Brawly | 17 (17-17) | 19 | 2 | 0 |
+| Wattson | 21 (17-23) | 24 | 1 | 199 |
+| Flannery | 27 (23-29) | 29 | 1 | 0 |
+| Norman | 28 (25-30) | 31 | 3 | 3,000 |
+| Winona | 35 (32-37) | 33 | 1 | 0 |
+| Tate and Liza | 41 (38-44) | 42 | 2 | 43 |
+| Juan | 46 (43-49) | 46 | 2 | 0 |
+| League gate (Champion ace) | 51 (49-54) | 58 | 1 | 0 |
+
+The bot only attacks, switches on immunity and drinks Potions, so a person will do better. Treat
+the numbers as an upper bound.
+
+### Game bug found
+
+A text printer still linked when the heap reset hung the return to the field at `src/malloc.c:97`.
+The fix is in `src/load_save.c`; `text_printer_heap.lua` scores 4/5 without it and 5/5 with it.
+
 ## Bugs found and fixed
 
 Each one was found in play, confirmed against the source, fixed, and re-played.

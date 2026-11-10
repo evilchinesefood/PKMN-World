@@ -73,7 +73,7 @@ echo "---"
 PW_TIMEOUT="${PW_TIMEOUT:-300}"
 set +e
 perl -e 'alarm shift; exec @ARGV' "$PW_TIMEOUT" \
-  "$MGBA" -l 0 --rtc "$RTC" --script "$REPO/test/overworld/lua/mgba_shim.lua" "$WORK/Verify1.gba"
+  "$MGBA" -l "${PW_MGBA_LOG:-0}" --rtc "$RTC" --script "$REPO/test/overworld/lua/mgba_shim.lua" "$WORK/Verify1.gba"
 rc=$?
 set -e
 

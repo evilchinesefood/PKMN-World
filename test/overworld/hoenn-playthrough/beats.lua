@@ -1013,7 +1013,8 @@ return function(F, N, C, log)
   -- corridor to the (9,14) ladder, so the walk there runs his battle.
   beat('victory_road', function()
     segDMoves()
-    if not FL('FLAG_DEFEATED_WALLY_VICTORY_ROAD') then
+    -- Starting from 1F even with Wally beaten: a whiteout resets every boulder and rock on the way.
+    if at('VictoryRoad_1F') then
       assert(N.takeWarp(9, 14), '1F -> B1F (8,3)')
       assert(FL('FLAG_DEFEATED_WALLY_VICTORY_ROAD'), 'Wally on the way')
       assert(N.go(5, 7)); shove(3, '(4,7) west')
@@ -1024,7 +1025,10 @@ return function(F, N, C, log)
       assert(N.go(19, 25)); smash(4)
       assert(N.go(20, 25)); shove(1, '(20,26) south')
       smash(4)
+      -- The way out is a one-tile corridor that wild Pokemon wander into; walk through them.
+      N.passWild = true
       assert(N.takeWarp(20, 21), 'B1F -> 1F (21,32)')
+      N.passWild = false
     end
     assert(N.travel('EverGrandeCity_PokemonLeague_1F'))
   end, function() return FL('FLAG_DEFEATED_WALLY_VICTORY_ROAD') and at('EverGrandeCity_PokemonLeague_1F') end)

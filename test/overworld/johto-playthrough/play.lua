@@ -34,12 +34,22 @@ end
 
 -- Heal between beats when the lead is worn down (a documented concession, see README).
 local function topUp()
+  if N.natural then return end
   local m = N.partyMon(0)
   if m.maxHP > 0 and m.hp * 2 < m.maxHP then L('  topUp: lead at ' .. m.hp .. '/' .. m.maxHP); N.debugHeal() end
 end
 
+-- PW_NATURAL=1: natural-difficulty play, see README.md. Installed before the beats load, so a
+-- campaign can tell.
+local Nat
+if os.getenv('PW_NATURAL') then
+  Nat = require('natural')(F, N, S, here)
+  Nat.install()
+end
+
 -- Straight from the campaign's directory: require would fall back to Johto's beats on a typo.
 local BEATS = assert(loadfile(here .. '../' .. CAMPAIGN .. '-playthrough/beats.lua'))()(F, N, C, log)
+if Nat then BEATS = Nat.patchBeats(BEATS) end
 
 -- PW_LOSE=beat[:kind],... loses the first matching battle of each named beat on purpose, checks
 -- what the game did about it, and plays the beat again. kind is trainer (default), wild, any, or a
@@ -83,6 +93,7 @@ local function walkBack(map, x, y)
   if not (walked and N.mapName() == map) then
     local m, digit = require('pwmaps')[map], function(n, place) return (n // place) % 10 end
     L('  planner could not get there; debug warp to ' .. map)
+    if Nat then Nat.stats.warps = Nat.stats.warps + 1 end
     if not F.warpTo(digit(m.g, 100), digit(m.g, 10), digit(m.g, 1), digit(m.m, 100), digit(m.m, 10), digit(m.m, 1), 0, 0, 0, m.g, m.m, 'replay') then
       return false
     end
@@ -95,6 +106,51 @@ local function walkBack(map, x, y)
   local px, py = F.pos()
   if px ~= x or py ~= y then L(string.format('  replaying from (%d,%d), the beat began at (%d,%d)', px, py, x, y)) end
   return N.mapName() == map
+end
+
+-- Play a beat again after a loss, from wherever the loss left us.
+local function replayAfterLoss(b, index, startMap, startX, startY)
+  if b.loss and b.loss.replay then
+    L('  playing the rest of ' .. b.name .. ' after the loss')
+    return pcall(b.loss.replay)
+  end
+  local from = b.loss and b.loss.replayFrom
+  if from then
+    local first
+    for i = 1, index - 1 do if BEATS[i].name == from then first = i end end
+    assert(first, 'no such replayFrom beat: ' .. from)
+    for i = first, index - 1 do
+      L('  replaying ' .. BEATS[i].name .. ' after the loss')
+      local good, why = pcall(BEATS[i].run)
+      if not good then return false, why end
+      if BEATS[i].done and not BEATS[i].done() then return false, BEATS[i].name .. ' did not finish on replay' end
+    end
+  elseif N.mapName() ~= startMap and not walkBack(startMap, startX, startY) then
+    return false, 'could not get back to ' .. startMap
+  end
+  L('  playing ' .. b.name .. ' again after the loss')
+  return pcall(b.run)
+end
+
+-- Natural play: a whiteout is a real loss. Grind and go again, up to a limit, from the beat's start.
+local function playNaturalBeat(b, index)
+  local startMap, startX, startY = N.mapName(), F.pos()
+  local preOk, preErr = pcall(Nat.beforeBeat, b)
+  if not preOk and preErr ~= N.WHITEOUT then return false, preErr end
+  -- A beat assumes it starts where the last one ended; a Center trip must not change that.
+  if N.mapName() ~= startMap and not walkBack(startMap, startX, startY) then return false, 'could not get back to ' .. startMap end
+  local ok, err = pcall(b.run)
+  local attempts = 0
+  while not ok and err == N.WHITEOUT do
+    attempts = attempts + 1
+    L(string.format('NAT whiteout %d in %s (%s)', attempts, b.name, tostring(N.mapName())))
+    if attempts > (tonumber(os.getenv('PW_NATURAL_ATTEMPTS')) or 6) then return false, 'gave up after ' .. attempts .. ' whiteouts' end
+    local lossOk, lossErr = pcall(Nat.afterLoss, b, attempts)
+    if not lossOk and lossErr ~= N.WHITEOUT then return false, lossErr end
+    ok, err = replayAfterLoss(b, index, startMap, startX, startY)
+  end
+  Nat.afterBeat(b, ok and (not b.done or b.done()))
+  return ok, err
 end
 
 local function playThrownBeat(b, index)
@@ -118,26 +174,7 @@ local function playThrownBeat(b, index)
   if b.done and b.done() then return true end
   -- A loss sends the player away. Rooms that reset on a loss restart from loss.replayFrom; anything
   -- else walks back to where the beat began.
-  if b.loss and b.loss.replay then
-    L('  playing the rest of ' .. b.name .. ' after the loss')
-    return pcall(b.loss.replay)
-  end
-  local from = b.loss and b.loss.replayFrom
-  if from then
-    local first
-    for i = 1, index - 1 do if BEATS[i].name == from then first = i end end
-    assert(first, 'no such replayFrom beat: ' .. from)
-    for i = first, index - 1 do
-      L('  replaying ' .. BEATS[i].name .. ' after the loss')
-      local good, why = pcall(BEATS[i].run)
-      if not good then return false, why end
-      if BEATS[i].done and not BEATS[i].done() then return false, BEATS[i].name .. ' did not finish on replay' end
-    end
-  elseif N.mapName() ~= startMap and not walkBack(startMap, startX, startY) then
-    return false, 'could not get back to ' .. startMap
-  end
-  L('  playing ' .. b.name .. ' again after the loss')
-  return pcall(b.run)
+  return replayAfterLoss(b, index, startMap, startX, startY)
 end
 
 F.run(function()
@@ -157,10 +194,15 @@ F.run(function()
     F.check('fresh save has empty party', N.partyCount() == 0)
   end
   local retries = {}
+  if Nat then
+    Nat.setup()
+    if FROM then Nat.loadCheckpoint(FROM); N.run = true end
+  end
   for i = start, #BEATS do
     local b = BEATS[i]
     L(string.format('BEAT %d/%d %s', i, #BEATS, b.name))
-    local ok, err = playThrownBeat(b, i)
+    local ok, err
+    if Nat then ok, err = playNaturalBeat(b, i) else ok, err = playThrownBeat(b, i) end
     if not ok then L('  beat error: ' .. tostring(err)) end
     local done = ok and (not b.done or b.done())
     -- One retry from the previous beat's checkpoint: that reloads the exact game state, so it
@@ -172,7 +214,8 @@ F.run(function()
       F.shot(b.name .. '_before_retry')
       if N.restore(prev) then
         F.idle(30); N.debugHeal()
-        ok, err = pcall(b.run)
+        if Nat then Nat.loadCheckpoint(prev) end
+        if Nat then ok, err = playNaturalBeat(b, i) else ok, err = pcall(b.run) end
         if not ok then L('  beat error (retry): ' .. tostring(err)) end
         done = ok and (not b.done or b.done())
       end
@@ -184,8 +227,10 @@ F.run(function()
     end
     topUp()
     N.checkpoint(b.name)
+    if Nat then Nat.saveCheckpoint(b.name) end
     if TO and b.name == TO then break end
   end
+  if Nat then Nat.report() end
   L(string.format('TOTAL steps=%d trainer battles=%d wild=%d heals=%d retries=%d %s', N.steps, N.battles.trainer,
     N.battles.wild, N.heals or 0, #retries, table.concat(retries, ',')))
   F.finish()

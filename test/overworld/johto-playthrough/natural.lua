@@ -182,6 +182,7 @@ return function(F, N, S, here)
   end
 
   local pendingForget, forgetDone
+  local bagFrames = 0
   local function activeAny(name)
     for _, a in ipairs(P._all[name] or { P[name] }) do
       local t = N.activeTask(a)
@@ -206,7 +207,13 @@ return function(F, N, S, here)
   end
   -- After a battle (evolution scene, summary screen). True when it pressed something.
   function Nat.menu()
-    if F.cb2() == (P.CB2_BagMenuRun & ~1) then press('B'); idle(20); return true end
+    if F.cb2() == (P.CB2_BagMenuRun & ~1) then
+      -- A thrown ball needs the bag a moment longer; only back out of one that has clearly stalled.
+      bagFrames = bagFrames + 1
+      if bagFrames > 40 then press('B'); idle(20) else idle(4) end
+      return true
+    end
+    bagFrames = 0
     local t = activeAny('Task_HandleReplaceMoveInput')
     if t then
       if not forgetDone then

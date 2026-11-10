@@ -72,9 +72,8 @@ return function(F, N, C, log, B, ctx)
   end
 
   -- Lead with met level above the badge limit, fight one wild battle on the live map's grass.
-  local function wildBattle(map, tag)
-    N.setMetLevel(0, 70)
-    warpMap(map)
+  local function wildBattle(map, tag, skipSetup)
+    if not skipSetup then N.setMetLevel(0, 70); warpMap(map) end
     local grid, tx, ty, best = N.liveGrid(), nil, nil, 1e9
     for k, d in pairs(N.floodLive()) do
       local x, y = k:match('(-?%d+),(-?%d+)')
@@ -637,6 +636,10 @@ return function(F, N, C, log, B, ctx)
     L('  respawn group ' .. respawnGroup())
     ctx.enter('kanto')
     local kanto = wildBattle('Route1_Frlg', 'kanto obedience')
+    for _ = 1, 8 do                   -- an obeying first move ends the battle, so keep fighting
+      if kanto > 0 then break end
+      kanto = kanto + wildBattle('Route1_Frlg', 'kanto obedience', true)
+    end
     F.check('obedience follows Kanto (no badges): the Lv100 lead disobeyed', kanto > 0, kanto .. ' lines')
     N.setMetLevel(0, 5)
     warpMap('VermilionCity_PortInside')

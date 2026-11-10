@@ -560,6 +560,7 @@ return function(F, N, S, here)
   function Nat.maybeHeal() if needCenter(false) then Nat.heal(false, 'low hp') end end
 
   ---------------------------------------------------------------- Poke Marts
+  local POTION_PRICE, SUPER_PRICE, HYPER_PRICE = 200, 700, 1500
   local function martMap()
     local lo, hi = N.region.lo, N.region.hi
     local start = F.grp() * 256 + F.mapn()
@@ -588,7 +589,7 @@ return function(F, N, S, here)
     end
     return activeAny(name) ~= nil
   end
-  -- Back to the field through the shop's own exits. N.settle would mash A and buy the first item.
+  -- Back to the field with B alone: an A on the shop menu's first frame opens Buy and buys the first item.
   -- The field is briefly "free" while the shop menu fades back in, so insist it stays free.
   local function leaveShop()
     local quiet = 0
@@ -598,10 +599,11 @@ return function(F, N, S, here)
         quiet = quiet + 1
         if quiet >= 3 then return end
         idle(30)
-      else press('A'); idle(25); quiet = 0 end
+      else press('B'); idle(25); quiet = 0 end
     end
   end
-  local function buy(itemId, count)
+  -- wanted is a list of { id, count }, best first; buys the first one this Mart stocks.
+  local function buy(wanted)
     local info = N.header(F.grp(), F.mapn())
     local clerk
     for _, o in ipairs(info.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK or o.gfx == C.OBJ_EVENT_GFX_MART_EMPLOYEE then clerk = o end end
@@ -627,10 +629,12 @@ return function(F, N, S, here)
     if not waitTask('Task_BuyMenu', 600) then L('NAT shop: no buy menu'); N.settle(); return 0 end
     idle(30)
     local list, cnt = r32(P.sMartInfo + 8), r16(P.sMartInfo + 12)
-    local row
-    for i = 0, cnt - 1 do if r16(list + i * 2) == itemId then row = i end end
+    local row, count
+    for _, w in ipairs(wanted) do
+      for i = 0, cnt - 1 do if not row and w[2] > 0 and r16(list + i * 2) == w[1] then row, count = i, w[2] end end
+    end
     if not row then
-      L('NAT shop: item ' .. itemId .. ' not in this mart')
+      L('NAT shop: nothing wanted is in this mart')
       leaveShop()
       return 0
     end
@@ -672,10 +676,9 @@ return function(F, N, S, here)
       if not ok then if res == N.WHITEOUT then error(res, 0) end; L('NAT shop: ' .. tostring(res)); return end
       if not res or N.mapName() ~= map then L('NAT shop: could not reach ' .. map); return end
     end
-    local afford = math.min(10, (money - 400) // 300)
-    local before = money
-    local n = buy(C.ITEM_SUPER_POTION, math.min(8, afford))
-    if n == 0 then n = buy(C.ITEM_POTION, afford) end
+    local before, spare = money, money - 400
+    local n = buy({ { C.ITEM_SUPER_POTION, math.min(8, spare // SUPER_PRICE) }, { C.ITEM_POTION, math.min(10, spare // POTION_PRICE) },
+      { C.ITEM_HYPER_POTION, math.min(8, spare // HYPER_PRICE) } })
     stats.bought = (stats.bought or 0) + n
     L(string.format('NAT shop: bought %d at %s, money %d -> %d, carrying %d', n, map, before, N.money(), potionsCarried()))
   end

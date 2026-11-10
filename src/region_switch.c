@@ -3,6 +3,7 @@
 #include "event_data.h"
 #include "script.h"
 #include "constants/regions.h"
+#include "constants/region_map_sections.h"
 #include "constants/vars.h"
 #include "constants/difficulty.h"
 #include "pokemon.h"
@@ -263,6 +264,21 @@ static void SetRegionArrivalRespawn(enum Region region)
         break;
     }
     SetLastHealLocationWarp(healLocationId);
+}
+
+// Fly is a cross-region entry too. The Battle Frontier and the event islands sit on Hoenn's region
+// map, so a player who reached them from Kanto or Johto (the Hub gate, the Olivine board) can Fly
+// to a mainland Hoenn city without passing either kind of crossing above. Like the Frontier dock
+// ferry it keeps the party, but it must not keep the previous region's difficulty, obedience badges
+// or whiteout respawn. Flying to the Frontier claims nothing: it is region-agnostic.
+void RegionHub_ClaimRegionForFlyDestination(u32 mapSec)
+{
+    enum Region region = GetRegionForSectionId(mapSec);
+
+    if (mapSec == MAPSEC_BATTLE_FRONTIER || region == gCurrentRegion)
+        return;
+    SetCurrentRegion(region);
+    SetRegionArrivalRespawn(region);
 }
 
 // Hub spatial-gate entry (D2): box the carried party only when crossing into a DIFFERENT region

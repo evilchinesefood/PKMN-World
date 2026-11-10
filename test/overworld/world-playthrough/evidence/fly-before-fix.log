@@ -1,0 +1,11 @@
+Unfixed ROM 1BED184D6746E83D014827079D80A2D3, Kanto champion, Frontier Fly to Mauville:
+  flew to MauvilleCity
+  [PASS] frontier fly: landed in Hoenn -- MauvilleCity
+  [FAIL] frontier fly: active region is hoenn -- currentRegion=1
+  [FAIL] frontier fly: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 1 champions=1
+Unfixed ROM, Johto champion with Kanto:
+  flew to MauvilleCity
+  [PASS] frontier fly: landed in Hoenn -- MauvilleCity
+  [FAIL] frontier fly: active region is hoenn -- currentRegion=2
+  [FAIL] frontier fly: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 1 champions=2
+  [FAIL] frontier fly: whiteout respawn is in Hoenn -- respawn group 75

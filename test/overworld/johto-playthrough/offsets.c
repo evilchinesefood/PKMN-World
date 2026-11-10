@@ -4,6 +4,7 @@
 #include "battle.h"
 #include "battle_setup.h"
 #include "pokemon.h"
+#include "pokemon_storage_system.h"
 #include "event_object_movement.h"
 #include "global.fieldmap.h"
 #define P(name, expr) char p_##name[(expr) + 1];
@@ -13,6 +14,8 @@ P(sb1_money, offsetof(struct SaveBlock1, money))
 P(sb2_encryptionKey, offsetof(struct SaveBlock2, encryptionKey))
 P(tbp_opponentA, offsetof(TrainerBattleParameter, params.opponentA))
 P(tbp_opponentB, offsetof(TrainerBattleParameter, params.opponentB))
+P(ps_boxes, offsetof(struct PokemonStorage, boxes))
+P(box_size, sizeof(struct BoxPokemon))
 P(bs_prevSelectedPartySlot, offsetof(struct BattleStruct, prevSelectedPartySlot))
 P(bm_size, sizeof(struct BattlePokemon))
 P(bm_species, offsetof(struct BattlePokemon, species))

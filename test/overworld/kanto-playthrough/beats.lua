@@ -219,6 +219,22 @@ return function(F, N, C, log)
     end, function() return F.ow() and N.free() and at('Route1_Frlg') and N.partyCount() == 0 and touched end)
   end
 
+  -- PW_DETOUR=trainer: bank the party by crossing, then walk up to a trainer and talk to him with
+  -- nobody to send out. Stop this one with --to detour_trainer.
+  if DETOUR == 'trainer' then
+    beat('detour_trainer', function()
+      moves()
+      N.useHubPass(); N.crossGate(16)
+      N.useHubPass(); N.crossGate(11)
+      L('  home at ' .. N.mapName() .. ' party=' .. N.partyCount())
+      assert(N.partyCount() == 0, 'the party should still be boxed')
+      assert(N.travel('ViridianForest_Frlg'))
+      assert(N.talk(3), 'Bug Catcher Rick')
+      N.settle()
+      L('  after talking to him: ' .. N.mapName() .. ' party=' .. N.partyCount() .. ' free=' .. tostring(N.free()))
+    end, function() return F.ow() and N.free() and at('ViridianForest_Frlg') and N.partyCount() == 0 end)
+  end
+
   -- Squirtle can't learn Cut, and neither can Mewtwo or Rayquaza: catch a Rattata in Route 1's
   -- grass with Oak's Poke Balls. Bulbasaur and Charmander carry it themselves.
   if STARTER == 1 then

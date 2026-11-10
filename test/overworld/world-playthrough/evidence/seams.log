@@ -1,0 +1,22 @@
+Losses right after a gate and Hub Pass in each opening, ROM 9F0CA532CAD975CBDE18440CB80BA42F.
+
+== k-gate
+LOSS at Route6_Frlg, control back at PalletTown_PlayersHouse_1F_Frlg (8,5) party 354/354 19/19 352/352 money 21240 -> 20440 done=false
+VERDICT WorldPlay_from_cross4_to_kanto: 6/6 PASS
+
+== j-gate
+LOSS at Route35, control back at NewBarkTown_PlayersHouse_1F (8,4) party 354/354 352/352 19/19 11/11 money 100670 -> 97070 done=false
+VERDICT WorldPlay_from_cross9_to_johto: 6/6 PASS
+
+== h-gate
+LOSS at Route110, control back at LittlerootTown_BrendansHouse_1F (2,7) party 354/354 40/40 352/352 money 152322 -> 148722 done=false
+VERDICT WorldPlay_from_cross11_to_hoenn: 6/6 PASS
+
+== j-open
+gate landed at NewBarkTown_PlayersHouse_2F lab=1
+tried Route 29: reached=false at NewBarkTown chosen=false
+VERDICT JohtoPlay: 11/11 PASS
+
+== h-open
+gate landed at LittlerootTown_BrendansHouse_2F party=0 rival=3
+VERDICT HoennPlay: 9/9 PASS

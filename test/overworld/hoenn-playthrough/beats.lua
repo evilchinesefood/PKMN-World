@@ -83,6 +83,16 @@ return function(F, N, C, log)
     N.settle()
   end, function() return V('VAR_LITTLEROOT_RIVAL_STATE') >= 3 end)
 
+  -- PW_DETOUR=opening: leave by Hub Pass before Birch's rescue has happened, then carry on.
+  if os.getenv('PW_DETOUR') == 'opening' then
+    beat('detour_opening', function()
+      N.useHubPass()
+      N.crossGate(21)
+      L('  gate landed at ' .. N.mapName() .. ' party=' .. N.partyCount() .. ' rival=' .. V('VAR_LITTLEROOT_RIVAL_STATE'))
+      N.settle()
+    end, function() return F.ow() and N.free() and not FL('FLAG_RESCUED_BIRCH') end)
+  end
+
   beat('rescue_birch', function()
     assert(N.travel('Route101'))
     N.settle()

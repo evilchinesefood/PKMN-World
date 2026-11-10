@@ -754,6 +754,7 @@ return function(F, S)
     N.pickerTries = 0   -- its A and Start alternate, so a second picker has to start the cycle afresh
     if N.natural then N.natural.battleStart() end
     while frames < 60 * 60 * 12 do
+      if N.natural then N.natural.trace() end
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.
         -- The menu shows the party in battle order (UpdatePartyToBattleOrder), and
@@ -988,6 +989,36 @@ return function(F, S)
       if F.r8(t + 4) ~= 0 then tasks[#tasks + 1] = name(F.r32(t)) end
     end
     L('  callbacks: cb1=' .. name(F.r32(P.gMain)) .. ' cb2=' .. name(F.r32(P.gMain + 4)) .. ' tasks=' .. table.concat(tasks, ','))
+    if N.natural and client.readRegister then
+      -- Name where the CPU is, sampled over frames: a hang inside one callback shows up as one place.
+      local list = {}
+      for k, v in pairs(P) do if type(v) == 'number' then list[#list + 1] = { v & ~1, k } end end
+      table.sort(list, function(a, b) return a[1] < b[1] end)
+      local function nearest(pc)
+        local lo, hi = 1, #list
+        while lo < hi do
+          local mid = (lo + hi + 1) // 2
+          if list[mid][1] <= pc then lo = mid else hi = mid - 1 end
+        end
+        return string.format('%s+0x%x', list[lo][2], pc - list[lo][1])
+      end
+      local seen = {}
+      for _ = 1, 24 do
+        idle(7)
+        local at = nearest(client.readRegister('pc') & ~1)
+        seen[at] = (seen[at] or 0) + 1
+      end
+      for at, n in pairs(seen) do L('  cpu at ' .. at .. ' x' .. n) end
+      L('  lr: ' .. nearest(client.readRegister('lr') & ~1))
+      -- The assert trapped through an SWI, so sp is the BIOS stack; the user stack is still in IWRAM.
+      for a = 0x03007600, 0x03007FFC, 4 do
+        local w = F.r32(a)
+        if w >= 0x08000000 and w < 0x0a000000 and w % 2 == 1 then L(string.format('  stack %08x: %s', a, nearest(w & ~1))) end
+      end
+    end
+    if N.natural then
+      L(string.format('  field callbacks: gFieldCallback=%s gFieldCallback2=%s state=%d', name(F.r32(P.gFieldCallback)), name(F.r32(P.gFieldCallback2)), F.r8(P.gMain + 0x439)))
+    end
   end
 
   ---------------------------------------------------------------- walking

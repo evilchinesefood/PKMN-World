@@ -337,6 +337,19 @@ return function(F, N, S, here)
   end
 
   local battleMap
+  -- Tracks the text-printer list across a battle (PW_NATURAL_TRACE): the list is heap-allocated and
+  -- CB2_InitBattle resets the heap, so a printer alive at that moment dangles.
+  local lastCb, lastPrinter
+  function Nat.trace()
+    if not os.getenv('PW_NATURAL_TRACE') then return end
+    local cb, pr = F.cb2(), r32(P.sFirstTextPrinter)
+    if cb ~= lastCb or pr ~= lastPrinter then
+      local magic = (pr >= 0x02000000 and pr < 0x02040000) and r16(pr - 16 + 2) or -1
+      L(string.format('NAT trace: cb2 %08x printer %08x magic %04x inUse %s', cb, pr, magic & 0xFFFF, (pr ~= 0) and tostring(r8(pr + 0x1c)) or '-'))
+      lastCb, lastPrinter = cb, pr
+    end
+  end
+
   function Nat.battleStart() switches = 0; potionsOff = false; battleMap = N.mapName() end
   function Nat.turn(trainer)
     local b = bmon(N.activeBattler)

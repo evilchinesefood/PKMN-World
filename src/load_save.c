@@ -6,6 +6,7 @@
 #include "heal_location.h"
 #include "item.h"
 #include "load_save.h"
+#include "text.h"
 #include "main.h"
 #include "overworld.h"
 #include "pokemon.h"
@@ -636,6 +637,7 @@ void MoveSaveBlocks_ResetHeap(void)
 
     // heap was destroyed in the copying process, so reset it
     InitHeap(gHeap, HEAP_SIZE);
+    ForgetAllTextPrinters();
 
     // restore interrupt functions
     gMain.hblankCallback = hblankCB;

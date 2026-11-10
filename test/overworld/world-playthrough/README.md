@@ -78,6 +78,15 @@ Debug setup, used only where it doesn't bypass what is under test: warps to gyms
 set to 6 aboard (the cabin story is Johto's), the Fly map opened from the debug menu, filled bags and
 boxes written to memory, Frontier parties and BP.
 
+Fresh saves on ROM `DC5AD7D7655C46010B72F45E6F071345`: order A 405/405, order J 169/169. Order B was
+played fresh to the Hoenn Hall on this ROM, then resumed from `h_home` once the harness fix below was
+in, and that resume is 137/137. `evidence/postgame-order-*.log` hold the checks.
+
+One game bug came out of it. Flying from the Battle Frontier to a Hoenn city kept the previous
+region active, so difficulty, obedience badges and the whiteout respawn stayed with that region.
+`SetFlyDestination` now claims the destination's region, as the Frontier ferry does.
+`evidence/fly-before-fix.log` has the failing lines from the ROM without the fix.
+
 ## Not covered
 
 `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`

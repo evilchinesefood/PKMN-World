@@ -1,0 +1,265 @@
+  [PASS] fresh save has empty party
+BEAT 1/92 j_to_johto
+  [PASS] beat j_to_johto
+BEAT 2/92 j_party
+  [PASS] beat j_party
+BEAT 3/92 j_leave_home
+  [PASS] beat j_leave_home
+BEAT 4/92 j_elm_intro
+  [PASS] beat j_elm_intro
+BEAT 5/92 j_starter
+  [PASS] beat j_starter
+BEAT 6/92 j_elm_errand
+  [PASS] beat j_elm_errand
+BEAT 7/92 j_mr_pokemon
+  [PASS] beat j_mr_pokemon
+BEAT 8/92 j_rival_and_police
+  [PASS] beat j_rival_and_police
+BEAT 9/92 j_first_balls
+  [PASS] beat j_first_balls
+BEAT 10/92 j_mom_farewell
+  [PASS] beat j_mom_farewell
+BEAT 11/92 j_to_violet
+  [PASS] beat j_to_violet
+BEAT 12/92 j_sprout_tower
+  [PASS] beat j_sprout_tower
+BEAT 13/92 j_falkner
+  [PASS] beat j_falkner
+BEAT 14/92 j_togepi_egg
+  [PASS] beat j_togepi_egg
+BEAT 15/92 j_route32_gate
+  [PASS] beat j_route32_gate
+BEAT 16/92 j_azalea_arrive
+  [PASS] beat j_azalea_arrive
+BEAT 17/92 j_kurt
+  [PASS] beat j_kurt
+BEAT 18/92 j_slowpoke_well
+  [PASS] beat j_slowpoke_well
+BEAT 19/92 j_bugsy
+  [PASS] beat j_bugsy
+BEAT 20/92 j_azalea_rival
+  [PASS] beat j_azalea_rival
+BEAT 21/92 j_ilex_chase
+  [PASS] beat j_ilex_chase
+BEAT 22/92 j_ilex_cut
+  [PASS] beat j_ilex_cut
+BEAT 23/92 j_goldenrod_arrive
+  [PASS] beat j_goldenrod_arrive
+BEAT 24/92 j_radio_quiz
+  [PASS] beat j_radio_quiz
+BEAT 25/92 j_whitney
+  [PASS] beat j_whitney
+BEAT 26/92 j_squirtbottle
+  [PASS] beat j_squirtbottle
+BEAT 27/92 j_route35_cut
+  [PASS] beat j_route35_cut
+BEAT 28/92 j_sudowoodo
+  [PASS] beat j_sudowoodo
+BEAT 29/92 j_ecruteak_arrive
+  [PASS] beat j_ecruteak_arrive
+BEAT 30/92 j_burned_tower
+  [PASS] beat j_burned_tower
+BEAT 31/92 j_morty
+  [PASS] beat j_morty
+BEAT 32/92 j_theater_surf
+  [PASS] beat j_theater_surf
+BEAT 33/92 j_olivine_arrive
+  [PASS] beat j_olivine_arrive
+BEAT 34/92 j_lighthouse_jasmine
+  [PASS] beat j_lighthouse_jasmine
+BEAT 35/92 j_cianwood_potion
+  [PASS] beat j_cianwood_potion
+BEAT 36/92 j_chuck
+  [PASS] beat j_chuck
+BEAT 37/92 j_fly_gift
+  [PASS] beat j_fly_gift
+BEAT 38/92 j_cianwood_to_olivine
+  [PASS] beat j_cianwood_to_olivine
+BEAT 39/92 j_deliver_medicine
+  [PASS] beat j_deliver_medicine
+BEAT 40/92 j_jasmine
+  [PASS] beat j_jasmine
+BEAT 41/92 j_mahogany_arrive
+  [PASS] beat j_mahogany_arrive
+BEAT 42/92 j_red_gyarados
+  [PASS] beat j_red_gyarados
+BEAT 43/92 j_lance_lake
+  [PASS] beat j_lance_lake
+BEAT 44/92 j_shop_raid
+  [PASS] beat j_shop_raid
+BEAT 45/92 j_hideout_b1f
+  [PASS] beat j_hideout_b1f
+BEAT 46/92 j_hideout_lance_heal
+  [PASS] beat j_hideout_lance_heal
+BEAT 47/92 j_hideout_passwords
+  [PASS] beat j_hideout_passwords
+BEAT 48/92 j_hideout_door
+  [PASS] beat j_hideout_door
+BEAT 49/92 j_hideout_petrel
+  [PASS] beat j_hideout_petrel
+BEAT 50/92 j_hideout_murkrow
+  [PASS] beat j_hideout_murkrow
+BEAT 51/92 j_hideout_ariana
+  [PASS] beat j_hideout_ariana
+BEAT 52/92 j_hideout_electrodes
+  [PASS] beat j_hideout_electrodes
+BEAT 53/92 j_pryce
+  [PASS] beat j_pryce
+BEAT 54/92 j_elm_radio_call
+  [PASS] beat j_elm_radio_call
+BEAT 55/92 j_radio_petrel
+  [PASS] beat j_radio_petrel
+BEAT 56/92 j_underground_door
+  [PASS] beat j_underground_door
+BEAT 57/92 j_underground_switches
+  [PASS] beat j_underground_switches
+BEAT 58/92 j_card_key
+  [PASS] beat j_card_key
+BEAT 59/92 j_radio_shutter
+  [PASS] beat j_radio_shutter
+BEAT 60/92 j_archer
+  [PASS] beat j_archer
+BEAT 61/92 j_radio_freed
+  [PASS] beat j_radio_freed
+BEAT 62/92 j_ice_path_enter
+  [PASS] beat j_ice_path_enter
+BEAT 63/92 j_ice_path_b1f
+  [PASS] beat j_ice_path_b1f
+BEAT 64/92 j_ice_path_lower
+  [PASS] beat j_ice_path_lower
+BEAT 65/92 j_ice_path_kimono
+  [PASS] beat j_ice_path_kimono
+BEAT 66/92 j_blackthorn_arrive
+  [PASS] beat j_blackthorn_arrive
+BEAT 67/92 j_clair
+  [PASS] beat j_clair
+BEAT 68/92 j_dragons_den
+  [PASS] beat j_dragons_den
+BEAT 69/92 j_den_exit
+  [PASS] beat j_den_exit
+BEAT 70/92 j_elm_master_ball
+  [PASS] beat j_elm_master_ball
+BEAT 71/92 j_kimono_dances
+  [PASS] beat j_kimono_dances
+BEAT 72/92 j_tin_tower_guard
+  [PASS] beat j_tin_tower_guard
+BEAT 73/92 j_ho_oh
+  [PASS] beat j_ho_oh
+BEAT 74/92 j_route27
+  [PASS] beat j_route27
+BEAT 75/92 j_reception_gate
+  [PASS] beat j_reception_gate
+BEAT 76/92 j_victory_road
+  [PASS] beat j_victory_road
+BEAT 77/92 j_league_entry
+  [PASS] beat j_league_entry
+BEAT 78/92 j_e4_WillsRoom
+  [PASS] beat j_e4_WillsRoom
+BEAT 79/92 j_e4_KogasRoom
+  [PASS] beat j_e4_KogasRoom
+BEAT 80/92 j_e4_BrunosRoom
+  [PASS] beat j_e4_BrunosRoom
+BEAT 81/92 j_e4_KarensRoom
+  [PASS] beat j_e4_KarensRoom
+BEAT 82/92 j_lance_and_hall_of_fame
+  [PASS] beat j_lance_and_hall_of_fame
+BEAT 83/92 pg_johto_hall_tier
+  [PASS] johto hall: champion flag set
+  [PASS] johto hall: active region is johto -- currentRegion=2
+  [PASS] johto hall: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=1
+  [PASS] beat pg_johto_hall_tier
+BEAT 84/92 pg_johto_hub_tickets
+  [PASS] johto hub: active region is johto -- currentRegion=2
+  [PASS] johto hub: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=1
+  [PASS] harbor: Eon Ticket at 1 champion(s)
+  [PASS] harbor: Old Sea Map refused at one champion -- RegionHub: That EON TICKET suits you! I do hold another pass, but it’s reserved for champions of TWO regions. Keep your world tour going!
+  [PASS] frontier gate: open at 1 champion(s) -- BattleFrontier_ReceptionGate
+  [PASS] world championship: locked at 1 champion(s) -- BattleFrontier_BattleDomeLobby: The WORLD CHAMPIONSHIP is open only to those who’ve become CHAMPION of all three regions. Clear KANTO, JOHTO, and HOENN, then retu
+  [PASS] world championship: mode left clear -- 0
+  [PASS] beat pg_johto_hub_tickets
+BEAT 85/92 pg_johto_gates
+  [PASS] gate to kanto: active region is kanto -- currentRegion=1
+  [PASS] gate to kanto: tier follows the kanto champion flag -- VAR_DIFFICULTY=1 want 1 champions=1
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=1
+  [PASS] gate to hoenn: active region is hoenn -- currentRegion=3
+  [PASS] gate to hoenn: tier follows the hoenn champion flag -- VAR_DIFFICULTY=1 want 1 champions=1
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=1
+  [PASS] gates: first crossing boxed the party -- 4 -> 0
+  [PASS] beat pg_johto_gates
+BEAT 86/92 pg_johto_frontier_fly
+  [PASS] beat pg_johto_frontier_fly
+BEAT 87/92 pg_johto_ferry
+  [PASS] elm gives the S.S. Ticket -- NewBarkTown_Lab: ELM: TOSH! There you are! I called because I have something for you. See? It’s an S.S.TICKET. Now you can catch POKéMON in KANTO. | NewBarkTown_Lab: Obtained the 
+  [PASS] maiden voyage boards -- SSAqua_1F
+  [PASS] maiden voyage lands in Vermilion -- VermilionCity_PortInside
+  [PASS] maiden voyage: party not boxed -- 4
+  [PASS] maiden voyage: no Kanto badges to obey
+  [PASS] maiden voyage: active region is kanto -- currentRegion=1
+  [PASS] maiden voyage: tier follows the kanto champion flag -- VAR_DIFFICULTY=1 want 1 champions=1
+  [PASS] maiden voyage: arrival scene advanced the ferry -- 7
+  [PASS] kanto obedience: a wild battle played -- 1
+  [PASS] kanto obedience: a wild battle played -- 1
+    disobedient: Mewtwo began to nap!
+    disobedient: Mewtwo ignored orders!
+  [PASS] kanto obedience: a wild battle played -- 1
+  [PASS] obedience follows Kanto (no badges): the Lv100 lead disobeyed -- 2 lines
+  [PASS] return ferry lands in Olivine -- OlivineCity_PortInside
+  [PASS] return ferry: party not boxed -- 4
+  [PASS] return ferry: active region is johto -- currentRegion=2
+  [PASS] return ferry: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=1
+  [PASS] johto obedience: a wild battle played -- 1
+  [PASS] obedience follows Johto (8 badges): the Lv100 lead obeyed -- 0 lines
+  [PASS] repeat crossing lands in Vermilion -- VermilionCity_PortInside
+  [PASS] repeat crossing: active region is kanto -- currentRegion=1
+  [PASS] repeat crossing: tier follows the kanto champion flag -- VAR_DIFFICULTY=1 want 1 champions=1
+  [PASS] repeat crossing: party not boxed -- 4
+  [PASS] beat pg_johto_ferry
+BEAT 88/92 pg_bnet_falkner
+  [PASS] falkner: stone not owned before
+  [PASS] falkner: rematch battle played -- 1
+  [PASS] falkner: HARD team -- lead Lv58
+  [PASS] falkner: shards paid -- 1 from 0
+  [PASS] falkner: stone given -- 1
+  [PASS] falkner: beaten marker
+  [PASS] falkner: rematch battle played -- 1
+  [PASS] falkner: HARD team -- lead Lv58
+  [PASS] falkner: shards repeat -- 2 from 0
+  [PASS] falkner: stone once only -- 1
+  [PASS] beat pg_bnet_falkner
+BEAT 89/92 pg_bank_refused
+  [PASS] full PC: gate refuses a cross -- RegionHub
+  [PASS] full PC: says why -- RegionHub: This gate is bound for KANTO. Your current team will be sent to the PC BOXES when you switch regions, and any MAIL they hold moves to your PC mailbox. POKéMON you withdraw here o
+  [PASS] full PC: same-region gate still works -- GoldenrodCity_TrainStation
+  [PASS] full PC: same-region cross keeps the party -- 4
+  [PASS] beat pg_bank_refused
+BEAT 90/92 pg_bank_exact_fit
+  [PASS] exact fit: gate allows the cross -- PalletTown_PlayersHouse_2F_Frlg
+  [PASS] exact fit: whole party boxed -- 0
+  [PASS] beat pg_bank_exact_fit
+BEAT 91/92 pg_frontier
+  [PASS] tower singles: refused with no eligible team -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the SINGLE BATTLE ROOMS. | Batt
+  [PASS] tower singles: refusal returns control -- BattleFrontier_BattleTowerLobby
+  [PASS] tower singles: refused with two eligible -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the SINGLE BATTLE ROOMS. | BattleFr
+  [PASS] tower doubles: refused with three eligible -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the DOUBLE BATTLE ROOMS. | Battle
+  [PASS] tower multis: refused with one eligible -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the MULTI BATTLE ROOMS. | BattleFron
+  [PASS] tower: a battle was fought -- 1
+  [PASS] tower: back in the lobby under control -- BattleFrontier_BattleTowerLobby
+  [PASS] tower: party back to full -- 6
+  [PASS] tower: no crash
+  [PASS] exchange: full bag refused -- BattleFrontier_ExchangeServiceCorner: Hello, this is the EXCHANGE SERVICE CORNER. We exchange the Battle Points you have collected for lovely prizes. Please choose a prize from this
+  [PASS] exchange: full bag took no BP -- 100
+  [PASS] exchange: full bag gave nothing
+  [PASS] exchange: bought with room -- 1
+  [PASS] exchange: BP charged -- 99
+  [PASS] exchange: back in control -- BattleFrontier_ExchangeServiceCorner
+  [PASS] beat pg_frontier
+BEAT 92/92 pg_tower_rest_resume
+  [PASS] tower: a battle was fought -- 1
+  [PASS] tower: back in the lobby under control -- BattleFrontier_BattleTowerLobby
+  [PASS] tower: party back to full -- 6
+  [PASS] tower: no crash
+  [PASS] beat pg_tower_rest_resume
+TOTAL steps=10261 trainer battles=143 wild=122 heals=147 retries=0 
+VERDICT WorldPlay: 169/169 PASS

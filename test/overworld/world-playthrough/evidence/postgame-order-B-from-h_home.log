@@ -1,0 +1,170 @@
+BEAT 223/253 pg_hoenn_hall_tier
+  [PASS] hoenn hall: champion flag set
+  [PASS] hoenn hall: active region is hoenn -- currentRegion=3
+  [PASS] hoenn hall: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] beat pg_hoenn_hall_tier
+BEAT 224/253 pg_hoenn_hub_tickets
+  [PASS] hoenn hub: active region is hoenn -- currentRegion=3
+  [PASS] hoenn hub: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] harbor: Eon Ticket at 2 champion(s)
+  [PASS] harbor: Old Sea Map at two champions
+  [PASS] harbor: Mystic Ticket refused at two champions -- RegionHub: The last pass I keep is for the true master of the world tour - the champion of KANTO, JOHTO, and HOENN alike.
+  [PASS] frontier gate: open at 2 champion(s) -- BattleFrontier_ReceptionGate
+  [PASS] world championship: locked at 2 champion(s) -- BattleFrontier_BattleDomeLobby: The WORLD CHAMPIONSHIP is open only to those who’ve become CHAMPION of all three regions. Clear KANTO, JOHTO, and HOENN, then retu
+  [PASS] world championship: mode left clear -- 0
+  [PASS] beat pg_hoenn_hub_tickets
+BEAT 225/253 pg_hoenn_gates
+  [PASS] gate to kanto: active region is kanto -- currentRegion=1
+  [PASS] gate to kanto: tier follows the kanto champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=1 want 1 champions=2
+  [PASS] gate to hoenn: active region is hoenn -- currentRegion=3
+  [PASS] gate to hoenn: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] gate to hoenn: active region is hoenn -- currentRegion=3
+  [PASS] gate to hoenn: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] gates: first crossing boxed the party -- 4 -> 0
+  [PASS] beat pg_hoenn_gates
+BEAT 226/253 pg_ferry_slateport_from_johto_party
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=1 want 1 champions=2
+  [PASS] frontier ferry: sailed to SlateportCity_Harbor -- SlateportCity_Harbor | BattleFrontier_OutsideWest: Hello, are you here for the ferry? May I see your TICKET? | BattleFrontier_OutsideWest: TOSH flashed the TICKE
+  [PASS] frontier ferry: party not boxed -- 4
+  [PASS] frontier ferry to SlateportCity_Harbor: active region is hoenn -- currentRegion=3
+  [PASS] frontier ferry to SlateportCity_Harbor: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] beat pg_ferry_slateport_from_johto_party
+BEAT 227/253 pg_ferry_lilycove_from_johto_party
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=1 want 1 champions=2
+  [PASS] frontier ferry: sailed to LilycoveCity_Harbor -- LilycoveCity_Harbor | BattleFrontier_OutsideWest: Hello, are you here for the ferry? May I see your TICKET? | BattleFrontier_OutsideWest: TOSH flashed the TICKET.
+  [PASS] frontier ferry: party not boxed -- 4
+  [PASS] frontier ferry to LilycoveCity_Harbor: active region is hoenn -- currentRegion=3
+  [PASS] frontier ferry to LilycoveCity_Harbor: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] beat pg_ferry_lilycove_from_johto_party
+BEAT 228/253 pg_bnet_roxanne
+  [PASS] roxanne: stone not owned before
+  [PASS] roxanne: rematch battle played -- 1
+  [PASS] roxanne: HARD team -- lead Lv59
+  [PASS] roxanne: shards paid -- 1 from 0
+  [PASS] roxanne: stone given -- 1
+  [PASS] roxanne: beaten marker
+  [PASS] roxanne: rematch battle played -- 1
+  [PASS] roxanne: HARD team -- lead Lv59
+  [PASS] roxanne: shards repeat -- 2 from 0
+  [PASS] roxanne: stone once only -- 1
+  [PASS] beat pg_bnet_roxanne
+BEAT 229/253 pg_bnet_brock_full_bag
+  [PASS] rematch in kanto: active region is kanto -- currentRegion=1
+  [PASS] rematch in kanto: tier follows the kanto champion flag -- VAR_DIFFICULTY=2 want 2 champions=2
+  [PASS] brock full bag: no shard stack to add to
+  [PASS] brock: rematch battle played -- 1
+  [PASS] brock: HARD team -- lead Lv58
+  [PASS] brock full bag: shards forfeited with a message -- PewterCity_Gym_Frlg: So, you’ve returned, CHAMPION. Shall we test your will again? | PewterCity_Gym_Frlg: Rock hard as ever! You still have cracks. | PewterCi
+  [PASS] brock full bag: stone pending with a message -- PewterCity_Gym_Frlg: So, you’ve returned, CHAMPION. Shall we test your will again? | PewterCity_Gym_Frlg: Rock hard as ever! You still have cracks. | PewterCity_
+  [PASS] brock full bag: stone flag left clear
+  [PASS] brock full bag: the win still counts
+  [PASS] brock full bag: back in control -- PewterCity_Gym_Frlg
+  [PASS] brock: rematch battle played -- 1
+  [PASS] brock: HARD team -- lead Lv58
+  [PASS] brock after room: shards paid -- 1
+  [PASS] brock after room: stone claimed -- PewterCity_Gym_Frlg: So, you’ve returned, CHAMPION. Shall we test your will again? | PewterCity_Gym_Frlg: Rock hard as ever! You still have cracks. | PewterCity_Gym_Frlg: Obt
+  [PASS] beat pg_bnet_brock_full_bag
+BEAT 230/253 pg_bnet_falkner
+  [PASS] beat pg_bnet_falkner
+BEAT 231/253 pg_bank_refused
+  [PASS] full PC: gate refuses a cross -- RegionHub
+  [PASS] full PC: says why -- RegionHub: This gate is bound for KANTO. Your current team will be sent to the PC BOXES when you switch regions, and any MAIL they hold moves to your PC mailbox. POKéMON you withdraw here o
+  [PASS] full PC: same-region gate still works -- SlateportCity_Harbor
+  [PASS] full PC: same-region cross keeps the party -- 4
+  [PASS] beat pg_bank_refused
+BEAT 232/253 pg_bank_exact_fit
+  [PASS] exact fit: gate allows the cross -- VermilionCity_Frlg
+  [PASS] exact fit: whole party boxed -- 0
+  [PASS] beat pg_bank_exact_fit
+BEAT 233/253 pg_frontier
+  [PASS] tower singles: refused with no eligible team -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the SINGLE BATTLE ROOMS. | Batt
+  [PASS] tower singles: refusal returns control -- BattleFrontier_BattleTowerLobby
+  [PASS] tower singles: refused with two eligible -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the SINGLE BATTLE ROOMS. | BattleFr
+  [PASS] tower doubles: refused with three eligible -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the DOUBLE BATTLE ROOMS. | Battle
+  [PASS] tower multis: refused with one eligible -- BattleFrontier_BattleTowerLobby: Where the talents of TRAINERS are put to the test! Welcome to the BATTLE TOWER! I am your guide to the MULTI BATTLE ROOMS. | BattleFron
+  [PASS] tower: a battle was fought -- 1
+  [PASS] tower: back in the lobby under control -- BattleFrontier_BattleTowerLobby
+  [PASS] tower: party back to full -- 6
+  [PASS] tower: no crash
+  [PASS] exchange: full bag refused -- BattleFrontier_ExchangeServiceCorner: Hello, this is the EXCHANGE SERVICE CORNER. We exchange the Battle Points you have collected for lovely prizes. Please choose a prize from this
+  [PASS] exchange: full bag took no BP -- 100
+  [PASS] exchange: full bag gave nothing
+  [PASS] exchange: bought with room -- 1
+  [PASS] exchange: BP charged -- 99
+  [PASS] exchange: back in control -- BattleFrontier_ExchangeServiceCorner
+  [PASS] beat pg_frontier
+BEAT 234/253 pg_tower_rest_resume
+  [PASS] tower: a battle was fought -- 1
+  [PASS] tower: back in the lobby under control -- BattleFrontier_BattleTowerLobby
+  [PASS] tower: party back to full -- 6
+  [PASS] tower: no crash
+  [PASS] beat pg_tower_rest_resume
+BEAT 235/253 cross10_to_johto
+  [PASS] beat cross10_to_johto
+BEAT 236/253 j_elm_master_ball
+  [PASS] beat j_elm_master_ball
+BEAT 237/253 j_kimono_dances
+  [PASS] beat j_kimono_dances
+BEAT 238/253 j_tin_tower_guard
+  [PASS] beat j_tin_tower_guard
+BEAT 239/253 j_ho_oh
+  [PASS] beat j_ho_oh
+BEAT 240/253 j_route27
+  [PASS] beat j_route27
+BEAT 241/253 j_reception_gate
+  [PASS] beat j_reception_gate
+BEAT 242/253 j_victory_road
+  [PASS] beat j_victory_road
+BEAT 243/253 j_league_entry
+  [PASS] beat j_league_entry
+BEAT 244/253 j_e4_WillsRoom
+  [PASS] beat j_e4_WillsRoom
+BEAT 245/253 j_e4_KogasRoom
+  [PASS] beat j_e4_KogasRoom
+BEAT 246/253 j_e4_BrunosRoom
+  [PASS] beat j_e4_BrunosRoom
+BEAT 247/253 j_e4_KarensRoom
+  [PASS] beat j_e4_KarensRoom
+BEAT 248/253 j_lance_and_hall_of_fame
+  [PASS] beat j_lance_and_hall_of_fame
+BEAT 249/253 pg_johto_hall_tier
+  [PASS] johto hall: champion flag set
+  [PASS] johto hall: active region is johto -- currentRegion=2
+  [PASS] johto hall: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] beat pg_johto_hall_tier
+BEAT 250/253 pg_johto_hub_tickets
+  [PASS] johto hub: active region is johto -- currentRegion=2
+  [PASS] johto hub: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] harbor: Eon Ticket at 3 champion(s)
+  [PASS] harbor: Old Sea Map at two champions
+  [PASS] harbor: Mystic Ticket at three champions
+  [PASS] harbor: nothing left to give -- RegionHub: Every special pass I had is in your hands. Fair winds, champion!
+  [PASS] frontier gate: open at 3 champion(s) -- BattleFrontier_ReceptionGate
+  [PASS] world championship: offered at three champions -- BattleFrontier_BattleDomeLobby: So you’ve conquered KANTO, JOHTO, and HOENN alike… Then you’ve earned a shot at the WORLD CHAMPIONSHIP--a gauntlet against 
+  [PASS] world championship: mode left clear -- 0
+  [PASS] beat pg_johto_hub_tickets
+BEAT 251/253 pg_johto_gates
+  [PASS] gate to kanto: active region is kanto -- currentRegion=1
+  [PASS] gate to kanto: tier follows the kanto champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] gate to hoenn: active region is hoenn -- currentRegion=3
+  [PASS] gate to hoenn: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] gate to johto: active region is johto -- currentRegion=2
+  [PASS] gate to johto: tier follows the johto champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] gates: first crossing boxed the party -- 4 -> 0
+  [PASS] beat pg_johto_gates
+BEAT 252/253 pg_johto_frontier_fly
+  [PASS] frontier fly: landed in Hoenn -- MauvilleCity
+  [PASS] frontier fly: active region is hoenn -- currentRegion=3
+  [PASS] frontier fly: tier follows the hoenn champion flag -- VAR_DIFFICULTY=2 want 2 champions=3
+  [PASS] frontier fly: whiteout respawn is in Hoenn -- respawn group 0
+  [PASS] beat pg_johto_frontier_fly
+BEAT 253/253 pg_johto_ferry
+  [PASS] beat pg_johto_ferry
+TOTAL steps=3260 trainer battles=25 wild=50 heals=39 retries=0 
+VERDICT WorldPlay_from_h_home: 137/137 PASS

@@ -426,6 +426,7 @@ return function(F, N, S, here)
     return total
   end
   local function needCenter(force)
+    if N.partyCount() == 0 then return false end
     local fainted, frac = teamCondition()
     if force then return fainted > 0 or frac < 0.999 end
     return fainted > 0 or frac < 0.5 or teamPP() < 8

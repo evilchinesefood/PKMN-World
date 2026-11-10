@@ -83,6 +83,58 @@ Fixed by reading, not played: the Johto PokeGear set `FLAG_REGISTER_RIVAL_POKENA
 Route 104 reads, so a Johto-first player skipped the Hoenn rival's Match Call registration. Saves
 that already received the PokeGear keep the old behaviour.
 
+## Post-game
+
+`PW_POSTGAME=1` appends beats after `home` from `postgame.lua`; without it the campaign is unchanged.
+
+```sh
+PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn
+PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn --from pg_winona
+```
+
+Played, in order: the state `SetGameClearFlags` leaves; all eight gym rematches at the Hard tier
+(including the New Mauville quest that brings Wattson back); the Hub Eon Ticket; the S.S. Tidal from
+Slateport to Lilycove; Southern Island and its Lati; the Safari Zone expansion and early exit; the
+Weather Institute and Terra Cave (Groudon); the roaming Lati; the Mach Bike; Trainer Hill's first two
+floors and its prize-full branch; Beldum; Rayquaza; Wally at the Victory Road exit; the Elite Four and
+Wallace again; and a second Hall of Fame.
+
+Concessions on top of the campaign's own:
+
+- Terra Cave's location is pinned to Route 118 East; the institute's roll is random and this run's
+  roll was a Marine Cave location.
+- The roamer is pinned to Route 118 before stepping in grass, because its location is random.
+- Tate and Liza's Hard double puts both Lv100s up front and bans Earthquake (it missed their all-Levitate
+  team and hit the partner), with up to five attempts if the team still loses.
+- Trainer Hill floors 3 and 4 are arrow-tile slides the planner can't walk, so it warps to the roof.
+  Every other Hill step is played, including the owner holding the prize until the bag has room. The
+  bag is filled by writing free slots directly.
+- Sky Pillar is walked to 1F, then warped to the top: the cracked floors need the Mach Bike at speed,
+  and the harness has no bike driver. Rayquaza is fought for real.
+
+Not played: Marine Cave (the planner found no water route to the Route 125 pool), Faraway Island
+(its Old Sea Map needs two regions' championships, and Mew's hide-and-seek has no driver), and the
+Mach Bike ride up Sky Pillar.
+
+Resuming with `--from` starts with an empty map memory, so a resume can report "no route" where a
+fresh run does not. Resume from a checkpoint earlier on the same stretch, or play from the start.
+
+The gym leaders' random rematch path is dead code here: each leader's script offers a rematch to any
+Hoenn champion before it reaches `ShouldTryRematchBattle`, so `UpdateGymLeaderRematch` has no visible
+effect on them (read, not played).
+
+One uninterrupted run from a fresh save through every beat above, on ROM
+`36FFF414D347081E9E4DFFD91359E8BA`: 196/196 checks, no retries, 17,113 steps, 184 trainer battles and
+223 wild encounters. `evidence/postgame-final-run.log` holds its beats and checks.
+
+### Bug found and fixed
+
+Wattson could never be rematched. He leaves the Gym after Norman and returns only once New Mauville
+is finished, and his script tested that finished state before the champion rematch offer, so a
+champion always got the post-quest line instead. `data/maps/MauvilleCity_Gym/scripts.inc` now checks
+the champion flag first. `evidence/postgame-wattson-before.log` shows the unfixed ROM with no battle;
+`evidence/postgame-wattson-after.log` shows the rematch fought at level 59 and its Battle Net reward.
+
 ## Not bugs, recorded so nobody chases them again
 
 - Losing the Space Center double battle with Steven has no `waitstate` after

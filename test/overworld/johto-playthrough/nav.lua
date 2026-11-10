@@ -790,6 +790,7 @@ return function(F, S)
         frames = frames + 12
       elseif isCtl('HandleInputChooseAction') then
         turns = turns + 1
+        if turns == 1 then N.firstFoeLevel = r8(bmon(1) + O.bm_level) end
         if turns > 200 then error('battle runaway: ' .. tag) end
         if N.battleDebug then
           local me, f1, f3 = bmon(N.activeBattler), bmon(1), bmon(3)
@@ -1794,6 +1795,29 @@ return function(F, S)
     N.settle({ quiet = 30 })
     L(string.format('  giveMon species=%d -> party %d -> %d', spec.species, before, N.partyCount()))
     return N.partyCount() == before + 1
+  end
+
+  -- Give an item through Debug > Give X > Give item XYZ.
+  function N.debugGiveItem(item, qty)
+    dbg(); idle(30)
+    downs(3); press('A', 3); idle(50)
+    press('A', 3); idle(60)
+    for _ = 1, 40 do
+      local found
+      for j = 0, 15 do
+        local t = S.gTasks + j * 40
+        if r8(t + 4) ~= 0 then
+          local fn = r32(t) & ~1
+          if fn == (P.DebugAction_Give_Item_SelectId & ~1) then found = true; w16(t + 8 + 6, item)
+          elseif fn == (P.DebugAction_Give_Item_SelectQuantity & ~1) then found = true; w16(t + 8 + 6, qty) end
+        end
+      end
+      if not found then break end
+      idle(4); press('A', 3); idle(30)
+    end
+    for _ = 1, 6 do press('B', 2); idle(20) end
+    N.settle({ quiet = 30 })
+    return N.itemCount(item) > 0
   end
 
   -- Lower a party member's met level (substruct 3, encrypted, checksummed). The game recalculates

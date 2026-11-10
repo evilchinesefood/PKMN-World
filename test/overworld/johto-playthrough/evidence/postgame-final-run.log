@@ -1,0 +1,415 @@
+  [PASS] fresh save has empty party
+BEAT 1/124 to_johto
+== to_johto: NewBarkTown_PlayersHouse_2F (1,6) party=0 lead=L0 0/0 steps=1 battles=0/0
+  [PASS] beat to_johto
+BEAT 2/124 party
+== party: NewBarkTown_PlayersHouse_2F (1,6) party=2 lead=L100 354/354 steps=1 battles=0/0
+  [PASS] beat party
+BEAT 3/124 leave_home
+== leave_home: NewBarkTown (20,12) party=2 lead=L100 354/354 steps=20 battles=0/0
+  [PASS] beat leave_home
+BEAT 4/124 elm_intro
+== elm_intro: NewBarkTown_Lab (6,4) party=2 lead=L100 354/354 steps=38 battles=0/0
+  [PASS] beat elm_intro
+BEAT 5/124 starter
+== starter: NewBarkTown_Lab (8,5) party=3 lead=L100 354/354 steps=41 battles=0/0
+  [PASS] beat starter
+BEAT 6/124 elm_errand
+== elm_errand: NewBarkTown (10,10) party=3 lead=L100 354/354 steps=52 battles=0/0
+  [PASS] beat elm_errand
+BEAT 7/124 mr_pokemon
+== mr_pokemon: Route30_MrPokemonsHouse (7,6) party=3 lead=L100 354/354 steps=259 battles=0/5
+  [PASS] beat mr_pokemon
+BEAT 8/124 rival_and_police
+== rival_and_police: NewBarkTown_Lab (6,4) party=3 lead=L100 354/354 steps=459 battles=1/9
+  [PASS] beat rival_and_police
+BEAT 9/124 first_balls
+== first_balls: NewBarkTown (10,10) party=3 lead=L100 354/354 steps=467 battles=1/9
+  [PASS] beat first_balls
+BEAT 10/124 mom_farewell
+== mom_farewell: NewBarkTown_PlayersHouse_1F (3,2) party=3 lead=L100 354/354 steps=492 battles=1/9
+  [PASS] beat mom_farewell
+BEAT 11/124 to_violet
+== to_violet: VioletCity (49,46) party=3 lead=L100 354/354 steps=820 battles=5/13
+  [PASS] beat to_violet
+BEAT 12/124 sprout_tower
+== sprout_tower: SproutTower_3F (13,7) party=3 lead=L100 354/354 steps=958 battles=10/17
+  [PASS] beat sprout_tower
+BEAT 13/124 falkner
+== falkner: VioletCity_Gym (9,5) party=3 lead=L100 354/354 steps=1097 battles=13/18
+  [PASS] beat falkner
+BEAT 14/124 togepi_egg
+== togepi_egg: VioletCity_PokemonCenter (9,5) party=4 lead=L100 354/354 steps=1150 battles=13/18
+  [PASS] beat togepi_egg
+BEAT 15/124 route32_gate
+== route32_gate: Route32 (27,12) party=4 lead=L100 354/354 steps=1223 battles=13/18
+  [PASS] beat route32_gate
+BEAT 16/124 azalea_arrive
+== azalea_arrive: AzaleaTown (59,23) party=4 lead=L100 354/354 steps=1479 battles=22/22
+  [PASS] beat azalea_arrive
+BEAT 17/124 kurt
+== kurt: AzaleaTown_KurtsHouse (5,3) party=4 lead=L100 354/354 steps=1537 battles=22/22
+  [PASS] beat kurt
+BEAT 18/124 slowpoke_well
+== slowpoke_well: AzaleaTown_KurtsHouse (15,4) party=4 lead=L100 354/354 steps=1642 battles=27/24
+  [PASS] beat slowpoke_well
+BEAT 19/124 bugsy
+== bugsy: AzaleaTown_Gym (11,7) party=4 lead=L100 354/354 steps=1698 battles=28/24
+  [PASS] beat bugsy
+BEAT 20/124 azalea_rival
+== azalea_rival: IlexForest (22,63) party=4 lead=L100 354/354 steps=1756 battles=29/24
+  [PASS] beat azalea_rival
+BEAT 21/124 ilex_chase
+== ilex_chase: IlexForest (26,43) party=4 lead=L100 354/354 steps=1906 battles=29/29
+  [PASS] beat ilex_chase
+BEAT 22/124 ilex_cut
+== ilex_cut: Route34 (31,67) party=4 lead=L100 354/354 steps=2052 battles=29/35
+  [PASS] beat ilex_cut
+BEAT 23/124 goldenrod_arrive
+== goldenrod_arrive: GoldenrodCity (32,43) party=4 lead=L100 354/354 steps=2125 battles=31/37
+  [PASS] beat goldenrod_arrive
+BEAT 24/124 radio_quiz
+== radio_quiz: GoldenrodCity_RadioTower_1F (14,8) party=4 lead=L100 354/354 steps=2171 battles=31/37
+  [PASS] beat radio_quiz
+BEAT 25/124 whitney
+== whitney: GoldenrodCity_Gym (15,9) party=4 lead=L100 354/354 steps=2289 battles=36/37
+  [PASS] beat whitney
+BEAT 26/124 squirtbottle
+== squirtbottle: GoldenrodCity_FlowerShop (2,5) party=4 lead=L100 354/354 steps=2366 battles=36/37
+  [PASS] beat squirtbottle
+BEAT 27/124 route35_cut
+== route35_cut: Route36 (15,27) party=4 lead=L100 354/354 steps=2481 battles=42/38
+  [PASS] beat route35_cut
+BEAT 28/124 sudowoodo
+== sudowoodo: Route36 (39,20) party=4 lead=L100 354/354 steps=2512 battles=44/39
+  [PASS] beat sudowoodo
+BEAT 29/124 ecruteak_arrive
+== ecruteak_arrive: EcruteakCity (33,55) party=4 lead=L100 354/354 steps=2564 battles=44/39
+  [PASS] beat ecruteak_arrive
+BEAT 30/124 burned_tower
+== burned_tower: EcruteakCity (22,15) party=4 lead=L100 352/354 steps=2708 battles=46/41
+  [PASS] beat burned_tower
+BEAT 31/124 morty
+== morty: EcruteakCity_Gym (4,5) party=4 lead=L100 354/354 steps=2822 battles=51/41
+  [PASS] beat morty
+BEAT 32/124 theater_surf
+== theater_surf: EcruteakCity_Theater (10,17) party=4 lead=L100 354/354 steps=2890 battles=52/41
+  [PASS] beat theater_surf
+BEAT 33/124 olivine_arrive
+== olivine_arrive: OlivineCity (21,2) party=4 lead=L100 354/354 steps=3039 battles=56/41
+  [PASS] beat olivine_arrive
+BEAT 34/124 lighthouse_jasmine
+== lighthouse_jasmine: OlivineCity_Lighthouse (156,10) party=4 lead=L100 354/354 steps=3281 battles=62/41
+  [PASS] beat lighthouse_jasmine
+BEAT 35/124 cianwood_potion
+== cianwood_potion: CianwoodShop (8,9) party=4 lead=L100 354/354 steps=3519 battles=63/48
+  [PASS] beat cianwood_potion
+BEAT 36/124 chuck
+== chuck: CianwoodGym (10,3) party=4 lead=L100 354/354 steps=3568 battles=66/48
+  [PASS] beat chuck
+BEAT 37/124 fly_gift
+== fly_gift: CianwoodCity (15,45) party=4 lead=L100 354/354 steps=3590 battles=66/48
+  [PASS] beat fly_gift
+BEAT 38/124 cianwood_to_olivine
+== cianwood_to_olivine: OlivineCity (4,71) party=4 lead=L100 354/354 steps=3752 battles=68/53
+  [PASS] beat cianwood_to_olivine
+BEAT 39/124 deliver_medicine
+== deliver_medicine: OlivineCity_Lighthouse (156,10) party=4 lead=L100 354/354 steps=4046 battles=68/58
+  [PASS] beat deliver_medicine
+BEAT 40/124 jasmine
+== jasmine: OlivineCity_Gym (8,5) party=4 lead=L100 354/354 steps=4155 battles=69/58
+  [PASS] beat jasmine
+BEAT 41/124 mahogany_arrive
+== mahogany_arrive: Mahoganytown (2,10) party=4 lead=L100 354/354 steps=4459 battles=72/59
+  [PASS] beat mahogany_arrive
+BEAT 42/124 red_gyarados
+== red_gyarados: LakeOfRage (35,28) party=4 lead=L100 354/354 steps=4620 battles=74/66
+  [PASS] beat red_gyarados
+BEAT 43/124 lance_lake
+== lance_lake: LakeOfRage (30,38) party=4 lead=L100 354/354 steps=4635 battles=74/66
+  [PASS] beat lance_lake
+BEAT 44/124 shop_raid
+== shop_raid: MahoganyTown_Shop (5,5) party=4 lead=L100 354/354 steps=4718 battles=74/66
+  [PASS] beat shop_raid
+BEAT 45/124 hideout_b1f
+== hideout_b1f: MahoganyHideout_B1F (31,12) party=4 lead=L100 354/354 steps=4767 battles=76/66
+  [PASS] beat hideout_b1f
+BEAT 46/124 hideout_lance_heal
+== hideout_lance_heal: MahoganyHideout_B2F (9,23) party=4 lead=L100 354/354 steps=4826 battles=77/66
+  [PASS] beat hideout_lance_heal
+BEAT 47/124 hideout_passwords
+== hideout_passwords: MahoganyHideout_B3F (5,16) party=4 lead=L100 354/354 steps=4914 battles=81/66
+  [PASS] beat hideout_passwords
+BEAT 48/124 hideout_door
+== hideout_door: MahoganyHideout_B3F (12,13) party=4 lead=L100 354/354 steps=5006 battles=82/66
+  [PASS] beat hideout_door
+BEAT 49/124 hideout_petrel
+== hideout_petrel: MahoganyHideout_B3F (10,4) party=4 lead=L100 354/354 steps=5017 battles=83/66
+  [PASS] beat hideout_petrel
+BEAT 50/124 hideout_murkrow
+== hideout_murkrow: MahoganyHideout_B2F (16,24) party=4 lead=L100 354/354 steps=5138 battles=83/66
+  [PASS] beat hideout_murkrow
+BEAT 51/124 hideout_ariana
+== hideout_ariana: MahoganyHideout_B2F (12,17) party=4 lead=L100 354/354 steps=5145 battles=84/66
+  [PASS] beat hideout_ariana
+BEAT 52/124 hideout_electrodes
+== hideout_electrodes: MahoganyHideout_B2F (14,17) party=4 lead=L100 354/354 steps=5163 battles=84/69
+  [PASS] beat hideout_electrodes
+BEAT 53/124 pryce
+== pryce: MahoganyTown_Gym (11,4) party=4 lead=L100 354/354 steps=5230 battles=87/69
+  [PASS] beat pryce
+BEAT 54/124 elm_radio_call
+== elm_radio_call: Mahoganytown (10,20) party=4 lead=L100 354/354 steps=5247 battles=87/69
+  [PASS] beat elm_radio_call
+BEAT 55/124 radio_petrel
+== radio_petrel: GoldenrodCity_RadioTower_5F (11,10) party=4 lead=L100 354/354 steps=5665 battles=94/71
+  [PASS] beat radio_petrel
+BEAT 56/124 underground_door
+== underground_door: GoldenrodCity_UndergroundTunnel (12,11) party=4 lead=L100 354/354 steps=5801 battles=94/71
+  [PASS] beat underground_door
+BEAT 57/124 underground_switches
+== underground_switches: GoldenrodCity_UndergroundSwitches (22,2) party=4 lead=L100 354/354 steps=5867 battles=98/71
+  [PASS] beat underground_switches
+BEAT 58/124 card_key
+== card_key: GoldenrodCity_UndergroundStorage (14,8) party=4 lead=L100 354/354 steps=5962 battles=101/71
+  [PASS] beat card_key
+BEAT 59/124 radio_shutter
+== radio_shutter: GoldenrodCity_RadioTower_3F (25,10) party=4 lead=L100 354/354 steps=6195 battles=103/71
+  [PASS] beat radio_shutter
+BEAT 60/124 archer
+== archer: GoldenrodCity_RadioTower_5F (25,11) party=4 lead=L100 354/354 steps=6221 battles=107/71
+  [PASS] beat archer
+BEAT 61/124 radio_freed
+== radio_freed: GoldenrodCity_RadioTower_4F (29,6) party=4 lead=L100 354/354 steps=6235 battles=107/71
+  [PASS] beat radio_freed
+BEAT 62/124 ice_path_enter
+== ice_path_enter: IcePath_1F (14,24) party=4 lead=L100 354/354 steps=6766 battles=110/77
+  [PASS] beat ice_path_enter
+BEAT 63/124 ice_path_b1f
+== ice_path_b1f: IcePath_B2F (16,16) party=4 lead=L100 354/354 steps=6866 battles=110/77
+  [PASS] beat ice_path_b1f
+BEAT 64/124 ice_path_lower
+== ice_path_lower: IcePath_1F (50,18) party=4 lead=L100 354/354 steps=6936 battles=110/77
+  [PASS] beat ice_path_lower
+BEAT 65/124 ice_path_kimono
+== ice_path_kimono: IcePath_1F (49,28) party=4 lead=L100 354/354 steps=6945 battles=110/77
+  [PASS] beat ice_path_kimono
+BEAT 66/124 blackthorn_arrive
+== blackthorn_arrive: BlackthornCity (42,23) party=4 lead=L100 354/354 steps=6949 battles=110/77
+  [PASS] beat blackthorn_arrive
+BEAT 67/124 clair
+== clair: BlackthornCity_Gym (20,6) party=4 lead=L100 354/354 steps=7098 battles=114/77
+  [PASS] beat clair
+BEAT 68/124 dragons_den
+== dragons_den: DragonsDen_Shrine (6,10) party=4 lead=L100 354/354 steps=7286 battles=115/80
+  [PASS] beat dragons_den
+BEAT 69/124 den_exit
+== den_exit: BlackthornCity (26,13) party=4 lead=L100 354/354 steps=7372 battles=115/82
+  [PASS] beat den_exit
+BEAT 70/124 elm_master_ball
+== elm_master_ball: NewBarkTown_Lab (6,4) party=4 lead=L100 354/354 steps=7649 battles=119/86
+  [PASS] beat elm_master_ball
+BEAT 71/124 kimono_dances
+== kimono_dances: EcruteakCity_Theater (10,4) party=4 lead=L100 354/354 steps=8102 battles=124/88
+  [PASS] beat kimono_dances
+BEAT 72/124 tin_tower_guard
+== tin_tower_guard: EcruteakCity_SageOffice1 (16,3) party=4 lead=L100 354/354 steps=8152 battles=124/88
+  [PASS] beat tin_tower_guard
+BEAT 73/124 ho_oh
+== ho_oh: TinTower_RoofDay (10,7) party=4 lead=L100 354/354 steps=8280 battles=124/92
+  [PASS] beat ho_oh
+BEAT 74/124 route27
+== route27: Route27 (25,24) party=4 lead=L100 354/354 steps=8997 battles=124/100
+  [PASS] beat route27
+BEAT 75/124 reception_gate
+== reception_gate: ReceptionGate (11,13) party=4 lead=L100 354/354 steps=9343 battles=127/106
+  [PASS] beat reception_gate
+BEAT 76/124 victory_road
+== victory_road: JohtoIndigoPlateau (11,18) party=4 lead=L100 354/354 steps=9635 battles=134/118
+  [PASS] beat victory_road
+BEAT 77/124 league_entry
+== league_entry: JohtoPokemonLeague_WillsRoom (6,12) party=4 lead=L100 354/354 steps=9674 battles=134/118
+  [PASS] beat league_entry
+BEAT 78/124 e4_WillsRoom
+== e4_WillsRoom: JohtoPokemonLeague_KogasRoom (6,12) party=4 lead=L100 354/354 steps=9684 battles=135/118
+  [PASS] beat e4_WillsRoom
+BEAT 79/124 e4_KogasRoom
+== e4_KogasRoom: JohtoPokemonLeague_BrunosRoom (6,12) party=4 lead=L100 354/354 steps=9694 battles=136/118
+  [PASS] beat e4_KogasRoom
+BEAT 80/124 e4_BrunosRoom
+== e4_BrunosRoom: JohtoPokemonLeague_KarensRoom (6,12) party=4 lead=L100 354/354 steps=9704 battles=137/118
+  [PASS] beat e4_BrunosRoom
+BEAT 81/124 e4_KarensRoom
+== e4_KarensRoom: JohtoPokemonLeague_ChampionsRoom (6,19) party=4 lead=L100 354/354 steps=9714 battles=138/118
+  [PASS] beat e4_KarensRoom
+BEAT 82/124 lance_and_hall_of_fame
+== lance_and_hall_of_fame: NewBarkTown (20,12) party=4 lead=L100 354/354 steps=9718 battles=139/118
+  [PASS] beat lance_and_hall_of_fame
+BEAT 83/124 pg_first_clear
+  state[after first HoF] VAR_COMPLETED_LUGIA=4 HIDE_LUGIA=false CAUGHT_LUGIA=false VAR_COMPLETED_HO_OH=4 HIDE_HO_OH=false CAUGHT_HO_OH=false HIDE_MOLTRES=false FOUGHT_MOLTRES=false VAR_SUICUNE_ENCOUNTERS=1 FOUGHT_SUICUNE=false HIDE_ROUTE25_SUICUNE=false VAR_AZ
+== pg_first_clear: NewBarkTown (20,12) party=4 lead=L100 354/354 steps=9718 battles=139/118
+  [PASS] beat pg_first_clear
+BEAT 84/124 pg_rematch_falkner
+  falkner: foes 142:L60 164:L58 18:L65 198:L62 227:L58; ITEM_BLUE_SHARD 0 -> 1; ITEM_PIDGEOTITE 0 -> 1
+== pg_rematch_falkner: VioletCity_Gym (9,5) party=4 lead=L100 354/354 steps=10053 battles=140/125
+  [PASS] beat pg_rematch_falkner
+BEAT 85/124 pg_rematch_falkner_again
+  second rematch: shards 1 -> 2, stones 1 -> 1
+== pg_rematch_falkner_again: VioletCity_Gym (9,5) party=4 lead=L100 354/354 steps=10053 battles=141/125
+  [PASS] beat pg_rematch_falkner_again
+BEAT 86/124 pg_rematch_bugsy
+  bugsy: foes 127:L61 168:L58 205:L58 212:L65 214:L62 291:L60; ITEM_GREEN_SHARD 0 -> 1; ITEM_SCIZORITE 0 -> 1
+== pg_rematch_bugsy: AzaleaTown_Gym (11,7) party=4 lead=L100 354/354 steps=10433 battles=142/133
+  [PASS] beat pg_rematch_bugsy
+BEAT 87/124 pg_leave_bugsy_gym
+== pg_leave_bugsy_gym: AzaleaTown (23,25) party=4 lead=L100 354/354 steps=10456 battles=142/133
+  [PASS] beat pg_leave_bugsy_gym
+BEAT 88/124 pg_rematch_whitney
+  whitney: foes 115:L59 143:L60 203:L58 241:L65 36:L61; ITEM_YELLOW_SHARD 0 -> 1
+== pg_rematch_whitney: GoldenrodCity_Gym (15,9) party=4 lead=L100 354/354 steps=10773 battles=143/135
+  [PASS] beat pg_rematch_whitney
+BEAT 89/124 pg_rematch_morty
+  morty: foes 200:L60 302:L58 354:L62 356:L59 94:L65; ITEM_YELLOW_SHARD 1 -> 2; ITEM_SABLENITE 0 -> 1
+== pg_rematch_morty: EcruteakCity_Gym (4,5) party=4 lead=L100 354/354 steps=11103 battles=144/137
+  [PASS] beat pg_rematch_morty
+BEAT 90/124 pg_hooh_catch
+  state[before Ho-Oh] VAR_COMPLETED_HO_OH=4 HIDE_HO_OH=false CAUGHT_HO_OH=false
+  state[after Ho-Oh] VAR_COMPLETED_HO_OH=3 HIDE_HO_OH=true CAUGHT_HO_OH=true
+== pg_hooh_catch: TinTower_RoofDay (10,7) party=5 lead=L100 354/354 steps=11294 battles=144/141
+  [PASS] beat pg_hooh_catch
+BEAT 91/124 pg_rematch_jasmine
+  jasmine: foes 208:L65 212:L60 227:L58 376:L62 82:L59; ITEM_YELLOW_SHARD 2 -> 3; ITEM_STEELIXITE 0 -> 1
+== pg_rematch_jasmine: OlivineCity_Gym (8,5) party=5 lead=L100 354/354 steps=11743 battles=146/148
+  [PASS] beat pg_rematch_jasmine
+BEAT 92/124 pg_rematch_chuck
+  chuck: foes 214:L65 237:L58 286:L60 57:L59 68:L62; ITEM_RED_SHARD 0 -> 1; ITEM_HERACRONITE 0 -> 1
+== pg_rematch_chuck: CianwoodGym (10,3) party=5 lead=L100 354/354 steps=12000 battles=147/154
+  [PASS] beat pg_rematch_chuck
+BEAT 93/124 pg_lugia_ko
+  state[before Lugia] VAR_COMPLETED_LUGIA=4 HIDE_LUGIA=false CAUGHT_LUGIA=false
+  the tile below the chamber door: clear
+  state[after Lugia] VAR_COMPLETED_LUGIA=3 HIDE_LUGIA=true CAUGHT_LUGIA=false
+== pg_lugia_ko: WhirlIslands_LugiaChamber (29,13) party=5 lead=L100 354/354 steps=12330 battles=147/164
+  [PASS] beat pg_lugia_ko
+BEAT 94/124 pg_rematch_pryce
+  pryce: foes 124:L60 215:L62 365:L65 87:L58 91:L59; ITEM_BLUE_SHARD 2 -> 3
+== pg_rematch_pryce: MahoganyTown_Gym (11,4) party=5 lead=L100 354/354 steps=13087 battles=149/175
+  [PASS] beat pg_rematch_pryce
+BEAT 95/124 pg_ice_path
+== pg_ice_path: IcePath_1F (50,18) party=5 lead=L100 354/354 steps=13396 battles=149/175
+  [PASS] beat pg_ice_path
+BEAT 96/124 pg_rematch_clair
+  clair: foes 149:L63 181:L58 230:L65 330:L60 334:L60 373:L62; ITEM_RED_SHARD 1 -> 2; ITEM_AMPHAROSITE 0 -> 1
+== pg_rematch_clair: BlackthornCity_Gym (20,6) party=5 lead=L100 354/354 steps=13558 battles=150/175
+  [PASS] beat pg_rematch_clair
+BEAT 97/124 pg_moltres
+  state[before Moltres] HIDE_MOLTRES=false FOUGHT_MOLTRES=false
+  state[after Moltres] HIDE_MOLTRES=true FOUGHT_MOLTRES=true
+== pg_moltres: MtSilver_1F_MoltresRoom (17,21) party=5 lead=L100 354/354 steps=14634 battles=150/203
+  [PASS] beat pg_moltres
+BEAT 98/124 pg_silver_summit
+== pg_silver_summit: MtSilver_SummitDay (10,21) party=5 lead=L100 354/354 steps=15292 battles=150/221
+  [PASS] beat pg_silver_summit
+BEAT 99/124 pg_red_first
+  after Red: at NewBarkTown, Hall of Fame seen=true, credits seen=false
+== pg_red_first: NewBarkTown (20,12) party=5 lead=L100 354/354 steps=15306 battles=151/221
+  [PASS] beat pg_red_first
+BEAT 100/124 pg_red_rematch
+  after Red rematch: at MtSilver_SummitDay, Hall of Fame seen=false, credits seen=false
+== pg_red_rematch: MtSilver_SummitDay (10,7) party=5 lead=L100 354/354 steps=16362 battles=152/246
+  [PASS] beat pg_red_rematch
+BEAT 101/124 pg_second_to_league
+  RETRY pg_second_to_league from checkpoint pg_red_rematch
+== pg_second_to_league: JohtoIndigoPlateau (11,18) party=5 lead=L100 354/354 steps=17452 battles=152/281
+  [PASS] beat pg_second_to_league
+BEAT 102/124 pg_second_entry
+== pg_second_entry: JohtoPokemonLeague_WillsRoom (6,12) party=5 lead=L100 354/354 steps=17491 battles=152/281
+  [PASS] beat pg_second_entry
+BEAT 103/124 pg_second_e4_WillsRoom
+== pg_second_e4_WillsRoom: JohtoPokemonLeague_KogasRoom (6,12) party=5 lead=L100 354/354 steps=17501 battles=153/281
+  [PASS] beat pg_second_e4_WillsRoom
+BEAT 104/124 pg_second_e4_KogasRoom
+== pg_second_e4_KogasRoom: JohtoPokemonLeague_BrunosRoom (6,12) party=5 lead=L100 354/354 steps=17511 battles=154/281
+  [PASS] beat pg_second_e4_KogasRoom
+BEAT 105/124 pg_second_e4_BrunosRoom
+== pg_second_e4_BrunosRoom: JohtoPokemonLeague_KarensRoom (6,12) party=5 lead=L100 354/354 steps=17521 battles=155/281
+  [PASS] beat pg_second_e4_BrunosRoom
+BEAT 106/124 pg_second_e4_KarensRoom
+== pg_second_e4_KarensRoom: JohtoPokemonLeague_ChampionsRoom (6,19) party=5 lead=L100 354/354 steps=17531 battles=156/281
+  [PASS] beat pg_second_e4_KarensRoom
+BEAT 107/124 pg_second_lance
+  after Lance: at NewBarkTown, Hall of Fame seen=true, credits seen=false
+  Lance foes 130:L75 142:L76 149:L78 334:L77 373:L76 6:L75
+  state[after second HoF] VAR_COMPLETED_LUGIA=4 HIDE_LUGIA=false CAUGHT_LUGIA=false VAR_COMPLETED_HO_OH=3 HIDE_HO_OH=true CAUGHT_HO_OH=true HIDE_MOLTRES=true FOUGHT_MOLTRES=true VAR_SUICUNE_ENCOUNTERS=1 FOUGHT_SUICUNE=false HIDE_ROUTE25_SUICUNE=false VAR_AZALE
+== pg_second_lance: NewBarkTown (20,12) party=5 lead=L100 354/354 steps=17535 battles=157/281
+  [PASS] beat pg_second_lance
+BEAT 108/124 pg_second_clear
+  state[second clear] VAR_COMPLETED_LUGIA=4 HIDE_LUGIA=false CAUGHT_LUGIA=false VAR_COMPLETED_HO_OH=3 HIDE_HO_OH=true CAUGHT_HO_OH=true HIDE_MOLTRES=true FOUGHT_MOLTRES=true VAR_SUICUNE_ENCOUNTERS=1 FOUGHT_SUICUNE=false HIDE_ROUTE25_SUICUNE=false VAR_AZALEA_TO
+== pg_second_clear: NewBarkTown (20,12) party=5 lead=L100 354/354 steps=17535 battles=157/281
+  [PASS] beat pg_second_clear
+BEAT 109/124 pg_sudowoodo_again
+== pg_sudowoodo_again: Route36 (40,19) party=5 lead=L100 354/354 steps=17913 battles=157/289
+  [PASS] beat pg_sudowoodo_again
+BEAT 110/124 pg_suicune_cianwood
+  state[Suicune sighting] VAR_SUICUNE_ENCOUNTERS=2
+== pg_suicune_cianwood: CianwoodCity (18,22) party=5 lead=L100 354/354 steps=18367 battles=158/296
+  [PASS] beat pg_suicune_cianwood
+BEAT 111/124 pg_suicune_route42
+  state[Suicune sighting] VAR_SUICUNE_ENCOUNTERS=3
+== pg_suicune_route42: Route42 (36,15) party=5 lead=L100 354/354 steps=18829 battles=158/300
+  [PASS] beat pg_suicune_route42
+BEAT 112/124 pg_suicune_route25
+  concession: debug warp to Route 25, because the walk from Johto is a Kanto crossing
+  state[after Suicune] FOUGHT_SUICUNE=true HIDE_ROUTE25_SUICUNE=true
+== pg_suicune_route25: NewBarkTown (10,10) party=5 lead=L100 354/354 steps=18842 battles=159/301
+  [PASS] beat pg_suicune_route25
+BEAT 113/124 pg_tower_kyogre
+== pg_tower_kyogre: EmbeddedTower (17,14) party=5 lead=L100 354/354 steps=19847 battles=160/311
+  [PASS] beat pg_tower_kyogre
+BEAT 114/124 pg_roamers
+  roamers[start] 244 hp=154 active=true | 243 hp=0 active=false
+  roamers[hunted] 244 hp=154 active=false | 243 hp=0 active=false
+  hunt: Entei caught=true, Raikou fainted=true
+== pg_roamers: Route29 (5,18) party=6 lead=L100 354/354 steps=20751 battles=160/319
+  [PASS] beat pg_roamers
+BEAT 115/124 pg_celebi_shrine
+  concession: VAR_AZALEA_TOWN_STATE set to 8; the Unown-puzzle route to the GS Ball is not driven
+  state[after Celebi] VAR_AZALEA_TOWN_STATE=10 CAUGHT_CELEBI=false HIDE_CELEBI=true
+== pg_celebi_shrine: IlexForest (32,37) party=6 lead=L100 354/354 steps=21364 battles=160/328
+  [PASS] beat pg_celebi_shrine
+BEAT 116/124 pg_third_to_league
+== pg_third_to_league: JohtoIndigoPlateau (11,18) party=6 lead=L100 354/354 steps=22666 battles=161/347
+  [PASS] beat pg_third_to_league
+BEAT 117/124 pg_third_entry
+== pg_third_entry: JohtoPokemonLeague_WillsRoom (6,12) party=6 lead=L100 354/354 steps=22705 battles=161/347
+  [PASS] beat pg_third_entry
+BEAT 118/124 pg_third_e4_WillsRoom
+== pg_third_e4_WillsRoom: JohtoPokemonLeague_KogasRoom (6,12) party=6 lead=L100 354/354 steps=22715 battles=162/347
+  [PASS] beat pg_third_e4_WillsRoom
+BEAT 119/124 pg_third_e4_KogasRoom
+== pg_third_e4_KogasRoom: JohtoPokemonLeague_BrunosRoom (6,12) party=6 lead=L100 354/354 steps=22725 battles=163/347
+  [PASS] beat pg_third_e4_KogasRoom
+BEAT 120/124 pg_third_e4_BrunosRoom
+== pg_third_e4_BrunosRoom: JohtoPokemonLeague_KarensRoom (6,12) party=6 lead=L100 354/354 steps=22735 battles=164/347
+  [PASS] beat pg_third_e4_BrunosRoom
+BEAT 121/124 pg_third_e4_KarensRoom
+== pg_third_e4_KarensRoom: JohtoPokemonLeague_ChampionsRoom (6,19) party=6 lead=L100 354/354 steps=22745 battles=165/347
+  [PASS] beat pg_third_e4_KarensRoom
+BEAT 122/124 pg_third_lance
+  after Lance: at NewBarkTown, Hall of Fame seen=true, credits seen=false
+  Lance foes 130:L75 142:L76 149:L78 334:L77 373:L76 6:L75
+  state[after third HoF] VAR_COMPLETED_LUGIA=4 HIDE_LUGIA=false CAUGHT_LUGIA=false VAR_COMPLETED_HO_OH=3 HIDE_HO_OH=true CAUGHT_HO_OH=true HIDE_MOLTRES=true FOUGHT_MOLTRES=true VAR_SUICUNE_ENCOUNTERS=3 FOUGHT_SUICUNE=false HIDE_ROUTE25_SUICUNE=false VAR_AZALEA
+== pg_third_lance: NewBarkTown (20,12) party=6 lead=L100 354/354 steps=22749 battles=166/347
+  [PASS] beat pg_third_lance
+BEAT 123/124 pg_third_clear
+  state[third clear] VAR_COMPLETED_LUGIA=4 HIDE_LUGIA=false CAUGHT_LUGIA=false VAR_COMPLETED_HO_OH=3 HIDE_HO_OH=true CAUGHT_HO_OH=true HIDE_MOLTRES=true FOUGHT_MOLTRES=true VAR_SUICUNE_ENCOUNTERS=3 FOUGHT_SUICUNE=false HIDE_ROUTE25_SUICUNE=false VAR_AZALEA_TOW
+  roamers[third clear] 243 hp=134 active=true | 243 hp=0 active=false
+== pg_third_clear: NewBarkTown (20,12) party=6 lead=L100 354/354 steps=22749 battles=166/347
+  [PASS] beat pg_third_clear
+BEAT 124/124 pg_second_celebi
+  state[after second Celebi] CAUGHT_CELEBI=true HIDE_ILEX_FOREST_SECOND_CELEBI=true
+== pg_second_celebi: IlexForest (32,38) party=6 lead=L100 354/354 steps=23449 battles=166/361
+  [PASS] beat pg_second_celebi
+TOTAL steps=23449 trainer battles=166 wild=361 heals=164 retries=1 pg_second_to_league
+VERDICT JohtoPlay: 125/125 PASS
+rom md5 E5F8155004D0811C1F0EE160B90F784D

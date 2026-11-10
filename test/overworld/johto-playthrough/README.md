@@ -77,6 +77,24 @@ One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
 On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
 `johto-progression/run.py` 7/7 and `run_audit.py` 12/12.
 
+## Post-game
+
+`PW_POSTGAME=1` keeps playing past the Hall of Fame, with beats from `postgame.lua`. Without the
+variable the campaign is unchanged. The beats play on from the champion save: all eight gym rematches
+on the HARD tier (shards, one stone per leader, a second rematch paying no second stone), the
+Hall of Fame respawns, Mt. Silver and Red (the first win plays the Hall of Fame, the rematch does not),
+Route 25's Suicune, the Route 47 tower, and two more Elite Four runs.
+
+Additional concessions, each logged by the beat that uses it: Master Balls are placed first in the
+balls pocket for the catches, Route 25 is reached by debug warp, and the roaming beasts are moved to
+the player's map so a hunt finishes. `VAR_AZALEA_TOWN_STATE` is set to 8 for the Celebi chain, because
+the Unown puzzle is a screen the harness cannot drive. Everything after that value is played.
+
+One uninterrupted run from a fresh hub save on ROM `E5F8155004D0811C1F0EE160B90F784D` passed 125/125
+checks in 23,449 steps, with 1 retry (`pg_second_to_league`). The retry reloads a checkpoint, which
+also clears the planner's remembered maps. [`evidence/postgame-final-run.log`](evidence/postgame-final-run.log)
+has each beat.
+
 ## Bugs found and fixed
 
 Each one was found in play, confirmed against the source, fixed, and re-played.
@@ -100,8 +118,20 @@ Each one was found in play, confirmed against the source, fixed, and re-played.
    Bag to make room. A long-time player carrying many ball types could hit it. The gift now runs
    once per entry to the house: a full bag gives control back, and the gift is offered again on
    the next visit. `kurt_fast_ball.lua` covers it.
+4. **The Hall of Fame brought back a bird nobody could reach.** The first clear offers the bird the
+   player did not pick. On a GOLD save a Tentacruel stayed on (35,86), the only tile below the Lugia
+   chamber door, and beating it does not move it. On a SILVER save the sage kept the Tin Tower shut,
+   because the Clear Bell never comes. Upstream cleared both at Pewter's Gramps, a scene that was not
+   ported, so `JohtoHoF_RespawnLugia` and `JohtoHoF_RespawnHoOh` now do it. `pg_lugia_ko` fails at the
+   door without the fix. `../lua/JohtoHofUnchosenBirdReach.lua` is 3/5 without it and 5/5 with it, and
+   covers the SILVER branch the campaign does not play.
 
 ## Not bugs, recorded so nobody chases them again
+
+- Every rematch Hall of Fame puts Route 36's Sudowoodo back on the road. Upstream does the same, and
+  the Squirtbottle clears it again.
+- `MtSilver_1F_MoltresRoom` has no `B_OUTCOME_PLAYER_TELEPORTED` guard, unlike the other legendaries,
+  but Teleport swaps party members in this build, so the outcome did not come up when it was forced.
 
 - The Radio Tower quiz's question 3 ("KURT … uses apricorns as ingredients?") wants **No**. That
   is wrong by GSC canon, but in this game Kurt says "I make BALLS from BERRIES", and Whitney's line

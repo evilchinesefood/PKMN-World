@@ -627,5 +627,11 @@ return function(F, N, C, log)
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
   end, function() return FL('FLAG_JOHTO_CHAMPION') and F.ow() end, LEAGUE_LOSS)
 
+  -- PW_POSTGAME=1 plays on past the Hall of Fame; see README.md, Post-game.
+  if os.getenv('PW_POSTGAME') then
+    local dir = debug.getinfo(1, 'S').source:sub(2):match('^(.*[/\\])')
+    assert(loadfile(dir .. 'postgame.lua'))()(F, N, C, B, beat, fieldMoves)
+  end
+
   return B
 end

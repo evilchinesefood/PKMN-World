@@ -408,6 +408,12 @@ bool32 IsPlayerTextSpeedInstant(void)
     return GetPlayerTextSpeed() == OPTIONS_TEXT_SPEED_INSTANT;
 }
 
+// The printer list lives on the heap, so whoever resets the heap has to drop it as well.
+void ForgetAllTextPrinters(void)
+{
+    sFirstTextPrinter = NULL;
+}
+
 void DeactivateAllTextPrinters(void)
 {
     struct TextPrinter *currentPrinter = sFirstTextPrinter;

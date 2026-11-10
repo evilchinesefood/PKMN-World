@@ -8,6 +8,7 @@
 #include "event_object_movement.h"
 #include "global.fieldmap.h"
 #include "region_map.h"
+#include "move.h"
 #define P(name, expr) char p_##name[(expr) + 1];
 P(sb1_flags, offsetof(struct SaveBlock1, flags))
 P(sb1_vars, offsetof(struct SaveBlock1, vars))
@@ -23,6 +24,7 @@ P(tbp_opponentB, offsetof(TrainerBattleParameter, params.opponentB))
 P(ps_boxes, offsetof(struct PokemonStorage, boxes))
 P(box_size, sizeof(struct BoxPokemon))
 P(bs_prevSelectedPartySlot, offsetof(struct BattleStruct, prevSelectedPartySlot))
+P(bs_expGetterMonId, offsetof(struct BattleStruct, expGetterMonId))
 P(bm_size, sizeof(struct BattlePokemon))
 P(bm_species, offsetof(struct BattlePokemon, species))
 P(bm_moves, offsetof(struct BattlePokemon, moves))
@@ -54,3 +56,8 @@ P(pa_flags, offsetof(struct PlayerAvatar, flags))
 P(pa_objectEventId, offsetof(struct PlayerAvatar, objectEventId))
 P(rm_cursorPosX, offsetof(struct RegionMap, cursorPosX))
 P(rm_cursorPosY, offsetof(struct RegionMap, cursorPosY))
+P(mi_size, sizeof(struct MoveInfo))
+P(mi_pp, offsetof(struct MoveInfo, pp))
+P(si_size, sizeof(struct SpeciesInfo))
+P(si_types, offsetof(struct SpeciesInfo, types))
+P(types_count, NUMBER_OF_MON_TYPES)

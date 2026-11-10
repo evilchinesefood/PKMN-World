@@ -47,6 +47,7 @@ return {
       { after = 'pokedex', map = 'Route101', species = 'SPECIES_MUDKIP', budget = 500 },
       { after = 'route110', map = 'Route110', species = 'SPECIES_ELECTRIKE', budget = 400 },
     },
+    exclude = { 'SPECIES_CASTFORM', 'SPECIES_WYNAUT', 'SPECIES_WOBBUFFET' },
     done = {},
   },
 }

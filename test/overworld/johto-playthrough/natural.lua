@@ -837,10 +837,15 @@ return function(F, N, S, here)
 
   -- The SwSh picker before a partner battle: mark the healthy team members, then Start confirms.
   function Nat.picker(tries)
-    if tries > 1 then return end
+    if tries > 1 then
+      if activeAny('Task_PrintAndWaitForText') then press('A'); idle(30) end
+      return
+    end
+    local marked = 0
     for i = 0, N.partyCount() - 1 do
       local pm = N.partyMon(i)
-      if pm.hp > 0 and member(i) then
+      if marked < 3 and pm.hp > 0 and member(i) then
+        marked = marked + 1
         for _ = 1, 8 do
           if r8(P.gPartyMenu + 9) == i then break end
           press('Down'); idle(12)

@@ -272,7 +272,8 @@ return function(F, N, C, log, B, ctx)
   local function stoneFlag(who) return C.FLAG_BNET_STONE_BASE + LEADERS[who].stoneIdx end
   local function beatenFlag(who) return C.FLAG_BNET_BEATEN_BASE + LEADERS[who].beatenIdx end
 
-  local function rewardRoom(who)
+  local function rewardRoom(who, region)
+    if not champion(region) then L('  not a ' .. region .. ' champion; skipped'); return end
     local l = LEADERS[who]
     local shardId, stoneId = C[l.shard], C[l.stone]
     local before = quantity(shardId)
@@ -514,6 +515,7 @@ return function(F, N, C, log, B, ctx)
         F.shot(full .. '_error')
         F.reportCrash(full)
       end
+      ctx.enter(region)        -- a detour that crossed regions must leave the region table as it found it
       ctx.restore(saved)
       N.avoid = {}
       assert(N.restore(anchor), 'rewind to ' .. anchor)
@@ -671,7 +673,7 @@ return function(F, N, C, log, B, ctx)
   local JOHTO_ONLY = os.getenv('PW_WORLD') == 'J'
   local FINAL, FINAL_REGION = JOHTO_ONLY and 'j_lance_and_hall_of_fame' or 'h_home', JOHTO_ONLY and 'johto' or 'hoenn'
 
-  detour('h_home', 'bnet_roxanne', 'hoenn', function() rewardRoom('roxanne') end)
+  detour('h_home', 'bnet_roxanne', 'hoenn', function() rewardRoom('roxanne', 'hoenn') end)
   detour('h_home', 'bnet_brock_full_bag', 'hoenn', function()
     crossFor('kanto')
     tier('rematch in kanto', 'kanto')
@@ -679,7 +681,7 @@ return function(F, N, C, log, B, ctx)
   end)
   detour(FINAL, 'bnet_falkner', FINAL_REGION, function()
     crossFor('johto')
-    rewardRoom('falkner')
+    rewardRoom('falkner', 'johto')
   end)
 
   detour(FINAL, 'bank_refused', FINAL_REGION, function()

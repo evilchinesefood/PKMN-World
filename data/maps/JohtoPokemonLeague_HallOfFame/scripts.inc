@@ -186,14 +186,20 @@ JohtoHoF_RespawnLapras::
 	clearflag FLAG_HIDE_UNION_CAVE_LAPRAS
 	return
 
+@ Each respawn also clears what bars the way to that bird: a Tentacruel stands on the only tile
+@ below the Lugia chamber door, and the sage keeps the Tin Tower shut without the Clear Bell. A
+@ player who took the other bird in the Theater has neither cleared. Upstream did this at Pewter's
+@ Gramps, a scene that was never ported.
 JohtoHoF_RespawnLugia::
 	setvar VAR_COMPLETED_LUGIA, 4
 	clearflag FLAG_HIDE_LUGIA
+	setflag FLAG_HIDE_WHIRL_ISLANDS_TENTACRUEL
 	return
 
 JohtoHoF_RespawnHoOh::
 	setvar VAR_COMPLETED_HO_OH, 4
 	clearflag FLAG_HIDE_HO_OH
+	setflag FLAG_HIDE_TINTOWER_GUARD
 	return
 
 JohtoPokemonLeague_HallOfFame_EventScript_SpawnSecondCelebi::

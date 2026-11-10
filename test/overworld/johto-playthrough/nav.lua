@@ -800,7 +800,9 @@ return function(F, S)
         end
         if throwMatches(trainer) then throwBattle(); fight = true end
         -- Evaluated per turn: at the battle's first instant the foe's data isn't loaded yet.
-        local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(C.ITEM_POKE_BALL) > 0
+        if N.foeHook then N.foeHook(r16(bmon(1)), r8(bmon(1) + O.bm_level), trainer) end
+        if N.fightWanted and N.fightWanted(r16(bmon(1))) then fight = true end
+        local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(N.catchBall or C.ITEM_POKE_BALL) > 0
         -- A foe with Arena Trap or Shadow Tag can't be fled: after two failed tries, fight it.
         if not fight and not catching then
           N.fleeTries = (N.fleeTries or 0) + 1
@@ -893,6 +895,7 @@ return function(F, S)
     local freeFor, frames = 0, 0
     local limit = opts.limit or 60 * 60 * 6
     while frames < limit do
+      if N.settleHook then N.settleHook() end
       if F.reportCrash and frames % 600 == 0 and F.ow() == false and not N.inBattle() then
         if F.reportCrash('settle') then error('crash screen during settle at ' .. N.mapName()) end
       end
@@ -1904,6 +1907,51 @@ return function(F, S)
     for _ = 1, 6 do press('B', 2); idle(20) end
     N.settle({ quiet = 30, noHeal = true })
     N.heals = (N.heals or 0) + 1
+  end
+
+  -- Johto roamers. Their location lives in EWRAM (sRoamerLocation), so a test can bring one here.
+  function N.roamer(i)
+    local b = F.sb1() + O.sb1_roamer + i * O.roamer_size
+    return { species = r16(b + O.roamer_species), hp = r16(b + O.roamer_hp), active = r8(b + O.roamer_active) ~= 0 }
+  end
+  function N.placeRoamerHere(i)
+    F.w8(P.sRoamerLocation + i * 2, F.grp())
+    F.w8(P.sRoamerLocation + i * 2 + 1, F.mapn())
+  end
+
+  ---------------------------------------------------------------- bag
+  local function pocketSlots(p)
+    local b = P.gBagPockets + p * S.BagPocket.stride
+    return r32(b), r16(b + 4) & 0x3FF
+  end
+  local function bagKey() return F.r32(F.r32(P.gSaveBlock2Ptr) + O.sb2_encryptionKey) & 0xFFFF end
+  -- Total quantity across the five pockets, unlike F.itemCount, which counts slots.
+  function N.itemQty(id)
+    local n = 0
+    for p = 0, 4 do
+      local ptr, cap = pocketSlots(p)
+      for s = 0, cap - 1 do
+        if r16(ptr + s * 4) == id then n = n + (r16(ptr + s * 4 + 2) ~ bagKey()) end
+      end
+    end
+    return n
+  end
+  -- Put `id` in the first slot of the balls pocket, which is the slot N.battle throws from.
+  -- qty, when given, sets the count. A documented concession: see README, Post-game.
+  function N.ballFirst(id, qty)
+    local ptr, cap = pocketSlots(1)
+    local at, free
+    for s = 0, cap - 1 do
+      local i = r16(ptr + s * 4)
+      if i == id then at = s end
+      if i == 0 and not free then free = s end
+    end
+    at = at or assert(free, 'balls pocket full')
+    local a, b = ptr + at * 4, ptr
+    local ida, qa, idb, qb = r16(a), r16(a + 2), r16(b), r16(b + 2)
+    if ida == 0 then ida, qa = id, 1 ~ bagKey() end
+    w16(b, ida); w16(b + 2, qty and (qty ~ bagKey()) or qa)
+    if at ~= 0 then w16(a, idb); w16(a + 2, qb) end
   end
 
   ---------------------------------------------------------------- checkpoints

@@ -116,58 +116,68 @@ The mode sets Exp. Share on and Hard Mode off by writing the save, and Exp stays
 - buys Potions at Marts and uses them in battle and, where no Center is reachable, from the Bag
 - accepts a level-up move that beats the weakest known move
 - treats a whiteout as a loss: it grinds in grass and plays the beat again, up to six retries
+  (`PW_NATURAL_ATTEMPTS` changes that)
 
 Teams are Chikorita, Mareep, Wooper (Johto); Squirtle, Rattata, Geodude (Kanto); Torchic, Mudkip,
 Electrike (Hoenn). A Togepi Egg and gift Pokemon stay in the party but are not counted as team.
 
-### Results (November 10, 2026, ROM `F39A844A41F84F6B92AD030836D9D84F`)
+### Results (November 10, 2026, ROM `7EF02FB9B011CAE8E9801644F288C75D`)
 
 Logs are `evidence/natural-johto.log`, `natural-kanto.log` and `natural-hoenn.log`. Limits are the
 plan's: enter at ace minus 3, win in 2 attempts, at most 1,000 grind steps (2,000 at Koga, Tate and
-Liza, and the Champion). The team level is average (min to max).
+Liza, and the Champion). The team level is average (min to max), and attempts include losses to the
+trainers on the way to the leader.
 
-| Region | Reached | Result | Steps |
-| --- | --- | --- | --- |
-| Johto | Hall of Fame | 84/84 | 29,501 |
-| Kanto | Lorelei beaten, stopped at Bruno after the retry limit | 8 badges, League not finished | 19,276 to Victory Road, then 12,494 |
-| Hoenn | Reached Drake on one run, gave up after the retry limit | 8 badges, League not finished | see the log |
+| Region | Reached | Whiteouts | Steps (baseline) | Potions used | Debug warps |
+| --- | --- | --- | --- | --- | --- |
+| Johto | Hall of Fame, 84/84 in one fresh run | 13 | 26,668 (9,718) | 96 | 0 |
+| Kanto | Hall of Fame and home | 42 | 40,942 (8,857) | 41 | 0 |
+| Hoenn | Hall of Fame and home | 24 | 27,113 (11,132) | 117 | 1 |
+
+Debug heals were 0 in all three. Kanto and Hoenn are fresh runs to a League checkpoint, continued on
+the same ROM after a harness-only fix (the battle time limit, the Victory Road replay and corridor)
+and with `PW_NATURAL_ATTEMPTS=30`, because the default of six retries ran out. Most of Kanto's
+whiteouts were in the League: 13 at Bruno, 23 at Agatha and 3 at the Champion, grinding from level 52
+to 79. Hoenn lost 9 times to the Champion.
 
 | Johto gym | Level | Ace | Attempts | Grind |
 | --- | --- | --- | --- | --- |
-| Falkner | 10 (9-11) | 11 | 4 | 1,071 |
-| Bugsy | 22 (20-23) | 16 | 1 | 0 |
-| Whitney | 23 (22-25) | 21 | 1 | 0 |
-| Morty | 27 (26-28) | 25 | 3 | 374 |
-| Chuck | 32 (32-34) | 31 | 1 | 0 |
-| Jasmine | 35 (33-37) | 36 | 4 | 1,389 |
-| Pryce | 44 (43-47) | 38 | 1 | 0 |
-| Clair | 53 (51-56) | 45 | 1 | 0 |
+| Falkner | 10 (9-11) | 11 | 1 | 0 |
+| Bugsy | 18 (17-20) | 16 | 1 | 0 |
+| Whitney | 20 (19-21) | 21 | 1 | 0 |
+| Morty | 25 (24-26) | 25 | 3 | 357 |
+| Chuck | 33 (33-34) | 31 | 1 | 0 |
+| Jasmine | 35 (35-36) | 36 | 5 | 2,354 |
+| Pryce | 48 (47-49) | 38 | 1 | 0 |
+| Clair | 56 (55-57) | 45 | 1 | 0 |
+| League gate (Champion ace) | 64 (63-65) | 56 | 1 | 0 |
 
 | Kanto gym | Level | Ace | Attempts | Grind |
 | --- | --- | --- | --- | --- |
-| Brock | 11 (10-12) | 14 | 1 | 283 |
-| Misty | 20 (18-22) | 21 | 1 | 0 |
+| Brock | 11 (10-12) | 14 | 1 | 237 |
+| Misty | 19 (18-22) | 21 | 1 | 0 |
 | Surge | 23 (21-25) | 24 | 1 | 0 |
-| Erika | 34 (33-35) | 29 | 3 | 937 |
-| Koga | 40 (40-41) | 43 | 1 | 170 |
-| Sabrina | 43 (36-47) | 43 | 1 | 0 |
-| Blaine | 44 (38-48) | 47 | 1 | 0 |
-| Giovanni | 47 (41-50) | 50 | 1 | 71 |
+| Erika | 34 (33-35) | 29 | 3 | 892 |
+| Koga | 40 (39-41) | 43 | 1 | 154 |
+| Sabrina | 41 (35-46) | 43 | 1 | 0 |
+| Blaine | 44 (38-48) | 47 | 1 | 115 |
+| Giovanni | 47 (41-51) | 50 | 1 | 683 |
+| League gate (Champion ace) | 52 (48-57) | 63 | 1 | 319 |
 
 | Hoenn gym | Level | Ace | Attempts | Grind |
 | --- | --- | --- | --- | --- |
-| Roxanne | 12 (11-13) | 15 | 4 | 1,269 |
-| Brawly | 19 (19-20) | 19 | 1 | 0 |
-| Wattson | 21 (15-24) | 24 | 1 | 102 |
-| Flannery | 26 (22-29) | 29 | 1 | 0 |
-| Norman | 28 (24-31) | 31 | 5 | 9,250 |
-| Winona | 36 (32-39) | 33 | 1 | 0 |
-| Tate and Liza | 42 (39-45) | 42 | 1 | 0 |
-| Juan | 47 (45-50) | 46 | 4 | 0 |
+| Roxanne | 12 (11-13) | 15 | 3 | 537 |
+| Brawly | 17 (17-17) | 19 | 2 | 0 |
+| Wattson | 21 (17-23) | 24 | 1 | 199 |
+| Flannery | 27 (23-29) | 29 | 1 | 0 |
+| Norman | 28 (25-30) | 31 | 3 | 3,000 |
+| Winona | 35 (32-37) | 33 | 1 | 0 |
+| Tate and Liza | 41 (38-44) | 42 | 2 | 43 |
+| Juan | 46 (43-49) | 46 | 2 | 0 |
+| League gate (Champion ace) | 51 (49-54) | 58 | 1 | 0 |
 
-The bot only attacks, switches on immunity and drinks Potions, so a human will do better. Kanto and
-Hoenn were resumed from checkpoints after harness fixes and bought no Potions, so their League
-stops are not clean difficulty results. Johto's final run predates the last Mart changes.
+The bot only attacks, switches on immunity and drinks Potions, so a person will do better. Treat
+the numbers as an upper bound.
 
 ### Game bug found
 

@@ -753,7 +753,9 @@ return function(F, S)
     N.fleeTries = 0
     N.pickerTries = 0   -- its A and Start alternate, so a second picker has to start the cycle afresh
     if N.natural then N.natural.battleStart() end
-    while frames < 60 * 60 * 12 do
+    -- A natural Elite Four battle with weather and Potions runs well past the debug team's battles.
+    local frameLimit = 60 * 60 * (N.natural and 40 or 12)
+    while frames < frameLimit do
       if N.natural then N.natural.trace() end
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.

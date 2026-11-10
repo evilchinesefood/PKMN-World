@@ -728,6 +728,7 @@ return function(F, N, S, here)
     local start = F.grp() * 256 + F.mapn()
     local seen, q, head = { [start] = true }, { { F.grp(), F.mapn() } }, 1
     local lo, hi = N.region.lo, N.region.hi
+    local failures = 0
     while head <= #q and head < 200 do
       local g, m = q[head][1], q[head][2]; head = head + 1
       for _, ex in ipairs(N.exitsOf(N.header(g, m))) do
@@ -741,6 +742,9 @@ return function(F, N, S, here)
             local ok, res = pcall(N.travel, name, { policy = N.defaultPolicy })
             if not ok and res == N.WHITEOUT then error(res, 0) end
             if ok and res and pair() then return true end
+            -- Currents and one-way sea routes can strand every plan; stop rather than try them all.
+            failures = failures + 1
+            if failures >= 3 then return false end
           end
           q[#q + 1] = { ex.g, ex.m }
         end

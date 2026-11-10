@@ -49,6 +49,7 @@ return {
       { after = 'pokedex', map = 'Route101', species = 'SPECIES_MUDKIP', budget = 500 },
       { after = 'route110', map = 'Route110', species = 'SPECIES_ELECTRIKE', budget = 400 },
     },
+    grindMap = { juan = 'Route121', league_gate = 'Route121' },
     exclude = { 'SPECIES_CASTFORM', 'SPECIES_WYNAUT', 'SPECIES_WOBBUFFET' },
     noDetour = { 'Sootopolis', 'SeafloorCavern', 'CaveOfOrigin', 'SkyPillar', 'VictoryRoad' },
     done = {},

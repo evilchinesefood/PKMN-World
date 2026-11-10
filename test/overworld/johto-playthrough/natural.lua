@@ -521,6 +521,8 @@ return function(F, N, S, here)
 
   local BLOCKED = {}
   function Nat.heal(force, why)
+    -- Leaving Victory Road resets its Strength boulders, so a detour there seals the way on.
+    if N.mapName():find('VictoryRoad') then return false end
     if healing or BLOCKED[N.mapName()] or not N.free() then return false end
     if not needCenter(force) then return false end
     local from = N.mapName()
@@ -597,7 +599,7 @@ return function(F, N, S, here)
   local function buy(itemId, count)
     local info = N.header(F.grp(), F.mapn())
     local clerk
-    for _, o in ipairs(info.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK then clerk = o end end
+    for _, o in ipairs(info.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK or o.gfx == C.OBJ_EVENT_GFX_MART_EMPLOYEE then clerk = o end end
     if not clerk then L('NAT shop: no clerk at ' .. N.mapName()); return 0 end
     -- The counter is between the clerk and the floor; the side differs by map, so try each.
     local inMenu
@@ -605,10 +607,11 @@ return function(F, N, S, here)
       if N.go(clerk.x + side[1], clerk.y + side[2]) then
         N.face(side[3])
         press('A'); idle(30)
-        for _ = 1, 3 do
+        -- A past the shop menu's first frame would pick Buy, so look before every press.
+        for _ = 1, 8 do
           if activeAny('Task_ShopMenu') then inMenu = true; break end
-          press('A'); idle(40)
-          if activeAny('Task_ShopMenu') then inMenu = true end
+          press('A'); idle(45)
+          if activeAny('Task_ShopMenu') then inMenu = true; break end
         end
         if inMenu then break end
         leaveShop()
@@ -656,7 +659,7 @@ return function(F, N, S, here)
     if money < 1500 then return end
     local here = N.header(F.grp(), F.mapn())
     local hasClerk = false
-    for _, o in ipairs(here.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK then hasClerk = true end end
+    for _, o in ipairs(here.objs) do if o.gfx == C.OBJ_EVENT_GFX_CLERK or o.gfx == C.OBJ_EVENT_GFX_MART_EMPLOYEE then hasClerk = true end end
     local map = hasClerk and N.mapName() or martMap()
     if not map then return end
     if not hasClerk then

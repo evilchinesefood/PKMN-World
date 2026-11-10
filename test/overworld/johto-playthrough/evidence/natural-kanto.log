@@ -1,0 +1,209 @@
+# fresh run to Victory Road
+md5   : F39A844A41F84F6B92AD030836D9D84F
+BEAT 1/56 to_kanto
+BEAT 2/56 oak_lab
+BEAT 3/56 starter
+BEAT 4/56 rival_lab
+BEAT 5/56 parcel
+BEAT 6/56 deliver_parcel
+BEAT 7/56 catch_cut_user
+BEAT 8/56 to_pewter
+BEAT 9/56 brock
+NAT shop: bought 0 at PewterCity_Mart_Frlg, money 3188 -> 3188, carrying 0
+NAT grind done: L11 after 283 steps, 0 whiteouts
+NAT-GYM brock: entered L10/11/12 (min/avg/max) vs ace 14 (target 11), attempts 1, grind 283 steps (limit 1000), WON
+BEAT 10/56 catch_geodude
+NAT catch SPECIES_GEODUDE: party 2 -> 3 after 221 steps
+BEAT 11/56 mt_moon_fossil
+BEAT 12/56 to_cerulean
+BEAT 13/56 bill
+NAT LOSS trainer=true at CeruleanCity_Frlg level 15/16/18
+NAT whiteout 1 in bill (Route4_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at CeruleanCity_Mart_Frlg, money 6496 -> 6496, carrying 0
+NAT grind done: L17 after 143 steps, 0 whiteouts
+BEAT 14/56 ticket
+BEAT 15/56 misty
+NAT shop: bought 0 at CeruleanCity_Mart_Frlg, money 10948 -> 10948, carrying 0
+NAT-GYM misty: entered L18/20/22 (min/avg/max) vs ace 21 (target 18), attempts 1, grind 0 steps (limit 1000), WON
+BEAT 16/56 cut
+BEAT 17/56 ship_sails
+BEAT 18/56 surge
+NAT shop: bought 0 at VermilionCity_Mart_Frlg, money 15092 -> 15092, carrying 0
+NAT-GYM surge: entered L21/23/25 (min/avg/max) vs ace 24 (target 21), attempts 1, grind 0 steps (limit 1000), WON
+BEAT 19/56 to_celadon
+BEAT 20/56 game_corner
+BEAT 21/56 lift_key
+BEAT 22/56 hideout_boss
+BEAT 23/56 scope
+BEAT 24/56 leave_hideout
+BEAT 25/56 tower
+BEAT 26/56 fuji
+BEAT 27/56 flute
+BEAT 28/56 erika
+NAT shop: bought 0 at LavenderTown_Mart_Frlg, money 49288 -> 49288, carrying 0
+NAT LOSS trainer=true at CeladonCity_Gym_Frlg level 34/34/35
+NAT whiteout 1 in erika (LavenderTown_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at LavenderTown_Mart_Frlg, money 51680 -> 51680, carrying 0
+NAT grind done: L35 after 107 steps, 0 whiteouts
+NAT LOSS trainer=true at CeladonCity_Gym_Frlg level 34/35/36
+NAT whiteout 2 in erika (LavenderTown_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at LavenderTown_Mart_Frlg, money 51392 -> 51392, carrying 0
+NAT grind done: L37 after 830 steps, 0 whiteouts
+NAT-GYM erika: entered L33/34/35 (min/avg/max) vs ace 29 (target 26), attempts 3, grind 937 steps (limit 1000), WON
+BEAT 29/56 snorlax
+BEAT 30/56 to_fuchsia
+BEAT 31/56 surf
+BEAT 32/56 teeth
+BEAT 33/56 koga
+NAT shop: bought 0 at FuchsiaCity_Mart_Frlg, money 61744 -> 61744, carrying 0
+NAT grind done: L40 after 170 steps, 0 whiteouts
+NAT-GYM koga: entered L40/40/41 (min/avg/max) vs ace 43 (target 40), attempts 1, grind 170 steps (limit 2000), WON
+BEAT 34/56 strength
+BEAT 35/56 tea
+BEAT 36/56 saffron_gate
+BEAT 37/56 card_key
+BEAT 38/56 silph
+NAT LOSS trainer=true at SilphCo_11F_Frlg level 33/41/46
+NAT whiteout 1 in silph (FuchsiaCity_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at FuchsiaCity_Mart_Frlg, money 77388 -> 77388, carrying 0
+NAT grind done: L42 after 155 steps, 0 whiteouts
+BEAT 39/56 sabrina
+NAT shop: bought 0 at SaffronCity_Mart_Frlg, money 81488 -> 81488, carrying 0
+NAT-GYM sabrina: entered L36/43/47 (min/avg/max) vs ace 43 (target 40), attempts 1, grind 0 steps (limit 1000), WON
+BEAT 40/56 to_cinnabar
+BEAT 41/56 secret_key
+BEAT 42/56 leave_mansion
+  beat error: ...erworld/johto-playthrough/../kanto-playthrough/beats.lua:580: B1F statue 1 toggled
+  RETRY leave_mansion from checkpoint secret_key
+BEAT 43/56 blaine
+NAT shop: bought 0 at CinnabarIsland_Mart_Frlg, money 87840 -> 87840, carrying 0
+NAT-GYM blaine: entered L38/44/48 (min/avg/max) vs ace 47 (target 44), attempts 1, grind 0 steps (limit 1000), WON
+BEAT 44/56 giovanni
+NAT shop: bought 0 at CinnabarIsland_Mart_Frlg, money 105260 -> 105260, carrying 0
+NAT grind done: L47 after 71 steps, 0 whiteouts
+NAT-GYM giovanni: entered L41/47/50 (min/avg/max) vs ace 50 (target 47), attempts 1, grind 71 steps (limit 1000), WON
+BEAT 45/56 to_victory_road
+BEAT 46/56 victory_road_1f
+BEAT 47/56 victory_road_2f
+BEAT 48/56 victory_road_3f
+BEAT 49/56 victory_road_exit
+NAT LOSS trainer=false at VictoryRoad_3F_Frlg level 50/53/56
+  planner could not get there; debug warp to VictoryRoad_2F_Frlg
+  beat error: ...erworld/johto-playthrough/../kanto-playthrough/beats.lua:833: assertion failed!
+  RETRY victory_road_exit from checkpoint victory_road_3f
+  planner could not get there; debug warp to VictoryRoad_2F_Frlg
+  beat error (retry): ...erworld/johto-playthrough/../kanto-playthrough/beats.lua:833: assertion failed!
+  [FAIL] beat victory_road_exit -- ...erworld/johto-playthrough/../kanto-playthrough/beats.lua:833: assertion failed!
+NAT-GYM brock: entered L10/11/12 (min/avg/max) vs ace 14 (target 11), attempts 1, grind 283 steps (limit 1000), WON
+NAT-GYM misty: entered L18/20/22 (min/avg/max) vs ace 21 (target 18), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM surge: entered L21/23/25 (min/avg/max) vs ace 24 (target 21), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM erika: entered L33/34/35 (min/avg/max) vs ace 29 (target 26), attempts 3, grind 937 steps (limit 1000), WON
+NAT-GYM koga: entered L40/40/41 (min/avg/max) vs ace 43 (target 40), attempts 1, grind 170 steps (limit 2000), WON
+NAT-GYM sabrina: entered L36/43/47 (min/avg/max) vs ace 43 (target 40), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM blaine: entered L38/44/48 (min/avg/max) vs ace 47 (target 44), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM giovanni: entered L41/47/50 (min/avg/max) vs ace 50 (target 47), attempts 1, grind 71 steps (limit 1000), WON
+NAT-TOTAL steps=19276 grind=1759 catch=221 centers=24 potions=0 whiteouts=4 lostbattles=4 learned=46 warps=1 skippedDebugHeals=202
+TOTAL steps=19276 trainer battles=132 wild=388 heals=0 retries=2 leave_mansion,victory_road_exit
+VERDICT KantoPlay: 49/50 PASS
+rom md5 F39A844A41F84F6B92AD030836D9D84F
+# resumed at victory_road_exit after the FRLG nurse fix
+md5   : F39A844A41F84F6B92AD030836D9D84F
+BEAT 50/56 to_league
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 120632 -> 120632, carrying 0
+NAT grind done: L54 after 792 steps, 0 whiteouts
+NAT-GYM to_league: entered L51/54/56 (min/avg/max) vs ace 63 (target 60), attempts 1, grind 792 steps (limit 2000), WON
+BEAT 51/56 e4_LoreleisRoom
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 51/54/56
+NAT whiteout 1 in e4_LoreleisRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 122344 -> 122344, carrying 0
+NAT grind done: L54 after 361 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 52/54/56
+NAT whiteout 2 in e4_LoreleisRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 121896 -> 121896, carrying 0
+NAT grind done: L54 after 540 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 52/55/57
+NAT whiteout 3 in e4_LoreleisRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 121440 -> 121440, carrying 0
+NAT grind done: L55 after 553 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 53/55/57
+NAT whiteout 4 in e4_LoreleisRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 120984 -> 120984, carrying 0
+NAT grind done: L55 after 325 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 54/56/57
+NAT whiteout 5 in e4_LoreleisRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 120528 -> 120528, carrying 0
+NAT grind done: L56 after 672 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 54/56/58
+NAT whiteout 6 in e4_LoreleisRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 120064 -> 120064, carrying 0
+NAT grind done: L57 after 552 steps, 0 whiteouts
+BEAT 52/56 e4_BrunosRoom
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 56/57/59
+NAT whiteout 1 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 124992 -> 124992, carrying 0
+NAT grind done: L57 after 588 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 57/58/60
+NAT whiteout 2 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 129912 -> 129912, carrying 0
+NAT grind done: L58 after 553 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 58/58/60
+NAT whiteout 3 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 134832 -> 134832, carrying 0
+NAT grind done: L58 after 253 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 58/59/61
+NAT whiteout 4 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 134344 -> 134344, carrying 0
+NAT grind done: L59 after 529 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 59/60/62
+NAT whiteout 5 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 139248 -> 139248, carrying 0
+NAT grind done: L60 after 409 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 59/60/62
+NAT whiteout 6 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 144152 -> 144152, carrying 0
+NAT grind done: L60 after 541 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 59/61/63
+NAT whiteout 7 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+  beat error: gave up after 7 whiteouts
+  RETRY e4_BrunosRoom from checkpoint e4_LoreleisRoom
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 56/57/59
+NAT whiteout 1 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 124992 -> 124992, carrying 0
+NAT grind done: L57 after 612 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 56/57/59
+NAT whiteout 2 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 124520 -> 124520, carrying 0
+NAT grind done: L57 after 469 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 57/58/59
+NAT whiteout 3 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 124048 -> 124048, carrying 0
+NAT grind done: L58 after 792 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 58/59/60
+NAT whiteout 4 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 128968 -> 128968, carrying 0
+NAT grind done: L59 after 480 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 59/59/61
+NAT whiteout 5 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 133880 -> 133880, carrying 0
+NAT grind done: L59 after 576 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_BrunosRoom_Frlg level 60/60/62
+NAT whiteout 6 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+NAT shop: bought 0 at IndigoPlateau_PokemonCenter_1F_Frlg, money 138784 -> 138784, carrying 0
+NAT grind done: L60 after 680 steps, 0 whiteouts
+NAT LOSS trainer=true at PokemonLeague_LoreleisRoom_Frlg level 60/60/62
+NAT whiteout 7 in e4_BrunosRoom (IndigoPlateau_PokemonCenter_1F_Frlg)
+  beat error (retry): gave up after 7 whiteouts
+  [FAIL] beat e4_BrunosRoom -- gave up after 7 whiteouts
+NAT-GYM brock: entered L10/11/12 (min/avg/max) vs ace 14 (target 11), attempts 1, grind 283 steps (limit 1000), WON
+NAT-GYM misty: entered L18/20/22 (min/avg/max) vs ace 21 (target 18), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM surge: entered L21/23/25 (min/avg/max) vs ace 24 (target 21), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM erika: entered L33/34/35 (min/avg/max) vs ace 29 (target 26), attempts 3, grind 937 steps (limit 1000), WON
+NAT-GYM koga: entered L40/40/41 (min/avg/max) vs ace 43 (target 40), attempts 1, grind 170 steps (limit 2000), WON
+NAT-GYM sabrina: entered L36/43/47 (min/avg/max) vs ace 43 (target 40), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM blaine: entered L38/44/48 (min/avg/max) vs ace 47 (target 44), attempts 1, grind 0 steps (limit 1000), WON
+NAT-GYM giovanni: entered L41/47/50 (min/avg/max) vs ace 50 (target 47), attempts 1, grind 71 steps (limit 1000), WON
+NAT-GYM to_league: entered L51/54/56 (min/avg/max) vs ace 63 (target 60), attempts 1, grind 792 steps (limit 2000), WON
+NAT-TOTAL steps=12494 grind=9163 catch=221 centers=82 potions=0 whiteouts=17 lostbattles=17 learned=46 warps=0 skippedDebugHeals=203
+TOTAL steps=12494 trainer battles=30 wild=231 heals=0 retries=1 e4_BrunosRoom
+VERDICT KantoPlay_from_victory_road_exit: 2/3 PASS
+rom md5 F39A844A41F84F6B92AD030836D9D84F

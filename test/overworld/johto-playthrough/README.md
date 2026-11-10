@@ -77,6 +77,85 @@ One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
 On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
 `johto-progression/run.py` 7/7 and `run_audit.py` 12/12.
 
+## Natural difficulty (`PW_NATURAL=1`)
+
+`PW_NATURAL=1` plays a region with a team caught in that region instead of the debug pair. The
+hooks in `nav.lua` do nothing without it, so default campaigns are unchanged. `natural.lua` holds
+the behaviour and `natural_regions.lua` holds each region's gyms, ace levels, grind allowances and
+catches.
+
+```sh
+PW_NATURAL=1 python3 test/overworld/johto-playthrough/run.py --out _pwtest/nat/johto
+PW_NATURAL=1 PW_STARTER=1 python3 test/overworld/johto-playthrough/run.py --campaign kanto --out _pwtest/nat/kanto
+PW_NATURAL=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn --out _pwtest/nat/hoenn
+```
+
+The mode sets Exp. Share on and Hard Mode off by writing the save, and Exp stays at 1x. It:
+
+- scores moves from `gMovesInfo` and `gTypeEffectivenessTable`, checked against known moves at startup
+- switches when the active Pokemon has no move that can hurt the foe
+- heals at Centers, on the way between maps and before each beat when the team is hurt
+- buys Potions at Marts and uses them in battle and, where no Center is reachable, from the Bag
+- accepts a level-up move that beats the weakest known move
+- treats a whiteout as a loss: it grinds in grass and plays the beat again, up to six retries
+
+Teams are Chikorita, Mareep, Wooper (Johto); Squirtle, Rattata, Geodude (Kanto); Torchic, Mudkip,
+Electrike (Hoenn). A Togepi Egg and gift Pokemon stay in the party but are not counted as team.
+
+### Results (November 10, 2026, ROM `F39A844A41F84F6B92AD030836D9D84F`)
+
+Logs are `evidence/natural-johto.log`, `natural-kanto.log` and `natural-hoenn.log`. Limits are the
+plan's: enter at ace minus 3, win in 2 attempts, at most 1,000 grind steps (2,000 at Koga, Tate and
+Liza, and the Champion). The team level is average (min to max).
+
+| Region | Reached | Result | Steps |
+| --- | --- | --- | --- |
+| Johto | Hall of Fame | 84/84 | 29,501 |
+| Kanto | Lorelei beaten, stopped at Bruno after the retry limit | 8 badges, League not finished | 19,276 to Victory Road, then 12,494 |
+| Hoenn | Reached Drake on one run, gave up after the retry limit | 8 badges, League not finished | see the log |
+
+| Johto gym | Level | Ace | Attempts | Grind |
+| --- | --- | --- | --- | --- |
+| Falkner | 10 (9-11) | 11 | 4 | 1,071 |
+| Bugsy | 22 (20-23) | 16 | 1 | 0 |
+| Whitney | 23 (22-25) | 21 | 1 | 0 |
+| Morty | 27 (26-28) | 25 | 3 | 374 |
+| Chuck | 32 (32-34) | 31 | 1 | 0 |
+| Jasmine | 35 (33-37) | 36 | 4 | 1,389 |
+| Pryce | 44 (43-47) | 38 | 1 | 0 |
+| Clair | 53 (51-56) | 45 | 1 | 0 |
+
+| Kanto gym | Level | Ace | Attempts | Grind |
+| --- | --- | --- | --- | --- |
+| Brock | 11 (10-12) | 14 | 1 | 283 |
+| Misty | 20 (18-22) | 21 | 1 | 0 |
+| Surge | 23 (21-25) | 24 | 1 | 0 |
+| Erika | 34 (33-35) | 29 | 3 | 937 |
+| Koga | 40 (40-41) | 43 | 1 | 170 |
+| Sabrina | 43 (36-47) | 43 | 1 | 0 |
+| Blaine | 44 (38-48) | 47 | 1 | 0 |
+| Giovanni | 47 (41-50) | 50 | 1 | 71 |
+
+| Hoenn gym | Level | Ace | Attempts | Grind |
+| --- | --- | --- | --- | --- |
+| Roxanne | 12 (11-13) | 15 | 4 | 1,269 |
+| Brawly | 19 (19-20) | 19 | 1 | 0 |
+| Wattson | 21 (15-24) | 24 | 1 | 102 |
+| Flannery | 26 (22-29) | 29 | 1 | 0 |
+| Norman | 28 (24-31) | 31 | 5 | 9,250 |
+| Winona | 36 (32-39) | 33 | 1 | 0 |
+| Tate and Liza | 42 (39-45) | 42 | 1 | 0 |
+| Juan | 47 (45-50) | 46 | 4 | 0 |
+
+The bot only attacks, switches on immunity and drinks Potions, so a human will do better. Kanto and
+Hoenn were resumed from checkpoints after harness fixes and bought no Potions, so their League
+stops are not clean difficulty results. Johto's final run predates the last Mart changes.
+
+### Game bug found
+
+A text printer still linked when the heap reset hung the return to the field at `src/malloc.c:97`.
+The fix is in `src/load_save.c`; `text_printer_heap.lua` scores 4/5 without it and 5/5 with it.
+
 ## Bugs found and fixed
 
 Each one was found in play, confirmed against the source, fixed, and re-played.

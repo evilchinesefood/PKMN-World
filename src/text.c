@@ -10,6 +10,7 @@
 #include "malloc.h"
 #include "menu.h"
 #include "palette.h"
+#include "recorded_battle.h"
 #include "sound.h"
 #include "sprite.h"
 #include "string_util.h"
@@ -61,7 +62,6 @@ static u32 GetGlyphWidth_Outlined(u16, bool32);
 static u32 GetGlyphWidth_OutlinedNarrow(u16, bool32);
 static u32 GetGlyphWidth_BattleUIElements(u16, bool32);
 static struct TextPrinter *AllocateTextPrinter(void);
-static u32 GetNumTextPrinters(void);
 static void FreeFinishedTextPrinters(void);
 static void SpriteCB_TextCursor(struct Sprite *sprite);
 static inline bool32 IsOutlinedFont(u32 fontId);
@@ -587,71 +587,61 @@ bool32 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     return TRUE;
 }
 
+static bool32 IsPrinterSpeedInstant(void)
+{
+    if (gTextFlags.forceMidTextSpeed)
+        return FALSE;
+    if (gMain.inBattle)
+    {
+        if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+            return FALSE;
+        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
+            return GetTextSpeedInRecordedBattle() == OPTIONS_TEXT_SPEED_INSTANT;
+    }
+    return IsPlayerTextSpeedInstant();
+}
+
 void RunTextPrinters(void)
 {
-    bool32 isInstantText = IsPlayerTextSpeedInstant();
-    u32 textRepeats = GetPlayerTextSpeedModifier();
-
     if (gDisableTextPrinters)
         return;
 
-    u32 numPrinters = GetNumTextPrinters();
-
-    struct TextPrinter *currentPrinter = sFirstTextPrinter;
-
-    do
+    for (struct TextPrinter *printer = sFirstTextPrinter; printer != NULL; printer = printer->nextPrinter)
     {
-        u32 numEmpty = 0;
-        while (currentPrinter != NULL)
-        {
-            if (currentPrinter->active)
-            {
-                for (u32 repeat = 0; repeat < textRepeats || isInstantText; repeat++)
-                {
-                    u32 renderState = RenderFont(currentPrinter);
-                    switch (renderState)
-                    {
-                    case RENDER_PRINT:
-                        switch (currentPrinter->printerTemplate.type)
-                        {
-                        case WINDOW_TEXT_PRINTER:
-                            CopyWindowToVram(currentPrinter->printerTemplate.windowId, COPYWIN_GFX);
-                            break;
-                        case SPRITE_TEXT_PRINTER:
-                            break;
-                        }
-                        if (currentPrinter->callback != NULL)
-                            currentPrinter->callback(&currentPrinter->printerTemplate, renderState);
-                        break;
-                    case RENDER_UPDATE:
-                        if (currentPrinter->callback != NULL)
-                            currentPrinter->callback(&currentPrinter->printerTemplate, renderState);
-                        isInstantText = FALSE;
-                        break;
-                    case RENDER_FINISH:
-                        currentPrinter->active = FALSE;
-                        currentPrinter->isInUse = FALSE;
-                        isInstantText = FALSE;
-                        break;
-                    }
+        if (!printer->active)
+            continue;
 
-                    if (!currentPrinter->active)
-                        break;
-                }
-            }
-            else
-            {
-                numEmpty++;
-            }
-            currentPrinter = currentPrinter->nextPrinter;
-        }
-
-        if (numEmpty == numPrinters)
+        bool32 instant = IsPrinterSpeedInstant();
+        bool32 drewGlyph = FALSE;
+        u32 budget = instant ? 0x400 : GetPlayerTextSpeedModifier();
+        for (u32 repeat = 0; repeat < budget; repeat++)
         {
-            FreeFinishedTextPrinters();
-            return;
+            u32 renderState = RenderFont(printer);
+            switch (renderState)
+            {
+            case RENDER_PRINT:
+                drewGlyph = TRUE;
+                if (printer->callback != NULL)
+                    printer->callback(&printer->printerTemplate, renderState);
+                break;
+            case RENDER_UPDATE:
+                if (printer->callback != NULL)
+                    printer->callback(&printer->printerTemplate, renderState);
+                break;
+            case RENDER_FINISH:
+                printer->active = FALSE;
+                printer->isInUse = FALSE;
+                break;
+            }
+
+            if (gDisableTextPrinters || !printer->active || (instant && renderState == RENDER_UPDATE))
+                break;
         }
-    } while (isInstantText);
+        if (drewGlyph && printer->printerTemplate.type == WINDOW_TEXT_PRINTER)
+            CopyWindowToVram(printer->printerTemplate.windowId, COPYWIN_GFX);
+        if (gDisableTextPrinters)
+            break;
+    }
     FreeFinishedTextPrinters();
 }
 
@@ -1471,7 +1461,7 @@ static u16 RenderText(struct TextPrinter *textPrinter)
     switch (textPrinter->state)
     {
     case RENDER_STATE_HANDLE_CHAR:
-        if ((JOY_HELD(A_BUTTON | B_BUTTON) && textPrinter->hasPrintBeenSpedUp) || IsPlayerTextSpeedInstant())
+        if ((JOY_HELD(A_BUTTON | B_BUTTON) && textPrinter->hasPrintBeenSpedUp) || IsPrinterSpeedInstant())
             textPrinter->delayCounter = 0;
 
         if (textPrinter->delayCounter && textPrinter->textSpeed)
@@ -2965,17 +2955,6 @@ static struct TextPrinter *AllocateTextPrinter(void)
     return printer;
 }
 
-static u32 GetNumTextPrinters(void)
-{
-    u32 numPrinters = 0;
-    struct TextPrinter *currentPrinter = sFirstTextPrinter;
-    while (currentPrinter != NULL)
-    {
-        currentPrinter = currentPrinter->nextPrinter;
-        numPrinters++;
-    }
-    return numPrinters;
-}
 
 static void FreeFinishedTextPrinters(void)
 {

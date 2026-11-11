@@ -67,8 +67,7 @@ Arguments are `<suite.lua> [rom.gba] [save.srm]`; the ROM defaults to the repo b
 test/overworld/run-all.sh                 # ~1.5 minutes for the current 20-suite list
 ```
 
-Read [`lua/MANIFEST.md`](lua/MANIFEST.md) before you trust its exit code — a green sweep can still
-exit non-zero for structural reasons, and that is documented there.
+Read [`lua/MANIFEST.md`](lua/MANIFEST.md) for the canonical required cases. A successful sweep requires every selected case to pass; optional personal-save coverage is separate.
 
 ---
 
@@ -79,8 +78,7 @@ the start-menu wheel. Pointed at a real ROM/save pair, that is a live clobber pa
 happened once already.
 
 **`mgba-run.sh` already handles this.** It copies the ROM into a `mktemp -d` work directory under
-the name `Verify1.gba`, copies any save fixture beside it as `Verify1.sav`, and deletes the
-directory on exit. Anything the run writes dies with it. Two independent guards back that up:
+the name `Verify1.gba` and copies any explicitly selected save fixture beside it as `Verify1.sav`. Each run owns a unique case directory; its synthetic saves and evidence remain isolated there. The command prints that exact directory. Two independent guards back that up:
 
 1. **ROM/symbols binding** — `symbols.lua` records the md5 of the `.gba` it was generated from and
    `lib.new()` aborts against any other ROM. Without it the normal accident (rebuild, then launch a
@@ -90,8 +88,7 @@ directory on exit. Anything the run writes dies with it. Two independent guards 
    (`lib.lua:38`). Override deliberately with `opts.allowAnyRom = true`.
 
 The owner's live save is `pokemonworld.gba`'s neighbour `pokemonworld.sav` at the repo root
-(gitignored, untracked). `VerifyOwnerSave.lua` is the only suite that reads it. `mgba-run.sh` copies
-it into the temp dir, but pass a copy anyway if you are experimenting.
+(gitignored, untracked). `VerifyOwnerSave.lua` can test an explicitly supplied copy locally. No runner discovers that file automatically, and CI refuses owner-save coverage.
 
 > A raw `.srm` battery save is 131072 bytes and is already mGBA's `.sav` format — converting one is
 > a rename. A blank save is all `0xFF`. mGBA may append a 16-byte RTC trailer to a `.sav` it wrote;

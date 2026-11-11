@@ -1,150 +1,77 @@
-# `test/overworld/lua` — the tracked overworld suites
+# Tracked overworld Lua suites
 
-Reproducible, fresh-clone-runnable test suites for PKMN-World. They run headlessly under a patched
-**mGBA**, not BizHawk — see [`../mgba/README.md`](../mgba/README.md) to build the emulator, and
-[`../BizHawkTesting.md`](../BizHawkTesting.md) for the field guide (boot signals, debug menu, warp
-byte order, collision checking).
+The [canonical case list](../cases.tsv) classifies fresh-game and fixture cases as `required` or `manual`.
+`run-all.sh` selects required rows for Full and their marked subset for Smoke. Host validation
+rejects missing rows, unclassified new suites, and changes to mandatory fixture mappings. This document describes
+coverage; historical assertion counts below are observations, not the current required count.
 
-Almost everything here runs against a **fresh new game on the current build with no address edits**.
-Four suites need a battery save instead, and one of those saves is not in the tree — see
-[Fixtures](#fixtures) and [Running the whole battery](#running-the-whole-battery).
+The suites run under pinned, patched headless mGBA on Linux and macOS. See the
+[native verification guide](../mgba/README.md) for setup and explicit Build, Smoke, and Full modes.
+[BizHawkTesting.md](../BizHawkTesting.md) documents boot signals, the debug menu, warp byte order,
+and collision checks used by the suites.
 
-## Story progress
+## Coverage and shared files
 
-`StoryProgress.lua` opens the production graphical Start menu, reads all three
-campaign reminders while travelling Kanto → Johto → Hoenn → hub → Kanto, checks
-active-region defaults and repeat visits, then saves, reboots and Continues.
-The companion host resolver boundaries and native renderer/classic-menu fixture
-are in [`../story-progress/`](../story-progress/); coverage and reproducible
-commands are documented in [`../../../docs/story-progress/README.md`](../../../docs/story-progress/README.md).
+Most cases start a fresh game. Migration/refusal cases use tracked or generated fixtures.
+These scenarios are debug-assisted and can modify RAM or use debug travel. They are not a
+natural playthrough or complete campaign-balance test.
 
-## What's in this directory
-
-`test/overworld/lua/` holds **61 tracked `.lua` files**: 58 suites/probes and
-three utilities. A build also generates `symbols.lua`, bringing the local total
-to 62. The four support files below must never be launched directly.
+Smoke selects SmokeBoot, WorldTitle, StoryProgress, and RegionalTravelMigration.
+StoryProgress reads all three campaign reminders while travelling between Kanto, Johto,
+Hoenn, and the hub, then saves, reboots, and Continues. Its companion host checks live in
+[story-progress](../story-progress/).
 
 | File | Role |
 |---|---|
-| `lib.lua` | Shared helpers — boot loop, coordinate-verified stepping, the two debug spinners, cursor-verified multichoice, screenshots, object dumps, bag scans, crash-screen decoding, assertions and the verdict. Every suite starts `local F = require("lib").new(require("symbols"), "SuiteName")`. |
-| `symbols.lua` | Generated per build from `pokemonworld.elf` by `test/overworld/GenLuaSymbols.py`. Runtime addresses that move every rebuild, a curated ABI-fixed struct-offset table, and the ROM's md5/sha1. **Build artifact — gitignored, never committed.** |
-| `mgba_shim.lua` | The `--script` entry point. Provides the EmuHawk Lua API the suites are written against and loads the suite named by `$PW_SUITE`. Not a suite. |
-| `SaveHarvest.lua` | In-emulator save harvester driven by `../MakeMigrationFixtures.sh` to produce the `fixtures/*.srm`. A utility, not a suite. |
+| `lib.lua` | Shared boot, input, navigation, assertion, screenshot, and verdict helpers. |
+| `symbols.lua` | Generated build addresses, ABI offsets, and ROM identity. Never committed. |
+| `mgba_shim.lua` | mGBA compatibility entry point. Loads the selected suite and immutable symbols. |
+| `SaveHarvest.lua` | Fixture-generation utility. Not a regression suite. |
 
-`make modern` regenerates `symbols.lua` on its own: `modern` → `all` → `rom`, and
-`rom: $(ROM) $(LUA_SYMBOLS)`. `make symbols` alone still works but is not needed.
+## Run a focused suite or sweep
 
-> Some comments inside `lib.lua` and the generated `symbols.lua` still claim a plain build leaves
-> `symbols.lua` stale and that only `make symbols` refreshes it. That was true before the
-> prerequisite was added. The Makefile is the authority.
-
-## Running one suite
-
-```bash
-make modern -j$(sysctl -n hw.ncpu)
-test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua
+```sh
+make modern -j8
+test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua pokemonworld.gba
 test/overworld/mgba-run.sh test/overworld/lua/VerifyV7Migrate.lua pokemonworld.gba test/overworld/lua/fixtures/v7dirty.srm
+test/overworld/run-all.sh pokemonworld.gba
 ```
 
-Arguments are `<suite.lua> [rom.gba] [save.srm]`; the ROM defaults to the repo build. Exit code is
-**0** pass, **1** suite failure, **2** setup error.
+Use GNU make on macOS, normally `gmake`. The mode command `python3 test/verify.py smoke`
+selects GNU make and handles the build/bootstrap automatically.
 
-Output lands in `_pwtest/` (gitignored): `<Suite>.log`, numbered `<Suite>_NN_<step>.png`, and a
-`<Suite>.PASS` / `.FAIL` sentinel. `lib.lua` creates `_pwtest/` if a fresh clone lacks it and warns
-loudly if it still cannot write. Redirect with `PW_OUT`.
+The focused arguments are `<suite.lua> [rom.gba] [save.srm]`. Explicit `--elf`, `--symbols`,
+and `--out` options select build inputs and an output parent. Each invocation creates a unique
+run/case directory for logs, screenshots, and sentinels. No command clears sibling evidence.
+Missing fixture arguments mean a fresh game; inherited `PW_SAVE` is not a fixture selection.
 
-The last line of a run is the verdict:
+Both focused and batch runs use the same verdict check. Process exit zero alone is insufficient.
+A selected suite must write a fresh PASS with its name, matching ROM hash, and positive equal
+passed/total assertion counts. A FAIL, crash, timeout, missing verdict, or bad binding fails.
+Missing or corrupt required fixtures fail the sweep. The summary lists selected, passed,
+failed, and excluded coverage and the exact input identities.
 
-```
-VERDICT SmokeBoot: 10/10 PASS
-```
+`VerifyOwnerSave` is an explicit local-only check, excluded from both canonical profiles and CI.
+The runners never search for `pokemonworld.sav`. To check a personal save deliberately, pass
+its path as the focused runner's third argument; the runner tests a disposable copy. This
+optional result must be reported separately from the canonical sweep.
 
-and the sentinel records the same thing plus the ROM it ran against:
+## Explicit controls and input guards
 
-```
-PASS 10/10 rom=0887BE3D4DAC670C3DB088B4C9FA536A at=2026-08-12T22:48:55Z suite=SmokeBoot
-```
+Use `--rtc` to select the console epoch and `--timeout` for a focused wall-clock limit.
+The default RTC is `1704110400`, or 2024-01-01 12:00 UTC, advancing with emulated frames.
+`MGBA_HEADLESS` selects the emulator executable. Profiles ignore inherited case selectors.
+Suite-specific controls use explicit `--env KEY=VALUE` arguments. For example, an owner-save
+check can pass `--env PW_EXPECT_GRP=75 --env PW_EXPECT_MAP=6` deliberately.
 
-A `.FAIL` sentinel additionally lists each failing assertion by name. **Zero assertions is a
-FAILURE, not a pass** — a suite that aborted before its first check must not report a perfect `0/0`.
+The runner reconstructs the ROM from the selected ELF with the normal build recipe and
+compares it before generating symbols. It then uses immutable copies of the ROM and symbols.
+The Lua helper also checks their ROM hash. This rejects an unrelated ELF even if a new symbols
+file could otherwise be stamped with the selected ROM's hash.
 
-## Running the whole battery
-
-```bash
-test/overworld/run-all.sh [rom.gba]        # defaults to ./pokemonworld.gba
-```
-
-It is not just a loop: it exists because "21/21 green" was once reported from 20 fresh runs plus
-one `.PASS` that was six days and many builds old, for a suite that cannot run at all. So it:
-
-1. **Deletes every `.PASS`/`.FAIL` in `_pwtest/` first**, so any sentinel left afterwards is one
-   this sweep wrote.
-2. Runs the 48 fresh-game suites, then the 3 save-backed ones, printing `rc=` and the verdict line
-   per suite.
-3. **Audits the sentinels**: each expected suite must have a `.PASS` *and* it must carry
-   `rom=<md5 of the ROM under test>`. A `.FAIL`, a missing sentinel, or a stale md5 each fail the
-   sweep by name.
-4. Prints suites it knows about but could not run, under `NOT RUN`.
-
-```
-green 51 / 51 expected
-SWEEP OK - every expected suite produced a fresh PASS stamped rom=<md5>
-```
-
-Exit code is **0** only for that. **1** means the sweep failed and the message says so outright —
-`SWEEP FAILED - do not quote a suite count from this run.` **2** is a setup error (no ROM, no
-`mgba-headless`, unhashable ROM).
-
-### What a clean sweep looks like
-
-On the owner's machine: **52/52, `SWEEP OK`, exit 0.**
-
-On a fresh clone: **51 green, 1 optional, exit 0.** The one difference is `VerifyOwnerSave`, which
-reads `pokemonworld.sav` — the owner's live battery save at the repo root. `*.sav` is gitignored,
-and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough, so no
-clone can ever have one. It is therefore listed in `run-all.sh`'s `OPTIONAL_SAVE` rather than
-`WITH_SAVE`: absent, it prints
-
-```
-VerifyOwnerSave          OPTIONAL - no pokemonworld.sav on this machine, not counted
-```
-
-and is left out of `EXPECTED` so the sentinel audit does not demand a `.PASS` for it.
-
-That distinction is the point. A missing **tracked** fixture still fails the sweep — that means the
-tree is broken. A missing **personal** save does not — that means nobody but the owner can run one
-extra check. Reporting both as failures made a green run impossible and trained people to ignore
-the exit code.
-
-> Until 2026-08-12 this section documented the opposite, because it was true: `VerifyMapRenumber`
-> had no committed fixture and sat in an `UNRUNNABLE` list, so the honest expectation was
-> "19 green, 1 skipped, 1 not run, exit 1" and the battery could not pass anywhere. Its fixture is
-> now generated by `test/overworld/MakeRenumberFixture.py` from the tracked fresh-new-game `v7.srm`, and
-> `UNRUNNABLE` is empty.
-
-### Environment knobs
-
-| Variable | Effect |
-|---|---|
-| `PW_RTC` | Unix seconds for the pinned console clock. Default `1704110400` (2024-01-01 12:00 UTC). |
-| `PW_OUT` | Where logs, screenshots and sentinels go. Default `_pwtest/`. |
-| `PW_SAVE` | Battery save for `mgba-run.sh`, if not passed as the third argument. |
-| `MGBA_HEADLESS` | Path to the emulator, if it is not on `PATH`. |
-| `PW_EXPECT_GRP` / `PW_EXPECT_MAP` | `VerifyOwnerSave` only — where the save under test is standing. |
-
-## Two guards that will abort a run
-
-1. **ROM/symbols binding.** `symbols.lua` records the md5 of the `.gba` it was generated from and
-   `lib.new()` refuses to run against any other ROM (`lib.lua:88`). Without this the normal
-   accident — rebuild, then launch a stale hand-copy — boots fine and reports every test green while
-   exercising the *previous* build's code, because `gSaveblock3` is a fixed EWRAM symbol. An **empty**
-   hash is also a hard abort: it used to skip the comparison, which made the one guard the whole
-   design leans on fail open on any host without BSD `md5`.
-2. **Throwaway-ROM allowlist.** The ROM basename must match `^Verify`, `^MigChk` or `^FixGen`
-   (`lib.lua:38`). `boot()` blind-presses A and Start for thousands of frames and the shipped save
-   profile has SAVE on the start-menu wheel, so pointing a suite at the real ROM/save pair is a live
-   clobber path that has already happened once. `mgba-run.sh` satisfies this automatically by copying
-   the ROM to `Verify1.gba` in a temp dir. Override deliberately with `opts.allowAnyRom = true`.
+The emulator receives a disposable `Verify1.gba` with a copied fixture beside it. The name
+satisfies the helper's ROM allowlist, and game writes cannot alter the input fixture or a
+personal save.
 
 ## Never call `bit.*`
 
@@ -212,7 +139,7 @@ is clean; keep it that way.
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
-| [`VerifyOwnerSave.lua`](#verifyownersavelua) | `pokemonworld.sav` (untracked, **optional**) | A real mid-playthrough save survives the v9 break. |
+| [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
 | [`VerifyMapRenumber.lua`](#verifymaprenumberlua) | `fixtures/v7renumber.srm` (generated) | The v9 map-renumber migration repoints persisted warps. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
@@ -701,7 +628,7 @@ That a pre-v7 save is **refused**, not half-loaded. Save format v7 reshaped Save
 
 ### `VerifyOwnerSave.lua`
 
-Salvage check for a **real mid-playthrough save** across the v9 break, run against the owner's battery save rather than a fixture. v9 does three things a save can notice and that save hits two: it appends `johtoTrainerFlags[]` to SaveBlock3 (un-checksummed tail, so it must be zeroed); it deletes two mid-group maps and renumbers 17 `gMapGroup_IndoorGoldenrod` and 3 `gMapGroup_MtSilver` mapNums, which are persisted in five `WarpData`s and in `objectEvents[]`; and it moves the Violet City and Route 32 heal coordinates, where `lastHealLocation` stores the COORDINATE and `GetHealLocationIndexByWarpData` matches on exact x/y, so a save holding the old pair silently stops matching the table and keeps whiting out to the old tile. Issue #51 explicitly accepted a save RESET for the renumber; this suite is the evidence that a migration was written instead and that a real save survives it. **The map-renumber half is VACUOUS here and the suite says so** — none of that save's warps are in either affected group, which is exactly why `VerifyMapRenumber.lua` exists. Where the save is STANDING and where it HEALS are separate facts; the standing map is overridable with `PW_EXPECT_GRP` / `PW_EXPECT_MAP` (defaults 75/6, Violet City) because a real save moves. **This suite cannot run on a fresh clone**: `pokemonworld.sav` is gitignored and untracked, and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough. It is therefore in `run-all.sh`'s `OPTIONAL_SAVE` list — absent, it is reported `OPTIONAL` and not counted, and does **not** fail the sweep.
+Salvage check for a **real mid-playthrough save** across the v9 break, run against the owner's battery save rather than a fixture. v9 does three things a save can notice and that save hits two: it appends `johtoTrainerFlags[]` to SaveBlock3 (un-checksummed tail, so it must be zeroed); it deletes two mid-group maps and renumbers 17 `gMapGroup_IndoorGoldenrod` and 3 `gMapGroup_MtSilver` mapNums, which are persisted in five `WarpData`s and in `objectEvents[]`; and it moves the Violet City and Route 32 heal coordinates, where `lastHealLocation` stores the COORDINATE and `GetHealLocationIndexByWarpData` matches on exact x/y, so a save holding the old pair silently stops matching the table and keeps whiting out to the old tile. Issue #51 explicitly accepted a save RESET for the renumber; this suite is the evidence that a migration was written instead and that a real save survives it. **The map-renumber half is VACUOUS here and the suite says so** — none of that save's warps are in either affected group, which is exactly why `VerifyMapRenumber.lua` exists. Where the save is STANDING and where it HEALS are separate facts; the standing map is overridable with `PW_EXPECT_GRP` / `PW_EXPECT_MAP` (defaults 75/6, Violet City) because a real save moves. **This suite cannot run on a fresh clone**: `pokemonworld.sav` is gitignored and untracked, and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough. It is excluded from the canonical case list and CI. Run it only as an explicit focused local check with a selected save path.
 
 ### `VerifyMapRenumber.lua`
 
@@ -725,7 +652,7 @@ no personal data and they are deterministic. `../MakeMigrationFixtures.sh` produ
 
 > **`VerifyV7Migrate` must use `v7dirty.srm`, not `v7.srm`.** `v7.srm` happens to hold zeroes where
 > `johtoTrainerFlags` lands, so the bank check passes there **even with the memset removed** — an
-> indistinguishable vacuous pass. `run-all.sh` hard-codes `v7dirty.srm` for exactly this reason; if
+> indistinguishable vacuous pass. The canonical case list selects `v7dirty.srm` for exactly this reason; if
 > you invoke the suite by hand, pass the same file.
 
 Since the v7 layout gate (`SAVE_FORMAT_LAYOUT_MIN`), the pre-v7 fixtures are **refusal** inputs:
@@ -735,13 +662,10 @@ save) and cannot be regenerated — treat it and its dirtied twin as irreplaceab
 bumped again, harvest a fixture of the outgoing version the same way and extend the migration suite
 with the new ladder step.
 
-**Two saves the suites need are NOT in the tree:**
-
-- `pokemonworld.sav` — the owner's live save, read by `VerifyOwnerSave.lua`. Gitignored.
-- ~~the crafted pre-deletion-warp save for `VerifyMapRenumber.lua`~~ — now committed as
-  `fixtures/v7renumber.srm`, generated from `v7.srm` by `test/overworld/MakeRenumberFixture.py`. Also
-  rebuildable with
-  `test/overworld/SavePatch.py`, which patches a save and recomputes the SaveBlock1 checksum.
+`VerifyMapRenumber` uses tracked `fixtures/v7renumber.srm`, generated from `v7.srm` by
+`MakeRenumberFixture.py`. RegionalTravelMigration uses tracked `v10regionaldirty.srm`.
+FamilyOptionsMigration uses a generated v11 fixture in the unique run directory.
+The canonical list owns these mappings. No required case depends on a personal save.
 
 Gaps in the version ladder, documented rather than silent:
 
@@ -763,40 +687,22 @@ played (non-fresh) save, which would put personal data in the repo — out of sc
 
 ---
 
-## Host-side validators (separate from these suites)
+## Host-side validators
 
-These are plain Python, read only tracked data files, need **no ROM and no emulator**, and run in
-seconds. They catch the failure shape the Lua suites cannot reach cheaply: a data edit that builds,
-links and boots clean, then faults or reads as broken later in play.
+`python3 test/validate-host.py` directly runs the current Python/content validators and the
+native Story resolver checks. The [script](../../validate-host.py) owns that command inventory.
+It needs no ROM, ARM compiler, or emulator and does not evaluate the game Makefile.
 
-| Script | Catches |
-|---|---|
-| `../ValidateGen13.py` | References to disabled species in `.party` files and `wild_encounters.json` — blue-screens at battle send-out. |
-| `../ValidateScripts.py` | Script-pointer arguments written as bare integers (`pokemart 0`). Derives the pointer slots by expanding `asm/macros/event.inc`, so it keeps working when a macro gains an argument. |
-| `../ValidateOwMonPlacements.py` | Bad map-placed overworld Pokemon. A species with no `OVERWORLD(...)` entry renders as a Substitute doll rather than failing. |
-| `../ValidateMapEvents.py` | Object-event consistency — who is standing there, whether the sprite matches the role, whether the trainer behind it belongs to the team it claims. Carries a REVIEW tier with recorded baselines; `--report` lists them. |
-| `../GenObstacleTable.py --check` | Drift in the committed cut-tree / smashable-rock index table. The array index **is** the save bit index, so that table is save-layout-affecting data. |
-| `../SavePatch.py --check` | The save tool's hard-coded sector geometry and SaveBlock sizes still matching the tree. A format bump that leaves them stale fails no build — it silently writes checksums into the wrong place. |
-| `../ValidateDoorAnims.py --max 0` | Animated-door warps with no matching `sDoorAnimGraphicsTable` row. `GetDoorGraphics` matches on the metatile id **and** the tileset pointer, so a tileset that borrows another's door metatile silently loses its animation — no build error, no crash, just a warp through a shut door. Gated at zero; lower the ceiling when a batch is fixed, never raise it. A second gate, `--max-unresolved` (baseline **8**), pins the warps the census cannot read at all — it counts warps outside their map's rectangle *plus* warps whose metatile behaviour cannot be resolved, because either kind is a hole, and a hole makes the dead count go *down*. On this tree it sits at exactly its baseline with no slack: **8 out of bounds, 0 unreadable**. The eight are all coordinate errors, not tileset overflow — `BattleFrontier_BattleDomeCorridor` (6,8) and (7,8), `BattleFrontier_BattleDomePreBattleRoom` (6,8) and (7,8), `SlateportCity` (40,7), `SlateportCity_Harbor` (19,15) and (20,15), and `TinTower_8F` (-1,10). The overflow cases this gate used to hold — the Johto Victory Road floors, Route 28, Route 34's day care, Route 26 North, Mahogany Gym, the Goldenrod flower shop and the Indigo Plateau — have all had their blockdata repainted back inside their tilesets and no longer appear. A third gate catches the trap that having a row is not sufficient: `CopyDoorTilesToVram` overwrites a VRAM window at the top of the tile space while a door plays, so art *drawing* from that window is corrupted for as long as the door is open. The window is **not fixed** — it is 8 tiles at `NUM_TILES_TOTAL-8` normally but **16** at `NUM_TILES_TOTAL-16` for a `size 2` row on a non-FRLG/Johto layout, so checking only the 8-tile range would miss half of it. The check computes it per warp from the matched row's `size` and the layout's flags, exactly as the engine does, and counts every metatile the map can actually **draw** — which is more than its own blockdata. The border block is drawn all round the map, and a connected map's fringe is copied into `gBackupMapLayout` and rendered with *this* map's tilesets, so both are exposed to this map's window. The fringe depths mirror the four `Fill*Connection` routines and are **not uniform**: 7 rows/columns for north, south and west, but **8** for east, because `MAP_OFFSET_W = MAP_OFFSET * 2 + 1` makes the horizontal margin asymmetric. Using 7 for east skips its last column — 295 distinct metatile ids across 77 neighbours sit only there. That is not academic: three Goldenrod metatiles drawing tiles 1020-1023 are reachable **only** through its connection fringes, and a blockdata-only scan missed all three (41 findings vs 44 on the pre-fix data). Placement is still what keeps it honest, though — `gTileset_Johto_Building` has two metatiles drawing tile 1021, but the only maps placing either have no animated door, so flagging the tileset would be a false alarm. Four tilesets really did collide (Mahogany, Battle Frontier Outside East, Goldenrod, Goldenrod Dept. Store); their tiles were relocated and the gate is now at zero. |
+[Check.yml](../../../.github/workflows/Check.yml) invokes this command for every PR and master
+push, including documentation-only changes. Its stable result is `Content validation (host-side)`.
+The optional local [pre-push hook](../hooks/pre-push) also runs direct content checks.
+Do not use `make validate` for automatic host-only validation because Makefile parsing can
+start game build setup.
 
-Where they run:
-
-- **`make validate`** runs all seven.
-- **The pre-push hook** runs the same seven directly (not through `make`, which would trigger a full
-  dependency scan for a source-only check). It is tracked at `../hooks/pre-push` — git does not clone
-  hooks, so **install it after a fresh clone**: `test/overworld/hooks/install.sh` symlinks it into
-  `.git/hooks`.
-- **CI** (`.github/workflows/Check.yml`, job `validate`) mirrors all seven, so a `--no-verify` push is
-  still caught.
-
-`../GenObstacleTable.py` (no `--check`) and `../GenLuaSymbols.py` are the generators behind two of
-those; `../SavePatch.py` doubles as the offline save-patching tool.
-
-**CI does not run the Lua suites.** They need the patched, Lua-enabled headless emulator, which is
-built from mGBA master and is not in the tree. `Check.yml` says so in its header. The suites are a
-**local gate only** — nothing but a human running `test/overworld/run-all.sh` exercises them. CI runs the
-content validators, the inherited upstream battle tests (`make check`), a shipping-configuration
-build, and a three-leg feature-flag off-switch compile matrix.
+Builds, Lua suites, battle checks, and feature-off builds run only through explicit local
+commands or [Verify on demand](../../../.github/workflows/Verify.yml). Smoke and Full can run
+on Linux CI or local macOS. There are no schedules and no build-output uploads. The
+[release checklist](../../../RELEASING.md) still requires deliberate complete candidate checks.
 
 ---
 
@@ -963,7 +869,7 @@ checks the offline v12 migration separately; target C tests verify the game migr
 Loads a generated supported save through Continue and verifies option bits, text selection,
 wallet, original Pokemon, and location. The canonical run uses the v11 Hard Mode fixture.
 `MakeFamilyOptionsFixtures.py --output DIR` generates v7 through v12 cases with the old bit
-set and clear. Set `PW_FAMILY_VERSION` and `PW_FAMILY_HARD` for additional cases. These are
+set and clear. Pass `--env PW_FAMILY_VERSION=7 --env PW_FAMILY_HARD=1` to the focused runner for an additional v7 case, or select the corresponding version and old-bit values. These are
 disposable derivatives of the tracked fresh-game fixture, not personal saves.
 
 ### `FamilyBattleOptions.lua`

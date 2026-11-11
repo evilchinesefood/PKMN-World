@@ -108,10 +108,10 @@ cp /tmp/outfits/after/assets/outfit_expected.lua /tmp/outfits/delivery-lib/
 printf 'return {}\n' > /tmp/outfits/delivery-lib/feature_symbols.lua
 python3 test/overworld/player-outfits/export_symbols.py pokemonworld.elf \
   /tmp/outfits/delivery-lib/outfit_symbols.lua
-PW_FEATURE_LIB=/tmp/outfits/delivery-lib PW_OUT=/tmp/outfits/delivery \
-  test/overworld/mgba-run.sh test/overworld/player-outfits/OutfitDelivery.lua pokemonworld.gba \
-  /tmp/outfits/after/surfaces/VisualReview.sav \
-  > /tmp/outfits/delivery/runner.log 2>&1
+python3 test/overworld/viridian-art/run_suite.py --repo . \
+  --suite test/overworld/player-outfits/OutfitDelivery.lua --rom pokemonworld.gba \
+  --save /tmp/outfits/after/surfaces/VisualReview.sav --out /tmp/outfits/delivery \
+  --env PW_FEATURE_LIB=/tmp/outfits/delivery-lib
 PW_OUT=/tmp/outfits/regression test/overworld/run-all.sh
 ```
 

@@ -28,21 +28,20 @@ python3 test/overworld/hub-sprites/build_fixture.py \
 for suite in HubSpritesComparison HubSpritesServices HubSpritesOutfits HubSpritesReadability; do
   run="$suite"
   if [ "$suite" = HubSpritesComparison ]; then run=after; fi
-  PW_HUB_AFTER=1 python3 test/overworld/visual-features/run_fixture.py \
+  python3 test/overworld/visual-features/run_fixture.py \
     --repo "$PWD" --fixture /tmp/hub-fixture \
-    --suite "test/overworld/hub-sprites/$suite.lua" --out "/tmp/hub-runs/$run"
+    --suite "test/overworld/hub-sprites/$suite.lua" --out "/tmp/hub-runs/$run" --env PW_HUB_AFTER=1
 done
 
 python3 test/overworld/visual-features/run_fixture.py \
   --repo "$PWD" --fixture /tmp/hub-fixture \
   --suite test/overworld/hub-sprites/save.lua --out /tmp/hub-runs/save
-mkdir -p /tmp/hub-runs/delivery
-PW_OUT=/tmp/hub-runs/delivery test/overworld/mgba-run.sh \
-  test/overworld/hub-sprites/verify_delivery.lua pokemonworld.gba \
-  /tmp/hub-runs/save/VisualReview.sav > /tmp/hub-runs/delivery/runner.log 2>&1
+python3 test/overworld/viridian-art/run_suite.py --repo . \
+  --suite test/overworld/hub-sprites/verify_delivery.lua --rom pokemonworld.gba \
+  --save /tmp/hub-runs/save/VisualReview.sav --out /tmp/hub-runs/delivery
 ```
 
-For the baseline, build `05b37db1a9b1dd8efda95233e4a61822680bba7b` in a second worktree. Run this branch's `build_fixture.py` with `--repo` pointing at that worktree, then run this branch's `HubSpritesComparison.lua` against its fixture with `PW_HUB_AFTER=0` and `--out /tmp/hub-runs/before`. This omits the new-FRLG assertions while retaining follower/palette/resource checks. Keep both fixture manifests alongside the evidence.
+For the baseline, build `05b37db1a9b1dd8efda95233e4a61822680bba7b` in a second worktree. Run this branch's `build_fixture.py` with `--repo` pointing at that worktree, then run this branch's `HubSpritesComparison.lua` against its fixture with `--env PW_HUB_AFTER=0` and `--out /tmp/hub-runs/before`. This omits the new-FRLG assertions while retaining follower/palette/resource checks. Keep both fixture manifests alongside the evidence.
 
 ```sh
 python3 test/overworld/hub-sprites/render_review.py \

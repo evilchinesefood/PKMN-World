@@ -140,7 +140,13 @@ return function(F, N, C, log)
   end, function()
     return FL('FLAG_DEFEATED_RIVAL_ROUTE103')
       and (os.getenv('PW_DETOUR') ~= 'evolve' or N.partyMon(0).level == 16)
-  end)
+  end, {
+    check = function(loss)
+      local rivals = { [C.TRAINER_MAY_ROUTE_103_TREECKO] = true, [C.TRAINER_MAY_ROUTE_103_TORCHIC] = true, [C.TRAINER_MAY_ROUTE_103_MUDKIP] = true, [C.TRAINER_BRENDAN_ROUTE_103_TREECKO] = true, [C.TRAINER_BRENDAN_ROUTE_103_TORCHIC] = true, [C.TRAINER_BRENDAN_ROUTE_103_MUDKIP] = true }
+      return loss.map == 'Route103' and rivals[loss.opponent] and at(HOME .. '_1F') and not FL('FLAG_DEFEATED_RIVAL_ROUTE103'),
+        N.mapName() .. ' rival complete=' .. tostring(FL('FLAG_DEFEATED_RIVAL_ROUTE103'))
+    end,
+  })
 
   beat('pokedex', function()
     assert(N.travel('LittlerootTown_ProfessorBirchsLab'))

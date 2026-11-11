@@ -10,7 +10,7 @@ rule. This directory holds the Hoenn beats and the pieces only Hoenn needs.
 ```sh
 make modern -j8
 python3 test/overworld/johto-playthrough/run.py --campaign hoenn                # the whole story
-python3 test/overworld/johto-playthrough/run.py --campaign hoenn --from winona  # resume after a beat
+python3 test/overworld/johto-playthrough/run.py --campaign hoenn --from winona --resume-dir /path/to/prior/case
 ```
 
 Checkpoints go to `_pwtest/hoenn-play/` by default (`--out` changes it). A game fix that moves
@@ -54,8 +54,8 @@ past it on retry, and `alt` froze on both attempts.
 A fresh run is deterministic for a given build and clock. Resuming from a checkpoint is not: the
 restore heals the party, which changes the RNG, so a retry can pass a beat a fresh run fails.
 
-Vary a run with `PW_RTC=<epoch>`, `PW_GENDER=F`, `PW_STARTER=0|2` and
-`PW_DETOUR=briney|stern|evolve`.
+Vary a run with `--rtc <epoch>`, `--gender F`, `--starter 0|2` and
+`--detour briney|stern|evolve`.
 
 ## Bugs found and fixed
 
@@ -65,7 +65,7 @@ Each one was reproduced first, then fixed and re-played.
    four already known, and the player said yes, the scene never recovered. `StopShadowAnimDelayTask`
    (`src/pokemon.c`) trusted a task id that is zero at power-on, so the first summary or party
    screen destroyed task slot 0, which here was the evolution itself. It now checks the task is
-   live and still its own. `PW_DETOUR=evolve` forces the case: a build without the fix stops with
+   live and still its own. `--detour evolve` forces the case: a build without the fix stops with
    no tasks and the fixed build finishes. The Mauville Gym freeze was traced directly; the Route
    118 one has the same signature.
 2. **Using the Hub Pass with Mr. Briney docked at Dewford, before Surf, ended the story.** The
@@ -85,11 +85,11 @@ that already received the PokeGear keep the old behaviour.
 
 ## Post-game
 
-`PW_POSTGAME=1` appends beats after `home` from `postgame.lua`; without it the campaign is unchanged.
+`--postgame` appends beats after `home` from `postgame.lua`; without it the campaign is unchanged.
 
 ```sh
-PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn
-PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn --from pg_winona
+python3 test/overworld/johto-playthrough/run.py --campaign hoenn --postgame
+python3 test/overworld/johto-playthrough/run.py --campaign hoenn --from pg_winona --postgame --resume-dir /path/to/prior/case
 ```
 
 Played, in order: the state `SetGameClearFlags` leaves; all eight gym rematches at the Hard tier

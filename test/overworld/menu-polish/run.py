@@ -28,7 +28,7 @@ for selection in range(3):
     run('python3', repo / 'test/overworld/visual-features/run_fixture.py', '--repo', repo,
         '--fixture', fixture, '--suite', Path(__file__).with_name('transitions.lua'),
         '--out', args.out / f'selection-{selection}',
-        env={**os.environ, 'PW_MENU_SELECTION': str(selection)})
+        '--env', 'PW_MENU_SELECTION=' + str(selection))
 run('python3', repo / 'test/overworld/visual-features/run_fixture.py', '--repo', repo,
     '--fixture', fixture, '--suite', Path(__file__).with_name('visuals.lua'),
     '--out', args.out / 'visuals')

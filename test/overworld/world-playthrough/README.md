@@ -5,12 +5,12 @@ the region campaigns' own beats, cut into slices at points the next slice can co
 
 ```sh
 make modern -j15
-PW_WORLD=A python3 test/overworld/johto-playthrough/run.py --campaign world   # Johto first, one slice each
-PW_WORLD=B python3 test/overworld/johto-playthrough/run.py --campaign world   # Hoenn first, two slices each
+python3 test/overworld/johto-playthrough/run.py --campaign world --world A   # Johto first, one slice each
+python3 test/overworld/johto-playthrough/run.py --campaign world --world B   # Hoenn first, two slices each
 ```
 
 Beats are prefixed by region (`j_`, `k_`, `h_`), and crossings are `cross<n>_to_<region>`, so
-`--from`, `--to` and `PW_LOSE` take names like `k_to_cerulean`.
+`--from`, `--to` and `--lose` take names like `k_to_cerulean`.
 
 Each crossing checks that money and Poke Balls carry over, the party is boxed, the player lands in
 the right region, and the whiteout respawn points into that region.
@@ -38,11 +38,11 @@ and `evidence/seams.log` holds the checks below.
 - A whiteout right after a gate, in each region, lands in that region's start town with the party
   healed.
 - The Hub Pass with Elm's starters still on the table: the walk to Route 29 is refused, and the lab
-  still hands one over (`PW_DETOUR=opening` in the Johto campaign).
-- The Hub Pass before Birch's rescue, which then plays normally (`PW_DETOUR=opening` in Hoenn).
+  still hands one over (`--detour opening` in the Johto campaign).
+- The Hub Pass before Birch's rescue, which then plays normally (`--detour opening` in Hoenn).
 - The Hub Pass right after Falkner lands in Goldenrod, and Azalea is reached from the north by Cut
-  (`PW_DETOUR=goldenrod`, stop with `--to detour_goldenrod`).
-- Talking to a trainer with an empty party is refused with a message (`PW_DETOUR=trainer` in Kanto,
+  (`--detour goldenrod`, stop with `--to detour_goldenrod`).
+- Talking to a trainer with an empty party is refused with a message (`--detour trainer` in Kanto,
   stop with `--to detour_trainer`). The check is in the shared trainer script.
 
 ## Slice limits, recorded so nobody chases them again
@@ -56,22 +56,22 @@ and `evidence/seams.log` holds the checks below.
 
 ## Post-game
 
-`PW_POSTGAME=1` adds detours after chosen checkpoints. A detour plays its scene, checks the result,
-then restores the checkpoint it began from, so the campaign carries on unchanged. `PW_WORLD=J` plays
-Johto alone, for a Johto champion who has never been to Kanto. `PW_PG_ONLY=<pattern>` keeps only the
+`--postgame` adds detours after chosen checkpoints. A detour plays its scene, checks the result,
+then restores the checkpoint it began from, so the campaign carries on unchanged. `--world J` plays
+Johto alone, for a Johto champion who has never been to Kanto. `--postgame-only <pattern>` keeps only the
 detours whose names match, for iterating with `--from`.
 
 ```sh
-PW_WORLD=A PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign world
-PW_WORLD=J PW_POSTGAME=1 python3 test/overworld/johto-playthrough/run.py --campaign world
+python3 test/overworld/johto-playthrough/run.py --campaign world --world A --postgame
+python3 test/overworld/johto-playthrough/run.py --campaign world --world J --postgame
 ```
 
 Each Hall of Fame checks `VAR_DIFFICULTY`, the Hub tickets for that many champions, the Frontier
-and World Championship gates, and every gate there and back. After the last Hall, `PW_WORLD=A` plays
+and World Championship gates, and every gate there and back. After the last Hall, `--world A` plays
 Battle Net rematches (a stone with room, a stone with a full bag, then claiming it), the storage
 refusal, the Battle Tower from entry to a win, retire and rest-and-resume, and the Exchange Corner
-with a full bag. `PW_WORLD=J` plays Elm's ticket, the S.S. Aqua in both directions and obedience by
-badges. `PW_WORLD=B` sails from the Frontier with the active region's tier set by a non-champion
+with a full bag. `--world J` plays Elm's ticket, the S.S. Aqua in both directions and obedience by
+badges. `--world B` sails from the Frontier with the active region's tier set by a non-champion
 region.
 
 Debug setup, used only where it doesn't bypass what is under test: warps to gyms, `VAR_SSAQUA_STATE`

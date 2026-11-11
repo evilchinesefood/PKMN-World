@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
@@ -14,9 +15,10 @@ p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--out', type=Path, default=ROOT / '_pwtest/357-audit')
 p.add_argument('--suite', choices=['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock', 'hideflags', 'statefix'])
 a = p.parse_args()
-out = a.out.resolve()
+a.out.mkdir(parents=True, exist_ok=True)
+out = Path(tempfile.mkdtemp(prefix='audit-', dir=a.out.resolve()))
+print('audit-dir:', out, flush=True)
 fixture = out / 'fixture'
-out.mkdir(parents=True, exist_ok=True)
 commands = [
     ['python3', str(ROOT / 'test/overworld/visual-features/build_fixture.py'),
      '--repo', str(ROOT), '--rom', str(ROOT / 'pokemonworld.gba'),
@@ -35,24 +37,19 @@ md5 = hashlib.md5(rom.read_bytes()).hexdigest().upper()
 results = []
 for suite in ([a.suite] if a.suite else ['gyms', 'gyms-order2', 'gyms-order3', 'story', 'league', 'reflections', 'continuous', 'probe', 'hof', 'e4lock', 'hideflags', 'statefix']):
     dest = out / suite
-    dest.mkdir(exist_ok=True)
-    for pattern in ('*.PASS', '*.FAIL'):
-        for stale in dest.glob(pattern):
-            stale.unlink()
-    env=os.environ.copy()
-    # The continuous run plays the whole arc in one boot and ends in the Hall of Fame
-    # ceremony and credits, which do not fit the shared per-suite wall clock.
+    options = []
     if suite in ('continuous', 'hof', 'e4lock'):
-        env['PW_FIXTURE_TIMEOUT'] = '2400'
+        options += ['--timeout', '2400']
     if suite.startswith('gyms-order'):
-        env['PW_AUDIT_ORDER'] = 'Pryce,Chuck,Jasmine' if suite.endswith('2') else 'Jasmine,Pryce,Chuck'
+        order = 'Pryce,Chuck,Jasmine' if suite.endswith('2') else 'Jasmine,Pryce,Chuck'
+        options += ['--env', 'PW_AUDIT_ORDER=' + order]
     script_suite = 'gyms' if suite.startswith('gyms') else suite
-    with (dest / 'command.log').open('w') as log:
+    with (out / (suite + '-command.log')).open('w') as log:
         result = subprocess.run([
             'python3', str(ROOT / 'test/overworld/visual-features/run_fixture.py'),
             '--repo', str(ROOT), '--fixture', str(fixture),
-            '--suite', str(HERE / f'audit_{script_suite}.lua'), '--out', str(dest)],
-            cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
+            '--suite', str(HERE / f'audit_{script_suite}.lua'), '--out', str(dest), *options],
+            cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
     sentinels = list(dest.glob('*.PASS'))
     fresh = (len(sentinels) == 1 and f'rom={md5}' in sentinels[0].read_text()
              and not list(dest.glob('*.FAIL')))

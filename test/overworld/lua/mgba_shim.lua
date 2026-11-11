@@ -39,6 +39,8 @@ local ROM_HASH = os.getenv("PW_ROM_HASH") or ""
 -- has already found it. Derive the directory from THIS chunk, which mGBA loads by absolute path.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or "./"
 package.path = here .. "?.lua;" .. package.path
+local symbols = assert(os.getenv("PW_SYMBOLS"), "runner did not select immutable symbols")
+package.loaded.symbols = assert(loadfile(symbols))()
 
 -- ---- key masks -------------------------------------------------------------------------------
 -- BizHawk spells buttons Up/Down/Left/Right/A/B/Start/Select/L/R; mGBA uses SCREAMING_CASE.

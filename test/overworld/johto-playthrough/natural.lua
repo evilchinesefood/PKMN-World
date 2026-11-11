@@ -984,8 +984,8 @@ return function(F, N, S, here)
     return false
   end
 
-  function Nat.loadCheckpoint(name)
-    local fn = loadfile(F.out .. 'nat_' .. name .. '.lua')
+  function Nat.loadCheckpoint(name, directory)
+    local fn = loadfile((directory and (directory .. '/') or F.out) .. 'nat_' .. name .. '.lua')
     if fn then
       local t = fn()
       for k in pairs(stats) do stats[k] = nil end

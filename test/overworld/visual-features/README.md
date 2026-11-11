@@ -52,10 +52,12 @@ make check TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 make validate
 python3 test/overworld/visual-features/build_fixture.py --repo "$PWD" \
   --rom pokemonworld.gba --elf pokemonworld.elf --out /tmp/visual-fixture
-PW_FEATURE_LIB=/tmp/visual-fixture/lua PW_OUT=/tmp/visual-captures \
-  test/overworld/mgba-run.sh test/overworld/visual-features/capture.lua /tmp/visual-fixture/VerifyFeatures.gba
+python3 test/overworld/visual-features/run_fixture.py --repo "$PWD" \
+  --fixture /tmp/visual-fixture --suite test/overworld/visual-features/capture.lua --out /tmp/visual-captures
 python3 test/overworld/visual-features/run_fixture.py --repo "$PWD" \
   --fixture /tmp/visual-fixture --suite test/overworld/visual-features/stress.lua --out /tmp/visual-stress
 ```
 
 The local handoff is `_pwtest/visual-review/VisualReview.zip` in the owner's main checkout. It contains the tested **development ROM**, a synthetic save beside Petalburg's pond, Town Map, checksums, and a 5–10 minute normal-controls route. This follows `RELEASING.md`'s instruction to distribute the development configuration. No ROM is committed/uploaded to GitHub, no release tag is cut, and no personal save is used.
+
+Fixture and gallery adapters require a fresh, empty `--out` directory. They refuse to overwrite previous evidence. Pass deliberate suite controls as `--env PW_KEY=value`; inherited `PW_*` selectors are ignored. The copied fixture ROM and symbols must match their build manifest, and process success requires a fresh positive verdict through the shared native audit. Rebuild old fixtures that predate symbol hashes.

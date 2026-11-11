@@ -2,6 +2,9 @@
 """Negative evidence tests for the lighting publisher's complete run contract."""
 from pathlib import Path
 import tempfile
+import csv
+import json
+import shutil
 import render_review as publisher
 
 MD5 = 'A' * 32
@@ -46,26 +49,32 @@ print('PASS: complete lighting run contract accepted')
 
 with tempfile.TemporaryDirectory() as temporary:
     root = Path(temporary)
-    names = [f'Suite{i}' for i in range(50)]
+    catalog = list(csv.DictReader((Path(__file__).resolve().parents[1] / 'cases.tsv').open(), delimiter='\t'))
+    names = [row['name'] for row in catalog if row['scope'] == 'required']
     def sweep(rows):
-        lines = []
+        for path in root.iterdir():
+            shutil.rmtree(path) if path.is_dir() else path.unlink()
+        (root / 'selected.tsv').write_text(''.join(f'{name}\tsuite.lua\t-\n' for name, _, _ in rows))
+        (root / 'summary.txt').write_text(f'selected={len(rows)} passed={len(rows)} failed=0 excluded=VerifyOwnerSave\n')
         for name, label, count in rows:
-            lines.append(f'{name} rc=0 VERDICT {label}: {count}/{count} PASS')
-            (root / (name + '.PASS')).write_text(f'PASS {count}/{count} rom={MD5} at=now suite={label}\n')
-        lines.append(f'SWEEP OK - every expected suite produced a fresh PASS stamped rom={MD5}')
-        (root / 'sweep.log').write_text('\n'.join(lines) + '\n')
+            case = root / (name + '-case')
+            (case / 'evidence').mkdir(parents=True, exist_ok=True)
+            (case / 'result.json').write_text(json.dumps({'case': label, 'status': 'passed', 'rom_md5': MD5, 'assertions': count}))
+            (root / (name + '.log')).write_text(f'case-dir: {case}\n')
+            (case / 'evidence' / (name + '.PASS')).write_text(f'PASS {count}/{count} rom={MD5} at=now suite={label}\n')
     good = [(n, n, 1) for n in names]
     sweep(good)
-    assert publisher.validate_sweep(root, MD5) == (50, 50)
+    assert publisher.validate_sweep(root, MD5) == (len(names), len(names))
     for name, rows in (
         ('duplicate suite', good[:-1] + [good[0]]),
+        ('missing canonical suite', good[:-1]),
         ('zero assertions', good[:-1] + [(names[-1], names[-1], 0)]),
         ('wrong verdict label', good[:-1] + [(names[-1], 'WrongSuite', 1)]),
     ):
         sweep(rows)
         try:
             publisher.validate_sweep(root, MD5)
-        except AssertionError:
+        except (AssertionError, ValueError):
             print('PASS:', name, 'rejected')
         else:
             raise AssertionError(name + ' was accepted')

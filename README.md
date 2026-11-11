@@ -81,14 +81,18 @@ Full setup, toolchain notes and troubleshooting live in **[INSTALL.md](INSTALL.m
 
 | Command | What it does |
 |---|---|
-| `make modern` | Build the ROM (this is the normal build) |
-| `make validate` | Host-side content checks — species, scripts, map events, layouts/warps/connections and encounters |
-| `make check` | The inherited battle-engine test suite (5,700 cases, including explicit upstream skipped categories) |
-| `test/overworld/run-all.sh` | 51 mandatory in-game overworld suites on a patched headless mGBA (52 with the optional owner save). Local only — see `test/overworld/mgba/README.md` |
-| `make RELEASE=1` | Optimized build with the debug menu stripped |
+| `make modern` | Build the default ROM |
+| `python3 test/validate-host.py` | Direct host/content validation without game build setup |
+| `python3 test/verify.py build` | Isolated default shipping/dev build only |
+| `python3 test/verify.py smoke` | Default build and startup/travel/save regression profile |
+| `python3 test/verify.py full` | Default build, canonical Lua cases, early regional losses, battle checks, palette regression, and feature-off builds |
+| `make check TESTS='test name'` | Focused battle-engine test |
+| `test/overworld/run-all.sh` | Canonical Lua sweep against an already built ROM |
 
-CI (`.github/workflows/Check.yml`) runs the host validators and `make check`. It never uploads a
-ROM, and the emulator suites can't run there.
+Automatic PR and master checks run only direct host validation. Builds and gameplay tests run
+when explicitly requested locally or through [Verify on demand](.github/workflows/Verify.yml).
+There are no scheduled builds/tests and no CI build-output uploads. See the
+[native verification guide](test/overworld/mgba/README.md) and [release gate](RELEASING.md).
 
 ## Status
 

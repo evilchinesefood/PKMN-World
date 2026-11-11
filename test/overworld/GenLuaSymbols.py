@@ -10,7 +10,7 @@
 #   python3 test/overworld/GenLuaSymbols.py pokemonworld.elf [arm-none-eabi-nm] > test/overworld/lua/symbols.lua
 #
 # The generated file is a build artifact (gitignored) — commit the generator, not its output.
-import subprocess, sys, re, os, hashlib
+import subprocess, sys, re, os, hashlib, argparse
 
 # Runtime symbols scripts need. sMenu is disambiguated by size (the 12-byte definition backs
 # script multichoice / yes-no; the other same-named symbols are 4-byte pointers from other TUs).
@@ -447,11 +447,10 @@ def door_constants(root):
     return beh, counts, attrs, grid
 
 
-def rom_hashes(elf):
-    """MD5 + SHA1 of the .gba beside the ELF, so a suite can refuse a stale/mismatched ROM."""
-    rom = os.path.splitext(elf)[0] + ".gba"
+def rom_hashes(elf, rom=None):
+    rom = rom or os.path.splitext(elf)[0] + ".gba"
     if not os.path.exists(rom):
-        sys.exit(f"ROM not found beside the ELF: {rom} — symbols.lua must be bound to a ROM")
+        sys.exit(f"ROM not found: {rom} — symbols.lua must be bound to a ROM")
     data = open(rom, "rb").read()
     return os.path.basename(rom), hashlib.md5(data).hexdigest(), hashlib.sha1(data).hexdigest()
 
@@ -471,14 +470,13 @@ def load_syms(elf, nm):
 
 
 def main():
-    if len(sys.argv) < 2:
-        sys.exit("usage: GenLuaSymbols.py <pokemonworld.elf> [nm] [--title]")
-    elf = sys.argv[1]
-    args = [arg for arg in sys.argv[2:] if arg != "--title"]
-    nm = args[0] if args else "arm-none-eabi-nm"
-    # LTO release builds discard unrelated debug/menu symbols. The title suite
-    # needs only these surviving callbacks and globals, still bound to the ROM hash.
-    title_only = "--title" in sys.argv[2:]
+    parser = argparse.ArgumentParser(description="Generate ROM-bound Lua symbols")
+    parser.add_argument("elf")
+    parser.add_argument("nm", nargs="?", default=os.environ.get("ARM_NM", "arm-none-eabi-nm"))
+    parser.add_argument("--rom")
+    parser.add_argument("--title", action="store_true")
+    args = parser.parse_args()
+    elf, nm, title_only = args.elf, args.nm, args.title
     wanted = ["gMain", "MainCB2_WorldTitleScreen", "gBattle_BG1_Y",
               "gScanlineEffect", "CB2_MainMenu", "CB2_InitClearSaveDataScreen",
               "CB2_Overworld"] if title_only else WANT
@@ -517,7 +515,7 @@ def main():
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sb1 = saveblock1_offsets(root)
     sb3 = saveblock3_offsets(root)
-    romName, romMD5, romSHA1 = rom_hashes(elf)
+    romName, romMD5, romSHA1 = rom_hashes(elf, args.rom)
 
     print(f"-- AUTO-GENERATED from {os.path.basename(elf)} by test/overworld/GenLuaSymbols.py — do not edit.")
     print("-- Regenerated every build (`make symbols`); addresses move each rebuild.")

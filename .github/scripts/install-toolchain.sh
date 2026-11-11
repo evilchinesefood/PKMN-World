@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+packages=(binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi
+          libpng-dev libelf1 python3)
+case "${1:-}" in
+  '') ;;
+  --emulator) packages+=(build-essential cmake pkg-config zlib1g-dev) ;;
+  *) echo 'usage: install-toolchain.sh [--emulator]' >&2; exit 2 ;;
+esac
+[[ "$#" -le 1 ]] || { echo 'too many arguments' >&2; exit 2; }
+
 # shellcheck source=/dev/null
 . /etc/os-release
 mirror=
@@ -41,8 +50,7 @@ apt_options=(-o "Dir::Etc::sourcelist=$source_dir/sources.list"
 for attempt in 1 2 3; do
   if sudo apt-get update --error-on=any "${apt_options[@]}" && \
      sudo apt-get install -y --no-install-recommends "${apt_options[@]}" \
-       binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-       libpng-dev libelf1 python3; then
+       "${packages[@]}"; then
     exit 0
   fi
   if [[ "$attempt" -lt 3 ]]; then

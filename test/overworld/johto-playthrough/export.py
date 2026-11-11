@@ -6,6 +6,10 @@
 Everything is read from the build being tested (pokemonworld.elf and the headers it was built
 from), so no address or constant is copied from another build.
 """
+import argparse
+import os
+import shlex
+import shutil
 import json
 import re
 import subprocess
@@ -14,12 +18,34 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-NM = '/opt/devkitpro/devkitARM/bin/arm-none-eabi-nm'
-out = Path(sys.argv[1]).resolve()
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('out', type=Path)
+parser.add_argument('--elf', type=Path, default=ROOT / 'pokemonworld.elf')
+parser.add_argument('--nm')
+parser.add_argument('--arm-cc')
+parser.add_argument('--cc', default=os.environ.get('CC', 'cc'))
+args = parser.parse_args()
+
+def arm_tool(explicit, name):
+    override = explicit or os.environ.get('ARM_CC' if name.endswith('-gcc') else 'ARM_NM')
+    if override:
+        return override
+    devkit = os.environ.get('DEVKITARM')
+    if devkit and (Path(devkit) / 'bin' / name).is_file():
+        return str(Path(devkit) / 'bin' / name)
+    found = shutil.which(name)
+    if not found:
+        parser.error(f'{name} not found; use --nm/--arm-cc or set DEVKITARM')
+    return found
+
+NM = arm_tool(args.nm, 'arm-none-eabi-nm')
+GCC = arm_tool(args.arm_cc, 'arm-none-eabi-gcc')
+CC = shlex.split(args.cc)
+out = args.out.resolve()
 out.mkdir(parents=True, exist_ok=True)
 
 syms, every = {}, {}
-for line in subprocess.check_output([NM, str(ROOT / 'pokemonworld.elf')], text=True).splitlines():
+for line in subprocess.check_output([NM, str(args.elf.resolve())], text=True).splitlines():
     p = line.split()
     if len(p) == 3 and re.fullmatch(r'[A-Za-z_]\w*', p[2]):
         syms[p[2]] = int(p[0], 16)
@@ -53,7 +79,7 @@ src.append('return 0;}')
 def build(src, td):
     c, exe = Path(td) / 'c.c', Path(td) / 'c'
     c.write_text('\n'.join(src))
-    return exe, subprocess.run(['cc', '-w', '-std=gnu17', '-I', str(ROOT / 'include'), '-I', str(ROOT / 'gflib'),
+    return exe, subprocess.run(CC + ['-w', '-std=gnu17', '-I', str(ROOT / 'include'), '-I', str(ROOT / 'gflib'),
                                 '-DALL_REGIONS=1', '-DMODERN=1', '-o', str(exe), str(c)],
                                capture_output=True, text=True)
 
@@ -63,12 +89,17 @@ with tempfile.TemporaryDirectory() as td:
         exe, r = build(src, td)
         if r.returncode == 0:
             break
-        # Drop the printf lines the host compiler cannot evaluate (names that are not integer
-        # constants on this host), then retry.
-        lines = {int(n) for n in re.findall(r'c\.c:(\d+):\d+: error', r.stderr)}
+        # Clang reports the failing expression directly; GCC may report the error in a
+        # header and identify this generated printf only in a macro-expansion note.
+        # Match this source's full path, never a similarly named header or another file.
+        diagnostic = (re.escape(str(Path(td) / 'c.c'))
+                      + r':(\d+):\d+: (?:error:|note: in expansion of macro\b)')
+        locations = {int(n) for n in re.findall(diagnostic, r.stderr)}
+        lines = {i for i in locations
+                 if 1 <= i <= len(src) and src[i - 1].startswith('printf(')}
         if not lines:
             sys.exit(r.stderr[:4000])
-        src = [l for i, l in enumerate(src, 1) if i not in lines or not l.startswith('printf')]
+        src = [l for i, l in enumerate(src, 1) if i not in lines]
     else:
         sys.exit(r.stderr[:4000])
     vals = subprocess.check_output([str(exe)], text=True)
@@ -85,7 +116,6 @@ print(f'{len(syms)} symbols, {len(vals.splitlines())} constants, {len(rows)} map
 
 # Struct offsets, compiled with the ROM's own ABI (-mabi=apcs-gnu is load-bearing: without it
 # every SaveBlock1 offset comes out 40 bytes low and still looks plausible).
-GCC = '/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc'
 with tempfile.TemporaryDirectory() as td:
     obj = Path(td) / 'o.o'
     subprocess.run([GCC, '-c', '-iquote', 'include', '-iquote', 'gflib', '-std=gnu17', '-DMODERN=1', '-DTESTING=0',

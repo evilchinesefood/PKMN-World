@@ -105,3 +105,5 @@ night. The optional save begins in Viridian near the eastern garden, with a
 Pikachu follower and the gym unlocked. Walk into the garden, return to the Center,
 then visit the pond and west approach. This is a synthetic test profile; keep it
 separate from personal saves. The agent has already performed the mechanical checks.
+
+Use fresh, empty output directories for `run_suite.py`; it never deletes previous evidence. The adapter retains the exact native case record and copies only its validated artifacts into the flat gallery directory. For a ROM whose ELF is elsewhere, pass `--elf PATH`. The regression reader follows the one `sweep-dir` recorded in `sweep.log` and requires the current canonical inventory, rather than a historical fixed suite count.

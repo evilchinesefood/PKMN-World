@@ -14,6 +14,9 @@ import sys
 
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from SweepEvidence import read_sweep
+
 import art
 import panes
 sys.path.insert(0, str(art.REPO/'test/overworld/viridian-art'))
@@ -69,15 +72,7 @@ def main():
     md5 = digest(args.delivery, 'md5').upper()
     counts['delivery'] = lighting_review.passed(args.delivery_run, md5, 'ViridianFrontagesDelivery', require_runner_log=False)
     assert counts == {'before': 45, 'after': 45, 'lifecycle': 55, 'delivery': 3}
-    sweep = (args.regression/'sweep.log').read_text()
-    assert f'SWEEP OK - every expected suite produced a fresh PASS stamped rom={md5}' in sweep
-    rows = re.findall(r'^(\S+)\s+rc=0\s+VERDICT (\S+): (\d+)/(\d+) PASS$', sweep, re.M)
-    assert len(rows) == len({r[0] for r in rows}) == 50
-    assert not list(args.regression.glob('*.FAIL'))
-    for name, suite, passed, total in rows:
-        assert name == suite and int(passed) == int(total) > 0
-        assert re.fullmatch(rf'PASS {passed}/{total} rom={md5} at=\S+ suite={name}\s*',
-                            (args.regression/(name+'.PASS')).read_text())
+    sweep_dir, rows, sentinel_text = read_sweep(args.regression, md5)
     counts['regression_suites'] = len(rows)
     counts['regression_assertions'] = sum(int(r[2]) for r in rows)
     images = []
@@ -126,8 +121,8 @@ def main():
         shutil.copyfile(directory/'run-provenance.json', verification/(key+'_run-provenance.json'))
         for suffix in ('log', 'PASS'):
             shutil.copyfile(directory/(suite+'.'+suffix), verification/(key+'_'+suite+'.'+suffix))
-    shutil.copyfile(args.regression/'sweep.log', args.out/'regression.log')
-    (args.out/'regression-sentinels.txt').write_text(''.join((args.regression/(r[0]+'.PASS')).read_text() for r in rows))
+    shutil.copyfile(sweep_dir/'summary.txt', args.out/'regression.log')
+    (args.out/'regression-sentinels.txt').write_text(sentinel_text)
     shutil.copyfile(art.HERE/'edits.json', args.out/'edits.json')
     manifest = dict(baseline_commit=art.BASE, before_sha256=digest(args.before_rom),
                     delivery_md5=md5, delivery_sha256=digest(args.delivery), fixtures=fixtures,

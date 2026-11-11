@@ -50,7 +50,7 @@ python3 test/overworld/visual-features/run_fixture.py --repo . \
   --fixture /tmp/swsh-fixture --suite test/overworld/swsh-refresh/capture.lua --out /tmp/swsh-capture
 ```
 
-Run `regression.lua`, `items.lua`, `pc_transfer.lua`, `transitions.lua` the same way. Run `battle.lua` three times with `PW_BATTLE_MODE=0`, `1`, `2` for singles, doubles and full partner teams. `verify_assets.py --donor /path/to/donor-checkout` requires the five pinned donor objects; it does not fetch or import anything.
+Run `regression.lua`, `items.lua`, `pc_transfer.lua`, `transitions.lua` the same way. Run `battle.lua` three times with `--env PW_BATTLE_MODE=0`, `--env PW_BATTLE_MODE=1`, `--env PW_BATTLE_MODE=2` for singles, doubles and full partner teams. `verify_assets.py --donor /path/to/donor-checkout` requires the five pinned donor objects; it does not fetch or import anything.
 
 The helper resolves duplicate local symbols by the owning object's linked address range in the matching `.map`, not by `nm` order. It checks only on-screen window allocations; the PC's off-screen information panels intentionally reuse tiles. GBA scroll registers are write-only, so visibility uses the game's GPU register buffer. Palette comparisons omit transparent backdrop entry 0, which the renderer forces black. All other main/text colors are checked, including throughout the wallpaper animation.
 

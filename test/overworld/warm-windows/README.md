@@ -37,22 +37,20 @@ python3 test/overworld/warm-windows/check_data.py --repo . --out /tmp/window-aud
 python3 test/overworld/visual-features/build_fixture.py --repo . \
   --rom pokemonworld.gba --elf pokemonworld.elf \
   --source test/overworld/warm-windows/fixture.c --out /tmp/window-fixture
-PW_WINDOWS_AFTER=1 python3 test/overworld/visual-features/run_fixture.py --repo . \
+python3 test/overworld/visual-features/run_fixture.py --repo . \
   --fixture /tmp/window-fixture --suite test/overworld/warm-windows/capture.lua \
-  --out /tmp/window-runs/after
-PW_WINDOWS_AFTER=1 python3 test/overworld/visual-features/run_fixture.py --repo . \
+  --out /tmp/window-runs/after --env PW_WINDOWS_AFTER=1
+python3 test/overworld/visual-features/run_fixture.py --repo . \
   --fixture /tmp/window-fixture --suite test/overworld/warm-windows/lifecycle.lua \
-  --out /tmp/window-runs/after-lifecycle
+  --out /tmp/window-runs/after-lifecycle --env PW_WINDOWS_AFTER=1
 PW_OUT=/tmp/window-tracked test/overworld/run-all.sh
-mkdir -p /tmp/window-runs/delivery
-PW_OUT=/tmp/window-runs/delivery test/overworld/mgba-run.sh \
-  test/overworld/warm-windows/verify_delivery.lua pokemonworld.gba \
-  /tmp/window-runs/after-lifecycle/VisualReview.sav \
-  > /tmp/window-runs/delivery/runner.log 2>&1
+python3 test/overworld/viridian-art/run_suite.py --repo . \
+  --suite test/overworld/warm-windows/verify_delivery.lua --rom pokemonworld.gba \
+  --save /tmp/window-runs/after-lifecycle/VisualReview.sav --out /tmp/window-runs/delivery
 ```
 
 Build the same fixture against the matching **before** ROM/ELF and run both suites
-without `PW_WINDOWS_AFTER`, into `before` and `before-lifecycle`. The fixture
+without `--env PW_WINDOWS_AFTER=1`, into `before` and `before-lifecycle`. The fixture
 builder exports symbols from each ELF and guards the isolated ROM hash. Record
 the actual build commit separately from a later documentation-only checkout.
 

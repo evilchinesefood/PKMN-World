@@ -638,9 +638,13 @@ return function(F, S)
 
   -- Slots the game refused this turn (disabled, Taunt, Torment, Choice lock): skip them.
   N.badSlots = {}
+  -- Spread moves that also strike the user's own partner in a double battle.
+  local HITS_ALLY = { [C.MOVE_EARTHQUAKE] = true }
   local function bestMoveSlot()
     if N.natural then return N.natural.bestSlot(N.activeBattler, N.badSlots) end
     local b0 = bmon(N.activeBattler)
+    local allyUp = (r32(P.gBattleTypeFlags) & C.BATTLE_TYPE_DOUBLE) ~= 0
+      and r16(bmon(N.activeBattler ~ 2) + O.bm_hp) > 0
     local foe = bmon(1)
     if r16(foe + O.bm_hp) == 0 and r16(bmon(3) + O.bm_hp) > 0 then foe = bmon(3) end
     local types = { r8(foe + O.bm_types), r8(foe + O.bm_types + 1), r8(foe + O.bm_types + 2) }
@@ -648,7 +652,8 @@ return function(F, S)
     for i = 0, 3 do
       local mv = r16(b0 + O.bm_moves + 2 * i)
       local pp = r8(b0 + O.bm_pp + i)
-      if mv ~= 0 and pp > 0 and not N.badSlots[i] and not (N.avoidMoves and N.avoidMoves[mv]) then
+      if mv ~= 0 and pp > 0 and not N.badSlots[i] and not (N.avoidMoves and N.avoidMoves[mv])
+          and not (allyUp and HITS_ALLY[mv]) then
         local info = N.MOVES[mv]
         local score = 1
         if info then
@@ -681,7 +686,14 @@ return function(F, S)
       if r8(P.gBagPosition + 5) == 1 then break end
       press('Right'); idle(24)
     end
-    press('A'); idle(30); press('A'); idle(30)
+    -- The bag ignores keys while it fades in, and a pocket switch ignores A while it animates, so a
+    -- fixed pair of A presses could stop at the Use menu every turn. Press A until it is up, then Use.
+    local function useMenu() return activeTask(P.Task_ItemContext_SingleRow) or activeTask(P.Task_ItemContext_MultipleRows) end
+    for _ = 1, 8 do
+      if useMenu() then break end
+      press('A'); idle(20)
+    end
+    press('A'); idle(30)
   end
 
   N.battles = { trainer = 0, wild = 0, fled = 0 }
@@ -732,7 +744,8 @@ return function(F, S)
       F.w16(m + O.bm_hp, 1)
       for i = 0, 3 do F.w16(m + O.bm_moves + 2 * i, C.MOVE_GROWL) end
     end
-    N.threw = { kind = N.throw.kind, map = N.mapName(), money = N.money(), region = F.grp() }
+    -- The party as it went into the battle: Birch's rescue starts with none and hands one over first.
+    N.threw = { kind = N.throw.kind, map = N.mapName(), money = N.money(), region = F.grp(), party = N.partyCount() }
     N.throw = nil
     L('  THROWING this battle at ' .. N.threw.map)
   end
@@ -757,6 +770,7 @@ return function(F, S)
     local frameLimit = 60 * 60 * (N.natural and 40 or 12)
     while frames < frameLimit do
       if N.natural then N.natural.trace() end
+      if F.cb2() ~= (P.CB2_UpdatePartyMenu & ~1) then N.menuRefused = nil end   -- refusals are per menu visit
       if F.cb2() == (P.CB2_UpdatePartyMenu & ~1) then
         -- In-battle party screen: send out the first member TrySwitchInPokemon would accept.
         -- The menu shows the party in battle order (UpdatePartyToBattleOrder), and
@@ -768,28 +782,50 @@ return function(F, S)
         if (flags & C.BATTLE_TYPE_DOUBLE) ~= 0 and not partner then taken[r16(P.gBattlerPartyIndexes + 4)] = true end
         -- Both battlers fainted: the first replacement is reserved but not in battle yet.
         if not partner then taken[r8(r32(P.gBattleStruct) + O.bs_prevSelectedPartySlot)] = true end
+        -- A member the menu keeps refusing ("A is already in battle") is not asked for again this visit.
+        local refused = N.menuRefused or {}
+        local function open(i)
+          local order = r8(P.gBattlePartyCurrentOrder + (i // 2))
+          local fieldId = (i % 2 == 1) and (order & 0xF) or (order >> 4)
+          return not taken[fieldId] and (refused[i] or 0) < 2
+        end
         local target
         for i = 0, N.partyCount() - 1 do
           local pm = N.partyMon(i)
-          local order = r8(P.gBattlePartyCurrentOrder + (i // 2))
-          local fieldId = (i % 2 == 1) and (order & 0xF) or (order >> 4)
-          if pm.hp > 0 and pm.level > 0 and not taken[fieldId] and not target then target = i end
+          if pm.hp > 0 and pm.level > 0 and open(i) and not target then target = i end
         end
-        if N.natural and not partner then
-          target = N.natural.pickSendOut(function(i)
-            local order = r8(P.gBattlePartyCurrentOrder + (i // 2))
-            local fieldId = (i % 2 == 1) and (order & 0xF) or (order >> 4)
-            return not taken[fieldId]
-          end) or target
+        if N.natural and not partner then target = N.natural.pickSendOut(open) or target end
+        -- Refusals only steer the choice: a forced send-out can't be backed out of, so with every member
+        -- refused, ask again for the first one not on the field rather than pressing B forever.
+        if not target and next(refused) then
+          refused = {}
+          for i = 0, N.partyCount() - 1 do
+            local pm = N.partyMon(i)
+            if pm.hp > 0 and pm.level > 0 and open(i) and not target then target = i end
+          end
+          N.menuRefused = nil
         end
+        -- A voluntary switch the game refuses (trapped, or Shadow Tag): only B leaves.
+        local action = r8(P.gPartyMenu + 11)   -- PartyMenu.action
+        if action == 2 or action == 4 then target = nil end   -- PARTY_ACTION_CANT_SWITCH, _ABILITY_PREVENTS
         if target then
           for _ = 1, 8 do
             if r8(P.gPartyMenu + 9) == target then break end
             press('Down'); idle(10)
           end
-          L('  party menu: sending out slot ' .. target)
-          press('A'); idle(20); press('A'); idle(40)
+          if r8(P.gPartyMenu + 9) ~= target then
+            -- The cursor would not move: a refusal message is still up and swallows the keys, and an A
+            -- would only pick the slot under the cursor again. B dismisses the message; try again.
+            L('  party menu: cursor stuck at ' .. r8(P.gPartyMenu + 9) .. ', wanted ' .. target .. '; dismissing')
+            press('B'); idle(30)
+          else
+            L('  party menu: sending out slot ' .. target)
+            N.menuRefused = N.menuRefused or {}
+            N.menuRefused[target] = (N.menuRefused[target] or 0) + 1
+            press('A'); idle(20); press('A'); idle(40)
+          end
         else
+          L('  party menu: no member to send, B (action ' .. action .. ')')
           press('B'); idle(30)
         end
         frames = frames + 80
@@ -817,7 +853,7 @@ return function(F, S)
         -- Evaluated per turn: at the battle's first instant the foe's data isn't loaded yet.
         if N.foeHook then N.foeHook(r16(bmon(1)), r8(bmon(1) + O.bm_level), trainer) end
         if N.fightWanted and N.fightWanted(r16(bmon(1))) then fight = true end
-        local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and N.itemCount(N.catchBall or C.ITEM_POKE_BALL) > 0
+        local catching = not trainer and N.catchWanted and N.catchWanted(r16(bmon(1))) and (N.catchBall and N.itemCount(N.catchBall) > 0 or not N.catchBall and N.itemQty(C.ITEM_POKE_BALL) + N.itemQty(C.ITEM_GREAT_BALL) > 0)
         -- A foe with Arena Trap or Shadow Tag can't be fled: after two failed tries, fight it.
         if not fight and not catching then
           N.fleeTries = (N.fleeTries or 0) + 1
@@ -856,7 +892,7 @@ return function(F, S)
     end
     local outcome = r8(S.gBattleOutcome)
     if N.inBattle() then
-      error(string.format('battle did not finish: %s ctl%d=%08x', tag, N.activeBattler, controller()))
+      error(string.format('battle did not finish: %s ctl%d=%08x cb2=%08x turns=%d msg=%q', tag, N.activeBattler, controller(), F.cb2(), turns, N.message()))
     end
     if turns == 0 or outcome == 0 then
       L(string.format('  battle exit: cb2=%08x inBattle=%s ow=%s ctl0=%08x ctl2=%08x frames=%d', F.cb2(),
@@ -1057,6 +1093,11 @@ return function(F, S)
       N.face(e.d); press('A'); idle(30)
       N.settle({ policy = function(t, k) if k == 'yesno' then return 'yes' end return 0 end })
       waitStill(60)
+      -- A follower that does the field move first swaps places with us (EventScript_FollowerFieldMove),
+      -- so we may no longer stand beside the cleared tile. Stepping e.d from there walks somewhere else
+      -- (with Strength on, into a boulder). Re-plan from where the swap left us.
+      local cx, cy = F.pos()
+      if cx ~= x0 or cy ~= y0 then return 'moved-elsewhere' end
       if not holdUntilMoved(e.d, 40) then return 'blocked' end
       waitStill(30)
     elseif e.kind == 'interact' then
@@ -1105,6 +1146,11 @@ return function(F, S)
         idle(6)
       end
       local path
+      -- Fifteen waits have not cleared the way: plan through wild Pokemon. A wanderer leashed
+      -- inside a one-tile corridor never leaves while we stand still (the camera does not move, so
+      -- it never despawns either); walking into it starts a battle, which despawns it (DespawnOWEOnBattleStart).
+      local passWild0 = N.passWild
+      if noPath > 15 then N.passWild = true end
       if not opts.allowTriggers then
         local occ = occupancy(grid)
         for k in pairs(N.liveWarps()) do
@@ -1119,6 +1165,7 @@ return function(F, S)
       end
       -- strictTriggers: never fall back to a path over a live trigger (puzzle switches).
       if not path and not opts.strictTriggers then path = bfs(grid, x, y, N.elevation(), N.surfing(), goal, opts) end
+      N.passWild = passWild0
       if not path then
         -- A resumable assertf crash screen keeps the overworld callback, so it looks like a wall.
         if F.reportCrash and F.reportCrash('walk') then error('crash screen during walk at ' .. N.mapName()) end
@@ -1131,8 +1178,10 @@ return function(F, S)
           -- A wandering Pokémon or NPC may be standing in a corridor; wait for it to move, then
           -- forget temporary blocks. (Counted apart from attempts: battles on the way use those.)
           idle(120); N.avoid = {}
-        else
+        elseif noPath > 16 or passWild0 then
           return false
+        else
+          N.avoid = {}   -- one more plan, through wild Pokemon
         end
       else
         for i, e in ipairs(path) do
@@ -1607,6 +1656,31 @@ return function(F, S)
     return false
   end
 
+  -- A step-on warp (a teleport pad) does not fire for the tile we arrived on, and pushWarp only
+  -- pushes into walls. When a plan starts ON such a warp, step off onto a plain tile and back.
+  function N.reenterWarp()
+    local g0, m0 = F.grp(), F.mapn()
+    local x0, y0 = F.pos()
+    local grid, warpAt = liveGrid(), {}
+    for _, w in ipairs(header(g0, m0).warps) do warpAt[w.x .. ',' .. w.y] = true end
+    for d = 1, 4 do
+      local nx, ny = x0 + DX[d], y0 + DY[d]
+      local nv = grid.get(nx, ny)
+      if nv and (nv & 0x0C00) == 0 and not warpAt[nx .. ',' .. ny] and holdUntilMoved(d, 36) then
+        waitStill(30)
+        if F.grp() ~= g0 or F.mapn() ~= m0 then return true end
+        holdUntilMoved(({ 2, 1, 4, 3 })[d], 36)
+        idle(60)
+        waitStill(60)
+        if F.grp() ~= g0 or F.mapn() ~= m0 then return true end
+        local x, y = F.pos()
+        if not ((x == x0 and y == y0) or (x == nx and y == ny)) then return true end
+        if x == nx and y == ny then holdUntilMoved(({ 2, 1, 4, 3 })[d], 36); waitStill(30) end
+      end
+    end
+    return false
+  end
+
   -- Take one exit from the current map. Returns true when the map changed.
   local function takeExit(ex, opts)
     local g0, m0 = F.grp(), F.mapn()
@@ -1794,7 +1868,7 @@ return function(F, S)
         N.passGoal = nil
         idle(30)
         local x, y = F.pos()
-        if x == ex.x and y == ex.y then N.pushWarp() end
+        if x == ex.x and y == ex.y and not N.pushWarp() and x == x0 and y == y0 then N.reenterWarp() end
         waitStill(60)
         local x2, y2 = F.pos()
         if x2 == x0 and y2 == y0 then L('  travel: inner warp failed at ' .. N.mapName()); return false end

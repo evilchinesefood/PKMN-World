@@ -587,10 +587,21 @@ return function(F, N, C, log)
     assert(N.takeWarp(30, 25))                        -- B1F -> B2F
     assert(N.takeWarp(19, 12))                        -- B2F -> B1F lower (Surf, Waterfall)
     assert(N.go(19, 25)); useFieldMove(4)             -- Rock Smash (20,25)
-    assert(N.go(20, 25)); useFieldMove(1)             -- Strength again on (20,26)
+    assert(N.go(20, 25))
+    -- Strength again on (20,26). Arriving on (20,25) can start a wild battle that eats the A, and
+    -- pushing without Strength just walks into the boulder.
+    for _ = 1, 4 do
+      if not N.free() then N.settle() end
+      if FL('FLAG_SYS_USE_STRENGTH') then break end
+      useFieldMove(1)
+    end
     assert(N.push(1), 'push (20,26) south')
-    useFieldMove(4)                                   -- Rock Smash (21,26)
-    assert(N.takeWarp(20, 21))                        -- B1F -> 1F (21,32)
+    useFieldMove(4)                                   -- Rock Smash (21,26); the planner clears it if a battle ate the A
+    -- The way out is the one-tile column x=22 that wild Pokemon wander into; walk through them.
+    N.passWild = true
+    local out = N.takeWarp(20, 21)                    -- B1F -> 1F (21,32)
+    N.passWild = false
+    assert(out)
     assert(N.travel('JohtoIndigoPlateau'))
   end, function() return at('JohtoIndigoPlateau') end)
 

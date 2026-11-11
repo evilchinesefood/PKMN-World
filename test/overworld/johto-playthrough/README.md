@@ -56,10 +56,19 @@ up in control in the right region with the party healed, then plays the beat aga
 is forced: the party is fainted behind the lead, which drops to 1 HP knowing only Growl. Everything
 after the faint is the game's own code. `kind` can also be a `SPECIES_` constant for one wild
 Pokémon. A beat can pass a fourth argument with `check` (the story state a loss should leave),
-`replayFrom` (restart from an earlier beat, for league rooms) or `replay` (what is left to do).
+`replayFrom` (restart from an earlier beat, for league rooms and Kanto's Victory Road, whose
+boulders reset on a whiteout) or `replay` (what is left to do).
 Otherwise the replay walks back, using the debug warp where the planner has no route. In partner
 battles both sides go down. `evidence/early-losses.log` holds the early losses of all three regions
 and `evidence/unusual-losses.log` holds the league, partner, double and scripted ones.
+
+A beat can cross its grass without a random encounter, so a `wild` or `SPECIES_` loss that finds no
+battle reloads the previous beat's checkpoint and tries again some frames later, up to three times.
+The party the player should get back is the larger of the count at the start of the beat and the
+count when the battle was thrown: Birch's rescue starts with no party, and a tag battle shrinks the
+party while it runs. Early-loss specs that pass: `mr_pokemon:wild` in Johto (Elm's errand has no
+grass) and `rescue_birch:any,route103:trainer,petalburg:wild,woods:trainer,roxanne:TRAINER_ROXANNE_1`
+in Hoenn.
 
 ## Result (October 31, 2026)
 
@@ -112,8 +121,10 @@ The mode sets Exp. Share on and Hard Mode off by writing the save, and Exp stays
 
 - scores moves from `gMovesInfo` and `gTypeEffectivenessTable`, checked against known moves at startup
 - switches when the active Pokemon has no move that can hurt the foe
-- heals at Centers, on the way between maps and before each beat when the team is hurt
-- buys Potions at Marts and uses them in battle and, where no Center is reachable, from the Bag
+- heals at Centers, on the way between maps and before each beat when the team is hurt, and in
+  full before a beat listed in `provision` (one that enters a stretch with no way back to a Center)
+- buys Potions at Marts and uses them in battle and, where no Center is reachable, from the Bag;
+  the shops in `shopMaps` (the Indigo Plateau lobby) also sell Full Restores and Revives
 - accepts a level-up move that beats the weakest known move
 - treats a whiteout as a loss: it grinds in grass and plays the beat again, up to six retries
   (`PW_NATURAL_ATTEMPTS` changes that)
@@ -183,6 +194,35 @@ the numbers as an upper bound.
 
 A text printer still linked when the heap reset hung the return to the field at `src/malloc.c:97`.
 The fix is in `src/load_save.c`; `text_printer_heap.lua` scores 4/5 without it and 5/5 with it.
+
+### Confirmation (November 11, 2026, ROM `53D7AD96A8C2511110EA20F5E8EA0A96`)
+
+Every campaign, variant and loss ran again on merged master: 46 full or partial runs, 23 checkpoint
+losses and `test/overworld/run-all.sh`. With the fixes below, all passed with 0 retries and the
+sweep was 55/55. No new game bug turned up. Everything that failed or retried along the way was the
+harness:
+
+- A loss check expected the party size at the throw, so tag battles and Birch's rescue looked wrong.
+  It now takes the larger of the beat-start and throw counts.
+- A `wild` or `SPECIES_` loss could cross its grass with no encounter. It now retries from the
+  previous checkpoint, up to three times.
+- The catching gate counted ball slots, not balls, and natural mode now buys balls when it runs low.
+- A field potion left the Start menu open, which blocked the Silph Scope beat.
+- `catch_cut_user` could catch a second Rattata on a retry.
+- Hoenn's post-game rematches started with the lead low on PP. A retry's heal had hidden this.
+- A double battle on Victory Road could pick the partner's slot forever. Send-outs now skip both
+  battlers' members and give up on a slot the game refuses twice.
+- Natural Kanto now buys Full Restores and Revives at the Plateau lobby, revives in the field, and
+  aims Potions at the right menu slot.
+- Natural Kanto walked into Victory Road at half HP with four Potions and whited out on 3F. The walk
+  back found the boulders reset. It now heals in full and restocks before `to_victory_road`, and a
+  loss inside replays from the entrance.
+
+| Natural run | Checks | Steps | Whiteouts | Potions | Debug warps |
+| --- | --- | --- | --- | --- | --- |
+| Johto | 84/84 | 24,518 | 17 | 187 | 1 |
+| Kanto | 57/57 | 30,931 | 25 | 148 | 0 |
+| Hoenn | 86/86 | 25,328 | 25 | 157 | 1 |
 
 ## Bugs found and fixed
 

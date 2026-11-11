@@ -255,8 +255,10 @@ return function(F, N, C, log)
       assert(#tiles >= 2, 'no grass on Route 1')
       table.sort(tiles, function(a, b) return a[2] < b[2] end)
       local a, b = tiles[1], tiles[#tiles]
-      N.catchWanted = function(sp) return sp == C.SPECIES_RATTATA end
       local n0 = N.partyCount()
+      -- One Rattata only: N.go() can run several battles before the loop below looks at the party
+      -- again, and a second catch (party 5, not 4) failed the check and cost a checkpoint retry.
+      N.catchWanted = function(sp) return sp == C.SPECIES_RATTATA and N.partyCount() <= n0 end
       for i = 1, 80 do
         if N.partyCount() > n0 then break end
         local t = (i % 2 == 0) and a or b
@@ -802,6 +804,10 @@ return function(F, N, C, log)
     assert(N.travel('VictoryRoad_1F_Frlg', { tile = { 7, 18 } }))
   end, function() return at('VictoryRoad_1F_Frlg') end)
 
+  -- A whiteout inside resets every boulder (Route 23's ON_TRANSITION), so walking back to the
+  -- beat's start finds the way sealed; cross again from the entrance instead.
+  local VR_LOSS = { replayFrom = 'to_victory_road' }
+
   -- 1F: boulder (7,18) onto the switch (20,16), computed push by push.
   local function victoryRoad1F()
     pushes({ { 7, 17, 1 }, { 6, 19, 4 }, { 7, 19, 4 }, { 8, 19, 4 }, { 9, 19, 4 }, { 11, 20, 2 }, { 10, 18, 4 }, { 12, 19, 2 },
@@ -810,7 +816,7 @@ return function(F, N, C, log)
     N.settle()
     assert(N.travel('VictoryRoad_2F_Frlg'))
   end
-  beat('victory_road_1f', function() moves(); victoryRoad1F() end, function() return V('VAR_MAP_SCENE_VICTORY_ROAD_1F') == 100 end)
+  beat('victory_road_1f', function() moves(); victoryRoad1F() end, function() return V('VAR_MAP_SCENE_VICTORY_ROAD_1F') == 100 end, VR_LOSS)
 
   -- 2F: the boulder (6,17) onto the west switch, then the east ladder to 3F (34,9).
   local function victoryRoad2F()
@@ -819,7 +825,7 @@ return function(F, N, C, log)
     assert(N.travel('VictoryRoad_3F_Frlg', { tile = { 34, 9 } }))
   end
   beat('victory_road_2f', function() moves(); victoryRoad2F() end,
-    function() return V('VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1') == 100 and at('VictoryRoad_3F_Frlg') end)
+    function() return V('VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1') == 100 and at('VictoryRoad_3F_Frlg') end, VR_LOSS)
 
   -- 3F: boulder (32,5) to the far switch (7,7); then its neighbour (33,18) into the hole (34,18).
   local function victoryRoad3F()
@@ -833,7 +839,7 @@ return function(F, N, C, log)
     assert(N.takeWarp(34, 18), 'fall through the hole')
   end
   beat('victory_road_3f', function() moves(); victoryRoad3F() end,
-    function() return V('VAR_MAP_SCENE_VICTORY_ROAD_3F') == 100 and at('VictoryRoad_2F_Frlg') end)
+    function() return V('VAR_MAP_SCENE_VICTORY_ROAD_3F') == 100 and at('VictoryRoad_2F_Frlg') end, VR_LOSS)
 
   -- 2F: the fallen boulder along row 19 onto the second switch, then the exit to Route 23 north.
   local function victoryRoadExit()
@@ -845,7 +851,7 @@ return function(F, N, C, log)
     end
     assert(N.travel('IndigoPlateau_Exterior_Frlg'))
   end
-  beat('victory_road_exit', function() moves(); victoryRoadExit() end, function() return at('IndigoPlateau_Exterior_Frlg') end)   -- Route 23's ON_TRANSITION resets the boulder vars
+  beat('victory_road_exit', function() moves(); victoryRoadExit() end, function() return at('IndigoPlateau_Exterior_Frlg') end, VR_LOSS)   -- Route 23's ON_TRANSITION resets the boulder vars
 
   ------------------------------------------------------------------ The League
   beat('to_league', function()

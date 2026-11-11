@@ -89,12 +89,17 @@ with tempfile.TemporaryDirectory() as td:
         exe, r = build(src, td)
         if r.returncode == 0:
             break
-        # Drop the printf lines the host compiler cannot evaluate (names that are not integer
-        # constants on this host), then retry.
-        lines = {int(n) for n in re.findall(r'c\.c:(\d+):\d+: error', r.stderr)}
+        # Clang reports the failing expression directly; GCC may report the error in a
+        # header and identify this generated printf only in a macro-expansion note.
+        # Match this source's full path, never a similarly named header or another file.
+        diagnostic = (re.escape(str(Path(td) / 'c.c'))
+                      + r':(\d+):\d+: (?:error:|note: in expansion of macro\b)')
+        locations = {int(n) for n in re.findall(diagnostic, r.stderr)}
+        lines = {i for i in locations
+                 if 1 <= i <= len(src) and src[i - 1].startswith('printf(')}
         if not lines:
             sys.exit(r.stderr[:4000])
-        src = [l for i, l in enumerate(src, 1) if i not in lines or not l.startswith('printf')]
+        src = [l for i, l in enumerate(src, 1) if i not in lines]
     else:
         sys.exit(r.stderr[:4000])
     vals = subprocess.check_output([str(exe)], text=True)

@@ -21,6 +21,7 @@
 #include "script.h"
 #include "tv.h"
 #include "wild_encounter.h"
+#include "option_rates.h"
 #include "battle_debug.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
@@ -678,16 +679,33 @@ bool8 DoMassOutbreakEncounterTest(void)
     return FALSE;
 }
 
+#if TESTING
+static u32 sTestLastEncounterRate;
+
+u32 Test_GetLastEncounterRate(void)
+{
+    return sTestLastEncounterRate;
+}
+#endif
+
 static bool8 EncounterOddsCheck(u16 encounterRate)
 {
+#if TESTING
+    sTestLastEncounterRate = encounterRate;
+#endif
     if (Random() % MAX_ENCOUNTER_RATE < encounterRate)
         return TRUE;
     else
         return FALSE;
 }
 
-// Returns true if it will try to create a wild encounter.
-static bool8 WildEncounterCheck(u32 encounterRate, bool8 ignoreAbility)
+enum EncounterRateScope
+{
+    ENCOUNTER_RATE_UNCHANGED,
+    ENCOUNTER_RATE_ORDINARY,
+};
+
+static bool8 WildEncounterCheck(u32 encounterRate, bool8 ignoreAbility, enum EncounterRateScope scope)
 {
     encounterRate *= 16;
     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
@@ -721,10 +739,19 @@ static bool8 WildEncounterCheck(u32 encounterRate, bool8 ignoreAbility)
         else if (ability == ABILITY_NO_GUARD)
             encounterRate *= 2;
     }
+    if (scope == ENCOUNTER_RATE_ORDINARY)
+        encounterRate = ApplyOptionRate(encounterRate, gSaveBlock2Ptr->optionsEncounterRate);
     if (encounterRate > MAX_ENCOUNTER_RATE)
         encounterRate = MAX_ENCOUNTER_RATE;
     return EncounterOddsCheck(encounterRate);
 }
+
+#if TESTING
+bool8 Test_WildEncounterCheck(u32 rate, bool8 ignoreAbility, bool8 ordinary)
+{
+    return WildEncounterCheck(rate, ignoreAbility, ordinary ? ENCOUNTER_RATE_ORDINARY : ENCOUNTER_RATE_UNCHANGED);
+}
+#endif
 
 // When you first step on a different type of metatile, there's a 40% chance it
 // skips the wild encounter check entirely.
@@ -771,7 +798,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
 
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gBattlePikeWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gBattlePikeWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->encounterRate, FALSE, ENCOUNTER_RATE_UNCHANGED) != TRUE)
                 return FALSE;
             else if (TryGenerateWildMon(gBattlePikeWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_KEEN_EYE) != TRUE)
                 return FALSE;
@@ -788,7 +815,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
 
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gBattlePyramidWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gBattlePyramidWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->encounterRate, FALSE, ENCOUNTER_RATE_UNCHANGED) != TRUE)
                 return FALSE;
             else if (TryGenerateWildMon(gBattlePyramidWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo, WILD_AREA_LAND, WILD_CHECK_KEEN_EYE) != TRUE)
                 return FALSE;
@@ -808,7 +835,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
                 return FALSE;
             else if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[timeOfDay].landMonsInfo->encounterRate, FALSE, ENCOUNTER_RATE_ORDINARY) != TRUE)
                 return FALSE;
 
             if (TryStartRoamerEncounter())
@@ -859,7 +886,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
                 return FALSE;
             else if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
-            else if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[timeOfDay].waterMonsInfo->encounterRate, FALSE) != TRUE)
+            else if (WildEncounterCheck(gWildMonHeaders[headerId].encounterTypes[timeOfDay].waterMonsInfo->encounterRate, FALSE, ENCOUNTER_RATE_ORDINARY) != TRUE)
                 return FALSE;
 
             if (TryStartRoamerEncounter())
@@ -913,7 +940,7 @@ void RockSmashWildEncounter(void)
         {
             gSpecialVar_Result = FALSE;
         }
-        else if (WildEncounterCheck(wildPokemonInfo->encounterRate, TRUE) == TRUE
+        else if (WildEncounterCheck(wildPokemonInfo->encounterRate, TRUE, ENCOUNTER_RATE_UNCHANGED) == TRUE
          && TryGenerateWildMon(wildPokemonInfo, WILD_AREA_ROCKS, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
         {
             if (TryDoDoubleWildBattle())

@@ -105,7 +105,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     // Sound (stereo) and Battle Scene (animations ON) are baked: both left the Options menu,
-    // so force the correct value here for every new game. Hard Mode is chosen at new-game setup.
+    // so force the correct value here for every new game.
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_STEREO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
@@ -114,6 +114,8 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsExpMultiplier = OPTIONS_EXP_MULT_1X;
     gSaveBlock2Ptr->optionsCatchMultiplier = OPTIONS_CATCH_MULT_1X;
     gSaveBlock2Ptr->optionsHardMode = FALSE;
+    gSaveBlock2Ptr->optionsEncounterRate = OPTIONS_RATE_1X;
+    gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_1X;
     gSaveBlock2Ptr->optionsNicknames = OPTIONS_NICKNAMES_ON;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }

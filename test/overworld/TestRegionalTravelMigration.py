@@ -20,7 +20,9 @@ class RegionalTravelMigration(unittest.TestCase):
         self.assertEqual(dirty.sb3[:start], clean.sb3[:start])
         self.assertEqual(dirty.sb3[start:], struct.pack('<I', 1) + bytes(164))
         expected = bytearray(clean.sb2)
-        expected[SP.V['SB2.saveVersion']] = 11
+        expected[SP.V['SB2.saveVersion']] = SP.SAVE_FORMAT_VERSION
+        option_word = struct.unpack_from('<H', expected, SP.FAMILY_OPTIONS_WORD)[0]
+        struct.pack_into('<H', expected, SP.FAMILY_OPTIONS_WORD, option_word & ~SP.FAMILY_OPTIONS_MASK)
         struct.pack_into('<H', expected, SP.V['SB2.regionChecksum'], dirty.region_checksum())
         self.assertEqual(dirty.sb2, expected)
         dirty.writeback()

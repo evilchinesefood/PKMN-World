@@ -90,8 +90,10 @@ FLASH_SIZE = SECTOR_SIZE * 32                            # 131072
 ID_SB2, ID_SB1_START, ID_SB1_END = 0, 1, 4
 ID_PK_START, ID_PK_END = 5, 13
 
-SAVE_FORMAT_VERSION = 11
+SAVE_FORMAT_VERSION = 12
 SAVE_FORMAT_LAYOUT_MIN = 7
+FAMILY_OPTIONS_WORD = 0x16
+FAMILY_OPTIONS_MASK = 0x03C0
 
 # --- v9 -> v10 (issue #195) ---------------------------------------------------
 # These cannot go in the probed table below: hoennIntroDone is a BITFIELD, and C forbids
@@ -781,6 +783,11 @@ def migrate(sv):
         if ver < 11:
             migrate_regional_travel(sv)
             log.append('v10->v11 Pokemon identity bits cleared; regional teams and Centers start empty')
+
+        if ver < 12:
+            word = sv.u16(sv.sb2, FAMILY_OPTIONS_WORD)
+            struct.pack_into('<H', sv.sb2, FAMILY_OPTIONS_WORD, word & ~FAMILY_OPTIONS_MASK)
+            log.append('v11->v12 Encounter Rate and Money Loss initialized to 1x')
 
         sv.sb2[V['SB2.saveVersion']] = SAVE_FORMAT_VERSION
         log.append(f'saveVersion {ver} -> {SAVE_FORMAT_VERSION}')

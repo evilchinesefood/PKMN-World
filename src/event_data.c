@@ -401,7 +401,7 @@ bool8 HasCurrentRegionBadge(u8 badgeIndex)
     return HasBadge(GetCurrentRegion(), badgeIndex);
 }
 
-// Battle-context variant: obedience and the Hard Mode caps follow the ACTIVE campaign
+// Battle-context variant: obedience and EV caps follow the ACTIVE campaign
 // region, not the map — a hub (MAPSEC_SPECIAL_AREA) battle must not fall back to Hoenn's badges.
 bool8 HasActiveRegionBadge(u8 badgeIndex)
 {

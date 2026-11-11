@@ -69,6 +69,7 @@ jobs:
         run: |
           python3 test/overworld/ValidateRegionalCenters.py
           python3 test/overworld/TestRegionalTravelMigration.py
+          python3 test/overworld/TestFamilyOptionsMigration.py
           python3 test/overworld/MakeRegionalTravelFixture.py --check
 
       - name: Regional story resolver boundaries

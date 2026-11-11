@@ -604,7 +604,7 @@ struct SaveBlock2
     /*0x11*/ u8 playTimeSeconds;
     /*0x12*/ u8 playTimeVBlanks;
     /*0x13*/ u8 optionsButtonMode;  // OPTIONS_BUTTON_MODE_[NORMAL/LR/L_EQUALS_A]
-    /*0x14*/ u16 optionsTextSpeed:3; // OPTIONS_TEXT_SPEED_[SLOW/MID/FAST]
+    /*0x14*/ u16 optionsTextSpeed:3; // OPTIONS_TEXT_SPEED_[SLOW/MID/FAST/INSTANT]
              u16 optionsWindowFrameType:5; // Specifies one of the 20 decorative borders for text boxes
              u16 optionsSound:1; // OPTIONS_SOUND_[MONO/STEREO]
              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
@@ -615,9 +615,10 @@ struct SaveBlock2
              u16 optionsRunShortcut:2; // QoL #12: battle B-button flee, OPTIONS_RUN_SHORTCUT_[CURSOR/OFF/INSTANT] (0 = CURSOR for old saves); first option u16 now full
     /*0x16*/ u16 optionsExpMultiplier:2; // QoL #15: OPTIONS_EXP_MULT_[1X/0_5X/1_5X/2X] (0 = 1x for old saves)
              u16 optionsCatchMultiplier:2; // QoL #15: OPTIONS_CATCH_MULT_[1X/1_5X/2X/0_5X] (0 = 1x for old saves)
-             u16 optionsHardMode:1; // QoL #16: forced SET style + no bag in trainer battles + badge level caps
+             u16 optionsHardMode:1; // Deprecated. Preserve this bit for existing saves.
              u16 optionsNicknames:1; // QoL #8: catch/hatch nickname prompt, OPTIONS_NICKNAMES_[ON/OFF] (0 = ON for old saves)
-             //u16 padding2:10;
+             u16 optionsEncounterRate:2; // OPTIONS_RATE_*
+             u16 optionsMoneyLoss:2; // OPTIONS_RATE_*
     /*0x18*/ struct Pokedex pokedex; // Region merge: ONE global National Dex shared across all regions (not per-region); area screen is region-aware for display only.
 #if ALL_REGIONS
     /*0x90*/ u8 currentRegion;      // enum Region; PERSISTED active-campaign region (0 = REGION_NONE

@@ -8,79 +8,12 @@
 
 u32 GetCurrentLevelCap(void)
 {
-    // Region merge: caps follow the ACTIVE campaign region's badge progression (per-region
-    // bank) — active, not map-derived, so hub Battle Net fights keep the campaign's cap, and
-    // the champion tier is per-region so a title in one region never lifts another's cap.
-    static const u32 sLevelCapPerBadge[NUM_BADGES] = { 15, 19, 24, 29, 31, 33, 42, 46 };
-
-    u32 i;
-
-    if (!gSaveBlock2Ptr->optionsHardMode) // QoL #16: caps only bind in Hard Mode
-        return MAX_LEVEL;
-
-    if (B_LEVEL_CAP_TYPE == LEVEL_CAP_FLAG_LIST)
-    {
-        for (i = 0; i < NUM_BADGES; i++)
-        {
-            if (!HasActiveRegionBadge(i))
-                return sLevelCapPerBadge[i];
-        }
-        if (!IsRegionChampion(GetActiveRegion()))
-            return 58;
-    }
-    else if (B_LEVEL_CAP_TYPE == LEVEL_CAP_VARIABLE)
-    {
-        return VarGet(B_LEVEL_CAP_VARIABLE);
-    }
-
     return MAX_LEVEL;
 }
 
 u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
 {
-    static const u32 sExpScalingDown[5] = { 4, 8, 16, 32, 64 };
-    static const u32 sExpScalingUp[5]   = { 16, 8, 4, 2, 1 };
-
-    u32 levelDifference;
-    u32 currentLevelCap = GetCurrentLevelCap();
-
-    if (!gSaveBlock2Ptr->optionsHardMode) // QoL #16: no EXP cap outside Hard Mode
-        return expValue;
-
-    if (B_EXP_CAP_TYPE == EXP_CAP_NONE)
-        return expValue;
-
-    if (level < currentLevelCap)
-    {
-        if (B_LEVEL_CAP_EXP_UP)
-        {
-            levelDifference = currentLevelCap - level;
-            if (levelDifference > ARRAY_COUNT(sExpScalingUp) - 1)
-                return expValue + (expValue / sExpScalingUp[ARRAY_COUNT(sExpScalingUp) - 1]);
-            else
-                return expValue + (expValue / sExpScalingUp[levelDifference]);
-        }
-        else
-        {
-            return expValue;
-        }
-    }
-    else if (B_EXP_CAP_TYPE == EXP_CAP_HARD)
-    {
-        return 0;
-    }
-    else if (B_EXP_CAP_TYPE == EXP_CAP_SOFT)
-    {
-        levelDifference = level - currentLevelCap;
-        if (levelDifference > ARRAY_COUNT(sExpScalingDown) - 1)
-            return expValue / sExpScalingDown[ARRAY_COUNT(sExpScalingDown) - 1];
-        else
-            return expValue / sExpScalingDown[levelDifference];
-    }
-    else
-    {
-       return expValue;
-    }
+    return expValue;
 }
 
 u32 GetCurrentEVCap(void)
@@ -112,14 +45,6 @@ u32 GetCurrentEVCap(void)
     return MAX_TOTAL_EVS;
 }
 
-// See the trap note in include/config/caps.h. B_LEVEL_CAP_VARIABLE is 0 and B_EV_CAP_VARIABLE is
-// 8; both are below VARS_START, and VarGet() returns the id itself for those, so switching either
-// *_CAP_TYPE to the VARIABLE mode without also setting a real VAR_* id yields a cap of 0 - every
-// Pokemon capped at level 0, or zero EVs, with nothing at build time to say why. These asserts
-// only bind in the mode that actually reads the id, so they cost nothing today.
-#if B_LEVEL_CAP_TYPE == LEVEL_CAP_VARIABLE
-STATIC_ASSERT(B_LEVEL_CAP_VARIABLE >= VARS_START, LevelCapVariableIsNotAValidVarId);
-#endif
 #if B_EV_CAP_TYPE == EV_CAP_VARIABLE
 STATIC_ASSERT(B_EV_CAP_VARIABLE >= VARS_START, EvCapVariableIsNotAValidVarId);
 #endif

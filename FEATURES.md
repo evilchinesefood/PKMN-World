@@ -30,7 +30,7 @@ Worth knowing up front, because the upstream feature list advertises all of it:
 - [World Transit hub](#world-transit-hub)
 - [Moving between regions](#moving-between-regions)
 - [What's shared, what isn't](#whats-shared-what-isnt)
-- [Rematches and Hard Mode](#rematches-and-hard-mode)
+- [Rematches](#rematches)
 - [Team Rocket ambushes](#team-rocket-ambushes)
 - [World Championship](#world-championship)
 - [Battle Net and the Mega economy](#battle-net-and-the-mega-economy)
@@ -133,8 +133,9 @@ trip — sail from Olivine and you come home to Olivine; sail from Lilycove and 
 Lilycove.
 
 **Saves.** The active region and hub state live in a versioned save format with a migration
-reader. The current format is **v11**; v7 through v10 saves migrate forward with empty regional
-team and Center history. Keep a pre-upgrade backup for older builds, which refuse v11 saves. Anything older than v7 is
+reader. The current format is **v12**. Supported v7 through v11 saves migrate with Encounter Rate
+and Money Loss at 1×. Pre-v11 saves start with empty regional team and Center history; v11 history
+is preserved. Keep a pre-upgrade backup for older builds, which refuse v12 saves. Anything older than v7 is
 **refused at load with an explanation** rather than migrated — the v7 bag/PC resize reshaped the
 layout, and a legacy save would otherwise half-load with silently misaligned flags and vars.
 
@@ -152,7 +153,7 @@ Kanto team obeys according to your Johto badges while you're in Johto.
 
 The **trainer card has three badge pages** — L and R flip between Hoenn, Kanto and Johto.
 
-## Rematches and Hard Mode
+## Rematches
 
 - **All 24 gym leaders** offer unlimited rematches once you're **that region's** Champion, each
   with a HARD team at **Lv 58–65** with held items and competitive movesets. Difficulty is
@@ -167,8 +168,6 @@ The **trainer card has three badge pages** — L and R flip between Hoenn, Kanto
   | Kanto Elite Four | 70–76 |
   | Kanto Champion (GARY) | 77–80 |
 
-- **Hard Mode** is chosen once during the intro and locked for that save: Set-style battles, no
-  bag items in trainer battles, and badge-based level caps.
 
 ## Team Rocket ambushes
 
@@ -210,10 +209,9 @@ upstairs (RegionHub 2F) — the home of **Mega Evolution**.
 
 **The sims**
 
-Simulated battles pay **full EXP** and trigger evolutions as usual, while no money changes hands,
-a loss never whites you out, and your party is restored around every match. That makes them the
-game's training grounds. On a Hard Mode save the badge level caps apply to sim EXP like all other
-EXP, so the sims train you up to your cap, not past it.
+Simulated battles pay **full EXP** and trigger evolutions as usual. Wins and ordinary defeats
+do not exchange money, defeats do not white you out, and your party is restored after each match.
+Leader-simulation forfeits retain the existing ordinary defeat charge.
 
 | Mode | Where | Pays |
 |---|---|---|
@@ -339,8 +337,11 @@ configuration; it is not an end-to-end campaign completion certificate.
 
 **Battle and progression**
 
-- **EXP RATE** and **CATCH RATE** multipliers in the Options menu — 0.5× / 1× / 1.5× / 2× each,
-  defaulting to 1×.
+- **Exp Rate**, **Catch Rate**, **Encounter Rate**, and **Money Loss** each offer 0.5× / 1× / 1.5× / 2× in Options, defaulting to 1×. Settings persist across saves and regional travel.
+- **Encounter Rate** scales ordinary walking, grass, cave, and surf checks. Fishing, Rock Smash, visible/scripted encounters, and facility checks retain their existing behavior. Step gates, Repel, items, abilities, and the maximum probability still apply.
+- **Money Loss** scales the existing defeat charge and caps it at the cash held. It does not change trainer winnings or other income. Existing free losses stay free.
+- **Text Speed** offers Slow, Mid, Fast, and Instant. Instant prints characters immediately while preserving timed pauses, page breaks, and required input. New games still default to Mid.
+- **Hard Mode is retired**, including for existing saves. The introduction no longer asks for a permanent difficulty choice. Your selected Shift/Set style controls battles, ordinary trainer battles allow bag items, and growth is no longer badge-capped. Champion rematches and facility rules remain separate.
 - **SHARED EXP** toggle — party-wide Exp. Share, off by default. When it is on the share is **even**:
   a Pokémon that sat out earns the same base EXP as the one that fought, not the Gen 6+ half. Level
   weighting still applies per Pokémon, so an under-levelled party member still gains a little more

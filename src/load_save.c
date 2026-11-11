@@ -396,6 +396,12 @@ void MigrateSaveFormatIfNeeded(void)
     if (savedVersion < 11)
         RegionalTravel_Migrate();
 
+    if (savedVersion < 12)
+    {
+        gSaveBlock2Ptr->optionsEncounterRate = OPTIONS_RATE_1X;
+        gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_1X;
+    }
+
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
 

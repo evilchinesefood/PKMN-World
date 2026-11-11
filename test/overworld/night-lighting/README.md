@@ -87,8 +87,9 @@ python3 test/overworld/visual-features/run_fixture.py --repo "$PWD" \
 PW_OUT=/tmp/lighting-runs/regression test/overworld/run-all.sh /tmp/lighting-after/pokemonworld.gba \
   > /tmp/lighting-sweep.log 2>&1
 cp /tmp/lighting-sweep.log /tmp/lighting-runs/regression/sweep.log
-PW_OUT=/tmp/lighting-runs/delivery/ test/overworld/mgba-run.sh test/overworld/night-lighting/delivery.lua \
-  /tmp/lighting-after/pokemonworld.gba /tmp/lighting-runs/lifecycle/VisualReview.sav
+python3 test/overworld/viridian-art/run_suite.py --repo . \
+  --suite test/overworld/night-lighting/delivery.lua --rom /tmp/lighting-after/pokemonworld.gba \
+  --save /tmp/lighting-runs/lifecycle/VisualReview.sav --out /tmp/lighting-runs/delivery
 ```
 
 Build a clean baseline and repeat the capture with the same `fixture.c` for the

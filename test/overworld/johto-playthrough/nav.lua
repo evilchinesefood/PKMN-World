@@ -745,7 +745,9 @@ return function(F, S)
       for i = 0, 3 do F.w16(m + O.bm_moves + 2 * i, C.MOVE_GROWL) end
     end
     -- The party as it went into the battle: Birch's rescue starts with none and hands one over first.
-    N.threw = { kind = N.throw.kind, map = N.mapName(), money = N.money(), region = F.grp(), party = N.partyCount() }
+    N.threw = { kind = N.throw.kind, map = N.mapName(), money = N.money(), region = F.grp(),
+      activeCampaign = F.r8(F.sb2() + S.SaveBlock2.currentRegion),
+      party = N.partyCount(), opponent = r16(P.gTrainerBattleParameter + O.tbp_opponentA) }
     N.throw = nil
     L('  THROWING this battle at ' .. N.threw.map)
   end
@@ -891,6 +893,7 @@ return function(F, S)
       end
     end
     local outcome = r8(S.gBattleOutcome)
+    if N.threw and N.threw.outcome == nil then N.threw.outcome = outcome end
     if N.inBattle() then
       error(string.format('battle did not finish: %s ctl%d=%08x cb2=%08x turns=%d msg=%q', tag, N.activeBattler, controller(), F.cb2(), turns, N.message()))
     end
@@ -2090,8 +2093,8 @@ return function(F, S)
     L(string.format('CHECKPOINT %s -> %s (%s) at %s (%d,%d)', name, path, tostring(ok), N.mapName(), F.pos(), select(2, F.pos())))
     return ok
   end
-  function N.restore(name)
-    local path = F.out .. 'ckpt_' .. name .. '.ss'
+  function N.restore(name, directory)
+    local path = (directory and (directory .. '/') or F.out) .. 'ckpt_' .. name .. '.ss'
     local ok = client.loadstate(path)
     idle(10)
     N.resetPlanCaches()

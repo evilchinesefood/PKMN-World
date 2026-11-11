@@ -24,8 +24,6 @@ run('python3', root/'../visual-features/build_fixture.py', '--repo', a.repo,
 run('python3', root/'export_symbols.py', a.elf, fixture/'lua/outfit_symbols.lua')
 shutil.copy2(assets/'outfit_expected.lua', fixture/'lua/outfit_expected.lua')
 for name, suite, gender in [('surfaces','OutfitSurfaces',None),('picker0','OutfitPicker',0),('picker1','OutfitPicker',1)]:
-    env = os.environ.copy()
-    if gender is not None:
-        env['PW_OUTFIT_GENDER'] = str(gender)
+    settings = ['--env', 'PW_OUTFIT_GENDER=' + str(gender)] if gender is not None else []
     run('python3', root/'../visual-features/run_fixture.py', '--repo', a.repo,
-        '--fixture', fixture, '--suite', root/f'{suite}.lua', '--out', a.out/name, env=env)
+        '--fixture', fixture, '--suite', root/f'{suite}.lua', '--out', a.out/name, *settings)

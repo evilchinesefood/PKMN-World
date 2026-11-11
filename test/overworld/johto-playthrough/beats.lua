@@ -83,7 +83,14 @@ return function(F, N, C, log)
   beat('rival_and_police', function()
     assert(N.travel('NewBarkTown_Lab'))
     N.settle()
-  end, function() return V('VAR_CHERRYGROVE_CITY_STATE') >= 4 and V('VAR_NEWBARKTOWN_LABSTATE') >= 5 end)
+  end, function() return V('VAR_CHERRYGROVE_CITY_STATE') >= 4 and V('VAR_NEWBARKTOWN_LABSTATE') >= 5 end, {
+    check = function(loss)
+      local rivals = { [C.TRAINER_RIVAL_CYNDAQUIL_1] = true, [C.TRAINER_RIVAL_TOTODILE_1] = true, [C.TRAINER_RIVAL_CHIKORITA_1] = true }
+      return loss.map == 'CherrygroveCity' and rivals[loss.opponent] and at('CherrygroveCity_PokemonCenter') and V('VAR_CHERRYGROVE_CITY_STATE') == 3
+        and V('VAR_NEWBARKTOWN_LABSTATE') == 4,
+        N.mapName() .. ' cherry=' .. V('VAR_CHERRYGROVE_CITY_STATE') .. ' lab=' .. V('VAR_NEWBARKTOWN_LABSTATE')
+    end,
+  })
 
   beat('first_balls', function()
     assert(N.travel('NewBarkTown'))

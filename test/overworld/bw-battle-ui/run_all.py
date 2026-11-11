@@ -20,15 +20,11 @@ rom_md5 = hashlib.md5((a.fixture / 'VerifyFeatures.gba').read_bytes()).hexdigest
 
 def run(name):
     dest = a.out / name
-    dest.mkdir(exist_ok=True)
-    for pattern in ('*.PASS', '*.FAIL'):
-        for f in dest.glob(pattern):
-            f.unlink()
     result = subprocess.run(['python3', str(a.repo / 'test/overworld/visual-features/run_fixture.py'),
         '--repo', str(a.repo), '--fixture', str(a.fixture), '--suite',
         str(a.repo / 'test/overworld/bw-battle-ui' / (name + '.lua')), '--out', str(dest)],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    (dest / 'command.log').write_text(result.stdout)
+    (a.out / (name + '-command.log')).write_text(result.stdout)
     matches = re.findall(r'VERDICT \S+: (\d+)/(\d+) (PASS|FAIL)', result.stdout)
     passed, total, verdict = matches[-1] if matches else ('0', '0', 'NO VERDICT')
     sentinels = list(dest.glob('*.PASS'))

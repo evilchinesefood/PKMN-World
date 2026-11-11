@@ -13,6 +13,9 @@ import tempfile
 
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from SweepEvidence import read_sweep
+
 
 def digest(path, algorithm='sha256'):
     return hashlib.new(algorithm, path.read_bytes()).hexdigest()
@@ -48,18 +51,8 @@ def validate_feature_runs(before, after, lifecycle, delivery_run, fixture_md5, d
 
 
 def validate_sweep(regression, md5):
-    sweep = (regression/'sweep.log').read_text()
-    assert sweep.strip().splitlines()[-1] == f'SWEEP OK - every expected suite produced a fresh PASS stamped rom={md5}'
-    suite_rows = re.findall(r'^(\S+)\s+rc=0\s+VERDICT (\S+): (\d+)/(\d+) PASS$', sweep, re.M)
-    # The owner save is optional; both the portable 50-suite run and its 51-suite
-    # local variant are valid. Repeated names cannot replace missing coverage.
-    assert len(suite_rows) in (50, 51) and len({name for name, _, _, _ in suite_rows}) == len(suite_rows)
-    assert all(name == label and int(n) == int(total) > 0 for name, label, n, total in suite_rows)
-    assert not list(regression.glob('*.FAIL'))
-    for name, _, n, _ in suite_rows:
-        assert re.fullmatch(rf'PASS {n}/{n} rom={md5} at=\S+ suite={re.escape(name)}',
-                            (regression/f'{name}.PASS').read_text().strip())
-    return len(suite_rows), sum(int(n) for _, _, n, _ in suite_rows)
+    _, rows, _ = read_sweep(regression, md5)
+    return len(rows), sum(row[2] for row in rows)
 
 
 def main():
@@ -123,7 +116,7 @@ def main():
             for side in ('before', 'after'):
                 copy_native(getattr(a, side)/batch/filename, f'{side}_{tag}.png')
     (a.out/'data-audit.json').write_text(json.dumps(audit, indent=2)+'\n')
-    shutil.copyfile(a.regression/'sweep.log', a.out/'regression.log')
+    shutil.copyfile(read_sweep(a.regression, md5)[0]/'summary.txt', a.out/'regression.log')
     evidence = a.out/'verification'
     evidence.mkdir(exist_ok=True)
     for side in ('before', 'after'):

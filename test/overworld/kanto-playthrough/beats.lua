@@ -135,7 +135,13 @@ return function(F, N, C, log)
     moves()
     assert(N.go(6, 8))
     N.settle()
-  end, function() return V(LAB) == 4 end)
+  end, function() return V(LAB) == 4 end, {
+    check = function(loss)
+      local rivals = { [C.TRAINER_RIVAL_OAKS_LAB_SQUIRTLE] = true, [C.TRAINER_RIVAL_OAKS_LAB_CHARMANDER] = true, [C.TRAINER_RIVAL_OAKS_LAB_BULBASAUR] = true }
+      return loss.map == 'PalletTown_ProfessorOaksLab_Frlg' and rivals[loss.opponent] and at('PalletTown_ProfessorOaksLab_Frlg') and V(LAB) == 4,
+        N.mapName() .. ' lab=' .. V(LAB)
+    end,
+  })
 
   -- Mart ON_FRAME (lab scene 4): the clerk hands over the parcel on entry.
   beat('parcel', function()

@@ -15,8 +15,7 @@ a=p.parse_args();n=len(json.loads((a.repo/'test/overworld/night-lighting/scenes.
 a.out.mkdir(parents=True,exist_ok=True)
 def run(first):
     last=min(first+9,n);directory=a.out/f'{first:02}-{last:02}'
-    env=dict(os.environ,PW_FIRST_SCENE=str(first),PW_LAST_SCENE=str(last))
-    result=subprocess.run(['python3',str(a.repo/'test/overworld/visual-features/run_fixture.py'),'--repo',str(a.repo),'--fixture',str(a.fixture),'--suite',str(a.repo/'test/overworld/night-lighting/capture.lua'),'--out',str(directory)],env=env,capture_output=True,text=True)
+    result=subprocess.run(['python3',str(a.repo/'test/overworld/visual-features/run_fixture.py'),'--repo',str(a.repo),'--fixture',str(a.fixture),'--suite',str(a.repo/'test/overworld/night-lighting/capture.lua'),'--out',str(directory),'--env','PW_FIRST_SCENE='+str(first),'--env','PW_LAST_SCENE='+str(last)],capture_output=True,text=True)
     (a.out/f'{first:02}-{last:02}.log').write_text(result.stdout+result.stderr)
     assert result.returncode==0,(directory,result.stdout[-1200:],result.stderr[-500:])
     print(f'PASS: scenes {first}-{last}',flush=True)

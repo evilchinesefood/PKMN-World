@@ -382,8 +382,10 @@ def check_v10_c_mirrors():
 def probe():
     """Recompile every PROBED expression with the repo CFLAGS and diff against the table."""
     cc = None
-    for cand in (os.path.join(os.environ.get('DEVKITARM', '/opt/devkitpro/devkitARM'),
-                              'bin', 'arm-none-eabi-gcc'), 'arm-none-eabi-gcc'):
+    candidates = [os.environ['ARM_CC']] if os.environ.get('ARM_CC') else [
+        os.path.join(os.environ.get('DEVKITARM', '/opt/devkitpro/devkitARM'),
+                     'bin', 'arm-none-eabi-gcc'), 'arm-none-eabi-gcc']
+    for cand in candidates:
         if os.path.isfile(cand) or subprocess.run(['which', cand], capture_output=True).returncode == 0:
             cc = cand
             break

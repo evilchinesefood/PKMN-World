@@ -13,16 +13,33 @@ ice, the Underground switches, and the rest.
 ```sh
 make modern -j8
 python3 test/overworld/johto-playthrough/run.py                  # the whole campaign
-python3 test/overworld/johto-playthrough/run.py --from pryce     # resume after a beat
+python3 test/overworld/johto-playthrough/run.py --from pryce --resume-dir /path/to/prior/case
 python3 test/overworld/johto-playthrough/run.py --suite kurt_fast_ball.lua
 ```
 
-The same runner plays Hoenn with `--campaign hoenn`; see `../hoenn-playthrough/README.md`.
+The same runner plays Kanto and Hoenn with `--campaign kanto|hoenn`.
+Use `--rom` and `--elf` for an explicit matching build, plus `--symbols` for its generated
+symbols. `--nm`, `--arm-cc`, and `--cc` select tools; ARM offset probes retain the game's ABI.
+Inherited `PW_*` settings are ignored. Select every variation through the CLI.
+
+The Full verification profile invokes these fresh, retry-free cases:
+
+```sh
+python3 test/overworld/johto-playthrough/run.py --campaign kanto --to rival_lab --lose rival_lab:trainer --no-retry
+python3 test/overworld/johto-playthrough/run.py --campaign johto --to rival_and_police --lose rival_and_police:trainer --no-retry
+python3 test/overworld/johto-playthrough/run.py --campaign hoenn --to route103 --lose route103:trainer --no-retry
+```
+
+Each requires an observed player-loss battle outcome, preserved active campaign and region,
+scenario-specific recovery, completed replay or scripted continuation, and the requested stop.
+Kanto's lab loss continues its script; Johto and Hoenn recover and replay unfinished rival beats.
+A misspelled or unreachable loss/stop fails. `--no-retry` disables checkpoint and random-encounter
+retries. These runs use the debug party and may use logged debug warps to return after a loss.
 
 `run.py` regenerates symbols, constants, struct offsets and map ids from the ELF being tested
-(`export.py`), then runs `play.lua`. Every beat ends with a savestate checkpoint in `--out`
-(default `_pwtest/johto-play/`), so a failing beat can be fixed and resumed with `--from`
-without replaying the campaign. The evidence run is the one without `--from`.
+(`export.py`), then runs `play.lua`. Every invocation creates a unique case directory beneath `--out`
+(default `_pwtest/johto-play/`). Each beat writes a checkpoint there. Resume with `--from`
+and `--resume-dir` naming that previous case directory; new evidence stays separate. The evidence run is the one without `--from`.
 
 ## How it plays
 
@@ -50,7 +67,7 @@ without replaying the campaign. The evidence run is the one without `--from`.
 
 ## Losing on purpose
 
-`PW_LOSE=beat[:kind],...` loses the first matching battle of each named beat, checks the player ends
+`--lose beat[:kind],...` loses the first matching battle of each named beat, checks the player ends
 up in control in the right region with the party healed, then plays the beat again. `kind` is
 `trainer` (default), `wild`, `any`, or a `TRAINER_` constant to single out one opponent. The faint
 is forced: the party is fainted behind the lead, which drops to 1 HP knowing only Growl. Everything
@@ -88,7 +105,7 @@ On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners al
 
 ## Post-game
 
-`PW_POSTGAME=1` keeps playing past the Hall of Fame, with beats from `postgame.lua`. Without the
+`--postgame` keeps playing past the Hall of Fame, with beats from `postgame.lua`. Without the
 variable the campaign is unchanged. The beats play on from the champion save: all eight gym rematches
 on the HARD tier (shards, one stone per leader, a second rematch paying no second stone), the
 Hall of Fame respawns, Mt. Silver and Red (the first win plays the Hall of Fame, the rematch does not),
@@ -104,17 +121,17 @@ checks in 23,449 steps, with 1 retry (`pg_second_to_league`). The retry reloads 
 also clears the planner's remembered maps. [`evidence/postgame-final-run.log`](evidence/postgame-final-run.log)
 has each beat.
 
-## Natural difficulty (`PW_NATURAL=1`)
+## Natural difficulty (`--natural`)
 
-`PW_NATURAL=1` plays a region with a team caught in that region instead of the debug pair. The
+`--natural` plays a region with a team caught in that region instead of the debug pair. The
 hooks in `nav.lua` do nothing without it, so default campaigns are unchanged. `natural.lua` holds
 the behaviour and `natural_regions.lua` holds each region's gyms, ace levels, grind allowances and
 catches.
 
 ```sh
-PW_NATURAL=1 python3 test/overworld/johto-playthrough/run.py --out _pwtest/nat/johto
-PW_NATURAL=1 PW_STARTER=1 python3 test/overworld/johto-playthrough/run.py --campaign kanto --out _pwtest/nat/kanto
-PW_NATURAL=1 python3 test/overworld/johto-playthrough/run.py --campaign hoenn --out _pwtest/nat/hoenn
+python3 test/overworld/johto-playthrough/run.py --out _pwtest/nat/johto --natural
+python3 test/overworld/johto-playthrough/run.py --campaign kanto --out _pwtest/nat/kanto --natural --starter 1
+python3 test/overworld/johto-playthrough/run.py --campaign hoenn --out _pwtest/nat/hoenn --natural
 ```
 
 The mode sets Exp. Share on and Hard Mode off by writing the save, and Exp stays at 1x. It:
@@ -127,7 +144,7 @@ The mode sets Exp. Share on and Hard Mode off by writing the save, and Exp stays
   the shops in `shopMaps` (the Indigo Plateau lobby) also sell Full Restores and Revives
 - accepts a level-up move that beats the weakest known move
 - treats a whiteout as a loss: it grinds in grass and plays the beat again, up to six retries
-  (`PW_NATURAL_ATTEMPTS` changes that)
+  (`--natural-attempts` changes that)
 
 Teams are Chikorita, Mareep, Wooper (Johto); Squirtle, Rattata, Geodude (Kanto); Torchic, Mudkip,
 Electrike (Hoenn). A Togepi Egg and gift Pokemon stay in the party but are not counted as team.

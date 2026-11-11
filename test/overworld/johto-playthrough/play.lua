@@ -9,6 +9,9 @@ local CAMPAIGN = os.getenv('PW_CAMPAIGN') or 'johto'
 package.path = here .. '../' .. CAMPAIGN .. '-playthrough/?.lua;' .. here .. '?.lua;' .. here .. '../lua/?.lua;' .. assert(os.getenv('PW_PLAY_LUA')) .. '/?.lua;' .. package.path
 local S = require('symbols')
 local FROM, TO = os.getenv('PW_FROM'), os.getenv('PW_TO')
+local NO_RETRY = os.getenv('PW_NO_RETRY') ~= nil
+local REGION = ({ kanto = 1, johto = 2, hoenn = 3 })[CAMPAIGN]
+assert(REGION or CAMPAIGN == 'world', 'unknown campaign')
 local F = require('lib').new(S, CAMPAIGN:sub(1, 1):upper() .. CAMPAIGN:sub(2) .. 'Play' .. (FROM and ('_from_' .. FROM) or ''))
 local N = require('nav')(F, S)
 local C = require('pwconst')
@@ -57,11 +60,21 @@ if Nat then BEATS = Nat.patchBeats(BEATS) end
 local LOSE = {}
 for tok in (os.getenv('PW_LOSE') or ''):gmatch('[^,]+') do
   local beat, kind = tok:match('^([^:]+):?(.*)$')
-  LOSE[beat] = kind ~= '' and kind or 'trainer'
+  assert(not LOSE[beat], 'duplicate loss selection: ' .. beat)
+  LOSE[beat] = { kind = kind ~= '' and kind or 'trainer', state = 'selected' }
 end
 
 local function reportLoss(b, partyBefore)
   local t, x, y = N.threw, F.pos()
+  local valid = true
+  local function check(label, good, detail)
+    valid = F.check('loss ' .. b.name .. ': ' .. label, good, detail) and valid
+  end
+  check('observed player-loss outcome', t.outcome == C.B_OUTCOME_LOST, tostring(t.outcome))
+  if valid then LOSE[b.name].state = 'observed-loss' end
+  local expectedRegion = REGION or t.activeCampaign
+  check('active campaign preserved', expectedRegion and F.r8(F.sb2() + S.SaveBlock2.currentRegion) == expectedRegion)
+  check('current region preserved', expectedRegion and F.r32(S.gCurrentRegion) == expectedRegion)
   -- Birch's rescue starts with no party and hands one over before the battle; a tag battle shrinks
   -- the party while it runs. The larger of the two counts is the party the player should get back.
   local party = math.max(partyBefore, t.party)
@@ -71,21 +84,23 @@ local function reportLoss(b, partyBefore)
     hp[#hp + 1] = m.hp .. '/' .. m.maxHP
     full = full and m.hp == m.maxHP
   end
-  L(string.format('  LOSS at %s, control back at %s (%d,%d) party %s money %d -> %d done=%s', t.map, N.mapName(), x, y,
+  L(string.format('  LOSS at %s opponent=%s, control back at %s (%d,%d) party %s money %d -> %d done=%s', t.map, tostring(t.opponent), N.mapName(), x, y,
     table.concat(hp, ' '), t.money, N.money(), tostring(b.done and b.done())))
   F.shot(b.name .. '_after_loss')
-  F.check('loss ' .. b.name .. ': no crash screen', not F.reportCrash('loss_' .. b.name))
-  F.check('loss ' .. b.name .. ': player in control', N.free())
-  F.check('loss ' .. b.name .. ': party healed', full, table.concat(hp, ' '))
-  F.check('loss ' .. b.name .. ': whole party back', N.partyCount() == party, N.partyCount() .. ' of ' .. party)
+  check('no crash screen', not F.reportCrash('loss_' .. b.name))
+  check('player in control', N.free())
+  check('party healed', full, table.concat(hp, ' '))
+  check('whole party back', N.partyCount() == party, N.partyCount() .. ' of ' .. party)
   if b.loss and b.loss.check then
-    local good, detail = b.loss.check()
-    F.check('loss ' .. b.name .. ': story state', good, detail or '')
+    local good, detail = b.loss.check(t)
+    check('story state', good, detail or '')
   end
   if N.region then
-    F.check('loss ' .. b.name .. ': still in the region', F.grp() >= N.region.lo and F.grp() <= N.region.hi, N.mapName())
+    check('still in the region', F.grp() >= N.region.lo and F.grp() <= N.region.hi, N.mapName())
   end
   N.threw = nil
+  if valid then LOSE[b.name].state = 'recovered' end
+  return valid
 end
 
 -- Walk to where the beat began. The planner has no Fly or cable car, so a respawn across the map
@@ -160,12 +175,12 @@ end
 
 local function playThrownBeat(b, index)
   if not LOSE[b.name] then return pcall(b.run) end
-  local kind = LOSE[b.name]
+  local kind = LOSE[b.name].kind
   local random = kind == 'wild' or kind:sub(1, 8) == 'SPECIES_'
   local prev = index > 1 and BEATS[index - 1].name
   local startMap, startX, startY = N.mapName(), F.pos()
   local ok, err, wild0, partyBefore
-  for try = 0, (random and prev) and 3 or 0 do
+  for try = 0, (random and prev and not NO_RETRY) and 3 or 0 do
     if try > 0 then
       -- A random encounter is luck: a beat can cross its grass without one. Reload the previous
       -- checkpoint and start the beat some frames later, which reshuffles the encounters.
@@ -185,13 +200,14 @@ local function playThrownBeat(b, index)
       ok and string.format('none (%d wild battles in the last try)', N.battles.wild - wild0) or tostring(err))
     return ok, err
   end
+  LOSE[b.name].state = 'injected'
   if ok or err ~= N.LOSS_PLAYED then
     F.check('loss ' .. b.name .. ': the loss played out', false, ok and 'beat finished first' or tostring(err))
     F.check('loss ' .. b.name .. ': no crash screen', not F.reportCrash('loss_' .. b.name))
     N.threw = nil
     return ok, err
   end
-  reportLoss(b, partyBefore)
+  if not reportLoss(b, partyBefore) then return false, 'loss recovery assertions failed' end
   if b.done and b.done() then return true end
   -- A loss sends the player away. Rooms that reset on a loss restart from loss.replayFrom; anything
   -- else walks back to where the beat began.
@@ -201,13 +217,21 @@ end
 F.run(function()
   -- A misspelt PW_LOSE beat would otherwise pass without losing anything.
   local known = {}
-  for _, b in ipairs(BEATS) do known[b.name] = true end
-  for name in pairs(LOSE) do assert(known[name], 'PW_LOSE names no such beat: ' .. name) end
+  for i, b in ipairs(BEATS) do known[b.name] = i end
+  assert(not TO or known[TO], 'PW_TO names no such beat: ' .. tostring(TO))
+  assert(not FROM or known[FROM], 'PW_FROM names no such beat: ' .. tostring(FROM))
+  assert(not (FROM and TO) or known[FROM] < known[TO], 'stop must follow resumed checkpoint')
+  for name in pairs(LOSE) do
+    assert(known[name], 'PW_LOSE names no such beat: ' .. name)
+    assert(not TO or known[name] <= known[TO], 'selected loss is after requested stop: ' .. name)
+    assert(not FROM or known[name] > known[FROM], 'selected loss is before resumed start: ' .. name)
+  end
+  local reachedStop = not TO
   local start = 1
   if FROM then
     for i, b in ipairs(BEATS) do if b.name == FROM then start = i + 1 end end
     assert(start > 1, 'unknown checkpoint ' .. FROM)
-    assert(N.restore(FROM), 'could not restore checkpoint ' .. FROM)
+    assert(N.restore(FROM, os.getenv('PW_RESUME_DIR')), 'could not restore checkpoint ' .. FROM)
     F.idle(30)
     N.debugHeal()   -- the in-memory heal bookkeeping does not survive a restore
   else
@@ -217,7 +241,7 @@ F.run(function()
   local retries = {}
   if Nat then
     Nat.setup()
-    if FROM then Nat.loadCheckpoint(FROM); N.run = true end
+    if FROM then Nat.loadCheckpoint(FROM, os.getenv('PW_RESUME_DIR')); N.run = true end
   end
   for i = start, #BEATS do
     local b = BEATS[i]
@@ -229,7 +253,7 @@ F.run(function()
     -- One retry from the previous beat's checkpoint: that reloads the exact game state, so it
     -- only absorbs harness timing (a wandering Pokemon in a corridor). Every retry is reported.
     local prev = i > 1 and BEATS[i - 1].name
-    if not done and prev and not os.getenv('PW_NO_RETRY') then
+    if not done and prev and not NO_RETRY and not LOSE[b.name] then
       L(string.format('  RETRY %s from checkpoint %s', b.name, prev))
       retries[#retries + 1] = b.name
       F.shot(b.name .. '_before_retry')
@@ -246,10 +270,18 @@ F.run(function()
       F.reportCrash('beat_' .. b.name)
       break
     end
+    if LOSE[b.name] and LOSE[b.name].state == 'recovered' then
+      LOSE[b.name].state = 'completed'
+      F.check('loss ' .. b.name .. ': selected beat completed after recovery', true)
+    end
     topUp()
     N.checkpoint(b.name)
     if Nat then Nat.saveCheckpoint(b.name) end
-    if TO and b.name == TO then break end
+    if TO and b.name == TO then reachedStop = true; break end
+  end
+  F.check('requested stop reached', reachedStop, TO or 'complete campaign')
+  for name, loss in pairs(LOSE) do
+    F.check('selected loss ' .. name .. ' completed', loss.state == 'completed', loss.state)
   end
   if Nat then Nat.report() end
   L(string.format('TOTAL steps=%d trainer battles=%d wild=%d heals=%d retries=%d %s', N.steps, N.battles.trainer,

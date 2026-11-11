@@ -6,13 +6,16 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import re
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[3]
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--out', type=Path, default=ROOT / '_pwtest/357-final')
 a = p.parse_args()
-out = a.out.resolve()
-out.mkdir(parents=True, exist_ok=True)
+a.out.mkdir(parents=True, exist_ok=True)
+out = Path(tempfile.mkdtemp(prefix='progression-', dir=a.out.resolve()))
+print('progression-dir:', out, flush=True)
 controls = out / 'controls'
 (controls / 'lua').mkdir(parents=True, exist_ok=True)
 subprocess.run(['python3', str(ROOT / 'test/overworld/bw-battle-ui/export_symbols.py'),
@@ -23,34 +26,27 @@ results = []
 for suite, gender in [('playthrough', None), ('nickname', None), ('mom', 0), ('mom', 1), ('defeat', 0), ('defeat', 1)]:
     name = suite if gender is None else f'{suite}-gender{gender}'
     dest = out / name
-    dest.mkdir(exist_ok=True)
-    for pattern in ('*.PASS', '*.FAIL'):
-        for stale in dest.glob(pattern):
-            stale.unlink()
-    env = os.environ.copy()
-    env.update(PW_OUT=str(dest), PW_357_SYMBOLS=str(controls / 'lua/bw_symbols.lua'))
+    case = {'playthrough': 'JohtoProgression357', 'nickname': 'JohtoNicknameAudit',
+            'mom': 'JohtoMom357', 'defeat': 'JohtoDefeat357'}[suite]
+    command = [str(ROOT / 'test/overworld/mgba-run.sh'),
+               str(Path(__file__).with_name(suite + '.lua')), str(rom),
+               '--out', str(dest), '--case-name', case,
+               '--env', 'PW_357_SYMBOLS=' + str(controls / 'lua/bw_symbols.lua')]
     if gender is not None:
-        env['PW_357_GENDER'] = str(gender)
-    with (dest / 'runner.log').open('w') as log:
-        result = subprocess.run([str(ROOT / 'test/overworld/mgba-run.sh'),
-                                 str(Path(__file__).with_name(suite + '.lua'))],
-                                cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
-    sentinels = list(dest.glob('*.PASS'))
-    fresh = (len(sentinels) == 1 and f'rom={rom_md5}' in sentinels[0].read_text()
-             and not list(dest.glob('*.FAIL')))
-    passed = result.returncode == 0 and fresh
+        command += ['--env', 'PW_357_GENDER=' + str(gender)]
+    result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+    (out / (name + '.log')).write_text(result.stdout + result.stderr)
+    match = re.search(r'^case-dir: (.+)$', result.stdout, re.M)
+    record = json.loads((Path(match[1]) / 'result.json').read_text()) if match else {}
+    passed = result.returncode == 0 and record.get('status') == 'passed'
     print(f'{name}: {"PASS" if passed else "FAIL"}', flush=True)
     results.append({'suite': name, 'passed': passed, 'exit_code': result.returncode,
-                    'matching_rom_sentinel': fresh})
+                    'case_result': record, 'case_dir': match[1] if match else None})
 
 # The wider core loop seeds a party/balls in a disposable copy; the production
 # ROM remains untouched. Its distinct ROM hash must stamp its own sentinel.
 fixture = out / 'battle-fixture'
 dest = out / 'core-loop'
-dest.mkdir(exist_ok=True)
-for pattern in ('*.PASS', '*.FAIL'):
-    for stale in dest.glob(pattern):
-        stale.unlink()
 commands = [
     ['python3', str(ROOT / 'test/overworld/visual-features/build_fixture.py'),
      '--repo', str(ROOT), '--rom', str(rom), '--elf', str(ROOT / 'pokemonworld.elf'),
@@ -61,7 +57,7 @@ commands = [
      '--repo', str(ROOT), '--fixture', str(fixture),
      '--suite', str(Path(__file__).with_name('core-loop.lua')), '--out', str(dest)],
 ]
-with (dest / 'command.log').open('w') as log:
+with (out / 'core-loop-command.log').open('w') as log:
     for command in commands:
         result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
         if result.returncode:

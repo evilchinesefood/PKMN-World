@@ -285,3 +285,5 @@ An earlier sweep overlapped a rebuild and correctly failed its stale-ROM audit;
 it is excluded from the results above. Only the final stable-ROM sweep counts.
 The shared library's count line prints `PASS` even on failed assertions: exit
 status and fresh `.PASS`/`.FAIL` sentinels, not that word alone, are authoritative.
+
+`run.py --out PARENT` and `run_audit.py --out PARENT` create unique child runs and print `progression-dir` or `audit-dir`. Read `results.json` in that printed directory. The production cases send their gender and symbol selections explicitly to the native runner, and each result records its exact case directory. Existing runs are not overwritten.

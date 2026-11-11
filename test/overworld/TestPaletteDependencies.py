@@ -2,6 +2,7 @@
 """Exercise generated Make rules when palette alpha sidecars change."""
 from pathlib import Path
 import os
+import shutil
 import subprocess
 import tempfile
 import time
@@ -20,7 +21,7 @@ with tempfile.TemporaryDirectory(prefix='pw-palette-deps-') as tmp:
     makefile.write_text(f'GFX := {ROOT}/tools/gbagfx/gbagfx\n' + rules)
     target = base/'assets/sample.pal.gbapal'
     def build():
-        subprocess.run(['make', '--no-print-directory', '-f', str(makefile), 'assets/sample.pal.gbapal'], cwd=base, check=True, stdout=subprocess.DEVNULL)
+        subprocess.run([os.environ.get('MAKE') or shutil.which('gmake') or 'make', '--no-print-directory', '-f', str(makefile), 'assets/sample.pal.gbapal'], cwd=base, check=True, stdout=subprocess.DEVNULL)
         return int.from_bytes(target.read_bytes()[:2], 'little')
     def changed():
         # Avoid coarse filesystem timestamp ties without sleeping.

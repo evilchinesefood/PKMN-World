@@ -62,6 +62,9 @@ end
 
 local function reportLoss(b, partyBefore)
   local t, x, y = N.threw, F.pos()
+  -- Birch's rescue starts with no party and hands one over before the battle; a tag battle shrinks
+  -- the party while it runs. The larger of the two counts is the party the player should get back.
+  local party = math.max(partyBefore, t.party)
   local hp, full = {}, true
   for i = 0, N.partyCount() - 1 do
     local m = N.partyMon(i)
@@ -74,7 +77,7 @@ local function reportLoss(b, partyBefore)
   F.check('loss ' .. b.name .. ': no crash screen', not F.reportCrash('loss_' .. b.name))
   F.check('loss ' .. b.name .. ': player in control', N.free())
   F.check('loss ' .. b.name .. ': party healed', full, table.concat(hp, ' '))
-  F.check('loss ' .. b.name .. ': whole party back', N.partyCount() == partyBefore, N.partyCount() .. ' of ' .. partyBefore)
+  F.check('loss ' .. b.name .. ': whole party back', N.partyCount() == party, N.partyCount() .. ' of ' .. party)
   if b.loss and b.loss.check then
     local good, detail = b.loss.check()
     F.check('loss ' .. b.name .. ': story state', good, detail or '')
@@ -138,7 +141,9 @@ local function playNaturalBeat(b, index)
   local preOk, preErr = pcall(Nat.beforeBeat, b)
   if not preOk and preErr ~= N.WHITEOUT then return false, preErr end
   -- A beat assumes it starts where the last one ended; a Center trip must not change that.
-  if N.mapName() ~= startMap and not walkBack(startMap, startX, startY) then return false, 'could not get back to ' .. startMap end
+  if N.mapName() ~= startMap and not Nat.anywhere(b.name) and not walkBack(startMap, startX, startY) then
+    return false, 'could not get back to ' .. startMap
+  end
   local ok, err = pcall(b.run)
   local attempts = 0
   while not ok and err == N.WHITEOUT do
@@ -155,13 +160,29 @@ end
 
 local function playThrownBeat(b, index)
   if not LOSE[b.name] then return pcall(b.run) end
-  local startMap, startX, startY, partyBefore = N.mapName(), F.pos()
-  partyBefore = N.partyCount()
-  N.throw = { kind = LOSE[b.name] }
-  local ok, err = pcall(b.run)
-  N.throw = nil
+  local kind = LOSE[b.name]
+  local random = kind == 'wild' or kind:sub(1, 8) == 'SPECIES_'
+  local prev = index > 1 and BEATS[index - 1].name
+  local startMap, startX, startY = N.mapName(), F.pos()
+  local ok, err, wild0, partyBefore
+  for try = 0, (random and prev) and 3 or 0 do
+    if try > 0 then
+      -- A random encounter is luck: a beat can cross its grass without one. Reload the previous
+      -- checkpoint and start the beat some frames later, which reshuffles the encounters.
+      L(string.format('  no wild battle in %s; replaying from checkpoint %s, %d frames later', b.name, prev, 17 * try))
+      if not N.restore(prev) then break end
+      F.idle(30 + 17 * try); N.debugHeal()
+      startMap, startX, startY = N.mapName(), F.pos()
+    end
+    wild0, partyBefore = N.battles.wild, N.partyCount()
+    N.throw = { kind = kind }
+    ok, err = pcall(b.run)
+    N.throw = nil
+    if N.threw or not ok then break end
+  end
   if not N.threw then
-    F.check('loss ' .. b.name .. ': a matching battle happened', false, ok and 'none' or tostring(err))
+    F.check('loss ' .. b.name .. ': a matching battle happened', false,
+      ok and string.format('none (%d wild battles in the last try)', N.battles.wild - wild0) or tostring(err))
     return ok, err
   end
   if ok or err ~= N.LOSS_PLAYED then

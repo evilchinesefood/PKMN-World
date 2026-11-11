@@ -58,6 +58,10 @@ return function(F, N, C, log, H)
     beat('pg_' .. name, function()
       segDMoves()
       local before = N.battles.trainer
+      -- Start healed: a rematch is the beat's whole test, and the last beat's wild fights leave the lead
+      -- short of PP and HP while N.needHeal only fires after a trainer or below 60% HP. (A retry always
+      -- healed right after its restore, which hid this.)
+      N.debugHeal()
       go()
       N.settle()
       local last = N.battleLog[#N.battleLog]

@@ -30,6 +30,10 @@ return {
       { beat = 'to_league', ace = 63, limit = 2000 },
     },
     noDetour = { 'VictoryRoad' },
+    -- Kanto's Victory Road spans four beats with no Center inside; it once entered at half HP.
+    provision = { 'to_victory_road' },
+    -- The Plateau lobby's Mart sells Full Restore and Revive, and nothing heals between League rooms.
+    shopMaps = { 'IndigoPlateau_PokemonCenter_1F_Frlg' },
     catches = {
       { after = 'brock', map = 'MtMoon_1F_Frlg', species = 'SPECIES_GEODUDE', budget = 600, cave = true },
     },
@@ -49,9 +53,13 @@ return {
       { after = 'pokedex', map = 'Route101', species = 'SPECIES_MUDKIP', budget = 500 },
       { after = 'route110', map = 'Route110', species = 'SPECIES_ELECTRIKE', budget = 400 },
     },
-    grindMap = { juan = 'Route121', league_gate = 'Route121' },
+    -- No League grind map: Route121 is back through Victory Road. The gate grinds where it stands.
+    grindMap = { juan = 'Route121' },
     exclude = { 'SPECIES_CASTFORM', 'SPECIES_WYNAUT', 'SPECIES_WOBBUFFET' },
-    noDetour = { 'Sootopolis', 'SeafloorCavern', 'CaveOfOrigin', 'SkyPillar', 'VictoryRoad' },
+    -- MossdeepCity_Gym: the planner does not model the exit pad, so heal after the beat leaves by it.
+    noDetour = { 'Sootopolis', 'SeafloorCavern', 'CaveOfOrigin', 'SkyPillar', 'VictoryRoad', 'MossdeepCity_Gym' },
+    -- Beats that open with their own travel, so a Center trip need not walk back to the last tile.
+    startAnywhere = { 'jagged_pass', 'go_goggles', 'tate_liza' },
     done = {},
   },
 }

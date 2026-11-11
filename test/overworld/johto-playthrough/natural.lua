@@ -249,10 +249,19 @@ return function(F, N, S, here)
     -- The bench member with the highest move score against this foe, in field order.
     local foeTypes, ability = foeOf(N.activeBattler)
     local best, bestScore = nil, 0
-    local active = r16(P.gBattlerPartyIndexes + 2 * N.activeBattler)
+    -- Off the field already: neither this battler's own mon, nor (in a double) the other player
+    -- battler's, nor one that battler has chosen to switch into this turn. gParties is in party
+    -- order here, as gBattlerPartyIndexes is.
+    local flags = r32(P.gBattleTypeFlags)
+    local taken = { [r16(P.gBattlerPartyIndexes + 2 * N.activeBattler)] = true }
+    if (flags & C.BATTLE_TYPE_DOUBLE) ~= 0 and (flags & (C.BATTLE_TYPE_MULTI | C.BATTLE_TYPE_INGAME_PARTNER)) == 0 then
+      local mate = N.activeBattler ~ 2
+      taken[r16(P.gBattlerPartyIndexes + 2 * mate)] = true
+      taken[r8(r32(P.gBattleStruct) + O.bs_monToSwitchIntoId + mate)] = true
+    end
     for i = 0, N.partyCount() - 1 do
       local pm = N.partyMon(i)
-      if i ~= active and pm.hp > 0 and pm.level > 0 and member(i) then
+      if not taken[i] and pm.hp > 0 and pm.level > 0 and member(i) then
         local types = speciesTypes(partySpecies(i))
         for _, mv in ipairs(partyMoves(i)) do
           local s = vsFoe(mv, types, foeTypes, ability)
@@ -276,6 +285,20 @@ return function(F, N, S, here)
     local menuSlot
     for i = 0, N.partyCount() - 1 do if monId(i) == want then menuSlot = i end end
     if not menuSlot then press('B'); idle(30); return false end
+    -- Shadow Tag, Arena Trap, Magnet Pull, Wrap or Mean Look: the menu opens only to refuse
+    -- ("The opposing Wobbuffet is preventing switching!"). Back out and stop trying this battle.
+    local action = r8(P.gPartyMenu + 11)   -- PartyMenu.action
+    if action == 2 or action == 4 then     -- PARTY_ACTION_CANT_SWITCH, PARTY_ACTION_ABILITY_PREVENTS
+      L('NAT switch: refused (party action ' .. action .. '), staying in')
+      switches = 3
+      press('B')
+      for _ = 1, 240 do
+        if F.cb2() == (P.BattleMainCB2 & ~1) then break end
+        idle(1)
+      end
+      idle(20)
+      return true
+    end
     for _ = 1, 8 do
       if r8(P.gPartyMenu + 9) == menuSlot then break end
       press('Down'); idle(10)
@@ -326,9 +349,18 @@ return function(F, N, S, here)
     press('A'); idle(40)        -- Use
     idle(40)                    -- the party input waits for its icon animation
     local slotTask = activeAny('Task_BagMenu_PartyInput')
-    L(string.format('NAT potion: party input task %s, slot cursor %d, want %d', tostring(slotTask ~= nil), slotTask and r16(slotTask + 8 + 8) or -1, active))
+    -- The bag's party screen lists the party in battle order (UpdatePartyToBattleOrder, as the send-out
+    -- menu does): the active mon is at the slot gBattlePartyCurrentOrder gives its party index, which is
+    -- 0 in a single battle, not its party index.
+    local at = active
+    for i = 0, N.partyCount() - 1 do
+      local order = r8(P.gBattlePartyCurrentOrder + (i // 2))
+      if ((i % 2 == 1) and (order & 0xF) or (order >> 4)) == active then at = i end
+    end
+    local cur0 = slotTask and r16(slotTask + 8 + 8) or -1
+    L(string.format('NAT potion: party input task %s, slot cursor %d, want %d (party index %d)', tostring(slotTask ~= nil), cur0, at, active))
     for _ = 1, 10 do
-      if not slotTask or r16(slotTask + 8 + 8) == active then break end
+      if not slotTask or r16(slotTask + 8 + 8) == at then break end
       press('Down'); idle(16)
     end
     press('A'); idle(50)
@@ -419,9 +451,10 @@ return function(F, N, S, here)
     local healed = 0
     for slot = 0, N.partyCount() - 1 do
       local pm = N.partyMon(slot)
-      while member(slot) and pm.hp > 0 and pm.hp * 10 < pm.maxHP * 6 do
+      while member(slot) and (pm.hp == 0 and qty(C.ITEM_REVIVE) > 0 or pm.hp > 0 and pm.hp * 10 < pm.maxHP * 6) do
         local id
-        for _, name in ipairs(POTIONS) do if C[name] and qty(C[name]) > 0 then id = C[name]; break end end
+        if pm.hp == 0 then id = C.ITEM_REVIVE
+        else for _, name in ipairs(POTIONS) do if C[name] and qty(C[name]) > 0 then id = C[name]; break end end end
         if not id then return healed end
         press('Start'); idle(60)
         if not F.selectStartIcon(2) then return healed end
@@ -452,8 +485,10 @@ return function(F, N, S, here)
           press('A'); idle(14)
         end
         for _ = 1, 4 do press('B'); idle(30) end
+        -- Leaving the Bag reopens the Start menu, which holds the field controls until it closes;
+        -- N.free() is true with it up, so wait for its task to end too.
         for _ = 1, 200 do
-          if N.free() then break end
+          if N.free() and not activeAny('Task_UsmMain') then break end
           press('B'); idle(12)
         end
         pm = N.partyMon(slot)
@@ -499,6 +534,10 @@ return function(F, N, S, here)
   end
   -- Centers, nearest first by map hops over warps and connections from where we stand.
   local function centersByHops()
+    -- The League lobby has its own nurse; a "PokemonCenter" map from there is back through Victory Road.
+    for _, o in ipairs(N.header(F.grp(), F.mapn()).objs) do
+      if o.gfx == C.OBJ_EVENT_GFX_NURSE or o.gfx == C.OBJ_EVENT_GFX_NURSE_FRLG then return { N.mapName() } end
+    end
     N.resetPlanCaches()
     local lo, hi = N.region.lo, N.region.hi
     local start = F.grp() * 256 + F.mapn()
@@ -560,7 +599,11 @@ return function(F, N, S, here)
   function Nat.maybeHeal() if needCenter(false) then Nat.heal(false, 'low hp') end end
 
   ---------------------------------------------------------------- Poke Marts
-  local POTION_PRICE, SUPER_PRICE, HYPER_PRICE = 200, 700, 1500
+  local POTION_PRICE, SUPER_PRICE, HYPER_PRICE, FULL_PRICE, REVIVE_PRICE = 200, 700, 1500, 3000, 2000
+  local function shopMap(name)
+    for _, n in ipairs(CFG.shopMaps or {}) do if n == name then return true end end
+    return false
+  end
   local function martMap()
     local lo, hi = N.region.lo, N.region.hi
     local start = F.grp() * 256 + F.mapn()
@@ -571,7 +614,7 @@ return function(F, N, S, here)
         local k = ex.g * 256 + ex.m
         if not seen[k] and ex.g >= lo and ex.g <= hi then
           seen[k] = true
-          if N.mapName(ex.g, ex.m):find('Mart') then return N.mapName(ex.g, ex.m) end
+          if N.mapName(ex.g, ex.m):find('Mart') or shopMap(N.mapName(ex.g, ex.m)) then return N.mapName(ex.g, ex.m) end
           q[#q + 1] = { ex.g, ex.m }
         end
       end
@@ -662,8 +705,9 @@ return function(F, N, S, here)
   end
 
   -- Top up the Potions at the nearest Mart when the wallet allows it.
-  function Nat.restock()
-    if noDetour() or not N.free() or potionsCarried() >= (CFG.potionTarget or 6) then return end
+  function Nat.restock(target)
+    local stocked = potionsCarried() >= (target or CFG.potionTarget or 6)
+    if noDetour() or not N.free() or (stocked and not (shopMap(N.mapName()) and qty(C.ITEM_REVIVE) < 4)) then return end
     local money = N.money()
     if money < 1500 then return end
     local here = N.header(F.grp(), F.mapn())
@@ -677,8 +721,17 @@ return function(F, N, S, here)
       if not res or N.mapName() ~= map then L('NAT shop: could not reach ' .. map); return end
     end
     local before, spare = money, money - 400
-    local n = buy({ { C.ITEM_SUPER_POTION, math.min(8, spare // SUPER_PRICE) }, { C.ITEM_POTION, math.min(10, spare // POTION_PRICE) },
-      { C.ITEM_HYPER_POTION, math.min(8, spare // HYPER_PRICE) } })
+    -- A League lobby Mart sells Full Restore and Revive; nothing else heals between its rooms.
+    local n = 0
+    if not stocked then
+      n = buy({ { C.ITEM_FULL_RESTORE, math.min(10, spare // FULL_PRICE) },
+        { C.ITEM_SUPER_POTION, math.min(8, spare // SUPER_PRICE) }, { C.ITEM_POTION, math.min(10, spare // POTION_PRICE) },
+        { C.ITEM_HYPER_POTION, math.min(8, spare // HYPER_PRICE) } })
+    end
+    if shopMap(map) then
+      local want = math.min(6, (N.money() - 400) // REVIVE_PRICE) - qty(C.ITEM_REVIVE)
+      if want > 0 then n = n + buy({ { C.ITEM_REVIVE, want } }) end
+    end
     stats.bought = (stats.bought or 0) + n
     L(string.format('NAT shop: bought %d at %s, money %d -> %d, carrying %d', n, map, before, N.money(), potionsCarried()))
   end
@@ -701,7 +754,13 @@ return function(F, N, S, here)
       end
     end
     table.sort(tiles, function(a, b) return a[3] < b[3] end)
-    return tiles
+    -- Grass beyond a ledge strands the walk back (Route112 below Lavaridge): keep tiles we can return from.
+    local info, keep = N.header(F.grp(), F.mapn()), {}
+    for _, t in ipairs(tiles) do
+      if #keep >= 12 then break end
+      if N.flood(info, t[1], t[2], N.surfing())[px .. ',' .. py] then keep[#keep + 1] = t end
+    end
+    return keep
   end
   -- Two neighbouring grass tiles, nearest first, so pacing never leaves the grass.
   local function pair()
@@ -785,7 +844,7 @@ return function(F, N, S, here)
     return whiteouts, N.steps - base
   end
 
-  local function mapGood(name) return name and MAPS[name] end
+  local function mapGood(name) return name and MAPS[name] and name end
 
   function Nat.grind(target, budget, map, opts)
     local _, avg = Nat.level()
@@ -803,13 +862,31 @@ return function(F, N, S, here)
   end
 
   ---------------------------------------------------------------- catching
+  -- Balls on hand for a catch. A Poke Ball is the first slot until it runs out, then the Great Ball is.
+  local function ballsLeft() return N.itemQty(C.ITEM_POKE_BALL) + N.itemQty(C.ITEM_GREAT_BALL) end
+  -- One Poke Ball and one Great Ball is all the story hands out before Route 110, and a catch rate
+  -- of 120 misses more often than not, so top up at the nearest Mart before hunting.
+  function Nat.restockBalls()
+    if noDetour() or not N.free() or ballsLeft() >= 8 then return end
+    local money = N.money()
+    if money < 1500 then return end
+    local map = martMap()
+    if not map then return end
+    local ok, res = pcall(N.travel, map, { policy = N.defaultPolicy })
+    if not ok then if res == N.WHITEOUT then error(res, 0) end; L('NAT shop: ' .. tostring(res)); return end
+    if not res or N.mapName() ~= map then L('NAT shop: could not reach ' .. map); return end
+    local n = buy({ { C.ITEM_POKE_BALL, math.min(10, (money - 400) // 200) } })
+    L(string.format('NAT shop: bought %d balls at %s, carrying %d', n, map, ballsLeft()))
+  end
+
   function Nat.catch(spec)
+    Nat.restockBalls()
     N.catchWanted = function(sp) return sp == C[spec.species] end
     local before = N.partyCount()
     local s0 = N.steps
     if spec.map then assert(N.travel(spec.map), 'no route to catch map') end
     cavePacing = spec.cave or false
-    pace(function() return N.partyCount() > before or N.itemCount(C.ITEM_POKE_BALL) == 0 end, spec.budget or 400, spec.map,
+    pace(function() return N.partyCount() > before or ballsLeft() == 0 end, spec.budget or 400, spec.map,
       { fight = true, policy = N.defaultPolicy })
     cavePacing = false
     N.catchWanted = nil
@@ -840,10 +917,14 @@ return function(F, N, S, here)
     if N.beatSetup then N.beatSetup() end
     local g = GYM[b.name]
     if not g then
-      if needCenter(false) and not Nat.heal(false, 'before ' .. b.name) then
+      -- A beat into a no-detour stretch is the last chance at a Center and a Mart, so go in full.
+      local full = false
+      for _, n in ipairs(CFG.provision or {}) do if n == b.name then full = true end end
+      if needCenter(full) and not Nat.heal(full, 'before ' .. b.name) then
         local n = Nat.fieldHeal()
         if n > 0 then L(string.format('NAT field heal before %s: %d potions, party %s', b.name, n, Nat.partyText())) end
       end
+      if full then pcall(Nat.restock, 10) end
       return
     end
     Nat.heal(true, 'pre-gym')
@@ -898,6 +979,11 @@ return function(F, N, S, here)
     local f = io.open(F.out .. 'nat_' .. name .. '.lua', 'w')
     if f then f:write('return ' .. ser(stats)); f:close() end
   end
+  function Nat.anywhere(name)
+    for _, n in ipairs(CFG.startAnywhere or {}) do if n == name then return true end end
+    return false
+  end
+
   function Nat.loadCheckpoint(name)
     local fn = loadfile(F.out .. 'nat_' .. name .. '.lua')
     if fn then
@@ -905,6 +991,8 @@ return function(F, N, S, here)
       for k in pairs(stats) do stats[k] = nil end
       for k, v in pairs(t) do stats[k] = v end
     end
+    -- A retry must replay the beat, not skip the Center trip the failed attempt gave up on.
+    for k in pairs(BLOCKED) do BLOCKED[k] = nil end
   end
 
   ---------------------------------------------------------------- setup

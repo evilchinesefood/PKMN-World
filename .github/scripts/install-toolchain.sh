@@ -20,8 +20,8 @@ echo "Using Ubuntu package mirror: $mirror"
 # Keep the runner's suites, components and signing keys; replace only the download host.
 sudo find /etc/apt -maxdepth 2 -type f \( -name '*.sources' -o -name '*.list' \) \
   -exec sed -i -E \
-    -e "s|mirror\\+file:/etc/apt/apt-mirrors(-security)?[.]txt|$mirror|g" \
-    -e "s|https?://(azure[.])?(archive|security)[.]ubuntu[.]com/ubuntu|$mirror|g" {} +
+    -e "s#mirror\\+file:/etc/apt/apt-mirrors(-security)?[.]txt#$mirror#g" \
+    -e "s#https?://(azure[.])?(archive|security)[.]ubuntu[.]com/ubuntu#$mirror#g" {} +
 
 apt_options=(-o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
 for attempt in 1 2 3; do

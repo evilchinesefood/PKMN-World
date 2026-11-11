@@ -17,13 +17,27 @@ if [[ -z "$mirror" ]]; then
 fi
 echo "Using Ubuntu package mirror: $mirror"
 
-# Keep the runner's suites, components and signing keys; replace only the download host.
-sudo find /etc/apt -maxdepth 2 -type f \( -name '*.sources' -o -name '*.list' \) \
+# Use one source snapshot throughout installation, even if runner provisioning
+# refreshes /etc/apt between update and install. Retain suites and signing keys.
+source_dir=$(mktemp -d)
+trap 'sudo rm -rf "$source_dir"' EXIT
+chmod 755 "$source_dir"
+mkdir -p "$source_dir/sources.list.d" "$source_dir/lists/partial"
+if [[ -f /etc/apt/sources.list ]]; then
+  cp -L /etc/apt/sources.list "$source_dir/sources.list"
+else
+  touch "$source_dir/sources.list"
+fi
+cp -LR /etc/apt/sources.list.d/. "$source_dir/sources.list.d/"
+find "$source_dir" -maxdepth 2 -type f \( -name '*.sources' -o -name '*.list' \) \
   -exec sed -i -E \
     -e "s#mirror\\+file:/etc/apt/apt-mirrors(-security)?[.]txt#$mirror#g" \
     -e "s#https?://(azure[.])?(archive|security)[.]ubuntu[.]com/ubuntu#$mirror#g" {} +
 
-apt_options=(-o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
+apt_options=(-o "Dir::Etc::sourcelist=$source_dir/sources.list"
+             -o "Dir::Etc::sourceparts=$source_dir/sources.list.d"
+             -o "Dir::State::lists=$source_dir/lists"
+             -o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
 for attempt in 1 2 3; do
   if sudo apt-get update --error-on=any "${apt_options[@]}" && \
      sudo apt-get install -y --no-install-recommends "${apt_options[@]}" \

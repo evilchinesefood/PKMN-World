@@ -12,3 +12,4 @@ ts	phase	decision	why	evidence	result
 2026-11-11T13:54:30Z	runtime	Regional controller suite passed 189 of 189 assertions	Corrected Frontier fixture to use actual reception path instead of an impassable wall	/private/tmp/pkmn-377-evidence/feature-travel-runtime-8.log	VERIFIED
 2026-11-11T13:54:30Z	regression	Run final full C suite, overworld sweep and independent feature-off builds	Keep configuration edits isolated from the exact default ROM used by controller tests	/private/tmp/pkmn-377-evidence/	IN_PROGRESS
 2026-11-11T14:05:12Z	verification	All default, migration, controller and feature-off gates passed	Keep natural-play and hardware limits explicit	docs/implementation/377/verification.md	VERIFIED
+2026-11-11T14:07:29Z	delivery	Opened ready PR 385 without merging	Deliver both features together for review	https://github.com/evilchinesefood/PKMN-World/pull/385	VERIFIED

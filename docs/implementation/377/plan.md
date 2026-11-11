@@ -7,7 +7,7 @@
 - [x] Phase B: Design the workflow.
 - [x] Phase C: Run the loop.
 - [x] Phase D: Keep the audit trail.
-- [ ] Phase E: Verify and hand back.
+- [x] Phase E: Verify and hand back.
 
 ## Implementation and verification sequence
 
@@ -34,3 +34,7 @@ All approved behavior and acceptance cases in GitHub issue 377 must be implement
 ## Design rubric
 
 Compare complete designs for stable identity and lifecycle coverage, supported save compatibility, atomic exchange and mail conservation, explicit departure ownership, read-only destination validation, and maintainability of normal gameplay UI and tests.
+
+## Delivery
+
+Ready pull request [#385](https://github.com/evilchinesefood/PKMN-World/pull/385) contains both features and the acceptance evidence. It remains unmerged. Local gates passed; GitHub Actions results are separate from the local evidence.

@@ -75,7 +75,7 @@ static void WriteValidSlot1WithOddCounter(void)
 // layout change in v9.
 #define T_SAVEBLOCK1_SIZE 14752
 #define T_SAVEBLOCK2_SIZE 3884
-#define T_SAVEBLOCK3_SIZE 1264
+#define T_SAVEBLOCK3_SIZE 1432
 #define T_POKEMONSTORAGE_SIZE 34144
 
 TEST("SaveBlock1 is backwards compatible")

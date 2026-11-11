@@ -36,7 +36,10 @@
 //     the one-shot check below, v10 saves never re-enter it. The check is introState == 0 only
 //     — a file already dumped in Slateport has currentRegion == REGION_HOENN and must still
 //     clear, because the hub first-visit path sets the var to 4 before warping.
-#define SAVE_FORMAT_VERSION 10
+// v11: append regional team references, identity counter and Center checkpoints. Clear previously
+//      unused encrypted Pokemon identity bits across party/storage/daycare/fusions during migration.
+//      BoxPokemon and older save field offsets stay unchanged; no historical teams are inferred.
+#define SAVE_FORMAT_VERSION 11
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
 // only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.

@@ -311,7 +311,7 @@ static const s16 sEggShardVelocities[][2] =
 static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 {
     enum Species species;
-    u32 personality, pokerus;
+    u32 personality, pokerus, regionalIdentity;
     enum PokeBall ball;
     u8 i, friendship, language, gameMet, markings, isModernFatefulEncounter;
     bool32 isShiny;
@@ -319,6 +319,7 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     u32 ivs[NUM_STATS];
 
     species = GetMonData(egg, MON_DATA_SPECIES);
+    regionalIdentity = GetMonData(egg, MON_DATA_REGIONAL_ID);
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         moves[i] = GetMonData(egg, MON_DATA_MOVE1 + i);
@@ -357,6 +358,7 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     SetMonData(temp, MON_DATA_MODERN_FATEFUL_ENCOUNTER, &isModernFatefulEncounter);
     SetMonData(temp, MON_DATA_POKEBALL, &ball);
 
+    SetMonData(temp, MON_DATA_REGIONAL_ID, &regionalIdentity);
     *egg = *temp;
 }
 

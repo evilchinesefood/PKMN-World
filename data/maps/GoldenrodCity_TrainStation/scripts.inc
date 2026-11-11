@@ -30,6 +30,8 @@ GoldenrodCity_TrainStation_EventScript_Attendant2::
 
 
 GoldenrodCity_TrainStation_EventScript_BoardTrain::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	msgbox GoldenrodMagnetTrainStation_Text_OfficerRightThisWay, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_GOLDENROD_CITY_TRAIN_STATION_ATTENDANT, GoldenrodCity_TrainStation_Movement_Attendant_Move_Up

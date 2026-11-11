@@ -208,7 +208,8 @@ static void FieldUpdateRegionMap(void)
                 if (CanFlyToSelection())
                 {
                     PlaySE(SE_SELECT);
-                    SetFlyDestination(&sFieldRegionMapHandler->regionMap);
+                    if (!SetFlyDestination(&sFieldRegionMapHandler->regionMap))
+                        break;
                     gSkipShowMonAnim = TRUE;
                     ReturnToFieldFromFlyMapSelect();
                 }

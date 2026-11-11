@@ -450,6 +450,9 @@ check: $(TESTELF)
 # than trusting a remembered number: #94 itself asserted the loader copies slots 7..15, and it
 # copies 7..12. The 52 arrays that declare exactly 13 rows are CORRECT; do not pad them.
 validate:
+	python3 test/overworld/ValidateRegionalCenters.py
+	python3 test/overworld/TestRegionalTravelMigration.py
+	python3 test/overworld/MakeRegionalTravelFixture.py --check
 	python3 test/overworld/story-progress/run.py
 	python3 test/overworld/ValidateGen13.py
 	python3 test/overworld/ValidateScripts.py

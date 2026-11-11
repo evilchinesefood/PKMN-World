@@ -936,6 +936,30 @@ struct DaycareMon
 // STATIC_ASSERTs in load_save.c (offsetof(SaveBlock3, region) stays 0x20). The wrapper exists so a
 // save-format edit touches a single named struct and a future SB3 checksum can cover exactly this
 // range. Append-only — never reorder. See constants/region_vars.h and constants/region_flags.h.
+struct RegionalTeamMember
+{
+    u32 identity;
+    u16 lastSpecies;
+    u16 reserved;
+};
+
+struct RegionalTeamMemory
+{
+    struct RegionalTeamMember members[PARTY_SIZE];
+    u8 count;
+    u8 reserved[3];
+};
+
+struct RegionalTravelSave
+{
+    u32 nextIdentity;
+    struct RegionalTeamMemory teams[3];
+    u16 center[3];
+    u8 reserved[2];
+};
+
+STATIC_ASSERT(sizeof(struct RegionalTravelSave) == 168, RegionalTravelSaveSize);
+
 struct RegionSave
 {
     u16 regionVars[NUM_REGION_VARS];        // 384 vars (128 per region) = 768 bytes
@@ -951,6 +975,7 @@ struct RegionSave
     // last field of the last field of SaveBlock3, so adding it moves no existing bank and every
     // pinned offsetof assert in load_save.c still holds. See constants/region_flags.h.
     u8 johtoTrainerFlags[NUM_JOHTO_TRAINER_FLAG_BYTES]; // = 32 bytes
+    struct RegionalTravelSave regionalTravel;
 };
 
 struct SaveBlock3

@@ -90,7 +90,7 @@ FLASH_SIZE = SECTOR_SIZE * 32                            # 131072
 ID_SB2, ID_SB1_START, ID_SB1_END = 0, 1, 4
 ID_PK_START, ID_PK_END = 5, 13
 
-SAVE_FORMAT_VERSION = 10
+SAVE_FORMAT_VERSION = 11
 SAVE_FORMAT_LAYOUT_MIN = 7
 
 # --- v9 -> v10 (issue #195) ---------------------------------------------------
@@ -111,7 +111,7 @@ REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
 PROBED = {
     'SB1_SIZE':            ('sizeof(struct SaveBlock1)', 14752),
     'SB2_SIZE':            ('sizeof(struct SaveBlock2)', 3884),
-    'SB3_SIZE':            ('sizeof(struct SaveBlock3)', 1264),
+    'SB3_SIZE':            ('sizeof(struct SaveBlock3)', 1432),
     'PK_SIZE':             ('sizeof(struct PokemonStorage)', 34144),
 
     'SB1.pos':             ('offsetof(struct SaveBlock1, pos)', 0),
@@ -124,6 +124,16 @@ PROBED = {
     'SB1.mapViewSize':     ('sizeof(((struct SaveBlock1 *)0)->mapView)', 512),
     'SB1.playerPartyCount': ('offsetof(struct SaveBlock1, playerPartyCount)', 564),
     'SB1.playerParty':     ('offsetof(struct SaveBlock1, playerParty)', 568),
+    'SB1.daycareMons':     ('offsetof(struct SaveBlock1, daycare.mons)', 13364),
+    'DaycareMon.size':     ('sizeof(struct DaycareMon)', 140),
+    'Pokemon.size':        ('sizeof(struct Pokemon)', 100),
+    'BoxPokemon.size':     ('sizeof(struct BoxPokemon)', 80),
+    'PK.boxes':            ('offsetof(struct PokemonStorage, boxes)', 4),
+    'PK.fusions':          ('offsetof(struct PokemonStorage, fusions)', 33744),
+    'PARTY_SIZE':          ('PARTY_SIZE', 6),
+    'DAYCARE_MON_COUNT':   ('DAYCARE_MON_COUNT', 2),
+    'PC_MON_COUNT':        ('TOTAL_BOXES_COUNT * IN_BOX_COUNT', 420),
+    'MAX_FUSION_STORAGE':  ('MAX_FUSION_STORAGE', 4),
     'SB1.money':           ('offsetof(struct SaveBlock1, money)', 1168),
     'SB1.objectEvents':    ('offsetof(struct SaveBlock1, objectEvents)', 3412),
     'SB1.flags':           ('offsetof(struct SaveBlock1, flags)', 5524),
@@ -150,12 +160,15 @@ PROBED = {
     'SB2.regionChecksum':  ('offsetof(struct SaveBlock2, regionChecksum)', 148),
 
     'SB3.region':          ('offsetof(struct SaveBlock3, region)', 32),
-    'RS.size':             ('sizeof(struct RegionSave)', 1232),
+    'RS.size':             ('sizeof(struct RegionSave)', 1400),
     'RS.regionVars':       ('offsetof(struct RegionSave, regionVars)', 0),
     'RS.johtoFlags':       ('offsetof(struct RegionSave, johtoFlags)', 768),
+    'RS.route5DayCareMon': ('offsetof(struct RegionSave, route5DayCareMon)', 992),
     'RS.obstacleTableHash': ('offsetof(struct RegionSave, obstacleTableHash)', 1132),
     'RS.clearedObstacleBits': ('offsetof(struct RegionSave, clearedObstacleBits)', 1136),
     'RS.johtoTrainerFlags': ('offsetof(struct RegionSave, johtoTrainerFlags)', 1200),
+    'RS.regionalTravel':   ('offsetof(struct RegionSave, regionalTravel)', 1232),
+    'RegionalTravel.size': ('sizeof(struct RegionalTravelSave)', 168),
     'NUM_JOHTO_TRAINER_FLAG_BYTES': ('NUM_JOHTO_TRAINER_FLAG_BYTES', 32),
     'CLEARED_OBSTACLE_TABLE_HASH': ('CLEARED_OBSTACLE_TABLE_HASH', 0xCF719B0B),
 
@@ -252,6 +265,12 @@ PINS = [
     ('offsetof(RegionSave, johtoTrainerFlags)', 'src/load_save.c',
      r'STATIC_ASSERT\(offsetof\(struct RegionSave, johtoTrainerFlags\) == (\d+)',
      V['RS.johtoTrainerFlags']),
+    ('offsetof(RegionSave, regionalTravel)', 'src/load_save.c',
+     r'STATIC_ASSERT\(offsetof\(struct RegionSave, regionalTravel\) == (\d+)',
+     V['RS.regionalTravel']),
+    ('sizeof(RegionalTravelSave)', 'include/global.h',
+     r'STATIC_ASSERT\(sizeof\(struct RegionalTravelSave\) == (\d+)',
+     V['RegionalTravel.size']),
     ('offsetof(SaveBlock2, currentRegion)', 'src/load_save.c',
      r'STATIC_ASSERT\(offsetof\(struct SaveBlock2, currentRegion\) == (0x[0-9A-Fa-f]+)',
      V['SB2.currentRegion']),
@@ -593,6 +612,8 @@ class Save:
             version = self.sb2[V['SB2.saveVersion']]
         if version < 9:
             return V['RS.johtoTrainerFlags']
+        if version < 11:
+            return V['RS.regionalTravel']
         return REGION_SIZE
 
     def region_checksum(self, width=None):
@@ -629,6 +650,49 @@ class Save:
 
 
 # --- migration ----------------------------------------------------------------
+SUBSTRUCT_OFFSETS = (
+    (0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3),
+    (1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2),
+    (2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1),
+    (3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0),
+)
+
+
+def clear_regional_identity(buf, offset):
+    """Clear only v11's twenty bits in a checksummed eighty-byte BoxPokemon."""
+    personality, ot_id = struct.unpack_from('<II', buf, offset)
+    key = personality ^ ot_id
+    data = bytearray(struct.pack('<12I', *(word ^ key for word in
+                         struct.unpack_from('<12I', buf, offset + 32))))
+    checksum = sum(struct.unpack('<24H', data)) & 0xFFFF
+    if checksum != struct.unpack_from('<H', buf, offset + 28)[0]:
+        raise SystemExit(f'Pokemon at block offset 0x{offset:X} has an invalid checksum; '
+                         'refusing offline identity migration')
+    order = personality % 24
+    for substruct, at, mask in ((0, 2, 0xFC00), (0, 6, 0xE000), (0, 10, 0xC000),
+                               (1, 4, 0xF800), (1, 6, 0x3800), (3, 10, 0x1000)):
+        pos = SUBSTRUCT_OFFSETS[substruct][order] * 12 + at
+        word = struct.unpack_from('<H', data, pos)[0]
+        struct.pack_into('<H', data, pos, word & ~mask)
+    struct.pack_into('<H', buf, offset + 28, sum(struct.unpack('<24H', data)) & 0xFFFF)
+    struct.pack_into('<12I', buf, offset + 32,
+                     *(word ^ key for word in struct.unpack('<12I', data)))
+
+
+def migrate_regional_travel(sv):
+    owners = ((sv.sb1, V['SB1.playerParty'], V['PARTY_SIZE'], V['Pokemon.size']),
+              (sv.sb1, V['SB1.daycareMons'], V['DAYCARE_MON_COUNT'], V['DaycareMon.size']),
+              (sv.sb3, SB3_REGION_OFF + V['RS.route5DayCareMon'], 1, V['DaycareMon.size']),
+              (sv.pk, V['PK.boxes'], V['PC_MON_COUNT'], V['BoxPokemon.size']),
+              (sv.pk, V['PK.fusions'], V['MAX_FUSION_STORAGE'], V['Pokemon.size']))
+    for buf, start, count, stride in owners:
+        for index in range(count):
+            clear_regional_identity(buf, start + index * stride)
+    start = SB3_REGION_OFF + V['RS.regionalTravel']
+    sv.sb3[start:start + V['RegionalTravel.size']] = bytes(V['RegionalTravel.size'])
+    struct.pack_into('<I', sv.sb3, start, 1)
+
+
 def _twin_mapnum(group, num):
     """MigrateDeletedTwinMapNum — matches the first group only, exactly like the C."""
     for g, day in DELETED_TWINS:
@@ -713,6 +777,10 @@ def migrate(sv):
             else:
                 log.append(f'v9->v10 hoennIntroDone left alone (set={had} '
                            f'introState={intro} currentRegion={region})')
+
+        if ver < 11:
+            migrate_regional_travel(sv)
+            log.append('v10->v11 Pokemon identity bits cleared; regional teams and Centers start empty')
 
         sv.sb2[V['SB2.saveVersion']] = SAVE_FORMAT_VERSION
         log.append(f'saveVersion {ver} -> {SAVE_FORMAT_VERSION}')

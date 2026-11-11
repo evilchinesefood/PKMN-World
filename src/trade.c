@@ -3101,6 +3101,10 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
         ClearMail(&gSaveBlock1Ptr->mail[playerMail]);
 
     SWAP(*playerMon, *partnerMon, sTradeAnim->tempMon);
+    {
+        u32 identity = 0;
+        SetMonData(playerMon, MON_DATA_REGIONAL_ID, &identity);
+    }
 
     // By default, a Pokémon received from a trade will have 70 Friendship.
     // Eggs use Friendship to track egg cycles, so don't set this on Eggs.

@@ -570,6 +570,7 @@ static void CreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpeci
             struct Pokemon *shedinja = &gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]];
 
             CopyMon(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], mon, sizeof(struct Pokemon));
+            SetMonData(shedinja, MON_DATA_REGIONAL_ID, &data);
             SetMonData(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], MON_DATA_SPECIES, &evolutions[i].targetSpecies);
             SetMonData(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], MON_DATA_NICKNAME, GetSpeciesName(evolutions[i].targetSpecies));
             SetMonData(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], MON_DATA_HELD_ITEM, &data);
@@ -604,6 +605,13 @@ static void CreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpeci
         }
     }
 }
+
+#if TESTING
+void TestCreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpecies, struct Pokemon *mon)
+{
+    CreateShedinja(preEvoSpecies, postEvoSpecies, mon);
+}
+#endif
 
 // States for the main switch in Task_EvolutionScene
 enum {

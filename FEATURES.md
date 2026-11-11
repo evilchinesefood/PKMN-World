@@ -98,18 +98,28 @@ Four staffers hand things out:
 **First visit** to a region plays a short "Mom moves into the new house" arrival, then that
 region's own canonical opening, including a choice of its three starters.
 
-**Switching regions through a hub gate** boxes your current party to the shared PC so each
-campaign starts fresh. Held mail moves to the PC mailbox — nothing is lost — and if the boxes or
-the mailbox can't take the whole team, the crossing is refused up front rather than half-boxing
-you. You can withdraw anything from any region at any time.
+**Regional teams and return destinations.** After a region's starter opening is complete,
+its hub gate offers **Use regional team** or **Keep current party**. Each accepted departure
+remembers the party used in that region. Hub PC edits do not replace it. A remembered lineup
+refers to the actual Pokémon, including later training, evolution, moves and held items.
+Shared members can belong to several regional lineups without making copies.
+
+The gate previews unavailable members and requires confirmation for a partial recall. It checks
+the complete PC and mailbox arrangement before moving anything. A full PC can still support an
+equal-size exchange. Held mail moves to the mailbox when its holder leaves the party.
+
+The normal return destination is the last eligible Pokémon Center entered in that region.
+Healing is not required, and travel does not heal the party. You can instead choose the standard
+regional arrival. Unsafe checkpoints fall back to that standard route. First visits and
+unfinished starter openings keep their original party-deposit and introduction flow.
 
 **Getting back to the hub** is the **HUB PASS**, a key item that warps you there from the bag.
 It's a one-way trip, so you re-enter regions through the departure gates. The Charm Curator hands
 it over, and every gate attendant force-gives it before letting you cross, so you can't strand
 yourself. Each region also has its own in-world access point — the **Goldenrod Magnet Train
 station**, **Vermilion City**, and the **Slateport harbor** — that the hub returns you to after
-that region's first gym badge. Until then, later visits still drop you at home so the opening
-campaign cannot resume halfway across the region.
+that region's first gym badge when you choose standard arrival. Before that badge, the standard
+route returns home. Center resume becomes available after the regional opening is complete.
 
 **Johto ↔ Kanto by sea** is the one crossing that isn't a hub gate. Elm's S.S. Ticket sends the
 new Johto Champion out of the **Olivine harbor** on the maiden voyage; you disembark in the
@@ -123,7 +133,8 @@ trip — sail from Olivine and you come home to Olivine; sail from Lilycove and 
 Lilycove.
 
 **Saves.** The active region and hub state live in a versioned save format with a migration
-reader. The current format is **v10**; v7, v8 and v9 saves migrate forward on load. Anything older is
+reader. The current format is **v11**; v7 through v10 saves migrate forward with empty regional
+team and Center history. Keep a pre-upgrade backup for older builds, which refuse v11 saves. Anything older than v7 is
 **refused at load with an explanation** rather than migrated — the v7 bag/PC resize reshaped the
 layout, and a legacy save would otherwise half-load with silently misaligned flags and vars.
 

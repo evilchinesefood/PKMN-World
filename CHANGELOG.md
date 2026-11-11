@@ -5,6 +5,12 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Regional travel
+
+- **Each campaign remembers the party you leave with** (#377). After completing a region's opening, its World Transit gate offers the remembered team or your current party, with a preview before travel. Shared team members are the same Pokémon with their latest progress. Missing members require confirmation; unsafe or impossible exchanges are refused.
+- **Return to the last eligible Pokémon Center you entered**, without needing to heal there first. The gate also offers the standard regional arrival. Unsafe checkpoints fall back to that arrival. Ferries keep their normal party and port behavior.
+- **Save format advances to v11.** Supported v7–v10 saves migrate with empty regional team and Center history; subsequent departures and visits populate it. Existing Pokémon and progress are preserved. Keep a backup before saving with this build: older builds refuse v11 saves, and no downgrade conversion is provided.
+
 ### Visuals
 
 - **Kanto's Story pages use mixed case**, like Johto and Hoenn ("Pallet Town", "Prof. Oak's Lab", "Boulder Badge").

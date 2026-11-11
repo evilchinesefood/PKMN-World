@@ -93,8 +93,9 @@ ROM, and the emulator suites can't run there.
 ## Status
 
 **Last tagged release: v1.7** (2026-09-30). See the [changelog](CHANGELOG.md) for the full
-entry. Save format is **v10**, unchanged from v1.6; v7 and newer migrate forward, anything
-older is refused. Headline items since v1.6:
+entry. The development build uses save format **v11** for automatic regional teams and Center
+resume. Formats v7 through v10 migrate forward with empty travel history; older formats are refused.
+Keep a pre-upgrade save backup to return to a build that uses v10. Headline items since v1.6:
 
 - A **Black/White-style battle interface**, with battle backgrounds that match Ice Path,
   Mt. Silver and the time of day.

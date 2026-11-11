@@ -1,4 +1,5 @@
 #include "global.h"
+#include "regional_travel.h"
 #include "overworld.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
@@ -1010,6 +1011,7 @@ static void LoadMapFromWarp(bool32 a1)
     UpdateJohtoDayNightFlags();
     ClearJohtoDayNightRefresh(); // this load rebuilds the objects against the fresh flags
     RunOnTransitionMapScript();
+    RegionalTravel_RecordCenterEntry();
     UpdateLocationHistoryForRoamer();
     MoveAllRoamersToOtherLocationSets();
     gChainFishingDexNavStreak = 0;

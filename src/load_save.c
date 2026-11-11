@@ -1,4 +1,5 @@
 #include "global.h"
+#include "regional_travel.h"
 #include "malloc.h"
 #include "berry_powder.h"
 #include "fake_rtc.h"
@@ -392,6 +393,9 @@ void MigrateSaveFormatIfNeeded(void)
             gSaveBlock2Ptr->hoennIntroDone = FALSE;
     }
 
+    if (savedVersion < 11)
+        RegionalTravel_Migrate();
+
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
 
@@ -446,6 +450,8 @@ static u32 RegionSaveWidthForVersion(u8 version)
 {
     if (version < 9)
         return offsetof(struct RegionSave, johtoTrainerFlags);
+    if (version < 11)
+        return offsetof(struct RegionSave, regionalTravel);
     return sizeof(struct RegionSave);
 }
 
@@ -511,7 +517,8 @@ STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleBits) == 1136, RegionSa
 // 1200 -> 1232. Because it is a true append, every offset pinned above is unchanged, which is
 // what lets a v8 save load without relocating anything - the ladder step only zeroes this bank.
 STATIC_ASSERT(offsetof(struct RegionSave, johtoTrainerFlags) == 1200, RegionSaveJohtoTrainerFlagsMoved_BumpSaveFormatVersion);
-STATIC_ASSERT(sizeof(struct RegionSave) == 1232, RegionSaveSizeChanged_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct RegionSave, regionalTravel) == 1232, RegionalTravelOffset);
+STATIC_ASSERT(sizeof(struct RegionSave) == 1400, RegionSaveSizeChanged_BumpSaveFormatVersion);
 // Every obstacle in the map data must have a bit. GenObstacleTable.py refuses to emit a table
 // larger than the slot count, but pin it here too so a hand-edited header cannot slip past.
 STATIC_ASSERT(CLEARED_OBSTACLE_COUNT <= CLEARED_OBSTACLE_SLOTS, ClearedObstacleTableExceedsReservedBits);

@@ -71,6 +71,8 @@ VermilionCity_EventScript_FerrySSAnnePier::
 VermilionCity_EventScript_FerryHubOrSevii::
 	msgbox VermilionCity_Text_FerryToHub, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, VermilionCity_EventScript_CheckSeagallopPresent
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	closemessage
 	warp MAP_REGION_HUB, 0
 	waitstate

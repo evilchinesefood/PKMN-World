@@ -1376,6 +1376,8 @@ PokemonCenter_2F_EventScript_HubPad::
 	goto_if_eq VAR_RESULT, 0, PokemonCenter_2F_EventScript_HubPadDone
 	msgbox PokemonCenter_2F_Text_HubPad, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, PokemonCenter_2F_EventScript_HubPadDone
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	closemessage
 	warp MAP_REGION_HUB, 0
 	waitstate

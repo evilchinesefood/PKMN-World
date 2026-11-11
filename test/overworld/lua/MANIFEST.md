@@ -911,3 +911,34 @@ first that the measurement can physically exhibit the thing you are ruling out.
 The next move is not another probe. It is the crash screenshot, which names its own assert site:
 `F.crashScreen()` decodes `FILE.C:LINE` straight out of VRAM. Never key off the screen's colour;
 that palette is broken (see [`../BizHawkTesting.md`](../BizHawkTesting.md)).
+
+
+### `RegionalTravel.lua`
+
+Issue #377 controller acceptance, fresh save. Drives the actual hub choices for all six
+directed campaign pairs and three same-region returns; both team and arrival choices,
+Hub Pass cancellation/departure, three physical Center entries without healing, real
+save/Continue at the hub and after partial recall, explicit partial confirmation and
+forced whiteout recovery. Drives maiden SS Aqua boarding, disembark, return ferry,
+Olivine–Frontier voyage, the reception gate and neutral hub shuttle; checks departure
+ownership with a changed onboard/neutral party. Seeds checkpoint/progress prerequisites
+for actual safe/fallback menu travel at Cianwood, Sootopolis, Sevii, Kanto League and
+Mt Silver; Cianwood distinguishes outgoing versus recalled party and source versus
+destination badges. Hoenn League resumes with a non-water/non-flight party and exits
+through the actual Hub Pass. Build 6 measured **189/189**, ROM MD5
+`30B28AF582B8B400855381A27E3C79FA`; the full sweep reruns against its own stamped ROM.
+Prerequisite setup is not evidence of natural acquisition, and the forced battle outcome
+is not a gameplay balance test. The dock-to-shuttle route must pass through reception:
+there is no walkable north path from the dock across the building wall.
+
+### `RegionalTravelMigration.lua`
+
+Issue #377 in-game migration acceptance. Requires
+`fixtures/v10regionaldirty.srm`; provenance is in `fixtures/v10regional.md`. Loads a
+checksummed version-10 save with dirty identity-padding and appended-history bytes,
+checks the original boxed individual exactly after cleanup and empty regional history,
+then proves that Continue inside a Center does not synthesize entry while a later actual
+door entry records the Center. Measured **10/10**; no save fixture means this test must
+not be counted as run. Offline complementary tests are
+`../TestRegionalTravelMigration.py`, including all 433 saved owners and all 24 substructure
+orders.

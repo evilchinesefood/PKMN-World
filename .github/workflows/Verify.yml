@@ -1,0 +1,59 @@
+# Build output stays on the ephemeral runner. Do not add artifact uploads.
+name: Verify on demand
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Verification scope
+        type: choice
+        required: true
+        default: smoke
+        options:
+          - build
+          - smoke
+          - full
+      revision:
+        description: Optional branch, tag, or commit to test; blank uses the selected workflow ref
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  verify:
+    name: Manual ${{ inputs.mode }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.revision || github.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Record tested commit
+        run: git rev-parse HEAD
+      - name: Install build toolchain
+        if: inputs.mode == 'build'
+        run: bash .github/scripts/install-toolchain.sh
+      - name: Install build and emulator toolchains
+        if: inputs.mode != 'build'
+        run: bash .github/scripts/install-toolchain.sh --emulator
+      - name: Identify emulator compiler
+        if: inputs.mode != 'build'
+        id: compiler
+        run: |
+          compiler_key=$(cc --version | sha256sum | cut -d ' ' -f1)
+          echo "key=$compiler_key" >> "$GITHUB_OUTPUT"
+      - name: Cache pinned emulator tools
+        if: inputs.mode != 'build'
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/pw-tools
+          key: pw-emulator-${{ runner.os }}-${{ runner.arch }}-${{ steps.compiler.outputs.key }}-${{ hashFiles('test/overworld/mgba/**') }}
+      - name: Run selected verification
+        env:
+          VERIFY_MODE: ${{ inputs.mode }}
+        run: python3 test/verify.py "$VERIFY_MODE" --jobs "$(nproc)" --out "$RUNNER_TEMP/pw-verification" --cache "$RUNNER_TEMP/pw-tools"

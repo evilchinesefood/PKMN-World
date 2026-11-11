@@ -1,82 +1,80 @@
 # Releasing Pokémon World
 
-The release checklist, pulled together from what used to live scattered across INSTALL.md
-prose, `Check.yml` comments, and memory. It is built around save-format changes, because a
-save-format change is this project's highest-consequence change class — it can strand players.
+Master is both the development branch and the release branch. Run the release gate deliberately
+against the exact candidate commit. Automatic PR/master checks validate content only. They do
+not establish that the game built or gameplay tests passed.
 
-Master is both the dev branch and the release branch. There is no release branch to cut.
+## 1. Verify the candidate
 
-## 1. Preconditions — all must be green
+Start from the exact candidate, then run:
 
-1. **`make check`** — the battle-engine suite in `test/`. Locally, or via the CI `test` job.
+```sh
+python3 test/validate-host.py
+python3 test/verify.py full --jobs 8 --out /tmp/pw-release-checks --cache /tmp/pw-tools
+```
 
-2. **The full Lua sweep** — `test/overworld/run-all.sh`, against the exact commit being tagged:
+The same Full mode is available through the manual [Verify workflow](.github/workflows/Verify.yml).
+Its `revision` input can select the exact candidate commit. The workflow must already exist on
+the default branch to dispatch it. [Native verification instructions](test/overworld/mgba/README.md)
+cover dependencies, focused commands, and reading the result.
 
-   ```console
-   make modern -j$(sysctl -n hw.ncpu)     # symbols.lua is a prerequisite of the ROM build
-   test/overworld/run-all.sh
-   ```
+Every required check must pass:
 
-   Use `run-all.sh`, not `mgba-run.sh` — the latter runs a single suite. `run-all.sh` clears
-   every `_pwtest/*.PASS` sentinel first, runs the whole battery, then requires each expected
-   suite to have produced a *fresh* sentinel carrying the current ROM's md5. Suites that cannot
-   run (missing fixture) are reported by name as SKIPPED and make the sweep exit non-zero, so a
-   stale green cannot be counted. Anything short of a clean exit 0 is not a release.
+1. Direct host/content validation, including the Story resolver and save-format checks.
+2. The default shipping/dev build. Full builds this configuration once.
+3. Every required Lua case in the [canonical inventory](test/overworld/cases.tsv), using the
+   exact candidate ROM, matching ELF/symbols, and copied tracked fixtures. Missing or corrupt
+   fixtures, omitted cases, stale or missing PASS results, and mismatched inputs fail the run.
+4. The Kanto lab, Johto rival/police, and Hoenn Route 103 forced-loss cases. Each must reach its
+   selected loss and stop beat, prove recovery or scripted continuation, and disable retries.
+5. The complete battle-engine suite from `make check` in its isolated TEST configuration.
+6. The palette-sidecar dependency regression and target save-layout probe.
+7. Separate compile checks with `POKEVIAL_FEATURE`, `QOL_FIELD_MOVES_ITEM_GATE`, and
+   `PW_GRAPHICAL_START_MENU` set to `FALSE`, one at a time.
 
-   These suites run nowhere else — CI cannot run them (they need a locally patched Lua-enabled
-   headless mGBA; see `test/overworld/mgba/README.md`). A release is the moment they must actually
-   have run.
+Full is broad debug-assisted regression coverage. Add complete-campaign, postgame, natural-team,
+or travel-route checks when the changes warrant them. It does not claim those checks ran by
+itself. Personal-save tests are explicit local checks outside the canonical gate and never run
+in CI.
 
-3. **`make validate`** — the fifteen host-side content checks. The CI `validate` job mirrors
-   them, and so does the `pre-push` hook if you installed it (`test/overworld/hooks/install.sh`).
+Keep the summary and logs for this candidate. A pass requires exit zero and fresh matching
+results for every selected case. Reuse valid evidence for the same revision/configuration;
+do not rebuild merely because time passed. Any later code or configuration change needs
+relevant new evidence.
 
-4. **Default-config `make`** — the ROM that actually ships must build. CI `build` job.
+## 2. Prepare the release notes
 
-5. **Feature-flag off-switches still compile** — CI `flag-matrix` job flips
-   `POKEVIAL_FEATURE`, `QOL_FIELD_MOVES_ITEM_GATE` and `PW_GRAPHICAL_START_MENU` to `FALSE`
-   one at a time and builds each. These rot invisibly; do not skip a red leg.
+- Move CHANGELOG.md's `Unreleased` section under the new version and date.
+- If `SAVE_FORMAT_VERSION` in `include/constants/global.h` changed, lead with the save-format
+  change and state whether existing saves migrate or are refused.
+- Check `SAVE_FORMAT_LAYOUT_MIN` too. Raising it refuses older layouts rather than migrating them.
+- Match README.md and FEATURES.md version references to the new tag.
 
-6. **CHANGELOG.md cut** — move the `Unreleased` section under a new version heading with
-   today's date. If `SAVE_FORMAT_VERSION` (`include/constants/global.h:29`) changed since the
-   last tag, that is the *headline* of the entry, with an explicit migration-or-refusal
-   statement. Check `SAVE_FORMAT_LAYOUT_MIN` (`include/constants/global.h:44`) too — it is the
-   oldest layout this build will load at all, and raising it refuses saves outright rather
-   than migrating them.
+## 3. Tag the verified commit
 
-7. **Docs sweep** — README.md / FEATURES.md version references match the new tag.
+- Create an annotated `vX.Y` tag, for example `git tag -a v1.5 -m "..."`.
+- For a save-format bump, also tag the last commit of the previous format as
+  `vX.Y-last-vN-save`. This leaves players a reproducible version that accepts their saves.
+- After a save-format bump, open a new `Unreleased` section in CHANGELOG.md immediately.
 
-## 2. Tagging
+## 4. Ship the default build
 
-- Tag the release commit `vX.Y`, **annotated** (`git tag -a v1.5 -m "..."`). Every existing
-  release tag is annotated: `v1.0-beta`, `v1.3.6`, `v1.4`.
-- If the release includes a save-format bump, also tag the last commit of the *previous*
-  format `vX.Y-last-vN-save`, so a build of the old format stays one `git checkout` away for
-  players whose saves the new build refuses. (Standing policy — no tag of this shape exists
-  yet, so the first one sets the pattern.)
-- After a save-format bump, open a fresh `Unreleased` section in CHANGELOG.md immediately.
-  Leaving it until the next change is how the section drifts out of date.
+Ship the dev/default build from `make` or `make modern`. Do not switch to `RELEASE=1` or LTO.
+The Lua suites use the debug menu, and release mode changes assertions and the memory layout.
+The release configuration has not received the same QA. See [INSTALL.md](INSTALL.md#5-building).
 
-## 3. Shipping
+Never upload build output from CI. Fan-project terms prohibit that distribution path. ROMs,
+ELFs, saves, states, and screenshots stay in the runner's ephemeral workspace. Do not add
+`actions/upload-artifact`. Distribution happens outside this repository.
 
-- Ship the **dev build** (`make` / `make modern`), not `make release`. Standing policy
-  (2026-07-03, reaffirmed 2026-07-22; see [INSTALL.md §5](INSTALL.md#5-building)): the Lua
-  harness drives the debug menu, `assertf`/`errorf` become no-ops in a release build, and LTO
-  moves every RAM address the suites read. The release build has never had a QA pass. Revisit
-  at 1.0.
-- **Never upload build output from CI.** Fan-project terms — that is why `build.yml` was
-  deleted in `25d26c50`, and why the note at the top of `.github/workflows/Check.yml` forbids
-  adding `actions/upload-artifact`. Distribution happens outside this repo.
+When the new build refuses older saves, include this rollback note in the release post:
 
-## 4. Player rollback note
+> Your save is refused by this version? It still works on the version that made it. Build the
+> matching tag, for example `git checkout v1.3.6 && make`, and keep playing there. Starting a
+> NEW GAME on the new version erases the old save.
 
-Include this in the release post whenever the new build refuses older saves:
+## 5. Preserve the release record
 
-> Your save is refused by this version? It still works on the version that made it: build the
-> matching tag (e.g. `git checkout v1.3.6 && make`) and keep playing there. Starting a NEW GAME
-> on the new version erases the old save.
-
-## 5. After the release
-
-- Verify the tag resolves: `git describe master` should name the new tag.
-- Back up `_pwtest/` and the personal play-saves off-machine. Both are gitignored
-  (`.gitignore:11`, `.gitignore:99`) and exist on exactly one computer.
+- Verify that `git describe master` resolves to the new tag.
+- Back up the printed verification run directory and personal play-saves to your chosen backup
+  location. These are gitignored and are not uploaded by CI.

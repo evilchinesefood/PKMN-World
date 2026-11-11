@@ -115,6 +115,55 @@ local FLOORS = {
 local function here() local x, y = F.pos(); return string.format("(%d,%d)", x, y) end
 local function at(t) local x, y = F.pos(); return x == t[1] and y == t[2] end
 
+-- Generated encounters can occupy the destination independently of tile collision (observed
+-- on B1F at (17,17)). Isolate only the field-control step, after all rendering checks. As in
+-- NationalParkTiles, retain object/sprite allocation and park both coordinate pairs: collision
+-- checks previousCoords too. Trainers, map-placed mons, and the follower remain untouched.
+local LOCALID_OWE_END, OWE_SPAWNS_MAX = 252, 4
+local PARK_X, PARK_Y, OBJ_PREV_X = 1 + 7, 1 + 7, 0x14
+local function parkGeneratedOWEs()
+  for i = 0, 15 do
+    local b = S.gObjectEvents + i * S.ObjectEvent.stride
+    if (F.r8(b) & 1) == 1 then
+      local id = F.r8(b + S.ObjectEvent.localId)
+      if id > LOCALID_OWE_END - OWE_SPAWNS_MAX and id <= LOCALID_OWE_END then
+        F.w16(b + S.ObjectEvent.x, PARK_X)
+        F.w16(b + S.ObjectEvent.y, PARK_Y)
+        F.w16(b + OBJ_PREV_X, PARK_X)
+        F.w16(b + OBJ_PREV_X + 2, PARK_Y)
+        F.w8(b + S.ObjectEvent.flags1, F.r8(b + S.ObjectEvent.flags1) | 0x21)
+      end
+    end
+  end
+end
+
+-- Match lib.step's 30-hold / 14-finish / 4-idle cadence, parking each frame so a
+-- newly spawned OWE cannot survive from CB2 into the next CB1 collision check.
+local function stepOffWarp(dir)
+  local x0, y0 = F.pos()
+  for _ = 1, 30 do
+    parkGeneratedOWEs()
+    joypad.set({ [dir] = true }); emu.frameadvance()
+    local x, y = F.pos()
+    if x ~= x0 or y ~= y0 then
+      for _ = 1, 14 do
+        parkGeneratedOWEs()
+        joypad.set({ [dir] = true }); emu.frameadvance()
+      end
+      for _ = 1, 4 do
+        parkGeneratedOWEs()
+        joypad.set({}); emu.frameadvance()
+      end
+      return true
+    end
+  end
+  for _ = 1, 4 do
+    parkGeneratedOWEs()
+    joypad.set({}); emu.frameadvance()
+  end
+  return false
+end
+
 -- ---- the live layout, read as the game reads it ----------------------------------------------
 -- gMapHeader.mapLayout is the same pointer GetNumMetatilesInPrimary is handed, so everything
 -- below is the exact input to the branch under test rather than a re-derivation of it.
@@ -333,7 +382,7 @@ local function checkFloor(fl)
   -- the tilemap model above go stale -- and because the step has to leave the warp tile rather
   -- than shuffle on and off it, which is a way to re-enter the stairs and finish the run on a
   -- different floor than the one just asserted about.
-  local stepped = F.step(fl.step)
+  local stepped = stepOffWarp(fl.step)
   F.check(tag .. "_stepped_off_warp_tile", stepped and at(fl.stand) and F.ow(),
           string.format("step %s from the warp tile: at %s ow=%s (wanted (%d,%d)); a trainer "
                         .. "intercept or a softlock both land here", fl.step, here(),

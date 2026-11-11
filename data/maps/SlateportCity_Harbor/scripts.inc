@@ -168,6 +168,8 @@ SlateportCity_Harbor_EventScript_FerryAttendant::
 SlateportCity_Harbor_EventScript_HubShuttle::
 	msgbox SlateportCity_Harbor_Text_FerryToHub, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_HubDeclined
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	closemessage
 	warp MAP_REGION_HUB, 0
 	waitstate
@@ -229,6 +231,8 @@ SlateportCity_Harbor_EventScript_Lilycove::
 SlateportCity_Harbor_EventScript_BattleFrontier::
 	msgbox SlateportCity_Harbor_Text_BattleFrontierItIs, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_ChooseNewDestination
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call SlateportCity_Harbor_EventScript_BoardFerry
 	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 19, 67
 	waitstate

@@ -2216,3 +2216,11 @@ Johto_EventScript_Nop::
 
 Johto_EventScript_NopReturn::
 	return
+
+Common_EventScript_RegionalDepartureRefused::
+	msgbox Common_Text_RegionalDepartureRefused, MSGBOX_DEFAULT
+	closemessage
+	releaseall
+	end
+Common_Text_RegionalDepartureRefused:
+	.string "This team cannot be remembered safely.\nCheck your party and PC before travel.$"

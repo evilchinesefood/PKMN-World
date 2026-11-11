@@ -1,3 +1,16 @@
+static const struct MenuAction MultichoiceList_RegionalTeam[] =
+{
+    {COMPOUND_STRING("Use regional team")},
+    {COMPOUND_STRING("Keep current party")},
+    {gText_Cancel2},
+};
+static const struct MenuAction MultichoiceList_RegionalArrival[] =
+{
+    {COMPOUND_STRING("Resume at CENTER")},
+    {COMPOUND_STRING("Standard arrival")},
+    {gText_Cancel2},
+};
+
 // multichoice lists
 static const struct MenuAction MultichoiceList_BrineyOnDewford[] =
 {
@@ -1536,6 +1549,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BNET_LEADER_J2]                             = MULTICHOICE(MultichoiceList_BnetLeaderJ2),
     [MULTI_BNET_LEADER_K1]                             = MULTICHOICE(MultichoiceList_BnetLeaderK1),
     [MULTI_BNET_LEADER_K2]                             = MULTICHOICE(MultichoiceList_BnetLeaderK2),
+    [MULTI_REGIONAL_TEAM] = MULTICHOICE(MultichoiceList_RegionalTeam),
+    [MULTI_REGIONAL_ARRIVAL] = MULTICHOICE(MultichoiceList_RegionalArrival),
 };
 
 const u8 *const gStdStrings[] =

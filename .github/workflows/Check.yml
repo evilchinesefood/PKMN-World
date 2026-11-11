@@ -65,6 +65,12 @@ jobs:
       - name: Gen 1-3 species rules
         run: python3 test/overworld/ValidateGen13.py
 
+      - name: Regional Center inventory and save migration
+        run: |
+          python3 test/overworld/ValidateRegionalCenters.py
+          python3 test/overworld/TestRegionalTravelMigration.py
+          python3 test/overworld/MakeRegionalTravelFixture.py --check
+
       - name: Regional story resolver boundaries
         run: python3 test/overworld/story-progress/run.py
 
@@ -141,24 +147,7 @@ jobs:
       # right here and none of the local symlink workarounds are needed.
       - name: Install toolchain
         timeout-minutes: 20
-        run: |
-          n=1
-          max=3
-          delay=5
-          until sudo apt-get update -o Acquire::Retries=5 && \
-                sudo apt-get install -y --no-install-recommends \
-                  -o Acquire::Retries=5 \
-                  binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-                  libpng-dev libelf1 python3; do
-            if [ "$n" -ge "$max" ]; then
-              echo "apt-get failed after ${max} attempts" >&2
-              exit 1
-            fi
-            echo "apt-get failed (attempt ${n}/${max}); retrying in ${delay}s" >&2
-            sleep "$delay"
-            n=$((n + 1))
-            delay=$((delay * 2))
-          done
+        run: bash .github/scripts/install-toolchain.sh
 
       - name: Cache build tools
         uses: actions/cache@v4
@@ -188,7 +177,7 @@ jobs:
         env:
           GAME_VERSION: EMERALD
           TEST: 1
-        run: make -j$(nproc) check
+        run: make -j"$(nproc)" check
 
       - name: Palette sidecar dependency regression
         run: python3 test/overworld/TestPaletteDependencies.py
@@ -207,24 +196,8 @@ jobs:
           persist-credentials: false
       - name: Install toolchain
         timeout-minutes: 20
-        run: |
-          n=1
-          max=3
-          delay=5
-          until sudo apt-get update -o Acquire::Retries=5 && \
-                sudo apt-get install -y --no-install-recommends \
-                  -o Acquire::Retries=5 \
-                  binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-                  libpng-dev libelf1 python3; do
-            if [ "$n" -ge "$max" ]; then
-              echo "apt-get failed after ${max} attempts" >&2
-              exit 1
-            fi
-            echo "apt-get failed (attempt ${n}/${max}); retrying in ${delay}s" >&2
-            sleep "$delay"
-            n=$((n + 1))
-            delay=$((delay * 2))
-          done
+        run: bash .github/scripts/install-toolchain.sh
+
       - name: Cache build tools
         uses: actions/cache@v4
         with:
@@ -249,7 +222,7 @@ jobs:
       - name: make (default config)
         env:
           GAME_VERSION: EMERALD
-        run: make -j$(nproc)
+        run: make -j"$(nproc)"
 
   # Deep-review task 41b: non-default feature-flag states rot invisibly (#61 was found by
   # hand; the QOL_FIELD_MOVES_ITEM_GATE tail slide was found by review). Each leg flips ONE
@@ -271,24 +244,8 @@ jobs:
           persist-credentials: false
       - name: Install toolchain
         timeout-minutes: 20
-        run: |
-          n=1
-          max=3
-          delay=5
-          until sudo apt-get update -o Acquire::Retries=5 && \
-                sudo apt-get install -y --no-install-recommends \
-                  -o Acquire::Retries=5 \
-                  binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
-                  libpng-dev libelf1 python3; do
-            if [ "$n" -ge "$max" ]; then
-              echo "apt-get failed after ${max} attempts" >&2
-              exit 1
-            fi
-            echo "apt-get failed (attempt ${n}/${max}); retrying in ${delay}s" >&2
-            sleep "$delay"
-            n=$((n + 1))
-            delay=$((delay * 2))
-          done
+        run: bash .github/scripts/install-toolchain.sh
+
       - name: Cache build tools
         uses: actions/cache@v4
         with:
@@ -318,4 +275,4 @@ jobs:
       - name: make (flag off)
         env:
           GAME_VERSION: EMERALD
-        run: make -j$(nproc)
+        run: make -j"$(nproc)"

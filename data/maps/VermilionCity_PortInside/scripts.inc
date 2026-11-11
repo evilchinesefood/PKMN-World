@@ -116,6 +116,8 @@ VermilionPort_EventScript_EnterJohtoRegion::
 @ Mirror of OlivinePort_EventScript_EnterShip: the sailor walks down onto the gangway, the
 @ player follows, then the camera object holds the shot while the boat pulls out to the east.
 VermilionPort_EventScript_EnterShip::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	msgbox VermilionPort_Text_GetOnBoard, MSGBOX_DEFAULT
 	closemessage
 	delay 20

@@ -189,8 +189,8 @@ OlivinePort_EventScript_ChoseSouthernIsland::
 	bufferitemname STR_VAR_1, ITEM_EON_TICKET
 	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
-	setflag FLAG_SHOWN_EON_TICKET
 	call OlivinePort_EventScript_EnterShip
+	setflag FLAG_SHOWN_EON_TICKET
 	warpsilent MAP_SOUTHERN_ISLAND_EXTERIOR, 13, 22
 	waitstate
 	release
@@ -203,8 +203,8 @@ OlivinePort_EventScript_ChoseBirthIsland::
 	bufferitemname STR_VAR_1, ITEM_AURORA_TICKET
 	goto_if_unset FLAG_ENABLE_SHIP_BIRTH_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
-	setflag FLAG_SHOWN_AURORA_TICKET
 	call OlivinePort_EventScript_EnterShip
+	setflag FLAG_SHOWN_AURORA_TICKET
 	@ The HARBOR, not the exterior: (13,23) on MAP_BIRTH_ISLAND_EXTERIOR is an impassable
 	@ tile with no sailor on the map to sail home from. MAP_LILYCOVE_CITY_HARBOR's identical
 	@ AURORA TICKET run is the reference destination. Latent until this menu became
@@ -221,8 +221,8 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 	bufferitemname STR_VAR_1, ITEM_OLD_SEA_MAP
 	goto_if_unset FLAG_ENABLE_SHIP_FARAWAY_ISLAND, OlivinePort_EventScript_Sailor_NoCredentials
 	goto_if_eq VAR_RESULT, FALSE, OlivinePort_EventScript_Sailor_NoCredentials
-	setflag FLAG_SHOWN_OLD_SEA_MAP
 	call OlivinePort_EventScript_EnterShip
+	setflag FLAG_SHOWN_OLD_SEA_MAP
 	warpsilent MAP_FARAWAY_ISLAND_ENTRANCE, 13, 38
 	waitstate
 	release
@@ -308,6 +308,8 @@ OlivinePort_EventScript_Sailor_MaidenVoyage::
 @ msgbox below is not a Yes/No and nothing after it can decline), and a var write is cheaper to
 @ reason about at the top of a helper than buried among applymovements.
 OlivinePort_EventScript_EnterShip::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_OLIVINE
 	msgbox OlivinePort_Text_SailorGetOnBoard, MSGBOX_DEFAULT
 	closemessage

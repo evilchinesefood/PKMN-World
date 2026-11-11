@@ -1,4 +1,5 @@
 #include "global.h"
+#include "regional_travel.h"
 #include "item_use.h"
 #include "battle.h"
 #include "battle_anim.h"
@@ -414,8 +415,15 @@ void ItemUseOutOfBattle_SkyCharm(u8 taskId)
 // a region only through the hub attendants.
 static const u8 sText_HubPassConfirm[] = _("Warp to the WORLD TRANSIT hub?\pThis is a one-way trip - you'll\nre-enter through the hub gates,\lnot back here.");
 
+static const u8 sText_HubTeamUnavailable[] = _("This team cannot be remembered safely.\nCheck the party and PC before travel.");
+
 static void Task_UseHubReturnOnField(u8 taskId)
 {
+    if (!RegionalTravel_RecordDeparture(RegionalTravel_PhysicalRegion()))
+    {
+        DisplayItemMessageOnField(taskId, sText_HubTeamUnavailable, Task_CloseCantUseKeyItemMessage);
+        return;
+    }
     SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 16, 4);
     DoWarp();
     // Same field-state teardown as Fly (Cycling Road, cruise, Flash, Strength, Safari vars).

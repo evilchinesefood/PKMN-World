@@ -340,6 +340,10 @@ bool8 MEScrCmd_givepokemon(struct ScriptContext *ctx)
     else
     {
         memcpy(&gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1], pokemonPtr, sizeof(struct Pokemon));
+        {
+            u32 identity = 0;
+            SetMonData(&gParties[B_TRAINER_PLAYER][PARTY_SIZE - 1], MON_DATA_REGIONAL_ID, &identity);
+        }
         memcpy(&mail, mailPtr, sizeof(struct Mail));
 
         if (species != SPECIES_EGG)

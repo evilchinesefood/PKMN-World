@@ -1,4 +1,5 @@
 #include "global.h"
+#include "regional_travel.h"
 #include "main.h"
 #include "text.h"
 #include "menu.h"
@@ -2589,8 +2590,10 @@ static void CB_ExitFlyMap(void)
             {
                 struct RegionMap* tempRegionMap = &sFlyMap->regionMap;
 
-                SetFlyDestination(tempRegionMap);
-                ReturnToFieldFromFlyMapSelect();
+                if (SetFlyDestination(tempRegionMap))
+                    ReturnToFieldFromFlyMapSelect();
+                else
+                    SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
             }
             else
             {
@@ -2623,13 +2626,20 @@ u32 FilterFlyDestination(struct RegionMap* regionMap)
     }
 }
 
-void SetFlyDestination(struct RegionMap* regionMap)
+bool32 SetFlyDestination(struct RegionMap* regionMap)
 {
     u32 flyDestination = FilterFlyDestination(regionMap);
+    enum Region source = RegionalTravel_PhysicalRegion();
+    enum Region destination = GetRegionForSectionId(regionMap->mapSecId);
 
+    if (regionMap->mapSecId == MAPSEC_BATTLE_FRONTIER || regionMap->mapSecId == MAPSEC_SOUTHERN_ISLAND)
+        destination = REGION_NONE;
+    if (source != REGION_NONE && source != destination && !RegionalTravel_RecordDeparture(source))
+        return FALSE;
     RegionHub_ClaimRegionForFlyDestination(regionMap->mapSecId);
     if (flyDestination != WARP_ID_NONE)
         SetWarpDestinationToHealLocation(flyDestination);
     else
         SetWarpDestinationToMapWarp(sMapHealLocations[regionMap->mapSecId][0], sMapHealLocations[regionMap->mapSecId][1], WARP_ID_NONE);
+    return TRUE;
 }

@@ -128,6 +128,8 @@ RegionHub_EventScript_AttendantKanto::
 	@ Same-region round trips keep the party (RegionHub_ScrEnterRegion only boxes on a real
 	@ cross) - show honest text instead of the boxing warning that will not apply.
 	setvar VAR_0x8008, 0
+	callnative RegionalTravel_ScrOpeningComplete
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_RegionalTravel
 	callnative RegionHub_ScrTargetIsCurrent
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_AttendantKantoSame
 	msgbox RegionHub_Text_TravelKanto, MSGBOX_YESNO
@@ -173,6 +175,8 @@ RegionHub_EventScript_AttendantJohto::
 	lock
 	faceplayer
 	setvar VAR_0x8008, 1
+	callnative RegionalTravel_ScrOpeningComplete
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_RegionalTravel
 	callnative RegionHub_ScrTargetIsCurrent
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_AttendantJohtoSame
 	msgbox RegionHub_Text_TravelJohto, MSGBOX_YESNO
@@ -207,6 +211,8 @@ RegionHub_EventScript_AttendantHoenn::
 	lock
 	faceplayer
 	setvar VAR_0x8008, 2
+	callnative RegionalTravel_ScrOpeningComplete
+	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_RegionalTravel
 	callnative RegionHub_ScrTargetIsCurrent
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_AttendantHoennSame
 	msgbox RegionHub_Text_TravelHoenn, MSGBOX_YESNO
@@ -1891,3 +1897,54 @@ RegionHub_Text_StairsLocked:
 	.string "ACCESS DENIED.\n"
 	.string "Conquer at least one region's POKéMON\l"
 	.string "LEAGUE first.$"
+
+RegionHub_EventScript_RegionalTravel::
+	callnative RegionalTravel_ScrPrepare
+	copyvar VAR_TEMP_E, VAR_RESULT
+	msgbox gStringVar4, MSGBOX_DEFAULT
+	goto_if_eq VAR_TEMP_E, FALSE, RegionHub_EventScript_RegionalTravelNoMemory
+	multichoicedefault 0, 0, MULTI_REGIONAL_TEAM, 0, FALSE
+	goto RegionHub_EventScript_RegionalTravelTeamChosen
+RegionHub_EventScript_RegionalTravelNoMemory::
+	multichoicedefault 0, 0, MULTI_REGIONAL_TEAM, 1, FALSE
+RegionHub_EventScript_RegionalTravelTeamChosen::
+	goto_if_ge VAR_RESULT, 2, RegionHub_EventScript_TravelDeclined
+	copyvar VAR_0x8009, VAR_RESULT
+	setvar VAR_0x800A, 0
+	setvar VAR_0x800B, 0
+	callnative RegionalTravel_ScrPreview
+	copyvar VAR_TEMP_E, VAR_RESULT
+	msgbox gStringVar4, MSGBOX_DEFAULT
+	goto_if_eq VAR_TEMP_E, 0, RegionHub_EventScript_RegionalTravelDestination
+	goto_if_ne VAR_TEMP_E, 6, RegionHub_EventScript_TravelDeclined
+RegionHub_EventScript_RegionalTravelDestination::
+	multichoicedefault 0, 0, MULTI_REGIONAL_ARRIVAL, 0, FALSE
+	goto_if_ge VAR_RESULT, 2, RegionHub_EventScript_TravelDeclined
+	copyvar VAR_0x800A, VAR_RESULT
+	callnative RegionalTravel_ScrPreview
+	copyvar VAR_TEMP_E, VAR_RESULT
+	msgbox gStringVar4, MSGBOX_DEFAULT
+	goto_if_eq VAR_TEMP_E, 0, RegionHub_EventScript_RegionalTravelConfirm
+	goto_if_ne VAR_TEMP_E, 6, RegionHub_EventScript_TravelDeclined
+	msgbox RegionHub_Text_RegionalPartial, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
+	setvar VAR_0x800B, 1
+RegionHub_EventScript_RegionalTravelConfirm::
+	msgbox RegionHub_Text_RegionalConfirm, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, RegionHub_EventScript_TravelDeclined
+	call RegionHub_EventScript_TryGiveHubPass
+	goto_if_eq VAR_RESULT, FALSE, RegionHub_EventScript_TravelBlocked
+	callnative RegionalTravel_ScrCommit
+	goto_if_ne VAR_RESULT, 0, RegionHub_EventScript_RegionalTravelRefused
+	closemessage
+	callnative RegionalTravel_ScrWarp
+	waitstate
+	release
+	end
+RegionHub_EventScript_RegionalTravelRefused::
+	msgbox gStringVar4, MSGBOX_DEFAULT
+	goto RegionHub_EventScript_TravelDeclined
+RegionHub_Text_RegionalPartial:
+	.string "Some members are unavailable.\nRecall the available members?$"
+RegionHub_Text_RegionalConfirm:
+	.string "Travel with this team and destination?$"

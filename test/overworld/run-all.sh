@@ -46,14 +46,15 @@ FRESH=(SmokeBoot WorldTitle StoryProgress HubIntroTour HubIntroTourFollower HubS
        JohtoWhirlpool JohtoWhiteoutHeal KenyaMail
        PromptSafetyEvIv RedGyarados Route41SeaReturn Route41SurfBgm
        SlowpokeWellRescue TohjoCelebi
-       CelioBagFull HoennIntroClock HubPassReCross
+       CelioBagFull HoennIntroClock HubPassReCross RegionalTravel
        ExpansionHealthboxes CatchTutorial DayNightTint)
 
 # Suites that need a specific battery save to mean anything: "<suite>:<fixture>".
 # VerifyV7Migrate MUST use v7dirty, not v7 -- its own header records that v7 happens to hold
 # zeroes where johtoTrainerFlags lands, so the bank check passes there even with the memset
 # removed. Pointing it at v7.srm is an indistinguishable vacuous pass.
-WITH_SAVE=("VerifyV7Migrate:test/overworld/lua/fixtures/v7dirty.srm"
+WITH_SAVE=("RegionalTravelMigration:test/overworld/lua/fixtures/v10regionaldirty.srm"
+           "VerifyV7Migrate:test/overworld/lua/fixtures/v7dirty.srm"
            "MigrateFixtures:test/overworld/lua/fixtures/v3.srm"
            "VerifyMapRenumber:test/overworld/lua/fixtures/v7renumber.srm")
 

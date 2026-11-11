@@ -228,6 +228,30 @@ local function mashToMap(g, m, tag, budget)
   return mapIs(g, m)
 end
 
+-- Mature saves use the regional travel choices. Detect the actual input task so a
+-- page transition cannot be mistaken for a live menu and skip a confirmation.
+local function matureChoice(want,tag)
+  for _=1,65 do
+    local live=false
+    for i=0,S.Task.count-1 do
+      local task=S.gTasks+i*S.Task.stride
+      local fn=F.r32(task+S.Task.func)&0xFFFFFFFE
+      if F.r8(task+S.Task.isActive)~=0 and (fn==S.Task_HandleYesNoInput or fn==S.Task_HandleMultichoiceInput) then live=true end
+    end
+    if live then
+      F.idle(12)
+      for _=1,8 do
+        local c=F.mcur()
+        if c==want then F.shot(tag);F.press("A",2);F.idle(60);return true end
+        F.press(c>want and "Up" or "Down",2);F.idle(12)
+      end
+      return false
+    end
+    F.press("A",2);F.idle(30)
+  end
+  return false
+end
+
 -- Talk to the Hoenn attendant and answer YES, then wait for the gate's own destination. That
 -- destination is a PARAMETER, not BRENDANS_2F: mashToMap presses A until the map matches, so a
 -- female cross waiting on the male bedroom would mash its whole budget standing in May's and report
@@ -239,7 +263,12 @@ local function crossToHoenn(tag, dg, dm)
   end
   F.face("Up")
   F.press("A", 3); F.idle(50)
-  if not yesNo(0, "travelHoenn_" .. tag) then F.shot(tag .. "_noyesno"); return false end
+  if flagGet(FLAG_BADGE01_GET) then
+    if not matureChoice(1,tag.."_keep_current") or not matureChoice(1,tag.."_standard_arrival")
+       or not matureChoice(0,tag.."_confirm") then return false end
+  elseif not yesNo(0, "travelHoenn_" .. tag) then
+    F.shot(tag .. "_noyesno"); return false
+  end
   -- TryGiveHubPass' give box (first cross only), then the gate's warp.
   return mashToMap(dg or BR2F_G, dm or BR2F_M, tag)
 end
@@ -474,6 +503,11 @@ local function maleJourney()
     local hub3 = preBadgeHome and hubPassOut("postbadge") or false
     F.check("S3c HUB PASS returned to the hub from the pre-badge bedroom", hub3, where())
     if hub3 then
+      -- This synthetic post-badge fixture has skipped starter acquisition. Supply the
+      -- usable party required by the mature travel contract before setting that badge.
+      F.dbg();F.idle(40);F.sel(2);F.idle(40)
+      for _=1,9 do F.press("Down",3);F.idle(16) end
+      F.press("A",3);F.idle(180)
       flagSet(FLAG_BADGE01_GET)
       F.check("S3c set the Hoenn Stone Badge", flagGet(FLAG_BADGE01_GET))
       local postBadgeHarbor = crossToHoenn("return_postbadge", HARB_G, HARB_M)

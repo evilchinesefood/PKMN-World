@@ -2440,6 +2440,14 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 }
             }
             break;
+        case MON_DATA_REGIONAL_ID:
+            retVal = GetSubstruct0(boxMon)->regionalId0
+                   | (GetSubstruct0(boxMon)->regionalId1 << 6)
+                   | (GetSubstruct0(boxMon)->regionalId2 << 9)
+                   | (GetSubstruct1(boxMon)->regionalId3 << 11)
+                   | (GetSubstruct1(boxMon)->regionalId4 << 16)
+                   | (GetSubstruct3(boxMon)->regionalId5 << 19);
+            break;
         case MON_DATA_EVOLUTION_TRACKER:
             {
                 struct PokemonSubstruct1 *substruct1 = GetSubstruct1(boxMon);
@@ -2872,6 +2880,18 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         case MON_DATA_TERA_TYPE:
             SET8(GetSubstruct0(boxMon)->teraType);
             break;
+        case MON_DATA_REGIONAL_ID:
+        {
+            u32 identity;
+            SET32(identity);
+            GetSubstruct0(boxMon)->regionalId0 = identity;
+            GetSubstruct0(boxMon)->regionalId1 = identity >> 6;
+            GetSubstruct0(boxMon)->regionalId2 = identity >> 9;
+            GetSubstruct1(boxMon)->regionalId3 = identity >> 11;
+            GetSubstruct1(boxMon)->regionalId4 = identity >> 16;
+            GetSubstruct3(boxMon)->regionalId5 = identity >> 19;
+            break;
+        }
         case MON_DATA_EVOLUTION_TRACKER:
         {
             union EvolutionTracker evoTracker;

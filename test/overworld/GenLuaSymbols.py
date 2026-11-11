@@ -49,6 +49,7 @@ WANT = [
     # thing is drawn straight to VRAM and leaves no other observable.
     "gLevelUpStartLevels", "sLevelUpSummaryState",
     "gParties", "gPartiesCount", "gCurrentRegion",
+    "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",
     "gBackupMapLayout",
     # Tells an overworld-Pokemon collision apart from a grass encounter. ProcessPlayerFieldInput
@@ -136,6 +137,7 @@ WANT = [
     "CB2_NamingScreen", "CB2_BagMenuRun", "CB2_ShowPartyMenuForItemUse",
     "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
     "Task_OakSpeech_HandleGenderInput", "Task_OakSpeech_HandleOutfitInput",
+    "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
     "Task_OakSpeech_HandleHardModeInput", "Task_OakSpeech_ShowHardModeYesNo",
     "Task_OakSpeech_AskHardMode", "Task_EvIvChangerHandleInput",
     "sCondMsg51", "sCondMsg52", "sCondMsg53",
@@ -305,7 +307,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
 # Source of truth: the STATIC_ASSERTs in src/load_save.c, which the compiler enforces every build.
 SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
               "route5DayCareMon", "obstacleTableHash", "clearedObstacleBits",
-              "johtoTrainerFlags"]
+              "johtoTrainerFlags", "regionalTravel"]
 
 # The SaveBlock1 banks the suites read, derived the same way and for the same reason. These WERE
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524

@@ -75,6 +75,8 @@ LilycoveCity_Harbor_EventScript_FerryRegularLocationSelect::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToSouthernIsland::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call LilycoveCity_Harbor_EventScript_BoardFerry
 	warp MAP_SOUTHERN_ISLAND_EXTERIOR, 13, 22
 	waitstate
@@ -82,6 +84,8 @@ LilycoveCity_Harbor_EventScript_GoToSouthernIsland::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToNavelRock::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call LilycoveCity_Harbor_EventScript_BoardFerry
 	warp MAP_NAVEL_ROCK_HARBOR, 8, 4
 	waitstate
@@ -89,6 +93,8 @@ LilycoveCity_Harbor_EventScript_GoToNavelRock::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToBirthIsland::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call LilycoveCity_Harbor_EventScript_BoardFerry
 	warp MAP_BIRTH_ISLAND_HARBOR, 8, 4
 	waitstate
@@ -96,6 +102,8 @@ LilycoveCity_Harbor_EventScript_GoToBirthIsland::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToFarawayIsland::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call LilycoveCity_Harbor_EventScript_BoardFerry
 	warp MAP_FARAWAY_ISLAND_ENTRANCE, 13, 38
 	waitstate
@@ -115,6 +123,8 @@ LilycoveCity_Harbor_EventScript_GoToSlateport::
 LilycoveCity_Harbor_EventScript_GoToBattleFrontier::
 	msgbox LilycoveCity_Harbor_Text_BattleFrontierItIs, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call LilycoveCity_Harbor_EventScript_BoardFerry
 	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 19, 67
 	waitstate
@@ -210,7 +220,6 @@ LilycoveCity_Harbor_EventScript_SetHasMysticTicket::
 	return
 
 LilycoveCity_Harbor_EventScript_EonTicketFirstTime::
-	setflag FLAG_SHOWN_EON_TICKET
 	msgbox EventTicket_Text_ThatPass, MSGBOX_DEFAULT
 	closemessage
 	call LilycoveCity_Harbor_EventScript_GetEventTicketSailor
@@ -219,6 +228,9 @@ LilycoveCity_Harbor_EventScript_EonTicketFirstTime::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToSouthernIslandFirstTime::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, LilycoveCity_Harbor_EventScript_RegionalDepartureRefused
+	setflag FLAG_SHOWN_EON_TICKET
 	closemessage
 	call LilycoveCity_Harbor_EventScript_BoardFerryWithSailor
 	warp MAP_SOUTHERN_ISLAND_EXTERIOR, 13, 22
@@ -227,7 +239,6 @@ LilycoveCity_Harbor_EventScript_GoToSouthernIslandFirstTime::
 	end
 
 LilycoveCity_Harbor_EventScript_AuroraTicketFirstTime::
-	setflag FLAG_SHOWN_AURORA_TICKET
 	msgbox EventTicket_Text_ThatPass, MSGBOX_DEFAULT
 	closemessage
 	call LilycoveCity_Harbor_EventScript_GetEventTicketSailor
@@ -236,6 +247,9 @@ LilycoveCity_Harbor_EventScript_AuroraTicketFirstTime::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToBirthIslandFirstTime::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, LilycoveCity_Harbor_EventScript_RegionalDepartureRefused
+	setflag FLAG_SHOWN_AURORA_TICKET
 	closemessage
 	call LilycoveCity_Harbor_EventScript_BoardFerryWithSailor
 	warp MAP_BIRTH_ISLAND_HARBOR, 8, 4
@@ -249,6 +263,8 @@ LilycoveCity_Harbor_EventScript_GoToBirthIslandFirstTime::
 @ only the two named helpers would leave the OLD SEA MAP's first FARAWAY ISLAND trip with no
 @ departure record, and that trip's sailor home is the exact script this record is for.
 LilycoveCity_Harbor_EventScript_OldSeaMapFirstTime::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	setvar VAR_FERRY_DEPARTURE, FERRY_DEPART_LILYCOVE
 	setflag FLAG_SHOWN_OLD_SEA_MAP
 	msgbox EventTicket_Text_ShowOldSeaMap, MSGBOX_DEFAULT
@@ -283,6 +299,9 @@ LilycoveCity_Harbor_EventScript_OldSeaMapFirstTime::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToFarawayIslandFirstTime::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, LilycoveCity_Harbor_EventScript_RegionalDepartureRefused
+	setflag FLAG_SHOWN_OLD_SEA_MAP
 	closemessage
 	call LilycoveCity_Harbor_EventScript_BoardFerryWithSailor
 	warp MAP_FARAWAY_ISLAND_ENTRANCE, 13, 38
@@ -291,7 +310,6 @@ LilycoveCity_Harbor_EventScript_GoToFarawayIslandFirstTime::
 	end
 
 LilycoveCity_Harbor_EventScript_MysticTicketFirstTime::
-	setflag FLAG_SHOWN_MYSTIC_TICKET
 	msgbox EventTicket_Text_ThatPass, MSGBOX_DEFAULT
 	closemessage
 	call LilycoveCity_Harbor_EventScript_GetEventTicketSailor
@@ -300,6 +318,9 @@ LilycoveCity_Harbor_EventScript_MysticTicketFirstTime::
 	end
 
 LilycoveCity_Harbor_EventScript_GoToNavelRockFirstTime::
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, LilycoveCity_Harbor_EventScript_RegionalDepartureRefused
+	setflag FLAG_SHOWN_MYSTIC_TICKET
 	closemessage
 	call LilycoveCity_Harbor_EventScript_BoardFerryWithSailor
 	warp MAP_NAVEL_ROCK_HARBOR, 8, 4
@@ -406,6 +427,8 @@ LilycoveCity_Harbor_EventScript_GoToSlateportUnused::
 LilycoveCity_Harbor_EventScript_GoToBattleFrontierUnused::
 	msgbox LilycoveCity_Harbor_Text_BattleFrontierItIs, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind
+	callnative RegionalTravel_ScrCaptureDeparture
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_RegionalDepartureRefused
 	call LilycoveCity_Harbor_EventScript_BoardFerry
 	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 19, 67
 	waitstate
@@ -627,3 +650,7 @@ LilycoveCity_Harbor_Text_SailorFerryAvailable:
 	.string "The folks at the SHIPYARD in SLATEPORT\n"
 	.string "must've worked extra hard.\p"
 	.string "Well, it's my turn to get busy now!$"
+
+LilycoveCity_Harbor_EventScript_RegionalDepartureRefused::
+	msgbox Common_Text_RegionalDepartureRefused, MSGBOX_DEFAULT
+	goto LilycoveCity_Harbor_EventScript_ExitFirstTimeTicketSailSelect

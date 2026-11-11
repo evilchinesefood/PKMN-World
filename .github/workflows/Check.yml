@@ -148,12 +148,18 @@ jobs:
       - name: Install toolchain
         timeout-minutes: 20
         run: |
+          # Avoid the Azure mirror whose DNS failures exhausted the installation step.
+          sudo find /etc/apt -maxdepth 2 -type f \( -name '*.sources' -o -name '*.list' \) \
+            -exec sed -i -E \
+              -e 's|mirror\+file:/etc/apt/apt-mirrors.txt|https://archive.ubuntu.com/ubuntu|g' \
+              -e 's|https?://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' {} +
+          apt_options=(-o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
           n=1
           max=3
           delay=5
-          until sudo apt-get update -o Acquire::Retries=5 && \
+          until sudo apt-get update --error-on=any "${apt_options[@]}" && \
                 sudo apt-get install -y --no-install-recommends \
-                  -o Acquire::Retries=5 \
+                  "${apt_options[@]}" \
                   binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
                   libpng-dev libelf1 python3; do
             if [ "$n" -ge "$max" ]; then
@@ -194,7 +200,7 @@ jobs:
         env:
           GAME_VERSION: EMERALD
           TEST: 1
-        run: make -j$(nproc) check
+        run: make -j"$(nproc)" check
 
       - name: Palette sidecar dependency regression
         run: python3 test/overworld/TestPaletteDependencies.py
@@ -214,12 +220,18 @@ jobs:
       - name: Install toolchain
         timeout-minutes: 20
         run: |
+          # Avoid the Azure mirror whose DNS failures exhausted the installation step.
+          sudo find /etc/apt -maxdepth 2 -type f \( -name '*.sources' -o -name '*.list' \) \
+            -exec sed -i -E \
+              -e 's|mirror\+file:/etc/apt/apt-mirrors.txt|https://archive.ubuntu.com/ubuntu|g' \
+              -e 's|https?://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' {} +
+          apt_options=(-o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
           n=1
           max=3
           delay=5
-          until sudo apt-get update -o Acquire::Retries=5 && \
+          until sudo apt-get update --error-on=any "${apt_options[@]}" && \
                 sudo apt-get install -y --no-install-recommends \
-                  -o Acquire::Retries=5 \
+                  "${apt_options[@]}" \
                   binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
                   libpng-dev libelf1 python3; do
             if [ "$n" -ge "$max" ]; then
@@ -255,7 +267,7 @@ jobs:
       - name: make (default config)
         env:
           GAME_VERSION: EMERALD
-        run: make -j$(nproc)
+        run: make -j"$(nproc)"
 
   # Deep-review task 41b: non-default feature-flag states rot invisibly (#61 was found by
   # hand; the QOL_FIELD_MOVES_ITEM_GATE tail slide was found by review). Each leg flips ONE
@@ -278,12 +290,18 @@ jobs:
       - name: Install toolchain
         timeout-minutes: 20
         run: |
+          # Avoid the Azure mirror whose DNS failures exhausted the installation step.
+          sudo find /etc/apt -maxdepth 2 -type f \( -name '*.sources' -o -name '*.list' \) \
+            -exec sed -i -E \
+              -e 's|mirror\+file:/etc/apt/apt-mirrors.txt|https://archive.ubuntu.com/ubuntu|g' \
+              -e 's|https?://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' {} +
+          apt_options=(-o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
           n=1
           max=3
           delay=5
-          until sudo apt-get update -o Acquire::Retries=5 && \
+          until sudo apt-get update --error-on=any "${apt_options[@]}" && \
                 sudo apt-get install -y --no-install-recommends \
-                  -o Acquire::Retries=5 \
+                  "${apt_options[@]}" \
                   binutils-arm-none-eabi gcc-arm-none-eabi libnewlib-arm-none-eabi \
                   libpng-dev libelf1 python3; do
             if [ "$n" -ge "$max" ]; then
@@ -324,4 +342,4 @@ jobs:
       - name: make (flag off)
         env:
           GAME_VERSION: EMERALD
-        run: make -j$(nproc)
+        run: make -j"$(nproc)"

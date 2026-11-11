@@ -2,6 +2,7 @@
 #include "battle_pyramid.h"
 #include "bg.h"
 #include "fieldmap.h"
+#include "regional_travel.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
 #include "frontier_util.h"
@@ -687,6 +688,32 @@ bool32 CanCameraMoveInDirection(enum Direction direction)
     if (GetMapBorderIdAt(x, y) == CONNECTION_INVALID)
         return FALSE;
 
+    return TRUE;
+}
+
+bool32 TryRecordPlayerFacilityConnection(enum Direction direction, u8 distance)
+{
+    s32 x = gSaveBlock1Ptr->pos.x;
+    s32 y = gSaveBlock1Ptr->pos.y;
+    u32 step;
+
+    for (step = 0; step < distance; step++)
+    {
+        enum Connection border;
+        const struct MapConnection *connection;
+        s32 nextX = x + gDirectionToVectors[direction].x;
+        s32 nextY = y + gDirectionToVectors[direction].y;
+        border = GetMapBorderIdAt(nextX + MAP_OFFSET, nextY + MAP_OFFSET);
+        if (border != CONNECTION_NONE && border != CONNECTION_INVALID)
+        {
+            connection = GetIncomingConnection(border, x, y);
+            if (connection != NULL)
+                return RegionalTravel_TryEnterWalkInFacility(connection->mapGroup, connection->mapNum);
+            return TRUE;
+        }
+        x = nextX;
+        y = nextY;
+    }
     return TRUE;
 }
 

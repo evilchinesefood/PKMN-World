@@ -935,7 +935,6 @@ static void AcroBikeTransition_WheelieHoppingMoving(enum Direction direction)
 static void AcroBikeTransition_SideJump(enum Direction direction)
 {
     enum Collision collision;
-    struct ObjectEvent *playerObjEvent;
 
     collision = GetBikeCollision(direction);
     if (collision)
@@ -953,10 +952,7 @@ static void AcroBikeTransition_SideJump(enum Direction direction)
             return;
         }
     }
-    playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-    PlaySE(SE_BIKE_HOP);
-    playerObjEvent->facingDirectionLocked = 1;
-    PlayerSetAnimId(GetJumpMovementAction(direction), COPY_MOVE_WALK);
+    PlayerAcroSideJump(direction);
 }
 
 static void AcroBikeTransition_TurnJump(enum Direction direction)

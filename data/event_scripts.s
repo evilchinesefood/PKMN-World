@@ -2218,6 +2218,7 @@ Johto_EventScript_NopReturn::
 	return
 
 Common_EventScript_RegionalDepartureRefused::
+	lockall
 	msgbox Common_Text_RegionalDepartureRefused, MSGBOX_DEFAULT
 	closemessage
 	releaseall

@@ -26,6 +26,7 @@ void PlayerEndWheelie(enum Direction direction);
 void PlayerStandingHoppingWheelie(enum Direction direction);
 void PlayerMovingHoppingWheelie(enum Direction direction);
 void PlayerLedgeHoppingWheelie(enum Direction direction);
+void PlayerAcroSideJump(enum Direction direction);
 void PlayerAcroTurnJump(enum Direction direction);
 void PlayerSetAnimId(u8 movementActionId, enum CopyMovement copyableMovement);
 bool8 IsPlayerCollidingWithFarawayIslandMew(enum Direction direction);

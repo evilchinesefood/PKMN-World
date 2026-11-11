@@ -39,6 +39,7 @@ void MapGridSetMetatileEntryAt(s32 x, s32 y, u16 metatile);
 void GetCameraCoords(u16 *x, u16 *y);
 u8 MapGridGetCollisionAt(s32 x, s32 y);
 enum Connection GetMapBorderIdAt(s32 x, s32 y);
+bool32 TryRecordPlayerFacilityConnection(enum Direction direction, u8 distance);
 bool32 CanCameraMoveInDirection(enum Direction direction);
 u32 GetAttributeByMetatileIdAndMapLayout(u16 metatile, u8 attributeType);
 void GetCameraFocusCoords(u16 *x, u16 *y);

@@ -231,6 +231,27 @@ enum Region RegionalTravel_PhysicalRegion(void)
     return GetRegionForSectionId(gMapHeader.regionMapSectionId);
 }
 
+static bool32 IsWalkInFacilityEntrance(u8 mapGroup, u8 mapNum)
+{
+    switch ((mapGroup << 8) | mapNum)
+    {
+    case MAP_KEY(MAP_SLATEPORT_CITY_BATTLE_TENT_LOBBY):
+    case MAP_KEY(MAP_VERDANTURF_TOWN_BATTLE_TENT_LOBBY):
+    case MAP_KEY(MAP_FALLARBOR_TOWN_BATTLE_TENT_LOBBY):
+    case MAP_KEY(MAP_TRAINER_HILL_ENTRANCE):
+    case MAP_KEY(MAP_SEVEN_ISLAND_TRAINER_TOWER):
+        return TRUE;
+    }
+    return FALSE;
+}
+
+bool32 RegionalTravel_TryEnterWalkInFacility(u8 mapGroup, u8 mapNum)
+{
+    if (!IsWalkInFacilityEntrance(mapGroup, mapNum))
+        return TRUE;
+    return RegionalTravel_RecordDeparture(RegionalTravel_PhysicalRegion());
+}
+
 bool32 RegionalTravel_IsOpeningComplete(enum Region region)
 {
     u32 badge;

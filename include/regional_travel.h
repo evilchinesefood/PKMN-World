@@ -59,6 +59,7 @@ struct RegionalTravelPreview
 
 struct ScriptContext;
 enum Region RegionalTravel_PhysicalRegion(void);
+bool32 RegionalTravel_TryEnterWalkInFacility(u8 mapGroup, u8 mapNum);
 bool32 RegionalTravel_RecordDeparture(enum Region source);
 bool32 RegionalTravel_IsOpeningComplete(enum Region region);
 enum RegionalTravelResult RegionalTravel_Preview(const struct RegionalTravelRequest *request, struct RegionalTravelPreview *preview);

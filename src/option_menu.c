@@ -21,7 +21,9 @@
 
 #define tMenuSelection data[0]
 #define tTextSpeed data[1]
+#define tEncounterRate data[2]
 #define tBattleStyle data[3]
+#define tMoneyLoss data[4]
 #define tButtonMode data[5]
 #define tWindowFrameType data[6]
 #define tScrollOffset data[7]      // top visible MENUITEM_ index (0 when not scrolled)
@@ -47,6 +49,8 @@ enum
     MENUITEM_NICKNAMES,
     MENUITEM_EXPMULT,
     MENUITEM_CATCHMULT,
+    MENUITEM_ENCOUNTER_RATE,
+    MENUITEM_MONEY_LOSS,
     MENUITEM_SHAREDEXP,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
@@ -82,10 +86,8 @@ static u8 Autosave_ProcessInput(u8 selection);
 static void Autosave_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 RunShortcut_ProcessInput(u8 selection);
 static void RunShortcut_DrawChoices(u8 selection, s16 scrollOffset);
-static u8 ExpMult_ProcessInput(u8 selection);
-static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset);
-static u8 CatchMult_ProcessInput(u8 selection);
-static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset);
+static u8 Rate_ProcessInput(u8 selection, const u8 *savedByColumn);
+static void Rate_DrawChoices(u8 menuItem, u8 selection, const u8 *savedByColumn, s16 scrollOffset);
 static u8 Nicknames_ProcessInput(u8 selection);
 static void Nicknames_DrawChoices(u8 selection, s16 scrollOffset);
 static u8 SharedExp_ProcessInput(u8 selection);
@@ -100,6 +102,7 @@ static const u8 gText_Option[]             = _("Options");
 static const u8 gText_TextSpeedSlow[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Slow");
 static const u8 gText_TextSpeedMid[]       = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Mid");
 static const u8 gText_TextSpeedFast[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Fast");
+static const u8 gText_TextSpeedInstant[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Instant");
 static const u8 gText_BattleSceneOn[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}On");
 static const u8 gText_BattleSceneOff[]     = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Off");
 static const u8 gText_BattleStyleShift[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}Shift");
@@ -116,6 +119,10 @@ static const u8 gText_Mult1x[]             = _("{COLOR GREEN}{SHADOW LIGHT_GREEN
 static const u8 gText_Mult1_5x[]           = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}1.5x");
 static const u8 gText_Mult2x[]             = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}2x");
 
+static const u8 sExpRateByColumn[] = {OPTIONS_EXP_MULT_0_5X, OPTIONS_EXP_MULT_1X, OPTIONS_EXP_MULT_1_5X, OPTIONS_EXP_MULT_2X};
+static const u8 sCatchRateByColumn[] = {OPTIONS_CATCH_MULT_0_5X, OPTIONS_CATCH_MULT_1X, OPTIONS_CATCH_MULT_1_5X, OPTIONS_CATCH_MULT_2X};
+static const u8 sOptionRateByColumn[] = {OPTIONS_RATE_0_5X, OPTIONS_RATE_1X, OPTIONS_RATE_1_5X, OPTIONS_RATE_2X};
+
 // note: this is only used in the Japanese release
 static const u8 sEqualSignGfx[] = INCGFX_U8("graphics/interface/option_menu_equals_sign.png", ".4bpp");
 
@@ -131,6 +138,8 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_NICKNAMES]   = COMPOUND_STRING("Nicknames"),
     [MENUITEM_EXPMULT]     = COMPOUND_STRING("Exp Rate"),
     [MENUITEM_CATCHMULT]   = COMPOUND_STRING("Catch Rate"),
+    [MENUITEM_ENCOUNTER_RATE] = COMPOUND_STRING("Encounter Rate"),
+    [MENUITEM_MONEY_LOSS]   = COMPOUND_STRING("Money Loss"),
     [MENUITEM_SHAREDEXP]   = COMPOUND_STRING("Shared Exp"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("Cancel"),
 };
@@ -271,6 +280,8 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tRunShortcut = gSaveBlock2Ptr->optionsRunShortcut;
         gTasks[taskId].tExpMult = gSaveBlock2Ptr->optionsExpMultiplier;
         gTasks[taskId].tCatchMult = gSaveBlock2Ptr->optionsCatchMultiplier;
+        gTasks[taskId].tEncounterRate = gSaveBlock2Ptr->optionsEncounterRate;
+        gTasks[taskId].tMoneyLoss = gSaveBlock2Ptr->optionsMoneyLoss;
         gTasks[taskId].tNicknames = gSaveBlock2Ptr->optionsNicknames;
         gTasks[taskId].tScrollOffset = 0;
 
@@ -386,17 +397,31 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             break;
         case MENUITEM_EXPMULT:
             previousOption = gTasks[taskId].tExpMult;
-            gTasks[taskId].tExpMult = ExpMult_ProcessInput(gTasks[taskId].tExpMult);
+            gTasks[taskId].tExpMult = Rate_ProcessInput(gTasks[taskId].tExpMult, sExpRateByColumn);
 
             if (previousOption != gTasks[taskId].tExpMult)
-                ExpMult_DrawChoices(gTasks[taskId].tExpMult, gTasks[taskId].tScrollOffset);
+                Rate_DrawChoices(MENUITEM_EXPMULT, gTasks[taskId].tExpMult, sExpRateByColumn, gTasks[taskId].tScrollOffset);
             break;
         case MENUITEM_CATCHMULT:
             previousOption = gTasks[taskId].tCatchMult;
-            gTasks[taskId].tCatchMult = CatchMult_ProcessInput(gTasks[taskId].tCatchMult);
+            gTasks[taskId].tCatchMult = Rate_ProcessInput(gTasks[taskId].tCatchMult, sCatchRateByColumn);
 
             if (previousOption != gTasks[taskId].tCatchMult)
-                CatchMult_DrawChoices(gTasks[taskId].tCatchMult, gTasks[taskId].tScrollOffset);
+                Rate_DrawChoices(MENUITEM_CATCHMULT, gTasks[taskId].tCatchMult, sCatchRateByColumn, gTasks[taskId].tScrollOffset);
+            break;
+        case MENUITEM_ENCOUNTER_RATE:
+            previousOption = gTasks[taskId].tEncounterRate;
+            gTasks[taskId].tEncounterRate = Rate_ProcessInput(gTasks[taskId].tEncounterRate, sOptionRateByColumn);
+
+            if (previousOption != gTasks[taskId].tEncounterRate)
+                Rate_DrawChoices(MENUITEM_ENCOUNTER_RATE, gTasks[taskId].tEncounterRate, sOptionRateByColumn, gTasks[taskId].tScrollOffset);
+            break;
+        case MENUITEM_MONEY_LOSS:
+            previousOption = gTasks[taskId].tMoneyLoss;
+            gTasks[taskId].tMoneyLoss = Rate_ProcessInput(gTasks[taskId].tMoneyLoss, sOptionRateByColumn);
+
+            if (previousOption != gTasks[taskId].tMoneyLoss)
+                Rate_DrawChoices(MENUITEM_MONEY_LOSS, gTasks[taskId].tMoneyLoss, sOptionRateByColumn, gTasks[taskId].tScrollOffset);
             break;
         case MENUITEM_NICKNAMES:
             previousOption = gTasks[taskId].tNicknames;
@@ -407,7 +432,6 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             break;
         case MENUITEM_SHAREDEXP:
         {
-            // Backed directly by FLAG_QOL_SHARED_EXP (no data[] slot: the array is full at tNicknames).
             u8 prev = FlagGet(FLAG_QOL_SHARED_EXP) ? 1 : 0;
             u8 cur = SharedExp_ProcessInput(prev);
 
@@ -435,10 +459,6 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
 static void Task_OptionMenuSave(u8 taskId)
 {
-    // optionsBattleSceneOff, optionsSound and optionsHardMode are intentionally NOT written
-    // here: Battle Scene / Sound are baked (animations ON, stereo) and Hard Mode is chosen once
-    // at new-game setup. Their menu entries are gone, so leaving these untouched freezes each
-    // save's existing value (old saves keep whatever they had) instead of clobbering it with 0.
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].tTextSpeed;
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
@@ -448,6 +468,8 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsRunShortcut = gTasks[taskId].tRunShortcut;
     gSaveBlock2Ptr->optionsExpMultiplier = gTasks[taskId].tExpMult;
     gSaveBlock2Ptr->optionsCatchMultiplier = gTasks[taskId].tCatchMult;
+    gSaveBlock2Ptr->optionsEncounterRate = gTasks[taskId].tEncounterRate;
+    gSaveBlock2Ptr->optionsMoneyLoss = gTasks[taskId].tMoneyLoss;
     gSaveBlock2Ptr->optionsNicknames = gTasks[taskId].tNicknames;
 
     if (gTasks[taskId].tScrollArrowTaskId != TASK_NONE)
@@ -550,8 +572,10 @@ static void RedrawVisibleOptionsPage(u8 taskId)
     AutoRun_DrawChoices(gTasks[taskId].tAutoRun, scrollOffset);
     Autosave_DrawChoices(gTasks[taskId].tAutosave, scrollOffset);
     RunShortcut_DrawChoices(gTasks[taskId].tRunShortcut, scrollOffset);
-    ExpMult_DrawChoices(gTasks[taskId].tExpMult, scrollOffset);
-    CatchMult_DrawChoices(gTasks[taskId].tCatchMult, scrollOffset);
+    Rate_DrawChoices(MENUITEM_EXPMULT, gTasks[taskId].tExpMult, sExpRateByColumn, scrollOffset);
+    Rate_DrawChoices(MENUITEM_CATCHMULT, gTasks[taskId].tCatchMult, sCatchRateByColumn, scrollOffset);
+    Rate_DrawChoices(MENUITEM_ENCOUNTER_RATE, gTasks[taskId].tEncounterRate, sOptionRateByColumn, scrollOffset);
+    Rate_DrawChoices(MENUITEM_MONEY_LOSS, gTasks[taskId].tMoneyLoss, sOptionRateByColumn, scrollOffset);
     Nicknames_DrawChoices(gTasks[taskId].tNicknames, scrollOffset);
     SharedExp_DrawChoices(FlagGet(FLAG_QOL_SHARED_EXP) ? 1 : 0, scrollOffset);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - scrollOffset);
@@ -583,20 +607,12 @@ static u8 TextSpeed_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT))
     {
-        if (selection <= 1)
-            selection++;
-        else
-            selection = 0;
-
+        selection = selection < OPTIONS_TEXT_SPEED_INSTANT ? selection + 1 : OPTIONS_TEXT_SPEED_SLOW;
         sArrowPressed = TRUE;
     }
     if (JOY_NEW(DPAD_LEFT))
     {
-        if (selection != 0)
-            selection--;
-        else
-            selection = 2;
-
+        selection = selection > OPTIONS_TEXT_SPEED_SLOW ? selection - 1 : OPTIONS_TEXT_SPEED_INSTANT;
         sArrowPressed = TRUE;
     }
     return selection;
@@ -604,29 +620,24 @@ static u8 TextSpeed_ProcessInput(u8 selection)
 
 static void TextSpeed_DrawChoices(u8 selection, s16 scrollOffset)
 {
-    u8 styles[3];
-    s32 widthSlow, widthMid, widthFast, xMid;
+    static const u8 *const texts[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast, gText_TextSpeedInstant};
+    u32 widths[ARRAY_COUNT(texts)], totalWidth = 0;
+    u32 x = 88;
     u8 y;
 
     if (!GetOptionMenuItemY(MENUITEM_TEXTSPEED, scrollOffset, &y))
         return;
 
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[2] = 0;
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_TextSpeedSlow, 104, y, styles[0]);
-
-    widthSlow = GetStringWidth(FONT_SMALL, gText_TextSpeedSlow, 0);
-    widthMid = GetStringWidth(FONT_SMALL, gText_TextSpeedMid, 0);
-    widthFast = GetStringWidth(FONT_SMALL, gText_TextSpeedFast, 0);
-
-    widthMid -= 94;
-    xMid = (widthSlow - widthMid - widthFast) / 2 + 104;
-    DrawOptionMenuChoice(gText_TextSpeedMid, xMid, y, styles[1]);
-
-    DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(FONT_SMALL, gText_TextSpeedFast, 198), y, styles[2]);
+    for (u32 i = 0; i < ARRAY_COUNT(texts); i++)
+    {
+        widths[i] = GetStringWidth(FONT_SMALL, texts[i], 0);
+        totalWidth += widths[i];
+    }
+    for (u32 i = 0; i < ARRAY_COUNT(texts); i++)
+    {
+        DrawOptionMenuChoice(texts[i], x, y, selection == i);
+        x += widths[i] + (198 - 88 - totalWidth) / (ARRAY_COUNT(texts) - 1);
+    }
 }
 
 static u8 BattleStyle_ProcessInput(u8 selection)
@@ -862,87 +873,37 @@ static void RunShortcut_DrawChoices(u8 selection, s16 scrollOffset)
     DrawOptionMenuChoice(sTexts[selection], 104, y, 1);
 }
 
-// optionsExpMultiplier stores 1x as 0 (old-save compat) but the menu columns run
-// 0.5x/1x/1.5x/2x, so map value<->column; {1, 0, 2, 3} is its own inverse.
-static const u8 sExpMultValueCol[] = {1, 0, 2, 3};
-
-static u8 ExpMult_ProcessInput(u8 selection)
+static u8 Rate_ProcessInput(u8 selection, const u8 *savedByColumn)
 {
-    u8 col = sExpMultValueCol[selection];
+    u32 column;
+    for (column = 0; column < OPTIONS_RATE_COUNT - 1; column++)
+        if (savedByColumn[column] == selection)
+            break;
 
     if (JOY_NEW(DPAD_RIGHT))
     {
-        col = col <= 2 ? col + 1 : 0;
+        column = (column + 1) % OPTIONS_RATE_COUNT;
         sArrowPressed = TRUE;
     }
     if (JOY_NEW(DPAD_LEFT))
     {
-        col = col != 0 ? col - 1 : 3;
+        column = (column + OPTIONS_RATE_COUNT - 1) % OPTIONS_RATE_COUNT;
         sArrowPressed = TRUE;
     }
-    return sExpMultValueCol[col];
+    return savedByColumn[column];
 }
 
-static void ExpMult_DrawChoices(u8 selection, s16 scrollOffset)
+static void Rate_DrawChoices(u8 menuItem, u8 selection, const u8 *savedByColumn, s16 scrollOffset)
 {
-    u8 styles[4];
+    static const u8 *const texts[] = {gText_Mult0_5x, gText_Mult1x, gText_Mult1_5x, gText_Mult2x};
+    static const u8 x[] = {104, 134, 155, 184};
     u8 y;
 
-    if (!GetOptionMenuItemY(MENUITEM_EXPMULT, scrollOffset, &y))
+    if (!GetOptionMenuItemY(menuItem, scrollOffset, &y))
         return;
 
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[2] = 0;
-    styles[3] = 0;
-    styles[sExpMultValueCol[selection]] = 1; // stored value -> menu column
-
-    DrawOptionMenuChoice(gText_Mult0_5x, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_Mult1x, 134, y, styles[1]);
-    DrawOptionMenuChoice(gText_Mult1_5x, 155, y, styles[2]);
-    DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_SMALL, gText_Mult2x, 198), y, styles[3]);
-}
-
-// Menu columns run 0.5x/1x/1.5x/2x, but optionsCatchMultiplier keeps its old-save values
-// (0=1x, 1=1.5x, 2=2x) and adds 0.5x as 3, so two lookups convert between value and column.
-static const u8 sCatchMultValueToCol[] = {1, 2, 3, 0}; // stored 1x/1.5x/2x/0.5x -> column
-static const u8 sCatchMultColToValue[] = {3, 0, 1, 2}; // column 0.5x/1x/1.5x/2x -> stored
-
-static u8 CatchMult_ProcessInput(u8 selection)
-{
-    u8 col = sCatchMultValueToCol[selection];
-
-    if (JOY_NEW(DPAD_RIGHT))
-    {
-        col = col <= 2 ? col + 1 : 0;
-        sArrowPressed = TRUE;
-    }
-    if (JOY_NEW(DPAD_LEFT))
-    {
-        col = col != 0 ? col - 1 : 3;
-        sArrowPressed = TRUE;
-    }
-    return sCatchMultColToValue[col];
-}
-
-static void CatchMult_DrawChoices(u8 selection, s16 scrollOffset)
-{
-    u8 styles[4];
-    u8 y;
-
-    if (!GetOptionMenuItemY(MENUITEM_CATCHMULT, scrollOffset, &y))
-        return;
-
-    styles[0] = 0;
-    styles[1] = 0;
-    styles[2] = 0;
-    styles[3] = 0;
-    styles[sCatchMultValueToCol[selection]] = 1; // stored value -> menu column
-
-    DrawOptionMenuChoice(gText_Mult0_5x, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_Mult1x, 134, y, styles[1]);
-    DrawOptionMenuChoice(gText_Mult1_5x, 155, y, styles[2]);
-    DrawOptionMenuChoice(gText_Mult2x, GetStringRightAlignXOffset(FONT_SMALL, gText_Mult2x, 198), y, styles[3]);
+    for (u32 column = 0; column < OPTIONS_RATE_COUNT; column++)
+        DrawOptionMenuChoice(texts[column], x[column], y, savedByColumn[column] == selection);
 }
 
 static u8 Nicknames_ProcessInput(u8 selection)
@@ -998,8 +959,6 @@ static void SharedExp_DrawChoices(u8 selection, s16 scrollOffset)
     styles[1] = 0;
     styles[selection] = 1;
 
-    // FLAG_QOL_SHARED_EXP is normal polarity (0 = OFF, 1 = ON) like HardMode above,
-    // so OFF must stay the index-0 (value-0) choice.
     DrawOptionMenuChoice(gText_BattleSceneOff, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_BattleSceneOn, GetStringRightAlignXOffset(FONT_SMALL, gText_BattleSceneOn, 198), y, styles[1]);
 }

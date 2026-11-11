@@ -5,11 +5,18 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Family options
+
+- **Choose each preference independently** (#383). Encounter Rate and Money Loss join Exp Rate and Catch Rate with the same 0.5× / 1× / 1.5× / 2× choices. Encounter Rate affects ordinary walking and surf checks. Money Loss affects existing defeat charges, with the displayed loss capped to your wallet.
+- **Instant text** is the fourth Text Speed choice. Characters print immediately, while timed pauses, page breaks, and required input remain. Mid is still the new-game default.
+- **The permanent Hard Mode bundle is retired.** Existing saves keep their progress and preferences. Shift/Set remains your choice; ordinary trainer battles allow items and no longer impose badge-based growth caps. Champion rematches and battle-facility rules remain intact.
+- **Save format advances to v12.** Supported v7 through v11 saves initialize the new rates to 1× without changing adjacent preferences. Keep a pre-upgrade backup for older builds, which refuse v12 saves. No downgrade conversion is provided.
+
 ### Regional travel
 
 - **Each campaign remembers the party you leave with** (#377). After completing a region's opening, its World Transit gate offers the remembered team or your current party, with a preview before travel. Shared team members are the same Pokémon with their latest progress. Missing members require confirmation; unsafe or impossible exchanges are refused.
 - **Return to the last eligible Pokémon Center you entered**, without needing to heal there first. The gate also offers the standard regional arrival. Unsafe checkpoints fall back to that arrival. Ferries keep their normal party and port behavior.
-- **Save format advances to v11.** Supported v7–v10 saves migrate with empty regional team and Center history; subsequent departures and visits populate it. Existing Pokémon and progress are preserved. Keep a backup before saving with this build: older builds refuse v11 saves, and no downgrade conversion is provided.
+- **Regional history starts empty for pre-v11 saves.** Subsequent departures and Center visits populate it. Existing v11 teams and checkpoints are preserved by the v12 upgrade.
 
 ### Visuals
 

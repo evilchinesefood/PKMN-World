@@ -198,7 +198,9 @@ is clean; keep it that way.
 | [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
 | [`JohtoWhiteoutHeal.lua`](#johtowhiteoutheallua) | fresh new game | Johto whiteout lands on the Violet apron, Center heals store aprons, FRLG monitor. |
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
-| [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro Hard Mode defaults NO; outfit B is not a silent RED; EV/IV START flips page. |
+| [`FamilyOptions.lua`](#familyoptionslua) | fresh new game | Four choices on every rate control and Text Speed, staged writes, reopen, real save/Continue, and global regional travel. |
+| [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
+| [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
 | [`Route41SeaReturn.lua`](#route41seareturnlua) | fresh new game | The Route 40/41 strait is two-way: surf north from a Route 41 sea arrival onto Route 40 past its arrow row. |
 | [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
@@ -545,10 +547,10 @@ sleeper on Route 31, with a full TM pocket as the bag-full discriminator.
 
 ### `PromptSafetyEvIv.lua`
 
-v1.5 prompt safety: intro Hard Mode defaults NO, outfit B is not a silent RED commit, Hub Pass
-one-way confirm rests on NO, EV/IV Changer START flips page. Drives the Oak intro itself —
-stock `F.boot()` would mash A+Start through the Hard Mode yes/no — reading oak-speech task
-funcs / `sMenu` / `gWindows` before A.
+The introduction completes without a permanent difficulty prompt. Outfit B stays on the picker,
+Hub Pass confirmation rests on NO, and EV/IV Changer START flips pages. The driver reads tasks
+and windows before advancing the introduction. After checking the Mid default, it selects Instant
+for the field confirmation and EV/IV controls.
 
 ### `IcePathDoor.lua`
 
@@ -948,3 +950,27 @@ door entry records the Center. Measured **10/10**; no save fixture means this te
 not be counted as run. Offline complementary tests are
 `../TestRegionalTravelMigration.py`, including all 433 saved owners and all 24 substructure
 orders.
+
+### `FamilyOptions.lua`
+
+Exercises every rate and text selection in both directions, including wraparound. Verifies staged
+values, unchanged adjacent settings, real save/Continue, and global settings across Kanto, Johto,
+and Hoenn travel. Captures each row for native label review. `TestFamilyOptionsMigration.py`
+checks the offline v12 migration separately; target C tests verify the game migration and layout.
+
+### `FamilyOptionsMigration.lua`
+
+Loads a generated supported save through Continue and verifies option bits, text selection,
+wallet, original Pokemon, and location. The canonical run uses the v11 Hard Mode fixture.
+`MakeFamilyOptionsFixtures.py --output DIR` generates v7 through v12 cases with the old bit
+set and clear. Set `PW_FAMILY_VERSION` and `PW_FAMILY_HARD` for additional cases. These are
+disposable derivatives of the tracked fresh-game fixture, not personal saves.
+
+### `FamilyBattleOptions.lua`
+
+Native controller coverage for issue #383. On an old-Hard-bit save with Instant text, opens
+the trainer-battle Bag and uses a Potion, defeats an opponent to compare the actual Shift
+and Set flows, and checks free leader-simulation defeat and unchanged simulation-win money
+at 2x Money Loss. Confirms the existing leader-simulation forfeit deducts and displays
+1,600 instead of the baseline 800. Uses disposable debug-created parties and controlled HP for deterministic
+battle transitions. Passed 27/27; this is targeted acceptance, not a natural campaign run.

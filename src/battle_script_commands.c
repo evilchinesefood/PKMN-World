@@ -29,6 +29,7 @@
 #include "main.h"
 #include "palette.h"
 #include "money.h"
+#include "option_rates.h"
 #include "malloc.h"
 #include "bg.h"
 #include "string_util.h"
@@ -5893,6 +5894,7 @@ static void Cmd_getmoneyreward(void)
             }
             money = sWhiteOutBadgeMoney[count] * sPartyLevel;
         }
+        money = ApplyOptionRate(money, gSaveBlock2Ptr->optionsMoneyLoss);
         if (!IsEnoughMoney(&gSaveBlock1Ptr->money, money))
             money = GetMoney(&gSaveBlock1Ptr->money);
         RemoveMoney(&gSaveBlock1Ptr->money, money);

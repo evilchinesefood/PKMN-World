@@ -39,7 +39,8 @@
 // v11: append regional team references, identity counter and Center checkpoints. Clear previously
 //      unused encrypted Pokemon identity bits across party/storage/daycare/fusions during migration.
 //      BoxPokemon and older save field offsets stay unchanged; no historical teams are inferred.
-#define SAVE_FORMAT_VERSION 11
+// v12: initialize global encounter and defeat-loss rates in the existing option word.
+#define SAVE_FORMAT_VERSION 12
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
 // only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.
@@ -311,6 +312,12 @@ enum Gender
 #define OPTIONS_CATCH_MULT_1_5X 1
 #define OPTIONS_CATCH_MULT_2X 2
 #define OPTIONS_CATCH_MULT_0_5X 3 // added last to preserve old-save values (0/1/2 unchanged)
+
+#define OPTIONS_RATE_1X 0
+#define OPTIONS_RATE_0_5X 1
+#define OPTIONS_RATE_1_5X 2
+#define OPTIONS_RATE_2X 3
+#define OPTIONS_RATE_COUNT 4
 
 // QoL #8: nickname prompt on catch / egg hatch. Save-compat: 0 = ON (prompts
 // shown, vanilla) so pre-option/zeroed saves keep asking; 1 = OFF skips the

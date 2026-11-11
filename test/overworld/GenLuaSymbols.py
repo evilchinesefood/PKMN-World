@@ -43,6 +43,8 @@ WANT = [
     # be non-zero or the first step fires the times-up script instead of a battle.
     "gDisplayedStringBattle", "gNumSafariBalls", "gSafariZoneStepCounter",
     "gHealthboxSpriteIds", "gActionSelectionCursor",
+    "gBattlerControllerFuncs", "gBattlescriptCurrInstr", "gBattleCommunication",
+    "PlayerHandleYesNoInput", "HandleInputChooseMove", "gMultiUsePlayerCursor", "gBattlerPartyIndexes", "gBattleScripting",
     # Post-battle level-up summary. gLevelUpStartLevels is the u8[PARTY_SIZE] of pre-battle levels
     # that drives the box, and sLevelUpSummaryState is its stage machine — the only way a suite can
     # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
@@ -138,8 +140,8 @@ WANT = [
     "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
     "Task_OakSpeech_HandleGenderInput", "Task_OakSpeech_HandleOutfitInput",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
-    "Task_OakSpeech_HandleHardModeInput", "Task_OakSpeech_ShowHardModeYesNo",
-    "Task_OakSpeech_AskHardMode", "Task_EvIvChangerHandleInput",
+    "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
+    "CB2_InitOptionMenu", "Task_OptionMenuProcessInput",
     "sCondMsg51", "sCondMsg52", "sCondMsg53",
     "EventScript_FollowerLookAround",
     "TohjoFalls_EventScript_GiovanniScene",
@@ -152,7 +154,7 @@ WANT = [
     "sSecondaryTilesetAnimCallback", "sSecondaryTilesetAnimCounter",
     "sCondMsg43", "EventScript_Follower",
     "CB2_InitPartyMenu", "CB2_Bag",
-    "Task_OakSpeech_HandleConfirmNameInput", "Task_OakSpeech_HardModeEcho",
+    "Task_OakSpeech_HandleConfirmNameInput",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 
@@ -178,6 +180,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   Pokemon      = { size = 100, status = 80, level = 84, hp = 86, maxHP = 88 },
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
+  BattleScripting = { battleStyle = 29 },
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
   BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },
                                                             -- live map grid: map[(x+7) + (y+7)*width],
@@ -218,6 +221,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   callback without driving the BAG UI
                                                             --   (JohtoMusicPass, HubPassReCross).
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
+                   optionsU16 = 0x14, ratesU16 = 0x16, encounterMask = 0x00C0, moneyLossMask = 0x0300,
                    currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
                    followerSlot = 0x93, bp = 3768,
                    playerGender = 8, localTimeOffset = 0x98 },
@@ -503,6 +507,12 @@ def main():
         if not pick:
             sys.exit(f"symbol {name} with size {want_size} not found in {elf}")
         lines.append(f"  {name} = 0x{pick[0]:08x},  -- {want_size}-byte definition (cursorPos at +2)")
+
+    if not title_only:
+        actions = sorted({address for address, _size in syms.get("HandleInputChooseAction", [])})
+        if not actions:
+            sys.exit(f"action input callbacks not found in {elf}")
+        lines.append("  ActionInputFunctions = { " + ", ".join(f"0x{address:08x}" for address in actions) + " },")
 
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sb1 = saveblock1_offsets(root)

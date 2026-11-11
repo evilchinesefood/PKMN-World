@@ -32,6 +32,7 @@ ROM_MD5="$( { md5 -q "$ROM" 2>/dev/null || md5sum "$ROM" | cut -d' ' -f1; } | tr
 [[ -n "$ROM_MD5" ]] || { echo "cannot hash $ROM" >&2; exit 2; }
 
 mkdir -p "$OUT"
+python3 test/overworld/MakeFamilyOptionsFixtures.py --output "$OUT/family-options-fixtures" || exit 2
 
 # Suites that boot a fresh new game and need no battery save.
 FRESH=(SmokeBoot WorldTitle StoryProgress HubIntroTour HubIntroTourFollower HubStairsGate DebugParty
@@ -44,7 +45,7 @@ FRESH=(SmokeBoot WorldTitle StoryProgress HubIntroTour HubIntroTourFollower HubS
        FollowerOutdoors FrontierMidSave HubNurseMonitor
        IcePathDoor JohtoFlyTeleport JohtoHofLegendaries JohtoHofUnchosenBirdReach JohtoMusicPass
        JohtoWhirlpool JohtoWhiteoutHeal KenyaMail
-       PromptSafetyEvIv RedGyarados Route41SeaReturn Route41SurfBgm
+       PromptSafetyEvIv FamilyOptions FamilyBattleOptions RedGyarados Route41SeaReturn Route41SurfBgm
        SlowpokeWellRescue TohjoCelebi
        CelioBagFull HoennIntroClock HubPassReCross RegionalTravel
        ExpansionHealthboxes CatchTutorial DayNightTint)
@@ -53,7 +54,8 @@ FRESH=(SmokeBoot WorldTitle StoryProgress HubIntroTour HubIntroTourFollower HubS
 # VerifyV7Migrate MUST use v7dirty, not v7 -- its own header records that v7 happens to hold
 # zeroes where johtoTrainerFlags lands, so the bank check passes there even with the memset
 # removed. Pointing it at v7.srm is an indistinguishable vacuous pass.
-WITH_SAVE=("RegionalTravelMigration:test/overworld/lua/fixtures/v10regionaldirty.srm"
+WITH_SAVE=("FamilyOptionsMigration:$OUT/family-options-fixtures/v11-hard.srm"
+           "RegionalTravelMigration:test/overworld/lua/fixtures/v10regionaldirty.srm"
            "VerifyV7Migrate:test/overworld/lua/fixtures/v7dirty.srm"
            "MigrateFixtures:test/overworld/lua/fixtures/v3.srm"
            "VerifyMapRenumber:test/overworld/lua/fixtures/v7renumber.srm")

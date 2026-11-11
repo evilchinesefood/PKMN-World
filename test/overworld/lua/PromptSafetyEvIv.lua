@@ -1,8 +1,6 @@
--- v1.5 playtest: intro Hard Mode default NO, outfit B is not a
--- silent RED commit, Hub Pass one-way confirm rests on NO, EV/IV Changer START flips page.
---
--- Stock F.boot() mashes A+Start and would smash through the Hard Mode YES/NO. This suite
--- drives the Oak intro itself, reading sMenu / gWindows / oak-speech task funcs before A.
+-- Intro skips the retired difficulty prompt. Outfit B stays on the picker, Hub Pass
+-- confirmation rests on NO, and EV/IV Changer START flips pages.
+-- The driver inspects tasks and windows before advancing the introduction.
 --
 -- ITEM_HUB_PASS is ITEM_HUB_RETURN in include/constants/items.h (display name "Hub Pass").
 --
@@ -117,11 +115,8 @@ local function oakTaskFn()
       local fn = F.r32(b + S.Task.func) & ~1
       if fn == S.Task_OakSpeech_HandleGenderInput
          or fn == S.Task_OakSpeech_HandleOutfitInput
-         or fn == S.Task_OakSpeech_HandleHardModeInput
          or fn == S.Task_OakSpeech_HandleConfirmNameInput
-         or fn == S.Task_OakSpeech_HardModeEcho
-         or fn == S.Task_OakSpeech_ShowHardModeYesNo
-         or fn == S.Task_OakSpeech_AskHardMode then
+         or fn == S.Task_OakSpeech_LetsGo then
         return fn, i
       end
     end
@@ -274,52 +269,13 @@ local function handleOutfit()
   return not winOutfitMenu()
 end
 
-local function handleHardMode()
-  -- CreateYesNoMenuAtPos(..., initialCursorPos=1). YES=0, NO=1.
-  F.idle(4)
-  local cur = F.mcur()
-  local minc = F.rs8(S.sMenu + S.Menu.minCursorPos)
-  local maxc = F.rs8(S.sMenu + S.Menu.maxCursorPos)
-  local g, pal, hm = gender(), palette(), hardModeOn()
-  local pr = dumpPrinter()
-  F.L(string.format("  hardmode YES/NO cursor=%d min=%d max=%d gender=%d pal=%d hm=%s printer='%s'",
-    cur, minc, maxc, g, pal, tostring(hm), pr))
-  F.shot("hardmode_yesno")
-  F.check("Hard Mode YES/NO cursor rests on NO (1) before any A",
-    cur == 1, string.format("cursor=%d min=%d max=%d", cur, minc, maxc))
-  F.check("Hard Mode menu is a 2-row YES/NO (maxCursorPos==1)",
-    maxc == 1, "max=" .. tostring(maxc))
-  -- pick NO (the resting choice)
-  tapA()
-  -- echo page: wait for the printer to finish so the screenshot is the full line
-  for i = 1, 160 do
-    logOak("echo-wait")
-    local fn = oakTaskFn()
-    local pr = dumpPrinter()
-    if fn == S.Task_OakSpeech_HardModeEcho and F.r32(S.sFirstTextPrinter) == 0 then break end
-    if pr:find("normal way") or dumpGStringVar4():find("normal way") then
-      if F.r32(S.sFirstTextPrinter) == 0 or i > 40 then break end
-    end
-    F.idle(4)
-  end
-  F.idle(16)
-  local echo = dumpPrinter()
-  local gsv = dumpGStringVar4()
-  local hm2 = hardModeOn()
-  F.L(string.format("  hardmode echo hm=%s printer='%s' gsv4='%s'", tostring(hm2), echo, gsv))
-  F.shot("hardmode_echo")
-  F.check("Hard Mode pick NO wrote optionsHardMode=FALSE",
-    not hm2, "hm=" .. tostring(hm2))
-  -- dismiss echo
-  tapA(); F.idle(12)
-  return true
-end
-
 local function driveIntro(budget)
-  local sawOutfit, sawHard, sawGender, sawName = false, false, false, false
-  local outfitDone, hardDone = false, false
+  local sawOutfit, sawRemovedPrompt, sawGender, sawName = false, false, false, false
+  local outfitDone = false
   for f = 1, (budget or 180000) do
+    sawRemovedPrompt = sawRemovedPrompt or winHardMode() ~= nil
     if F.ow() then
+      F.check("intro completes without a permanent difficulty prompt", not sawRemovedPrompt)
       F.L(string.format("  driveIntro: overworld at frame %d", f))
       return true
     end
@@ -327,14 +283,6 @@ local function driveIntro(budget)
     if inNaming() then
       sawName = true
       handleNaming()
-    elseif winHardMode() or oakTaskFn() == S.Task_OakSpeech_HandleHardModeInput then
-      if not hardDone then
-        sawHard = true
-        handleHardMode()
-        hardDone = true
-      else
-        tapA()
-      end
     elseif (winOutfitMenu() or oakTaskFn() == S.Task_OakSpeech_HandleOutfitInput) and not outfitDone then
       sawOutfit = true
       handleOutfit()
@@ -358,8 +306,8 @@ local function driveIntro(budget)
         f, cb2(), oakTaskFn(), gender(), palette(), tostring(hardModeOn())))
     end
   end
-  F.L(string.format("  driveIntro timeout outfit=%s hard=%s gender=%s name=%s",
-    tostring(sawOutfit), tostring(sawHard), tostring(sawGender), tostring(sawName)))
+  F.L(string.format("  driveIntro timeout outfit=%s removedPrompt=%s gender=%s name=%s",
+    tostring(sawOutfit), tostring(sawRemovedPrompt), tostring(sawGender), tostring(sawName)))
   F.shot("intro_timeout")
   return F.ow()
 end
@@ -560,7 +508,7 @@ local function testHubPass()
     end
     -- advance \p only while the field YES/NO is not up
     if not winFieldYesNo() then
-      F.press("A", 2); F.idle(20)
+      F.press("A", 2); F.idle(1)
     else
       F.idle(4)
     end
@@ -576,7 +524,7 @@ local function testHubPass()
   F.L(string.format("  hubpass yn=%s cursor=%d max=%d oneway=%s printer='%s' gsv4='%s' item=%d",
     tostring(winFieldYesNo() ~= nil or sawYn), cur, maxc, tostring(oneway), pr, gsv, itemId()))
   F.shot("hubpass_yesno")
-  F.check("Hub Pass confirm box is up (field YES/NO)",
+  F.check("Instant rapid A input stops at the Hub Pass confirmation",
     sawYn or winFieldYesNo() ~= nil, "sawYn=" .. tostring(sawYn))
   F.check("Hub Pass confirm cursor rests on NO",
     cur == 1, "cursor=" .. tostring(cur) .. " max=" .. tostring(maxc))
@@ -706,11 +654,15 @@ F.run(function()
     string.format("grp=%d pos=(%d,%d)", F.grp(), select(1, F.pos()), select(2, F.pos())))
   F.shot("hub_after_intro")
   F.L(string.format("  post-intro gender=%d pal=%d hm=%s", gender(), palette(), tostring(hardModeOn())))
-  F.check("post-intro Hard Mode is still OFF (NO was the pick)",
+  F.check("new game leaves the deprecated Hard Mode bit clear",
     not hardModeOn(), "hm=" .. tostring(hardModeOn()))
   F.check("post-intro outfit is not a silent B-commit of unknown pal",
     palette() < 6, "pal=" .. tostring(palette()))
 
+  local options = F.r16(F.sb2() + S.SaveBlock2.optionsU16)
+  F.check("new game preserves Mid text default", (options & 7) == 1)
+  F.w16(F.sb2() + S.SaveBlock2.optionsU16, (options & 0xFFF8) | 3)
+  F.check("field prompt tests run with Instant selected", (F.r16(F.sb2() + S.SaveBlock2.optionsU16) & 7) == 3)
   testHubPass()
   testEvIv()
 

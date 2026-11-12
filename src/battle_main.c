@@ -3705,6 +3705,13 @@ static void DoBattleIntro(void)
         else
             battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
 
+        // Fast intro text overlaps the two sides' send-outs, and only the player's message paced them.
+        // At Instant speed both sides' ball particles, party summaries and healthboxes coexist, which
+        // exhausts the 64 sprite slots in double and tag battles.
+        if (IsBattlerMarkedForControllerExec(battler ^ BIT_SIDE)
+         || (IsDoubleBattle() && IsBattlerMarkedForControllerExec(GetPartnerBattler(battler ^ BIT_SIDE))))
+            return;
+
         BtlController_EmitIntroTrainerBallThrow(battler, B_COMM_TO_CONTROLLER);
         MarkBattlerForControllerExec(battler);
         gBattleStruct->eventState.battleIntro++;

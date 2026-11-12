@@ -9,6 +9,7 @@ All notable player-facing changes. For the full feature reference see
 
 - **Choose each preference independently** (#383). Encounter Rate and Money Loss join Exp Rate and Catch Rate with the same 0.5× / 1× / 1.5× / 2× choices. Encounter Rate affects ordinary walking and surf checks. Money Loss affects existing defeat charges, with the displayed loss capped to your wallet.
 - **Instant text** is the fourth Text Speed choice. Characters print immediately, while timed pauses, page breaks, and required input remain. Mid is still the new-game default.
+- **Double and tag battles no longer crash at Instant speed.** Your send-out now waits for the opponent's, so the intro stays within the sprite limit. It crashed with "out of sprite slots" in Lance's Mahogany Hideout battle, Steven's Space Center battle, and Kanto Victory Road doubles.
 - **The permanent Hard Mode bundle is retired.** Existing saves keep their progress and preferences. Shift/Set remains your choice; ordinary trainer battles allow items and no longer impose badge-based growth caps. Champion rematches and battle-facility rules remain intact.
 - **Save format advances to v12.** Supported v7 through v11 saves initialize the new rates to 1× without changing adjacent preferences. Keep a pre-upgrade backup for older builds, which refuse v12 saves. No downgrade conversion is provided.
 

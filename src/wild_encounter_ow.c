@@ -2030,6 +2030,11 @@ static enum Direction CheckOWEPathToPlayerFromCollision(struct ObjectEvent *owe,
 }
 
 #define tObjectId data[0]
+#define tBestDistance data[1]
+#define tStalledSteps data[2]
+// Steps an approaching encounter may take without getting closer before its battle starts anyway.
+#define OWE_APPROACH_MAX_STALLED_STEPS 8
+
 void OWEApproachForBattle(struct ScriptContext *ctx)
 {
     u32 localId = VarGet(ScriptReadHalfword(ctx));
@@ -2059,6 +2064,30 @@ void OWEApproachForBattle(struct ScriptContext *ctx)
 
     ScriptContext_Stop();
     gTasks[taskId].tObjectId = objectEventId;
+    gTasks[taskId].tBestDistance = 0x7FFF;
+    gTasks[taskId].tStalledSteps = 0;
+}
+
+// Close the larger gap first, and the other one when that way is blocked. Lining up on x first, as
+// DetermineObjectEventDirectionFromObject does, walked a side-stepping encounter straight back behind
+// whatever blocked it, forever (#398).
+static enum Direction GetOWEApproachDirection(struct ObjectEvent *owe, struct ObjectEvent *player)
+{
+    s32 dx = player->currentCoords.x - owe->currentCoords.x;
+    s32 dy = player->currentCoords.y - owe->currentCoords.y;
+    enum Direction horizontal = dx < 0 ? DIR_WEST : DIR_EAST;
+    enum Direction vertical = dy < 0 ? DIR_NORTH : DIR_SOUTH;
+
+    if (dx == 0)
+        return vertical;
+    if (dy == 0)
+        return horizontal;
+
+    enum Direction first = abs(dy) > abs(dx) ? vertical : horizontal;
+    enum Direction second = first == vertical ? horizontal : vertical;
+    if (CheckRestrictedOWEMovement(owe, first) && !CheckRestrictedOWEMovement(owe, second))
+        return second;
+    return first;
 }
 
 static void Task_OWEApproachForBattle(u8 taskId)
@@ -2072,6 +2101,20 @@ static void Task_OWEApproachForBattle(u8 taskId)
         struct ObjectEvent *followerMon = GetFollowerObject();
         bool32 oweNextToPlayer = IsOWENextToPlayer(OWE);
         bool32 oweNextToFollowerMon = IsOWENextToObject(OWE, followerMon);
+
+        s16 distance = abs(OWE->currentCoords.x - player->currentCoords.x) + abs(OWE->currentCoords.y - player->currentCoords.y);
+        if (distance < gTasks[taskId].tBestDistance)
+        {
+            gTasks[taskId].tBestDistance = distance;
+            gTasks[taskId].tStalledSteps = 0;
+        }
+        else if (++gTasks[taskId].tStalledSteps > OWE_APPROACH_MAX_STALLED_STEPS)
+        {
+            ObjectEventsTurnToEachOther(player, OWE);
+            ScriptContext_Enable();
+            DestroyTask(taskId);
+            return;
+        }
 
         if (oweNextToPlayer || oweNextToFollowerMon)
         {
@@ -2090,7 +2133,7 @@ static void Task_OWEApproachForBattle(u8 taskId)
         }
 
         enum Species speciesId = OW_SPECIES(OWE);
-        enum Direction direction = DetermineObjectEventDirectionFromObject(player, OWE);
+        enum Direction direction = GetOWEApproachDirection(OWE, player);
         u32 movementActionId;
     
         SetObjectEventDirection(OWE, direction);
@@ -2136,6 +2179,8 @@ static void Task_OWEApproachForBattle(u8 taskId)
     }
     
 }
+#undef tStalledSteps
+#undef tBestDistance
 #undef tObjectId
 
 bool32 TryPlayAmbientCryOWE(void)

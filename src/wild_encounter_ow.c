@@ -2094,6 +2094,13 @@ static void Task_OWEApproachForBattle(u8 taskId)
 {
     struct ObjectEvent *OWE = &gObjectEvents[gTasks[taskId].tObjectId];
 
+    if (!OWE->active)
+    {
+        ScriptContext_Enable();
+        DestroyTask(taskId);
+        return;
+    }
+
     // Let the mon continue to take steps until right next to the player.
     if (ObjectEventClearHeldMovementIfFinished(OWE))
     {
@@ -2101,20 +2108,6 @@ static void Task_OWEApproachForBattle(u8 taskId)
         struct ObjectEvent *followerMon = GetFollowerObject();
         bool32 oweNextToPlayer = IsOWENextToPlayer(OWE);
         bool32 oweNextToFollowerMon = IsOWENextToObject(OWE, followerMon);
-
-        s16 distance = abs(OWE->currentCoords.x - player->currentCoords.x) + abs(OWE->currentCoords.y - player->currentCoords.y);
-        if (distance < gTasks[taskId].tBestDistance)
-        {
-            gTasks[taskId].tBestDistance = distance;
-            gTasks[taskId].tStalledSteps = 0;
-        }
-        else if (++gTasks[taskId].tStalledSteps > OWE_APPROACH_MAX_STALLED_STEPS)
-        {
-            ObjectEventsTurnToEachOther(player, OWE);
-            ScriptContext_Enable();
-            DestroyTask(taskId);
-            return;
-        }
 
         if (oweNextToPlayer || oweNextToFollowerMon)
         {
@@ -2127,6 +2120,20 @@ static void Task_OWEApproachForBattle(u8 taskId)
                 ObjectEventTurn(player, DetermineObjectEventDirectionFromObject(followerMon, player));
                 ObjectEventsTurnToEachOther(followerMon, OWE);
             }
+            ScriptContext_Enable();
+            DestroyTask(taskId);
+            return;
+        }
+
+        s16 distance = abs(OWE->currentCoords.x - player->currentCoords.x) + abs(OWE->currentCoords.y - player->currentCoords.y);
+        if (distance < gTasks[taskId].tBestDistance)
+        {
+            gTasks[taskId].tBestDistance = distance;
+            gTasks[taskId].tStalledSteps = 0;
+        }
+        else if (++gTasks[taskId].tStalledSteps > OWE_APPROACH_MAX_STALLED_STEPS)
+        {
+            ObjectEventsTurnToEachOther(player, OWE);
             ScriptContext_Enable();
             DestroyTask(taskId);
             return;

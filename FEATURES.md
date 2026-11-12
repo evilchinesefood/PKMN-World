@@ -182,8 +182,11 @@ Once you're Champion of all three regions, a registrar in the Battle Dome lobby 
 **World Championship**: a fixed 15-trainer Battle Dome bracket of cross-region champions — Red,
 Blue, Lance, Steven, Wallace, eight Elite Four members (Lorelei, Agatha, Sidney, Phoebe, Glacia,
 Drake, Karen, Will), Sabrina and Team Rocket — with **Red** seeded into the final slot opposite
-you. Winning grants a permanent title and a one-time **Gold Bottle Cap**, and the tournament is
-rematchable afterward.
+you. Every victory awards one **Gold Bottle Cap** and normal Battle Points. Your first victory
+also grants the permanent World Champion title. If your bag is full, every owed cap waits with
+the lobby registrar. Make room and speak to the registrar to collect your prizes without another
+win. Unclaimed prizes survive saving and Continue. At 65,535 unclaimed caps, collect at least one
+before entering again.
 
 ## Battle Net and the Mega economy
 

@@ -27,6 +27,7 @@ CHECKS = (
     ("SavePatch.py", "--check"),
     ("ValidateCelioGifts.py",),
     ("ValidateGreedyGifts.py",),
+    ("TestChampionshipPrizes.py",),
     ("ValidateRegionMap.py",),
     ("ValidateLanceMultiBattle.py",),
 )

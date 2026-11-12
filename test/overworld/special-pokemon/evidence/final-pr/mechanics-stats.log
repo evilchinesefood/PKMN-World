@@ -1,0 +1,16 @@
+{"input_rom_sha256": "04f8a13fc620117731233d878b1f9d9b165547e49bd082a8086cbbb7fbe98b16", "fixture_rom_sha256": "41e58f5190df7c087bbe1e50337b9186d6238c3bfe208e94c23731547f7878fd", "symbols_sha256": "9d3436db58890eb33ae294cda965559d3c7f877bf25c255dc15879e9c136d4fe", "fixture_bytes": 3684, "fixture_source_sha256": "b2917150fa45bfcb2566b1296e0af9f5b63918cf2e8d3b31c216e204559709f9", "entry": "0x9f0047d", "base_commit": "534c199cc2834aa3afe88628796158ccc2296b41", "working_diff_sha256": "0b6ec852ba5c83b96ee634f3a80c42ee9f97881798f0238cc3f8383ad7f321b9", "configuration": {"include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb", "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a", "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"}}
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+command 0 returned 007F, expected 007F
+  [PASS] seven acquisitions, boosted base stats, fresh individuals and regional identities
+command 1 returned 007F, expected 007F
+  [PASS] seven variants reject both breeding positions and every evolution mode
+command 2 returned 03FF, expected 03FF
+  [PASS] storage failure, retry, additive ownership and fresh encounter recovery
+command 3 returned 003F, expected 003F
+  [PASS] legacy cap unchanged and ordinary breeding, evolution and HM behavior
+command 4 returned 007F, expected 007F
+  [PASS] all themed moves reappear once after forgetting and disappear when known
+command 5 returned 007F, expected 007F
+  [PASS] seven boosted calculated stat sets; ordinary species and legacy cap stay unchanged
+VERDICT SpecialPokemonMechanics: 6/6 PASS

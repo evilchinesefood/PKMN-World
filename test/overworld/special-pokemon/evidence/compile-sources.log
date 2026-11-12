@@ -1,0 +1,76 @@
+tools/preproc/preproc -s data/event_scripts.s charmap.txt | arm-none-eabi-cpp -iquote include -Wno-trigraphs -DMODERN=1 -DTESTING=0 -DEMERALD -DALL_REGIONS=1 -std=gnu17 -I include - | tools/preproc/preproc -ie data/event_scripts.s charmap.txt | arm-none-eabi-as -mcpu=arm7tdmi -march=armv4t -meabi=5 --defsym MODERN=1 --defsym EMERALD=1 --defsym ALL_REGIONS=1 -o build/emerald/data/event_scripts.o
+tools/preproc/preproc -s data/map_events.s charmap.txt | arm-none-eabi-cpp -iquote include -Wno-trigraphs -DMODERN=1 -DTESTING=0 -DEMERALD -DALL_REGIONS=1 -std=gnu17 -I include - | tools/preproc/preproc -ie data/map_events.s charmap.txt | arm-none-eabi-as -mcpu=arm7tdmi -march=armv4t -meabi=5 --defsym MODERN=1 --defsym EMERALD=1 --defsym ALL_REGIONS=1 -o build/emerald/data/map_events.o
+data/maps/JohtoVictoryRoad_1F/scripts.inc:130: warning: file doesn't end with newline
+Assembler messages:
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/RocketHideout_Elevator_Frlg/scripts.inc:9:  Info: macro invoked from here
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/SilphCo_Elevator_Frlg/scripts.inc:8:  Info: macro invoked from here
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/TrainerTower_Elevator_Frlg/scripts.inc:10:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/Route25_Frlg/scripts.inc:32:  Info: macro invoked from here
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/CeladonCity_DepartmentStore_Elevator_Frlg/scripts.inc:8:  Info: macro invoked from here
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/FiveIsland_ResortGorgeous_House_Frlg/scripts.inc:28:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/IlexForest/scripts.inc:324:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/IlexForest/scripts.inc:365:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/Route34_DayCare/scripts.inc:292:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/Route34_DayCare/scripts.inc:368:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/GoldenrodCity_House1/scripts.inc:51:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/GoldenrodCity_UndergroundTunnel/scripts.inc:162:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/GoldenrodCity_UndergroundTunnel/scripts.inc:225:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/TinTower_RoofDay/scripts.inc:194:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/TinTower_RoofDay/scripts.inc:221:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/WhirlIslands_LugiaChamber/scripts.inc:190:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/WhirlIslands_LugiaChamber/scripts.inc:217:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/EmbeddedTower/scripts.inc:44:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/EmbeddedTower/scripts.inc:75:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/EmbeddedTower/scripts.inc:104:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/LakeOfRage_House2/scripts.inc:30:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/LakeOfRage_House2/scripts.inc:78:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/MahoganyHideout_B2F/scripts.inc:323:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/BlackthornCity_House3/scripts.inc:21:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/BlackthornCity_House3/scripts.inc:133:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/BlackthornCity_House3/scripts.inc:144:  Info: macro invoked from here
+asm/macros/event.inc:181: Warning: copyvar with a value that is not a VAR_ constant; did you mean setvar instead?
+data/maps/IcePath_B1F/scripts.inc:14:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:129:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:152:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:175:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/SafariZoneGate_SafariZoneEntrance/scripts.inc:198:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/MtSilver_1F_MoltresRoom/scripts.inc:21:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/MtSilver_SummitDay/scripts.inc:51:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/JohtoPokemonLeague_HallOfFame/scripts.inc:31:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/maps/JohtoPokemonLeague_HallOfFame/scripts.inc:53:  Info: macro invoked from here
+asm/macros/event.inc:322: Warning: explicit waitstate follows implicit waitstate, ignoring
+data/scripts/bug_contest.inc:27:  Info: macro invoked from here

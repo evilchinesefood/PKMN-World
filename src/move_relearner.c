@@ -1,4 +1,5 @@
 #include "global.h"
+#include "special_pokemon.h"
 #include "world_menu_theme.h"
 #include "main.h"
 #include "battle.h"
@@ -873,7 +874,11 @@ static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
 {
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
     u32 level = (P_ENABLE_ALL_LEVEL_UP_MOVES ? MAX_LEVEL : GetLevelFromBoxMonExp(mon));
+    u16 themedMove = SpecialPokemon_GetThemedMove(species);
     u32 numMoves = 0;
+
+    if (themedMove != MOVE_NONE && !BoxMonKnowsMove(mon, themedMove))
+        moves[numMoves++] = themedMove;
     do
     {
         const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(species);
@@ -1009,6 +1014,11 @@ static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
 {
     enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
     u32 level = (P_ENABLE_ALL_LEVEL_UP_MOVES == TRUE) ? MAX_LEVEL : GetLevelFromBoxMonExp(boxMon);
+
+    u16 themedMove = SpecialPokemon_GetThemedMove(species);
+
+    if (themedMove != MOVE_NONE && !BoxMonKnowsMove(boxMon, themedMove))
+        return TRUE;
 
     do
     {

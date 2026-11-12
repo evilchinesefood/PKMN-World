@@ -870,6 +870,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sSquirtleTeachableLearnset,
         .eggMoveLearnset = sSquirtleEggMoveLearnset,
         .evolutions = EVOLUTION({EVO_LEVEL, 16, SPECIES_WARTORTLE}),
+        .formSpeciesIdTable = sSquirtleFormSpeciesIdTable,
     },
 
     [SPECIES_WARTORTLE] =

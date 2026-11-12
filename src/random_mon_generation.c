@@ -1,4 +1,5 @@
 #include "global.h"
+#include "special_pokemon.h"
 #include "event_data.h"
 #include "item.h"
 #include "pokemon.h"
@@ -73,6 +74,9 @@ static bool32 IsSpeciesBannedByRandomSpeciesOptions(enum Species species, const 
 {
     enum Species baseSpecies = GET_BASE_SPECIES_ID(species);
     const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[species];
+
+    if (SpecialPokemon_FindSpecies(species) != SPECIAL_POKEMON_COUNT)
+        return TRUE;
 
     for (u32 i = 0; i < options->bannedSpeciesCount; i++)
     {
@@ -192,6 +196,9 @@ static bool32 IsRandomSpeciesFormAllowed(enum Species species, const u16 *formTa
 {
     const struct SpeciesInfo *speciesInfo;
     enum Species baseSpecies = GET_BASE_SPECIES_ID(species);
+
+    if (SpecialPokemon_FindSpecies(species) != SPECIAL_POKEMON_COUNT)
+        return FALSE;
 
     switch (species) // Special case because darm has galarian forms (desired) and zen mode forms (not desired)
     {

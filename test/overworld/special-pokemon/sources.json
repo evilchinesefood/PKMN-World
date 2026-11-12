@@ -1,0 +1,128 @@
+[
+  {
+    "map": "PalletTown_Frlg",
+    "map_id": "MAP_PALLET_TOWN",
+    "local_id": 4,
+    "entry": "ClassicCapTrainer",
+    "x": 19,
+    "y": 14,
+    "elevation": 3
+  },
+  {
+    "map": "Route19_Frlg",
+    "map_id": "MAP_ROUTE19",
+    "local_id": 13,
+    "entry": "Surfer",
+    "x": 11,
+    "y": 11,
+    "elevation": 3
+  },
+  {
+    "map": "Route19_Frlg",
+    "map_id": "MAP_ROUTE19",
+    "local_id": 14,
+    "entry": "Surfboard",
+    "x": 13,
+    "y": 11,
+    "elevation": 3
+  },
+  {
+    "map": "GoldenrodCity",
+    "map_id": "MAP_GOLDENROD_CITY",
+    "local_id": 41,
+    "entry": "BalloonSeller",
+    "x": 37,
+    "y": 38,
+    "elevation": 3
+  },
+  {
+    "map": "VermilionCity_PokemonFanClub_Frlg",
+    "map_id": "MAP_VERMILION_CITY_POKEMON_FAN_CLUB",
+    "local_id": 7,
+    "entry": "SquadOrganizer",
+    "x": 9,
+    "y": 7,
+    "elevation": 3
+  },
+  {
+    "map": "VermilionCity_Frlg",
+    "map_id": "MAP_VERMILION_CITY",
+    "local_id": 9,
+    "entry": "SquadOne",
+    "x": 10,
+    "y": 19,
+    "elevation": 3
+  },
+  {
+    "map": "VermilionCity_Frlg",
+    "map_id": "MAP_VERMILION_CITY",
+    "local_id": 10,
+    "entry": "SquadTwo",
+    "x": 16,
+    "y": 20,
+    "elevation": 3
+  },
+  {
+    "map": "AzaleaTown_House1",
+    "map_id": "MAP_AZALEA_TOWN_HOUSE1",
+    "local_id": 4,
+    "entry": "KilnHelper",
+    "x": 8,
+    "y": 6,
+    "elevation": 3
+  },
+  {
+    "map": "AzaleaTown",
+    "map_id": "MAP_AZALEA_TOWN",
+    "local_id": 14,
+    "entry": "WellHelper",
+    "x": 54,
+    "y": 10,
+    "elevation": 2
+  },
+  {
+    "map": "CeladonCity_Frlg",
+    "map_id": "MAP_CELADON_CITY",
+    "local_id": 16,
+    "entry": "Florist",
+    "x": 20,
+    "y": 16,
+    "elevation": 3
+  },
+  {
+    "map": "CeladonCity_Frlg",
+    "map_id": "MAP_CELADON_CITY",
+    "local_id": 17,
+    "entry": "FlowerResidentOne",
+    "x": 17,
+    "y": 24,
+    "elevation": 3
+  },
+  {
+    "map": "CeladonCity_Frlg",
+    "map_id": "MAP_CELADON_CITY",
+    "local_id": 18,
+    "entry": "FlowerResidentTwo",
+    "x": 21,
+    "y": 20,
+    "elevation": 3
+  },
+  {
+    "map": "OlivineCity",
+    "map_id": "MAP_OLIVINE_CITY",
+    "local_id": 36,
+    "entry": "PirateSailor",
+    "x": 31,
+    "y": 54,
+    "elevation": 3
+  },
+  {
+    "map": "OlivineCity",
+    "map_id": "MAP_OLIVINE_CITY",
+    "local_id": 37,
+    "entry": "Pirate",
+    "x": 32,
+    "y": 54,
+    "elevation": 3
+  }
+]

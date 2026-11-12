@@ -59,6 +59,7 @@
 #include "constants/pokeball.h"
 #include "constants/pokedex.h"
 #include "constants/pokemon.h"
+#include "constants/special_pokemon.h"
 #include "constants/pokemon_size_record.h"
 #include "constants/random_mon_generation.h"
 #include "constants/rtc.h"
@@ -2225,3 +2226,5 @@ Common_EventScript_RegionalDepartureRefused::
 	end
 Common_Text_RegionalDepartureRefused:
 	.string "This team cannot be remembered safely.\nCheck your party and PC before travel.$"
+
+	.include "data/scripts/special_pokemon.inc"

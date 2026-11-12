@@ -28,6 +28,8 @@ CHECKS = (
     ("ValidateCelioGifts.py",),
     ("ValidateGreedyGifts.py",),
     ("TestChampionshipPrizes.py",),
+    ("special-pokemon/sources.py",),
+    ("special-pokemon/mechanics_audit.py",),
     ("ValidateRegionMap.py",),
     ("ValidateLanceMultiBattle.py",),
 )

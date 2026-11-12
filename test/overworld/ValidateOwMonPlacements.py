@@ -231,7 +231,7 @@ def check_attribute_widths(tileset_files):
 def load_overworld_species():
     """SPECIES_* ids that have an OVERWORLD(...) entry, and SPECIES_* -> family guard."""
     have_ow, species_family = set(), {}
-    for path in sorted(glob.glob(os.path.join(ROOT, "src/data/pokemon/species_info/gen_*_families.h"))):
+    for path in sorted(glob.glob(os.path.join(ROOT, "src/data/pokemon/species_info/*.h"))):
         stack, cur = [], None
         for line in open(path, encoding="utf-8", errors="replace"):
             m = re.match(r"\s*#if\s+(P_FAMILY_\w+)", line)

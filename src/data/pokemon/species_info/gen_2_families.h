@@ -646,6 +646,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .teachableLearnset = sTotodileTeachableLearnset,
         .eggMoveLearnset = sTotodileEggMoveLearnset,
         .evolutions = EVOLUTION({EVO_LEVEL, 18, SPECIES_CROCONAW}),
+        .formSpeciesIdTable = sTotodileFormSpeciesIdTable,
     },
 
     [SPECIES_CROCONAW] =

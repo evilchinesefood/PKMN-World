@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "scanline_effect.h"
 #include "palette.h"
 #include "palette_swap.h"
@@ -2117,7 +2118,9 @@ static void CreateTrainerCardTrainerPic(void)
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender]),
+        CreateTrainerCardTrainerPicSprite(gReceivedRemoteLinkPlayers
+                    ? FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender])
+                    : GetEquippedOutfitTrainerPic(),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],

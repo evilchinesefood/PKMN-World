@@ -38,11 +38,11 @@ RegionHub_MapScripts::
 @ (2026-07-16 consolidation) Vendors condensed 6 -> 4: the front desk absorbed all balls and
 @ became the main general mart; the counter trio is TM (19,11) / Training (COOK, 21,11) /
 @ Battle Depot (MART_EMPLOYEE, 23,11); the two south-hall vendors and the standalone
-@ feather/mint vendors are GONE (stock covered by Training). 14 object events total, safely
-@ under the OBJECT_EVENTS_COUNT=16 spawn cap (player + an active follower always fit).
+@ feather/mint vendors are GONE (stock covered by Training). The wardrobe brings the map
+@ to 15 objects. At most 13 fit the spawn window, leaving room for player and follower.
 
 @ Task 5a: the hub no longer arms itself as the whiteout respawn. Its PokeCenter is one of the
-@ most OAM-starved maps (14 object events after the 2026-07-16 vendor consolidation) and the
+@ most OAM-starved maps (15 map object events including the wardrobe) and the
 @ heal animation can exhaust sprites there, so a
 @ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
 @ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
@@ -1289,10 +1289,8 @@ RegionHub_Items_Vitamins::
 @      replay path; it walks the player back to the crest first, because the escort below is a
 @      FIXED path that is only correct starting from (16,4).
 @
-@ WHY THE GUIDE IS THE CURATOR: OBJECT_EVENTS_COUNT is 16 and this map already has 14 object
-@ events, with the player and an active follower always taking the other two. The tour CANNOT
-@ add an NPC. The Charm Curator is already the designated "new traveler" NPC (he hands out the
-@ HUB PASS and the POKeVIAL on first contact), so greeting is already his job.
+@ The Charm Curator already gives new travelers the HUB PASS and POKeVIAL, so the tour
+@ reuses him instead of spending another object slot.
 @
 @ ESCORT GEOMETRY: guide and player walk in lockstep with the guide exactly one tile ahead, so
 @ their sprites never occupy the same tile on any step. Every stop tile and every leg was
@@ -1948,3 +1946,16 @@ RegionHub_Text_RegionalPartial:
 	.string "Some members are unavailable.\nRecall the available members?$"
 RegionHub_Text_RegionalConfirm:
 	.string "Travel with this team and destination?$"
+
+RegionHub_EventScript_Wardrobe::
+    lockall
+    msgbox RegionHub_Text_Wardrobe, MSGBOX_DEFAULT
+    closemessage
+    special ShowPlayerWardrobe
+    waitstate
+    releaseall
+    end
+
+RegionHub_Text_Wardrobe:
+    .string "World Transit Wardrobe.\n"
+    .string "All outfits and colors are free!$"

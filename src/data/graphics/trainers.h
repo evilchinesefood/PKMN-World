@@ -629,8 +629,11 @@ const union AnimCmd *const sBackAnims_OldManPokedude[] = {
         .animation = anim,                                                                   \
     }}
 
+#include "../player_outfit_trainer_graphics.h"
+
 const struct TrainerPicInfo gTrainerPicInfo[TRAINER_PIC_COUNT] =
 {
+#include "../player_outfit_trainer_entries.h"
     [TRAINER_PIC_NONE] =
     {
         .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_None, gTrainerPalette_None),

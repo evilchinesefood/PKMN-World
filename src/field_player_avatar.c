@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "main.h"
 #include "bike.h"
 #include "event_data.h"
@@ -1921,7 +1922,7 @@ void StopPlayerAvatar(void)
 u16 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
 {
     if (GetCurrentRegion() == REGION_KANTO)
-        return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gender);
+        return sPlayerAvatarGfxIds[state][gender];
     else
         return sRivalAvatarGfxIds[state][gender];
 }
@@ -1930,7 +1931,7 @@ u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
 {
     // Region merge: the player is Brendan/May in every region now (Kanto no longer uses
     // the FRLG Red/Leaf overworld sprites; Red's sprites are reused for the Johto rival).
-    return sPlayerAvatarGfxIds[state][gender];
+    return GetOutfitGraphicsId(GetEquippedPlayerOutfit(), sPlayerAvatarGfxIds[state][gender]);
 }
 
 u16 GetFRLGAvatarGraphicsIdByGender(enum Gender gender)
@@ -1950,6 +1951,7 @@ u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 
 enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
 {
+    gfxId = GetOriginalOutfitGraphicsId(gfxId);
     switch (gfxId)
     {
     case OBJ_EVENT_GFX_MAY_NORMAL:
@@ -2036,6 +2038,7 @@ static u8 GetPlayerAvatarStateTransitionByGraphicsId(u16 graphicsId, u8 gender)
     u8 i;
     const struct PlayerAvatarGfxToStateFlag (*table)[5] = sPlayerAvatarGfxToStateFlag;
 
+    graphicsId = GetOriginalOutfitGraphicsId(graphicsId);
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
         if (table[gender][i].graphicsId == graphicsId)
@@ -2053,7 +2056,7 @@ u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
         if (table[gPlayerAvatar.gender][i].playerFlag & flags)
-            return table[gPlayerAvatar.gender][i].graphicsId;
+            return GetOutfitGraphicsId(GetEquippedPlayerOutfit(), table[gPlayerAvatar.gender][i].graphicsId);
     }
     return 0;
 }

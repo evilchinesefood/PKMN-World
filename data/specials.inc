@@ -714,3 +714,4 @@ gSpecials::
 	def_special GiveBattleNetRandomShard
 	def_special UpdateBattleNetStreak
 	def_special BufferBattleNetStreak
+	def_special ShowPlayerWardrobe

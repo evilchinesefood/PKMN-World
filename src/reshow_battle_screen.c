@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "palette_swap.h"
 #include "reshow_battle_screen.h"
 #include "battle.h"
@@ -292,7 +293,7 @@ static bool8 LoadBattlerSpriteGfx(enum BattlerId battler)
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT)
         {
-            enum TrainerPicID trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
+            enum TrainerPicID trainerPicId = GetEquippedOutfitTrainerPic();
             LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
             // Outfit swap: recolor the player back pic when the battle screen is reshown (Safari).
             ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE))));
@@ -345,7 +346,7 @@ void CreateBattlerSprite(enum BattlerId battler)
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_SAFARI && position == B_POSITION_PLAYER_LEFT)
         {
-            enum TrainerPicID trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
+            enum TrainerPicID trainerPicId = GetEquippedOutfitTrainerPic();
             SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, position);
             gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, 0x50,
                                                 (8 - GetTrainerBackPicCoords(trainerPicId)->size) * 4 + 80,

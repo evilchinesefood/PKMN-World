@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -57,10 +58,6 @@ struct OakSpeechResources
     // ShowPlayerTrainerSprite) instead of the Red/Leaf BG2 portrait.
     u8 playerSpriteId;
     bool8 playerSpriteActive;
-    // Vanilla (RED-outfit) copy of the trainer sprite's 16-color palette, saved when the
-    // sprite is created. The outfit picker restores this before each swap so previews are
-    // clean (and so RED reverts, since ApplyPlayerPaletteSwap* early-returns for RED).
-    u16 savedPlayerPal[16];
 };
 
 static EWRAM_DATA struct OakSpeechResources *sOakSpeechResources = NULL;
@@ -102,8 +99,6 @@ static void Task_OakSpeech_FadeInRivalPic(u8);
 static void Task_OakSpeech_AskRivalsName(u8);
 static void Task_OakSpeech_ReshowPlayersPic(u8);
 static void Task_OakSpeech_AskOutfit(u8);
-static void Task_OakSpeech_ShowOutfitOptions(u8);
-static void Task_OakSpeech_HandleOutfitInput(u8);
 static void Task_OakSpeech_LetsGo(u8);
 static void Task_OakSpeech_FadeOutBGM(u8);
 static void Task_OakSpeech_SetUpExitAnimation(u8);
@@ -367,52 +362,6 @@ static const struct WindowTemplate sPikachuIntro_TextboxWindowTemplate =
 static const u8 sTextColor_White[] = { 0, 1, 2, 0 };
 static const u8 sTextColor_DarkGray[] = { 0, 2, 3, 0 };
 
-// Outfit palette-swap picker (new game): choose one of 6 clothing recolors.
-// Two lines so the prompt stays left of the outfit menu (which covers cols 18-25).
-// The prompt window is 13 tiles wide (~17 chars/line), so keep it terse — but it must say
-// the pick is permanent (no in-game outfit changer exists), since nothing after this ever will.
-static const u8 sText_Oak_ChooseOutfit[] = _("And your outfit?\nIt's for keeps!");
-static const u8 sText_Outfit_Red[] = _("RED");
-static const u8 sText_Outfit_Blue[] = _("BLUE");
-static const u8 sText_Outfit_Green[] = _("GREEN");
-static const u8 sText_Outfit_Purple[] = _("PURPLE");
-static const u8 sText_Outfit_Black[] = _("BLACK");
-static const u8 sText_Outfit_Pink[] = _("PINK");
-
-static const u8 *const sOutfitOptions[NUM_PLAYER_OUTFITS] = {
-    [PLAYER_OUTFIT_RED]    = sText_Outfit_Red,
-    [PLAYER_OUTFIT_BLUE]   = sText_Outfit_Blue,
-    [PLAYER_OUTFIT_GREEN]  = sText_Outfit_Green,
-    [PLAYER_OUTFIT_PURPLE] = sText_Outfit_Purple,
-    [PLAYER_OUTFIT_BLACK]  = sText_Outfit_Black,
-    [PLAYER_OUTFIT_PINK]   = sText_Outfit_Pink,
-};
-
-static const struct WindowTemplate sOutfitMenuWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 18,
-    .tilemapTop = 1,
-    .width = 8,
-    .height = 14,   // 6 outfit rows + frame; height 12 clipped PINK
-    .paletteNum = 15,
-    .baseBlock = 360
-};
-
-// Small prompt window that stays up BESIDE the outfit menu. Its dialogue box spans
-// cols 0-16 (clear of the menu frame at col 17+) and its tiles (1..52) sit below the
-// menu's baseBlock 360, so prompt and menu can coexist - the old full-width prompt in
-// WIN_INTRO_TEXTBOX had to be wiped before the menu drew, which read as a text flash.
-static const struct WindowTemplate sOutfitPromptWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 2,
-    .tilemapTop = 15,
-    .width = 13,
-    .height = 4,
-    .paletteNum = 15,
-    .baseBlock = 1
-};
 
 enum
 {
@@ -1714,92 +1663,39 @@ static void Task_OakSpeech_ReshowPlayersPic(u8 taskId)
     }
 }
 
-// Restore the trainer sprite's vanilla palette so the outfit preview composes over
-// vanilla clothing rather than the previous pick (and so a RED pick reverts cleanly,
-// since ApplyPlayerPaletteSwapFrontPic early-returns for RED and leaves this in place).
-static void ReloadOutfitPreviewBase(void)
+static EWRAM_DATA u8 sOutfitCallerTask = 0;
+
+static void FinishOakOutfit(bool8 confirmed)
 {
     struct OakSpeechResources *res = sOakSpeechResources;
-
+    if (!confirmed)
+    {
+        gTasks[sOutfitCallerTask].func = Task_OakSpeech_AskOutfit;
+        return;
+    }
     if (res->playerSpriteActive)
-        LoadPalette(res->savedPlayerPal, OBJ_PLTT_ID(gSprites[res->playerSpriteId].oam.paletteNum), sizeof(res->savedPlayerPal));
+    {
+        DestroySpriteAndFreeResources(&gSprites[res->playerSpriteId]);
+        res->playerSpriteActive = FALSE;
+    }
+    ShowPlayerTrainerSprite();
+    ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(gSprites[res->playerSpriteId].oam.paletteNum));
+    gTasks[sOutfitCallerTask].func = Task_OakSpeech_LetsGo;
+}
+
+static void WaitForOutfit(u8 taskId)
+{
 }
 
 static void Task_OakSpeech_AskOutfit(u8 taskId)
 {
-    s16 *data = gTasks[taskId].data;
-
-    if (tTrainerPicFadeState != 0)
+    if (gTasks[taskId].tTrainerPicFadeState != 0)
     {
-        // Print the prompt in its own small window (template above) so it can stay on
-        // screen next to the outfit menu instead of flashing on and off.
-        tPromptWindowId = AddWindow(&sOutfitPromptWindowTemplate);
-        DrawDialogueFrame(tPromptWindowId, FALSE);
-        AddTextPrinterParameterized2(tPromptWindowId, FONT_MALE, sText_Oak_ChooseOutfit, sOakSpeechResources->textSpeed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        CopyWindowToVram(tPromptWindowId, COPYWIN_FULL);
-        gTasks[taskId].func = Task_OakSpeech_ShowOutfitOptions;
+        HidePlayerTrainerSprite();
+        sOutfitCallerTask = taskId;
+        if (OpenPlayerOutfitPicker(TRUE, FinishOakOutfit))
+            gTasks[taskId].func = WaitForOutfit;
     }
-}
-
-static void Task_OakSpeech_ShowOutfitOptions(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-    u8 i;
-    u8 step = GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT) + 2;
-
-    if (!IsTextPrinterActiveOnWindow(tPromptWindowId))
-    {
-        gTasks[taskId].tMenuWindowId = AddWindow(&sOutfitMenuWindowTemplate);
-        PutWindowTilemap(gTasks[taskId].tMenuWindowId);
-        DrawStdFrameWithCustomTileAndPalette(gTasks[taskId].tMenuWindowId, TRUE, STD_WINDOW_BASE_TILE_NUM, 14);
-        FillWindowPixelBuffer(gTasks[taskId].tMenuWindowId, PIXEL_FILL(1));
-        sOakSpeechResources->textColor[0] = 1;
-        sOakSpeechResources->textColor[1] = 2;
-        sOakSpeechResources->textColor[2] = 3;
-        for (i = 0; i < NUM_PLAYER_OUTFITS; i++)
-            AddTextPrinterParameterized3(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 8, i * step + 1, sOakSpeechResources->textColor, 0, sOutfitOptions[i]);
-        InitMenuNormal(gTasks[taskId].tMenuWindowId, FONT_NORMAL, 0, 1, step, NUM_PLAYER_OUTFITS, 0);
-        CopyWindowToVram(gTasks[taskId].tMenuWindowId, COPYWIN_FULL);
-        gTasks[taskId].data[12] = 0xFF; // last previewed cursor pos (force first preview)
-        gTasks[taskId].func = Task_OakSpeech_HandleOutfitInput;
-    }
-}
-
-static void Task_OakSpeech_HandleOutfitInput(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-    u8 cursorPos = Menu_GetCursorPos();
-    s8 input;
-
-    // Live preview on cursor movement — recolor the on-screen trainer sprite.
-    if (cursorPos != (u8)data[12])
-    {
-        data[12] = cursorPos;
-        VarSet(VAR_PLAYER_PALETTE, cursorPos);
-        ReloadOutfitPreviewBase();
-        ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(gSprites[sOakSpeechResources->playerSpriteId].oam.paletteNum));
-    }
-
-    input = Menu_ProcessInputNoWrap();
-    if (input == MENU_NOTHING_CHOSEN)
-        return;
-    // B is NOT a commit: it used to silently lock in RED, skipping the live preview the
-    // picker was built around — and the pick is permanent (no in-game outfit changer).
-    // There is nothing to cancel back to, so only A confirms.
-    if (input == MENU_B_PRESSED)
-        return;
-
-    PlaySE(SE_SELECT);
-    VarSet(VAR_PLAYER_PALETTE, input);
-    ReloadOutfitPreviewBase();
-    ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(gSprites[sOakSpeechResources->playerSpriteId].oam.paletteNum));
-
-    ClearStdWindowAndFrameToTransparent(tMenuWindowId, TRUE);
-    RemoveWindow(tMenuWindowId);
-    tMenuWindowId = WIN_INTRO_TEXTBOX;
-    ClearDialogWindowAndFrame(tPromptWindowId, TRUE);
-    RemoveWindow(tPromptWindowId);
-    gTasks[taskId].func = Task_OakSpeech_LetsGo;
 }
 
 static void Task_OakSpeech_LetsGo(u8 taskId)
@@ -2208,15 +2104,12 @@ static void ShowPlayerTrainerSprite(void)
 
     if (!res->playerSpriteActive)
     {
-        u8 spriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender), 120, 72, 0, NULL);
+        u8 spriteId = CreateTrainerSprite(GetEquippedOutfitTrainerPic(), 120, 72, 0, NULL);
         gSprites[spriteId].oam.priority = 1;
         gSprites[spriteId].coordOffsetEnabled = TRUE;
         gSprites[spriteId].callback = SpriteCallbackDummy;
         res->playerSpriteId = spriteId;
         res->playerSpriteActive = TRUE;
-        // Keep a pristine copy of the just-loaded (vanilla RED) sprite palette so the
-        // outfit picker can restore it before applying each swap.
-        CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum)], res->savedPlayerPal, sizeof(res->savedPlayerPal));
     }
     gSprites[res->playerSpriteId].invisible = FALSE;
 }

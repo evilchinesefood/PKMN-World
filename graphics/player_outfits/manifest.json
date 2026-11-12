@@ -1,0 +1,5533 @@
+{
+  "schema": 1,
+  "styles": [
+    {
+      "style": "kanto",
+      "character": "brendan",
+      "name": "Kanto Vest",
+      "colors": [
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Black",
+        "Pink"
+      ],
+      "poses": [
+        {
+          "pose": "walking",
+          "source": "graphics/object_events/pics/people/brendan/walking.png",
+          "output": "graphics/player_outfits/kanto/brendan/walking.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "walking"
+          ],
+          "sha256": "39a5a5a088715cdc35641f9c6ca15e20e8e482977a8a0a24ddd9d0ed74c09b67",
+          "anchors": [],
+          "changed_pixels": 182
+        },
+        {
+          "pose": "running",
+          "source": "graphics/object_events/pics/people/brendan/running.png",
+          "output": "graphics/player_outfits/kanto/brendan/running.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "running"
+          ],
+          "sha256": "3ad38d6c509252706607725b5d53b78bba04357bc8f76e96a4064722230d84d2",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 3,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 136
+        },
+        {
+          "pose": "mach_bike",
+          "source": "graphics/object_events/pics/people/brendan/mach_bike.png",
+          "output": "graphics/player_outfits/kanto/brendan/mach_bike.png",
+          "width": 288,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "mach_bike"
+          ],
+          "sha256": "350e9e99b52c3fec0c06f677a75a8cfceb03cc15db8c8ac98dcea50a02634f4d",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 99
+        },
+        {
+          "pose": "acro_bike",
+          "source": "graphics/object_events/pics/people/brendan/acro_bike.png",
+          "output": "graphics/player_outfits/kanto/brendan/acro_bike.png",
+          "width": 864,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 27,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "acro_bike"
+          ],
+          "sha256": "deb3f845c3329352be215328ce807cfcec3b66f63e9d378376d82bc2f27945a3",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 12,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 13,
+              "direction": 1,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 14,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 15,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 16,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 17,
+              "direction": 2,
+              "x": 12,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 18,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 19,
+              "direction": 2,
+              "x": 9,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 20,
+              "direction": 2,
+              "x": 9,
+              "y": 20,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 21,
+              "direction": 0,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 22,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 23,
+              "direction": 1,
+              "x": 11,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 24,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 25,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 26,
+              "direction": 2,
+              "x": 13,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 355
+        },
+        {
+          "pose": "surfing",
+          "source": "graphics/object_events/pics/people/brendan/surfing.png",
+          "output": "graphics/player_outfits/kanto/brendan/surfing.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "surfing",
+            "flight rider"
+          ],
+          "sha256": "20dbf202fa06629b9c4485bf8ae5a1d2ae0cf53c7d44f4bf825d2a41751f6368",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 13,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 90
+        },
+        {
+          "pose": "field_move",
+          "source": "graphics/object_events/pics/people/brendan/field_move.png",
+          "output": "graphics/player_outfits/kanto/brendan/field_move.png",
+          "width": 160,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 5,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "field_move"
+          ],
+          "sha256": "269d124a43393dfd29d7d9675ca38e2d4e5badde355a49677d79e47ba80eb9a4",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 9,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 71
+        },
+        {
+          "pose": "fishing",
+          "source": "graphics/object_events/pics/people/brendan/fishing.png",
+          "output": "graphics/player_outfits/kanto/brendan/fishing.png",
+          "width": 384,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 12,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "fishing"
+          ],
+          "sha256": "60a4cecca4affa6008b12e185498971c89de6ccc9cccc612b180b60b73a612fb",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 15,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 17,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 1,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 15,
+              "width": 6,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 169
+        },
+        {
+          "pose": "watering",
+          "source": "graphics/object_events/pics/people/brendan/watering.png",
+          "output": "graphics/player_outfits/kanto/brendan/watering.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "watering"
+          ],
+          "sha256": "af1b5a2b7ce5ad9a7c727b8b2c9b7f168ab24926168afe1c39be160bce5c383b",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 84
+        },
+        {
+          "pose": "underwater",
+          "source": "graphics/object_events/pics/people/brendan/underwater.png",
+          "output": "graphics/player_outfits/kanto/brendan/underwater.png",
+          "width": 128,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "underwater"
+          ],
+          "sha256": "9696ae7336f08b1f0e97541126947e65247d39a6d51e8a45c64e73ee2cbcac3d",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 70
+        },
+        {
+          "pose": "decorating",
+          "source": "graphics/object_events/pics/people/brendan/decorating.png",
+          "output": "graphics/player_outfits/kanto/brendan/decorating.png",
+          "width": 16,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "decorating"
+          ],
+          "sha256": "f2f7a9c9b932f3823a87dd6d4eea9fd730007765bce2008988e35604f4fd08cb",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 5,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 9
+        },
+        {
+          "pose": "front",
+          "source": "graphics/trainers/front_pics/brendan.png",
+          "output": "graphics/player_outfits/kanto/brendan/front.png",
+          "width": 64,
+          "height": 64,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "front"
+          ],
+          "sha256": "b950da4a6c2dac11bf5af40f543e940e92ef511e105537f45e7de1ac87cdb949",
+          "anchors": [],
+          "changed_pixels": 146
+        },
+        {
+          "pose": "back",
+          "source": "graphics/trainers/back_pics/brendan.png",
+          "output": "graphics/player_outfits/kanto/brendan/back.png",
+          "width": 64,
+          "height": 256,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "back"
+          ],
+          "sha256": "c839e4a9e8fef6b762a2d1e7276d2b970260d5559347a7edd6d29880dd79530f",
+          "anchors": [],
+          "changed_pixels": 1017
+        }
+      ],
+      "palette_base": {
+        "overworld": "graphics/player_outfits/kanto/brendan/ow.pal",
+        "trainer": "graphics/player_outfits/kanto/brendan/trainer.pal"
+      },
+      "palette_contract": {
+        "overworld": {
+          "main": [
+            13,
+            12
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "trainer": {
+          "main": [
+            13,
+            12
+          ],
+          "trousers": [
+            6,
+            5
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "nonred_male_trainer": "Use original male primary ramp row[0:2] at indices13,12. Original male trim ramp is not used for new main garments. All three new designs deliberately share this native palette layout."
+      }
+    },
+    {
+      "style": "kanto",
+      "character": "may",
+      "name": "Kanto Jacket",
+      "colors": [
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Black",
+        "Pink"
+      ],
+      "poses": [
+        {
+          "pose": "walking",
+          "source": "graphics/object_events/pics/people/may/walking.png",
+          "output": "graphics/player_outfits/kanto/may/walking.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "walking"
+          ],
+          "sha256": "40a20e80fc7f5e5827fe86f6e4bdfc121644b09ec2984e397c044facf5bb59e3",
+          "anchors": [],
+          "changed_pixels": 220
+        },
+        {
+          "pose": "running",
+          "source": "graphics/object_events/pics/people/may/running.png",
+          "output": "graphics/player_outfits/kanto/may/running.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "running"
+          ],
+          "sha256": "71941cc32ade7e7b2f45c9b883c2b5bee0755375c62cf749e45e008800347b5b",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 3,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 4,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 193
+        },
+        {
+          "pose": "mach_bike",
+          "source": "graphics/object_events/pics/people/may/mach_bike.png",
+          "output": "graphics/player_outfits/kanto/may/mach_bike.png",
+          "width": 288,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "mach_bike"
+          ],
+          "sha256": "688e125c108daee1671368c028ce83e5c4a5b7b76cf18187c89930361e075d8d",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 148
+        },
+        {
+          "pose": "acro_bike",
+          "source": "graphics/object_events/pics/people/may/acro_bike.png",
+          "output": "graphics/player_outfits/kanto/may/acro_bike.png",
+          "width": 864,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 27,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "acro_bike"
+          ],
+          "sha256": "89c293169cbf314237e3d057ceececbcd578c712eb5d04b32b3e7e375aed7ba5",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 12,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 13,
+              "direction": 1,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 14,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 15,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 16,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 17,
+              "direction": 2,
+              "x": 12,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 18,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 19,
+              "direction": 2,
+              "x": 9,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 20,
+              "direction": 2,
+              "x": 9,
+              "y": 20,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 21,
+              "direction": 0,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 22,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 23,
+              "direction": 1,
+              "x": 11,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 24,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 25,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 26,
+              "direction": 2,
+              "x": 13,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 485
+        },
+        {
+          "pose": "surfing",
+          "source": "graphics/object_events/pics/people/may/surfing.png",
+          "output": "graphics/player_outfits/kanto/may/surfing.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "surfing",
+            "flight rider"
+          ],
+          "sha256": "412944ae29e1c85c99ebe1f7824f5fae5287242ab1855c36eddd1fabec3ce3d5",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 13,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 110
+        },
+        {
+          "pose": "field_move",
+          "source": "graphics/object_events/pics/people/may/field_move.png",
+          "output": "graphics/player_outfits/kanto/may/field_move.png",
+          "width": 160,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 5,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "field_move"
+          ],
+          "sha256": "47e8d482027fd015349401fa58614f575cca9458bb1397797180af298785b0f9",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 9,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 115
+        },
+        {
+          "pose": "fishing",
+          "source": "graphics/object_events/pics/people/may/fishing.png",
+          "output": "graphics/player_outfits/kanto/may/fishing.png",
+          "width": 384,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 12,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "fishing"
+          ],
+          "sha256": "8d748f9cd8fe124321a20b1908443d9520f193b6a8d809fc0d58fd356551d34e",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 15,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 17,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 1,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 15,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 270
+        },
+        {
+          "pose": "watering",
+          "source": "graphics/object_events/pics/people/may/watering.png",
+          "output": "graphics/player_outfits/kanto/may/watering.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "watering"
+          ],
+          "sha256": "ce95544eaea58c8f8749bf469196a425c6d37b943f79f09d7b6a89b4990d47b1",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 128
+        },
+        {
+          "pose": "underwater",
+          "source": "graphics/object_events/pics/people/may/underwater.png",
+          "output": "graphics/player_outfits/kanto/may/underwater.png",
+          "width": 128,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "underwater"
+          ],
+          "sha256": "0f1dedbd9ce60d89a0612f3370ff4417d6ad93ddf4f64217069235ec836c9a90",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 58
+        },
+        {
+          "pose": "decorating",
+          "source": "graphics/object_events/pics/people/may/decorating.png",
+          "output": "graphics/player_outfits/kanto/may/decorating.png",
+          "width": 16,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "decorating"
+          ],
+          "sha256": "53141ca1f879ae32e765230a2e66864ec182e5a7a91c6ee51c192e0824964f5e",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 5,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 15
+        },
+        {
+          "pose": "front",
+          "source": "graphics/trainers/front_pics/may.png",
+          "output": "graphics/player_outfits/kanto/may/front.png",
+          "width": 64,
+          "height": 64,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "front"
+          ],
+          "sha256": "a3a1dbe719f5e413e580184a16216b184473aba2acc14ff08599d45446f722dc",
+          "anchors": [],
+          "changed_pixels": 152
+        },
+        {
+          "pose": "back",
+          "source": "graphics/trainers/back_pics/may.png",
+          "output": "graphics/player_outfits/kanto/may/back.png",
+          "width": 64,
+          "height": 256,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "back"
+          ],
+          "sha256": "d9076d50ec8d0e4216f9c61a6f6ad93d471b27a176182388e23b528ad6f76078",
+          "anchors": [],
+          "changed_pixels": 546
+        }
+      ],
+      "palette_base": {
+        "overworld": "graphics/player_outfits/kanto/may/ow.pal",
+        "trainer": "graphics/player_outfits/kanto/may/trainer.pal"
+      },
+      "palette_contract": {
+        "overworld": {
+          "main": [
+            13,
+            12
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "trainer": {
+          "main": [
+            13,
+            12
+          ],
+          "trousers": [
+            6,
+            5
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "nonred_male_trainer": "Use original male primary ramp row[0:2] at indices13,12. Original male trim ramp is not used for new main garments. All three new designs deliberately share this native palette layout."
+      }
+    },
+    {
+      "style": "johto",
+      "character": "brendan",
+      "name": "Johto Track",
+      "colors": [
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Black",
+        "Pink"
+      ],
+      "poses": [
+        {
+          "pose": "walking",
+          "source": "graphics/object_events/pics/people/brendan/walking.png",
+          "output": "graphics/player_outfits/johto/brendan/walking.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "walking"
+          ],
+          "sha256": "406b91419df0c12071656e56c5d49da92350ffb580dd9068a700c4fc5ec283be",
+          "anchors": [],
+          "changed_pixels": 185
+        },
+        {
+          "pose": "running",
+          "source": "graphics/object_events/pics/people/brendan/running.png",
+          "output": "graphics/player_outfits/johto/brendan/running.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "running"
+          ],
+          "sha256": "658a49bc967fab1fd0a25bafe5c5ea35f3fd3832f8ae5df685d0e846aba68eeb",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 3,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 156
+        },
+        {
+          "pose": "mach_bike",
+          "source": "graphics/object_events/pics/people/brendan/mach_bike.png",
+          "output": "graphics/player_outfits/johto/brendan/mach_bike.png",
+          "width": 288,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "mach_bike"
+          ],
+          "sha256": "d6b17c4c00e9b5e6fd3568944c49aee167029351153eedefd0402fecb9ab78fb",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 135
+        },
+        {
+          "pose": "acro_bike",
+          "source": "graphics/object_events/pics/people/brendan/acro_bike.png",
+          "output": "graphics/player_outfits/johto/brendan/acro_bike.png",
+          "width": 864,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 27,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "acro_bike"
+          ],
+          "sha256": "41d09da26b2ce56412c75ed8503ddd85097c626a977f332af9b5cc648e1da5c0",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 12,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 13,
+              "direction": 1,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 14,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 15,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 16,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 17,
+              "direction": 2,
+              "x": 12,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 18,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 19,
+              "direction": 2,
+              "x": 9,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 20,
+              "direction": 2,
+              "x": 9,
+              "y": 20,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 21,
+              "direction": 0,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 22,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 23,
+              "direction": 1,
+              "x": 11,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 24,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 25,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 26,
+              "direction": 2,
+              "x": 13,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 435
+        },
+        {
+          "pose": "surfing",
+          "source": "graphics/object_events/pics/people/brendan/surfing.png",
+          "output": "graphics/player_outfits/johto/brendan/surfing.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "surfing",
+            "flight rider"
+          ],
+          "sha256": "d2166ef983cb6dfae922455646675759b25fc0ffe894faa23c25ff99fa6e15f7",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 13,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 99
+        },
+        {
+          "pose": "field_move",
+          "source": "graphics/object_events/pics/people/brendan/field_move.png",
+          "output": "graphics/player_outfits/johto/brendan/field_move.png",
+          "width": 160,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 5,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "field_move"
+          ],
+          "sha256": "02333ddfcac75cfc28c03e6485a59900cf9d96b857760a9a847edc3ab35c0b43",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 9,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 88
+        },
+        {
+          "pose": "fishing",
+          "source": "graphics/object_events/pics/people/brendan/fishing.png",
+          "output": "graphics/player_outfits/johto/brendan/fishing.png",
+          "width": 384,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 12,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "fishing"
+          ],
+          "sha256": "1606980558d34998562cb3f907222264ebdffe7dac9cf02b749c0817bb95f489",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 15,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 17,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 1,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 15,
+              "width": 6,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 190
+        },
+        {
+          "pose": "watering",
+          "source": "graphics/object_events/pics/people/brendan/watering.png",
+          "output": "graphics/player_outfits/johto/brendan/watering.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "watering"
+          ],
+          "sha256": "d54e9f3bbb6d26a16b630d48151c75d9a361eee3617c4ecb7bacc1b1bebd37b3",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 86
+        },
+        {
+          "pose": "underwater",
+          "source": "graphics/object_events/pics/people/brendan/underwater.png",
+          "output": "graphics/player_outfits/johto/brendan/underwater.png",
+          "width": 128,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "underwater"
+          ],
+          "sha256": "150f60b839e9f03a8bf3c44eee2085572f4713b2973b7e661923946bf428eb7b",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 74
+        },
+        {
+          "pose": "decorating",
+          "source": "graphics/object_events/pics/people/brendan/decorating.png",
+          "output": "graphics/player_outfits/johto/brendan/decorating.png",
+          "width": 16,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "decorating"
+          ],
+          "sha256": "17d2647d87bc2c70e6ba0a5f3deefbf24da615eb3d219577f99c6c004791cdf5",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 5,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 11
+        },
+        {
+          "pose": "front",
+          "source": "graphics/trainers/front_pics/brendan.png",
+          "output": "graphics/player_outfits/johto/brendan/front.png",
+          "width": 64,
+          "height": 64,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "front"
+          ],
+          "sha256": "03fbd745d254a42e056d301039c840f7a412a458e9a9d9a97b03733696b08342",
+          "anchors": [],
+          "changed_pixels": 171
+        },
+        {
+          "pose": "back",
+          "source": "graphics/trainers/back_pics/brendan.png",
+          "output": "graphics/player_outfits/johto/brendan/back.png",
+          "width": 64,
+          "height": 256,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "back"
+          ],
+          "sha256": "460125cdd2d8f417a4a17f898267a4e390342846fd1d51e1a1b01e4d90666d1f",
+          "anchors": [],
+          "changed_pixels": 1081
+        }
+      ],
+      "palette_base": {
+        "overworld": "graphics/player_outfits/johto/brendan/ow.pal",
+        "trainer": "graphics/player_outfits/johto/brendan/trainer.pal"
+      },
+      "palette_contract": {
+        "overworld": {
+          "main": [
+            13,
+            12
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "trainer": {
+          "main": [
+            13,
+            12
+          ],
+          "trousers": [
+            6,
+            5
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "nonred_male_trainer": "Use original male primary ramp row[0:2] at indices13,12. Original male trim ramp is not used for new main garments. All three new designs deliberately share this native palette layout."
+      }
+    },
+    {
+      "style": "johto",
+      "character": "may",
+      "name": "Johto Overalls",
+      "colors": [
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Black",
+        "Pink"
+      ],
+      "poses": [
+        {
+          "pose": "walking",
+          "source": "graphics/object_events/pics/people/may/walking.png",
+          "output": "graphics/player_outfits/johto/may/walking.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "walking"
+          ],
+          "sha256": "a0a82040e6144905c9c49500a5f36727664ff403e1001cf80cea2488727152d3",
+          "anchors": [],
+          "changed_pixels": 226
+        },
+        {
+          "pose": "running",
+          "source": "graphics/object_events/pics/people/may/running.png",
+          "output": "graphics/player_outfits/johto/may/running.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "running"
+          ],
+          "sha256": "28411e60bfb0bfe275e79dc2b9b7c56c68c80480fab09311d95b69b25298d542",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 3,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 4,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 210
+        },
+        {
+          "pose": "mach_bike",
+          "source": "graphics/object_events/pics/people/may/mach_bike.png",
+          "output": "graphics/player_outfits/johto/may/mach_bike.png",
+          "width": 288,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "mach_bike"
+          ],
+          "sha256": "f1f5ef57440aad8bbfb23576d064be5ee857847bd5434fac190bedf5526ab174",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 167
+        },
+        {
+          "pose": "acro_bike",
+          "source": "graphics/object_events/pics/people/may/acro_bike.png",
+          "output": "graphics/player_outfits/johto/may/acro_bike.png",
+          "width": 864,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 27,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "acro_bike"
+          ],
+          "sha256": "b6c8ccb0282490b1c820353e70d4b1e4775287bbaf2160c02bd1a3116bdd5d92",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 12,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 13,
+              "direction": 1,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 14,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 15,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 16,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 17,
+              "direction": 2,
+              "x": 12,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 18,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 19,
+              "direction": 2,
+              "x": 9,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 20,
+              "direction": 2,
+              "x": 9,
+              "y": 20,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 21,
+              "direction": 0,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 22,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 23,
+              "direction": 1,
+              "x": 11,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 24,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 25,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 26,
+              "direction": 2,
+              "x": 13,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 516
+        },
+        {
+          "pose": "surfing",
+          "source": "graphics/object_events/pics/people/may/surfing.png",
+          "output": "graphics/player_outfits/johto/may/surfing.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "surfing",
+            "flight rider"
+          ],
+          "sha256": "38b6444e97bf47c725d84f55e74fe93edc8a576fb3195a2cfbb003f33f10ceae",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 13,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 121
+        },
+        {
+          "pose": "field_move",
+          "source": "graphics/object_events/pics/people/may/field_move.png",
+          "output": "graphics/player_outfits/johto/may/field_move.png",
+          "width": 160,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 5,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "field_move"
+          ],
+          "sha256": "54e399a89043c6d47c4acef5c7d6edebadbbc3d98c5eed17119bb4c3d2f8a95a",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 9,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 122
+        },
+        {
+          "pose": "fishing",
+          "source": "graphics/object_events/pics/people/may/fishing.png",
+          "output": "graphics/player_outfits/johto/may/fishing.png",
+          "width": 384,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 12,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "fishing"
+          ],
+          "sha256": "2b6ef258ac526708418f752c0e1d95ea4d2ad8f01247f081b6d5ff1f2b3546bc",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 15,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 17,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 1,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 15,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 279
+        },
+        {
+          "pose": "watering",
+          "source": "graphics/object_events/pics/people/may/watering.png",
+          "output": "graphics/player_outfits/johto/may/watering.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "watering"
+          ],
+          "sha256": "a3bc31eb1577766e4ec8a2d7e7ddac9bf84f297ec8790c3551adfa88f912e91e",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 126
+        },
+        {
+          "pose": "underwater",
+          "source": "graphics/object_events/pics/people/may/underwater.png",
+          "output": "graphics/player_outfits/johto/may/underwater.png",
+          "width": 128,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "underwater"
+          ],
+          "sha256": "b6c95965f97eda920f80b6848c14272700d20a1226fa9c46d54baec22b29f892",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 78
+        },
+        {
+          "pose": "decorating",
+          "source": "graphics/object_events/pics/people/may/decorating.png",
+          "output": "graphics/player_outfits/johto/may/decorating.png",
+          "width": 16,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "decorating"
+          ],
+          "sha256": "b3dbfa8bce40c104e179e7afa8e7c7503f6b25eb764eb65e8108bbcdfadbed80",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 5,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 16
+        },
+        {
+          "pose": "front",
+          "source": "graphics/trainers/front_pics/may.png",
+          "output": "graphics/player_outfits/johto/may/front.png",
+          "width": 64,
+          "height": 64,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "front"
+          ],
+          "sha256": "1c14a59b0c3a33539d939718b488299080950c6099eb81d9db13b755e40a0de9",
+          "anchors": [],
+          "changed_pixels": 252
+        },
+        {
+          "pose": "back",
+          "source": "graphics/trainers/back_pics/may.png",
+          "output": "graphics/player_outfits/johto/may/back.png",
+          "width": 64,
+          "height": 256,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "back"
+          ],
+          "sha256": "130f6ada98ad57f408c3b28a71da606ebf2ccff4dbc3b0ea3e43d7f27d87f8dc",
+          "anchors": [],
+          "changed_pixels": 562
+        }
+      ],
+      "palette_base": {
+        "overworld": "graphics/player_outfits/johto/may/ow.pal",
+        "trainer": "graphics/player_outfits/johto/may/trainer.pal"
+      },
+      "palette_contract": {
+        "overworld": {
+          "main": [
+            13,
+            12
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "trainer": {
+          "main": [
+            13,
+            12
+          ],
+          "trousers": [
+            6,
+            5
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "nonred_male_trainer": "Use original male primary ramp row[0:2] at indices13,12. Original male trim ramp is not used for new main garments. All three new designs deliberately share this native palette layout."
+      }
+    },
+    {
+      "style": "hoenn",
+      "character": "brendan",
+      "name": "Hoenn Explorer",
+      "colors": [
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Black",
+        "Pink"
+      ],
+      "poses": [
+        {
+          "pose": "walking",
+          "source": "graphics/object_events/pics/people/brendan/walking.png",
+          "output": "graphics/player_outfits/hoenn/brendan/walking.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "walking"
+          ],
+          "sha256": "93f1aa711f64774b1e3b1f8ef71532db7c73a424f4e14bf4111a7acde815ebee",
+          "anchors": [],
+          "changed_pixels": 216
+        },
+        {
+          "pose": "running",
+          "source": "graphics/object_events/pics/people/brendan/running.png",
+          "output": "graphics/player_outfits/hoenn/brendan/running.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "running"
+          ],
+          "sha256": "e936557c36fa044d67eee3c587bfe11ed38b6f818968fc6c9cb871208feaa269",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 3,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 186
+        },
+        {
+          "pose": "mach_bike",
+          "source": "graphics/object_events/pics/people/brendan/mach_bike.png",
+          "output": "graphics/player_outfits/hoenn/brendan/mach_bike.png",
+          "width": 288,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "mach_bike"
+          ],
+          "sha256": "e5f0ef07634020348636d0d53221873f7d60e3d030c53b44ed06ce4d3b59b303",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 137
+        },
+        {
+          "pose": "acro_bike",
+          "source": "graphics/object_events/pics/people/brendan/acro_bike.png",
+          "output": "graphics/player_outfits/hoenn/brendan/acro_bike.png",
+          "width": 864,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 27,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "acro_bike"
+          ],
+          "sha256": "f09ae2edcc86378630ce0d8d68a535119d5608acfe87646749ef40068daf723d",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 12,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 13,
+              "direction": 1,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 14,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 15,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 16,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 17,
+              "direction": 2,
+              "x": 12,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 18,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 19,
+              "direction": 2,
+              "x": 9,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 20,
+              "direction": 2,
+              "x": 9,
+              "y": 20,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 21,
+              "direction": 0,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 22,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 23,
+              "direction": 1,
+              "x": 11,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 24,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 25,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 26,
+              "direction": 2,
+              "x": 13,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 435
+        },
+        {
+          "pose": "surfing",
+          "source": "graphics/object_events/pics/people/brendan/surfing.png",
+          "output": "graphics/player_outfits/hoenn/brendan/surfing.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "surfing",
+            "flight rider"
+          ],
+          "sha256": "81c2cd47afd3f45ea91936c5b8432043c896f2d998ce278e445c75bd2553c0d9",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 13,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 99
+        },
+        {
+          "pose": "field_move",
+          "source": "graphics/object_events/pics/people/brendan/field_move.png",
+          "output": "graphics/player_outfits/hoenn/brendan/field_move.png",
+          "width": 160,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 5,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "field_move"
+          ],
+          "sha256": "418c18729d397fb54923f2d77618c3845760e8789bd62f36692f08a69d847e1d",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 9,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 115
+        },
+        {
+          "pose": "fishing",
+          "source": "graphics/object_events/pics/people/brendan/fishing.png",
+          "output": "graphics/player_outfits/hoenn/brendan/fishing.png",
+          "width": 384,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 12,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "fishing"
+          ],
+          "sha256": "c6c76ddd1e52f3a083e97839faa154d1ea32c78e70e874a5dbdb5051c87d3b85",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 15,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 17,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 1,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 15,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 241
+        },
+        {
+          "pose": "watering",
+          "source": "graphics/object_events/pics/people/brendan/watering.png",
+          "output": "graphics/player_outfits/hoenn/brendan/watering.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "watering"
+          ],
+          "sha256": "785b8bee3c73667495ed9bf9608c98876dba2f326f2ac6a010b7f6b8d9ee5aec",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 114
+        },
+        {
+          "pose": "underwater",
+          "source": "graphics/object_events/pics/people/brendan/underwater.png",
+          "output": "graphics/player_outfits/hoenn/brendan/underwater.png",
+          "width": 128,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "underwater"
+          ],
+          "sha256": "cc75a12c2b5fb36de8715bd27efdc07b9ddab8d6ea304280b8e68c1d00144a0b",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 71
+        },
+        {
+          "pose": "decorating",
+          "source": "graphics/object_events/pics/people/brendan/decorating.png",
+          "output": "graphics/player_outfits/hoenn/brendan/decorating.png",
+          "width": 16,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "decorating"
+          ],
+          "sha256": "a8e2d593893e09d05c7adee095245d06a6bb004051e0fd73336e563abbd328d9",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 5,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 13
+        },
+        {
+          "pose": "front",
+          "source": "graphics/trainers/front_pics/brendan.png",
+          "output": "graphics/player_outfits/hoenn/brendan/front.png",
+          "width": 64,
+          "height": 64,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "front"
+          ],
+          "sha256": "e5a32b7fb59093c268500a927832b13fb9650ddbacc912bf95c8fd4f262554ad",
+          "anchors": [],
+          "changed_pixels": 144
+        },
+        {
+          "pose": "back",
+          "source": "graphics/trainers/back_pics/brendan.png",
+          "output": "graphics/player_outfits/hoenn/brendan/back.png",
+          "width": 64,
+          "height": 256,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "back"
+          ],
+          "sha256": "fb1aac2a5edef783709194c5e1d24f328a8889885575d60ad6cab3031e3c1b3c",
+          "anchors": [],
+          "changed_pixels": 1031
+        }
+      ],
+      "palette_base": {
+        "overworld": "graphics/player_outfits/hoenn/brendan/ow.pal",
+        "trainer": "graphics/player_outfits/hoenn/brendan/trainer.pal"
+      },
+      "palette_contract": {
+        "overworld": {
+          "main": [
+            13,
+            12
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "trainer": {
+          "main": [
+            13,
+            12
+          ],
+          "trousers": [
+            6,
+            5
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "nonred_male_trainer": "Use original male primary ramp row[0:2] at indices13,12. Original male trim ramp is not used for new main garments. All three new designs deliberately share this native palette layout."
+      }
+    },
+    {
+      "style": "hoenn",
+      "character": "may",
+      "name": "Hoenn Cape",
+      "colors": [
+        "Red",
+        "Blue",
+        "Green",
+        "Purple",
+        "Black",
+        "Pink"
+      ],
+      "poses": [
+        {
+          "pose": "walking",
+          "source": "graphics/object_events/pics/people/may/walking.png",
+          "output": "graphics/player_outfits/hoenn/may/walking.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "walking"
+          ],
+          "sha256": "846650f75e10eb60d17bfad8c8bb4e795a6cb4f99a82fe5ad8bd7b31bb2159cb",
+          "anchors": [],
+          "changed_pixels": 226
+        },
+        {
+          "pose": "running",
+          "source": "graphics/object_events/pics/people/may/running.png",
+          "output": "graphics/player_outfits/hoenn/may/running.png",
+          "width": 144,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "running"
+          ],
+          "sha256": "217e5dffe0ca336e3bd7b53d6c80535196bdd8cd599e8766523ef801385d5bd5",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 5,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 3,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 4,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 5,
+              "y": 25,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 3,
+              "y": 25,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 203
+        },
+        {
+          "pose": "mach_bike",
+          "source": "graphics/object_events/pics/people/may/mach_bike.png",
+          "output": "graphics/player_outfits/hoenn/may/mach_bike.png",
+          "width": 288,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 9,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "mach_bike"
+          ],
+          "sha256": "5479dae3e6e5635cf239ca863ec17f6fd673ee65fabe4e9669858b285480d8c6",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 165
+        },
+        {
+          "pose": "acro_bike",
+          "source": "graphics/object_events/pics/people/may/acro_bike.png",
+          "output": "graphics/player_outfits/hoenn/may/acro_bike.png",
+          "width": 864,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 27,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "acro_bike"
+          ],
+          "sha256": "66994ca197513152453b069eb974f1e5ab4e75e94e74a09a73c9b262f3e4a35b",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 11,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 7,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 8,
+              "direction": 2,
+              "x": 13,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 12,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 13,
+              "direction": 1,
+              "x": 13,
+              "y": 21,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 14,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 15,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 16,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 17,
+              "direction": 2,
+              "x": 12,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 18,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 19,
+              "direction": 2,
+              "x": 9,
+              "y": 21,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 20,
+              "direction": 2,
+              "x": 9,
+              "y": 20,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 21,
+              "direction": 0,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 22,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 23,
+              "direction": 1,
+              "x": 11,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 24,
+              "direction": 1,
+              "x": 13,
+              "y": 20,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 25,
+              "direction": 2,
+              "x": 11,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 26,
+              "direction": 2,
+              "x": 13,
+              "y": 19,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 509
+        },
+        {
+          "pose": "surfing",
+          "source": "graphics/object_events/pics/people/may/surfing.png",
+          "output": "graphics/player_outfits/hoenn/may/surfing.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "surfing",
+            "flight rider"
+          ],
+          "sha256": "fd7c88cf62f4d56b7c2574b3c985166c21dd95731e72d10484fc853706364fb9",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 13,
+              "y": 24,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 22,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 116
+        },
+        {
+          "pose": "field_move",
+          "source": "graphics/object_events/pics/people/may/field_move.png",
+          "output": "graphics/player_outfits/hoenn/may/field_move.png",
+          "width": 160,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 5,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "field_move"
+          ],
+          "sha256": "7dbce49150d40c24f83ad18de7d108d13759fa9de922402b754621b476e81359",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 0,
+              "x": 11,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 0,
+              "x": 9,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 118
+        },
+        {
+          "pose": "fishing",
+          "source": "graphics/object_events/pics/people/may/fishing.png",
+          "output": "graphics/player_outfits/hoenn/may/fishing.png",
+          "width": 384,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 12,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "fishing"
+          ],
+          "sha256": "b894550b670889cdb7f6bf54c99ccc67e23ffc2f8499a6fd2a1cd9b79314bd32",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 15,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 17,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 21,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 1,
+              "x": 11,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 6,
+              "direction": 1,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 7,
+              "direction": 1,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 8,
+              "direction": 0,
+              "x": 13,
+              "y": 22,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 9,
+              "direction": 0,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 10,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 11,
+              "direction": 0,
+              "x": 13,
+              "y": 15,
+              "width": 6,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 277
+        },
+        {
+          "pose": "watering",
+          "source": "graphics/object_events/pics/people/may/watering.png",
+          "output": "graphics/player_outfits/hoenn/may/watering.png",
+          "width": 192,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 6,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "watering"
+          ],
+          "sha256": "515015c66a2f943ae81af41263b9d5fe9e8a2b3453cdbfdf167b2a6a2815b293",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 1,
+              "direction": 0,
+              "x": 13,
+              "y": 23,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 2,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 3,
+              "direction": 1,
+              "x": 13,
+              "y": 24,
+              "width": 6,
+              "height": 5
+            },
+            {
+              "frame": 4,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            },
+            {
+              "frame": 5,
+              "direction": 2,
+              "x": 11,
+              "y": 23,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 124
+        },
+        {
+          "pose": "underwater",
+          "source": "graphics/object_events/pics/people/may/underwater.png",
+          "output": "graphics/player_outfits/hoenn/may/underwater.png",
+          "width": 128,
+          "height": 32,
+          "frame_width": 32,
+          "frame_height": 32,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "underwater"
+          ],
+          "sha256": "e344b52a48a341e36ea1819ce44a57c183a13d6073996eaab451473c9368fc58",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 0,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 1,
+              "direction": 1,
+              "x": 13,
+              "y": 18,
+              "width": 6,
+              "height": 4
+            },
+            {
+              "frame": 2,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            },
+            {
+              "frame": 3,
+              "direction": 2,
+              "x": 14,
+              "y": 18,
+              "width": 4,
+              "height": 4
+            }
+          ],
+          "changed_pixels": 78
+        },
+        {
+          "pose": "decorating",
+          "source": "graphics/object_events/pics/people/may/decorating.png",
+          "output": "graphics/player_outfits/hoenn/may/decorating.png",
+          "width": 16,
+          "height": 32,
+          "frame_width": 16,
+          "frame_height": 32,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "decorating"
+          ],
+          "sha256": "b3dbfa8bce40c104e179e7afa8e7c7503f6b25eb764eb65e8108bbcdfadbed80",
+          "anchors": [
+            {
+              "frame": 0,
+              "direction": 2,
+              "x": 5,
+              "y": 24,
+              "width": 4,
+              "height": 5
+            }
+          ],
+          "changed_pixels": 16
+        },
+        {
+          "pose": "front",
+          "source": "graphics/trainers/front_pics/may.png",
+          "output": "graphics/player_outfits/hoenn/may/front.png",
+          "width": 64,
+          "height": 64,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 1,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "front"
+          ],
+          "sha256": "f9fac6fdb34fa1b14e2f08c002252d63c188ff91a06b9515d1a3b26c44045d32",
+          "anchors": [],
+          "changed_pixels": 207
+        },
+        {
+          "pose": "back",
+          "source": "graphics/trainers/back_pics/may.png",
+          "output": "graphics/player_outfits/hoenn/may/back.png",
+          "width": 64,
+          "height": 256,
+          "frame_width": 64,
+          "frame_height": 64,
+          "frames": 4,
+          "treatment": "authored garment geometry preserving pose registration",
+          "uses": [
+            "back"
+          ],
+          "sha256": "811e548305abba5ec76bdad1ea3931b892635ac0e4f91a3cddd22c83baa0bfdc",
+          "anchors": [],
+          "changed_pixels": 730
+        }
+      ],
+      "palette_base": {
+        "overworld": "graphics/player_outfits/hoenn/may/ow.pal",
+        "trainer": "graphics/player_outfits/hoenn/may/trainer.pal"
+      },
+      "palette_contract": {
+        "overworld": {
+          "main": [
+            13,
+            12
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "trainer": {
+          "main": [
+            13,
+            12
+          ],
+          "trousers": [
+            6,
+            5
+          ],
+          "accent": [
+            11,
+            10
+          ],
+          "protected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            14,
+            15
+          ]
+        },
+        "nonred_male_trainer": "Use original male primary ramp row[0:2] at indices13,12. Original male trim ramp is not used for new main garments. All three new designs deliberately share this native palette layout."
+      }
+    }
+  ],
+  "provenance": "Original project Brendan/May indexed sprite bases. New garment geometry authored for issue #374 as native indexed tile data. No generated image was used; two concept generation attempts failed before returning an asset.",
+  "palette_contract": {
+    "overworld": [
+      10,
+      11,
+      12,
+      13
+    ],
+    "trainer": [
+      5,
+      6,
+      10,
+      11,
+      12,
+      13
+    ]
+  },
+  "production_status": "native-art-review",
+  "concepts": "review/concepts.png",
+  "underwater_contract": "New styles use the normal protagonist palette and authored visible garment panels over the dedicated submerged silhouette. Original style retains its original underwater palette and pixels."
+}

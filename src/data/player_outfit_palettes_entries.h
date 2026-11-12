@@ -1,0 +1,7 @@
+    {gObjectEventPal_KantoBrendan, OBJ_EVENT_PAL_TAG_KANTO_BRENDAN},
+    {gObjectEventPal_KantoMay, OBJ_EVENT_PAL_TAG_KANTO_MAY},
+    {gObjectEventPal_JohtoBrendan, OBJ_EVENT_PAL_TAG_JOHTO_BRENDAN},
+    {gObjectEventPal_JohtoMay, OBJ_EVENT_PAL_TAG_JOHTO_MAY},
+    {gObjectEventPal_HoennBrendan, OBJ_EVENT_PAL_TAG_HOENN_BRENDAN},
+    {gObjectEventPal_HoennMay, OBJ_EVENT_PAL_TAG_HOENN_MAY},
+    {gObjectEventPal_Wardrobe, OBJ_EVENT_PAL_TAG_WARDROBE},

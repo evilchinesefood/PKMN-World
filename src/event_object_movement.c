@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "malloc.h"
 #include "battle_anim.h"
 #include "battle_pyramid.h"
@@ -607,6 +608,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPaletteLight2,             OBJ_EVENT_PAL_TAG_LIGHT_2},
     {gObjectEventPaletteEmotes,             OBJ_EVENT_PAL_TAG_EMOTES},
     {gObjectEventPaletteNeonLight,          OBJ_EVENT_PAL_TAG_NEON_LIGHT},
+#include "data/player_outfit_palettes_entries.h"
 #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 #else
@@ -3417,23 +3419,26 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8 objectEventId, u8 spriteI
     SetPlayerAvatarExtraStateTransition(gObjectEvents[objectEventId].graphicsId, PLAYER_AVATAR_FLAG_CONTROLLABLE);
 }
 
-// Update sprite's palette, freeing old palette if necessary
+static bool8 ApplyEquippedObjectPalette(u16 tag, u8 slot)
+{
+    if (slot == 0xFF || tag != GetOutfitPaletteTag(GetEquippedPlayerOutfit(), gSaveBlock2Ptr->playerGender))
+        return FALSE;
+    LoadOutfitPalette(GetEquippedPlayerOutfit(), gSaveBlock2Ptr->playerGender, OUTFIT_PALETTE_OVERWORLD, OBJ_PLTT_ID(slot));
+    return TRUE;
+}
+
 static u8 UpdateSpritePalette(const struct SpritePalette *spritePalette, struct Sprite *sprite)
 {
-    // Free palette if otherwise unused
+    bool8 newlyLoaded;
+    bool8 outfitLoaded;
     sprite->inUse = FALSE;
     FieldEffectFreePaletteIfUnused(sprite->oam.paletteNum);
     sprite->inUse = TRUE;
-    if (IndexOfSpritePaletteTag(spritePalette->tag) == 0xFF)
-    {
-        sprite->oam.paletteNum = LoadSpritePalette(spritePalette);
+    newlyLoaded = IndexOfSpritePaletteTag(spritePalette->tag) == 0xFF;
+    sprite->oam.paletteNum = LoadSpritePalette(spritePalette);
+    outfitLoaded = ApplyEquippedObjectPalette(spritePalette->tag, sprite->oam.paletteNum);
+    if (sprite->oam.paletteNum != 0xFF && (newlyLoaded || outfitLoaded))
         UpdateSpritePaletteWithWeather(sprite->oam.paletteNum, FALSE);
-    }
-    else
-    {
-        sprite->oam.paletteNum = LoadSpritePalette(spritePalette);
-    }
-
     return sprite->oam.paletteNum;
 }
 
@@ -3570,7 +3575,7 @@ const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
     if (graphicsId & OBJ_EVENT_MON)
         return SpeciesToGraphicsInfo(graphicsId & OBJ_EVENT_MON_SPECIES_MASK, graphicsId & OBJ_EVENT_MON_SHINY, graphicsId & OBJ_EVENT_MON_FEMALE);
 
-    if (graphicsId >= NUM_OBJ_EVENT_GFX)
+    if (graphicsId >= NUM_OBJ_EVENT_GFX || gObjectEventGraphicsInfoPointers[graphicsId] == NULL)
         graphicsId = OBJ_EVENT_GFX_NINJA_BOY;
 
     return gObjectEventGraphicsInfoPointers[graphicsId];
@@ -3664,10 +3669,8 @@ u8 LoadObjectEventPalette(u16 paletteTag)
     if (i == 0xFF)
         return i;
     slot = LoadSpritePaletteIfTagExists(&sObjectEventSpritePalettes[i]);
-    // Outfit swap: recolor the player's overworld clothing on every load of the
-    // player palette (walking sprite, field effects). Guarded to the player tags.
-    if (slot != 0xFF && (paletteTag == OBJ_EVENT_PAL_TAG_BRENDAN || paletteTag == OBJ_EVENT_PAL_TAG_MAY))
-        ApplyPlayerPaletteSwap(OBJ_PLTT_ID(slot));
+    if (ApplyEquippedObjectPalette(paletteTag, slot))
+        UpdateSpritePaletteWithWeather(slot, FALSE);
     return slot;
 }
 
@@ -3680,18 +3683,7 @@ u8 LoadObjectEventPaletteCopy(u16 originalTag, u16 copyTag)
 
 u8 LoadPlayerObjectEventPalette(enum Gender gender)
 {
-    u16 paletteTag;
-    switch (gender)
-    {
-    default:
-    case MALE:
-        paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN;
-        break;
-    case FEMALE:
-        paletteTag = OBJ_EVENT_PAL_TAG_MAY;
-        break;
-    }
-    return LoadObjectEventPalette(paletteTag);
+    return LoadObjectEventPalette(GetOutfitPaletteTag(GetEquippedPlayerOutfit(), gender));
 }
 
 static void UNUSED LoadObjectEventPaletteSet(u16 *paletteTags)
@@ -3720,11 +3712,7 @@ void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
     u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
     LoadPalette(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
-    // Outfit swap: this path re-patches the player's normal palette (e.g. when a
-    // reflection is set up near water), so re-apply the clothing recolor here too.
-    // Guarded to the player tags; idempotent with the LoadObjectEventPalette swap.
-    if (paletteTag == OBJ_EVENT_PAL_TAG_BRENDAN || paletteTag == OBJ_EVENT_PAL_TAG_MAY)
-        ApplyPlayerPaletteSwap(OBJ_PLTT_ID(paletteSlot));
+    ApplyEquippedObjectPalette(paletteTag, paletteSlot);
 }
 
 void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)

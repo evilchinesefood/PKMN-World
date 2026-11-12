@@ -1,4 +1,62 @@
-# Player outfit colorways — issue #342
+# Regional wardrobe and player colorways
+
+Players choose a style and color during Oak's introduction or at the cabinet on
+World Transit's main floor. Left and Right select Original, Kanto Classic,
+Johto Classic, or Hoenn Classic. Up and Down select one of six colors. A confirms.
+B leaves the initial picker open. At the cabinet, B cancels without changing the
+equipped outfit. An older save already inside the hub needs one normal map
+exit and return to populate the new cabinet. Both entry points use the same picker and show trainer and
+small overworld previews together.
+
+The saved identity remains the global `VAR_PLAYER_PALETTE`. Values 0 through 5
+retain their original meanings. The new styles use values 6 through 23. Invalid
+values render as Original Red. No save field, migration, or unlock gate is added. Dynamic object graphics IDs
+413 through 428 also keep their saved-template meanings when new graphics are
+added. The wardrobe fixture checks both ends of that legacy range.
+
+The [artwork manifest and provenance](../../../graphics/player_outfits/README.md)
+describe all six new designs, 36 new color combinations, and 72 production
+sheets. The [catalog sheet](../../../graphics/player_outfits/review/catalog.png)
+also includes the 12 original character and color combinations.
+
+The [wardrobe verification report](evidence/wardrobe-374/README.md) records
+native results, before and after images, and exact tested ROM identities.
+
+## Run the wardrobe checks
+
+Build the ordinary game, audit the indexed artwork, and run the capture fixture.
+
+```sh
+make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
+python3 tools/player_outfits/verify_art.py
+python3 test/overworld/player-outfits/run_capture.py --repo . \
+  --rom pokemonworld.gba --elf pokemonworld.elf --out /tmp/wardrobe-capture
+python3 test/validate-host.py
+```
+
+The capture runner checks all 48 combinations in the field, water reflections,
+the local trainer card, and battle send-out. Both protagonist intro runs use real
+buttons to preview every combination before confirmation. Both hub runs interact
+with the physical cabinet and check Apply, Cancel, reopening, Red restoration,
+and save followed by Continue. Preview navigation never writes the saved choice.
+Assertions compare equipped graphics IDs and palette contents.
+
+The pose fixture loads each new style's production activity graphics in Blue
+and captures each supported facing direction. It checks normal movement, both
+bikes, surfing, field moves, fishing, watering, underwater, and decorating.
+This is a debug-assisted asset-routing check. It does not simulate every natural
+activity transition. Source-art validation checks every authored animation frame.
+The fixtures seed a party and use warps for setup. They do not alter the shipped
+ROM or replace the production graphics and palette functions.
+
+`run_capture.py` writes matching ROM hashes and fresh verdicts into its output.
+Use the runner from an older source checkout for historical before captures.
+The original #342 comparison below documents its own historical builds and
+remains useful as palette provenance. Its original six-color picker assumptions
+are superseded by the shared wardrobe tests above.
+
+## Historical original colorway work
+
 
 The old non-red outfits flattened several accent pairs and recolored Brendan's
 shared hair/ink shades. The five new colorways use separate RGB5 ramps for each

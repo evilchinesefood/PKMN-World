@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "battle.h"
 #include "battle_transition.h"
 #include "battle_transition_frontier.h"
@@ -2631,13 +2632,14 @@ static void Mugshots_CreateTrainerPics(struct Task *task)
         SetOamMatrixRotationScaling(partnerSprite->oam.matrixNum, -512, 512, 0);
     }
 
-    task->tPlayerSpriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender),
+    task->tPlayerSpriteId = CreateTrainerSprite(GetEquippedOutfitTrainerPic(),
                                                 DISPLAY_WIDTH + 32,
                                                 106,
                                                 0, NULL);
 
     opponentSpriteA = &gSprites[task->tOpponentSpriteAId];
     playerSprite = &gSprites[task->tPlayerSpriteId];
+    LoadOutfitPalette(GetEquippedPlayerOutfit(), gSaveBlock2Ptr->playerGender, OUTFIT_PALETTE_FRONT, OBJ_PLTT_ID(playerSprite->oam.paletteNum));
 
     opponentSpriteA->callback = SpriteCB_MugshotTrainerPic;
     playerSprite->callback = SpriteCB_MugshotTrainerPic;

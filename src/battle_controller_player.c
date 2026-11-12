@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "constants/hold_effects.h"
 #include "palette_swap.h"
 #include "battle.h"
@@ -1950,14 +1951,7 @@ enum TrainerPicID LinkPlayerGetTrainerPicId(u32 multiplayerId)
 
 static enum TrainerPicID PlayerGetTrainerBackPicId(void)
 {
-    enum TrainerPicID trainerPicId;
-
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-        trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
-    else
-        trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
-
-    return trainerPicId;
+    return GetEquippedOutfitTrainerPic();
 }
 
 // In emerald it's possible to have a tag battle in the battle frontier facilities with AI
@@ -2009,7 +2003,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     // Use front pic table for any tag battles unless your partner is Steven or a custom partner.
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
-        trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
+        trainerPicId = GetEquippedOutfitTrainerPic();
         isFrontPic = TRUE;
     }
     else // Use back pic in all the other usual circumstances.

@@ -676,3 +676,5 @@ const u16 gObjectEventPic_PikachuOldFrlg[] = INCGFX_U16("graphics/object_events/
 const u16 gObjectEventPic_JigglypuffOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/jigglypuff.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_PidgeyOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/pidgey.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_ClefairyOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/clefairy.png", ".4bpp", "-mwidth 2 -mheight 2");
+
+#include "../player_outfit_graphics.h"

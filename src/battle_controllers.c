@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "battle.h"
 #include "battle_ai_main.h"
 #include "battle_ai_util.h"
@@ -2470,7 +2471,7 @@ void BtlController_HandleDrawTrainerPic(enum BattlerId battler, enum TrainerPicI
         {
             LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
             // Outfit swap: recolor the player's own back pic only (guarded to the local player's back pic id).
-            if (trainerPicId == GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION))
+            if (trainerPicId == GetEquippedOutfitTrainerPic())
                 ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE))));
             SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(battler));
             if (subpriority == -1)
@@ -2511,7 +2512,7 @@ void BtlController_HandleTrainerSlide(enum BattlerId battler, enum TrainerPicID 
     {
         LoadSpritePaletteWithTag(GetTrainerBackPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, FALSE));
         // Outfit swap: recolor the player's own back pic on the trainer slide-in (guarded to the player).
-        if (trainerPicId == GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION))
+        if (trainerPicId == GetEquippedOutfitTrainerPic())
             ApplyPlayerPaletteSwapBackPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, FALSE))));
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(battler));
         gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,

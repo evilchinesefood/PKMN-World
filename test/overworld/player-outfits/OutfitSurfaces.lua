@@ -4,12 +4,13 @@ local H=require('outfit_lib').new('OutfitSurfaces')
 local F,S,O=H.F,H.S,H.O
 F.run(function()
   assert(F.boot(100));H.invoke(0)
-  local backTag=F.r16(H.X.gSpecialVar_0x8005)
-  for n=0,11 do
-    local gender=n<6 and 'Male' or 'Female'
-    local outfit=n%6+1
+  for n=0,47 do
+    local gender=n<24 and 'Male' or 'Female'
+    local outfit=n%24+1
     local tag=string.format('outfit_%02d',n)
     H.invoke(1,n,300);H.clock(12)
+    local backTag=F.r16(H.X.gSpecialVar_0x8005)
+    H.checkGraphics(tag,n%24,n//24)
     F.check(tag..': walk along shore',F.step('Up') and F.step('Down'));F.face('Down');F.idle(30)
     H.checkPalette(tag..'_ow',H.slot(H.player()),H.E['OW_'..gender][outfit],false)
     H.reflection(tag,H.E['OW_'..gender][outfit]);F.shot(tag..'_pond')
@@ -26,7 +27,7 @@ F.run(function()
     local found=false
     for frame=1,600 do
       local pal
-      for i=0,15 do if F.r16(S.sSpritePaletteTags+i*2)==backTag+(n<6 and 1 or 2) then pal=i end end
+      for i=0,15 do if F.r16(S.sSpritePaletteTags+i*2)==backTag then pal=i end end
       if pal and not found then
         F.idle(2)
         local count=0
@@ -45,7 +46,7 @@ F.run(function()
     F.check(tag..': battle returns control',H.exitBattle())
     H.checkPalette(tag..'_battle_return',H.slot(H.player()),H.E['OW_'..gender][outfit],false)
   end
-  H.invoke(1,10,300);H.clock(12);F.face('Down');F.idle(30)
+  H.invoke(1,28,300);H.clock(12);F.face('Down');F.idle(30)
   H.invoke(4,0,1200);F.check('synthetic review save written',F.r16(H.X.gSpecialVar_0x8005)==1)
   local group,map=F.grp(),F.mapn()
   client.reboot_core();F.idle(5);assert(F.boot(group,true),'prepared save failed to reload')

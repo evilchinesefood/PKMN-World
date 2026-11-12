@@ -7680,3 +7680,5 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MagnetTrain = {
     .images = sPicTable_MagnetTrain,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
+
+#include "../player_outfit_info.h"

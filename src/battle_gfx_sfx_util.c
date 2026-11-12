@@ -1,4 +1,5 @@
 #include "global.h"
+#include "player_outfit.h"
 #include "bw_battle_ui.h"
 #include "config/bw_battle_ui.h"
 #include "battle.h"
@@ -698,7 +699,7 @@ void DecompressTrainerFrontPic(enum TrainerPicID trainerPicId, enum BattlerId ba
     DecompressDataWithHeaderWram(GetTrainerFrontPicData(trainerPicId), gMonSpritesGfxPtr->spritesGfx[position]);
     LoadSpritePaletteWithTag(GetTrainerFrontPicPalette(trainerPicId), GetTrainerPicTag(trainerPicId, TRUE));
     // Outfit swap: recolor the player's own front pic only (guarded to the player's front pic id).
-    if (trainerPicId == PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender))
+    if (trainerPicId == GetEquippedOutfitTrainerPic())
         ApplyPlayerPaletteSwapFrontPic(OBJ_PLTT_ID(IndexOfSpritePaletteTag(GetTrainerPicTag(trainerPicId, TRUE))));
 }
 

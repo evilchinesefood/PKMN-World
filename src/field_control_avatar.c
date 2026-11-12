@@ -28,6 +28,7 @@
 #include "overworld.h"
 #include "pokemon.h"
 #include "regions.h"
+#include "regional_travel.h"
 #include "safari_zone.h"
 #include "bug_contest.h"
 #include "script.h"
@@ -47,6 +48,8 @@
 #include "constants/metatile_behaviors.h"
 #include "constants/songs.h"
 #include "constants/trainer_hill.h"
+
+extern const u8 Common_EventScript_RegionalDepartureRefused[];
 
 static EWRAM_DATA u8 sWildEncounterImmunitySteps = 0;
 static EWRAM_DATA u16 sPrevMetatileBehavior = 0;
@@ -1017,6 +1020,12 @@ static bool8 TryStartWarpEventScript(struct MapPosition *position, u16 metatileB
 
     if (warpEventId != WARP_ID_NONE && IsWarpMetatileBehavior(metatileBehavior) == TRUE)
     {
+        const struct WarpEvent *warp = &gMapHeader.events->warps[warpEventId];
+        if (!RegionalTravel_TryEnterWalkInFacility(warp->mapGroup, warp->mapNum))
+        {
+            ScriptContext_SetupScript(Common_EventScript_RegionalDepartureRefused);
+            return TRUE;
+        }
         StoreInitialPlayerAvatarState();
         SetupWarp(&gMapHeader, warpEventId, position);
         if (MetatileBehavior_IsEscalator(metatileBehavior) == TRUE)
@@ -1160,6 +1169,12 @@ static bool8 TryDoorWarp(struct MapPosition *position, u16 metatileBehavior, enu
             warpEventId = GetWarpEventAtMapPosition(&gMapHeader, position);
             if (warpEventId != WARP_ID_NONE && IsWarpMetatileBehavior(metatileBehavior) == TRUE)
             {
+                const struct WarpEvent *warp = &gMapHeader.events->warps[warpEventId];
+                if (!RegionalTravel_TryEnterWalkInFacility(warp->mapGroup, warp->mapNum))
+                {
+                    ScriptContext_SetupScript(Common_EventScript_RegionalDepartureRefused);
+                    return TRUE;
+                }
                 StoreInitialPlayerAvatarState();
                 SetupWarp(&gMapHeader, warpEventId, position);
                 DoDoorWarp();

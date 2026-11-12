@@ -41,6 +41,8 @@
 #include "constants/trainer_types.h"
 #include "regions.h"
 
+extern const u8 Common_EventScript_RegionalDepartureRefused[];
+
 #define NUM_FORCED_MOVEMENTS 22
 #define NUM_ACRO_BIKE_COLLISIONS 5
 
@@ -1585,41 +1587,65 @@ void PlayerSetAnimId(u8 movementActionId, enum CopyMovement copyableMovement)
     }
 }
 
+
+static bool32 PlayerSetDisplacingAnimId(u8 movementActionId, enum CopyMovement copyableMovement, enum Direction direction, u8 distance)
+{
+    if (PlayerIsAnimActive())
+        return FALSE;
+    if (!TryRecordPlayerFacilityConnection(direction, distance))
+    {
+        ScriptContext_SetupScript(Common_EventScript_RegionalDepartureRefused);
+        return FALSE;
+    }
+    PlayerSetCopyableMovement(copyableMovement);
+    ObjectEventSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], movementActionId);
+    return TRUE;
+}
+
+void PlayerAcroSideJump(enum Direction direction)
+{
+    if (PlayerSetDisplacingAnimId(GetJumpMovementAction(direction), COPY_MOVE_WALK, direction, 1))
+    {
+        gObjectEvents[gPlayerAvatar.objectEventId].facingDirectionLocked = TRUE;
+        PlaySE(SE_BIKE_HOP);
+    }
+}
+
 // slow stairs (from FRLG--faster than slow)
 static void PlayerWalkSlowStairs(enum Direction direction)
 {
-    PlayerSetAnimId(GetWalkSlowStairsMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetWalkSlowStairsMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 static void PlayerRunSlow(enum Direction direction)
 {
-    PlayerSetAnimId(GetPlayerRunSlowMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetPlayerRunSlowMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 // normal speed (1 speed)
 void PlayerWalkNormal(enum Direction direction)
 {
-    PlayerSetAnimId(GetWalkNormalMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetWalkNormalMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 void PlayerWalkFast(enum Direction direction)
 {
-    PlayerSetAnimId(GetWalkFastMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetWalkFastMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 void PlayerRideWaterCurrent(enum Direction direction)
 {
-    PlayerSetAnimId(GetRideWaterCurrentMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetRideWaterCurrentMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 void PlayerWalkFaster(enum Direction direction)
 {
-    PlayerSetAnimId(GetWalkFasterMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetWalkFasterMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 static void PlayerRun(enum Direction direction)
 {
-    PlayerSetAnimId(GetPlayerRunMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetPlayerRunMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 void PlayerOnBikeCollide(enum Direction direction)
@@ -1673,7 +1699,7 @@ void PlayerTurnInPlace(enum Direction direction)
 void PlayerJumpLedge(enum Direction direction)
 {
     PlaySE(SE_LEDGE);
-    PlayerSetAnimId(GetJump2MovementAction(direction), COPY_MOVE_JUMP2);
+    PlayerSetDisplacingAnimId(GetJump2MovementAction(direction), COPY_MOVE_JUMP2, direction, 2);
 }
 
 // Stop player on current facing direction once they're done moving and if they're not currently Acro Biking on bumpy slope
@@ -1688,7 +1714,7 @@ void PlayerFreeze(void)
 
 static void PlayerGoSpin(enum Direction direction)
 {
-    PlayerSetAnimId(GetSpinMovementAction(direction), 3);
+    PlayerSetDisplacingAnimId(GetSpinMovementAction(direction), 3, direction, 1);
 }
 
 static void PlayerApplyTileForcedMovement(u8 metatileBehavior)
@@ -1731,14 +1757,14 @@ void PlayerStandingHoppingWheelie(enum Direction direction)
 void PlayerMovingHoppingWheelie(enum Direction direction)
 {
     PlaySE(SE_BIKE_HOP);
-    PlayerSetAnimId(GetAcroWheelieHopDirectionMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetAcroWheelieHopDirectionMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 // wheelie hopping ledge
 void PlayerLedgeHoppingWheelie(enum Direction direction)
 {
     PlaySE(SE_BIKE_HOP);
-    PlayerSetAnimId(GetAcroWheelieJumpDirectionMovementAction(direction), COPY_MOVE_JUMP2);
+    PlayerSetDisplacingAnimId(GetAcroWheelieJumpDirectionMovementAction(direction), COPY_MOVE_JUMP2, direction, 2);
 }
 
 // acro turn jump
@@ -1756,17 +1782,17 @@ void PlayerWheelieInPlace(enum Direction direction)
 
 void PlayerPopWheelieWhileMoving(enum Direction direction)
 {
-    PlayerSetAnimId(GetAcroPopWheelieMoveDirectionMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetAcroPopWheelieMoveDirectionMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 void PlayerWheelieMove(enum Direction direction)
 {
-    PlayerSetAnimId(GetAcroWheelieMoveDirectionMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetAcroWheelieMoveDirectionMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 void PlayerEndWheelieWhileMoving(enum Direction direction)
 {
-    PlayerSetAnimId(GetAcroEndWheelieMoveDirectionMovementAction(direction), COPY_MOVE_WALK);
+    PlayerSetDisplacingAnimId(GetAcroEndWheelieMoveDirectionMovementAction(direction), COPY_MOVE_WALK, direction, 1);
 }
 
 static void PlayCollisionSoundIfNotFacingWarp(enum Direction direction)

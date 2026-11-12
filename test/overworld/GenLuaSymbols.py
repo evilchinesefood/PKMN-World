@@ -21,7 +21,7 @@ WANT = [
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
-    "gObjectEvents", "gPlayerAvatar",
+    "gObjectEvents", "gPlayerAvatar", "sFlightActive",
     # RedGyarados.lua points the wandering Gyarados sprite at this callback.
     # movement_type_def emits it as a global. The walk-sequence callback is
     # chosen once at spawn, so writing ObjectEvent.movementType alone does not

@@ -16,6 +16,7 @@
 #include "constants/items.h"
 #include "constants/maps.h"
 #include "constants/moves.h"
+#include "constants/region_map_sections.h"
 #include "constants/vars.h"
 
 void TestCreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpecies, struct Pokemon *mon);
@@ -682,4 +683,64 @@ TEST("Regional travel legacy migration clears history and identity padding in ev
     EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_HELD_ITEM), ITEM_MAGNET);
     EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_PERSONALITY), 12345);
     EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_SANITY_IS_BAD_EGG), FALSE);
+}
+
+TEST("Regional travel walk-in entrances capture physical source without changing campaign")
+{
+    u32 map;
+    PARAMETRIZE { map = MAP_SLATEPORT_CITY_BATTLE_TENT_LOBBY; }
+    PARAMETRIZE { map = MAP_VERDANTURF_TOWN_BATTLE_TENT_LOBBY; }
+    PARAMETRIZE { map = MAP_FALLARBOR_TOWN_BATTLE_TENT_LOBBY; }
+    PARAMETRIZE { map = MAP_TRAINER_HILL_ENTRANCE; }
+    PARAMETRIZE { map = MAP_SEVEN_ISLAND_TRAINER_TOWER; }
+    ResetTravel();
+    SetCurrentRegion(REGION_JOHTO);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_SEVEN_ISLAND);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_SEVEN_ISLAND);
+    gMapHeader.regionMapSectionId = MAPSEC_SEVEN_ISLAND;
+    MakePartyMon(0, SPECIES_PIKACHU);
+    EXPECT(RegionalTravel_TryEnterWalkInFacility(MAP_GROUP(map), MAP_NUM(map)));
+    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[0].count, 1);
+    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[1].count, 0);
+    EXPECT_EQ(GetActiveRegion(), REGION_JOHTO);
+}
+
+TEST("Regional travel facility refusal is atomic and repair permits retry")
+{
+    u32 before;
+    ResetTravel();
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_SLATEPORT_CITY);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_SLATEPORT_CITY);
+    gMapHeader.regionMapSectionId = MAPSEC_SLATEPORT_CITY;
+    MakePartyMon(0, SPECIES_PIKACHU);
+    ASSUME(RegionalTravel_RecordDeparture(REGION_HOENN));
+    gParties[B_TRAINER_PLAYER][1] = gParties[B_TRAINER_PLAYER][0];
+    CalculatePlayerPartyCount();
+    before = TravelStateHash();
+    EXPECT(!RegionalTravel_TryEnterWalkInFacility(MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE), MAP_NUM(MAP_TRAINER_HILL_ENTRANCE)));
+    EXPECT_EQ(TravelStateHash(), before);
+    ZeroMonData(&gParties[B_TRAINER_PLAYER][1]);
+    CalculatePlayerPartyCount();
+    EXPECT(RegionalTravel_TryEnterWalkInFacility(MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE), MAP_NUM(MAP_TRAINER_HILL_ENTRANCE)));
+}
+
+TEST("Regional travel neutral source and non-entry destinations preserve the earlier capture")
+{
+    u32 map, before;
+    PARAMETRIZE { map = MAP_REGION_HUB; }
+    PARAMETRIZE { map = MAP_SS_TIDAL_CORRIDOR; }
+    PARAMETRIZE { map = MAP_SLATEPORT_CITY; }
+    PARAMETRIZE { map = MAP_SLATEPORT_CITY_BATTLE_TENT_CORRIDOR; }
+    ResetTravel();
+    MakePartyMon(0, SPECIES_PIKACHU);
+    ASSUME(RegionalTravel_RecordDeparture(REGION_JOHTO));
+    MakePartyMon(1, SPECIES_BULBASAUR);
+    gMapHeader.regionMapSectionId = MAPSEC_NEW_BARK_TOWN;
+    before = TravelStateHash();
+    EXPECT(RegionalTravel_TryEnterWalkInFacility(MAP_GROUP(map), MAP_NUM(map)));
+    EXPECT_EQ(TravelStateHash(), before);
+    gMapHeader.regionMapSectionId = MAPSEC_TRAINER_TOWER;
+    before = TravelStateHash();
+    EXPECT(RegionalTravel_TryEnterWalkInFacility(MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE), MAP_NUM(MAP_TRAINER_HILL_ENTRANCE)));
+    EXPECT_EQ(TravelStateHash(), before);
 }

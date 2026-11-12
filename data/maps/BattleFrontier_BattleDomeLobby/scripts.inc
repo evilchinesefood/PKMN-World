@@ -51,23 +51,25 @@ BattleFrontier_BattleDomeLobby_EventScript_WonChallenge::
 	msgbox BattleFrontier_BattleDomeLobby_Text_CongratsForWinningTourney, MSGBOX_DEFAULT
 	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
 
-@ World Championship win: one-time GOLD BOTTLE CAP + the FLAG_WORLD_CHAMPION title, then the normal
-@ BP/record flow. The title is granted ONLY if the Cap is actually received: a full Items pocket
-@ branches to ChampionshipPrizePending and leaves FLAG_WORLD_CHAMPION unset so both can be reclaimed
-@ on a later win. A returning champion skips the prize and goes straight to BP.
-@ VAR_WORLD_CHAMPIONSHIP_MODE is cleared later at EndChallenge.
+@ The existing Dome save commits the prize balance, BAG, title, and consumed win together.
 BattleFrontier_BattleDomeLobby_EventScript_WonChampionship::
-	msgbox BattleFrontier_BattleDomeLobby_Text_WonChampionship, MSGBOX_DEFAULT
-	goto_if_set FLAG_WORLD_CHAMPION, BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
-	giveitem ITEM_GOLD_BOTTLE_CAP
-	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizePending
 	setflag FLAG_WORLD_CHAMPION
+	addvar VAR_WORLD_CHAMPIONSHIP_PRIZES, 1
+	msgbox BattleFrontier_BattleDomeLobby_Text_WonChampionship, MSGBOX_DEFAULT
+	call BattleFrontier_BattleDomeLobby_EventScript_ClaimChampionshipPrizes
 	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
 
-@ Bag's Items pocket was full: leave FLAG_WORLD_CHAMPION unset so the prize can be reclaimed on the next win.
+BattleFrontier_BattleDomeLobby_EventScript_ClaimChampionshipPrizes::
+	goto_if_eq VAR_WORLD_CHAMPIONSHIP_PRIZES, 0, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizesDone
+	giveitem ITEM_GOLD_BOTTLE_CAP
+	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizePending
+	subvar VAR_WORLD_CHAMPIONSHIP_PRIZES, 1
+	goto BattleFrontier_BattleDomeLobby_EventScript_ClaimChampionshipPrizes
+
 BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizePending::
 	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipBagFull, MSGBOX_DEFAULT
-	goto BattleFrontier_BattleDomeLobby_EventScript_GiveBattlePoints
+BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizesDone::
+	return
 
 BattleFrontier_BattleDomeLobby_EventScript_DefeatedAce::
 	msgbox BattleFrontier_BattleDomeLobby_Text_CongratsDefeatedTucker, MSGBOX_DEFAULT
@@ -102,6 +104,7 @@ BattleFrontier_BattleDomeLobby_EventScript_LostChallenge::
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
 BattleFrontier_BattleDomeLobby_EventScript_AskRecordBattle::
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 0
 	dome_save 0
 	playse SE_SAVE
 	waitse
@@ -396,6 +399,8 @@ BattleFrontier_BattleDomeLobby_EventScript_PrevTourneyResultsDoublesLvOpen::
 BattleFrontier_BattleDomeLobby_EventScript_Maniac::
 	lock
 	faceplayer
+	call BattleFrontier_BattleDomeLobby_EventScript_ClaimChampionshipPrizes
+	goto_if_eq VAR_WORLD_CHAMPIONSHIP_PRIZES, 65535, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizesFull
 	callnative RegionHub_ScrIsThreeRegionChampion
 	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_BattleDomeLobby_EventScript_ChampionshipLocked
 	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipOffer, MSGBOX_YESNO
@@ -404,6 +409,11 @@ BattleFrontier_BattleDomeLobby_EventScript_Maniac::
 	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 1
 	goto BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome
+	end
+
+BattleFrontier_BattleDomeLobby_EventScript_ChampionshipPrizesFull::
+	msgbox BattleFrontier_BattleDomeLobby_Text_ChampionshipPrizesFull, MSGBOX_DEFAULT
+	release
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_ChampionshipLocked::
@@ -735,6 +745,7 @@ BattleFrontier_BattleDomeLobby_Text_ChampionshipOffer:
 	.string "Then you've earned a shot at the WORLD\n"
 	.string "CHAMPIONSHIP--a gauntlet against the\l"
 	.string "greatest CHAMPIONS of every region.\p"
+	.string "Each victory earns a GOLD BOTTLE CAP!\p"
 	.string "Enter the tournament?$"
 
 BattleFrontier_BattleDomeLobby_Text_ChampionshipLocked:
@@ -753,9 +764,16 @@ BattleFrontier_BattleDomeLobby_Text_WonChampionship:
 	.string "CHAMPION and won the WORLD\l"
 	.string "CHAMPIONSHIP!\p"
 	.string "You stand unrivaled across all three\n"
-	.string "regions. A true WORLD CHAMPION!$"
+	.string "regions. A true WORLD CHAMPION!\p"
+	.string "You have earned a GOLD BOTTLE CAP!$"
 
 BattleFrontier_BattleDomeLobby_Text_ChampionshipBagFull:
 	.string "We'd present your GOLD BOTTLE CAP, but\n"
 	.string "your BAG is full!\p"
-	.string "Make room and win again to claim it.$"
+	.string "We will keep every unclaimed prize.\p"
+	.string "Make room, then speak to the registrar\n"
+	.string "here in the lobby to collect them.$"
+
+BattleFrontier_BattleDomeLobby_Text_ChampionshipPrizesFull:
+	.string "Please collect an owed prize before\n"
+	.string "entering another WORLD CHAMPIONSHIP.$"

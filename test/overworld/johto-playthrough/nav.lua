@@ -2094,7 +2094,15 @@ return function(F, S)
     return ok
   end
   function N.restore(name, directory)
-    local path = (directory and (directory .. '/') or F.out) .. 'ckpt_' .. name .. '.ss'
+    local file = 'ckpt_' .. name .. '.ss'
+    local path = (directory and (directory .. '/') or F.out) .. file
+    -- Each run writes to a fresh directory, so the checkpoint a run resumed from (--from) exists
+    -- only in the prior case directory. Rewinds and retries to it must look there too.
+    local resume = os.getenv('PW_RESUME_DIR')
+    if not directory and resume then
+      local own = io.open(path, 'rb')
+      if own then own:close() else path = resume .. '/' .. file end
+    end
     local ok = client.loadstate(path)
     idle(10)
     N.resetPlanCaches()

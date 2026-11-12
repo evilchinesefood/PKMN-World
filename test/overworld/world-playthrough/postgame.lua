@@ -500,12 +500,14 @@ return function(F, N, C, log, B, ctx)
   ---------------------------------------------------------------- detours
   local after = {}
   local only = os.getenv('PW_PG_ONLY')
+  local detours = 0
   local function detour(anchor, name, region, fn)
     if only and not name:find(only) then return end
     local at
     for i, b in ipairs(B) do if b.name == (after[anchor] or anchor) then at = i end end
     if not at then L('  no anchor ' .. anchor .. ' in this order; skipping pg_' .. name); return end
     local full = 'pg_' .. name
+    detours = detours + 1
     table.insert(B, at + 1, { name = full, run = function()
       local saved = ctx.snapshot()
       ctx.enter(region)
@@ -721,5 +723,7 @@ return function(F, N, C, log, B, ctx)
     towerFirstBattle(true)
   end)
 
+  -- A misspelt PW_PG_ONLY would otherwise drop every detour and pass without testing anything.
+  assert(not only or detours > 0, 'PW_PG_ONLY matched no detour: ' .. tostring(only))
   return B
 end

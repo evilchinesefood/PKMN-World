@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -100,7 +101,19 @@ def execute(args):
         log = run / (name + '.log')
         try:
             with log.open('w') as output:
-                result = subprocess.run(argv, cwd=cwd, env=environment, stdout=subprocess.PIPE if capture else output, stderr=output if capture else subprocess.STDOUT, timeout=timeout, text=capture)
+                # Stages spawn runners that spawn the emulator. A session of their own lets a timeout
+                # stop the whole tree; killing only the direct child leaves the emulator running.
+                process = subprocess.Popen(argv, cwd=cwd, env=environment, stdout=subprocess.PIPE if capture else output, stderr=output if capture else subprocess.STDOUT, text=capture, start_new_session=True)
+                try:
+                    stdout, _ = process.communicate(timeout=timeout)
+                except BaseException:
+                    try:
+                        os.killpg(process.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                    process.wait()
+                    raise
+                result = subprocess.CompletedProcess(argv, process.returncode, stdout)
             if result.returncode:
                 print(log.read_text(errors='replace')[-6000:], file=sys.stderr)
                 raise ValueError(f'{name} exited {result.returncode}; see {log}')

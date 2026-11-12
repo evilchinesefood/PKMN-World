@@ -1,0 +1,99 @@
+{
+  "surfaces": {
+    "case": "OutfitSurfaces",
+    "status": "passed",
+    "assertions": 1125,
+    "settings": {},
+    "rom_md5": "205006148DD8DF50D63F8064A3E7C800",
+    "fixture_sha256": "df18d02cb13e448ec2b158d5bdee74135126e55fadf945aaef53fc6c08e2af6a",
+    "symbols_sha256": "e25341d14868da1c65bcb4527338809d3c218d8b98348130f162a8473c5feed7",
+    "elapsed_seconds": 47.791
+  },
+  "poses": {
+    "case": "OutfitPoses",
+    "status": "passed",
+    "assertions": 450,
+    "settings": {},
+    "rom_md5": "205006148DD8DF50D63F8064A3E7C800",
+    "fixture_sha256": "df18d02cb13e448ec2b158d5bdee74135126e55fadf945aaef53fc6c08e2af6a",
+    "symbols_sha256": "e25341d14868da1c65bcb4527338809d3c218d8b98348130f162a8473c5feed7",
+    "elapsed_seconds": 3.571
+  },
+  "picker0": {
+    "case": "OutfitPicker0",
+    "status": "passed",
+    "assertions": 157,
+    "settings": {
+      "PW_OUTFIT_GENDER": "0"
+    },
+    "rom_md5": "205006148DD8DF50D63F8064A3E7C800",
+    "fixture_sha256": "df18d02cb13e448ec2b158d5bdee74135126e55fadf945aaef53fc6c08e2af6a",
+    "symbols_sha256": "e25341d14868da1c65bcb4527338809d3c218d8b98348130f162a8473c5feed7",
+    "elapsed_seconds": 1.351
+  },
+  "picker1": {
+    "case": "OutfitPicker1",
+    "status": "passed",
+    "assertions": 157,
+    "settings": {
+      "PW_OUTFIT_GENDER": "1"
+    },
+    "rom_md5": "205006148DD8DF50D63F8064A3E7C800",
+    "fixture_sha256": "df18d02cb13e448ec2b158d5bdee74135126e55fadf945aaef53fc6c08e2af6a",
+    "symbols_sha256": "e25341d14868da1c65bcb4527338809d3c218d8b98348130f162a8473c5feed7",
+    "elapsed_seconds": 1.282
+  },
+  "wardrobe0": {
+    "case": "OutfitWardrobe0",
+    "status": "passed",
+    "assertions": 42,
+    "settings": {
+      "PW_OUTFIT_GENDER": "0"
+    },
+    "rom_md5": "205006148DD8DF50D63F8064A3E7C800",
+    "fixture_sha256": "df18d02cb13e448ec2b158d5bdee74135126e55fadf945aaef53fc6c08e2af6a",
+    "symbols_sha256": "e25341d14868da1c65bcb4527338809d3c218d8b98348130f162a8473c5feed7",
+    "elapsed_seconds": 3.558
+  },
+  "wardrobe1": {
+    "case": "OutfitWardrobe1",
+    "status": "passed",
+    "assertions": 42,
+    "settings": {
+      "PW_OUTFIT_GENDER": "1"
+    },
+    "rom_md5": "205006148DD8DF50D63F8064A3E7C800",
+    "fixture_sha256": "df18d02cb13e448ec2b158d5bdee74135126e55fadf945aaef53fc6c08e2af6a",
+    "symbols_sha256": "e25341d14868da1c65bcb4527338809d3c218d8b98348130f162a8473c5feed7",
+    "elapsed_seconds": 3.499
+  },
+  "rebased-picker1": {
+    "case": "OutfitPicker1",
+    "status": "passed",
+    "assertions": 157,
+    "settings": {
+      "PW_OUTFIT_GENDER": "1"
+    },
+    "rom_md5": "4DC9A029AE88AD9E665FB2FE1C459AC2",
+    "fixture_sha256": "ff59309814501017060b9bd9986852a72af04468425b9f4e875dfa667d077d86",
+    "symbols_sha256": "b0a5a98c8b2d32f9874345a80b57cc7290492fefc46ae93f59285bdfd0b22f99",
+    "elapsed_seconds": 1.341
+  },
+  "rebased-wardrobe0": {
+    "case": "OutfitWardrobe0",
+    "status": "passed",
+    "assertions": 42,
+    "settings": {
+      "PW_OUTFIT_GENDER": "0"
+    },
+    "rom_md5": "4DC9A029AE88AD9E665FB2FE1C459AC2",
+    "fixture_sha256": "ff59309814501017060b9bd9986852a72af04468425b9f4e875dfa667d077d86",
+    "symbols_sha256": "b0a5a98c8b2d32f9874345a80b57cc7290492fefc46ae93f59285bdfd0b22f99",
+    "elapsed_seconds": 3.609
+  },
+  "rebased-prompts": {
+    "suite_sha256": "6004ce93213e9f43bc0c07e47d3a9907ca1cce136a3ef0b535d31feb6c2c0505",
+    "rom_sha256": "f3cd9fc14b3ffcc090b637cd1c11ee6a960ebaf136e27bad82563dc085d9fae1",
+    "returncode": 0
+  }
+}

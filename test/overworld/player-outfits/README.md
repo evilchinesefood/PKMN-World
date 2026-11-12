@@ -19,6 +19,9 @@ describe all six new designs, 36 new color combinations, and 72 production
 sheets. The [catalog sheet](../../../graphics/player_outfits/review/catalog.png)
 also includes the 12 original character and color combinations.
 
+The [wardrobe verification report](evidence/wardrobe-374/README.md) records
+native results, before and after images, and exact tested ROM identities.
+
 ## Run the wardrobe checks
 
 Build the ordinary game, audit the indexed artwork, and run the capture fixture.

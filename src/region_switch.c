@@ -275,8 +275,19 @@ void RegionHub_ClaimRegionForFlyDestination(u32 mapSec)
 {
     enum Region region = GetRegionForSectionId(mapSec);
 
-    if (mapSec == MAPSEC_BATTLE_FRONTIER || region == gCurrentRegion)
+    if (mapSec == MAPSEC_BATTLE_FRONTIER)
         return;
+    if (region == gCurrentRegion)
+    {
+        // Healing at the Frontier nurse leaves the respawn there. Flying back to the mainland must
+        // re-arm it like the dock ferry does, or a whiteout returns to the Frontier with no
+        // departure capture and the Hub offers a stale remembered team.
+        const struct WarpData *respawn = &gSaveBlock1Ptr->lastHealLocation;
+
+        if (Overworld_GetMapHeaderByGroupAndId(respawn->mapGroup, respawn->mapNum)->regionMapSectionId == MAPSEC_BATTLE_FRONTIER)
+            SetRegionArrivalRespawn(region);
+        return;
+    }
     SetCurrentRegion(region);
     SetRegionArrivalRespawn(region);
 }

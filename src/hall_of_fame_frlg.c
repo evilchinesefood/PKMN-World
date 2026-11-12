@@ -432,6 +432,8 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
     {
         if (LoadGameSave(SAVE_HALL_OF_FAME) != SAVE_STATUS_OK)
             memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
+        else
+            HallOfFame_NormalizeLegacyEggs();
     }
 
     for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++, lastSavedTeam++)
@@ -769,6 +771,7 @@ static void Task_HofPC_CopySaveData(u8 taskId)
         u16 i;
         struct HallofFameTeam *savedTeams;
 
+        HallOfFame_NormalizeLegacyEggs();
         savedTeams = gHoFSaveBuffer;
         for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++, savedTeams++)
         {

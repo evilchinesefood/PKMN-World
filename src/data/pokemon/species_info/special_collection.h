@@ -145,13 +145,9 @@
 
 #define SPECIAL_GRAPHICS(name, iconPalette) \
     .frontPic = gMonFrontPic_Special##name, \
-    .frontPicSize = MON_COORDS_SIZE(64, 64), \
-    .frontPicYOffset = 0, \
     .frontAnimFrames = ANIM_FRAMES(ANIMCMD_FRAME(1, 30), ANIMCMD_FRAME(0, 1),), \
     .frontAnimId = ANIM_V_SQUISH_AND_BOUNCE, \
     .backPic = gMonBackPic_Special##name, \
-    .backPicSize = MON_COORDS_SIZE(64, 64), \
-    .backPicYOffset = 0, \
     .backAnimId = BACK_ANIM_CONCAVE_ARC_SMALL, \
     .palette = gMonPalette_Special##name, \
     .shinyPalette = gMonPalette_Special##name, \
@@ -159,11 +155,20 @@
     .iconPalIndex = iconPalette, \
     .pokemonJumpType = PKMN_JUMP_TYPE_NORMAL,
 
+// Opaque bounds of each sprite: the Y offset is the empty rows under frame 0, which rests the
+// sprite on its battle platform. Remeasure after changing the art.
+#define SPECIAL_BATTLE_COORDS(frontWidth, frontHeight, frontY, backWidth, backHeight, backY) \
+    .frontPicSize = MON_COORDS_SIZE(frontWidth, frontHeight), \
+    .frontPicYOffset = frontY, \
+    .backPicSize = MON_COORDS_SIZE(backWidth, backHeight), \
+    .backPicYOffset = backY,
+
 #if P_FAMILY_PIKACHU
     [SPECIES_PIKACHU_CLASSIC_CAP] =
     {
         SPECIAL_PIKACHU_INFO
         SPECIAL_GRAPHICS(ClassicCap, 0)
+        SPECIAL_BATTLE_COORDS(48, 48, 9, 64, 56, 4)
         OVERWORLD(sPicTable_SpecialClassicCap, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialClassicCap, gOverworldPalette_SpecialClassicCap)
         FOOTPRINT(Pikachu)
@@ -175,6 +180,7 @@
     {
         SPECIAL_PIKACHU_INFO
         SPECIAL_GRAPHICS(Surfboard, 2)
+        SPECIAL_BATTLE_COORDS(64, 56, 0, 64, 64, 0)
         OVERWORLD(sPicTable_SpecialSurfboard, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialSurfboard, gOverworldPalette_SpecialSurfboard)
         FOOTPRINT(Pikachu)
@@ -186,6 +192,7 @@
     {
         SPECIAL_PIKACHU_INFO
         SPECIAL_GRAPHICS(Balloons, 0)
+        SPECIAL_BATTLE_COORDS(64, 56, 9, 64, 64, 4)
         OVERWORLD(sPicTable_SpecialBalloons, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialBalloons, gOverworldPalette_SpecialBalloons)
         FOOTPRINT(Pikachu)
@@ -197,6 +204,7 @@
     {
         SPECIAL_SQUIRTLE_INFO
         SPECIAL_GRAPHICS(Squad, 0)
+        SPECIAL_BATTLE_COORDS(40, 40, 11, 48, 48, 9)
         OVERWORLD(sPicTable_SpecialSquad, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialSquad, gOverworldPalette_SpecialSquad)
         FOOTPRINT(Squirtle)
@@ -208,6 +216,7 @@
     {
         SPECIAL_SQUIRTLE_INFO
         SPECIAL_GRAPHICS(Firefighter, 0)
+        SPECIAL_BATTLE_COORDS(40, 48, 11, 48, 56, 9)
         OVERWORLD(sPicTable_SpecialFirefighter, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialFirefighter, gOverworldPalette_SpecialFirefighter)
         FOOTPRINT(Squirtle)
@@ -219,6 +228,7 @@
     {
         SPECIAL_EEVEE_INFO
         SPECIAL_GRAPHICS(FlowerCrown, 2)
+        SPECIAL_BATTLE_COORDS(40, 48, 11, 56, 48, 10)
         OVERWORLD(sPicTable_SpecialFlowerCrown, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialFlowerCrown, gOverworldPalette_SpecialFlowerCrown)
         FOOTPRINT(Eevee)
@@ -230,6 +240,7 @@
     {
         SPECIAL_TOTODILE_INFO
         SPECIAL_GRAPHICS(Pirate, 0)
+        SPECIAL_BATTLE_COORDS(40, 40, 14, 56, 48, 10)
         OVERWORLD(sPicTable_SpecialPirate, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following_Asym,
             gOverworldPalette_SpecialPirate, gOverworldPalette_SpecialPirate)
         FOOTPRINT(Totodile)
@@ -241,5 +252,6 @@
 #undef SPECIAL_EEVEE_INFO
 #undef SPECIAL_TOTODILE_INFO
 #undef SPECIAL_GRAPHICS
+#undef SPECIAL_BATTLE_COORDS
 
 #undef SPECIAL_BASE_STAT

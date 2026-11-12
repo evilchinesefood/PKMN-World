@@ -1675,7 +1675,18 @@ static void FinishOakOutfit(bool8 confirmed)
     }
     if (res->playerSpriteActive)
     {
-        DestroySpriteAndFreeResources(&gSprites[res->playerSpriteId]);
+        // CreateTrainerSprite's template was a local, so the sprite's template pointer is stale:
+        // free the old outfit's sheet and palette by the slots the sprite actually holds.
+        struct Sprite *sprite = &gSprites[res->playerSpriteId];
+
+        u16 tileTag = GetSpriteTileTagByTileStart(sprite->sheetTileStart);
+        u16 paletteTag = GetSpritePaletteTagByPaletteNum(sprite->oam.paletteNum);
+
+        if (tileTag != TAG_NONE)
+            FreeSpriteTilesByTag(tileTag);
+        if (paletteTag != TAG_NONE)
+            FreeSpritePaletteByTag(paletteTag);
+        DestroySprite(sprite);
         res->playerSpriteActive = FALSE;
     }
     ShowPlayerTrainerSprite();

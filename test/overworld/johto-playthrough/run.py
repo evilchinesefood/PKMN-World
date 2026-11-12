@@ -27,7 +27,7 @@ p.add_argument('--symbols', type=Path)
 p.add_argument('--nm')
 p.add_argument('--arm-cc')
 p.add_argument('--cc')
-p.add_argument('--suite', help='another Lua script in this directory')
+p.add_argument('--suite', help='another Lua script in this or a sibling playthrough directory')
 p.add_argument('--case-name', help='explicit verdict name for an additional focused suite')
 p.add_argument('--natural', action='store_true')
 p.add_argument('--natural-trace', action='store_true')
@@ -51,8 +51,9 @@ if a.lose and a.natural:
 if a.timeout <= 0 or (a.natural_attempts is not None and a.natural_attempts <= 0):
     p.error('timeouts and attempt counts must be positive')
 suite = (HERE / (a.suite or 'play.lua')).resolve()
-if suite.parent != HERE or not suite.is_file():
-    p.error('--suite must name a Lua file in the campaign runner directory')
+# Focused probes live beside their campaign (../hoenn-playthrough/probe_dive.lua).
+if suite.parent.parent != HERE.parent or not suite.parent.name.endswith('-playthrough') or not suite.is_file():
+    p.error('--suite must name a Lua file in a campaign playthrough directory')
 out = (a.out or ROOT / '_pwtest' / (a.campaign + '-play')).resolve()
 out.mkdir(parents=True, exist_ok=True)
 run = Path(tempfile.mkdtemp(prefix='campaign-', dir=out))
@@ -99,6 +100,7 @@ suite_names = {
     'kurt_fast_ball.lua': 'JohtoKurtFastBall',
     'national_park_soothe_bell.lua': 'NationalParkSootheBell',
     'text_printer_heap.lua': 'TextPrinterHeap',
+    'probe_dive.lua': 'HoennDive',
 }
 command += ['--case-name', a.case_name or (case if suite.name == 'play.lua' else suite_names.get(suite.name, suite.stem))]
 if a.symbols:

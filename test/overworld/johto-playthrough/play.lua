@@ -239,6 +239,7 @@ F.run(function()
     F.check('fresh save has empty party', N.partyCount() == 0)
   end
   local retries = {}
+  local beatsRun = 0
   if Nat then
     Nat.setup()
     if FROM then Nat.loadCheckpoint(FROM, os.getenv('PW_RESUME_DIR')); N.run = true end
@@ -246,6 +247,7 @@ F.run(function()
   for i = start, #BEATS do
     local b = BEATS[i]
     L(string.format('BEAT %d/%d %s', i, #BEATS, b.name))
+    beatsRun = beatsRun + 1
     local ok, err
     if Nat then ok, err = playNaturalBeat(b, i) else ok, err = playThrownBeat(b, i) end
     if not ok then L('  beat error: ' .. tostring(err)) end
@@ -280,6 +282,8 @@ F.run(function()
     if TO and b.name == TO then reachedStop = true; break end
   end
   F.check('requested stop reached', reachedStop, TO or 'complete campaign')
+  -- Resuming from the last beat, or a filter that drops every detour, leaves nothing to play.
+  F.check('at least one beat ran', beatsRun > 0, FROM and ('nothing follows ' .. FROM) or 'no beats')
   for name, loss in pairs(LOSE) do
     F.check('selected loss ' .. name .. ' completed', loss.state == 'completed', loss.state)
   end

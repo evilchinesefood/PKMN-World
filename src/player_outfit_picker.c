@@ -55,11 +55,13 @@ static const u8 sBlack[] = _("Black");
 static const u8 sPink[] = _("Pink");
 static const u8 *const sColors[] = {sRed, sBlue, sGreen, sPurple, sBlack, sPink};
 static const u8 sStyleControls[] = _("{LEFT_ARROW} Style {RIGHT_ARROW}");
-static const u8 sIntroHelp[] = _("A: Confirm  B: Back");
+static const u8 sIntroHelp[] = _("A: Confirm");
 static const u8 sHubHelp[] = _("A: Apply  B: Cancel");
 static const u8 sLater[] = _("Change later at World Transit.");
 static const u8 sCursor[] = _("{RIGHT_ARROW}");
 static const u8 sTextColors[] = {TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
+
+static EWRAM_DATA struct SpriteTemplate sPreviewTemplate = {0};
 
 static void DestroyPreviews(void)
 {
@@ -96,7 +98,15 @@ static bool8 CreatePreviews(void)
     u16 selection = gPlayerOutfitPicker.selection;
     u16 graphicsId = GetOutfitGraphicsId(selection, gender == FEMALE ? OBJ_EVENT_GFX_MAY_NORMAL : OBJ_EVENT_GFX_BRENDAN_NORMAL);
     const struct ObjectEventGraphicsInfo *info = GetObjectEventGraphicsInfo(graphicsId);
-    struct SpriteTemplate template =
+    u16 palette[16] = {0};
+    struct SpritePalette spritePalette = {palette, OUTFIT_PREVIEW_OVERWORLD_TAG};
+    u8 slot;
+    u16 trainer;
+    u32 i, freeSprites = 0;
+
+    DestroyPreviews();
+    // The sprite keeps this pointer and reads it again when destroyed, so it must outlive the call.
+    sPreviewTemplate = (struct SpriteTemplate)
     {
         .tileTag = TAG_NONE,
         .paletteTag = OUTFIT_PREVIEW_OVERWORLD_TAG,
@@ -106,13 +116,6 @@ static bool8 CreatePreviews(void)
         .affineAnims = gDummySpriteAffineAnimTable,
         .callback = SpriteCallbackDummy,
     };
-    u16 palette[16] = {0};
-    struct SpritePalette spritePalette = {palette, OUTFIT_PREVIEW_OVERWORLD_TAG};
-    u8 slot;
-    u16 trainer;
-    u32 i, freeSprites = 0;
-
-    DestroyPreviews();
     for (i = 0; i < MAX_SPRITES; i++)
         if (!gSprites[i].inUse)
             freeSprites++;
@@ -132,7 +135,7 @@ static bool8 CreatePreviews(void)
     gSprites[trainer].oam.priority = 0;
     LoadOutfitPalette(selection, gender, OUTFIT_PALETTE_FRONT, OBJ_PLTT_ID(gSprites[trainer].oam.paletteNum));
     LoadOutfitPalette(selection, gender, OUTFIT_PALETTE_OVERWORLD, OBJ_PLTT_ID(slot));
-    gPlayerOutfitPicker.overworldSpriteId = CreateSprite(&template, 210, 100, 0);
+    gPlayerOutfitPicker.overworldSpriteId = CreateSprite(&sPreviewTemplate, 210, 100, 0);
     if (gPlayerOutfitPicker.overworldSpriteId >= MAX_SPRITES)
     {
         FreeSpritePaletteByTag(OUTFIT_PREVIEW_OVERWORLD_TAG);

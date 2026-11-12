@@ -986,6 +986,10 @@ return function(F, N, S, here)
 
   function Nat.loadCheckpoint(name, directory)
     local fn = loadfile((directory and (directory .. '/') or F.out) .. 'nat_' .. name .. '.lua')
+    -- The checkpoint a run resumed from lives in the prior case directory (see N.restore).
+    if not fn and not directory and os.getenv('PW_RESUME_DIR') then
+      fn = loadfile(os.getenv('PW_RESUME_DIR') .. '/nat_' .. name .. '.lua')
+    end
     if fn then
       local t = fn()
       for k in pairs(stats) do stats[k] = nil end

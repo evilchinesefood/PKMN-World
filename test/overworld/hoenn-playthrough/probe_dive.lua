@@ -1,9 +1,11 @@
 -- Probe for water.lua: dive, swim and emerge by controller input.
 --
 --   python3 test/overworld/johto-playthrough/run.py --campaign hoenn \
---     --suite ../hoenn-playthrough/probe_dive.lua --out _pwtest/hoenn-dive
+--     --suite ../hoenn-playthrough/probe_dive.lua --out _pwtest/hoenn-dive \
+--     --resume-dir <prior Hoenn case directory>
 --
--- Needs <out>/ckpt_rock_smash.ss (a Hoenn campaign checkpoint: Lv100 Mewtwo and Rayquaza).
+-- Needs ckpt_rock_smash.ss in the --resume-dir (a Hoenn campaign checkpoint: Lv100 Mewtwo and
+-- Rayquaza). Each run writes to a fresh directory, so the checkpoint is read from the prior case.
 -- This tests navigation mechanics, not the story, so it takes shortcuts a story run would not:
 -- the Balance and Mind badge flags (Surf and Dive) are written straight into the save, and the
 -- debug menu warps to Mossdeep before each leg. Everything after the warp is joypad input.
@@ -42,7 +44,7 @@ local function toMossdeep()
 end
 
 F.run(function()
-  assert(N.restore('rock_smash'), 'checkpoint rock_smash in ' .. F.out)
+  assert(N.restore('rock_smash'), 'checkpoint rock_smash in --resume-dir')
   F.idle(30); N.debugHeal()
   setFlag(C.FLAG_BADGE05_GET); setFlag(C.FLAG_BADGE07_GET)
   N.canSurf, N.run = true, true

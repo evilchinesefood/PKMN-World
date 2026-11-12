@@ -199,6 +199,24 @@ TEST("Regional Centers refuse an unsafe island exit or active forced voyage")
     EXPECT(!RegionalCenter_IsSafe(8, REGION_HOENN, party, 1));
     EXPECT(!RegionalCenter_IsSafe(9, REGION_HOENN, party, 1));
     EXPECT(!RegionalCenter_IsSafe(15, REGION_HOENN, party, 1));
+    // Safari Zone Gate shares Cianwood's landmass: no way to mainland Johto without Surf or Fly.
+    EXPECT(!RegionalCenter_IsSafe(46, REGION_JOHTO, party, 1));
+    // The west shore is cut off while Mr. Briney is docked elsewhere and Rusturf Tunnel is shut.
+    VarSet(VAR_BRINEY_LOCATION, 1);
+    EXPECT(RegionalCenter_IsSafe(1, REGION_HOENN, party, 1));
+    EXPECT(RegionalCenter_IsSafe(4, REGION_HOENN, party, 1));
+    EXPECT(RegionalCenter_IsSafe(10, REGION_HOENN, party, 1));
+    for (state = 2; state <= 3; state++)
+    {
+        VarSet(VAR_BRINEY_LOCATION, state);
+        EXPECT(!RegionalCenter_IsSafe(1, REGION_HOENN, party, 1));
+        EXPECT(!RegionalCenter_IsSafe(4, REGION_HOENN, party, 1));
+        EXPECT(!RegionalCenter_IsSafe(10, REGION_HOENN, party, 1));
+        EXPECT(RegionalCenter_IsSafe(2, REGION_HOENN, party, 1));
+    }
+    FlagSet(FLAG_RUSTURF_TUNNEL_OPENED);
+    EXPECT(RegionalCenter_IsSafe(4, REGION_HOENN, party, 1));
+    FlagClear(FLAG_RUSTURF_TUNNEL_OPENED);
     SetAllRegionalBadges();
     MakeTravelParty(party);
     for (state = 1; state < 6; state++)

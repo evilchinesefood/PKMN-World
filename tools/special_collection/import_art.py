@@ -147,6 +147,10 @@ def main():
             entries.append(import_variant(*variant))
     if args.key is None:
         declarations(entries)
+        # verify_art.py reads these hashes; build_art.py writes the same map.
+        for entry in entries:
+            entry['files'] = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+                              for path in sorted((ASSETS / entry['key']).iterdir()) if path.suffix in ('.png', '.pal')}
         (ASSETS / 'manifest.json').write_text(json.dumps(entries, indent=2) + '\n')
     else:
         print(json.dumps(entries, indent=2))

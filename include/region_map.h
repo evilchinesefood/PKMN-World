@@ -97,7 +97,9 @@ struct RegionMap {
     /*0x081*/ u8 charBaseIdx;
     /*0x082*/ u8 mapBaseIdx;
     /*0x083*/ bool8 bgManaged;
-    /*0x084*/ u8 filler_084[0x100];
+    u8 mapType;
+    bool8 playerOnMap;
+    /*0x086*/ u8 filler_086[0xFE];
     /*0x184*/ u8 cursorSmallImage[0x100];
     /*0x284*/ u8 cursorLargeImage[0x600];
 }; // size = 0x884
@@ -115,6 +117,9 @@ struct RegionMapLocation
 
 // Exported ROM declarations
 void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, bool8 zoomed);
+void InitRegionMapDataForType(struct RegionMap *regionMap, const struct BgTemplate *template, bool8 zoomed, enum RegionMapType type);
+mapsec_u16_t GetRegionMapSecIdAtForType(enum RegionMapType type, u16 x, u16 y);
+bool8 RegionMap_SetDestination(mapsec_u16_t section);
 bool8 LoadRegionMapGfx(void);
 void UpdateRegionMapVideoRegs(void);
 void InitRegionMap(struct RegionMap *regionMap, bool8 zoomed);

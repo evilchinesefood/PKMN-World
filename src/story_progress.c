@@ -6,6 +6,7 @@
 #include "constants/flags.h"
 #include "constants/vars.h"
 #include "constants/items.h"
+#include "constants/region_map_sections.h"
 
 // All conditions read absolute regional flag/var IDs. No bank/context switch,
 // script side effect, quest history, save write or clock read belongs here.
@@ -13,19 +14,21 @@
 #define V(var) VarGet(var)
 #define B(region, index) HasBadge(region, index)
 #define I(item) CheckBagHasItem(item, 1)
-#define STORY_OBJECTIVE(name, stableId, chapterText, recapText, actionText, whereText, whyText) \
+#define STORY_PIN(section) {STORY_DESTINATION_PIN, MAPSEC_##section}
+#define STORY_NO_PIN(reason) {STORY_DESTINATION_##reason, MAPSEC_NONE}
+#define STORY_OBJECTIVE(name, stableId, destinationData, chapterText, recapText, actionText, whereText, whyText) \
     static const struct StoryObjective name = { \
-        .id = stableId, .chapter = COMPOUND_STRING(chapterText), \
+        .id = stableId, .destination = destinationData, .chapter = COMPOUND_STRING(chapterText), \
         .recap = COMPOUND_STRING(recapText), .action = COMPOUND_STRING(actionText), \
         .where = COMPOUND_STRING(whereText), .why = COMPOUND_STRING(whyText) }
 
-STORY_OBJECTIVE(sKantoNotStarted, "kanto.not_started", "Not started",
+STORY_OBJECTIVE(sKantoNotStarted, "kanto.not_started", STORY_NO_PIN(HUB), "Not started",
     "Your Kanto journey awaits.", "Visit the Kanto gate.",
     "World Transit: Kanto attendant", "The gate takes you to Pallet.");
-STORY_OBJECTIVE(sJohtoNotStarted, "johto.not_started", "Not started",
+STORY_OBJECTIVE(sJohtoNotStarted, "johto.not_started", STORY_NO_PIN(HUB), "Not started",
     "Your Johto journey awaits.", "Visit the Johto gate.",
     "World Transit: Johto attendant", "The gate takes you to New Bark.");
-STORY_OBJECTIVE(sHoennNotStarted, "hoenn.not_started", "Not started",
+STORY_OBJECTIVE(sHoennNotStarted, "hoenn.not_started", STORY_NO_PIN(HUB), "Not started",
     "Your Hoenn journey awaits.", "Visit the Hoenn gate.",
     "World Transit: Hoenn attendant", "The gate takes you home.");
 
@@ -109,4 +112,10 @@ enum Region StoryProgress_DefaultRegion(void)
 {
     enum Region region = GetActiveRegion();
     return region >= REGION_KANTO && region <= REGION_HOENN ? region : REGION_KANTO;
+}
+
+const struct StoryDestination *StoryProgress_GetDestination(const struct StoryObjective *objective)
+{
+    static const struct StoryDestination unknown = STORY_NO_PIN(DYNAMIC);
+    return objective == NULL ? &unknown : &objective->destination;
 }

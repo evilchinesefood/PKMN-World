@@ -12,10 +12,49 @@ active campaign selects Kanto without starting it.
 
 In details, Left/Right or L/R pages through the chapter/action, destination and
 prerequisite, and recap/progress. Up/Down reviews another region. B returns to
-the overview, then the original Start menu. A Champion region retains **Main
+the overview, then the original Start menu. Press A on any detail page to choose
+**Show destination on map**. Optional detail pages open the optional objective
+instead of the main objective. A Champion region retains **Main
 story complete** even if an optional chain remains unfinished. The recap is
 the latest established milestone derived from the current state, not an
 invented chronological activity log.
+
+## Show an objective destination
+
+The map opens on the objective's regional area, including the correct Sevii
+island group, regardless of your current campaign. The fixed cursor marks the
+area. The player icon appears only when your actual location belongs on that map.
+World Transit never displays a player icon on a regional map.
+
+Press A to switch between the map and its location details. The details retain
+building, floor, and NPC directions. Press B from either view to return to the
+same Story region and detail page. The map cannot Fly or travel. A marker does
+not open a blocked route; follow the Story prerequisite text.
+
+Objectives without one meaningful location show their location text and a short
+explanation. These include World Transit, free exploration, multiple outstanding
+requirements, prerequisites that must finish first, and unknown destinations.
+No placeholder pin appears. Only current objectives and already-started optional
+chains are available.
+
+## Add a destination to an objective
+
+Keep the destination in the existing `STORY_OBJECTIVE` declaration. Use
+`STORY_PIN(SECTION)` for a concrete section present on a regional map. Use the
+visible parent area for an indoor objective, and keep the building or floor in
+its `where` text. The renderer derives the region and Sevii submap from the
+section, so no second region field needs maintenance.
+
+Use `STORY_NO_PIN(HUB)`, `STORY_NO_PIN(FREE_ROAM)`,
+`STORY_NO_PIN(MULTIPLE)`, `STORY_NO_PIN(WAITING)`, or
+`STORY_NO_PIN(DYNAMIC)` when that explanation matches the current next action.
+Do not pin a later step in the chain. The existing resolver selects the current
+objective; destination metadata does not add progression rules or saved state.
+
+Run `python3 test/overworld/story-progress/run.py` after adding an objective.
+The test requires each authored ID to be reached, every pin to belong to exactly
+one actual map layout, and each exemption to have a valid reason and no section.
+Use the native fixture below to inspect new location text and markers.
 
 ## Coverage and boundaries
 
@@ -50,7 +89,8 @@ missing rewards or reconstruct information never persisted by a script.
 with host save-bank accessors. Every authored objective must actually be reached
 by a fixture. Cases include adjacent transitions, scene/receipt overlaps,
 bag-full retries, prerequisite handling, regional isolation, started/Champion
-states and save purity. It is part of `make validate`, CI and the pre-push gate.
+states and save purity. Destination checks read the production map layout arrays and
+validate main and optional objective records. It is part of `make validate`, CI and the pre-push gate.
 On macOS it pairs the selected Xcode compiler with that Xcode's SDK; `CC` and
 `SDKROOT` overrides remain available.
 
@@ -69,9 +109,9 @@ capture fixture and run it against its matching symbol table:
 
 ```sh
 python3 test/overworld/story-progress/build_fixture.py --out /tmp/pw-story
-PW_FEATURE_LIB=/tmp/pw-story/lua PW_OUT=/tmp/pw-story-capture \
-  test/overworld/mgba-run.sh test/overworld/story-progress/capture.lua \
-  /tmp/pw-story/VerifyFeatures.gba
+test/overworld/mgba-run.sh test/overworld/story-progress/capture.lua \
+  /tmp/pw-story/VerifyFeatures.gba --elf /tmp/pw-story/VerifyFeatures.elf \
+  --env PW_FEATURE_LIB=/tmp/pw-story/lua --out /tmp/pw-story-capture
 ```
 
 The fixture is linked into verified unused ROM padding, never into the shipping

@@ -1,4 +1,82 @@
-# Story Progress evidence
+# Story destination map evidence
+
+The destination captures below are unretouched 240 × 160 images from the
+production viewer. The disposable fixture adds test entry code to unused ROM
+padding. It also emits a matching test ELF, so the native runner reconstructs
+and checks the fixture ROM before execution. The shipping ROM and ELF remain
+unchanged. No ROM, ELF, or save is committed.
+
+The final destination suite passed **1223/1223 assertions**. The
+[complete log](destination-capture.log) and [source manifest](destination-manifest.json)
+record the run and inputs. The shipping ROM SHA-256 is
+`180ffedab7f8f1f499cdbd3d6559b99acee7445ce30c6cc9f44d98d2acc78e2b`.
+The disposable fixture ROM SHA-256 is
+`5504f5c0288757be088e3a44070f5b6df48a23d3347d5dc77417b7703d8ba0d0`.
+
+The suite checks the following behavior.
+
+- All 164 compiled objectives open in the production viewer. Every one of the
+  156 pins occupies its authored section in the actual compiled map layout.
+  All eight exemptions show an explanation with no marker. A null objective
+  exercises the unknown destination fallback.
+- All six map layouts render. Cross-region views omit the player icon, and
+  matching physical locations show it. Both hub floors omit the icon after
+  prior regional travel. The map and location pane hide and restore both
+  cursor and player sprites after animation frames.
+- Real Story entry covers all three main detail pages and both optional pages.
+  The resolver refreshes a changed next action when the player opens the map.
+  B restores the exact region, page, and detail selection from both map and
+  location panes. Six extra repeated cycles restore the heap and active tasks.
+  All sprite tile and palette allocations are zero after return. The first child releases eight stale field
+  palette tags, and subsequent cycles retain zero allocations.
+- A toggles location details. R, L, directions, Start, and Select cannot move
+  the pin or enter travel. Before/after comparisons cover progression flags
+  and variables, inventory, party, active campaign, location, warp destinations,
+  respawn data, map header, regional teams, and regional Center records.
+- All 820 objective text fields and the new controls fit the production font.
+  The classic Start caller still opens Story. Ordinary Town Map and Pokedex
+  area screens open and close after destination-view teardown.
+
+The parent verification also passed the canonical Story suite, 31/31, and
+Johto Fly/Teleport suite, 31/31, on this shipping ROM. Host validation passed
+20/20 groups, including 1525 Story assertions and all 164 objective IDs.
+These are targeted, debug-assisted checks, not continuous campaign playthroughs.
+
+## Native views
+
+| View | Capture |
+| --- | --- |
+| Hoenn | [Littleroot Town](destination-hoenn.png) |
+| Kanto | [Pallet Town](destination-kanto.png) |
+| Johto | [New Bark Town](destination-johto.png) |
+| Sevii 1-3 | [Bond Bridge](destination-sevii-123.png) |
+| Sevii 4-5 | [Five Isle Meadow](destination-sevii-45.png) |
+| Sevii 6-7 | [Ruin Valley](destination-sevii-67.png) |
+| Optional objective context | [Mt. Ember details](destination-optional-details.png) |
+| No regional map location | [World Transit explanation](destination-hub-exemption.png) |
+| Unknown destination | [Fallback explanation](destination-unknown.png) |
+| Subsequent ordinary map consumer | [Pokedex area](destination-pokedex-return.png) |
+
+## Reproduce the destination checks
+
+Build the shipping ROM first, then create the disposable fixture.
+
+```sh
+python3 test/overworld/story-progress/build_fixture.py --out /tmp/pw-story
+MGBA_HEADLESS=/path/to/pinned/mgba-headless \
+  test/overworld/mgba-run.sh test/overworld/story-progress/capture.lua \
+  /tmp/pw-story/VerifyFeatures.gba --case-name StoryProgress \
+  --out /tmp/pw-story-capture --env PW_FEATURE_LIB=/tmp/pw-story/lua
+```
+
+Use the [pinned emulator setup](../../mgba/README.md) to obtain the executable.
+The runner accepts the fixture library through `--env`; it intentionally removes
+inherited `PW_` variables. The fixture manifests identify the exact production
+sources, ROM, ELF, fixture source, and Lua suite.
+
+---
+
+## Original Story screen evidence
 
 Native, unretouched 240 × 160 mGBA captures of the production renderer. The
 isolated fixture lives in unused ROM padding and is excluded from shipping.
@@ -36,7 +114,7 @@ reset mid-write once it finally selected the real Save action; it now waits for
 TrySavingData to finish. [Before/after evidence](regression-before-after.log).
 No production save-code change was needed.
 
-## Captures
+### Original captures
 
 | View | Native capture |
 |---|---|

@@ -1,0 +1,33 @@
+{
+  "input_rom_sha256": "180ffedab7f8f1f499cdbd3d6559b99acee7445ce30c6cc9f44d98d2acc78e2b",
+  "fixture_rom_sha256": "5504f5c0288757be088e3a44070f5b6df48a23d3347d5dc77417b7703d8ba0d0",
+  "symbols_sha256": "a85a9b333e8a6d7edbf0e346f306747919d3d2b1f05f29d22dd5c0f04bd0682f",
+  "fixture_bytes": 1528,
+  "fixture_source_sha256": "0b421125bbdb0929607a9b85e2ea5a944c7d07b6e8a9fdb3f33f326b1eea2735",
+  "entry": "0x9f002ad",
+  "base_commit": "6b79f902bcdfe18777579bf3309ecc3a895ebc72",
+  "working_diff_sha256": "846509786790e1a8d2c47756fc3894deb068b507b3f058971d55cf85b14a6106",
+  "configuration": {
+    "include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb",
+    "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a",
+    "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"
+  },
+  "production_sources_sha256": {
+    "include/story_progress.h": "54b1a29cd9bb48886eb1639d11394185ac0cc40196fcece1ab7b174dcbbd7022",
+    "src/story_progress.c": "42657a63fb7ee81420c640d55930f69e96975487bc8ec36cd28ea600d673518a",
+    "src/data/story_progress/hoenn.inc": "a25a80da11931d5202429fca5e2dbad88155312a56eb916468bab2ed6b71a858",
+    "src/data/story_progress/johto.inc": "33022f0702432810ee3f6d11df60c95a6ae04ee93e4b4ec0c7644a19bd2af59c",
+    "src/data/story_progress/kanto.inc": "5f4d0ee2374d15ff997a8065c792ad221756822df53b889bd30534d4376a9018",
+    "src/story_progress_menu.c": "2935e7aa68a2ff9c2274415fca4930d4d7103f8b600030280642a5b88b59a87b",
+    "src/story_destination_map.c": "c949930f0272f73f0ae39e8c9d6a1c6f971daad78bf753405a3f1b1239a9e4e8",
+    "src/region_map.c": "359a7544c4051206abb4d1ab688b927a21e0206662a4c99a8bbcf74f8151b091",
+    "include/region_map.h": "e021fa25266d10261c4398b352f15fc216a661ca4461047235b1de1c9ad3b401",
+    "src/start_menu.c": "1c38dd14d24d4ebbe4b5c7b6dda883936337aaf892bc0ac22d690a4d68742f47",
+    "src/unbound_start_menu.c": "6b931111ef15dd7a7e0476a925208a3e096fb59d286f626edc143915899d3f10"
+  },
+  "input_elf_sha256": "deaf67338da21d7d5beaa64807cca312886550174117859ccd3476919919865f",
+  "fixture_elf_sha256": "9943b0caa6244239f57a2c3e21e35c9eb368103a0a91edc5042406c806f97318",
+  "capture_suite_sha256": "40dcc841e9892a64a9399eac9a5f1ec9db64530b136e1809a9dc3b3e935d78b8",
+  "objective_count": 164,
+  "text_field_count": 820
+}

@@ -39,7 +39,7 @@ static const u8 sComplete[] = _("Main story complete");
 static const u8 *const sStatus[] = {sNotStarted, sInProgress, sComplete};
 static const u8 sOverview[] = _("Story Progress");
 static const u8 sOverviewControls[] = _("Up/Down: region   A: details   B: back");
-static const u8 sDetailControls[] = _("Left/Right: page   Up/Down: region   B: back");
+static const u8 sDetailControls[] = _("A: Show destination on map   B: back");
 static const u8 sChapter[] = _("Chapter");
 static const u8 sNext[] = _("Next action");
 static const u8 sWhere[] = _("Where / who");
@@ -171,6 +171,19 @@ static void Task_StoryClose(u8 taskId)
     }
 }
 
+static void Task_OpenDestination(u8 taskId)
+{
+    const struct StoryObjective *objective;
+    if (gPaletteFade.active)
+        return;
+    StoryProgress_Resolve(REGION_KANTO + sStoryRegion, &sStoryProgress[sStoryRegion]);
+    objective = sStoryPage >= 3 ? sStoryProgress[sStoryRegion].optional : sStoryProgress[sStoryRegion].objective;
+    SetVBlankCallback(NULL);
+    FreeAllWindowBuffers();
+    DestroyTask(taskId);
+    ShowStoryDestinationMap(objective, CB2_InitStory);
+}
+
 static void Task_StoryInput(u8 taskId)
 {
     if (gPaletteFade.active) return;
@@ -187,6 +200,13 @@ static void Task_StoryInput(u8 taskId)
     else if (JOY_NEW(DPAD_UP)) { sStoryRegion = (sStoryRegion + 2) % 3; sStoryPage = 0; }
     else if (JOY_NEW(DPAD_DOWN)) { sStoryRegion = (sStoryRegion + 1) % 3; sStoryPage = 0; }
     else if (JOY_NEW(A_BUTTON) && !sStoryDetail) { sStoryDetail = TRUE; sStoryPage = 0; }
+    else if (sStoryDetail && JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_OpenDestination;
+        return;
+    }
     else if (sStoryDetail && JOY_NEW(DPAD_RIGHT | R_BUTTON)) sStoryPage = (sStoryPage + 1) % PageCount();
     else if (sStoryDetail && JOY_NEW(DPAD_LEFT | L_BUTTON)) sStoryPage = (sStoryPage + PageCount() - 1) % PageCount();
     else return;
@@ -222,8 +242,7 @@ static void CB2_InitStory(void)
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
     WorldMenu_InitBackground(0);
     for (i = 0; i < 3; i++) StoryProgress_Resolve(REGION_KANTO + i, &sStoryProgress[i]);
-    sStoryRegion = StoryProgress_DefaultRegion() - REGION_KANTO;
-    sStoryPage = 0; sStoryDetail = FALSE;
+    if (sStoryPage >= PageCount()) sStoryPage = 0;
     Draw();
     ShowBg(0);
     BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
@@ -235,5 +254,8 @@ static void CB2_InitStory(void)
 void ShowStoryProgress(void (*returnCallback)(void))
 {
     sStoryReturnCallback = returnCallback;
+    sStoryRegion = StoryProgress_DefaultRegion() - REGION_KANTO;
+    sStoryPage = 0;
+    sStoryDetail = FALSE;
     SetMainCallback2(CB2_InitStory);
 }

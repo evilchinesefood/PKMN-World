@@ -738,7 +738,13 @@ void InitRegionMap(struct RegionMap *regionMap, bool8 zoomed)
 
 void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, bool8 zoomed)
 {
+    InitRegionMapDataForType(regionMap, template, zoomed, GetRegionMapType(gMapHeader.regionMapSectionId));
+}
+
+void InitRegionMapDataForType(struct RegionMap *regionMap, const struct BgTemplate *template, bool8 zoomed, enum RegionMapType type)
+{
     sRegionMap = regionMap;
+    sRegionMap->mapType = type;
     sRegionMap->initStep = 0;
     sRegionMap->zoomed = zoomed;
     sRegionMap->inputCallback = zoomed == TRUE ? ProcessRegionMapInput_Zoomed : ProcessRegionMapInput_Full;
@@ -761,6 +767,7 @@ void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *tem
 void ShowRegionMapForPokedexAreaScreen(struct RegionMap *regionMap)
 {
     sRegionMap = regionMap;
+    sRegionMap->mapType = GetRegionMapType(gMapHeader.regionMapSectionId);
     InitMapBasedOnPlayerLocation();
     sRegionMap->playerIconSpritePosX = sRegionMap->cursorPosX;
     sRegionMap->playerIconSpritePosY = sRegionMap->cursorPosY;
@@ -772,14 +779,14 @@ bool8 LoadRegionMapGfx(void)
     switch (sRegionMap->initStep)
     {
     case 0:
-        regionMapType = GetRegionMapType(gMapHeader.regionMapSectionId);
+        regionMapType = sRegionMap->mapType;
         if (sRegionMap->bgManaged)
             DecompressAndCopyTileDataToVram(sRegionMap->bgNum, gRegionMapInfos[regionMapType].regionMapGfx, 0, 0, 0);
         else
             DecompressDataWithHeaderVram(gRegionMapInfos[regionMapType].regionMapGfx, (u16 *)BG_CHAR_ADDR(2));
         break;
     case 1:
-        regionMapType = GetRegionMapType(gMapHeader.regionMapSectionId);
+        regionMapType = sRegionMap->mapType;
         if (sRegionMap->bgManaged)
         {
             if (!FreeTempTileDataBuffersIfPossible())
@@ -791,7 +798,7 @@ bool8 LoadRegionMapGfx(void)
         }
         break;
     case 2:
-        regionMapType = GetRegionMapType(gMapHeader.regionMapSectionId);
+        regionMapType = sRegionMap->mapType;
         if (!FreeTempTileDataBuffersIfPossible())
             LoadPalette(gRegionMapInfos[regionMapType].regionMapPalette, BG_PLTT_ID(7), 3 * PLTT_SIZE_4BPP);
         break;
@@ -806,6 +813,10 @@ bool8 LoadRegionMapGfx(void)
         sRegionMap->playerIconSpritePosX = sRegionMap->cursorPosX;
         sRegionMap->playerIconSpritePosY = sRegionMap->cursorPosY;
         sRegionMap->mapSecId = CorrectSpecialMapSecId_Internal(sRegionMap->mapSecId);
+        sRegionMap->playerOnMap = gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_REGION_HUB)
+            && sRegionMap->mapSecId < MAPSEC_NONE
+            && GetRegionMapType(sRegionMap->mapSecId) == sRegionMap->mapType
+            && GetRegionMapSecIdAtForType(sRegionMap->mapType, sRegionMap->cursorPosX, sRegionMap->cursorPosY) == sRegionMap->mapSecId;
         sRegionMap->mapSecType = GetMapsecType(sRegionMap->mapSecId);
         GetMapName(sRegionMap->mapSecName, sRegionMap->mapSecId, MAP_NAME_LENGTH);
         break;
@@ -1218,34 +1229,45 @@ enum RegionMapType GetRegionMapType(u32 mapSecId)
 
 static mapsec_u16_t GetMapSecIdAt(u16 x, u16 y)
 {
+    return GetRegionMapSecIdAtForType(sRegionMap->mapType, x, y);
+}
+
+mapsec_u16_t GetRegionMapSecIdAtForType(enum RegionMapType type, u16 x, u16 y)
+{
     if (y < MAPCURSOR_Y_MIN || y > MAPCURSOR_Y_MAX || x < MAPCURSOR_X_MIN || x > MAPCURSOR_X_MAX)
-    {
         return MAPSEC_NONE;
-    }
     y -= MAPCURSOR_Y_MIN;
     x -= MAPCURSOR_X_MIN;
-
-    switch (GetCurrentRegion())
+    switch (type)
     {
-    case REGION_KANTO:
-        switch (GetKantoSubregion(gMapHeader.regionMapSectionId))
-        {
-        case KANTO_SUBREGION_SEVII123:
-                return sRegionMapSections_Sevii123[y][x];
-        case KANTO_SUBREGION_SEVII45:
-                return sRegionMapSections_Sevii45[y][x];
-        case KANTO_SUBREGION_SEVII67:
-                return sRegionMapSections_Sevii67[y][x];
-        case KANTO_SUBREGION_KANTO:
-        default:
-                return sRegionMapSections_Kanto[y][x];
-        }
-    case REGION_JOHTO:
-            return sRegionMapSections_Johto[y][x];
-    case REGION_HOENN:
-    default:
-            return sRegionMap_MapSectionLayout[y][x];
+    case REGION_MAP_KANTO: return sRegionMapSections_Kanto[y][x];
+    case REGION_MAP_SEVII123: return sRegionMapSections_Sevii123[y][x];
+    case REGION_MAP_SEVII45: return sRegionMapSections_Sevii45[y][x];
+    case REGION_MAP_SEVII67: return sRegionMapSections_Sevii67[y][x];
+    case REGION_MAP_JOHTO: return sRegionMapSections_Johto[y][x];
+    case REGION_MAP_HOENN: return sRegionMap_MapSectionLayout[y][x];
+    default: return MAPSEC_NONE;
     }
+}
+
+bool8 RegionMap_SetDestination(mapsec_u16_t section)
+{
+    u16 x, y;
+    if (section >= MAPSEC_NONE || section == MAPSEC_DYNAMIC)
+        return FALSE;
+    for (y = MAPCURSOR_Y_MIN; y <= MAPCURSOR_Y_MAX; y++)
+        for (x = MAPCURSOR_X_MIN; x <= MAPCURSOR_X_MAX; x++)
+            if (GetMapSecIdAt(x, y) == section)
+            {
+                sRegionMap->cursorPosX = x;
+                sRegionMap->cursorPosY = y;
+                sRegionMap->mapSecId = section;
+                sRegionMap->mapSecType = GetMapsecType(section);
+                GetMapName(sRegionMap->mapSecName, section, MAP_NAME_LENGTH);
+                GetPositionOfCursorWithinMapSec();
+                return TRUE;
+            }
+    return FALSE;
 }
 
 static void InitMapBasedOnPlayerLocation(void)
@@ -1342,6 +1364,15 @@ static void InitMapBasedOnPlayerLocation(void)
         break;
     }
 
+    if (sRegionMap->mapSecId >= MAPSEC_NONE
+        || gRegionMapEntries[sRegionMap->mapSecId].width == 0
+        || gRegionMapEntries[sRegionMap->mapSecId].height == 0)
+    {
+        sRegionMap->mapSecId = MAPSEC_NONE;
+        sRegionMap->cursorPosX = MAPCURSOR_X_MIN;
+        sRegionMap->cursorPosY = MAPCURSOR_Y_MIN;
+        return;
+    }
     xOnMap = x;
 
     dimensionScale = mapWidth / gRegionMapEntries[sRegionMap->mapSecId].width;
@@ -1566,7 +1597,7 @@ static u8 GetMapsecType(mapsec_u16_t mapSecId)
 
 mapsec_u16_t GetRegionMapSecIdAt(u16 x, u16 y)
 {
-    return GetMapSecIdAt(x, y);
+    return GetRegionMapSecIdAtForType(GetRegionMapType(gMapHeader.regionMapSectionId), x, y);
 }
 
 static mapsec_u16_t CorrectSpecialMapSecId_Internal(mapsec_u16_t mapSecId)
@@ -2433,7 +2464,7 @@ static const struct FlyLocation sFlyLocations[] =
 
 static void CreateFlyDestIcons(void)
 {
-    enum RegionMapType regionMapType = GetRegionMapType(gMapHeader.regionMapSectionId);
+    enum RegionMapType regionMapType = sRegionMap->mapType;
     u32 i;
     u16 x;
     u16 y;

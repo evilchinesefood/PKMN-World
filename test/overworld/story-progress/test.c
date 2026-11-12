@@ -32,6 +32,16 @@ bool8 IsRegionChampion(enum Region region)
 }
 #include "../../../src/story_progress.c"
 
+#define MAP_HEIGHT 15
+#define MAP_WIDTH 28
+typedef u16 mapsec_u8_t;
+#include "../../../src/data/region_map/region_map_layout.h"
+#include "../../../src/data/region_map/region_map_layout_kanto.h"
+#include "../../../src/data/region_map/region_map_layout_johto.h"
+#include "../../../src/data/region_map/region_map_layout_sevii123.h"
+#include "../../../src/data/region_map/region_map_layout_sevii45.h"
+#include "../../../src/data/region_map/region_map_layout_sevii67.h"
+
 static void Reset(void)
 {
     memset(flags, 0, sizeof(flags));
@@ -61,6 +71,33 @@ static void Assert(bool32 ok, const char *message)
     assertions++;
     if (!ok) { fprintf(stderr, "FAIL: %s\n", message); exit(1); }
 }
+static void ValidateDestination(const struct StoryObjective *objective)
+{
+    const struct StoryDestination *destination = &objective->destination;
+    const u16 (*layouts[])[MAP_WIDTH] = {
+        sRegionMap_MapSectionLayout, sRegionMapSections_Kanto, sRegionMapSections_Johto,
+        sRegionMapSections_Sevii123, sRegionMapSections_Sevii45, sRegionMapSections_Sevii67,
+    };
+    unsigned found = 0;
+    Assert(destination->kind <= STORY_DESTINATION_DYNAMIC, "authored destination has a valid kind");
+    if (destination->kind != STORY_DESTINATION_PIN)
+    {
+        Assert(destination->mapSecId == MAPSEC_NONE, "exemption never invents a map section");
+        return;
+    }
+    Assert(destination->mapSecId < MAPSEC_NONE && destination->mapSecId != MAPSEC_DYNAMIC,
+        "pin has a concrete map section");
+    for (unsigned layout = 0; layout < ARRAY_COUNT(layouts); layout++)
+    {
+        bool8 present = FALSE;
+        for (unsigned y = 0; y < MAP_HEIGHT; y++)
+            for (unsigned x = 0; x < MAP_WIDTH; x++)
+                if (layouts[layout][y][x] == destination->mapSecId) present = TRUE;
+        found += present;
+    }
+    if (found != 1) fprintf(stderr, "Invalid destination for %s: %u\n", objective->id, destination->mapSecId);
+    Assert(found == 1, "pin belongs to exactly one actual map layout");
+}
 static void Record(const char *id)
 {
     unsigned i;
@@ -86,6 +123,8 @@ static void Expect(enum Region r, const char *id)
     }
     assertions++;
     Record(p.objective->id);
+    ValidateDestination(p.objective);
+    Assert(StoryProgress_GetDestination(p.objective)->kind <= STORY_DESTINATION_DYNAMIC, "explicit destination kind");
     Assert(!memcmp(flagsBefore, flags, sizeof(flags)) && !memcmp(varsBefore, vars, sizeof(vars))
            && !memcmp(itemsBefore, items, sizeof(items)) && !memcmp(&saveBefore, &save, sizeof(save))
            && active == activeBefore, "resolver leaves save and campaign state intact");
@@ -96,16 +135,58 @@ static void ExpectOptional(enum Region r, const char *id)
     StoryProgress_Resolve(r, &p);
     Assert(id ? p.optional != NULL && !strcmp(p.optional->id, id) : p.optional == NULL,
            id ? id : "no undiscovered/completed optional lead");
-    if (p.optional) Record(p.optional->id);
+    if (p.optional)
+    {
+        Record(p.optional->id);
+        ValidateDestination(p.optional);
+    }
 }
 
 #include "kanto_cases.inc"
 #include "johto_cases.inc"
 #include "hoenn_cases.inc"
 
+static void ExpectPin(enum Region region, bool8 optional, u16 section)
+{
+    struct StoryProgress progress;
+    StoryProgress_Resolve(region, &progress);
+    const struct StoryDestination *destination = StoryProgress_GetDestination(optional ? progress.optional : progress.objective);
+    if (destination->kind != STORY_DESTINATION_PIN || destination->mapSecId != section)
+        fprintf(stderr, "Destination expected %u, got %u\n", section, destination->mapSecId);
+    Assert(destination->kind == STORY_DESTINATION_PIN && destination->mapSecId == section,
+        "current next action selects its literal expected destination");
+}
+
+static void TestDestinationTransitions(void)
+{
+    Reset();
+    SetStarted(REGION_KANTO);
+    SetVar(VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 4);
+    ExpectPin(REGION_KANTO, FALSE, MAPSEC_VIRIDIAN_CITY);
+    SetVar(VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5);
+    ExpectPin(REGION_KANTO, FALSE, MAPSEC_PALLET_TOWN);
+    SetVar(VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6);
+    SetFlag(FLAG_KANTO_BADGE_1);
+    ExpectPin(REGION_KANTO, FALSE, MAPSEC_ROUTE_4);
+    SetVar(VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 4);
+    ExpectPin(REGION_KANTO, TRUE, MAPSEC_KINDLE_ROAD);
+    SetFlag(FLAG_GOT_RUBY);
+    ExpectPin(REGION_KANTO, TRUE, MAPSEC_ONE_ISLAND);
+    SetVar(VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5);
+    ExpectPin(REGION_KANTO, TRUE, MAPSEC_FOUR_ISLAND);
+    SetVar(VAR_MAP_SCENE_ICEFALL_CAVE_BACK, 1);
+    ExpectPin(REGION_KANTO, TRUE, MAPSEC_RUIN_VALLEY);
+    SetFlag(FLAG_LEARNED_YES_NAH_CHANSEY);
+    ExpectPin(REGION_KANTO, TRUE, MAPSEC_FIVE_ISLE_MEADOW);
+    SetFlag(FLAG_RECOVERED_SAPPHIRE);
+    ExpectPin(REGION_KANTO, TRUE, MAPSEC_ONE_ISLAND);
+}
+
 int main(void)
 {
     struct StoryProgress p;
+    Assert(StoryProgress_GetDestination(NULL)->kind == STORY_DESTINATION_DYNAMIC, "unknown objective has no invented pin");
+    Assert(StoryProgress_GetDestination(NULL)->mapSecId == MAPSEC_NONE, "unknown objective has no map section");
     Reset();
     Expect(REGION_KANTO, "kanto.not_started");
     Expect(REGION_JOHTO, "johto.not_started");
@@ -138,6 +219,7 @@ int main(void)
     TestKanto();
     TestJohto();
     TestHoenn();
+    TestDestinationTransitions();
     for (unsigned i = 0; i < coveredCount; i++) printf("COVERED %s\n", covered[i]);
     printf("Story Progress: %u assertions passed\n", assertions);
     return 0;

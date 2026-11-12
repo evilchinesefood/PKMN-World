@@ -6,6 +6,22 @@
 
 enum StoryStatus { STORY_NOT_STARTED, STORY_IN_PROGRESS, STORY_COMPLETE };
 
+enum StoryDestinationKind
+{
+    STORY_DESTINATION_PIN,
+    STORY_DESTINATION_HUB,
+    STORY_DESTINATION_FREE_ROAM,
+    STORY_DESTINATION_MULTIPLE,
+    STORY_DESTINATION_WAITING,
+    STORY_DESTINATION_DYNAMIC,
+};
+
+struct StoryDestination
+{
+    u16 kind;
+    u16 mapSecId;
+};
+
 struct StoryObjective
 {
     const char *id; // stable authoring/test identifier, never displayed
@@ -14,6 +30,7 @@ struct StoryObjective
     const u8 *action;
     const u8 *where;
     const u8 *why;
+    struct StoryDestination destination;
 };
 
 struct StoryProgress
@@ -24,6 +41,8 @@ struct StoryProgress
     u8 badges;
 };
 
+const struct StoryDestination *StoryProgress_GetDestination(const struct StoryObjective *objective);
+void ShowStoryDestinationMap(const struct StoryObjective *objective, void (*returnCallback)(void));
 void StoryProgress_Resolve(enum Region region, struct StoryProgress *progress);
 enum Region StoryProgress_DefaultRegion(void);
 void ShowStoryProgress(void (*returnCallback)(void));

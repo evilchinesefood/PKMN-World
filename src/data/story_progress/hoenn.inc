@@ -1,355 +1,355 @@
 // Hoenn priorities follow the shipped map scripts. See docs/story-progress/hoenn.md.
-STORY_OBJECTIVE(sHoennClock, "hoenn.clock",
+STORY_OBJECTIVE(sHoennClock, "hoenn.clock", STORY_PIN(LITTLEROOT_TOWN),
     "A new home",
     "Your Hoenn visit has begun.",
     "Set your bedroom clock.",
     "Littleroot Town\nYour house, upstairs",
     "Your mother is waiting.");
 
-STORY_OBJECTIVE(sHoennMeetRival, "hoenn.meet_rival",
+STORY_OBJECTIVE(sHoennMeetRival, "hoenn.meet_rival", STORY_PIN(LITTLEROOT_TOWN),
     "Meet the neighbors",
     "The clock is set.",
     "Meet your rival next door.",
     "Littleroot Town\nNeighbor house, upstairs",
     "Get to know the neighbors.");
 
-STORY_OBJECTIVE(sHoennRescueBirch, "hoenn.rescue_birch",
+STORY_OBJECTIVE(sHoennRescueBirch, "hoenn.rescue_birch", STORY_PIN(ROUTE_101),
     "A call for help",
     "You met your new rival.",
     "Help Birch on Route 101.",
     "Route 101\nBag beside Professor Birch",
     "Choose a Pokemon to help.");
 
-STORY_OBJECTIVE(sHoennStarterLab, "hoenn.starter_lab",
+STORY_OBJECTIVE(sHoennStarterLab, "hoenn.starter_lab", STORY_PIN(LITTLEROOT_TOWN),
     "Your first partner",
     "You helped Professor Birch.",
     "Visit Birch at his lab.",
     "Littleroot Town\nProfessor Birch's Lab",
     "Birch wants to thank you.");
 
-STORY_OBJECTIVE(sHoennRoute103, "hoenn.route103",
+STORY_OBJECTIVE(sHoennRoute103, "hoenn.route103", STORY_PIN(ROUTE_103),
     "Meet your rival",
     "Birch gave you a partner.",
     "Find your rival on Route 103.",
     "Route 103\nNorth of Oldale Town",
     "Try a battle with your rival.");
 
-STORY_OBJECTIVE(sHoennPokedex, "hoenn.pokedex",
+STORY_OBJECTIVE(sHoennPokedex, "hoenn.pokedex", STORY_PIN(LITTLEROOT_TOWN),
     "Report to Birch",
     "You battled your rival.",
     "Return to Birch's lab.",
     "Littleroot Town\nProfessor Birch's Lab",
     "Birch has something for you.");
 
-STORY_OBJECTIVE(sHoennPetalburg, "hoenn.petalburg",
+STORY_OBJECTIVE(sHoennPetalburg, "hoenn.petalburg", STORY_PIN(PETALBURG_CITY),
     "Visit your father",
     "Birch gave you the Pokedex.",
     "Meet Norman in his Gym.",
     "Petalburg City Gym",
     "Your father wants to see you.");
 
-STORY_OBJECTIVE(sHoennWoods, "hoenn.woods",
+STORY_OBJECTIVE(sHoennWoods, "hoenn.woods", STORY_PIN(ROUTE_104),
     "Through the woods",
     "You visited Petalburg Gym.",
     "Help the Devon researcher.",
     "Petalburg Woods\nNorthbound forest path",
     "A researcher needs help.");
 
-STORY_OBJECTIVE(sHoennRoxanne, "hoenn.roxanne",
+STORY_OBJECTIVE(sHoennRoxanne, "hoenn.roxanne", STORY_PIN(RUSTBORO_CITY),
     "The Stone Badge",
     "Your Hoenn journey continues.",
     "Challenge Roxanne.",
     "Rustboro City Gym",
     "Earn the Stone Badge.");
 
-STORY_OBJECTIVE(sHoennDevonRecover, "hoenn.devon_recover",
+STORY_OBJECTIVE(sHoennDevonRecover, "hoenn.devon_recover", STORY_PIN(ROUTE_116),
     "Devon's stolen goods",
     "Rustboro needs your help.",
     "Follow the Devon thief.",
     "Rustboro City to Route 116\nRusturf Tunnel",
     "Recover the stolen goods.");
 
-STORY_OBJECTIVE(sHoennDevonReturn, "hoenn.devon_return",
+STORY_OBJECTIVE(sHoennDevonReturn, "hoenn.devon_return", STORY_PIN(RUSTBORO_CITY),
     "Return the goods",
     "You recovered Devon's goods.",
     "Return to the Devon worker.",
     "Rustboro City\nWorker near Route 116 exit",
     "Devon wants its goods back.");
 
-STORY_OBJECTIVE(sHoennDevonPresident, "hoenn.devon_president",
+STORY_OBJECTIVE(sHoennDevonPresident, "hoenn.devon_president", STORY_PIN(RUSTBORO_CITY),
     "Devon's request",
     "You returned Devon's goods.",
     "Meet Devon's president.",
     "Rustboro City\nDevon Corporation, 3F",
     "The president has a request.");
 
-STORY_OBJECTIVE(sHoennDevonSteven, "hoenn.devon_steven",
+STORY_OBJECTIVE(sHoennDevonSteven, "hoenn.devon_steven", STORY_PIN(ROUTE_106),
     "A letter for Steven",
     "Devon asked for a delivery.",
     "Give Steven his letter.",
     "Granite Cave, Steven's room\nWest of Dewford Town",
     "Steven's delivery is pending.");
 
-STORY_OBJECTIVE(sHoennBrawly, "hoenn.brawly",
+STORY_OBJECTIVE(sHoennBrawly, "hoenn.brawly", STORY_PIN(DEWFORD_TOWN),
     "The Knuckle Badge",
     "Dewford has a Gym challenge.",
     "Challenge Brawly.",
     "Dewford Town Gym",
     "Earn the Knuckle Badge.");
 
-STORY_OBJECTIVE(sHoennDevonDock, "hoenn.devon_dock",
+STORY_OBJECTIVE(sHoennDevonDock, "hoenn.devon_dock", STORY_PIN(SLATEPORT_CITY),
     "Find Captain Stern",
     "Devon's goods need delivery.",
     "Ask Dock about Stern.",
     "Slateport City\nStern's Shipyard, 1F",
     "Dock can direct you to Stern.");
 
-STORY_OBJECTIVE(sHoennDevonStern, "hoenn.devon_stern",
+STORY_OBJECTIVE(sHoennDevonStern, "hoenn.devon_stern", STORY_PIN(SLATEPORT_CITY),
     "Goods for Captain Stern",
     "Dock directed you to Stern.",
     "Give Stern the Devon goods.",
     "Slateport City\nOceanic Museum, 2F",
     "Stern's delivery is pending.");
 
-STORY_OBJECTIVE(sHoennRoute110, "hoenn.route110",
+STORY_OBJECTIVE(sHoennRoute110, "hoenn.route110", STORY_PIN(ROUTE_110),
     "The road to Mauville",
     "You delivered Devon's goods.",
     "Follow Route 110 north.",
     "Route 110\nRival near the cycle path",
     "Mauville lies ahead.");
 
-STORY_OBJECTIVE(sHoennWallyMauville, "hoenn.wally_mauville",
+STORY_OBJECTIVE(sHoennWallyMauville, "hoenn.wally_mauville", STORY_PIN(MAUVILLE_CITY),
     "Wally's challenge",
     "Wally is outside the Gym.",
     "Battle Wally outside the Gym.",
     "Mauville City\nGym entrance",
     "Clear the way to the Gym.");
 
-STORY_OBJECTIVE(sHoennWattson, "hoenn.wattson",
+STORY_OBJECTIVE(sHoennWattson, "hoenn.wattson", STORY_PIN(MAUVILLE_CITY),
     "The Dynamo Badge",
     "Your Gym journey continues.",
     "Challenge Wattson.",
     "Mauville City Gym",
     "Earn the Dynamo Badge.");
 
-STORY_OBJECTIVE(sHoennRockSmash, "hoenn.rock_smash",
+STORY_OBJECTIVE(sHoennRockSmash, "hoenn.rock_smash", STORY_PIN(MAUVILLE_CITY),
     "The northern route",
     "Mauville's badge is yours.",
     "Get Rock Smash in Mauville.",
     "Mauville City\nMan in southeast house",
     "Clear Route 111's rocks.");
 
-STORY_OBJECTIVE(sHoennMeteorFalls, "hoenn.meteor_falls",
+STORY_OBJECTIVE(sHoennMeteorFalls, "hoenn.meteor_falls", STORY_PIN(ROUTE_114),
     "Trouble in the mountains",
     "The northern route is open.",
     "Find Cozmo in Meteor Falls.",
     "Meteor Falls, 1F\nVia Routes 111 to 114",
     "Investigate the teams there.");
 
-STORY_OBJECTIVE(sHoennMtChimney, "hoenn.mt_chimney",
+STORY_OBJECTIVE(sHoennMtChimney, "hoenn.mt_chimney", STORY_PIN(MT_CHIMNEY),
     "The stolen meteorite",
     "The teams left Meteor Falls.",
     "Take the cable car uphill.\nConfront Magma at the summit.",
     "Mt. Chimney\nCable car on Route 112",
     "Stop the team's plan.");
 
-STORY_OBJECTIVE(sHoennFlannery, "hoenn.flannery",
+STORY_OBJECTIVE(sHoennFlannery, "hoenn.flannery", STORY_PIN(LAVARIDGE_TOWN),
     "The Heat Badge",
     "Your Gym journey continues.",
     "Challenge Flannery.",
     "Lavaridge Town Gym",
     "Earn the Heat Badge.");
 
-STORY_OBJECTIVE(sHoennNorman, "hoenn.norman",
+STORY_OBJECTIVE(sHoennNorman, "hoenn.norman", STORY_PIN(PETALBURG_CITY),
     "The Balance Badge",
     "Four Gym badges are needed.",
     "Challenge Norman.",
     "Petalburg City Gym",
     "Earn the Balance Badge.");
 
-STORY_OBJECTIVE(sHoennSurf, "hoenn.surf",
+STORY_OBJECTIVE(sHoennSurf, "hoenn.surf", STORY_PIN(PETALBURG_CITY),
     "Cross the water",
     "You earned Norman's badge.",
     "Visit Wally's father.",
     "Petalburg City\nWally's house",
     "Receive Surf for the journey.");
 
-STORY_OBJECTIVE(sHoennWeatherInstitute, "hoenn.weather_institute",
+STORY_OBJECTIVE(sHoennWeatherInstitute, "hoenn.weather_institute", STORY_PIN(ROUTE_119),
     "Trouble on Route 119",
     "You can travel east by Surf.",
     "Help the Weather Institute.",
     "Route 119\nWeather Institute, 2F",
     "Team Aqua blocks the route.");
 
-STORY_OBJECTIVE(sHoennCastform, "hoenn.castform",
+STORY_OBJECTIVE(sHoennCastform, "hoenn.castform", STORY_PIN(ROUTE_119),
     "The scientist's thanks",
     "You cleared the institute.",
     "Make room for Castform.\nSpeak to the scientist, 2F.",
     "Route 119\nWeather Institute, 2F",
     "Your gift is still waiting.");
 
-STORY_OBJECTIVE(sHoennRoute119, "hoenn.route119",
+STORY_OBJECTIVE(sHoennRoute119, "hoenn.route119", STORY_PIN(ROUTE_119),
     "Onward to Fortree",
     "The institute route is clear.",
     "Cross Route 119's bridge.",
     "Route 119\nEast of Weather Institute",
     "Your rival is on the route.");
 
-STORY_OBJECTIVE(sHoennDevonScope, "hoenn.devon_scope",
+STORY_OBJECTIVE(sHoennDevonScope, "hoenn.devon_scope", STORY_PIN(ROUTE_120),
     "Fortree's hidden obstacle",
     "Fortree Gym has an obstacle.",
     "Meet Steven on Route 120.",
     "Route 120\nBridge south of Fortree",
     "Learn to reveal the obstacle.");
 
-STORY_OBJECTIVE(sHoennWinona, "hoenn.winona",
+STORY_OBJECTIVE(sHoennWinona, "hoenn.winona", STORY_PIN(FORTREE_CITY),
     "The Feather Badge",
     "Your Gym journey continues.",
     "Challenge Winona.",
     "Fortree City Gym",
     "Earn the Feather Badge.");
 
-STORY_OBJECTIVE(sHoennMtPyre, "hoenn.mt_pyre",
+STORY_OBJECTIVE(sHoennMtPyre, "hoenn.mt_pyre", STORY_PIN(ROUTE_122),
     "Follow Team Aqua",
     "The eastern route is open.",
     "Find Team Aqua at Mt. Pyre.",
     "Mt. Pyre, outdoor summit\nSurf south from Route 121",
     "Investigate the team's trail.");
 
-STORY_OBJECTIVE(sHoennStrength, "hoenn.strength",
+STORY_OBJECTIVE(sHoennStrength, "hoenn.strength", STORY_PIN(ROUTE_116),
     "A way through boulders",
     "The team trail leads onward.",
     "Clear Rusturf Tunnel's rocks.",
     "Rusturf Tunnel\nWanda and her boyfriend",
     "Receive Strength for boulders.");
 
-STORY_OBJECTIVE(sHoennMagmaHideout, "hoenn.magma_hideout",
+STORY_OBJECTIVE(sHoennMagmaHideout, "hoenn.magma_hideout", STORY_PIN(ROUTE_112),
     "The mountain hideout",
     "Mt. Pyre revealed a clue.",
     "Enter Jagged Pass hideout.\nFind Maxie deep inside.",
     "Jagged Pass\nTeam Magma Hideout, 4F",
     "Follow Team Magma's trail.");
 
-STORY_OBJECTIVE(sHoennSlateportHarbor, "hoenn.slateport_harbor",
+STORY_OBJECTIVE(sHoennSlateportHarbor, "hoenn.slateport_harbor", STORY_PIN(SLATEPORT_CITY),
     "News from Slateport",
     "You explored Magma's hideout.",
     "Meet Stern at the harbor.",
     "Slateport City\nHarbor entrance",
     "Stern has news to share.");
 
-STORY_OBJECTIVE(sHoennAquaHideout, "hoenn.aqua_hideout",
+STORY_OBJECTIVE(sHoennAquaHideout, "hoenn.aqua_hideout", STORY_PIN(LILYCOVE_CITY),
     "The coastal hideout",
     "Team Aqua left Slateport.",
     "Search Team Aqua's hideout.",
     "Lilycove City, northeast sea\nAqua Hideout, B2F",
     "Follow the submarine trail.");
 
-STORY_OBJECTIVE(sHoennTateLiza, "hoenn.tate_liza",
+STORY_OBJECTIVE(sHoennTateLiza, "hoenn.tate_liza", STORY_PIN(MOSSDEEP_CITY),
     "The Mind Badge",
     "The eastern sea is open.",
     "Challenge Tate and Liza.",
     "Mossdeep City Gym",
     "Earn the Mind Badge.");
 
-STORY_OBJECTIVE(sHoennSpaceCenter, "hoenn.space_center",
+STORY_OBJECTIVE(sHoennSpaceCenter, "hoenn.space_center", STORY_PIN(MOSSDEEP_CITY),
     "Mossdeep under threat",
     "You earned Mossdeep's badge.",
     "Help Steven against Magma.",
     "Mossdeep City\nSpace Center, 2F",
     "Protect the Space Center.");
 
-STORY_OBJECTIVE(sHoennDive, "hoenn.dive",
+STORY_OBJECTIVE(sHoennDive, "hoenn.dive", STORY_PIN(MOSSDEEP_CITY),
     "Explore beneath the sea",
     "You helped the Space Center.",
     "Visit Steven's house.",
     "Mossdeep City\nSteven's house, northwest",
     "Receive Dive to follow Aqua.");
 
-STORY_OBJECTIVE(sHoennSeafloor, "hoenn.seafloor",
+STORY_OBJECTIVE(sHoennSeafloor, "hoenn.seafloor", STORY_PIN(ROUTE_128),
     "The submarine trail",
     "You can explore underwater.",
     "Find Aqua in Seafloor Cavern.",
     "Route 128, underwater cave\nSeafloor Cavern, deepest room",
     "Follow the submarine trail.");
 
-STORY_OBJECTIVE(sHoennSootopolisSteven, "hoenn.sootopolis_steven",
+STORY_OBJECTIVE(sHoennSootopolisSteven, "hoenn.sootopolis_steven", STORY_PIN(SOOTOPOLIS_CITY),
     "Trouble in Sootopolis",
     "The cavern crisis has begun.",
     "Find Steven in Sootopolis.",
     "Sootopolis City\nNorthwest shore",
     "Steven can guide you onward.");
 
-STORY_OBJECTIVE(sHoennOriginWallace, "hoenn.origin_wallace",
+STORY_OBJECTIVE(sHoennOriginWallace, "hoenn.origin_wallace", STORY_PIN(SOOTOPOLIS_CITY),
     "Seek Wallace's advice",
     "Steven led you to the cave.",
     "Talk to Wallace in the cave.",
     "Sootopolis City\nCave of Origin, B1F",
     "Find a way to stop the crisis.");
 
-STORY_OBJECTIVE(sHoennSkyPillar, "hoenn.sky_pillar",
+STORY_OBJECTIVE(sHoennSkyPillar, "hoenn.sky_pillar", STORY_PIN(ROUTE_131),
     "Wallace's destination",
     "Wallace named Sky Pillar.",
     "Meet Wallace at Sky Pillar.\nClimb to the top.",
     "Route 131, north shore\nSky Pillar",
     "Seek help for Sootopolis.");
 
-STORY_OBJECTIVE(sHoennReturnSootopolis, "hoenn.return_sootopolis",
+STORY_OBJECTIVE(sHoennReturnSootopolis, "hoenn.return_sootopolis", STORY_PIN(SOOTOPOLIS_CITY),
     "Return to the city",
     "You visited Sky Pillar's top.",
     "Return to Sootopolis City.",
     "Sootopolis City",
     "See what has changed there.");
 
-STORY_OBJECTIVE(sHoennSootopolisLeaders, "hoenn.sootopolis_leaders",
+STORY_OBJECTIVE(sHoennSootopolisLeaders, "hoenn.sootopolis_leaders", STORY_PIN(SOOTOPOLIS_CITY),
     "After the crisis",
     "The city's weather is calm.",
     "Speak to Archie and Maxie.",
     "Sootopolis City\nOutside the Gym",
     "Both leaders must speak.");
 
-STORY_OBJECTIVE(sHoennWaterfall, "hoenn.waterfall",
+STORY_OBJECTIVE(sHoennWaterfall, "hoenn.waterfall", STORY_PIN(SOOTOPOLIS_CITY),
     "Wallace's thanks",
     "The team leaders have left.",
     "Speak to Wallace at the Gym.",
     "Sootopolis City\nOutside the Gym",
     "Wallace has a gift for you.");
 
-STORY_OBJECTIVE(sHoennJuan, "hoenn.juan",
+STORY_OBJECTIVE(sHoennJuan, "hoenn.juan", STORY_PIN(SOOTOPOLIS_CITY),
     "The Rain Badge",
     "Sootopolis Gym awaits you.",
     "Challenge Juan.",
     "Sootopolis City Gym",
     "Earn the Rain Badge.");
 
-STORY_OBJECTIVE(sHoennVictoryRoad, "hoenn.victory_road",
+STORY_OBJECTIVE(sHoennVictoryRoad, "hoenn.victory_road", STORY_PIN(EVER_GRANDE_CITY),
     "The path to the League",
     "You earned eight Hoenn badges.",
     "Cross Victory Road.",
     "Ever Grande City\nVictory Road",
     "Reach the Pokemon League.");
 
-STORY_OBJECTIVE(sHoennLeague, "hoenn.league",
+STORY_OBJECTIVE(sHoennLeague, "hoenn.league", STORY_PIN(EVER_GRANDE_CITY),
     "The Pokemon League",
     "You crossed Victory Road.",
     "Challenge the Pokemon League.",
     "Ever Grande City\nElite Four and Champion",
     "Become Hoenn Champion.");
 
-STORY_OBJECTIVE(sHoennComplete, "hoenn.complete",
+STORY_OBJECTIVE(sHoennComplete, "hoenn.complete", STORY_NO_PIN(HUB),
     "Hoenn Champion",
     "You became Hoenn Champion.",
     "Visit the Frontier attendant.",
     "World Transit\nNorth Frontier gate",
     "Your main journey is complete.");
 
-STORY_OBJECTIVE(sHoennNewMauville, "hoenn.new_mauville",
+STORY_OBJECTIVE(sHoennNewMauville, "hoenn.new_mauville", STORY_PIN(ROUTE_110),
     "Wattson's favor",
     "You accepted Wattson's key.",
     "Stop New Mauville's generator.",
     "Route 110, Surf to cave\nNew Mauville, red switch",
     "Complete Wattson's request.");
 
-STORY_OBJECTIVE(sHoennNewMauvilleReward, "hoenn.new_mauville_reward",
+STORY_OBJECTIVE(sHoennNewMauvilleReward, "hoenn.new_mauville_reward", STORY_PIN(MAUVILLE_CITY),
     "Report to Wattson",
     "The generator is off.",
     "Return to Wattson in town.",

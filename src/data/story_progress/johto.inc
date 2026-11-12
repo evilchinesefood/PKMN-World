@@ -1,7 +1,7 @@
 // Resolve only Johto save-bank milestones; shared HMs are not story evidence.
 
 STORY_OBJECTIVE(sJohtoElm,
-    "johto.elm",
+    "johto.elm", STORY_PIN(NEW_BARK_TOWN),
     "A new journey",
     "You have arrived in Johto.",
     "Talk to Prof. Elm.",
@@ -9,7 +9,7 @@ STORY_OBJECTIVE(sJohtoElm,
     "Elm is looking for you.");
 
 STORY_OBJECTIVE(sJohtoStarter,
-    "johto.starter",
+    "johto.starter", STORY_PIN(NEW_BARK_TOWN),
     "Elm's errand",
     "Elm offered you a Pokemon.",
     "Choose a partner Pokemon.",
@@ -17,7 +17,7 @@ STORY_OBJECTIVE(sJohtoStarter,
     "Check the three Poke Balls.");
 
 STORY_OBJECTIVE(sJohtoMrPokemon,
-    "johto.mr-pokemon",
+    "johto.mr-pokemon", STORY_PIN(ROUTE_30),
     "Elm's errand",
     "You chose a partner Pokemon.",
     "Visit Mr. Pokemon.",
@@ -25,7 +25,7 @@ STORY_OBJECTIVE(sJohtoMrPokemon,
     "Travel north from Cherrygrove.");
 
 STORY_OBJECTIVE(sJohtoReturnElm,
-    "johto.return-elm",
+    "johto.return-elm", STORY_PIN(NEW_BARK_TOWN),
     "Return to Elm",
     "You visited Mr. Pokemon.",
     "Return to Prof. Elm.",
@@ -33,7 +33,7 @@ STORY_OBJECTIVE(sJohtoReturnElm,
     "Bring back his discovery.");
 
 STORY_OBJECTIVE(sJohtoFirstBalls,
-    "johto.first-balls",
+    "johto.first-balls", STORY_PIN(NEW_BARK_TOWN),
     "Starting the adventure",
     "Elm has examined the Egg.",
     "Speak to Elm's aide.",
@@ -41,7 +41,7 @@ STORY_OBJECTIVE(sJohtoFirstBalls,
     "Make room for his Poke Balls.");
 
 STORY_OBJECTIVE(sJohtoSprout,
-    "johto.sprout",
+    "johto.sprout", STORY_PIN(SPROUT_TOWER),
     "Violet City",
     "Your Johto adventure is under\nway.",
     "Climb Sprout Tower.",
@@ -49,7 +49,7 @@ STORY_OBJECTIVE(sJohtoSprout,
     "Speak to the sages upstairs.");
 
 STORY_OBJECTIVE(sJohtoFalkner,
-    "johto.falkner",
+    "johto.falkner", STORY_PIN(VIOLET_CITY),
     "Violet Gym",
     "Your Johto journey continues.",
     "Challenge Falkner.",
@@ -57,7 +57,7 @@ STORY_OBJECTIVE(sJohtoFalkner,
     "Earn the Zephyr Badge.");
 
 STORY_OBJECTIVE(sJohtoEgg,
-    "johto.violet-egg",
+    "johto.violet-egg", STORY_PIN(VIOLET_CITY),
     "Elm's delivery",
     "You earned the Zephyr Badge.",
     "Meet Elm's aide.",
@@ -65,7 +65,7 @@ STORY_OBJECTIVE(sJohtoEgg,
     "Keep a party slot for the Egg.");
 
 STORY_OBJECTIVE(sJohtoKurt,
-    "johto.kurt",
+    "johto.kurt", STORY_PIN(AZALEA_TOWN),
     "Azalea Town",
     "You have begun your Johto\nadventure.",
     "Talk to Kurt.",
@@ -73,7 +73,7 @@ STORY_OBJECTIVE(sJohtoKurt,
     "Ask about the trouble in town.");
 
 STORY_OBJECTIVE(sJohtoWell,
-    "johto.well",
+    "johto.well", STORY_PIN(SLOWPOKE_WELL),
     "Slowpoke Well",
     "Kurt has opened the way to\nSlowpoke Well.",
     "Help Kurt in the well.",
@@ -81,7 +81,7 @@ STORY_OBJECTIVE(sJohtoWell,
     "Deal with Team Rocket.");
 
 STORY_OBJECTIVE(sJohtoKurtReturn,
-    "johto.kurt-return",
+    "johto.kurt-return", STORY_PIN(AZALEA_TOWN),
     "After the well",
     "Team Rocket left the well.",
     "Speak with Kurt again.",
@@ -89,7 +89,7 @@ STORY_OBJECTIVE(sJohtoKurtReturn,
     "Make room for his gift.");
 
 STORY_OBJECTIVE(sJohtoBugsy,
-    "johto.bugsy",
+    "johto.bugsy", STORY_PIN(AZALEA_TOWN),
     "Azalea Gym",
     "The well incident is over.",
     "Challenge Bugsy.",
@@ -97,7 +97,7 @@ STORY_OBJECTIVE(sJohtoBugsy,
     "Earn the Hive Badge.");
 
 STORY_OBJECTIVE(sJohtoRival,
-    "johto.azalea-rival",
+    "johto.azalea-rival", STORY_PIN(AZALEA_TOWN),
     "Leaving Azalea",
     "You earned the Hive Badge.",
     "Head west toward the forest.",
@@ -105,7 +105,7 @@ STORY_OBJECTIVE(sJohtoRival,
     "A challenge awaits outside.");
 
 STORY_OBJECTIVE(sJohtoIlex,
-    "johto.ilex",
+    "johto.ilex", STORY_PIN(ILEX_FOREST),
     "Ilex Forest",
     "You can continue through\nIlex Forest.",
     "Help the lost Farfetch'd.",
@@ -113,7 +113,7 @@ STORY_OBJECTIVE(sJohtoIlex,
     "Guide it back to its trainer.");
 
 STORY_OBJECTIVE(sJohtoIlexCut,
-    "johto.ilex-cut",
+    "johto.ilex-cut", STORY_PIN(ILEX_FOREST),
     "Ilex Forest",
     "Farfetch'd returned safely.",
     "Speak to the charcoal master.",
@@ -121,7 +121,7 @@ STORY_OBJECTIVE(sJohtoIlexCut,
     "Make room for his Cut HM.");
 
 STORY_OBJECTIVE(sJohtoWhitney,
-    "johto.whitney",
+    "johto.whitney", STORY_PIN(GOLDENROD_CITY),
     "Goldenrod Gym",
     "You can travel to Goldenrod.",
     "Challenge Whitney.",
@@ -129,7 +129,7 @@ STORY_OBJECTIVE(sJohtoWhitney,
     "Earn the Plain Badge.");
 
 STORY_OBJECTIVE(sJohtoWhitneyBadge,
-    "johto.whitney-badge",
+    "johto.whitney-badge", STORY_PIN(GOLDENROD_CITY),
     "Goldenrod Gym",
     "You defeated Whitney.",
     "Talk to the nearby trainer,\nthen speak to Whitney again.",
@@ -137,7 +137,7 @@ STORY_OBJECTIVE(sJohtoWhitneyBadge,
     "Whitney still owes your badge.");
 
 STORY_OBJECTIVE(sJohtoBottle,
-    "johto.squirtbottle",
+    "johto.squirtbottle", STORY_PIN(GOLDENROD_CITY),
     "The tree on Route 36",
     "You earned the Plain Badge.",
     "Ask for the SquirtBottle.",
@@ -145,7 +145,7 @@ STORY_OBJECTIVE(sJohtoBottle,
     "Make room for the bottle.");
 
 STORY_OBJECTIVE(sJohtoSudo,
-    "johto.sudowoodo",
+    "johto.sudowoodo", STORY_PIN(ROUTE_36),
     "The tree on Route 36",
     "You received the SquirtBottle.",
     "Use the bottle on the tree.",
@@ -153,7 +153,7 @@ STORY_OBJECTIVE(sJohtoSudo,
     "Face the Pokemon to clear it.");
 
 STORY_OBJECTIVE(sJohtoBurned,
-    "johto.burned-tower",
+    "johto.burned-tower", STORY_PIN(BURNED_TOWER),
     "Ecruteak City",
     "Your Johto journey continues.",
     "Explore the Burned Tower.",
@@ -161,7 +161,7 @@ STORY_OBJECTIVE(sJohtoBurned,
     "Morty is still at the tower.");
 
 STORY_OBJECTIVE(sJohtoMorty,
-    "johto.morty",
+    "johto.morty", STORY_PIN(ECRUTEAK_CITY),
     "Ecruteak Gym",
     "You explored the Burned Tower.",
     "Challenge Morty.",
@@ -169,7 +169,7 @@ STORY_OBJECTIVE(sJohtoMorty,
     "Earn the Fog Badge.");
 
 STORY_OBJECTIVE(sJohtoTheater,
-    "johto.theater",
+    "johto.theater", STORY_PIN(ECRUTEAK_CITY),
     "Crossing the sea",
     "You earned the Fog Badge.",
     "Help the Kimono Girl.",
@@ -177,7 +177,7 @@ STORY_OBJECTIVE(sJohtoTheater,
     "Talk to her and the intruder.");
 
 STORY_OBJECTIVE(sJohtoSurf,
-    "johto.surf",
+    "johto.surf", STORY_PIN(ECRUTEAK_CITY),
     "Crossing the sea",
     "You helped at the theater.",
     "Speak to the man with Surf.",
@@ -185,7 +185,7 @@ STORY_OBJECTIVE(sJohtoSurf,
     "Make room for his HM.");
 
 STORY_OBJECTIVE(sJohtoChuck,
-    "johto.chuck",
+    "johto.chuck", STORY_PIN(CIANWOOD_CITY),
     "Cianwood Gym",
     "You earned the Fog Badge.",
     "Challenge Chuck.",
@@ -193,7 +193,7 @@ STORY_OBJECTIVE(sJohtoChuck,
     "Use Surf to reach Cianwood.");
 
 STORY_OBJECTIVE(sJohtoLighthouse,
-    "johto.lighthouse",
+    "johto.lighthouse", STORY_PIN(OLIVINE_LIGHTHOUSE),
     "Olivine Lighthouse",
     "You can visit Olivine City.",
     "Find Jasmine upstairs.",
@@ -201,7 +201,7 @@ STORY_OBJECTIVE(sJohtoLighthouse,
     "The Gym Leader is away.");
 
 STORY_OBJECTIVE(sJohtoMedicine,
-    "johto.medicine",
+    "johto.medicine", STORY_PIN(CIANWOOD_CITY),
     "Medicine for the lighthouse",
     "Jasmine needs medicine for\nthe Lighthouse Pokemon.",
     "Get medicine from the shop.",
@@ -209,7 +209,7 @@ STORY_OBJECTIVE(sJohtoMedicine,
     "Use Surf; make room and retry.");
 
 STORY_OBJECTIVE(sJohtoDeliver,
-    "johto.deliver-medicine",
+    "johto.deliver-medicine", STORY_PIN(OLIVINE_LIGHTHOUSE),
     "Medicine for the lighthouse",
     "You have the requested\nSecret Potion.",
     "Bring the medicine to Jasmine.",
@@ -217,7 +217,7 @@ STORY_OBJECTIVE(sJohtoDeliver,
     "Give it to her to help Amphy.");
 
 STORY_OBJECTIVE(sJohtoJasmine,
-    "johto.jasmine",
+    "johto.jasmine", STORY_PIN(OLIVINE_CITY),
     "Olivine Gym",
     "Amphy has been healed.",
     "Challenge Jasmine.",
@@ -225,7 +225,7 @@ STORY_OBJECTIVE(sJohtoJasmine,
     "Earn the Mineral Badge.");
 
 STORY_OBJECTIVE(sJohtoRage,
-    "johto.rage",
+    "johto.rage", STORY_PIN(LAKE_OF_RAGE),
     "Lake of Rage",
     "Your Johto journey continues.",
     "Investigate the red Gyarados.",
@@ -233,7 +233,7 @@ STORY_OBJECTIVE(sJohtoRage,
     "Use Surf; keep your bag clear.");
 
 STORY_OBJECTIVE(sJohtoLance,
-    "johto.lance",
+    "johto.lance", STORY_PIN(LAKE_OF_RAGE),
     "Lake of Rage",
     "You dealt with the red\nGyarados.",
     "Talk to Lance by the lake.",
@@ -241,7 +241,7 @@ STORY_OBJECTIVE(sJohtoLance,
     "Accept his request for help.");
 
 STORY_OBJECTIVE(sJohtoShop,
-    "johto.shop",
+    "johto.shop", STORY_PIN(MAHOGANY_TOWN),
     "Mahogany investigation",
     "You agreed to help Lance.",
     "Enter the souvenir shop.",
@@ -249,7 +249,7 @@ STORY_OBJECTIVE(sJohtoShop,
     "Meet Lance inside.");
 
 STORY_OBJECTIVE(sJohtoHideout,
-    "johto.hideout",
+    "johto.hideout", STORY_PIN(MAHOGANY_TOWN),
     "Inside the hideout",
     "Lance revealed the hideout.",
     "Explore the rooms with Lance.",
@@ -257,7 +257,7 @@ STORY_OBJECTIVE(sJohtoHideout,
     "Follow Lance's instructions.\nCheck the rooms on each floor.");
 
 STORY_OBJECTIVE(sJohtoGenerator,
-    "johto.generator",
+    "johto.generator", STORY_PIN(MAHOGANY_TOWN),
     "Stop the radio signal",
     "You reached the generator\nwith Lance.",
     "Deal with the three Pokemon\non your side of the room.",
@@ -265,7 +265,7 @@ STORY_OBJECTIVE(sJohtoGenerator,
     "Do not flee the encounters.");
 
 STORY_OBJECTIVE(sJohtoWhirlpool,
-    "johto.whirlpool",
+    "johto.whirlpool", STORY_PIN(MAHOGANY_TOWN),
     "After the generator",
     "Your three encounters ended.",
     "Finish speaking with Lance.",
@@ -273,7 +273,7 @@ STORY_OBJECTIVE(sJohtoWhirlpool,
     "Make room for Whirlpool.");
 
 STORY_OBJECTIVE(sJohtoPryce,
-    "johto.pryce",
+    "johto.pryce", STORY_PIN(MAHOGANY_TOWN),
     "Mahogany Gym",
     "The hideout signal is stopped.",
     "Challenge Pryce.",
@@ -281,7 +281,7 @@ STORY_OBJECTIVE(sJohtoPryce,
     "Earn the Glacier Badge.");
 
 STORY_OBJECTIVE(sJohtoRadioCall,
-    "johto.radio-call",
+    "johto.radio-call", STORY_PIN(MAHOGANY_TOWN),
     "After Mahogany Gym",
     "You earned the Glacier Badge.",
     "Step outside in Mahogany.",
@@ -289,7 +289,7 @@ STORY_OBJECTIVE(sJohtoRadioCall,
     "A call will guide your next\nstep.");
 
 STORY_OBJECTIVE(sJohtoRadio,
-    "johto.radio",
+    "johto.radio", STORY_PIN(GOLDENROD_CITY),
     "Trouble at the Radio Tower",
     "Elm called about Goldenrod.",
     "Investigate the Director\nand claim the Basement Key.",
@@ -297,7 +297,7 @@ STORY_OBJECTIVE(sJohtoRadio,
     "Make room and retry the gift.");
 
 STORY_OBJECTIVE(sJohtoUnderground,
-    "johto.underground",
+    "johto.underground", STORY_PIN(GOLDENROD_CITY),
     "The missing Director",
     "You obtained the local\nBasement Key.",
     "Open the Underground door\nand search the basement.",
@@ -305,7 +305,7 @@ STORY_OBJECTIVE(sJohtoUnderground,
     "Use the key and the switches.");
 
 STORY_OBJECTIVE(sJohtoRadioRescue,
-    "johto.radio-rescue",
+    "johto.radio-rescue", STORY_PIN(GOLDENROD_CITY),
     "The missing Director",
     "You faced your rival in\nthe Underground.",
     "Find the Director, then use\nhis key at the Radio Tower.",
@@ -313,7 +313,7 @@ STORY_OBJECTIVE(sJohtoRadioRescue,
     "Make room for the Card Key.\nContinue up the tower.");
 
 STORY_OBJECTIVE(sJohtoRadioDirector,
-    "johto.radio-director",
+    "johto.radio-director", STORY_PIN(GOLDENROD_CITY),
     "After the Radio Tower",
     "Team Rocket left the tower.",
     "Speak to the Director.",
@@ -321,7 +321,7 @@ STORY_OBJECTIVE(sJohtoRadioDirector,
     "Make room for his gift.");
 
 STORY_OBJECTIVE(sJohtoClair,
-    "johto.clair",
+    "johto.clair", STORY_PIN(BLACKTHORN_CITY),
     "Blackthorn Gym",
     "Your Johto journey continues.",
     "Travel through Ice Path\nand challenge Clair.",
@@ -329,7 +329,7 @@ STORY_OBJECTIVE(sJohtoClair,
     "You need the Storm, Mineral\nand Glacier Badges.");
 
 STORY_OBJECTIVE(sJohtoDen,
-    "johto.den",
+    "johto.den", STORY_PIN(DRAGONS_DEN),
     "Clair's challenge",
     "You defeated Clair.",
     "Take the Elder's test.",
@@ -337,7 +337,7 @@ STORY_OBJECTIVE(sJohtoDen,
     "Use Surf and Whirlpool\nto reach the shrine.");
 
 STORY_OBJECTIVE(sJohtoDenExit,
-    "johto.den-exit",
+    "johto.den-exit", STORY_PIN(DRAGONS_DEN),
     "After the Elder's test",
     "You earned the Rising Badge.",
     "Leave the shrine and\nspeak to Clair in the cavern.",
@@ -345,7 +345,7 @@ STORY_OBJECTIVE(sJohtoDenExit,
     "Make room for her TM.");
 
 STORY_OBJECTIVE(sJohtoElmCall,
-    "johto.elm-call",
+    "johto.elm-call", STORY_PIN(BLACKTHORN_CITY),
     "Return to New Bark",
     "Clair's challenge is complete.",
     "Step outside in Blackthorn.",
@@ -353,7 +353,7 @@ STORY_OBJECTIVE(sJohtoElmCall,
     "Listen for Elm's call.");
 
 STORY_OBJECTIVE(sJohtoElmGift,
-    "johto.elm-gift",
+    "johto.elm-gift", STORY_PIN(NEW_BARK_TOWN),
     "Elm's invitation",
     "Elm asked you to visit.",
     "Speak to Prof. Elm.",
@@ -361,7 +361,7 @@ STORY_OBJECTIVE(sJohtoElmGift,
     "Make room for his gift.");
 
 STORY_OBJECTIVE(sJohtoKimono,
-    "johto.kimono",
+    "johto.kimono", STORY_PIN(ECRUTEAK_CITY),
     "The Kimono Girls' invitation",
     "Elm sent you to the theater.",
     "Meet the Kimono Girls.",
@@ -369,7 +369,7 @@ STORY_OBJECTIVE(sJohtoKimono,
     "Prepare for their battles.");
 
 STORY_OBJECTIVE(sJohtoWhirl,
-    "johto.whirl-islands",
+    "johto.whirl-islands", STORY_PIN(WHIRL_ISLANDS),
     "The Kimono Girls' lead",
     "The Kimono Girls went to\nthe Whirl Islands.",
     "Follow them to the chamber.",
@@ -377,7 +377,7 @@ STORY_OBJECTIVE(sJohtoWhirl,
     "Bring Surf, Whirlpool and\nFlash to explore the caves.");
 
 STORY_OBJECTIVE(sJohtoTin,
-    "johto.tin-tower",
+    "johto.tin-tower", STORY_PIN(TIN_TOWER),
     "The Kimono Girls' lead",
     "The Kimono Girls went to\nTin Tower.",
     "Follow them to the roof.",
@@ -385,7 +385,7 @@ STORY_OBJECTIVE(sJohtoTin,
     "Climb the tower.");
 
 STORY_OBJECTIVE(sJohtoLeague,
-    "johto.league",
+    "johto.league", STORY_PIN(ROUTE_27),
     "The Pokemon League",
     "You earned all eight badges.",
     "Cross Tohjo Falls and\nVictory Road to the League.",
@@ -393,7 +393,7 @@ STORY_OBJECTIVE(sJohtoLeague,
     "Use Surf and Waterfall.\nPrepare your team for battle.");
 
 STORY_OBJECTIVE(sJohtoLeagueNext,
-    "johto.league-next",
+    "johto.league-next", STORY_PIN(JOHTO_INDIGO_PLATEAU),
     "The Pokemon League",
     "Your League challenge is\nunder way.",
     "Continue to the next room.",
@@ -401,7 +401,7 @@ STORY_OBJECTIVE(sJohtoLeagueNext,
     "Heal before the next battle.");
 
 STORY_OBJECTIVE(sJohtoHall,
-    "johto.hall-of-fame",
+    "johto.hall-of-fame", STORY_PIN(JOHTO_INDIGO_PLATEAU),
     "League victory",
     "You defeated the Champion.",
     "Follow Lance onward.",
@@ -409,7 +409,7 @@ STORY_OBJECTIVE(sJohtoHall,
     "Complete your registration.");
 
 STORY_OBJECTIVE(sJohtoTicket,
-    "johto.ss-ticket",
+    "johto.ss-ticket", STORY_PIN(NEW_BARK_TOWN),
     "After becoming Champion",
     "You are Johto's Champion.",
     "Visit Prof. Elm for a ticket.",
@@ -417,7 +417,7 @@ STORY_OBJECTIVE(sJohtoTicket,
     "Step into town for his call;\nmake room for his gift.");
 
 STORY_OBJECTIVE(sJohtoPostgame,
-    "johto.postgame",
+    "johto.postgame", STORY_NO_PIN(FREE_ROAM),
     "Explore after the League",
     "You are Johto's Champion.",
     "Visit the port or explore\nmore of Johto.",
@@ -425,7 +425,7 @@ STORY_OBJECTIVE(sJohtoPostgame,
     "Your S.S. Ticket opens\na new travel option.");
 
 STORY_OBJECTIVE(sJohtoGsKurt,
-    "johto.gs-kurt",
+    "johto.gs-kurt", STORY_PIN(AZALEA_TOWN),
     "Kurt's unusual ball",
     "Kurt examined the GS Ball.",
     "Step outside and talk to Kurt.",
@@ -433,7 +433,7 @@ STORY_OBJECTIVE(sJohtoGsKurt,
     "Make room for the GS Ball.");
 
 STORY_OBJECTIVE(sJohtoGsShrine,
-    "johto.gs-shrine",
+    "johto.gs-shrine", STORY_PIN(ILEX_FOREST),
     "Kurt's forest lead",
     "Kurt asked you to investigate\nIlex Forest.",
     "Examine the forest shrine.",
@@ -441,63 +441,63 @@ STORY_OBJECTIVE(sJohtoGsShrine,
     "Follow Kurt's instructions.");
 
 STORY_OBJECTIVE(sJohtoCelebiRetry,
-    "johto.celebi-retry",
+    "johto.celebi-retry", STORY_PIN(ILEX_FOREST),
     "A forest encounter",
     "You investigated the shrine.",
     "Look for Celebi again.",
     "Ilex Forest\nNear the shrine",
     "It can return after you become\nJohto's Champion.");
 
-STORY_OBJECTIVE(sJohtoLeagueCheck, "johto.league-check",
+STORY_OBJECTIVE(sJohtoLeagueCheck, "johto.league-check", STORY_NO_PIN(MULTIPLE),
     "Preparing for the League",
     "You earned all eight badges.",
     "Check with Elm and visit\nEcruteak's Dance Theater.",
     "New Bark Town Pokemon Lab\nEcruteak City Dance Theater",
     "The League gate needs the\ntheater's story completed.");
 
-STORY_OBJECTIVE(sJohtoLeagueEntry, "johto.league-entry",
+STORY_OBJECTIVE(sJohtoLeagueEntry, "johto.league-entry", STORY_PIN(JOHTO_INDIGO_PLATEAU),
     "The Pokemon League",
     "You reached Indigo Plateau.",
     "Prepare and challenge\nthe Elite Four.",
     "Johto Indigo Plateau\nPokemon League entrance",
     "Heal your team before entry.");
 
-STORY_OBJECTIVE(sJohtoCelebiLater, "johto.celebi-later",
+STORY_OBJECTIVE(sJohtoCelebiLater, "johto.celebi-later", STORY_NO_PIN(WAITING),
     "The forest encounter",
     "You investigated the shrine.",
     "Continue your Johto journey.",
     "Ilex Forest\nNear the shrine",
     "Celebi returns after you\nbecome Johto's Champion.");
 
-STORY_OBJECTIVE(sJohtoVioletGift, "johto.violet-gift",
+STORY_OBJECTIVE(sJohtoVioletGift, "johto.violet-gift", STORY_PIN(VIOLET_CITY),
     "Elm's delivery",
     "You received the Togepi Egg.",
     "Speak to Elm's aide again.",
     "Violet City Pokemon Center",
     "Make room for his Exp. Share.");
 
-STORY_OBJECTIVE(sJohtoHideoutPasswords, "johto.hideout-passwords",
+STORY_OBJECTIVE(sJohtoHideoutPasswords, "johto.hideout-passwords", STORY_PIN(MAHOGANY_TOWN),
     "The locked hideout room",
     "Lance explained the room's\ntwo-password lock.",
     "Learn both passwords.",
     "Rocket Hideout, B3F\nRooms near the locked door",
     "Talk to defeated Rockets.");
 
-STORY_OBJECTIVE(sJohtoHideoutDoor, "johto.hideout-door",
+STORY_OBJECTIVE(sJohtoHideoutDoor, "johto.hideout-door", STORY_PIN(MAHOGANY_TOWN),
     "The locked hideout room",
     "You learned both passwords.",
     "Open the locked room.",
     "Rocket Hideout, B3F\nNorthern locked room",
     "Use the passwords at the door.");
 
-STORY_OBJECTIVE(sJohtoHideoutMurkrow, "johto.hideout-murkrow",
+STORY_OBJECTIVE(sJohtoHideoutMurkrow, "johto.hideout-murkrow", STORY_PIN(MAHOGANY_TOWN),
     "The voice-locked door",
     "Murkrow knows the password.",
     "Follow Murkrow upstairs.",
     "Rocket Hideout, B3F and B2F",
     "Let it lead you to the door.");
 
-STORY_OBJECTIVE(sJohtoHideoutRoom, "johto.hideout-room",
+STORY_OBJECTIVE(sJohtoHideoutRoom, "johto.hideout-room", STORY_PIN(MAHOGANY_TOWN),
     "The unlocked hideout room",
     "Murkrow opened the door.",
     "Enter the room with Lance.",

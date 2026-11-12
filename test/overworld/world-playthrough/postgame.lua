@@ -542,19 +542,25 @@ return function(F, N, C, log, B, ctx)
       domeRegistrar()
     end)
     detour(anchor, region .. '_gates', region, function()
+      -- Every gate recalls the destination's remembered team and boxes the departing one (#377).
+      local from = region
+      ctx.keepParty(from)
       N.useHubPass()
-      local n0 = N.partyCount()
       for _, to in ipairs({ 'kanto', 'johto', 'hoenn', region }) do
         if to ~= region or to == region and N.mapName() == 'RegionHub' then
           ctx.enter(to)
           N.crossGate(ctx.gates[to])
           L(string.format('  gate to %s landed %s party=%d', to, N.mapName(), N.partyCount()))
           tier('gate to ' .. to, to)
+          if to ~= from then
+            F.check('gates: ' .. to .. ' recalls its team', ctx.checkRecall(to, ctx.stashOf(from)))
+          end
+          from = to
+          ctx.keepParty(from)
           N.useHubPass()
           ctx.enter(region)
         end
       end
-      F.check('gates: first crossing boxed the party', n0 > 0 and N.partyCount() == 0, n0 .. ' -> ' .. N.partyCount())
     end)
   end
 
@@ -686,24 +692,31 @@ return function(F, N, C, log, B, ctx)
     rewardRoom('falkner', 'johto')
   end)
 
-  detour(FINAL, 'bank_refused', FINAL_REGION, function()
+  -- A gate swaps teams through the PC (#377): the remembered team comes out as the departing one
+  -- goes in, so a tight PC still fits and nothing may be lost or cloned.
+  local function occupied()
+    local n, base = N.partyCount(), F.r32(P.gPokemonStoragePtr) + O.ps_boxes
+    for slot = 0, 14 * 30 - 1 do if F.r32(base + slot * O.box_size) ~= 0 then n = n + 1 end end
+    return n
+  end
+  local function tightCross(tag, spare)
+    local other = FINAL_REGION == 'kanto' and 'johto' or 'kanto'
+    ctx.keepParty(FINAL_REGION)
     N.useHubPass()
-    local party = N.partyCount()
-    fillBoxes(party - 1)
-    local from = talkAt(11, 2, 1)
-    F.check('full PC: gate refuses a cross', N.mapName() == 'RegionHub' and N.partyCount() == party, N.mapName())
-    F.check('full PC: says why', (said(from, 'room')), table.concat(N.transcript, ' | ', from + 1))
-    N.crossGate(ctx.gates[FINAL_REGION])
-    F.check('full PC: same-region gate still works', N.mapName() ~= 'RegionHub', N.mapName())
-    F.check('full PC: same-region cross keeps the party', N.partyCount() == party, N.partyCount())
+    local filler = F.r32(P.gParties)   -- fillBoxes copies the lead, so its PID repeats in the PC
+    local left = fillBoxes(spare)
+    local before = occupied()
+    ctx.enter(other)
+    N.crossGate(ctx.gates[other])
+    F.check(tag .. ': gate allows the cross', N.mapName() ~= 'RegionHub', N.mapName() .. ' with ' .. left .. ' free slots')
+    F.check(tag .. ': party is the remembered team', ctx.checkRecall(other, ctx.stashOf(FINAL_REGION), filler))
+    F.check(tag .. ': every Pokemon kept, none cloned', occupied() == before, before .. ' -> ' .. occupied())
+  end
+  detour(FINAL, 'bank_tight', FINAL_REGION, function()
+    tightCross('PC one short of the party', N.partyCount() - 1)
   end)
   detour(FINAL, 'bank_exact_fit', FINAL_REGION, function()
-    N.useHubPass()
-    local party = N.partyCount()
-    fillBoxes(party)
-    N.crossGate(FINAL_REGION == 'kanto' and 16 or 11)
-    F.check('exact fit: gate allows the cross', N.mapName() ~= 'RegionHub', N.mapName())
-    F.check('exact fit: whole party boxed', N.partyCount() == 0, N.partyCount())
+    tightCross('PC room for the party', N.partyCount())
   end)
 
   detour(FINAL, 'frontier', FINAL_REGION, function()

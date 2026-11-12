@@ -232,11 +232,26 @@ F.run(function()
     for i, b in ipairs(BEATS) do if b.name == FROM then start = i + 1 end end
     assert(start > 1, 'unknown checkpoint ' .. FROM)
     assert(N.restore(FROM, os.getenv('PW_RESUME_DIR')), 'could not restore checkpoint ' .. FROM)
-    F.idle(30)
+    F.idle(30 + (tonumber(os.getenv('PW_JITTER') or '') or 0))   -- --jitter shifts timing to shake out races
     N.debugHeal()   -- the in-memory heal bookkeeping does not survive a restore
   else
     assert(F.boot(100), 'fresh hub boot')
     F.check('fresh save has empty party', N.partyCount() == 0)
+  end
+  local family = os.getenv('PW_FAMILY')
+  if family then
+    local a, b = F.sb2() + 0x14, F.sb2() + 0x16
+    local text = family:find('instant') and 3 or tonumber(family:match('text=(%d)') or '')
+    if text then F.w16(a, (F.r16(a) & ~7) | text) end
+    local enc, money = family:match('enc=(%d)'), family:match('money=(%d)')
+    if enc then F.w16(b, (F.r16(b) & ~(3 << 6)) | (tonumber(enc) << 6)) end
+    if money then F.w16(b, (F.r16(b) & ~(3 << 8)) | (tonumber(money) << 8)) end
+    L(string.format('  family options %s -> %04X/%04X', family, F.r16(a), F.r16(b)))
+  end
+  local outfit = tonumber(os.getenv('PW_OUTFIT') or '')
+  if outfit then
+    N.setVar(C.VAR_PLAYER_PALETTE, outfit)
+    L('  outfit ' .. outfit .. ' (shows from the next map load)')
   end
   local retries = {}
   local beatsRun = 0

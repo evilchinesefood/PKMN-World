@@ -41,6 +41,9 @@ p.add_argument('--battle-debug', action='store_true')
 p.add_argument('--starter', type=int, choices=(0, 1, 2))
 p.add_argument('--gender', choices=('M', 'F'))
 p.add_argument('--detour')
+p.add_argument('--jitter', type=int, help='extra idle frames after a --from restore')
+p.add_argument('--outfit', type=int, help='VAR_PLAYER_PALETTE after the fresh boot: style * 6 + color')
+p.add_argument('--family', help='family options after the fresh boot: instant,enc=N,money=N (N = stored OPTIONS_RATE value)')
 a = p.parse_args()
 if a.frm and not a.resume_dir:
     p.error('--from requires --resume-dir pointing to the previous case directory')
@@ -82,7 +85,7 @@ for option, key in (('frm', 'FROM'), ('to', 'TO'), ('lose', 'LOSE'), ('no_retry'
                     ('natural', 'NATURAL'), ('natural_trace', 'NATURAL_TRACE'),
                     ('natural_attempts', 'NATURAL_ATTEMPTS'), ('postgame', 'POSTGAME'),
                     ('world', 'WORLD'), ('postgame_only', 'PG_ONLY'), ('sevii', 'SEVII'), ('route22', 'ROUTE22'),
-                    ('battle_debug', 'BATTLE_DEBUG'), ('starter', 'STARTER'), ('gender', 'GENDER'), ('detour', 'DETOUR')):
+                    ('battle_debug', 'BATTLE_DEBUG'), ('starter', 'STARTER'), ('gender', 'GENDER'), ('detour', 'DETOUR'), ('family', 'FAMILY'), ('outfit', 'OUTFIT'), ('jitter', 'JITTER')):
     value = getattr(a, option)
     if value is not None and value is not False:
         settings['PW_' + key] = '1' if value is True else str(value)

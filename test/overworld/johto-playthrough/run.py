@@ -104,6 +104,7 @@ suite_names = {
     'national_park_soothe_bell.lua': 'NationalParkSootheBell',
     'text_printer_heap.lua': 'TextPrinterHeap',
     'probe_dive.lua': 'HoennDive',
+    'owe_approach_around_blocker.lua': 'OweApproachAroundBlocker',
 }
 command += ['--case-name', a.case_name or (case if suite.name == 'play.lua' else suite_names.get(suite.name, suite.stem))]
 if a.symbols:

@@ -26,6 +26,9 @@ code makes older checkpoints crash on load, so after one, run the campaign from 
 - `water.lua` adds Dive and emerge, and lets `N.travel` plan routes through underwater maps.
 - `probe_dive.lua` proves the Dive routes into Seafloor Cavern and Sootopolis. It uses debug
   warps and badges, because it tests the swimming, not the story.
+- `owe_approach_around_blocker.lua` is the #398 regression. It stages the Rusturf Tunnel freeze, with
+  a Hiker between a touched overworld encounter and the player, and requires the encounter to walk
+  around him and start its battle. It needs a `ckpt_route103.ss` checkpoint in `--resume-dir`.
 - `mapinfo.py <Map>` prints a map's objects with local ids, coord triggers, bg events and warps.
 
 ## Concessions (what is not natural play)

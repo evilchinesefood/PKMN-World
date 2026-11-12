@@ -1,0 +1,10 @@
+{
+  "case": "SpecialPokemonCapture",
+  "status": "passed",
+  "assertions": 23,
+  "settings": {},
+  "rom_md5": "55D091D8190E5038E9CEE4B90F3EBA79",
+  "fixture_sha256": "ec51db6ef9d5d3238e4c379ced6a3c18809ef9c23a840c35a81ec03711318ca7",
+  "symbols_sha256": "ea7ba1fa196cf456612706ee87142d3d95a7f449448fdee64041e5a83e369b84",
+  "elapsed_seconds": 7.936
+}

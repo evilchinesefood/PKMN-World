@@ -120,6 +120,9 @@ static const u16 sPikachuFormSpeciesIdTable[] = {
     SPECIES_PIKACHU_GMAX,
 #endif
     SPECIES_PIKACHU_STARTER,
+    SPECIES_PIKACHU_CLASSIC_CAP,
+    SPECIES_PIKACHU_SURFBOARD,
+    SPECIES_PIKACHU_BALLOONS,
     FORM_SPECIES_END,
 };
 
@@ -550,6 +553,7 @@ static const u16 sEeveeFormSpeciesIdTable[] = {
     SPECIES_EEVEE_GMAX,
 #endif
     SPECIES_EEVEE_STARTER,
+    SPECIES_EEVEE_FLOWER_CROWN,
     FORM_SPECIES_END,
 };
 #endif //P_FAMILY_EEVEE
@@ -2568,3 +2572,20 @@ static const u16 sTerapagosFormSpeciesIdTable[] = {
     FORM_SPECIES_END,
 };
 #endif //P_FAMILY_TERAPAGOS
+
+#if P_FAMILY_SQUIRTLE
+static const u16 sSquirtleFormSpeciesIdTable[] = {
+    SPECIES_SQUIRTLE,
+    SPECIES_SQUIRTLE_SQUAD,
+    SPECIES_SQUIRTLE_FIREFIGHTER,
+    FORM_SPECIES_END,
+};
+#endif
+
+#if P_FAMILY_TOTODILE
+static const u16 sTotodileFormSpeciesIdTable[] = {
+    SPECIES_TOTODILE,
+    SPECIES_TOTODILE_PIRATE,
+    FORM_SPECIES_END,
+};
+#endif

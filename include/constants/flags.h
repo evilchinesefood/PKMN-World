@@ -4181,7 +4181,29 @@
 // FlagGet() when the trigger id is not a var, so the crest events self-disable on the same flag
 // instead of burning a temp var. The Charm Curator re-offers the tour regardless of this flag.
 #define FLAG_HUB_INTRO_TOUR_DONE              (FLAG_WORLD_MAP_BANK + 0x8F) // 0xDCF
-// Next free in the world-map window: 0xDD0.
+#define FLAG_SPECIAL_COLLECTED_CLASSIC_CAP      0xDD0
+#define FLAG_SPECIAL_COLLECTED_SURFBOARD        0xDD1
+#define FLAG_SPECIAL_COLLECTED_BALLOONS         0xDD2
+#define FLAG_SPECIAL_COLLECTED_SQUAD            0xDD3
+#define FLAG_SPECIAL_COLLECTED_FIREFIGHTER      0xDD4
+#define FLAG_SPECIAL_COLLECTED_FLOWER_CROWN     0xDD5
+#define FLAG_SPECIAL_COLLECTED_PIRATE           0xDD7
+#define FLAG_SPECIAL_UNLOCKED_CLASSIC_CAP      0xDDA
+#define FLAG_SPECIAL_UNLOCKED_SURFBOARD        0xDDB
+#define FLAG_SPECIAL_UNLOCKED_BALLOONS         0xDDC
+#define FLAG_SPECIAL_UNLOCKED_SQUAD            0xDDD
+#define FLAG_SPECIAL_UNLOCKED_FIREFIGHTER      0xDDE
+#define FLAG_SPECIAL_UNLOCKED_FLOWER_CROWN     0xDDF
+#define FLAG_SPECIAL_UNLOCKED_PIRATE           0xDE1
+#define FLAG_SPECIAL_SQUAD_STARTED              0xDE4
+#define FLAG_SPECIAL_SQUAD_ONE                  0xDE5
+#define FLAG_SPECIAL_SQUAD_TWO                  0xDE6
+#define FLAG_SPECIAL_FIREFIGHTER_STARTED        0xDE7
+#define FLAG_SPECIAL_FIREFIGHTER_WATER          0xDE8
+#define FLAG_SPECIAL_FLOWERS_STARTED            0xDE9
+#define FLAG_SPECIAL_FLOWERS_ONE                0xDEA
+#define FLAG_SPECIAL_FLOWERS_TWO                0xDEB
+// Free in the world-map window: 0xDD6, 0xDD8-0xDD9, 0xDE0, 0xDE2-0xDE3, and 0xDEC onward.
 
 #undef FLAGS_COUNT
 #define FLAGS_COUNT 0x1030

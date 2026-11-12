@@ -1,0 +1,1356 @@
+{"input_rom_sha256": "04f8a13fc620117731233d878b1f9d9b165547e49bd082a8086cbbb7fbe98b16", "fixture_rom_sha256": "725412da84d247f7a945bce2eb3185ebae2e960be0d5cdc9c55d907e1b5ce931", "symbols_sha256": "4bb863035c84f5a2f27847ac8fd57f06d2a4bb591a565be3199d90d8c6cd5d8d", "fixture_bytes": 168, "fixture_source_sha256": "806c5956e4286a2de9ed13558692f2d39b7caa2729ea6b0dcbb362bc73cd6e64", "entry": "0x9f00001", "base_commit": "534c199cc2834aa3afe88628796158ccc2296b41", "working_diff_sha256": "0b6ec852ba5c83b96ee634f3a80c42ee9f97881798f0238cc3f8383ad7f321b9", "configuration": {"include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb", "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a", "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"}}
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot SpecialPokemonUI_1_special_menu_entry
+  [PASS] Dex start menu has scrolled BG0 before transition
+  [PASS] checklist opens without ownership
+  [PASS] first checklist page has five active icons
+checklist first page: BG0 scroll 0,0
+  [PASS] checklist first page text background stays aligned with icons
+  shot SpecialPokemonUI_2_checklist_page_1
+  [PASS] detail accessible 0
+  [PASS] detail has one active icon 0
+checklist detail 0: BG0 scroll 0,0
+  [PASS] checklist detail 0 text background stays aligned with icons
+  shot SpecialPokemonUI_3_detail_0
+  [PASS] detail accessible 1
+  [PASS] detail has one active icon 1
+checklist detail 1: BG0 scroll 0,0
+  [PASS] checklist detail 1 text background stays aligned with icons
+  shot SpecialPokemonUI_4_detail_1
+  [PASS] detail accessible 2
+  [PASS] detail has one active icon 2
+checklist detail 2: BG0 scroll 0,0
+  [PASS] checklist detail 2 text background stays aligned with icons
+  shot SpecialPokemonUI_5_detail_2
+  [PASS] detail accessible 3
+  [PASS] detail has one active icon 3
+checklist detail 3: BG0 scroll 0,0
+  [PASS] checklist detail 3 text background stays aligned with icons
+  shot SpecialPokemonUI_6_detail_3
+  [PASS] detail accessible 4
+  [PASS] detail has one active icon 4
+checklist detail 4: BG0 scroll 0,0
+  [PASS] checklist detail 4 text background stays aligned with icons
+  shot SpecialPokemonUI_7_detail_4
+  [PASS] detail accessible 5
+  [PASS] detail has one active icon 5
+checklist detail 5: BG0 scroll 0,0
+  [PASS] checklist detail 5 text background stays aligned with icons
+  shot SpecialPokemonUI_8_detail_5
+  [PASS] detail accessible 6
+  [PASS] detail has one active icon 6
+checklist detail 6: BG0 scroll 0,0
+  [PASS] checklist detail 6 text background stays aligned with icons
+  shot SpecialPokemonUI_9_detail_6
+  [PASS] second checklist page has two active icons
+checklist second page: BG0 scroll 0,0
+  [PASS] checklist second page text background stays aligned with icons
+  shot SpecialPokemonUI_10_checklist_page_2
+  [PASS] checklist restores Dex selection
+  [PASS] checklist releases all sprites
+  [PASS] pikachu complete form inventory
+  [PASS] pikachu selected form 0
+  [PASS] pikachu bounded page 0
+  [PASS] pikachu form 0 active base icon
+  [PASS] pikachu form 0 active icon 0
+  [PASS] pikachu form 0 unique icon 0
+  [PASS] pikachu form 0 active icon 1
+  [PASS] pikachu form 0 unique icon 1
+  [PASS] pikachu form 0 active icon 2
+  [PASS] pikachu form 0 unique icon 2
+  [PASS] pikachu form 0 active icon 3
+  [PASS] pikachu form 0 unique icon 3
+  [PASS] pikachu form 0 active icon 4
+  [PASS] pikachu form 0 unique icon 4
+  [PASS] pikachu form 0 active icon 5
+  [PASS] pikachu form 0 unique icon 5
+  [PASS] pikachu form 0 active icon 6
+  [PASS] pikachu form 0 unique icon 6
+  [PASS] pikachu form 0 active icon 7
+  [PASS] pikachu form 0 unique icon 7
+  [PASS] pikachu form 0 active icon 8
+  [PASS] pikachu form 0 unique icon 8
+  [PASS] pikachu form 0 active icon 9
+  [PASS] pikachu form 0 unique icon 9
+  [PASS] pikachu form 0 active icon 10
+  [PASS] pikachu form 0 unique icon 10
+  [PASS] pikachu form 0 active icon 11
+  [PASS] pikachu form 0 unique icon 11
+  [PASS] pikachu form 0 visible icon count
+  [PASS] pikachu form 0 active cursor
+  [PASS] pikachu form 0 cursor has its own sprite
+  shot SpecialPokemonUI_11_pikachu_page_1
+  [PASS] pikachu selected form 1
+  [PASS] pikachu bounded page 1
+  [PASS] pikachu form 1 active base icon
+  [PASS] pikachu form 1 active icon 0
+  [PASS] pikachu form 1 unique icon 0
+  [PASS] pikachu form 1 active icon 1
+  [PASS] pikachu form 1 unique icon 1
+  [PASS] pikachu form 1 active icon 2
+  [PASS] pikachu form 1 unique icon 2
+  [PASS] pikachu form 1 active icon 3
+  [PASS] pikachu form 1 unique icon 3
+  [PASS] pikachu form 1 active icon 4
+  [PASS] pikachu form 1 unique icon 4
+  [PASS] pikachu form 1 active icon 5
+  [PASS] pikachu form 1 unique icon 5
+  [PASS] pikachu form 1 active icon 6
+  [PASS] pikachu form 1 unique icon 6
+  [PASS] pikachu form 1 active icon 7
+  [PASS] pikachu form 1 unique icon 7
+  [PASS] pikachu form 1 active icon 8
+  [PASS] pikachu form 1 unique icon 8
+  [PASS] pikachu form 1 active icon 9
+  [PASS] pikachu form 1 unique icon 9
+  [PASS] pikachu form 1 active icon 10
+  [PASS] pikachu form 1 unique icon 10
+  [PASS] pikachu form 1 active icon 11
+  [PASS] pikachu form 1 unique icon 11
+  [PASS] pikachu form 1 visible icon count
+  [PASS] pikachu form 1 active cursor
+  [PASS] pikachu form 1 cursor has its own sprite
+  [PASS] pikachu selected form 2
+  [PASS] pikachu bounded page 2
+  [PASS] pikachu form 2 active base icon
+  [PASS] pikachu form 2 active icon 0
+  [PASS] pikachu form 2 unique icon 0
+  [PASS] pikachu form 2 active icon 1
+  [PASS] pikachu form 2 unique icon 1
+  [PASS] pikachu form 2 active icon 2
+  [PASS] pikachu form 2 unique icon 2
+  [PASS] pikachu form 2 active icon 3
+  [PASS] pikachu form 2 unique icon 3
+  [PASS] pikachu form 2 active icon 4
+  [PASS] pikachu form 2 unique icon 4
+  [PASS] pikachu form 2 active icon 5
+  [PASS] pikachu form 2 unique icon 5
+  [PASS] pikachu form 2 active icon 6
+  [PASS] pikachu form 2 unique icon 6
+  [PASS] pikachu form 2 active icon 7
+  [PASS] pikachu form 2 unique icon 7
+  [PASS] pikachu form 2 active icon 8
+  [PASS] pikachu form 2 unique icon 8
+  [PASS] pikachu form 2 active icon 9
+  [PASS] pikachu form 2 unique icon 9
+  [PASS] pikachu form 2 active icon 10
+  [PASS] pikachu form 2 unique icon 10
+  [PASS] pikachu form 2 active icon 11
+  [PASS] pikachu form 2 unique icon 11
+  [PASS] pikachu form 2 visible icon count
+  [PASS] pikachu form 2 active cursor
+  [PASS] pikachu form 2 cursor has its own sprite
+  [PASS] pikachu selected form 3
+  [PASS] pikachu bounded page 3
+  [PASS] pikachu form 3 active base icon
+  [PASS] pikachu form 3 active icon 0
+  [PASS] pikachu form 3 unique icon 0
+  [PASS] pikachu form 3 active icon 1
+  [PASS] pikachu form 3 unique icon 1
+  [PASS] pikachu form 3 active icon 2
+  [PASS] pikachu form 3 unique icon 2
+  [PASS] pikachu form 3 active icon 3
+  [PASS] pikachu form 3 unique icon 3
+  [PASS] pikachu form 3 active icon 4
+  [PASS] pikachu form 3 unique icon 4
+  [PASS] pikachu form 3 active icon 5
+  [PASS] pikachu form 3 unique icon 5
+  [PASS] pikachu form 3 active icon 6
+  [PASS] pikachu form 3 unique icon 6
+  [PASS] pikachu form 3 active icon 7
+  [PASS] pikachu form 3 unique icon 7
+  [PASS] pikachu form 3 active icon 8
+  [PASS] pikachu form 3 unique icon 8
+  [PASS] pikachu form 3 active icon 9
+  [PASS] pikachu form 3 unique icon 9
+  [PASS] pikachu form 3 active icon 10
+  [PASS] pikachu form 3 unique icon 10
+  [PASS] pikachu form 3 active icon 11
+  [PASS] pikachu form 3 unique icon 11
+  [PASS] pikachu form 3 visible icon count
+  [PASS] pikachu form 3 active cursor
+  [PASS] pikachu form 3 cursor has its own sprite
+  [PASS] pikachu selected form 4
+  [PASS] pikachu bounded page 4
+  [PASS] pikachu form 4 active base icon
+  [PASS] pikachu form 4 active icon 0
+  [PASS] pikachu form 4 unique icon 0
+  [PASS] pikachu form 4 active icon 1
+  [PASS] pikachu form 4 unique icon 1
+  [PASS] pikachu form 4 active icon 2
+  [PASS] pikachu form 4 unique icon 2
+  [PASS] pikachu form 4 active icon 3
+  [PASS] pikachu form 4 unique icon 3
+  [PASS] pikachu form 4 active icon 4
+  [PASS] pikachu form 4 unique icon 4
+  [PASS] pikachu form 4 active icon 5
+  [PASS] pikachu form 4 unique icon 5
+  [PASS] pikachu form 4 active icon 6
+  [PASS] pikachu form 4 unique icon 6
+  [PASS] pikachu form 4 active icon 7
+  [PASS] pikachu form 4 unique icon 7
+  [PASS] pikachu form 4 active icon 8
+  [PASS] pikachu form 4 unique icon 8
+  [PASS] pikachu form 4 active icon 9
+  [PASS] pikachu form 4 unique icon 9
+  [PASS] pikachu form 4 active icon 10
+  [PASS] pikachu form 4 unique icon 10
+  [PASS] pikachu form 4 active icon 11
+  [PASS] pikachu form 4 unique icon 11
+  [PASS] pikachu form 4 visible icon count
+  [PASS] pikachu form 4 active cursor
+  [PASS] pikachu form 4 cursor has its own sprite
+  [PASS] pikachu selected form 5
+  [PASS] pikachu bounded page 5
+  [PASS] pikachu form 5 active base icon
+  [PASS] pikachu form 5 active icon 0
+  [PASS] pikachu form 5 unique icon 0
+  [PASS] pikachu form 5 active icon 1
+  [PASS] pikachu form 5 unique icon 1
+  [PASS] pikachu form 5 active icon 2
+  [PASS] pikachu form 5 unique icon 2
+  [PASS] pikachu form 5 active icon 3
+  [PASS] pikachu form 5 unique icon 3
+  [PASS] pikachu form 5 active icon 4
+  [PASS] pikachu form 5 unique icon 4
+  [PASS] pikachu form 5 active icon 5
+  [PASS] pikachu form 5 unique icon 5
+  [PASS] pikachu form 5 active icon 6
+  [PASS] pikachu form 5 unique icon 6
+  [PASS] pikachu form 5 active icon 7
+  [PASS] pikachu form 5 unique icon 7
+  [PASS] pikachu form 5 active icon 8
+  [PASS] pikachu form 5 unique icon 8
+  [PASS] pikachu form 5 active icon 9
+  [PASS] pikachu form 5 unique icon 9
+  [PASS] pikachu form 5 active icon 10
+  [PASS] pikachu form 5 unique icon 10
+  [PASS] pikachu form 5 active icon 11
+  [PASS] pikachu form 5 unique icon 11
+  [PASS] pikachu form 5 visible icon count
+  [PASS] pikachu form 5 active cursor
+  [PASS] pikachu form 5 cursor has its own sprite
+  [PASS] pikachu selected form 6
+  [PASS] pikachu bounded page 6
+  [PASS] pikachu form 6 active base icon
+  [PASS] pikachu form 6 active icon 0
+  [PASS] pikachu form 6 unique icon 0
+  [PASS] pikachu form 6 active icon 1
+  [PASS] pikachu form 6 unique icon 1
+  [PASS] pikachu form 6 active icon 2
+  [PASS] pikachu form 6 unique icon 2
+  [PASS] pikachu form 6 active icon 3
+  [PASS] pikachu form 6 unique icon 3
+  [PASS] pikachu form 6 active icon 4
+  [PASS] pikachu form 6 unique icon 4
+  [PASS] pikachu form 6 active icon 5
+  [PASS] pikachu form 6 unique icon 5
+  [PASS] pikachu form 6 active icon 6
+  [PASS] pikachu form 6 unique icon 6
+  [PASS] pikachu form 6 active icon 7
+  [PASS] pikachu form 6 unique icon 7
+  [PASS] pikachu form 6 active icon 8
+  [PASS] pikachu form 6 unique icon 8
+  [PASS] pikachu form 6 active icon 9
+  [PASS] pikachu form 6 unique icon 9
+  [PASS] pikachu form 6 active icon 10
+  [PASS] pikachu form 6 unique icon 10
+  [PASS] pikachu form 6 active icon 11
+  [PASS] pikachu form 6 unique icon 11
+  [PASS] pikachu form 6 visible icon count
+  [PASS] pikachu form 6 active cursor
+  [PASS] pikachu form 6 cursor has its own sprite
+  [PASS] pikachu selected form 7
+  [PASS] pikachu bounded page 7
+  [PASS] pikachu form 7 active base icon
+  [PASS] pikachu form 7 active icon 0
+  [PASS] pikachu form 7 unique icon 0
+  [PASS] pikachu form 7 active icon 1
+  [PASS] pikachu form 7 unique icon 1
+  [PASS] pikachu form 7 active icon 2
+  [PASS] pikachu form 7 unique icon 2
+  [PASS] pikachu form 7 active icon 3
+  [PASS] pikachu form 7 unique icon 3
+  [PASS] pikachu form 7 active icon 4
+  [PASS] pikachu form 7 unique icon 4
+  [PASS] pikachu form 7 active icon 5
+  [PASS] pikachu form 7 unique icon 5
+  [PASS] pikachu form 7 active icon 6
+  [PASS] pikachu form 7 unique icon 6
+  [PASS] pikachu form 7 active icon 7
+  [PASS] pikachu form 7 unique icon 7
+  [PASS] pikachu form 7 active icon 8
+  [PASS] pikachu form 7 unique icon 8
+  [PASS] pikachu form 7 active icon 9
+  [PASS] pikachu form 7 unique icon 9
+  [PASS] pikachu form 7 active icon 10
+  [PASS] pikachu form 7 unique icon 10
+  [PASS] pikachu form 7 active icon 11
+  [PASS] pikachu form 7 unique icon 11
+  [PASS] pikachu form 7 visible icon count
+  [PASS] pikachu form 7 active cursor
+  [PASS] pikachu form 7 cursor has its own sprite
+  [PASS] pikachu selected form 8
+  [PASS] pikachu bounded page 8
+  [PASS] pikachu form 8 active base icon
+  [PASS] pikachu form 8 active icon 0
+  [PASS] pikachu form 8 unique icon 0
+  [PASS] pikachu form 8 active icon 1
+  [PASS] pikachu form 8 unique icon 1
+  [PASS] pikachu form 8 active icon 2
+  [PASS] pikachu form 8 unique icon 2
+  [PASS] pikachu form 8 active icon 3
+  [PASS] pikachu form 8 unique icon 3
+  [PASS] pikachu form 8 active icon 4
+  [PASS] pikachu form 8 unique icon 4
+  [PASS] pikachu form 8 active icon 5
+  [PASS] pikachu form 8 unique icon 5
+  [PASS] pikachu form 8 active icon 6
+  [PASS] pikachu form 8 unique icon 6
+  [PASS] pikachu form 8 active icon 7
+  [PASS] pikachu form 8 unique icon 7
+  [PASS] pikachu form 8 active icon 8
+  [PASS] pikachu form 8 unique icon 8
+  [PASS] pikachu form 8 active icon 9
+  [PASS] pikachu form 8 unique icon 9
+  [PASS] pikachu form 8 active icon 10
+  [PASS] pikachu form 8 unique icon 10
+  [PASS] pikachu form 8 active icon 11
+  [PASS] pikachu form 8 unique icon 11
+  [PASS] pikachu form 8 visible icon count
+  [PASS] pikachu form 8 active cursor
+  [PASS] pikachu form 8 cursor has its own sprite
+  [PASS] pikachu selected form 9
+  [PASS] pikachu bounded page 9
+  [PASS] pikachu form 9 active base icon
+  [PASS] pikachu form 9 active icon 0
+  [PASS] pikachu form 9 unique icon 0
+  [PASS] pikachu form 9 active icon 1
+  [PASS] pikachu form 9 unique icon 1
+  [PASS] pikachu form 9 active icon 2
+  [PASS] pikachu form 9 unique icon 2
+  [PASS] pikachu form 9 active icon 3
+  [PASS] pikachu form 9 unique icon 3
+  [PASS] pikachu form 9 active icon 4
+  [PASS] pikachu form 9 unique icon 4
+  [PASS] pikachu form 9 active icon 5
+  [PASS] pikachu form 9 unique icon 5
+  [PASS] pikachu form 9 active icon 6
+  [PASS] pikachu form 9 unique icon 6
+  [PASS] pikachu form 9 active icon 7
+  [PASS] pikachu form 9 unique icon 7
+  [PASS] pikachu form 9 active icon 8
+  [PASS] pikachu form 9 unique icon 8
+  [PASS] pikachu form 9 active icon 9
+  [PASS] pikachu form 9 unique icon 9
+  [PASS] pikachu form 9 active icon 10
+  [PASS] pikachu form 9 unique icon 10
+  [PASS] pikachu form 9 active icon 11
+  [PASS] pikachu form 9 unique icon 11
+  [PASS] pikachu form 9 visible icon count
+  [PASS] pikachu form 9 active cursor
+  [PASS] pikachu form 9 cursor has its own sprite
+  [PASS] pikachu selected form 10
+  [PASS] pikachu bounded page 10
+  [PASS] pikachu form 10 active base icon
+  [PASS] pikachu form 10 active icon 0
+  [PASS] pikachu form 10 unique icon 0
+  [PASS] pikachu form 10 active icon 1
+  [PASS] pikachu form 10 unique icon 1
+  [PASS] pikachu form 10 active icon 2
+  [PASS] pikachu form 10 unique icon 2
+  [PASS] pikachu form 10 active icon 3
+  [PASS] pikachu form 10 unique icon 3
+  [PASS] pikachu form 10 active icon 4
+  [PASS] pikachu form 10 unique icon 4
+  [PASS] pikachu form 10 active icon 5
+  [PASS] pikachu form 10 unique icon 5
+  [PASS] pikachu form 10 active icon 6
+  [PASS] pikachu form 10 unique icon 6
+  [PASS] pikachu form 10 active icon 7
+  [PASS] pikachu form 10 unique icon 7
+  [PASS] pikachu form 10 active icon 8
+  [PASS] pikachu form 10 unique icon 8
+  [PASS] pikachu form 10 active icon 9
+  [PASS] pikachu form 10 unique icon 9
+  [PASS] pikachu form 10 active icon 10
+  [PASS] pikachu form 10 unique icon 10
+  [PASS] pikachu form 10 active icon 11
+  [PASS] pikachu form 10 unique icon 11
+  [PASS] pikachu form 10 visible icon count
+  [PASS] pikachu form 10 active cursor
+  [PASS] pikachu form 10 cursor has its own sprite
+  [PASS] pikachu selected form 11
+  [PASS] pikachu bounded page 11
+  [PASS] pikachu form 11 active base icon
+  [PASS] pikachu form 11 active icon 0
+  [PASS] pikachu form 11 unique icon 0
+  [PASS] pikachu form 11 active icon 1
+  [PASS] pikachu form 11 unique icon 1
+  [PASS] pikachu form 11 active icon 2
+  [PASS] pikachu form 11 unique icon 2
+  [PASS] pikachu form 11 active icon 3
+  [PASS] pikachu form 11 unique icon 3
+  [PASS] pikachu form 11 active icon 4
+  [PASS] pikachu form 11 unique icon 4
+  [PASS] pikachu form 11 active icon 5
+  [PASS] pikachu form 11 unique icon 5
+  [PASS] pikachu form 11 active icon 6
+  [PASS] pikachu form 11 unique icon 6
+  [PASS] pikachu form 11 active icon 7
+  [PASS] pikachu form 11 unique icon 7
+  [PASS] pikachu form 11 active icon 8
+  [PASS] pikachu form 11 unique icon 8
+  [PASS] pikachu form 11 active icon 9
+  [PASS] pikachu form 11 unique icon 9
+  [PASS] pikachu form 11 active icon 10
+  [PASS] pikachu form 11 unique icon 10
+  [PASS] pikachu form 11 active icon 11
+  [PASS] pikachu form 11 unique icon 11
+  [PASS] pikachu form 11 visible icon count
+  [PASS] pikachu form 11 active cursor
+  [PASS] pikachu form 11 cursor has its own sprite
+  [PASS] pikachu selected form 12
+  [PASS] pikachu bounded page 12
+  [PASS] pikachu form 12 active base icon
+  [PASS] pikachu form 12 active icon 0
+  [PASS] pikachu form 12 unique icon 0
+  [PASS] pikachu form 12 active icon 1
+  [PASS] pikachu form 12 unique icon 1
+  [PASS] pikachu form 12 active icon 2
+  [PASS] pikachu form 12 unique icon 2
+  [PASS] pikachu form 12 active icon 3
+  [PASS] pikachu form 12 unique icon 3
+  [PASS] pikachu form 12 active icon 4
+  [PASS] pikachu form 12 unique icon 4
+  [PASS] pikachu form 12 active icon 5
+  [PASS] pikachu form 12 unique icon 5
+  [PASS] pikachu form 12 unused icon slot 6
+  [PASS] pikachu form 12 unused icon slot 7
+  [PASS] pikachu form 12 unused icon slot 8
+  [PASS] pikachu form 12 unused icon slot 9
+  [PASS] pikachu form 12 unused icon slot 10
+  [PASS] pikachu form 12 unused icon slot 11
+  [PASS] pikachu form 12 visible icon count
+  [PASS] pikachu form 12 active cursor
+  [PASS] pikachu form 12 cursor has its own sprite
+  shot SpecialPokemonUI_12_pikachu_page_2
+  [PASS] pikachu selected form 13
+  [PASS] pikachu bounded page 13
+  [PASS] pikachu form 13 active base icon
+  [PASS] pikachu form 13 active icon 0
+  [PASS] pikachu form 13 unique icon 0
+  [PASS] pikachu form 13 active icon 1
+  [PASS] pikachu form 13 unique icon 1
+  [PASS] pikachu form 13 active icon 2
+  [PASS] pikachu form 13 unique icon 2
+  [PASS] pikachu form 13 active icon 3
+  [PASS] pikachu form 13 unique icon 3
+  [PASS] pikachu form 13 active icon 4
+  [PASS] pikachu form 13 unique icon 4
+  [PASS] pikachu form 13 active icon 5
+  [PASS] pikachu form 13 unique icon 5
+  [PASS] pikachu form 13 unused icon slot 6
+  [PASS] pikachu form 13 unused icon slot 7
+  [PASS] pikachu form 13 unused icon slot 8
+  [PASS] pikachu form 13 unused icon slot 9
+  [PASS] pikachu form 13 unused icon slot 10
+  [PASS] pikachu form 13 unused icon slot 11
+  [PASS] pikachu form 13 visible icon count
+  [PASS] pikachu form 13 active cursor
+  [PASS] pikachu form 13 cursor has its own sprite
+  [PASS] pikachu selected form 14
+  [PASS] pikachu bounded page 14
+  [PASS] pikachu form 14 active base icon
+  [PASS] pikachu form 14 active icon 0
+  [PASS] pikachu form 14 unique icon 0
+  [PASS] pikachu form 14 active icon 1
+  [PASS] pikachu form 14 unique icon 1
+  [PASS] pikachu form 14 active icon 2
+  [PASS] pikachu form 14 unique icon 2
+  [PASS] pikachu form 14 active icon 3
+  [PASS] pikachu form 14 unique icon 3
+  [PASS] pikachu form 14 active icon 4
+  [PASS] pikachu form 14 unique icon 4
+  [PASS] pikachu form 14 active icon 5
+  [PASS] pikachu form 14 unique icon 5
+  [PASS] pikachu form 14 unused icon slot 6
+  [PASS] pikachu form 14 unused icon slot 7
+  [PASS] pikachu form 14 unused icon slot 8
+  [PASS] pikachu form 14 unused icon slot 9
+  [PASS] pikachu form 14 unused icon slot 10
+  [PASS] pikachu form 14 unused icon slot 11
+  [PASS] pikachu form 14 visible icon count
+  [PASS] pikachu form 14 active cursor
+  [PASS] pikachu form 14 cursor has its own sprite
+  [PASS] pikachu selected form 15
+  [PASS] pikachu bounded page 15
+  [PASS] pikachu form 15 active base icon
+  [PASS] pikachu form 15 active icon 0
+  [PASS] pikachu form 15 unique icon 0
+  [PASS] pikachu form 15 active icon 1
+  [PASS] pikachu form 15 unique icon 1
+  [PASS] pikachu form 15 active icon 2
+  [PASS] pikachu form 15 unique icon 2
+  [PASS] pikachu form 15 active icon 3
+  [PASS] pikachu form 15 unique icon 3
+  [PASS] pikachu form 15 active icon 4
+  [PASS] pikachu form 15 unique icon 4
+  [PASS] pikachu form 15 active icon 5
+  [PASS] pikachu form 15 unique icon 5
+  [PASS] pikachu form 15 unused icon slot 6
+  [PASS] pikachu form 15 unused icon slot 7
+  [PASS] pikachu form 15 unused icon slot 8
+  [PASS] pikachu form 15 unused icon slot 9
+  [PASS] pikachu form 15 unused icon slot 10
+  [PASS] pikachu form 15 unused icon slot 11
+  [PASS] pikachu form 15 visible icon count
+  [PASS] pikachu form 15 active cursor
+  [PASS] pikachu form 15 cursor has its own sprite
+  [PASS] pikachu selected form 16
+  [PASS] pikachu bounded page 16
+  [PASS] pikachu form 16 active base icon
+  [PASS] pikachu form 16 active icon 0
+  [PASS] pikachu form 16 unique icon 0
+  [PASS] pikachu form 16 active icon 1
+  [PASS] pikachu form 16 unique icon 1
+  [PASS] pikachu form 16 active icon 2
+  [PASS] pikachu form 16 unique icon 2
+  [PASS] pikachu form 16 active icon 3
+  [PASS] pikachu form 16 unique icon 3
+  [PASS] pikachu form 16 active icon 4
+  [PASS] pikachu form 16 unique icon 4
+  [PASS] pikachu form 16 active icon 5
+  [PASS] pikachu form 16 unique icon 5
+  [PASS] pikachu form 16 unused icon slot 6
+  [PASS] pikachu form 16 unused icon slot 7
+  [PASS] pikachu form 16 unused icon slot 8
+  [PASS] pikachu form 16 unused icon slot 9
+  [PASS] pikachu form 16 unused icon slot 10
+  [PASS] pikachu form 16 unused icon slot 11
+  [PASS] pikachu form 16 visible icon count
+  [PASS] pikachu form 16 active cursor
+  [PASS] pikachu form 16 cursor has its own sprite
+  [PASS] pikachu selected form 17
+  [PASS] pikachu bounded page 17
+  [PASS] pikachu form 17 active base icon
+  [PASS] pikachu form 17 active icon 0
+  [PASS] pikachu form 17 unique icon 0
+  [PASS] pikachu form 17 active icon 1
+  [PASS] pikachu form 17 unique icon 1
+  [PASS] pikachu form 17 active icon 2
+  [PASS] pikachu form 17 unique icon 2
+  [PASS] pikachu form 17 active icon 3
+  [PASS] pikachu form 17 unique icon 3
+  [PASS] pikachu form 17 active icon 4
+  [PASS] pikachu form 17 unique icon 4
+  [PASS] pikachu form 17 active icon 5
+  [PASS] pikachu form 17 unique icon 5
+  [PASS] pikachu form 17 unused icon slot 6
+  [PASS] pikachu form 17 unused icon slot 7
+  [PASS] pikachu form 17 unused icon slot 8
+  [PASS] pikachu form 17 unused icon slot 9
+  [PASS] pikachu form 17 unused icon slot 10
+  [PASS] pikachu form 17 unused icon slot 11
+  [PASS] pikachu form 17 visible icon count
+  [PASS] pikachu form 17 active cursor
+  [PASS] pikachu form 17 cursor has its own sprite
+  [PASS] pikachu last form opens its information
+  shot SpecialPokemonUI_13_pikachu_last_form_info
+  [PASS] pikachu info return releases icons
+  [PASS] pikachu reopen cycle 1 releases icons
+  [PASS] pikachu reopen cycle 2 releases icons
+  [PASS] unown complete form inventory
+  [PASS] unown selected form 0
+  [PASS] unown bounded page 0
+  [PASS] unown form 0 active base icon
+  [PASS] unown form 0 active icon 0
+  [PASS] unown form 0 unique icon 0
+  [PASS] unown form 0 active icon 1
+  [PASS] unown form 0 unique icon 1
+  [PASS] unown form 0 active icon 2
+  [PASS] unown form 0 unique icon 2
+  [PASS] unown form 0 active icon 3
+  [PASS] unown form 0 unique icon 3
+  [PASS] unown form 0 active icon 4
+  [PASS] unown form 0 unique icon 4
+  [PASS] unown form 0 active icon 5
+  [PASS] unown form 0 unique icon 5
+  [PASS] unown form 0 active icon 6
+  [PASS] unown form 0 unique icon 6
+  [PASS] unown form 0 active icon 7
+  [PASS] unown form 0 unique icon 7
+  [PASS] unown form 0 active icon 8
+  [PASS] unown form 0 unique icon 8
+  [PASS] unown form 0 active icon 9
+  [PASS] unown form 0 unique icon 9
+  [PASS] unown form 0 active icon 10
+  [PASS] unown form 0 unique icon 10
+  [PASS] unown form 0 active icon 11
+  [PASS] unown form 0 unique icon 11
+  [PASS] unown form 0 visible icon count
+  [PASS] unown form 0 active cursor
+  [PASS] unown form 0 cursor has its own sprite
+  shot SpecialPokemonUI_14_unown_page_1
+  [PASS] unown selected form 1
+  [PASS] unown bounded page 1
+  [PASS] unown form 1 active base icon
+  [PASS] unown form 1 active icon 0
+  [PASS] unown form 1 unique icon 0
+  [PASS] unown form 1 active icon 1
+  [PASS] unown form 1 unique icon 1
+  [PASS] unown form 1 active icon 2
+  [PASS] unown form 1 unique icon 2
+  [PASS] unown form 1 active icon 3
+  [PASS] unown form 1 unique icon 3
+  [PASS] unown form 1 active icon 4
+  [PASS] unown form 1 unique icon 4
+  [PASS] unown form 1 active icon 5
+  [PASS] unown form 1 unique icon 5
+  [PASS] unown form 1 active icon 6
+  [PASS] unown form 1 unique icon 6
+  [PASS] unown form 1 active icon 7
+  [PASS] unown form 1 unique icon 7
+  [PASS] unown form 1 active icon 8
+  [PASS] unown form 1 unique icon 8
+  [PASS] unown form 1 active icon 9
+  [PASS] unown form 1 unique icon 9
+  [PASS] unown form 1 active icon 10
+  [PASS] unown form 1 unique icon 10
+  [PASS] unown form 1 active icon 11
+  [PASS] unown form 1 unique icon 11
+  [PASS] unown form 1 visible icon count
+  [PASS] unown form 1 active cursor
+  [PASS] unown form 1 cursor has its own sprite
+  [PASS] unown selected form 2
+  [PASS] unown bounded page 2
+  [PASS] unown form 2 active base icon
+  [PASS] unown form 2 active icon 0
+  [PASS] unown form 2 unique icon 0
+  [PASS] unown form 2 active icon 1
+  [PASS] unown form 2 unique icon 1
+  [PASS] unown form 2 active icon 2
+  [PASS] unown form 2 unique icon 2
+  [PASS] unown form 2 active icon 3
+  [PASS] unown form 2 unique icon 3
+  [PASS] unown form 2 active icon 4
+  [PASS] unown form 2 unique icon 4
+  [PASS] unown form 2 active icon 5
+  [PASS] unown form 2 unique icon 5
+  [PASS] unown form 2 active icon 6
+  [PASS] unown form 2 unique icon 6
+  [PASS] unown form 2 active icon 7
+  [PASS] unown form 2 unique icon 7
+  [PASS] unown form 2 active icon 8
+  [PASS] unown form 2 unique icon 8
+  [PASS] unown form 2 active icon 9
+  [PASS] unown form 2 unique icon 9
+  [PASS] unown form 2 active icon 10
+  [PASS] unown form 2 unique icon 10
+  [PASS] unown form 2 active icon 11
+  [PASS] unown form 2 unique icon 11
+  [PASS] unown form 2 visible icon count
+  [PASS] unown form 2 active cursor
+  [PASS] unown form 2 cursor has its own sprite
+  [PASS] unown selected form 3
+  [PASS] unown bounded page 3
+  [PASS] unown form 3 active base icon
+  [PASS] unown form 3 active icon 0
+  [PASS] unown form 3 unique icon 0
+  [PASS] unown form 3 active icon 1
+  [PASS] unown form 3 unique icon 1
+  [PASS] unown form 3 active icon 2
+  [PASS] unown form 3 unique icon 2
+  [PASS] unown form 3 active icon 3
+  [PASS] unown form 3 unique icon 3
+  [PASS] unown form 3 active icon 4
+  [PASS] unown form 3 unique icon 4
+  [PASS] unown form 3 active icon 5
+  [PASS] unown form 3 unique icon 5
+  [PASS] unown form 3 active icon 6
+  [PASS] unown form 3 unique icon 6
+  [PASS] unown form 3 active icon 7
+  [PASS] unown form 3 unique icon 7
+  [PASS] unown form 3 active icon 8
+  [PASS] unown form 3 unique icon 8
+  [PASS] unown form 3 active icon 9
+  [PASS] unown form 3 unique icon 9
+  [PASS] unown form 3 active icon 10
+  [PASS] unown form 3 unique icon 10
+  [PASS] unown form 3 active icon 11
+  [PASS] unown form 3 unique icon 11
+  [PASS] unown form 3 visible icon count
+  [PASS] unown form 3 active cursor
+  [PASS] unown form 3 cursor has its own sprite
+  [PASS] unown selected form 4
+  [PASS] unown bounded page 4
+  [PASS] unown form 4 active base icon
+  [PASS] unown form 4 active icon 0
+  [PASS] unown form 4 unique icon 0
+  [PASS] unown form 4 active icon 1
+  [PASS] unown form 4 unique icon 1
+  [PASS] unown form 4 active icon 2
+  [PASS] unown form 4 unique icon 2
+  [PASS] unown form 4 active icon 3
+  [PASS] unown form 4 unique icon 3
+  [PASS] unown form 4 active icon 4
+  [PASS] unown form 4 unique icon 4
+  [PASS] unown form 4 active icon 5
+  [PASS] unown form 4 unique icon 5
+  [PASS] unown form 4 active icon 6
+  [PASS] unown form 4 unique icon 6
+  [PASS] unown form 4 active icon 7
+  [PASS] unown form 4 unique icon 7
+  [PASS] unown form 4 active icon 8
+  [PASS] unown form 4 unique icon 8
+  [PASS] unown form 4 active icon 9
+  [PASS] unown form 4 unique icon 9
+  [PASS] unown form 4 active icon 10
+  [PASS] unown form 4 unique icon 10
+  [PASS] unown form 4 active icon 11
+  [PASS] unown form 4 unique icon 11
+  [PASS] unown form 4 visible icon count
+  [PASS] unown form 4 active cursor
+  [PASS] unown form 4 cursor has its own sprite
+  [PASS] unown selected form 5
+  [PASS] unown bounded page 5
+  [PASS] unown form 5 active base icon
+  [PASS] unown form 5 active icon 0
+  [PASS] unown form 5 unique icon 0
+  [PASS] unown form 5 active icon 1
+  [PASS] unown form 5 unique icon 1
+  [PASS] unown form 5 active icon 2
+  [PASS] unown form 5 unique icon 2
+  [PASS] unown form 5 active icon 3
+  [PASS] unown form 5 unique icon 3
+  [PASS] unown form 5 active icon 4
+  [PASS] unown form 5 unique icon 4
+  [PASS] unown form 5 active icon 5
+  [PASS] unown form 5 unique icon 5
+  [PASS] unown form 5 active icon 6
+  [PASS] unown form 5 unique icon 6
+  [PASS] unown form 5 active icon 7
+  [PASS] unown form 5 unique icon 7
+  [PASS] unown form 5 active icon 8
+  [PASS] unown form 5 unique icon 8
+  [PASS] unown form 5 active icon 9
+  [PASS] unown form 5 unique icon 9
+  [PASS] unown form 5 active icon 10
+  [PASS] unown form 5 unique icon 10
+  [PASS] unown form 5 active icon 11
+  [PASS] unown form 5 unique icon 11
+  [PASS] unown form 5 visible icon count
+  [PASS] unown form 5 active cursor
+  [PASS] unown form 5 cursor has its own sprite
+  [PASS] unown selected form 6
+  [PASS] unown bounded page 6
+  [PASS] unown form 6 active base icon
+  [PASS] unown form 6 active icon 0
+  [PASS] unown form 6 unique icon 0
+  [PASS] unown form 6 active icon 1
+  [PASS] unown form 6 unique icon 1
+  [PASS] unown form 6 active icon 2
+  [PASS] unown form 6 unique icon 2
+  [PASS] unown form 6 active icon 3
+  [PASS] unown form 6 unique icon 3
+  [PASS] unown form 6 active icon 4
+  [PASS] unown form 6 unique icon 4
+  [PASS] unown form 6 active icon 5
+  [PASS] unown form 6 unique icon 5
+  [PASS] unown form 6 active icon 6
+  [PASS] unown form 6 unique icon 6
+  [PASS] unown form 6 active icon 7
+  [PASS] unown form 6 unique icon 7
+  [PASS] unown form 6 active icon 8
+  [PASS] unown form 6 unique icon 8
+  [PASS] unown form 6 active icon 9
+  [PASS] unown form 6 unique icon 9
+  [PASS] unown form 6 active icon 10
+  [PASS] unown form 6 unique icon 10
+  [PASS] unown form 6 active icon 11
+  [PASS] unown form 6 unique icon 11
+  [PASS] unown form 6 visible icon count
+  [PASS] unown form 6 active cursor
+  [PASS] unown form 6 cursor has its own sprite
+  [PASS] unown selected form 7
+  [PASS] unown bounded page 7
+  [PASS] unown form 7 active base icon
+  [PASS] unown form 7 active icon 0
+  [PASS] unown form 7 unique icon 0
+  [PASS] unown form 7 active icon 1
+  [PASS] unown form 7 unique icon 1
+  [PASS] unown form 7 active icon 2
+  [PASS] unown form 7 unique icon 2
+  [PASS] unown form 7 active icon 3
+  [PASS] unown form 7 unique icon 3
+  [PASS] unown form 7 active icon 4
+  [PASS] unown form 7 unique icon 4
+  [PASS] unown form 7 active icon 5
+  [PASS] unown form 7 unique icon 5
+  [PASS] unown form 7 active icon 6
+  [PASS] unown form 7 unique icon 6
+  [PASS] unown form 7 active icon 7
+  [PASS] unown form 7 unique icon 7
+  [PASS] unown form 7 active icon 8
+  [PASS] unown form 7 unique icon 8
+  [PASS] unown form 7 active icon 9
+  [PASS] unown form 7 unique icon 9
+  [PASS] unown form 7 active icon 10
+  [PASS] unown form 7 unique icon 10
+  [PASS] unown form 7 active icon 11
+  [PASS] unown form 7 unique icon 11
+  [PASS] unown form 7 visible icon count
+  [PASS] unown form 7 active cursor
+  [PASS] unown form 7 cursor has its own sprite
+  [PASS] unown selected form 8
+  [PASS] unown bounded page 8
+  [PASS] unown form 8 active base icon
+  [PASS] unown form 8 active icon 0
+  [PASS] unown form 8 unique icon 0
+  [PASS] unown form 8 active icon 1
+  [PASS] unown form 8 unique icon 1
+  [PASS] unown form 8 active icon 2
+  [PASS] unown form 8 unique icon 2
+  [PASS] unown form 8 active icon 3
+  [PASS] unown form 8 unique icon 3
+  [PASS] unown form 8 active icon 4
+  [PASS] unown form 8 unique icon 4
+  [PASS] unown form 8 active icon 5
+  [PASS] unown form 8 unique icon 5
+  [PASS] unown form 8 active icon 6
+  [PASS] unown form 8 unique icon 6
+  [PASS] unown form 8 active icon 7
+  [PASS] unown form 8 unique icon 7
+  [PASS] unown form 8 active icon 8
+  [PASS] unown form 8 unique icon 8
+  [PASS] unown form 8 active icon 9
+  [PASS] unown form 8 unique icon 9
+  [PASS] unown form 8 active icon 10
+  [PASS] unown form 8 unique icon 10
+  [PASS] unown form 8 active icon 11
+  [PASS] unown form 8 unique icon 11
+  [PASS] unown form 8 visible icon count
+  [PASS] unown form 8 active cursor
+  [PASS] unown form 8 cursor has its own sprite
+  [PASS] unown selected form 9
+  [PASS] unown bounded page 9
+  [PASS] unown form 9 active base icon
+  [PASS] unown form 9 active icon 0
+  [PASS] unown form 9 unique icon 0
+  [PASS] unown form 9 active icon 1
+  [PASS] unown form 9 unique icon 1
+  [PASS] unown form 9 active icon 2
+  [PASS] unown form 9 unique icon 2
+  [PASS] unown form 9 active icon 3
+  [PASS] unown form 9 unique icon 3
+  [PASS] unown form 9 active icon 4
+  [PASS] unown form 9 unique icon 4
+  [PASS] unown form 9 active icon 5
+  [PASS] unown form 9 unique icon 5
+  [PASS] unown form 9 active icon 6
+  [PASS] unown form 9 unique icon 6
+  [PASS] unown form 9 active icon 7
+  [PASS] unown form 9 unique icon 7
+  [PASS] unown form 9 active icon 8
+  [PASS] unown form 9 unique icon 8
+  [PASS] unown form 9 active icon 9
+  [PASS] unown form 9 unique icon 9
+  [PASS] unown form 9 active icon 10
+  [PASS] unown form 9 unique icon 10
+  [PASS] unown form 9 active icon 11
+  [PASS] unown form 9 unique icon 11
+  [PASS] unown form 9 visible icon count
+  [PASS] unown form 9 active cursor
+  [PASS] unown form 9 cursor has its own sprite
+  [PASS] unown selected form 10
+  [PASS] unown bounded page 10
+  [PASS] unown form 10 active base icon
+  [PASS] unown form 10 active icon 0
+  [PASS] unown form 10 unique icon 0
+  [PASS] unown form 10 active icon 1
+  [PASS] unown form 10 unique icon 1
+  [PASS] unown form 10 active icon 2
+  [PASS] unown form 10 unique icon 2
+  [PASS] unown form 10 active icon 3
+  [PASS] unown form 10 unique icon 3
+  [PASS] unown form 10 active icon 4
+  [PASS] unown form 10 unique icon 4
+  [PASS] unown form 10 active icon 5
+  [PASS] unown form 10 unique icon 5
+  [PASS] unown form 10 active icon 6
+  [PASS] unown form 10 unique icon 6
+  [PASS] unown form 10 active icon 7
+  [PASS] unown form 10 unique icon 7
+  [PASS] unown form 10 active icon 8
+  [PASS] unown form 10 unique icon 8
+  [PASS] unown form 10 active icon 9
+  [PASS] unown form 10 unique icon 9
+  [PASS] unown form 10 active icon 10
+  [PASS] unown form 10 unique icon 10
+  [PASS] unown form 10 active icon 11
+  [PASS] unown form 10 unique icon 11
+  [PASS] unown form 10 visible icon count
+  [PASS] unown form 10 active cursor
+  [PASS] unown form 10 cursor has its own sprite
+  [PASS] unown selected form 11
+  [PASS] unown bounded page 11
+  [PASS] unown form 11 active base icon
+  [PASS] unown form 11 active icon 0
+  [PASS] unown form 11 unique icon 0
+  [PASS] unown form 11 active icon 1
+  [PASS] unown form 11 unique icon 1
+  [PASS] unown form 11 active icon 2
+  [PASS] unown form 11 unique icon 2
+  [PASS] unown form 11 active icon 3
+  [PASS] unown form 11 unique icon 3
+  [PASS] unown form 11 active icon 4
+  [PASS] unown form 11 unique icon 4
+  [PASS] unown form 11 active icon 5
+  [PASS] unown form 11 unique icon 5
+  [PASS] unown form 11 active icon 6
+  [PASS] unown form 11 unique icon 6
+  [PASS] unown form 11 active icon 7
+  [PASS] unown form 11 unique icon 7
+  [PASS] unown form 11 active icon 8
+  [PASS] unown form 11 unique icon 8
+  [PASS] unown form 11 active icon 9
+  [PASS] unown form 11 unique icon 9
+  [PASS] unown form 11 active icon 10
+  [PASS] unown form 11 unique icon 10
+  [PASS] unown form 11 active icon 11
+  [PASS] unown form 11 unique icon 11
+  [PASS] unown form 11 visible icon count
+  [PASS] unown form 11 active cursor
+  [PASS] unown form 11 cursor has its own sprite
+  [PASS] unown selected form 12
+  [PASS] unown bounded page 12
+  [PASS] unown form 12 active base icon
+  [PASS] unown form 12 active icon 0
+  [PASS] unown form 12 unique icon 0
+  [PASS] unown form 12 active icon 1
+  [PASS] unown form 12 unique icon 1
+  [PASS] unown form 12 active icon 2
+  [PASS] unown form 12 unique icon 2
+  [PASS] unown form 12 active icon 3
+  [PASS] unown form 12 unique icon 3
+  [PASS] unown form 12 active icon 4
+  [PASS] unown form 12 unique icon 4
+  [PASS] unown form 12 active icon 5
+  [PASS] unown form 12 unique icon 5
+  [PASS] unown form 12 active icon 6
+  [PASS] unown form 12 unique icon 6
+  [PASS] unown form 12 active icon 7
+  [PASS] unown form 12 unique icon 7
+  [PASS] unown form 12 active icon 8
+  [PASS] unown form 12 unique icon 8
+  [PASS] unown form 12 active icon 9
+  [PASS] unown form 12 unique icon 9
+  [PASS] unown form 12 active icon 10
+  [PASS] unown form 12 unique icon 10
+  [PASS] unown form 12 active icon 11
+  [PASS] unown form 12 unique icon 11
+  [PASS] unown form 12 visible icon count
+  [PASS] unown form 12 active cursor
+  [PASS] unown form 12 cursor has its own sprite
+  shot SpecialPokemonUI_15_unown_page_2
+  [PASS] unown selected form 13
+  [PASS] unown bounded page 13
+  [PASS] unown form 13 active base icon
+  [PASS] unown form 13 active icon 0
+  [PASS] unown form 13 unique icon 0
+  [PASS] unown form 13 active icon 1
+  [PASS] unown form 13 unique icon 1
+  [PASS] unown form 13 active icon 2
+  [PASS] unown form 13 unique icon 2
+  [PASS] unown form 13 active icon 3
+  [PASS] unown form 13 unique icon 3
+  [PASS] unown form 13 active icon 4
+  [PASS] unown form 13 unique icon 4
+  [PASS] unown form 13 active icon 5
+  [PASS] unown form 13 unique icon 5
+  [PASS] unown form 13 active icon 6
+  [PASS] unown form 13 unique icon 6
+  [PASS] unown form 13 active icon 7
+  [PASS] unown form 13 unique icon 7
+  [PASS] unown form 13 active icon 8
+  [PASS] unown form 13 unique icon 8
+  [PASS] unown form 13 active icon 9
+  [PASS] unown form 13 unique icon 9
+  [PASS] unown form 13 active icon 10
+  [PASS] unown form 13 unique icon 10
+  [PASS] unown form 13 active icon 11
+  [PASS] unown form 13 unique icon 11
+  [PASS] unown form 13 visible icon count
+  [PASS] unown form 13 active cursor
+  [PASS] unown form 13 cursor has its own sprite
+  [PASS] unown selected form 14
+  [PASS] unown bounded page 14
+  [PASS] unown form 14 active base icon
+  [PASS] unown form 14 active icon 0
+  [PASS] unown form 14 unique icon 0
+  [PASS] unown form 14 active icon 1
+  [PASS] unown form 14 unique icon 1
+  [PASS] unown form 14 active icon 2
+  [PASS] unown form 14 unique icon 2
+  [PASS] unown form 14 active icon 3
+  [PASS] unown form 14 unique icon 3
+  [PASS] unown form 14 active icon 4
+  [PASS] unown form 14 unique icon 4
+  [PASS] unown form 14 active icon 5
+  [PASS] unown form 14 unique icon 5
+  [PASS] unown form 14 active icon 6
+  [PASS] unown form 14 unique icon 6
+  [PASS] unown form 14 active icon 7
+  [PASS] unown form 14 unique icon 7
+  [PASS] unown form 14 active icon 8
+  [PASS] unown form 14 unique icon 8
+  [PASS] unown form 14 active icon 9
+  [PASS] unown form 14 unique icon 9
+  [PASS] unown form 14 active icon 10
+  [PASS] unown form 14 unique icon 10
+  [PASS] unown form 14 active icon 11
+  [PASS] unown form 14 unique icon 11
+  [PASS] unown form 14 visible icon count
+  [PASS] unown form 14 active cursor
+  [PASS] unown form 14 cursor has its own sprite
+  [PASS] unown selected form 15
+  [PASS] unown bounded page 15
+  [PASS] unown form 15 active base icon
+  [PASS] unown form 15 active icon 0
+  [PASS] unown form 15 unique icon 0
+  [PASS] unown form 15 active icon 1
+  [PASS] unown form 15 unique icon 1
+  [PASS] unown form 15 active icon 2
+  [PASS] unown form 15 unique icon 2
+  [PASS] unown form 15 active icon 3
+  [PASS] unown form 15 unique icon 3
+  [PASS] unown form 15 active icon 4
+  [PASS] unown form 15 unique icon 4
+  [PASS] unown form 15 active icon 5
+  [PASS] unown form 15 unique icon 5
+  [PASS] unown form 15 active icon 6
+  [PASS] unown form 15 unique icon 6
+  [PASS] unown form 15 active icon 7
+  [PASS] unown form 15 unique icon 7
+  [PASS] unown form 15 active icon 8
+  [PASS] unown form 15 unique icon 8
+  [PASS] unown form 15 active icon 9
+  [PASS] unown form 15 unique icon 9
+  [PASS] unown form 15 active icon 10
+  [PASS] unown form 15 unique icon 10
+  [PASS] unown form 15 active icon 11
+  [PASS] unown form 15 unique icon 11
+  [PASS] unown form 15 visible icon count
+  [PASS] unown form 15 active cursor
+  [PASS] unown form 15 cursor has its own sprite
+  [PASS] unown selected form 16
+  [PASS] unown bounded page 16
+  [PASS] unown form 16 active base icon
+  [PASS] unown form 16 active icon 0
+  [PASS] unown form 16 unique icon 0
+  [PASS] unown form 16 active icon 1
+  [PASS] unown form 16 unique icon 1
+  [PASS] unown form 16 active icon 2
+  [PASS] unown form 16 unique icon 2
+  [PASS] unown form 16 active icon 3
+  [PASS] unown form 16 unique icon 3
+  [PASS] unown form 16 active icon 4
+  [PASS] unown form 16 unique icon 4
+  [PASS] unown form 16 active icon 5
+  [PASS] unown form 16 unique icon 5
+  [PASS] unown form 16 active icon 6
+  [PASS] unown form 16 unique icon 6
+  [PASS] unown form 16 active icon 7
+  [PASS] unown form 16 unique icon 7
+  [PASS] unown form 16 active icon 8
+  [PASS] unown form 16 unique icon 8
+  [PASS] unown form 16 active icon 9
+  [PASS] unown form 16 unique icon 9
+  [PASS] unown form 16 active icon 10
+  [PASS] unown form 16 unique icon 10
+  [PASS] unown form 16 active icon 11
+  [PASS] unown form 16 unique icon 11
+  [PASS] unown form 16 visible icon count
+  [PASS] unown form 16 active cursor
+  [PASS] unown form 16 cursor has its own sprite
+  [PASS] unown selected form 17
+  [PASS] unown bounded page 17
+  [PASS] unown form 17 active base icon
+  [PASS] unown form 17 active icon 0
+  [PASS] unown form 17 unique icon 0
+  [PASS] unown form 17 active icon 1
+  [PASS] unown form 17 unique icon 1
+  [PASS] unown form 17 active icon 2
+  [PASS] unown form 17 unique icon 2
+  [PASS] unown form 17 active icon 3
+  [PASS] unown form 17 unique icon 3
+  [PASS] unown form 17 active icon 4
+  [PASS] unown form 17 unique icon 4
+  [PASS] unown form 17 active icon 5
+  [PASS] unown form 17 unique icon 5
+  [PASS] unown form 17 active icon 6
+  [PASS] unown form 17 unique icon 6
+  [PASS] unown form 17 active icon 7
+  [PASS] unown form 17 unique icon 7
+  [PASS] unown form 17 active icon 8
+  [PASS] unown form 17 unique icon 8
+  [PASS] unown form 17 active icon 9
+  [PASS] unown form 17 unique icon 9
+  [PASS] unown form 17 active icon 10
+  [PASS] unown form 17 unique icon 10
+  [PASS] unown form 17 active icon 11
+  [PASS] unown form 17 unique icon 11
+  [PASS] unown form 17 visible icon count
+  [PASS] unown form 17 active cursor
+  [PASS] unown form 17 cursor has its own sprite
+  [PASS] unown selected form 18
+  [PASS] unown bounded page 18
+  [PASS] unown form 18 active base icon
+  [PASS] unown form 18 active icon 0
+  [PASS] unown form 18 unique icon 0
+  [PASS] unown form 18 active icon 1
+  [PASS] unown form 18 unique icon 1
+  [PASS] unown form 18 active icon 2
+  [PASS] unown form 18 unique icon 2
+  [PASS] unown form 18 active icon 3
+  [PASS] unown form 18 unique icon 3
+  [PASS] unown form 18 active icon 4
+  [PASS] unown form 18 unique icon 4
+  [PASS] unown form 18 active icon 5
+  [PASS] unown form 18 unique icon 5
+  [PASS] unown form 18 active icon 6
+  [PASS] unown form 18 unique icon 6
+  [PASS] unown form 18 active icon 7
+  [PASS] unown form 18 unique icon 7
+  [PASS] unown form 18 active icon 8
+  [PASS] unown form 18 unique icon 8
+  [PASS] unown form 18 active icon 9
+  [PASS] unown form 18 unique icon 9
+  [PASS] unown form 18 active icon 10
+  [PASS] unown form 18 unique icon 10
+  [PASS] unown form 18 active icon 11
+  [PASS] unown form 18 unique icon 11
+  [PASS] unown form 18 visible icon count
+  [PASS] unown form 18 active cursor
+  [PASS] unown form 18 cursor has its own sprite
+  [PASS] unown selected form 19
+  [PASS] unown bounded page 19
+  [PASS] unown form 19 active base icon
+  [PASS] unown form 19 active icon 0
+  [PASS] unown form 19 unique icon 0
+  [PASS] unown form 19 active icon 1
+  [PASS] unown form 19 unique icon 1
+  [PASS] unown form 19 active icon 2
+  [PASS] unown form 19 unique icon 2
+  [PASS] unown form 19 active icon 3
+  [PASS] unown form 19 unique icon 3
+  [PASS] unown form 19 active icon 4
+  [PASS] unown form 19 unique icon 4
+  [PASS] unown form 19 active icon 5
+  [PASS] unown form 19 unique icon 5
+  [PASS] unown form 19 active icon 6
+  [PASS] unown form 19 unique icon 6
+  [PASS] unown form 19 active icon 7
+  [PASS] unown form 19 unique icon 7
+  [PASS] unown form 19 active icon 8
+  [PASS] unown form 19 unique icon 8
+  [PASS] unown form 19 active icon 9
+  [PASS] unown form 19 unique icon 9
+  [PASS] unown form 19 active icon 10
+  [PASS] unown form 19 unique icon 10
+  [PASS] unown form 19 active icon 11
+  [PASS] unown form 19 unique icon 11
+  [PASS] unown form 19 visible icon count
+  [PASS] unown form 19 active cursor
+  [PASS] unown form 19 cursor has its own sprite
+  [PASS] unown selected form 20
+  [PASS] unown bounded page 20
+  [PASS] unown form 20 active base icon
+  [PASS] unown form 20 active icon 0
+  [PASS] unown form 20 unique icon 0
+  [PASS] unown form 20 active icon 1
+  [PASS] unown form 20 unique icon 1
+  [PASS] unown form 20 active icon 2
+  [PASS] unown form 20 unique icon 2
+  [PASS] unown form 20 active icon 3
+  [PASS] unown form 20 unique icon 3
+  [PASS] unown form 20 active icon 4
+  [PASS] unown form 20 unique icon 4
+  [PASS] unown form 20 active icon 5
+  [PASS] unown form 20 unique icon 5
+  [PASS] unown form 20 active icon 6
+  [PASS] unown form 20 unique icon 6
+  [PASS] unown form 20 active icon 7
+  [PASS] unown form 20 unique icon 7
+  [PASS] unown form 20 active icon 8
+  [PASS] unown form 20 unique icon 8
+  [PASS] unown form 20 active icon 9
+  [PASS] unown form 20 unique icon 9
+  [PASS] unown form 20 active icon 10
+  [PASS] unown form 20 unique icon 10
+  [PASS] unown form 20 active icon 11
+  [PASS] unown form 20 unique icon 11
+  [PASS] unown form 20 visible icon count
+  [PASS] unown form 20 active cursor
+  [PASS] unown form 20 cursor has its own sprite
+  [PASS] unown selected form 21
+  [PASS] unown bounded page 21
+  [PASS] unown form 21 active base icon
+  [PASS] unown form 21 active icon 0
+  [PASS] unown form 21 unique icon 0
+  [PASS] unown form 21 active icon 1
+  [PASS] unown form 21 unique icon 1
+  [PASS] unown form 21 active icon 2
+  [PASS] unown form 21 unique icon 2
+  [PASS] unown form 21 active icon 3
+  [PASS] unown form 21 unique icon 3
+  [PASS] unown form 21 active icon 4
+  [PASS] unown form 21 unique icon 4
+  [PASS] unown form 21 active icon 5
+  [PASS] unown form 21 unique icon 5
+  [PASS] unown form 21 active icon 6
+  [PASS] unown form 21 unique icon 6
+  [PASS] unown form 21 active icon 7
+  [PASS] unown form 21 unique icon 7
+  [PASS] unown form 21 active icon 8
+  [PASS] unown form 21 unique icon 8
+  [PASS] unown form 21 active icon 9
+  [PASS] unown form 21 unique icon 9
+  [PASS] unown form 21 active icon 10
+  [PASS] unown form 21 unique icon 10
+  [PASS] unown form 21 active icon 11
+  [PASS] unown form 21 unique icon 11
+  [PASS] unown form 21 visible icon count
+  [PASS] unown form 21 active cursor
+  [PASS] unown form 21 cursor has its own sprite
+  [PASS] unown selected form 22
+  [PASS] unown bounded page 22
+  [PASS] unown form 22 active base icon
+  [PASS] unown form 22 active icon 0
+  [PASS] unown form 22 unique icon 0
+  [PASS] unown form 22 active icon 1
+  [PASS] unown form 22 unique icon 1
+  [PASS] unown form 22 active icon 2
+  [PASS] unown form 22 unique icon 2
+  [PASS] unown form 22 active icon 3
+  [PASS] unown form 22 unique icon 3
+  [PASS] unown form 22 active icon 4
+  [PASS] unown form 22 unique icon 4
+  [PASS] unown form 22 active icon 5
+  [PASS] unown form 22 unique icon 5
+  [PASS] unown form 22 active icon 6
+  [PASS] unown form 22 unique icon 6
+  [PASS] unown form 22 active icon 7
+  [PASS] unown form 22 unique icon 7
+  [PASS] unown form 22 active icon 8
+  [PASS] unown form 22 unique icon 8
+  [PASS] unown form 22 active icon 9
+  [PASS] unown form 22 unique icon 9
+  [PASS] unown form 22 active icon 10
+  [PASS] unown form 22 unique icon 10
+  [PASS] unown form 22 active icon 11
+  [PASS] unown form 22 unique icon 11
+  [PASS] unown form 22 visible icon count
+  [PASS] unown form 22 active cursor
+  [PASS] unown form 22 cursor has its own sprite
+  [PASS] unown selected form 23
+  [PASS] unown bounded page 23
+  [PASS] unown form 23 active base icon
+  [PASS] unown form 23 active icon 0
+  [PASS] unown form 23 unique icon 0
+  [PASS] unown form 23 active icon 1
+  [PASS] unown form 23 unique icon 1
+  [PASS] unown form 23 active icon 2
+  [PASS] unown form 23 unique icon 2
+  [PASS] unown form 23 active icon 3
+  [PASS] unown form 23 unique icon 3
+  [PASS] unown form 23 active icon 4
+  [PASS] unown form 23 unique icon 4
+  [PASS] unown form 23 active icon 5
+  [PASS] unown form 23 unique icon 5
+  [PASS] unown form 23 active icon 6
+  [PASS] unown form 23 unique icon 6
+  [PASS] unown form 23 active icon 7
+  [PASS] unown form 23 unique icon 7
+  [PASS] unown form 23 active icon 8
+  [PASS] unown form 23 unique icon 8
+  [PASS] unown form 23 active icon 9
+  [PASS] unown form 23 unique icon 9
+  [PASS] unown form 23 active icon 10
+  [PASS] unown form 23 unique icon 10
+  [PASS] unown form 23 active icon 11
+  [PASS] unown form 23 unique icon 11
+  [PASS] unown form 23 visible icon count
+  [PASS] unown form 23 active cursor
+  [PASS] unown form 23 cursor has its own sprite
+  [PASS] unown selected form 24
+  [PASS] unown bounded page 24
+  [PASS] unown form 24 active base icon
+  [PASS] unown form 24 active icon 0
+  [PASS] unown form 24 unique icon 0
+  [PASS] unown form 24 active icon 1
+  [PASS] unown form 24 unique icon 1
+  [PASS] unown form 24 active icon 2
+  [PASS] unown form 24 unique icon 2
+  [PASS] unown form 24 unused icon slot 3
+  [PASS] unown form 24 unused icon slot 4
+  [PASS] unown form 24 unused icon slot 5
+  [PASS] unown form 24 unused icon slot 6
+  [PASS] unown form 24 unused icon slot 7
+  [PASS] unown form 24 unused icon slot 8
+  [PASS] unown form 24 unused icon slot 9
+  [PASS] unown form 24 unused icon slot 10
+  [PASS] unown form 24 unused icon slot 11
+  [PASS] unown form 24 visible icon count
+  [PASS] unown form 24 active cursor
+  [PASS] unown form 24 cursor has its own sprite
+  shot SpecialPokemonUI_16_unown_page_3
+  [PASS] unown selected form 25
+  [PASS] unown bounded page 25
+  [PASS] unown form 25 active base icon
+  [PASS] unown form 25 active icon 0
+  [PASS] unown form 25 unique icon 0
+  [PASS] unown form 25 active icon 1
+  [PASS] unown form 25 unique icon 1
+  [PASS] unown form 25 active icon 2
+  [PASS] unown form 25 unique icon 2
+  [PASS] unown form 25 unused icon slot 3
+  [PASS] unown form 25 unused icon slot 4
+  [PASS] unown form 25 unused icon slot 5
+  [PASS] unown form 25 unused icon slot 6
+  [PASS] unown form 25 unused icon slot 7
+  [PASS] unown form 25 unused icon slot 8
+  [PASS] unown form 25 unused icon slot 9
+  [PASS] unown form 25 unused icon slot 10
+  [PASS] unown form 25 unused icon slot 11
+  [PASS] unown form 25 visible icon count
+  [PASS] unown form 25 active cursor
+  [PASS] unown form 25 cursor has its own sprite
+  [PASS] unown selected form 26
+  [PASS] unown bounded page 26
+  [PASS] unown form 26 active base icon
+  [PASS] unown form 26 active icon 0
+  [PASS] unown form 26 unique icon 0
+  [PASS] unown form 26 active icon 1
+  [PASS] unown form 26 unique icon 1
+  [PASS] unown form 26 active icon 2
+  [PASS] unown form 26 unique icon 2
+  [PASS] unown form 26 unused icon slot 3
+  [PASS] unown form 26 unused icon slot 4
+  [PASS] unown form 26 unused icon slot 5
+  [PASS] unown form 26 unused icon slot 6
+  [PASS] unown form 26 unused icon slot 7
+  [PASS] unown form 26 unused icon slot 8
+  [PASS] unown form 26 unused icon slot 9
+  [PASS] unown form 26 unused icon slot 10
+  [PASS] unown form 26 unused icon slot 11
+  [PASS] unown form 26 visible icon count
+  [PASS] unown form 26 active cursor
+  [PASS] unown form 26 cursor has its own sprite
+  [PASS] unown last form opens its information
+  shot SpecialPokemonUI_17_unown_last_form_info
+  [PASS] unown info return releases icons
+  [PASS] unown reopen cycle 1 releases icons
+  [PASS] unown reopen cycle 2 releases icons
+VERDICT SpecialPokemonUI: 1326/1326 PASS

@@ -1,0 +1,100 @@
+{"input_rom_sha256": "04f8a13fc620117731233d878b1f9d9b165547e49bd082a8086cbbb7fbe98b16", "fixture_rom_sha256": "91048bd7eb1cd818236ed6eba52ee38f9a4cf6c54e1df1a01e4ab312b56b7f00", "symbols_sha256": "5d535d7039b1ad24545747cb6ef2b8fb801f30ba0b4e531e4ad79d02d611ed97", "fixture_bytes": 820, "fixture_source_sha256": "ab0140b28b707343053b936ce7c2df940fc06dedaa74c3b27e1840c4bce19396", "entry": "0x9f00001", "base_commit": "534c199cc2834aa3afe88628796158ccc2296b41", "working_diff_sha256": "0b6ec852ba5c83b96ee634f3a80c42ee9f97881798f0238cc3f8383ad7f321b9", "configuration": {"include/config/name_box.h": "c0935420b34414d526a041e31634c0cd519fd74ebc2455fed9284a0aea8635cb", "include/config/pokedex_plus_hgss.h": "446d88e415e3a048a3d75635acf84709e09c28ae312e71656b047e597436c28a", "include/config/overworld.h": "5af81f5cf9c60d419169e96127e984b2db93c0eec506660e32566fce6c6b10d8"}}
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot SpecialPokemonSources_1_ClassicCapTrainer
+  [PASS] ClassicCapTrainer: interaction returned control
+  [PASS] classic cap collected through NPC
+  shot SpecialPokemonSources_2_BalloonSeller
+  [PASS] BalloonSeller: interaction returned control
+  [PASS] balloon Pikachu collected through NPC
+  shot SpecialPokemonSources_3_ClassicCapTrainer
+  [PASS] ClassicCapTrainer: interaction returned control
+  [PASS] repeat cap gift fills party slot without an extra mark
+  shot SpecialPokemonSources_4_SquadOrganizer
+  [PASS] SquadOrganizer: interaction returned control
+  shot SpecialPokemonSources_5_SquadOne
+  [PASS] SquadOne: interaction returned control
+  shot SpecialPokemonSources_6_SquadTwo
+  [PASS] SquadTwo: interaction returned control
+  shot SpecialPokemonSources_7_SquadOrganizer
+  [PASS] SquadOrganizer: interaction returned control
+  [PASS] squad task completed and awarded
+  shot SpecialPokemonSources_8_KilnHelper
+  [PASS] KilnHelper: interaction returned control
+  shot SpecialPokemonSources_9_WellHelper
+  [PASS] WellHelper: interaction returned control
+  [PASS] mid-task save succeeded
+BOOTED grp=80 map=0 pos=(54,9)
+  [PASS] Continue retains water delivery without an award
+  shot SpecialPokemonSources_10_KilnHelper
+  [PASS] KilnHelper: interaction returned control
+  [PASS] kiln task completed and awarded
+  shot SpecialPokemonSources_11_Florist
+  [PASS] Florist: interaction returned control
+  shot SpecialPokemonSources_12_FlowerResidentOne
+  [PASS] FlowerResidentOne: interaction returned control
+  shot SpecialPokemonSources_13_FlowerResidentTwo
+  [PASS] FlowerResidentTwo: interaction returned control
+  shot SpecialPokemonSources_14_Florist
+  [PASS] Florist: interaction returned control
+  [PASS] flowers task awarded to PC with full party
+  shot SpecialPokemonSources_15_Surfer
+  [PASS] Surfer: interaction returned control
+  shot SpecialPokemonSources_16_Surfboard
+  [PASS] Surfboard: interaction returned control
+  shot SpecialPokemonSources_17_PirateSailor
+  [PASS] PirateSailor: interaction returned control
+  shot SpecialPokemonSources_18_Pirate
+  [PASS] Pirate: interaction returned control
+  [PASS] declined encounters do not mark collection
+  shot SpecialPokemonSources_19_SquadOrganizer
+  [PASS] SquadOrganizer: interaction returned control
+  shot SpecialPokemonSources_20_KilnHelper
+  [PASS] KilnHelper: interaction returned control
+  shot SpecialPokemonSources_21_Florist
+  [PASS] Florist: interaction returned control
+  [PASS] repeat gifts retain all five marks
+VERDICT SpecialPokemonSources: 31/31 PASS
+
+  boot: cleared an on-arrival scene in 24 B presses
+BOOTED grp=100 map=0 pos=(16,4)
+  shot SpecialPokemonCapture_1_Surfer
+  [PASS] Surfer: interaction returned control
+  shot SpecialPokemonCapture_2_Surfboard
+  shot SpecialPokemonCapture_3_Surfboard_battle
+  [PASS] battle outcome 4
+  [PASS] running preserves source without collection
+  shot SpecialPokemonCapture_4_Surfboard
+  shot SpecialPokemonCapture_5_Surfboard_battle
+  [PASS] battle outcome 1
+  [PASS] target faint preserves source without collection
+  shot SpecialPokemonCapture_6_Surfboard
+  shot SpecialPokemonCapture_7_Surfboard_battle
+  [PASS] battle outcome 2
+  [PASS] defeat preserves source without collection
+  shot SpecialPokemonCapture_8_Surfboard
+  shot SpecialPokemonCapture_9_Surfboard_battle
+  [PASS] Surfboard: prepared source is not collected before capture
+  [PASS] Surfboard: normal ball shortcut available
+  [PASS] battle outcome 7
+  [PASS] Surfboard: successful catch marks checklist
+  shot SpecialPokemonCapture_10_PirateSailor
+  [PASS] PirateSailor: interaction returned control
+  shot SpecialPokemonCapture_11_Pirate
+  shot SpecialPokemonCapture_12_Pirate_battle
+  [PASS] Pirate: prepared source is not collected before capture
+  [PASS] Pirate: normal ball shortcut available
+  [PASS] battle outcome 7
+  [PASS] Pirate: successful catch marks checklist
+  [PASS] two captures remain in actual ownership
+  [PASS] ordinary save succeeded
+BOOTED grp=87 map=0 pos=(32,55)
+  [PASS] Continue retains capture marks
+  [PASS] Continue retains two owned captures
+  shot SpecialPokemonCapture_13_BalloonSeller
+  [PASS] BalloonSeller: interaction returned control
+  shot SpecialPokemonCapture_14_Surfboard
+  shot SpecialPokemonCapture_15_Surfboard_battle
+  [PASS] battle outcome 7
+  [PASS] regional map revisit allows repeat catch
+VERDICT SpecialPokemonCapture: 23/23 PASS

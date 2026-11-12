@@ -1,0 +1,121 @@
+[
+  {
+    "key": "classic_cap",
+    "symbol": "ClassicCap",
+    "base": "pikachu",
+    "icon_palette": 0,
+    "female": false,
+    "asymmetric": false,
+    "follower_frames": 6,
+    "files": {
+      "anim_front.png": "cdd9438ff190b2040acd0d8b4c3862c7940a9f9f4bae8f10d7c27f993908eeb3",
+      "back.png": "d140e36b63a66aa0c2378ae07422c81f1a79ae49aae5491bd3214dc97dd00fc5",
+      "icon.png": "ba94cf76c388fd1afd6135148ddc69f130ae9d3793f7a38f89da1853d23458cb",
+      "normal.pal": "3d0a603b281d8b92a0f6538c04e621f82932d18e3179fd7abf33296da5ea6320",
+      "overworld.png": "167bde876ab6830a1f62bdc8f96cb64f43db1aaa16d2d5244f337fc0eb1a1263",
+      "overworld_normal.pal": "cc05f0bc8f4cc4e44d724c3b3c3aa77c1c1c3b89dafcaa8b27a7eaf397226ffd"
+    }
+  },
+  {
+    "key": "surfboard",
+    "symbol": "Surfboard",
+    "base": "pikachu",
+    "icon_palette": 2,
+    "female": false,
+    "asymmetric": false,
+    "follower_frames": 6,
+    "files": {
+      "anim_front.png": "d7277c1d29e5e9dc14556add0d55ac093f844238f58ee913a26ff6b6803ad354",
+      "back.png": "c00e1a078cb6a0704fa02a40a3b99d198426b12d693e15de39f794aaf51c8d0b",
+      "icon.png": "3b970ab7735621dc8e39ab2b8bff7f7ad3382e06ee11bb3f4fb6f460c140a381",
+      "normal.pal": "97fcbf08d89e7080ef09cc6a0c5da687bcd45cbe84bc4d1c32783fe523a91b5f",
+      "overworld.png": "e5fe500dad0d4c736ad958ca8c229c9d223c7e6221ad648dcecd45d5bd526113",
+      "overworld_normal.pal": "97fcbf08d89e7080ef09cc6a0c5da687bcd45cbe84bc4d1c32783fe523a91b5f"
+    }
+  },
+  {
+    "key": "balloons",
+    "symbol": "Balloons",
+    "base": "pikachu",
+    "icon_palette": 0,
+    "female": false,
+    "asymmetric": false,
+    "follower_frames": 6,
+    "files": {
+      "anim_front.png": "e09ee7395e99de0ec572fa3508badb5e1c6b8ef5db36a94e3d0c03b95e852f9e",
+      "back.png": "c1134ff12bab8e88de1e651c072143b3e4da9acc1f306044ba4ed1a970ee48c0",
+      "icon.png": "fbcaffb12a39d29e700c615bfd69e4591737e6be2bd56ee98b8ce0157b4bdd70",
+      "normal.pal": "c2f79e320426815cb8484785cc6cef8e3b9e1d164ff58371af3c039e17430693",
+      "overworld.png": "60699082de2005cc70a47de178696a41336cfbdb13542f593f067b1469492cfa",
+      "overworld_normal.pal": "dbf0fe90448057dd00662ce7f8e89a9ccade146b0737c7071c9b329193f85a89"
+    }
+  },
+  {
+    "key": "squad",
+    "symbol": "Squad",
+    "base": "squirtle",
+    "icon_palette": 0,
+    "female": false,
+    "asymmetric": false,
+    "follower_frames": 6,
+    "files": {
+      "anim_front.png": "5c17c5a9bdb4e25ea1b06e500c67807745ec6d6405dc4308fca66e6471658ea9",
+      "back.png": "d90cb3b788c9878b5a4ae911b41c3a78be82d0e97100c117b724615073e8d50a",
+      "icon.png": "85a3fa5515b25c02d1a3944d614ca7d66518e22272e9f782341f76570305f408",
+      "normal.pal": "c39e6cc4eeba1d93cc77db47b8198b300ac84c7cc7ae0f701ede0c2515406c75",
+      "overworld.png": "b20067ba0d04d30a9061560e6893f41b477127dac8cb31cd80894759157a23c8",
+      "overworld_normal.pal": "0202586b7613c14802ae969d12587d7702895c448eb03d2bab128044ccd845ac"
+    }
+  },
+  {
+    "key": "firefighter",
+    "symbol": "Firefighter",
+    "base": "squirtle",
+    "icon_palette": 0,
+    "female": false,
+    "asymmetric": false,
+    "follower_frames": 6,
+    "files": {
+      "anim_front.png": "60e3cf79211206fb65d620d7587b575dbba58a90962d8ba3af59aa363587c481",
+      "back.png": "8921bff65126f9c825fbb74a00e607cf343834651d126aeb74b595bdb52dc78b",
+      "icon.png": "6085298dcf345821d5e5bc860578208b8c3a871b95ea685d8a3caf1917eb130d",
+      "normal.pal": "0a7a7cb22168f50d11f33c44e7c97f5d0cf79f16eef969bc97006c1153aad71a",
+      "overworld.png": "743092f633bc59b78d2b711e48e49acb924c7f910bf1711cd4f726e0f130641c",
+      "overworld_normal.pal": "a831588c4ca316ae978d7e2a851ecae1aafa1b73d9097d77d578f5dfa0fd124b"
+    }
+  },
+  {
+    "key": "flower_crown",
+    "symbol": "FlowerCrown",
+    "base": "eevee",
+    "icon_palette": 2,
+    "female": false,
+    "asymmetric": false,
+    "follower_frames": 6,
+    "files": {
+      "anim_front.png": "ae6fb242b99563c463013649ffc698ce5eb8732ad87ada022b9dcf25c8c686e1",
+      "back.png": "d27eb07b0b9a33beb0e2d333cefbcc81ea4f474e8591a7b68f334a67ceb909f4",
+      "icon.png": "55741155e672b7cd89c46a308be7511832fd84e25fb816a9811ee55220de2718",
+      "normal.pal": "18ac5dbabf8e7aa23a78edaa765efe5df3ff779034f46ddfc74ca52b81be0b18",
+      "overworld.png": "4c0e9d8e7e777a188b780d38381292b42fed4b62fcb1c515b1084c0e5836ee1e",
+      "overworld_normal.pal": "4e6133ace46a2a996500a2665629756abac0f4d3883cc8b8bcbcd1870a792f1c"
+    }
+  },
+  {
+    "key": "pirate",
+    "symbol": "Pirate",
+    "base": "totodile",
+    "icon_palette": 0,
+    "female": false,
+    "asymmetric": true,
+    "follower_frames": 8,
+    "files": {
+      "anim_front.png": "26bd3318278256b330f0f79b2a2bdb09546c3d530b0290b205ee7a8f92a98b10",
+      "back.png": "7a4cba3efbeffcb8fc46f77e06410296470ab91af272a2aaf5507a4c7fc5ebe7",
+      "icon.png": "57bf67ce13b3f96207d0af52bb4e1b2244a9daeebb551fa70f55381391cb5e51",
+      "normal.pal": "1b5fb56b7a248ee0aba8145c97aa1dc8c1947bc949090a5bc08927deb180c39a",
+      "overworld.png": "5f8fdf6f6ddb0274c708fa0ffc08a0fab8a72fdf62917a4249ec1fe33623a7d5",
+      "overworld_normal.pal": "6ed292a197f05f992c16769efee40158582da5bb9cf679157eec8bc50d673e6e"
+    }
+  }
+]

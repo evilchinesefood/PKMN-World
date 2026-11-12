@@ -1,0 +1,16 @@
+return {
+    ClassicCapTrainer = {index = 0, localId = 4, x = 19, y = 15, facing = "Up"},
+    Surfer = {index = 1, localId = 13, x = 11, y = 12, facing = "Up"},
+    Surfboard = {index = 2, localId = 14, x = 13, y = 12, facing = "Up"},
+    BalloonSeller = {index = 3, localId = 41, x = 37, y = 39, facing = "Up"},
+    SquadOrganizer = {index = 4, localId = 7, x = 9, y = 8, facing = "Up"},
+    SquadOne = {index = 5, localId = 9, x = 10, y = 20, facing = "Up"},
+    SquadTwo = {index = 6, localId = 10, x = 16, y = 21, facing = "Up"},
+    KilnHelper = {index = 7, localId = 4, x = 8, y = 7, facing = "Up"},
+    WellHelper = {index = 8, localId = 14, x = 54, y = 9, facing = "Down"},
+    Florist = {index = 9, localId = 16, x = 20, y = 17, facing = "Up"},
+    FlowerResidentOne = {index = 10, localId = 17, x = 17, y = 25, facing = "Up"},
+    FlowerResidentTwo = {index = 11, localId = 18, x = 21, y = 21, facing = "Up"},
+    PirateSailor = {index = 12, localId = 36, x = 31, y = 55, facing = "Up"},
+    Pirate = {index = 13, localId = 37, x = 32, y = 55, facing = "Up"},
+}

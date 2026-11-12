@@ -6729,4 +6729,6 @@ static const struct SpriteFrameImage sPicTable_Pecharunt[] = {
 };
 #endif //P_FAMILY_PECHARUNT
 
+#include "special_collection_pic_tables.h"
+
 #endif //OW_POKEMON_OBJECT_EVENTS

@@ -1,0 +1,10 @@
+{
+  "case": "SpecialPokemonVisuals",
+  "status": "passed",
+  "assertions": 149,
+  "settings": {},
+  "rom_md5": "0F3677165D18DD9DDD95665167B585ED",
+  "fixture_sha256": "7d8b954466aa77e479c88b88dde2dec71f410ac42d9b228ad8ea3428ab6ff47a",
+  "symbols_sha256": "80e36beb5741bf938274347d5c6060dc41eec3664e1be87a65e4a96a726ab07d",
+  "elapsed_seconds": 14.431
+}

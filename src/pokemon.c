@@ -1,4 +1,5 @@
 #include "global.h"
+#include "special_pokemon.h"
 #include "malloc.h"
 #include "apprentice.h"
 #include "battle.h"
@@ -2996,10 +2997,16 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
     }
 
     if (i >= PARTY_SIZE)
-        return CopyMonToPC(mon);
+    {
+        u8 result = CopyMonToPC(mon);
+        if (result != MON_CANT_GIVE)
+            SpecialPokemon_RecordReceived(&mon->box);
+        return result;
+    }
 
     CopyMon(&gParties[B_TRAINER_PLAYER][i], mon, sizeof(*mon));
     gPartiesCount[B_TRAINER_PLAYER] = i + 1;
+    SpecialPokemon_RecordReceived(&mon->box);
     return MON_GIVEN_TO_PARTY;
 }
 
@@ -5136,6 +5143,8 @@ u8 CanLearnTeachableMove(enum Species species, enum Move move)
     const u16 *teachableLearnset = GetSpeciesTeachableLearnset(species);
     if (species == SPECIES_EGG)
         return FALSE;
+    if (move != MOVE_NONE && move == SpecialPokemon_GetThemedMove(species))
+        return TRUE;
     for (u32 i = 0; teachableLearnset[i] != MOVE_UNAVAILABLE; i++)
     {
         if (teachableLearnset[i] == move)
@@ -6910,6 +6919,7 @@ u32 GiveScriptedMonToPlayer(struct Pokemon *mon, u8 slot)
     }
     if (sentToPc != MON_CANT_GIVE)
     {
+        SpecialPokemon_RecordReceived(&mon->box);
         HandleSetPokedexFlagFromMon(mon, FLAG_SET_SEEN);
         HandleSetPokedexFlagFromMon(mon, FLAG_SET_CAUGHT);
     }

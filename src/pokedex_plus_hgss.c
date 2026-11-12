@@ -1,5 +1,6 @@
 #include "global.h"
 #include "player_outfit.h"
+#include "special_pokemon_menu.h"
 #include "battle_main.h"
 #include "battle_util.h"
 #include "bg.h"
@@ -257,8 +258,6 @@ static const u32 sPokedexPlusHGSS_Menu_2_Gfx[] = INCGFX_U32("graphics/pokedex/hg
 static const u32 sPokedexPlusHGSS_Menu_3_Gfx[] = INCGFX_U32("graphics/pokedex/hgss/tileset_menu3.png", ".4bpp.smol");
 static const u32 sPokedexPlusHGSS_MenuSearch_Gfx[] = INCGFX_U32("graphics/pokedex/hgss/tileset_menu_search.png", ".4bpp.smol");
 static const u32 sPokedexPlusHGSS_MenuSearch_DECA_Gfx[] = INCGFX_U32("graphics/pokedex/hgss/tileset_menu_search_DECA.png", ".4bpp.smol");
-static const u32 sPokedexPlusHGSS_StartMenuMain_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_start_menu.bin", ".smolTM");
-static const u32 sPokedexPlusHGSS_StartMenuSearchResults_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_start_menu_search_results.bin", ".smolTM");
 static const u32 sPokedexPlusHGSS_ScreenSelectBarSubmenu_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/SelectBar.bin", ".smolTM");
 static const u32 sPokedexPlusHGSS_ScreenSelectBarSubmenu_Tilemap_Clear[] = INCGFX_U32("graphics/pokedex/hgss/SelectBar_clear.bin", ".smolTM");
 static const u32 sPokedexPlusHGSS_ScreenList_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_list_screen.bin", ".smolTM");
@@ -390,13 +389,18 @@ struct EvoScreenData
     u32 arrowSpriteDist[10];
 };
 
-struct FromScreenData
+#define FORMS_PER_PAGE 12
+#define FORMS_COLUMNS 6
+
+struct FormScreenData
 {
-    u8 numForms;
-    u16 formIds[30];
-    bool8 inSubmenu;
-    u8 menuPos;
+    u16 numForms;
+    u16 menuPos;
+    u16 pageStart;
+    u8 iconSpriteIds[FORMS_PER_PAGE];
+    u8 baseIconSpriteId;
     u8 arrowSpriteId;
+    bool8 inSubmenu;
 };
 
 struct PokedexView
@@ -425,7 +429,7 @@ struct PokedexView
     u8 numPreEvolutions;
     struct PokemonStats sPokemonStats;
     struct EvoScreenData sEvoScreenData;
-    struct FromScreenData sFormScreenData;
+    struct FormScreenData sFormScreenData;
     enum Species formSpecies;
     u16 selectedMonSpriteId;
     u16 pokeBallRotationStep;
@@ -461,6 +465,9 @@ static void Task_OpenPokedexMainPage(u8);
 static void Task_HandlePokedexInput(u8);
 static void Task_WaitForScroll(u8);
 static void Task_HandlePokedexStartMenuInput(u8);
+static void Task_OpenSpecialPokemon(u8 taskId);
+static void CB2_ReturnFromSpecialPokemon(void);
+static void DrawPokedexStartMenu(bool8 searchResults);
 static void Task_OpenInfoScreenAfterMonMovement(u8);
 static void Task_WaitForExitInfoScreen(u8);
 static void Task_WaitForExitSearch(u8);
@@ -1209,6 +1216,7 @@ static const struct BgTemplate sPokedex_BgTemplate[] =
 
 #define WIN_LIST    0
 #define WIN_READOUT 1
+#define WIN_START_MENU 2
 
 static const struct WindowTemplate sPokemonList_WindowTemplate[] =
 {
@@ -1231,6 +1239,16 @@ static const struct WindowTemplate sPokemonList_WindowTemplate[] =
         .height = 7,
         .paletteNum = 0,
         .baseBlock = 0x100,
+    },
+    [WIN_START_MENU] =
+    {
+        .bg = 0,
+        .tilemapLeft = 14,
+        .tilemapTop = 20,
+        .width = 16,
+        .height = 12,
+        .paletteNum = 14,
+        .baseBlock = 0x120,
     },
     DUMMY_WIN_TEMPLATE
 };
@@ -2229,6 +2247,43 @@ static void Task_WaitForScroll(u8 taskId)
         gTasks[taskId].func = Task_HandlePokedexInput;
 }
 
+static void DrawPokedexStartMenu(bool8 searchResults)
+{
+    static const u16 palette[16] = {RGB(4, 7, 12), RGB(29, 30, 31), RGB(3, 5, 8), RGB(18, 21, 24)};
+    static const u8 colors[] = {1, 2, 3};
+    static const u8 *const entries[] = {
+        COMPOUND_STRING("Back to list"), COMPOUND_STRING("List top"),
+        COMPOUND_STRING("List bottom"), COMPOUND_STRING("Special Pokémon"),
+        COMPOUND_STRING("Back to Pokédex"), COMPOUND_STRING("Close Pokédex")
+    };
+    u32 i;
+
+    LoadPalette(palette, 14 * 16, sizeof(palette));
+    FillWindowPixelBuffer(WIN_START_MENU, PIXEL_FILL(1));
+    for (i = 0; i < (searchResults ? 6 : 5); i++)
+        AddTextPrinterParameterized3(WIN_START_MENU, FONT_SMALL, 16, i * 16 + 2, colors, TEXT_SKIP_DRAW,
+                                    entries[!searchResults && i == 4 ? 5 : i]);
+    PutWindowTilemap(WIN_START_MENU);
+    CopyWindowToVram(WIN_START_MENU, COPYWIN_FULL);
+}
+
+static void Task_OpenSpecialPokemon(u8 taskId)
+{
+    if (gPaletteFade.active)
+        return;
+    ClearMonSprites();
+    FreeWindowAndBgBuffers();
+    DestroyTask(taskId);
+    ShowSpecialPokemonMenu(CB2_ReturnFromSpecialPokemon);
+}
+
+static void CB2_ReturnFromSpecialPokemon(void)
+{
+    gMain.state = 0;
+    CreateTask(sPokedexView->isSearchResults ? Task_OpenSearchResults : Task_OpenPokedexMainPage, 0);
+    SetMainCallback2(CB2_Pokedex);
+}
+
 static void Task_HandlePokedexStartMenuInput(u8 taskId)
 {
     SetGpuReg(REG_OFFSET_BG0VOFS, sPokedexView->menuY);
@@ -2262,7 +2317,12 @@ static void Task_HandlePokedexStartMenuInput(u8 taskId)
                 CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
                 gMain.newKeys |= START_BUTTON;  //Exit menu
                 break;
-            case 3: //CLOSE POKEDEX
+            case 3:
+                BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+                gTasks[taskId].func = Task_OpenSpecialPokemon;
+                PlaySE(SE_SELECT);
+                break;
+            case 4: //CLOSE POKEDEX
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].func = Task_ClosePokedex;
                 PlaySE(SE_PC_OFF);
@@ -2282,7 +2342,7 @@ static void Task_HandlePokedexStartMenuInput(u8 taskId)
             sPokedexView->menuCursorPos--;
             PlaySE(SE_SELECT);
         }
-        else if (JOY_REPEAT(DPAD_DOWN) && sPokedexView->menuCursorPos < 3)
+        else if (JOY_REPEAT(DPAD_DOWN) && sPokedexView->menuCursorPos < 4)
         {
             sPokedexView->menuCursorPos++;
             PlaySE(SE_SELECT);
@@ -2390,10 +2450,6 @@ static bool8 LoadPokedexListPage(u8 page)
             DecompressAndLoadBgGfxUsingHeap(3, sPokedexPlusHGSS_MenuList_DECA_Gfx, 0x2000, 0, 0);
         CopyToBgTilemapBuffer(1, sPokedexPlusHGSS_ScreenList_Tilemap, 0, 0);
         CopyToBgTilemapBuffer(3, sPokedexPlusHGSS_ScreenListUnderlay_Tilemap, 0, 0);
-        if (page == PAGE_MAIN)
-            CopyToBgTilemapBuffer(0, sPokedexPlusHGSS_StartMenuMain_Tilemap, 0, 0x280);
-        else
-            CopyToBgTilemapBuffer(0, sPokedexPlusHGSS_StartMenuSearchResults_Tilemap, 0, 0x280);
         ResetPaletteFade();
         if (page == PAGE_MAIN)
             sPokedexView->isSearchResults = FALSE;
@@ -2402,6 +2458,7 @@ static bool8 LoadPokedexListPage(u8 page)
         LoadPokedexBgPalette(sPokedexView->isSearchResults);
         InitWindows(sPokemonList_WindowTemplate);
         DeactivateAllTextPrinters();
+        DrawPokedexStartMenu(page == PAGE_SEARCH_RESULTS);
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_FULL);
         // after the BG1 frame tilemap copy above so the window rect overrides it
@@ -3241,12 +3298,12 @@ static void CreateInterfaceSprites(u8 page)
 
     if (page == PAGE_MAIN)
     {
-        spriteId = CreateSprite(&sDexListStartMenuCursorSpriteTemplate, 136, 96, 1);
+        spriteId = CreateSprite(&sDexListStartMenuCursorSpriteTemplate, 118, 88, 1);
         gSprites[spriteId].invisible = TRUE;
     }
     else // PAGE_SEARCH_RESULTS
     {
-        spriteId = CreateSprite(&sDexListStartMenuCursorSpriteTemplate, 136, 80, 1);
+        spriteId = CreateSprite(&sDexListStartMenuCursorSpriteTemplate, 118, 72, 1);
         gSprites[spriteId].invisible = TRUE;
     }
 }
@@ -6829,83 +6886,155 @@ static void Task_ExitEvolutionScreen(u8 taskId)
 //*                                  *
 //************************************
 
+static void DestroyFormsIcons(void)
+{
+    struct FormScreenData *view = &sPokedexView->sFormScreenData;
+    u32 i;
+
+    for (i = 0; i < FORMS_PER_PAGE; i++)
+    {
+        if (view->iconSpriteIds[i] < MAX_SPRITES)
+            FreeAndDestroyMonIconSprite(&gSprites[view->iconSpriteIds[i]]);
+        view->iconSpriteIds[i] = MAX_SPRITES;
+    }
+    if (view->baseIconSpriteId < MAX_SPRITES)
+        FreeAndDestroyMonIconSprite(&gSprites[view->baseIconSpriteId]);
+    view->baseIconSpriteId = MAX_SPRITES;
+    FreeMonIconPalettes();
+}
+
+static void DestroyFormsSprites(void)
+{
+    struct FormScreenData *view = &sPokedexView->sFormScreenData;
+
+    DestroyFormsIcons();
+    if (view->arrowSpriteId < MAX_SPRITES)
+        DestroySprite(&gSprites[view->arrowSpriteId]);
+    view->arrowSpriteId = MAX_SPRITES;
+    view->inSubmenu = FALSE;
+}
+
+static enum Species GetDisplayedFormSpecies(enum Species baseSpecies, u16 position)
+{
+    const u16 *forms = GetSpeciesFormTable(baseSpecies);
+    u32 i;
+
+    if (forms != NULL)
+    {
+        for (i = 0; forms[i] != FORM_SPECIES_END; i++)
+        {
+            if (forms[i] != baseSpecies)
+            {
+                if (position == 0)
+                    return forms[i];
+                position--;
+            }
+        }
+    }
+    return SPECIES_NONE;
+}
+
+static void UpdateFormsCursor(void)
+{
+    struct FormScreenData *view = &sPokedexView->sFormScreenData;
+    u16 position = view->menuPos - view->pageStart;
+
+    if (view->arrowSpriteId < MAX_SPRITES)
+    {
+        gSprites[view->arrowSpriteId].x = 13 + (position % FORMS_COLUMNS) * 36;
+        gSprites[view->arrowSpriteId].y = 68 + (position / FORMS_COLUMNS) * 36;
+    }
+}
+
+static void PrintForms(u8 taskId, enum Species species)
+{
+    struct FormScreenData *view = &sPokedexView->sFormScreenData;
+    u32 i;
+    u32 personality = GetPokedexMonPersonality(species);
+
+    DestroyFormsIcons();
+    FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(0));
+    LoadMonIconPalettePersonality(species, personality);
+    view->baseIconSpriteId = CreateMonIcon(species, SpriteCB_MonIcon, 18, 31, 4, personality);
+    if (view->baseIconSpriteId < MAX_SPRITES)
+        gSprites[view->baseIconSpriteId].oam.priority = 0;
+    for (i = 0; i < FORMS_PER_PAGE && view->pageStart + i < view->numForms; i++)
+    {
+        enum Species form = GetDisplayedFormSpecies(species, view->pageStart + i);
+        personality = GetPokedexMonPersonality(form);
+        LoadMonIconPalettePersonality(form, personality);
+        view->iconSpriteIds[i] = CreateMonIcon(form, SpriteCB_MonIcon,
+                                              30 + (i % FORMS_COLUMNS) * 36,
+                                              68 + (i / FORMS_COLUMNS) * 36, 4, personality);
+        if (view->iconSpriteIds[i] < MAX_SPRITES)
+            gSprites[view->iconSpriteIds[i]].oam.priority = 0;
+    }
+    if (view->numForms == 0)
+    {
+        StringCopy(gStringVar1, GetSpeciesName(species));
+        StringExpandPlaceholders(gStringVar4, sText_FORMS_NONE);
+        PrintInfoScreenTextSmall(gStringVar4, FONT_SMALL, 5, 52);
+    }
+    else
+    {
+        ConvertIntToDecimalStringN(gStringVar1, view->pageStart / FORMS_PER_PAGE + 1, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ConvertIntToDecimalStringN(gStringVar2, (view->numForms + FORMS_PER_PAGE - 1) / FORMS_PER_PAGE, STR_CONV_MODE_LEFT_ALIGN, 3);
+        StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("Page {STR_VAR_1}/{STR_VAR_2}"));
+        PrintInfoScreenTextSmall(gStringVar4, FONT_SMALL, 158, 124);
+    }
+    PutWindowTilemap(WIN_INFO);
+    CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
+    UpdateFormsCursor();
+}
+
 static void Task_LoadFormsScreen(u8 taskId)
 {
+    struct FormScreenData *view = &sPokedexView->sFormScreenData;
+    enum Species species = NationalPokedexNumToSpeciesHGSS(sPokedexListItem->dexNum);
+    const u16 *forms;
+    u32 i;
+
     switch (gMain.state)
     {
     case 0:
-    default:
-        if (!gPaletteFade.active)
-        {
-            u16 r2;
-
-            sPokedexView->currentPage = FORMS_SCREEN;
-            gPokedexVBlankCB = gMain.vblankCallback;
-            SetVBlankCallback(NULL);
-            r2 = 0;
-            if (gTasks[taskId].data[1] != 0)
-                r2 += DISPCNT_OBJ_ON;
-            if (gTasks[taskId].data[2] != 0)
-                r2 |= DISPCNT_BG1_ON;
-            ResetOtherVideoRegisters(r2);
-            gMain.state = 1;
-        }
+        if (gPaletteFade.active)
+            return;
+        sPokedexView->currentPage = FORMS_SCREEN;
+        sPokedexView->selectedScreen = FORMS_SCREEN;
+        gPokedexVBlankCB = gMain.vblankCallback;
+        SetVBlankCallback(NULL);
+        ResetOtherVideoRegisters(DISPCNT_BG1_ON);
+        view->menuPos = 0;
+        view->pageStart = 0;
+        view->numForms = 0;
+        view->inSubmenu = FALSE;
+        view->baseIconSpriteId = MAX_SPRITES;
+        view->arrowSpriteId = MAX_SPRITES;
+        for (i = 0; i < FORMS_PER_PAGE; i++)
+            view->iconSpriteIds[i] = MAX_SPRITES;
+        forms = GetSpeciesFormTable(species);
+        if (forms != NULL)
+            for (i = 0; forms[i] != FORM_SPECIES_END; i++)
+                if (forms[i] != species)
+                    view->numForms++;
+        gMain.state++;
         break;
     case 1:
         LoadTilesetTilemapHGSS(FORMS_SCREEN);
-        FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(0));
-        PutWindowTilemap(WIN_INFO);
-        CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
-        FillWindowPixelBuffer(WIN_NAVIGATION_BUTTONS, PIXEL_FILL(0));
-        PutWindowTilemap(WIN_NAVIGATION_BUTTONS);
-        CopyWindowToVram(WIN_NAVIGATION_BUTTONS, COPYWIN_FULL);
+        LoadScreenSelectBarMain(0xD);
+        LoadPokedexBgPalette(sPokedexView->isSearchResults);
+        EvoFormsPage_PrintNavigationButtons();
+        PrintForms(taskId, species);
+        LoadSpritePalette(&gSpritePalette_Arrow);
+        TryLoadDarkModeArrowPalette();
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(2);
         CopyBgTilemapBufferToVram(3);
         gMain.state++;
         break;
     case 2:
-        LoadScreenSelectBarMain(0xD);
-        LoadPokedexBgPalette(sPokedexView->isSearchResults);
-        gMain.state++;
-        break;
-    case 3:
-        if (gTasks[taskId].data[1] == 0)
-        {
-            //Icon
-            enum Species species = NationalPokedexNumToSpeciesHGSS(sPokedexListItem->dexNum);
-            u32 personality = GetPokedexMonPersonality(species);
-            FreeMonIconPalettes(); //Free space for new pallete
-            LoadMonIconPalettePersonality(species, personality); //Loads pallete for current mon
-            gTasks[taskId].data[4] = CreateMonIcon(species, SpriteCB_MonIcon, 18, 31, 4, personality); //Create Pokémon sprite
-            gSprites[gTasks[taskId].data[4]].oam.priority = 0;
-        }
-        EvoFormsPage_PrintNavigationButtons(); // Navigation buttons
-        sPokedexView->sFormScreenData.menuPos = 1;
-        gMain.state++;
-        break;
-    case 4:
-        //Print form icons
-        gTasks[taskId].data[3] = 0;
-        PrintForms(taskId, NationalPokedexNumToSpeciesHGSS(sPokedexListItem->dexNum));
-        LoadSpritePalette(&gSpritePalette_Arrow);
-        TryLoadDarkModeArrowPalette();
-        gMain.state++;
-        break;
-    case 5:
-    {
-        u32 preservedPalettes = 0;
-
-        if (gTasks[taskId].data[2] != 0)
-            preservedPalettes = 0x14; // each bit represents a palette index
-        if (gTasks[taskId].data[1] != 0)
-            preservedPalettes |= (1 << (gSprites[gTasks[taskId].tMonSpriteId].oam.paletteNum + 16));
-        BeginNormalPaletteFade(~preservedPalettes, 0, 16, 0, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         SetVBlankCallback(gPokedexVBlankCB);
-        gMain.state++;
-        break;
-    }
-    case 6:
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 0);
@@ -6916,14 +7045,9 @@ static void Task_LoadFormsScreen(u8 taskId)
         ShowBg(3);
         gMain.state++;
         break;
-    case 7:
-        if (!gPaletteFade.active)
-            gMain.state++;
-        break;
-    case 8:
-        gMain.state++;
-        break;
-    case 9:
+    case 3:
+        if (gPaletteFade.active)
+            return;
         sPokedexView->screenSwitchState = 0;
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[1] = 0;
@@ -6936,193 +7060,101 @@ static void Task_LoadFormsScreen(u8 taskId)
 
 static void Task_HandleFormsScreenInput(u8 taskId)
 {
-    u8 base_x = 5;
-    u8 base_y = 34;
-    u8 offset_x = 34;
-    u8 offset_y = 34;
-    if (!sPokedexView->sFormScreenData.inSubmenu)
+    struct FormScreenData *view = &sPokedexView->sFormScreenData;
+    enum Species species = NationalPokedexNumToSpeciesHGSS(sPokedexListItem->dexNum);
+
+    if (JOY_NEW(START_BUTTON))
     {
-        if (JOY_NEW(A_BUTTON) && sPokedexView->sFormScreenData.numForms != 0)
+        sPokedexView->selectedScreen = EVO_SCREEN;
+        sPokedexView->screenSwitchState = 1;
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_SwitchScreensFromFormsScreen;
+        PlaySE(SE_PIN);
+        return;
+    }
+    if (!view->inSubmenu)
+    {
+        if (JOY_NEW(A_BUTTON) && view->numForms != 0)
         {
-            sPokedexView->sFormScreenData.inSubmenu = TRUE;
-            sPokedexView->sFormScreenData.arrowSpriteId = CreateSprite(&gSpriteTemplate_Arrow, base_x + offset_x, base_y, 0);
-            gSprites[sPokedexView->sFormScreenData.arrowSpriteId].animNum = 2;
+            view->inSubmenu = TRUE;
+            view->arrowSpriteId = CreateSprite(&gSpriteTemplate_Arrow, 0, 0, 0);
+            if (view->arrowSpriteId < MAX_SPRITES)
+                StartSpriteAnim(&gSprites[view->arrowSpriteId], 2);
+            UpdateFormsCursor();
             EvoFormsPage_PrintNavigationButtons();
         }
-
-        if (JOY_NEW(START_BUTTON))
+        else if (JOY_NEW(B_BUTTON))
         {
-            sPokedexView->selectedScreen = EVO_SCREEN;
-            BeginNormalPaletteFade(0xFFFFFFEB, 0, 0, 0x10, RGB_BLACK);
-            sPokedexView->screenSwitchState = 1;
-            gTasks[taskId].func = Task_SwitchScreensFromFormsScreen;
-            PlaySE(SE_PIN);
-        }
-
-        //Exit to overview
-        if (JOY_NEW(B_BUTTON))
-        {
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
             gTasks[taskId].func = Task_ExitFormsScreen;
             PlaySE(SE_PC_OFF);
-            return;
         }
+        return;
     }
-    else //inSubmenu
+    if (JOY_NEW(B_BUTTON))
     {
-        u8 row = 0;
-        u8 column = 0;
-        u8 menuPos = sPokedexView->sFormScreenData.menuPos;
-        //Grid navigation
-        if (JOY_NEW(DPAD_RIGHT))
-            menuPos += 1;
-        else if (JOY_NEW(DPAD_LEFT))
-            menuPos -= 1;
-        else if (JOY_NEW(DPAD_DOWN))
-            menuPos += 7;
-        else if (JOY_NEW(DPAD_UP))
-        {
-            if (menuPos > 7)
-                menuPos -= 7;
-            else
-                menuPos = 1;
-        }
-
-        if (menuPos <= 0)
-            menuPos = 1;
-        else if (menuPos >= sPokedexView->sFormScreenData.numForms)
-            menuPos = sPokedexView->sFormScreenData.numForms;
-
-        row = menuPos / 7;
-        column = menuPos % 7;
-        gSprites[sPokedexView->sFormScreenData.arrowSpriteId].x = base_x + offset_x * column;
-        gSprites[sPokedexView->sFormScreenData.arrowSpriteId].y = base_y + offset_y * row;
-
-        sPokedexView->sFormScreenData.menuPos = menuPos;
-
-
-        if (JOY_NEW(A_BUTTON))
-        {
-            u8 formId = sPokedexView->sFormScreenData.formIds[menuPos];
-            enum Species formSpecies = GetFormSpeciesId(NationalPokedexNumToSpecies(sPokedexListItem->dexNum), formId);
-            if (sPokedexView->isSearchResults && sPokedexView->originalSearchSelectionNum == 0)
-                sPokedexView->originalSearchSelectionNum = sPokedexListItem->dexNum;
-
-            if (formSpecies == GetFormSpeciesId(formSpecies, 0))
-                sPokedexView->formSpecies = 0;
-            else
-                sPokedexView->formSpecies = formSpecies;
-
-            sPokedexView->sEvoScreenData.fromEvoPage = TRUE;
-            sPokedexView->sFormScreenData.inSubmenu = FALSE;
-            PlaySE(SE_PIN);
-            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-            gTasks[taskId].func = Task_LoadInfoScreenWaitForFade;
-        }
-
-        if (JOY_NEW(B_BUTTON))
-        {
-            DestroySprite(&gSprites[sPokedexView->sFormScreenData.arrowSpriteId]);
-            sPokedexView->sFormScreenData.inSubmenu = FALSE;
-            EvoFormsPage_PrintNavigationButtons();
-        }
+        if (view->arrowSpriteId < MAX_SPRITES)
+            DestroySprite(&gSprites[view->arrowSpriteId]);
+        view->arrowSpriteId = MAX_SPRITES;
+        view->inSubmenu = FALSE;
+        EvoFormsPage_PrintNavigationButtons();
     }
-}
-
-#define FORM_SPECIES_END (0xffff)
-
-static void PrintForms(u8 taskId, enum Species species)
-{
-    u8 i;
-    u8 j = 1;
-    u16 speciesForm;
-
-    u8 base_x = 5;
-    u8 base_y = 52;
-    u8 base_y_offset = 9;
-    u8 times = 0;
-    u8 y_offset_icons = 0; //For unown only
-
-    if (species == SPECIES_UNOWN)
-        y_offset_icons = 8;
-
-    if (GetFormSpeciesId(species, 0) == SPECIES_UNOWN)
-        y_offset_icons = 8;
-
-    StringCopy(gStringVar1, GetSpeciesName(species));
-
-    for (i=0; i < 30; i++)
+    else if (JOY_NEW(A_BUTTON))
     {
-        speciesForm = GetFormSpeciesId(species, i);
-        if (speciesForm == FORM_SPECIES_END)
-            break;
-        else if (speciesForm == species)
-            continue;
-        else
-        {
-            u32 personality = GetPokedexMonPersonality(speciesForm);
-            sPokedexView->sFormScreenData.formIds[j++] = i;
-            times += 1;
-            LoadMonIconPalettePersonality(speciesForm, personality); //Loads pallete for current mon
-            if (times < 7)
-                gTasks[taskId].data[4+times] = CreateMonIcon(speciesForm, SpriteCB_MonIcon, 52 + 34*(times-1), 31, 4, personality); //Create Pokémon sprite
-            else if (times < 14)
-                gTasks[taskId].data[4+times] = CreateMonIcon(speciesForm, SpriteCB_MonIcon, 18 + 34*(times-7), 70 - y_offset_icons, 4, personality); //Create Pokémon sprite
-            gSprites[gTasks[taskId].data[4+times]].oam.priority = 0;
-        }
+        enum Species formSpecies = GetDisplayedFormSpecies(species, view->menuPos);
+        if (sPokedexView->isSearchResults && sPokedexView->originalSearchSelectionNum == 0)
+            sPokedexView->originalSearchSelectionNum = sPokedexListItem->dexNum;
+        sPokedexView->formSpecies = formSpecies;
+        sPokedexView->sEvoScreenData.fromEvoPage = TRUE;
+        sPokedexView->screenSwitchState = 0;
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_SwitchScreensFromFormsScreen;
+        PlaySE(SE_PIN);
     }
-    gTasks[taskId].data[3] = times;
-    sPokedexView->sFormScreenData.numForms = times;
-
-    //If there are no forms print text
-    if (times == 0)
+    else
     {
-        StringExpandPlaceholders(gStringVar4, sText_FORMS_NONE);
-        PrintInfoScreenTextSmall(gStringVar4, FONT_SMALL, base_x, base_y + base_y_offset*times);
+        s32 position = view->menuPos;
+        if (JOY_REPEAT(DPAD_RIGHT))
+            position++;
+        else if (JOY_REPEAT(DPAD_LEFT))
+            position--;
+        else if (JOY_REPEAT(DPAD_DOWN))
+            position += FORMS_COLUMNS;
+        else if (JOY_REPEAT(DPAD_UP))
+            position -= FORMS_COLUMNS;
+        position = max(0, min(position, view->numForms - 1));
+        if (position != view->menuPos)
+        {
+            view->menuPos = position;
+            if (view->pageStart != position / FORMS_PER_PAGE * FORMS_PER_PAGE)
+            {
+                view->pageStart = position / FORMS_PER_PAGE * FORMS_PER_PAGE;
+                PrintForms(taskId, species);
+            }
+            UpdateFormsCursor();
+            PlaySE(SE_SELECT);
+        }
     }
 }
 
 static void Task_SwitchScreensFromFormsScreen(u8 taskId)
 {
-    u8 i;
-    if (!gPaletteFade.active)
-    {
-        FreeMonIconPalettes();                                          //Destroy Pokémon icon sprite
-        FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4]]); //Destroy Pokémon icon sprite
-        for (i = 1; i <= gTasks[taskId].data[3]; i++)
-        {
-            FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4+i]]); //Destroy Pokémon icon sprite
-        }
-        FreeAndDestroyMonPicSprite(gTasks[taskId].tMonSpriteId);
-
-        switch (sPokedexView->screenSwitchState)
-        {
-        case 1:
-            gTasks[taskId].func = Task_LoadEvolutionScreen;
-            break;
-        default:
-            gTasks[taskId].func = Task_LoadInfoScreen;
-            break;
-        }
-    }
+    if (gPaletteFade.active)
+        return;
+    DestroyFormsSprites();
+    if (sPokedexView->screenSwitchState == 1)
+        gTasks[taskId].func = Task_LoadEvolutionScreen;
+    else
+        gTasks[taskId].func = Task_LoadInfoScreen;
 }
 
 static void Task_ExitFormsScreen(u8 taskId)
 {
-    u8 i;
-    if (!gPaletteFade.active)
-    {
-        FreeMonIconPalettes();                                          //Destroy Pokémon icon sprite
-        FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4]]); //Destroy Pokémon icon sprite
-        for (i = 1; i <= gTasks[taskId].data[3]; i++)
-        {
-            FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4+i]]); //Destroy Pokémon icon sprite
-        }
-        FreeAndDestroyMonPicSprite(gTasks[taskId].tMonSpriteId);
-
-        FreeInfoScreenWindowAndBgBuffers();
-        DestroyTask(taskId);
-    }
+    if (gPaletteFade.active)
+        return;
+    DestroyFormsSprites();
+    FreeInfoScreenWindowAndBgBuffers();
+    DestroyTask(taskId);
 }
 
 #undef tMonSpriteId
@@ -7639,12 +7671,17 @@ static void Task_HandleSearchResultsStartMenuInput(u8 taskId)
                 CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
                 gMain.newKeys |= START_BUTTON;
                 break;
-            case 3: //BACK TO POKEDEX
+            case 3:
+                BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+                gTasks[taskId].func = Task_OpenSpecialPokemon;
+                PlaySE(SE_SELECT);
+                break;
+            case 4: //BACK TO POKEDEX
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].func = Task_ReturnToPokedexFromSearchResults;
                 PlaySE(SE_TRUCK_DOOR);
                 break;
-            case 4: //CLOSE POKEDEX
+            case 5: //CLOSE POKEDEX
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].func = Task_ClosePokedexFromSearchResultsStartMenu;
                 PlaySE(SE_PC_OFF);
@@ -7664,7 +7701,7 @@ static void Task_HandleSearchResultsStartMenuInput(u8 taskId)
             sPokedexView->menuCursorPos--;
             PlaySE(SE_SELECT);
         }
-        else if (JOY_REPEAT(DPAD_DOWN) && sPokedexView->menuCursorPos < 4)
+        else if (JOY_REPEAT(DPAD_DOWN) && sPokedexView->menuCursorPos < 5)
         {
             sPokedexView->menuCursorPos++;
             PlaySE(SE_SELECT);

@@ -715,3 +715,6 @@ gSpecials::
 	def_special UpdateBattleNetStreak
 	def_special BufferBattleNetStreak
 	def_special ShowPlayerWardrobe
+
+	def_special SpecialPokemon_Give
+	def_special SpecialPokemon_CreateEncounter

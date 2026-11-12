@@ -1,0 +1,10 @@
+{
+  "case": "SpecialPokemonMechanics",
+  "status": "passed",
+  "assertions": 5,
+  "settings": {},
+  "rom_md5": "0651E19409B330879BA47547304AF5A6",
+  "fixture_sha256": "11152cf6be41abb875aef13e9a1d88e5874477cc03945cc349cc31d8ef135839",
+  "symbols_sha256": "39a32f04223064633aa2a2ba09ddbb6fc94221614c277a2ce4ab6fa0db67cd6c",
+  "elapsed_seconds": 2.12
+}

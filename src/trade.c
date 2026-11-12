@@ -1,4 +1,5 @@
 #include "global.h"
+#include "special_pokemon.h"
 #include "malloc.h"
 #include "battle_anim.h"
 #include "battle_interface.h"
@@ -3132,7 +3133,14 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
     }
     UpdatePokedexForReceivedMon(playerPartyIdx);
     if (playerPartyIdx == PC_MON_CHOSEN)
-        CopyMonToPC(playerMon);
+    {
+        if (CopyMonToPC(playerMon) != MON_CANT_GIVE)
+            SpecialPokemon_RecordReceived(&playerMon->box);
+    }
+    else
+    {
+        SpecialPokemon_RecordReceived(&playerMon->box);
+    }
     if (gReceivedRemoteLinkPlayers)
         TryEnableNationalDexFromLinkPartner();
 }

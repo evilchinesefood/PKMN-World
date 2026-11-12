@@ -250,6 +250,19 @@ function M.new(S, name, opts)
     L(string.format("  *** %s", text))
     L(string.format("  *** BG_PLTT[0]=0x%04X (see the screenshot for blue vs red)", pltt0))
     self.shot("crash_" .. tostring(tag))   -- self.shot, not the local: shot() is declared below
+    if text:find("SPRITE SLOTS", 1, true) or text:find("OUT OF SPRIT", 1, true) then
+      -- Which sprites hold the slots, by callback and template (resolve with arm-none-eabi-nm).
+      local seen, order = {}, {}
+      for i = 0, S.Sprite.count - 1 do
+        local a = S.gSprites + i * S.Sprite.stride
+        if r8(a + S.Sprite.inUse) & 1 ~= 0 then
+          local k = string.format("cb=%08X tmpl=%08X", r32(a + 0x1C), r32(a + 0x14))
+          if not seen[k] then seen[k] = 0; order[#order + 1] = k end
+          seen[k] = seen[k] + 1
+        end
+      end
+      for _, k in ipairs(order) do L(string.format("  *** sprite %s x%d", k, seen[k])) end
+    end
     return true, text
   end
 

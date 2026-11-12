@@ -44,8 +44,8 @@ return function(F, N, C, log)
   }
   local order = assert(ORDERS[os.getenv('PW_WORLD') or 'A'], 'PW_WORLD')
 
-  -- A crossing boxes the party, and the player would withdraw it at a PC. That storage screen isn't
-  -- what this campaign tests, so the region's team is put back directly and its boxed copies removed.
+  -- A return crossing recalls the team the region last had and boxes the departing one (#377).
+  -- restoreParty is the pre-recall concession, kept for detours whose region has no memory.
   local stash, seen = {}, {}
   local function keepParty(region)
     local t = { count = N.partyCount() }
@@ -58,7 +58,8 @@ return function(F, N, C, log)
     f:close()
   end
   local function loadParty(region)
-    local f = io.open(F.out .. 'stash_' .. region)
+    local resume = os.getenv('PW_RESUME_DIR')
+    local f = io.open(F.out .. 'stash_' .. region) or (resume and io.open(resume .. '/stash_' .. region))
     if not f then return nil end
     local t = { count = f:read('n') }
     for i = 0, 149 do t[i] = f:read('n') end
@@ -84,6 +85,39 @@ return function(F, N, C, log)
     for i = 0, 149 do F.w32(P.gParties + i * 4, t[i]) end
     F.w8(P.gPartiesCount, t.count)
     L(string.format('  party restored: %d mons, %d boxed copies removed', t.count, removed))
+  end
+
+  local function partyPids()
+    local t = {}
+    for i = 0, N.partyCount() - 1 do t[#t + 1] = F.r32(P.gParties + i * 100) end
+    return t
+  end
+  local function boxedPids()
+    local t, base2 = {}, F.r32(P.gPokemonStoragePtr) + O.ps_boxes
+    for slot = 0, 14 * 30 - 1 do
+      local b = base2 + slot * O.box_size
+      local pid = F.r8(b) | F.r8(b + 1) << 8 | F.r8(b + 2) << 16 | F.r8(b + 3) << 24
+      if pid ~= 0 then t[pid] = (t[pid] or 0) + 1 end
+    end
+    return t
+  end
+  -- The party must be exactly `region`'s remembered team, in order, and `away` must sit in the PC once.
+  local function checkRecall(region, away, filler)
+    local want = stash[region] or loadParty(region)
+    stash[region] = want
+    if not want then L('  recall ' .. region .. ': no recorded team to compare'); return false end
+    local got, boxed = partyPids(), boxedPids()
+    local same = #got == want.count
+    for i = 0, want.count - 1 do same = same and got[i + 1] == want[i * 25] end
+    local stowed = true
+    for i = 0, (away and away.count or 0) - 1 do
+      local pid, kept = away[i * 25], false
+      for _, g in ipairs(got) do kept = kept or g == pid end
+      if not kept and pid ~= filler and boxed[pid] ~= 1 then stowed = false end
+    end
+    for _, g in ipairs(got) do if boxed[g] and g ~= filler then stowed = false end end
+    L(string.format('  recall %s: party %d/%d same=%s departing team boxed once=%s', region, #got, want.count, tostring(same), tostring(stowed)))
+    return same and stowed
   end
 
   local function inRegion(group, region)
@@ -115,8 +149,7 @@ return function(F, N, C, log)
       if not first then
         N.crossGate(REGIONS[to].gate)
         L(string.format('  landed at %s party=%d', N.mapName(), N.partyCount()))
-        assert(N.partyCount() == 0, 'a crossing should box the party')
-        restoreParty(to)
+        assert(checkRecall(to, stash[from]), 'the gate should recall ' .. to .. "'s team and box the departing one")
       end
     end, done = function()
       local heal = F.r8(F.sb1() + F.S.SaveBlock1.lastHealLocation)
@@ -161,6 +194,7 @@ return function(F, N, C, log)
   if os.getenv('PW_POSTGAME') then
     B = assert(loadfile(here .. 'postgame.lua'))()(F, N, C, log, B, {
       enter = enter, snapshot = snapshot, restore = restore, keepParty = keepParty, restoreParty = restoreParty,
+      checkRecall = checkRecall, stashOf = function(region) return stash[region] or loadParty(region) end, hasMemory = function(region) return (stash[region] or loadParty(region)) ~= nil end,
       regions = REGIONS, gates = { johto = 16, kanto = 11, hoenn = 21 },
     })
   end

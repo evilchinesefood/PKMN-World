@@ -12,14 +12,14 @@ python3 test/overworld/johto-playthrough/run.py --campaign world --world B   # H
 Beats are prefixed by region (`j_`, `k_`, `h_`), and crossings are `cross<n>_to_<region>`, so
 `--from`, `--to` and `--lose` take names like `k_to_cerulean`.
 
-Each crossing checks that money and Poke Balls carry over, the party is boxed, the player lands in
-the right region, and the whiteout respawn points into that region.
+Each crossing checks that money and Poke Balls carry over, the region's team comes back, the player
+lands in the right region, and the whiteout respawn points into that region.
 
 ## Concessions
 
-Those of the region campaigns, plus one. A crossing boxes the party, and the player would withdraw
-it at a PC. This campaign writes the region's team straight back and removes the boxed copies,
-because the storage screen isn't what it tests.
+Those of the region campaigns. A return crossing takes the gate's defaults: the region's remembered
+team (#377) and its last eligible Center. The crossing checks that the party is exactly the team the
+region last had, in order, and that the departing team sits in the PC once.
 
 ## Result
 
@@ -68,8 +68,8 @@ python3 test/overworld/johto-playthrough/run.py --campaign world --world J --pos
 
 Each Hall of Fame checks `VAR_DIFFICULTY`, the Hub tickets for that many champions, the Frontier
 and World Championship gates, and every gate there and back. After the last Hall, `--world A` plays
-Battle Net rematches (a stone with room, a stone with a full bag, then claiming it), the storage
-refusal, the Battle Tower from entry to a win, retire and rest-and-resume, and the Exchange Corner
+Battle Net rematches (a stone with room, a stone with a full bag, then claiming it), a gate
+swap with a PC one slot short and one with exact room (nothing lost or cloned), the Battle Tower from entry to a win, retire and rest-and-resume, and the Exchange Corner
 with a full bag. `--world J` plays Elm's ticket, the S.S. Aqua in both directions and obedience by
 badges. `--world B` sails from the Frontier with the active region's tier set by a non-champion
 region.

@@ -23,6 +23,7 @@ for line in subprocess.check_output(['/opt/devkitpro/devkitARM/bin/arm-none-eabi
             continue
         symbols[fields[3]] = int(fields[0], 16)
 names = ('UpdateObjectReflectionSprite', 'sOakSpeechResources', 'gBattlerSpriteIds',
-         'gBattlerControllerFuncs', 'HandleInputChooseAction', 'BattleMainCB2')
+         'gBattlerControllerFuncs', 'HandleInputChooseAction', 'BattleMainCB2',
+         'gPlayerOutfitPicker', 'Task_OutfitPicker', 'sOutfitGraphics')
 a.out.parent.mkdir(parents=True, exist_ok=True)
 a.out.write_text('return {' + ','.join(f'{n}=0x{symbols[n]:X}' for n in names) + '}\n')

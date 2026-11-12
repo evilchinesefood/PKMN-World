@@ -114,7 +114,7 @@ local function oakTaskFn()
     if F.r8(b + S.Task.isActive) ~= 0 then
       local fn = F.r32(b + S.Task.func) & ~1
       if fn == S.Task_OakSpeech_HandleGenderInput
-         or fn == S.Task_OakSpeech_HandleOutfitInput
+         or fn == S.Task_OutfitPicker
          or fn == S.Task_OakSpeech_HandleConfirmNameInput
          or fn == S.Task_OakSpeech_LetsGo then
         return fn, i
@@ -161,7 +161,11 @@ local function logOak(tag)
 end
 
 -- window discriminators from oak_speech.c / menu.c
-local function winOutfitMenu()  return findWin(18, 1, 8, 14) end
+local function winOutfitMenu()
+  if S.gPlayerOutfitPicker and F.r8(S.gPlayerOutfitPicker + 2) ~= 0 then
+    return F.r8(S.gPlayerOutfitPicker + 4)
+  end
+end
 local function winOutfitPrompt() return findWin(2, 15, 13, 4) end
 local function winGender()      return findWin(18, 9, 9, 4) end
 local function winNameConfirm() return findWin(2, 2, 6, 4) end
@@ -226,46 +230,27 @@ local function handleNaming()
 end
 
 local function handleOutfit()
-  -- Live preview writes VAR_PLAYER_PALETTE as the cursor moves. B must NOT advance
-  -- (it used to silently lock in RED). Move to BLUE, press B, stay on the picker.
   F.idle(8)
-  local g0, p0 = gender(), palette()
-  local cur0 = F.mcur()
-  F.L(string.format("  outfit enter gender=%d pal=%d cursor=%d", g0, p0, cur0))
+  local g0, committed = gender(), palette()
+  local function selection() return F.r16(S.gPlayerOutfitPicker) end
   F.shot("outfit_grid")
-  -- move to BLUE (row 1)
-  for _ = 1, 8 do
-    if F.mcur() == PLAYER_OUTFIT_BLUE then break end
-    F.press("Down", 2); F.idle(10)
-  end
-  F.idle(8)
-  local pBlue = palette()
-  local curBlue = F.mcur()
-  F.L(string.format("  outfit on BLUE cursor=%d pal=%d", curBlue, pBlue))
-  F.check("outfit: cursor moved off RED onto BLUE",
-    curBlue == PLAYER_OUTFIT_BLUE, "cursor=" .. tostring(curBlue))
-  -- B must not commit
+  F.press("Down", 2); F.idle(12)
+  F.check("outfit previews BLUE", selection() == PLAYER_OUTFIT_BLUE)
+  F.check("outfit preview preserves committed choice", palette() == committed)
+  F.press("Right", 2); F.idle(12)
+  F.check("outfit exposes regional styles", selection() == 7)
   F.press("B", 2); F.idle(20)
-  local still = winOutfitMenu() ~= nil or oakTaskFn() == S.Task_OakSpeech_HandleOutfitInput
-  local g1, p1, cur1 = gender(), palette(), F.mcur()
-  F.L(string.format("  outfit after B still=%s gender=%d pal=%d cursor=%d fn=0x%08X",
-    tostring(still), g1, p1, cur1, oakTaskFn()))
+  F.check("outfit B stays on the picker", winOutfitMenu() ~= nil)
+  F.check("outfit B preserves gender and saved choice", gender() == g0 and palette() == committed)
+  F.check("outfit B preserves regional preview", selection() == 7)
   F.shot("outfit_after_B")
-  F.check("outfit B does not leave the picker (no silent RED commit)", still,
-    string.format("win=%s fn=0x%08X", tostring(winOutfitMenu()), oakTaskFn()))
-  F.check("outfit B leaves gender unchanged", g1 == g0,
-    string.format("before=%d after=%d", g0, g1))
-  F.check("outfit B does not force pal=RED", p1 ~= PLAYER_OUTFIT_RED or cur1 ~= PLAYER_OUTFIT_RED,
-    string.format("pal=%d cursor=%d (BLUE was %d)", p1, cur1, pBlue))
-  F.check("outfit after B still on BLUE preview",
-    cur1 == PLAYER_OUTFIT_BLUE and (p1 == PLAYER_OUTFIT_BLUE or p1 == pBlue),
-    string.format("cursor=%d pal=%d", cur1, p1))
-  -- A confirms BLUE
+  F.press("Left", 2); F.idle(12)
   tapA(); F.idle(20)
   for _ = 1, 40 do
     if not winOutfitMenu() then break end
     F.idle(4)
   end
+  F.check("outfit A commits BLUE", palette() == PLAYER_OUTFIT_BLUE)
   return not winOutfitMenu()
 end
 
@@ -283,7 +268,7 @@ local function driveIntro(budget)
     if inNaming() then
       sawName = true
       handleNaming()
-    elseif (winOutfitMenu() or oakTaskFn() == S.Task_OakSpeech_HandleOutfitInput) and not outfitDone then
+    elseif (winOutfitMenu() or oakTaskFn() == S.Task_OutfitPicker) and not outfitDone then
       sawOutfit = true
       handleOutfit()
       outfitDone = true

@@ -21,6 +21,16 @@ function M.new(name)
     end
     error('no player object')
   end
+  local function checkGraphics(tag,selection,gender,pose)
+    local expected=F.r16(O.sOutfitGraphics+(((selection//6)*2+gender)*9+(pose or 0))*2)
+    for i=0,15 do
+      local base=S.gObjectEvents+i*S.ObjectEvent.stride
+      if (F.r8(base)&1)~=0 and F.r8(base+S.ObjectEvent.localId)==255 then
+        return F.check(tag..': equipped garment graphics',F.r16(base+S.ObjectEvent.graphicsId)==expected)
+      end
+    end
+    return F.check(tag..': player object exists',false)
+  end
   local function checkPalette(tag,offset,expected,exactHardware)
     local good,hardware=true,true
     local out=assert(io.open(F.out..tag..'.pal.bin','wb'))
@@ -84,6 +94,6 @@ function M.new(name)
     return false
   end
   return {F=F,S=S,X=X,O=O,E=E,invoke=invoke,slot=slot,player=player,sprite=sprite,
-    checkPalette=checkPalette,reflection=reflection,clock=clock,task=task,action=action,exitBattle=exitBattle}
+    checkPalette=checkPalette,checkGraphics=checkGraphics,reflection=reflection,clock=clock,task=task,action=action,exitBattle=exitBattle}
 end
 return M

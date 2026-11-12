@@ -437,7 +437,7 @@ enum
     OBJ_EVENT_GFX_FIREBREATHER,
     OBJ_EVENT_GFX_SAGE,
     OBJ_EVENT_GFX_WHIRLPOOL,
-    OBJ_EVENT_GFX_KANTO_BRENDAN_NORMAL,
+    OBJ_EVENT_GFX_KANTO_BRENDAN_NORMAL = 429,
     OBJ_EVENT_GFX_KANTO_BRENDAN_MACH_BIKE,
     OBJ_EVENT_GFX_KANTO_BRENDAN_ACRO_BIKE,
     OBJ_EVENT_GFX_KANTO_BRENDAN_SURFING,
@@ -507,7 +507,8 @@ enum
 // These are dynamic object gfx ids.
 // They correspond with the values of the VAR_OBJ_GFX_ID_X vars.
 // More info about them in include/constants/vars.h
-#define OBJ_EVENT_GFX_VARS   (NUM_OBJ_EVENT_GFX + 1)
+// Saved object templates retain these IDs across Continue. New static IDs start after this range.
+#define OBJ_EVENT_GFX_VARS   413
 #define OBJ_EVENT_GFX_VAR_0  (OBJ_EVENT_GFX_VARS + 0x0)
 #define OBJ_EVENT_GFX_VAR_1  (OBJ_EVENT_GFX_VARS + 0x1)
 #define OBJ_EVENT_GFX_VAR_2  (OBJ_EVENT_GFX_VARS + 0x2)

@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw
 OUTFITS = ('RED', 'BLUE', 'GREEN', 'PURPLE', 'BLACK', 'PINK')
 GENDERS = ('Male', 'Female')
 SURFACES = ('OW', 'FrontPic', 'BackPic')
+STYLES = ('original', 'kanto', 'johto', 'hoenn')
 
 
 def read_tables(root):
@@ -110,9 +111,25 @@ def main():
     lua = ['return {']
     for key,table in tables.items():
         values = []
-        for outfit in OUTFITS:
-            words = [r|(g<<5)|(b<<10) for r,g,b in table['palettes'][outfit]]
-            values.append('{'+','.join(str(v) for v in words)+'}')
+        surface, gender = key.split('_')
+        actor = 'brendan' if gender == 'Male' else 'may'
+        for style in STYLES[:1] if args.baseline else STYLES:
+            if style == 'original':
+                base = table['base']
+            else:
+                name = 'ow.pal' if surface == 'OW' else 'trainer.pal'
+                path = args.repo / 'graphics/player_outfits' / style / actor / name
+                base = [tuple(int(c) >> 3 for c in line.split()) for line in path.read_text().splitlines()[3:]]
+                assert len(base) == 16, path
+            for outfit in OUTFITS:
+                palette = base.copy()
+                if outfit != 'RED':
+                    for index, rgb in zip(table['indices'], table['rows'][outfit]):
+                        palette[index] = rgb
+                    if style != 'original' and gender == 'Male' and surface != 'OW':
+                        palette[13], palette[12] = table['rows'][outfit][:2]
+                words = [r | (g << 5) | (b << 10) for r, g, b in palette]
+                values.append('{'+','.join(str(v) for v in words)+'}')
         lua.append(key+'={'+','.join(values)+'},')
     lua.append('}')
     (args.out/'outfit_expected.lua').write_text('\n'.join(lua)+'\n')

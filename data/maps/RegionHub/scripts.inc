@@ -150,13 +150,15 @@ RegionHub_EventScript_AttendantKantoBoard::
 	closemessage
 	goto_if_eq VAR_RESULT, 1, RegionHub_EventScript_ReturnKanto
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, RegionHub_EventScript_ReturnToOaksLab
+	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, RegionHub_EventScript_ReturnToOaksLab
 	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6
 	waitstate
 	release
 	end
 
 @ A Hub Pass used before the starter is taken would otherwise land in the bedroom, past the lab's
-@ exit triggers, and the Viridian Mart parcel scene then uses up all three balls.
+@ exit triggers, and the Viridian Mart parcel scene then uses up all three balls. After the pick
+@ (scene 3) the same exit triggers hold the rival's battle, and the Mart's parcel scene skips it.
 RegionHub_EventScript_ReturnToOaksLab::
 	warp MAP_PALLET_TOWN_PROFESSOR_OAKS_LAB, 6, 7
 	waitstate

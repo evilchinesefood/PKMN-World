@@ -71,3 +71,4 @@ WorldChampionshipRewards	lua/WorldChampionshipRewards.lua	fresh	0	required
 WorldChampionshipStress	lua/WorldChampionshipStress.lua	fresh	0	required
 EmptyPartyMenu	lua/EmptyPartyMenu.lua	fresh	0	required
 OaksLabFullParty	lua/OaksLabFullParty.lua	fresh	0	required
+KantoGateRivalBattle	lua/KantoGateRivalBattle.lua	fresh	0	required

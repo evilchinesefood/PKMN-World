@@ -67,7 +67,7 @@ WANT = [
     # refusal starts naming nothing. Reading it turns that into an assertion (see
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
-    "gStringVar1",
+    "gStringVar1", "gStringVar2",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",

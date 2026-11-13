@@ -104,21 +104,33 @@ LittlerootTown_ProfessorBirchsLab_OnFrame:
 
 @ The starter is technically given prior to this on Route 101 by special ChooseStarter
 @ This is just where the game tells you its yours and lets you nickname it
+@ The player may already carry a party, so the starter is not always the lead or in the party.
 LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent::
 	lockall
-	bufferleadmonspeciesname STR_VAR_1
+	special GetStarterGiveResult
+	copyvar VAR_TEMP_6, VAR_RESULT
+	bufferspeciesname STR_VAR_1, VAR_TEMP_TRANSFERRED_SPECIES
 	message LittlerootTown_ProfessorBirchsLab_Text_LikeYouToHavePokemon
 	waitmessage
 	playfanfare MUS_OBTAIN_ITEM
 	waitfanfare
+	call_if_eq VAR_TEMP_6, MON_GIVEN_TO_PC, Common_EventScript_TransferredToPC
+	goto_if_eq VAR_TEMP_6, MON_CANT_GIVE, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	bufferspeciesname STR_VAR_1, VAR_TEMP_TRANSFERRED_SPECIES
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_WhyNotGiveNicknameToMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_NicknameStarter
 	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_NicknameStarter::
-	setvar VAR_0x8004, 0
+	goto_if_eq VAR_TEMP_6, MON_GIVEN_TO_PC, LittlerootTown_ProfessorBirchsLab_EventScript_NicknameBoxedStarter
+	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_NicknameBoxedStarter::
+	call Common_EventScript_NameReceivedBoxMon
 	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
 	end
 

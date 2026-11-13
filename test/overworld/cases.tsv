@@ -82,6 +82,7 @@ WhiteoutEveryCenter	lua/WhiteoutEveryCenter.lua	fresh	0	required
 OweStressFuzz	lua/OweStressFuzz.lua	fresh	0	required
 SaveResetStress	lua/SaveResetStress.lua	fresh	0	required
 InputSpamStress	lua/InputSpamStress.lua	fresh	0	required
+AutosaveStress	lua/AutosaveStress.lua	fresh	0	required
 Route43Toll	lua/Route43Toll.lua	fresh	0	required
 BugContestBalls	lua/BugContestBalls.lua	fresh	0	required
 KantoGateRivalBattleViaJohto	lua/KantoGateRivalBattleViaJohto.lua	fresh	0	required

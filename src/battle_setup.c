@@ -463,7 +463,9 @@ static bool8 CheckSilphScopeInPokemonTower(u16 mapGroup, u16 mapNum)
 
 void BattleSetup_StartWildBattle(void)
 {
-    if (gPlayerPartyCount == 0) // region-switch boxes the whole party; fishing/OWE/dowildbattle reach here at 0 mons
+    // Region-switch boxes the whole party, and a gift Egg can then be all it holds. Fishing, OWEs
+    // and dowildbattle reach here with nothing that can battle; an Egg would be sent out.
+    if (CountPartyNonEggMons() == 0)
         return;
     if (GetSafariZoneFlag())
         DoSafariBattle();
@@ -477,7 +479,7 @@ void BattleSetup_StartWildBattle(void)
 
 void BattleSetup_StartDoubleWildBattle(void)
 {
-    if (gPlayerPartyCount == 0)
+    if (CountPartyNonEggMons() == 0)
         return;
     DoStandardWildBattle(TRUE);
 }
@@ -637,11 +639,12 @@ void StartOldManTutorialBattle(void)
 // Empty party is a supported state (region-switch boxing). The standard-encounter paths
 // guard it at BattleSetup_StartWildBattle, but scripted statics (dowildbattle: Sudowoodo,
 // Red Gyarados, Snorlax, box legendaries...) reach these directly and would start a battle
-// with a SPECIES_NONE lead. Refuse like a flee: release the script's waitstate and report
-// B_OUTCOME_RAN so the encounter script keeps the mon in place.
+// with a SPECIES_NONE lead, or an Egg when a gift Egg is all the party holds. Refuse like a
+// flee: release the script's waitstate and report B_OUTCOME_RAN so the encounter script keeps
+// the mon in place.
 static bool32 RefuseScriptedWildBattleIfPartyless(void)
 {
-    if (gPlayerPartyCount != 0)
+    if (CountPartyNonEggMons() != 0)
         return FALSE;
     gBattleOutcome = B_OUTCOME_RAN;
     ScriptContext_Enable();

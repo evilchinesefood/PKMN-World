@@ -47,6 +47,7 @@ Route41SurfBgm	lua/Route41SurfBgm.lua	fresh	0	required
 SlowpokeWellRescue	lua/SlowpokeWellRescue.lua	fresh	0	required
 TohjoCelebi	lua/TohjoCelebi.lua	fresh	0	required
 CelioBagFull	lua/CelioBagFull.lua	fresh	0	required
+OweEggOnlyParty	lua/OweEggOnlyParty.lua	fresh	0	required
 HoennIntroClock	lua/HoennIntroClock.lua	fresh	0	required
 HubPassReCross	lua/HubPassReCross.lua	fresh	0	required
 RegionalTravel	lua/RegionalTravel.lua	fresh	0	required

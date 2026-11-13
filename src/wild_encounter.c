@@ -15,6 +15,7 @@
 #include "ow_abilities.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "pokemon_storage_system.h"
 #include "random.h"
 #include "roamer.h"
 #include "safari_zone.h"
@@ -783,9 +784,10 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
     if (sWildEncountersDisabled == TRUE)
         return FALSE;
 
-    // Region-switch boxes the whole party to the PC (0 mons on arrival); a wild battle with an
-    // empty party would send out a SPECIES_NONE lead. No encounters until a mon is withdrawn.
-    if (gPlayerPartyCount == 0)
+    // Region-switch boxes the whole party to the PC (0 mons on arrival), and a gift Egg can then
+    // be all it holds. BattleSetup refuses such a battle, and returning TRUE without one would
+    // leave the field controls locked. No encounters until a Pokemon that can battle is carried.
+    if (CountPartyNonEggMons() == 0)
         return FALSE;
 
     headerId = GetCurrentMapWildMonHeaderId();

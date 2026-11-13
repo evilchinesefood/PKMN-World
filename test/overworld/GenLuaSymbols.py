@@ -167,6 +167,15 @@ WANT = [
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # DoubleBattleStress.lua. BattleSetup_StartDoubleWildBattle is the natural wild double entry
+    # (DoStandardWildBattle(TRUE)); the suite reaches it with an EWRAM `callnative` script because
+    # nothing in this build's encounter tables rolls a double. The rest observe double-only
+    # selection state: the last-used-ball shortcut, which battlers are absent, what each battler
+    # chose, the move target cursor, and the evolution scene callback.
+    "BattleSetup_StartDoubleWildBattle", "HandleInputChooseTarget",
+    "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
+    "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
+    "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]

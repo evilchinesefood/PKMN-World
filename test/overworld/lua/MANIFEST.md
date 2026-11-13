@@ -880,3 +880,21 @@ and Set flows, and checks free leader-simulation defeat and unchanged simulation
 at 2x Money Loss. Confirms the existing leader-simulation forfeit deducts and displays
 1,600 instead of the baseline 800. Uses disposable debug-created parties and controlled HP for deterministic
 battle transitions. Passed 27/27; this is targeted acceptance, not a natural campaign run.
+
+### `DoubleBattleStress.lua`
+
+Wild and trainer doubles played adversarially from a fresh game. No encounter table in this build
+rolls a wild double (`WE_DOUBLE_WILD_CHANCE` 0, no force flag, NPC followers compiled out), so the
+suite calls the shipped entry `BattleSetup_StartDoubleWildBattle` through a three-command EWRAM
+script (`setwildbattle` with two species, `callnative`, `end`), and the scripted entry through
+`dowildbattle`. Trainer doubles come from the debug Trainers menu. Covers seeded every-button
+mashing (wild, trainer, with balls, with an Egg), one usable Pokemon with Eggs or fainted members,
+an Egg-only party refusing both wild-double entries, catching with both targets up, with one down
+on either side, with one ball, with a Master Ball, with a full party and full PC, into the PC, and
+with the swap-into-party prompt, the Bag from both battlers, running (the right-hand Pokemon is
+refused and B cancels back), the instant B run shortcut, whiting out, and a trainer double that
+faints down to one with voluntary and forced switches, then levels up (summary box) and evolves
+while the end is mashed. Party, PC and Bag are checked by decoding every slot (checksum, species,
+HP, count) and counting personality values. `PW_DBL_ONLY=<text>` runs a subset and
+`PW_DBL_TRACE=1` logs every input decision. The Egg-only scripted refusal failed (script left
+waiting, controls locked) before the deferred release in `RefuseScriptedWildBattleIfPartyless`.

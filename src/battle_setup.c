@@ -642,12 +642,25 @@ void StartOldManTutorialBattle(void)
 // with a SPECIES_NONE lead, or an Egg when a gift Egg is all the party holds. Refuse like a
 // flee: release the script's waitstate and report B_OUTCOME_RAN so the encounter script keeps
 // the mon in place.
+//
+// The release has to wait a frame. Every caller runs inside the script command that starts the
+// battle, and that command parks the script AFTER the call returns: ScrCmd_dowildbattle calls
+// ScriptContext_Stop() itself, and the specials (BattleSetup_StartLegendaryBattle and friends)
+// are followed by a waitstate. Enabling the context here was undone on the spot, which left the
+// script waiting forever with the field controls locked. The task runs in the same frame's
+// RunTasks, after the script command has returned and stopped the context.
+static void Task_ReleaseRefusedWildBattleScript(u8 taskId)
+{
+    ScriptContext_Enable();
+    DestroyTask(taskId);
+}
+
 static bool32 RefuseScriptedWildBattleIfPartyless(void)
 {
     if (CountPartyNonEggMons() != 0)
         return FALSE;
     gBattleOutcome = B_OUTCOME_RAN;
-    ScriptContext_Enable();
+    CreateTask(Task_ReleaseRefusedWildBattleScript, 80);
     return TRUE;
 }
 

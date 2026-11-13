@@ -647,9 +647,13 @@ return function(F, S)
   end
   local function freshBad()
     local me = r16(bmon(N.activeBattler))
-    local mine, n = duds[me] or {}, 0
-    for _ in pairs(mine) do n = n + 1 end
-    if n >= 4 then duds[me] = {}; mine = duds[me] end
+    local b0 = bmon(N.activeBattler)
+    local mine, usable = duds[me] or {}, false
+    for i = 0, 3 do
+      if not mine[i] and r16(b0 + O.bm_moves + 2 * i) ~= 0 and r8(b0 + O.bm_pp + i) > 0 then usable = true end
+    end
+    -- Every move with PP left is a dud: forget them rather than pick a slot with no PP.
+    if not usable then duds[me] = {}; mine = duds[me] end
     local bad = {}
     for slot in pairs(mine) do bad[slot] = true end
     return bad

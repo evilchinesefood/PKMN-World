@@ -161,7 +161,14 @@ WANT = [
     # still holds it" without stepping the player. sOWESpawnCountdown is zeroed to spawn an
     # encounter now; the debug Give Egg task's input is where the suite writes the species.
     "sLockFieldControls", "sOWESpawnCountdown", "DebugAction_Give_Pokemon_SelectId",
+    # WhiteoutEveryCenter.lua walks the heal-location table and its parallel whiteout respawn
+    # tables. OweStressFuzz.lua tells a battle from a menu by CB2 and watches the approach task.
+    "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
+    "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
+    "gMoveSelectionCursor",
 ]
+# name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
+SIZE_OF = ["sHealLocations"]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 
 # Feature-gated: compiled out of some flag-matrix builds. Emit 0 rather than
@@ -511,6 +518,12 @@ def main():
         if not pick:
             sys.exit(f"symbol {name} with size {want_size} not found in {elf}")
         lines.append(f"  {name} = 0x{pick[0]:08x},  -- {want_size}-byte definition (cursorPos at +2)")
+
+    for name in ([] if title_only else SIZE_OF):
+        sizes = {s for (_a, s) in syms.get(name, [])}
+        if len(sizes) != 1 or not next(iter(sizes)):
+            sys.exit(f"symbol {name} has no single size in {elf}")
+        lines.append(f"  {name}_size = {next(iter(sizes))},")
 
     if not title_only:
         actions = sorted({address for address, _size in syms.get("HandleInputChooseAction", [])})

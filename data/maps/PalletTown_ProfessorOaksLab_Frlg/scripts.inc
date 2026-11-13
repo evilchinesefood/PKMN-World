@@ -1133,10 +1133,11 @@ PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_PALLET_LADY_NOT_BLOCKING_SIGN
+	@ The S.S. Aqua and the same-region Kanto gate both keep a Johto party, so the party can already
+	@ hold Pokemon here. A full party sends the starter to the PC, and that is still a received starter.
 	givemon PLAYER_STARTER_SPECIES, 5
-	@ Defensive: unreachable while the region-cross boxes the party — but on a failed give, bail
-	@ before VAR_STARTER_MON/nickname flow; MAP_SCENE stays 2 so the pick is retriable.
-	goto_if_ne VAR_RESULT, MON_GIVEN_TO_PARTY, Common_EventScript_NoMoreRoomForPokemon
+	copyvar VAR_TEMP_6, VAR_RESULT
+	goto_if_eq VAR_TEMP_6, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
 	copyvar VAR_STARTER_MON, PLAYER_STARTER_NUM
 	bufferspeciesname STR_VAR_1, PLAYER_STARTER_SPECIES
 	message PalletTown_ProfessorOaksLab_Text_ReceivedMonFromOak
@@ -1144,13 +1145,26 @@ PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	playfanfare MUS_RG_OBTAIN_KEY_ITEM
 	waitfanfare
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, EventScript_GiveNicknameToStarter
-	goto_if_eq VAR_RESULT, NO, PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
+	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_NicknameStarter
+	goto PalletTown_ProfessorOaksLab_EventScript_StarterReceived
 	end
 
-EventScript_GiveNicknameToStarter::
-	setvar VAR_0x8004, 0
+PalletTown_ProfessorOaksLab_EventScript_NicknameStarter::
+	goto_if_eq VAR_TEMP_6, MON_GIVEN_TO_PC, PalletTown_ProfessorOaksLab_EventScript_NicknameBoxedStarter
+	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
+	goto PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_NicknameBoxedStarter::
+	call Common_EventScript_NameReceivedBoxMon
+PalletTown_ProfessorOaksLab_EventScript_StarterReceived::
+	goto_if_ne VAR_TEMP_6, MON_GIVEN_TO_PC, PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
+	@ TransferredToPC names the species from VAR_TEMP_1, which holds PLAYER_STARTER_NUM here.
+	copyvar VAR_TEMP_5, PLAYER_STARTER_NUM
+	copyvar VAR_TEMP_TRANSFERRED_SPECIES, PLAYER_STARTER_SPECIES
+	call Common_EventScript_TransferredToPC
+	copyvar PLAYER_STARTER_NUM, VAR_TEMP_5
 	goto PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
 	end
 

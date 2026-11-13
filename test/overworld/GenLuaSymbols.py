@@ -156,6 +156,11 @@ WANT = [
     "sCondMsg43", "EventScript_Follower",
     "CB2_InitPartyMenu", "CB2_Bag",
     "Task_OakSpeech_HandleConfirmNameInput",
+    # OweEggOnlyParty.lua. sLockFieldControls is what ArePlayerFieldControlsLocked() reads; with
+    # sGlobalScriptContextStatus it tells "the player has control" apart from "a script or task
+    # still holds it" without stepping the player. sOWESpawnCountdown is zeroed to spawn an
+    # encounter now; the debug Give Egg task's input is where the suite writes the species.
+    "sLockFieldControls", "sOWESpawnCountdown", "DebugAction_Give_Pokemon_SelectId",
 ]
 SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
 

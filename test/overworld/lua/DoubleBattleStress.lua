@@ -22,7 +22,7 @@
 -- the party and all fourteen boxes before and after, so a caught Pokemon that lands twice, or a
 -- ball that is thrown without leaving the Bag, fails.
 --
--- Selection during mashing never includes SELECT on the battle action menu: DEBUG_BATTLE_MENU is
+-- Mashing never presses SELECT: DEBUG_BATTLE_MENU is
 -- on in dev builds and SELECT there opens the battle debug menu, which edits the battle directly.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/DoubleBattleStress.lua <rom>
@@ -37,7 +37,7 @@ local HUB_GROUP = 100
 local ONLY = os.getenv("PW_DBL_ONLY")
 
 local B_DOUBLE, B_TRAINER = 1 << 0, 1 << 3
-local OUT_WON, OUT_LOST, OUT_DREW, OUT_RAN, OUT_CAUGHT = 1, 2, 3, 4, 7
+local OUT_WON, OUT_LOST, OUT_RAN, OUT_CAUGHT = 1, 2, 4, 7
 local PARTY_SIZE, BOX_SLOTS = 6, 14 * 30
 local CONTEXT_RUNNING, CONTEXT_SHUTDOWN = 0, 2
 local MAX_SPECIES_BITS = 0x7FF
@@ -46,7 +46,7 @@ local SPECIES_CATERPIE, SPECIES_METAPOD = 10, 11
 local SPECIES_MAGIKARP, SPECIES_TOGEPI = 129, 175
 local SPECIES_POOCHYENA, SPECIES_ZIGZAGOON, SPECIES_WURMPLE = 261, 263, 265
 local SPECIES_BELDUM = 374
-local ITEM_POKE_BALL, ITEM_MASTER_BALL = 1, 4
+local ITEM_POKE_BALL, ITEM_MASTER_BALL, ITEM_POTION = 1, 4, 28
 
 -- struct BattlePokemon (symbols.lua): species is the u16 at 0.
 local BM = S.BattlePokemon
@@ -95,6 +95,14 @@ local function monAt(a)
   m.species = w[F.r8(S.sSubstructOffsets + (m.pid % 24)) * 3] & MAX_SPECIES_BITS
   m.checksumOk = sum == F.r16(a + 28)
   return m
+end
+
+-- The four move ids: substruct 1 is four u16s, each move:11 with 5 bits of tracker above it.
+local function monMoves(a)
+  local key = F.r32(a) ~ F.r32(a + 4)
+  local base = F.r8(S.sSubstructOffsets + 24 + (F.r32(a) % 24)) * 3
+  local w0, w1 = F.r32(a + 32 + base * 4) ~ key, F.r32(a + 32 + (base + 1) * 4) ~ key
+  return { w0 & 0x7FF, (w0 >> 16) & 0x7FF, w1 & 0x7FF, (w1 >> 16) & 0x7FF }
 end
 
 local function partyAddr(s) return S.gParties + s * S.Pokemon.size end
@@ -189,7 +197,7 @@ end
 -- PC when the party is full, exactly as `givemon` does, with the four moves pinned so a battle
 -- policy knows what each move slot does. A player-OT mon also obeys at any level, which the debug
 -- party's Wobbuffet (a trainer-OT mon) does not without badges.
-local MOVE_FLAMETHROWER, MOVE_SPLASH, MOVE_CELEBRATE, MOVE_TACKLE = 53, 150, 606, 33
+local MOVE_FLAMETHROWER, MOVE_SPLASH, MOVE_CELEBRATE, MOVE_TACKLE, MOVE_PROTECT = 53, 150, 606, 33, 182
 local function scriptGiveMon(species, level, moves)
   local b = { 0x23 }; le32(b, S.ScrCmd_createmon | 1)
   b[#b + 1] = 0; b[#b + 1] = PARTY_SIZE
@@ -256,7 +264,6 @@ local function flushMenus() for _ = 1, 8 do F.press("B", 3); F.idle(18) end end
 
 local function setParty() debugRow(ROW_PARTY, 9, 180); flushMenus() end
 local function clearParty() debugRow(ROW_PARTY, 8, 120); flushMenus() end
-local function healParty() debugRow(ROW_PARTY, 2, 120); flushMenus() end
 local function clearBag() debugRow(ROW_PCBAG, 2, 120); flushMenus() end
 local function clearBoxes() debugRow(ROW_PCBAG, 3, 120); flushMenus() end
 local function fillBoxes()
@@ -629,7 +636,7 @@ local function catchBattleWith(tag, species, level, ball, after, ko, species2)
       if kind == "move" then return moveTo(b, (b == 0 and phase ~= "two") and 1 or 0) end
       if kind == "target" then
         if F.r8(S.gMultiUsePlayerCursor) == ko then return "A" end
-        return (n % 2 == 0) and "Right" or "Left"
+        return "Left"  -- one direction: Left and Right alternately can bounce between two slots
       end
       if kind == "yesno" then return "B" end
       if kind == "text" then return "B" end
@@ -640,6 +647,13 @@ local function catchBattleWith(tag, species, level, ball, after, ko, species2)
 end
 
 -- ---- scenario helpers ---------------------------------------------------------------------------
+
+local FLAG_QOL_SHARED_EXP = 0x21
+local function setFlag(id, on)
+  local a = F.sb1() + S.SaveBlock1.flags + (id // 8)
+  local bit = 1 << (id % 8)
+  F.w8(a, on and (F.r8(a) | bit) or (F.r8(a) & ~bit & 0xFF))
+end
 
 local function setMoney(v)
   F.w32(F.sb1() + S.SaveBlock1.money, v ~ F.r32(F.sb2() + S.SaveBlock2.encryptionKey))
@@ -1090,6 +1104,45 @@ F.run(function()
     clearBoxes()
   end)
 
+  -- The R last-used-ball shortcut after its display fell back to another ball. Catch with a
+  -- Master Ball (gLastThrownBall = gBallToDisplay = Master Ball); next battle carry only Poke
+  -- Balls, so the display falls back to the first ball in the pocket; then carry only a Master
+  -- Ball again. The last thrown ball is back in the Bag and the shortcut has to offer it.
+  scenario("R shortcut after the display fell back", function()
+    ensureParty(catchParty)
+    fastBattles(true)
+    clearBag(); scriptAddItem(ITEM_MASTER_BALL, 1)
+    local res, at, s = catchBattleWith("rs catch", SPECIES_BELDUM, 5, ITEM_MASTER_BALL)
+    checkBattleEnd("rs catch", res, at, { OUT_CAUGHT })
+    F.check("rs: the Master Ball is the last thrown ball", F.r16(S.gLastThrownBall) == ITEM_MASTER_BALL,
+      "last=" .. F.r16(S.gLastThrownBall))
+
+    ensureParty(catchParty)
+    clearBag(); scriptAddItem(ITEM_POKE_BALL, 2)
+    if F.check("rs fallback: a wild double started", startWildDouble("rs fallback", SPECIES_WURMPLE, 3, SPECIES_ZIGZAGOON, 3)) then
+      local shown
+      res, at = drive("rs fallback", 12000, {
+        frame = function(i)
+          if i % 10 == 0 then for _, b in ipairs({ 0, 2 }) do if bhp(b) > 0 then setBhp(b, bmax(b)) end end end
+        end,
+        key = function(b, kind, n)
+          if kind == "action" and b == 0 and shown == nil then shown = F.r16(S.gBallToDisplay) end
+          return runKey(b, kind, n)
+        end,
+      })
+      F.check("rs fallback: with only Poke Balls the display fell back to them", shown == ITEM_POKE_BALL,
+        "display=" .. tostring(shown))
+      checkBattleEnd("rs fallback", res, at, { OUT_RAN })
+    end
+
+    ensureParty(catchParty)
+    clearBag(); scriptAddItem(ITEM_MASTER_BALL, 1)
+    res, at, s = catchBattleWith("rs again", SPECIES_BELDUM, 5, ITEM_MASTER_BALL)
+    F.check("rs again: R threw the Master Ball once the left target was down", s.leftFainted and s.throws == 1,
+      string.format("throws=%d display=%d last=%d", s.throws, F.r16(S.gBallToDisplay), F.r16(S.gLastThrownBall)))
+    checkBattleEnd("rs again", res, at, { OUT_CAUGHT })
+  end)
+
   -- The Bag from each player battler's menu in a double: open it, flip pockets, B out, and the
   -- battle screen has to come back promptly every time. Once with balls, once with an empty Bag.
   local function bagCase(tag, balls)
@@ -1142,6 +1195,164 @@ F.run(function()
   end
   scenario("bag in a double", function() bagCase("bag", 3) end)
   scenario("empty bag in a double", function() bagCase("empty bag", 0) end)
+
+  -- Both player Pokemon faint in the same turn with two members on the bench: two forced
+  -- replacements back to back, then the replacements win.
+  scenario("both faint in one turn", function()
+    ensureParty(function()
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_FLAMETHROWER, MOVE_TACKLE })
+      scriptGiveMon(SPECIES_POOCHYENA, 10, { MOVE_TACKLE })
+    end)
+    fastBattles(true)
+    if not F.check("both faint: a wild double started", startWildDouble("bothfaint", SPECIES_POOCHYENA, 8, SPECIES_ZIGZAGOON, 8)) then return end
+    local live, bothDown, phase = false, false, "sacrifice"
+    local res, at = drive("bothfaint", 30000, {
+      frame = function(i)
+        if not live or not inBattle() then return end
+        if bhp(0) == 0 and bhp(2) == 0 and not absent(0) and not absent(2) then bothDown = true end
+        if phase == "sacrifice" and partyIndex(0) >= 2 and partyIndex(2) >= 2 then phase = "win" end
+        if i % 5 == 0 then
+          for _, b in ipairs({ 0, 2 }) do
+            if phase == "sacrifice" and partyIndex(b) < 2 and bhp(b) > 1 then setBhp(b, 1) end
+            if partyIndex(b) >= 2 and bhp(b) > 0 then setBhp(b, bmax(b)) end
+          end
+          for _, b in ipairs({ 1, 3 }) do
+            if phase == "sacrifice" and bhp(b) > 0 then setBhp(b, bmax(b)) end
+            if phase == "win" and bhp(b) > 1 then setBhp(b, 1) end
+          end
+        end
+      end,
+      key = function(b, kind, n)
+        if kind == "action" then live = true; return steer(b, 0) end
+        if kind == "screen" then return partyKey() end
+        if kind == "move" then return moveTo(b, 0) end
+        return fightKey(b, kind, n)
+      end,
+    })
+    F.check("both faint: both player Pokemon were down at once", bothDown)
+    F.check("both faint: both slots were refilled from the bench", phase == "win",
+      string.format("slots %d,%d", partyIndex(0), partyIndex(2)))
+    checkBattleEnd("both faint", res, at, { OUT_WON })
+    F.check("both faint: the two Magikarp are still fainted, the bench is not",
+      monHp(0) == 0 and monHp(1) == 0 and monHp(2) > 0 and monHp(3) > 0,
+      string.format("hp=%d,%d,%d,%d", monHp(0), monHp(1), monHp(2), monHp(3)))
+  end)
+
+  -- The left Pokemon fainted with nobody to replace it, so the right-hand one throws: the ball
+  -- comes from battler 2, not the usual thrower.
+  scenario("catch by the right-hand Pokemon", function()
+    ensureParty(catchParty)
+    fastBattles(true)
+    clearBag(); scriptAddItem(ITEM_MASTER_BALL, 1)
+    local before = census()
+    if not F.check("right throw: a wild double started", startWildDouble("rthrow", SPECIES_BELDUM, 5, SPECIES_WURMPLE, 3)) then return end
+    local live, rTried, thrownBy, waitR = false, false, nil, 0
+    local res, at = drive("rthrow", 20000, {
+      frame = function(i)
+        if not live then return end
+        if F.r8(S.gChosenActionByBattler + 2) == ACTION_THROW_BALL then thrownBy = 2 end
+        if i % 5 == 0 then
+          if bhp(0) > 1 then setBhp(0, 1) end
+          if bhp(2) > 0 then setBhp(2, bmax(2)) end
+          if bhp(3) > 1 then setBhp(3, 1) end
+          if bhp(1) > 0 then setBhp(1, bmax(1)) end
+        end
+      end,
+      key = function(b, kind, n)
+        if kind == "action" then
+          live = true
+          if b == 2 and absent(0) and (absent(3) or bhp(3) == 0) then
+            if F.r8(S.gLastUsedBallMenuPresent) == 0 and waitR < 8 then waitR = waitR + 1; return nil end
+            rTried = true; return "R"
+          end
+          return steer(b, 0)
+        end
+        if kind == "move" then return moveTo(b, (bhp(3) == 0 or absent(3)) and 1 or 0) end
+        if kind == "target" then
+          if F.r8(S.gMultiUsePlayerCursor) == 3 or bhp(3) == 0 or absent(3) then return "A" end
+          return "Left"
+        end
+        if kind == "yesno" or kind == "text" then return "B" end
+        return screenKey(n)
+      end,
+    })
+    F.check("right throw: the right-hand Pokemon threw the ball", thrownBy == 2 and rTried,
+      "thrownBy=" .. tostring(thrownBy))
+    checkBattleEnd("right throw", res, at, { OUT_CAUGHT })
+    local after = census()
+    F.check("right throw: Beldum caught once", after.total == before.total + 1 and after.dups == 0
+      and (after.species[SPECIES_BELDUM] or 0) == (before.species[SPECIES_BELDUM] or 0) + 1,
+      string.format("total %d -> %d", before.total, after.total))
+  end)
+
+  -- A Potion picked from the Bag by the left Pokemon (for itself, the first row of the party
+  -- panel) is removed from the Bag at selection (BagMenu_BattleApplyItem). If the right-hand
+  -- Pokemon then presses B to go back to the left one, the controller must hand the Potion back
+  -- (the B_ACTION_CANCEL_PARTNER refund), exactly once. Then the same use is let through, and the
+  -- Potion must be spent and the Pokemon healed.
+  scenario("potion then cancel partner", function()
+    ensureParty(catchParty)
+    fastBattles(true)
+    clearBag(); scriptAddItem(ITEM_POTION, 3)
+    if not F.check("potion: a wild double started", startWildDouble("potion", SPECIES_WURMPLE, 3, SPECIES_ZIGZAGOON, 3)) then return end
+    local step, polls, qtyAtCancel, qtyAfterCancel, partnerHp0, healedHp = "bag", 0, -1, -1, 0, -1
+    local cancelled, used = false, false
+    local res, at = drive("potion", 20000, {
+      frame = function(i)
+        if bhp(2) > 0 then setBhp(2, bmax(2)) end
+        -- Keep the left Pokemon hurt until the real use, so the Potion has something to heal.
+        -- Both copies: the Bag checks the party struct, the battle reads gBattleMons.
+        if (step == "bag" or step == "cancelled" or step == "bag2") and inBattle() and bhp(0) > 5 then
+          setBhp(0, 5); F.w16(partyAddr(partyIndex(0)) + S.Pokemon.hp, 5)
+        end
+      end,
+      key = function(b, kind, n)
+        if kind == "action" and b == 0 then
+          if step == "bag" or step == "bag2" then
+            F.w8(S.gBagPosition + 5, 0)   -- open on the Items pocket
+            polls = 0
+            return steer(b, 1)
+          end
+          if step == "run" then return steer(b, 3) end
+          return steer(b, 0)
+        end
+        if kind == "action" and b == 2 then
+          if step == "bag" then
+            step = "cancelled"; cancelled = true; qtyAtCancel = itemQty(ITEM_POTION); return "B"
+          end
+          if step == "cancelled" then qtyAfterCancel = itemQty(ITEM_POTION) end
+          if step == "bag2" then step = "used"; partnerHp0 = bhp(0) end
+          return steer(b, 0)
+        end
+        if kind == "screen" then
+          polls = polls + 1
+          -- Bag: A on the Potion, A on Use, A on the first row of the party panel, 40 frames
+          -- apart so none lands while a panel animates; B out only if that did not take.
+          if polls % 5 == 0 and polls <= 15 then return "A" end
+          if polls > 30 then return "B" end
+          return nil
+        end
+        if kind == "move" then return moveTo(b, 1) end
+        return fightKey(b, kind, n)
+      end,
+      stop = function()
+        if step == "cancelled" and qtyAfterCancel >= 0 then step = "bag2" end
+        if step == "used" and F.r8(S.gActionSelectionCursor) ~= 255 and isAction(ctrl(0)) then
+          used = true; healedHp = bhp(0); step = "run"
+        end
+        return false
+      end,
+    })
+    F.check("potion: the Potion left the Bag when it was picked", qtyAtCancel == 2, "qty at cancel=" .. qtyAtCancel)
+    F.check("potion: B on the partner's menu handed it back, once", cancelled and qtyAfterCancel == 3,
+      "qty after cancel=" .. qtyAfterCancel)
+    F.check("potion: used for real the second time, the Pokemon was healed", used and healedHp > partnerHp0,
+      string.format("hp %d -> %d", partnerHp0, healedHp))
+    checkBattleEnd("potion", res, at, { OUT_RAN })
+    F.check("potion: exactly one Potion was spent", itemQty(ITEM_POTION) == 2, "qty=" .. itemQty(ITEM_POTION))
+  end)
 
   -- 4. Running, and whiting out.
   scenario("run from wild double", function()
@@ -1304,7 +1515,8 @@ F.run(function()
       string.format("flags=0x%X battlers=%d", F.battleFlags(), F.battlers()))
     local live, phase = false, "sacrifice"
     local st = { voluntary = false, forced = 0, downToOne = false, absent2 = false, box = false, evo = false,
-                 lastPartner = nil, partnerHp = 0 }
+                 lastPartner = nil, partnerHp = 0, forcedB = 0 }
+    local screenPolls = 0
     local res, at = drive("trainer", 40000, {
       frame = function(i)
         if F.r8(S.sLevelUpSummaryState) == 3 then st.box = true end
@@ -1341,11 +1553,19 @@ F.run(function()
           return steer(b, 0)
         end
         if kind == "screen" then
+          -- A forced replacement refuses B: press it three times first, and the menu must stay.
+          if st.voluntary and st.partnerHp == 0 and screenPolls < 3 then
+            screenPolls = screenPolls + 1
+            st.forcedB = st.forcedB + 1
+            return "B"
+          end
           return partyKey()
         end
+        screenPolls = 0
         return fightKey(b, kind, n)
       end,
     })
+    F.check("trainer: B was pressed on a forced replacement menu", st.forcedB >= 3, "presses=" .. st.forcedB)
     F.check("trainer: a voluntary switch happened mid-double", st.voluntary)
     F.check("trainer: a fainted partner was replaced through the forced switch", st.forced >= 1, "forced=" .. st.forced)
     F.check("trainer: the party went down to its last Pokemon in battle", st.downToOne)
@@ -1360,6 +1580,93 @@ F.run(function()
       partyCount() == 4 and monHp(1) == 0 and monHp(2) == 0 and monHp(3) == 0,
       string.format("n=%d hp=%d,%d,%d", partyCount(), monHp(1), monHp(2), monHp(3)))
     F.check("trainer: prize money was paid", F.money() > 1000, "money=" .. F.money())
+  end)
+
+  -- The level-up and evolution again, this time on the RIGHT-hand Pokemon of a wild double after
+  -- the left one fainted with nobody to replace it. Cmd_getexp always sends the EXP update
+  -- through battler 0's controller, which is then an absent battler.
+  scenario("right-hand Pokemon levels and evolves alone", function()
+    ensureParty(function()
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_CATERPIE, 6, { MOVE_TACKLE })
+    end)
+    fastBattles(true)
+    if not F.check("right evo: a wild double started", startWildDouble("rightevo", SPECIES_POOCHYENA, 12, SPECIES_ZIGZAGOON, 12)) then return end
+    local live, phase, box, evo, alone = false, "sacrifice", false, false, false
+    local res, at = drive("rightevo", 30000, {
+      frame = function(i)
+        if F.r8(S.sLevelUpSummaryState) == 3 then box = true end
+        if F.cb2() == (S.CB2_EvolutionSceneUpdate & ~1) then evo = true end
+        if not live or not inBattle() then return end
+        for _, b in ipairs({ 1, 3 }) do F.w16(bmon(b) + 2, 1); F.w16(bmon(b) + 8, 1) end
+        if bhp(2) > 0 then setBhp(2, bmax(2)) end
+        if phase == "sacrifice" and absent(0) then phase = "finish"; alone = true end
+        if i % 5 == 0 then
+          if phase == "sacrifice" and bhp(0) > 1 then setBhp(0, 1) end
+          for _, b in ipairs({ 1, 3 }) do
+            if phase == "sacrifice" and bhp(b) > 0 then setBhp(b, bmax(b)) end
+            if phase == "finish" and bhp(b) > 1 then setBhp(b, 1) end
+          end
+        end
+      end,
+      key = function(b, kind, n)
+        if F.outcome() ~= 0 then return endMashKeys() end
+        if kind == "action" then live = true; return steer(b, 0) end
+        return fightKey(b, kind, n)
+      end,
+    })
+    F.check("right evo: the left Pokemon fainted and its slot stayed empty", alone)
+    checkBattleEnd("right evo", res, at, { OUT_WON })
+    F.check("right evo: the level-up summary box came up", box)
+    F.check("right evo: the evolution scene ran", evo)
+    F.check("right evo: Caterpie evolved into Metapod in its own slot",
+      monAt(partyAddr(1)).species == SPECIES_METAPOD and monAt(partyAddr(0)).species == SPECIES_MAGIKARP and monHp(0) == 0,
+      string.format("slot0=%s hp=%d slot1=%s", tostring(monAt(partyAddr(0)).species), monHp(0),
+        tostring(monAt(partyAddr(1)).species)))
+  end)
+
+  -- With the SHARED EXP option on (FLAG_QOL_SHARED_EXP, I_EXP_SHARE_FLAG), a benched Pokemon with
+  -- four moves levels through the shared EXP and is offered a fifth at the
+  -- end of a double, while A and the D-pad are mashed through the forget-a-move prompt and the
+  -- move summary screen. Whatever the mash chose, the moves must stay four valid, distinct ones.
+  scenario("move learning at the end of a double", function()
+    ensureParty(function()
+      scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_FLAMETHROWER, MOVE_TACKLE })
+      scriptGiveMon(SPECIES_POOCHYENA, 10, { MOVE_TACKLE })
+      scriptGiveMon(SPECIES_MAGIKARP, 14, { MOVE_SPLASH, MOVE_CELEBRATE, MOVE_FLAMETHROWER, MOVE_PROTECT })
+    end)
+    fastBattles(true)
+    setFlag(FLAG_QOL_SHARED_EXP, true)
+    local lv0 = F.r8(partyAddr(2) + S.Pokemon.level)
+    if not F.check("learn: a wild double started", startWildDouble("learn", SPECIES_POOCHYENA, 45, SPECIES_ZIGZAGOON, 45)) then return end
+    local live = false
+    local res, at = drive("learn", 40000, {
+      frame = function(i)
+        if not live or not inBattle() then return end
+        for _, b in ipairs({ 1, 3 }) do F.w16(bmon(b) + 2, 1); F.w16(bmon(b) + 8, 1) end
+        for _, b in ipairs({ 0, 2 }) do if bhp(b) > 0 then setBhp(b, bmax(b)) end end
+        if i % 10 == 0 then for _, b in ipairs({ 1, 3 }) do if bhp(b) > 1 then setBhp(b, 1) end end end
+      end,
+      key = function(b, kind, n)
+        if F.outcome() ~= 0 then return endMashKeys() end
+        if kind == "action" then live = true; return steer(b, 0) end
+        if kind == "move" then return moveTo(b, 0) end
+        return fightKey(b, kind, n)
+      end,
+    })
+    checkBattleEnd("learn", res, at, { OUT_WON })
+    setFlag(FLAG_QOL_SHARED_EXP, false)
+    local lv1 = F.r8(partyAddr(2) + S.Pokemon.level)
+    local mv = monMoves(partyAddr(2))
+    local distinct, valid = true, true
+    for k = 1, 4 do
+      if mv[k] == 0 or mv[k] >= 1000 then valid = false end
+      for j = k + 1, 4 do if mv[k] == mv[j] then distinct = false end end
+    end
+    F.check("learn: the benched Magikarp levelled past 15 through the shared EXP", lv1 >= 15 and lv1 > lv0,
+      string.format("level %d -> %d", lv0, lv1))
+    F.check("learn: it still knows four valid, distinct moves", valid and distinct,
+      string.format("moves=%d,%d,%d,%d", mv[1], mv[2], mv[3], mv[4]))
   end)
 
   F.check("target cursors were sampled", targetSamples > 0, "samples=" .. targetSamples)

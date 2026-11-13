@@ -890,11 +890,18 @@ script (`setwildbattle` with two species, `callnative`, `end`), and the scripted
 `dowildbattle`. Trainer doubles come from the debug Trainers menu. Covers seeded every-button
 mashing (wild, trainer, with balls, with an Egg), one usable Pokemon with Eggs or fainted members,
 an Egg-only party refusing both wild-double entries, catching with both targets up, with one down
-on either side, with one ball, with a Master Ball, with a full party and full PC, into the PC, and
-with the swap-into-party prompt, the Bag from both battlers, running (the right-hand Pokemon is
+on either side, by the right-hand Pokemon, with one ball, with a Master Ball, with a full party and
+full PC, into the PC, and with the swap-into-party prompt, the R shortcut after its display fell
+back, the Bag from both battlers (with and without items), a Potion refunded by cancel-partner,
+both player Pokemon fainting in one turn, running (the right-hand Pokemon is
 refused and B cancels back), the instant B run shortcut, whiting out, and a trainer double that
-faints down to one with voluntary and forced switches, then levels up (summary box) and evolves
-while the end is mashed. Party, PC and Bag are checked by decoding every slot (checksum, species,
+faints down to one with voluntary and forced switches (B refused on the forced menu), then levels
+up (summary box) and evolves while the end is mashed; the same level-up and evolution on the
+right-hand Pokemon with the left slot empty, and a benched four-move Pokemon learning a move
+through SHARED EXP. Party, PC and Bag are checked by decoding every slot (checksum, species,
 HP, count) and counting personality values. `PW_DBL_ONLY=<text>` runs a subset and
-`PW_DBL_TRACE=1` logs every input decision. The Egg-only scripted refusal failed (script left
-waiting, controls locked) before the deferred release in `RefuseScriptedWildBattleIfPartyless`.
+`PW_DBL_TRACE=1` logs every input decision. Two checks discriminate against fixes made with the
+suite: the Egg-only scripted refusal failed (script left waiting, controls locked) before the
+deferred release in `RefuseScriptedWildBattleIfPartyless`, and "R shortcut after the display fell
+back" failed (no throw, display stuck on a ball the Bag no longer held) before
+`TryAddLastUsedBallItemSprites` re-pointed the display at the last thrown ball.

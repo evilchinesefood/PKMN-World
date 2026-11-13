@@ -167,6 +167,13 @@ WANT = [
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and
+    # rate-limited against sLastAutosaveFrame; rewinding the latter is how a suite reaches the
+    # next autosave without idling out ten emulated minutes. Task_Autosave is the live SAVING
+    # window, and gDifferentSaveFile is the new-game-over-a-file latch that must block it.
+    "sAutosaveSettleTimer", "sLastAutosaveFrame", "Task_Autosave", "gDifferentSaveFile",
+    # Clearing it makes TrySavingData fail without touching flash: the autosave's error path.
+    "gFlashMemoryPresent",
     # EvolutionMashStress.lua. gLeveledUpInBattle is the per-slot bitmask TryEvolvePokemon reads to
     # run level-up evolutions after a battle; seeding it is how the suite arms an evolution without
     # out-levelling a debug trainer. The callbacks and task tell "the evolution scene is running"
@@ -248,7 +255,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                    optionsU16 = 0x14, ratesU16 = 0x16, encounterMask = 0x00C0, moneyLossMask = 0x0300,
                    currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
                    followerSlot = 0x93, bp = 3768,
-                   playerGender = 8, localTimeOffset = 0x98 },
+                   playerGender = 8, localTimeOffset = 0x98,
+                   frontierChallengeStatus = 0xCA8 },
                                                             -- introDoneBits (global.h:629-632) packs
                                                             --   the three region first-visit bits into
                                                             --   ONE byte: bit0 kanto, bit1 johto,
@@ -260,6 +268,10 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   Littleroot bedroom PCs are gender-gated
                                                             --   (Brendan's MALE-only, May's FEMALE-only),
                                                             --   so a suite covering both must seed it.
+                                                            -- frontierChallengeStatus is
+                                                            --   frontier.challengeStatus
+                                                            --   (CHALLENGE_STATUS_*), offsetof probe
+                                                            --   with the modern CFLAGS = 3240.
                                                             -- gLocalTime = sRtc - localTimeOffset
                                                             --   (RtcCalcLocalTime, src/rtc.c:319), so
                                                             --   ADDING hours here SUBTRACTS them from the

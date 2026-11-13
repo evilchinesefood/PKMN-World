@@ -1804,20 +1804,34 @@ static void Task_Autosave(u8 taskId)
 // Runs while armed (sAutosaveSettleTimer != 0). Hard-blocked contexts cancel outright; the
 // warp-exit walk/fade/forced-slide just wait, bounded by the settle budget so anything long
 // (first-visit intros, cutscenes) silently forfeits this transition's autosave. Any script or
-// menu the player starts meanwhile also cancels (see DoCB1_Overworld's lock branch).
+// menu the player starts meanwhile also cancels (see DoCB1_Overworld's lock branch), and so does
+// any script the game starts on its own (below).
 static void UpdateAutosave(void)
 {
     u8 taskId, windowId;
 
-    if (IsAutosaveBlocked())
+    // A script running here was not started by player input: CB2_LoadMap's ScriptContext_Init
+    // killed whatever warped us, and the input-side cancel in DoCB1_Overworld clears the timer
+    // for everything ProcessPlayerFieldInput starts. What is left is the game starting one on its
+    // own, e.g. an overworld encounter walking into the player (TryTriggerOverworldWildEncounter
+    // runs from object collision code) or a DexNav ambush. Waiting it out would autosave right
+    // after its battle; it forfeits this transition's autosave like any other script.
+    if (IsAutosaveBlocked() || ScriptContext_IsEnabled())
     {
         sAutosaveSettleTimer = 0;
         return;
     }
     if (--sAutosaveSettleTimer == 0)
         return;
-    if (gPaletteFade.active || ArePlayerFieldControlsLocked() || ScriptContext_IsEnabled()
-     || (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) || !IsPlayerStandingStill())
+    // IsPlayerStandingStill() reads the transition state sampled at the top of this frame, before
+    // PlayerStep() ran, so on the frame a step starts (and at every tile centre of a held walk)
+    // it still says "standing". PlayerStep() sets runningState to MOVING for that step and only
+    // clears it once a step has ended with no direction held. Saving while MOVING would write the
+    // destination tile before the step's triggers (coord events, warps, wild grass) run, and a
+    // reload would stand the player past them; wait for the player to actually stop.
+    if (gPaletteFade.active || ArePlayerFieldControlsLocked()
+     || (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) || !IsPlayerStandingStill()
+     || gPlayerAvatar.runningState == MOVING)
         return;
 
     windowId = AddWindow(&sAutosaveWindowTemplate);

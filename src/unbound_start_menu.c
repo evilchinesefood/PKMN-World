@@ -993,7 +993,10 @@ static bool32 Usm_IsItemAvailable(enum Usm_Icons item)
 {
     switch (item) {
         case USM_ICO_POKEDEX: return FlagGet(FLAG_SYS_POKEDEX_GET);
-        case USM_ICO_PARTY:   return FlagGet(FLAG_SYS_POKEMON_GET);
+        // A hub gate boxes the whole party on entering a new region but keeps this flag, so the
+        // player walks with no Pokemon until that region's starter; an empty party screen's
+        // summary hangs (AdvanceMonIndex takes a modulo by the party size).
+        case USM_ICO_PARTY:   return FlagGet(FLAG_SYS_POKEMON_GET) && CalculatePlayerPartyCount() != 0;
         case USM_ICO_POKENAV: return FlagGet(FLAG_SYS_POKENAV_GET);
         case USM_ICO_DEXNAV:  return DEXNAV_ENABLED && DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET);
         case USM_ICO_QUESTS:  return TRUE; // Story is available from the first menu.

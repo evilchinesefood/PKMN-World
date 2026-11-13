@@ -638,6 +638,40 @@ return function(F, S)
 
   -- Slots the game refused this turn (disabled, Taunt, Torment, Choice lock): skip them.
   N.badSlots = {}
+  -- Moves that left the foe's HP unchanged twice this battle (Sucker Punch against a status move,
+  -- an immunity the chart doesn't know): keyed by our species, then slot.
+  local duds, lastPick = {}, nil
+  local function foeState()
+    local f1, f3 = bmon(1), bmon(3)
+    return r16(f1) * 65536 + r16(f3), r16(f1 + O.bm_hp) + r16(f3 + O.bm_hp)
+  end
+  local function freshBad()
+    local me = r16(bmon(N.activeBattler))
+    local mine, n = duds[me] or {}, 0
+    for _ in pairs(mine) do n = n + 1 end
+    if n >= 4 then duds[me] = {}; mine = duds[me] end
+    local bad = {}
+    for slot in pairs(mine) do bad[slot] = true end
+    return bad
+  end
+  local function notePick(slot)
+    local foes, hp = foeState()
+    lastPick = { me = r16(bmon(N.activeBattler)), battler = N.activeBattler, slot = slot, foes = foes, hp = hp,
+      misses = (lastPick and lastPick.slot == slot and lastPick.misses) or 0 }
+  end
+  local function judgeLastPick()
+    local p = lastPick
+    if not p or p.battler ~= N.activeBattler or r16(bmon(N.activeBattler)) ~= p.me then return end
+    local foes, hp = foeState()
+    if foes ~= p.foes then return end
+    if hp < p.hp then p.misses = 0; return end
+    p.misses = p.misses + 1
+    if p.misses >= 2 then
+      duds[p.me] = duds[p.me] or {}
+      duds[p.me][p.slot] = true
+      L(string.format('  slot %d of species %d did no damage twice: not picking it again this battle', p.slot, p.me))
+    end
+  end
   -- Spread moves that also strike the user's own partner in a double battle.
   local HITS_ALLY = { [C.MOVE_EARTHQUAKE] = true }
   local function bestMoveSlot()
@@ -768,6 +802,7 @@ return function(F, S)
     N.fleeTries = 0
     N.pickerTries = 0   -- its A and Start alternate, so a second picker has to start the cycle afresh
     if N.natural then N.natural.battleStart() end
+    duds, lastPick = {}, nil
     -- A natural Elite Four battle with weather and Potions runs well past the debug team's battles.
     local frameLimit = 60 * 60 * (N.natural and 40 or 12)
     while frames < frameLimit do
@@ -844,6 +879,8 @@ return function(F, S)
         turns = turns + 1
         if turns == 1 then N.firstFoeLevel = r8(bmon(1) + O.bm_level) end
         if turns > 200 then error('battle runaway: ' .. tag) end
+        judgeLastPick()
+        N.badSlots = freshBad()
         N.lastFoe = { species = r16(bmon(1)), level = r8(bmon(1) + O.bm_level) }
         if N.battleDebug then
           local me, f1, f3 = bmon(N.activeBattler), bmon(1), bmon(3)
@@ -868,8 +905,7 @@ return function(F, S)
         elseif fight then
           press('Up'); idle(4); press('Left'); idle(4); press('A'); idle(20)
           for _ = 1, 30 do if choosingMove() then break end; idle(2) end
-          N.badSlots = {}
-          if choosingMove() then N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot) end
+          if choosingMove() then N.lastSlot = bestMoveSlot(); notePick(N.lastSlot); chooseMove(N.lastSlot) end
         else
           press('Down'); idle(4); press('Right'); idle(4); press('A'); idle(30)
         end
@@ -877,7 +913,7 @@ return function(F, S)
       elseif choosingMove() then
         -- Back at the move list without a new turn: the last pick was refused.
         if N.lastSlot then N.badSlots[N.lastSlot] = true end
-        N.lastSlot = bestMoveSlot(); chooseMove(N.lastSlot); frames = frames + 40
+        N.lastSlot = bestMoveSlot(); notePick(N.lastSlot); chooseMove(N.lastSlot); frames = frames + 40
       elseif isCtl('HandleInputChooseTarget') or isCtl('HandleInputShowEntireFieldTargets') or isCtl('HandleInputShowTargets') then
         press('A'); idle(20); frames = frames + 22
       elseif isCtl('PlayerHandleYesNoInput') then

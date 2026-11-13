@@ -3,8 +3,7 @@
 > pass in every region. The whole set last passed with no retries on merged master on November 11.
 > These runs use a debug team and debug heals. Separate runs with a team caught in each region and
 > no debug heals also reached every Hall of Fame. A full playthrough by a person, and Battle Net
-> balance, are still unverified. [Playthrough evidence](test/overworld/johto-playthrough/README.md) ·
-> [Map audit and open checks](maintenance/final-pass/zone-status.md)
+> balance, are still unverified. [Playthrough results](test/overworld/johto-playthrough/README.md)
 
 <div align="center">
 

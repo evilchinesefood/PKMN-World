@@ -1,12 +1,14 @@
 # World Panels menu review
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Selected design A applies to Main Menu, Options and Relearn Moves. It reuses the PC box background tiles and half-pixel diagonal movement with light colors, white panels and red headers. The Main Menu uses dark save details, mixed-case labels and a red selection marker; its rounded panel borders no longer overlap.
 
 | Main Menu | Options | Relearn Moves |
 | --- | --- | --- |
-| ![Main Menu](evidence/main.png) | ![Options](evidence/options.png) | ![Relearn Moves](evidence/relearn.png) |
+| _(image removed: Main Menu)_ | _(image removed: Options)_ | _(image removed: Relearn Moves)_ |
 
-[Main Menu before/after](evidence/comparison.png) · [Main animation](evidence/main.webp) · [Options animation](evidence/options.webp) · [Relearning animation](evidence/relearn.webp)
+Main Menu before/after · Main animation · Options animation · Relearning animation
 
 Battle Commands retain their original uppercase labels and font. Battle Move Selection, specialty-screen styling and Stats/IV/EV behavior are outside this change. Other text-rendered action labels use title case.
 

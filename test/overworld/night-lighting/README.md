@@ -1,14 +1,16 @@
 # Regional window lighting
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Owner scope: extend warm window lighting through Johto, Hoenn and Kanto using
 the existing engine and repo artwork. Sevii is included with Kanto. The owner
 rejected the added lamp posts: all 71 additions have been removed, including
 lanterns and the small dock fixture. Existing street fixtures are retained.
 
-Open [the visual review](evidence/review/index.html) in a browser. It contains
+Open the visual review in a browser. It contains
 three highlighted before/after comparisons, day/dusk/night controls, and
 optional captures of all 49 maps. Native screenshots are in
-[media](evidence/review/media); no ROM or save is published here.
+media; no ROM or save is published here.
 
 ## Coverage and implementation
 
@@ -40,7 +42,7 @@ placements match the baseline. The unused graphics and metatile definitions
 created solely for the added lamps are removed. Window palettes and primary
 window definitions are byte-identical to the version the owner approved. All
 147 runtime background-palette snapshots (49 maps × day/dusk/night) also match
-that version exactly; see [the retention check](evidence/review/window-retention.json).
+that version exactly; see the retention check.
 
 No new lighting engine, object sprites, scripts, save fields or story flags are
 introduced. Existing repo [credits](../../../CREDITS.md) continue to apply. No HnS

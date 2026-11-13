@@ -1,5 +1,7 @@
 # National Park Soothe Bell passage
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 [Issue #359](https://github.com/evilchinesefood/PKMN-World/issues/359) reports two
 ambient Pokémon blocking the passage to the Soothe Bell after the Cut tree.
 Nidoran♀ and Weedle have no interaction script or wild-encounter trainer type.
@@ -29,9 +31,9 @@ The parent ROM at `a0557b387c30b2b943f159e85bf3777200ea9c13` has MD5
 Ten Right attempts and ten Down attempts fail. Pressing A starts no battle and
 leaves player control available. The item remains uncollected.
 
-- [Controller log](evidence/359/before.log).
-- [Failure sentinel](evidence/359/before.FAIL).
-- [Blocked passage screenshot](evidence/359/before-blocked.png).
+- Controller log.
+- Failure sentinel.
+- Blocked passage screenshot.
 
 The baseline exits with code 1 and a fresh `.FAIL` sentinel. Six of ten checks
 pass. The shared logger prints `PASS` in its count line even when assertions
@@ -47,9 +49,9 @@ The unchanged regression exits with code 0 and a fresh `.PASS` sentinel. All ten
 checks pass. The player cuts the tree, reaches `(39,14)`, collects exactly one
 Soothe Bell, sets the item hide flag, and walks back through the passage.
 
-- [Controller log](evidence/359/after.log).
-- [Success sentinel](evidence/359/after.PASS).
-- [Item collected screenshot](evidence/359/after-collected.png).
+- Controller log.
+- Success sentinel.
+- Item collected screenshot.
 
 An earlier pathfinding-only attempt was discarded because an unspawned light
 object confused its route search. The retained baseline and fixed runs both use

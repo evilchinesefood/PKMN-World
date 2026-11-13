@@ -1,5 +1,7 @@
 # Visual features: implementation and review
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 [Open the five-minute review](index.html). Implementation: `59214f5b6b`; baseline: `45e1bf82ca5c2728910127863b926e627d4f18fc`. The tested delivery ROM SHA-256 is `4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3`. [Checksums and results](delivery.json).
 
 ## Delivered behavior
@@ -16,18 +18,18 @@ The owner rejected the Fuchsia tileset and compact-digit proposals (#331 and #33
 
 | Check | Result | Evidence |
 |---|---|---|
-| Full Lua sweep on the delivery ROM | **50/50 suites**, fresh matching-ROM sentinels | [Sweep](evidence/lua-sweep.log), [sentinels](evidence/lua-sentinels.txt) |
-| Full C suite | **5,076 passed**, 8 expected failures; 14 existing known failures and 595 TODOs; exit 0, no unexpected failures | [Full results](evidence/engine-tests.log) |
-| Ripple ownership/resource regressions | **9 test groups**, parameterized maps/weather/allocation cases | [Results](evidence/ripple-tests.log) |
-| Late queued-copy regression | Failed on the original destruction path; passes after cancellation and OAM cleanup | [Failing reproduction](evidence/ripple-red-regression.log), [fixed results](evidence/ripple-tests.log) |
-| Existing sprite-exhaustion / OWE checks | **77 + 2 groups pass** | [Sprites](evidence/sprite-tests.log), [OWE](evidence/owe-tests.log) |
-| Actual battle frame loader | FRAME1/2/20/invalid selection, Battle Arena and tutorial cases pass | [Results](evidence/frame-tests.log) |
-| Native capture matrix | **37 matched scenes**; after **46/46**, baseline **35/35**, alternate config **46/46** | [After](evidence/after/capture.log), [before](evidence/before/capture.log), [controls](evidence/controls/capture.log) |
-| Regional dex palette paths | Light and dark **4/4** each, including regional list/detail and return to National | [Light](evidence/palette-light/VisualPaletteControls.log), [dark](evidence/palette-dark/VisualPaletteControls.log) |
-| Repeated real map/menu/battle transitions | **50 cycles**, including 10 ordinary wild-battle escapes; stable nonambient usage: 17 sprites, 86 tiles, 7 palettes, 11,520 heap bytes | [After stress](evidence/after/stress.log), [before stress](evidence/before/stress.log) |
-| Rain stress | **1,800 emulated frames** with visible follower and OWE throughout; after peak 3 ambient rings, no unexpected screen change | [After animation](evidence/after/rain.webp), [before animation](evidence/before/rain.webp) |
-| Prepared synthetic save on the unmodified delivery ROM | **8/8**: boot, walk, open/rearrange/close wheel | [Results](evidence/save/VisualReviewSave.log) |
-| Builds / validators | Development, release-mode and isolated alternate configuration compile; validators pass with the same 7 pre-existing region-map mismatches | [Development](evidence/development-build.log), [release](evidence/release-build.log), [controls](evidence/control-build.log), [validators](evidence/validators.log) |
+| Full Lua sweep on the delivery ROM | **50/50 suites**, fresh matching-ROM sentinels | Sweep, sentinels |
+| Full C suite | **5,076 passed**, 8 expected failures; 14 existing known failures and 595 TODOs; exit 0, no unexpected failures | Full results |
+| Ripple ownership/resource regressions | **9 test groups**, parameterized maps/weather/allocation cases | Results |
+| Late queued-copy regression | Failed on the original destruction path; passes after cancellation and OAM cleanup | Failing reproduction, fixed results |
+| Existing sprite-exhaustion / OWE checks | **77 + 2 groups pass** | Sprites, OWE |
+| Actual battle frame loader | FRAME1/2/20/invalid selection, Battle Arena and tutorial cases pass | Results |
+| Native capture matrix | **37 matched scenes**; after **46/46**, baseline **35/35**, alternate config **46/46** | After, before, controls |
+| Regional dex palette paths | Light and dark **4/4** each, including regional list/detail and return to National | Light, dark |
+| Repeated real map/menu/battle transitions | **50 cycles**, including 10 ordinary wild-battle escapes; stable nonambient usage: 17 sprites, 86 tiles, 7 palettes, 11,520 heap bytes | After stress, before stress |
+| Rain stress | **1,800 emulated frames** with visible follower and OWE throughout; after peak 3 ambient rings, no unexpected screen change | After animation, before animation |
+| Prepared synthetic save on the unmodified delivery ROM | **8/8**: boot, walk, open/rearrange/close wheel | Results |
+| Builds / validators | Development, release-mode and isolated alternate configuration compile; validators pass with the same 7 pre-existing region-map mismatches | Development, release, controls, validators |
 
 The full sweep covers existing prompt/EV-IV, Bag/PC, Fly/Teleport, day/night, overworld Pokémon, followers, surfing, intro/catch tutorial, healthboxes and migration regressions. FRAME2 and FRAME20 Options captures are pixel-identical to baseline. [Pixel differences](pixel-differences.json) are descriptive, not automated aesthetic judgments. A timing-sensitive BnetTerminal1F test was corrected to use eight-frame A presses with its original approximately 9,600-frame timeout; the former two-frame pattern stopped at a continue prompt. Both baseline and changed builds accept normal longer presses, and the corrected full sweep passes.
 
@@ -43,7 +45,7 @@ The dex's six list/detail arrays each contain 48 colors. Lists/details use bank 
 
 ## Reproduce and final playtest
 
-`fixture.c` is test-only. `build_fixture.py` compiles it against a matching ELF and inserts it into verified unused ROM padding; production source and delivery ROM are not patched. It enters actual production screens after normal overworld cleanup, supplies deterministic RAM fixtures, and uses fresh isolated saves. Route119 rain is explicitly selected through the weather API for comparison. `run_fixture.py` retains only its own generated save. Native PNGs are unchanged emulator output; WebP animations are lossless frame sequences. [Evidence hashes](evidence-manifest.json) identify the retained files. Each capture directory also retains its exact `fixture.c`, matched to its recorded source hash; pass `--source` to `build_fixture.py` to reproduce that historical fixture.
+`fixture.c` is test-only. `build_fixture.py` compiles it against a matching ELF and inserts it into verified unused ROM padding; production source and delivery ROM are not patched. It enters actual production screens after normal overworld cleanup, supplies deterministic RAM fixtures, and uses fresh isolated saves. Route119 rain is explicitly selected through the weather API for comparison. `run_fixture.py` retains only its own generated save. Native PNGs are unchanged emulator output; WebP animations are lossless frame sequences. Each capture directory also retains its exact `fixture.c`, matched to its recorded source hash; pass `--source` to `build_fixture.py` to reproduce that historical fixture.
 
 ```sh
 make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8

@@ -1,5 +1,7 @@
 # Additional findings from #357
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 These historical bugs were fixed in
 [PR #358](https://github.com/evilchinesefood/PKMN-World/pull/358).
 They remain documented separately to satisfy the follow-up requirement in

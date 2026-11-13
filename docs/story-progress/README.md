@@ -119,7 +119,7 @@ ROM. Native screenshots are unretouched. Layout checks use the production font
 routine for all 820 objective fields, reject fields above three lines and check
 screen navigation/restore behavior. State comparison uses decrypted bag data:
 the normal return-to-field path relocates and re-encrypts the save blocks.
-See the [evidence](../../test/overworld/story-progress/evidence/README.md) for
+See the evidence for
 the recorded build, hashes, checks and screenshots.
 
 These checks establish targeted resolver/UI behavior. They do not certify full

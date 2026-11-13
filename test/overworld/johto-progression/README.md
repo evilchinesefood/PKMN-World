@@ -1,5 +1,7 @@
 # Johto freeze and progression audit for #357
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Parent [#357](https://github.com/evilchinesefood/PKMN-World/issues/357) requires
 runtime verification of first-battle recovery, Mom dialogue, and Johto progression.
 [PR #358](https://github.com/evilchinesefood/PKMN-World/pull/358) merged the fixes
@@ -12,7 +14,7 @@ The verification target is merged master `a0557b387c30b2b943f159e85bf3777200ea9c
 This review adds evidence and corrects the acceptance record. It does not add a
 second gameplay fix for a Mom freeze that has never been independently reproduced.
 
-The [fresh focused results](evidence/2026-10-31/focused-results.json) pass all
+The fresh focused results pass all
 seven cases and 106 assertions. Each case exited successfully and produced a fresh sentinel with
 the tested ROM hash. The natural first loss returns control, Mom dialogue
 completes, the player leaves home, and Save/Continue preserves the starter and
@@ -23,19 +25,19 @@ The production ROM was built from clean source at the revision above in the
 sibling `johto-open-issues` worktree. The acceptance worktree uses copies of that
 ROM, its matching ELF, map, and generated build headers. Its gameplay source is
 unchanged. The recorded `heal_location.c` SHA-256 matches this checkout.
-The [build manifest](evidence/2026-10-31/build.json) records the production hashes.
+The build manifest records the production hashes.
 
 - Production ROM MD5 is `CBF96BB4C1391D2C3B1FE86B8F16AFDA`.
 - Production ROM SHA-256 is `587ac344543038df56dd15083b68f70792320876de049314b50a36ee83c9cc8c`.
 - The separate core-loop fixture MD5 is `BAFB185FCCC651297F222872432319BC`.
-- `make validate` passed. Its [raw output](evidence/2026-10-31/validate.log) is retained.
+- `make validate` passed. Its raw output is retained.
 
-The [fresh staged audit](evidence/2026-10-31/audit-results.json) passes all twelve
+The fresh staged audit passes all twelve
 suites and 737 assertions. Every suite exited successfully and produced a fresh
 sentinel for fixture MD5 `BE61E04EE032A85A665667791D933724`. The
-[fixture manifest](evidence/2026-10-31/audit-fixture-manifest.json) ties that
+fixture manifest ties that
 patched test ROM to the same production SHA-256. The new
-[evidence index](evidence/2026-10-31/README.md) lists each suite and its limits.
+evidence index lists each suite and its limits.
 
 The missing map and generated headers initially caused fixture setup errors.
 Copying the matching build inputs corrected setup before the completed tests.
@@ -274,7 +276,7 @@ that all of Johto is bug-free.
 - Final production sweep: **52/52 suites, 1,380 assertions**, with fresh matching-ROM sentinels.
 - `git diff --check`: passed.
 
-[Retained evidence](evidence/) includes original first-loss baseline, Pryce crash
+Retained evidence includes original first-loss baseline, Pryce crash
 and baseline fixture metadata, pre-fix Gym flag failures, final logs/results and
 selected screenshots. Full local runs: `_pwtest/357-final-focused/`,
 `_pwtest/357-final-audit/`, `_pwtest/357-final-gym-isolation/`,

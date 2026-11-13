@@ -1,5 +1,7 @@
 # Location and time battle presentation (#327)
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Ice Path reuses the cave artwork with colors from `cave_ice/palettes/08.pal`.
 Ordinary land battles on snowy Mt. Silver reuse rock artwork and its entrance,
 with colors from `mt_silver_snow/palettes/08.pal`. `palette-sources.json` records
@@ -60,19 +62,19 @@ fixture hook. No ROM or personal save is committed or uploaded to GitHub.
 
 ## Review evidence
 
-[Validation and delivery identifiers](evidence/validation.md) ·
-[Code review](evidence/code-review.md) ·
-[Interactive gallery source](review/index.html)
+Validation and delivery identifiers ·
+Code review ·
+Interactive gallery source
 
 | Scene | Before | After |
 |---|---|---|
-| Ice Path | ![Ice Path before](review/media/before-ice_1f.png) | ![Ice Path after](review/media/after-ice_1f.png) |
-| Snowy Mt. Silver | ![Snow before](review/media/before-snow_day.png) | ![Snow after](review/media/after-snow_day.png) |
-| Night on Route 101 | ![Night before](review/media/before-hoenn_night.png) | ![Night after](review/media/after-hoenn_night.png) |
+| Ice Path | _(image removed: Ice Path before)_ | _(image removed: Ice Path after)_ |
+| Snowy Mt. Silver | _(image removed: Snow before)_ | _(image removed: Snow after)_ |
+| Night on Route 101 | _(image removed: Night before)_ | _(image removed: Night after)_ |
 
-[Snow entrance](review/media/snow_entry.webp) ·
-[Terrain expires normally](review/media/splash_4.webp) ·
-[Shadow Ball restores the night palette](review/media/shadow_ball.webp)
+Snow entrance ·
+Terrain expires normally ·
+Shadow Ball restores the night palette
 
 Generate the gallery from retained run directories with:
 

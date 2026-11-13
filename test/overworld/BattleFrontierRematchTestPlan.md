@@ -26,7 +26,7 @@ Covers the **Battle Frontier** (all 7 facilities + the fork's World Championship
 > value, var id and editor cap quoted here still matches. The *behavioural* expectations are the
 > part that has not been run.
 
-Read **[`BizHawkTesting.md`](BizHawkTesting.md)** first — it has the harness, save-safety protocol,
+Read **[`TestHarnessGuide.md`](TestHarnessGuide.md)** first — it has the harness, save-safety protocol,
 debug-menu indices and spinner mechanics every case below depends on. Despite that file's name,
 **BizHawk is not used**: everything runs headlessly under a patched mGBA.
 

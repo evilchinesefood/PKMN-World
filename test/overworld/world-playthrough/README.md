@@ -1,5 +1,7 @@
 # World playthrough: all three regions on one save
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Plays Kanto, Johto and Hoenn on a single save, swapping regions mid-story through the Hub. It runs
 the region campaigns' own beats, cut into slices at points the next slice can continue from.
 

@@ -9,7 +9,7 @@
 --   local F = T.new(S, "MySuite")         -- one handle carrying the log + screenshot dir
 --
 -- Everything that was empirically load-bearing is preserved with its rationale; see
--- test/overworld/BizHawkTesting.md for the full field guide.
+-- test/overworld/TestHarnessGuide.md for the full field guide.
 
 local M = {}
 
@@ -33,7 +33,7 @@ local DEFAULT_OUT = here .. ".." .. package.config:sub(1, 1) .. ".." .. package.
 -- frames against whatever EmuHawk loaded, and the shipped save profile puts SAVE at wheel slot 2
 -- of 4 — Start,A,A,A is literally SaveHarvest.lua's deliberate save sequence. BizHawk flushes
 -- SaveRAM on exit, so pointing a suite at the real ROM/save is a live clobber path, and
--- BizHawkTesting.md records that accident already happening once. Prose in a doc cannot stop it;
+-- TestHarnessGuide.md records that accident already happening once. Prose in a doc cannot stop it;
 -- this can. Override deliberately with opts.allowAnyRom = true.
 local ROM_ALLOWLIST = { "^Verify", "^MigChk", "^FixGen" }
 

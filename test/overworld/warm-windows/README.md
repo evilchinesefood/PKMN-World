@@ -1,5 +1,7 @@
 # Warm Johto glass — #335
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 The production change enables secondary palette bit 1 on New Bark and Cherrygrove
 (physical bank 8 in Johto), and fills alternate slot 1 with day slot 8 plus the
 approved amber ramp at entries 8–10. No new art, engine logic, map scripts, or

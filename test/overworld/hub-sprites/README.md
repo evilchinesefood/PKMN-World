@@ -1,8 +1,10 @@
 # World Hub NPC artwork — issue #330
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 The harbor master now uses `OBJ_EVENT_GFX_SAILOR_FRLG`, and the charm curator uses `OBJ_EVENT_GFX_GENTLEMAN_FRLG`. Both sheets already exist in the repository and match the room's FRLG art. These two fields in `data/maps/RegionHub/map.json` are the entire production change.
 
-Open [the review gallery](review/index.html) in a browser through a local HTTP server. It contains native 240×160 comparisons, integer enlargement, lossless movement clips, all four directions, all twelve player outfits, representative follower service routes, and day/night Route 35/National Park captures. The [validation record](evidence/validation.md) includes exact sources, counts, fixture boundaries and limitations. [The approved specification](approved-spec.md) is retained unchanged.
+Open the review gallery in a browser through a local HTTP server. It contains native 240×160 comparisons, integer enlargement, lossless movement clips, all four directions, all twelve player outfits, representative follower service routes, and day/night Route 35/National Park captures. The validation record includes exact sources, counts, fixture boundaries and limitations. [The approved specification](approved-spec.md) is retained unchanged.
 
 ## Five-minute owner review
 

@@ -1,7 +1,0 @@
-ROM 1BED184D6746E83D014827079D80A2D3 (master f9210c5837, no fix), PW_SEVII=1 PW_POSTGAME=1
-BEAT 52/116 pg_giovanni_again
-  Giovanni still on the map: false
-BEAT 91/117 pg_giovanni
-  talk: object 8 not present on ViridianCity_Gym_Frlg
-  beat error: ...postgame.lua:53: giovanni
-  [FAIL] beat pg_giovanni -- ...postgame.lua:53: giovanni

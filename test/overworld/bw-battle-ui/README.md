@@ -1,5 +1,7 @@
 # BW battle UI — issue #336
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 The [visual review](index.html) pairs native before/after captures and short motion clips. The owner selected Mudskipper's angular command/move panels, outlined healthboxes, party bars, ability popups and L/R/gimmick controls. This port retains World's engine, save layout, regional tutorials, SwSh Bag/Party/Summary and existing mechanic eligibility.
 
 Baseline: `12934378f9ca2cb11a95cafe94669f90f9a0ff23`. Donor: `mudskipper13/pokeemerald` at `b798929811ec7d070616c7ef47e46cfc6a7f1501`, feature-only parent `68a5890c8548bc04e92b9cdf188aedc11345fc87`. The donor inventory is 65 files, including 37 graphics. Two of those, `hpbar_none.png` and `level_up_banner.png`, were never referenced and have since been removed; `verify_assets.py` compares the remaining 35 with the pinned commit; JASC palette line endings follow World's checkout rules. Mudskip, RHH and pret are credited in [CREDITS.md](../../../CREDITS.md). No explicit standalone BW license was found; the author's public feature listing supplies provenance, not an invented blanket license.
@@ -10,22 +12,22 @@ The tested game-code commit is `4bea54bfffd2ea73fcea7c34a4c36fede7cdceb2`. The f
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| BW integration and resource fixtures, revised ROM | 514/514 assertions, 15 suites | [Results](evidence/results.json), [suite log](evidence/bw-suites.log) |
-| Full tracked game regressions, initial port `be68ae5e14` | 50/50 suites; fresh matching-ROM sentinels | [Sweep](evidence/lua-sweep.log), [individual logs](evidence/tracked) |
-| Lance multi battle, initial port | 7/7 | [Log](evidence/lance.log) |
-| Frame-adjacent tracked regressions, revised ROM | Healthboxes 24/24, catching tutorials 15/15, level summary 13/13 | [Logs and sentinels](evidence/move-info-revision) |
-| Original L-window appearance | 9,764/9,764 opaque frame/content pixels identical; rejected BW frame differs at 2,068 pixels | [Restored comparison](evidence/move-info-revision/pixel-comparison.json), [rejected comparison](evidence/move-info-revision/rejected-frame-comparison.json) |
-| Unpatched ROM + supplied save | 5/5; boot, party, Bag, wheel exit and movement | [Log](evidence/delivery.log) |
-| Full battle-engine suite, initial port | 5,076 passes; 14 known failures, 595 TODO, 8 expected failures; no unexpected failures | [Log](evidence/battle-engine.log) |
-| Development / release compilation | Both succeed | [Development](evidence/build-development.log), [release](evidence/build-release.log) |
-| BW disabled, initial port | Compiles; classic capture/return 7/7 | [Build](evidence/build-bw-disabled.log), [capture](evidence/bw-disabled-capture.log) |
-| Content validation | Exit 0; seven existing region-map position reports | [Log](evidence/validate.log) |
-| Donor art / shared ABI | 37/37 assets; unchanged shared sizes/offsets | [Assets](evidence/donor-assets.json), [ABI](evidence/shared-abi.json) |
-| Independent Standards / Spec reviews, initial port | Findings resolved; axes reported separately | [Review](evidence/code-review.md) |
+| BW integration and resource fixtures, revised ROM | 514/514 assertions, 15 suites | Results, suite log |
+| Full tracked game regressions, initial port `be68ae5e14` | 50/50 suites; fresh matching-ROM sentinels | Sweep, individual logs |
+| Lance multi battle, initial port | 7/7 | Log |
+| Frame-adjacent tracked regressions, revised ROM | Healthboxes 24/24, catching tutorials 15/15, level summary 13/13 | Logs and sentinels |
+| Original L-window appearance | 9,764/9,764 opaque frame/content pixels identical; rejected BW frame differs at 2,068 pixels | Restored comparison, rejected comparison |
+| Unpatched ROM + supplied save | 5/5; boot, party, Bag, wheel exit and movement | Log |
+| Full battle-engine suite, initial port | 5,076 passes; 14 known failures, 595 TODO, 8 expected failures; no unexpected failures | Log |
+| Development / release compilation | Both succeed | Development, release |
+| BW disabled, initial port | Compiles; classic capture/return 7/7 | Build, capture |
+| Content validation | Exit 0; seven existing region-map position reports | Log |
+| Donor art / shared ABI | 37/37 assets; unchanged shared sizes/offsets | Assets, ABI |
+| Independent Standards / Spec reviews, initial port | Findings resolved; axes reported separately | Review |
 
-The L-window correction reran every BW suite, the three adjacent tracked suites and the supplied-save check, plus both builds. The original full-game and battle-engine results remain identified by their original code revision in [initial delivery](evidence/initial-delivery.json); they are not presented as reruns of this frame-only correction.
+The L-window correction reran every BW suite, the three adjacent tracked suites and the supplied-save check, plus both builds. The original full-game and battle-engine results remain identified by their original code revision in initial delivery; they are not presented as reruns of this frame-only correction.
 
-Captured text logs have terminal color codes and trailing whitespace removed. The [delivery manifest](evidence/delivery.json) records build hashes and limits. The [fixture manifest](evidence/fixture-manifest.json) identifies the disposable patched test ROM, which is different from the delivered ROM. Before captures use the [baseline fixture](evidence/baseline-fixture-manifest.json). The [approved issue snapshot](evidence/approved-spec.md) and [media provenance](evidence/media-manifest.json) retain scope and capture inputs. The 41 unchanged PNGs and seven lossless animated WebP clips preserve native 240×160 output; every decoded clip sample was compared with its source PNG.
+Captured text logs have terminal color codes and trailing whitespace removed. The delivery manifest records build hashes and limits. The fixture manifest identifies the disposable patched test ROM, which is different from the delivered ROM. Before captures use the baseline fixture. The approved issue snapshot and media provenance retain scope and capture inputs. The 41 unchanged PNGs and seven lossless animated WebP clips preserve native 240×160 output; every decoded clip sample was compared with its source PNG.
 
 ## Integration decisions
 

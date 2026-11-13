@@ -28,7 +28,7 @@ with tempfile.TemporaryDirectory(prefix='pw-hub-renderer-check-') as tmp:
  package=tmp/'package';result=run(package/'review',env);assert result.returncode==0,result.stderr
  manifest=json.loads((package/'review/capture-sources.json').read_text());assert sum(manifest['checks'].values())==1980 and sum(manifest['baseline_checks'].values())==30
  text=(package/'review/index.html').read_text(encoding='utf-8');assert 'Pokémon' in text and '2×' in text and 'before&lt;&amp;&gt;' in text and 'after&quot;revision' in text
- shutil.copy2(root/'test/overworld/hub-sprites/README.md',package/'README.md');shutil.copytree(root/'test/overworld/hub-sprites/evidence',package/'evidence')
+ shutil.copy2(root/'test/overworld/hub-sprites/README.md',package/'README.md')
  class Links(HTMLParser):
   def handle_starttag(self,tag,attrs):
    for name,value in attrs:

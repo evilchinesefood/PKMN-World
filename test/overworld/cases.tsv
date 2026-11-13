@@ -77,3 +77,4 @@ BirchBagFullParty	lua/BirchBagFullParty.lua	fresh	0	required
 SpecialPokemonStorageStress	lua/SpecialPokemonStorageStress.lua	fresh	0	required
 OutfitPickerStress	lua/OutfitPickerStress.lua	fresh	0	required
 StoryMapStress	lua/StoryMapStress.lua	fresh	0	required
+RegionalTravelStorage	lua/RegionalTravelStorage.lua	fresh	0	required

@@ -2042,7 +2042,10 @@ void OWEApproachForBattle(struct ScriptContext *ctx)
     struct ObjectEvent *owe = &gObjectEvents[objectEventId];
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
-    
+
+    if (objectEventId >= OBJECT_EVENTS_COUNT)
+        return;
+
     if (!WE_OWE_APPROACH_FOR_BATTLE || !IsOverworldWildEncounter(owe, OWE_ANY))
     {
         FreezeObjectEvent(owe);
@@ -2107,7 +2110,7 @@ static void Task_OWEApproachForBattle(u8 taskId)
         struct ObjectEvent *player = &gObjectEvents[gPlayerAvatar.objectEventId];
         struct ObjectEvent *followerMon = GetFollowerObject();
         bool32 oweNextToPlayer = IsOWENextToPlayer(OWE);
-        bool32 oweNextToFollowerMon = IsOWENextToObject(OWE, followerMon);
+        bool32 oweNextToFollowerMon = followerMon != NULL && IsOWENextToObject(OWE, followerMon);
 
         if (oweNextToPlayer || oweNextToFollowerMon)
         {
@@ -2157,7 +2160,7 @@ static void Task_OWEApproachForBattle(u8 taskId)
             MoveCoords(OWE->movementDirection, &x, &y);
             collidingObject = GetObjectObjectCollidesWith(OWE, x, y, FALSE);
 
-            if (collidingObject == GetObjectEventIdByLocalId(followerMon->localId) && followerMon != NULL && !followerMon->invisible)
+            if (followerMon != NULL && !followerMon->invisible && collidingObject == GetObjectEventIdByLocalId(followerMon->localId))
             {
                 ClearObjectEventMovement(followerMon, &gSprites[followerMon->spriteId]);
                 gSprites[followerMon->spriteId].animCmdIndex = 0;

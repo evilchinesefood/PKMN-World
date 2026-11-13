@@ -35,12 +35,12 @@ First-pose changes fit the glasses to the eyes, reduce the helmet brim, run the 
 
 ## Seven-variant feedback pass
 
-Replaced the balloon white strokes with tonal color patches and shaded edges. The battle balloon palette preserves those tones within4bpp. Squad shades now have long pointed corners, small glints, short temple arms and no band across the back of the head. The helmet has a closed shaded shell, ridge, shield badge, full brim, rear guard and reflective marks. Pirate accessories leave the original uncovered eye pixels clear in the back, south and east views; the west patch is centered on its actual visible eye. Buddy Scarf was removed from the active art and gameplay catalog.
+Replaced the balloon white strokes with tonal color patches and shaded edges. The battle balloon palette preserves those tones within 4bpp. Squad shades now have long pointed corners, small glints, short temple arms and no band across the back of the head. The helmet has a closed shaded shell, ridge, shield badge, full brim, rear guard and reflective marks. Pirate accessories leave the original uncovered eye pixels clear in the back, south and east views; the west patch is centered on its actual visible eye. Buddy Scarf was removed from the active art and gameplay catalog.
 
 ## Pikachu ear tips and surf wave
 
-Only the native ear-tip masks of Classic Cap and Balloon front/back sprites are recolored to opaque RGB16/16/16. The legacy Original Cap source files and cap shading are unchanged. `verify_pikachu.py` verifies all400 masked pixels after palette conversion, including both front poses.
+Only the native ear-tip masks of Classic Cap and Balloon front/back sprites are recolored to opaque RGB 16/16/16. The legacy Original Cap source files and cap shading are unchanged. `verify_pikachu.py` verifies all 400 masked pixels after palette conversion, including both front poses.
 
 Surfboard Pikachu now rides a blue curling wave with foam in both battle poses, its back view and every follower direction. The board and follower body are fitted above the wave without clipping; battle/body geometry remains native. The wave is part of the mount art during Surf. Dedicated surf palettes retain yellow skin, red cheeks, black tips and water/foam colors. Party icons remain the compact board-only design.
 
-`review_pikachu.py` produces `review-pikachu-wave.png` at3× native pixel scale and snapshots the full sheet to `review-seven-wave.png`. Owner review remains required before merge.
+`review_pikachu.py` produces `review-pikachu-wave.png` at 3× native pixel scale and snapshots the full sheet to `review-seven-wave.png`. This art merged in #394.

@@ -58,6 +58,9 @@ from `8e06ecfdb9`). None had a crash screen, a hang or a retried beat:
 | `charmander` | `PW_STARTER=2` | 56/56 | 8,840 | 130 | 94 |
 | `alt` | `PW_RTC=1760000000` | 56/56 | 8,845 | 129 | 81 |
 
+The table names the settings as they were set for those runs. `run.py` now ignores inherited `PW_*`
+variables. Use `--starter 1`, `--starter 2` and `--rtc 1760000000` for these variations.
+
 The Hub Pass detours (`--detour starter|ship|empty`) pass on the same ROM. `evidence/final-run-beats.log` is the `base` run, and `evidence/KantoPlay_55_home.png` is its last
 frame: the player back in control inside the house at Pallet Town.
 
@@ -149,18 +152,18 @@ Each one was reproduced first, then fixed and re-played.
    with `--to detour_grass` froze at Route 1 (16,16) before the fix and finishes after it.
 7. **Bringing the Meteorite late rewound Celio's story.** A champion can take his Ruby request
    first, and the delivery then forced his scene back to 2. It now only moves him forward.
-   `PW_SEVII=1 PW_DETOUR=meteorite` with `--to sevii_meteorite` fails before the fix and passes after.
+   `--sevii --detour meteorite` with `--to sevii_meteorite` fails before the fix and passes after.
 
 8. **Losing in the Elite Four froze the game for good.** Indigo Plateau's whiteout named Ever
    Grande's nurse id, which on this map is a clerk parked off screen, so the bow waited forever. It
    now names its own nurse, and `ValidateMapEvents.py` rejects a healer who isn't on the respawn map.
 9. **A Kanto Elite Four loss kept the rooms you had already beaten.** A whiteout reset only
-   Hoenn's league. It now resets Kanto's too. `PW_LOSE=e4_BrunosRoom` shows Lorelei still beaten
+   Hoenn's league. It now resets Kanto's too. `--lose e4_BrunosRoom` shows Lorelei still beaten
    before the fix and the run restarting at her after it.
 10. **A second talk with Giovanni could lose his rematch for good.** After the League his gym
     offers a rematch, but talking to him again before becoming Champion ran `removeobject`, which
     sets `FLAG_HIDE_VIRIDIAN_GIOVANNI`, and nothing cleared it. A champion's next visit to the gym now
-    brings him back. `--postgame` shows him gone and the rematch impossible before the fix
+    brings him back. `--sevii --postgame` shows him gone and the rematch impossible before the fix
     (`evidence/postgame-giovanni-before.log`), and a HARD rematch against him after it.
 
 ## Route 22

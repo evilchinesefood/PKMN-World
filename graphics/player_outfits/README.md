@@ -3,6 +3,9 @@
 The catalog adds Kanto Vest, Johto Track and Hoenn Explorer for Brendan, and
 Kanto Jacket, Johto Overalls and Hoenn Cape for May. Each has Red, Blue, Green,
 Purple, Black and Pink. The original designs remain separate catalog entries.
+These garment names come from `manifest.json`. The in-game picker labels the new
+styles `Kanto Classic`, `Johto Classic` and `Hoenn Classic` for both characters
+(`src/player_outfit.c`).
 
 The new garments are native indexed geometry over the project's existing
 Brendan and May poses. They retain the original head, face, hands, movement

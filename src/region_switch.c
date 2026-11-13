@@ -23,6 +23,7 @@
 #include "constants/items.h"
 #include "item.h"
 #include "pokedex.h"
+#include "regional_travel.h"
 
 // World Transit hub - region-switch foundation. Pairs with the map-derived
 // GetCurrentRegion() in include/regions.h.
@@ -302,7 +303,10 @@ void RegionHub_ScrEnterRegion(struct ScriptContext *ctx)
     enum Region target = (enum Region)(REGION_KANTO + VarGet(VAR_RESULT));
 
     if (target != gCurrentRegion)
+    {
         DepositPartyToPC();
+        RegionalTravel_RestoreOpeningTeam(target);
+    }
     // Re-arm the respawn on EVERY cross, not only region changes: a same-region round trip
     // through the hub after a Frontier visit otherwise keeps the respawn at the Frontier
     // nurse, and the next whiteout teleports the player across regions.

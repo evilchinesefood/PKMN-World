@@ -65,6 +65,7 @@ bool32 RegionalTravel_IsOpeningComplete(enum Region region);
 enum RegionalTravelResult RegionalTravel_Preview(const struct RegionalTravelRequest *request, struct RegionalTravelPreview *preview);
 enum RegionalTravelResult RegionalTravel_Commit(const struct RegionalTravelRequest *request);
 void RegionalTravel_RecordCenterEntry(void);
+void RegionalTravel_RestoreOpeningTeam(enum Region region);
 void RegionalTravel_Migrate(void);
 void RegionalTravel_ScrOpeningComplete(struct ScriptContext *ctx);
 void RegionalTravel_ScrCaptureDeparture(struct ScriptContext *ctx);

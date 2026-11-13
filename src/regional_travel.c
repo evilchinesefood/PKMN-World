@@ -275,6 +275,29 @@ bool32 RegionalTravel_IsOpeningComplete(enum Region region)
     }
 }
 
+// A Hub Pass trip out of a region whose opening is unfinished still records that region's team
+// (the starter), but the hub gate's cross then boxes the party and lands the player back in the
+// opening with nothing to battle with. Kanto's rival battle at Oak's lab is refused for an empty
+// party, so the player could walk out and skip it. Withdraw the remembered team again.
+void RegionalTravel_RestoreOpeningTeam(enum Region region)
+{
+    const struct RegionalTeamMemory *memory;
+    u32 i, count = CalculatePlayerPartyCount();
+
+    if (!IsCampaign(region) || RegionalTravel_IsOpeningComplete(region))
+        return;
+    memory = &TravelSave()->teams[region - REGION_KANTO];
+    for (i = 0; i < memory->count && i < PARTY_SIZE && count < PARTY_SIZE; i++)
+    {
+        struct RegionalMonLocation location = FindIdentity(memory->members[i].identity);
+        if (location.state != REGIONAL_MEMBER_AVAILABLE || location.inParty)
+            continue;
+        BoxMonToMon(location.mon, &gParties[B_TRAINER_PLAYER][count++]);
+        ZeroBoxMonAt(location.slot / IN_BOX_COUNT, location.slot % IN_BOX_COUNT);
+    }
+    CalculatePlayerPartyCount();
+}
+
 void RegionalTravel_RecordCenterEntry(void)
 {
     u16 id = RegionalCenter_ForMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);

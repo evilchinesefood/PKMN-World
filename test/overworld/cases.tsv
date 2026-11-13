@@ -80,3 +80,5 @@ StoryMapStress	lua/StoryMapStress.lua	fresh	0	required
 RegionalTravelStorage	lua/RegionalTravelStorage.lua	fresh	0	required
 WhiteoutEveryCenter	lua/WhiteoutEveryCenter.lua	fresh	0	required
 OweStressFuzz	lua/OweStressFuzz.lua	fresh	0	required
+SaveResetStress	lua/SaveResetStress.lua	fresh	0	required
+InputSpamStress	lua/InputSpamStress.lua	fresh	0	required

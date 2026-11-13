@@ -35,6 +35,7 @@ WANT = [
     # fatals at window.c:51 when its buffer alloc fails, so "is the heap draining as you play"
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
+    "BattleMainCB2",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
     # Issue #120 playtests A/B. gDisplayedStringBattle is the expanded battle line
     # (u8[425]); CatchTutorial pokeStrs it for "old man" vs "WALLY". gNumSafariBalls

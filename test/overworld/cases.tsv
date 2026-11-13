@@ -67,3 +67,4 @@ SustainedWalkLeakProbe	lua/SustainedWalkLeakProbe.lua	fresh	0	manual
 VerifyOwnerSave	lua/VerifyOwnerSave.lua	personal	0	manual
 RegionalTravelBoundaries	lua/RegionalTravelBoundaries.lua	fresh	0	required
 WorldChampionshipRewards	lua/WorldChampionshipRewards.lua	fresh	0	required
+WorldChampionshipStress	lua/WorldChampionshipStress.lua	fresh	0	required

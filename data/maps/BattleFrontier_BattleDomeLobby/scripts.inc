@@ -255,6 +255,7 @@ BattleFrontier_BattleDomeLobby_EventScript_LoadPartyCancelChallenge::
 BattleFrontier_BattleDomeLobby_EventScript_CancelChallenge::
 	msgbox BattleFrontier_BattleDomeLobby_Text_HopeToSeeYouAgain, MSGBOX_DEFAULT
 BattleFrontier_BattleDomeLobby_EventScript_EndCancelChallenge::
+	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 0
 	release
 	end
 

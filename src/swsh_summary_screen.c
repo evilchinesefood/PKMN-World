@@ -2987,14 +2987,24 @@ static s8 AdvanceMonIndex(s8 delta)
     struct Pokemon *mon = sMonSummaryScreen->monList.mons;
     u8 index = sMonSummaryScreen->curMonIndex;
     u8 numMons = sMonSummaryScreen->maxMonIndex + 1;
+    u32 tries;
+
+    // Callers pass count - 1, so an empty party arrives as 255 and numMons wraps to 0: the
+    // modulo below divided by zero and the screen hung. Nothing to scroll to with one or none.
+    if (numMons <= 1)
+        return -1;
     delta += numMons;
 
     index = (index + delta) % numMons;
 
-    // skip over any Eggs unless on the Info Page
+    // skip over any Eggs unless on the Info Page, at most one lap so a list of Eggs can't spin
     if (sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO)
-        while (GetMonData(&mon[index], MON_DATA_IS_EGG))
+    {
+        for (tries = 0; tries < numMons && GetMonData(&mon[index], MON_DATA_IS_EGG); tries++)
             index = (index + delta) % numMons;
+        if (GetMonData(&mon[index], MON_DATA_IS_EGG))
+            return -1;
+    }
 
     // to avoid "scrolling" to the same Pokemon
     if (index == sMonSummaryScreen->curMonIndex)

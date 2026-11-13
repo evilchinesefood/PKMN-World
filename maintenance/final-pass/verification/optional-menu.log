@@ -1,5 +1,5 @@
-suite : /Users/dayers/Github/PKMN-World/test/overworld/world-menu-theme/check_optional_rows.lua
-rom   : /Users/dayers/Github/PKMN-World/pokemonworld.gba
+suite : <repo>/test/overworld/world-menu-theme/check_optional_rows.lua
+rom   : <repo>/pokemonworld.gba
 md5   : FE895EAEE1A58E10DDB5687BF6B46DA1
 out   : /tmp/pkmn-final-optional-clean
 rtc   : 1704110400 (2024-01-01 07:00:00 EST)

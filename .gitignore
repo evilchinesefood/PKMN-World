@@ -82,7 +82,8 @@ __pycache__
 .plans/
 
 # Engineering audit/budget records (E5/E6/E7) and SDD scratch — kept local, not tracked
-docs/
+docs/*
+!docs/story-progress/
 .superpowers/
 
 # Local dev/migration tooling — renamed with a leading dot and kept local, not tracked

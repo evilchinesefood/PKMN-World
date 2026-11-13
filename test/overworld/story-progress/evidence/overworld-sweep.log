@@ -1,5 +1,5 @@
 sweep : 2026-09-29T23:03:02Z
-rom   : /Users/dayers/Github/PKMN-World/pokemonworld.gba
+rom   : <repo>/pokemonworld.gba
 md5   : 7C309CFABD61E42099FDEC246C23AED7
 out   : /tmp/pw353-green-sweep
 

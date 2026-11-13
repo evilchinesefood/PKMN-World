@@ -1,9 +1,9 @@
-128477 symbols, 10041 constants, 1190 maps -> /Users/dayers/Github/PKMN-World/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base/lua
+128477 symbols, 10041 constants, 1190 maps -> <repo>/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base/lua
 offsets: {'bm_ability': 32, 'bm_hp': 42, 'bm_level': 44, 'bm_maxHP': 46, 'bm_moves': 12, 'bm_personality': 76, 'bm_pp': 37, 'bm_size': 140, 'bm_species': 0, 'bm_types': 34, 'box_size': 80, 'bs_prevSelectedPartySlot': 374, 'mon_attack': 90, 'mon_hp': 86, 'mon_level': 84, 'mon_maxHP': 88, 'mon_personality': 0, 'mon_size': 100, 'mon_spDefense': 98, 'oe_currentCoords': 16, 'oe_graphicsId': 4, 'oe_localId': 8, 'oe_mapGroup': 10, 'oe_mapNum': 9, 'oe_movementType': 6, 'oe_previousCoords': 20, 'oe_size': 36, 'oe_trainerType': 7, 'ote_size': 24, 'pa_flags': 0, 'pa_objectEventId': 5, 'ps_boxes': 4, 'sb1_flags': 5524, 'sb1_money': 1168, 'sb1_vars': 6042, 'sb2_encryptionKey': 172, 'tbp_opponentA': 2, 'tbp_opponentB': 17}
-suite : /Users/dayers/Github/PKMN-World/.claude/worktrees/agent-a81e2a40cee31ed48/test/overworld/johto-playthrough/play.lua
-rom   : /Users/dayers/Github/PKMN-World/.claude/worktrees/agent-a81e2a40cee31ed48/pokemonworld.gba
+suite : <repo>/.claude/worktrees/agent-a81e2a40cee31ed48/test/overworld/johto-playthrough/play.lua
+rom   : <repo>/.claude/worktrees/agent-a81e2a40cee31ed48/pokemonworld.gba
 md5   : 1BED184D6746E83D014827079D80A2D3
-out   : /Users/dayers/Github/PKMN-World/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base
+out   : <repo>/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base
 rtc   : 1704110400 (2024-01-01 07:00:00 EST)
 ---
 RESTORED pg_basement_key (true) at MauvilleCity (30,9)
@@ -45,7 +45,7 @@ BEAT 101/119 pg_new_mauville
 == pg_new_mauville: NewMauville_Inside (25,18) party=4 lead=L100 354/354 steps=302 battles=0/9
   shot HoennPlay_from_pg_basement_key_1_pg_new_mauville
   [PASS] beat pg_new_mauville
-CHECKPOINT pg_new_mauville -> /Users/dayers/Github/PKMN-World/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base/ckpt_pg_new_mauville.ss (true) at NewMauville_Inside (25,18)
+CHECKPOINT pg_new_mauville -> <repo>/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base/ckpt_pg_new_mauville.ss (true) at NewMauville_Inside (25,18)
 BEAT 102/119 pg_thunderbolt
   travel NewMauville_Inside -> MauvilleCity via warp (32,33) to NewMauville_Entrance
   battle WILD flee foe=81 L26 at NewMauville_Inside -> outcome=4 turns=1 lead hp=354/354
@@ -63,7 +63,7 @@ BEAT 102/119 pg_thunderbolt
 == pg_thunderbolt: MauvilleCity (28,9) party=4 lead=L100 354/354 steps=453 battles=0/12
   shot HoennPlay_from_pg_basement_key_2_pg_thunderbolt
   [PASS] beat pg_thunderbolt
-CHECKPOINT pg_thunderbolt -> /Users/dayers/Github/PKMN-World/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base/ckpt_pg_thunderbolt.ss (true) at MauvilleCity (28,9)
+CHECKPOINT pg_thunderbolt -> <repo>/.claude/worktrees/agent-a81e2a40cee31ed48/_pwtest/hoenn-base/ckpt_pg_thunderbolt.ss (true) at MauvilleCity (28,9)
 BEAT 103/119 pg_wattson
   travel MauvilleCity -> MauvilleCity_Gym via warp (8,5) to MauvilleCity_Gym
   travel MauvilleCity_Gym -> MauvilleCity via warp (4,20) to MauvilleCity

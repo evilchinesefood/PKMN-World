@@ -1,6 +1,6 @@
 # Review of f1c1fd2392…05b37db1a9
 
-Used `/Users/dayers/.agents/skills/code-review/SKILL.md`, with independent
+Used `~/.agents/skills/code-review/SKILL.md`, with independent
 read-only Standards and Spec reviewers. The fixed point is the merged BW UI
 source from which this issue branch was created.
 

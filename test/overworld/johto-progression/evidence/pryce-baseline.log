@@ -10,10 +10,10 @@ palette tags before talk 1200,1100,1105,112c,112a,113b,4098,1900,1905,192c,192a,
   shot JohtoGymAudit_1_crash_handoff
   [FAIL] Pryce battle reaches command menu
   [FAIL] Pryce victory script finishes
-LUA ERROR: /Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:45: cannot continue after locked victory
+LUA ERROR: <repo>/_pwtest/358-audit/gyms.lua:45: cannot continue after locked victory
 stack traceback:
 	[C]: in global 'assert'
-	/Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:45: in function </Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:30>
+	<repo>/_pwtest/358-audit/gyms.lua:45: in function <<repo>/_pwtest/358-audit/gyms.lua:30>
 	[C]: in global 'xpcall'
 	.../Github/PKMN-World/_pwtest/358-audit/fixture/lua/lib.lua:567: in field 'run'
-	/Users/dayers/Github/PKMN-World/_pwtest/358-audit/gyms.lua:30: in main chunk
+	<repo>/_pwtest/358-audit/gyms.lua:30: in main chunk

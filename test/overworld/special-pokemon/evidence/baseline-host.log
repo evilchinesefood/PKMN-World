@@ -99,7 +99,7 @@ OK — obstacle table current: 293 obstacles, hash 0xCF719B0B
 HOST CHECK ValidateDoorAnims.py --max 0
 ==============================================================================
 DEAD ANIMATED DOOR REPORT
-repo root: /Users/dayers/Github/PKMN-World
+repo root: <repo>
 ==============================================================================
 
 --- Derived constants (read from the tree, not assumed) ---
@@ -178,7 +178,7 @@ TOTAL ANIMATED-DOOR WARPS: 487
 HOST CHECK ValidateTilesetPalettes.py
 ==============================================================================
 TILESET PALETTE ARRAY BOUNDS
-repo root: /Users/dayers/Github/PKMN-World
+repo root: <repo>
 ==============================================================================
 
 --- Derived constants (read from the tree, not assumed) ---

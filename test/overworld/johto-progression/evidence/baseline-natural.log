@@ -68,5 +68,5 @@ stack traceback:
 	[C]: in global 'assert'
 	...N-World/test/overworld/johto-progression/playthrough.lua:112: in function <...N-World/test/overworld/johto-progression/playthrough.lua:16>
 	[C]: in global 'xpcall'
-	/Users/dayers/Github/PKMN-World/test/overworld/lua/lib.lua:567: in field 'run'
+	<repo>/test/overworld/lua/lib.lua:567: in field 'run'
 	...N-World/test/overworld/johto-progression/playthrough.lua:16: in main chunk

@@ -27,7 +27,7 @@ python3 test/overworld/SavePatch.py --check
 python3 test/overworld/ValidateDoorAnims.py --max 0
 ==============================================================================
 DEAD ANIMATED DOOR REPORT
-repo root: /Users/dayers/.codex/worktrees/johto-open-issues/PKMN-World
+repo root: ~/.codex/worktrees/johto-open-issues/PKMN-World
 ==============================================================================
 
 --- Derived constants (read from the tree, not assumed) ---
@@ -106,7 +106,7 @@ TOTAL ANIMATED-DOOR WARPS: 487
 python3 test/overworld/ValidateTilesetPalettes.py
 ==============================================================================
 TILESET PALETTE ARRAY BOUNDS
-repo root: /Users/dayers/.codex/worktrees/johto-open-issues/PKMN-World
+repo root: ~/.codex/worktrees/johto-open-issues/PKMN-World
 ==============================================================================
 
 --- Derived constants (read from the tree, not assumed) ---

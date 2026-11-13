@@ -1,7 +1,7 @@
 sweep : 2026-10-08T22:40:06Z
-rom   : /Users/dayers/Github/PKMN-World/pokemonworld.gba
+rom   : <repo>/pokemonworld.gba
 md5   : C763D32137B920F2CA308CE5F1C945F5
-out   : /Users/dayers/Github/PKMN-World/_pwtest/357-final-regression
+out   : <repo>/_pwtest/357-final-regression
 
 SmokeBoot                rc=0   VERDICT SmokeBoot: 10/10 PASS
 WorldTitle               rc=0   VERDICT WorldTitle: 37/37 PASS

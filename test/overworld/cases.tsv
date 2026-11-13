@@ -86,3 +86,4 @@ AutosaveStress	lua/AutosaveStress.lua	fresh	0	required
 Route43Toll	lua/Route43Toll.lua	fresh	0	required
 BugContestBalls	lua/BugContestBalls.lua	fresh	0	required
 KantoGateRivalBattleViaJohto	lua/KantoGateRivalBattleViaJohto.lua	fresh	0	required
+EvolutionMashStress	lua/EvolutionMashStress.lua	fresh	0	required

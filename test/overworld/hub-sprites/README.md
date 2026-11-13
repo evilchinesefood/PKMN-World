@@ -74,6 +74,7 @@ This deliberately supplies failed/zero-check baselines, missing/conflicting/stal
 verdict sentinels and an aborted runner, then verifies UTF-8 under an ASCII
 locale and every generated file link in the documented package layout.
 
-Every run, including delivery, must retain its current `runner.log`. The shell
-redirection above truncates delivery output before launch, so a ROM/hash guard
-abort cannot reuse a previous success. A missing runner log fails preflight.
+Every run, including delivery, must retain its current `runner.log`.
+`run_fixture.py` and `run_suite.py` require a fresh, empty `--out` directory and
+write `runner.log` there, so a ROM-hash guard abort cannot reuse a previous
+success. A missing runner log fails preflight.

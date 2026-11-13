@@ -1,5 +1,17 @@
 # Verified zone status
 
+> **Update, 2026-11-13.** The structural audit below is still the record for registered maps. The
+> "What remains unverified" column is out of date. Since this pass, automated playthroughs have
+> reached the Hall of Fame from a fresh save in Kanto, Johto and Hoenn, and in one save that plays
+> all three. Post-game runs in each region cover the gym rematches, and include Red at Mt. Silver
+> and the Sevii route. Each result lists exactly which beats it played. See the
+> [Johto](../../test/overworld/johto-playthrough/README.md),
+> [Kanto](../../test/overworld/kanto-playthrough/README.md),
+> [Hoenn](../../test/overworld/hoenn-playthrough/README.md) and
+> [three-region](../../test/overworld/world-playthrough/README.md) results, each with its
+> concessions. A full playthrough by a person is still unverified, and no feature-complete
+> percentage is claimed.
+
 **Feature-complete percentage: not established for any zone.** No arbitrary
 percentage is substituted for a missing completion checklist. The source audit
 covers every registered map; it does not prove every story state or post-game

@@ -17,10 +17,13 @@ python3 test/overworld/johto-playthrough/run.py --from pryce --resume-dir /path/
 python3 test/overworld/johto-playthrough/run.py --suite kurt_fast_ball.lua
 ```
 
-The same runner plays Kanto and Hoenn with `--campaign kanto|hoenn`.
+The same runner plays Kanto, Hoenn and the three-region world campaign with
+`--campaign kanto|hoenn|world`.
 Use `--rom` and `--elf` for an explicit matching build, plus `--symbols` for its generated
 symbols. `--nm`, `--arm-cc`, and `--cc` select tools; ARM offset probes retain the game's ABI.
 Inherited `PW_*` settings are ignored. Select every variation through the CLI.
+The Lua files still read `PW_*` variables, but `run.py` removes the inherited ones and sets its
+own from the flags. For example, `--natural-attempts 30` becomes `PW_NATURAL_ATTEMPTS=30`.
 
 The Full verification profile invokes these fresh, retry-free cases:
 
@@ -101,12 +104,12 @@ One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
   checkpoint, trainer battle and the final totals, and there are screenshots from the run.
 
 On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
-`johto-progression/run.py` 7/7 and `run_audit.py` 12/12.
+`../johto-progression/run.py` 7/7 and `../johto-progression/run_audit.py` 12/12.
 
 ## Post-game
 
 `--postgame` keeps playing past the Hall of Fame, with beats from `postgame.lua`. Without the
-variable the campaign is unchanged. The beats play on from the champion save: all eight gym rematches
+flag the campaign is unchanged. The beats play on from the champion save: all eight gym rematches
 on the HARD tier (shards, one stone per leader, a second rematch paying no second stone), the
 Hall of Fame respawns, Mt. Silver and Red (the first win plays the Hall of Fame, the rematch does not),
 Route 25's Suicune, the Route 47 tower, and two more Elite Four runs.
@@ -164,7 +167,13 @@ trainers on the way to the leader.
 
 Debug heals were 0 in all three. Kanto and Hoenn are fresh runs to a League checkpoint, continued on
 the same ROM after a harness-only fix (the battle time limit, the Victory Road replay and corridor)
-and with `PW_NATURAL_ATTEMPTS=30`, because the default of six retries ran out. Most of Kanto's
+and with `PW_NATURAL_ATTEMPTS=30`, because the default of six retries ran out. That setting is now
+the `--natural-attempts 30` flag. Each of those two logs holds both parts in one file. The fresh run
+comes first. The continuation follows a `# continued from the ... checkpoint` line: `to_league` for
+Kanto and `to_victory_road` for Hoenn. Whiteouts, Potions and debug warps in the table are the last
+`NAT-TOTAL` line of each log. The step totals for Kanto and Hoenn are not printed in the logs. The
+logs give steps for each part only: 20,284 then 23,548 for Kanto, and 22,189 then 6,336 for Hoenn.
+Each fresh part includes the steps between the checkpoint and the stop. Most of Kanto's
 whiteouts were in the League: 13 at Bruno, 23 at Agatha and 3 at the Champion, grinding from level 52
 to 79. Hoenn lost 9 times to the Champion.
 

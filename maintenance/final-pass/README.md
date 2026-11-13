@@ -1,5 +1,17 @@
 # Pokémon World final maintenance pass — 2026-09-29
 
+> **This is a dated record of the pass on 2026-09-29. It is not the current status.** Later work
+> changed three things this report states:
+>
+> - **Campaign verification.** Automated playthroughs now reach the Hall of Fame from a fresh save
+>   in every region. See the [playthrough results](../../test/overworld/johto-playthrough/README.md)
+>   and the [status note in the root README](../../README.md).
+> - **Quest log.** The recommended reminder shipped in v1.7 as the
+>   [Story screen](../../docs/story-progress/README.md).
+> - **Save format and suite counts.** The development build uses save format v12, and the
+>   overworld sweep has grown. [CHANGELOG.md](../../CHANGELOG.md) and
+>   `test/overworld/cases.tsv` hold the current values.
+
 Baseline: `e38ee10ffb01c45d5e125dc7cfc5601a467c7c29` on the repository's existing
 default branch, **master** (`origin/HEAD -> origin/master`). There was no `main`
 branch. This pass uses the existing default branch, with no unsolicited branch

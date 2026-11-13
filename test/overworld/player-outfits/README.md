@@ -147,15 +147,18 @@ python3 test/overworld/player-outfits/run_capture.py --repo . \
   --rom pokemonworld.gba --elf pokemonworld.elf --out /tmp/outfits/after
 ```
 
-Run the same capture command with the baseline repo and its matching ROM/ELF,
-`--baseline`, and a separate `/tmp/outfits/before` output. Do not rebuild an old
+For the before side, use `run_capture.py` from a checkout that predates #393,
+such as `c563f887b8`. The current `export_symbols.py` needs `gPlayerOutfitPicker`,
+`Task_OutfitPicker`, and `sOutfitGraphics`, which an older ELF does not have. Run
+that older runner with the baseline repo and its matching ROM/ELF, `--baseline`,
+and a separate `/tmp/outfits/before` output. Do not rebuild an old
 ROM against a newer checkout. The runner exports addresses from the matching
 ELF; `HandleInputChooseAction` is resolved from the player controller's linked
 sections to avoid same-named partner/Wally functions.
 
 For the ordinary delivery check, populate a scratch Lua library with
-`test/overworld/lua/*.lua`, the after `assets/outfit_expected.lua`, and the extra symbols
-from `export_symbols.py`. Its `feature_symbols.lua` must contain `return {}`:
+`test/overworld/lua/*.lua`, the `outfit_expected.lua` that `run_capture.py` generated
+under `/tmp/outfits/after/assets/`, and the extra symbols from `export_symbols.py`. Its `feature_symbols.lua` must contain `return {}`:
 
 ```sh
 mkdir -p /tmp/outfits/delivery-lib /tmp/outfits/delivery

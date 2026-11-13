@@ -141,7 +141,7 @@ disposable ROM before being fixed, and all three are progression blockers rather
 **Refuted: the Electrode respawn.** The audit predicted the three Electrodes respawn, letting
 `VAR_ELECTRODES_FAINTED` overshoot the completion trigger's exact `== 3` match and strand the
 player. It does not hold — `removeobject` goes through `RemoveObjectEventByLocalIdAndMap`, which
-`FlagSet`s the object's own hide flag (`src/event_object_movement.c:1713`), so a beaten Electrode
+`FlagSet`s the object's own hide flag (`src/event_object_movement.c:1715`), so a beaten Electrode
 stays gone. The overshoot only appeared in testing because the probe cleared those flags by hand.
 The same mechanism refutes the claim that Stanly respawns. `audit_statefix.lua` keeps a case
 asserting the `FlagSet` happens, because the conclusion rests on it.

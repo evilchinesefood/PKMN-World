@@ -71,6 +71,6 @@ Normal door, connection, menu, battle escape, and Continue paths verify returns.
 
 The local delivery contains the ordinary tested development ROM, a matching
 synthetic save, and a five-minute route around Cherrygrove's three houses. This
-follows [`../../RELEASING.md`](../../../RELEASING.md): release configuration is compiled,
+follows [`../../../RELEASING.md`](../../../RELEASING.md): release configuration is compiled,
 but the tested development configuration is the one delivered. No ROM or save is
 uploaded to GitHub. See `evidence/validation.md` for exact commits, hashes and results.

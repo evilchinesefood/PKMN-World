@@ -1,5 +1,7 @@
 # Eight-variant alignment revision
 
+Superseded by [the final seven-variant PR verification](../final-pr/README.md). Buddy Scarf Eevee was removed after this record, so the shipped collection has seven variants (`SPECIAL_POKEMON_COUNT` is 7).
+
 Owner requested removal of Explorer Treecko and Swim Ring Mudkip and a further detail/alignment pass on all eight retained variants. The dropped species, forms, distribution NPCs, tasks, checklist entries and asset outputs are absent from the active build. Ordinary retained genders still share the same artwork.
 
 Measured native source-head translations corrected the attachment model: Squirtle front pose 2 (-1,-2), Eevee (0,+1), Totodile (+2,-1). Icons use their own anchors and second-frame bob. Follower scarf anchors are direction-specific, clearing the nose/mouth and sitting at the rear neckline. Other refinements cover cap ear occlusion, board perspective, balloon strings and knots, fitted lenses and helmet, crown forehead contour, and a separate icon eye patch.

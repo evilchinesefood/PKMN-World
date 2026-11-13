@@ -1594,6 +1594,10 @@ bool8 IsMapTypeOutdoors(enum MapType mapType)
 
 bool8 Overworld_MapTypeAllowsTeleportAndFly(enum MapType mapType)
 {
+    // The contest parks all but the lead Pokemon until its closing script runs LoadPlayerParty.
+    // Flying or teleporting out skips that script and strands the parked team.
+    if (GetBugContestFlag())
+        return FALSE;
     if (mapType == MAP_TYPE_ROUTE
      || mapType == MAP_TYPE_TOWN
      || mapType == MAP_TYPE_OCEAN_ROUTE

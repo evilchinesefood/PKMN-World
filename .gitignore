@@ -82,7 +82,8 @@ __pycache__
 .plans/
 
 # Engineering audit/budget records (E5/E6/E7) and SDD scratch — kept local, not tracked
-docs/
+docs/*
+!docs/story-progress/
 .superpowers/
 
 # Local dev/migration tooling — renamed with a leading dot and kept local, not tracked
@@ -98,6 +99,10 @@ test/overworld/lua/symbols.lua.tmp
 # PRECIOUS local-only files (never run `git clean -fdx` in this repo — it would
 # delete these and the player save; plain `clean -fd` skips ignored entries)
 _pwtest/
+
+# Run output from the overworld suites. Results are summarized in each suite README.
+test/overworld/**/evidence/
+test/overworld/**/review/
 fixes.md
 
 # clangd index cache (generated from compile_flags.txt; never tracked)

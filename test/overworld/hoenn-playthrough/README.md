@@ -1,5 +1,7 @@
 # Hoenn playthrough: fresh save to the Hall of Fame
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 A continuous Hoenn campaign played by controller input under the patched `mgba-headless`, from
 the new-game hub to the Hall of Fame. It runs on the Johto playthrough harness
 (`../johto-playthrough/`): the same planner, dialogue and battle driver, checkpoints and retry

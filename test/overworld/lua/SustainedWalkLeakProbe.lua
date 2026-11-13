@@ -54,7 +54,7 @@ local function giveOddish()
   -- load -- which calls ResetSpriteData() and silently destroys the exact "no warps for the whole
   -- run" invariant this probe depends on. Discovered the hard way: a first attempt at this walk
   -- teleported to Petalburg City (the fresh save's heal location) mid-lap after a wild battle the
-  -- level-10 follower lost. The level spinner clamps at 100 (BizHawkTesting.md), so over-pressing
+  -- level-10 follower lost. The level spinner clamps at 100 (TestHarnessGuide.md), so over-pressing
   -- is safe.
   for _ = 1, 99 do F.press("Up", 2); F.idle(8) end
   F.press("A", 3); F.idle(60)

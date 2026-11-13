@@ -1,5 +1,7 @@
 # Johto playthrough — fresh save to the Hall of Fame
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 A continuous Johto campaign played by controller input under the patched `mgba-headless`, from
 the new-game hub to the Hall of Fame. Earlier Johto work (`../johto-progression/`) played the
 opening naturally and then warped into each later scene with its prerequisites set by hand.
@@ -100,7 +102,7 @@ One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
 - **Play:** 9,718 steps, 139 trainer battles, 118 wild encounters. Every gym leader, the Elite
   Four and Lance were beaten, plus Ho-Oh at Tin Tower (GOLD at Baoba's prompt). The game ends at
   home in New Bark with `FLAG_JOHTO_CHAMPION` and `FLAG_SYS_GAME_CLEAR` set.
-- **Evidence:** [`evidence/final-run-beats.log`](evidence/final-run-beats.log) has each beat,
+- **Evidence:** `evidence/final-run-beats.log` has each beat,
   checkpoint, trainer battle and the final totals, and there are screenshots from the run.
 
 On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
@@ -121,7 +123,7 @@ the Unown puzzle is a screen the harness cannot drive. Everything after that val
 
 One uninterrupted run from a fresh hub save on ROM `E5F8155004D0811C1F0EE160B90F784D` passed 125/125
 checks in 23,449 steps, with 1 retry (`pg_second_to_league`). The retry reloads a checkpoint, which
-also clears the planner's remembered maps. [`evidence/postgame-final-run.log`](evidence/postgame-final-run.log)
+also clears the planner's remembered maps. `evidence/postgame-final-run.log`
 has each beat.
 
 ## Natural difficulty (`--natural`)

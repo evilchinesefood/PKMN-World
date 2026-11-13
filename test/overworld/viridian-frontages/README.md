@@ -1,6 +1,8 @@
 # Viridian building frontages — #348
 
-[Open the five-minute comparison](review/index.html).
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
+Open the five-minute comparison.
 Baseline: merged stage 2, `cf66c5e65d2e0e5fbbf6215ffc6fc59350567c3d`.
 
 This completes the three-stage Viridian pilot. **25 cells in one map** reuse existing
@@ -33,8 +35,8 @@ imported graphics were added.
 
 [Exact edits](edits.json) records every coordinate and old/new metatile.
 [Plan](plan.json) pins the merged baseline, baseline ROM hash and camera positions.
-[Scope](review/scope.png) marks protected cells red and edited cells yellow;
-[atlas](review/atlas.png) shows the reused pieces. These are labeled source renders;
+Scope marks protected cells red and edited cells yellow;
+atlas shows the reused pieces. These are labeled source renders;
 the primary comparisons are unmodified native 240×160 emulator screenshots.
 Historical stage-1 and stage-2 tools and evidence are unchanged.
 

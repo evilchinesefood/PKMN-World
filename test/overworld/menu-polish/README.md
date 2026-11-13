@@ -1,12 +1,14 @@
 # Menu responsiveness and icons
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Local main-menu actions no longer probe absent wireless hardware before fading or entering their destination. The optional Mystery Gift/e-Reader actions still check the adapter. Options and Story footer panels have rounded top corners and a solid white bottom edge flush with the screen bottom. Story uses the previous paper-and-pencil Save artwork; Save uses a shaded floppy disk with a white outer keyline, metallic shutter, and inset paper label. Its inactive and selected frames retain the existing 16-color palette and 32-by-32 frame size.
 
 | Story icon | Save icon | Top-rounded footer |
 | --- | --- | --- |
-| ![Story icon](evidence/story-icon.png) | ![Save icon](evidence/save-icon.png) | ![Options](evidence/options.png) |
+| _(image removed: Story icon)_ | _(image removed: Save icon)_ | _(image removed: Options)_ |
 
-[Story footer](evidence/story.png). Screenshots are native emulator output from disposable synthetic fixtures.
+Story footer. Screenshots are native emulator output from disposable synthetic fixtures.
 
 ## Reproduce
 

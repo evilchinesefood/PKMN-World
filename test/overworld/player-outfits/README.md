@@ -1,5 +1,7 @@
 # Regional wardrobe and player colorways
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 Players choose a style and color during Oak's introduction or at the cabinet on
 World Transit's main floor. Left and Right select Original, Kanto Classic,
 Johto Classic, or Hoenn Classic. Up and Down select one of six colors. A confirms.
@@ -19,7 +21,7 @@ describe all six new designs, 36 new color combinations, and 72 production
 sheets. The [catalog sheet](../../../graphics/player_outfits/review/catalog.png)
 also includes the 12 original character and color combinations.
 
-The [wardrobe verification report](evidence/wardrobe-374/README.md) records
+The wardrobe verification report records
 native results, before and after images, and exact tested ROM identities.
 
 ## Run the wardrobe checks
@@ -64,10 +66,10 @@ gender and each live sprite layout. The C tables in
 [`src/data/player_outfit_palettes.h`](../../../src/data/player_outfit_palettes.h)
 are the hand-authored source of truth; no external generator is needed.
 
-Open [`review/index.html`](review/index.html) through a local web server for the
+Open `review/index.html` through a local web server for the
 interactive comparison, or inspect the complete
-[after sheet](review/media/after-colorways.png) and
-[before sheet](review/media/before-colorways.png) directly. Native screenshots
+after sheet and
+before sheet directly. Native screenshots
 and lossless send-out clips cover all twelve character/outfit combinations.
 
 The source gallery includes screenshots and clips, but the ROM/save bundle is
@@ -123,7 +125,7 @@ changes are palette tables/masks and corrected comments only.
 
 ## Evidence and reproduction
 
-[`review/manifest.json`](review/manifest.json) pins the actual before/after game
+`review/manifest.json` pins the actual before/after game
 commits and input/fixture ROM hashes. Baseline input was built at
 `3bc343d0331064646d4ce99b4b691291e1a6bf0c`; its later checkout HEAD includes
 documentation-only commits. The tested new game build is
@@ -184,7 +186,7 @@ It also verifies ten Red frames pixel-for-pixel and decodes every lossless clip
 against its source pixels and timing. Raw palette snapshots use `.pal.bin` to
 avoid the repository's text/EOL treatment of `.pal` files.
 
-See [`evidence/validation.md`](evidence/validation.md) for results. The owner
+See `evidence/validation.md` for results. The owner
 download contains the ordinary tested development ROM and one matching synthetic
 save beside Petalburg's pond as May in Black. Open the ROM and Continue; inspect
 the reflection and Start → Trainer. The gallery supplies the other combinations,

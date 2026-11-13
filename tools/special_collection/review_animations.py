@@ -7,7 +7,7 @@ from review_art import font,LABELS
 
 ROOT=Path(__file__).resolve().parents[2]
 ART=ROOT/'graphics/pokemon/special_collection'
-OUT=ROOT/'test/overworld/special-pokemon/evidence/animation-preview'
+OUT=ROOT/'_pwtest/special-collection/animation-preview'
 WIDTH=1340
 HEADER=104
 ROW=214

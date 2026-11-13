@@ -1,6 +1,8 @@
 # Viridian ground transitions — #347
 
-[Open the five-minute comparison](review/index.html).
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
+Open the five-minute comparison.
 Baseline: merged landscaping commit `e97b94307fca9e1b4de128433419f4bf35caeaf7`.
 
 This stage changes **70 cells in one map**, using existing primary metatiles.
@@ -27,8 +29,8 @@ no fence, lamp, object or collision block has been added.
 
 [Exact edits](edits.json) records each coordinate and old/new metatile.
 [Plan](plan.json) pins the baseline commit and exact baseline ROM hash.
-[Scope overlay](review/scope.png) shows protected cells in red and edited cells in
-yellow; [atlas](review/atlas.png) shows the existing pieces used. Both are source
+Scope overlay shows protected cells in red and edited cells in
+yellow; atlas shows the existing pieces used. Both are source
 renders. The main comparisons are unmodified native 240×160 emulator screenshots.
 The historical #346 gallery and its evidence are unchanged.
 

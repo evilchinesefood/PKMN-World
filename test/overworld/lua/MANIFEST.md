@@ -7,7 +7,7 @@ coverage; historical assertion counts below are observations, not the current re
 
 The suites run under pinned, patched headless mGBA on Linux and macOS. See the
 [native verification guide](../mgba/README.md) for setup and explicit Build, Smoke, and Full modes.
-[BizHawkTesting.md](../BizHawkTesting.md) documents boot signals, the debug menu, warp byte order,
+[TestHarnessGuide.md](../TestHarnessGuide.md) documents boot signals, the debug menu, warp byte order,
 and collision checks used by the suites.
 
 ## Coverage and shared files
@@ -713,7 +713,7 @@ playtests that had a PASS on a fresh (or freshly-seeded) game now live in this d
 remains in `_pwtest/` is run output (logs, screenshots, sentinels) plus one-offs that still
 cannot satisfy the "runs on a fresh build" bar — including `Route41Whirlpool.lua`, which has no
 PASS. Do not send anyone to a `_pwtest/*.lua` path; the durable techniques all live in `lib.lua`
-and [`../BizHawkTesting.md`](../BizHawkTesting.md), and the suites in this directory are the
+and [`../TestHarnessGuide.md`](../TestHarnessGuide.md), and the suites in this directory are the
 reference implementations.
 
 ## Instrumentation probes (Route 37 red crash — open, unreproduced)
@@ -818,7 +818,7 @@ first that the measurement can physically exhibit the thing you are ruling out.
 
 The next move is not another probe. It is the crash screenshot, which names its own assert site:
 `F.crashScreen()` decodes `FILE.C:LINE` straight out of VRAM. Never key off the screen's colour;
-that palette is broken (see [`../BizHawkTesting.md`](../BizHawkTesting.md)).
+that palette is broken (see [`../TestHarnessGuide.md`](../TestHarnessGuide.md)).
 
 
 ### `RegionalTravel.lua`

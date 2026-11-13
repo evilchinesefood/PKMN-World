@@ -1,6 +1,8 @@
 # Viridian landscaping — #346
 
-[Open the five-minute comparison](review/index.html). Baseline:
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
+Open the five-minute comparison. Baseline:
 `63c328ee3d6299bd94ce75d049a5ef3a7009bf72`.
 
 The first stage arranges existing Kanto flowers and mown lawn tiles into five small
@@ -33,9 +35,9 @@ and [#348 building frontages](https://github.com/evilchinesefood/PKMN-World/issu
 | Publication failure checks | Missing delivery proof, wrong delivery hash, wrong baseline ROM and changed current map all rejected |
 | Browser checks | Day/dusk/night controls, all 30 images, evidence links and mobile width pass in Chromium |
 
-[Map audit](review/audit.json), [exact edits and source hashes](edits.json),
-[ROM/capture provenance](review/manifest.json), [runtime evidence](review/verification),
-[full regression result](review/regression.log).
+Map audit, [exact edits and source hashes](edits.json),
+ROM/capture provenance, runtime evidence,
+full regression result.
 
 The walking-component audit is conservative ordinary walking; it does not simulate
 Surf or ledge jumps. Cell-level nonvisual attribute equality covers those mechanics,

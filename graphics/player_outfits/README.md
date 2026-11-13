@@ -1,5 +1,7 @@
 # Regional wardrobe artwork
 
+> **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
+
 The catalog adds Kanto Vest, Johto Track and Hoenn Explorer for Brendan, and
 Kanto Jacket, Johto Overalls and Hoenn Cape for May. Each has Red, Blue, Green,
 Purple, Black and Pink. The original designs remain separate catalog entries.

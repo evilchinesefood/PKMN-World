@@ -332,8 +332,7 @@ on:
   sailor and gentleman sprites to match the regional staff; these are two sprite
   swaps, not an NPC-system rewrite.
 
-The [final source/test audit](maintenance/final-pass/README.md) records verification
-and its limits. The feature catalog describes implemented source and enabled
+The feature catalog describes implemented source and enabled
 configuration; it is not an end-to-end campaign completion certificate.
 
 ## Quality-of-life defaults

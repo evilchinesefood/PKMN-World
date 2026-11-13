@@ -65,7 +65,7 @@ source line to look at. `--check` runs just that half for CI.
 The SaveBlock1/SaveBlock2 FIELD offsets are pinned nowhere, so they cannot be cross-checked
 that way. `--probe` re-derives all of them by compiling `offsetof` expressions with the repo's
 real CFLAGS and diffing — the same technique the offsets were obtained with, kept runnable so
-they never have to be trusted on faith. See test/overworld/BizHawkTesting.md §4 on stale annotations.
+they never have to be trusted on faith. See test/overworld/TestHarnessGuide.md §4 on stale annotations.
 """
 import argparse
 import os

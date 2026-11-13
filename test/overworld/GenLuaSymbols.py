@@ -167,6 +167,16 @@ WANT = [
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # EvolutionMashStress.lua. gLeveledUpInBattle is the per-slot bitmask TryEvolvePokemon reads to
+    # run level-up evolutions after a battle; seeding it is how the suite arms an evolution without
+    # out-levelling a debug trainer. The callbacks and task tell "the evolution scene is running"
+    # apart from "the battle is still ending" and from "back on the field", and Task_EvolutionScene's
+    # data words carry its state machine (tState, tLearnMoveState). gItemUseCB proves the bag really
+    # armed a stone use.
+    "gLeveledUpInBattle", "gTriedEvolving", "gCB2_AfterEvolution", "gBattleMainFunc",
+    "CB2_EvolutionSceneUpdate", "CB2_BeginEvolutionScene", "CB2_EvolutionSceneLoadGraphics",
+    "Task_EvolutionScene", "Task_BeginEvolutionScene", "sEvoStructPtr", "gMoveToLearn",
+    "TryEvolvePokemon", "WaitForEvoSceneToFinish", "gItemUseCB", "ItemUseCB_EvolutionStone",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]

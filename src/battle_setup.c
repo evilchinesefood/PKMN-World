@@ -1132,10 +1132,20 @@ enum BattleTransition GetSpecialBattleTransition(enum BattleTransitionGroup id)
     return sBattleTransitionTable_BattleFrontier[var % ARRAY_COUNT(sBattleTransitionTable_BattleFrontier)];
 }
 
+// Route 101 is reachable with a party (Frontier ferry, then the same-region gate), so the
+// starter can land in a later slot or the PC. Birch's lab reads this right after the warp.
+static EWRAM_DATA u8 sStarterGiveResult = MON_GIVEN_TO_PARTY;
+
 void ChooseStarter(void)
 {
     SetMainCallback2(CB2_ChooseStarter);
     gMain.savedCallback = CB2_GiveStarter;
+}
+
+void GetStarterGiveResult(void)
+{
+    VarSet(VAR_TEMP_TRANSFERRED_SPECIES, GetStarterPokemon(VarGet(VAR_STARTER_MON)));
+    gSpecialVar_Result = sStarterGiveResult;
 }
 
 static void CB2_GiveStarter(void)
@@ -1144,7 +1154,7 @@ static void CB2_GiveStarter(void)
 
     *GetVarPointer(VAR_STARTER_MON) = gSpecialVar_Result;
     starterMon = GetStarterPokemon(gSpecialVar_Result);
-    ScriptGiveMon(starterMon, 5, ITEM_NONE);
+    sStarterGiveResult = ScriptGiveMon(starterMon, 5, ITEM_NONE);
     ResetTasks();
     PlayBattleBGM();
     SetMainCallback2(CB2_StartFirstBattle);

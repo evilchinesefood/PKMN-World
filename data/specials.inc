@@ -718,3 +718,4 @@ gSpecials::
 
 	def_special SpecialPokemon_Give
 	def_special SpecialPokemon_CreateEncounter
+	def_special GetStarterGiveResult

@@ -473,10 +473,9 @@ static void ItemUseOnFieldCB_HubReturn(u8 taskId)
 // Refuse the Hub Pass warp inside self-contained sessions whose teardown a raw DoWarp would
 // bypass (Safari ball/step state, Bug Contest, and the Frontier/Trainer-Hill challenges), plus
 // link/union states. Mirrors the predicate set UseRegisteredKeyItemOnField already blocks.
-// Also block during an active World Championship Dome run: the Dome pre-battle rooms are walkable
-// with the Bag reachable, and VAR_WORLD_CHAMPIONSHIP_MODE MUST be cleared on exit (done at
-// EndChallenge) - warping out with it stuck at 1 keeps seeding the champions bracket on later
-// normal Dome entries (see battle_dome.c InitDomeTrainers).
+// A World Championship run is covered by challengeStatus like any Dome run. Do not test
+// VAR_WORLD_CHAMPIONSHIP_MODE here: saves that backed out of the registrar before the
+// EndCancelChallenge fix still hold it at 1, which would refuse the HUB PASS everywhere.
 // The Pike/Pyramid/Trainer-Hill predicates above only cover the facilities that expose a location
 // test, so Tower/Dome/Factory/Arena/Palace runs were uncovered. challengeStatus is the common
 // marker (set to CHALLENGE_STATUS_SAVING in frontier_util.c, which the continue-warp machinery
@@ -492,7 +491,6 @@ static bool32 CannotUseHubReturnHere(void)
         || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
         || InTrainerHillChallenge()
         || gSaveBlock2Ptr->frontier.challengeStatus != 0
-        || VarGet(VAR_WORLD_CHAMPIONSHIP_MODE) != 0
         // Underwater: the raw DoWarp would skip the surfacing path entirely (the vanilla
         // escape items all special-case this state). Surface first, then warp.
         || gMapHeader.mapType == MAP_TYPE_UNDERWATER

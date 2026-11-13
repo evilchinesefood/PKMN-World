@@ -1,10 +1,13 @@
 -- The Hub Pass works inside Oak's lab after the starter pick, before the rival's tutorial battle.
 -- Coming back through the Kanto gate must not let that battle be skipped. Only the Pallet Town warp
 -- is debug; the gate, Oak's scene, the pick, the Hub Pass and the walk out use real input.
+-- KantoGateRivalBattleViaJohto.lua sets KANTO_RIVAL_VIA so the trip goes through Johto first: that
+-- return is a real cross, which boxes the party, so the remembered starter has to come back.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
-local F = require("lib").new(S, "KantoGateRivalBattle")
+local VIA = rawget(_G, "KANTO_RIVAL_VIA")
+local F = require("lib").new(S, VIA and "KantoGateRivalBattleViaJohto" or "KantoGateRivalBattle")
 
 local HUB = {100, 0}
 local SLOTS = 14 * 30
@@ -167,14 +170,15 @@ local function mash(tag,until_)
   end
   return until_()
 end
-local function crossKanto(tag)
-  if not F.route({{16,4},{11,4},{11,3}},tag.."_walk") then return false end
+local function crossAt(x,tag)
+  if not F.route({{16,4},{x,4},{x,3}},tag.."_walk") then return false end
   F.face("Up");F.press("A",3);F.idle(60)
   if not menu(0,tag.."_yes") then return false end
   for _=1,200 do if not mapIs(HUB[1],HUB[2]) and F.ow() then break end F.press("A",2);F.idle(14) end
   F.idle(60)
   return not mapIs(HUB[1],HUB[2])
 end
+local function crossKanto(tag) return crossAt(11,tag) end
 
 F.run(function()
   if not F.boot(HUB[1]) then F.check("fresh boot",false);F.finish();return end
@@ -200,7 +204,17 @@ F.run(function()
   F.press("Select",2);F.idle(90)
   F.check("Hub Pass out of the lab",menu(0,"hub_pass") and awaitMap(HUB[1],HUB[2],"hub"),where())
   drain()
-  F.check("same-region Kanto gate",crossKanto("return"),where())
+  if VIA then
+    F.check("cross into Johto",crossAt(16,"johto") and active()==2,where().." region="..active())
+    drain()
+    F.check("Johto took the Kanto party into the PC",count()==0,"count="..count())
+    F.press("Select",2);F.idle(90)
+    F.check("Hub Pass out of Johto",menu(0,"hub_pass_johto") and awaitMap(HUB[1],HUB[2],"hub_johto"),where())
+    drain()
+    F.check("cross back into Kanto",crossKanto("return"),where())
+  else
+    F.check("same-region Kanto gate",crossKanto("return"),where())
+  end
   drain()
   F.shot("return_landing")
   F.check("the gate returns to the lab while the rival battle is pending",mapIs(38,3),where())

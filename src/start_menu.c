@@ -364,7 +364,7 @@ static void BuildNormalStartMenu(void)
     if (DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET))
         AddStartMenuAction(MENU_ACTION_DEXNAV);
 
-    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
+    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE && CalculatePlayerPartyCount() != 0)
         AddStartMenuAction(MENU_ACTION_POKEMON);
 
     AddStartMenuAction(MENU_ACTION_BAG);

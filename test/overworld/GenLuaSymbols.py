@@ -167,6 +167,15 @@ WANT = [
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # DoubleBattleStress.lua. BattleSetup_StartDoubleWildBattle is the natural wild double entry
+    # (DoStandardWildBattle(TRUE)); the suite reaches it with an EWRAM `callnative` script because
+    # nothing in this build's encounter tables rolls a double. The rest observe double-only
+    # selection state: the last-used-ball shortcut, which battlers are absent, what each battler
+    # chose, the move target cursor, and the evolution scene callback.
+    "BattleSetup_StartDoubleWildBattle", "HandleInputChooseTarget",
+    "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
+    "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
+    "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
     # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and
     # rate-limited against sLastAutosaveFrame; rewinding the latter is how a suite reaches the
     # next autosave without idling out ten emulated minutes. Task_Autosave is the live SAVING

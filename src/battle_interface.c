@@ -2930,6 +2930,14 @@ void TryAddLastUsedBallItemSprites(void)
         if (firstBall > ITEM_NONE)
             gBallToDisplay = firstBall;
     }
+    else if (!CheckBagHasItem(gBallToDisplay, 1))
+    {
+        // The last thrown ball is back in the Bag but the display still names the ball the
+        // branch above fell back to in an earlier battle, which has since run out. Left alone,
+        // CanThrowLastUsedBall() fails on it and the shortcut vanishes although the player
+        // carries the very ball it is meant to offer.
+        gBallToDisplay = gLastThrownBall;
+    }
 
     if (!CanThrowLastUsedBall())
         return;

@@ -985,6 +985,18 @@ template) before that line was removed, and a Pokemon withdrawn in the make-room
 the closing `LoadPlayerParty` before `BugContest_EventScript_NeedBoxSpace` restored the parked
 party around the PC.
 
+### `BugContestPodium.lua`
+
+The player's kept Pokémon on the judging podium at (20,29). Two contests run back to back, one
+with a Weedle and one with a Growlithe (a non-bug, as a DexNav catch would be), each given through
+the debug menu inside the contest; the attendant, retiring, choosing the kept Pokémon, judging and
+the return to the gate are real input. Each contest checks that the podium object (appended local
+id 44, drawn through `VAR_OBJ_GFX_ID_0`) is absent while the contest runs, stands visible at
+(20,29) during judging with `OBJ_EVENT_MON` set and the chosen species in its graphics id, is gone
+back at the gate, and that no assert screen came up. Measured **20/20** fixed and **16/20**
+without the change, where the four failures read "no podium object" for both species: the old
+`ShowBugContestChosenMon` returned local ids 22-31 of stand-ins deleted in c85504af39.
+
 ### `RegionalSequenceBreaks.lua`
 
 Sequence breaks through the World Transit gate's Center resume. Before Surf, Mr. Briney's boat is

@@ -279,6 +279,7 @@ bool8 GetFollowerInfo(u32 *species, bool32 *shiny, bool32 *female);
 u16 GetSurfMountGraphicsId(void);
 u16 GetFlightMountGraphicsId(void);
 u16 GetFlightMountGraphicsIdForMon(u8 partyId);
+u16 GetOverworldGraphicsIdForMon(struct Pokemon *mon);
 const struct ObjectEventGraphicsInfo *SpeciesToGraphicsInfo(enum Species species, bool32 shiny, bool32 female);
 u16 GetObjectEventFlagIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup);
 void CopyObjectGraphicsInfoToSpriteTemplate(u16 graphicsId, void (*callback)(struct Sprite *), struct SpriteTemplate *spriteTemplate, const struct SubspriteTable **subspriteTables);

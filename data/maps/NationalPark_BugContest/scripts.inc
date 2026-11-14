@@ -8,6 +8,7 @@
 .set LOCALID_BUGCONTEST_BUG3, 20
 .set LOCALID_BUGCONTEST_BUG4, 21
 .set LOCALID_BUGCONTEST_ATTENDANT_SIDE, 17
+.set LOCALID_BUGCONTEST_CHOSEN_MON, 44
 
 
 NationalPark_BugContest_MapScripts::
@@ -16,6 +17,7 @@ NationalPark_BugContest_MapScripts::
 	.byte 0
 
 NationalPark_BugContest_OnTransition::
+	setflag FLAG_TEMP_1
 	goto_if_eq VAR_BUG_CONTEST_STATE, 3, NationalPark_BugContest_EventScript_JudgeScene
 	end
 	
@@ -88,6 +90,8 @@ NationalPark_BugContest_EventScript_Trash::
 
 NationalPark_BugContest_EventScript_JudgeScene::
 	special ShowBugContestChosenMon
+	call_if_eq VAR_RESULT, TRUE, NationalPark_BugContest_EventScript_ShowChosenMon
+	setobjectxyperm LOCALID_BUGCONTEST_CHOSEN_MON, 20, 29
 	setobjectxyperm LOCALID_BUGCONTEST_BUG1, 24, 29
 	setobjectxyperm LOCALID_BUGCONTEST_BUG2, 22, 29
 	setobjectxyperm LOCALID_BUGCONTEST_BUG3, 18, 29
@@ -105,6 +109,10 @@ NationalPark_BugContest_EventScript_JudgeScene::
 	setobjectmovementtype LOCALID_BUGCONTEST_BOY, MOVEMENT_TYPE_FACE_UP
 	setobjectmovementtype LOCALID_BUGCONTEST_ATTENDANT, MOVEMENT_TYPE_FACE_DOWN
 	end
+
+NationalPark_BugContest_EventScript_ShowChosenMon::
+	clearflag FLAG_TEMP_1
+	return
 
 NationalPark_BugContest_EventScript_JudgeSceneActivate::
 	lockall

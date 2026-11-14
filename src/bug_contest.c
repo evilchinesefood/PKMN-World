@@ -6,6 +6,8 @@
 #include "fieldmap.h"
 #include "overworld.h"
 #include "bug_contest.h"
+#include "event_object_movement.h"
+#include "constants/event_objects.h"
 #include "constants/flags.h"
 #include "constants/maps.h"
 #include "constants/vars.h"
@@ -256,57 +258,25 @@ bool8 RemoveSafariBalls(void)
     return FALSE;
 }
 
+// Points the judging scene's podium object (VAR_OBJ_GFX_ID_0) at the chosen Pokemon's overworld
+// sprite. VAR_RESULT is TRUE when there is one to show.
 bool8 ShowBugContestChosenMon(void)
 {
     u16 monIndex = VarGet(VAR_0x8004);
-    u16 species;
+    struct Pokemon *mon;
+    u16 graphicsId;
 
+    gSpecialVar_Result = FALSE;
     if (monIndex >= PARTY_SIZE) // shared scratch var; see TransferBugContestMon
-    {
-        gSpecialVar_Result = 0;
         return FALSE;
-    }
-    species = GetMonData(&gPlayerParty[monIndex], MON_DATA_SPECIES, NULL);
+    mon = &gPlayerParty[monIndex];
+    StringCopy(gStringVar1, GetSpeciesName(GetMonData(mon, MON_DATA_SPECIES, NULL)));
 
-    // Set species name into STR_VAR_1 properly
-    StringCopy(gStringVar1, GetSpeciesName(species));
-
-    switch (species)
+    graphicsId = GetOverworldGraphicsIdForMon(mon);
+    if (graphicsId != OBJ_EVENT_GFX_SPECIES(NONE))
     {
-    case SPECIES_CATERPIE:
-        gSpecialVar_Result = 22;
-        break;
-    case SPECIES_WEEDLE:
-        gSpecialVar_Result = 23;
-        break;
-    case SPECIES_METAPOD:
-        gSpecialVar_Result = 24;
-        break;
-    case SPECIES_KAKUNA:
-        gSpecialVar_Result = 25;
-        break;
-    case SPECIES_PARAS:
-        gSpecialVar_Result = 26;
-        break;
-    case SPECIES_VENONAT:
-        gSpecialVar_Result = 27;
-        break;
-    case SPECIES_BUTTERFREE:
-        gSpecialVar_Result = 28;
-        break;
-    case SPECIES_BEEDRILL:
-        gSpecialVar_Result = 29;
-        break;
-    case SPECIES_SCYTHER:
-        gSpecialVar_Result = 30;
-        break;
-    case SPECIES_PINSIR:
-        gSpecialVar_Result = 31;
-        break;
-    default:
-        gSpecialVar_Result = 0; // fallback if invalid species
-        break;
+        VarSet(VAR_OBJ_GFX_ID_0, graphicsId);
+        gSpecialVar_Result = TRUE;
     }
-
     return FALSE;
 }

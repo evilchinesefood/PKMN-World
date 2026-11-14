@@ -33,6 +33,7 @@ All notable player-facing changes. For the full feature reference see
 
 - **Kanto's Story pages use mixed case**, like Johto and Hoenn ("Pallet Town", "Prof. Oak's Lab", "Boulder Badge").
 - **The Start menu says "Options"**, matching the main menu. The mock Start menu in the Rustboro PokéNav tutorial matches too.
+- **Your Bug-Catching Contest Pokémon stands on the podium again at judging**, beside the other contestants' bugs. It shows whatever you kept, including a non-bug catch, in its shiny or female form when it has one.
 
 ### Fixes
 

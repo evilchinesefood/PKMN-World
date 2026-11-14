@@ -910,3 +910,19 @@ suite: the Egg-only scripted refusal failed (script left waiting, controls locke
 deferred release in `RefuseScriptedWildBattleIfPartyless`, and "R shortcut after the display fell
 back" failed (no throw, display stuck on a ball the Bag no longer held) before
 `TryAddLastUsedBallItemSprites` re-pointed the display at the last thrown ball.
+
+### `BugContestFullPC.lua`
+
+The Bug-Catching Contest's judging with every PC box full, which no earlier suite reached: the
+other contest suites retire without a catch and take the "didn't catch" branch. Setup fills the
+party and the boxes through the debug menu, frees one slot for the attendant's storage check, gives
+a Pokemon inside the contest as the catch and refills the freed slot in RAM as a later catch that
+landed in the PC. The attendant, retiring at the exit, choosing the kept Pokemon, judging, the
+make-room PC (Withdraw, then Move Pokemon and Release) and the walk back to the gate are real
+input. Every Pokemon is fingerprinted by its first 30 bytes before entry and after the contest, so
+a lost or cloned Pokemon shows up by identity, not only by count. Two checks discriminate against
+fixes made with the suite: the judging scene raised `overworld.c` "no object event template for
+localId 255" (its `setobjectmovementtype OBJ_EVENT_ID_PLAYER` targets the player, who has no
+template) before that line was removed, and a Pokemon withdrawn in the make-room PC was deleted by
+the closing `LoadPlayerParty` before `BugContest_EventScript_NeedBoxSpace` restored the parked
+party around the PC.

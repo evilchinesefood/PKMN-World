@@ -91,3 +91,6 @@ DoubleBattleStress	lua/DoubleBattleStress.lua	fresh	0	required
 EvolutionMashStress	lua/EvolutionMashStress.lua	fresh	0	required
 BugContestFullPC	lua/BugContestFullPC.lua	fresh	0	required
 RegionalSequenceBreaks	lua/RegionalSequenceBreaks.lua	fresh	0	required
+BugContestPrizeBagFull	lua/BugContestPrizeBagFull.lua	fresh	0	required
+StorageItemToBagFull	lua/StorageItemToBagFull.lua	fresh	0	required
+FollowerPartyReorder	lua/FollowerPartyReorder.lua	fresh	0	required

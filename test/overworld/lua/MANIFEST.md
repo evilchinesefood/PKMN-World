@@ -1303,3 +1303,16 @@ Each must end as a draw (`gBattleOutcome` 3), white out to the field with contro
 exactly 800 (8 x level 50, doubled), and leave the party as the same Pokemon, healed, and two Eggs.
 A Struggle case empties a Mewtwo's PP mid-battle against a foe left with only Splash and requires
 a win with recoil damage. Measured **23/23**; no defect found.
+
+### `DomeRegistrarWalk.lua`
+
+The World Championship registrar must send the player through the singles door the way the singles
+attendant does. A party of three level 50 Pokemon is built, the three champion flags are set, and
+the singles attendant flow is driven once through Lv50, three entries and the save to record the
+reference walk: (5,11) to the door at (5,4), facing north. The registrar is then talked to from
+below, left, right and above (it wanders around (8,14)), the offer is accepted, and the same menus
+and save are driven. Every tile the player occupies from the save to the warp must match the
+reference, end on the door facing north, and never be a tile with collision (other than the door)
+or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
+on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
+five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).

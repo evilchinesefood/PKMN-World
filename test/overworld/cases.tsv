@@ -92,6 +92,9 @@ EvolutionMashStress	lua/EvolutionMashStress.lua	fresh	0	required
 EconomyStress	lua/EconomyStress.lua	fresh	0	required
 BugContestFullPC	lua/BugContestFullPC.lua	fresh	0	required
 RegionalSequenceBreaks	lua/RegionalSequenceBreaks.lua	fresh	0	required
+BugContestPrizeBagFull	lua/BugContestPrizeBagFull.lua	fresh	0	required
+StorageItemToBagFull	lua/StorageItemToBagFull.lua	fresh	0	required
+FollowerPartyReorder	lua/FollowerPartyReorder.lua	fresh	0	required
 InstantTextStress	lua/InstantTextStress.lua	fresh	0	required
 StartOptionsStateStress	lua/StartOptionsStateStress.lua	fresh	0	required
 GateRecallStress	lua/GateRecallStress.lua	fresh	0	required

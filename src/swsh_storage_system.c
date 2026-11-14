@@ -3155,7 +3155,7 @@ static void Task_ItemToBag(u8 taskId)
         {
             PlaySE(SE_FAILURE);
             PrintMessage(MSG_BAG_FULL);
-            sStorage->state = 3;
+            sStorage->state = 5;
         }
         else
         {

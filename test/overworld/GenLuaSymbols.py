@@ -209,7 +209,9 @@ WANT = [
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]
-SIZED = {"sMenu": 12}  # name -> exact byte size to pick among duplicates
+# name -> exact byte size to pick among duplicates. sMessageWindowSpriteIds: the PC storage
+# screen's u8[6] (src/swsh_storage_system.c), not the party menu's u8[16].
+SIZED = {"sMenu": 12, "sMessageWindowSpriteIds": 6}
 
 # Feature-gated: compiled out of some flag-matrix builds. Emit 0 rather than
 # failing the ROM (symbols.lua is a prerequisite of `make`). Suites that need
@@ -568,7 +570,7 @@ def main():
         pick = [a for (a, s) in ent if s == want_size]
         if not pick:
             sys.exit(f"symbol {name} with size {want_size} not found in {elf}")
-        lines.append(f"  {name} = 0x{pick[0]:08x},  -- {want_size}-byte definition (cursorPos at +2)")
+        lines.append(f"  {name} = 0x{pick[0]:08x},  -- {want_size}-byte definition")
 
     for name in ([] if title_only else SIZE_OF):
         sizes = {s for (_a, s) in syms.get(name, [])}

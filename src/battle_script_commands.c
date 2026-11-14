@@ -6113,6 +6113,15 @@ static void Cmd_yesnobox(void)
 {
     CMD_ARGS();
 
+    #if TESTING
+    if (gTestRunnerEnabled)
+    {
+        gBattleCommunication[CURSOR_POSITION] = 0;
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+    #endif
+
     switch (gBattleCommunication[0])
     {
     case 0:

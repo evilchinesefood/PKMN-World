@@ -109,6 +109,15 @@ return function(F, S)
     N.activeBattler = 0
   end
   local function isCtl(name) return isSym(controller(), name) end
+  local YESNO_OP
+  local function yesNoOp()
+    if not YESNO_OP then
+      for op = 0, 255 do
+        if (r32(P.gBattleScriptingCommandsTable + 4 * op) & ~1) == (P.Cmd_yesnobox & ~1) then YESNO_OP = op; break end
+      end
+    end
+    return YESNO_OP
+  end
   N.isCtl = isCtl
   local function choosingMove() return isCtl('HandleInputChooseMove') or isCtl('OakOldManHandleInputChooseMove') end
   function N.inBattle() return F.cb2() == (P.BattleMainCB2 & ~1) end
@@ -945,8 +954,8 @@ return function(F, S)
         N.lastSlot = bestMoveSlot(); notePick(N.lastSlot); chooseMove(N.lastSlot); frames = frames + 40
       elseif isCtl('HandleInputChooseTarget') or isCtl('HandleInputShowEntireFieldTargets') or isCtl('HandleInputShowTargets') then
         press('A'); idle(20); frames = frames + 22
-      elseif isCtl('PlayerHandleYesNoInput') then
-        -- "Will you switch POKéMON?" -- no.
+      elseif isCtl('PlayerHandleYesNoInput') or (trainer and r8(r32(P.gBattlescriptCurrInstr)) == yesNoOp()) then
+        -- "Will you switch POKéMON?" -- no. The Shift-style prompt is a battle-script Yes/No, not a controller.
         press('B'); idle(20); frames = frames + 22
       elseif N.natural and N.natural.battleText() then
         frames = frames + 30

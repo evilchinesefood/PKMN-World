@@ -347,7 +347,10 @@ static const struct StoryObjective *ResolveKanto(void)
     }
     if (!B(REGION_KANTO, 0))
         return &sKantoBrock;
-    if (!B(REGION_KANTO, 1) && !F(FLAG_GOT_FOSSIL_FROM_MT_MOON))
+    // Cerulean means Mt. Moon is behind the player. Vermilion without Cerulean is the regional
+    // arrival after Brock, east of the Route 2 Cut trees, where Mt. Moon is out of reach.
+    if (!B(REGION_KANTO, 1) && !F(FLAG_GOT_FOSSIL_FROM_MT_MOON)
+     && !F(FLAG_WORLD_MAP_CERULEAN_CITY) && !F(FLAG_WORLD_MAP_VERMILION_CITY))
         return &sKantoMtMoon;
     if (!receivedCut && !F(FLAG_GOT_SS_TICKET))
         return F(FLAG_HELPED_BILL_IN_SEA_COTTAGE) ? &sKantoTicket : &sKantoBill;

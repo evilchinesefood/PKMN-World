@@ -50,6 +50,9 @@ The corresponding objectives are `elm`, `starter`, `mr-pokemon`, `return-elm`,
   (`ilex-cut`). Successful delivery sets Farfetch'd state 3 and Azalea state 7.
   State 4 is a subsequent Kimono Girl scene. Shared `FLAG_RECEIVED_HM_CUT` is
   deliberately ignored as completion evidence.
+- `StoryProgress_JohtoPastIlex` holds this past-Ilex test. The World Transit
+  gate reuses it: its standard Johto arrival stays at New Bark until it holds,
+  because Goldenrod station is walled off from Azalea before then.
 
 ## Goldenrod and Ecruteak
 

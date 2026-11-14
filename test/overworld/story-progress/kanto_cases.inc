@@ -35,6 +35,13 @@ static void TestKanto(void)
     Expect(REGION_KANTO, "kanto.mt_moon");
     SetVar(VAR_MAP_SCENE_MT_MOON_B2F, 1); /* Fossil reward still pending. */
     Expect(REGION_KANTO, "kanto.mt_moon");
+    SetFlag(FLAG_WORLD_MAP_VERMILION_CITY); /* Regional arrival east of the Cut trees. */
+    Expect(REGION_KANTO, "kanto.bill");
+    ClearFlag(FLAG_WORLD_MAP_VERMILION_CITY);
+    SetFlag(FLAG_WORLD_MAP_CERULEAN_CITY); /* Crossed without taking a fossil. */
+    Expect(REGION_KANTO, "kanto.bill");
+    ClearFlag(FLAG_WORLD_MAP_CERULEAN_CITY);
+    Expect(REGION_KANTO, "kanto.mt_moon");
     SetFlag(FLAG_GOT_FOSSIL_FROM_MT_MOON);
     Expect(REGION_KANTO, "kanto.bill");
     SetFlag(FLAG_HELPED_BILL_IN_SEA_COTTAGE);

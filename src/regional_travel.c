@@ -10,6 +10,7 @@
 #include "mail.h"
 #include "script.h"
 #include "event_scripts.h"
+#include "story_progress.h"
 #include "string_util.h"
 #include "constants/battle.h"
 #include "constants/flags.h"
@@ -353,7 +354,8 @@ static void StandardDestination(enum Region region, struct RegionalTravelPlan *p
         warp.mapNum = MAP_NUM(MAP_NEW_BARK_TOWN_PLAYERS_HOUSE_2F);
         warp.warpId = 1;
         plan->healLocation = HEAL_LOCATION_NEW_BARK_TOWN;
-        if (later)
+        // Landing in Goldenrod before Ilex Forest leaves Azalea unreachable on foot.
+        if (later && StoryProgress_JohtoPastIlex())
         {
             warp.mapGroup = MAP_GROUP(MAP_GOLDENROD_CITY_TRAIN_STATION);
             warp.mapNum = MAP_NUM(MAP_GOLDENROD_CITY_TRAIN_STATION);

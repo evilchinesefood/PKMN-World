@@ -504,6 +504,17 @@ STORY_OBJECTIVE(sJohtoHideoutRoom, "johto.hideout-room", STORY_PIN(MAHOGANY_TOWN
     "Rocket Hideout, B2F\nThrough the unlocked gate",
     "Prepare your team for battle.");
 
+// Ilex Forest's Cut tree and Route 36's Sudowoodo wall Goldenrod off from Azalea. The Cut gift
+// or any badge from Whitney's on proves the player is past that wall.
+bool32 StoryProgress_JohtoPastIlex(void)
+{
+    return F(FLAG_JOHTO_CHAMPION) || V(VAR_ILEX_FOREST_FARFETCHD) >= 3 || V(VAR_AZALEA_TOWN_STATE) >= 7
+        || V(VAR_GOLDENROD_CITY_STATE) >= 3
+        || B(REGION_JOHTO, 2) || B(REGION_JOHTO, 3)
+        || B(REGION_JOHTO, 4) || B(REGION_JOHTO, 5)
+        || B(REGION_JOHTO, 6) || B(REGION_JOHTO, 7);
+}
+
 static const struct StoryObjective *ResolveJohto(void)
 {
     u16 lab = V(VAR_NEWBARKTOWN_LABSTATE);
@@ -607,10 +618,7 @@ static const struct StoryObjective *ResolveJohto(void)
             return &sJohtoVioletGift;
     }
 
-    pastIlex = farfetchd >= 3 || azalea >= 7 || goldenrod >= 3
-        || B(REGION_JOHTO, 2) || B(REGION_JOHTO, 3)
-        || B(REGION_JOHTO, 4) || B(REGION_JOHTO, 5)
-        || B(REGION_JOHTO, 6) || B(REGION_JOHTO, 7);
+    pastIlex = StoryProgress_JohtoPastIlex();
     if (!B(REGION_JOHTO, 1) && !pastIlex && azalea < 4)
     {
         if (azalea == 3)

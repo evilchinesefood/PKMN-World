@@ -304,3 +304,29 @@ TEST("Regional Centers north of Route 118's river need Surf or Fly")
     FlagSet(GetBadgeFlag(REGION_HOENN, 5));
     EXPECT(RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
 }
+
+TEST("Regional Center at Lilycove stays open to a Hoenn champion through the harbor ferry")
+{
+    struct Pokemon party[PARTY_SIZE] = {0};
+    u16 fortree = RegionalCenter_ForMap(MAP_GROUP(MAP_FORTREE_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_FORTREE_CITY_POKEMON_CENTER_1F));
+    u16 lilycove = RegionalCenter_ForMap(MAP_GROUP(MAP_LILYCOVE_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_LILYCOVE_CITY_POKEMON_CENTER_1F));
+
+    SetBagItemsPointers();
+    ClearBag();
+    SetAllRegionalBadges();
+    CreateMon(&party[0], SPECIES_CATERPIE, 5, 1, OTID_STRUCT_PLAYER_ID);
+    EXPECT(!RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
+    FlagSet(FLAG_HOENN_CHAMPION);
+    EXPECT(RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
+    EXPECT(!RegionalCenter_IsSafe(fortree, REGION_HOENN, party, 1));
+}
+
+TEST("Regional Centers west of Rusturf Tunnel are the Hoenn west shore")
+{
+    EXPECT(RegionalCenter_IsHoennWest(RegionalCenter_ForMap(MAP_GROUP(MAP_PETALBURG_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_PETALBURG_CITY_POKEMON_CENTER_1F))));
+    EXPECT(RegionalCenter_IsHoennWest(RegionalCenter_ForMap(MAP_GROUP(MAP_RUSTBORO_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_RUSTBORO_CITY_POKEMON_CENTER_1F))));
+    EXPECT(RegionalCenter_IsHoennWest(RegionalCenter_ForMap(MAP_GROUP(MAP_OLDALE_TOWN_POKEMON_CENTER_1F), MAP_NUM(MAP_OLDALE_TOWN_POKEMON_CENTER_1F))));
+    EXPECT(!RegionalCenter_IsHoennWest(RegionalCenter_ForMap(MAP_GROUP(MAP_SLATEPORT_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_SLATEPORT_CITY_POKEMON_CENTER_1F))));
+    EXPECT(!RegionalCenter_IsHoennWest(RegionalCenter_ForMap(MAP_GROUP(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F), MAP_NUM(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F))));
+    EXPECT(!RegionalCenter_IsHoennWest(0));
+}

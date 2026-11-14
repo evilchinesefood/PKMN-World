@@ -111,10 +111,10 @@ local function dockBrineyAtDewford()
   flag(FLAG_DEFEATED_PETALBURG_GYM,false)
   var(VAR_BRINEY_LOCATION,2)
 end
-local function brineyAtRoute109()
+local function brineyAtRoute109(returnTo)
   return flagGet(FLAG_HIDE_DEWFORD_BRINEY) and flagGet(FLAG_HIDE_DEWFORD_BOAT)
      and not flagGet(FLAG_HIDE_ROUTE109_BRINEY) and not flagGet(FLAG_HIDE_ROUTE109_BOAT)
-     and varGet(VAR_BRINEY_LOCATION)==3
+     and varGet(VAR_BRINEY_LOCATION)==(returnTo or 3)
 end
 local function brineyAtDewford()
   return not flagGet(FLAG_HIDE_DEWFORD_BRINEY) and not flagGet(FLAG_HIDE_DEWFORD_BOAT)
@@ -152,7 +152,8 @@ F.run(function()
   local first=crossHoenn(1,SLATEPORT_HARBOR,"standard")
   F.check("standard Hoenn arrival reaches Slateport Harbor",first,where())
   if not first then F.finish();return end
-  F.check("standard arrival brings Briney to Route 109",brineyAtRoute109(),brineyState())
+  -- The standard arrival respawns in Littleroot, so a whiteout or Teleport must send him home.
+  F.check("standard arrival brings Briney to Route 109",brineyAtRoute109(1),brineyState())
   for _,id in ipairs(select(2,F.keyItemSlot(0xFFFF))) do if not before[id] then hubPass=id end end
   F.check("first mature trip supplies a Hub Pass",hubPass~=nil)
   if not hubPass then F.finish();return end

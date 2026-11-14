@@ -149,6 +149,7 @@ end
 local function clearMailbox() for i=0,MAIL_COUNT-1 do zero(mail(i),MAIL_SIZE) end end
 local function mailIndexOf(text)
   for i=0,MAIL_COUNT-1 do if bytes(mail(i),MAIL_SIZE)==text then return i end end
+  return nil
 end
 -- Where the message is held now: the party holder's mail index, or nil.
 local function heldLetter(p)
@@ -360,7 +361,7 @@ F.run(function()
   if saveReload("recall_mail") then
     index,text,item=heldLetter(A[3])
     F.check("after Continue A3 still holds its message",item==ITEM_HARBOR_MAIL and text==letterA3,"index="..tostring(index))
-    F.check("after Continue X's message is still in the PC mailbox",mailIndexOf(letterX)==moved,"index="..tostring(mailIndexOf(letterX)))
+    F.check("after Continue X's message is still in the PC mailbox",moved~=nil and mailIndexOf(letterX)==moved,"index="..tostring(mailIndexOf(letterX)))
   end
   F.check("Hoenn departure with A",passToHub("depart_A2"))
 

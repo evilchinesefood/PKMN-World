@@ -15,6 +15,7 @@ enum CenterAccessRule
 {
     OPEN,
     WATER,
+    LILYCOVE,
     DEWFORD,
     HOENN_WEST,
     SOOTOPOLIS,
@@ -42,7 +43,8 @@ struct CenterEntry
     [id] = { { { MAP_GROUP(map), MAP_NUM(map), WARP_ID_NONE, posX, posY }, heal, campaign, label }, access }
 
 // IDs are saved. Append new rows without changing an existing ID.
-// Fortree and Lilycove are WATER: their land reaches the rest of Hoenn only across Route 118's river.
+// Fortree and Lilycove's land reaches the rest of Hoenn only across Route 118's river. Lilycove
+// Harbor also sails a Hoenn champion to Slateport.
 static const struct CenterEntry sCenters[] =
 {
     CENTER(1, MAP_PETALBURG_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_PETALBURG_CITY, HOENN_WEST, COMPOUND_STRING("PETALBURG CITY")),
@@ -50,7 +52,7 @@ static const struct CenterEntry sCenters[] =
     CENTER(3, MAP_MAUVILLE_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_MAUVILLE_CITY, OPEN, COMPOUND_STRING("MAUVILLE CITY")),
     CENTER(4, MAP_RUSTBORO_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_RUSTBORO_CITY, HOENN_WEST, COMPOUND_STRING("RUSTBORO CITY")),
     CENTER(5, MAP_FORTREE_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_FORTREE_CITY, WATER, COMPOUND_STRING("FORTREE CITY")),
-    CENTER(6, MAP_LILYCOVE_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_LILYCOVE_CITY, WATER, COMPOUND_STRING("LILYCOVE CITY")),
+    CENTER(6, MAP_LILYCOVE_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_LILYCOVE_CITY, LILYCOVE, COMPOUND_STRING("LILYCOVE CITY")),
     CENTER(7, MAP_MOSSDEEP_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_MOSSDEEP_CITY, WATER, COMPOUND_STRING("MOSSDEEP CITY")),
     CENTER(8, MAP_SOOTOPOLIS_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_SOOTOPOLIS_CITY, SOOTOPOLIS, COMPOUND_STRING("SOOTOPOLIS CITY")),
     CENTER(9, MAP_EVER_GRANDE_CITY_POKEMON_CENTER_1F, REGION_HOENN, 7, 7, HEAL_LOCATION_EVER_GRANDE_CITY, EVER_GRANDE, COMPOUND_STRING("EVER GRANDE CITY")),
@@ -187,6 +189,11 @@ bool32 RegionalCenter_GetDestination(u16 id, struct WarpData *warp, u16 *healLoc
     return TRUE;
 }
 
+bool32 RegionalCenter_IsHoennWest(u16 id)
+{
+    return RegionalCenter_GetInfo(id) != NULL && sCenters[id].rule == HOENN_WEST;
+}
+
 static bool32 PartyCanUseMove(struct Pokemon *party, u8 count, enum Move move)
 {
     u32 i;
@@ -283,6 +290,8 @@ bool32 RegionalCenter_IsSafe(u16 id, enum Region destination, struct Pokemon *pa
         return TRUE;
     case WATER:
         return canFly || CanSurf(destination, party, count);
+    case LILYCOVE:
+        return FlagGet(FLAG_HOENN_CHAMPION) || canFly || CanSurf(destination, party, count);
     case DEWFORD:
         return (!FlagGet(FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN)
              && !FlagGet(FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN))

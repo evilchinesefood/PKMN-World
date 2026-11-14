@@ -8,6 +8,8 @@
 #include "overworld.h"
 #include "field_screen_effect.h"
 #include "mail.h"
+#include "script.h"
+#include "event_scripts.h"
 #include "string_util.h"
 #include "constants/battle.h"
 #include "constants/flags.h"
@@ -540,6 +542,33 @@ enum RegionalTravelResult RegionalTravel_Preview(const struct RegionalTravelRequ
     return preview->result = result;
 }
 
+// VAR_BRINEY_LOCATION values, as EventScript_ResetMrBriney reads them.
+enum
+{
+    BRINEY_AT_HOUSE = 1,
+    BRINEY_AT_ROUTE_109 = 3,
+};
+
+// Before Surf, Mr. Briney's boat is the only link between the west mainland, Dewford and Route 109,
+// so dock him on the shore the player lands on. A whiteout or Teleport moves him to
+// VAR_BRINEY_LOCATION, which each Center visit records. The standard arrival respawns in Littleroot
+// without one, so it records his house, the shore Littleroot can walk to.
+static void DockBrineyForArrival(u16 center)
+{
+    bool32 west = RegionalCenter_IsHoennWest(center);
+
+    if (!HasBadge(REGION_HOENN, 0) || FlagGet(FLAG_DEFEATED_PETALBURG_GYM) || VarGet(VAR_BRINEY_LOCATION) == 0
+     || center == RegionalCenter_ForMap(MAP_GROUP(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F), MAP_NUM(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F)))
+        return;
+    if (!FlagGet(FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN) || (west && !FlagGet(FLAG_HIDE_ROUTE_109_MR_BRINEY)))
+    {
+        VarSet(VAR_BRINEY_LOCATION, west ? BRINEY_AT_HOUSE : BRINEY_AT_ROUTE_109);
+        RunScriptImmediately(EventScript_ResetMrBriney);
+    }
+    if (center == 0)
+        VarSet(VAR_BRINEY_LOCATION, BRINEY_AT_HOUSE);
+}
+
 enum RegionalTravelResult RegionalTravel_Commit(const struct RegionalTravelRequest *request)
 {
     enum RegionalTravelResult result = RegionalTravel_Preview(request, &sPreview);
@@ -560,18 +589,8 @@ enum RegionalTravelResult RegionalTravel_Commit(const struct RegionalTravelReque
     SetCurrentRegion(request->destination);
     SetLastHealLocationWarp(sPlan.healLocation);
     SetWarpDestination(sPlan.warp.mapGroup, sPlan.warp.mapNum, sPlan.warp.warpId, sPlan.warp.x, sPlan.warp.y);
-    // Before Surf, Mr. Briney's boat is the only way back to Dewford. Any arrival off Dewford,
-    // including a resumed mainland Center, must not leave him docked there.
-    if (sPreview.center != RegionalCenter_ForMap(MAP_GROUP(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F), MAP_NUM(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F))
-     && request->destination == REGION_HOENN && HasBadge(REGION_HOENN, 0)
-     && !FlagGet(FLAG_DEFEATED_PETALBURG_GYM) && !FlagGet(FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN))
-    {
-        FlagSet(FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN);
-        FlagSet(FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN);
-        FlagClear(FLAG_HIDE_ROUTE_109_MR_BRINEY);
-        FlagClear(FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT);
-        VarSet(VAR_BRINEY_LOCATION, 3);
-    }
+    if (request->destination == REGION_HOENN)
+        DockBrineyForArrival(sPreview.center);
     return REGIONAL_TRAVEL_OK;
 }
 

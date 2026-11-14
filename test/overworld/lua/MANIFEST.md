@@ -1076,3 +1076,26 @@ that could do neither. The suite drives the real gate with a carried Caterpie, S
 and Charizard with Fly, before and after the Feather Badge. Measured **17/17** fixed and **13/17**
 on the unfixed ROM, where the four failures land the Caterpie or the badgeless Charizard in the
 Fortree (`12/2`) or Lilycove (`13/6`) Center instead of Slateport Harbor.
+The champion case adds a Caterpie after all eight badges. Lilycove Harbor sails a Hoenn champion to
+Slateport, which the suite proves by boarding the S.S. Tidal, so the gate must resume a champion at
+Lilycove. Measured **22/22** fixed and **21/22** without the `LILYCOVE` rule, where the champion
+lands at Slateport Harbor (`9/9`).
+
+### `BrineyRespawnShore.lua`
+
+Before Surf, Mr. Briney's boat is the only link between the west mainland, Dewford and Route 109. A
+whiteout or Teleport moves him to `VAR_BRINEY_LOCATION`, which each Center visit records, but the
+gate sets the respawn without one. The suite drives the standard Hoenn arrival, a Teleport from
+Dewford with Abra and a Petalburg Center resume, each with Briney docked at Dewford, and reads his
+hide flags and the variable. Measured **12/12** fixed and **8/12** unfixed: the Teleport lands in
+Littleroot with Briney at Route 109 (`docked=route109 var=3`), and the Petalburg resume docks him at
+Route 109 across the uncut Rusturf Tunnel.
+
+### `RegionalRecallMail.lua`
+
+Gate recall with held Mail and a chosen follower. A kept member and a deposited stranger both hold
+Mail; the suite chooses Follow on the kept member and moves it with a party-menu Switch right before
+the gate, then checks the recalled party, both messages byte for byte, the mailbox, the follower
+index and a save and Continue. It also refuses a full-PC and a full-mailbox recall and checks no
+Mail record changed. Measured **24/24** before and after the travel fixes. A tamper build that drops
+the mailbox copy and the follower remap scores **21/24**, so the checks bite.

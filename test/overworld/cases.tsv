@@ -114,3 +114,5 @@ HiddenCoinsCase	lua/HiddenCoinsCase.lua	fresh	0	required
 ElmLabFullParty	lua/ElmLabFullParty.lua	fresh	0	required
 PikeRoomSave	lua/PikeRoomSave.lua	fresh	0	required
 TowerMultiRoomMenu	lua/TowerMultiRoomMenu.lua	fresh	0	required
+OweSurfLedgeFuzz	lua/OweSurfLedgeFuzz.lua	fresh	0	required
+DoubleKoWhiteout	lua/DoubleKoWhiteout.lua	fresh	0	required

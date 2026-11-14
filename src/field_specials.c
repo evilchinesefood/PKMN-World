@@ -60,6 +60,7 @@
 #include "constants/battle_frontier.h"
 #include "constants/battle_pyramid.h"
 #include "constants/battle_tower.h"
+#include "constants/coins.h"
 #include "constants/decorations.h"
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
@@ -5839,7 +5840,7 @@ u16 StickerManGetBragFlags(void)
 
 bool8 CheckAddCoins(void)
 {
-    if (gSpecialVar_Result + gSpecialVar_0x8006 > 9999)
+    if (gSpecialVar_Result + gSpecialVar_0x8009 > MAX_COINS)
         return FALSE;
     else
         return TRUE;

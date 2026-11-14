@@ -101,3 +101,5 @@ GateRecallStress	lua/GateRecallStress.lua	fresh	0	required
 HubPassVesselBreaks	lua/HubPassVesselBreaks.lua	fresh	0	required
 NortheastHoennResume	lua/NortheastHoennResume.lua	fresh	0	required
 BugContestPodium	lua/BugContestPodium.lua	fresh	0	required
+JohtoGoldenrodArrival	lua/JohtoGoldenrodArrival.lua	fresh	0	required
+SSAnnePierHeal	lua/SSAnnePierHeal.lua	fresh	0	required

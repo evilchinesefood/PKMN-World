@@ -1076,3 +1076,20 @@ that could do neither. The suite drives the real gate with a carried Caterpie, S
 and Charizard with Fly, before and after the Feather Badge. Measured **17/17** fixed and **13/17**
 on the unfixed ROM, where the four failures land the Caterpie or the badgeless Charizard in the
 Fortree (`12/2`) or Lilycove (`13/6`) Center instead of Slateport Harbor.
+
+### `JohtoGoldenrodArrival.lua`
+
+Goldenrod station sits north of Ilex Forest's Cut tree and east of Route 36's Sudowoodo. The
+standard Johto arrival used to land there after Falkner alone, before the player could walk back
+to Azalea: Cut needs the Hive Badge and the Ilex gift, Sudowoodo needs the Plain Badge. The suite
+drives the real gate after Falkner only, after Bugsy with Ilex unfinished, with Farfetch'd home
+but no Cut gift, after the Cut gift, and with Whitney's badge. Measured **11/11** fixed and
+**8/11** on the unfixed ROM, where the first three land at Goldenrod station (`84/23`) instead
+of New Bark (`76/4`).
+
+### `SSAnnePierHeal.lua`
+
+A party at 1 HP walks the Vermilion ticket check and pier, boards the S.S. Anne, Hub Passes off
+the ship, returns through the Kanto gate and walks the pier into the departure scene. HP stays
+at 1 after every step. The only heal on this route is the opt-in woman in 1F Room 6, inherited
+from FRLG. Measured **15/15**; no defect found.

@@ -92,6 +92,7 @@ is clean; keep it that way.
 | `WorldTitle.lua` | fresh boot, ALL_REGIONS | Native title tiles/maps/palette and layer registers; World wordmark's four-pixel offset; centered PRESS START; scrolling fog and wrap; Start/A, service-chord guard, clear-save cancel, music-end intro loop; SELECT quickstart and its badge disabled. Screenshots at each transition. Release/LTO symbols: `GenLuaSymbols.py pokemonworld-release.elf [nm] --title`, then set `PW_TITLE_SYMBOLS` to that generated file. |
 | [`HubIntroTour.lua`](#hubintrotourlua) | fresh new game | The World Transit intro tour — all five reachable paths on one fresh game. |
 | [`HubIntroTourFollower.lua`](#hubintrotourfollowerlua) | fresh new game | The same escort with a follower out, at the exact sprite budget. |
+| [`EscortStress.lua`](#escortstresslua) | fresh new game | Cherrygrove guide gent, Violet Earl and Pewter gym guide escorts run from every reachable start and mashed through: no freeze, no menu, right final tile, flags landed. |
 | [`HubStairsGate.lua`](#hubstairsgatelua) | fresh new game | The champion-gated hub escalator: refusal, admission, and the ride back down. |
 | [`DebugParty.lua`](#debugpartylua) | fresh new game | Debug Set/Clear Party writes the party count and spawns the follower. |
 | [`VerifyBagLayout.lua`](#verifybaglayoutlua) | fresh new game | The expanded bag + item PC really shipped, and survives a save + core reboot. |
@@ -141,6 +142,7 @@ is clean; keep it that way.
 | [`ExpansionHealthboxes.lua`](#expansionhealthboxeslua) | fresh new game | Issue #120 A: Safari leftover-ball text (FillSpriteRect left=55), singles nick/HP numbers, doubles healthboxes. |
 | [`CatchTutorial.lua`](#catchtutoriallua) | fresh new game | Issue #120 B: Viridian Old Man tutorial does not say WALLY; Petalburg Wally control still does. |
 | [`DayNightTint.lua`](#daynighttintlua) | fresh new game | Issue #120 C: day/night palette tint on Hoenn/Kanto/Johto routes, cave control, night fade-in. |
+| [`RainPaletteSlots.lua`](#rainpaletteslotslua) | fresh new game | Object palettes loaded mid-rain take exactly the rain colour map, and every slot returns to its unfaded colours when rain stops in place. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
@@ -163,6 +165,10 @@ Issue #41's World Transit intro tour, all five reachable paths on one fresh new 
 ### `HubIntroTourFollower.lua`
 
 The same escort with a **follower POKéMON out**. RegionHub has 14 object events against an `OBJECT_EVENTS_COUNT` of 16, so player + follower fills the sprite budget exactly, and a ~47-step scripted walk under that had never been run. Proves the follower spawns at all, that all nine stops (#59 added the BATTLE NET terminal and the flagship stairs) still run with it out, that it is back out beside the player at the end, and that the guide still gets home. It also pins the **mechanism**: `ScrCmd_applymovement` pockets the follower for the whole escort (`ScriptHideFollower`, because nothing sets `FLAG_SAFE_FOLLOWER_MOVEMENT` here), so the suite asserts zero visible frames *and* a ≤1 tile gap over any frame it is visible — if a future change stops pocketing it, the visible count leaves zero and the gap check starts doing real work. **★ `active` is not `visible`:** a pocketed follower stays active in `gObjectEvents` parked on its last tile, so an active-only check reads it as still on the map and reports a phantom desync that grows as the player walks away. Read `invisible` (`ObjectEvent.flags1` bit 5).
+
+### `EscortStress.lua`
+
+Every escort the hack ships outside the hub tour, started from its real trigger and then mashed: A, B, Start, Select, L, R and all four directions cycle every few frames from the moment the guide moves until the script context shuts down. Cherrygrove guide gent: decline at a coord trigger (state 1, gent stays), the talk re-offer from (57,9), and the Top / Mid / Bottom triggers, each ending on (41,16) with the gent removed, `FLAG_HIDE_GUIDE_GENT_CHERRYGROVE` set, the house copy shown and `VAR_CHERRYGROVE_CITY_STATE` 1. Violet Earl, talked to from the south and from the east (the only two open sides, and the two `VAR_FACING` cases the script switches on), both ending on (38,38) with Earl hidden. Pewter gym guide via the coord trigger, from the west, and from the Route 3 side, where `VAR_FACING` is WEST and the script skips the walk by design. Every run asserts no vblank stall or crash screen, Start never opened the menu mid-walk (so a mid-escort save is unreachable), the field callback never changed, the final tile, and that a real step lands afterwards. **The guide's removal is read at script end:** Pewter's script clears `FLAG_HIDE_PEWTER_CITY_GYM_GUIDE`, so he respawns home on the next camera update by design.
 
 ### `HubStairsGate.lua`
 
@@ -543,6 +549,10 @@ Issue #120 playtest B. `GetCurrentRegion()==REGION_KANTO` chooses "The old man" 
 
 Issue #120 playtest C. This is palette tint, **not** Johto object swap — `JohtoDayNightLive.lua` already crosses 19:59→20:00 on Route 37 and asserts flags/objects. Standing still, no warp during the tick: outdoor Hoenn Route 101, Kanto Route 1, Johto Route 37, plus Granite Cave 1F as the indoor control (`MapHasNaturalLight` is false for `MAP_TYPE_UNDERGROUND`, so `ApplyWeatherColorMapIfIdle` is skipped). Clock lever is `SaveBlock2.localTimeOffset` (survives a warp); `gTimeUpdateCounter=0` forces the tick. Outdoors: after 20:00, `gTimeOfDay` is night AND (`gTimeBlend` words changed). Cave: `gTimeOfDay` may still advance but map pals in `gPlttBufferFaded` must not take the night tint. Fade-in at night warps into Route 101 with a night clock (the `field_weather.c` TRUE path).
 
+
+### `RainPaletteSlots.lua`
+
+Recomputes every in-use, non-blend-immune object palette from `gPlttBufferUnfaded` and the ROM colour maps (`sDarkenedContrastColorMaps`, `sContrastColorMaps` for the weather palette slot, indexed `colorMapIndex - 1`, exactly as `ApplyColorMap` picks them) and compares to `gPlttBufferFaded`. The clock is pinned to 14:30 and a clear Route 101 audit proves the day blend is the identity first. Then Olivine City (`WEATHER_RAIN`): slots loaded during the warp fade-in, the follower, and Tentacool / Tentacruel / NPC palettes loaded by camera spawns into previously free slots after the fade-in. Then rain stops in place (the three fields `SetNextWeather` writes) and every slot, mid-rain loads included, must equal its unfaded colours, then rain restarts. **Discrimination:** with `LoadDynamicFollowerPalette`'s weather call disabled the suite fails on the follower and both spawned Pokémon slots (18/20).
 
 ### `HubPassReCross.lua`
 
@@ -1076,3 +1086,36 @@ that could do neither. The suite drives the real gate with a carried Caterpie, S
 and Charizard with Fly, before and after the Feather Badge. Measured **17/17** fixed and **13/17**
 on the unfixed ROM, where the four failures land the Caterpie or the badgeless Charizard in the
 Fortree (`12/2`) or Lilycove (`13/6`) Center instead of Slateport Harbor.
+
+### `JohtoGoldenrodArrival.lua`
+
+Goldenrod station sits north of Ilex Forest's Cut tree and east of Route 36's Sudowoodo. The
+standard Johto arrival used to land there after Falkner alone, before the player could walk back
+to Azalea: Cut needs the Hive Badge and the Ilex gift, Sudowoodo needs the Plain Badge. The suite
+drives the real gate after Falkner only, after Bugsy with Ilex unfinished, with Farfetch'd home
+but no Cut gift, after the Cut gift, and with Whitney's badge. Measured **11/11** fixed and
+**8/11** on the unfixed ROM, where the first three land at Goldenrod station (`84/23`) instead
+of New Bark (`76/4`).
+
+### `SSAnnePierHeal.lua`
+
+A party at 1 HP walks the Vermilion ticket check and pier, boards the S.S. Anne, Hub Passes off
+the ship, returns through the Kanto gate and walks the pier into the departure scene. HP stays
+at 1 after every step. The only heal on this route is the opt-in woman in 1F Room 6, inherited
+from FRLG. Measured **15/15**; no defect found.
+### `HubPassEliteFour.lua`
+
+The Hub Pass used mid Elite Four run. Each region's rooms reopen their exits on load when the
+previous member is already beaten, and Hoenn and Kanto clear that progress only on whiteout or the
+Hall of Fame (Johto's reset in the Indigo Plateau Center is bypassed by the outdoor E4 door). The
+suite debug-warps into Phoebe's, Kanto Bruno's and Koga's rooms with the previous member beaten and
+presses Select with the Hub Pass registered. Each room must refuse it and keep the player there;
+the League lobby must still allow it. Measured **12/12** fixed and **6/12** on the unfixed ROM,
+where all three rooms warped to the hub with the beaten flag or League state intact.
+
+### `PayDayMoneyText.lua`
+
+Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding an Amulet Coin uses
+Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
+doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
+15464 (81000 truncated to 16 bits) while paying 81000.

@@ -45,6 +45,7 @@ const struct StoryDestination *StoryProgress_GetDestination(const struct StoryOb
 void ShowStoryDestinationMap(const struct StoryObjective *objective, void (*returnCallback)(void));
 void StoryProgress_Resolve(enum Region region, struct StoryProgress *progress);
 enum Region StoryProgress_DefaultRegion(void);
+bool32 StoryProgress_JohtoPastIlex(void);
 void ShowStoryProgress(void (*returnCallback)(void));
 
 #endif

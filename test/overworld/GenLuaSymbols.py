@@ -43,6 +43,8 @@ WANT = [
     # left=55 (the unaligned FillSpriteRectColor case). gSafariZoneStepCounter must
     # be non-zero or the first step fires the times-up script instead of a battle.
     "gDisplayedStringBattle", "gNumSafariBalls", "gSafariZoneStepCounter",
+    # PayDayMoneyText: the u16 per-battle Pay Day pot, seeded after battle start.
+    "gPaydayMoney",
     "gHealthboxSpriteIds", "gActionSelectionCursor",
     "gBattlerControllerFuncs", "gBattlescriptCurrInstr", "gBattleCommunication",
     "PlayerHandleYesNoInput", "HandleInputChooseMove", "gMultiUsePlayerCursor", "gBattlerPartyIndexes", "gBattleScripting",
@@ -75,6 +77,9 @@ WANT = [
     # Overworld weather object. Route41SurfBgm.lua zeros curr/next/rain so a
     # Route 41 surf check cannot pass on a raining map (or fail on one).
     "gWeather",
+    # The rain/thunder colour maps ApplyColorMap indexes by colorMapIndex - 1. RainPaletteSlots.lua
+    # recomputes each object palette's expected faded colours from these and gPlttBufferUnfaded.
+    "sDarkenedContrastColorMaps", "sContrastColorMaps",
     # The in-game clock. gLocalTime is recomputed from the RTC inside UpdateTimeOfDay() itself
     # (overworld.c:1857), so it is fresh whenever gTimeOfDay is, and a suite can read both to
     # prove the Johto day/night flags agree with the clock rather than with its own seeding.

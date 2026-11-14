@@ -114,3 +114,4 @@ HiddenCoinsCase	lua/HiddenCoinsCase.lua	fresh	0	required
 ElmLabFullParty	lua/ElmLabFullParty.lua	fresh	0	required
 PikeRoomSave	lua/PikeRoomSave.lua	fresh	0	required
 TowerMultiRoomMenu	lua/TowerMultiRoomMenu.lua	fresh	0	required
+StartMenuSpriteLoad	lua/StartMenuSpriteLoad.lua	fresh	0	required

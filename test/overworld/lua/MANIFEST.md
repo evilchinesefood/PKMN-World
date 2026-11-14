@@ -1223,3 +1223,14 @@ Measured **13/13** fixed. An earlier cut of the suite (same flow, plus a Bag > G
 **12/16** on the unfixed ROM: Save and Bag offered, the lobby handed back two Pokémon, and four
 were gone from the party and the PC after Continue. The Give itself did no harm there, because
 the room's `pyramid_resetparty` on resume writes the live challenge Pokémon back into the copy.
+
+### `StartMenuSpriteLoad.lua`
+
+The Start menu wheel opened on a crowded rainy route. Rain keeps 24 sprites alive, every object
+event carries a shadow sprite, and visible wild Pokemon, the follower, footprints and reflections
+add more; the wheel then needs six icons and two arrows. A level 100 Lapras follower runs along
+Route 40's beach with the encounter spawn countdown zeroed until the field holds 58 sprites, then
+Start is pressed, five times. Each opening must show no crash screen, put the menu up and hand
+control back on B, and at least one opening must meet the menu with 57 or more sprites already in
+use. Found by `OweSurfLedgeFuzz` (seed 777). Measured **33/33** fixed and **17/18** on the
+unfixed ROM, which stopped on the `sprite.c` "Out of sprite slots" assert screen at 58 sprites.

@@ -1104,7 +1104,7 @@ static void Usm_CreateIcons(s16 x, s16 y)
 
         u8 iconId = sUsmState->visible.iconIndex[i];
 
-        u8 id = CreateSprite(sUsmMenuItems[iconId].template, posX, y, 1);
+        u8 id = CreateSpriteUnchecked(sUsmMenuItems[iconId].template, posX, y, 1);
         if (Usm_IsFlashObscured())
             gSprites[id].copyToObjWin = TRUE;
         sUsmMemory->spriteIds[i] = id;

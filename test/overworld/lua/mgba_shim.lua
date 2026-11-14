@@ -28,7 +28,6 @@
 -- for the one-line upstream patch this build carries.
 
 local core     = emu      -- capture before we shadow the globals below
-local mconsole = console
 
 -- ---- configuration from the runner ----------------------------------------------------------
 local SUITE    = os.getenv("PW_SUITE")
@@ -53,7 +52,7 @@ for biz, mgba in pairs({
 end
 
 -- ---- console ---------------------------------------------------------------------------------
--- Straight to stdout, NOT through mconsole:log. mGBA routes script logging through its normal
+-- Straight to stdout, NOT through mGBA's console:log. mGBA routes script logging through its normal
 -- logger, so the -l mask the runner uses to silence per-DMA/BIOS chatter would swallow the
 -- suite's own output with it -- the run looks silent and passing whether or not it did anything.
 local function emit(stream, prefix, ...)
@@ -177,13 +176,13 @@ emu = {
 }
 
 if not SUITE then
-  mconsole:error("PW_SUITE is not set -- launch through test/overworld/mgba-run.sh")
+  console.error("PW_SUITE is not set -- launch through test/overworld/mgba-run.sh")
   os.exit(2)
 end
 
 local chunk, loadErr = loadfile(SUITE)
 if not chunk then
-  mconsole:error("could not load suite: " .. tostring(loadErr))
+  console.error("could not load suite: " .. tostring(loadErr))
   os.exit(2)
 end
 
@@ -195,7 +194,7 @@ callbacks:add("frame", function()
   if finished then return end
   frameCount = frameCount + 1
   if frameCount > maxFrames then
-    mconsole:error("suite exceeded PW_MAX_FRAMES=" .. tostring(maxFrames))
+    console.error("suite exceeded PW_MAX_FRAMES=" .. tostring(maxFrames))
     finish(4)
     return
   end
@@ -204,12 +203,12 @@ callbacks:add("frame", function()
     -- pass" -- which quietly bypassed lib.lua's deliberate "zero assertions is a FAILURE" guard,
     -- because that guard lives inside finish(). Any early `return` from a suite's main() therefore
     -- exited 0 having asserted nothing. Exiting through F.finish() is mandatory; say so.
-    mconsole:error("suite ended without calling F.finish() -- no verdict was produced")
+    console.error("suite ended without calling F.finish() -- no verdict was produced")
     finish(3)
   end
   local ok, err = coroutine.resume(suite)
   if not ok then
-    mconsole:error("suite error: " .. tostring(err))
+    console.error("suite error: " .. debug.traceback(suite, tostring(err)))
     finish(1)
   end
 end)

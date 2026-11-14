@@ -23,8 +23,9 @@ static bool32 IsPlayerDefeated(u32 battleOutcome);
 static u32 sBugContestStartTime;
 static bool8 sBugContestTimerActive;
 // Copied out of the contest party before CopyMonToPC so a full-box retry can
-// open the PC without CompactPartySlots moving VAR_0x8004. LoadPlayerParty must
-// not run while this is set.
+// open the PC without CompactPartySlots moving VAR_0x8004. Once set, the retry
+// never reads the party again, so the full-box branch may restore the parked
+// party for that PC.
 static EWRAM_DATA struct Pokemon sBugContestKeep = {0};
 static bool8 sHasBugContestKeep;
 

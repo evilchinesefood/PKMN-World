@@ -5887,9 +5887,9 @@ static void Cmd_getmoneyreward(void)
                         sPartyLevel = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_LEVEL);
                 }
             }
-            for (count = 0, i = 0; i < ARRAY_COUNT(gBadgeFlags); i++)
+            for (count = 0, i = 0; i < NUM_BADGES; i++)
             {
-                if (FlagGet(gBadgeFlags[i]) == TRUE)
+                if (HasActiveRegionBadge(i))
                     ++count;
             }
             money = sWhiteOutBadgeMoney[count] * sPartyLevel;

@@ -40,6 +40,7 @@ JohtoWhiteoutHeal	lua/JohtoWhiteoutHeal.lua	fresh	0	required
 KenyaMail	lua/KenyaMail.lua	fresh	0	required
 PromptSafetyEvIv	lua/PromptSafetyEvIv.lua	fresh	0	required
 FamilyOptions	lua/FamilyOptions.lua	fresh	0	required
+FamilyOptionsFieldStress	lua/FamilyOptionsFieldStress.lua	fresh	0	required
 FamilyBattleOptions	lua/FamilyBattleOptions.lua	fresh	0	required
 RedGyarados	lua/RedGyarados.lua	fresh	0	required
 Route41SeaReturn	lua/Route41SeaReturn.lua	fresh	0	required
@@ -89,3 +90,5 @@ KantoGateRivalBattleViaJohto	lua/KantoGateRivalBattleViaJohto.lua	fresh	0	requir
 DoubleBattleStress	lua/DoubleBattleStress.lua	fresh	0	required
 EvolutionMashStress	lua/EvolutionMashStress.lua	fresh	0	required
 EconomyStress	lua/EconomyStress.lua	fresh	0	required
+BugContestFullPC	lua/BugContestFullPC.lua	fresh	0	required
+RegionalSequenceBreaks	lua/RegionalSequenceBreaks.lua	fresh	0	required

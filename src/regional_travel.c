@@ -324,9 +324,19 @@ static bool32 PartyIsUsable(struct Pokemon *party, u32 count)
 // Before Surf, Mr. Briney's boat is the only way to Slateport until Rusturf Tunnel opens, which takes
 // Rock Smash and Wattson's badge. Landing there before his voyages would cut the player off from
 // Dewford, so the harbor waits until the player has reached Slateport.
+// VAR_BRINEY_LOCATION values, as EventScript_ResetMrBriney reads them.
+enum
+{
+    BRINEY_AT_HOUSE = 1,
+    BRINEY_AT_ROUTE_109 = 3,
+};
+
 static bool32 IsHoennHarborOpen(void)
 {
-    return HasBadge(REGION_HOENN, 0) && FlagGet(FLAG_VISITED_SLATEPORT_CITY);
+    // Briney waits on Route 109 only after the Slateport voyage, even if the player never walked
+    // into the city before leaving Hoenn.
+    return HasBadge(REGION_HOENN, 0)
+        && (FlagGet(FLAG_VISITED_SLATEPORT_CITY) || VarGet(VAR_BRINEY_LOCATION) == BRINEY_AT_ROUTE_109);
 }
 
 static void StandardDestination(enum Region region, struct RegionalTravelPlan *plan)
@@ -551,13 +561,6 @@ enum RegionalTravelResult RegionalTravel_Preview(const struct RegionalTravelRequ
         result = REGIONAL_TRAVEL_PARTIAL;
     return preview->result = result;
 }
-
-// VAR_BRINEY_LOCATION values, as EventScript_ResetMrBriney reads them.
-enum
-{
-    BRINEY_AT_HOUSE = 1,
-    BRINEY_AT_ROUTE_109 = 3,
-};
 
 // Before Surf, Mr. Briney's boat is the only link between the west mainland, Dewford and Route 109,
 // so dock him on the shore the player lands on. An east arrival needs a visited Slateport, so his

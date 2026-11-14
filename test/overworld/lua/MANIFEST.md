@@ -1176,3 +1176,15 @@ Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding 
 Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
 doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
 15464 (81000 truncated to 16 bits) while paying 81000.
+
+### `ElmLabFullParty.lua`
+
+Elm's starter when the party already holds Pokemon. The first Johto crossing boxes the team, but
+the Hub Pass and the same-region Johto gate keep a team withdrawn at the hub PC, so the player can
+reach Elm's balls with a full party. The suite crosses, Hub Passes back, restores the team in
+memory as the hub PC would, crosses again and plays Elm's introduction and the ball picks. The
+starter must go to the PC exactly once, count as the Johto starter, and leave no second ball to
+take. Measured **17/17** fixed and **15/17** on the unfixed ROM, where Chikorita went to the PC
+behind a "no more room" line with the starter flag unset, and Cyndaquil could then be taken too.
+`--env PW_ELM_PARTY=5` runs a partial party and types one letter at the nickname prompt: **19/19**
+fixed, **18/19** unfixed, where the name went to the party's lead instead of the starter.

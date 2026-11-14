@@ -481,9 +481,33 @@ static void ItemUseOnFieldCB_HubReturn(u8 taskId)
 // marker (set to CHALLENGE_STATUS_SAVING in frontier_util.c, which the continue-warp machinery
 // keys on) and Task_UseHubReturnOnField is a raw SetWarpDestination + DoWarp with no facility
 // teardown, so it would survive the exit along with the streak/party state.
+// An Elite Four room reopens its exits on load when its member is already beaten, and only a
+// whiteout or the Hall of Fame clears that progress. Leaving mid run would let the player heal and
+// walk past every member already beaten, so refuse here as Fly, Dig and the Escape Rope do.
+static bool32 InEliteFourRoom(void)
+{
+    static const u16 sEliteFourRooms[] =
+    {
+        MAP_EVER_GRANDE_CITY_SIDNEYS_ROOM, MAP_EVER_GRANDE_CITY_PHOEBES_ROOM,
+        MAP_EVER_GRANDE_CITY_GLACIAS_ROOM, MAP_EVER_GRANDE_CITY_DRAKES_ROOM,
+        MAP_POKEMON_LEAGUE_LORELEIS_ROOM, MAP_POKEMON_LEAGUE_BRUNOS_ROOM,
+        MAP_POKEMON_LEAGUE_AGATHAS_ROOM, MAP_POKEMON_LEAGUE_LANCES_ROOM,
+        MAP_JOHTO_POKEMON_LEAGUE_WILLS_ROOM, MAP_JOHTO_POKEMON_LEAGUE_KOGAS_ROOM,
+        MAP_JOHTO_POKEMON_LEAGUE_BRUNOS_ROOM, MAP_JOHTO_POKEMON_LEAGUE_KARENS_ROOM,
+    };
+    u16 map = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+    for (u32 i = 0; i < ARRAY_COUNT(sEliteFourRooms); i++)
+    {
+        if (sEliteFourRooms[i] == map)
+            return TRUE;
+    }
+    return FALSE;
+}
+
 static bool32 CannotUseHubReturnHere(void)
 {
     return GetSafariZoneFlag()
+        || InEliteFourRoom()
         || FlagGet(FLAG_SYS_BUG_CONTEST_MODE)
         || InUnionRoom()
         || InMultiPartnerRoom()

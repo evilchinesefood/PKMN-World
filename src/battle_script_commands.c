@@ -7567,7 +7567,7 @@ static void Cmd_givepaydaymoney(void)
         u32 bonusMoney = gPaydayMoney * gBattleStruct->moneyMultiplier;
         AddMoney(&gSaveBlock1Ptr->money, bonusMoney);
 
-        PREPARE_HWORD_NUMBER_BUFFER(gBattleTextBuff1, 5, bonusMoney)
+        PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 6, bonusMoney)
 
         BattleScriptPush(cmd->nextInstr);
         gBattlescriptCurrInstr = BattleScript_PrintPayDayMoneyString;

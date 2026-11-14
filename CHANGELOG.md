@@ -9,6 +9,7 @@ All notable player-facing changes. For the full feature reference see
 
 - **Choose each preference independently** (#383). Encounter Rate and Money Loss join Exp Rate and Catch Rate with the same 0.5× / 1× / 1.5× / 2× choices. Encounter Rate affects ordinary walking and surf checks. Money Loss affects existing defeat charges, with the displayed loss capped to your wallet.
 - **Instant text** is the fourth Text Speed choice. Characters print immediately, while timed pauses, page breaks, and required input remain. Mid is still the new-game default.
+- **Losing a battle in Kanto or Johto now charges by that region's badges.** The defeat charge counted Hoenn's badges wherever you were, so a Johto player with eight Johto badges and no Hoenn badges lost 8 per level instead of 120. Money Loss scales the corrected amount.
 - **Double and tag battles no longer crash at Instant speed.** Your send-out now waits for the opponent's, so the intro stays within the sprite limit. It crashed with "out of sprite slots" in Lance's Mahogany Hideout battle, Steven's Space Center battle, and Kanto Victory Road doubles.
 - **A visible wild Pokémon no longer freezes the game when someone stands between you.** After touching your follower, it now walks around a blocking trainer or NPC to start its battle. It used to pace behind them forever, for example in Rusturf Tunnel after the Hiker's battle (#398).
 - **An Egg is never sent into battle.** When a gift Egg is the only Pokémon you carry, for example after a World Transit gate boxed your party, visible wild Pokémon, wild encounters, fishing and scripted wild battles no longer start a battle with the Egg as your lead.
@@ -19,6 +20,7 @@ All notable player-facing changes. For the full feature reference see
 
 - **Each campaign remembers the party you leave with** (#377). After completing a region's opening, its World Transit gate offers the remembered team or your current party, with a preview before travel. Shared team members are the same Pokémon with their latest progress. Missing members require confirmation; unsafe or impossible exchanges are refused.
 - **Return to the last eligible Pokémon Center you entered**, without needing to heal there first. The gate also offers the standard regional arrival. Unsafe checkpoints fall back to that arrival. Ferries keep their normal party and port behavior.
+- **Resuming at a Hoenn Center no longer strands Mr. Briney at Dewford.** Before Surf, a Hub Pass used on Dewford left his boat docked there, and resuming at a mainland Center (Slateport, Mauville and others) cut you off from Dewford. He now waits on Route 109, as he already did for the standard arrival. Resuming at Dewford's own Center leaves him there.
 - **Regional history starts empty for pre-v11 saves.** Subsequent departures and Center visits populate it. Existing v11 teams and checkpoints are preserved by the v12 upgrade.
 
 ### Visuals

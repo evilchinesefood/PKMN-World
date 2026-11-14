@@ -127,6 +127,7 @@ is clean; keep it that way.
 | [`JohtoWhiteoutHeal.lua`](#johtowhiteoutheallua) | fresh new game | Johto whiteout lands on the Violet apron, Center heals store aprons, FRLG monitor. |
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`FamilyOptions.lua`](#familyoptionslua) | fresh new game | Four choices on every rate control and Text Speed, staged writes, reopen, real save/Continue, and global regional travel. |
+| [`FamilyOptionsFieldStress.lua`](#familyoptionsfieldstresslua) | fresh new game | Options from the main menu (before New Game and Continue) and from the Start menu with a follower, a Repel, rain and Surf, restoring the field each time. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -869,6 +870,20 @@ values, unchanged adjacent settings, real save/Continue, and global settings acr
 and Hoenn travel. Captures each row for native label review. `TestFamilyOptionsMigration.py`
 checks the offline v12 migration separately; target C tests verify the game migration and layout.
 
+### `FamilyOptionsFieldStress.lua`
+
+Opens Options from the main menu before New Game and checks the choices reach the new game, then
+from the Start menu in the hub with a follower, during a Repel, twice in Cianwood's rain, and twice
+while surfing in Dragon's Den. Each visit moves every row Right and Left, then leaves Text Speed and
+the four rates on a different column, so every value is written from the field. Each return is
+compared with a snapshot taken before Start: map, tile, facing, avatar flags, object events and
+the follower, the playing song, the Repel count, the map's BG palettes, each OBJ palette by its
+tag, and that no sprite draws from a freed palette slot. Ends with a save, reboot, main menu
+Options without changes, and Continue. Free OBJ slots and BG 13-15 are excluded on purpose: the
+fade into a menu copies weather-tinted colours into them and nothing on the field reads them.
+Passed 167/167. It found no field-restore defect; the whiteout badge defect it was written beside
+is pinned by the `Family money loss counts the campaign region's badges` C test.
+
 ### `FamilyOptionsMigration.lua`
 
 Loads a generated supported save through Continue and verifies option bits, text selection,
@@ -926,3 +941,17 @@ localId 255" (its `setobjectmovementtype OBJ_EVENT_ID_PLAYER` targets the player
 template) before that line was removed, and a Pokemon withdrawn in the make-room PC was deleted by
 the closing `LoadPlayerParty` before `BugContest_EventScript_NeedBoxSpace` restored the parked
 party around the PC.
+
+### `RegionalSequenceBreaks.lua`
+
+Sequence breaks through the World Transit gate's Center resume. Before Surf, Mr. Briney's boat is
+the only way back to Dewford, and a Hub Pass used on Dewford leaves him docked there. The standard
+Hoenn arrival already moved him to Route 109, but resuming at a remembered mainland Center
+(Slateport, Mauville) skipped that, so a player who had not beaten Brawly could not reach Dewford.
+From a fresh game the suite seeds the Stone Badge, Briney's Dewford dock and the remembered Center,
+then drives the Hoenn gate's team, arrival and confirm choices and the Hub Pass with real input.
+It checks the standard arrival, Slateport and Mauville resumes (Briney moved to Route 109),
+Dewford's own Center (Briney stays) and a post-Norman resume (Briney stays, Surf reaches Dewford).
+Briney's position is read from the same hide flags and `VAR_BRINEY_LOCATION` the gate writes; the
+suite does not walk to Route 109. Measured **16/16** fixed and **14/16** without the
+`RegionalTravel_Commit` change, where both failures read `dewford=true/true route109=false/false var=2`.

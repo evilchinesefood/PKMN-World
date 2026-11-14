@@ -2670,6 +2670,11 @@ void Environment_(u32 sourceLine, u32 environment)
     DATA.forcedEnvironment = environment + 1;
 }
 
+void ShiftBattleStyle_(u32 sourceLine)
+{
+    DATA.shiftBattleStyle = TRUE;
+}
+
 static const char *const sBattlerIdentifiersSingles[] =
 {
     "player",
@@ -3741,6 +3746,11 @@ u32 TestRunner_Battle_GetForcedAbility(enum BattleTrainer trainer, u32 partyInde
 u32 TestRunner_Battle_GetForcedEnvironment(void)
 {
     return DATA.forcedEnvironment;
+}
+
+u32 TestRunner_Battle_GetBattleStyle(void)
+{
+    return DATA.shiftBattleStyle ? OPTIONS_BATTLE_STYLE_SHIFT : OPTIONS_BATTLE_STYLE_SET;
 }
 
 u32 TestRunner_Battle_GetChosenGimmick(enum BattleTrainer trainer, u32 partyIndex)

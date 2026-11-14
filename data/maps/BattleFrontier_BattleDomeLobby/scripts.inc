@@ -409,6 +409,10 @@ BattleFrontier_BattleDomeLobby_EventScript_Maniac::
 	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_DOME
 	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
 	setvar VAR_WORLD_CHAMPIONSHIP_MODE, 1
+	closemessage
+	callnative BattleDomeLobby_PlanRegistrarWalkToCounter
+	applymovement LOCALID_PLAYER, gDomeRegistrarWalkToCounter
+	waitmovement 0
 	goto BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome
 	end
 

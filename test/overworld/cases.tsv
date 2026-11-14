@@ -4,6 +4,7 @@ WorldTitle	lua/WorldTitle.lua	fresh	1	required
 StoryProgress	lua/StoryProgress.lua	fresh	1	required
 HubIntroTour	lua/HubIntroTour.lua	fresh	0	required
 HubIntroTourFollower	lua/HubIntroTourFollower.lua	fresh	0	required
+EscortStress	lua/EscortStress.lua	fresh	0	required
 HubStairsGate	lua/HubStairsGate.lua	fresh	0	required
 DebugParty	lua/DebugParty.lua	fresh	0	required
 VerifyBagLayout	lua/VerifyBagLayout.lua	fresh	0	required
@@ -55,6 +56,7 @@ RegionalTravel	lua/RegionalTravel.lua	fresh	0	required
 ExpansionHealthboxes	lua/ExpansionHealthboxes.lua	fresh	0	required
 CatchTutorial	lua/CatchTutorial.lua	fresh	0	required
 DayNightTint	lua/DayNightTint.lua	fresh	0	required
+RainPaletteSlots	lua/RainPaletteSlots.lua	fresh	0	required
 FamilyOptionsMigration	lua/FamilyOptionsMigration.lua	generated:family-options/v11-hard.srm	0	required
 RegionalTravelMigration	lua/RegionalTravelMigration.lua	lua/fixtures/v10regionaldirty.srm	1	required
 VerifyV7Migrate	lua/VerifyV7Migrate.lua	lua/fixtures/v7dirty.srm	0	required

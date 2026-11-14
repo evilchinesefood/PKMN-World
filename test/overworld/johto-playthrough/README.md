@@ -285,6 +285,9 @@ Each one was found in play, confirmed against the source, fixed, and re-played.
 
 ## Not bugs, recorded so nobody chases them again
 
+- Ice Path B3F's ladder to B4F, (14,8), is at elevation 3 with an elevation-4 ledge right below it,
+  so it is reached only along row 8 from the ice slide up column 9. The planner once let warp goals
+  skip the elevation check and stood on the ledge pushing north forever (`ice_path_ladder.lua`).
 - Every rematch Hall of Fame puts Route 36's Sudowoodo back on the road. Upstream does the same, and
   the Squirtbottle clears it again.
 - `MtSilver_1F_MoltresRoom` has no `B_OUTCOME_PLAYER_TELEPORTED` guard, unlike the other legendaries,

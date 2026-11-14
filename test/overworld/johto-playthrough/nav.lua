@@ -352,7 +352,12 @@ return function(F, S)
       return tx, ty, e, s, 'clear'   -- Cut the tree / smash the rock, then step in
     end
     if occ[tx .. ',' .. ty] or N.avoid[tx .. ',' .. ty] then return nil end
-    if N.passGoal and N.passGoal[tx .. ',' .. ty] then return tx, ty, e, s, 'walk' end
+    if N.passGoal and N.passGoal[tx .. ',' .. ty] then
+      -- Only a solid goal (a door in a wall) is let through: an open one across an elevation step
+      -- refuses us like any tile (Ice Path B3F's ladder, under an elevation-4 ledge).
+      local ge = v >> 12
+      if (v & 0x0C00) ~= 0 or e == 0 or ge == 0 or ge == 15 or ge == e then return tx, ty, e, s, 'walk' end
+    end
     if (v & 0x0C00) ~= 0 then return nil end
     if blockedLeaving(b, OPP[d]) then return nil end
     if ACRO[b] then return nil end

@@ -1266,3 +1266,40 @@ one-Pokemon branch skipped the `remove5mons` lead check, so the Egg went in with
 contest where every wild battle is refused. Measured **12/12** fixed and **4/7** on the unfixed
 ROM, which entered the contest at the Route 35 attendant. `--env PW_EGG_GATE=east` runs only the
 Route 36 attendant: **7/7** fixed, **5/7** unfixed.
+
+### `StartMenuSpriteLoad.lua`
+
+The Start menu wheel opened on a crowded rainy route. Rain keeps 24 sprites alive, every object
+event carries a shadow sprite, and visible wild Pokemon, the follower, footprints and reflections
+add more; the wheel then needs six icons and two arrows. A level 100 Lapras follower runs along
+Route 40's beach with the encounter spawn countdown zeroed until the field holds 58 sprites, then
+Start is pressed, five times. Each opening must show no crash screen, put the menu up and hand
+control back on B, and at least one opening must meet the menu with 57 or more sprites already in
+use. Found by `OweSurfLedgeFuzz` (seed 777). Measured **33/33** fixed and **17/18** on the
+unfixed ROM, which stopped on the `sprite.c` "Out of sprite slots" assert screen at 58 sprites.
+
+### `OweSurfLedgeFuzz.lua`
+
+`OweStressFuzz` taken onto water, ledges and trainer routes, with one usable Pokemon. The party is
+a level 100 Lapras (Surf, Ice Beam) in front of two Eggs. Route 41 is surfed from its Route 40
+arrival (water encounters spawn only while surfing), Route 40 is entered on the beach and surfed
+from the shallows, and Route 45's ledges are walked; all three have trainers who battle on sight,
+so an encounter's approach can overlap a ledge jump, a Surf mount or dismount and a trainer's
+approach. The spawn countdown is zeroed before each of 250 seeded actions per map (walk, run,
+A presses that accept a Surf prompt, Start, wait). Every action must return to a free field with
+no crash screen, and the party must come out as Lapras and the two Togepi (a long run hatches them). The run must also see water
+encounters while surfing and at least one Surf mount or dismount. Battles pin the action cursor to
+FIGHT (a wrapped Pokemon that keeps choosing RUN is refused forever) and the lead's met level is
+lowered to 5 (at met level 100 it disobeys and naps through every battle). `PW_FUZZ_SEED` and
+`PW_FUZZ_ACTIONS` reseed and lengthen it (pass them with `--env`). Seed 777 found the Start menu
+sprite exhaustion pinned by `StartMenuSpriteLoad`.
+
+### `DoubleKoWhiteout.lua`
+
+Battles that end with both sides down, with one Pokemon in front of two Eggs, at Instant text and
+2x Money Loss. A level 50 Electrode's Explosion and a level 50 Misdreavus's Perish Song each knock
+out a wild Magikarp and themselves on the same turn through a real `setwildbattle`/`dowildbattle`.
+Each must end as a draw (`gBattleOutcome` 3), white out to the field with control back, charge
+exactly 800 (8 x level 50, doubled), and leave the party as the same Pokemon, healed, and two Eggs.
+A Struggle case empties a Mewtwo's PP mid-battle against a foe left with only Splash and requires
+a win with recoil damage. Measured **23/23**; no defect found.

@@ -2,7 +2,9 @@
 -- Route 118, is cut by water, so leaving that block needs Surf or Fly. Resuming at either Center
 -- with a party that can do neither strands the player there (only the Center PC or another Hub
 -- Pass gets them out), so the gate must fall back to the standard arrival. A party that can Surf,
--- or Fly after the Feather Badge, still resumes there.
+-- or Fly after the Feather Badge, still resumes there. A Hoenn champion can also sail from Lilycove
+-- Harbor to Slateport on the S.S. Tidal (LilycoveCity_Harbor gates it on FLAG_HOENN_CHAMPION alone),
+-- so Lilycove stays open to them without Surf or Fly.
 -- Setup writes badges, the remembered Center and the carried Pokemon's species and moves. The
 -- gate's team, arrival and confirm choices and the Hub Pass use real input.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
@@ -15,7 +17,10 @@ local HOENN, HOENN_ATTENDANT = 3, 21
 local SLATEPORT_HARBOR = {9, 9}
 local FORTREE = {id=5, g=12, m=2, name="Fortree"}
 local LILYCOVE = {id=6, g=13, m=6, name="Lilycove"}
+local LILYCOVE_HARBOR = {13, 10}
+local SS_TIDAL_CORRIDOR = {25, 41}
 local FLAG_BADGE01_GET = 0x94F
+local FLAG_HOENN_CHAMPION = 0xA4A
 local SPECIES_CHARIZARD, SPECIES_SQUIRTLE, SPECIES_CATERPIE = 6, 7, 10
 local MOVE_FLY, MOVE_TACKLE, MOVE_SURF = 19, 33, 57
 local hubPass
@@ -170,5 +175,22 @@ F.run(function()
   flag(FLAG_BADGE01_GET+5,true)
   resume(LILYCOVE,SPECIES_CHARIZARD,MOVE_FLY,true,"lilycove_fly_with_badge")
   resume(FORTREE,SPECIES_CATERPIE,MOVE_TACKLE,false,"fortree_no_surf_after_feather")
+  for badge=6,7 do flag(FLAG_BADGE01_GET+badge,true) end
+  resume(LILYCOVE,SPECIES_CATERPIE,MOVE_TACKLE,false,"lilycove_no_surf_before_champion")
+  flag(FLAG_HOENN_CHAMPION,true)
+  resume(LILYCOVE,SPECIES_CATERPIE,MOVE_TACKLE,true,"lilycove_ferry_after_champion")
+  -- The way out that makes this safe: the harbor attendant sails a champion to Slateport.
+  if F.warpTo(0,1,3,0,1,0,0,0,0,LILYCOVE_HARBOR[1],LILYCOVE_HARBOR[2],"lilycove_harbor") then
+    drain()
+    local boarded=F.route({{11,13},{8,13},{8,11}},"harbor_walk")
+    if boarded then
+      F.face("Up");F.press("A",3);F.idle(60)
+      boarded=menu(0,"tidal_slateport") and menu(0,"tidal_confirm")
+        and awaitAny({SS_TIDAL_CORRIDOR},"tidal_board")~=nil
+    end
+    F.check("a champion boards the S.S. Tidal for Slateport from Lilycove Harbor",boarded,where())
+  else
+    F.check("debug warp to Lilycove Harbor",false,where())
+  end
   F.finish()
 end)

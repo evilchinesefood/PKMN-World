@@ -566,6 +566,8 @@ STATIC_ASSERT(sizeof(struct BerryTree) == 8, BerryTreeSizeChanged_RegenLuaSymbol
 // comment was the stale one; the comments have been corrected. Pinned so the next SaveBlock1
 // insert breaks the BUILD instead of letting the suite stuff a neighbouring field and still pass.
 STATIC_ASSERT(offsetof(struct SaveBlock1, daycare) == 13364, SaveBlock1DaycareMoved_RegenLuaSymbols);
+// RegionalRecallMail.lua writes and reads Mail records here. Probe-verified under the repo CFLAGS.
+STATIC_ASSERT(offsetof(struct SaveBlock1, mail) == 12260, SaveBlock1MailMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

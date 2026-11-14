@@ -910,3 +910,17 @@ suite: the Egg-only scripted refusal failed (script left waiting, controls locke
 deferred release in `RefuseScriptedWildBattleIfPartyless`, and "R shortcut after the display fell
 back" failed (no throw, display stuck on a ball the Bag no longer held) before
 `TryAddLastUsedBallItemSprites` re-pointed the display at the last thrown ball.
+
+### `RegionalSequenceBreaks.lua`
+
+Sequence breaks through the World Transit gate's Center resume. Before Surf, Mr. Briney's boat is
+the only way back to Dewford, and a Hub Pass used on Dewford leaves him docked there. The standard
+Hoenn arrival already moved him to Route 109, but resuming at a remembered mainland Center
+(Slateport, Mauville) skipped that, so a player who had not beaten Brawly could not reach Dewford.
+From a fresh game the suite seeds the Stone Badge, Briney's Dewford dock and the remembered Center,
+then drives the Hoenn gate's team, arrival and confirm choices and the Hub Pass with real input.
+It checks the standard arrival, Slateport and Mauville resumes (Briney moved to Route 109),
+Dewford's own Center (Briney stays) and a post-Norman resume (Briney stays, Surf reaches Dewford).
+Briney's position is read from the same hide flags and `VAR_BRINEY_LOCATION` the gate writes; the
+suite does not walk to Route 109. Measured **16/16** fixed and **14/16** without the
+`RegionalTravel_Commit` change, where both failures read `dewford=true/true route109=false/false var=2`.

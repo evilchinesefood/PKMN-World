@@ -560,7 +560,10 @@ enum RegionalTravelResult RegionalTravel_Commit(const struct RegionalTravelReque
     SetCurrentRegion(request->destination);
     SetLastHealLocationWarp(sPlan.healLocation);
     SetWarpDestination(sPlan.warp.mapGroup, sPlan.warp.mapNum, sPlan.warp.warpId, sPlan.warp.x, sPlan.warp.y);
-    if (!sPreview.center && request->destination == REGION_HOENN && HasBadge(REGION_HOENN, 0)
+    // Before Surf, Mr. Briney's boat is the only way back to Dewford. Any arrival off Dewford,
+    // including a resumed mainland Center, must not leave him docked there.
+    if (sPreview.center != RegionalCenter_ForMap(MAP_GROUP(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F), MAP_NUM(MAP_DEWFORD_TOWN_POKEMON_CENTER_1F))
+     && request->destination == REGION_HOENN && HasBadge(REGION_HOENN, 0)
      && !FlagGet(FLAG_DEFEATED_PETALBURG_GYM) && !FlagGet(FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN))
     {
         FlagSet(FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN);

@@ -19,6 +19,7 @@ All notable player-facing changes. For the full feature reference see
 
 - **Each campaign remembers the party you leave with** (#377). After completing a region's opening, its World Transit gate offers the remembered team or your current party, with a preview before travel. Shared team members are the same Pokémon with their latest progress. Missing members require confirmation; unsafe or impossible exchanges are refused.
 - **Return to the last eligible Pokémon Center you entered**, without needing to heal there first. The gate also offers the standard regional arrival. Unsafe checkpoints fall back to that arrival. Ferries keep their normal party and port behavior.
+- **Resuming at a Hoenn Center no longer strands Mr. Briney at Dewford.** Before Surf, a Hub Pass used on Dewford left his boat docked there, and resuming at a mainland Center (Slateport, Mauville and others) cut you off from Dewford. He now waits on Route 109, as he already did for the standard arrival. Resuming at Dewford's own Center leaves him there.
 - **Regional history starts empty for pre-v11 saves.** Subsequent departures and Center visits populate it. Existing v11 teams and checkpoints are preserved by the v12 upgrade.
 
 ### Visuals

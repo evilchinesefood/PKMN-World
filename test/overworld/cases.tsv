@@ -90,3 +90,6 @@ KantoGateRivalBattleViaJohto	lua/KantoGateRivalBattleViaJohto.lua	fresh	0	requir
 DoubleBattleStress	lua/DoubleBattleStress.lua	fresh	0	required
 EvolutionMashStress	lua/EvolutionMashStress.lua	fresh	0	required
 RegionalSequenceBreaks	lua/RegionalSequenceBreaks.lua	fresh	0	required
+GateRecallStress	lua/GateRecallStress.lua	fresh	0	required
+HubPassVesselBreaks	lua/HubPassVesselBreaks.lua	fresh	0	required
+NortheastHoennResume	lua/NortheastHoennResume.lua	fresh	0	required

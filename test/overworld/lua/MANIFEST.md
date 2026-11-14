@@ -939,3 +939,35 @@ Dewford's own Center (Briney stays) and a post-Norman resume (Briney stays, Surf
 Briney's position is read from the same hide flags and `VAR_BRINEY_LOCATION` the gate writes; the
 suite does not walk to Route 109. Measured **16/16** fixed and **14/16** without the
 `RegionalTravel_Commit` change, where both failures read `dewford=true/true route109=false/false var=2`.
+
+### `GateRecallStress.lua`
+
+World Transit gate recall after the remembered team changed, plus input abuse. Every Pokémon has a
+distinct personality, and the party, all PC boxes and the Day Care are counted before and after each
+step. A Hoenn team leaves with one Egg; in the hub one member evolves, the Egg hatches, one goes to
+the Day Care and one is released. The partial recall must carry the four reachable members in
+remembered order, the evolved species and the hatched Pokémon, and leave the Day Care member where
+it is. A remembered team of only Eggs must be refused in the hub while keep-current still travels.
+It then mashes six A/B/Start/Select/D-pad patterns through each of the three gates at Instant text,
+holds Select (the registered Hub Pass) through the gate's warp and the Hub Pass's own warp, and
+soft resets on 13 frame offsets between the final Yes and the arrival, each of which must Continue
+in the hub with the saved party, PC and memories. The reset helper holds the buttons until the game
+resets, because the commit's PC scan stalls the main loop for about eight frames. Measured
+**121/121**; no defect found.
+
+### `HubPassVesselBreaks.lua`
+
+A Hub Pass used aboard a ship whose story scene finishes on the way off it. On the S.S. Anne after
+the captain's Cut, the departure scene must still play, and release the player in Vermilion, when
+they return through the gate and walk back down the pier from the town side. Mid maiden voyage on
+the S.S. Aqua, the Olivine sailor must offer the voyage again from state 1 and the restarted voyage
+must reach Vermilion. Measured **28/28**; no defect found.
+
+### `NortheastHoennResume.lua`
+
+Fortree and Lilycove sit north and east of Route 118's river, and every land route off that block
+crosses it, so leaving needs Surf or Fly. The gate offered both Centers as resume points to a party
+that could do neither. The suite drives the real gate with a carried Caterpie, Squirtle with Surf
+and Charizard with Fly, before and after the Feather Badge. Measured **17/17** fixed and **13/17**
+on the unfixed ROM, where the four failures land the Caterpie or the badgeless Charizard in the
+Fortree (`12/2`) or Lilycove (`13/6`) Center instead of Slateport Harbor.

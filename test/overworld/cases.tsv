@@ -40,6 +40,7 @@ JohtoWhiteoutHeal	lua/JohtoWhiteoutHeal.lua	fresh	0	required
 KenyaMail	lua/KenyaMail.lua	fresh	0	required
 PromptSafetyEvIv	lua/PromptSafetyEvIv.lua	fresh	0	required
 FamilyOptions	lua/FamilyOptions.lua	fresh	0	required
+FamilyOptionsFieldStress	lua/FamilyOptionsFieldStress.lua	fresh	0	required
 FamilyBattleOptions	lua/FamilyBattleOptions.lua	fresh	0	required
 RedGyarados	lua/RedGyarados.lua	fresh	0	required
 Route41SeaReturn	lua/Route41SeaReturn.lua	fresh	0	required

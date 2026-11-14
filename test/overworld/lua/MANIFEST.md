@@ -1176,3 +1176,12 @@ Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding 
 Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
 doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
 15464 (81000 truncated to 16 bits) while paying 81000.
+
+### `PikeRoomSave.lua`
+
+A Start-menu save inside a Battle Pike room. The challenge carries the three chosen Pokémon while
+the other three wait in SaveBlock1's party copy, which a normal save overwrites. The suite gives six
+Pokémon, takes the real Lv. 50 challenge (party screen, save before entering), tries Save in the
+three-path room, then cuts the power and continues. Measured **10/10** fixed and **8/10** on the
+unfixed ROM, where Save is offered and Continue resumes in the room (`26/36`) with three Pokémon
+and the other three gone from the party and the PC.

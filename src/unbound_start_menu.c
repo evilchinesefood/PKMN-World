@@ -12,6 +12,7 @@
 #if PW_GRAPHICAL_START_MENU
 
 #include "assertf.h"
+#include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
 #include "bg.h"
@@ -1001,7 +1002,9 @@ static bool32 Usm_IsItemAvailable(enum Usm_Icons item)
         case USM_ICO_DEXNAV:  return DEXNAV_ENABLED && DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET);
         case USM_ICO_QUESTS:  return TRUE; // Story is available from the first menu.
         case USM_ICO_RETIRE:  return Usm_IsPlayerInBattlePyramid() || GetSafariZoneFlag();
-        case USM_ICO_SAVE:    return !GetSafariZoneFlag() && !GetBugContestFlag() && !Usm_IsPlayerInBattlePyramid();
+        // A Pike challenge carries three Pokemon while the rest wait in the saved party copy, which
+        // a save would overwrite.
+        case USM_ICO_SAVE:    return !GetSafariZoneFlag() && !GetBugContestFlag() && !Usm_IsPlayerInBattlePyramid() && !InBattlePike();
         case USM_ICO_REST:    return Usm_IsPlayerInBattlePyramid();
         case USM_ICO_DEBUG:   return DEBUG_OVERWORLD_MENU && DEBUG_OVERWORLD_IN_MENU;
         default:              return TRUE;

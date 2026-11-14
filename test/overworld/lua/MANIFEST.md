@@ -1255,3 +1255,14 @@ script's end then unlocked the field under it: the player could walk with the me
 stacked a second menu, and the next RETIRE hung with no message box. Measured **130/130** fixed
 and **37/52** on the unfixed ROM, which hangs at the Kanto RETIRE and fails every later warp.
 `--env PW_SAFARI_ONLY=<zone_scenario>` runs matching scenarios (`kanto_retire`, `hoenn_balls`).
+
+### `BugContestEggOnly.lua`
+
+The Bug-Catching Contest with an Egg as the only party member, the state a Hub gate leaves when a
+gift Egg follows the boxed party. The Egg comes from the debug Give Egg (`ScriptGiveEgg`, the call
+gift scripts use); talking to the Route 35 and Route 36 gate attendants is real input. Each must
+refuse with "can't battle", hand out no contest balls and leave the Egg and the field alone. The
+one-Pokemon branch skipped the `remove5mons` lead check, so the Egg went in with 30 balls to a
+contest where every wild battle is refused. Measured **12/12** fixed and **4/7** on the unfixed
+ROM, which entered the contest at the Route 35 attendant. `--env PW_EGG_GATE=east` runs only the
+Route 36 attendant: **7/7** fixed, **5/7** unfixed.

@@ -46,6 +46,8 @@ Gate_NationalPark_EventScript_AttendantStart::
 	end
 
 Gate_NationalPark_EventScript_OnlyOneMon::
+	remove5mons
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Gate_NationalPark_EventScript_AttendantFaint
 	special SavePlayerParty
 	msgbox Route35NationalParkGate_Text_OfficerGiveParkBalls, MSGBOX_DEFAULT
 	closemessage
@@ -173,6 +175,8 @@ Gate_NationalPark_EventScript_BAttendantStart::
 	end
 
 Gate_NationalPark_EventScript_OnlyOneMonB::
+	remove5mons
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Gate_NationalPark_EventScript_AttendantFaint
 	special SavePlayerParty
 	msgbox Route35NationalParkGate_Text_OfficerGiveParkBalls, MSGBOX_DEFAULT
 	closemessage

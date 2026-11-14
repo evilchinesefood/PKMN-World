@@ -88,7 +88,6 @@ NationalPark_BugContest_EventScript_Trash::
 
 NationalPark_BugContest_EventScript_JudgeScene::
 	special ShowBugContestChosenMon
-	setobjectxyperm VAR_RESULT, 20, 29
 	setobjectxyperm LOCALID_BUGCONTEST_BUG1, 24, 29
 	setobjectxyperm LOCALID_BUGCONTEST_BUG2, 22, 29
 	setobjectxyperm LOCALID_BUGCONTEST_BUG3, 18, 29
@@ -100,7 +99,6 @@ NationalPark_BugContest_EventScript_JudgeScene::
 	setobjectxyperm LOCALID_BUGCONTEST_BOY, 16, 28
 	setobjectxyperm LOCALID_BUGCONTEST_ATTENDANT, 20, 26
 
-	setobjectmovementtype OBJ_EVENT_ID_PLAYER, MOVEMENT_TYPE_FACE_UP
 	setobjectmovementtype LOCALID_BUGCONTEST_GIRL, MOVEMENT_TYPE_FACE_UP
 	setobjectmovementtype LOCALID_BUGCONTEST_BC1, MOVEMENT_TYPE_FACE_UP
 	setobjectmovementtype LOCALID_BUGCONTEST_BC2, MOVEMENT_TYPE_FACE_UP

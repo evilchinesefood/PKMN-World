@@ -90,5 +90,4 @@ KantoGateRivalBattleViaJohto	lua/KantoGateRivalBattleViaJohto.lua	fresh	0	requir
 DoubleBattleStress	lua/DoubleBattleStress.lua	fresh	0	required
 EvolutionMashStress	lua/EvolutionMashStress.lua	fresh	0	required
 BugContestFullPC	lua/BugContestFullPC.lua	fresh	0	required
-
 RegionalSequenceBreaks	lua/RegionalSequenceBreaks.lua	fresh	0	required

@@ -60,10 +60,15 @@ BugContest_EventScript_TransferKeep::
 	goto BugContest_EventScript_End
 	end
 
+@ The PC edits the real party, not the contest one: BugContest_EventScript_End restores the
+@ parked party with LoadPlayerParty, which would delete a Pokemon withdrawn here and clone one
+@ deposited here. Park whatever the player leaves in the party so End restores exactly that.
 BugContest_EventScript_NeedBoxSpace::
 	msgbox BugContest_Text_BoxesFullMakeRoom, MSGBOX_DEFAULT
 	closemessage
+	special LoadPlayerParty
 	special ShowPokemonStorageSystemPC
+	special SavePlayerParty
 	goto BugContest_EventScript_TransferKeep
 	end
 

@@ -431,6 +431,7 @@ F.run(function()
   flag(0xA4B,true)
   flag(0x63F8,true)
   flag(0x94F,true)
+  flag(0x95F,true) -- visited Slateport, so the standard Hoenn arrival is its harbor
   F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
   F.check("debug prerequisite creates one live Pokemon",setParty())
   F.w16(party()+S.Pokemon.hp,7)

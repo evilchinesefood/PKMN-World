@@ -62,7 +62,8 @@ local VAR_HOUSES_MAY   = 0x4082   -- VAR_LITTLEROOT_HOUSES_STATE_MAY. NOT ..._BR
 
 local FLAG_SET_WALL_CLOCK      = 0x51
 local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF   -- FLAG_WORLD_MAP_BANK (0xD40) + 0x8F
-local FLAG_BADGE01_GET         = 0x94F   -- Hoenn Stone Badge; exact late-arrival unlock
+local FLAG_BADGE01_GET         = 0x94F   -- Hoenn Stone Badge; late-arrival unlock with Slateport
+local FLAG_VISITED_SLATEPORT   = 0x95F   -- reached on Mr. Briney's boat before the harbor opens
 -- The six hide flags RegionHub_EventScript_SeedFirstVisitHoennMale sets. These are idempotent, so
 -- they are S2 evidence (did the seed run at all) rather than S1 evidence.
 local SEED_FLAGS = {
@@ -497,8 +498,9 @@ local function maleJourney()
       preBadgeHome, where() .. " harbor=(9,9)")
 
     ----------------------------------------------------------------------------------------------
-    -- S3c — the first badge is the exact unlock. Change only that flag, return to the same
-    -- attendant, and the destination must switch from the bedroom to Slateport Harbor.
+    -- S3c — the first badge and a visited Slateport are the unlock. Change only those flags,
+    -- return to the same attendant, and the destination must switch from the bedroom to
+    -- Slateport Harbor.
     ----------------------------------------------------------------------------------------------
     local hub3 = preBadgeHome and hubPassOut("postbadge") or false
     F.check("S3c HUB PASS returned to the hub from the pre-badge bedroom", hub3, where())
@@ -509,10 +511,11 @@ local function maleJourney()
       for _=1,9 do F.press("Down",3);F.idle(16) end
       F.press("A",3);F.idle(180)
       flagSet(FLAG_BADGE01_GET)
+      flagSet(FLAG_VISITED_SLATEPORT)
       F.check("S3c set the Hoenn Stone Badge", flagGet(FLAG_BADGE01_GET))
       local postBadgeHarbor = crossToHoenn("return_postbadge", HARB_G, HARB_M)
       F.shot("s3c_postbadge_destination")
-      F.check("S3c the Stone Badge unlocks SLATEPORT HARBOR instead of the bedroom",
+      F.check("S3c the Stone Badge and a visited Slateport unlock SLATEPORT HARBOR instead of the bedroom",
         postBadgeHarbor, where() .. " bedroom=(1,1)")
     end
   end

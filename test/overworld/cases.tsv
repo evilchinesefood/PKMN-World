@@ -103,3 +103,4 @@ NortheastHoennResume	lua/NortheastHoennResume.lua	fresh	0	required
 BugContestPodium	lua/BugContestPodium.lua	fresh	0	required
 BrineyRespawnShore	lua/BrineyRespawnShore.lua	fresh	0	required
 RegionalRecallMail	lua/RegionalRecallMail.lua	fresh	0	required
+BrineyEastArrival	lua/BrineyEastArrival.lua	fresh	0	required

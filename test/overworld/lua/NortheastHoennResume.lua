@@ -20,6 +20,7 @@ local LILYCOVE = {id=6, g=13, m=6, name="Lilycove"}
 local LILYCOVE_HARBOR = {13, 10}
 local SS_TIDAL_CORRIDOR = {25, 41}
 local FLAG_BADGE01_GET = 0x94F
+local FLAG_VISITED_SLATEPORT = 0x95F
 local FLAG_HOENN_CHAMPION = 0xA4A
 local SPECIES_CHARIZARD, SPECIES_SQUIRTLE, SPECIES_CATERPIE = 6, 7, 10
 local MOVE_FLY, MOVE_TACKLE, MOVE_SURF = 19, 33, 57
@@ -157,6 +158,7 @@ F.run(function()
   flag(0x51,true)
   F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
   for badge=0,4 do flag(FLAG_BADGE01_GET+badge,true) end
+  flag(FLAG_VISITED_SLATEPORT,true)
   F.check("debug prerequisite creates one Pokemon",debugParty())
   local seen={}
   for _,id in ipairs(select(2,F.keyItemSlot(0xFFFF))) do seen[id]=true end

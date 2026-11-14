@@ -1099,3 +1099,14 @@ the gate, then checks the recalled party, both messages byte for byte, the mailb
 index and a save and Continue. It also refuses a full-PC and a full-mailbox recall and checks no
 Mail record changed. Measured **24/24** before and after the travel fixes. A tamper build that drops
 the mailbox copy and the follower remap scores **21/24**, so the checks bite.
+
+### `BrineyEastArrival.lua`
+
+Before Surf, Slateport is cut off from the west mainland until Rusturf Tunnel opens, which takes Rock
+Smash and Wattson's badge. Mr. Briney's boat is the only other way. The suite crosses the Hoenn gate
+four times with Roxanne's badge: the standard arrival before his first voyage, the standard arrival
+and a Slateport Center resume after Slateport is reached with Briney at his house, and the standard
+arrival after a Dewford visit but before Slateport. It reads the landing map, his hide flags and
+`VAR_BRINEY_LOCATION`. Measured **18/18** fixed and **12/18** unfixed: the first arrival lands at
+Slateport Harbor with Briney at his house, both later east arrivals leave him there
+(`docked=house var=1`), and the Dewford case lands at the harbor too.

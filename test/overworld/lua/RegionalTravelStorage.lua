@@ -261,6 +261,7 @@ local function setup()
   flag(0xA4B,true)
   flag(0x63F8,true)
   flag(0x94F,true)
+  flag(0x95F,true) -- visited Slateport, so the standard Hoenn arrival is its harbor
   F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
   if not debugParty() then return false end
   template=bytes(party(),100)

@@ -118,8 +118,10 @@ It's a one-way trip, so you re-enter regions through the departure gates. The Ch
 it over, and every gate attendant force-gives it before letting you cross, so you can't strand
 yourself. Each region also has its own in-world access point — the **Goldenrod Magnet Train
 station**, **Vermilion City**, and the **Slateport harbor** — that the hub returns you to after
-that region's first gym badge when you choose standard arrival. Before that badge, the standard
-route returns home. Center resume becomes available after the regional opening is complete.
+that region's first gym badge when you choose standard arrival. Hoenn's harbor also waits until
+you have reached Slateport on Mr. Briney's boat, so the gate never lands you east of Rusturf Tunnel
+before his first voyage. Until then, the standard route returns home. Center resume becomes
+available after the regional opening is complete.
 
 **Johto ↔ Kanto by sea** is the one crossing that isn't a hub gate. Elm's S.S. Ticket sends the
 new Johto Champion out of the **Olivine harbor** on the maiden voyage; you disembark in the

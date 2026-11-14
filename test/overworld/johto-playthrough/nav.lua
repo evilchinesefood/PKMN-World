@@ -882,7 +882,15 @@ return function(F, S)
         frames = frames + 12
       elseif isCtl('HandleInputChooseAction') then
         turns = turns + 1
-        if turns == 1 then N.firstFoeLevel = r8(bmon(1) + O.bm_level) end
+        if turns == 1 then
+          N.firstFoeLevel = r8(bmon(1) + O.bm_level)
+          -- The entry snapshot can land before the intro fills gBattleMons; the first menu is live.
+          if snap.foeSpecies == 0 then
+            snap.foeSpecies, snap.foeLevel = r16(bmon(1)), N.firstFoeLevel
+            tag = string.format('%s %s foe=%d L%d at %s', trainer and 'TRAINER' or 'WILD', fight and 'fight' or 'flee',
+              snap.foeSpecies, snap.foeLevel, N.mapName())
+          end
+        end
         if turns > 200 then error('battle runaway: ' .. tag) end
         judgeLastPick()
         N.badSlots = freshBad()

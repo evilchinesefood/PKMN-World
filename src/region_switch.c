@@ -527,6 +527,31 @@ void RegionHub_ScrIsThreeRegionChampion(struct ScriptContext *ctx)
     gSpecialVar_Result = IsNRegionChampion(3);
 }
 
+// The registrar hands over to the Dome singles flow, whose walk to the door starts at the singles
+// counter (5,11). He wanders in x 7-9, y 13-15 and the player faces him, so step clear of his
+// column when he is north of the player, then rise to row 12 (always clear of him) and go left.
+EWRAM_DATA u8 gDomeRegistrarWalkToCounter[16] = {0};
+
+void BattleDomeLobby_PlanRegistrarWalkToCounter(struct ScriptContext *ctx)
+{
+    struct ObjectEvent *player = &gObjectEvents[gPlayerAvatar.objectEventId];
+    s16 x = player->currentCoords.x - MAP_OFFSET;
+    s16 y = player->currentCoords.y - MAP_OFFSET;
+    u8 *step = gDomeRegistrarWalkToCounter;
+
+    if (player->facingDirection == DIR_NORTH)
+    {
+        *step++ = MOVEMENT_ACTION_WALK_NORMAL_LEFT;
+        x--;
+    }
+    for (; y > 12; y--)
+        *step++ = MOVEMENT_ACTION_WALK_NORMAL_UP;
+    for (; x > 5; x--)
+        *step++ = MOVEMENT_ACTION_WALK_NORMAL_LEFT;
+    *step++ = MOVEMENT_ACTION_WALK_NORMAL_UP;
+    *step = MOVEMENT_ACTION_STEP_END;
+}
+
 // Battle Frontier access gate: VAR_RESULT = has the player cleared at least one region's league.
 void RegionHub_ScrIsAnyRegionChampion(struct ScriptContext *ctx)
 {

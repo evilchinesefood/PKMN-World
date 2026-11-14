@@ -333,10 +333,11 @@ enum
 
 static bool32 IsHoennHarborOpen(void)
 {
-    // Briney waits on Route 109 only after the Slateport voyage, even if the player never walked
-    // into the city before leaving Hoenn.
+    // Briney's boat shows on Route 109 only after the Slateport voyage, even if the player never
+    // walked into the city before leaving Hoenn. VAR_BRINEY_LOCATION can't say so: the voyage backs
+    // it up and restores it, and only a Center updates it.
     return HasBadge(REGION_HOENN, 0)
-        && (FlagGet(FLAG_VISITED_SLATEPORT_CITY) || VarGet(VAR_BRINEY_LOCATION) == BRINEY_AT_ROUTE_109);
+        && (FlagGet(FLAG_VISITED_SLATEPORT_CITY) || !FlagGet(FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT));
 }
 
 static void StandardDestination(enum Region region, struct RegionalTravelPlan *plan)

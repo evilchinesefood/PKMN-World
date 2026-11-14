@@ -1168,7 +1168,13 @@ Hall of Fame (Johto's reset in the Indigo Plateau Center is bypassed by the outd
 suite debug-warps into Phoebe's, Kanto Bruno's and Koga's rooms with the previous member beaten and
 presses Select with the Hub Pass registered. Each room must refuse it and keep the player there;
 the League lobby must still allow it. Measured **12/12** fixed and **6/12** on the unfixed ROM,
-where all three rooms warped to the hub with the beaten flag or League state intact.
+where all three rooms warped to the hub with the beaten flag or League state intact. The same check runs in
+Hoenn's four corridors between rooms (Hall 1 to Hall 4), entered with the members before each one
+beaten: they are indoor maps with no escape either. Leaving from a corridor kept the beaten flags
+and `VAR_ELITE_4_STATE`, and on the way back in Sidney's room `ON_LOAD` shuts the entry door on
+the arrival tile, so the player stood boxed in at (6,13) with no move in any direction and the
+Hub Pass refused in that room (measured with a debug warp in with all four beaten and state 4). Measured **24/24** fixed and
+**16/24** before the corridors joined the refusal list, where all four halls warped to the hub.
 
 ### `PayDayMoneyText.lua`
 

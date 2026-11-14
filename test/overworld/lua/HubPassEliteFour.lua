@@ -5,7 +5,8 @@
 -- which the E4 door outside does not pass through). A Hub Pass out of a cleared room therefore
 -- let the player heal and walk straight past every member already beaten. The rooms are
 -- allow_escaping false indoor maps, so Fly, Dig, Teleport and the Escape Rope already refuse;
--- the Hub Pass must refuse there too. Control: it still works in the League lobby.
+-- the Hub Pass must refuse there too, and in the Hoenn corridors between the rooms, which are
+-- the same kind of map. From a corridor the way back in ends boxed in at Sidney's entry door. Control: it still works in the League lobby.
 -- Setup writes flags and vars and uses debug warps into the rooms. The Hub Pass uses real input.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
@@ -139,10 +140,22 @@ local function setup()
   return hubPass~=nil
 end
 
--- One room per region, entered as if the previous member had just been beaten.
+local function hoennBeaten(n)
+  return function()
+    for i=0,3 do flag(FLAG_DEFEATED_ELITE_4_SIDNEY+i,i<n) end
+    var(VAR_ELITE_4_STATE,n)
+  end
+end
+
+-- One room per region, entered as if the previous member had just been beaten, and each Hoenn
+-- corridor between two rooms, entered as the room before it leaves the run.
 local rooms = {
   {name="Hoenn Phoebe's room", g=16, m=1, beaten=FLAG_DEFEATED_ELITE_4_SIDNEY,
    prime=function() var(VAR_ELITE_4_STATE,2) end},
+  {name="Hoenn Hall 1", g=16, m=5, beaten=FLAG_DEFEATED_ELITE_4_SIDNEY, prime=hoennBeaten(1)},
+  {name="Hoenn Hall 2", g=16, m=6, beaten=FLAG_DEFEATED_ELITE_4_SIDNEY+1, prime=hoennBeaten(2)},
+  {name="Hoenn Hall 3", g=16, m=7, beaten=FLAG_DEFEATED_ELITE_4_SIDNEY+2, prime=hoennBeaten(3)},
+  {name="Hoenn Hall 4", g=16, m=8, beaten=FLAG_DEFEATED_ELITE_4_SIDNEY+3, prime=hoennBeaten(4)},
   {name="Kanto Bruno's room", g=35, m=76, beaten=FLAG_DEFEATED_LORELEI,
    prime=function() var(VAR_MAP_SCENE_POKEMON_LEAGUE,2) end},
   {name="Johto Koga's room", g=99, m=6,

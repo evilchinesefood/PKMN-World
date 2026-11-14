@@ -547,7 +547,11 @@ return function(F, N, C, log)
     assert(N.travel('EcruteakCity'))
     assert(N.go(39, 41)); N.settle()      -- Silver bursts out of the theater
     assert(N.travel('EcruteakCity_Theater'))
-    assert(N.walk(function(x, y) return y < 17 end, { tag = 'theater trigger', allowTriggers = true }))
+    if V('VAR_ECRUTEAK_CITY_THEATER') == 6 then
+      assert(N.talk(5, { side = 1 }))     -- after a loss the trigger is spent; Zuki restarts the gauntlet
+    else
+      assert(N.walk(function(x, y) return y < 17 end, { tag = 'theater trigger', allowTriggers = true }))
+    end
     N.settle()                            -- Zuki "ready?" -> yes, then five battles and the bell
   end, function() return V('VAR_ECRUTEAK_CITY_THEATER') >= 7 end)
 

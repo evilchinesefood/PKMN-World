@@ -35,6 +35,9 @@ return function(F, N, C, log)
     hoenn = { { 'to_hoenn', 'route103' }, { 'pokedex', 'sail_slateport' }, { 'devon_dock', 'wattson' }, { 'rock_smash', 'go_goggles' },
               { 'to_rustboro', 'winona' }, { 'route121_aqua', 'tate_liza' }, { 'space_center', 'juan' }, { 'to_victory_road', 'home' } },
   }
+  -- PW_SEVII: the islands' pre-League half already falls in the Blaine..Giovanni slice. The
+  -- post-League half follows Kanto's Hall of Fame, as in the Kanto campaign.
+  if os.getenv('PW_SEVII') then SLICES.kanto[6][2] = 'sevii_ferry_home' end
   local ORDERS = {
     A = { 'johto', 'kanto', 'hoenn', 'johto', 'kanto', 'hoenn', 'johto', 'kanto', 'hoenn', 'johto', 'kanto', 'hoenn', 'johto', 'kanto',
           'hoenn', 'johto', 'kanto', 'hoenn', 'johto', 'hoenn', 'hoenn' },
@@ -47,19 +50,26 @@ return function(F, N, C, log)
   -- A return crossing recalls the team the region last had and boxes the departing one (#377).
   -- restoreParty is the pre-recall concession, kept for detours whose region has no memory.
   local stash, seen = {}, {}
+  local function writeParty(path, t)
+    local f = assert(io.open(path, 'w'))
+    f:write(t.count, '\n')
+    for i = 0, 149 do f:write(t[i], '\n') end
+    f:close()
+  end
   local function keepParty(region)
     local t = { count = N.partyCount() }
     for i = 0, 149 do t[i] = F.r32(P.gParties + i * 4) end
     stash[region] = t
     -- Kept on disk too, because a --from resume starts with an empty table.
-    local f = assert(io.open(F.out .. 'stash_' .. region, 'w'))
-    f:write(t.count, '\n')
-    for i = 0, 149 do f:write(t[i], '\n') end
-    f:close()
+    writeParty(F.out .. 'stash_' .. region, t)
   end
+  -- A prior run's stash_<region> holds the team from its LAST crossing, so a --from resume reads the
+  -- copy saved beside its checkpoint first.
   local function loadParty(region)
-    local resume = os.getenv('PW_RESUME_DIR')
-    local f = io.open(F.out .. 'stash_' .. region) or (resume and io.open(resume .. '/stash_' .. region))
+    local resume, from = os.getenv('PW_RESUME_DIR'), os.getenv('PW_FROM')
+    local f = io.open(F.out .. 'stash_' .. region)
+      or (resume and from and io.open(resume .. '/ckpt_' .. from .. '.stash_' .. region))
+      or (resume and io.open(resume .. '/stash_' .. region))
     if not f then return nil end
     local t = { count = f:read('n') }
     for i = 0, 149 do t[i] = f:read('n') end
@@ -132,6 +142,15 @@ return function(F, N, C, log)
     if active then REGIONS[active].config = snapshot() end
     restore(REGIONS[region].config)
     active = region
+  end
+
+  local checkpoint = N.checkpoint
+  function N.checkpoint(name)
+    for region in pairs(REGIONS) do
+      local t = stash[region] or loadParty(region)
+      if t then writeParty(F.out .. 'ckpt_' .. name .. '.stash_' .. region, t) end
+    end
+    return checkpoint(name)
   end
 
   local B, nextSlice, current, crossings = {}, {}, nil, 0

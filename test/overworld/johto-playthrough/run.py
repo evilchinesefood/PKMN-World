@@ -51,6 +51,8 @@ if a.lose is not None and any(not re.fullmatch(r'[A-Za-z0-9_]+(?::(?:trainer|wil
     p.error('--lose requires beat[:trainer|wild|any|TRAINER_name|SPECIES_name], separated by commas')
 if a.lose and a.natural:
     p.error('--lose and --natural are separate verification modes')
+if a.sevii and (a.campaign not in ('kanto', 'world') or a.world == 'J'):
+    p.error('--sevii plays the Kanto islands: use it with --campaign kanto or --campaign world --world A|B')
 if a.timeout <= 0 or (a.natural_attempts is not None and a.natural_attempts <= 0):
     p.error('timeouts and attempt counts must be positive')
 suite = (HERE / (a.suite or 'play.lua')).resolve()

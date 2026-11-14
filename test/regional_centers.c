@@ -279,3 +279,28 @@ TEST("Regional Centers do not resume into queued exterior story movement")
         VarSet(cases[i].var, 0);
     }
 }
+
+TEST("Regional Centers north of Route 118's river need Surf or Fly")
+{
+    struct Pokemon party[PARTY_SIZE] = {0};
+    u16 fortree = RegionalCenter_ForMap(MAP_GROUP(MAP_FORTREE_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_FORTREE_CITY_POKEMON_CENTER_1F));
+    u16 lilycove = RegionalCenter_ForMap(MAP_GROUP(MAP_LILYCOVE_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_LILYCOVE_CITY_POKEMON_CENTER_1F));
+    u16 mauville = RegionalCenter_ForMap(MAP_GROUP(MAP_MAUVILLE_CITY_POKEMON_CENTER_1F), MAP_NUM(MAP_MAUVILLE_CITY_POKEMON_CENTER_1F));
+
+    SetBagItemsPointers();
+    ClearBag();
+    FlagSet(GetBadgeFlag(REGION_HOENN, 4));
+    CreateMon(&party[0], SPECIES_CATERPIE, 5, 1, OTID_STRUCT_PLAYER_ID);
+    EXPECT(!RegionalCenter_IsSafe(fortree, REGION_HOENN, party, 1));
+    EXPECT(!RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
+    EXPECT(RegionalCenter_IsSafe(mauville, REGION_HOENN, party, 1));
+    CreateMon(&party[0], SPECIES_SQUIRTLE, 20, 2, OTID_STRUCT_PLAYER_ID);
+    SetMonMoveSlot(&party[0], MOVE_SURF, 0);
+    EXPECT(RegionalCenter_IsSafe(fortree, REGION_HOENN, party, 1));
+    EXPECT(RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
+    CreateMon(&party[0], SPECIES_PIDGEOT, 36, 3, OTID_STRUCT_PLAYER_ID);
+    SetMonMoveSlot(&party[0], MOVE_FLY, 0);
+    EXPECT(!RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
+    FlagSet(GetBadgeFlag(REGION_HOENN, 5));
+    EXPECT(RegionalCenter_IsSafe(lilycove, REGION_HOENN, party, 1));
+}

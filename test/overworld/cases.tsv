@@ -94,3 +94,6 @@ BugContestFullPC	lua/BugContestFullPC.lua	fresh	0	required
 RegionalSequenceBreaks	lua/RegionalSequenceBreaks.lua	fresh	0	required
 InstantTextStress	lua/InstantTextStress.lua	fresh	0	required
 StartOptionsStateStress	lua/StartOptionsStateStress.lua	fresh	0	required
+GateRecallStress	lua/GateRecallStress.lua	fresh	0	required
+HubPassVesselBreaks	lua/HubPassVesselBreaks.lua	fresh	0	required
+NortheastHoennResume	lua/NortheastHoennResume.lua	fresh	0	required

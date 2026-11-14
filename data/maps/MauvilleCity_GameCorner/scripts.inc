@@ -9,9 +9,6 @@ MauvilleCity_GameCorner_MapScripts::
 	.set TM_ICE_BEAM_COINS, 4000
 	.set DOLL_COINS, 1000
 
-	.set COINS_PRICE_50,  1000
-	.set COINS_PRICE_500, 10000
-	.set COINS_PRICE_5000, 100000
 
 MauvilleCity_GameCorner_EventScript_CoinsClerk::
 	lock
@@ -45,44 +42,25 @@ MauvilleCity_GameCorner_EventScript_ChooseCoinsDefault500::
 	end
 
 MauvilleCity_GameCorner_EventScript_Buy50Coins::
-	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, MAX_COINS, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
-	checkmoney COINS_PRICE_50
-	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
-	addcoins 50
-	removemoney COINS_PRICE_50
-	updatemoneybox
-	updatecoinsbox 1, 6
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_ThankYouHereAreYourCoins, MSGBOX_DEFAULT
-	hidemoneybox
-	hidecoinsbox 0, 5
-	release
+	setvar VAR_0x8004, 50
+	goto MauvilleCity_GameCorner_EventScript_BuyCoins
 	end
 
 MauvilleCity_GameCorner_EventScript_Buy500Coins::
-	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, MAX_COINS, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
-	checkmoney COINS_PRICE_500
-	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
-	addcoins 500
-	removemoney COINS_PRICE_500
-	updatemoneybox
-	updatecoinsbox 1, 6
-	playse SE_SHOP
-	msgbox MauvilleCity_GameCorner_Text_ThankYouHereAreYourCoins, MSGBOX_DEFAULT
-	hidemoneybox
-	hidecoinsbox 0, 5
-	release
+	setvar VAR_0x8004, 500
+	goto MauvilleCity_GameCorner_EventScript_BuyCoins
 	end
 
 MauvilleCity_GameCorner_EventScript_Buy5000Coins::
-	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, MAX_COINS, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
-	checkmoney COINS_PRICE_5000
-	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
-	addcoins 5000
-	removemoney COINS_PRICE_5000
+	setvar VAR_0x8004, 5000
+	goto MauvilleCity_GameCorner_EventScript_BuyCoins
+	end
+
+@ Fills the case and charges only for the coins that fit (BuyGameCornerCoins, src/coins.c).
+MauvilleCity_GameCorner_EventScript_BuyCoins::
+	special BuyGameCornerCoins
+	goto_if_eq VAR_RESULT, BUY_COINS_CASE_FULL, MauvilleCity_GameCorner_EventScript_NoRoomForCoins
+	goto_if_eq VAR_RESULT, BUY_COINS_NO_MONEY, MauvilleCity_GameCorner_EventScript_NotEnoughMoney
 	updatemoneybox
 	updatecoinsbox 1, 6
 	playse SE_SHOP

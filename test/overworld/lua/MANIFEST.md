@@ -108,6 +108,7 @@ is clean; keep it that way.
 | [`BnetTerminal1F.lua`](#bnetterminal1flua) | fresh new game | The Battle Net wall terminal on one map per placement row, and the BP payout invariants. |
 | [`LevelUpSummary.lua`](#levelupsummarylua) | fresh new game | The post-battle "Your team grew stronger!" box, which `make check` cannot reach by construction. |
 | [`EvolutionMashStress.lua`](#evolutionmashstresslua) | fresh new game | Every evolution path (after battle, cancel, forget-move prompt, Shedinja, chains, whiteout, stone, Rare Candy, soft reset) mashed without a crash, strand or corrupt party. |
+| [`EconomyStress.lua`](#economystresslua) | fresh new game | The wallet at 0 and at the cap: mart buys and sells at their edges, buy-list mashing, trainer prizes, whiteouts at every Money Loss rate, and the Game Corner coin desk. |
 | [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -128,6 +129,8 @@ is clean; keep it that way.
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`FamilyOptions.lua`](#familyoptionslua) | fresh new game | Four choices on every rate control and Text Speed, staged writes, reopen, real save/Continue, and global regional travel. |
 | [`FamilyOptionsFieldStress.lua`](#familyoptionsfieldstresslua) | fresh new game | Options from the main menu (before New Game and Continue) and from the Start menu with a follower, a Repel, rain and Surf, restoring the field each time. |
+| [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
+| [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -237,6 +240,10 @@ The post-battle level-up box. Level-ups are silent during a fight now — `Cmd_g
 ### `EvolutionMashStress.lua`
 
 Adversarial mashing through the evolution flow. Each scenario arms a real evolution and drives the scene with a seeded pseudo-random mash of A, B, Start, Select, L, R and the D-pad, then requires that the scene ran (one `sEvoStructPtr` lifetime per evolution), no crash screen came up, the field came back walkable, every party slot still decrypts with a valid checksum, the count covers exactly the occupied slots, and the follower shows the lead's current species. **Arming:** the debug Give menu builds each mon at its level with matching EXP (the end-of-battle `CalculateMonStats` re-derives level from EXP, so a poked level byte would be undone); the suite keeps those raw bytes and writes them into the party once a debug battle is running, mirrors slot 0 into the player's battler (the battle writes the battler's moves and PP back into slot 0, so a mismatch would graft the debug Wobbuffet's moveset onto the evolving mon), then sets the slot's bit in `gLeveledUpInBattle` and forces `gBattleOutcome`. **Scenarios:** Bulbasaur 16 mashed (must become Ivysaur, never cancelling) and the same evolution held on B (must stay Bulbasaur, through the CANCEL branch); Ivysaur 32 into Venusaur with a full moveset, mashed and B-declined (forget-move prompt reached, moveset unique, PP sane, the learned Petal Blizzard at base PP with its slot's PP bonus cleared); Nincada with a full party, with five and a Poke Ball, and with five and none (never a seventh slot, Shedinja only when a ball was there to spend); three evolutions back to back behind the level-up summary box, and again with B allowed alone; an evolution followed by a whiteout; a Thunder Stone from the bag with an Egg Pikachu in front of a real one (the Egg is refused and never evolves, one stone spent); three Rare Candies across a move prompt into an evolution, one candy into Venusaur's evolution-move prompt from a bag-started scene, and one candy that adds Shedinja under the bag; and the A+B+Start+Select soft reset during the sprite cycle, then Continue (the saved party loads byte for byte). **Why B is never alone in the evolving mashes:** `Task_EvolutionScene` cancels when `gMain.heldKeys == B_BUTTON` exactly, so a lone B would make "the species changed" a coin toss; the B-held scenario is the control. `PW_EVO_SEED=<n>` reseeds the mash and `PW_EVO_ONLY=<text>` runs only matching scenarios.
+
+### `EconomyStress.lua`
+
+Money and items at their edges, every amount read from RAM. **Mart (hub front desk):** one short of a Great Ball is refused before the quantity window and changes nothing; exactly 600 buys one with a spinner capped at 1 (Up, Down and Right stay put); 999,999 caps the spinner at 999, Down from 1 wraps to 999 and Up wraps back, 999 cost 599,400 with 99 bonus Premier Balls, and a 1,000th ball spills into a new slot; a Balls pocket full of 999-stacks refuses the purchase without taking money. **Selling (the shop's SwSh bag):** every Nugget that leaves the bag must be paid in full and the sale is limited to what the wallet can absorb, from 0, 990,000, 997,000 and 999,999. **Mashing:** a seeded mash of the shop at Instant text (Start included, so it can leave and come back) with an empty bag and 0, 19 and 50,000 must not crash, must hand control back, and a wallet under the cheapest price (the 20 Premier Ball) buys nothing. **Prizes:** a debug trainer win at 999,999, 999,990 and 0 must add the prize up to the cap, and the "You got" line must print the prize (`gBattleTextBuff1`). **Whiteouts:** a debug-battle defeat at every Money Loss rate with wallets 0, 1, 2, 3 and 50,000 must take `min(wallet, 8 x top level x rate)` and print exactly that amount. **Coins:** the Mauville desk with 9,998, 9,990 and 9,999 coins and with exactly or one short of 100,000. **Discrimination measured:** with the sell clamp reverted the three over-the-cap sell scenarios fail (ten Nuggets for 9,999, three Nuggets for nothing at the cap); with `BuyGameCornerCoins` reverted, a near-full case pays 100,000 for one coin. `PW_ECON_ONLY=<text>` runs matching scenarios, `PW_ECON_SEED=<n>` reseeds the mash and `PW_ECON_TRACE=1` logs the battle text.
 
 ### `DoorAnimsRegistered.lua`
 
@@ -884,6 +891,42 @@ fade into a menu copies weather-tinted colours into them and nothing on the fiel
 Passed 167/167. It found no field-restore defect; the whiteout badge defect it was written beside
 is pinned by the `Family money loss counts the campaign region's badges` C test.
 
+### `InstantTextStress.lua`
+
+Sets Text Speed to Instant, then starts each message-heavy flow the way a player does (warping to
+the tile in front of the NPC, sign or obstacle and pressing A, or running the shared script a bg
+event runs) and mashes a seeded A/B mix (Start too where a naming screen opens) until the player
+has control again. Covers the nurse in a Johto, a Hoenn and a Kanto Center (A and B mashing), the
+building PC and Hall of Fame PC, the Pokedex, Trainer Card and PokeNav, the Hoenn, Johto and Kanto
+Name Raters, two Move Relearners, the Route 34 Day Care, TV, a scripted wild catch thrown with the
+R last-ball shortcut through the Pokedex page, nickname prompt and naming screen, Cut and Rock
+Smash in each region, Flash in Dark Cave, Strength twice (the Mt Mortar boulder must then move),
+both Safari Zones' last step (pay to continue, and decline back to the gate), and the
+Bug-Catching Contest's time limit through judging and the prize. Each case fails on a crash screen,
+a stopped vblank counter, no control inside its budget, the wrong map afterwards, or a field
+message-box pixel in palette indices 10-15 (the shared half-row colour table leaking from another
+window). The log lists the screens (CB2) each case passed through. `PW_ITS_ONLY=<text>` runs the
+matching cases. Passed **199/199**. Against a build from before `eed10e7a7d` the contest case
+stopped on the `overworld.c` "no object event template for localId 255" assert screen (**8/11** for
+that case alone); that defect was fixed on master while this suite was written. No Instant-specific
+defect was found.
+
+### `StartOptionsStateStress.lua`
+
+FamilyOptionsFieldStress's field-restore comparison applied to states whose data lives outside the
+map header: a DexNav search on Route 29 (the Start menu ends it by design; afterwards no search
+window, sprite or palette may remain, and R must start a new search), a fishing chain streak, the
+Mach and Acro Bikes (cycling music, avatar flags, riding afterwards), Dark Cave before and after
+Flash (the lit width on the middle scanline from `gScanlineEffectRegBuffers`), the Hoenn and Kanto
+Safari Zones entered through `EnterSafariMode` (balls, steps, mode, then one step costs one step),
+the Bug-Catching Contest entered through the attendant (timer start, timer running, mode) and the
+Battle Tower lobby. Each visit moves every Options row and leaves Text Speed and the rates on a new
+column. A 400-frame control snapshot with no visit names what changes on its own (the map name
+popup, the bike music fading in), and those keys are logged and skipped; BG colours with bit 15 set
+are night lights the day/night blend rewrites, and OBJ palettes are compared only for tags loaded
+both before and after. `PW_SOS_ONLY=<text>` runs the matching states. Passed **178/178**; it found
+no restore defect.
+
 ### `FamilyOptionsMigration.lua`
 
 Loads a generated supported save through Continue and verifies option bits, text selection,
@@ -989,3 +1032,35 @@ the follower before each read of its graphics id. It checks a Switch of the chos
 deposit of a Pokemon ahead of it, and that once the chosen Pokemon is boxed the lead follows and a
 later withdrawal does not take over. Measured **15/15** fixed and **12/15** without the
 `GetFollowerSlot` change; each failure names the Pokemon that followed instead.
+
+### `GateRecallStress.lua`
+
+World Transit gate recall after the remembered team changed, plus input abuse. Every Pokémon has a
+distinct personality, and the party, all PC boxes and the Day Care are counted before and after each
+step. A Hoenn team leaves with one Egg; in the hub one member evolves, the Egg hatches, one goes to
+the Day Care and one is released. The partial recall must carry the four reachable members in
+remembered order, the evolved species and the hatched Pokémon, and leave the Day Care member where
+it is. A remembered team of only Eggs must be refused in the hub while keep-current still travels.
+It then mashes six A/B/Start/Select/D-pad patterns through each of the three gates at Instant text,
+holds Select (the registered Hub Pass) through the gate's warp and the Hub Pass's own warp, and
+soft resets on 13 frame offsets between the final Yes and the arrival, each of which must Continue
+in the hub with the saved party, PC and memories. The reset helper holds the buttons until the game
+resets, because the commit's PC scan stalls the main loop for about eight frames. Measured
+**121/121**; no defect found.
+
+### `HubPassVesselBreaks.lua`
+
+A Hub Pass used aboard a ship whose story scene finishes on the way off it. On the S.S. Anne after
+the captain's Cut, the departure scene must still play, and release the player in Vermilion, when
+they return through the gate and walk back down the pier from the town side. Mid maiden voyage on
+the S.S. Aqua, the Olivine sailor must offer the voyage again from state 1 and the restarted voyage
+must reach Vermilion. Measured **28/28**; no defect found.
+
+### `NortheastHoennResume.lua`
+
+Fortree and Lilycove sit north and east of Route 118's river, and every land route off that block
+crosses it, so leaving needs Surf or Fly. The gate offered both Centers as resume points to a party
+that could do neither. The suite drives the real gate with a carried Caterpie, Squirtle with Surf
+and Charizard with Fly, before and after the Feather Badge. Measured **17/17** fixed and **13/17**
+on the unfixed ROM, where the four failures land the Caterpie or the badgeless Charizard in the
+Fortree (`12/2`) or Lilycove (`13/6`) Center instead of Slateport Harbor.

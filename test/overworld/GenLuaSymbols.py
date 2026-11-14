@@ -193,6 +193,19 @@ WANT = [
     "CB2_EvolutionSceneUpdate", "CB2_BeginEvolutionScene", "CB2_EvolutionSceneLoadGraphics",
     "Task_EvolutionScene", "Task_BeginEvolutionScene", "sEvoStructPtr", "gMoveToLearn",
     "TryEvolvePokemon", "WaitForEvoSceneToFinish", "gItemUseCB", "ItemUseCB_EvolutionStone",
+    # EconomyStress.lua. The shop's task functions tell the shop menu, the buy list, the quantity
+    # spinner and the post-purchase wait apart; sShopData holds the spinner's cap and running cost.
+    # Task_ChooseHowManyToSell is the SwSh bag's sell spinner. gBattleTextBuff1 carries the money
+    # number the prize and defeat lines print.
+    "sShopData", "CB2_BuyMenu", "Task_ShopMenu", "Task_BuyMenu", "Task_BuyHowManyDialogueHandleInput",
+    "Task_ReturnToItemListAfterItemPurchase", "Task_ReturnToShopMenu", "Task_ChooseHowManyToSell",
+    "gBattleTextBuff1",
+    # InstantTextStress.lua starts these shared scripts the way their bg events do.
+    "EventScript_PC", "EventScript_AccessHallOfFame", "EventScript_TV", "EventScript_UseFlash",
+    # StartOptionsStateStress.lua: the runtime state of a DexNav search, a fishing chain, the
+    # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
+    "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
+    "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]
@@ -252,7 +265,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   this bit set, so an active-only check reads it as still on the map.
                                                             -- facing: low nibble of the u16 at 0x18 (DIR_SOUTH 1 / NORTH 2 / WEST 3 / EAST 4)
   SaveBlock1   = { x = 0, y = 2, mapGroup = 4, mapNum = 5, lastHealLocation = 0x1C,
-                   registeredItem = 0x496, @SB1@ },
+                   coins = 0x494, registeredItem = 0x496, @SB1@ },
                                                             -- lastHealLocation is the BASE of a
                                                             --   struct WarpData (global.h:710):
                                                             --   +0 s8 mapGroup, +1 s8 mapNum,
@@ -262,6 +275,9 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   how a suite fires a field item-use
                                                             --   callback without driving the BAG UI
                                                             --   (JohtoMusicPass, HubPassReCross).
+                                                            -- coins is the u16 between money and
+                                                            --   registeredItem, XORed with the low half
+                                                            --   of encryptionKey like money.
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    optionsU16 = 0x14, ratesU16 = 0x16, encounterMask = 0x00C0, moneyLossMask = 0x0300,
                    currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
@@ -343,6 +359,9 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   `tiles == NULL`, not on the whole row
                                                             --   being zero -- one live row (0x3B0) has a
                                                             --   NULL TILESET and must still be walked.
+  ShopData     = { totalCost = 0x2000, maxQuantity = 0x200A },
+                                                            -- struct ShopData, src/shop.c: four u16[0x400]
+                                                            --   tilemap buffers come first.
   Task         = { stride = 40, func = 0, isActive = 4, count = 16, data = 8 },
                                                             -- struct Task, include/task.h. func holds a
                                                             --   Thumb pointer, so compare it to a symbol

@@ -43,32 +43,25 @@ CeladonCity_GameCorner_EventScript_BuyCoins::
 	end
 
 CeladonCity_GameCorner_EventScript_Buy5000Coins::
-	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, MAX_COINS, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
-	checkmoney 100000
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
-	addcoins 5000
-	removemoney 100000
-	goto CeladonCity_GameCorner_EventScript_BoughtCoins
+	setvar VAR_0x8004, 5000
+	goto CeladonCity_GameCorner_EventScript_DoBuyCoins
 	end
 
 CeladonCity_GameCorner_EventScript_Buy500Coins::
-	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, MAX_COINS, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
-	checkmoney 10000
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
-	addcoins 500
-	removemoney 10000
-	goto CeladonCity_GameCorner_EventScript_BoughtCoins
+	setvar VAR_0x8004, 500
+	goto CeladonCity_GameCorner_EventScript_DoBuyCoins
 	end
 
 CeladonCity_GameCorner_EventScript_Buy50Coins::
-	checkcoins VAR_TEMP_1
-	goto_if_ge VAR_TEMP_1, MAX_COINS, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
-	checkmoney 1000
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
-	addcoins 50
-	removemoney 1000
+	setvar VAR_0x8004, 50
+	goto CeladonCity_GameCorner_EventScript_DoBuyCoins
+	end
+
+@ Fills the case and charges only for the coins that fit (BuyGameCornerCoins, src/coins.c).
+CeladonCity_GameCorner_EventScript_DoBuyCoins::
+	special BuyGameCornerCoins
+	goto_if_eq VAR_RESULT, BUY_COINS_CASE_FULL, CeladonCity_GameCorner_EventScript_ClerkNoRoomForCoins
+	goto_if_eq VAR_RESULT, BUY_COINS_NO_MONEY, CeladonCity_GameCorner_EventScript_ClerkNotEnoughMoney
 	goto CeladonCity_GameCorner_EventScript_BoughtCoins
 	end
 

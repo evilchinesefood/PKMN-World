@@ -286,6 +286,29 @@ TEST("Family money loss command clamps the scaled deduction and displays that am
     EXPECT_EQ(gBattlescriptCurrInstr, command + 1);
 }
 
+TEST("Family money loss counts the campaign region's badges")
+{
+    u32 region = 0, badgesIn = 0, rate = 0, loss = 0;
+    PARAMETRIZE { region = REGION_HOENN; badgesIn = REGION_HOENN; rate = OPTIONS_RATE_1X; loss = 12000; }
+    PARAMETRIZE { region = REGION_JOHTO; badgesIn = REGION_JOHTO; rate = OPTIONS_RATE_1X; loss = 12000; }
+    PARAMETRIZE { region = REGION_KANTO; badgesIn = REGION_KANTO; rate = OPTIONS_RATE_2X; loss = 24000; }
+    PARAMETRIZE { region = REGION_JOHTO; badgesIn = REGION_HOENN; rate = OPTIONS_RATE_1X; loss = 800; }
+    PARAMETRIZE { region = REGION_HOENN; badgesIn = REGION_KANTO; rate = OPTIONS_RATE_0_5X; loss = 400; }
+    static const u8 command[] = {B_SCR_OP_GETMONEYREWARD};
+    ResetFamilySave();
+    SetCurrentRegion(region);
+    for (u32 i = 0; i < NUM_BADGES; i++)
+        FlagSet(GetBadgeFlag(badgesIn, i));
+    CreateMon(&gParties[B_TRAINER_PLAYER][0], SPECIES_PIKACHU, 100, 12345, OTID_STRUCT_PRESET(54321));
+    gSaveBlock2Ptr->optionsMoneyLoss = rate;
+    SetMoney(&gSaveBlock1Ptr->money, 50000);
+    gBattleOutcome = B_OUTCOME_LOST;
+    gBattlescriptCurrInstr = command;
+    gBattleScriptingCommandsTable[B_SCR_OP_GETMONEYREWARD]();
+    EXPECT_EQ(GetMoney(&gSaveBlock1Ptr->money), 50000 - loss);
+    EXPECT_EQ(PrintedMoney(), loss);
+}
+
 TEST("Family retired Hard Mode permits trainer bag use and uncapped growth")
 {
     u32 hard = 0;

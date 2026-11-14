@@ -43,6 +43,8 @@ WANT = [
     # left=55 (the unaligned FillSpriteRectColor case). gSafariZoneStepCounter must
     # be non-zero or the first step fires the times-up script instead of a battle.
     "gDisplayedStringBattle", "gNumSafariBalls", "gSafariZoneStepCounter",
+    # PayDayMoneyText: the u16 per-battle Pay Day pot, seeded after battle start.
+    "gPaydayMoney",
     "gHealthboxSpriteIds", "gActionSelectionCursor",
     "gBattlerControllerFuncs", "gBattlescriptCurrInstr", "gBattleCommunication",
     "PlayerHandleYesNoInput", "HandleInputChooseMove", "gMultiUsePlayerCursor", "gBattlerPartyIndexes", "gBattleScripting",

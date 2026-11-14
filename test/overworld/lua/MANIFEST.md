@@ -1086,3 +1086,36 @@ that could do neither. The suite drives the real gate with a carried Caterpie, S
 and Charizard with Fly, before and after the Feather Badge. Measured **17/17** fixed and **13/17**
 on the unfixed ROM, where the four failures land the Caterpie or the badgeless Charizard in the
 Fortree (`12/2`) or Lilycove (`13/6`) Center instead of Slateport Harbor.
+
+### `JohtoGoldenrodArrival.lua`
+
+Goldenrod station sits north of Ilex Forest's Cut tree and east of Route 36's Sudowoodo. The
+standard Johto arrival used to land there after Falkner alone, before the player could walk back
+to Azalea: Cut needs the Hive Badge and the Ilex gift, Sudowoodo needs the Plain Badge. The suite
+drives the real gate after Falkner only, after Bugsy with Ilex unfinished, with Farfetch'd home
+but no Cut gift, after the Cut gift, and with Whitney's badge. Measured **11/11** fixed and
+**8/11** on the unfixed ROM, where the first three land at Goldenrod station (`84/23`) instead
+of New Bark (`76/4`).
+
+### `SSAnnePierHeal.lua`
+
+A party at 1 HP walks the Vermilion ticket check and pier, boards the S.S. Anne, Hub Passes off
+the ship, returns through the Kanto gate and walks the pier into the departure scene. HP stays
+at 1 after every step. The only heal on this route is the opt-in woman in 1F Room 6, inherited
+from FRLG. Measured **15/15**; no defect found.
+### `HubPassEliteFour.lua`
+
+The Hub Pass used mid Elite Four run. Each region's rooms reopen their exits on load when the
+previous member is already beaten, and Hoenn and Kanto clear that progress only on whiteout or the
+Hall of Fame (Johto's reset in the Indigo Plateau Center is bypassed by the outdoor E4 door). The
+suite debug-warps into Phoebe's, Kanto Bruno's and Koga's rooms with the previous member beaten and
+presses Select with the Hub Pass registered. Each room must refuse it and keep the player there;
+the League lobby must still allow it. Measured **12/12** fixed and **6/12** on the unfixed ROM,
+where all three rooms warped to the hub with the beaten flag or League state intact.
+
+### `PayDayMoneyText.lua`
+
+Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding an Amulet Coin uses
+Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
+doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
+15464 (81000 truncated to 16 bits) while paying 81000.

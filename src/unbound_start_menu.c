@@ -328,7 +328,6 @@ static bool32 Usm_IsItemAvailable(enum Usm_Icons item);
 static bool32 Usm_IsPlayerInBattlePyramid(void);
 static void Usm_CreateScrollingArrows(void);
 static bool32 Usm_IsFlashObscured(void);
-static void Usm_RunDeferredCallback(void);
 static void Usm_DeferCallback(Usm_DeferredCB func);
 
 // Menu Callbacks
@@ -610,13 +609,6 @@ static bool32 UsmMenuCB_Exit(u32 state)
 static void Usm_DeferCallback(Usm_DeferredCB func)
 {
     SetWordTaskArg(sUsmState->mainTaskId, 14, (uintptr_t)func);
-}
-
-static void Usm_RunDeferredCallback(void)
-{
-    Usm_DeferredCB func = (Usm_DeferredCB)GetWordTaskArg(sUsmState->mainTaskId, 14);
-    if (func != NULL)
-        func();
 }
 
 static void SpriteCB_UsmArrow(struct Sprite *sprite)
@@ -1342,8 +1334,10 @@ static void Usm_RunMenuCallbackAndExit(u8 taskId)
         gTasks[taskId].data[0]++;
     else
     {
+        Usm_DeferredCB func = (Usm_DeferredCB)GetWordTaskArg(taskId, 14);
         Usm_ExitStartMenu();
-        Usm_RunDeferredCallback();
+        if (func != NULL)
+            func();
         DestroyTask(taskId);
     }
 }

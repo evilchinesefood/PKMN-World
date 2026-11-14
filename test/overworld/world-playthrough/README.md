@@ -89,6 +89,30 @@ region active, so difficulty, obedience badges and the whiteout respawn stayed w
 `SetFlyDestination` now claims the destination's region, as the Frontier ferry does.
 `evidence/fly-before-fix.log` has the failing lines from the ROM without the fix.
 
+## Sevii
+
+`--sevii` accepts Bill's invitation in the Kanto slices. The islands' pre-League beats already fall
+in the Blaine to Giovanni slice. Kanto's last slice runs on from `home` through `sevii_ferry_home`,
+as the Kanto campaign does. Kanto's own post-game beats are not part of the world order. `--world J`
+has no Kanto, so `run.py` rejects `--sevii` there.
+
+```sh
+python3 test/overworld/johto-playthrough/run.py --campaign world --world A --postgame --sevii
+```
+
+A `--from` resume reads each region's remembered team from `ckpt_<beat>.stash_<region>`, saved
+beside every checkpoint. A case directory from before that only has `stash_<region>`, which is the
+team at that run's last crossing, so resume it from a checkpoint after its last crossing.
+
+A Kanto gate lands at the last Center the player used, which after the pre-League islands is One
+Island's. `to_victory_road` sails back to Vermilion first. The planner cannot route across the ferry.
+
+On ROM `A77092BB16FD28FB494BD4BC7D807F67`, order A with `--postgame --sevii` was played from a fresh
+save to `k_to_cinnabar`, resumed to `cross16_to_kanto` (all 8 pre-League island beats passed), then
+resumed to the end at 251/251: the 17 post-League island beats, the remaining crossings, all three
+Halls of Fame and every post-game detour. The first resume failed at `k_to_victory_road` with
+`no route from OneIsland_PokemonCenter_1F_Frlg`, which is the sail-home fix above.
+
 ## Not covered
 
 `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`

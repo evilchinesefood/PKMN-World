@@ -262,6 +262,7 @@ local function setup()
   flag(0x63F8,true)
   F.w16(F.sb3()+S.SaveBlock3.regionVars+0x8C*2,7) -- VAR_AZALEA_TOWN_STATE: past Ilex, so Johto arrives at Goldenrod
   flag(0x94F,true)
+  flag(0x95F,true) -- visited Slateport, so the standard Hoenn arrival is its harbor
   F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
   if not debugParty() then return false end
   template=bytes(party(),100)

@@ -675,7 +675,14 @@ return function(F, N, C, log)
       assert(N.travel(town), 'back out to ' .. town)
     end
 
-    seviiFerry = { picks = ferryPicks, sail = sail, center = center }
+    -- A world run's Kanto gate lands at the last Center used, which can be on an island.
+    local function home()
+      for n = 1, 7 do
+        if N.mapName():find('^' .. HARBOR[n]:match('^(%a-Island)_') .. '_') then sail(n, 0); return end
+      end
+    end
+
+    seviiFerry = { picks = ferryPicks, sail = sail, center = center, home = home }
 
     beat('sevii_invite', function()
       moves()
@@ -807,6 +814,7 @@ return function(F, N, C, log)
   -- Route 22's late rival fills the road west, and Route 23's guards check every badge.
   beat('to_victory_road', function()
     moves()
+    if seviiFerry then seviiFerry.home() end
     assert(N.travel('VictoryRoad_1F_Frlg', { tile = { 7, 18 } }))
   end, function() return at('VictoryRoad_1F_Frlg') end)
 
@@ -1092,7 +1100,8 @@ return function(F, N, C, log)
   end
 
   if POSTGAME then
-    require('postgame')(F, N, C, { beat = beat, moves = moves, V = V, FL = FL, at = at, ferry = seviiFerry, pushes = pushes,
+    local dir = debug.getinfo(1, 'S').source:sub(2):match('^(.*[/\\])')
+    assert(loadfile(dir .. 'postgame.lua'))()(F, N, C, { beat = beat, moves = moves, V = V, FL = FL, at = at, ferry = seviiFerry, pushes = pushes,
       victoryRoad = { victoryRoad1F, victoryRoad2F, victoryRoad3F, victoryRoadExit } })
   end
 

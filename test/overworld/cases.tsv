@@ -62,11 +62,11 @@ RegionalTravelMigration	lua/RegionalTravelMigration.lua	lua/fixtures/v10regional
 VerifyV7Migrate	lua/VerifyV7Migrate.lua	lua/fixtures/v7dirty.srm	0	required
 MigrateFixtures	lua/MigrateFixtures.lua	lua/fixtures/v3.srm	0	required
 VerifyMapRenumber	lua/VerifyMapRenumber.lua	lua/fixtures/v7renumber.srm	0	required
-LanceMultiBattle	lua/LanceMultiBattle.lua	fresh	0	manual
-DayNightCrossingProbe	lua/DayNightCrossingProbe.lua	fresh	0	manual
-Route37CrossingProbe	lua/Route37CrossingProbe.lua	fresh	0	manual
+LanceMultiBattle	lua/LanceMultiBattle.lua	fresh	0	required
+DayNightCrossingProbe	lua/DayNightCrossingProbe.lua	fresh	0	required
+Route37CrossingProbe	lua/Route37CrossingProbe.lua	fresh	0	required
 OwnerSaveLeakProbe	lua/OwnerSaveLeakProbe.lua	personal	0	manual
-Route41SurfArrival	lua/Route41SurfArrival.lua	fresh	0	manual
+Route41SurfArrival	lua/Route41SurfArrival.lua	fresh	0	required
 SustainedWalkLeakProbe	lua/SustainedWalkLeakProbe.lua	fresh	0	manual
 VerifyOwnerSave	lua/VerifyOwnerSave.lua	personal	0	manual
 RegionalTravelBoundaries	lua/RegionalTravelBoundaries.lua	fresh	0	required
@@ -103,6 +103,9 @@ GateRecallStress	lua/GateRecallStress.lua	fresh	0	required
 HubPassVesselBreaks	lua/HubPassVesselBreaks.lua	fresh	0	required
 NortheastHoennResume	lua/NortheastHoennResume.lua	fresh	0	required
 BugContestPodium	lua/BugContestPodium.lua	fresh	0	required
+BrineyRespawnShore	lua/BrineyRespawnShore.lua	fresh	0	required
+RegionalRecallMail	lua/RegionalRecallMail.lua	fresh	0	required
+BrineyEastArrival	lua/BrineyEastArrival.lua	fresh	0	required
 JohtoGoldenrodArrival	lua/JohtoGoldenrodArrival.lua	fresh	0	required
 SSAnnePierHeal	lua/SSAnnePierHeal.lua	fresh	0	required
 HubPassEliteFour	lua/HubPassEliteFour.lua	fresh	0	required

@@ -147,6 +147,7 @@ local function setup()
   flag(0xA4B,true)
   flag(0x63F8,true)
   flag(0x94F,true)
+  flag(0x95F,true) -- FLAG_VISITED_SLATEPORT_CITY: the Hoenn harbor arrival is open
   F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
   if not debugParty() then return false end
   local seen={}

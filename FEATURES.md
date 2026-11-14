@@ -121,7 +121,9 @@ station**, **Vermilion City**, and the **Slateport harbor** — that the hub ret
 that region's first gym badge when you choose standard arrival. Before that badge, the standard
 route returns home. Goldenrod also waits for Ilex Forest (the Cut gift there, or Whitney's badge):
 the station sits past Ilex Forest's Cut tree and Route 36's Sudowoodo, so landing there earlier
-would wall you off from Azalea. Center resume becomes available after the regional opening is complete.
+would wall you off from Azalea. Hoenn's harbor also waits until you have reached Slateport on
+Mr. Briney's boat, so the gate never lands you east of Rusturf Tunnel before his first voyage.
+Center resume becomes available after the regional opening is complete.
 
 **Johto ↔ Kanto by sea** is the one crossing that isn't a hub gate. Elm's S.S. Ticket sends the
 new Johto Champion out of the **Olivine harbor** on the maiden voyage; you disembark in the

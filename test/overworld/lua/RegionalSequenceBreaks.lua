@@ -17,6 +17,7 @@ local SLATEPORT_CENTER = {id=2, g=9, m=11}
 local MAUVILLE_CENTER = {id=3, g=10, m=5}
 local DEWFORD_CENTER = {id=11, g=3, m=1}
 local FLAG_HIDE_DEWFORD_BRINEY, FLAG_HIDE_DEWFORD_BOAT = 0x2E4, 0x2E7
+local FLAG_VISITED_SLATEPORT = 0x95F
 local FLAG_HIDE_ROUTE109_BRINEY, FLAG_HIDE_ROUTE109_BOAT = 0x2E5, 0x2E8
 local FLAG_DEFEATED_PETALBURG_GYM = 0x4F4
 local FLAG_HOENN_STONE_BADGE = 0x94F
@@ -104,17 +105,19 @@ local function passToHub(tag)
   if not menu(0,tag.."_confirm") then return false end
   return awaitMap(HUB[1],HUB[2],tag)
 end
--- Briney sailed the player back to Dewford and is docked there; Norman is not beaten, so no Surf.
+-- Briney sailed the player from Slateport back to Dewford and is docked there; Norman is not
+-- beaten, so no Surf.
 local function dockBrineyAtDewford()
+  flag(FLAG_VISITED_SLATEPORT,true)
   flag(FLAG_HIDE_DEWFORD_BRINEY,false);flag(FLAG_HIDE_DEWFORD_BOAT,false)
   flag(FLAG_HIDE_ROUTE109_BRINEY,true);flag(FLAG_HIDE_ROUTE109_BOAT,true)
   flag(FLAG_DEFEATED_PETALBURG_GYM,false)
   var(VAR_BRINEY_LOCATION,2)
 end
-local function brineyAtRoute109()
+local function brineyAtRoute109(returnTo)
   return flagGet(FLAG_HIDE_DEWFORD_BRINEY) and flagGet(FLAG_HIDE_DEWFORD_BOAT)
      and not flagGet(FLAG_HIDE_ROUTE109_BRINEY) and not flagGet(FLAG_HIDE_ROUTE109_BOAT)
-     and varGet(VAR_BRINEY_LOCATION)==3
+     and varGet(VAR_BRINEY_LOCATION)==(returnTo or 3)
 end
 local function brineyAtDewford()
   return not flagGet(FLAG_HIDE_DEWFORD_BRINEY) and not flagGet(FLAG_HIDE_DEWFORD_BOAT)
@@ -152,7 +155,8 @@ F.run(function()
   local first=crossHoenn(1,SLATEPORT_HARBOR,"standard")
   F.check("standard Hoenn arrival reaches Slateport Harbor",first,where())
   if not first then F.finish();return end
-  F.check("standard arrival brings Briney to Route 109",brineyAtRoute109(),brineyState())
+  -- The standard arrival respawns in Littleroot, so a whiteout or Teleport must send him home.
+  F.check("standard arrival brings Briney to Route 109",brineyAtRoute109(1),brineyState())
   for _,id in ipairs(select(2,F.keyItemSlot(0xFFFF))) do if not before[id] then hubPass=id end end
   F.check("first mature trip supplies a Hub Pass",hubPass~=nil)
   if not hubPass then F.finish();return end

@@ -51,13 +51,33 @@ BugContest_EventScript_TransferKeep::
 	special TransferBugContestMon
 	goto_if_ne VAR_RESULT, MON_GIVEN_TO_PC, BugContest_EventScript_NeedBoxSpace
 	delay 20
+	checkitemspace VAR_TEMP_2
+	goto_if_eq VAR_RESULT, FALSE, BugContest_EventScript_PrizeToPC
 	giveitem VAR_TEMP_2
+BugContest_EventScript_ReturnParty::
 	msgbox BugContest_Text_TransferAndReturn, MSGBOX_DEFAULT
 	playse SE_SUCCESS
 	waitse
 	msgbox BugContest_Text_TakePartInFuture, MSGBOX_DEFAULT
 	closemessage
 	goto BugContest_EventScript_End
+	end
+
+@ Std_ObtainItem prints nothing when additem fails, so a full pocket used to drop the prize
+@ without a word.
+BugContest_EventScript_PrizeToPC::
+	addpcitem VAR_TEMP_2
+	goto_if_eq VAR_RESULT, FALSE, BugContest_EventScript_PrizeBagFull
+	bufferitemname STR_VAR_2, VAR_TEMP_2
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox BugContest_Text_PrizeSentToPC, MSGBOX_DEFAULT
+	waitfanfare
+	goto BugContest_EventScript_ReturnParty
+	end
+
+BugContest_EventScript_PrizeBagFull::
+	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
+	goto BugContest_EventScript_ReturnParty
 	end
 
 @ The PC edits the real party, not the contest one: BugContest_EventScript_End restores the
@@ -211,6 +231,10 @@ BugContest_Text_TakePartInFuture:
 	.string "Thank you for participating!\n"
 	.string "We hope you'll take part in the\l"
 	.string "future.$"
+
+BugContest_Text_PrizeSentToPC:
+	.string "The BAG is full, so the {STR_VAR_2}\n"
+	.string "was sent to your PC.$"
 
 BugContest_Text_TransferAndReturn:
 	.string "Your chosen BUG POKéMON will now\n"

@@ -2282,12 +2282,73 @@ static bool32 IsEligibleFollowerMon(struct Pokemon *mon)
     return mon->hp > 0 && !(mon->box.isEgg || mon->box.isBadEgg);
 }
 
+// followerSlot is a party index, so a Switch, a PC deposit or anything else that reorders the
+// party would hand the follow to whichever Pokemon lands in that slot. Remember who was chosen
+// and move the index with them; once they leave the party, the lead follows again.
+static EWRAM_DATA struct {
+    u32 personality;
+    u32 otId;
+    bool8 known;
+} sFollowerChoice = {0};
+
+static bool32 IsFollowerChoice(struct Pokemon *mon)
+{
+    return GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE
+        && mon->box.personality == sFollowerChoice.personality
+        && mon->box.otId == sFollowerChoice.otId;
+}
+
+static void RememberFollowerChoice(u32 slot)
+{
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][slot - 1];
+
+    sFollowerChoice.personality = mon->box.personality;
+    sFollowerChoice.otId = mon->box.otId;
+    sFollowerChoice.known = GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE;
+}
+
+// slot is a party index + 1, or 0 for the lead.
+void SetFollowerSlot(u32 slot)
+{
+    gSaveBlock2Ptr->followerSlot = slot;
+    sFollowerChoice.known = FALSE;
+    if (slot != 0 && slot <= PARTY_SIZE)
+        RememberFollowerChoice(slot);
+}
+
+// The chosen follower's party index + 1, or 0 for the lead.
+u32 GetFollowerSlot(void)
+{
+    u32 i, chosen = gSaveBlock2Ptr->followerSlot;
+
+    if (chosen == 0 || chosen > PARTY_SIZE)
+        return chosen;
+    // After a load the choice is whoever the saved slot names.
+    if (!sFollowerChoice.known)
+    {
+        RememberFollowerChoice(chosen);
+        return chosen;
+    }
+    if (IsFollowerChoice(&gParties[B_TRAINER_PLAYER][chosen - 1]))
+        return chosen;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (IsFollowerChoice(&gParties[B_TRAINER_PLAYER][i]))
+        {
+            gSaveBlock2Ptr->followerSlot = i + 1;
+            return i + 1;
+        }
+    }
+    SetFollowerSlot(0);
+    return 0;
+}
+
 // Return address of the chosen follower party mon if eligible,
 // else first conscious party mon, else NULL
 struct Pokemon *GetFirstLiveMon(void)
 {
     u32 i;
-    u32 chosen = gSaveBlock2Ptr->followerSlot;
+    u32 chosen = GetFollowerSlot();
 
     if (chosen != 0 && chosen <= PARTY_SIZE && IsEligibleFollowerMon(&gParties[B_TRAINER_PLAYER][chosen - 1]))
         return &gParties[B_TRAINER_PLAYER][chosen - 1];

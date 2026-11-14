@@ -21,6 +21,10 @@ All notable player-facing changes. For the full feature reference see
 - **Return to the last eligible Pokémon Center you entered**, without needing to heal there first. The gate also offers the standard regional arrival. Unsafe checkpoints fall back to that arrival. Ferries keep their normal party and port behavior.
 - **Regional history starts empty for pre-v11 saves.** Subsequent departures and Center visits populate it. Existing v11 teams and checkpoints are preserved by the v12 upgrade.
 
+### Shops
+
+- **Selling no longer loses items over the money cap.** A shop now buys only as many as your wallet can still hold, and says your wallet is full when it holds ¥999,999. Before, selling ten Nuggets with ¥990,000 paid ¥9,999 for all ten, and selling at the cap paid nothing.
+
 ### Visuals
 
 - **Kanto's Story pages use mixed case**, like Johto and Hoenn ("Pallet Town", "Prof. Oak's Lab", "Boulder Badge").

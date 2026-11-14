@@ -22,6 +22,7 @@
 #include "random.h"
 #include "regions.h"
 #include "script_pokemon_util.h"
+#include "task.h"
 #include "test/test.h"
 #include "constants/abilities.h"
 #include "constants/flags.h"
@@ -389,6 +390,10 @@ TEST("Family encounter preference leaves fishing generation and RNG unchanged")
         struct Pokemon generated = gParties[B_TRAINER_OPPONENT_A][0];
         rng_value_t generatedRng = gRngValue;
         REG_IME = ime;
+        // FishingWildEncounter always ends in BattleSetup_StartWildBattle, which queues
+        // Task_BattleStart for the transition. Only the generated mon and RNG are under test,
+        // so drop the queued battle start rather than leak one task per iteration.
+        ResetTasks();
         if (rate == OPTIONS_RATE_1X)
         {
             baseline = generated;

@@ -111,3 +111,4 @@ SSAnnePierHeal	lua/SSAnnePierHeal.lua	fresh	0	required
 HubPassEliteFour	lua/HubPassEliteFour.lua	fresh	0	required
 PayDayMoneyText	lua/PayDayMoneyText.lua	fresh	0	required
 PikeRoomSave	lua/PikeRoomSave.lua	fresh	0	required
+TowerMultiRoomMenu	lua/TowerMultiRoomMenu.lua	fresh	0	required

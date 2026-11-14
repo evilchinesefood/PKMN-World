@@ -29,7 +29,9 @@ TEST("Visual window frames: actual battle loader preserves selected art and pale
     gBattleTypeFlags = flags;
     BattleInitBgsAndWindows();
     LoadBattleMenuWindowGfx();
-    ProcessDma3Requests();
+    for (u32 i = 0; i < 512 && CheckForSpaceForDma3Request(-1) != 0; i++)
+        ProcessDma3Requests();
+    EXPECT_EQ(CheckForSpaceForDma3Request(-1), 0);
     EXPECT_EQ(memcmp(gPlttBufferUnfaded + BG_PLTT_ID(1), palette, PLTT_SIZE_4BPP), 0);
     EXPECT_EQ(memcmp((u8 *)BG_VRAM + 0x12 * TILE_SIZE_4BPP, tiles, 0x120), 0);
     EXPECT_EQ(memcmp((u8 *)BG_VRAM + 0x22 * TILE_SIZE_4BPP, tiles, 0x120), 0);

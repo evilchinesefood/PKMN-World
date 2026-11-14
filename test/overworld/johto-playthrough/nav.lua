@@ -2076,13 +2076,14 @@ return function(F, S)
   end
 
   -- Talk to the hub attendant standing at (x, 2) and board.
-  function N.crossGate(x)
+  function N.crossGate(x, refusable)
     assert(N.approach(x, 2, { side = 1 }), 'hub attendant')
     for _ = 1, 500 do
       press('A'); idle(20)
       if N.mapName() ~= 'RegionHub' then break end
     end
     idle(200); N.settle()
+    if refusable then return N.mapName() ~= 'RegionHub' end
     assert(N.mapName() ~= 'RegionHub', 'the gate did not board')
   end
 

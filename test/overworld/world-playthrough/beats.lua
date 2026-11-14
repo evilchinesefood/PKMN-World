@@ -115,6 +115,8 @@ return function(F, N, C, log)
   local function checkRecall(region, away, filler)
     local want = stash[region] or loadParty(region)
     stash[region] = want
+    -- A Johto-only world never plays Kanto or Hoenn, so their gates recall an empty team.
+    if not want and os.getenv('PW_WORLD') == 'J' and region ~= 'johto' then want = { count = 0 } end
     if not want then L('  recall ' .. region .. ': no recorded team to compare'); return false end
     local got, boxed = partyPids(), boxedPids()
     local same = #got == want.count

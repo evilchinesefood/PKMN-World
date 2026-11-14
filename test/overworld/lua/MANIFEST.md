@@ -1240,3 +1240,29 @@ inside on the house entry. A run that ends on the ledge row on foot fails; a fli
 the ledge or the door only when it took off before the move began. When the key stopped the jump,
 a second jump must still land. Measured **864/864** on the build of
 `061127921d`; no defect found.
+### `SafariStress.lua`
+
+Every way out of the Kanto, Johto and Hoenn Safari Zones, through the real attendants and exits.
+Setup gives one Pokemon, a Pokeblock case and the wallet; the step that ends the clock, the
+pay-to-continue prompt, a real wild battle down to the last ball, the walk back through the
+entrance and the start menu's RETIRE are real input. The clock and ball count are lowered in RAM
+to one left. Each zone checks paying 500 (30 balls and the region's 600 or 500 steps again),
+declining, 499 in the wallet, leaving early and staying, RETIRE declined then accepted, and (Kanto
+and Hoenn) the last ball thrown in battle, which misses in Kanto and catches in Hoenn on the pinned
+clock. Every exit must land in the entrance with Safari mode and the Kanto exit scene cleared and
+the field free. Declining RETIRE reopens the start menu from inside the prompt script, and the
+script's end then unlocked the field under it: the player could walk with the menu drawn, Start
+stacked a second menu, and the next RETIRE hung with no message box. Measured **130/130** fixed
+and **37/52** on the unfixed ROM, which hangs at the Kanto RETIRE and fails every later warp.
+`--env PW_SAFARI_ONLY=<zone_scenario>` runs matching scenarios (`kanto_retire`, `hoenn_balls`).
+
+### `BugContestEggOnly.lua`
+
+The Bug-Catching Contest with an Egg as the only party member, the state a Hub gate leaves when a
+gift Egg follows the boxed party. The Egg comes from the debug Give Egg (`ScriptGiveEgg`, the call
+gift scripts use); talking to the Route 35 and Route 36 gate attendants is real input. Each must
+refuse with "can't battle", hand out no contest balls and leave the Egg and the field alone. The
+one-Pokemon branch skipped the `remove5mons` lead check, so the Egg went in with 30 balls to a
+contest where every wild battle is refused. Measured **12/12** fixed and **4/7** on the unfixed
+ROM, which entered the contest at the Route 35 attendant. `--env PW_EGG_GATE=east` runs only the
+Route 36 attendant: **7/7** fixed, **5/7** unfixed.

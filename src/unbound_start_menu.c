@@ -1365,6 +1365,21 @@ void Usm_ReturnToFieldOpenMenu(void)
     LockPlayerFieldControls();
 }
 
+static void Task_UsmOpenAfterScript(u8 taskId)
+{
+    if (ScriptContext_IsEnabled())
+        return;
+    DestroyTask(taskId);
+    Usm_InitStartMenu();
+}
+
+// The end of a script unlocks the field controls, so a menu opened inside one would sit
+// under a player who can walk and open a second menu.
+void Usm_InitStartMenuAfterScript(void)
+{
+    CreateTask(Task_UsmOpenAfterScript, 0x50);
+}
+
 bool8 FieldCB_UsmReturnToField(void)
 {
     Usm_ReturnToFieldOpenMenu();
@@ -1417,7 +1432,7 @@ static bool32 Usm_IsFlashObscured(void)
 
 // Classic-menu build: keep the initusm script callnative (safari retire decline) a no-op,
 // matching vanilla behavior where declining just closes out the script.
-void Usm_InitStartMenu(void)
+void Usm_InitStartMenuAfterScript(void)
 {
 }
 

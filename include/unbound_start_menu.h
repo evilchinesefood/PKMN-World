@@ -4,6 +4,7 @@
 #include "gba/types.h"
 
 void Usm_InitStartMenu(void);
+void Usm_InitStartMenuAfterScript(void);
 void Usm_LoadIconPalette(void);
 bool8 FieldCB_UsmReturnToField(void);
 void Usm_ReturnToFieldOpenMenu(void);

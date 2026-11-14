@@ -3180,9 +3180,9 @@
 	.endm
 #endif // POKEVIAL_FEATURE
 
-	@ Opens the Unbound-style graphical start menu (no-op when PW_GRAPHICAL_START_MENU is FALSE).
+	@ Opens the Unbound-style graphical start menu once the script ends (no-op when PW_GRAPHICAL_START_MENU is FALSE).
 	.macro initusm
-	callnative Usm_InitStartMenu
+	callnative Usm_InitStartMenuAfterScript
 	.endm
 
 	@ Leader / Elite Four / Champion REMATCH victory hook (issue #19 step 1).

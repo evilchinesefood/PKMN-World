@@ -1176,3 +1176,19 @@ Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding 
 Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
 doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
 15464 (81000 truncated to 16 bits) while paying 81000.
+
+### `SafariStress.lua`
+
+Every way out of the Kanto, Johto and Hoenn Safari Zones, through the real attendants and exits.
+Setup gives one Pokemon, a Pokeblock case and the wallet; the step that ends the clock, the
+pay-to-continue prompt, a real wild battle down to the last ball, the walk back through the
+entrance and the start menu's RETIRE are real input. The clock and ball count are lowered in RAM
+to one left. Each zone checks paying 500 (30 balls and the region's 600 or 500 steps again),
+declining, 499 in the wallet, leaving early and staying, RETIRE declined then accepted, and (Kanto
+and Hoenn) the last ball thrown in battle, which misses in Kanto and catches in Hoenn on the pinned
+clock. Every exit must land in the entrance with Safari mode and the Kanto exit scene cleared and
+the field free. Declining RETIRE reopens the start menu from inside the prompt script, and the
+script's end then unlocked the field under it: the player could walk with the menu drawn, Start
+stacked a second menu, and the next RETIRE hung with no message box. Measured **130/130** fixed
+and **37/52** on the unfixed ROM, which hangs at the Kanto RETIRE and fails every later warp.
+`--env PW_SAFARI_ONLY=<zone_scenario>` runs matching scenarios (`kanto_retire`, `hoenn_balls`).

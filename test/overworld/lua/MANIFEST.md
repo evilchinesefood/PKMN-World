@@ -1176,3 +1176,13 @@ Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding 
 Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
 doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
 15464 (81000 truncated to 16 bits) while paying 81000.
+
+### `HiddenCoinsCase.lua`
+
+Hidden coins on the Celadon Game Corner floor against a nearly full Coin Case. The Coin Case comes
+from the real restaurant NPC, whose `giveitem` leaves `VAR_0x8006` at 718; only the coin balance is
+seeded. Ten coins into 9,300 must land (9,310), twenty into 9,979 must fill the case exactly, ten
+into 9,995 are refused with nothing lost, the refused spot still pays out once the case has room,
+and a collected spot stays empty. Measured **20/20** fixed and **18/20** on the unfixed ROM, where
+`CheckAddCoins` added `VAR_0x8006` instead of the found amount in `VAR_0x8009` and refused both
+pickups as a full case.

@@ -110,3 +110,4 @@ JohtoGoldenrodArrival	lua/JohtoGoldenrodArrival.lua	fresh	0	required
 SSAnnePierHeal	lua/SSAnnePierHeal.lua	fresh	0	required
 HubPassEliteFour	lua/HubPassEliteFour.lua	fresh	0	required
 PayDayMoneyText	lua/PayDayMoneyText.lua	fresh	0	required
+HiddenCoinsCase	lua/HiddenCoinsCase.lua	fresh	0	required

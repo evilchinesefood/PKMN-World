@@ -1,5 +1,7 @@
 #include "global.h"
 #include "coins.h"
+#include "event_data.h"
+#include "money.h"
 #include "text.h"
 #include "window.h"
 #include "strings.h"
@@ -79,4 +81,29 @@ bool8 RemoveCoins(u16 toSub)
         return TRUE;
     }
     return FALSE;
+}
+
+// The coin desks fill the case to MAX_COINS rather than refusing a block that does not fit, so
+// charge only for the coins that fit. Charging the whole block bought one coin for 100000.
+// VAR_0x8004 = coins asked for; VAR_RESULT = BUY_COINS_*.
+void BuyGameCornerCoins(void)
+{
+    u32 owned = GetCoins();
+    u32 coins = owned >= MAX_COINS ? 0 : min(gSpecialVar_0x8004, MAX_COINS - owned);
+    u32 cost = coins * GAME_CORNER_COIN_PRICE;
+
+    if (coins == 0)
+    {
+        gSpecialVar_Result = BUY_COINS_CASE_FULL;
+    }
+    else if (!IsEnoughMoney(&gSaveBlock1Ptr->money, cost))
+    {
+        gSpecialVar_Result = BUY_COINS_NO_MONEY;
+    }
+    else
+    {
+        AddCoins(coins);
+        RemoveMoney(&gSaveBlock1Ptr->money, cost);
+        gSpecialVar_Result = BUY_COINS_OK;
+    }
 }

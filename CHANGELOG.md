@@ -23,6 +23,11 @@ All notable player-facing changes. For the full feature reference see
 - **Resuming at a Hoenn Center no longer strands Mr. Briney at Dewford.** Before Surf, a Hub Pass used on Dewford left his boat docked there, and resuming at a mainland Center (Slateport, Mauville and others) cut you off from Dewford. He now waits on Route 109, as he already did for the standard arrival. Resuming at Dewford's own Center leaves him there.
 - **Regional history starts empty for pre-v11 saves.** Subsequent departures and Center visits populate it. Existing v11 teams and checkpoints are preserved by the v12 upgrade.
 
+### Shops
+
+- **Selling no longer loses items over the money cap.** A shop now buys only as many as your wallet can still hold, and says your wallet is full when it holds ¥999,999. Before, selling ten Nuggets with ¥990,000 paid ¥9,999 for all ten, and selling at the cap paid nothing.
+- **Game Corner coins near a full Coin Case cost only what fits.** The Celadon and Mauville coin desks still fill the case to 9,999, but now charge ¥20 per coin added. A case one coin short of full used to take ¥100,000 for the 5,000-coin choice.
+
 ### Visuals
 
 - **Kanto's Story pages use mixed case**, like Johto and Hoenn ("Pallet Town", "Prof. Oak's Lab", "Boulder Badge").

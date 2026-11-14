@@ -4125,6 +4125,18 @@ static void Task_ItemContext_Sell(u8 taskId)
     }
     else
     {
+        // AddMoney clamps at MAX_MONEY, so sell only what the wallet can still absorb. Counting
+        // from zero instead of the wallet took the items and dropped the money over the cap.
+        u32 maxQuantity = (MAX_MONEY - GetMoney(&gSaveBlock1Ptr->money)) / GetItemSellPrice(gSpecialVar_ItemId);
+
+        if (maxQuantity == 0)
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_CantCarryMoreMoney, CloseItemMessage);
+            return;
+        }
+        if (tQuantity > maxQuantity)
+            tQuantity = maxQuantity;
+
         tItemCount = 1;
         if (tQuantity == 1)
         {
@@ -4132,11 +4144,6 @@ static void Task_ItemContext_Sell(u8 taskId)
         }
         else
         {
-            u32 maxQuantity = MAX_MONEY / GetItemSellPrice(gSpecialVar_ItemId);
-
-            if (tQuantity > maxQuantity)
-                tQuantity = maxQuantity;
-
             CopyItemName(gSpecialVar_ItemId, gStringVar2);
             StringExpandPlaceholders(gStringVar4, gText_HowManyToSell);
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, InitSellHowManyInput);

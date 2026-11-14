@@ -707,6 +707,12 @@ return function(F, N, C, log, B, ctx)
     local left = fillBoxes(spare)
     local before = occupied()
     ctx.enter(other)
+    -- With no remembered team to swap out (an unplayed region), the PC must take the whole party.
+    if JOHTO_ONLY and spare < N.partyCount() then
+      F.check(tag .. ': gate refuses with no team to swap out', not N.crossGate(ctx.gates[other], true), N.mapName() .. ' with ' .. left .. ' free slots')
+      F.check(tag .. ': every Pokemon kept, none cloned', occupied() == before, before .. ' -> ' .. occupied())
+      return
+    end
     N.crossGate(ctx.gates[other])
     F.check(tag .. ': gate allows the cross', N.mapName() ~= 'RegionHub', N.mapName() .. ' with ' .. left .. ' free slots')
     F.check(tag .. ': party is the remembered team', ctx.checkRecall(other, ctx.stashOf(FINAL_REGION), filler))

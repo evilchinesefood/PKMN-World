@@ -213,7 +213,7 @@ F.run(function()
 
   -- He landed the player on Route 109's beach, but they left Hoenn before walking into Slateport.
   F.check("Hub Pass back after the Dewford arrival",passToHub("out_dewford"))
-  setup("route109",3,0,false)
+  setup("route109",2,0,false) -- the voyage restores the var it backed up, so it still says Dewford
   flag(FLAG_VISITED_DEWFORD,true)
   local beach=crossHoenn(1,{SLATEPORT_HARBOR,LITTLEROOT_BEDROOMS[1],LITTLEROOT_BEDROOMS[2]},"standard_from_route109")
   F.check("after the Slateport voyage the standard arrival lands at Slateport Harbor",beach==1,where())

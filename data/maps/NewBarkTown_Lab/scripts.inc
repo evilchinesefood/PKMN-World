@@ -246,10 +246,11 @@ NewBarkTown_Lab_EventScript_ChoseStarter::
 	hidemonpic
 	removeobject VAR_LAST_TALKED
 	msgbox NewBarkTown_Lab_Text_ChoseStarter, MSGBOX_DEFAULT
+	@ The Hub Pass and the same-region Johto gate keep a party withdrawn at the hub PC, so the party
+	@ can already hold Pokemon here. A full party sends the starter to the PC, and that is still the starter.
 	givemon PLAYER_STARTER_SPECIES, 5
-	@ Defensive: the region-cross boxes the party so this can't fail today, but never set the
-	@ chosen flags on a failed give (the balls respawn on re-entry, so the pick is retriable).
-	goto_if_ne VAR_RESULT, MON_GIVEN_TO_PARTY, Common_EventScript_NoMoreRoomForPokemon
+	copyvar VAR_TEMP_6, VAR_RESULT
+	goto_if_eq VAR_TEMP_6, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_JOHTO_STARTER_CHOSEN
 	playfanfare MUS_OBTAIN_ITEM
@@ -260,20 +261,27 @@ NewBarkTown_Lab_EventScript_ChoseStarter::
 	goto_if_eq VAR_RESULT, TRUE, NewBarkTown_Lab_EventScript_ChoseStarter_NicknameStarter_Nuzlocke
 	msgbox NewBarkTown_Lab_Text_Nickname, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, NewBarkTown_Lab_EventScript_NicknameStarter
-	callnative UpdateFollowingPokemon
-	release
-	end
-
-NewBarkTown_Lab_EventScript_NicknameStarter::
-	setvar VAR_0x8004, 0
-	call Common_EventScript_NameReceivedPartyMon
+	goto NewBarkTown_Lab_EventScript_StarterReceived
 	end
 
 NewBarkTown_Lab_EventScript_ChoseStarter_NicknameStarter_Nuzlocke::
 	message NewBarkTown_Lab_Text_Nickname
 	waitmessage
-	setvar VAR_0x8004, 0
+NewBarkTown_Lab_EventScript_NicknameStarter::
+	goto_if_eq VAR_TEMP_6, MON_GIVEN_TO_PC, NewBarkTown_Lab_EventScript_NicknameBoxedStarter
+	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
+	goto NewBarkTown_Lab_EventScript_StarterReceived
+	end
+
+NewBarkTown_Lab_EventScript_NicknameBoxedStarter::
+	call Common_EventScript_NameReceivedBoxMon
+NewBarkTown_Lab_EventScript_StarterReceived::
+	goto_if_ne VAR_TEMP_6, MON_GIVEN_TO_PC, NewBarkTown_Lab_EventScript_StarterInParty
+	copyvar VAR_TEMP_TRANSFERRED_SPECIES, PLAYER_STARTER_SPECIES
+	call Common_EventScript_TransferredToPC
+NewBarkTown_Lab_EventScript_StarterInParty::
+	callnative UpdateFollowingPokemon
 	release
 	end
 

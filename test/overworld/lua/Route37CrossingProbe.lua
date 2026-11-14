@@ -38,7 +38,9 @@ local function giveOddish()
   F.press("Left", 2); F.idle(10)
   for _ = 1, 2 do F.press("Up", 2); F.idle(8) end
   F.press("A", 3); F.idle(30)
-  for _ = 1, 9 do F.press("Up", 2); F.idle(8) end  -- level 10
+  -- Level 100: a level-10 follower can lose a night wild battle and white out to Petalburg,
+  -- which is a warp. SustainedWalkLeakProbe hit the same thing. The spinner clamps at 100.
+  for _ = 1, 99 do F.press("Up", 2); F.idle(8) end
   F.press("A", 3); F.idle(60)
   for _ = 1, 8 do F.press("B", 3); F.idle(20) end
 end

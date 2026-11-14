@@ -137,6 +137,10 @@ is clean; keep it that way.
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
 | [`Route41SeaReturn.lua`](#route41seareturnlua) | fresh new game | The Route 40/41 strait is two-way: surf north from a Route 41 sea arrival onto Route 40 past its arrow row. |
 | [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
+| [`Route41SurfArrival.lua`](#route41surfarrivallua) | fresh new game | Each Route 41 sea arrival starts the player surfing on its tile, and the player can surf south from it. |
+| [`LanceMultiBattle.lua`](#lancemultibattlelua) | fresh new game | The Rocket HQ multi battle starts with four battlers (Ariana, Lance, the Grunt) and its trainer intro does not assert. |
+| [`Route37CrossingProbe.lua`](#route37crossingprobelua) | fresh new game | Walking the Route 36/37 connection both ways with a follower does not crash. |
+| [`DayNightCrossingProbe.lua`](#daynightcrossingprobelua) | fresh new game | The Johto day/night flip at every alignment with the Route 36/37 crossing, both ways. |
 | [`SlowpokeWellRescue.lua`](#slowpokewellrescuelua) | fresh new game | Slowpoke Well Jessie/James gate, Kurt no longer seals Proton, Rocket walk-out. |
 | [`TohjoCelebi.lua`](#tohjocelebilua) | fresh new game | A full-HP Celebi follower arms the Tohjo Falls Giovanni scene. |
 | [`ExpansionHealthboxes.lua`](#expansionhealthboxeslua) | fresh new game | Issue #120 A: Safari leftover-ball text (FillSpriteRect left=55), singles nick/HP numbers, doubles healthboxes. |
@@ -518,6 +522,19 @@ ocean tiles with the collision bit set, so nothing led back: a Cianwood softlock
 unlocked Fly, which itself needs the Secret Potion from Cianwood. Warps to a sea arrival (41,12) and
 surfs north through both former walls to Route 40 y<=59. Found by `test/overworld/johto-playthrough/`.
 
+### `Route41SurfArrival.lua`
+
+Issue #289. Warps to Route 41 sea arrivals 4, 8 and 9 through real field initialization, checks the
+player starts surfing on the arrival tile, then surfs one tile south. Passed 15/15 at three RTC
+values, about 7 s each.
+
+### `LanceMultiBattle.lua`
+
+Starts `MahoganyHideout_B2F_EventScript_DoLanceMultiBattle` from the seam after party selection,
+with three seeded party slots and no fake trainer data, then checks the four opening battlers and that
+the trainer intro does not assert. `ValidateLanceMultiBattle.py` checks the script host-side. Passed
+7/7 at three RTC values, under 11 s each.
+
 ### `Route41SurfBgm.lua`
 
 `FldEff_UseSurf` on Route 41 itself must play `MUS_HG_SURF` (670), not Hoenn `MUS_SURF` (365).
@@ -741,9 +758,15 @@ reference implementations.
 
 ## Instrumentation probes (Route 37 red crash — open, unreproduced)
 
-These three are **not suites and not gates**. They are deliberately absent from `run-all.sh`'s
-`FRESH`/`WITH_SAVE` lists (which are explicit, not globbed), so the sweep neither runs nor expects
-them. They are kept because the Route 37 crash is still open and each one closes a hypothesis with a
+`Route37CrossingProbe` and `DayNightCrossingProbe` run in the full profile. Each takes about
+5 to 17 s and passed at six RTC values (00:00 to 23:00 local) after their follower was raised to
+level 100. At level 10 both failed at RTC `1704150000`: a night wild battle on Route 37 knocked
+out the follower, and the whiteout warped the player to Petalburg before the crossing.
+`OwnerSaveLeakProbe` and `SustainedWalkLeakProbe` stay `manual`. The first needs one specific
+save (`bak-prev8.sav`, standing in Ruins of Alph, group 79). That file is no longer on disk, and
+any other save fails its boot check (`BOOT FAIL grp=75 want=79` with the current owner save). The
+second passes 6/6 but takes about 130 s, and the hypothesis it was written for is closed. They
+are kept because the Route 37 crash is still open and each one closes a hypothesis with a
 measurement — re-deriving that ground would cost far more than reading them.
 
 The report: a red (`fatalf`) crash walking Route 37 shortly after entering from the bottom (from

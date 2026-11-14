@@ -584,10 +584,16 @@ return function(F, N, C, log)
 
   -- Statues toggle FLAG_POKEMON_MANSION_SWITCH_STATE, which swaps barriers on every floor. Route
   -- (BFS over tile and flag state): statue on 3F, fall to 1F, down to B1F, then both B1F statues.
+  -- A wild encounter on the walk over can swallow the talk before the switch prompt, so talk
+  -- again until the flag flips. Only answering yes toggles it, so a repeat can't overshoot.
   local function statue(x, y, want, what)
-    assert(N.talk({ x, y }, { side = 1 }), what)
-    N.settle()
-    assert(FL('FLAG_POKEMON_MANSION_SWITCH_STATE') == want, what .. ' toggled')
+    for _ = 1, 3 do
+      assert(N.talk({ x, y }, { side = 1 }), what)
+      N.settle()
+      if FL('FLAG_POKEMON_MANSION_SWITCH_STATE') == want then return end
+      L('  ' .. what .. ': switch not pressed, talking again')
+    end
+    assert(false, what .. ' toggled')
   end
   beat('secret_key', function()
     moves()

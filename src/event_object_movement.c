@@ -2615,6 +2615,16 @@ static u16 GetMountGraphicsIdForMon(struct Pokemon *mon, bool32 checkIndoorSize)
     return GetGraphicsIdForMon(species, shiny, female);
 }
 
+// Overworld graphics id that draws this mon as a map object, or GFX_SPECIES(NONE).
+u16 GetOverworldGraphicsIdForMon(struct Pokemon *mon)
+{
+    u32 speciesOrEgg = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+
+    if (speciesOrEgg == SPECIES_NONE || speciesOrEgg == SPECIES_EGG)
+        return OBJ_EVENT_GFX_SPECIES(NONE);
+    return GetMountGraphicsIdForMon(mon, FALSE);
+}
+
 // Mount pick order (both surf and flight): the ACTIVE follower first if it is
 // capable, then the first capable party mon by slot order.
 static u16 GetMountGraphicsId(u16 move, bool32 checkIndoorSize)

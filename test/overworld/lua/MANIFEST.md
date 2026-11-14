@@ -129,6 +129,8 @@ is clean; keep it that way.
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`FamilyOptions.lua`](#familyoptionslua) | fresh new game | Four choices on every rate control and Text Speed, staged writes, reopen, real save/Continue, and global regional travel. |
 | [`FamilyOptionsFieldStress.lua`](#familyoptionsfieldstresslua) | fresh new game | Options from the main menu (before New Game and Continue) and from the Start menu with a follower, a Repel, rain and Surf, restoring the field each time. |
+| [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
+| [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -888,6 +890,42 @@ Options without changes, and Continue. Free OBJ slots and BG 13-15 are excluded 
 fade into a menu copies weather-tinted colours into them and nothing on the field reads them.
 Passed 167/167. It found no field-restore defect; the whiteout badge defect it was written beside
 is pinned by the `Family money loss counts the campaign region's badges` C test.
+
+### `InstantTextStress.lua`
+
+Sets Text Speed to Instant, then starts each message-heavy flow the way a player does (warping to
+the tile in front of the NPC, sign or obstacle and pressing A, or running the shared script a bg
+event runs) and mashes a seeded A/B mix (Start too where a naming screen opens) until the player
+has control again. Covers the nurse in a Johto, a Hoenn and a Kanto Center (A and B mashing), the
+building PC and Hall of Fame PC, the Pokedex, Trainer Card and PokeNav, the Hoenn, Johto and Kanto
+Name Raters, two Move Relearners, the Route 34 Day Care, TV, a scripted wild catch thrown with the
+R last-ball shortcut through the Pokedex page, nickname prompt and naming screen, Cut and Rock
+Smash in each region, Flash in Dark Cave, Strength twice (the Mt Mortar boulder must then move),
+both Safari Zones' last step (pay to continue, and decline back to the gate), and the
+Bug-Catching Contest's time limit through judging and the prize. Each case fails on a crash screen,
+a stopped vblank counter, no control inside its budget, the wrong map afterwards, or a field
+message-box pixel in palette indices 10-15 (the shared half-row colour table leaking from another
+window). The log lists the screens (CB2) each case passed through. `PW_ITS_ONLY=<text>` runs the
+matching cases. Passed **199/199**. Against a build from before `eed10e7a7d` the contest case
+stopped on the `overworld.c` "no object event template for localId 255" assert screen (**8/11** for
+that case alone); that defect was fixed on master while this suite was written. No Instant-specific
+defect was found.
+
+### `StartOptionsStateStress.lua`
+
+FamilyOptionsFieldStress's field-restore comparison applied to states whose data lives outside the
+map header: a DexNav search on Route 29 (the Start menu ends it by design; afterwards no search
+window, sprite or palette may remain, and R must start a new search), a fishing chain streak, the
+Mach and Acro Bikes (cycling music, avatar flags, riding afterwards), Dark Cave before and after
+Flash (the lit width on the middle scanline from `gScanlineEffectRegBuffers`), the Hoenn and Kanto
+Safari Zones entered through `EnterSafariMode` (balls, steps, mode, then one step costs one step),
+the Bug-Catching Contest entered through the attendant (timer start, timer running, mode) and the
+Battle Tower lobby. Each visit moves every Options row and leaves Text Speed and the rates on a new
+column. A 400-frame control snapshot with no visit names what changes on its own (the map name
+popup, the bike music fading in), and those keys are logged and skipped; BG colours with bit 15 set
+are night lights the day/night blend rewrites, and OBJ palettes are compared only for tags loaded
+both before and after. `PW_SOS_ONLY=<text>` runs the matching states. Passed **178/178**; it found
+no restore defect.
 
 ### `FamilyOptionsMigration.lua`
 

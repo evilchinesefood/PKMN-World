@@ -12,6 +12,7 @@
 #if PW_GRAPHICAL_START_MENU
 
 #include "assertf.h"
+#include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
 #include "bg.h"
@@ -33,6 +34,7 @@
 #include "event_object_movement.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
+#include "field_specials.h"
 #include "field_weather.h"
 #include "frontier_pass.h"
 #include "gpu_regs.h"
@@ -989,8 +991,62 @@ static void Usm_BuildMenuItems(void)
     }
 }
 
+enum Usm_Context {
+    USM_CONTEXT_NORMAL,
+    USM_CONTEXT_LINK,
+    USM_CONTEXT_UNION_ROOM,
+    USM_CONTEXT_SAFARI,
+    USM_CONTEXT_BUG_CONTEST,
+    USM_CONTEXT_BATTLE_PIKE,
+    USM_CONTEXT_BATTLE_PYRAMID,
+    USM_CONTEXT_MULTI_PARTNER_ROOM,
+};
+
+#define USM_ITEM(name) (1 << USM_ICO_##name)
+
+// The icons each context's vanilla menu offers (BuildStartMenuActions). A frontier challenge keeps
+// the rest of the party in SaveBlock1's copy until it ends, so a Save there overwrites that copy.
+// The Pike's end reloads the party and its held items, so a Bag > Give there loses the given item
+// and duplicates the one it replaced.
+static const u16 sUsmContextItems[] = {
+    [USM_CONTEXT_NORMAL]             = USM_ITEM(POKEDEX) | USM_ITEM(DEXNAV) | USM_ITEM(PARTY) | USM_ITEM(BAG) | USM_ITEM(POKENAV)
+                                     | USM_ITEM(TRAINER) | USM_ITEM(QUESTS) | USM_ITEM(SAVE) | USM_ITEM(OPTIONS) | USM_ITEM(DEBUG),
+    [USM_CONTEXT_LINK]               = USM_ITEM(PARTY) | USM_ITEM(BAG) | USM_ITEM(POKENAV) | USM_ITEM(TRAINER) | USM_ITEM(OPTIONS),
+    [USM_CONTEXT_UNION_ROOM]         = USM_ITEM(PARTY) | USM_ITEM(BAG) | USM_ITEM(POKENAV) | USM_ITEM(TRAINER) | USM_ITEM(OPTIONS),
+    [USM_CONTEXT_SAFARI]             = USM_ITEM(RETIRE) | USM_ITEM(POKEDEX) | USM_ITEM(PARTY) | USM_ITEM(BAG) | USM_ITEM(TRAINER)
+                                     | USM_ITEM(QUESTS) | USM_ITEM(OPTIONS),
+    [USM_CONTEXT_BUG_CONTEST]        = USM_ITEM(POKEDEX) | USM_ITEM(DEXNAV) | USM_ITEM(PARTY) | USM_ITEM(BAG) | USM_ITEM(POKENAV)
+                                     | USM_ITEM(TRAINER) | USM_ITEM(QUESTS) | USM_ITEM(OPTIONS),
+    [USM_CONTEXT_BATTLE_PIKE]        = USM_ITEM(POKEDEX) | USM_ITEM(PARTY) | USM_ITEM(TRAINER) | USM_ITEM(QUESTS) | USM_ITEM(OPTIONS),
+    [USM_CONTEXT_BATTLE_PYRAMID]     = USM_ITEM(PARTY) | USM_ITEM(BAG) | USM_ITEM(TRAINER) | USM_ITEM(QUESTS) | USM_ITEM(REST)
+                                     | USM_ITEM(RETIRE) | USM_ITEM(OPTIONS),
+    [USM_CONTEXT_MULTI_PARTNER_ROOM] = USM_ITEM(PARTY) | USM_ITEM(TRAINER) | USM_ITEM(QUESTS) | USM_ITEM(OPTIONS),
+};
+
+static enum Usm_Context Usm_GetContext(void)
+{
+    if (IsOverworldLinkActive())
+        return USM_CONTEXT_LINK;
+    if (InUnionRoom())
+        return USM_CONTEXT_UNION_ROOM;
+    if (GetSafariZoneFlag())
+        return USM_CONTEXT_SAFARI;
+    if (GetBugContestFlag())
+        return USM_CONTEXT_BUG_CONTEST;
+    if (InBattlePike())
+        return USM_CONTEXT_BATTLE_PIKE;
+    if (Usm_IsPlayerInBattlePyramid())
+        return USM_CONTEXT_BATTLE_PYRAMID;
+    if (InMultiPartnerRoom())
+        return USM_CONTEXT_MULTI_PARTNER_ROOM;
+    return USM_CONTEXT_NORMAL;
+}
+
 static bool32 Usm_IsItemAvailable(enum Usm_Icons item)
 {
+    if (!(sUsmContextItems[Usm_GetContext()] & (1 << item)))
+        return FALSE;
+
     switch (item) {
         case USM_ICO_POKEDEX: return FlagGet(FLAG_SYS_POKEDEX_GET);
         // A hub gate boxes the whole party on entering a new region but keeps this flag, so the
@@ -999,10 +1055,6 @@ static bool32 Usm_IsItemAvailable(enum Usm_Icons item)
         case USM_ICO_PARTY:   return FlagGet(FLAG_SYS_POKEMON_GET) && CalculatePlayerPartyCount() != 0;
         case USM_ICO_POKENAV: return FlagGet(FLAG_SYS_POKENAV_GET);
         case USM_ICO_DEXNAV:  return DEXNAV_ENABLED && DN_FLAG_DEXNAV_GET != 0 && FlagGet(DN_FLAG_DEXNAV_GET);
-        case USM_ICO_QUESTS:  return TRUE; // Story is available from the first menu.
-        case USM_ICO_RETIRE:  return Usm_IsPlayerInBattlePyramid() || GetSafariZoneFlag();
-        case USM_ICO_SAVE:    return !GetSafariZoneFlag() && !GetBugContestFlag() && !Usm_IsPlayerInBattlePyramid();
-        case USM_ICO_REST:    return Usm_IsPlayerInBattlePyramid();
         case USM_ICO_DEBUG:   return DEBUG_OVERWORLD_MENU && DEBUG_OVERWORLD_IN_MENU;
         default:              return TRUE;
     }

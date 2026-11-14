@@ -1197,3 +1197,29 @@ take. Measured **17/17** fixed and **15/17** on the unfixed ROM, where Chikorita
 behind a "no more room" line with the starter flag unset, and Cyndaquil could then be taken too.
 `--env PW_ELM_PARTY=5` runs a partial party and types one letter at the nickname prompt: **19/19**
 fixed, **18/19** unfixed, where the name went to the party's lead instead of the starter.
+### `PikeRoomSave.lua`
+
+A Start-menu save inside a Battle Pike room. The challenge carries the three chosen Pokémon while
+the other three wait in SaveBlock1's party copy, which a normal save overwrites. The suite gives six
+Pokémon, takes the real Lv. 50 challenge (party screen, save before entering), tries Save in the
+three-path room, then cuts the power and continues. Measured **10/10** fixed and **8/10** on the
+unfixed ROM, where Save is offered and Continue resumes in the room (`26/36`) with three Pokémon
+and the other three gone from the party and the PC.
+
+It also holds the Pike menu to the vanilla one's missing Bag. The lead enters holding Leftovers
+with one Potion in the bag, the suite tries Bag > Give of the Potion to the lead in the room, then
+ends the challenge the way a lost battle does (challenge status `LOST`, warp to the lobby, whose
+script reloads the saved party and restores held items). Measured **15/15** fixed and **12/15**
+with Save hidden but the Bag still offered: the lead comes back holding Leftovers while the
+swapped-out Leftovers stays in the bag (two) and the Potion is gone.
+
+### `TowerMultiRoomMenu.lua`
+
+The Battle Tower multi partner room's Start menu against the vanilla one (no Save, no Bag). The
+challenge carries the two chosen Pokémon while the other four wait in SaveBlock1's party copy. The
+suite gives six Pokémon, takes the real Lv. 50 multi challenge, rides to the partner room, tries
+Save and looks for the Bag, quits at the room attendant, then cuts the power and continues.
+Measured **13/13** fixed. An earlier cut of the suite (same flow, plus a Bag > Give) scored
+**12/16** on the unfixed ROM: Save and Bag offered, the lobby handed back two Pokémon, and four
+were gone from the party and the PC after Continue. The Give itself did no harm there, because
+the room's `pyramid_resetparty` on resume writes the live challenge Pokémon back into the copy.

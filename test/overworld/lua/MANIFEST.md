@@ -1229,3 +1229,14 @@ Measured **13/13** fixed. An earlier cut of the suite (same flow, plus a Bag > G
 **12/16** on the unfixed ROM: Save and Bag offered, the lobby handed back two Pokémon, and four
 were gone from the party and the PC after Continue. The Give itself did no harm there, because
 the room's `pyramid_resetparty` on resume writes the live challenge Pokémon back into the copy.
+### `LedgeSelectStress.lua`
+
+Start, and Select with each field item registered, pressed once on every frame offset of a ledge
+jump (Route 102, 25 offsets) and of walking into a door (Petalburg's west house, 24 offsets from
+before the door opens through the fade). Items: Mach Bike, Acro Bike, Hub Pass (prompt declined
+with B) and Sky Charm. Every run must return control with no script running, leave the player
+object on the saved tile, and end on the north tile, the south tile, outside on the approach or
+inside on the house entry. A run that ends on the ledge row on foot fails; a flight may hover over
+the ledge or the door only when it took off before the move began. When the key stopped the jump,
+a second jump must still land. Measured **864/864** on the build of
+`061127921d`; no defect found.

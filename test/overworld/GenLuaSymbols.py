@@ -200,6 +200,12 @@ WANT = [
     "sShopData", "CB2_BuyMenu", "Task_ShopMenu", "Task_BuyMenu", "Task_BuyHowManyDialogueHandleInput",
     "Task_ReturnToItemListAfterItemPurchase", "Task_ReturnToShopMenu", "Task_ChooseHowManyToSell",
     "gBattleTextBuff1",
+    # InstantTextStress.lua starts these shared scripts the way their bg events do.
+    "EventScript_PC", "EventScript_AccessHallOfFame", "EventScript_TV", "EventScript_UseFlash",
+    # StartOptionsStateStress.lua: the runtime state of a DexNav search, a fishing chain, the
+    # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
+    "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
+    "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]

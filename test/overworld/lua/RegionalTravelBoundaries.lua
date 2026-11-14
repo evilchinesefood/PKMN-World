@@ -228,7 +228,7 @@ local function verdict(region,tag)
 end
 F.run(function()
  if not F.boot(HUB[1]) then F.check("boot",false);F.finish();return end
- for _,v in ipairs({0xDCF,0x51,0xA4B,0x63F8,0x94F}) do flag(v,true) end
+ for _,v in ipairs({0xDCF,0x51,0xA4B,0x63F8,0x94F,0x95F}) do flag(v,true) end
  F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
  F.check("party setup",setParty())
  local old=select(2,F.keyItemSlot(0xFFFF));local seen={};for _,id in ipairs(old) do seen[id]=true end

@@ -27,6 +27,7 @@ local FLAG_HIDE_ROUTE104_BOAT, FLAG_HIDE_DEWFORD_BOAT, FLAG_HIDE_ROUTE109_BOAT =
 local FLAG_HIDE_HOUSE_PEEKO = 0x371
 local FLAG_DEFEATED_PETALBURG_GYM = 0x4F4
 local FLAG_HOENN_STONE_BADGE = 0x94F
+local FLAG_VISITED_SLATEPORT = 0x95F
 local VAR_BRINEY_LOCATION = 0x4096
 local hubPass
 
@@ -213,8 +214,10 @@ F.run(function()
   F.check("debug prerequisite creates one Pokemon",debugParty())
   setSpeciesMove(S.gParties,SPECIES_ABRA,MOVE_TELEPORT)
 
-  -- A Hub Pass used on Dewford left Briney docked there; he last saw a Center from Dewford.
+  -- Briney sailed the player from Slateport back to Dewford, and a Hub Pass used there left him
+  -- docked there; he last saw a Center from Dewford.
   dock("dewford");var(VAR_BRINEY_LOCATION,2)
+  flag(FLAG_VISITED_SLATEPORT,true)
   F.w16(centerAddress(HOENN),0)
   local seen={}
   for _,id in ipairs(select(2,F.keyItemSlot(0xFFFF))) do seen[id]=true end

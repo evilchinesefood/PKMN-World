@@ -17,6 +17,7 @@ local SLATEPORT_CENTER = {id=2, g=9, m=11}
 local MAUVILLE_CENTER = {id=3, g=10, m=5}
 local DEWFORD_CENTER = {id=11, g=3, m=1}
 local FLAG_HIDE_DEWFORD_BRINEY, FLAG_HIDE_DEWFORD_BOAT = 0x2E4, 0x2E7
+local FLAG_VISITED_SLATEPORT = 0x95F
 local FLAG_HIDE_ROUTE109_BRINEY, FLAG_HIDE_ROUTE109_BOAT = 0x2E5, 0x2E8
 local FLAG_DEFEATED_PETALBURG_GYM = 0x4F4
 local FLAG_HOENN_STONE_BADGE = 0x94F
@@ -104,8 +105,10 @@ local function passToHub(tag)
   if not menu(0,tag.."_confirm") then return false end
   return awaitMap(HUB[1],HUB[2],tag)
 end
--- Briney sailed the player back to Dewford and is docked there; Norman is not beaten, so no Surf.
+-- Briney sailed the player from Slateport back to Dewford and is docked there; Norman is not
+-- beaten, so no Surf.
 local function dockBrineyAtDewford()
+  flag(FLAG_VISITED_SLATEPORT,true)
   flag(FLAG_HIDE_DEWFORD_BRINEY,false);flag(FLAG_HIDE_DEWFORD_BOAT,false)
   flag(FLAG_HIDE_ROUTE109_BRINEY,true);flag(FLAG_HIDE_ROUTE109_BOAT,true)
   flag(FLAG_DEFEATED_PETALBURG_GYM,false)

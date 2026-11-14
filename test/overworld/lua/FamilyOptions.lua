@@ -164,7 +164,7 @@ F.run(function()
   F.check("Continue after real save",F.boot(nil,true))
   checkPreferences("all preferences survive save and Continue",a,b,c)
   F.ensureFree()
-  for _,id in ipairs({0xDCF,0x51,0xA4B,0x63F8,0x94F}) do flag(id) end
+  for _,id in ipairs({0xDCF,0x51,0xA4B,0x63F8,0x94F,0x95F}) do flag(id) end
   F.w8(F.sb2()+S.SaveBlock2.introDoneBits,7)
   F.dbg();F.idle(40);F.sel(2);F.idle(40)
   for _=1,9 do tap("Down") end

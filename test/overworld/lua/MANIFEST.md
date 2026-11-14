@@ -1011,6 +1011,40 @@ Briney's position is read from the same hide flags and `VAR_BRINEY_LOCATION` the
 suite does not walk to Route 109. Measured **16/16** fixed and **14/16** without the
 `RegionalTravel_Commit` change, where both failures read `dewford=true/true route109=false/false var=2`.
 
+### `BugContestPrizeBagFull.lua`
+
+The Bug-Catching Contest prize with a full bag. `giveitem` prints nothing when `additem` fails, so
+a full Items or Berries pocket dropped the stone or berry without a word. Setup gives a party
+through the debug menu, fills both pockets in RAM with non-prize items and gives a Pokemon inside
+the contest as the catch. The attendant, retiring, choosing the kept Pokemon, judging and the walk
+back to the gate are real input. It checks that a reward-table item reached the item PC, that
+`gStringVar4` carried the "sent to your PC" line, and that the full pockets were left alone.
+Measured **10/10** fixed and **8/10** without the `bug_contest.inc` change, where the prize is in
+neither the bag nor the PC and the PC line never prints. `--env PW_PRIZE_PC_FULL=1` also fills the item PC
+as a control: the prize is then forfeited and the suite requires the "Too bad! The BAG is full"
+line instead (**9/9** fixed).
+
+### `StorageItemToBagFull.lua`
+
+PC storage, Move Items, "Bag" on a boxed Pokemon's held item while the Items pocket is full. Setup
+gives a party and fills the boxes through the debug menu, writes a held Potion onto box 1 slot 1 and
+fills the Items pocket in RAM. Opening the PC (debug Access PC), Move Items, the item menu and the
+key press are real input. The message window's sprites (`sMessageWindowSpriteIds`, the storage
+screen's 6-byte array, picked by size in `GenLuaSymbols.py`) must exist while the message is up and
+be gone after a key press. Measured **12/12** fixed and **11/12** without the `Task_ItemToBag`
+change, where the sprite is still allocated after the key and the key moved the cursor instead.
+
+### `FollowerPartyReorder.lua`
+
+The Pokemon chosen with the party menu's Follow must keep following when the party reorders.
+`followerSlot` is a party index, and a Switch or a PC deposit used to hand the follow to whichever
+Pokemon landed in that slot. Setup gives a three-Pokemon party through the debug menu; Follow,
+Switch (L), debug Access PC, Deposit and Withdraw are real input, and a warp to the hub respawns
+the follower before each read of its graphics id. It checks a Switch of the chosen Pokemon, a
+deposit of a Pokemon ahead of it, and that once the chosen Pokemon is boxed the lead follows and a
+later withdrawal does not take over. Measured **15/15** fixed and **12/15** without the
+`GetFollowerSlot` change; each failure names the Pokemon that followed instead.
+
 ### `GateRecallStress.lua`
 
 World Transit gate recall after the remembered team changed, plus input abuse. Every Pokémon has a

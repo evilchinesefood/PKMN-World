@@ -3983,14 +3983,14 @@ static void CursorCb_Follow(u8 taskId)
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
     gFollowerSteps = 0;
-    if (gSaveBlock2Ptr->followerSlot == slot)
+    if (GetFollowerSlot() == slot)
     {
-        gSaveBlock2Ptr->followerSlot = 0;
+        SetFollowerSlot(0);
         StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("Your lead Pokémon will walk\nwith you again."));
     }
     else
     {
-        gSaveBlock2Ptr->followerSlot = slot;
+        SetFollowerSlot(slot);
         GetMonNickname(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId], gStringVar1);
         StringExpandPlaceholders(gStringVar4, COMPOUND_STRING("{STR_VAR_1} will walk with you!"));
     }

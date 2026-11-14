@@ -638,6 +638,7 @@ return function(F, S)
 
   -- Slots the game refused this turn (disabled, Taunt, Torment, Choice lock): skip them.
   N.badSlots = {}
+  N.refused = {}
   -- Moves that left the foe's HP unchanged twice this battle (Sucker Punch against a status move,
   -- an immunity the chart doesn't know): keyed by our species, then slot.
   local duds, lastPick = {}, nil
@@ -885,6 +886,7 @@ return function(F, S)
         if turns > 200 then error('battle runaway: ' .. tag) end
         judgeLastPick()
         N.badSlots = freshBad()
+        N.refused = {}
         N.lastFoe = { species = r16(bmon(1)), level = r8(bmon(1) + O.bm_level) }
         if N.battleDebug then
           local me, f1, f3 = bmon(N.activeBattler), bmon(1), bmon(3)
@@ -916,7 +918,17 @@ return function(F, S)
         frames = frames + 60
       elseif choosingMove() then
         -- Back at the move list without a new turn: the last pick was refused.
-        if N.lastSlot then N.badSlots[N.lastSlot] = true end
+        if N.lastSlot then N.badSlots[N.lastSlot] = true; N.refused[N.lastSlot] = true end
+        -- Encore or a Choice lock can force the one move already written off as a dud; once every
+        -- other slot is refused, the duds go back on the table.
+        local b0, open = bmon(N.activeBattler), false
+        for i = 0, 3 do
+          if r16(b0 + O.bm_moves + 2 * i) ~= 0 and r8(b0 + O.bm_pp + i) > 0 and not N.badSlots[i] then open = true end
+        end
+        if not open then
+          N.badSlots = {}
+          for slot in pairs(N.refused) do N.badSlots[slot] = true end
+        end
         N.lastSlot = bestMoveSlot(); notePick(N.lastSlot); chooseMove(N.lastSlot); frames = frames + 40
       elseif isCtl('HandleInputChooseTarget') or isCtl('HandleInputShowEntireFieldTargets') or isCtl('HandleInputShowTargets') then
         press('A'); idle(20); frames = frames + 22

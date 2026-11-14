@@ -35,6 +35,12 @@ All notable player-facing changes. For the full feature reference see
 - **The Start menu says "Options"**, matching the main menu. The mock Start menu in the Rustboro PokéNav tutorial matches too.
 - **Your Bug-Catching Contest Pokémon stands on the podium again at judging**, beside the other contestants' bugs. It shows whatever you kept, including a non-bug catch, in its shiny or female form when it has one.
 
+### Fixes
+
+- **A Bug-Catching Contest prize is no longer lost to a full bag.** With its pocket full, the stone or berry goes to your PC and the attendant says so. If the PC is full too, the prize is still forfeited, but the attendant now says the bag is full instead of saying nothing.
+- **The PC's "The bag is full." message now waits for a button and closes.** Sending a boxed Pokémon's held item to a full pocket left the message on screen while the cursor kept moving.
+- **The Pokémon you chose to follow you keeps following after the party changes order.** A Switch in the party menu or a PC deposit used to hand the walk to whichever Pokémon took its place. Once the chosen Pokémon leaves the party, your lead follows again.
+
 ## v1.7 — 2026-09-30
 
 > **Save format is unchanged (v10); v1.6 saves load as-is.** No save fields,

@@ -1093,3 +1093,19 @@ A party at 1 HP walks the Vermilion ticket check and pier, boards the S.S. Anne,
 the ship, returns through the Kanto gate and walks the pier into the departure scene. HP stays
 at 1 after every step. The only heal on this route is the opt-in woman in 1F Room 6, inherited
 from FRLG. Measured **15/15**; no defect found.
+### `HubPassEliteFour.lua`
+
+The Hub Pass used mid Elite Four run. Each region's rooms reopen their exits on load when the
+previous member is already beaten, and Hoenn and Kanto clear that progress only on whiteout or the
+Hall of Fame (Johto's reset in the Indigo Plateau Center is bypassed by the outdoor E4 door). The
+suite debug-warps into Phoebe's, Kanto Bruno's and Koga's rooms with the previous member beaten and
+presses Select with the Hub Pass registered. Each room must refuse it and keep the player there;
+the League lobby must still allow it. Measured **12/12** fixed and **6/12** on the unfixed ROM,
+where all three rooms warped to the hub with the beaten flag or League state intact.
+
+### `PayDayMoneyText.lua`
+
+Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding an Amulet Coin uses
+Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
+doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
+15464 (81000 truncated to 16 bits) while paying 81000.

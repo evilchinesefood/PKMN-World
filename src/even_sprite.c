@@ -119,7 +119,7 @@ u32 Even_CreateSprite(struct Even_CreateSpriteStruct *createStruct)
     else
         spriteTemplate->callback = createStruct->callback;
 
-    spriteId = CreateSprite(spriteTemplate, createStruct->posX, createStruct->posY, createStruct->subpriority);
+    spriteId = CreateSpriteUnchecked(spriteTemplate, createStruct->posX, createStruct->posY, createStruct->subpriority);
 
     Free(spriteTemplate);
 

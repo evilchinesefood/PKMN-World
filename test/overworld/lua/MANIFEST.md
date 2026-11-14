@@ -1266,3 +1266,14 @@ one-Pokemon branch skipped the `remove5mons` lead check, so the Egg went in with
 contest where every wild battle is refused. Measured **12/12** fixed and **4/7** on the unfixed
 ROM, which entered the contest at the Route 35 attendant. `--env PW_EGG_GATE=east` runs only the
 Route 36 attendant: **7/7** fixed, **5/7** unfixed.
+
+### `StartMenuSpriteLoad.lua`
+
+The Start menu wheel opened on a crowded rainy route. Rain keeps 24 sprites alive, every object
+event carries a shadow sprite, and visible wild Pokemon, the follower, footprints and reflections
+add more; the wheel then needs six icons and two arrows. A level 100 Lapras follower runs along
+Route 40's beach with the encounter spawn countdown zeroed until the field holds 58 sprites, then
+Start is pressed, five times. Each opening must show no crash screen, put the menu up and hand
+control back on B, and at least one opening must meet the menu with 57 or more sprites already in
+use. Found by `OweSurfLedgeFuzz` (seed 777). Measured **33/33** fixed and **17/18** on the
+unfixed ROM, which stopped on the `sprite.c` "Out of sprite slots" assert screen at 58 sprites.

@@ -1176,3 +1176,15 @@ Pay Day's "picked up" line against the wallet delta. A level 100 Meowth holding 
 Pay Day on a level 2 wild Pidgey with the u16 pot seeded to 40000 after battle start, so the
 doubled payout is 81000. Measured **7/7** fixed and **6/7** on the unfixed ROM, which printed
 15464 (81000 truncated to 16 bits) while paying 81000.
+
+### `LedgeSelectStress.lua`
+
+Start, and Select with each field item registered, pressed once on every frame offset of a ledge
+jump (Route 102, 25 offsets) and of walking into a door (Petalburg's west house, 24 offsets from
+before the door opens through the fade). Items: Mach Bike, Acro Bike, Hub Pass (prompt declined
+with B) and Sky Charm. Every run must return control with no script running, leave the player
+object on the saved tile, and end on the north tile, the south tile, outside on the approach or
+inside on the house entry. A run that ends on the ledge row on foot fails; a flight may hover over
+the ledge or the door only when it took off before the move began. When the key stopped the jump,
+a second jump must still land. Measured **864/864** on the build of
+`061127921d`; no defect found.

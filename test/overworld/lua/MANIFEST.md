@@ -1186,3 +1186,14 @@ into 9,995 are refused with nothing lost, the refused spot still pays out once t
 and a collected spot stays empty. Measured **20/20** fixed and **18/20** on the unfixed ROM, where
 `CheckAddCoins` added `VAR_0x8006` instead of the found amount in `VAR_0x8009` and refused both
 pickups as a full case.
+### `ElmLabFullParty.lua`
+
+Elm's starter when the party already holds Pokemon. The first Johto crossing boxes the team, but
+the Hub Pass and the same-region Johto gate keep a team withdrawn at the hub PC, so the player can
+reach Elm's balls with a full party. The suite crosses, Hub Passes back, restores the team in
+memory as the hub PC would, crosses again and plays Elm's introduction and the ball picks. The
+starter must go to the PC exactly once, count as the Johto starter, and leave no second ball to
+take. Measured **17/17** fixed and **15/17** on the unfixed ROM, where Chikorita went to the PC
+behind a "no more room" line with the starter flag unset, and Cyndaquil could then be taken too.
+`--env PW_ELM_PARTY=5` runs a partial party and types one letter at the nickname prompt: **19/19**
+fixed, **18/19** unfixed, where the name went to the party's lead instead of the starter.

@@ -17,6 +17,7 @@ JohtoDayNightLive	lua/JohtoDayNightLive.lua	fresh	0	required
 NationalParkTiles	lua/NationalParkTiles.lua	fresh	0	required
 TinTowerRoof	lua/TinTowerRoof.lua	fresh	0	required
 OlivineHarborBoard	lua/OlivineHarborBoard.lua	fresh	0	required
+OlivineSeaBorder	lua/OlivineSeaBorder.lua	fresh	0	required
 SSAquaKantoCrossing	lua/SSAquaKantoCrossing.lua	fresh	0	required
 BnetTerminal1F	lua/BnetTerminal1F.lua	fresh	0	required
 LevelUpSummary	lua/LevelUpSummary.lua	fresh	0	required

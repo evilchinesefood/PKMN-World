@@ -1463,3 +1463,15 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `StorageMailIntoBox.lua`
+
+PC storage, Move Pokemon: a party Pokemon that holds Mail must never reach a box, where its letter
+would be orphaned in the mailbox. Three Bulbasaur come from the debug Give menu; the second holds
+Orange Mail (letter in mailbox slot 0, linked the way `GiveMailToMonByItemId` leaves it). Opening
+the PC, Move Pokemon, the cursor and every menu choice are real input. A control Bulbasaur without
+Mail moves Right into the box and goes down with B; the Mail holder, picked up with Move and again
+by a Shift with the boxed Bulbasaur, is pushed Right each time. Right must keep the cursor in the
+party with "Please remove the mail." up, and the Mail holder must end in the party with its letter
+linked. The SwSh PC keeps the party on screen, so nothing produced the vanilla `INPUT_HIDE_PARTY`
+refusal and the Mail holder walked into the box: **13/21** on the unfixed ROM (it landed in box 1
+slot 1 both times), **23/23** with the fix.

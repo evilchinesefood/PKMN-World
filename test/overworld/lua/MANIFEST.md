@@ -2029,3 +2029,16 @@ with real SELECT and D-pad input, enters the Bug-Catching Contest at the Nationa
 opens the menu again. Save must still lead and the contest's Bag move must be kept. Before the fix
 `Usm_SaveItems` wrote back only the icons the contest showed, so Save fell out of the order and
 returned at its default slot. Measured **9/9** fixed and **6/9** on the unfixed ROM.
+
+### `HoldBStaticEncounter.lua`
+
+Holding B at the start of a wild battle auto-runs, and B is also the overworld run button, so a
+player who runs up to a placed encounter and presses A is still holding B when its battle starts.
+Auto-run is for ordinary random and visible encounters; a scripted static battle treats RAN as
+resolved (the Power Plant's Electrode is removed, Snorlax returns to the mountains), so fleeing it
+on a held B lost the encounter for good. A debug party enters the Power Plant and walks to
+Electrode 1 with real input (random encounters on the way are fled by holding B, which must still
+work: the last check counts them). Holding B, A is pressed on the Electrode "item ball" and then
+tapped only to page the battle intro. The fixed game reaches the action menu and stays there with
+B held; the suite then picks RUN. **7/8** on the unfixed ROM (the battle ends on its own),
+**8/8** with the fix.

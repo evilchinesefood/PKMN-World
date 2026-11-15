@@ -2,6 +2,7 @@
 #include "clock.h"
 #include "new_game.h"
 #include "random.h"
+#include "renewable_hidden_items.h"
 #include "pokemon.h"
 #include "roamer.h"
 #include "pokemon_size_record.h"
@@ -261,6 +262,7 @@ void NewGameInitData(void)
     ResetFanClub();
     ResetLotteryCorner();
     UpdateDailySeed();
+    SetAllRenewableItemFlags();
     WarpToTruck();
 #if ALL_REGIONS
     // The hub flow leaves startRegion REGION_NONE at new game (a region is only chosen at

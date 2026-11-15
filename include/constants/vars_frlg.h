@@ -12,9 +12,11 @@
 // moved var's old shared cell into its new slot (v5 -> v6). Names shared with Hoenn's
 // vars.h (VAR_POKELOT_RND2, VAR_LOTAD_SIZE_RECORD) and the 0x4020-0x4024 counters stay
 // on their raw IDs (outside the rebase range), as do 0x408B+ (alias only unused Hoenn vars).
+// VAR_RENEWABLE_ITEM_STEP_COUNTER (raw 0x4023, Hoenn's VAR_STARTER_MON) was unused until the
+// renewable hidden items were ported, and then took a fresh slot instead.
 #define VAR_KANTO_SLICE(n)          (VAR_KANTO_BASE + (n))
 
-// DEAD ALIASES — these FRLG ids overlay live Hoenn vars (0x4023 = VAR_STARTER_MON etc). NEVER VarSet through these names.
+// DEAD ALIASES — these FRLG ids overlay live Hoenn vars (0x4021 = VAR_REPEL_STEP_COUNT etc). NEVER VarSet through these names.
 // If nonzero, counts down by one every step.
 // When it hits zero, repel's effect wears off.
 #define VAR_REPEL_STEP_COUNT_FRLG                0x4020
@@ -31,12 +33,6 @@
 // This is a deviation from the typical rate in
 // the series, which is 1 damage every 4 steps.
 #define VAR_POISON_STEP_COUNTER_FRLG             0x4022
-
-// Step counter. Caps at 1500. If you enter a map with
-// renewable hidden items and this counter is capped,
-// the counter resets to 0 and all renewable hidden
-// item flags are resampled.
-#define VAR_RENEWABLE_ITEM_STEP_COUNTER     0x4023
 
 // Determines which wild encounter set to use in the
 // Altering Cave. Incremented by Mystery Event.
@@ -161,6 +157,13 @@
 #define VAR_MAP_SCENE_ROCKET_WAREHOUSE                                         VAR_KANTO_SLICE(0x61)
 #define VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F                             VAR_KANTO_SLICE(0x62)
 #define VAR_MAP_SCENE_CINNABAR_ISLAND_2                                        VAR_KANTO_SLICE(0x63)
+
+// Step counter. Caps at 1500. If you enter a map with
+// renewable hidden items and this counter is capped,
+// the counter resets to 0 and all renewable hidden
+// item flags are resampled.
+#define VAR_RENEWABLE_ITEM_STEP_COUNTER                                        VAR_KANTO_SLICE(0x64)
+
 #define VAR_MAP_SCENE_MT_MOON_B2F                                              0x408B
 
 

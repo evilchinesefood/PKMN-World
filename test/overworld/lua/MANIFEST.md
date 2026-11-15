@@ -1572,3 +1572,25 @@ battle). The Move Reminder offers Classic Cap Pikachu its forgotten Thunderbolt 
 the Route 34 Day Care, Classic Cap Pikachu with a traded Ditto gets the "prefer to play with other
 POKéMON" verdict and no Egg in 1600 steps, while ordinary Pikachu with the same Ditto gets an Egg.
 `PW_RULES_ONLY=<text>` runs matching scenarios. Coverage; no defect found: **33/33**.
+### `MoneySinkEdges.lua`
+
+Script money sinks at the wallet's edges, driven with real input: walking, talking, Yes/No, menus
+and the Day Care deposit picker. Each sink runs with 0, one short of the price and exactly the
+price (plus a comfortable wallet where it is cheap). A short wallet must be refused with the money
+unchanged and nothing handed over; the exact wallet must end at 0 with one delivery; the field
+must come back. Money, items, Pokemon, flags, vars and Safari state are read from RAM. Sinks: the
+Day Care withdrawal at Route 117, Route 5, Four Island and Route 34, after a real deposit and a
+walk until the fee reaches 400 (`VAR_0x8005` and the printed fee must both equal 100 plus 100 per
+level, modelled from the Rattata's Exp and step count), and the Route 117 level menu's second slot
+with two Pokemon in care, where that slot asks 100 and the first asks 300; the Route 4 Magikarp
+salesman (500); Safari Zone entry in Kanto, Hoenn and Johto (500 for Safari mode, 30 balls and the
+zone); every drink in the Lilycove and Celadon vending machines (200, 300, 350); the Route 109
+Seashore House Soda Pop (300); the Mt. Chimney Lava Cookie (200); the Slateport and Pewter museum
+fees (50); the Mahogany RageCandyBar merchant when talked to and when he stops the player (300);
+Route 39 Moomoo Milk (500, where a second bottle meets the emptied wallet); the Celadon photo
+printer (50) and all three coin desk rows (1,000, 10,000, 100,000); and the Goldenrod haircut
+brothers by day and by night (500, 300). The Route 43 toll, the Hub mart and the Mauville coin desk
+are covered by `Route43Toll` and `EconomyStress`. Measured **405/405**; no defect found. With the
+Magikarp salesman's `checkmoney` lowered to 499 the suite failed on that sink alone, **402/405**:
+499 bought a Magikarp and left 0, and that extra Magikarp filled the party so the comfortable
+purchase went to the PC. `--env PW_SINK_ONLY=<text>` runs matching sinks (`daycare`, `safari`).

@@ -930,6 +930,6 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Wardrobe = {
     .tracks = TRACKS_NONE,
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
-    .anims = gDummySpriteAnimTable,
+    .anims = sAnimTable_Inanimate,
     .images = sPicTable_Wardrobe,
 };

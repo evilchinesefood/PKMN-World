@@ -1418,3 +1418,13 @@ throughout, the Bag back with the Mail still in it, and the field back. Before t
 frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
 for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
 after a failure).
+### `PartyMoveItemOntoMail.lua`
+
+The party menu's Item, Move must refuse a target that holds Mail, as Give does. Two Bulbasaur come
+from the debug Give menu; the first holds a Potion, then the party menu, Item, Move and the target
+pick run with real input. Onto a Mail holder (letter in mailbox slot 0, linked the way
+`GiveMailToMonByItemId` leaves it) nothing may move and the letter must stay linked; onto an Oran
+Berry holder (control) the items must switch. Before the fix `CursorCb_MoveItemCallback` swapped
+the held items alone, so the first Bulbasaur held the Mail with no mail index (Read showed a blank
+letter from `mail[255]`) and the second kept the letter's link while holding the Potion:
+**3/5** on the unfixed ROM, **5/5** with the fix.

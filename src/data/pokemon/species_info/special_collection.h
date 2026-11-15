@@ -86,10 +86,14 @@
     .speciesName = _("Eevee"), \
     .cryId = CRY_EEVEE, \
     .natDexNum = NATIONAL_DEX_EEVEE, \
-    .categoryName = _("Evolution"), \
+    .categoryName = _("Blossom"), \
     .height = 3, \
     .weight = 65, \
-    .description = gEeveePokedexText, \
+    .description = COMPOUND_STRING( \
+    "A crown of flowers keeps this Eevee's\n" \
+    "unstable genes calm. Evolution Stones\n" \
+    "have no effect on it, and its gentle\n" \
+    "Fairy power soothes those around it."), \
     .pokemonScale = 476, \
     .pokemonOffset = 18, \
     .trainerScale = 256, \

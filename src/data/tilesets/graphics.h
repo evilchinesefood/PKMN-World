@@ -4348,3 +4348,41 @@ const u16 gTilesetPalettes_JohtoHallOfFame[][16] =
     INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/11.pal", ".gbapal"),
     INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/12.pal", ".gbapal"),
 };
+
+const u32 gTilesetTiles_JohtoViridianCity[] = INCGFX_U32("data/tilesets/secondary/johto_viridian_city/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_JohtoViridianCity[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_viridian_city/palettes/12.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_JohtoIndigoPlateau[] = INCGFX_U32("data/tilesets/secondary/johto_indigo_plateau/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_JohtoIndigoPlateau[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_indigo_plateau/palettes/12.pal", ".gbapal"),
+};

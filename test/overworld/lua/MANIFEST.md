@@ -2009,3 +2009,13 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `UsmDarkPopupIcons.lua`
+
+The graphical Start menu opened in a dark place while the map-name pop-up is still up must show its
+icons. In Flash caves and the Battle Pyramid the icons draw through the OBJ window
+(`DISPCNT_OBJWIN_ON` plus `WINOUT_WINOBJ_OBJ`), and `Usm_InitStartMenu` called
+`HideMapNamePopUpWindow` after setting them; hiding a GEN_8 pop-up rewrites WINOUT to the field
+default, so only the banner and label showed. The suite warps into Dark Cave, presses Start with
+real input while the arrival pop-up task runs, reads `REG_WINOUT` and screenshots the menu.
+Control: the same after the pop-up has gone. Measured **7/7** fixed and **6/7** on the unfixed ROM.
+The Pyramid shows the same on its first floor (its "Floor" pop-up is up when control returns).

@@ -23,6 +23,8 @@ WANT = [
     "CB2_Overworld",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
+    # UsmDarkPopupIcons.lua opens the Start menu while the map-name pop-up task is still running.
+    "Task_MapNamePopUpWindow",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar", "sFlightActive",
     # RedGyarados.lua points the wandering Gyarados sprite at this callback.

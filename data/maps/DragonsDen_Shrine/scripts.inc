@@ -439,7 +439,7 @@ DragonsDen_Shrine_EventScript_ElderGiveSpecialDratini::
 	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_DRATINI
 	bufferspeciesname STR_VAR_1, SPECIES_DRATINI
 	givenamedmon 4
-	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
+	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoRoomInPartyForPokemon
 
 	msgbox DragonsDen_Shrine_Text_SymbolicDragon, MSGBOX_DEFAULT
 	setflag FLAG_GOT_DRATINI

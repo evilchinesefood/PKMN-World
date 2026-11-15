@@ -449,6 +449,11 @@ check: $(TESTELF)
 # that exist (LoadPrimaryTilesetPalette, LoadSecondaryTilesetPalette, UpdateAltBgPalettes) rather
 # than trusting a remembered number: #94 itself asserted the loader copies slots 7..15, and it
 # copies 7..12. The 52 arrays that declare exactly 13 rows are CORRECT; do not pad them.
+#
+# HnsMetatileBehaviors.py covers the behaviour bytes of the tilesets imported from pokemonHnS. HnS
+# numbers 45 behaviours differently, so an untranslated import builds and draws fine while its
+# Headbutt trees read as Indigo Plateau signs. It fails on any HnS-only value in a Johto tileset;
+# `--convert <pokemonHnS>` translates an import by name.
 validate:
 	python3 test/overworld/ValidateRegionalCenters.py
 	python3 test/overworld/TestRegionalTravelMigration.py
@@ -465,6 +470,7 @@ validate:
 	python3 test/overworld/SavePatch.py --check
 	python3 test/overworld/ValidateDoorAnims.py --max 0
 	python3 test/overworld/ValidateTilesetPalettes.py
+	python3 test/overworld/HnsMetatileBehaviors.py
 	python3 test/overworld/ValidateCelioGifts.py
 	python3 test/overworld/ValidateGreedyGifts.py
 	python3 test/overworld/ValidateRegionMap.py

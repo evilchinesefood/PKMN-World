@@ -501,7 +501,11 @@ sleeper on Route 31, with a full TM pocket as the bag-full discriminator.
 The introduction completes without a permanent difficulty prompt. Outfit B stays on the picker,
 Hub Pass confirmation rests on NO, and EV/IV Changer START flips pages. The driver reads tasks
 and windows before advancing the introduction. After checking the Mid default, it selects Instant
-for the field confirmation and EV/IV controls.
+for the field confirmation and EV/IV controls. The picker opens with no message before it, so the
+driver watches for it on every frame while it advances text, and the run fails if the intro never
+offered it. Before that guard an A pressed blind confirmed Original Red two frames after the picker
+opened, and the seven outfit checks never ran while the suite still scored 25/25; it now scores
+33/33.
 
 ### `IcePathDoor.lua`
 

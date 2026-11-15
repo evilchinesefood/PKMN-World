@@ -112,6 +112,7 @@ is clean; keep it that way.
 | [`EconomyStress.lua`](#economystresslua) | fresh new game | The wallet at 0 and at the cap: mart buys and sells at their edges, buy-list mashing, trainer prizes, whiteouts at every Money Loss rate, and the Game Corner coin desk. |
 | [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
+| [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
@@ -1463,3 +1464,17 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `JohtoTilesetArt.lua`
+
+The five Johto League rooms, the Johto Hall of Fame and Cianwood's shop were ported from pokemonHnS
+with layouts naming `gTileset_PokemonLeague`, `gTileset_HallOfFame` and `gTileset_BikeShop`, which
+here are the FRLG and Emerald tilesets of those names. The Champion's room drew black void squares
+beside its stairs (the 15 blank references `ValidateMetatileBounds.py` had pinned as legitimate),
+Koga's and Karen's rooms drew FRLG ice pillars and fangs, and the Hall of Fame entrance was a void
+square. For each sampled cell the suite builds the picture the running game draws: the metatile id
+from `gBackupMapLayout`, its eight tile entries from the live layout's tilesets, and each tile's
+pixels from BG VRAM, hashed as palette-slot and colour indices. The expected ids and hashes are
+pokemonHnS's, produced by `test/overworld/JohtoTilesetArtExpect.py <HnS clone>` (it prints the
+suite's table). Every room has a control cell the port always drew right, which passes on both
+ROMs. With `VAR_LEAGUE_STATE` seeded to 2, as Will's defeat script leaves it, the suite also walks
+Will's opened north exit into Koga's room. **15/30** on the unfixed ROM, **30/30** with the fix.

@@ -2117,3 +2117,23 @@ const struct Tileset gTileset_MahoganyTownGym =
     TILESET_METATILES(gMetatiles_MahoganyTownGym, gMetatileAttributes_MahoganyTownGym),
     .callback = NULL,
 };
+
+const struct Tileset gTileset_JohtoPokemonLeague =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoPokemonLeague,
+    .palettes = gTilesetPalettes_JohtoPokemonLeague,
+    TILESET_METATILES(gMetatiles_JohtoPokemonLeague, gMetatileAttributes_JohtoPokemonLeague),
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_JohtoHallOfFame =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoHallOfFame,
+    .palettes = gTilesetPalettes_JohtoHallOfFame,
+    TILESET_METATILES(gMetatiles_JohtoHallOfFame, gMetatileAttributes_JohtoHallOfFame),
+    .callback = NULL,
+};

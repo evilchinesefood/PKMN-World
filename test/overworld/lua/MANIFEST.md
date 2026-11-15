@@ -2242,3 +2242,13 @@ sprite must be active with non-blank tiles that match the start of `gObjectEvent
 closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
 tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
 fixed build.
+
+### `BirthIslandRockReset.lua`
+
+Leaving Birth Island mid-puzzle must start the Deoxys puzzle over on the next visit. With a real
+Pokemon in the party the player walks in from the harbor, touches the stone once (level 1), walks
+out to the harbor and back in. `VAR_DEOXYS_ROCK_LEVEL` and `VAR_DEOXYS_ROCK_STEP_COUNT` must read 0
+and the first touch of the new visit must climb to level 1. Kanto's Birth Island script reset FRLG's
+rebased `VAR_DEOXYS_INTERACTION_*` copies, which nothing reads, so the stone kept its old level and
+the first touch failed on the steps walked since. Hoenn's island is the control. Measured **23/23**
+fixed and **20/23** on the unfixed ROM.

@@ -1212,6 +1212,14 @@
 	.byte \checkUnlocked
 	.endm
 
+	@ pokemonHnS's checkpartymove: VAR_RESULT is the slot of the first non-egg party Pokemon that
+	@ knows the move, else of the first that could be taught it, else PARTY_SIZE; VAR_0x8004 is that
+	@ Pokemon's species. (johto_compat.inc owns the name checkpartymove, forwarded to checkfieldmove.)
+	.macro checkpartycanusemove move:req
+	callnative ScrCmd_CheckPartyCanUseMove, requests_effects=1
+	.2byte \move
+	.endm
+
 	@ Converts STR_VAR_1, STR_VAR_2, or STR_VAR_3 to its corresponding index into sScriptStringVars (0, 1, or 2).
 	@ If given anything else it will output it directly.
 	@ Note: Because the STR_VAR_# arguments given to this macro are not part of a processed string they are not

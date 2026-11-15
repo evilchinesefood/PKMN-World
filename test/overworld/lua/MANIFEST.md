@@ -1463,3 +1463,16 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `RenewableHiddenItems.lua`
+
+FRLG's renewable hidden items on the Sevii Islands, walked and picked up with real input. Every step
+counts toward `VAR_RENEWABLE_ITEM_STEP_COUNTER`, which stops at 1500; entering a map from FRLG's
+table at the cap restarts the count, hides every renewable item and shows one sampled tier on every
+table map. The suite uses Treasure Beach's Ultra Ball, which is in all three tiers, and Trainer
+Tower's Nanab Berry, which is not in the table. A new game finds no Ultra Ball; the Nanab Berry is
+picked up; 1500 steps cap the count; walking back into the Trainer Tower area from Seven Island
+restarts it, the Nanab Berry stays gone and the Ultra Ball is then on the beach; after 1000 more
+steps a warp back in finds nothing; after 500 more the warp in restarts the count and the Ultra Ball
+is back. The port defined the counter (on a raw id that is Hoenn's `VAR_STARTER_MON`) and never
+counted a step or regenerated anything, so a renewable item taken once was gone for good:
+**27/32** on the unfixed ROM, **32/32** with the fix.

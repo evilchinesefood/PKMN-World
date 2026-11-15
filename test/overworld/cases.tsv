@@ -184,3 +184,4 @@ UsmOrderSpecialContext	lua/UsmOrderSpecialContext.lua	fresh	0	required
 HoldBStaticEncounter	lua/HoldBStaticEncounter.lua	fresh	0	required
 BagTMCancelMessage	lua/BagTMCancelMessage.lua	fresh	0	required
 SkyCharmBikeAloft	lua/SkyCharmBikeAloft.lua	fresh	0	required
+BagCallbackGiveStress	lua/BagCallbackGiveStress.lua	fresh	0	required

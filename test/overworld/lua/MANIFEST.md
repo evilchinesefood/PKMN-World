@@ -2066,3 +2066,16 @@ Select with the bike (refused: still flying, on foot, the same sprite, the map m
 music), lands on the pier and checks the music on foot, then mounts and dismounts the bike on the
 pier as a control. Measured **19/19** fixed and **11/19** on the unfixed ROM, where both bikes
 mounted aloft and `MUS_HG_CYCLING` (669) kept playing on foot after landing.
+### `BagCallbackGiveStress.lua`
+
+The Bag's in-place party select serves Use and Give, with Use's callback left in `gItemUseCB` and
+Give's mode in the static `sPartyGiveMode`. For each party-callback item (Potion, Revive, Max
+Revive, Rare Candy, Fire Stone, Ether, PP Up, Sacred Ash with and without an effect, TM01) the
+suite Uses it with real input, backs out (B at the select; A then B B for the PP items; No-effect
+or real Sacred Ash; Yes then B for the TM), then Gives a Revive to the lead: exactly one Revive
+must move, no Pokémon's HP may change and the backed-out item must stay. Then Orange Mail onto a
+holder (refused) and onto a non-holder (letter opened, quit with Yes), then Use Potion on the hurt
+lead in the reopened Bag must heal it, not give it. Measured **64/64** on master and **58/64** with
+`0829014ec0`'s `swsh_item_menu.c` hunks reverted (one Revive revived the fainted Charmander through
+the stale Sacred Ash callback, and the Potion after the Mail give was given instead of used).
+`PW_ONLY=<plan name>` (pass with `--env`) runs one plan.

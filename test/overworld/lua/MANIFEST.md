@@ -1316,3 +1316,16 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `BagRareCandyMoves.lua`
+
+A Rare Candy used from the Bag must offer every move the new level teaches. Bulbasaur learns
+Poison Powder and Sleep Powder at level 15, and the Bag runs its own candy flow
+(`BagMenu_RareCandyDoLearnMoveStep`, `src/swsh_item_menu.c`). Four cases give a real Bulbasaur
+through the debug Give menu and use candies from the Bag with real input while recording every
+`gMoveToLearn` the game offers: one candy with two free move slots (both powders learned), one
+candy with four moves and every prompt accepted (both offered, in order), one candy with every
+prompt cancelled with B (both offered, old moveset untouched), and three candies from level 13
+that cross 15 and evolve into Ivysaur at 16 (both learned, three candies spent). Before the fix
+the step moved to the next level after any learned move, so Sleep Powder was never offered:
+**16/22** on the unfixed ROM, **22/22** with the fix.

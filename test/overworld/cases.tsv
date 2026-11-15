@@ -121,3 +121,4 @@ BugContestEggOnly	lua/BugContestEggOnly.lua	fresh	0	required
 StartMenuSpriteLoad	lua/StartMenuSpriteLoad.lua	fresh	0	required
 OweSurfLedgeFuzz	lua/OweSurfLedgeFuzz.lua	fresh	0	required
 DoubleKoWhiteout	lua/DoubleKoWhiteout.lua	fresh	0	required
+BagRareCandyMoves	lua/BagRareCandyMoves.lua	fresh	0	required

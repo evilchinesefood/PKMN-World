@@ -7267,9 +7267,9 @@ static void BagMenu_RareCandyDoLearnMoveStep(u8 taskId)
             GetMonNickname(mon, gStringVar1);
             StringCopy(gStringVar2, GetMoveName(result));
             StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
+            // Stay on this level: a level can teach more than one move (Bulbasaur's powders at 15).
+            // The next step asks again with firstMoveAtLevel FALSE, and case 0 moves on.
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_MoveLearnFanfare);
-            sBagItemUseState->learnMoveLevel++;
-            sBagItemUseState->firstMoveAtLevel = TRUE;
             return;
         }
     }
@@ -7422,8 +7422,6 @@ static void Task_BagMenu_MoveLearnAfterForgotMove(u8 taskId)
     GetMonNickname(mon, gStringVar1);
     StringCopy(gStringVar2, GetMoveName(sBagItemUseState->moveToLearn));
     StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
-    sBagItemUseState->learnMoveLevel++;
-    sBagItemUseState->firstMoveAtLevel = TRUE;
     DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_MoveLearnFanfare);
 }
 

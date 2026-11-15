@@ -2009,3 +2009,19 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `EggOnlyStaticRefusal.lua`
+
+0829014ec0 refuses scripted wild battles for an empty or Egg-only party with "You don't have a
+single POKéMON" and replaces the encounter script, so the encounter must be left exactly as it
+was. Scripts that change state before reaching the battle undo that promise: Ilex Forest's GS
+Ball shrine cleared Celebi's hide flag and walked Celebi in, so after the refusal a scriptless
+Celebi stood by the shrine and, at Azalea state 9 where nothing re-hides it, came back on every
+visit. An Egg is given with `giveegg` and the walks are real input (visible wild Pokemon spawns
+are held off in Ilex Forest's one-tile passages). The Power Plant's Electrode 1, refused inside
+the battle starter, is the control: no battle, control back, Electrode still there, its flags
+clear. At the shrine, answered YES with A and Start mashed: no battle, control back,
+`FLAG_HIDE_CELEBI` still set, the event still armed, and after leaving and returning no Celebi
+at (24,33). **13/15** on the unfixed ROM, **15/15** with the fix. The same pre-scene refusal
+also guards the Southern Island Lati and both Birth Island Deoxys scripts (untested here; their
+state resets on a map reload, but the refused scene left the Pokemon standing for the visit).

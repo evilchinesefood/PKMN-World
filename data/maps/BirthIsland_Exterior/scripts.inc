@@ -65,6 +65,10 @@ BirthIsland_Exterior_EventScript_Complete::
 	end
 
 BirthIsland_Exterior_EventScript_Deoxys::
+	@ Refuse an empty or Egg-only party BEFORE the rock bursts: the battle's own refusal would leave Deoxys
+	@ standing there to the encounter music.
+	specialvar VAR_RESULT, CountPartyNonEggMons
+	goto_if_eq VAR_RESULT, 0, EventScript_NoMonsForWildBattle
 	waitse
 	setfieldeffectargument 0, LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK
 	setfieldeffectargument 1, MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR)

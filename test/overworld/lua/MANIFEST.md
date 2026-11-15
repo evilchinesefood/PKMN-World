@@ -1463,3 +1463,12 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `SpecialDexFormsNav.lua`
+
+The Pokédex Forms page must keep its button hint on screen on every page. With every Pokédex flag
+set, real input opens Pikachu's Forms page (18 forms, two pages) and the suite reads BG2's tilemap
+where the navigation window lives: on arrival, in form mode, after paging to page 2, after leaving
+form mode there, and after a trip to Evos and back. `Task_HandleFormsScreenInput` (exported for
+this suite) proves the page is open before each read. #394's paged `PrintForms` put the full-screen
+info window's tilemap after the navigation window was drawn, so the "Form Mode / Evos" hint was
+blank on arrival and vanished on every page change: **6/9** on the unfixed ROM, **9/9** with the fix.

@@ -1785,3 +1785,14 @@ items in RAM, a third release must be refused with "The bag is full." and leave 
 its Potion alone. Before the fix `ReleaseMon` skipped the item of the Pokemon in hand, and a Bag
 with no room let the release go ahead and dropped the item: **17/20** on the unfixed ROM,
 **20/20** with the fix.
+### `NormaTangelaTrade.lua`
+
+Norma's in-game trade in the Cinnabar Pokemon Lab lounge (a Venonat for her Tangela, TANGENY). The
+trade specials read the trade id from `VAR_0x8005` and the party slot from `VAR_0x8004`, and every
+other in-game trade goes through the shared `EventScript_*InGameTrade*` wrappers; Norma's script kept
+FRLG's order. One Venonat comes from the debug Give menu and the suite warps into the lounge.
+Declining Clifton's trade (which leaves his trade id in `VAR_0x8005`, as in normal play), talking to
+Norma, Yes, the party pick and the trade scene are real input. The party's only Pokemon must become
+Tangela and `FLAG_DID_TANGENY_TRADE` must be set. On the unfixed ROM Norma asked for Clifton's
+Raichu: **6/9**, where the Venonat was refused; a probe that offered a Raichu instead kept it, got
+nothing and still used up the trade. **9/9** with the fix.

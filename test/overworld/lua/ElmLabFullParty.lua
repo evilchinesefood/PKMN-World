@@ -3,8 +3,11 @@
 -- player can reach Elm's balls with a full party. The starter must then go to the PC exactly once
 -- and count as the Johto starter. PW_ELM_PARTY=5 runs a partial party instead: the starter lands in
 -- the last slot and the nickname prompt (one letter typed, "A") must rename it, not the party's lead.
--- Setup gives the team through the debug menu and stands in for the hub PC withdrawal in memory;
--- the crossings, the Hub Pass, Elm's introduction and the ball picks use real input.
+-- With the full party, every box is filled first: the pick must then be refused with the ball left on
+-- the table and no starter recorded, and once one boxed Pokemon is released the same ball must give
+-- the starter. Setup gives the team and fills the boxes through the debug menu and stands in for the
+-- hub PC withdrawal and the release in memory; the crossings, the Hub Pass, Elm's introduction and
+-- the ball picks use real input.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
@@ -15,6 +18,8 @@ local BEDROOM = { 76, 4 }
 local LAB = { 76, 0 }
 local SLOTS = 14 * 30
 local FLAG_JOHTO_STARTER_CHOSEN = 0x6038
+local FLAG_HIDE_CHIKORITABALL = 0x6002
+local CHIKORITA_BALL = 4
 local VAR_LAB = 0xA081
 local TEAM = tonumber(os.getenv("PW_ELM_PARTY") or "6")
 local hubPass
@@ -67,6 +72,21 @@ local function newSince(before)
   local fresh = 0
   for p in pairs(now) do if not before[p] then fresh = fresh + 1 end end
   return fresh, n
+end
+
+local function boxed()
+  local n = 0
+  for i = 0, SLOTS - 1 do if present(box(i)) then n = n + 1 end end
+  return n
+end
+local function objectShown(localId)
+  for i = 0, 15 do
+    local b = S.gObjectEvents + i * S.ObjectEvent.stride
+    if (F.r8(b) & 1) == 1 and F.r8(b + S.ObjectEvent.localId) == localId then
+      return (F.r8(b + S.ObjectEvent.flags1) & 0x20) == 0
+    end
+  end
+  return false
 end
 
 local function scriptMenuActive()
@@ -214,6 +234,26 @@ F.run(function()
   end
   drain()
   F.check("Elm offers the starters", getVar(VAR_LAB) == 1 and mapIs(LAB), where() .. " lab=" .. getVar(VAR_LAB))
+
+  if TEAM == 6 then
+    F.dbg(); F.idle(60); F.sel(1); F.idle(40); F.sel(1); F.idle(40); F.sel(0); F.idle(240)
+    drain()
+    F.check("setup: debug Fill PC Boxes Fast fills every box", boxed() == SLOTS, "boxed=" .. boxed())
+    local full = pids()
+    F.check("no room: pick Chikorita and confirm", pickBall(8, "chikorita_full"))
+    settle("after_full_pick")
+    drain()
+    F.shot("after_full_pick")
+    local given = newSince(full)
+    F.check("no room: nothing is given", given == 0 and count() == 6 and boxed() == SLOTS,
+      "new=" .. given .. " count=" .. count() .. " boxed=" .. boxed())
+    local kept = not johtoFlag(FLAG_HIDE_CHIKORITABALL) and objectShown(CHIKORITA_BALL)
+    F.check("no room: the Chikorita ball stays on the table", kept,
+      "hidden=" .. tostring(johtoFlag(FLAG_HIDE_CHIKORITABALL)) .. " shown=" .. tostring(objectShown(CHIKORITA_BALL)))
+    F.check("no room: no Johto starter is recorded", not johtoFlag(FLAG_JOHTO_STARTER_CHOSEN))
+    if not kept then F.finish(); return end
+    zero(box(SLOTS - 1), S.BoxPokemon.size)
+  end
 
   local before = pids()
   local lead = bytes(party(0), S.Pokemon.size)

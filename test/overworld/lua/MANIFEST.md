@@ -1204,6 +1204,21 @@ take. Measured **17/17** fixed and **15/17** on the unfixed ROM, where Chikorita
 behind a "no more room" line with the starter flag unset, and Cyndaquil could then be taken too.
 `--env PW_ELM_PARTY=5` runs a partial party and types one letter at the nickname prompt: **19/19**
 fixed, **18/19** unfixed, where the name went to the party's lead instead of the starter.
+With the full party the suite then fills every box through the debug menu and picks Chikorita: with
+nowhere to put a Pokemon the pick must be refused, nothing given, no starter recorded and the ball
+left on the table (`FLAG_HIDE_CHIKORITABALL` clear and the object drawn). One boxed Pokemon is then
+released in memory and the rest of the run picks the same ball. Measured **15/16** on the unfixed
+ROM, where `removeobject VAR_LAST_TALKED` ran before `givemon` failed and the ball was gone for good.
+
+### `OaksLabFullParty.lua`
+
+Oak's starter when a Johto champion sails the S.S. Aqua to Vermilion with a full party, then keeps it
+through the Hub Pass and the same-region Kanto gate. Before the first pick the suite fills every box
+through the debug menu: the Bulbasaur pick must be refused, nothing given, the choice left open
+(`VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB` still 2) and the ball left on the table
+(`FLAG_HIDE_BULBASAUR_BALL` clear and the object drawn). One boxed Pokemon is then released in memory
+and the same ball must give exactly one starter, to the PC. Measured **24/25** on the unfixed ROM,
+where the ball was hidden before `givemon` reported `MON_CANT_GIVE`.
 ### `PikeRoomSave.lua`
 
 A Start-menu save inside a Battle Pike room. The challenge carries the three chosen Pokémon while

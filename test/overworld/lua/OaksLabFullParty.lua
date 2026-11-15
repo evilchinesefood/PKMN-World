@@ -1,7 +1,10 @@
 -- A Johto champion who sails the S.S. Aqua to Vermilion carries a full party into Kanto before Oak
 -- has handed out a starter. The Hub Pass and the same-region Kanto gate keep that party, and Oak's
--- lab must still give exactly one starter. Setup writes only the Johto post-League prerequisites
--- and the party; the voyage, the gate, Oak's trigger and the ball picks use real input.
+-- lab must still give exactly one starter. With every box filled as well, the first pick must be
+-- refused with the ball left on the table and the choice still open, and after one boxed Pokemon is
+-- released the same ball must give the starter. Setup writes only the Johto post-League
+-- prerequisites and the party, fills the boxes through the debug menu and stands in for the release
+-- in memory; the voyage, the gate, Oak's trigger and the ball picks use real input.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
@@ -10,6 +13,8 @@ local F = require("lib").new(S, "OaksLabFullParty")
 local HUB = {100, 0}
 local SLOTS = 14 * 30
 local VAR_LAB = 0xA02E
+local FLAG_HIDE_BULBASAUR_BALL = 0xA40 + 0x28
+local BULBASAUR_BALL = 5
 local hubPass
 local function where() local x,y=F.pos(); return string.format("%d/%d (%d,%d)",F.grp(),F.mapn(),x,y) end
 local function mapIs(g,m) return F.grp()==g and F.mapn()==m end
@@ -71,6 +76,24 @@ local function newSince(before)
   local fresh=0
   for p in pairs(now) do if not before[p] then fresh=fresh+1 end end
   return fresh,n
+end
+
+local function sb1FlagSet(id)
+  return (F.r8(F.sb1()+S.SaveBlock1.flags+id//8)&(1<<(id%8)))~=0
+end
+local function boxed()
+  local n=0
+  for i=0,SLOTS-1 do if present(box(i)) then n=n+1 end end
+  return n
+end
+local function objectShown(localId)
+  for i=0,15 do
+    local b=S.gObjectEvents+i*S.ObjectEvent.stride
+    if (F.r8(b)&1)==1 and F.r8(b+S.ObjectEvent.localId)==localId then
+      return (F.r8(b+S.ObjectEvent.flags1)&0x20)==0
+    end
+  end
+  return false
 end
 
 local function drain()
@@ -220,6 +243,24 @@ F.run(function()
   end
   drain()
   F.check("Oak's starter scene opens with the full party",getVar(VAR_LAB)==2 and mapIs(38,3),where().." lab="..getVar(VAR_LAB))
+
+  F.dbg();F.idle(60);F.sel(1);F.idle(40);F.sel(1);F.idle(40);F.sel(0);F.idle(240)
+  drain()
+  F.check("setup: debug Fill PC Boxes Fast fills every box",boxed()==SLOTS,"boxed="..boxed())
+  local full=pids()
+  F.check("no room: pick Bulbasaur and confirm",pickBall(8,"bulbasaur_full"))
+  settle("after_full_pick")
+  drain()
+  F.shot("after_full_pick")
+  local given=newSince(full)
+  F.check("no room: nothing is given",given==0 and count()==6 and boxed()==SLOTS,
+    "new="..given.." count="..count().." boxed="..boxed())
+  local kept=not sb1FlagSet(FLAG_HIDE_BULBASAUR_BALL) and objectShown(BULBASAUR_BALL)
+  F.check("no room: the Bulbasaur ball stays on the table",kept,
+    "hidden="..tostring(sb1FlagSet(FLAG_HIDE_BULBASAUR_BALL)).." shown="..tostring(objectShown(BULBASAUR_BALL)))
+  F.check("no room: the starter choice is still open",getVar(VAR_LAB)==2,"lab="..getVar(VAR_LAB))
+  if not kept then F.finish();return end
+  for o=0,76,4 do F.w32(box(SLOTS-1)+o,0) end
 
   local before=pids()
   F.check("pick Bulbasaur and confirm",pickBall(8,"bulbasaur"))

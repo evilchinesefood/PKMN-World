@@ -6666,6 +6666,11 @@ static void Task_BagMenu_SacredAshMessages(u8 taskId)
     DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_SacredAshMessages);
 }
 
+static bool8 BagMenu_IsItemFlute(enum Item item)
+{
+    return item == ITEM_BLUE_FLUTE || item == ITEM_RED_FLUTE || item == ITEM_YELLOW_FLUTE;
+}
+
 static void BagMenu_UseMedicine(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -6701,10 +6706,17 @@ static void BagMenu_UseMedicine(u8 taskId)
         return;
     }
 
-    PlaySE(SE_USE_ITEM);
     for (s16 i = 1; i < tItemCount; i++)
         ExecuteTableBasedItemEffect(mon, item, tPartySlot, 0);
-    RemoveBagItem(item, tItemCount);
+    if (BagMenu_IsItemFlute(item))
+    {
+        PlaySE(SE_GLASS_FLUTE);
+    }
+    else
+    {
+        PlaySE(SE_USE_ITEM);
+        RemoveBagItem(item, tItemCount);
+    }
 
     if (GetMonData(mon, MON_DATA_STATUS) != oldStatus)
         BagMenu_UpdateStatusIcons();
@@ -8653,13 +8665,6 @@ static void Task_BagMenu_MultiUseInput(u8 taskId)
         gTasks[taskId].func = Task_BagMenu_PartyInput;
     }
 }
-
-#if SWSH_ITEM_MENU_ACTION_IN_BATTLE
-static bool8 BagMenu_IsItemFlute(enum Item item)
-{
-    return item == ITEM_BLUE_FLUTE || item == ITEM_RED_FLUTE || item == ITEM_YELLOW_FLUTE;
-}
-#endif
 
 static bool8 BagMenu_InBattleSelect(void)
 {

@@ -1463,3 +1463,33 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `TravelSaveContinue.lua`
+
+Save and Continue after Dig, Escape Rope, Teleport and Fly in Kanto, Johto and Hoenn, each straight
+after a World Transit gate crossing: Teleport or Fly as the first move after the arrival, then a cave
+door walked into, a save inside it, an Escape Rope and a Dig out of it, and the other of Teleport and
+Fly. Every landing is saved from the Start menu and soft reset or power cut; the Continue must
+restore the map, tile, saved region, whiteout point, escape warp, party, PC, money and regional
+memory. After a Dig in Johto a power cut on six frames of the 247-frame flash write must load the
+cave save or the Dig save whole. From the Battle Frontier, reached from Kanto, Fly to a Hoenn town
+must claim Hoenn and re-arm the whiteout point in Littleroot without recording a departure, and a
+later Teleport from the Frontier must land there. Select with the Hub Pass registered is held
+through each move's warp and landing: the Hub Pass only answers after the landing. Setup seeds
+badges, visited towns and a lead with Teleport, Dig and Fly; a debug warp only puts the player on
+each cave door's outdoor tile. `PW_TSC_ONLY=<text>` runs the matching cases. Measured **292/292**;
+no defect found. A tamper build that stops `UpdateEscapeWarp` refreshing the escape warp scores
+**268/292**.
+
+### `GateRecallTrades.lua`
+
+Gate recall after the remembered team changed through the game's own flows. Johto remembers six:
+a Caterpie, Squad Squirtle from `SpecialPokemon_Give`, a Spearow, a Pidgey, an Egg and an Abra. In
+Kanto, with real input, the Abra is traded for Mr. Mime in the Route 2 house, the Pidgey goes to the
+Route 5 Day Care, the Egg hatches through the hatch scene and a Rare Candy evolves the Caterpie. The
+Johto recall must name the Day Care and the missing Abra in its preview, carry the four reachable
+members in remembered order as Metapod and Togepi, keep Squad Squirtle's form, box Mr. Mime and
+leave the Pidgey in the Day Care. The Kanto recall must bring the Kanto-traded Mr. Mime back out of
+the PC. Every Pokemon is counted by personality across the party, the PC and both Day Cares, then a
+save and Continue closes the run. Measured **34/34**; no defect found. A tamper build that drops
+the regional identity in `CreateHatchedMon` scores **32/34**: the hatched Togepi is left behind,
+which `GateRecallStress` (it clears the Egg bit in memory) cannot see.

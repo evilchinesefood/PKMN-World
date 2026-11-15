@@ -2009,3 +2009,15 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `GoldenrodSceneStress.lua`
+
+Coverage for three Goldenrod changes in 0829014ec0, each driven on real input with A, B and Start
+mashed through it. The Hub's Johto gate (Zephyr and Hive Badges, Ilex Forest done) lands the
+player in the Train Station at `VAR_GOLDENROD_CITY_STATE` 0; walking out of the station's door
+must run the city's new ON_FRAME first-visit setup (Elm's PokeNav call, state 1, visited flag,
+Rockets and Bill hidden, nobody beside the door) and hand control back, and going back in and
+out must play nothing. The Name Rater's TV news, which used to end in a `waitstate` NameRival
+never resumed, must hand control back. The Radio Tower quiz won at state 5 (after the Plain Badge)
+must enable the radio and leave the state at 5 instead of rewinding it to 2. **16/16** on the
+master ROM it was written against (the fixes are already in).

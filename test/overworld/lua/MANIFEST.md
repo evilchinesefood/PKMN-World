@@ -1463,3 +1463,12 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `SpecialWellHelperApproach.lua`
+
+The Firefighter Squirtle quest's well helper must answer from the tile she faces. The kiln helper
+starts the quest with real input; the suite then walks to the tile the well helper faces (read from
+her live object and facing), presses A, and returns to the kiln for the reward. She stood on the
+elevation-2 platform beside Slowpoke Well facing down onto an elevation-3 tile, and an object only
+answers a player on its own elevation, so A in front of her did nothing and the quest could only be
+finished by finding the side approach from the stairs: **5/8** on the unfixed ROM, **8/8** with the
+fix.

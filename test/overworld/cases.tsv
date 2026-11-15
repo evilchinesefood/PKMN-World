@@ -196,3 +196,4 @@ HubPassLeagueRooms	lua/HubPassLeagueRooms.lua	fresh	0	required
 FrontierSavePowerCut	lua/FrontierSavePowerCut.lua	fresh	0	required
 SaveWritePowerCut	lua/SaveWritePowerCut.lua	fresh	0	required
 HubWardrobeSprite	lua/HubWardrobeSprite.lua	fresh	0	required
+EggSummaryPageTabs	lua/EggSummaryPageTabs.lua	fresh	0	required

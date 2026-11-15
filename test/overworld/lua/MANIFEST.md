@@ -2242,3 +2242,12 @@ sprite must be active with non-blank tiles that match the start of `gObjectEvent
 closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
 tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
 fixed build.
+
+### `EggSummaryPageTabs.lua`
+
+An Egg's summary cannot turn pages (`ChangePage` returns for an Egg), but its header still drew the
+four page tabs and both page arrows. The suite gives a debug party and a debug Egg, opens the Egg's
+summary from the party menu with real input and reads BG2's screen block in VRAM: header rows 1 and 2,
+columns 0 to 9, must all be the plain header tile 0x33. Right and Left must leave the Egg on its page
+with the header still plain; Up to the Pokémon above must bring the tabs back (tile 0x01 at column 1,
+the control) and Down to the Egg must clear them again. Unfixed **3/7**, fixed **7/7**.

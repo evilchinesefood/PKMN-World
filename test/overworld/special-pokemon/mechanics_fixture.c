@@ -88,11 +88,10 @@ static u32 CheckAcquisitions(void)
             && variant->baseSpeed == base->baseSpeed + (base->baseSpeed * 15 + 50) / 100
             && variant->baseSpAttack == base->baseSpAttack + (base->baseSpAttack * 15 + 50) / 100
             && variant->baseSpDefense == base->baseSpDefense + (base->baseSpDefense * 15 + 50) / 100
-            && variant->types[0] == base->types[0] && variant->types[1] == base->types[1]
+            // Forms keep their base species' primary type; secondary types and abilities are
+            // themed per form and asserted in test/battle/special_forms.c.
+            && variant->types[0] == base->types[0]
             && variant->genderRatio == base->genderRatio
-            && variant->abilities[0] == base->abilities[0]
-            && variant->abilities[1] == base->abilities[1]
-            && variant->abilities[2] == base->abilities[2]
             && variant->levelUpLearnset == base->levelUpLearnset
             && variant->natDexNum == base->natDexNum
             && GET_BASE_SPECIES_ID(entry->species) == entry->baseSpecies

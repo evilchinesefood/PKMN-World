@@ -7074,6 +7074,13 @@ static inline u32 CalcAttackStat(struct DamageContext *ctx)
         break;
     }
 
+    // Classic Cap Pikachu's cap is a built-in Light Ball. It does not stack with a held one
+    // and is not suppressed by Klutz, Embargo or Magic Room.
+    if (gBattleMons[battlerAtk].species == SPECIES_PIKACHU_CLASSIC_CAP
+     && ctx->holdEffects[ctx->battlerAtk] != HOLD_EFFECT_LIGHT_BALL
+     && (GetConfig(B_LIGHT_BALL_ATTACK_BOOST) >= GEN_4 || IsBattleMoveSpecial(move)))
+        modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
+
     modifier = ApplyOffensiveBadgeBoost(modifier, battlerAtk, move);
 
     return uq4_12_multiply_by_int_half_down(modifier, atkStat);

@@ -7,7 +7,6 @@
     .baseSpeed     = SPECIAL_BASE_STAT(90), \
     .baseSpAttack  = SPECIAL_BASE_STAT(50), \
     .baseSpDefense = SPECIAL_BASE_STAT(P_UPDATED_STATS >= GEN_6 || P_UPDATED_STATS == GEN_1 ? 50 : 40), \
-    .types = MON_TYPES(TYPE_ELECTRIC), \
     .catchRate = 190, \
     .expYield = PIKACHU_EXP_YIELD, \
     .evYield_Speed = 2, \
@@ -16,7 +15,6 @@
     .friendship = STANDARD_FRIENDSHIP, \
     .growthRate = GROWTH_MEDIUM_FAST, \
     .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED), \
-    .abilities = { ABILITY_STATIC, ABILITY_NONE, ABILITY_LIGHTNING_ROD }, \
     .bodyColor = BODY_COLOR_YELLOW, \
     .speciesName = _("Pikachu"), \
     .cryId = CRY_PIKACHU, \
@@ -40,7 +38,6 @@
     .baseSpeed     = SPECIAL_BASE_STAT(43), \
     .baseSpAttack  = SPECIAL_BASE_STAT(50), \
     .baseSpDefense = SPECIAL_BASE_STAT(P_UPDATED_STATS >= GEN_2 ? 64 : 50), \
-    .types = MON_TYPES(TYPE_WATER), \
     .catchRate = 45, \
     .expYield = (P_UPDATED_EXP_YIELDS >= GEN_5) ? 63 : 66, \
     .evYield_Defense = 1, \
@@ -49,7 +46,6 @@
     .friendship = STANDARD_FRIENDSHIP, \
     .growthRate = GROWTH_MEDIUM_SLOW, \
     .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED), \
-    .abilities = { ABILITY_TORRENT, ABILITY_NONE, ABILITY_RAIN_DISH }, \
     .bodyColor = BODY_COLOR_BLUE, \
     .speciesName = _("Squirtle"), \
     .cryId = CRY_SQUIRTLE, \
@@ -78,7 +74,6 @@
     .baseSpeed     = SPECIAL_BASE_STAT(55), \
     .baseSpAttack  = SPECIAL_BASE_STAT(EEVEE_SP_ATK), \
     .baseSpDefense = SPECIAL_BASE_STAT(65), \
-    .types = MON_TYPES(TYPE_NORMAL), \
     .catchRate = 45, \
     .expYield = (P_UPDATED_EXP_YIELDS >= GEN_5) ? 65 : 92, \
     .evYield_SpDefense = 1, \
@@ -87,7 +82,6 @@
     .friendship = STANDARD_FRIENDSHIP, \
     .growthRate = GROWTH_MEDIUM_FAST, \
     .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED), \
-    .abilities = EEVEE_ABILITIES, \
     .bodyColor = BODY_COLOR_BROWN, \
     .speciesName = _("Eevee"), \
     .cryId = CRY_EEVEE, \
@@ -112,7 +106,6 @@
     .baseSpeed     = SPECIAL_BASE_STAT(43), \
     .baseSpAttack  = SPECIAL_BASE_STAT(44), \
     .baseSpDefense = SPECIAL_BASE_STAT(48), \
-    .types = MON_TYPES(TYPE_WATER), \
     .catchRate = 45, \
     .expYield = (P_UPDATED_EXP_YIELDS >= GEN_5) ? 63 : 66, \
     .evYield_Attack = 1, \
@@ -121,7 +114,6 @@
     .friendship = STANDARD_FRIENDSHIP, \
     .growthRate = GROWTH_MEDIUM_SLOW, \
     .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED), \
-    .abilities = { ABILITY_TORRENT, ABILITY_NONE, ABILITY_SHEER_FORCE }, \
     .bodyColor = BODY_COLOR_BLUE, \
     .speciesName = _("Totodile"), \
     .cryId = CRY_TOTODILE, \
@@ -167,6 +159,8 @@
     [SPECIES_PIKACHU_CLASSIC_CAP] =
     {
         SPECIAL_PIKACHU_INFO
+        .types = MON_TYPES(TYPE_ELECTRIC),
+        .abilities = { ABILITY_STATIC, ABILITY_NONE, ABILITY_LIGHTNING_ROD },
         SPECIAL_GRAPHICS(ClassicCap, 0)
         SPECIAL_BATTLE_COORDS(48, 48, 9, 64, 56, 4)
         OVERWORLD(sPicTable_SpecialClassicCap, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
@@ -179,6 +173,8 @@
     [SPECIES_PIKACHU_SURFBOARD] =
     {
         SPECIAL_PIKACHU_INFO
+        .types = MON_TYPES(TYPE_ELECTRIC, TYPE_WATER),
+        .abilities = { ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_SWIFT_SWIM },
         SPECIAL_GRAPHICS(Surfboard, 2)
         SPECIAL_BATTLE_COORDS(64, 56, 0, 64, 64, 0)
         OVERWORLD(sPicTable_SpecialSurfboard, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
@@ -191,6 +187,8 @@
     [SPECIES_PIKACHU_BALLOONS] =
     {
         SPECIAL_PIKACHU_INFO
+        .types = MON_TYPES(TYPE_ELECTRIC, TYPE_FLYING),
+        .abilities = { ABILITY_GALE_WINGS, ABILITY_NONE, ABILITY_GALE_WINGS },
         SPECIAL_GRAPHICS(Balloons, 0)
         SPECIAL_BATTLE_COORDS(64, 56, 9, 64, 64, 4)
         OVERWORLD(sPicTable_SpecialBalloons, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
@@ -203,6 +201,8 @@
     [SPECIES_SQUIRTLE_SQUAD] =
     {
         SPECIAL_SQUIRTLE_INFO
+        .types = MON_TYPES(TYPE_WATER, TYPE_DARK),
+        .abilities = { ABILITY_INTIMIDATE, ABILITY_NONE, ABILITY_INTIMIDATE },
         SPECIAL_GRAPHICS(Squad, 0)
         SPECIAL_BATTLE_COORDS(40, 40, 11, 48, 48, 9)
         OVERWORLD(sPicTable_SpecialSquad, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
@@ -215,6 +215,8 @@
     [SPECIES_SQUIRTLE_FIREFIGHTER] =
     {
         SPECIAL_SQUIRTLE_INFO
+        .types = MON_TYPES(TYPE_WATER),
+        .abilities = { ABILITY_FLASH_FIRE, ABILITY_NONE, ABILITY_FLASH_FIRE },
         SPECIAL_GRAPHICS(Firefighter, 0)
         SPECIAL_BATTLE_COORDS(40, 48, 11, 48, 56, 9)
         OVERWORLD(sPicTable_SpecialFirefighter, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
@@ -227,6 +229,8 @@
     [SPECIES_EEVEE_FLOWER_CROWN] =
     {
         SPECIAL_EEVEE_INFO
+        .types = MON_TYPES(TYPE_NORMAL, TYPE_FAIRY),
+        .abilities = EEVEE_ABILITIES,
         SPECIAL_GRAPHICS(FlowerCrown, 2)
         SPECIAL_BATTLE_COORDS(40, 48, 11, 56, 48, 10)
         OVERWORLD(sPicTable_SpecialFlowerCrown, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
@@ -239,6 +243,8 @@
     [SPECIES_TOTODILE_PIRATE] =
     {
         SPECIAL_TOTODILE_INFO
+        .types = MON_TYPES(TYPE_WATER, TYPE_GHOST),
+        .abilities = { ABILITY_CURSED_BODY, ABILITY_NONE, ABILITY_CURSED_BODY },
         SPECIAL_GRAPHICS(Pirate, 0)
         SPECIAL_BATTLE_COORDS(40, 40, 14, 56, 48, 10)
         OVERWORLD(sPicTable_SpecialPirate, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following_Asym,

@@ -2174,3 +2174,14 @@ out must play nothing. The Name Rater's TV news, which used to end in a `waitsta
 never resumed, must hand control back. The Radio Tower quiz won at state 5 (after the Plain Badge)
 must enable the radio and leave the state at 5 instead of rewinding it to 2. **16/16** on the
 master ROM it was written against (the fixes are already in).
+
+### `HubPassLeagueRooms.lua`
+
+Coverage for dcd1570afe's Hub Pass refusal in the champion rooms. The Johto Champion's Room is the
+one that hands the player control before the champion (Hoenn's and Kanto's walk straight into the
+battle on entry), so it is the room where the refusal matters. The pass is given with `additem`,
+registered, and fired from Select in the Johto Champion's Room, Karen's Room and Ever Grande's
+Hall 4 after each room's entry scene, with A, B and Start pressed through the message: refused,
+the player stays on the same tile, and control returns. In the Johto Indigo Plateau Pokemon
+Center the same Select reaches the hub (control). **12/12** on the master ROM it was written
+against.

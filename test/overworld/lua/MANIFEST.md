@@ -1316,3 +1316,14 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `BagGiveOverMail.lua`
+
+Giving an item from the Bag to a Pokemon that holds Mail must be refused, as the party menu's
+Give refuses it. A Bulbasaur is handed Orange Mail the way `GiveMailToMonByItemId` leaves it
+(letter in mailbox slot 0, held item, mail index), then the Bag, Give, the party select and the
+switch prompt run with real input: a Potion onto the Mail holder must leave the Mail, the letter
+and its link in place and the Potion in the Bag; a Potion onto an Oran Berry holder (control)
+must switch the items. Before the fix `BagMenu_GiveItem` switched the Mail into the Bag without
+`TakeMailFromMon`, orphaning the letter and its mailbox slot: **5/8** on the unfixed ROM,
+**8/8** with the fix.

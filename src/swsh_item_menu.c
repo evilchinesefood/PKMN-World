@@ -7569,6 +7569,11 @@ static void BagMenu_GiveItem(u8 taskId)
         else
             BagMenu_DoGiveMail(taskId, mon, item);
     }
+    else if (ItemIsMail(heldItem))
+    {
+        // Only Take runs TakeMailFromMon; a switch would orphan the letter in the mailbox.
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_RemoveMailBeforeItem, Task_BagMenu_PartyStayAfterMessage);
+    }
     else if (heldItem == ITEM_NONE)
     {
         enum Species speciesBefore = GetMonData(mon, MON_DATA_SPECIES);

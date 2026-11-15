@@ -115,6 +115,7 @@ is clean; keep it that way.
 | [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
+| [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
@@ -1912,3 +1913,13 @@ steps a warp back in finds nothing; after 500 more the warp in restarts the coun
 is back. The port defined the counter (on a raw id that is Hoenn's `VAR_STARTER_MON`) and never
 counted a step or regenerated anything, so a renewable item taken once was gone for good:
 **27/32** on the unfixed ROM, **32/32** with the fix.
+
+### `JohtoHeadbuttTutor.lua`
+
+The Ilex Forest Headbutt tutor offered `TUTOR_MOVE_HEADBUTT`, an HnS alias of `MOVE_HEADBUTT` that
+`tools/learnset_helpers/make_tutors.py` does not recognise (it reads `setvar VAR_0x8005, MOVE_*`),
+so Headbutt was never a tutor move, no teachable learnset held it, and his party menu showed every
+Pokemon NOT ABLE. With real input from the Route 34 entrance the suite walks 94 tiles to the tutor
+at (42,26), says YES and picks a level 5 Pidgey (a level 100 Lapras leads so the Repel holds), then
+checks Pidgey knows Headbutt and that the script set `FLAG_GET_HEADBUTT`. **7/9** on the unfixed
+ROM, **9/9** with the fix.

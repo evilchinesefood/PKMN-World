@@ -170,3 +170,4 @@ SpecialQuestRegionSwitch	lua/SpecialQuestRegionSwitch.lua	fresh	0	required
 FrlgStepCounters	lua/FrlgStepCounters.lua	fresh	0	required
 RegisteredItemDecline	lua/RegisteredItemDecline.lua	fresh	0	required
 RenewableHiddenItems	lua/RenewableHiddenItems.lua	fresh	0	required
+JohtoHeadbuttTutor	lua/JohtoHeadbuttTutor.lua	fresh	0	required

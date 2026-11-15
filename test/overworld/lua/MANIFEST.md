@@ -2123,13 +2123,14 @@ the 6-icon list and A on it opened nothing). `PW_USM_CYCLES` (pass with `--env`)
 The Special Pokémon checklist under real input with 0, 1 and all 7 collected (the collection marks
 come from `SpecialPokemon_ReconcileOwned` finding debug-given Pokémon). On each list page the suite
 reads every in-use sprite: page 1 must draw four icons and page 2 exactly three, each on its row's y
-(37 plus 29 a row) with nothing on page 2's fourth row, and each icon at a lower subpriority than
-the one below it (#529's draw order). Up on the first entry, Left on page 1, Down on the last entry
+(36 plus 32 a row, so neighbouring 32-pixel icons never overlap; on #529's 29-pixel rows Balloon
+Pikachu's balloons covered the bottom of Surfboard Pikachu's board) with nothing on page 2's fourth
+row, and each icon at a lower subpriority than the one below it (#529's draw order). Up on the first entry, Left on page 1, Down on the last entry
 and Right on page 2 must clamp; Up from entry 5 crosses back to page 1. Held Down, Up, Right and
 Left (key repeat) must run to the ends and stop. B pressed during the opening fade is ignored and a
 second B closes; three fast open and close rounds; every detail page with one icon, Right clamped on
-the last, B back to the right page, held Left through the details; an A/B mash. Coverage, no defect
-found: **51/51**.
+the last, B back to the right page, held Left through the details; an A/B mash. Unfixed (29-pixel
+rows) **42/51**, fixed **51/51**.
 ### `SpecialFormsIdentity.lua`
 
 The seven special forms keep their themed types (#528) wherever the game uses them. Six come from

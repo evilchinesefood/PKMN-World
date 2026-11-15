@@ -1,7 +1,9 @@
 -- The Special Pokemon checklist under real input: both page ends, held keys, page 2's three rows,
 -- the icon draw order, every detail page, and fast open and close, with 0, 1 and all 7 collected.
 --
--- The list shows four rows a page on 29-pixel rows (#529). Page 2 holds entries 5 to 7, so it must
+-- The list shows four rows a page. Each row is a full icon tall (32 pixels), so no icon reaches into
+-- the next row: on 29-pixel rows (#529) Balloon Pikachu's balloons still covered the bottom 3 pixels
+-- of Surfboard Pikachu's board, whose art fills its icon to the last row. Page 2 holds entries 5 to 7, so it must
 -- draw exactly three icons on the first three rows and nothing on the fourth, and an icon left
 -- over from page 1 would show as a fourth sprite. Each icon must draw in front of the one below it
 -- (a lower subpriority). The ends clamp like the Pokedex list: Up on the first entry and Down on
@@ -18,7 +20,7 @@ local F = require("lib").new(S, "SpecialChecklistStress")
 local FLAG_SYS_POKEDEX_GET = 0x949
 local COLLECTED = { 0xDD0, 0xDD1, 0xDD2, 0xDD3, 0xDD4, 0xDD5, 0xDD7 }
 local SPECIES = { 1573, 1574, 1575, 1576, 1577, 1578, 1580 }
-local ROWS, ENTRIES, ROW_H, ICON_Y0 = 4, 7, 29, 37
+local ROWS, ENTRIES, ROW_H, ICON_Y0, ICON_H = 4, 7, 32, 36, 32
 local MON = S.Pokemon.size
 local SPR_X, SPR_Y, SPR_SUBPRIO = 0x20, 0x22, 0x43
 
@@ -49,10 +51,13 @@ local function describe(t)
   for _, p in ipairs(t) do s[#s + 1] = string.format("(%d,%d s%d)", p.x, p.y, p.sub) end
   return table.concat(s, " ")
 end
--- The icons of a list page: one per row at the row's y, upper rows in front.
+-- The icons of a list page: one per row at the row's y, a full icon height apart, upper rows in front.
 local function pageIconsOk(n)
   local t = sprites()
   if #t ~= n then return false, describe(t) end
+  for r = 2, n do
+    if t[r].y - t[r - 1].y < ICON_H then return false, "icons overlap: " .. describe(t) end
+  end
   for r = 1, n do
     if t[r].y ~= ICON_Y0 + (r - 1) * ROW_H then return false, describe(t) end
     if r > 1 and t[r].sub <= t[r - 1].sub then return false, describe(t) end

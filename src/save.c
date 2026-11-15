@@ -371,7 +371,7 @@ static u8 HandleReplaceSector(u16 sectorId, const struct SaveSectorLocation *loc
         status = SAVE_STATUS_OK;
 
         // Write signature (skipping the first byte) and counter fields.
-        // The byte of signature that is skipped is instead written by WriteSectorSignatureByte or WriteSectorSignatureByte_NoOffset
+        // The byte of signature that is skipped is instead written by WriteSectorSignatureByte
         for (i = 0; i < SECTOR_SIZE - (SECTOR_SIGNATURE_OFFSET + 1); i++)
         {
             if (ProgramFlashByte(sector, SECTOR_SIGNATURE_OFFSET + 1 + i, ((u8 *)gReadWriteSector)[SECTOR_SIGNATURE_OFFSET + 1 + i]))
@@ -393,31 +393,6 @@ static u8 HandleReplaceSector(u16 sectorId, const struct SaveSectorLocation *loc
             SetDamagedSectorBits(DISABLE, sector);
             return SAVE_STATUS_OK;
         }
-    }
-}
-
-static u8 WriteSectorSignatureByte_NoOffset(u16 sectorId, const struct SaveSectorLocation *locations)
-{
-    // Adjust sector id for current save slot
-    // This first line lacking -1 is the only difference from WriteSectorSignatureByte
-    u16 sector = sectorId + gLastWrittenSector;
-    sector %= NUM_SECTORS_PER_SLOT;
-    sector += NUM_SECTORS_PER_SLOT * (gSaveCounter % NUM_SAVE_SLOTS);
-
-    // Write just the first byte of the signature field, which was skipped by HandleReplaceSector
-    if (ProgramFlashByte(sector, SECTOR_SIGNATURE_OFFSET, SECTOR_SIGNATURE & 0xFF))
-    {
-        // Sector is damaged, so enable the bit in gDamagedSaveSectors and restore the last written sector and save counter.
-        SetDamagedSectorBits(ENABLE, sector);
-        gLastWrittenSector = gLastKnownGoodSector;
-        gSaveCounter = gLastSaveCounter;
-        return SAVE_STATUS_ERROR;
-    }
-    else
-    {
-        // Succeeded
-        SetDamagedSectorBits(DISABLE, sector);
-        return SAVE_STATUS_OK;
     }
 }
 
@@ -760,13 +735,13 @@ u8 HandleSavingData(u8 saveType)
         // rides as a saveBlock3Chunk inside EVERY slot sector (see CopyFromSaveBlock3), so
         // a 5-sector write persisted only SB3 bytes 0-579 and silently rolled back the
         // Johto flag bank, Kanto trainer flags, Route 5 daycare mon and obstacle bits to
-        // the previous full save. Write the whole slot in place; the latency concern died
-        // with the link code (#59), and Frontier saves must carry all of SaveBlock3.
+        // the previous full save. The latency concern died with the link code (#59), and
+        // Frontier saves must carry all of SaveBlock3.
+        // Write the other slot, as SAVE_NORMAL does. Rewriting the current slot in place meant
+        // a power cut mid-write tore the newest save, and the next boot fell back to the save
+        // before it.
         CopyPartyAndObjectsToSave();
-        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_PKMN_STORAGE_END; i++)
-            HandleReplaceSector(i, gRamSaveSectorLocations);
-        for (i = SECTOR_ID_SAVEBLOCK2; i <= SECTOR_ID_PKMN_STORAGE_END; i++)
-            WriteSectorSignatureByte_NoOffset(i, gRamSaveSectorLocations);
+        WriteSaveSectorOrSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
         break;
     case SAVE_OVERWRITE_DIFFERENT_FILE:
         // Erase Hall of Fame

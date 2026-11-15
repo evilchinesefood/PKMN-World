@@ -725,7 +725,7 @@ static UNUSED void DisplaySentToPCMessage(void)
     {
         StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
         StringCopy(gStringVar2, sNamingScreen->destBuffer);
-        StringCopy(gStringVar3, GetBoxNamePtr(GetPCBoxToSendMon()));
+        StringCopy(gStringVar3, GetBoxNamePtr(GetIntendedDepositBox()));
         stringToDisplay = 2;
     }
 

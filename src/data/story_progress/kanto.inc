@@ -2,7 +2,7 @@
 STORY_OBJECTIVE(sKantoStarter, "kanto.starter", STORY_PIN(PALLET_TOWN),
     "Starting in Pallet",
     "Your Kanto journey has begun.",
-    "Meet Prof. Oak and choose\na partner.",
+    "Meet Prof. Oak.\nChoose a partner.",
     "Pallet Town\nProf. Oak's Lab",
     "A partner lets you explore.");
 
@@ -37,7 +37,7 @@ STORY_OBJECTIVE(sKantoBrock, "kanto.brock", STORY_PIN(PEWTER_CITY),
 STORY_OBJECTIVE(sKantoMtMoon, "kanto.mt_moon", STORY_PIN(ROUTE_4),
     "Route to Cerulean",
     "You earned the Boulder Badge.",
-    "Cross Mt. Moon and choose\na fossil.",
+    "Cross Mt. Moon.\nChoose a fossil on the way.",
     "Route 4, east of Pewter\nMt. Moon B2F",
     "The eastern exit leads toward\nCerulean. Make Bag room.");
 
@@ -72,14 +72,14 @@ STORY_OBJECTIVE(sKantoCut, "kanto.cut", STORY_PIN(VERMILION_CITY),
 STORY_OBJECTIVE(sKantoSurge, "kanto.surge", STORY_PIN(VERMILION_CITY),
     "Vermilion Gym",
     "The captain gave you Cut.",
-    "Use Cut to enter the Gym\nand challenge Lt. Surge.",
+    "Challenge Lt. Surge.\nUse Cut to enter the Gym.",
     "Vermilion City Gym",
     "The next Kanto Badge is here.");
 
 STORY_OBJECTIVE(sKantoHideout, "kanto.hideout", STORY_PIN(CELADON_CITY),
     "Celadon investigation",
     "You earned the Thunder Badge.",
-    "Inspect the Game Corner\nposter behind the Rocket.",
+    "Check the Game Corner poster.\nIt is behind the Rocket.",
     "Celadon Game Corner\nVia Route 9 and Rock Tunnel.",
     "Investigate the Rocket here.");
 

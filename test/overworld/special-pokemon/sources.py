@@ -156,6 +156,10 @@ for target, introducer, key in [('Surfboard', 'Surfer', 'SURFBOARD'), ('Pirate',
     assert s.battles == ['SPECIAL_POKEMON_' + key] * 2
     assert 'FLAG_SPECIAL_UNLOCKED_' + key in s.flags
 
+# A walkable tile in front of a source must be on the source's elevation: objects answer only a
+# player on their own elevation, so a mismatch there looks talkable and is not.
+FACING = {'MOVEMENT_TYPE_FACE_DOWN': (0, 1), 'MOVEMENT_TYPE_FACE_UP': (0, -1),
+          'MOVEMENT_TYPE_FACE_LEFT': (-1, 0), 'MOVEMENT_TYPE_FACE_RIGHT': (1, 0)}
 rows = json.loads((ROOT / 'test/overworld/special-pokemon/sources.json').read_text())
 files = placement.load_tileset_attributes()
 layouts = placement.Layouts(files, placement.check_attribute_widths(files))
@@ -171,6 +175,10 @@ for row in rows:
     occupied = {(o['x'], o['y']) for o in current['object_events']}
     for group in ('warp_events', 'coord_events', 'bg_events'):
         assert all((x, y) != (o['x'], o['y']) for o in current[group]), row
+    if obj['movement_type'] in FACING:
+        dx, dy = FACING[obj['movement_type']]
+        front = layouts.tile(current['layout'], x+dx, y+dy)
+        assert front['collision'] != 0 or front['elevation'] in (0, t['elevation']), (row, 'faces', front)
     assert any((x+dx, y+dy) not in occupied
                and (n := layouts.tile(current['layout'], x+dx, y+dy))
                and n['collision'] == 0 and n['elevation'] in (0, t['elevation'])

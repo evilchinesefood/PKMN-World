@@ -4310,3 +4310,41 @@ const u16 gTilesetPalettes_MahoganyTownGym[][16] =
     INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/11.pal", ".gbapal"),
     INCGFX_U16("data/tilesets/secondary/mahogany_town_gym/palettes/12.pal", ".gbapal"),
 };
+
+const u32 gTilesetTiles_JohtoPokemonLeague[] = INCGFX_U32("data/tilesets/secondary/johto_pokemon_league/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_JohtoPokemonLeague[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_pokemon_league/palettes/12.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_JohtoHallOfFame[] = INCGFX_U32("data/tilesets/secondary/johto_hall_of_fame/tiles.png", ".4bpp.fastSmol");
+
+const u16 gTilesetPalettes_JohtoHallOfFame[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_hall_of_fame/palettes/12.pal", ".gbapal"),
+};

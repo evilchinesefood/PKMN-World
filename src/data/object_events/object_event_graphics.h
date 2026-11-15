@@ -300,6 +300,7 @@ const u32 gFieldEffectObjectPic_ShadowExtraLarge[] = INCGFX_U32("graphics/field_
 const u32 gFieldEffectObjectPic_BallLight[] = INCGFX_U32("graphics/object_events/pics/misc/light.png", ".4bpp");
 const u32 gFieldEffectObjectPic_PokeCenterLight[] = INCGFX_U32("graphics/object_events/pics/misc/poke_center_light.png", ".4bpp");
 const u32 gFieldEffectObjectPic_MartLight[] = INCGFX_U32("graphics/object_events/pics/misc/mart_light.png", ".4bpp");
+const u32 gFieldEffectObjectPic_SmallLight[] = INCGFX_U32("graphics/object_events/pics/misc/small_light.png", ".4bpp");
 const u8 gFieldEffectPic_CutGrass[] = INCGFX_U8("graphics/field_effects/pics/cut_grass.png", ".4bpp");
 const u32 gFieldEffectPic_CutGrass_Copy[] = INCGFX_U32("graphics/field_effects/pics/cut_grass.png", ".4bpp");
 const u16 gFieldEffectPal_CutGrass[] = INCGFX_U16("graphics/field_effects/palettes/cut_grass.pal", ".gbapal");

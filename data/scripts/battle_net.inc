@@ -92,7 +92,9 @@ BattleNet_EventScript_TerminalBye::
 @ Type picker subroutine: three 6-type pages in sBnetTypes order (src/battle_net.c).
 @ Out: VAR_RESULT = 1 and VAR_0x8005 = type ordinal 0..17, or VAR_RESULT = 0 (cancelled).
 @ In each page index 6 turns the page and anything higher (EXIT / B press) cancels.
+@ The eight-row pages reach tile row 17, over the message box, so close the message first.
 BattleNet_EventScript_PickType::
+	closemessage
 	multichoice 0, 0, MULTI_BNET_TYPE_1, FALSE
 	goto_if_eq VAR_RESULT, 6, BattleNet_EventScript_PickType2
 	goto_if_ge VAR_RESULT, 7, BattleNet_EventScript_PickTypeCancel

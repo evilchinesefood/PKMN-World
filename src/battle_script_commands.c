@@ -10244,7 +10244,7 @@ static void Cmd_givecaughtmon(void)
                 if (CopyMonToPC(&gParties[B_TRAINER_PLAYER][gSelectedMonPartyId]) == MON_GIVEN_TO_PC)
                 {
                     GetMonNickname(&gParties[B_TRAINER_PLAYER][gSelectedMonPartyId], gStringVar2);
-                    StringCopy(gStringVar1, GetBoxNamePtr(GetPCBoxToSendMon()));
+                    StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
                     ZeroMonData(&gParties[B_TRAINER_PLAYER][gSelectedMonPartyId]);
                     gBattleStruct->itemLost[B_TRAINER_PLAYER][gSelectedMonPartyId].originalItem = ITEM_NONE;
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWAPPED_INTO_PARTY;
@@ -10289,7 +10289,7 @@ static void Cmd_givecaughtmon(void)
             {
                 StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON))); // box the mon was sent to
                 GetMonData(caughtMon, MON_DATA_NICKNAME, gStringVar2);
-                StringCopy(gStringVar3, GetBoxNamePtr(GetPCBoxToSendMon())); //box the mon was going to be sent to
+                StringCopy(gStringVar3, GetBoxNamePtr(GetIntendedDepositBox())); //box the mon was going to be sent to
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SOMEONES_BOX_FULL;
             }
 

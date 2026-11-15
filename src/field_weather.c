@@ -512,24 +512,29 @@ static void ApplyColorMap(u8 startPalIndex, u8 numPalettes, s8 colorMapIndex)
     else if (colorMapIndex < 0)
     {
         // A negative gammIndex value means that the blending will come from the special Drought weather's palette tables.
+        u32 palettes = PALETTES_ALL;
+        numPalettes += startPalIndex;
+        palettes = (palettes >> startPalIndex) << startPalIndex;
+        palettes = (palettes << (32 - numPalettes)) >> (32 - numPalettes);
         colorMapIndex = -colorMapIndex - 1;
         palOffset = PLTT_ID(startPalIndex);
-        numPalettes += startPalIndex;
         curPalIndex = startPalIndex;
+        UpdateAltBgPalettes(palettes & PALETTES_BG);
+        CpuFastCopy(gPlttBufferUnfaded + palOffset, gPlttBufferFaded + palOffset, PLTT_SIZE_4BPP * (numPalettes - startPalIndex));
+        UpdatePalettesWithTime(palettes);
 
         while (curPalIndex < numPalettes)
         {
             if (sPaletteColorMapTypes[curPalIndex] == COLOR_MAP_NONE || IsSpritePalTagBlendImmune(curPalIndex))
             {
                 // No palette change.
-                CpuFastCopy(&gPlttBufferUnfaded[palOffset], &gPlttBufferFaded[palOffset], PLTT_SIZE_4BPP);
                 palOffset += 16;
             }
             else
             {
                 for (i = 0; i < 16; i++)
                 {
-                    gPlttBufferFaded[palOffset] = sDroughtWeatherColors[colorMapIndex][DROUGHT_COLOR_INDEX(gPlttBufferUnfaded[palOffset])];
+                    gPlttBufferFaded[palOffset] = sDroughtWeatherColors[colorMapIndex][DROUGHT_COLOR_INDEX(gPlttBufferFaded[palOffset])];
                     palOffset++;
                 }
             }
@@ -623,12 +628,15 @@ static void ApplyDroughtColorMapWithBlend(s8 colorMapIndex, u8 blendCoeff, u32 b
     gBlend = color.g;
     bBlend = color.b;
     palOffset = 0;
+    UpdateAltBgPalettes(PALETTES_BG);
+    CpuFastCopy(gPlttBufferUnfaded, gPlttBufferFaded, PLTT_BUFFER_SIZE * 2);
+    UpdatePalettesWithTime(PALETTES_ALL);
     for (curPalIndex = 0; curPalIndex < 32; curPalIndex++)
     {
         if (sPaletteColorMapTypes[curPalIndex] == COLOR_MAP_NONE|| IsSpritePalTagBlendImmune(curPalIndex))
         {
             // No color map. Simply blend the colors.
-            BlendPalette(palOffset, 16, blendCoeff, blendColor);
+            BlendPalettesFine(1, gPlttBufferFaded + palOffset, gPlttBufferFaded + palOffset, blendCoeff, blendColor);
             palOffset += 16;
         }
         else
@@ -641,7 +649,7 @@ static void ApplyDroughtColorMapWithBlend(s8 colorMapIndex, u8 blendCoeff, u32 b
                 u8 r1, g1, b1;
                 u8 r2, g2, b2;
 
-                color1 = *(struct RGBColor *)&gPlttBufferUnfaded[palOffset];
+                color1 = *(struct RGBColor *)&gPlttBufferFaded[palOffset];
                 r1 = color1.r;
                 g1 = color1.g;
                 b1 = color1.b;

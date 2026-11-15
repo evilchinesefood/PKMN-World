@@ -677,6 +677,7 @@ static void SetMonMarkings(u8);
 static bool8 IsRemovingLastPartyMon(void);
 static bool8 CanPlaceMon(void);
 static bool8 CanShiftMon(void);
+static bool8 IsHoldingMonWithMail(void);
 static bool8 IsMonBeingMoved(void);
 static void TryRefreshDisplayMon(void);
 static void ReshowDisplayMon(void);
@@ -2038,7 +2039,7 @@ static void Task_PokeStorageMain(u8 taskId)
         case INPUT_HIDE_PARTY:
             if (sStorage->boxOption == OPTION_MOVE_MONS || sStorage->boxOption == OPTION_SELECT_MON)
             {
-                if (IsMonBeingMoved() && ItemIsMail(sStorage->displayMon.heldItem))
+                if (IsHoldingMonWithMail())
                     sStorage->state = MSTATE_ERROR_HAS_MAIL;
                 else
                     SetPokeStorageTask(Task_HidePartyPokemon);
@@ -2397,6 +2398,11 @@ static void Task_OnSelectedMon(u8 taskId)
             {
                 sStorage->state = 4;
             }
+            else if (OW_PC_RELEASE_ITEM >= GEN_8 && sStorage->displayMon.heldItem != ITEM_NONE
+                  && !CheckBagHasSpace(sStorage->displayMon.heldItem, 1))
+            {
+                sStorage->state = 7; // The held item would have nowhere to go.
+            }
             else
             {
                 PlaySE(SE_SELECT);
@@ -2466,6 +2472,11 @@ static void Task_OnSelectedMon(u8 taskId)
     case 4:
         PlaySE(SE_FAILURE);
         PrintMessage(MSG_PLEASE_REMOVE_MAIL);
+        sStorage->state = 6;
+        break;
+    case 7:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_BAG_FULL);
         sStorage->state = 6;
         break;
     case 6:
@@ -6653,6 +6664,8 @@ static void ReleaseMon(void)
     DestroyReleaseMonIcon();
     if (sIsMonBeingMoved)
     {
+        if (OW_PC_RELEASE_ITEM >= GEN_8)
+            item = GetMonData(&sStorage->movingMon, MON_DATA_HELD_ITEM);
         sIsMonBeingMoved = FALSE;
     }
     else
@@ -6671,9 +6684,9 @@ static void ReleaseMon(void)
         }
 
         PurgeMonOrBoxMon(boxId, sCursorPosition);
-        if (item != ITEM_NONE)
-            AddBagItem(item, 1);
     }
+    if (item != ITEM_NONE)
+        AddBagItem(item, 1);
     TryRefreshDisplayMon();
 }
 
@@ -6989,6 +7002,13 @@ static bool8 CanShiftMon(void)
 static bool8 IsMonBeingMoved(void)
 {
     return sIsMonBeingMoved;
+}
+
+// Mail must never reach a box (its letter lives in the party's mail slots), and the party is
+// always on screen here, so a Mail holder in hand may not leave the party at all.
+static bool8 IsHoldingMonWithMail(void)
+{
+    return sIsMonBeingMoved && ItemIsMail(GetMonData(&sStorage->movingMon, MON_DATA_HELD_ITEM));
 }
 
 static bool8 IsCursorOnBoxTitle(void)
@@ -7628,6 +7648,12 @@ static u8 HandleInput_InParty(void)
             if (sStorage->boxOption == OPTION_DEPOSIT)
                 break;
 
+            if (IsHoldingMonWithMail())
+            {
+                retVal = INPUT_HIDE_PARTY;
+                break;
+            }
+
             retVal = INPUT_MOVE_CURSOR;
             cursorArea = CURSOR_AREA_IN_BOX;
 
@@ -7648,6 +7674,12 @@ static u8 HandleInput_InParty(void)
         {
             if (sStorage->boxOption == OPTION_DEPOSIT)
                 break;
+
+            if (IsHoldingMonWithMail())
+            {
+                retVal = INPUT_HIDE_PARTY;
+                break;
+            }
 
             retVal = INPUT_MOVE_CURSOR;
             cursorArea = CURSOR_AREA_IN_BOX;
@@ -7948,7 +7980,9 @@ static bool8 SetMenuTexts_Item(void)
         }
     }
 
-    return TRUE;
+    // A Mail holder gets no rows (Mail cannot be taken or bagged here). An empty menu would
+    // let A run menuItems[0], which still holds the previous menu's first action.
+    return sStorage->menuItemsCount != 0;
 }
 
 

@@ -1,8 +1,12 @@
 -- A Johto champion can reach Birch's bag on Route 101 with a full party (Frontier ferry, then the
 -- same-region gate). The starter then goes to the PC, and Birch's lab scene must still talk about
 -- the starter and say where it went, not offer to nickname the party's lead.
--- Setup writes the region, the Route 101 story state and a six-Pokemon party; the rescue trigger,
--- the bag, the starter pick, the first battle and the lab scene use real input.
+-- With the full party every box is filled first: the bag must then refuse to open, because the
+-- starter is given inside CB2_GiveStarter where nothing can refuse it, and the rescue must stay
+-- unfinished. Once one boxed Pokemon is released the bag must work and send the starter to the PC.
+-- Setup writes the region, the Route 101 story state and a six-Pokemon party, fills the boxes
+-- through the debug menu and stands in for the release in memory; the rescue trigger, the bag, the
+-- starter pick, the first battle and the lab scene use real input.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
@@ -19,6 +23,7 @@ local SPECIES_PIDGEY = 16
 local FULL = (os.getenv("PW_BIRCH_PARTY") or "6") ~= "0"
 local ROW_GIVE, ROW_MON_BASIC = 3, 1
 local BOX_SLOTS = 14 * 30
+local FLAG_RESCUED_BIRCH = 0x52
 
 local OFF_SECURE = 32
 local SUB0 = { [0]=0,0,0,0,0,0,1,1,2,3,2,3,1,1,2,3,2,3,1,1,2,3,2,3 }
@@ -44,6 +49,12 @@ local function speciesAt(mon)
   return (F.r16(sub) ~ (key & 0xFFFF)) & 0x7FF
 end
 local function party(slot) return S.gParties + slot * S.Pokemon.size end
+local function sb1FlagSet(id) return (F.r8(F.sb1() + S.SaveBlock1.flags + id // 8) & (1 << (id % 8))) ~= 0 end
+local function boxed()
+  local base, n = F.r32(S.gPokemonStoragePtr) + 4, 0
+  for i = 0, BOX_SLOTS - 1 do if (F.r8(base + i * 80 + 19) & 2) ~= 0 then n = n + 1 end end
+  return n
+end
 local function boxCount(sp)
   local base, n = F.r32(S.gPokemonStoragePtr) + 4, 0
   for i = 0, BOX_SLOTS - 1 do if speciesAt(base + i * 80) == sp then n = n + 1 end end
@@ -119,9 +130,40 @@ F.run(function()
   end
   F.check("the Birch rescue scene runs", getVar(VAR_ROUTE101_STATE) == 2, where())
 
+  local boxedBefore = {}
+  if FULL then
+    F.dbg(); F.idle(60); tapDown(1); F.press("A", 3); F.idle(40); tapDown(1); F.press("A", 3); F.idle(40)
+    F.press("A", 3); F.idle(240)
+    drain(20)
+    F.check("setup: debug Fill PC Boxes Fast fills every box", boxed() == BOX_SLOTS, "boxed=" .. boxed())
+  end
   F.leg(8, 16)
   F.leg(7, 16)
   F.leg(7, 15)
+  if FULL then
+    F.face("Up")
+    F.press("A", 3)
+    F.idle(90)
+    F.shot("bag_no_room_text")
+    local opened = not F.ow()
+    for _ = 1, 40 do
+      F.idle(10)
+      if opened or not F.ow() then opened = true; break end
+      F.press("B", 2)
+    end
+    F.shot("bag_no_room")
+    F.check("no room: the bag stays shut", not opened, "the starter picker opened")
+    F.check("no room: the rescue is not finished", getVar(VAR_ROUTE101_STATE) == 2 and not sb1FlagSet(FLAG_RESCUED_BIRCH)
+      and getVar(VAR_BIRCH_LAB_STATE) == 0,
+      string.format("route101=%d rescued=%s lab=%d", getVar(VAR_ROUTE101_STATE), tostring(sb1FlagSet(FLAG_RESCUED_BIRCH)),
+        getVar(VAR_BIRCH_LAB_STATE)))
+    F.check("no room: the party and the boxes are unchanged", count() == 6 and partyCount(SPECIES_PIDGEY) == 6
+      and boxed() == BOX_SLOTS, string.format("count=%d boxed=%d", count(), boxed()))
+    if opened then F.finish(); return end
+    local last = F.r32(S.gPokemonStoragePtr) + 4 + (BOX_SLOTS - 1) * 80
+    for o = 0, 76, 4 do F.w32(last + o, 0) end
+    for _, sp in pairs(STARTERS) do boxedBefore[sp] = boxCount(sp) end
+  end
   F.face("Up")
   F.press("A", 3)
   for _ = 1, 1500 do
@@ -147,8 +189,9 @@ F.run(function()
   drain(30)
 
   if FULL then
-    F.check("the starter went to the PC, once", boxCount(starter) == 1 and partyCount(starter) == 0,
-      string.format("starter=%d box=%d party=%d", starter, boxCount(starter), partyCount(starter)))
+    local boxedNow = boxCount(starter) - (boxedBefore[starter] or 0)
+    F.check("the starter went to the PC, once", boxedNow == 1 and partyCount(starter) == 0,
+      string.format("starter=%d box=+%d party=%d", starter, boxedNow, partyCount(starter)))
     F.check("the party is unchanged", count() == 6 and partyCount(SPECIES_PIDGEY) == 6,
       string.format("count=%d pidgey=%d", count(), partyCount(SPECIES_PIDGEY)))
     F.check("the lab scene says the starter was sent to the PC", toldPC, "STR_VAR_2 never named the starter")

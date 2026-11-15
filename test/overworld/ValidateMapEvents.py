@@ -485,6 +485,39 @@ def check_prop_acts_alive(maps, bodies):
     return errs
 
 
+def check_light_type(maps):
+    """A light sprite whose type has no entry in gFieldEffectLightTemplates.
+
+    SpawnLightSprite clamps an unknown type to the table's last entry, so Goldenrod's street
+    lamps (pokemonHnS type 3) drew Poke Mart signs at night and nothing complained. The types a
+    map may use are the LIGHT_TYPE_* defines that the template table actually indexes.
+    """
+    header = open(os.path.join(ROOT, "include/constants/event_objects.h"), encoding="utf-8").read()
+    defines = {m.group(1): int(m.group(2)) for m in
+               re.finditer(r"^#define\s+(LIGHT_TYPE_\w+)\s+(\d+)", header, re.M)}
+    table = open(os.path.join(ROOT, "src/data/field_effects/field_effect_objects.h"),
+                 encoding="utf-8").read()
+    body = re.search(r"gFieldEffectLightTemplates\[\]\s*=\s*\{(.*?)\};", table, re.S)
+    if not defines or not body:
+        die("cannot find the LIGHT_TYPE_* defines or gFieldEffectLightTemplates")
+    drawn = set()
+    for pos, entry in enumerate(e for e in body.group(1).split(",") if e.strip()):
+        designated = re.match(r"\s*\[(LIGHT_TYPE_\w+)\]", entry)
+        drawn.add(defines.get(designated.group(1)) if designated else pos)
+    errs = []
+    for name, d in maps.items():
+        for i, o in enumerate(d.get("object_events", []), 1):
+            if o["graphics_id"] != "OBJ_EVENT_GFX_LIGHT_SPRITE":
+                continue
+            raw = str(o.get("trainer_sight_or_berry_tree_id", "0"))
+            value = defines.get(raw, int(raw) if raw.isdigit() else None)
+            if value not in drawn:
+                errs.append(f"{name} obj {i} at ({o['x']},{o['y']}): light type {raw} has no "
+                            f"gFieldEffectLightTemplates entry -- it would draw "
+                            f"the last template instead")
+    return errs
+
+
 def check_trainer_type(maps, bodies):
     """trainer_type set on an object whose script never battles.
 
@@ -1067,6 +1100,7 @@ def main():
         ("DANGLING-REF", check_dangling(maps, bodies, flagdefs)),
         ("BAD-LOCALID", localid_errs),
         ("PROP-ACTS-ALIVE", check_prop_acts_alive(maps, bodies)),
+        ("LIGHT-TYPE", check_light_type(maps)),
         ("TRAINER-TYPE", check_trainer_type(maps, bodies)),
         ("TRAINER-FACTION", check_trainer_faction(trainers)),
         ("OBJECT-TRAINER-FACTION", check_object_trainer_faction(maps, bodies, trainers)),

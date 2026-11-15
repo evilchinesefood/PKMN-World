@@ -586,3 +586,9 @@ const u16 gMetatileAttributes_JohtoDayCare[] = INCBIN_U16("data/tilesets/seconda
 const u16 gMetatiles_GeneralNight[] = INCBIN_U16("data/tilesets/primary/general/night_metatiles.bin");
 
 const u16 gMetatiles_General_FrlgNight[] = INCBIN_U16("data/tilesets/primary/general_frlg/night_metatiles.bin");
+
+const u16 gMetatiles_JohtoPokemonLeague[] = INCBIN_U16("data/tilesets/secondary/johto_pokemon_league/metatiles.bin");
+const u16 gMetatileAttributes_JohtoPokemonLeague[] = INCBIN_U16("data/tilesets/secondary/johto_pokemon_league/metatile_attributes.bin");
+
+const u16 gMetatiles_JohtoHallOfFame[] = INCBIN_U16("data/tilesets/secondary/johto_hall_of_fame/metatiles.bin");
+const u16 gMetatileAttributes_JohtoHallOfFame[] = INCBIN_U16("data/tilesets/secondary/johto_hall_of_fame/metatile_attributes.bin");

@@ -34,6 +34,7 @@ LakeOfRage_House2_EventScript_FisherAfterRockets::
 	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, LakeOfRage_House2_EventScript_FisherNoMoneyBox
 	removegenericmon SPECIES_MAGIKARP
 	goto_if_eq VAR_RESULT, FALSE, LakeOfRage_House2_EventScript_FisherNotMagikarp
+	goto_if_eq VAR_RESULT, MON_LAST_HEALTHY, LakeOfRage_House2_EventScript_FisherLastHealthy
 	goto_if_eq VAR_RESULT, MON_SATISFACTORY, LakeOfRage_House2_EventScript_FisherSatisfied
 	goto_if_eq VAR_RESULT, MON_UNSATISFACTORY, LakeOfRage_House2_EventScript_FisherSmallMagikarp
 
@@ -45,6 +46,13 @@ LakeOfRage_House2_EventScript_FisherNo::
 
 LakeOfRage_House2_EventScript_FisherNoMoneyBox::
 	msgbox LakeOfRage_House2_Text_Refused, MSGBOX_DEFAULT
+	hidemoneybox
+	closemessage
+	release
+	end
+
+LakeOfRage_House2_EventScript_FisherLastHealthy::
+	msgbox LakeOfRage_House2_Text_LastMon, MSGBOX_DEFAULT
 	hidemoneybox
 	closemessage
 	release
@@ -82,6 +90,7 @@ LakeOfRage_House2_EventScript_FisherAnotherMagikarp::
 	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, LakeOfRage_House2_EventScript_FisherNoMoneyBox
 	removegenericmon SPECIES_MAGIKARP
 	goto_if_eq VAR_RESULT, FALSE, LakeOfRage_House2_EventScript_FisherNotMagikarp
+	goto_if_eq VAR_RESULT, MON_LAST_HEALTHY, LakeOfRage_House2_EventScript_FisherLastHealthy
 	goto_if_eq VAR_RESULT, MON_SATISFACTORY, LakeOfRage_House2_EventScript_FisherSatisfied
 	goto_if_eq VAR_RESULT, MON_UNSATISFACTORY, LakeOfRage_House2_EventScript_FisherSmallMagikarp
 

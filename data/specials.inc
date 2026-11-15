@@ -720,3 +720,4 @@ gSpecials::
 	def_special SpecialPokemon_CreateEncounter
 	def_special GetStarterGiveResult
 	def_special BuyGameCornerCoins
+	def_special GetIntendedDepositBox

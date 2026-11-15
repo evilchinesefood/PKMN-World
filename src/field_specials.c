@@ -4663,6 +4663,13 @@ void SetAbility(void)
     SetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004], MON_DATA_ABILITY_NUM, &ability);
 }
 
+void RunMassageCooldownStepCounter(void)
+{
+    u16 steps = VarGet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER);
+    if (steps < 500)
+        VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, steps + 1);
+}
+
 void DaisyMassageServices(void)
 {
     AdjustFriendship(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004], FRIENDSHIP_EVENT_MASSAGE);
@@ -5649,10 +5656,20 @@ void UpdateLoreleiDollCollection(void)
     }
 }
 
+// Selphy compares the party's exact species, so only a seen, enabled base form can ever be shown.
+static bool32 IsRequestableResortGorgeousMon(enum Species species)
+{
+    return species != SPECIES_NONE
+        && species < NUM_SPECIES
+        && IsSpeciesEnabled(species)
+        && GET_BASE_SPECIES_ID(species) == species
+        && GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN);
+}
+
 void SampleResortGorgeousMonAndReward(void)
 {
     enum Species requestedSpecies = VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON);
-    if (requestedSpecies == SPECIES_NONE || requestedSpecies == 0xFFFF)
+    if (!IsRequestableResortGorgeousMon(requestedSpecies))
     {
         VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, SampleResortGorgeousMon());
         VarSet(VAR_RESORT_GORGEOUS_REWARD, SampleResortGorgeousReward());
@@ -5668,10 +5685,10 @@ static enum Species SampleResortGorgeousMon(void)
     for (i = 0; i < 100; i++)
     {
         species = (Random() % (NUM_SPECIES - 1)) + 1;
-        if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), 0) == TRUE)
+        if (IsRequestableResortGorgeousMon(species))
             return species;
     }
-    while (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), 0) != TRUE)
+    while (!IsRequestableResortGorgeousMon(species))
     {
         if (species == SPECIES_BULBASAUR)
             species = NUM_SPECIES - 1;
@@ -5696,6 +5713,23 @@ static u16 SampleResortGorgeousReward(void)
         return ITEM_LUXURY_BALL;
     else
         return sResortGorgeousDeluxeRewards[Random() % NELEMS(sResortGorgeousDeluxeRewards)];
+}
+
+void IncrementResortGorgeousStepCounter(void)
+{
+    u16 steps = VarGet(VAR_RESORT_GOREGEOUS_STEP_COUNTER);
+    if (VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON) != SPECIES_NONE)
+    {
+        if (++steps >= 250)
+        {
+            VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, 0xFFFF);
+            VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, 0);
+        }
+        else
+        {
+            VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, steps);
+        }
+    }
 }
 
 bool8 PlayerPartyContainsSpeciesWithPlayerID(void)

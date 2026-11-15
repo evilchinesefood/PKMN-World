@@ -29,6 +29,7 @@
 #include "pokemon.h"
 #include "regions.h"
 #include "regional_travel.h"
+#include "renewable_hidden_items.h"
 #include "safari_zone.h"
 #include "bug_contest.h"
 #include "script.h"
@@ -201,7 +202,10 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->tookStep)
     {
         IncrementGameStat(GAME_STAT_STEPS);
+        IncrementRenewableHiddenItemStepCounter();
         IncrementBirthIslandRockStepCount();
+        IncrementResortGorgeousStepCounter();
+        RunMassageCooldownStepCounter();
         DespawnAllOverworldWildEncounters(OWE_GENERATED, WILD_CHECK_REPEL);
         if (FindTaskIdByFunc(Task_FollowerNPCOutOfDoor) == TASK_NONE && TryStartStepBasedScript(&position, metatileBehavior, playerDirection) == TRUE)
             return TRUE;

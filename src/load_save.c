@@ -568,6 +568,8 @@ STATIC_ASSERT(sizeof(struct BerryTree) == 8, BerryTreeSizeChanged_RegenLuaSymbol
 STATIC_ASSERT(offsetof(struct SaveBlock1, daycare) == 13364, SaveBlock1DaycareMoved_RegenLuaSymbols);
 // RegionalRecallMail.lua writes and reads Mail records here. Probe-verified under the repo CFLAGS.
 STATIC_ASSERT(offsetof(struct SaveBlock1, mail) == 12260, SaveBlock1MailMoved_RegenLuaSymbols);
+// ResortGorgeousRequest.lua seeds the seen Pokedex here. Probe-verified under the repo CFLAGS.
+STATIC_ASSERT(offsetof(struct SaveBlock1, dexSeen) == 13900, SaveBlock1DexSeenMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

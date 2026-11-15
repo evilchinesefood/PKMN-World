@@ -565,6 +565,8 @@ enum
 #define LIGHT_TYPE_BALL             0
 #define LIGHT_TYPE_PKMN_CENTER_SIGN 1
 #define LIGHT_TYPE_POKE_MART_SIGN   2
+#define LIGHT_TYPE_STREET_LAMP      3
+#define LIGHT_TYPE_GLOW             4 // lighthouse beacon, glow lichen: lit day and night
 
 #define FIRST_DECORATION_SPRITE_GFX OBJ_EVENT_GFX_PICHU_DOLL
 

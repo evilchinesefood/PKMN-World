@@ -257,9 +257,18 @@ end
 local function driveIntro(budget)
   local sawOutfit, sawRemovedPrompt, sawGender, sawName = false, false, false, false
   local outfitDone = false
+  -- The picker opens straight after the trainer-pic fade with no message first, so an A pressed
+  -- blind every few frames confirmed it before any outfit check could run. Watch every frame.
+  local function advance()
+    for i = 1, 6 do
+      if not outfitDone and winOutfitMenu() then return end
+      joypad.set(i <= 2 and { A = true } or {}); emu.frameadvance()
+    end
+  end
   for f = 1, (budget or 180000) do
     sawRemovedPrompt = sawRemovedPrompt or winHardMode() ~= nil
     if F.ow() then
+      F.check("intro offers the outfit picker", sawOutfit)
       F.check("intro completes without a permanent difficulty prompt", not sawRemovedPrompt)
       F.L(string.format("  driveIntro: overworld at frame %d", f))
       return true
@@ -284,7 +293,7 @@ local function driveIntro(budget)
       tapA()
     else
       -- text pages, controls guide, pikachu intro: A advances. Never Start (naming).
-      F.press("A", 2); F.idle(4)
+      advance()
     end
     if f % 2000 == 0 then
       F.L(string.format("  driveIntro f=%d cb2=0x%08X fn=0x%08X gender=%d pal=%d hm=%s",

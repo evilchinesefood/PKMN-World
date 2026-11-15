@@ -460,6 +460,7 @@ validate:
 	python3 test/overworld/ValidateOwMonPlacements.py
 	python3 test/overworld/ValidateMapEvents.py
 	python3 test/overworld/ValidateMetatileBounds.py
+	python3 test/overworld/ValidateBorderTerrain.py
 	python3 test/overworld/GenObstacleTable.py --check
 	python3 test/overworld/SavePatch.py --check
 	python3 test/overworld/ValidateDoorAnims.py --max 0

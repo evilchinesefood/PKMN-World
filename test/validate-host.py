@@ -21,6 +21,7 @@ CHECKS = (
     ("ValidateMapEvents.py",),
     ("ValidateZoneStructure.py",),
     ("ValidateMetatileBounds.py",),
+    ("ValidateBorderTerrain.py",),
     ("GenObstacleTable.py", "--check"),
     ("ValidateDoorAnims.py", "--max", "0"),
     ("ValidateTilesetPalettes.py",),
@@ -32,6 +33,7 @@ CHECKS = (
     ("special-pokemon/mechanics_audit.py",),
     ("ValidateRegionMap.py",),
     ("ValidateLanceMultiBattle.py",),
+    ("ScanInputChords.py", "--check"),
 )
 
 

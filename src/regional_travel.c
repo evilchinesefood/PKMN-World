@@ -208,6 +208,7 @@ enum Region RegionalTravel_PhysicalRegion(void)
     case MAPSEC_DYNAMIC:
     case MAPSEC_SPECIAL_AREA:
     case MAPSEC_BATTLE_FRONTIER:
+    case MAPSEC_ARTISAN_CAVE:
     case MAPSEC_SS_AQUA:
     case MAPSEC_BIRTH_ISLAND:
     case MAPSEC_FARAWAY_ISLAND:

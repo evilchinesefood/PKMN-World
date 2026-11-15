@@ -57,6 +57,13 @@ WANT = [
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",
     "gBackupMapLayout",
+    # What the field camera actually drew. DrawMetatileAt writes each map cell's eight tile entries
+    # into these three BG tilemap buffers (pointers, COMMON_DATA) at the slot
+    # MapPosToBgTilemapOffset derives from sFieldCameraOffset's tile offsets, so a suite can read the
+    # picture at a map coordinate, including border cells no map or connection covers
+    # (OlivineSeaBorder.lua).
+    "gOverworldTilemapBuffer_Bg1", "gOverworldTilemapBuffer_Bg2", "gOverworldTilemapBuffer_Bg3",
+    "sFieldCameraOffset",
     # Tells an overworld-Pokemon collision apart from a grass encounter. ProcessPlayerFieldInput
     # clears it to LOCALID_NONE on every call and a grass roll fires inside that same call, whereas
     # TryTriggerOverworldWildEncounter sets it to the wild mon's local id and starts a script. So
@@ -71,8 +78,15 @@ WANT = [
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
     "gStringVar1", "gStringVar2",
+    # ResortGorgeousRequest.lua reads a requested species' enabled bit, base form and dex number.
+    "gSpeciesInfo",
+    # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
+    "sSpecialPokemonMenu",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
+    # MoneySinkEdges.lua: the Day Care withdrawal fee GetDaycareCostAndPrepareString leaves for
+    # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.
+    "gSpecialVar_0x8005",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
     # Overworld weather object. Route41SurfBgm.lua zeros curr/next/rain so a
     # Route 41 surf check cannot pass on a raining map (or fail on one).
@@ -134,6 +148,12 @@ WANT = [
     "gMPlayInfo_BGM", "gSongTable", "gWildMonHeaders",
     "gTileset_PokemonCenterFrlg", "gTileset_Kanto_PokemonCenter",
     "gTileset_PokemonCenter_White", "gTileset_TrainerTower", "gTileset_PokemonCenter",
+    # JohtoNightLights.lua. A light sprite is a bare gSprites entry whose callback is
+    # UpdateLightSprite, and its template's `images` is the picture it draws, so comparing that
+    # pointer with these tables says which light a lamp really shows.
+    "UpdateLightSprite", "gFieldEffectObjectPicTable_BallLight",
+    "gFieldEffectObjectPicTable_PokeCenterLight", "gFieldEffectObjectPicTable_MartLight",
+    "gFieldEffectObjectPicTable_SmallLight",
     "sSpriteTemplate_PokecenterMonitor_FrLg", "sSpriteTemplate_PokecenterMonitor",
     "TilesetAnim_JohtoDayCare", "InitTilesetAnim_JohtoDayCare",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
@@ -146,8 +166,13 @@ WANT = [
     "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
     "Task_OakSpeech_HandleGenderInput",
     "gPlayerOutfitPicker", "Task_OutfitPicker",
+    # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
+    "CB2_Pokedex", "RunCollection",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
+    "Task_HandleDaycareLevelMenuInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
+    # The PC storage screen's release confirmation (StorageReleaseHeldItem.lua).
+    "Task_ReleaseMon",
     "CB2_InitOptionMenu", "Task_OptionMenuProcessInput",
     "sCondMsg51", "sCondMsg52", "sCondMsg53",
     "EventScript_FollowerLookAround",
@@ -161,17 +186,24 @@ WANT = [
     "sSecondaryTilesetAnimCallback", "sSecondaryTilesetAnimCounter",
     "sCondMsg43", "EventScript_Follower",
     "CB2_InitPartyMenu", "CB2_Bag",
+    # BagSortChord.lua tells the bag's list, its context menu and its message apart by task func.
+    "Task_BagMenu_HandleInput", "Task_ItemContext_MultipleRows", "Task_ContinueTaskAfterMessagePrints",
+    "HandleErrorMessage",
     "Task_OakSpeech_HandleConfirmNameInput",
     # OweEggOnlyParty.lua. sLockFieldControls is what ArePlayerFieldControlsLocked() reads; with
     # sGlobalScriptContextStatus it tells "the player has control" apart from "a script or task
     # still holds it" without stepping the player. sOWESpawnCountdown is zeroed to spawn an
     # encounter now; the debug Give Egg task's input is where the suite writes the species.
     "sLockFieldControls", "sOWESpawnCountdown", "DebugAction_Give_Pokemon_SelectId",
+    # RegisteredItemDecline.lua: the `lock` wait that a frozen, mid-animation follower never ends.
+    "Task_FreezeSelectedObjectAndPlayer",
     # WhiteoutEveryCenter.lua walks the heal-location table and its parallel whiteout respawn
     # tables. OweStressFuzz.lua tells a battle from a menu by CB2 and watches the approach task.
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # SpecialDexFormsNav.lua: proves the Pokedex is on the Forms page before reading its tilemap.
+    "Task_HandleFormsScreenInput",
     # DoubleBattleStress.lua. BattleSetup_StartDoubleWildBattle is the natural wild double entry
     # (DoStandardWildBattle(TRUE)); the suite reaches it with an EWRAM `callnative` script because
     # nothing in this build's encounter tables rolls a double. The rest observe double-only
@@ -181,6 +213,8 @@ WANT = [
     "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
     "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
     "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
+    # DefaultBoxCatchMessages.lua: the givecaughtmon step, where "add it to your party?" waits.
+    "BattleScript_GiveCaughtMonAfterNick",
     # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and
     # rate-limited against sLastAutosaveFrame; rewinding the latter is how a suite reaches the
     # next autosave without idling out ten emulated minutes. Task_Autosave is the live SAVING
@@ -205,12 +239,16 @@ WANT = [
     "sShopData", "CB2_BuyMenu", "Task_ShopMenu", "Task_BuyMenu", "Task_BuyHowManyDialogueHandleInput",
     "Task_ReturnToItemListAfterItemPurchase", "Task_ReturnToShopMenu", "Task_ChooseHowManyToSell",
     "gBattleTextBuff1",
+    # PCStorageMashStress.lua: PC storage screen tasks, read to leave the PC from any of them.
+    "Task_PokeStorageMain", "Task_OnSelectedMon", "Task_OnBPressed", "Task_CloseBoxWhileHoldingItem",
     # InstantTextStress.lua starts these shared scripts the way their bg events do.
     "EventScript_PC", "EventScript_AccessHallOfFame", "EventScript_TV", "EventScript_UseFlash",
     # StartOptionsStateStress.lua: the runtime state of a DexNav search, a fishing chain, the
     # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
     "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
     "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
+    # PC storage screen state (src/swsh_storage_system.c): the cursor, the Pokemon or item in hand.
+    "sStorage", "sCursorArea", "sCursorPosition", "sIsMonBeingMoved", "sMovingItemId",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]
@@ -225,6 +263,7 @@ OPTIONAL = {
     "MainCB2_WorldTitleScreen",  # ALL_REGIONS title screen
     "sUsmState",  # PW_GRAPHICAL_START_MENU
     "sUsmMemory",  # PW_GRAPHICAL_START_MENU
+    "gFieldEffectObjectPicTable_SmallLight",  # absent before the street-lamp light existed
 }
 
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,
@@ -238,6 +277,15 @@ OPTIONAL = {
 # accepts. That is a test suite reporting green while proving nothing.
 OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe if a struct changes)
   Pokemon      = { size = 100, status = 80, level = 84, hp = 86, maxHP = 88 },
+  SpeciesInfo  = { stride = 264, baseHP = 0, natDexNum = 60, formSpeciesIdTable = 164 },
+                                                            -- offsetof probe with the modern CFLAGS;
+                                                            --   natDexNum is a u16 bitfield, read
+                                                            --   as the halfword before height (62).
+                                                            --   formSpeciesIdTable NULL = no forms;
+                                                            --   entry 0 is the base species.
+  SpecialPokemonMenu = { selected = 2057, detail = 2058 },
+                                                            -- src/special_pokemon_menu.c, offsetof probe
+                                                            --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
@@ -388,7 +436,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen"]
 
 
 def load_save_src(root):
@@ -505,7 +553,7 @@ def defines(path, prefix, names):
 
 def door_constants(root):
     beh = behavior_enum(root)
-    for n in ("MB_ANIMATED_DOOR", "MB_PETALBURG_GYM_DOOR"):
+    for n in ("MB_ANIMATED_DOOR", "MB_PETALBURG_GYM_DOOR", "MB_OCEAN_WATER"):
         if n not in beh:
             sys.exit(f"include/constants/metatile_behaviors.h: {n} not found")
     counts = defines(os.path.join(root, "include", "fieldmap.h"), "NUM_METATILES_",
@@ -606,12 +654,12 @@ def main():
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
     # Derived from the headers by door_constants() — never hand-edit these either.
     beh, counts, attrs, grid = door_constants(root)
-    print("  MetatileBehavior = { ANIMATED_DOOR = %d, PETALBURG_GYM_DOOR = %d },"
-          % (beh["MB_ANIMATED_DOOR"], beh["MB_PETALBURG_GYM_DOOR"]))
+    print("  MetatileBehavior = { ANIMATED_DOOR = %d, PETALBURG_GYM_DOOR = %d, OCEAN_WATER = %d },"
+          % (beh["MB_ANIMATED_DOOR"], beh["MB_PETALBURG_GYM_DOOR"], beh["MB_OCEAN_WATER"]))
     print("                                                            "
           "-- MetatileBehavior_IsDoor() accepts exactly")
     print("                                                            "
-          "--   these two (src/metatile_behavior.c).")
+          "--   the two door values (src/metatile_behavior.c).")
     print("  Metatiles    = { inPrimary = %d, inPrimaryFrlg = %d, total = %d,"
           % (counts["NUM_METATILES_IN_PRIMARY"], counts["NUM_METATILES_IN_PRIMARY_FRLG"],
              counts["NUM_METATILES_TOTAL"]))

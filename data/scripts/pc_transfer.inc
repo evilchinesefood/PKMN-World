@@ -27,7 +27,7 @@ EventScript_TransferredSomeonesPC::
 	return
 
 EventScript_SomeonesPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
+	specialvar VAR_RESULT, GetIntendedDepositBox
 	bufferboxname STR_VAR_3, VAR_RESULT
 	msgbox gText_PkmnTransferredSomeonesPCBoxFull, MSGBOX_DEFAULT
 	return
@@ -39,12 +39,19 @@ EventScript_TransferredLanettesPC::
 	return
 
 EventScript_LanettesPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
+	specialvar VAR_RESULT, GetIntendedDepositBox
 	bufferboxname STR_VAR_3, VAR_RESULT
 	msgbox gText_PkmnTransferredLanettesPCBoxFull, MSGBOX_DEFAULT
 	return
 
 Common_EventScript_NoMoreRoomForPokemon::
 	msgbox gText_NoMoreRoomForPokemon, MSGBOX_DEFAULT
+	release
+	end
+
+@ givenamedmon puts its Pokemon in the party only, so its MON_CANT_GIVE means a full party,
+@ whatever room the boxes have.
+Common_EventScript_NoRoomInPartyForPokemon::
+	msgbox gText_NoRoomInPartyForPokemon, MSGBOX_DEFAULT
 	release
 	end

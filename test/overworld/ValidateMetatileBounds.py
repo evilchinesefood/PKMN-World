@@ -173,7 +173,6 @@ BLANK_BASELINE = {
     "LAYOUT_MOSSDEEP_CITY_EREADER_TRAINER_HOUSE_1F": 70,
     "LAYOUT_RS_SAFARI_ZONE_REST_HOUSE": 66,
     "LAYOUT_RS_BATTLE_TOWER": 22,
-    "LAYOUT_JOHTO_POKEMON_LEAGUE_CHAMPIONS_ROOM": 15,
 
     # The four RS Safari Zone orphans, which are mis-wired on the OOB side as well.
     "LAYOUT_RS_SAFARI_ZONE_NORTHEAST": 12,
@@ -204,13 +203,11 @@ BLANK_BASELINE = {
     "LAYOUT_UNUSED_CAVE14": 1,
     "LAYOUT_CAVE_OF_ORIGIN_UNUSED_B4F_LAVA": 1,
 
-    # These two are live maps rather than unused ones, and both are a single tile: Birch's lab
-    # variant places gTileset_Building local 0, and the Johto Hall of Fame places local 55 of
-    # gTileset_HallOfFame. One blank tile is a cosmetic hole at worst, but they are pinned so
-    # that a mis-wired tileset on either -- which is what one blank turning into hundreds looks
-    # like -- cannot land quietly.
+    # A live map rather than an unused one, and a single tile: Birch's lab variant places
+    # gTileset_Building local 0. One blank tile is a cosmetic hole at worst, but it is pinned so
+    # that a mis-wired tileset -- which is what one blank turning into hundreds looks like --
+    # cannot land quietly.
     "LAYOUT_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB_WITH_TABLE": 1,
-    "LAYOUT_JOHTO_POKEMON_LEAGUE_HALL_OF_FAME": 1,
 }
 
 

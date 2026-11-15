@@ -46,6 +46,7 @@
 // InGameTradeID enum (include/constants/trade.h) + sIngameTrades.
 #define MON_UNSATISFACTORY   1
 #define MON_SATISFACTORY     2
+#define MON_LAST_HEALTHY     3  // removegenericmon refused: no other healthy non-Egg party member
 
 // === Ecruteak area: HnS Johto trainers (real parties land in the trainers stage) ===
 

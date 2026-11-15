@@ -910,6 +910,9 @@ F.run(function()
         if not F.ow() or F.battleFlags() & B_DOUBLE ~= 0 and inBattle() then sawBattle = true end
         if i > 30 and hasControl() then freed = true; break end
         if i % 60 == 0 and F.reportCrash(tag) then break end
+        -- The scripted refusal says "You don't have a single POKéMON" (EventScript_NoMonsForWildBattle)
+        -- before it releases the player. B closes a message and confirms nothing.
+        if i % 40 == 20 and not hasControl() then F.press("B", 2) end
       end
       F.check(tag .. ": no battle started", not sawBattle, string.format("cb2=%08X", F.cb2()))
       F.check(tag .. ": the player has control again", freed,

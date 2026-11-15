@@ -140,6 +140,9 @@ BugContest_EventScript_Third::
 	return
 
 BugContest_EventScript_End::
+	@ Both Gate attendants refuse once this is set, and ClearDailyFlags clears it; nothing set it,
+	@ so the contest and its prizes could be repeated without limit in one day.
+	setflag FLAG_DAILY_BUG_CONTEST_COMPLETED
 	special HealPlayerParty
 	special LoadPlayerParty
 	special ExitBugContestMode

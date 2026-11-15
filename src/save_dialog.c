@@ -396,13 +396,15 @@ void Task_SaveDialogHandleSave(u8 taskId)
     switch (RunSaveCallback()) {
         case USM_SAVE_IN_PROGRESS:
             break;
-        case USM_SAVE_SUCCESS:
         case USM_SAVE_CANCELED:  // Back to start menu
             ClearDialogWindowAndFrameToTransparent(0, TRUE);
             ScriptUnfreezeObjectEvents();
             UnlockPlayerFieldControls();
             DestroyTask(taskId);
             break;
+        // A Battle Pyramid Rest pauses the challenge and reloads the saved party during the save,
+        // so it must quit to the title like the classic SaveCallback does. A no-op elsewhere.
+        case USM_SAVE_SUCCESS:
         case USM_SAVE_ERROR:  // Close start menu
             ClearDialogWindowAndFrameToTransparent(0, TRUE);
             ScriptUnfreezeObjectEvents();

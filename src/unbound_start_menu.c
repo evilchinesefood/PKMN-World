@@ -565,10 +565,11 @@ static bool32 UsmMenuCB_Retire(u32 state)
 
 static bool32 UsmMenuCB_RetireSafariZone(u32 state)
 {
-    if (!gPaletteFade.active)
-    {
-        Usm_DeferCallback(SafariZoneRetirePrompt);
-    }
+    // Wait out a fade-in instead of exiting: returning TRUE with nothing deferred closes the menu
+    // without unlocking the field controls that Usm_InitStartMenu locked.
+    if (gPaletteFade.active)
+        return FALSE;
+    Usm_DeferCallback(SafariZoneRetirePrompt);
     return TRUE;
 }
 
@@ -686,6 +687,20 @@ void Usm_InitStartMenu(void)
     sUsmSavedOffset = 0;
     sUsmSavedIcon = 0;
     Usm_BuildMenuItems();
+    // The saved cursor can come from a context with more icons (a Bag or Party exit to the field
+    // does not clear it), so clamp it to the list just built before anything indexes it.
+    {
+        s32 maxOffset = SubtractClamped(0, USM_ICO_COUNT, sUsmState->itemCount, USM_MAX_ICON_COUNT);
+        s32 visibleCount;
+
+        if (sUsmState->itemOffset > maxOffset)
+            sUsmState->itemOffset = maxOffset;
+        visibleCount = sUsmState->itemCount - sUsmState->itemOffset;
+        if (visibleCount > USM_MAX_ICON_COUNT)
+            visibleCount = USM_MAX_ICON_COUNT;
+        if (sUsmState->selectedVisibleIdx >= visibleCount)
+            sUsmState->selectedVisibleIdx = (visibleCount > 0) ? visibleCount - 1 : 0;
+    }
 
     HideMapNamePopUpWindow();
     Usm_LoadBgGfx();
@@ -1455,6 +1470,9 @@ static void Usm_ExitStartMenu(void)
 
     DestroySprite(&gSprites[sUsmMemory->leftArrowId]);
     DestroySprite(&gSprites[sUsmMemory->rightArrowId]);
+    // Each arrow loaded its own copy of the sheet (LoadSpriteSheet does not share tags), and
+    // FreeSpriteTilesByTag frees one range per call.
+    FreeSpriteTilesByTag(USM_TILETAG_ARROW);
     FreeSpriteTilesByTag(USM_TILETAG_ARROW);
 
     CpuFastFill(0, buf, BG_SCREEN_SIZE);

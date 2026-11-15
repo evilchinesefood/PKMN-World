@@ -262,6 +262,12 @@ static void MigrateMovedHealLocations(void)
     static const struct { u16 mapGroup, mapNum, oldX, oldY; } sMovedHealLocations[] = {
         { MAP_GROUP(MAP_VIOLET_CITY), MAP_NUM(MAP_VIOLET_CITY), 30, 18 },
         { MAP_GROUP(MAP_ROUTE32),     MAP_NUM(MAP_ROUTE32),      9, 40 },
+        // 6fb180ccbd (2026-08-12) moved these three one tile south, onto the tile in front of the
+        // Center door, after v9 had shipped. The old pairs are the door tiles themselves, which no
+        // current heal location uses, so matching them is safe at any version.
+        { MAP_GROUP(MAP_AZALEA_TOWN),      MAP_NUM(MAP_AZALEA_TOWN),      31, 15 },
+        { MAP_GROUP(MAP_GOLDENROD_CITY),   MAP_NUM(MAP_GOLDENROD_CITY),   28, 36 },
+        { MAP_GROUP(MAP_SAFARI_ZONE_GATE), MAP_NUM(MAP_SAFARI_ZONE_GATE), 11, 15 },
     };
     struct WarpData *heal = &gSaveBlock1Ptr->lastHealLocation;
     u32 i;
@@ -372,10 +378,10 @@ void MigrateSaveFormatIfNeeded(void)
     // save, not just in the data. Issue #51 accepted a save reset for this; migrating is strictly
     // better and is what keeps a mid-playthrough save loadable.
     if (savedVersion < 9)
-    {
         MigrateDeletedTwinMaps();
-        MigrateMovedHealLocations();
-    }
+    // Idempotent (only old coordinate pairs match), and run for every older save: the Azalea,
+    // Goldenrod and Safari Zone Gate moves landed after v9 shipped, so v9-v11 saves can hold them.
+    MigrateMovedHealLocations();
 
     // v9 -> v10: issue #195. Clear the stale forced-TRUE hoennIntroDone on a save that has never
     // actually played Hoenn's intro, so the hub sends it to the Littleroot bedroom instead of

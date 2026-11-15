@@ -79,8 +79,10 @@ static const u8 sJohtoDefaultRivalName[] = _("GARY");
 
 void NameRival(void)
 {
-    // Region merge: rival naming removed — fixed default (GARY), no naming screen. The
-    // calling script's waitstate returns immediately since we no longer swap the callback.
+    // Region merge: rival naming removed — fixed default (GARY), no naming screen. Nothing
+    // re-enables the script context, so a caller must NOT follow this with waitstate: that
+    // stops the context for good (ScrCmd_waitstate). NewBarkTown_Lab and the Goldenrod Name
+    // Rater's TV dropped theirs for that reason.
     StringCopy(gSaveBlock1Ptr->rivalName, sJohtoDefaultRivalName);
 }
 

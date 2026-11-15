@@ -4,9 +4,33 @@ Master is both the development branch and the release branch. Run the release ga
 against the exact candidate commit. Automatic PR/master checks validate content only. They do
 not establish that the game built or gameplay tests passed.
 
-## 1. Verify the candidate
+## 1. Prepare the release notes
 
-Start from the exact candidate, then run:
+- Move CHANGELOG.md's `Unreleased` section under the new version and date.
+- If `SAVE_FORMAT_VERSION` in `include/constants/global.h` changed, lead with the save-format
+  change and state whether existing saves migrate or are refused.
+- Check `SAVE_FORMAT_LAYOUT_MIN` too. Raising it refuses older layouts rather than migrating them.
+- Match README.md and FEATURES.md version references to the new tag.
+- Update the `PW_VERSION` fallback in `src/main_menu.c` to the new tag. It is the stamp a source
+  drop without `.git` shows.
+- Commit these edits. This commit is the release candidate.
+
+## 2. Tag the candidate
+
+Tag before verifying. The build stamp is `git describe --tags`, so a ROM built before the tag
+says `vPREV-N-gHASH`, and rebuilding after tagging changes the stamp and the ROM's layout. The
+verified ROM is then not the one you would ship.
+
+- Create an annotated `vX.Y` tag on the candidate, for example `git tag -a v1.5 -m "..."`. Do
+  not push it until step 3 passes. If verification fails, delete it (`git tag -d vX.Y`), fix,
+  commit, and tag again.
+- For a save-format bump, also tag the last commit of the previous format as
+  `vX.Y-last-vN-save`. This leaves players a reproducible version that accepts their saves.
+- After a save-format bump, open a new `Unreleased` section in CHANGELOG.md immediately.
+
+## 3. Verify the tagged candidate
+
+Start from the exact tagged candidate (`git describe --tags --dirty` prints exactly `vX.Y`), then run:
 
 ```sh
 python3 test/validate-host.py
@@ -37,29 +61,16 @@ or travel-route checks when the changes warrant them. It does not claim those ch
 itself. Personal-save tests are explicit local checks outside the canonical gate and never run
 in CI.
 
-Keep the summary and logs for this candidate. A pass requires exit zero and fresh matching
+The version in the verification summary must equal the new tag. Keep the summary and logs for
+this candidate. A pass requires exit zero and fresh matching
 results for every selected case. Reuse valid evidence for the same revision/configuration;
 do not rebuild merely because time passed. Any later code or configuration change needs
 relevant new evidence.
 
-## 2. Prepare the release notes
-
-- Move CHANGELOG.md's `Unreleased` section under the new version and date.
-- If `SAVE_FORMAT_VERSION` in `include/constants/global.h` changed, lead with the save-format
-  change and state whether existing saves migrate or are refused.
-- Check `SAVE_FORMAT_LAYOUT_MIN` too. Raising it refuses older layouts rather than migrating them.
-- Match README.md and FEATURES.md version references to the new tag.
-
-## 3. Tag the verified commit
-
-- Create an annotated `vX.Y` tag, for example `git tag -a v1.5 -m "..."`.
-- For a save-format bump, also tag the last commit of the previous format as
-  `vX.Y-last-vN-save`. This leaves players a reproducible version that accepts their saves.
-- After a save-format bump, open a new `Unreleased` section in CHANGELOG.md immediately.
-
 ## 4. Ship the default build
 
-Ship the dev/default build from `make` or `make modern`. Do not switch to `RELEASE=1` or LTO.
+Ship the ROM that step 3 built and verified. Its main-menu build stamp reads `vX.Y`. It is the
+dev/default build from `make` or `make modern`. Do not switch to `RELEASE=1` or LTO.
 The Lua suites use the debug menu, and release mode changes assertions and the memory layout.
 The release configuration has not received the same QA. See [INSTALL.md](INSTALL.md#5-building).
 
@@ -75,6 +86,6 @@ When the new build refuses older saves, include this rollback note in the releas
 
 ## 5. Preserve the release record
 
-- Verify that `git describe master` resolves to the new tag.
+- Push the tag. Verify that `git describe master` resolves to the new tag.
 - Back up the printed verification run directory and personal play-saves to your chosen backup
   location. These are gitignored and are not uploaded by CI.

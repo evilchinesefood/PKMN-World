@@ -184,6 +184,12 @@ PROBED = {
     'MAP.violet.num':        ('MAP_NUM(MAP_VIOLET_CITY)', 6),
     'MAP.route32.group':     ('MAP_GROUP(MAP_ROUTE32)', 75),
     'MAP.route32.num':       ('MAP_NUM(MAP_ROUTE32)', 5),
+    'MAP.azalea.group':      ('MAP_GROUP(MAP_AZALEA_TOWN)', 80),
+    'MAP.azalea.num':        ('MAP_NUM(MAP_AZALEA_TOWN)', 0),
+    'MAP.goldenrod.group':   ('MAP_GROUP(MAP_GOLDENROD_CITY)', 83),
+    'MAP.goldenrod.num':     ('MAP_NUM(MAP_GOLDENROD_CITY)', 0),
+    'MAP.safariGate.group':  ('MAP_GROUP(MAP_SAFARI_ZONE_GATE)', 96),
+    'MAP.safariGate.num':    ('MAP_NUM(MAP_SAFARI_ZONE_GATE)', 0),
 
     'FLAG_BADGE01_GET':    ('FLAG_BADGE01_GET', 2383),
     'FLAG_KANTO_BADGE_1':  ('FLAG_KANTO_BADGE_1', 2635),
@@ -212,6 +218,10 @@ DELETED_TWINS = [(V['MAP.goldenrod7F.group'], V['MAP.goldenrod7F.num']),
 MOVED_HEALS = [
     (V['MAP.violet.group'], V['MAP.violet.num'], 30, 18, 39, 46),   # Sprout Tower door -> PokeCenter
     (V['MAP.route32.group'], V['MAP.route32.num'], 9, 40, 25, 85),
+    # Moved after v9 shipped (6fb180ccbd); the game repairs these on every older-version load.
+    (V['MAP.azalea.group'], V['MAP.azalea.num'], 31, 15, 31, 16),
+    (V['MAP.goldenrod.group'], V['MAP.goldenrod.num'], 28, 36, 28, 37),
+    (V['MAP.safariGate.group'], V['MAP.safariGate.num'], 11, 15, 11, 16),
 ]
 
 CHARMAP = {0x00: ' ', 0xFF: ''}
@@ -757,13 +767,14 @@ def migrate(sv):
                     sv.sb1[o + V['OBJ.mapNum']] = nm
                     log.append(f'v8->v9 objectEvents[{i}] {g}/{m} -> {g}/{nm}')
 
-            o = V['SB1.lastHealLocation']
-            hg, hm, _, hx, hy = sv.warp('lastHealLocation')
-            for g, m, ox, oy, nx, ny in MOVED_HEALS:
-                if (hg, hm, hx, hy) == (g, m, ox, oy):
-                    struct.pack_into('<hh', sv.sb1, o + 4, nx, ny)
-                    log.append(f'v8->v9 lastHealLocation {g}/{m} ({ox},{oy}) -> ({nx},{ny})')
-                    break
+        # Every older version, like MigrateMovedHealLocations(): three moves landed after v9.
+        o = V['SB1.lastHealLocation']
+        hg, hm, _, hx, hy = sv.warp('lastHealLocation')
+        for g, m, ox, oy, nx, ny in MOVED_HEALS:
+            if (hg, hm, hx, hy) == (g, m, ox, oy):
+                struct.pack_into('<hh', sv.sb1, o + 4, nx, ny)
+                log.append(f'v{ver} lastHealLocation {g}/{m} ({ox},{oy}) -> ({nx},{ny})')
+                break
 
         # v9 -> v10: clear a stale forced-TRUE hoennIntroDone (issue #195). Mirrors the step in
         # src/load_save.c exactly; if the two ever disagree, a save patched here loads with the

@@ -27,6 +27,8 @@ local PODIUM_LOCALID = 44
 local PODIUM_X, PODIUM_Y = 20, 29
 local JUDGE_X, JUDGE_Y = 20, 28
 local OBJ_EVENT_MON = 0x4000
+-- FLAG_DAILY_BUG_CONTEST_COMPLETED = FLAG_JOHTO_SLICE(0xC1): bit 0xC1 of SaveBlock3 johtoFlags.
+local DAILY_CONTEST_BIT = 0xC1
 local SPECIES_BITS = 0x0FFF
 
 local function count() return F.r8(S.gPartiesCount) end
@@ -169,6 +171,13 @@ F.run(function()
 
   if not toGate() then F.finish(); return end
   contest(13, "Weedle")
+  -- One contest per day: the end of a contest sets the daily flag both attendants check. Clear it
+  -- (as ClearDailyFlags does at the day change) so the second contest can run.
+  local dailyAddr = F.sb3() + S.SaveBlock3.johtoFlags + (DAILY_CONTEST_BIT // 8)
+  local dailyMask = 1 << (DAILY_CONTEST_BIT % 8)
+  F.check("the finished contest sets the daily limit", (F.r8(dailyAddr) & dailyMask) ~= 0,
+    string.format("byte=0x%02X", F.r8(dailyAddr)))
+  F.w8(dailyAddr, F.r8(dailyAddr) & ~dailyMask & 0xFF)
   F.warpTo(1, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, "hub")
   if not toGate() then F.finish(); return end
   contest(58, "Growlithe")

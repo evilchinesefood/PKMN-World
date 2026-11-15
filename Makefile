@@ -104,10 +104,16 @@ ifeq ($(RELEASE),1)
 endif
 
 ROM_NAME := $(FILE_NAME).gba
-OBJ_DIR_NAME := $(BUILD_DIR)/$(BUILD_NAME)
-OBJ_DIR_NAME_TEST := $(BUILD_DIR)/$(BUILD_NAME)-test
-OBJ_DIR_NAME_DEBUG := $(BUILD_DIR)/$(BUILD_NAME)-debug
-OBJ_DIR_NAME_RELEASE := $(BUILD_DIR)/$(BUILD_NAME)-release
+# ALL_REGIONS is a compile-time define that nothing else fingerprints, so a non-default value
+# gets its own object directory instead of mixing with objects built the other way.
+OBJ_DIR_SUFFIX :=
+ifneq ($(ALL_REGIONS),1)
+  OBJ_DIR_SUFFIX := -allregions$(ALL_REGIONS)
+endif
+OBJ_DIR_NAME := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)
+OBJ_DIR_NAME_TEST := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)-test
+OBJ_DIR_NAME_DEBUG := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)-debug
+OBJ_DIR_NAME_RELEASE := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)-release
 ASSETS_DIR_NAME := $(BUILD_DIR)/assets
 
 ELF_NAME := $(ROM_NAME:.gba=.elf)

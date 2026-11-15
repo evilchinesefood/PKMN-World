@@ -49,8 +49,8 @@
 
 #define FLAG_SYS_VS_SEEKER_CHARGING 0x20 // Kanto VS Seeker recharge window (assigned to I_VS_SEEKER_CHARGING, config/item.h). Same name as the IS_FRLG branch. Was FLAG_UNUSED_0x020.
 #define FLAG_QOL_SHARED_EXP  0x21 // Party-wide Exp Share toggle (SHARED EXP options entry; read via I_EXP_SHARE_FLAG). Was FLAG_UNUSED_0x021. NOTE: distinct from the Johto FLAG_EXP_SHARE (johto_flags.h).
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
+#define FLAG_LATI_ROAMER_PENDING         0x22 // Lati TV event found no free roamer slot; released when one frees (roamer.c)
+#define FLAG_JOHTO_BEAST_ROAMER_PENDING  0x23 // Burned Tower release found no free roamer slot for a beast (roamer.c)
 #define FLAG_UNUSED_0x024    0x24 // Unused Flag
 #define FLAG_UNUSED_0x025    0x25 // Unused Flag
 #define FLAG_UNUSED_0x026    0x26 // Unused Flag

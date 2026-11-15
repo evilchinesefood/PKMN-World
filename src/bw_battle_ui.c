@@ -799,6 +799,13 @@ void Task_BattleUIBounceLastBallIcon(u8 taskId)
         if (sprite->sLBI_Moving) return;
         tLBI_Y2 = sprite->sLBI_Y2;
         DestroyLastUsedBallGfx(sprite);
+        // The menu was hidden while the old icon bounced up (the check below is skipped while a
+        // state returns early). Its window is already gone, so don't create a new icon.
+        if (!gLastUsedBallMenuPresent)
+        {
+            DestroyTask(taskId);
+            return;
+        }
         // fallthrough
     case LBI_STATE_CREATE:
         gBattleStruct->ballSpriteIds[0] = AddItemIconSprite(102, 102, gBallToDisplay);

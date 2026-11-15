@@ -24,9 +24,13 @@ with tempfile.TemporaryDirectory(prefix='pw-palette-deps-') as tmp:
         subprocess.run([os.environ.get('MAKE') or shutil.which('gmake') or 'make', '--no-print-directory', '-f', str(makefile), 'assets/sample.pal.gbapal'], cwd=base, check=True, stdout=subprocess.DEVNULL)
         return int.from_bytes(target.read_bytes()[:2], 'little')
     def changed():
-        # Avoid coarse filesystem timestamp ties without sleeping.
+        # Avoid coarse filesystem timestamp ties without sleeping. The palette's directory is
+        # also a prerequisite (it catches an added or removed .pla), so backdate it below the
+        # target too. Otherwise its fresh mtime alone forces every rebuild, and the edit step
+        # would pass even without the `$(wildcard X.pla)` prerequisite it exists to prove.
         past = time.time() - 5
         os.utime(target, (past, past))
+        os.utime(base, (past - 10, past - 10))
     old = time.time() - 60
     os.utime(palette, (old, old))
     assert build() == 0, 'base palette must have no light marker'

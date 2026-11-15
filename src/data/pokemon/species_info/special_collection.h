@@ -149,6 +149,8 @@
 
 // Opaque bounds of each sprite: the Y offset is the empty rows under frame 0, which rests the
 // sprite on its battle platform. Remeasure after changing the art.
+// Each entry's SHADOW keeps its base species' ground point: same values where the front Y offset
+// matches the base form, shifted by the offset difference where it does not (Surfboard).
 #define SPECIAL_BATTLE_COORDS(frontWidth, frontHeight, frontY, backWidth, backHeight, backY) \
     .frontPicSize = MON_COORDS_SIZE(frontWidth, frontHeight), \
     .frontPicYOffset = frontY, \
@@ -163,6 +165,7 @@
         .abilities = { ABILITY_STATIC, ABILITY_NONE, ABILITY_LIGHTNING_ROD },
         SPECIAL_GRAPHICS(ClassicCap, 0)
         SPECIAL_BATTLE_COORDS(48, 48, 9, 64, 56, 4)
+        SHADOW(-3, 5, SHADOW_SIZE_M)
         OVERWORLD(sPicTable_SpecialClassicCap, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialClassicCap, gOverworldPalette_SpecialClassicCap)
         FOOTPRINT(Pikachu)
@@ -177,6 +180,7 @@
         .abilities = { ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_SWIFT_SWIM },
         SPECIAL_GRAPHICS(Surfboard, 2)
         SPECIAL_BATTLE_COORDS(64, 56, 0, 64, 64, 0)
+        SHADOW(0, 14, SHADOW_SIZE_L)
         OVERWORLD(sPicTable_SpecialSurfboard, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialSurfboard, gOverworldPalette_SpecialSurfboard)
         FOOTPRINT(Pikachu)
@@ -191,6 +195,7 @@
         .abilities = { ABILITY_GALE_WINGS, ABILITY_NONE, ABILITY_GALE_WINGS },
         SPECIAL_GRAPHICS(Balloons, 0)
         SPECIAL_BATTLE_COORDS(64, 56, 9, 64, 64, 4)
+        SHADOW(-3, 5, SHADOW_SIZE_M)
         OVERWORLD(sPicTable_SpecialBalloons, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialBalloons, gOverworldPalette_SpecialBalloons)
         FOOTPRINT(Pikachu)
@@ -205,6 +210,7 @@
         .abilities = { ABILITY_INTIMIDATE, ABILITY_NONE, ABILITY_INTIMIDATE },
         SPECIAL_GRAPHICS(Squad, 0)
         SPECIAL_BATTLE_COORDS(40, 40, 11, 48, 48, 9)
+        SHADOW(-3, 2, SHADOW_SIZE_S)
         OVERWORLD(sPicTable_SpecialSquad, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialSquad, gOverworldPalette_SpecialSquad)
         FOOTPRINT(Squirtle)
@@ -219,6 +225,7 @@
         .abilities = { ABILITY_FLASH_FIRE, ABILITY_NONE, ABILITY_FLASH_FIRE },
         SPECIAL_GRAPHICS(Firefighter, 0)
         SPECIAL_BATTLE_COORDS(40, 48, 11, 48, 56, 9)
+        SHADOW(-3, 2, SHADOW_SIZE_S)
         OVERWORLD(sPicTable_SpecialFirefighter, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialFirefighter, gOverworldPalette_SpecialFirefighter)
         FOOTPRINT(Squirtle)
@@ -233,6 +240,7 @@
         .abilities = EEVEE_ABILITIES,
         SPECIAL_GRAPHICS(FlowerCrown, 2)
         SPECIAL_BATTLE_COORDS(40, 48, 11, 56, 48, 10)
+        SHADOW(-2, 2, SHADOW_SIZE_S)
         OVERWORLD(sPicTable_SpecialFlowerCrown, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following,
             gOverworldPalette_SpecialFlowerCrown, gOverworldPalette_SpecialFlowerCrown)
         FOOTPRINT(Eevee)
@@ -247,6 +255,7 @@
         .abilities = { ABILITY_CURSED_BODY, ABILITY_NONE, ABILITY_CURSED_BODY },
         SPECIAL_GRAPHICS(Pirate, 0)
         SPECIAL_BATTLE_COORDS(40, 40, 14, 56, 48, 10)
+        SHADOW(2, 0, SHADOW_SIZE_S)
         OVERWORLD(sPicTable_SpecialPirate, SIZE_32x32, SHADOW_SIZE_M, TRACKS_FOOT, sAnimTable_Following_Asym,
             gOverworldPalette_SpecialPirate, gOverworldPalette_SpecialPirate)
         FOOTPRINT(Totodile)

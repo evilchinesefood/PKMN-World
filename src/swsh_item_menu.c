@@ -1788,6 +1788,9 @@ void GoToBagMenu(u8 location, u8 pocket, MainCallback exitCallback)
             gBagMenu->pocketSwitchDisabled = TRUE;
         gBagMenu->newScreenCallback = NULL;
         gBagMenu->toSwapPos = NOT_SWAPPING;
+        // Give mode is a static, and the Mail give closes the bag without going through
+        // BagMenu_ClosePartySelect. No re-entry resumes a give, so start every bag fresh.
+        sPartyGiveMode = FALSE;
         gBagMenu->pocketScrollArrowsTask = TASK_NONE;
         gBagMenu->pocketSwitchArrowsTask = TASK_NONE;
         memset(gBagMenu->spriteIds, SPRITE_NONE, sizeof(gBagMenu->spriteIds));
@@ -6314,7 +6317,8 @@ void BagMenu_OpenPartySelect(u8 taskId)
     s16 *data = gTasks[taskId].data;
     u8 iconSpriteId = gBagMenu->spriteIds[ITEMMENUSPRITE_ITEM + (gBagMenu->itemIconSlot ^ 1)];
 
-    if (gItemUseCB == ItemUseCB_SacredAsh)
+    // gItemUseCB is never reset, so a Sacred Ash used earlier is still here during a Give.
+    if (!sPartyGiveMode && gItemUseCB == ItemUseCB_SacredAsh)
     {
         BagMenu_UseSacredAsh(taskId);
         return;
@@ -7559,6 +7563,7 @@ static void BagMenu_DoGiveMail(u8 taskId, struct Pokemon *mon, u16 item)
     sBagMailGiveState = AllocZeroed(sizeof(*sBagMailGiveState));
     sBagMailGiveState->slot = tPartySlot;
     sBagMailGiveState->mailItem = item;
+    sPartyGiveMode = FALSE;
     gBagMenu->newScreenCallback = BagMenu_CB2_GiveMail;
     Task_FadeAndCloseBagMenu(taskId);
 }

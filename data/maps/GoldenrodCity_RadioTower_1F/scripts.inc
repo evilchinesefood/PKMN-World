@@ -169,7 +169,12 @@ RadioTower1F_EventScript_ReceptionQuizWon::
 	removeobject LOCALID_GOLDENROD_RADIOTOWER_WHITNEY
 	setflag FLAG_ENABLE_RADIO
 	setflag FLAG_HIDE_GOLDENROD_BEAUTY
+	@ The quiz stays open until it is won, so it can be won long after arrival (state 1). Only
+	@ advance: dropping a later state back to 2 undid the takeover (6..10), relocked the
+	@ Underground and 3F, and withheld the Magnet Train PASS for good.
+	goto_if_ge VAR_GOLDENROD_CITY_STATE, 2, RadioTower1F_EventScript_ReceptionQuizWonEnd
 	setvar VAR_GOLDENROD_CITY_STATE, 2
+RadioTower1F_EventScript_ReceptionQuizWonEnd:
 	release
 	end
 

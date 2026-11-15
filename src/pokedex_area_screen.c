@@ -24,6 +24,7 @@
 #include "pokedex_area_region_map.h"
 #include "wild_encounter.h"
 #include "window.h"
+#include "constants/map_types.h"
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -123,9 +124,10 @@ struct
 
 EWRAM_DATA u8 gAreaTimeOfDay = 0;
 
-// Lazy RegionMapType index of gWildMonHeaders (ROM-const). Preserves table order
-// for Altering Cave; file-static so time-of-day refreshes reuse it.
-static bool8 sWildHeaderRegionIndexReady;
+// RegionMapType index of gWildMonHeaders (ROM-const). Preserves table order for Altering
+// Cave. Built and freed inside each FindMapsWithMon call: it lives on gHeap, and every battle
+// and field return re-inits the heap (MoveSaveBlocks_ResetHeap), so a cached pointer would be
+// read back as save-block copies or other allocations on the next Pokedex visit.
 static u16 sWildHeaderRegionStart[NUM_REGION_MAP_TYPES + 1];
 static struct WildHeaderRegionRef *sWildHeadersByRegion;
 
@@ -307,9 +309,6 @@ static void BuildWildHeaderRegionIndex(void)
     u16 counts[NUM_REGION_MAP_TYPES];
     u16 next[NUM_REGION_MAP_TYPES];
 
-    if (sWildHeaderRegionIndexReady)
-        return;
-
     for (i = 0; i < NUM_REGION_MAP_TYPES; i++)
         counts[i] = 0;
 
@@ -329,6 +328,8 @@ static void BuildWildHeaderRegionIndex(void)
     }
 
     sWildHeadersByRegion = Alloc(n * sizeof(*sWildHeadersByRegion));
+    if (sWildHeadersByRegion == NULL)
+        return;
     for (i = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
     {
         u32 headerSectionId = Overworld_GetMapHeaderByGroupAndId(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum)->regionMapSectionId;
@@ -338,8 +339,39 @@ static void BuildWildHeaderRegionIndex(void)
         sWildHeadersByRegion[slot].headerId = i;
         sWildHeadersByRegion[slot].regionMapSectionId = headerSectionId;
     }
+}
 
-    sWildHeaderRegionIndexReady = TRUE;
+// Johto maps live in their own map groups (JohtoTownsAndRoutes, JohtoViolet, ...), which the
+// upstream group switch never matched, so every Johto encounter was dropped. Classify those by
+// map type the same way the Hoenn/Kanto groups split: outdoor maps glow, the rest get markers.
+static void SetAreaOrSpecialMapHasMon(u16 mapGroup, u16 mapNum)
+{
+    switch (mapGroup)
+    {
+    case MAP_GROUP_TOWNS_AND_ROUTES:
+    case MAP_GROUP_TOWNS_AND_ROUTES_FRLG:
+        SetAreaHasMon(mapGroup, mapNum);
+        return;
+    case MAP_GROUP_DUNGEONS:
+    case MAP_GROUP_DUNGEONS_FRLG:
+    case MAP_GROUP_SPECIAL_AREA:
+    case MAP_GROUP_SPECIAL_AREA_FRLG:
+        SetSpecialMapHasMon(mapGroup, mapNum);
+        return;
+    }
+
+    switch (Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->mapType)
+    {
+    case MAP_TYPE_TOWN:
+    case MAP_TYPE_CITY:
+    case MAP_TYPE_ROUTE:
+    case MAP_TYPE_OCEAN_ROUTE:
+        SetAreaHasMon(mapGroup, mapNum);
+        break;
+    default:
+        SetSpecialMapHasMon(mapGroup, mapNum);
+        break;
+    }
 }
 
 static void FindMapsWithMon(enum Species species)
@@ -394,6 +426,8 @@ static void FindMapsWithMon(enum Species species)
     BuildWildHeaderRegionIndex();
     start = sWildHeaderRegionStart[currentRegionMapType];
     end = sWildHeaderRegionStart[currentRegionMapType + 1];
+    if (sWildHeadersByRegion == NULL)
+        end = start;
     // Add regular species to the area map. Only headers for currentRegionMapType.
     for (i = start; i < end; i++)
     {
@@ -404,22 +438,9 @@ static void FindMapsWithMon(enum Species species)
         // Pass the whole per-time array, not one bucket: MapHasSpecies() resolves each area's table
         // individually so an empty bucket falls back the same way encounters do (see ResolveAreaTable).
         if (MapHasSpecies(header->encounterTypes, headerSectionId, species))
-        {
-            switch (header->mapGroup)
-            {
-            case MAP_GROUP_TOWNS_AND_ROUTES:
-            case MAP_GROUP_TOWNS_AND_ROUTES_FRLG:
-                SetAreaHasMon(header->mapGroup, header->mapNum);
-                break;
-            case MAP_GROUP_DUNGEONS:
-            case MAP_GROUP_DUNGEONS_FRLG:
-            case MAP_GROUP_SPECIAL_AREA:
-            case MAP_GROUP_SPECIAL_AREA_FRLG:
-                SetSpecialMapHasMon(header->mapGroup, header->mapNum);
-                break;
-            }
-        }
+            SetAreaOrSpecialMapHasMon(header->mapGroup, header->mapNum);
     }
+    TRY_FREE_AND_SET_NULL(sWildHeadersByRegion);
 
     // Add roamers to the area map
     for (i = 0; i < ROAMER_COUNT; i++)

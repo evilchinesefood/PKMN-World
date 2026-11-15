@@ -3767,7 +3767,8 @@ static bool32 ShouldHoldBAutoRun(void)
     // WILD-ONLY, escapable: exclude every non-ordinary mode.
     if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_LINK | BATTLE_TYPE_SAFARI
                           | BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_ROAMER | BATTLE_TYPE_GHOST
-                          | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER))
+                          | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_FRONTIER
+                          | BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_POKEDUDE))
         return FALSE;
     if (FlagGet(WE_FLAG_NO_RUNNING))    // scripted no-run wild battles
         return FALSE;

@@ -142,6 +142,16 @@ EventScript_NoMonsForTrainerBattle::
 	releaseall
 	end
 
+@ A scripted wild battle refused for an empty or Egg-only party (RefuseScriptedWildBattleIfPartyless)
+@ replaces the encounter script with this one. Resuming the encounter would read the refusal as an
+@ outcome, and most of them treat RAN as resolved: Snorlax "returned to the mountains", the
+@ Electrode and Voltorb were removed, the legendaries "flew away".
+EventScript_NoMonsForWildBattle::
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	msgbox Text_NoMonsForTrainerBattle, MSGBOX_DEFAULT
+	release
+	end
+
 Text_NoMonsForTrainerBattle:
 	.string "Hold on! You don't have a single\n"
 	.string "POKéMON with you!$"

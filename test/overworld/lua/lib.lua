@@ -242,6 +242,15 @@ function M.new(S, name, opts)
   end
   self.crashScreen = crashScreen
 
+  -- Sticky crash record. The harness's own Start presses (boot, dbg) dismiss a recoverable
+  -- assertf screen, so every such press reads the screen first and remembers what it saw;
+  -- finish() turns a remembered crash into a failing check. Returns true when a crash is up.
+  self.noteCrash = function(tag)
+    if not self.reportCrash(tag) then return false end
+    if not self.crashSeen then self.crashSeen = tostring(tag) .. ": " .. (crashScreen() or "") end
+    return true
+  end
+
   -- Log + screenshot a crash if one is up. Returns true when it fired, so a walk loop can do
   -- `if F.reportCrash("step" .. i) then break end`.
   self.reportCrash = function(tag)
@@ -364,7 +373,8 @@ function M.new(S, name, opts)
   self.dismiss = dismiss
 
   -- debug menu (hold R + tap Start). Root opens at item 0 every time.
-  local function dbg() press("R", 1); for _ = 1, 3 do joypad.set({ R = true, Start = true }); emu.frameadvance() end; idle(50) end
+  -- Start also dismisses an assertf screen, so read it first (see noteCrash).
+  local function dbg() self.noteCrash("dbg"); press("R", 1); for _ = 1, 3 do joypad.set({ R = true, Start = true }); emu.frameadvance() end; idle(50) end
   local function sel(nDown) for _ = 1, nDown do press("Down", 2); idle(8) end; press("A", 2); idle(50) end
   local function bOut(n) for _ = 1, (n or 4) do press("B", 2); idle(25) end end
   self.dbg, self.sel, self.bOut = dbg, sel, bOut
@@ -484,6 +494,10 @@ function M.new(S, name, opts)
     local f = 0
     while f < 120000 and not (ow() and (not expectGroup or grp() == expectGroup)) do
       local p = f % 30
+      -- A recoverable assertf screen exits on a Start press and release, which is exactly what
+      -- this pulse supplies, so it would vanish unread and the suite would pass. Read the screen
+      -- right before each pulse; finish() fails the run if one was ever seen (noteCrash).
+      if p == 15 and self.noteCrash("boot") then break end
       if p < 3 then joypad.set({ A = true }) elseif p >= 15 and p < 17 then joypad.set({ Start = true }) else joypad.set({}) end
       emu.frameadvance(); f = f + 1
     end
@@ -541,6 +555,7 @@ function M.new(S, name, opts)
   self.clearVerdictSentinels = clearVerdictSentinels
 
   function self.finish()
+    if self.crashSeen then check("no crash screen during the run", false, self.crashSeen) end
     local okn = 0
     for _, r in ipairs(self.results) do if r.ok then okn = okn + 1 end end
     local total = #self.results

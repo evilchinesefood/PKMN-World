@@ -49,7 +49,9 @@ F.run(function()
   -- gate exists to prevent, and its signature is garbage in the shifted region banks. On a fresh
   -- new game these read clean, so a non-zero here means legacy bytes survived into the new layout.
   local SB3 = S.SaveBlock3
-  local johtoByte = F.r8(sb3 + SB3.johtoFlags)
+  -- Bit 7 of johtoFlags[0] is FLAG_HIDE_MOMS_FRIEND2 (FLAG_JOHTO_SLICE(0x07)), which
+  -- NewGameInitData sets; every other bit of the byte is clear on a fresh game.
+  local johtoByte = F.r8(sb3 + SB3.johtoFlags) & 0x7F
   F.check("johtoFlags bank is clean (no legacy bytes in the shifted layout)", johtoByte == 0,
     "byte0=" .. johtoByte)
 

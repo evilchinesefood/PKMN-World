@@ -16,6 +16,9 @@ Route12_EventScript_Snorlax::
 	goto_if_unset FLAG_GOT_POKE_FLUTE, Route12_EventScript_SnorlaxNoPokeFlute
 	msgbox Text_WantToUsePokeFlute, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, Route12_EventScript_DontUsePokeFlute
+	@ Refuse BEFORE the hide flags below: the battle's own refusal cannot undo them.
+	specialvar VAR_RESULT, CountPartyNonEggMons
+	goto_if_eq VAR_RESULT, 0, EventScript_NoMonsForWildBattle
 	call EventScript_AwakenSnorlax
 	setwildbattle SPECIES_SNORLAX, 30
 	waitse

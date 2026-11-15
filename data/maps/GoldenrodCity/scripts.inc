@@ -1,7 +1,30 @@
 .set LOCALID_GOLDENROD_ROCKET_SCOUT, 11
 
 GoldenrodCity_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, GoldenrodCity_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, GoldenrodCity_OnFrame
 	.byte 0
+
+@ The first-visit setup below used to run only from Route 34's coord events, but the Hub lands a
+@ player who finished Ilex Forest in the Goldenrod Train Station, so they walked into a city that
+@ never set itself up: the Rockets, Bill and the Radio Tower cast standing early, and the setup
+@ firing late on the way to Route 34 (clearing a Bike already received). Entering the city now
+@ runs it too. ON_TRANSITION hides the cast before objects spawn; ON_FRAME plays the rest.
+GoldenrodCity_OnTransition:
+	goto_if_ne VAR_GOLDENROD_CITY_STATE, 0, GoldenrodCity_OnTransitionEnd
+	setflag FLAG_HIDE_GOLDENROD_ROCKETS
+	setflag FLAG_HIDE_GOLDENROD_BILL
+	setflag FLAG_HIDE_GOLDENROD_UNDERGROUND_KIMONO
+	setflag FLAG_HIDE_GOLDENROD_UNDERGROUND_SILVER
+	setflag FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1
+	setflag FLAG_HIDE_GOLDENROD_RADIOTOWER_PETREL
+	setflag FLAG_HIDE_GOLDENROD_RADIOTOWER_DIRECTOR_2
+GoldenrodCity_OnTransitionEnd:
+	end
+
+GoldenrodCity_OnFrame:
+	map_script_2 VAR_GOLDENROD_CITY_STATE, 0, GoldenrodCity_EventScript_Trigger
+	.2byte 0
 
 GoldenrodCity_EventScript_Trigger:: @flagheap
 	call_if_unset FLAG_SHOWN_ELM_TOGEPI, GoldenrodCity_Elm_Togepi_Call

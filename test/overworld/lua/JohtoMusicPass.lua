@@ -128,6 +128,10 @@ F.run(function()
   F.check("Route 31 is not playing Hoenn MUS_CYCLING/MUS_SURF by accident",
     p ~= MUS_CYCLING and p ~= MUS_SURF, musName(p))
 
+  -- Entering Goldenrod at state 0 now plays its first-visit setup (ON_FRAME), which ends by
+  -- writing state 1 and would overwrite the takeover state seeded below. This suite is about
+  -- music, so start past that scene.
+  setGoldState(1)
   if not go(GOLD, "goldenrod") then F.finish(); return end
   F.shot("goldenrod")
   p, h = dumpMusic("goldenrod")

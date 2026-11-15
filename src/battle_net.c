@@ -424,14 +424,16 @@ static const u8 sBnetTypes[] =
 
 STATIC_ASSERT(ARRAY_COUNT(sBnetTypes) == 18, BattleNetTypeMenuCount);
 
-// Marks every species 1..386 that has a Gen 1-3 pre-evolution (a bit per id).
+// Marks every species 1..386 that has an enabled pre-evolution (a bit per id).
 // One pass over the evolution tables instead of GetSpeciesPreEvolution per
 // candidate (that helper scans ALL species per call - the O(n^2) trap).
+// Sources span every species id: the cross-gen babies (Happiny, Budew, Mime Jr.,
+// Munchlax...) sit above 386, and skipping them made Chansey and Roselia Little Cup.
 static void BnetMarkPreEvos(u8 *mark)
 {
     u32 s, j;
 
-    for (s = 1; s <= SPECIES_DEOXYS; s++)
+    for (s = 1; s < NUM_SPECIES; s++)
     {
         const struct Evolution *evos;
 

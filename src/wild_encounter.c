@@ -975,6 +975,12 @@ bool8 SweetScentWildEncounter(void)
     u32 headerId;
     enum TimeOfDay timeOfDay;
 
+    // Honey works with an empty or Egg-only party (Sweet Scent needs a mon). Starting a battle
+    // would be refused and this would still return TRUE, freeing the task without restoring the
+    // palette or unlocking the field; FALSE runs the normal "nothing here" path instead.
+    if (CountPartyNonEggMons() == 0)
+        return FALSE;
+
     PlayerGetDestCoords(&x, &y);
     headerId = GetCurrentMapWildMonHeaderId();
     if (headerId == HEADER_NONE)

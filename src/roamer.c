@@ -128,6 +128,19 @@ void DeactivateAllRoamers(void)
         SetRoamerInactive(i);
 }
 
+static void DeactivateJohtoBeastRoamers(void)
+{
+    u32 i;
+
+    for (i = 0; i < ROAMER_COUNT; i++)
+    {
+        if (IsJohtoRoamerSpecies(ROAMER(i)->species))
+            SetRoamerInactive(i);
+    }
+}
+
+static void TryReleasePendingRoamers(void);
+
 static void ClearRoamerLocationHistory(u32 roamerIndex)
 {
     u32 i;
@@ -143,6 +156,7 @@ void MoveAllRoamersToOtherLocationSets(void)
 {
     u32 i;
 
+    TryReleasePendingRoamers();
     for (i = 0; i < ROAMER_COUNT; i++)
         RoamerMoveToOtherLocationSet(i);
 }
@@ -213,12 +227,16 @@ bool8 TryAddRoamer(enum Species species, u8 level)
 }
 
 // gSpecialVar_0x8004 here corresponds to the options in the multichoice MULTI_TV_LATI (0 for 'Red', 1 for 'Blue')
+// ROAMER_COUNT is 2 and the regions run in either order, so both Johto beasts can hold the slots
+// when the Hoenn League TV event fires. The event is one-shot, so a failed add is parked behind
+// FLAG_LATI_ROAMER_PENDING (the colour is already in VAR_ROAMER_POKEMON) and released by
+// TryReleasePendingRoamers() once a slot frees.
 void InitRoamer(void)
 {
-    if (gSpecialVar_0x8004 == 0) // Red
-        TryAddRoamer(SPECIES_LATIAS, 40);
-    else
-        TryAddRoamer(SPECIES_LATIOS, 40);
+    enum Species species = (gSpecialVar_0x8004 == 0) ? SPECIES_LATIAS : SPECIES_LATIOS; // Red : Blue
+
+    if (!TryAddRoamer(species, 40))
+        FlagSet(FLAG_LATI_ROAMER_PENDING);
 }
 
 // Johto legendary-beast roamer (Burned Tower beast-release). gSpecialVar_0x8004: 0 = Raikou,
@@ -246,9 +264,14 @@ void InitJohtoBeastRoamers(void)
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAIKOU), FLAG_SET_SEEN);
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
-    DeactivateAllRoamers();
-    TryAddRoamer(SPECIES_ENTEI, 40);
-    TryAddRoamer(SPECIES_RAIKOU, 40);
+    // Only clear Johto beasts: a Hoenn Latios/Latias roaming when the player reaches Burned
+    // Tower (Hoenn first) must survive, as at the Johto League respawn (issue #133). A beast
+    // that finds no free slot is parked and released by TryReleasePendingRoamers().
+    DeactivateJohtoBeastRoamers();
+    if (!TryAddRoamer(SPECIES_ENTEI, 40))
+        FlagSet(FLAG_JOHTO_BEAST_ROAMER_PENDING);
+    if (!TryAddRoamer(SPECIES_RAIKOU, 40))
+        FlagSet(FLAG_JOHTO_BEAST_ROAMER_PENDING);
 }
 
 static bool8 IsRoamerSpeciesActive(enum Species species)
@@ -311,6 +334,48 @@ void RespawnJohtoBeastRoamers(void)
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
     TryRespawnJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, 40);
     TryRespawnJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, 40);
+}
+
+static bool32 HasFreeRoamerSlot(void)
+{
+    u32 i;
+
+    for (i = 0; i < ROAMER_COUNT; i++)
+    {
+        if (!ROAMER(i)->active)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static bool32 IsJohtoBeastResolvedOrRoaming(enum Species species, u16 caughtFlag)
+{
+    return IsRoamerSpeciesActive(species) || FlagGet(caughtFlag)
+        || GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
+}
+
+// Releases a roamer whose one-shot event found both slots taken (see InitRoamer and
+// InitJohtoBeastRoamers). Runs on every map load, alongside the roamers' own moves.
+static void TryReleasePendingRoamers(void)
+{
+    if (FlagGet(FLAG_LATI_ROAMER_PENDING) && HasFreeRoamerSlot())
+    {
+        enum Species species = (VarGet(VAR_ROAMER_POKEMON) == 0) ? SPECIES_LATIAS : SPECIES_LATIOS;
+
+        if (TryAddRoamer(species, 40))
+            FlagClear(FLAG_LATI_ROAMER_PENDING);
+    }
+
+    if (FlagGet(FLAG_JOHTO_BEAST_ROAMER_PENDING))
+    {
+        if (HasFreeRoamerSlot())
+            TryRespawnJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, 40);
+        if (HasFreeRoamerSlot())
+            TryRespawnJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, 40);
+        if (IsJohtoBeastResolvedOrRoaming(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI)
+         && IsJohtoBeastResolvedOrRoaming(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU))
+            FlagClear(FLAG_JOHTO_BEAST_ROAMER_PENDING);
+    }
 }
 
 void UpdateLocationHistoryForRoamer(void)

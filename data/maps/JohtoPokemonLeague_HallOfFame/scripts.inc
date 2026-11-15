@@ -87,7 +87,7 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags::
 	call_if_unset FLAG_FOUGHT_MEWTWO, JohtoHoF_RespawnMewtwo
 	clearflag FLAG_HIDE_VERMILION_SNORLAX
 	call_if_unset FLAG_CAUGHT_UNION_CAVE_LAPRAS, JohtoHoF_RespawnLapras
-	clearflag FLAG_HIDE_SUDOWOODO
+	call JohtoHoF_RespawnSudowoodo
 	call_if_unset FLAG_FOUGHT_ZAPDOS, JohtoHoF_RespawnZapdos
 	call_if_unset FLAG_FOUGHT_ARTICUNO, JohtoHoF_RespawnArticuno
 	call_if_unset FLAG_FOUGHT_MOLTRES, JohtoHoF_RespawnMoltres
@@ -152,6 +152,14 @@ JohtoHoF_RespawnRayquaza::
 	getcaughtmon SPECIES_RAYQUAZA
 	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_RAYQUAZA
+	return
+
+@ Route 36 records a catch and a defeat the same way (FLAG_HIDE_SUDOWOODO), so the Pokédex decides,
+@ as for the Embedded Tower trio. Unconditional, a caught Sudowoodo came back as a duplicate.
+JohtoHoF_RespawnSudowoodo::
+	getcaughtmon SPECIES_SUDOWOODO
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	clearflag FLAG_HIDE_SUDOWOODO
 	return
 
 JohtoHoF_RespawnGroudon::

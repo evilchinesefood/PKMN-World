@@ -8,6 +8,7 @@
 #include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
+#include "bug_contest.h"
 #include "item_icon.h"
 #include "bg.h"
 #include "contest.h"
@@ -255,6 +256,8 @@ enum {
 };
 
 // EWRAM vars
+static bool32 IsPartyParkedForChallenge(void);
+static bool32 IsPartyOrderLocked(void);
 static EWRAM_DATA struct PartyMenuInternal *sPartyMenuInternal = NULL;
 EWRAM_DATA struct PartyMenu gPartyMenu = {0};
 static EWRAM_DATA struct PartyMenuBox *sPartyMenuBoxes = NULL;
@@ -1987,7 +1990,7 @@ void Task_HandleChooseMonInput(u8 taskId)
             }
             if (actionsType == ACTIONS_SWITCH
                 || (actionsType == ACTIONS_NONE
-                    && !InBattlePike()
+                    && !IsPartyOrderLocked()
                     && GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_SPECIES) != SPECIES_NONE))
             {
                 CursorCb_Switch(taskId);
@@ -2024,7 +2027,8 @@ void Task_HandleChooseMonInput(u8 taskId)
             else if (gPartyMenu.action == PARTY_ACTION_CHOOSE_MON
                     && gPartyMenu.layout == PARTY_LAYOUT_SINGLE
                     && (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD
-                        || gPartyMenu.menuType == PARTY_MENU_TYPE_DAYCARE))
+                        || gPartyMenu.menuType == PARTY_MENU_TYPE_DAYCARE)
+                    && !IsPartyParkedForChallenge())
             {
                 PlaySE(SE_SELECT);
                 SavePartyMenuStateForPC();
@@ -3105,7 +3109,7 @@ static void ShowButtonPrompt(u8 type)
                 canShowSwitch = TRUE;
             }
             else if (actionsType == ACTIONS_NONE
-                     && !InBattlePike()
+                     && !IsPartyOrderLocked()
                      && GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_SPECIES) != SPECIES_NONE)
             {
                 canShowSwitch = TRUE;
@@ -3115,7 +3119,8 @@ static void ShowButtonPrompt(u8 type)
                 && gPartyMenu.action == PARTY_ACTION_CHOOSE_MON
                 && gPartyMenu.layout == PARTY_LAYOUT_SINGLE
                 && (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD
-                    || gPartyMenu.menuType == PARTY_MENU_TYPE_DAYCARE))
+                    || gPartyMenu.menuType == PARTY_MENU_TYPE_DAYCARE)
+                && !IsPartyParkedForChallenge())
             {
                 canShowBoxes = TRUE;
             }
@@ -3783,7 +3788,7 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     }
 #endif
 
-    if (!InBattlePike())
+    if (!IsPartyOrderLocked())
     {
         if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);
@@ -3937,11 +3942,56 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
     }
 }
 
+// The Bug-Catching Contest, Battle Pike and Battle Pyramid park the real party in SaveBlock1
+// (SavePlayerParty) and put it back with LoadPlayerParty when they end. Reordering the stand-in
+// party, or moving Pokemon through the PC from it, is then undone or doubled at the end: a
+// deposited Pokemon is cloned, a withdrawn one deleted, and the contest's "not your first
+// Pokemon" check (by slot) judges the wrong one after a Switch.
+static bool32 IsPartyParkedForChallenge(void)
+{
+    return InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || GetBugContestFlag();
+}
+
+// Switch and the held-item actions: the end-of-event LoadPlayerParty would undo a reorder or
+// lose a given item. The Pyramid keeps them as upstream (its restore matches its selection).
+static bool32 IsPartyOrderLocked(void)
+{
+    return InBattlePike() || GetBugContestFlag();
+}
+
 static void CursorCb_Summary(u8 taskId)
 {
     PlaySE(SE_SELECT);
     sPartyMenuInternal->exitCallback = CB2_ShowPokemonSummaryScreen;
     Task_ClosePartyMenu(taskId);
+}
+
+// A half-team multi battle draws the player's three mons in menu slots 0-2 and the partner's in
+// 3-5 (GetPartyAndSlotFromPartyMenuId), but GetMultiPartyForSummaryScreen and the summary
+// screen's own scrolling (sMultiBattleOrder) still use the interleaved upstream order
+// [P0, Partner0, P1, P2, Partner1, Partner2]. Translate between the two at the hand-off.
+static bool32 IsHalfTeamMultiSummary(void)
+{
+    return gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE && gPartyMenu.layout == PARTY_LAYOUT_MULTI
+        && (gBattleTypeFlags & BATTLE_TYPE_MULTI) && !AreMultiPartiesFullTeams();
+}
+
+static u8 PartyMenuIdToMultiSummaryIndex(u8 menuId)
+{
+    static const u8 sMenuToSummary[PARTY_SIZE] = {0, 2, 3, 1, 4, 5};
+
+    if (IsHalfTeamMultiSummary() && menuId < PARTY_SIZE)
+        return sMenuToSummary[menuId];
+    return menuId;
+}
+
+static u8 MultiSummaryIndexToPartyMenuId(u8 summaryIndex)
+{
+    static const u8 sSummaryToMenu[PARTY_SIZE] = {0, 3, 1, 2, 4, 5};
+
+    if (IsHalfTeamMultiSummary() && summaryIndex < PARTY_SIZE)
+        return sSummaryToMenu[summaryIndex];
+    return summaryIndex;
 }
 
 static void CB2_ShowPokemonSummaryScreen(void)
@@ -3963,7 +4013,7 @@ static void CB2_ShowPokemonSummaryScreen(void)
         else if (gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL)
             ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, gParties[B_TRAINER_PLAYER], gPartyMenu.slotId, CalculatePartyCount(B_TRAINER_PLAYER) - 1, CB2_ReturnToPartyMenuFromSummaryScreen);
         else
-            ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, gParties[B_TRAINER_PLAYER], gPartyMenu.slotId, CalculatePartyCountOfSide(B_BATTLER_0) - 1, CB2_ReturnToPartyMenuFromSummaryScreen);
+            ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, gParties[B_TRAINER_PLAYER], PartyMenuIdToMultiSummaryIndex(gPartyMenu.slotId), CalculatePartyCountOfSide(B_BATTLER_0) - 1, CB2_ReturnToPartyMenuFromSummaryScreen);
     }
     else if (gPartyMenu.menuType == PARTY_MENU_TYPE_CHOOSE_HALF)
     {
@@ -3980,7 +4030,7 @@ void CB2_ReturnToPartyMenuFromSummaryScreen(void)
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI && !AreMultiPartiesFullTeams() && gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
         RestoreMultiPartyFromSummaryScreen();
     gPaletteFade.bufferTransferDisabled = TRUE;
-    gPartyMenu.slotId = gLastViewedMonIndex;
+    gPartyMenu.slotId = MultiSummaryIndexToPartyMenuId(gLastViewedMonIndex);
     InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
 }
 

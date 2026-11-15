@@ -254,8 +254,11 @@ F.run(function()
 
   -- SAVE_NORMAL first, before GAME_CLEAR extras shift the USM wheel off Save.
   local zJ, zK, zO = sb3Marks()
-  F.check("unique SB3 bytes are 0 before SAVE_NORMAL (no false-pass)",
-    zJ == 0 and zK == 0 and zO == 0, fmtMarks(zJ, zK, zO))
+  -- The survival checks below compare against the exact markers, so the baseline only has to
+  -- differ from them. johtoFlags[0] is not 0 on a new game: NewGameInitData sets
+  -- FLAG_HIDE_MOMS_FRIEND2 (bit 7).
+  F.check("unique SB3 bytes differ from the markers before SAVE_NORMAL (no false-pass)",
+    zJ ~= MARK_JOHTO and zK ~= MARK_KANTO and zO ~= MARK_OBS, fmtMarks(zJ, zK, zO))
   saveNormalSlot()
   F.check("still on hub after SAVE_NORMAL", F.grp() == HUB_GROUP and F.ow(),
     string.format("grp=%d map=%d ow=%s", F.grp(), F.mapn(), tostring(F.ow())))

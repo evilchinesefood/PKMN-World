@@ -25,10 +25,13 @@ GoldenrodCity_NameRatersHouse_Text_ToggleShinies:
 	.string "VIEWER at any PC.$"
 
 GoldenrodCity_NameRatersHouse_EventScript_RenameRival::
+	lock
 	msgbox GoldenrodCity_NameRatersHouse_Text_RenameRival, MSGBOX_DEFAULT
 	closemessage
+	@ NameRival only stores the default name now (no naming screen), so nothing would ever
+	@ resume a waitstate here.
 	special NameRival
-	waitstate
+	release
 	end
 
 GoldenrodCity_NameRatersHouse_Text_RenameRival:

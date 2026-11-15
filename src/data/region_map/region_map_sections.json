@@ -1958,8 +1958,8 @@
     {
       "id": "MAPSEC_MAHOGANY_HIDEOUT",
       "name": "ROCKET HIDEOUT",
-      "x": 7,
-      "y": 5,
+      "x": 15,
+      "y": 2,
       "width": 1,
       "height": 1
     },
@@ -2014,8 +2014,8 @@
     {
       "id": "MAPSEC_SS_AQUA",
       "name": "S.S. AQUA",
-      "x": 12,
-      "y": 8,
+      "x": 6,
+      "y": 4,
       "width": 1,
       "height": 1
     },

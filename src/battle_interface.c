@@ -3186,7 +3186,8 @@ static void SpriteCB_LastUsedBallBounce(struct Sprite *sprite)
 
 static void Task_BounceBall(u8 taskId)
 {
-    if (BW_BATTLE_UI)
+    // The BW last-ball icon only exists with its window sprites; otherwise the upstream icon is used.
+    if (BW_BATTLE_UI && BW_BATTLE_UI_WINDOW_SPRITES)
     {
         gTasks[taskId].func = Task_BattleUIBounceLastBallIcon;
         return;
@@ -3259,8 +3260,8 @@ void SwapBallToDisplay(bool32 sameBall)
 void ArrowsChangeColorLastBallCycle(bool32 showArrows)
 {
 #if B_LAST_USED_BALL == TRUE && B_LAST_USED_BALL_CYCLE == TRUE
-    // we use sprite anim instead
-    if (BW_BATTLE_UI)
+    // we use sprite anim instead (the BW window sprite; the upstream window has no anims)
+    if (BW_BATTLE_UI && BW_BATTLE_UI_WINDOW_SPRITES)
     {
         if (gBattleStruct->ballSpriteIds[1] == MAX_SPRITES)
             return;

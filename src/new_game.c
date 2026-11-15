@@ -190,6 +190,9 @@ void NewGameInitData(void)
     // reaches the overworld/battle player sprites.
     u16 playerOutfit = VarGet(VAR_PLAYER_PALETTE);
 #endif
+    // The title Options screen's Shared Exp toggle is a SaveBlock1 flag (the other options live in
+    // SaveBlock2, which New Game keeps), so ClearSav1() below would silently turn it back off.
+    bool8 sharedExp = FlagGet(FLAG_QOL_SHARED_EXP);
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
@@ -219,6 +222,16 @@ void NewGameInitData(void)
     // truck, so the Hoenn first-visit bedroom path must still run (issue #174). Truck-era
     // saves are migrated true in load_save.c v0->v1.
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
+    // New Game over a loaded save keeps SaveBlock2 (options, by design), but these bytes belong
+    // to the old file: its campaign region, its first-visit intros and its follower choice. Left
+    // in place they skip the arrival scenes and route the hub as if the regions were visited.
+    gSaveBlock2Ptr->currentRegion = REGION_NONE;
+    gSaveBlock2Ptr->kantoIntroDone = FALSE;
+    gSaveBlock2Ptr->johtoIntroDone = FALSE;
+    gSaveBlock2Ptr->hoennIntroDone = FALSE;
+    gSaveBlock2Ptr->regionBitsUnused = 0;
+    gSaveBlock2Ptr->followerSlot = 0;
+    gCurrentRegion = REGION_NONE;
     // Stamp the obstacle table hash NOW, not on the first load. ClearSav3() just zeroed it, and
     // the hash check only runs on load — so without this, every tree cut and rock smashed during
     // the FIRST session would be wiped the first time the player reloads, as the 0 hash read as
@@ -232,6 +245,8 @@ void NewGameInitData(void)
 #if IS_FRLG || ALL_REGIONS
     VarSet(VAR_PLAYER_PALETTE, playerOutfit); // restore the intro outfit pick wiped by ClearSav1
 #endif
+    if (sharedExp)
+        FlagSet(FLAG_QOL_SHARED_EXP);
     ClearTVShowData();
     ResetGabbyAndTy();
     ClearSecretBases();
@@ -294,6 +309,18 @@ void NewGameInitData(void)
     // otherwise clear the stairs. Route 27 already hides Oak/Mary on the normal League route.
     FlagSet(FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1);
     FlagSet(FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK);
+    // Goldenrod's flagheap sets these, but it runs only from Route 34's coord events. The rest
+    // of its set must start hidden too: the Rockets, Bill (who would hand out Eevee early), the
+    // Underground Kimono Girl and Silver, Petrel and the second Director.
+    FlagSet(FLAG_HIDE_GOLDENROD_ROCKETS);
+    FlagSet(FLAG_HIDE_GOLDENROD_BILL);
+    FlagSet(FLAG_HIDE_GOLDENROD_UNDERGROUND_KIMONO);
+    FlagSet(FLAG_HIDE_GOLDENROD_UNDERGROUND_SILVER);
+    FlagSet(FLAG_HIDE_GOLDENROD_RADIOTOWER_PETREL);
+    FlagSet(FLAG_HIDE_GOLDENROD_RADIOTOWER_DIRECTOR_2);
+    // Mom's friend stands in the player's house until the lab scene swaps her home
+    // (NewBarkTown_Lab clears this one and hides the other), so her own house starts empty.
+    FlagSet(FLAG_HIDE_MOMS_FRIEND2);
     // Azalea's flagheap sets these six, which is the authors' statement that they must start
     // hidden - but it is reached only from Route 33's coord events, so a player who comes into
     // Ilex Forest from the Route 34 (Goldenrod) side meets all six. Three of the Farfetch'd sit

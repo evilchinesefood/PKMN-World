@@ -1985,7 +1985,8 @@ static void VBlank(void)
         ChangeBgX(3, 64, BG_COORD_ADD);
         ChangeBgY(3, 64, BG_COORD_ADD);
     }
-    if (SWSH_SUMMARY_MON_IDLE_ANIMS && !sMonSummaryScreen->summary.isEgg)
+    // CloseSummaryScreen frees sMonSummaryScreen before the next screen replaces this callback.
+    if (SWSH_SUMMARY_MON_IDLE_ANIMS && sMonSummaryScreen != NULL && !sMonSummaryScreen->summary.isEgg)
     {
         RunMonAnimTimer();
     }
@@ -3684,7 +3685,7 @@ static void Task_ShowEffectTilemap(u8 taskId)
         u8 *spriteIds = &sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MOVE_SLOT + (4 * MOVE_SLOT_SPRITES_COUNT)];
         for (i = 0; i < MOVE_SLOT_SPRITES_COUNT; i++)
         {
-            if (spriteIds[i] != MAX_SPRITES)
+            if (spriteIds[i] < MAX_SPRITES)
                 gSprites[spriteIds[i]].invisible = FALSE;
         }
         UpdateMoveSlotPalette();
@@ -3727,7 +3728,7 @@ static void Task_HideEffectTilemap(u8 taskId)
         u8 *spriteIds = &sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MOVE_SLOT + (4 * MOVE_SLOT_SPRITES_COUNT)];
         for (i = 0; i < MOVE_SLOT_SPRITES_COUNT; i++)
         {
-            if (spriteIds[i] != MAX_SPRITES)
+            if (spriteIds[i] < MAX_SPRITES)
                 gSprites[spriteIds[i]].invisible = TRUE;
         }
         UpdateMoveSlotPalette();
@@ -5260,7 +5261,7 @@ static void CreateSheenSparkleSprites(void)
     for (i = 0; i < (u16)(count + 1); i++)
     {
         u8 spriteId = CreateSprite(&sSpriteTemplate_SheenSparkle, 54 + 12 * i, 140, 0);
-        if (spriteId != MAX_SPRITES)
+        if (spriteId < MAX_SPRITES)
         {
             sparkles[i] = &gSprites[spriteId];
             sparkles[i]->invisible = TRUE;
@@ -5354,7 +5355,7 @@ static void CreateMaxConditionSparkles(void)
             u8 spriteId = CreateSprite(&sSpriteTemplate_MaxCondSparkle,
                                        icon->x + 16, icon->y - 4,
                                        icon->subpriority - 1);
-            if (spriteId != MAX_SPRITES)
+            if (spriteId < MAX_SPRITES)
                 sMonSummaryScreen->spriteIds[arrId] = spriteId;
         }
     }
@@ -6253,7 +6254,8 @@ static void SetShinySprite(void)
     if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY] == SPRITE_NONE)
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY] = CreateSprite(&sSpriteTemplate_ShinyIcon, 126, 36, 6);
 
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY]].invisible = !IsMonShiny(mon);
+    // An Egg's shininess is decided at creation; showing the star would reveal it before hatching.
+    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY]].invisible = sMonSummaryScreen->summary.isEgg || !IsMonShiny(mon);
 }
 
 bool8 MonHasGigantamaxFactor(struct Pokemon *mon)
@@ -6279,7 +6281,8 @@ static void SetFriendshipSprite(void)
     if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_FRIENDSHIP] == SPRITE_NONE)
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_FRIENDSHIP] = CreateSprite(&sSpriteTemplate_FriendshipIcon, 233, 32, 0);
 
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_FRIENDSHIP]].invisible = FALSE;
+    // An Egg's friendship field holds its hatch counter, not friendship.
+    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_FRIENDSHIP]].invisible = sMonSummaryScreen->summary.isEgg;
 
     // don't even think about swapping the order of the conditions here or the compiler will smite you for your arrogance
     // I have no idea why it works that way
@@ -6354,7 +6357,7 @@ static void CreateDynamaxLevelSprites(void)
 
         spriteIds[i] = CreateSprite(&sSpriteTemplate_DynamaxLevel, xPos, 98, 1);
 
-        if (spriteIds[i] != MAX_SPRITES)
+        if (spriteIds[i] < MAX_SPRITES)
         {
             StartSpriteAnim(&gSprites[spriteIds[i]], animFrame);
         }
@@ -6382,7 +6385,7 @@ static void CreateHeldItemSprite(void)
 
     spriteId = AddItemIconSprite(TAG_HELD_ITEM_ICON, TAG_HELD_ITEM_ICON, itemId);
 
-    if (spriteId != MAX_SPRITES)
+    if (spriteId < MAX_SPRITES)
     {
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM] = spriteId;
         gSprites[spriteId].x = 70;  // Set your desired x position
@@ -6537,7 +6540,7 @@ static void UpdateMoveSlotVisibility(void)
 
         for (i = 0; i < MOVE_SLOT_SPRITES_COUNT; i++)
         {
-            if (spriteIds[i] != MAX_SPRITES)
+            if (spriteIds[i] < MAX_SPRITES)
                 gSprites[spriteIds[i]].invisible = !visible;
         }
     }
@@ -6561,7 +6564,7 @@ static void UpdateMoveSlotPalette(void)
 
         for (i = 0; i < MOVE_SLOT_SPRITES_COUNT; i++)
         {
-            if (spriteIds[i] != MAX_SPRITES)
+            if (spriteIds[i] < MAX_SPRITES)
                 gSprites[spriteIds[i]].oam.paletteNum = paletteNum;
         }
     }

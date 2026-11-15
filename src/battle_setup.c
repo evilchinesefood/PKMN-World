@@ -649,9 +649,14 @@ void StartOldManTutorialBattle(void)
 // are followed by a waitstate. Enabling the context here was undone on the spot, which left the
 // script waiting forever with the field controls locked. The task runs in the same frame's
 // RunTasks, after the script command has returned and stopped the context.
+//
+// The release does not resume the encounter script. Its outcome branches cannot tell a refusal
+// from a real flee, and most treat B_OUTCOME_RAN as resolved (Snorlax leaves, the Electrode and
+// Voltorb are removed, a legendary flies off), which lost one-time Pokemon without a battle.
+// EventScript_NoMonsForWildBattle replaces it, so the encounter is left exactly as it was.
 static void Task_ReleaseRefusedWildBattleScript(u8 taskId)
 {
-    ScriptContext_Enable();
+    ScriptContext_SetupScript(EventScript_NoMonsForWildBattle);
     DestroyTask(taskId);
 }
 
@@ -694,6 +699,8 @@ void BattleSetup_StartScriptedDoubleWildBattle(void)
 
 void StartMarowakBattle(void)
 {
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndMarowakBattle;
     gBattleTypeFlags = BATTLE_TYPE_GHOST;
@@ -775,6 +782,8 @@ void BattleSetup_StartLegendaryBattle(void)
 
 void StartGroudonKyogreBattle(void)
 {
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
@@ -795,6 +804,8 @@ void StartRegiBattle(void)
     enum BattleTransition transitionId;
     enum Species species;
 
+    if (RefuseScriptedWildBattleIfPartyless())
+        return;
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;

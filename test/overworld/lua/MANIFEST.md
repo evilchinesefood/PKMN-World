@@ -2009,3 +2009,12 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `UsmOrderSpecialContext.lua`
+
+Closing the graphical Start menu in a context that hides icons must not drop them from the
+player's saved icon order (`SaveBlock3.usmSaved`). The suite moves Save to the front of the wheel
+with real SELECT and D-pad input, enters the Bug-Catching Contest at the National Park gate
+(which hides Save), moves the Bag ahead of the Party in the contest menu, retires at the exit and
+opens the menu again. Save must still lead and the contest's Bag move must be kept. Before the fix
+`Usm_SaveItems` wrote back only the icons the contest showed, so Save fell out of the order and
+returned at its default slot. Measured **9/9** fixed and **6/9** on the unfixed ROM.

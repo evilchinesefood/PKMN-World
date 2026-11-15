@@ -148,6 +148,8 @@ WANT = [
     "gPlayerOutfitPicker", "Task_OutfitPicker",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
+    # The PC storage screen's release confirmation (StorageReleaseHeldItem.lua).
+    "Task_ReleaseMon",
     "CB2_InitOptionMenu", "Task_OptionMenuProcessInput",
     "sCondMsg51", "sCondMsg52", "sCondMsg53",
     "EventScript_FollowerLookAround",
@@ -211,6 +213,8 @@ WANT = [
     # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
     "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
     "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
+    # PC storage screen state (src/swsh_storage_system.c): the cursor, the Pokemon or item in hand.
+    "sStorage", "sCursorArea", "sCursorPosition", "sIsMonBeingMoved", "sMovingItemId",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]

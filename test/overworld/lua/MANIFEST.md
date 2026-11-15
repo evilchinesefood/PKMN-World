@@ -1463,3 +1463,15 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `StorageReleaseHeldItem.lua`
+
+PC storage, Move Pokemon, Release on a Pokemon that holds an item. `OW_PC_RELEASE_ITEM` sends a
+released Pokemon's held item to the Bag. Five Bulbasaur come from the debug Give menu, three of
+them holding a Potion (a release needs three Pokemon left over). Opening the PC, Move Pokemon, the
+cursor, the menus, the release prompt and its messages are real input. One Bulbasaur is picked up
+with Move and released from the hand, and one is released from its party slot (control): each
+Potion must reach the Bag. Then, in a fresh PC session with the Items pocket filled with other
+items in RAM, a third release must be refused with "The bag is full." and leave the Pokemon and
+its Potion alone. Before the fix `ReleaseMon` skipped the item of the Pokemon in hand, and a Bag
+with no room let the release go ahead and dropped the item: **17/20** on the unfixed ROM,
+**20/20** with the fix.

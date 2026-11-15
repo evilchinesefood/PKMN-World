@@ -1834,3 +1834,15 @@ a Magikarp next to a healthy Bulbasaur (control) sells for 2,000; and a second M
 Orange Mail (letter in mailbox slot 0, linked) sells and frees its letter. Before the fix the script
 refused only a party of one, the species check read through Eggs and the slot was zeroed with the
 letter still allocated: **18/23** on the unfixed ROM, **23/23** with the fix.
+### `ResortGorgeousRequest.lua`
+
+Selphy's wish at Resort Gorgeous must name a Pokemon the player can show. With every Gen 1 to 3
+species seen (written to the Pokedex) and Selphy at home, the suite talks to her five times with
+real input: each request must be a seen, enabled base species, and showing that species (from the
+debug Give menu) must earn the butler's reward; leaving and re-entering the house clears her
+"just fulfilled" flag between rounds. A last case loads Galarian Ponyta, a request the unfixed ROM
+wrote, and Selphy must replace it. Before the fix `SampleResortGorgeousMon` drew any species id:
+40% of 40 sampled requests were forms (Megas, Unown letters, regional forms, Pikachu forms) that
+the exact-species party check refuses forever, and 23 of the 40 showed the
+`SRC/POKEMON.C: DISABLED SPECIES` assert screen first. **7/11** on the unfixed ROM, **53/53** with
+the fix.

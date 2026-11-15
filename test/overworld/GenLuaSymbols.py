@@ -23,6 +23,8 @@ WANT = [
     "CB2_Overworld",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
+    # MultiHalfTeamSummary.lua: the summary's mon index, in the interleaved multi order.
+    "gLastViewedMonIndex",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar", "sFlightActive",
     # RedGyarados.lua points the wandering Gyarados sprite at this callback.

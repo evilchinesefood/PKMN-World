@@ -2009,3 +2009,14 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `MultiHalfTeamSummary.lua`
+
+In a half-team multi battle, Summary from the party menu must open the Pokémon under the cursor and
+B must return the cursor to it. The party menu draws the player's three in rows 0-2 and the
+partner's in rows 3-5, while the summary uses the interleaved order `[P0, Partner0, P1, P2,
+Partner1, Partner2]`. The real Rocket HQ multi with Lance runs from its post-selection seam with
+three distinct debug-made Pokémon; real input opens POKéMON, then Summary and B on each of the
+player's rows. Rows 0, 1, 2 must leave summary indices 0, 2, 3 in `gLastViewedMonIndex` (the
+screenshots show Bulbasaur, Charmander, Squirtle) and the party cursor back on the row. Measured
+**10/10** on master and **8/10** with the two `0829014ec0` call-site translations reverted (rows 1
+and 2 opened indices 1 and 2: Lance's Dragonite and the wrong own Pokémon).

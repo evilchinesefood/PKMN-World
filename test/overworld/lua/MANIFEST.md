@@ -2009,3 +2009,25 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `SpecialChecklistStress.lua`
+
+The Special Pokémon checklist under real input with 0, 1 and all 7 collected (the collection marks
+come from `SpecialPokemon_ReconcileOwned` finding debug-given Pokémon). On each list page the suite
+reads every in-use sprite: page 1 must draw four icons and page 2 exactly three, each on its row's y
+(37 plus 29 a row) with nothing on page 2's fourth row, and each icon at a lower subpriority than
+the one below it (#529's draw order). Up on the first entry, Left on page 1, Down on the last entry
+and Right on page 2 must clamp; Up from entry 5 crosses back to page 1. Held Down, Up, Right and
+Left (key repeat) must run to the ends and stop. B pressed during the opening fade is ignored and a
+second B closes; three fast open and close rounds; every detail page with one icon, Right clamped on
+the last, B back to the right page, held Left through the details; an A/B mash. Coverage, no defect
+found: **51/51**.
+### `SpecialFormsIdentity.lua`
+
+The seven special forms keep their themed types (#528) wherever the game uses them. Six come from
+the debug Give menu (the seventh goes to the PC). Each leads a wild battle (`setwildbattle`) against
+the next form, and `gBattleMons` must hold the lead's and the wild Pokémon's themed types; Fight
+shows the move menu's effectiveness marks (screenshots: Take Down on Pirate Totodile reads immune,
+Discharge on Squad Squirtle super effective). Each summary's three pages, each form's Pokédex form
+info page (national dex on) and the PC with Pirate Totodile boxed are opened with real input and
+screenshotted. `--env PW_ID_ONLY=dex` skips to the Pokédex and PC part. Coverage, no defect found:
+**58/58**.

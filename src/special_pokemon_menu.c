@@ -20,7 +20,8 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
-#define COLLECTION_ROWS 5
+#define COLLECTION_ROWS 4
+#define COLLECTION_ROW_HEIGHT 29
 
 struct SpecialPokemonMenu
 {
@@ -30,6 +31,10 @@ struct SpecialPokemonMenu
     u8 selected;
     bool8 detail;
 };
+
+// test/overworld/GenLuaSymbols.py hard-codes these for SpecialChecklistPaging.lua.
+STATIC_ASSERT(offsetof(struct SpecialPokemonMenu, selected) == 2056, SpecialPokemonMenuSelectedMoved_RegenLuaSymbols);
+STATIC_ASSERT(offsetof(struct SpecialPokemonMenu, detail) == 2057, SpecialPokemonMenuDetailMoved_RegenLuaSymbols);
 
 static EWRAM_DATA struct SpecialPokemonMenu *sSpecialPokemonMenu = NULL;
 
@@ -75,7 +80,9 @@ static void CreateCollectionIcon(u32 slot, u16 species, s16 x, s16 y)
     u8 spriteId;
 
     LoadMonIconPalette(species);
-    spriteId = CreateMonIconNoPersonality(species, SpriteCB_MonIcon, x, y, 0);
+    // 32px icons overlap the row below by 9px; the upper icon goes in front so its feet are not
+    // hidden by the next icon's top (Balloon Pikachu's balloons over Surfboard Pikachu's board).
+    spriteId = CreateMonIconNoPersonality(species, SpriteCB_MonIcon, x, y, slot);
     sSpecialPokemonMenu->iconSpriteIds[slot] = spriteId;
     if (spriteId < MAX_SPRITES)
         gSprites[spriteId].oam.priority = 0;
@@ -132,10 +139,10 @@ static void DrawCollection(void)
             u32 id = first + i;
             entry = SpecialPokemon_GetEntry(id);
             if (id == sSpecialPokemonMenu->selected)
-                FillWindowPixelRect(0, PIXEL_FILL(4), 3, 23 + i * 23, 234, 23);
-            CreateCollectionIcon(i, entry->species, 21, 34 + i * 23);
-            PrintCollectionText(entry->name, 40, 28 + i * 23);
-            PrintCollectionText(FlagGet(entry->collectedFlag) ? COMPOUND_STRING("OK") : COMPOUND_STRING("--"), 215, 28 + i * 23);
+                FillWindowPixelRect(0, PIXEL_FILL(4), 3, 23 + i * COLLECTION_ROW_HEIGHT, 234, COLLECTION_ROW_HEIGHT);
+            CreateCollectionIcon(i, entry->species, 21, 37 + i * COLLECTION_ROW_HEIGHT);
+            PrintCollectionText(entry->name, 40, 31 + i * COLLECTION_ROW_HEIGHT);
+            PrintCollectionText(FlagGet(entry->collectedFlag) ? COMPOUND_STRING("OK") : COMPOUND_STRING("--"), 215, 31 + i * COLLECTION_ROW_HEIGHT);
         }
         PrintCollectionText(COMPOUND_STRING("{DPAD_UPDOWN} Select  {A_BUTTON} Details  {B_BUTTON} Back"), 8, 145);
     }

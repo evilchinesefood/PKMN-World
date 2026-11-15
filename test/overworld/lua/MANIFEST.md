@@ -1463,3 +1463,14 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `NormaTangelaTrade.lua`
+
+Norma's in-game trade in the Cinnabar Pokemon Lab lounge (a Venonat for her Tangela, TANGENY). The
+trade specials read the trade id from `VAR_0x8005` and the party slot from `VAR_0x8004`, and every
+other in-game trade goes through the shared `EventScript_*InGameTrade*` wrappers; Norma's script kept
+FRLG's order. One Venonat comes from the debug Give menu and the suite warps into the lounge.
+Declining Clifton's trade (which leaves his trade id in `VAR_0x8005`, as in normal play), talking to
+Norma, Yes, the party pick and the trade scene are real input. The party's only Pokemon must become
+Tangela and `FLAG_DID_TANGENY_TRADE` must be set. On the unfixed ROM Norma asked for Clifton's
+Raichu: **6/9**, where the Venonat was refused; a probe that offered a Raichu instead kept it, got
+nothing and still used up the trade. **9/9** with the fix.

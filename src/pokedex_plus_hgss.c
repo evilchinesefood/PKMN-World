@@ -2317,16 +2317,18 @@ static void Task_HandlePokedexStartMenuInput(u8 taskId)
                 CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
                 gMain.newKeys |= START_BUTTON;  //Exit menu
                 break;
+            // The rows below start a fade into another screen. Return so a START or B pressed
+            // on the same frame cannot hand the task back to the list under a black screen.
             case 3:
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
                 gTasks[taskId].func = Task_OpenSpecialPokemon;
                 PlaySE(SE_SELECT);
-                break;
+                return;
             case 4: //CLOSE POKEDEX
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].func = Task_ClosePokedex;
                 PlaySE(SE_PC_OFF);
-                break;
+                return;
             }
         }
 
@@ -7671,21 +7673,22 @@ static void Task_HandleSearchResultsStartMenuInput(u8 taskId)
                 CreateMonSpritesAtPos(sPokedexView->selectedPokemon, 0xE);
                 gMain.newKeys |= START_BUTTON;
                 break;
+            // As in the list menu: a fade into another screen must not fall into START/B below.
             case 3:
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
                 gTasks[taskId].func = Task_OpenSpecialPokemon;
                 PlaySE(SE_SELECT);
-                break;
+                return;
             case 4: //BACK TO POKEDEX
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].func = Task_ReturnToPokedexFromSearchResults;
                 PlaySE(SE_TRUCK_DOOR);
-                break;
+                return;
             case 5: //CLOSE POKEDEX
                 BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
                 gTasks[taskId].func = Task_ClosePokedexFromSearchResultsStartMenu;
                 PlaySE(SE_PC_OFF);
-                break;
+                return;
             }
         }
 

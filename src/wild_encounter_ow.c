@@ -177,6 +177,7 @@ static void Task_OWEApproachForBattle(u8 taskId);
 static bool32 CheckValidOWESpecies(enum Species speciesId);
 
 static EWRAM_DATA u8 sOWESpawnCountdown = 0;
+static EWRAM_DATA u8 sContactLocalId = LOCALID_NONE;
 
 struct AgeSort
 {
@@ -1029,6 +1030,18 @@ void SetMinimumOWESpawnTimer(void)
         sOWESpawnCountdown = OWE_SPAWN_TIME_LURE;
 }
 
+static void StartContact(struct ObjectEvent *wildMon)
+{
+    gSpecialVar_LastTalked = wildMon->localId;
+    gSelectedObjectEvent = GetObjectEventIdByLocalId(wildMon->localId);
+
+    // Stop the bobbing animation.
+    if (wildMon->movementActionId >= MOVEMENT_ACTION_WALK_IN_PLACE_NORMAL_DOWN && wildMon->movementActionId <= MOVEMENT_ACTION_WALK_IN_PLACE_NORMAL_RIGHT)
+        ClearObjectEventMovement(wildMon, &gSprites[wildMon->spriteId]);
+
+    ScriptContext_SetupScript(InteractWithOverworldWildEncounter);
+}
+
 void TryTriggerOverworldWildEncounter(struct ObjectEvent *obstacle, struct ObjectEvent *collider)
 {
     if (IsPlayerFlying())
@@ -1059,14 +1072,31 @@ void TryTriggerOverworldWildEncounter(struct ObjectEvent *obstacle, struct Objec
         return;
     }
 
-    gSpecialVar_LastTalked = wildMon->localId;
-    gSelectedObjectEvent = GetObjectEventIdByLocalId(wildMon->localId);
+    // An encounter's own step is checked from its sprite callback, often while the player is between
+    // tiles. A script started there holds the controls through the next ProcessPlayerFieldInput,
+    // the one that runs the coord event or warp of the tile the player arrives on.
+    if (playerFollowerIsColliderOWE)
+        sContactLocalId = wildMon->localId;
+    else
+        StartContact(wildMon);
+}
 
-    // Stop the bobbing animation.
-    if (wildMon->movementActionId >= MOVEMENT_ACTION_WALK_IN_PLACE_NORMAL_DOWN && wildMon->movementActionId <= MOVEMENT_ACTION_WALK_IN_PLACE_NORMAL_RIGHT)
-        ClearObjectEventMovement(wildMon, &gSprites[wildMon->spriteId]);
+u32 TakeOverworldWildEncounterContact(void)
+{
+    u32 localId = sContactLocalId;
+    sContactLocalId = LOCALID_NONE;
+    return localId;
+}
 
-    ScriptContext_SetupScript(InteractWithOverworldWildEncounter);
+bool32 TryStartOverworldWildEncounterContact(u32 localId)
+{
+    u32 objectEventId = GetObjectEventIdByLocalId(localId);
+
+    if (objectEventId >= OBJECT_EVENTS_COUNT || !IsOverworldWildEncounter(&gObjectEvents[objectEventId], OWE_ANY))
+        return FALSE;
+
+    StartContact(&gObjectEvents[objectEventId]);
+    return TRUE;
 }
 
 const u8 *GetOverworlWildEncounterScript(u32 objectEventId)

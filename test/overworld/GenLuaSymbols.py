@@ -69,7 +69,7 @@ WANT = [
     "sFieldCameraOffset",
     # Tells an overworld-Pokemon collision apart from a grass encounter. ProcessPlayerFieldInput
     # clears it to LOCALID_NONE on every call and a grass roll fires inside that same call, whereas
-    # TryTriggerOverworldWildEncounter sets it to the wild mon's local id and starts a script. So
+    # a contact's script start (StartContact in wild_encounter_ow.c) sets it to the wild mon's local id. So
     # non-zero at battle start means "walked into an overworld mon", which no proximity heuristic can
     # establish: the collision test matches previousCoords too, and the FOLLOWER can trigger it.
     "gSpecialVar_LastTalked",

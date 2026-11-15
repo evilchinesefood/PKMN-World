@@ -170,6 +170,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     struct MapPosition position;
     enum Direction playerDirection;
     u16 metatileBehavior;
+    u32 oweContact = LOCALID_NONE;
 
     gSpecialVar_LastTalked = LOCALID_NONE;
     gSelectedObjectEvent = 0;
@@ -191,6 +192,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         input->pressedRButton = FALSE;
     }
 
+    // An overworld encounter that walked into the player waits for the same moment a random
+    // encounter would: the end of a step or standing still, after the tile's own events below.
+    if (input->checkStandardWildEncounter || gPlayerAvatar.tileTransitionState == T_NOT_MOVING)
+        oweContact = TakeOverworldWildEncounterContact();
+
     if (!IsPlayerFlying() && CheckForTrainersWantingBattle() == TRUE)
         return TRUE;
 
@@ -210,6 +216,9 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         if (FindTaskIdByFunc(Task_FollowerNPCOutOfDoor) == TASK_NONE && TryStartStepBasedScript(&position, metatileBehavior, playerDirection) == TRUE)
             return TRUE;
     }
+
+    if (oweContact != LOCALID_NONE && TryStartOverworldWildEncounterContact(oweContact))
+        return TRUE;
 
     if ((input->checkStandardWildEncounter) && ((input->dpadDirection == 0) || input->dpadDirection == playerDirection))
     {

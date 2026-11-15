@@ -48,5 +48,17 @@ with tempfile.TemporaryDirectory(prefix="pw-story-") as scratch:
     missing = authored - covered
     if missing:
         raise SystemExit('Untested objective IDs: ' + ', '.join(sorted(missing)))
+    # The overview row prints only the first action line, so it must read as a whole instruction.
+    text = r'((?:"(?:[^"\\]|\\.)*"\s*)+)'
+    objective = re.compile(r'STORY_OBJECTIVE\(\s*\w+,\s*"([^"]+)",\s*STORY_\w+\([^)]*\),\s*'
+                           + r',\s*'.join([text] * 5) + r'\)', re.S)
+    actions = {match[1]: ''.join(re.findall(r'"((?:[^"\\]|\\.)*)"', match[4]))
+               for source in sources for match in objective.finditer(source.read_text())}
+    if set(actions) != authored:
+        raise SystemExit('Could not read the action text of: ' + ', '.join(sorted(authored - set(actions))))
+    fragments = [f'{name}: {action.split(chr(92) + "n")[0]!r}' for name, action in sorted(actions.items())
+                 if not re.search(r'[.!?]$', action.split(chr(92) + 'n')[0])]
+    if fragments:
+        raise SystemExit('Overview action line is not a whole instruction:\n  ' + '\n  '.join(fragments))
     print(result.splitlines()[-1])
     print(f'All {len(authored)} authored objectives exercised against production C')

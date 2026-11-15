@@ -1463,3 +1463,12 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `StoryOverviewLine.lua`
+
+The Story overview row shows only the first line of a region's next action, so that line must read
+as a whole instruction. A fresh game is taken into Pallet, New Bark and Littleroot, Story is opened
+from the Start menu with real input, and the action each of the three rows prints is read from the
+live resolver results: its first line must end in `.`, `!` or `?`. The unfixed ROM printed
+"Meet Prof. Oak and choose" for Kanto on every visit. `test/overworld/story-progress/run.py`
+applies the same rule to all 164 authored objectives. Unfixed ROM **22/25** (the Kanto row on all
+three visits), fixed **25/25**.

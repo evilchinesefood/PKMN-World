@@ -1502,3 +1502,14 @@ form mode there, and after a trip to Evos and back. `Task_HandleFormsScreenInput
 this suite) proves the page is open before each read. #394's paged `PrintForms` put the full-screen
 info window's tilemap after the navigation window was drawn, so the "Form Mode / Evos" hint was
 blank on arrival and vanished on every page change: **6/9** on the unfixed ROM, **9/9** with the fix.
+### `AzaleaGsBallExit.lua`
+
+Kurt's GS Ball scene waits outside his door: once he has taken the ball the player walks out, is
+walked three tiles south, and Kurt runs out after them. A Hub Pass out of Kurt's house leaves without
+that door. Kurt's own script takes the ball with real input and the Hub Pass is real; the suite then
+debug-warps into the Ilex Forest gate and into a house so the player walks into Azalea from
+elsewhere. The player must be free with the scene still waiting, and walking in and out of Kurt's
+door must play it, return the ball and leave the player at (19,15). Before the fix the scene ran on
+any arrival and walked the player into the trees below the Ilex gate (`80/0 (8,19) dirs=`) and onto
+the ledge below the house (`(38,27)`), with no step possible in any direction: **11/18** on the
+unfixed ROM, **18/18** with the fix.

@@ -7,12 +7,22 @@ AzaleaTown_MapScripts::
 	.byte 0
 
 AzaleaTown_OnTransition::
+	call_if_eq VAR_AZALEA_TOWN_STATE, 8, AzaleaTown_EventScript_CheckLeftKurtsHouse
 	goto_if_eq VAR_AZALEA_TOWN_STATE, 5, AzaleaTown_MapScript_Hide_Silver
 	end
 	
 AzaleaTown_OnFrame::
-	map_script_2 VAR_AZALEA_TOWN_STATE, 8, AzaleaTown_EventScript_GSBall
+	map_script_2 VAR_TEMP_0, 1, AzaleaTown_EventScript_GSBall
 	.2byte 0
+
+@ The GS Ball scene walks the player three tiles south of Kurt's door, so it may only start as the
+@ player comes out of that door. A Hub Pass leaves his house another way; the scene then waits.
+AzaleaTown_EventScript_CheckLeftKurtsHouse::
+	getplayerxy VAR_TEMP_1, VAR_TEMP_2
+	goto_if_ne VAR_TEMP_1, 19, Common_EventScript_NopReturn
+	goto_if_ne VAR_TEMP_2, 11, Common_EventScript_NopReturn
+	setvar VAR_TEMP_0, 1
+	return
 
 AzaleaTown_MapScript_Hide_Silver:
 	setflag FLAG_HIDE_AZALEA_TOWN_SILVER
@@ -222,6 +232,7 @@ AzaleaTown_Silver_Battle_Chikorita::
 
 AzaleaTown_EventScript_GSBall::
 	lock
+	setvar VAR_TEMP_0, 0
 	applymovement OBJ_EVENT_ID_PLAYER, AzaleaTown_Movement_PlayerGSBall
 	waitmovement 0
 	clearflag FLAG_HIDE_AZALEA_TOWN_KURT

@@ -181,6 +181,8 @@ WANT = [
     "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
     "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
     "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
+    # DefaultBoxCatchMessages.lua: the givecaughtmon step, where "add it to your party?" waits.
+    "BattleScript_GiveCaughtMonAfterNick",
     # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and
     # rate-limited against sLastAutosaveFrame; rewinding the latter is how a suite reaches the
     # next autosave without idling out ten emulated minutes. Task_Autosave is the live SAVING
@@ -211,6 +213,8 @@ WANT = [
     # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
     "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
     "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
+    # PC storage screen state (src/swsh_storage_system.c): the cursor, the Pokemon or item in hand.
+    "sStorage", "sCursorArea", "sCursorPosition", "sIsMonBeingMoved", "sMovingItemId",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]

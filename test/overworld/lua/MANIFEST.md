@@ -1463,3 +1463,16 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `DefaultBoxCatchMessages.lua`
+
+The box names in the "sent to the PC" lines when a default deposit box is set (the PC box menu's
+"Make Default", `VAR_DEFAULT_PC_BOX`). Six Bulbasaur come from the debug Give menu, and BOX3 is made
+the default with real input (box title, R, Make Default, back to BOX1, out). With BOX3 filled in RAM,
+the Celadon Condominiums Eevee is taken (nickname declined): the box-full line must name BOX3, then
+BOX4. With BOX4 filled too (the line shows once per landing box), a wild Pidgey from
+`setwildbattle` + `dowildbattle` is caught with a Master Ball, answering No to "add it to your
+party?": BOX3, then BOX5. With BOX3 emptied, a second Pidgey is caught answering Yes and sending
+the sixth Bulbasaur: the line must name BOX3, where it lands. Names are read from the battle text
+and `gStringVar4`. Before the fix the box-full lines named the box of the previous transfer and the
+swap line the box from before the transfer: **12/15** on the unfixed ROM (BOX1, BOX4 and BOX5),
+**15/15** with the fix.

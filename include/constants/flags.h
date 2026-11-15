@@ -1997,7 +1997,7 @@
 #define FLAG_BOUGHT_MAGIKARP                             0
 #define FLAG_DID_ZYNX_TRADE                              0
 #define FLAG_DID_MS_NIDO_TRADE                           0
-#define FLAG_0x24C                                       0
+#define FLAG_OAK_HOLDING_POKE_BALLS                      0
 #define FLAG_DID_CH_DING_TRADE                           0
 #define FLAG_GOT_TM38_FROM_BLAINE                        0
 #define FLAG_OAK_SKIP_22_RIVAL_CHECK                     0
@@ -3324,6 +3324,9 @@
 #define FLAG_DID_ZYNX_TRADE (0xA40 + 0x24A)
 #undef FLAG_DID_MS_NIDO_TRADE
 #define FLAG_DID_MS_NIDO_TRADE (0xA40 + 0x24B)
+// Unused in FRLG. Oak keeps the Poke Balls from the Pokedex scene here when the pocket is full.
+#undef FLAG_OAK_HOLDING_POKE_BALLS
+#define FLAG_OAK_HOLDING_POKE_BALLS (0xA40 + 0x24C)
 #undef FLAG_DID_CH_DING_TRADE
 #define FLAG_DID_CH_DING_TRADE (0xA40 + 0x24D)
 #undef FLAG_GOT_TM38_FROM_BLAINE

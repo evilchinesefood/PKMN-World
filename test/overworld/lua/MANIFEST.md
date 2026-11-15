@@ -1316,3 +1316,18 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `OakPokeBallsFullPocket.lua`
+
+Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
+Johto and Hoenn can already hold 16 other ball types (12 from the Hub clerk, 7 from Kurt), and the
+POKéDEX scene used `giveitem_msg`, which has no space check. It printed "received five POKé BALLS"
+and the bag stayed unchanged. Setup boots a new game, crosses the Kanto gate and plays Oak's
+starter scene with real input, writes what `EndRivalBattle` writes instead of fighting the rival,
+and lets the Viridian clerk's real scene hand over the PARCEL. The pocket is then filled in RAM
+with 16 real ball ids, none a POKé BALL. Delivering the PARCEL and three more talks to Oak use real
+input. It checks that the scene still ends (lab scene 6, POKéDEX received), that `gStringVar4`
+carried Oak's "no room for these" line instead of "received five", that Oak keeps them while the
+pocket is full, gives exactly five once a slot is free, and gives them only once. Measured
+**24/24** fixed and **18/24** without the `PalletTown_ProfessorOaksLab_Frlg` change, where the
+scene prints "received five POKé BALLS" with no POKé BALL in the bag and no later talk gives any.

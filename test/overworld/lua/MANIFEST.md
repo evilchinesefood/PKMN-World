@@ -1418,3 +1418,13 @@ throughout, the Bag back with the Mail still in it, and the field back. Before t
 frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
 for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
 after a failure).
+### `SelectWheelStaleSlot.lua`
+
+SELECT with one usable registered key item must use it, even when an earlier key item wheel slot
+names a key item that has left the Bag. At Petalburg City a Mach Bike is added with `additem` and
+the wheel slots are written the way `ItemMenu_Register` leaves them; SELECT runs with real input.
+With only the Mach Bike registered (control) SELECT must mount it; with Devon Parts (not in the
+Bag) in slot 0 and the Mach Bike in slot 1 SELECT must mount it too. Before the fix
+`UseRegisteredKeyItemOnField` took the first registered slot, found it missing, cleared it and
+showed "An item in the BAG can be registered..." instead: **7/8** on the unfixed ROM, **8/8** with
+the fix.

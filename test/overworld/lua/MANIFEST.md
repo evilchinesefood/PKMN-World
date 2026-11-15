@@ -2009,3 +2009,11 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `BugContestPartyLock.lua`
+
+While the Bug-Catching Contest parks the team, the party menu must not open the PC (R, Boxes) or
+offer the lead's held-item, Follow and Nickname rows, which the contest's end would undo or double.
+The suite gives a team, enters the contest through the real attendant, opens the party from the
+Start menu, presses R, and counts the lead's action rows through `sMenu` (Summary and Cancel only).
+Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
+with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).

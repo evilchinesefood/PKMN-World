@@ -579,12 +579,15 @@ void ScrCmd_setwildbattleshiny_Compat(struct ScriptContext *ctx)
 
 // HnS `removegenericmon <species>` (Lake of Rage Magikarp-length house): removes the party
 // mon at slot VAR_0x8004 if it matches <species>, reporting via gSpecialVar_Result. Ported
-// verbatim from HnS scrcmd.c; MON_SATISFACTORY/MON_UNSATISFACTORY are the HnS result codes
-// (2/1) inlined since the target lacks those constants.
+// from HnS scrcmd.c; MON_SATISFACTORY/MON_UNSATISFACTORY/MON_LAST_HEALTHY are the result codes
+// (2/1/3, include/constants/johto_compat_ids.h) inlined since the target lacks those constants.
+// It keeps the rules every other removal follows (the PC, removenamedmon): an Egg is not its
+// species, the last healthy non-Egg party member stays, and a Mail holder's letter is freed.
 void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
 {
     u16 targetSpecies = ScriptReadHalfword(ctx);
     u8 monIndex = VarGet(VAR_0x8004);
+    u32 result;
 
     if (monIndex >= PARTY_SIZE)
     {
@@ -593,7 +596,7 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
     }
 
     struct Pokemon *mon = &gPlayerParty[monIndex];
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, NULL);
 
     if (species == SPECIES_NONE || species != targetSpecies)
     {
@@ -601,23 +604,22 @@ void ScrCmd_removegenericmon_Compat(struct ScriptContext *ctx)
         return;
     }
 
-    if (species == SPECIES_MAGIKARP)
+    if (CountPartyAliveNonEggMonsExcept(monIndex) == 0)
     {
-        u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-        if (level == 100)
-        {
-            ZeroMonData(mon);
-            CompactPartySlots();
-            CalculatePlayerPartyCount(); // CompactPartySlots does not maintain the count
-            gSpecialVar_Result = 2; // MON_SATISFACTORY
-            return;
-        }
+        gSpecialVar_Result = 3; // MON_LAST_HEALTHY
+        return;
     }
 
+    if (species == SPECIES_MAGIKARP && GetMonData(mon, MON_DATA_LEVEL, NULL) == 100)
+        result = 2; // MON_SATISFACTORY
+    else
+        result = 1; // MON_UNSATISFACTORY
+
+    TakeMailFromMon(mon);
     ZeroMonData(mon);
     CompactPartySlots();
     CalculatePlayerPartyCount(); // CompactPartySlots does not maintain the count
-    gSpecialVar_Result = 1; // MON_UNSATISFACTORY
+    gSpecialVar_Result = result;
 }
 
 // === Safari Zone area (region merge) ===

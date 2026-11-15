@@ -2009,3 +2009,16 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `BagCallbackGiveStress.lua`
+
+The Bag's in-place party select serves Use and Give, with Use's callback left in `gItemUseCB` and
+Give's mode in the static `sPartyGiveMode`. For each party-callback item (Potion, Revive, Max
+Revive, Rare Candy, Fire Stone, Ether, PP Up, Sacred Ash with and without an effect, TM01) the
+suite Uses it with real input, backs out (B at the select; A then B B for the PP items; No-effect
+or real Sacred Ash; Yes then B for the TM), then Gives a Revive to the lead: exactly one Revive
+must move, no Pokémon's HP may change and the backed-out item must stay. Then Orange Mail onto a
+holder (refused) and onto a non-holder (letter opened, quit with Yes), then Use Potion on the hurt
+lead in the reopened Bag must heal it, not give it. Measured **64/64** on master and **58/64** with
+`0829014ec0`'s `swsh_item_menu.c` hunks reverted (one Revive revived the fainted Charmander through
+the stale Sacred Ash callback, and the Potion after the Mail give was given instead of used).
+`PW_ONLY=<plan name>` (pass with `--env`) runs one plan.

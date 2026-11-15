@@ -1463,3 +1463,13 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `DexMenuChord.lua`
+
+A Pokedex START-menu row that changes screens must not be undone by B or START pressed on the same
+frame. Both START menus handled A and then, on the same frame, START/B as "close the menu", so a
+chord on Special Pokemon, Close Pokedex or (in search results) Back to Pokedex let the fade finish
+on a black screen while the invisible list kept taking input. From the field, with real input
+(and a real search for the search-results cases), the cursor is put on the row and A is pressed
+with B or START for the same two frames. Each case must reach its own destination (the Special
+Pokemon checklist, the full list, or the field), must not leave every palette colour black, and
+must hand control back. Unfixed ROM **15/28** (all six cases on a black screen), fixed **28/28**.

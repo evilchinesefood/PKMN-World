@@ -135,3 +135,4 @@ PartyGiveSwitchDecline	lua/PartyGiveSwitchDecline.lua	fresh	0	required
 PartyMoveItemOntoMail	lua/PartyMoveItemOntoMail.lua	fresh	0	required
 SelectWheelStaleSlot	lua/SelectWheelStaleSlot.lua	fresh	0	required
 BagRepelFlow	lua/BagRepelFlow.lua	fresh	0	required
+DexMenuChord	lua/DexMenuChord.lua	fresh	0	required

@@ -146,6 +146,8 @@ WANT = [
     "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
     "Task_OakSpeech_HandleGenderInput",
     "gPlayerOutfitPicker", "Task_OutfitPicker",
+    # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
+    "CB2_Pokedex", "RunCollection",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
     "CB2_InitOptionMenu", "Task_OptionMenuProcessInput",

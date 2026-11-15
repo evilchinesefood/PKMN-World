@@ -203,8 +203,8 @@ static void HandleCollectionInput(u8 taskId)
             sSpecialPokemonMenu->selected++;
         else if (JOY_REPEAT(DPAD_LEFT) && oldSelection >= COLLECTION_ROWS)
             sSpecialPokemonMenu->selected -= COLLECTION_ROWS;
-        else if (JOY_REPEAT(DPAD_RIGHT) && oldSelection + COLLECTION_ROWS < SPECIAL_POKEMON_COUNT)
-            sSpecialPokemonMenu->selected += COLLECTION_ROWS;
+        else if (JOY_REPEAT(DPAD_RIGHT) && oldSelection / COLLECTION_ROWS < (SPECIAL_POKEMON_COUNT - 1) / COLLECTION_ROWS)
+            sSpecialPokemonMenu->selected = min(oldSelection + COLLECTION_ROWS, SPECIAL_POKEMON_COUNT - 1);
     }
     if (oldSelection != sSpecialPokemonMenu->selected)
     {

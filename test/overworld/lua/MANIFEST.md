@@ -1493,3 +1493,12 @@ elevation-2 platform beside Slowpoke Well facing down onto an elevation-3 tile, 
 answers a player on its own elevation, so A in front of her did nothing and the quest could only be
 finished by finding the side approach from the stairs: **5/8** on the unfixed ROM, **8/8** with the
 fix.
+### `SpecialDexFormsNav.lua`
+
+The Pokédex Forms page must keep its button hint on screen on every page. With every Pokédex flag
+set, real input opens Pikachu's Forms page (18 forms, two pages) and the suite reads BG2's tilemap
+where the navigation window lives: on arrival, in form mode, after paging to page 2, after leaving
+form mode there, and after a trip to Evos and back. `Task_HandleFormsScreenInput` (exported for
+this suite) proves the page is open before each read. #394's paged `PrintForms` put the full-screen
+info window's tilemap after the navigation window was drawn, so the "Form Mode / Evos" hint was
+blank on arrival and vanished on every page change: **6/9** on the unfixed ROM, **9/9** with the fix.

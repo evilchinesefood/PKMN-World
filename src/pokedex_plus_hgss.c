@@ -6984,6 +6984,8 @@ static void PrintForms(u8 taskId, enum Species species)
     }
     PutWindowTilemap(WIN_INFO);
     CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
+    // WIN_INFO's tilemap covers the navigation window's rows, so draw the buttons after it.
+    EvoFormsPage_PrintNavigationButtons();
     UpdateFormsCursor();
 }
 
@@ -7023,7 +7025,6 @@ static void Task_LoadFormsScreen(u8 taskId)
         LoadTilesetTilemapHGSS(FORMS_SCREEN);
         LoadScreenSelectBarMain(0xD);
         LoadPokedexBgPalette(sPokedexView->isSearchResults);
-        EvoFormsPage_PrintNavigationButtons();
         PrintForms(taskId, species);
         LoadSpritePalette(&gSpritePalette_Arrow);
         TryLoadDarkModeArrowPalette();

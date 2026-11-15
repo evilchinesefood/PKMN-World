@@ -1463,3 +1463,14 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `ArtisanCaveDeparture.lua`
+
+Artisan Cave is part of the Battle Frontier island: both entrances open off the Frontier and no
+route reaches it from mainland Hoenn. A Hoenn team leaves through the Hub Pass, another team
+boards the hub's Frontier attendant, and the suite debug-warps onto the beach below the cave's
+west entrance (reached by Surf), walks in and uses the Hub Pass from the cave. The Frontier
+outdoors (control) and the cave must both leave Hoenn's remembered team alone, and the Hoenn
+gate's recall must bring that team back, with the party and every PC box counted. Before the fix
+`RegionalTravel_PhysicalRegion` read the cave's Hoenn map section as mainland Hoenn, so the Hub
+Pass replaced the remembered team with the carried one (`count=3`) and the recall brought the
+carried team (`party=B0,B1,B2`): **14/16** on the unfixed ROM, **16/16** with the fix.

@@ -2009,3 +2009,13 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `SummaryEggPages.lua`
+
+An Egg's summary must not leak what hatching reveals. A shiny Bulbasaur leads (control: star and
+friendship heart show) and a shiny Togepi Egg from the debug Give Egg menu follows (shininess set
+through the unencrypted `shinyModifier` bit). With real input the suite opens Bulbasaur's summary
+from the Start menu's party, scrolls onto the Egg, tries Left and Right, and reads the shiny star
+and friendship heart sprites by their fixed positions in `gSprites`; then from each of Bulbasaur's
+other pages Down must skip the Egg (the party cursor returns to the lead on close). Measured
+**15/15** on master and **11/15** with `0829014ec0`'s Egg checks in `SetShinySprite` and
+`SetFriendshipSprite` reverted (star and heart shown on the Egg).

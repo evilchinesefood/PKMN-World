@@ -1651,3 +1651,13 @@ type 4 on by day) and that Goldenrod's street lamps go dark, the control that a 
 off. `make validate` also gained `LIGHT-TYPE` in `ValidateMapEvents.py`: every light sprite's type
 must index `gFieldEffectLightTemplates` (120 violations on the unfixed tree, 0 now).
 **47/81** on the unfixed ROM, **81/81** with the fix.
+### `EvoMoveLearnChord.lua`
+
+A and B pressed on the same frame at the evolution scene's "forget a move?" prompt must act once.
+A Rare Candy from the Bag levels a debug-given Ivysaur 31 with four moves to 32, it evolves into
+Venusaur, and Venusaur tries to learn Petal Blizzard; with the cursor on YES, A and B go down
+together for one frame with real input. The move-select summary must open, the screen must not be
+left black, and choosing the first move there must teach Petal Blizzard over it (one candy spent).
+Before the fix `Task_EvolutionScene` took YES (state to the move-select screen, fade to black) and
+then, in a separate `if`, NO on the same frame, so "did not learn" waited for a press on a black
+screen and the move was never learned: **7/10** on the unfixed ROM, **10/10** with the fix.

@@ -2202,3 +2202,18 @@ others cut the power at eight offsets spread over the measured write plus its la
 load the second Start-menu save or the Frontier save, whole. Measured **23/23** fixed and **14/23**
 on the unfixed ROM, where all nine cuts (frames 0 to 336 of a 337-frame write) loaded the first
 save. `PW_FSP_OFFSETS=<n>` changes the number of spread offsets.
+
+### `SaveWritePowerCut.lua`
+
+A power cut on every frame of a Start-menu save's flash write. Each trial marks four places in
+different sectors (the seventh player-name byte in SaveBlock2, the registered-item word and the
+tile in SaveBlock1, the last Johto flag byte in the SaveBlock3 chunk and the last box's wallpaper
+in the PC), saves, writes the other marking on a neighbouring tile, saves again and cuts the power
+when that write has run `off` frames, then boots and Continues. Every marker must come back from
+the same save, a new save must load with a clean status, and every eighth trial saves once more
+after the recovery and must reboot into that save with a clean status. Coverage: with
+`PW_CUT_STEP=1` (and `PW_MAX_FRAMES=1500000`) all 254 offsets of a 252-frame write ran **576/576**:
+the cut on frame 0 loads the previous save with status OK, every cut from frame 1 to the last write
+frame loads it with the "previous save loaded" status, and only the completed write loads the new
+save. The registered default samples every third frame plus the frame after the write and scores
+**198/198**. No defect found.

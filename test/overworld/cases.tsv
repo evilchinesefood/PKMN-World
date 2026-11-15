@@ -179,3 +179,4 @@ JohtoHeadbuttTrees	lua/JohtoHeadbuttTrees.lua	fresh	0	required
 JohtoViridianIndigoTiles	lua/JohtoViridianIndigoTiles.lua	fresh	0	required
 SummaryMoveCancelRace	lua/SummaryMoveCancelRace.lua	fresh	0	required
 OweContactCoordEvent	lua/OweContactCoordEvent.lua	fresh	0	required
+PyramidRestUsm	lua/PyramidRestUsm.lua	fresh	0	required

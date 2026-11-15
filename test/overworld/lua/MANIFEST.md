@@ -2009,3 +2009,12 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `PyramidRestUsm.lua`
+
+Rest in the Battle Pyramid from the graphical Start menu must quit to the title like the classic
+menu's Rest. The suite gives six Pokémon, takes the real Lv. 50 Pyramid challenge at the lobby
+attendant with real input, waits for control on floor 1 (field locks, not a step probe: the floor
+is dark and walled), picks Rest and answers Yes. The game must not hand control back on the floor,
+and Continue must load the Rest save and resume on the floor with the three chosen Pokémon.
+Measured **13/13** on master and **11/13** with `0829014ec0`'s `save_dialog.c` hunk reverted (after
+Rest the player walked on the floor holding all six Pokémon).

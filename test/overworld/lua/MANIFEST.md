@@ -2242,3 +2242,14 @@ sprite must be active with non-blank tiles that match the start of `gObjectEvent
 closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
 tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
 fixed build.
+### `SummaryDexNumberNoDex.lua`
+
+Before the National Pokédex, the summary's info page must print a dex number only for a species in
+the current region's dex. Johto has no regional dex here and borrowed the Hoenn order, whose lookup
+returns 0 outside that dex, and 0 passed `<= REGIONAL_DEX_COUNT`: a Johto starter showed "000" and a
+Zubat its Hoenn number until Elm's Pokédex. The suite gives each Pokémon with the debug Give menu,
+warps to a map of the region (the region is map-derived), opens the summary from the Start menu
+with real input and counts lit pixels where the number prints in the species window (12 with no
+number, over 100 with three digits). Johto (National Park gate): Chikorita and Zubat show no
+number. Control: Kanto (Viridian City) Bulbasaur shows its Kanto number. Measured **9/9** fixed and
+**7/9** on the unfixed ROM.

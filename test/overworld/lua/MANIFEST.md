@@ -1316,3 +1316,14 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `BagCheckMail.lua`
+
+Checking a Mail item from the Bag must open the blank letter and come back without a crash. Each
+case puts one Mail (Orange, Harbor, Bead, Dream, Retro) in the Items pocket, opens the Bag with
+real input, picks Check, holds the letter open, closes it with B, and requires no crash screen
+throughout, the Bag back with the Mail still in it, and the field back. Before the fix
+`CB2_CheckMail` handed `ReadMail` a pointer to a stack `struct Mail` that the screen read on later
+frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
+for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
+after a failure).

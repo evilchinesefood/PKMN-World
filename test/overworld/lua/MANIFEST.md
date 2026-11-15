@@ -1437,11 +1437,11 @@ sets `VAR_PLAYER_PALETTE`, and `PW_SPAM_TEXT=<0..3>` mashes at that text speed (
 at Instant); each takes effect from the first warp. Ten runs with new seeds crossed them with the
 runner's `--rtc` at 23:58:30 (the midnight rollover), 02:30, 12:00 and 19:59: the girl with
 outfits 4, 13 and 19, outfits 10 and 22, and Slow, Mid and Fast text. No run crashed or stranded
-the field. Six scored 88/88; four missed only a goal check that depends on the seed (the Fly map,
-Dig or Hub Pass mash closed the screen before using it), and one Mid-text run at midnight left the
-Tate and Liza double battle running past the recovery budget: the recovery's Run cannot forfeit a
-battle the mash failed to win, and the state cycled through the party menu and action menu
-without hanging (replayed from the kept savestate).
+the field. Six scored 88/88. Four missed goal checks that depend on the seed (the Fly map, Dig or
+Hub Pass mash closed the screen before using it); one of them, a Mid-text run at midnight, also
+left the Tate and Liza double battle running past the recovery budget: the recovery's Run cannot
+forfeit a battle the mash failed to win, and the state cycled through the party menu and action
+menu without hanging (replayed from the kept savestate).
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after

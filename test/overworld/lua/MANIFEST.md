@@ -1523,3 +1523,12 @@ on a black screen while the invisible list kept taking input. From the field, wi
 with B or START for the same two frames. Each case must reach its own destination (the Special
 Pokemon checklist, the full list, or the field), must not leave every palette colour black, and
 must hand control back. Unfixed ROM **15/28** (all six cases on a black screen), fixed **28/28**.
+### `StoryOverviewLine.lua`
+
+The Story overview row shows only the first line of a region's next action, so that line must read
+as a whole instruction. A fresh game is taken into Pallet, New Bark and Littleroot, Story is opened
+from the Start menu with real input, and the action each of the three rows prints is read from the
+live resolver results: its first line must end in `.`, `!` or `?`. The unfixed ROM printed
+"Meet Prof. Oak and choose" for Kanto on every visit. `test/overworld/story-progress/run.py`
+applies the same rule to all 164 authored objectives. Unfixed ROM **22/25** (the Kanto row on all
+three visits), fixed **25/25**.

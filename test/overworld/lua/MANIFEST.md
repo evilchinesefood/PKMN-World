@@ -1463,3 +1463,13 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `BagSortChord.lua`
+
+START and A pressed on the same frame in a one-item Bag pocket must do one thing. Three Potions are
+the only Items stack; the Bag opens from the start menu and START and A go down together for one
+frame with real input. The "There's nothing to sort!" message must come up without the item's
+context menu, A must dismiss it back to the item list, and the Potions must be untouched. Before
+the fix that START path in `Task_BagMenu_HandleInput` (`src/swsh_item_menu.c`) used `break` and
+fell into the list input below it, so the same A opened the context menu over the half-started
+message and its blank box stayed over the item description until the Bag closed: **3/6** on the
+unfixed ROM, **6/6** with the fix.

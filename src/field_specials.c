@@ -5649,10 +5649,20 @@ void UpdateLoreleiDollCollection(void)
     }
 }
 
+// Selphy compares the party's exact species, so only a seen, enabled base form can ever be shown.
+static bool32 IsRequestableResortGorgeousMon(enum Species species)
+{
+    return species != SPECIES_NONE
+        && species < NUM_SPECIES
+        && IsSpeciesEnabled(species)
+        && GET_BASE_SPECIES_ID(species) == species
+        && GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN);
+}
+
 void SampleResortGorgeousMonAndReward(void)
 {
     enum Species requestedSpecies = VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON);
-    if (requestedSpecies == SPECIES_NONE || requestedSpecies == 0xFFFF)
+    if (!IsRequestableResortGorgeousMon(requestedSpecies))
     {
         VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, SampleResortGorgeousMon());
         VarSet(VAR_RESORT_GORGEOUS_REWARD, SampleResortGorgeousReward());
@@ -5668,10 +5678,10 @@ static enum Species SampleResortGorgeousMon(void)
     for (i = 0; i < 100; i++)
     {
         species = (Random() % (NUM_SPECIES - 1)) + 1;
-        if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), 0) == TRUE)
+        if (IsRequestableResortGorgeousMon(species))
             return species;
     }
-    while (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), 0) != TRUE)
+    while (!IsRequestableResortGorgeousMon(species))
     {
         if (species == SPECIES_BULBASAUR)
             species = NUM_SPECIES - 1;

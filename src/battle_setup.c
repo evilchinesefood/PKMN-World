@@ -669,6 +669,14 @@ static bool32 RefuseScriptedWildBattleIfPartyless(void)
     return TRUE;
 }
 
+// A scripted wild battle (dowildbattle and the special starters) is a placed, usually one-time
+// encounter whose script resolves RAN on its own terms: Snorlax leaves, the Electrode and Voltorb
+// are removed. The battle keeps this callback until it ends, so it identifies one from inside.
+bool32 IsScriptedWildBattle(void)
+{
+    return gMain.savedCallback == CB2_EndScriptedWildBattle;
+}
+
 void BattleSetup_StartScriptedWildBattle(void)
 {
     if (RefuseScriptedWildBattleIfPartyless())

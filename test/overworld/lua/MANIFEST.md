@@ -2009,3 +2009,16 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `HoldBStaticEncounter.lua`
+
+Holding B at the start of a wild battle auto-runs, and B is also the overworld run button, so a
+player who runs up to a placed encounter and presses A is still holding B when its battle starts.
+Auto-run is for ordinary random and visible encounters; a scripted static battle treats RAN as
+resolved (the Power Plant's Electrode is removed, Snorlax returns to the mountains), so fleeing it
+on a held B lost the encounter for good. A debug party enters the Power Plant and walks to
+Electrode 1 with real input (random encounters on the way are fled by holding B, which must still
+work: the last check counts them). Holding B, A is pressed on the Electrode "item ball" and then
+tapped only to page the battle intro. The fixed game reaches the action menu and stays there with
+B held; the suite then picks RUN. **7/8** on the unfixed ROM (the battle ends on its own),
+**8/8** with the fix.

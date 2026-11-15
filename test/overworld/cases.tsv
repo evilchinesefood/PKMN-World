@@ -187,3 +187,5 @@ SkyCharmBikeAloft	lua/SkyCharmBikeAloft.lua	fresh	0	required
 BagCallbackGiveStress	lua/BagCallbackGiveStress.lua	fresh	0	required
 IconRowStacking	lua/IconRowStacking.lua	fresh	0	required
 UsmOpenCloseStress	lua/UsmOpenCloseStress.lua	fresh	0	required
+SpecialChecklistStress	lua/SpecialChecklistStress.lua	fresh	0	required
+SpecialFormsIdentity	lua/SpecialFormsIdentity.lua	fresh	0	required

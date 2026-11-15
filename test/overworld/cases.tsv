@@ -131,3 +131,4 @@ BagRareCandyMoves	lua/BagRareCandyMoves.lua	fresh	0	required
 BagGiveOverMail	lua/BagGiveOverMail.lua	fresh	0	required
 BagCheckMail	lua/BagCheckMail.lua	fresh	0	required
 BagFluteReusable	lua/BagFluteReusable.lua	fresh	0	required
+PartyGiveSwitchDecline	lua/PartyGiveSwitchDecline.lua	fresh	0	required

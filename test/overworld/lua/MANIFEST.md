@@ -1426,3 +1426,11 @@ Give menu is put to sleep, then the Bag, Use, the party select and the message r
 input: the Blue Flute must clear the sleep and leave one flute in the Bag; an Awakening (control)
 must clear the sleep and be used up. Before the fix `BagMenu_UseMedicine` removed every medicine it
 used, flutes included: **5/6** on the unfixed ROM, **6/6** with the fix.
+### `PartyGiveSwitchDecline.lua`
+
+Declining the party menu's "switch the two items?" prompt must leave the Bag and the held item
+alone. A Bulbasaur from the debug Give menu holds an Oran Berry and the Items pocket holds one
+Potion; then the party menu, Item, Give, the Bag pick and the prompt run with real input. Answering
+No must leave one Potion in the Bag and the Oran Berry held; answering Yes (control) must switch
+them. Before the fix the SwSh No branch called `AddBagItem` for an item the prompt had never
+removed, so every decline added a copy: **7/8** on the unfixed ROM, **8/8** with the fix.

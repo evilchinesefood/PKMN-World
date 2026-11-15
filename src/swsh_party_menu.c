@@ -4698,8 +4698,6 @@ static void Task_HandleSwitchItemsYesNoInput(u8 taskId)
         PlaySE(SE_SELECT);
         // fallthrough
     case 1: // No
-        AddBagItem(gSpecialVar_ItemId, 1);
-
         // Reset to choose mon mode via Task_UpdateHeldItemSprite
         gPartyMenu.action = PARTY_ACTION_GIVE_ITEM; // Keep as GIVE_ITEM so cleanup happens
         gSpecialVar_ItemId = ITEM_NONE;

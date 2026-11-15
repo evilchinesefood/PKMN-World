@@ -1372,3 +1372,17 @@ must pick a town and fly), an Escape Rope used from the Bag in Granite Cave, Dig
 a lead Abra's party menu (Dig in Granite Cave, Teleport in Petalburg), the Hub Pass registered to
 Select and mashed through its Yes/No, and a lost trainer battle mashed through the whiteout and the
 respawn. Fly and Dig assert the mash actually left the map. Measured clean; no defect found.
+### `OakPokeBallsFullPocket.lua`
+
+Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
+Johto and Hoenn can already hold 16 other ball types (12 from the Hub clerk, 7 from Kurt), and the
+POKéDEX scene used `giveitem_msg`, which has no space check. It printed "received five POKé BALLS"
+and the bag stayed unchanged. Setup boots a new game, crosses the Kanto gate and plays Oak's
+starter scene with real input, writes what `EndRivalBattle` writes instead of fighting the rival,
+and lets the Viridian clerk's real scene hand over the PARCEL. The pocket is then filled in RAM
+with 16 real ball ids, none a POKé BALL. Delivering the PARCEL and three more talks to Oak use real
+input. It checks that the scene still ends (lab scene 6, POKéDEX received), that `gStringVar4`
+carried Oak's "no room for these" line instead of "received five", that Oak keeps them while the
+pocket is full, gives exactly five once a slot is free, and gives them only once. Measured
+**24/24** fixed and **18/24** without the `PalletTown_ProfessorOaksLab_Frlg` change, where the
+scene prints "received five POKé BALLS" with no POKé BALL in the bag and no later talk gives any.

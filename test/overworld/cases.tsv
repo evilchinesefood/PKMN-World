@@ -137,3 +137,4 @@ SelectWheelStaleSlot	lua/SelectWheelStaleSlot.lua	fresh	0	required
 BagRepelFlow	lua/BagRepelFlow.lua	fresh	0	required
 JohtoTilesetArt	lua/JohtoTilesetArt.lua	fresh	0	required
 JohtoHeadbuttTutor	lua/JohtoHeadbuttTutor.lua	fresh	0	required
+JohtoHeadbuttTrees	lua/JohtoHeadbuttTrees.lua	fresh	0	required

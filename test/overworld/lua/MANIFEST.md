@@ -114,6 +114,7 @@ is clean; keep it that way.
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
+| [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
@@ -1489,3 +1490,19 @@ Pokemon NOT ABLE. With real input from the Route 34 entrance the suite walks 94 
 at (42,26), says YES and picks a level 5 Pidgey (a level 100 Lapras leads so the Repel holds), then
 checks Pidgey knows Headbutt and that the script set `FLAG_GET_HEADBUTT`. **7/9** on the unfixed
 ROM, **9/9** with the fix.
+
+### `JohtoHeadbuttTrees.lua`
+
+The Johto tilesets came from pokemonHnS with HnS's metatile behaviour numbers, and HnS numbers 45
+behaviours differently. Its 0xA1, `MB_HEADBUTT_TREE`, read here as `MB_INDIGO_PLATEAU_SIGN_1`,
+which only answers in Kanto, so the 1,317 Headbutt-tree cells on Johto maps did nothing, while the
+Ilex Forest tutor and the Route 39 sign tell the player to Headbutt trees and 35 maps keep HnS's
+Headbutt table as `rock_smash_mons` with no rock to smash. Azalea Town is the bed: its only wild
+table is that one (rate 60) and it has no grass. With real input the suite walks to (28,13) under
+the small tree at (28,12). A at the wall beside it runs no script (control). A Magikarp, which can
+never learn Headbutt, gets "It's a small tree..." and no battle, without and then with
+`FLAG_GET_HEADBUTT` (Bugsy's win and the Ilex tutor set it). A Pidgey that does not know Headbutt
+but can be taught it is refused without the flag; with it the tree says "Pidgey used Headbutt!"
+and a wild battle against a species from Azalea's table starts within 30 tries (HnS accepts a
+Pokemon the tutor could teach). `HnsMetatileBehaviors.py` (host check) keeps HnS numbers out of
+the Johto tilesets. **11/18** on the unfixed ROM, **18/18** with the fix.

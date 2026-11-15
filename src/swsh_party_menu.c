@@ -3942,14 +3942,15 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
     }
 }
 
-// The Bug-Catching Contest, Battle Pike and Battle Pyramid park the real party in SaveBlock1
-// (SavePlayerParty) and put it back with LoadPlayerParty when they end. Reordering the stand-in
-// party, or moving Pokemon through the PC from it, is then undone or doubled at the end: a
-// deposited Pokemon is cloned, a withdrawn one deleted, and the contest's "not your first
-// Pokemon" check (by slot) judges the wrong one after a Switch.
+// The Bug-Catching Contest, Battle Pike, Battle Pyramid and the Battle Tower multi partner room
+// park the real party in SaveBlock1 (SavePlayerParty) and put it back with LoadPlayerParty when
+// they end. Reordering the stand-in party, or moving Pokemon through the PC from it, is then
+// undone or doubled at the end: a deposited Pokemon is cloned, a withdrawn one deleted, and the
+// contest's "not your first Pokemon" check (by slot) judges the wrong one after a Switch.
 static bool32 IsPartyParkedForChallenge(void)
 {
-    return InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || GetBugContestFlag();
+    return InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || GetBugContestFlag()
+        || InMultiPartnerRoom();
 }
 
 // Switch and the held-item actions: the end-of-event LoadPlayerParty would undo a reorder or

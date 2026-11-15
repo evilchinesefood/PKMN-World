@@ -12125,7 +12125,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_BikeShop",
+      "secondary_tileset": "gTileset_JohtoBikeShop",
       "border_filepath": "data/layouts/CianwoodShop/border.bin",
       "blockdata_filepath": "data/layouts/CianwoodShop/map.bin",
       "layout_version": "johto"
@@ -13438,7 +13438,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonLeague",
+      "secondary_tileset": "gTileset_JohtoPokemonLeague",
       "border_filepath": "data/layouts/JohtoPokemonLeague_WillsRoom/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_WillsRoom/map.bin",
       "layout_version": "johto"
@@ -13451,7 +13451,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonLeague",
+      "secondary_tileset": "gTileset_JohtoPokemonLeague",
       "border_filepath": "data/layouts/JohtoPokemonLeague_KogasRoom/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_KogasRoom/map.bin",
       "layout_version": "johto"
@@ -13464,7 +13464,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonLeague",
+      "secondary_tileset": "gTileset_JohtoPokemonLeague",
       "border_filepath": "data/layouts/JohtoPokemonLeague_BrunosRoom/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_BrunosRoom/map.bin",
       "layout_version": "johto"
@@ -13477,7 +13477,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonLeague",
+      "secondary_tileset": "gTileset_JohtoPokemonLeague",
       "border_filepath": "data/layouts/JohtoPokemonLeague_KarensRoom/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_KarensRoom/map.bin",
       "layout_version": "johto"
@@ -13490,7 +13490,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_PokemonLeague",
+      "secondary_tileset": "gTileset_JohtoPokemonLeague",
       "border_filepath": "data/layouts/JohtoPokemonLeague_ChampionsRoom/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_ChampionsRoom/map.bin",
       "layout_version": "johto"
@@ -13503,7 +13503,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_Building",
-      "secondary_tileset": "gTileset_HallOfFame",
+      "secondary_tileset": "gTileset_JohtoHallOfFame",
       "border_filepath": "data/layouts/JohtoPokemonLeague_HallOfFame/border.bin",
       "blockdata_filepath": "data/layouts/JohtoPokemonLeague_HallOfFame/map.bin",
       "layout_version": "johto"

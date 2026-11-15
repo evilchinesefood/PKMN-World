@@ -1463,3 +1463,15 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+
+### `NamedGiftFullParty.lua`
+
+Johto's named gift Pokemon with six in the party and empty boxes. `givenamedmon` (Randy's Kenya,
+Kirk's Shuckie, Bill's Eevee, the Dragon's Den Dratini) places its Pokemon in the party only, so a
+full party makes it report `MON_CANT_GIVE` however much room the PC has. For Randy, Kirk and Bill
+(seeded present the way the Ecruteak Pokemon Center scene leaves him) the suite talks, answers Yes
+and reads every message from `gStringVar4`: the refusal must say the party is full and must not
+claim the boxes are, and nothing may be given or recorded. With one party slot freed in memory the
+same talk must give the Pokemon. Measured **20/26** on the unfixed ROM, where all three refusals
+printed "There's no more room for POKéMON! The POKéMON BOXES are full and can't accept any more!"
+with every box empty.

@@ -132,3 +132,4 @@ BagGiveOverMail	lua/BagGiveOverMail.lua	fresh	0	required
 BagCheckMail	lua/BagCheckMail.lua	fresh	0	required
 BagFluteReusable	lua/BagFluteReusable.lua	fresh	0	required
 PartyGiveSwitchDecline	lua/PartyGiveSwitchDecline.lua	fresh	0	required
+PartyMoveItemOntoMail	lua/PartyMoveItemOntoMail.lua	fresh	0	required

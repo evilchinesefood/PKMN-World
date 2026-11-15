@@ -1434,3 +1434,13 @@ Potion; then the party menu, Item, Give, the Bag pick and the prompt run with re
 No must leave one Potion in the Bag and the Oran Berry held; answering Yes (control) must switch
 them. Before the fix the SwSh No branch called `AddBagItem` for an item the prompt had never
 removed, so every decline added a copy: **7/8** on the unfixed ROM, **8/8** with the fix.
+### `PartyMoveItemOntoMail.lua`
+
+The party menu's Item, Move must refuse a target that holds Mail, as Give does. Two Bulbasaur come
+from the debug Give menu; the first holds a Potion, then the party menu, Item, Move and the target
+pick run with real input. Onto a Mail holder (letter in mailbox slot 0, linked the way
+`GiveMailToMonByItemId` leaves it) nothing may move and the letter must stay linked; onto an Oran
+Berry holder (control) the items must switch. Before the fix `CursorCb_MoveItemCallback` swapped
+the held items alone, so the first Bulbasaur held the Mail with no mail index (Read showed a blank
+letter from `mail[255]`) and the second kept the letter's link while holding the Potion:
+**3/5** on the unfixed ROM, **5/5** with the fix.

@@ -10633,8 +10633,10 @@ void CursorCb_MoveItemCallback(u8 taskId)
         HandleChooseMonCancel(taskId, &gPartyMenu.slotId2);
         break;
     case 1:     // User hit A on a Pokemon
-        // Pokemon can't give away items to eggs
-        if (GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId2], MON_DATA_IS_EGG))
+        // Pokemon can't give away items to eggs, or to a Mail holder: the swap below moves only
+        // the held item, so the Mail would leave its letter linked from the other Pokemon.
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId2], MON_DATA_IS_EGG)
+         || ItemIsMail(GetMonData(&gParties[B_TRAINER_PLAYER][gPartyMenu.slotId2], MON_DATA_HELD_ITEM)))
         {
             PlaySE(SE_FAILURE);
             return;

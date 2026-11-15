@@ -3673,7 +3673,10 @@ static void Task_ShowEffectTilemap(u8 taskId)
     {
         SetGpuReg(REG_OFFSET_MOSAIC, 0);
         ClearGpuRegBits(REG_OFFSET_BG1CNT, BGCNT_MOSAIC);
-        PrintMoveDescription(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
+        // Move select takes input during the slide, so the cursor may be on the Cancel row by now.
+        PrintMoveDescription(sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
+            ? sMonSummaryScreen->newMove
+            : sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
         PrintNewMoveDetailsOrCancelText();
         SetNewMoveTypeIcon();
 

@@ -195,3 +195,4 @@ GoldenrodSceneStress	lua/GoldenrodSceneStress.lua	fresh	0	required
 HubPassLeagueRooms	lua/HubPassLeagueRooms.lua	fresh	0	required
 FrontierSavePowerCut	lua/FrontierSavePowerCut.lua	fresh	0	required
 SaveWritePowerCut	lua/SaveWritePowerCut.lua	fresh	0	required
+HubWardrobeSprite	lua/HubWardrobeSprite.lua	fresh	0	required

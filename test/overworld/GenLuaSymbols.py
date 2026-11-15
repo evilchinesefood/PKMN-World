@@ -152,6 +152,8 @@ WANT = [
     "NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC",
     # v1.5 playtests. Addresses move every rebuild; suites must read these from symbols.lua.
     "gMPlayInfo_BGM", "gSongTable", "gWildMonHeaders",
+    # HubWardrobeSprite.lua compares the wardrobe object's OBJ tiles with its first frame.
+    "gObjectEventPic_Wardrobe",
     "gTileset_PokemonCenterFrlg", "gTileset_Kanto_PokemonCenter",
     "gTileset_PokemonCenter_White", "gTileset_TrainerTower", "gTileset_PokemonCenter",
     # JohtoNightLights.lua. A light sprite is a bare gSprites entry whose callback is

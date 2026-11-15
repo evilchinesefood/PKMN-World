@@ -2228,3 +2228,17 @@ the cut on frame 0 loads the previous save with status OK, every cut from frame 
 frame loads it with the "previous save loaded" status, and only the completed write loads the new
 save. The registered default samples every third frame plus the frame after the write and scores
 **198/198**. No defect found.
+
+### `HubWardrobeSprite.lua`
+
+The World Transit wardrobe (`OBJ_EVENT_GFX_WARDROBE`, local id 15 at (7,7)) drew only its shadow.
+The graphics info has no tile tag, so the frame reaches VRAM only when an animation command sets a
+frame, and it used `gDummySpriteAnimTable`, which has none: the object's OBJ tiles stayed blank,
+the hub showed bare floor with a stray medium shadow, and a player standing at the wardrobe hid the
+shadow, so the wardrobe suites' screens looked right. It now uses `sAnimTable_Inanimate`, like every
+other inanimate object. From a fresh hub boot the player walks to (8,8), beside the wardrobe; its
+sprite must be active with non-blank tiles that match the start of `gObjectEventPic_Wardrobe`
+(added to `GenLuaSymbols.py`). As a control, A at (7,8) facing up opens the outfit picker and B
+closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
+tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
+fixed build.

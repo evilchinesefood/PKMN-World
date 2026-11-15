@@ -142,3 +142,4 @@ SpecialDexFormsNav	lua/SpecialDexFormsNav.lua	fresh	0	required
 AzaleaGsBallExit	lua/AzaleaGsBallExit.lua	fresh	0	required
 DexMenuChord	lua/DexMenuChord.lua	fresh	0	required
 StoryOverviewLine	lua/StoryOverviewLine.lua	fresh	0	required
+HubPassContexts	lua/HubPassContexts.lua	fresh	0	required

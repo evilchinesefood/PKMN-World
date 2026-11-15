@@ -146,3 +146,4 @@ HubPassContexts	lua/HubPassContexts.lua	fresh	0	required
 SpecialPokemonCatchRecovery	lua/SpecialPokemonCatchRecovery.lua	fresh	0	required
 SpecialPokemonRules	lua/SpecialPokemonRules.lua	fresh	0	required
 MoneySinkEdges	lua/MoneySinkEdges.lua	fresh	0	required
+NamedGiftFullParty	lua/NamedGiftFullParty.lua	fresh	0	required

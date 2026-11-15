@@ -1622,3 +1622,15 @@ memory and the rest of the run uses the bag. Measured **4/6** on the unfixed ROM
 opened with no room anywhere; played on from there, the first battle and the lab scene ran, Birch
 said "I'd like you to have the POKéMON you used earlier" with `STR_VAR_1` naming it, and the chosen
 starter was in neither the party nor a box. `--env PW_BIRCH_PARTY=0` runs the empty-party control.
+
+### `NamedGiftFullParty.lua`
+
+Johto's named gift Pokemon with six in the party and empty boxes. `givenamedmon` (Randy's Kenya,
+Kirk's Shuckie, Bill's Eevee, the Dragon's Den Dratini) places its Pokemon in the party only, so a
+full party makes it report `MON_CANT_GIVE` however much room the PC has. For Randy, Kirk and Bill
+(seeded present the way the Ecruteak Pokemon Center scene leaves him) the suite talks, answers Yes
+and reads every message from `gStringVar4`: the refusal must say the party is full and must not
+claim the boxes are, and nothing may be given or recorded. With one party slot freed in memory the
+same talk must give the Pokemon. Measured **20/26** on the unfixed ROM, where all three refusals
+printed "There's no more room for POKéMON! The POKéMON BOXES are full and can't accept any more!"
+with every box empty.

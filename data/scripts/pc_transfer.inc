@@ -48,3 +48,10 @@ Common_EventScript_NoMoreRoomForPokemon::
 	msgbox gText_NoMoreRoomForPokemon, MSGBOX_DEFAULT
 	release
 	end
+
+@ givenamedmon puts its Pokemon in the party only, so its MON_CANT_GIVE means a full party,
+@ whatever room the boxes have.
+Common_EventScript_NoRoomInPartyForPokemon::
+	msgbox gText_NoRoomInPartyForPokemon, MSGBOX_DEFAULT
+	release
+	end

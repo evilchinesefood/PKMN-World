@@ -51,6 +51,11 @@ gText_NoMoreRoomForPokemon::
 	.string "The POKéMON BOXES are full and\n"
 	.string "can't accept any more!$"
 
+gText_NoRoomInPartyForPokemon::
+	.string "Your party is full!\p"
+	.string "Make room in your party\n"
+	.string "and come back.$"
+
 gText_NicknameThisPokemon::
 	.string "Do you want to give a nickname to\n"
 	.string "this {STR_VAR_1}?$"

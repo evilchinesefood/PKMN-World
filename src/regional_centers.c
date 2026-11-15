@@ -307,9 +307,14 @@ bool32 RegionalCenter_IsSafe(u16 id, enum Region destination, struct Pokemon *pa
         return canFly || (CanSurf(destination, party, count) && CanDive(destination, party, count));
     case EVER_GRANDE:
         return canFly || (CanSurf(destination, party, count) && CanWaterfall(destination, party, count));
+    // The League Centers sit past Victory Road with no land route back (and, unlike Johto's,
+    // no teleporting NPC), so the outer-shore terrain rules apply; otherwise the standard
+    // regional arrival is used.
     case HOENN_LEAGUE:
+        return HasAllBadges(destination)
+            && (canFly || (CanSurf(destination, party, count) && CanWaterfall(destination, party, count)));
     case KANTO_LEAGUE:
-        return HasAllBadges(destination);
+        return HasAllBadges(destination) && (canFly || CanSurf(destination, party, count));
     case JOHTO_LEAGUE:
         return HasAllBadges(destination) && VarGet(VAR_ECRUTEAK_CITY_THEATER) >= 8
             && VarGet(VAR_LEAGUE_STATE) == 1;

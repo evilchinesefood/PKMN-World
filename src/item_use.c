@@ -500,6 +500,10 @@ static bool32 InEliteFourRoom(void)
         MAP_POKEMON_LEAGUE_AGATHAS_ROOM, MAP_POKEMON_LEAGUE_LANCES_ROOM,
         MAP_JOHTO_POKEMON_LEAGUE_WILLS_ROOM, MAP_JOHTO_POKEMON_LEAGUE_KOGAS_ROOM,
         MAP_JOHTO_POKEMON_LEAGUE_BRUNOS_ROOM, MAP_JOHTO_POKEMON_LEAGUE_KARENS_ROOM,
+        // The champion rooms too: leaving there skipped the run's no-healing rule (Kanto and
+        // Hoenn keep the champion fight open on return).
+        MAP_EVER_GRANDE_CITY_CHAMPIONS_ROOM, MAP_POKEMON_LEAGUE_CHAMPIONS_ROOM,
+        MAP_JOHTO_POKEMON_LEAGUE_CHAMPIONS_ROOM,
     };
     u16 map = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
     for (u32 i = 0; i < ARRAY_COUNT(sEliteFourRooms); i++)

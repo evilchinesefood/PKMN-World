@@ -377,9 +377,14 @@ local function specialGateScenarios()
   if not attempt(1,25,47,0,false,"league_missing_badges") then return false end
   for i=1,7 do flag(0xA4B+i,true) end
   if not attempt(1,25,47,0,true,"league_admitted") then return false end
+  -- The League Centers have no land route out, so all badges are not enough: a party without
+  -- Fly or Surf+Waterfall takes the standard arrival, and Charizard's Fly admits it.
   setFixtureSpeciesMoves(party(),10,33)
+  if not attempt(1,25,47,0,false,"kanto_league_without_water_or_flight") then return false end
   for i=0,7 do flag(0x94F+i,true) end
-  if not attempt(3,16,16,10,true,"hoenn_league_without_water_or_flight") then return false end
+  if not attempt(3,16,16,10,false,"hoenn_league_without_water_or_flight") then return false end
+  setFixtureSpeciesMoves(party(),6,19) -- Charizard with Fly
+  if not attempt(3,16,16,10,true,"hoenn_league_with_flight") then return false end
   F.check("Hoenn League Hub Pass exit records party",F.r8(team(3)+48)==1 and F.r32(team(3))==identity(party()))
   flag(0x61E5,false)
   if not attempt(2,47,97,9,false,"silver_guard_closed") then return false end

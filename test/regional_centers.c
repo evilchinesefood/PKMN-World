@@ -173,6 +173,11 @@ TEST("Regional Centers preserve League and mountain admission gates")
     VarSet(VAR_LEAGUE_STATE, 3);
     EXPECT(!RegionalCenter_IsSafe(48, REGION_JOHTO, party, 2));
     EXPECT_EQ(VarGet(VAR_LEAGUE_STATE), 3);
+    // Badges alone do not clear the Hoenn and Kanto League Centers: no land route leaves them.
+    CreateMon(&party[0], SPECIES_CATERPIE, 5, 2, OTID_STRUCT_PLAYER_ID);
+    CreateMon(&party[1], SPECIES_CATERPIE, 5, 2, OTID_STRUCT_PLAYER_ID);
+    EXPECT(!RegionalCenter_IsSafe(16, REGION_HOENN, party, 2));
+    EXPECT(!RegionalCenter_IsSafe(25, REGION_KANTO, party, 2));
     EXPECT(!RegionalCenter_IsSafe(47, REGION_JOHTO, party, 2));
     FlagSet(FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD);
     EXPECT(RegionalCenter_IsSafe(47, REGION_JOHTO, party, 2));

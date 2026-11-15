@@ -1418,3 +1418,11 @@ throughout, the Bag back with the Mail still in it, and the field back. Before t
 frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
 for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
 after a failure).
+### `PartyGiveSwitchDecline.lua`
+
+Declining the party menu's "switch the two items?" prompt must leave the Bag and the held item
+alone. A Bulbasaur from the debug Give menu holds an Oran Berry and the Items pocket holds one
+Potion; then the party menu, Item, Give, the Bag pick and the prompt run with real input. Answering
+No must leave one Potion in the Bag and the Oran Berry held; answering Yes (control) must switch
+them. Before the fix the SwSh No branch called `AddBagItem` for an item the prompt had never
+removed, so every decline added a copy: **7/8** on the unfixed ROM, **8/8** with the fix.

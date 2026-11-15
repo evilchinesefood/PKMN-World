@@ -215,9 +215,16 @@ Route101_EventScript_RouteSign::
 	msgbox Route101_Text_RouteSign, MSGBOX_SIGN
 	end
 
+@ The starter is given inside CB2_GiveStarter, where nothing can refuse it, so a player whose party
+@ and boxes are all full is turned away here instead of losing the starter.
 Route101_EventScript_BirchsBag::
 	lock
 	faceplayer
+	getpartysize
+	goto_if_ne VAR_RESULT, PARTY_SIZE, Route101_EventScript_OpenBirchsBag
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NoMoreRoomForPokemon
+Route101_EventScript_OpenBirchsBag:
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_RESCUED_BIRCH
 	fadescreen FADE_TO_BLACK

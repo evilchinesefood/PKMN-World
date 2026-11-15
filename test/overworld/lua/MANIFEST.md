@@ -2009,3 +2009,14 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `TowerMultiRoomBoxes.lua`
+
+The SwSh party menu's R (Boxes, `SWSH_PARTY_MENU_PC_ACCESS`) must not open the PC in the Battle
+Tower multi partner room. The lobby parks the full party in SaveBlock1 and the challenge's end
+reloads it, so a Pokémon moved through the PC from the two-member stand-in party is cloned
+(deposited) or deleted (withdrawn). The suite gives six Pokémon, takes the real Lv. 50 multi
+challenge, rides to the partner room, opens the party from the Start menu and presses R; if the PC
+opens it moves the second Pokémon into Box 1 with real input. It quits at the room attendant and
+counts each Pokémon's copies across the party and the boxes. Control: in the lobby afterwards the
+same R opens the PC. Measured **14/14** fixed and **12/14** on the unfixed ROM (the PC opened and
+the deposited Charmeleon existed twice after the challenge).

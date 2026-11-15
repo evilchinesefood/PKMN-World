@@ -477,8 +477,15 @@ F.run(function()
     if not warpMap(0, 0, 0, "petalburg_pass") then return "skip", 0 end
     addItem(893, 1)
     F.w16(F.sb1() + S.SaveBlock1.registeredItem, 893)
-    local result, at = mash("hub_pass", 1500, { A = 35, B = 15, Start = 4, Select = 40, dir = 50 })
-    F.check("registered hub pass mash: the mash reached the hub", F.grp() == HUB_GROUP)
+    -- Arm it up to the Yes/No with the cursor moved to YES, so the mash confirms and rides the warp.
+    F.press("Select", 2); F.idle(120)
+    F.press("A", 2); F.idle(60); F.press("A", 2); F.idle(60); F.press("Up", 2); F.idle(10)
+    local reached = false
+    local result, at = mash("hub_pass", 3000, { A = 35, B = 15, Start = 2, Select = 40, dir = 50 }, function()
+      if F.grp() == HUB_GROUP then reached = true end
+      return false
+    end)
+    F.check("registered hub pass mash: the mash reached the hub", reached)
     return result, at
   end)
   toHub()

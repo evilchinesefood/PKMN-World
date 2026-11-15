@@ -7,7 +7,8 @@ the gift does not fit or the wallet is short:
 
   mon     givemon, giveegg, givenamedmon, giveoddegg: VAR_RESULT must be tested for
           MON_CANT_GIVE afterwards (party and every box full), or a party-size check
-          must stand on every path into the gift.
+          must stand on every path into the gift. givenamedmon and giveoddegg fill the
+          party only, so their refusal must not be the "boxes are full" script.
   item    giveitem, additem, addpcitem, givedecoration, adddecoration: VAR_RESULT tested
           afterwards, or checkitemspace for the same item on every path in.
           giveitem_msg and a bare msgreceiveditem print "received" no matter what, and
@@ -43,6 +44,10 @@ from collections import defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 MON_OPS = {"givemon", "giveegg", "givenamedmon", "giveoddegg"}
+# The Johto compat gifts fill the party only, so their MON_CANT_GIVE means a full party; the
+# stock no-room script says the PC boxes are full and must not answer it.
+PARTY_ONLY_OPS = {"givenamedmon", "giveoddegg"}
+BOXES_FULL_SCRIPT = "Common_EventScript_NoMoreRoomForPokemon"
 ITEM_POST_OPS = {"giveitem", "additem", "addpcitem", "givedecoration", "adddecoration"}
 ITEM_PRE_OPS = {"giveitem_msg", "msgreceiveditem"}
 MONEY_OPS = {"removemoney"}
@@ -592,6 +597,10 @@ def classify(prog, preds, labels):
             cant = [c for c in conds if tests_value(c, "MON_CANT_GIVE", "2")]
             party = [c for c in conds if tests_value(c, "MON_GIVEN_TO_PARTY", "0") and c.op.startswith("goto")]
             pc = [c for c in conds if tests_value(c, "MON_GIVEN_TO_PC", "1") and c.op.startswith("goto")]
+            if op in PARTY_ONLY_OPS and any(c.args and c.args[-1] == BOXES_FULL_SCRIPT for c in cant):
+                add(ins, "mon", "UNGUARDED", "fills the party only but answers MON_CANT_GIVE with %s, "
+                    "which says the boxes are full" % BOXES_FULL_SCRIPT)
+                continue
             if any(splits(c) for c in cant) or (party and pc):
                 add(ins, "mon", "guarded", "result tested for MON_CANT_GIVE")
                 continue

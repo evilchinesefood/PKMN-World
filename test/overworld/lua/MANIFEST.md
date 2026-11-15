@@ -2020,3 +2020,12 @@ opens it moves the second Pokémon into Box 1 with real input. It quits at the r
 counts each Pokémon's copies across the party and the boxes. Control: in the lobby afterwards the
 same R opens the PC. Measured **14/14** fixed and **12/14** on the unfixed ROM (the PC opened and
 the deposited Charmeleon existed twice after the challenge).
+### `UsmOrderSpecialContext.lua`
+
+Closing the graphical Start menu in a context that hides icons must not drop them from the
+player's saved icon order (`SaveBlock3.usmSaved`). The suite moves Save to the front of the wheel
+with real SELECT and D-pad input, enters the Bug-Catching Contest at the National Park gate
+(which hides Save), moves the Bag ahead of the Party in the contest menu, retires at the exit and
+opens the menu again. Save must still lead and the contest's Bag move must be kept. Before the fix
+`Usm_SaveItems` wrote back only the icons the contest showed, so Save fell out of the order and
+returned at its default slot. Measured **9/9** fixed and **6/9** on the unfixed ROM.

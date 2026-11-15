@@ -118,6 +118,7 @@ ElmLabFullParty	lua/ElmLabFullParty.lua	fresh	0	required
 PikeRoomSave	lua/PikeRoomSave.lua	fresh	0	required
 TowerMultiRoomMenu	lua/TowerMultiRoomMenu.lua	fresh	0	required
 LedgeSelectStress	lua/LedgeSelectStress.lua	fresh	0	required
+SkyCharmLanding	lua/SkyCharmLanding.lua	fresh	0	required
 SafariStress	lua/SafariStress.lua	fresh	0	required
 BugContestEggOnly	lua/BugContestEggOnly.lua	fresh	0	required
 StartMenuSpriteLoad	lua/StartMenuSpriteLoad.lua	fresh	0	required

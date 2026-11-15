@@ -2009,3 +2009,16 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `UsmOpenCloseStress.lua`
+
+The graphical Start menu opened and closed 125 times with real input while the icon set changes
+between opens (Pokédex, PokéNav and DexNav flags toggled as setup). Cycles vary the D-pad walk,
+hold past the auto-repeat delay and reorder with SELECT. After every close the in-use sprites,
+sprite-VRAM tiles (`sSpriteTileAllocBitmap`) and OAM matrices (`gOamMatrixAllocBitmap`) must equal
+the field baseline, and every open must put the cursor on a real icon. Every 12th cycle opens
+Options from the last icon, removes three icons while Options is up and returns: the restored
+cursor must be in range and A must open the icon it shows. Options returns through a field reload
+that can respawn the follower, so the baseline is re-taken there and every reload must settle on
+the same counts. Measured **7/7** on master and **4/7** with `0829014ec0`'s
+`unbound_start_menu.c` hunks reverted (16 tiles leaked per close, the restored offset 3 exceeded
+the 6-icon list and A on it opened nothing). `PW_USM_CYCLES` (pass with `--env`) sets the count.

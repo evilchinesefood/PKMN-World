@@ -2009,3 +2009,20 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `FrontierSavePowerCut.lua`
+
+A power cut during a Battle Frontier save (`SaveGameFrontier`, `TrySavingData(SAVE_LINK)`). The
+link save rewrote the current slot in place, so a cut anywhere in its write tore the newest save
+and the next boot fell back to the save before it; near the end of the write no sector of the torn
+slot carried a valid signature yet, so the slot read as empty and the main menu did not even say a
+save was lost. `SAVE_LINK` now writes the other slot, as `SAVE_NORMAL` does. Each trial saves twice
+from the Start menu in the hub with distinct markers (the seventh player-name byte in SaveBlock2,
+the registered-item word and the tile in SaveBlock1, the last Johto flag byte in the SaveBlock3
+chunk and the last box's wallpaper in the PC), writes a third marking, seeds a paused Battle Tower
+challenge the way `tower_save` leaves it and warps into the lobby, where the attendant's
+ResumeChallenge script saves. The first trial completes the Frontier save and must load it; the
+others cut the power at eight offsets spread over the measured write plus its last frame and must
+load the second Start-menu save or the Frontier save, whole. Measured **23/23** fixed and **14/23**
+on the unfixed ROM, where all nine cuts (frames 0 to 336 of a 337-frame write) loaded the first
+save. `PW_FSP_OFFSETS=<n>` changes the number of spread offsets.

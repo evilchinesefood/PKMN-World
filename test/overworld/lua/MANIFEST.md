@@ -1463,3 +1463,15 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `StorageItemMailMenu.lua`
+
+PC storage, Move Items, A on a party Pokemon that holds Mail. The PC cannot take, bag or switch
+Mail, so the item menu has no row for it and must not open. Three Bulbasaur come from the debug
+Give menu; the first holds a Potion and the second Orange Mail (letter in mailbox slot 0, linked
+the way `GiveMailToMonByItemId` leaves it). Opening the PC, Move Items, the cursor and every menu
+choice are real input. Case one takes the Potion, gives it to the third Bulbasaur and presses A, A
+on the Mail holder; case two, in a fresh PC session, opens and closes the first Bulbasaur's Give
+menu and presses A, A on the Mail holder. The Mail and its letter must stay linked, no Potion may
+be copied and the Bag must not open. Before the fix `SetMenuTexts_Item` built a menu with zero
+rows and A ran the row left over from the previous menu: a stale Give copied the Potion over the
+Mail, and a stale Give from the Bag opened the Bag.

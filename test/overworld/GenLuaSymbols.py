@@ -173,6 +173,9 @@ WANT = [
     "sSecondaryTilesetAnimCallback", "sSecondaryTilesetAnimCounter",
     "sCondMsg43", "EventScript_Follower",
     "CB2_InitPartyMenu", "CB2_Bag",
+    # BagSortChord.lua tells the bag's list, its context menu and its message apart by task func.
+    "Task_BagMenu_HandleInput", "Task_ItemContext_MultipleRows", "Task_ContinueTaskAfterMessagePrints",
+    "HandleErrorMessage",
     "Task_OakSpeech_HandleConfirmNameInput",
     # OweEggOnlyParty.lua. sLockFieldControls is what ArePlayerFieldControlsLocked() reads; with
     # sGlobalScriptContextStatus it tells "the player has control" apart from "a script or task

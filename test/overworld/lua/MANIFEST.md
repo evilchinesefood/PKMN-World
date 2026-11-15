@@ -1661,3 +1661,13 @@ left black, and choosing the first move there must teach Petal Blizzard over it 
 Before the fix `Task_EvolutionScene` took YES (state to the move-select screen, fade to black) and
 then, in a separate `if`, NO on the same frame, so "did not learn" waited for a press on a black
 screen and the move was never learned: **7/10** on the unfixed ROM, **10/10** with the fix.
+### `BagSortChord.lua`
+
+START and A pressed on the same frame in a one-item Bag pocket must do one thing. Three Potions are
+the only Items stack; the Bag opens from the start menu and START and A go down together for one
+frame with real input. The "There's nothing to sort!" message must come up without the item's
+context menu, A must dismiss it back to the item list, and the Potions must be untouched. Before
+the fix that START path in `Task_BagMenu_HandleInput` (`src/swsh_item_menu.c`) used `break` and
+fell into the list input below it, so the same A opened the context menu over the half-started
+message and its blank box stayed over the item description until the Bag closed: **3/6** on the
+unfixed ROM, **6/6** with the fix.

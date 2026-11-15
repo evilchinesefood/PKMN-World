@@ -2936,7 +2936,7 @@ static void Task_BagMenu_HandleInput(u8 taskId)
                     static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
                     PlaySE(SE_FAILURE);
                     DisplayItemMessage(taskId, 1, sText_NothingToSort, HandleErrorMessage);
-                    break;
+                    return;
                 }
                 else
                 {

@@ -24,6 +24,7 @@ CHECKS = (
     ("GenObstacleTable.py", "--check"),
     ("ValidateDoorAnims.py", "--max", "0"),
     ("ValidateTilesetPalettes.py",),
+    ("HnsMetatileBehaviors.py",),
     ("SavePatch.py", "--check"),
     ("ValidateCelioGifts.py",),
     ("ValidateGreedyGifts.py",),

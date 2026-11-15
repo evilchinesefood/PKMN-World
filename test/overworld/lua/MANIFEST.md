@@ -1695,3 +1695,14 @@ pokemonHnS's, produced by `test/overworld/JohtoTilesetArtExpect.py <HnS clone>` 
 suite's table). Every room has a control cell the port always drew right, which passes on both
 ROMs. With `VAR_LEAGUE_STATE` seeded to 2, as Will's defeat script leaves it, the suite also walks
 Will's opened north exit into Koga's room. **15/30** on the unfixed ROM, **30/30** with the fix.
+### `MtSilverEscape.lua`
+
+Escape Rope and Dig on Mt. Silver's outdoor map. `MtSilver_Outside` was the only city or town map
+that allowed escaping, and nothing there sets the escape warp: the player walks out of the
+Mt. Silver Pokemon Center or in from Route 28, so the warp still names the last building or cave
+entered from outdoors, in any region. The World Transit gate resumes a Johto trip at that Center.
+The suite visits the Center for real, walks into Diglett's Cave from Route 11 in Kanto, resumes
+Johto at Mt. Silver through the gate, walks out, and uses an Escape Rope from the Bag and Dig from
+the party menu, then checks both still work in Diglett's Cave. Before the fix both carried the
+player to Kanto's Route 11 with Johto still the saved region (`37/29 (6,8) region=2`): **18/21**
+on the unfixed ROM, **21/21** with the fix.

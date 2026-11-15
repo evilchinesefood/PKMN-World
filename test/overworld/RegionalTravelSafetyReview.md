@@ -31,6 +31,7 @@ The table records source inspection unless the evidence section explicitly ident
 | Kanto Seagallop ordinary islands + FRLG event island twins | Selection then shared SetSail at data/scripts/seagallop.inc:85–108, destination warp src/seagallop.c:310–316 | Same physical campaign; FRLG Birth/Navel mapsecs are distinct from neutral Hoenn versions | No regional team recapture needed solely for these same-region routes |
 
 | Seven Island → outdoor Trainer Tower | Northbound map connection; no accepted snapshot on baseline | Neutral outdoor area preserves campaign and party | Actual walking and Hub Pass reproduce stale Kanto memory on baseline; fixed at accepted displacement |
+| Escape Rope / Dig | Only on maps with `allow_escaping`; each is entered through a warp from outdoors or sets its own escape warp | No capture; the warp must stay in the same area | Mt. Silver's doorstep kept a warp from any region (the gate resumes at its Center), so it now refuses both, as every other town does |
 
 ## Findings and implementation boundary
 

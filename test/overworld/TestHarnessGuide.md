@@ -411,8 +411,10 @@ how you catch it.
 `F.crashScreen()` decodes the assert screen straight out of VRAM and returns
 `"FILE.C:LINE: MESSAGE"`; `F.reportCrash(tag)` logs it, screenshots it, and returns true so a walk
 loop can `if F.reportCrash("step"..i) then break end`. Verified end to end against a planted
-`fatalf`. **Never key off the blue/red palette** — by the time anything reads `BG_PLTT` it holds the
-interrupted scene's colours, not the mode colour.
+`fatalf`, and against `INCLUDE/MOVE.H:232: INVALID MOVE: 2580`: asserts in headers
+(`SanitizeMoveId`, `SanitizeSpeciesId`) name a `.H` file, and the decoder matches both. **Never
+key off the blue/red palette** — by the time anything reads `BG_PLTT` it holds the interrupted
+scene's colours, not the mode colour.
 
 > **`gMain.callback2` is not an assert-screen detector.** `AssertfCrashScreen`
 > (`src/assertf.c`) sets `REG_IME = 0` and busy-loops on `REG_VCOUNT` waiting for START *inside*

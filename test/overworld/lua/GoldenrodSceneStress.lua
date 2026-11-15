@@ -176,7 +176,7 @@ F.run(function()
     F.face("Up"); F.press("A", 3); F.idle(40)
     local news = text(S.gStringVar4, 200)
     F.L("  tv: " .. news)
-    for i = 1, 3 do F.idle(90); F.shot("tv_page_" .. i); F.press("A", 2) end
+    for i = 1, 5 do F.idle(200); F.shot("tv_page_" .. i); F.press("A", 2) end
     F.check("the TV news names the boy instead of asking for a name",
       news:find("REDHEADED BOY") ~= nil and news:find("His name is GARY") ~= nil and news:find("know his name") == nil, news)
     F.check("the TV news hands control back", mash("tv", 1800),

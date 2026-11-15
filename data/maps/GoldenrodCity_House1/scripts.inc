@@ -28,9 +28,6 @@ GoldenrodCity_NameRatersHouse_EventScript_RenameRival::
 	lock
 	msgbox GoldenrodCity_NameRatersHouse_Text_RenameRival, MSGBOX_DEFAULT
 	closemessage
-	@ NameRival only stores the default name now (no naming screen), so nothing would ever
-	@ resume a waitstate here.
-	special NameRival
 	release
 	end
 
@@ -38,7 +35,9 @@ GoldenrodCity_NameRatersHouse_Text_RenameRival:
 	.string "It's the news…\p"
 	.string "The POLICE are looking for this\n"
 	.string "REDHEADED BOY!\p"
-	.string "Do YOU know his name?$"
+	.string "His name is {RIVAL}!\n"
+	.string "He stole a POKéMON from a lab\l"
+	.string "in NEW BARK TOWN.$"
 
 GoldenrodCity_NameRatersHouse_EventScript_NameRater::
 	lock

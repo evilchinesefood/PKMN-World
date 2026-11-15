@@ -2182,9 +2182,10 @@ player in the Train Station at `VAR_GOLDENROD_CITY_STATE` 0; walking out of the 
 must run the city's new ON_FRAME first-visit setup (Elm's PokeNav call, state 1, visited flag,
 Rockets and Bill hidden, nobody beside the door) and hand control back, and going back in and
 out must play nothing. The Name Rater's TV news, which used to end in a `waitstate` NameRival
-never resumed, must hand control back. The Radio Tower quiz won at state 5 (after the Plain Badge)
-must enable the radio and leave the state at 5 instead of rewinding it to 2. **16/16** on the
-master ROM it was written against (the fixes are already in).
+never resumed, must hand control back, and its text (read from `gStringVar4`) must name the boy
+("His name is GARY") instead of ending on HnS's "Do YOU know his name?" for the removed naming
+screen. The Radio Tower quiz won at state 5 (after the Plain Badge) must enable the radio and leave
+the state at 5 instead of rewinding it to 2. Unfixed TV text **16/17**, fixed **17/17**.
 
 ### `HubPassLeagueRooms.lua`
 

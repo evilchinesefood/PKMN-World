@@ -2009,3 +2009,17 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `HubWardrobeSprite.lua`
+
+The World Transit wardrobe (`OBJ_EVENT_GFX_WARDROBE`, local id 15 at (7,7)) drew only its shadow.
+The graphics info has no tile tag, so the frame reaches VRAM only when an animation command sets a
+frame, and it used `gDummySpriteAnimTable`, which has none: the object's OBJ tiles stayed blank,
+the hub showed bare floor with a stray medium shadow, and a player standing at the wardrobe hid the
+shadow, so the wardrobe suites' screens looked right. It now uses `sAnimTable_Inanimate`, like every
+other inanimate object. From a fresh hub boot the player walks to (8,8), beside the wardrobe; its
+sprite must be active with non-blank tiles that match the start of `gObjectEventPic_Wardrobe`
+(added to `GenLuaSymbols.py`). As a control, A at (7,8) facing up opens the outfit picker and B
+closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
+tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
+fixed build.

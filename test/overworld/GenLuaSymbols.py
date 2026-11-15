@@ -23,6 +23,8 @@ WANT = [
     "CB2_Overworld",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
+    # PokedexAreaAfterBattle.lua reads the area page's species and highlight counts.
+    "sPokedexAreaScreen",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar", "sFlightActive",
     # RedGyarados.lua points the wandering Gyarados sprite at this callback.

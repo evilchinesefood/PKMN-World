@@ -191,3 +191,4 @@ SpecialChecklistStress	lua/SpecialChecklistStress.lua	fresh	0	required
 SpecialFormsIdentity	lua/SpecialFormsIdentity.lua	fresh	0	required
 RoamerParkRelease	lua/RoamerParkRelease.lua	fresh	0	required
 EggOnlyStaticRefusal	lua/EggOnlyStaticRefusal.lua	fresh	0	required
+GoldenrodSceneStress	lua/GoldenrodSceneStress.lua	fresh	0	required

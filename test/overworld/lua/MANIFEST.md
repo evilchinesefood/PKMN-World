@@ -2162,3 +2162,15 @@ clear. At the shrine, answered YES with A and Start mashed: no battle, control b
 at (24,33). **13/15** on the unfixed ROM, **15/15** with the fix. The same pre-scene refusal
 also guards the Southern Island Lati and both Birth Island Deoxys scripts (untested here; their
 state resets on a map reload, but the refused scene left the Pokemon standing for the visit).
+
+### `GoldenrodSceneStress.lua`
+
+Coverage for three Goldenrod changes in 0829014ec0, each driven on real input with A, B and Start
+mashed through it. The Hub's Johto gate (Zephyr and Hive Badges, Ilex Forest done) lands the
+player in the Train Station at `VAR_GOLDENROD_CITY_STATE` 0; walking out of the station's door
+must run the city's new ON_FRAME first-visit setup (Elm's PokeNav call, state 1, visited flag,
+Rockets and Bill hidden, nobody beside the door) and hand control back, and going back in and
+out must play nothing. The Name Rater's TV news, which used to end in a `waitstate` NameRival
+never resumed, must hand control back. The Radio Tower quiz won at state 5 (after the Plain Badge)
+must enable the radio and leave the state at 5 instead of rewinding it to 2. **16/16** on the
+master ROM it was written against (the fixes are already in).

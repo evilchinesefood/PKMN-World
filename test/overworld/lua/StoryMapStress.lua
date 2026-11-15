@@ -35,9 +35,12 @@ local function setVar(v, n)
   F.w16(addr, n)
 end
 
+-- Region var 0xA064 (VAR_RENEWABLE_ITEM_STEP_COUNTER) is left out: it counts every step, and
+-- close() proves control with real steps.
 local function snapshot()
   local out = {}
-  for _, range in ipairs({ { F.sb1() + S.SaveBlock1.flags + 4, 514 }, { F.sb3() + S.SaveBlock3.regionVars, 768 },
+  for _, range in ipairs({ { F.sb1() + S.SaveBlock1.flags + 4, 514 }, { F.sb3() + S.SaveBlock3.regionVars, 0x64 * 2 },
+    { F.sb3() + S.SaveBlock3.regionVars + 0x65 * 2, 768 - 0x65 * 2 },
     { F.sb3() + S.SaveBlock3.johtoFlags, 128 }, { S.gParties, 600 }, { S.gPartiesCount, 1 },
     { F.sb2() + S.SaveBlock2.currentRegion, 1 }, { S.gCurrentRegion, 4 } }) do
     for i = 0, range[2] - 1 do out[#out + 1] = string.char(F.r8(range[1] + i)) end

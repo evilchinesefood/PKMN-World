@@ -29,6 +29,7 @@
 #include "pokemon.h"
 #include "regions.h"
 #include "regional_travel.h"
+#include "renewable_hidden_items.h"
 #include "safari_zone.h"
 #include "bug_contest.h"
 #include "script.h"
@@ -201,6 +202,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->tookStep)
     {
         IncrementGameStat(GAME_STAT_STEPS);
+        IncrementRenewableHiddenItemStepCounter();
         IncrementBirthIslandRockStepCount();
         IncrementResortGorgeousStepCounter();
         RunMassageCooldownStepCounter();

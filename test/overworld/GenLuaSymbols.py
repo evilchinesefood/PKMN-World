@@ -265,7 +265,7 @@ WANT = [
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
-SIZE_OF = ["sHealLocations"]
+SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPokemonStorage"]
 # name -> exact byte size to pick among duplicates. sMessageWindowSpriteIds: the PC storage
 # screen's u8[6] (src/swsh_storage_system.c), not the party menu's u8[16].
 SIZED = {"sMenu": 12, "sMessageWindowSpriteIds": 6}
@@ -349,9 +349,12 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   SaveBlock2   = { encryptionKey = 172, hardModeU16 = 0x16, hardModeBit = 0x10,
                    optionsU16 = 0x14, ratesU16 = 0x16, encounterMask = 0x00C0, moneyLossMask = 0x0300,
                    currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
-                   followerSlot = 0x93, bp = 3768,
+                   followerSlot = 0x93, bp = 3768, berryPowder = 0x1F4,
                    playerGender = 8, localTimeOffset = 0x98,
                    frontierChallengeStatus = 0xCA8 },
+                                                            -- berryPowder: berryCrush (0x1EC) + 8, the
+                                                            --   u32 XORed with encryptionKey
+                                                            --   (probe-verified, NewGameOverSave).
                                                             -- introDoneBits (global.h:629-632) packs
                                                             --   the three region first-visit bits into
                                                             --   ONE byte: bit0 kanto, bit1 johto,
@@ -451,7 +454,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer", "gameStats"]
 
 
 def load_save_src(root):

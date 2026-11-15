@@ -1418,3 +1418,12 @@ throughout, the Bag back with the Mail still in it, and the field back. Before t
 frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
 for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
 after a failure).
+### `BagRepelFlow.lua`
+
+Repels from the Bag and the Repel expiry prompt (`EventScript_SprayWoreOff`, with
+`I_REPEL_LURE_MENU`) behave as the item rules say. From a free hub, with real input: a Repel from
+the Bag with none active sets 100 steps and uses one; a Repel while one is active lingers and uses
+nothing; at expiry with only Repels, Yes uses one and restarts the count; with a Repel and a Max
+Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
+none left only the message shows. Coverage for a flow the third stress pass found clean:
+**22/22**.

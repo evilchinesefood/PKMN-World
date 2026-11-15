@@ -130,3 +130,4 @@ OakPokeBallsFullPocket	lua/OakPokeBallsFullPocket.lua	fresh	0	required
 BagRareCandyMoves	lua/BagRareCandyMoves.lua	fresh	0	required
 BagGiveOverMail	lua/BagGiveOverMail.lua	fresh	0	required
 BagCheckMail	lua/BagCheckMail.lua	fresh	0	required
+BagRepelFlow	lua/BagRepelFlow.lua	fresh	0	required

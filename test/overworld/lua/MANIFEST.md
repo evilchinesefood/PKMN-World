@@ -2009,3 +2009,20 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `RoamerParkRelease.lua`
+
+`ROAMER_COUNT` is 2 and the regions run in either order, so a Hoenn Lati can already roam when
+Burned Tower releases Entei and Raikou. 0829014ec0 keeps the Lati and parks the beast that finds
+no slot (always Raikou: Entei goes first) until a slot frees. Its release re-ran the League
+respawn for both beasts into the first free slot, so defeating Entei brought Entei straight back
+with a fresh personality and shiny roll (outside this case a defeated beast returns only at the
+Johto Hall of Fame) and Raikou never left. Setup gives a level 100 Arena Trap Dugtrio (a roamer
+flees on its first turn and running beats any move), runs the Lati TV special as the Littleroot
+scene does, and arms the Burned Tower scene, which then plays on real input. After the Hub and back
+only Latias and Entei roam. Entei's EWRAM map is moved onto Route 31 (a roamer's map is re-rolled
+on every map change), the Dugtrio walks the grass by the Dark Cave until Entei appears and
+defeats it with Earthquake. On the next map load Raikou must roam, Entei must not, the Latias must
+be the same Pokemon, and nothing may be duplicated after more loads and the Hub. **12/14** on the
+unfixed ROM (Entei back with a new personality, Raikou still parked), **14/14** with the fix.
+`test/roamer.c` covers the same release and the League respawn parking a beast with no free slot.

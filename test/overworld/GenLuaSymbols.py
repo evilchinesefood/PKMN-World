@@ -223,6 +223,9 @@ WANT = [
     # next autosave without idling out ten emulated minutes. Task_Autosave is the live SAVING
     # window, and gDifferentSaveFile is the new-game-over-a-file latch that must block it.
     "sAutosaveSettleTimer", "sLastAutosaveFrame", "Task_Autosave", "gDifferentSaveFile",
+    # RoamerParkRelease.lua: the Lati TV special, and each roamer's current map (EWRAM, re-rolled
+    # on every map change) so a suite can meet a roamer in known grass.
+    "InitRoamer", "sRoamerLocation",
     # Clearing it makes TrySavingData fail without touching flash: the autosave's error path.
     "gFlashMemoryPresent",
     # EvolutionMashStress.lua. gLeveledUpInBattle is the per-slot bitmask TryEvolvePokemon reads to
@@ -443,7 +446,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer"]
 
 
 def load_save_src(root):

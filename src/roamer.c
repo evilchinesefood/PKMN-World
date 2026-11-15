@@ -268,10 +268,12 @@ void InitJohtoBeastRoamers(void)
     // Tower (Hoenn first) must survive, as at the Johto League respawn (issue #133). A beast
     // that finds no free slot is parked and released by TryReleasePendingRoamers().
     DeactivateJohtoBeastRoamers();
+    FlagClear(FLAG_ENTEI_ROAMER_PENDING);
+    FlagClear(FLAG_RAIKOU_ROAMER_PENDING);
     if (!TryAddRoamer(SPECIES_ENTEI, 40))
-        FlagSet(FLAG_JOHTO_BEAST_ROAMER_PENDING);
+        FlagSet(FLAG_ENTEI_ROAMER_PENDING);
     if (!TryAddRoamer(SPECIES_RAIKOU, 40))
-        FlagSet(FLAG_JOHTO_BEAST_ROAMER_PENDING);
+        FlagSet(FLAG_RAIKOU_ROAMER_PENDING);
 }
 
 static bool8 IsRoamerSpeciesActive(enum Species species)
@@ -305,12 +307,13 @@ void MarkRoamerCaught(u32 roamerIndex)
     }
 }
 
-static void TryRespawnJohtoBeast(enum Species species, u16 caughtFlag, u8 level)
+// Returns FALSE only when the beast is unresolved and found no free slot.
+static bool32 TryRespawnJohtoBeast(enum Species species, u16 caughtFlag, u8 level)
 {
     // Still roaming: the encounter is unresolved and needs no help. Re-creating it would
     // reroll its personality/IVs/shininess and wipe the damage the player has done to it.
     if (IsRoamerSpeciesActive(species))
-        return;
+        return TRUE;
 
     // Already caught: resolved, so no respawn - league rematches are unlimited, and an
     // unconditional respawn made the beasts farmable duplicates with a fresh shiny roll.
@@ -318,10 +321,10 @@ static void TryRespawnJohtoBeast(enum Species species, u16 caughtFlag, u8 level)
     // (the flag reads clear on those); the beasts have no other source in this build, so
     // owning one means the player caught the roamer.
     if (FlagGet(caughtFlag) || GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT))
-        return;
+        return TRUE;
 
     // Unresolved (fainted, or never released): re-release it into a FREE roamer slot.
-    TryAddRoamer(species, level);
+    return TryAddRoamer(species, level);
 }
 
 // Post-game beast respawn (Johto Hall of Fame rematch). Unlike InitJohtoBeastRoamers this
@@ -332,8 +335,11 @@ void RespawnJohtoBeastRoamers(void)
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAIKOU), FLAG_SET_SEEN);
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
-    TryRespawnJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, 40);
-    TryRespawnJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, 40);
+    // A beast with no free slot (a Lati and the other beast roaming) is parked like at the release.
+    if (!TryRespawnJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, 40))
+        FlagSet(FLAG_ENTEI_ROAMER_PENDING);
+    if (!TryRespawnJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, 40))
+        FlagSet(FLAG_RAIKOU_ROAMER_PENDING);
 }
 
 static bool32 HasFreeRoamerSlot(void)
@@ -354,6 +360,16 @@ static bool32 IsJohtoBeastResolvedOrRoaming(enum Species species, u16 caughtFlag
         || GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT);
 }
 
+static void TryReleaseParkedJohtoBeast(enum Species species, u16 caughtFlag, u16 pendingFlag)
+{
+    if (!FlagGet(pendingFlag))
+        return;
+    if (HasFreeRoamerSlot())
+        TryRespawnJohtoBeast(species, caughtFlag, 40);
+    if (IsJohtoBeastResolvedOrRoaming(species, caughtFlag))
+        FlagClear(pendingFlag);
+}
+
 // Releases a roamer whose one-shot event found both slots taken (see InitRoamer and
 // InitJohtoBeastRoamers). Runs on every map load, alongside the roamers' own moves.
 static void TryReleasePendingRoamers(void)
@@ -366,16 +382,10 @@ static void TryReleasePendingRoamers(void)
             FlagClear(FLAG_LATI_ROAMER_PENDING);
     }
 
-    if (FlagGet(FLAG_JOHTO_BEAST_ROAMER_PENDING))
-    {
-        if (HasFreeRoamerSlot())
-            TryRespawnJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, 40);
-        if (HasFreeRoamerSlot())
-            TryRespawnJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, 40);
-        if (IsJohtoBeastResolvedOrRoaming(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI)
-         && IsJohtoBeastResolvedOrRoaming(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU))
-            FlagClear(FLAG_JOHTO_BEAST_ROAMER_PENDING);
-    }
+    // Only the parked beast itself: a beast defeated while the other was parked must not come
+    // straight back into the freed slot. Outside a League respawn a defeated beast stays away.
+    TryReleaseParkedJohtoBeast(SPECIES_ENTEI, FLAG_CAUGHT_ENTEI, FLAG_ENTEI_ROAMER_PENDING);
+    TryReleaseParkedJohtoBeast(SPECIES_RAIKOU, FLAG_CAUGHT_RAIKOU, FLAG_RAIKOU_ROAMER_PENDING);
 }
 
 void UpdateLocationHistoryForRoamer(void)

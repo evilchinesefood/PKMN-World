@@ -1773,3 +1773,15 @@ The Mail holder must end in the party with its letter linked, Pidgey in the part
 Pokemon boxed. The SwSh party menu's `PARTY_ACTION_SEND_MON_TO_BOX` refused only partner Pokemon
 and HM users: **7/10** on the unfixed ROM (the Mail holder went to box 1 slot 1), **12/12** with
 the fix.
+### `StorageReleaseHeldItem.lua`
+
+PC storage, Move Pokemon, Release on a Pokemon that holds an item. `OW_PC_RELEASE_ITEM` sends a
+released Pokemon's held item to the Bag. Five Bulbasaur come from the debug Give menu, three of
+them holding a Potion (a release needs three Pokemon left over). Opening the PC, Move Pokemon, the
+cursor, the menus, the release prompt and its messages are real input. One Bulbasaur is picked up
+with Move and released from the hand, and one is released from its party slot (control): each
+Potion must reach the Bag. Then, in a fresh PC session with the Items pocket filled with other
+items in RAM, a third release must be refused with "The bag is full." and leave the Pokemon and
+its Potion alone. Before the fix `ReleaseMon` skipped the item of the Pokemon in hand, and a Bag
+with no room let the release go ahead and dropped the item: **17/20** on the unfixed ROM,
+**20/20** with the fix.

@@ -160,6 +160,8 @@ WANT = [
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
     "Task_HandleDaycareLevelMenuInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
+    # The PC storage screen's release confirmation (StorageReleaseHeldItem.lua).
+    "Task_ReleaseMon",
     "CB2_InitOptionMenu", "Task_OptionMenuProcessInput",
     "sCondMsg51", "sCondMsg52", "sCondMsg53",
     "EventScript_FollowerLookAround",

@@ -155,3 +155,4 @@ MtSilverEscape	lua/MtSilverEscape.lua	fresh	0	required
 TravelSaveContinue	lua/TravelSaveContinue.lua	fresh	0	required
 GateRecallTrades	lua/GateRecallTrades.lua	fresh	0	required
 StorageItemMailMenu	lua/StorageItemMailMenu.lua	fresh	0	required
+StorageMailIntoBox	lua/StorageMailIntoBox.lua	fresh	0	required

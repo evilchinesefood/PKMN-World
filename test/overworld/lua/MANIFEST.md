@@ -2009,3 +2009,19 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `SaveWritePowerCut.lua`
+
+A power cut on every frame of a Start-menu save's flash write. Each trial marks four places in
+different sectors (the seventh player-name byte in SaveBlock2, the registered-item word and the
+tile in SaveBlock1, the last Johto flag byte in the SaveBlock3 chunk and the last box's wallpaper
+in the PC), saves, writes the other marking on a neighbouring tile, saves again and cuts the power
+when that write has run `off` frames, then boots and Continues. Every marker must come back from
+the same save, a new save must load with a clean status, and every eighth trial saves once more
+after the recovery and must reboot into that save with a clean status. Coverage: with
+`PW_CUT_STEP=1` (and `PW_MAX_FRAMES=1500000`) all 254 offsets of a 252-frame write ran **576/576**:
+the cut on frame 0 loads the previous save with status OK, every cut from frame 1 to the last write
+frame loads it with the "previous save loaded" status, and only the completed write loads the new
+save. The registered default samples every third frame plus the frame after the write and scores
+**198/198** in about 220,000 frames. No defect
+found.

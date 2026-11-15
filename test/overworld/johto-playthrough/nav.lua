@@ -1314,6 +1314,15 @@ return function(F, S)
     return true
   end
 
+  -- Zero VAR_LAST_TALKED to see who answers the A press, but never under a running script: an
+  -- overworld encounter that walked into us on the way owns that var until its battle starts, and
+  -- zeroing it then crashed the encounter's species lookup (wild_encounter_ow.c assertf).
+  local function armTalk(opts)
+    if not N.free() then N.settle(opts); return false end
+    w16(S.gSpecialVar_LastTalked, 0)
+    return true
+  end
+
   -- Talk to an object by local id (live position) or to a fixed tile.
   function N.talk(target, opts)
     opts = opts or {}
@@ -1353,7 +1362,7 @@ return function(F, S)
           goto continue
         end
       end
-      w16(S.gSpecialVar_LastTalked, 0)
+      if not armTalk(opts) then goto continue end
       press('A'); idle(20)
       if not N.free() then
         local who = r16(S.gSpecialVar_LastTalked)
@@ -1391,8 +1400,7 @@ return function(F, S)
       for d = 1, 4 do
         if x + DX[d] == o.x and y + DY[d] == o.y then
           N.face(d)
-          w16(S.gSpecialVar_LastTalked, 0)
-          press('A'); idle(20)
+          if armTalk(opts) then press('A'); idle(20) end
           if not N.free() then
             local who = r16(S.gSpecialVar_LastTalked)
             N.settle(opts)
@@ -1421,8 +1429,7 @@ return function(F, S)
       for d = 1, 4 do if x + DX[d] == o.x and y + DY[d] == o.y then hit = d end end
       if hit then
         if N.facing() ~= hit then press(KEY[hit], 1); idle(2) end
-        w16(S.gSpecialVar_LastTalked, 0)
-        press('A'); idle(20)
+        if armTalk(opts) then press('A'); idle(20) end
         if not N.free() then
           local who = r16(S.gSpecialVar_LastTalked)
           N.settle(opts)

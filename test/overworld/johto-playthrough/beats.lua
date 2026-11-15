@@ -655,5 +655,26 @@ return function(F, N, C, log)
     assert(loadfile(dir .. 'postgame.lua'))()(F, N, C, B, beat, fieldMoves)
   end
 
+  -- PW_DETOUR=<event>:<exit>[:<region>]: leave a story event part way, cross to another region,
+  -- come back by the Johto gate, then let the beats finish the event. See excursion.lua.
+  local here = (debug.getinfo(1, 'S').source:sub(2)):match('^(.*[/\\])')
+  B = assert(loadfile(here .. 'excursion.lua'))()(F, N, C).insert(B, os.getenv('PW_DETOUR'), {
+    slowpoke_well = { before = 'slowpoke_well', home = 'johto', other = 'kanto',
+      into = function() assert(N.travel('SlowpokeWell_B1F')) end },
+    radio1 = { before = 'radio_petrel', home = 'johto', other = 'kanto',
+      into = function() fieldMoves(); assert(N.travel('GoldenrodCity_RadioTower_1F')); N.talk(3, { side = 1 }); assert(N.travel('GoldenrodCity_RadioTower_3F')) end },
+    -- archer starts from 3F with takeWarp, so walk back up there first.
+    radio2 = { before = 'archer', home = 'johto', other = 'kanto', items = { C.ITEM_CARD_KEY, C.ITEM_BASEMENT_KEY },
+      check = function() fieldMoves(); assert(N.travel('GoldenrodCity_RadioTower_3F')) end },
+    -- From the Violet City Center the planner finds no single route to B3F; in stages it does.
+    rocket_base = { before = 'hideout_passwords', home = 'johto', other = 'kanto',
+      check = function()
+        fieldMoves()
+        for _, map in ipairs({ 'Mahoganytown', 'MahoganyTown_Shop', 'MahoganyHideout_B1F', 'MahoganyHideout_B2F' }) do
+          assert(N.travel(map), 'back to ' .. map)
+        end
+      end },
+  })
+
   return B
 end

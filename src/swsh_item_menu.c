@@ -4054,16 +4054,18 @@ bool8 UseRegisteredKeyItemOnField(void)
     }
     else if (count == 1)
     {
-        s32 index = RegisteredItemIndex(ITEM_NONE);
-        u16 regItem = (index >= 0) ? GetRegisteredItem(index) : ITEM_NONE;
-        if (regItem != ITEM_NONE && CheckBagHasItem(regItem, 1) == TRUE)
+        // The one counted item, not the first registered slot: a registered key item that has
+        // left the Bag keeps its slot.
+        u32 i;
+        for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
         {
-            gSpecialVar_ItemId = regItem;
-            func = GetItemFieldFunc(regItem);
-        }
-        else if (index >= 0)
-        {
-            SetRegisteredItem(index, ITEM_NONE);
+            u16 regItem = GetRegisteredItem(i);
+            if (regItem != ITEM_NONE && CheckBagHasItem(regItem, 1) == TRUE)
+            {
+                gSpecialVar_ItemId = regItem;
+                func = GetItemFieldFunc(regItem);
+                break;
+            }
         }
     }
     if (func)
@@ -6666,6 +6668,11 @@ static void Task_BagMenu_SacredAshMessages(u8 taskId)
     DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_SacredAshMessages);
 }
 
+static bool8 BagMenu_IsItemFlute(enum Item item)
+{
+    return item == ITEM_BLUE_FLUTE || item == ITEM_RED_FLUTE || item == ITEM_YELLOW_FLUTE;
+}
+
 static void BagMenu_UseMedicine(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -6701,10 +6708,17 @@ static void BagMenu_UseMedicine(u8 taskId)
         return;
     }
 
-    PlaySE(SE_USE_ITEM);
     for (s16 i = 1; i < tItemCount; i++)
         ExecuteTableBasedItemEffect(mon, item, tPartySlot, 0);
-    RemoveBagItem(item, tItemCount);
+    if (BagMenu_IsItemFlute(item))
+    {
+        PlaySE(SE_GLASS_FLUTE);
+    }
+    else
+    {
+        PlaySE(SE_USE_ITEM);
+        RemoveBagItem(item, tItemCount);
+    }
 
     if (GetMonData(mon, MON_DATA_STATUS) != oldStatus)
         BagMenu_UpdateStatusIcons();
@@ -7267,9 +7281,9 @@ static void BagMenu_RareCandyDoLearnMoveStep(u8 taskId)
             GetMonNickname(mon, gStringVar1);
             StringCopy(gStringVar2, GetMoveName(result));
             StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
+            // Stay on this level: a level can teach more than one move (Bulbasaur's powders at 15).
+            // The next step asks again with firstMoveAtLevel FALSE, and case 0 moves on.
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_MoveLearnFanfare);
-            sBagItemUseState->learnMoveLevel++;
-            sBagItemUseState->firstMoveAtLevel = TRUE;
             return;
         }
     }
@@ -7422,8 +7436,6 @@ static void Task_BagMenu_MoveLearnAfterForgotMove(u8 taskId)
     GetMonNickname(mon, gStringVar1);
     StringCopy(gStringVar2, GetMoveName(sBagItemUseState->moveToLearn));
     StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
-    sBagItemUseState->learnMoveLevel++;
-    sBagItemUseState->firstMoveAtLevel = TRUE;
     DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, Task_BagMenu_MoveLearnFanfare);
 }
 
@@ -7568,6 +7580,11 @@ static void BagMenu_GiveItem(u8 taskId)
             DisplayItemMessage(taskId, FONT_NORMAL, gText_PkmnHoldingItemCantHoldMail, Task_BagMenu_PartyStayAfterMessage);
         else
             BagMenu_DoGiveMail(taskId, mon, item);
+    }
+    else if (ItemIsMail(heldItem))
+    {
+        // Only Take runs TakeMailFromMon; a switch would orphan the letter in the mailbox.
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_RemoveMailBeforeItem, Task_BagMenu_PartyStayAfterMessage);
     }
     else if (heldItem == ITEM_NONE)
     {
@@ -8650,13 +8667,6 @@ static void Task_BagMenu_MultiUseInput(u8 taskId)
         gTasks[taskId].func = Task_BagMenu_PartyInput;
     }
 }
-
-#if SWSH_ITEM_MENU_ACTION_IN_BATTLE
-static bool8 BagMenu_IsItemFlute(enum Item item)
-{
-    return item == ITEM_BLUE_FLUTE || item == ITEM_RED_FLUTE || item == ITEM_YELLOW_FLUTE;
-}
-#endif
 
 static bool8 BagMenu_InBattleSelect(void)
 {

@@ -132,6 +132,7 @@ is clean; keep it that way.
 | [`FamilyOptionsFieldStress.lua`](#familyoptionsfieldstresslua) | fresh new game | Options from the main menu (before New Game and Continue) and from the Start menu with a follower, a Repel, rain and Surf, restoring the field each time. |
 | [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
 | [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
+| [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -1316,3 +1317,149 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `SafariFullStorage.lua`
+
+The Kanto and Hoenn Safari Zones' pay-to-continue prompt with the party and every PC box full.
+The entrances refuse a player with no room, since no Safari Ball can be thrown then, but a catch
+into the last free box slot fills the storage mid-game. Setup fills the party and the boxes through
+the debug menu and frees one slot so the real attendant lets the player in; inside, the slot is
+refilled (the storage that catch leaves), the clock is lowered to one step and the times-up prompt
+is answered Yes with 5000 in the wallet. The wallet must be untouched and the player must land in
+the entrance with Safari mode off and the field free. The unfixed ROM took 500 and refilled 30
+balls the player could not throw. Measured **18/18** fixed and **14/18** on the unfixed ROM.
+### `RegionMapAnywhereStress.lua`
+
+Opens the Story destination map, the Fly map and the PokeNav map from places the regional maps
+were never drawn for: World Transit, Pallet, Cerulean Cave, the Safari Zone, One Island, New Bark,
+Ice Path, Littleroot, Granite Cave, the Battle Frontier, Faraway Island and Navel Rock. Each Story
+visit first opens the map cleanly for a screenshot of the marker and its details page, then reopens
+it with every button mashed through the fades in and out. Each map must return to a settled field
+(script idle, Start menu closed) with no crash screen and the heap as it was. Repel stays on so
+cave encounters do not interrupt. Measured **48/48**; no defect found. The S.S. Tidal is left out:
+a debug warp onto its corridor outside a voyage loops the arrival dialogue, a state play never reaches.
+
+### `OutfitTransitionMash.lua`
+
+Mashes every button at the World Transit wardrobe for eight rounds of 1200 frames with a follower
+out, so presses land on the wardrobe message, the picker's first frame, Apply, Cancel and the field
+reload after it. After each round the field must settle with the picker closed, the committed
+outfit must be a valid selection, the follower must still be out and the task and sprite counts
+must match the field before the mash. Measured **52/52**; no defect found.
+
+### `FlowerCrownQuestStorage.lua`
+
+Drives the Celadon florist's real quest (florist, both residents, florist) with a full party. The
+Flower Crown Eevee must land in the first free PC slot and set its collection mark, a repeat gift
+must take the next slot without touching the first, and both must survive a save and Continue
+byte for byte with the party and flags intact. Measured **13/13**; no defect found.
+### `ContinueOddMoments.lua`
+
+Each case saves from the Start menu, then soft resets (A+B+Start+Select) or cuts the power, continues
+the file, and compares the map, tile, party bytes, saved region, whiteout point and Surf/Dive avatar
+bits against the snapshot taken before the save, then waits for control. Cases: surfing on Route 41
+with a Lapras follower (soft and power), underwater on Route 124, next to a visible wild Pokemon on
+Route 29 (after Continue the player walks into it, and the battle must start and return to the
+field), aboard the S.S. Anne and the S.S. Aqua, and the Hub Pass fired from Select while surfing
+(the hub arrival must be on foot) followed by a hub save. The debug warp lands underwater on a
+walled tile, so that case checks state and control, not a step. `PW_CONT_ONLY=<text>` runs the
+matching cases. Measured clean on its first runs; no defect found.
+
+### `InputSpamStress.lua` transition scenarios
+
+Added to the mash battery: the real Fly map with every Hoenn town visited (no B, so the mash
+must pick a town and fly), an Escape Rope used from the Bag in Granite Cave, Dig and Teleport from
+a lead Abra's party menu (Dig in Granite Cave, Teleport in Petalburg), the Hub Pass registered to
+Select and mashed through its Yes/No, and a lost trainer battle mashed through the whiteout and the
+respawn. Fly and Dig assert the mash actually left the map. Measured clean; no defect found.
+### `OakPokeBallsFullPocket.lua`
+
+Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
+Johto and Hoenn can already hold 16 other ball types (12 from the Hub clerk, 7 from Kurt), and the
+POKéDEX scene used `giveitem_msg`, which has no space check. It printed "received five POKé BALLS"
+and the bag stayed unchanged. Setup boots a new game, crosses the Kanto gate and plays Oak's
+starter scene with real input, writes what `EndRivalBattle` writes instead of fighting the rival,
+and lets the Viridian clerk's real scene hand over the PARCEL. The pocket is then filled in RAM
+with 16 real ball ids, none a POKé BALL. Delivering the PARCEL and three more talks to Oak use real
+input. It checks that the scene still ends (lab scene 6, POKéDEX received), that `gStringVar4`
+carried Oak's "no room for these" line instead of "received five", that Oak keeps them while the
+pocket is full, gives exactly five once a slot is free, and gives them only once. Measured
+**24/24** fixed and **18/24** without the `PalletTown_ProfessorOaksLab_Frlg` change, where the
+scene prints "received five POKé BALLS" with no POKé BALL in the bag and no later talk gives any.
+### `BagRareCandyMoves.lua`
+
+A Rare Candy used from the Bag must offer every move the new level teaches. Bulbasaur learns
+Poison Powder and Sleep Powder at level 15, and the Bag runs its own candy flow
+(`BagMenu_RareCandyDoLearnMoveStep`, `src/swsh_item_menu.c`). Four cases give a real Bulbasaur
+through the debug Give menu and use candies from the Bag with real input while recording every
+`gMoveToLearn` the game offers: one candy with two free move slots (both powders learned), one
+candy with four moves and every prompt accepted (both offered, in order), one candy with every
+prompt cancelled with B (both offered, old moveset untouched), and three candies from level 13
+that cross 15 and evolve into Ivysaur at 16 (both learned, three candies spent). Before the fix
+the step moved to the next level after any learned move, so Sleep Powder was never offered:
+**16/22** on the unfixed ROM, **22/22** with the fix.
+### `BagGiveOverMail.lua`
+
+Giving an item from the Bag to a Pokemon that holds Mail must be refused, as the party menu's
+Give refuses it. A Bulbasaur is handed Orange Mail the way `GiveMailToMonByItemId` leaves it
+(letter in mailbox slot 0, held item, mail index), then the Bag, Give, the party select and the
+switch prompt run with real input: a Potion onto the Mail holder must leave the Mail, the letter
+and its link in place and the Potion in the Bag; a Potion onto an Oran Berry holder (control)
+must switch the items. Before the fix `BagMenu_GiveItem` switched the Mail into the Bag without
+`TakeMailFromMon`, orphaning the letter and its mailbox slot: **5/8** on the unfixed ROM,
+**8/8** with the fix.
+### `BagCheckMail.lua`
+
+Checking a Mail item from the Bag must open the blank letter and come back without a crash. Each
+case puts one Mail (Orange, Harbor, Bead, Dream, Retro) in the Items pocket, opens the Bag with
+real input, picks Check, holds the letter open, closes it with B, and requires no crash screen
+throughout, the Bag back with the Mail still in it, and the field back. Before the fix
+`CB2_CheckMail` handed `ReadMail` a pointer to a stack `struct Mail` that the screen read on later
+frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
+for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
+after a failure).
+### `BagFluteReusable.lua`
+
+A Blue Flute used from the Bag on a sleeping Pokemon must wake it and stay in the Bag, as the
+vanilla and SwSh party menus keep the reusable flutes (`IsItemFlute`). A Bulbasaur from the debug
+Give menu is put to sleep, then the Bag, Use, the party select and the message run with real
+input: the Blue Flute must clear the sleep and leave one flute in the Bag; an Awakening (control)
+must clear the sleep and be used up. Before the fix `BagMenu_UseMedicine` removed every medicine it
+used, flutes included: **5/6** on the unfixed ROM, **6/6** with the fix.
+### `PartyGiveSwitchDecline.lua`
+
+Declining the party menu's "switch the two items?" prompt must leave the Bag and the held item
+alone. A Bulbasaur from the debug Give menu holds an Oran Berry and the Items pocket holds one
+Potion; then the party menu, Item, Give, the Bag pick and the prompt run with real input. Answering
+No must leave one Potion in the Bag and the Oran Berry held; answering Yes (control) must switch
+them. Before the fix the SwSh No branch called `AddBagItem` for an item the prompt had never
+removed, so every decline added a copy: **7/8** on the unfixed ROM, **8/8** with the fix.
+### `PartyMoveItemOntoMail.lua`
+
+The party menu's Item, Move must refuse a target that holds Mail, as Give does. Two Bulbasaur come
+from the debug Give menu; the first holds a Potion, then the party menu, Item, Move and the target
+pick run with real input. Onto a Mail holder (letter in mailbox slot 0, linked the way
+`GiveMailToMonByItemId` leaves it) nothing may move and the letter must stay linked; onto an Oran
+Berry holder (control) the items must switch. Before the fix `CursorCb_MoveItemCallback` swapped
+the held items alone, so the first Bulbasaur held the Mail with no mail index (Read showed a blank
+letter from `mail[255]`) and the second kept the letter's link while holding the Potion:
+**3/5** on the unfixed ROM, **5/5** with the fix.
+### `SelectWheelStaleSlot.lua`
+
+SELECT with one usable registered key item must use it, even when an earlier key item wheel slot
+names a key item that has left the Bag. At Petalburg City a Mach Bike is added with `additem` and
+the wheel slots are written the way `ItemMenu_Register` leaves them; SELECT runs with real input.
+With only the Mach Bike registered (control) SELECT must mount it; with Devon Parts (not in the
+Bag) in slot 0 and the Mach Bike in slot 1 SELECT must mount it too. Before the fix
+`UseRegisteredKeyItemOnField` took the first registered slot, found it missing, cleared it and
+showed "An item in the BAG can be registered..." instead: **7/8** on the unfixed ROM, **8/8** with
+the fix.
+### `BagRepelFlow.lua`
+
+Repels from the Bag and the Repel expiry prompt (`EventScript_SprayWoreOff`, with
+`I_REPEL_LURE_MENU`) behave as the item rules say. From a free hub, with real input: a Repel from
+the Bag with none active sets 100 steps and uses one; a Repel while one is active lingers and uses
+nothing; at expiry with only Repels, Yes uses one and restarts the count; with a Repel and a Max
+Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
+none left only the message shows. Coverage for a flow the third stress pass found clean:
+**22/22**.

@@ -17,7 +17,14 @@ make modern -j8
 python3 test/overworld/johto-playthrough/run.py                  # the whole campaign
 python3 test/overworld/johto-playthrough/run.py --from pryce --resume-dir /path/to/prior/case
 python3 test/overworld/johto-playthrough/run.py --suite kurt_fast_ball.lua
+python3 test/overworld/johto-playthrough/run.py --suite hard_tier_battles.lua --timeout 7000
 ```
+
+`hard_tier_battles.lua` fights all 42 trainers that have a `Difficulty: Hard` party (every gym
+leader, both Elite Fours, Wallace, Steven and the Kanto champion rematch) on the HARD tier, with
+the three champion flags set and a Lv100 debug team of six. Each battle must start as a single (a
+double for Tate & Liza), end in a win or a whiteout with control back, show a foe above that
+trainer's NORMAL party level, and leave `VAR_DIFFICULTY` on HARD. It takes about six minutes.
 
 The same runner plays Kanto, Hoenn and the three-region world campaign with
 `--campaign kanto|hoenn|world`.
@@ -91,6 +98,32 @@ count when the battle was thrown: Birch's rescue starts with no party, and a tag
 party while it runs. Early-loss specs that pass: `mr_pokemon:wild` in Johto (Elm's errand has no
 grass) and `rescue_birch:any,route103:trainer,petalburg:wild,woods:trainer,roxanne:TRAINER_ROXANNE_1`
 in Hoenn.
+
+## Excursions
+
+`--detour <event>:<exit>[:<region>]` leaves a story event part way through, crosses to another
+region, comes back by the home gate (and Fly where the event names a city), then lets the
+campaign's own beats finish the event. `excursion.lua` holds the exits and each region's
+`beats.lua` lists its events at the bottom. Run one from the checkpoint before the event, with
+`--to` on the beat after it:
+
+```sh
+python3 test/overworld/johto-playthrough/run.py --campaign kanto --from card_key --to sabrina \
+  --resume-dir <case>/evidence --detour silph:hubbag --no-retry
+```
+
+Exits are `hubsel` and `hubbag` (the Hub Pass by SELECT or from the Bag; the way back uses the
+other), `rope`, `dig` and `teleport` (then the Hub Pass), and `stay`, which only runs the event's
+refusal check. Dig and Teleport give a Lv30 Diglett or Abra first. Each detour checks that the same
+team comes back in order, money is unchanged, and the event's key items are kept. A rope that the
+map refuses is checked to leave the rope in the Bag and hand control back, then the Hub Pass is used.
+
+Events: Kanto `ss_anne` (before the captain), `ss_anne2` (after him, ship still in), `hideout`,
+`tower`, `silph`; Johto `slowpoke_well`, `radio1` (before Petrel), `radio2` (before Archer),
+`rocket_base`; Hoenn `weather`, `chimney`, `magma`, `aqua`, `pyre`, `space`, `underwater` (exit
+`stay`: the Hub Pass refuses underwater), `seafloor`, `sootopolis` (before Steven), `sootopolis2`
+(after his walk to the cave). Where the planner can't follow the way back (the Route 112 cable car,
+the stairs to the Cave of Origin), the event's `check` does it with plain input.
 
 ## Result (October 31, 2026)
 

@@ -361,10 +361,11 @@ pre: trio present -> set FLAG_HIDE_* -> warp out+back: 0 -> warp out+back again:
 
 That proves the exact `setflag` → hide → persist mechanic the victory path triggers, with no RNG.
 
-**Level caps eat EXP by design**: a fresh profile runs Hard Mode, where badge level caps bind
-(`src/caps.c`). An at-cap mon gaining zero EXP is the game working. Lift with **Utilities → Cheat
-start(6)** (badges + starters, RAM only) — it does not warp the player, but re-anchor your route
-anyway.
+**There are no level caps.** The Hard Mode bundle was retired in #387: the intro no longer asks,
+`GetCurrentLevelCap()` (`src/caps.c`) returns `MAX_LEVEL`, and the old save bit is ignored. The only
+difficulty left is `VAR_DIFFICULTY`, which turns HARD per region once that region's champion flag
+is set (`SyncDifficultyForRegion`, `src/region_switch.c`) and picks the `Difficulty: Hard` parties.
+`johto-playthrough/hard_tier_battles.lua` fights all of them.
 
 Also: **the Frontier rejects duplicate species** — registering 3 identical mons silently self-cancels
 registration. Give 3 **distinct** species.

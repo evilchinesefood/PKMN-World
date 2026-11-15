@@ -567,6 +567,7 @@ PalletTown_ProfessorOaksLab_EventScript_RivalChoseStarter::
 PalletTown_ProfessorOaksLab_EventScript_ProfOak::
 	lock
 	faceplayer
+	goto_if_set FLAG_OAK_HOLDING_POKE_BALLS, PalletTown_ProfessorOaksLab_EventScript_GiveHeldPokeBalls
 	goto_if_set SHOWED_OAK_COMPLETE_DEX, PalletTown_ProfessorOaksLab_EventScript_OakJustShownCompleteDex
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 9, PalletTown_ProfessorOaksLab_EventScript_RatePokedex
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 8, PalletTown_ProfessorOaksLab_EventScript_MonsAroundWorldWait
@@ -666,7 +667,7 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	special SetUnlockedPokedexFlags
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese
-	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
+	call PalletTown_ProfessorOaksLab_EventScript_GiveDexScenePokeBalls
 	msgbox PalletTown_ProfessorOaksLab_Text_OakExplainCatching
 	famechecker FAMECHECKER_OAK, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCompleteMonGuideWasMyDream
@@ -948,6 +949,28 @@ PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls::
 
 PalletTown_ProfessorOaksLab_EventScript_NoRoomForPokeBalls::
 	msgbox PalletTown_ProfessorOaksLab_Text_YouHaveNoRoomForThis
+	release
+	end
+
+@ A player who reaches Kanto after Johto and Hoenn can carry 16 other ball types, which fills the
+@ POKé BALLS pocket. Oak then keeps the five POKé BALLS until he is spoken to with room for them.
+PalletTown_ProfessorOaksLab_EventScript_GiveDexScenePokeBalls::
+	checkitemspace ITEM_POKE_BALL, 5
+	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_HoldDexScenePokeBalls
+	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
+	return
+
+PalletTown_ProfessorOaksLab_EventScript_HoldDexScenePokeBalls::
+	msgbox PalletTown_ProfessorOaksLab_Text_YouHaveNoRoomForThis
+	setflag FLAG_OAK_HOLDING_POKE_BALLS
+	return
+
+PalletTown_ProfessorOaksLab_EventScript_GiveHeldPokeBalls::
+	checkitemspace ITEM_POKE_BALL, 5
+	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_NoRoomForPokeBalls
+	msgbox PalletTown_ProfessorOaksLab_Text_OakHereAreHeldPokeBalls
+	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
+	clearflag FLAG_OAK_HOLDING_POKE_BALLS
 	release
 	end
 
@@ -1534,6 +1557,11 @@ PalletTown_ProfessorOaksLab_Text_YouHaveNoRoomForThis::
 	.string "Oh? You have no room for these.\p"
 	.string "Come see me again once you've made\n"
 	.string "some space.$"
+
+PalletTown_ProfessorOaksLab_Text_OakHereAreHeldPokeBalls::
+	.string "OAK: Ah, {PLAYER}! You made room.\p"
+	.string "Here are the POKé BALLS I kept\n"
+	.string "for you.$"
 
 PalletTown_ProfessorOaksLab_Text_OakExplainCatching::
 	.string "When a wild POKéMON appears,\n"

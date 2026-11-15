@@ -45,6 +45,7 @@ SafariZone_EventScript_TimesUp::
 	message SafariZone_Text_TimesUp
 	waitmessage
 	waitbuttonpress
+	call SafariZone_EventScript_CheckRoomToContinue
 	showmoneybox 0, 0
 	msgbox SafariZone_Text_ContinueSafariGame, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SafariZone_EventScript_TimesUpEnd
@@ -82,6 +83,7 @@ SafariZone_EventScript_OutOfBalls::
 	message SafariZone_Text_OutOfBalls
 	waitmessage
 	waitbuttonpress
+	call SafariZone_EventScript_CheckRoomToContinue
 	showmoneybox 0, 0
 	msgbox SafariZone_Text_ContinueSafariGame, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SafariZone_EventScript_OutOfBallsDecline
@@ -106,6 +108,20 @@ SafariZone_EventScript_OutOfBallsNoMoney::
 SafariZone_EventScript_OutOfBallsDecline::
 	hidemoneybox
 	message SafariZone_Text_SafariGameOver
+	waitmessage
+	waitbuttonpress
+	releaseall
+	goto SafariZone_EventScript_Exit
+
+@ The entrances refuse a player whose party and boxes are full, since no Safari Ball can be
+@ thrown then. A catch into the last free slot reaches that state mid-game, so the continue
+@ offer applies the same check instead of selling 30 balls the player cannot use.
+SafariZone_EventScript_CheckRoomToContinue::
+	getpartysize
+	goto_if_ne VAR_RESULT, PARTY_SIZE, Common_EventScript_NopReturn
+	specialvar VAR_RESULT, ScriptCheckFreePokemonStorageSpace
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	message SafariZone_Text_NoRoomToContinue
 	waitmessage
 	waitbuttonpress
 	releaseall
@@ -160,6 +176,10 @@ SafariZone_Text_NotEnoughMoneyToContinue:
 
 SafariZone_Text_SafariGameOver:
 	.string "Okay. Your SAFARI Game is over.$"
+
+SafariZone_Text_NoRoomToContinue:
+	.string "Your PC BOX is full, so your\n"
+	.string "SAFARI Game is over.$"
 
 SafariZone_Text_OutOfBalls:
 	.string "You've run out of SAFARI BALLS.$"

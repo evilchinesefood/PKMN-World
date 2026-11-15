@@ -271,12 +271,22 @@ u8 CheckIfItemIsTMHMOrEvolutionStone(enum Item itemId)
 }
 
 // Mail in the bag menu can't have a message but it can be checked (view the mail background, no message)
+// ReadMail keeps this pointer for the life of the mail screen, so the letter cannot live on the stack.
+static EWRAM_DATA struct Mail sCheckedMail = {0};
+
 static void CB2_CheckMail(void)
 {
-    struct Mail mail;
-    mail.itemId = gSpecialVar_ItemId;
-    mail.species = SPECIES_NONE;
-    ReadMail(&mail, CB2_ReturnToBagMenuPocket, FALSE);
+    u32 i;
+
+    for (i = 0; i < MAIL_WORDS_COUNT; i++)
+        sCheckedMail.words[i] = EC_EMPTY_WORD;
+    for (i = 0; i < ARRAY_COUNT(sCheckedMail.playerName); i++)
+        sCheckedMail.playerName[i] = EOS;
+    for (i = 0; i < TRAINER_ID_LENGTH; i++)
+        sCheckedMail.trainerId[i] = 0;
+    sCheckedMail.species = SPECIES_NONE;
+    sCheckedMail.itemId = gSpecialVar_ItemId;
+    ReadMail(&sCheckedMail, CB2_ReturnToBagMenuPocket, FALSE);
 }
 
 void ItemUseOutOfBattle_Mail(u8 taskId)

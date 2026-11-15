@@ -1111,5 +1111,26 @@ return function(F, N, C, log)
       victoryRoad = { victoryRoad1F, victoryRoad2F, victoryRoad3F, victoryRoadExit } })
   end
 
+  -- PW_DETOUR=<event>:<exit>[:<region>]: leave a story event part way, cross to another region,
+  -- come back by the Kanto gate (and Fly where named), then let the beats finish the event.
+  local dir = (debug.getinfo(1, 'S').source:sub(2)):match('^(.*[/\\])')
+  B = assert(loadfile(dir .. '../johto-playthrough/excursion.lua'))()(F, N, C).insert(B, DETOUR, {
+    ss_anne = { before = 'cut', home = 'kanto', other = 'johto', items = { C.ITEM_SS_TICKET },
+      into = function() moves(); assert(N.travel('SSAnne_2F_Corridor_Frlg')) end },
+    ss_anne2 = { before = 'ship_sails', home = 'kanto', other = 'johto',
+      into = function() moves(); assert(N.travel('SSAnne_1F_Corridor_Frlg')) end,
+      -- The departure plays on the pier, so a player who left aboard sees it on walking back.
+      check = function()
+        assert(V('VAR_MAP_SCENE_VERMILION_CITY') == 1, 'the ship is still in')
+        N.travel('SSAnne_Exterior_Frlg')   -- the departure warps us straight back, so travel reports a failure
+        N.settle()
+        assert(V('VAR_MAP_SCENE_VERMILION_CITY') == 3, 'the departure played')
+      end },
+    hideout = { before = 'hideout_boss', home = 'kanto', other = 'johto', items = { C.ITEM_LIFT_KEY } },
+    tower = { before = 'tower', home = 'kanto', other = 'johto', items = { C.ITEM_SILPH_SCOPE }, fly = C.MAPSEC_LAVENDER_TOWN,
+      into = function() moves(); assert(N.travel('PokemonTower_5F_Frlg')) end },
+    silph = { before = 'silph', home = 'kanto', other = 'johto', items = { C.ITEM_CARD_KEY }, fly = C.MAPSEC_SAFFRON_CITY },
+  })
+
   return B
 end

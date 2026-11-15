@@ -103,6 +103,7 @@ command = [str(ROOT / 'test/overworld/mgba-run.sh'), str(suite), str(rom),
            '--elf', str(elf), '--out', str(run), '--timeout', str(a.timeout), '--rtc', str(a.rtc)]
 suite_names = {
     'kurt_fast_ball.lua': 'JohtoKurtFastBall',
+    'hard_tier_battles.lua': 'HardTierBattles',
     'ice_path_ladder.lua': 'JohtoIcePathLadder',
     'national_park_soothe_bell.lua': 'NationalParkSootheBell',
     'text_printer_heap.lua': 'TextPrinterHeap',

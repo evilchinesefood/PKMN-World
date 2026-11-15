@@ -218,6 +218,50 @@ local function armWarp(g, m)
   for _ = 1, 6 do F.press("Down", 2); F.idle(8) end
 end
 
+local SCRIPT_BUF = S.gStringVar4 + 960
+local function runScript(bytes)
+  for i, b in ipairs(bytes) do F.w8(SCRIPT_BUF + i - 1, b) end
+  F.w8(S.sGlobalScriptContext, 0)
+  F.w8(S.sGlobalScriptContext + 1, 1)
+  F.w32(S.sGlobalScriptContext + 4, 0)
+  F.w32(S.sGlobalScriptContext + S.ScriptCtx.scriptPtr, SCRIPT_BUF)
+  F.w8(S.sGlobalScriptContextStatus, 0)
+  F.idle(20)
+end
+local function le16(t, v) t[#t + 1] = v & 0xFF; t[#t + 1] = (v >> 8) & 0xFF end
+local function le32(t, v) le16(t, v & 0xFFFF); le16(t, (v >> 16) & 0xFFFF) end
+local function addItem(id, qty) runScript({ 0x44, id & 0xFF, id >> 8, qty & 0xFF, qty >> 8, 0x02 }) end
+local function createMon(species, level, moves)
+  local b = { 0x23 }; le32(b, S.ScrCmd_createmon | 1)
+  b[#b + 1] = 0; b[#b + 1] = 6
+  le16(b, species); le16(b, level)
+  le32(b, (1 << 17) | (1 << 18) | (1 << 19) | (1 << 20))
+  for k = 1, 4 do le16(b, moves[k] or 0) end
+  b[#b + 1] = 0x02
+  runScript(b)
+end
+
+-- Move the last party member to the front, so a mash on the party screen opens its menu first.
+local function leadLast()
+  local n = F.r8(S.gPartiesCount)
+  local size = S.Pokemon.size
+  local a, b = S.gParties, S.gParties + (n - 1) * size
+  for i = 0, size - 4, 4 do
+    local x, y = F.r32(a + i), F.r32(b + i)
+    F.w32(a + i, y); F.w32(b + i, x)
+  end
+end
+
+local function d3(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
+local function warpMap(g, m, w, tag)
+  local gh, gt, go = d3(g)
+  local mh, mt, mo = d3(m)
+  local wh, wt, wo = d3(w)
+  local ok = F.warpTo(gh, gt, go, mh, mt, mo, wh, wt, wo, g, m, tag)
+  setup()
+  return ok
+end
+
 local function terminalMenu(path)
   if not F.route({ { 6, 10 }, { 9, 10 } }, "terminal") then return false end
   F.face("Up"); F.press("A", 2); F.idle(30)
@@ -373,6 +417,104 @@ F.run(function()
     F.w8(S.sGlobalScriptContextStatus, 0)
     return battleMash("lance_multi", 12000)
   end)
+  toHub()
+
+  -- The real Fly map from the debug menu: the mash picks a visited town and rides the flight.
+  scenario("fly map mash", function()
+    for id = 0x957, 0x966 do flag(id) end
+    F.dbg(); F.sel(0); F.sel(0)
+    local result, at = mash("fly", 2500, { A = 30, Start = 4, Select = 4, L = 6, R = 6, dir = 50 })
+    F.L(string.format("  fly: landed at %d/%d", F.grp(), F.mapn()))
+    F.check("fly map mash: the mash flew out of the hub", F.grp() ~= HUB_GROUP)
+    return result, at
+  end)
+  toHub()
+
+  -- Granite Cave: the Bag holds an Escape Rope, and the mash uses it and rides the escape warp.
+  scenario("escape rope mash", function()
+    if not warpMap(24, 7, 0, "granite_cave") then return "skip", 0 end
+    addItem(120, 5)
+    F.press("Start", 2); F.idle(60)
+    if not F.selectStartIcon(2) then return "skip", 0 end
+    F.press("A", 2)
+    return mash("escape_rope", 1800, { A = 40, B = 10, Start = 4, dir = 30 })
+  end)
+  toHub()
+
+  -- A lead Abra that knows Teleport and Dig, with the party menu's cursor on Dig.
+  scenario("dig mash", function()
+    if not warpMap(24, 7, 0, "granite_cave_dig") then return "skip", 0 end
+    createMon(63, 50, { 100, 91 })
+    leadLast()
+    F.press("Start", 2); F.idle(60)
+    if not F.selectStartIcon(1) then return "skip", 0 end
+    -- Summary heads the action list, so the field moves sit one and two rows down.
+    F.press("A", 2); F.idle(120); F.press("A", 2); F.idle(60)
+    F.press("Down", 2); F.idle(10); F.press("Down", 2); F.idle(10)
+    local result, at = mash("dig", 1800, { A = 40, B = 4, Start = 2, dir = 20 })
+    F.L(string.format("  dig: ended at %d/%d", F.grp(), F.mapn()))
+    F.check("dig mash: Dig left Granite Cave", not (F.grp() == 24 and F.mapn() == 7))
+    return result, at
+  end)
+  toHub()
+
+  scenario("teleport outdoors mash", function()
+    if not warpMap(0, 0, 0, "petalburg_teleport") then return "skip", 0 end
+    createMon(63, 50, { 100, 91 })
+    leadLast()
+    F.press("Start", 2); F.idle(60)
+    if not F.selectStartIcon(1) then return "skip", 0 end
+    F.press("A", 2); F.idle(120); F.press("A", 2); F.idle(60)
+    F.press("Down", 2); F.idle(10)
+    local result, at = mash("teleport", 1800, { A = 40, B = 4, Start = 2, dir = 20 })
+    F.L(string.format("  teleport: ended at %d/%d", F.grp(), F.mapn()))
+    return result, at
+  end)
+  toHub()
+
+  -- The Hub Pass registered to Select: the mash fires it, answers its Yes/No and rides the warp.
+  scenario("registered hub pass mash", function()
+    if not warpMap(0, 0, 0, "petalburg_pass") then return "skip", 0 end
+    addItem(893, 1)
+    F.w16(F.sb1() + S.SaveBlock1.registeredItem, 893)
+    -- Arm it up to the Yes/No with the cursor moved to YES, so the mash confirms and rides the warp.
+    F.press("Select", 2); F.idle(120)
+    F.press("A", 2); F.idle(60); F.press("A", 2); F.idle(60); F.press("Up", 2); F.idle(10)
+    local reached = false
+    local result, at = mash("hub_pass", 3000, { A = 35, B = 15, Start = 2, Select = 40, dir = 50 }, function()
+      if F.grp() == HUB_GROUP then reached = true end
+      return false
+    end)
+    F.check("registered hub pass mash: the mash reached the hub", reached)
+    return result, at
+  end)
+  toHub()
+
+  -- Lose on purpose: only the lead can fight and it sits at 1 HP, so the battle ends in a
+  -- whiteout and the mash rides the respawn warp and the nurse's lines.
+  scenario("whiteout mash", function()
+    for i = 1, F.r8(S.gPartiesCount) - 1 do F.w16(S.gParties + i * S.Pokemon.size + S.Pokemon.hp, 0) end
+    if not terminalMenu({ 1, 0, 0 }) then F.L("  terminal refused"); return "skip", 0 end
+    local entered, lost = false, false
+    local result, at = mash("whiteout", 15000, { A = 45, B = 20, Start = 4, Select = 4, dir = 40 }, function()
+      if inBattle() then
+        entered = true
+        local a = S.gBattleMons
+        if F.r16(a + S.BattlePokemon.hp) > 1 then F.w16(a + S.BattlePokemon.hp, 1) end
+        local o = a + S.BattlePokemon.size
+        F.w16(o + S.BattlePokemon.hp, F.r16(o + S.BattlePokemon.maxHP))
+      end
+      if entered and F.outcome() == 2 then lost = true end
+      return lost and F.ow()
+    end)
+    if result == "stop" then
+      result, at = mash("whiteout_after", 1200, { A = 45, B = 20, Start = 4, Select = 4, dir = 40 })
+    end
+    F.L(string.format("  whiteout: entered=%s lost=%s at %d/%d", tostring(entered), tostring(lost), F.grp(), F.mapn()))
+    F.check("whiteout mash: the battle was lost", lost)
+    return result, at
+  end)
+  F.dbg(); F.sel(2); F.sel(2); F.bOut(4)
   toHub()
 
   F.finish()

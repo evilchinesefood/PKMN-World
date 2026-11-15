@@ -229,9 +229,10 @@ function M.new(S, name, opts)
     -- e.g. "SRC/BATTLE_ANIM_SMOKESCREEN.C:" with no digit -- and the old row-0-only match
     -- returned nil for it. 34 of the tree's src/*.c paths are that long, including files that
     -- already carry assert sites. The end-to-end proof used src/debug.c (11 chars), which
-    -- structurally could not exercise the wrap.
+    -- structurally could not exercise the wrap. Asserts in headers name a .H file: SanitizeMoveId
+    -- (include/move.h) and SanitizeSpeciesId (include/data.h) guard every move and species lookup.
     local head = crashRow(0) .. crashRow(1)
-    if not head:match("%.C:%d") then return nil end
+    if not head:match("%.[CH]:%d") then return nil end
     local lines = {}
     for y = 0, 19 do
       local s = crashRow(y)

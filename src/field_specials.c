@@ -3400,6 +3400,41 @@ static const u16 sDeoxysRockPalettes[DEOXYS_ROCK_LEVELS][16] = {
     INCGFX_U16("graphics/field_effects/palettes/deoxys_rock_11.pal", ".gbapal"),
 };
 
+// Kanto's Birth Island (reached by the Seagallop) uses FRLG's stone: its own sprite, the meteorite
+// palette tag and FRLG's colour ramp, which starts from that palette.
+static const u16 sDeoxysRockPalettesFrlg[DEOXYS_ROCK_LEVELS][16] = {
+    INCGFX_U16("graphics/object_events/palettes/meteorite.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_1.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_2.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_3.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_4.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_5.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_6.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_7.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_8.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_9.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/deoxys_rock_10.pal", ".gbapal"),
+};
+
+static bool32 OnKantoBirthIsland(void)
+{
+    return gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR_FRLG)
+        && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BIRTH_ISLAND_EXTERIOR_FRLG);
+}
+
+// The palette slot of the stone on this island, or 0xFF when its palette is not loaded: the other
+// island's tag, or the stone hidden after Deoxys. OBJ_PLTT_ID(0xFF) addresses far past the palette
+// buffers, so callers must not load into it.
+static u8 DeoxysRockPaletteSlot(void)
+{
+    return IndexOfSpritePaletteTag(OnKantoBirthIsland() ? OBJ_EVENT_PAL_TAG_METEORITE : OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE);
+}
+
+static const u16 *DeoxysRockPalette(u8 rockLevel)
+{
+    return OnKantoBirthIsland() ? sDeoxysRockPalettesFrlg[rockLevel] : sDeoxysRockPalettes[rockLevel];
+}
+
 static const u8 sDeoxysRockCoords[DEOXYS_ROCK_LEVELS][2] = {
     { 15, 12 },
     { 11, 14 },
@@ -3458,9 +3493,12 @@ static void Task_DeoxysRockInteraction(u8 taskId)
 
 static void ChangeDeoxysRockLevel(u8 rockLevel)
 {
-    u8 paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE);
-    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(paletteNum), PLTT_SIZEOF(4));
-    UpdateSpritePaletteWithWeather(paletteNum, FALSE);
+    u8 paletteNum = DeoxysRockPaletteSlot();
+    if (paletteNum != 0xFF)
+    {
+        LoadPalette(DeoxysRockPalette(rockLevel), OBJ_PLTT_ID(paletteNum), PLTT_SIZEOF(4));
+        UpdateSpritePaletteWithWeather(paletteNum, FALSE);
+    }
 
     if (rockLevel == 0)
         PlaySE(SE_M_CONFUSE_RAY); // Failure sound
@@ -3469,7 +3507,7 @@ static void ChangeDeoxysRockLevel(u8 rockLevel)
 
     CreateTask(WaitForDeoxysRockMovement, 8);
     gFieldEffectArguments[0] = LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK;
-    if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR_FRLG) && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BIRTH_ISLAND_EXTERIOR_FRLG))
+    if (OnKantoBirthIsland())
     {
         gFieldEffectArguments[1] = MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR_FRLG);
         gFieldEffectArguments[2] = MAP_GROUP(MAP_BIRTH_ISLAND_EXTERIOR_FRLG);
@@ -3518,8 +3556,10 @@ void IncrementBirthIslandRockStepCount(void)
 // called before fade-in
 void SetDeoxysRockPalette(void)
 {
-    u32 paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE);
-    LoadPalette(&sDeoxysRockPalettes[(u8)VarGet(VAR_DEOXYS_ROCK_LEVEL)], OBJ_PLTT_ID(paletteNum), PLTT_SIZEOF(4));
+    u32 paletteNum = DeoxysRockPaletteSlot();
+    if (paletteNum == 0xFF)
+        return;
+    LoadPalette(DeoxysRockPalette((u8)VarGet(VAR_DEOXYS_ROCK_LEVEL)), OBJ_PLTT_ID(paletteNum), PLTT_SIZEOF(4));
     // Set faded to all black, weather blending handled during fade-in
     CpuFill16(RGB_BLACK, &gPlttBufferFaded[OBJ_PLTT_ID(paletteNum)], PLTT_SIZE_4BPP);
 }

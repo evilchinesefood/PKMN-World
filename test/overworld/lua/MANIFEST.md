@@ -2242,3 +2242,17 @@ sprite must be active with non-blank tiles that match the start of `gObjectEvent
 closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
 tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
 fixed build.
+
+### `BirthIslandRockPalette.lua`
+
+The Deoxys puzzle stone's colours on both Birth Islands. With a real Pokemon in the party the
+player touches the stone, follows it to its second tile and touches it again, then opens and
+closes the party menu (the map's return-to-field reload). The stone sprite's unfaded palette, read
+through its OAM slot, must hold each level's colours: Kanto's from `meteorite.pal` and
+`graphics/field_specials/deoxys_rock_N.pal`, Hoenn's from `field_effects/palettes`. The 32 bytes that
+palette slot 0xFF addresses past each palette buffer are set to a sentinel around every action and
+must survive. With `FLAG_BATTLED_DEOXYS` or `FLAG_FOUGHT_DEOXYS` set the stone is hidden, and a party
+menu round trip there must stay in bounds too. The rock code looked up Hoenn's palette tag on Kanto's
+island (it uses the meteorite tag), got 0xFF, never recoloured the stone and wrote each palette into
+`sSpeciesPreEvolution`; the hidden stone did the same on both islands. Measured **35/35** fixed and
+**28/35** on the unfixed ROM.

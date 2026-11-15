@@ -1296,6 +1296,10 @@ inside on the house entry. A run that ends on the ledge row on foot fails; a fli
 the ledge or the door only when it took off before the move began. When the key stopped the jump,
 a second jump must still land. Measured **864/864** on the build of
 `061127921d`; no defect found.
+### `SkyCharmLanding.lua`
+
+`StartOverworldFlight` sets the player to `ELEVATION_TRANSITION` so `CanLandOverworldFlight` accepts ground at any height, and landing left it there. That elevation matches every tile, so the first step off a shore went onto the water on foot, the water's elevation then stuck, and the player walked across the sea without Surf. Landing now takes the tile's elevation, and `CanLandOverworldFlight` refuses transition (0), surf-level (1) and bridge (15) tiles, which give no ground level; Olivine's (36,70) is metatile 0x050, a sea tile tagged `MB_NORMAL` at elevation 1. The suite works in Olivine City with Johto badge 6 set and the Sky Charm given by an injected `additem` and registered on Select. **Shore:** take off on the pier at (19,66), fly north one tile, land on (19,65), step west. **Sea tile:** fly to (36,70) and press Select. **Yard (control):** fly to the lighthouse yard (39,52), land, step north. **Oracle:** the step west leaves the player on (19,65); at (36,70) the player is still flying; the yard landing and the step north on land both work. **Discrimination:** unfixed 8/10 (the player walks onto the sea at (18,65), and lands on (36,70)), fixed 10/10. `LedgeSelectStress` (864/864), `AutosaveStress` (220/220) and `RegionalTravelBoundaries` (103/103) pass on the fixed build.
+
 ### `SafariStress.lua`
 
 Every way out of the Kanto, Johto and Hoenn Safari Zones, through the real attendants and exits.

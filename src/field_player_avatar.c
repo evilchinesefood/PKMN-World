@@ -1038,8 +1038,12 @@ bool32 CanLandOverworldFlight(void)
     s16 x = playerObjEvent->currentCoords.x;
     s16 y = playerObjEvent->currentCoords.y;
     u8 behavior = MapGridGetMetatileBehaviorAt(x, y);
+    u8 elevation = MapGridGetElevationAt(x, y);
 
-    if (MetatileBehavior_IsSurfableWaterOrUnderwater(behavior)
+    // EndOverworldFlight takes the player's elevation from this tile. A transition or bridge
+    // tile gives no ground level, and a surf-level tile would let the player walk onto water.
+    if (elevation == ELEVATION_TRANSITION || elevation == ELEVATION_SURF || elevation == ELEVATION_MULTI_LEVEL
+     || MetatileBehavior_IsSurfableWaterOrUnderwater(behavior)
      || MetatileBehavior_IsWaterfall(behavior)
      || MetatileBehavior_IsJumpSouth(behavior)
      || MetatileBehavior_IsJumpNorth(behavior)
@@ -1060,8 +1064,8 @@ void StartOverworldFlight(void)
     // fresh spawn, InitPlayerAvatar). Otherwise CanLandOverworldFlight -> IsElevationMismatchAt
     // keeps comparing against the takeoff elevation, so you could only land back on ground at
     // that same height - landing on a lower (or any different-elevation) area was refused. With
-    // ELEVATION_TRANSITION there is no mismatch, so you can land on any walkable tile, and the
-    // real elevation is picked back up on the first step after landing.
+    // ELEVATION_TRANSITION there is no mismatch, so you can land on any walkable tile, and
+    // EndOverworldFlight takes the landing tile's elevation.
     playerObjEvent->currentElevation = ELEVATION_TRANSITION;
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_SURFING));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
@@ -1083,6 +1087,10 @@ void EndOverworldFlight(void)
     DestroyFlightMountSprite();
     gSprites[playerObjEvent->spriteId].y2 = 0;
     playerObjEvent->fixedPriority = FALSE;
+    // Flight left the player at ELEVATION_TRANSITION, which matches every tile, so the first
+    // step off a shore would go onto the water on foot.
+    playerObjEvent->currentElevation = MapGridGetElevationAt(playerObjEvent->currentCoords.x, playerObjEvent->currentCoords.y);
+    playerObjEvent->previousElevation = playerObjEvent->currentElevation;
     gSprites[playerObjEvent->spriteId].oam.priority = ElevationToPriority(playerObjEvent->previousElevation);
     ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_NORMAL));
     ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);

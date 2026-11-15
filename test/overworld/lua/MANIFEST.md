@@ -2009,3 +2009,14 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `SummaryDexNumberNoDex.lua`
+
+Before the National Pokédex, the summary's info page must print a dex number only for a species in
+the current region's dex. Johto has no regional dex here and borrowed the Hoenn order, whose lookup
+returns 0 outside that dex, and 0 passed `<= REGIONAL_DEX_COUNT`: a Johto starter showed "000" and a
+Zubat its Hoenn number until Elm's Pokédex. The suite gives each Pokémon with the debug Give menu,
+warps to a map of the region (the region is map-derived), opens the summary from the Start menu
+with real input and counts lit pixels where the number prints in the species window (12 with no
+number, over 100 with three digits). Johto (National Park gate): Chikorita and Zubat show no
+number. Control: Kanto (Viridian City) Bulbasaur shows its Kanto number. Measured **9/9** fixed and
+**7/9** on the unfixed ROM.

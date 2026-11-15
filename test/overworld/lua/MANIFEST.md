@@ -2042,3 +2042,13 @@ work: the last check counts them). Holding B, A is pressed on the Electrode "ite
 tapped only to page the battle intro. The fixed game reaches the action menu and stays there with
 B held; the suite then picks RUN. **7/8** on the unfixed ROM (the battle ends on its own),
 **8/8** with the fix.
+### `BagTMCancelMessage.lua`
+
+Cancelling a TM's in-bag party select must take its "Teach ... to a POKéMON?" prompt down. The
+prompt stays up over the party select (`SWSH_ITEM_MENU_ACTION_IN_BAG`), and `BagMenu_ClosePartySelect`
+returned to the list without removing it, so the message box covered the TM description, followed
+the player into the Items pocket and was cut through by the next Give's description. A debug-made
+Pokémon leads; with real input the suite Uses TM01, answers Yes, presses B, switches to Items and
+starts a Give of a Revive. It counts windows with the item message template in `gWindows` (the main
+list keeps an identical always-allocated `WIN_MESSAGE`, so two means the prompt is up). Control: the
+prompt is up during the select on both ROMs. Measured **7/7** fixed and **4/7** on the unfixed ROM.

@@ -2023,5 +2023,4 @@ after the recovery and must reboot into that save with a clean status. Coverage:
 the cut on frame 0 loads the previous save with status OK, every cut from frame 1 to the last write
 frame loads it with the "previous save loaded" status, and only the completed write loads the new
 save. The registered default samples every third frame plus the frame after the write and scores
-**198/198** in about 220,000 frames. No defect
-found.
+**198/198**. No defect found.

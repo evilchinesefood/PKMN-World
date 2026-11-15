@@ -16,7 +16,7 @@ import sys
 import typing
 
 CONFIG_ENABLED_PAT = re.compile(r"^#define P_LEARNSET_HELPER_TEACHABLE\s+(?P<cfg_val>[^ ]*)", flags=re.MULTILINE)
-INCFILE_HAS_TUTOR_PAT = re.compile(r"special ChooseMonForMoveTutor")
+INCFILE_HAS_TUTOR_PAT = re.compile(r"special ChooseMonForMoveTutor|call MoveTutor_EventScript_OpenPartyMenu")
 INCFILE_HAS_TUTOR_PAT2 = re.compile(r"chooseboxmon SELECT_PC_MON_MOVE_TUTOR")
 INCFILE_MOVE_PAT = re.compile(r"setvar VAR_0x8005, (MOVE_[A-Z_]*)")
 INCFILE_MOVE_PAT2 = re.compile(r"move_tutor (MOVE_[A-Z_]*)")

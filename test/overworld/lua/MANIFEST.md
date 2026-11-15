@@ -1463,3 +1463,14 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `MtSilverEscape.lua`
+
+Escape Rope and Dig on Mt. Silver's outdoor map. `MtSilver_Outside` was the only city or town map
+that allowed escaping, and nothing there sets the escape warp: the player walks out of the
+Mt. Silver Pokemon Center or in from Route 28, so the warp still names the last building or cave
+entered from outdoors, in any region. The World Transit gate resumes a Johto trip at that Center.
+The suite visits the Center for real, walks into Diglett's Cave from Route 11 in Kanto, resumes
+Johto at Mt. Silver through the gate, walks out, and uses an Escape Rope from the Bag and Dig from
+the party menu, then checks both still work in Diglett's Cave. Before the fix both carried the
+player to Kanto's Route 11 with Johto still the saved region (`37/29 (6,8) region=2`): **18/21**
+on the unfixed ROM, **21/21** with the fix.

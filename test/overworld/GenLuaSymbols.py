@@ -57,6 +57,13 @@ WANT = [
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",
     "gBackupMapLayout",
+    # What the field camera actually drew. DrawMetatileAt writes each map cell's eight tile entries
+    # into these three BG tilemap buffers (pointers, COMMON_DATA) at the slot
+    # MapPosToBgTilemapOffset derives from sFieldCameraOffset's tile offsets, so a suite can read the
+    # picture at a map coordinate, including border cells no map or connection covers
+    # (OlivineSeaBorder.lua).
+    "gOverworldTilemapBuffer_Bg1", "gOverworldTilemapBuffer_Bg2", "gOverworldTilemapBuffer_Bg3",
+    "sFieldCameraOffset",
     # Tells an overworld-Pokemon collision apart from a grass encounter. ProcessPlayerFieldInput
     # clears it to LOCALID_NONE on every call and a grass roll fires inside that same call, whereas
     # TryTriggerOverworldWildEncounter sets it to the wild mon's local id and starts a script. So
@@ -505,7 +512,7 @@ def defines(path, prefix, names):
 
 def door_constants(root):
     beh = behavior_enum(root)
-    for n in ("MB_ANIMATED_DOOR", "MB_PETALBURG_GYM_DOOR"):
+    for n in ("MB_ANIMATED_DOOR", "MB_PETALBURG_GYM_DOOR", "MB_OCEAN_WATER"):
         if n not in beh:
             sys.exit(f"include/constants/metatile_behaviors.h: {n} not found")
     counts = defines(os.path.join(root, "include", "fieldmap.h"), "NUM_METATILES_",
@@ -606,12 +613,12 @@ def main():
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
     # Derived from the headers by door_constants() — never hand-edit these either.
     beh, counts, attrs, grid = door_constants(root)
-    print("  MetatileBehavior = { ANIMATED_DOOR = %d, PETALBURG_GYM_DOOR = %d },"
-          % (beh["MB_ANIMATED_DOOR"], beh["MB_PETALBURG_GYM_DOOR"]))
+    print("  MetatileBehavior = { ANIMATED_DOOR = %d, PETALBURG_GYM_DOOR = %d, OCEAN_WATER = %d },"
+          % (beh["MB_ANIMATED_DOOR"], beh["MB_PETALBURG_GYM_DOOR"], beh["MB_OCEAN_WATER"]))
     print("                                                            "
           "-- MetatileBehavior_IsDoor() accepts exactly")
     print("                                                            "
-          "--   these two (src/metatile_behavior.c).")
+          "--   the two door values (src/metatile_behavior.c).")
     print("  Metatiles    = { inPrimary = %d, inPrimaryFrlg = %d, total = %d,"
           % (counts["NUM_METATILES_IN_PRIMARY"], counts["NUM_METATILES_IN_PRIMARY_FRLG"],
              counts["NUM_METATILES_TOTAL"]))

@@ -2009,3 +2009,17 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `SkyCharmBikeAloft.lua`
+
+The Mach Bike and the Acro Bike pressed on Select while the Sky Charm flight is airborne. The Sky
+Charm only takes off on foot, but the bike accepted the reverse order: in mid-air it set the bike
+avatar flag, swapped the rider's sprite and started the region's cycling theme as the saved music.
+Landing put the player on foot with the cycling theme still playing, and the saved music brought it
+back after battles and menus until the next map change. `IsBikingDisallowedByPlayer` now refuses
+while flying. In Olivine City with Johto badge 6 and the Sky Charm and both bikes given by an
+injected `additem`, each bike case takes off on the pier, flies over the sea at (18,65), presses
+Select with the bike (refused: still flying, on foot, the same sprite, the map music and no saved
+music), lands on the pier and checks the music on foot, then mounts and dismounts the bike on the
+pier as a control. Measured **19/19** fixed and **11/19** on the unfixed ROM, where both bikes
+mounted aloft and `MUS_HG_CYCLING` (669) kept playing on foot after landing.

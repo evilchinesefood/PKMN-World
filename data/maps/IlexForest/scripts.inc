@@ -302,6 +302,10 @@ IlexForest_EventScript_Shrine::
 IlexForest_EventScript_Celebi_Event::
 	msgbox IlexForest_Text_ShrineCelebiEvent, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, IlexForest_EventScript_Shrine_Cancel
+	@ Refuse an empty or Egg-only party BEFORE the GS Ball scene: it clears Celebi's hide flag, which the
+	@ battle's own refusal cannot undo.
+	specialvar VAR_RESULT, CountPartyNonEggMons
+	goto_if_eq VAR_RESULT, 0, EventScript_NoMonsForWildBattle
 	msgbox IlexForest_Text_InsertGSBall, MSGBOX_DEFAULT
 	clearflag FLAG_HIDE_CELEBI
 	addobject LOCALID_ILEX_FOREST_CELEBI

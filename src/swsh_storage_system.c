@@ -677,6 +677,7 @@ static void SetMonMarkings(u8);
 static bool8 IsRemovingLastPartyMon(void);
 static bool8 CanPlaceMon(void);
 static bool8 CanShiftMon(void);
+static bool8 IsHoldingMonWithMail(void);
 static bool8 IsMonBeingMoved(void);
 static void TryRefreshDisplayMon(void);
 static void ReshowDisplayMon(void);
@@ -2038,7 +2039,7 @@ static void Task_PokeStorageMain(u8 taskId)
         case INPUT_HIDE_PARTY:
             if (sStorage->boxOption == OPTION_MOVE_MONS || sStorage->boxOption == OPTION_SELECT_MON)
             {
-                if (IsMonBeingMoved() && ItemIsMail(sStorage->displayMon.heldItem))
+                if (IsHoldingMonWithMail())
                     sStorage->state = MSTATE_ERROR_HAS_MAIL;
                 else
                     SetPokeStorageTask(Task_HidePartyPokemon);
@@ -6991,6 +6992,13 @@ static bool8 IsMonBeingMoved(void)
     return sIsMonBeingMoved;
 }
 
+// Mail must never reach a box (its letter lives in the party's mail slots), and the party is
+// always on screen here, so a Mail holder in hand may not leave the party at all.
+static bool8 IsHoldingMonWithMail(void)
+{
+    return sIsMonBeingMoved && ItemIsMail(GetMonData(&sStorage->movingMon, MON_DATA_HELD_ITEM));
+}
+
 static bool8 IsCursorOnBoxTitle(void)
 {
     return (sCursorArea == CURSOR_AREA_BOX_TITLE);
@@ -7628,6 +7636,12 @@ static u8 HandleInput_InParty(void)
             if (sStorage->boxOption == OPTION_DEPOSIT)
                 break;
 
+            if (IsHoldingMonWithMail())
+            {
+                retVal = INPUT_HIDE_PARTY;
+                break;
+            }
+
             retVal = INPUT_MOVE_CURSOR;
             cursorArea = CURSOR_AREA_IN_BOX;
 
@@ -7648,6 +7662,12 @@ static u8 HandleInput_InParty(void)
         {
             if (sStorage->boxOption == OPTION_DEPOSIT)
                 break;
+
+            if (IsHoldingMonWithMail())
+            {
+                retVal = INPUT_HIDE_PARTY;
+                break;
+            }
 
             retVal = INPUT_MOVE_CURSOR;
             cursorArea = CURSOR_AREA_IN_BOX;

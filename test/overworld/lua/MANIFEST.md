@@ -132,6 +132,7 @@ is clean; keep it that way.
 | [`FamilyOptionsFieldStress.lua`](#familyoptionsfieldstresslua) | fresh new game | Options from the main menu (before New Game and Continue) and from the Start menu with a follower, a Repel, rain and Surf, restoring the field each time. |
 | [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
 | [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
+| [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -1316,3 +1317,23 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `ContinueOddMoments.lua`
+
+Each case saves from the Start menu, then soft resets (A+B+Start+Select) or cuts the power, continues
+the file, and compares the map, tile, party bytes, saved region, whiteout point and Surf/Dive avatar
+bits against the snapshot taken before the save, then waits for control. Cases: surfing on Route 41
+with a Lapras follower (soft and power), underwater on Route 124, next to a visible wild Pokemon on
+Route 29 (after Continue the player walks into it, and the battle must start and return to the
+field), aboard the S.S. Anne and the S.S. Aqua, and the Hub Pass fired from Select while surfing
+(the hub arrival must be on foot) followed by a hub save. The debug warp lands underwater on a
+walled tile, so that case checks state and control, not a step. `PW_CONT_ONLY=<text>` runs the
+matching cases. Measured clean on its first runs; no defect found.
+
+### `InputSpamStress.lua` transition scenarios
+
+Added to the mash battery: the real Fly map with every Hoenn town visited (no B, so the mash
+must pick a town and fly), an Escape Rope used from the Bag in Granite Cave, Dig and Teleport from
+a lead Abra's party menu (Dig in Granite Cave, Teleport in Petalburg), the Hub Pass registered to
+Select and mashed through its Yes/No, and a lost trainer battle mashed through the whiteout and the
+respawn. Fly and Dig assert the mash actually left the map. Measured clean; no defect found.

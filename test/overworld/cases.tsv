@@ -183,3 +183,4 @@ TowerMultiRoomBoxes	lua/TowerMultiRoomBoxes.lua	fresh	0	required
 UsmOrderSpecialContext	lua/UsmOrderSpecialContext.lua	fresh	0	required
 HoldBStaticEncounter	lua/HoldBStaticEncounter.lua	fresh	0	required
 BagTMCancelMessage	lua/BagTMCancelMessage.lua	fresh	0	required
+SkyCharmBikeAloft	lua/SkyCharmBikeAloft.lua	fresh	0	required

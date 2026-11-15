@@ -186,3 +186,4 @@ BagTMCancelMessage	lua/BagTMCancelMessage.lua	fresh	0	required
 SkyCharmBikeAloft	lua/SkyCharmBikeAloft.lua	fresh	0	required
 BagCallbackGiveStress	lua/BagCallbackGiveStress.lua	fresh	0	required
 IconRowStacking	lua/IconRowStacking.lua	fresh	0	required
+UsmOpenCloseStress	lua/UsmOpenCloseStress.lua	fresh	0	required

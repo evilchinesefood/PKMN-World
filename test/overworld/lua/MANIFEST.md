@@ -2094,3 +2094,16 @@ the PC's party column, the box after the moves, after reopening the PC, after Su
 and put back (a re-created box icon took OAM priority 2 while the box's first icons have 1, so the
 lower icon won on priority alone) and after scrolling to the next box and back. **20/30** on the
 unfixed ROM (all ten pairs), **30/30** with the fix.
+### `UsmOpenCloseStress.lua`
+
+The graphical Start menu opened and closed 125 times with real input while the icon set changes
+between opens (Pokédex, PokéNav and DexNav flags toggled as setup). Cycles vary the D-pad walk,
+hold past the auto-repeat delay and reorder with SELECT. After every close the in-use sprites,
+sprite-VRAM tiles (`sSpriteTileAllocBitmap`) and OAM matrices (`gOamMatrixAllocBitmap`) must equal
+the field baseline, and every open must put the cursor on a real icon. Every 12th cycle opens
+Options from the last icon, removes three icons while Options is up and returns: the restored
+cursor must be in range and A must open the icon it shows. Options returns through a field reload
+that can respawn the follower, so the baseline is re-taken there and every reload must settle on
+the same counts. Measured **7/7** on master and **4/7** with `0829014ec0`'s
+`unbound_start_menu.c` hunks reverted (16 tiles leaked per close, the restored offset 3 exceeded
+the 6-icon list and A on it opened nothing). `PW_USM_CYCLES` (pass with `--env`) sets the count.

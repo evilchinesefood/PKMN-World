@@ -19,6 +19,7 @@ TinTowerRoof	lua/TinTowerRoof.lua	fresh	0	required
 OlivineHarborBoard	lua/OlivineHarborBoard.lua	fresh	0	required
 OlivineSeaBorder	lua/OlivineSeaBorder.lua	fresh	0	required
 JohtoSealedSea	lua/JohtoSealedSea.lua	fresh	0	required
+OlivineShockWave	lua/OlivineShockWave.lua	fresh	0	required
 SSAquaKantoCrossing	lua/SSAquaKantoCrossing.lua	fresh	0	required
 BnetTerminal1F	lua/BnetTerminal1F.lua	fresh	0	required
 LevelUpSummary	lua/LevelUpSummary.lua	fresh	0	required

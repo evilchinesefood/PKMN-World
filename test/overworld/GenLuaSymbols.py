@@ -16,6 +16,9 @@ import subprocess, sys, re, os, hashlib, argparse
 # script multichoice / yes-no; the other same-named symbols are 4-byte pointers from other TUs).
 WANT = [
     "MahoganyHideout_B2F_EventScript_DoLanceMultiBattle",
+    # OweContactCoordEvent.lua: the script pointer inside [Trigger1, EntranceBattle) means Wally's
+    # Victory Road coord event ran.
+    "VictoryRoad_1F_EventScript_WallyBattleTrigger1", "VictoryRoad_1F_EventScript_WallyEntranceBattle",
     "gSelectedOrderFromParty", "gPartnerTrainerId",
     "CB2_Overworld",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",

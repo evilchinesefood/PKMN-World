@@ -1912,3 +1912,24 @@ steps a warp back in finds nothing; after 500 more the warp in restarts the coun
 is back. The port defined the counter (on a raw id that is Hoenn's `VAR_STARTER_MON`) and never
 counted a step or regenerated anything, so a renewable item taken once was gone for good:
 **27/32** on the unfixed ROM, **32/32** with the fix.
+### `OweContactCoordEvent.lua`
+
+A visible wild Pokemon that walks into the player mid-step must not swallow the coord event on the
+tile the player arrives on. Victory Road 1F's Wally battle is the coord event pair at (2,23) and
+(3,23), the only corridor to the B1F ladder. The player stands at (2,22) facing the trigger with a
+generated encounter moved beside the corridor (west of the trigger, or west of the tile the player
+leaves), and each trial loads that state, waits 0 to 127 frames and steps down with real input. The
+encounter's wandering, contact and battle are the game's own; battles are won by pressing A with a
+debug-given Mewtwo. A contact before the step ends the trial untested. Sweep A has the trigger live:
+every trial that takes the step must start Wally's scene (the script pointer inside
+`VictoryRoad_1F_EventScript_WallyBattleTrigger1` to `WallyEntranceBattle`) before the player leaves
+(2,23). Sweep B sets `VAR_VICTORY_ROAD_1F_STATE` to 1, the value Wally's scene leaves, so the same
+step lands on a plain tile, and requires contacts made during the step to still start their battle by
+the frame after it. The encounter's step is checked from its sprite callback and started its script
+there, so on 16 consecutive offsets per placement the script held the field controls through the next
+`ProcessPlayerFieldInput`, the one that runs the arrival's coord event; after the battle the player
+stood on the trigger and walked past Wally, as a world campaign did on the stress pass 4 integration
+ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A trials walked past,
+and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
+contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
+trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.

@@ -132,7 +132,7 @@ STORY_OBJECTIVE(sJohtoWhitneyBadge,
     "johto.whitney-badge", STORY_PIN(GOLDENROD_CITY),
     "Goldenrod Gym",
     "You defeated Whitney.",
-    "Talk to the nearby trainer,\nthen speak to Whitney again.",
+    "Talk to the nearby trainer.\nThen speak to Whitney again.",
     "Goldenrod City Gym",
     "Whitney still owes your badge.");
 
@@ -260,7 +260,7 @@ STORY_OBJECTIVE(sJohtoGenerator,
     "johto.generator", STORY_PIN(MAHOGANY_TOWN),
     "Stop the radio signal",
     "You reached the generator\nwith Lance.",
-    "Deal with the three Pokemon\non your side of the room.",
+    "Deal with the three Pokemon.\nThey are on your side of\nthe room.",
     "Rocket Hideout, B2F\nGenerator room",
     "Do not flee the encounters.");
 
@@ -292,7 +292,7 @@ STORY_OBJECTIVE(sJohtoRadio,
     "johto.radio", STORY_PIN(GOLDENROD_CITY),
     "Trouble at the Radio Tower",
     "Elm called about Goldenrod.",
-    "Investigate the Director\nand claim the Basement Key.",
+    "Investigate the Director.\nClaim the Basement Key.",
     "Goldenrod City\nRadio Tower, fifth floor",
     "Make room and retry the gift.");
 
@@ -300,7 +300,7 @@ STORY_OBJECTIVE(sJohtoUnderground,
     "johto.underground", STORY_PIN(GOLDENROD_CITY),
     "The missing Director",
     "You obtained the local\nBasement Key.",
-    "Open the Underground door\nand search the basement.",
+    "Open the Underground door.\nSearch the basement.",
     "Goldenrod City\nUnderground, northern door",
     "Use the key and the switches.");
 
@@ -308,7 +308,7 @@ STORY_OBJECTIVE(sJohtoRadioRescue,
     "johto.radio-rescue", STORY_PIN(GOLDENROD_CITY),
     "The missing Director",
     "You faced your rival in\nthe Underground.",
-    "Find the Director, then use\nhis key at the Radio Tower.",
+    "Find the Director.\nUse his key at the\nRadio Tower.",
     "Underground Storage\nThen Radio Tower, third floor",
     "Make room for the Card Key.\nContinue up the tower.");
 
@@ -324,7 +324,7 @@ STORY_OBJECTIVE(sJohtoClair,
     "johto.clair", STORY_PIN(BLACKTHORN_CITY),
     "Blackthorn Gym",
     "Your Johto journey continues.",
-    "Travel through Ice Path\nand challenge Clair.",
+    "Travel through Ice Path.\nThen challenge Clair.",
     "Blackthorn City Gym",
     "You need the Storm, Mineral\nand Glacier Badges.");
 
@@ -340,7 +340,7 @@ STORY_OBJECTIVE(sJohtoDenExit,
     "johto.den-exit", STORY_PIN(DRAGONS_DEN),
     "After the Elder's test",
     "You earned the Rising Badge.",
-    "Leave the shrine and\nspeak to Clair in the cavern.",
+    "Leave the shrine.\nSpeak to Clair in the cavern.",
     "Dragon's Den\nCavern exit",
     "Make room for her TM.");
 
@@ -388,7 +388,7 @@ STORY_OBJECTIVE(sJohtoLeague,
     "johto.league", STORY_PIN(ROUTE_27),
     "The Pokemon League",
     "You earned all eight badges.",
-    "Cross Tohjo Falls and\nVictory Road to the League.",
+    "Cross Tohjo Falls.\nTake Victory Road to the\nLeague.",
     "East of New Bark Town\nRoutes 27 and 26",
     "Use Surf and Waterfall.\nPrepare your team for battle.");
 
@@ -420,7 +420,7 @@ STORY_OBJECTIVE(sJohtoPostgame,
     "johto.postgame", STORY_NO_PIN(FREE_ROAM),
     "Explore after the League",
     "You are Johto's Champion.",
-    "Visit the port or explore\nmore of Johto.",
+    "Visit the port or explore.\nThere is more of Johto to see.",
     "Olivine City\nPort",
     "Your S.S. Ticket opens\na new travel option.");
 
@@ -451,14 +451,14 @@ STORY_OBJECTIVE(sJohtoCelebiRetry,
 STORY_OBJECTIVE(sJohtoLeagueCheck, "johto.league-check", STORY_NO_PIN(MULTIPLE),
     "Preparing for the League",
     "You earned all eight badges.",
-    "Check with Elm and visit\nEcruteak's Dance Theater.",
+    "Check in with Elm.\nVisit Ecruteak's Dance\nTheater.",
     "New Bark Town Pokemon Lab\nEcruteak City Dance Theater",
     "The League gate needs the\ntheater's story completed.");
 
 STORY_OBJECTIVE(sJohtoLeagueEntry, "johto.league-entry", STORY_PIN(JOHTO_INDIGO_PLATEAU),
     "The Pokemon League",
     "You reached Indigo Plateau.",
-    "Prepare and challenge\nthe Elite Four.",
+    "Challenge the Elite Four.\nPrepare your team first.",
     "Johto Indigo Plateau\nPokemon League entrance",
     "Heal your team before entry.");
 

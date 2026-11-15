@@ -54,6 +54,8 @@ objective; destination metadata does not add progression rules or saved state.
 Run `python3 test/overworld/story-progress/run.py` after adding an objective.
 The test requires each authored ID to be reached, every pin to belong to exactly
 one actual map layout, and each exemption to have a valid reason and no section.
+The overview prints only the first line of an action, so that line must be a whole
+instruction ending in `.`, `!` or `?`; the test rejects a first line that is not.
 Use the native fixture below to inspect new location text and markers.
 
 ## Coverage and boundaries

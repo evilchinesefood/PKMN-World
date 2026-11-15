@@ -76,6 +76,8 @@ static void Task_UseItemfinder(u8);
 static void Task_CloseItemfinderMessage(u8);
 static void Task_HiddenItemNearby(u8);
 static void Task_StandingOnHiddenItem(u8);
+static bool32 SetUpUnderfootHiddenItem(void);
+static void Task_DigUpUnderfootHiddenItem(u8);
 static void PlayerFaceHiddenItem(enum Direction);
 static void CheckForHiddenItemsInMapConnection(u8);
 static void Task_OpenRegisteredPokeblockCase(u8);
@@ -926,8 +928,43 @@ static void Task_StandingOnHiddenItem(u8 taskId)
         tCounter++;
 
         if (tCounter == 4)
-            DisplayItemMessageOnField(taskId, sText_ItemFinderOnTop, Task_CloseItemfinderMessage);
+            DisplayItemMessageOnField(taskId, sText_ItemFinderOnTop,
+                                      SetUpUnderfootHiddenItem() ? Task_DigUpUnderfootHiddenItem : Task_CloseItemfinderMessage);
     }
+}
+
+// GetInteractedBackgroundEventScript skips FRLG's underfoot hidden items (the Snorlax, Mr. Fuji
+// and Giovanni spots, Cape Brink, the Navel Rock summit), so facing one finds nothing. As in
+// pokefirered's itemfinder.c, the Itemfinder digs one up when the player stands on it.
+static bool32 SetUpUnderfootHiddenItem(void)
+{
+    const struct MapEvents *events = gMapHeader.events;
+    s16 x, y;
+    u32 i;
+
+    PlayerGetDestCoords(&x, &y);
+    for (i = 0; i < events->bgEventCount; i++)
+    {
+        const struct BgEvent *bgEvent = &events->bgEvents[i];
+        u32 flag = bgEvent->bgUnion.hiddenItem.hiddenItemId + FLAG_HIDDEN_ITEMS_START;
+
+        if (bgEvent->kind == BG_EVENT_HIDDEN_ITEM && bgEvent->bgUnion.hiddenItem.underfoot
+         && bgEvent->x + MAP_OFFSET == x && bgEvent->y + MAP_OFFSET == y && !FlagGet(flag))
+        {
+            gSpecialVar_0x8004 = flag;
+            gSpecialVar_0x8005 = bgEvent->bgUnion.hiddenItem.item;
+            gSpecialVar_0x8009 = bgEvent->bgUnion.hiddenItem.quantity;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+static void Task_DigUpUnderfootHiddenItem(u8 taskId)
+{
+    ClearDialogWindowAndFrame(0, TRUE);
+    DestroyTask(taskId);
+    ScriptContext_SetupScript(EventScript_HiddenItemScript);
 }
 
 // Undefine itemfinder task data

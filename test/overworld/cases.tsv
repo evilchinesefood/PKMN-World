@@ -60,6 +60,7 @@ CatchTutorial	lua/CatchTutorial.lua	fresh	0	required
 DayNightTint	lua/DayNightTint.lua	fresh	0	required
 RainPaletteSlots	lua/RainPaletteSlots.lua	fresh	0	required
 DroughtNightTint	lua/DroughtNightTint.lua	fresh	0	required
+UnderfootHiddenItem	lua/UnderfootHiddenItem.lua	fresh	0	required
 FamilyOptionsMigration	lua/FamilyOptionsMigration.lua	generated:family-options/v11-hard.srm	0	required
 RegionalTravelMigration	lua/RegionalTravelMigration.lua	lua/fixtures/v10regionaldirty.srm	1	required
 VerifyV7Migrate	lua/VerifyV7Migrate.lua	lua/fixtures/v7dirty.srm	0	required

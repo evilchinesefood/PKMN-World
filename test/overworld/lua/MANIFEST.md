@@ -1454,3 +1454,12 @@ Bag) in slot 0 and the Mach Bike in slot 1 SELECT must mount it too. Before the 
 `UseRegisteredKeyItemOnField` took the first registered slot, found it missing, cleared it and
 showed "An item in the BAG can be registered..." instead: **7/8** on the unfixed ROM, **8/8** with
 the fix.
+### `BagRepelFlow.lua`
+
+Repels from the Bag and the Repel expiry prompt (`EventScript_SprayWoreOff`, with
+`I_REPEL_LURE_MENU`) behave as the item rules say. From a free hub, with real input: a Repel from
+the Bag with none active sets 100 steps and uses one; a Repel while one is active lingers and uses
+nothing; at expiry with only Repels, Yes uses one and restarts the count; with a Repel and a Max
+Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
+none left only the message shows. Coverage for a flow the third stress pass found clean:
+**22/22**.

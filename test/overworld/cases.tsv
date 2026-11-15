@@ -134,3 +134,4 @@ BagFluteReusable	lua/BagFluteReusable.lua	fresh	0	required
 PartyGiveSwitchDecline	lua/PartyGiveSwitchDecline.lua	fresh	0	required
 PartyMoveItemOntoMail	lua/PartyMoveItemOntoMail.lua	fresh	0	required
 SelectWheelStaleSlot	lua/SelectWheelStaleSlot.lua	fresh	0	required
+BagRepelFlow	lua/BagRepelFlow.lua	fresh	0	required

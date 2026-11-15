@@ -1855,3 +1855,13 @@ exported for this suite) and the icons drawn. Page 2 holds two of the seven entr
 land on the last entry, as the Pokédex list clamps. #394 wrote the jump for a ten-entry catalog and
 it only moved when an entry sat exactly five rows down, so Right did nothing from rows 3 to 5:
 **17/23** on the unfixed ROM, **23/23** with the fix.
+### `SpecialQuestRegionSwitch.lua`
+
+The Vermilion Fan Club's Squad Squirtle task must survive a Hub Pass and two region switches in the
+middle. With real input the suite crosses to Kanto, starts the task with the organizer, finds the
+first Squirtle (chasing its live position), Hub Passes to the hub, crosses to Johto, Hub Passes
+back and crosses to Kanto again, checking `gCurrentRegion` and the task flags after each switch.
+It then finds the second Squirtle, accepts the organizer's gift and declines the repeat offer:
+exactly one Squad Squirtle must arrive. Setup writes travel flags only; every task flag comes from
+the NPC scripts. Coverage, no defect found: **17/17**. A tamper build that clears the first
+Squirtle's flag on entering Johto scores **12/17**.

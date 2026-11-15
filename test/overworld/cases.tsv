@@ -164,3 +164,4 @@ PCStorageMashStress	lua/PCStorageMashStress.lua	fresh	0	required
 LakeOfRageMagikarpSale	lua/LakeOfRageMagikarpSale.lua	fresh	0	required
 ResortGorgeousRequest	lua/ResortGorgeousRequest.lua	fresh	0	required
 SpecialChecklistPaging	lua/SpecialChecklistPaging.lua	fresh	0	required
+SpecialQuestRegionSwitch	lua/SpecialQuestRegionSwitch.lua	fresh	0	required

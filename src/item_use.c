@@ -103,7 +103,6 @@ static bool32 IsValidLocationForVsSeeker(void);
 #if POKEVIAL_FEATURE
 static void UsePokevialFieldYes(u8 taskId);
 static void Task_UsePokevialFieldYes(u8 taskId);
-static void UsePokevialFieldNo(u8 taskId);
 static void UsePokevialYesNo(u8);
 static void UsePokevialYes(u8);
 static void PokevialPrintPartyHealed(bool32 isPlayerUsingRegisteredKeyItem, u8 taskId);
@@ -451,18 +450,11 @@ static void HubReturnFieldYes(u8 taskId)
     DisplayItemMessageOnField(taskId, gStringVar4, Task_UseHubReturnOnField);
 }
 
-// NO: close the prompt and hand field control back (mirrors the Pokevial field-No path).
-static void HubReturnFieldNo(u8 taskId)
-{
-    ClearDialogWindowAndFrame(0, FALSE);
-    DestroyTask(taskId);
-    ScriptContext_Enable();
-}
-
+// NO closes like any field key item message: SELECT froze every object, and they must thaw too.
 static const struct YesNoFuncTable sYesNoTable_HubReturnFieldFuncTable =
 {
     .yesFunc = HubReturnFieldYes,
-    .noFunc = HubReturnFieldNo,
+    .noFunc = Task_CloseCantUseKeyItemMessage,
 };
 
 static void HubReturnFieldYesNo(u8 taskId)
@@ -1905,7 +1897,7 @@ static const struct YesNoFuncTable sUsePokevialYesNoFuncTable =
 static const struct YesNoFuncTable sYesNoTable_PokevialFieldFuncTable =
 {
     .yesFunc = UsePokevialFieldYes,
-    .noFunc = UsePokevialFieldNo,
+    .noFunc = Task_CloseCantUseKeyItemMessage,
 };
 
 static void UsePokevialYesNo(u8 taskId)
@@ -1958,13 +1950,6 @@ static void Task_UsePokevialFieldYes(u8 taskId)
         InitPartyMenuForPokevialFromField(taskId);
         DestroyTask(taskId);
     }
-}
-
-static void UsePokevialFieldNo(u8 taskId)
-{
-    ClearDialogWindowAndFrame(0, FALSE);
-    DestroyTask(taskId);
-    ScriptContext_Enable();
 }
 
 static void PokevialPrintPartyHealed(bool32 isPlayerUsingRegisteredKeyItem, u8 taskId)

@@ -1885,3 +1885,17 @@ she must offer grooming again instead of only rating friendship. Crash screens a
 timers are tested even where Selphy's sampler trips an assert. The port never called
 `IncrementResortGorgeousStepCounter` or `RunMassageCooldownStepCounter` on a step, so the wish
 never expired and Daisy groomed once per save: **15/19** on the unfixed ROM, **19/19** with the fix.
+### `RegisteredItemDecline.lua`
+
+Answering NO to a key item's YES/NO on the field must give the field back with every object free.
+At Petalburg City a lead Pokemon follows the player; the item use, its message, the NO and a talk
+to the follower all run with real input. Four cases from one savestate: the Hub Pass from SELECT
+with the follower already out walking, the Hub Pass from SELECT straight off a warp (the follower
+still hidden on the player's tile, so one step must bring it out), the Pokevial from SELECT, and
+the Hub Pass from the Bag followed by one step. `UseRegisteredKeyItemOnField` and the Start menu
+freeze every object first, and both NO handlers released only the field controls
+(`ScriptContext_Enable`). The follower stayed frozen where the player left it. Frozen mid-animation
+(the SELECT cases), talking to it started `EventScript_Follower`, whose `lock` waited forever in
+`Task_FreezeSelectedObjectAndPlayer` with nothing on screen. This is the lock `InputSpamStress`'s
+registered Hub Pass mash reached on the stress pass 4 integration build: **20/26** on the unfixed
+ROM, **26/26** with the fix.

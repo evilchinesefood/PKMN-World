@@ -168,3 +168,4 @@ ResortGorgeousRequest	lua/ResortGorgeousRequest.lua	fresh	0	required
 SpecialChecklistPaging	lua/SpecialChecklistPaging.lua	fresh	0	required
 SpecialQuestRegionSwitch	lua/SpecialQuestRegionSwitch.lua	fresh	0	required
 FrlgStepCounters	lua/FrlgStepCounters.lua	fresh	0	required
+RegisteredItemDecline	lua/RegisteredItemDecline.lua	fresh	0	required

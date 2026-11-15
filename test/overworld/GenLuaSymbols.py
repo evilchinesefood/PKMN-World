@@ -195,6 +195,8 @@ WANT = [
     # still holds it" without stepping the player. sOWESpawnCountdown is zeroed to spawn an
     # encounter now; the debug Give Egg task's input is where the suite writes the species.
     "sLockFieldControls", "sOWESpawnCountdown", "DebugAction_Give_Pokemon_SelectId",
+    # RegisteredItemDecline.lua: the `lock` wait that a frozen, mid-animation follower never ends.
+    "Task_FreezeSelectedObjectAndPlayer",
     # WhiteoutEveryCenter.lua walks the heal-location table and its parallel whiteout respawn
     # tables. OweStressFuzz.lua tells a battle from a menu by CB2 and watches the approach task.
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",

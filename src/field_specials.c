@@ -4663,6 +4663,13 @@ void SetAbility(void)
     SetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004], MON_DATA_ABILITY_NUM, &ability);
 }
 
+void RunMassageCooldownStepCounter(void)
+{
+    u16 steps = VarGet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER);
+    if (steps < 500)
+        VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, steps + 1);
+}
+
 void DaisyMassageServices(void)
 {
     AdjustFriendship(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004], FRIENDSHIP_EVENT_MASSAGE);
@@ -5696,6 +5703,23 @@ static u16 SampleResortGorgeousReward(void)
         return ITEM_LUXURY_BALL;
     else
         return sResortGorgeousDeluxeRewards[Random() % NELEMS(sResortGorgeousDeluxeRewards)];
+}
+
+void IncrementResortGorgeousStepCounter(void)
+{
+    u16 steps = VarGet(VAR_RESORT_GOREGEOUS_STEP_COUNTER);
+    if (VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON) != SPECIES_NONE)
+    {
+        if (++steps >= 250)
+        {
+            VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, 0xFFFF);
+            VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, 0);
+        }
+        else
+        {
+            VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, steps);
+        }
+    }
 }
 
 bool8 PlayerPartyContainsSpeciesWithPlayerID(void)

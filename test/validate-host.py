@@ -32,6 +32,7 @@ CHECKS = (
     ("special-pokemon/mechanics_audit.py",),
     ("ValidateRegionMap.py",),
     ("ValidateLanceMultiBattle.py",),
+    ("ScanInputChords.py", "--check"),
 )
 
 

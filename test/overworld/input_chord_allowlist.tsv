@@ -1,0 +1,23 @@
+# Same-frame button chords that ScanInputChords.py reports and a reader has cleared.
+# Columns (tab-separated): file, function, first buttons, second buttons, reason. `*` matches any buttons.
+# "B wins" means the later branch overwrites every effect of the earlier one, so one action runs whole.
+# A row for a site a pending PR fixes goes stale when that PR lands; the scan then asks for its removal.
+src/evolution_scene.c	Task_EvolutionScene	A_BUTTON	B_BUTTON	Real bug, fixed by PR #501 (A on YES began the fade to the move-select screen, then B took the NO path under it). Remove when #501 lands.
+src/swsh_item_menu.c	Task_BagMenu_HandleInput	START_BUTTON	ListMenu_ProcessInput()	Real bug, fixed by PR #502 (the nothing-to-sort message broke into list input, so A also opened the context menu). Remove when #502 lands.
+src/swsh_item_menu.c	Task_BagMenu_HandleInput	GetSwitchBagPocketDirection()	ListMenu_ProcessInput()	The default case's only state change is the START sort path; with #502 every path through it returns or changes nothing.
+src/pokedex_plus_hgss.c	Task_HandlePokedexStartMenuInput	A_BUTTON	B_BUTTON|START_BUTTON	Real bug, fixed by PR #486 (stress4 ui). Remove when #486 lands.
+src/pokedex_plus_hgss.c	Task_HandleSearchResultsStartMenuInput	A_BUTTON	B_BUTTON|START_BUTTON	Real bug, fixed by PR #486 (stress4 ui). Remove when #486 lands.
+src/pokedex_plus_hgss.c	Task_HandleEvolutionScreenInput	*	*	Played on the unfixed ROM: A+B and START+B land on the list (Task_OpenPokedexMainPage resets dexNum and fromEvoPage), START+A on the target's info page. The second fade is ignored and the later func wins whole.
+src/pokedex_plus_hgss.c	Task_HandleStatsScreenInput	*	*	Left and Right (or L and R in LR mode) write the same fields with the same fade mask, so the later one wins whole; unowned, Right only plays SE_FAILURE.
+src/pokedex.c	Task_HandlePokedexStartMenuInput	A_BUTTON	B_BUTTON|START_BUTTON	Unreachable: POKEDEX_PLUS_HGSS is TRUE and CB2_OpenPokedex hands every open to pokedex_plus_hgss.c.
+src/pokedex.c	Task_HandleSearchResultsStartMenuInput	A_BUTTON	B_BUTTON|START_BUTTON	Unreachable: POKEDEX_PLUS_HGSS is TRUE and CB2_OpenPokedex hands every open to pokedex_plus_hgss.c.
+src/frontier_pass.c	Task_HandleFrontierPassInput	A_BUTTON	B_BUTTON	BUGFIX is defined, so Cancel returns; Map, Card and Record return when TryCallPassAreaFunction acts and change nothing when it refuses.
+src/slot_machine.c	SlotTask_HandleBetInput	A_BUTTON	B_BUTTON	Both only write sSlotMachine->state; B wins and SlotTask_HandleQuitInput refunds the bet on Yes.
+src/list_menu.c	DoMysteryGiftListMenu	A_BUTTON	B_BUTTON	Both only set state 2; B also sets LIST_CANCEL, so B wins whole.
+src/mystery_gift_menu.c	Task_MysteryGift	A_BUTTON	B_BUTTON	Both only write data->state; B wins whole.
+src/union_room.c	Task_TryBecomeLinkLeader	B_BUTTON	START_BUTTON	B only writes data->state; START overwrites it and runs whole. Wireless adapter only.
+src/title_screen.c	Task_TitleScreenPhase3	SELECT_BUTTON	*	QUICKSTART is FALSE (ENABLE_QUICKSTART), so the SELECT branch never runs.
+src/battle_debug.c	Task_DebugMenuProcessInput	*	*	Debug-only battle menu (DEBUG_BATTLE_MENU).
+src/debug.c	DebugAction_ChooseTrainerID_Select	DPAD_ANY	A_BUTTON|B_BUTTON	Debug menu: the D-pad edits the number, then A or B on the same frame reads the edited value once.
+src/link.c	LinkTestProcessKeyInput	*	*	Link test screen, not reachable in play.
+src/pokemon_sprite_visualizer.c	HandleInput_PokemonSpriteVisualizer	*	*	Debug-only sprite visualizer (DEBUG_POKEMON_SPRITE_VISUALIZER).

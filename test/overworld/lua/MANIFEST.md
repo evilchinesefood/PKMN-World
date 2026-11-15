@@ -1316,3 +1316,14 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `SafariFullStorage.lua`
+
+The Kanto and Hoenn Safari Zones' pay-to-continue prompt with the party and every PC box full.
+The entrances refuse a player with no room, since no Safari Ball can be thrown then, but a catch
+into the last free box slot fills the storage mid-game. Setup fills the party and the boxes through
+the debug menu and frees one slot so the real attendant lets the player in; inside, the slot is
+refilled (the storage that catch leaves), the clock is lowered to one step and the times-up prompt
+is answered Yes with 5000 in the wallet. The wallet must be untouched and the player must land in
+the entrance with Safari mode off and the field free. The unfixed ROM took 500 and refilled 30
+balls the player could not throw. Measured **18/18** fixed and **14/18** on the unfixed ROM.

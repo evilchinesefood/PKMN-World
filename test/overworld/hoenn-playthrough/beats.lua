@@ -1104,5 +1104,86 @@ return function(F, N, C, log)
     })
   end
 
+  -- PW_DETOUR=<event>:<exit>[:<region>]: leave a story event part way, cross to another region,
+  -- come back by the Hoenn gate (and Fly where named), then let the beats finish the event.
+  local here = (debug.getinfo(1, 'S').source:sub(2)):match('^(.*[/\\])')
+  -- The planner can't ride the cable car (or climb Jagged Pass without an Acro Bike), so take it up
+  -- the way cable_car_up does.
+  local function cableCarUp()
+    assert(N.travel('Route112_CableCarStation'))
+    assert(N.talk(1))
+    N.settle()
+    assert(at('MtChimney_CableCarStation'), 'cable car back up')
+  end
+  B = assert(loadfile(here .. '../johto-playthrough/excursion.lua'))()(F, N, C).insert(B, os.getenv('PW_DETOUR'), {
+    weather = { before = 'weather_institute', home = 'hoenn', other = 'kanto',
+      into = function() segBMoves(); assert(N.travel('Route119_WeatherInstitute_1F')) end },
+    chimney = { before = 'mt_chimney', home = 'hoenn', other = 'kanto',
+      into = function() segBMoves(); assert(N.travel('MtChimney')) end,
+      check = cableCarUp },
+    magma = { before = 'magma_hideout', home = 'hoenn', other = 'kanto', items = { C.ITEM_MAGMA_EMBLEM },
+      into = function() segBMoves(); assert(N.travel('MagmaHideout_1F')) end,
+      check = cableCarUp },   -- then down Jagged Pass to the door
+    aqua = { before = 'aqua_hideout', home = 'hoenn', other = 'kanto',
+      into = function() segBMoves(); assert(N.travel('AquaHideout_1F')) end },
+    pyre = { before = 'mt_pyre', home = 'hoenn', other = 'kanto',
+      into = function() segBMoves(); assert(N.travel('MtPyre_Summit')) end },
+    space = { before = 'space_center', home = 'hoenn', other = 'kanto', fly = C.MAPSEC_MOSSDEEP_CITY, outside = 'SlateportCity',
+      into = function()
+        segBMoves()
+        if at('MossdeepCity_Gym') and select(2, F.pos()) < 12 then pad(21, 6, 1) end
+        if V('VAR_MOSSDEEP_CITY_STATE') < 2 then
+          assert(N.travel('MossdeepCity'))
+          assert(N.go(41, 23))
+          N.settle()
+        end
+        assert(N.travel('MossdeepCity_SpaceCenter_1F'))
+      end },
+    -- Underwater the Hub Pass must refuse and hand control back; run with exit 'stay'.
+    underwater = { before = 'seafloor_entrance', home = 'hoenn', other = 'kanto',
+      into = function() segDMoves(); assert(N.travel('Underwater_Route128')) end,
+      refuse = function(E) E.hubPassRefused('underwater') end,
+      check = function()   -- surface again, so the next beat starts its dive from the route
+        segDMoves()
+        assert(N.travel('Route128'), 'surfaced on Route 128')
+      end },
+    -- The entrance sets the escape warp underwater (6,5), where the Hub Pass refuses. The planner
+    -- can't swim there, so take the warp two tiles south by hand, then surface on Route 128.
+    seafloor = { before = 'seafloor_room1', home = 'hoenn', other = 'kanto',
+      surface = function()
+        for _ = 1, 4 do
+          if not at('Underwater_SeafloorCavern') then break end
+          N.press('Down', 2); N.idle(22)
+        end
+        N.settle()
+        segDMoves()
+        assert(N.travel('Route128'), 'surfaced on Route 128')
+      end },
+    sootopolis = { before = 'steven_sootopolis', home = 'hoenn', other = 'kanto', fly = C.MAPSEC_SOOTOPOLIS_CITY, outside = 'SlateportCity' },
+    -- Back by Fly after Steven's walk: the planner can't plan the stairs on the cave's side, so
+    -- surf to his island and walk the path he walked, one tile at a time.
+    sootopolis2 = { before = 'wallace_cave_of_origin', home = 'hoenn', other = 'kanto', fly = C.MAPSEC_SOOTOPOLIS_CITY, outside = 'SlateportCity',
+      into = function() segDMoves(); assert(N.travel('SootopolisCity')) end,
+      check = function()
+        segDMoves()
+        assert(N.approach(20, 36), "onto Steven's island")
+        local KEYS = { U = 'Up', D = 'Down', L = 'Left', R = 'Right' }
+        local path = 'D L ' .. string.rep('U ', 4) .. 'R ' .. string.rep('U ', 11) .. 'L ' .. string.rep('U ', 4) .. string.rep('L ', 4)
+          .. string.rep('U ', 13) .. 'R R R R D D R R R R R U R R R R D D D R R R R R D D D D L L L L L L L L '
+          .. string.rep('D ', 8) .. 'R R R R R U U U U U'
+        for k in path:gmatch('%a') do
+          local x0, y0 = F.pos()
+          for _ = 1, 3 do
+            N.press(KEYS[k], 2); N.idle(22)
+            if F.pos() ~= x0 or select(2, F.pos()) ~= y0 or not at('SootopolisCity') then break end
+          end
+          if not at('SootopolisCity') then break end
+        end
+        N.settle()
+        if at('SootopolisCity') then N.press('Up', 2); N.idle(60); N.settle() end   -- standing on the entrance: walk into it
+        assert(at('CaveOfOrigin_Entrance'), 'walked into the Cave of Origin')
+      end },
+  })
+
   return B
 end

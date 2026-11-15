@@ -71,6 +71,8 @@ WANT = [
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
     "gStringVar1", "gStringVar2",
+    # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
+    "sSpecialPokemonMenu",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
@@ -238,6 +240,9 @@ OPTIONAL = {
 # accepts. That is a test suite reporting green while proving nothing.
 OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe if a struct changes)
   Pokemon      = { size = 100, status = 80, level = 84, hp = 86, maxHP = 88 },
+  SpecialPokemonMenu = { selected = 2057, detail = 2058 },
+                                                            -- src/special_pokemon_menu.c, offsetof probe
+                                                            --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },

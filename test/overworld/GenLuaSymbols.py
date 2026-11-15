@@ -289,7 +289,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   as the halfword before height (62).
                                                             --   formSpeciesIdTable NULL = no forms;
                                                             --   entry 0 is the base species.
-  SpecialPokemonMenu = { selected = 2057, detail = 2058 },
+  SpecialPokemonMenu = { selected = 2056, detail = 2057 },
                                                             -- src/special_pokemon_menu.c, offsetof probe
                                                             --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },

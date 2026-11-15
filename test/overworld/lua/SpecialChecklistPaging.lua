@@ -1,7 +1,7 @@
 -- Right on the Special Pokemon checklist's first page must turn to the second page from every row.
 --
--- The list shows five rows a page and seven entries, so page 2 holds two. Right jumps five rows
--- down, the way the Pokedex list pages; from rows 3 to 5 there is no entry five rows down, and the
+-- The list shows four rows a page and seven entries, so page 2 holds three. Right jumps four rows
+-- down, the way the Pokedex list pages; from row 4 there is no entry four rows down, and the
 -- Pokedex list it opens from clamps to the last entry. The suite opens the checklist from the
 -- Pokedex START menu with real input and presses Right from each first-page row, then Left back,
 -- and checks the row and the number of icons drawn.
@@ -15,7 +15,7 @@ local F = require("lib").new(S, "SpecialChecklistPaging")
 
 local FLAG_SYS_POKEDEX_GET = 0x949
 local USM_ICO_POKEDEX = 0
-local ROWS, ENTRIES = 5, 7
+local ROWS, ENTRIES = 4, 7
 
 local function flag(id, value)
   local a, bit = F.sb1() + S.SaveBlock1.flags + id // 8, 1 << (id % 8)

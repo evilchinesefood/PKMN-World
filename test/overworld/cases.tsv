@@ -137,3 +137,4 @@ SelectWheelStaleSlot	lua/SelectWheelStaleSlot.lua	fresh	0	required
 BagRepelFlow	lua/BagRepelFlow.lua	fresh	0	required
 ArtisanCaveDeparture	lua/ArtisanCaveDeparture.lua	fresh	0	required
 BnetMenuOverlap	lua/BnetMenuOverlap.lua	fresh	0	required
+SpecialWellHelperApproach	lua/SpecialWellHelperApproach.lua	fresh	0	required

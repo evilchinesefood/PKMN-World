@@ -1484,3 +1484,12 @@ offer on two visits (eight rows) and the stone vendor's two pages (seven rows). 
 open the BG0 screen map must hold nothing in that band outside the list's own frame, and control
 must return afterwards. The unfixed ROM left the terminal, director and vendor text on screen
 behind every one of the seven lists.
+### `SpecialWellHelperApproach.lua`
+
+The Firefighter Squirtle quest's well helper must answer from the tile she faces. The kiln helper
+starts the quest with real input; the suite then walks to the tile the well helper faces (read from
+her live object and facing), presses A, and returns to the kiln for the reward. She stood on the
+elevation-2 platform beside Slowpoke Well facing down onto an elevation-3 tile, and an object only
+answers a player on its own elevation, so A in front of her did nothing and the quest could only be
+finished by finding the side approach from the stairs: **5/8** on the unfixed ROM, **8/8** with the
+fix.

@@ -1865,3 +1865,13 @@ It then finds the second Squirtle, accepts the organizer's gift and declines the
 exactly one Squad Squirtle must arrive. Setup writes travel flags only; every task flag comes from
 the NPC scripts. Coverage, no defect found: **17/17**. A tamper build that clears the first
 Squirtle's flag on entering Johto scores **12/17**.
+### `FrlgStepCounters.lua`
+
+Two FRLG timers that count the player's steps, walked with real input. Selphy at Resort Gorgeous
+makes a wish (every Pokédex flag set from the debug menu); after 200 steps the wish must stand,
+after 260 it must have expired, and talking to her then must give a new wish ("tired of waiting").
+Daisy in Pallet Town, with the game cleared, grooms the debug party's Pokémon, and after 500 steps
+she must offer grooming again instead of only rating friendship. Crash screens are dismissed so the
+timers are tested even where Selphy's sampler trips an assert. The port never called
+`IncrementResortGorgeousStepCounter` or `RunMassageCooldownStepCounter` on a step, so the wish
+never expired and Daisy groomed once per save: **15/19** on the unfixed ROM, **19/19** with the fix.

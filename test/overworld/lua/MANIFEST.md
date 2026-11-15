@@ -1809,3 +1809,17 @@ the sixth Bulbasaur: the line must name BOX3, where it lands. Names are read fro
 and `gStringVar4`. Before the fix the box-full lines named the box of the previous transfer and the
 swap line the box from before the transfer: **12/15** on the unfixed ROM (BOX1, BOX4 and BOX5),
 **15/15** with the fix.
+### `PCStorageMashStress.lua`
+
+The PC storage screen under seeded random input. Four Bulbasaur come from the debug Give menu (two
+holding a Potion), debug Fill PC Boxes Fast fills every box, part of BOX1 and BOX2 is emptied, five
+boxed Pokemon get a Potion and the Bag gets five more. Sixteen sessions each open the PC (debug Access
+PC), take Move Pokemon, Deposit, Withdraw and Move Items in turn and mash A, B, the D-pad, L/R paging,
+Select (cursor modes, multi-select moves) and Start for 3,000 frames, going back in whenever the mash
+leaves; a session ends by putting down whatever is in hand and leaving the PC. On the field the suite
+counts every Pokemon by personality and every Potion held or in the Bag: only a release (each counted
+from `Task_ReleaseMon` as it runs) may remove a Pokemon, nothing may be copied, and no Potion may be
+lost. In the summary screen L, R and Select are skipped, because they open the move relearner and the
+debug sprite visualizer. `--env PW_SEED=<n>` picks another input stream. Coverage for the area the
+fourth stress pass fixed by hand: **4/4** on seeds 4242, 1, 2, 3, 5, 7, 8, 9 and 10 with the pass's
+fixes, and on 4242, 1 and 2 on the earlier tree.

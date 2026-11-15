@@ -226,6 +226,8 @@ WANT = [
     "sShopData", "CB2_BuyMenu", "Task_ShopMenu", "Task_BuyMenu", "Task_BuyHowManyDialogueHandleInput",
     "Task_ReturnToItemListAfterItemPurchase", "Task_ReturnToShopMenu", "Task_ChooseHowManyToSell",
     "gBattleTextBuff1",
+    # PCStorageMashStress.lua: PC storage screen tasks, read to leave the PC from any of them.
+    "Task_PokeStorageMain", "Task_OnSelectedMon", "Task_OnBPressed", "Task_CloseBoxWhileHoldingItem",
     # InstantTextStress.lua starts these shared scripts the way their bg events do.
     "EventScript_PC", "EventScript_AccessHallOfFame", "EventScript_TV", "EventScript_UseFlash",
     # StartOptionsStateStress.lua: the runtime state of a DexNav search, a fishing chain, the

@@ -1736,3 +1736,15 @@ the PC. Every Pokemon is counted by personality across the party, the PC and bot
 save and Continue closes the run. Measured **34/34**; no defect found. A tamper build that drops
 the regional identity in `CreateHatchedMon` scores **32/34**: the hatched Togepi is left behind,
 which `GateRecallStress` (it clears the Egg bit in memory) cannot see.
+### `StorageItemMailMenu.lua`
+
+PC storage, Move Items, A on a party Pokemon that holds Mail. The PC cannot take, bag or switch
+Mail, so the item menu has no row for it and must not open. Three Bulbasaur come from the debug
+Give menu; the first holds a Potion and the second Orange Mail (letter in mailbox slot 0, linked
+the way `GiveMailToMonByItemId` leaves it). Opening the PC, Move Items, the cursor and every menu
+choice are real input. Case one takes the Potion, gives it to the third Bulbasaur and presses A, A
+on the Mail holder; case two, in a fresh PC session, opens and closes the first Bulbasaur's Give
+menu and presses A, A on the Mail holder. The Mail and its letter must stay linked, no Potion may
+be copied and the Bag must not open. Before the fix `SetMenuTexts_Item` built a menu with zero
+rows and A ran the row left over from the previous menu: a stale Give copied the Potion over the
+Mail, and a stale Give from the Bag opened the Bag.

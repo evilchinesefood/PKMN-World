@@ -7948,7 +7948,9 @@ static bool8 SetMenuTexts_Item(void)
         }
     }
 
-    return TRUE;
+    // A Mail holder gets no rows (Mail cannot be taken or bagged here). An empty menu would
+    // let A run menuItems[0], which still holds the previous menu's first action.
+    return sStorage->menuItemsCount != 0;
 }
 
 

@@ -2397,6 +2397,11 @@ static void Task_OnSelectedMon(u8 taskId)
             {
                 sStorage->state = 4;
             }
+            else if (OW_PC_RELEASE_ITEM >= GEN_8 && sStorage->displayMon.heldItem != ITEM_NONE
+                  && !CheckBagHasSpace(sStorage->displayMon.heldItem, 1))
+            {
+                sStorage->state = 7; // The held item would have nowhere to go.
+            }
             else
             {
                 PlaySE(SE_SELECT);
@@ -2466,6 +2471,11 @@ static void Task_OnSelectedMon(u8 taskId)
     case 4:
         PlaySE(SE_FAILURE);
         PrintMessage(MSG_PLEASE_REMOVE_MAIL);
+        sStorage->state = 6;
+        break;
+    case 7:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_BAG_FULL);
         sStorage->state = 6;
         break;
     case 6:
@@ -6653,6 +6663,8 @@ static void ReleaseMon(void)
     DestroyReleaseMonIcon();
     if (sIsMonBeingMoved)
     {
+        if (OW_PC_RELEASE_ITEM >= GEN_8)
+            item = GetMonData(&sStorage->movingMon, MON_DATA_HELD_ITEM);
         sIsMonBeingMoved = FALSE;
     }
     else
@@ -6671,9 +6683,9 @@ static void ReleaseMon(void)
         }
 
         PurgeMonOrBoxMon(boxId, sCursorPosition);
-        if (item != ITEM_NONE)
-            AddBagItem(item, 1);
     }
+    if (item != ITEM_NONE)
+        AddBagItem(item, 1);
     TryRefreshDisplayMon();
 }
 

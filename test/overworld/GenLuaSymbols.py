@@ -71,6 +71,8 @@ WANT = [
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
     "gStringVar1", "gStringVar2",
+    # ResortGorgeousRequest.lua reads a requested species' enabled bit, base form and dex number.
+    "gSpeciesInfo",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
@@ -238,6 +240,12 @@ OPTIONAL = {
 # accepts. That is a test suite reporting green while proving nothing.
 OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe if a struct changes)
   Pokemon      = { size = 100, status = 80, level = 84, hp = 86, maxHP = 88 },
+  SpeciesInfo  = { stride = 264, baseHP = 0, natDexNum = 60, formSpeciesIdTable = 164 },
+                                                            -- offsetof probe with the modern CFLAGS;
+                                                            --   natDexNum is a u16 bitfield, read
+                                                            --   as the halfword before height (62).
+                                                            --   formSpeciesIdTable NULL = no forms;
+                                                            --   entry 0 is the base species.
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
@@ -388,7 +396,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen"]
 
 
 def load_save_src(root):

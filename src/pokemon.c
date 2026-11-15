@@ -3013,9 +3013,9 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
 // Box where CopyMonToPC starts its placement scan: the default deposit box if set
 // (VAR_DEFAULT_PC_BOX holds boxId + 1, 0 = unset), otherwise the current box.
 // ShouldShowBoxWasFullMessage/IsDestinationBoxFull must use the same start box.
-s32 GetIntendedDepositBox(void)
+u16 GetIntendedDepositBox(void)
 {
-    s32 box = VarGet(VAR_DEFAULT_PC_BOX);
+    u16 box = VarGet(VAR_DEFAULT_PC_BOX);
 
     if (box >= 1 && box <= TOTAL_BOXES_COUNT)
         return box - 1;

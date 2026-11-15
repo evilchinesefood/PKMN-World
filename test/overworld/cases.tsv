@@ -159,3 +159,4 @@ StorageMailIntoBox	lua/StorageMailIntoBox.lua	fresh	0	required
 CatchSwapMailHolder	lua/CatchSwapMailHolder.lua	fresh	0	required
 StorageReleaseHeldItem	lua/StorageReleaseHeldItem.lua	fresh	0	required
 NormaTangelaTrade	lua/NormaTangelaTrade.lua	fresh	0	required
+DefaultBoxCatchMessages	lua/DefaultBoxCatchMessages.lua	fresh	0	required

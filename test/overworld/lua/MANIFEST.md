@@ -1796,3 +1796,16 @@ Norma, Yes, the party pick and the trade scene are real input. The party's only 
 Tangela and `FLAG_DID_TANGENY_TRADE` must be set. On the unfixed ROM Norma asked for Clifton's
 Raichu: **6/9**, where the Venonat was refused; a probe that offered a Raichu instead kept it, got
 nothing and still used up the trade. **9/9** with the fix.
+### `DefaultBoxCatchMessages.lua`
+
+The box names in the "sent to the PC" lines when a default deposit box is set (the PC box menu's
+"Make Default", `VAR_DEFAULT_PC_BOX`). Six Bulbasaur come from the debug Give menu, and BOX3 is made
+the default with real input (box title, R, Make Default, back to BOX1, out). With BOX3 filled in RAM,
+the Celadon Condominiums Eevee is taken (nickname declined): the box-full line must name BOX3, then
+BOX4. With BOX4 filled too (the line shows once per landing box), a wild Pidgey from
+`setwildbattle` + `dowildbattle` is caught with a Master Ball, answering No to "add it to your
+party?": BOX3, then BOX5. With BOX3 emptied, a second Pidgey is caught answering Yes and sending
+the sixth Bulbasaur: the line must name BOX3, where it lands. Names are read from the battle text
+and `gStringVar4`. Before the fix the box-full lines named the box of the previous transfer and the
+swap line the box from before the transfer: **12/15** on the unfixed ROM (BOX1, BOX4 and BOX5),
+**15/15** with the fix.

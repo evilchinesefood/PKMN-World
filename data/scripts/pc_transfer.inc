@@ -27,7 +27,7 @@ EventScript_TransferredSomeonesPC::
 	return
 
 EventScript_SomeonesPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
+	specialvar VAR_RESULT, GetIntendedDepositBox
 	bufferboxname STR_VAR_3, VAR_RESULT
 	msgbox gText_PkmnTransferredSomeonesPCBoxFull, MSGBOX_DEFAULT
 	return
@@ -39,7 +39,7 @@ EventScript_TransferredLanettesPC::
 	return
 
 EventScript_LanettesPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
+	specialvar VAR_RESULT, GetIntendedDepositBox
 	bufferboxname STR_VAR_3, VAR_RESULT
 	msgbox gText_PkmnTransferredLanettesPCBoxFull, MSGBOX_DEFAULT
 	return

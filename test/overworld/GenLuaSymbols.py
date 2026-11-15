@@ -200,6 +200,8 @@ WANT = [
     "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
     "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
     "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
+    # DefaultBoxCatchMessages.lua: the givecaughtmon step, where "add it to your party?" waits.
+    "BattleScript_GiveCaughtMonAfterNick",
     # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and
     # rate-limited against sLastAutosaveFrame; rewinding the latter is how a suite reaches the
     # next autosave without idling out ten emulated minutes. Task_Autosave is the live SAVING

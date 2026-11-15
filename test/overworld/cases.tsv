@@ -18,6 +18,8 @@ NationalParkTiles	lua/NationalParkTiles.lua	fresh	0	required
 TinTowerRoof	lua/TinTowerRoof.lua	fresh	0	required
 OlivineHarborBoard	lua/OlivineHarborBoard.lua	fresh	0	required
 OlivineSeaBorder	lua/OlivineSeaBorder.lua	fresh	0	required
+JohtoSealedSea	lua/JohtoSealedSea.lua	fresh	0	required
+OlivineShockWave	lua/OlivineShockWave.lua	fresh	0	required
 SSAquaKantoCrossing	lua/SSAquaKantoCrossing.lua	fresh	0	required
 BnetTerminal1F	lua/BnetTerminal1F.lua	fresh	0	required
 LevelUpSummary	lua/LevelUpSummary.lua	fresh	0	required
@@ -59,6 +61,7 @@ CatchTutorial	lua/CatchTutorial.lua	fresh	0	required
 DayNightTint	lua/DayNightTint.lua	fresh	0	required
 RainPaletteSlots	lua/RainPaletteSlots.lua	fresh	0	required
 DroughtNightTint	lua/DroughtNightTint.lua	fresh	0	required
+UnderfootHiddenItem	lua/UnderfootHiddenItem.lua	fresh	0	required
 FamilyOptionsMigration	lua/FamilyOptionsMigration.lua	generated:family-options/v11-hard.srm	0	required
 RegionalTravelMigration	lua/RegionalTravelMigration.lua	lua/fixtures/v10regionaldirty.srm	1	required
 VerifyV7Migrate	lua/VerifyV7Migrate.lua	lua/fixtures/v7dirty.srm	0	required
@@ -118,6 +121,7 @@ ElmLabFullParty	lua/ElmLabFullParty.lua	fresh	0	required
 PikeRoomSave	lua/PikeRoomSave.lua	fresh	0	required
 TowerMultiRoomMenu	lua/TowerMultiRoomMenu.lua	fresh	0	required
 LedgeSelectStress	lua/LedgeSelectStress.lua	fresh	0	required
+SkyCharmLanding	lua/SkyCharmLanding.lua	fresh	0	required
 SafariStress	lua/SafariStress.lua	fresh	0	required
 BugContestEggOnly	lua/BugContestEggOnly.lua	fresh	0	required
 StartMenuSpriteLoad	lua/StartMenuSpriteLoad.lua	fresh	0	required
@@ -170,3 +174,8 @@ SpecialQuestRegionSwitch	lua/SpecialQuestRegionSwitch.lua	fresh	0	required
 FrlgStepCounters	lua/FrlgStepCounters.lua	fresh	0	required
 RegisteredItemDecline	lua/RegisteredItemDecline.lua	fresh	0	required
 RenewableHiddenItems	lua/RenewableHiddenItems.lua	fresh	0	required
+JohtoHeadbuttTutor	lua/JohtoHeadbuttTutor.lua	fresh	0	required
+JohtoHeadbuttTrees	lua/JohtoHeadbuttTrees.lua	fresh	0	required
+JohtoViridianIndigoTiles	lua/JohtoViridianIndigoTiles.lua	fresh	0	required
+SummaryMoveCancelRace	lua/SummaryMoveCancelRace.lua	fresh	0	required
+OweContactCoordEvent	lua/OweContactCoordEvent.lua	fresh	0	required

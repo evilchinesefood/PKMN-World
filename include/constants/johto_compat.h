@@ -17,8 +17,6 @@
 #define Common_Movement_JumpDown1   Common_Movement_WalkDown
 #define Common_Movement_JumpUp1     Common_Movement_WalkUp
 
-#define TUTOR_MOVE_HEADBUTT          MOVE_HEADBUTT
-
 // === Goldenrod area aliases ===
 
 #define Common_Movement_WalkUp1        Common_Movement_WalkUp

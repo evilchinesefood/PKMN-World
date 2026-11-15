@@ -592,3 +592,9 @@ const u16 gMetatileAttributes_JohtoPokemonLeague[] = INCBIN_U16("data/tilesets/s
 
 const u16 gMetatiles_JohtoHallOfFame[] = INCBIN_U16("data/tilesets/secondary/johto_hall_of_fame/metatiles.bin");
 const u16 gMetatileAttributes_JohtoHallOfFame[] = INCBIN_U16("data/tilesets/secondary/johto_hall_of_fame/metatile_attributes.bin");
+
+const u16 gMetatiles_JohtoViridianCity[] = INCBIN_U16("data/tilesets/secondary/johto_viridian_city/metatiles.bin");
+const u16 gMetatileAttributes_JohtoViridianCity[] = INCBIN_U16("data/tilesets/secondary/johto_viridian_city/metatile_attributes.bin");
+
+const u16 gMetatiles_JohtoIndigoPlateau[] = INCBIN_U16("data/tilesets/secondary/johto_indigo_plateau/metatiles.bin");
+const u16 gMetatileAttributes_JohtoIndigoPlateau[] = INCBIN_U16("data/tilesets/secondary/johto_indigo_plateau/metatile_attributes.bin");

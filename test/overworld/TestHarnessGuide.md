@@ -200,7 +200,10 @@ from an adjacent walkable tile, so target the neighbour, not the NPC's own tile.
 Curator is at `(22,7)` and `(22,8)` is wall; the correct approach is `(22,6)` facing Down.)
 
 For a static, whole-tree version of this check, `make validate` runs `test/overworld/ValidateMapEvents.py`
-and friends — see MANIFEST.md §"Host-side validators".
+and friends — see MANIFEST.md §"Host-side validators". To ask whether the player can reach a cell at
+all, run `python3 test/overworld/ValidateReachability.py --map <MapName> --list`: it floods every map
+on the game's movement rules (elevation, ledges, Surf, Waterfall, Dive, connections, warps) and
+prints how each item ball, hidden item, trainer and gift NPC on the map is reached.
 
 ---
 
@@ -408,8 +411,10 @@ how you catch it.
 `F.crashScreen()` decodes the assert screen straight out of VRAM and returns
 `"FILE.C:LINE: MESSAGE"`; `F.reportCrash(tag)` logs it, screenshots it, and returns true so a walk
 loop can `if F.reportCrash("step"..i) then break end`. Verified end to end against a planted
-`fatalf`. **Never key off the blue/red palette** — by the time anything reads `BG_PLTT` it holds the
-interrupted scene's colours, not the mode colour.
+`fatalf`, and against `INCLUDE/MOVE.H:232: INVALID MOVE: 2580`: asserts in headers
+(`SanitizeMoveId`, `SanitizeSpeciesId`) name a `.H` file, and the decoder matches both. **Never
+key off the blue/red palette** — by the time anything reads `BG_PLTT` it holds the interrupted
+scene's colours, not the mode colour.
 
 > **`gMain.callback2` is not an assert-screen detector.** `AssertfCrashScreen`
 > (`src/assertf.c`) sets `REG_IME = 0` and busy-loops on `REG_VCOUNT` waiting for START *inside*

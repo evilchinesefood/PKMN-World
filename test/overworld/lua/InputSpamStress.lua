@@ -504,14 +504,17 @@ F.run(function()
         local o = a + S.BattlePokemon.size
         F.w16(o + S.BattlePokemon.hp, F.r16(o + S.BattlePokemon.maxHP))
       end
-      if entered and F.outcome() == 2 then lost = true end
+      -- The mash may pick Run: a trainer battle forfeit (9), like a draw (3), is a defeat that
+      -- ends the same way as a loss (2), per IsPlayerDefeated in src/battle_setup.c.
+      local out = F.outcome()
+      if entered and (out == 2 or out == 3 or out == 9) then lost = true end
       return lost and F.ow()
     end)
     if result == "stop" then
       result, at = mash("whiteout_after", 1200, { A = 45, B = 20, Start = 4, Select = 4, dir = 40 })
     end
     F.L(string.format("  whiteout: entered=%s lost=%s at %d/%d", tostring(entered), tostring(lost), F.grp(), F.mapn()))
-    F.check("whiteout mash: the battle was lost", lost)
+    F.check("whiteout mash: the player was defeated", lost)
     return result, at
   end)
   F.dbg(); F.sel(2); F.sel(2); F.bOut(4)

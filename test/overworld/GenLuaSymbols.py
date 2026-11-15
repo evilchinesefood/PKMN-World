@@ -16,6 +16,9 @@ import subprocess, sys, re, os, hashlib, argparse
 # script multichoice / yes-no; the other same-named symbols are 4-byte pointers from other TUs).
 WANT = [
     "MahoganyHideout_B2F_EventScript_DoLanceMultiBattle",
+    # OweContactCoordEvent.lua: the script pointer inside [Trigger1, EntranceBattle) means Wally's
+    # Victory Road coord event ran.
+    "VictoryRoad_1F_EventScript_WallyBattleTrigger1", "VictoryRoad_1F_EventScript_WallyEntranceBattle",
     "gSelectedOrderFromParty", "gPartnerTrainerId",
     "CB2_Overworld",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
@@ -66,7 +69,7 @@ WANT = [
     "sFieldCameraOffset",
     # Tells an overworld-Pokemon collision apart from a grass encounter. ProcessPlayerFieldInput
     # clears it to LOCALID_NONE on every call and a grass roll fires inside that same call, whereas
-    # TryTriggerOverworldWildEncounter sets it to the wild mon's local id and starts a script. So
+    # a contact's script start (StartContact in wild_encounter_ow.c) sets it to the wild mon's local id. So
     # non-zero at battle start means "walked into an overworld mon", which no proximity heuristic can
     # establish: the collision test matches previousCoords too, and the FOLLOWER can trigger it.
     "gSpecialVar_LastTalked",
@@ -249,6 +252,9 @@ WANT = [
     "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
     # PC storage screen state (src/swsh_storage_system.c): the cursor, the Pokemon or item in hand.
     "sStorage", "sCursorArea", "sCursorPosition", "sIsMonBeingMoved", "sMovingItemId",
+    # SummaryMoveCancelRace.lua: the SwSh summary's move-select input, the effect panel's
+    # slide-in task, and the move category icon's template (src/swsh_summary_screen.c).
+    "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations"]
@@ -298,9 +304,10 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- of the u16 at 0, size is bits 0-17 of
                                                             -- the u32 at 4. Walk `next` from gHeap
                                                             -- until it returns to the start.
-  Sprite       = { stride = 68, inUse = 0x3E, count = 64 },
+  Sprite       = { stride = 68, inUse = 0x3E, count = 64, template = 0x14, animNum = 0x2A },
                                                             -- inUse is BIT 0 of the u16 at 0x3E
-                                                            -- (struct Sprite's first bitfield).
+                                                            -- (struct Sprite's first bitfield),
+                                                            -- invisible is BIT 2 of it.
                                                             -- gSprites is [MAX_SPRITES + 1]; only
                                                             -- 0..63 are real, index 64 is the
                                                             -- sentinel CreateSprite* returns on

@@ -62,6 +62,11 @@ make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 make validate
 ```
 
+A secondary imported from pokemonHnS after this pass (Route 28 and Route 26 North's
+`gTileset_JohtoViridianCity`, the Johto Indigo Plateau's `gTileset_JohtoIndigoPlateau`) gets the
+same Johto amber treatment from `johto_glass.py <tileset>...`: HnS's masked blue glass becomes the
+warmed alternate palette and its `swapPalettes` bit. It is not part of the baseline pass above.
+
 Run the two authors in order. They regenerate the window assets; use a clean
 feature checkout, not a checkout containing hand-edited tileset work.
 `prepare_capture.py` is an authoring aid that rewrites camera positions and the

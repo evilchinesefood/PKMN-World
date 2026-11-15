@@ -8,9 +8,9 @@ the 16x16 picture as palette-slot and colour indices: FNV-1a over 256 bytes of (
 row-major, the top layer over the bottom with colour 0 transparent. The suite hashes the same
 picture from the running game's metatile entries and BG tile data in VRAM.
 
-Usage: python3 test/overworld/JohtoTilesetArtExpect.py <pokemonHnS clone>
+Usage: python3 test/overworld/JohtoTilesetArtExpect.py <pokemonHnS clone> [suite]
 A sparse clone is enough: data/layouts, data/tilesets/secondary, data/tilesets/primary and src.
-Prints the Lua table rows the suite embeds.
+Prints the Lua table rows the suite (default JohtoTilesetArt) embeds.
 """
 import json
 import os
@@ -22,9 +22,10 @@ from PIL import Image
 
 SPLIT = 640
 
-# (suite key, HnS layout id, cells). Cells mix ones the port drew wrong with controls it drew
-# right, so the controls prove the hash matches the game before the others are judged.
-CELLS = [
+# suite -> (map key, HnS layout id, cells). Cells mix ones the port drew wrong with controls it
+# drew right, so the controls prove the hash matches the game before the others are judged.
+SUITES = {}
+SUITES["JohtoTilesetArt"] = [
     ("will", "LAYOUT_POKEMON_LEAGUE_WILLS_ROOM", [(3, 0), (9, 0), (6, 9)]),
     ("koga", "LAYOUT_POKEMON_LEAGUE_KOGAS_ROOM", [(2, 4), (10, 6), (5, 0), (6, 9)]),
     ("bruno", "LAYOUT_POKEMON_LEAGUE_BRUNOS_ROOM", [(3, 0), (9, 0), (6, 9)]),
@@ -32,6 +33,12 @@ CELLS = [
     ("champion", "LAYOUT_POKEMON_LEAGUE_CHAMPIONS_ROOM", [(5, 4), (5, 8), (1, 4), (6, 16)]),
     ("hof", "LAYOUT_POKEMON_LEAGUE_HALL_OF_FAME", [(5, 12), (5, 8)]),
     ("cianwood_shop", "LAYOUT_CIANWOOD_SHOP", [(4, 6), (11, 6), (8, 9)]),
+]
+SUITES["JohtoViridianIndigoTiles"] = [
+    ("route28_house", "LAYOUT_ROUTE28", [(21, 6), (20, 9), (19, 10), (21, 7)]),
+    ("route28_gate", "LAYOUT_ROUTE28", [(49, 10), (52, 13), (50, 10)]),
+    ("route26n", "LAYOUT_ROUTE26NORTH", [(8, 3), (11, 6), (9, 3)]),
+    ("indigo", "LAYOUT_INDIGO_PLATEAU", [(11, 8), (8, 9), (7, 5), (10, 4)]),
 ]
 
 
@@ -84,12 +91,13 @@ def cell_hash(tiles, metatiles, blk, width, x, y):
 
 
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) not in (2, 3):
         sys.exit(__doc__)
     root = sys.argv[1]
+    suite = sys.argv[2] if len(sys.argv) == 3 else "JohtoTilesetArt"
     files = tileset_files(root)
     layouts = {l["id"]: l for l in json.load(open(os.path.join(root, "data/layouts/layouts.json")))["layouts"] if l}
-    for key, lid, cells in CELLS:
+    for key, lid, cells in SUITES[suite]:
         lay = layouts[lid]
         prim, sec = files[lay["primary_tileset"]], files[lay["secondary_tileset"]]
         tiles = (load_tiles(prim[0]), load_tiles(sec[0]))

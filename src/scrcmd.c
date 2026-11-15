@@ -2411,6 +2411,32 @@ bool8 ScrCmd_checkfieldmove(struct ScriptContext *ctx)
     return FALSE;
 }
 
+void ScrCmd_CheckPartyCanUseMove(struct ScriptContext *ctx)
+{
+    enum Move move = ScriptReadHalfword(ctx);
+
+    Script_RequestEffects(SCREFF_V1);
+
+    gSpecialVar_Result = PARTY_SIZE;
+    for (u32 canLearn = FALSE; canLearn <= TRUE && gSpecialVar_Result == PARTY_SIZE; canLearn++)
+    {
+        for (u32 i = 0; i < PARTY_SIZE; i++)
+        {
+            struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+            enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+            if (!species)
+                break;
+            if (!GetMonData(mon, MON_DATA_IS_EGG)
+             && (canLearn ? CanLearnTeachableMove(species, move) : MonKnowsMove(mon, move)))
+            {
+                gSpecialVar_Result = i;
+                gSpecialVar_0x8004 = species;
+                break;
+            }
+        }
+    }
+}
+
 bool8 ScrCmd_addmoney(struct ScriptContext *ctx)
 {
     u32 amount = ScriptReadWord(ctx);

@@ -223,6 +223,33 @@ Text_CantSmash:
 	.string "It's a rugged rock, but a POKéMON\n"
 	.string "may be able to smash it.$"
 
+@ pokemonHnS's Headbutt tree. The Johto maps keep their Headbutt Pokemon in rock_smash_mons.
+EventScript_Headbutt::
+	lockall
+	goto_if_unset FLAG_GET_HEADBUTT, EventScript_CantHeadbutt
+	checkpartycanusemove MOVE_HEADBUTT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, EventScript_CantHeadbutt
+	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	buffermovename STR_VAR_2, MOVE_HEADBUTT
+	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
+	closemessage
+	playse SE_M_HEADBUTT
+	waitse
+	special RockSmashWildEncounter
+	goto_if_eq VAR_RESULT, FALSE, EventScript_EndSmash
+	waitstate
+	releaseall
+	end
+
+EventScript_CantHeadbutt:
+	msgbox Text_CantHeadbutt, MSGBOX_DEFAULT
+	releaseall
+	end
+
+Text_CantHeadbutt:
+	.string "It's a small tree, but a wild\n"
+	.string "POKéMON may be living within.$"
+
 EventScript_StrengthBoulder::
 	lockall
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_CheckActivatedBoulder

@@ -107,6 +107,7 @@ is clean; keep it that way.
 | [`JohtoNightLights.lua`](#johtonightlightslua) | fresh new game | Johto street lamps, the Olivine beacon and Whirl Islands glow lichen draw their own lights, not Poke Mart signs. |
 | [`OlivineHarborBoard.lua`](#olivineharborboardlua) | fresh new game | The OLIVINE board's BATTLE FRONTIER row now demands the S.S. TICKET. |
 | [`OlivineSeaBorder.lua`](#olivineseaborderlua) | fresh new game | Olivine's south-west and south-east sea corners, which no connection covers, draw sea rather than the old forest border, including after swimming in from Route 40. |
+| [`JohtoSealedSea.lua`](#johtosealedsealua) | fresh new game | The uncovered sea corners of Cherrygrove, Route 26 and Route 34 stay off screen: the rocks and fences that seal them block real input, and no reachable view holds an undefined cell. |
 | [`SSAquaKantoCrossing.lua`](#ssaquakantocrossinglua) | fresh new game | The S.S. Aqua Kanto crossing in both directions, plus the persisted ferry departure record. |
 | [`BnetTerminal1F.lua`](#bnetterminal1flua) | fresh new game | The Battle Net wall terminal on one map per placement row, and the BP payout invariants. |
 | [`LevelUpSummary.lua`](#levelupsummarylua) | fresh new game | The post-battle "Your team grew stronger!" box, which `make check` cannot reach by construction. |
@@ -115,6 +116,9 @@ is clean; keep it that way.
 | [`DoorAnimsRegistered.lua`](#dooranimsregisteredlua) | fresh new game | Animated doors really resolve a `sDoorAnimGraphicsTable` row on the seventeen maps whose tilesets borrow another tileset's door metatile. |
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
+| [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
+| [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
+| [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
@@ -243,6 +247,14 @@ Issue #79's credential on the OLIVINE harbour board's BATTLE FRONTIER row. `Oliv
 ### `OlivineSeaBorder.lua`
 
 Olivine City (52x72) connects to Route 40 on the left (covering x < 0), Olivine Port Outside below at offset 5 (x 5..36) and Route 39 above, so nothing covers x 0..4 or x >= 37 below the city or x >= 52 beside it, and the camera draws Olivine's own border there. That border was four tree metatiles (inherited unchanged from pokemonHnS), so surfing into either sea corner showed a hard-edged block of forest in open water. Route 40, the port and Route 41 all use deep-sea metatile 0x051 as their border, and Olivine now does too. The suite gives a level-100 Lapras, holds `VAR_REPEL_STEP_COUNT`, and reaches each corner with a debug warp to a coordinate (`sWarpDestination` held at `WARP_ID_NONE` so `SetPlayerCoordsFromWarp` takes its x,y; arriving on water starts Surf), then takes the last steps with real input so the camera draws the corner as it scrolls. **Oracle:** for every uncovered cell on screen (`gBackupMapLayout` holds `MAPGRID_UNDEFINED`), the eight tile entries `DrawMetatile` wrote to `gOverworldTilemapBuffer_Bg1/2/3` (at the slot `MapPosToBgTilemapOffset` derives from `sFieldCameraOffset`) must equal those of an open sea cell on the same screen, meaning a covered cell whose metatile behaviour is `MB_OCEAN_WATER` and whose collision is clear. It also requires the uncovered cells to lie only in the expected corner, which pins the premise that the port connection covers x >= 5. **Three segments.** South-west warp-in at (8,69), walked to (4,71): 30 gap cells. The crossing: from Route 40 (31,39), swim east across the connection to (4,71), then a Bag round trip to force `DrawWholeMapView`. This is how the worldB2 campaign saw a block seven tiles wide: `CameraMove`'s `MoveMapViewToBackup` copies Route 40's view into Olivine's grid, `MAPGRID_UNDEFINED` cells included, so x 5..6 lose the port connection and also draw the border (42 cells). South-east warp-in at (46,68), walked to (46,71): 100 cells. **Discrimination:** unfixed 12/15 (all three draw checks; trees signature `0013.018A.0001.019A...`), fixed 15/15. `ValidateBorderTerrain.py` (`make validate`) is the host-side scan for the same class across every map.
+
+### `JohtoSealedSea.lua`
+
+Cherrygrove City, Route 26 and Route 34 (pokemonHnS layouts) each have sea that runs off an edge no connection covers, so the camera would draw the map's tree or rock border there. Screenshots of forest or rock squares in open sea came from debug warps into that water, which no player can reach: Cherrygrove's west channel sits behind rocks at x 2..7 and its outer bay behind the rock line at y 25; Route 26's south-east bay and bottom rows sit behind two diagonal rock staircases and the rock line at y 74..76, and Route 27's rock line at y 33 seals the sea that leads into them; Route 34's strip at y 0..1 sits behind the fence at x 24 and Goldenrod's harbour wall. `ValidateBorderTerrain.py` floods every map from its warps and reaches the same verdict on the data; this suite checks it on the engine. It gives a level-100 Lapras, holds `VAR_REPEL_STEP_COUNT`, warps to a reachable coordinate and walks or surfs to the reachable cell nearest each corner with real input. **Oracle:** each step past the seal is refused (position unchanged), and no cell on screen (15 columns, 4.5 rows either side, half rows included) holds `MAPGRID_UNDEFINED` before or after the probes, so the border is never drawn where the player can look. Six segments: Cherrygrove west (7,10) and south (8,24), Route 26 bay seam (28,60) and beach seam (15,73), Route 27 rock line (100,32), Route 34 fence (25,0). **Discrimination:** no game data changed, so the suite passes on both sides (27/27). A tamper run that clears the collision of the one rock at Route 26 (29,60) at runtime lets the player through: the seal check fails, and at (38,80) the screen holds 117 undefined cells that draw the rock border (1/3).
+
+### `OlivineShockWave.lua`
+
+Olivine City's TM Shock Wave ball (object 21) stood at (48,69), open sea in a pocket (x 31..48, y 67..71) that rock walls seal: x 29..30 on the west, row 66 on the north and the port's rocks below. pokemonHnS gives Shock Wave from the Olivine Lighthouse ball and parks this second ball, on the same flag, at (53,47), off the east edge of the 52-wide map; #177 rewired the lighthouse ball to TM Bulk Up, and 74416d2c4d moved this one into the pocket to make Shock Wave obtainable. `ValidateReachability.py` found the pocket unreached: only a Sky Charm landing on the pocket's one mis-tagged sea tile (36,70), metatile 0x050 tagged `MB_NORMAL`, gets in, and the player then walks on the water. The ball now stands at (43,50), the reachable cell nearest the HnS position, at the east end of the lighthouse yard. The suite gives a level-100 Lapras, holds `VAR_REPEL_STEP_COUNT`, and starts each segment with a debug warp to a coordinate (arriving on water starts Surf). **West seam:** surf down the channel beside the pier to (28,69); three presses east into the pocket leave the player at (28,69). **North seam:** surf to (35,65); three presses south leave the player at (35,65). **Collect:** walk from (39,52) up and east to (42,50), face east, press A. **Oracle:** the TM Shock Wave slot count goes from 0 to 1. **Discrimination:** unfixed 9/10 (`tm_shock_wave_picked_up`, slots 0 -> 0), fixed 10/10.
 
 ### `SSAquaKantoCrossing.lua`
 
@@ -587,6 +599,9 @@ Recomputes every in-use, non-blend-immune object palette from `gPlttBufferUnfade
 ### `DroughtNightTint.lua`
 
 Drought ignored the clock. `ApplyColorMap`'s negative-index branch and `ApplyDroughtColorMapWithBlend` (`src/field_weather.c`) looked drought colours up straight from `gPlttBufferUnfaded`, so at night the drought half of `WEATHER_ABNORMAL` drew Sootopolis at full daylight while the downpour half and every neighbouring route were tinted. State is seeded as the game leaves it after Seafloor Cavern and the legendaries scene (`FLAG_SYS_WEATHER_CTRL`, `FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN`, `VAR_SOOTOPOLIS_CITY_STATE` 2), so Sootopolis's own `ON_TRANSITION` picks the abnormal weather and `Task_DoAbnormalWeather` flips it to drought. Clock lever is `SaveBlock2.localTimeOffset`, as in `DayNightTint.lua`. Within one drought phase it samples map palettes 1..12 and the in-use, non-blend-immune object slots at every drought stage (`gWeather.colorMapIndex` -2..-6) at 22:30 and at 14:30: night must be below 80% of day at every stage (unfixed they are identical). It then confirms a debug warp to Route 126 only once drought is current, samples every frame of `FadeInScreen_Drought`, and requires no fade-in frame to be brighter than the settled night drought. **Discrimination:** unfixed 9/11 (both day/night comparisons); with only `ApplyColorMap` fixed 10/11 (the fade-in check, `fadeMax` 9334 against a settled 5370).
+### `UnderfootHiddenItem.lua`
+
+FRLG marks six hidden items underfoot: the Leftovers on both Snorlax spots (Routes 12 and 16), Mr. Fuji's Soothe Bell (Pokemon Tower 7F), Giovanni's Macho Brace (Viridian Gym), the Navel Rock summit's Sacred Ash and Cape Brink's PP Max. Facing one does nothing (`GetInteractedBackgroundEventScript` returns NULL for them); pokefirered's Itemfinder digs one up when the player stands on it (`itemfinder.c` `SetUnderfootHiddenItem`, `EventScript_ItemfinderDigUpUnderfootItem`). This tree runs Emerald's Itemfinder, which spun the player on the spot, printed "The ITEMFINDER's shaking wildly!" and gave nothing, so all six were lost. `Task_StandingOnHiddenItem` now hands an unflagged underfoot item under the player to `EventScript_HiddenItemScript`, the same script facing a normal hidden item runs. The suite warps onto Cape Brink's PP Max cell (16,28), the one with no object standing on it, gives the Itemfinder with an injected `additem`, registers it on Select and presses Select, then advances the messages until control returns. **Oracle:** PP Max (72) is in the bag, the hidden-item flag 0x1011 is set, the player is still on (16,28) and has control. **Discrimination:** unfixed 5/7 (`pp_max_dug_up` slots 0, `hidden_item_flag_set` false), fixed 7/7.
 
 ### `HubPassReCross.lua`
 
@@ -1281,6 +1296,10 @@ inside on the house entry. A run that ends on the ledge row on foot fails; a fli
 the ledge or the door only when it took off before the move began. When the key stopped the jump,
 a second jump must still land. Measured **864/864** on the build of
 `061127921d`; no defect found.
+### `SkyCharmLanding.lua`
+
+`StartOverworldFlight` sets the player to `ELEVATION_TRANSITION` so `CanLandOverworldFlight` accepts ground at any height, and landing left it there. That elevation matches every tile, so the first step off a shore went onto the water on foot, the water's elevation then stuck, and the player walked across the sea without Surf. Landing now takes the tile's elevation, and `CanLandOverworldFlight` refuses transition (0), surf-level (1) and bridge (15) tiles, which give no ground level; Olivine's (36,70) is metatile 0x050, a sea tile tagged `MB_NORMAL` at elevation 1. The suite works in Olivine City with Johto badge 6 set and the Sky Charm given by an injected `additem` and registered on Select. **Shore:** take off on the pier at (19,66), fly north one tile, land on (19,65), step west. **Sea tile:** fly to (36,70) and press Select. **Yard (control):** fly to the lighthouse yard (39,52), land, step north. **Oracle:** the step west leaves the player on (19,65); at (36,70) the player is still flying; the yard landing and the step north on land both work. **Discrimination:** unfixed 8/10 (the player walks onto the sea at (18,65), and lands on (36,70)), fixed 10/10. `LedgeSelectStress` (864/864), `AutosaveStress` (220/220) and `RegionalTravelBoundaries` (103/103) pass on the fixed build.
+
 ### `SafariStress.lua`
 
 Every way out of the Kanto, Johto and Hoenn Safari Zones, through the real attendants and exits.
@@ -1912,3 +1931,79 @@ steps a warp back in finds nothing; after 500 more the warp in restarts the coun
 is back. The port defined the counter (on a raw id that is Hoenn's `VAR_STARTER_MON`) and never
 counted a step or regenerated anything, so a renewable item taken once was gone for good:
 **27/32** on the unfixed ROM, **32/32** with the fix.
+
+### `JohtoHeadbuttTutor.lua`
+
+The Ilex Forest Headbutt tutor offered `TUTOR_MOVE_HEADBUTT`, an HnS alias of `MOVE_HEADBUTT` that
+`tools/learnset_helpers/make_tutors.py` does not recognise (it reads `setvar VAR_0x8005, MOVE_*`),
+so Headbutt was never a tutor move, no teachable learnset held it, and his party menu showed every
+Pokemon NOT ABLE. With real input from the Route 34 entrance the suite walks 94 tiles to the tutor
+at (42,26), says YES and picks a level 5 Pidgey (a level 100 Lapras leads so the Repel holds), then
+checks Pidgey knows Headbutt and that the script set `FLAG_GET_HEADBUTT`. **7/9** on the unfixed
+ROM, **9/9** with the fix.
+
+### `JohtoHeadbuttTrees.lua`
+
+The Johto tilesets came from pokemonHnS with HnS's metatile behaviour numbers, and HnS numbers 45
+behaviours differently. Its 0xA1, `MB_HEADBUTT_TREE`, read here as `MB_INDIGO_PLATEAU_SIGN_1`,
+which only answers in Kanto, so the 1,317 Headbutt-tree cells on Johto maps did nothing, while the
+Ilex Forest tutor and the Route 39 sign tell the player to Headbutt trees and 35 maps keep HnS's
+Headbutt table as `rock_smash_mons` with no rock to smash. Azalea Town is the bed: its only wild
+table is that one (rate 60) and it has no grass. With real input the suite walks to (28,13) under
+the small tree at (28,12). A at the wall beside it runs no script (control). A Magikarp, which can
+never learn Headbutt, gets "It's a small tree..." and no battle, without and then with
+`FLAG_GET_HEADBUTT` (Bugsy's win and the Ilex tutor set it). A Pidgey that does not know Headbutt
+but can be taught it is refused without the flag; with it the tree says "Pidgey used Headbutt!"
+and a wild battle against a species from Azalea's table starts within 30 tries (HnS accepts a
+Pokemon the tutor could teach). `HnsMetatileBehaviors.py` (host check) keeps HnS numbers out of
+the Johto tilesets. **11/18** on the unfixed ROM, **18/18** with the fix.
+
+### `JohtoViridianIndigoTiles.lua`
+
+Route 28, Route 26 North and the Johto Indigo Plateau came from pokemonHnS with layouts naming
+`gTileset_ViridianCity` and `gTileset_IndigoPlateau`, which here are FRLG's tilesets: the Route 28
+house roof and door, the reception gates' tree bases and the Indigo statues and doorway drew
+speckled garbage (two blockdata patches had papered over the worst of it). Four camera views (the
+Route 28 house, both reception gates, the Indigo building) are checked at 14:30 and 22:30. By day
+each sampled cell must hash to HnS's picture (`test/overworld/JohtoTilesetArtExpect.py <HnS>
+JohtoViridianIndigoTiles` prints the table, and the last cell of each view is a control the port
+always drew right), and the window glass must be blue. At night the same glass colours must be warm
+in `gPlttBufferFaded`: the amber treatment `night-lighting/johto_glass.py` authors for HnS's masked
+glass. **9/22** on the unfixed ROM; **19/22** on a build without the amber alternates (HnS's own
+mask glows pale grey-green); **22/22** with the fix.
+### `SummaryMoveCancelRace.lua`
+
+Up pressed while the SwSh summary's move panel is still sliding in must not show a move past the
+list. On the moves page A starts move select, and `Task_ShowEffectTilemap` slides the details
+panel in over six frames before it prints the move under the cursor. Move select takes input
+during the slide, and Up from the first move lands on the Cancel row (index `MAX_MON_MOVES`). The
+panel's last step read `summary.moves[4]`, one past the array: the first two PP bytes as a move id
+(2580 for this Abra's Teleport and Dig). The debug build stops on `INCLUDE/MOVE.H:232: INVALID
+MOVE: 2580`; Start resumes into placeholder text, a category icon and a garbage accuracy on Cancel,
+or, where the entry past `gMovesInfo` has a NULL description, a CPU crash (InputSpamStress's dig
+mash found it that way). A debug-made Abra leads and the summary opens from the party menu with
+real input. Controls: after a finished slide Teleport shows its Status icon and Up to Cancel
+clears it. Then Up one, three and five frames after A: the game must keep running, Cancel must
+show no category icon, Down must wrap to Teleport, B must leave move select, and B must close the
+summary to the party menu and the field. **6/20** on the unfixed ROM, **20/20** with the fix.
+### `OweContactCoordEvent.lua`
+
+A visible wild Pokemon that walks into the player mid-step must not swallow the coord event on the
+tile the player arrives on. Victory Road 1F's Wally battle is the coord event pair at (2,23) and
+(3,23), the only corridor to the B1F ladder. The player stands at (2,22) facing the trigger with a
+generated encounter moved beside the corridor (west of the trigger, or west of the tile the player
+leaves), and each trial loads that state, waits 0 to 127 frames and steps down with real input. The
+encounter's wandering, contact and battle are the game's own; battles are won by pressing A with a
+debug-given Mewtwo. A contact before the step ends the trial untested. Sweep A has the trigger live:
+every trial that takes the step must start Wally's scene (the script pointer inside
+`VictoryRoad_1F_EventScript_WallyBattleTrigger1` to `WallyEntranceBattle`) before the player leaves
+(2,23). Sweep B sets `VAR_VICTORY_ROAD_1F_STATE` to 1, the value Wally's scene leaves, so the same
+step lands on a plain tile, and requires contacts made during the step to still start their battle by
+the frame after it. The encounter's step is checked from its sprite callback and started its script
+there, so on 16 consecutive offsets per placement the script held the field controls through the next
+`ProcessPlayerFieldInput`, the one that runs the arrival's coord event; after the battle the player
+stood on the trigger and walked past Wally, as a world campaign did on the stress pass 4 integration
+ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A trials walked past,
+and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
+contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
+trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.

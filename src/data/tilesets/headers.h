@@ -2137,3 +2137,25 @@ const struct Tileset gTileset_JohtoHallOfFame =
     TILESET_METATILES(gMetatiles_JohtoHallOfFame, gMetatileAttributes_JohtoHallOfFame),
     .callback = NULL,
 };
+
+const struct Tileset gTileset_JohtoViridianCity =
+{
+    .isCompressed = TRUE,
+    .swapPalettes = (1 << 5),
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoViridianCity,
+    .palettes = gTilesetPalettes_JohtoViridianCity,
+    TILESET_METATILES(gMetatiles_JohtoViridianCity, gMetatileAttributes_JohtoViridianCity),
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_JohtoIndigoPlateau =
+{
+    .isCompressed = TRUE,
+    .swapPalettes = (1 << 3),
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_JohtoIndigoPlateau,
+    .palettes = gTilesetPalettes_JohtoIndigoPlateau,
+    TILESET_METATILES(gMetatiles_JohtoIndigoPlateau, gMetatileAttributes_JohtoIndigoPlateau),
+    .callback = NULL,
+};

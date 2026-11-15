@@ -87,8 +87,11 @@ the name `Verify1.gba` and copies any explicitly selected save fixture beside it
 2. **Throwaway-ROM allowlist** — the ROM basename must match `^Verify`, `^MigChk` or `^FixGen`
    (`lib.lua:38`). Override deliberately with `opts.allowAnyRom = true`.
 
-The owner's live save is `pokemonworld.gba`'s neighbour `pokemonworld.sav` at the repo root
-(gitignored, untracked). `VerifyOwnerSave.lua` can test an explicitly supplied copy locally. No runner discovers that file automatically, and CI refuses owner-save coverage.
+`VerifyOwnerSave.lua` checks a real save on the current build: it loads where it was saved, upgrades
+to the current format, survives an in-game save, and comes back unchanged after a soft reset and
+Continue. It reads its expectations from the save you pass, so any raw 131072-byte save works. The
+gitignored `pokemonworld.sav` at the repo root is a v7 snapshot of the owner's game from 2026-08-04,
+not the live save. No runner discovers it automatically, and CI refuses owner-save coverage.
 
 > A raw `.srm` battery save is 131072 bytes and is already mGBA's `.sav` format — converting one is
 > a rename. A blank save is all `0xFF`. mGBA may append a 16-byte RTC trailer to a `.sav` it wrote;

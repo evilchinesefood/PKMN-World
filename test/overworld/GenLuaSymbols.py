@@ -73,6 +73,9 @@ WANT = [
     "gStringVar1", "gStringVar2",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
+    # MoneySinkEdges.lua: the Day Care withdrawal fee GetDaycareCostAndPrepareString leaves for
+    # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.
+    "gSpecialVar_0x8005",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
     # Overworld weather object. Route41SurfBgm.lua zeros curr/next/rain so a
     # Route 41 surf check cannot pass on a raining map (or fail on one).
@@ -147,6 +150,7 @@ WANT = [
     "Task_OakSpeech_HandleGenderInput",
     "gPlayerOutfitPicker", "Task_OutfitPicker",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
+    "Task_HandleDaycareLevelMenuInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
     "CB2_InitOptionMenu", "Task_OptionMenuProcessInput",
     "sCondMsg51", "sCondMsg52", "sCondMsg53",

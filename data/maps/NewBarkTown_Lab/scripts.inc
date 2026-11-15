@@ -244,13 +244,14 @@ NewBarkTown_Lab_EventScript_DeclinedStarter::
 NewBarkTown_Lab_EventScript_ChoseStarter::
 	callnative EnableStaticRandomizer
 	hidemonpic
-	removeobject VAR_LAST_TALKED
 	msgbox NewBarkTown_Lab_Text_ChoseStarter, MSGBOX_DEFAULT
 	@ The Hub Pass and the same-region Johto gate keep a party withdrawn at the hub PC, so the party
 	@ can already hold Pokemon here. A full party sends the starter to the PC, and that is still the starter.
+	@ With the boxes full too nothing is given, so the ball stays on the table for another try.
 	givemon PLAYER_STARTER_SPECIES, 5
 	copyvar VAR_TEMP_6, VAR_RESULT
 	goto_if_eq VAR_TEMP_6, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
+	removeobject VAR_LAST_TALKED
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_JOHTO_STARTER_CHOSEN
 	playfanfare MUS_OBTAIN_ITEM

@@ -32,6 +32,8 @@ BattleNet_EventScript_DirectorStoneOffer::
 	msgbox BattleNet_Text_DirectorStoneOffer, MSGBOX_DEFAULT
 	@ Script-level multichoice, NOT a special: a menu opened from a special is asynchronous,
 	@ so the script would read VAR_RESULT before the player picked. multichoice blocks.
+	@ Its eight rows reach tile row 17, over the message box, so close the offer first.
+	closemessage
 	multichoice 0, 0, MULTI_BNET_STARTER_STONE, FALSE
 	special BattleNetStarterStoneFromChoice  @ VAR_RESULT index -> VAR_0x8008 item, VAR_RESULT 1/0
 	goto_if_eq VAR_RESULT, 0, BattleNet_EventScript_DirectorStoneLater
@@ -85,8 +87,10 @@ BattleNet_EventScript_StoneVendor::
 @ in VAR_0x8005, so BattleNetVendorStoneFromChoice range-checks the row itself. (Previously the
 @ script rebased page 2 with `addvar VAR_RESULT, 5` and the special saw an absolute index, where
 @ rows 5 and 6 were valid sVendorStones[] entries - BLAZIKENITE and SWAMPERTITE.)
+@ Both seven-row pages reach tile row 15, over the message box, so close the message first.
 BattleNet_EventScript_VendorLoop::
 	setvar VAR_0x8005, 0
+	closemessage
 	multichoice 0, 0, MULTI_BNET_VENDOR_STONE, FALSE
 	goto_if_eq VAR_RESULT, 5, BattleNet_EventScript_VendorPage2
 	goto_if_ge VAR_RESULT, 6, BattleNet_EventScript_VendorDone

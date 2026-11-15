@@ -1474,3 +1474,13 @@ gate's recall must bring that team back, with the party and every PC box counted
 `RegionalTravel_PhysicalRegion` read the cave's Hoenn map section as mainland Hoenn, so the Hub
 Pass replaced the remembered team with the carried one (`count=3`) and the recall brought the
 carried team (`party=B0,B1,B2`): **14/16** on the unfixed ROM, **16/16** with the fix.
+### `BnetMenuOverlap.lua`
+
+Battle Net lists taller than six rows open with the message box closed. A static multichoice at
+(0,0) with seven or more rows reaches the message band (tile rows 14 to 19), so the list hid the
+start of each text line and its border cut through the first one. From a free hub, with real
+input: the hub terminal's three Type Trainer pages (eight rows), the 2F director's starter-stone
+offer on two visits (eight rows) and the stone vendor's two pages (seven rows). With each list
+open the BG0 screen map must hold nothing in that band outside the list's own frame, and control
+must return afterwards. The unfixed ROM left the terminal, director and vendor text on screen
+behind every one of the seven lists.

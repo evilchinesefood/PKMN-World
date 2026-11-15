@@ -1398,3 +1398,13 @@ prompt cancelled with B (both offered, old moveset untouched), and three candies
 that cross 15 and evolve into Ivysaur at 16 (both learned, three candies spent). Before the fix
 the step moved to the next level after any learned move, so Sleep Powder was never offered:
 **16/22** on the unfixed ROM, **22/22** with the fix.
+### `BagGiveOverMail.lua`
+
+Giving an item from the Bag to a Pokemon that holds Mail must be refused, as the party menu's
+Give refuses it. A Bulbasaur is handed Orange Mail the way `GiveMailToMonByItemId` leaves it
+(letter in mailbox slot 0, held item, mail index), then the Bag, Give, the party select and the
+switch prompt run with real input: a Potion onto the Mail holder must leave the Mail, the letter
+and its link in place and the Potion in the Bag; a Potion onto an Oran Berry holder (control)
+must switch the items. Before the fix `BagMenu_GiveItem` switched the Mail into the Bag without
+`TakeMailFromMon`, orphaning the letter and its mailbox slot: **5/8** on the unfixed ROM,
+**8/8** with the fix.

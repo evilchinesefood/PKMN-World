@@ -128,3 +128,4 @@ FlowerCrownQuestStorage	lua/FlowerCrownQuestStorage.lua	fresh	0	required
 ContinueOddMoments	lua/ContinueOddMoments.lua	fresh	0	required
 OakPokeBallsFullPocket	lua/OakPokeBallsFullPocket.lua	fresh	0	required
 BagRareCandyMoves	lua/BagRareCandyMoves.lua	fresh	0	required
+BagGiveOverMail	lua/BagGiveOverMail.lua	fresh	0	required

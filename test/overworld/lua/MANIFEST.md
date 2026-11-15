@@ -2009,3 +2009,14 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `HubPassLeagueRooms.lua`
+
+Coverage for dcd1570afe's Hub Pass refusal in the champion rooms. The Johto Champion's Room is the
+one that hands the player control before the champion (Hoenn's and Kanto's walk straight into the
+battle on entry), so it is the room where the refusal matters. The pass is given with `additem`,
+registered, and fired from Select in the Johto Champion's Room, Karen's Room and Ever Grande's
+Hall 4 after each room's entry scene, with A, B and Start pressed through the message: refused,
+the player stays on the same tile, and control returns. In the Johto Indigo Plateau Pokemon
+Center the same Select reaches the hub (control). **12/12** on the master ROM it was written
+against.

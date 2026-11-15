@@ -653,6 +653,8 @@ static bool8 ResetReleaseMonSpritePtr(void);
 static void SetMovingMonPriority(u8);
 static void SpriteCB_HeldMon(struct Sprite *);
 static struct Sprite *CreateMonIconSprite(enum Species species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority, bool32 isEgg);
+static u8 GetPartyIconSubpriority(u8 partyId);
+static u8 GetBoxIconSubpriority(u8 boxPosition);
 static void DestroyBoxMonIcon(struct Sprite *);
 
 // Pokémon data
@@ -4845,7 +4847,7 @@ static void InitBoxMonSprites(u8 boxId)
             if (species != SPECIES_NONE)
             {
                 personality = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_PERSONALITY);
-                sStorage->boxMonsSprites[count] = CreateMonIconSprite(species, personality, 8 * (3 * j) + 92, 8 * (3 * i) + 40, 1, 19 - j, isEgg);
+                sStorage->boxMonsSprites[count] = CreateMonIconSprite(species, personality, 8 * (3 * j) + 92, 8 * (3 * i) + 40, 1, GetBoxIconSubpriority(boxPosition), isEgg);
 
                 if (ShouldBoxmonSpriteBeTransparent(boxId, boxPosition))
                     sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
@@ -4871,7 +4873,7 @@ static void CreateBoxMonIconAtPos(u8 boxPosition)
         s16 y = 8 * (3 * (boxPosition / IN_BOX_COLUMNS)) + 40;
         u32 personality = GetCurrentBoxMonData(boxPosition, MON_DATA_PERSONALITY);
 
-        sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(species, personality, x, y, 2, 19 - (boxPosition % IN_BOX_COLUMNS), isEgg);
+        sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(species, personality, x, y, 1, GetBoxIconSubpriority(boxPosition), isEgg);
         if (ShouldBoxmonSpriteBeTransparent(StorageGetCurrentBox(), boxPosition))
             sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
     }
@@ -4963,7 +4965,6 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
     u16 y = 40;
     s16 xDest = 8 * (3 * column) + 92;
     u16 x = xDest - ((distance + 1) * speed);
-    u8 subpriority = 19 - column;
     u8 iconsCreated = 0;
     u8 boxPosition = column;
 
@@ -4973,7 +4974,7 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
         {
             sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(sStorage->boxSpecies[boxPosition],
                                                                         sStorage->boxPersonalities[boxPosition],
-                                                                        x, y, 2, subpriority,
+                                                                        x, y, 1, GetBoxIconSubpriority(boxPosition),
                                                                         sStorage->boxIsEgg[boxPosition]);
             if (sStorage->boxMonsSprites[boxPosition] != NULL)
             {
@@ -5113,7 +5114,7 @@ static void CreatePartyMonsSprites(bool8 visible)
         DestroyBoxMonIcon(sStorage->partySprites[0]);
         sStorage->partySprites[0] = NULL;
     }
-    sStorage->partySprites[0] = CreateMonIconSprite(species, personality, 40, 16, 1, 12, isEgg);
+    sStorage->partySprites[0] = CreateMonIconSprite(species, personality, 40, 16, 1, GetPartyIconSubpriority(0), isEgg);
     count = 1;
     for (i = 1; i < PARTY_SIZE; i++)
     {
@@ -5128,7 +5129,7 @@ static void CreatePartyMonsSprites(bool8 visible)
         if (species != SPECIES_NONE)
         {
             personality = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_PERSONALITY);
-            sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 40,  24 * i + 16, 1, 12, isEgg);
+            sStorage->partySprites[i] = CreateMonIconSprite(species, personality, 40,  24 * i + 16, 1, GetPartyIconSubpriority(i), isEgg);
             count++;
         }
     }
@@ -5215,6 +5216,7 @@ static void SpriteCB_MovePartyMonToNextSlot(struct Sprite *sprite)
         sprite->x = 40;
         sprite->y = 24 * sprite->sPartyId + 16;
         sprite->callback = SpriteCallbackDummy;
+        sprite->subpriority = GetPartyIconSubpriority(sprite->sPartyId);
         sStorage->partySprites[sprite->sPartyId] = sprite;
         sStorage->numPartyToCompact--;
     }
@@ -5263,7 +5265,7 @@ static void SetPlacedMonSprite(u8 boxId, u8 position)
     {
         sStorage->partySprites[position] = sStorage->movingMonSprite;
         sStorage->partySprites[position]->oam.priority = 1;
-        sStorage->partySprites[position]->subpriority = 12;
+        sStorage->partySprites[position]->subpriority = GetPartyIconSubpriority(position);
         sStorage->partySprites[position]->x = 40;
         sStorage->partySprites[position]->y = 24 * position + 16;
     }
@@ -5271,7 +5273,7 @@ static void SetPlacedMonSprite(u8 boxId, u8 position)
     {
         sStorage->boxMonsSprites[position] = sStorage->movingMonSprite;
         sStorage->boxMonsSprites[position]->oam.priority = 1;
-        sStorage->boxMonsSprites[position]->subpriority = 19 - (position % IN_BOX_COLUMNS);
+        sStorage->boxMonsSprites[position]->subpriority = GetBoxIconSubpriority(position);
     }
     sStorage->movingMonSprite->callback = SpriteCallbackDummy;
     sStorage->movingMonSprite = NULL;
@@ -5471,6 +5473,20 @@ static void RemoveSpeciesFromIconList(enum Species species)
             break;
         }
     }
+}
+
+// Icons are 32 pixels tall on 24-pixel rows, so each one overlaps the top of the icon below it.
+// Sprites with equal subpriority sort the lower one in front, which let a lower icon's top cover
+// the upper icon's feet (Balloon Pikachu's balloons over Surfboard Pikachu's board). Upper rows
+// take the lower subpriority; within a box row the right column stays in front, as before.
+static u8 GetPartyIconSubpriority(u8 partyId)
+{
+    return 12 + partyId;
+}
+
+static u8 GetBoxIconSubpriority(u8 boxPosition)
+{
+    return 14 + (boxPosition / IN_BOX_COLUMNS) * IN_BOX_COLUMNS + (IN_BOX_COLUMNS - 1 - boxPosition % IN_BOX_COLUMNS);
 }
 
 static struct Sprite *CreateMonIconSprite(enum Species species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority, bool32 isEgg)
@@ -9758,7 +9774,7 @@ void UpdateSpeciesSpritePSS_SwSh(struct BoxPokemon *boxMon)
             if (species != SPECIES_NONE)
             {
                 u32 personality = GetMonData(&gParties[B_TRAINER_PLAYER][sCursorPosition], MON_DATA_PERSONALITY);
-                sStorage->partySprites[sCursorPosition] = CreateMonIconSprite(species, personality, 40, 24 * sCursorPosition + 16, 1, 12, isEgg);
+                sStorage->partySprites[sCursorPosition] = CreateMonIconSprite(species, personality, 40, 24 * sCursorPosition + 16, 1, GetPartyIconSubpriority(sCursorPosition), isEgg);
                 if (sStorage->boxOption == OPTION_MOVE_ITEMS)
                     SetPartyMonIconObjMode(sCursorPosition, (GetMonData(&gParties[B_TRAINER_PLAYER][sCursorPosition], MON_DATA_HELD_ITEM) == ITEM_NONE ? ST_OAM_OBJ_BLEND : ST_OAM_OBJ_NORMAL));
             }

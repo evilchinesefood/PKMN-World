@@ -2079,3 +2079,18 @@ lead in the reopened Bag must heal it, not give it. Measured **64/64** on master
 `0829014ec0`'s `swsh_item_menu.c` hunks reverted (one Revive revived the fainted Charmander through
 the stale Sacred Ash callback, and the Potion after the Mail give was given instead of used).
 `PW_ONLY=<plan name>` (pass with `--env`) runs one plan.
+### `IconRowStacking.lua`
+
+A Pokemon icon must draw in front of the icon in the row below it in the party menu, the PC's party
+column and the PC's box grid. Icons are 32 pixels tall on 24-pixel rows in all three, and sprites
+with equal subpriority sort the lower one in front; the party menu and the PC's party column gave
+every icon one subpriority and box icons differed only by column, so Balloon Pikachu's balloons hid
+Surfboard Pikachu's board whenever Balloon sat below it (the overlap #529 fixed on the Special
+Pokemon checklist). Classic Cap, Surfboard and Balloon Pikachu come from the debug Give menu. With
+real input the party menu opens and switches its first and third Pokemon, then the PC (Move Pokemon)
+moves Surfboard to box row 1 and Balloon to the slot below it. The suite compares the OAM sort keys
+`BuildOamBuffer` builds for each upper and lower icon: in the party menu before and after the switch,
+the PC's party column, the box after the moves, after reopening the PC, after Surfboard is picked up
+and put back (a re-created box icon took OAM priority 2 while the box's first icons have 1, so the
+lower icon won on priority alone) and after scrolling to the next box and back. **20/30** on the
+unfixed ROM (all ten pairs), **30/30** with the fix.

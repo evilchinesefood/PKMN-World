@@ -746,6 +746,15 @@ The optional local [pre-push hook](../hooks/pre-push) also runs direct content c
 Do not use `make validate` for automatic host-only validation because Makefile parsing can
 start game build setup.
 
+[`ScanInputChords.py`](../ScanInputChords.py) `--check` is one of those checks. It lists input
+handlers where one button's branch changes state (task func, main callback, fade, destroyed menu or
+window, state variable) and a later, non-`else` button read can still run on the same frame, the
+shape behind `DexMenuChord.lua`, `EvoMoveLearnChord.lua` and `BagSortChord.lua`. It fails on a
+conflict that [`input_chord_allowlist.tsv`](../input_chord_allowlist.tsv) does not name; each row
+there records why that site is safe or which PR fixes it. A fixed site's row is reported as stale
+rather than failing, so the row can be removed after the fix lands. Reproduce a new site with the
+two buttons in one `joypad.set` before allowlisting it.
+
 Builds, Lua suites, battle checks, and feature-off builds run only through explicit local
 commands or [Verify on demand](../../../.github/workflows/Verify.yml). Smoke and Full can run
 on Linux CI or local macOS. There are no schedules and no build-output uploads. The

@@ -17,7 +17,14 @@ make modern -j8
 python3 test/overworld/johto-playthrough/run.py                  # the whole campaign
 python3 test/overworld/johto-playthrough/run.py --from pryce --resume-dir /path/to/prior/case
 python3 test/overworld/johto-playthrough/run.py --suite kurt_fast_ball.lua
+python3 test/overworld/johto-playthrough/run.py --suite hard_tier_battles.lua --timeout 7000
 ```
+
+`hard_tier_battles.lua` fights all 42 trainers that have a `Difficulty: Hard` party (every gym
+leader, both Elite Fours, Wallace, Steven and the Kanto champion rematch) on the HARD tier, with
+the three champion flags set and a Lv100 debug team of six. Each battle must start as a single (a
+double for Tate & Liza), end in a win or a whiteout with control back, show a foe above that
+trainer's NORMAL party level, and leave `VAR_DIFFICULTY` on HARD. It takes about six minutes.
 
 The same runner plays Kanto, Hoenn and the three-region world campaign with
 `--campaign kanto|hoenn|world`.

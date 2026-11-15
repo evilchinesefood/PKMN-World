@@ -2009,3 +2009,13 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `BagTMCancelMessage.lua`
+
+Cancelling a TM's in-bag party select must take its "Teach ... to a POKéMON?" prompt down. The
+prompt stays up over the party select (`SWSH_ITEM_MENU_ACTION_IN_BAG`), and `BagMenu_ClosePartySelect`
+returned to the list without removing it, so the message box covered the TM description, followed
+the player into the Items pocket and was cut through by the next Give's description. A debug-made
+Pokémon leads; with real input the suite Uses TM01, answers Yes, presses B, switches to Items and
+starts a Give of a Revive. It counts windows with the item message template in `gWindows` (the main
+list keeps an identical always-allocated `WIN_MESSAGE`, so two means the prompt is up). Control: the
+prompt is up during the select on both ROMs. Measured **7/7** fixed and **4/7** on the unfixed ROM.

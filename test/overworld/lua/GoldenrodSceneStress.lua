@@ -1,7 +1,9 @@
 -- Goldenrod's three scenes from 0829014ec0, on real input with A, B and Start mashed through each:
 --   * first visit after a Hub gate arrival at the Train Station: the city's ON_FRAME setup must run
 --     on entry (state 0 -> 1), hide the Rockets and Bill, and hand control back;
---   * the Name Rater's TV (NameRival no longer follows with a waitstate): control must return;
+--   * the Name Rater's TV (NameRival no longer follows with a waitstate): control must return, and
+--     the news must read complete: it used to end on "Do YOU know his name?" for a naming screen
+--     that no longer exists, so it now names the boy ({RIVAL}, GARY in Johto);
 --   * the Radio Tower quiz won late (state 5, after the Plain Badge): FLAG_ENABLE_RADIO is set and
 --     VAR_GOLDENROD_CITY_STATE is not rewound to 2.
 -- Setup writes badges and the Azalea/Ilex/Goldenrod vars and gives a debug party; the gate, the
@@ -20,6 +22,17 @@ local FLAG_VISITED_GOLDENROD_CITY, FLAG_ENABLE_RADIO = 0x6000 + 0xEA, 0x6000 + 0
 local FLAG_JOHTO_BADGE = function(i) return 0x63F8 + i end
 local CONTEXT_RUNNING = 0
 
+local function text(addr, n)
+  local t = {}
+  for i = 0, n - 1 do
+    local b = F.r8(addr + i)
+    if b == 0xFF then break end
+    if b >= 0xBB and b <= 0xD4 then t[#t + 1] = string.char(65 + b - 0xBB)
+    elseif b >= 0xD5 and b <= 0xEE then t[#t + 1] = string.char(97 + b - 0xD5)
+    else t[#t + 1] = " " end
+  end
+  return table.concat(t)
+end
 local function where() local x, y = F.pos(); return string.format("%d/%d (%d,%d)", F.grp(), F.mapn(), x, y) end
 local function mapIs(m) return F.grp() == m[1] and F.mapn() == m[2] end
 local function count() return F.r8(S.gPartiesCount) end
@@ -160,7 +173,12 @@ F.run(function()
   ok = F.route({{4,7},{2,7},{2,2}}, "to_tv")
   F.check("walked to the TV", ok, where())
   if ok then
-    F.face("Up"); F.press("A", 3)
+    F.face("Up"); F.press("A", 3); F.idle(40)
+    local news = text(S.gStringVar4, 200)
+    F.L("  tv: " .. news)
+    for i = 1, 3 do F.idle(90); F.shot("tv_page_" .. i); F.press("A", 2) end
+    F.check("the TV news names the boy instead of asking for a name",
+      news:find("REDHEADED BOY") ~= nil and news:find("His name is GARY") ~= nil and news:find("know his name") == nil, news)
     F.check("the TV news hands control back", mash("tv", 1800),
       string.format("lock=%d ctx=%d", F.r8(S.sLockFieldControls), F.r8(S.sGlobalScriptContextStatus)))
     F.shot("tv_after")

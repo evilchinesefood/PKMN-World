@@ -38,7 +38,9 @@ HNS_NAMES = {
     "goldenrod_game_corner": "game_corner",
     "johto_day_care": "pokemon_day_care",
     "johto_hall_of_fame": "hall_of_fame",
+    "johto_indigo_plateau": "indigo_plateau",
     "johto_pokemon_league": "pokemon_league",
+    "johto_viridian_city": "viridian_city",
     "mahogany_town_gym": "sootopolis_gym",
 }
 # No tile any layout here places carries it: #297 swapped Route 41's HnS return-warp row for ocean.

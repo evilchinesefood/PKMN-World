@@ -1109,6 +1109,7 @@
 #define METATILE_SafariZoneJohto_Door        0x2BF // gTileset_SafariZoneJohto
 #define METATILE_MahoganyTown_Door           0x2A2 // gTileset_MahoganyTown
 #define METATILE_JohtoShop_Door              0x28D // gTileset_GoldenrodDepartmentStore
+#define METATILE_JohtoViridianCity_Door      0x31B // gTileset_JohtoViridianCity
 
 // gTileset_BattleTowerInner
 #define METATILE_BattleTowerInner_Door       0x2C3

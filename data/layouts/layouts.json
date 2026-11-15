@@ -13204,7 +13204,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_NorthEast",
-      "secondary_tileset": "gTileset_ViridianCity",
+      "secondary_tileset": "gTileset_JohtoViridianCity",
       "border_filepath": "data/layouts/Route28/border.bin",
       "blockdata_filepath": "data/layouts/Route28/map.bin",
       "layout_version": "johto"
@@ -13243,7 +13243,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_General",
-      "secondary_tileset": "gTileset_ViridianCity",
+      "secondary_tileset": "gTileset_JohtoViridianCity",
       "border_filepath": "data/layouts/Route26North/border.bin",
       "blockdata_filepath": "data/layouts/Route26North/map.bin",
       "layout_version": "johto"
@@ -13412,7 +13412,7 @@
       "border_width": 0,
       "border_height": 0,
       "primary_tileset": "gTileset_Johto_General",
-      "secondary_tileset": "gTileset_IndigoPlateau",
+      "secondary_tileset": "gTileset_JohtoIndigoPlateau",
       "border_filepath": "data/layouts/JohtoIndigoPlateau/border.bin",
       "blockdata_filepath": "data/layouts/JohtoIndigoPlateau/map.bin",
       "layout_version": "johto"

@@ -1408,3 +1408,13 @@ and its link in place and the Potion in the Bag; a Potion onto an Oran Berry hol
 must switch the items. Before the fix `BagMenu_GiveItem` switched the Mail into the Bag without
 `TakeMailFromMon`, orphaning the letter and its mailbox slot: **5/8** on the unfixed ROM,
 **8/8** with the fix.
+### `BagCheckMail.lua`
+
+Checking a Mail item from the Bag must open the blank letter and come back without a crash. Each
+case puts one Mail (Orange, Harbor, Bead, Dream, Retro) in the Items pocket, opens the Bag with
+real input, picks Check, holds the letter open, closes it with B, and requires no crash screen
+throughout, the Bag back with the Mail still in it, and the field back. Before the fix
+`CB2_CheckMail` handed `ReadMail` a pointer to a stack `struct Mail` that the screen read on later
+frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
+for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
+after a failure).

@@ -1463,3 +1463,16 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `CatchSwapMailHolder.lua`
+
+A catch with a full party, answering Yes to "add it to your party?": the party Pokemon sent to the
+PC in its place must not hold Mail, or its letter is orphaned in the mailbox. Six Bulbasaur come
+from the debug Give menu, the third holding Orange Mail (letter in mailbox slot 0, linked the way
+`GiveMailToMonByItemId` leaves it); one Master Ball comes from `additem` and a wild Pidgey from
+`setwildbattle` + `dowildbattle`. The throw (R shortcut), the nickname prompt and naming screen,
+"add to party?", the party pick and "send to the PC?" are real input. Picking the Mail holder must
+be refused with the party menu still choosing; picking the fourth Bulbasaur (control) must box it.
+The Mail holder must end in the party with its letter linked, Pidgey in the party and exactly one
+Pokemon boxed. The SwSh party menu's `PARTY_ACTION_SEND_MON_TO_BOX` refused only partner Pokemon
+and HM users: **7/10** on the unfixed ROM (the Mail holder went to box 1 slot 1), **12/12** with
+the fix.

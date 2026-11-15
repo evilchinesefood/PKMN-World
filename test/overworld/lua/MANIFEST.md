@@ -1444,3 +1444,13 @@ Berry holder (control) the items must switch. Before the fix `CursorCb_MoveItemC
 the held items alone, so the first Bulbasaur held the Mail with no mail index (Read showed a blank
 letter from `mail[255]`) and the second kept the letter's link while holding the Potion:
 **3/5** on the unfixed ROM, **5/5** with the fix.
+### `SelectWheelStaleSlot.lua`
+
+SELECT with one usable registered key item must use it, even when an earlier key item wheel slot
+names a key item that has left the Bag. At Petalburg City a Mach Bike is added with `additem` and
+the wheel slots are written the way `ItemMenu_Register` leaves them; SELECT runs with real input.
+With only the Mach Bike registered (control) SELECT must mount it; with Devon Parts (not in the
+Bag) in slot 0 and the Mach Bike in slot 1 SELECT must mount it too. Before the fix
+`UseRegisteredKeyItemOnField` took the first registered slot, found it missing, cleared it and
+showed "An item in the BAG can be registered..." instead: **7/8** on the unfixed ROM, **8/8** with
+the fix.

@@ -4054,16 +4054,18 @@ bool8 UseRegisteredKeyItemOnField(void)
     }
     else if (count == 1)
     {
-        s32 index = RegisteredItemIndex(ITEM_NONE);
-        u16 regItem = (index >= 0) ? GetRegisteredItem(index) : ITEM_NONE;
-        if (regItem != ITEM_NONE && CheckBagHasItem(regItem, 1) == TRUE)
+        // The one counted item, not the first registered slot: a registered key item that has
+        // left the Bag keeps its slot.
+        u32 i;
+        for (i = 0; i < MAX_REGISTERED_ITEMS; i++)
         {
-            gSpecialVar_ItemId = regItem;
-            func = GetItemFieldFunc(regItem);
-        }
-        else if (index >= 0)
-        {
-            SetRegisteredItem(index, ITEM_NONE);
+            u16 regItem = GetRegisteredItem(i);
+            if (regItem != ITEM_NONE && CheckBagHasItem(regItem, 1) == TRUE)
+            {
+                gSpecialVar_ItemId = regItem;
+                func = GetItemFieldFunc(regItem);
+                break;
+            }
         }
     }
     if (func)

@@ -1463,3 +1463,13 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `EvoMoveLearnChord.lua`
+
+A and B pressed on the same frame at the evolution scene's "forget a move?" prompt must act once.
+A Rare Candy from the Bag levels a debug-given Ivysaur 31 with four moves to 32, it evolves into
+Venusaur, and Venusaur tries to learn Petal Blizzard; with the cursor on YES, A and B go down
+together for one frame with real input. The move-select summary must open, the screen must not be
+left black, and choosing the first move there must teach Petal Blizzard over it (one candy spent).
+Before the fix `Task_EvolutionScene` took YES (state to the move-select screen, fade to black) and
+then, in a separate `if`, NO on the same frame, so "did not learn" waited for a press on a black
+screen and the move was never learned: **7/10** on the unfixed ROM, **10/10** with the fix.

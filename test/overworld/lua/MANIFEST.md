@@ -1846,3 +1846,12 @@ wrote, and Selphy must replace it. Before the fix `SampleResortGorgeousMon` drew
 the exact-species party check refuses forever, and 23 of the 40 showed the
 `SRC/POKEMON.C: DISABLED SPECIES` assert screen first. **7/11** on the unfixed ROM, **53/53** with
 the fix.
+### `SpecialChecklistPaging.lua`
+
+Right on the Special Pokémon checklist's first page must turn to page 2 from every row. Real input
+opens the checklist from the Pokédex START menu, then presses Right from each of the five first-page
+rows, Right again on page 2, and Left back, reading the selected row (`sSpecialPokemonMenu`,
+exported for this suite) and the icons drawn. Page 2 holds two of the seven entries, so rows 3 to 5
+land on the last entry, as the Pokédex list clamps. #394 wrote the jump for a ten-entry catalog and
+it only moved when an entry sat exactly five rows down, so Right did nothing from rows 3 to 5:
+**17/23** on the unfixed ROM, **23/23** with the fix.

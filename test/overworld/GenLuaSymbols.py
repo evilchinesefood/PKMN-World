@@ -73,6 +73,8 @@ WANT = [
     "gStringVar1", "gStringVar2",
     # ResortGorgeousRequest.lua reads a requested species' enabled bit, base form and dex number.
     "gSpeciesInfo",
+    # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
+    "sSpecialPokemonMenu",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     # MoneySinkEdges.lua: the Day Care withdrawal fee GetDaycareCostAndPrepareString leaves for
@@ -272,6 +274,9 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   as the halfword before height (62).
                                                             --   formSpeciesIdTable NULL = no forms;
                                                             --   entry 0 is the base species.
+  SpecialPokemonMenu = { selected = 2057, detail = 2058 },
+                                                            -- src/special_pokemon_menu.c, offsetof probe
+                                                            --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },

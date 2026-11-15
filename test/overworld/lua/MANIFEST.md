@@ -115,6 +115,7 @@ is clean; keep it that way.
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
+| [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
@@ -1506,3 +1507,17 @@ but can be taught it is refused without the flag; with it the tree says "Pidgey 
 and a wild battle against a species from Azalea's table starts within 30 tries (HnS accepts a
 Pokemon the tutor could teach). `HnsMetatileBehaviors.py` (host check) keeps HnS numbers out of
 the Johto tilesets. **11/18** on the unfixed ROM, **18/18** with the fix.
+
+### `JohtoViridianIndigoTiles.lua`
+
+Route 28, Route 26 North and the Johto Indigo Plateau came from pokemonHnS with layouts naming
+`gTileset_ViridianCity` and `gTileset_IndigoPlateau`, which here are FRLG's tilesets: the Route 28
+house roof and door, the reception gates' tree bases and the Indigo statues and doorway drew
+speckled garbage (two blockdata patches had papered over the worst of it). Four camera views (the
+Route 28 house, both reception gates, the Indigo building) are checked at 14:30 and 22:30. By day
+each sampled cell must hash to HnS's picture (`test/overworld/JohtoTilesetArtExpect.py <HnS>
+JohtoViridianIndigoTiles` prints the table, and the last cell of each view is a control the port
+always drew right), and the window glass must be blue. At night the same glass colours must be warm
+in `gPlttBufferFaded`: the amber treatment `night-lighting/johto_glass.py` authors for HnS's masked
+glass. **9/22** on the unfixed ROM; **19/22** on a build without the amber alternates (HnS's own
+mask glows pale grey-green); **22/22** with the fix.

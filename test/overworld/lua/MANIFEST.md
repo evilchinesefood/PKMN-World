@@ -1609,3 +1609,16 @@ are covered by `Route43Toll` and `EconomyStress`. Measured **405/405**; no defec
 Magikarp salesman's `checkmoney` lowered to 499 the suite failed on that sink alone, **402/405**:
 499 bought a Magikarp and left 0, and that extra Magikarp filled the party so the comfortable
 purchase went to the PC. `--env PW_SINK_ONLY=<text>` runs matching sinks (`daycare`, `safari`).
+
+### `BirchBagFullParty.lua`
+
+Birch's bag on Route 101 when a Johto champion arrives with a full party (Frontier ferry, then the
+same-region gate). The starter goes to the PC, and the lab scene must name the starter, say it went
+to the PC and nickname it rather than the party's lead. Before the bag, the full-party run fills
+every box through the debug menu: the starter is given inside `CB2_GiveStarter`, where nothing can
+refuse it, so the bag itself must stay shut, the rescue unfinished (`VAR_ROUTE101_STATE` 2,
+`FLAG_RESCUED_BIRCH` clear) and the party and boxes unchanged. One boxed Pokemon is then released in
+memory and the rest of the run uses the bag. Measured **4/6** on the unfixed ROM, where the picker
+opened with no room anywhere; played on from there, the first battle and the lab scene ran, Birch
+said "I'd like you to have the POKéMON you used earlier" with `STR_VAR_1` naming it, and the chosen
+starter was in neither the party nor a box. `--env PW_BIRCH_PARTY=0` runs the empty-party control.

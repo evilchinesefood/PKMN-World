@@ -2130,7 +2130,7 @@ and Right on page 2 must clamp; Up from entry 5 crosses back to page 1. Held Dow
 Left (key repeat) must run to the ends and stop. B pressed during the opening fade is ignored and a
 second B closes; three fast open and close rounds; every detail page with one icon, Right clamped on
 the last, B back to the right page, held Left through the details; an A/B mash. Unfixed (29-pixel
-rows) **42/51**, fixed **51/51**.
+rows) **39/51**, fixed **51/51**.
 ### `SpecialFormsIdentity.lua`
 
 The seven special forms keep their themed types (#528) wherever the game uses them. Six come from

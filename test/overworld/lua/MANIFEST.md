@@ -104,6 +104,7 @@ is clean; keep it that way.
 | [`JohtoDayNightLive.lua`](#johtodaynightlivelua) | fresh new game | Johto's day/night world updates with no map reload, both directions, and on Continue. |
 | [`NationalParkTiles.lua`](#nationalparktileslua) | fresh new game | Metatile-attribute width: the two arrow warps and the encounter band. |
 | [`TinTowerRoof.lua`](#tintowerrooflua) | fresh new game | The Tin Tower roof after the night map's deletion, driven by the real clock. |
+| [`JohtoNightLights.lua`](#johtonightlightslua) | fresh new game | Johto street lamps, the Olivine beacon and Whirl Islands glow lichen draw their own lights, not Poke Mart signs. |
 | [`OlivineHarborBoard.lua`](#olivineharborboardlua) | fresh new game | The OLIVINE board's BATTLE FRONTIER row now demands the S.S. TICKET. |
 | [`SSAquaKantoCrossing.lua`](#ssaquakantocrossinglua) | fresh new game | The S.S. Aqua Kanto crossing in both directions, plus the persisted ferry departure record. |
 | [`BnetTerminal1F.lua`](#bnetterminal1flua) | fresh new game | The Battle Net wall terminal on one map per placement row, and the BP payout invariants. |
@@ -1634,3 +1635,19 @@ claim the boxes are, and nothing may be given or recorded. With one party slot f
 same talk must give the Pokemon. Measured **20/26** on the unfixed ROM, where all three refusals
 printed "There's no more room for POKéMON! The POKéMON BOXES are full and can't accept any more!"
 with every box empty.
+### `JohtoNightLights.lua`
+
+The Johto maps came from pokemonHnS, which has six light types; this engine had three and
+`SpawnLightSprite` clamped every larger type to the Poke Mart sign. Goldenrod, Route 34, both
+National Park maps and Olivine use type 3 (street lamp) and every Whirl Islands floor plus the
+Olivine lighthouse use type 4 (glow), so 120 lamps drew a teal "MART" sign beside the post at night.
+At 22:30 the suite walks Goldenrod from the Game Corner door to the campaign's (32,43) viewpoint,
+crosses into Route 34 (playing through the first-visit Elm call at y=5), and visits the National
+Park east gate, Olivine (walking east until the lighthouse beacon is in view) and two Whirl Islands
+floors. For every lamp in view it finds the `UpdateLightSprite` sprite at the lamp's coordinates
+and asserts the picture table of its template (street lamp: `SmallLight`; glow: `BallLight`) and
+that it is lit. A day pass at 14:30 asserts that Whirl Islands glow lichen stays lit (HnS keeps
+type 4 on by day) and that Goldenrod's street lamps go dark, the control that a day light switches
+off. `make validate` also gained `LIGHT-TYPE` in `ValidateMapEvents.py`: every light sprite's type
+must index `gFieldEffectLightTemplates` (120 violations on the unfixed tree, 0 now).
+**47/81** on the unfixed ROM, **81/81** with the fix.

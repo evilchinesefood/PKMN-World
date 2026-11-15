@@ -137,6 +137,12 @@ WANT = [
     "gMPlayInfo_BGM", "gSongTable", "gWildMonHeaders",
     "gTileset_PokemonCenterFrlg", "gTileset_Kanto_PokemonCenter",
     "gTileset_PokemonCenter_White", "gTileset_TrainerTower", "gTileset_PokemonCenter",
+    # JohtoNightLights.lua. A light sprite is a bare gSprites entry whose callback is
+    # UpdateLightSprite, and its template's `images` is the picture it draws, so comparing that
+    # pointer with these tables says which light a lamp really shows.
+    "UpdateLightSprite", "gFieldEffectObjectPicTable_BallLight",
+    "gFieldEffectObjectPicTable_PokeCenterLight", "gFieldEffectObjectPicTable_MartLight",
+    "gFieldEffectObjectPicTable_SmallLight",
     "sSpriteTemplate_PokecenterMonitor_FrLg", "sSpriteTemplate_PokecenterMonitor",
     "TilesetAnim_JohtoDayCare", "InitTilesetAnim_JohtoDayCare",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
@@ -233,6 +239,7 @@ OPTIONAL = {
     "MainCB2_WorldTitleScreen",  # ALL_REGIONS title screen
     "sUsmState",  # PW_GRAPHICAL_START_MENU
     "sUsmMemory",  # PW_GRAPHICAL_START_MENU
+    "gFieldEffectObjectPicTable_SmallLight",  # absent before the street-lamp light existed
 }
 
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,

@@ -68,7 +68,7 @@ BirthIsland_Exterior_EventScript_Deoxys::
 	@ Refuse an empty or Egg-only party BEFORE the rock bursts: the battle's own refusal would leave Deoxys
 	@ standing there to the encounter music.
 	specialvar VAR_RESULT, CountPartyNonEggMons
-	goto_if_eq VAR_RESULT, 0, EventScript_NoMonsForWildBattle
+	goto_if_eq VAR_RESULT, 0, BirthIsland_Exterior_EventScript_NoMonsForDeoxys
 	waitse
 	setfieldeffectargument 0, LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK
 	setfieldeffectargument 1, MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR)
@@ -116,3 +116,11 @@ BirthIsland_Exterior_Movement_DeoxysApproach:
 	walk_slow_down
 	walk_slow_down
 	step_end
+
+BirthIsland_Exterior_EventScript_NoMonsForDeoxys::
+	@ DoDeoxysRockInteraction marked the puzzle complete before this check, and a complete rock
+	@ answers nothing until the map reloads. Undo it so the rock opens again once a Pokemon that
+	@ can fight joins on this visit (an Egg hatching here).
+	clearflag FLAG_DEOXYS_ROCK_COMPLETE
+	goto EventScript_NoMonsForWildBattle
+	end

@@ -1971,3 +1971,18 @@ always drew right), and the window glass must be blue. At night the same glass c
 in `gPlttBufferFaded`: the amber treatment `night-lighting/johto_glass.py` authors for HnS's masked
 glass. **9/22** on the unfixed ROM; **19/22** on a build without the amber alternates (HnS's own
 mask glows pale grey-green); **22/22** with the fix.
+### `SummaryMoveCancelRace.lua`
+
+Up pressed while the SwSh summary's move panel is still sliding in must not show a move past the
+list. On the moves page A starts move select, and `Task_ShowEffectTilemap` slides the details
+panel in over six frames before it prints the move under the cursor. Move select takes input
+during the slide, and Up from the first move lands on the Cancel row (index `MAX_MON_MOVES`). The
+panel's last step read `summary.moves[4]`, one past the array: the first two PP bytes as a move id
+(2580 for this Abra's Teleport and Dig). The debug build stops on `INCLUDE/MOVE.H:232: INVALID
+MOVE: 2580`; Start resumes into placeholder text, a category icon and a garbage accuracy on Cancel,
+or, where the entry past `gMovesInfo` has a NULL description, a CPU crash (InputSpamStress's dig
+mash found it that way). A debug-made Abra leads and the summary opens from the party menu with
+real input. Controls: after a finished slide Teleport shows its Status icon and Up to Cancel
+clears it. Then Up one, three and five frames after A: the game must keep running, Cancel must
+show no category icon, Down must wrap to Teleport, B must leave move select, and B must close the
+summary to the party menu and the field. **6/20** on the unfixed ROM, **20/20** with the fix.

@@ -1548,3 +1548,27 @@ cruise flag and `VAR_SS_TIDAL_STATE` must not outlive the warp) and the Lilycove
 the contest lobby, which is mainland Hoenn, may rewrite Hoenn's remembered team. Coverage for a
 predicate set the fourth stress pass found clean: **37/37**. A tamper build without the Bug Contest
 and underwater refusals scores **31/37**, naming both.
+### `SpecialPokemonCatchRecovery.lua`
+
+Every recovery path of the two visible special catches, Surfboard Pikachu on Route 19 and Pirate
+Totodile at Olivine, with real input. A level 100 Mewtwo from the debug Give menu leads (met level
+set to 1 so it obeys without badges). For each source: the target offers no battle before its intro
+NPC speaks, the offer can be declined, running and knocking the target out leave it uncollected and
+available, a battle with no Poké Balls hides the ball shortcut and R throws nothing, and Poké Balls
+are thrown until one holds (break-outs included, one ball spent per throw); the catch must set the
+collection mark and deliver the catalog level, the themed move, no held item and a non-shiny
+Pokémon. On Pirate Totodile the suite also loses on purpose (whiteout keeps the source unlocked and
+the next talk starts a battle again) and fights with a full party and a full PC (the ball is refused
+and not spent). Coverage the capture evidence for #394 listed as missing: **42/42**.
+### `SpecialPokemonRules.lua`
+
+The special Pokémon rules with real input. From the Bag, a Thunder Stone on each special Pikachu
+and every Eevee stone (Fire, Water, Thunder, Leaf, Ice, Sun, Moon, Shiny) on Flower Crown Eevee do
+nothing and keep the stone; Rare Candies take Squad and Firefighter Squirtle to 16 and Pirate
+Totodile to 18 with no evolution scene. A won Pirate Totodile battle with shared EXP levels Squad
+Squirtle and Pirate Totodile past their evolution levels without evolving them. Each path has an
+ordinary control that evolves (Pikachu with a Thunder Stone, Squirtle with a candy, Squirtle in the
+battle). The Move Reminder offers Classic Cap Pikachu its forgotten Thunderbolt and teaches it. At
+the Route 34 Day Care, Classic Cap Pikachu with a traded Ditto gets the "prefer to play with other
+POKéMON" verdict and no Egg in 1600 steps, while ordinary Pikachu with the same Ditto gets an Egg.
+`PW_RULES_ONLY=<text>` runs matching scenarios. Coverage; no defect found: **33/33**.

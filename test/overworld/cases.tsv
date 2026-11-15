@@ -143,3 +143,5 @@ AzaleaGsBallExit	lua/AzaleaGsBallExit.lua	fresh	0	required
 DexMenuChord	lua/DexMenuChord.lua	fresh	0	required
 StoryOverviewLine	lua/StoryOverviewLine.lua	fresh	0	required
 HubPassContexts	lua/HubPassContexts.lua	fresh	0	required
+SpecialPokemonCatchRecovery	lua/SpecialPokemonCatchRecovery.lua	fresh	0	required
+SpecialPokemonRules	lua/SpecialPokemonRules.lua	fresh	0	required

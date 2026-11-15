@@ -11,7 +11,10 @@
 -- mash; PW_SPAM_ONLY=<text> runs only matching scenarios; PW_SPAM_SAVE=<dir> keeps a savestate
 -- before and after each scenario's mash; PW_SPAM_LOAD=<state> with PW_SPAM_SEED, PW_SPAM_ONLY,
 -- and optionally PW_SPAM_ICON (a Start-menu icon to open first) replays one mash from a kept
--- state; PW_SPAM_TRACE=1 logs every mashed frame.
+-- state; PW_SPAM_TRACE=1 logs every mashed frame. PW_SPAM_GENDER=1 plays as the girl,
+-- PW_SPAM_OUTFIT=<n> sets VAR_PLAYER_PALETTE (style * 6 + color), and PW_SPAM_TEXT=<0..3> mashes
+-- at that text speed instead of Instant (backing out stays at Instant). Each takes effect from
+-- the first warp.
 
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
@@ -156,9 +159,19 @@ end
 
 local SAVE_DIR = os.getenv("PW_SPAM_SAVE")
 
-local function instantText()
+local TEXT = tonumber(os.getenv("PW_SPAM_TEXT") or "")
+local GENDER = tonumber(os.getenv("PW_SPAM_GENDER") or "")
+local OUTFIT = tonumber(os.getenv("PW_SPAM_OUTFIT") or "")
+local VAR_PLAYER_PALETTE = 0x40FC
+
+local function instantText(speed)
   local a = F.sb2() + S.SaveBlock2.optionsU16
-  F.w16(a, (F.r16(a) & ~7) | 3)
+  F.w16(a, (F.r16(a) & ~7) | (speed or 3))
+end
+
+local function persona()
+  if GENDER then F.w8(F.sb2() + S.SaveBlock2.playerGender, GENDER) end
+  if OUTFIT then F.w16(F.sb1() + S.SaveBlock1.vars + (VAR_PLAYER_PALETTE - 0x4000) * 2, OUTFIT) end
 end
 
 local function scenario(tag, body)
@@ -200,7 +213,8 @@ local function setup()
     if F.r8(S.gPartiesCount) == n then return false end
   end
   F.w8(F.sb2() + S.SaveBlock2.currentRegion, 3); F.w32(S.gCurrentRegion, 3)
-  instantText()
+  instantText(TEXT)
+  persona()
   return true
 end
 

@@ -1463,3 +1463,15 @@ nothing; at expiry with only Repels, Yes uses one and restarts the count; with a
 Repel the menu's second row uses the Max Repel (250 steps); cancelling the menu uses nothing; with
 none left only the message shows. Coverage for a flow the third stress pass found clean:
 **22/22**.
+### `HubPassContexts.lua`
+
+The Hub Pass in each self-contained session it must refuse and in the facilities where it must
+work. Each context is entered the way its entry script leaves it (session flag or var, then a debug
+warp) and the Hub Pass is SELECT with real input. Refused, with the player left in place and in
+control: Safari Zone, Bug-Catching Contest, a live Trainer Hill challenge, a Battle Pike room, the
+Battle Pyramid, a live Frontier challenge, underwater. Allowed: the Slateport Battle Tent lobby, the
+Trainer Hill lobby, the S.S. Tidal mid-cruise (the corridor's own script starts the cruise, and the
+cruise flag and `VAR_SS_TIDAL_STATE` must not outlive the warp) and the Lilycove contest lobby. Only
+the contest lobby, which is mainland Hoenn, may rewrite Hoenn's remembered team. Coverage for a
+predicate set the fourth stress pass found clean: **37/37**. A tamper build without the Bug Contest
+and underwater refusals scores **31/37**, naming both.

@@ -54,7 +54,7 @@ class Lobby:
             command, args = self.code[pc]
             pc += 1
             if command in ("lock", "lockall", "release", "releaseall", "faceplayer",
-                           "msgbox", "message", "waitmessage", "special",
+                           "msgbox", "message", "waitmessage", "closemessage", "applymovement", "waitmovement", "special",
                            "frontier_setpartyorder", "frontier_checkairshow", "dome_set"):
                 if command == "msgbox" and args[-1] == "MSGBOX_YESNO":
                     self.vars["VAR_RESULT"] = 1
@@ -100,7 +100,7 @@ class Lobby:
                 if args[0] == "RegionHub_ScrIsThreeRegionChampion":
                     self.vars["VAR_RESULT"] = int(self.eligible)
                 else:
-                    assert args == ["UpdateFollowingPokemon"]
+                    assert args[0] in ("UpdateFollowingPokemon", "BattleDomeLobby_PlanRegistrarWalkToCounter"), args
             else:
                 raise AssertionError(f"Unmodeled command {command} {args}")
         raise AssertionError("Reward script did not terminate")

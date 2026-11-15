@@ -2141,6 +2141,7 @@ const struct Tileset gTileset_JohtoHallOfFame =
 const struct Tileset gTileset_JohtoViridianCity =
 {
     .isCompressed = TRUE,
+    .swapPalettes = (1 << 5),
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_JohtoViridianCity,
     .palettes = gTilesetPalettes_JohtoViridianCity,
@@ -2151,6 +2152,7 @@ const struct Tileset gTileset_JohtoViridianCity =
 const struct Tileset gTileset_JohtoIndigoPlateau =
 {
     .isCompressed = TRUE,
+    .swapPalettes = (1 << 3),
     .isSecondary = TRUE,
     .tiles = gTilesetTiles_JohtoIndigoPlateau,
     .palettes = gTilesetPalettes_JohtoIndigoPlateau,

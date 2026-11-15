@@ -1316,3 +1316,29 @@ reference, end on the door facing north, and never be a tile with collision (oth
 or another object's tile. Accepting and then pressing B at the challenge menu must leave the player
 on a free tile with control and the championship mode clear. On the unfixed ROM the player walked
 five tiles north from beside the registrar, through the counter, and warped from (6..9,6..8).
+
+### `RegionMapAnywhereStress.lua`
+
+Opens the Story destination map, the Fly map and the PokeNav map from places the regional maps
+were never drawn for: World Transit, Pallet, Cerulean Cave, the Safari Zone, One Island, New Bark,
+Ice Path, Littleroot, Granite Cave, the Battle Frontier, Faraway Island and Navel Rock. Each Story
+visit first opens the map cleanly for a screenshot of the marker and its details page, then reopens
+it with every button mashed through the fades in and out. Each map must return to a settled field
+(script idle, Start menu closed) with no crash screen and the heap as it was. Repel stays on so
+cave encounters do not interrupt. Measured **48/48**; no defect found. The S.S. Tidal is left out:
+a debug warp onto its corridor outside a voyage loops the arrival dialogue, a state play never reaches.
+
+### `OutfitTransitionMash.lua`
+
+Mashes every button at the World Transit wardrobe for eight rounds of 1200 frames with a follower
+out, so presses land on the wardrobe message, the picker's first frame, Apply, Cancel and the field
+reload after it. After each round the field must settle with the picker closed, the committed
+outfit must be a valid selection, the follower must still be out and the task and sprite counts
+must match the field before the mash. Measured **52/52**; no defect found.
+
+### `FlowerCrownQuestStorage.lua`
+
+Drives the Celadon florist's real quest (florist, both residents, florist) with a full party. The
+Flower Crown Eevee must land in the first free PC slot and set its collection mark, a repeat gift
+must take the next slot without touching the first, and both must survive a save and Continue
+byte for byte with the party and flags intact. Measured **13/13**; no defect found.

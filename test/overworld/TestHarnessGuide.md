@@ -200,7 +200,10 @@ from an adjacent walkable tile, so target the neighbour, not the NPC's own tile.
 Curator is at `(22,7)` and `(22,8)` is wall; the correct approach is `(22,6)` facing Down.)
 
 For a static, whole-tree version of this check, `make validate` runs `test/overworld/ValidateMapEvents.py`
-and friends — see MANIFEST.md §"Host-side validators".
+and friends — see MANIFEST.md §"Host-side validators". To ask whether the player can reach a cell at
+all, run `python3 test/overworld/ValidateReachability.py --map <MapName> --list`: it floods every map
+on the game's movement rules (elevation, ledges, Surf, Waterfall, Dive, connections, warps) and
+prints how each item ball, hidden item, trainer and gift NPC on the map is reached.
 
 ---
 

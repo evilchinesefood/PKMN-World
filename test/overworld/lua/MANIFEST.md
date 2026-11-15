@@ -1418,3 +1418,11 @@ throughout, the Bag back with the Mail still in it, and the field back. Before t
 frames, and the icon step asserted on a garbage species (`pokemon.c:6551: disabled species: 768`)
 for every Mail: **10/20** on the unfixed ROM, **15/15** with the fix (the recovery checks only run
 after a failure).
+### `BagFluteReusable.lua`
+
+A Blue Flute used from the Bag on a sleeping Pokemon must wake it and stay in the Bag, as the
+vanilla and SwSh party menus keep the reusable flutes (`IsItemFlute`). A Bulbasaur from the debug
+Give menu is put to sleep, then the Bag, Use, the party select and the message run with real
+input: the Blue Flute must clear the sleep and leave one flute in the Bag; an Awakening (control)
+must clear the sleep and be used up. Before the fix `BagMenu_UseMedicine` removed every medicine it
+used, flutes included: **5/6** on the unfixed ROM, **6/6** with the fix.

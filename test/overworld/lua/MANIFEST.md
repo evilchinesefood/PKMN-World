@@ -1823,3 +1823,14 @@ lost. In the summary screen L, R and Select are skipped, because they open the m
 debug sprite visualizer. `--env PW_SEED=<n>` picks another input stream. Coverage for the area the
 fourth stress pass fixed by hand: **4/4** on seeds 4242, 1, 2, 3, 5, 7, 8, 9 and 10 with the pass's
 fixes, and on 4242, 1 and 2 on the earlier tree.
+### `LakeOfRageMagikarpSale.lua`
+
+The Lake of Rage fisherman's Magikarp sale (`removegenericmon`, after the Rocket event) must follow
+the rules every other removal follows. The party comes from the debug Give menu and `giveegg`,
+`VAR_MAHOGANY_TOWN_STATE` is set to 14 and the suite warps into the house; talking, Yes, the party
+pick and every message are real input. Selling the Magikarp of a Magikarp-and-Egg party must be
+refused ("don't let me take your last POKéMON"); a Magikarp Egg must be refused as not a Magikarp;
+a Magikarp next to a healthy Bulbasaur (control) sells for 2,000; and a second Magikarp holding
+Orange Mail (letter in mailbox slot 0, linked) sells and frees its letter. Before the fix the script
+refused only a party of one, the species check read through Eggs and the slot was zeroed with the
+letter still allocated: **18/23** on the unfixed ROM, **23/23** with the fix.

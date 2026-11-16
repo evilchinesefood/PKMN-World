@@ -2480,3 +2480,15 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `SkyCharmLockedGymDoors.lua`
+
+Cinnabar's and Viridian's gym doors are locked only by a coord trigger on the tile in front of them
+(the Secret Key at Cinnabar, the seventh badge at Viridian). The Sky Charm, unlocked in Kanto at the
+third badge, skips coord events while airborne and could land on that tile, so one press of Up walked
+into the gym. `CanLandOverworldFlight` now refuses a tile whose coord script would start on a step
+there (`IsCoordScriptPendingAt`, which runs nothing). With Kanto's third badge and the Sky Charm
+registered, the suite flies to each lock tile and presses Select, then lands beside it (south at
+Cinnabar, west at Viridian, whose south tile is a ledge) and walks in. **Oracle:** the landing on the
+lock tile is refused (still flying), and walking in never reaches the gym map. **Discrimination:**
+unfixed 6/10 (landed on both lock tiles and walked into Cinnabar Gym and Viridian Gym), fixed 12/12.
+`SkyCharmLanding` 10/10, `SkyCharmBikeAloft` 19/19 and `SkyCharmMahoganySetup` 12/12 on the fixed ROM.

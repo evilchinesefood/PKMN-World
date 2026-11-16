@@ -252,3 +252,4 @@ KurtBallFullBag	lua/KurtBallFullBag.lua	fresh	0	required
 KantoTutorRepeatPrompt	lua/KantoTutorRepeatPrompt.lua	fresh	0	required
 TmAdviceReusable	lua/TmAdviceReusable.lua	fresh	0	required
 FrontierRecordedBattle	lua/FrontierRecordedBattle.lua	fresh	0	required
+KantoPropsStress	lua/KantoPropsStress.lua	fresh	0	required

@@ -2885,3 +2885,20 @@ battle's start and the prompt is answered Yes. The Frontier Pass is opened from 
 cursor moved onto Battle Record and the record played: both leads must match, and playback must
 return to the pass. Measured **11/11** fixed and **9/11** on the unfixed ROM (playback led with
 Charizard against species 0 with 0 HP).
+### `KantoPropsStress.lua`
+
+Kanto story props with a level 50 Venusaur follower out, real input after the setup warps. **Draw
+order:** the follower walks a seeded 60-step path in the Cape Brink house and three Three Island
+houses; every frame the engine's OAM sort key (`sprite.c` `BuildOamBuffer`: priority, subpriority,
+159 minus the top y, sprite index) is rebuilt for the player and the follower, and the follower may
+sort in front only when its feet are not above the player's (12,152 frames). A follower directly
+south of the player covers the player's legs, which is correct depth, not a defect. **Celadon
+elevator:** every floor in a scrambled order, with A, B, Start, Select, L, R and the D-pad spammed
+until the ride hands control back; the dynamic warp must open on the chosen floor. **S.S. Anne
+departure:** from `VAR_MAP_SCENE_VERMILION_CITY` 1 (the captain's state) the cutscene runs, the player
+lands in Vermilion and walks, and the follower comes back out beside the player. **Silph Co. 5F**
+after Giovanni (`FLAG_HIDE_SILPH_ROCKETS`): the Card Key opens door 1, the player saves beyond it,
+soft resets and continues, walks back through, opens door 2 and takes the west pad to 3F, where the
+follower comes out beside the player. Measured **68/68**; no defect found. Control:
+`--env PW_TAMPER_SUBPRIORITY=1` zeroes the follower's subpriority each frame, the follower visibly
+draws over the player's shoulder and a resident, and the draw-order check fails (3,352 frames, 67/68).

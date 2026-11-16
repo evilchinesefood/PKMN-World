@@ -2480,3 +2480,13 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `BikeShopsAcrossRegions.lua`
+
+Rydel's Cycles in Mauville and the Goldenrod bike shop share `FLAG_RECEIVED_BIKE`, so one shop bike
+across Hoenn and Johto is the rule: Rydel swaps the bike the player holds and the Goldenrod clerk
+gives nothing to a player who has one. Goldenrod's first-visit setup cleared that flag with the rest
+of its HnS reset list. The suite talks to Rydel for the Mach Bike and again to switch it for the Acro
+Bike, walks into Goldenrod for the first time, talks to the Goldenrod clerk, then to Rydel, and reads
+the Bag after each talk (quantities decoded with the encryption key). **Oracle:** the flag survives
+the Goldenrod visit and the Bag never holds more than one bike. **Discrimination:** unfixed 16/18
+(flag cleared; the clerk gives a Mach Bike beside the Acro Bike), fixed 18/18.

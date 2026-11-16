@@ -319,7 +319,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- src/special_pokemon_menu.c, offsetof probe
                                                             --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },
-  BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
+  BattlePokemon= { size = 140, attack = 2, spAttack = 8, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
   BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },

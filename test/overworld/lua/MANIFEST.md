@@ -2324,3 +2324,12 @@ The suite gives a team, enters the contest through the real attendant, opens the
 Start menu, presses R, and counts the lead's action rows through `sMenu` (Summary and Cancel only).
 Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
 with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
+
+### `EggSummaryPageTabs.lua`
+
+An Egg's summary cannot turn pages (`ChangePage` returns for an Egg), but its header still drew the
+four page tabs and both page arrows. The suite gives a debug party and a debug Egg, opens the Egg's
+summary from the party menu with real input and reads BG2's screen block in VRAM: header rows 1 and 2,
+columns 0 to 9, must all be the plain header tile 0x33. Right and Left must leave the Egg on its page
+with the header still plain; Up to the Pokémon above must bring the tabs back (tile 0x01 at column 1,
+the control) and Down to the Egg must clear them again. Unfixed **3/7**, fixed **7/7**.

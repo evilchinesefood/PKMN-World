@@ -2350,3 +2350,16 @@ and masked: the name and gender, the title-menu options, the RTC offset and berr
 checksum (restamped by every save) and the Shared Exp flag. The new game must also have an empty
 party, 3000 money, no region, the intro's outfit and a free field. Measured **19/19**; no defect
 found. A tamper build that skips the `johtoIntroDone` reset in `NewGameInitData` scores **18/19**.
+
+### `EggOnlyIslandLegends.lua`
+
+The Southern Island Lati and both Birth Island Deoxys scenes (Hoenn's, and Kanto's reached by the
+Seagallop) with an Egg as the whole party, on real input. Each Birth Island puzzle is solved rock by
+rock with real steps inside every rock's step limit; Southern Island is the sign under the Eon
+stone. The refusal must print "You don't have a single POKéMON", start no battle, leave no
+legendary object, keep the map's music (Birth Island is MUS_NONE) and free the field. A level 100
+Mewtwo then joins on the same visit, as when the Egg hatches there, and the scene must play: the
+Lati battle and the Deoxys battle start, and RUN leaves each. `DoDeoxysRockInteraction` marks the
+puzzle complete before the script's party check, so the refused stone answered nothing for the rest
+of the visit. Measured **35/35** fixed and **31/33** on the unfixed ROM (both Deoxys replays fail with
+`FLAG_DEOXYS_ROCK_COMPLETE` still set).

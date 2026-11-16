@@ -50,7 +50,10 @@ EWRAM_DATA static u8 sBattleScene = 0;
 EWRAM_DATA static u8 sTextSpeed = 0;
 EWRAM_DATA static u32 sBattleFlags = 0;
 EWRAM_DATA static u64 sAI_Scripts[MAX_BATTLERS_COUNT] = {0};
-EWRAM_DATA static struct Pokemon *sSavedParties = NULL;
+// The parties as the current battle started. A Frontier lobby offers to record the last battle only
+// after it has put the player's party back and cleared the opponent's, so the record is taken from
+// here, not from gParties. Playback also parks the live parties here while it runs.
+EWRAM_DATA static struct Pokemon sSavedParties[MAX_BATTLE_TRAINERS][PARTY_SIZE] = {0};
 EWRAM_DATA static u16 sPlayerMonMoves[MAX_BATTLERS_COUNT / 2][MAX_MON_MOVES] = {0};
 EWRAM_DATA static struct PlayerInfo sPlayers[MAX_LINK_PLAYERS] = {0};
 EWRAM_DATA static bool8 sIsPlaybackFinished = 0;
@@ -294,7 +297,7 @@ bool32 MoveRecordedBattleToSaveData(void)
     battleSave = AllocZeroed(sizeof(struct RecordedBattleSave));
     savSection = AllocZeroed(SECTOR_SIZE);
 
-    memcpy(battleSave->parties, gParties, sizeof(struct Pokemon[MAX_BATTLE_TRAINERS][PARTY_SIZE]));
+    memcpy(battleSave->parties, sSavedParties, sizeof(sSavedParties));
 
     battleSave->playersGender = 0;
 
@@ -593,16 +596,12 @@ u8 GetRecordedBattleFronterBrainSymbol(void)
 
 void RecordedBattle_SaveParties(void)
 {
-    sSavedParties = AllocZeroed(sizeof(struct Pokemon[MAX_BATTLE_TRAINERS][PARTY_SIZE]));
-
-    memcpy(sSavedParties, gParties, sizeof(struct Pokemon[MAX_BATTLE_TRAINERS][PARTY_SIZE]));
+    memcpy(sSavedParties, gParties, sizeof(sSavedParties));
 }
 
 static void RecordedBattle_RestoreSavedParties(void)
 {
-    memcpy(gParties, sSavedParties, sizeof(struct Pokemon[MAX_BATTLE_TRAINERS][PARTY_SIZE]));
-
-    Free(sSavedParties);
+    memcpy(gParties, sSavedParties, sizeof(sSavedParties));
 }
 
 u8 GetBattlerLinkPlayerGender(enum BattlerId battler)

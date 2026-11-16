@@ -2872,3 +2872,16 @@ TM, the second prints his advice. **Oracle:** the advice, decoded from `gStringV
 message is expanded), names the TECHNICAL MACHINE and neither calls it one-time nor says it is gone.
 **Discrimination:** unfixed 4/6 (the old line quoted in both failures), fixed 6/6. Brock's and
 Roxanne's new lines were rendered with an injected `msgbox` and checked by eye for fit.
+### `FrontierRecordedBattle.lua`
+
+A Battle Frontier battle recorded on the Frontier Pass must play back with the Pokemon that fought.
+The lobby's "record your last match" prompt comes after the facility has put the player's party back
+and cleared the opponent's, and `MoveRecordedBattleToSaveData` copied the live `gParties`, so the
+record held the player's own party in its own order and an empty opponent party. The suite takes the
+Battle Arena Lv. 50 challenge with real input, picking Venusaur, Blastoise, Charizard (the party
+leads with Charizard); six battles are won with the opponents held at 1 HP and the seventh is fought
+straight so its record replays faithfully. Both leads and their max HP are noted at the seventh
+battle's start and the prompt is answered Yes. The Frontier Pass is opened from the Start menu, the
+cursor moved onto Battle Record and the record played: both leads must match, and playback must
+return to the pass. Measured **11/11** fixed and **9/11** on the unfixed ROM (playback led with
+Charizard against species 0 with 0 HP).

@@ -4,9 +4,10 @@
 -- keep that: HideMapNamePopUpWindow (GEN_8 pop-ups) rewrote WINOUT to the field default after the
 -- menu had set the OBJ-window bit, so every icon vanished and only the label and banner showed.
 --
--- The suite warps into Dark Cave (dark without Flash) and presses Start with real input while the
--- arrival pop-up is still sliding, then reads REG_WINOUT and screenshots the menu. Control: the
--- same after the pop-up has gone.
+-- The suite warps into Dark Cave (dark without Flash) and presses Start with real input right after
+-- the arrival, then reads REG_WINOUT and screenshots the menu. Dark places no longer start a pop-up
+-- at all (it lit the whole map; see DarkPopupDarkness.lua), so the arrival must show none. Control:
+-- the same a few seconds later.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/UsmDarkPopupIcons.lua <rom>
 
@@ -59,10 +60,10 @@ F.run(function()
   F.check("setup: in Dark Cave", warp(DARK_CAVE, "dark_cave"))
   local waited = 0
   while not popupActive() and waited < 120 do F.idle(1); waited = waited + 1 end
-  F.check("setup: the arrival pop-up is up", popupActive())
+  F.check("dark places show no map-name pop-up (DarkPopupDarkness.lua)", not popupActive())
   local objwin, objInWin = openAndRead("menu_during_popup")
-  F.check("with the pop-up up: the menu turns the OBJ window on", objwin)
-  F.check("with the pop-up up: icons show through the OBJ window (WINOUT_WINOBJ_OBJ)", objInWin)
+  F.check("on arrival: the menu turns the OBJ window on", objwin)
+  F.check("on arrival: icons show through the OBJ window (WINOUT_WINOBJ_OBJ)", objInWin)
 
   for _ = 1, 600 do if not popupActive() then break end; F.idle(2) end
   F.idle(60)

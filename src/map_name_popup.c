@@ -8,6 +8,7 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "main.h"
+#include "overworld.h"
 #include "menu.h"
 #include "map_name_popup.h"
 #include "palette.h"
@@ -586,9 +587,17 @@ enum {
 #define tPrintTimer    data[4]
 #define tComfyAnimId   data[5]
 
+// A GEN_8 pop-up clips its slide with WIN0 and shows every layer outside it. In a dark place
+// (a Flash cave, the Battle Pyramid) the light circle owns WIN0 through a per-scanline effect, so
+// the banner never showed and the whole dark map lit up until the pop-up slid out.
+static bool32 IsDarkPlace(void)
+{
+    return OW_POPUP_GENERATION == GEN_8 && (GetFlashLevel() > 0 || CurrentBattlePyramidLocation() == PYRAMID_LOCATION_FLOOR);
+}
+
 void ShowMapNamePopup(void)
 {
-    if (FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE)
+    if (FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE && !IsDarkPlace())
     {
         if (!FuncIsActiveTask(Task_MapNamePopUpWindow))
         {

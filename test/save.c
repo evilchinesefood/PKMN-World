@@ -3,6 +3,7 @@
 #include "load_save.h"
 #include "pokemon_storage_system.h"
 #include "save.h"
+#include "constants/maps.h"
 #include "test/test.h"
 
 static u32 IndexOfByteNotEqual(const void *buf, u8 value, u32 size)
@@ -132,4 +133,28 @@ TEST("LoadGameSave ignores flash sectors with out-of-range ids")
     EXPECT_EQ(IndexOfByteNotEqual(gSaveBlock1Ptr, 0xA5, sizeof(struct SaveBlock1)), sizeof(struct SaveBlock1));
     EXPECT_EQ(IndexOfByteNotEqual(gSaveBlock2Ptr, 0x5A, sizeof(struct SaveBlock2)), sizeof(struct SaveBlock2));
     EXPECT_EQ(IndexOfByteNotEqual(gPokemonStoragePtr, 0x3C, sizeof(struct PokemonStorage)), sizeof(struct PokemonStorage));
+}
+
+// The Azalea, Goldenrod and Safari Zone Gate heal moves landed after v9, and their repair after
+// v12. A v12 save written before the repair can still hold the old door tile, where a whiteout
+// misses the Center and drops the player outside.
+TEST("A current-version save repairs a moved heal location")
+{
+    u32 group = 0, num = 0, oldX = 0, oldY = 0;
+    struct WarpData *heal = &gSaveBlock1Ptr->lastHealLocation;
+
+    PARAMETRIZE { group = MAP_GROUP(MAP_AZALEA_TOWN);      num = MAP_NUM(MAP_AZALEA_TOWN);      oldX = 31; oldY = 15; }
+    PARAMETRIZE { group = MAP_GROUP(MAP_GOLDENROD_CITY);   num = MAP_NUM(MAP_GOLDENROD_CITY);   oldX = 28; oldY = 36; }
+    PARAMETRIZE { group = MAP_GROUP(MAP_SAFARI_ZONE_GATE); num = MAP_NUM(MAP_SAFARI_ZONE_GATE); oldX = 11; oldY = 15; }
+
+    gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
+    heal->mapGroup = group;
+    heal->mapNum = num;
+    heal->warpId = WARP_ID_NONE;
+    heal->x = oldX;
+    heal->y = oldY;
+    MigrateSaveFormatIfNeeded();
+    EXPECT_EQ(heal->x, oldX);
+    EXPECT_EQ(heal->y, oldY + 1);
+    EXPECT_EQ(gSaveBlock2Ptr->saveVersion, SAVE_FORMAT_VERSION);
 }

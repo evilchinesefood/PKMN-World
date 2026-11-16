@@ -2322,3 +2322,14 @@ The suite gives a team, enters the contest through the real attendant, opens the
 Start menu, presses R, and counts the lead's action rows through `sMenu` (Summary and Cancel only).
 Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
 with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
+### `HealMigrationContinue.lua`
+
+The Azalea, Goldenrod and Safari Zone Gate heal points moved off the Center door onto the apron
+after save format v9 shipped, and `MigrateMovedHealLocations` re-points a stored door tile on load.
+Each case writes the old door coordinate into `lastHealLocation` and an older `saveVersion` (9, 10,
+11 or 12), saves from the Start menu, soft resets and continues, so the repair runs on the real load
+path. It then loses a debug battle: the whiteout must run the nurse's cutscene inside that Center,
+not drop the player on the door outside, and control must return. Version 12 is a save written by a
+build between the v12 bump and the repair. Measured **121/121** fixed and **115/121** on the unfixed
+ROM, where the repair ran only below v12 and all three v12 cases whited out onto the door.
+`--env PW_HEAL_ONLY=<text>` runs matching cases (`azalea`, `v12`).

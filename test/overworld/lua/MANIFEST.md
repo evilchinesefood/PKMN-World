@@ -2532,3 +2532,14 @@ handed out), collects the Omanyte at Alph, hands a Root Fossil in at Devon, chec
 greets and hands out nothing, and collects the Lileep at Devon. Last, a Kabuto pending in the shared
 pair (the only form a save from before the split can hold) must come back at Alph. **20/24** on the
 unfixed ROM, **24/24** with the fix.
+### `StarterIndexPerRegion.lua`
+
+Oak's lab, Elm's lab and Birch's bag all wrote one shared `VAR_STARTER_MON`, and each region's rival
+scripts read it, so a starter chosen in a second region changed the first region's rival team. The
+suite takes Charmander in Oak's lab (Blue takes the Squirtle ball in front of the player), leaves by
+Hub Pass before Blue's lab battle, plays Elm's intro and takes Cyndaquil, then crosses back: the
+Kanto gate returns to the lab and Blue's trigger starts the battle. **Oracle:** the lead of Blue's
+battle party (`gParties[B_TRAINER_OPPONENT_A][0]`, decrypted) is Squirtle (7). Setup is two debug
+warps (Pallet Town, Elm's lab); the gate crossings, Oak's trigger, Elm's intro, both ball picks, the
+Hub Pass and Blue's trigger are real input. **Discrimination:** unfixed 21/22 (Blue leads with
+Bulbasaur, the team for a Squirtle player, because the Cyndaquil pick wrote 1), fixed 22/22.

@@ -90,7 +90,7 @@ FLASH_SIZE = SECTOR_SIZE * 32                            # 131072
 ID_SB2, ID_SB1_START, ID_SB1_END = 0, 1, 4
 ID_PK_START, ID_PK_END = 5, 13
 
-SAVE_FORMAT_VERSION = 12
+SAVE_FORMAT_VERSION = 13
 SAVE_FORMAT_LAYOUT_MIN = 7
 FAMILY_OPTIONS_WORD = 0x16
 FAMILY_OPTIONS_MASK = 0x03C0
@@ -103,6 +103,10 @@ FAMILY_OPTIONS_MASK = 0x03C0
 HOENN_INTRO_DONE_BIT = 2
 VARS_START = 0x4000
 VAR_LITTLEROOT_INTRO_STATE = 0x4092
+# v12 -> v13: the shared starter var and the two region slots it seeds (Kanto, Johto banks).
+VAR_STARTER_MON = 0x4023
+KANTO_STARTER_SLOT = 0x0C
+JOHTO_STARTER_SLOT = 0x80 + 0x3E
 # include/constants/regions.h enum Region
 REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
 
@@ -245,6 +249,12 @@ PINS = [
      r'^#define VAR_LITTLEROOT_INTRO_STATE\s+(0x[0-9A-Fa-f]+)', VAR_LITTLEROOT_INTRO_STATE),
     ('VARS_START', 'include/constants/vars.h', r'^#define VARS_START\s+(0x[0-9A-Fa-f]+)',
      VARS_START),
+    ('VAR_STARTER_MON', 'include/constants/vars.h',
+     r'^#define VAR_STARTER_MON\s+(0x[0-9A-Fa-f]+)', VAR_STARTER_MON),
+    ('VAR_STARTER_MON_FRLG', 'include/constants/vars_frlg.h',
+     r'^#define VAR_STARTER_MON_FRLG\s+VAR_KANTO_SLICE\((0x[0-9A-Fa-f]+)\)', KANTO_STARTER_SLOT),
+    ('VAR_STARTER_MON_JOHTO', 'include/constants/johto_vars.h',
+     r'^#define VAR_STARTER_MON_JOHTO\s+VAR_JOHTO_SLICE\((0x[0-9A-Fa-f]+)\)', JOHTO_STARTER_SLOT - 0x80),
     ('SECTOR_DATA_SIZE', 'include/save.h',
      r'^#define SECTOR_DATA_SIZE\s+(\d+)', SECTOR_DATA_SIZE),
     ('SAVE_BLOCK_3_CHUNK_SIZE', 'include/save.h',
@@ -802,6 +812,12 @@ def migrate(sv):
             word = sv.u16(sv.sb2, FAMILY_OPTIONS_WORD)
             struct.pack_into('<H', sv.sb2, FAMILY_OPTIONS_WORD, word & ~FAMILY_OPTIONS_MASK)
             log.append('v11->v12 Encounter Rate and Money Loss initialized to 1x')
+
+        if ver < 13:
+            shared = sv.u16(sv.sb1, V['SB1.vars'] + (VAR_STARTER_MON - VARS_START) * 2)
+            for slot in (KANTO_STARTER_SLOT, JOHTO_STARTER_SLOT):
+                struct.pack_into('<H', sv.sb3, SB3_REGION_OFF + V['RS.regionVars'] + slot * 2, shared)
+            log.append(f'v12->v13 Kanto and Johto starter vars seeded from VAR_STARTER_MON={shared}')
 
         sv.sb2[V['SB2.saveVersion']] = SAVE_FORMAT_VERSION
         log.append(f'saveVersion {ver} -> {SAVE_FORMAT_VERSION}')

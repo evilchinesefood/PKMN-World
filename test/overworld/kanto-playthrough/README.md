@@ -125,7 +125,7 @@ Each one was reproduced first, then fixed and re-played.
    read a garbage index, clamped it to 0, and always returned the first species of the Kanto row:
    every player heard "since you first left with Charmander". The Kanto row was also ordered for
    Blue's counter-pick instead of the lab balls. A new `GetPlayerStarterSpecies` special reads
-   `VAR_STARTER_MON`, and the row is now Bulbasaur, Squirtle, Charmander, which also corrects the
+   the region's starter var (`VAR_STARTER_MON_FRLG` in Kanto), and the row is now Bulbasaur, Squirtle, Charmander, which also corrects the
    starter the credits show. Before the fix a Bulbasaur run heard Charmander; with only the table
    fix, Squirtle and Charmander runs heard Bulbasaur; the runs above name each run's own starter.
 

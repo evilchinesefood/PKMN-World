@@ -73,9 +73,9 @@ JohtoIndigoPlateau_EventScript_Silver::
 	faceplayer 
 	goto_if_set FLAG_DAILY_BEAT_SILVER, JohtoIndigoPlateau_EventScript_SilverBeat
 	msgbox JohtoIndigoPlateau_Text_RivalEntrance1, MSGBOX_DEFAULT
-	call_if_eq VAR_STARTER_MON, 0, JohtoIndigoPlateau_Silver_Battle_Cyndaquil
-	call_if_eq VAR_STARTER_MON, 1, JohtoIndigoPlateau_Silver_Battle_Totodile
-	call_if_eq VAR_STARTER_MON, 2, JohtoIndigoPlateau_Silver_Battle_Chikorita
+	call_if_eq VAR_STARTER_MON_JOHTO, 0, JohtoIndigoPlateau_Silver_Battle_Cyndaquil
+	call_if_eq VAR_STARTER_MON_JOHTO, 1, JohtoIndigoPlateau_Silver_Battle_Totodile
+	call_if_eq VAR_STARTER_MON_JOHTO, 2, JohtoIndigoPlateau_Silver_Battle_Chikorita
 	msgbox JohtoIndigoPlateau_Text_RivalAfter, MSGBOX_DEFAULT
 	setflag FLAG_DAILY_BEAT_SILVER
 	release

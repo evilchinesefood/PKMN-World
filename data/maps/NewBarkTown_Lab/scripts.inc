@@ -178,7 +178,7 @@ NewBarkTown_Lab_EventScript_ChikoritaBall::
 
 NewBarkTown_Lab_EventScript_ChikoritaBall_Choice::
 	callnative DisableStaticRandomizer
-	setvar VAR_STARTER_MON, 0
+	setvar VAR_STARTER_MON_JOHTO, 0
 	setvar PLAYER_STARTER_SPECIES, SPECIES_CHIKORITA
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
 	playmoncry PLAYER_STARTER_SPECIES, CRY_MODE_NORMAL
@@ -200,7 +200,7 @@ NewBarkTown_Lab_EventScript_CyndaquilBall::
 
 NewBarkTown_Lab_EventScript_CyndaquilBall_Choice::
 	callnative DisableStaticRandomizer
-	setvar VAR_STARTER_MON, 1
+	setvar VAR_STARTER_MON_JOHTO, 1
 	setvar PLAYER_STARTER_SPECIES, SPECIES_CYNDAQUIL
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
 	playmoncry PLAYER_STARTER_SPECIES, CRY_MODE_NORMAL
@@ -222,7 +222,7 @@ NewBarkTown_Lab_EventScript_TotodileBall::
 
 NewBarkTown_Lab_EventScript_TotodileBall_Choice::
 	callnative DisableStaticRandomizer
-	setvar VAR_STARTER_MON, 2
+	setvar VAR_STARTER_MON_JOHTO, 2
 	setvar PLAYER_STARTER_SPECIES, SPECIES_TOTODILE
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
 	playmoncry PLAYER_STARTER_SPECIES, CRY_MODE_NORMAL
@@ -365,9 +365,9 @@ NewBarkTown_Lab_EventScript_HideChikorita::
 NewBarkTown_Lab_EventScript_PoliceEpisode::
 	lock
 	setmetatile 7, 1, METATILE_R26_21_Broken_Window, TRUE
-	call_if_eq VAR_STARTER_MON, 0 NewBarkTown_Lab_EventScript_HideCyndaquil
-	call_if_eq VAR_STARTER_MON, 1 NewBarkTown_Lab_EventScript_HideTotodile
-	call_if_eq VAR_STARTER_MON, 2 NewBarkTown_Lab_EventScript_HideChikorita
+	call_if_eq VAR_STARTER_MON_JOHTO, 0 NewBarkTown_Lab_EventScript_HideCyndaquil
+	call_if_eq VAR_STARTER_MON_JOHTO, 1 NewBarkTown_Lab_EventScript_HideTotodile
+	call_if_eq VAR_STARTER_MON_JOHTO, 2 NewBarkTown_Lab_EventScript_HideChikorita
 	applymovement OBJ_EVENT_ID_PLAYER, NeBarkTownLab_Movement_PlayerWalkToCop
 	waitmovement 0
 	setflag FLAG_HIDE_LAB_POLICEMAN

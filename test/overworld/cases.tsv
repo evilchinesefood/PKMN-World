@@ -222,3 +222,4 @@ BattleXItemBenchLead	lua/BattleXItemBenchLead.lua	fresh	0	required
 TrainerDoubleBallRefund	lua/TrainerDoubleBallRefund.lua	fresh	0	required
 AlphFossilLab	lua/AlphFossilLab.lua	fresh	0	required
 StarterIndexPerRegion	lua/StarterIndexPerRegion.lua	fresh	0	required
+TrainerCardRegionPages	lua/TrainerCardRegionPages.lua	fresh	0	required

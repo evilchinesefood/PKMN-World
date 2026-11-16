@@ -2543,3 +2543,15 @@ battle party (`gParties[B_TRAINER_OPPONENT_A][0]`, decrypted) is Squirtle (7). S
 warps (Pallet Town, Elm's lab); the gate crossings, Oak's trigger, Elm's intro, both ball picks, the
 Hub Pass and Blue's trigger are real input. **Discrimination:** unfixed 21/22 (Blue leads with
 Bulbasaur, the team for a Squirtle player, because the Cyndaquil pick wrote 1), fixed 22/22.
+### `TrainerCardRegionPages.lua`
+
+The Trainer Card's front badge row pages through Hoenn, Kanto and Johto. The badge flags are written
+where the gym scripts leave them (Hoenn system flags, the Kanto bank in SaveBlock1, the Johto bank in
+SaveBlock3); the card is opened from the Start menu and paged with real L, R and Down presses, plus
+an R R L mash two frames apart, then flipped to the back and closed. Seven scenarios: no badges, some,
+a mix (all Hoenn, no Kanto, two Johto) and all, from the Hub; and one badge set opened in Viridian
+City, Cherrygrove City and Slateport City, where the card must open on that region's page.
+**Oracle:** the BG3 tilemap in VRAM (screen base 31), where badge i sits at (4 + 3i, 15) as tiles
+192 + 2i, 193 + 2i and 208 + 2i and an empty slot holds tile 0, must match that page's flags.
+Measured **69/69**; no defect found. Screenshots of every page were checked by eye: each label reads
+HOENN, KANTO or JOHTO between the L and R icons and each page draws its own region's badge art.

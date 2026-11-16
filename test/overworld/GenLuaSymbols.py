@@ -65,6 +65,10 @@ WANT = [
     # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
     # thing is drawn straight to VRAM and leaves no other observable.
     "gLevelUpStartLevels", "sLevelUpSummaryState",
+    # ExchangeCornerPurchases.lua / MasterRankMuseum.lua: the scrollable prize list, the decoration
+    # inventories, the contest's move-select task and the contest and painting screens.
+    "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",
+    "CB2_ContestMain", "CB2_ContestPainting",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",

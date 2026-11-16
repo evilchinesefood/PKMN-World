@@ -2480,3 +2480,15 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `WorldChampionshipFinal.lua`
+
+The World Championship must end with RED in the final. `InitDomeTrainers` swaps RED into the bracket
+slot opposite the player, but the NPC matches between the player's battles scored RED like any
+other trainer, so he could fall in round 2 or the semifinal and the player won the championship
+without meeting him. A three-region champion takes the championship from the registrar with real
+input three times (each run starts a different number of frames after one savestate, so the match
+rolls differ), wins each Dome battle (opponents held at 1 HP), and reads the bracket
+(`frontier.domeTrainers`, 4-byte entries) at every battle start: RED must never be knocked out and
+the fourth battle must leave RED as the only other trainer standing. The win must set
+`FLAG_WORLD_CHAMPION` and clear `VAR_WORLD_CHAMPIONSHIP_MODE`. Measured **26/26** fixed and
+**20/26** on the unfixed ROM (RED out in round 2, 2 and 3 of the three runs).

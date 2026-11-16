@@ -587,26 +587,37 @@ return function(F, N, C, log)
   -- Victory Road: two Strength pushes and a Rock Smash on B1F's upper level, Surf/Waterfall on B2F,
   -- then a smash, a push and a smash on B1F's lower level.
   local function useFieldMove(d) N.face(d); N.press('A'); N.idle(20); N.settle() end
+  -- Push the boulder in direction d with Strength, activating it first when it is not. N.go returns
+  -- while the last step is still in flight, so that step's wild encounter can start after the next
+  -- input: it eats the Strength A or cuts the push hold short. Either gets another try.
+  local function shove(d, what)
+    for _ = 1, 4 do
+      if not N.free() then N.settle() end
+      if not FL('FLAG_SYS_USE_STRENGTH') then
+        N.face(d)
+        if N.facing() == d then N.press('A'); N.idle(20); N.settle() end
+      end
+      local x0, y0 = F.pos()
+      if FL('FLAG_SYS_USE_STRENGTH') and N.push(d) then return end
+      local x, y = F.pos()
+      L(string.format('  shove %s: at (%d,%d) from (%d,%d) facing %d strength=%s', what, x, y, x0, y0,
+        N.facing(), tostring(FL('FLAG_SYS_USE_STRENGTH'))))
+      if x ~= x0 or y ~= y0 then return end
+      N.idle(60)
+    end
+    error('shove ' .. what)
+  end
   beat('victory_road', function()
     fieldMoves()
     assert(N.travel('JohtoVictoryRoad_1F'))
     assert(N.takeWarp(9, 14))                         -- 1F -> B1F (8,3)
-    assert(N.go(5, 7)); useFieldMove(3)               -- Strength on (4,7)
-    assert(N.push(3), 'push (4,7) west')
-    assert(N.go(8, 10)); assert(N.push(4), 'push (9,10) east')
+    assert(N.go(5, 7)); shove(3, '(4,7) west')
+    assert(N.go(8, 10)); shove(4, '(9,10) east')
     assert(N.go(17, 12)); useFieldMove(4)             -- Rock Smash (18,12)
     assert(N.takeWarp(30, 25))                        -- B1F -> B2F
     assert(N.takeWarp(19, 12))                        -- B2F -> B1F lower (Surf, Waterfall)
     assert(N.go(19, 25)); useFieldMove(4)             -- Rock Smash (20,25)
-    assert(N.go(20, 25))
-    -- Strength again on (20,26). Arriving on (20,25) can start a wild battle that eats the A, and
-    -- pushing without Strength just walks into the boulder.
-    for _ = 1, 4 do
-      if not N.free() then N.settle() end
-      if FL('FLAG_SYS_USE_STRENGTH') then break end
-      useFieldMove(1)
-    end
-    assert(N.push(1), 'push (20,26) south')
+    assert(N.go(20, 25)); shove(1, '(20,26) south')   -- Strength again: the warps cleared it
     useFieldMove(4)                                   -- Rock Smash (21,26); the planner clears it if a battle ate the A
     -- The way out is the one-tile column x=22 that wild Pokemon wander into; walk through them.
     N.passWild = true

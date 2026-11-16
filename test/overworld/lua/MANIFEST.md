@@ -120,6 +120,7 @@ is clean; keep it that way.
 | [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
 | [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
+| [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2657,3 +2658,11 @@ that read "inelegible". Two parties are refused at the Battle Arena attendant wi
 (the "species you caught are ineligible" sentence) and two duplicate pairs (the short "are
 ineligible" ending). `gStringVar1` is poisoned before the level choice and decoded while the refusal
 is on screen. Measured **13/13** fixed and **9/13** on the unfixed ROM.
+### `GoldenrodPrizeClerk.lua`
+
+Goldenrod Game Corner's Pokemon prize clerk, which no suite drove. Without a Coin Case she ran
+Mauville's coin-desk refusal ("Okay, you wanted some COINS for the games?..."), while her own
+"Oh? You don't have a COIN CASE." sat unused. With real input the suite asks her with no Coin Case,
+then with one: 0 and 119 coins must refuse Abra and keep the coins, exactly 120 must buy it, a NO at
+"is what you want?" must charge nothing, and with a full party a Dratini must cost 5,500 and go to
+box 1 with the PC notice. **28/30** on the unfixed ROM, **30/30** with the fix.

@@ -232,3 +232,4 @@ SeafoamCurrents	lua/SeafoamCurrents.lua	fresh	0	required
 WorldChampionshipFinal	lua/WorldChampionshipFinal.lua	fresh	0	required
 StoryMapIslandTitles	lua/StoryMapIslandTitles.lua	fresh	0	required
 FrontierIneligibleText	lua/FrontierIneligibleText.lua	fresh	0	required
+GoldenrodPrizeClerk	lua/GoldenrodPrizeClerk.lua	fresh	0	required

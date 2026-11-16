@@ -229,7 +229,6 @@ SHARED_STATE_OK = {
     "FLAG_RECEIVED_RUNNING_SHOES": "set beside FLAG_SYS_B_DASH; Hoenn only shows the shoes manual prop on it",
     "FLAG_SYS_USE_STRENGTH": "field-move state, cleared on every map load",
     "FLAG_SYS_CTRL_OBJ_DELETE": "script control flag, cleared after use",
-    "FLAG_SYS_PC_LANETTE": "names the storage PC in the shared transfer text (Bill or Lanette)",
     "FLAG_IS_CHAMPION": "engine link-compatibility bit; story gates use the per-region champion flags",
     "FLAG_KANTO_CHAMPION": "read by the hub and the other regions on purpose",
     "FLAG_JOHTO_CHAMPION": "read by the hub and the other regions on purpose",
@@ -312,11 +311,6 @@ SHARED_STATE_OK = {
 # Collisions that a pull request fixes but that may not have landed with this check. They are
 # printed, never failed; delete each entry once its fix is on master.
 SHARED_STATE_PENDING = {
-    "VAR_STARTER_MON": "#577 gives Kanto and Johto their own starter var",
-    "FLAG_RECEIVED_POKENAV": "#604 gives the PokeGear without Hoenn's PokeNav story flag",
-    "FLAG_DAILY_PICKED_LOTO_TICKET": "#611 gives the Radio Tower lottery its own daily flag",
-    "VAR_POKELOT_PRIZE_ITEM": "#611 gives the Radio Tower lottery its own held prize",
-    "VAR_POKELOT_PRIZE_PLACE": "#611 gives the Radio Tower lottery its own held prize",
 }
 # Ids touched across regions today. A parse that resolves far fewer names, or finds no shared id
 # at all, has stopped reading the tree rather than found it clean.

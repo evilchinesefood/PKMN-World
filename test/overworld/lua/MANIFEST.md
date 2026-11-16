@@ -2480,3 +2480,11 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `LotteryCountersPerRegion.lua`
+
+The Goldenrod Radio Tower lottery reused Lilycove's `FLAG_DAILY_PICKED_LOTO_TICKET` and its held-prize
+vars `VAR_POKELOT_PRIZE_ITEM`/`_PLACE`, so a draw in one region closed the other counter for the day
+and a prize held for a full Bag in one was handed out by the other. The suite talks to the Radio Tower
+clerk and draws (Yes), then talks to the Lilycove clerk. **Oracle:** the Radio Tower draw leaves
+Lilycove's flag clear, and the Lilycove clerk still offers a draw (a Yes/No prompt appears) and records
+it. **Discrimination:** unfixed 6/8 (Lilycove answers "come back tomorrow"), fixed 8/8.

@@ -16,6 +16,7 @@
 #include "bg.h"
 #include "data.h"
 #include "item.h"
+#include "item_use.h"
 #include "item_menu.h"
 #include "link.h"
 #include "main.h"
@@ -379,8 +380,8 @@ static void HandleInputChooseAction(enum BattlerId battler)
          && !(gAbsentBattlerFlags & (1u << GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
          && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
         {
-            // Return item to bag if partner had selected one (if consumable).
-            if (gBattleResources->bufferA[battler][1] == B_ACTION_USE_ITEM && GetItemConsumability(itemId))
+            // Return the item to the Bag if the partner's choice took one.
+            if (gBattleResources->bufferA[battler][1] == B_ACTION_USE_ITEM && IsBattleItemTakenFromBag(itemId))
             {
                 AddBagItem(itemId, 1);
             }

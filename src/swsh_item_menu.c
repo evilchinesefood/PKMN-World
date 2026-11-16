@@ -8968,7 +8968,7 @@ static void BagMenu_BattleApplyItem(u8 taskId, u8 moveSlot, bool8 chooseMove)
         gBattleStruct->itemMoveIndex[gBattlerInMenuId] = moveSlot;
     gPartyMenuUseExitCallback = TRUE;
     PlaySE(SE_SELECT);
-    if (!BagMenu_IsItemFlute(item))
+    if (IsBattleItemTakenFromBag(item))
         RemoveBagItem(item, 1);
 
     Task_FadeAndCloseBagMenu(taskId);

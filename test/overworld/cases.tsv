@@ -219,3 +219,4 @@ FrontierLobbyContinue	lua/FrontierLobbyContinue.lua	fresh	0	required
 MoneyCapPayouts	lua/MoneyCapPayouts.lua	fresh	0	required
 JohtoGiftReceipts	lua/JohtoGiftReceipts.lua	fresh	0	required
 BattleXItemBenchLead	lua/BattleXItemBenchLead.lua	fresh	0	required
+TrainerDoubleBallRefund	lua/TrainerDoubleBallRefund.lua	fresh	0	required

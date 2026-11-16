@@ -509,9 +509,7 @@ const u8 *const gStatusConditionStringsTable[][2] =
 
 void CB2_InitBattle(void)
 {
-    // Playback already owns a heap-allocated party backup from PlayRecordedBattle.
-    // Resetting the heap here invalidates it before CB2_RecordedBattleEnd restores it.
-    if (!gTestRunnerEnabled && !(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
+    if (!gTestRunnerEnabled)
         MoveSaveBlocks_ResetHeap();
     AllocateBattleResources();
     AllocateBattleSpritesData();

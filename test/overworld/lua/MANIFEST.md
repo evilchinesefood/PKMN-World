@@ -2839,3 +2839,13 @@ input, and the "No." line is read from window 0's tile data as a colour-blind pi
 screen position. Both viewers must draw the same pixels for one record, and the records must
 differ. Before the fix the Kanto viewer printed three digits ("No. 202") where the Emerald viewer
 and the Pokedex print four ("No. 0202"): **17/19** unfixed, **19/19** fixed.
+### `KurtBallFullBag.lua`
+
+Kurt's BALL making with a full POKé BALLS pocket. Setup puts Azalea past the Slowpoke Well
+(`VAR_AZALEA_TOWN_STATE` 4, the crafting Kurt shown), gives five Pecha Berries and fills the 16-slot
+pocket in RAM with 16 ball types that are not a Love Ball. Talking to Kurt and picking LOVE BALL is
+real input, and every line he prints is read from `gStringVar4`. With the pocket full he must say
+the bag has no room before he starts, never "I'll get started" or "I just finished your BALL", and
+keep the berries. With one slot freed the same talk must turn five berries into five Love Balls.
+Before the fix he hammered, said he had finished the BALL, and then "The BAG is full": **7/10**
+unfixed, **10/10** fixed.

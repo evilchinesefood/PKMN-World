@@ -248,3 +248,4 @@ PcOwnerName	lua/PcOwnerName.lua	fresh	0	required
 FrontierFacilityStress	lua/FrontierFacilityStress.lua	fresh	0	required
 FactoryRentalStress	lua/FactoryRentalStress.lua	fresh	0	required
 HofDexNumbers	lua/HofDexNumbers.lua	fresh	0	required
+KurtBallFullBag	lua/KurtBallFullBag.lua	fresh	0	required

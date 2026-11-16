@@ -210,7 +210,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CHIKORITA)",
       "x": 30,
-      "y": 20,
+      "y": 22,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
       "movement_range_x": 7,

@@ -36,11 +36,11 @@ MountMortar4_EventScript_Kiyo::
 	setflag FLAG_BEAT_KIYO
 MountMortar4_EventScript_KiyoTryGiveTyrogue::
 	msgbox MountMortar4_Text_KiyoTyrogueReward, MSGBOX_DEFAULT
+	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TYROGUE
+	bufferspeciesname STR_VAR_1, SPECIES_TYROGUE
 	givemon SPECIES_TYROGUE, 25
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
-	playfanfare MUS_LEVEL_UP
-	msgbox MountMortar4_Text_ReceiveTyrogue, MSGBOX_DEFAULT
-	waitfanfare
+	call Common_EventScript_ReceivedGiftMon
 	setflag FLAG_GOT_TYROGUE
 MountMortar4_EventScript_KiyoAfter::
 	msgbox MountMortar4_Text_KiyoGotTyrogue, MSGBOX_DEFAULT
@@ -69,9 +69,6 @@ MountMortar4_Text_KiyoTyrogueReward:
 	.string "As proof that you defeated me,\n"
 	.string "I'll give you a rare fighting\l"
 	.string "POKéMON.$"
-
-MountMortar4_Text_ReceiveTyrogue:
-	.string "{PLAYER} received TYROGUE.$"
 
 MountMortar4_Text_KiyoGotTyrogue:
 	.string "TYROGUE is a FIGHTING-type.\p"

@@ -212,3 +212,4 @@ BirthIslandRockPalette	lua/BirthIslandRockPalette.lua	fresh	0	required
 DarkPopupDarkness	lua/DarkPopupDarkness.lua	fresh	0	required
 CyclingRoadSaveContinue	lua/CyclingRoadSaveContinue.lua	fresh	0	required
 PokenavRegionNames	lua/PokenavRegionNames.lua	fresh	0	required
+BugContestDayChange	lua/BugContestDayChange.lua	fresh	0	required

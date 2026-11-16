@@ -460,6 +460,10 @@ check: $(TESTELF)
 # numbers 45 behaviours differently, so an untranslated import builds and draws fine while its
 # Headbutt trees read as Indigo Plateau signs. It fails on any HnS-only value in a Johto tileset;
 # `--convert <pokemonHnS>` translates an import by name.
+#
+# ValidateConfigRules.py pairs each include/config toggle that diverges from FireRed, Emerald or
+# HGSS with the scripts and text that assume the source game's rule: the Cinnabar Lab revived a
+# fossil the player had sold, and badge speeches promised stat boosts B_BADGE_BOOST removed.
 validate:
 	python3 test/overworld/ValidateRegionalCenters.py
 	python3 test/overworld/TestRegionalTravelMigration.py
@@ -483,6 +487,7 @@ validate:
 	python3 test/overworld/ValidateRegionMap.py
 	python3 test/overworld/ValidateLanceMultiBattle.py
 	python3 test/overworld/ValidateZoneStructure.py
+	python3 test/overworld/ValidateConfigRules.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the

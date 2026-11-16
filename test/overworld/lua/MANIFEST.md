@@ -780,6 +780,16 @@ there records why that site is safe or which PR fixes it. A fixed site's row is 
 rather than failing, so the row can be removed after the fix lands. Reproduce a new site with the
 two buttons in one `joypad.set` before allowlisting it.
 
+[`ValidateConfigRules.py`](../ValidateConfigRules.py) pairs each `include/config` toggle that
+diverges from a source game with the script and text shapes that assume the old rule: TMs called
+single-use or a "learned only once" prompt with its flag compiled out (`I_REUSABLE_TMS`), a sellable
+fossil taken without `checkitem` (`I_KEY_FOSSILS`), badge stat boosts (`B_BADGE_BOOST`), obedience
+levels against `GetAttackerObedienceForAction`, field-poison damage (`OW_POISON_DAMAGE`), unforgettable
+HM moves (`P_CAN_FORGET_HIDDEN_MOVE`), a field move that must be known (`QOL_FIELD_MOVES_NO_TEACH`),
+Gen 1-3 evolutions with no route that works without a link cable, and NPC claims about evolution
+levels and held items against the species table. A rule runs only while its toggle still diverges.
+`--list` prints the audited toggles and the ones checked and cleared.
+
 Builds, Lua suites, battle checks, and feature-off builds run only through explicit local
 commands or [Verify on demand](../../../.github/workflows/Verify.yml). Smoke and Full can run
 on Linux CI or local macOS. There are no schedules and no build-output uploads. The

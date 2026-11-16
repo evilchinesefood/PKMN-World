@@ -36,6 +36,7 @@ CHECKS = (
     ("ValidateRegionMap.py",),
     ("ValidateLanceMultiBattle.py",),
     ("ScanInputChords.py", "--check"),
+    ("ValidateConfigRules.py",),
 )
 
 

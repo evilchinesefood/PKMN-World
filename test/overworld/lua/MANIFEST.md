@@ -1431,6 +1431,17 @@ must pick a town and fly), an Escape Rope used from the Bag in Granite Cave, Dig
 a lead Abra's party menu (Dig in Granite Cave, Teleport in Petalburg), the Hub Pass registered to
 Select and mashed through its Yes/No, and a lost trainer battle mashed through the whiteout and the
 respawn. Fly and Dig assert the mash actually left the map. Measured clean; no defect found.
+
+Persona and clock knobs (stress pass 5): `PW_SPAM_GENDER=1` plays as the girl, `PW_SPAM_OUTFIT=<n>`
+sets `VAR_PLAYER_PALETTE`, and `PW_SPAM_TEXT=<0..3>` mashes at that text speed (backing out stays
+at Instant); each takes effect from the first warp. Ten runs with new seeds crossed them with the
+runner's `--rtc` at 23:58:30 (the midnight rollover), 02:30, 12:00 and 19:59: the girl with
+outfits 4, 13 and 19, outfits 10 and 22, and Slow, Mid and Fast text. No run crashed or stranded
+the field. Six scored 88/88. Four missed goal checks that depend on the seed (the Fly map, Dig or
+Hub Pass mash closed the screen before using it); one of them, a Mid-text run at midnight, also
+left the Tate and Liza double battle running past the recovery budget: the recovery's Run cannot
+forfeit a battle the mash failed to win, and the state cycled through the party menu and action
+menu without hanging (replayed from the kept savestate).
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
@@ -2009,3 +2020,463 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+### `TowerMultiRoomBoxes.lua`
+
+The SwSh party menu's R (Boxes, `SWSH_PARTY_MENU_PC_ACCESS`) must not open the PC in the Battle
+Tower multi partner room. The lobby parks the full party in SaveBlock1 and the challenge's end
+reloads it, so a Pokémon moved through the PC from the two-member stand-in party is cloned
+(deposited) or deleted (withdrawn). The suite gives six Pokémon, takes the real Lv. 50 multi
+challenge, rides to the partner room, opens the party from the Start menu and presses R; if the PC
+opens it moves the second Pokémon into Box 1 with real input. It quits at the room attendant and
+counts each Pokémon's copies across the party and the boxes. Control: in the lobby afterwards the
+same R opens the PC. Measured **14/14** fixed and **12/14** on the unfixed ROM (the PC opened and
+the deposited Charmeleon existed twice after the challenge).
+### `UsmOrderSpecialContext.lua`
+
+Closing the graphical Start menu in a context that hides icons must not drop them from the
+player's saved icon order (`SaveBlock3.usmSaved`). The suite moves Save to the front of the wheel
+with real SELECT and D-pad input, enters the Bug-Catching Contest at the National Park gate
+(which hides Save), moves the Bag ahead of the Party in the contest menu, retires at the exit and
+opens the menu again. Save must still lead and the contest's Bag move must be kept. Before the fix
+`Usm_SaveItems` wrote back only the icons the contest showed, so Save fell out of the order and
+returned at its default slot. Measured **9/9** fixed and **6/9** on the unfixed ROM.
+
+### `HoldBStaticEncounter.lua`
+
+Holding B at the start of a wild battle auto-runs, and B is also the overworld run button, so a
+player who runs up to a placed encounter and presses A is still holding B when its battle starts.
+Auto-run is for ordinary random and visible encounters; a scripted static battle treats RAN as
+resolved (the Power Plant's Electrode is removed, Snorlax returns to the mountains), so fleeing it
+on a held B lost the encounter for good. A debug party enters the Power Plant and walks to
+Electrode 1 with real input (random encounters on the way are fled by holding B, which must still
+work: the last check counts them). Holding B, A is pressed on the Electrode "item ball" and then
+tapped only to page the battle intro. The fixed game reaches the action menu and stays there with
+B held; the suite then picks RUN. **7/8** on the unfixed ROM (the battle ends on its own),
+**8/8** with the fix.
+### `BagTMCancelMessage.lua`
+
+Cancelling a TM's in-bag party select must take its "Teach ... to a POKéMON?" prompt down. The
+prompt stays up over the party select (`SWSH_ITEM_MENU_ACTION_IN_BAG`), and `BagMenu_ClosePartySelect`
+returned to the list without removing it, so the message box covered the TM description, followed
+the player into the Items pocket and was cut through by the next Give's description. A debug-made
+Pokémon leads; with real input the suite Uses TM01, answers Yes, presses B, switches to Items and
+starts a Give of a Revive. It counts windows with the item message template in `gWindows` (the main
+list keeps an identical always-allocated `WIN_MESSAGE`, so two means the prompt is up). Control: the
+prompt is up during the select on both ROMs. Measured **7/7** fixed and **4/7** on the unfixed ROM.
+
+### `SkyCharmBikeAloft.lua`
+
+The Mach Bike and the Acro Bike pressed on Select while the Sky Charm flight is airborne. The Sky
+Charm only takes off on foot, but the bike accepted the reverse order: in mid-air it set the bike
+avatar flag, swapped the rider's sprite and started the region's cycling theme as the saved music.
+Landing put the player on foot with the cycling theme still playing, and the saved music brought it
+back after battles and menus until the next map change. `IsBikingDisallowedByPlayer` now refuses
+while flying. In Olivine City with Johto badge 6 and the Sky Charm and both bikes given by an
+injected `additem`, each bike case takes off on the pier, flies over the sea at (18,65), presses
+Select with the bike (refused: still flying, on foot, the same sprite, the map music and no saved
+music), lands on the pier and checks the music on foot, then mounts and dismounts the bike on the
+pier as a control. Measured **19/19** fixed and **11/19** on the unfixed ROM, where both bikes
+mounted aloft and `MUS_HG_CYCLING` (669) kept playing on foot after landing.
+### `BagCallbackGiveStress.lua`
+
+The Bag's in-place party select serves Use and Give, with Use's callback left in `gItemUseCB` and
+Give's mode in the static `sPartyGiveMode`. For each party-callback item (Potion, Revive, Max
+Revive, Rare Candy, Fire Stone, Ether, PP Up, Sacred Ash with and without an effect, TM01) the
+suite Uses it with real input, backs out (B at the select; A then B B for the PP items; No-effect
+or real Sacred Ash; Yes then B for the TM), then Gives a Revive to the lead: exactly one Revive
+must move, no Pokémon's HP may change and the backed-out item must stay. Then Orange Mail onto a
+holder (refused) and onto a non-holder (letter opened, quit with Yes), then Use Potion on the hurt
+lead in the reopened Bag must heal it, not give it. Measured **64/64** on master and **58/64** with
+`0829014ec0`'s `swsh_item_menu.c` hunks reverted (one Revive revived the fainted Charmander through
+the stale Sacred Ash callback, and the Potion after the Mail give was given instead of used).
+`PW_ONLY=<plan name>` (pass with `--env`) runs one plan.
+### `IconRowStacking.lua`
+
+A Pokemon icon must draw in front of the icon in the row below it in the party menu, the PC's party
+column and the PC's box grid. Icons are 32 pixels tall on 24-pixel rows in all three, and sprites
+with equal subpriority sort the lower one in front; the party menu and the PC's party column gave
+every icon one subpriority and box icons differed only by column, so Balloon Pikachu's balloons hid
+Surfboard Pikachu's board whenever Balloon sat below it (the overlap #529 fixed on the Special
+Pokemon checklist). Classic Cap, Surfboard and Balloon Pikachu come from the debug Give menu. With
+real input the party menu opens and switches its first and third Pokemon, then the PC (Move Pokemon)
+moves Surfboard to box row 1 and Balloon to the slot below it. The suite compares the OAM sort keys
+`BuildOamBuffer` builds for each upper and lower icon: in the party menu before and after the switch,
+the PC's party column, the box after the moves, after reopening the PC, after Surfboard is picked up
+and put back (a re-created box icon took OAM priority 2 while the box's first icons have 1, so the
+lower icon won on priority alone) and after scrolling to the next box and back. **20/30** on the
+unfixed ROM (all ten pairs), **30/30** with the fix.
+### `UsmOpenCloseStress.lua`
+
+The graphical Start menu opened and closed 125 times with real input while the icon set changes
+between opens (Pokédex, PokéNav and DexNav flags toggled as setup). Cycles vary the D-pad walk,
+hold past the auto-repeat delay and reorder with SELECT. After every close the in-use sprites,
+sprite-VRAM tiles (`sSpriteTileAllocBitmap`) and OAM matrices (`gOamMatrixAllocBitmap`) must equal
+the field baseline, and every open must put the cursor on a real icon. Every 12th cycle opens
+Options from the last icon, removes three icons while Options is up and returns: the restored
+cursor must be in range and A must open the icon it shows. Options returns through a field reload
+that can respawn the follower, so the baseline is re-taken there and every reload must settle on
+the same counts. Measured **7/7** on master and **4/7** with `0829014ec0`'s
+`unbound_start_menu.c` hunks reverted (16 tiles leaked per close, the restored offset 3 exceeded
+the 6-icon list and A on it opened nothing). `PW_USM_CYCLES` (pass with `--env`) sets the count.
+### `SpecialChecklistStress.lua`
+
+The Special Pokémon checklist under real input with 0, 1 and all 7 collected (the collection marks
+come from `SpecialPokemon_ReconcileOwned` finding debug-given Pokémon). On each list page the suite
+reads every in-use sprite: page 1 must draw four icons and page 2 exactly three, each on its row's y
+(36 plus 32 a row, so neighbouring 32-pixel icons never overlap; on #529's 29-pixel rows Balloon
+Pikachu's balloons covered the bottom of Surfboard Pikachu's board) with nothing on page 2's fourth
+row, and each icon at a lower subpriority than the one below it (#529's draw order). Up on the first entry, Left on page 1, Down on the last entry
+and Right on page 2 must clamp; Up from entry 5 crosses back to page 1. Held Down, Up, Right and
+Left (key repeat) must run to the ends and stop. B pressed during the opening fade is ignored and a
+second B closes; three fast open and close rounds; every detail page with one icon, Right clamped on
+the last, B back to the right page, held Left through the details; an A/B mash. Unfixed (29-pixel
+rows) **39/51**, fixed **51/51**.
+### `SpecialFormsIdentity.lua`
+
+The seven special forms keep their themed types (#528) wherever the game uses them. Six come from
+the debug Give menu (the seventh goes to the PC). Each leads a wild battle (`setwildbattle`) against
+the next form, and `gBattleMons` must hold the lead's and the wild Pokémon's themed types; Fight
+shows the move menu's effectiveness marks (screenshots: Take Down on Pirate Totodile reads immune,
+Discharge on Squad Squirtle super effective). Each summary's three pages, each form's Pokédex form
+info page (national dex on) and the PC with Pirate Totodile boxed are opened with real input and
+screenshotted. `--env PW_ID_ONLY=dex` skips to the Pokédex and PC part. Coverage, no defect found:
+**58/58**.
+
+### `RoamerParkRelease.lua`
+
+`ROAMER_COUNT` is 2 and the regions run in either order, so a Hoenn Lati can already roam when
+Burned Tower releases Entei and Raikou. 0829014ec0 keeps the Lati and parks the beast that finds
+no slot (always Raikou: Entei goes first) until a slot frees. Its release re-ran the League
+respawn for both beasts into the first free slot, so defeating Entei brought Entei straight back
+with a fresh personality and shiny roll (outside this case a defeated beast returns only at the
+Johto Hall of Fame) and Raikou never left. Setup gives a level 100 Arena Trap Dugtrio (a roamer
+flees on its first turn and running beats any move), runs the Lati TV special as the Littleroot
+scene does, and arms the Burned Tower scene, which then plays on real input. After the Hub and back
+only Latias and Entei roam. Entei's EWRAM map is moved onto Route 31 (a roamer's map is re-rolled
+on every map change), the Dugtrio walks the grass by the Dark Cave until Entei appears and
+defeats it with Earthquake. On the next map load Raikou must roam, Entei must not, the Latias must
+be the same Pokemon, and nothing may be duplicated after more loads and the Hub. **12/14** on the
+unfixed ROM (Entei back with a new personality, Raikou still parked), **14/14** with the fix.
+`test/roamer.c` covers the same release and the League respawn parking a beast with no free slot.
+
+### `EggOnlyStaticRefusal.lua`
+
+0829014ec0 refuses scripted wild battles for an empty or Egg-only party with "You don't have a
+single POKéMON" and replaces the encounter script, so the encounter must be left exactly as it
+was. Scripts that change state before reaching the battle undo that promise: Ilex Forest's GS
+Ball shrine cleared Celebi's hide flag and walked Celebi in, so after the refusal a scriptless
+Celebi stood by the shrine and, at Azalea state 9 where nothing re-hides it, came back on every
+visit. An Egg is given with `giveegg` and the walks are real input (visible wild Pokemon spawns
+are held off in Ilex Forest's one-tile passages). The Power Plant's Electrode 1, refused inside
+the battle starter, is the control: no battle, control back, Electrode still there, its flags
+clear. At the shrine, answered YES with A and Start mashed: no battle, control back,
+`FLAG_HIDE_CELEBI` still set, the event still armed, and after leaving and returning no Celebi
+at (24,33). **13/15** on the unfixed ROM, **15/15** with the fix. The same pre-scene refusal
+also guards the Southern Island Lati and both Birth Island Deoxys scripts (untested here; their
+state resets on a map reload, but the refused scene left the Pokemon standing for the visit).
+
+### `GoldenrodSceneStress.lua`
+
+Coverage for three Goldenrod changes in 0829014ec0, each driven on real input with A, B and Start
+mashed through it. The Hub's Johto gate (Zephyr and Hive Badges, Ilex Forest done) lands the
+player in the Train Station at `VAR_GOLDENROD_CITY_STATE` 0; walking out of the station's door
+must run the city's new ON_FRAME first-visit setup (Elm's PokeNav call, state 1, visited flag,
+Rockets and Bill hidden, nobody beside the door) and hand control back, and going back in and
+out must play nothing. The Name Rater's TV news, which used to end in a `waitstate` NameRival
+never resumed, must hand control back, and its text (read from `gStringVar4`) must name the boy
+("His name is GARY") instead of ending on HnS's "Do YOU know his name?" for the removed naming
+screen. The Radio Tower quiz won at state 5 (after the Plain Badge) must enable the radio and leave
+the state at 5 instead of rewinding it to 2. Unfixed TV text **16/17**, fixed **17/17**.
+
+### `HubPassLeagueRooms.lua`
+
+Coverage for dcd1570afe's Hub Pass refusal in the champion rooms. The Johto Champion's Room is the
+one that hands the player control before the champion (Hoenn's and Kanto's walk straight into the
+battle on entry), so it is the room where the refusal matters. The pass is given with `additem`,
+registered, and fired from Select in the Johto Champion's Room, Karen's Room and Ever Grande's
+Hall 4 after each room's entry scene, with A, B and Start pressed through the message: refused,
+the player stays on the same tile, and control returns. In the Johto Indigo Plateau Pokemon
+Center the same Select reaches the hub (control). **12/12** on the master ROM it was written
+against.
+
+### `FrontierSavePowerCut.lua`
+
+A power cut during a Battle Frontier save (`SaveGameFrontier`, `TrySavingData(SAVE_LINK)`). The
+link save rewrote the current slot in place, so a cut anywhere in its write tore the newest save
+and the next boot fell back to the save before it; near the end of the write no sector of the torn
+slot carried a valid signature yet, so the slot read as empty and the main menu did not even say a
+save was lost. `SAVE_LINK` now writes the other slot, as `SAVE_NORMAL` does. Each trial saves twice
+from the Start menu in the hub with distinct markers (the seventh player-name byte in SaveBlock2,
+the registered-item word and the tile in SaveBlock1, the last Johto flag byte in the SaveBlock3
+chunk and the last box's wallpaper in the PC), writes a third marking, seeds a paused Battle Tower
+challenge the way `tower_save` leaves it and warps into the lobby, where the attendant's
+ResumeChallenge script saves. The first trial completes the Frontier save and must load it; the
+others cut the power at eight offsets spread over the measured write plus its last frame and must
+load the second Start-menu save or the Frontier save, whole. Measured **23/23** fixed and **14/23**
+on the unfixed ROM, where all nine cuts (frames 0 to 336 of a 337-frame write) loaded the first
+save. `PW_FSP_OFFSETS=<n>` changes the number of spread offsets.
+
+### `SaveWritePowerCut.lua`
+
+A power cut on every frame of a Start-menu save's flash write. Each trial marks four places in
+different sectors (the seventh player-name byte in SaveBlock2, the registered-item word and the
+tile in SaveBlock1, the last Johto flag byte in the SaveBlock3 chunk and the last box's wallpaper
+in the PC), saves, writes the other marking on a neighbouring tile, saves again and cuts the power
+when that write has run `off` frames, then boots and Continues. Every marker must come back from
+the same save, a new save must load with a clean status, and every eighth trial saves once more
+after the recovery and must reboot into that save with a clean status. Coverage: with
+`PW_CUT_STEP=1` (and `PW_MAX_FRAMES=1500000`) all 254 offsets of a 252-frame write ran **576/576**:
+the cut on frame 0 loads the previous save with status OK, every cut from frame 1 to the last write
+frame loads it with the "previous save loaded" status, and only the completed write loads the new
+save. The registered default samples every third frame plus the frame after the write and scores
+**198/198**. No defect found.
+
+### `HubWardrobeSprite.lua`
+
+The World Transit wardrobe (`OBJ_EVENT_GFX_WARDROBE`, local id 15 at (7,7)) drew only its shadow.
+The graphics info has no tile tag, so the frame reaches VRAM only when an animation command sets a
+frame, and it used `gDummySpriteAnimTable`, which has none: the object's OBJ tiles stayed blank,
+the hub showed bare floor with a stray medium shadow, and a player standing at the wardrobe hid the
+shadow, so the wardrobe suites' screens looked right. It now uses `sAnimTable_Inanimate`, like every
+other inanimate object. From a fresh hub boot the player walks to (8,8), beside the wardrobe; its
+sprite must be active with non-blank tiles that match the start of `gObjectEventPic_Wardrobe`
+(added to `GenLuaSymbols.py`). As a control, A at (7,8) facing up opens the outfit picker and B
+closes it. Measured **9/9** fixed and **7/9** on the unfixed ROM (both tile checks fail on blank
+tiles). `OutfitPickerStress` 18/18, `OutfitTransitionMash` 52/52 and `SmokeBoot` 10/10 pass on the
+fixed build.
+### `SummaryDexNumberNoDex.lua`
+
+Before the National Pokédex, the summary's info page must print a dex number only for a species in
+the current region's dex. Johto has no regional dex here and borrowed the Hoenn order, whose lookup
+returns 0 outside that dex, and 0 passed `<= REGIONAL_DEX_COUNT`: a Johto starter showed "000" and a
+Zubat its Hoenn number until Elm's Pokédex. The suite gives each Pokémon with the debug Give menu,
+warps to a map of the region (the region is map-derived), opens the summary from the Start menu
+with real input and counts lit pixels where the number prints in the species window (12 with no
+number, over 100 with three digits). Johto (National Park gate): Chikorita and Zubat show no
+number. Control: Kanto (Viridian City) Bulbasaur shows its Kanto number. Measured **9/9** fixed and
+**7/9** on the unfixed ROM.
+### `PokedexAreaAfterBattle.lua`
+
+The Pokédex area page must mark the same places before and after a battle, in Johto as well as
+Kanto. The wild-header region index used to be cached on the heap across visits, and battles and
+field returns re-init the heap; Johto maps sit in their own map groups, which the old group switch
+dropped. With every dex flag set and the Pokédex held, the suite opens the Pokédex from the Start
+menu with real input on a Johto map (National Park gate) and reads the area page's species, glow
+count and marker count for Pidgey (routes) and Zubat (caves). It wins a wild battle
+(`setwildbattle`/`dowildbattle`, Psychic from a level 100 lead) and reads both again, then repeats
+for Pidgey in Viridian City. Counts must be non-zero and unchanged. Measured **13/13** on master and
+**10/13** with `0829014ec0`'s `pokedex_area_screen.c` hunks reverted (no Johto glow or markers, and
+Kanto Pidgey's 13 routes read 0 through the stale index).
+### `MultiHalfTeamSummary.lua`
+
+In a half-team multi battle, Summary from the party menu must open the Pokémon under the cursor and
+B must return the cursor to it. The party menu draws the player's three in rows 0-2 and the
+partner's in rows 3-5, while the summary uses the interleaved order `[P0, Partner0, P1, P2,
+Partner1, Partner2]`. The real Rocket HQ multi with Lance runs from its post-selection seam with
+three distinct debug-made Pokémon; real input opens POKéMON, then Summary and B on each of the
+player's rows. Rows 0, 1, 2 must leave summary indices 0, 2, 3 in `gLastViewedMonIndex` (the
+screenshots show Bulbasaur, Charmander, Squirtle) and the party cursor back on the row. Measured
+**10/10** on master and **8/10** with the two `0829014ec0` call-site translations reverted (rows 1
+and 2 opened indices 1 and 2: Lance's Dragonite and the wrong own Pokémon).
+### `SummaryEggPages.lua`
+
+An Egg's summary must not leak what hatching reveals. A shiny Bulbasaur leads (control: star and
+friendship heart show) and a shiny Togepi Egg from the debug Give Egg menu follows (shininess set
+through the unencrypted `shinyModifier` bit). With real input the suite opens Bulbasaur's summary
+from the Start menu's party, scrolls onto the Egg, tries Left and Right, and reads the shiny star
+and friendship heart sprites by their fixed positions in `gSprites`; then from each of Bulbasaur's
+other pages Down must skip the Egg (the party cursor returns to the lead on close). Measured
+**15/15** on master and **11/15** with `0829014ec0`'s Egg checks in `SetShinySprite` and
+`SetFriendshipSprite` reverted (star and heart shown on the Egg).
+### `LastBallBounceHide.lua`
+
+The BW battle UI's last-used-ball icon must not be recreated after its window hides mid-bounce.
+A wild Pidgey battle starts by `setwildbattle`/`dowildbattle` with three ball types in the Bag. At
+the action menu, with real input, the suite holds R, taps Right (the cycle bounce starts), releases
+R and presses A on FIGHT 0 to 12 frames later, then B back. The in-use sprite count in move
+selection must equal a plain A's, and the action menu's count must return to its baseline each
+round. Measured **7/7** on master and **6/7** with `0829014ec0`'s `bw_battle_ui.c` hunk reverted
+(at 0 and 1 frames an extra ball icon stayed up in move selection).
+### `UsmDarkPopupIcons.lua`
+
+The graphical Start menu opened in a dark place while the map-name pop-up is still up must show its
+icons. In Flash caves and the Battle Pyramid the icons draw through the OBJ window
+(`DISPCNT_OBJWIN_ON` plus `WINOUT_WINOBJ_OBJ`), and `Usm_InitStartMenu` called
+`HideMapNamePopUpWindow` after setting them; hiding a GEN_8 pop-up rewrites WINOUT to the field
+default, so only the banner and label showed. The suite warps into Dark Cave, presses Start with
+real input while the arrival pop-up task runs, reads `REG_WINOUT` and screenshots the menu.
+Control: the same after the pop-up has gone. Measured **7/7** fixed and **6/7** on the unfixed ROM.
+The Pyramid shows the same on its first floor (its "Floor" pop-up is up when control returns).
+Since `DarkPopupDarkness.lua` dark places start no pop-up, so the suite now requires none on arrival
+and the menu opened right after the arrival must still show its icons.
+
+### `DarkPopupDarkness.lua`
+
+A GEN_8 map-name pop-up clips its slide with WIN0 and sets WINOUT to show BG1-3 and sprites outside
+it. In a dark place the light circle owns WIN0 through a per-scanline effect, so the banner never
+showed and the whole dark map was lit (WINOUT `0x001E` instead of `0x0101`) for the three seconds the
+pop-up ran. `ShowMapNamePopup` now starts no GEN_8 pop-up when the flash level is above 0 or on a
+Battle Pyramid floor. With real input the player climbs down Granite Cave B1F's ladder into dark
+B2F (stepping off the ladder to the side a wandering Pokémon leaves free); for 200 frames no pop-up
+task may run and WINOUT must keep BG1-3 out. Control: a debug warp onto lit Route 106 still starts
+the pop-up. Unfixed **5/7** (186 of 200 frames lit), fixed **7/7**.
+### `PyramidRestUsm.lua`
+
+Rest in the Battle Pyramid from the graphical Start menu must quit to the title like the classic
+menu's Rest. The suite gives six Pokémon, takes the real Lv. 50 Pyramid challenge at the lobby
+attendant with real input, waits for control on floor 1 (field locks, not a step probe: the floor
+is dark and walled), picks Rest and answers Yes. The game must not hand control back on the floor,
+and Continue must load the Rest save and resume on the floor with the three chosen Pokémon.
+Measured **13/13** on master and **11/13** with `0829014ec0`'s `save_dialog.c` hunk reverted (after
+Rest the player walked on the floor holding all six Pokémon).
+### `BugContestPartyLock.lua`
+
+While the Bug-Catching Contest parks the team, the party menu must not open the PC (R, Boxes) or
+offer the lead's held-item, Follow and Nickname rows, which the contest's end would undo or double.
+The suite gives a team, enters the contest through the real attendant, opens the party from the
+Start menu, presses R, and counts the lead's action rows through `sMenu` (Summary and Cancel only).
+Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
+with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
+
+### `EggSummaryPageTabs.lua`
+
+An Egg's summary cannot turn pages (`ChangePage` returns for an Egg), but its header still drew the
+four page tabs and both page arrows. The suite gives a debug party and a debug Egg, opens the Egg's
+summary from the party menu with real input and reads BG2's screen block in VRAM: header rows 1 and 2,
+columns 0 to 9, must all be the plain header tile 0x33. Right and Left must leave the Egg on its page
+with the header still plain; Up to the Pokémon above must bring the tabs back (tile 0x01 at column 1,
+the control) and Down to the Egg must clear them again. Unfixed **3/7**, fixed **7/7**.
+
+### `NewGameOverSave.lua`
+
+New Game over a played save, without a power cycle. A fresh new game is dumped twice (the second
+after a soft reset and 173 extra title frames, so the RNG-drawn bytes differ). The second file is
+then played: two Pokemon, money, items, three badges, Shared Exp, a non-default outfit, every
+Pokedex flag, the opening flags of all three regions and a real World Transit gate crossing into
+Johto, saved from the Start menu. After a soft reset the title menu's NEW GAME (read from the main
+menu task's cursor) starts over that loaded save. SaveBlock1, SaveBlock2, SaveBlock3 and the PC are
+compared bit by bit, with money, coins, game stats, Berry Powder and bag quantities decrypted first
+(the key rerolls on every map load; `gameStats` and `berryPowder` were added to
+`GenLuaSymbols.py`, with a `load_save.c` pin for the first). A bit leaks when both fresh games agree
+on it, the played file changed it and the new game still holds the played value. Kept by design
+and masked: the name and gender, the title-menu options, the RTC offset and berry clock, the region
+checksum (restamped by every save) and the Shared Exp flag. The new game must also have an empty
+party, 3000 money, no region, the intro's outfit and a free field. Measured **19/19**; no defect
+found. A tamper build that skips the `johtoIntroDone` reset in `NewGameInitData` scores **18/19**.
+
+### `EggOnlyIslandLegends.lua`
+
+The Southern Island Lati and both Birth Island Deoxys scenes (Hoenn's, and Kanto's reached by the
+Seagallop) with an Egg as the whole party, on real input. Each Birth Island puzzle is solved rock by
+rock with real steps inside every rock's step limit; Southern Island is the sign under the Eon
+stone. The refusal must print "You don't have a single POKéMON", start no battle, leave no
+legendary object, keep the map's music (Birth Island is MUS_NONE) and free the field. A level 100
+Mewtwo then joins on the same visit, as when the Egg hatches there, and the scene must play: the
+Lati battle and the Deoxys battle start, and RUN leaves each. `DoDeoxysRockInteraction` marks the
+puzzle complete before the script's party check, so the refused stone answered nothing for the rest
+of the visit. Measured **35/35** fixed and **31/33** on the unfixed ROM (both Deoxys replays fail with
+`FLAG_DEOXYS_ROCK_COMPLETE` still set).
+
+### `BirthIslandRockReset.lua`
+
+Leaving Birth Island mid-puzzle must start the Deoxys puzzle over on the next visit. With a real
+Pokemon in the party the player walks in from the harbor, touches the stone once (level 1), walks
+out to the harbor and back in. `VAR_DEOXYS_ROCK_LEVEL` and `VAR_DEOXYS_ROCK_STEP_COUNT` must read 0
+and the first touch of the new visit must climb to level 1. Kanto's Birth Island script reset FRLG's
+rebased `VAR_DEOXYS_INTERACTION_*` copies, which nothing reads, so the stone kept its old level and
+the first touch failed on the steps walked since. Hoenn's island is the control. Measured **23/23**
+fixed and **20/23** on the unfixed ROM.
+
+### `BirthIslandRockPalette.lua`
+
+The Deoxys puzzle stone's colours on both Birth Islands. With a real Pokemon in the party the
+player touches the stone, follows it to its second tile and touches it again, then opens and
+closes the party menu (the map's return-to-field reload). The stone sprite's unfaded palette, read
+through its OAM slot, must hold each level's colours: Kanto's from `meteorite.pal` and
+`graphics/field_specials/deoxys_rock_N.pal`, Hoenn's from `field_effects/palettes`. The 32 bytes that
+palette slot 0xFF addresses past each palette buffer are set to a sentinel around every action and
+must survive. With `FLAG_BATTLED_DEOXYS` or `FLAG_FOUGHT_DEOXYS` set the stone is hidden, and a party
+menu round trip there must stay in bounds too. The rock code looked up Hoenn's palette tag on Kanto's
+island (it uses the meteorite tag), got 0xFF, never recoloured the stone and wrote each palette into
+`sSpeciesPreEvolution`; the hidden stone did the same on both islands. Measured **35/35** fixed and
+**28/35** on the unfixed ROM.
+### `CyclingRoadSaveContinue.lua`
+
+Kanto's Cycling Road on real input. With a Bicycle registered and every Kanto trainer already
+beaten (the road's bikers would otherwise cut the ride short), the player walks across the Route 16
+gate on foot, and the gate's warp puts them on the bike with `MUS_RG_CYCLING`. Select must answer
+"You can't dismount your BIKE here." and leave the player on the bike, as on Route 110 and in FRLG:
+the Bicycle's use checked only Route 110's `FLAG_SYS_CYCLING_ROAD`, never Kanto's
+`FLAG_SYS_ON_CYCLING_ROAD`. The bike then rides onto Route 17, the slope carries it down (Start is
+ignored while it does), the game is saved at the foot, soft reset and continued: same tile, still on
+the bike, the same music, control back. The Hub Pass then leaves the road, and Fly's reset must clear
+`FLAG_SYS_ON_CYCLING_ROAD` so the player can get off the bike elsewhere (also cleared now after
+Teleport, Dig, Escape Rope and a whiteout). Measured **16/16** fixed and **14/16** on the unfixed ROM.
+### `PokenavRegionNames.lua`
+
+The PokéNav's map option, its help line and the region map's left header said HOENN MAP in every
+region. They now name the region the map shows (`GetCurrentRegion()`, as `region_map.c` picks the
+map): JOHTO MAP and KANTO MAP labels are drawn from the Hoenn art by
+`tools/pokenav/region_map_labels.py` and appended to the options sheet. With the PokéNav flag set,
+the suite opens the PokéNav from the Start menu with real input on Route 106, in Goldenrod City and
+in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
+0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed
+maps with their headers. Unfixed **10/12** (Johto and Kanto read 0x000), fixed **12/12**.
+### `HealMigrationContinue.lua`
+
+The Azalea, Goldenrod and Safari Zone Gate heal points moved off the Center door onto the apron
+after save format v9 shipped, and `MigrateMovedHealLocations` re-points a stored door tile on load.
+Each case writes the old door coordinate into `lastHealLocation` and an older `saveVersion` (9, 10,
+11 or 12), saves from the Start menu, soft resets and continues, so the repair runs on the real load
+path. It then loses a debug battle: the whiteout must run the nurse's cutscene inside that Center,
+not drop the player on the door outside, and control must return. Version 12 is a save written by a
+build between the v12 bump and the repair. Measured **121/121** fixed and **115/121** on the unfixed
+ROM, where the repair ran only below v12 and all three v12 cases whited out onto the door.
+`--env PW_HEAL_ONLY=<text>` runs matching cases (`azalea`, `v12`).
+### `LittleCupRules.lua`
+
+The Battle Net Little Cup room at the Hub 2F streak attendant, with real input. Each case builds a
+party (script `createmon` at a level, or the debug Give Egg), talks to the attendant and picks
+LITTLE CUP. A refusal must print the Little Cup rule (read from `gStringVar4`) and return to the
+menu with the party and BP untouched; an accepted party must start a sim battle against three level
+5 opponents, and a win (forced through `gBattleOutcome`) must print the award line and pay 2 BP.
+Accepted: Bulbasaur, Pichu, Azurill and Eevee at level 5, and an Egg with a level 5 Bulbasaur.
+Refused: Bulbasaur at 4 and 6, Ivysaur, Pikachu, Chansey, Roselia, Marill and Ditto at 5, a
+Flower Crown Eevee (a special form that cannot evolve), Bulbasaur with Ivysaur, and an Egg alone.
+Measured **82/82**, and **74/82** with `0829014ec0`'s `BnetMarkPreEvos` bound reverted to #386,
+where Chansey (Happiny) and Roselia (Budew) were let in and won BP. `--env PW_LC_ONLY=<text>` runs
+matching cases.
+### `BugContestDayChange.lua`
+
+The Bug-Catching Contest's once-a-day limit and clock across day changes, on the emulator's running
+RTC. The suite sets the clock the way New Bark's wall clock does (`FLAG_SYS_CLOCK_SET`, `VAR_DAYS`
+and a local time of 23:38 through `localTimeOffset`), then plays three contests through the real
+attendant: one retired with a catch before midnight; one after saving in the gate, waiting there
+until the RTC passes midnight and continuing the pre-midnight save; and one started at 23:57 on a
+clock wound two days on, so midnight rolls over while it runs. The last two walk until "Time's up",
+which must ring at 8 minutes of frames. Each contest must return the parked party unchanged, put
+one prize in the bag, take the Safari Balls, set the day's flag and leave the attendant refusing a
+second contest; Continue on the new day must clear the flag and record the day. Measured **37/37**,
+and **9/13** with `0829014ec0`'s `setflag FLAG_DAILY_BUG_CONTEST_COMPLETED` removed (a second
+contest started the same day). The catch is a debug-given Weedle inside the contest.
+### `FrontierLobbyContinue.lua`
+
+Save and Continue inside the seven Battle Frontier lobbies, the Fallarbor, Verdanturf and Slateport
+Battle Tents and the Trainer Tower lobby, plus a soft reset inside the Hoenn Safari Zone. Each lobby
+case walks in from the door with a debug Set Party follower out, saves from the Start menu, soft
+resets and continues; the map, tile and facing, the playing song (`gMPlayInfo_BGM` against
+`gSongTable`), the follower (shown beside the player) and control must come back as they were, and
+the player must walk. The Safari case saves in the entrance, enters through the attendant (a
+Pokeblock case is put in the bag), walks until the step counter moves, requires that the Safari
+Start menu offers no SAVE, then soft resets: Continue must land on the entrance save with Safari mode
+off and no Safari Balls. Measured **111/111**; no defect found. `--env PW_LOBBY_ONLY=<text>` runs
+matching cases.
+### `MoneyCapPayouts.lua`
+
+Money payouts at the 999,999 cap that `EconomyStress` and `MoneySinkEdges` do not reach. The Lake
+of Rage fisherman (after the Rocket event; talk, Yes and the party pick are real input) pays 100,000
+for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payout must stop at
+999,999, and at 999,999 both must leave it there, with the money box drawing all six digits
+(screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
+999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
+81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.

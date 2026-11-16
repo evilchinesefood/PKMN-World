@@ -167,10 +167,8 @@ local function mashWait(frames, tag)
   return sawSaveLink, sawSaving
 end
 
--- Establish a valid flash slot BEFORE unique bytes exist. SAVE_LINK's
--- HandleReplaceSector writes the current slot in place and needs gReadWriteSector
--- / gSaveCounter from a prior full save — a real paused-challenge player already
--- has one. Start-menu SAVE after seeding would false-pass (SAVE_NORMAL writes
+-- Establish a valid flash slot BEFORE unique bytes exist — a real paused-challenge
+-- player already has one. Start-menu SAVE after seeding would false-pass (SAVE_NORMAL writes
 -- all of SB3). Baseline unique bytes must be 0 here.
 local function saveNormalSlot()
   local j, k, o = sb3Marks()
@@ -325,8 +323,8 @@ F.run(function()
   local completed = F.r16(S.gSaveAttemptStatus) == 1
   F.check("SAVE_LINK flash transaction completed successfully before reboot", completed)
   if not completed then F.finish(); return end
-  F.check("SAVE_LINK kept the baseline save counter unchanged",
-    F.r32(S.gSaveCounter) == baselineCounter)
+  F.check("SAVE_LINK wrote the other slot (the save counter advanced by one)",
+    F.r32(S.gSaveCounter) == baselineCounter + 1, F.r32(S.gSaveCounter) .. " vs " .. baselineCounter)
   F.idle(2) -- Let SaveGameFrontier restore the party after TrySavingData returns.
   local afterJ, afterK, afterO = logState("after_save_insession")
   F.shot("after_save")

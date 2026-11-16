@@ -372,8 +372,8 @@ NewBarkTown_Lab_EventScript_PoliceEpisode::
 	waitmovement 0
 	setflag FLAG_HIDE_LAB_POLICEMAN
 	turnobject LOCALID_COP DIR_WEST
-	@ Rival naming prompt removed: the name is fixed per region (SILVER) at new game,
-	@ and the NameRival naming screen could soft-lock here. Just state the name.
+	@ Rival naming prompt removed: {RIVAL} expands per region, and the NameRival naming
+	@ screen could soft-lock here. Just state the name.
 	msgbox NewBarkTown_Lab_Text_Officer1, MSGBOX_DEFAULT
 	msgbox NewBarkTown_Lab_Text_Officer2_1, MSGBOX_DEFAULT
 	msgbox NewBarkTown_Lab_Text_Officer2, MSGBOX_DEFAULT

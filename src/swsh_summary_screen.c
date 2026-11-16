@@ -2519,6 +2519,8 @@ static void SetSelectMoveTilemaps(void)
 #define PAGE_ICON_TILE_CONDITIONS       37
 #define PAGE_ICON_TILE_CONTEST_MOVES    41
 #define PAGE_ICON_TILE_MEMO             45
+#define PAGE_HEADER_BLANK_TILE          0x33 // plain header, as in row 0
+#define PAGE_INDICATOR_COLUMNS          10   // left arrow, four tabs, right arrow on rows 1 and 2
 
 
 #if SWSH_SUMMARY_SHOW_CONTEST_PAGES
@@ -6320,10 +6322,19 @@ static void RefreshInfoPageItemTilemap(void)
         ? sSummaryPage_Info_Item_Tilemap
         : sSummaryPage_Info_Tilemap;
 
-    DecompressDataWithHeaderWram(tilemap, sMonSummaryScreen->bg2TilemapBuffers[PSS_PAGE_INFO]);
+    u16 *buf = sMonSummaryScreen->bg2TilemapBuffers[PSS_PAGE_INFO];
+
+    DecompressDataWithHeaderWram(tilemap, buf);
 #if SWSH_SUMMARY_SHOW_CONTEST_PAGES
-    ApplyPageIcon(sMonSummaryScreen->bg2TilemapBuffers[PSS_PAGE_INFO], 4, PAGE_ICON_TILE_CONTEST_MOVES);
+    ApplyPageIcon(buf, 4, PAGE_ICON_TILE_CONTEST_MOVES);
 #endif
+    // An Egg cannot turn pages, so its header shows no page tabs or arrows.
+    if (sMonSummaryScreen->summary.isEgg)
+    {
+        u32 col;
+        for (col = 0; col < PAGE_INDICATOR_COLUMNS; col++)
+            buf[32 + col] = buf[64 + col] = PAGE_HEADER_BLANK_TILE;
+    }
     ScheduleBgCopyTilemapToVram(2);
 }
 

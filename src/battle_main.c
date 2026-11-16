@@ -3759,7 +3759,8 @@ static void DoBattleIntro(void)
     }
 }
 
-// Hold B at the start of an ordinary escapable wild battle to auto-run (guaranteed flee).
+// Hold B at the start of an ordinary escapable wild battle to auto-run (guaranteed flee). Ordinary
+// means a random or visible overworld encounter, never a scripted one.
 static bool32 ShouldHoldBAutoRun(void)
 {
     if (!JOY_HELD(B_BUTTON))
@@ -3771,6 +3772,10 @@ static bool32 ShouldHoldBAutoRun(void)
                           | BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_POKEDUDE))
         return FALSE;
     if (FlagGet(WE_FLAG_NO_RUNNING))    // scripted no-run wild battles
+        return FALSE;
+    // Placed encounters a held B (the overworld run button) would flee and lose: the Electrode
+    // and Voltorb "item balls", Snorlax, Sudowoodo, Lapras, the Red Gyarados.
+    if (IsScriptedWildBattle())
         return FALSE;
     if (GetBugContestFlag())            // Bug-Catching Contest runs like a normal wild
         return FALSE;

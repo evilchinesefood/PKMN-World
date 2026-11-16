@@ -298,7 +298,13 @@ void MigrateSaveFormatIfNeeded(void)
 {
     u8 savedVersion = gSaveBlock2Ptr->saveVersion;
 
-    // Current or newer format: leave untouched (don't rewrite fields an older binary can't read).
+    // Idempotent (only the old coordinate pairs match), so it runs on every load, current saves
+    // included. The Azalea, Goldenrod and Safari Zone Gate moves landed after v9 shipped and the
+    // repair landed after v12 did, so a v12 save written by a build without it can still hold the
+    // old door tile. save.c refuses a newer save before calling this, so nothing newer reaches it.
+    MigrateMovedHealLocations();
+
+    // Current format: leave the ladder alone.
     if (savedVersion >= SAVE_FORMAT_VERSION)
         return;
 
@@ -374,14 +380,12 @@ void MigrateSaveFormatIfNeeded(void)
         memset(gSaveBlock3Ptr->region.johtoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->region.johtoTrainerFlags));
 
     // v8 -> v9 also DELETED two dead day/night twin maps (issue #51) and MOVED two Johto heal
-    // coordinates. Both renumber/repoint state that is PERSISTED, so they need fixing up in the
-    // save, not just in the data. Issue #51 accepted a save reset for this; migrating is strictly
-    // better and is what keeps a mid-playthrough save loadable.
+    // coordinates (repointed by MigrateMovedHealLocations at the top). Both renumber/repoint state
+    // that is PERSISTED, so they need fixing up in the save, not just in the data. Issue #51
+    // accepted a save reset for this; migrating is strictly better and is what keeps a
+    // mid-playthrough save loadable.
     if (savedVersion < 9)
         MigrateDeletedTwinMaps();
-    // Idempotent (only old coordinate pairs match), and run for every older save: the Azalea,
-    // Goldenrod and Safari Zone Gate moves landed after v9 shipped, so v9-v11 saves can hold them.
-    MigrateMovedHealLocations();
 
     // v9 -> v10: issue #195. Clear the stale forced-TRUE hoennIntroDone on a save that has never
     // actually played Hoenn's intro, so the hub sends it to the Littleroot bedroom instead of
@@ -558,6 +562,9 @@ STATIC_ASSERT(offsetof(struct SaveBlock2, regionChecksum) == 0x94, SaveBlock2Reg
 STATIC_ASSERT(offsetof(struct SaveBlock1, flags) == 5524, SaveBlock1FlagsMoved_RegenLuaSymbols);
 STATIC_ASSERT(offsetof(struct SaveBlock1, vars) == 6042, SaveBlock1VarsMoved_RegenLuaSymbols);
 STATIC_ASSERT(offsetof(struct SaveBlock1, money) == 1168, SaveBlock1MoneyMoved_RegenLuaSymbols);
+// NewGameOverSave.lua decrypts the game stats (XORed with the roaming encryption key) before it
+// compares save images. Probe-verified with the repo CFLAGS.
+STATIC_ASSERT(offsetof(struct SaveBlock1, gameStats) == 6556, SaveBlock1GameStatsMoved_RegenLuaSymbols);
 // #163: the berry-tree suite reads this bank directly to prove the nine Johto trees that used to
 // share slots 92-100 through the johto_compat.h aliases now own 113-121. Probe-verified with the
 // repo CFLAGS (-mabi=apcs-gnu -march=armv4t); sizeof(struct BerryTree) is 8, so slot N is at
@@ -576,6 +583,8 @@ STATIC_ASSERT(offsetof(struct SaveBlock1, daycare) == 13364, SaveBlock1DaycareMo
 STATIC_ASSERT(offsetof(struct SaveBlock1, mail) == 12260, SaveBlock1MailMoved_RegenLuaSymbols);
 // ResortGorgeousRequest.lua seeds the seen Pokedex here. Probe-verified under the repo CFLAGS.
 STATIC_ASSERT(offsetof(struct SaveBlock1, dexSeen) == 13900, SaveBlock1DexSeenMoved_RegenLuaSymbols);
+// RoamerParkRelease.lua reads the roamer slots here. Probe-verified under the repo CFLAGS.
+STATIC_ASSERT(offsetof(struct SaveBlock1, roamer) == 13792, SaveBlock1RoamerMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

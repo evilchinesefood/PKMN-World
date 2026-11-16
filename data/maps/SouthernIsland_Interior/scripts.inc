@@ -54,6 +54,10 @@ SouthernIsland_Interior_EventScript_Lati::
 	goto_if_set FLAG_DEFEATED_LATIAS_OR_LATIOS, SouthernIsland_Interior_EventScript_Sign
 	goto_if_set FLAG_CAUGHT_LATIAS_OR_LATIOS, SouthernIsland_Interior_EventScript_Sign
 	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, SouthernIsland_Interior_EventScript_Sign
+	@ Refuse an empty or Egg-only party BEFORE the Lati flies in: the battle's own refusal would leave it
+	@ hovering there for the rest of the visit.
+	specialvar VAR_RESULT, CountPartyNonEggMons
+	goto_if_eq VAR_RESULT, 0, EventScript_NoMonsForWildBattle
 	setflag FLAG_ENCOUNTERED_LATIAS_OR_LATIOS
 	setflag FLAG_TEMP_2
 	special SpawnCameraObject

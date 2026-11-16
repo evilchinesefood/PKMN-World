@@ -1263,6 +1263,10 @@ bool8 IsBikingDisallowedByPlayer(void)
     s16 x, y;
     u8 tileBehavior;
 
+    // The Sky Charm only takes off on foot. Mounting in mid-air started the cycling theme as the
+    // saved music, and landing put the player on foot with it still playing.
+    if (IsPlayerFlying())
+        return TRUE;
     if (!(gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_UNDERWATER)))
     {
         PlayerGetDestCoords(&x, &y);

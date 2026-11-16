@@ -6450,6 +6450,9 @@ static void BagMenu_ClosePartySelect(u8 taskId)
     s16 *data = gTasks[taskId].data;
     u8 iconSpriteId = gBagMenu->spriteIds[ITEMMENUSPRITE_ITEM + (gBagMenu->itemIconSlot ^ 1)];
     sPartyGiveMode = FALSE;
+    // A TM's "Teach ... to a POKeMON?" prompt stays up over the party select; back on the list it
+    // would cover the description until something else replaced the message window.
+    RemoveItemMessageWindow(ITEMWIN_MESSAGE);
     BagMenu_DisableEvoBlend();
     BagMenu_UpdateStatusIcons();
     BagMenu_UpdateStatusIconPos(PARTY_SIZE);

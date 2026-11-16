@@ -674,6 +674,9 @@ void Usm_InitStartMenu(void)
         return;
     }
 
+    // Take down a map-name pop-up first: hiding a GEN_8 pop-up rewrites WINOUT to the field
+    // default, which would drop the OBJ-window bit the dark-area icons are drawn through.
+    HideMapNamePopUpWindow();
     if (Usm_IsFlashObscured())
     {
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
@@ -702,7 +705,6 @@ void Usm_InitStartMenu(void)
             sUsmState->selectedVisibleIdx = (visibleCount > 0) ? visibleCount - 1 : 0;
     }
 
-    HideMapNamePopUpWindow();
     Usm_LoadBgGfx();
     Usm_SetupWindows();
     Usm_BuildVisibleList();
@@ -1181,19 +1183,19 @@ static struct Sprite* Usm_GetSelectedSprite(void)
     return sprite;
 }
 
+// The menu shows only the icons this context allows (the Bug Contest hides Save, the Pike the Bag),
+// and Usm_BuildMenuItems took them from the saved order. Write the shown icons back into their own
+// slots, in the menu's order, so the hidden ones keep their place in the player's order.
 static void Usm_SaveItems(void)
 {
     struct Usm_SavedItems* saved = &gSaveBlock3Ptr->region.usmSaved;
+    u32 next = 0;
 
-    u8 count = sUsmState->itemCount;
-
-    if (count > USM_ICO_COUNT)
-        count = USM_ICO_COUNT;
-
-    saved->count = count;
-
-    for (u8 i = 0; i < count; i++)
-        saved->items[i] = sUsmState->items[i];
+    for (u32 i = 0; i < saved->count && next < sUsmState->itemCount; i++)
+    {
+        if (Usm_ListContains(saved->items[i], sUsmState->items, sUsmState->itemCount))
+            saved->items[i] = sUsmState->items[next++];
+    }
 }
 
 static void Usm_HandleMainInput(void)

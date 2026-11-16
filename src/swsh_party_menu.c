@@ -153,6 +153,7 @@ enum {
     PARTY_BOX_SWSH_COLUMN,
 };
 
+#define PARTY_ICON_SUBPRIORITY 4
 #define TAG_STATUS_ICONS            55119
 #define TAG_HELD_ITEM               55120
 #define TAG_HOVER_CURSOR            55121
@@ -3942,14 +3943,15 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
     }
 }
 
-// The Bug-Catching Contest, Battle Pike and Battle Pyramid park the real party in SaveBlock1
-// (SavePlayerParty) and put it back with LoadPlayerParty when they end. Reordering the stand-in
-// party, or moving Pokemon through the PC from it, is then undone or doubled at the end: a
-// deposited Pokemon is cloned, a withdrawn one deleted, and the contest's "not your first
-// Pokemon" check (by slot) judges the wrong one after a Switch.
+// The Bug-Catching Contest, Battle Pike, Battle Pyramid and the Battle Tower multi partner room
+// park the real party in SaveBlock1 (SavePlayerParty) and put it back with LoadPlayerParty when
+// they end. Reordering the stand-in party, or moving Pokemon through the PC from it, is then
+// undone or doubled at the end: a deposited Pokemon is cloned, a withdrawn one deleted, and the
+// contest's "not your first Pokemon" check (by slot) judges the wrong one after a Switch.
 static bool32 IsPartyParkedForChallenge(void)
 {
-    return InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || GetBugContestFlag();
+    return InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || GetBugContestFlag()
+        || InMultiPartnerRoom();
 }
 
 // Switch and the held-item actions: the end-of-event LoadPlayerParty would undo a reorder or
@@ -4530,6 +4532,8 @@ static void SwitchPartyMon(void)
     SwitchMenuBoxSprites(&menuBoxes[0]->itemSpriteId, &menuBoxes[1]->itemSpriteId);
     SwitchMenuBoxSprites(&menuBoxes[0]->monSpriteId, &menuBoxes[1]->monSpriteId);
     SwitchMenuBoxSprites(&menuBoxes[0]->statusSpriteId, &menuBoxes[1]->statusSpriteId);
+    gSprites[menuBoxes[0]->monSpriteId].subpriority = PARTY_ICON_SUBPRIORITY + gPartyMenu.slotId;
+    gSprites[menuBoxes[1]->monSpriteId].subpriority = PARTY_ICON_SUBPRIORITY + gPartyMenu.slotId2;
 }
 
 // Finish switching mons or using Softboiled
@@ -5624,7 +5628,13 @@ static void CreatePartyMonIconSpriteParameterized(u16 species, u32 pid, bool32 i
 {
     if (species != SPECIES_NONE)
     {
-        menuBox->monSpriteId = CreateMonIconIsEgg(species, SpriteCB_MonIcon, menuBox->spriteCoords[0], menuBox->spriteCoords[1], 4, pid, isEgg);
+        // Icons are 32 pixels tall on 24-pixel rows. Equal subpriorities sort the lower sprite in
+        // front, so each row takes a lower subpriority than the row below it: a lower icon's top
+        // (Balloon Pikachu's balloons) must not cover the upper icon's feet (Surfboard Pikachu's
+        // board). The select frame sits behind all six.
+        u8 subpriority = PARTY_ICON_SUBPRIORITY + (menuBox - sPartyMenuBoxes);
+
+        menuBox->monSpriteId = CreateMonIconIsEgg(species, SpriteCB_MonIcon, menuBox->spriteCoords[0], menuBox->spriteCoords[1], subpriority, pid, isEgg);
         gSprites[menuBox->monSpriteId].oam.priority = priority;
     }
 }
@@ -6357,7 +6367,7 @@ static void CreateSelectFrame(struct PartyMenuBox *menuBox, u8 slot)
         {
             StartSpriteAnim(&gSprites[sSelectFrameSpriteIds[i]], animNum);
             gSprites[sSelectFrameSpriteIds[i]].oam.priority = 1;
-            gSprites[sSelectFrameSpriteIds[i]].subpriority = 6;
+            gSprites[sSelectFrameSpriteIds[i]].subpriority = PARTY_ICON_SUBPRIORITY + PARTY_SIZE;
         }
     }
 }

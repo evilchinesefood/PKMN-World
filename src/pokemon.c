@@ -5173,8 +5173,12 @@ u16 SpeciesToPokedexNum(enum Species species)
     }
     else
     {
+        // Johto has no regional dex here (SpeciesToRegionalPokedexNum falls back to the Hoenn
+        // order), and the regional lookups return 0 for a species outside their dex.
+        if (GetCurrentRegion() == REGION_JOHTO)
+            return 0xFFFF;
         species = SpeciesToRegionalPokedexNum(species);
-        if (species <= REGIONAL_DEX_COUNT)
+        if (species != 0 && species <= REGIONAL_DEX_COUNT)
             return species;
         return 0xFFFF;
     }

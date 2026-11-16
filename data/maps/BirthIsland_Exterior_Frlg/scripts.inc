@@ -11,8 +11,10 @@ BirthIsland_Exterior_Frlg_OnReturnToField::
 BirthIsland_Exterior_Frlg_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_BIRTH_ISLAND_EXTERIOR
 	setvar VAR_OBJ_GFX_ID_0, OBJ_EVENT_GFX_DEOXYS_N
-	setvar VAR_DEOXYS_INTERACTION_STEP_COUNTER, 0
-	setvar VAR_DEOXYS_INTERACTION_NUM, 0
+	@ The stone's step count and level are the vars DoDeoxysRockInteraction reads (shared with
+	@ Hoenn's Birth Island), not FRLG's rebased VAR_DEOXYS_INTERACTION_* copies.
+	setvar VAR_DEOXYS_ROCK_STEP_COUNT, 0
+	setvar VAR_DEOXYS_ROCK_LEVEL, 0
 	call_if_set FLAG_FOUGHT_DEOXYS, BirthIsland_Exterior_Frlg_EventScript_HideDeoxysAndPuzzle
 	call_if_unset FLAG_FOUGHT_DEOXYS, BirthIsland_Exterior_Frlg_EventScript_TryShowDeoxysPuzzle
 	end
@@ -62,6 +64,10 @@ BirthIsland_Exterior_EventScript_NotSolved3::
 	end
 
 BirthIsland_Exterior_Frlg_EventScript_Deoxys::
+	@ Refuse an empty or Egg-only party BEFORE the rock bursts: the battle's own refusal would leave Deoxys
+	@ standing there to the encounter music.
+	specialvar VAR_RESULT, CountPartyNonEggMons
+	goto_if_eq VAR_RESULT, 0, BirthIsland_Exterior_Frlg_EventScript_NoMonsForDeoxys
 	addobject LOCALID_BIRTH_ISLAND_DEOXYS
 	waitse
 	setfieldeffectargument 0, LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK
@@ -109,3 +115,11 @@ Movement_DeoxysApproach:
 	walk_slow_down
 	walk_slow_down
 	step_end
+
+BirthIsland_Exterior_Frlg_EventScript_NoMonsForDeoxys::
+	@ DoDeoxysRockInteraction marked the puzzle complete before this check, and a complete rock
+	@ answers nothing until the map reloads. Undo it so the rock opens again once a Pokemon that
+	@ can fight joins on this visit (an Egg hatching here).
+	clearflag FLAG_DEOXYS_ROCK_COMPLETE
+	goto EventScript_NoMonsForWildBattle
+	end

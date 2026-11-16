@@ -2480,3 +2480,13 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `BadgeSpeechRules.lua`
+
+Badge speeches must state this build's badge rules: `B_BADGE_BOOST` is `GEN_LATEST`, so no badge
+raises a stat, and `GetAttackerObedienceForAction` raises the obedience cap by 10 with every badge of
+the active region. The Cerulean badge describer is talked to four times with real input and its
+BOULDER, THUNDER, SOUL and VOLCANO rows must quote obedience up to level 20, 40, 60 and 80 and no
+stat; Roxanne is talked to and battled (the win is forced once the battle starts, her gym trainers'
+flags are set) and her STONE BADGE speech must quote level 20 and no ATTACK boost. Text is read
+from `gStringVar4`. Measured **11/21** on the unfixed ROM (every row promised a stat boost) and
+**21/21** fixed. `ValidateConfigRules.py` covers the other leaders' lines.

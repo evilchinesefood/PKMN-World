@@ -27,6 +27,7 @@ static u16 sNextMapMusic;
 static u8 sMapMusicState;
 static u8 sMapMusicFadeInSpeed;
 static u16 sFanfareCounter;
+static bool8 sFanfarePausedBGM;
 
 COMMON_DATA bool8 gDisableMusic = 0;
 
@@ -35,6 +36,7 @@ extern struct ToneData gCryTable_Reverse[];
 
 static void Task_Fanfare(u8 taskId);
 static void CreateFanfareTask(void);
+static bool8 TickFanfare(void);
 static void RestoreBGMVolumeAfterPokemonCry(void);
 
 // The 1st argument in the table is the length of the fanfare, measured in frames. This is calculated by taking the duration of the midi file, multiplying by 59.72750056960583, and rounding up to the next nearest integer.
@@ -67,6 +69,11 @@ void InitMapMusic(void)
 
 void MapMusicMain(void)
 {
+    // A scene init that calls ResetTasks kills Task_Fanfare; finish its count here so the BGM it
+    // paused still resumes, or the next FadeOutMapMusic waits forever on a song that never plays.
+    if (sFanfarePausedBGM && !FuncIsActiveTask(Task_Fanfare))
+        TickFanfare();
+
     switch (sMapMusicState)
     {
     case 0:
@@ -185,6 +192,8 @@ void PlayFanfareByFanfareNum(u8 fanfareNum)
 {
     u16 songNum;
     m4aMPlayStop(&gMPlayInfo_BGM);
+    // Callers outside PlayFanfare resume the BGM themselves through WaitFanfare.
+    sFanfarePausedBGM = FALSE;
     songNum = sFanfares[fanfareNum].songNum;
     sFanfareCounter = sFanfares[fanfareNum].duration;
     m4aSongNumStart(songNum);
@@ -223,6 +232,7 @@ void PlayFanfare(u16 songNum)
         {
             PlayFanfareByFanfareNum(i);
             CreateFanfareTask();
+            sFanfarePausedBGM = TRUE;
             return;
         }
     }
@@ -231,11 +241,12 @@ void PlayFanfare(u16 songNum)
     // Play first fanfare in table instead
     PlayFanfareByFanfareNum(0);
     CreateFanfareTask();
+    sFanfarePausedBGM = TRUE;
 }
 
 bool8 IsFanfareTaskInactive(void)
 {
-    if (FuncIsActiveTask(Task_Fanfare) == TRUE)
+    if (FuncIsActiveTask(Task_Fanfare) == TRUE || sFanfarePausedBGM)
         return FALSE;
     return TRUE;
 }
@@ -246,18 +257,24 @@ static void Task_Fanfare(u8 taskId)
     {
         DestroyTask(taskId);
         sFanfareCounter = 0;
+        sFanfarePausedBGM = FALSE;
         return;
     }
 
+    if (TickFanfare())
+        DestroyTask(taskId);
+}
+
+static bool8 TickFanfare(void)
+{
     if (sFanfareCounter)
     {
         sFanfareCounter--;
+        return FALSE;
     }
-    else
-    {
-        m4aMPlayContinue(&gMPlayInfo_BGM);
-        DestroyTask(taskId);
-    }
+    m4aMPlayContinue(&gMPlayInfo_BGM);
+    sFanfarePausedBGM = FALSE;
+    return TRUE;
 }
 
 static void CreateFanfareTask(void)

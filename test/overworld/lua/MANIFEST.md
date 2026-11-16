@@ -117,6 +117,7 @@ is clean; keep it that way.
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
+| [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2480,3 +2481,15 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `AlphSlidingPuzzles.lua`
+
+The Ruins of Alph's four sliding puzzles and the Kabuto reward chamber, which no suite drove. Setup
+sets the four B1F item hide flags as Violet City's first-visit heap does. For each chamber the suite
+reads the sign and, on the puzzle screen, moves the cursor, picks up, rotates (R) and places tiles
+with real input until `sSlidingPuzzle` reads solved, then presses A. The completion flag must be set,
+the floor must drop the player to B1F on the same tile, and the reward (Dome Fossil, Helix Fossil, Old
+Amber, GS Ball) must stand one tile north and go into the bag on A. Before the Kabuto solve, B with a
+tile in hand must return control with the flag clear and a fresh board on the next visit, and the
+Kabuto drop must show B1F's "strange presence" line. Last, the Kabuto chamber's sensor must refuse a
+Lapras lead and react to a Kabuto lead (swapped to the front in RAM), and its door must lead into the
+reward room. Measured **40/40**; no defect found.

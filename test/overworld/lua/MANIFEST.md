@@ -2682,3 +2682,15 @@ once more and opens the Oldale viewer again. Each viewer must open on the latest
 loaded records must be every induction, oldest first (screenshots of each first page). Unfixed
 **48/53** (the Kanto viewer opens on Lv32 under "No. 33", the records read `2..30,33,31,32`, and
 after the next Kanto induction the Hoenn viewer still opens on Lv33), fixed **53/53**.
+### `CeladonSlotsPrizes.lua`
+
+The Celadon Game Corner's slot machines and Pokemon prize counter at their coin edges; no suite had
+played a slot machine. The Coin Case comes from the real restaurant NPC and only the coin balance
+(and, for the last prize case, the party and boxes) is seeded; machines, prompts and counters are
+real input. **Slots:** no coins (betting refused, "run out of COINS"), exactly 3 (one max bet and
+three stops), 9,998 (a one-coin bet), a full case (the machine refuses to start) and a seeded mash of
+every button but the soft-reset chord (`PW_SLOTS_SEED=<n>`); each must hand control back with a
+balance from 0 to 9,999, unchanged where no spin happened. **Prizes:** Abra one coin short (refused,
+coins kept), exactly 180 (Abra joins, 0 coins), a full party (Abra goes to a box, coins paid) and a
+full party with every box full (refused, coins kept). Measured **36/36** with seeds 11 and 4242; no
+defect found.

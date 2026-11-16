@@ -2286,3 +2286,12 @@ and friendship heart sprites by their fixed positions in `gSprites`; then from e
 other pages Down must skip the Egg (the party cursor returns to the lead on close). Measured
 **15/15** on master and **11/15** with `0829014ec0`'s Egg checks in `SetShinySprite` and
 `SetFriendshipSprite` reverted (star and heart shown on the Egg).
+### `LastBallBounceHide.lua`
+
+The BW battle UI's last-used-ball icon must not be recreated after its window hides mid-bounce.
+A wild Pidgey battle starts by `setwildbattle`/`dowildbattle` with three ball types in the Bag. At
+the action menu, with real input, the suite holds R, taps Right (the cycle bounce starts), releases
+R and presses A on FIGHT 0 to 12 frames later, then B back. The in-use sprite count in move
+selection must equal a plain A's, and the action menu's count must return to its baseline each
+round. Measured **7/7** on master and **6/7** with `0829014ec0`'s `bw_battle_ui.c` hunk reverted
+(at 0 and 1 frames an extra ball icon stayed up in move selection).

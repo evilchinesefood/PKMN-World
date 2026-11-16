@@ -2732,3 +2732,37 @@ cracked ice metatiles and the `VAR_TEMP_8`..`A` ice rows must come back, and the
 on: off the bridge both ways but not down into the river, riding across and dismounting, and onto
 the next ice tile. Measured **57/57**; no defect found. `--env PW_OSS_ONLY=<text>` runs matching
 cases.
+### `TrickHouseRewards.lua`
+
+The Trick House loop for all eight levels. Each level walks in from Route 110, finds the Trick
+Master at that level's hiding spot (desk, tree, dresser, window, planter, cupboard, window,
+cushion) with real input, watches him leave, opens the scroll door and enters that level's puzzle
+room. The puzzle itself is skipped by warping onto the end room's arrival tile; the Trick Master is
+talked to for the reward, and the player walks out through the corridor and the front door, so
+every entrance state comes from the game's own scripts. Level 1 is taken with a full Items pocket:
+the Rare Candy must wait (`VAR_TRICK_HOUSE_PRIZE_PICKUP`) and the Trick Master must hand it over at
+the entrance once there is room. Level 8 takes the RED TENT. Measured **89/89**; no defect found.
+### `MirageTowerCollapse.lua`
+
+Mirage Tower's collapse with a follower out. The player talks to the Root Fossil on 4F, answers
+YES and mashes A/B through the ceiling crumble, the warp to Route 111, the fall, the tower's
+disintegration and the fossil message. The fossil must be in the bag, the fossil flags and
+`VAR_MIRAGE_TOWER_STATE` must advance, the player must land on (19,59) with control, the follower
+must never stand visible while the player is hidden and must come back beside them after a step,
+and re-entering Route 111 must leave the tower gone (state 3). Measured **14/14**; no defect found.
+### `HoennRegiPuzzles.lua`
+
+The Regi chain with real input. The Sealed Chamber's back wall is read with the wrong party order
+(nothing opens) and then with Wailord first and Relicanth last (the tombs open). In the Desert
+Ruins Rock Smash, and in the Ancient Tomb Flash, is picked from the field party menu, first one
+tile off the braille spot (nothing opens) and then on it (the inner wall opens). The player walks
+through, talks to the Regi and runs from the battle by reading the action cursor: the Regi must fly
+away with its defeated flag clear and be back when the tomb is entered again. Measured **28/28**;
+no defect found.
+### `AbandonedShipScanner.lua`
+
+The Abandoned Ship's Storage Key and Capt. Stern's Scanner trade. The storage door is tried
+without the key and then with it: the key is used up, the door stays unlocked after the map
+reloads, and the player walks into the storage room. At the Slateport harbor Stern is offered the
+Scanner with a full Items pocket (refused, Scanner kept), then with room (DEEP SEA TOOTH received,
+Scanner gone), then talked to again (nothing traded twice). Measured **13/13**; no defect found.

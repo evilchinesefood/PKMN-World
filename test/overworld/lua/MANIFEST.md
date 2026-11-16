@@ -2988,3 +2988,11 @@ the Bag, pick Use and the party slot and drive the evolution with A; Kadabra wit
 the control. Each must arm an evolution-stone use, evolve into its trade evolution and spend the
 item. Measured **13/45** on the unfixed ROM (Use printed Dad's advice; only the control evolved)
 and **45/45** fixed. `--env PW_EVO_ONLY=<text>` runs matching cases.
+### `SageLiAfterHoennFlash.lua`
+
+HM Flash is one item in the shared Bag, so `FLAG_RECEIVED_HM_FLASH` is one per world (Granite Cave in
+Hoenn, Sprout Tower in Johto). Sprout Tower's Sage Li checked that flag before his battle, so a player
+who already had Flash from Hoenn got his after-battle line and never fought him. The suite sets the
+flag as Granite Cave leaves it, gives a level 50 party member, debug-warps to (11,4) in front of Li,
+faces him and presses A. **Oracle:** a trainer battle starts (`gBattlersCount` > 0 with
+`BATTLE_TYPE_TRAINER`). **Discrimination:** unfixed 1/2 (no battle), fixed 2/2.

@@ -260,3 +260,4 @@ SkyCharmMahoganySetup	lua/SkyCharmMahoganySetup.lua	fresh	0	required
 LotteryCountersPerRegion	lua/LotteryCountersPerRegion.lua	fresh	0	required
 SkyCharmLockedGymDoors	lua/SkyCharmLockedGymDoors.lua	fresh	0	required
 HeldItemTradeEvolution	lua/HeldItemTradeEvolution.lua	fresh	0	required
+SageLiAfterHoennFlash	lua/SageLiAfterHoennFlash.lua	fresh	0	required

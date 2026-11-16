@@ -757,7 +757,7 @@ AzaleaTown_Gym_Text_BugsyRematch:
 
 AzaleaTown_Gym_Text_BugsyRematchDefeat:
 	.string "Wow, you must be an expert trainer.\n"
-	.string "My research must not be complete...$"
+	.string "My research must not be complete…$"
 
 AzaleaTown_Gym_Text_BugsyRematchPost:
 	.string "New data collected! My bug POKéMON\n"

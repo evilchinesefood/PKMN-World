@@ -2314,3 +2314,11 @@ is dark and walled), picks Rest and answers Yes. The game must not hand control 
 and Continue must load the Rest save and resume on the floor with the three chosen Pokémon.
 Measured **13/13** on master and **11/13** with `0829014ec0`'s `save_dialog.c` hunk reverted (after
 Rest the player walked on the floor holding all six Pokémon).
+### `BugContestPartyLock.lua`
+
+While the Bug-Catching Contest parks the team, the party menu must not open the PC (R, Boxes) or
+offer the lead's held-item, Follow and Nickname rows, which the contest's end would undo or double.
+The suite gives a team, enters the contest through the real attendant, opens the party from the
+Start menu, presses R, and counts the lead's action rows through `sMenu` (Summary and Cancel only).
+Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
+with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).

@@ -207,6 +207,9 @@ and friends — see MANIFEST.md §"Host-side validators". To ask whether the pla
 all, run `python3 test/overworld/ValidateReachability.py --map <MapName> --list`: it floods every map
 on the game's movement rules (elevation, ledges, Surf, Waterfall, Dive, connections, warps) and
 prints how each item ball, hidden item, trainer and gift NPC on the map is reached.
+`python3 test/overworld/ValidateAmbientBlockers.py --map <MapName>` uses the same flood to list
+scriptless moving objects (ambient Pokemon) that can wander onto a door, its approach tile or a
+one-tile passage the player must use to reach another exit.
 
 ---
 

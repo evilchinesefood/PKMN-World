@@ -23,6 +23,7 @@ CHECKS = (
     ("ValidateMetatileBounds.py",),
     ("ValidateBorderTerrain.py",),
     ("ValidateReachability.py",),
+    ("ValidateAmbientBlockers.py",),
     ("GenObstacleTable.py", "--check"),
     ("ValidateDoorAnims.py", "--max", "0"),
     ("ValidateTilesetPalettes.py",),

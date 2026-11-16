@@ -263,3 +263,4 @@ HeldItemTradeEvolution	lua/HeldItemTradeEvolution.lua	fresh	0	required
 SageLiAfterHoennFlash	lua/SageLiAfterHoennFlash.lua	fresh	0	required
 BadgeSpeechRules	lua/BadgeSpeechRules.lua	fresh	0	required
 FieldPoisonText	lua/FieldPoisonText.lua	fresh	0	required
+HmTmRulesText	lua/HmTmRulesText.lua	fresh	0	required

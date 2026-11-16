@@ -3015,3 +3015,12 @@ man (chased along his wander row) and the Cherrygrove Mart boy are talked to wit
 lines, read from `gStringVar4`, must name poison and claim no HP loss or fainting while walking.
 Measured **13/16** on the unfixed ROM (all three said it) and **16/16** fixed. The Rustboro school
 notebook line is covered by `ValidateConfigRules.py`.
+### `HmTmRulesText.lua`
+
+The Rustboro Cutter's HM speech must match this build's move rules: TMs are reusable
+(`I_REUSABLE_TMS`) and a POKéMON that can learn CUT may use it untaught
+(`QOL_FIELD_MOVES_NO_TEACH`). The Cutter is talked to twice with real input (the HM gift, then the
+repeat explanation); the explanation, read from `gStringVar4`, must not say "unlike a TM" and must
+name "can learn CUT". Measured **4/8** on the unfixed ROM and **8/8** fixed. Route 14's Carter
+(HM moves "can't" be forgotten, against `P_CAN_FORGET_HIDDEN_MOVE`) has no warp to reach him;
+`ValidateConfigRules.py` covers his line.

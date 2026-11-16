@@ -14,7 +14,7 @@ Route14_Text_CarterDefeat::
 
 Route14_Text_CarterPostBattle::
 	.string "You have some HMs, right? POKéMON\n"
-	.string "can't forget those moves easily.$"
+	.string "forget those moves like any other.$"
 
 Route14_Text_MitchIntro::
 	.string "My bird POKéMON should be ready\n"

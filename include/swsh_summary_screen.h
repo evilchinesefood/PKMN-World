@@ -27,7 +27,7 @@
 #define SWSH_SUMMARY_MON_SHADOWS                      TRUE      // displays a shadow for the mon sprite
 #define SWSH_SUMMARY_SHOW_CONTEST_PAGES               TRUE      // enables conditions and contest moves pages
 #define SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL               FALSE    // Dynamax is off in this game (B_FLAG_DYNAMAX_BATTLE 0)
-#define SWSH_SUMMARY_SHOW_GIGANTAMAX                  TRUE     // show gigantamax icon
+#define SWSH_SUMMARY_SHOW_GIGANTAMAX                  FALSE    // Gigantamax is a Dynamax form, and Dynamax is off
 #define SWSH_SUMMARY_SHOW_TERA_TYPE                   FALSE    // Terastal is off in this game (no Tera Orb)
 
 // Looking for configs for renaming mons and relearning moves? Those use the standard expansion configs

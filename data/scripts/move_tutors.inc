@@ -1,7 +1,7 @@
 SlateportCity_PokemonFanClub_EventScript_SwaggerTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SWAGGER, MoveTutor_Text_SwaggerTeach, MoveTutor_Text_SwaggerWhichMon, MoveTutor_EventScript_SwaggerDeclined, MoveTutor_EventScript_SwaggerTaught, FLAG_MOVE_TUTOR_TAUGHT_SWAGGER
+	move_tutor MOVE_SWAGGER, MoveTutor_Text_SwaggerTeach, MoveTutor_Text_SwaggerWhichMon, MoveTutor_EventScript_SwaggerDeclined, MoveTutor_EventScript_SwaggerTaught
 	release
 	end
 
@@ -18,7 +18,7 @@ MoveTutor_EventScript_SwaggerTaught::
 MauvilleCity_EventScript_RolloutTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_ROLLOUT, MoveTutor_Text_RolloutTeach, MoveTutor_Text_RolloutWhichMon, MoveTutor_EventScript_RolloutDeclined, MoveTutor_EventScript_RolloutTaught, FLAG_MOVE_TUTOR_TAUGHT_ROLLOUT
+	move_tutor MOVE_ROLLOUT, MoveTutor_Text_RolloutTeach, MoveTutor_Text_RolloutWhichMon, MoveTutor_EventScript_RolloutDeclined, MoveTutor_EventScript_RolloutTaught
 	release
 	end
 
@@ -35,7 +35,7 @@ MoveTutor_EventScript_RolloutTaught::
 VerdanturfTown_PokemonCenter_1F_EventScript_FuryCutterTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_FURY_CUTTER, MoveTutor_Text_FuryCutterTeach, MoveTutor_Text_FuryCutterWhichMon, MoveTutor_EventScript_FuryCutterDeclined, MoveTutor_EventScript_FuryCutterTaught, FLAG_MOVE_TUTOR_TAUGHT_FURY_CUTTER
+	move_tutor MOVE_FURY_CUTTER, MoveTutor_Text_FuryCutterTeach, MoveTutor_Text_FuryCutterWhichMon, MoveTutor_EventScript_FuryCutterDeclined, MoveTutor_EventScript_FuryCutterTaught
 	end
 
 MoveTutor_EventScript_FuryCutterDeclined::
@@ -51,7 +51,7 @@ MoveTutor_EventScript_FuryCutterTaught::
 LavaridgeTown_House_EventScript_MimicTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_MIMIC, MoveTutor_MimicTeach, MoveTutor_Text_MimicWhichMon, MoveTutor_EventScript_MimicDeclined, MoveTutor_EventScript_MimicTaught, FLAG_MOVE_TUTOR_TAUGHT_MIMIC
+	move_tutor MOVE_MIMIC, MoveTutor_MimicTeach, MoveTutor_Text_MimicWhichMon, MoveTutor_EventScript_MimicDeclined, MoveTutor_EventScript_MimicTaught
 	end
 
 MoveTutor_EventScript_MimicDeclined::
@@ -67,7 +67,7 @@ MoveTutor_EventScript_MimicTaught::
 FallarborTown_Mart_EventScript_MetronomeTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_METRONOME, MoveTutor_Text_MetronomeTeach, MoveTutor_Text_MetronomeWhichMon, MoveTutor_EventScript_MetronomeDeclined, MoveTutor_EventScript_MetronomeTaught, FLAG_MOVE_TUTOR_TAUGHT_METRONOME
+	move_tutor MOVE_METRONOME, MoveTutor_Text_MetronomeTeach, MoveTutor_Text_MetronomeWhichMon, MoveTutor_EventScript_MetronomeDeclined, MoveTutor_EventScript_MetronomeTaught
 	end
 
 MoveTutor_EventScript_MetronomeDeclined::
@@ -83,7 +83,7 @@ MoveTutor_EventScript_MetronomeTaught::
 FortreeCity_House2_EventScript_SleepTalkTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SLEEP_TALK, MoveTutor_Text_SleepTalkTeach, MoveTutor_Text_SleepTalkWhichMon, MoveTutor_EventScript_SleepTalkDeclined, MoveTutor_EventScript_SleepTalkTaught, FLAG_MOVE_TUTOR_TAUGHT_SLEEP_TALK
+	move_tutor MOVE_SLEEP_TALK, MoveTutor_Text_SleepTalkTeach, MoveTutor_Text_SleepTalkWhichMon, MoveTutor_EventScript_SleepTalkDeclined, MoveTutor_EventScript_SleepTalkTaught
 	end
 
 MoveTutor_EventScript_SleepTalkDeclined::
@@ -99,7 +99,7 @@ MoveTutor_EventScript_SleepTalkTaught::
 LilycoveCity_DepartmentStoreRooftop_EventScript_SubstituteTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_SUBSTITUTE, MoveTutor_Text_SubstituteTeach, MoveTutor_Text_SubstituteWhichMon, MoveTutor_EventScript_SubstituteDeclined, MoveTutor_EventScript_SubstituteTaught, FLAG_MOVE_TUTOR_TAUGHT_SUBSTITUTE
+	move_tutor MOVE_SUBSTITUTE, MoveTutor_Text_SubstituteTeach, MoveTutor_Text_SubstituteWhichMon, MoveTutor_EventScript_SubstituteDeclined, MoveTutor_EventScript_SubstituteTaught
 	end
 
 MoveTutor_EventScript_SubstituteDeclined::
@@ -115,7 +115,7 @@ MoveTutor_EventScript_SubstituteTaught::
 MossdeepCity_EventScript_DynamicPunchTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_DYNAMIC_PUNCH, MoveTutor_Text_DynamicPunchTeach, MoveTutor_Text_DynamicPunchWhichMon, MoveTutor_EventScript_DynamicPunchDeclined, MoveTutor_EventScript_DynamicPunchTaught, FLAG_MOVE_TUTOR_TAUGHT_DYNAMICPUNCH
+	move_tutor MOVE_DYNAMIC_PUNCH, MoveTutor_Text_DynamicPunchTeach, MoveTutor_Text_DynamicPunchWhichMon, MoveTutor_EventScript_DynamicPunchDeclined, MoveTutor_EventScript_DynamicPunchTaught
 	end
 
 MoveTutor_EventScript_DynamicPunchDeclined::
@@ -131,7 +131,7 @@ MoveTutor_EventScript_DynamicPunchTaught::
 SootopolisCity_PokemonCenter_1F_EventScript_DoubleEdgeTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_DOUBLE_EDGE, MoveTutor_Text_DoubleEdgeTeach, MoveTutor_Text_DoubleEdgeWhichMon, MoveTutor_EventScript_DoubleEdgeDeclined, MoveTutor_EventScript_DoubleEdgeTaught, FLAG_MOVE_TUTOR_TAUGHT_DOUBLE_EDGE
+	move_tutor MOVE_DOUBLE_EDGE, MoveTutor_Text_DoubleEdgeTeach, MoveTutor_Text_DoubleEdgeWhichMon, MoveTutor_EventScript_DoubleEdgeDeclined, MoveTutor_EventScript_DoubleEdgeTaught
 	end
 
 MoveTutor_EventScript_DoubleEdgeDeclined::
@@ -147,7 +147,7 @@ MoveTutor_EventScript_DoubleEdgeTaught::
 PacifidlogTown_PokemonCenter_1F_EventScript_ExplosionTutor::
 	lock
 	faceplayer
-	move_tutor MOVE_EXPLOSION, MoveTutor_Text_ExplosionTeach, MoveTutor_Text_ExplosionWhichMon, MoveTutor_EventScript_ExplosionDeclined, MoveTutor_EventScript_ExplosionTaught, FLAG_MOVE_TUTOR_TAUGHT_EXPLOSION
+	move_tutor MOVE_EXPLOSION, MoveTutor_Text_ExplosionTeach, MoveTutor_Text_ExplosionWhichMon, MoveTutor_EventScript_ExplosionDeclined, MoveTutor_EventScript_ExplosionTaught
 	end
 
 MoveTutor_EventScript_ExplosionDeclined::
@@ -171,10 +171,6 @@ MoveTutor_EventScript_OpenBox::
 	waitstate
 	lock
 	faceplayer
-	return
-
-MoveTutor_EventScript_CanOnlyBeLearnedOnce::
-	msgbox MoveTutor_Text_ThisMoveCanOnlyBeLearnedOnce, MSGBOX_YESNO
 	return
 
 MoveTutor_AfterChooseBoxMon::

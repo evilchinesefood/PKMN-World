@@ -1,9 +1,8 @@
 -- A Kanto move tutor that teaches again must not say its move can be learned only once.
 --
--- I_REUSABLE_TMS is TRUE, so move_tutors_frlg.inc compiles out every FRLG tutor's "taught" flag and
--- the tutor offers the move again on the next visit. The scripts still asked "This move can be
--- learned only once. Is that okay?" before the party menu, a promise the game then broke. Cape
--- Brink's ultimate-move tutor keeps its flags in C and stays one-time, so it keeps the question.
+-- The FRLG tutors' "taught" flags were compiled out (I_REUSABLE_TMS), so each tutor offered the move
+-- again on the next visit, yet still asked "This move can be learned only once. Is that okay?"
+-- before the party menu, a promise the game then broke. Every tutor is now reusable by rule.
 --
 -- The suite gives two level 5 Mew, enters the Pewter Museum by its back door and asks the Seismic
 -- Toss tutor twice with real input, answering YES to every Yes/No box and picking a different Mew

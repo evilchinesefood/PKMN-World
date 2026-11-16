@@ -45,6 +45,7 @@ run "Greedy exclusive-choice gifts"   test/overworld/ValidateGreedyGifts.py
 run "Region map icon positions"       test/overworld/ValidateRegionMap.py
 run "Lance Rocket HQ multi battle"    test/overworld/ValidateLanceMultiBattle.py
 run "Registered zone structures"     test/overworld/ValidateZoneStructure.py
+run "Marts sell live evolution items" test/overworld/ValidateDeadEvoItems.py
 
 if [ "$fail" -ne 0 ]; then
   cat >&2 <<'EOF'

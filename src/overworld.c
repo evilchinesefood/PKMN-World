@@ -422,6 +422,7 @@ void Overworld_ResetStateAfterFly(void)
 {
     ResetInitialPlayerAvatarState();
     FlagClear(FLAG_SYS_CYCLING_ROAD);
+    FlagClear(FLAG_SYS_ON_CYCLING_ROAD); // Kanto's Cycling Road (Routes 16 to 18)
     FlagClear(FLAG_SYS_CRUISE_MODE);
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_IN_JOHTO_SAFARI_ZONE); // else the shared exit router warps the NEXT safari's exit to the Johto gate
@@ -435,6 +436,7 @@ void Overworld_ResetStateAfterTeleport(void)
 {
     ResetInitialPlayerAvatarState();
     FlagClear(FLAG_SYS_CYCLING_ROAD);
+    FlagClear(FLAG_SYS_ON_CYCLING_ROAD); // Kanto's Cycling Road (Routes 16 to 18)
     FlagClear(FLAG_SYS_CRUISE_MODE);
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_IN_JOHTO_SAFARI_ZONE); // else the shared exit router warps the NEXT safari's exit to the Johto gate
@@ -449,6 +451,7 @@ void Overworld_ResetStateAfterDigEscRope(void)
 {
     ResetInitialPlayerAvatarState();
     FlagClear(FLAG_SYS_CYCLING_ROAD);
+    FlagClear(FLAG_SYS_ON_CYCLING_ROAD); // Kanto's Cycling Road (Routes 16 to 18)
     FlagClear(FLAG_SYS_CRUISE_MODE);
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_IN_JOHTO_SAFARI_ZONE); // else the shared exit router warps the NEXT safari's exit to the Johto gate
@@ -490,6 +493,7 @@ static void Overworld_ResetStateAfterWhiteOut(void)
 {
     ResetInitialPlayerAvatarState();
     FlagClear(FLAG_SYS_CYCLING_ROAD);
+    FlagClear(FLAG_SYS_ON_CYCLING_ROAD); // Kanto's Cycling Road (Routes 16 to 18)
     FlagClear(FLAG_SYS_CRUISE_MODE);
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_IN_JOHTO_SAFARI_ZONE); // else the shared exit router warps the NEXT safari's exit to the Johto gate

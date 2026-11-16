@@ -331,7 +331,9 @@ void ItemUseOutOfBattle_Bike(u8 taskId)
     u8 behavior;
     PlayerGetDestCoords(&coordsX, &coordsY);
     behavior = MapGridGetMetatileBehaviorAt(coordsX, coordsY);
-    if (FlagGet(FLAG_SYS_CYCLING_ROAD) == TRUE || MetatileBehavior_IsVerticalRail(behavior) == TRUE || MetatileBehavior_IsHorizontalRail(behavior) == TRUE || MetatileBehavior_IsIsolatedVerticalRail(behavior) == TRUE || MetatileBehavior_IsIsolatedHorizontalRail(behavior) == TRUE)
+    // FLAG_SYS_ON_CYCLING_ROAD is Kanto's Cycling Road: its gates put the player on the bike and
+    // FRLG never lets them off there, like Route 110's FLAG_SYS_CYCLING_ROAD.
+    if (FlagGet(FLAG_SYS_CYCLING_ROAD) == TRUE || FlagGet(FLAG_SYS_ON_CYCLING_ROAD) == TRUE || MetatileBehavior_IsVerticalRail(behavior) == TRUE || MetatileBehavior_IsHorizontalRail(behavior) == TRUE || MetatileBehavior_IsIsolatedVerticalRail(behavior) == TRUE || MetatileBehavior_IsIsolatedHorizontalRail(behavior) == TRUE)
     {
         DisplayCannotDismountBikeMessage(taskId, tUsingRegisteredKeyItem);
     }

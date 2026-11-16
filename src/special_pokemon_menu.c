@@ -21,7 +21,11 @@
 #include "constants/songs.h"
 
 #define COLLECTION_ROWS 4
-#define COLLECTION_ROW_HEIGHT 29
+// Rows are a full icon tall: Surfboard Pikachu's board fills its icon to the last pixel row and Balloon
+// Pikachu's balloons start on the first, so any shorter row lets them overlap.
+#define COLLECTION_ROW_HEIGHT 32
+#define COLLECTION_LIST_TOP 20
+#define COLLECTION_FOOTER_Y 148
 
 struct SpecialPokemonMenu
 {
@@ -80,8 +84,6 @@ static void CreateCollectionIcon(u32 slot, u16 species, s16 x, s16 y)
     u8 spriteId;
 
     LoadMonIconPalette(species);
-    // 32px icons overlap the row below by 9px; the upper icon goes in front so its feet are not
-    // hidden by the next icon's top (Balloon Pikachu's balloons over Surfboard Pikachu's board).
     spriteId = CreateMonIconNoPersonality(species, SpriteCB_MonIcon, x, y, slot);
     sSpecialPokemonMenu->iconSpriteIds[slot] = spriteId;
     if (spriteId < MAX_SPRITES)
@@ -128,7 +130,7 @@ static void DrawCollection(void)
         StringCopy(text, entry->hint);
         BreakStringAutomatic(text, 224, 3, FONT_SMALL, HIDE_SCROLL_PROMPT);
         PrintCollectionText(text, 8, 102);
-        PrintCollectionText(COMPOUND_STRING("{DPAD_LEFTRIGHT} Entry   {B_BUTTON} List"), 8, 145);
+        PrintCollectionText(COMPOUND_STRING("{DPAD_LEFTRIGHT} Entry   {B_BUTTON} List"), 8, COLLECTION_FOOTER_Y);
     }
     else
     {
@@ -137,14 +139,15 @@ static void DrawCollection(void)
         for (i = 0; i < COLLECTION_ROWS && first + i < SPECIAL_POKEMON_COUNT; i++)
         {
             u32 id = first + i;
+            u32 top = COLLECTION_LIST_TOP + i * COLLECTION_ROW_HEIGHT;
             entry = SpecialPokemon_GetEntry(id);
             if (id == sSpecialPokemonMenu->selected)
-                FillWindowPixelRect(0, PIXEL_FILL(4), 3, 23 + i * COLLECTION_ROW_HEIGHT, 234, COLLECTION_ROW_HEIGHT);
-            CreateCollectionIcon(i, entry->species, 21, 37 + i * COLLECTION_ROW_HEIGHT);
-            PrintCollectionText(entry->name, 40, 31 + i * COLLECTION_ROW_HEIGHT);
-            PrintCollectionText(FlagGet(entry->collectedFlag) ? COMPOUND_STRING("OK") : COMPOUND_STRING("--"), 215, 31 + i * COLLECTION_ROW_HEIGHT);
+                FillWindowPixelRect(0, PIXEL_FILL(4), 3, top, 234, COLLECTION_ROW_HEIGHT);
+            CreateCollectionIcon(i, entry->species, 21, top + COLLECTION_ROW_HEIGHT / 2);
+            PrintCollectionText(entry->name, 40, top + 8);
+            PrintCollectionText(FlagGet(entry->collectedFlag) ? COMPOUND_STRING("OK") : COMPOUND_STRING("--"), 215, top + 8);
         }
-        PrintCollectionText(COMPOUND_STRING("{DPAD_UPDOWN} Select  {A_BUTTON} Details  {B_BUTTON} Back"), 8, 145);
+        PrintCollectionText(COMPOUND_STRING("{DPAD_UPDOWN} Select  {A_BUTTON} Details  {B_BUTTON} Back"), 8, COLLECTION_FOOTER_Y);
     }
     PutWindowTilemap(0);
     CopyWindowToVram(0, COPYWIN_FULL);

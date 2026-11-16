@@ -2501,3 +2501,14 @@ Bike, walks into Goldenrod for the first time, talks to the Goldenrod clerk, the
 the Bag after each talk (quantities decoded with the encryption key). **Oracle:** the flag survives
 the Goldenrod visit and the Bag never holds more than one bike. **Discrimination:** unfixed 16/18
 (flag cleared; the clerk gives a Mach Bike beside the Acro Bike), fixed 18/18.
+### `PokegearKeepsHoennPokenav.lua`
+
+Johto's mother gave the PokeGear by setting `FLAG_RECEIVED_POKENAV`, Hoenn's flag for Devon's PokeNav
+scene. Every Hoenn Pokemon Center then ran `Common_EventScript_UpdateBrineyLocation` early, and the
+next Hoenn arrival docked Mr. Briney and Peeko at the cottage while Peeko was still missing. The suite
+crosses the hub's Johto gate, gets out of bed, sets the wall clock and walks downstairs for the
+mother's scene; then, with the first Hoenn badge and a party, enters the Rustboro Pokemon Center,
+leaves by Hub Pass and comes back through the Hoenn gate (team prompt: keep the party), and visits the
+cottage. **Oracle:** the PokeGear works (`FLAG_SYS_POKENAV_GET`), `FLAG_RECEIVED_POKENAV` stays clear,
+`VAR_BRINEY_LOCATION` stays 0, and the cottage holds nobody but the player. **Discrimination:** unfixed
+14/18 (Briney's shore recorded as 1, Briney and Peeko home at (2,6) and (6,3)), fixed 18/18.

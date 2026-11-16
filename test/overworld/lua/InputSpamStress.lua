@@ -212,6 +212,13 @@ local function flag(n)
   local a = F.sb1() + S.SaveBlock1.flags + n // 8
   F.w8(a, F.r8(a) | (1 << (n % 8)))
 end
+local function johtoFlag(n)
+  local a = F.sb3() + S.SaveBlock3.johtoFlags + n // 8
+  F.w8(a, F.r8(a) | (1 << (n % 8)))
+end
+local VAR_MAHOGANY_TOWN_STATE = 0xA080 + 0x11
+local VAR_DIFFICULTY = 0x40F8
+local DIFFICULTY_NORMAL = 1
 
 -- A mash that walks through a hub gate boxes the party (a new region starts empty) and moves
 -- the active region; put both back so the next scenario starts from the same footing.
@@ -427,17 +434,38 @@ F.run(function()
   end)
   toHub()
 
+  -- Lance's Rocket HQ multi battle through its real trigger: B2F as the Murkrow gate scene leaves
+  -- it (state 12, the gate open, Ariana, her Grunt, Lance and Dragonite hidden), a walk onto
+  -- Ariana's trigger, her and Lance's lines and the half-party screen, then the mash rides the
+  -- battle and whichever ending follows: the generator cutscene or the white-out.
   scenario("tag battle with a partner mash", function()
-    -- Lance's Rocket HQ multi battle, entered at its post-party-selection seam as
-    -- LanceMultiBattle.lua does, then mashed through the Instant-text intro and the battle.
+    F.w16(F.sb3() + S.SaveBlock3.regionVars + (VAR_MAHOGANY_TOWN_STATE - 0xA000) * 2, 12)
+    for _, n in ipairs({ 0x175, 0x176, 0x177, 0x178 }) do johtoFlag(n) end
     if not F.warpTo(0, 9, 2, 0, 1, 4, 0, 0, 0, 92, 14, "rocket_hq") then return "skip", 0 end
+    -- The debug warp keeps the saved region, Hoenn, whose champion plays at Hard; a player
+    -- reaches B2F through Johto's gate, which syncs Johto's tier.
+    F.w16(F.sb1() + S.SaveBlock1.vars + (VAR_DIFFICULTY - 0x4000) * 2, DIFFICULTY_NORMAL)
     instantText()
-    for i = 0, 2 do F.w8(S.gSelectedOrderFromParty + i, i + 1) end
-    F.w8(S.sGlobalScriptContext, 0)
-    F.w8(S.sGlobalScriptContext + 1, 1)
-    F.w32(S.sGlobalScriptContext + 4, 0)
-    F.w32(S.sGlobalScriptContext + S.ScriptCtx.scriptPtr, S.MahoganyHideout_B2F_EventScript_DoLanceMultiBattle)
-    F.w8(S.sGlobalScriptContextStatus, 0)
+    if not F.route({ { 3, 25 }, { 10, 25 }, { 10, 23 }, { 14, 23 }, { 14, 18 } }, "rocket_hq_walk") then return "skip", 0 end
+    local menu = false
+    for _ = 1, 400 do
+      if F.cb2() == S.CB2_UpdatePartyMenu then menu = true; break end
+      F.press("A", 2); F.idle(20)
+    end
+    if not menu then F.L("  no half-party screen"); return "skip", 0 end
+    -- The first three Pokemon that can battle: A opens a slot's menu, A takes Enter, Start
+    -- confirms.
+    F.idle(60)
+    local picked = 0
+    for i = 0, F.r8(S.gPartiesCount) - 1 do
+      if picked < 3 and F.r16(S.gParties + i * S.Pokemon.size + S.Pokemon.hp) > 0 then
+        F.press("A", 2); F.idle(30); F.press("A", 2); F.idle(40)
+        picked = picked + 1
+      end
+      F.press("Down", 2); F.idle(20)
+    end
+    F.press("Start", 2)
+    if F.r8(S.gSelectedOrderFromParty + 2) == 0 then F.L("  fewer than three picked"); return "skip", 0 end
     return battleMash("lance_multi", 12000)
   end)
   toHub()
@@ -513,17 +541,20 @@ F.run(function()
   end)
   toHub()
 
-  -- Lose on purpose: only the lead can fight and it sits at 1 HP, so the battle ends in a
-  -- whiteout and the mash rides the respawn warp and the nurse's lines.
+  -- Lose on purpose: only the lead can fight, it sits at 1 HP with its attacking stats at 1, and
+  -- the opponent stays at full HP, so the battle can only end in a defeat and the mash rides the
+  -- respawn warp and the nurse's lines.
   scenario("whiteout mash", function()
     for i = 1, F.r8(S.gPartiesCount) - 1 do F.w16(S.gParties + i * S.Pokemon.size + S.Pokemon.hp, 0) end
     if not terminalMenu({ 1, 0, 0 }) then F.L("  terminal refused"); return "skip", 0 end
     local entered, lost = false, false
-    local result, at = mash("whiteout", 15000, { A = 45, B = 20, Start = 4, Select = 4, dir = 40 }, function()
+    local function losing()
       if inBattle() then
         entered = true
         local a = S.gBattleMons
         if F.r16(a + S.BattlePokemon.hp) > 1 then F.w16(a + S.BattlePokemon.hp, 1) end
+        F.w16(a + S.BattlePokemon.attack, 1)
+        F.w16(a + S.BattlePokemon.spAttack, 1)
         local o = a + S.BattlePokemon.size
         F.w16(o + S.BattlePokemon.hp, F.r16(o + S.BattlePokemon.maxHP))
       end
@@ -532,9 +563,22 @@ F.run(function()
       local out = F.outcome()
       if entered and (out == 2 or out == 3 or out == 9) then lost = true end
       return lost and F.ow()
-    end)
+    end
+    local w = { A = 45, B = 20, Start = 4, Select = 4, dir = 40 }
+    local result, at = mash("whiteout", 8000, w, losing)
+    if result == "ok" and entered and not lost then
+      -- The mash can spend its whole budget in the Bag, party and summary screens without
+      -- committing a move. Back out and forfeit with the battle keys instead, so the defeat
+      -- and the white-out after it still happen.
+      for i = 1, 6000 do
+        if F.reportCrash("whiteout_forfeit") then result, at = "crash", i; break end
+        if losing() then result = "stop"; break end
+        joypad.set(i % 24 < 2 and { [battleKey(i // 24)] = true } or {})
+        emu.frameadvance()
+      end
+    end
     if result == "stop" then
-      result, at = mash("whiteout_after", 1200, { A = 45, B = 20, Start = 4, Select = 4, dir = 40 })
+      result, at = mash("whiteout_after", 1200, w)
     end
     F.L(string.format("  whiteout: entered=%s lost=%s at %d/%d", tostring(entered), tostring(lost), F.grp(), F.mapn()))
     F.check("whiteout mash: the player was defeated", lost)

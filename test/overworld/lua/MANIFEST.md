@@ -1442,6 +1442,19 @@ Hub Pass mash closed the screen before using it); one of them, a Mid-text run at
 left the Tate and Liza double battle running past the recovery budget: the recovery's Run cannot
 forfeit a battle the mash failed to win, and the state cycled through the party menu and action
 menu without hanging (replayed from the kept savestate).
+
+Tag battle and whiteout (stress pass 6). With per-scenario seeds two scenarios failed on chance,
+not on the game. The tag battle started Lance's Rocket HQ battle script straight after a debug warp,
+so the player stood at warp 0 instead of where Ariana's trigger leaves them; a won battle's cutscene
+then walked the player by fixed steps to (-1,17), off the map, where no direction is walkable. The
+debug warp also kept the Hoenn champion's Hard tier. The scenario now sets B2F as the Murkrow gate
+scene leaves it, restores Johto's Normal tier, walks onto Ariana's trigger, advances the lines,
+picks the first three Pokemon that can battle on the half-party screen, and mashes from there
+through the battle and whichever ending follows. The whiteout scenario's lead could still win when
+a mash committed a move, or the mash spent all 15,000 frames in the Bag, party and summary screens;
+the lead's attacking stats are now held at 1, and after 8,000 frames without a defeat the battle
+keys back out and forfeit. Both scenarios now pass on the integ2 and integ3 builds at the default
+base and at `PW_SPAM_BASE` 1 to 4.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after

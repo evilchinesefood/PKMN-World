@@ -674,6 +674,9 @@ void Usm_InitStartMenu(void)
         return;
     }
 
+    // Take down a map-name pop-up first: hiding a GEN_8 pop-up rewrites WINOUT to the field
+    // default, which would drop the OBJ-window bit the dark-area icons are drawn through.
+    HideMapNamePopUpWindow();
     if (Usm_IsFlashObscured())
     {
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
@@ -702,7 +705,6 @@ void Usm_InitStartMenu(void)
             sUsmState->selectedVisibleIdx = (visibleCount > 0) ? visibleCount - 1 : 0;
     }
 
-    HideMapNamePopUpWindow();
     Usm_LoadBgGfx();
     Usm_SetupWindows();
     Usm_BuildVisibleList();

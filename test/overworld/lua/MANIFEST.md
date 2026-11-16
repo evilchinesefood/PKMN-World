@@ -2480,3 +2480,13 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `StoryMapIslandTitles.lua`
+
+The Kanto islands were renamed the ORANGE ISLANDS in every player-facing string (b1af7bc9a3), but
+the Story destination map still titled their three regional maps "Sevii 1-3", "Sevii 4-5" and
+"Sevii 6-7". The suite writes Celio's quest state the way his scripts leave it (scene 4, scene 5,
+and scene 5 with Icefall Cave's back room done), so the optional Kanto objective pins Kindle Road,
+Four Island and Ruin Valley, and opens Story, its optional page and the map with real input.
+**Oracle:** with the map on screen, the title for that island map (`sTitles` indexed by its
+`enum RegionMapType`) names the Orange Islands and the island range, and never "Sevii"; each map is
+screenshot. **Discrimination:** unfixed 6/9 (`title=Sevii 1-3`, `Sevii 4-5`, `Sevii 6-7`), fixed 9/9.

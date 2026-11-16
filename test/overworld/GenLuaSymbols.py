@@ -100,6 +100,8 @@ WANT = [
     # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.
     "gSpecialVar_0x8005",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
+    # StoryMapIslandTitles.lua reads the Story destination map's regional map titles.
+    "sTitles",
     # Overworld weather object. Route41SurfBgm.lua zeros curr/next/rain so a
     # Route 41 surf check cannot pass on a raining map (or fail on one).
     "gWeather",

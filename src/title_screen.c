@@ -565,11 +565,6 @@ void CB2_InitTitleScreen(void)
     CB2_InitWorldTitleScreen();
     return;
 #endif
-    if (IS_FRLG)
-    {
-        CB2_InitTitleScreenFrlg();
-        return;
-    }
     switch (gMain.state)
     {
     default:

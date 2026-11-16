@@ -1,7 +1,6 @@
 #include "global.h"
 #include "bg.h"
 #include "decompress.h"
-#include "expansion_intro.h"
 #include "gpu_regs.h"
 #include "libgcnmultiboot.h"
 #include "link.h"
@@ -897,12 +896,7 @@ static void CB2_WaitFadeBeforeSetUpIntro(void)
 {
     if (!UpdatePaletteFade())
     {
-#if EXPANSION_INTRO == TRUE
-        SetMainCallback2(CB2_ExpansionIntro);
-        CreateTask(Task_HandleExpansionIntro, 0);
-#else
         SetMainCallback2(CB2_SetUpIntroFrlg);
-#endif
     }
 }
 

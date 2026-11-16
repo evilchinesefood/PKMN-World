@@ -341,7 +341,7 @@ DragonsDen_Shrine_Text_ClairYouPassed:
     .string "So how did it go?\p"
     .string "I guess there's no point\n"
 	.string "in asking. You did fail?\p"
-    .string "..................................\p"
+    .string "……………………………\p"
     .string "…What? You passed?$"
 
 DragonsDen_Shrine_Text_ClairThatCantBe:
@@ -383,7 +383,7 @@ DragonsDen_Shrine_Text_ElderScoldsClair:
     .string "lack and this child has.$"
 
 DragonsDen_Shrine_Text_Speechless:
-    .string "..................................$"
+    .string "……………………………$"
 
 DragonsDen_Shrine_Text_ComeAgain:
     .string "Come again, if you so desire.$"

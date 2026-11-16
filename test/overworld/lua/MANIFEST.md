@@ -3168,3 +3168,16 @@ and the relearner (Start). It teaches the first move, mashes A at Instant text t
 teach that forgets a move, backs out and walks into the Center. **Discrimination:** unfixed 9/11
 (BGM status `0x800001FF`, black screen at the Center door), fixed 11/11. Found by
 `InputSpamStress`'s dig mash at `PW_SPAM_BASE=1` on the stress-6 integ3 build.
+
+### `FanfareResetTasksMusic.lua`
+
+A fanfare cut short by a menu left the music paused, and the next door to a map with other music held
+the screen black forever. `PlayFanfare` pauses the BGM and `Task_Fanfare` resumes it when the fanfare
+ends, but every menu and field return calls `ResetTasks`, which killed the task. `RelearnerFanfareMusic`
+covers the one caller that handed control back early (#624); this suite covers the class at the sound
+layer. `MapMusicMain` (`src/sound.c`) now finishes the count of a fanfare whose task is gone and
+resumes the BGM itself. In Fallarbor below the Pokemon Center door a script plays the 710-frame
+`MUS_AWAKEN_LEGEND` fanfare and ends without `waitfanfare`, standing in for such a caller. With real
+input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
+out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
+black screen at the Center door), fixed 9/9.

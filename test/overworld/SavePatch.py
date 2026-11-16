@@ -106,7 +106,7 @@ VAR_LITTLEROOT_INTRO_STATE = 0x4092
 # v12 -> v13: the shared starter var and the two region slots it seeds (Kanto, Johto banks).
 VAR_STARTER_MON = 0x4023
 KANTO_STARTER_SLOT = 0x0C
-JOHTO_STARTER_SLOT = 0x80 + 0x3C
+JOHTO_STARTER_SLOT = 0x80 + 0x3E
 # include/constants/regions.h enum Region
 REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
 

@@ -83,6 +83,6 @@
 
 // Elm's lab ball the player took: 0 Chikorita, 1 Cyndaquil, 2 Totodile. Hoenn keeps VAR_STARTER_MON
 // and Kanto VAR_STARTER_MON_FRLG, so a starter chosen in one region never re-picks another's rival.
-#define VAR_STARTER_MON_JOHTO          VAR_JOHTO_SLICE(0x3c)
+#define VAR_STARTER_MON_JOHTO          VAR_JOHTO_SLICE(0x3e)
 
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

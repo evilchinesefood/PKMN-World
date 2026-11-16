@@ -2719,3 +2719,16 @@ The suite turns the debug party's lead into each starter at 255 friendship with 
 the talk, both Yes answers and the party pick are real input. **Oracle:** the lead knows the
 ultimate move afterwards and the tutor's flag is set. **Discrimination:** unfixed 3/12 (all three
 refused as not compatible), fixed 12/12.
+### `OddSaveSpots.lua`
+
+Save and Continue on spots `ContinueOddMoments`, `TravelSaveContinue` and `CyclingRoadSaveContinue`
+do not stand on: the middle of Route 119's bridge over the river, on foot (soft reset) and riding
+the Mach Bike with the cycling music playing (power cut); Cianwood City in the rain; and the
+Sootopolis Gym's first ice field with three tiles cracked. Each case walks there with real input
+from a debug warp onto a door (the Route 119 Aqua grunts and rival are hidden, as after the
+Weather Institute), saves from the Start menu, and continues. The map, tile, facing, the player's
+elevation (4 on the bridge) and avatar flags, the playing song, the weather, the follower, the
+cracked ice metatiles and the `VAR_TEMP_8`..`A` ice rows must come back, and the player must move
+on: off the bridge both ways but not down into the river, riding across and dismounting, and onto
+the next ice tile. Measured **57/57**; no defect found. `--env PW_OSS_ONLY=<text>` runs matching
+cases.

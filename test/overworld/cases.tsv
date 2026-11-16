@@ -237,3 +237,4 @@ HofSharedCap	lua/HofSharedCap.lua	fresh	0	required
 CeladonSlotsPrizes	lua/CeladonSlotsPrizes.lua	fresh	0	required
 AlphSlidingPuzzles	lua/AlphSlidingPuzzles.lua	fresh	0	required
 CapeBrinkUltimateMoves	lua/CapeBrinkUltimateMoves.lua	fresh	0	required
+OddSaveSpots	lua/OddSaveSpots.lua	fresh	0	required

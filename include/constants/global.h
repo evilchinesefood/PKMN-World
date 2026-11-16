@@ -41,6 +41,7 @@
 //      BoxPokemon and older save field offsets stay unchanged; no historical teams are inferred.
 // v12: initialize global encounter and defeat-loss rates in the existing option word.
 // v13: copy the shared VAR_STARTER_MON into the new Kanto and Johto starter vars.
+//      Also repair FLAG_RECEIVED_BIKE and FLAG_RECEIVED_POKENAV where Johto scripts damaged them.
 #define SAVE_FORMAT_VERSION 13
 
 // The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which

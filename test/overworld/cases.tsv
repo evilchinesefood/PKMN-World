@@ -264,3 +264,9 @@ SageLiAfterHoennFlash	lua/SageLiAfterHoennFlash.lua	fresh	0	required
 BadgeSpeechRules	lua/BadgeSpeechRules.lua	fresh	0	required
 FieldPoisonText	lua/FieldPoisonText.lua	fresh	0	required
 HmTmRulesText	lua/HmTmRulesText.lua	fresh	0	required
+StarterIndexPerRegion	lua/StarterIndexPerRegion.lua	fresh	0	required
+BikeShopsAcrossRegions	lua/BikeShopsAcrossRegions.lua	fresh	0	required
+PokegearKeepsHoennPokenav	lua/PokegearKeepsHoennPokenav.lua	fresh	0	required
+XRegionSaveRepair	lua/XRegionSaveRepair.lua	lua/fixtures/v12xregiondamaged.srm	0	required
+XRegionSaveRepairVoyage	lua/XRegionSaveRepairVoyage.lua	lua/fixtures/v12xregionvoyage.srm	0	required
+XRegionDamageFixtures	lua/XRegionDamageFixtures.lua	fresh	0	manual

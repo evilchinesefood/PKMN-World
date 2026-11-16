@@ -27,6 +27,7 @@ Hoenn, and the hub, then saves, reboots, and Continues. Its companion host check
 | `symbols.lua` | Generated build addresses, ABI offsets, and ROM identity. Never committed. |
 | `mgba_shim.lua` | mGBA compatibility entry point. Loads the selected suite and immutable symbols. |
 | `SaveHarvest.lua` | Fixture-generation utility. Not a regression suite. |
+| `XRegionDamageFixtures.lua` | Fixture producer for the two `XRegionSaveRepair` suites. Runs only on a pre-fix build, from that build's tree (`manual`). |
 
 ## Run a focused suite or sweep
 
@@ -2569,6 +2570,7 @@ handed out), collects the Omanyte at Alph, hands a Root Fossil in at Devon, chec
 greets and hands out nothing, and collects the Lileep at Devon. Last, a Kabuto pending in the shared
 pair (the only form a save from before the split can hold) must come back at Alph. **20/24** on the
 unfixed ROM, **24/24** with the fix.
+
 ### `StarterIndexPerRegion.lua`
 
 Oak's lab, Elm's lab and Birch's bag all wrote one shared `VAR_STARTER_MON`, and each region's rival
@@ -2944,6 +2946,7 @@ gate) and no bike (Route 16 gate), the suite walks west across each gate on foot
 bike the player reaches the road on that bike (`gPlayerAvatar` Mach or Acro flag); with none the guard
 still turns them back. **Discrimination:** unfixed 6/10 (both bike owners stopped at the counter),
 fixed 10/10. Screenshots show the Mach and Acro riders on Routes 16 and 18.
+
 ### `PokegearKeepsHoennPokenav.lua`
 
 Johto's mother gave the PokeGear by setting `FLAG_RECEIVED_POKENAV`, Hoenn's flag for Devon's PokeNav
@@ -3034,3 +3037,31 @@ repeat explanation); the explanation, read from `gStringVar4`, must not say "unl
 name "can learn CUT". Measured **4/8** on the unfixed ROM and **8/8** fixed. Route 14's Carter
 (HM moves "can't" be forgotten, against `P_CAN_FORGET_HIDDEN_MOVE`) has no warp to reach him;
 `ValidateConfigRules.py` covers his line.
+
+### `XRegionSaveRepair.lua`
+
+#602 and #604 stop two cross-region writes, but a save already damaged keeps the damage: Goldenrod's
+first visit had cleared `FLAG_RECEIVED_BIKE` beside Rydel's bike, and the Johto PokeGear had set
+`FLAG_RECEIVED_POKENAV`, so a Center recorded Mr. Briney's cottage and a hub return docked him and
+Peeko there before the rescue. The v12 -> v13 step of `MigrateSaveFormatIfNeeded` repairs both on
+proof: a Mach or Acro Bike in the Bag or item PC restores the bike flag; the PokeNav flag with
+`VAR_DEVON_CORP_3F_STATE` still 0 (Devon's scene sets both) and no Dewford visit (every first voyage
+lands there) clears it, zeroes `VAR_BRINEY_LOCATION`, re-hides Briney and Peeko and drops them from a
+save's live object list. The fixture `v12xregiondamaged.srm` was written by the pre-fix build driving
+the old scripts (`fixtures/v12xregion.md`) and saved inside the cottage with both standing. The suite
+Continues it and reads the flags, the cottage on Continue and after walking back in, a Rustboro
+Center visit and Rydel (a new-bike offer is answered Acro). **Control:** Devon's real PokeNav scene,
+then a v12 stamp, Start-menu save, reset and Continue: the legitimate flag, shore and bike stay.
+**Discrimination:** unfixed 20/28 (bike flag clear, Briney and Peeko in the cottage on Continue and
+after re-entry, shore 1, Rydel hands over an Acro Bike beside the Mach Bike), fixed 28/28. Mutants:
+the cottage object loop removed 27/28, the Devon guard removed 26/28. A save migrated offline with
+`SavePatch.py --migrate` also passes 28/28.
+### `XRegionSaveRepairVoyage.lua`
+
+The other half: `v12xregionvoyage.srm` has the PokeGear damage and an early Briney who already sailed
+the player to Dewford, and no bike. From Dewford on, the route depends on where the save put Briney,
+so the repair must leave him tracked; with no bike anywhere the bike flag must stay clear. The suite
+Continues in Dewford, reads the flags, and takes Rydel's first bike. **Oracle:** the PokeNav flag,
+`VAR_BRINEY_LOCATION = 1` and Briney's Dewford dock survive; Rydel gives the first Mach Bike. Passes
+11/11 on both the unfixed and the fixed build by design; with the Dewford guard removed it drops to
+9/11. `test/overworld/TestXRegionSaveRepair.py` checks the same files against SavePatch's mirror.

@@ -2829,3 +2829,13 @@ rentals must replace the party, the swap must change the first party slot by the
 the challenge must end with the party byte-identical, streak 7, 3 BP and the follower back. A soft
 reset on the swap screen with no save must end the streak with the party restored and no BP.
 Measured **26/26**; no defect found.
+### `HofDexNumbers.lua`
+
+The "No." line in both Hall of Fame PC viewers. The National Pokedex is switched on by the special
+the professors' scripts run. Two records come from real Kanto inductions with a one-Pokemon team,
+Wobbuffet (no Kanto dex number) and then Nidoqueen. Each record is viewed at the Viridian PC (Kanto
+viewer, `hall_of_fame_frlg.c`) and the Oldale PC (Emerald viewer, `hall_of_fame.c`) with real
+input, and the "No." line is read from window 0's tile data as a colour-blind pixel mask at the same
+screen position. Both viewers must draw the same pixels for one record, and the records must
+differ. Before the fix the Kanto viewer printed three digits ("No. 202") where the Emerald viewer
+and the Pokedex print four ("No. 0202"): **17/19** unfixed, **19/19** fixed.

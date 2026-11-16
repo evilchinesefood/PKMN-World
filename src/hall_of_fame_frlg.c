@@ -958,7 +958,6 @@ static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon, u8 unused1, u
     u8 text2[24];
     u16 i;
     u8 *stringPtr;
-    u16 dexNumber;
     u8 gender;
     s32 width;
     s32 x;
@@ -966,23 +965,9 @@ static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon, u8 unused1, u
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     PutWindowTilemap(0);
 
-    // dex number
     if (currMon->species != SPECIES_EGG)
     {
-        StringCopy(text2, gText_Number);
-        dexNumber = SpeciesToPokedexNum(currMon->species);
-        if (dexNumber != 0xFFFF)
-        {
-            text[0] = (dexNumber / 100) + CHAR_0;
-            text[1] = ((dexNumber %= 100) / 10) + CHAR_0;
-            text[2] = (dexNumber % 10) + CHAR_0;
-        }
-        else
-        {
-            text[0] = text[1] = text[2] = CHAR_QUESTION_MARK;
-        }
-        text[3] = EOS;
-        StringAppend(text2, text);
+        HallOfFame_BufferDexNumber(text2, currMon->species);
         AddTextPrinterParameterized3(0, FONT_NORMAL, 16, 1, sTextColors[0], 0, text2);
     }
 

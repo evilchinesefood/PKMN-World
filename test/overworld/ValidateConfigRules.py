@@ -6,6 +6,7 @@ through pokemonHnS. Each assumes its own game's rules, and `include/config/*.h` 
 them. The build stays green while an NPC states the old rule or a script still acts on it: the
 Cinnabar Lab revived a fossil the player had sold (#597), Kanto tutors warned "learned only once"
 with the one-time flags compiled out (#606), and gym leaders called reusable TMs single-use (#607).
+One rule is an owner call rather than a toggle: every move tutor teaches again.
 
 Each rule below names the config toggle, what this build does, what the source game did, and the
 script or text shape that assumes the source game. A rule runs only while its toggle still
@@ -292,20 +293,90 @@ def check_sellable_removed_unchecked(ctx):
     return out
 
 
-def check_once_prompt_without_flag(ctx):
-    """A "learned only once" prompt is a lie when the one-time flag it warns about is compiled out.
+TUTOR_MENU = re.compile(r"^\s*(special\s+ChooseMonForMoveTutor|chooseboxmon\s+SELECT_PC_MON_MOVE_TUTOR|move_tutor\s)", re.M)
+FLAG_TEST = re.compile(r"^\s*(?:(?:goto|call)_if_(?:set|unset)|checkflag)\s+(FLAG_\w+)", re.M)
+SET_FLAG = re.compile(r"^\s*setflag\s+(FLAG_\w+)", re.M)
+SPECIAL = re.compile(r"^\s*special(?:var\s+\w+\s*,)?\s+(\w+)", re.M)
+ONCE_LINE = re.compile(r"(learn|teach|taught)[^.!?]{0,30}\bonly once|\bonly once[^.!?]{0,30}(learn|teach)", re.I)
 
-    FRLG's tutors set their flag in the same script that asks; this build wraps those `setflag`s in
-    `.if I_REUSABLE_TMS == FALSE`, so a prompt left live beside a dead `setflag` warns of nothing.
+
+_C_FUNCTIONS = {}
+
+
+def c_function(name):
+    _cache = _C_FUNCTIONS
+    if not _cache:
+        for path in sorted(glob.glob(os.path.join(ROOT, "src/*.c"))):
+            text = strip_c_comments(open(path, encoding="utf-8", errors="replace").read())
+            for m in re.finditer(r"^\w[\w \*]*\b(\w+)\(void\)\s*\{", text, re.M):
+                depth, i = 1, m.end()
+                while depth and i < len(text):
+                    depth += {"{": 1, "}": -1}.get(text[i], 0)
+                    i += 1
+                _cache.setdefault(m.group(1), text[m.end():i])
+    return _cache.get(name, "")
+
+
+def check_one_time_tutor(ctx):
+    """A move tutor must teach again: no "learned only once" line, and no flag set by a teach may gate the next one.
+
+    Emerald's `move_tutor` macro, FRLG's tutors and Cape Brink, and HnS's Headbutt tutor each set a
+    "taught" flag after the party menu and tested it before the offer. The owner made every tutor
+    reusable, so this reads every line, compiled out or not, so a config flip cannot bring a gate back.
+    Specials called around the menu count too: their FlagGet flags as tests, their FlagSet flags as sets.
     """
-    once = {lab.name for lab in ctx.corpus.labels.values() if re.search(r"only once", lab.text, re.I)}
-    prompts = {caller for o in once for caller in ctx.corpus.callers.get(o, [])}
+    labels = ctx.corpus.labels
+    code = {n: "\n".join(re.split(r"@|//", ln)[0] for ln in lab.raw.split("\n") if ".string" not in ln)
+            for n, lab in labels.items()}
+    refs = {n: {w for w in re.findall(r"\b[A-Za-z_]\w*\b", body) if w != n and w in labels} for n, body in code.items()}
+    menus = {n for n, body in code.items() if re.search(r"^\s*(special\s+ChooseMonForMoveTutor|chooseboxmon\s+SELECT_PC_MON_MOVE_TUTOR)", body, re.M)}
+    site = re.compile(TUTOR_MENU.pattern + "|" + r"^\s*call\s+(" + "|".join(sorted(menus)) + r")\b", re.M)
+    referrers = {}
+    for n, rs in refs.items():
+        for r in rs:
+            referrers.setdefault(r, set()).add(n)
+
+    def reach(start, graph, hops):
+        seen, frontier = set(start), set(start)
+        for _ in range(hops):
+            frontier = {c for f in frontier for c in graph.get(f, ())} - seen
+            seen |= frontier
+        return seen
+
+    def c_flags(body, setting):
+        flags = set()
+        for sp in SPECIAL.findall(body):
+            fn = c_function(sp)
+            if setting:
+                flags |= set(re.findall(r"FlagSet\((FLAG_\w+)\)", fn))
+            elif "FlagGet(" in fn:
+                flags |= set(re.findall(r"\bFLAG_\w+", fn))
+        return flags
+
     out = []
-    for lab in ctx.corpus.labels.values():
-        for p in sorted(set(re.findall(r"^\s*call\s+(\w+)", lab.body, re.M)) & prompts):
-            if re.search(r"^\s*setflag\b", lab.raw, re.M) and not re.search(r"^\s*setflag\b", lab.body, re.M):
-                out.append(Finding("once prompt with no one-time flag", f"{lab.path}:{lab.name}",
-                                   f"calls {p}, but its setflag is compiled out in this build"))
+    for lab in labels.values():
+        strings = re.sub(r"\\[nlp]", " ", "".join(re.findall(r'\.string\s+"([^"]*)"', lab.raw)))
+        m = ONCE_LINE.search(re.sub(r"\s+", " ", strings))
+        if m:
+            out.append(Finding("one-time move tutor", f"{lab.path}:{lab.name}", f"says a move is taught {m.group(0)!r}"))
+    for name, body in code.items():
+        if name in menus:
+            continue
+        for m in site.finditer(body):
+            line = body[m.start():].split("\n")[0].strip()
+            if line.startswith("move_tutor") and line.count(",") > 4:
+                out.append(Finding("one-time move tutor", f"{labels[name].path}:{name}", "move_tutor passes a taught flag"))
+            pre, post = body[:m.start()], body[m.end():]
+            tested = set(FLAG_TEST.findall(pre)) | c_flags(pre, False)
+            for up in reach({name}, referrers, 4) - {name} - menus:
+                tested |= set(FLAG_TEST.findall(code[up])) | c_flags(code[up], False)
+            after = reach({w for w in re.findall(r"\b[A-Za-z_]\w*\b", post) if w in labels}, refs, 4) - menus
+            sets = set(SET_FLAG.findall(post)) | c_flags(post, True)
+            for d in after:
+                sets |= set(SET_FLAG.findall(code[d])) | c_flags(code[d], True)
+            for flag in sorted(tested & sets):
+                out.append(Finding("one-time move tutor", f"{labels[name].path}:{name}",
+                                   f"{flag} is set after the tutor menu and tested before it"))
     return out
 
 
@@ -422,9 +493,9 @@ RULES = [
              r"unlike a TM",
              r"\bTM\b[^.!?]{0,30}it's gone",
          ])),
-    Rule("once prompt with no one-time flag", "I_REUSABLE_TMS", lambda c: c.value("I_REUSABLE_TMS"),
-         "Kanto tutors teach again (their flags are compiled out)", "each tutor teaches once",
-         check_once_prompt_without_flag),
+    Rule("one-time move tutor", "move tutor policy", lambda c: True,
+         "every move tutor in every region teaches again", "Emerald, FRLG and HGSS tutors taught once and warned so",
+         check_one_time_tutor),
     Rule("sellable item taken without checkitem", "I_KEY_FOSSILS", lambda c: c.value("I_KEY_FOSSILS") >= GENS["GEN_4"],
          "fossils are Items-pocket goods a mart buys", "fossils are Key Items that never leave the bag",
          check_sellable_removed_unchecked),
@@ -473,7 +544,6 @@ RULES = [
 CLEARED = [
     ("I_SELL_VALUE_FRACTION", "items sell for a quarter", "treasures carry TREASURE_FACTOR 2, so the Route 10 Nugget still sells for 5000"),
     ("I_EXP_SHARE_ITEM", "a held item", "Mr. Stone and the Route 15 aide describe a held item"),
-    ("I_REUSABLE_TMS", "Emerald tutors keep FLAG_MOVE_TUTOR_TAUGHT_*", "the Emerald once prompt is true"),
     ("OW_TIME_OF_DAY_ENCOUNTERS", "random tables ignore the clock",
      "Johto's day and night overworld POKéMON (FLAG_DAY_POKEMON) keep the 'only at night' hints partly true"),
     ("OW_RUNNING_INDOORS", "running works indoors", "no line forbids it"),

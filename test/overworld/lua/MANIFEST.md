@@ -2555,3 +2555,13 @@ City, Cherrygrove City and Slateport City, where the card must open on that regi
 192 + 2i, 193 + 2i and 208 + 2i and an empty slot holds tile 0, must match that page's flags.
 Measured **69/69**; no defect found. Screenshots of every page were checked by eye: each label reads
 HOENN, KANTO or JOHTO between the L and R icons and each page draws its own region's badge art.
+
+### `BagSortTwoItems.lua`
+
+A Bag pocket with two stacks must offer to sort them. Super Potion and Potion (out of name order) are
+the Items pocket; the real Bag opens from the start menu and START is pressed. The sort menu must
+come up, A on "name" must put Potion first, and both quantities must be kept. A one-stack pocket must
+still print "There's nothing to sort!". Before the fix the START handler in `Task_BagMenu_HandleInput`
+refused when `numItemStacks - 1 <= 1`, counting a Close Bag row this Bag never shows
+(`hideCloseBagText` is set at every open), so two stacks were refused like one: **6/8** on the
+unfixed ROM, **8/8** with the fix. `BagSortChord` stays 6/6.

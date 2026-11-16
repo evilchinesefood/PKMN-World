@@ -224,3 +224,4 @@ AlphFossilLab	lua/AlphFossilLab.lua	fresh	0	required
 StarterIndexPerRegion	lua/StarterIndexPerRegion.lua	fresh	0	required
 TrainerCardRegionPages	lua/TrainerCardRegionPages.lua	fresh	0	required
 BagSortTwoItems	lua/BagSortTwoItems.lua	fresh	0	required
+RelearnerDeclineHeartScale	lua/RelearnerDeclineHeartScale.lua	fresh	0	required

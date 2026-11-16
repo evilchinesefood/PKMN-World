@@ -2965,3 +2965,15 @@ and a prize held for a full Bag in one was handed out by the other. The suite ta
 clerk and draws (Yes), then talks to the Lilycove clerk. **Oracle:** the Radio Tower draw leaves
 Lilycove's flag clear, and the Lilycove clerk still offers a draw (a Yes/No prompt appears) and records
 it. **Discrimination:** unfixed 6/8 (Lilycove answers "come back tomorrow"), fixed 8/8.
+### `SkyCharmLockedGymDoors.lua`
+
+Cinnabar's and Viridian's gym doors are locked only by a coord trigger on the tile in front of them
+(the Secret Key at Cinnabar, the seventh badge at Viridian). The Sky Charm, unlocked in Kanto at the
+third badge, skips coord events while airborne and could land on that tile, so one press of Up walked
+into the gym. `CanLandOverworldFlight` now refuses a tile whose coord script would start on a step
+there (`IsCoordScriptPendingAt`, which runs nothing). With Kanto's third badge and the Sky Charm
+registered, the suite flies to each lock tile and presses Select, then lands beside it (south at
+Cinnabar, west at Viridian, whose south tile is a ledge) and walks in. **Oracle:** the landing on the
+lock tile is refused (still flying), and walking in never reaches the gym map. **Discrimination:**
+unfixed 6/10 (landed on both lock tiles and walked into Cinnabar Gym and Viridian Gym), fixed 12/12.
+`SkyCharmLanding` 10/10, `SkyCharmBikeAloft` 19/19 and `SkyCharmMahoganySetup` 12/12 on the fixed ROM.

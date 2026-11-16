@@ -4,12 +4,8 @@ Route16_NorthEntrance_1F_Frlg_MapScripts::
 
 Route16_NorthEntrance_1F_OnTransition::
 	clearflag FLAG_SYS_ON_CYCLING_ROAD
-	call_if_set FLAG_GOT_BICYCLE, Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger
+	call EventScript_CyclingRoadGateCheckBike
 	end
-
-Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger::
-	setvar VAR_TEMP_1, 1
-	return
 
 Route16_NorthEntrance_1F_EventScript_Guard::
 	msgbox Route16_NorthEntrance_1F_Text_CyclingRoadIsDownhillCourse, MSGBOX_NPC

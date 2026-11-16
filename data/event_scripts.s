@@ -2109,6 +2109,20 @@ EventScript_SetEnteringCyclingRoad::
 	releaseall
 	end
 
+@ The Cycling Road gates wave through any player carrying a bike. The Bag is shared, so a Mach or
+@ Acro Bike from Hoenn or Johto rides Kanto's road as well as the Bicycle does.
+EventScript_CyclingRoadGateCheckBike::
+	goto_if_set FLAG_GOT_BICYCLE, EventScript_CyclingRoadGateHasBike
+	checkitem ITEM_MACH_BIKE
+	goto_if_eq VAR_RESULT, TRUE, EventScript_CyclingRoadGateHasBike
+	checkitem ITEM_ACRO_BIKE
+	goto_if_eq VAR_RESULT, TRUE, EventScript_CyclingRoadGateHasBike
+	return
+
+EventScript_CyclingRoadGateHasBike::
+	setvar VAR_TEMP_1, 1
+	return
+
 EventScript_TryDarkenRuins::
 	goto_if_set FLAG_SYS_UNLOCKED_TANOBY_RUINS, Common_EventScript_NopReturn
 	setweather WEATHER_SHADE

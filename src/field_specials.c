@@ -5511,8 +5511,11 @@ static void Task_AnimateElevatorWindowView(u8 taskId)
 
 void ForcePlayerOntoBike(void)
 {
+    // A player who owns only Hoenn's or Johto's Mach Bike rides that one, not an Acro Bike.
+    bool32 machOnly = !CheckBagHasItem(ITEM_BICYCLE, 1) && CheckBagHasItem(ITEM_MACH_BIKE, 1);
+
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT)
-        SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+        SetPlayerAvatarTransitionFlags(machOnly ? PLAYER_AVATAR_FLAG_MACH_BIKE : PLAYER_AVATAR_FLAG_ACRO_BIKE);
     // Same Kanto-only gate as bike.c's ForcePlayerOntoBike path (issue #173).
     Overworld_SetSavedMusic((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_CYCLING : MUS_CYCLING);
     Overworld_ChangeMusicTo((GetCurrentRegion() == REGION_KANTO) ? MUS_RG_CYCLING : (GetCurrentRegion() == REGION_JOHTO) ? MUS_HG_CYCLING : MUS_CYCLING);

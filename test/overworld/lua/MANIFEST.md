@@ -118,6 +118,7 @@ is clean; keep it that way.
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
 | [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
+| [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2520,3 +2521,14 @@ the Bag. Before the fix the refund in `HandleInputChooseAction` added any consum
 ball aimed at a trainer's Pokemon is never taken (`B_TRY_CATCH_TRAINER_BALL`), so each round made a
 ball (Master Balls too): **26/27** on the unfixed ROM (10 balls became 11, 12, 13), **27/27** with
 the fix. `IsBattleItemTakenFromBag` (`src/item_use.c`) is now the one rule for taking and refunding.
+### `AlphFossilLab.lua`
+
+The Ruins of Alph lab came from pokemonHnS reading and writing Hoenn's `VAR_FOSSIL_RESURRECTION_STATE`
+and `VAR_WHICH_FOSSIL_REVIVED`, so the two regions shared one regenerator. A Helix Fossil handed in at
+Alph left Devon's fossil scientist mute (his script knows only Lileep and Anorith and fell through to
+`end`), and a Root Fossil handed in at Devon came back as a Lileep from the Johto researcher. With
+real input the suite hands a Helix Fossil in at Alph, talks to Devon's scientist (greeting, nothing
+handed out), collects the Omanyte at Alph, hands a Root Fossil in at Devon, checks the Alph researcher
+greets and hands out nothing, and collects the Lileep at Devon. Last, a Kabuto pending in the shared
+pair (the only form a save from before the split can hold) must come back at Alph. **20/24** on the
+unfixed ROM, **24/24** with the fix.

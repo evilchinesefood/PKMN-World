@@ -25,10 +25,8 @@
 -- slot sector id 10, saveBlock3Chunk offset 72..103; that chunk is un-checksummed, so poking it
 -- does not invalidate the save). Verified to discriminate: 10/11 without the memset, 11/11 with.
 --
--- Run (the fixture must be this ROM's battery save):
---   cp <repo>/pokemonworld.gba              BizHawk\MigChkV7.gba
---   cp test\overworld\lua\fixtures\v7dirty.srm     BizHawk\GBA\SaveRAM\MigChkV7.SaveRAM
---   EmuHawk.exe BizHawk\MigChkV7.gba --lua=<repo>\test\overworld\lua\VerifyV7Migrate.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/VerifyV7Migrate.lua pokemonworld.gba test/overworld/lua/fixtures/v7dirty.srm
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

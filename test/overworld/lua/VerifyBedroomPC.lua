@@ -30,9 +30,8 @@
 --        "screen turned off" assert PASSES on a build where the shutdown script never ran, which is
 --        the vacuous-green failure MANIFEST.md warns about and is exactly how New Bark used to look.
 --
--- Run against a THROWAWAY COPY (lib.new refuses anything not Verify*/MigChk*/FixGen*):
---   cp <repo>\pokemonworld.gba  BizHawk\VerifyBedroomPC.gba
---   EmuHawk.exe BizHawk\VerifyBedroomPC.gba --lua=<repo>\test\overworld\lua\VerifyBedroomPC.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/VerifyBedroomPC.lua pokemonworld.gba
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

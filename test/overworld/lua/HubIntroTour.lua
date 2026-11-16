@@ -11,10 +11,8 @@
 --   5. walk-on trigger              — the crest coord_event, with the flag cleared by hand to
 --                                     stand in for a legacy save that never saw the intro
 --
--- Run against a THROWAWAY COPY (lib.new() enforces Verify*/MigChk*/FixGen*):
---   cp <repo>\pokemonworld.gba  BizHawk\Verify1.gba
---   rm BizHawk\GBA\SaveRAM\Verify1.SaveRAM          # phase 1 needs a genuinely new game
---   EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\test\overworld\lua\HubIntroTour.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/HubIntroTour.lua pokemonworld.gba
 --
 -- Dialogue is advanced with B, never A: at three of the seven stops the player is left facing a
 -- counter or an attendant, and an A there opens the nurse/mart/travel script instead.

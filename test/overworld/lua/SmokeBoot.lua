@@ -1,11 +1,8 @@
 -- Boot smoke + harness self-test: proves symbols.lua + lib.lua load and the core reads work on a
 -- fresh build with NO hardcoded addresses. Evidence suite.
 --
--- Run against a THROWAWAY COPY — lib.new() now refuses anything not named Verify*/MigChk*/FixGen*,
--- because this suite blind-presses A and Start and BizHawk flushes SaveRAM on exit:
---   cp <repo>\pokemonworld.gba  BizHawk\Verify1.gba
---   make symbols                          # symbols.lua is bound to the ROM; make -j12 alone won't
---   EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\test\overworld\lua\SmokeBoot.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua pokemonworld.gba
 --
 -- Exits non-zero on failure and drops _pwtest\SmokeBoot.PASS or .FAIL for a wrapper to stat.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""

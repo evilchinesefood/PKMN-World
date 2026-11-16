@@ -153,8 +153,8 @@ run this the pre-push gate is silently absent:
 test/overworld/hooks/install.sh
 ```
 
-It symlinks `test/overworld/hooks/pre-push` into `.git/hooks/`. That hook runs fifteen source-only
-checks (a few seconds, no ROM build) that catch edits which build and boot cleanly and then
+It symlinks `test/overworld/hooks/pre-push` into `.git/hooks/`. That hook runs the source-only
+checks below (a few seconds, no ROM build) that catch edits which build and boot cleanly and then
 break in play:
 
 | Check | Catches |
@@ -174,8 +174,9 @@ break in play:
 | `test/overworld/ValidateRegionMap.py` | misplaced region-map icons |
 | `test/overworld/ValidateLanceMultiBattle.py` | a broken Rocket HQ multi battle with Lance |
 | `test/overworld/ValidateZoneStructure.py` | structural errors in registered maps (layouts, warps, connections, encounters) |
+| `test/overworld/ValidateDeadEvoItems.py` | marts selling an evolution item that evolves nothing obtainable |
 
-The same fifteen run as `make validate`, and CI mirrors them in the `validate` job.
+`make validate` runs these and more. CI runs the full host list in `test/validate-host.py` in the `validate` job.
 
 ---
 
@@ -228,7 +229,7 @@ make modern -j$(sysctl -n hw.ncpu)          # macOS — nproc does not exist her
 | --- | --- |
 | `make` / `make modern` | build `pokemonworld.gba` (+ `.elf`, `.map`, and a refreshed `test/overworld/lua/symbols.lua`) |
 | `make check` | build the test ELF and run the battle-engine suite in `test/` under mGBA |
-| `make validate` | run the fifteen host-side content checks (no build) |
+| `make validate` | run the host-side content checks (no build) |
 | `make tools` | build only the host tools in `tools/` — the target to use when diagnosing a tools failure |
 | `make symbols` | regenerate `test/overworld/lua/symbols.lua` from the ELF (the normal ROM build already does this) |
 | `make obstacles` | regenerate the committed cleared-obstacle table after a map edit |

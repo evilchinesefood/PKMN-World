@@ -12,10 +12,8 @@
 -- player count (the in-battle party menu derives maxMonIndex = count - 1, which underflows to 255
 -- at count 0).
 --
--- Run against a THROWAWAY COPY, on a genuinely fresh save:
---   cp <repo>\pokemonworld.gba  BizHawk\Verify3.gba
---   del BizHawk\GBA\SaveRAM\Verify3.SaveRAM
---   EmuHawk.exe BizHawk\Verify3.gba --lua=<repo>\test\overworld\lua\DebugParty.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/DebugParty.lua pokemonworld.gba
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

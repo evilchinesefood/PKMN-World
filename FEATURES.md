@@ -434,7 +434,7 @@ and `mgba-rom-test-hydra` test runners.
 |---|---|
 | `make validate` | Host-side, no build: the Gen 1–3 species rule, bare-integer script pointers, overworld Pokémon placements, map object events, layouts, warp destinations/indexes, connections and encounter references, plus the obstacle table and save-patch self-checks. Also run by the pre-push hook. |
 | `make check` | The inherited battle-engine test framework in `test/`, 5,700 cases (including upstream known-failing/TODO categories) through the bundled `mgba-rom-test` runners. Also runs in CI. |
-| `test/overworld/run-all.sh` | 51 mandatory in-game overworld suites driven by a patched headless mGBA (52 with the optional owner save). **Local only** — the emulator is built from mGBA master with a local patch and isn't in the tree (`test/overworld/mgba/README.md`). |
+| `test/overworld/run-all.sh` | Every required in-game overworld suite listed in `test/overworld/cases.tsv`, driven by a patched headless mGBA. The owner-save suite is manual and not part of the sweep. **Local only** — the emulator is built from mGBA master with a local patch and isn't in the tree (`test/overworld/mgba/README.md`). |
 
 **Debug menu.** Available in default builds — hold R and press START in the overworld — for warps,
 flag/var toggling, Pokémon and item generation, Fly-to-map and more, with hold-to-repeat on

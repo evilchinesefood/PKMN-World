@@ -24,10 +24,8 @@
 -- debug warp arrives with the var still 0, which exercises the low tier for free; the run then
 -- writes 5 and re-opens the shop to check the tier players actually see.
 --
--- Run against a THROWAWAY COPY — lib.new() refuses anything not named Verify*/MigChk*/FixGen*:
---   make -j12                                     # symbols.lua is a prerequisite of `rom`
---   cp <repo>\pokemonworld.gba  BizHawk\Verify1.gba
---   EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\test\overworld\lua\VioletMart.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/VioletMart.lua pokemonworld.gba
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

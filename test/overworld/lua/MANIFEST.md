@@ -2412,3 +2412,13 @@ ignored while it does), the game is saved at the foot, soft reset and continued:
 the bike, the same music, control back. The Hub Pass then leaves the road, and Fly's reset must clear
 `FLAG_SYS_ON_CYCLING_ROAD` so the player can get off the bike elsewhere (also cleared now after
 Teleport, Dig, Escape Rope and a whiteout). Measured **16/16** fixed and **14/16** on the unfixed ROM.
+### `PokenavRegionNames.lua`
+
+The PokéNav's map option, its help line and the region map's left header said HOENN MAP in every
+region. They now name the region the map shows (`GetCurrentRegion()`, as `region_map.c` picks the
+map): JOHTO MAP and KANTO MAP labels are drawn from the Hoenn art by
+`tools/pokenav/region_map_labels.py` and appended to the options sheet. With the PokéNav flag set,
+the suite opens the PokéNav from the Start menu with real input on Route 106, in Goldenrod City and
+in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
+0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed
+maps with their headers. Unfixed **10/12** (Johto and Kanto read 0x000), fixed **12/12**.

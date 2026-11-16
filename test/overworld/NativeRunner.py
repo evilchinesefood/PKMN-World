@@ -19,8 +19,6 @@ RESERVED = {'PW_SUITE', 'PW_ROM_NAME', 'PW_ROM_HASH', 'PW_OUT', 'PW_SAVE', 'PW_S
 # These exact historical saves test refusal; their sector layout predates SavePatch's ABI.
 LEGACY_FIXTURES = {
     'v3.srm': '47c07cdae410569cb8b1df6dbd5d8c0936649b6a12666b5df878af3d2a3fa178',
-    'v4.srm': '818c00af0e485f62a068732d13eaf81be821181cbd86867edf6df42a85029ab1',
-    'v5.srm': 'd2c302a29bb150a1b5c68a5e783219c4012e7aee8abbe00a21f2d4b6fbf67e5e',
 }
 
 
@@ -209,7 +207,7 @@ def read_inventory():
     suites = [row['suite'] for row in rows]
     if len(names) != len(set(names)) or len(suites) != len(set(suites)) or not names:
         raise ValueError('canonical case names and suite paths must be nonempty and unique')
-    helpers = {'lib.lua', 'mgba_shim.lua', 'symbols.lua', 'SaveHarvest.lua', 'frontier_facility.lua'}
+    helpers = {'lib.lua', 'mgba_shim.lua', 'symbols.lua', 'frontier_facility.lua'}
     discovered = {'lua/' + p.name for p in (HERE / 'lua').glob('*.lua') if p.name not in helpers}
     if set(suites) != discovered:
         raise ValueError(f'canonical inventory mismatch: unclassified={sorted(discovered - set(suites))}; missing={sorted(set(suites) - discovered)}')

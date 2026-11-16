@@ -2480,3 +2480,17 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `CinnabarFossilNeedsFossil.lua`
+
+The Cinnabar Lab scientist must revive only a fossil the player still carries. `I_KEY_FOSSILS` is
+`GEN_LATEST`, so the Helix Fossil, Dome Fossil and Old Amber are Items-pocket goods a mart buys, and
+the Ruins of Alph lab revives them from the bag. The Cinnabar script came from pokefirered and chose
+what to offer from Mt. Moon's and the Pewter Museum's "got it" flags, so a sold fossil (or one
+already revived at Alph) was still offered, `removeitem` failed silently and the Pokemon came back
+anyway. The suite seeds Mt. Moon's result (an injected `setflag FLAG_GOT_HELIX_FOSSIL` and `additem`),
+sells the fossil at the Cinnabar Mart with real input, then asks the scientist, leaves the room and
+asks again. **Oracle:** no revival starts (revive state 0), `FLAG_REVIVED_HELIX` stays clear and the
+party stays empty. Control: an Old Amber in the bag is still taken, and after the leave-and-return
+Aerodactyl joins. The scientist wanders, so the suite talks to him only when he stands next to the
+player (his object, local id 2, not the follower). **Discrimination:** unfixed 18/20 (revive state 1;
+party 0 -> 1 with `FLAG_REVIVED_HELIX` set), fixed 20/20.

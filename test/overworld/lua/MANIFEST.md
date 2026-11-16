@@ -2933,3 +2933,14 @@ leaves by Hub Pass and comes back through the Hoenn gate (team prompt: keep the 
 cottage. **Oracle:** the PokeGear works (`FLAG_SYS_POKENAV_GET`), `FLAG_RECEIVED_POKENAV` stays clear,
 `VAR_BRINEY_LOCATION` stays 0, and the cottage holds nobody but the player. **Discrimination:** unfixed
 14/18 (Briney's shore recorded as 1, Briney and Peeko home at (2,6) and (6,3)), fixed 18/18.
+### `SkyCharmMahoganySetup.lua`
+
+Mahogany Town's first-visit setup (`MahoganyTown_EventScript_TownTrigger`: Lake of Rage Lance, the Rocket
+hideout and Dragon's Den actors, Blackthorn's story state) ran only from coord events on Route 42's
+east edge. The Sky Charm, unlocked in Johto at the sixth badge with Mahogany the next gym, flies over
+coord events. With Johto badges 1 to 6 and the Sky Charm registered, the suite takes off outside Mt.
+Mortar's east door on Route 42, flies east into Mahogany, lands at (10,9), then warps to the Lake of
+Rage. **Oracle:** `VAR_MAHOGANY_TOWN_STATE` reaches 1, `FLAG_VISITED_MAHOGANY_TOWN`,
+`FLAG_HIDE_LAKE_OF_RAGE_LANCE` and `FLAG_HIDE_DRAGONS_DEN_CAVERN_LANCE` are set, `VAR_BLACKTHORN_CITY_STATE`
+reaches 1, and no object stands on Lance's tiles (30,37)/(31,37). **Discrimination:** unfixed 6/12
+(state 0, Lance and his Dragonite spawned at the lake), fixed 12/12.

@@ -2491,3 +2491,13 @@ battle party (`gParties[B_TRAINER_OPPONENT_A][0]`, decrypted) is Squirtle (7). S
 warps (Pallet Town, Elm's lab); the gate crossings, Oak's trigger, Elm's intro, both ball picks, the
 Hub Pass and Blue's trigger are real input. **Discrimination:** unfixed 21/22 (Blue leads with
 Bulbasaur, the team for a Squirtle player, because the Cyndaquil pick wrote 1), fixed 22/22.
+### `BikeShopsAcrossRegions.lua`
+
+Rydel's Cycles in Mauville and the Goldenrod bike shop share `FLAG_RECEIVED_BIKE`, so one shop bike
+across Hoenn and Johto is the rule: Rydel swaps the bike the player holds and the Goldenrod clerk
+gives nothing to a player who has one. Goldenrod's first-visit setup cleared that flag with the rest
+of its HnS reset list. The suite talks to Rydel for the Mach Bike and again to switch it for the Acro
+Bike, walks into Goldenrod for the first time, talks to the Goldenrod clerk, then to Rydel, and reads
+the Bag after each talk (quantities decoded with the encryption key). **Oracle:** the flag survives
+the Goldenrod visit and the Bag never holds more than one bike. **Discrimination:** unfixed 16/18
+(flag cleared; the clerk gives a Mach Bike beside the Acro Bike), fixed 18/18.

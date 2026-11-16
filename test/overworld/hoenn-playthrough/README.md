@@ -148,11 +148,10 @@ the champion flag first. `evidence/postgame-wattson-before.log` shows the unfixe
 - Mr. Briney paces a loop in his cottage, and the POKéNAV tutorial accepts only MATCH CALL, then
   only SWITCH OFF. Both are vanilla; the harness drives them.
 
-## Found by reading, not fixed here
+## Found by reading, since fixed
 
-Cross-region; it cannot happen in a Hoenn-only run. (A second note here, that a later starter
-pick in Johto or Kanto re-picked the Hoenn rival's team, was fixed: each region now has its own
-starter var, proved by `test/overworld/lua/StarterIndexPerRegion.lua`.)
-
-- `data/maps/GoldenrodCity/scripts.inc:22` clears `FLAG_RECEIVED_BIKE`, the flag Mauville's bike
-  shop also checks, so a Johto visit lets Rydel give the bike again.
+Two cross-region notes stood here; neither can happen in a Hoenn-only run, and both are fixed. A
+later starter pick in Johto or Kanto re-picked the Hoenn rival's team (each region now has its own
+starter var, proved by `test/overworld/lua/StarterIndexPerRegion.lua`), and Goldenrod's first visit
+cleared `FLAG_RECEIVED_BIKE`, so Rydel gave the bike again (proved by
+`test/overworld/lua/BikeShopsAcrossRegions.lua`).

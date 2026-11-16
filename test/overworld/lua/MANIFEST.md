@@ -2913,3 +2913,12 @@ Bike, walks into Goldenrod for the first time, talks to the Goldenrod clerk, the
 the Bag after each talk (quantities decoded with the encryption key). **Oracle:** the flag survives
 the Goldenrod visit and the Bag never holds more than one bike. **Discrimination:** unfixed 16/18
 (flag cleared; the clerk gives a Mach Bike beside the Acro Bike), fixed 18/18.
+### `CyclingRoadAnyBike.lua`
+
+Kanto's Cycling Road gates (Route 16 north entrance and Route 18 east entrance) let only
+`FLAG_GOT_BICYCLE` through, so a player carrying a Mach or Acro Bike from Hoenn or Johto in the shared
+Bag was stopped as a pedestrian. With only a Mach Bike (Route 16 gate), only an Acro Bike (Route 18
+gate) and no bike (Route 16 gate), the suite walks west across each gate on foot. **Oracle:** with a
+bike the player reaches the road on that bike (`gPlayerAvatar` Mach or Acro flag); with none the guard
+still turns them back. **Discrimination:** unfixed 6/10 (both bike owners stopped at the counter),
+fixed 10/10. Screenshots show the Mach and Acro riders on Routes 16 and 18.

@@ -2276,3 +2276,13 @@ player's rows. Rows 0, 1, 2 must leave summary indices 0, 2, 3 in `gLastViewedMo
 screenshots show Bulbasaur, Charmander, Squirtle) and the party cursor back on the row. Measured
 **10/10** on master and **8/10** with the two `0829014ec0` call-site translations reverted (rows 1
 and 2 opened indices 1 and 2: Lance's Dragonite and the wrong own Pokémon).
+### `SummaryEggPages.lua`
+
+An Egg's summary must not leak what hatching reveals. A shiny Bulbasaur leads (control: star and
+friendship heart show) and a shiny Togepi Egg from the debug Give Egg menu follows (shininess set
+through the unencrypted `shinyModifier` bit). With real input the suite opens Bulbasaur's summary
+from the Start menu's party, scrolls onto the Egg, tries Left and Right, and reads the shiny star
+and friendship heart sprites by their fixed positions in `gSprites`; then from each of Bulbasaur's
+other pages Down must skip the Egg (the party cursor returns to the lead on close). Measured
+**15/15** on master and **11/15** with `0829014ec0`'s Egg checks in `SetShinySprite` and
+`SetFriendshipSprite` reverted (star and heart shown on the Egg).

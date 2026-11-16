@@ -199,3 +199,4 @@ HubWardrobeSprite	lua/HubWardrobeSprite.lua	fresh	0	required
 SummaryDexNumberNoDex	lua/SummaryDexNumberNoDex.lua	fresh	0	required
 PokedexAreaAfterBattle	lua/PokedexAreaAfterBattle.lua	fresh	0	required
 MultiHalfTeamSummary	lua/MultiHalfTeamSummary.lua	fresh	0	required
+SummaryEggPages	lua/SummaryEggPages.lua	fresh	0	required

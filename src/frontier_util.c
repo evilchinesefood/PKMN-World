@@ -2176,7 +2176,7 @@ static void CheckPartyIneligibility(void)
         gSpecialVar_0x8004 = TRUE;
         if (totalCaughtBanned == 0)
         {
-            StringAppend(gStringVar1, gText_FrontierFacilityAreInelegible);
+            StringAppend(gStringVar1, gText_FrontierFacilityAreIneligible);
         }
         else
         {

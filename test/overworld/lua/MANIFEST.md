@@ -2480,3 +2480,14 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `SecretBaseMoveStress.lua`
+
+Secret Power on all three Hoenn entrance types and moving the base twice, which no suite touched.
+With every decoration given (an `adddecoration` script per id) and Secret Power written into the
+debug Wobbuffet's last slot, the suite makes a base in the Route 116 blue cave, opens its PC and the
+Decorate category list, then moves to the Route 110 tree and the Route 119 shrub. Each move must
+name the route of the base being left ("near ROUTE 116", then "near ROUTE 110"), land in the right
+base map in front of its PC (25/2, 25/16, 25/17), and the live map grid must show the Route 116
+indent open while the base is there and closed after the move, and the Route 110 vines gone. Talks,
+YES answers and the PC menus are real input; the warps are debug warps. Coverage, no defect found:
+**23/23**.

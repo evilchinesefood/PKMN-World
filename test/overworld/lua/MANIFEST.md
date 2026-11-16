@@ -2480,3 +2480,11 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `SageLiAfterHoennFlash.lua`
+
+HM Flash is one item in the shared Bag, so `FLAG_RECEIVED_HM_FLASH` is one per world (Granite Cave in
+Hoenn, Sprout Tower in Johto). Sprout Tower's Sage Li checked that flag before his battle, so a player
+who already had Flash from Hoenn got his after-battle line and never fought him. The suite sets the
+flag as Granite Cave leaves it, gives a level 50 party member, debug-warps to (11,4) in front of Li,
+faces him and presses A. **Oracle:** a trainer battle starts (`gBattlersCount` > 0 with
+`BATTLE_TYPE_TRAINER`). **Discrimination:** unfixed 1/2 (no battle), fixed 2/2.

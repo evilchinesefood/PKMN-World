@@ -151,6 +151,8 @@ WANT = [
     # so "is there a live task whose func is Task_AnimateDoor" is a behavioural read of the same
     # lookup -- an unregistered door never creates one. Also a lowercase-'t' static.
     "gTasks", "Task_AnimateDoor",
+    # HofSharedCap.lua reads the Hall of Fame records the PC viewer loaded from the save.
+    "gHoFSaveBuffer",
     # The four TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
     # scriptPtr land inside one of these proves the shutdown branch independently of the tile,
     # which is what caught issue #57's mis-dispatch (New Bark ran May's script on a female save).

@@ -37,7 +37,6 @@
 #include "confetti_util.h"
 #include "constants/rgb.h"
 
-#define HALL_OF_FAME_MAX_TEAMS 30
 #define TAG_CONFETTI 1001
 
 STATIC_ASSERT(sizeof(struct HallofFameTeam) * HALL_OF_FAME_MAX_TEAMS <= SECTOR_DATA_SIZE * NUM_HOF_SECTORS, HallOfFameFreeSpace);
@@ -486,8 +485,7 @@ void HallOfFame_NormalizeLegacyEggs(void)
 {
     u32 i, j;
 
-    // The FRLG screens keep more teams in the same buffer, so cover all of it.
-    for (i = 0; i < SECTOR_DATA_SIZE * NUM_HOF_SECTORS / sizeof(struct HallofFameTeam); i++)
+    for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++)
     {
         for (j = 0; j < PARTY_SIZE; j++)
         {
@@ -499,11 +497,33 @@ void HallOfFame_NormalizeLegacyEggs(void)
     }
 }
 
+u32 HallOfFame_CountTeams(void)
+{
+    u32 count;
+
+    for (count = 0; count < HALL_OF_FAME_MAX_TEAMS; count++)
+    {
+        if (gHoFSaveBuffer[count].mon[0].species == SPECIES_NONE)
+            break;
+    }
+    return count;
+}
+
+void HallOfFame_AddTeam(const struct HallofFameTeam *team)
+{
+    u32 i, count = HallOfFame_CountTeams();
+
+    if (count == HALL_OF_FAME_MAX_TEAMS)
+    {
+        for (i = 0; i < HALL_OF_FAME_MAX_TEAMS - 1; i++)
+            gHoFSaveBuffer[i] = gHoFSaveBuffer[i + 1];
+        count--;
+    }
+    gHoFSaveBuffer[count] = *team;
+}
+
 static void Task_Hof_InitTeamSaveData(u8 taskId)
 {
-    u16 i;
-    struct HallofFameTeam *lastSavedTeam = gHoFSaveBuffer;
-
     if (!gHasHallOfFameRecords)
     {
         memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
@@ -516,23 +536,7 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
             HallOfFame_NormalizeLegacyEggs();
     }
 
-    for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++, lastSavedTeam++)
-    {
-        if (lastSavedTeam->mon[0].species == SPECIES_NONE)
-            break;
-    }
-    if (i >= HALL_OF_FAME_MAX_TEAMS)
-    {
-        struct HallofFameTeam *afterTeam = gHoFSaveBuffer;
-        struct HallofFameTeam *beforeTeam = gHoFSaveBuffer;
-        afterTeam++;
-        for (i = 0; i < HALL_OF_FAME_MAX_TEAMS - 1; i++, beforeTeam++, afterTeam++)
-        {
-            *beforeTeam = *afterTeam;
-        }
-        lastSavedTeam--;
-    }
-    *lastSavedTeam = *sHofMonPtr;
+    HallOfFame_AddTeam(sHofMonPtr);
 
     DrawDialogueFrame(0, FALSE);
     AddTextPrinterParameterized2(0, FONT_NORMAL, gText_SavingDontTurnOffPower, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
@@ -891,21 +895,8 @@ static void Task_HofPC_CopySaveData(u8 taskId)
     }
     else
     {
-        u16 i;
-        struct HallofFameTeam *savedTeams;
-
         HallOfFame_NormalizeLegacyEggs();
-        savedTeams = gHoFSaveBuffer;
-        for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++, savedTeams++)
-        {
-            if (savedTeams->mon[0].species == SPECIES_NONE)
-                break;
-        }
-
-        if (i < HALL_OF_FAME_MAX_TEAMS)
-            gTasks[taskId].tCurrTeamNo = i - 1;
-        else
-            gTasks[taskId].tCurrTeamNo = HALL_OF_FAME_MAX_TEAMS - 1;
+        gTasks[taskId].tCurrTeamNo = HallOfFame_CountTeams() - 1;
 
         gTasks[taskId].tCurrPageNo = GetGameStat(GAME_STAT_ENTERED_HOF);
 

@@ -2,8 +2,15 @@
 
 Mahoganytown_MapScripts::
 	map_script MAP_SCRIPT_ON_LOAD, Mahoganytown_OnLoad
+	map_script MAP_SCRIPT_ON_TRANSITION, Mahoganytown_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, Mahoganytown_OnFrame
 	.byte 0
+
+@ The first-visit setup also runs from Route 42's east edge, but the Sky Charm (sixth badge) flies
+@ over coord events, so entering the town runs it too, before the town's objects spawn.
+Mahoganytown_OnTransition::
+	goto_if_eq VAR_MAHOGANY_TOWN_STATE, 0, MahoganyTown_EventScript_TownTrigger
+	end
 
 Mahoganytown_OnLoad::
 	call_if_ge VAR_MAHOGANY_TOWN_STATE, 13, MahoganyTown_EventScript_FixTree

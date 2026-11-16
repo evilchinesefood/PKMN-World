@@ -2322,3 +2322,14 @@ The suite gives a team, enters the contest through the real attendant, opens the
 Start menu, presses R, and counts the lead's action rows through `sMenu` (Summary and Cancel only).
 Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
 with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
+
+### `PokenavRegionNames.lua`
+
+The PokéNav's map option, its help line and the region map's left header said HOENN MAP in every
+region. They now name the region the map shows (`GetCurrentRegion()`, as `region_map.c` picks the
+map): JOHTO MAP and KANTO MAP labels are drawn from the Hoenn art by
+`tools/pokenav/region_map_labels.py` and appended to the options sheet. With the PokéNav flag set,
+the suite opens the PokéNav from the Start menu with real input on Route 106, in Goldenrod City and
+in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
+0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed
+maps with their headers. Unfixed **10/12** (Johto and Kanto read 0x000), fixed **12/12**.

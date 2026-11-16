@@ -119,6 +119,7 @@ is clean; keep it that way.
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
 | [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
 | [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
+| [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2592,3 +2593,13 @@ party and boxes full, and no item quantity grew. Measured **82/82** with the def
 `PW_SMASH_SEED=0xA11CE` and `0xBEEF7`; the mash found the two-stack sort refusal fixed in
 `BagSortTwoItems`. `PW_SMASH_SEED=<n>` reseeds, `PW_SMASH_ONLY=<text>` runs matching scenarios and
 `PW_SMASH_SAVE=<dir>` keeps a savestate of a battle that does not end.
+### `JohtoPlaceNames.lua`
+
+Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and
+greeted "This is MAUVILLE GAME CORNER.", the Johto Safari Zone gate's welcome attendant runs Route
+121's and promised Pokemon "rarely seen in HOENN.", and Johto Victory Road's Owen said the tough kid
+"is from PETALBURG CITY." pokemonHnS had reworded the first two in its copies; the merge kept
+Emerald's. With real input (a Lapras in the party, Owen's defeat flag set as the battle leaves it) the
+suite talks to all three and reads the printed line: no Hoenn name, and the Johto one in its place.
+**6/12** on the unfixed ROM, **12/12** with the fix. `ValidateRegionText.py` (in `make validate`) now
+reads every string a Johto map can reach and failed on exactly these three.

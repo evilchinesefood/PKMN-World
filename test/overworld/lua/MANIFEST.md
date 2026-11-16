@@ -121,6 +121,7 @@ is clean; keep it that way.
 | [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
+| [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2694,3 +2695,15 @@ balance from 0 to 9,999, unchanged where no spin happened. **Prizes:** Abra one 
 coins kept), exactly 180 (Abra joins, 0 coins), a full party (Abra goes to a box, coins paid) and a
 full party with every box full (refused, coins kept). Measured **36/36** with seeds 11 and 4242; no
 defect found.
+### `AlphSlidingPuzzles.lua`
+
+The Ruins of Alph's four sliding puzzles and the Kabuto reward chamber, which no suite drove. Setup
+sets the four B1F item hide flags as Violet City's first-visit heap does. For each chamber the suite
+reads the sign and, on the puzzle screen, moves the cursor, picks up, rotates (R) and places tiles
+with real input until `sSlidingPuzzle` reads solved, then presses A. The completion flag must be set,
+the floor must drop the player to B1F on the same tile, and the reward (Dome Fossil, Helix Fossil, Old
+Amber, GS Ball) must stand one tile north and go into the bag on A. Before the Kabuto solve, B with a
+tile in hand must return control with the flag clear and a fresh board on the next visit, and the
+Kabuto drop must show B1F's "strange presence" line. Last, the Kabuto chamber's sensor must refuse a
+Lapras lead and react to a Kabuto lead (swapped to the front in RAM), and its door must lead into the
+reward room. Measured **40/40**; no defect found.

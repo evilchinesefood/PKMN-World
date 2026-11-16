@@ -273,6 +273,8 @@ WANT = [
     # SummaryMoveCancelRace.lua: the SwSh summary's move-select input, the effect panel's
     # slide-in task, and the move category icon's template (src/swsh_summary_screen.c).
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
+    # AlphSlidingPuzzles.lua: the Ruins of Alph sliding puzzle's live board (src/sliding_puzzle.c).
+    "sSlidingPuzzle", "CB2_SlidingPuzzle",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPokemonStorage"]

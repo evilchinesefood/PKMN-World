@@ -2422,3 +2422,12 @@ the suite opens the PokéNav from the Start menu with real input on Route 106, i
 in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
 0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed
 maps with their headers. Unfixed **10/12** (Johto and Kanto read 0x000), fixed **12/12**.
+### `MoneyCapPayouts.lua`
+
+Money payouts at the 999,999 cap that `EconomyStress` and `MoneySinkEdges` do not reach. The Lake
+of Rage fisherman (after the Rocket event; talk, Yes and the party pick are real input) pays 100,000
+for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payout must stop at
+999,999, and at 999,999 both must leave it there, with the money box drawing all six digits
+(screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
+999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
+81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.

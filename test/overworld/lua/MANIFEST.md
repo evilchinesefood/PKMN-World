@@ -2930,6 +2930,18 @@ asks him twice with real input, answering YES to every Yes/No box and picking th
 storage chooser the second time. **Oracle:** each visit raises exactly one Yes/No box before the
 chooser opens, and both Mew learn Fury Cutter. **Discrimination:** unfixed 6/10 (`boxes=2` on the
 first visit; on the second no box, no chooser and the second Mew never learns), fixed 10/10.
+### `MartEvoStock.lua`
+
+The marts that stocked evolution items must not sell one that evolves nothing obtainable. Gen 4+
+families are stripped, so 37 evolution items (Dusk Stone, Electirizer, Oval Stone, the Galarica and
+Sweet items and more) evolve no species the player can own, yet Celadon Dept. Store 4F, Lilycove
+Dept. Store 2F, the Mahogany shop and the Hub Battle Depot sold them. `ValidateDeadEvoItems.py`
+derives the dead list from the species table and fails on a mart that sells one; this suite reads the
+stock the game shows. For each mart it stands at the clerk's counter, presses A until the shop opens
+and reads `sMartInfo`'s item list (Mahogany needs `VAR_MAHOGANY_TOWN_STATE` 14, which the Rocket
+hideout leaves). **Oracle:** no dead item is for sale, while the Fire Stone, the Linking Cord and,
+where it was sold, the Razor Claw (kept for its held critical-hit boost) still are.
+**Discrimination:** unfixed 12/16 (24, 24, 28 and 4 dead items for sale), fixed 16/16.
 ### `TmAdviceReusable.lua`
 
 TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,

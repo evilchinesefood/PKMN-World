@@ -155,7 +155,8 @@ F.run(function()
     F.press("A", 2); F.idle(40)
   end
   F.shot("after_continue")
-  F.check("Rest wrote the save Continue loaded", F.r32(S.gSaveCounter) == c0 + 1,
+  -- At least one save: since Frontier saves write the other slot (#541) they advance the counter too.
+  F.check("Rest wrote the save Continue loaded", F.r32(S.gSaveCounter) > c0,
     string.format("saves %d -> %d", c0, F.r32(S.gSaveCounter)))
   F.check("Continue resumes on the Pyramid floor", booted and F.grp() == FRONTIER and F.mapn() == FLOOR, where())
   F.check("the resumed challenge carries three Pokemon", F.r8(S.gPartiesCount) == 3, "n=" .. F.r8(S.gPartiesCount))

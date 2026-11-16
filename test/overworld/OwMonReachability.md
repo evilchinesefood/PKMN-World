@@ -34,6 +34,13 @@ For #292, the gate no longer exits north into the isolated strip. The old
 strip's three return warps remain, pointed at the gate's surviving south
 exit, so an existing save on the strip can still leave.
 
+The #288 rule above checked each object's spawn tile, not where it wanders. Ecruteak's Pidgey
+and Vulpix spawned beside the Burned Tower stairs and wandered up the one-tile corridor onto the
+door. `ValidateAmbientBlockers.py` now floods each scriptless moving object's real wander area
+(range box, collision, elevation) and fails if it holds a cell whose occupation cuts the player
+off from an exit (a walk-on warp, the tile south of a door, a one-tile passage). It runs in
+`make validate` and `test/validate-host.py`.
+
 Run:
 
 ```

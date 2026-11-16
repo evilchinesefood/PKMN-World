@@ -43,6 +43,7 @@ GoldenrodCity_BillsHouse_EventScript_Bill_Eevee::
 	bufferspeciesname STR_VAR_1, SPECIES_EEVEE
 	givenamedmon 3
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoRoomInPartyForPokemon
+	call Common_EventScript_ReceivedNamedGiftMon
 
     
 
@@ -74,9 +75,6 @@ BillHouse_Text_CountingOnYou:
     .string "Way to go! You're the real deal!\p"
     .string "OK, I'm counting on you.\p"
     .string "Take good care of it!$"
-
-BillHouse_Text_ReceivedEevee:
-    .string "{PLAYER} received EEVEE!$"
 
 BillHouse_Text_EeveeMayEvolve:
     .string "BILL: PROF.ELM claims EEVEE may\n"

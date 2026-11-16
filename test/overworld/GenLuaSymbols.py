@@ -65,6 +65,12 @@ WANT = [
     # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
     # thing is drawn straight to VRAM and leaves no other observable.
     "gLevelUpStartLevels", "sLevelUpSummaryState",
+    # FrontierFacilityStress.lua: the Battle Factory rental and swap screens and the Dome tourney tree.
+    "CB2_SelectScreen", "Swap_CB2", "CB2_TourneyTree",
+    # ExchangeCornerPurchases.lua / MasterRankMuseum.lua: the scrollable prize list, the decoration
+    # inventories, the contest's move-select task and the contest and painting screens.
+    "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",
+    "CB2_ContestMain", "CB2_ContestPainting",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",
@@ -100,6 +106,8 @@ WANT = [
     # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.
     "gSpecialVar_0x8005",
     "sUsmState", "sFirstTextPrinter", "sRegionMap", "sFlyMap",
+    # StoryMapIslandTitles.lua reads the Story destination map's regional map titles.
+    "sTitles",
     # Overworld weather object. Route41SurfBgm.lua zeros curr/next/rain so a
     # Route 41 surf check cannot pass on a raining map (or fail on one).
     "gWeather",
@@ -149,6 +157,8 @@ WANT = [
     # so "is there a live task whose func is Task_AnimateDoor" is a behavioural read of the same
     # lookup -- an unregistered door never creates one. Also a lowercase-'t' static.
     "gTasks", "Task_AnimateDoor",
+    # HofSharedCap.lua reads the Hall of Fame records the PC viewer loaded from the save.
+    "gHoFSaveBuffer",
     # The four TURN OFF scripts PlayerPC_TurnOff dispatches to. Watching sGlobalScriptContext's
     # scriptPtr land inside one of these proves the shutdown branch independently of the tile,
     # which is what caught issue #57's mis-dispatch (New Bark ran May's script on a female save).
@@ -177,7 +187,7 @@ WANT = [
     "CB2_InitClearSaveDataScreen", "CB2_InitResetRtcScreen",
     "CB2_NewGameScene",
     "CB2_NamingScreen", "CB2_BagMenuRun", "CB2_ShowPartyMenuForItemUse",
-    "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
+    "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap", "CB2_MoveRelearnerMain",
     "Task_OakSpeech_HandleGenderInput",
     "gPlayerOutfitPicker", "Task_OutfitPicker",
     # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
@@ -269,6 +279,8 @@ WANT = [
     # SummaryMoveCancelRace.lua: the SwSh summary's move-select input, the effect panel's
     # slide-in task, and the move category icon's template (src/swsh_summary_screen.c).
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
+    # AlphSlidingPuzzles.lua: the Ruins of Alph sliding puzzle's live board (src/sliding_puzzle.c).
+    "sSlidingPuzzle", "CB2_SlidingPuzzle",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPokemonStorage"]
@@ -307,7 +319,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- src/special_pokemon_menu.c, offsetof probe
                                                             --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },
-  BattlePokemon= { size = 140, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
+  BattlePokemon= { size = 140, attack = 2, spAttack = 8, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
   BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },

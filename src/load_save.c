@@ -294,6 +294,66 @@ static void MigrateMovedHealLocations(void)
     }
 }
 
+// Goldenrod's first-visit setup cleared FLAG_RECEIVED_BIKE (#602), the flag Rydel's Cycles and
+// the Goldenrod bike shop share, so either shop gave a second bike. Both shops set it as they hand
+// over a Mach or Acro Bike and nothing else gives either one, so a bike in the Bag or the item PC
+// proves the flag was set; only that setup ever cleared it. The raw slots are read rather than
+// CheckBagHasItem, which looks in the Pyramid bag instead for a save made in the Battle Pyramid.
+static bool32 SaveHoldsKeyItem(enum Item itemId)
+{
+    u32 i;
+
+    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->bag.keyItems[i].itemId == itemId)
+            return TRUE;
+    }
+    for (i = 0; i < PC_ITEMS_COUNT; i++)
+    {
+        if (gSaveBlock1Ptr->pcItems[i].itemId == itemId)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static void RestoreSharedBikeFlag(void)
+{
+    if (SaveHoldsKeyItem(ITEM_MACH_BIKE) || SaveHoldsKeyItem(ITEM_ACRO_BIKE))
+        FlagSet(FLAG_RECEIVED_BIKE);
+}
+
+// Johto's mother set FLAG_RECEIVED_POKENAV with the PokeGear (#604). Devon's president is its only
+// other writer and sets VAR_DEVON_CORP_3F_STATE in the same scene, so the flag with that var still
+// 0 came from the PokeGear. Hoenn then tracked Mr. Briney early: a Center recorded his cottage in
+// VAR_BRINEY_LOCATION, and a hub arrival or a whiteout put him and Peeko there while Peeko was
+// still missing. Until Devon's scene the real game keeps both hidden and the var at 0, so restore
+// that. A save in which Briney already sailed the player is left alone: every first voyage lands
+// in Dewford, and from then on the route the player is on depends on where the save put him.
+static void UndoPokegearPokenavFlag(void)
+{
+    u32 i;
+
+    if (!FlagGet(FLAG_RECEIVED_POKENAV) || VarGet(VAR_DEVON_CORP_3F_STATE) != 0
+     || FlagGet(FLAG_VISITED_DEWFORD_TOWN))
+        return;
+    FlagClear(FLAG_RECEIVED_POKENAV);
+    VarSet(VAR_BRINEY_LOCATION, 0);
+    FlagSet(FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY);
+    FlagSet(FLAG_HIDE_BRINEYS_HOUSE_PEEKO);
+    // Continue restores a save's live objects without reading their hide flags, so a save made
+    // inside the cottage would still show both until the player left.
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    {
+        struct ObjectEvent *obj = &gSaveBlock1Ptr->objectEvents[i];
+
+        if (obj->active
+         && obj->mapGroup == MAP_GROUP(MAP_ROUTE104_MR_BRINEYS_HOUSE)
+         && obj->mapNum == MAP_NUM(MAP_ROUTE104_MR_BRINEYS_HOUSE)
+         && (obj->localId == LOCALID_BRINEYS_HOUSE_BRINEY || obj->localId == LOCALID_BRINEYS_HOUSE_PEEKO))
+            obj->active = FALSE;
+    }
+}
+
 void MigrateSaveFormatIfNeeded(void)
 {
     u8 savedVersion = gSaveBlock2Ptr->saveVersion;
@@ -410,6 +470,19 @@ void MigrateSaveFormatIfNeeded(void)
     {
         gSaveBlock2Ptr->optionsEncounterRate = OPTIONS_RATE_1X;
         gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_1X;
+    }
+
+    // v12 -> v13: Kanto and Johto read their own starter index instead of the shared
+    // VAR_STARTER_MON. An older save cannot say which region wrote that var last, so both new
+    // slots start from it, which keeps every rival on the team the save would have used before.
+    if (savedVersion < 13)
+    {
+        VarSet(VAR_STARTER_MON_FRLG, VarGet(VAR_STARTER_MON));
+        VarSet(VAR_STARTER_MON_JOHTO, VarGet(VAR_STARTER_MON));
+        // v13 also repairs saves that two cross-region writes damaged before their fixes, which
+        // stop only new damage. Each repair acts on proof of what the player did and converges.
+        RestoreSharedBikeFlag();
+        UndoPokegearPokenavFlag();
     }
 
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;

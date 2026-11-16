@@ -229,9 +229,9 @@ CherryGroveCity_EventScript_TriggerSilver::
 	waitmovement 0
 	msgbox CherrygroveCity_Text_RivalSeen, MSGBOX_DEFAULT
 	closemessage
-	goto_if_eq VAR_STARTER_MON, 0, CherryGroveCity_Silver_Battle_Cyndaquil
-	goto_if_eq VAR_STARTER_MON, 1, CherryGroveCity_Silver_Battle_Totodile
-	goto_if_eq VAR_STARTER_MON, 2, CherryGroveCity_Silver_Battle_Chikorita
+	goto_if_eq VAR_STARTER_MON_JOHTO, 0, CherryGroveCity_Silver_Battle_Cyndaquil
+	goto_if_eq VAR_STARTER_MON_JOHTO, 1, CherryGroveCity_Silver_Battle_Totodile
+	goto_if_eq VAR_STARTER_MON_JOHTO, 2, CherryGroveCity_Silver_Battle_Chikorita
 	release
 	end
 

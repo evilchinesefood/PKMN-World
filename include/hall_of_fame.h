@@ -16,12 +16,18 @@ struct HallofFameTeam
     struct HallofFameMon mon[PARTY_SIZE];
 };
 
+// Both induction screens and both PC viewers share one record buffer, so they share its cap.
+#define HALL_OF_FAME_MAX_TEAMS 50
+
 extern struct HallofFameTeam *gHoFSaveBuffer;
 
 void CB2_DoHallOfFameScreen(void);
 void CB2_DoHallOfFameScreenDontSaveData(void);
 void CB2_DoHallOfFamePC(void);
 void HallOfFame_NormalizeLegacyEggs(void);
+u32 HallOfFame_CountTeams(void);
+void HallOfFame_AddTeam(const struct HallofFameTeam *team);
+void HallOfFame_BufferDexNumber(u8 *dst, enum Species species);
 
 // hof_pc.c
 void ReturnFromHallOfFamePC(void);

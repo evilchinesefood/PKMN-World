@@ -1675,10 +1675,25 @@ bool32 CannotUseItemsInBattle(enum Item itemId, struct Pokemon *mon)
     return cannotUse;
 }
 
+// Whether choosing this item in battle takes it out of the Bag. A cancelled choice gives back
+// only what this took: a ball thrown at a trainer's Pokemon stays in the Bag (Gen 4+).
+bool32 IsBattleItemTakenFromBag(enum Item itemId)
+{
+    if (GetItemImportance(itemId) || !GetItemConsumability(itemId))
+        return FALSE;
+    if (B_TRY_CATCH_TRAINER_BALL >= GEN_4 && GetItemBattleUsage(itemId) == EFFECT_ITEM_THROW_BALL
+     && (gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        return FALSE;
+    return TRUE;
+}
+
 void ItemUseInBattle_BagMenu(u8 taskId)
 {
-    gPartyMenu.slotId = gBattleStruct->itemPartyIndex[gBattlerInMenuId] = gBattlerPartyIndexes[gBattlerInMenuId];
-    if (CannotUseItemsInBattle(gSpecialVar_ItemId, NULL))
+    // CannotUseItemsInBattle reads slotId as the field slot (0 left, 1 right), not a party index:
+    // a Pokemon sent out from party slot 2 or later is still on the field.
+    gPartyMenu.slotId = (GetBattlerPosition(gBattlerInMenuId) == B_POSITION_PLAYER_RIGHT) ? 1 : 0;
+    gBattleStruct->itemPartyIndex[gBattlerInMenuId] = gBattlerPartyIndexes[gBattlerInMenuId];
+    if (CannotUseItemsInBattle(gSpecialVar_ItemId, GetBattlerMon(gBattlerInMenuId)))
     {
         if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
@@ -1688,7 +1703,7 @@ void ItemUseInBattle_BagMenu(u8 taskId)
     else
     {
         PlaySE(SE_SELECT);
-        if (!GetItemImportance(gSpecialVar_ItemId) && !(B_TRY_CATCH_TRAINER_BALL >= GEN_4 && (GetItemBattleUsage(gSpecialVar_ItemId) == EFFECT_ITEM_THROW_BALL) && (gBattleTypeFlags & BATTLE_TYPE_TRAINER)))
+        if (IsBattleItemTakenFromBag(gSpecialVar_ItemId))
             RemoveUsedItem();
         ScheduleBgCopyTilemapToVram(2);
         if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)

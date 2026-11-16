@@ -32,6 +32,8 @@
     ],
   "extraTutors":
     [
-      
+      "MOVE_BLAST_BURN",
+      "MOVE_FRENZY_PLANT",
+      "MOVE_HYDRO_CANNON"
     ]
 }

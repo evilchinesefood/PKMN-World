@@ -179,7 +179,7 @@ MahoganyHideout_B2F_Movement_MurkrowGate2:
 MahoganyHideout_B2F_Text_MurkrowUnlock:
     .string "MURKROW screamed the password,\n"
     .string "mimicking the voice of PETREL.\p"
-    .string "..................\n"
+    .string "………………\n"
     .string "The voice-recognition system\l"
     .string "unlocked the door!$"
 
@@ -597,7 +597,7 @@ MahoganyHideout_B2F_Movement_DragoniteFinalExit:
 	step_end
 
 MahoganyHideout_B2F_Text_GruntLoss:
-    .string "....................$"
+    .string "…………………$"
 
 MahoganyHideout_B2F_Text_ArianaLoss:
     .string "Tch, you really are strong.\n"

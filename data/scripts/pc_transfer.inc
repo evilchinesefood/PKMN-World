@@ -16,32 +16,38 @@ Common_EventScript_NameReceivedBoxMon::
 Common_EventScript_TransferredToPC::
 	bufferboxname STR_VAR_1, VAR_PC_BOX_TO_SEND_MON
 	bufferspeciesname STR_VAR_2, VAR_TEMP_TRANSFERRED_SPECIES
-	call_if_unset FLAG_SYS_PC_LANETTE, EventScript_TransferredSomeonesPC
-	call_if_set FLAG_SYS_PC_LANETTE, EventScript_TransferredLanettesPC
+	callnative ScrBufferPcTransferredText
+	msgbox gStringVar4, MSGBOX_DEFAULT
 	return
 
-EventScript_TransferredSomeonesPC::
-	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
-	goto_if_eq VAR_RESULT, TRUE, EventScript_SomeonesPCBoxFull
-	msgbox gText_PkmnTransferredSomeonesPC, MSGBOX_DEFAULT
+@ The receipt a scripted Pokemon gift owes the player: fanfare and "received", a nickname offer,
+@ and the PC notice when a full party sent it to a box. Call it right after givemon with
+@ STR_VAR_1 and VAR_TEMP_TRANSFERRED_SPECIES naming the species and VAR_RESULT still holding
+@ MON_GIVEN_TO_PARTY or MON_GIVEN_TO_PC.
+Common_EventScript_ReceivedGiftMon::
+	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Common_EventScript_ReceivedGiftMonInBox
+	call Common_EventScript_ReceivedNamedGiftMon
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Common_EventScript_ReceivedGiftMonDone
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+Common_EventScript_ReceivedGiftMonDone::
 	return
 
-EventScript_SomeonesPCBoxFull::
-	specialvar VAR_RESULT, GetIntendedDepositBox
-	bufferboxname STR_VAR_3, VAR_RESULT
-	msgbox gText_PkmnTransferredSomeonesPCBoxFull, MSGBOX_DEFAULT
+Common_EventScript_ReceivedGiftMonInBox::
+	call Common_EventScript_ReceivedNamedGiftMon
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	call_if_eq VAR_RESULT, YES, Common_EventScript_NameReceivedBoxMon
+	call Common_EventScript_TransferredToPC
 	return
 
-EventScript_TransferredLanettesPC::
-	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
-	goto_if_eq VAR_RESULT, TRUE, EventScript_LanettesPCBoxFull
-	msgbox gText_PkmnTransferredLanettesPC, MSGBOX_DEFAULT
-	return
-
-EventScript_LanettesPCBoxFull::
-	specialvar VAR_RESULT, GetIntendedDepositBox
-	bufferboxname STR_VAR_3, VAR_RESULT
-	msgbox gText_PkmnTransferredLanettesPCBoxFull, MSGBOX_DEFAULT
+@ The same receipt for a givenamedmon gift, which always lands in the party and keeps the name
+@ and trainer its giver gave it.
+Common_EventScript_ReceivedNamedGiftMon::
+	playfanfare MUS_OBTAIN_ITEM
+	message gText_PlayerReceivedGiftMon
+	waitmessage
+	waitfanfare
 	return
 
 Common_EventScript_NoMoreRoomForPokemon::

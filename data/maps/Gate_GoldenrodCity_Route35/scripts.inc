@@ -18,6 +18,7 @@ Gate_GoldenrodCity_Route35_EventScript_Randy::
 	bufferspeciesname STR_VAR_1, SPECIES_SPEAROW
 	givenamedmon 1
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoRoomInPartyForPokemon
+	call Common_EventScript_ReceivedNamedGiftMon
 
 	setvar VAR_KENYA, 1
 	release
@@ -87,9 +88,6 @@ Route35GoldenrodGate_Text_RandyThanks:
 	.string "My pal's a chubby guy who snoozes\n"
 	.string "all the time.\p"
 	.string "You'll recognize him right away!$"
-
-Route35GoldenrodGate_Text_ReceivedMonWithMail:
-	.string "{PLAYER} received a POKéMON with MAIL.$"
 
 Route35GoldenrodGate_Text_RandyWeirdTree:
 	.string "Make sure to put it at the front of\n"

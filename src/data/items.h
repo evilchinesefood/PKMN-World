@@ -6,6 +6,11 @@
     #define EVO_HELD_ITEM_FIELD_FUNC ItemUseOutOfBattle_CannotUse
 #endif
 
+// Link trade is compiled out, so the items a Gen 1-3 POKéMON evolves with by trade work from the
+// Bag like a stone, whatever I_USE_EVO_HELD_ITEMS_FROM_BAG says about the later generations.
+#define TRADE_EVO_ITEM_TYPE ITEM_USE_PARTY_MENU
+#define TRADE_EVO_ITEM_FIELD_FUNC ItemUseOutOfBattle_EvolutionStone
+
 #define GEM_BOOST_PARAM ((I_GEM_BOOST_POWER >= GEN_6) ? 30 : 50)
 #define TYPE_BOOST_PARAM ((I_TYPE_BOOST_POWER >= GEN_4) ? 20 : 10) // For non Pokémon-specific type-boosting held items.
 #define POWER_ITEM_BOOST ((I_POWER_ITEM_BOOST >= GEN_7) ? 8 : 4)
@@ -4380,8 +4385,8 @@ const struct ItemInfo gItemsInfo[] =
             "type Pokémon."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_EVOLUTION_ITEM,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = TRADE_EVO_ITEM_TYPE,
+        .fieldUseFunc = TRADE_EVO_ITEM_FIELD_FUNC,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_DragonScale,
@@ -4397,8 +4402,8 @@ const struct ItemInfo gItemsInfo[] =
             "by Silph Co."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_EVOLUTION_ITEM,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = TRADE_EVO_ITEM_TYPE,
+        .fieldUseFunc = TRADE_EVO_ITEM_FIELD_FUNC,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_Upgrade,
@@ -8346,8 +8351,8 @@ const struct ItemInfo gItemsInfo[] =
             "of Clamperl."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_HELD_ITEM,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = TRADE_EVO_ITEM_TYPE,
+        .fieldUseFunc = TRADE_EVO_ITEM_FIELD_FUNC,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_DeepSeaScale,
@@ -8366,8 +8371,8 @@ const struct ItemInfo gItemsInfo[] =
             "of Clamperl."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_HELD_ITEM,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = TRADE_EVO_ITEM_TYPE,
+        .fieldUseFunc = TRADE_EVO_ITEM_FIELD_FUNC,
         .effect = gItemEffect_EvoItem,
         .flingPower = 90,
         .iconPic = gItemIcon_DeepSeaTooth,
@@ -9196,8 +9201,8 @@ const struct ItemInfo gItemsInfo[] =
             "Steel-type moves."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_TYPE_BOOST_HELD_ITEM,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = TRADE_EVO_ITEM_TYPE,
+        .fieldUseFunc = TRADE_EVO_ITEM_FIELD_FUNC,
         .effect = gItemEffect_EvoItem,
         .secondaryId = TYPE_STEEL,
         .flingPower = 30,
@@ -9796,8 +9801,8 @@ const struct ItemInfo gItemsInfo[] =
         .description = sKingsRockDesc,
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_HELD_ITEM,
-        .type = EVO_HELD_ITEM_TYPE,
-        .fieldUseFunc = EVO_HELD_ITEM_FIELD_FUNC,
+        .type = TRADE_EVO_ITEM_TYPE,
+        .fieldUseFunc = TRADE_EVO_ITEM_FIELD_FUNC,
         .effect = gItemEffect_EvoItem,
         .flingPower = 30,
         .iconPic = gItemIcon_KingsRock,

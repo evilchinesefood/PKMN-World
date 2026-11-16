@@ -1,11 +1,17 @@
 GoldenrodCity_GameCorner_MapScripts::
 	.byte 0
 
+GoldenrodCity_GameCorner_EventScript_CoinsClerk::
+	lock
+	faceplayer
+	msgbox GoldenrodCity_GameCorner_Text_ThisIsGoldenrodGameCorner, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_CoinsClerkOffer
+
 GoldenrodCity_GameCorner_PrizeRoom_EventScript_PrizeClerkMons::
 	lock
 	faceplayer
 	checkitem ITEM_COIN_CASE
-	goto_if_eq VAR_RESULT, FALSE, MauvilleCity_GameCorner_EventScript_NeedCoinCase
+	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	msgbox MauvilleCity_GameCorner_Text_ExchangeCoinsForPrizes, MSGBOX_DEFAULT
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon
 	end
@@ -351,3 +357,6 @@ GoldenrodCity_GameCorner_Text_MoveTutorInside:
 GoldenrodCity_GameCorner_Text_LeftTheirDrink:
     .string "Someone left their drink.\p"
     .string "It smells sweet.$"
+
+GoldenrodCity_GameCorner_Text_ThisIsGoldenrodGameCorner:
+	.string "This is GOLDENROD GAME CORNER.$"

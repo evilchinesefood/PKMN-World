@@ -35,6 +35,16 @@ void ResetCyclingRoadChallengeData(void);
 bool8 UsedPokemonCenterWarp(void);
 void ResetFanClub(void);
 bool8 ShouldShowBoxWasFullMessage(void);
+
+enum PcCreator
+{
+    PC_CREATOR_SOMEONE,
+    PC_CREATOR_LANETTE,
+    PC_CREATOR_BILL,
+};
+
+enum PcCreator GetPcCreator(void);
+const u8 *GetPcTransferredText(bool32 boxWasFull);
 void SetPCBoxToSendMon(u8 boxId);
 void PreparePartyForSkyBattle(void);
 void GetObjectPosition(u16*, u16*, u32, u32);

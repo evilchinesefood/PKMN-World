@@ -15,7 +15,7 @@ VermilionCity_PokemonCenter_1F_EventScript_Nurse::
 	end
 
 VermilionCity_PokemonCenter_1F_EventScript_Man::
-	msgbox VermilionCity_PokemonCenter_1F_Text_PoisonedMonFaintedWhileWalking, MSGBOX_NPC
+	msgbox VermilionCity_PokemonCenter_1F_Text_PoisonedMonFaintedNextBattle, MSGBOX_NPC
 	end
 
 VermilionCity_PokemonCenter_1F_EventScript_Hiker::
@@ -50,9 +50,9 @@ VermilionCity_PokemonCenter_1F_Text_TrainerMonsStrongerThanWild::
 	.string "A POKéMON raised by a TRAINER is\n"
 	.string "stronger than one in the wild.$"
 
-VermilionCity_PokemonCenter_1F_Text_PoisonedMonFaintedWhileWalking::
+VermilionCity_PokemonCenter_1F_Text_PoisonedMonFaintedNextBattle::
 	.string "My POKéMON was poisoned!\n"
-	.string "It fainted while we were walking!$"
+	.string "It fainted in the very next battle!$"
 
 VermilionCity_PokemonCenter_1F_Text_AllMonWeakToSpecificTypes::
 	.string "It is true that a higher-level\n"

@@ -341,7 +341,7 @@ DragonsDen_Shrine_Text_ClairYouPassed:
     .string "So how did it go?\p"
     .string "I guess there's no point\n"
 	.string "in asking. You did fail?\p"
-    .string "..................................\p"
+    .string "……………………………\p"
     .string "…What? You passed?$"
 
 DragonsDen_Shrine_Text_ClairThatCantBe:
@@ -383,7 +383,7 @@ DragonsDen_Shrine_Text_ElderScoldsClair:
     .string "lack and this child has.$"
 
 DragonsDen_Shrine_Text_Speechless:
-    .string "..................................$"
+    .string "……………………………$"
 
 DragonsDen_Shrine_Text_ComeAgain:
     .string "Come again, if you so desire.$"
@@ -426,6 +426,7 @@ DragonsDen_Shrine_EventScript_ElderGiveBasicDratini::
 	bufferspeciesname STR_VAR_1, SPECIES_DRATINI
 	givemon SPECIES_DRATINI, 15
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoMoreRoomForPokemon
+	call Common_EventScript_ReceivedGiftMon
 
 	msgbox DragonsDen_Shrine_Text_SymbolicDragon, MSGBOX_DEFAULT
 	setflag FLAG_GOT_DRATINI
@@ -440,6 +441,7 @@ DragonsDen_Shrine_EventScript_ElderGiveSpecialDratini::
 	bufferspeciesname STR_VAR_1, SPECIES_DRATINI
 	givenamedmon 4
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoRoomInPartyForPokemon
+	call Common_EventScript_ReceivedNamedGiftMon
 
 	msgbox DragonsDen_Shrine_Text_SymbolicDragon, MSGBOX_DEFAULT
 	setflag FLAG_GOT_DRATINI

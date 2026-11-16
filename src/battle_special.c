@@ -12,6 +12,7 @@
 #include "new_game.h"
 #include "overworld.h"
 #include "recorded_battle.h"
+#include "script.h"
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
@@ -67,6 +68,13 @@ static void Task_StartBattleAfterTransition(u8 taskId)
         SetMainCallback2(CB2_InitBattle);
         DestroyTask(taskId);
     }
+}
+
+// The multi_do script macro branches on this. AreMultiPartiesFullTeams itself stays a pure query:
+// HandleSpecialTrainerBattleEnd calls it after the battle has stored its outcome in VAR_RESULT.
+void ScriptAreMultiPartiesFullTeams(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = AreMultiPartiesFullTeams();
 }
 
 void DoSpecialTrainerBattle(void)

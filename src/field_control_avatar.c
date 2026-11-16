@@ -1273,6 +1273,28 @@ const u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position)
     return GetCoordEventScriptAtPosition(&gMapHeader, position->x - MAP_OFFSET, position->y - MAP_OFFSET, position->elevation);
 }
 
+// TRUE when stepping onto this tile at this elevation would start a coord script. Unlike
+// GetCoordEventScriptAtPosition it runs nothing, so a flight landing can ask before it lands.
+bool32 IsCoordScriptPendingAt(s16 x, s16 y, u8 elevation)
+{
+    const struct CoordEvent *coordEvents = gMapHeader.events->coordEvents;
+    u32 i;
+
+    for (i = 0; i < gMapHeader.events->coordEventCount; i++)
+    {
+        const struct CoordEvent *coordEvent = &coordEvents[i];
+
+        if ((u16)coordEvent->x != (u16)(x - MAP_OFFSET) || (u16)coordEvent->y != (u16)(y - MAP_OFFSET))
+            continue;
+        if (coordEvent->elevation != elevation && coordEvent->elevation != ELEVATION_TRANSITION)
+            continue;
+        if (coordEvent->script != NULL && coordEvent->trigger != TRIGGER_RUN_IMMEDIATELY
+         && ShouldTriggerScriptRun(coordEvent))
+            return TRUE;
+    }
+    return FALSE;
+}
+
 static const struct BgEvent *GetBackgroundEventAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 elevation)
 {
     u8 i;

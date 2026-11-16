@@ -4,8 +4,6 @@ gText_PkmnTransferredSomeonesPC::
 	.string "It was placed in \n"
 	.string "BOX “{STR_VAR_1}.”$"
 
-@ Region merge: both PC-owner variants compile unconditionally; C consumers pick
-@ Lanette vs Bill at runtime via GetCurrentRegion() (Kanto = Bill).
 gText_PkmnTransferredLanettesPC::
 	.string "{STR_VAR_2} was transferred to\n"
 	.string "LANETTE'S PC.\p"
@@ -45,6 +43,9 @@ gText_PkmnSentToPCAfterCatch::
 gText_PlayerObtainedTheMon::
 	.string "{PLAYER} obtained\n"
 	.string "the {STR_VAR_1}!$"
+
+gText_PlayerReceivedGiftMon::
+	.string "{PLAYER} received {STR_VAR_1}!$"
 
 gText_NoMoreRoomForPokemon::
 	.string "There's no more room for POKéMON!\p"

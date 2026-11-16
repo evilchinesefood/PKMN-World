@@ -177,7 +177,7 @@ CianwoodGym_Text_GetStormBadge:
 
 CianwoodGym_Text_ChuckBadgeSpeech:
 	.string "STORMBADGE makes all POKéMON up to\n"
-	.string "L70 obey, even traded ones.\p"
+	.string "L60 obey, even traded ones.\p"
 	.string "Here, take this too!$"
 
 CianwoodGym_Text_ChuckTMSpeech:

@@ -109,9 +109,9 @@ BurnedTower_1F_EventScript_Silver::
 	waitmovement 0
 	waitmovement 0
 	msgbox BurnedTowerSilver_BeforeText, MSGBOX_DEFAULT
-	call_if_eq VAR_STARTER_MON, 0, BurnedTower_1F_Silver_Battle_Cyndaquil
-	call_if_eq VAR_STARTER_MON, 1, BurnedTower_1F_Silver_Battle_Totodile
-	call_if_eq VAR_STARTER_MON, 2, BurnedTower_1F_Silver_Battle_Chikorita
+	call_if_eq VAR_STARTER_MON_JOHTO, 0, BurnedTower_1F_Silver_Battle_Cyndaquil
+	call_if_eq VAR_STARTER_MON_JOHTO, 1, BurnedTower_1F_Silver_Battle_Totodile
+	call_if_eq VAR_STARTER_MON_JOHTO, 2, BurnedTower_1F_Silver_Battle_Chikorita
 	playbgm MUS_HG_RIVAL_EXIT, TRUE
 	msgbox BurnedTowerSilver_AfterText1, MSGBOX_DEFAULT
 	closemessage
@@ -151,7 +151,7 @@ BurnedTower_1F_Silver_Battle_Chikorita::
 	return
 
 BurnedTowerSilver_BeforeText:
-	.string "..............................\p"
+	.string "…………………………\p"
 	.string "…Oh, it's you.\p"
 	.string "I came looking for some\n"
 	.string "legendary POKéMON they say\l"

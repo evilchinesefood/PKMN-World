@@ -90,7 +90,7 @@ FLASH_SIZE = SECTOR_SIZE * 32                            # 131072
 ID_SB2, ID_SB1_START, ID_SB1_END = 0, 1, 4
 ID_PK_START, ID_PK_END = 5, 13
 
-SAVE_FORMAT_VERSION = 12
+SAVE_FORMAT_VERSION = 13
 SAVE_FORMAT_LAYOUT_MIN = 7
 FAMILY_OPTIONS_WORD = 0x16
 FAMILY_OPTIONS_MASK = 0x03C0
@@ -103,6 +103,13 @@ FAMILY_OPTIONS_MASK = 0x03C0
 HOENN_INTRO_DONE_BIT = 2
 VARS_START = 0x4000
 VAR_LITTLEROOT_INTRO_STATE = 0x4092
+# v12 -> v13: the shared starter var and the two region slots it seeds (Kanto, Johto banks).
+VAR_STARTER_MON = 0x4023
+KANTO_STARTER_SLOT = 0x0C
+JOHTO_STARTER_SLOT = 0x80 + 0x3E
+# ObjectEvent.active is bit 0 of byte 0 (include/global.fieldmap.h declaration order). A bitfield,
+# so C forbids offsetof on it and it cannot be probed.
+OBJ_ACTIVE_BIT = 0
 # include/constants/regions.h enum Region
 REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
 
@@ -137,6 +144,11 @@ PROBED = {
     'PC_MON_COUNT':        ('TOTAL_BOXES_COUNT * IN_BOX_COUNT', 420),
     'MAX_FUSION_STORAGE':  ('MAX_FUSION_STORAGE', 4),
     'SB1.money':           ('offsetof(struct SaveBlock1, money)', 1168),
+    'SB1.pcItems':         ('offsetof(struct SaveBlock1, pcItems)', 1184),
+    'PC_ITEMS_COUNT':      ('PC_ITEMS_COUNT', 150),
+    'SB1.bagKeyItems':     ('offsetof(struct SaveBlock1, bag.keyItems)', 2024),
+    'BAG_KEYITEMS_COUNT':  ('BAG_KEYITEMS_COUNT', 99),
+    'ItemSlot.size':       ('sizeof(struct ItemSlot)', 4),
     'SB1.objectEvents':    ('offsetof(struct SaveBlock1, objectEvents)', 3412),
     'SB1.flags':           ('offsetof(struct SaveBlock1, flags)', 5524),
     'SB1.vars':            ('offsetof(struct SaveBlock1, vars)', 6042),
@@ -147,6 +159,7 @@ PROBED = {
 
     'OBJ.stride':          ('sizeof(struct ObjectEvent)', 36),
     'OBJ.count':           ('OBJECT_EVENTS_COUNT', 16),
+    'OBJ.localId':         ('offsetof(struct ObjectEvent, localId)', 8),
     'OBJ.mapNum':          ('offsetof(struct ObjectEvent, mapNum)', 9),
     'OBJ.mapGroup':        ('offsetof(struct ObjectEvent, mapGroup)', 10),
 
@@ -190,6 +203,21 @@ PROBED = {
     'MAP.goldenrod.num':     ('MAP_NUM(MAP_GOLDENROD_CITY)', 0),
     'MAP.safariGate.group':  ('MAP_GROUP(MAP_SAFARI_ZONE_GATE)', 96),
     'MAP.safariGate.num':    ('MAP_NUM(MAP_SAFARI_ZONE_GATE)', 0),
+
+    # v12 -> v13 cross-region repairs (#602, #604).
+    'MAP.brineysHouse.group': ('MAP_GROUP(MAP_ROUTE104_MR_BRINEYS_HOUSE)', 17),
+    'MAP.brineysHouse.num':   ('MAP_NUM(MAP_ROUTE104_MR_BRINEYS_HOUSE)', 0),
+    'LOCALID_BRINEYS_HOUSE_BRINEY': ('LOCALID_BRINEYS_HOUSE_BRINEY', 1),
+    'LOCALID_BRINEYS_HOUSE_PEEKO':  ('LOCALID_BRINEYS_HOUSE_PEEKO', 2),
+    'ITEM_MACH_BIKE':      ('ITEM_MACH_BIKE', 707),
+    'ITEM_ACRO_BIKE':      ('ITEM_ACRO_BIKE', 708),
+    'FLAG_RECEIVED_BIKE':  ('FLAG_RECEIVED_BIKE', 0x5A),
+    'FLAG_RECEIVED_POKENAV': ('FLAG_RECEIVED_POKENAV', 0xBC),
+    'FLAG_VISITED_DEWFORD_TOWN': ('FLAG_VISITED_DEWFORD_TOWN', 0x959),
+    'FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY': ('FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY', 0x2E3),
+    'FLAG_HIDE_BRINEYS_HOUSE_PEEKO': ('FLAG_HIDE_BRINEYS_HOUSE_PEEKO', 0x371),
+    'VAR_DEVON_CORP_3F_STATE': ('VAR_DEVON_CORP_3F_STATE', 0x408F),
+    'VAR_BRINEY_LOCATION': ('VAR_BRINEY_LOCATION', 0x4096),
 
     'FLAG_BADGE01_GET':    ('FLAG_BADGE01_GET', 2383),
     'FLAG_KANTO_BADGE_1':  ('FLAG_KANTO_BADGE_1', 2635),
@@ -245,6 +273,12 @@ PINS = [
      r'^#define VAR_LITTLEROOT_INTRO_STATE\s+(0x[0-9A-Fa-f]+)', VAR_LITTLEROOT_INTRO_STATE),
     ('VARS_START', 'include/constants/vars.h', r'^#define VARS_START\s+(0x[0-9A-Fa-f]+)',
      VARS_START),
+    ('VAR_STARTER_MON', 'include/constants/vars.h',
+     r'^#define VAR_STARTER_MON\s+(0x[0-9A-Fa-f]+)', VAR_STARTER_MON),
+    ('VAR_STARTER_MON_FRLG', 'include/constants/vars_frlg.h',
+     r'^#define VAR_STARTER_MON_FRLG\s+VAR_KANTO_SLICE\((0x[0-9A-Fa-f]+)\)', KANTO_STARTER_SLOT),
+    ('VAR_STARTER_MON_JOHTO', 'include/constants/johto_vars.h',
+     r'^#define VAR_STARTER_MON_JOHTO\s+VAR_JOHTO_SLICE\((0x[0-9A-Fa-f]+)\)', JOHTO_STARTER_SLOT - 0x80),
     ('SECTOR_DATA_SIZE', 'include/save.h',
      r'^#define SECTOR_DATA_SIZE\s+(\d+)', SECTOR_DATA_SIZE),
     ('SAVE_BLOCK_3_CHUNK_SIZE', 'include/save.h',
@@ -407,6 +441,8 @@ def probe():
     src = ('#include "global.h"\n#include "save.h"\n#include "constants/global.h"\n'
            '#include "pokemon_storage_system.h"\n#include "constants/flags.h"\n'
            '#include "constants/region_flags.h"\n#include "constants/cleared_obstacles.h"\n'
+           '#include "constants/items.h"\n#include "constants/vars.h"\n'
+           '#include "constants/map_event_ids.h"\n'
            'const unsigned int gProbe[] = {\n'
            + ''.join(f'    (unsigned int)({PROBED[n][0]}),\n' for n in names) + '};\n')
     with tempfile.TemporaryDirectory() as td:
@@ -613,6 +649,28 @@ class Save:
             return (self.sb3[base + idx // 8] >> (idx & 7)) & 1
         return (self.sb1[V['SB1.flags'] + fid // 8] >> (fid & 7)) & 1
 
+    def set_flag(self, fid, on):
+        """Inline SaveBlock1 flags only; the repairs below touch no banked flag."""
+        assert fid < V['FLAG_JOHTO_BASE']
+        o = V['SB1.flags'] + fid // 8
+        self.sb1[o] = (self.sb1[o] | (1 << (fid & 7))) if on else (self.sb1[o] & ~(1 << (fid & 7)) & 0xFF)
+
+    def var(self, vid):
+        return self.u16(self.sb1, V['SB1.vars'] + (vid - VARS_START) * 2)
+
+    def set_var(self, vid, value):
+        struct.pack_into('<H', self.sb1, V['SB1.vars'] + (vid - VARS_START) * 2, value)
+
+    def holds_key_item(self, item):
+        """Key Items pocket or item PC. A slot with an id always has a quantity (SetSlotData clears
+        both together), so the id alone answers it and no decryption is needed."""
+        size = V['ItemSlot.size']
+        for base, count in ((V['SB1.bagKeyItems'], V['BAG_KEYITEMS_COUNT']),
+                            (V['SB1.pcItems'], V['PC_ITEMS_COUNT'])):
+            if any(self.u16(self.sb1, base + i * size) == item for i in range(count)):
+                return True
+        return False
+
     def region_width(self, version=None):
         """The width struct RegionSave had when a save of this version was stamped.
 
@@ -705,6 +763,33 @@ def migrate_regional_travel(sv):
     start = SB3_REGION_OFF + V['RS.regionalTravel']
     sv.sb3[start:start + V['RegionalTravel.size']] = bytes(V['RegionalTravel.size'])
     struct.pack_into('<I', sv.sb3, start, 1)
+
+
+def repair_cross_region_flags(sv):
+    """RestoreSharedBikeFlag + UndoPokegearPokenavFlag (src/load_save.c, v12 -> v13)."""
+    log = []
+    if not sv.flag(V['FLAG_RECEIVED_BIKE']) and (sv.holds_key_item(V['ITEM_MACH_BIKE'])
+                                                or sv.holds_key_item(V['ITEM_ACRO_BIKE'])):
+        sv.set_flag(V['FLAG_RECEIVED_BIKE'], True)
+        log.append('v12->v13 FLAG_RECEIVED_BIKE restored (a shop bike is in the Bag or PC)')
+
+    if (not sv.flag(V['FLAG_RECEIVED_POKENAV']) or sv.var(V['VAR_DEVON_CORP_3F_STATE']) != 0
+            or sv.flag(V['FLAG_VISITED_DEWFORD_TOWN'])):
+        return log
+    sv.set_flag(V['FLAG_RECEIVED_POKENAV'], False)
+    sv.set_var(V['VAR_BRINEY_LOCATION'], 0)
+    sv.set_flag(V['FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY'], True)
+    sv.set_flag(V['FLAG_HIDE_BRINEYS_HOUSE_PEEKO'], True)
+    cottage = (V['MAP.brineysHouse.group'], V['MAP.brineysHouse.num'])
+    cast = (V['LOCALID_BRINEYS_HOUSE_BRINEY'], V['LOCALID_BRINEYS_HOUSE_PEEKO'])
+    for i in range(V['OBJ.count']):
+        o = V['SB1.objectEvents'] + i * V['OBJ.stride']
+        if (sv.sb1[o] >> OBJ_ACTIVE_BIT) & 1 and sv.sb1[o + V['OBJ.localId']] in cast \
+                and (sv.sb1[o + V['OBJ.mapGroup']], sv.sb1[o + V['OBJ.mapNum']]) == cottage:
+            sv.sb1[o] &= ~(1 << OBJ_ACTIVE_BIT) & 0xFF
+    log.append('v12->v13 FLAG_RECEIVED_POKENAV cleared (the PokeGear set it; Devon never did) and '
+               'Mr. Briney returned to his pre-Devon state')
+    return log
 
 
 def _twin_mapnum(group, num):
@@ -802,6 +887,13 @@ def migrate(sv):
             word = sv.u16(sv.sb2, FAMILY_OPTIONS_WORD)
             struct.pack_into('<H', sv.sb2, FAMILY_OPTIONS_WORD, word & ~FAMILY_OPTIONS_MASK)
             log.append('v11->v12 Encounter Rate and Money Loss initialized to 1x')
+
+        if ver < 13:
+            shared = sv.u16(sv.sb1, V['SB1.vars'] + (VAR_STARTER_MON - VARS_START) * 2)
+            for slot in (KANTO_STARTER_SLOT, JOHTO_STARTER_SLOT):
+                struct.pack_into('<H', sv.sb3, SB3_REGION_OFF + V['RS.regionVars'] + slot * 2, shared)
+            log.append(f'v12->v13 Kanto and Johto starter vars seeded from VAR_STARTER_MON={shared}')
+            log.extend(repair_cross_region_flags(sv))
 
         sv.sb2[V['SB2.saveVersion']] = SAVE_FORMAT_VERSION
         log.append(f'saveVersion {ver} -> {SAVE_FORMAT_VERSION}')

@@ -2934,7 +2934,8 @@ static void Task_BagMenu_HandleInput(u8 taskId)
             }
             else if (JOY_NEW(START_BUTTON))
             {
-                if ((gBagMenu->numItemStacks[gBagPosition.pocket] - 1) <= 1) //can't sort with 0 or 1 item in bag
+                // numItemStacks counts the Close Bag row only when it is shown.
+                if (gBagMenu->numItemStacks[gBagPosition.pocket] - !gBagMenu->hideCloseBagText <= 1)
                 {
                     static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
                     PlaySE(SE_FAILURE);
@@ -8968,7 +8969,7 @@ static void BagMenu_BattleApplyItem(u8 taskId, u8 moveSlot, bool8 chooseMove)
         gBattleStruct->itemMoveIndex[gBattlerInMenuId] = moveSlot;
     gPartyMenuUseExitCallback = TRUE;
     PlaySE(SE_SELECT);
-    if (!BagMenu_IsItemFlute(item))
+    if (IsBattleItemTakenFromBag(item))
         RemoveBagItem(item, 1);
 
     Task_FadeAndCloseBagMenu(taskId);

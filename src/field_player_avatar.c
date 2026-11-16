@@ -1050,6 +1050,10 @@ bool32 CanLandOverworldFlight(void)
      || MetatileBehavior_IsJumpEast(behavior)
      || MetatileBehavior_IsJumpWest(behavior))
         return FALSE;
+    // Flight skips coord events, so a landing on a live trigger would put the player past it without
+    // the step that fires it. Cinnabar's and Viridian's gym doors are locked by exactly such a tile.
+    if (IsCoordScriptPendingAt(x, y, elevation))
+        return FALSE;
     // Same test a normal step onto this tile would run: walls, elevation
     // mismatch, and any object event underneath.
     return GetCollisionAtCoords(playerObjEvent, x, y, playerObjEvent->facingDirection) == COLLISION_NONE;

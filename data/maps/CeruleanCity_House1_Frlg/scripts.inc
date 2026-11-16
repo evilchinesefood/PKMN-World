@@ -27,7 +27,7 @@ CeruleanCity_House1_EventScript_DescribeAnotherBadge::
 	end
 
 CeruleanCity_House1_EventScript_DescribeBoulderBadge::
-	msgbox CeruleanCity_House1_Text_AttackStatFlash
+	msgbox CeruleanCity_House1_Text_ObeyLv20Flash
 	goto CeruleanCity_House1_EventScript_DescribeAnotherBadge
 	end
 
@@ -37,7 +37,7 @@ CeruleanCity_House1_EventScript_DescribeCascadeBadge::
 	end
 
 CeruleanCity_House1_EventScript_DescribeThunderBadge::
-	msgbox CeruleanCity_House1_Text_SpeedStatFly
+	msgbox CeruleanCity_House1_Text_ObeyLv40Fly
 	goto CeruleanCity_House1_EventScript_DescribeAnotherBadge
 	end
 
@@ -47,7 +47,7 @@ CeruleanCity_House1_EventScript_DescribeRainbowBadge::
 	end
 
 CeruleanCity_House1_EventScript_DescribeSoulBadge::
-	msgbox CeruleanCity_House1_Text_DefenseStatSurf
+	msgbox CeruleanCity_House1_Text_ObeyLv60Surf
 	goto CeruleanCity_House1_EventScript_DescribeAnotherBadge
 	end
 
@@ -57,7 +57,7 @@ CeruleanCity_House1_EventScript_DescribeMarshBadge::
 	end
 
 CeruleanCity_House1_EventScript_DescribeVolcanoBadge::
-	msgbox CeruleanCity_House1_Text_SpStatsWaterfall
+	msgbox CeruleanCity_House1_Text_ObeyLv80Waterfall
 	goto CeruleanCity_House1_EventScript_DescribeAnotherBadge
 	end
 
@@ -86,9 +86,13 @@ CeruleanCity_House1_Text_DescribeWhichBadge::
 CeruleanCity_House1_Text_ComeVisitAnytime::
 	.string "Come visit me anytime you wish.$"
 
-CeruleanCity_House1_Text_AttackStatFlash::
-	.string "The ATTACK stat of all your\n"
-	.string "POKéMON increases a little bit.\p"
+CeruleanCity_House1_Text_ObeyLv20Flash::
+	.string "POKéMON up to Lv. 20 will obey\n"
+	.string "you.\p"
+	.string "That includes even outsiders you\n"
+	.string "obtain in trades.\p"
+	.string "POKéMON of higher levels will\n"
+	.string "be unruly in battle, however.\p"
 	.string "It also lets you use the move\n"
 	.string "FLASH outside of battle.$"
 
@@ -102,9 +106,13 @@ CeruleanCity_House1_Text_ObeyLv30Cut::
 	.string "It also lets you use the move\n"
 	.string "CUT outside of battle.$"
 
-CeruleanCity_House1_Text_SpeedStatFly::
-	.string "The SPEED stat of all your\n"
-	.string "POKéMON increases a little bit.\p"
+CeruleanCity_House1_Text_ObeyLv40Fly::
+	.string "POKéMON up to Lv. 40 will obey\n"
+	.string "you.\p"
+	.string "That includes even outsiders you\n"
+	.string "obtain in trades.\p"
+	.string "POKéMON of higher levels will\n"
+	.string "be unruly in battle, however.\p"
 	.string "It also lets you use the move\n"
 	.string "FLY outside of battle.$"
 
@@ -118,9 +126,13 @@ CeruleanCity_House1_Text_ObeyLv50Strength::
 	.string "It also lets you use the move\n"
 	.string "STRENGTH outside of battle.$"
 
-CeruleanCity_House1_Text_DefenseStatSurf::
-	.string "The DEFENSE stat of all your\n"
-	.string "POKéMON increases a little bit.\p"
+CeruleanCity_House1_Text_ObeyLv60Surf::
+	.string "POKéMON up to Lv. 60 will obey\n"
+	.string "you.\p"
+	.string "That includes even outsiders you\n"
+	.string "obtain in trades.\p"
+	.string "POKéMON of higher levels will\n"
+	.string "be unruly in battle, however.\p"
 	.string "It also lets you use the move\n"
 	.string "SURF outside of battle.$"
 
@@ -134,9 +146,13 @@ CeruleanCity_House1_Text_ObeyLv70RockSmash::
 	.string "It also lets you use the move\n"
 	.string "ROCK SMASH outside of battle.$"
 
-CeruleanCity_House1_Text_SpStatsWaterfall::
-	.string "The SP. ATK and SP. DEF stats of\n"
-	.string "all your POKéMON rise a little bit.\p"
+CeruleanCity_House1_Text_ObeyLv80Waterfall::
+	.string "POKéMON up to Lv. 80 will obey\n"
+	.string "you.\p"
+	.string "That includes even outsiders you\n"
+	.string "obtain in trades.\p"
+	.string "POKéMON of higher levels will\n"
+	.string "be unruly in battle, however.\p"
 	.string "It also lets you use the move\n"
 	.string "WATERFALL outside of battle.$"
 

@@ -14,6 +14,7 @@ CianwoodCity_EventScript_Kirk::
 	bufferspeciesname STR_VAR_1, SPECIES_SHUCKLE
 	givenamedmon 2
 	goto_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_NoRoomInPartyForPokemon
+	call Common_EventScript_ReceivedNamedGiftMon
 
 	setvar VAR_SHUCKIE, 1
 	release

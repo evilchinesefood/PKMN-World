@@ -14,6 +14,7 @@ CHECKS = (
     ("ValidateRegionalCenters.py",),
     ("TestRegionalTravelMigration.py",),
     ("TestFamilyOptionsMigration.py",),
+    ("TestXRegionSaveRepair.py",),
     ("MakeRegionalTravelFixture.py", "--check"),
     ("story-progress/run.py",),
     ("ValidateScripts.py",),
@@ -23,6 +24,7 @@ CHECKS = (
     ("ValidateMetatileBounds.py",),
     ("ValidateBorderTerrain.py",),
     ("ValidateReachability.py",),
+    ("ValidateAmbientBlockers.py",),
     ("GenObstacleTable.py", "--check"),
     ("ValidateDoorAnims.py", "--max", "0"),
     ("ValidateTilesetPalettes.py",),
@@ -36,6 +38,8 @@ CHECKS = (
     ("ValidateRegionMap.py",),
     ("ValidateLanceMultiBattle.py",),
     ("ScanInputChords.py", "--check"),
+    ("ValidateEllipsis.py",),
+    ("ValidateConfigRules.py",),
 )
 
 

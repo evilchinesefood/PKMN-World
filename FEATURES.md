@@ -401,7 +401,8 @@ configuration; it is not an end-to-end campaign completion certificate.
 - **Reusable TMs** and **chain fishing**.
 - **HMs are forgettable** like any other move, and **trade evolutions work offline** — use a
   **Linking Cord** (sold in the Celadon and Lilycove department stores, the Mahogany shop and the
-  hub) like an evolution stone.
+  hub) like an evolution stone. The held trade items (Metal Coat, King's Rock, Dragon Scale,
+  Up-Grade, Deep Sea Tooth and Deep Sea Scale) are used from the Bag the same way.
 - **No fiddly evolutions.** Friendship, move and party-partner evolutions also happen at a
   set level, Eevee evolves by stone only (Sun → Espeon, Moon → Umbreon, Shiny → Sylveon, plus the
   usual five), and Happiny, Gligar and Sneasel evolve with their item at any hour.

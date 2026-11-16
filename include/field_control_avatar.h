@@ -33,6 +33,7 @@ int SetCableClubWarp(void);
 u8 TrySetDiveWarp(void);
 const u8 *GetInteractedLinkPlayerScript(struct MapPosition *position, u8 metatileBehavior, enum Direction direction);
 const u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position);
+bool32 IsCoordScriptPendingAt(s16 x, s16 y, u8 elevation);
 void ClearPoisonStepCounter(void);
 void CancelSignPostMessageBox(struct FieldInput *input);
 void HandleBoulderFallThroughHole(struct ObjectEvent *object);

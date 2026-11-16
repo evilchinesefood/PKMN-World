@@ -96,7 +96,7 @@ return function(F, N, C, log)
     moves()
     assert(N.talk(BALLS[STARTER], { side = 1 }))
     N.settle()
-  end, function() return V(LAB) == 3 and V('VAR_STARTER_MON') == STARTER and species(0) == STARTER_SPECIES[STARTER] end)
+  end, function() return V(LAB) == 3 and V('VAR_STARTER_MON_FRLG') == STARTER and species(0) == STARTER_SPECIES[STARTER] end)
 
   -- Parties are per region, so this happens in Kanto, after the starter is chosen normally.
   -- Lv100 Mewtwo and Rayquaza from the debug Give menu, met level lowered to 5 for obedience.

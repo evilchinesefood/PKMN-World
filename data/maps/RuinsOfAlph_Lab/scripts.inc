@@ -5,8 +5,26 @@ RuinsOfAlph_Lab_MapScripts::
 	.byte 0
 
 RuinsOfAlph_Lab_OnTransition:
-	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	call RuinsOfAlph_Lab_EventScript_AdoptSharedFossil
+	call_if_eq VAR_ALPH_FOSSIL_STATE, 1, RuinsOfAlph_Lab_EventScript_SetFossilReady
 	end
+
+RuinsOfAlph_Lab_EventScript_SetFossilReady::
+	setvar VAR_ALPH_FOSSIL_STATE, 2
+	return
+
+@ Before this lab had its own pair it kept a fossil in Devon's VAR_FOSSIL_* vars. Only Johto's
+@ fossils (3 to 5) can be told apart from one handed in at Devon, so those come back here; a
+@ Root or Claw Fossil stays with Devon, which revives those too.
+RuinsOfAlph_Lab_EventScript_AdoptSharedFossil::
+	goto_if_eq VAR_FOSSIL_RESURRECTION_STATE, 0, RuinsOfAlph_Lab_EventScript_AdoptSharedFossilDone
+	goto_if_lt VAR_WHICH_FOSSIL_REVIVED, 3, RuinsOfAlph_Lab_EventScript_AdoptSharedFossilDone
+	copyvar VAR_ALPH_FOSSIL_STATE, VAR_FOSSIL_RESURRECTION_STATE
+	copyvar VAR_ALPH_WHICH_FOSSIL, VAR_WHICH_FOSSIL_REVIVED
+	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
+	setvar VAR_WHICH_FOSSIL_REVIVED, 0
+RuinsOfAlph_Lab_EventScript_AdoptSharedFossilDone::
+	return
 
 RuinsOfAlph_Lab_EventScript_Scientist1::
 	lock
@@ -46,8 +64,9 @@ RuinsOfAlph_Lab_Text_Fossils:
 RuinsOfAlph_Lab_EventScript_FossilScientist::
 	lock
 	faceplayer
-	goto_if_eq VAR_FOSSIL_RESURRECTION_STATE, 2, RuinsOfAlph_Lab_EventScript_FossilMonReady
-	goto_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RuinsOfAlph_Lab_EventScript_StillRegenerating
+	call RuinsOfAlph_Lab_EventScript_AdoptSharedFossil
+	goto_if_eq VAR_ALPH_FOSSIL_STATE, 2, RuinsOfAlph_Lab_EventScript_FossilMonReady
+	goto_if_eq VAR_ALPH_FOSSIL_STATE, 1, RuinsOfAlph_Lab_EventScript_StillRegenerating
 	msgbox RuinsOfAlph_Lab_Text_DevelopDeviceToResurrectFossils, MSGBOX_DEFAULT
 	checkitem ITEM_ROOT_FOSSIL
 	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_NoticeRootFossil
@@ -87,8 +106,8 @@ RuinsOfAlph_Lab_EventScript_GiveRootFossil::
 	bufferitemname STR_VAR_1, ITEM_ROOT_FOSSIL
 	msgbox RuinsOfAlph_Lab_Text_HandedFossilToResearcher, MSGBOX_DEFAULT
 	removeitem ITEM_ROOT_FOSSIL
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 1
-	setvar VAR_WHICH_FOSSIL_REVIVED, 1
+	setvar VAR_ALPH_FOSSIL_STATE, 1
+	setvar VAR_ALPH_WHICH_FOSSIL, 1
 	release
 	end
 
@@ -116,8 +135,8 @@ RuinsOfAlph_Lab_EventScript_GiveClawFossil::
 	bufferitemname STR_VAR_1, ITEM_CLAW_FOSSIL
 	msgbox RuinsOfAlph_Lab_Text_HandedFossilToResearcher, MSGBOX_DEFAULT
 	removeitem ITEM_CLAW_FOSSIL
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 1
-	setvar VAR_WHICH_FOSSIL_REVIVED, 2
+	setvar VAR_ALPH_FOSSIL_STATE, 1
+	setvar VAR_ALPH_WHICH_FOSSIL, 2
 	release
 	end
 
@@ -145,8 +164,8 @@ RuinsOfAlph_Lab_EventScript_GiveHelixFossil::
 	bufferitemname STR_VAR_1, ITEM_HELIX_FOSSIL
 	msgbox RuinsOfAlph_Lab_Text_HandedFossilToResearcher, MSGBOX_DEFAULT
 	removeitem ITEM_HELIX_FOSSIL
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 1
-	setvar VAR_WHICH_FOSSIL_REVIVED, 3
+	setvar VAR_ALPH_FOSSIL_STATE, 1
+	setvar VAR_ALPH_WHICH_FOSSIL, 3
 	release
 	end
 
@@ -174,8 +193,8 @@ RuinsOfAlph_Lab_EventScript_GiveDomeFossil::
 	bufferitemname STR_VAR_1, ITEM_DOME_FOSSIL
 	msgbox RuinsOfAlph_Lab_Text_HandedFossilToResearcher, MSGBOX_DEFAULT
 	removeitem ITEM_DOME_FOSSIL
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 1
-	setvar VAR_WHICH_FOSSIL_REVIVED, 4
+	setvar VAR_ALPH_FOSSIL_STATE, 1
+	setvar VAR_ALPH_WHICH_FOSSIL, 4
 	release
 	end
 
@@ -203,8 +222,8 @@ RuinsOfAlph_Lab_EventScript_GiveOldAmber::
 	bufferitemname STR_VAR_1, ITEM_OLD_AMBER
 	msgbox RuinsOfAlph_Lab_Text_HandedFossilToResearcher, MSGBOX_DEFAULT
 	removeitem ITEM_OLD_AMBER
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 1
-	setvar VAR_WHICH_FOSSIL_REVIVED, 5
+	setvar VAR_ALPH_FOSSIL_STATE, 1
+	setvar VAR_ALPH_WHICH_FOSSIL, 5
 	release
 	end
 
@@ -224,11 +243,11 @@ RuinsOfAlph_Lab_EventScript_StillRegenerating::
 	end
 
 RuinsOfAlph_Lab_EventScript_FossilMonReady::
-	goto_if_eq VAR_WHICH_FOSSIL_REVIVED, 1, RuinsOfAlph_Lab_EventScript_LileepReady
-	goto_if_eq VAR_WHICH_FOSSIL_REVIVED, 2, RuinsOfAlph_Lab_EventScript_AnorithReady
-	goto_if_eq VAR_WHICH_FOSSIL_REVIVED, 3, RuinsOfAlph_Lab_EventScript_OmanyteReady
-	goto_if_eq VAR_WHICH_FOSSIL_REVIVED, 4, RuinsOfAlph_Lab_EventScript_KabutoReady
-	goto_if_eq VAR_WHICH_FOSSIL_REVIVED, 5, RuinsOfAlph_Lab_EventScript_AeroReady
+	goto_if_eq VAR_ALPH_WHICH_FOSSIL, 1, RuinsOfAlph_Lab_EventScript_LileepReady
+	goto_if_eq VAR_ALPH_WHICH_FOSSIL, 2, RuinsOfAlph_Lab_EventScript_AnorithReady
+	goto_if_eq VAR_ALPH_WHICH_FOSSIL, 3, RuinsOfAlph_Lab_EventScript_OmanyteReady
+	goto_if_eq VAR_ALPH_WHICH_FOSSIL, 4, RuinsOfAlph_Lab_EventScript_KabutoReady
+	goto_if_eq VAR_ALPH_WHICH_FOSSIL, 5, RuinsOfAlph_Lab_EventScript_AeroReady
 	end
 
 RuinsOfAlph_Lab_EventScript_LileepReady::
@@ -316,7 +335,7 @@ RuinsOfAlph_Lab_EventScript_ReceivedLileepFanfare::
 	return
 
 RuinsOfAlph_Lab_EventScript_FinishReceivingLileep::
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
+	setvar VAR_ALPH_FOSSIL_STATE, 0
 	setflag FLAG_RECEIVED_REVIVED_FOSSIL_MON
 	release
 	end
@@ -361,7 +380,7 @@ RuinsOfAlph_Lab_EventScript_ReceivedAnorithFanfare::
 	return
 
 RuinsOfAlph_Lab_EventScript_FinishReceivingAnorith::
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
+	setvar VAR_ALPH_FOSSIL_STATE, 0
 	setflag FLAG_RECEIVED_REVIVED_FOSSIL_MON
 	release
 	end
@@ -421,7 +440,7 @@ RuinsOfAlph_Lab_EventScript_ReceivedOmanyteFanfare::
 	return
 
 RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte::
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
+	setvar VAR_ALPH_FOSSIL_STATE, 0
 	setflag FLAG_RECEIVED_REVIVED_FOSSIL_MON
 	release
 	end
@@ -490,7 +509,7 @@ RuinsOfAlph_Lab_EventScript_ReceivedKabutoFanfare::
 	return
 
 RuinsOfAlph_Lab_EventScript_FinishReceivingKabuto::
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
+	setvar VAR_ALPH_FOSSIL_STATE, 0
 	setflag FLAG_RECEIVED_REVIVED_FOSSIL_MON
 	release
 	end
@@ -550,7 +569,7 @@ RuinsOfAlph_Lab_EventScript_ReceivedAeroFanfare::
 	return
 
 RuinsOfAlph_Lab_EventScript_FinishReceivingAero::
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
+	setvar VAR_ALPH_FOSSIL_STATE, 0
 	setflag FLAG_RECEIVED_REVIVED_FOSSIL_MON
 	release
 	end

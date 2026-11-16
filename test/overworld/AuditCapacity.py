@@ -48,6 +48,8 @@ MON_OPS = {"givemon", "giveegg", "givenamedmon", "giveoddegg"}
 # stock no-room script says the PC boxes are full and must not answer it.
 PARTY_ONLY_OPS = {"givenamedmon", "giveoddegg"}
 BOXES_FULL_SCRIPT = "Common_EventScript_NoMoreRoomForPokemon"
+BOX_RECEIPT_SCRIPT = "Common_EventScript_ReceivedGiftMon"
+BOX_NOTICE_SCRIPTS = {BOX_RECEIPT_SCRIPT, "Common_EventScript_TransferredToPC"}
 ITEM_POST_OPS = {"giveitem", "additem", "addpcitem", "givedecoration", "adddecoration"}
 ITEM_PRE_OPS = {"giveitem_msg", "msgreceiveditem"}
 MONEY_OPS = {"removemoney"}
@@ -307,6 +309,23 @@ def forward_conds(prog, i, limit=12, out=None, depth=0):
         j += 1
         steps += 1
     return found
+
+
+def reaches_box_notice(prog, i, limit=80):
+    """Some path out of prog[i] tests MON_GIVEN_TO_PC or calls a script that announces the box."""
+    seen, stack = set(), [i + 1]
+    while stack and len(seen) < limit:
+        j = stack.pop()
+        if j in seen or j >= len(prog) or is_data(prog[j]):
+            continue
+        seen.add(j)
+        ins = prog[j]
+        if "MON_GIVEN_TO_PC" in ins.args or (ins.op.startswith("call") and ins.args and ins.args[-1] in BOX_NOTICE_SCRIPTS):
+            return True
+        stack.extend(LABELS[t] for t in branch_targets(ins, LABELS) if not ins.op.startswith("call"))
+        if ins.op not in TERMINATORS and j + 1 < len(prog) and prog[j + 1].file == ins.file:
+            stack.append(j + 1)
+    return False
 
 
 def call_sites(prog, i, limit=40):
@@ -600,6 +619,12 @@ def classify(prog, preds, labels):
             if op in PARTY_ONLY_OPS and any(c.args and c.args[-1] == BOXES_FULL_SCRIPT for c in cant):
                 add(ins, "mon", "UNGUARDED", "fills the party only but answers MON_CANT_GIVE with %s, "
                     "which says the boxes are full" % BOXES_FULL_SCRIPT)
+                continue
+            if op == "givemon" and any(splits(c) for c in cant) \
+                    and not any(tests_value(c, "MON_GIVEN_TO_PC", "1") for c in conds) \
+                    and not reaches_box_notice(prog, i):
+                add(ins, "mon", "UNGUARDED", "a full party sends it to a box and nothing says so: test "
+                    "MON_GIVEN_TO_PC or call %s" % BOX_RECEIPT_SCRIPT)
                 continue
             if any(splits(c) for c in cant) or (party and pc):
                 add(ins, "mon", "guarded", "result tested for MON_CANT_GIVE")

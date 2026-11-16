@@ -8,8 +8,10 @@ GoldenrodCity_MapScripts::
 @ The first-visit setup below used to run only from Route 34's coord events, but the Hub lands a
 @ player who finished Ilex Forest in the Goldenrod Train Station, so they walked into a city that
 @ never set itself up: the Rockets, Bill and the Radio Tower cast standing early, and the setup
-@ firing late on the way to Route 34 (clearing a Bike already received). Entering the city now
-@ runs it too. ON_TRANSITION hides the cast before objects spawn; ON_FRAME plays the rest.
+@ firing late on the way to Route 34. Entering the city now runs it too. ON_TRANSITION hides the
+@ cast before objects spawn; ON_FRAME plays the rest.
+@ The setup clears only Johto's own flags. FLAG_RECEIVED_BIKE is shared with Rydel's Cycles in
+@ Mauville (one shop bike across both regions), so clearing it let both shops give a bike again.
 GoldenrodCity_OnTransition:
 	goto_if_ne VAR_GOLDENROD_CITY_STATE, 0, GoldenrodCity_OnTransitionEnd
 	setflag FLAG_HIDE_GOLDENROD_ROCKETS
@@ -42,7 +44,6 @@ GoldenrodCity_EventScript_Trigger:: @flagheap
 	clearflag FLAG_HIDE_GOLDENROD_NPCS
 	clearflag FLAG_GOT_RETURN
 	clearflag FLAG_GOT_FRUSTRATION
-	clearflag FLAG_RECEIVED_BIKE
 	clearflag FLAG_RECEIVED_SQUIRTBOTTLE
 	clearflag FLAG_SYS_PC_BILL
 	clearflag FLAG_RETURNED_MACHINE_PART
@@ -325,7 +326,7 @@ GoldenrodCity_Text_Snubbull:
 	.string "SNUBBULL: SNUUUBUUUULL!$"
 
 GoldenrodCity_Text_MrMime:
-	.string "............................$"
+	.string "………………………$"
 
 GoldenrodCity_Text_ElmCall:
 	.string "PROF.ELM: Hello, {PLAYER}?\n"

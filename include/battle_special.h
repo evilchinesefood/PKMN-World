@@ -2,6 +2,8 @@
 #define GUARD_BATTLE_SPECIAL_H
 
 void DoSpecialTrainerBattle(void); 
+struct ScriptContext;
+void ScriptAreMultiPartiesFullTeams(struct ScriptContext *ctx);
 void SetEReaderTrainerGfxId(void);
 u8 GetEreaderTrainerFrontSpriteId(void);
 enum TrainerClassID GetEreaderTrainerClassId(void);

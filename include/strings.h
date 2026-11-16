@@ -683,6 +683,9 @@ extern const u8 gText_LogOff[];
 extern const u8 gText_LanettesPC[];
 extern const u8 gText_BillsPc[];
 extern const u8 gText_SomeonesPC[];
+extern const u8 gText_AccessedSomeonesPC[];
+extern const u8 gText_AccessedLanettesPC[];
+extern const u8 gText_AccessedBillsPC[];
 extern const u8 gText_PlayersPC[];
 extern const u8 gText_WhichPCShouldBeAccessed[];
 
@@ -822,7 +825,7 @@ extern const u8 gText_FrontierFacilityKOsStreak[];
 extern const u8 gText_FrontierFacilityFloorsCleared[];
 extern const u8 gText_FrontierFacilityTotalCaughtSpeciesBanned[];
 extern const u8 gText_FrontierFacilityIncluding[];
-extern const u8 gText_FrontierFacilityAreInelegible[];
+extern const u8 gText_FrontierFacilityAreIneligible[];
 
 // Battle Tower
 extern const u8 BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice1Intro[];

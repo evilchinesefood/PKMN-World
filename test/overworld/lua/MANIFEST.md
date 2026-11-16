@@ -2849,3 +2849,15 @@ the bag has no room before he starts, never "I'll get started" or "I just finish
 keep the berries. With one slot freed the same talk must turn five berries into five Love Balls.
 Before the fix he hammered, said he had finished the BALL, and then "The BAG is full": **7/10**
 unfixed, **10/10** fixed.
+### `KantoTutorRepeatPrompt.lua`
+
+A Kanto move tutor that teaches again must not warn that its move can be learned only once.
+`I_REUSABLE_TMS` is `TRUE`, so `move_tutors_frlg.inc` compiles out the fifteen FRLG tutors' "taught"
+flags and each tutor offers its move on every visit, yet each still asked "This move can be learned
+only once. Is that okay?" before the party menu. The warning is now compiled out with the flags.
+Cape Brink's ultimate-move tutor keeps its flags in C and stays one-time, so it keeps the warning.
+The suite gives two level 5 Mew, enters the Pewter Museum by its back door and asks the Seismic
+Toss tutor twice with real input, answering YES to every Yes/No box and picking the other Mew the
+second time. **Oracle:** each visit raises exactly one Yes/No box (`Task_HandleYesNoInput` going
+live) before the party menu, and both Mew learn Seismic Toss. **Discrimination:** unfixed 7/9
+(`boxes=2` on both visits; the screenshots show the warning), fixed 9/9.

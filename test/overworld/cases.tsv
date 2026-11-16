@@ -249,3 +249,4 @@ FrontierFacilityStress	lua/FrontierFacilityStress.lua	fresh	0	required
 FactoryRentalStress	lua/FactoryRentalStress.lua	fresh	0	required
 HofDexNumbers	lua/HofDexNumbers.lua	fresh	0	required
 KurtBallFullBag	lua/KurtBallFullBag.lua	fresh	0	required
+KantoTutorRepeatPrompt	lua/KantoTutorRepeatPrompt.lua	fresh	0	required

@@ -6,8 +6,10 @@ VictoryRoad_2F_EventScript_DoubleEdgeTutor::
 .endif
 	msgbox Text_DoubleEdgeTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_DoubleEdgeDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_DoubleEdgeDeclined
+.endif
 	msgbox Text_DoubleEdgeWhichMon
 	setvar VAR_0x8005, MOVE_DOUBLE_EDGE
 	call EventScript_ChooseMoveTutorMon
@@ -36,8 +38,10 @@ EventScript_ThunderWaveTutor::
 .endif
 	msgbox Text_ThunderWaveTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_ThunderWaveDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_ThunderWaveDeclined
+.endif
 	msgbox Text_ThunderWaveWhichMon
 	setvar VAR_0x8005, MOVE_THUNDER_WAVE
 	call EventScript_ChooseMoveTutorMon
@@ -66,8 +70,10 @@ RockTunnel_B1F_EventScript_RockSlideTutor::
 .endif
 	msgbox Text_RockSlideTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_RockSlideDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_RockSlideDeclined
+.endif
 	msgbox Text_RockSlideWhichMon
 	setvar VAR_0x8005, MOVE_ROCK_SLIDE
 	call EventScript_ChooseMoveTutorMon
@@ -96,8 +102,10 @@ MtEmber_Exterior_EventScript_ExplosionTutor::
 .endif
 	msgbox Text_ExplosionTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_ExplosionDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_ExplosionDeclined
+.endif
 	msgbox Text_ExplosionWhichMon
 	setvar VAR_0x8005, MOVE_EXPLOSION
 	call EventScript_ChooseMoveTutorMon
@@ -126,8 +134,10 @@ Route4_EventScript_MegaPunchTutor::
 .endif
 	msgbox Text_MegaPunchTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MegaPunchDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_MegaPunchDeclined
+.endif
 	msgbox Text_MegaPunchWhichMon
 	setvar VAR_0x8005, MOVE_MEGA_PUNCH
 	call EventScript_ChooseMoveTutorMon
@@ -156,8 +166,10 @@ Route4_EventScript_MegaKickTutor::
 .endif
 	msgbox Text_MegaKickTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MegaKickDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_MegaKickDeclined
+.endif
 	msgbox Text_MegaKickWhichMon
 	setvar VAR_0x8005, MOVE_MEGA_KICK
 	call EventScript_ChooseMoveTutorMon
@@ -186,8 +198,10 @@ EventScript_DreamEaterTutor::
 .endif
 	msgbox Text_DreamEaterTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_DreamEaterDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_DreamEaterDeclined
+.endif
 	msgbox Text_DreamEaterWhichMon
 	setvar VAR_0x8005, MOVE_DREAM_EATER
 	call EventScript_ChooseMoveTutorMon
@@ -216,8 +230,10 @@ EventScript_SoftboiledTutor::
 .endif
 	msgbox Text_SoftboiledTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SoftboiledDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_SoftboiledDeclined
+.endif
 	msgbox Text_SoftboiledWhichMon
 	setvar VAR_0x8005, MOVE_SOFT_BOILED
 	call EventScript_ChooseMoveTutorMon
@@ -246,8 +262,10 @@ FuchsiaCity_EventScript_SubstituteTutor::
 .endif
 	msgbox Text_SubstituteTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SubstituteDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_SubstituteDeclined
+.endif
 	msgbox Text_SubstituteWhichMon
 	setvar VAR_0x8005, MOVE_SUBSTITUTE
 	call EventScript_ChooseMoveTutorMon
@@ -276,8 +294,10 @@ SevenIsland_EventScript_SwordsDanceTutor::
 .endif
 	msgbox Text_SwordsDanceTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SwordsDanceDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_SwordsDanceDeclined
+.endif
 	msgbox Text_SwordsDanceWhichMon
 	setvar VAR_0x8005, MOVE_SWORDS_DANCE
 	call EventScript_ChooseMoveTutorMon
@@ -306,8 +326,10 @@ PewterCity_Museum_1F_EventScript_SeismicTossTutor::
 .endif
 	msgbox Text_SeismicTossTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SeismicTossDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_SeismicTossDeclined
+.endif
 	msgbox Text_SeismicTossWhichMon
 	setvar VAR_0x8005, MOVE_SEISMIC_TOSS
 	call EventScript_ChooseMoveTutorMon
@@ -336,8 +358,10 @@ EventScript_CounterTutor::
 .endif
 	msgbox Text_CounterTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CounterDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_CounterDeclined
+.endif
 	msgbox Text_CounterWhichMon
 	setvar VAR_0x8005, MOVE_COUNTER
 	call EventScript_ChooseMoveTutorMon
@@ -366,8 +390,10 @@ EventScript_MetronomeTutor::
 .endif
 	msgbox Text_MetronomeTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MetronomeDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_MetronomeDeclined
+.endif
 	msgbox Text_MetronomeWhichMon
 	setvar VAR_0x8005, MOVE_METRONOME
 	call EventScript_ChooseMoveTutorMon
@@ -394,8 +420,10 @@ EventScript_MimicTutor::
 .endif
 	msgbox Text_MimicTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MimicDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_MimicDeclined
+.endif
 	msgbox Text_MimicWhichMon
 	setvar VAR_0x8005, MOVE_MIMIC
 	call EventScript_ChooseMoveTutorMon
@@ -437,8 +465,10 @@ FourIsland_House1_EventScript_BodySlamTutor::
 .endif
 	msgbox Text_BodySlamTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_BodySlamDeclined
+.if I_REUSABLE_TMS == FALSE
 	call EventScript_CanOnlyBeLearnedOnce
 	goto_if_eq VAR_RESULT, NO, EventScript_BodySlamDeclined
+.endif
 	msgbox Text_BodySlamWhichMon
 	setvar VAR_0x8005, MOVE_BODY_SLAM
 	call EventScript_ChooseMoveTutorMon

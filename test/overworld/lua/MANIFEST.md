@@ -2422,3 +2422,15 @@ the suite opens the PokéNav from the Start menu with real input on Route 106, i
 in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
 0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed
 maps with their headers. Unfixed **10/12** (Johto and Kanto read 0x000), fixed **12/12**.
+### `FrontierLobbyContinue.lua`
+
+Save and Continue inside the seven Battle Frontier lobbies, the Fallarbor, Verdanturf and Slateport
+Battle Tents and the Trainer Tower lobby, plus a soft reset inside the Hoenn Safari Zone. Each lobby
+case walks in from the door with a debug Set Party follower out, saves from the Start menu, soft
+resets and continues; the map, tile and facing, the playing song (`gMPlayInfo_BGM` against
+`gSongTable`), the follower (shown beside the player) and control must come back as they were, and
+the player must walk. The Safari case saves in the entrance, enters through the attendant (a
+Pokeblock case is put in the bag), walks until the step counter moves, requires that the Safari
+Start menu offers no SAVE, then soft resets: Continue must land on the entrance save with Safari mode
+off and no Safari Balls. Measured **111/111**; no defect found. `--env PW_LOBBY_ONLY=<text>` runs
+matching cases.

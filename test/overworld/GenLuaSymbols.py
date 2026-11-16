@@ -177,7 +177,7 @@ WANT = [
     "CB2_InitClearSaveDataScreen", "CB2_InitResetRtcScreen",
     "CB2_NewGameScene",
     "CB2_NamingScreen", "CB2_BagMenuRun", "CB2_ShowPartyMenuForItemUse",
-    "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap",
+    "CB2_PartyMenuFromStartMenu", "CB2_UpdatePartyMenu", "CB2_FlyMap", "CB2_OpenFlyMap", "CB2_MoveRelearnerMain",
     "Task_OakSpeech_HandleGenderInput",
     "gPlayerOutfitPicker", "Task_OutfitPicker",
     # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.

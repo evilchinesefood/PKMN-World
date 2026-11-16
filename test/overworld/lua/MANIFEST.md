@@ -2333,3 +2333,20 @@ summary from the party menu with real input and reads BG2's screen block in VRAM
 columns 0 to 9, must all be the plain header tile 0x33. Right and Left must leave the Egg on its page
 with the header still plain; Up to the Pokémon above must bring the tabs back (tile 0x01 at column 1,
 the control) and Down to the Egg must clear them again. Unfixed **3/7**, fixed **7/7**.
+
+### `NewGameOverSave.lua`
+
+New Game over a played save, without a power cycle. A fresh new game is dumped twice (the second
+after a soft reset and 173 extra title frames, so the RNG-drawn bytes differ). The second file is
+then played: two Pokemon, money, items, three badges, Shared Exp, a non-default outfit, every
+Pokedex flag, the opening flags of all three regions and a real World Transit gate crossing into
+Johto, saved from the Start menu. After a soft reset the title menu's NEW GAME (read from the main
+menu task's cursor) starts over that loaded save. SaveBlock1, SaveBlock2, SaveBlock3 and the PC are
+compared bit by bit, with money, coins, game stats, Berry Powder and bag quantities decrypted first
+(the key rerolls on every map load; `gameStats` and `berryPowder` were added to
+`GenLuaSymbols.py`, with a `load_save.c` pin for the first). A bit leaks when both fresh games agree
+on it, the played file changed it and the new game still holds the played value. Kept by design
+and masked: the name and gender, the title-menu options, the RTC offset and berry clock, the region
+checksum (restamped by every save) and the Shared Exp flag. The new game must also have an empty
+party, 3000 money, no region, the intro's outfit and a free field. Measured **19/19**; no defect
+found. A tamper build that skips the `johtoIntroDone` reset in `NewGameInitData` scores **18/19**.

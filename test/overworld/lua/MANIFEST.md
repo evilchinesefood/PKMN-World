@@ -2480,3 +2480,14 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `PokegearKeepsHoennPokenav.lua`
+
+Johto's mother gave the PokeGear by setting `FLAG_RECEIVED_POKENAV`, Hoenn's flag for Devon's PokeNav
+scene. Every Hoenn Pokemon Center then ran `Common_EventScript_UpdateBrineyLocation` early, and the
+next Hoenn arrival docked Mr. Briney and Peeko at the cottage while Peeko was still missing. The suite
+crosses the hub's Johto gate, gets out of bed, sets the wall clock and walks downstairs for the
+mother's scene; then, with the first Hoenn badge and a party, enters the Rustboro Pokemon Center,
+leaves by Hub Pass and comes back through the Hoenn gate (team prompt: keep the party), and visits the
+cottage. **Oracle:** the PokeGear works (`FLAG_SYS_POKENAV_GET`), `FLAG_RECEIVED_POKENAV` stays clear,
+`VAR_BRINEY_LOCATION` stays 0, and the cottage holds nobody but the player. **Discrimination:** unfixed
+14/18 (Briney's shore recorded as 1, Briney and Peeko home at (2,6) and (6,3)), fixed 18/18.

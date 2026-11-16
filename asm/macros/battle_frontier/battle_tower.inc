@@ -98,7 +98,7 @@
 	.endm
 
 	.macro multi_do type:req
-	callnative AreMultiPartiesFullTeams
+	callnative ScriptAreMultiPartiesFullTeams
 	goto_if_eq VAR_RESULT, TRUE, 1f
 	special ReducePlayerPartyToSelectedMons
 	1:

@@ -147,6 +147,7 @@ is clean; keep it that way.
 | [`Route41SurfBgm.lua`](#route41surfbgmlua) | fresh new game | FldEff_UseSurf on Route 41 plays MUS_HG_SURF, not Hoenn MUS_SURF. |
 | [`Route41SurfArrival.lua`](#route41surfarrivallua) | fresh new game | Each Route 41 sea arrival starts the player surfing on its tile, and the player can surf south from it. |
 | [`LanceMultiBattle.lua`](#lancemultibattlelua) | fresh new game | The Rocket HQ multi battle starts with four battlers (Ariana, Lance, the Grunt) and its trainer intro does not assert. |
+| [`LanceMultiOutcome.lua`](#lancemultioutcomelua) | fresh new game | Lance's Rocket HQ multi battle, reached through Ariana's trigger: a forfeit (Normal and Hard) whites out and re-arms the ambush, a win runs the generator cutscene. |
 | [`Route37CrossingProbe.lua`](#route37crossingprobelua) | fresh new game | Walking the Route 36/37 connection both ways with a follower does not crash. |
 | [`DayNightCrossingProbe.lua`](#daynightcrossingprobelua) | fresh new game | The Johto day/night flip at every alignment with the Route 36/37 crossing, both ways. |
 | [`SlowpokeWellRescue.lua`](#slowpokewellrescuelua) | fresh new game | Slowpoke Well Jessie/James gate, Kurt no longer seals Proton, Rocket walk-out. |
@@ -559,6 +560,22 @@ Starts `MahoganyHideout_B2F_EventScript_DoLanceMultiBattle` from the seam after 
 with three seeded party slots and no fake trainer data, then checks the four opening battlers and that
 the trainer intro does not assert. `ValidateLanceMultiBattle.py` checks the script host-side. Passed
 7/7 at three RTC values, under 11 s each.
+
+### `LanceMultiOutcome.lua`
+
+Reaches Lance's Rocket HQ multi battle the way a player does: B2F at `VAR_MAHOGANY_TOWN_STATE` 12
+with the Murkrow gate open, a walk from warp 0 onto Ariana's trigger at (14,18), her and Lance's
+lines, and three Pokemon picked on the half-party screen (A, A per slot, Start to confirm). The
+battle is driven with real input. A forfeit (RUN, Yes) must white the player out of B2F with the
+state still 12 and Ariana hidden again; a second visit does the same at Hard (set after the warp,
+since the field load re-syncs `VAR_DIFFICULTY`); a third is fought to a win (opponents assisted to
+1 HP) and must run the generator cutscene to state 13 with the player free at (12,17).
+`AreMultiPartiesFullTeams` read the Hard trainer entry with no Normal fallback, so at Hard it called
+Ariana's half-team battle full-team, and on that path `HandleSpecialTrainerBattleEnd` called it
+again after the battle and overwrote the outcome in `VAR_RESULT` with TRUE: the forfeit ran
+Ariana's retreat and the generator cutscene. Normal play does not reach Hard before Johto's title
+(the hub gate syncs the tier); a debug warp from a Hoenn champion save does. **Discrimination:**
+unfixed 11/14 (Hard forfeit at state 13 beside Lance), fixed 18/18.
 
 ### `Route41SurfBgm.lua`
 

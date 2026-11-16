@@ -2626,3 +2626,15 @@ returns in the east pool. **B2F hole, both B3F boulders in:** B3F records the st
 the player stays afloat with control. **B3F hole, current running:** the B4F current carries the
 player to the stairs and puts them ashore. **B3F hole, both B4F boulders in:** B4F records the
 stopped current and the player stays afloat. Measured **19/19** with seeds 7 and 99; no defect found.
+### `WorldChampionshipFinal.lua`
+
+The World Championship must end with RED in the final. `InitDomeTrainers` swaps RED into the bracket
+slot opposite the player, but the NPC matches between the player's battles scored RED like any
+other trainer, so he could fall in round 2 or the semifinal and the player won the championship
+without meeting him. A three-region champion takes the championship from the registrar with real
+input three times (each run starts a different number of frames after one savestate, so the match
+rolls differ), wins each Dome battle (opponents held at 1 HP), and reads the bracket
+(`frontier.domeTrainers`, 4-byte entries) at every battle start: RED must never be knocked out and
+the fourth battle must leave RED as the only other trainer standing. The win must set
+`FLAG_WORLD_CHAMPION` and clear `VAR_WORLD_CHAMPIONSHIP_MODE`. Measured **26/26** fixed and
+**20/26** on the unfixed ROM (RED out in round 2, 2 and 3 of the three runs).

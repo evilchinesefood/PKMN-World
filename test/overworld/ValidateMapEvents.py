@@ -16,6 +16,10 @@ to an NPC. Three real examples, each of which is now a check below:
   * Slowpoke Well staged the Kurt who walks up after Proton on (17,8), the single square joining
     Proton's chamber to the rest of the well. `addobject` put a wall across the only door, and a
     player whose save spawned him there was sealed into a 22-tile dead end. -> CUTSCENE-SEALS-MAP
+  * Oak's, Elm's and Birch's labs all wrote one VAR_STARTER_MON, so a starter picked in a second
+    region re-picked the first region's rival team; Goldenrod's first visit cleared Mauville's
+    FLAG_RECEIVED_BIKE. A flag or var that scripts of two regions touch, one of them writing it,
+    is the pattern. -> CROSS-REGION-STATE
 
 Run from the repo root:  python3 test/overworld/ValidateMapEvents.py   (exit 0 = clean, 1 = violations)
 or `make validate`. Also run by the pre-push gate (test/overworld/hooks/pre-push) and Check.yml.
@@ -60,7 +64,9 @@ import json
 import os
 import re
 import struct
+import subprocess
 import sys
+import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -196,6 +202,126 @@ DUPLICATE_TRAINER_OK = {
     "TRAINER_ROCKET_JESSIE_2": "5-site recurring duo, trainerbattle_two_trainers, per-site hide flag",
     "TRAINER_ROCKET_JAMES_2":  "5-site recurring duo, trainerbattle_two_trainers, per-site hide flag",
 }
+
+# --- CROSS-REGION-STATE ---
+# A flag or var id that scripts of two regions touch, with at least one of them writing it. Each
+# region keeps its story state in its own pool (FLAG_JOHTO_SLICE, the Kanto bank at 0xA40, the
+# region var slices), so a Hoenn-range id written from a Johto or Kanto map is either a deliberate
+# world-wide fact or one region's story bleeding into another. Ids, not names, are compared: the
+# headers alias names onto each other, and two spellings of one id are one piece of state.
+#
+# Region comes from the map's region_map_section, the same rule as GetRegionForSectionId. A label
+# in a shared file (data/scripts/**, event_scripts.s) belongs to every region whose map labels or
+# map events name it, transitively. Temporary flags and vars, the EWRAM special flags and the
+# 0x8000 script vars are excluded: they do not outlive a map or a script.
+#
+# Every id that is shared on purpose is named here with its reason, as DUPLICATE_TRAINER_OK does,
+# so a new collision on an unlisted id fails and an entry that stops firing is reported as stale.
+SHARED_STATE_OK = {
+    # One world, one save: system and device state.
+    "FLAG_SYS_POKEMON_GET": "the party/start menu unlock is one per save",
+    "FLAG_SYS_POKEDEX_GET": "one Pokedex for the world",
+    "FLAG_SYS_NATIONAL_DEX": "one Pokedex for the world",
+    "FLAG_SYS_DEXNAV_GET": "one DexNav device",
+    "FLAG_SYS_POKENAV_GET": "the PokeNav and PokeGear are one device on the start menu",
+    "FLAG_ADDED_MATCH_CALL_TO_POKENAV": "Match Call is a feature of that one device",
+    "FLAG_SYS_B_DASH": "running shoes are worn in every region",
+    "FLAG_RECEIVED_RUNNING_SHOES": "set beside FLAG_SYS_B_DASH; Hoenn only shows the shoes manual prop on it",
+    "FLAG_SYS_USE_STRENGTH": "field-move state, cleared on every map load",
+    "FLAG_SYS_CTRL_OBJ_DELETE": "script control flag, cleared after use",
+    "FLAG_SYS_PC_LANETTE": "names the storage PC in the shared transfer text (Bill or Lanette)",
+    "FLAG_IS_CHAMPION": "engine link-compatibility bit; story gates use the per-region champion flags",
+    "FLAG_KANTO_CHAMPION": "read by the hub and the other regions on purpose",
+    "FLAG_JOHTO_CHAMPION": "read by the hub and the other regions on purpose",
+    "VAR_DIFFICULTY": "synced to the active region in SetCurrentRegion",
+    "VAR_CABLE_CLUB_STATE": "link-room session state",
+    "VAR_OBJ_GFX_ID_0": "dynamic object sprite, written before each spawn",
+    "VAR_ICE_STEP_COUNT": "cracked-ice step counter, reset by each puzzle map on entry",
+    "VAR_SAFARI_ZONE_STATE": "safari session state, reset with the session",
+    "FLAG_GOOD_LUCK_SAFARI_ZONE": "per-session attendant line, cleared at each safari entrance",
+    "VAR_FERRY_DEPARTURE": "set by the harbor you board at, read on that voyage",
+    # Shared Pokemon Center scripts.
+    "FLAG_POKERUS_EXPLAINED": "one nurse script, one explanation",
+    "FLAG_NURSE_MENTIONS_GOLD_CARD": "one nurse script",
+    "FLAG_NURSE_UNION_ROOM_REMINDER": "one nurse script",
+    # #195: one wall clock for the world; players_house.inc advances Hoenn's intro only from 4/5.
+    "FLAG_SET_WALL_CLOCK": "#195: one RTC, set once in whichever region comes first",
+    "VAR_LITTLEROOT_INTRO_STATE": "#195: ClockAlreadySetElsewhere advances Hoenn's intro from 4/5 only",
+    "FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1": "#195: set with the intro step above",
+    "FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2": "#195: set with the intro step above",
+    # One legendary per world (00aa983715 "legendary dupe guards"): catching or fighting it in one
+    # region hides its twin elsewhere, and each Hall of Fame respawns only unresolved ones.
+    "FLAG_CAUGHT_LUGIA": "one Lugia per world (Navel Rock copies and Whirl Islands)",
+    "FLAG_CAUGHT_HO_OH": "one Ho-Oh per world (Navel Rock copies and Tin Tower)",
+    "FLAG_DEFEATED_LUGIA": "one Lugia per world; Hall of Fame respawn",
+    "FLAG_DEFEATED_HO_OH": "one Ho-Oh per world; Hall of Fame respawn",
+    "FLAG_HIDE_LUGIA": "one Lugia per world; each site recomputes it on entry",
+    "FLAG_HIDE_HO_OH": "one Ho-Oh per world; each site recomputes it on entry",
+    "FLAG_DEFEATED_DEOXYS": "one Deoxys per world; Hall of Fame respawn",
+    "FLAG_HIDE_DEOXYS": "one Deoxys per world (Birth Island in Hoenn and Kanto)",
+    "FLAG_DEOXYS_ROCK_COMPLETE": "one Deoxys per world (Birth Island in Hoenn and Kanto)",
+    "VAR_DEOXYS_ROCK_STEP_COUNT": "one Deoxys per world (Birth Island in Hoenn and Kanto)",
+    "VAR_DEOXYS_ROCK_LEVEL": "one Deoxys per world (Birth Island in Hoenn and Kanto)",
+    "FLAG_DEFEATED_MEW": "one Mew per world; Hall of Fame respawn",
+    "FLAG_CAUGHT_LATIAS_OR_LATIOS": "Johto's Hall of Fame respawn reads it",
+    "FLAG_HIDE_MOLTRES": "one Moltres per world (Mt. Ember and Mt. Silver)",
+    "FLAG_FOUGHT_MOLTRES": "one Moltres per world (Mt. Ember and Mt. Silver)",
+    "FLAG_HIDE_ZAPDOS": "Johto's Hall of Fame respawns Kanto's birds",
+    "FLAG_FOUGHT_ZAPDOS": "Johto's Hall of Fame respawns Kanto's birds",
+    "FLAG_HIDE_ARTICUNO": "Johto's Hall of Fame respawns Kanto's birds",
+    "FLAG_FOUGHT_ARTICUNO": "Johto's Hall of Fame respawns Kanto's birds",
+    "FLAG_HIDE_MEWTWO": "Johto's Hall of Fame respawns Mewtwo",
+    "FLAG_FOUGHT_MEWTWO": "Johto's Hall of Fame respawns Mewtwo",
+    "FLAG_HIDE_ROUTE25_SUICUNE": "#102: Johto's post-game Suicune stands on Kanto's Route 25",
+    "FLAG_FOUGHT_SUICUNE": "#102: Johto's post-game Suicune stands on Kanto's Route 25",
+    # Event islands: one ferry network; Hoenn and Kanto harbors sail to the same islands.
+    "FLAG_ENABLE_SHIP_SOUTHERN_ISLAND": "hub ticket desk enables the shared event-island ferries",
+    "FLAG_ENABLE_SHIP_BIRTH_ISLAND": "hub ticket desk enables the shared event-island ferries",
+    "FLAG_ENABLE_SHIP_FARAWAY_ISLAND": "hub ticket desk enables the shared event-island ferries",
+    "FLAG_ENABLE_SHIP_NAVEL_ROCK": "hub ticket desk enables the shared event-island ferries",
+    "FLAG_ARRIVED_AT_NAVEL_ROCK": "Navel Rock's Hoenn and Kanto docks share the arrival",
+    "FLAG_SHOWN_EON_TICKET": "one ferry company; the ticket explanation plays once",
+    "FLAG_SHOWN_AURORA_TICKET": "one ferry company; the ticket explanation plays once",
+    "FLAG_SHOWN_OLD_SEA_MAP": "one ferry company; the ticket explanation plays once",
+    "FLAG_SHOWN_MYSTIC_TICKET": "one ferry company; the ticket explanation plays once",
+    # Hidden machines are items in the one Bag; every giver already reports a duplicate as owned
+    # (EventScript_ObtainedDupKeyItem), so the received flags are one per world too.
+    "FLAG_RECEIVED_HM_CUT": "one Bag: an HM received in any region is owned in all",
+    "FLAG_RECEIVED_HM_FLASH": "one Bag: an HM received in any region is owned in all",
+    "FLAG_RECEIVED_HM_ROCK_SMASH": "one Bag: an HM received in any region is owned in all",
+    "FLAG_RECEIVED_HM_STRENGTH": "one Bag: an HM received in any region is owned in all",
+    "FLAG_RECEIVED_HM_SURF": "one Bag: an HM received in any region is owned in all",
+    # Johto maps that reuse a Hoenn object script on purpose.
+    "FLAG_DAILY_FLOWER_SHOP_RECEIVED_BERRY": "Goldenrod's berry girl runs Pretty Petal's script: one berry a day",
+    "FLAG_DAILY_CONTEST_LOBBY_RECEIVED_BERRY": "Johto Safari gate blenders run the Lilycove blender scripts",
+    "FLAG_HIDE_LILYCOVE_CONTEST_HALL_BLEND_MASTER": "read by the shared blender scripts",
+    # One day care: Route 117, Route 34 and Four Island share the daycare struct and its egg.
+    "FLAG_PENDING_DAYCARE_EGG": "one daycare struct; the egg follows the parents",
+    # Rydel's Cycles and the Goldenrod bike shop give one shop bike across both regions (#602
+    # stopped Goldenrod's first visit clearing it).
+    "FLAG_RECEIVED_BIKE": "one shop bike across Rydel's Cycles and the Goldenrod bike shop",
+    # #576 gives the Ruins of Alph lab its own regenerator; Alph still reads Devon's pair once to
+    # adopt a Johto fossil an older save left there. Before #576 lands, the two labs share them.
+    "VAR_FOSSIL_RESURRECTION_STATE": "#576: Alph adopts a Johto fossil left in Devon's regenerator",
+    "VAR_WHICH_FOSSIL_REVIVED": "#576: Alph adopts a Johto fossil left in Devon's regenerator",
+    "FLAG_RECEIVED_REVIVED_FOSSIL_MON": "Hoenn's Fossil Maniac only remarks that a fossil was revived somewhere",
+    # Owner call: Elm registers his number in the PokeGear's one professor entry, which is named
+    # PROF. BIRCH; a Johto-first player then skips Birch's registration scene in Hoenn.
+    "FLAG_ENABLE_PROF_BIRCH_MATCH_CALL": "the PokeNav's professor entry doubles as Elm's number",
+}
+# Collisions that a pull request fixes but that may not have landed with this check. They are
+# printed, never failed; delete each entry once its fix is on master.
+SHARED_STATE_PENDING = {
+    "VAR_STARTER_MON": "#577 gives Kanto and Johto their own starter var",
+    "FLAG_RECEIVED_POKENAV": "#604 gives the PokeGear without Hoenn's PokeNav story flag",
+    "FLAG_DAILY_PICKED_LOTO_TICKET": "#611 gives the Radio Tower lottery its own daily flag",
+    "VAR_POKELOT_PRIZE_ITEM": "#611 gives the Radio Tower lottery its own held prize",
+    "VAR_POKELOT_PRIZE_PLACE": "#611 gives the Radio Tower lottery its own held prize",
+}
+# Ids touched across regions today. A parse that resolves far fewer names, or finds no shared id
+# at all, has stopped reading the tree rather than found it clean.
+MIN_RESOLVED_STATE_NAMES = 1500
+MIN_SHARED_STATE_IDS = 40
 
 # Object-id arguments. A bare integer here is a landmine: inserting one object into the map json
 # renumbers every object after it and these silently start addressing the wrong NPC. This is how
@@ -630,6 +756,174 @@ def check_duplicate_trainer(maps, bodies, owner, trainers):
     errs += [f"{t} is in DUPLICATE_TRAINER_OK but is no longer battled from more than one map -- "
              f"delete the exception ({DUPLICATE_TRAINER_OK[t]})"
              for t in sorted(DUPLICATE_TRAINER_OK) if t not in dup]
+    return errs
+
+
+def load_mapsec_regions():
+    """MAPSEC name -> HOENN/KANTO/JOHTO, the same ranges as GetRegionForSectionId.
+
+    Read from the JSON the MAPSEC enum is generated from (in the same order), because the
+    generated header does not exist before a build and this script runs without one.
+    """
+    path = os.path.join(ROOT, "src/data/region_map/region_map_sections.json")
+    with open(path, encoding="utf-8") as fh:
+        secs = [entry["id"] for entry in json.load(fh)["map_sections"]]
+    idx = {sec: i for i, sec in enumerate(secs)}
+    for need in ("MAPSEC_PALLET_TOWN", "MAPSEC_SPECIAL_AREA", "MAPSEC_NEW_BARK_TOWN",
+                 "MAPSEC_JOHTO_INDIGO_PLATEAU"):
+        if need not in idx:
+            die(f"{path}: {need} missing from the map sections")
+    k0, k1 = idx["MAPSEC_PALLET_TOWN"], idx["MAPSEC_SPECIAL_AREA"]
+    j0, j1 = idx["MAPSEC_NEW_BARK_TOWN"], idx["MAPSEC_JOHTO_INDIGO_PLATEAU"]
+
+    def region(sec):
+        i = idx.get(sec, -1)
+        if k0 <= i < k1:
+            return "KANTO"
+        if j0 <= i <= j1:
+            return "JOHTO"
+        return "HOENN"
+    return region
+
+
+def resolve_state_ids(names):
+    """FLAG_/VAR_ name -> numeric id, through the real headers with ALL_REGIONS set."""
+    names = sorted(names)
+    src = '#include "constants/flags.h"\n#include "constants/vars.h"\n'
+    # The name goes in a string literal, which the preprocessor leaves alone.
+    src += "".join(f'"{n}" {n}\n' for n in names)
+    with tempfile.TemporaryDirectory() as td:
+        path = os.path.join(td, "state_ids.c")
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(src)
+        cc = os.environ.get("HOSTCC", "cc")
+        try:
+            out = subprocess.run([cc, "-E", "-P", "-DALL_REGIONS=1", "-DMODERN=1", "-iquote",
+                                  "include", path], cwd=ROOT, capture_output=True, text=True)
+        except OSError as exc:
+            die(f"CROSS-REGION-STATE needs a host C preprocessor ({cc}): {exc}")
+    if out.returncode:
+        die(f"CROSS-REGION-STATE: preprocessing flags.h/vars.h failed:\n{out.stderr}")
+    ids = {}
+    for line in out.stdout.splitlines():
+        m = re.match(r'"(\w+)"\s*(.*)$', line)
+        if not m:
+            continue
+        expr = m.group(2).strip()
+        # The daily-flag base aligns with `% 8`; C's `/` on these non-negative ints is `//`.
+        if re.fullmatch(r"[0-9a-fA-FxX+\-*/%() ]+", expr):
+            ids[m.group(1)] = eval(expr.replace("/", "//"), {"__builtins__": {}})
+    return ids
+
+
+STATE_TOKEN = re.compile(r"\b((?:FLAG|VAR)_\w+)\b")
+STATE_WRITE = re.compile(r"^(?:setflag|clearflag|setvar|addvar|subvar|copyvar|setorcopyvar|"
+                         r"specialvar|random)\s+((?:FLAG|VAR)_\w+)")
+LABEL_TOKEN = re.compile(r"\b(\w+)\b")
+
+
+def is_transient_state(kind, value):
+    if kind == "FLAG":
+        return value <= 0x1F or 0x4000 <= value <= 0x407F
+    return 0x4000 <= value <= 0x400F or value >= 0x8000
+
+
+def check_cross_region_state(maps, bodies, owner, stats):
+    """A flag or var id written by one region's scripts and touched by another's."""
+    region_of_sec = load_mapsec_regions()
+    region_of_dir = {}
+    for d in maps.values():
+        m = re.match(r"data/maps/([^/]+)/map\.json$", d["_path"])
+        if m:
+            region_of_dir[m.group(1)] = region_of_sec(d.get("region_map_section", ""))
+
+    # Seed each label's regions from its own map file and from the map events that name it,
+    # then follow every label a body names until nothing changes.
+    regions = collections.defaultdict(set)
+    for label, (_, mapdir) in owner.items():
+        if mapdir in region_of_dir:
+            regions[label].add(region_of_dir[mapdir])
+    for d in maps.values():
+        m = re.match(r"data/maps/([^/]+)/map\.json$", d["_path"])
+        region = region_of_dir.get(m.group(1)) if m else None
+        for e in d.get("object_events", []) + d.get("coord_events", []) + d.get("bg_events", []):
+            if region and e.get("script") in bodies:
+                regions[e["script"]].add(region)
+    refs = {label: {t for line in body for t in LABEL_TOKEN.findall(line)
+                    if t in bodies and t != label} for label, body in bodies.items()}
+    pending = [label for label in regions]
+    while pending:
+        label = pending.pop()
+        for target in refs.get(label, ()):
+            if not regions[label] <= regions[target]:
+                regions[target] |= regions[label]
+                pending.append(target)
+
+    uses = collections.defaultdict(lambda: {"w": collections.defaultdict(set),
+                                            "r": collections.defaultdict(set)})
+    for label, body in bodies.items():
+        where = owner[label][0]
+        for line in body:
+            m = STATE_WRITE.match(line)
+            written = m.group(1) if m else None
+            for name in STATE_TOKEN.findall(line):
+                for region in regions.get(label, ()):
+                    uses[name]["w" if name == written else "r"][region].add(where)
+    for d in maps.values():
+        m = re.match(r"data/maps/([^/]+)/map\.json$", d["_path"])
+        region = region_of_dir.get(m.group(1)) if m else None
+        if not region:
+            continue
+        for e in d.get("object_events", []):
+            if e.get("flag", "").startswith("FLAG_"):
+                uses[e["flag"]]["r"][region].add(d["_path"])
+        for e in d.get("coord_events", []):
+            if e.get("var", "").startswith("VAR_"):
+                uses[e["var"]]["r"][region].add(d["_path"])
+
+    ids = resolve_state_ids(uses)
+    stats["resolved"] = len(ids)
+    by_id = collections.defaultdict(lambda: {"names": set(), "w": collections.defaultdict(set),
+                                             "r": collections.defaultdict(set)})
+    for name, use in uses.items():
+        if name not in ids:
+            continue
+        kind = name.split("_", 1)[0]
+        if ids[name] == 0 or is_transient_state(kind, ids[name]):
+            continue
+        entry = by_id[(kind, ids[name])]
+        entry["names"].add(name)
+        for k in ("w", "r"):
+            for region, files in use[k].items():
+                entry[k][region] |= files
+
+    errs, firing = [], set()
+    shared = 0
+    for (kind, value), entry in sorted(by_id.items()):
+        writers = set(entry["w"])
+        touched = writers | set(entry["r"])
+        if not writers or len(touched) < 2:
+            continue
+        shared += 1
+        names = sorted(entry["names"])
+        listed = [n for n in names if n in SHARED_STATE_OK or n in SHARED_STATE_PENDING]
+        firing.update(listed)
+        if listed:
+            for n in listed:
+                if n in SHARED_STATE_PENDING:
+                    stats.setdefault("pending", []).append(f"{n}: {SHARED_STATE_PENDING[n]}")
+            continue
+        detail = "; ".join(
+            f"{'written' if k == 'w' else 'read'} in {region} by "
+            + ", ".join(sorted(entry[k][region])[:3])
+            + (f" (+{len(entry[k][region]) - 3})" if len(entry[k][region]) > 3 else "")
+            for k in ("w", "r") for region in sorted(entry[k]))
+        errs.append(f"{'/'.join(names)} ({kind} 0x{value:X}) is shared by "
+                    f"{', '.join(sorted(touched))}: {detail}")
+    stats["shared"] = shared
+    errs += [f"{n} is in SHARED_STATE_OK but no longer crosses a region -- delete the exception "
+             f"({SHARED_STATE_OK[n]})" for n in sorted(SHARED_STATE_OK) if n not in firing]
+    stats["stale_pending"] = [n for n in sorted(SHARED_STATE_PENDING) if n not in firing]
     return errs
 
 
@@ -1093,6 +1387,14 @@ def main():
             f"{MIN_COLLISION_MAPS}) -- CUTSCENE-SEALS-MAP would be a no-op")
 
     mute_stats = collections.Counter()
+    state_stats = {}
+    state_errs = check_cross_region_state(maps, bodies, owner, state_stats)
+    if state_stats.get("resolved", 0) < MIN_RESOLVED_STATE_NAMES:
+        die(f"CROSS-REGION-STATE resolved only {state_stats.get('resolved', 0)} flag/var names "
+            f"(expected >= {MIN_RESOLVED_STATE_NAMES}) -- did the headers or the script parse move?")
+    if state_stats.get("shared", 0) < MIN_SHARED_STATE_IDS:
+        die(f"CROSS-REGION-STATE found only {state_stats.get('shared', 0)} shared ids (expected "
+            f">= {MIN_SHARED_STATE_IDS}) -- the region attribution is likely reading nothing")
     by_script, where = role_table(maps)
     localid_errs, localid_review = check_localids(maps, bodies, owner)
 
@@ -1108,6 +1410,7 @@ def main():
         ("HEAL-RESPAWN-SEALED", check_heal_respawn_sealed(maps, grids)),
         ("HEAL-RESPAWN-NPC", check_heal_respawn_npc(maps)),
         ("HEAL-POINT-STRANDED", check_heal_point_stranded(maps, grids)),
+        ("CROSS-REGION-STATE", state_errs),
     ]
     reviews = [
         ("SCRIPT-GFX-OUTLIER", check_script_gfx_outlier(by_script, where)),
@@ -1133,6 +1436,12 @@ def main():
         for s, c in sorted(multi.items(), key=lambda kv: -len(kv[1]))[:12]:
             tag = "role" if len(c) <= MAX_ROLE_GFX else "generic"
             print(f"     [{tag:7s}] {s}: " + ", ".join(f"{n}x{k}" for k, n in c.most_common()))
+
+    for line in state_stats.get("pending", []):
+        print(f"NOTE - CROSS-REGION-STATE pending fix: {line}")
+    for name in state_stats.get("stale_pending", []):
+        print(f"NOTE - CROSS-REGION-STATE: {name} no longer crosses a region; delete its "
+              f"SHARED_STATE_PENDING entry ({SHARED_STATE_PENDING[name]})")
 
     failed = 0
     for tag, items in errors:
@@ -1170,6 +1479,8 @@ def main():
           f"sprite fighting for the wrong team, every trainer_type object can actually battle.")
     print(f"OK - role consistency: {len(by_script)} object-carrying scripts checked for sprite "
           f"outliers, prop sprites checked for dialogue.")
+    print(f"OK - cross-region state: {state_stats['resolved']} flag/var names resolved; "
+          f"{state_stats['shared']} ids cross a region, each named with its reason.")
     return 0
 
 

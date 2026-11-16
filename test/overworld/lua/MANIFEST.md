@@ -797,6 +797,18 @@ there records why that site is safe or which PR fixes it. A fixed site's row is 
 rather than failing, so the row can be removed after the fix lands. Reproduce a new site with the
 two buttons in one `joypad.set` before allowlisting it.
 
+[`ValidateMapEvents.py`](../ValidateMapEvents.py)'s `CROSS-REGION-STATE` check lists every flag or var
+id that scripts of two regions touch with at least one of them writing it: the pattern behind the
+shared starter var (#577), Goldenrod clearing Rydel's bike flag (#602), the PokeGear setting Hoenn's
+PokeNav flag (#604) and the shared lottery counters (#611). Region comes from each map's
+`region_map_section`; a shared script belongs to every region whose maps reach it; names resolve to
+ids through the real headers (a host `cc -E`, `HOSTCC` overrides), so aliases count as one id.
+Temporary flags and vars, EWRAM special flags and 0x8000 script vars are skipped. Every deliberate
+world-wide id is named in `SHARED_STATE_OK` with its reason (one legendary per world, one Bag, the
+wall clock, the event-island ferries, and so on), and an entry that stops firing fails as stale. Ids
+an open PR fixes sit in `SHARED_STATE_PENDING`, printed as notes and never failed; delete each once
+its fix is on master.
+
 Builds, Lua suites, battle checks, and feature-off builds run only through explicit local
 commands or [Verify on demand](../../../.github/workflows/Verify.yml). Smoke and Full can run
 on Linux CI or local macOS. There are no schedules and no build-output uploads. The

@@ -3181,3 +3181,17 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `ForestBattleBackground.lua`
+
+Battles in a forest drew the open-field tall grass background on grass and the plain one on paths.
+`ResolveBattlePresentation` (`src/battle_presentation.c`) now gives Viridian Forest, Ilex Forest,
+Petalburg Woods, Berry Forest and Pattern Bush a tree-line background on grass, long grass and path
+tiles. It changes the art only: `gBattleEnvironment`, which drives Nature Power, Secret Power and
+Camouflage, keeps the value the player's tile gives it. Route 2 grass is the control and must still
+draw the tall grass art. In Viridian Forest the suite starts a wild battle while the player stands on
+a grass tile, then walks up the path into Bug Catcher Rick's line of sight with real input. At each
+action menu it reads `gBattleEnvironment`, the captured `sBattlePresentation` and the palette bank of
+BG3's first tilemap entry in VRAM, and takes a screenshot. A wandering overworld Pokemon that bumps the player on the way gets battled and the walk
+resumes. **Discrimination:** unfixed 16/18 (tall grass tiles and palette on the wild battle, plain art
+on Rick's battle), fixed 18/18.

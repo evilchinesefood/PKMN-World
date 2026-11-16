@@ -281,6 +281,10 @@ WANT = [
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
     # AlphSlidingPuzzles.lua: the Ruins of Alph sliding puzzle's live board (src/sliding_puzzle.c).
     "sSlidingPuzzle", "CB2_SlidingPuzzle",
+    # ForestBattleBackground.lua: the battle's mechanical environment, the captured visual
+    # presentation (src/battle_bg.c) and the tall grass art it must not draw in a forest.
+    "gBattleEnvironment", "sBattlePresentation", "gBattleEnvironmentTiles_TallGrass",
+    "gBattleEnvironmentAnimTiles_TallGrass", "gBattleEnvironmentPalette_TallGrass",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPokemonStorage"]

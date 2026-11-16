@@ -35,6 +35,7 @@ FollowerOutdoors	lua/FollowerOutdoors.lua	fresh	0	required
 FrontierMidSave	lua/FrontierMidSave.lua	fresh	0	required
 HubNurseMonitor	lua/HubNurseMonitor.lua	fresh	0	required
 IcePathDoor	lua/IcePathDoor.lua	fresh	0	required
+AmbientWanderBlockers	lua/AmbientWanderBlockers.lua	fresh	0	required
 JohtoFlyTeleport	lua/JohtoFlyTeleport.lua	fresh	0	required
 JohtoHofLegendaries	lua/JohtoHofLegendaries.lua	fresh	0	required
 JohtoHofUnchosenBirdReach	lua/JohtoHofUnchosenBirdReach.lua	fresh	0	required

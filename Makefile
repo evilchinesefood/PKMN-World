@@ -473,6 +473,7 @@ validate:
 	python3 test/overworld/ValidateMetatileBounds.py
 	python3 test/overworld/ValidateBorderTerrain.py
 	python3 test/overworld/ValidateReachability.py
+	python3 test/overworld/ValidateAmbientBlockers.py
 	python3 test/overworld/GenObstacleTable.py --check
 	python3 test/overworld/SavePatch.py --check
 	python3 test/overworld/ValidateDoorAnims.py --max 0

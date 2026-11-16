@@ -130,6 +130,7 @@ is clean; keep it that way.
 | [`HubNurseMonitor.lua`](#hubnursemonitorlua) | fresh new game | World Transit hub nurse heal spawns the FRLG 32x16 monitor, not Hoenn 24x16. |
 | [`JohtoFlyTeleport.lua`](#johtoflyteleportlua) | fresh new game | Fly and Teleport land on Johto heal aprons, not Center doors. |
 | [`IcePathDoor.lua`](#icepathdoorlua) | fresh new game | Route 44's Ice Path door can be walked into: nothing stands on (68,13), its only approach tile. |
+| [`AmbientWanderBlockers.lua`](#ambientwanderblockerslua) | fresh new game | Wandering Pokemon in Ecruteak, Blackthorn, Mt. Silver and Route 26 never stand on a door, its approach tile or the Burned Tower stair corridor. |
 | [`JohtoHofLegendaries.lua`](#johtohoflegendarieslua) | fresh new game | Johto HOF rematch does not re-arm already-caught Mew/Deoxys. |
 | [`JohtoMusicPass.lua`](#johtomusicpasslua) | fresh new game | Johto outdoor maps, cycling, and Radio Tower occupation play MUS_HG_*. |
 | [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
@@ -533,6 +534,17 @@ The Ice Path door on Route 44, warp 0 at (68,12), is entered only from (68,13). 
 (object 24, flag 0) sat on that tile after the July re-pointing of static overworld Pokemon (its upstream
 tile, (68,9), is inside the cliff), sealing the only land route to Blackthorn. Arrives by debug warp,
 steps back and walks into the door. Found by `test/overworld/johto-playthrough/`.
+
+### `AmbientWanderBlockers.lua`
+
+Ecruteak's Pidgey (object 13) and Vulpix (object 14) wandered a 9x9 box that took in the one-tile
+stair corridor to the Burned Tower, (22,15) to (22,18), and the door warp at (22,14); a world campaign
+sat below the stairs for 17 plans while the Pidgey stood on the door. `ValidateAmbientBlockers.py`
+lists every scriptless moving object that can stand where it cuts the player off from an exit. This
+suite watches the four daylight cases with a warp nearby (Ecruteak's pair, Blackthorn's Dratini at
+the Ice Path entrance, Mt. Silver's Venusaur at the cave, Route 26's Charmander at house 1) for 15,000
+frames each after parking the player with real input, and fails if one stands on a cell the audit
+names. Ecruteak then walks up the stairs into the Burned Tower. 14/19 on the unfixed ROM, 19/19 fixed.
 
 ### `RedGyarados.lua`
 

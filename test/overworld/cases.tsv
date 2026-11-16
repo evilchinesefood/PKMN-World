@@ -204,3 +204,4 @@ LastBallBounceHide	lua/LastBallBounceHide.lua	fresh	0	required
 UsmDarkPopupIcons	lua/UsmDarkPopupIcons.lua	fresh	0	required
 PyramidRestUsm	lua/PyramidRestUsm.lua	fresh	0	required
 BugContestPartyLock	lua/BugContestPartyLock.lua	fresh	0	required
+DarkPopupDarkness	lua/DarkPopupDarkness.lua	fresh	0	required

@@ -9,6 +9,7 @@
 #include "battle_z_move.h"
 #include "data.h"
 #include "event_data.h"
+#include "field_specials.h"
 #include "regions.h"
 #include "frontier_util.h"
 #include "graphics.h"
@@ -180,6 +181,12 @@ const u8 *const gPokeblockWasTooXStringTable[FLAVOR_COUNT] =
 static const u8 sText_Someones[] = _("someone's");
 static const u8 sText_Lanettes[] = _("LANETTE's"); //no decapitalize until it is everywhere
 static const u8 sText_Bills[] = _("BILL's");
+static const u8 *const sPcCreatorPossessives[] =
+{
+    [PC_CREATOR_SOMEONE] = sText_Someones,
+    [PC_CREATOR_LANETTE] = sText_Lanettes,
+    [PC_CREATOR_BILL]    = sText_Bills,
+};
 static const u8 sText_EnigmaBerry[] = _("ENIGMA BERRY"); //no decapitalize until it is everywhere
 static const u8 sText_BerrySuffix[] = _(" BERRY"); //no decapitalize until it is everywhere
 const u8 gText_EmptyString3[] = _("");
@@ -2779,13 +2786,13 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
     case STRINGID_TRAINERSLIDE:
         stringPtr = gBattleStruct->trainerSlideMsg;
         break;
-    // Region merge: PC owner is Bill in Kanto, Lanette elsewhere - runtime dispatch,
-    // like B_TXT_PC_CREATOR_NAME below.
+    case STRINGID_PKMNTRANSFERREDSOMEONESPC:
     case STRINGID_PKMNTRANSFERREDLANETTESPC:
-        stringPtr = (GetCurrentRegion() == REGION_KANTO) ? gText_PkmnTransferredBillsPC : gText_PkmnTransferredLanettesPC;
+        stringPtr = GetPcTransferredText(FALSE);
         break;
+    case STRINGID_PKMNBOXSOMEONESPCFULL:
     case STRINGID_PKMNBOXLANETTESPCFULL:
-        stringPtr = (GetCurrentRegion() == REGION_KANTO) ? gText_PkmnTransferredBillsPCBoxFull : gText_PkmnTransferredLanettesPCBoxFull;
+        stringPtr = GetPcTransferredText(TRUE);
         break;
     default: // load a string from the table
         if (stringID >= STRINGID_COUNT)
@@ -3379,11 +3386,8 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 StringGet_Nickname(text);
                 toCpy = text;
                 break;
-            case B_TXT_PC_CREATOR_NAME: // lanette pc
-                if (FlagGet(FLAG_SYS_PC_LANETTE))
-                    toCpy = (GetCurrentRegion() == REGION_HOENN) ? sText_Lanettes : sText_Bills;
-                else
-                    toCpy = sText_Someones;
+            case B_TXT_PC_CREATOR_NAME:
+                toCpy = sPcCreatorPossessives[GetPcCreator()];
                 break;
             case B_TXT_ATK_PREFIX2:
                 if (IsOnPlayerSide(gBattlerAttacker))

@@ -1606,6 +1606,13 @@ static const u8 sLinkServicesMultichoiceIds[] =
     MULTI_WIRELESS_ALL_SERVICES
 };
 
+static const u8 *const sPCCreatorNames[] =
+{
+    [PC_CREATOR_SOMEONE] = gText_SomeonesPC,
+    [PC_CREATOR_LANETTE] = gText_LanettesPC,
+    [PC_CREATOR_BILL]    = gText_BillsPc,
+};
+
 static const u8 *const sPCNameStrings[] =
 {
     gText_SomeonesPC,

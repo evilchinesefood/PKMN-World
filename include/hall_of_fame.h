@@ -27,6 +27,7 @@ void CB2_DoHallOfFamePC(void);
 void HallOfFame_NormalizeLegacyEggs(void);
 u32 HallOfFame_CountTeams(void);
 void HallOfFame_AddTeam(const struct HallofFameTeam *team);
+void HallOfFame_BufferDexNumber(u8 *dst, enum Species species);
 
 // hof_pc.c
 void ReturnFromHallOfFamePC(void);

@@ -1128,44 +1128,30 @@ static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2)
     CopyWindowToVram(0, COPYWIN_FULL);
 }
 
+// Both Hall of Fame screens print a record's dex number this way.
+void HallOfFame_BufferDexNumber(u8 *dst, enum Species species)
+{
+    u32 dexNumber = SpeciesToPokedexNum(species);
+
+    dst = StringCopy(dst, gText_Number);
+    if (dexNumber == 0xFFFF)
+        StringCopy(dst, gText_ThreeQuestionMarks);
+    else
+        ConvertIntToDecimalStringN(dst, dexNumber, STR_CONV_MODE_LEADING_ZEROS, IsNationalPokedexEnabled() ? 4 : 3);
+}
+
 static void HallOfFame_PrintMonInfo(struct HallofFameMon *currMon, u8 unused1, u8 unused2)
 {
     u8 text[max(32, POKEMON_NAME_LENGTH + 1)];
     u8 *stringPtr;
-    s32 dexNumber;
     s32 width;
 
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     PutWindowTilemap(0);
 
-    // dex number
     if (currMon->species != SPECIES_EGG)
     {
-        stringPtr = StringCopy(text, gText_Number);
-        dexNumber = SpeciesToPokedexNum(currMon->species);
-        if (dexNumber != 0xFFFF)
-        {
-            if (IsNationalPokedexEnabled())
-            {
-                stringPtr[0] = (dexNumber / 1000) + CHAR_0;
-                stringPtr++;
-                dexNumber %= 1000;
-            }
-            stringPtr[0] = (dexNumber / 100) + CHAR_0;
-            stringPtr++;
-            dexNumber %= 100;
-            stringPtr[0] = (dexNumber / 10) + CHAR_0;
-            stringPtr++;
-            stringPtr[0] = (dexNumber % 10) + CHAR_0;
-            stringPtr++;
-        }
-        else
-        {
-            *(stringPtr)++ = CHAR_QUESTION_MARK;
-            *(stringPtr)++ = CHAR_QUESTION_MARK;
-            *(stringPtr)++ = CHAR_QUESTION_MARK;
-        }
-        stringPtr[0] = EOS;
+        HallOfFame_BufferDexNumber(text, currMon->species);
         AddTextPrinterParameterized3(0, FONT_NORMAL, 0x10, 1, sMonInfoTextColors, TEXT_SKIP_DRAW, text);
     }
 

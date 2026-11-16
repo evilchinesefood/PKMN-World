@@ -19,7 +19,7 @@ Worth knowing up front, because the upstream feature list advertises all of it:
 | Every Gen 4–9 Pokémon family (339 of them) | `include/config/species_enabled.h` |
 | Dynamax, Gigantamax, Terastallization | `species_enabled.h` (`P_GIGANTAMAX_FORMS`, `P_TERA_FORMS`) |
 | Link-era features: Mystery Gift/Event, Wonder News, e-Reader, Union Room, wireless chat, record mixing, Cable Club | `include/config/link.h` — compiled out entirely |
-| The quest / mission-log engine (never had content authored) | `include/config/quests.h` — compiled out, ~26 KB reclaimed |
+| The quest / mission-log engine (never had content authored) | removed from the source on 2026-11-16 (was compiled out, ~26 KB reclaimed) |
 | NPC followers (the "follow me" partner system) | `include/config/follower_npc.h` |
 | XY berry mechanics: mutations, moisture, weeds, pests | `include/config/overworld.h` |
 | Defog and Rock Climb as field moves | `include/config/overworld.h` |
@@ -306,8 +306,7 @@ on:
   existing regional script state supplies the reminders without new save fields.
   Coverage and controls: [`docs/story-progress/README.md`](docs/story-progress/README.md).
 - **Pokémon World title screen** — native logo, island panorama and centered
-  PRESS START. SELECT no longer skips to a new game (`ENABLE_QUICKSTART` is
-  `FALSE` in `include/config/quickstart.h`). Branding source and exporter live
+  PRESS START. SELECT no longer skips to a new game (the quickstart code was removed). Branding source and exporter live
   under `graphics/branding/` and `tools/export-world-title.mjs`.
 - **World Panels** — Main Menu, Options and Relearn Moves share light moving
   diagonal backgrounds, white panels and red headers. Main Menu save details

@@ -117,6 +117,7 @@ is clean; keep it that way.
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
+| [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2480,3 +2481,11 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `GoldenrodPrizeClerk.lua`
+
+Goldenrod Game Corner's Pokemon prize clerk, which no suite drove. Without a Coin Case she ran
+Mauville's coin-desk refusal ("Okay, you wanted some COINS for the games?..."), while her own
+"Oh? You don't have a COIN CASE." sat unused. With real input the suite asks her with no Coin Case,
+then with one: 0 and 119 coins must refuse Abra and keep the coins, exactly 120 must buy it, a NO at
+"is what you want?" must charge nothing, and with a full party a Dratini must cost 5,500 and go to
+box 1 with the PC notice. **28/30** on the unfixed ROM, **30/30** with the fix.

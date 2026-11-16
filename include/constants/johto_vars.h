@@ -81,4 +81,8 @@
 // === Johto Pokemon League (region merge) — Elite Four gauntlet progress state ===
 #define VAR_LEAGUE_STATE               VAR_JOHTO_SLICE(0x3b)
 
+// === Ruins of Alph lab — its own fossil regenerator, apart from Devon's VAR_FOSSIL_* pair ===
+#define VAR_ALPH_FOSSIL_STATE          VAR_JOHTO_SLICE(0x3c)
+#define VAR_ALPH_WHICH_FOSSIL          VAR_JOHTO_SLICE(0x3d)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

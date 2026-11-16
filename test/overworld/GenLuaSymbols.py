@@ -65,6 +65,8 @@ WANT = [
     # tell "the box is up and waiting for A" apart from "the box never appeared", since the whole
     # thing is drawn straight to VRAM and leaves no other observable.
     "gLevelUpStartLevels", "sLevelUpSummaryState",
+    # FrontierFacilityStress.lua: the Battle Factory rental and swap screens and the Dome tourney tree.
+    "CB2_SelectScreen", "Swap_CB2", "CB2_TourneyTree",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",

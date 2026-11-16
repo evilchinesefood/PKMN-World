@@ -5922,6 +5922,15 @@ static u8 GetOpposingNPCTournamentIdByRound(u8 tournamentId, u8 round)
         return tournamentIds[0];
 }
 
+// The Frontier Brain, and RED in a World Championship, must reach the final against the player,
+// so they win every NPC match on the way there.
+static bool32 AlwaysWinsNPCMatches(u16 trainerId)
+{
+    if (trainerId == TRAINER_FRONTIER_BRAIN)
+        return TRUE;
+    return trainerId == FRONTIER_TRAINER_WC_RED && VarGet(VAR_WORLD_CHAMPIONSHIP_MODE);
+}
+
 // Determines which trainers won in the NPC vs NPC battles
 static void DecideRoundWinners(u8 roundId)
 {
@@ -5939,14 +5948,14 @@ static void DecideRoundWinners(u8 roundId)
         tournamentId1 = i;
         tournamentId2 = TournamentIdOfOpponent(roundId, DOME_TRAINERS[tournamentId1].trainerId);
         // Frontier Brain always wins, check tournamentId1.
-        if (DOME_TRAINERS[tournamentId1].trainerId == TRAINER_FRONTIER_BRAIN && tournamentId2 != 0xFF)
+        if (AlwaysWinsNPCMatches(DOME_TRAINERS[tournamentId1].trainerId) && tournamentId2 != 0xFF)
         {
             DOME_TRAINERS[tournamentId2].isEliminated = TRUE;
             DOME_TRAINERS[tournamentId2].eliminatedAt = roundId;
             gSaveBlock2Ptr->frontier.domeWinningMoves[tournamentId2] = GetWinningMove(tournamentId1, tournamentId2, roundId);
         }
         // Frontier Brain always wins, check tournamentId2.
-        else if (tournamentId2 != 0xFF && DOME_TRAINERS[tournamentId2].trainerId == TRAINER_FRONTIER_BRAIN && tournamentId1 != 0xFF)
+        else if (tournamentId2 != 0xFF && AlwaysWinsNPCMatches(DOME_TRAINERS[tournamentId2].trainerId) && tournamentId1 != 0xFF)
         {
             DOME_TRAINERS[tournamentId1].isEliminated = TRUE;
             DOME_TRAINERS[tournamentId1].eliminatedAt = roundId;

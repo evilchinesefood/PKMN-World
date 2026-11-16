@@ -2,8 +2,8 @@
 -- bike), try to get off with Select (FRLG refuses on the road), ride down onto Route 17, where the
 -- slope carries the bike to its foot, save there from the Start menu, soft reset and continue.
 -- After Continue the player must be on the same tile, still on the bike, with the same music and
--- control. The Hub Pass then leaves the road, and the road's flag must be cleared with the rest of
--- Fly's field state.
+-- control. The Hub Pass then leaves the road, and the road's flag and Route 16's scene must be cleared
+-- with the rest of Fly's field state, or Routes 16 and 18 put the player back on the road next visit.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/CyclingRoadSaveContinue.lua <rom>
 
@@ -17,6 +17,7 @@ local GATE, ROUTE16, ROUTE17 = { 59, 1 }, { 37, 34 }, { 37, 35 }
 local ITEM_BICYCLE = 706
 local ITEM_HUB_PASS = 893
 local FLAG_SYS_ON_CYCLING_ROAD = 0xDC6
+local VAR_MAP_SCENE_ROUTE16 = 0xA037
 local FLAG_GOT_BICYCLE = 0xA40 + 0x271
 local MUS_RG_CYCLING = 494
 local AVATAR_BIKE = 0x02 | 0x04
@@ -27,6 +28,7 @@ local CONTEXT_RUNNING = 0
 local function where() local x, y = F.pos(); return string.format("%d/%d (%d,%d)", F.grp(), F.mapn(), x, y) end
 local function mapIs(m) return F.grp() == m[1] and F.mapn() == m[2] end
 local function flagGet(id) return (F.r8(F.sb1() + S.SaveBlock1.flags + id // 8) >> (id % 8)) & 1 == 1 end
+local function sceneRoute16() return F.r16(F.sb3() + S.SaveBlock3.regionVars + (VAR_MAP_SCENE_ROUTE16 - 0xA000) * 2) end
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
 local function warp(g, m, w, tag)
   local gh, gt, go = d(g)
@@ -131,6 +133,7 @@ F.run(function()
   F.press("Left", 30)
   for _ = 1, 300 do if mapIs(ROUTE16) and hasControl() then break end; F.idle(1) end
   F.check("route16: out on the Cycling Road", mapIs(ROUTE16), where())
+  F.check("route16: the gate set Route 16's Cycling Road scene", sceneRoute16() == 1, "scene=" .. sceneRoute16())
   F.idle(60)
   F.check("route16: the gate put the player on the bike", onBike(), string.format("avatar=%02X", F.r8(S.gPlayerAvatar)))
   F.check("route16: the cycling music plays", waitSong(MUS_RG_CYCLING), "song=" .. playingSong())
@@ -190,5 +193,6 @@ F.run(function()
   for _ = 1, 400 do if mapIs(HUB) and hasControl() then break end; F.idle(1) end
   F.check("hub: the Hub Pass left the road", mapIs(HUB), where())
   F.check("hub: the Cycling Road flag is cleared", not flagGet(FLAG_SYS_ON_CYCLING_ROAD))
+  F.check("hub: Routes 16 and 18 no longer re-arm the road", sceneRoute16() == 0, "scene=" .. sceneRoute16())
   F.finish()
 end)

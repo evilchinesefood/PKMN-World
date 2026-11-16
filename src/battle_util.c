@@ -9835,44 +9835,34 @@ bool32 IsSleepClauseEnabled(void)
     return FALSE;
 }
 
+#if !TESTING
+// A trainer's half-team setting comes from the same difficulty entry its party does, so a tier
+// with no party of its own falls back to Normal here too.
+static bool32 IsHalfTeamTrainer(u16 trainerId)
+{
+    return gTrainers[GetTrainerDifficultyLevel(trainerId)][trainerId].multiTeamSize == MULTI_TEAM_SIZE_HALF;
+}
+#endif
+
 bool32 AreMultiPartiesFullTeams(void)
 {
 #if TESTING
     u8 *partySizes = gBattleTestRunnerState->data.partySizes;
-    bool32 fullTeam = FALSE;
 
     if (partySizes[B_TRAINER_PLAYER] && partySizes[B_TRAINER_PARTNER]
         && (partySizes[B_TRAINER_PLAYER] > MULTI_PARTY_SIZE || partySizes[B_TRAINER_PARTNER] > MULTI_PARTY_SIZE))
-    {
-        fullTeam = TRUE;
-    }
+        return TRUE;
     if (partySizes[B_TRAINER_OPPONENT_A] && partySizes[B_TRAINER_OPPONENT_B]
         && (partySizes[B_TRAINER_OPPONENT_A] > MULTI_PARTY_SIZE || partySizes[B_TRAINER_OPPONENT_B] > MULTI_PARTY_SIZE))
-    {
-        fullTeam = TRUE;
-    }
-
-    if (!fullTeam)
-    {
-        gSpecialVar_Result = FALSE;
-        return FALSE;
-    }
+        return TRUE;
+    return FALSE;
 #else
-    enum DifficultyLevel difficulty = GetCurrentDifficultyLevel();
-
-    if (B_MULTI_HALF_TEAMS
-     || TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
-     || gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI
-     || (gTrainers[difficulty][TRAINER_BATTLE_PARAM.opponentA].multiTeamSize == MULTI_TEAM_SIZE_HALF)
-     || (gTrainers[difficulty][TRAINER_BATTLE_PARAM.opponentB].multiTeamSize == MULTI_TEAM_SIZE_HALF))
-    {
-        gSpecialVar_Result = FALSE;
-        return FALSE;
-    }
+    return !(B_MULTI_HALF_TEAMS
+          || TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
+          || gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI
+          || IsHalfTeamTrainer(TRAINER_BATTLE_PARAM.opponentA)
+          || IsHalfTeamTrainer(TRAINER_BATTLE_PARAM.opponentB));
 #endif
-
-    gSpecialVar_Result = TRUE;
-    return TRUE;
 }
 
 void ClearDamageCalcResults(void)

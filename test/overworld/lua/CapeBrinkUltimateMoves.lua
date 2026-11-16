@@ -5,7 +5,9 @@
 -- showed the starter NOT ABLE: the tutor offered the move and could not teach it. Setup turns the
 -- debug party's lead into each starter at 255 friendship with three moves (the state a
 -- fully-raised starter brings); the talk, both Yes answers and the party pick are real input.
--- Oracle: the lead knows the ultimate move afterwards and its tutor flag is set.
+-- Oracle: the lead knows the ultimate move afterwards and its tutor flag is set. Every tutor is
+-- reusable, so a fourth talk after all three moves must teach Frenzy Plant to a Venusaur again; the
+-- one-time tutor said he felt rejuvenated and taught nothing.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
@@ -16,6 +18,7 @@ local CASES = {
   { name = "Venusaur", species = 3, move = 338, flag = 0xA40 + 0x2DE },
   { name = "Charizard", species = 6, move = 307, flag = 0xA40 + 0x2DF },
   { name = "Blastoise", species = 9, move = 308, flag = 0xA40 + 0x2E0 },
+  { name = "VenusaurAgain", species = 3, move = 338, flag = 0xA40 + 0x2DE },
 }
 local CONTEXT_SHUTDOWN = 2
 

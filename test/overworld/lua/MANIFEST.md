@@ -2784,7 +2784,9 @@ never tutor moves, no teachable learnset held them, and the party menu showed th
 The suite turns the debug party's lead into each starter at 255 friendship with three moves, then
 the talk, both Yes answers and the party pick are real input. **Oracle:** the lead knows the
 ultimate move afterwards and the tutor's flag is set. **Discrimination:** unfixed 3/12 (all three
-refused as not compatible), fixed 12/12.
+refused as not compatible), fixed 12/12. Every tutor later became reusable, so a fourth case talks to
+him again after all three moves and expects Frenzy Plant on a Venusaur again: one-time tutor 15/16
+(he said he felt rejuvenated and taught nothing), reusable 16/16.
 ### `OddSaveSpots.lua`
 
 Save and Continue on spots `ContinueOddMoments`, `TravelSaveContinue` and `CyclingRoadSaveContinue`

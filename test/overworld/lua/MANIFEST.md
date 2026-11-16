@@ -2861,3 +2861,14 @@ Toss tutor twice with real input, answering YES to every Yes/No box and picking 
 second time. **Oracle:** each visit raises exactly one Yes/No box (`Task_HandleYesNoInput` going
 live) before the party menu, and both Mew learn Seismic Toss. **Discrimination:** unfixed 7/9
 (`boxes=2` on both visits; the screenshots show the warning), fixed 9/9.
+### `TmAdviceReusable.lua`
+
+TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,
+yet three explanations still called a TM single-use: Brock's TM39 speech ("A TM is good for only one
+use"), Roxanne's Rock Tomb speech ("a TM can be used only once") and the Route 104 boy who gives
+the Bullet Seed TM ("good only for one-time use ... Once you use it, it's gone."). All three now say
+a TM never wears out. The suite drives the Route 104 boy with real input: the first talk gives the
+TM, the second prints his advice. **Oracle:** the advice, decoded from `gStringVar4` (where the field
+message is expanded), names the TECHNICAL MACHINE and neither calls it one-time nor says it is gone.
+**Discrimination:** unfixed 4/6 (the old line quoted in both failures), fixed 6/6. Brock's and
+Roxanne's new lines were rendered with an injected `msgbox` and checked by eye for fit.

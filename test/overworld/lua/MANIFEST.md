@@ -2480,3 +2480,14 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `StarterIndexPerRegion.lua`
+
+Oak's lab, Elm's lab and Birch's bag all wrote one shared `VAR_STARTER_MON`, and each region's rival
+scripts read it, so a starter chosen in a second region changed the first region's rival team. The
+suite takes Charmander in Oak's lab (Blue takes the Squirtle ball in front of the player), leaves by
+Hub Pass before Blue's lab battle, plays Elm's intro and takes Cyndaquil, then crosses back: the
+Kanto gate returns to the lab and Blue's trigger starts the battle. **Oracle:** the lead of Blue's
+battle party (`gParties[B_TRAINER_OPPONENT_A][0]`, decrypted) is Squirtle (7). Setup is two debug
+warps (Pallet Town, Elm's lab); the gate crossings, Oak's trigger, Elm's intro, both ball picks, the
+Hub Pass and Blue's trigger are real input. **Discrimination:** unfixed 21/22 (Blue leads with
+Bulbasaur, the team for a Squirtle player, because the Cyndaquil pick wrote 1), fixed 22/22.

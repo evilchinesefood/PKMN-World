@@ -2471,3 +2471,12 @@ Pokeblock case is put in the bag), walks until the step counter moves, requires 
 Start menu offers no SAVE, then soft resets: Continue must land on the entrance save with Safari mode
 off and no Safari Balls. Measured **111/111**; no defect found. `--env PW_LOBBY_ONLY=<text>` runs
 matching cases.
+### `MoneyCapPayouts.lua`
+
+Money payouts at the 999,999 cap that `EconomyStress` and `MoneySinkEdges` do not reach. The Lake
+of Rage fisherman (after the Rocket event; talk, Yes and the party pick are real input) pays 100,000
+for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payout must stop at
+999,999, and at 999,999 both must leave it there, with the money box drawing all six digits
+(screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
+999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
+81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.

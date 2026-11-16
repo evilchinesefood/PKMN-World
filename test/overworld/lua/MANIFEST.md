@@ -2480,3 +2480,16 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+
+### `TrainerDoubleBallRefund.lua`
+
+Cancelling the left Pokemon's Bag choice with B on the right Pokemon's action menu must give back
+only what the Bag took. A trainer double comes from the debug Trainers menu (Trainer 1 + Trainer 2,
+one Pokemon each) with two createmon Mewtwo. Turn 1 is real input (Psychic and Splash) so one foe
+faints and a ball may be thrown. Then three rounds of BAG, Balls pocket, Poke Ball, USE, and B on the
+right Pokemon's menu: the ball count must not change. Controls: a Potion on the hurt left Pokemon is
+taken and the cancel gives it back, and a ball thrown for real is blocked by the trainer and stays in
+the Bag. Before the fix the refund in `HandleInputChooseAction` added any consumable item back, but a
+ball aimed at a trainer's Pokemon is never taken (`B_TRY_CATCH_TRAINER_BALL`), so each round made a
+ball (Master Balls too): **26/27** on the unfixed ROM (10 balls became 11, 12, 13), **27/27** with
+the fix. `IsBattleItemTakenFromBag` (`src/item_use.c`) is now the one rule for taking and refunding.

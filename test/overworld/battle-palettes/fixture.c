@@ -77,6 +77,46 @@ void VisualFeatureFixture(void)
         SetWarpDestination(MAP_GROUP(MAP_ICE_PATH_1F), MAP_NUM(MAP_ICE_PATH_1F), WARP_ID_NONE, 19, 24);
         DoWarp();
         break;
+    case 207:
+    {
+        // One standing tile per battle background. Tile-selected rows stand on that tile type;
+        // scene-selected rows stand inside a map whose battle_scene picks the background.
+        static const struct { u16 map; s16 x, y; } backgrounds[] = {
+            {MAP_ROUTE101, 11, 10},                              // tall grass
+            {MAP_ROUTE119, 36, 117},                             // long grass
+            {MAP_ROUTE113, 41, 13},                              // sand
+            {MAP_ROUTE124, 68, 39},                              // deep water
+            {MAP_ROUTE102, 45, 4},                               // pond
+            {MAP_UNDERWATER_ROUTE124, 9, 42},                    // underwater
+            {MAP_ROUTE114, 5, 61},                               // mountain
+            {MAP_GRANITE_CAVE_1F, 37, 11},                       // cave
+            {MAP_ROUTE101, 9, 9},                                // plain
+            {MAP_OLDALE_TOWN_POKEMON_CENTER_1F, 7, 8},           // building
+            {MAP_POWER_PLANT, 4, 38},                            // FRLG indoor scene (not Pokemon Tower: its ghost battles redraw the field)
+            {MAP_RUSTBORO_CITY_GYM, 5, 19},                      // Hoenn Gym
+            {MAP_VIOLET_CITY_GYM, 9, 19},                        // Johto Gym
+            {MAP_AQUA_HIDEOUT_1F, 13, 27},                       // Aqua
+            {MAP_BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM, 5, 8},// Frontier
+            {MAP_EVER_GRANDE_CITY_SIDNEYS_ROOM, 6, 13},
+            {MAP_EVER_GRANDE_CITY_PHOEBES_ROOM, 6, 13},
+            {MAP_EVER_GRANDE_CITY_GLACIAS_ROOM, 6, 13},
+            {MAP_EVER_GRANDE_CITY_DRAKES_ROOM, 6, 13},
+            {MAP_POKEMON_LEAGUE_LORELEIS_ROOM, 6, 12},
+            {MAP_POKEMON_LEAGUE_BRUNOS_ROOM, 6, 12},
+            {MAP_POKEMON_LEAGUE_AGATHAS_ROOM, 6, 12},
+            {MAP_POKEMON_LEAGUE_LANCES_ROOM, 23, 13},
+            {MAP_JOHTO_POKEMON_LEAGUE_WILLS_ROOM, 6, 12},
+            {MAP_JOHTO_POKEMON_LEAGUE_KOGAS_ROOM, 6, 2},
+            {MAP_JOHTO_POKEMON_LEAGUE_BRUNOS_ROOM, 6, 12},
+            {MAP_JOHTO_POKEMON_LEAGUE_KARENS_ROOM, 6, 12},
+        };
+        if (arg >= ARRAY_COUNT(backgrounds))
+            break;
+        gIsDebugBattle = FALSE;
+        SetWarpDestination(MAP_GROUP(backgrounds[arg].map), MAP_NUM(backgrounds[arg].map), WARP_ID_NONE, backgrounds[arg].x, backgrounds[arg].y);
+        DoWarp();
+        break;
+    }
     case 251:
     {
         // Probe the actual restoration entry points, including all palette banks.

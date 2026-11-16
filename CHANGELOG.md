@@ -18,7 +18,7 @@ All notable player-facing changes. For the full feature reference see
 
 ### Battles
 
-- **New battle backgrounds.** Every battlefield now uses RavePossum's Vanilla+ set: Gen 4 style platforms over the Gen 3 backdrops, for grass, sand, water, caves, mountains, buildings, Gyms, the Elite Four and the legendary battles. Ice Path and snowy Mt. Silver keep their cold colors, and outdoor battles still follow the time of day. Gym Leaders now battle on the stadium floor, and Team Aqua and Team Magma on a tinted building floor.
+- **New battle backgrounds.** Every battlefield now uses RavePossum's Vanilla+ set: Gen 4 style platforms over the Gen 3 backdrops, for grass, sand, water, caves, mountains, buildings, Gyms, the Elite Four and the legendary battles. Ice Path and snowy Mt. Silver keep their cold colors, and outdoor battles still follow the time of day. Gym Leaders now battle on the stadium floor, and Team Aqua and Team Magma on a tinted building floor. The Kanto and Johto Elite Four rooms now use the colored stadium floors, and Johto Gyms use the Gym floor; they used the plain building floor before.
 
 ### Regional travel
 

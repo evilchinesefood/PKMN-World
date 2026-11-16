@@ -40,6 +40,7 @@ CHECKS = (
     ("ScanInputChords.py", "--check"),
     ("ValidateEllipsis.py",),
     ("ValidateConfigRules.py",),
+    ("ValidateBattleScenes.py",),
 )
 
 

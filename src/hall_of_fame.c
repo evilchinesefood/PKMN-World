@@ -37,7 +37,6 @@
 #include "confetti_util.h"
 #include "constants/rgb.h"
 
-#define HALL_OF_FAME_MAX_TEAMS 30
 #define TAG_CONFETTI 1001
 
 STATIC_ASSERT(sizeof(struct HallofFameTeam) * HALL_OF_FAME_MAX_TEAMS <= SECTOR_DATA_SIZE * NUM_HOF_SECTORS, HallOfFameFreeSpace);
@@ -486,7 +485,7 @@ void HallOfFame_NormalizeLegacyEggs(void)
 {
     u32 i, j;
 
-    // The FRLG screens keep more teams in the same buffer, so cover all of it.
+    // Cover the whole buffer, past HALL_OF_FAME_MAX_TEAMS.
     for (i = 0; i < SECTOR_DATA_SIZE * NUM_HOF_SECTORS / sizeof(struct HallofFameTeam); i++)
     {
         for (j = 0; j < PARTY_SIZE; j++)

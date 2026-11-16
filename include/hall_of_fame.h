@@ -16,6 +16,10 @@ struct HallofFameTeam
     struct HallofFameMon mon[PARTY_SIZE];
 };
 
+// Kanto (hall_of_fame_frlg.c) and Hoenn and Johto (hall_of_fame.c) record into and view the same
+// save sectors, so they must agree on how many teams those sectors hold.
+#define HALL_OF_FAME_MAX_TEAMS 50
+
 extern struct HallofFameTeam *gHoFSaveBuffer;
 
 void CB2_DoHallOfFameScreen(void);

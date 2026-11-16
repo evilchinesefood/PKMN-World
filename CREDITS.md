@@ -215,6 +215,17 @@ menu, message/name box, and the Gen 8 map-name popup (the `GEN_8` arm of
 - Built on **RHH/pokeemerald-expansion** and **pret/pokeemerald**; their credits and inherited source/asset notices remain in place.
 - The pinned donor tree has **no explicit standalone license found** for this component. The author's [public feature listing](https://github.com/TeamAquasHideout/Team-Aquas-Asset-Repo/wiki/Feature-Branches#bw-battle-ui) documents its provenance; no blanket MIT/CC license is claimed.
 
+### Vanilla+ battle backgrounds — RavePossum and Ruki
+Every battle background under `graphics/battle_environment` (grass, long grass, sand, water,
+pond, underwater, rock, cave, sky, building, plain and stadium, with their gym, team, Elite
+Four, Frontier and legendary palettes) is **RavePossum's Vanilla+ Battle Backgrounds**, taken
+from the [Team Aqua's Hideout asset repo](https://github.com/TeamAquasHideout/Team-Aquas-Asset-Repo/tree/main/Battle%20Backgrounds/RavePossum)
+at commit `3e06f6f9`.
+
+- **RavePossum** — the Vanilla+ set, which fits Gen 4 style battle platforms to the Gen 3 backgrounds.
+- **Ruki** (also Gold, Overlord Kaktus) — the HGSS and DPPt battle background ports the set is built from.
+- The Ice Path and snowy Mt. Silver palettes are recolors of the cave and rock art made for this project.
+
 ### Ambient pond ripples — OriginalGRE inspiration
 
 - **[OriginalGRE](https://github.com/OriginalGRE/pokeemerald-expansion/tree/ambient_pond_ripples)** — behavioral inspiration for occasional rings on still ponds and rainy puddles.

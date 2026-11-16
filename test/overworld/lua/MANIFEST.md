@@ -2614,3 +2614,15 @@ base map in front of its PC (25/2, 25/16, 25/17), and the live map grid must sho
 indent open while the base is there and closed after the move, and the Route 110 vines gone. Talks,
 YES answers and the PC menus are real input; the warps are debug warps. Coverage, no defect found:
 **23/23**.
+### `SeafoamCurrents.lua`
+
+Seafoam Islands' falls and currents (FRLG), which no campaign beat or suite reached before. The
+player passes Route 20 (whose map script resets the boulder puzzle), then each case writes only the
+boulder hide flags the falls leave and warps next to a hole; the step into the hole and everything
+after it are real input and the maps' own scripts, with a seeded mash of every button but the
+soft-reset chord through each fall and ride (`PW_SEAFOAM_SEED=<n>`). **B2F hole, current running:**
+the fall lands on B3F water and the current carries the player into B4F on Surf, where control
+returns in the east pool. **B2F hole, both B3F boulders in:** B3F records the stopped current and
+the player stays afloat with control. **B3F hole, current running:** the B4F current carries the
+player to the stairs and puts them ashore. **B3F hole, both B4F boulders in:** B4F records the
+stopped current and the player stays afloat. Measured **19/19** with seeds 7 and 99; no defect found.

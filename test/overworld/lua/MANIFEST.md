@@ -2480,3 +2480,16 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `OddSaveSpots.lua`
+
+Save and Continue on spots `ContinueOddMoments`, `TravelSaveContinue` and `CyclingRoadSaveContinue`
+do not stand on: the middle of Route 119's bridge over the river, on foot (soft reset) and riding
+the Mach Bike with the cycling music playing (power cut); Cianwood City in the rain; and the
+Sootopolis Gym's first ice field with three tiles cracked. Each case walks there with real input
+from a debug warp onto a door (the Route 119 Aqua grunts and rival are hidden, as after the
+Weather Institute), saves from the Start menu, and continues. The map, tile, facing, the player's
+elevation (4 on the bridge) and avatar flags, the playing song, the weather, the follower, the
+cracked ice metatiles and the `VAR_TEMP_8`..`A` ice rows must come back, and the player must move
+on: off the bridge both ways but not down into the river, riding across and dismounting, and onto
+the next ice tile. Measured **57/57**; no defect found. `--env PW_OSS_ONLY=<text>` runs matching
+cases.

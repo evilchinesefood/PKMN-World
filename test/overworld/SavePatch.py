@@ -218,7 +218,7 @@ DELETED_TWINS = [(V['MAP.goldenrod7F.group'], V['MAP.goldenrod7F.num']),
 MOVED_HEALS = [
     (V['MAP.violet.group'], V['MAP.violet.num'], 30, 18, 39, 46),   # Sprout Tower door -> PokeCenter
     (V['MAP.route32.group'], V['MAP.route32.num'], 9, 40, 25, 85),
-    # Moved after v9 shipped (6fb180ccbd); the game repairs these on every older-version load.
+    # Moved after v9 shipped (6fb180ccbd); the game repairs these on every load.
     (V['MAP.azalea.group'], V['MAP.azalea.num'], 31, 15, 31, 16),
     (V['MAP.goldenrod.group'], V['MAP.goldenrod.num'], 28, 36, 28, 37),
     (V['MAP.safariGate.group'], V['MAP.safariGate.num'], 11, 15, 11, 16),
@@ -734,6 +734,16 @@ def migrate(sv):
         raise SystemExit(f'saveVersion {ver} is NEWER than this tree ({SAVE_FORMAT_VERSION}); '
                          'refusing to downgrade a save a later build wrote')
 
+    # Every load, like MigrateMovedHealLocations(): three moves landed after v9 and the repair
+    # after v12, so a current-version save can still hold an old door tile.
+    o = V['SB1.lastHealLocation']
+    hg, hm, _, hx, hy = sv.warp('lastHealLocation')
+    for g, m, ox, oy, nx, ny in MOVED_HEALS:
+        if (hg, hm, hx, hy) == (g, m, ox, oy):
+            struct.pack_into('<hh', sv.sb1, o + 4, nx, ny)
+            log.append(f'v{ver} lastHealLocation {g}/{m} ({ox},{oy}) -> ({nx},{ny})')
+            break
+
     if ver == SAVE_FORMAT_VERSION:
         log.append(f'saveVersion already {ver}: ladder is a no-op')
     else:
@@ -766,15 +776,6 @@ def migrate(sv):
                 if nm != m:
                     sv.sb1[o + V['OBJ.mapNum']] = nm
                     log.append(f'v8->v9 objectEvents[{i}] {g}/{m} -> {g}/{nm}')
-
-        # Every older version, like MigrateMovedHealLocations(): three moves landed after v9.
-        o = V['SB1.lastHealLocation']
-        hg, hm, _, hx, hy = sv.warp('lastHealLocation')
-        for g, m, ox, oy, nx, ny in MOVED_HEALS:
-            if (hg, hm, hx, hy) == (g, m, ox, oy):
-                struct.pack_into('<hh', sv.sb1, o + 4, nx, ny)
-                log.append(f'v{ver} lastHealLocation {g}/{m} ({ox},{oy}) -> ({nx},{ny})')
-                break
 
         # v9 -> v10: clear a stale forced-TRUE hoennIntroDone (issue #195). Mirrors the step in
         # src/load_save.c exactly; if the two ever disagree, a save patched here loads with the

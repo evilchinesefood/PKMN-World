@@ -298,7 +298,13 @@ void MigrateSaveFormatIfNeeded(void)
 {
     u8 savedVersion = gSaveBlock2Ptr->saveVersion;
 
-    // Current or newer format: leave untouched (don't rewrite fields an older binary can't read).
+    // Idempotent (only the old coordinate pairs match), so it runs on every load, current saves
+    // included. The Azalea, Goldenrod and Safari Zone Gate moves landed after v9 shipped and the
+    // repair landed after v12 did, so a v12 save written by a build without it can still hold the
+    // old door tile. save.c refuses a newer save before calling this, so nothing newer reaches it.
+    MigrateMovedHealLocations();
+
+    // Current format: leave the ladder alone.
     if (savedVersion >= SAVE_FORMAT_VERSION)
         return;
 
@@ -374,14 +380,12 @@ void MigrateSaveFormatIfNeeded(void)
         memset(gSaveBlock3Ptr->region.johtoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->region.johtoTrainerFlags));
 
     // v8 -> v9 also DELETED two dead day/night twin maps (issue #51) and MOVED two Johto heal
-    // coordinates. Both renumber/repoint state that is PERSISTED, so they need fixing up in the
-    // save, not just in the data. Issue #51 accepted a save reset for this; migrating is strictly
-    // better and is what keeps a mid-playthrough save loadable.
+    // coordinates (repointed by MigrateMovedHealLocations at the top). Both renumber/repoint state
+    // that is PERSISTED, so they need fixing up in the save, not just in the data. Issue #51
+    // accepted a save reset for this; migrating is strictly better and is what keeps a
+    // mid-playthrough save loadable.
     if (savedVersion < 9)
         MigrateDeletedTwinMaps();
-    // Idempotent (only old coordinate pairs match), and run for every older save: the Azalea,
-    // Goldenrod and Safari Zone Gate moves landed after v9 shipped, so v9-v11 saves can hold them.
-    MigrateMovedHealLocations();
 
     // v9 -> v10: issue #195. Clear the stale forced-TRUE hoennIntroDone on a save that has never
     // actually played Hoenn's intro, so the hub sends it to the Littleroot bedroom instead of

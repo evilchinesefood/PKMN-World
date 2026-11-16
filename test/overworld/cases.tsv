@@ -257,3 +257,4 @@ BikeShopsAcrossRegions	lua/BikeShopsAcrossRegions.lua	fresh	0	required
 CyclingRoadAnyBike	lua/CyclingRoadAnyBike.lua	fresh	0	required
 PokegearKeepsHoennPokenav	lua/PokegearKeepsHoennPokenav.lua	fresh	0	required
 SkyCharmMahoganySetup	lua/SkyCharmMahoganySetup.lua	fresh	0	required
+LotteryCountersPerRegion	lua/LotteryCountersPerRegion.lua	fresh	0	required

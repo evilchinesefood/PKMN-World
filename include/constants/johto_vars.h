@@ -89,4 +89,8 @@
 // and Kanto VAR_STARTER_MON_FRLG, so a starter chosen in one region never re-picks another's rival.
 #define VAR_STARTER_MON_JOHTO          VAR_JOHTO_SLICE(0x3e)
 
+// === Goldenrod Radio Tower lottery: a prize held for a full Bag (Lilycove keeps its own pair) ===
+#define VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM   VAR_JOHTO_SLICE(0x60)
+#define VAR_RADIO_TOWER_POKELOT_PRIZE_PLACE  VAR_JOHTO_SLICE(0x61)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

@@ -2944,3 +2944,12 @@ Rage. **Oracle:** `VAR_MAHOGANY_TOWN_STATE` reaches 1, `FLAG_VISITED_MAHOGANY_TO
 `FLAG_HIDE_LAKE_OF_RAGE_LANCE` and `FLAG_HIDE_DRAGONS_DEN_CAVERN_LANCE` are set, `VAR_BLACKTHORN_CITY_STATE`
 reaches 1, and no object stands on Lance's tiles (30,37)/(31,37). **Discrimination:** unfixed 6/12
 (state 0, Lance and his Dragonite spawned at the lake), fixed 12/12.
+
+### `LotteryCountersPerRegion.lua`
+
+The Goldenrod Radio Tower lottery reused Lilycove's `FLAG_DAILY_PICKED_LOTO_TICKET` and its held-prize
+vars `VAR_POKELOT_PRIZE_ITEM`/`_PLACE`, so a draw in one region closed the other counter for the day
+and a prize held for a full Bag in one was handed out by the other. The suite talks to the Radio Tower
+clerk and draws (Yes), then talks to the Lilycove clerk. **Oracle:** the Radio Tower draw leaves
+Lilycove's flag clear, and the Lilycove clerk still offers a draw (a Yes/No prompt appears) and records
+it. **Discrimination:** unfixed 6/8 (Lilycove answers "come back tomorrow"), fixed 8/8.

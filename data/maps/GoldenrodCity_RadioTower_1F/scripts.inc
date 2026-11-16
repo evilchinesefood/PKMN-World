@@ -295,11 +295,11 @@ GoldenrodCity_RadioTower_1F_EventScript_LotteryClerk::
 	lock
 	faceplayer
 	dotimebasedevents
-	goto_if_ne VAR_POKELOT_PRIZE_ITEM, ITEM_NONE, GoldenrodCity_RadioTower_1F_EventScript_GivePrizeFromEarlier
-	goto_if_set FLAG_DAILY_PICKED_LOTO_TICKET, GoldenrodCity_RadioTower_1F_EventScript_ComeBackTomorrow
+	goto_if_ne VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM, ITEM_NONE, GoldenrodCity_RadioTower_1F_EventScript_GivePrizeFromEarlier
+	goto_if_set FLAG_DAILY_RADIO_TOWER_PICKED_LOTO_TICKET, GoldenrodCity_RadioTower_1F_EventScript_ComeBackTomorrow
 	msgbox GoldenrodCity_RadioTower_1F_Text_LotteryCornerDrawTicket, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, GoldenrodCity_RadioTower_1F_EventScript_PleaseVisitAgain
-	setflag FLAG_DAILY_PICKED_LOTO_TICKET
+	setflag FLAG_DAILY_RADIO_TOWER_PICKED_LOTO_TICKET
 	message GoldenrodCity_RadioTower_1F_Text_PleasePickTicket
 	waitmessage
 	special RetrieveLotteryNumber
@@ -376,8 +376,8 @@ GoldenrodCity_RadioTower_1F_EventScript_FullMatch::
 	return
 
 GoldenrodCity_RadioTower_1F_EventScript_RecordPrizeNoRoom::
-	copyvar VAR_POKELOT_PRIZE_PLACE, VAR_0x8004
-	copyvar VAR_POKELOT_PRIZE_ITEM, VAR_0x8005
+	copyvar VAR_RADIO_TOWER_POKELOT_PRIZE_PLACE, VAR_0x8004
+	copyvar VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM, VAR_0x8005
 	goto GoldenrodCity_RadioTower_1F_EventScript_NoRoomForPrize
 	end
 
@@ -388,13 +388,13 @@ GoldenrodCity_RadioTower_1F_EventScript_NoRoomForPrize::
 
 GoldenrodCity_RadioTower_1F_EventScript_GivePrizeFromEarlier::
 	msgbox GoldenrodCity_RadioTower_1F_Text_PrizeWeveBeenHolding, MSGBOX_DEFAULT
-	giveitem VAR_POKELOT_PRIZE_ITEM
+	giveitem VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM
 	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_RadioTower_1F_EventScript_NoRoomForPrize
-	copyvar VAR_0x8004, VAR_POKELOT_PRIZE_PLACE
-	copyvar VAR_0x8005, VAR_POKELOT_PRIZE_ITEM
+	copyvar VAR_0x8004, VAR_RADIO_TOWER_POKELOT_PRIZE_PLACE
+	copyvar VAR_0x8005, VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM
 	special TryPutLotteryWinnerReportOnAir
-	setvar VAR_POKELOT_PRIZE_ITEM, ITEM_NONE
-	setvar VAR_POKELOT_PRIZE_PLACE, 0
+	setvar VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM, ITEM_NONE
+	setvar VAR_RADIO_TOWER_POKELOT_PRIZE_PLACE, 0
 	release
 	end
 

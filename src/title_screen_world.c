@@ -11,7 +11,6 @@
 #include "main.h"
 #include "main_menu.h"
 #include "palette.h"
-#include "quickstart.h"
 #include "reset_rtc_screen.h"
 #include "scanline_effect.h"
 #include "sound.h"
@@ -161,8 +160,6 @@ void CB2_InitWorldTitleScreen(void)
             u8 spriteId = CreateSprite(&sPressStartTemplate, DISPLAY_WIDTH / 2 - 64 + i * 32, 146, 0);
             StartSpriteAnim(&gSprites[spriteId], i);
         }
-        if (QUICKSTART && QUICKSTART_HUD)
-            CreateQuickstartHud();
         BuildOamBuffer();
         gMain.state++;
         break;
@@ -217,7 +214,7 @@ static void Task_WorldTitleScreen(u8 taskId)
     if (gPaletteFade.active)
         return;
 
-    // Check held service chords before SELECT's development quickstart shortcut.
+    // Check held service chords before the A and START inputs.
     if (JOY_HELD(CLEAR_SAVE_COMBO) == CLEAR_SAVE_COMBO)
         LeaveWorldTitleScreen(CB2_InitClearSaveDataScreen, RGB_WHITEALPHA);
     else if (JOY_HELD(RESET_RTC_COMBO) == RESET_RTC_COMBO)
@@ -227,11 +224,6 @@ static void Task_WorldTitleScreen(u8 taskId)
     }
     else if (JOY_NEW(A_BUTTON | START_BUTTON))
         LeaveWorldTitleScreen(CB2_InitMainMenu, RGB_WHITEALPHA);
-    else if (QUICKSTART && JOY_NEW(SELECT_BUTTON))
-    {
-        ScanlineEffect_Stop();
-        Quickstart();
-    }
     else if ((gMPlayInfo_BGM.status & 0xFFFF) == 0)
         LeaveWorldTitleScreen(CB2_InitCopyrightScreenAfterTitleScreen, RGB_WHITEALPHA);
 }

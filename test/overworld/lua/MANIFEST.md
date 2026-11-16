@@ -2265,3 +2265,14 @@ count and marker count for Pidgey (routes) and Zubat (caves). It wins a wild bat
 for Pidgey in Viridian City. Counts must be non-zero and unchanged. Measured **13/13** on master and
 **10/13** with `0829014ec0`'s `pokedex_area_screen.c` hunks reverted (no Johto glow or markers, and
 Kanto Pidgey's 13 routes read 0 through the stale index).
+### `MultiHalfTeamSummary.lua`
+
+In a half-team multi battle, Summary from the party menu must open the Pokémon under the cursor and
+B must return the cursor to it. The party menu draws the player's three in rows 0-2 and the
+partner's in rows 3-5, while the summary uses the interleaved order `[P0, Partner0, P1, P2,
+Partner1, Partner2]`. The real Rocket HQ multi with Lance runs from its post-selection seam with
+three distinct debug-made Pokémon; real input opens POKéMON, then Summary and B on each of the
+player's rows. Rows 0, 1, 2 must leave summary indices 0, 2, 3 in `gLastViewedMonIndex` (the
+screenshots show Bulbasaur, Charmander, Squirtle) and the party cursor back on the row. Measured
+**10/10** on master and **8/10** with the two `0829014ec0` call-site translations reverted (rows 1
+and 2 opened indices 1 and 2: Lance's Dragonite and the wrong own Pokémon).

@@ -28,6 +28,8 @@ WANT = [
     "sUsmSavedIcon", "sUsmSavedOffset", "sSpriteTileAllocBitmap", "gOamMatrixAllocBitmap",
     # PokedexAreaAfterBattle.lua reads the area page's species and highlight counts.
     "sPokedexAreaScreen",
+    # MultiHalfTeamSummary.lua: the summary's mon index, in the interleaved multi order.
+    "gLastViewedMonIndex",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
     "gObjectEvents", "gPlayerAvatar", "sFlightActive",
     # RedGyarados.lua points the wandering Gyarados sprite at this callback.

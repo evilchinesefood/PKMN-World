@@ -2480,3 +2480,14 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `SummaryNoDynamaxRow.lua`
+
+Dynamax and Terastal are off in this Gen 1-3 game (`B_FLAG_DYNAMAX_BATTLE 0`, no Dynamax Band,
+Dynamax Candy, Max Soup or Tera Orb anywhere a player can reach), so the SwSh summary must not draw
+a "Dmax Lv." row or a Tera type badge. With real input the suite opens a Pokemon's summary from the
+Start menu party, from a PC box (Withdraw mode, Summary) and in the Rocket HQ multi battle with
+Lance, where it also scrolls onto his Dragonite. On each info page no sprite may sit visible at the
+Tera badge position; on each skills page BG2's tilemap row 11 must start with the Ability label
+(tiles `0x7B`-`0x7E` of `page_skills.bin`, not the Dmax label `0x84`-`0x87`) and the ability window
+must sit at tilemap row 11, directly under the stats. Measured **17/17**, and **6/17** with
+`SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL` and `SWSH_SUMMARY_SHOW_TERA_TYPE` back on.

@@ -1,22 +1,12 @@
 VictoryRoad_2F_EventScript_DoubleEdgeTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_DOUBLE_EDGE, EventScript_DoubleEdgeTaught
-.endif
 	msgbox Text_DoubleEdgeTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_DoubleEdgeDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_DoubleEdgeDeclined
-.endif
 	msgbox Text_DoubleEdgeWhichMon
 	setvar VAR_0x8005, MOVE_DOUBLE_EDGE
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_DoubleEdgeDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_DOUBLE_EDGE
-.endif
 	goto EventScript_DoubleEdgeTaught
 	end
 
@@ -33,22 +23,12 @@ EventScript_DoubleEdgeTaught::
 EventScript_ThunderWaveTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_THUNDER_WAVE, EventScript_ThunderWaveTaught
-.endif
 	msgbox Text_ThunderWaveTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_ThunderWaveDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_ThunderWaveDeclined
-.endif
 	msgbox Text_ThunderWaveWhichMon
 	setvar VAR_0x8005, MOVE_THUNDER_WAVE
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_ThunderWaveDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_THUNDER_WAVE
-.endif
 	goto EventScript_ThunderWaveTaught
 	end
 
@@ -65,22 +45,12 @@ EventScript_ThunderWaveTaught::
 RockTunnel_B1F_EventScript_RockSlideTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_ROCK_SLIDE, EventScript_RockSlideTaught
-.endif
 	msgbox Text_RockSlideTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_RockSlideDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_RockSlideDeclined
-.endif
 	msgbox Text_RockSlideWhichMon
 	setvar VAR_0x8005, MOVE_ROCK_SLIDE
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_RockSlideDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_ROCK_SLIDE
-.endif
 	goto EventScript_RockSlideTaught
 	end
 
@@ -97,22 +67,12 @@ EventScript_RockSlideTaught::
 MtEmber_Exterior_EventScript_ExplosionTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_EXPLOSION, EventScript_ExplosionTaught
-.endif
 	msgbox Text_ExplosionTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_ExplosionDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_ExplosionDeclined
-.endif
 	msgbox Text_ExplosionWhichMon
 	setvar VAR_0x8005, MOVE_EXPLOSION
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_ExplosionDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_EXPLOSION
-.endif
 	goto EventScript_ExplosionTaught
 	end
 
@@ -129,22 +89,12 @@ EventScript_ExplosionTaught::
 Route4_EventScript_MegaPunchTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_MEGA_PUNCH, EventScript_MegaPunchTaught
-.endif
 	msgbox Text_MegaPunchTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MegaPunchDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_MegaPunchDeclined
-.endif
 	msgbox Text_MegaPunchWhichMon
 	setvar VAR_0x8005, MOVE_MEGA_PUNCH
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_MegaPunchDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_MEGA_PUNCH
-.endif
 	goto EventScript_MegaPunchTaught
 	end
 
@@ -161,22 +111,12 @@ EventScript_MegaPunchTaught::
 Route4_EventScript_MegaKickTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_MEGA_KICK, EventScript_MegaKickTaught
-.endif
 	msgbox Text_MegaKickTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MegaKickDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_MegaKickDeclined
-.endif
 	msgbox Text_MegaKickWhichMon
 	setvar VAR_0x8005, MOVE_MEGA_KICK
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_MegaKickDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_MEGA_KICK
-.endif
 	goto EventScript_MegaKickTaught
 	end
 
@@ -193,22 +133,12 @@ EventScript_MegaKickTaught::
 EventScript_DreamEaterTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_DREAM_EATER, EventScript_DreamEaterTaught
-.endif
 	msgbox Text_DreamEaterTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_DreamEaterDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_DreamEaterDeclined
-.endif
 	msgbox Text_DreamEaterWhichMon
 	setvar VAR_0x8005, MOVE_DREAM_EATER
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_DreamEaterDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_DREAM_EATER
-.endif
 	goto EventScript_DreamEaterTaught
 	end
 
@@ -225,22 +155,12 @@ EventScript_DreamEaterTaught::
 EventScript_SoftboiledTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_SOFT_BOILED, EventScript_SoftboiledTaught
-.endif
 	msgbox Text_SoftboiledTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SoftboiledDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_SoftboiledDeclined
-.endif
 	msgbox Text_SoftboiledWhichMon
 	setvar VAR_0x8005, MOVE_SOFT_BOILED
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_SoftboiledDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_SOFT_BOILED
-.endif
 	goto EventScript_SoftboiledTaught
 	end
 
@@ -257,22 +177,12 @@ EventScript_SoftboiledTaught::
 FuchsiaCity_EventScript_SubstituteTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_SUBSTITUTE, EventScript_SubstituteTaught
-.endif
 	msgbox Text_SubstituteTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SubstituteDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_SubstituteDeclined
-.endif
 	msgbox Text_SubstituteWhichMon
 	setvar VAR_0x8005, MOVE_SUBSTITUTE
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_SubstituteDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_SUBSTITUTE
-.endif
 	goto EventScript_SubstituteTaught
 	end
 
@@ -289,22 +199,12 @@ EventScript_SubstituteTaught::
 SevenIsland_EventScript_SwordsDanceTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_SWORDS_DANCE, EventScript_SwordsDanceTaught
-.endif
 	msgbox Text_SwordsDanceTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SwordsDanceDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_SwordsDanceDeclined
-.endif
 	msgbox Text_SwordsDanceWhichMon
 	setvar VAR_0x8005, MOVE_SWORDS_DANCE
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_SwordsDanceDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_SWORDS_DANCE
-.endif
 	goto EventScript_SwordsDanceTaught
 	end
 
@@ -321,22 +221,12 @@ EventScript_SwordsDanceTaught::
 PewterCity_Museum_1F_EventScript_SeismicTossTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_SEISMIC_TOSS, EventScript_SeismicTossTaught
-.endif
 	msgbox Text_SeismicTossTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_SeismicTossDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_SeismicTossDeclined
-.endif
 	msgbox Text_SeismicTossWhichMon
 	setvar VAR_0x8005, MOVE_SEISMIC_TOSS
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_SeismicTossDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_SEISMIC_TOSS
-.endif
 	goto EventScript_SeismicTossTaught
 	end
 
@@ -353,22 +243,12 @@ EventScript_SeismicTossTaught::
 EventScript_CounterTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_COUNTER, EventScript_CounterTaught
-.endif
 	msgbox Text_CounterTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_CounterDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_CounterDeclined
-.endif
 	msgbox Text_CounterWhichMon
 	setvar VAR_0x8005, MOVE_COUNTER
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_CounterDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_COUNTER
-.endif
 	goto EventScript_CounterTaught
 	end
 
@@ -385,22 +265,12 @@ EventScript_CounterTaught::
 EventScript_MetronomeTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_METRONOME, EventScript_MetronomeTaught
-.endif
 	msgbox Text_MetronomeTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MetronomeDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_MetronomeDeclined
-.endif
 	msgbox Text_MetronomeWhichMon
 	setvar VAR_0x8005, MOVE_METRONOME
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_MetronomeDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_METRONOME
-.endif
 	goto EventScript_MetronomeTaught
 	end
 
@@ -415,15 +285,8 @@ EventScript_MetronomeTaught::
 	end
 
 EventScript_MimicTutor::
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_MIMIC, EventScript_MimicTaught
-.endif
 	msgbox Text_MimicTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_MimicDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_MimicDeclined
-.endif
 	msgbox Text_MimicWhichMon
 	setvar VAR_0x8005, MOVE_MIMIC
 	call EventScript_ChooseMoveTutorMon
@@ -431,9 +294,6 @@ EventScript_MimicTutor::
 	faceplayer
 	goto_if_eq VAR_RESULT, 0, EventScript_MimicDeclined
 	removeitem ITEM_POKE_DOLL
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_MIMIC
-.endif
 	goto EventScript_MimicTaught
 	end
 
@@ -460,22 +320,12 @@ EventScript_MimicTaughtFemale::
 FourIsland_House1_EventScript_BodySlamTutor::
 	lock
 	faceplayer
-.if I_REUSABLE_TMS == FALSE
-	goto_if_set FLAG_TUTOR_BODY_SLAM, EventScript_BodySlamTaught
-.endif
 	msgbox Text_BodySlamTeach, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, EventScript_BodySlamDeclined
-.if I_REUSABLE_TMS == FALSE
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, EventScript_BodySlamDeclined
-.endif
 	msgbox Text_BodySlamWhichMon
 	setvar VAR_0x8005, MOVE_BODY_SLAM
 	call EventScript_ChooseMoveTutorMon
 	goto_if_eq VAR_RESULT, FALSE, EventScript_BodySlamDeclined
-.if I_REUSABLE_TMS == FALSE
-	setflag FLAG_TUTOR_BODY_SLAM
-.endif
 	goto EventScript_BodySlamTaught
 	end
 
@@ -492,8 +342,6 @@ EventScript_BodySlamTaught::
 TwoIsland_CapeBrink_House_EventScript_StarterTutor::
 	lock
 	faceplayer
-	goto_if_set FLAG_LEARNED_ALL_MOVES_AT_CAPE_BRINK, CapeBrinkTutor_EventScript_TaughtAllMoves
-	goto_if_set FLAG_TEMP_2, CapeBrinkTutor_EventScript_MoveJustTaught
 	bufferleadmonspeciesname STR_VAR_1
 	msgbox Text_UltimateMoveThatMon
 	specialvar VAR_RESULT, CapeBrinkGetMoveToTeachLeadPokemon
@@ -505,29 +353,22 @@ TwoIsland_CapeBrink_House_EventScript_StarterTutor::
 	call_if_eq VAR_FACING, DIR_WEST, CapeBrinkTutor_EventScript_JumpInPlaceRight
 	msgbox Text_AllowMeToTeachMonUltimateMove, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, CapeBrinkTutor_EventScript_DeclineMove
-	call EventScript_CanOnlyBeLearnedOnce
-	goto_if_eq VAR_RESULT, NO, CapeBrinkTutor_EventScript_DeclineMove
 	msgbox Text_LetMeConferUltimateMove
 	closemessage
 	fadescreen FADE_TO_BLACK
 	goto CapeBrinkTutor_EventScript_ChooseMon
 
-CapeBrinkTutor_EventScript_MoveJustTaught::
-	msgbox Text_MakeBestUseOfMove
-	release
-	end
-
-CapeBrinkTutor_EventScript_TaughtAllMoves::
-	msgbox Text_FeelRejuvenated
-	release
-	end
-
 CapeBrinkTutor_EventScript_TaughtMove::
 	copyvar VAR_0x8005, VAR_0x8009
+	goto_if_set FLAG_LEARNED_ALL_MOVES_AT_CAPE_BRINK, CapeBrinkTutor_EventScript_TaughtAgain
 	specialvar VAR_RESULT, HasLearnedAllMovesFromCapeBrinkTutor
 	goto_if_eq VAR_RESULT, TRUE, CapeBrinkTutor_EventScript_LearnedAllMoves
 	msgbox Text_TaughtMove
-	setflag FLAG_TEMP_2
+	release
+	end
+
+CapeBrinkTutor_EventScript_TaughtAgain::
+	msgbox Text_MakeBestUseOfMove
 	release
 	end
 
@@ -579,15 +420,6 @@ EventScript_ChooseMoveTutorMon::
 	faceplayer
 	return
 
-EventScript_CanOnlyBeLearnedOnce::
-	textcolor NPC_TEXT_COLOR_NEUTRAL
-	special DisableMsgBoxWalkaway
-	signmsg
-	msgbox Text_MoveCanOnlyBeLearnedOnce, MSGBOX_YESNO
-	normalmsg
-	call EventScript_RestorePrevTextColor
-	return
-
 Movement_JumpInPlaceDown:
 	jump_in_place_down
 	step_end
@@ -604,6 +436,3 @@ Movement_JumpInPlaceRight:
 	jump_in_place_right
 	step_end
 
-Text_MoveCanOnlyBeLearnedOnce::
-	.string "This move can be learned only\n"
-	.string "once. Is that okay?$"

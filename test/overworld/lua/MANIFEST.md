@@ -2906,15 +2906,28 @@ unfixed, **10/10** fixed.
 ### `KantoTutorRepeatPrompt.lua`
 
 A Kanto move tutor that teaches again must not warn that its move can be learned only once.
-`I_REUSABLE_TMS` is `TRUE`, so `move_tutors_frlg.inc` compiles out the fifteen FRLG tutors' "taught"
-flags and each tutor offers its move on every visit, yet each still asked "This move can be learned
-only once. Is that okay?" before the party menu. The warning is now compiled out with the flags.
-Cape Brink's ultimate-move tutor keeps its flags in C and stays one-time, so it keeps the warning.
+`I_REUSABLE_TMS` is `TRUE`, so `move_tutors_frlg.inc` compiled out the fifteen FRLG tutors' "taught"
+flags and each tutor offered its move on every visit, yet each still asked "This move can be learned
+only once. Is that okay?" before the party menu. The warning was compiled out with the flags, and
+later every tutor became reusable by rule: the flag gates and the warning are gone from the source,
+and Cape Brink's ultimate-move tutor teaches again as well (see `HoennTutorRepeat.lua`).
 The suite gives two level 5 Mew, enters the Pewter Museum by its back door and asks the Seismic
 Toss tutor twice with real input, answering YES to every Yes/No box and picking the other Mew the
 second time. **Oracle:** each visit raises exactly one Yes/No box (`Task_HandleYesNoInput` going
 live) before the party menu, and both Mew learn Seismic Toss. **Discrimination:** unfixed 7/9
 (`boxes=2` on both visits; the screenshots show the warning), fixed 9/9.
+### `HoennTutorRepeat.lua`
+
+A Hoenn move tutor must teach its move again, with no "learned only once" warning. Emerald's
+`move_tutor` macro set a `FLAG_MOVE_TUTOR_TAUGHT_*` flag after the first lesson, asked "This move can
+be learned only once. Is that okay?" first, and on every later visit jumped straight to the farewell
+line. Every tutor in all three regions is now reusable; `ValidateConfigRules.py` fails on a
+one-time tutor line or a flag that a lesson sets and the offer tests. The suite gives two level 5
+Mew, sets the region to Hoenn, stands before the Verdanturf Pokemon Center Fury Cutter tutor and
+asks him twice with real input, answering YES to every Yes/No box and picking the other Mew in the
+storage chooser the second time. **Oracle:** each visit raises exactly one Yes/No box before the
+chooser opens, and both Mew learn Fury Cutter. **Discrimination:** unfixed 6/10 (`boxes=2` on the
+first visit; on the second no box, no chooser and the second Mew never learns), fixed 10/10.
 ### `TmAdviceReusable.lua`
 
 TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,

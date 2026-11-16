@@ -2576,3 +2576,19 @@ YES, picks the debug Wobbuffet in the storage chooser, answers NO (cursor-verifi
 prompt for Safeguard, and gives up from the list. The list must stay open after each decline, the
 Heart Scale must stay in the bag and the Wobbuffet's bytes must not change. Measured **9/13** on the
 unfixed ROM, **13/13** with the fix.
+
+### `SinglesBattleMashStress.lua`
+
+Single battles, and a trainer double, mashed with a Bag that has something in every pocket
+(X Attack, Dire Hit, Potion, Revive, Ether, Full Heal, Poke Doll, Poke and Great Balls, Oran Berry, a
+TM). The party is three createmon Machop (Guts, so no Pickup items), an Egg and a fainted Machop.
+Battles: wild Magikarp at Instant and at Slow text, wild Magikarp with the party and all PC boxes
+full, the debug single trainer and the debug trainer double, twice each with fresh seeds. A seeded
+mash of A, B, Start, L, R and the D-pad (never Select) runs, then a finisher wins or runs (it backs
+out of the Bag, answers Bag messages, and confirms the nickname screen). After each battle: no crash
+screen, the field and control are back, every party slot decrypts with a valid checksum, no Egg was
+ever on the field, the PC/party census gained no duplicate personality, nothing was caught with the
+party and boxes full, and no item quantity grew. Measured **82/82** with the default seed and with
+`PW_SMASH_SEED=0xA11CE` and `0xBEEF7`; the mash found the two-stack sort refusal fixed in
+`BagSortTwoItems`. `PW_SMASH_SEED=<n>` reseeds, `PW_SMASH_ONLY=<text>` runs matching scenarios and
+`PW_SMASH_SAVE=<dir>` keeps a savestate of a battle that does not end.

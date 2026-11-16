@@ -81,4 +81,8 @@
 // === Johto Pokemon League (region merge) — Elite Four gauntlet progress state ===
 #define VAR_LEAGUE_STATE               VAR_JOHTO_SLICE(0x3b)
 
+// === Goldenrod Radio Tower lottery: a prize held for a full Bag (Lilycove keeps its own pair) ===
+#define VAR_RADIO_TOWER_POKELOT_PRIZE_ITEM   VAR_JOHTO_SLICE(0x60)
+#define VAR_RADIO_TOWER_POKELOT_PRIZE_PLACE  VAR_JOHTO_SLICE(0x61)
+
 #endif // GUARD_CONSTANTS_JOHTO_VARS_H

@@ -2806,3 +2806,26 @@ party, the Celadon Eevee gift line (`gStringVar4`) and a Master Ball catch of a 
 text) must name Bill's PC. Measured **28/28**, and **21/28** before the fix: Johto said SOMEONE'S
 PC after Bill, Kanto's Bill set Lanette's flag so Hoenn said LANETTE'S PC, the Kanto gift said
 LANETTE'S PC, and the Johto access line said LANETTE's while its menu row said BILL'S.
+### `FrontierFacilityStress.lua`
+
+Full Lv. 50 singles challenges at the Battle Arena, Palace and Dome with real input, on the shared
+driver `frontier_facility.lua`. Each case starts from one post-boot savestate with four Pokemon
+(Charizard leads and follows), walks to the singles attendant and takes the challenge through the
+real menus, party pick and save; battles are won on the real move menu with the opponents held at
+1 HP. The Dome picks two Pokemon before each round and opens the tourney tree once. A Rest after the
+first win must save and return to the title, and Continue must land in the lobby with the challenge
+paused; the challenge then runs to the end. The player must end in the lobby with control, the
+party byte-identical to the one that entered, the frontier status cleared, the win streak at 7 (1
+for the Dome), the first Battle Point award (Arena 1, Palace 4, Dome 1) added and the follower
+walking behind again. A soft reset on the Dome tourney tree with no save must come back to the
+"didn't save" ending: streak 0, status cleared, party unchanged, no BP. Measured **45/45**; no
+defect found. `--env PW_CASE=<text>` runs matching cases.
+### `FactoryRentalStress.lua`
+
+The Battle Factory on the `FrontierFacilityStress` driver (split out for the 300,000-frame cap).
+The rental screen rents the first three Pokemon, the first win is followed by a Rest, Continue and
+a swap of the first rental for the opponent's first Pokemon, and all seven battles are won. Three
+rentals must replace the party, the swap must change the first party slot by the next battle, and
+the challenge must end with the party byte-identical, streak 7, 3 BP and the follower back. A soft
+reset on the swap screen with no save must end the streak with the party restored and no BP.
+Measured **26/26**; no defect found.

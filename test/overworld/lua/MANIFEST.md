@@ -2480,3 +2480,15 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `CeladonSlotsPrizes.lua`
+
+The Celadon Game Corner's slot machines and Pokemon prize counter at their coin edges; no suite had
+played a slot machine. The Coin Case comes from the real restaurant NPC and only the coin balance
+(and, for the last prize case, the party and boxes) is seeded; machines, prompts and counters are
+real input. **Slots:** no coins (betting refused, "run out of COINS"), exactly 3 (one max bet and
+three stops), 9,998 (a one-coin bet), a full case (the machine refuses to start) and a seeded mash of
+every button but the soft-reset chord (`PW_SLOTS_SEED=<n>`); each must hand control back with a
+balance from 0 to 9,999, unchanged where no spin happened. **Prizes:** Abra one coin short (refused,
+coins kept), exactly 180 (Abra joins, 0 coins), a full party (Abra goes to a box, coins paid) and a
+full party with every box full (refused, coins kept). Measured **36/36** with seeds 11 and 4242; no
+defect found.

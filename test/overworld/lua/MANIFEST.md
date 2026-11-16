@@ -117,6 +117,7 @@ is clean; keep it that way.
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
+| [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2480,3 +2481,16 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `JohtoGiftReceipts.lua`
+
+The pokemonHnS port replaced HnS's `Common_EventScript_GiftMon` / `GiftMonNamed` calls with only the
+full-party branch at six Johto gifts, so Bill's Eevee, Kirk's Shuckie, Randy's Kenya and the Dragon's
+Den elder's Dratini joined the party with no fanfare and no "received" line, and the Karate King's
+Tyrogue and the elder's basic Dratini went to a PC box without a word when the party was full. With
+real input the suite talks to each giver (YES to the offer, NO to the nickname question) and records
+every line the game prints into `gStringVar4`: the four party-room gifts must print "received" and
+grow the party; then, with a full party of six, Kiyo (after `FLAG_BEAT_KIYO`) and the elder (after a
+quiz with a wrong answer) must print "received" and the "transferred to" PC notice, and the Pokemon
+must be in box 1. **23/30** on the unfixed ROM, **30/30** with the fix. `AuditCapacity.py` now also
+flags a `givemon` whose box outcome reaches no PC notice (it named exactly Tyrogue and the basic
+Dratini before the fix).

@@ -7432,8 +7432,8 @@ static void TryUseItemOnMove(u8 taskId)
 // EV/IV Changer (issue #3, widened from the QoL 13 EV-only item): reusable key item to
 // freely tune a party mon's EVs AND IVs. EVs clamp to MAX_PER_STAT_EVS (252) per stat and
 // MAX_TOTAL_EVS (510) total; IVs to 0..MAX_PER_STAT_IVS. Lives HERE in the LIVE swsh
-// party menu - src/party_menu.c is #if !SWSH_PARTY_MENU so it compiles to nothing in this
-// build; the callback must link from swsh_party_menu.o, exactly like ItemUseCB_PPUp below.
+// party menu - the classic src/party_menu.c was deleted, so this is the only party menu in
+// the build; the callback must link from swsh_party_menu.o, exactly like ItemUseCB_PPUp below.
 static const u8 sEvIvChangerEvMonData[NUM_STATS] =
 {
     MON_DATA_HP_EV,

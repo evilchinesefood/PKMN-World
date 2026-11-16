@@ -2648,3 +2648,12 @@ Four Island and Ruin Valley, and opens Story, its optional page and the map with
 **Oracle:** with the map on screen, the title for that island map (`sTitles` indexed by its
 `enum RegionMapType`) names the Orange Islands and the island range, and never "Sevii"; each map is
 screenshot. **Discrimination:** unfixed 6/9 (`title=Sevii 1-3`, `Sevii 4-5`, `Sevii 6-7`), fixed 9/9.
+### `FrontierIneligibleText.lua`
+
+The Battle Frontier lobby refusal must spell "ineligible". `CheckPartyIneligibility` builds the end
+of every lobby attendant's "not enough eligible Pokemon" message in `gStringVar1` from two strings
+that read "inelegible". Two parties are refused at the Battle Arena attendant with real input
+(Challenge, Lv. 50), each from the same post-boot savestate: Mewtwo, Lugia and a duplicate pair
+(the "species you caught are ineligible" sentence) and two duplicate pairs (the short "are
+ineligible" ending). `gStringVar1` is poisoned before the level choice and decoded while the refusal
+is on screen. Measured **13/13** fixed and **9/13** on the unfixed ROM.

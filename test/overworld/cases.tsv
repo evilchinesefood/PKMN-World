@@ -207,3 +207,4 @@ BugContestPartyLock	lua/BugContestPartyLock.lua	fresh	0	required
 EggSummaryPageTabs	lua/EggSummaryPageTabs.lua	fresh	0	required
 NewGameOverSave	lua/NewGameOverSave.lua	fresh	0	required
 EggOnlyIslandLegends	lua/EggOnlyIslandLegends.lua	fresh	0	required
+BirthIslandRockReset	lua/BirthIslandRockReset.lua	fresh	0	required

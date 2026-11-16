@@ -2363,3 +2363,13 @@ Lati battle and the Deoxys battle start, and RUN leaves each. `DoDeoxysRockInter
 puzzle complete before the script's party check, so the refused stone answered nothing for the rest
 of the visit. Measured **35/35** fixed and **31/33** on the unfixed ROM (both Deoxys replays fail with
 `FLAG_DEOXYS_ROCK_COMPLETE` still set).
+
+### `BirthIslandRockReset.lua`
+
+Leaving Birth Island mid-puzzle must start the Deoxys puzzle over on the next visit. With a real
+Pokemon in the party the player walks in from the harbor, touches the stone once (level 1), walks
+out to the harbor and back in. `VAR_DEOXYS_ROCK_LEVEL` and `VAR_DEOXYS_ROCK_STEP_COUNT` must read 0
+and the first touch of the new visit must climb to level 1. Kanto's Birth Island script reset FRLG's
+rebased `VAR_DEOXYS_INTERACTION_*` copies, which nothing reads, so the stone kept its old level and
+the first touch failed on the steps walked since. Hoenn's island is the control. Measured **23/23**
+fixed and **20/23** on the unfixed ROM.

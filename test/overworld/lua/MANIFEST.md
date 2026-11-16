@@ -2480,3 +2480,15 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `TrainerCardRegionPages.lua`
+
+The Trainer Card's front badge row pages through Hoenn, Kanto and Johto. The badge flags are written
+where the gym scripts leave them (Hoenn system flags, the Kanto bank in SaveBlock1, the Johto bank in
+SaveBlock3); the card is opened from the Start menu and paged with real L, R and Down presses, plus
+an R R L mash two frames apart, then flipped to the back and closed. Seven scenarios: no badges, some,
+a mix (all Hoenn, no Kanto, two Johto) and all, from the Hub; and one badge set opened in Viridian
+City, Cherrygrove City and Slateport City, where the card must open on that region's page.
+**Oracle:** the BG3 tilemap in VRAM (screen base 31), where badge i sits at (4 + 3i, 15) as tiles
+192 + 2i, 193 + 2i and 208 + 2i and an empty slot holds tile 0, must match that page's flags.
+Measured **69/69**; no defect found. Screenshots of every page were checked by eye: each label reads
+HOENN, KANTO or JOHTO between the L and R icons and each page draws its own region's badge art.

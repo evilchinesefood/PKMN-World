@@ -96,8 +96,9 @@ NewBarkTown_PlayersHouse_1F_EventScript_GivePokeGear::
 	playfanfare MUS_OBTAIN_ITEM
 	message NewBarkTown_PlayersHouse_1F_Text_ObtainedPokeGear
 	waitfanfare
+	@ Not FLAG_RECEIVED_POKENAV: that is Hoenn's Devon scene, and Hoenn starts tracking
+	@ Mr. Briney's shore once it is set.
 	setflag FLAG_SYS_POKENAV_GET
-	setflag FLAG_RECEIVED_POKENAV
 	setflag FLAG_ADDED_MATCH_CALL_TO_POKENAV
 	msgbox NewBarkTown_PlayersHouse_1F_Text_ExplainPokeGear, MSGBOX_DEFAULT
 	closemessage

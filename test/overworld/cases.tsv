@@ -255,3 +255,4 @@ FrontierRecordedBattle	lua/FrontierRecordedBattle.lua	fresh	0	required
 KantoPropsStress	lua/KantoPropsStress.lua	fresh	0	required
 BikeShopsAcrossRegions	lua/BikeShopsAcrossRegions.lua	fresh	0	required
 CyclingRoadAnyBike	lua/CyclingRoadAnyBike.lua	fresh	0	required
+PokegearKeepsHoennPokenav	lua/PokegearKeepsHoennPokenav.lua	fresh	0	required

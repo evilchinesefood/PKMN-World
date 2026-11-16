@@ -21,7 +21,7 @@ class FamilyOptionsMigration(unittest.TestCase):
                     pokemon = bytes(save.sb1[SP.V['SB1.playerParty']:
                                              SP.V['SB1.playerParty'] + 600])
                     SP.migrate(save)
-                    self.assertEqual(save.sb2[SP.V['SB2.saveVersion']], 12)
+                    self.assertEqual(save.sb2[SP.V['SB2.saveVersion']], SP.SAVE_FORMAT_VERSION)
                     self.assertEqual(struct.unpack_from('<H', save.sb2, 0x14)[0], 0xA5A1)
                     self.assertEqual(struct.unpack_from('<H', save.sb2, 0x16)[0],
                                      before_word & 0xFC3F)

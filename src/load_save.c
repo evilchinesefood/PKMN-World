@@ -412,6 +412,15 @@ void MigrateSaveFormatIfNeeded(void)
         gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_1X;
     }
 
+    // v12 -> v13: Kanto and Johto read their own starter index instead of the shared
+    // VAR_STARTER_MON. An older save cannot say which region wrote that var last, so both new
+    // slots start from it, which keeps every rival on the team the save would have used before.
+    if (savedVersion < 13)
+    {
+        VarSet(VAR_STARTER_MON_FRLG, VarGet(VAR_STARTER_MON));
+        VarSet(VAR_STARTER_MON_JOHTO, VarGet(VAR_STARTER_MON));
+    }
+
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
 }
 

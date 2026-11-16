@@ -361,11 +361,25 @@ u16 GetStarterPokemon(u16 chosenStarterId)
     return sStarterMon[region][chosenStarterId];
 }
 
-// For scripts: `specialvar` passes no argument, so reading the chosen index here keeps the
-// species in step with VAR_STARTER_MON.
+// Each region records the ball it handed out in its own var, so a starter chosen in one region
+// never changes which team another region's rival uses.
+static u16 StarterVarForRegion(enum Region region)
+{
+    switch (region)
+    {
+    case REGION_KANTO:
+        return VAR_STARTER_MON_FRLG;
+    case REGION_JOHTO:
+        return VAR_STARTER_MON_JOHTO;
+    default:
+        return VAR_STARTER_MON;
+    }
+}
+
+// The current region's starter. Also a special: `specialvar` passes no argument.
 u16 GetPlayerStarterSpecies(void)
 {
-    return GetStarterPokemon(VarGet(VAR_STARTER_MON));
+    return GetStarterPokemon(VarGet(StarterVarForRegion(GetCurrentRegion())));
 }
 
 static void VblankCB_StarterChoose(void)

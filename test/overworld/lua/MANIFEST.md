@@ -2902,3 +2902,14 @@ soft resets and continues, walks back through, opens door 2 and takes the west p
 follower comes out beside the player. Measured **68/68**; no defect found. Control:
 `--env PW_TAMPER_SUBPRIORITY=1` zeroes the follower's subpriority each frame, the follower visibly
 draws over the player's shoulder and a resident, and the draw-order check fails (3,352 frames, 67/68).
+
+### `BikeShopsAcrossRegions.lua`
+
+Rydel's Cycles in Mauville and the Goldenrod bike shop share `FLAG_RECEIVED_BIKE`, so one shop bike
+across Hoenn and Johto is the rule: Rydel swaps the bike the player holds and the Goldenrod clerk
+gives nothing to a player who has one. Goldenrod's first-visit setup cleared that flag with the rest
+of its HnS reset list. The suite talks to Rydel for the Mach Bike and again to switch it for the Acro
+Bike, walks into Goldenrod for the first time, talks to the Goldenrod clerk, then to Rydel, and reads
+the Bag after each talk (quantities decoded with the encryption key). **Oracle:** the flag survives
+the Goldenrod visit and the Bag never holds more than one bike. **Discrimination:** unfixed 16/18
+(flag cleared; the clerk gives a Mach Bike beside the Acro Bike), fixed 18/18.

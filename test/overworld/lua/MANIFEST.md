@@ -2446,3 +2446,16 @@ Flower Crown Eevee (a special form that cannot evolve), Bulbasaur with Ivysaur, 
 Measured **82/82**, and **74/82** with `0829014ec0`'s `BnetMarkPreEvos` bound reverted to #386,
 where Chansey (Happiny) and Roselia (Budew) were let in and won BP. `--env PW_LC_ONLY=<text>` runs
 matching cases.
+### `BugContestDayChange.lua`
+
+The Bug-Catching Contest's once-a-day limit and clock across day changes, on the emulator's running
+RTC. The suite sets the clock the way New Bark's wall clock does (`FLAG_SYS_CLOCK_SET`, `VAR_DAYS`
+and a local time of 23:38 through `localTimeOffset`), then plays three contests through the real
+attendant: one retired with a catch before midnight; one after saving in the gate, waiting there
+until the RTC passes midnight and continuing the pre-midnight save; and one started at 23:57 on a
+clock wound two days on, so midnight rolls over while it runs. The last two walk until "Time's up",
+which must ring at 8 minutes of frames. Each contest must return the parked party unchanged, put
+one prize in the bag, take the Safari Balls, set the day's flag and leave the attendant refusing a
+second contest; Continue on the new day must clear the flag and record the day. Measured **37/37**,
+and **9/13** with `0829014ec0`'s `setflag FLAG_DAILY_BUG_CONTEST_COMPLETED` removed (a second
+contest started the same day). The catch is a debug-given Weedle inside the contest.

@@ -117,6 +117,7 @@ is clean; keep it that way.
 | [`JohtoVictoryRoadTiles.lua`](#johtovictoryroadtileslua) | fresh new game | The three Johto Victory Road floors draw as a cave, not as a secret base, after the `layout_version` retag. |
 | [`JohtoTilesetArt.lua`](#johtotilesetartlua) | fresh new game | The Johto League rooms, Hall of Fame and Cianwood shop draw pokemonHnS's art, not the same-named FRLG or Emerald tileset's. |
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
+| [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
 | [`JohtoBerrySlots.lua`](#johtoberryslotslua) | fresh new game | Nine Johto berry trees no longer share save slots with nine other Johto trees. |
@@ -2480,3 +2481,13 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `JohtoPlaceNames.lua`
+
+Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and
+greeted "This is MAUVILLE GAME CORNER.", the Johto Safari Zone gate's welcome attendant runs Route
+121's and promised Pokemon "rarely seen in HOENN.", and Johto Victory Road's Owen said the tough kid
+"is from PETALBURG CITY." pokemonHnS had reworded the first two in its copies; the merge kept
+Emerald's. With real input (a Lapras in the party, Owen's defeat flag set as the battle leaves it) the
+suite talks to all three and reads the printed line: no Hoenn name, and the Johto one in its place.
+**6/12** on the unfixed ROM, **12/12** with the fix. `ValidateRegionText.py` (in `make validate`) now
+reads every string a Johto map can reach and failed on exactly these three.

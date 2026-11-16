@@ -467,6 +467,9 @@ check: $(TESTELF)
 # ValidateConfigRules.py pairs each include/config toggle that diverges from FireRed, Emerald or
 # HGSS with the scripts and text that assume the source game's rule: the Cinnabar Lab revived a
 # fossil the player had sold, and badge speeches promised stat boosts B_BADGE_BOOST removed.
+# ValidateDeadEvoItems.py derives which evolution items still evolve an obtainable species and
+# fails when a mart sells one that does not: Gen 4+ families are stripped, yet four marts sold the
+# Dusk Stone, Electirizer and Oval Stone. A dead item with a held battle effect is only a warning.
 validate:
 	python3 test/overworld/ValidateRegionalCenters.py
 	python3 test/overworld/TestRegionalTravelMigration.py
@@ -494,6 +497,7 @@ validate:
 	python3 test/overworld/ValidateZoneStructure.py
 	python3 test/overworld/ValidateRegionText.py
 	python3 test/overworld/ValidateConfigRules.py
+	python3 test/overworld/ValidateDeadEvoItems.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the

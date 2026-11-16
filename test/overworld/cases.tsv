@@ -12,6 +12,7 @@ VerifyBedroomPC	lua/VerifyBedroomPC.lua	fresh	0	required
 VerifyPCScreen	lua/VerifyPCScreen.lua	fresh	0	required
 OwMonSprites	lua/OwMonSprites.lua	fresh	0	required
 VioletMart	lua/VioletMart.lua	fresh	0	required
+MartEvoStock	lua/MartEvoStock.lua	fresh	0	required
 JohtoDayNightWorld	lua/JohtoDayNightWorld.lua	fresh	0	required
 JohtoDayNightLive	lua/JohtoDayNightLive.lua	fresh	0	required
 NationalParkTiles	lua/NationalParkTiles.lua	fresh	0	required

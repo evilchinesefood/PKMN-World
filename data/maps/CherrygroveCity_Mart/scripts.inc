@@ -66,7 +66,7 @@ Cherrygrove_Pokemart_Text_CooltrainerM_PokeBallsInStock:
 Cherrygrove_Pokemart_Text_Youngster:
 	.string "When I was walking in the grass, a\n"
 	.string "bug POKéMON poisoned my POKéMON!\p"
-	.string "I just kept going, but then my\n"
+	.string "I just kept battling, but then my\n"
 	.string "POKéMON fainted.\p"
 	.string "You should keep an ANTIDOTE\n"
 	.string "with you.$"

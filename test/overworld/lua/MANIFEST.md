@@ -3006,3 +3006,12 @@ stat; Roxanne is talked to and battled (the win is forced once the battle starts
 flags are set) and her STONE BADGE speech must quote level 20 and no ATTACK boost. Text is read
 from `gStringVar4`. Measured **11/21** on the unfixed ROM (every row promised a stat boost) and
 **21/21** fixed. `ValidateConfigRules.py` covers the other leaders' lines.
+### `FieldPoisonText.lua`
+
+Field-poison advice must match `OW_POISON_DAMAGE` (`GEN_LATEST`: no damage outside battle). A party
+POKéMON is poisoned the way a battle leaves it and walks 40 steps in the Petalburg Mart with real
+input: its HP and poison must be unchanged. Then the Petalburg Mart man, the Vermilion Pokemon Center
+man (chased along his wander row) and the Cherrygrove Mart boy are talked to with real input; their
+lines, read from `gStringVar4`, must name poison and claim no HP loss or fainting while walking.
+Measured **13/16** on the unfixed ROM (all three said it) and **16/16** fixed. The Rustboro school
+notebook line is covered by `ValidateConfigRules.py`.

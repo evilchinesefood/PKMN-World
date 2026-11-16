@@ -14,6 +14,7 @@ CHECKS = (
     ("ValidateRegionalCenters.py",),
     ("TestRegionalTravelMigration.py",),
     ("TestFamilyOptionsMigration.py",),
+    ("TestXRegionSaveRepair.py",),
     ("MakeRegionalTravelFixture.py", "--check"),
     ("story-progress/run.py",),
     ("ValidateScripts.py",),

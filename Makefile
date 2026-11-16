@@ -464,6 +464,7 @@ validate:
 	python3 test/overworld/ValidateRegionalCenters.py
 	python3 test/overworld/TestRegionalTravelMigration.py
 	python3 test/overworld/TestFamilyOptionsMigration.py
+	python3 test/overworld/TestXRegionSaveRepair.py
 	python3 test/overworld/MakeRegionalTravelFixture.py --check
 	python3 test/overworld/story-progress/run.py
 	python3 test/overworld/ValidateGen13.py

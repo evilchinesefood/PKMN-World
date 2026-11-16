@@ -12,6 +12,7 @@
 #include "gpu_regs.h"
 #include "menu.h"
 #include "dma3.h"
+#include "regions.h"
 
 struct Pokenav_MainMenu
 {
@@ -165,6 +166,14 @@ static const struct CompressedSpriteSheet sMenuLeftHeaderSpriteSheets[] =
         .size = 0x40,
         .tag = 0
     }
+};
+
+// The map menus' header names the region the map shows (region_map.c picks it from the current map).
+static const u32 *const sRegionMapLeftHeaderGfx[] =
+{
+    [REGION_KANTO] = gPokenavLeftHeaderKantoMap_Gfx,
+    [REGION_JOHTO] = gPokenavLeftHeaderJohtoMap_Gfx,
+    [REGION_HOENN] = gPokenavLeftHeaderHoennMap_Gfx,
 };
 
 static const struct CompressedSpriteSheetNoSize sPokenavSubMenuLeftHeaderSpriteSheets[] =
@@ -666,16 +675,20 @@ void UpdateRegionMapRightHeaderTiles(u32 menuGfxId)
 static void LoadLeftHeaderGfxForMenu(u32 menuGfxId)
 {
     struct Pokenav_MainMenu *menu;
+    const u32 *data;
     u32 size, tag;
 
     if (menuGfxId >= POKENAV_GFX_SUBMENUS_START)
         return;
 
     menu = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
+    data = sMenuLeftHeaderSpriteSheets[menuGfxId].data;
+    if (menuGfxId == POKENAV_GFX_MAP_MENU_ZOOMED_OUT || menuGfxId == POKENAV_GFX_MAP_MENU_ZOOMED_IN)
+        data = sRegionMapLeftHeaderGfx[GetCurrentRegion()];
     tag = sMenuLeftHeaderSpriteSheets[menuGfxId].tag;
-    size = GetDecompressedDataSize(sMenuLeftHeaderSpriteSheets[menuGfxId].data);
+    size = GetDecompressedDataSize(data);
     LoadPalette(&gPokenavLeftHeader_Pal[tag * 16], OBJ_PLTT_ID(IndexOfSpritePaletteTag(1)), PLTT_SIZE_4BPP);
-    DecompressDataWithHeaderWram(sMenuLeftHeaderSpriteSheets[menuGfxId].data, menu->leftHeaderMenuBuffer);
+    DecompressDataWithHeaderWram(data, menu->leftHeaderMenuBuffer);
     RequestDma3Copy(menu->leftHeaderMenuBuffer, (void *)OBJ_VRAM0 + (GetSpriteTileStartByTag(2) * 32), size, 1);
     menu->leftHeaderSprites[1]->oam.tileNum = GetSpriteTileStartByTag(2) + sMenuLeftHeaderSpriteSheets[menuGfxId].size;
 

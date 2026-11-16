@@ -315,5 +315,7 @@ $(PKNAVOPTIONSGFXDIR)/options.4bpp: $(PKNAVOPTIONSGFXDIR)/hoenn_map.4bpp \
                                     $(PKNAVOPTIONSGFXDIR)/cute.4bpp \
                                     $(PKNAVOPTIONSGFXDIR)/smart.4bpp \
                                     $(PKNAVOPTIONSGFXDIR)/tough.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/cancel.4bpp
+                                    $(PKNAVOPTIONSGFXDIR)/cancel.4bpp \
+                                    $(PKNAVOPTIONSGFXDIR)/johto_map.4bpp \
+                                    $(PKNAVOPTIONSGFXDIR)/kanto_map.4bpp
 	@cat $^ >$@

@@ -14,6 +14,7 @@
 #include "window.h"
 #include "strings.h"
 #include "scanline_effect.h"
+#include "regions.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
 
@@ -155,7 +156,7 @@ static const struct CompressedSpriteSheet sPokenavOptionsSpriteSheets[] =
 {
     {
         .data = gPokenavOptions_Gfx,
-        .size = 0x3400,
+        .size = 0x3C00,
         .tag = GFXTAG_OPTIONS
     },
     {
@@ -190,6 +191,14 @@ static const u16 sOptionsLabelGfx_Cute[]      = {0x120, PALTAG_OPTIONS_PINK - PA
 static const u16 sOptionsLabelGfx_Smart[]     = {0x140, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Tough[]     = {0x160, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Cancel[]    = {0x180, PALTAG_OPTIONS_BEIGE - PALTAG_OPTIONS_START};
+
+// The map option names the region the map shows; Johto and Kanto follow Cancel in the options sheet.
+static const u16 sRegionMapLabelTiles[] =
+{
+    [REGION_KANTO] = 0x1C0,
+    [REGION_JOHTO] = 0x1A0,
+    [REGION_HOENN] = 0x000,
+};
 
 struct
 {
@@ -269,7 +278,6 @@ static const struct WindowTemplate sOptionDescWindowTemplate =
 
 static const u8 *const sPageDescriptions[] =
 {
-    [POKENAV_MENUITEM_MAP]                     = COMPOUND_STRING("Check the map of the HOENN region"),
     [POKENAV_MENUITEM_CONDITION]               = COMPOUND_STRING("Check POKéMON in detail."),
     [POKENAV_MENUITEM_MATCH_CALL]              = COMPOUND_STRING("Call a registered TRAINER."),
     [POKENAV_MENUITEM_RIBBONS]                 = COMPOUND_STRING("Check obtained RIBBONS."),
@@ -283,6 +291,13 @@ static const u8 *const sPageDescriptions[] =
     [POKENAV_MENUITEM_CONDITION_SEARCH_SMART]  = COMPOUND_STRING("Find smart POKéMON."),
     [POKENAV_MENUITEM_CONDITION_SEARCH_TOUGH]  = COMPOUND_STRING("Find tough POKéMON."),
     [POKENAV_MENUITEM_CONDITION_SEARCH_CANCEL] = COMPOUND_STRING("Return to the CONDITION menu.")
+};
+
+static const u8 *const sRegionMapDescriptions[] =
+{
+    [REGION_KANTO] = COMPOUND_STRING("Check the map of the KANTO region"),
+    [REGION_JOHTO] = COMPOUND_STRING("Check the map of the JOHTO region"),
+    [REGION_HOENN] = COMPOUND_STRING("Check the map of the HOENN region"),
 };
 
 static const u8 sOptionDescTextColors[]  = {TEXT_COLOR_GREEN, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_GREEN};
@@ -860,7 +875,8 @@ static void DrawOptionLabelGfx(const u16 *const *optionGfx, s32 yPos, s32 deltaY
         {
             for (j = 0; j < NUM_OPTION_SUBSPRITES; j++)
             {
-                gfx->iconSprites[i][j]->oam.tileNum = (*optionGfx)[0] + baseTile + 8 * j;
+                u32 tile = (*optionGfx == sOptionsLabelGfx_RegionMap) ? sRegionMapLabelTiles[GetCurrentRegion()] : (*optionGfx)[0];
+                gfx->iconSprites[i][j]->oam.tileNum = tile + baseTile + 8 * j;
                 gfx->iconSprites[i][j]->oam.paletteNum = IndexOfSpritePaletteTag((*optionGfx)[1] + PALTAG_OPTIONS_START);
                 gfx->iconSprites[i][j]->invisible = TRUE;
                 gfx->iconSprites[i][j]->y = yPos;
@@ -1221,7 +1237,7 @@ static void PrintCurrentOptionDescription(void)
 {
     struct Pokenav_MenuGfx *gfx = GetSubstructPtr(POKENAV_SUBSTRUCT_MENU_GFX);
     int menuItem = GetCurrentMenuItemId();
-    const u8 *desc = sPageDescriptions[menuItem];
+    const u8 *desc = (menuItem == POKENAV_MENUITEM_MAP) ? sRegionMapDescriptions[GetCurrentRegion()] : sPageDescriptions[menuItem];
     u32 width = GetStringWidth(FONT_NORMAL, desc, -1);
     FillWindowPixelBuffer(gfx->optionDescWindowId, PIXEL_FILL(6));
     AddTextPrinterParameterized3(gfx->optionDescWindowId, FONT_NORMAL, (192 - width) / 2, 1, sOptionDescTextColors, 0, desc);

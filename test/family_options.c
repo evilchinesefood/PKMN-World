@@ -109,7 +109,7 @@ TEST("Family options migrate dirty padding without changing adjacent preferences
     u16 beforeFirst = ReadOptionWord(0x14);
     u16 beforeSecond = ReadOptionWord(0x16);
     MigrateSaveFormatIfNeeded();
-    EXPECT_EQ(gSaveBlock2Ptr->saveVersion, 12);
+    EXPECT_EQ(gSaveBlock2Ptr->saveVersion, SAVE_FORMAT_VERSION);
     EXPECT_EQ(ReadOptionWord(0x14), beforeFirst);
     EXPECT_EQ(ReadOptionWord(0x16), beforeSecond & ~0x03C0);
     EXPECT_EQ((u32)gSaveBlock2Ptr->optionsEncounterRate, OPTIONS_RATE_1X);

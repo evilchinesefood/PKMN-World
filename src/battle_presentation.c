@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle_environment.h"
 #include "battle_presentation.h"
+#include "graphics.h"
 #include "overworld.h"
 #include "constants/maps.h"
 
@@ -19,6 +20,26 @@ static u16 GetCompleteVisualEnvironment(u16 environment)
      && gBattleEnvironmentInfo[environment].palette != NULL)
         return environment;
     return BATTLE_ENVIRONMENT_PLAIN;
+}
+
+static const struct BattleBackground sForestBackground = {
+    .tileset = gBattleEnvironmentTiles_Forest,
+    .tilemap = gBattleEnvironmentTilemap_Forest,
+};
+
+static bool32 IsForest(u16 map)
+{
+    switch (map)
+    {
+    case MAP_VIRIDIAN_FOREST:
+    case MAP_ILEX_FOREST:
+    case MAP_PETALBURG_WOODS:
+    case MAP_THREE_ISLAND_BERRY_FOREST:
+    case MAP_SIX_ISLAND_PATTERN_BUSH:
+        return TRUE;
+    default:
+        return FALSE;
+    }
 }
 
 static bool32 IsIcePath(u16 map)
@@ -70,6 +91,16 @@ void ResolveBattlePresentation(const struct BattlePresentationContext *context, 
         result->entry = gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_MOUNTAIN].entry;
         result->introEnvironment = BATTLE_ENVIRONMENT_MOUNTAIN;
         result->dayPalette = sMtSilverSnowPalette;
+    }
+    else if (IsForest(context->map)
+          && (environment == BATTLE_ENVIRONMENT_GRASS || environment == BATTLE_ENVIRONMENT_LONG_GRASS
+           || environment == BATTLE_ENVIRONMENT_PLAIN))
+    {
+        // Paths and grass share the tree line; the grass entry slide matches its palette bank.
+        result->background = sForestBackground;
+        result->entry = gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_GRASS].entry;
+        result->introEnvironment = BATTLE_ENVIRONMENT_GRASS;
+        result->dayPalette = gBattleEnvironmentPalette_Forest;
     }
     result->tintWithTime = MapHasNaturalLight(context->mapType);
 }

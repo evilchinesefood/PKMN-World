@@ -2,6 +2,7 @@
 #include "battle.h"
 #include "battle_environment.h"
 #include "battle_presentation.h"
+#include "graphics.h"
 #include "constants/maps.h"
 #include "constants/rtc.h"
 #include "test/test.h"
@@ -155,4 +156,47 @@ TEST("Battle presentation: Granite Cave and authored day colors remain unchanged
     ResolveBattlePresentation(&input, &result);
     BuildBattlePresentationPalette(&result, palette);
     EXPECT_EQ(memcmp(palette, gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_GRASS].palette, sizeof(palette)), 0);
+}
+
+TEST("Battle presentation: forest grass and paths draw the tree line with the grass entry slide")
+{
+    u16 environment, map;
+    u32 flags = 0;
+    PARAMETRIZE { map = MAP_VIRIDIAN_FOREST; environment = BATTLE_ENVIRONMENT_GRASS; }
+    PARAMETRIZE { map = MAP_VIRIDIAN_FOREST; environment = BATTLE_ENVIRONMENT_PLAIN; flags = BATTLE_TYPE_TRAINER; }
+    PARAMETRIZE { map = MAP_ILEX_FOREST; environment = BATTLE_ENVIRONMENT_GRASS; }
+    PARAMETRIZE { map = MAP_ILEX_FOREST; environment = BATTLE_ENVIRONMENT_PLAIN; flags = BATTLE_TYPE_TRAINER; }
+    PARAMETRIZE { map = MAP_PETALBURG_WOODS; environment = BATTLE_ENVIRONMENT_GRASS; }
+    PARAMETRIZE { map = MAP_PETALBURG_WOODS; environment = BATTLE_ENVIRONMENT_LONG_GRASS; }
+    PARAMETRIZE { map = MAP_THREE_ISLAND_BERRY_FOREST; environment = BATTLE_ENVIRONMENT_GRASS; }
+    PARAMETRIZE { map = MAP_SIX_ISLAND_PATTERN_BUSH; environment = BATTLE_ENVIRONMENT_PLAIN; flags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TRAINER; }
+    struct BattlePresentationContext input = Context(environment, map, MAP_TYPE_ROUTE);
+    struct BattlePresentation result;
+    input.battleTypeFlags = flags;
+    ResolveBattlePresentation(&input, &result);
+    EXPECT_EQ(result.background.tileset, gBattleEnvironmentTiles_Forest);
+    EXPECT_EQ(result.background.tilemap, gBattleEnvironmentTilemap_Forest);
+    EXPECT_EQ(result.entry.tileset, gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_GRASS].entry.tileset);
+    EXPECT_EQ(result.entry.tilemap, gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_GRASS].entry.tilemap);
+    EXPECT_EQ(result.dayPalette, gBattleEnvironmentPalette_Forest);
+    EXPECT_EQ(result.introEnvironment, BATTLE_ENVIRONMENT_GRASS);
+    EXPECT_EQ(result.tintWithTime, TRUE);
+}
+
+TEST("Battle presentation: forest water, open routes and special battles keep their own art")
+{
+    u16 environment, map;
+    u32 flags = 0;
+    PARAMETRIZE { map = MAP_ILEX_FOREST; environment = BATTLE_ENVIRONMENT_POND; }
+    PARAMETRIZE { map = MAP_ROUTE2; environment = BATTLE_ENVIRONMENT_GRASS; }
+    PARAMETRIZE { map = MAP_ROUTE104; environment = BATTLE_ENVIRONMENT_PLAIN; }
+    PARAMETRIZE { map = MAP_ILEX_FOREST; environment = BATTLE_ENVIRONMENT_GRASS; flags = BATTLE_TYPE_LEGENDARY; }
+    struct BattlePresentationContext input = Context(environment, map, MAP_TYPE_ROUTE);
+    struct BattlePresentation result;
+    input.battleTypeFlags = flags;
+    ResolveBattlePresentation(&input, &result);
+    EXPECT_EQ(result.background.tileset, gBattleEnvironmentInfo[environment].background.tileset);
+    EXPECT_EQ(result.entry.tileset, gBattleEnvironmentInfo[environment].entry.tileset);
+    EXPECT_EQ(result.dayPalette, gBattleEnvironmentInfo[environment].palette);
+    EXPECT_EQ(result.introEnvironment, environment);
 }

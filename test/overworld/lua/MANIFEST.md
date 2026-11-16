@@ -3139,3 +3139,19 @@ Each category: receptionist, Enter, Master Rank, category, Milotic, a different 
 the artist. A category is retried until a win scores the artist's 800 points; each must leave the
 Master ribbon and the painting flag. The museum 2F must then hang five different paintings and the
 curator must give the Glass Ornament. Measured **27/27**; no defect found.
+
+### `RelearnerFanfareMusic.lua`
+
+Teaching a move left the music paused, and the next door to a map with other music held the screen
+black forever. `LearnMove` (`src/chooseboxmon.c`) played the level-up fanfare and handed input back
+at once. `PlayFanfare` pauses the BGM, and `Task_Fanfare` resumes it 80 frames later. Forgetting a
+move for a second one inside those frames goes through the summary and back into the relearner, and
+`CB2_InitLearnMoveReturnFromSelectMove` calls `ResetTasks`. That killed `Task_Fanfare` and left the
+BGM paused. A door then waits in `FadeOutMapMusic` for a paused song to stop, so `Task_WarpAndLoadMap`
+never warps. Same-music doors un-pause it, which is why it hides indoors. `LearnMove` now holds until
+the fanfare ends, as Emerald's relearner did. With real input in Fallarbor below the Pokemon Center
+door the suite opens Start, POKeMON, the lead Charizard (three moves), Summary, the battle moves page
+and the relearner (Start). It teaches the first move, mashes A at Instant text through a second
+teach that forgets a move, backs out and walks into the Center. **Discrimination:** unfixed 9/11
+(BGM status `0x800001FF`, black screen at the Center door), fixed 11/11. Found by
+`InputSpamStress`'s dig mash at `PW_SPAM_BASE=1` on the stress-6 integ3 build.

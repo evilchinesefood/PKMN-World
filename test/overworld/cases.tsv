@@ -274,3 +274,4 @@ GymPuzzleSaveContinue	lua/GymPuzzleSaveContinue.lua	fresh	0	required
 BoxRenameStress	lua/BoxRenameStress.lua	fresh	0	required
 FrontierPassStress	lua/FrontierPassStress.lua	fresh	0	required
 MasterRankMuseum	lua/MasterRankMuseum.lua	fresh	0	manual
+RelearnerFanfareMusic	lua/RelearnerFanfareMusic.lua	fresh	0	required

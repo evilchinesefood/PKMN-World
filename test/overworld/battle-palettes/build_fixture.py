@@ -16,6 +16,9 @@ subprocess.run(['python3', str(root.parent/'visual-features/build_fixture.py'),
                 '--source', str(root/'fixture.c'), '--out', str(a.out)], check=True)
 subprocess.run(['python3', str(root.parent/'bw-battle-ui/export_symbols.py'), str(a.elf), str(a.out)], check=True)
 names = set('gPlttBufferUnfaded gTimeBlend gFieldStatuses gBattleEnvironment gBattleEnvironmentPalette_Plain sBattlePresentation sBattlePresentationCaptured'.split())
+# Authored palettes the per-background suite (backgrounds.lua) compares against.
+names |= {'gBattleEnvironmentPalette_' + n for n in '''TallGrass LongGrass Sand Water PondWater Underwater Rock Cave
+    Building BuildingGym BuildingAqua Frontier StadiumSidney StadiumPhoebe StadiumGlacia StadiumDrake'''.split()}
 syms = {}
 for line in subprocess.check_output(['/opt/devkitpro/devkitARM/bin/arm-none-eabi-nm', '-S', str(a.elf)], text=True).splitlines():
     m = line.split()

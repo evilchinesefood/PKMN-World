@@ -1776,6 +1776,9 @@ const u16 gPokeblockBlack_Pal[] = INCGFX_U16("graphics/pokeblock/black.pal", ".g
 const u16 gPokeblockWhite_Pal[] = INCGFX_U16("graphics/pokeblock/white.pal", ".gbapal");
 const u16 gPokeblockGold_Pal[] = INCGFX_U16("graphics/pokeblock/gold.pal", ".gbapal");
 
+// The feeding scene keeps the original building tiles and palette its tilemap was drawn for.
+const u32 gPokeblockFeedBg_Tiles[] = INCGFX_U32("graphics/pokeblock/feeding_bg_tiles.png", ".4bpp.smol");
+const u16 gPokeblockFeedBg_Pal[] = INCGFX_U16("graphics/pokeblock/feeding_bg.pal", ".gbapal");
 const u32 gPokeblockFeedBg_Tilemap[] = INCGFX_U32("graphics/pokeblock/feeding_bg.bin", ".smolTM");
 
 #include "data/graphics/berries.h"

@@ -16,6 +16,10 @@ All notable player-facing changes. For the full feature reference see
 - **The permanent Hard Mode bundle is retired.** Existing saves keep their progress and preferences. Shift/Set remains your choice; ordinary trainer battles allow items and no longer impose badge-based growth caps. Champion rematches and battle-facility rules remain intact.
 - **Save format advances to v12.** Supported v7 through v11 saves initialize the new rates to 1× without changing adjacent preferences. Keep a pre-upgrade backup for older builds, which refuse v12 saves. No downgrade conversion is provided.
 
+### Battles
+
+- **New battle backgrounds.** Every battlefield now uses RavePossum's Vanilla+ set: Gen 4 style platforms over the Gen 3 backdrops, for grass, sand, water, caves, mountains, buildings, Gyms, the Elite Four and the legendary battles. Ice Path and snowy Mt. Silver keep their cold colors, and outdoor battles still follow the time of day. Gym Leaders now battle on the stadium floor, and Team Aqua and Team Magma on a tinted building floor. The Kanto and Johto Elite Four rooms now use the colored stadium floors, and Johto Gyms use the Gym floor; they used the plain building floor before.
+
 ### Regional travel
 
 - **Each campaign remembers the party you leave with** (#377). After completing a region's opening, its World Transit gate offers the remembered team or your current party, with a preview before travel. Shared team members are the same Pokémon with their latest progress. Missing members require confirmation; unsafe or impossible exchanges are refused.

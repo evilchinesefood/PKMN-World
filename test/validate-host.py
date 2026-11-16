@@ -41,6 +41,7 @@ CHECKS = (
     ("ValidateEllipsis.py",),
     ("ValidateConfigRules.py",),
     ("ValidateDeadEvoItems.py",),
+    ("ValidateBattleScenes.py",),
 )
 
 

@@ -48,6 +48,9 @@ Suites:
   an allocation crash on the merged baseline and measures contiguous free memory.
 - `entry_evolution.lua`: recorded cave/rock/night entrances and an actual evolution
   after deliberately priming a stale snow snapshot.
+- `backgrounds.lua`: one real wild battle per battle background (every tile type, Gym,
+  Aqua, Frontier and all twelve Elite Four rooms). Checks the battlefield palette banks
+  against the authored palette and takes a screenshot of each.
 - `save.lua`: creates a synthetic Ice Path save, reloads it and checks normal walking.
 
 `test/battle_presentation.c` checks resolution, exclusions, complete fallbacks,

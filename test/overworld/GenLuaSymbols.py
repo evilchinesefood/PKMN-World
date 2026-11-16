@@ -67,6 +67,10 @@ WANT = [
     "gLevelUpStartLevels", "sLevelUpSummaryState",
     # FrontierFacilityStress.lua: the Battle Factory rental and swap screens and the Dome tourney tree.
     "CB2_SelectScreen", "Swap_CB2", "CB2_TourneyTree",
+    # ExchangeCornerPurchases.lua / MasterRankMuseum.lua: the scrollable prize list, the decoration
+    # inventories, the contest's move-select task and the contest and painting screens.
+    "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",
+    "CB2_ContestMain", "CB2_ContestPainting",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",

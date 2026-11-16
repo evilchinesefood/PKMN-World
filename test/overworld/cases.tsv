@@ -268,3 +268,8 @@ XRegionSaveRepair	lua/XRegionSaveRepair.lua	lua/fixtures/v12xregiondamaged.srm	0
 XRegionSaveRepairVoyage	lua/XRegionSaveRepairVoyage.lua	lua/fixtures/v12xregionvoyage.srm	0	required
 XRegionDamageFixtures	lua/XRegionDamageFixtures.lua	fresh	0	manual
 SummaryNoDynamaxRow	lua/SummaryNoDynamaxRow.lua	fresh	0	required
+ExchangeCornerPurchases	lua/ExchangeCornerPurchases.lua	fresh	0	required
+GymPuzzleSaveContinue	lua/GymPuzzleSaveContinue.lua	fresh	0	required
+BoxRenameStress	lua/BoxRenameStress.lua	fresh	0	required
+FrontierPassStress	lua/FrontierPassStress.lua	fresh	0	required
+MasterRankMuseum	lua/MasterRankMuseum.lua	fresh	0	manual

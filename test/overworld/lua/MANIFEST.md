@@ -3076,3 +3076,49 @@ Tera badge position; on each skills page BG2's tilemap row 11 must start with th
 (tiles `0x7B`-`0x7E` of `page_skills.bin`, not the Dmax label `0x84`-`0x87`) and the ability window
 must sit at tilemap row 11, directly under the stats. Measured **17/17**, and **6/17** with
 `SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL` and `SWSH_SUMMARY_SHOW_TERA_TYPE` back on.
+### `ExchangeCornerPurchases.lua`
+
+The Battle Frontier Exchange Service Corner at the edges, all four clerks with real input (the two
+side clerks across their side counters). From one savestate: 1 BP buys a Protein (1 BP) and 0 BP is
+refused with the list coming back; 47 BP is refused for Leftovers (48) and 48 BP buys it; a full Items
+pocket (debug Fill Pocket Items) refuses Leftovers, keeps the BP and ends the conversation; 16 BP buys
+a Kiss Poster and a full poster inventory refuses it the same way; 255 BP is refused for the Blastoise
+Doll (256) and 256 buys it. BP, bag counts and `gDecorationInventories` are the verdict. Measured
+**42/42**; no defect found.
+### `GymPuzzleSaveContinue.lua`
+
+Start-menu save, soft reset and Continue in the middle of gym puzzles. Continue runs ON_LOAD but not
+ON_TRANSITION, so state must come back from saved vars, flags and temp vars. Blackthorn: coord
+trigger 1 builds bridge 1, save, Continue, walk it, trigger 2 builds bridge 2, save, Continue, walk
+it. Vermilion: the first switch's trash can (`VAR_TEMP_0`) half-opens the beam, save, Continue, the
+second can (`VAR_TEMP_1`) opens both beams (the walk re-plans around trainers who stepped in).
+Cinnabar: quiz 1 answered Yes opens its door. Saffron: after a warp tile. Ecruteak: on the invisible
+floor. Goldenrod, Azalea, Olivine, Cianwood: a few steps in. Map, tile and puzzle metatiles must match
+across Continue. Trainer battles on the way are won by setting the foe's HP to 1. Measured **53/53**,
+and the Vermilion case 10/10 at seven RTC values (seven different switch pairs); no defect found.
+`--env PW_GYM=<name>` runs one gym.
+### `BoxRenameStress.lua`
+
+The SwSh PC box rename. An empty name (Backspace past the start, then OK) keeps `BOX1`; the Select
+page cycle returns to upper case; eight W's fill the name and the ninth A press saves exactly eight
+(screenshots of the title bar and the Jump view); four seeded mash sessions across the naming and
+storage screens leave all 14 names terminated within nine bytes; the names survive a Start-menu save,
+soft reset and Continue byte for byte. Measured **13/13**; no defect found.
+### `FrontierPassStress.lua`
+
+The Frontier Pass with five symbol states seeded through `FLAG_SYS_<FACILITY>_SILVER/GOLD` (none, all
+silver, all gold, mixed, gold without silver) and 0 to 9,999 BP. Each case opens the pass from the
+Start menu, zooms and flips the Trainer Card, zooms the Frontier map and walks its facility list both
+ways, points at Battle Record with no record, then mashes 2,500 seeded presses; the pass must return to
+the field with no crash. Hover descriptions, symbol placement and colours were checked by eye.
+Measured **11/11**; no defect found.
+### `MasterRankMuseum.lua`
+
+Manual (about 160 seconds, needs `--timeout 1200 --env PW_MAX_FRAMES=1500000`). A Master Rank win in
+all five contest categories through the real contest flow. Setup maxes a Milotic's conditions and
+sheen, gives it each category's Hyper ribbon (substructs re-encrypted with a fresh checksum) and leaves
+`FLAG_HIDE_LILYCOVE_MUSEUM_CURATOR` and `VAR_LILYCOVE_MUSEUM_2F_STATE` as following the 1F curator does.
+Each category: receptionist, Enter, Master Rank, category, Milotic, a different move each turn, accept
+the artist. A category is retried until a win scores the artist's 800 points; each must leave the
+Master ribbon and the painting flag. The museum 2F must then hang five different paintings and the
+curator must give the Glass Ornament. Measured **27/27**; no defect found.

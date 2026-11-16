@@ -2480,3 +2480,12 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `FieldPoisonText.lua`
+
+Field-poison advice must match `OW_POISON_DAMAGE` (`GEN_LATEST`: no damage outside battle). A party
+POKéMON is poisoned the way a battle leaves it and walks 40 steps in the Petalburg Mart with real
+input: its HP and poison must be unchanged. Then the Petalburg Mart man, the Vermilion Pokemon Center
+man (chased along his wander row) and the Cherrygrove Mart boy are talked to with real input; their
+lines, read from `gStringVar4`, must name poison and claim no HP loss or fainting while walking.
+Measured **13/16** on the unfixed ROM (all three said it) and **16/16** fixed. The Rustboro school
+notebook line is covered by `ValidateConfigRules.py`.

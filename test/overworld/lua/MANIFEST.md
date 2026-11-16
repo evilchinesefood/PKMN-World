@@ -2480,3 +2480,15 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `SeafoamCurrents.lua`
+
+Seafoam Islands' falls and currents (FRLG), which no campaign beat or suite reached before. The
+player passes Route 20 (whose map script resets the boulder puzzle), then each case writes only the
+boulder hide flags the falls leave and warps next to a hole; the step into the hole and everything
+after it are real input and the maps' own scripts, with a seeded mash of every button but the
+soft-reset chord through each fall and ride (`PW_SEAFOAM_SEED=<n>`). **B2F hole, current running:**
+the fall lands on B3F water and the current carries the player into B4F on Surf, where control
+returns in the east pool. **B2F hole, both B3F boulders in:** B3F records the stopped current and
+the player stays afloat with control. **B3F hole, current running:** the B4F current carries the
+player to the stairs and puts them ashore. **B3F hole, both B4F boulders in:** B4F records the
+stopped current and the player stays afloat. Measured **19/19** with seeds 7 and 99; no defect found.

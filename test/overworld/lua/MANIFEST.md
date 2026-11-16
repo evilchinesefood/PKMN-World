@@ -2400,3 +2400,15 @@ menu round trip there must stay in bounds too. The rock code looked up Hoenn's p
 island (it uses the meteorite tag), got 0xFF, never recoloured the stone and wrote each palette into
 `sSpeciesPreEvolution`; the hidden stone did the same on both islands. Measured **35/35** fixed and
 **28/35** on the unfixed ROM.
+### `CyclingRoadSaveContinue.lua`
+
+Kanto's Cycling Road on real input. With a Bicycle registered and every Kanto trainer already
+beaten (the road's bikers would otherwise cut the ride short), the player walks across the Route 16
+gate on foot, and the gate's warp puts them on the bike with `MUS_RG_CYCLING`. Select must answer
+"You can't dismount your BIKE here." and leave the player on the bike, as on Route 110 and in FRLG:
+the Bicycle's use checked only Route 110's `FLAG_SYS_CYCLING_ROAD`, never Kanto's
+`FLAG_SYS_ON_CYCLING_ROAD`. The bike then rides onto Route 17, the slope carries it down (Start is
+ignored while it does), the game is saved at the foot, soft reset and continued: same tile, still on
+the bike, the same music, control back. The Hub Pass then leaves the road, and Fly's reset must clear
+`FLAG_SYS_ON_CYCLING_ROAD` so the player can get off the bike elsewhere (also cleared now after
+Teleport, Dig, Escape Rope and a whiteout). Measured **16/16** fixed and **14/16** on the unfixed ROM.

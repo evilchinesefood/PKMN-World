@@ -56,13 +56,11 @@ without `--env PW_WINDOWS_AFTER=1`, into `before` and `before-lifecycle`. The fi
 builder exports symbols from each ELF and guards the isolated ROM hash. Record
 the actual build commit separately from a later documentation-only checkout.
 
-`render_review.py` requires those five successful runs, including fresh runner
-stdout and a matching delivery ROM hash. Pass `--runs`, `--out`, `--before-source`,
-`--after-source`, `--delivery-md5`, and `--atlas /tmp/window-audit/palette-atlas.png`.
-It checks every native frame and all 256
-BG palette words: all noon frames and four unaffected-map views must be identical;
-every other changed pixel must match one of the three glass color pairs. It also
-decodes lossless clips and compares every frame and duration against the sources.
+The review renderer was removed on 2026-11-16. It required those five successful runs, including
+fresh runner stdout and a matching delivery ROM hash. It checked every native frame and all 256
+BG palette words: all noon frames and four unaffected-map views had to be identical;
+every other changed pixel had to match one of the three glass color pairs. It also
+decoded lossless clips and compared every frame and duration against the sources.
 
 The lifecycle suite checks both real RTC boundaries for 200 emulated seconds
 without changing the clock, counter, callbacks, or position during the wait.

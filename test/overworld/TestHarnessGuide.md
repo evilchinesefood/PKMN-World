@@ -22,8 +22,6 @@ Companion docs:
 - **[`test/overworld/lua/MANIFEST.md`](lua/MANIFEST.md)** — what each suite proves, the fixtures, and how
   to run the whole battery.
 - **[`test/overworld/mgba/README.md`](mgba/README.md)** — building `mgba-headless`, the patch, determinism.
-- **[`BattleFrontierRematchTestPlan.md`](BattleFrontierRematchTestPlan.md)** — a manual test plan
-  for the Battle Frontier and the rematch system (no automated suite covers it).
 
 Everything below was verified empirically against real runs. Where a technique has a known failure
 mode it is called out — most of the pain in this project has come from harness quirks, not game bugs.

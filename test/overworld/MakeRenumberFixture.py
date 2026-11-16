@@ -12,8 +12,8 @@ room -- for lastHealLocation, that means whiting out somewhere the player never 
 
 Proving it needs a save whose warps actually sit in those groups. The original crafted fixture was
 made from the owner's real playthrough save, which is why it was never committed and why the suite
-has been unrunnable from a clean checkout ever since. test/overworld/MakeMigrationFixtures.sh states the
-project rule plainly: "Fixtures come from FRESH new-games only -- no personal data, deterministic.
+has been unrunnable from a clean checkout ever since. The old fixture generator script (removed
+2026-11-16) stated the project rule plainly: "Fixtures come from FRESH new-games only -- no personal data, deterministic.
 Never commit a .srm harvested from a real playthrough."
 
 So this builds the same fixture from v7.srm, which is already a tracked fresh-new-game save. The

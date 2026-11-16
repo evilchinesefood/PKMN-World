@@ -3,7 +3,7 @@
 > **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
 
 A continuous Johto campaign played by controller input under the patched `mgba-headless`, from
-the new-game hub to the Hall of Fame. Earlier Johto work (`../johto-progression/`) played the
+the new-game hub to the Hall of Fame. Earlier Johto work (the `johto-progression` folder, removed on 2026-11-16) played the
 opening naturally and then warped into each later scene with its prerequisites set by hand.
 This harness plays every story beat in order on one save. Each beat starts from the state the
 previous beat left: Elm's lab, the Farfetch'd chase, the Radio Tower quiz, the Ecruteak Gym
@@ -138,8 +138,8 @@ One uninterrupted run, from a fresh hub save to the Johto Hall of Fame, on ROM
 - **Evidence:** `evidence/final-run-beats.log` has each beat,
   checkpoint, trainer battle and the final totals, and there are screenshots from the run.
 
-On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also pass:
-`../johto-progression/run.py` 7/7 and `../johto-progression/run_audit.py` 12/12.
+On the same ROM, `test/overworld/run-all.sh` is 54/54 green. The #357 runners also passed then, 7/7 and 12/12.
+They lived in the `johto-progression` folder, removed on 2026-11-16.
 
 ## Post-game
 

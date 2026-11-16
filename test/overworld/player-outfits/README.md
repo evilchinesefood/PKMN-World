@@ -178,11 +178,9 @@ python3 test/overworld/viridian-art/run_suite.py --repo . \
 PW_OUT=/tmp/outfits/regression test/overworld/run-all.sh
 ```
 
-`render_review.py --runs /tmp/outfits --out test/overworld/player-outfits/review
---before-source <actual-before-game-commit> --after-source <actual-after-game-commit>
---delivery-rom pokemonworld.gba` requires all seven runs to have fresh terminal
+The review renderer was removed on 2026-11-16. It required all seven runs to have fresh terminal
 verdicts, positive equal assertion counts, and matching ROM-stamped PASS files.
-It also verifies ten Red frames pixel-for-pixel and decodes every lossless clip
+It also verified ten Red frames pixel-for-pixel and decoded every lossless clip
 against its source pixels and timing. Raw palette snapshots use `.pal.bin` to
 avoid the repository's text/EOL treatment of `.pal` files.
 

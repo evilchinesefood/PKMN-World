@@ -33,8 +33,7 @@ roof silhouette, door graphic, warp or sign changed. No new tileset capacity is
 used; all 102 existing secondary definitions remain byte-identical. No lamps or
 imported graphics were added.
 
-[Exact edits](edits.json) records every coordinate and old/new metatile.
-[Plan](plan.json) pins the merged baseline, baseline ROM hash and camera positions.
+The exact-edits and plan records were removed on 2026-11-16, with the authoring script.
 Scope marks protected cells red and edited cells yellow;
 atlas shows the reused pieces. These are labeled source renders;
 the primary comparisons are unmodified native 240×160 emulator screenshots.
@@ -71,8 +70,8 @@ in the emulator. The house's original ledge and impassable bushes stay intact.
 
 ### Window proof
 
-`panes.py` decodes each source metatile to visible palette-bank/color-index pixels,
-including flip bits and transparent overlay pixels. It compares each facade's
+The pane checker (removed on 2026-11-16) decoded each source metatile to visible palette-bank/color-index pixels,
+including flip bits and transparent overlay pixels. It compared each facade's
 complete glass mask before/after. Existing house/school blue panes retain palette 3
 and their ordinary night tint; existing shared warm glass retains palette 7 and
 its night treatment. This pass does not change which panes illuminate.
@@ -91,12 +90,10 @@ ROMs and saves stay local. The fixture is never linked into the delivery ROM.
 
 ## Reproduce
 
-Build and preserve the pinned baseline ROM/ELF before authoring. With Python 3,
-Pillow, devkitARM and the repository's Lua-enabled mGBA available:
+The one-shot authoring and audit script and the gallery publisher were removed on 2026-11-16.
+The map edits are committed. With devkitARM and the repository's Lua-enabled mGBA available:
 
 ```sh
-python3 test/overworld/viridian-frontages/art.py author
-python3 test/overworld/viridian-frontages/art.py check --out /tmp/frontages-audit
 make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 make validate
 ```
@@ -118,18 +115,9 @@ python3 test/overworld/viridian-art/run_suite.py --repo . --rom "$DELIVERY_ROM" 
 PW_OUT=/tmp/frontages-runs/regression test/overworld/run-all.sh "$DELIVERY_ROM" \
   > /tmp/frontages-sweep.log 2>&1
 cp /tmp/frontages-sweep.log /tmp/frontages-runs/regression/sweep.log
-python3 test/overworld/viridian-frontages/render_review.py \
-  --before-rom "$BEFORE_ROM" --before-elf "$BEFORE_ELF" \
-  --delivery "$DELIVERY_ROM" --delivery-elf "$DELIVERY_ELF" \
-  --before-fixture "$BEFORE_FIXTURE" --after-fixture "$AFTER_FIXTURE" \
-  --before /tmp/frontages-runs/before --after /tmp/frontages-runs/after \
-  --lifecycle /tmp/frontages-runs/lifecycle --delivery-run /tmp/frontages-runs/delivery \
-  --regression /tmp/frontages-runs/regression --out test/overworld/viridian-frontages/review
 ```
 
-`author` refuses unrelated edits and should not overwrite future stages. The audit
-reads the immutable baseline from Git and rejects production changes outside this
-map. A different compiler/version-stamp baseline needs its own verified provenance
+A different compiler/version-stamp baseline needs its own verified provenance
 and new captures, not a silent substitution under the old baseline hash.
 
 ## Owner review

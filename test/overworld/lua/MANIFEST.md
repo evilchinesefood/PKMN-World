@@ -2480,3 +2480,12 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `HmTmRulesText.lua`
+
+The Rustboro Cutter's HM speech must match this build's move rules: TMs are reusable
+(`I_REUSABLE_TMS`) and a POKéMON that can learn CUT may use it untaught
+(`QOL_FIELD_MOVES_NO_TEACH`). The Cutter is talked to twice with real input (the HM gift, then the
+repeat explanation); the explanation, read from `gStringVar4`, must not say "unlike a TM" and must
+name "can learn CUT". Measured **4/8** on the unfixed ROM and **8/8** fixed. Route 14's Carter
+(HM moves "can't" be forgotten, against `P_CAN_FORGET_HIDDEN_MOVE`) has no warp to reach him;
+`ValidateConfigRules.py` covers his line.

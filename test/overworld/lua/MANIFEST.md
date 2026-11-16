@@ -2480,3 +2480,19 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `HofSharedCap.lua`
+
+The Hall of Fame records are one save buffer that two induction screens and two PC viewers share:
+Hoenn and Johto champions go through `hall_of_fame.c`, Kanto champions through
+`hall_of_fame_frlg.c`, and the PC viewer is the Kanto one in Kanto and the Emerald one elsewhere.
+The files capped the buffer at 30 and 50 teams, so past 30 records a Hoenn induction dropped the
+oldest team and wrote at index 29, ahead of the later Kanto teams, and the two viewers opened on
+different "latest" teams. Every record is made by a real induction: the suite warps onto each Hall
+of Fame room's arrival tile, the room's script runs the induction, the screen saves and soft
+resets, and Continue returns to the field; the lead's level is set to the induction number first so
+each record names its place in the order. After 32 Kanto inductions and one Hoenn induction it
+opens HALL OF FAME at the Viridian and Oldale Center PCs with real input, then inducts in Kanto
+once more and opens the Oldale viewer again. Each viewer must open on the latest induction and the
+loaded records must be every induction, oldest first (screenshots of each first page). Unfixed
+**48/53** (the Kanto viewer opens on Lv32 under "No. 33", the records read `2..30,33,31,32`, and
+after the next Kanto induction the Hoenn viewer still opens on Lv33), fixed **53/53**.

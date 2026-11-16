@@ -8,7 +8,7 @@
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/InputSpamStress.lua <rom>
 --
 -- Exploring and replaying (pass with the runner's --env): PW_SPAM_BASE=<n> seeds a different
--- mash; PW_SPAM_ONLY=<text> runs only matching scenarios; PW_SPAM_SAVE=<dir> keeps a savestate
+-- mash (each scenario derives its seed from it and its name); PW_SPAM_ONLY=<text> runs only matching scenarios; PW_SPAM_SAVE=<dir> keeps a savestate
 -- before and after each scenario's mash; PW_SPAM_LOAD=<state> with PW_SPAM_SEED, PW_SPAM_ONLY,
 -- and optionally PW_SPAM_ICON (a Start-menu icon to open first) replays one mash from a kept
 -- state; PW_SPAM_TRACE=1 logs every mashed frame. PW_SPAM_GENDER=1 plays as the girl,
@@ -25,7 +25,15 @@ local HUB_GROUP = 100
 local ONLY = os.getenv("PW_SPAM_ONLY")
 local TRACE = os.getenv("PW_SPAM_TRACE")
 
-local seed = tonumber(os.getenv("PW_SPAM_BASE") or "") or 0x5EED
+local BASE = tonumber(os.getenv("PW_SPAM_BASE") or "") or 0x5EED
+local seed = BASE
+-- Each scenario seeds from BASE and its own name, so a frame-count change in one scenario never
+-- re-rolls the mash of every scenario after it.
+local function scenarioSeed(tag)
+  local h = BASE & 0x7FFFFFFF
+  for i = 1, #tag do h = ((h ~ tag:byte(i)) * 16777619) & 0x7FFFFFFF end
+  return h
+end
 local function rnd()
   seed = (seed * 1103515245 + 12345) & 0x7FFFFFFF
   return seed >> 8
@@ -176,6 +184,7 @@ end
 
 local function scenario(tag, body)
   if ONLY and not tag:find(ONLY, 1, true) then return end
+  if not os.getenv("PW_SPAM_LOAD") then seed = scenarioSeed(tag) end
   F.L(string.format("== %s == seed=%d", tag, seed))
   if SAVE_DIR then client.savestate(SAVE_DIR .. "/" .. tag:gsub("%W", "_") .. ".ss") end
   local result, at = body()

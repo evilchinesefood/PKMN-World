@@ -243,3 +243,4 @@ TrickHouseRewards	lua/TrickHouseRewards.lua	fresh	0	required
 MirageTowerCollapse	lua/MirageTowerCollapse.lua	fresh	0	required
 HoennRegiPuzzles	lua/HoennRegiPuzzles.lua	fresh	0	required
 AbandonedShipScanner	lua/AbandonedShipScanner.lua	fresh	0	required
+CinnabarFossilNeedsFossil	lua/CinnabarFossilNeedsFossil.lua	fresh	0	required

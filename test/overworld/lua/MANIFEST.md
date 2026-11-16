@@ -2707,3 +2707,15 @@ tile in hand must return control with the flag clear and a fresh board on the ne
 Kabuto drop must show B1F's "strange presence" line. Last, the Kabuto chamber's sensor must refuse a
 Lapras lead and react to a Kabuto lead (swapped to the front in RAM), and its door must lead into the
 reward room. Measured **40/40**; no defect found.
+### `CapeBrinkUltimateMoves.lua`
+
+The Cape Brink tutor offers a fully friendly Venusaur, Charizard or Blastoise its ultimate move. The
+move is chosen in C (`CapeBrinkGetMoveToTeachLeadPokemon`), and `tools/learnset_helpers/make_tutors.py`
+only reads `setvar VAR_0x8005, MOVE_*` from scripts, so Frenzy Plant, Blast Burn and Hydro Cannon were
+never tutor moves, no teachable learnset held them, and the party menu showed the starter NOT ABLE
+("Buffie and Frenzy Plant are not compatible"). They are now listed in `extraTutors`
+(`src/data/pokemon/special_movesets.json`), the helper's input for tutors defined outside scripts.
+The suite turns the debug party's lead into each starter at 255 friendship with three moves, then
+the talk, both Yes answers and the party pick are real input. **Oracle:** the lead knows the
+ultimate move afterwards and the tutor's flag is set. **Discrimination:** unfixed 3/12 (all three
+refused as not compatible), fixed 12/12.

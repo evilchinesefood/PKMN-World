@@ -2480,3 +2480,16 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `FrontierRecordedBattle.lua`
+
+A Battle Frontier battle recorded on the Frontier Pass must play back with the Pokemon that fought.
+The lobby's "record your last match" prompt comes after the facility has put the player's party back
+and cleared the opponent's, and `MoveRecordedBattleToSaveData` copied the live `gParties`, so the
+record held the player's own party in its own order and an empty opponent party. The suite takes the
+Battle Arena Lv. 50 challenge with real input, picking Venusaur, Blastoise, Charizard (the party
+leads with Charizard); six battles are won with the opponents held at 1 HP and the seventh is fought
+straight so its record replays faithfully. Both leads and their max HP are noted at the seventh
+battle's start and the prompt is answered Yes. The Frontier Pass is opened from the Start menu, the
+cursor moved onto Battle Record and the record played: both leads must match, and playback must
+return to the pass. Measured **11/11** fixed and **9/11** on the unfixed ROM (playback led with
+Charizard against species 0 with 0 HP).

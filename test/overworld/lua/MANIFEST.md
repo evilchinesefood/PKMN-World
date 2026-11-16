@@ -2459,3 +2459,15 @@ one prize in the bag, take the Safari Balls, set the day's flag and leave the at
 second contest; Continue on the new day must clear the flag and record the day. Measured **37/37**,
 and **9/13** with `0829014ec0`'s `setflag FLAG_DAILY_BUG_CONTEST_COMPLETED` removed (a second
 contest started the same day). The catch is a debug-given Weedle inside the contest.
+### `FrontierLobbyContinue.lua`
+
+Save and Continue inside the seven Battle Frontier lobbies, the Fallarbor, Verdanturf and Slateport
+Battle Tents and the Trainer Tower lobby, plus a soft reset inside the Hoenn Safari Zone. Each lobby
+case walks in from the door with a debug Set Party follower out, saves from the Start menu, soft
+resets and continues; the map, tile and facing, the playing song (`gMPlayInfo_BGM` against
+`gSongTable`), the follower (shown beside the player) and control must come back as they were, and
+the player must walk. The Safari case saves in the entrance, enters through the attendant (a
+Pokeblock case is put in the bag), walks until the step counter moves, requires that the Safari
+Start menu offers no SAVE, then soft resets: Continue must land on the entrance save with Safari mode
+off and no Safari Balls. Measured **111/111**; no defect found. `--env PW_LOBBY_ONLY=<text>` runs
+matching cases.

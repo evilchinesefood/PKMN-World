@@ -215,3 +215,4 @@ PokenavRegionNames	lua/PokenavRegionNames.lua	fresh	0	required
 HealMigrationContinue	lua/HealMigrationContinue.lua	fresh	0	required
 LittleCupRules	lua/LittleCupRules.lua	fresh	0	required
 BugContestDayChange	lua/BugContestDayChange.lua	fresh	0	required
+FrontierLobbyContinue	lua/FrontierLobbyContinue.lua	fresh	0	required

@@ -60,7 +60,7 @@
 #define SAVE_FORMAT_LAYOUT_MIN 7
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
-// (e.g. #if QUEST_MENU where QUEST_MENU is defined as TRUE or FALSE) evaluate
+// (e.g. #if POKEVIAL_FEATURE where POKEVIAL_FEATURE is defined as TRUE or FALSE) evaluate
 // correctly during asm preprocessing. global.inc handles the .set conflict via
 // #undef before each .set and #define restoration after. In C translation units
 // gba/defines.h already defines these; the #ifndef guards prevent redefinition.
@@ -102,7 +102,6 @@
 #include "config/pokevial.h"
 #include "config/qol_field_moves.h"
 #include "config/link.h"
-#include "config/quests.h"
 #include "config/start_menu.h"
 #include "config/summary_screen.h"
 #include "config/swsh_item_menu.h"

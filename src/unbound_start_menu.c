@@ -18,7 +18,6 @@
 #include "bg.h"
 #include "config/debug.h"
 #include "config/dexnav.h"
-#include "config/quests.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_pyramid.h"
 #include "constants/characters.h"

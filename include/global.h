@@ -263,12 +263,6 @@ struct Pokevial
     u8 dose : 4;
 };
 
-#if QUEST_MENU
-#include "constants/quests.h"
-#define QUEST_FLAGS_COUNT ROUND_BITS_TO_BYTES(QUEST_COUNT)
-#define SUB_FLAGS_COUNT ROUND_BITS_TO_BYTES(SUB_QUEST_COUNT)
-#define QUEST_STATES 5 // Number of different quest states tracked in the saveblock
-#endif // QUEST_MENU
 
 // Graphical start menu icon order (PW_GRAPHICAL_START_MENU). Not #if-gated so the
 // save layout never shifts when that config is flipped.
@@ -1003,9 +997,9 @@ struct SaveBlock3
     // in load_save.c. One byte is not worth a save-format bump; with the flag off this is
     // simply reserved. Feature flags must never move the save layout (see config/link.h).
     struct Pokevial pokevial;
-    // Quest system removed (QUEST_MENU is FALSE — see include/config/quests.h). These 24 bytes
-    // are RESERVED, NOT reclaimed, and the field is deliberately unconditional so the layout no
-    // longer moves with that flag. `region` must stay at offsetof 0x20 or every existing v7 save
+    // Quest system removed (its source and config were deleted; see git history). These 24 bytes
+    // are RESERVED, NOT reclaimed, and the field is deliberately unconditional so the layout
+    // never moves. `region` must stay at offsetof 0x20 or every existing v7 save
     // misreads its region data; load_save.c:321 asserts exactly that, so removing this field
     // fails the build rather than corrupting saves. Reclaiming the space is a save-format v8 and
     // a second forced new game, which is not worth 24 bytes. If a bump ever happens for its own

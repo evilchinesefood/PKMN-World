@@ -2433,3 +2433,16 @@ not drop the player on the door outside, and control must return. Version 12 is 
 build between the v12 bump and the repair. Measured **121/121** fixed and **115/121** on the unfixed
 ROM, where the repair ran only below v12 and all three v12 cases whited out onto the door.
 `--env PW_HEAL_ONLY=<text>` runs matching cases (`azalea`, `v12`).
+### `LittleCupRules.lua`
+
+The Battle Net Little Cup room at the Hub 2F streak attendant, with real input. Each case builds a
+party (script `createmon` at a level, or the debug Give Egg), talks to the attendant and picks
+LITTLE CUP. A refusal must print the Little Cup rule (read from `gStringVar4`) and return to the
+menu with the party and BP untouched; an accepted party must start a sim battle against three level
+5 opponents, and a win (forced through `gBattleOutcome`) must print the award line and pay 2 BP.
+Accepted: Bulbasaur, Pichu, Azurill and Eevee at level 5, and an Egg with a level 5 Bulbasaur.
+Refused: Bulbasaur at 4 and 6, Ivysaur, Pikachu, Chansey, Roselia, Marill and Ditto at 5, a
+Flower Crown Eevee (a special form that cannot evolve), Bulbasaur with Ivysaur, and an Egg alone.
+Measured **82/82**, and **74/82** with `0829014ec0`'s `BnetMarkPreEvos` bound reverted to #386,
+where Chansey (Happiny) and Roselia (Budew) were let in and won BP. `--env PW_LC_ONLY=<text>` runs
+matching cases.

@@ -213,3 +213,4 @@ DarkPopupDarkness	lua/DarkPopupDarkness.lua	fresh	0	required
 CyclingRoadSaveContinue	lua/CyclingRoadSaveContinue.lua	fresh	0	required
 PokenavRegionNames	lua/PokenavRegionNames.lua	fresh	0	required
 HealMigrationContinue	lua/HealMigrationContinue.lua	fresh	0	required
+LittleCupRules	lua/LittleCupRules.lua	fresh	0	required

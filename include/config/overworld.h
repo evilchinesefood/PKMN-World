@@ -117,7 +117,7 @@
 
 // Map pop-up config
 #define OW_POPUP_GENERATION        GEN_8    // Different generations display location names in overworld pop-ups differently.
-                                            // Choices are GEN_3, GEN_5 and GEN_8. All others will default to Gen3 pop-ups.
+                                            // Must stay GEN_8: the GEN_3 and GEN_5 pop-up art and code in src/map_name_popup.c were deleted.
                                             // Due to changes in project scope, as detailed in docs/team_procedures/scope.md,
                                             // no other overworld popups will be implemented in expansion.
 

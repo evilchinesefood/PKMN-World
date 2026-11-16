@@ -209,3 +209,4 @@ NewGameOverSave	lua/NewGameOverSave.lua	fresh	0	required
 EggOnlyIslandLegends	lua/EggOnlyIslandLegends.lua	fresh	0	required
 BirthIslandRockReset	lua/BirthIslandRockReset.lua	fresh	0	required
 BirthIslandRockPalette	lua/BirthIslandRockPalette.lua	fresh	0	required
+DarkPopupDarkness	lua/DarkPopupDarkness.lua	fresh	0	required

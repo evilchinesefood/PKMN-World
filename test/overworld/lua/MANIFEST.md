@@ -2307,6 +2307,19 @@ default, so only the banner and label showed. The suite warps into Dark Cave, pr
 real input while the arrival pop-up task runs, reads `REG_WINOUT` and screenshots the menu.
 Control: the same after the pop-up has gone. Measured **7/7** fixed and **6/7** on the unfixed ROM.
 The Pyramid shows the same on its first floor (its "Floor" pop-up is up when control returns).
+Since `DarkPopupDarkness.lua` dark places start no pop-up, so the suite now requires none on arrival
+and the menu opened right after the arrival must still show its icons.
+
+### `DarkPopupDarkness.lua`
+
+A GEN_8 map-name pop-up clips its slide with WIN0 and sets WINOUT to show BG1-3 and sprites outside
+it. In a dark place the light circle owns WIN0 through a per-scanline effect, so the banner never
+showed and the whole dark map was lit (WINOUT `0x001E` instead of `0x0101`) for the three seconds the
+pop-up ran. `ShowMapNamePopup` now starts no GEN_8 pop-up when the flash level is above 0 or on a
+Battle Pyramid floor. With real input the player climbs down Granite Cave B1F's ladder into dark
+B2F (stepping off the ladder to the side a wandering Pokémon leaves free); for 200 frames no pop-up
+task may run and WINOUT must keep BG1-3 out. Control: a debug warp onto lit Route 106 still starts
+the pop-up. Unfixed **5/7** (186 of 200 frames lit), fixed **7/7**.
 ### `PyramidRestUsm.lua`
 
 Rest in the Battle Pyramid from the graphical Start menu must quit to the title like the classic

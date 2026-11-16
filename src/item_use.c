@@ -1677,8 +1677,11 @@ bool32 CannotUseItemsInBattle(enum Item itemId, struct Pokemon *mon)
 
 void ItemUseInBattle_BagMenu(u8 taskId)
 {
-    gPartyMenu.slotId = gBattleStruct->itemPartyIndex[gBattlerInMenuId] = gBattlerPartyIndexes[gBattlerInMenuId];
-    if (CannotUseItemsInBattle(gSpecialVar_ItemId, NULL))
+    // CannotUseItemsInBattle reads slotId as the field slot (0 left, 1 right), not a party index:
+    // a Pokemon sent out from party slot 2 or later is still on the field.
+    gPartyMenu.slotId = (GetBattlerPosition(gBattlerInMenuId) == B_POSITION_PLAYER_RIGHT) ? 1 : 0;
+    gBattleStruct->itemPartyIndex[gBattlerInMenuId] = gBattlerPartyIndexes[gBattlerInMenuId];
+    if (CannotUseItemsInBattle(gSpecialVar_ItemId, GetBattlerMon(gBattlerInMenuId)))
     {
         if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);

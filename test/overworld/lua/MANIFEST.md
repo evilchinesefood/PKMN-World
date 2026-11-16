@@ -2494,3 +2494,16 @@ quiz with a wrong answer) must print "received" and the "transferred to" PC noti
 must be in box 1. **23/30** on the unfixed ROM, **30/30** with the fix. `AuditCapacity.py` now also
 flags a `givemon` whose box outcome reaches no PC notice (it named exactly Tyrogue and the basic
 Dratini before the fix).
+
+### `BattleXItemBenchLead.lua`
+
+X items and Dire Hit from the in-battle Bag in a single battle must work on the Pokemon on the field
+whichever party slot it came from. Each case builds a party with createmon, starts a wild Magikarp
+battle (`setwildbattle` + `dowildbattle`) and uses the item with real input: BAG, A on the item, A on
+USE. The field Pokemon's stat stage must rise (Dire Hit: the Bag must accept and spend it) and one
+item must leave the Bag. Cases: the lead in slot 0 (control); slots 0 and 1 fainted so slot 2 leads,
+as a lost fight leaves the party (X Attack, X Speed, Dire Hit); and a real in-battle switch to slot 4
+(POKEMON, Shift) before the item. Before the fix `ItemUseInBattle_BagMenu` set `gPartyMenu.slotId` to
+the party index, which `CannotUseItemsInBattle` reads as the field slot, so every stat item was
+refused with "It won't have any effect." for a Pokemon from slot 2 or later: **35/46** on the
+unfixed ROM, **46/46** with the fix.

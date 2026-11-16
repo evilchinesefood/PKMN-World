@@ -2480,3 +2480,20 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `HofRecordsCrossRegion.lua`
+
+Hall of Fame records shared by the three regions. Kanto records and views them with
+`hall_of_fame_frlg.c`, Hoenn and Johto with `hall_of_fame.c`, over the same save sectors. The suite
+enters the Kanto Hall of Fame 31 times, then a Hoenn one and a first Johto clear (`VAR_LEAGUE_STATE`
+6, as the Champion's room leaves it): a debug warp puts the player on each room's entrance, and the
+cutscene, the recording screen, the soft reset, the title screen and Continue run on a seeded mash
+of single A, B, Start and Select presses. Each Continue must land on the region's respawn (Pallet
+Town, the Littleroot bedroom, New Bark Town) with control. The lead is a new species before each
+entry. A Hoenn Center PC after the Kanto entries, a Kanto Center PC after the Hoenn entry and a
+Hoenn PC after the Johto entry are walked to and opened by input: each viewer must open on the
+newest team, numbered by `GAME_STAT_ENTERED_HOF`, and still hold the first record. Measured
+**28/28**. With Hoenn and Johto capped at 30 teams and Kanto at 50 (before the shared
+`HALL_OF_FAME_MAX_TEAMS`), **24/28**: the Hoenn viewer opened on the 30th team labelled No. 31, the
+Hoenn record overwrote a Kanto one and was hidden behind the 31st Kanto team, and the first record
+was dropped with room to spare. `--env PW_HOF_SEED=<n>` reseeds the mash, `PW_HOF_KANTO=<n>` sets
+the Kanto entry count.

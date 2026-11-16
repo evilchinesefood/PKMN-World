@@ -23,6 +23,8 @@ WANT = [
     "CB2_Overworld",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
+    # HofRecordsCrossRegion.lua reads the Hall of Fame team buffer the PC viewer shows.
+    "gHoFSaveBuffer",
     # UsmOpenCloseStress.lua: the restored Start-menu cursor, and the sprite VRAM and OAM matrix
     # allocators, whose popcounts must return to the field baseline after every close.
     "sUsmSavedIcon", "sUsmSavedOffset", "sSpriteTileAllocBitmap", "gOamMatrixAllocBitmap",
@@ -660,6 +662,11 @@ def main():
         if not actions:
             sys.exit(f"action input callbacks not found in {elf}")
         lines.append("  ActionInputFunctions = { " + ", ".join(f"0x{address:08x}" for address in actions) + " },")
+        # hall_of_fame.c (Hoenn and Johto) and hall_of_fame_frlg.c (Kanto) each define this static.
+        viewers = sorted({address for address, _size in syms.get("Task_HofPC_HandleInput", [])})
+        if len(viewers) != 2:
+            sys.exit(f"expected two Hall of Fame PC input tasks in {elf}, found {len(viewers)}")
+        lines.append("  HofPCInputFunctions = { " + ", ".join(f"0x{address:08x}" for address in viewers) + " },")
 
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sb1 = saveblock1_offsets(root)

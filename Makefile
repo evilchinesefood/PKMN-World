@@ -464,6 +464,9 @@ check: $(TESTELF)
 # ValidateRegionText.py reads every string a Johto map can reach, through shared Hoenn scripts too,
 # and fails on a Hoenn place name: Goldenrod's coin clerk ran Mauville's script and greeted
 # "This is MAUVILLE GAME CORNER." while everything else stayed green.
+# ValidateConfigRules.py pairs each include/config toggle that diverges from FireRed, Emerald or
+# HGSS with the scripts and text that assume the source game's rule: the Cinnabar Lab revived a
+# fossil the player had sold, and badge speeches promised stat boosts B_BADGE_BOOST removed.
 validate:
 	python3 test/overworld/ValidateRegionalCenters.py
 	python3 test/overworld/TestRegionalTravelMigration.py
@@ -489,6 +492,7 @@ validate:
 	python3 test/overworld/ValidateLanceMultiBattle.py
 	python3 test/overworld/ValidateZoneStructure.py
 	python3 test/overworld/ValidateRegionText.py
+	python3 test/overworld/ValidateConfigRules.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the

@@ -38,6 +38,7 @@ CHECKS = (
     ("ValidateLanceMultiBattle.py",),
     ("ScanInputChords.py", "--check"),
     ("ValidateEllipsis.py",),
+    ("ValidateConfigRules.py",),
 )
 
 

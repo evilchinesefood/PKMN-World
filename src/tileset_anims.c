@@ -518,10 +518,8 @@ const u16 tileset_anims_space_9[16] = {};
 const u16 gTilesetAnims_BattlePyramid_StatueShadow_Frame0[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/statue_shadow/0.png", ".4bpp");
 const u16 gTilesetAnims_BattlePyramid_StatueShadow_Frame1[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/statue_shadow/1.png", ".4bpp");
 const u16 gTilesetAnims_BattlePyramid_StatueShadow_Frame2[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/statue_shadow/2.png", ".4bpp");
-const u16 tileset_anims_space_10[7808] = {};
 
 const u16 gTilesetAnims_Unused2_Frame0[] = INCGFX_U16("data/tilesets/secondary/unused_2/0.png", ".4bpp");
-const u16 tileset_anims_space_11[224] = {};
 
 const u16 gTilesetAnims_Unused2_Frame1[] = INCGFX_U16("data/tilesets/secondary/unused_2/1.png", ".4bpp");
 

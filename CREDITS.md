@@ -246,7 +246,7 @@ complex quest branching (`OW_QUEST_BRANCHING`) derive from the quest feature in
 - **RubyRaven6** ([Ruby](https://github.com/RubyRaven6)) and **Evan** —
   additional quest fixes and changes in that repo.
 - The quest menu itself derives from **FireRed** quest-menu code, **ported from FireRed
-  by ghoulslash** (per the attribution comment retained in `src/quests.c`). That lineage
+  by ghoulslash** (per the attribution comment in `src/quests.c`, which was deleted with the rest of the unused quest engine and remains in git history). That lineage
   traces back to the Pokémon Unbound / Complete FireRed Upgrade quest menu by
   **[Skeli](https://github.com/Skeli789)**
   ([Complete-Fire-Red-Upgrade](https://github.com/Skeli789/Complete-Fire-Red-Upgrade)).

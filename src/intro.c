@@ -22,7 +22,6 @@
 #include "sound.h"
 #include "util.h"
 #include "title_screen.h"
-#include "expansion_intro.h"
 #include "battle_anim.h"
 #include "intro_frlg.h"
 #include "constants/rgb.h"
@@ -1102,13 +1101,8 @@ static u8 SetUpCopyrightScreen(void)
     case COPYRIGHT_START_INTRO:
         if (UpdatePaletteFade())
             break;
-#if EXPANSION_INTRO == TRUE
-        SetMainCallback2(CB2_ExpansionIntro);
-        CreateTask(Task_HandleExpansionIntro, 0);
-#else
         CreateTask(Task_Scene1_Load, 0);
         SetMainCallback2(MainCB2_Intro);
-#endif
         // The GameCube "Joy Carry" multiboot payload (Pokémon Colosseum) was
         // removed from this single-player build; only the normal (no-GameCube)
         // path remains.

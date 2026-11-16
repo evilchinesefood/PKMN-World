@@ -1350,7 +1350,7 @@
 #define FLAG_SYS_POKEMON_GET                         (SYSTEM_FLAGS + 0x0) // FLAG_0x860
 #define FLAG_SYS_POKEDEX_GET                         (SYSTEM_FLAGS + 0x1)
 #define FLAG_SYS_POKENAV_GET                         (SYSTEM_FLAGS + 0x2)
-#define FLAG_SYS_QUEST_MENU_GET                      (SYSTEM_FLAGS + 0x3) // add QUESTS to start menu
+#define FLAG_SYS_QUEST_MENU_GET                      (SYSTEM_FLAGS + 0x3) // Unused: the quest engine was deleted. The flag id stays reserved.
 #define FLAG_SYS_GAME_CLEAR                          (SYSTEM_FLAGS + 0x4) // any-region first HOF; gates cross-region conveniences and flavour. Region STORY gates on FLAG_<REGION>_CHAMPION -- see #206
 #define FLAG_SYS_CHAT_USED                           (SYSTEM_FLAGS + 0x5)
 #define FLAG_UNLOCKED_TRENDY_SAYINGS                 (SYSTEM_FLAGS + 0x6)

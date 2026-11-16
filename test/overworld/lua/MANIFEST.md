@@ -3065,3 +3065,14 @@ Continues in Dewford, reads the flags, and takes Rydel's first bike. **Oracle:**
 `VAR_BRINEY_LOCATION = 1` and Briney's Dewford dock survive; Rydel gives the first Mach Bike. Passes
 11/11 on both the unfixed and the fixed build by design; with the Dewford guard removed it drops to
 9/11. `test/overworld/TestXRegionSaveRepair.py` checks the same files against SavePatch's mirror.
+### `SummaryNoDynamaxRow.lua`
+
+Dynamax and Terastal are off in this Gen 1-3 game (`B_FLAG_DYNAMAX_BATTLE 0`, no Dynamax Band,
+Dynamax Candy, Max Soup or Tera Orb anywhere a player can reach), so the SwSh summary must not draw
+a "Dmax Lv." row or a Tera type badge. With real input the suite opens a Pokemon's summary from the
+Start menu party, from a PC box (Withdraw mode, Summary) and in the Rocket HQ multi battle with
+Lance, where it also scrolls onto his Dragonite. On each info page no sprite may sit visible at the
+Tera badge position; on each skills page BG2's tilemap row 11 must start with the Ability label
+(tiles `0x7B`-`0x7E` of `page_skills.bin`, not the Dmax label `0x84`-`0x87`) and the ability window
+must sit at tilemap row 11, directly under the stats. Measured **17/17**, and **6/17** with
+`SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL` and `SWSH_SUMMARY_SHOW_TERA_TYPE` back on.

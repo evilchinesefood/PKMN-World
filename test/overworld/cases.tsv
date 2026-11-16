@@ -270,3 +270,4 @@ PokegearKeepsHoennPokenav	lua/PokegearKeepsHoennPokenav.lua	fresh	0	required
 XRegionSaveRepair	lua/XRegionSaveRepair.lua	lua/fixtures/v12xregiondamaged.srm	0	required
 XRegionSaveRepairVoyage	lua/XRegionSaveRepairVoyage.lua	lua/fixtures/v12xregionvoyage.srm	0	required
 XRegionDamageFixtures	lua/XRegionDamageFixtures.lua	fresh	0	manual
+SummaryNoDynamaxRow	lua/SummaryNoDynamaxRow.lua	fresh	0	required

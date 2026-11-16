@@ -32,10 +32,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
-#define HALL_OF_FAME_MAX_TEAMS 50
 #define HALL_OF_FAME_BG_PAL    RGB(22, 24, 29)
-
-STATIC_ASSERT(sizeof(struct HallofFameTeam) * HALL_OF_FAME_MAX_TEAMS <= SECTOR_DATA_SIZE * NUM_HOF_SECTORS, HallOfFameFreeSpace);
 
 struct HofGfx
 {
@@ -421,9 +418,6 @@ static void Task_Hof_InitMonData(u8 taskId)
 
 static void Task_Hof_InitTeamSaveData(u8 taskId)
 {
-    u16 i;
-    struct HallofFameTeam *lastSavedTeam = gHoFSaveBuffer;
-
     if (!gHasHallOfFameRecords)
     {
         memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
@@ -436,23 +430,7 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
             HallOfFame_NormalizeLegacyEggs();
     }
 
-    for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++, lastSavedTeam++)
-    {
-        if (lastSavedTeam->mon[0].species == SPECIES_NONE)
-            break;
-    }
-    if (i >= HALL_OF_FAME_MAX_TEAMS)
-    {
-        struct HallofFameTeam *afterTeam = gHoFSaveBuffer;
-        struct HallofFameTeam *beforeTeam = gHoFSaveBuffer;
-        afterTeam++;
-        for (i = 0; i < HALL_OF_FAME_MAX_TEAMS - 1; i++, beforeTeam++, afterTeam++)
-        {
-            *beforeTeam = *afterTeam;
-        }
-        lastSavedTeam--;
-    }
-    *lastSavedTeam = *sHofMonPtr;
+    HallOfFame_AddTeam(sHofMonPtr);
 
     DrawDialogueFrame(0, 0);
     AddTextPrinterParameterized2(0, FONT_NORMAL, gText_SavingDontTurnOffPower, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
@@ -768,21 +746,8 @@ static void Task_HofPC_CopySaveData(u8 taskId)
     }
     else
     {
-        u16 i;
-        struct HallofFameTeam *savedTeams;
-
         HallOfFame_NormalizeLegacyEggs();
-        savedTeams = gHoFSaveBuffer;
-        for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++, savedTeams++)
-        {
-            if (savedTeams->mon[0].species == SPECIES_NONE)
-                break;
-        }
-
-        if (i < HALL_OF_FAME_MAX_TEAMS)
-            gTasks[taskId].data[0] = i - 1;
-        else
-            gTasks[taskId].data[0] = HALL_OF_FAME_MAX_TEAMS - 1;
+        gTasks[taskId].data[0] = HallOfFame_CountTeams() - 1;
 
         gTasks[taskId].data[1] = GetGameStat(GAME_STAT_ENTERED_HOF);
 

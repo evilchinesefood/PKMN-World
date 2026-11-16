@@ -227,3 +227,4 @@ BagSortTwoItems	lua/BagSortTwoItems.lua	fresh	0	required
 RelearnerDeclineHeartScale	lua/RelearnerDeclineHeartScale.lua	fresh	0	required
 SinglesBattleMashStress	lua/SinglesBattleMashStress.lua	fresh	0	required
 JohtoPlaceNames	lua/JohtoPlaceNames.lua	fresh	0	required
+SecretBaseMoveStress	lua/SecretBaseMoveStress.lua	fresh	0	required

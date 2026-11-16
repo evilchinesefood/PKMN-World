@@ -2603,3 +2603,14 @@ Emerald's. With real input (a Lapras in the party, Owen's defeat flag set as the
 suite talks to all three and reads the printed line: no Hoenn name, and the Johto one in its place.
 **6/12** on the unfixed ROM, **12/12** with the fix. `ValidateRegionText.py` (in `make validate`) now
 reads every string a Johto map can reach and failed on exactly these three.
+### `SecretBaseMoveStress.lua`
+
+Secret Power on all three Hoenn entrance types and moving the base twice, which no suite touched.
+With every decoration given (an `adddecoration` script per id) and Secret Power written into the
+debug Wobbuffet's last slot, the suite makes a base in the Route 116 blue cave, opens its PC and the
+Decorate category list, then moves to the Route 110 tree and the Route 119 shrub. Each move must
+name the route of the base being left ("near ROUTE 116", then "near ROUTE 110"), land in the right
+base map in front of its PC (25/2, 25/16, 25/17), and the live map grid must show the Route 116
+indent open while the base is there and closed after the move, and the Route 110 vines gone. Talks,
+YES answers and the PC menus are real input; the warps are debug warps. Coverage, no defect found:
+**23/23**.

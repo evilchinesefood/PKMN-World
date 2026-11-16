@@ -2480,3 +2480,14 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `RelearnerDeclineHeartScale.lua`
+
+Declining a move at the Move Relearner's "Teach X?" prompt took the Heart Scale anyway. Every
+relearner script runs `Special_HasMoveToRelearn` first, which leaves `VAR_RESULT` TRUE, and
+`LearnMove`'s No/B branch at the confirmation prompt (`src/chooseboxmon.c`) returned without
+clearing it, so the relearner closed as if a move was learned and the script printed "handed over
+one HEART SCALE" and removed it. With real input in the Fallarbor relearner's house the suite says
+YES, picks the debug Wobbuffet in the storage chooser, answers NO (cursor-verified) and then B at the
+prompt for Safeguard, and gives up from the list. The list must stay open after each decline, the
+Heart Scale must stay in the bag and the Wobbuffet's bytes must not change. Measured **9/13** on the
+unfixed ROM, **13/13** with the fix.

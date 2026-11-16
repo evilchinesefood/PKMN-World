@@ -217,3 +217,4 @@ LittleCupRules	lua/LittleCupRules.lua	fresh	0	required
 BugContestDayChange	lua/BugContestDayChange.lua	fresh	0	required
 FrontierLobbyContinue	lua/FrontierLobbyContinue.lua	fresh	0	required
 MoneyCapPayouts	lua/MoneyCapPayouts.lua	fresh	0	required
+RelearnerDeclineHeartScale	lua/RelearnerDeclineHeartScale.lua	fresh	0	required

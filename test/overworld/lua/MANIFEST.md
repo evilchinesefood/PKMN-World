@@ -2480,3 +2480,17 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `PcOwnerName.lua`
+
+The storage PC's owner name in all three regions. Each region keeps its source game's owner and
+unlock: Lanette in Hoenn (`FLAG_SYS_PC_LANETTE`), Bill in Johto (`FLAG_SYS_PC_BILL`, set when he
+leaves the Ecruteak Pokemon Center) and Bill in Kanto (FireRed names his PC in the script that hands
+over the S.S. Ticket, so `FLAG_GOT_SS_TICKET`). Every unlock is the region's own script with real
+input: Ecruteak Bill, Sea Cottage Bill (with the flags the cell separator cutscene leaves) and
+Lanette in her house. At Pokemon Center PCs in all three regions, before and after each unlock, the
+menu is opened with real input, "Accessed ...'s PC." is read from `gStringVar4`, and the menu's first
+row is fingerprinted from the window tile data; each name must keep one fingerprint. With a full
+party, the Celadon Eevee gift line (`gStringVar4`) and a Master Ball catch of a wild Pidgey (battle
+text) must name Bill's PC. Measured **28/28**, and **21/28** before the fix: Johto said SOMEONE'S
+PC after Bill, Kanto's Bill set Lanette's flag so Hoenn said LANETTE'S PC, the Kanto gift said
+LANETTE'S PC, and the Johto access line said LANETTE's while its menu row said BILL'S.

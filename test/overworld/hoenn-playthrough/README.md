@@ -154,5 +154,3 @@ Both are cross-region and cannot happen in a Hoenn-only run.
 
 - `VAR_STARTER_MON` is one variable for all three regions. A starter picked later in Johto or
   Kanto changes which team the Hoenn rival uses (`data/maps/Route119/scripts.inc`, `data/maps/LilycoveCity/scripts.inc`).
-- `data/maps/GoldenrodCity/scripts.inc:22` clears `FLAG_RECEIVED_BIKE`, the flag Mauville's bike
-  shop also checks, so a Johto visit lets Rydel give the bike again.

@@ -2480,3 +2480,12 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `FrontierIneligibleText.lua`
+
+The Battle Frontier lobby refusal must spell "ineligible". `CheckPartyIneligibility` builds the end
+of every lobby attendant's "not enough eligible Pokemon" message in `gStringVar1` from two strings
+that read "inelegible". Two parties are refused at the Battle Arena attendant with real input
+(Challenge, Lv. 50), each from the same post-boot savestate: Mewtwo, Lugia and a duplicate pair
+(the "species you caught are ineligible" sentence) and two duplicate pairs (the short "are
+ineligible" ending). `gStringVar1` is poisoned before the level choice and decoded while the refusal
+is on screen. Measured **13/13** fixed and **9/13** on the unfixed ROM.

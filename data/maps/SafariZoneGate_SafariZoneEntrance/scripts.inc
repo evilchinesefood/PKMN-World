@@ -452,3 +452,19 @@ SafariZoneGate_SafariZoneEntrance_Text_Engineer:
 	.string "Sorry Trainer, this area is still\n"
 	.string "under construction. Check back\l"
 	.string "later!$"
+
+SafariZoneGate_SafariZoneEntrance_EventScript_WelcomeAttendant::
+	msgbox SafariZoneGate_SafariZoneEntrance_Text_WelcomeToSafariZone, MSGBOX_NPC
+	end
+
+SafariZoneGate_SafariZoneEntrance_Text_WelcomeToSafariZone:
+	.string "Welcome to the SAFARI ZONE!\p"
+	.string "Here, you may witness many kinds of\n"
+	.string "POKéMON rarely seen in JOHTO.\p"
+	.string "And, you'll see them in their wild,\n"
+	.string "untamed state in natural habitats.\p"
+	.string "What's more, we've thrown open the\n"
+	.string "gates to POKéMON TRAINERS.\p"
+	.string "You're encouraged to catch POKéMON\n"
+	.string "for keeps!\p"
+	.string "Come in and enjoy the SAFARI ZONE!$"

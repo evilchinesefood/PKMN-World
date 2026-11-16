@@ -68,7 +68,7 @@ JohtoVictoryRoad_B2F_Text_OwenDefeat:
 
 JohtoVictoryRoad_B2F_Text_OwenPostBattle:
 	.string "The rumors I heard, that tough little\n"
-	.string "kid is from PETALBURG CITY.$"
+	.string "kid is from NEW BARK TOWN.$"
 
 JohtoVictoryRoad_B2F_Text_CarolineIntro:
 	.string "You must be getting a little tired.$"

@@ -54,9 +54,9 @@ static const u8 *const sExplanations[] = {
 static const u8 *const sTitles[] = {
     [REGION_MAP_HOENN] = COMPOUND_STRING("Hoenn"),
     [REGION_MAP_KANTO] = COMPOUND_STRING("Kanto"),
-    [REGION_MAP_SEVII123] = COMPOUND_STRING("Sevii 1-3"),
-    [REGION_MAP_SEVII45] = COMPOUND_STRING("Sevii 4-5"),
-    [REGION_MAP_SEVII67] = COMPOUND_STRING("Sevii 6-7"),
+    [REGION_MAP_SEVII123] = COMPOUND_STRING("Orange Is. 1-3"),
+    [REGION_MAP_SEVII45] = COMPOUND_STRING("Orange Is. 4-5"),
+    [REGION_MAP_SEVII67] = COMPOUND_STRING("Orange Is. 6-7"),
     [REGION_MAP_JOHTO] = COMPOUND_STRING("Johto"),
 };
 

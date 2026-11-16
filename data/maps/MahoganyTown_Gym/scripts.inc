@@ -172,8 +172,8 @@ MahoganyTown_Gym_Text_ReceivedBadge:
     .string "{PLAYER} received GLACIERBADGE.$"
 
 MahoganyTown_Gym_Text_GlacierBadgeSpeech:
-    .string "That BADGE will raise the SPECIAL\n"
-    .string "ATTACK of POKéMON.\p"
+    .string "That BADGE makes POKéMON up to L80\n"
+    .string "obey, even traded ones.\p"
     .string "It also lets your POKéMON use\n"
     .string "WHIRLPOOL to cross swirling water.\p"
     .string "It also marks you as a TRAINER\n"

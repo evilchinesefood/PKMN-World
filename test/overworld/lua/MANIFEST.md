@@ -2996,3 +2996,13 @@ who already had Flash from Hoenn got his after-battle line and never fought him.
 flag as Granite Cave leaves it, gives a level 50 party member, debug-warps to (11,4) in front of Li,
 faces him and presses A. **Oracle:** a trainer battle starts (`gBattlersCount` > 0 with
 `BATTLE_TYPE_TRAINER`). **Discrimination:** unfixed 1/2 (no battle), fixed 2/2.
+### `BadgeSpeechRules.lua`
+
+Badge speeches must state this build's badge rules: `B_BADGE_BOOST` is `GEN_LATEST`, so no badge
+raises a stat, and `GetAttackerObedienceForAction` raises the obedience cap by 10 with every badge of
+the active region. The Cerulean badge describer is talked to four times with real input and its
+BOULDER, THUNDER, SOUL and VOLCANO rows must quote obedience up to level 20, 40, 60 and 80 and no
+stat; Roxanne is talked to and battled (the win is forced once the battle starts, her gym trainers'
+flags are set) and her STONE BADGE speech must quote level 20 and no ATTACK boost. Text is read
+from `gStringVar4`. Measured **11/21** on the unfixed ROM (every row promised a stat boost) and
+**21/21** fixed. `ValidateConfigRules.py` covers the other leaders' lines.

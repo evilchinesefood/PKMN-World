@@ -2792,3 +2792,17 @@ party stays empty. Control: an Old Amber in the bag is still taken, and after th
 Aerodactyl joins. The scientist wanders, so the suite talks to him only when he stands next to the
 player (his object, local id 2, not the follower). **Discrimination:** unfixed 18/20 (revive state 1;
 party 0 -> 1 with `FLAG_REVIVED_HELIX` set), fixed 20/20.
+### `PcOwnerName.lua`
+
+The storage PC's owner name in all three regions. Each region keeps its source game's owner and
+unlock: Lanette in Hoenn (`FLAG_SYS_PC_LANETTE`), Bill in Johto (`FLAG_SYS_PC_BILL`, set when he
+leaves the Ecruteak Pokemon Center) and Bill in Kanto (FireRed names his PC in the script that hands
+over the S.S. Ticket, so `FLAG_GOT_SS_TICKET`). Every unlock is the region's own script with real
+input: Ecruteak Bill, Sea Cottage Bill (with the flags the cell separator cutscene leaves) and
+Lanette in her house. At Pokemon Center PCs in all three regions, before and after each unlock, the
+menu is opened with real input, "Accessed ...'s PC." is read from `gStringVar4`, and the menu's first
+row is fingerprinted from the window tile data; each name must keep one fingerprint. With a full
+party, the Celadon Eevee gift line (`gStringVar4`) and a Master Ball catch of a wild Pidgey (battle
+text) must name Bill's PC. Measured **28/28**, and **21/28** before the fix: Johto said SOMEONE'S
+PC after Bill, Kanto's Bill set Lanette's flag so Hoenn said LANETTE'S PC, the Kanto gift said
+LANETTE'S PC, and the Johto access line said LANETTE's while its menu row said BILL'S.

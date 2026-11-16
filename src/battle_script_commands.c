@@ -10292,10 +10292,6 @@ static void Cmd_givecaughtmon(void)
                 StringCopy(gStringVar3, GetBoxNamePtr(GetIntendedDepositBox())); //box the mon was going to be sent to
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SOMEONES_BOX_FULL;
             }
-
-            // Change to B_MSG_SENT_LANETTES_PC or B_MSG_LANETTES_BOX_FULL
-            if (FlagGet(FLAG_SYS_PC_LANETTE))
-                gBattleCommunication[MULTISTRING_CHOOSER]++;
         }
 
         // Copy changedSpecies to allow caught mon to revert to its original species.

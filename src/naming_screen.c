@@ -14,7 +14,6 @@
 #include "field_player_avatar.h"
 #include "event_object_movement.h"
 #include "event_data.h"
-#include "regions.h"
 #include "constants/songs.h"
 #include "pokemon_storage_system.h"
 #include "graphics.h"
@@ -193,14 +192,6 @@ static const u16 sKeyboard_Pal[] = INCGFX_U16("graphics/naming_screen/keyboard.p
 static const u16 sRival_Gfx[] = INCGFX_U16("graphics/naming_screen/rival.png", ".4bpp");
 static const u16 sRival_Pal[] = INCGFX_U16("graphics/naming_screen/rival.pal", ".gbapal");
 
-static const u8 *const sTransferredToPCMessages[] =
-{
-    gText_PkmnTransferredSomeonesPC,
-    gText_PkmnTransferredLanettesPC,
-    gText_PkmnTransferredSomeonesPCBoxFull,
-    gText_PkmnTransferredLanettesPCBoxFull
-};
-
 
 static const u8 sText_RivalsName[] = _("RIVAL's NAME?");
 static const u8 sText_AlphabetUpperLower[] = _("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!");
@@ -347,7 +338,6 @@ static bool8 MainState_MoveToOKButton(void);
 static bool8 MainState_PressedOKButton(void);
 static bool8 MainState_FadeOut(void);
 static bool8 MainState_Exit(void);
-static void DisplaySentToPCMessage(void);
 static bool8 MainState_WaitSentToPCMessage(void);
 static bool8 MainState_StartPageSwap(void);
 static bool8 MainState_WaitPageSwap(void);
@@ -709,43 +699,6 @@ static bool8 MainState_Exit(void)
         FREE_AND_SET_NULL(sNamingScreen);
     }
     return FALSE;
-}
-
-static UNUSED void DisplaySentToPCMessage(void)
-{
-    u8 stringToDisplay = 0;
-    const u8 *msg;
-
-    if (!IsDestinationBoxFull())
-    {
-        StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
-        StringCopy(gStringVar2, sNamingScreen->destBuffer);
-    }
-    else
-    {
-        StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
-        StringCopy(gStringVar2, sNamingScreen->destBuffer);
-        StringCopy(gStringVar3, GetBoxNamePtr(GetIntendedDepositBox()));
-        stringToDisplay = 2;
-    }
-
-    if (FlagGet(FLAG_SYS_PC_LANETTE))
-        stringToDisplay++;
-
-    msg = sTransferredToPCMessages[stringToDisplay];
-    // Region merge: PC owner is Bill in Kanto, Lanette elsewhere - runtime dispatch.
-    if (GetCurrentRegion() == REGION_KANTO)
-    {
-        if (msg == gText_PkmnTransferredLanettesPC)
-            msg = gText_PkmnTransferredBillsPC;
-        else if (msg == gText_PkmnTransferredLanettesPCBoxFull)
-            msg = gText_PkmnTransferredBillsPCBoxFull;
-    }
-    StringExpandPlaceholders(gStringVar4, msg);
-    DrawDialogueFrame(0, FALSE);
-    gTextFlags.canABSpeedUpPrint = TRUE;
-    AddTextPrinterParameterized2(0, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-    CopyWindowToVram(0, COPYWIN_FULL);
 }
 
 static bool8 MainState_WaitSentToPCMessage(void)

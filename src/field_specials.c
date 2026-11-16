@@ -3587,6 +3587,55 @@ bool8 ShouldShowBoxWasFullMessage(void)
     return FALSE;
 }
 
+// Each region's storage PC keeps its source game's owner and unlock: Lanette in Hoenn, Bill in
+// Johto and Kanto. FireRed names Bill's PC in the script that hands over the S.S. Ticket.
+enum PcCreator GetPcCreator(void)
+{
+    switch (GetCurrentRegion())
+    {
+    case REGION_KANTO:
+        return FlagGet(FLAG_GOT_SS_TICKET) ? PC_CREATOR_BILL : PC_CREATOR_SOMEONE;
+    case REGION_JOHTO:
+        return FlagGet(FLAG_SYS_PC_BILL) ? PC_CREATOR_BILL : PC_CREATOR_SOMEONE;
+    default:
+        return FlagGet(FLAG_SYS_PC_LANETTE) ? PC_CREATOR_LANETTE : PC_CREATOR_SOMEONE;
+    }
+}
+
+static const u8 *const sPcTransferredTexts[][2] =
+{
+    [PC_CREATOR_SOMEONE] = { gText_PkmnTransferredSomeonesPC, gText_PkmnTransferredSomeonesPCBoxFull },
+    [PC_CREATOR_LANETTE] = { gText_PkmnTransferredLanettesPC, gText_PkmnTransferredLanettesPCBoxFull },
+    [PC_CREATOR_BILL]    = { gText_PkmnTransferredBillsPC,    gText_PkmnTransferredBillsPCBoxFull },
+};
+
+const u8 *GetPcTransferredText(bool32 boxWasFull)
+{
+    return sPcTransferredTexts[GetPcCreator()][boxWasFull ? 1 : 0];
+}
+
+static const u8 *const sPcAccessedTexts[] =
+{
+    [PC_CREATOR_SOMEONE] = gText_AccessedSomeonesPC,
+    [PC_CREATOR_LANETTE] = gText_AccessedLanettesPC,
+    [PC_CREATOR_BILL]    = gText_AccessedBillsPC,
+};
+
+void ScrBufferPcAccessedText(struct ScriptContext *ctx)
+{
+    StringExpandPlaceholders(gStringVar4, sPcAccessedTexts[GetPcCreator()]);
+}
+
+// STR_VAR_1 and STR_VAR_2 already hold the landing box and the Pokémon.
+void ScrBufferPcTransferredText(struct ScriptContext *ctx)
+{
+    bool32 boxWasFull = ShouldShowBoxWasFullMessage();
+
+    if (boxWasFull)
+        StringCopy(gStringVar3, GetBoxNamePtr(GetIntendedDepositBox()));
+    StringExpandPlaceholders(gStringVar4, GetPcTransferredText(boxWasFull));
+}
+
 bool8 IsDestinationBoxFull(void)
 {
     int box;

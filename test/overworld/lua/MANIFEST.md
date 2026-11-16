@@ -2784,7 +2784,9 @@ never tutor moves, no teachable learnset held them, and the party menu showed th
 The suite turns the debug party's lead into each starter at 255 friendship with three moves, then
 the talk, both Yes answers and the party pick are real input. **Oracle:** the lead knows the
 ultimate move afterwards and the tutor's flag is set. **Discrimination:** unfixed 3/12 (all three
-refused as not compatible), fixed 12/12.
+refused as not compatible), fixed 12/12. Every tutor later became reusable, so a fourth case talks to
+him again after all three moves and expects Frenzy Plant on a Venusaur again: one-time tutor 15/16
+(he said he felt rejuvenated and taught nothing), reusable 16/16.
 ### `OddSaveSpots.lua`
 
 Save and Continue on spots `ContinueOddMoments`, `TravelSaveContinue` and `CyclingRoadSaveContinue`
@@ -2906,15 +2908,40 @@ unfixed, **10/10** fixed.
 ### `KantoTutorRepeatPrompt.lua`
 
 A Kanto move tutor that teaches again must not warn that its move can be learned only once.
-`I_REUSABLE_TMS` is `TRUE`, so `move_tutors_frlg.inc` compiles out the fifteen FRLG tutors' "taught"
-flags and each tutor offers its move on every visit, yet each still asked "This move can be learned
-only once. Is that okay?" before the party menu. The warning is now compiled out with the flags.
-Cape Brink's ultimate-move tutor keeps its flags in C and stays one-time, so it keeps the warning.
+`I_REUSABLE_TMS` is `TRUE`, so `move_tutors_frlg.inc` compiled out the fifteen FRLG tutors' "taught"
+flags and each tutor offered its move on every visit, yet each still asked "This move can be learned
+only once. Is that okay?" before the party menu. The warning was compiled out with the flags, and
+later every tutor became reusable by rule: the flag gates and the warning are gone from the source,
+and Cape Brink's ultimate-move tutor teaches again as well (see `HoennTutorRepeat.lua`).
 The suite gives two level 5 Mew, enters the Pewter Museum by its back door and asks the Seismic
 Toss tutor twice with real input, answering YES to every Yes/No box and picking the other Mew the
 second time. **Oracle:** each visit raises exactly one Yes/No box (`Task_HandleYesNoInput` going
 live) before the party menu, and both Mew learn Seismic Toss. **Discrimination:** unfixed 7/9
 (`boxes=2` on both visits; the screenshots show the warning), fixed 9/9.
+### `HoennTutorRepeat.lua`
+
+A Hoenn move tutor must teach its move again, with no "learned only once" warning. Emerald's
+`move_tutor` macro set a `FLAG_MOVE_TUTOR_TAUGHT_*` flag after the first lesson, asked "This move can
+be learned only once. Is that okay?" first, and on every later visit jumped straight to the farewell
+line. Every tutor in all three regions is now reusable; `ValidateConfigRules.py` fails on a
+one-time tutor line or a flag that a lesson sets and the offer tests. The suite gives two level 5
+Mew, sets the region to Hoenn, stands before the Verdanturf Pokemon Center Fury Cutter tutor and
+asks him twice with real input, answering YES to every Yes/No box and picking the other Mew in the
+storage chooser the second time. **Oracle:** each visit raises exactly one Yes/No box before the
+chooser opens, and both Mew learn Fury Cutter. **Discrimination:** unfixed 6/10 (`boxes=2` on the
+first visit; on the second no box, no chooser and the second Mew never learns), fixed 10/10.
+### `MartEvoStock.lua`
+
+The marts that stocked evolution items must not sell one that evolves nothing obtainable. Gen 4+
+families are stripped, so 37 evolution items (Dusk Stone, Electirizer, Oval Stone, the Galarica and
+Sweet items and more) evolve no species the player can own, yet Celadon Dept. Store 4F, Lilycove
+Dept. Store 2F, the Mahogany shop and the Hub Battle Depot sold them. `ValidateDeadEvoItems.py`
+derives the dead list from the species table and fails on a mart that sells one; this suite reads the
+stock the game shows. For each mart it stands at the clerk's counter, presses A until the shop opens
+and reads `sMartInfo`'s item list (Mahogany needs `VAR_MAHOGANY_TOWN_STATE` 14, which the Rocket
+hideout leaves). **Oracle:** no dead item is for sale, while the Fire Stone, the Linking Cord and,
+where it was sold, the Razor Claw (kept for its held critical-hit boost) still are.
+**Discrimination:** unfixed 12/16 (24, 24, 28 and 4 dead items for sale), fixed 16/16.
 ### `TmAdviceReusable.lua`
 
 TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,
@@ -3099,13 +3126,17 @@ Continues in Dewford, reads the flags, and takes Rydel's first bike. **Oracle:**
 
 Dynamax and Terastal are off in this Gen 1-3 game (`B_FLAG_DYNAMAX_BATTLE 0`, no Dynamax Band,
 Dynamax Candy, Max Soup or Tera Orb anywhere a player can reach), so the SwSh summary must not draw
-a "Dmax Lv." row or a Tera type badge. With real input the suite opens a Pokemon's summary from the
-Start menu party, from a PC box (Withdraw mode, Summary) and in the Rocket HQ multi battle with
-Lance, where it also scrolls onto his Dragonite. On each info page no sprite may sit visible at the
-Tera badge position; on each skills page BG2's tilemap row 11 must start with the Ability label
-(tiles `0x7B`-`0x7E` of `page_skills.bin`, not the Dmax label `0x84`-`0x87`) and the ability window
-must sit at tilemap row 11, directly under the stats. Measured **17/17**, and **6/17** with
-`SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL` and `SWSH_SUMMARY_SHOW_TERA_TYPE` back on.
+a "Dmax Lv." row, a Tera type badge or the Gigantamax icon. With real input the suite opens a
+Pokemon's summary from the Start menu party, from a PC box (Withdraw mode, Summary) and in the
+Rocket HQ multi battle with Lance, where it also scrolls onto his Dragonite. The player's party and
+the opened box carry the Gigantamax factor, seeded into their encrypted data. On each info page no
+sprite may sit visible at the Tera badge position; on the seeded Pokemon's info and skills pages none
+may sit at the Gigantamax icon position (114, 17); on each skills page BG2's tilemap row 11 must start with the
+Ability label (tiles `0x7B`-`0x7E` of `page_skills.bin`, not the Dmax label `0x84`-`0x87`) and the
+ability window must sit at tilemap row 11, directly under the stats. Measured **17/17**, and
+**6/17** with `SWSH_SUMMARY_SHOW_DYNAMAX_LEVEL` and `SWSH_SUMMARY_SHOW_TERA_TYPE` back on. With the
+Gigantamax checks: **25/25**, and **19/25** with `SWSH_SUMMARY_SHOW_GIGANTAMAX` back on (the icon on
+the party, box and multi info and skills pages).
 ### `ExchangeCornerPurchases.lua`
 
 The Battle Frontier Exchange Service Corner at the edges, all four clerks with real input (the two

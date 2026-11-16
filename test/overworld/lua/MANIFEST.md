@@ -2638,3 +2638,13 @@ rolls differ), wins each Dome battle (opponents held at 1 HP), and reads the bra
 the fourth battle must leave RED as the only other trainer standing. The win must set
 `FLAG_WORLD_CHAMPION` and clear `VAR_WORLD_CHAMPIONSHIP_MODE`. Measured **26/26** fixed and
 **20/26** on the unfixed ROM (RED out in round 2, 2 and 3 of the three runs).
+### `StoryMapIslandTitles.lua`
+
+The Kanto islands were renamed the ORANGE ISLANDS in every player-facing string (b1af7bc9a3), but
+the Story destination map still titled their three regional maps "Sevii 1-3", "Sevii 4-5" and
+"Sevii 6-7". The suite writes Celio's quest state the way his scripts leave it (scene 4, scene 5,
+and scene 5 with Icefall Cave's back room done), so the optional Kanto objective pins Kindle Road,
+Four Island and Ruin Valley, and opens Story, its optional page and the map with real input.
+**Oracle:** with the map on screen, the title for that island map (`sTitles` indexed by its
+`enum RegionMapType`) names the Orange Islands and the island range, and never "Sevii"; each map is
+screenshot. **Discrimination:** unfixed 6/9 (`title=Sevii 1-3`, `Sevii 4-5`, `Sevii 6-7`), fixed 9/9.

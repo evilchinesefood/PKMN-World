@@ -2977,3 +2977,14 @@ Cinnabar, west at Viridian, whose south tile is a ledge) and walks in. **Oracle:
 lock tile is refused (still flying), and walking in never reaches the gym map. **Discrimination:**
 unfixed 6/10 (landed on both lock tiles and walked into Cinnabar Gym and Viridian Gym), fixed 12/12.
 `SkyCharmLanding` 10/10, `SkyCharmBikeAloft` 19/19 and `SkyCharmMahoganySetup` 12/12 on the fixed ROM.
+### `HeldItemTradeEvolution.lua`
+
+The trade evolutions that need a held item must work from the Bag. Link trade is compiled out and
+the stores sell the Metal Coat, King's Rock, Dragon Scale, Up-Grade and both Deep Sea items to be
+used like stones, but `I_USE_EVO_HELD_ITEMS_FROM_BAG` left them on `ItemUseOutOfBattle_CannotUse`.
+Eight cases (Scyther and Onix with a Metal Coat, Seadra, Porygon, Slowpoke and Poliwhirl, Clamperl
+with each Deep Sea item) give the base species through the debug Give menu and one item, then open
+the Bag, pick Use and the party slot and drive the evolution with A; Kadabra with a Linking Cord is
+the control. Each must arm an evolution-stone use, evolve into its trade evolution and spend the
+item. Measured **13/45** on the unfixed ROM (Use printed Dad's advice; only the control evolved)
+and **45/45** fixed. `--env PW_EVO_ONLY=<text>` runs matching cases.

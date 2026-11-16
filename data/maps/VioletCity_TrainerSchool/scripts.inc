@@ -127,14 +127,12 @@ VioletCity_TrainerSchool_Text_NoMoreToTeach:
 VioletCity_TrainerSchool_Text_Youngster1:
 	.string "POKéMON previously thought to\n"
 	.string "only evolve through trade can\p"
-	.string "evolve through leveling.\n"
-	.string "MACHOKE and GRAVELER evolve\p"
-	.string "at LVL 38, while KADABRA and\n"
-	.string "HAUNTER evolve at LVL 42.\p"
-	.string "Some items, like the METAL\n"
-	.string "COAT, have also been found to\p"
-	.string "evolve certain POKéMON\n"
-	.string "while holding and leveling up.$"
+	.string "evolve with a LINKING CORD.\n"
+	.string "Use it on MACHOKE, GRAVELER,\p"
+	.string "KADABRA or HAUNTER like a stone.\p"
+	.string "Items like the METAL COAT work\n"
+	.string "the same way on the POKéMON that\p"
+	.string "evolve when traded holding them.$"
 
 VioletCity_TrainerSchool_Text_GameboyKid1:
 	.string "Notable POKéMON available in an\n"

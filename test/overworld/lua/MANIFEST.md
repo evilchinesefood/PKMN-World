@@ -2373,3 +2373,17 @@ and the first touch of the new visit must climb to level 1. Kanto's Birth Island
 rebased `VAR_DEOXYS_INTERACTION_*` copies, which nothing reads, so the stone kept its old level and
 the first touch failed on the steps walked since. Hoenn's island is the control. Measured **23/23**
 fixed and **20/23** on the unfixed ROM.
+
+### `BirthIslandRockPalette.lua`
+
+The Deoxys puzzle stone's colours on both Birth Islands. With a real Pokemon in the party the
+player touches the stone, follows it to its second tile and touches it again, then opens and
+closes the party menu (the map's return-to-field reload). The stone sprite's unfaded palette, read
+through its OAM slot, must hold each level's colours: Kanto's from `meteorite.pal` and
+`graphics/field_specials/deoxys_rock_N.pal`, Hoenn's from `field_effects/palettes`. The 32 bytes that
+palette slot 0xFF addresses past each palette buffer are set to a sentinel around every action and
+must survive. With `FLAG_BATTLED_DEOXYS` or `FLAG_FOUGHT_DEOXYS` set the stone is hidden, and a party
+menu round trip there must stay in bounds too. The rock code looked up Hoenn's palette tag on Kanto's
+island (it uses the meteorite tag), got 0xFF, never recoloured the stone and wrote each palette into
+`sSpeciesPreEvolution`; the hidden stone did the same on both islands. Measured **35/35** fixed and
+**28/35** on the unfixed ROM.

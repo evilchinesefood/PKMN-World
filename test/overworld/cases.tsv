@@ -197,3 +197,4 @@ FrontierSavePowerCut	lua/FrontierSavePowerCut.lua	fresh	0	required
 SaveWritePowerCut	lua/SaveWritePowerCut.lua	fresh	0	required
 HubWardrobeSprite	lua/HubWardrobeSprite.lua	fresh	0	required
 SummaryDexNumberNoDex	lua/SummaryDexNumberNoDex.lua	fresh	0	required
+PokedexAreaAfterBattle	lua/PokedexAreaAfterBattle.lua	fresh	0	required

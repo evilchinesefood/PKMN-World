@@ -2253,3 +2253,15 @@ with real input and counts lit pixels where the number prints in the species win
 number, over 100 with three digits). Johto (National Park gate): Chikorita and Zubat show no
 number. Control: Kanto (Viridian City) Bulbasaur shows its Kanto number. Measured **9/9** fixed and
 **7/9** on the unfixed ROM.
+### `PokedexAreaAfterBattle.lua`
+
+The Pokédex area page must mark the same places before and after a battle, in Johto as well as
+Kanto. The wild-header region index used to be cached on the heap across visits, and battles and
+field returns re-init the heap; Johto maps sit in their own map groups, which the old group switch
+dropped. With every dex flag set and the Pokédex held, the suite opens the Pokédex from the Start
+menu with real input on a Johto map (National Park gate) and reads the area page's species, glow
+count and marker count for Pidgey (routes) and Zubat (caves). It wins a wild battle
+(`setwildbattle`/`dowildbattle`, Psychic from a level 100 lead) and reads both again, then repeats
+for Pidgey in Viridian City. Counts must be non-zero and unchanged. Measured **13/13** on master and
+**10/13** with `0829014ec0`'s `pokedex_area_screen.c` hunks reverted (no Johto glow or markers, and
+Kanto Pidgey's 13 routes read 0 through the stale index).

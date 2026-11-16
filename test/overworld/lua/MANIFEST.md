@@ -2480,3 +2480,14 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `HeldItemTradeEvolution.lua`
+
+The trade evolutions that need a held item must work from the Bag. Link trade is compiled out and
+the stores sell the Metal Coat, King's Rock, Dragon Scale, Up-Grade and both Deep Sea items to be
+used like stones, but `I_USE_EVO_HELD_ITEMS_FROM_BAG` left them on `ItemUseOutOfBattle_CannotUse`.
+Eight cases (Scyther and Onix with a Metal Coat, Seadra, Porygon, Slowpoke and Poliwhirl, Clamperl
+with each Deep Sea item) give the base species through the debug Give menu and one item, then open
+the Bag, pick Use and the party slot and drive the evolution with A; Kadabra with a Linking Cord is
+the control. Each must arm an evolution-stone use, evolve into its trade evolution and spend the
+item. Measured **13/45** on the unfixed ROM (Use printed Dad's advice; only the control evolved)
+and **45/45** fixed. `--env PW_EVO_ONLY=<text>` runs matching cases.

@@ -2480,3 +2480,13 @@ for a level 100 Magikarp and 2,000 for a smaller one: from 950,000 the big payou
 (screenshots). Pay Day with an Amulet Coin, the pot seeded to 40,000 after the battle starts, from
 999,000 and from 999,999: the wallet must end at 999,999 and the line must print the doubled
 81,000, as trainer prize lines print the prize at the cap. Measured **28/28**; no defect found.
+### `KurtBallFullBag.lua`
+
+Kurt's BALL making with a full POKé BALLS pocket. Setup puts Azalea past the Slowpoke Well
+(`VAR_AZALEA_TOWN_STATE` 4, the crafting Kurt shown), gives five Pecha Berries and fills the 16-slot
+pocket in RAM with 16 ball types that are not a Love Ball. Talking to Kurt and picking LOVE BALL is
+real input, and every line he prints is read from `gStringVar4`. With the pocket full he must say
+the bag has no room before he starts, never "I'll get started" or "I just finished your BALL", and
+keep the berries. With one slot freed the same talk must turn five berries into five Love Balls.
+Before the fix he hammered, said he had finished the BALL, and then "The BAG is full": **7/10**
+unfixed, **10/10** fixed.

@@ -1,5 +1,6 @@
 #include "global.h"
 #include "event_data.h"
+#include "item.h"
 #include "script.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
@@ -119,6 +120,9 @@ TEST("Greedy gifts: Cinnabar still offers Dome after Helix is revived")
     FlagSet(FLAG_GOT_DOME_FOSSIL);
     FlagSet(FLAG_REVIVED_HELIX);
     FlagClear(FLAG_REVIVED_DOME);
+    // The lab lists a fossil the player still carries; a revived Helix left the Bag.
+    ClearBag();
+    AddBagItem(ITEM_DOME_FOSSIL, 1);
 
     CallCinnabarCheckAddHelix();
     EXPECT_EQ(VarGet(VAR_RESULT), FALSE);

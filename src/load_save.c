@@ -381,8 +381,9 @@ void MigrateSaveFormatIfNeeded(void)
 
     // v8 -> v9 also DELETED two dead day/night twin maps (issue #51) and MOVED two Johto heal
     // coordinates (repointed by MigrateMovedHealLocations at the top). Both renumber/repoint state
-    // that is PERSISTED, so they need fixing up in the save, not just in the data. Issue #51 accepted a save reset for this; migrating is strictly
-    // better and is what keeps a mid-playthrough save loadable.
+    // that is PERSISTED, so they need fixing up in the save, not just in the data. Issue #51
+    // accepted a save reset for this; migrating is strictly better and is what keeps a
+    // mid-playthrough save loadable.
     if (savedVersion < 9)
         MigrateDeletedTwinMaps();
 

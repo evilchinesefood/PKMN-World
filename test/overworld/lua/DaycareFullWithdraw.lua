@@ -3,7 +3,9 @@
 -- its own script and picker; then the party is filled to six, the PC boxes are filled (debug Fill
 -- PC Boxes Fast) and the wallet holds 50,000. Asking for the Pokemon back must be refused with the
 -- Day Care's no-room line: no money taken, the Pokemon still in the Day Care, the party and the PC
--- unchanged, and the field back under control.
+-- unchanged, and the field back under control. The messages are read from gStringVar4: Route 117,
+-- Four Island and Route 34 run the same script and must print the same lines, line breaks included,
+-- for the "raise one more?" offer, the greeting and the "team is full" refusal.
 --
 -- PW_DCFULL_ONLY=<text> runs matching Day Cares.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
@@ -100,6 +102,29 @@ local function levelMenuUp() return findTask(S.Task_HandleDaycareLevelMenuInput)
 
 local function where() local x, y = F.pos(); return string.format("%d/%d (%d,%d)", F.grp(), F.mapn(), x, y) end
 
+-- The field message as the game expanded it into gStringVar4; é reads as "?" and the line and
+-- page breaks as \n, \l and \p.
+local function decode(addr)
+  local out = {}
+  for i = 0, 399 do
+    local c = F.r8(addr + i)
+    if c == 0xFF then break end
+    if c == 0x00 then out[#out + 1] = " "
+    elseif c == 0xFE then out[#out + 1] = "\\n"
+    elseif c == 0xFA then out[#out + 1] = "\\l"
+    elseif c == 0xFB then out[#out + 1] = "\\p"
+    elseif c >= 0xBB and c <= 0xD4 then out[#out + 1] = string.char(65 + c - 0xBB)
+    elseif c >= 0xD5 and c <= 0xEE then out[#out + 1] = string.char(97 + c - 0xD5)
+    elseif c >= 0xA1 and c <= 0xAA then out[#out + 1] = string.char(48 + c - 0xA1)
+    elseif c == 0xAB then out[#out + 1] = "!"
+    elseif c == 0xAD then out[#out + 1] = "."
+    elseif c == 0xB8 then out[#out + 1] = ","
+    elseif c == 0xB4 then out[#out + 1] = "'"
+    else out[#out + 1] = "?" end
+  end
+  return table.concat(out)
+end
+
 local function instantText()
   local a = F.sb2() + S.SaveBlock2.optionsU16
   F.w16(a, (F.r16(a) & ~7) | 3)
@@ -109,7 +134,8 @@ end
 -- Advance the running script with A, answering each Yes/No or multichoice from o.answers in order
 -- ("yes", "no", or a multichoice row; a missing answer is B). o.onPrompt(i) runs before prompt i is
 -- answered, o.stop() ends the drive early (a party menu taking over), o.shot names a screenshot of
--- each reply. Returns the answers used, whether the field came back, and the prompts seen.
+-- each reply, o.texts collects every distinct field message. Returns the answers used, whether the
+-- field came back, and the prompts seen.
 -- The prompts' own input delays (5 frames on Yes/No) make a blind A safe when a prompt appears.
 local function converse(o)
   local answers = o.answers or {}
@@ -121,6 +147,10 @@ local function converse(o)
   local picked = false
   for f = 1, o.budget or 4000 do
     if F.reportCrash("converse") then return used, false, prompts end
+    if o.texts then
+      local t = decode(S.gStringVar4)
+      if o.texts[#o.texts] ~= t then o.texts[#o.texts + 1] = t end
+    end
     if o.stop and o.stop() then return used, false, prompts end
     if o.picker and not picked and not F.ow() then
       picked = true
@@ -199,6 +229,10 @@ local function walk(path)
 end
 
 local function leftField() return not F.ow() end
+local function has(list, text)
+  for _, t in ipairs(list) do if t == text then return true end end
+  return false
+end
 
 local function goTo(sink)
   if not warp(sink.warp, sink.g, sink.m, sink.tag) then return false, "warp failed" end
@@ -228,16 +262,21 @@ local function dayCareSlot() return F.sb1() + S.SaveBlock1.daycare end
 local function route5Slot() return F.sb3() + S.SaveBlock3.route5DayCareMon end
 
 -- Deposit answers: "Raise one more?" No (Route 5 asks nothing). Withdrawal answers: "Take your
--- Pokemon back?" Yes then the fee, or (Route 5) the fee Yes.
+-- Pokemon back?" Yes then the fee, or (Route 5) the fee Yes. refusal is the no-room line.
+local TEAM_FULL = "Your POK?MON team is full.\\nMake room, then come see me."
+local ONE_MORE = "We can raise two of your POK?MON.\\nWould you like us to raise one more?"
+local GOOD_TO_SEE_YOU = "Ah, it's you! Good to see you.\\nYour POK?MON can only be doing good!"
+local function shared(t) t.refusal = TEAM_FULL; t.oneMore = ONE_MORE; t.greeting = GOOD_TO_SEE_YOU; return t end
 local DAYCARES = {
-  { tag = "route117", warp = { 0, 2, 2, 0, 0, 0, 0, 0, 0 }, g = 22, m = 0, path = { { 2, 4 } }, face = "Up",
-    slot = dayCareSlot, answers = { "no", "yes", "yes" } },
+  shared({ tag = "route117", warp = { 0, 2, 2, 0, 0, 0, 0, 0, 0 }, g = 22, m = 0, path = { { 2, 4 } }, face = "Up",
+    slot = dayCareSlot, answers = { "no", "yes", "yes" } }),
   { tag = "route5", warp = { 0, 5, 1, 0, 0, 0, 0, 0, 0 }, g = 51, m = 0, path = { { 4, 7 }, { 4, 5 } }, face = "Up",
-    slot = route5Slot, answers = { "yes" } },
-  { tag = "fourisland", warp = { 0, 6, 7, 0, 0, 0, 0, 0, 0 }, g = 67, m = 0, path = { { 2, 7 }, { 2, 4 } }, face = "Up",
-    slot = dayCareSlot, answers = { "no", "yes", "yes" } },
-  { tag = "route34", warp = { 0, 8, 1, 0, 0, 5, 0, 0, 0 }, g = 81, m = 5, path = { { 3, 4 }, { 3, 6 } }, face = "Down",
-    slot = dayCareSlot, answers = { "no", "yes", "yes" } },
+    slot = route5Slot, answers = { "yes" },
+    refusal = "You can't take this POK?MON back\\nif you've got no room for it." },
+  shared({ tag = "fourisland", warp = { 0, 6, 7, 0, 0, 0, 0, 0, 0 }, g = 67, m = 0, path = { { 2, 7 }, { 2, 4 } }, face = "Up",
+    slot = dayCareSlot, answers = { "no", "yes", "yes" } }),
+  shared({ tag = "route34", warp = { 0, 8, 1, 0, 0, 5, 0, 0, 0 }, g = 81, m = 5, path = { { 3, 4 }, { 3, 6 } }, face = "Down",
+    slot = dayCareSlot, answers = { "no", "yes", "yes" } }),
 }
 
 -- Talk to the counter: A until a script holds the field.
@@ -262,7 +301,12 @@ local function run(d)
   F.shot(tag .. "_talk")
   converse({ answers = { "yes" }, stop = leftField, shot = tag .. "_dep" })
   if not F.check(tag .. ": the deposit picker opened", depositPick(partyCount() - 1, tag)) then return end
-  converse({})
+  local depositTexts = {}
+  converse({ texts = depositTexts })
+  if d.oneMore then
+    F.check(tag .. ": offers to raise one more with the shared line", has(depositTexts, d.oneMore),
+      table.concat(depositTexts, " | "))
+  end
   local pid = F.r32(d.slot())
   F.check(tag .. ": the Rattata went into the Day Care", pid ~= 0 and partyCount() == 2,
     string.format("daycare=%08X party=%d", pid, partyCount()))
@@ -277,11 +321,18 @@ local function run(d)
 
   if not goTo(d) then F.check(tag .. ": back at the counter", false, where()); return end
   talkTo()
-  local used, back, prompts = converse({ answers = d.answers, shot = tag })
+  local texts = {}
+  local used, back, prompts = converse({ answers = d.answers, shot = tag, texts = texts })
   F.L(string.format("  %s: prompts %s", tag, table.concat(prompts, " ")))
+  F.L(string.format("  %s: last message %q", tag, texts[#texts] or ""))
   F.shot(tag .. "_after")
   F.check(tag .. ": the withdrawal was asked for", #prompts >= 1 and prompts[#prompts]:find("yes", 1, true) ~= nil,
     table.concat(prompts, " "))
+  if d.greeting then
+    F.check(tag .. ": greets with the shared line", has(texts, d.greeting), table.concat(texts, " | "))
+  end
+  F.check(tag .. ": refused with the no-room line", texts[#texts] == d.refusal,
+    string.format("got %q", texts[#texts] or ""))
   F.check(tag .. ": refused: no money taken", F.money() == before.money, before.money .. " -> " .. F.money())
   F.check(tag .. ": refused: the Pokemon is still in the Day Care", F.r32(d.slot()) == before.pid,
     string.format("%08X -> %08X", before.pid, F.r32(d.slot())))

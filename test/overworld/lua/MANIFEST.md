@@ -3551,8 +3551,11 @@ PC Boxes Fast fills all 420 box slots and the wallet holds 50,000. Asking for th
 give the no-room line with no money taken, the Rattata still in the Day Care, the party and the PC
 unchanged and control back. As a control, with the party cleared to one Pokemon the same answers take
 the Rattata back for a fee, which also empties the Day Care for the next counter: Route 117, Four
-Island and Route 34 share `SaveBlock1.daycare`. `PW_DCFULL_ONLY=<text>` runs matching Day Cares.
-Coverage; no defect found: **44/44**.
+Island and Route 34 share `SaveBlock1.daycare`. The suite reads each message from `gStringVar4`,
+line breaks included: Route 117, Four Island and Route 34 run the same script and must print the same
+"raise one more?" offer, greeting and "Your POKéMON team is full." refusal; Route 5 must print its
+own no-room line. Four Island said "party" and broke three other lines differently, so master scores
+**51/54** and the aligned text **54/54**. `PW_DCFULL_ONLY=<text>` runs matching Day Cares.
 
 ### `BerryDecorFull.lua`
 

@@ -3227,7 +3227,7 @@ Measured **30/30**; no defect found.
 
 An item ball walked into with the Items pocket full. Sprout Tower 3F's Potion ball (7,16) is
 reached on foot from the 2F stairs; every Items slot is filled in RAM and the Potion slot holds 999.
-A on the ball must print the bag-full line, give control back and leave the ball, its flag and the
+A on the ball must print the bag-full line, give control back and leave the ball and the
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.

@@ -4,7 +4,7 @@
 -- pocket is filled in RAM: every slot holds an item and the Potion slot holds 999. A on the ball
 -- with real input must say the bag is full, leave the ball, its flag and the 999 Potions alone,
 -- and give control back. With one slot emptied, the same A must take the Potion: the 999 stack
--- stays and a second stack of 1 appears, the ball goes, and its flag is set.
+-- stays, a second stack of 1 appears and the ball goes.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

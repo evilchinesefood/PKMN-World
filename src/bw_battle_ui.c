@@ -17,6 +17,7 @@
 #include "safari_zone.h"
 #include "battle_interface.h"
 #include "pokedex.h"
+#include "regions.h"
 #include "task.h"
 #include "sound.h"
 #include "gpu_regs.h"
@@ -202,12 +203,15 @@ void BattleUI_PopulateActionBox(void)
 
     BlitBitmapToWindow(windowId, sBWBattleUI_ActionBox, 0, 0, TILE_TO_PIXELS(17), TILE_TO_PIXELS(6));
 
-    bool32 safari = !!(gBattleTypeFlags & BATTLE_TYPE_SAFARI);
+    enum ActionBoxLabels labels = ACTION_BOX_BATTLE;
     u32 fontId = FONT_BATTLE_UI_ELEMENTS;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
+        labels = GetCurrentRegion() == REGION_KANTO ? ACTION_BOX_SAFARI_FRLG : ACTION_BOX_SAFARI;
 
     for (u32 i = 0; i < BUI_ACTION_BOX_ENTRY_COUNT; i++)
     {
-        const u8 *action = sBWBattleUI_ActionBoxFields[safari][i];
+        const u8 *action = sBWBattleUI_ActionBoxFields[labels][i];
         u32 x = GetStringCenterAlignXOffset(fontId, action, TILE_TO_PIXELS(6));
         x += (i & 1) ? TILE_TO_PIXELS(10) : (TILE_TO_PIXELS(2) - 2);
         u32 y = ((i & 2) ? TILE_TO_PIXELS(4) : TILE_TO_PIXELS(1)) - 1;

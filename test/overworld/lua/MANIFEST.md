@@ -3209,3 +3209,14 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `BattleBgSpecialScenes.lua`
+
+Coverage for the backgrounds #634 only rendered offline: the Champion stadium and the Groudon,
+Kyogre and Rayquaza fields. Each battle starts through its real trigger: the Terra and Marine Cave
+coord events (both caves' ON_TRANSITION scripts show the undefeated legendary), a talk to the
+resting Rayquaza with Sky Pillar state 2 and the cry done, a walk in from the door and a talk to
+Johto's Lance, and the Hoenn and Kanto Champion rooms' entry scenes after a warp through the door.
+Each case compares BG palette banks 2-4 with the authored palette in ROM and takes a screenshot;
+legendaries are beaten and Champions are lost on purpose, so no Hall of Fame runs between cases.
+Measured **26/26** on master. No defect found.

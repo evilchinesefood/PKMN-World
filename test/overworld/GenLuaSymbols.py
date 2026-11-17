@@ -124,6 +124,10 @@ WANT = [
     # the hardware copy, but VBlank restores from faded, so the buffer is the
     # discriminating read.
     "gTimeBlend", "gPlttBufferFaded", "gPlttBufferUnfaded",
+    # BattleBgSpecialScenes.lua compares the Champion and legendary battlefields' BG palette banks
+    # 2-4 with these authored palettes.
+    "gBattleEnvironmentPalette_StadiumWallace", "gBattleEnvironmentPalette_Groudon",
+    "gBattleEnvironmentPalette_Kyogre", "gBattleEnvironmentPalette_Rayquaza",
     # sHoursOverride is the debug time menu's lever (SetTimeOfDay, src/overworld.c:4110) and it
     # lives in EWRAM, NOT in the save. That is what makes it the only way to build the state issue
     # #56 item 3 needs: a save whose flags disagree with its own clock. Wind localTimeOffset (which

@@ -293,6 +293,8 @@ F.run(function()
     local gh, gt, go = d(r.g)
     local mh, mt, mo = d(r.m)
     local wh, wt, wo = d(r.w)
+    -- An encounter can walk into the player on the frame after the last action settled.
+    F.idle(60); settle(r.name .. "_before_warp")
     local warped = F.warpTo(gh, gt, go, mh, mt, mo, wh, wt, wo, r.g, r.m, r.name)
     F.check("warp to " .. r.name, warped)
     if warped then

@@ -3368,7 +3368,7 @@ game clock runs five hours behind the RTC); no defect found.
 
 Coverage for #634's backgrounds under move animations, weather and terrain. Real battles across the
 new art: tall grass by day (20 moves) and night, Ice Path, snowy Mt. Silver at night (snow weather),
-Rusturf Tunnel (overworld fog sets Misty Terrain), a Route 41 thunderstorm while surfing (rain and
+Rusturf Tunnel (fog is scenery since #646, so no terrain), a Route 41 thunderstorm while surfing (rain and
 Electric Terrain) at night, underwater, the Route 111 desert at night (sandstorm), long grass,
 Pokemon Tower's ghost battle, the Kanto, Johto and Hoenn Safari Zones, a plain-ground trainer at
 night, the Route 104 twins double, and Roxanne's and Bugsy's stadiums. Wild battles start by walking

@@ -9,6 +9,7 @@
 #include "event_object_movement.h"
 #include "fieldmap.h"
 #include "field_effect.h"
+#include "field_effect_helpers.h"
 #include "field_player_avatar.h"
 #include "follower_npc.h"
 #include "metatile_behavior.h"
@@ -1407,7 +1408,7 @@ static bool32 CheckCanLoadOWE_Palette(enum Species speciesId, bool32 isFemale, b
     if (numFreePalSlots == 1)
     {
         u32 metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
-        struct SpritePalette palette = GetOWESpawnDespawnAnimFldEffPalette(GetOWESpawnDespawnAnimType(metatileBehavior));
+        struct SpritePalette palette = GetOWESpawnDespawnAnimFldEffPalette(GetOWESpawnDespawnAnimType(metatileBehavior), x, y);
         // If the mon's palette or field effect palette isn't already loaded, don't spawn.
         // Include check if female or shiny mon is loaded and use that tag if possible
         if (IndexOfSpritePaletteTag(tag) == 0xFF && IndexOfSpritePaletteTag(palette.tag) == 0xFF)
@@ -2322,12 +2323,14 @@ const struct ObjectEventTemplate TryGetObjectEventTemplateForOWE(const struct Ob
     return templateOWE;
 }
 
-struct SpritePalette GetOWESpawnDespawnAnimFldEffPalette(enum SpawnDespawnTypeOWE spawnAnim)
+struct SpritePalette GetOWESpawnDespawnAnimFldEffPalette(enum SpawnDespawnTypeOWE spawnAnim, s32 x, s32 y)
 {
     struct SpritePalette palette = gSpritePalette_GeneralFieldEffect0;
     switch (spawnAnim)
     {
     case OWE_SPAWN_ANIM_GRASS:
+        palette = *GetGrassFieldEffectPalette(x, y);
+        break;
     case OWE_SPAWN_ANIM_LONG_GRASS:
         palette = gSpritePalette_GeneralFieldEffect1;
         break;

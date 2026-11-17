@@ -138,9 +138,9 @@ WANT = [
     # and after each move animation and logs the battle's environment, weather and terrain.
     "gBattle_BG3_X", "gBattle_BG3_Y", "gAnimScriptActive", "gBattleEnvironment", "gBattleWeather",
     "gFieldStatuses",
-    # OverworldFogBattle.lua reads the battle's weather and terrain at the first action menu and
-    # compares the battlefield palette with the authored one sBattlePresentation points at.
-    "gBattleEnvironment", "gBattleWeather", "gFieldStatuses", "sBattlePresentation",
+    # OverworldFogBattle.lua also reads gBattleWeather and gFieldStatuses (above) at the first action
+    # menu and compares the battlefield palette with the authored one sBattlePresentation points at.
+    "sBattlePresentation",
     # sHoursOverride is the debug time menu's lever (SetTimeOfDay, src/overworld.c:4110) and it
     # lives in EWRAM, NOT in the save. That is what makes it the only way to build the state issue
     # #56 item 3 needs: a save whose flags disagree with its own clock. Wind localTimeOffset (which

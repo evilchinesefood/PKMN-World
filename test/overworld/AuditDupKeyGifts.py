@@ -110,10 +110,14 @@ def item_aliases():
 
 
 def mapsec_region():
-    """GetRegionForSectionId (include/regions.h) over the MAPSEC enum."""
-    text = open(os.path.join(ROOT, "include/constants/region_map_sections.h"), encoding="utf-8").read()
-    body = text[text.index("enum {"):text.index("};")]
-    order = {name: i for i, name in enumerate(re.findall(r"^\s*(MAPSEC_\w+)", body, re.M))}
+    """GetRegionForSectionId (include/regions.h) over the MAPSEC enum.
+
+    Reads the source JSON, not the generated header, so a clean checkout (CI) can run it; the
+    generated enum lists the JSON's sections in the same order.
+    """
+    path = os.path.join(ROOT, "src/data/region_map/region_map_sections.json")
+    sections = json.load(open(path, encoding="utf-8"))["map_sections"]
+    order = {sec["id"]: i for i, sec in enumerate(sections)}
 
     def region(sec):
         i = order.get(sec)

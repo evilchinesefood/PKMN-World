@@ -3209,3 +3209,15 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `BattleBgFloors.lua`
+
+Kanto Gym Leaders fought on the plain Gym building floor while Hoenn and Johto Leaders got the
+Leader stadium floor from #634. `GetBattleEnvironmentOverride` (`src/battle_bg.c`) picks
+`BATTLE_ENVIRONMENT_LEADER` from the opponent's trainer class and listed `TRAINER_CLASS_LEADER` and
+`TRAINER_CLASS_LEADER_JOHTO` but not `TRAINER_CLASS_LEADER_FRLG`, so Brock and the other Kanto
+Leaders fell through to the Gym map scene. The suite gives one Pokemon, warps beside Roxanne,
+Bugsy, Camper Liam and Brock, faces them and presses A, then reads BG palette banks 2-4 against the
+authored palette in ROM: the Leader stadium palette for each Leader, the Gym building palette for
+Liam as the control. Liam goes before Brock because beating Brock marks him beaten.
+**Discrimination:** unfixed 17/18 (Brock's field is `BuildingGym`), fixed 18/18.

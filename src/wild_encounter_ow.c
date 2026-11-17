@@ -144,6 +144,7 @@ static inline bool32 IsObjectActiveOWE(struct ObjectEvent *owe)
 static bool32 CreateEnemyPartyOWE(struct InfoOWE *info, s32 x, s32 y);
 static bool32 OWE_DoesOWERoamerExist(void);
 static bool32 StartWildBattleWithOWE_CheckRoamer(enum CategoryOWE category);
+static bool32 MeetRoamerOWE(struct ObjectEvent *owe);
 static bool32 StartWildBattleWithOWE_CheckBattleFrontier(u32 headerId);
 static bool32 StartWildBattleWithOWE_CheckMassOutbreak(enum CategoryOWE category, enum Species speciesId);
 static bool32 StartWildBattleWithOWE_CheckDoubleBattle(struct ObjectEvent *owe, u32 headerId);
@@ -915,6 +916,24 @@ static bool32 OWE_DoesOWERoamerExist(void)
     return FALSE;
 }
 
+// Continue and map loads move every roamer and leave its saved or still-visible overworld object
+// behind. The object the player meets is the roamer, so bring the roamer to this map; otherwise the
+// battle would start a fresh wild copy of it. An object whose roamer no longer roams leaves.
+static bool32 MeetRoamerOWE(struct ObjectEvent *owe)
+{
+    enum CategoryOWE category = GetOWECategory(owe);
+
+    if (category >= ROAMER_COUNT)
+        return TRUE;
+    if (!gSaveBlock1Ptr->roamer[category].active || gSaveBlock1Ptr->roamer[category].species != OW_SPECIES(owe))
+    {
+        RemoveObjectEvent(owe);
+        return FALSE;
+    }
+    SetRoamerLocation(category, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+    return TRUE;
+}
+
 static bool32 StartWildBattleWithOWE_CheckRoamer(enum CategoryOWE category)
 {
     if (category < ROAMER_COUNT
@@ -1064,13 +1083,8 @@ void TryTriggerOverworldWildEncounter(struct ObjectEvent *obstacle, struct Objec
         return;
 
     struct ObjectEvent *wildMon = playerFollowerIsColliderOWE ? obstacle : collider;
-    enum CategoryOWE category = GetOWECategory(wildMon);
-    if (category < ROAMER_COUNT
-     && !IsRoamerAt(category, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
-    {
-        RemoveObjectEvent(wildMon);
+    if (!MeetRoamerOWE(wildMon))
         return;
-    }
 
     // An encounter's own step is checked from its sprite callback, often while the player is between
     // tiles. A script started there holds the controls through the next ProcessPlayerFieldInput,
@@ -1102,6 +1116,8 @@ bool32 TryStartOverworldWildEncounterContact(u32 localId)
 const u8 *GetOverworlWildEncounterScript(u32 objectEventId)
 {
     const u8 *script;
+    if (!MeetRoamerOWE(&gObjectEvents[objectEventId]))
+        return NULL;
     if (GetOverworldWildEncounterType(&gObjectEvents[objectEventId]) == OWE_MANUAL
      && (script = GetObjectEventScriptPointerByObjectEventId(objectEventId)) != NULL)
         return script;

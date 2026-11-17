@@ -276,3 +276,6 @@ FrontierPassStress	lua/FrontierPassStress.lua	fresh	0	required
 MasterRankMuseum	lua/MasterRankMuseum.lua	fresh	0	manual
 RelearnerFanfareMusic	lua/RelearnerFanfareMusic.lua	fresh	0	required
 FanfareResetTasksMusic	lua/FanfareResetTasksMusic.lua	fresh	0	required
+HofCreditsMash	lua/HofCreditsMash.lua	fresh	0	required
+FrontEndSoftReset	lua/FrontEndSoftReset.lua	fresh	0	required
+MapPopupStress	lua/MapPopupStress.lua	fresh	0	required

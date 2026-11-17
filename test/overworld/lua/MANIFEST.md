@@ -164,6 +164,9 @@ is clean; keep it that way.
 | [`RainPaletteSlots.lua`](#rainpaletteslotslua) | fresh new game | Object palettes loaded mid-rain take exactly the rain colour map, and every slot returns to its unfaded colours when rain stops in place. |
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
+| [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
+| [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
+| [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3209,3 +3212,49 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `HofCreditsMash.lua`
+
+The Hall of Fame and what follows it in all three regions, after #636 deleted the FRLG title screen
+and credits. The endgame credits themselves were dropped on purpose in f167155ff9, so every region
+soft resets to the title after the induction screen: Hoenn and Johto through `GameClear` and the
+Emerald Hall of Fame (`StartCredits`), Kanto through `EnterHallOfFame` and the FRLG Hall of Fame
+(`SetWarpsToRollCredits`). Each case enters the room through a debug warp, lets the room's own
+ON_FRAME script start the ceremony and mashes a seeded stream of single buttons until the copyright
+screen, intro, title or main menu. It then continues from the title with real input and checks the
+landing (Brendan's or May's 2F, New Bark at (20,12), Pallet at (6,8)), the runtime region, the party,
+that control returns and that the player can walk. Kanto plays its post-league Oak rating scene on
+the Continue, about 1,100 frames. Three Hoenn cases soft reset 2, 40 and 400 frames into the Hall of
+Fame screen, holding the chord through the save, which disables the reset. Continue then loads the
+hub save made beforehand (the reset beat the save) or the respawn. `SaveBlock2.currentRegion` stays
+`REGION_NONE` until the first hub gate-cross, which a debug warp never makes, so the suite reads
+`gCurrentRegion`. `PW_HOF_ONLY=<text>` runs matching cases; `PW_HOF_SEED=<n>` reseeds the mash.
+Measured **56/56**; no defect found.
+
+### `FrontEndSoftReset.lua`
+
+Soft reset at every stage of the front end after #636 removed the FRLG title, the expansion intro and
+the quickstart. With no save it resets on the copyright screen, inside the intro (no mash there,
+because Select skips it), on the World title, the main menu, the new-game speech, the gender choice
+and the naming screen. Each reset must reach the front end and the title with no crash screen, and
+the main menu must still open on NEW GAME afterwards (`gSaveFileStatus` unchanged). A seeded mash of
+B, Select, L, R and the D-pad runs on the intro and title before each stage. Then a new game reaches
+the hub, Set Party gives a team, the game saves from the Start menu, and the reset is pressed in the
+field, on the main menu with a save and 1, 20, 45, 90 and 150 frames after CONTINUE. Every Continue
+must land on the saved tile with the saved party hash and give control back. Measured **74/74**; no
+defect found.
+
+### `MapPopupStress.lua`
+
+Map-name pop-ups after #636 left `src/map_name_popup.c` Gen 8 only. In each region the player walks
+across an outdoor seam and back, then crosses it ten more times one step at a time, so each pop-up
+arrives while the last is still sliding: Oldale and Route 103, Lavender and Route 10, New Bark and
+Route 29. Route 101 and Pallet are avoided because their own scripts get in the way on a fresh game
+(Route 101's ON_FRAME sets `FLAG_HIDE_MAP_NAME_POPUP` until Birch's rescue; Pallet's north exit runs
+Oak's lab scene). Then the player leaves Oldale's first house, steps back into its door while OLDALE
+TOWN slides in and comes out again, and debug warps land in Olivine (rain), the Lake of Rage
+(thunderstorm) and Mt Chimney (ash). After every burst the pop-up task must end by itself and leave
+WINOUT `0x0101`, WIN0H `0x00FF` and BG0HOFS 0 as the map loader set them, and each new outdoor map
+must start a pop-up (watched from the warp itself, because `F.warpTo` idles past it). Measured
+**52/52** at the runner's default 07:00 in-game and at 22:00 in-game (`--rtc 1704164400`; the
+game clock runs five hours behind the RTC); no defect found.

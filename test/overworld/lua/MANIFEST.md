@@ -147,6 +147,8 @@ is clean; keep it that way.
 | [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
 | [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
 | [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
+| [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
+| [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3576,3 +3578,22 @@ the whiteout the field must be back at that Center with control, the party heale
 Continue must restore the map, tile, money, party HP, follower state and music, the player must be
 able to walk, and the follower (hidden while the nurse heals) must come out on the first step.
 `PW_WOSC_ONLY=<text>` runs matching regions. Coverage; no defect found: **49/49**.
+### `ContinueDarkCave.lua`
+
+Save and Continue in a Flash-dark cave, standing on an arrow warp. Dark Cave's Route 31 mouth
+(14,20) is an arrow warp: the player lands on it and leaves by pressing Down on it. A Mew that knows
+FLASH leads, with the Zephyr and Hive Badges. **Dark, on the warp tile (soft reset):** the map,
+tile, facing, song, follower, saved region and the dark flash level come back, control returns,
+and Down on the tile still leaves for Route 31. **Lit (power cut):** FLASH is used from the party
+menu with real input, the player steps off the mouth and saves; `FLAG_SYS_USE_FLASH` and the lit
+flash level come back, the player walks, and leaving for Route 31 (outdoors) turns Flash off.
+Measured **30/30**; no defect found.
+
+### `ItemBallFullPocket.lua`
+
+An item ball walked into with the Items pocket full. Sprout Tower 3F's Potion ball (7,16) is
+reached on foot from the 2F stairs; every Items slot is filled in RAM and the Potion slot holds 999.
+A on the ball must print the bag-full line, give control back and leave the ball and the
+999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
+stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
+then "Too bad! The BAG is full". Measured **12/12**; no defect found.

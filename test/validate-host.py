@@ -46,6 +46,7 @@ CHECKS = (
     ("ValidateDeadEvoItems.py",),
     ("ValidateBattleScenes.py",),
     ("ValidateFrostyGrass.py",),
+    ("ValidateCutGrass.py",),
 )
 
 

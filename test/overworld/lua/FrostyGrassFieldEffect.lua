@@ -326,7 +326,7 @@ end
 
 local TAG_CUT_GREEN, TAG_CUT_FROSTY = 0x1000, 0x1017
 local CUT_GREEN, CUT_FROSTY = "graphics/field_effects/palettes/cut_grass.pal", "graphics/field_effects/palettes/frosty_cut_grass.pal"
-local MT_SILVER_CUTS = { [642] = 641, [895] = 646 }
+local MT_SILVER_CUTS = { [642] = 641, [895] = 641 }
 -- { tag, grp, map, x, y, hour, palette tag, palette file, { grass metatile = metatile Cut leaves } }
 local CUT_CASES = {
   { "mt_silver_cut_day", 97, 7, 18, 20, 12, TAG_CUT_FROSTY, CUT_FROSTY, MT_SILVER_CUTS },

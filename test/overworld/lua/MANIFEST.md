@@ -173,6 +173,7 @@ is clean; keep it that way.
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
+| [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3683,7 +3684,8 @@ the grass and use CUT from the Start menu's party screen with real input. The 3x
 must turn each grass metatile into the tile its case names and leave every other tile, inside and in
 the ring around it, unchanged; the clippings (`sSpriteTemplate_CutGrass`) must share one slot holding
 the expected palette, checked like the grass effects. Mt. Silver at 12:00 and 22:00 expects
-`frosty_cut_grass.pal` and its frosty grass cut to the snow beside it (642 to 641, 895 to 646); Route
+`frosty_cut_grass.pal` and its frosty grass cut to the snow beside it (642 and 895 to 641; 895 went to the cave snow 646, which has wild
+encounters, until `CutGrassKantoJohto.lua`'s change); Route
 101 and Route 30 expect `cut_grass.pal` and tall grass cut to 1. Before the fix, `SetCutGrassMetatile`
 matched secondary metatile ids without their tileset, so Mt. Silver's 642 (Fortree's secret base long
 grass id) became the green and yellow primary metatile 634, and `SetCutGrassMetatiles` ran Fortree's
@@ -3692,3 +3694,23 @@ long grass root repair on every map, so Route 30's flower border under freshly c
 tile that is grass, outside its tileset, or not frosty. The whole suite scores **96/105** on the
 unfixed ROM (the clippings drew tag 0x1000, Mt. Silver's grass became 634 or stayed, Route 30 lost three
 flower tiles) and **105/105** with the fix.
+
+### `CutGrassKantoJohto.lua`
+
+Cut cut only grass that `sCutGrassMetatiles` (`src/fldeff_cut.c`) has a rule for, keyed on the tileset
+that holds the metatile. Kanto and Johto had none, so CUT played its animation and left the grass
+standing; only their plain tall grass (primary id 0x00D) was cut, because Hoenn's primary rule matched
+the same number. The Kanto and Johto rules are now generated into
+`src/data/field_effects/cut_grass_metatiles.h` by `test/overworld/ValidateCutGrass.py --write`, which
+also adds a plain ground metatile where a tileset had none (Route 38's bare field, two grass tiles under
+Route 37's pink apricorn tree). Each case gives the lead Pokemon CUT and the Cut tool, warps beside the
+grass and uses CUT from the Start menu's party screen with real input. Every grass metatile in the 3x3
+must become the literal tile its case names and nothing else in the 5x5 may change; a second warp to
+the same spot must bring the grass back, as in Hoenn. Cases: Viridian Forest (ViridianForest tree-top
+grass 0x284 to 0x281), Route 13 (`General_FrlgNight` 0x00B/0x00C/0x00D), Route 29 (`Johto_General`),
+Route 33 (`Johto_South`), National Park (long grass and its south edge to plain grass 0x011), Route 39
+(the wheat to the bare field 0x3D4) and Route 101 (control). `CUT_CASE=<text>` runs matching cases.
+`ValidateCutGrass.py` (host) fails when a placed grass metatile has no rule keyed on its tileset, when a
+cut tile is still grass, has wild encounters, has the wrong behaviour or changes the layer the grass
+does not draw on, and when the generated header differs from what it derives. **51/57** on the unfixed
+ROM (every Kanto and Johto case left grass standing; Route 101 passed), **57/57** with the fix.

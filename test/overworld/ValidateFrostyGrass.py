@@ -66,11 +66,16 @@ def luma(color):
 
 
 def cut_rules():
-    """[(secondary tileset or None, grass metatile, cut metatile)] from sCutGrassMetatiles."""
+    """[(tileset or None, grass metatile, cut metatile)] from sCutGrassMetatiles in src/fldeff_cut.c,
+    with the generated rows it includes."""
     labels = {n: int(v, 0) for n, v in re.findall(r"#define (METATILE_\w+)\s+(0x[0-9A-Fa-f]+|\d+)", read("include/constants/metatile_labels.h"))}
-    body = re.search(r"sCutGrassMetatiles\[\]\s*=\s*\{(.*?)\};", read("src/fldeff_cut.c"), re.S)
-    return [(None if t == "NULL" else t[1:], labels[g], labels[c])
-            for t, g, c in re.findall(r"\{\s*(NULL|&gTileset_\w+),\s*(METATILE_\w+),\s*(METATILE_\w+)\s*\}", body.group(1) if body else "")]
+    body = re.search(r"sCutGrassMetatiles\[\]\s*=\s*\{(.*?)\n\};", read("src/fldeff_cut.c"), re.S)
+    text = body.group(1) if body else ""
+    for path in re.findall(r'#include "([^"]+)"', text):
+        text += read(os.path.join("src", path))
+    value = lambda v: labels[v] if v.startswith("METATILE_") else int(v, 0)
+    return [(None if t == "NULL" else t[1:], value(g), value(c))
+            for t, g, c in re.findall(r"\{\s*(NULL|&gTileset_\w+),\s*(METATILE_\w+|0x[0-9A-Fa-f]+|\d+),\s*(METATILE_\w+|0x[0-9A-Fa-f]+|\d+)\s*\}", text)]
 
 
 def listed_tilesets():

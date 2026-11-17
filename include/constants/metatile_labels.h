@@ -437,14 +437,6 @@
 // gTileset_MtEmber
 #define METATILE_MtEmber_CaveEntrance  0x346
 
-// gTileset_MtSilverSnow (johto layout, primary is 640 metatiles)
-#define METATILE_MtSilverSnow_FrostyGrass           0x282
-#define METATILE_MtSilverSnow_FrostyGrass_Alt       0x37F
-#define METATILE_MtSilverSnow_FrostyGrass_Overhang  0x2A0
-#define METATILE_MtSilverSnow_Snow                  0x281
-#define METATILE_MtSilverSnow_Snow_Alt              0x286
-#define METATILE_MtSilverSnow_Snow_Overhang         0x288
-
 // gTileset_Pacifidlog
 #define METATILE_Pacifidlog_Door                               0x21A
 #define METATILE_Pacifidlog_FloatingLogs_HorizontalLeft        0x250

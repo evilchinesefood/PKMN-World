@@ -43,11 +43,11 @@ extern const u16 gFieldEffectPal_FrostyCutGrass[];
 
 #define CUT_SPRITE_ARRAY_COUNT 8
 
-// A secondary metatile id means something only in its own tileset, so each one is keyed on it.
-// NULL keys an id from the primary half, which every primary that draws grass shares.
+// A metatile id means something only in the tileset that holds it, so each rule is keyed on that
+// tileset (the layout's primary for an id below its primary count, else its secondary).
 struct CutGrassMetatile
 {
-    const struct Tileset *secondaryTileset;
+    const struct Tileset *tileset;
     u16 grass;
     u16 cut;
 };
@@ -140,11 +140,16 @@ static const struct SpritePalette sSpritePalette_FrostyCutGrass = {gFieldEffectP
 
 static const struct CutGrassMetatile sCutGrassMetatiles[] =
 {
-    {NULL, METATILE_General_LongGrass, METATILE_General_Grass},
-    {NULL, METATILE_General_TallGrass, METATILE_General_Grass},
-    {NULL, METATILE_General_TallGrass_TreeLeft, METATILE_General_Grass_TreeLeft},
-    {NULL, METATILE_General_TallGrass_TreeRight, METATILE_General_Grass_TreeRight},
-    {NULL, METATILE_General_TallGrass_TreeUp, METATILE_General_Grass_TreeUp},
+    {&gTileset_General, METATILE_General_LongGrass, METATILE_General_Grass},
+    {&gTileset_General, METATILE_General_TallGrass, METATILE_General_Grass},
+    {&gTileset_General, METATILE_General_TallGrass_TreeLeft, METATILE_General_Grass_TreeLeft},
+    {&gTileset_General, METATILE_General_TallGrass_TreeRight, METATILE_General_Grass_TreeRight},
+    {&gTileset_General, METATILE_General_TallGrass_TreeUp, METATILE_General_Grass_TreeUp},
+    {&gTileset_GeneralNight, METATILE_General_LongGrass, METATILE_General_Grass},
+    {&gTileset_GeneralNight, METATILE_General_TallGrass, METATILE_General_Grass},
+    {&gTileset_GeneralNight, METATILE_General_TallGrass_TreeLeft, METATILE_General_Grass_TreeLeft},
+    {&gTileset_GeneralNight, METATILE_General_TallGrass_TreeRight, METATILE_General_Grass_TreeRight},
+    {&gTileset_GeneralNight, METATILE_General_TallGrass_TreeUp, METATILE_General_Grass_TreeUp},
     {&gTileset_Fortree, METATILE_Fortree_LongGrass_Root, METATILE_General_Grass},
     {&gTileset_Fortree, METATILE_Fortree_SecretBase_LongGrass_BottomLeft, METATILE_Fortree_SecretBase_LongGrass_TopLeft},
     {&gTileset_Fortree, METATILE_Fortree_SecretBase_LongGrass_BottomMid, METATILE_Fortree_SecretBase_LongGrass_TopMid},
@@ -153,9 +158,7 @@ static const struct CutGrassMetatile sCutGrassMetatiles[] =
     {&gTileset_Lavaridge, METATILE_Lavaridge_AshGrass, METATILE_Lavaridge_LavaField},
     {&gTileset_Fallarbor, METATILE_Fallarbor_NormalGrass, METATILE_Fallarbor_AshField},
     {&gTileset_Fallarbor, METATILE_Fallarbor_AshGrass, METATILE_Fallarbor_AshField},
-    {&gTileset_MtSilverSnow, METATILE_MtSilverSnow_FrostyGrass, METATILE_MtSilverSnow_Snow},
-    {&gTileset_MtSilverSnow, METATILE_MtSilverSnow_FrostyGrass_Alt, METATILE_MtSilverSnow_Snow_Alt},
-    {&gTileset_MtSilverSnow, METATILE_MtSilverSnow_FrostyGrass_Overhang, METATILE_MtSilverSnow_Snow_Overhang},
+#include "data/field_effects/cut_grass_metatiles.h"
 };
 
 static const struct SpriteTemplate sSpriteTemplate_CutGrass =
@@ -406,12 +409,12 @@ static void SetCutGrassMetatile(s16 x, s16 y)
 {
     u32 i;
     u32 metatileId = MapGridGetMetatileIdAt(x, y);
-    const struct Tileset *secondaryTileset = gMapHeader.mapLayout->secondaryTileset;
+    const struct MapLayout *layout = gMapHeader.mapLayout;
+    const struct Tileset *tileset = metatileId < GetNumMetatilesInPrimary(layout) ? layout->primaryTileset : layout->secondaryTileset;
 
     for (i = 0; i < ARRAY_COUNT(sCutGrassMetatiles); i++)
     {
-        if (sCutGrassMetatiles[i].grass == metatileId
-         && (sCutGrassMetatiles[i].secondaryTileset == NULL || sCutGrassMetatiles[i].secondaryTileset == secondaryTileset))
+        if (sCutGrassMetatiles[i].grass == metatileId && sCutGrassMetatiles[i].tileset == tileset)
         {
             MapGridSetMetatileIdAt(x, y, sCutGrassMetatiles[i].cut);
             return;

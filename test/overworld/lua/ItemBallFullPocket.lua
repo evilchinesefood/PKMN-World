@@ -2,8 +2,8 @@
 --
 -- Sprout Tower 3F's Potion ball (7,16), reached on foot from the 2F stairs (11,16). The Items
 -- pocket is filled in RAM: every slot holds an item and the Potion slot holds 999. A on the ball
--- with real input must say the bag is full, leave the ball, its flag and the 999 Potions alone,
--- and give control back. With one slot emptied, the same A must take the Potion: the 999 stack
+-- with real input must say the bag is full, leave the ball and the 999 Potions alone, and give
+-- control back. With one slot emptied, the same A must take the Potion: the 999 stack
 -- stays, a second stack of 1 appears and the ball goes.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path

@@ -170,7 +170,7 @@ WANT = [
     "EventScript_PalletTown_PlayersHouse_2F_ShutDownPC",
     "NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC",
     # v1.5 playtests. Addresses move every rebuild; suites must read these from symbols.lua.
-    "gMPlayInfo_BGM", "gSongTable", "gWildMonHeaders",
+    "gMPlayInfo_BGM", "gMPlayInfo_SE2", "gSongTable", "gWildMonHeaders",
     # HubWardrobeSprite.lua compares the wardrobe object's OBJ tiles with its first frame.
     "gObjectEventPic_Wardrobe",
     "gTileset_PokemonCenterFrlg", "gTileset_Kanto_PokemonCenter",

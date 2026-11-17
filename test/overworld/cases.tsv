@@ -278,3 +278,5 @@ RelearnerFanfareMusic	lua/RelearnerFanfareMusic.lua	fresh	0	required
 FanfareResetTasksMusic	lua/FanfareResetTasksMusic.lua	fresh	0	required
 BattleBgFloors	lua/BattleBgFloors.lua	fresh	0	required
 RelearnerPaymentRegions	lua/RelearnerPaymentRegions.lua	fresh	0	required
+FanfareInterruptStress	lua/FanfareInterruptStress.lua	fresh	0	required
+FrontierTutorPayment	lua/FrontierTutorPayment.lua	fresh	0	required

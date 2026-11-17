@@ -3236,3 +3236,27 @@ fails on any script that tests `VAR_0x8004` after `TeachMoveRelearnerMove` or `V
 level 5 Magikarp) the suite gives up from the second Charizard's list, picks the Magikarp, then
 teaches the first Charizard a move. **Discrimination:** unfixed 13/25 (the give-up and the Magikarp
 each took a payment, the lesson was free in Blackthorn and unaffordable in Two Island), fixed 25/25.
+### `FanfareInterruptStress.lua`
+
+Coverage for #627 across the interruptions a player can cause. In Fallarbor below the Pokemon Center
+door a script plays the 710-frame `MUS_AWAKEN_LEGEND` fanfare and ends without `waitfanfare`, and the
+suite interrupts it with real input: walking straight into the door, the lead's Summary from the party
+menu, the Bag, a Save from the Start menu, a three-page message mashed with A and B, a wild battle
+started and fled, a debug warp away and back, and (after a save) a soft reset that continues. After
+each one the player walks into the Center, whose music differs from the town's. Each case fails on a
+crash screen, a door that never loads the Center, a BGM still paused once the fanfare's length has
+passed, the town's song still playing, or the fanfare's music player (`gMPlayInfo_SE2`, now exported
+by `GenLuaSymbols.py`) still playing. `PW_FANFARE_ONLY=<text>` runs matching cases. Measured
+**58/58**. With #627's `src/sound.c` change reverted, the Summary case stuck at the door with BGM
+status `0x800001FF` and the run stopped at **11/15**.
+
+### `FrontierTutorPayment.lua`
+
+The Battle Frontier move tutors must take Battle Points exactly when a move is learned. #628 made
+every tutor reusable; the Lounge 7 tutors already were, but no suite drove their payment. With real
+input at the left tutor (Soft-Boiled, 16 BP) the suite tries one point short (refused before the
+chooser), exactly 16 with B in the storage chooser, a Magikarp that cannot learn it, a four-move Mew
+that declines to forget a move, a one-move Mew that learns it (16 BP taken, once), and a second visit
+at 0 BP. Every way out but the lesson must leave the balance alone. Battle Points are written to
+`SaveBlock2` at the `frontier.battlePoints` offset from an `offsetof` probe (3768), which the suite
+first checks against the debug menu's Max Battle Points. Measured **17/17**; no defect found.

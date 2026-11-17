@@ -6378,85 +6378,10 @@ bool8 FollowablePlayerMovement_Step(struct ObjectEvent *objectEvent, struct Spri
     return TRUE;
 }
 
-bool8 FollowablePlayerMovement_GoSpeed1(struct ObjectEvent *objectEvent, struct Sprite *sprite, enum Direction playerDirection, bool8 tileCallback(u8))
-{
-    enum Direction direction;
-    s16 x;
-    s16 y;
 
-    direction = playerDirection;
-    direction = GetCopyDirection(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
-    ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
-    ObjectEventSetSingleMovement(objectEvent, sprite, GetWalkFastMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
-        ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
-    objectEvent->singleMovementActive = TRUE;
-    sprite->sTypeFuncId = 2;
-    return TRUE;
-}
 
-bool8 FollowablePlayerMovement_GoSpeed2(struct ObjectEvent *objectEvent, struct Sprite *sprite, enum Direction playerDirection, bool8 tileCallback(u8))
-{
-    enum Direction direction;
-    s16 x;
-    s16 y;
 
-    direction = playerDirection;
-    direction = GetCopyDirection(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
-    ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
-    ObjectEventSetSingleMovement(objectEvent, sprite, GetWalkFasterMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
-        ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
-    objectEvent->singleMovementActive = TRUE;
-    sprite->sTypeFuncId = 2;
-    return TRUE;
-}
 
-bool8 FollowablePlayerMovement_Slide(struct ObjectEvent *objectEvent, struct Sprite *sprite, enum Direction playerDirection, bool8 tileCallback(u8))
-{
-    enum Direction direction;
-    s16 x;
-    s16 y;
-
-    direction = playerDirection;
-    direction = GetCopyDirection(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
-    ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
-    ObjectEventSetSingleMovement(objectEvent, sprite, GetSlideMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
-        ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
-    objectEvent->singleMovementActive = TRUE;
-    sprite->sTypeFuncId = 2;
-    return TRUE;
-}
-
-bool8 FollowablePlayerMovement_JumpInPlace(struct ObjectEvent *objectEvent, struct Sprite *sprite, enum Direction playerDirection, bool8 tileCallback(u8))
-{
-    enum Direction direction;
-
-    direction = playerDirection;
-    direction = GetCopyDirection(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
-    ObjectEventSetSingleMovement(objectEvent, sprite, GetJumpInPlaceMovementAction(direction));
-    objectEvent->singleMovementActive = TRUE;
-    sprite->sTypeFuncId = 2;
-    return TRUE;
-}
-
-bool8 FollowablePlayerMovement_GoSpeed4(struct ObjectEvent *objectEvent, struct Sprite *sprite, enum Direction playerDirection, bool8 tileCallback(u8))
-{
-    enum Direction direction;
-    s16 x;
-    s16 y;
-
-    direction = playerDirection;
-    direction = GetCopyDirection(gInitialMovementTypeFacingDirections[objectEvent->movementType], objectEvent->directionSequenceIndex, direction);
-    ObjectEventMoveDestCoords(objectEvent, direction, &x, &y);
-    ObjectEventSetSingleMovement(objectEvent, sprite, GetJumpMovementAction(direction));
-    if (GetCollisionAtCoords(objectEvent, x, y, direction) || (tileCallback != NULL && !tileCallback(MapGridGetMetatileBehaviorAt(x, y))))
-        ObjectEventSetSingleMovement(objectEvent, sprite, GetFaceDirectionMovementAction(direction));
-    objectEvent->singleMovementActive = TRUE;
-    sprite->sTypeFuncId = 2;
-    return TRUE;
-}
 
 bool8 FollowablePlayerMovement_Jump(struct ObjectEvent *objectEvent, struct Sprite *sprite, enum Direction playerDirection, bool8 tileCallback(u8))
 {

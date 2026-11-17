@@ -171,7 +171,8 @@ is clean; keep it that way.
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
-| [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
+| [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
+| [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map, crosses a map seam while on screen, and the grass grows back after leaving and returning. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3624,9 +3625,10 @@ the grass and use CUT from the Start menu's party screen with real input. The 3x
 must turn each grass metatile into the tile its case names and leave every other tile, inside and in
 the ring around it, unchanged; the clippings (`sSpriteTemplate_CutGrass`) must share one slot holding
 the expected palette, checked like the grass effects. Mt. Silver at 12:00 and 22:00 expects
-`frosty_cut_grass.pal` and its frosty grass cut to the snow beside it (642 and 895 to 641; 895 went to the cave snow 646, which has wild
-encounters, until `CutGrassKantoJohto.lua`'s change); Route
-101 and Route 30 expect `cut_grass.pal` and tall grass cut to 1. Before the fix, `SetCutGrassMetatile`
+`frosty_cut_grass.pal` and its frosty grass cut to frosty stubble on the snow beside it (642 to 0x2C9,
+895 to 0x326; 895 went to the cave snow 646, which has wild encounters, until `CutGrassKantoJohto.lua`'s
+change, and to bare snow until `CutGrassStubble.lua`'s); Route 101 and Route 30 expect `cut_grass.pal`
+and tall grass cut to its stubble (0x02A in Hoenn's General, 0x27D in Johto_General). Before the fix, `SetCutGrassMetatile`
 matched secondary metatile ids without their tileset, so Mt. Silver's 642 (Fortree's secret base long
 grass id) became the green and yellow primary metatile 634, and `SetCutGrassMetatiles` ran Fortree's
 long grass root repair on every map, so Route 30's flower border under freshly cut grass became sand
@@ -3646,11 +3648,45 @@ also adds a plain ground metatile where a tileset had none (Route 38's bare fiel
 Route 37's pink apricorn tree). Each case gives the lead Pokemon CUT and the Cut tool, warps beside the
 grass and uses CUT from the Start menu's party screen with real input. Every grass metatile in the 3x3
 must become the literal tile its case names and nothing else in the 5x5 may change; a second warp to
-the same spot must bring the grass back, as in Hoenn. Cases: Viridian Forest (ViridianForest tree-top
-grass 0x284 to 0x281), Route 13 (`General_FrlgNight` 0x00B/0x00C/0x00D), Route 29 (`Johto_General`),
-Route 33 (`Johto_South`), National Park (long grass and its south edge to plain grass 0x011), Route 39
-(the wheat to the bare field 0x3D4) and Route 101 (control). `CUT_CASE=<text>` runs matching cases.
+the same spot must bring the grass back, as in Hoenn. Since `CutGrassStubble.lua` every case expects the
+grass's stubble, not bare ground (the ground metatiles this suite's change added are gone again).
+Cases: Viridian Forest (ViridianForest tree-top grass 0x284), Route 13 (`General_FrlgNight`
+0x00B/0x00C/0x00D), Route 29 (`Johto_General`), Route 33 (`Johto_South`), National Park (long grass and
+its south edges), Route 39 (the wheat) and Route 101 (control). `CUT_CASE=<text>` runs matching cases.
 `ValidateCutGrass.py` (host) fails when a placed grass metatile has no rule keyed on its tileset, when a
 cut tile is still grass, has wild encounters, has the wrong behaviour or changes the layer the grass
 does not draw on, and when the generated header differs from what it derives. **51/57** on the unfixed
 ROM (every Kanto and Johto case left grass standing; Route 101 passed), **57/57** with the fix.
+
+### `CutGrassStubble.lua`
+
+The owner asked for Cut to leave "a different type of ground clutter ... almost like grass stubble", and
+for the grass to come back. `test/overworld/ValidateCutGrass.py --write` now generates every row of
+`sCutGrassMetatiles` (Hoenn's included) and the stubble each one names: the ground the grass grows on
+with tufts of that grass's own pixels left at its blade bases (straw stubble on Route 38/39's field,
+frosty stubble on Mt. Silver), the other layer kept exactly, `MB_NORMAL` (or the cycling road slope).
+Stalks go on the bottom layer when one palette holds their colours, else on the empty top layer drawn
+under sprites (Lavaridge's grass on lava rock, the wheat). The validator fails when a placed grass (or
+Fallarbor's run-time ash-free grass) has no stubble rule, when a stubble tile differs from the recipe or
+shows no stubble, and checks behaviour, encounters and the kept layer as before. Fortree's long grass
+root repair (`SetCutGrassMetatiles`) now keys on the stubble the table names.
+
+Each case gives the lead Pokemon CUT and uses it from the party screen with real input. Every grass
+metatile in the 3x3 must become the literal stubble its case names and nothing else in the 5x5 may
+change (Route 120 also expects the roots: uncut long grass above gets its root row back, and the roots
+below the cut grass become their stubble). The player then walks between a stubble tile and the uncut
+grass beside it: no step onto stubble may start a wild battle (battles an overworld Pokemon starts by
+walking up or bumping into the player are counted apart: they start from a script or without a step),
+and a step onto the grass must start one. The first such battle, fled with real input, must leave the
+stubble in place (the field returns without reloading the map, as in vanilla Hoenn). So must a save and
+Continue on the same map (the save's map view snapshot restores the tiles around the player, as in
+vanilla). A warp to the hub and back must grow the grass back. The seam case cuts Mt. Silver's outside
+grass beside Route 28, steps across the seam and back: the stubble on screen must cross into Route 28's
+grid (`MoveMapViewToBackup`) and still be there on return. Cases: Route 101 and Route 120 (Hoenn),
+Viridian Forest and Route 13 (Kanto), Route 29, National Park, Route 39's wheat, Route 37's pink apricorn
+tree and Mt. Silver (Johto), and the seam. `--env PW_CUT_CASE=<text>` runs matching cases. **118/138** on
+the unfixed ROM (#664's head: every case cut to bare ground, so no stubble lay beside grass and the
+encounter walk could not run), **183/183** with the change. Tamper control: with Route 101's stubble
+0x02A given `MB_TALL_GRASS` in the ROM, the walk fails "no step on the stubble starts a wild battle"
+(2 battles).
+

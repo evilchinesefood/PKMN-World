@@ -16,6 +16,13 @@
 --   * Mt. Silver frosty grass at 12:00 and 22:00: frosty_grass.pal, tinted at night;
 --   * Route 101 green grass at 12:00 and 22:00 (control): general_1.pal, unchanged.
 --
+-- The Cut cases use CUT from the party screen with the player in reach of the grass. The 3x3 around
+-- the player must cut each grass metatile to the tile its case names and change nothing else, and
+-- the clippings must draw the expected palette, checked the same way.
+--   * Mt. Silver at 12:00 and 22:00: frosty_cut_grass.pal, frosty grass cut to the snow beside it;
+--   * Route 101 (control) and Route 30: cut_grass.pal, tall grass cut to plain grass. Route 30's
+--     flower border sits right under the grass, where Fortree's long grass repair used to rewrite it.
+--
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/FrostyGrassFieldEffect.lua
 
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
@@ -291,13 +298,110 @@ local function run(c)
   F.check(tag .. ": control stays in the field", F.ow())
 end
 
+local MOVE_CUT, ITEM_CUT_TOOL = 15, 875
+local SCR_OP_ADDITEM, SCR_OP_SETMONMOVE, SCR_OP_END = 0x44, 0x7B, 0x02
+local SCRIPT_BUF = S.gStringVar4 + 960
+local function runScript(bytes)
+  for i, b in ipairs(bytes) do F.w8(SCRIPT_BUF + i - 1, b) end
+  F.w8(S.sGlobalScriptContext, 0)
+  F.w8(S.sGlobalScriptContext + 1, 1)
+  F.w32(S.sGlobalScriptContext + 4, 0)
+  F.w32(S.sGlobalScriptContext + S.ScriptCtx.scriptPtr, SCRIPT_BUF)
+  F.w8(S.sGlobalScriptContextStatus, CONTEXT_RUNNING)
+  F.idle(30)
+end
+
+local function metatileAt(x, y)
+  local width = F.r32(S.gBackupMapLayout + S.BackupMapLayout.width)
+  local map = F.r32(S.gBackupMapLayout + S.BackupMapLayout.map)
+  local o = S.BackupMapLayout.mapOffset
+  return (F.r16(map + ((x + o) + (y + o) * width) * 2) >> S.Metatiles.idShift) & S.Metatiles.idMask
+end
+-- The 5x5 square around (cx, cy), row by row: Cut reaches the 3x3 around the player.
+local function area(cx, cy)
+  local t = {}
+  for dy = -2, 2 do for dx = -2, 2 do t[#t + 1] = metatileAt(cx + dx, cy + dy) end end
+  return t
+end
+
+local TAG_CUT_GREEN, TAG_CUT_FROSTY = 0x1000, 0x1017
+local CUT_GREEN, CUT_FROSTY = "graphics/field_effects/palettes/cut_grass.pal", "graphics/field_effects/palettes/frosty_cut_grass.pal"
+local MT_SILVER_CUTS = { [642] = 641, [895] = 646 }
+-- { tag, grp, map, x, y, hour, palette tag, palette file, { grass metatile = metatile Cut leaves } }
+local CUT_CASES = {
+  { "mt_silver_cut_day", 97, 7, 18, 20, 12, TAG_CUT_FROSTY, CUT_FROSTY, MT_SILVER_CUTS },
+  { "mt_silver_cut_night", 97, 7, 18, 20, 22, TAG_CUT_FROSTY, CUT_FROSTY, MT_SILVER_CUTS },
+  { "route101_cut_day", 0, 16, 10, 10, 12, TAG_CUT_GREEN, CUT_GREEN, { [13] = 1 } },
+  { "route30_cut_day", 75, 3, 33, 12, 12, TAG_CUT_GREEN, CUT_GREEN, { [13] = 1 } },
+}
+
+local function useCut(tag)
+  F.press("Start", 2); F.idle(60)
+  if not F.check(tag .. ": the Start menu offers the party", F.selectStartIcon(1)) then return end
+  F.press("A", 2)
+  for _ = 1, 300 do F.idle(1); if F.cb2() == (S.CB2_UpdatePartyMenu & ~1) then break end end
+  F.idle(60)
+  F.press("A", 2); F.idle(40)
+  F.shot(tag .. "_cut_offered")
+  F.press("Down", 2); F.idle(20); F.press("A", 2)
+end
+
+local function runCut(c)
+  local tag, grp, map, x, y, hour, palTag, file, cuts = table.unpack(c)
+  setClock(hour)
+  if not F.check(tag .. ": arrives", warpToCoords(grp, map, x, y, tag)) then return end
+  F.idle(30)
+  local before = area(x, y)
+  useCut(tag)
+  local clips = {}
+  for _ = 1, 900 do
+    F.idle(1)
+    if #spritesOf(S.sSpriteTemplate_CutGrass) > 0 then clips = settled(S.sSpriteTemplate_CutGrass); break end
+  end
+  F.idle(6)
+  F.shot(tag .. "_clippings")
+  if F.check(tag .. ": Cut throws grass clippings", #clips > 0) then
+    local shared = true
+    for _, sp in ipairs(clips) do shared = shared and sp.slot == clips[1].slot end
+    F.check(tag .. ": every clipping shares one palette slot", shared)
+    checkPalette(tag .. " Cut clippings", { clips[1] }, palTag, file)
+  end
+  for _ = 1, 600 do
+    F.idle(1)
+    if F.ow() and F.r8(S.sLockFieldControls) == 0 and F.r8(S.sGlobalScriptContextStatus) ~= CONTEXT_RUNNING then break end
+  end
+  F.idle(30)
+  F.shot(tag .. "_after")
+  local after = area(x, y)
+  F.L(tag .. ": before " .. table.concat(before, " "))
+  F.L(tag .. ": after  " .. table.concat(after, " "))
+  local inner, outer, cutAny = {}, {}, false
+  for i = 1, 25 do
+    local dx, dy = (i - 1) % 5 - 2, (i - 1) // 5 - 2
+    local reach = math.abs(dx) <= 1 and math.abs(dy) <= 1
+    local want = reach and cuts[before[i]] or before[i]
+    cutAny = cutAny or want ~= before[i]
+    if after[i] ~= want then
+      local list = reach and inner or outer
+      list[#list + 1] = string.format("(%d,%d) %d->%d want %d", x + dx, y + dy, before[i], after[i], want)
+    end
+  end
+  F.check(tag .. ": the grass in reach is cut to the tile beside it", cutAny and #inner == 0, table.concat(inner, "; "))
+  F.check(tag .. ": nothing outside Cut's reach changes", #outer == 0, table.concat(outer, "; "))
+  F.check(tag .. ": control returns to the field", F.ow() and F.r8(S.sLockFieldControls) == 0)
+end
+
 F.run(function()
   if not F.boot(HUB_GROUP) then F.check("boot", false); F.finish(); return end
   giveMon(SPECIES_MARSHTOMP)
   F.check("a Pokemon in the party", F.r8(S.gPartiesCount) >= 1, "n=" .. F.r8(S.gPartiesCount))
+  runScript({ SCR_OP_SETMONMOVE, 0, 0, MOVE_CUT & 0xFF, MOVE_CUT >> 8, SCR_OP_ADDITEM, ITEM_CUT_TOOL & 0xFF, ITEM_CUT_TOOL >> 8, 1, 0, SCR_OP_END })
   local only = os.getenv("FROST_CASE")
   for _, c in ipairs(CASES) do
     if not only or c[1]:find(only, 1, true) then run(c) end
+  end
+  for _, c in ipairs(CUT_CASES) do
+    if not only or c[1]:find(only, 1, true) then runCut(c) end
   end
   F.finish()
 end)

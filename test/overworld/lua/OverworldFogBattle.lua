@@ -21,7 +21,7 @@ local S = require("symbols")
 local F = require("lib").new(S, "OverworldFogBattle")
 
 local HUB_GROUP = 100
-local CONTEXT_SHUTDOWN = 2
+local CONTEXT_RUNNING = 0
 local BM = S.BattlePokemon
 local BM_ABILITY = 32
 local ABILITY_RUN_AWAY = 50
@@ -45,8 +45,10 @@ local function isAction()
 end
 local function options() return F.sb2() + S.SaveBlock2.optionsU16 end
 local function instantText() F.w16(options(), (F.r16(options()) & ~7) | 3) end
+-- An encounter-started battle returns with the script context left WAITING on its `end`, and the
+-- player already walks (see OweStressFuzz.lua), so only a running script means no control.
 local function hasControl()
-  return F.ow() and F.r8(S.sLockFieldControls) == 0 and F.r8(S.sGlobalScriptContextStatus) == CONTEXT_SHUTDOWN
+  return F.ow() and F.r8(S.sLockFieldControls) == 0 and F.r8(S.sGlobalScriptContextStatus) ~= CONTEXT_RUNNING
 end
 
 -- The debug species field starts at 1, so it yields 1 + the spun value.

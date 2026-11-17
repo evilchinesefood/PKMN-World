@@ -45,6 +45,7 @@ CHECKS = (
     ("ValidateConfigRules.py",),
     ("ValidateDeadEvoItems.py",),
     ("ValidateBattleScenes.py",),
+    ("ValidateFrostyGrass.py",),
 )
 
 

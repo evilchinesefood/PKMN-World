@@ -170,6 +170,7 @@ is clean; keep it that way.
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
+| [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3597,3 +3598,22 @@ A on the ball must print the bag-full line, give control back and leave the ball
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.
+
+### `FrostyGrassFieldEffect.lua`
+
+Mt. Silver's snowy map (`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but the rustle
+over a walker's feet, the hop an overworld wild encounter makes when it spawns in grass and DexNav's
+shaking grass drew the green `general_1` palette. Grass effects now take `frosty_grass.pal` on grass drawn from a secondary
+tileset in `sFrostyGrassTilesets` (`src/field_effect_helpers.c`). Each case sets the clock to 12:00 or
+22:00, warps beside the grass and walks one step into it with real input. On the frames after the step
+begins, every `TallGrass` sprite must sit in an OBJ palette slot tagged with the expected palette, the
+slot must hold the authored `.pal` colours read from the repository, and the drawn colours must equal
+them after the overworld time tint, recomputed from `gTimeBlend` with `TimeMixPalettes`' arithmetic.
+The player then stands still until an overworld wild encounter spawns in the grass, and its
+`JumpTallGrass` hop is checked the same way. Last, R starts a DexNav search for a species of the map
+(searching again until one hides in grass) and its shaking grass is checked the same way. Each sprite
+is read two frames after it first appears, since a long field frame can end inside `CreateSprite`
+before the palette is set. Route 101's green grass at both hours is the control.
+`FROST_CASE=<text>` runs matching cases. `ValidateFrostyGrass.py` (host) fails when a map places frosty
+grass whose effects stay green, or green grass that would be frosted, and rebuilds the palette from its
+recipe. **53/74** on the unfixed ROM (every Mt. Silver sprite drew tag 0x1005), **74/74** with the fix.

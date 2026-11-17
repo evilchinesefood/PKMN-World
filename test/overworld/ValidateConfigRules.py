@@ -485,6 +485,18 @@ def check_evolution_claims(ctx):
     return out
 
 
+def check_fog_maps(ctx):
+    """Every map whose fog was scenery in its source game now changes its battles."""
+    out = []
+    for path in sorted(glob.glob(os.path.join(ROOT, "data/maps/*/map.json"))):
+        if re.search(r'"weather":\s*"WEATHER_FOG_(HORIZONTAL|DIAGONAL)"', read(path)):
+            out.append(Finding("fog changes battles", os.path.relpath(path, ROOT), "map weather is fog"))
+    for lab in ctx.corpus.labels.values():
+        if re.search(r"^\s*setweather WEATHER_FOG_(HORIZONTAL|DIAGONAL)\b", lab.body, re.M):
+            out.append(Finding("fog changes battles", f"{lab.path}:{lab.name}", "sets fog weather"))
+    return out
+
+
 RULES = [
     Rule("TMs called single-use", "I_REUSABLE_TMS", lambda c: c.value("I_REUSABLE_TMS"),
          "a TM teaches its move any number of times", "a TM is consumed when used",
@@ -537,6 +549,10 @@ RULES = [
     Rule("evolution claim", "I_USE_EVO_HELD_ITEMS_FROM_BAG", lambda c: True,
          "the species table decides how each POKéMON evolves", "pokemonHnS evolved trade POKéMON by level and held item",
          check_evolution_claims),
+    Rule("fog changes battles", "B_OVERWORLD_FOG",
+         lambda c: c.value("B_OVERWORLD_FOG") == GENS["GEN_4"] or c.value("B_OVERWORLD_FOG") >= GENS["GEN_8"],
+         "overworld fog starts Misty Terrain (Gen 8+) or fog weather (Gen 4) in battle", "Gen 3 fog is scenery",
+         check_fog_maps),
 ]
 
 

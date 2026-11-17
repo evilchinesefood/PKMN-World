@@ -27,6 +27,8 @@ LittlerootTown_MaysHouse_1F_OnTransition:
 	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 3, LittlerootTown_MaysHouse_1F_EventScript_MoveMomToDoor
 	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 5, LittlerootTown_MaysHouse_1F_EventScript_MoveMomToStairs
 	call_if_eq VAR_LITTLEROOT_INTRO_STATE, 6, LittlerootTown_MaysHouse_1F_EventScript_MoveMomToTV
+	call_if_eq VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 3, PlayersHouse_1F_EventScript_HideDad
+	call_if_eq VAR_LITTLEROOT_HOUSES_STATE_MAY, 3, PlayersHouse_1F_EventScript_ShowDad
 	end
 
 LittlerootTown_MaysHouse_1F_EventScript_MoveMomToStairs::

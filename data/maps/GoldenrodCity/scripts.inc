@@ -448,36 +448,3 @@ GoldenrodCity_Text_UndergroundSouthSign:
 
 GoldenrodCity_Text_FlowerShopSign:
 	.string "Blooming Beautiful FLOWER SHOP$"
-
-GoldenrodCity_Text_MoveTutorAsk:
-	.string "I can teach your POKéMON some\n"
-	.string "amazing moves!\p"
-	.string "Should I teach one?$"
-
-GoldenrodCity_Text_MoveTutorCost:
-	.string "It'll cost you 1000 coins.\n"
-	.string "Okay?$"
-
-GoldenrodCity_Text_MoveTutorDecline:
-	.string "Aww… But these moves are great!$"
-
-GoldenrodCity_Text_MoveTutorWhich:
-	.string "Wahahah! You won't regret it!\p"
-	.string "Which move should I teach?$"
-
-GoldenrodCity_Text_MoveTutorNoCash:
-	.string "Too bad. Guess I'll need to\n"
-	.string "get some cash from home…$"
-
-GoldenrodCity_Text_MoveTutorUnderstand:
-	.string "If you understand this move,\n"
-	.string "you've made it as a trainer.$"
-
-GoldenrodCity_Text_MoveTutorFarewell:
-	.string "Wahahah! Farewell, kid!$"
-
-GoldenrodCity_Text_MoveTutorBut:
-	.string "B-but…$"
-
-GoldenrodCity_Text_MoveTutorNotEnoughCoins:
-	.string "…You don't have enough coins…$"

@@ -861,14 +861,6 @@ void FieldEffectScript_LoadTiles(u8 **script)
     (*script) += 4;
 }
 
-static bool32 ShouldFieldEffectBeFogBlended(u8 *script)
-{
-    u32 ptr = FieldEffectScript_ReadWord(&script);
-    if (ptr == (u32)FldEff_TallGrass)
-        return FALSE;
-    return TRUE;
-}
-
 void FieldEffectScript_LoadFadedPalette(u8 **script)
 {
     struct SpritePalette *palette = (struct SpritePalette *)FieldEffectScript_ReadWord(script);
@@ -876,10 +868,10 @@ void FieldEffectScript_LoadFadedPalette(u8 **script)
     (*script) += 4;
     SetPaletteColorMapType(paletteSlot + 16, T1_READ_8(*script));
     (*script)++;
-    UpdateSpritePaletteWithWeather(paletteSlot, ShouldFieldEffectBeFogBlended(*script));
+    UpdateSpritePaletteWithWeather(paletteSlot, TRUE);
 }
 
-void FieldEffect_LoadFadedPalette(struct SpritePalette *palette, enum ColorMapType colorMap)
+void FieldEffect_LoadFadedPalette(const struct SpritePalette *palette, enum ColorMapType colorMap)
 {
     u32 paletteSlot = LoadSpritePalette(palette);
     SetPaletteColorMapType(paletteSlot + 16, colorMap);

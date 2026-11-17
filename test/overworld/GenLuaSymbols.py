@@ -201,6 +201,10 @@ WANT = [
     "gFieldEffectObjectPicTable_SmallLight",
     "sSpriteTemplate_PokecenterMonitor_FrLg", "sSpriteTemplate_PokecenterMonitor",
     "TilesetAnim_JohtoDayCare", "InitTilesetAnim_JohtoDayCare",
+    # FrostyGrassFieldEffect.lua finds the grass rustle, OWE spawn hop, DexNav shaking grass and Cut
+    # clipping sprites by template.
+    "gFieldEffectObjectTemplate_TallGrass", "gFieldEffectObjectTemplate_JumpTallGrass",
+    "gFieldEffectObjectTemplate_UnusedGrass", "sSpriteTemplate_CutGrass",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
     "Task_DisplayMainMenu", "Task_HandleMainMenuInput", "gSaveFileStatus",
     "sCurrItemAndOptionMenuCheck", "sGpuRegBuffer",
@@ -347,7 +351,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, attack = 2, spAttack = 8, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
-  BattlePresentation = { dayPalette = 16, tintWithTime = 22 },
+  BattlePresentation = { dayPalette = 16, tintWithTime = 22, time = 24 },
                                                             -- include/battle_presentation.h, offsetof
                                                             --   probe with the modern CFLAGS.
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4

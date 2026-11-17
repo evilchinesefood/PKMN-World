@@ -120,10 +120,13 @@ local function case(tag, room, respawn, setup)
   if not stopAt then F.shot(tag .. "_stuck"); return end
   F.idle(30)
   if not F.boot(nil, true) then F.check(tag .. ": Continue", false); return end
+  -- Read the landing before any input: Hoenn's first induction then plays Birch's doorstep scene,
+  -- which ends in his lab.
+  local landG, landM = F.grp(), F.mapn()
   for _ = 1, 400 do if hasControl() then break end F.press("B", 2); F.idle(10) end
   F.check(tag .. ": control after Continue", hasControl())
-  F.check(tag .. ": respawned at the region's home", F.grp() == respawn[1] and F.mapn() == respawn[2],
-    string.format("grp=%d map=%d", F.grp(), F.mapn()))
+  F.check(tag .. ": respawned at the region's home", landG == respawn[1] and landM == respawn[2],
+    string.format("grp=%d map=%d", landG, landM))
   local party1 = partyBytes()
   F.check(tag .. ": party unchanged", F.r8(S.gPartiesCount) == n0 and party1 == party0, "n=" .. F.r8(S.gPartiesCount))
   F.shot(tag .. "_after")
@@ -135,7 +138,7 @@ F.run(function()
   F.check("party of six", F.r8(S.gPartiesCount) == 6)
 
   case("kanto", { 35, 80, 5, 12 }, { 37, 0 })
-  case("hoenn", { 16, 11, 7, 16 }, { 1, 1 })
+  case("hoenn", { 16, 11, 7, 16 }, { 0, 9 })
   case("johto", { 99, 10, 5, 12 }, { 75, 0 }, function() setVar(VAR_JOHTO_LEAGUE_STATE, 6) end)
   F.finish()
 end)

@@ -6,8 +6,34 @@
 
 static const u16 sIcePathPalette[] = INCGFX_U16("graphics/battle_environment/cave/ice_path.pal", ".gbapal");
 static const u16 sMtSilverSnowPalette[] = INCGFX_U16("graphics/battle_environment/rock/mt_silver_snow.pal", ".gbapal");
+static const u16 sMtSilverSnowGrassPalette[] = INCGFX_U16("graphics/battle_environment/tall_grass/mt_silver_snow.pal", ".gbapal");
 STATIC_ASSERT(ARRAY_COUNT(sIcePathPalette) == BATTLE_PRESENTATION_COLORS, IcePathPaletteSize);
 STATIC_ASSERT(ARRAY_COUNT(sMtSilverSnowPalette) == BATTLE_PRESENTATION_COLORS, MtSilverSnowPaletteSize);
+STATIC_ASSERT(ARRAY_COUNT(sMtSilverSnowGrassPalette) == BATTLE_PRESENTATION_COLORS, MtSilverSnowGrassPaletteSize);
+
+// Ordinary battles on these maps draw `visual`'s art in a palette derived from the map's own
+// tileset colors (test/overworld/battle-palettes/palette-sources.json records each derivation).
+struct MapBattlePresentation
+{
+    u16 map;
+    u16 environment;
+    u16 visual;
+    const u16 *palette;
+};
+
+static const struct MapBattlePresentation sMapBattlePresentations[] =
+{
+    {MAP_ICE_PATH_1F,          BATTLE_ENVIRONMENT_CAVE,     BATTLE_ENVIRONMENT_CAVE,     sIcePathPalette},
+    {MAP_ICE_PATH_B1F,         BATTLE_ENVIRONMENT_CAVE,     BATTLE_ENVIRONMENT_CAVE,     sIcePathPalette},
+    {MAP_ICE_PATH_B2F,         BATTLE_ENVIRONMENT_CAVE,     BATTLE_ENVIRONMENT_CAVE,     sIcePathPalette},
+    {MAP_ICE_PATH_B3F,         BATTLE_ENVIRONMENT_CAVE,     BATTLE_ENVIRONMENT_CAVE,     sIcePathPalette},
+    {MAP_ICE_PATH_B4F,         BATTLE_ENVIRONMENT_CAVE,     BATTLE_ENVIRONMENT_CAVE,     sIcePathPalette},
+    {MAP_MT_SILVER_SNOW,       BATTLE_ENVIRONMENT_MOUNTAIN, BATTLE_ENVIRONMENT_MOUNTAIN, sMtSilverSnowPalette},
+    {MAP_MT_SILVER_SNOW,       BATTLE_ENVIRONMENT_PLAIN,    BATTLE_ENVIRONMENT_MOUNTAIN, sMtSilverSnowPalette},
+    {MAP_MT_SILVER_SNOW,       BATTLE_ENVIRONMENT_GRASS,    BATTLE_ENVIRONMENT_GRASS,    sMtSilverSnowGrassPalette},
+    {MAP_MT_SILVER_SUMMIT_DAY, BATTLE_ENVIRONMENT_MOUNTAIN, BATTLE_ENVIRONMENT_MOUNTAIN, sMtSilverSnowPalette},
+    {MAP_MT_SILVER_SUMMIT_DAY, BATTLE_ENVIRONMENT_PLAIN,    BATTLE_ENVIRONMENT_MOUNTAIN, sMtSilverSnowPalette},
+};
 
 static u16 GetCompleteVisualEnvironment(u16 environment)
 {
@@ -19,21 +45,6 @@ static u16 GetCompleteVisualEnvironment(u16 environment)
      && gBattleEnvironmentInfo[environment].palette != NULL)
         return environment;
     return BATTLE_ENVIRONMENT_PLAIN;
-}
-
-static bool32 IsIcePath(u16 map)
-{
-    switch (map)
-    {
-    case MAP_ICE_PATH_1F:
-    case MAP_ICE_PATH_B1F:
-    case MAP_ICE_PATH_B2F:
-    case MAP_ICE_PATH_B3F:
-    case MAP_ICE_PATH_B4F:
-        return TRUE;
-    default:
-        return FALSE;
-    }
 }
 
 void ResolveBattlePresentation(const struct BattlePresentationContext *context, struct BattlePresentation *result)
@@ -59,17 +70,17 @@ void ResolveBattlePresentation(const struct BattlePresentationContext *context, 
     if (!ordinary)
         return;
 
-    if (IsIcePath(context->map) && environment == BATTLE_ENVIRONMENT_CAVE)
+    for (u32 i = 0; i < ARRAY_COUNT(sMapBattlePresentations); i++)
     {
-        result->dayPalette = sIcePathPalette;
-    }
-    else if ((context->map == MAP_MT_SILVER_SNOW || context->map == MAP_MT_SILVER_SUMMIT_DAY)
-          && (environment == BATTLE_ENVIRONMENT_MOUNTAIN || environment == BATTLE_ENVIRONMENT_PLAIN))
-    {
-        result->background = gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_MOUNTAIN].background;
-        result->entry = gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_MOUNTAIN].entry;
-        result->introEnvironment = BATTLE_ENVIRONMENT_MOUNTAIN;
-        result->dayPalette = sMtSilverSnowPalette;
+        const struct MapBattlePresentation *row = &sMapBattlePresentations[i];
+        if (row->map == context->map && row->environment == environment)
+        {
+            result->background = gBattleEnvironmentInfo[row->visual].background;
+            result->entry = gBattleEnvironmentInfo[row->visual].entry;
+            result->introEnvironment = row->visual;
+            result->dayPalette = row->palette;
+            break;
+        }
     }
     result->tintWithTime = MapHasNaturalLight(context->mapType);
 }

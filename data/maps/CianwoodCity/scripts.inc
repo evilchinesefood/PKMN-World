@@ -49,7 +49,7 @@ CianwoodCity_EventScript_Flytrigger::
 	applymovement LOCALID_CIANWOOD_CHUCKSWIFE, CianwoodCity_Movement_ChucksWife
 	waitmovement 0
 	msgbox CianwoodCity_Text_ChucksWifeGiveHM, MSGBOX_DEFAULT
-	giveitem ITEM_HM_FLY
+	givekeyitem ITEM_HM_FLY
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox CianwoodCity_Text_ChucksWifeFlySpeech, MSGBOX_DEFAULT
 	closemessage
@@ -75,8 +75,7 @@ CianwoodCity_EventScript_Test::
 CianwoodCity_EventScript_ChucksWife::
 	lock
 	faceplayer
-	checkitem ITEM_HM_FLY
-	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_ChucksWifeAlreadyHasFly
+	goto_if_eq VAR_GETFLY, 2, CianwoodCity_EventScript_ChucksWifeAlreadyHasFly
 	msgbox CianwoodCity_Text_ChucksWifeEasierToFly, MSGBOX_DEFAULT
 	goto_if_set FLAG_JOHTO_BADGE_5, CianwoodCity_EventScript_ChucksWifeGiveFly
 	msgbox CianwoodCity_Text_ChucksWifeBeatChuck, MSGBOX_DEFAULT
@@ -84,11 +83,12 @@ CianwoodCity_EventScript_ChucksWife::
 	release
 	end
 
-@ Re-entry for a give that could not fit: VAR_GETFLY is only set once FLY is
-@ actually in the BAG. checkitem above keeps this reachable after a failed give.
+@ Re-entry for a give that could not fit: VAR_GETFLY is only set to 2 once FLY
+@ is actually in the BAG, so the talk above keeps this reachable after a failed
+@ give. HM02 may already be held from Hoenn or Kanto; givekeyitem lets her say so.
 CianwoodCity_EventScript_ChucksWifeGiveFly::
 	msgbox CianwoodCity_Text_ChucksWifeGiveHM, MSGBOX_DEFAULT
-	giveitem ITEM_HM_FLY
+	givekeyitem ITEM_HM_FLY
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox CianwoodCity_Text_ChucksWifeFlySpeech, MSGBOX_DEFAULT
 	closemessage

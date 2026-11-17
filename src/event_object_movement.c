@@ -6188,6 +6188,14 @@ static bool8 UpdateFollowerTransformEffect(struct ObjectEvent *objectEvent, stru
 
 movement_type_def(MovementType_FollowPlayer, gMovementTypeFuncs_FollowPlayer)
 
+static void FollowerEnterPokeball(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    ClearObjectEventMovement(objectEvent, sprite);
+    ObjectEventSetSingleMovement(objectEvent, sprite, MOVEMENT_ACTION_ENTER_POKEBALL);
+    objectEvent->singleMovementActive = TRUE;
+    sprite->sTypeFuncId = 2; // movement action sets state to 0
+}
+
 bool8 MovementType_FollowPlayer_Shadow(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     ClearObjectEventMovement(objectEvent, sprite);
@@ -6224,14 +6232,26 @@ bool8 MovementType_FollowPlayer_Active(struct ObjectEvent *objectEvent, struct S
             sprite->sTypeFuncId = 0;
             return FALSE;
         }
-        // Animate entering pokeball
-        ClearObjectEventMovement(objectEvent, sprite);
-        ObjectEventSetSingleMovement(objectEvent, sprite, MOVEMENT_ACTION_ENTER_POKEBALL);
-        objectEvent->singleMovementActive = TRUE;
-        sprite->sTypeFuncId = 2; // movement action sets state to 0
+        FollowerEnterPokeball(objectEvent, sprite);
         return TRUE;
     }
     return gFollowPlayerMovementFuncs[PlayerGetCopyableMovement()](objectEvent, sprite, GetPlayerMovementDirection(), NULL);
+}
+
+// A metatile write made the shown follower's tile solid (a Mauville Gym switch turning a barrier on
+// behind the player). It goes into its Poke Ball instead of standing inside the wall and comes back
+// out behind the player on the next step. Map loads write metatiles before they rebuild the
+// objects, so only the live field counts.
+void ReturnFollowerFromSolidTile(s32 x, s32 y)
+{
+    struct ObjectEvent *follower;
+
+    if (gMain.callback2 != CB2_Overworld)
+        return;
+    follower = GetFollowerObject();
+    if (follower == NULL || follower->invisible || follower->currentCoords.x != x || follower->currentCoords.y != y)
+        return;
+    FollowerEnterPokeball(follower, &gSprites[follower->spriteId]);
 }
 
 bool8 MovementType_FollowPlayer_Moving(struct ObjectEvent *objectEvent, struct Sprite *sprite)

@@ -148,6 +148,8 @@
 #define FLDEFF_PAL_TAG_DUST_CLOUD         0x1013
 #define FLDEFF_PAL_TAG_ORAS_DOWSE         0x1014
 #define FLDEFF_PAL_TAG_AMBIENT_RIPPLE     0x1015
+#define FLDEFF_PAL_TAG_FROSTY_GRASS       0x1016
+#define FLDEFF_PAL_TAG_FROSTY_CUT_GRASS   0x1017
 #define FLDEFF_PAL_TAG_FIELD_MOVE_MON     0x8400
 
 // tile tags, for field effects that may have many copies on screen at once

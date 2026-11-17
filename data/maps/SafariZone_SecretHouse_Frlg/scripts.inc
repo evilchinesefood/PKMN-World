@@ -6,7 +6,7 @@ SafariZone_SecretHouse_EventScript_Attendant::
 	faceplayer
 	goto_if_set FLAG_GOT_HM03, SafariZone_SecretHouse_EventScript_ExplainSurf
 	msgbox SafariZone_SecretHouse_Text_CongratsYouveWon
-	giveitem ITEM_HM03
+	givekeyitem ITEM_HM03
 	goto_if_eq VAR_RESULT, FALSE, SafariZone_SecretHouse_EventScript_NoRoomForHM03
 	setflag FLAG_GOT_HM03
 	msgbox SafariZone_SecretHouse_Text_ExplainSurf

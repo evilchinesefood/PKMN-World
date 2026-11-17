@@ -114,7 +114,7 @@ SproutTower_3F_EventScript_SageLi::
 SproutTower_3F_EventScript_SageLi_GiveFlash::
 	goto_if_set FLAG_RECEIVED_HM_FLASH, SproutTower_3F_EventScript_SageLi_Beaten
 	msgbox SproutTower_Text_SageLi_TakeFlash, MSGBOX_DEFAULT
-	giveitem ITEM_HM_FLASH
+	givekeyitem ITEM_HM_FLASH
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_FLASH
 	msgbox SproutTower_Text_SageLi_FlashExplain, MSGBOX_DEFAULT

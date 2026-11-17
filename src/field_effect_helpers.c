@@ -11,6 +11,7 @@
 #include "palette.h"
 #include "sound.h"
 #include "sprite.h"
+#include "tilesets.h"
 #include "trig.h"
 #include "wild_encounter_ow.h"
 #include "constants/event_objects.h"
@@ -470,6 +471,37 @@ void UpdateShadowFieldEffect(struct Sprite *sprite)
 #undef sMapGroup
 #undef sYOffset
 
+// Grass drawn from these secondary tilesets is frosty, so the grass effects over it and Cut's
+// clippings are too.
+static const struct Tileset *const sFrostyGrassTilesets[] = { &gTileset_MtSilverSnow };
+
+bool32 IsFrostyGrassAt(s16 x, s16 y)
+{
+    u32 i;
+
+    if (MapGridGetMetatileIdAt(x, y) < GetNumMetatilesInPrimary(gMapHeader.mapLayout))
+        return FALSE;
+    for (i = 0; i < ARRAY_COUNT(sFrostyGrassTilesets); i++)
+    {
+        if (gMapHeader.mapLayout->secondaryTileset == sFrostyGrassTilesets[i])
+            return TRUE;
+    }
+    return FALSE;
+}
+
+const struct SpritePalette *GetGrassFieldEffectPalette(s16 x, s16 y)
+{
+    return IsFrostyGrassAt(x, y) ? &gSpritePalette_FrostyGrassFieldEffect : &gSpritePalette_GeneralFieldEffect1;
+}
+
+static u32 LoadGrassFieldEffectPalette(s16 x, s16 y, bool8 allowFog)
+{
+    u32 paletteNum = LoadSpritePalette(GetGrassFieldEffectPalette(x, y));
+    SetPaletteColorMapType(paletteNum + 16, COLOR_MAP_DARK_CONTRAST);
+    UpdateSpritePaletteWithWeather(paletteNum, allowFog);
+    return paletteNum;
+}
+
 // Sprite data for FLDEFF_TALL_GRASS and FLDEFF_LONG_GRASS
 #define sElevation   data[0]
 #define sX           data[1]
@@ -485,11 +517,13 @@ u32 FldEff_TallGrass(void)
     u8 spriteId;
     s16 x = gFieldEffectArguments[0];
     s16 y = gFieldEffectArguments[1];
+    u32 paletteNum = LoadGrassFieldEffectPalette(x, y, FALSE);
     SetSpritePosToOffsetMapCoords(&x, &y, 8, 8);
     spriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_TALL_GRASS], x, y, 0);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
+        sprite->oam.paletteNum = paletteNum;
         sprite->coordOffsetEnabled = TRUE;
         sprite->oam.priority = gFieldEffectArguments[3];
         sprite->sElevation = gFieldEffectArguments[2];
@@ -555,12 +589,14 @@ void UpdateTallGrassFieldEffect(struct Sprite *sprite)
 u32 FldEff_JumpTallGrass(void)
 {
     u8 spriteId;
+    u32 paletteNum = LoadGrassFieldEffectPalette(gFieldEffectArguments[0], gFieldEffectArguments[1], TRUE);
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 12);
     spriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_JUMP_TALL_GRASS], gFieldEffectArguments[0], gFieldEffectArguments[1], 0);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
+        sprite->oam.paletteNum = paletteNum;
         sprite->coordOffsetEnabled = TRUE;
         sprite->oam.priority = gFieldEffectArguments[3];
         sprite->sJumpElevation = gFieldEffectArguments[2];
@@ -1158,12 +1194,14 @@ void UpdateHotSpringsWaterFieldEffect(struct Sprite *sprite)
 u32 FldEff_ShakingGrass(void)
 {
     u8 spriteId;
+    u32 paletteNum = LoadGrassFieldEffectPalette(gFieldEffectArguments[0], gFieldEffectArguments[1], TRUE);
 
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 8);
     spriteId = CreateSpriteAtEndUnchecked(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_UNUSED_GRASS], gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
+        sprite->oam.paletteNum = paletteNum;
         sprite->coordOffsetEnabled = TRUE;
         sprite->oam.priority = gFieldEffectArguments[3];
         sprite->sWaitFldEff = FLDEFF_SHAKING_GRASS;
@@ -2256,7 +2294,7 @@ u32 FldEff_OWE_SpawnAnim(void)
     u32 visual = gOverworldWildEncounterFieldEffectInfo[spawnAnim].visual;
     s16 xOffset = gOverworldWildEncounterFieldEffectInfo[spawnAnim].xOffset;
     s16 yOffset = gOverworldWildEncounterFieldEffectInfo[spawnAnim].yOffset;
-    struct SpritePalette palette = GetOWESpawnDespawnAnimFldEffPalette(spawnAnim);
+    struct SpritePalette palette = GetOWESpawnDespawnAnimFldEffPalette(spawnAnim, gFieldEffectArguments[0], gFieldEffectArguments[1]);
 
     FieldEffect_LoadFadedPalette(&palette, COLOR_MAP_DARK_CONTRAST);
     SetSpritePosToOffsetMapCoords((s16 *)&gFieldEffectArguments[0], (s16 *)&gFieldEffectArguments[1], 8, 0);
@@ -2264,6 +2302,7 @@ u32 FldEff_OWE_SpawnAnim(void)
     if (spriteId != MAX_SPRITES)
     {
         struct Sprite *sprite = &gSprites[spriteId];
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(palette.tag);
         sprite->coordOffsetEnabled = TRUE;
         sprite->oam.priority = 2;
     }

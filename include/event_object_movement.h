@@ -125,6 +125,7 @@ extern const struct SpriteFrameImage gPicTable_PechaBerryTree[];
 
 extern const struct SpritePalette gSpritePalette_GeneralFieldEffect0;
 extern const struct SpritePalette gSpritePalette_GeneralFieldEffect1;
+extern const struct SpritePalette gSpritePalette_FrostyGrassFieldEffect;
 
 extern const enum Direction gStandardDirections[];
 
@@ -156,6 +157,7 @@ void SetFollowerSlot(u32 slot);
 enum Species GetOverworldWeatherSpecies(enum Species species);
 void UpdateFollowingPokemon(void);
 void RemoveFollowingPokemon(void);
+void ReturnFollowerFromSolidTile(s32 x, s32 y);
 struct ObjectEvent *GetFollowerObject(void);
 enum Direction GetDirectionToFace(s16, s16, s16, s16);
 void UpdateLightSprite(struct Sprite *);

@@ -302,3 +302,13 @@ BerryDecorFull	lua/BerryDecorFull.lua	fresh	0	required
 WhiteoutSaveContinue	lua/WhiteoutSaveContinue.lua	fresh	0	required
 ContinueDarkCave	lua/ContinueDarkCave.lua	fresh	0	required
 ItemBallFullPocket	lua/ItemBallFullPocket.lua	fresh	0	required
+BattleBgFrostGrass	lua/BattleBgFrostGrass.lua	fresh	0	required
+MauvilleGymFollowerBarrier	lua/MauvilleGymFollowerBarrier.lua	fresh	0	required
+HoennHofHome	lua/HoennHofHome.lua	fresh	0	required
+FrostyGrassFieldEffect	lua/FrostyGrassFieldEffect.lua	fresh	0	required
+CutGrassKantoJohto	lua/CutGrassKantoJohto.lua	fresh	0	required
+CutGrassStubble	lua/CutGrassStubble.lua	fresh	0	required
+DupKeyGiftScenes	lua/DupKeyGiftScenes.lua	fresh	0	required
+RadioDirectorCardKey	lua/RadioDirectorCardKey.lua	fresh	0	required
+CianwoodFlyGate	lua/CianwoodFlyGate.lua	fresh	0	required
+CardKeyDescription	lua/CardKeyDescription.lua	fresh	0	required

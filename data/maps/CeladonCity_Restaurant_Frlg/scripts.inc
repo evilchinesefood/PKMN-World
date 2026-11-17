@@ -14,8 +14,18 @@ CeladonCity_Restaurant_EventScript_CoinCaseMan::
 	faceplayer
 	goto_if_set FLAG_GOT_COIN_CASE, CeladonCity_Restaurant_EventScript_AlreadyGotCoinCase
 	msgbox CeladonCity_Restaurant_Text_TakeThisImBusted
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, TRUE, CeladonCity_Restaurant_EventScript_AlreadyHaveCoinCase
 	giveitem ITEM_COIN_CASE
 	goto_if_eq VAR_RESULT, FALSE, CeladonCity_Restaurant_EventScript_NoRoomForCoinCase
+	setflag FLAG_GOT_COIN_CASE
+	release
+	end
+
+@ Hoenn's Mauville trade and Johto's Underground hand out the same COIN CASE, and the bag
+@ holds one.
+CeladonCity_Restaurant_EventScript_AlreadyHaveCoinCase::
+	msgbox CeladonCity_Restaurant_Text_AlreadyHaveCoinCase
 	setflag FLAG_GOT_COIN_CASE
 	release
 	end
@@ -63,6 +73,12 @@ CeladonCity_Restaurant_Text_TakeThisImBusted::
 	.string "I'm going straight!\p"
 	.string "Here!\n"
 	.string "I won't be needing this anymore!$"
+
+CeladonCity_Restaurant_Text_AlreadyHaveCoinCase:
+	.string "…What? You've got a COIN CASE\n"
+	.string "of your own already?\p"
+	.string "Then take my advice instead.\n"
+	.string "Don't end up like me!$"
 
 CeladonCity_Restaurant_Text_ReceivedCoinCaseFromMan::
 	.string "{PLAYER} received a COIN CASE\n"

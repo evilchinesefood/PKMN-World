@@ -12,10 +12,14 @@ gBattleEnvironmentInfo. This fails when:
   5. the Battle Tower multi battle intro tilemaps are not cut from the Frontier background.
      BattleIntroSlidePartner draws them over that background with its tiles (char base 2): the
      opponent half is the background's rows 0-9, the player half its rows 10-13 lowered six rows
-     with row 2 as filler above, and every other cell is a blank tile.
+     with row 2 as filler above, and every other cell is a blank tile;
+  6. a palette in battle-palettes/palette-sources.json differs from its recipe (the base palette
+     with each listed index replaced by that color of the overworld tileset palette);
+  7. a map whose grass encounter tiles are drawn frosty (their colors average at least as blue as
+     green) has no grass row in sMapBattlePresentations, or a grass row restyles a green-grass map.
 
 Run from the repo root: python3 test/overworld/ValidateBattleScenes.py
-Pass --write to regenerate the two intro tilemaps from the Frontier background.
+Pass --write to regenerate the two intro tilemaps and the palette-sources.json palettes.
 """
 import glob
 import json
@@ -37,6 +41,10 @@ SELECTED_BY_CODE = (
 
 # Rooms where the trainer class picks the background, so the scene may stay default.
 CLASS_SELECTED_ROOM = re.compile(r"ChampionsRoom|HallOfFame")
+PALETTE_SOURCES = "test/overworld/battle-palettes/palette-sources.json"
+GRASS_ENVIRONMENTS = {"MB_TALL_GRASS": "GRASS", "MB_CYCLING_ROAD_PULL_DOWN_GRASS": "GRASS", "MB_LONG_GRASS": "LONG_GRASS"}
+FRLG_PRIMARY = {"emerald": False, "frlg": True, "johto": True}
+
 ELITE_FOUR_ROOM = re.compile(r"(PokemonLeague|EverGrandeCity)_\w+sRoom")
 
 MULTI_INTRO = {
@@ -192,6 +200,105 @@ def check_multi_intro(bad, table, files, write):
             bad.append(f"{MULTI_INTRO[half]}: not cut from {tilemap} (run with --write to regenerate)")
 
 
+def read_pal(path, count):
+    nums = [int(n) for n in read(path).split()[3:]]
+    return [tuple(nums[i * 3:i * 3 + 3]) for i in range(count)]
+
+
+def write_pal(path, colors):
+    with open(os.path.join(ROOT, path), "w", encoding="ascii", newline="") as fh:
+        fh.write("JASC-PAL\r\n0100\r\n%d\r\n" % len(colors) + "".join("%d %d %d\r\n" % c for c in colors))
+
+
+def check_palette_sources(bad, write):
+    for entry in json.loads(read(PALETTE_SOURCES)):
+        base, source = read_pal(entry["base"], 48), read_pal(entry["color_source"], 16)
+        expected = [base[i] if s is None else source[s] for i, s in enumerate(entry["source_indices"])]
+        if write:
+            write_pal(entry["target"], expected)
+        elif read_pal(entry["target"], 48) != expected:
+            bad.append(f"{entry['target']}: differs from its recipe in {PALETTE_SOURCES} (run with --write)")
+
+
+def tilesets():
+    """{gTileset_X: (tiles.png, palettes dir, metatiles.bin, metatile_attributes.bin)}."""
+    text = read("src/data/tilesets/graphics.h") + read("src/graphics.c") + read("src/data/tilesets/metatiles.h")
+    files = dict(re.findall(r"(\w+)\[\](?:\[16\])?\s*=\s*\{?\s*INC(?:GFX|BIN)_U\d+\(\"([^\"]+)\"", text))
+    out = {}
+    for name, body in re.findall(r"const struct Tileset (gTileset_\w+) =\s*\{(.*?)\};", read("src/data/tilesets/headers.h"), re.S):
+        tiles = re.search(r"\.tiles = (\w+)", body).group(1)
+        palettes = re.search(r"\.palettes = (\w+)", body).group(1)
+        metatiles, attrs = re.search(r"TILESET_METATILES\((\w+), (\w+)\)", body).groups()
+        out[name] = (files[tiles], os.path.dirname(files[palettes]), files[metatiles], files[attrs])
+    return out
+
+
+def behavior_numbers():
+    body = re.search(r"enum\s*\{(.*?)\}", read("include/constants/metatile_behaviors.h"), re.S).group(1)
+    names = [e.split("=")[0].strip() for e in re.sub(r"//[^\n]*", "", body).split(",") if e.strip()]
+    return {n: i for i, n in enumerate(names)}
+
+
+def frosty_grass(layout, sets, numbers, pixels):
+    """{environment: frosty?} for every grass encounter metatile the layout places."""
+    wanted = {numbers[mb]: env for mb, env in GRASS_ENVIRONMENTS.items()}
+    frlg = FRLG_PRIMARY[layout["layout_version"]]
+    split, primary_pals = (640, 7) if frlg else (512, 6)
+    halves = [sets[layout["primary_tileset"]], sets[layout["secondary_tileset"]]]
+    blocks = struct.iter_unpack("<H", open(os.path.join(ROOT, layout["blockdata_filepath"]), "rb").read())
+    found = {}
+    for metatile in sorted({b[0] & 0x3FF for b in blocks}):
+        half = 0 if metatile < split else 1
+        tiles_png, pal_dir, mt_path, attr_path = halves[half]
+        mt, attrs = open(os.path.join(ROOT, mt_path), "rb").read(), open(os.path.join(ROOT, attr_path), "rb").read()
+        local, width = metatile - split * half, len(attrs) * 16 // len(mt)
+        if local * 16 >= len(mt):
+            continue
+        attr = int.from_bytes(attrs[local * width:(local + 1) * width], "little")
+        env = wanted.get(attr & (0x1FF if width == 4 else 0xFF))
+        if env is None:
+            continue
+        total = [0, 0, 0]
+        for (entry,) in struct.iter_unpack("<H", mt[local * 16:local * 16 + 8]):
+            tile, bank = entry & 0x3FF, entry >> 12
+            png = halves[0][0] if tile < split else halves[1][0]
+            pal = read_pal(os.path.join(halves[0][1] if bank < primary_pals else halves[1][1], f"{bank:02d}.pal"), 16)
+            rows = pixels(png)
+            columns, tile = len(rows[0]) // 8, tile % split
+            for j in range(8):
+                row = rows[tile // columns * 8 + j] if tile // columns * 8 + j < len(rows) else []
+                for i in range(8):
+                    index = row[tile % columns * 8 + i] & 15 if row else 0
+                    if index:
+                        total = [t + c for t, c in zip(total, pal[index])]
+        found[env] = found.get(env, False) or total[2] >= total[1] > 0
+    return found
+
+
+def check_frosty_grass(bad):
+    rows = set(re.findall(r"\{(MAP_\w+),\s*BATTLE_ENVIRONMENT_(\w+),", read("src/battle_presentation.c")))
+    restyled = {(m, e) for m, e in rows if e in GRASS_ENVIRONMENTS.values()}
+    sets, numbers, cache = tilesets(), behavior_numbers(), {}
+    pixels = lambda png: cache.setdefault(png, png_pixels(os.path.join(ROOT, png)))
+    maps = {}
+    for path in glob.glob(os.path.join(ROOT, "data/maps/*/map.json")):
+        data = json.load(open(path, encoding="utf-8"))
+        maps.setdefault(data["layout"], []).append(data["id"])
+    seen = set()
+    for layout in json.loads(read("data/layouts/layouts.json"))["layouts"]:
+        if layout.get("id") not in maps or layout.get("primary_tileset") not in sets or layout.get("secondary_tileset") not in sets:
+            continue
+        for env, frosty in frosty_grass(layout, sets, numbers, pixels).items():
+            for map_id in maps[layout["id"]]:
+                seen.add((map_id, env))
+                if frosty and (map_id, env) not in restyled:
+                    bad.append(f"{map_id}: its {env} tiles are frosty but battles there draw the green grass palette")
+                if not frosty and (map_id, env) in restyled:
+                    bad.append(f"{map_id}: its {env} tiles are green but sMapBattlePresentations restyles them")
+    for map_id, env in sorted(restyled - seen):
+        bad.append(f"{map_id}: sMapBattlePresentations restyles {env}, but the map has no such tiles")
+
+
 def check_art(bad):
     for folder in sorted(glob.glob(os.path.join(ROOT, GFX, "*"))):
         name = os.path.relpath(folder, ROOT)
@@ -253,6 +360,8 @@ def main():
 
     check_art(bad)
     check_multi_intro(bad, table, files, "--write" in sys.argv[1:])
+    check_palette_sources(bad, "--write" in sys.argv[1:])
+    check_frosty_grass(bad)
 
     maps = 0
     for path in sorted(glob.glob(os.path.join(ROOT, "data/maps/*/map.json"))):

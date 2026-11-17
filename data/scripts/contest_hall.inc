@@ -12,12 +12,20 @@ LilycoveCity_ContestLobby_EventScript_ReceptionWelcome::
 	msgbox LilycoveCity_ContestLobby_Text_ContestReception, MSGBOX_DEFAULT
 	return
 
+@ Baoba at the Safari Zone gate hands out the same POKéBLOCK CASE, and the bag holds one.
 LilycoveCity_ContestLobby_EventScript_GivePokeblockCase::
+	checkitem ITEM_POKEBLOCK_CASE
+	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_ContestLobby_EventScript_AlreadyHavePokeblockCase
 	msgbox LilycoveCity_ContestLobby_Text_ReceptionDontHavePokeblockCase, MSGBOX_DEFAULT
 	giveitem ITEM_POKEBLOCK_CASE
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_POKEBLOCK_CASE
 	msgbox LilycoveCity_ContestLobby_Text_NowThatWeveClearedThatUp, MSGBOX_DEFAULT
+	return
+
+LilycoveCity_ContestLobby_EventScript_AlreadyHavePokeblockCase::
+	setflag FLAG_RECEIVED_POKEBLOCK_CASE
+	msgbox LilycoveCity_ContestLobby_Text_ContestReception, MSGBOX_DEFAULT
 	return
 
 LilycoveCity_ContestLobby_EventScript_PickUpPrize::

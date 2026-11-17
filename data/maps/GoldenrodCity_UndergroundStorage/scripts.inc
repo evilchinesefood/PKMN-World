@@ -4,15 +4,22 @@ GoldenrodCity_UndergroundStorage_MapScripts::
 GoldenrodCity_UndergroundStorage_EventScript_Director::
     lock
     faceplayer
-    checkitem ITEM_CARD_KEY
-    goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_UndergroundStorage_EventScript_Director2
+    goto_if_set FLAG_GOT_RADIO_TOWER_CARD_KEY, GoldenrodCity_UndergroundStorage_EventScript_Director2
     msgbox RadioTowerBasement_Text_DirectorIntro, MSGBOX_DEFAULT
     closemessage
+    checkitem ITEM_CARD_KEY
+    goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_UndergroundStorage_EventScript_DirectorHasCardKey
     giveitem ITEM_CARD_KEY
+GoldenrodCity_UndergroundStorage_EventScript_DirectorShutters::
+    setflag FLAG_GOT_RADIO_TOWER_CARD_KEY
     msgbox RadioTowerBasement_Text_DirectorCardKey, MSGBOX_DEFAULT
     closemessage
     release
     end
+
+GoldenrodCity_UndergroundStorage_EventScript_DirectorHasCardKey::
+    msgbox RadioTowerBasement_Text_DirectorHasCardKey, MSGBOX_DEFAULT
+    goto GoldenrodCity_UndergroundStorage_EventScript_DirectorShutters
 
 GoldenrodCity_UndergroundStorage_EventScript_Director2::
     msgbox RadioTowerBasement_Text_DirectorAfter, MSGBOX_DEFAULT
@@ -95,6 +102,10 @@ RadioTowerBasement_Text_DirectorIntro:
     .string "What's happening there?\p"
     .string "Taken over by TEAM ROCKET?\p"
     .string "Here. Take this CARD KEY.$"
+
+RadioTowerBasement_Text_DirectorHasCardKey:
+    .string "DIRECTOR: Oh, you already have a\n"
+    .string "CARD KEY? Then you're all set.$"
 
 RadioTowerBasement_Text_DirectorCardKey:
     .string "DIRECTOR: Use that to open the\n"

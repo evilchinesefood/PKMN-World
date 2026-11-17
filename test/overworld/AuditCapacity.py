@@ -50,7 +50,7 @@ PARTY_ONLY_OPS = {"givenamedmon", "giveoddegg"}
 BOXES_FULL_SCRIPT = "Common_EventScript_NoMoreRoomForPokemon"
 BOX_RECEIPT_SCRIPT = "Common_EventScript_ReceivedGiftMon"
 BOX_NOTICE_SCRIPTS = {BOX_RECEIPT_SCRIPT, "Common_EventScript_TransferredToPC"}
-ITEM_POST_OPS = {"giveitem", "additem", "addpcitem", "givedecoration", "adddecoration"}
+ITEM_POST_OPS = {"giveitem", "givekeyitem", "additem", "addpcitem", "givedecoration", "adddecoration"}
 ITEM_PRE_OPS = {"giveitem_msg", "msgreceiveditem"}
 MONEY_OPS = {"removemoney"}
 COIN_OPS = {"removecoins", "addcoins"}
@@ -100,7 +100,7 @@ NOT_BRANCH = {"callnative", "callstd", "callfunc"}
 # Writes to VAR_RESULT that end a post-check scan.
 RESULT_WRITERS = {
     "checkitemspace", "checkitem", "checkitemtype", "getpartysize", "checkmoney", "checkcoins",
-    "givemon", "giveegg", "giveitem", "additem", "removeitem", "addpcitem", "checkpcitem",
+    "givemon", "giveegg", "giveitem", "givekeyitem", "additem", "removeitem", "addpcitem", "checkpcitem",
     "givenamedmon", "giveoddegg", "multichoice", "multichoicedefault", "multichoicegrid",
     "yesnobox", "checkpartymove", "giveitem_msg", "msgreceiveditem", "finditem",
     "removecoins", "addcoins", "checkplayergender", "random", "getpokenewsactive",
@@ -430,11 +430,60 @@ def checked_amounts(prog, preds, site, depth=60):
     return amounts
 
 
+def config_defines():
+    defs = {}
+    for fn in sorted(os.listdir(os.path.join(ROOT, "include/config"))):
+        with open(os.path.join(ROOT, "include/config", fn), encoding="utf-8", errors="replace") as fh:
+            for name, value in re.findall(r"^\s*#define\s+(\w+)\s+([^\s/]+)", fh.read(), re.M):
+                defs.setdefault(name, value)
+    return defs
+
+
+def eval_condition(cond, defs):
+    """Value of an items.h #if line: a config name compared with a constant, or None if unknown."""
+    def value(tok):
+        for _ in range(8):
+            if re.fullmatch(r"\d+", tok):
+                return int(tok)
+            if tok in ("TRUE", "FALSE"):
+                return int(tok == "TRUE")
+            if tok not in defs:
+                return None
+            tok = defs[tok]
+        return None
+    m = re.fullmatch(r"\(?\s*(\w+)\s*(>=|<=|==|!=|>|<)\s*(\w+)\s*\)?", cond.strip())
+    if m:
+        a, b = value(m.group(1)), value(m.group(3))
+        if a is None or b is None:
+            return None
+        return {">=": a >= b, "<=": a <= b, "==": a == b, "!=": a != b, ">": a > b, "<": a < b}[m.group(2)]
+    v = value(cond.strip())
+    return None if v is None else bool(v)
+
+
 def load_pockets():
+    """Each item's pocket in this build: an `#if CONFIG` branch in items.h counts only when it is live."""
     pockets = {}
     name = None
+    defs = config_defines()
+    live = []  # one bool per open #if: is the current branch compiled in
     with open(os.path.join(ROOT, "src/data/items.h"), encoding="utf-8", errors="replace") as fh:
         for raw in fh:
+            d = re.match(r"\s*#\s*(if|ifdef|ifndef|else|endif)\b\s*(.*)", raw)
+            if d:
+                kind, cond = d.group(1), d.group(2).split("//")[0]
+                if kind == "if":
+                    v = eval_condition(cond, defs)
+                    live.append(True if v is None else v)
+                elif kind in ("ifdef", "ifndef"):
+                    live.append(True)
+                elif kind == "else" and live:
+                    live[-1] = not live[-1]
+                elif kind == "endif" and live:
+                    live.pop()
+                continue
+            if not all(live):
+                continue
             m = re.match(r"\s*\[(ITEM_[A-Z0-9_]+)\]\s*=", raw)
             if m:
                 name = m.group(1)
@@ -575,7 +624,10 @@ def referenced_names(prog):
             for fn in files:
                 if fn.endswith(exts):
                     with open(os.path.join(dirpath, fn), encoding="utf-8", errors="replace") as fh:
-                        names.update(re.findall(r"[A-Za-z_][A-Za-z0-9_]*_EventScript_[A-Za-z0-9_]*|Debug_[A-Za-z0-9_]+", fh.read()))
+                        text = fh.read()
+                    names.update(re.findall(r"[A-Za-z_][A-Za-z0-9_]*_EventScript_[A-Za-z0-9_]*|Debug_[A-Za-z0-9_]+", text))
+                    # A map event starts whatever script it names, e.g. MahoganyHideout_B2F_Trigger_Electrode.
+                    names.update(re.findall(r'"script"\s*:\s*"(\w+)"', text))
     return names
 
 

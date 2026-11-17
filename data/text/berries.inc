@@ -175,6 +175,10 @@ Route104_PrettyPetalFlowerShop_Text_YouCanHaveThis:
 	.string "You'll like tending flowers. I'm sure\n"
 	.string "of it. You can have this.$"
 
+Route104_PrettyPetalFlowerShop_Text_AlreadyHaveWailmerPail:
+	.string "Oh, you already have a WAILMER PAIL!\n"
+	.string "You must love flowers too!$"
+
 Route104_PrettyPetalFlowerShop_Text_WailmerPailExplanation:
 	.string "While BERRY plants are growing,\n"
 	.string "water them with the WAILMER PAIL.\p"

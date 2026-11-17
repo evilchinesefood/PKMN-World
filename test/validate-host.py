@@ -35,6 +35,7 @@ CHECKS = (
     ("SavePatch.py", "--check"),
     ("ValidateCelioGifts.py",),
     ("ValidateGreedyGifts.py",),
+    ("AuditDupKeyGifts.py",),
     ("TestChampionshipPrizes.py",),
     ("special-pokemon/sources.py",),
     ("special-pokemon/mechanics_audit.py",),
@@ -45,6 +46,8 @@ CHECKS = (
     ("ValidateConfigRules.py",),
     ("ValidateDeadEvoItems.py",),
     ("ValidateBattleScenes.py",),
+    ("ValidateFrostyGrass.py",),
+    ("ValidateCutGrass.py",),
 )
 
 

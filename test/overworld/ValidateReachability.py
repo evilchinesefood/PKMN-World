@@ -61,7 +61,7 @@ RUNTIME = {
 RUNTIME.update({"BattlePyramidSquare%02d" % n: "battle_pyramid.c builds each floor's layout and objects at runtime"
                 for n in range(1, 17)})
 
-GIVE_COMMANDS = ("giveitem", "giveitem_msg", "givemon", "giveegg", "givenamedmon", "giveoddegg",
+GIVE_COMMANDS = ("giveitem", "givekeyitem", "giveitem_msg", "givemon", "giveegg", "givenamedmon", "giveoddegg",
                  "givedecoration", "giverandomberry", "givecustommon")
 JUMPS = ("goto", "call", "goto_if", "call_if")
 

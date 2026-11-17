@@ -149,6 +149,9 @@ is clean; keep it that way.
 | [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
 | [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
 | [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
+| [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
+| [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
+| [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -167,9 +170,13 @@ is clean; keep it that way.
 | [`RainPaletteSlots.lua`](#rainpaletteslotslua) | fresh new game | Object palettes loaded mid-rain take exactly the rain colour map, and every slot returns to its unfaded colours when rain stops in place. |
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
+| [`HoennHofHome.lua`](#hoennhofhomelua) | fresh new game | After the Hoenn Hall of Fame, Continue lands outside Brendan's or May's own door; Birch's scene, Mom calling the champion home once, then the S.S. Ticket scene from the front door, the stairs or a whiteout, never in the rival's house. |
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
+| [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
+| [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
+| [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map, crosses a map seam while on screen, and the grass grows back after leaving and returning. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3332,14 +3339,16 @@ Emerald Hall of Fame (`StartCredits`), Kanto through `EnterHallOfFame` and the F
 (`SetWarpsToRollCredits`). Each case enters the room through a debug warp, lets the room's own
 ON_FRAME script start the ceremony and mashes a seeded stream of single buttons until the copyright
 screen, intro, title or main menu. It then continues from the title with real input and checks the
-landing (Brendan's or May's 2F, New Bark at (20,12), Pallet at (6,8)), the runtime region, the party,
-that control returns and that the player can walk. Kanto plays its post-league Oak rating scene on
-the Continue, about 1,100 frames. Three Hoenn cases soft reset 2, 40 and 400 frames into the Hall of
+landing (outside Brendan's or May's door in Littleroot, New Bark at (20,12), Pallet at (6,8)), the
+runtime region, the party, that control returns and holds for 30 frames and that the player can walk.
+Kanto plays its post-league Oak rating scene on the Continue, about 1,100 frames; the first Hoenn
+induction plays Birch's doorstep scene, which ends in his lab. Three Hoenn cases soft reset 2, 40 and 400 frames into the Hall of
 Fame screen, holding the chord through the save, which disables the reset. Continue then loads the
 hub save made beforehand (the reset beat the save) or the respawn. `SaveBlock2.currentRegion` stays
 `REGION_NONE` until the first hub gate-cross, which a debug warp never makes, so the suite reads
 `gCurrentRegion`. `PW_HOF_ONLY=<text>` runs matching cases; `PW_HOF_SEED=<n>` reseeds the mash.
-Measured **56/56**; no defect found.
+Measured **56/56**. Master before the Hoenn landing moved outside scores **52/56** (the four Hoenn
+landings are in the bedroom).
 
 ### `FrontEndSoftReset.lua`
 
@@ -3377,14 +3386,16 @@ Electric Terrain) at night, underwater, the Route 111 desert at night (sandstorm
 Pokemon Tower's ghost battle, the Kanto, Johto and Hoenn Safari Zones, a plain-ground trainer at
 night, the Route 104 twins double, and Roxanne's and Bugsy's stadiums. Wild battles start by walking
 encounter tiles, trainer battles by talking. Each turn the suite writes the move into the battler's
-four slots and makes both sides sturdy (No Guard, 1 Atk, a Focus Sash on the foe), then picks it with
-real input. After every turn BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every tile it
+four slots and makes both sides sturdy (No Guard, 1 Atk, a Focus Sash on the foe, Splash in the foe's
+four slots so it can neither faint nor confuse the player), then picks it with real input. After every turn BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every tile it
 names, the BG3 scroll and BG3CNT must equal the first action menu's; the moves that fade to their own
 background (Psychic, Night Shade, Shadow Ball, Crunch, Sky Attack, Cosmic Power, Fissure) must have
 drawn it; the battlefield holds one state through the intro unless overworld weather sets a terrain;
-and after the battle the field's BG banks 0-12 equal those it left (skipped on Route 111, whose
-sandstorm coord events start a weather fade the battle interrupts). `BGS_CASE=name,...` runs a
-subset. Measured **262/262** on master. Control: a build whose `LoadDefaultBg` drops the captured
+and after the battle the field's BG banks 0-12 equal those it left, both read between lightning bolts
+(skipped on Route 111, whose sandstorm coord events start a weather fade the battle interrupts).
+`BGS_CASE=name,...` runs a subset. Measured **274/274** on master. Before Splash and the bolt wait the
+result hung on the RNG's phase: Route 41's return read a lightning flash (`@0 0000->2104`), Pineco's
+Bullet Seed fainted Marshtomp in Bugsy's gym, and Tentacool's Supersonic stopped Fissure or Sky Attack. Control: a build whose `LoadDefaultBg` drops the captured
 presentation before redrawing scored 228/262 (every night, Ice Path and Mt. Silver restore failed).
 No defect found.
 ### `OverworldFogBattle.lua`
@@ -3455,9 +3466,10 @@ follower and mashes A, B, Start, Select, L, R and the D-pad through the walk in,
 record machine, the induction screen, its save and the soft reset that replaced the credits. The
 mash stops when the intro or title comes up, so it never reaches New Game; the run then boots and
 Continues. Checks: no crash, the induction ended in the soft reset, control after Continue at the
-region's home (Pallet Town, Brendan's room, New Bark Town) and the same party in the same order
-(the first induction adds the Champion Ribbon, so the check compares personality, OT and level).
-Measured **16/16**; no defect found. `PW_HOF_ONLY=<text>` runs matching regions.
+region's home (Pallet Town, Littleroot Town outside the player's house, New Bark Town), read before
+any input because Hoenn's first induction then plays Birch's doorstep scene, and the same party in
+the same order (the first induction adds the Champion Ribbon, so the check compares personality, OT
+and level). Measured **16/16**; master before the Hoenn landing moved outside scores **15/16**. `PW_HOF_ONLY=<text>` runs matching regions.
 
 ### `ChaosWalk.lua` (manual)
 
@@ -3471,8 +3483,8 @@ checks: the game keeps running (play time advances), the player object sits on t
 passable block, and a shown follower stands next to the player on a passable block. It found the
 spin-tile follower freeze (`SpinTileFollowerMenu`, #645): master `d3b55bb` scores **26/27** (the
 game frozen in Viridian Gym) and the battery stops there; with the fix it scores **82/82**. It also
-notes, without failing, a follower left standing in a Mauville Gym barrier that a switch turned on
-behind the player (cosmetic; the follower walks out on the next step). Manual because the noise makes the route a function of every frame count, so any
+found a follower left standing in a Mauville Gym barrier that a switch turned on behind the player
+(`MauvilleGymFollowerBarrier`); that case now fails like any other walled follower. Manual because the noise makes the route a function of every frame count, so any
 build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
 `PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
 one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.
@@ -3551,8 +3563,11 @@ PC Boxes Fast fills all 420 box slots and the wallet holds 50,000. Asking for th
 give the no-room line with no money taken, the Rattata still in the Day Care, the party and the PC
 unchanged and control back. As a control, with the party cleared to one Pokemon the same answers take
 the Rattata back for a fee, which also empties the Day Care for the next counter: Route 117, Four
-Island and Route 34 share `SaveBlock1.daycare`. `PW_DCFULL_ONLY=<text>` runs matching Day Cares.
-Coverage; no defect found: **44/44**.
+Island and Route 34 share `SaveBlock1.daycare`. The suite reads each message from `gStringVar4`,
+line breaks included: Route 117, Four Island and Route 34 run the same script and must print the same
+"raise one more?" offer, greeting and "Your POKéMON team is full." refusal; Route 5 must print its
+own no-room line. Four Island said "party" and broke three other lines differently, so master scores
+**51/54** and the aligned text **54/54**. `PW_DCFULL_ONLY=<text>` runs matching Day Cares.
 
 ### `BerryDecorFull.lua`
 
@@ -3597,3 +3612,196 @@ A on the ball must print the bag-full line, give control back and leave the ball
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.
+
+### `BattleBgFrostGrass.lua`
+
+Wild battles in snowy Mt. Silver's frosty grass drew the ordinary green grass background. The map
+(`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but `ResolveBattlePresentation`
+(`src/battle_presentation.c`) restyled only its plain ground (rock art, `rock/mt_silver_snow.pal`)
+and left `BATTLE_ENVIRONMENT_GRASS` on the green palette. The map-specific looks are now one table,
+`sMapBattlePresentations`, and frosty grass draws the same grass art in
+`tall_grass/mt_silver_snow.pal`, derived from the five colors the frosty grass metatiles use
+(`palette-sources.json`). `ValidateBattleScenes.py` now rebuilds every palette in
+`palette-sources.json` from its recipe and fails when a map's grass tiles are drawn frosty without a
+grass row, or a grass row restyles green grass; only `MAP_MT_SILVER_SNOW` has frosty grass. With real
+input the suite walks into wild battles in the frosty grass at noon and 22:00, in Route 101's grass
+at both hours (control) and in Ice Path (the cave look the owner kept). At the first action menu the
+palette the presentation names must equal the authored `.pal` file read from the repository, and BG
+palette banks 2-4 must equal it after the presentation's own time tint, recomputed with
+`TimeMixPalettes`' arithmetic (identity by noon, tinted at night). `FROST_CASE=<text>` runs matching
+cases. **Discrimination:** unfixed 41/46 (both frosty grass battles drew `tall_grass/palette.pal`),
+fixed 46/46.
+### `MauvilleGymFollowerBarrier.lua`
+
+A Mauville Gym switch turns electric barriers on, and stepping onto switch 2 from a tile one of them
+covers left the following Pokemon standing on that tile, drawn inside the beam, until the next step.
+Any metatile write that makes a tile solid now goes through `ReturnFollowerFromSolidTile`
+(`fieldmap.c` setters): if a shown follower stands there in the live field, it plays its Poke Ball
+return and comes back out behind the player on the next step. With a Pikachu following and the gym
+trainers' flags set, the suite walks in from a fresh Hoenn state and presses switch 2 from (3,12)
+(the red vertical beam), then switch 1 to restore the barriers, then switch 2 from (4,11) (the red
+horizontal beam). After each press the barrier must be on over the approach tile, the follower must
+not be shown on a solid tile, and one step later it must be back next to the player on a passable
+tile. Unfixed master `5ff5cf7` scores **20/22** (both "not shown inside the barrier" checks fail);
+the fix scores **22/22**.
+### `HoennHofHome.lua`
+
+The Hoenn Hall of Fame returns the champion outside their own house, as Kanto (Pallet (6,8)) and Johto
+(New Bark (20,12)) do. For each gender, Littleroot is seeded as the intro leaves it (Mom, rival-family
+and moving-day hide flags, intro state 7, the player's house state 2), the Hall of Fame room's
+ON_FRAME runs the ceremony with plain A presses and the title's Continue must land on that gender's
+doorstep (Brendan (5,9), May (14,9)) facing down, with the whiteout point on the same doorstep and
+only the player's own house state armed, at 6 (Mom's call pending). Birch's doorstep scene must then end in the lab with the
+player able to walk. Walking out of the lab, Mom must call the player home exactly once from their own
+door (the camera pans there), the house state must become 3 and the player must keep control; into the
+lab and out again must not call twice. A second induction with the ticket still waiting must re-arm the
+call: Continue lands on the doorstep and Mom calls from the doorway behind the player, who stays put
+facing the door. The rival's house must start no scene and show no Norman. The player's own house,
+entered by the front door, must run the S.S. Ticket and Lati TV scene with the player inside the room
+on every frame, end below the TV facing Mom, give the ticket and the roamer and return control, and
+walking out of the front door afterwards must not call again. The scene is re-armed twice more: down the stairs from the bedroom (a save from before this change, with
+both house states at 3) and after a whiteout, which respawns the player beside Mom.
+`PW_HOME_ONLY=male|female` runs one gender. Master scored **44/65** on the first version of this suite
+(two checks that need an earlier step are skipped): it lands in the bedroom, and entering by the door
+walks the player off the bottom of the map. With the doorstep landing alone (`1343e33`) the current
+suite scores **77/91**: no call, and the Hall of Fame arms state 3. With Mom's call **91/91**.
+### `FrostyGrassFieldEffect.lua`
+
+Mt. Silver's snowy map (`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but the rustle
+over a walker's feet, the hop an overworld wild encounter makes when it spawns in grass and DexNav's
+shaking grass drew the green `general_1` palette. Grass effects now take `frosty_grass.pal` on grass drawn from a secondary
+tileset in `sFrostyGrassTilesets` (`src/field_effect_helpers.c`). Each case sets the clock to 12:00 or
+22:00, warps beside the grass and walks one step into it with real input. On the frames after the step
+begins, every `TallGrass` sprite must sit in an OBJ palette slot tagged with the expected palette, the
+slot must hold the authored `.pal` colours read from the repository, and the drawn colours must equal
+them after the overworld time tint, recomputed from `gTimeBlend` with `TimeMixPalettes`' arithmetic.
+The player then stands still until an overworld wild encounter spawns in the grass, and its
+`JumpTallGrass` hop is checked the same way. Last, R starts a DexNav search for a species of the map
+(searching again until one hides in grass) and its shaking grass is checked the same way. Each sprite
+is read two frames after it first appears, since a long field frame can end inside `CreateSprite`
+before the palette is set. Route 101's green grass at both hours is the control.
+`FROST_CASE=<text>` runs matching cases. `ValidateFrostyGrass.py` (host) fails when a map places frosty
+grass whose effects stay green, or green grass that would be frosted, and rebuilds the palette from its
+recipe. **53/74** on the unfixed ROM (every Mt. Silver sprite drew tag 0x1005), **74/74** with the fix.
+
+The Cut cases give the lead Pokemon CUT (`setmonmove`) and the Cut tool, warp the player into reach of
+the grass and use CUT from the Start menu's party screen with real input. The 3x3 around the player
+must turn each grass metatile into the tile its case names and leave every other tile, inside and in
+the ring around it, unchanged; the clippings (`sSpriteTemplate_CutGrass`) must share one slot holding
+the expected palette, checked like the grass effects. Mt. Silver at 12:00 and 22:00 expects
+`frosty_cut_grass.pal` and its frosty grass cut to frosty stubble on the snow beside it (642 to 0x2C9,
+895 to 0x326; 895 went to the cave snow 646, which has wild encounters, until `CutGrassKantoJohto.lua`'s
+change, and to bare snow until `CutGrassStubble.lua`'s); Route 101 and Route 30 expect `cut_grass.pal`
+and tall grass cut to its stubble (0x02A in Hoenn's General, 0x27D in Johto_General). Before the fix, `SetCutGrassMetatile`
+matched secondary metatile ids without their tileset, so Mt. Silver's 642 (Fortree's secret base long
+grass id) became the green and yellow primary metatile 634, and `SetCutGrassMetatiles` ran Fortree's
+long grass root repair on every map, so Route 30's flower border under freshly cut grass became sand
+(633). `ValidateFrostyGrass.py` also fails when Cut leaves placed frosty grass standing or cuts it to a
+tile that is grass, outside its tileset, or not frosty. The whole suite scores **96/105** on the
+unfixed ROM (the clippings drew tag 0x1000, Mt. Silver's grass became 634 or stayed, Route 30 lost three
+flower tiles) and **105/105** with the fix.
+
+### `CutGrassKantoJohto.lua`
+
+Cut cut only grass that `sCutGrassMetatiles` (`src/fldeff_cut.c`) has a rule for, keyed on the tileset
+that holds the metatile. Kanto and Johto had none, so CUT played its animation and left the grass
+standing; only their plain tall grass (primary id 0x00D) was cut, because Hoenn's primary rule matched
+the same number. The Kanto and Johto rules are now generated into
+`src/data/field_effects/cut_grass_metatiles.h` by `test/overworld/ValidateCutGrass.py --write`, which
+also adds a plain ground metatile where a tileset had none (Route 38's bare field, two grass tiles under
+Route 37's pink apricorn tree). Each case gives the lead Pokemon CUT and the Cut tool, warps beside the
+grass and uses CUT from the Start menu's party screen with real input. Every grass metatile in the 3x3
+must become the literal tile its case names and nothing else in the 5x5 may change; a second warp to
+the same spot must bring the grass back, as in Hoenn. Since `CutGrassStubble.lua` every case expects the
+grass's stubble, not bare ground (the ground metatiles this suite's change added are gone again).
+Cases: Viridian Forest (ViridianForest tree-top grass 0x284), Route 13 (`General_FrlgNight`
+0x00B/0x00C/0x00D), Route 29 (`Johto_General`), Route 33 (`Johto_South`), National Park (long grass and
+its south edges), Route 39 (the wheat) and Route 101 (control). `CUT_CASE=<text>` runs matching cases.
+`ValidateCutGrass.py` (host) fails when a placed grass metatile has no rule keyed on its tileset, when a
+cut tile is still grass, has wild encounters, has the wrong behaviour or changes the layer the grass
+does not draw on, and when the generated header differs from what it derives. **51/57** on the unfixed
+ROM (every Kanto and Johto case left grass standing; Route 101 passed), **57/57** with the fix.
+
+### `CutGrassStubble.lua`
+
+The owner asked for Cut to leave "a different type of ground clutter ... almost like grass stubble", and
+for the grass to come back. `test/overworld/ValidateCutGrass.py --write` now generates every row of
+`sCutGrassMetatiles` (Hoenn's included) and the stubble each one names: the ground the grass grows on
+with tufts of that grass's own pixels left at its blade bases (straw stubble on Route 38/39's field,
+frosty stubble on Mt. Silver), the other layer kept exactly, `MB_NORMAL` (or the cycling road slope).
+Stalks go on the bottom layer when one palette holds their colours, else on the empty top layer drawn
+under sprites (Lavaridge's grass on lava rock, the wheat). The validator fails when a placed grass (or
+Fallarbor's run-time ash-free grass) has no stubble rule, when a stubble tile differs from the recipe or
+shows no stubble, and checks behaviour, encounters and the kept layer as before. Fortree's long grass
+root repair (`SetCutGrassMetatiles`) now keys on the stubble the table names.
+
+Each case gives the lead Pokemon CUT and uses it from the party screen with real input. Every grass
+metatile in the 3x3 must become the literal stubble its case names and nothing else in the 5x5 may
+change (Route 120 also expects the roots: uncut long grass above gets its root row back, and the roots
+below the cut grass become their stubble). The player then walks between a stubble tile and the uncut
+grass beside it: no step onto stubble may start a wild battle (battles an overworld Pokemon starts by
+walking up or bumping into the player are counted apart: they start from a script or without a step),
+and a step onto the grass must start one. The first such battle, fled with real input, must leave the
+stubble in place (the field returns without reloading the map, as in vanilla Hoenn). So must a save and
+Continue on the same map (the save's map view snapshot restores the tiles around the player, as in
+vanilla). A warp to the hub and back must grow the grass back. The seam case cuts Mt. Silver's outside
+grass beside Route 28, steps across the seam and back: the stubble on screen must cross into Route 28's
+grid (`MoveMapViewToBackup`) and still be there on return. Cases: Route 101 and Route 120 (Hoenn),
+Viridian Forest and Route 13 (Kanto), Route 29, National Park, Route 39's wheat, Route 37's pink apricorn
+tree and Mt. Silver (Johto), and the seam. `--env PW_CUT_CASE=<text>` runs matching cases. **118/138** on
+the unfixed ROM (#664's head: every case cut to bare ground, so no stubble lay beside grass and the
+encounter walk could not run), **183/183** with the change. Tamper control: with Route 101's stubble
+0x02A given `MB_TALL_GRASS` in the ROM, the walk fails "no step on the stubble starts a wild battle"
+(2 battles).
+
+### `DupKeyGiftScenes.lua`
+
+A key item the player already owns from another region must not break the scene that gives it.
+One bag serves all three regions and `IsDuplicateKeyClassItem` refuses a second copy, so
+`Std_ObtainItem` printed "But {PLAYER} already has one ..." in the middle of the speaker's lines
+(seen in a world campaign: Dad's S.S. TICKET after the Hoenn Hall of Fame, with Bill's ticket held).
+Four real scenes, each seeded the way the other region's give leaves the bag: Dad's ticket scene
+started on the real stairs from 2F (Lati TV color picked with A), the Mossdeep SUPER ROD fisherman
+with Kanto's rod, the Vermilion OLD ROD guru with a Hoenn or Johto rod, and the Rustboro Cutter's HM01
+(`givekeyitem`) with the S.S. Anne captain's HM01. Each must never show the refusal, must say the
+speaker's own already-have line, must play the rest of the scene, set the give's flags, leave one
+copy in the bag and give control back. Text is read from `gStringVar4`. Measured **30/38** on the
+unfixed ROM (all four refusals) and **38/38** fixed. `AuditDupKeyGifts.py` (host check) lists every
+key-class give with another source and fails on one that is not guarded, `givekeyitem`, an item
+ball, or allowlisted with a reason.
+### `RadioDirectorCardKey.lua`
+
+The Radio Tower Director's rescue talk in the Goldenrod Underground Storage, with and without
+Silph Co.'s Kanto CARD KEY held. `ITEM_CARD_KEY` is one item for both regions, and his script used
+`checkitem ITEM_CARD_KEY` to spot a repeat talk, so a Silph key skipped his rescue lines and the
+"open the shutters on 3F" hint. Setup writes `VAR_GOLDENROD_CITY_STATE` 9 (as the Underground
+Switches leave it), shows the Rockets and marks Eto beaten (his sight covers the only way in); the
+Silph key is seeded as the 5F ball leaves it (`FLAG_HIDE_SILPH_CO_5F_CARD_KEY` and one key in the
+pocket). The player walks in from the Department Store door and talks with A twice per case. First
+talk: the rescue lines, the shutter hint, "Oh, you already have a CARD KEY?" (Silph case) or
+"Obtained the Card Key!" (plain case), never the duplicate refusal. Second talk: the repeat plea
+only. Both end with one CARD KEY of quantity 1. Between cases the key is removed and
+`FLAG_GOT_RADIO_TOWER_CARD_KEY` cleared, back to new-game state. Unfixed **22/26**, fixed **26/26**.
+
+### `CianwoodFlyGate.lua`
+
+Chuck's wife (Cianwood City) must follow her own HM02 state. One bag serves three regions, so HM02 can
+already be held from Hoenn or Kanto, and her repeat line was picked with `checkitem ITEM_HM_FLY`: a
+player who had not beaten Chuck heard "My husband lost to you". With HM02 seeded the way an HM gift
+leaves it (TM/HM pocket, one copy), the player walks up to the wandering NPC and talks with real
+input: before Chuck she must say the easier-to-fly and beat-the-leader lines and never the "lost to
+you" line; after Chuck's victory state is written in the city (badge 5, the gym flag, the badge count,
+`VAR_GETFLY` 1) she must offer the HM, say the `givekeyitem` already-have line and the Fly speech, and
+set `VAR_GETFLY` to 2 with one HM02 in the bag; then her repeat line. A control without HM02 runs the
+same three talks with a real give. Text is read from `gStringVar4`. Measured **32/40** on the unfixed
+ROM and **40/40** fixed.
+
+### `CardKeyDescription.lua`
+
+ITEM_CARD_KEY is one item for Kanto's Silph Co. and Johto's Radio Tower Director, and its description
+named Silph Co.'s office in the obtain box over the Director's give. With the Director revealed and the
+basement grunts beaten, the player walks to him and talks with real input; the obtain box text
+(`gStringVar1`, where `ScriptShowItemDescription` formats it) must name no Silph Co. and read as a door
+key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
+Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
+two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.

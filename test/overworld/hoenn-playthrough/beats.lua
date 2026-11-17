@@ -1070,29 +1070,31 @@ return function(F, N, C, log)
 
   -- Hall4 (5,2) -> Champion's room: its ON_FRAME walks us to Wallace and starts the battle. Then
   -- the rival and Birch, the Hall of Fame (FLAG_HOENN_CHAMPION), its save, and a soft reset in
-  -- place of the credits. The title screen's CONTINUE lands in the bedroom.
+  -- place of the credits. The title screen's CONTINUE lands outside the house, where Birch's
+  -- doorstep scene leads to his lab.
   beat('champion', function()
     segDMoves()
     assert(N.travel('EverGrandeCity_Hall4'))
     N.takeWarp(5, 2, { limit = 60 * 60 * 20 })
     for _ = 1, 60 * 60 * 20 // 12 do
-      if FL('FLAG_HOENN_CHAMPION') and F.ow() and N.free() and N.mapName():find('^LittlerootTown_') then break end
+      if FL('FLAG_HOENN_CHAMPION') and F.ow() and N.free() and at('LittlerootTown_ProfessorBirchsLab') then break end
       if F.ow() and N.free() and at('EverGrandeCity_Hall4') then N.takeWarp(5, 2) end
       if N.inBattle() then N.settle() else F.press('A', 2); F.idle(10) end
     end
     N.settle()
     L('  after the Hall of Fame: ' .. N.mapName() .. ' champion=' .. tostring(FL('FLAG_HOENN_CHAMPION'))
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
-  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at(HOME .. '_2F') end, LEAGUE_LOSS)
+  end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at('LittlerootTown_ProfessorBirchsLab') end, LEAGUE_LOSS)
 
-  -- Back under control after the reset: walk downstairs (the 1F ON_FRAME gives the S.S. Ticket).
+  -- Back under control in the lab: walk home. Mom calls from the door on the way out of the lab,
+  -- and the 1F ON_FRAME gives the S.S. Ticket at the door.
   beat('home', function()
     segDMoves()
     local x0, y0 = F.pos()
     assert(N.travel(HOME .. '_1F'))
     N.settle()
     local x, y = F.pos()
-    L(string.format('  moved from 2F (%d,%d) to 1F (%d,%d)', x0, y0, x, y))
+    L(string.format('  moved from the lab (%d,%d) to 1F (%d,%d)', x0, y0, x, y))
   end, function() return FL('FLAG_HOENN_CHAMPION') and at(HOME .. '_1F') and N.free() end)
 
   if os.getenv('PW_POSTGAME') then

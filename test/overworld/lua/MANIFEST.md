@@ -3209,3 +3209,19 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `BattleBgMultiIntro.lua`
+
+The Battle Tower multi battle beside an NPC partner opened with garbage: orange and white stripes
+over the player half and smeared platform pieces over the opponent half. `BattleIntroSlidePartner`
+draws its intro on BG1 and BG2 with char base 2, the Frontier background's tiles, from
+`gMultiBattleIntroBg_Opponent/Player_Tilemap`. Those tilemaps are crops of the building background
+tilemap (opponent: rows 0-9; player: rows 10-13 lowered six rows, row 2 as filler), and #634
+replaced the building art with a 48-tile set, so crops of the old tilemap named tiles up to 98.
+`ValidateBattleScenes.py` now derives both intro tilemaps from the Frontier background and fails
+when they differ (`--write` regenerates them); the rule reproduces the vanilla files from the old
+art exactly. The suite takes the real Lv. 50 multi challenge, accepts partner 5 in the partner
+room and rides to the battle room. While BG1 and BG2 use char base 2 it reads VRAM: BG1 rows 0-9
+must equal BG3 (screen 26), BG2 rows 16-19 must equal BG3 rows 10-13, and no intro entry may name
+a tile past the 48-tile set. **Discrimination:** unfixed 10/13 (635 opponent and 256 player
+entries differ, max tile 98), fixed 13/13.

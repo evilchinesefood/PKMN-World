@@ -2097,6 +2097,30 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `OweApproachLatency.lua`
+
+A visible wild Pokemon that touches the player must start its battle promptly. From its first
+command, `InteractWithOverworldWildEncounter` holds the field lock through `lock`, the approach
+(`Task_OWEApproachForBattle`), the exclamation mark and the cry, so every frame of it is a frame the
+player cannot move. The suite times each contact from the frame the script takes the lock to the
+frame the battle transition takes the overworld callback, and fails any over 600 frames.
+`OweStressFuzz` would only notice a field still locked after its 3600-frame settle budget. The
+player is driven with real input on Pokemon Tower 3F and 5F (channelers, ghost battles, the stairs
+between floors), Hoenn Victory Road 1F (raised walkways on another elevation, trainers) and Granite
+Cave 1F (narrow corridors), with a debug-given level 100 Mewtwo leading so its follower is out and
+the spawn countdown zeroed before every action. A seeded sequence walks, runs, walks at the nearest
+encounter, stands still for encounters to come, presses A and opens the Start menu. Wild battles are
+run from and trainer battles won. It also asserts that the player walks after each wild battle. The
+script ends in `waitstate` and the battle returns to the field without resuming it, so the context is
+left WAITING at the script's `end` (the byte before `InteractWithOverworldWildEncounter_NoParty`)
+with the controls unlocked. That is a free field, not a lock. A suite that waits for
+`CONTEXT_SHUTDOWN` there waits for the next script, which is how the stress pass 7 fog suite read a
+47-second "lock" in Pokemon Tower. **Measured:** 54 contacts, contact to battle p50 25, max 45
+frames, 79 walks after wild battles. **Tamper control:** with the adjacent case of the approach
+walking in place for 60 stalled steps instead of ending, the latency check fails (p50 980 frames)
+while every free-field check still passes. `--env PW_LATENCY_ACTIONS=<n>` and
+`--env PW_LATENCY_SEED=<n>` lengthen and reseed it (raise `PW_MAX_FRAMES` above about 600 actions).
 ### `TowerMultiRoomBoxes.lua`
 
 The SwSh party menu's R (Boxes, `SWSH_PARTY_MENU_PC_ACCESS`) must not open the PC in the Battle

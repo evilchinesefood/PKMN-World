@@ -243,6 +243,9 @@ WANT = [
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # OweApproachLatency.lua times each encounter script from its first command to its battle; the
+    # NoParty label sits right after the script's closing `end`.
+    "InteractWithOverworldWildEncounter", "InteractWithOverworldWildEncounter_NoParty",
     # SpecialDexFormsNav.lua: proves the Pokedex is on the Forms page before reading its tilemap.
     "Task_HandleFormsScreenInput",
     # SafariActionMenu.lua tells the Pokeblock case a Safari choice opened from the battle by CB2.

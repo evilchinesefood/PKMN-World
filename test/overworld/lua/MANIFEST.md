@@ -139,6 +139,7 @@ is clean; keep it that way.
 | [`JohtoHofLegendaries.lua`](#johtohoflegendarieslua) | fresh new game | Johto HOF rematch does not re-arm already-caught Mew/Deoxys. |
 | [`JohtoMusicPass.lua`](#johtomusicpasslua) | fresh new game | Johto outdoor maps, cycling, and Radio Tower occupation play MUS_HG_*. |
 | [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
+| [`JohtoBadgeFieldMoves.lua`](#johtobadgefieldmoveslua) | fresh new game | Johto Flash and Rock Smash work from the Zephyr Badge, Cut from Hive, Strength from Plain, Fly from Storm, as the gym leaders, the HM givers and pokemonHnS say. |
 | [`JohtoWhiteoutHeal.lua`](#johtowhiteoutheallua) | fresh new game | Johto whiteout lands on the Violet apron, Center heals store aprons, FRLG monitor. |
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`FamilyOptions.lua`](#familyoptionslua) | fresh new game | Four choices on every rate control and Text Speed, staged writes, reopen, real save/Continue, and global regional travel. |
@@ -164,6 +165,9 @@ is clean; keep it that way.
 | [`RainPaletteSlots.lua`](#rainpaletteslotslua) | fresh new game | Object palettes loaded mid-rain take exactly the rain colour map, and every slot returns to its unfaded colours when rain stops in place. |
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
+| [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
+| [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
+| [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -826,6 +830,13 @@ wall clock, the event-island ferries, and so on), and an entry that stops firing
 an open PR fixes sit in `SHARED_STATE_PENDING`, printed as notes and never failed; delete each once
 its fix is on master.
 
+[`ValidateTilesetAnimBounds.py`](../ValidateTilesetAnimBounds.py) checks every
+`AppendTilesetAnimToBuffer` call in `src/tileset_anims.c` against the frames its table can select:
+the copy's offset plus size must fit in each frame, whose size comes from its PNG header (or the PNGs
+behind an `INCBIN_U16` of `.4bpp` files). Until #636 a 15.6 KB zero fill sat after the Battle Pyramid
+statue-shadow frames, so an over-read there drew blank tiles; without it an over-read draws the next
+frame set. A call it cannot parse fails rather than passing unchecked.
+
 [`ValidateConfigRules.py`](../ValidateConfigRules.py) pairs each `include/config` toggle that
 diverges from a source game with the script and text shapes that assume the old rule: TMs called
 single-use or a "learned only once" prompt with its flag compiled out (`I_REUSABLE_TMS`), a sellable
@@ -1247,7 +1258,8 @@ to Azalea: Cut needs the Hive Badge and the Ilex gift, Sudowoodo needs the Plain
 drives the real gate after Falkner only, after Bugsy with Ilex unfinished, with Farfetch'd home
 but no Cut gift, after the Cut gift, and with Whitney's badge. Measured **11/11** fixed and
 **8/11** on the unfixed ROM, where the first three land at Goldenrod station (`84/23`) instead
-of New Bark (`76/4`).
+of New Bark (`76/4`). A sixth case holds the Cut gift without the Hive Badge (the charcoal
+master can give it before Bugsy, and Cut needs Bugsy's badge): it must land at New Bark too.
 
 ### `SSAnnePierHeal.lua`
 
@@ -1352,7 +1364,7 @@ a second jump must still land. Measured **864/864** on the build of
 `061127921d`; no defect found.
 ### `SkyCharmLanding.lua`
 
-`StartOverworldFlight` sets the player to `ELEVATION_TRANSITION` so `CanLandOverworldFlight` accepts ground at any height, and landing left it there. That elevation matches every tile, so the first step off a shore went onto the water on foot, the water's elevation then stuck, and the player walked across the sea without Surf. Landing now takes the tile's elevation, and `CanLandOverworldFlight` refuses transition (0), surf-level (1) and bridge (15) tiles, which give no ground level; Olivine's (36,70) is metatile 0x050, a sea tile tagged `MB_NORMAL` at elevation 1. The suite works in Olivine City with Johto badge 6 set and the Sky Charm given by an injected `additem` and registered on Select. **Shore:** take off on the pier at (19,66), fly north one tile, land on (19,65), step west. **Sea tile:** fly to (36,70) and press Select. **Yard (control):** fly to the lighthouse yard (39,52), land, step north. **Oracle:** the step west leaves the player on (19,65); at (36,70) the player is still flying; the yard landing and the step north on land both work. **Discrimination:** unfixed 8/10 (the player walks onto the sea at (18,65), and lands on (36,70)), fixed 10/10. `LedgeSelectStress` (864/864), `AutosaveStress` (220/220) and `RegionalTravelBoundaries` (103/103) pass on the fixed build.
+`StartOverworldFlight` sets the player to `ELEVATION_TRANSITION` so `CanLandOverworldFlight` accepts ground at any height, and landing left it there. That elevation matches every tile, so the first step off a shore went onto the water on foot, the water's elevation then stuck, and the player walked across the sea without Surf. Landing now takes the tile's elevation, and `CanLandOverworldFlight` refuses transition (0), surf-level (1) and bridge (15) tiles, which give no ground level; Olivine's (36,70) is metatile 0x050, a sea tile tagged `MB_NORMAL` at elevation 1. The suite works in Olivine City with the Storm Badge (Johto badge 5) set and the Sky Charm given by an injected `additem` and registered on Select. **Shore:** take off on the pier at (19,66), fly north one tile, land on (19,65), step west. **Sea tile:** fly to (36,70) and press Select. **Yard (control):** fly to the lighthouse yard (39,52), land, step north. **Oracle:** the step west leaves the player on (19,65); at (36,70) the player is still flying; the yard landing and the step north on land both work. **Discrimination:** unfixed 8/10 (the player walks onto the sea at (18,65), and lands on (36,70)), fixed 10/10. `LedgeSelectStress` (864/864), `AutosaveStress` (220/220) and `RegionalTravelBoundaries` (103/103) pass on the fixed build.
 
 ### `SafariStress.lua`
 
@@ -2087,6 +2099,30 @@ ROM. Measured **8/8** fixed and **6/8** on the unfixed ROM (32 of 256 sweep A tr
 and sweep B shows the same 32 contacts locking before the walk ended); on the fixed ROM those
 contacts start their battle on the frame after the walk on a plain tile and yield to Wally on the
 trigger. `PW_OWE_OFFSETS` (pass with `--env`) changes the offsets per sweep.
+
+### `OweApproachLatency.lua`
+
+A visible wild Pokemon that touches the player must start its battle promptly. From its first
+command, `InteractWithOverworldWildEncounter` holds the field lock through `lock`, the approach
+(`Task_OWEApproachForBattle`), the exclamation mark and the cry, so every frame of it is a frame the
+player cannot move. The suite times each contact from the frame the script takes the lock to the
+frame the battle transition takes the overworld callback, and fails any over 600 frames.
+`OweStressFuzz` would only notice a field still locked after its 3600-frame settle budget. The
+player is driven with real input on Pokemon Tower 3F and 5F (channelers, ghost battles, the stairs
+between floors), Hoenn Victory Road 1F (raised walkways on another elevation, trainers) and Granite
+Cave 1F (narrow corridors), with a debug-given level 100 Mewtwo leading so its follower is out and
+the spawn countdown zeroed before every action. A seeded sequence walks, runs, walks at the nearest
+encounter, stands still for encounters to come, presses A and opens the Start menu. Wild battles are
+run from and trainer battles won. It also asserts that the player walks after each wild battle. The
+script ends in `waitstate` and the battle returns to the field without resuming it, so the context is
+left WAITING at the script's `end` (the byte before `InteractWithOverworldWildEncounter_NoParty`)
+with the controls unlocked. That is a free field, not a lock. A suite that waits for
+`CONTEXT_SHUTDOWN` there waits for the next script, which is how the stress pass 7 fog suite read a
+47-second "lock" in Pokemon Tower. **Measured:** 54 contacts, contact to battle p50 25, max 45
+frames, 79 walks after wild battles. **Tamper control:** with the adjacent case of the approach
+walking in place for 60 stalled steps instead of ending, the latency check fails (p50 980 frames)
+while every free-field check still passes. `--env PW_LATENCY_ACTIONS=<n>` and
+`--env PW_LATENCY_SEED=<n>` lengthen and reseed it (raise `PW_MAX_FRAMES` above about 600 actions).
 ### `TowerMultiRoomBoxes.lua`
 
 The SwSh party menu's R (Boxes, `SWSH_PARTY_MENU_PC_ACCESS`) must not open the PC in the Battle
@@ -2138,7 +2174,7 @@ Charm only takes off on foot, but the bike accepted the reverse order: in mid-ai
 avatar flag, swapped the rider's sprite and started the region's cycling theme as the saved music.
 Landing put the player on foot with the cycling theme still playing, and the saved music brought it
 back after battles and menus until the next map change. `IsBikingDisallowedByPlayer` now refuses
-while flying. In Olivine City with Johto badge 6 and the Sky Charm and both bikes given by an
+while flying. In Olivine City with the Storm Badge (Johto badge 5) and the Sky Charm and both bikes given by an
 injected `additem`, each bike case takes off on the pier, flies over the sea at (18,65), presses
 Select with the bike (refused: still flying, on foot, the same sprite, the map music and no saved
 music), lands on the pier and checks the music on foot, then mounts and dismounts the bike on the
@@ -3209,3 +3245,334 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `BattleBgFloors.lua`
+
+Kanto Gym Leaders fought on the plain Gym building floor while Hoenn and Johto Leaders got the
+Leader stadium floor from #634. `GetBattleEnvironmentOverride` (`src/battle_bg.c`) picks
+`BATTLE_ENVIRONMENT_LEADER` from the opponent's trainer class and listed `TRAINER_CLASS_LEADER` and
+`TRAINER_CLASS_LEADER_JOHTO` but not `TRAINER_CLASS_LEADER_FRLG`, so Brock and the other Kanto
+Leaders fell through to the Gym map scene. The suite gives one Pokemon, warps beside Roxanne,
+Bugsy, Camper Liam and Brock, faces them and presses A, then reads BG palette banks 2-4 against the
+authored palette in ROM: the Leader stadium palette for each Leader, the Gym building palette for
+Liam as the control. Liam goes before Brock because beating Brock marks him beaten.
+**Discrimination:** unfixed 17/18 (Brock's field is `BuildingGym`), fixed 18/18.
+### `RelearnerPaymentRegions.lua`
+
+The Johto and Kanto move relearners charged for the wrong lessons. Blackthorn's relearner (one Heart
+Scale) and the Two Island Move Maniac (two Tiny Mushrooms or a Big Mushroom) came from decomps whose
+relearner zeroed `VAR_0x8004` on a give-up and put the number of relearnable moves in `VAR_0x8005`.
+This build's relearner reports the lesson in `VAR_RESULT`, leaves `VAR_0x8004` as the chosen party slot
+and sets `VAR_0x8005` nowhere. Giving up on any Pokemon but the first took the payment, a lesson for
+the first Pokemon was free and reopened the chooser, and a Pokemon with nothing to relearn opened an
+empty list that charged on the way out. Both scripts now set the level-up list, ask
+`Special_HasMoveToRelearn` and branch on `VAR_RESULT`, as Fallarbor's does; `ValidateConfigRules.py`
+fails on any script that tests `VAR_0x8004` after `TeachMoveRelearnerMove` or `VAR_0x8005` after
+`ChooseMonForMoveRelearner`. With real input in each house (two Charizard knowing three moves and a
+level 5 Magikarp) the suite gives up from the second Charizard's list, picks the Magikarp, then
+teaches the first Charizard a move. **Discrimination:** unfixed 13/25 (the give-up and the Magikarp
+each took a payment, the lesson was free in Blackthorn and unaffordable in Two Island), fixed 25/25.
+### `FanfareInterruptStress.lua`
+
+Coverage for #627 across the interruptions a player can cause. In Fallarbor below the Pokemon Center
+door a script plays the 710-frame `MUS_AWAKEN_LEGEND` fanfare and ends without `waitfanfare`, and the
+suite interrupts it with real input: walking straight into the door, the lead's Summary from the party
+menu, the Bag, a Save from the Start menu, a three-page message mashed with A and B, a wild battle
+started and fled, a debug warp away and back, and (after a save) a soft reset that continues. After
+each one the player walks into the Center, whose music differs from the town's. Each case fails on a
+crash screen, a door that never loads the Center, a BGM still paused once the fanfare's length has
+passed, the town's song still playing, or the fanfare's music player (`gMPlayInfo_SE2`, now exported
+by `GenLuaSymbols.py`) still playing. `PW_FANFARE_ONLY=<text>` runs matching cases. Measured
+**58/58**. With #627's `src/sound.c` change reverted, the Summary case stuck at the door with BGM
+status `0x800001FF` and the run stopped at **11/15**.
+
+### `FrontierTutorPayment.lua`
+
+The Battle Frontier move tutors must take Battle Points exactly when a move is learned. #628 made
+every tutor reusable; the Lounge 7 tutors already were, but no suite drove their payment. With real
+input at the left tutor (Soft-Boiled, 16 BP) the suite tries one point short (refused before the
+chooser), exactly 16 with B in the storage chooser, a Magikarp that cannot learn it, a four-move Mew
+that declines to forget a move, a one-move Mew that learns it (16 BP taken, once), and a second visit
+at 0 BP. Every way out but the lesson must leave the balance alone. Battle Points are written to
+`SaveBlock2` at the `frontier.battlePoints` offset from an `offsetof` probe (3768), which the suite
+first checks against the debug menu's Max Battle Points. Measured **17/17**; no defect found.
+### `BattleBgMultiIntro.lua`
+
+The Battle Tower multi battle beside an NPC partner opened with garbage: orange and white stripes
+over the player half and smeared platform pieces over the opponent half. `BattleIntroSlidePartner`
+draws its intro on BG1 and BG2 with char base 2, the Frontier background's tiles, from
+`gMultiBattleIntroBg_Opponent/Player_Tilemap`. Those tilemaps are crops of the building background
+tilemap (opponent: rows 0-9; player: rows 10-13 lowered six rows, row 2 as filler), and #634
+replaced the building art with a 48-tile set, so crops of the old tilemap named tiles up to 98.
+`ValidateBattleScenes.py` now derives both intro tilemaps from the Frontier background and fails
+when they differ (`--write` regenerates them); the rule reproduces the vanilla files from the old
+art exactly. The suite takes the real Lv. 50 multi challenge, accepts partner 5 in the partner
+room and rides to the battle room. While BG1 and BG2 use char base 2 it reads VRAM: BG1 rows 0-9
+must equal BG3 (screen 26), BG2 rows 16-19 must equal BG3 rows 10-13, and no intro entry may name
+a tile past the 48-tile set. **Discrimination:** unfixed 10/13 (635 opponent and 256 player
+entries differ, max tile 98), fixed 13/13.
+### `BattleBgSpecialScenes.lua`
+
+Coverage for the backgrounds #634 only rendered offline: the Champion stadium and the Groudon,
+Kyogre and Rayquaza fields. Each battle starts through its real trigger: the Terra and Marine Cave
+coord events (both caves' ON_TRANSITION scripts show the undefeated legendary), a talk to the
+resting Rayquaza with Sky Pillar state 2 and the cry done, a walk in from the door and a talk to
+Johto's Lance, and the Hoenn and Kanto Champion rooms' entry scenes after a warp through the door.
+Each case compares BG palette banks 2-4 with the authored palette in ROM and takes a screenshot;
+legendaries are beaten and Champions are lost on purpose, so no Hall of Fame runs between cases.
+Measured **26/26** on master. No defect found.
+### `HofCreditsMash.lua`
+
+The Hall of Fame and what follows it in all three regions, after #636 deleted the FRLG title screen
+and credits. The endgame credits themselves were dropped on purpose in f167155ff9, so every region
+soft resets to the title after the induction screen: Hoenn and Johto through `GameClear` and the
+Emerald Hall of Fame (`StartCredits`), Kanto through `EnterHallOfFame` and the FRLG Hall of Fame
+(`SetWarpsToRollCredits`). Each case enters the room through a debug warp, lets the room's own
+ON_FRAME script start the ceremony and mashes a seeded stream of single buttons until the copyright
+screen, intro, title or main menu. It then continues from the title with real input and checks the
+landing (Brendan's or May's 2F, New Bark at (20,12), Pallet at (6,8)), the runtime region, the party,
+that control returns and that the player can walk. Kanto plays its post-league Oak rating scene on
+the Continue, about 1,100 frames. Three Hoenn cases soft reset 2, 40 and 400 frames into the Hall of
+Fame screen, holding the chord through the save, which disables the reset. Continue then loads the
+hub save made beforehand (the reset beat the save) or the respawn. `SaveBlock2.currentRegion` stays
+`REGION_NONE` until the first hub gate-cross, which a debug warp never makes, so the suite reads
+`gCurrentRegion`. `PW_HOF_ONLY=<text>` runs matching cases; `PW_HOF_SEED=<n>` reseeds the mash.
+Measured **56/56**; no defect found.
+
+### `FrontEndSoftReset.lua`
+
+Soft reset at every stage of the front end after #636 removed the FRLG title, the expansion intro and
+the quickstart. With no save it resets on the copyright screen, inside the intro (no mash there,
+because Select skips it), on the World title, the main menu, the new-game speech, the gender choice
+and the naming screen. Each reset must reach the front end and the title with no crash screen, and
+the main menu must still open on NEW GAME afterwards (`gSaveFileStatus` unchanged). A seeded mash of
+B, Select, L, R and the D-pad runs on the intro and title before each stage. Then a new game reaches
+the hub, Set Party gives a team, the game saves from the Start menu, and the reset is pressed in the
+field, on the main menu with a save and 1, 20, 45, 90 and 150 frames after CONTINUE. Every Continue
+must land on the saved tile with the saved party hash and give control back. Measured **74/74**; no
+defect found.
+
+### `MapPopupStress.lua`
+
+Map-name pop-ups after #636 left `src/map_name_popup.c` Gen 8 only. In each region the player walks
+across an outdoor seam and back, then crosses it ten more times one step at a time, so each pop-up
+arrives while the last is still sliding: Oldale and Route 103, Lavender and Route 10, New Bark and
+Route 29. Route 101 and Pallet are avoided because their own scripts get in the way on a fresh game
+(Route 101's ON_FRAME sets `FLAG_HIDE_MAP_NAME_POPUP` until Birch's rescue; Pallet's north exit runs
+Oak's lab scene). Then the player leaves Oldale's first house, steps back into its door while OLDALE
+TOWN slides in and comes out again, and debug warps land in Olivine (rain), the Lake of Rage
+(thunderstorm) and Mt Chimney (ash). After every burst the pop-up task must end by itself and leave
+WINOUT `0x0101`, WIN0H `0x00FF` and BG0HOFS 0 as the map loader set them, and each new outdoor map
+must start a pop-up (watched from the warp itself, because `F.warpTo` idles past it). Measured
+**52/52** at the runner's default 07:00 in-game and at 22:00 in-game (`--rtc 1704164400`; the
+game clock runs five hours behind the RTC); no defect found.
+### `BattleBgMoveAnims.lua`
+
+Coverage for #634's backgrounds under move animations, weather and terrain. Real battles across the
+new art: tall grass by day (20 moves) and night, Ice Path, snowy Mt. Silver at night (snow weather),
+Rusturf Tunnel (fog is scenery since #646, so no terrain), a Route 41 thunderstorm while surfing (rain and
+Electric Terrain) at night, underwater, the Route 111 desert at night (sandstorm), long grass,
+Pokemon Tower's ghost battle, the Kanto, Johto and Hoenn Safari Zones, a plain-ground trainer at
+night, the Route 104 twins double, and Roxanne's and Bugsy's stadiums. Wild battles start by walking
+encounter tiles, trainer battles by talking. Each turn the suite writes the move into the battler's
+four slots and makes both sides sturdy (No Guard, 1 Atk, a Focus Sash on the foe), then picks it with
+real input. After every turn BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every tile it
+names, the BG3 scroll and BG3CNT must equal the first action menu's; the moves that fade to their own
+background (Psychic, Night Shade, Shadow Ball, Crunch, Sky Attack, Cosmic Power, Fissure) must have
+drawn it; the battlefield holds one state through the intro unless overworld weather sets a terrain;
+and after the battle the field's BG banks 0-12 equal those it left (skipped on Route 111, whose
+sandstorm coord events start a weather fade the battle interrupts). `BGS_CASE=name,...` runs a
+subset. Measured **262/262** on master. Control: a build whose `LoadDefaultBg` drops the captured
+presentation before redrawing scored 228/262 (every night, Ice Path and Mt. Silver restore failed).
+No defect found.
+### `OverworldFogBattle.lua`
+
+Every battle on a fog map started under Misty Terrain for the whole fight, on the pink Misty Terrain
+background. `B_OVERWORLD_FOG` (`include/config/battle.h`) was the expansion default `GEN_LATEST`, so
+`FIELD_EFFECT_OVERWORLD_TERRAIN` (`src/battle_util.c`) turned the map's fog into Misty Terrain. Gen 3
+fog was scenery, so Flannery's burns failed against grounded Pokemon, and so did status moves at
+Groudon, Kyogre, Mt. Pyre, Rusturf Tunnel, Pokemon Tower, Lost Cave, Seafloor Cavern, Cave of Origin
+and the Lugia chamber. The toggle is now `GEN_3`, and `ValidateConfigRules.py` lists every fog map
+while it diverges. With real input the suite walks into wild battles in Rusturf Tunnel and on
+Pokemon Tower 3F (the ghost) and talks to Flannery in the Lavaridge Gym. At the first action menu it
+checks the map's fog is up, then that `gFieldStatuses` holds no terrain, `gBattleWeather` no fog,
+and BG palette banks 2-4 equal the day palette the battle's captured presentation points at.
+**Discrimination:** unfixed 22/31 (`gFieldStatuses=0x80`, the Misty Terrain palette), fixed 31/31.
+### `SafariActionMenu.lua`
+
+Kanto's Safari battle menu offered POKeBLOCK and GO NEAR, then threw bait and a rock. The engine
+already plays FireRed's Safari in Kanto (`HandleAction_ThrowPokeblock` and `HandleAction_GoNear` in
+`src/battle_util.c` throw bait and a rock there, and `gText_SafariZoneMenuFrlg` names them), but the
+BW battle UI (#339) drew its action box from one Safari row in every region
+(`BattleUI_PopulateActionBox`, `src/bw_battle_ui.c`). Kanto now draws BALL, BAIT, ROCK, RUN. Johto
+keeps Emerald's POKeBLOCK and GO NEAR on purpose: pokemonHnS's Safari Zone gate lends a Pokeblock
+case and refuses entry without one. The suite gives one Pokemon, the Safari state `EnterSafariMode`
+leaves, and the Pokeblock case in Johto and Hoenn only. With real input it starts a wild battle in
+each zone, reads the action box's label tiles per choice, and picks the second and third choices.
+Kanto's second throws BAIT with no case opened and its third throws a ROCK; Johto's and Hoenn's
+second opens the Pokeblock case (B returns to the menu) and their third creeps closer. BALL and RUN
+match across regions, Johto's labels match Hoenn's, and Kanto's middle two differ.
+**Discrimination:** unfixed 27/29 (Kanto's middle labels are Hoenn's), fixed 29/29.
+### `SpinTileFollowerMenu.lua`
+
+A Start menu opened on the frame a spin tile stops the player, with a Pokemon following, froze the
+game once the menu closed. `PlayerGoSpin` (the FRLG spin tiles in Rocket Hideout and Viridian Gym)
+leaves `COPY_MOVE_WALK_FAST` as the player's copyable movement, and the follower's handler for it
+(like those for WALK_FASTER, SLIDE, JUMP and JUMP_IN_PLACE) was a copy-the-player NPC routine that
+took its direction from `GetCopyDirection` with the follower's `directionSequenceIndex`, which is 0
+for a follower. The direction came back `DIR_NONE` and `GetCollisionAtCoords` called
+`gOppositeDirectionBlockedMetatileFuncs[-1]`, the word 7 in front of the table. The follower now
+uses its trail-following `Step` handler for those movements (`Idle` for jump in place). The player's
+next step normally replaces the copyable movement first, and the follower stays hidden while the
+forced-move flag is up, so it takes the menu on the landing frame plus a screen that rebuilds the
+field. With a Lapras following, the suite rides from Rocket Hideout B2F (16,6) through six spinners
+to the stop tile (1,4), presses Start on alternate frames once on it (both phases) until the menu
+opens with the spin's copyable movement still set, then either closes the menu (control) or opens
+the Trainer Card, backs out and closes it. The play-time counter must keep advancing, the player
+must step off the tile and the follower must come back beside the player. **Discrimination:**
+unfixed 11/14 (play time frozen, the frame still showing the menu icons), fixed 14/14. Found by
+`ChaosWalk` in the hideout.
+### `EggHatchMash.lua`
+
+Egg hatches started by a real step and mashed through. Each scenario gives Eggs with `giveegg`,
+sets their remaining cycles to 0 in the encrypted party data (checksum kept) and the Day Care step
+counter one short of a cycle, so the next step runs the game's own hatch check. A seeded mash of A,
+B, Start, Select, L, R and the D-pad drives the step and the whole scene, nickname prompt and naming
+screen included. Scenarios: an Egg leading on foot in Ecruteak with a Lapras behind, two Eggs on
+the next two cycles, a hatch while surfing in Sootopolis and one on the Mach Bike on Route 119.
+After each: no crash, control returns, the party count is unchanged, every hatched slot decrypts to
+the Egg's species with a valid checksum and no Egg bit, surfing stays surfing, and a shown follower
+shows the lead. Measured **36/36**; no defect found. `PW_EGG_ONLY=<text>` runs matching scenarios
+and `PW_EGG_BASE=<n>` reseeds.
+
+### `HofMash.lua`
+
+Every region's Hall of Fame mashed from the room's arrival script to Continue. Each case warps onto
+the room's arrival tile (as the Champion's room leaves the player) with a six-Pokemon party and a
+follower and mashes A, B, Start, Select, L, R and the D-pad through the walk in, the speech, the
+record machine, the induction screen, its save and the soft reset that replaced the credits. The
+mash stops when the intro or title comes up, so it never reaches New Game; the run then boots and
+Continues. Checks: no crash, the induction ended in the soft reset, control after Continue at the
+region's home (Pallet Town, Brendan's room, New Bark Town) and the same party in the same order
+(the first induction adds the Champion Ribbon, so the check compares personality, OT and level).
+Measured **16/16**; no defect found. `PW_HOF_ONLY=<text>` runs matching regions.
+
+### `ChaosWalk.lua` (manual)
+
+Seeded, goal-directed play through transition-dense places, with button noise on every frame. A Lv100
+party (Lapras leads with Surf and Ice Beam) under a long Repel, every badge, the HM tools and a Mach
+Bike or the Sky Charm on Select. In each of 27 locations (Johto, Kanto and Hoenn towns, caves, spinner
+and warp-pad gyms, Sky Pillar, and nine Sky Charm flights) a walker reads the live map grid and the
+header's warps, plans a path to a random warp or open tile and holds each step, while the noise taps
+A, B, Start, Select, L and R. After every map change, walk and landing it waits for the field and
+checks: the game keeps running (play time advances), the player object sits on the saved tile and a
+passable block, and a shown follower stands next to the player on a passable block. It found the
+spin-tile follower freeze (`SpinTileFollowerMenu`, #645): master `d3b55bb` scores **26/27** (the
+game frozen in Viridian Gym) and the battery stops there; with the fix it scores **82/82**. It also
+notes, without failing, a follower left standing in a Mauville Gym barrier that a switch turned on
+behind the player (cosmetic; the follower walks out on the next step). Manual because the noise makes the route a function of every frame count, so any
+build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
+`PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
+one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.
+### `JohtoBadgeFieldMoves.lua`
+
+Johto's field moves unlocked on Hoenn's badge order: Cut at the Zephyr Badge, Flash at Hive, Rock
+Smash at Plain, Strength at Fog and Fly at Mineral. Falkner and Sage Li say the ZEPHYRBADGE lets
+FLASH work, Bugsy and the Ilex charcoal master say CUT needs Azalea's badge, Whitney's gym guide
+says the PLAINBADGE unlocks STRENGTH, and Chuck's wife says FLY needs Cianwood's badge; pokemonHnS
+gates the same way and also allows ROCK SMASH from the ZEPHYRBADGE. `sFieldMoveBadges`
+(`src/field_move.c`) is now the one table of badge per HM per region, read by the field-move gates
+and the regional Center reachability rules (`src/regional_centers.c`). A Mew that knows FLASH, ROCK
+SMASH, STRENGTH and FLY is driven with real input: FLASH from the party menu in Dark Cave (refused
+with no badge, lights the cave with the Zephyr Badge), A on a Cianwood rock (described with no
+badge, smashed with Zephyr), A on Violet's Cut tree (described with Zephyr only, cut with Hive),
+FLY from the party menu with five badges (the fly map opens), and A on a Union Cave boulder with
+three badges (STRENGTH turns on). Messages are read from `gStringVar4`. **Discrimination:**
+unfixed 14/22, fixed 22/22. `JohtoGoldenrodArrival` gained a case: the Cut gift before Bugsy no
+longer counts as past Ilex Forest, so that arrival lands at New Bark, not at Goldenrod north of a
+tree the player cannot cut (unfixed 12/13, fixed 13/13).
+### `RoamerContinue.lua`
+
+A roaming Latias across Save and Continue. Continue moves every roamer to a new location set
+(`UpdateMiscOverworldStates`, as in Emerald) but the save also restores the roamer's overworld
+object, so the Latias the player saved next to was still on screen while the roamer was elsewhere.
+Talking to it ran `StartWildBattleWithOWE`, whose roamer branch needs the roamer on this map, so it fell
+through to an ordinary wild battle: a fresh Latias at full HP, unparalysed and catchable, while the real
+one kept roaming. Walking into it took the other path, which removed the object. Both paths now call
+`MeetRoamerOWE` (`src/wild_encounter_ow.c`): the object the player meets is the roamer, so the roamer is
+brought to this map, and an object whose roamer no longer roams (or whose slot holds another species)
+leaves. Setup gives a level 100 Jolteon that knows only Nuzzle, runs the Lati TV special and beats
+Route 117's trainers by flag. With real input on Route 117 the suite meets the roamer in the grass
+(Nuzzle chips and paralyses it, then it flees), then: saves with the roamer pinned to Route 117,
+continues after a soft reset and meets it again; and twice (soft reset, power cut) saves with the
+overworld Latias in view, continues and talks to the restored Latias. Every meeting must be a roamer
+battle on the saved HP and paralysis, and Latias must keep roaming. The roamer's EWRAM map is pinned
+to Route 117 while seeking (its map is random and re-rolled on every map change), never after a
+Continue that is under test. **Discrimination:** unfixed 23/24 (the power-cut case talks to a fresh
+level 40 Latias, `gBattleTypeFlags` 0x4, full HP, no status), fixed 24/24. Whether the soft-reset case
+also fails on the unfixed build depends on where Continue sends the roamer. `PW_ROAM_ONLY=<text>` runs
+matching scenarios.
+### `PokeblockFeedScene.lua`
+
+The Pokeblock feeding scene (`src/pokeblock_feed.c`), which #634 gave a private copy of the old
+building tiles and Frontier palette, had not been seen running since. Setup gives a Zigzagoon and a
+Torchic, the Pokeblock Case (registered on Select) and seven Pokeblocks written into
+`SaveBlock1.pokeblocks` the way `AddPokeblock` leaves them. With real input on Route 117 the suite
+opens the case with Select, picks the block, USE, the Pokemon and YES, and watches the scene by its
+callbacks: a red block to Zigzagoon at normal pace, a blue block to Torchic and three gold blocks to
+Zigzagoon under a seeded mash of A, B and Start. Each feed must run the scene, take exactly one block,
+raise the condition by the block's flavour and the sheen by its feel (decrypted from the EV
+substruct), show the condition results and return to the case and the field. The third gold block
+takes Zigzagoon's sheen to 255, and a fourth must get "It won't eat anymore..." with no scene and the
+block kept. Screenshots of the background, the toss, the results and the case are kept; the
+background matches the pre-#634 assets byte for byte (`feeding_bg.pal` differs only in line
+endings). `PW_PB_SEED=<n>` reseeds the mash. Coverage; no defect found: **30/30**.
+
+### `BlenderFullCase.lua`
+
+The Berry Blender in Lilycove's Contest Lobby against a full or nearly full Pokeblock Case. Setup
+gives a Pokemon, the Pokeblock Case and five Cheri and five Pecha Berries, and writes the case's
+blocks into `SaveBlock1.pokeblocks`. Talking to the two-person blender, every Yes/No, the Berry from
+the Bag, the blending (A taps) and the "blend another?" prompt are real input. With 40 blocks the
+script must refuse before the blender starts ("Oh, but wait a second here... Your POKeBLOCK CASE is
+full"): no Berry taken, the case unchanged. With 39 one blend must take exactly one Berry and put the
+new block in the last slot, and blending again must print "Your POKeBLOCK CASE is full." and return to
+the field. With 38 two blends must take two Berries and fill the case. Coverage; no defect found:
+**14/14**.
+
+### `DaycareFullWithdraw.lua`
+
+Day Care withdrawal with a full party and a full PC at Route 117, Route 5, Four Island and Route 34.
+Each Day Care takes a real deposit through its own script and the storage picker (two Pidgey and a
+Rattata, since Hoenn's lady refuses to leave one battler). Then the party is filled to six, debug Fill
+PC Boxes Fast fills all 420 box slots and the wallet holds 50,000. Asking for the Rattata back must
+give the no-room line with no money taken, the Rattata still in the Day Care, the party and the PC
+unchanged and control back. As a control, with the party cleared to one Pokemon the same answers take
+the Rattata back for a fee, which also empties the Day Care for the next counter: Route 117, Four
+Island and Route 34 share `SaveBlock1.daycare`. `PW_DCFULL_ONLY=<text>` runs matching Day Cares.
+Coverage; no defect found: **44/44**.
+
+### `BerryDecorFull.lua`
+
+Full storage at harvest and gift time. Berry trees in all three regions (Hoenn Route 117's Wepear,
+Kanto Route 11's Persim, Johto Route 30's Lum, all seeded ripe by the new game) with the Berries pocket
+filled by debug Fill Pocket Berries (46 stacks of 999). Each tree is talked to and YES picked three
+times: with the tree's Berry as a full stack, with that slot holding a Rowap Berry so the pocket has
+no room for it, and (control) with the stack at 990. The first two must print "The BAG's BERRIES
+POCKET is full." and leave the pocket and the tree's berry, stage and count unchanged (talking clears
+the sparkle bit, as designed); the control must add the tree's count and empty it. Then Lanette's
+house on Route 114 with every decoration category full: her Lotad Doll must be refused ("There's no
+room left for another LOTAD DOLL") with no doll and `FLAG_RECEIVED_DOLL_LANETTE` clear, and after one
+doll slot is freed the next visit gives it and sets the flag. `PW_FULL_ONLY=<text>` runs matching
+scenarios. Coverage; no defect found: **41/41**.
+
+### `WhiteoutSaveContinue.lua`
+
+Whiteout, then Save and Continue, in Hoenn, Kanto and Johto. The respawn is set by warping into the
+region's Pokemon Center (Oldale, Viridian, Cherrygrove); outside in the town a real scripted wild
+battle against a level 50 Raticate knocks out a lone level 5 Magikarp that knows only Splash. After
+the whiteout the field must be back at that Center with control, the party healed, 40 taken from the
+10,000 wallet, and the map's music playing unpaused. Then a Start-menu save, a soft reset and
+Continue must restore the map, tile, money, party HP, follower state and music, the player must be
+able to walk, and the follower (hidden while the nurse heals) must come out on the first step.
+`PW_WOSC_ONLY=<text>` runs matching regions. Coverage; no defect found: **49/49**.

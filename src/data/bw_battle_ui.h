@@ -7,16 +7,27 @@ static const u32 sBWBattleUI_TextboxTilemap[] = INCBIN_U32("graphics/battle_inte
 
 // inputbox->actionbox
 static const u8 sBWBattleUI_ActionBox[] = INCGFX_U8("graphics/battle_interface/bw/actionbox.png", ".4bpp");
+enum ActionBoxLabels
+{
+    ACTION_BOX_BATTLE,
+    ACTION_BOX_SAFARI,       // Emerald, and pokemonHnS's Johto Safari Zone
+    ACTION_BOX_SAFARI_FRLG,  // Kanto: the same actions throw bait and a rock there
+};
+
 static const u8 *const sBWBattleUI_ActionBoxFields[][BUI_ACTION_BOX_ENTRY_COUNT] =
 {
     // left-top -> right-bottom
-    { // default
+    [ACTION_BOX_BATTLE] = {
         COMPOUND_STRING("FIGHT!"),  COMPOUND_STRING("BAG"),
         COMPOUND_STRING("POKÉMON"), COMPOUND_STRING("RUN"),
     },
-    { // safari
+    [ACTION_BOX_SAFARI] = {
         COMPOUND_STRING("BALL!"),    COMPOUND_STRING("{POKEBLOCK}"),
         COMPOUND_STRING("GO NEAR"),  COMPOUND_STRING("RUN"),
+    },
+    [ACTION_BOX_SAFARI_FRLG] = {
+        COMPOUND_STRING("BALL!"),    COMPOUND_STRING("BAIT"),
+        COMPOUND_STRING("ROCK"),     COMPOUND_STRING("RUN"),
     },
 };
 

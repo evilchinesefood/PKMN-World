@@ -380,6 +380,25 @@ def check_one_time_tutor(ctx):
     return out
 
 
+def check_relearner_result_vars(ctx):
+    """A move relearner script must read the lesson's result from VAR_RESULT.
+
+    Emerald and FRLG zeroed VAR_0x8004 on a give-up and set VAR_0x8005 to the number of relearnable
+    moves when a POKeMON was chosen. This build's relearner leaves VAR_0x8004 as the chosen slot,
+    reports the lesson in VAR_RESULT and sets VAR_0x8005 nowhere, so a script testing those took the
+    payment on a give-up, taught the first slot for free and opened an empty list.
+    """
+    out = []
+    for name, lab in ctx.corpus.labels.items():
+        body = "\n".join(re.split(r"@|//", ln)[0] for ln in lab.raw.split("\n") if ".string" not in ln)
+        for special, var in (("TeachMoveRelearnerMove", "VAR_0x8004"), ("ChooseMonForMoveRelearner", "VAR_0x8005")):
+            m = re.search(r"^\s*special\s+" + special + r"\b", body, re.M)
+            if m and re.search(r"^\s*goto_if_\w+\s+" + var + r"\b", body[m.end():], re.M):
+                out.append(Finding("relearner result variable", f"{lab.path}:{name}",
+                                   f"tests {var} after {special}; the relearner reports in VAR_RESULT"))
+    return out
+
+
 def obedience_table():
     src = read("src/battle_util.c")
     body = src[src.index("GetAttackerObedienceForAction(void)"):]
@@ -485,6 +504,18 @@ def check_evolution_claims(ctx):
     return out
 
 
+def check_fog_maps(ctx):
+    """Every map whose fog was scenery in its source game now changes its battles."""
+    out = []
+    for path in sorted(glob.glob(os.path.join(ROOT, "data/maps/*/map.json"))):
+        if re.search(r'"weather":\s*"WEATHER_FOG_(HORIZONTAL|DIAGONAL)"', read(path)):
+            out.append(Finding("fog changes battles", os.path.relpath(path, ROOT), "map weather is fog"))
+    for lab in ctx.corpus.labels.values():
+        if re.search(r"^\s*setweather WEATHER_FOG_(HORIZONTAL|DIAGONAL)\b", lab.body, re.M):
+            out.append(Finding("fog changes battles", f"{lab.path}:{lab.name}", "sets fog weather"))
+    return out
+
+
 RULES = [
     Rule("TMs called single-use", "I_REUSABLE_TMS", lambda c: c.value("I_REUSABLE_TMS"),
          "a TM teaches its move any number of times", "a TM is consumed when used",
@@ -496,6 +527,10 @@ RULES = [
     Rule("one-time move tutor", "move tutor policy", lambda c: True,
          "every move tutor in every region teaches again", "Emerald, FRLG and HGSS tutors taught once and warned so",
          check_one_time_tutor),
+    Rule("relearner result variable", "move relearner in src/move_relearner.c", lambda c: True,
+         "the relearner reports a lesson in VAR_RESULT and leaves VAR_0x8004 as the chosen slot",
+         "Emerald and FRLG zeroed VAR_0x8004 on a give-up and counted relearnable moves in VAR_0x8005",
+         check_relearner_result_vars),
     Rule("sellable item taken without checkitem", "I_KEY_FOSSILS", lambda c: c.value("I_KEY_FOSSILS") >= GENS["GEN_4"],
          "fossils are Items-pocket goods a mart buys", "fossils are Key Items that never leave the bag",
          check_sellable_removed_unchecked),
@@ -537,6 +572,10 @@ RULES = [
     Rule("evolution claim", "I_USE_EVO_HELD_ITEMS_FROM_BAG", lambda c: True,
          "the species table decides how each POKéMON evolves", "pokemonHnS evolved trade POKéMON by level and held item",
          check_evolution_claims),
+    Rule("fog changes battles", "B_OVERWORLD_FOG",
+         lambda c: c.value("B_OVERWORLD_FOG") == GENS["GEN_4"] or c.value("B_OVERWORLD_FOG") >= GENS["GEN_8"],
+         "overworld fog starts Misty Terrain (Gen 8+) or fog weather (Gen 4) in battle", "Gen 3 fog is scenery",
+         check_fog_maps),
 ]
 
 

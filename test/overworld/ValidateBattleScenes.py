@@ -8,9 +8,14 @@ gBattleEnvironmentInfo. This fails when:
      its graphics files is missing;
   3. background art is malformed: a tilemap names a tile its tileset lacks or a palette bank
      outside the three the battlefield owns, or a palette is not 48 colors;
-  4. a Gym map is not on the Gym scene, or an Elite Four room is left on the default scene.
+  4. a Gym map is not on the Gym scene, or an Elite Four room is left on the default scene;
+  5. the Battle Tower multi battle intro tilemaps are not cut from the Frontier background.
+     BattleIntroSlidePartner draws them over that background with its tiles (char base 2): the
+     opponent half is the background's rows 0-9, the player half its rows 10-13 lowered six rows
+     with row 2 as filler above, and every other cell is a blank tile.
 
 Run from the repo root: python3 test/overworld/ValidateBattleScenes.py
+Pass --write to regenerate the two intro tilemaps from the Frontier background.
 """
 import glob
 import json
@@ -18,6 +23,7 @@ import os
 import re
 import struct
 import sys
+import zlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 GFX = "graphics/battle_environment"
@@ -32,6 +38,11 @@ SELECTED_BY_CODE = (
 # Rooms where the trainer class picks the background, so the scene may stay default.
 CLASS_SELECTED_ROOM = re.compile(r"ChampionsRoom|HallOfFame")
 ELITE_FOUR_ROOM = re.compile(r"(PokemonLeague|EverGrandeCity)_\w+sRoom")
+
+MULTI_INTRO = {
+    "opponent": "graphics/battle_frontier/multi_battle_intro_bg_opponent.bin",
+    "player": "graphics/battle_frontier/multi_battle_intro_bg_player.bin",
+}
 
 
 def read(path):
@@ -96,6 +107,91 @@ def png_size(path):
     return struct.unpack(">II", head[16:24])
 
 
+def png_pixels(path):
+    """Palette indices of an 8-bit or 4-bit indexed PNG, as a list of rows."""
+    data = open(path, "rb").read()
+    width, height = struct.unpack(">II", data[16:24])
+    depth, color = data[24], data[25]
+    assert color == 3 and depth in (4, 8), f"{path}: not an indexed 4- or 8-bit PNG"
+    pos, idat = 8, b""
+    while pos < len(data):
+        length, kind = struct.unpack(">I4s", data[pos:pos + 8])
+        if kind == b"IDAT":
+            idat += data[pos + 8:pos + 8 + length]
+        pos += 12 + length
+    raw, stride = zlib.decompress(idat), (width * depth + 7) // 8
+    rows, prev = [], bytearray(stride)
+    for y in range(height):
+        kind, line = raw[y * (stride + 1)], bytearray(raw[y * (stride + 1) + 1:(y + 1) * (stride + 1)])
+        for i in range(stride):
+            left = line[i - 1] if i else 0
+            up, corner = prev[i], prev[i - 1] if i else 0
+            if kind == 1:
+                line[i] = (line[i] + left) & 0xFF
+            elif kind == 2:
+                line[i] = (line[i] + up) & 0xFF
+            elif kind == 3:
+                line[i] = (line[i] + (left + up) // 2) & 0xFF
+            elif kind == 4:
+                p = left + up - corner
+                pa, pb, pc = abs(p - left), abs(p - up), abs(p - corner)
+                line[i] = (line[i] + (left if pa <= pb and pa <= pc else up if pb <= pc else corner)) & 0xFF
+        prev = line
+        rows.append([b >> 4 if x % 2 == 0 else b & 15 for x, b in ((x, line[x // 2]) for x in range(width))]
+                    if depth == 4 else list(line[:width]))
+    return rows
+
+
+def first_blank_tile(tiles_path):
+    rows = png_pixels(os.path.join(ROOT, tiles_path))
+    columns = len(rows[0]) // 8
+    for tile in range(columns * (len(rows) // 8)):
+        x, y = tile % columns * 8, tile // columns * 8
+        if not any(rows[y + j][x + i] for j in range(8) for i in range(8)):
+            return tile
+    return None
+
+
+def multi_intro_tilemaps(background, blank):
+    """Both intro halves for a 64x32 background tilemap (two 32x32 screens)."""
+    opponent, player = [blank] * 2048, [blank] * 2048
+    for screen in (0, 1):
+        for row in range(32):
+            for col in range(32):
+                at = screen * 1024 + row * 32 + col
+                if row < 10:
+                    opponent[at] = background[at]
+                if row < 2:
+                    player[at] = background[at]
+                elif row < 16:
+                    player[at] = background[screen * 1024 + 2 * 32 + col]
+                elif row < 20:
+                    player[at] = background[screen * 1024 + (row - 6) * 32 + col]
+    return {"opponent": opponent, "player": player}
+
+
+def check_multi_intro(bad, table, files, write):
+    parts, _ = environment_symbols(table["FRONTIER"])
+    name = parts["background"].group(1)
+    tiles, tilemap = files[f"gBattleEnvironmentTiles_{name}"], files[f"gBattleEnvironmentTilemap_{name}"]
+    blank = first_blank_tile(tiles)
+    if blank is None:
+        bad.append(f"{tiles}: the multi battle intro needs a blank tile in the Frontier background tileset")
+        return
+    data = open(os.path.join(ROOT, tilemap), "rb").read()
+    background = list(struct.unpack(f"<{len(data) // 2}H", data))
+    if len(background) != 2048:
+        bad.append(f"{tilemap}: the multi battle intro needs a 64x32 Frontier background tilemap")
+        return
+    for half, entries in multi_intro_tilemaps(background, blank).items():
+        path = os.path.join(ROOT, MULTI_INTRO[half])
+        expected = struct.pack("<2048H", *entries)
+        if write:
+            open(path, "wb").write(expected)
+        elif open(path, "rb").read() != expected:
+            bad.append(f"{MULTI_INTRO[half]}: not cut from {tilemap} (run with --write to regenerate)")
+
+
 def check_art(bad):
     for folder in sorted(glob.glob(os.path.join(ROOT, GFX, "*"))):
         name = os.path.relpath(folder, ROOT)
@@ -156,6 +252,7 @@ def main():
                 bad.append(f"BATTLE_ENVIRONMENT_{env}: {symbol} points at missing file {path}")
 
     check_art(bad)
+    check_multi_intro(bad, table, files, "--write" in sys.argv[1:])
 
     maps = 0
     for path in sorted(glob.glob(os.path.join(ROOT, "data/maps/*/map.json"))):

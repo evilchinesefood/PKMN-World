@@ -1090,7 +1090,7 @@ static u8 GetBattleEnvironmentOverride(void)
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
-        if (trainerClass == TRAINER_CLASS_LEADER || trainerClass == TRAINER_CLASS_LEADER_JOHTO)
+        if (trainerClass == TRAINER_CLASS_LEADER || trainerClass == TRAINER_CLASS_LEADER_JOHTO || trainerClass == TRAINER_CLASS_LEADER_FRLG)
             return BATTLE_ENVIRONMENT_LEADER;
         else if (trainerClass == TRAINER_CLASS_CHAMPION || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
             return BATTLE_ENVIRONMENT_CHAMPION;
@@ -1526,24 +1526,8 @@ void DrawBattleEntryBackground(void)
             CopyBgTilemapBufferToVram(2);
         }
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
-    {
-        LoadBattleEnvironmentEntryGfx();
-    }
     else
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        {
-            enum TrainerClassID trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
-            if (trainerClass == TRAINER_CLASS_LEADER || trainerClass == TRAINER_CLASS_CHAMPION
-             || trainerClass == TRAINER_CLASS_LEADER_JOHTO || trainerClass == TRAINER_CLASS_CHAMPION_JOHTO
-             || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
-            {
-                LoadBattleEnvironmentEntryGfx();
-                return;
-            }
-        }
-
         LoadBattleEnvironmentEntryGfx();
     }
 }

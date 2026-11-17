@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include "constants/field_move.h"
+#include "constants/regions.h"
 
 struct FieldMoveInfo
 {
@@ -16,6 +17,8 @@ struct FieldMoveInfo
 };
 
 extern const struct FieldMoveInfo gFieldMoveInfo[];
+
+bool32 HasFieldMoveBadge(enum Region region, enum FieldMove fieldMove);
 
 static inline bool32 SetUpFieldMove(enum FieldMove fieldMove)
 {

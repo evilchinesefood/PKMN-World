@@ -21,6 +21,9 @@ WANT = [
     "VictoryRoad_1F_EventScript_WallyBattleTrigger1", "VictoryRoad_1F_EventScript_WallyEntranceBattle",
     "gSelectedOrderFromParty", "gPartnerTrainerId",
     "CB2_Overworld",
+    # HofCreditsMash.lua tells the Hall of Fame, the credits roll and the front end apart by CB2.
+    "CB2_DoHallOfFameScreen", "CB2_DoHallOfFameScreenFrlg", "CB2_HallOfFame", "CB2_HofIdle",
+    "CB2_Credits", "CB2_InitCopyrightScreenAfterBootup",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
     # UsmOpenCloseStress.lua: the restored Start-menu cursor, and the sprite VRAM and OAM matrix
@@ -71,6 +74,10 @@ WANT = [
     # inventories, the contest's move-select task and the contest and painting screens.
     "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",
     "CB2_ContestMain", "CB2_ContestPainting",
+    # PokeblockFeedScene.lua and BlenderFullCase.lua follow the Pokeblock Case, the feeding scene
+    # and the Berry Blender by their main callbacks.
+    "CB2_PokeblockMenu", "CB2_UsePokeblockMenu", "CB2_PokeblockFeed", "CB2_PlayBlender",
+    "CB2_CheckPlayAgainLocal", "CB2_EndBlenderGame",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",
@@ -124,6 +131,20 @@ WANT = [
     # the hardware copy, but VBlank restores from faded, so the buffer is the
     # discriminating read.
     "gTimeBlend", "gPlttBufferFaded", "gPlttBufferUnfaded",
+    # BattleBgFloors.lua compares the battlefield's BG palette banks 2-4 with the authored
+    # background palette the trainer class or map scene should select.
+    "gBattleEnvironmentPalette_StadiumLeader", "gBattleEnvironmentPalette_BuildingGym",
+    # BattleBgSpecialScenes.lua compares the Champion and legendary battlefields' BG palette banks
+    # 2-4 with these authored palettes.
+    "gBattleEnvironmentPalette_StadiumWallace", "gBattleEnvironmentPalette_Groudon",
+    "gBattleEnvironmentPalette_Kyogre", "gBattleEnvironmentPalette_Rayquaza",
+    # BattleBgMoveAnims.lua compares the battlefield (BG3 scroll, palette banks 2-4, tilemap) before
+    # and after each move animation and logs the battle's environment, weather and terrain.
+    "gBattle_BG3_X", "gBattle_BG3_Y", "gAnimScriptActive", "gBattleEnvironment", "gBattleWeather",
+    "gFieldStatuses",
+    # OverworldFogBattle.lua also reads gBattleWeather and gFieldStatuses (above) at the first action
+    # menu and compares the battlefield palette with the authored one sBattlePresentation points at.
+    "sBattlePresentation",
     # sHoursOverride is the debug time menu's lever (SetTimeOfDay, src/overworld.c:4110) and it
     # lives in EWRAM, NOT in the save. That is what makes it the only way to build the state issue
     # #56 item 3 needs: a save whose flags disagree with its own clock. Wind localTimeOffset (which
@@ -167,7 +188,7 @@ WANT = [
     "EventScript_PalletTown_PlayersHouse_2F_ShutDownPC",
     "NewBarkTown_PlayersHouse_2F_EventScript_TurnOffPlayerPC",
     # v1.5 playtests. Addresses move every rebuild; suites must read these from symbols.lua.
-    "gMPlayInfo_BGM", "gSongTable", "gWildMonHeaders",
+    "gMPlayInfo_BGM", "gMPlayInfo_SE2", "gSongTable", "gWildMonHeaders",
     # HubWardrobeSprite.lua compares the wardrobe object's OBJ tiles with its first frame.
     "gObjectEventPic_Wardrobe",
     "gTileset_PokemonCenterFrlg", "gTileset_Kanto_PokemonCenter",
@@ -226,8 +247,13 @@ WANT = [
     "sHealLocations", "sWhiteoutRespawnHealCenterMapIdxs", "sWhiteoutRespawnHealerNpcIds",
     "BattleMainCB2", "Task_OWEApproachForBattle", "DebugAction_Give_Pokemon_SelectLevel",
     "gMoveSelectionCursor",
+    # OweApproachLatency.lua times each encounter script from its first command to its battle; the
+    # NoParty label sits right after the script's closing `end`.
+    "InteractWithOverworldWildEncounter", "InteractWithOverworldWildEncounter_NoParty",
     # SpecialDexFormsNav.lua: proves the Pokedex is on the Forms page before reading its tilemap.
     "Task_HandleFormsScreenInput",
+    # SafariActionMenu.lua tells the Pokeblock case a Safari choice opened from the battle by CB2.
+    "CB2_PokeblockMenu",
     # DoubleBattleStress.lua. BattleSetup_StartDoubleWildBattle is the natural wild double entry
     # (DoStandardWildBattle(TRUE)); the suite reaches it with an EWRAM `callnative` script because
     # nothing in this build's encounter tables rolls a double. The rest observe double-only
@@ -321,6 +347,9 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
   BoxPokemon   = { size = 80 },
   BattlePokemon= { size = 140, attack = 2, spAttack = 8, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
+  BattlePresentation = { dayPalette = 16, tintWithTime = 22 },
+                                                            -- include/battle_presentation.h, offsetof
+                                                            --   probe with the modern CFLAGS.
   BagPocket    = { stride = 8, itemsPtr = 0, count = 4 },  -- ItemSlot{u16 id,u16 qty} stride 4
   BackupMapLayout = { width = 0, height = 4, map = 8, mapOffset = 7 },
                                                             -- live map grid: map[(x+7) + (y+7)*width],
@@ -472,7 +501,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer", "gameStats"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer", "gameStats", "pokeblocks"]
 
 
 def load_save_src(root):

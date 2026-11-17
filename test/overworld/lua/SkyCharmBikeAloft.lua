@@ -6,7 +6,7 @@
 -- the saved music, and landing put the player on foot with the cycling theme still playing. It
 -- kept playing after battles and menus until the next map change.
 --
--- In Olivine City with Johto badge 6, the Sky Charm and each bike are given by an injected
+-- In Olivine City with the Storm Badge (Johto badge 5), the Sky Charm and each bike are given by an injected
 -- `additem`; every press is Select with the item registered. Per bike: take off on the pier,
 -- fly north over the sea, press Select with the bike (refused: still flying, on foot, same
 -- sprite, the map music playing and no saved music), land on the pier, check the music on foot,
@@ -22,7 +22,7 @@ local F = require("lib").new(S, "SkyCharmBikeAloft")
 local HUB_GROUP = 100
 local OLIVINE_GROUP, OLIVINE_MAP = 87, 0
 local ITEM_SKY_CHARM, ITEM_MACH_BIKE, ITEM_ACRO_BIKE = 891, 707, 708
-local FLAG_JOHTO_BADGE_6 = 0x63FD
+local FLAG_JOHTO_BADGE_5 = 0x63FC
 local CONTEXT_RUNNING, CONTEXT_SHUTDOWN = 0, 2
 local AVATAR_ON_FOOT, AVATAR_MACH_BIKE, AVATAR_ACRO_BIKE = 1 << 0, 1 << 1, 1 << 2
 local SAVED_MUSIC = 0x2C
@@ -152,7 +152,7 @@ end
 F.run(function()
   if not F.boot(HUB_GROUP) then F.check("boot", false); F.finish(); return end
   if not F.check("warp to the pier", warpToCoords(19, 66, "pier")) then F.finish(); return end
-  runScript({ 0x29, FLAG_JOHTO_BADGE_6 & 0xFF, FLAG_JOHTO_BADGE_6 >> 8, 0x02 })
+  runScript({ 0x29, FLAG_JOHTO_BADGE_5 & 0xFF, FLAG_JOHTO_BADGE_5 >> 8, 0x02 })
   addItem(ITEM_SKY_CHARM); addItem(ITEM_MACH_BIKE); addItem(ITEM_ACRO_BIKE)
   bikeCase("Mach Bike", ITEM_MACH_BIKE, AVATAR_MACH_BIKE)
   bikeCase("Acro Bike", ITEM_ACRO_BIKE, AVATAR_ACRO_BIKE)

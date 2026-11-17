@@ -108,7 +108,7 @@ local function ambush(tag, difficulty)
   return false
 end
 
--- Advance the battle with real input: on the action menu either RUN (Right, Down, A) or FIGHT
+-- Advance the battle with real input: on the action menu either RUN (steered by the cursor) or FIGHT
 -- (A); Up and A answer the forfeit prompt; A advances text and picks a move and its target.
 local function driveBattle(tag, run, assist)
   local atPrompt = false
@@ -129,7 +129,8 @@ local function driveBattle(tag, run, assist)
       if fn == (S.PlayerHandleYesNoInput & ~1) then
         key = atPrompt and "A" or "Up"; atPrompt = not atPrompt
       elseif run and actionMenu() then
-        key = ({ "Right", "Down", "A" })[(i // 12) % 3 + 1]
+        local cur = F.r8(S.gActionSelectionCursor)
+        key = cur == 3 and "A" or (cur % 2 == 0 and "Right" or "Down")
       else
         key = "A"
       end

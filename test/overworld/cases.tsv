@@ -302,3 +302,4 @@ BerryDecorFull	lua/BerryDecorFull.lua	fresh	0	required
 WhiteoutSaveContinue	lua/WhiteoutSaveContinue.lua	fresh	0	required
 ContinueDarkCave	lua/ContinueDarkCave.lua	fresh	0	required
 ItemBallFullPocket	lua/ItemBallFullPocket.lua	fresh	0	required
+RadioDirectorCardKey	lua/RadioDirectorCardKey.lua	fresh	0	required

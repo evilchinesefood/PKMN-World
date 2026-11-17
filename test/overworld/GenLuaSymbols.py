@@ -21,6 +21,9 @@ WANT = [
     "VictoryRoad_1F_EventScript_WallyBattleTrigger1", "VictoryRoad_1F_EventScript_WallyEntranceBattle",
     "gSelectedOrderFromParty", "gPartnerTrainerId",
     "CB2_Overworld",
+    # HofCreditsMash.lua tells the Hall of Fame, the credits roll and the front end apart by CB2.
+    "CB2_DoHallOfFameScreen", "CB2_DoHallOfFameScreenFrlg", "CB2_HallOfFame", "CB2_HofIdle",
+    "CB2_Credits", "CB2_InitCopyrightScreenAfterBootup",
     "CB2_Story", "sStoryRegion", "sStoryPage", "sStoryDetail", "sStoryProgress",
     "sUsmMemory",
     # UsmOpenCloseStress.lua: the restored Start-menu cursor, and the sprite VRAM and OAM matrix

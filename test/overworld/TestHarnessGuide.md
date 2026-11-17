@@ -310,8 +310,8 @@ is XORed** against `SaveBlock2.encryptionKey` (`BagPocket_GetSlotDataGeneric`, `
 id is plaintext, so a RAM read compares against the same value `checkitem` does.
 
 **Party action menu** is built dynamically (`SetPartyMonFieldSelectionActions` in
-`src/swsh_party_menu.c` — **edit that file, not `party_menu.c`**, which is a dead
-`#if !SWSH_PARTY_MENU` stub). Row count depends on the mon's field moves, so **FOLLOW is not at a
+`src/swsh_party_menu.c`, the only party menu since #636 deleted the classic `party_menu.c`).
+Row count depends on the mon's field moves, so **FOLLOW is not at a
 fixed index**. Screenshot the action list before selecting.
 
 ### Script multichoice: navigate by READING THE CURSOR

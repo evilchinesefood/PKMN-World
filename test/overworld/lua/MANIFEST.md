@@ -3209,3 +3209,23 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `SpinTileFollowerMenu.lua`
+
+A Start menu opened on the frame a spin tile stops the player, with a Pokemon following, froze the
+game once the menu closed. `PlayerGoSpin` (the FRLG spin tiles in Rocket Hideout and Viridian Gym)
+leaves `COPY_MOVE_WALK_FAST` as the player's copyable movement, and the follower's handler for it
+(like those for WALK_FASTER, SLIDE, JUMP and JUMP_IN_PLACE) was a copy-the-player NPC routine that
+took its direction from `GetCopyDirection` with the follower's `directionSequenceIndex`, which is 0
+for a follower. The direction came back `DIR_NONE` and `GetCollisionAtCoords` called
+`gOppositeDirectionBlockedMetatileFuncs[-1]`, the word 7 in front of the table. The follower now
+uses its trail-following `Step` handler for those movements (`Idle` for jump in place). The player's
+next step normally replaces the copyable movement first, and the follower stays hidden while the
+forced-move flag is up, so it takes the menu on the landing frame plus a screen that rebuilds the
+field. With a Lapras following, the suite rides from Rocket Hideout B2F (16,6) through six spinners
+to the stop tile (1,4), presses Start on alternate frames once on it (both phases) until the menu
+opens with the spin's copyable movement still set, then either closes the menu (control) or opens
+the Trainer Card, backs out and closes it. The play-time counter must keep advancing, the player
+must step off the tile and the follower must come back beside the player. **Discrimination:**
+unfixed 11/14 (play time frozen, the frame still showing the menu icons), fixed 14/14. Found by
+`ChaosWalk` in the hideout.

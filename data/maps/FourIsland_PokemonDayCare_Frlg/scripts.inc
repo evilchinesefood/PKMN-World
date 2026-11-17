@@ -133,7 +133,7 @@ FourIsland_PokemonDayCare_AskRetrieveOtherMon::
 	end
 
 FourIsland_PokemonDayCare_NoRoomInParty::
-	msgbox DayCare_Text_YourPartyIsFull
+	msgbox DayCare_Text_YourTeamIsFull
 	release
 	end
 

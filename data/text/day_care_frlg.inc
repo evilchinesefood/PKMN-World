@@ -4,13 +4,13 @@ DayCare_Text_ImDaycareManSpeakToMyWife::
 	.string "I'm the DAY-CARE MAN.\p"
 	.string "I help take care of the precious\n"
 	.string "POKéMON of TRAINERS.\p"
-	.string "If you'd like me to raise your\n"
-	.string "POKéMON, have a word with my wife.$"
+	.string "If you'd like me to raise your POKéMON,\n"
+	.string "have a word with my wife.$"
 
 DayCare_Text_DoYouWantEgg::
 	.string "Ah, it's you!\p"
-	.string "We were raising your POKéMON, and\n"
-	.string "my goodness, were we surprised!\p"
+	.string "We were raising your POKéMON,\n"
+	.string "and my goodness, were we surprised!\p"
 	.string "Your POKéMON had an EGG!\p"
 	.string "We don't know how it got there,\n"
 	.string "but your POKéMON had it.\p"
@@ -58,9 +58,8 @@ DayCare_Text_WellRaiseYourMon::
 	.string "Come back for it later.$"
 
 DayCare_Text_WeCanRaiseOneMore::
-	.string "We can raise two of your POKéMON.\p"
-	.string "Would you like us to raise one\n"
-	.string "more POKéMON for you?$"
+	.string "We can raise two of your POKéMON.\n"
+	.string "Would you like us to raise one more?$"
 
 DayCare_Text_HusbandWasLookingForYou::
 	.string "My husband was looking for you.$"
@@ -81,17 +80,15 @@ DayCare_Text_ComeAgain::
 	.string "Come again.$"
 
 DayCare_Text_GoodToSeeYou::
-	.string "Ah, it's you!\n"
-	.string "Good to see you.\p"
-	.string "Your POKéMON can only be doing\n"
-	.string "good!$"
+	.string "Ah, it's you! Good to see you.\n"
+	.string "Your POKéMON can only be doing good!$"
 
 DayCare_Text_YourMonHasGrownXLevels::
 	.string "By level, your {STR_VAR_1} has\n"
 	.string "grown by {STR_VAR_2}.$"
 
-DayCare_Text_YourPartyIsFull::
-	.string "Your POKéMON party is full.\n"
+DayCare_Text_YourTeamIsFull::
+	.string "Your POKéMON team is full.\n"
 	.string "Make room, then come see me.$"
 
 DayCare_Text_ItWillCostX::

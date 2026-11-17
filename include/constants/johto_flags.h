@@ -580,4 +580,8 @@
 // Bill's receipt is separate from Celadon's Kanto Eevee flag. Formerly unused.
 #define FLAG_GOT_BILLS_EEVEE                        FLAG_JOHTO_SLICE(0x25e)
 
+// The Radio Tower Director's rescue talk. ITEM_CARD_KEY is also Silph Co.'s Kanto CARD KEY,
+// so holding it cannot tell his first talk from a repeat.
+#define FLAG_GOT_RADIO_TOWER_CARD_KEY               FLAG_JOHTO_SLICE(0x25f)
+
 #endif // GUARD_CONSTANTS_JOHTO_FLAGS_H

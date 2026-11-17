@@ -3767,3 +3767,16 @@ copy in the bag and give control back. Text is read from `gStringVar4`. Measured
 unfixed ROM (all four refusals) and **38/38** fixed. `AuditDupKeyGifts.py` (host check) lists every
 key-class give with another source and fails on one that is not guarded, `givekeyitem`, an item
 ball, or allowlisted with a reason.
+### `RadioDirectorCardKey.lua`
+
+The Radio Tower Director's rescue talk in the Goldenrod Underground Storage, with and without
+Silph Co.'s Kanto CARD KEY held. `ITEM_CARD_KEY` is one item for both regions, and his script used
+`checkitem ITEM_CARD_KEY` to spot a repeat talk, so a Silph key skipped his rescue lines and the
+"open the shutters on 3F" hint. Setup writes `VAR_GOLDENROD_CITY_STATE` 9 (as the Underground
+Switches leave it), shows the Rockets and marks Eto beaten (his sight covers the only way in); the
+Silph key is seeded as the 5F ball leaves it (`FLAG_HIDE_SILPH_CO_5F_CARD_KEY` and one key in the
+pocket). The player walks in from the Department Store door and talks with A twice per case. First
+talk: the rescue lines, the shutter hint, "Oh, you already have a CARD KEY?" (Silph case) or
+"Obtained the Card Key!" (plain case), never the duplicate refusal. Second talk: the repeat plea
+only. Both end with one CARD KEY of quantity 1. Between cases the key is removed and
+`FLAG_GOT_RADIO_TOWER_CARD_KEY` cleared, back to new-game state. Unfixed **22/26**, fixed **26/26**.

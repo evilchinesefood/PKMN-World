@@ -3406,3 +3406,45 @@ the Trainer Card, backs out and closes it. The play-time counter must keep advan
 must step off the tile and the follower must come back beside the player. **Discrimination:**
 unfixed 11/14 (play time frozen, the frame still showing the menu icons), fixed 14/14. Found by
 `ChaosWalk` in the hideout.
+### `EggHatchMash.lua`
+
+Egg hatches started by a real step and mashed through. Each scenario gives Eggs with `giveegg`,
+sets their remaining cycles to 0 in the encrypted party data (checksum kept) and the Day Care step
+counter one short of a cycle, so the next step runs the game's own hatch check. A seeded mash of A,
+B, Start, Select, L, R and the D-pad drives the step and the whole scene, nickname prompt and naming
+screen included. Scenarios: an Egg leading on foot in Ecruteak with a Lapras behind, two Eggs on
+the next two cycles, a hatch while surfing in Sootopolis and one on the Mach Bike on Route 119.
+After each: no crash, control returns, the party count is unchanged, every hatched slot decrypts to
+the Egg's species with a valid checksum and no Egg bit, surfing stays surfing, and a shown follower
+shows the lead. Measured **36/36**; no defect found. `PW_EGG_ONLY=<text>` runs matching scenarios
+and `PW_EGG_BASE=<n>` reseeds.
+
+### `HofMash.lua`
+
+Every region's Hall of Fame mashed from the room's arrival script to Continue. Each case warps onto
+the room's arrival tile (as the Champion's room leaves the player) with a six-Pokemon party and a
+follower and mashes A, B, Start, Select, L, R and the D-pad through the walk in, the speech, the
+record machine, the induction screen, its save and the soft reset that replaced the credits. The
+mash stops when the intro or title comes up, so it never reaches New Game; the run then boots and
+Continues. Checks: no crash, the induction ended in the soft reset, control after Continue at the
+region's home (Pallet Town, Brendan's room, New Bark Town) and the same party in the same order
+(the first induction adds the Champion Ribbon, so the check compares personality, OT and level).
+Measured **16/16**; no defect found. `PW_HOF_ONLY=<text>` runs matching regions.
+
+### `ChaosWalk.lua` (manual)
+
+Seeded, goal-directed play through transition-dense places, with button noise on every frame. A Lv100
+party (Lapras leads with Surf and Ice Beam) under a long Repel, every badge, the HM tools and a Mach
+Bike or the Sky Charm on Select. In each of 27 locations (Johto, Kanto and Hoenn towns, caves, spinner
+and warp-pad gyms, Sky Pillar, and nine Sky Charm flights) a walker reads the live map grid and the
+header's warps, plans a path to a random warp or open tile and holds each step, while the noise taps
+A, B, Start, Select, L and R. After every map change, walk and landing it waits for the field and
+checks: the game keeps running (play time advances), the player object sits on the saved tile and a
+passable block, and a shown follower stands next to the player on a passable block. It found the
+spin-tile follower freeze (`SpinTileFollowerMenu`, #645): master `d3b55bb` scores **26/27** (the
+game frozen in Viridian Gym) and the battery stops there; with the fix it scores **82/82**. It also
+notes, without failing, a follower left standing in a Mauville Gym barrier that a switch turned on
+behind the player (cosmetic; the follower walks out on the next step). Manual because the noise makes the route a function of every frame count, so any
+build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
+`PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
+one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.

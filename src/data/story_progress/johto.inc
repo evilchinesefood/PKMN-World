@@ -505,10 +505,12 @@ STORY_OBJECTIVE(sJohtoHideoutRoom, "johto.hideout-room", STORY_PIN(MAHOGANY_TOWN
     "Prepare your team for battle.");
 
 // Ilex Forest's Cut tree and Route 36's Sudowoodo wall Goldenrod off from Azalea. The Cut gift
-// or any badge from Whitney's on proves the player is past that wall.
+// with Bugsy's badge (Cut works from the Hive Badge), or any badge from Whitney's on, proves the
+// player is past that wall. The gift alone does not: the charcoal master can give it before Bugsy.
 bool32 StoryProgress_JohtoPastIlex(void)
 {
-    return F(FLAG_JOHTO_CHAMPION) || V(VAR_ILEX_FOREST_FARFETCHD) >= 3 || V(VAR_AZALEA_TOWN_STATE) >= 7
+    return F(FLAG_JOHTO_CHAMPION)
+        || ((V(VAR_ILEX_FOREST_FARFETCHD) >= 3 || V(VAR_AZALEA_TOWN_STATE) >= 7) && B(REGION_JOHTO, 1))
         || V(VAR_GOLDENROD_CITY_STATE) >= 3
         || B(REGION_JOHTO, 2) || B(REGION_JOHTO, 3)
         || B(REGION_JOHTO, 4) || B(REGION_JOHTO, 5)

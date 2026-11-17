@@ -116,8 +116,8 @@ return function(F, N, C, log)
     assert(N.talk(1, { side = 1 }))
   end, function() return FL('FLAG_JOHTO_BADGE_1') and V('VAR_VIOLET_CITY_STATE') >= 3 end)
 
-  -- PW_DETOUR=goldenrod: the Hub Pass right after Falkner lands in Goldenrod, on the far side of
-  -- Ilex Forest. Falkner's badge is what unlocks Cut here, so the tree can be cut from the north.
+  -- PW_DETOUR=goldenrod: the Hub Pass right after Falkner. The standard Johto arrival sends a
+  -- player who is not past Ilex Forest home rather than to Goldenrod (JohtoGoldenrodArrival).
   -- Stop this one with --to detour_goldenrod.
   if os.getenv('PW_DETOUR') == 'goldenrod' then
     beat('detour_goldenrod', function()
@@ -264,8 +264,8 @@ return function(F, N, C, log)
   local function fieldMoves()
     N.canSurf = FL('FLAG_JOHTO_BADGE_4')
     N.canWaterfall = FL('FLAG_JOHTO_BADGE_8')
-    N.canCut = FL('FLAG_JOHTO_BADGE_1')
-    N.canSmash = FL('FLAG_JOHTO_BADGE_3')
+    N.canCut = FL('FLAG_JOHTO_BADGE_2')
+    N.canSmash = FL('FLAG_JOHTO_BADGE_1')
     N.canWhirlpool = FL('FLAG_JOHTO_BADGE_7')
   end
   N.beatSetup = fieldMoves
@@ -307,7 +307,7 @@ return function(F, N, C, log)
     N.settle()
   end, function() return at('CianwoodCity') end)
 
-  -- Back to Olivine the way a player would at this point: by sea (Fly needs badge 6 here).
+  -- Back to Olivine by sea.
   beat('cianwood_to_olivine', function()
     fieldMoves()
     assert(N.travel('OlivineCity'), 'no way back from Cianwood by sea')

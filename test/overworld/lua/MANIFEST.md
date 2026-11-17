@@ -139,6 +139,7 @@ is clean; keep it that way.
 | [`JohtoHofLegendaries.lua`](#johtohoflegendarieslua) | fresh new game | Johto HOF rematch does not re-arm already-caught Mew/Deoxys. |
 | [`JohtoMusicPass.lua`](#johtomusicpasslua) | fresh new game | Johto outdoor maps, cycling, and Radio Tower occupation play MUS_HG_*. |
 | [`JohtoWhirlpool.lua`](#johtowhirlpoollua) | fresh new game | Whirlpool without the Glacier Badge refuses; with it, the slide walks over the blockers. |
+| [`JohtoBadgeFieldMoves.lua`](#johtobadgefieldmoveslua) | fresh new game | Johto Flash and Rock Smash work from the Zephyr Badge, Cut from Hive, Strength from Plain, Fly from Storm, as the gym leaders, the HM givers and pokemonHnS say. |
 | [`JohtoWhiteoutHeal.lua`](#johtowhiteoutheallua) | fresh new game | Johto whiteout lands on the Violet apron, Center heals store aprons, FRLG monitor. |
 | [`KenyaMail.lua`](#kenyamaillua) | fresh new game | Randy's Kenya gift carries RetroMail; Route 31 sleeper removes her; TM41 bag-full is first. |
 | [`FamilyOptions.lua`](#familyoptionslua) | fresh new game | Four choices on every rate control and Text Speed, staged writes, reopen, real save/Continue, and global regional travel. |
@@ -1247,7 +1248,8 @@ to Azalea: Cut needs the Hive Badge and the Ilex gift, Sudowoodo needs the Plain
 drives the real gate after Falkner only, after Bugsy with Ilex unfinished, with Farfetch'd home
 but no Cut gift, after the Cut gift, and with Whitney's badge. Measured **11/11** fixed and
 **8/11** on the unfixed ROM, where the first three land at Goldenrod station (`84/23`) instead
-of New Bark (`76/4`).
+of New Bark (`76/4`). A sixth case holds the Cut gift without the Hive Badge (the charcoal
+master can give it before Bugsy, and Cut needs Bugsy's badge): it must land at New Bark too.
 
 ### `SSAnnePierHeal.lua`
 
@@ -1352,7 +1354,7 @@ a second jump must still land. Measured **864/864** on the build of
 `061127921d`; no defect found.
 ### `SkyCharmLanding.lua`
 
-`StartOverworldFlight` sets the player to `ELEVATION_TRANSITION` so `CanLandOverworldFlight` accepts ground at any height, and landing left it there. That elevation matches every tile, so the first step off a shore went onto the water on foot, the water's elevation then stuck, and the player walked across the sea without Surf. Landing now takes the tile's elevation, and `CanLandOverworldFlight` refuses transition (0), surf-level (1) and bridge (15) tiles, which give no ground level; Olivine's (36,70) is metatile 0x050, a sea tile tagged `MB_NORMAL` at elevation 1. The suite works in Olivine City with Johto badge 6 set and the Sky Charm given by an injected `additem` and registered on Select. **Shore:** take off on the pier at (19,66), fly north one tile, land on (19,65), step west. **Sea tile:** fly to (36,70) and press Select. **Yard (control):** fly to the lighthouse yard (39,52), land, step north. **Oracle:** the step west leaves the player on (19,65); at (36,70) the player is still flying; the yard landing and the step north on land both work. **Discrimination:** unfixed 8/10 (the player walks onto the sea at (18,65), and lands on (36,70)), fixed 10/10. `LedgeSelectStress` (864/864), `AutosaveStress` (220/220) and `RegionalTravelBoundaries` (103/103) pass on the fixed build.
+`StartOverworldFlight` sets the player to `ELEVATION_TRANSITION` so `CanLandOverworldFlight` accepts ground at any height, and landing left it there. That elevation matches every tile, so the first step off a shore went onto the water on foot, the water's elevation then stuck, and the player walked across the sea without Surf. Landing now takes the tile's elevation, and `CanLandOverworldFlight` refuses transition (0), surf-level (1) and bridge (15) tiles, which give no ground level; Olivine's (36,70) is metatile 0x050, a sea tile tagged `MB_NORMAL` at elevation 1. The suite works in Olivine City with the Storm Badge (Johto badge 5) set and the Sky Charm given by an injected `additem` and registered on Select. **Shore:** take off on the pier at (19,66), fly north one tile, land on (19,65), step west. **Sea tile:** fly to (36,70) and press Select. **Yard (control):** fly to the lighthouse yard (39,52), land, step north. **Oracle:** the step west leaves the player on (19,65); at (36,70) the player is still flying; the yard landing and the step north on land both work. **Discrimination:** unfixed 8/10 (the player walks onto the sea at (18,65), and lands on (36,70)), fixed 10/10. `LedgeSelectStress` (864/864), `AutosaveStress` (220/220) and `RegionalTravelBoundaries` (103/103) pass on the fixed build.
 
 ### `SafariStress.lua`
 
@@ -2138,7 +2140,7 @@ Charm only takes off on foot, but the bike accepted the reverse order: in mid-ai
 avatar flag, swapped the rider's sprite and started the region's cycling theme as the saved music.
 Landing put the player on foot with the cycling theme still playing, and the saved music brought it
 back after battles and menus until the next map change. `IsBikingDisallowedByPlayer` now refuses
-while flying. In Olivine City with Johto badge 6 and the Sky Charm and both bikes given by an
+while flying. In Olivine City with the Storm Badge (Johto badge 5) and the Sky Charm and both bikes given by an
 injected `additem`, each bike case takes off on the pier, flies over the sea at (18,65), presses
 Select with the bike (refused: still flying, on foot, the same sprite, the map music and no saved
 music), lands on the pier and checks the music on foot, then mounts and dismounts the bike on the
@@ -3209,3 +3211,21 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `JohtoBadgeFieldMoves.lua`
+
+Johto's field moves unlocked on Hoenn's badge order: Cut at the Zephyr Badge, Flash at Hive, Rock
+Smash at Plain, Strength at Fog and Fly at Mineral. Falkner and Sage Li say the ZEPHYRBADGE lets
+FLASH work, Bugsy and the Ilex charcoal master say CUT needs Azalea's badge, Whitney's gym guide
+says the PLAINBADGE unlocks STRENGTH, and Chuck's wife says FLY needs Cianwood's badge; pokemonHnS
+gates the same way and also allows ROCK SMASH from the ZEPHYRBADGE. `sFieldMoveBadges`
+(`src/field_move.c`) is now the one table of badge per HM per region, read by the field-move gates
+and the regional Center reachability rules (`src/regional_centers.c`). A Mew that knows FLASH, ROCK
+SMASH, STRENGTH and FLY is driven with real input: FLASH from the party menu in Dark Cave (refused
+with no badge, lights the cave with the Zephyr Badge), A on a Cianwood rock (described with no
+badge, smashed with Zephyr), A on Violet's Cut tree (described with Zephyr only, cut with Hive),
+FLY from the party menu with five badges (the fly map opens), and A on a Union Cave boulder with
+three badges (STRENGTH turns on). Messages are read from `gStringVar4`. **Discrimination:**
+unfixed 14/22, fixed 22/22. `JohtoGoldenrodArrival` gained a case: the Cut gift before Bugsy no
+longer counts as past Ilex Forest, so that arrival lands at New Bark, not at Goldenrod north of a
+tree the player cannot cut (unfixed 12/13, fixed 13/13).

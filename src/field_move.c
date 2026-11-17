@@ -11,22 +11,45 @@
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 
+// The badge (0..7 in the region's gym order) that lets each HM work outside battle, as each
+// region's own leaders and HM givers say: FireRed for Kanto, Emerald for Hoenn, and pokemonHnS for
+// Johto (Zephyr: Flash and Rock Smash, Hive: Cut, Plain: Strength, Fog: Surf, Storm: Fly). Johto
+// Surf comes at the Fog Badge because Cianwood, the 5th gym, is reachable only by sea.
+static const u8 sFieldMoveBadges[][FIELD_MOVE_WATERFALL + 1] =
+{
+    [REGION_KANTO] = {
+        [FIELD_MOVE_CUT] = 1, [FIELD_MOVE_FLASH] = 0, [FIELD_MOVE_ROCK_SMASH] = 5, [FIELD_MOVE_STRENGTH] = 3,
+        [FIELD_MOVE_SURF] = 4, [FIELD_MOVE_FLY] = 2, [FIELD_MOVE_DIVE] = 6, [FIELD_MOVE_WATERFALL] = 6,
+    },
+    [REGION_JOHTO] = {
+        [FIELD_MOVE_CUT] = 1, [FIELD_MOVE_FLASH] = 0, [FIELD_MOVE_ROCK_SMASH] = 0, [FIELD_MOVE_STRENGTH] = 2,
+        [FIELD_MOVE_SURF] = 3, [FIELD_MOVE_FLY] = 4, [FIELD_MOVE_DIVE] = 6, [FIELD_MOVE_WATERFALL] = 7,
+    },
+    [REGION_HOENN] = {
+        [FIELD_MOVE_CUT] = 0, [FIELD_MOVE_FLASH] = 1, [FIELD_MOVE_ROCK_SMASH] = 2, [FIELD_MOVE_STRENGTH] = 3,
+        [FIELD_MOVE_SURF] = 4, [FIELD_MOVE_FLY] = 5, [FIELD_MOVE_DIVE] = 6, [FIELD_MOVE_WATERFALL] = 7,
+    },
+};
+
+bool32 HasFieldMoveBadge(enum Region region, enum FieldMove fieldMove)
+{
+    if (region != REGION_KANTO && region != REGION_JOHTO)
+        region = REGION_HOENN;
+    return HasBadge(region, sFieldMoveBadges[region][fieldMove]);
+}
+
 static bool32 IsFieldMoveUnlocked_Cut(void)
 {
 #if QOL_FIELD_MOVES_ITEM_GATE
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_CUT].toolItemId, 1))
         return TRUE;
 #endif
-    {
-        enum Region region = GetCurrentRegion();
-        return HasBadge(region, region == REGION_KANTO ? 1 : 0); // Kanto Cascade / else 1st gym
-    }
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_CUT);
 }
 
 static bool32 IsFieldMoveUnlocked_Flash(void)
 {
-    enum Region region = GetCurrentRegion();
-    return HasBadge(region, region == REGION_KANTO ? 0 : 1); // Kanto Boulder / else 2nd gym
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_FLASH);
 }
 
 static bool32 IsFieldMoveUnlocked_RockSmash(void)
@@ -35,10 +58,7 @@ static bool32 IsFieldMoveUnlocked_RockSmash(void)
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_ROCK_SMASH].toolItemId, 1))
         return TRUE;
 #endif
-    {
-        enum Region region = GetCurrentRegion();
-        return HasBadge(region, region == REGION_KANTO ? 5 : 2); // Kanto Marsh / else 3rd gym
-    }
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_ROCK_SMASH);
 }
 
 static bool32 IsFieldMoveUnlocked_Strength(void)
@@ -47,7 +67,7 @@ static bool32 IsFieldMoveUnlocked_Strength(void)
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_STRENGTH].toolItemId, 1))
         return TRUE;
 #endif
-    return HasCurrentRegionBadge(3); // 4th gym in every region
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_STRENGTH);
 }
 
 static bool32 IsFieldMoveUnlocked_Surf(void)
@@ -56,19 +76,12 @@ static bool32 IsFieldMoveUnlocked_Surf(void)
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_SURF].toolItemId, 1))
         return TRUE;
 #endif
-    {
-        // Johto Surf unlocks at the Fog Badge (Morty, 4th gym / idx 3): Cianwood (5th gym, Storm)
-        // is reachable ONLY by surfing Route 40/41, so gating Surf on the 5th badge would
-        // hard-softlock the campaign. Kanto (Soul) and Hoenn (Balance) keep the 5th-gym mapping.
-        enum Region region = GetCurrentRegion();
-        return HasBadge(region, region == REGION_JOHTO ? 3 : 4);
-    }
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_SURF);
 }
 
 static bool32 IsFieldMoveUnlocked_Fly(void)
 {
-    enum Region region = GetCurrentRegion();
-    return HasBadge(region, region == REGION_KANTO ? 2 : 5); // Kanto Thunder / else 6th gym
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_FLY);
 }
 
 static bool32 IsFieldMoveUnlocked_Dive(void)
@@ -77,7 +90,7 @@ static bool32 IsFieldMoveUnlocked_Dive(void)
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_DIVE].toolItemId, 1))
         return TRUE;
 #endif
-    return HasCurrentRegionBadge(6); // 7th gym (Hoenn Mind Badge); Kanto/Johto unused but consistent
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_DIVE);
 }
 
 static bool32 IsFieldMoveUnlocked_Waterfall(void)
@@ -86,10 +99,7 @@ static bool32 IsFieldMoveUnlocked_Waterfall(void)
     if (CheckBagHasItem(gFieldMoveInfo[FIELD_MOVE_WATERFALL].toolItemId, 1))
         return TRUE;
 #endif
-    {
-        enum Region region = GetCurrentRegion();
-        return HasBadge(region, region == REGION_KANTO ? 6 : 7); // Kanto Volcano / else 8th gym
-    }
+    return HasFieldMoveBadge(GetCurrentRegion(), FIELD_MOVE_WATERFALL);
 }
 
 static bool32 IsFieldMoveUnlocked_RockClimb(void)

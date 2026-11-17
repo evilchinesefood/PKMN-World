@@ -560,7 +560,7 @@ local function setup()
   F.w16(F.sb2() + S.SaveBlock2.optionsU16, (F.r16(F.sb2() + S.SaveBlock2.optionsU16) & ~7) | 3)
   -- Openings and first badges in all three regions (as GateRecallStress), then each region's Fly
   -- badge and one more visited town for the Fly map.
-  for _, id in ipairs({ 0xDCF, 0x51, 0xA4B, 0x63F8, 0x94F, 0x95F, 0xA4D, 0x63FD, 0x954, 0x948,
+  for _, id in ipairs({ 0xDCF, 0x51, 0xA4B, 0x63F8, 0x94F, 0x95F, 0xA4D, 0x63FC, 0x63FD, 0x954, 0x948,
                         0xD40, 0xD45, 0x6088, 0x60EA, 0x957, 0x95C, 0xA4A }) do flag(id, true) end
   F.w8(F.sb2() + S.SaveBlock2.introDoneBits, 7)
   -- Frontier already visited once, so Scott's first-visit scene does not take the arrival.

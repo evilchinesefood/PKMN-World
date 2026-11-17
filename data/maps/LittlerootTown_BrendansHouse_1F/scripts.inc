@@ -47,7 +47,7 @@ LittlerootTown_BrendansHouse_1F_EventScript_MoveMomToDoor::
 	return
 
 @ Many of the below scripts have no gender check because they assume youre in the correct house
-@ The SS Ticket scene keys on the player's own house state, which the Hall of Fame sets for the player's gender
+@ The SS Ticket scene keys on the player's own house state, which Mom's call in Littleroot sets to 3
 LittlerootTown_BrendansHouse_1F_OnFrame:
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 3, LittlerootTown_BrendansHouse_1F_EventScript_EnterHouseMovingIn
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 5, LittlerootTown_BrendansHouse_1F_EventScript_GoUpstairsToSetClock

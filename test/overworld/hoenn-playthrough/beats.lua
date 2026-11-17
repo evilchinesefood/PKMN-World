@@ -1086,7 +1086,8 @@ return function(F, N, C, log)
       .. ' game clear=' .. tostring(FL('FLAG_SYS_GAME_CLEAR')))
   end, function() return FL('FLAG_HOENN_CHAMPION') and F.ow() and at('LittlerootTown_ProfessorBirchsLab') end, LEAGUE_LOSS)
 
-  -- Back under control in the lab: walk home (the 1F ON_FRAME gives the S.S. Ticket at the door).
+  -- Back under control in the lab: walk home. Mom calls from the door on the way out of the lab,
+  -- and the 1F ON_FRAME gives the S.S. Ticket at the door.
   beat('home', function()
     segDMoves()
     local x0, y0 = F.pos()

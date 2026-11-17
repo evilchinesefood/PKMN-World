@@ -599,7 +599,7 @@ PlayersHouse_1F_EventScript_PlayerEnterBesideMomFemale::
 	return
 
 @ Until the scene runs, Norman waits in the player's house only. Called from each 1F's
-@ ON_TRANSITION, which knows whose house it is from which house state the Hall of Fame armed.
+@ ON_TRANSITION, which knows whose house it is from which house state is armed.
 PlayersHouse_1F_EventScript_ShowDad::
 	clearflag FLAG_HIDE_PLAYERS_HOUSE_DAD
 	return

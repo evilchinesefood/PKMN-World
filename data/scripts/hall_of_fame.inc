@@ -43,15 +43,16 @@ EverGrandeCity_HallOfFame_EventScript_ShowStevensHouseBeldum::
 	return
 
 @ Continue leaves the champion outside, so the rival's house can be entered first. Arm the scene
-@ in the player's own house only; its ON_TRANSITION shows Norman there.
+@ in the player's own house only. State 6 has Mom call them home from Littleroot, which moves it to
+@ 3; the 1F's ON_TRANSITION then shows Norman there.
 EverGrandeCity_HallOfFame_EventScript_ReadyReceiveSSTicketEvent::
 	checkplayergender
 	goto_if_eq VAR_RESULT, FEMALE, EverGrandeCity_HallOfFame_EventScript_ReadyReceiveSSTicketEventFemale
-	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 3
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 6
 	return
 
 EverGrandeCity_HallOfFame_EventScript_ReadyReceiveSSTicketEventFemale::
-	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 3
+	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 6
 	return
 
 EverGrandeCity_HallOfFame_EventScript_ReadyDexUpgradeEvent::

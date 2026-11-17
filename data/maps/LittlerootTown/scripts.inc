@@ -23,9 +23,10 @@ LittlerootTown_MapScripts::
 	@                    and VAR_LITTLEROOT_HOUSES_STATE_BRENDAN
 	@ 1: On Truck (and is corresponding gender)
 	@ 2: Met Rival's Mom (and is corresponding gender)
-	@ 3: Entered Hall of Fame
+	@ 3: Dad is waiting in the 1F with the SS Ticket (Mom called the player home)
 	@ 4: Completed Lati TV / SS Ticket event
 	@ 5: Exited house after above event
+	@ 6: Entered Hall of Fame (Mom calls the player home, then 3)
 
 	@ State descriptions for VAR_LITTLEROOT_RIVAL_STATE
 	@ 1: Never occurs
@@ -106,6 +107,8 @@ LittlerootTown_OnFrame:
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 1, LittlerootTown_EventScript_StepOffTruckMale
 	map_script_2 VAR_LITTLEROOT_INTRO_STATE, 2, LittlerootTown_EventScript_StepOffTruckFemale
 	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_BeginDexUpgradeScene
+	map_script_2 VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 6, LittlerootTown_EventScript_MomCallsBrendanHome
+	map_script_2 VAR_LITTLEROOT_HOUSES_STATE_MAY, 6, LittlerootTown_EventScript_MomCallsMayHome
 	map_script_2 VAR_REGION_ARRIVAL, 1, LittlerootTown_EventScript_HoennArrival
 	.2byte 0
 
@@ -239,6 +242,159 @@ LittlerootTown_EventScript_BeginDexUpgradeScene::
 	waitstate
 	releaseall
 	end
+
+@ The Hall of Fame leaves the champion outside with the SS Ticket waiting in the 1F, and nothing out
+@ here says so. The first time they have control in town (out of Birch's lab, or on the doorstep
+@ after a later Hall of Fame), Mom calls them home from their own door. State 3 shows Norman in the
+@ 1F and starts the ticket scene when they walk in.
+LittlerootTown_EventScript_MomCallsBrendanHome::
+	lockall
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 3
+	call LittlerootTown_EventScript_SetHomeDoorCoordsMale
+	goto LittlerootTown_EventScript_MomCallsPlayerHome
+	end
+
+LittlerootTown_EventScript_MomCallsMayHome::
+	lockall
+	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 3
+	call LittlerootTown_EventScript_SetHomeDoorCoordsFemale
+	goto LittlerootTown_EventScript_MomCallsPlayerHome
+	end
+
+LittlerootTown_EventScript_MomCallsPlayerHome::
+	setobjectxyperm LOCALID_LITTLEROOT_MOM, VAR_0x8009, VAR_0x800A
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_ne VAR_0x8004, VAR_0x8009, LittlerootTown_EventScript_MomCallsFromAcrossTown
+	goto_if_ne VAR_0x8005, 9, LittlerootTown_EventScript_MomCallsFromAcrossTown
+	opendoor VAR_0x8009, VAR_0x800A
+	waitdooranim
+	addobject LOCALID_LITTLEROOT_MOM
+	applymovement LOCALID_LITTLEROOT_MOM, Common_Movement_FaceDown
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	msgbox LittlerootTown_Text_DadIsHome, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_LITTLEROOT_MOM, LittlerootTown_Movement_MomStepBackInside
+	waitmovement 0
+	removeobject LOCALID_LITTLEROOT_MOM
+	closedoor VAR_0x8009, VAR_0x800A
+	waitdooranim
+	releaseall
+	end
+
+@ The player is out of sight of the door (leaving the lab), so the camera goes to Mom.
+LittlerootTown_EventScript_MomCallsFromAcrossTown::
+	special SpawnCameraObject
+	call_if_eq VAR_0x8009, 5, LittlerootTown_EventScript_PanToBrendansDoor
+	call_if_eq VAR_0x8009, 14, LittlerootTown_EventScript_PanToMaysDoor
+	opendoor VAR_0x8009, VAR_0x800A
+	waitdooranim
+	addobject LOCALID_LITTLEROOT_MOM
+	applymovement LOCALID_LITTLEROOT_MOM, LittlerootTown_Movement_MomExitHouse
+	waitmovement 0
+	closedoor VAR_0x8009, VAR_0x800A
+	waitdooranim
+	msgbox LittlerootTown_Text_DadIsHome, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_LITTLEROOT_MOM, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	opendoor VAR_0x8009, VAR_0x800A
+	waitdooranim
+	applymovement LOCALID_LITTLEROOT_MOM, LittlerootTown_Movement_MomEnterHouse
+	waitmovement 0
+	removeobject LOCALID_LITTLEROOT_MOM
+	closedoor VAR_0x8009, VAR_0x800A
+	waitdooranim
+	call_if_eq VAR_0x8009, 5, LittlerootTown_EventScript_PanBackFromBrendansDoor
+	call_if_eq VAR_0x8009, 14, LittlerootTown_EventScript_PanBackFromMaysDoor
+	special RemoveCameraObject
+	releaseall
+	end
+
+LittlerootTown_EventScript_PanToBrendansDoor::
+	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanToBrendansDoor
+	waitmovement 0
+	return
+
+LittlerootTown_EventScript_PanToMaysDoor::
+	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanToMaysDoor
+	waitmovement 0
+	return
+
+LittlerootTown_EventScript_PanBackFromBrendansDoor::
+	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanBackFromBrendansDoor
+	waitmovement 0
+	return
+
+LittlerootTown_EventScript_PanBackFromMaysDoor::
+	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanBackFromMaysDoor
+	waitmovement 0
+	return
+
+LittlerootTown_Movement_MomStepBackInside:
+	face_up
+	delay_8
+	set_invisible
+	step_end
+
+@ From the lab's door (7,17) to below the player's house, and back.
+LittlerootTown_Movement_PanToBrendansDoor:
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+LittlerootTown_Movement_PanBackFromBrendansDoor:
+	walk_fast_right
+	walk_fast_right
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+LittlerootTown_Movement_PanToMaysDoor:
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	step_end
+
+LittlerootTown_Movement_PanBackFromMaysDoor:
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
 
 LittlerootTown_OnWarp:
 	map_script_2 VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 1, LittlerootTown_EventScript_SetRivalBirchPosForDexUpgrade
@@ -936,6 +1092,11 @@ LittlerootTown_Text_OurNewHomeLetsGoInside:
 	.string "an easy place to live, don't you think?\p"
 	.string "And, you get your own room, {PLAYER}!\n"
 	.string "Let's go inside.$"
+
+LittlerootTown_Text_DadIsHome:
+	.string "MOM: {PLAYER}! Welcome home, honey!\p"
+	.string "Your DAD came home to see you.\n"
+	.string "He's waiting inside. Come on in!$"
 
 LittlerootTown_Text_WaitPlayer:
 	.string "MOM: Wait, {PLAYER}!$"

@@ -3221,3 +3221,18 @@ Bugsy, Camper Liam and Brock, faces them and presses A, then reads BG palette ba
 authored palette in ROM: the Leader stadium palette for each Leader, the Gym building palette for
 Liam as the control. Liam goes before Brock because beating Brock marks him beaten.
 **Discrimination:** unfixed 17/18 (Brock's field is `BuildingGym`), fixed 18/18.
+### `RelearnerPaymentRegions.lua`
+
+The Johto and Kanto move relearners charged for the wrong lessons. Blackthorn's relearner (one Heart
+Scale) and the Two Island Move Maniac (two Tiny Mushrooms or a Big Mushroom) came from decomps whose
+relearner zeroed `VAR_0x8004` on a give-up and put the number of relearnable moves in `VAR_0x8005`.
+This build's relearner reports the lesson in `VAR_RESULT`, leaves `VAR_0x8004` as the chosen party slot
+and sets `VAR_0x8005` nowhere. Giving up on any Pokemon but the first took the payment, a lesson for
+the first Pokemon was free and reopened the chooser, and a Pokemon with nothing to relearn opened an
+empty list that charged on the way out. Both scripts now set the level-up list, ask
+`Special_HasMoveToRelearn` and branch on `VAR_RESULT`, as Fallarbor's does; `ValidateConfigRules.py`
+fails on any script that tests `VAR_0x8004` after `TeachMoveRelearnerMove` or `VAR_0x8005` after
+`ChooseMonForMoveRelearner`. With real input in each house (two Charizard knowing three moves and a
+level 5 Magikarp) the suite gives up from the second Charizard's list, picks the Magikarp, then
+teaches the first Charizard a move. **Discrimination:** unfixed 13/25 (the give-up and the Magikarp
+each took a payment, the lesson was free in Blackthorn and unaffordable in Two Island), fixed 25/25.

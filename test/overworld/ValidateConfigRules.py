@@ -380,6 +380,25 @@ def check_one_time_tutor(ctx):
     return out
 
 
+def check_relearner_result_vars(ctx):
+    """A move relearner script must read the lesson's result from VAR_RESULT.
+
+    Emerald and FRLG zeroed VAR_0x8004 on a give-up and set VAR_0x8005 to the number of relearnable
+    moves when a POKeMON was chosen. This build's relearner leaves VAR_0x8004 as the chosen slot,
+    reports the lesson in VAR_RESULT and sets VAR_0x8005 nowhere, so a script testing those took the
+    payment on a give-up, taught the first slot for free and opened an empty list.
+    """
+    out = []
+    for name, lab in ctx.corpus.labels.items():
+        body = "\n".join(re.split(r"@|//", ln)[0] for ln in lab.raw.split("\n") if ".string" not in ln)
+        for special, var in (("TeachMoveRelearnerMove", "VAR_0x8004"), ("ChooseMonForMoveRelearner", "VAR_0x8005")):
+            m = re.search(r"^\s*special\s+" + special + r"\b", body, re.M)
+            if m and re.search(r"^\s*goto_if_\w+\s+" + var + r"\b", body[m.end():], re.M):
+                out.append(Finding("relearner result variable", f"{lab.path}:{name}",
+                                   f"tests {var} after {special}; the relearner reports in VAR_RESULT"))
+    return out
+
+
 def obedience_table():
     src = read("src/battle_util.c")
     body = src[src.index("GetAttackerObedienceForAction(void)"):]
@@ -496,6 +515,10 @@ RULES = [
     Rule("one-time move tutor", "move tutor policy", lambda c: True,
          "every move tutor in every region teaches again", "Emerald, FRLG and HGSS tutors taught once and warned so",
          check_one_time_tutor),
+    Rule("relearner result variable", "move relearner in src/move_relearner.c", lambda c: True,
+         "the relearner reports a lesson in VAR_RESULT and leaves VAR_0x8004 as the chosen slot",
+         "Emerald and FRLG zeroed VAR_0x8004 on a give-up and counted relearnable moves in VAR_0x8005",
+         check_relearner_result_vars),
     Rule("sellable item taken without checkitem", "I_KEY_FOSSILS", lambda c: c.value("I_KEY_FOSSILS") >= GENS["GEN_4"],
          "fossils are Items-pocket goods a mart buys", "fossils are Key Items that never leave the bag",
          check_sellable_removed_unchecked),

@@ -129,12 +129,14 @@ BlackthornCity_MoveRelearnersHouse_EventScript_AskTeachMove::
 
 BlackthornCity_MoveRelearnersHouse_EventScript_ChooseMon::
 	msgbox BlackthornCity_MoveRelearnersHouse_Text_TutorWhichMon, MSGBOX_DEFAULT
+	setmoverelearnerstate MOVE_RELEARNER_LEVEL_UP_MOVES
 	special ChooseMonForMoveRelearner
 	waitstate
 	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, BlackthornCity_MoveRelearnersHouse_EventScript_ComeBackWithHeartScale
 	special IsSelectedMonEgg
 	goto_if_eq VAR_RESULT, TRUE, BlackthornCity_MoveRelearnersHouse_EventScript_CantTeachEgg
-	goto_if_eq VAR_0x8005, 0, BlackthornCity_MoveRelearnersHouse_EventScript_NoMoveToTeachMon
+	special Special_HasMoveToRelearn
+	goto_if_eq VAR_RESULT, FALSE, BlackthornCity_MoveRelearnersHouse_EventScript_NoMoveToTeachMon
 	goto BlackthornCity_MoveRelearnersHouse_EventScript_ChooseMove
 	end
 
@@ -142,7 +144,7 @@ BlackthornCity_MoveRelearnersHouse_EventScript_ChooseMove::
 	msgbox BlackthornCity_MoveRelearnersHouse_Text_TeachWhichMove, MSGBOX_DEFAULT
 	special TeachMoveRelearnerMove
 	waitstate
-	goto_if_eq VAR_0x8004, 0, BlackthornCity_MoveRelearnersHouse_EventScript_ChooseMon
+	goto_if_eq VAR_RESULT, FALSE, BlackthornCity_MoveRelearnersHouse_EventScript_ChooseMon
 	msgbox BlackthornCity_MoveRelearnersHouse_Text_HandedOverHeartScale, MSGBOX_DEFAULT
 	removeitem ITEM_HEART_SCALE
 	goto BlackthornCity_MoveRelearnersHouse_EventScript_ComeBackWithHeartScale

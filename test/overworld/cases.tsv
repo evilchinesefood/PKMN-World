@@ -277,3 +277,4 @@ MasterRankMuseum	lua/MasterRankMuseum.lua	fresh	0	manual
 RelearnerFanfareMusic	lua/RelearnerFanfareMusic.lua	fresh	0	required
 FanfareResetTasksMusic	lua/FanfareResetTasksMusic.lua	fresh	0	required
 BattleBgFloors	lua/BattleBgFloors.lua	fresh	0	required
+RelearnerPaymentRegions	lua/RelearnerPaymentRegions.lua	fresh	0	required

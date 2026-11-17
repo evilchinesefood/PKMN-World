@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle_pyramid.h"
 #include "bg.h"
+#include "event_object_movement.h"
 #include "fieldmap.h"
 #include "regional_travel.h"
 #include "fldeff.h"
@@ -456,6 +457,8 @@ void MapGridSetMetatileIdAt(s32 x, s32 y, u16 metatile)
         // Elevation is ignored in the argument, but copy metatile ID and collision
         gBackupMapLayout.map[x + y * gBackupMapLayout.width] &= MAPGRID_ELEVATION_MASK;
         gBackupMapLayout.map[x + y * gBackupMapLayout.width] |= metatile & ~MAPGRID_ELEVATION_MASK;
+        if (metatile & MAPGRID_COLLISION_MASK)
+            ReturnFollowerFromSolidTile(x, y);
     }
 }
 
@@ -464,6 +467,8 @@ void MapGridSetMetatileEntryAt(s32 x, s32 y, u16 metatile)
     if (AreCoordsWithinMapGridBounds(x, y))
     {
         gBackupMapLayout.map[x + gBackupMapLayout.width * y] = metatile;
+        if (metatile & MAPGRID_COLLISION_MASK)
+            ReturnFollowerFromSolidTile(x, y);
     }
 }
 
@@ -926,7 +931,10 @@ void MapGridSetMetatileImpassabilityAt(s32 x, s32 y, bool32 impassable)
     if (AreCoordsWithinMapGridBounds(x, y))
     {
         if (impassable)
+        {
             gBackupMapLayout.map[x + gBackupMapLayout.width * y] |= MAPGRID_COLLISION_MASK;
+            ReturnFollowerFromSolidTile(x, y);
+        }
         else
             gBackupMapLayout.map[x + gBackupMapLayout.width * y] &= ~MAPGRID_COLLISION_MASK;
     }

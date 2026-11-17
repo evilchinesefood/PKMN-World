@@ -149,6 +149,7 @@ is clean; keep it that way.
 | [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
 | [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
 | [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
+| [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3471,8 +3472,8 @@ checks: the game keeps running (play time advances), the player object sits on t
 passable block, and a shown follower stands next to the player on a passable block. It found the
 spin-tile follower freeze (`SpinTileFollowerMenu`, #645): master `d3b55bb` scores **26/27** (the
 game frozen in Viridian Gym) and the battery stops there; with the fix it scores **82/82**. It also
-notes, without failing, a follower left standing in a Mauville Gym barrier that a switch turned on
-behind the player (cosmetic; the follower walks out on the next step). Manual because the noise makes the route a function of every frame count, so any
+found a follower left standing in a Mauville Gym barrier that a switch turned on behind the player
+(`MauvilleGymFollowerBarrier`); that case now fails like any other walled follower. Manual because the noise makes the route a function of every frame count, so any
 build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
 `PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
 one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.
@@ -3597,3 +3598,16 @@ A on the ball must print the bag-full line, give control back and leave the ball
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.
+### `MauvilleGymFollowerBarrier.lua`
+
+A Mauville Gym switch turns electric barriers on, and stepping onto switch 2 from a tile one of them
+covers left the following Pokemon standing on that tile, drawn inside the beam, until the next step.
+Any metatile write that makes a tile solid now goes through `ReturnFollowerFromSolidTile`
+(`fieldmap.c` setters): if a shown follower stands there in the live field, it plays its Poke Ball
+return and comes back out behind the player on the next step. With a Pikachu following and the gym
+trainers' flags set, the suite walks in from a fresh Hoenn state and presses switch 2 from (3,12)
+(the red vertical beam), then switch 1 to restore the barriers, then switch 2 from (4,11) (the red
+horizontal beam). After each press the barrier must be on over the approach tile, the follower must
+not be shown on a solid tile, and one step later it must be back next to the player on a passable
+tile. Unfixed master `5ff5cf7` scores **20/22** (both "not shown inside the barrier" checks fail);
+the fix scores **22/22**.

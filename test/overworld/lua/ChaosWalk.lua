@@ -10,8 +10,8 @@
 -- mouths with menus, the bike and the flight toggling over the fades. After every map change,
 -- walk and landing it waits for the field and checks: no crash screen, the game keeps running
 -- (play time advances), the player object sits on the saved tile and on a passable block, and a
--- shown follower stands next to the player on a passable block (a follower on a tile a script
--- changed is noted, not failed). Battles the walk starts are ended by the mash (foes at 1 HP).
+-- shown follower stands next to the player on a passable block. Battles the walk starts are ended
+-- by the mash (foes at 1 HP).
 --
 -- PW_CHAOS_ONLY=<text> runs matching locations, PW_CHAOS_BASE=<n> reseeds, PW_CHAOS_HOPS=<n> sets
 -- the transitions per location (default 8) and PW_CHAOS_FRAMES=<n> its frame budget (12000).
@@ -160,13 +160,6 @@ local function blockAt(x, y)
   return F.r16(p + 2 * ((x + 7) + (y + 7) * w))
 end
 local function passable(x, y) local b = blockAt(x, y); return b >= 0 and ((b >> 10) & 3) == 0 end
--- The block the map's layout data had at (x,y), before any setmetatile changed it.
-local function layoutBlockAt(x, y)
-  local layout = F.r32(S.gMapHeader)
-  local w, h, map = F.r32(layout), F.r32(layout + 4), F.r32(layout + 12)
-  if x < 0 or y < 0 or x >= w or y >= h then return -1 end
-  return F.r16(map + 2 * (x + y * w))
-end
 local function flying() return F.r8(S.sFlightActive) ~= 0 end
 
 local function warps()
@@ -260,14 +253,6 @@ local function settleAndCheck(tag)
     local fb = blockAt(fx, fy)
     local dist = math.abs(fx - x) + math.abs(fy - y)
     local walled = ((fb >> 10) & 3) ~= 0 and dist ~= 0
-    if walled and dist <= 1 and (layoutBlockAt(fx, fy) & 0x3FF) ~= (fb & 0x3FF) then
-      -- A script changed the tile under the follower (a Mauville Gym barrier switched on behind
-      -- the player). Cosmetic, and the follower walks out on the next step; note it only.
-      F.L(string.format("  note: follower on a tile changed at runtime (%d,%d) block=%04X layout=%04X",
-        fx, fy, fb, layoutBlockAt(fx, fy)))
-      F.shot(tag .. "_follower_runtime_tile")
-      walled = false
-    end
     if dist > 1 or walled then
       issues = issues + 1
       F.shot(tag .. "_follower")

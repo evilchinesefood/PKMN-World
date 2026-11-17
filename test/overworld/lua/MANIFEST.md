@@ -3597,3 +3597,22 @@ A on the ball must print the bag-full line, give control back and leave the ball
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.
+
+### `BattleBgFrostGrass.lua`
+
+Wild battles in snowy Mt. Silver's frosty grass drew the ordinary green grass background. The map
+(`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but `ResolveBattlePresentation`
+(`src/battle_presentation.c`) restyled only its plain ground (rock art, `rock/mt_silver_snow.pal`)
+and left `BATTLE_ENVIRONMENT_GRASS` on the green palette. The map-specific looks are now one table,
+`sMapBattlePresentations`, and frosty grass draws the same grass art in
+`tall_grass/mt_silver_snow.pal`, derived from the five colors the frosty grass metatiles use
+(`palette-sources.json`). `ValidateBattleScenes.py` now rebuilds every palette in
+`palette-sources.json` from its recipe and fails when a map's grass tiles are drawn frosty without a
+grass row, or a grass row restyles green grass; only `MAP_MT_SILVER_SNOW` has frosty grass. With real
+input the suite walks into wild battles in the frosty grass at noon and 22:00, in Route 101's grass
+at both hours (control) and in Ice Path (the cave look the owner kept). At the first action menu the
+palette the presentation names must equal the authored `.pal` file read from the repository, and BG
+palette banks 2-4 must equal it after the presentation's own time tint, recomputed with
+`TimeMixPalettes`' arithmetic (identity by noon, tinted at night). `FROST_CASE=<text>` runs matching
+cases. **Discrimination:** unfixed 41/46 (both frosty grass battles drew `tall_grass/palette.pal`),
+fixed 46/46.

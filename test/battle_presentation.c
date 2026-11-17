@@ -36,24 +36,27 @@ TEST("Battle presentation: all Ice Path floors reuse complete cave art with cold
     EXPECT_EQ(result.tintWithTime, FALSE);
 }
 
-TEST("Battle presentation: snow changes only ordinary land and pairs rock art with its entry slide")
+TEST("Battle presentation: snowy Mt. Silver restyles its land as rock and its frosty grass, nothing else")
 {
-    u16 environment, map;
-    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_PLAIN; map = MAP_MT_SILVER_SNOW; }
-    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_MOUNTAIN; map = MAP_MT_SILVER_SNOW; }
-    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_MOUNTAIN; map = MAP_MT_SILVER_SUMMIT_DAY; }
-    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_GRASS; map = MAP_MT_SILVER_SNOW; }
-    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_POND; map = MAP_MT_SILVER_SNOW; }
-    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_WATER; map = MAP_MT_SILVER_SUMMIT_DAY; }
+    u16 environment, map, visual;
+    bool32 restyled;
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_PLAIN; map = MAP_MT_SILVER_SNOW; visual = BATTLE_ENVIRONMENT_MOUNTAIN; restyled = TRUE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_MOUNTAIN; map = MAP_MT_SILVER_SNOW; visual = BATTLE_ENVIRONMENT_MOUNTAIN; restyled = TRUE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_MOUNTAIN; map = MAP_MT_SILVER_SUMMIT_DAY; visual = BATTLE_ENVIRONMENT_MOUNTAIN; restyled = TRUE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_GRASS; map = MAP_MT_SILVER_SNOW; visual = BATTLE_ENVIRONMENT_GRASS; restyled = TRUE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_GRASS; map = MAP_MT_SILVER_SUMMIT_DAY; visual = BATTLE_ENVIRONMENT_GRASS; restyled = FALSE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_GRASS; map = MAP_ROUTE101; visual = BATTLE_ENVIRONMENT_GRASS; restyled = FALSE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_LONG_GRASS; map = MAP_MT_SILVER_SNOW; visual = BATTLE_ENVIRONMENT_LONG_GRASS; restyled = FALSE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_POND; map = MAP_MT_SILVER_SNOW; visual = BATTLE_ENVIRONMENT_POND; restyled = FALSE; }
+    PARAMETRIZE { environment = BATTLE_ENVIRONMENT_WATER; map = MAP_MT_SILVER_SUMMIT_DAY; visual = BATTLE_ENVIRONMENT_WATER; restyled = FALSE; }
     struct BattlePresentationContext input = Context(environment, map, MAP_TYPE_ROUTE);
     struct BattlePresentation result;
-    bool32 snow = environment == BATTLE_ENVIRONMENT_PLAIN || environment == BATTLE_ENVIRONMENT_MOUNTAIN;
-    u16 visual = snow ? BATTLE_ENVIRONMENT_MOUNTAIN : environment;
     ResolveBattlePresentation(&input, &result);
     EXPECT_EQ(result.background.tileset, gBattleEnvironmentInfo[visual].background.tileset);
     EXPECT_EQ(result.entry.tileset, gBattleEnvironmentInfo[visual].entry.tileset);
     EXPECT_EQ(result.introEnvironment, visual);
-    if (snow)
+    EXPECT_EQ(result.tintWithTime, TRUE);
+    if (restyled)
         EXPECT_NE(result.dayPalette, gBattleEnvironmentInfo[environment].palette);
     else
         EXPECT_EQ(result.dayPalette, gBattleEnvironmentInfo[environment].palette);

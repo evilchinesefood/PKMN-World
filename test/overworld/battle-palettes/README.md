@@ -4,8 +4,11 @@
 
 Ice Path reuses the cave artwork with colors from `cave_ice/palettes/08.pal`.
 Ordinary land battles on snowy Mt. Silver reuse rock artwork and its entrance,
-with colors from `mt_silver_snow/palettes/08.pal`. `palette-sources.json` records
-every derived color. No external graphics, map types or metatile behaviors change.
+with colors from `mt_silver_snow/palettes/08.pal`. Its frosty grass reuses the tall
+grass artwork with the five colors the frosty grass metatiles draw from that palette.
+`palette-sources.json` records every derived color, and `ValidateBattleScenes.py`
+rebuilds each palette from it (`--write` regenerates them). No external graphics,
+map types or metatile behaviors change.
 
 `ResolveBattlePresentation` chooses a complete visual bundle independently of
 `gBattleEnvironment`. Initial battle setup captures the existing overworld blend;

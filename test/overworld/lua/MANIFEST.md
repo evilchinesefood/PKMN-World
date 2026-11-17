@@ -149,6 +149,7 @@ is clean; keep it that way.
 | [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
 | [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
 | [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
+| [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3613,3 +3614,16 @@ copy in the bag and give control back. Text is read from `gStringVar4`. Measured
 unfixed ROM (all four refusals) and **38/38** fixed. `AuditDupKeyGifts.py` (host check) lists every
 key-class give with another source and fails on one that is not guarded, `givekeyitem`, an item
 ball, or allowlisted with a reason.
+
+### `CianwoodFlyGate.lua`
+
+Chuck's wife (Cianwood City) must follow her own HM02 state. One bag serves three regions, so HM02 can
+already be held from Hoenn or Kanto, and her repeat line was picked with `checkitem ITEM_HM_FLY`: a
+player who had not beaten Chuck heard "My husband lost to you". With HM02 seeded the way an HM gift
+leaves it (TM/HM pocket, one copy), the player walks up to the wandering NPC and talks with real
+input: before Chuck she must say the easier-to-fly and beat-the-leader lines and never the "lost to
+you" line; after Chuck's victory state is written in the city (badge 5, the gym flag, the badge count,
+`VAR_GETFLY` 1) she must offer the HM, say the `givekeyitem` already-have line and the Fly speech, and
+set `VAR_GETFLY` to 2 with one HM02 in the bag; then her repeat line. A control without HM02 runs the
+same three talks with a real give. Text is read from `gStringVar4`. Measured **32/40** on the unfixed
+ROM and **40/40** fixed.

@@ -3491,3 +3491,24 @@ three badges (STRENGTH turns on). Messages are read from `gStringVar4`. **Discri
 unfixed 14/22, fixed 22/22. `JohtoGoldenrodArrival` gained a case: the Cut gift before Bugsy no
 longer counts as past Ilex Forest, so that arrival lands at New Bark, not at Goldenrod north of a
 tree the player cannot cut (unfixed 12/13, fixed 13/13).
+### `RoamerContinue.lua`
+
+A roaming Latias across Save and Continue. Continue moves every roamer to a new location set
+(`UpdateMiscOverworldStates`, as in Emerald) but the save also restores the roamer's overworld
+object, so the Latias the player saved next to was still on screen while the roamer was elsewhere.
+Talking to it ran `StartWildBattleWithOWE`, whose roamer branch needs the roamer on this map, so it fell
+through to an ordinary wild battle: a fresh Latias at full HP, unparalysed and catchable, while the real
+one kept roaming. Walking into it took the other path, which removed the object. Both paths now call
+`MeetRoamerOWE` (`src/wild_encounter_ow.c`): the object the player meets is the roamer, so the roamer is
+brought to this map, and an object whose roamer no longer roams (or whose slot holds another species)
+leaves. Setup gives a level 100 Jolteon that knows only Nuzzle, runs the Lati TV special and beats
+Route 117's trainers by flag. With real input on Route 117 the suite meets the roamer in the grass
+(Nuzzle chips and paralyses it, then it flees), then: saves with the roamer pinned to Route 117,
+continues after a soft reset and meets it again; and twice (soft reset, power cut) saves with the
+overworld Latias in view, continues and talks to the restored Latias. Every meeting must be a roamer
+battle on the saved HP and paralysis, and Latias must keep roaming. The roamer's EWRAM map is pinned
+to Route 117 while seeking (its map is random and re-rolled on every map change), never after a
+Continue that is under test. **Discrimination:** unfixed 23/24 (the power-cut case talks to a fresh
+level 40 Latias, `gBattleTypeFlags` 0x4, full HP, no status), fixed 24/24. Whether the soft-reset case
+also fails on the unfixed build depends on where Continue sends the roamer. `PW_ROAM_ONLY=<text>` runs
+matching scenarios.

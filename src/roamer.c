@@ -523,6 +523,12 @@ void SetRoamerInactive(u32 roamerIndex)
     ROAMER(roamerIndex)->active = FALSE;
 }
 
+void SetRoamerLocation(u32 roamerIndex, u8 mapGroup, u8 mapNum)
+{
+    sRoamerLocation[roamerIndex][MAP_GRP] = mapGroup;
+    sRoamerLocation[roamerIndex][MAP_NUM] = mapNum;
+}
+
 void GetRoamerLocation(u32 roamerIndex, u8 *mapGroup, u8 *mapNum)
 {
     *mapGroup = sRoamerLocation[roamerIndex][MAP_GRP];

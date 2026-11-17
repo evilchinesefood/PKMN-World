@@ -3597,3 +3597,19 @@ A on the ball must print the bag-full line, give control back and leave the ball
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.
+
+### `DupKeyGiftScenes.lua`
+
+A key item the player already owns from another region must not break the scene that gives it.
+One bag serves all three regions and `IsDuplicateKeyClassItem` refuses a second copy, so
+`Std_ObtainItem` printed "But {PLAYER} already has one ..." in the middle of the speaker's lines
+(seen in a world campaign: Dad's S.S. TICKET after the Hoenn Hall of Fame, with Bill's ticket held).
+Four real scenes, each seeded the way the other region's give leaves the bag: Dad's ticket scene
+started on the real stairs from 2F (Lati TV color picked with A), the Mossdeep SUPER ROD fisherman
+with Kanto's rod, the Vermilion OLD ROD guru with a Hoenn or Johto rod, and the Rustboro Cutter's HM01
+(`givekeyitem`) with the S.S. Anne captain's HM01. Each must never show the refusal, must say the
+speaker's own already-have line, must play the rest of the scene, set the give's flags, leave one
+copy in the bag and give control back. Text is read from `gStringVar4`. Measured **30/38** on the
+unfixed ROM (all four refusals) and **38/38** fixed. `AuditDupKeyGifts.py` (host check) lists every
+key-class give with another source and fails on one that is not guarded, `givekeyitem`, an item
+ball, or allowlisted with a reason.

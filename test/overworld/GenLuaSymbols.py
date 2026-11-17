@@ -124,6 +124,10 @@ WANT = [
     # the hardware copy, but VBlank restores from faded, so the buffer is the
     # discriminating read.
     "gTimeBlend", "gPlttBufferFaded", "gPlttBufferUnfaded",
+    # BattleBgMoveAnims.lua compares the battlefield (BG3 scroll, palette banks 2-4, tilemap) before
+    # and after each move animation and logs the battle's environment, weather and terrain.
+    "gBattle_BG3_X", "gBattle_BG3_Y", "gAnimScriptActive", "gBattleEnvironment", "gBattleWeather",
+    "gFieldStatuses",
     # sHoursOverride is the debug time menu's lever (SetTimeOfDay, src/overworld.c:4110) and it
     # lives in EWRAM, NOT in the save. That is what makes it the only way to build the state issue
     # #56 item 3 needs: a save whose flags disagree with its own clock. Wind localTimeOffset (which

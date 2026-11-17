@@ -14,7 +14,9 @@
 -- Setup: debug gives two Lv. 5 Pokemon (obedient with no badges) and warps; wild battles start by
 -- walking on encounter tiles and trainer battles by talking. Each turn, before the move is chosen,
 -- the suite writes the move into the battler's four slots and makes both sides sturdy (No Guard,
--- 1 Atk, a Focus Sash on the foe) so the battle lasts; the move is then picked with real input.
+-- 1 Atk, a Focus Sash on the foe) so the battle lasts; the move is then picked with real input. The
+-- foe's four slots become Splash, so its turn can neither faint the player (Pineco's Bullet Seed is
+-- 4x on Marshtomp) nor confuse it into skipping the move (Tentacool's Supersonic).
 --
 -- Oracles, all against the battlefield read at the first action menu:
 --   * after every turn: BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every BG3 tile
@@ -22,7 +24,8 @@
 --   * the moves that fade to their own background did change it during the turn (the animation ran);
 --   * from the first battle frame to the action menu the battlefield takes one state, or the
 --     terrain set by overworld weather;
---   * after the battle the field's BG palette banks 0-12 equal those before it, and control returns.
+--   * after the battle the field's BG palette banks 0-12 equal those before it, both read between
+--     lightning bolts, and control returns.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/BattleBgMoveAnims.lua
 -- (BGS_CASE=name,name runs a subset of CASES).
@@ -37,11 +40,13 @@ local CONTEXT_SHUTDOWN = 2
 local BM = S.BattlePokemon
 local BM_DEFENSE, BM_SPEED, BM_SPDEF, BM_ABILITY, BM_TYPES, BM_LEVEL, BM_ITEM = 4, 6, 10, 32, 34, 44, 48
 local ABILITY_NONE, ABILITY_RUN_AWAY, ABILITY_NO_GUARD = 0, 50, 99
-local TYPE_FIRE, ITEM_FOCUS_SASH = 11, 481
+local TYPE_FIRE, ITEM_FOCUS_SASH, MOVE_SPLASH = 11, 481, 150
 local ACTION_RUN = 3
 local VRAM_BG3_TILES, VRAM_BG3_MAP, REG_BG3CNT = 0x06008000, 0x0600D000, 0x0400000E
 local FLAG_SYS_SAFARI_MODE = 0x948 + 0x2C
 local SPECIES_MARSHTOMP, SPECIES_COMBUSKEN = 259, 256
+-- struct Weather (include/field_weather.h): colorMapIndex, targetColorMapIndex, palProcessingState.
+local W_CMI, W_TARGET_CMI, W_PALSTATE, WEATHER_PAL_STATE_IDLE = 0x200, 0x201, 0x206, 3
 
 local MOVES = { PSYCHIC = 94, NIGHT_SHADE = 101, SURF = 57, EARTHQUAKE = 89, FISSURE = 90,
   SHADOW_BALL = 247, CRUNCH = 242, FEINT_ATTACK = 185, SKY_ATTACK = 143, RAIN_DANCE = 240,
@@ -161,6 +166,23 @@ end
 
 -- The field's tileset palettes (BG banks 0-12; 13-15 belong to message boxes and pop-ups).
 local function fieldPalette() return memory.readbyterange(S.gPlttBufferFaded, 13 * 32) end
+-- A thunderstorm's lightning (Thunderstorm_Main) applies colour map 19 while the target stays 3, and
+-- its cycle starts as soon as the map's weather is up, so the field is compared only between bolts.
+local function weatherSettled()
+  return F.r8(S.gWeather + W_PALSTATE) == WEATHER_PAL_STATE_IDLE
+    and F.rs8(S.gWeather + W_CMI) == F.rs8(S.gWeather + W_TARGET_CMI)
+end
+local function weatherState()
+  return string.format("colour map %d->%d, pal state %d", F.rs8(S.gWeather + W_CMI),
+    F.rs8(S.gWeather + W_TARGET_CMI), F.r8(S.gWeather + W_PALSTATE))
+end
+local function settleWeather()
+  for _ = 1, 900 do
+    if weatherSettled() then return true end
+    F.idle(1)
+  end
+  return false
+end
 
 local function prepMons(move, b)
   local p, o = S.gBattleMons + b * BM.size, S.gBattleMons + BM.size
@@ -175,6 +197,7 @@ local function prepMons(move, b)
     for i = 0, 2 do F.w8(foe + BM_TYPES + i, TYPE_FIRE) end
     F.w16(foe + BM_DEFENSE, 999); F.w16(foe + BM_SPDEF, 999)
     F.w16(foe + BM_ITEM, ITEM_FOCUS_SASH)
+    for i = 0, 3 do F.w16(foe + BM.moves + i * 2, MOVE_SPLASH); F.w8(foe + BM.pp + i, 20) end
     local hp, max = F.r16(foe + BM.hp), F.r16(foe + BM.maxHP)
     if hp ~= 0 and hp ~= max then F.w16(foe + BM.hp, max) end
   end
@@ -333,6 +356,7 @@ local function checkFieldReturn(tag, before, weatherFades)
   F.idle(30)
   -- Route 111's sandstorm coord events start a weather palette fade that the battle interrupts.
   if weatherFades then return end
+  if not F.check(tag .. ": the field's weather palette settles", settleWeather(), weatherState()) then return end
   local now = fieldPalette()
   F.check(tag .. ": the field's palettes are the ones it left", now == before, firstDiff(before, now, 2))
 end
@@ -346,11 +370,12 @@ local function wildCase(tag, c)
   if c.safari then sb1Flag(FLAG_SYS_SAFARI_MODE, true); F.w8(S.gNumSafariBalls, 30) end
   battleOptions()
   F.idle(60)
+  settleWeather()
   local before = fieldPalette()
   local started = false
   for i = 1, 800 do
     if inBattle() then started = true; break end
-    if hasControl() then before = fieldPalette() end
+    if hasControl() and weatherSettled() then before = fieldPalette() end
     F.step(c.dirs[(i % #c.dirs) + 1])
     if F.reportCrash(tag) then break end
   end

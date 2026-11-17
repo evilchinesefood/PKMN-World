@@ -3372,3 +3372,18 @@ Pokemon Tower 3F (the ghost) and talks to Flannery in the Lavaridge Gym. At the 
 checks the map's fog is up, then that `gFieldStatuses` holds no terrain, `gBattleWeather` no fog,
 and BG palette banks 2-4 equal the day palette the battle's captured presentation points at.
 **Discrimination:** unfixed 22/31 (`gFieldStatuses=0x80`, the Misty Terrain palette), fixed 31/31.
+### `SafariActionMenu.lua`
+
+Kanto's Safari battle menu offered POKeBLOCK and GO NEAR, then threw bait and a rock. The engine
+already plays FireRed's Safari in Kanto (`HandleAction_ThrowPokeblock` and `HandleAction_GoNear` in
+`src/battle_util.c` throw bait and a rock there, and `gText_SafariZoneMenuFrlg` names them), but the
+BW battle UI (#339) drew its action box from one Safari row in every region
+(`BattleUI_PopulateActionBox`, `src/bw_battle_ui.c`). Kanto now draws BALL, BAIT, ROCK, RUN. Johto
+keeps Emerald's POKeBLOCK and GO NEAR on purpose: pokemonHnS's Safari Zone gate lends a Pokeblock
+case and refuses entry without one. The suite gives one Pokemon, the Safari state `EnterSafariMode`
+leaves, and the Pokeblock case in Johto and Hoenn only. With real input it starts a wild battle in
+each zone, reads the action box's label tiles per choice, and picks the second and third choices.
+Kanto's second throws BAIT with no case opened and its third throws a ROCK; Johto's and Hoenn's
+second opens the Pokeblock case (B returns to the menu) and their third creeps closer. BALL and RUN
+match across regions, Johto's labels match Hoenn's, and Kanto's middle two differ.
+**Discrimination:** unfixed 27/29 (Kanto's middle labels are Hoenn's), fixed 29/29.

@@ -287,3 +287,4 @@ FrontEndSoftReset	lua/FrontEndSoftReset.lua	fresh	0	required
 MapPopupStress	lua/MapPopupStress.lua	fresh	0	required
 BattleBgMoveAnims	lua/BattleBgMoveAnims.lua	fresh	0	required
 OverworldFogBattle	lua/OverworldFogBattle.lua	fresh	0	required
+SafariActionMenu	lua/SafariActionMenu.lua	fresh	0	required

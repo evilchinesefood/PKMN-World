@@ -3209,3 +3209,17 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `FanfareInterruptStress.lua`
+
+Coverage for #627 across the interruptions a player can cause. In Fallarbor below the Pokemon Center
+door a script plays the 710-frame `MUS_AWAKEN_LEGEND` fanfare and ends without `waitfanfare`, and the
+suite interrupts it with real input: walking straight into the door, the lead's Summary from the party
+menu, the Bag, a Save from the Start menu, a three-page message mashed with A and B, a wild battle
+started and fled, a debug warp away and back, and (after a save) a soft reset that continues. After
+each one the player walks into the Center, whose music differs from the town's. Each case fails on a
+crash screen, a door that never loads the Center, a BGM still paused once the fanfare's length has
+passed, the town's song still playing, or the fanfare's music player (`gMPlayInfo_SE2`, now exported
+by `GenLuaSymbols.py`) still playing. `PW_FANFARE_ONLY=<text>` runs matching cases. Measured
+**58/58**. With #627's `src/sound.c` change reverted, the Summary case stuck at the door with BGM
+status `0x800001FF` and the run stopped at **11/15**.

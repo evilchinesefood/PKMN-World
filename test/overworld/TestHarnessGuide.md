@@ -62,10 +62,22 @@ Arguments are `<suite.lua> [rom.gba] [save.srm]`; the ROM defaults to the repo b
 ### Run the whole battery
 
 ```bash
-test/overworld/run-all.sh                 # ~1.5 minutes for the current 20-suite list
+test/overworld/run-all.sh
 ```
 
 Read [`lua/MANIFEST.md`](lua/MANIFEST.md) for the canonical required cases. A successful sweep requires every selected case to pass; optional personal-save coverage is separate.
+
+### Integration stress passes
+
+Use debug setup to reach the scene, then trigger the behavior under test with player inputs.
+For a regression, run the same suite against the original and fixed ROMs, each with its matching
+ELF. For input-mash failures, record the seed and scenario order so a timing change can be
+replayed. For visual changes, compare screenshots after the fade or weather transition settles.
+
+On the integrated build, run the full Lua battery, `make check`, the host validators
+(`python3 test/validate-host.py`), and both [world campaign orders](world-playthrough/README.md#post-game)
+with `--postgame`. Record the revision, ROM hash, check counts and campaign retries before
+clearing run output.
 
 ---
 

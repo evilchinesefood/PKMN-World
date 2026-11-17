@@ -118,3 +118,19 @@ Halls of Fame and every post-game detour. The first resume failed at `k_to_victo
 `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`
 is set in Elm's lab, so a Johto-first player may never get Birch's phone registration. That is from
 reading the scripts, and it was not checked in play.
+
+## Historical stress passes
+
+Each row records the final integration run for that pass. World columns count campaign checks
+passed in each order. The Lua sweep and host columns count passing suites and validators.
+All four battle-test runs recorded zero failures.
+
+| Pass | Landing PR | World A | World B | Lua sweep | Host | Battle tests passed |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 4 | [#525](https://github.com/evilchinesefood/PKMN-World/pull/525) | 439/439 | 422/422 | 177/177 | 27/27 | 5,174 |
+| 5 | [#572](https://github.com/evilchinesefood/PKMN-World/pull/572) | 439/439 | 421/421 | 215/215 | 27/27 | 5,191 |
+| 6 | [#632](https://github.com/evilchinesefood/PKMN-World/pull/632) | 439/439 | 423/423 | 274/274 | 32/32 | 5,191 |
+| 7 | [#670](https://github.com/evilchinesefood/PKMN-World/pull/670) | 440/440 | 423/423 | 309/309 | 39/39 | 5,191 |
+
+Both pass 7 campaigns finished with zero retries on integration commit `ddc15fd8e1`
+(ROM SHA-256 `52ff4af450253f91e33ee5dd70ac78f67ab9c695275548494352928ca1be805e`).

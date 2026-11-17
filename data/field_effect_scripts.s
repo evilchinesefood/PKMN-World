@@ -324,7 +324,7 @@ gFieldEffectScript_ShowSecretPowerShrub::
 	field_eff_end
 
 gFieldEffectScript_ShowCutGrass::
-	field_eff_loadfadedpal_callnative gSpritePalette_CutGrass, FldEff_CutGrass
+	field_eff_callnative FldEff_CutGrass
 	field_eff_end
 
 gFieldEffectScript_FieldMoveShowMonInit::

@@ -471,22 +471,27 @@ void UpdateShadowFieldEffect(struct Sprite *sprite)
 #undef sMapGroup
 #undef sYOffset
 
-// Grass drawn from these secondary tilesets is frosty, so the grass effects over it are too.
+// Grass drawn from these secondary tilesets is frosty, so the grass effects over it and Cut's
+// clippings are too.
 static const struct Tileset *const sFrostyGrassTilesets[] = { &gTileset_MtSilverSnow };
 
-const struct SpritePalette *GetGrassFieldEffectPalette(s16 x, s16 y)
+bool32 IsFrostyGrassAt(s16 x, s16 y)
 {
     u32 i;
 
-    if (MapGridGetMetatileIdAt(x, y) >= GetNumMetatilesInPrimary(gMapHeader.mapLayout))
+    if (MapGridGetMetatileIdAt(x, y) < GetNumMetatilesInPrimary(gMapHeader.mapLayout))
+        return FALSE;
+    for (i = 0; i < ARRAY_COUNT(sFrostyGrassTilesets); i++)
     {
-        for (i = 0; i < ARRAY_COUNT(sFrostyGrassTilesets); i++)
-        {
-            if (gMapHeader.mapLayout->secondaryTileset == sFrostyGrassTilesets[i])
-                return &gSpritePalette_FrostyGrassFieldEffect;
-        }
+        if (gMapHeader.mapLayout->secondaryTileset == sFrostyGrassTilesets[i])
+            return TRUE;
     }
-    return &gSpritePalette_GeneralFieldEffect1;
+    return FALSE;
+}
+
+const struct SpritePalette *GetGrassFieldEffectPalette(s16 x, s16 y)
+{
+    return IsFrostyGrassAt(x, y) ? &gSpritePalette_FrostyGrassFieldEffect : &gSpritePalette_GeneralFieldEffect1;
 }
 
 static u32 LoadGrassFieldEffectPalette(s16 x, s16 y, bool8 allowFog)

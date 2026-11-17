@@ -304,6 +304,7 @@ const u32 gFieldEffectObjectPic_SmallLight[] = INCGFX_U32("graphics/object_event
 const u8 gFieldEffectPic_CutGrass[] = INCGFX_U8("graphics/field_effects/pics/cut_grass.png", ".4bpp");
 const u32 gFieldEffectPic_CutGrass_Copy[] = INCGFX_U32("graphics/field_effects/pics/cut_grass.png", ".4bpp");
 const u16 gFieldEffectPal_CutGrass[] = INCGFX_U16("graphics/field_effects/palettes/cut_grass.pal", ".gbapal");
+const u16 gFieldEffectPal_FrostyCutGrass[] = INCGFX_U16("graphics/field_effects/palettes/frosty_cut_grass.pal", ".gbapal");
 const u32 gFieldEffectObjectPic_Ripple[] = INCGFX_U32("graphics/field_effects/pics/ripple.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u32 gFieldEffectObjectPic_Ash[] = INCGFX_U32("graphics/field_effects/pics/ash.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u32 gFieldEffectObjectPic_Arrow[] = INCGFX_U32("graphics/field_effects/pics/arrow.png", ".4bpp", "-mwidth 2 -mheight 2");

@@ -167,6 +167,7 @@ is clean; keep it that way.
 | [`RainPaletteSlots.lua`](#rainpaletteslotslua) | fresh new game | Object palettes loaded mid-rain take exactly the rain colour map, and every slot returns to its unfaded colours when rain stops in place. |
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
+| [`HoennHofHome.lua`](#hoennhofhomelua) | fresh new game | After the Hoenn Hall of Fame, Continue lands outside Brendan's or May's own door; Birch's scene, then the S.S. Ticket scene from the front door, the stairs or a whiteout, never in the rival's house. |
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
@@ -3332,14 +3333,16 @@ Emerald Hall of Fame (`StartCredits`), Kanto through `EnterHallOfFame` and the F
 (`SetWarpsToRollCredits`). Each case enters the room through a debug warp, lets the room's own
 ON_FRAME script start the ceremony and mashes a seeded stream of single buttons until the copyright
 screen, intro, title or main menu. It then continues from the title with real input and checks the
-landing (Brendan's or May's 2F, New Bark at (20,12), Pallet at (6,8)), the runtime region, the party,
-that control returns and that the player can walk. Kanto plays its post-league Oak rating scene on
-the Continue, about 1,100 frames. Three Hoenn cases soft reset 2, 40 and 400 frames into the Hall of
+landing (outside Brendan's or May's door in Littleroot, New Bark at (20,12), Pallet at (6,8)), the
+runtime region, the party, that control returns and holds for 30 frames and that the player can walk.
+Kanto plays its post-league Oak rating scene on the Continue, about 1,100 frames; the first Hoenn
+induction plays Birch's doorstep scene, which ends in his lab. Three Hoenn cases soft reset 2, 40 and 400 frames into the Hall of
 Fame screen, holding the chord through the save, which disables the reset. Continue then loads the
 hub save made beforehand (the reset beat the save) or the respawn. `SaveBlock2.currentRegion` stays
 `REGION_NONE` until the first hub gate-cross, which a debug warp never makes, so the suite reads
 `gCurrentRegion`. `PW_HOF_ONLY=<text>` runs matching cases; `PW_HOF_SEED=<n>` reseeds the mash.
-Measured **56/56**; no defect found.
+Measured **56/56**. Master before the Hoenn landing moved outside scores **52/56** (the four Hoenn
+landings are in the bedroom).
 
 ### `FrontEndSoftReset.lua`
 
@@ -3455,9 +3458,10 @@ follower and mashes A, B, Start, Select, L, R and the D-pad through the walk in,
 record machine, the induction screen, its save and the soft reset that replaced the credits. The
 mash stops when the intro or title comes up, so it never reaches New Game; the run then boots and
 Continues. Checks: no crash, the induction ended in the soft reset, control after Continue at the
-region's home (Pallet Town, Brendan's room, New Bark Town) and the same party in the same order
-(the first induction adds the Champion Ribbon, so the check compares personality, OT and level).
-Measured **16/16**; no defect found. `PW_HOF_ONLY=<text>` runs matching regions.
+region's home (Pallet Town, Littleroot Town outside the player's house, New Bark Town), read before
+any input because Hoenn's first induction then plays Birch's doorstep scene, and the same party in
+the same order (the first induction adds the Champion Ribbon, so the check compares personality, OT
+and level). Measured **16/16**; master before the Hoenn landing moved outside scores **15/16**. `PW_HOF_ONLY=<text>` runs matching regions.
 
 ### `ChaosWalk.lua` (manual)
 
@@ -3597,3 +3601,20 @@ A on the ball must print the bag-full line, give control back and leave the ball
 999 Potions alone. With one slot emptied, the same A takes the Potion: the 999 stack stays, a new
 stack of 1 appears and the ball goes. The full-bag line is the vanilla pair "Obtained the Potion!"
 then "Too bad! The BAG is full". Measured **12/12**; no defect found.
+
+### `HoennHofHome.lua`
+
+The Hoenn Hall of Fame returns the champion outside their own house, as Kanto (Pallet (6,8)) and Johto
+(New Bark (20,12)) do. For each gender, Littleroot is seeded as the intro leaves it (Mom, rival-family
+and moving-day hide flags, intro state 7, the player's house state 2), the Hall of Fame room's
+ON_FRAME runs the ceremony with plain A presses and the title's Continue must land on that gender's
+doorstep (Brendan (5,9), May (14,9)) facing down, with the whiteout point on the same doorstep and
+only the player's own house state armed. Birch's doorstep scene must then end in the lab with the
+player able to walk. The rival's house must start no scene and show no Norman. The player's own house,
+entered by the front door, must run the S.S. Ticket and Lati TV scene with the player inside the room
+on every frame, end below the TV facing Mom, give the ticket and the roamer and return control. The
+scene is re-armed twice more: down the stairs from the bedroom (a save from before this change, with
+both house states at 3) and after a whiteout, which respawns the player beside Mom.
+`PW_HOME_ONLY=male|female` runs one gender. Master scores **44/65** (two checks that need an earlier
+step are skipped): it lands in the bedroom, and entering by the door walks the player off the bottom
+of the map. With the fix **67/67**.

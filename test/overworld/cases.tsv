@@ -276,3 +276,6 @@ FrontierPassStress	lua/FrontierPassStress.lua	fresh	0	required
 MasterRankMuseum	lua/MasterRankMuseum.lua	fresh	0	manual
 RelearnerFanfareMusic	lua/RelearnerFanfareMusic.lua	fresh	0	required
 FanfareResetTasksMusic	lua/FanfareResetTasksMusic.lua	fresh	0	required
+EggHatchMash	lua/EggHatchMash.lua	fresh	0	required
+HofMash	lua/HofMash.lua	fresh	0	required
+ChaosWalk	lua/ChaosWalk.lua	fresh	0	manual

@@ -172,6 +172,7 @@ is clean; keep it that way.
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
+| [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3658,3 +3659,36 @@ both house states at 3) and after a whiteout, which respawns the player beside M
 (two checks that need an earlier step are skipped): it lands in the bedroom, and entering by the door
 walks the player off the bottom of the map. With the doorstep landing alone (`1343e33`) the current
 suite scores **77/91**: no call, and the Hall of Fame arms state 3. With Mom's call **91/91**.
+### `FrostyGrassFieldEffect.lua`
+
+Mt. Silver's snowy map (`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but the rustle
+over a walker's feet, the hop an overworld wild encounter makes when it spawns in grass and DexNav's
+shaking grass drew the green `general_1` palette. Grass effects now take `frosty_grass.pal` on grass drawn from a secondary
+tileset in `sFrostyGrassTilesets` (`src/field_effect_helpers.c`). Each case sets the clock to 12:00 or
+22:00, warps beside the grass and walks one step into it with real input. On the frames after the step
+begins, every `TallGrass` sprite must sit in an OBJ palette slot tagged with the expected palette, the
+slot must hold the authored `.pal` colours read from the repository, and the drawn colours must equal
+them after the overworld time tint, recomputed from `gTimeBlend` with `TimeMixPalettes`' arithmetic.
+The player then stands still until an overworld wild encounter spawns in the grass, and its
+`JumpTallGrass` hop is checked the same way. Last, R starts a DexNav search for a species of the map
+(searching again until one hides in grass) and its shaking grass is checked the same way. Each sprite
+is read two frames after it first appears, since a long field frame can end inside `CreateSprite`
+before the palette is set. Route 101's green grass at both hours is the control.
+`FROST_CASE=<text>` runs matching cases. `ValidateFrostyGrass.py` (host) fails when a map places frosty
+grass whose effects stay green, or green grass that would be frosted, and rebuilds the palette from its
+recipe. **53/74** on the unfixed ROM (every Mt. Silver sprite drew tag 0x1005), **74/74** with the fix.
+
+The Cut cases give the lead Pokemon CUT (`setmonmove`) and the Cut tool, warp the player into reach of
+the grass and use CUT from the Start menu's party screen with real input. The 3x3 around the player
+must turn each grass metatile into the tile its case names and leave every other tile, inside and in
+the ring around it, unchanged; the clippings (`sSpriteTemplate_CutGrass`) must share one slot holding
+the expected palette, checked like the grass effects. Mt. Silver at 12:00 and 22:00 expects
+`frosty_cut_grass.pal` and its frosty grass cut to the snow beside it (642 to 641, 895 to 646); Route
+101 and Route 30 expect `cut_grass.pal` and tall grass cut to 1. Before the fix, `SetCutGrassMetatile`
+matched secondary metatile ids without their tileset, so Mt. Silver's 642 (Fortree's secret base long
+grass id) became the green and yellow primary metatile 634, and `SetCutGrassMetatiles` ran Fortree's
+long grass root repair on every map, so Route 30's flower border under freshly cut grass became sand
+(633). `ValidateFrostyGrass.py` also fails when Cut leaves placed frosty grass standing or cuts it to a
+tile that is grass, outside its tileset, or not frosty. The whole suite scores **96/105** on the
+unfixed ROM (the clippings drew tag 0x1000, Mt. Silver's grass became 634 or stayed, Route 30 lost three
+flower tiles) and **105/105** with the fix.

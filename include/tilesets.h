@@ -102,6 +102,11 @@ extern const struct Tileset gTileset_Cave_DragonsDen;
 extern const struct Tileset gTileset_BellchimeTrail;
 extern const struct Tileset gTileset_MahoganyTown;
 extern const struct Tileset gTileset_BattleTowerInner;
+// Mt. Silver's snow draws frosty tall grass, so field_effect_helpers.c frosts the grass effects
+// over it by tileset pointer, and fldeff_cut.c cuts it to snow.
+extern const struct Tileset gTileset_MtSilverSnow;
+extern const struct Tileset gTileset_Fortree;
+extern const struct Tileset gTileset_Lavaridge;
 
 #endif //GUARD_tilesets_H
 extern const struct Tileset gTileset_JohtoDayCare;

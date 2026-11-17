@@ -45,6 +45,7 @@ void ShowWarpArrowSprite(u8 spriteId, enum Direction direction, s16 x, s16 y);
 u8 CreateMountOverlaySprite(u8 mountSpriteId);
 void SyncMountOverlaySprite(struct Sprite *overlay, struct Sprite *mount, struct Sprite *rider);
 
-u32 FldEff_TallGrass(void);
+bool32 IsFrostyGrassAt(s16 x, s16 y);
+const struct SpritePalette *GetGrassFieldEffectPalette(s16 x, s16 y);
 
 #endif //GUARD_FIELD_EFFECT_HELPERS_H

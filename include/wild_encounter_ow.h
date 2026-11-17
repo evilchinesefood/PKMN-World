@@ -103,7 +103,7 @@ u32 GetOWEWalkMovementActionInDirectionWithSpeed(enum Direction direction, enum 
 bool32 TryPlayAmbientCryOWE(void);
 u32 GetNumberOfActiveOWEs(enum TypeOWE oweType);
 const struct ObjectEventTemplate TryGetObjectEventTemplateForOWE(const struct ObjectEventTemplate *template);
-struct SpritePalette GetOWESpawnDespawnAnimFldEffPalette(enum SpawnDespawnTypeOWE spawnAnim);
+struct SpritePalette GetOWESpawnDespawnAnimFldEffPalette(enum SpawnDespawnTypeOWE spawnAnim, s32 x, s32 y);
 u32 RemoveOldestGeneratedOWE(void);
 bool32 CanRemoveObjectForOWEMovement(struct ObjectEvent *objectEvent);
 

@@ -201,6 +201,10 @@ WANT = [
     "gFieldEffectObjectPicTable_SmallLight",
     "sSpriteTemplate_PokecenterMonitor_FrLg", "sSpriteTemplate_PokecenterMonitor",
     "TilesetAnim_JohtoDayCare", "InitTilesetAnim_JohtoDayCare",
+    # FrostyGrassFieldEffect.lua finds the grass rustle, OWE spawn hop, DexNav shaking grass and Cut
+    # clipping sprites by template.
+    "gFieldEffectObjectTemplate_TallGrass", "gFieldEffectObjectTemplate_JumpTallGrass",
+    "gFieldEffectObjectTemplate_UnusedGrass", "sSpriteTemplate_CutGrass",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
     "Task_DisplayMainMenu", "Task_HandleMainMenuInput", "gSaveFileStatus",
     "sCurrItemAndOptionMenuCheck", "sGpuRegBuffer",

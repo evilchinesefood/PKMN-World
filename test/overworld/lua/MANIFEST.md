@@ -3275,3 +3275,13 @@ room and rides to the battle room. While BG1 and BG2 use char base 2 it reads VR
 must equal BG3 (screen 26), BG2 rows 16-19 must equal BG3 rows 10-13, and no intro entry may name
 a tile past the 48-tile set. **Discrimination:** unfixed 10/13 (635 opponent and 256 player
 entries differ, max tile 98), fixed 13/13.
+### `BattleBgSpecialScenes.lua`
+
+Coverage for the backgrounds #634 only rendered offline: the Champion stadium and the Groudon,
+Kyogre and Rayquaza fields. Each battle starts through its real trigger: the Terra and Marine Cave
+coord events (both caves' ON_TRANSITION scripts show the undefeated legendary), a talk to the
+resting Rayquaza with Sky Pillar state 2 and the cry done, a walk in from the door and a talk to
+Johto's Lance, and the Hoenn and Kanto Champion rooms' entry scenes after a warp through the door.
+Each case compares BG palette banks 2-4 with the authored palette in ROM and takes a screenshot;
+legendaries are beaten and Champions are lost on purpose, so no Hall of Fame runs between cases.
+Measured **26/26** on master. No defect found.

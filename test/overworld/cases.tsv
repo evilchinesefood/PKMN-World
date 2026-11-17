@@ -281,3 +281,4 @@ RelearnerPaymentRegions	lua/RelearnerPaymentRegions.lua	fresh	0	required
 FanfareInterruptStress	lua/FanfareInterruptStress.lua	fresh	0	required
 FrontierTutorPayment	lua/FrontierTutorPayment.lua	fresh	0	required
 BattleBgMultiIntro	lua/BattleBgMultiIntro.lua	fresh	0	required
+BattleBgSpecialScenes	lua/BattleBgSpecialScenes.lua	fresh	0	required

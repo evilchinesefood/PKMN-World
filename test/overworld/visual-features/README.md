@@ -2,7 +2,7 @@
 
 > **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
 
-[Open the five-minute review](index.html). Implementation: `59214f5b6b`; baseline: `45e1bf82ca5c2728910127863b926e627d4f18fc`. The tested delivery ROM SHA-256 is `4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3`. [Checksums and results](delivery.json).
+The five-minute review page was removed on 2026-11-16. Implementation: `59214f5b6b`; baseline: `45e1bf82ca5c2728910127863b926e627d4f18fc`. The tested delivery ROM SHA-256 is `4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3`. [Checksums and results](delivery.json).
 
 ## Delivered behavior
 

@@ -26,7 +26,6 @@ Hoenn, and the hub, then saves, reboots, and Continues. Its companion host check
 | `lib.lua` | Shared boot, input, navigation, assertion, screenshot, and verdict helpers. |
 | `symbols.lua` | Generated build addresses, ABI offsets, and ROM identity. Never committed. |
 | `mgba_shim.lua` | mGBA compatibility entry point. Loads the selected suite and immutable symbols. |
-| `SaveHarvest.lua` | Fixture-generation utility. Not a regression suite. |
 | `XRegionDamageFixtures.lua` | Fixture producer for the two `XRegionSaveRepair` suites. Runs only on a pre-fix build, from that build's tree (`manual`). |
 
 ## Run a focused suite or sweep
@@ -735,7 +734,7 @@ That a pre-v7 save is **refused**, not half-loaded. Save format v7 reshaped Save
 
 ### `VerifyOwnerSave.lua`
 
-Salvage check for a **real mid-playthrough save** across the v9 break, run against the owner's battery save rather than a fixture. v9 does three things a save can notice and that save hits two: it appends `johtoTrainerFlags[]` to SaveBlock3 (un-checksummed tail, so it must be zeroed); it deletes two mid-group maps and renumbers 17 `gMapGroup_IndoorGoldenrod` and 3 `gMapGroup_MtSilver` mapNums, which are persisted in five `WarpData`s and in `objectEvents[]`; and it moves the Violet City and Route 32 heal coordinates, where `lastHealLocation` stores the COORDINATE and `GetHealLocationIndexByWarpData` matches on exact x/y, so a save holding the old pair silently stops matching the table and keeps whiting out to the old tile. Issue #51 explicitly accepted a save RESET for the renumber; this suite is the evidence that a migration was written instead and that a real save survives it. **The map-renumber half is VACUOUS here and the suite says so** — none of that save's warps are in either affected group, which is exactly why `VerifyMapRenumber.lua` exists. Where the save is STANDING and where it HEALS are separate facts; the standing map is overridable with `PW_EXPECT_GRP` / `PW_EXPECT_MAP` (defaults 75/6, Violet City) because a real save moves. **This suite cannot run on a fresh clone**: `pokemonworld.sav` is gitignored and untracked, and `MakeMigrationFixtures.sh` forbids committing a save harvested from a real playthrough. It is excluded from the canonical case list and CI. Run it only as an explicit focused local check with a selected save path.
+Salvage check for a **real mid-playthrough save** across the v9 break, run against the owner's battery save rather than a fixture. v9 does three things a save can notice and that save hits two: it appends `johtoTrainerFlags[]` to SaveBlock3 (un-checksummed tail, so it must be zeroed); it deletes two mid-group maps and renumbers 17 `gMapGroup_IndoorGoldenrod` and 3 `gMapGroup_MtSilver` mapNums, which are persisted in five `WarpData`s and in `objectEvents[]`; and it moves the Violet City and Route 32 heal coordinates, where `lastHealLocation` stores the COORDINATE and `GetHealLocationIndexByWarpData` matches on exact x/y, so a save holding the old pair silently stops matching the table and keeps whiting out to the old tile. Issue #51 explicitly accepted a save RESET for the renumber; this suite is the evidence that a migration was written instead and that a real save survives it. **The map-renumber half is VACUOUS here and the suite says so** — none of that save's warps are in either affected group, which is exactly why `VerifyMapRenumber.lua` exists. Where the save is STANDING and where it HEALS are separate facts; the standing map is overridable with `PW_EXPECT_GRP` / `PW_EXPECT_MAP` (defaults 75/6, Violet City) because a real save moves. **This suite cannot run on a fresh clone**: `pokemonworld.sav` is gitignored and untracked, and the project rule forbids committing a save harvested from a real playthrough. It is excluded from the canonical case list and CI. Run it only as an explicit focused local check with a selected save path.
 
 ### `VerifyMapRenumber.lua`
 
@@ -747,13 +746,13 @@ The v9 deletions were not last in their groups, so every map after them renumber
 
 `fixtures/*.srm` are raw **131072-byte** battery saves (already mGBA's `.sav` format — converting is
 a rename). Each `vN.srm` is a **fresh new game** built at that format version's commit, so there is
-no personal data and they are deterministic. `../MakeMigrationFixtures.sh` produced v3–v5, driving
-`SaveHarvest.lua` as the in-emulator harvester.
+no personal data and they are deterministic. The fixtures are committed. Their BizHawk-era
+generator script and its in-emulator harvester were removed on 2026-11-16, along with the unused
+v4 and v5 saves. Git history has them.
 
 | Fixture | Used by | Role |
 |---|---|---|
 | `v3.srm` | `MigrateFixtures.lua` | Refusal input — the sweep passes this one. |
-| `v4.srm`, `v5.srm` | `MigrateFixtures.lua` | Further refusal inputs; both are below the layout floor too. |
 | `v7.srm` | — | The original hand-harvested v7 save. Kept, but **not** what the sweep runs. |
 | `v7dirty.srm` | `VerifyV7Migrate.lua` | The live migration input. |
 
@@ -860,12 +859,10 @@ reference implementations.
 5 to 17 s and passed at six RTC values (00:00 to 23:00 local) after their follower was raised to
 level 100. At level 10 both failed at RTC `1704150000`: a night wild battle on Route 37 knocked
 out the follower, and the whiteout warped the player to Petalburg before the crossing.
-`OwnerSaveLeakProbe` and `SustainedWalkLeakProbe` stay `manual`. The first needs one specific
-save (`bak-prev8.sav`, standing in Ruins of Alph, group 79). That file is no longer on disk, and
-any other save fails its boot check (`BOOT FAIL grp=75 want=79` with the current owner save). The
-second passes 6/6 but takes about 130 s, and the hypothesis it was written for is closed. They
-are kept because the Route 37 crash is still open and each one closes a hypothesis with a
-measurement — re-deriving that ground would cost far more than reading them.
+Two manual leak probes, the owner-save probe and the sustained-walk probe, were removed on
+2026-11-16. The first needed one specific save (`bak-prev8.sav`) that is no longer on disk. The
+second passed 6/6 in about 130 s, and the hypothesis it was written for is closed. Their
+findings stay below because the Route 37 crash is still open. Git history has the scripts.
 
 The report: a red (`fatalf`) crash walking Route 37 shortly after entering from the bottom (from
 Route 36), follower out, 2026-08-04, on the v8 save. Still **unreproduced**. Previously eliminated by
@@ -883,7 +880,7 @@ slot pressure at the crossing, and the crossing itself completes cleanly.
 `LoadMapFromCameraTransition` deliberately does not (it must preserve on-screen sprites). Every
 measurement taken after a warp is therefore measuring a pool that was just wiped.
 
-### `OwnerSaveLeakProbe.lua`
+### Owner-save leak probe (script removed 2026-11-16)
 Aimed at H5 — was the pool already elevated by a long real session, with the crossing merely tipping
 it over? Loads a real save with `keepScene=true` so nothing moves the player before the first sample.
 Measured on the v8 save (`bak-prev8.sav`; player Dave, 6h30m06s, counter 20, `saveVersion 8`,
@@ -899,12 +896,12 @@ The intended extended walk was also never achieved: a reproducible movement/inpu
 particular `keepScene=true` boot path reduced the movement evidence to a single confirmed 3-tile
 sample, which is far too short to show or exclude accumulation.
 
-**H5 was therefore reopened after this probe, and settled by `SustainedWalkLeakProbe.lua` below** —
+**H5 was therefore reopened after this probe, and settled by the sustained-walk probe below** —
 which needs no real save at all, because the hypothesis is about accumulation during ordinary
 non-warp play. Keep this section as the worked example of a measurement that cannot bear the
 conclusion drawn from it.
 
-### `SustainedWalkLeakProbe.lua`
+### Sustained-walk leak probe (script removed 2026-11-16)
 The probe H5 actually needed. Fresh save, follower out, **one** warp at the very start and never
 again, then 60 laps / **3,820 steps**: cross south over the Route37<->Route36 connection, dip into
 Route36 and back, cross north, walk up through Route 37's object-dense stretch (4 `LIGHT_SPRITE`s,

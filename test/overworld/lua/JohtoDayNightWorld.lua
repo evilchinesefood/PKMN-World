@@ -22,9 +22,8 @@
 -- that follows. Every warp below therefore goes to a DIFFERENT map than the current one; the day
 -- and night passes are interleaved rather than run map-by-map for exactly that reason.
 --
--- Run against a THROWAWAY COPY:
---   cp <repo>\pokemonworld.gba  BizHawk\Verify1.gba
---   EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\test\overworld\lua\JohtoDayNightWorld.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/JohtoDayNightWorld.lua pokemonworld.gba
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

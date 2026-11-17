@@ -27,8 +27,7 @@ Yellow route paths and pale city paving remain distinct. The new grass is ordina
 walkable lawn, not encounter grass. All original walkable space remains walkable;
 no fence, lamp, object or collision block has been added.
 
-[Exact edits](edits.json) records each coordinate and old/new metatile.
-[Plan](plan.json) pins the baseline commit and exact baseline ROM hash.
+The exact-edits and plan records were removed on 2026-11-16, with the authoring script.
 Scope overlay shows protected cells in red and edited cells in
 yellow; atlas shows the existing pieces used. Both are source
 renders. The main comparisons are unmodified native 240×160 emulator screenshots.
@@ -65,12 +64,10 @@ and paired palettes before producing the review. ROMs and saves stay local.
 
 ## Reproduce
 
-Build and preserve an untouched ROM/ELF from the pinned baseline **before** authoring.
-Then, in this feature checkout with Python 3, Pillow, devkitARM and mGBA available:
+The one-shot authoring and audit script and the gallery publisher were removed on 2026-11-16.
+The map edits are committed. With devkitARM and mGBA available:
 
 ```sh
-python3 test/overworld/viridian-transitions/art.py author
-python3 test/overworld/viridian-transitions/art.py check --out /tmp/transitions-audit
 make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 make validate
 ```
@@ -98,17 +95,8 @@ python3 test/overworld/viridian-art/run_suite.py --repo . --rom "$DELIVERY_ROM" 
 PW_OUT=/tmp/transitions-runs/regression test/overworld/run-all.sh "$DELIVERY_ROM" \
   > /tmp/transitions-sweep.log 2>&1
 cp /tmp/transitions-sweep.log /tmp/transitions-runs/regression/sweep.log
-python3 test/overworld/viridian-transitions/render_review.py \
-  --before-rom "$BEFORE_ROM" --before-elf "$BEFORE_ELF" \
-  --delivery "$DELIVERY_ROM" --delivery-elf "$DELIVERY_ELF" \
-  --before-fixture "$BEFORE_FIXTURE" --after-fixture "$AFTER_FIXTURE" \
-  --before /tmp/transitions-runs/before --after /tmp/transitions-runs/after \
-  --lifecycle /tmp/transitions-runs/lifecycle --delivery-run /tmp/transitions-runs/delivery \
-  --regression /tmp/transitions-runs/regression --out test/overworld/viridian-transitions/review
 ```
 
-`author` refuses unrelated edits and should not overwrite later stages. The audit
-restricts production changes to this map and compares against immutable Git blobs.
 The pinned baseline ROM hash identifies the actual reviewed build; another compiler
 or version-stamp build needs its own verified provenance and new comparison runs,
 not a silent replacement of the old baseline hash.

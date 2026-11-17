@@ -31,7 +31,7 @@ local DEFAULT_OUT = here .. ".." .. package.config:sub(1, 1) .. ".." .. package.
 
 -- Only throwaway ROM copies may be driven. boot() blind-presses A and Start for up to 120,000
 -- frames against whatever EmuHawk loaded, and the shipped save profile puts SAVE at wheel slot 2
--- of 4 — Start,A,A,A is literally SaveHarvest.lua's deliberate save sequence. BizHawk flushes
+-- of 4 — Start,A,A,A is literally the deliberate save sequence of the old fixture harvester. BizHawk flushes
 -- SaveRAM on exit, so pointing a suite at the real ROM/save is a live clobber path, and
 -- TestHarnessGuide.md records that accident already happening once. Prose in a doc cannot stop it;
 -- this can. Override deliberately with opts.allowAnyRom = true.

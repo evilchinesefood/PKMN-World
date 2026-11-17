@@ -265,7 +265,7 @@ OlivinePort_EventScript_ChoseFarawayIsland::
 @ rows give instead of a silent free ride. Deliberately precise about that, because it is this
 @ comment's only claim of player-visible effect and "threw it away" would be wrong - the ticket has
 @ .importance = 1 and .price = 0 (src/data/items.h:14169-14174) and every toss/sell path in
-@ src/item_menu.c is gated on !GetItemImportance, so it cannot be tossed or sold at all. The item PC
+@ src/swsh_item_menu.c is gated on !GetItemImportance, so it cannot be tossed or sold at all. The item PC
 @ is the one route out of the bag, and checkitem -> CheckBagHasItem does not see the PC.
 OlivinePort_EventScript_ChoseBattleFrontier::
 	closemessage

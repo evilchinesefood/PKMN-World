@@ -17,11 +17,8 @@
 -- and vars. Only chunk 3 fails. The checksum is NOT a gate; SAVE_FORMAT_LAYOUT_MIN is, and this
 -- suite is what proves it is wired up.
 --
--- Run against any pre-v7 fixture (v3/v4/v5 all work — they are all below the floor):
---   cp <repo>\pokemonworld.gba  BizHawk\MigChk.gba
---   make symbols                          -- symbols.lua is ROM-bound; lib.new() rejects a mismatch
---   cp test\overworld\lua\fixtures\v3.srm  BizHawk\GBA\SaveRAM\MigChk.SaveRAM   (raw 131072-byte body)
---   EmuHawk.exe BizHawk\MigChk.gba --lua=<repo>\test\overworld\lua\MigrateFixtures.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v3.srm
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

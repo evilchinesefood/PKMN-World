@@ -498,6 +498,8 @@ validate:
 	python3 test/overworld/ValidateRegionText.py
 	python3 test/overworld/ValidateConfigRules.py
 	python3 test/overworld/ValidateDeadEvoItems.py
+	python3 test/overworld/TestVerificationModes.py
+	python3 test/overworld/ValidateRoute41Surf.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the

@@ -218,7 +218,7 @@ void ScrCmd_removenamedmon_Compat(struct ScriptContext *ctx)
         // The item only - deliberately NOT the mail's sender trainerId. An earlier draft checked
         // that too, and it made the quest unrecoverable: the PC mailbox's MOVE TO BAG erases the
         // message and hands back a plain ITEM_RETRO_MAIL (src/player_pc.c, Mailbox_MoveToBag), and
-        // re-attaching it from the bag goes through GiveMailToMonByItemId (src/party_menu.c
+        // re-attaching it from the bag goes through GiveMailToMonByItemId (src/swsh_party_menu.c
         // GiveItemToMon), which stamps the PLAYER's name and id. Kenya would then be carrying a
         // RetroMail the sleeping man refuses forever, with VAR_KENYA stuck at 1 and both TM Torment
         // and Randy's HP UP unreachable. Identity is already settled by the OT-id check above, so

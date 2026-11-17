@@ -35,7 +35,7 @@ and [#348 building frontages](https://github.com/evilchinesefood/PKMN-World/issu
 | Publication failure checks | Missing delivery proof, wrong delivery hash, wrong baseline ROM and changed current map all rejected |
 | Browser checks | Day/dusk/night controls, all 30 images, evidence links and mobile width pass in Chromium |
 
-Map audit, [exact edits and source hashes](edits.json),
+Map audit, exact edits and source hashes,
 ROM/capture provenance, runtime evidence,
 full regression result.
 
@@ -48,14 +48,10 @@ early-story old-man sequence on the unpatched ROM. No story code was changed.
 
 ## Reproduce
 
-`art.py` reads its baseline directly from immutable Git blobs. The Git history must
-contain the pinned baseline. Python 3 and Pillow are required. `author` refuses to
-replace unrelated edits; it is a stage-1 authoring tool and should not overwrite
-later stages. Preserve an untouched baseline ROM/ELF before applying the map edits.
+The one-shot authoring and audit script, its plan and edit records, and the gallery
+publisher were removed on 2026-11-16. The map edits are committed. The runtime suites still run:
 
 ```sh
-python3 test/overworld/viridian-art/art.py author
-python3 test/overworld/viridian-art/art.py check --out /tmp/viridian-audit
 make modern TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 make validate
 PW_OUT=/tmp/viridian-runs/regression test/overworld/run-all.sh pokemonworld.gba \
@@ -81,21 +77,12 @@ python3 test/overworld/viridian-art/run_suite.py --repo . --fixture "$AFTER_FIXT
 python3 test/overworld/viridian-art/run_suite.py --repo . \
   --suite test/overworld/viridian-art/delivery.lua --rom "$DELIVERY_ROM" \
   --save /tmp/viridian-runs/lifecycle/VisualReview.sav --out /tmp/viridian-runs/delivery
-python3 test/overworld/viridian-art/render_review.py \
-  --before-rom "$BEFORE_ROM" --before-elf "$BEFORE_ELF" \
-  --delivery "$DELIVERY_ROM" --delivery-elf "$DELIVERY_ELF" \
-  --before-fixture "$BEFORE_FIXTURE" --after-fixture "$AFTER_FIXTURE" \
-  --before /tmp/viridian-runs/before --after /tmp/viridian-runs/after \
-  --lifecycle /tmp/viridian-runs/lifecycle --delivery-run /tmp/viridian-runs/delivery \
-  --regression /tmp/viridian-runs/regression --out test/overworld/viridian-art/review
 ```
 
-Publication first requires the exact baseline ROM SHA-256 pinned in `plan.json`.
-`run_suite.py` records the suite-source and ROM hashes at execution time; publication
-rejects stale source hashes, failed runs and missing records.
-Publication verifies the map/metatile/attribute bytes actually linked in both ROMs
-against the baseline and authored source, validates fixture hashes and all positive
-run verdicts, and reruns the source audit. An existing audit file is never an input.
+`run_suite.py` records the suite-source and ROM hashes at execution time. The removed
+publisher rejected stale source hashes, failed runs and missing records. It verified the
+map/metatile/attribute bytes linked in both ROMs against the baseline and authored
+source, and reran the source audit.
 Native screenshots are unchanged emulator output. Full-map images are explicitly
 labeled source renders and omit actors. Disposable fixture hooks are absent from
 the delivery ROM. ROMs and saves remain local and are not uploaded to GitHub.

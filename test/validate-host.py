@@ -10,6 +10,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 CHECKS = (
     ("TestCaseInventory.py",),
+    ("TestVerificationModes.py",),
     ("ValidateGen13.py",),
     ("ValidateRegionalCenters.py",),
     ("TestRegionalTravelMigration.py",),
@@ -21,6 +22,7 @@ CHECKS = (
     ("ValidateOwMonPlacements.py",),
     ("ValidateMapEvents.py",),
     ("ValidateZoneStructure.py",),
+    ("ValidateRoute41Surf.py",),
     ("ValidateMetatileBounds.py",),
     ("ValidateBorderTerrain.py",),
     ("ValidateReachability.py",),

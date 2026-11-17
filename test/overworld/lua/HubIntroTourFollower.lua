@@ -9,10 +9,8 @@
 -- table, it is still adjacent to the player when the tour ends 47 tiles later (no desync), and
 -- the guide still gets home.
 --
--- Run against a THROWAWAY COPY, on a genuinely fresh save:
---   cp <repo>\pokemonworld.gba  BizHawk\Verify2.gba
---   rm BizHawk\GBA\SaveRAM\Verify2.SaveRAM
---   EmuHawk.exe BizHawk\Verify2.gba --lua=<repo>\test\overworld\lua\HubIntroTourFollower.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/HubIntroTourFollower.lua pokemonworld.gba
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

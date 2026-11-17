@@ -2,7 +2,7 @@
 
 > **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
 
-The [visual review](index.html) pairs native before/after captures and short motion clips. The owner selected Mudskipper's angular command/move panels, outlined healthboxes, party bars, ability popups and L/R/gimmick controls. This port retains World's engine, save layout, regional tutorials, SwSh Bag/Party/Summary and existing mechanic eligibility.
+The visual review page (removed on 2026-11-16) paired native before/after captures and short motion clips. The owner selected Mudskipper's angular command/move panels, outlined healthboxes, party bars, ability popups and L/R/gimmick controls. This port retains World's engine, save layout, regional tutorials, SwSh Bag/Party/Summary and existing mechanic eligibility.
 
 Baseline: `12934378f9ca2cb11a95cafe94669f90f9a0ff23`. Donor: `mudskipper13/pokeemerald` at `b798929811ec7d070616c7ef47e46cfc6a7f1501`, feature-only parent `68a5890c8548bc04e92b9cdf188aedc11345fc87`. The donor inventory is 65 files, including 37 graphics. Two of those, `hpbar_none.png` and `level_up_banner.png`, were never referenced and have since been removed; `verify_assets.py` compares the remaining 35 with the pinned commit; JASC palette line endings follow World's checkout rules. Mudskip, RHH and pret are credited in [CREDITS.md](../../../CREDITS.md). No explicit standalone BW license was found; the author's public feature listing supplies provenance, not an invented blanket license.
 
@@ -74,7 +74,7 @@ make release TOOLCHAIN=/opt/devkitpro/devkitARM -j8
 python3 test/overworld/bw-battle-ui/verify_assets.py --donor /path/to/pinned/donor
 ```
 
-`render_review.py --after /tmp/bw-checks --before /tmp/baseline-capture --sweep /tmp/tracked-sweep --out test/overworld/bw-battle-ui` generates the gallery from completed captures. It requires Pillow with WebP support. Run the capture suite against a separately built baseline fixture for matched before images. Clips use lossless encoding with recorded sample intervals; no image synthesis or rescaling is applied.
+The gallery generator script was removed on 2026-11-16. It built the gallery from completed captures. Run the capture suite against a separately built baseline fixture for matched before images. Clips use lossless encoding with recorded sample intervals; no image synthesis or rescaling is applied.
 
 `run_all.py` removes old sentinels, requires matching fixture-ROM hashes and reports every suite. The symbol exporter resolves duplicate local controller names by their owning object's address range in the exact ELF/map. Long rendering hooks wait for completion before reading results. The fixture records ROM/ELF/map/configuration/source hashes. It supplies obedient test Pokémon, fixed RTC, real battle/capture calculations and actual hatch/trade scenes. Trainer cleanup in the repeated resource loop is forced at a command boundary; `turns.lua` separately earns a real victory/level, faints and replaces a mon, and loses through whiteout.
 

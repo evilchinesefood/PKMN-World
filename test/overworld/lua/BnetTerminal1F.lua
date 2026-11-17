@@ -19,10 +19,8 @@
 -- prevent (read + unconditional directionOverwrite write one past the array). The 0x24 bytes
 -- at gObjectEvents[16] are snapshotted around the whole launch and must come back identical.
 --
--- Run against a THROWAWAY COPY -- lib.new() refuses anything not named Verify*/MigChk*/FixGen*:
---   make -j12
---   cp <repo>/pokemonworld.gba  BizHawk\Verify1.gba
---   EmuHawk.exe BizHawk\Verify1.gba --lua=<repo>\test\overworld\lua\BnetTerminal1F.lua
+-- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
+--   test/overworld/mgba-run.sh test/overworld/lua/BnetTerminal1F.lua pokemonworld.gba
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")

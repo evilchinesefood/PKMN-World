@@ -80,6 +80,7 @@ presentation, not a claim that the old underwater colors are shared.
 
 `review/concepts.png` records the first native design review before all poses
 were produced. `review/catalog.png` shows the final 48 character/style/color
-combinations. The six `review/*-poses.png` sheets cover every production source
-pose. These are native source-art reviews. They do not replace the separate
+combinations. The six `review/*-poses.png` sheets, which cover every production
+source pose, are not kept in the repository; `tools/player_outfits/review_art.py`
+regenerates them. These are native source-art reviews. They do not replace the separate
 in-game picker, field, card and battle capture evidence.

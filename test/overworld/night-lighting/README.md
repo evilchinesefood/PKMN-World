@@ -106,17 +106,8 @@ matching PASS sentinels, the exact delivery ROM and its successful delivery run,
 and a green full sweep. It recomputes the map audit from the baseline and current
 source assets on every publication; a saved audit is never accepted as input.
 The publisher verifies the baseline's Git revision and requires a clean working
-tree before recording that revision in the gallery manifest:
-
-```sh
-python3 test/overworld/night-lighting/render_review.py --base "$BASE" --repo . \
-  --before /tmp/lighting-runs/before --after /tmp/lighting-runs/after \
-  --before-fixture /tmp/lighting-before-capture --after-fixture /tmp/lighting-capture \
-  --lifecycle /tmp/lighting-runs/lifecycle --lifecycle-fixture /tmp/lighting-lifecycle \
-  --regression /tmp/lighting-runs/regression \
-  --delivery /tmp/lighting-after/pokemonworld.gba --delivery-run /tmp/lighting-runs/delivery \
-  --out test/overworld/night-lighting/evidence/review
-```
+tree before recording that revision in the gallery manifest.
+The publisher script was removed on 2026-11-16.
 
 Publisher rejection checks also passed: missing delivery PASS, failed verdict,
 wrong ROM, wrong suite, a FAIL sentinel, and changed metatile attributes in either

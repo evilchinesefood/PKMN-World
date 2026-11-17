@@ -1,6 +1,6 @@
 # SwSh refresh — issue #328
 
-Selective backport onto World's installed expansion revision. Review [the native before/after gallery](index.html). The test fixture enters production screens from a disposable, freshly generated game; it is never linked into the delivered ROM.
+Selective backport onto World's installed expansion revision. The native before/after gallery page was removed on 2026-11-16. The test fixture enters production screens from a disposable, freshly generated game; it is never linked into the delivered ROM.
 
 ## Scope and provenance
 

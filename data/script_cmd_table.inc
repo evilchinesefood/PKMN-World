@@ -278,20 +278,12 @@ gScriptCmdTable::
 #else
 	.set ScrCmdHandler_pokevial, ScrCmd_nop_u8u8u8
 #endif
-#if QUEST_MENU
-	.set ScrCmdHandler_questmenu, ScrCmd_questmenu
-	.set ScrCmdHandler_subquestmenu, ScrCmd_subquestmenu
-	.set ScrCmdHandler_returnqueststate, ScrCmd_returnqueststate
-#else
+	@ The quest engine was deleted. Its four opcodes stay reserved as width-matched no-ops so
+	@ every later opcode keeps its number.
 	.set ScrCmdHandler_questmenu, ScrCmd_nop_u8u8
 	.set ScrCmdHandler_subquestmenu, ScrCmd_nop_u8u16u16
 	.set ScrCmdHandler_returnqueststate, ScrCmd_nop_u8
-#endif
-#if OW_QUEST_BRANCHING
-	.set ScrCmdHandler_updatequest, ScrCmd_updatequest
-#else
 	.set ScrCmdHandler_updatequest, ScrCmd_nop_u8
-#endif
 	script_cmd_table_entry SCR_OP_POKEVIAL                      ScrCmdHandler_pokevial                                  @ 0xe7
 	script_cmd_table_entry SCR_OP_QUESTMENU                     ScrCmdHandler_questmenu                                 @ 0xe8
 	script_cmd_table_entry SCR_OP_SUBQUESTMENU                  ScrCmdHandler_subquestmenu                              @ 0xe9

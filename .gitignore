@@ -105,6 +105,9 @@ test/overworld/**/evidence/
 test/overworld/**/review/
 fixes.md
 
+# Local stress-pass tooling, briefs, trails and run logs (one folder, never tracked)
+/test/stress/
+
 # clangd index cache (generated from compile_flags.txt; never tracked)
 .cache/
 

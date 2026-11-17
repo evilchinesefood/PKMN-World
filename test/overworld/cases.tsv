@@ -276,3 +276,8 @@ FrontierPassStress	lua/FrontierPassStress.lua	fresh	0	required
 MasterRankMuseum	lua/MasterRankMuseum.lua	fresh	0	manual
 RelearnerFanfareMusic	lua/RelearnerFanfareMusic.lua	fresh	0	required
 FanfareResetTasksMusic	lua/FanfareResetTasksMusic.lua	fresh	0	required
+PokeblockFeedScene	lua/PokeblockFeedScene.lua	fresh	0	required
+BlenderFullCase	lua/BlenderFullCase.lua	fresh	0	required
+DaycareFullWithdraw	lua/DaycareFullWithdraw.lua	fresh	0	required
+BerryDecorFull	lua/BerryDecorFull.lua	fresh	0	required
+WhiteoutSaveContinue	lua/WhiteoutSaveContinue.lua	fresh	0	required

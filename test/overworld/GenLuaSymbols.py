@@ -71,6 +71,10 @@ WANT = [
     # inventories, the contest's move-select task and the contest and painting screens.
     "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",
     "CB2_ContestMain", "CB2_ContestPainting",
+    # PokeblockFeedScene.lua and BlenderFullCase.lua follow the Pokeblock Case, the feeding scene
+    # and the Berry Blender by their main callbacks.
+    "CB2_PokeblockMenu", "CB2_UsePokeblockMenu", "CB2_PokeblockFeed", "CB2_PlayBlender",
+    "CB2_CheckPlayAgainLocal", "CB2_EndBlenderGame",
     "gParties", "gPartiesCount", "gCurrentRegion",
     "gPokemonStoragePtr", "sWarpDestination", "sSubstructOffsets",
     "gBagPockets", "sMartInfo",
@@ -472,7 +476,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer", "gameStats"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer", "gameStats", "pokeblocks"]
 
 
 def load_save_src(root):

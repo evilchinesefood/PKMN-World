@@ -3209,3 +3209,68 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `PokeblockFeedScene.lua`
+
+The Pokeblock feeding scene (`src/pokeblock_feed.c`), which #634 gave a private copy of the old
+building tiles and Frontier palette, had not been seen running since. Setup gives a Zigzagoon and a
+Torchic, the Pokeblock Case (registered on Select) and seven Pokeblocks written into
+`SaveBlock1.pokeblocks` the way `AddPokeblock` leaves them. With real input on Route 117 the suite
+opens the case with Select, picks the block, USE, the Pokemon and YES, and watches the scene by its
+callbacks: a red block to Zigzagoon at normal pace, a blue block to Torchic and three gold blocks to
+Zigzagoon under a seeded mash of A, B and Start. Each feed must run the scene, take exactly one block,
+raise the condition by the block's flavour and the sheen by its feel (decrypted from the EV
+substruct), show the condition results and return to the case and the field. The third gold block
+takes Zigzagoon's sheen to 255, and a fourth must get "It won't eat anymore..." with no scene and the
+block kept. Screenshots of the background, the toss, the results and the case are kept; the
+background matches the pre-#634 assets byte for byte (`feeding_bg.pal` differs only in line
+endings). `PW_PB_SEED=<n>` reseeds the mash. Coverage; no defect found: **30/30**.
+
+### `BlenderFullCase.lua`
+
+The Berry Blender in Lilycove's Contest Lobby against a full or nearly full Pokeblock Case. Setup
+gives a Pokemon, the Pokeblock Case and five Cheri and five Pecha Berries, and writes the case's
+blocks into `SaveBlock1.pokeblocks`. Talking to the two-person blender, every Yes/No, the Berry from
+the Bag, the blending (A taps) and the "blend another?" prompt are real input. With 40 blocks the
+script must refuse before the blender starts ("Oh, but wait a second here... Your POKeBLOCK CASE is
+full"): no Berry taken, the case unchanged. With 39 one blend must take exactly one Berry and put the
+new block in the last slot, and blending again must print "Your POKeBLOCK CASE is full." and return to
+the field. With 38 two blends must take two Berries and fill the case. Coverage; no defect found:
+**14/14**.
+
+### `DaycareFullWithdraw.lua`
+
+Day Care withdrawal with a full party and a full PC at Route 117, Route 5, Four Island and Route 34.
+Each Day Care takes a real deposit through its own script and the storage picker (two Pidgey and a
+Rattata, since Hoenn's lady refuses to leave one battler). Then the party is filled to six, debug Fill
+PC Boxes Fast fills all 420 box slots and the wallet holds 50,000. Asking for the Rattata back must
+give the no-room line with no money taken, the Rattata still in the Day Care, the party and the PC
+unchanged and control back. As a control, with the party cleared to one Pokemon the same answers take
+the Rattata back for a fee, which also empties the Day Care for the next counter: Route 117, Four
+Island and Route 34 share `SaveBlock1.daycare`. `PW_DCFULL_ONLY=<text>` runs matching Day Cares.
+Coverage; no defect found: **44/44**.
+
+### `BerryDecorFull.lua`
+
+Full storage at harvest and gift time. Berry trees in all three regions (Hoenn Route 117's Wepear,
+Kanto Route 11's Persim, Johto Route 30's Lum, all seeded ripe by the new game) with the Berries pocket
+filled by debug Fill Pocket Berries (46 stacks of 999). Each tree is talked to and YES picked three
+times: with the tree's Berry as a full stack, with that slot holding a Rowap Berry so the pocket has
+no room for it, and (control) with the stack at 990. The first two must print "The BAG's BERRIES
+POCKET is full." and leave the pocket and the tree's berry, stage and count unchanged (talking clears
+the sparkle bit, as designed); the control must add the tree's count and empty it. Then Lanette's
+house on Route 114 with every decoration category full: her Lotad Doll must be refused ("There's no
+room left for another LOTAD DOLL") with no doll and `FLAG_RECEIVED_DOLL_LANETTE` clear, and after one
+doll slot is freed the next visit gives it and sets the flag. `PW_FULL_ONLY=<text>` runs matching
+scenarios. Coverage; no defect found: **41/41**.
+
+### `WhiteoutSaveContinue.lua`
+
+Whiteout, then Save and Continue, in Hoenn, Kanto and Johto. The respawn is set by warping into the
+region's Pokemon Center (Oldale, Viridian, Cherrygrove); outside in the town a real scripted wild
+battle against a level 50 Raticate knocks out a lone level 5 Magikarp that knows only Splash. After
+the whiteout the field must be back at that Center with control, the party healed, 40 taken from the
+10,000 wallet, and the map's music playing unpaused. Then a Start-menu save, a soft reset and
+Continue must restore the map, tile, money, party HP, follower state and music, the player must be
+able to walk, and the follower (hidden while the nurse heals) must come out on the first step.
+`PW_WOSC_ONLY=<text>` runs matching regions. Coverage; no defect found: **49/49**.

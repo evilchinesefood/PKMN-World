@@ -829,6 +829,13 @@ wall clock, the event-island ferries, and so on), and an entry that stops firing
 an open PR fixes sit in `SHARED_STATE_PENDING`, printed as notes and never failed; delete each once
 its fix is on master.
 
+[`ValidateTilesetAnimBounds.py`](../ValidateTilesetAnimBounds.py) checks every
+`AppendTilesetAnimToBuffer` call in `src/tileset_anims.c` against the frames its table can select:
+the copy's offset plus size must fit in each frame, whose size comes from its PNG header (or the PNGs
+behind an `INCBIN_U16` of `.4bpp` files). Until #636 a 15.6 KB zero fill sat after the Battle Pyramid
+statue-shadow frames, so an over-read there drew blank tiles; without it an over-read draws the next
+frame set. A call it cannot parse fails rather than passing unchecked.
+
 [`ValidateConfigRules.py`](../ValidateConfigRules.py) pairs each `include/config` toggle that
 diverges from a source game with the script and text shapes that assume the old rule: TMs called
 single-use or a "learned only once" prompt with its flag compiled out (`I_REUSABLE_TMS`), a sellable

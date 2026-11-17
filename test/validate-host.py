@@ -29,6 +29,7 @@ CHECKS = (
     ("ValidateAmbientBlockers.py",),
     ("GenObstacleTable.py", "--check"),
     ("ValidateDoorAnims.py", "--max", "0"),
+    ("ValidateTilesetAnimBounds.py",),
     ("ValidateTilesetPalettes.py",),
     ("HnsMetatileBehaviors.py",),
     ("SavePatch.py", "--check"),

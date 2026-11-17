@@ -26,7 +26,7 @@ local SPECIES_ABRA, SPECIES_PIDGEOT = 63, 18
 local MOVE_TELEPORT, MOVE_FLY = 100, 19
 
 local FLAG_JOHTO_BASE = 0x6000
-local FLAG_JOHTO_BADGE_6 = 0x6000 + 0x3F8 + 5          -- 0x63FD
+local FLAG_JOHTO_BADGE_5 = 0x6000 + 0x3F8 + 4          -- 0x63FC, Storm
 local FLAG_VISITED_AZALEA_TOWN = 0x6000 + 0x88         -- FLAG_JOHTO_SLICE(0x88)
 local FLAG_SYS_POKEMON_GET = 0x948                     -- SYSTEM_FLAGS + 0
 
@@ -618,10 +618,10 @@ F.run(function()
     F.grp(), F.mapn(), tpx, tpy, fmtHeal(lastHeal())))
 
   -- ---- Fly user -----------------------------------------------------------------------------
-  -- Fly is badge-gated (Johto 6th gym) and uses the town map, not lastHeal.
-  johtoFlagSet(FLAG_JOHTO_BADGE_6, true)
+  -- Fly is badge-gated (Johto 5th gym, Storm) and uses the town map, not lastHeal.
+  johtoFlagSet(FLAG_JOHTO_BADGE_5, true)
   johtoFlagSet(FLAG_VISITED_AZALEA_TOWN, true)
-  F.check("FLAG_JOHTO_BADGE_6 is set", johtoFlagGet(FLAG_JOHTO_BADGE_6), "0x63FD")
+  F.check("FLAG_JOHTO_BADGE_5 is set", johtoFlagGet(FLAG_JOHTO_BADGE_5), "0x63FC")
   F.check("FLAG_VISITED_AZALEA_TOWN is set", johtoFlagGet(FLAG_VISITED_AZALEA_TOWN), "0x6088")
   setJohtoRegion()
 

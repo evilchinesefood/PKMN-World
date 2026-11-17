@@ -8,7 +8,7 @@
 -- surf level (an elevation-1 tile whose behaviour is not water, such as Olivine's 0x050 sea tile
 -- at (36,70)) or at a transition or bridge elevation gives the player no ground level to pick up.
 --
--- Segments, in Olivine City with Johto badge 6 and the Sky Charm on Select:
+-- Segments, in Olivine City with the Storm Badge (Johto badge 5) and the Sky Charm on Select:
 --   shore    take off on the pier, land on (19,65), step west: the step onto the sea is refused
 --   sea tile fly to (36,70): landing there is refused and the player is still flying
 --   yard     fly to the lighthouse yard (39,52), land, step north on land (control)
@@ -23,7 +23,7 @@ local F = require("lib").new(S, "SkyCharmLanding")
 local HUB_GROUP = 100
 local OLIVINE_GROUP, OLIVINE_MAP = 87, 0
 local ITEM_SKY_CHARM = 891
-local FLAG_JOHTO_BADGE_6 = 0x63FD
+local FLAG_JOHTO_BADGE_5 = 0x63FC
 local CONTEXT_RUNNING, CONTEXT_SHUTDOWN = 0, 2
 local PLAYER_AVATAR_FLAG_SURFING = 1 << 3
 
@@ -104,7 +104,7 @@ end
 F.run(function()
   if not F.boot(HUB_GROUP) then F.check("boot", false); F.finish(); return end
   if not F.check("warp_to_pier", warpToCoords(19, 66, "pier")) then F.finish(); return end
-  runScript({ 0x29, FLAG_JOHTO_BADGE_6 & 0xFF, FLAG_JOHTO_BADGE_6 >> 8, 0x02 })                 -- setflag; end
+  runScript({ 0x29, FLAG_JOHTO_BADGE_5 & 0xFF, FLAG_JOHTO_BADGE_5 >> 8, 0x02 })                 -- setflag; end
   runScript({ 0x44, ITEM_SKY_CHARM & 0xFF, ITEM_SKY_CHARM >> 8, 1, 0, 0x02 })                  -- additem; end
   F.w16(F.sb1() + S.SaveBlock1.registeredItem, ITEM_SKY_CHARM)
 

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "regional_centers.h"
 #include "event_data.h"
+#include "field_move.h"
 #include "item.h"
 #include "pokemon.h"
 #include "party_menu.h"
@@ -216,7 +217,7 @@ static bool32 PartyCanUseMove(struct Pokemon *party, u8 count, enum Move move)
 
 static bool32 CanSurf(enum Region region, struct Pokemon *party, u8 count)
 {
-    bool32 unlocked = HasBadge(region, region == REGION_JOHTO ? 3 : 4);
+    bool32 unlocked = HasFieldMoveBadge(region, FIELD_MOVE_SURF);
 
 #if QOL_FIELD_MOVES_ITEM_GATE
     unlocked |= CheckBagHasItem(ITEM_SURF_TOOL, 1);
@@ -226,13 +227,12 @@ static bool32 CanSurf(enum Region region, struct Pokemon *party, u8 count)
 
 static bool32 CanFly(enum Region region, struct Pokemon *party, u8 count)
 {
-    return HasBadge(region, region == REGION_KANTO ? 2 : 5)
-        && PartyCanUseMove(party, count, MOVE_FLY);
+    return HasFieldMoveBadge(region, FIELD_MOVE_FLY) && PartyCanUseMove(party, count, MOVE_FLY);
 }
 
 static bool32 CanDive(enum Region region, struct Pokemon *party, u8 count)
 {
-    bool32 unlocked = HasBadge(region, 6);
+    bool32 unlocked = HasFieldMoveBadge(region, FIELD_MOVE_DIVE);
 
 #if QOL_FIELD_MOVES_ITEM_GATE
     unlocked |= CheckBagHasItem(ITEM_DIVE_TOOL, 1);
@@ -242,7 +242,7 @@ static bool32 CanDive(enum Region region, struct Pokemon *party, u8 count)
 
 static bool32 CanWaterfall(enum Region region, struct Pokemon *party, u8 count)
 {
-    bool32 unlocked = HasBadge(region, region == REGION_KANTO ? 6 : 7);
+    bool32 unlocked = HasFieldMoveBadge(region, FIELD_MOVE_WATERFALL);
 
 #if QOL_FIELD_MOVES_ITEM_GATE
     unlocked |= CheckBagHasItem(ITEM_WATERFALL_TOOL, 1);

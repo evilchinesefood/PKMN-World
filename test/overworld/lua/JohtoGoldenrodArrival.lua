@@ -1,7 +1,8 @@
 -- Johto standard arrival versus the Ilex Forest wall. Goldenrod's station sits north of Ilex
 -- Forest's Cut tree and east of Route 36's Sudowoodo. Before the Ilex chain is done, a player
 -- landed there cannot walk back to Azalea: Cut needs the Hive Badge and the Ilex gift, Sudowoodo
--- needs the Plain Badge. The gate must send that player home instead. Setup writes badges and
+-- needs the Plain Badge. The charcoal master can give Cut before Bugsy, so the gift alone is not
+-- enough. The gate must send that player home instead. Setup writes badges and
 -- Azalea/Ilex/Goldenrod vars; the Hub Pass and gate menus use real input.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
@@ -168,6 +169,7 @@ F.run(function()
   case("Zephyr Badge only arrives home, south of Azalea",{[0]=true},0,0,0,NEW_BARK_2F)
   case("Hive Badge before Ilex Forest arrives home",{[0]=true,[1]=true},5,0,0,NEW_BARK_2F)
   case("Farfetch'd home but Cut not given arrives home",{[0]=true,[1]=true},6,2,0,NEW_BARK_2F)
+  case("Cut given before the Hive Badge arrives home",{[0]=true},7,3,0,NEW_BARK_2F)
   case("Ilex Forest finished arrives at Goldenrod",{[0]=true,[1]=true},7,3,0,GOLDENROD_STATION)
   case("Plain Badge arrives at Goldenrod",{[0]=true,[2]=true},0,0,5,GOLDENROD_STATION)
   F.finish()

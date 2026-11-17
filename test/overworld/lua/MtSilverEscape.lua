@@ -296,7 +296,7 @@ F.run(function()
   if not F.boot(HUB[1]) then F.check("boot to the hub", false); F.finish(); return end
   F.w16(F.sb2() + S.SaveBlock2.optionsU16, (F.r16(F.sb2() + S.SaveBlock2.optionsU16) & ~7) | 3)
   -- Openings and first badges, Johto past Ilex, and the Mt. Silver guard gone.
-  for _, id in ipairs({ 0xDCF, 0x51, 0xA4B, 0x63F8, 0x94F, 0x95F, 0x63FD, 0x948, 0x61E5 }) do flag(id, true) end
+  for _, id in ipairs({ 0xDCF, 0x51, 0xA4B, 0x63F8, 0x94F, 0x95F, 0x63FC, 0x63FD, 0x948, 0x61E5 }) do flag(id, true) end
   F.w8(F.sb2() + S.SaveBlock2.introDoneBits, 7)
   createMon(SPECIES_ABRA, 30, { MOVE_TELEPORT, MOVE_DIG, MOVE_FLY })
   createMon(SPECIES_RATTATA, 12, { 33 })

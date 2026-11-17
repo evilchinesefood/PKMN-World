@@ -69,12 +69,20 @@ Route104_PrettyPetalFlowerShop_EventScript_WailmerPailGirl::
 
 Route104_PrettyPetalFlowerShop_EventScript_GiveWailmerPail::
 	msgbox Route104_PrettyPetalFlowerShop_Text_YouCanHaveThis, MSGBOX_DEFAULT
+	checkitem ITEM_WAILMER_PAIL
+	goto_if_eq VAR_RESULT, TRUE, Route104_PrettyPetalFlowerShop_EventScript_AlreadyHaveWailmerPail
 	giveitem ITEM_WAILMER_PAIL
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+Route104_PrettyPetalFlowerShop_EventScript_GotWailmerPail::
 	msgbox Route104_PrettyPetalFlowerShop_Text_WailmerPailExplanation, MSGBOX_DEFAULT
 	setflag FLAG_RECEIVED_WAILMER_PAIL
 	release
 	end
+
+@ Johto's Goldenrod Flower Shop hands out the same WAILMER PAIL, and the bag holds one.
+Route104_PrettyPetalFlowerShop_EventScript_AlreadyHaveWailmerPail::
+	msgbox Route104_PrettyPetalFlowerShop_Text_AlreadyHaveWailmerPail, MSGBOX_DEFAULT
+	goto Route104_PrettyPetalFlowerShop_EventScript_GotWailmerPail
 
 Route104_PrettyPetalFlowerShop_EventScript_RandomBerryGirl::
 	lock

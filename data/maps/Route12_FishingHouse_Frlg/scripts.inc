@@ -13,12 +13,20 @@ Route12_FishingHouse_EventScript_FishingGuruBrother::
 
 Route12_FishingHouse_EventScript_GiveSuperRod::
 	msgbox Route12_FishingHouse_Text_TakeThisAndFish
+	checkitem ITEM_SUPER_ROD
+	goto_if_eq VAR_RESULT, TRUE, Route12_FishingHouse_EventScript_AlreadyHaveSuperRod
 	giveitem ITEM_SUPER_ROD
 	goto_if_eq VAR_RESULT, FALSE, Route12_FishingHouse_EventScript_NoRoomForSuperRod
+Route12_FishingHouse_EventScript_GotSuperRod::
 	setflag FLAG_GOT_SUPER_ROD
 	msgbox Route12_FishingHouse_Text_IfYouCatchBigMagikarpShowMe
 	release
 	end
+
+@ Hoenn's Mossdeep fisherman hands out the same SUPER ROD, and the bag holds one.
+Route12_FishingHouse_EventScript_AlreadyHaveSuperRod::
+	msgbox Route12_FishingHouse_Text_AlreadyHaveSuperRod
+	goto Route12_FishingHouse_EventScript_GotSuperRod
 
 Route12_FishingHouse_EventScript_NoRoomForSuperRod::
 	msgbox Route12_FishingHouse_Text_NoRoomForGift
@@ -106,6 +114,10 @@ Route12_FishingHouse_Text_TakeThisAndFish::
 	.string "Grand! I like your style.\n"
 	.string "I think we can be friends.\p"
 	.string "Take this and fish, young friend!$"
+
+Route12_FishingHouse_Text_AlreadyHaveSuperRod:
+	.string "Oh! You already have a SUPER ROD?\n"
+	.string "Then you're one of us already!$"
 
 Route12_FishingHouse_Text_ReceivedSuperRod::
 	.string "{PLAYER} received a SUPER ROD from\n"

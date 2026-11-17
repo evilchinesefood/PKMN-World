@@ -2168,6 +2168,16 @@
 	callstd STD_OBTAIN_ITEM
 	.endm
 
+	@ Gives one key-class item that the player may already own from another region (the HMs:
+	@ one bag serves all three regions and holds one copy). An owned copy makes the giver say
+	@ "Oh, you already have ..." in place of the obtain message and the narrator's refusal.
+	@ VAR_RESULT is TRUE either way.
+	.macro givekeyitem item:req
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, 1
+	call Common_EventScript_GiveKeyItem
+	.endm
+
 	@ For picking up items in the overworld. Similar to giveitem, but with different language and
 	@ sets the flag of the last-talked to object (the item the player picked up).
 	.macro finditem item:req, amount=1

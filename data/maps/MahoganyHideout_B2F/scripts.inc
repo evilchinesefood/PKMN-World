@@ -505,7 +505,7 @@ MahoganyHideout_B2F_EventScript_ElectrodeDone::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_EAST
 	delay 30
 	msgbox MahoganyHideout_B2F_Text_LanceElectrodeDone, MSGBOX_DEFAULT
-	giveitem ITEM_HM_WHIRLPOOL
+	givekeyitem ITEM_HM_WHIRLPOOL
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	msgbox MahoganyHideout_B2F_Text_LanceWhirlpool, MSGBOX_DEFAULT
 	closemessage

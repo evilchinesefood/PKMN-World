@@ -19,6 +19,19 @@ EventScript_ObtainedDupKeyItem::
 	setvar VAR_RESULT, TRUE
 	return
 
+@ givekeyitem: the giver remarks on the copy the player already owns.
+Common_EventScript_GiveKeyItem::
+	checkitem ITEMID
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_GiverSeesKeyItem
+	callstd STD_OBTAIN_ITEM
+	return
+
+Common_EventScript_GiverSeesKeyItem::
+	bufferitemname STR_VAR_2, ITEMID
+	msgbox gText_GiverSeesKeyItem, MSGBOX_DEFAULT
+	setvar VAR_RESULT, TRUE
+	return
+
 EventScript_ObtainItemMessage::
 	bufferitemnameplural STR_VAR_2, ITEMID, AMOUNT
 	checkitemtype ITEMID

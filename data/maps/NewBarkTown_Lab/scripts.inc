@@ -456,8 +456,11 @@ NewBarkTown_Lab_EventScript_ElmLeague::
 
 NewBarkTown_Lab_EventScript_ElmSSTicket::
 	msgbox NewBarkTown_Lab_Text_ElmGiveTicket1, MSGBOX_DEFAULT
+	checkitem ITEM_SS_TICKET
+	goto_if_eq VAR_RESULT, TRUE, NewBarkTown_Lab_EventScript_ElmSeesSSTicket
 	giveitem ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+NewBarkTown_Lab_EventScript_ElmGaveSSTicket::
 	msgbox NewBarkTown_Lab_Text_ElmGiveTicket2, MSGBOX_DEFAULT
 	closemessage
 	clearflag FLAG_HIDE_SSAQUA_1F_GRANDPA
@@ -465,6 +468,11 @@ NewBarkTown_Lab_EventScript_ElmSSTicket::
 	clearflag FLAG_HIDE_OLIVINE_PORT_OAK
 	release
 	end
+
+@ Bill (Kanto) and Dad (Hoenn) hand out the same S.S.TICKET, and the bag holds one.
+NewBarkTown_Lab_EventScript_ElmSeesSSTicket::
+	msgbox NewBarkTown_Lab_Text_ElmSeesSSTicket, MSGBOX_DEFAULT
+	goto NewBarkTown_Lab_EventScript_ElmGaveSSTicket
 
 NewBarkTown_Lab_EventScript_TriggerAideGiveBalls::
 	lock
@@ -914,6 +922,11 @@ NewBarkTown_Lab_Text_ElmGiveTicket1:
 	.string "See? It's an S.S.TICKET.\p"
 	.string "Now you can catch POKéMON in\n"
 	.string "KANTO.$"
+
+NewBarkTown_Lab_Text_ElmSeesSSTicket:
+	.string "Oh! You already have an\n"
+	.string "S.S.TICKET?\p"
+	.string "Then you're all set to sail!$"
 
 NewBarkTown_Lab_Text_ElmGiveTicket2:
 	.string "The ship departs from OLIVINE\n"

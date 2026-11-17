@@ -80,10 +80,20 @@ DewfordTown_EventScript_OldRodFisherman::
 
 DewfordTown_EventScript_GiveOldRod::
 	msgbox DewfordTown_Text_GiveYouOneOfMyRods, MSGBOX_DEFAULT
+	checkitem ITEM_OLD_ROD
+	goto_if_eq VAR_RESULT, TRUE, DewfordTown_EventScript_AlreadyHaveOldRod
 	giveitem ITEM_OLD_ROD
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_OLD_ROD
 	msgbox DewfordTown_Text_ThrowInFishingAdvice, MSGBOX_DEFAULT
+	release
+	end
+
+@ Kanto's and Johto's fishermen hand out the same OLD ROD, and the bag holds one.
+DewfordTown_EventScript_AlreadyHaveOldRod::
+	setflag FLAG_RECEIVED_OLD_ROD
+	msgbox DewfordTown_Text_AlreadyHaveOldRod, MSGBOX_DEFAULT
+	msgbox DewfordTown_Text_FishingAdviceSteps, MSGBOX_DEFAULT
 	release
 	end
 
@@ -700,9 +710,16 @@ DewfordTown_Text_GiveYouOneOfMyRods:
 	.string "you're saying!\p"
 	.string "I'll give you one of my fishing RODS.$"
 
+DewfordTown_Text_AlreadyHaveOldRod:
+	.string "Oh? You already have an OLD ROD!\n"
+	.string "Then you don't need one of mine.\p"
+	.string "But I'll still throw in a little\n"
+	.string "fishing advice!$"
+
 DewfordTown_Text_ThrowInFishingAdvice:
 	.string "And, as an added bonus, I'll even throw\n"
 	.string "in a little fishing advice!\p"
+DewfordTown_Text_FishingAdviceSteps:
 	.string "First, you want to face the water,\n"
 	.string "then use the ROD.\p"
 	.string "Focus your mind…\n"

@@ -8,6 +8,10 @@ gText_AlreadyHaveKeyItem::
 	.string "But {PLAYER} already has\n"
 	.string "one {STR_VAR_2}…$"
 
+gText_GiverSeesKeyItem::
+	.string "Oh, you already have {STR_VAR_2}!\n"
+	.string "Then you're all set.$"
+
 gText_PutItemInPocket::
 	.string "{PLAYER} put away the {STR_VAR_2}\n"
 	.string "in the {STR_VAR_3} POCKET.$"

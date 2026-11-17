@@ -18,12 +18,20 @@ VermilionCity_House1_EventScript_AlreadyGotOldRod::
 
 VermilionCity_House1_EventScript_GiveOldRod::
 	msgbox VermilionCity_House1_Text_TakeThisAndFish
+	checkitem ITEM_OLD_ROD
+	goto_if_eq VAR_RESULT, TRUE, VermilionCity_House1_EventScript_AlreadyHaveOldRod
 	giveitem ITEM_OLD_ROD
 	goto_if_eq VAR_RESULT, FALSE, VermilionCity_House1_EventScript_NoRoomForOldRod
+VermilionCity_House1_EventScript_GotOldRod::
 	setflag FLAG_GOT_OLD_ROD
 	msgbox VermilionCity_House1_Text_FishingIsAWayOfLife
 	release
 	end
+
+@ Hoenn's and Johto's fishermen hand out the same OLD ROD, and the bag holds one.
+VermilionCity_House1_EventScript_AlreadyHaveOldRod::
+	msgbox VermilionCity_House1_Text_AlreadyHaveOldRod
+	goto VermilionCity_House1_EventScript_GotOldRod
 
 VermilionCity_House1_EventScript_NoRoomForOldRod::
 	msgbox VermilionCity_House1_Text_NoRoomForNiceGift
@@ -40,6 +48,10 @@ VermilionCity_House1_Text_TakeThisAndFish::
 	.string "Grand! I like your style.\n"
 	.string "I think we can be friends.\p"
 	.string "Take this and fish, young friend!$"
+
+VermilionCity_House1_Text_AlreadyHaveOldRod:
+	.string "Oh! You already have an OLD ROD?\n"
+	.string "Then you're one of us already!$"
 
 VermilionCity_House1_Text_ReceivedOldRodFromFishingGuru::
 	.string "{PLAYER} received an OLD ROD from\n"

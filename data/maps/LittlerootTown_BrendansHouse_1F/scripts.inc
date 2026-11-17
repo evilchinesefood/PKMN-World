@@ -403,6 +403,13 @@ PlayersHouse_1F_Text_PortsInSlateportLilycove:
 	.string "If I recall, there are ferry ports in\n"
 	.string "SLATEPORT and LILYCOVE.$"
 
+PlayersHouse_1F_Text_AlreadyHaveSSTicket:
+	.string "DAD: Hm, a TICKET for a ferry?\p"
+	.string "Oh, you already have one!\n"
+	.string "Then you're all set for the ferry.\p"
+	.string "If I recall, there are ferry ports in\n"
+	.string "SLATEPORT and LILYCOVE.$"
+
 PlayersHouse_1F_Text_BetterGetBackToGym:
 	.string "I'd better get back to PETALBURG GYM.\p"
 	.string "MOM, thanks for looking after the house\n"

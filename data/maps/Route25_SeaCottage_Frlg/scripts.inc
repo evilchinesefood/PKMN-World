@@ -96,14 +96,22 @@ Route25_SeaCottage_EventScript_BillGiveSSTicket::
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, Route25_SeaCottage_EventScript_BillThanksMale
 	call_if_eq VAR_RESULT, FEMALE, Route25_SeaCottage_EventScript_BillThanksFemale
+	checkitem ITEM_SS_TICKET
+	goto_if_eq VAR_RESULT, TRUE, Route25_SeaCottage_EventScript_BillSeesSSTicket
 	checkitemspace ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Route25_SeaCottage_EventScript_NoRoomForSSTicket
 	giveitem_msg Route25_SeaCottage_Text_ReceivedSSTicketFromBill, ITEM_SS_TICKET, 1, MUS_RG_OBTAIN_KEY_ITEM
+Route25_SeaCottage_EventScript_BillGaveSSTicket::
 	setflag FLAG_GOT_SS_TICKET_DUP
 	setflag FLAG_HIDE_NUGGET_BRIDGE_ROCKET
 	setflag FLAG_GOT_SS_TICKET
 	goto Route25_SeaCottage_EventScript_BillGoToSSAnne
 	end
+
+@ Elm (Johto) and Dad (Hoenn) hand out the same S.S. TICKET, and the bag holds one.
+Route25_SeaCottage_EventScript_BillSeesSSTicket::
+	msgbox Route25_SeaCottage_Text_BillSeesSSTicket
+	goto Route25_SeaCottage_EventScript_BillGaveSSTicket
 
 Route25_SeaCottage_EventScript_BillThanksMale::
 	msgbox Route25_SeaCottage_Text_ThanksBudTakeThis
@@ -369,6 +377,11 @@ Route25_SeaCottage_Text_ThanksLadyTakeThis::
 Route25_SeaCottage_Text_ReceivedSSTicketFromBill::
 	.string "{PLAYER} received an S.S. TICKET\n"
 	.string "from BILL.$"
+
+Route25_SeaCottage_Text_BillSeesSSTicket:
+	.string "BILL: …Huh? You've already got an\n"
+	.string "S.S. TICKET?\p"
+	.string "Well, aren't you a step ahead of me!$"
 
 Route25_SeaCottage_Text_YouveGotTooMuchStuff::
 	.string "You've got too much stuff!$"

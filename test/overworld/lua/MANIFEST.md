@@ -3340,3 +3340,22 @@ WINOUT `0x0101`, WIN0H `0x00FF` and BG0HOFS 0 as the map loader set them, and ea
 must start a pop-up (watched from the warp itself, because `F.warpTo` idles past it). Measured
 **52/52** at the runner's default 07:00 in-game and at 22:00 in-game (`--rtc 1704164400`; the
 game clock runs five hours behind the RTC); no defect found.
+### `BattleBgMoveAnims.lua`
+
+Coverage for #634's backgrounds under move animations, weather and terrain. Real battles across the
+new art: tall grass by day (20 moves) and night, Ice Path, snowy Mt. Silver at night (snow weather),
+Rusturf Tunnel (overworld fog sets Misty Terrain), a Route 41 thunderstorm while surfing (rain and
+Electric Terrain) at night, underwater, the Route 111 desert at night (sandstorm), long grass,
+Pokemon Tower's ghost battle, the Kanto, Johto and Hoenn Safari Zones, a plain-ground trainer at
+night, the Route 104 twins double, and Roxanne's and Bugsy's stadiums. Wild battles start by walking
+encounter tiles, trainer battles by talking. Each turn the suite writes the move into the battler's
+four slots and makes both sides sturdy (No Guard, 1 Atk, a Focus Sash on the foe), then picks it with
+real input. After every turn BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every tile it
+names, the BG3 scroll and BG3CNT must equal the first action menu's; the moves that fade to their own
+background (Psychic, Night Shade, Shadow Ball, Crunch, Sky Attack, Cosmic Power, Fissure) must have
+drawn it; the battlefield holds one state through the intro unless overworld weather sets a terrain;
+and after the battle the field's BG banks 0-12 equal those it left (skipped on Route 111, whose
+sandstorm coord events start a weather fade the battle interrupts). `BGS_CASE=name,...` runs a
+subset. Measured **262/262** on master. Control: a build whose `LoadDefaultBg` drops the captured
+presentation before redrawing scored 228/262 (every night, Ice Path and Mt. Silver restore failed).
+No defect found.

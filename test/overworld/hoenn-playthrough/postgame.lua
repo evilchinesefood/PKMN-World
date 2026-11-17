@@ -581,14 +581,14 @@ return function(F, N, C, log, H)
     assert(N.travel('EverGrandeCity_Hall4'))
     N.takeWarp(5, 2, { limit = 60 * 60 * 20 })
     for _ = 1, 60 * 60 * 20 // 12 do
-      if F.ow() and N.free() and N.mapName():find('^LittlerootTown_') then break end
+      if F.ow() and N.free() and at('LittlerootTown') then break end
       if F.ow() and N.free() and at('EverGrandeCity_Hall4') then N.takeWarp(5, 2) end
       if N.inBattle() then N.settle() else F.press('A', 2); F.idle(10) end
     end
     N.settle()
     F.check('champion: Wallace fought again', N.battles.trainer > before)
     L('  second Hall of Fame back at ' .. N.mapName())
-  end, function() return F.ow() and N.mapName():find('^LittlerootTown_') ~= nil end)
+  end, function() return F.ow() and at('LittlerootTown') end)
 
   -- A second Hall of Fame re-runs SetGameClearFlags: state must not regress.
   beat('pg_home_again', function()
@@ -599,7 +599,9 @@ return function(F, N, C, log, H)
     F.check('reclear: VAR_ELITE_4_STATE 0', V('VAR_ELITE_4_STATE') == 0)
     assert(N.travel(H.HOME .. '_1F'))
     N.settle()
-    F.check('reclear: ticket scene not re-armed', V('VAR_LITTLEROOT_HOUSES_STATE_MAY') ~= 3, tostring(V('VAR_LITTLEROOT_HOUSES_STATE_MAY')))
+    F.check('reclear: ticket scene not re-armed',
+      V('VAR_LITTLEROOT_HOUSES_STATE_MAY') ~= 3 and V('VAR_LITTLEROOT_HOUSES_STATE_BRENDAN') ~= 3,
+      V('VAR_LITTLEROOT_HOUSES_STATE_MAY') .. '/' .. V('VAR_LITTLEROOT_HOUSES_STATE_BRENDAN'))
   end, function() return at(H.HOME .. '_1F') and N.free() end)
 
   return H

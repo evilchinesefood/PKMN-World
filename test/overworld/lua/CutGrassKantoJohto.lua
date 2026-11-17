@@ -8,13 +8,14 @@
 --
 -- Each case warps the player beside grass, teaches the lead Pokemon CUT and uses it from the Start
 -- menu's party screen with real input. Every metatile in the 3x3 around the player must become the
--- literal tile its case names (the ground under that grass in its own tileset), and nothing else in
+-- literal tile its case names (the stubble on the ground under that grass in its own tileset, see
+-- test/overworld/lua/CutGrassStubble.lua), and nothing else in
 -- the surrounding 5x5 may change. Leaving and re-entering the map must bring the grass back, as it
 -- does in Hoenn (Cut writes only the map grid copy).
 --   * Kanto: Viridian Forest (ViridianForest tree-top grass), Route 13 (General_FrlgNight tree tops);
 --   * Johto: Route 29 (Johto_General grass under tree tops), Route 33 (Johto_South), National Park
---     (long grass and its south edge), Route 39 (the wheat field, cut to the bare field under it);
---   * Route 101 (control): Hoenn's grass, unchanged.
+--     (long grass and its south edge), Route 39 (the wheat field, cut to straw stubble);
+--   * Route 101 (control): Hoenn's grass.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/CutGrassKantoJohto.lua
 
@@ -33,13 +34,13 @@ local SP = S.Sprite
 
 -- { tag, grp, map, x, y, { grass metatile = metatile Cut leaves } }
 local CASES = {
-  { "viridian_forest", 35, 0, 35, 18, { [0x284] = 0x281, [0x00D] = 0x001 } },
-  { "route13", 37, 31, 57, 7, { [0x00B] = 0x00E, [0x00C] = 0x00F, [0x00D] = 0x001 } },
-  { "route29", 75, 2, 51, 14, { [0x00B] = 0x00E, [0x00C] = 0x00F, [0x00D] = 0x001 } },
-  { "route33", 80, 1, 18, 28, { [0x00B] = 0x00E, [0x00C] = 0x00F, [0x00D] = 0x001 } },
-  { "national_park", 83, 4, 30, 15, { [0x287] = 0x011, [0x28F] = 0x011, [0x297] = 0x011, [0x2DF] = 0x2DC } },
-  { "route39_wheat", 85, 2, 2, 5, { [0x301] = 0x3D4, [0x302] = 0x3D4, [0x303] = 0x3D4, [0x309] = 0x3D4, [0x30A] = 0x3D4, [0x30B] = 0x3D4 } },
-  { "route101_control", 0, 16, 15, 14, { [0x00D] = 0x001, [0x1C6] = 0x1CE, [0x1C7] = 0x1CF } },
+  { "viridian_forest", 35, 0, 35, 18, { [0x284] = 0x297, [0x00D] = 0x228 } },
+  { "route13", 37, 31, 57, 7, { [0x00B] = 0x02E, [0x00C] = 0x20B, [0x00D] = 0x228 } },
+  { "route29", 75, 2, 51, 14, { [0x00B] = 0x27F, [0x00C] = 0x27E, [0x00D] = 0x27D } },
+  { "route33", 80, 1, 18, 28, { [0x00B] = 0x27F, [0x00C] = 0x27E, [0x00D] = 0x27D } },
+  { "national_park", 83, 4, 30, 15, { [0x287] = 0x2D7, [0x28F] = 0x2E1, [0x297] = 0x2E8, [0x2DF] = 0x2E9 } },
+  { "route39_wheat", 85, 2, 2, 5, { [0x301] = 0x3C1, [0x302] = 0x3C2, [0x303] = 0x3C8, [0x309] = 0x3CA, [0x30A] = 0x3CB, [0x30B] = 0x3CC } },
+  { "route101_control", 0, 16, 15, 14, { [0x00D] = 0x02A, [0x1C6] = 0x13F, [0x1C7] = 0x1A2 } },
 }
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
@@ -152,7 +153,7 @@ local function run(c)
     end
   end
   F.check(tag .. ": grass stands in Cut's reach", grassInReach >= 3, "grass tiles " .. grassInReach)
-  F.check(tag .. ": every grass tile in reach becomes the ground under it", #inner == 0, table.concat(inner, "; "))
+  F.check(tag .. ": every grass tile in reach becomes its stubble", #inner == 0, table.concat(inner, "; "))
   F.check(tag .. ": nothing outside Cut's reach changes", #outer == 0, table.concat(outer, "; "))
   F.check(tag .. ": control returns to the field", F.ow() and F.r8(S.sLockFieldControls) == 0)
   if not warpToCoords(grp, map, x, y, tag .. "_reload") then return end

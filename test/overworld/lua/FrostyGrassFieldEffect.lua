@@ -19,8 +19,8 @@
 -- The Cut cases use CUT from the party screen with the player in reach of the grass. The 3x3 around
 -- the player must cut each grass metatile to the tile its case names and change nothing else, and
 -- the clippings must draw the expected palette, checked the same way.
---   * Mt. Silver at 12:00 and 22:00: frosty_cut_grass.pal, frosty grass cut to the snow beside it;
---   * Route 101 (control) and Route 30: cut_grass.pal, tall grass cut to plain grass. Route 30's
+--   * Mt. Silver at 12:00 and 22:00: frosty_cut_grass.pal, frosty grass cut to frosty stubble on snow;
+--   * Route 101 (control) and Route 30: cut_grass.pal, tall grass cut to stubble. Route 30's
 --     flower border sits right under the grass, where Fortree's long grass repair used to rewrite it.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/FrostyGrassFieldEffect.lua
@@ -326,13 +326,13 @@ end
 
 local TAG_CUT_GREEN, TAG_CUT_FROSTY = 0x1000, 0x1017
 local CUT_GREEN, CUT_FROSTY = "graphics/field_effects/palettes/cut_grass.pal", "graphics/field_effects/palettes/frosty_cut_grass.pal"
-local MT_SILVER_CUTS = { [642] = 641, [895] = 641 }
+local MT_SILVER_CUTS = { [642] = 0x2C9, [895] = 0x326 }
 -- { tag, grp, map, x, y, hour, palette tag, palette file, { grass metatile = metatile Cut leaves } }
 local CUT_CASES = {
   { "mt_silver_cut_day", 97, 7, 18, 20, 12, TAG_CUT_FROSTY, CUT_FROSTY, MT_SILVER_CUTS },
   { "mt_silver_cut_night", 97, 7, 18, 20, 22, TAG_CUT_FROSTY, CUT_FROSTY, MT_SILVER_CUTS },
-  { "route101_cut_day", 0, 16, 10, 10, 12, TAG_CUT_GREEN, CUT_GREEN, { [13] = 1 } },
-  { "route30_cut_day", 75, 3, 33, 12, 12, TAG_CUT_GREEN, CUT_GREEN, { [13] = 1 } },
+  { "route101_cut_day", 0, 16, 10, 10, 12, TAG_CUT_GREEN, CUT_GREEN, { [13] = 0x02A } },
+  { "route30_cut_day", 75, 3, 33, 12, 12, TAG_CUT_GREEN, CUT_GREEN, { [13] = 0x27D } },
 }
 
 local function useCut(tag)
@@ -386,7 +386,7 @@ local function runCut(c)
       list[#list + 1] = string.format("(%d,%d) %d->%d want %d", x + dx, y + dy, before[i], after[i], want)
     end
   end
-  F.check(tag .. ": the grass in reach is cut to the tile beside it", cutAny and #inner == 0, table.concat(inner, "; "))
+  F.check(tag .. ": the grass in reach is cut to its stubble", cutAny and #inner == 0, table.concat(inner, "; "))
   F.check(tag .. ": nothing outside Cut's reach changes", #outer == 0, table.concat(outer, "; "))
   F.check(tag .. ": control returns to the field", F.ow() and F.r8(S.sLockFieldControls) == 0)
 end

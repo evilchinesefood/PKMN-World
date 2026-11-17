@@ -14528,9 +14528,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Basement Key"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "The key for New\n"
-            "Mauville beneath\n"
-            "Mauville City."),
+            "The key to a\n"
+            "locked door that\n"
+            "leads underground."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
@@ -14745,9 +14745,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Card Key"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "A card-type door\n"
-            "key used in Silph\n"
-            "Co's office."),
+            "A card-type key\n"
+            "that opens locked\n"
+            "doors."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,

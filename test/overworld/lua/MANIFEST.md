@@ -150,6 +150,7 @@ is clean; keep it that way.
 | [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
 | [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
 | [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
+| [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3627,3 +3628,13 @@ you" line; after Chuck's victory state is written in the city (badge 5, the gym 
 set `VAR_GETFLY` to 2 with one HM02 in the bag; then her repeat line. A control without HM02 runs the
 same three talks with a real give. Text is read from `gStringVar4`. Measured **32/40** on the unfixed
 ROM and **40/40** fixed.
+
+### `CardKeyDescription.lua`
+
+ITEM_CARD_KEY is one item for Kanto's Silph Co. and Johto's Radio Tower Director, and its description
+named Silph Co.'s office in the obtain box over the Director's give. With the Director revealed and the
+basement grunts beaten, the player walks to him and talks with real input; the obtain box text
+(`gStringVar1`, where `ScriptShowItemDescription` formats it) must name no Silph Co. and read as a door
+key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
+Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
+two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.

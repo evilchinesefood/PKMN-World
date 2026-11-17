@@ -228,6 +228,8 @@ WANT = [
     "gMoveSelectionCursor",
     # SpecialDexFormsNav.lua: proves the Pokedex is on the Forms page before reading its tilemap.
     "Task_HandleFormsScreenInput",
+    # SafariActionMenu.lua tells the Pokeblock case a Safari choice opened from the battle by CB2.
+    "CB2_PokeblockMenu",
     # DoubleBattleStress.lua. BattleSetup_StartDoubleWildBattle is the natural wild double entry
     # (DoStandardWildBattle(TRUE)); the suite reaches it with an EWRAM `callnative` script because
     # nothing in this build's encounter tables rolls a double. The rest observe double-only

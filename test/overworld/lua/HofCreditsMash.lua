@@ -81,10 +81,14 @@ end
 local function hasControl()
   return F.ow() and F.r8(S.sLockFieldControls) == 0 and F.r8(S.sGlobalScriptContextStatus) ~= CONTEXT_RUNNING
 end
+-- Control must hold for 30 frames: a map's ON_FRAME scene starts a frame or two after the field
+-- comes up (Birch's doorstep scene, then his lab's), and a single free frame races it.
 local function awaitControl(budget)
+  local calm = 0
   for i = 1, budget or 3000 do
-    if hasControl() then return true end
-    if i % 30 == 0 then F.press("B", 2) else F.idle(1) end
+    calm = hasControl() and calm + 1 or 0
+    if calm >= 30 then return true end
+    if calm == 0 and i % 30 == 0 then F.press("B", 2) else F.idle(1) end
   end
   return hasControl()
 end
@@ -223,8 +227,9 @@ local function induct(c)
   F.check(c.tag .. ": party survived the induction", F.r8(S.gPartiesCount) == n and n > 0,
     string.format("n=%d before=%d", F.r8(S.gPartiesCount), n))
   F.L(string.format("  party hash %08X -> %08X (GameClear heals and ribbons, so it may change)", party, partyHash()))
-  -- Kanto's post-league Oak rating scene plays here on purpose and takes about 1,100 frames.
-  local ctl = awaitControl(3000)
+  -- Kanto's post-league Oak rating scene plays here on purpose and takes about 1,100 frames; after
+  -- the first Hoenn induction Birch's doorstep scene leads to the lab first.
+  local ctl = awaitControl(8000)
   F.check(c.tag .. ": control returns", ctl, string.format("lock=%d status=%d script=%08X",
     F.r8(S.sLockFieldControls), F.r8(S.sGlobalScriptContextStatus), F.r32(S.sGlobalScriptContext + S.ScriptCtx.scriptPtr)))
   F.shot(c.tag .. "_control")
@@ -249,12 +254,12 @@ F.run(function()
 
   case("hoenn", function()
     induct({ tag = "hoenn", grp = 16, map = 11, budget = 60000, credits = false,
-      landGrp = 1, landMap = male and 1 or 3, landX = 4, landY = 2, region = "Hoenn", regionId = 3 })
+      landGrp = 0, landMap = 9, landX = male and 5 or 14, landY = 9, region = "Hoenn", regionId = 3 })
   end)
   for _, at in ipairs({ 2, 40, 400 }) do
     case("hoenn soft reset in the Hall of Fame +" .. at, function()
       induct({ tag = "hoenn_reset" .. at, grp = 16, map = 11, budget = 60000, softResetAt = at, prevSave = saved,
-        landGrp = 1, landMap = male and 1 or 3, landX = 4, landY = 2, region = "Hoenn", regionId = 3 })
+        landGrp = 0, landMap = 9, landX = male and 5 or 14, landY = 9, region = "Hoenn", regionId = 3 })
     end)
   end
   case("johto", function()

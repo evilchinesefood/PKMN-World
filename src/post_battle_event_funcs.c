@@ -44,13 +44,14 @@ int GameClear(void)
 
     SetContinueGameWarpStatus();
 
-    // Johto champions (Lance / Red) resume in New Bark Town; Hoenn stays Littleroot.
+    // Champions resume outside their own house: New Bark Town for Johto (Lance / Red), Brendan's
+    // or May's front door in Littleroot for Hoenn. Kanto's EnterHallOfFame uses Pallet Town.
     if (GetCurrentRegion() == REGION_JOHTO)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_NEW_BARK_TOWN);
     else if (gSaveBlock2Ptr->playerGender == MALE)
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
+        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE);
     else
-        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F);
+        SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE);
 
     ribbonGet = FALSE;
 

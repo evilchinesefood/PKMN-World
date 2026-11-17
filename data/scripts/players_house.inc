@@ -559,14 +559,53 @@ PlayersHouse_1F_EventScript_DadExitsFemale::
 	waitmovement 0
 	return
 
+@ The scene starts wherever the player came in: down the stairs, through the front door (Continue
+@ after the Hall of Fame lands outside) or beside Mom after a whiteout. Each way in ends on the tile
+@ the stairs lead to, where the rest of the scene expects the player.
 PlayersHouse_1F_EventScript_PlayerEnterRoomMale::
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8005, 8, PlayersHouse_1F_EventScript_PlayerEnterFromDoorMale
+	goto_if_eq VAR_0x8005, 7, PlayersHouse_1F_EventScript_PlayerEnterBesideMomMale
 	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterRoomMale
 	waitmovement 0
 	return
 
+PlayersHouse_1F_EventScript_PlayerEnterFromDoorMale::
+	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterFromDoorMale
+	waitmovement 0
+	return
+
+PlayersHouse_1F_EventScript_PlayerEnterBesideMomMale::
+	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterBesideMomMale
+	waitmovement 0
+	return
+
 PlayersHouse_1F_EventScript_PlayerEnterRoomFemale::
+	getplayerxy VAR_0x8004, VAR_0x8005
+	goto_if_eq VAR_0x8005, 8, PlayersHouse_1F_EventScript_PlayerEnterFromDoorFemale
+	goto_if_eq VAR_0x8005, 7, PlayersHouse_1F_EventScript_PlayerEnterBesideMomFemale
 	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterRoomFemale
 	waitmovement 0
+	return
+
+PlayersHouse_1F_EventScript_PlayerEnterFromDoorFemale::
+	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterFromDoorFemale
+	waitmovement 0
+	return
+
+PlayersHouse_1F_EventScript_PlayerEnterBesideMomFemale::
+	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterBesideMomFemale
+	waitmovement 0
+	return
+
+@ Until the scene runs, Norman waits in the player's house only. Called from each 1F's
+@ ON_TRANSITION, which knows whose house it is from which house state is armed.
+PlayersHouse_1F_EventScript_ShowDad::
+	clearflag FLAG_HIDE_PLAYERS_HOUSE_DAD
+	return
+
+PlayersHouse_1F_EventScript_HideDad::
+	setflag FLAG_HIDE_PLAYERS_HOUSE_DAD
 	return
 
 PlayersHouse_1F_EventScript_PlayerApproachTVForLatiMale::
@@ -673,6 +712,46 @@ PlayersHouse_1F_Movement_PlayerEnterRoomFemale:
 	walk_down
 	walk_down
 	walk_down
+	walk_in_place_faster_right
+	step_end
+
+PlayersHouse_1F_Movement_PlayerEnterFromDoorMale:
+	delay_16
+	walk_up
+	walk_up
+	walk_in_place_faster_left
+	step_end
+
+PlayersHouse_1F_Movement_PlayerEnterFromDoorFemale:
+	delay_16
+	walk_up
+	walk_up
+	walk_in_place_faster_right
+	step_end
+
+PlayersHouse_1F_Movement_PlayerEnterBesideMomMale:
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_up
+	walk_up
+	walk_in_place_faster_left
+	step_end
+
+PlayersHouse_1F_Movement_PlayerEnterBesideMomFemale:
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_up
+	walk_up
 	walk_in_place_faster_right
 	step_end
 

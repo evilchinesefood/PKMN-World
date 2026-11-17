@@ -304,3 +304,4 @@ ContinueDarkCave	lua/ContinueDarkCave.lua	fresh	0	required
 ItemBallFullPocket	lua/ItemBallFullPocket.lua	fresh	0	required
 BattleBgFrostGrass	lua/BattleBgFrostGrass.lua	fresh	0	required
 MauvilleGymFollowerBarrier	lua/MauvilleGymFollowerBarrier.lua	fresh	0	required
+HoennHofHome	lua/HoennHofHome.lua	fresh	0	required

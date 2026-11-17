@@ -3384,14 +3384,16 @@ Electric Terrain) at night, underwater, the Route 111 desert at night (sandstorm
 Pokemon Tower's ghost battle, the Kanto, Johto and Hoenn Safari Zones, a plain-ground trainer at
 night, the Route 104 twins double, and Roxanne's and Bugsy's stadiums. Wild battles start by walking
 encounter tiles, trainer battles by talking. Each turn the suite writes the move into the battler's
-four slots and makes both sides sturdy (No Guard, 1 Atk, a Focus Sash on the foe), then picks it with
-real input. After every turn BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every tile it
+four slots and makes both sides sturdy (No Guard, 1 Atk, a Focus Sash on the foe, Splash in the foe's
+four slots so it can neither faint nor confuse the player), then picks it with real input. After every turn BG palette banks 2-4 (unfaded and faded), the BG3 tilemap, every tile it
 names, the BG3 scroll and BG3CNT must equal the first action menu's; the moves that fade to their own
 background (Psychic, Night Shade, Shadow Ball, Crunch, Sky Attack, Cosmic Power, Fissure) must have
 drawn it; the battlefield holds one state through the intro unless overworld weather sets a terrain;
-and after the battle the field's BG banks 0-12 equal those it left (skipped on Route 111, whose
-sandstorm coord events start a weather fade the battle interrupts). `BGS_CASE=name,...` runs a
-subset. Measured **262/262** on master. Control: a build whose `LoadDefaultBg` drops the captured
+and after the battle the field's BG banks 0-12 equal those it left, both read between lightning bolts
+(skipped on Route 111, whose sandstorm coord events start a weather fade the battle interrupts).
+`BGS_CASE=name,...` runs a subset. Measured **274/274** on master. Before Splash and the bolt wait the
+result hung on the RNG's phase: Route 41's return read a lightning flash (`@0 0000->2104`), Pineco's
+Bullet Seed fainted Marshtomp in Bugsy's gym, and Tentacool's Supersonic stopped Fissure or Sky Attack. Control: a build whose `LoadDefaultBg` drops the captured
 presentation before redrawing scored 228/262 (every night, Ice Path and Mt. Silver restore failed).
 No defect found.
 ### `OverworldFogBattle.lua`

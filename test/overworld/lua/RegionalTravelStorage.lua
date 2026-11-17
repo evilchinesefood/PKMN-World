@@ -260,6 +260,7 @@ local function setup()
   flag(0x51,true)
   flag(0xA4B,true)
   flag(0x63F8,true)
+  flag(0x63F9,true) -- the Hive Badge: the Cut gift counts as past Ilex only with it
   F.w16(F.sb3()+S.SaveBlock3.regionVars+0x8C*2,7) -- VAR_AZALEA_TOWN_STATE: past Ilex, so Johto arrives at Goldenrod
   flag(0x94F,true)
   flag(0x95F,true) -- visited Slateport, so the standard Hoenn arrival is its harbor

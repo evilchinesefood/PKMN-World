@@ -14,6 +14,14 @@
 -- stairs from the bedroom (an older save that continued in 2F) and a whiteout, which respawns the
 -- player beside Mom.
 --
+-- Nothing on the doorstep says the ticket waits inside, so Mom calls the champion home. The Hall of
+-- Fame arms the player's house state at 6; the first time the player has control in Littleroot, Mom
+-- appears at their own door, says Dad is home, and the state becomes 3 (Norman shown, scene armed).
+-- The suite walks out of the lab and expects exactly one call from the right door with control after
+-- it, walks into the lab and out again and expects none, runs a second induction with the ticket
+-- still waiting (Continue lands on the doorstep, so Mom calls from the doorway behind the player), and
+-- walks out of the house after the scene and expects none.
+--
 -- PW_HOME_ONLY=male|female runs one gender.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
@@ -24,11 +32,13 @@ local ONLY = os.getenv("PW_HOME_ONLY")
 local HUB_GROUP = 100
 local MALE, FEMALE = 0, 1
 local CONTEXT_RUNNING = 0
-local DIR_SOUTH, DIR_WEST, DIR_EAST = 1, 3, 4
+local DIR_SOUTH, DIR_NORTH, DIR_WEST, DIR_EAST = 1, 2, 3, 4
 local TOWN = { 0, 9 }
 local LAB = { 1, 4 }
 local HOF = { 16, 11 }
 local LOCALID_DAD = 5
+local LOCALID_TOWN_MOM = 4
+local STATE_CALL_PENDING, STATE_DAD_WAITING, STATE_SCENE_DONE, STATE_LEFT_HOUSE = 6, 3, 4, 5
 local ITEM_SS_TICKET = 727
 
 local VARS_START = 0x4000
@@ -45,16 +55,18 @@ local ROW_PARTY_MENU, ROW_SET, ROW_BATTLE = 2, 9, 10
 local B_OUTCOME_LOST = 2
 
 -- Per gender: the house maps, the doorstep, the whiteout tile beside Mom, where the scene leaves
--- the player (below the TV) and the intro's hide flags.
+-- the player (below the TV), the walk from there to the front door's mat and the intro's hide flags.
 local HOMES = {
   male = {
     gender = MALE, var = VAR_HOUSES_BRENDAN, own1F = { 1, 0 }, own2F = { 1, 1 }, rival1F = { 1, 2 },
     door = { x = 5, y = 9, warp = 1 }, rivalDoor = 0, beside = { 2, 7 }, tv = { 4, 5 }, faceMom = DIR_EAST,
+    exitRoute = { { 2, 5 }, { 2, 8 }, { 8, 8 } },
     hide = { 0x2F7, 0x2FA, 0x310, 0x2DF, 0x331, 0x2F9 }, show = { 0x2F6 },
   },
   female = {
     gender = FEMALE, var = VAR_HOUSES_MAY, own1F = { 1, 2 }, own2F = { 1, 3 }, rival1F = { 1, 0 },
     door = { x = 14, y = 9, warp = 0 }, rivalDoor = 1, beside = { 8, 7 }, tv = { 6, 5 }, faceMom = DIR_WEST,
+    exitRoute = { { 8, 5 }, { 8, 8 }, { 2, 8 } },
     hide = { 0x2F6, 0x2F9, 0x311, 0x2E0, 0x332, 0x2FA }, show = { 0x2F7 },
   },
 }
@@ -96,6 +108,17 @@ local function dadVisible()
     end
   end
   return false
+end
+
+-- Littleroot's Mom (outside), as map coordinates, while she is on screen and visible.
+local function townMom()
+  if not at(TOWN) then return nil end
+  for i = 0, 15 do
+    local a = S.gObjectEvents + i * S.ObjectEvent.stride
+    if (F.r8(a) & 1) == 1 and F.r8(a + S.ObjectEvent.localId) == LOCALID_TOWN_MOM and (F.r8(a + S.ObjectEvent.flags1) & 0x20) == 0 then
+      return F.rs16(a + S.ObjectEvent.x) - 7, F.rs16(a + S.ObjectEvent.y) - 7
+    end
+  end
 end
 
 local function heal()
@@ -165,9 +188,19 @@ local function rearm(h, oldSave)
   if oldSave then flagClear(FLAG_HIDE_DAD) end
 end
 
+-- Free on the field, then 30 quiet frames: the steps that prove control can start a Match Call
+-- (Scott's Battle Frontier call comes after the Hall of Fame), whose text only A advances.
 local function freeUp()
-  for _ = 1, 60 do if F.ensureFree() then return true end F.press("B", 2); F.idle(20) end
-  return F.ensureFree()
+  local free = false
+  for _ = 1, 60 do if F.ensureFree() then free = true; break end F.press("B", 2); F.idle(20) end
+  if not free then return false end
+  local calm = 0
+  for i = 1, 3000 do
+    calm = hasControl() and calm + 1 or 0
+    if calm >= 30 then return true end
+    if calm == 0 and i % 30 == 0 then F.press("A", 2) else F.idle(1) end
+  end
+  return false
 end
 
 -- Walk into a 1F (already standing on the doorstep or the stairs approach) with a held press.
@@ -194,6 +227,47 @@ local function driveScene(tag, h)
     if f % 24 == 0 then F.press("A", 2) else F.idle(1) end
   end
   return false, tiles
+end
+
+-- Watch Littleroot after an arrival: count Mom's appearances, note where she first stood, screenshot
+-- the call, and wait for 30 frames of steady control with no call pending. B advances the text
+-- slowly enough for each page to be on screen in a shot.
+local function watchTown(tag, h, frames)
+  local r = { shows = 0, ctl = false }
+  local was, calm, first = false, 0, nil
+  for f = 1, frames do
+    local mx, my = townMom()
+    if mx and not was then
+      r.shows = r.shows + 1
+      if not r.at then r.at = { mx, my }; first = f end
+    end
+    was = mx ~= nil
+    if first and f > first and (f - first) % 90 == 1 and f - first < 600 then F.shot(string.format("%s_call_%d", tag, f - first)) end
+    calm = (hasControl() and varGet(h.var) ~= STATE_CALL_PENDING) and calm + 1 or 0
+    if calm >= 30 then r.ctl = true; break end
+    if f % 600 == 0 and F.noteCrash(tag .. f) then break end
+    if f % 90 == 0 and not hasControl() then F.press("B", 2) else F.idle(1) end
+  end
+  r.state = varGet(h.var)
+  r.x, r.y = F.pos()
+  r.facing = facing()
+  F.shot(tag .. "_after")
+  F.L(string.format("  %s: Mom shown %d time(s)%s, state %d, control %s at %s facing %d", tag, r.shows,
+    r.at and string.format(" first at (%d,%d)", r.at[1], r.at[2]) or "", r.state, tostring(r.ctl), where(), r.facing))
+  return r
+end
+
+local function momAtDoor(r, h)
+  return r.at ~= nil and r.at[1] == h.door.x and (r.at[2] == h.door.y or r.at[2] == h.door.y - 1)
+end
+
+-- Hold a direction until the map changes to `map` (walking through a door or off a mat).
+local function holdInto(dir, map)
+  for _ = 1, 240 do if hasControl() then break end F.idle(1) end
+  joypad.set({ [dir] = true })
+  for _ = 1, 180 do emu.frameadvance(); if at(map) then break end end
+  joypad.set({})
+  return at(map)
 end
 
 local function tileList(t)
@@ -228,7 +302,7 @@ local function whiteOut(tag)
   tapDown(ROW_BATTLE); F.press("A", 3); F.idle(30)
   local left = false
   for _ = 1, 800 do F.idle(8); if not F.ow() then left = true; break end end
-  if not left then return false, "the debug battle never started" end
+  if not left then F.shot(tag .. "_no_battle"); return false, "the debug battle never started" end
   for _ = 1, 400 do if F.battlers() > 0 then break end F.idle(4) end
   for t = 1, 4000 do
     F.w8(S.gBattleOutcome, B_OUTCOME_LOST)
@@ -262,8 +336,9 @@ local function home(name, h)
   local hg, hm, hx, hy = heal()
   F.check(name .. ": the whiteout point is the same doorstep", hg == TOWN[1] and hm == TOWN[2] and hx == h.door.x and hy == h.door.y,
     string.format("%d/%d (%d,%d)", hg, hm, hx, hy))
-  F.check(name .. ": the Hall of Fame armed only the player's house", varGet(h.var) == 3
-    and varGet(h.var == VAR_HOUSES_MAY and VAR_HOUSES_BRENDAN or VAR_HOUSES_MAY) ~= 3,
+  local other = h.var == VAR_HOUSES_MAY and VAR_HOUSES_BRENDAN or VAR_HOUSES_MAY
+  F.check(name .. ": the Hall of Fame armed only the player's house, with Mom's call pending", varGet(h.var) == STATE_CALL_PENDING
+    and varGet(other) ~= STATE_CALL_PENDING and varGet(other) ~= STATE_DAD_WAITING,
     string.format("may=%d brendan=%d", varGet(VAR_HOUSES_MAY), varGet(VAR_HOUSES_BRENDAN)))
 
   -- Birch waits on the doorstep and leads the player to the lab for the National Dex.
@@ -288,6 +363,44 @@ local function home(name, h)
   end
   F.check(name .. ": the player can walk in the lab", walked, where())
 
+  -- Out of the lab: Mom calls from the player's own door, once, and the player keeps control.
+  if F.route({ { 6, 11 } }, name .. "_lab_exit") and holdInto("Down", TOWN) then
+    local r = watchTown(name .. "_lab_out", h, 4000)
+    F.check(name .. ": Mom calls the player home after Birch's scene", r.shows >= 1 and r.state == STATE_DAD_WAITING,
+      string.format("shown %d, state %d", r.shows, r.state))
+    F.check(name .. ": Mom calls only once", r.shows == 1, "shown " .. r.shows)
+    F.check(name .. ": Mom calls from the player's own door", momAtDoor(r, h),
+      r.at and string.format("(%d,%d)", r.at[1], r.at[2]) or "never shown")
+    F.check(name .. ": the player has control after Mom's call", r.ctl and freeUp(), where())
+    F.check(name .. ": Mom went back inside", townMom() == nil)
+  else
+    F.check(name .. ": walked out of the lab", false, where())
+  end
+
+  -- Into the lab and out again: the same arrival must not call twice.
+  if stepInto("Up", LAB) and holdInto("Down", TOWN) then
+    local r = watchTown(name .. "_lab_again", h, 1200)
+    F.check(name .. ": no second call on returning to Littleroot", r.shows == 0 and r.ctl and r.state == STATE_DAD_WAITING,
+      string.format("shown %d, state %d", r.shows, r.state))
+  else
+    F.check(name .. ": walked into the lab and out", false, where())
+  end
+
+  -- A later Hall of Fame with the ticket still waiting re-arms the call. Continue lands on the
+  -- doorstep, so Mom calls from the doorway behind the player.
+  local ok2, why2 = induct(name .. "_2")
+  F.check(name .. ": a second Hall of Fame ran to the soft reset", ok2, why2)
+  if ok2 and F.check(name .. ": Continue after the second Hall of Fame reaches the field", continueFromFrontEnd(name .. "_2")) then
+    local r = watchTown(name .. "_doorstep", h, 4000)
+    F.check(name .. ": Mom calls on the doorstep after a later Hall of Fame", r.shows == 1 and r.state == STATE_DAD_WAITING,
+      string.format("shown %d, state %d", r.shows, r.state))
+    F.check(name .. ": Mom calls from the doorway behind the player", r.at ~= nil and r.at[1] == h.door.x and r.at[2] == h.door.y - 1,
+      r.at and string.format("(%d,%d)", r.at[1], r.at[2]) or "never shown")
+    F.check(name .. ": the player is still on the doorstep, facing the door, with control",
+      r.ctl and at(TOWN) and r.x == h.door.x and r.y == h.door.y and r.facing == DIR_NORTH,
+      string.format("%s facing %d", where(), r.facing))
+  end
+
   -- The rival's house: nothing starts, and Norman is not standing in the neighbours' living room.
   if warp(TOWN[1], TOWN[2], h.rivalDoor, name .. "_rival_door") and freeUp() and stepInto("Up", h.rival1F) then
     F.idle(120)
@@ -304,6 +417,16 @@ local function home(name, h)
     F.L(string.format("  %s: entered at (%d,%d)", name, ex, ey))
     local done, tiles = driveScene(name .. "_door_scene", h)
     checkScene(name .. " door", h, done, tiles)
+    -- Out of the front door after the scene: no call.
+    local mx, my = F.pos()
+    F.L(string.format("  %s: leaving the house from (%d,%d)", name, mx, my))
+    if F.route(h.exitRoute, name .. "_house_exit") and holdInto("Down", TOWN) then
+      local r = watchTown(name .. "_house_out", h, 1200)
+      F.check(name .. ": no call after the ticket scene", r.shows == 0 and r.ctl and r.state == STATE_LEFT_HOUSE,
+        string.format("shown %d, state %d", r.shows, r.state))
+    else
+      F.check(name .. ": walked out of the house", false, where())
+    end
   else
     F.check(name .. ": walked into the player's house", false, where())
   end
@@ -331,6 +454,9 @@ local function home(name, h)
       local done, tiles = driveScene(name .. "_whiteout_scene", h)
       checkScene(name .. " whiteout", h, done, tiles)
     end
+  else
+    F.shot(name .. "_not_free_outside")
+    F.check(name .. ": free outside before the whiteout", false, where())
   end
 end
 

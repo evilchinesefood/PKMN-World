@@ -167,7 +167,7 @@ is clean; keep it that way.
 | [`RainPaletteSlots.lua`](#rainpaletteslotslua) | fresh new game | Object palettes loaded mid-rain take exactly the rain colour map, and every slot returns to its unfaded colours when rain stops in place. |
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
-| [`HoennHofHome.lua`](#hoennhofhomelua) | fresh new game | After the Hoenn Hall of Fame, Continue lands outside Brendan's or May's own door; Birch's scene, then the S.S. Ticket scene from the front door, the stairs or a whiteout, never in the rival's house. |
+| [`HoennHofHome.lua`](#hoennhofhomelua) | fresh new game | After the Hoenn Hall of Fame, Continue lands outside Brendan's or May's own door; Birch's scene, Mom calling the champion home once, then the S.S. Ticket scene from the front door, the stairs or a whiteout, never in the rival's house. |
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
@@ -3609,12 +3609,17 @@ The Hoenn Hall of Fame returns the champion outside their own house, as Kanto (P
 and moving-day hide flags, intro state 7, the player's house state 2), the Hall of Fame room's
 ON_FRAME runs the ceremony with plain A presses and the title's Continue must land on that gender's
 doorstep (Brendan (5,9), May (14,9)) facing down, with the whiteout point on the same doorstep and
-only the player's own house state armed. Birch's doorstep scene must then end in the lab with the
-player able to walk. The rival's house must start no scene and show no Norman. The player's own house,
+only the player's own house state armed, at 6 (Mom's call pending). Birch's doorstep scene must then end in the lab with the
+player able to walk. Walking out of the lab, Mom must call the player home exactly once from their own
+door (the camera pans there), the house state must become 3 and the player must keep control; into the
+lab and out again must not call twice. A second induction with the ticket still waiting must re-arm the
+call: Continue lands on the doorstep and Mom calls from the doorway behind the player, who stays put
+facing the door. The rival's house must start no scene and show no Norman. The player's own house,
 entered by the front door, must run the S.S. Ticket and Lati TV scene with the player inside the room
-on every frame, end below the TV facing Mom, give the ticket and the roamer and return control. The
-scene is re-armed twice more: down the stairs from the bedroom (a save from before this change, with
+on every frame, end below the TV facing Mom, give the ticket and the roamer and return control, and
+walking out of the front door afterwards must not call again. The scene is re-armed twice more: down the stairs from the bedroom (a save from before this change, with
 both house states at 3) and after a whiteout, which respawns the player beside Mom.
-`PW_HOME_ONLY=male|female` runs one gender. Master scores **44/65** (two checks that need an earlier
-step are skipped): it lands in the bedroom, and entering by the door walks the player off the bottom
-of the map. With the fix **67/67**.
+`PW_HOME_ONLY=male|female` runs one gender. Master scored **44/65** on the first version of this suite
+(two checks that need an earlier step are skipped): it lands in the bedroom, and entering by the door
+walks the player off the bottom of the map. With the doorstep landing alone (`1343e33`) the current
+suite scores **77/91**: no call, and the Hall of Fame arms state 3. With Mom's call **91/91**.

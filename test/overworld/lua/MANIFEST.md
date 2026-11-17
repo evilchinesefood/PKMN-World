@@ -3209,3 +3209,17 @@ resumes the BGM itself. In Fallarbor below the Pokemon Center door a script play
 input the suite opens Start and POKeMON (the party menu's init calls `ResetTasks`), backs out, waits
 out the fanfare and walks into the Center. **Discrimination:** unfixed 7/9 (BGM status `0x800001FF`,
 black screen at the Center door), fixed 9/9.
+
+### `OverworldFogBattle.lua`
+
+Every battle on a fog map started under Misty Terrain for the whole fight, on the pink Misty Terrain
+background. `B_OVERWORLD_FOG` (`include/config/battle.h`) was the expansion default `GEN_LATEST`, so
+`FIELD_EFFECT_OVERWORLD_TERRAIN` (`src/battle_util.c`) turned the map's fog into Misty Terrain. Gen 3
+fog was scenery, so Flannery's burns failed against grounded Pokemon, and so did status moves at
+Groudon, Kyogre, Mt. Pyre, Rusturf Tunnel, Pokemon Tower, Lost Cave, Seafloor Cavern, Cave of Origin
+and the Lugia chamber. The toggle is now `GEN_3`, and `ValidateConfigRules.py` lists every fog map
+while it diverges. With real input the suite walks into wild battles in Rusturf Tunnel and on
+Pokemon Tower 3F (the ghost) and talks to Flannery in the Lavaridge Gym. At the first action menu it
+checks the map's fog is up, then that `gFieldStatuses` holds no terrain, `gBattleWeather` no fog,
+and BG palette banks 2-4 equal the day palette the battle's captured presentation points at.
+**Discrimination:** unfixed 22/31 (`gFieldStatuses=0x80`, the Misty Terrain palette), fixed 31/31.

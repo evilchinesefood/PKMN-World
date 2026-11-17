@@ -295,3 +295,8 @@ HofMash	lua/HofMash.lua	fresh	0	required
 ChaosWalk	lua/ChaosWalk.lua	fresh	0	manual
 JohtoBadgeFieldMoves	lua/JohtoBadgeFieldMoves.lua	fresh	0	required
 RoamerContinue	lua/RoamerContinue.lua	fresh	0	required
+PokeblockFeedScene	lua/PokeblockFeedScene.lua	fresh	0	required
+BlenderFullCase	lua/BlenderFullCase.lua	fresh	0	required
+DaycareFullWithdraw	lua/DaycareFullWithdraw.lua	fresh	0	required
+BerryDecorFull	lua/BerryDecorFull.lua	fresh	0	required
+WhiteoutSaveContinue	lua/WhiteoutSaveContinue.lua	fresh	0	required

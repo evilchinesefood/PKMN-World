@@ -658,6 +658,8 @@ STATIC_ASSERT(offsetof(struct SaveBlock1, mail) == 12260, SaveBlock1MailMoved_Re
 STATIC_ASSERT(offsetof(struct SaveBlock1, dexSeen) == 13900, SaveBlock1DexSeenMoved_RegenLuaSymbols);
 // RoamerParkRelease.lua reads the roamer slots here. Probe-verified under the repo CFLAGS.
 STATIC_ASSERT(offsetof(struct SaveBlock1, roamer) == 13792, SaveBlock1RoamerMoved_RegenLuaSymbols);
+// PokeblockFeedScene.lua writes the Pokeblock Case here. Probe-verified under the repo CFLAGS.
+STATIC_ASSERT(offsetof(struct SaveBlock1, pokeblocks) == 2924, SaveBlock1PokeblocksMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

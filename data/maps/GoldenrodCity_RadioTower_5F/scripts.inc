@@ -67,13 +67,22 @@ GoldenrodCity_RadioTower_5F_EventScript_Petrel::
 @ only advances once the BASEMENT KEY is actually in the BAG.
 GoldenrodCity_RadioTower_5F_EventScript_PetrelGiveBasementKey::
 	msgbox GoldenrodCity_RadioTower_5F_Text_FakeDirectorAfter, MSGBOX_DEFAULT
+	checkitem ITEM_BASEMENT_KEY
+	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_RadioTower_5F_EventScript_PetrelSeesBasementKey
 	giveitem ITEM_BASEMENT_KEY
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+GoldenrodCity_RadioTower_5F_EventScript_PetrelGaveBasementKey::
 	setvar VAR_GOLDENROD_CITY_STATE, 7
 	clearflag FLAG_HIDE_GOLDENROD_UNDERGROUND_KIMONO
 	closemessage
 	release
 	end
+
+@ Wattson (Hoenn) hands out an item with the same id, and the bag holds one. The A1 gates on
+@ both doors already key on each region's own story state, so one key opens each door in turn.
+GoldenrodCity_RadioTower_5F_EventScript_PetrelSeesBasementKey::
+	msgbox GoldenrodCity_RadioTower_5F_Text_PetrelSeesBasementKey, MSGBOX_DEFAULT
+	goto GoldenrodCity_RadioTower_5F_EventScript_PetrelGaveBasementKey
 
 GoldenrodCity_RadioTower_5F_EventScript_PetrelNorth::
 	release
@@ -190,6 +199,12 @@ GoldenrodCity_RadioTower_5F_Text_FakeDirectorAfter:
 	.string "the BASEMENT KEY to get to the\l"
 	.string "UNDERGROUND WAREHOUSE.\p"
 	.string "But I doubt you'll get that far.$"
+
+GoldenrodCity_RadioTower_5F_Text_PetrelSeesBasementKey:
+	.string "…What? You already have a\n"
+	.string "BASEMENT KEY?\p"
+	.string "Bah! Then it'll open the WAREHOUSE\n"
+	.string "door just the same.$"
 
 GoldenrodCity_RadioTower_5F_Text_FakeDirectorAfter2:
 	.string "The boss stashed the DIRECTOR in\n"

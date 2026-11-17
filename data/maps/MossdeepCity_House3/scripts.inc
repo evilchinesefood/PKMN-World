@@ -8,12 +8,20 @@ MossdeepCity_House3_EventScript_SuperRodFisherman::
 	msgbox MossdeepCity_House3_Text_YouWantSuperRod, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MossdeepCity_House3_EventScript_DeclineSuperRod
 	msgbox MossdeepCity_House3_Text_SuperRodIsSuper, MSGBOX_DEFAULT
+	checkitem ITEM_SUPER_ROD
+	goto_if_eq VAR_RESULT, TRUE, MossdeepCity_House3_EventScript_AlreadyHaveSuperRod
 	giveitem ITEM_SUPER_ROD
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+MossdeepCity_House3_EventScript_GotSuperRod::
 	setflag FLAG_RECEIVED_SUPER_ROD
 	msgbox MossdeepCity_House3_Text_TryDroppingRodInWater, MSGBOX_DEFAULT
 	release
 	end
+
+@ Kanto's Route 12 fisherman hands out the same SUPER ROD, and the bag holds one.
+MossdeepCity_House3_EventScript_AlreadyHaveSuperRod::
+	msgbox MossdeepCity_House3_Text_AlreadyHaveSuperRod, MSGBOX_DEFAULT
+	goto MossdeepCity_House3_EventScript_GotSuperRod
 
 MossdeepCity_House3_EventScript_ReceivedSuperRod::
 	msgbox MossdeepCity_House3_Text_GoAfterSeafloorPokemon, MSGBOX_DEFAULT
@@ -36,6 +44,11 @@ MossdeepCity_House3_Text_YouWantSuperRod:
 MossdeepCity_House3_Text_SuperRodIsSuper:
 	.string "You bet, you bet!\n"
 	.string "After all, a SUPER ROD is really super!$"
+
+MossdeepCity_House3_Text_AlreadyHaveSuperRod:
+	.string "Huh? You already have a SUPER ROD?\p"
+	.string "You bet, you bet!\n"
+	.string "Then you're all set!$"
 
 MossdeepCity_House3_Text_TryDroppingRodInWater:
 	.string "If there's any water, try dropping in\n"

@@ -418,12 +418,21 @@ MauvilleCity_EventScript_Wattson::
 	goto_if_eq VAR_NEW_MAUVILLE_STATE, 2, MauvilleCity_EventScript_CompletedNewMauville
 	goto_if_set FLAG_GOT_BASEMENT_KEY_FROM_WATTSON, MauvilleCity_EventScript_BegunNewMauville
 	msgbox MauvilleCity_Text_WattsonNeedFavorTakeKey, MSGBOX_DEFAULT
+	checkitem ITEM_BASEMENT_KEY
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_EventScript_WattsonSeesBasementKey
 	giveitem ITEM_BASEMENT_KEY
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+MauvilleCity_EventScript_WattsonGaveBasementKey::
 	setflag FLAG_GOT_BASEMENT_KEY_FROM_WATTSON
 	msgbox MauvilleCity_Text_WattsonWontBeChallenge, MSGBOX_DEFAULT
 	release
 	end
+
+@ Petrel (Johto) hands out an item with the same id, and the bag holds one. The A1 gates on
+@ both doors already key on each region's own give flag, so one key opens each door in turn.
+MauvilleCity_EventScript_WattsonSeesBasementKey::
+	msgbox MauvilleCity_Text_WattsonSeesBasementKey, MSGBOX_DEFAULT
+	goto MauvilleCity_EventScript_WattsonGaveBasementKey
 
 MauvilleCity_EventScript_BegunNewMauville::
 	msgbox MauvilleCity_Text_WattsonWontBeChallenge, MSGBOX_DEFAULT
@@ -587,6 +596,12 @@ MauvilleCity_Text_WattsonNeedFavorTakeKey:
 	.string "haywire. It's getting unsafe.\p"
 	.string "Here, this is the KEY to get into\n"
 	.string "NEW MAUVILLE.$"
+
+MauvilleCity_Text_WattsonSeesBasementKey:
+	.string "WATTSON: Hm? You're carrying a\n"
+	.string "BASEMENT KEY already?\p"
+	.string "Wahahahaha! Then that one will open\n"
+	.string "NEW MAUVILLE, too!$"
 
 MauvilleCity_Text_WattsonWontBeChallenge:
 	.string "WATTSON: Don't you worry about it.\n"

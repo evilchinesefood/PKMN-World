@@ -275,7 +275,7 @@ EcruteakCity_Theater_EventScript_SurfGuy::
 
 EcruteakCity_Theater_EventScript_SurfGuy_GiveSurf::
 	msgbox EcruteakCity_Theater_Text_SurfGuyGiveSurf, MSGBOX_DEFAULT
-	giveitem ITEM_HM_SURF
+	givekeyitem ITEM_HM_SURF
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_SURF
 	msgbox EcruteakCity_Theater_Text_SurfGuyGaveSurf
@@ -297,7 +297,7 @@ EcruteakCity_Theater_EventScript_TriggerSurfGuy::
 	waitmovement 0
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	msgbox EcruteakCity_Theater_Text_SurfGuyGiveSurf, MSGBOX_DEFAULT
-	giveitem ITEM_HM_SURF
+	givekeyitem ITEM_HM_SURF
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_HM_SURF
 	msgbox EcruteakCity_Theater_Text_SurfGuyGaveSurf

@@ -23,7 +23,7 @@ FuchsiaCity_WardensHouse_EventScript_GiveGoldTeeth::
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, FuchsiaCity_WardensHouse_EventScript_WardenThanksMale
 	call_if_eq VAR_RESULT, FEMALE, FuchsiaCity_WardensHouse_EventScript_WardenThanksFemale
-	giveitem ITEM_HM04
+	givekeyitem ITEM_HM04
 	goto_if_eq VAR_RESULT, FALSE, FuchsiaCity_WardensHouse_EventScript_NoRoomForStrength
 	setflag FLAG_GOT_HM04
 	removeitem ITEM_GOLD_TEETH

@@ -31,12 +31,20 @@ Route118_EventScript_GoodRodFisherman::
 
 Route118_EventScript_ReceiveGoodRod::
 	msgbox Route118_Text_IdenticalMindsTakeThis, MSGBOX_DEFAULT
+	checkitem ITEM_GOOD_ROD
+	goto_if_eq VAR_RESULT, TRUE, Route118_EventScript_AlreadyHaveGoodRod
 	giveitem ITEM_GOOD_ROD
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
+Route118_EventScript_GotGoodRod::
 	setflag FLAG_RECEIVED_GOOD_ROD
 	msgbox Route118_Text_TryYourLuckFishing, MSGBOX_DEFAULT
 	release
 	end
+
+@ Kanto's and Johto's fishermen hand out the same GOOD ROD, and the bag holds one.
+Route118_EventScript_AlreadyHaveGoodRod::
+	msgbox Route118_Text_AlreadyHaveGoodRod, MSGBOX_DEFAULT
+	goto Route118_EventScript_GotGoodRod
 
 Route118_EventScript_DeclineGoodRod::
 	msgbox Route118_Text_DontYouLikeToFish, MSGBOX_DEFAULT
@@ -271,6 +279,12 @@ Route118_Text_IdenticalMindsTakeThis:
 	.string "We're of identical minds!\p"
 	.string "Hmm!\n"
 	.string "Take this GOOD ROD!$"
+
+Route118_Text_AlreadyHaveGoodRod:
+	.string "Hmm!\n"
+	.string "You already have a GOOD ROD!\p"
+	.string "Hmm!\n"
+	.string "Identical minds indeed!$"
 
 Route118_Text_TryYourLuckFishing:
 	.string "Wherever there's water, try your luck\n"

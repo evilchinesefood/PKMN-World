@@ -457,8 +457,11 @@ PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV::
 	call_if_eq VAR_0x8008, MALE, PlayersHouse_1F_EventScript_DadApproachPlayerMale
 	call_if_eq VAR_0x8008, FEMALE, PlayersHouse_1F_EventScript_DadApproachPlayerFemale
 	msgbox PlayersHouse_1F_Text_TicketFromBrineyCameForYou, MSGBOX_DEFAULT
+	checkitem ITEM_SS_TICKET
+	goto_if_eq VAR_RESULT, TRUE, PlayersHouse_1F_EventScript_AlreadyHaveSSTicket
 	giveitem ITEM_SS_TICKET
 	msgbox PlayersHouse_1F_Text_PortsInSlateportLilycove, MSGBOX_DEFAULT
+PlayersHouse_1F_EventScript_DadHandedOverTicket::
 	closemessage
 	delay 20
 	call_if_eq VAR_0x8008, MALE, PlayersHouse_1F_EventScript_MomApproachDadMale
@@ -558,6 +561,11 @@ PlayersHouse_1F_EventScript_DadExitsFemale::
 	applymovement VAR_0x8009, PlayersHouse_1F_Movement_DadExitsFemale
 	waitmovement 0
 	return
+
+@ Bill (Kanto) and Elm (Johto) hand out the same S.S. TICKET, and the bag holds one.
+PlayersHouse_1F_EventScript_AlreadyHaveSSTicket::
+	msgbox PlayersHouse_1F_Text_AlreadyHaveSSTicket, MSGBOX_DEFAULT
+	goto PlayersHouse_1F_EventScript_DadHandedOverTicket
 
 PlayersHouse_1F_EventScript_PlayerEnterRoomMale::
 	applymovement LOCALID_PLAYER, PlayersHouse_1F_Movement_PlayerEnterRoomMale

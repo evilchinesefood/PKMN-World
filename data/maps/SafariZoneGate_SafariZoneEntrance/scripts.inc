@@ -101,13 +101,24 @@ SafariZoneGate_SafariZoneEntrance_MeetBaoba::
 	closemessage
 	msgbox SafariZoneGate_SafariZoneEntrance_Text_BaobaPokeblocks, MSGBOX_DEFAULT
 	closemessage
-	giveitem ITEM_POKEBLOCK_CASE
+	checkitem ITEM_POKEBLOCK_CASE
+	call_if_eq VAR_RESULT, TRUE, SafariZoneGate_SafariZoneEntrance_EventScript_BaobaSeesPokeblockCase
+	call_if_eq VAR_RESULT, FALSE, SafariZoneGate_SafariZoneEntrance_EventScript_BaobaGivePokeblockCase
 	closemessage
 	applymovement LOCALID_SAFARIZONEGATE_BAOBA, SafariZoneGate_SafariZoneEntrance_Movement_ReturnToTable
 	waitmovement 0
 	setvar VAR_SAFARI_ZONE_GATE_STATE, 4
 	release
 	end
+
+SafariZoneGate_SafariZoneEntrance_EventScript_BaobaGivePokeblockCase::
+	giveitem ITEM_POKEBLOCK_CASE
+	return
+
+@ The Lilycove contest reception hands out the same POKéBLOCK CASE, and the bag holds one.
+SafariZoneGate_SafariZoneEntrance_EventScript_BaobaSeesPokeblockCase::
+	msgbox SafariZoneGate_SafariZoneEntrance_Text_BaobaSeesPokeblockCase, MSGBOX_DEFAULT
+	return
 
 SafariZoneGate_SafariZoneEntrance_EventScript_Baoba::
 	lock
@@ -438,6 +449,11 @@ SafariZoneGate_SafariZoneEntrance_Text_BaobaPokeblocks:
 	.string "POKéBLOCKS are an essential\n"
 	.string "feature of my SAFARI ZONE, so\l"
 	.string "you'd better have one of these!$"
+
+SafariZoneGate_SafariZoneEntrance_Text_BaobaSeesPokeblockCase:
+	.string "…Oh, you already have a\n"
+	.string "{POKEBLOCK} CASE!\p"
+	.string "Then you're ready to go wild!$"
 
 SafariZoneGate_SafariZoneEntrance_Text_Baoba:
 	.string "Hi {PLAYER}!\p"

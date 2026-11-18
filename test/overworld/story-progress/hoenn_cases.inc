@@ -91,7 +91,11 @@ static void TestHoenn(void)
     Expect(REGION_HOENN, "hoenn.tate_liza");
     SetBadge(REGION_HOENN, 6);
     Expect(REGION_HOENN, "hoenn.space_center");
+    SetVar(VAR_MOSSDEEP_SPACE_CENTER_STATE, 3);
     SetFlag(FLAG_DEFEATED_MAGMA_SPACE_CENTER);
+    Expect(REGION_HOENN, "hoenn.dive");
+    // The rival's Rayquaza call, 250 steps later, clears the flag: Emerald set it only to arm that call.
+    ClearFlag(FLAG_DEFEATED_MAGMA_SPACE_CENTER);
     Expect(REGION_HOENN, "hoenn.dive");
     SetFlag(FLAG_RECEIVED_HM_DIVE);
     Expect(REGION_HOENN, "hoenn.seafloor");

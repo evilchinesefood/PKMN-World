@@ -206,6 +206,7 @@ LastBallBounceHide	lua/LastBallBounceHide.lua	fresh	0	required
 UsmDarkPopupIcons	lua/UsmDarkPopupIcons.lua	fresh	0	required
 PyramidRestUsm	lua/PyramidRestUsm.lua	fresh	0	required
 BugContestPartyLock	lua/BugContestPartyLock.lua	fresh	0	required
+BugContestLeadKeeps	lua/BugContestLeadKeeps.lua	fresh	0	required
 EggSummaryPageTabs	lua/EggSummaryPageTabs.lua	fresh	0	required
 NewGameOverSave	lua/NewGameOverSave.lua	fresh	0	required
 EggOnlyIslandLegends	lua/EggOnlyIslandLegends.lua	fresh	0	required
@@ -326,3 +327,19 @@ SkyCharmBlackthornSetup	lua/SkyCharmBlackthornSetup.lua	fresh	0	required
 MessageBoxFit	lua/MessageBoxFit.lua	fresh	0	required
 IndigoVictoryRoadExits	lua/IndigoVictoryRoadExits.lua	fresh	0	required
 SkyCharmSeams	lua/SkyCharmSeams.lua	fresh	0	required
+EscapeRopeExits	lua/EscapeRopeExits.lua	fresh	0	required
+OneIslandWhiteout	lua/OneIslandWhiteout.lua	fresh	0	required
+JohtoTradeOddEgg	lua/JohtoTradeOddEgg.lua	fresh	0	required
+IndigoSilverDaily	lua/IndigoSilverDaily.lua	fresh	0	required
+LegendWorldGuards	lua/LegendWorldGuards.lua	fresh	0	required
+PhoneRayquazaCallStory	lua/PhoneRayquazaCallStory.lua	fresh	0	required
+PhoneMatchCallRegions	lua/PhoneMatchCallRegions.lua	fresh	0	manual
+FishingAcrossRegions	lua/FishingAcrossRegions.lua	fresh	0	required
+WaterFieldMoves	lua/WaterFieldMoves.lua	fresh	0	required
+JohtoPortedMenus	lua/JohtoPortedMenus.lua	fresh	0	required
+JohtoPostgameCameos	lua/JohtoPostgameCameos.lua	fresh	0	required
+BaobaMatchCall	lua/BaobaMatchCall.lua	fresh	0	required
+DiplomaRegionName	lua/DiplomaRegionName.lua	fresh	0	required
+PyramidSummaryRelearn	lua/PyramidSummaryRelearn.lua	fresh	0	required
+KantoPortedScenes	lua/KantoPortedScenes.lua	fresh	0	required
+MrStoneMatchCallGate	lua/MrStoneMatchCallGate.lua	fresh	0	required

@@ -115,6 +115,7 @@ static void ReduceToValidWordSelectColumn(void);
 static bool8 IsSelectedWordIndexInvalid(void);
 static int DidPlayerInputMysteryGiftPhrase(void);
 static u16 DidPlayerInputABerryMasterWifePhrase(void);
+static u16 DidPlayerInputAnOddEggAnswer(void);
 static bool8 InitEasyChatScreenControl_(void);
 static void LoadEasyChatPalettes(void);
 static void InitEasyChatBgs(void);
@@ -679,6 +680,18 @@ static const struct EasyChatScreenTemplate sEasyChatScreenTemplates[] = {
         .confirmText1 = gText_TheAnswer,
         .confirmText2 = gText_IsAsShownOkay,
     },
+    {
+        .type = EASY_CHAT_TYPE_ODD_EGG,
+        .numColumns = 2,
+        .numRows = 2,
+        .frameId = FRAMEID_INTERVIEW,
+        .fourFooterOptions = FALSE,
+        .titleText = gText_Interview,
+        .instructionsText1 = gText_CombineFourWordsOrPhrases,
+        .instructionsText2 = gText_LetsReplyToTheInterview,
+        .confirmText1 = gText_TheAnswer,
+        .confirmText2 = gText_IsAsShownOkay,
+    },
 };
 
 // IDs are used indirectly as indexes into gEasyChatWordsByLetterPointers
@@ -704,6 +717,18 @@ static const u16 sBerryMasterWifePhrases[][2] = {
     [PHRASE_OVERWHELMING_LATIAS - 1] = {EC_WORD_OVERWHELMING, EC_POKEMON(LATIAS)},
     [PHRASE_COOL_LATIOS - 1]         = {EC_WORD_COOL, EC_POKEMON(LATIOS)},
     [PHRASE_SUPER_HUSTLE - 1]        = {EC_WORD_SUPER, EC_WORD_HUSTLE},
+};
+
+// The Route 34 Odd Egg answers (pokemonHnS), in Odd Egg order: Pichu, Cleffa, Igglybuff, Tyrogue,
+// Smoochum, Elekid, Magby. The Day Care bookshelves hint at the third and fourth words.
+static const u16 sOddEggAnswers[][4] = {
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_CUTE, EC_WORD_STATIC},
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_CUTE, EC_WORD_CUTE_CHARM},
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_SONG, EC_WORD_CUTE_CHARM},
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_FIGHTING, EC_WORD_GUTS},
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_ICE, EC_WORD_OBLIVIOUS},
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_ELECTRIC, EC_WORD_STATIC},
+    {EC_WORD_BABE, EC_WORD_POKEMON, EC_WORD_FIRE, EC_WORD_FLAME_BODY},
 };
 
 static const u16 sTriangleCursor_Pal[] = INCGFX_U16("graphics/easy_chat/triangle_cursor.png", ".gbapal");
@@ -1474,6 +1499,10 @@ void ShowEasyChatScreen(void)
     case EASY_CHAT_TYPE_GOOD_SAYING:
         words = (u16 *)gStringVar3;
         InitializeEasyChatWordArray(words, 2);
+        break;
+    case EASY_CHAT_TYPE_ODD_EGG:
+        words = (u16 *)gStringVar3;
+        InitializeEasyChatWordArray(words, ARRAY_COUNT(*sOddEggAnswers));
         break;
     case EASY_CHAT_TYPE_FAN_QUESTION:
         words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].fanClubSpecial.words;
@@ -2940,6 +2969,9 @@ static void SetSpecialEasyChatResult(void)
     case EASY_CHAT_TYPE_GOOD_SAYING:
         gSpecialVar_0x8004 = DidPlayerInputABerryMasterWifePhrase();
         break;
+    case EASY_CHAT_TYPE_ODD_EGG:
+        gSpecialVar_0x8004 = DidPlayerInputAnOddEggAnswer();
+        break;
     }
 }
 
@@ -2954,6 +2986,18 @@ static u16 DidPlayerInputABerryMasterWifePhrase(void)
     for (i = 0; i < (int)ARRAY_COUNT(sBerryMasterWifePhrases); i++)
     {
         if (!IsPhraseDifferentThanPlayerInput(sBerryMasterWifePhrases[i], ARRAY_COUNT(*sBerryMasterWifePhrases)))
+            return i + 1;
+    }
+
+    return 0;
+}
+
+static u16 DidPlayerInputAnOddEggAnswer(void)
+{
+    int i;
+    for (i = 0; i < (int)ARRAY_COUNT(sOddEggAnswers); i++)
+    {
+        if (!IsPhraseDifferentThanPlayerInput(sOddEggAnswers[i], ARRAY_COUNT(*sOddEggAnswers)))
             return i + 1;
     }
 

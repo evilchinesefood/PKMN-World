@@ -33,6 +33,8 @@ WANT = [
     "sPokedexAreaScreen",
     # MultiHalfTeamSummary.lua: the summary's mon index, in the interleaved multi order.
     "gLastViewedMonIndex",
+    # PyramidSummaryRelearn.lua: the Summary's move relearner screen is open.
+    "CB2_MoveRelearnerMain",
     # UsmDarkPopupIcons.lua opens the Start menu while the map-name pop-up task is still running.
     "Task_MapNamePopUpWindow",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",
@@ -108,6 +110,10 @@ WANT = [
     "gStringVar1", "gStringVar2",
     # HatchMetLocation.lua reads the SwSh summary memo's encounter line (BufferMonEncounter).
     "gStringVar3",
+    # JohtoPortedMenus.lua reads the open multichoice's option texts, to pick a row by its label.
+    "sMultichoiceLists",
+    # KantoPortedScenes.lua reads the whiteboard grid's list id from its script and waits on its task.
+    "ViridianCity_School_EventScript_ChooseBlackboardTopic", "Task_HandleMultichoiceGridInput",
     # RelearnerLongLearnset.lua reads the relearner's list and its cursor.
     "sMoveRelearnerStruct", "sMoveRelearnerScrollState",
     # HatchMetLocation.lua counts the turns an OHKO takes to see a traded Pokemon disobey.
@@ -117,6 +123,9 @@ WANT = [
     # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
     "sSpecialPokemonMenu",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
+    # JohtoTradeOddEgg.lua: the Easy Chat screen the Route 34 Odd Egg question opens, and its
+    # struct (currentPhrase at 0x3C) where the word picker leaves the chosen words.
+    "CB2_EasyChatScreen", "sEasyChatScreen",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     # MoneySinkEdges.lua: the Day Care withdrawal fee GetDaycareCostAndPrepareString leaves for
     # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.
@@ -140,6 +149,9 @@ WANT = [
     # the hardware copy, but VBlank restores from faded, so the buffer is the
     # discriminating read.
     "gTimeBlend", "gPlttBufferFaded", "gPlttBufferUnfaded",
+    # play.lua's settled beat screenshot waits for gPaletteFade.active to clear: a delay-8
+    # FadeScreen holds each step for 18 frames, longer than any fixed stillness window.
+    "gPaletteFade",
     # BattleBgFloors.lua compares the battlefield's BG palette banks 2-4 with the authored
     # background palette the trainer class or map scene should select.
     "gBattleEnvironmentPalette_StadiumLeader", "gBattleEnvironmentPalette_BuildingGym",
@@ -226,6 +238,8 @@ WANT = [
     "gPlayerOutfitPicker", "Task_OutfitPicker",
     # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
     "CB2_Pokedex", "RunCollection",
+    # BaobaMatchCall.lua reads the PokeNav Match Call list and waits for a call to end.
+    "gPokenavResources", "CB2_HandleMatchCallInput",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
     # InputSpamStress confirms Dig's "Escape from here?" before its mash.
     "Task_HandleFieldMoveExitAreaYesNoInput",
@@ -316,6 +330,8 @@ WANT = [
     "EventScript_PC", "EventScript_AccessHallOfFame", "EventScript_TV", "EventScript_UseFlash",
     # StartOptionsStateStress.lua: the runtime state of a DexNav search, a fishing chain, the
     # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
+    # FishingAcrossRegions.lua reads the rod task's step (data[0]) to reel in on the bite.
+    "Task_Fishing",
     "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
     "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
     # PC storage screen state (src/swsh_storage_system.c): the cursor, the Pokemon or item in hand.
@@ -393,6 +409,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- sentinel CreateSprite* returns on
                                                             -- exhaustion before fataling.
   SpritePalette= { count = 16, free = 0xFFFF },             -- sSpritePaletteTags, TAG_NONE = free
+  PaletteFade  = { activeWord = 12 },                       -- gPaletteFade.active is bit 31 of the
+                                                            --   u32 at +12 (include/palette.h)
   ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18, flags1 = 0x01,
                    graphicsId = 0x04 },
                                                             -- graphicsId is u16; for a follower it is
@@ -532,7 +550,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "roamer", "gameStats", "pokeblocks"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "dexCaught", "roamer", "gameStats", "pokeblocks"]
 
 
 def load_save_src(root):

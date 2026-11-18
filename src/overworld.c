@@ -813,8 +813,14 @@ void UpdateEscapeWarp(s16 x, s16 y)
 {
     enum MapType currMapType = GetCurrentMapType();
     enum MapType destMapType = GetMapTypeByGroupAndId(sWarpDestination.mapGroup, sWarpDestination.mapNum);
-    if (IsMapTypeOutdoors(currMapType) && IsMapTypeOutdoors(destMapType) != TRUE)
-        SetEscapeWarp(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, x - MAP_OFFSET, y - MAP_OFFSET + 1);
+    // As pokefirered: an arrow warp entered facing south leaves the player on the warp cell, a door
+    // one cell below it. Leaving a map that allows escaping (Viridian Forest, Ilex Forest, Mt. Silver's
+    // slopes) keeps the way out the player entered by.
+    if (IsMapTypeOutdoors(currMapType) && IsMapTypeOutdoors(destMapType) != TRUE && !gMapHeader.allowEscaping)
+    {
+        s16 delta = GetPlayerFacingDirection() != DIR_SOUTH;
+        SetEscapeWarp(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, x - MAP_OFFSET, y - MAP_OFFSET + delta);
+    }
 }
 
 void SetEscapeWarp(s8 mapGroup, s8 mapNum, s8 warpId, s8 x, s8 y)

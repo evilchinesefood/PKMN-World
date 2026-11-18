@@ -586,6 +586,8 @@ extern const u8 gText_MoveRelearnerAppeal[];
 extern const u8 gText_MoveRelearnerJam[];
 
 extern const u8 gText_DadsAdvice[];
+extern const u8 gText_ElmsAdvice[];
+extern const u8 gText_OakForbidsUseOfItemHere[];
 extern const u8 gText_PlayerUsedVar2[];
 extern const u8 gText_RepelEffectsLingered[];
 extern const u8 gText_LureEffectsLingered[];
@@ -1627,6 +1629,8 @@ extern const u8 MatchCall_Text_Norman_PostRematch[];
 extern const u8 MatchCall_Text_Mom1[];
 extern const u8 MatchCall_Text_Mom2[];
 extern const u8 MatchCall_Text_Mom3[];
+extern const u8 MatchCall_Text_Baoba1[];
+extern const u8 MatchCall_Text_Baoba2[];
 extern const u8 MatchCall_Text_Steven1[];
 extern const u8 MatchCall_Text_Steven2[];
 extern const u8 MatchCall_Text_Steven3[];

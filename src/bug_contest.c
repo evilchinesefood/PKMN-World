@@ -121,6 +121,15 @@ bool8 TransferBugContestMon(void)
 
 
 
+// The contest parks the whole team with SavePlayerParty and its end restores it with
+// LoadPlayerParty, but the lead is the player's own Pokemon (as in HGSS): a Rare Candy, stone or
+// vitamin used on it from the Bag during the contest must survive the restore. Party order is
+// locked in the contest, so slot 0 is the lead.
+void KeepBugContestLead(void)
+{
+    SavePlayerPartyMon(0, &gParties[B_TRAINER_PLAYER][0]);
+}
+
 bool8 JudgeBugContestMon(void)
 {
     //Scyther max hp: 53

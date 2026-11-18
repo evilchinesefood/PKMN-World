@@ -46,7 +46,8 @@ enum
     POKEMON_NONE,
     POKEMON_INCORRECT_SPECIES,
     POKEMON_SIZE_SMALLER,
-    POKEMON_SIZE_LARGER
+    POKEMON_SIZE_LARGER,
+    POKEMON_SIZE_SAME,
 };
 
 extern const u8 gText_DecimalPoint[];
@@ -118,7 +119,9 @@ static u8* ReturnHeightStringNoWhitespace(u32 size)
     return heightStr;
 }
 
-static u8 CompareMonSize(enum Species species, u16 *sizeRecord)
+// Emerald's Seedot and Lotad collectors count a tie as smaller; FRLG's Magikarp and Heracross
+// collectors have their own line for it.
+static u8 CompareMonSize(enum Species species, u16 *sizeRecord, bool32 tieIsSame)
 {
     if (gSpecialVar_Result == PARTY_NOTHING_CHOSEN)
     {
@@ -140,7 +143,11 @@ static u8 CompareMonSize(enum Species species, u16 *sizeRecord)
         newSize = GetMonSize(species, sizeParams);
         oldSize = GetMonSize(species, *sizeRecord);
         FormatMonSizeRecord(gStringVar2, newSize);
-        if (newSize <= oldSize)
+        if (tieIsSame && newSize == oldSize)
+        {
+            return POKEMON_SIZE_SAME;
+        }
+        else if (newSize <= oldSize)
         {
             return POKEMON_SIZE_SMALLER;
         }
@@ -185,7 +192,7 @@ void CompareSeedotSize(void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_SEEDOT_SIZE_RECORD);
 
-    gSpecialVar_Result = CompareMonSize(SPECIES_SEEDOT, sizeRecord);
+    gSpecialVar_Result = CompareMonSize(SPECIES_SEEDOT, sizeRecord, FALSE);
 }
 
 void InitLotadSizeRecord(void)
@@ -204,7 +211,7 @@ void CompareLotadSize(void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_LOTAD_SIZE_RECORD);
 
-    gSpecialVar_Result = CompareMonSize(SPECIES_LOTAD, sizeRecord);
+    gSpecialVar_Result = CompareMonSize(SPECIES_LOTAD, sizeRecord, FALSE);
 }
 
 void InitHeracrossSizeRecord(void)
@@ -223,7 +230,7 @@ void CompareHeracrossSize(void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_HERACROSS_SIZE_RECORD);
 
-    gSpecialVar_Result = CompareMonSize(SPECIES_HERACROSS, sizeRecord);
+    gSpecialVar_Result = CompareMonSize(SPECIES_HERACROSS, sizeRecord, TRUE);
 }
 
 void InitMagikarpSizeRecord(void)
@@ -242,5 +249,5 @@ void CompareMagikarpSize(void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_MAGIKARP_SIZE_RECORD);
 
-    gSpecialVar_Result = CompareMonSize(SPECIES_MAGIKARP, sizeRecord);
+    gSpecialVar_Result = CompareMonSize(SPECIES_MAGIKARP, sizeRecord, TRUE);
 }

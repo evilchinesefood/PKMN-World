@@ -86,7 +86,8 @@ static u8 GetPokenavMainMenuType(void)
 {
     u8 menuType = POKENAV_MENU_TYPE_DEFAULT;
 
-    if (FlagGet(FLAG_ADDED_MATCH_CALL_TO_POKENAV))
+    // Johto's PokeGear adds Match Call before anyone is registered, and the list has no empty state.
+    if (FlagGet(FLAG_ADDED_MATCH_CALL_TO_POKENAV) && HasMatchCallContacts())
     {
         menuType = POKENAV_MENU_TYPE_UNLOCK_MC;
 

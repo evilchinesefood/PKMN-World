@@ -3,7 +3,19 @@
 .set LOCALID_OLIVINEPORT_OAK, 7
 
 OlivineCity_PortInside_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, OlivineCity_PortInside_OnTransition
 	.byte 0
+
+@ HnS hides Oak at new game and Elm's S.S. Ticket scene (VAR_NEWBARKTOWN_LABSTATE 11) shows him.
+@ Hiding him here until then also mends saves made before he was hidden: he stood in the one-tile
+@ corridor to the sailor and handed over the National Pokedex before the League.
+OlivineCity_PortInside_OnTransition:
+	call_if_lt VAR_NEWBARKTOWN_LABSTATE, 11, OlivineCity_PortInside_EventScript_HideOak
+	end
+
+OlivineCity_PortInside_EventScript_HideOak::
+	setflag FLAG_HIDE_OLIVINE_PORT_OAK
+	return
 
 
 OlivineCity_PortInside_EventScript_Oak::

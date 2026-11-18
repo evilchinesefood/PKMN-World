@@ -330,6 +330,16 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_2);
     FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_3);
     FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_4);
+    // HnS's new-game reset hides the gym leaders' post-League cameos too; the Johto Hall of Fame
+    // shows them (JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags). Unregistered,
+    // all seven stood in the world from turn one with their after-the-League lines.
+    FlagSet(FLAG_HIDE_DEPTSTORE_WHITNEY);
+    FlagSet(FLAG_HIDE_BELLCHIME_MORTY);
+    FlagSet(FLAG_HIDE_CAFE_JASMINE);
+    FlagSet(FLAG_HIDE_OLIVINE_SABRINA);
+    FlagSet(FLAG_HIDE_LAKE_PRYCE);
+    FlagSet(FLAG_HIDE_DEN_CLAIR);
+    FlagSet(FLAG_HIDE_ROUTE22_JANINE);
 #else
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);

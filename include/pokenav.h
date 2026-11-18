@@ -194,6 +194,7 @@ enum
     MC_HEADER_WALLY,
     MC_HEADER_NORMAN,
     MC_HEADER_MOM,
+    MC_HEADER_BAOBA,
     MC_HEADER_STEVEN,
     MC_HEADER_SCOTT,
     MC_HEADER_ROXANNE,
@@ -426,6 +427,7 @@ mapsec_u8_t GetMatchTableMapSectionId(int rematchIndex);
 int GetIndexDeltaOfNextCheckPageDown(int index);
 int GetIndexDeltaOfNextCheckPageUp(int index);
 bool32 IsRematchEntryRegistered(int rematchIndex);
+bool32 HasMatchCallContacts(void);
 
 // pokenav_match_call_gfx.c
 bool32 OpenMatchCall(void);

@@ -122,6 +122,16 @@ static const struct MenuAction MultichoiceList_StatusInfo[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_TrainerSchoolWhiteboard[] =
+{
+    {COMPOUND_STRING("SLP")},
+    {COMPOUND_STRING("PSN")},
+    {COMPOUND_STRING("PAR")},
+    {COMPOUND_STRING("BRN")},
+    {COMPOUND_STRING("FRZ")},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_BrineyOffDewford[] =
 {
     {COMPOUND_STRING("DEWFORD")},
@@ -1203,11 +1213,20 @@ static const struct MenuAction MultichoiceList_PrizeMons[] =
     {COMPOUND_STRING("DRATINI")}, {COMPOUND_STRING("PORYGON")}, {gText_Exit},
 };
 
+// SUNDAY first, as in pokemonHnS: the weekday siblings' scripts branch on these row numbers.
 static const struct MenuAction MultichoiceList_DaysOfWeek[] =
 {
-    {COMPOUND_STRING("MONDAY")}, {COMPOUND_STRING("TUESDAY")}, {COMPOUND_STRING("WEDNESDAY")},
-    {COMPOUND_STRING("THURSDAY")}, {COMPOUND_STRING("FRIDAY")}, {COMPOUND_STRING("SATURDAY")},
-    {COMPOUND_STRING("SUNDAY")}, {gText_Exit},
+    {COMPOUND_STRING("SUNDAY")}, {COMPOUND_STRING("MONDAY")}, {COMPOUND_STRING("TUESDAY")},
+    {COMPOUND_STRING("WEDNESDAY")}, {COMPOUND_STRING("THURSDAY")}, {COMPOUND_STRING("FRIDAY")},
+    {COMPOUND_STRING("SATURDAY")}, {gText_Exit},
+};
+
+// The Ruins of Alph researcher's choice when the player carries two fossils (pokemonHnS's
+// MULTI_FOSSIL; this tree's MULTI_FOSSIL is Devon's two-fossil list).
+static const struct MenuAction MultichoiceList_JohtoFossil[] =
+{
+    {COMPOUND_STRING("CLAW FOSSIL")}, {COMPOUND_STRING("ROOT FOSSIL")}, {COMPOUND_STRING("HELIX FOSSIL")},
+    {COMPOUND_STRING("DOME FOSSIL")}, {COMPOUND_STRING("OLD AMBER")}, {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_GoldSilver[] =
@@ -1551,6 +1570,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BNET_LEADER_K2]                             = MULTICHOICE(MultichoiceList_BnetLeaderK2),
     [MULTI_REGIONAL_TEAM] = MULTICHOICE(MultichoiceList_RegionalTeam),
     [MULTI_REGIONAL_ARRIVAL] = MULTICHOICE(MultichoiceList_RegionalArrival),
+    [MULTI_JOHTO_FOSSIL] = MULTICHOICE(MultichoiceList_JohtoFossil),
+    [MULTI_TRAINER_SCHOOL_WHITEBOARD] = MULTICHOICE(MultichoiceList_TrainerSchoolWhiteboard),
 };
 
 const u8 *const gStdStrings[] =

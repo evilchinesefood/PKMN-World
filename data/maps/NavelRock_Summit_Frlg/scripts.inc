@@ -66,6 +66,7 @@ NavelRock_Summit_EventScript_HoOh::
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NavelRock_Summit_EventScript_RanFromHoOh
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NavelRock_Summit_EventScript_RanFromHoOh
 	setflag FLAG_FOUGHT_HO_OH
+	setflag FLAG_CAUGHT_HO_OH @ one Ho-Oh per world: Hoenn's Navel Rock and the Johto Hall of Fame read it
 	releaseall
 	end
 

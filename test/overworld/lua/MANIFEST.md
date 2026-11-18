@@ -119,6 +119,8 @@ is clean; keep it that way.
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
 | [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
 | [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
+| [`JohtoPortedMenus.lua`](#johtoportedmenuslua) | fresh new game | The weekday siblings take their own day and the Alph researcher offers all five fossils: the HnS scripts' `MULTI_*` rows mean the same choice here. |
+| [`KantoPortedScenes.lua`](#kantoportedsceneslua) | fresh new game | The Viridian school whiteboard explains the condition its cell names, the Pewter gym guide and Jigglypuff scenes play FRLG's songs, and the Route 12 fishing guru's brother calls the record Magikarp the same size: the pokefirered scripts' names mean the same thing here. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
 | [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
@@ -128,6 +130,7 @@ is clean; keep it that way.
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
 | [`DaycareFullPartyEgg.lua`](#daycarefullpartyegglua) | fresh new game | A Route 34 daycare egg with a full party of 6 does not overwrite slot 5. |
+| [`JohtoTradeOddEgg.lua`](#johtotradeoddegglua) | fresh new game | Blackthorn's Emy trades her own Mr. Mime for a Dodrio; the Route 34 Odd Egg goes only to one of the seven answers, and the answer picks the baby. |
 | [`EncountersIncenseLink.lua`](#encountersincenselinklua) | fresh new game | Flat wild tables, Route 123 Roselia, Rose Incense mart, quest compile-out, Center 2F sealed. |
 | [`EncountersIncenseLink_MainMenu.lua`](#encountersincenselink_mainmenulua) | fresh new game | Mystery Gift is compiled out of the title/main menu even with the flag set. |
 | [`FollowerOutdoors.lua`](#followeroutdoorslua) | fresh new game | Grass/Bug followers comment on the outdoors (sniff / breeze / deep breath). |
@@ -147,6 +150,8 @@ is clean; keep it that way.
 | [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
 | [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
 | [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
+| [`FishingAcrossRegions.lua`](#fishingacrossregionslua) | fresh new game | Old, Good and Super Rod through SELECT in New Bark, Vermilion and Route 104 (a battle against a species from the map's fishing table), "Not even a nibble" on three maps with fishable water and no table, seeded mash casts, casts while surfing, and the region's own adviser (Oak, Elm, Dad) for a rod facing land. |
+| [`WaterFieldMoves.lua`](#waterfieldmoveslua) | fresh new game | Surf on and off ten times with a follower (sprite slots, tile VRAM and palette tags stay flat), Waterfall up and back down in all three regions, no Dive on Route 41's deep water, and Dive and emerge on Route 124. |
 | [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
 | [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
 | [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
@@ -848,6 +853,18 @@ wall clock, the event-island ferries, and so on), and an entry that stops firing
 an open PR fixes sit in `SHARED_STATE_PENDING`, printed as notes and never failed; delete each once
 its fix is on master.
 
+[`AuditLegends.py`](../AuditLegends.py) `--check` lists every map script that starts a scripted wild
+battle: species, level, the object and its hide flag, the flags written before the battle and on each
+outcome, and every other script, map or C file that touches them, by region (run it without `--check`
+for that census). It fails on three shapes: running or a player's Roar setting a fought/caught flag or
+an unrestored hide flag; a Pokemon whose default moves (Gen 9 learnsets at its encounter level) include
+Teleport, Roar, Whirlwind, Dragon Tail or Circle Throw while `B_OUTCOME_MON_TELEPORTED` falls through to
+the catch path; and a twin site in another region (sharing the object's hide flag) that reads nothing a
+catch here sets, directly or through the script that writes what its entry script reads. Leads read
+against pokeemerald, pokefirered or pokemonHnS and kept as designed sit in `TRIAGED` with the reason
+(fleeing an Electrode counts as beating it, the Route 12 Snorlax leaves before its battle, and so on); a
+stale entry fails. Before `LegendWorldGuards.lua`'s fixes it printed the seven leads behind them.
+
 [`ValidateTilesetAnimBounds.py`](../ValidateTilesetAnimBounds.py) checks every
 `AppendTilesetAnimToBuffer` call in `src/tileset_anims.c` against the frames its table can select:
 the copy's offset plus size must fit in each frame, whose size comes from its PNG header (or the PNGs
@@ -864,6 +881,16 @@ HM moves (`P_CAN_FORGET_HIDDEN_MOVE`), a field move that must be known (`QOL_FIE
 Gen 1-3 evolutions with no route that works without a link cable, and NPC claims about evolution
 levels and held items against the species table. A rule runs only while its toggle still diverges.
 `--list` prints the audited toggles and the ones checked and cleared.
+
+[`AuditEngineRegionText.py`](../AuditEngineRegionText.py) `--check` reads every string literal under
+`src/` that names one region's character, place or device (DAD, BIRCH, OAK, ELM, LANETTE, POKéNAV, a
+town, a region) and every use of it, following tables up to the code that reads them. A use picks by
+region when its function calls `GetCurrentRegion()` or a friend, calls a helper that does
+(`GetPcCreator()`), or the string sits in a table indexed by `REGION_*`. It fails on a string with an
+unpicked use that `REVIEWED` or a `SCOPED` file does not explain; each entry says why the line is right
+in every region that shows it, checked against pokeemerald, pokefirered and pokemonHnS. An entry that
+stops matching fails as stale. It found the item refusal's "DAD's advice" (#695) and the Kanto diploma's
+"HOENN" (`DiplomaRegionName.lua`). Run it without `--check` for the full report.
 
 Builds, Lua suites, battle checks, and feature-off builds run only through explicit local
 commands or [Verify on demand](../../../.github/workflows/Verify.yml). Smoke and Full can run
@@ -1570,6 +1597,16 @@ an identical 360-frame loop 13 times: A on POKéMON, the party screen, back out,
 Each trip took 15 keys, and the action menu's key was picked by count, so it came round to A every
 time. The battle keys now steer the action menu and the Yes/No by their cursors, as
 `LanceMultiOutcome` does.
+
+Tate and Liza at Fast text (stress pass 9). `PW_SPAM_BASE=1618033 PW_SPAM_TEXT=3` stranded the trainer
+double in the in-battle Bag (`CB2_BagMenuRun`, `Task_BagMenu_HandleInput`), 90/91, on every replay.
+From the kept savestate one B closes the Bag, so the game was fine. The battle keys read only battler
+0's controller, and battler 0 had already chosen, so they pressed A on battler 2's action menu,
+whose cursor sat on BAG; the Bag's back-out keys closed it and the next A opened it again, a
+120-frame loop for the whole recovery budget. The pass 5 Mid-text strand of the same battle was
+this loop. The keys now steer whichever player battler holds the menu, and on battler 2's menu
+press B to hand the choice back to battler 0, which can forfeit (battler 2 steers to RUN only when
+battler 0 is gone). Measured **91/91** at base 1618033 Fast text, **90/91** before.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
@@ -2512,6 +2549,22 @@ Start menu, presses R, and counts the lead's action rows through `sMenu` (Summar
 Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
 with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
 
+### `BugContestLeadKeeps.lua`
+
+The Bug-Catching Contest's lead is the player's own Pokemon, so what the Bag does to it during the
+contest must survive the contest's end. The attendant parks the team with `SavePlayerParty` and every
+end restores it with `LoadPlayerParty`, while the contest start menu keeps the Bag: a Rare Candy or an
+evolution stone used on the lead was spent and its level or evolution undone (HGSS keeps both). Each
+scenario gives a lead and a Pidgey with the debug Give menu and one item, enters through the real
+attendant, opens the Bag, picks Use and the lead, drives the evolution with A, then retires at the
+exit. **Oracle:** back at the gate the team has its old size, the lead is the evolved species at its
+new level (Bulbasaur 15 with a Rare Candy into Ivysaur 16, Growlithe 20 with a Fire Stone into
+Arcanine), the Pidgey is byte-identical in species, personality and level, the item is spent and
+contest mode is off. **Fix:** `KeepBugContestLead` writes the contest lead over the parked slot 0
+before every restore (the end and the full-box PC detour). **Discrimination:** unfixed **20/23** (both
+leads came back unevolved), fixed **23/23**.
+`--env PW_LEAD_ONLY=<text>` runs matching scenarios.
+
 ### `EggSummaryPageTabs.lua`
 
 An Egg's summary cannot turn pages (`ChangePage` returns for an Egg), but its header still drew the
@@ -2560,6 +2613,28 @@ and the first touch of the new visit must climb to level 1. Kanto's Birth Island
 rebased `VAR_DEOXYS_INTERACTION_*` copies, which nothing reads, so the stone kept its old level and
 the first touch failed on the steps walked since. Hoenn's island is the control. Measured **23/23**
 fixed and **20/23** on the unfixed ROM.
+
+### `LegendWorldGuards.lua`
+
+The legendaries with a twin in another region, and two battle endings the scripts did not route,
+played with real input. Deoxys knows Teleport at level 30 under the Gen 9 learnsets, so it often
+teleports away (`B_OUTCOME_MON_TELEPORTED`), which both Birth Islands treated as a catch: Deoxys stayed
+on screen, the caught marker was set and the puzzle never came back. Faraway Island already routes
+that outcome for Mew. A Roar from the player ends a wild battle with `B_OUTCOME_PLAYER_TELEPORTED`,
+which Mt. Silver's Moltres treated as a catch and set `FLAG_FOUGHT_MOLTRES`, so Moltres was gone from
+both Mt. Silver and Mt. Ember with no Hall of Fame return; Mt. Ember treats it as running. And the
+one-legendary-per-world guards ran one way: a Kanto Navel Rock catch set only Kanto's
+`FLAG_FOUGHT_HO_OH`/`FLAG_FOUGHT_LUGIA`, which neither Hoenn's Navel Rock nor the Johto Hall of Fame
+respawn reads, and the two Birth Islands read only their own caught flag, so one Mystic or Aurora
+Ticket gave two of each. The suite roars a level 50 Moltres away and walks out and back; on each
+Birth Island it solves the puzzle rock by rock, celebrates until Deoxys teleports (2 to 8 turns
+measured), walks out and back, solves it again, catches Deoxys with the R-button Master Ball and
+visits the other region's island; it catches Kanto's Ho-Oh and Lugia with a full party (the catch
+goes to the PC) and visits Hoenn's Navel Rock summit and bottom, walking onto the Ho-Oh trigger.
+**Oracle:** after the Roar or the teleport the Pokemon is unmarked and offered again on the next visit,
+and after a catch the twin offers nothing. **Discrimination:** unfixed 49/65 (all 16 failures are the
+four defects or follow from them), fixed 65/65, and 65/65 again with `--rtc 1795000000`.
+[`AuditLegends.py`](../AuditLegends.py) is the static side.
 
 ### `BirthIslandRockPalette.lua`
 
@@ -2628,7 +2703,8 @@ and a local time of 23:38 through `localTimeOffset`), then plays three contests 
 attendant: one retired with a catch before midnight; one after saving in the gate, waiting there
 until the RTC passes midnight and continuing the pre-midnight save; and one started at 23:57 on a
 clock wound two days on, so midnight rolls over while it runs. The last two walk until "Time's up",
-which must ring at 8 minutes of frames. Each contest must return the parked party unchanged, put
+which must ring at 8 minutes of frames. Each contest must return the parked party (the same members
+by personality, OT id and nickname; the lead keeps the friendship its contest walk earned), put
 one prize in the bag, take the Safari Balls, set the day's flag and leave the attendant refusing a
 second contest; Continue on the new day must clear the flag and record the day. Measured **37/37**,
 and **9/13** with `0829014ec0`'s `setflag FLAG_DAILY_BUG_CONTEST_COMPLETED` removed (a second
@@ -2705,6 +2781,38 @@ greets and hands out nothing, and collects the Lileep at Devon. Last, a Kabuto p
 pair (the only form a save from before the split can hold) must come back at Alph. **20/24** on the
 unfixed ROM, **24/24** with the fix.
 
+### `JohtoPortedMenus.lua`
+
+Two Johto menus whose scripts came from pokemonHnS resolved `MULTI_*` to this tree's list. The weekday
+siblings ("Can you guess my favorite day?") branch on HnS's `MULTI_DAYS_OF_WEEK` rows, which start on
+SUNDAY; this tree's list started on MONDAY, so the right day was refused ("WESLEY: Not exactly...")
+and the day after won. The Ruins of Alph researcher, offered two fossils, branches Claw, Root, Helix,
+Dome, Old Amber, Exit over `MULTI_FOSSIL`, which here is Devon's CLAW / ROOT / Exit list: Helix, Dome
+and Old Amber could not be chosen and Exit handed the Helix Fossil over. The suite reads the open
+menu's labels from `sMultichoiceLists` and steers the cursor to the row by label: WEDNESDAY to Wesley
+(Black Belt), SATURDAY to Santos (Spell Tag), then with a Helix Fossil and Old Amber in the bag, EXIT
+(both kept) and OLD AMBER (the Amber handed in, the Helix kept). Setup is a warp and the two items;
+talks, the Yes/No and the menus are real input. Found by `AuditHnsPortSymbols.py`. **Discrimination:**
+unfixed 11/16, fixed 16/16.
+
+### `KantoPortedScenes.lua`
+
+Kanto scenes whose pokefirered scripts name a list or song that means something else here. The Viridian
+school whiteboard branches Sleep, Poison, Paralysis, Burn, Freeze on FRLG's rows (SLP first) but showed
+this tree's `MULTI_STATUS_INFO` (Rustboro's PSN, PAR, SLP list), so the PSN cell explained sleep, SLP
+explained paralysis and PAR explained poison. `MUS_FOLLOW_ME` and `MUS_POKE_CENTER` are Emerald's songs
+here, so the Pewter gym guide led the way to Hoenn's guide theme and Jigglypuff's song in the Pewter
+Pokemon Center handed back to Hoenn's Center theme. The Route 12 fishing guru's brother branches
+not-a-Magikarp, smaller, new record and tie (1 to 4) on FRLG's `CompareMagikarpSize`, which here
+returned Emerald's three results, so the record Magikarp shown again "doesn't measure up to the 2'00"
+one you brought before". The suite picks whiteboard cells by the label the grid shows (the list id read
+from the script, the labels from `sMultichoiceLists`) and checks the line the board prints; it talks
+to the guide and Jigglypuff and records every song on the BGM and SE2 players until control returns;
+with a lone Magikarp in the party it takes the Super Rod, sets the record and shows the same Magikarp
+again, reading every line the message box prints. Setup is warps and the Magikarp; the grid, the
+talks, the Yes/No and the party menu are real input. Found by `AuditHnsPortSymbols.py --source frlg`
+and its special triage. **Discrimination:** unfixed 30/39, fixed 39/39.
+
 ### `StarterIndexPerRegion.lua`
 
 Oak's lab, Elm's lab and Birch's bag all wrote one shared `VAR_STARTER_MON`, and each region's rival
@@ -2765,6 +2873,16 @@ party and boxes full, and no item quantity grew. Measured **82/82** with the def
 `PW_SMASH_SEED=0xA11CE` and `0xBEEF7`; the mash found the two-stack sort refusal fixed in
 `BagSortTwoItems`. `PW_SMASH_SEED=<n>` reseeds, `PW_SMASH_ONLY=<text>` runs matching scenarios and
 `PW_SMASH_SAVE=<dir>` keeps a savestate of a battle that does not end.
+
+Forced switch in the double (stress pass 9). `PW_SMASH_SEED=65537` left `trainer_double_2` on the
+in-battle party screen (`CB2_UpdatePartyMenu`, battler 0 in `WaitForMonSelection`) after the left
+Machop fainted: **80/82**. The menu had opened on the fainted Machop with its Send Out / Summary /
+Cancel box up, and the finisher's B, B, Start, A cycle never moves the cursor, while the forced
+switch rightly refuses B. From the kept savestate, B, Down, Down, A, A sends out the healthy Machop
+and the battle resumes. The finisher now steers `gPartyMenu.slotId` to the first live non-Egg member
+off the field, alternating B (closes the box) with Down, then A and A. From that savestate the old
+finisher was still on the party screen after 12,000 frames and the new one won the battle in 5,514.
+Measured **82/82** at seed 65537.
 ### `JohtoPlaceNames.lua`
 
 Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and
@@ -3064,6 +3182,16 @@ and reads `sMartInfo`'s item list (Mahogany needs `VAR_MAHOGANY_TOWN_STATE` 14, 
 hideout leaves). **Oracle:** no dead item is for sale, while the Fire Stone, the Linking Cord and,
 where it was sold, the Razor Claw (kept for its held critical-hit boost) still are.
 **Discrimination:** unfixed 12/16 (24, 24, 28 and 4 dead items for sale), fixed 16/16.
+
+[`ValidateEvoRoutes.py`](../ValidateEvoRoutes.py) (in `validate-host.py`) requires every evolution
+between two obtainable species to have a route this world can satisfy: no link trade, every region a
+condition names is Kanto, Johto or Hoenn (the Hub and the Frontier report one of the three), every
+named map, map section and weather exists, every named party species is obtainable, and every item the
+route needs is sold, hidden, given or held by a wild Pokemon somewhere (item aliases such as
+`ITEM_UP_GRADE` resolved). It lists the routes that depend on the clock, a place or the region (today
+only five `IF_NOT_REGION` Alola, Galar and Hisui rows, true everywhere here) and tabulates each
+evolution item's shops per region. On master it finds 184 evolutions over 205 routes and 15 items, all
+satisfiable. Changing Pikachu's Thunder Stone row to `IF_REGION, REGION_ALOLA` makes it fail.
 ### `TmAdviceReusable.lua`
 
 TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,
@@ -3267,6 +3395,16 @@ stat; Roxanne is talked to and battled (the win is forced once the battle starts
 flags are set) and her STONE BADGE speech must quote level 20 and no ATTACK boost. Text is read
 from `gStringVar4`. Measured **11/21** on the unfixed ROM (every row promised a stat boost) and
 **21/21** fixed. `ValidateConfigRules.py` covers the other leaders' lines.
+### `DiplomaRegionName.lua`
+
+The Pokedex diploma must name the Pokedex of the region that awards it. Celadon's game designer
+(Kanto, after `HasAllKantoMons`) and Lilycove's (Hoenn, after `HasAllHoennMons`) both call
+`Special_ShowDiploma`, and `DisplayDiplomaText` printed Emerald's "HOENN" for both; pokefirered prints
+"KANTO" there. Each designer is talked to with real input with every species caught but one from
+outside the region (Chikorita, Bulbasaur), so the region completes and the National Dex does not; the
+diploma text is read from `gStringVar4` and each diploma is shot, then a step proves control. Measured
+**9/10** on the unfixed ROM (Celadon certified a HOENN POKéDEX) and **10/10** fixed.
+`AuditEngineRegionText.py` lists the other engine strings that name a region.
 ### `FieldPoisonText.lua`
 
 Field-poison advice must match `OW_POISON_DAMAGE` (`GEN_LATEST`: no damage outside battle). A party
@@ -4231,3 +4369,232 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+
+### `EscapeRopeExits.lua`
+
+Escape Rope and Dig out of Viridian Forest, Ilex Forest and Mt. Silver. `UpdateEscapeWarp` kept
+Emerald's rule, the warp cell plus one row south. pokefirered adds the row only when the player is
+not facing south, since an arrow warp entered facing south leaves the player on the warp cell with
+the wall below, and it skips Viridian Forest, an outdoor map that allows escaping, so walking out of
+the forest into a gate never names the forest as the way out. The port dropped both. Entering
+Viridian Forest from Route 2 put the rope's landing on the gate roof at (5,14); leaving the forest
+north and walking back in made the rope land inside the forest at (5,10); Route 34's gate put Ilex
+Forest's rope and Dig in the cliff at (31,68); and Mt. Silver 2F entered from the snowfield's south
+arrow landed in the snowfield's rock at (24,18). The rule now follows pokefirered and skips any map
+that allows escaping (Ilex Forest and Mt. Silver's slopes have the same shape as Viridian Forest).
+Each case debug-warps beside a real entrance, walks through it and uses the Bag or the party menu;
+each landing must be the expected cell and the player must be able to step off it and back.
+**Discrimination:** unfixed 13/22 (all five landings and four walkability checks), fixed 22/22.
+`MtSilverEscape` 21/21, `TravelSaveContinue` 292/292 and `RegionMapAnywhereStress` 48/48 pass on
+the fixed build.
+
+### `OneIslandWhiteout.lua`
+
+A whiteout after healing at One Island must land in front of the nurse. One Island's Center is the
+one FRLG Center whose nurse stands at x=5, and pokefirered's `SetWhiteoutRespawnWarpAndHealerNpc`
+puts the player at (5,4) there. `heal_locations.json` carried pokefirered's Indigo Plateau and Pallet
+cells but not One Island's, so the default (7,4) put the player on the Battle Girl standing there,
+two cells right of the nurse, and the first step off could not come back. The suite walks into the
+Center through its door (its `ON_TRANSITION` sets the respawn point), loses a debug battle on One
+Island and follows the whiteout. The player must stand on (5,4), share the cell with no object,
+regain control, be healed and walk. **Discrimination:** unfixed 7/10 (`64/0 (7,4)`, sharing
+`localId=6`, the step back blocked), fixed 10/10. `JohtoWhiteoutHeal` 56/56 passes on the fixed build.
+
+`test/overworld/ValidateLandings.py` (host check) lists every cell Fly, Teleport, a whiteout, an
+Escape Rope or Dig can put the player on: each heal location, each whiteout cell and each escape
+point `UpdateEscapeWarp` can record before an escape-allowing map. A cell with collision, a ledge,
+no walkable step off it, or an object standing on it fails, and water fails for heal and whiteout
+cells only. Escape points follow the fixed `UpdateEscapeWarp` rule. It flagged this whiteout cell;
+the one KNOWN entry is a dead Route 26 warp no walk reaches.
+
+### `JohtoTradeOddEgg.lua`
+
+Two Johto gifts ported from pokemonHnS, with real input. **Blackthorn House 2:** Emy's script names
+`INGAME_TRADE_MR_MIME`, which is also FRLG's Route 2 trade, so she asked for an Abra and handed over a
+second copy of REYLEY's Kanto Mr. Mime. HnS has her trade MIMIEN (OT EMY, Smoke Ball) for a Dodrio, now
+`INGAME_TRADE_MR_MIME_EMY`. With an Abra and a Dodrio in the party, talking, Yes and the box chooser pick
+the Dodrio: it must become a Mr. Mime with trainer ID 10283, the Abra must stay, her flag must be set and a
+second talk must not trade. **Route 34 Day Care:** the couple's son gives the Odd Egg only for one of seven
+four-word answers (BABE POKEMON, then a type word and an ability word from the bookshelves), and the answer
+picks the baby. HnS's matcher was never ported, so any changed phrase gave a Pichu Egg; the answer now uses
+its own Easy Chat type (`EASY_CHAT_TYPE_ODD_EGG`, matched like the Berry Master's wife) and no longer writes
+into TV show slot 0. A one-word answer picked on the real word screen (A on the first slot, first group,
+first word) must be refused with no Egg; the Elekid answer, written into the open screen's phrase as the
+word picker would and confirmed with Start and Yes, must give an Elekid Egg knowing Dizzy Punch; a third
+talk gives nothing. **Discrimination:** unfixed 13/19 (Emy asked for an Abra and traded nothing; the one-word
+answer got a Pichu Egg, so the Elekid answer never ran), fixed 20/20.
+### `IndigoSilverDaily.lua`
+
+Silver's once-a-day rematch in the Johto Indigo Plateau Pokemon Center, which no suite reached. Route 27's
+first steps hide him (`FLAG_HIDE_INDIGO_PLATEAU_SILVER`); upstream pokemonHnS shows him again after a
+post-League battle in its own Mt. Moon, which this game's FRLG Kanto does not have, so the object, its
+`TRAINER_RIVAL_*_7` teams and the rematch were unreachable. His script records the win in
+`FLAG_DAILY_BEAT_SILVER`, which lives in the Johto flag bank outside the window `ClearDailyFlags` wipes
+(the haircut brothers and the Bug-Catching Contest were added there by hand), so a shown Silver would also
+have refused every rematch after the first. From a fresh game the suite leaves Silver hidden as Route 27
+does and sets the wall clock as New Bark's does, checks he is absent before the League, then plays the
+Johto Hall of Fame from its own ON_FRAME scene to the title and continues at New Bark. In the Center,
+looking from (32,12) because (32,8) is outside the spawn window from the door, Silver must stand at (32,8).
+Talking to him with real input starts a battle (the foe's HP is zeroed until it ends; the battle is not under
+test), the win sets the daily flag, and a second talk the same day starts none. With the clock wound to
+23:56 the emulator's RTC runs five minutes past midnight, the player leaves the Center
+(`DoTimeBasedEvents` never runs inside one) and returns: `VAR_DAYS` must record the new day, the flag must
+be clear and Silver must battle again. The Center's ON_TRANSITION now shows Silver for a Johto champion, so a
+save that became champion before the change sees him too. **Discrimination:** unfixed 8/9 (no Silver
+object at (32,8), hide flag still set), with only `FLAG_DAILY_BEAT_SILVER` left out of `ClearDailyFlags`
+22/25 (the flag stayed set the next day and Silver started no battle), fixed 25/25.
+
+### `PhoneRayquazaCallStory.lua`
+
+May's or Brendan's Rayquaza call rings 250 steps after the Space Center battle (`ShouldDoRivalRayquazaCall`)
+and clears `FLAG_DEFEATED_MAGMA_SPACE_CENTER`, which Emerald sets only to arm that call. The Story resolver
+read the same flag as proof the Space Center was saved, so after the phone rang Story said "Help Steven
+against Magma" again until the Seafloor Cavern crisis. The suite leaves the state the Space Center's
+victory script leaves (`VAR_MOSSDEEP_SPACE_CENTER_STATE` 3, the flag, Steven's house 1) over seven Hoenn
+badges and Surf, then walks real steps until the call rings: once in Mossdeep with A answering it, once in
+Johto's Violet City with a seeded mash of every button under the call (`PW_PHONE_SEED`, default 9101).
+**Oracle:** Story reads `hoenn.dive` before the call; the call rings on its step count, clears its flag,
+returns control to a walkable field with party and money unchanged; Story still reads `hoenn.dive` after
+it, opened from the Start menu. `test/overworld/story-progress/hoenn_cases.inc` checks the same case
+natively. **Discrimination:** unfixed 30/32 (Story read `hoenn.space_center` after both calls), fixed 32/32.
+
+### `PhoneMatchCallRegions.lua`
+
+Manual (it walks thousands of steps): `test/overworld/mgba-run.sh test/overworld/lua/PhoneMatchCallRegions.lua
+pokemonworld.gba --env PW_MAX_FRAMES=2000000 --timeout 3000`. Random Match Calls from Hoenn trainers
+(`TryStartMatchCall`: every tenth step, once per ten RTC minutes, a 30% roll or 60% behind Lightning Rod)
+ring in every region, and no suite had let one ring. The suite leaves the state the Rustboro PokeNav scene
+and five registrations leave (`FLAG_HAS_MATCH_CALL`, registered-trainer flags 0 to 4) over five Hoenn
+badges, leads with a Lightning Rod Rhyhorn, takes the first call in Mossdeep, then paces Violet City and
+Viridian City until a timed call rings in each, with a seeded mash of every button under the Violet call
+(`PW_PHONE_SEED`, default 9101). **Oracle:** each call rings, returns control to a walkable field on the
+same map, and leaves the party (compared from the ring), money and registrations unchanged, with no crash
+screen. **Result:** no defect found. 24/24 at the default clock and at a night clock (`--rtc 1704171600`,
+seed 31337); the Johto and Kanto calls came after 1,546 to 7,026 steps.
+
+### `FishingAcrossRegions.lua`
+
+Fishing in all three regions through the SELECT key-item path. Each cast warps to a shore cell, faces
+the water, registers one rod and presses SELECT; the suite reads `Task_Fishing`'s step and presses A on
+"Oh! A bite!" (step 9: `I_FISHING_MINIGAME` is `GEN_2`, so the rod waits for A with no timeout) and on
+"A POKéMON's on the hook!", then flees with a level-100 Lapras. **Oracle:** a cast ends in a battle whose
+foe (`gBattleMons[1]`) is in that map's `fishing_mons`, or in "Not even a nibble"; the rod is put away
+(player graphics restored), the field unlocks, a step away from the shore lands and the follower walks
+out beside the player. New Bark Town, Vermilion City and Route 104 must start at least one fishing
+battle across the three rods; Kanto Route 18, the Johto Safari Zone's `SafariZone1` and the Battle
+Frontier's west side have fishable water and no fishing table (the same in pokefirered, pokemonHnS and
+pokeemerald), so every rod there says "Not even a nibble". Eight seeded mash casts (`PW_FISH_SEED`,
+default 9001) press A, B, Start, Select, L, R and the D-pad through each cast, and four Super Rod casts
+run while surfing. Last, a rod used facing land must show the region's own line and give control back:
+the "time and place" message was Emerald's "DAD's advice…" everywhere, while pokefirered says "OAK:
+{PLAYER}! This isn't the time to use that!" and pokemonHnS "ELM's advice…". `DisplayDadsAdviceCannotUseItemMessage`
+now picks the line by `GetCurrentRegion()`. **Discrimination:** unfixed 164/166 (New Bark and
+Vermilion read `DAD's`), fixed 166/166. Needs `--timeout 1800`.
+
+### `WaterFieldMoves.lua`
+
+Surf, Waterfall and Dive with a follower, by real input after a debug warp to a coordinate. **Surf
+cycles:** on Route 32's pier, A and YES ten times, stepping back onto land each time; the follower must
+come out beside the player after one step, and the live sprite count, `sSpriteTileAllocBitmap` and
+`sSpritePaletteTags` must match the first cycle (the Surf mount is the party mon's own overworld sprite
+since #9, loaded through the follower graphics path). **Waterfall:** Johto Route 47, Kanto Cape Brink and
+Hoenn Route 119: A and YES below the falls carries the player to the top still surfing, and surfing south
+lands back in the pool. Route 47's row under its falls (metatile 0x137) is `MB_NORMAL` at elevation 1 in
+pokemonHnS too, so the case starts one row lower. **Dive:** A on Route 41's deep water (no dive connection)
+must not dive; on Route 124, A and YES dives and B and YES emerges on the same tile. No defect found:
+71/71 on the pass 9 build. `AuditWaterEncounters.py` is the static half: it floods every map with
+`ValidateReachability`'s rules and lists maps where the player can surf, fish, smash or headbutt with no
+matching table, tables no reachable terrain uses, and (with `--hns DIR`) Johto tables that differ from
+pokemonHnS. On the pass 9 tree every missing table matched its source game and every Johto difference was
+a deliberate species swap.
+
+
+### `JohtoPostgameCameos.lua`
+
+Eight Johto objects that pokemonHnS hides at new game (its `data/scripts/new_game.inc`) stood in the world
+from turn one, because the port never registered their hide flags and nothing outside each object's own
+script sets them. Prof. Oak filled the one-tile corridor to the sailor in Olivine's port hall, and talking
+to him handed over the National Pokedex before the League. Seven gym-leader cameos with post-League lines
+stood in Goldenrod's Department Store 6F (Whitney), Bellchime Trail (Morty), the Olivine Cafe (Jasmine,
+while the story has her at the Lighthouse), Olivine's pier (Sabrina), the Lake of Rage (Pryce), Dragon's
+Den (a second Clair) and the Reception Gate (Janine). HnS shows Oak when Elm hands over the S.S. Ticket and
+the seven when the S.S. Aqua lands in Vermilion, its only way to Kanto. Here the Region Hub reaches Kanto
+too and the boat is optional, so a Johto champion who never boarded never met them: the Johto Hall of Fame
+shows them instead. Every line also sent the player to the FIGHTING DOJO, whose gym-leader roster was cut
+(#101); they now name each leader's own GYM, where a Johto champion gets a rematch, and Janine (no battle
+anywhere) just runs her errand. `test/overworld/AuditHideFlags.py --source ...` found the eight
+(UNREGISTERED).
+
+The suite enters Johto through the Hub's JOHTO gate (the HUB PASS), checks the seven cameo flags are set at
+new game and that Whitney, Jasmine, Sabrina and Janine (the cameos within a warp's spawn window) are absent,
+then walks the port corridor to Oak's tile with real input and asserts no National Pokedex. Oak's flag
+stays clear at new game (the port's ON_TRANSITION hides him until `VAR_NEWBARKTOWN_LABSTATE` 11), so this
+fresh game is also the state of a save made before the change. It then plays Lance's Hall of Fame ceremony
+(`VAR_LEAGUE_STATE` 6) to the title, continues the file in New Bark, takes the HUB PASS to the Hub, crosses
+the KANTO gate, comes back with the HUB PASS and the JOHTO gate's defaults (the remembered team), and the
+seven flags must be clear. Each of the four cameos in reach must stand on her tile, her line (read from
+`gStringVar4`) must name her GYM (Janine: her lunch errand) and never the DOJO, and she must leave. It then
+leaves `VAR_NEWBARKTOWN_LABSTATE` 10 as Elm's League call does, talks to Elm for the ticket, and Oak must
+stand at (8,16) and give the dex. Last it leaves `VAR_SSAQUA_STATE` 5 as the voyage's Metal Coat scene does
+and takes the S.S. Aqua door sailor's YES from (28,2): the landing must leave the three unmet cameos shown
+and must not bring back the four already met (Whitney stays out of the 6F).
+
+**Discrimination.** The first version (no Hall of Fame or Hub legs): before the new-game hide 31/45 (the
+seven flags clear, all four cameos and Oak visible, Oak blocking (8,15) and his scene setting
+`FLAG_SYS_NATIONAL_DEX`), with it 45/45. This version on stress9/hide9 c5902380c9 (cameos shown only by the
+boat landing) 61/77: after the Hall of Fame and the Hub round trip all seven flags are still set and all
+four cameos absent, then the landing brings the four back (Whitney visible at (20,9)). With the Hall of
+Fame reveal and the reworded lines 101/101.
+
+### `BaobaMatchCall.lua`
+
+Warden Baoba's Route 39 scene says "{PLAYER} registered BAOBA in the POKéNAV!" and sets
+`FLAG_ENABLE_BAOBA_MATCH_CALL`, but no Match Call contact read that flag, so the number he gave could
+not be seen or called. pokemonHnS defines the contact (an NPC header, "SAFARI WARDEN", Safari Zone
+Gate, two call lines with the second gated on `FLAG_AMPHAROS_HEALED`), and `MC_HEADER_BAOBA` now
+carries it. With the PokeGear, Match Call, Elm's contact (the PROF. BIRCH flag Elm's lab sets) and MOM's
+flag set, the suite warps to Route 39 and opens the Match Call list from the Start menu with real
+input, then walks into the shadow trigger and plays the scene with a seeded mash of A, B and Down
+(B at the Gold/Silver choice asks again). It opens the list again and calls every contact, then
+calls once more after Ampharos is healed. **Oracle:** the contact list read from the live Match Call
+menu and each call's text from `gStringVar4`: no BAOBA before the scene, exactly one after, the list
+one longer, his call says the Safari Zone is nearly ready and later that it is open, and PROF. BIRCH
+and MOM still answer. Every call ends back on the list and the field is walkable after each visit.
+**Discrimination:** unfixed 29/33 (the list stays at three contacts and no call answers as BAOBA),
+fixed 35/35. Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
+mash, `PW_INSTANT=1` sets Instant text.
+
+### `PyramidSummaryRelearn.lua`
+
+The Summary's move relearner while a Battle Pyramid challenge or the Battle Tower multi partner room
+holds the party. Both keep the real party in SaveBlock1's copy, and every resume of the field (closing
+the party screen included) runs `RestorePyramidPlayerParty`, which writes each challenge Pokemon back
+over its saved copy after replacing any move the copy did not know with Sketch: vanilla has no way to
+change moves there, so a new move is treated as a cheat. The party screen opens the Summary in
+`SUMMARY_MODE_NORMAL`, whose moves page offered the relearner (Start). The suite gives six level 50
+Pokemon, takes each real Lv. 50 challenge with real input (the Pyramid's first floor, the multi partner
+room), opens the lead's Summary from the Start menu's party screen and presses Start on the moves page;
+if the relearner opens it teaches the first move over the first slot. **Oracle:** the relearner does not
+open, the lead and its saved copy know no Sketch back on the field, and after Retire (Pyramid) or quitting
+at the room attendant (multi) the lead has exactly the four moves it entered with. **Discrimination:**
+unfixed 17/25 (in both rooms the relearner taught Vine Whip over Synthesis, the field turned it into
+Sketch in the challenge party and the saved copy, and the player's Ivysaur left with Sketch), fixed 25/25.
+A control opens the relearner the same way in the hub first.
+### `MrStoneMatchCallGate.lua`
+
+Johto's PokeGear is Emerald's PokeNav, and Emerald lists MR. STONE with no flag because he hands the
+device over. A Johto-first player found Devon's president in the PokeGear the moment their mother gave
+it to them, talking about a letter for STEVEN in DEWFORD, and calling him set
+`FLAG_ENABLE_MR_STONE_POKENAV`; once Elm registered his number, MR. STONE still headed the list. Gating
+MR. STONE alone left a Match Call list with nobody in it, which draws stray tiles and calls whatever
+the unwritten first entry holds. The suite crosses the hub's Johto gate and plays the clock and the
+mother's PokeGear scene with real input, steps outdoors and opens the PokeNav from the Start menu (and,
+if Match Call is offered, the list, mashing A, Up and Down). Then Elm's first directions register his
+number and the list opens again; then Devon's 3F scene gives the PokeNav. From a fresh-boot savestate,
+a Hoenn-first player plays Devon's scene and the Rustboro scientist's tutorial (pick POKeNAV, call MR.
+STONE), then calls him from the list. **Oracle:** the live main menu type and Match Call list; the
+PokeGear lists no MR. STONE and offers Match Call only with a contact; Elm's PROF. BIRCH entry heads the
+list and answers; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKENAV`; the Hoenn
+tutorial call is his first line and the next is the letter errand. **Discrimination:** unfixed 45/51
+(MR. STONE listed and called from New Bark, listed above Elm, and Elm's slot answered as MR. STONE),
+MR. STONE gated without the menu change 50/51 (Match Call offered with 0 contacts), fixed 51/51.

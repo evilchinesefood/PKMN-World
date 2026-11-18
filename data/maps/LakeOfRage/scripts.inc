@@ -52,7 +52,7 @@ LakeOfRage_Text_Pryce:
     .string "{PLAYER}.\p"
 	.string "Even here, the cold keeps me sharp.\p"
 	.string "If you wish to battle again, come\n"
-	.string "to the FIGHTING DOJO.$"
+	.string "to my GYM in MAHOGANY.$"
 
 LakeOfRage_EventScript_Gramps::
 	goto_if_ge VAR_MAHOGANY_TOWN_STATE, 14, LakeOfRage_EventScript_Gramps2

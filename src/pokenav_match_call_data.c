@@ -180,7 +180,9 @@ static const struct MatchCallStructNPC sMrStoneMatchCallHeader =
 {
     .type = MC_TYPE_NPC,
     .mapSec = MAPSEC_RUSTBORO_CITY,
-    .flag = 0xFFFF,
+    // Emerald lists him unconditionally because he hands over the PokeNav. Johto's PokeGear is the
+    // same device and arrives first for a Johto-first player, so wait for his own gift in Rustboro.
+    .flag = FLAG_RECEIVED_POKENAV,
     .desc = COMPOUND_STRING("DEVON PRES"),
     .name = COMPOUND_STRING("MR. STONE"),
     .textData = (const match_call_text_data_t[]) {
@@ -248,6 +250,20 @@ static const struct MatchCallStructNPC sMomMatchCallHeader =
         { MatchCall_Text_Mom1, ALWAYS_AVAILABLE,            NO_FLAG_TO_SET },
         { MatchCall_Text_Mom2, FLAG_DEFEATED_PETALBURG_GYM, NO_FLAG_TO_SET },
         { MatchCall_Text_Mom3, FLAG_HOENN_CHAMPION,         NO_FLAG_TO_SET },
+        MATCH_CALL_TEXT_END
+    }
+};
+
+static const struct MatchCallStructNPC sBaobaMatchCallHeader =
+{
+    .type = MC_TYPE_NPC,
+    .mapSec = MAPSEC_SAFARI_ZONE_GATE,
+    .flag = FLAG_ENABLE_BAOBA_MATCH_CALL,
+    .desc = COMPOUND_STRING("SAFARI WARDEN"),
+    .name = COMPOUND_STRING("BAOBA"),
+    .textData = (const match_call_text_data_t[]) {
+        { MatchCall_Text_Baoba1, ALWAYS_AVAILABLE,     NO_FLAG_TO_SET },
+        { MatchCall_Text_Baoba2, FLAG_AMPHAROS_HEALED, NO_FLAG_TO_SET },
         MATCH_CALL_TEXT_END
     }
 };
@@ -570,6 +586,7 @@ static const match_call_t sMatchCallHeaders[] = {
     [MC_HEADER_WALLY]      = {.wally  = &sWallyMatchCallHeader},
     [MC_HEADER_NORMAN]     = {.leader = &sNormanMatchCallHeader},
     [MC_HEADER_MOM]        = {.npc    = &sMomMatchCallHeader},
+    [MC_HEADER_BAOBA]      = {.npc    = &sBaobaMatchCallHeader},
     [MC_HEADER_STEVEN]     = {.npc    = &sStevenMatchCallHeader},
     [MC_HEADER_SCOTT]      = {.npc    = &sScottMatchCallHeader},
     [MC_HEADER_ROXANNE]    = {.leader = &sRoxanneMatchCallHeader},

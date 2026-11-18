@@ -19,8 +19,8 @@ OlivineCity_PortOutside_EventScript_Sabrina::
 OlivineCity_PortOutside_Text_Sabrina:
     .string "SABRINA: Out of the blue,\n"
 	.string "I get the urge to see the ocean.\p"
-	.string "I'll see you at the FIGHTING\n"
-	.string "DOJO.$"
+	.string "I'll see you at my GYM in\n"
+	.string "SAFFRON.$"
 
 OlivineCity_PortOutside_EventScript_Fisherman1::
 	lock

@@ -3,13 +3,12 @@
 -- player could neither see nor call the number they were just given. pokemonHnS defines that
 -- contact (an NPC Match Call header gated on the flag, "SAFARI WARDEN", two call lines).
 --
--- The suite gives the PokeGear with Match Call, Elm's contact (PROF. BIRCH's flag, which Elm's lab
--- sets) and MOM's, warps to Route 39 and opens the Match Call list from the Start menu with real
--- input. Then it walks into the shadow trigger and plays Baoba's scene with a seeded mash of A, B
+-- The suite gives the PokeGear with Match Call and MOM's contact (so the list opens before Baoba),
+-- warps to Route 39 and opens the Match Call list from the Start menu with real input. Then it walks into the shadow trigger and plays Baoba's scene with a seeded mash of A, B
 -- and Down (B at the Gold/Silver choice asks again), opens the list again and calls every contact. Oracle: the list read from the live Match Call menu, and each
 -- call's text from gStringVar4. Before the scene there is no BAOBA; after it there is exactly one,
 -- his call says the Safari Zone is nearly ready, and once Ampharos is healed it says the Safari
--- Zone is open. Elm's and MOM's entries must still be there and still answer.
+-- Zone is open. MOM's entry must still be there and still answer, and Johto never lists PROF. BIRCH.
 --
 -- Knobs: PW_SEED=<n> reseeds the mash, PW_INSTANT=1 sets Instant text.
 -- Run via: test/overworld/mgba-run.sh test/overworld/lua/BaobaMatchCall.lua <rom.gba>
@@ -22,7 +21,6 @@ local F = require("lib").new(S, "BaobaMatchCall")
 local ROUTE39 = { 85, 2 }
 local FLAG_SYS_POKENAV_GET = 0x94A
 local FLAG_ADDED_MATCH_CALL_TO_POKENAV = 0x130
-local FLAG_ENABLE_PROF_BIRCH_MATCH_CALL = 0x119
 local FLAG_ENABLE_MOM_MATCH_CALL = 0xD8
 local FLAG_TRAINER_NORMAN = 0x500 + 940
 local FLAG_ENABLE_BAOBA_MATCH_CALL = 0x6000 + 0xF0
@@ -30,6 +28,7 @@ local FLAG_AMPHAROS_HEALED = 0x6000 + 0xEB
 local VAR_LUGIA_OR_HOOH = 0xA080 + 0x10
 local USM_ICO_POKENAV = 3
 local SUBSTRUCT_MATCH_CALL_MAIN = 5
+-- PokenavMatchCallEntry is 6 bytes of fields, but -mabi=apcs-gnu rounds every struct up to 4 bytes.
 local MC = { numRegistered = 10, initFinished = 16, callback = 24, entries = 28, entrySize = 8, special = 0, headerId = 4 }
 local CONTEXT_SHUTDOWN = 2
 
@@ -154,8 +153,7 @@ F.run(function()
     local a = F.sb2() + S.SaveBlock2.optionsU16
     F.w16(a, (F.r16(a) & ~7) | 3)
   end
-  for _, id in ipairs({ FLAG_SYS_POKENAV_GET, FLAG_ADDED_MATCH_CALL_TO_POKENAV, FLAG_ENABLE_PROF_BIRCH_MATCH_CALL,
-                        FLAG_ENABLE_MOM_MATCH_CALL, FLAG_TRAINER_NORMAN }) do setFlag(id) end
+  for _, id in ipairs({ FLAG_SYS_POKENAV_GET, FLAG_ADDED_MATCH_CALL_TO_POKENAV, FLAG_ENABLE_MOM_MATCH_CALL, FLAG_TRAINER_NORMAN }) do setFlag(id) end
   F.check("warped to Route 39", F.warpTo(0, 8, 5, 0, 0, 2, 0, 0, 0, ROUTE39[1], ROUTE39[2], "route39"))
   for _ = 1, 10 do if hasControl() then break end F.press("B", 2); F.idle(20) end
   F.check("Baoba's scene is still ahead", not getFlag(FLAG_ENABLE_BAOBA_MATCH_CALL) and getVar(VAR_LUGIA_OR_HOOH) == 0)
@@ -165,7 +163,7 @@ F.run(function()
     beforeCount = #rows
     F.check("before: no BAOBA contact yet", count(rows, "BAOBA") == 0)
     F.check("before: MOM answers", count(rows, "MOM:") == 1)
-    F.check("before: Elm's contact (PROF. BIRCH) answers", count(rows, "PROF. BIRCH:") == 1)
+    F.check("before: no PROF. BIRCH contact in Johto", count(rows, "PROF. BIRCH") == 0)
     closePokenav("before")
   end
 
@@ -193,7 +191,7 @@ F.run(function()
     F.check("after: exactly one BAOBA contact", n == 1, tostring(n))
     F.check("after: Baoba says the Safari Zone is nearly ready", baoba and baoba.text:find("nearly ready", 1, true) ~= nil)
     F.check("after: MOM still answers", count(rows, "MOM:") == 1)
-    F.check("after: Elm's contact (PROF. BIRCH) still answers", count(rows, "PROF. BIRCH:") == 1)
+    F.check("after: still no PROF. BIRCH contact", count(rows, "PROF. BIRCH") == 0)
     F.check("after: the list grew by exactly one contact", #rows == beforeCount + 1,
       string.format("%d before, %d after", beforeCount, #rows))
     closePokenav("after")

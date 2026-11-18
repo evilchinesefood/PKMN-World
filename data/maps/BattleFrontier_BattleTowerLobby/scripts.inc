@@ -1405,7 +1405,7 @@ BattleFrontier_BattleTowerLobby_Text_ExplainSalonRules:
 
 BattleFrontier_BattleTowerLobby_Text_ExplainMultiLinkRules:
 	.string "The LINK MULTI BATTLE Mode is for two\n"
-	.string "friends to mount a challenge together.\p"
+	.string "friends to mount a joint challenge.\p"
 	.string "You and your friend must be linked with\n"
 	.string "Wireless Adapters or a GBA Game Link\l"
 	.string "cable.\p"

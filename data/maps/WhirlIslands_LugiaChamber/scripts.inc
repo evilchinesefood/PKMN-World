@@ -580,8 +580,8 @@ WhirlIslands_LugiaChamber_Text_Kuni_Before::
 WhirlIslands_LugiaChamber_Text_Kimono_Opening::
 	.string "KIMONO GIRL: That's right.\n"
 	.string "This is where we welcome LUGIA.\p"
-	.string "When the dance we practiced many\n"
-	.string "days becomes one with the sound of the\l"
+	.string "When the dance we practiced many days\n"
+	.string "becomes one with the sound of the\l"
 	.string "Tidal Bell we entrusted to you, then\l"
 	.string "LUGIA shall come out from deep within\l"
 	.string "the waterfall basin once again.$"

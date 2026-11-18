@@ -453,8 +453,8 @@ DewfordTown_Gym_Text_RegisteredBrawly:
 
 DewfordTown_Gym_Text_BrawlyPostBattle:
 	.string "I can see your talent becoming a giant\n"
-	.string "wave to cause a storm of astonishment\l"
-	.string "among TRAINERS one day!$"
+	.string "wave to cause a storm of\l"
+	.string "astonishment among TRAINERS one day!$"
 
 DewfordTown_Gym_Text_GymStatue:
 	.string "DEWFORD TOWN POKéMON GYM$"

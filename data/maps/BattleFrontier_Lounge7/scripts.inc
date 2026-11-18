@@ -316,8 +316,8 @@ BattleFrontier_Lounge7_Text_LeftTutorIntro:
 	.string "I can teach your POKéMON special and\l"
 	.string "yet cute moves.\p"
 	.string "But my lessons don't come free.\n"
-	.string "How about paying for the moves I teach\l"
-	.string "with a wee bit of Battle Points?$"
+	.string "How about paying for the moves I\l"
+	.string "teach with a wee bit of Battle Points?$"
 
 BattleFrontier_Lounge7_Text_LeftTutorWelcomeBack:
 	.string "Buhahaha!\p"
@@ -365,8 +365,8 @@ BattleFrontier_Lounge7_Text_RightTutorIntro:
 	.string "I can teach your POKéMON hard and\l"
 	.string "yet pretty moves.\p"
 	.string "But my lessons don't come free.\n"
-	.string "How about paying for the moves I teach\l"
-	.string "with a wee bit of Battle Points?$"
+	.string "How about paying for the moves I\l"
+	.string "teach with a wee bit of Battle Points?$"
 
 BattleFrontier_Lounge7_Text_RightTutorWelcomeBack:
 	.string "Ihihihi!\p"
@@ -381,8 +381,8 @@ BattleFrontier_Lounge7_Text_ThinkLadiesDontGetAlong:
 	.string "stay out here together, would they?$"
 
 BattleFrontier_Lounge7_Text_LadiesWereStrongAndBeautiful:
-	.string "When I was just a wee YOUNGSTER,\n"
-	.string "those ladies were strong and beautiful.\p"
+	.string "When I was just a wee YOUNGSTER, those\n"
+	.string "ladies were strong and beautiful.\p"
 	.string "They were idols among us TRAINERS.\p"
 	.string "Even now, age hasn't dulled their\n"
 	.string "abilities.\p"

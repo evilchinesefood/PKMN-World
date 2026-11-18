@@ -389,8 +389,8 @@ BattleFrontier_BattlePalaceLobby_Text_TakeSingleBattleChallenge:
 	.string "the SINGLE BATTLE HALL challenge?$"
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainSingleBattleChallenge:
-	.string "In the BATTLE PALACE, there are\n"
-	.string "several auditoriums for SINGLE BATTLES\l"
+	.string "In the BATTLE PALACE, there are several\n"
+	.string "auditoriums for SINGLE BATTLES\l"
 	.string "that are named SINGLE BATTLE HALLS.\p"
 	.string "The SINGLE BATTLES are conducted in\n"
 	.string "the usual way, except with one crucial\l"
@@ -399,8 +399,8 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainSingleBattleChallenge:
 	.string "their POKéMON in and out.\p"
 	.string "TRAINERS are otherwise forbidden to\n"
 	.string "command their POKéMON.\p"
-	.string "The POKéMON are to behave according\n"
-	.string "to their nature and battle on their own.\p"
+	.string "The POKéMON are to behave according to\n"
+	.string "their nature and battle on their own.\p"
 	.string "You must put your trust in your\n"
 	.string "POKéMON and watch over them.\p"
 	.string "If you achieve the honor of beating\n"
@@ -542,7 +542,7 @@ BattleFrontier_BattlePalaceLobby_Text_MonDocileButTransforms:
 
 BattleFrontier_BattlePalaceLobby_Text_WhatNatureFavorsChippingAway:
 	.string "I wonder what sort of nature a POKéMON\n"
-	.string "would have if it favored enfeebling its\l"
+	.string "would have if it favored weakening its\l"
 	.string "opponents and chipping away slowly.\p"
 	.string "I'd be surprised if it was a LAX nature.\p"
 	.string "But, nah, that can't be right.$"
@@ -559,8 +559,8 @@ BattleFrontier_BattlePalaceLobby_Text_TakeDoubleBattleChallenge:
 	.string "the DOUBLE BATTLE HALL challenge?$"
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainDoubleBattleChallenge:
-	.string "In the BATTLE PALACE, there are\n"
-	.string "several auditoriums for DOUBLE BATTLES\l"
+	.string "In the BATTLE PALACE, there are several\n"
+	.string "auditoriums for DOUBLE BATTLES\l"
 	.string "that are named DOUBLE BATTLE HALLS.\p"
 	.string "The DOUBLE BATTLES are conducted in\n"
 	.string "the usual way, except with one crucial\l"
@@ -569,8 +569,8 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainDoubleBattleChallenge:
 	.string "their POKéMON in and out.\p"
 	.string "TRAINERS are otherwise forbidden to\n"
 	.string "command their POKéMON.\p"
-	.string "The POKéMON are to behave according\n"
-	.string "to their nature and battle on their own.\p"
+	.string "The POKéMON are to behave according to\n"
+	.string "their nature and battle on their own.\p"
 	.string "You must put your trust in your\n"
 	.string "POKéMON and watch over them.\p"
 	.string "If you achieve the honor of beating\n"
@@ -616,8 +616,8 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesNature:
 	.string "Yet another may enjoy vexing or\n"
 	.string "confounding its foes.\p"
 	.string "Due to its nature, a POKéMON\n"
-	.string "will have favorite moves that it is good\l"
-	.string "at using.\p"
+	.string "will have favorite moves that it is\l"
+	.string "good at using.\p"
 	.string "It may also dislike certain moves that\n"
 	.string "it has trouble using.$"
 
@@ -636,8 +636,8 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesMoves:
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesUnderpowered:
 	.string "When not under command by its TRAINER,\n"
-	.string "a POKéMON may be unable to effectively\l"
-	.string "use certain moves.\p"
+	.string "a POKéMON may be unable to\l"
+	.string "effectively use certain moves.\p"
 	.string "A POKéMON is not good at using any\n"
 	.string "move that it dislikes.\p"
 	.string "If a POKéMON only knows moves that\n"
@@ -646,8 +646,8 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesUnderpowered:
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesWhenInDanger:
 	.string "Depending on its nature, a POKéMON may\n"
-	.string "start using moves that don't match its\l"
-	.string "nature when it is in trouble.\p"
+	.string "start using moves that don't match\l"
+	.string "its nature when it is in trouble.\p"
 	.string "If a POKéMON begins behaving oddly\n"
 	.string "in a pinch, watch it carefully.$"
 

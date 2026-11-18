@@ -14,7 +14,7 @@ EventTicket_Text_ShowEonTicket:
 	.string "Aye, mate, are you the one who brought\n"
 	.string "that mighty odd PASS?\p"
 	.string "I'll tell you, you're trying to reach a\n"
-	.string "tiny spit of an island far in the south.\p"
+	.string "tiny spit of an island way down south.\p"
 	.string "There's no telling what we'll encounter\n"
 	.string "once we reach there, aye.\l"
 	.string "That shivers my timbers!\p"

@@ -415,7 +415,7 @@ LilycoveCity_ContestHall_Text_OverdidGrooming:
 	.string "I brushed and groomed my POKéMON\n"
 	.string "carefully for this CONTEST…\p"
 	.string "But I overdid it…\n"
-	.string "My POKéMON's coat turned all scraggly…\p"
+	.string "My POKéMON's coat went all scraggly…\p"
 	.string "What should I do?$"
 
 LilycoveCity_ContestHall_Text_JudgeWontSeeAuroraBeam:

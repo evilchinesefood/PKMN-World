@@ -137,7 +137,7 @@ RustboroCity_DevonCorp_1F_Text_ProductDisplay:
 	.string "There's a panel with a description…\p"
 	.string "“In addition to industrial products,\n"
 	.string "DEVON now markets sundries and\l"
-	.string "pharmaceuticals for better lifestyles.\p"
+	.string "pharmaceuticals for better living.\p"
 	.string "“Recently, DEVON has begun marketing\n"
 	.string "tools for POKéMON TRAINERS, including\l"
 	.string "POKé BALLS and POKéNAV systems.”$"

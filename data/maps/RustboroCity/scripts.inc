@@ -1143,7 +1143,7 @@ RustboroCity_Text_MayPassedBrineyWantToBattle:
 	.string "I guess he's on his way home to his\n"
 	.string "cottage by the sea.\p"
 	.string "How's your POKéDEX coming along,\n"
-	.string "{PLAYER}{KUN}? Mine's looking pretty decent!\p"
+	.string "{PLAYER}{KUN}? Mine's looking pretty good!\p"
 	.string "So…\n"
 	.string "How about a little battle?$"
 

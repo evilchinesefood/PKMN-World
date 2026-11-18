@@ -237,8 +237,8 @@ BattleFrontier_Lounge2_Text_PikeQueenGoldMons::
 	.string "she uses these three POKéMON:\p"
 	.string "A POISON-type FANG SNAKE POKéMON,\n"
 	.string "a STEEL & GROUND IRON SNAKE POKéMON,\l"
-	.string "and a WATER- & FLYING-type ATROCIOUS\l"
-	.string "POKéMON.$"
+	.string "and a WATER- & FLYING-type\l"
+	.string "ATROCIOUS POKéMON.$"
 
 BattleFrontier_Lounge2_Text_ArenaTycoonIsThere::
 	.string "Bet you didn't know this!\p"
@@ -286,7 +286,7 @@ BattleFrontier_Lounge2_Text_PalaceMavenGoldMons::
 	.string "Have you battled the PALACE MAVEN\n"
 	.string "when he's serious?\p"
 	.string "When he throws his entire might into\n"
-	.string "battle, he's said to use these POKéMON:\p"
+	.string "battle, word is he uses these POKéMON:\p"
 	.string "A FIRE-type LEGENDARY POKéMON,\n"
 	.string "a NORMAL-type LAZY POKéMON,\l"
 	.string "and a WATER-type AURORA POKéMON.$"

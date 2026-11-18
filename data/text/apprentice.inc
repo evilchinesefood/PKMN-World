@@ -592,8 +592,8 @@ gText_ApprenticePleaseTeach14::
 	.string "I… I'm {STR_VAR_1}.\p"
 	.string "I'm really embarrassed to say this,\n"
 	.string "but I explore ancient ruins and such.\p"
-	.string "I'm even more embarrassed to admit\n"
-	.string "I'm interested in the BATTLE FRONTIER.\p"
+	.string "I'm even more embarrassed to admit I'm\n"
+	.string "interested in the BATTLE FRONTIER.\p"
 	.string "{PLAYER}{KUN}, you have a reputation as\n"
 	.string "a tough TRAINER…\p"
 	.string "It's hard for me to say this,\n"
@@ -770,7 +770,7 @@ gText_ApprenticeHoldNothing3::
 
 gText_ApprenticeThanksNoHeldItem3::
 	.string "I understand…\n"
-	.string "You're saying I shouldn't rely on items.\l"
+	.string "You mean I shouldn't rely on items.\l"
 	.string "I'll do my best not to!\p"
 	.string "Thank you very much!$"
 
@@ -790,7 +790,7 @@ gText_ApprenticeItemAlreadyRecommended3::
 
 gText_ApprenticeWhatHeldItem4::
 	.string "Oh, {PLAYER}{KUN}.\n"
-	.string "There's something I wanted to ask you.\p"
+	.string "There's something I want to ask you.\p"
 	.string "You know how you decided which\n"
 	.string "POKéMON I should have for me?\p"
 	.string "But I never asked you what item\n"
@@ -1127,8 +1127,8 @@ gText_ApprenticeWhatHeldItem13::
 	.string "Gwah! Ouch! {PLAYER}{KUN}, my arm's broken!\n"
 	.string "Don't touch it, please!\p"
 	.string "I must've broken it while I was trying\n"
-	.string "out different hold items with my posse\l"
-	.string "of POKéMON.\p"
+	.string "out different hold items with my\l"
+	.string "posse of POKéMON.\p"
 	.string "So, things being this way,\n"
 	.string "I need you to decide for me.\p"
 	.string "{PLAYER}{KUN}, what do you think would be\n"
@@ -1251,15 +1251,15 @@ gText_ApprenticeWhichMonFirst0::
 	.string "How should I line up my POKéMON\n"
 	.string "so they'll be at their strongest?\p"
 	.string "Please tell me, {PLAYER}.\n"
-	.string "If you were me, which of these POKéMON\l"
-	.string "would you send out first?$"
+	.string "If you were me, which of these\l"
+	.string "POKéMON would you send out first?$"
 
 gText_ApprenticeMonFirstThanks0::
 	.string "My {STR_VAR_1} should go first?\n"
 	.string "Waaaaah!\p"
 	.string "Oh! I'm so sorry!\n"
-	.string "You've made me happy by choosing\l"
-	.string "my first POKéMON, and it's made me cry…\p"
+	.string "You've made me happy by choosing my\l"
+	.string "first POKéMON, and it's made me cry…\p"
 	.string "Thank you so much!$"
 
 gText_ApprenticeWhichMonFirst1::
@@ -1540,7 +1540,7 @@ gText_ApprenticeWhichMon0::
 	.string "Snivel…\n"
 	.string "Oh, {PLAYER}!\p"
 	.string "What perfect timing!\n"
-	.string "There's something I just can't decide…\p"
+	.string "There's something I can't decide…\p"
 	.string "I can't decide which POKéMON I should\n"
 	.string "be using.\p"
 	.string "I can't decide between the POKéMON\n"
@@ -2254,7 +2254,7 @@ gText_ApprenticeWinSpeechThanks4::
 
 gText_ApprenticePickWinSpeech5::
 	.string "Oh, I can't get over how busy I am!\n"
-	.string "Oh, hey, I was looking for you, {PLAYER}{KUN}.\p"
+	.string "Oh, I was looking for you, {PLAYER}{KUN}.\p"
 	.string "Are you well as usual?\n"
 	.string "Things haven't changed for me at all.\p"
 	.string "I've got running, fighting, and mapping\n"
@@ -2320,8 +2320,8 @@ gText_ApprenticeWinSpeechThanks7::
 	.string "I must use that right away!\p"
 	.string "And now, I must take my leave,\n"
 	.string "{PLAYER}…\p"
-	.string "I will go out to battle many others,\n"
-	.string "but never will I forget your teachings.\p"
+	.string "I will go out to battle many others, but\n"
+	.string "never will I forget your teachings.\p"
 	.string "Perhaps one day…\n"
 	.string "Farewell!$"
 

@@ -30,7 +30,7 @@ Route116_TunnelersRestHouse_EventScript_TunnelOpened::
 Route116_TunnelersRestHouse_Text_WeHadToStopBoring:
 	.string "That RUSTURF TUNNEL there…\p"
 	.string "At first, we had a huge work crew boring\n"
-	.string "through rock with the latest machinery.\l"
+	.string "through rock with modern machinery.\l"
 	.string "But, we had to stop.\p"
 	.string "It turns out that we would have had\n"
 	.string "a negative effect on wild POKéMON in\l"

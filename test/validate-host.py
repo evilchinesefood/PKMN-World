@@ -44,6 +44,7 @@ CHECKS = (
     ("ValidateLanceMultiBattle.py",),
     ("ScanInputChords.py", "--check"),
     ("ValidateEllipsis.py",),
+    ("ValidateTextWidth.py",),
     ("ValidateConfigRules.py",),
     ("ValidateDeadEvoItems.py",),
     ("ValidateBattleScenes.py",),

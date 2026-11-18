@@ -734,9 +734,9 @@ BattleFrontier_BattleDomeLobby_Text_ExplainTourneyTree:
 	.string "The Tournament Tree will provide\n"
 	.string "several kinds of data.\p"
 	.string "The data on view includes the previous\n"
-	.string "tournament's results, the POKéMON held\l"
-	.string "by TRAINERS, and the battle styles of\l"
-	.string "TRAINERS.$"
+	.string "tournament's results, the POKéMON\l"
+	.string "held by TRAINERS, and the battle\l"
+	.string "styles of TRAINERS.$"
 
 BattleFrontier_BattleDomeLobby_Text_ExplainDoubleKORules:
 	.string "If battling POKéMON faint at the same\n"
@@ -748,7 +748,7 @@ BattleFrontier_BattleDomeLobby_Text_ChampionshipOffer:
 	.string "So you've conquered KANTO, JOHTO, and\n"
 	.string "HOENN alike…\p"
 	.string "Then you've earned a shot at the WORLD\n"
-	.string "CHAMPIONSHIP--a gauntlet against the\l"
+	.string "CHAMPIONSHIP--a gauntlet facing the\l"
 	.string "greatest CHAMPIONS of every region.\p"
 	.string "Each victory earns a GOLD BOTTLE CAP!\p"
 	.string "Enter the tournament?$"

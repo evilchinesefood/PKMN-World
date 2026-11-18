@@ -1,0 +1,408 @@
+label	text	reason
+Aide_Text_GetEnoughMonsComeBackForItem	When you get {STR_VAR_1} kinds of POKéMON,	upstream-cut
+BattleFrontier_BattleTowerBattleRoom_Text_ReadyForOpponent	You will be facing opponent no. {STR_VAR_1}.	upstream-cut
+BattleFrontier_BattleTowerLobby_Text_FriendAlsoSelectedMons	POKéMON {STR_VAR_1} and {STR_VAR_2}.	upstream-unresolved
+BattleFrontier_BattleTowerLobby_Text_FriendChoseDifferentLvlModeSameMons	POKéMON {STR_VAR_1} and {STR_VAR_2}.	upstream-unresolved
+BattleFrontier_BattleTowerLobby_Text_NotEnoughValidMonsLv50	You don't have {STR_VAR_2} eligible POKéMON.	upstream-cut
+BattleFrontier_BattleTowerLobby_Text_NotEnoughValidMonsLv50	You must have {STR_VAR_2} different POKéMON	upstream-cut
+BattleFrontier_BattleTowerLobby_Text_NotEnoughValidMonsLvOpen	You don't have {STR_VAR_2} eligible POKéMON.	upstream-cut
+BattleFrontier_BattleTowerLobby_Text_NotEnoughValidMonsLvOpen	You must have {STR_VAR_2} different POKéMON	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice10Mon1	one {STR_VAR_1}-master {STR_VAR_2}	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice11Intro	I'm {STR_VAR_1}'s 1,000th apprentice!	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice11Intro	People call me {STR_VAR_3} and I do, too!	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice12Intro	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice13Intro	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice13Mon1	So one {STR_VAR_1}-using {STR_VAR_2}	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice14Intro	My name's {STR_VAR_3}, {STR_VAR_1}'s	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice14Mon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice15Intro	I'm the no. {STR_VAR_2} apprentice of {STR_VAR_1}.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice15Mon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice15Mon1	{STR_VAR_3} said this team'll be good--	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice16Intro	I am {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice16Mon1	my {STR_VAR_1}-using {STR_VAR_2} and	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice1Intro	{STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice1Mon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice2Intro	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice2Mon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice3Intro	I'm {STR_VAR_3}, the no. {STR_VAR_2} apprentice	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice3Mon2Ask	and one {STR_VAR_2} with {STR_VAR_1},	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice4Intro	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice…	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice5Intro	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice7Intro	no. {STR_VAR_2} apprentice. Glad to meet you!	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice7Mon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice7Mon1	the POKéMON {STR_VAR_3} recommended.	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice8Mon2Ask	and one {STR_VAR_2} with {STR_VAR_1}.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_BeautyMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_BirdKeeperMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_BugCatcherMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_BugManiacMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_CyclingTriathleteFMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_CyclingTriathleteMMon1	I've been running with one {STR_VAR_2}	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_CyclingTriathleteMMon2Ask	and one {STR_VAR_2} with {STR_VAR_1}!	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_DragonTamerMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_ExpertFMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_ExpertMMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_GuitaristMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_HikerMon1	My {STR_VAR_1}-using {STR_VAR_2} and	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_KindlerMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_LadyMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PicnickerMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PkmnBreederMMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PkmnRangerFMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PokefanFMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PokemaniacMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PsychicFMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_PsychicMMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_RichBoyMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_RuinManiacMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_RunningTriathleteFMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_RunningTriathleteMMon1	one {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_SailorMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_SwimmerMMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_SwimmingTriathleteFMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_SwimmingTriathleteMMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_TuberFMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_TuberMMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Intro	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice1Mon1	one {STR_VAR_3} with {STR_VAR_2} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Intro	I am {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Mon1	I got advice from {STR_VAR_1} and chose	upstream-cut
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_UnusedApprentice2Mon1	one {STR_VAR_3} with {STR_VAR_2} and	upstream-unresolved
+BattleFrontier_BattleTowerMultiPartnerRoom_Text_YoungsterMon1	One {STR_VAR_2} with {STR_VAR_1} and	upstream-unresolved
+BattleFrontier_Lounge6_Text_WouldYouLikeToTrade	Would you like to trade me a {STR_VAR_1}	upstream-cut
+BattleFrontier_Lounge7_Text_BodySlamDesc	paralysis.	upstream-cut
+BattleFrontier_Lounge7_Text_CounterDesc	double the power.	upstream-cut
+BattleFrontier_Lounge7_Text_DefenseCurlDesc	and raise DEFENSE.	upstream-cut
+BattleFrontier_Lounge7_Text_DreamEaterDesc	on a sleeping foe.	upstream-cut
+BattleFrontier_Lounge7_Text_EndureDesc	leaving 1HP.	upstream-cut
+BattleFrontier_Lounge7_Text_FirePunchDesc	the foe.	upstream-cut
+BattleFrontier_Lounge7_Text_IcePunchDesc	freeze the foe.	upstream-cut
+BattleFrontier_Lounge7_Text_IcyWindDesc	foe's SPEED.	upstream-cut
+BattleFrontier_Lounge7_Text_MegaKickDesc	intense force.	upstream-cut
+BattleFrontier_Lounge7_Text_MegaPunchDesc	incredible power.	upstream-cut
+BattleFrontier_Lounge7_Text_MudSlapDesc	duce its accuracy.	upstream-cut
+BattleFrontier_Lounge7_Text_PsychUpDesc	gives to the user.	upstream-cut
+BattleFrontier_Lounge7_Text_RockSlideDesc	cause flinching.	upstream-cut
+BattleFrontier_Lounge7_Text_SeismicTossDesc	user's level.	upstream-cut
+BattleFrontier_Lounge7_Text_SnoreDesc	only while asleep.	upstream-cut
+BattleFrontier_Lounge7_Text_SoftboiledDesc	maximum HP.	upstream-cut
+BattleFrontier_Lounge7_Text_SwiftDesc	that never miss.	upstream-cut
+BattleFrontier_Lounge7_Text_SwordsDanceDesc	raises ATTACK.	upstream-cut
+BattleFrontier_Lounge7_Text_ThunderPunchDesc	paralyze the foe.	upstream-cut
+BattleFrontier_Lounge7_Text_ThunderWaveDesc	paralyzes the foe.	upstream-cut
+BattleFrontier_Text_ObtainedXBattlePoints	{PLAYER} obtained {STR_VAR_1} Battle Point(s).	upstream-cut
+BerryBlender_Text_Player1And2Arrived	{STR_VAR_1} and {STR_VAR_2} arrived.	upstream-unresolved
+BerryTree_Text_BerryGrowthStage3	The {STR_VAR_1}'s seedling is growing well!	upstream-cut
+BerryTree_Text_BerryGrowthStageTrunk	The {STR_VAR_1}'s trunk is getting bigger!	upstream-cut
+BerryTree_Text_PickedTheBerry	{PLAYER} picked the {STR_VAR_2} {STR_VAR_1}.	upstream-cut
+BerryTree_Text_PickedTheBerry_Mutation	{PLAYER} picked the {STR_VAR_2} {STR_VAR_1}	upstream-cut
+BerryTree_Text_WantToWater	Want to water the {STR_VAR_1} with the	upstream-unresolved
+BravoTrainerBattleTower_Text_Intro	For the challenge, {STR_VAR_1} entered	upstream-unresolved
+BravoTrainerBattleTower_Text_Intro	Today, we're going to profile {STR_VAR_1},	upstream-cut
+BravoTrainerBattleTower_Text_Lost	{STR_VAR_1} in match number {STR_VAR_2}.	upstream-cut
+BravoTrainerBattleTower_Text_Lost	{STR_VAR_1} so early in the challenge.	upstream-unresolved
+BravoTrainerBattleTower_Text_LostFinal	succumbed to {STR_VAR_1}'s {STR_VAR_2},	upstream-cut
+BravoTrainerBattleTower_Text_NewRecord	The pair set a new record of {STR_VAR_2} wins	upstream-cut
+BravoTrainerBattleTower_Text_Outro	{STR_VAR_1} scale even greater heights!	upstream-cut
+BravoTrainerBattleTower_Text_ResponseSatisfied	It really expresses {STR_VAR_2}'s joy,	upstream-unresolved
+BravoTrainerBattleTower_Text_ResponseUnsatisfied	{STR_VAR_2}'s disappointment comes across	upstream-cut
+BravoTrainerBattleTower_Text_Won	{STR_VAR_1}'s {STR_VAR_2} thoroughly.	upstream-cut
+CableClub_Text_PlayerIsWaiting	It appears as if {STR_VAR_1} is playing	upstream-unresolved
+CianwoodCity_Text_ManiacLastMon	in battle?	upstream-cut
+ContestLadyShow_Text_Lost	My {STR_VAR_2} and I, we did our best…	upstream-unresolved
+ContestLiveUpdates_Text_BetterRound1	Spectator: In terms of being {STR_VAR_1},	upstream-cut
+ContestLiveUpdates_Text_LastInBothRounds	I hope that {STR_VAR_1} will retrain this	upstream-cut
+ContestLiveUpdates_Text_LostAfterWinningRound1	I'm sure {STR_VAR_1} is studying how to	upstream-unresolved
+ContestLiveUpdates_Text_LostBySmallMargin	It lost to {STR_VAR_1}'s {STR_VAR_2}	upstream-unresolved
+ContestLiveUpdates_Text_NotExcitingEnough	We hope {STR_VAR_1} will learn how to get	upstream-cut
+ContestLiveUpdates_Text_TalkAboutAnotherMon	POKéMON, {STR_VAR_2}'s {STR_VAR_3}, 	upstream-unresolved
+ContestLiveUpdates_Text_ValiantEffortButLost	{STR_VAR_1} should learn from this loss	upstream-unresolved
+ContestLiveUpdates_Text_ValiantEffortButLost	{STR_VAR_1} turned in a valiant effort,	upstream-unresolved
+ContestLiveUpdates_Text_WonBothRounds	Spectator: The {STR_VAR_2} was tops in	upstream-unresolved
+DarkCave2_Text_Nerd	OK?	upstream-cut
+Debug_EventScript_TellTheTime_Text_0	{STR_VAR_1}, {STR_VAR_2}:{STR_VAR_3}	upstream-cut
+Debug_EventScript_Text_DefensiveEVs	HP EVs: {STR_VAR_1}, DEF EVs: {STR_VAR_2}, SPDEF EVs: {STR_VAR_3}	upstream-cut
+Debug_EventScript_Text_DefensiveIVs	HP IVs: {STR_VAR_1}, DEF IVs: {STR_VAR_2}, SPDEF IVs: {STR_VAR_3}	upstream-cut
+Debug_EventScript_Text_OffensiveEVs	ATK EVs: {STR_VAR_1}, SPATK EVs: {STR_VAR_2}, SPEED EVs: {STR_VAR_3}	upstream-cut
+Debug_EventScript_Text_OffensiveIVs	ATK IVs: {STR_VAR_1}, SPATK IVs: {STR_VAR_2}, SPEED IVs: {STR_VAR_3}	upstream-cut
+Debug_PokemonStorageSize	{PKMN}Storage size: {STR_VAR_1}b/{STR_VAR_2}b.	upstream-cut
+Debug_SaveBlock1Size	SaveBlock1 size: {STR_VAR_1}b/{STR_VAR_2}b.	upstream-cut
+Debug_SaveBlock2Size	SaveBlock2 size: {STR_VAR_1}b/{STR_VAR_2}b.	upstream-cut
+Debug_SaveBlock3Size	SaveBlock3 size: {STR_VAR_1}b/{STR_VAR_2}b.	upstream-cut
+EcruteakCity_Theater_Text_ZukiHooh	See you there!	upstream-cut
+FortreeCity_House1_Text_YouWillTradeWontYou	your {STR_VAR_1} for my {STR_VAR_2},	upstream-unresolved
+Gate_AzaleaTown_IlexForest_Text_Officer	Don't get lost.	upstream-cut
+GoldenrodCity_RadioTower_1F_Text_TicketNumberIsXPleaseWait	The LOTO TICKET number is {STR_VAR_1}.	upstream-unresolved
+LilycoveCity_DepartmentStore_1F_Text_TicketNumberIsXPleaseWait	The LOTO TICKET number is {STR_VAR_1}.	upstream-unresolved
+LilycoveCity_PokemonCenter_1F_Text_PlayerGaveMeBadThing	{STR_VAR_3} gave me one {STR_VAR_2},	upstream-unresolved
+LilycoveCity_PokemonCenter_1F_Text_ReallyImprovedThanks	I think it really improved {STR_VAR_1}'s	upstream-unresolved
+LilycoveCity_PokemonTrainerFanClub_Text_HowStrongRateTrainer	How strong would you rate {STR_VAR_1}	upstream-unresolved
+LilycoveCity_PokemonTrainerFanClub_Text_NoOneCanKnockYouButTrainerStronger	But, you know, I believe in {STR_VAR_1}.	upstream-unresolved
+LilycoveCity_PokemonTrainerFanClub_Text_YouShouldMeetTrainer	You should meet {STR_VAR_1} sometime.	upstream-unresolved
+LilycoveCity_PokemonTrainerFanClub_Text_YoureMaybeStrongerThanTrainer	Maybe even stronger than {STR_VAR_1}.	upstream-unresolved
+MatchCall_BattleDomeText1	the {STR_VAR_2} {STR_VAR_3} times?	upstream-cut
+MatchCall_BattleDomeText10	You won {STR_VAR_3} straight times at	upstream-cut
+MatchCall_BattleDomeText11	You won, what, {STR_VAR_3} straight times	upstream-cut
+MatchCall_BattleDomeText12	You've won {STR_VAR_3} events at a place	upstream-cut
+MatchCall_BattleDomeText13	They say you won {STR_VAR_3} events	upstream-cut
+MatchCall_BattleDomeText2	They said you won {STR_VAR_3} titles	upstream-cut
+MatchCall_BattleDomeText3	I heard you won events {STR_VAR_3} times	upstream-cut
+MatchCall_BattleDomeText4	at the {STR_VAR_2} {STR_VAR_3} times.	upstream-cut
+MatchCall_BattleDomeText6	the champion {STR_VAR_3} times at	upstream-unresolved
+MatchCall_BattleDomeText7	and became the champ {STR_VAR_3} times?	upstream-cut
+MatchCall_BattleDomeText8	I've heard that you won {STR_VAR_3} titles	upstream-cut
+MatchCall_BattleDomeText9	{STR_VAR_3} times at the {STR_VAR_2}!	upstream-cut
+MatchCall_BattleFrontierRecordStreakText1	It's awesome--{STR_VAR_3} straight wins?	upstream-cut
+MatchCall_BattleFrontierRecordStreakText10	You won {STR_VAR_3} straight battles at	upstream-cut
+MatchCall_BattleFrontierRecordStreakText11	You won, what, {STR_VAR_3} matches in	upstream-cut
+MatchCall_BattleFrontierRecordStreakText12	How you won {STR_VAR_3} straight battles	upstream-cut
+MatchCall_BattleFrontierRecordStreakText13	They say you won {STR_VAR_3} straight	upstream-cut
+MatchCall_BattleFrontierRecordStreakText14	Didn't you just win {STR_VAR_3} battles in	upstream-cut
+MatchCall_BattleFrontierRecordStreakText2	They said you won {STR_VAR_3} straight	upstream-cut
+MatchCall_BattleFrontierRecordStreakText4	you strung together {STR_VAR_3} straight	upstream-cut
+MatchCall_BattleFrontierRecordStreakText5	and won {STR_VAR_3} battles in a row?	upstream-cut
+MatchCall_BattleFrontierRecordStreakText6	the feat of {STR_VAR_3} straight wins at	upstream-cut
+MatchCall_BattleFrontierRecordStreakText7	And you won {STR_VAR_3} battles in a row.	upstream-cut
+MatchCall_BattleFrontierRecordStreakText8	you won {STR_VAR_3} matches in a row at	upstream-cut
+MatchCall_BattleFrontierRecordStreakText9	I heard! Your {STR_VAR_3}-win streak at	upstream-cut
+MatchCall_BattleFrontierStreakText1	It's awesome, {STR_VAR_3} straight wins?	upstream-cut
+MatchCall_BattleFrontierStreakText10	You won {STR_VAR_3} straight battles at	upstream-cut
+MatchCall_BattleFrontierStreakText11	You won, what, {STR_VAR_3} matches in	upstream-cut
+MatchCall_BattleFrontierStreakText12	How you won {STR_VAR_3} straight battles	upstream-cut
+MatchCall_BattleFrontierStreakText13	They say you won {STR_VAR_3} straight	upstream-cut
+MatchCall_BattleFrontierStreakText14	Didn't you just win {STR_VAR_3} battles in	upstream-cut
+MatchCall_BattleFrontierStreakText2	They said you won {STR_VAR_3} straight	upstream-cut
+MatchCall_BattleFrontierStreakText4	you strung together {STR_VAR_3} straight	upstream-cut
+MatchCall_BattleFrontierStreakText5	and won {STR_VAR_3} battles in a row?	upstream-cut
+MatchCall_BattleFrontierStreakText6	the feat of {STR_VAR_3} straight wins at	upstream-cut
+MatchCall_BattleFrontierStreakText7	And you won {STR_VAR_3} battles in a row.	upstream-cut
+MatchCall_BattleFrontierStreakText8	you won {STR_VAR_3} matches in a row at	upstream-cut
+MatchCall_BattleFrontierStreakText9	I heard! Your {STR_VAR_3}-win streak at	upstream-cut
+MatchCall_BattlePikeText10	You won your way past {STR_VAR_3} rooms	upstream-cut
+MatchCall_BattlePikeText11	You got through, what, {STR_VAR_3} rooms?	upstream-cut
+MatchCall_BattlePikeText12	You've won through {STR_VAR_3} rooms at	upstream-cut
+MatchCall_BattlePikeText13	They say you won in {STR_VAR_3} rooms	upstream-cut
+MatchCall_BattlePikeText14	Didn't you get through {STR_VAR_3} rooms	upstream-cut
+MatchCall_BattlePikeText2	{STR_VAR_3} rooms at the {STR_VAR_2}.	upstream-cut
+MatchCall_BattlePikeText3	I heard you won through {STR_VAR_3} rooms	upstream-cut
+MatchCall_BattlePikeText4	I heard you blew through {STR_VAR_3} rooms	upstream-cut
+MatchCall_BattlePikeText5	I heard you got past {STR_VAR_3} rooms	upstream-cut
+MatchCall_BattlePikeText6	{STR_VAR_3} rooms at the {STR_VAR_2}.	upstream-cut
+MatchCall_BattlePikeText7	and won your way past {STR_VAR_3} rooms?	upstream-cut
+MatchCall_BattlePikeText8	{STR_VAR_3} rooms at the {STR_VAR_2}.	upstream-cut
+MatchCall_BattlePikeText9	{STR_VAR_3} rooms at the {STR_VAR_2}!	upstream-cut
+MatchCall_BattlePyramidText1	You climbed {STR_VAR_3} floors inside	upstream-cut
+MatchCall_BattlePyramidText10	You climbed {STR_VAR_3} floors inside	upstream-cut
+MatchCall_BattlePyramidText11	You rose through, what, {STR_VAR_3} floors?	upstream-cut
+MatchCall_BattlePyramidText12	You've won through {STR_VAR_3} floors in	upstream-cut
+MatchCall_BattlePyramidText13	They say you climbed {STR_VAR_3} floors	upstream-cut
+MatchCall_BattlePyramidText14	Didn't you get through {STR_VAR_3} floors	upstream-cut
+MatchCall_BattlePyramidText2	{STR_VAR_3} floors in the {STR_VAR_2}.	upstream-cut
+MatchCall_BattlePyramidText3	I heard you climbed {STR_VAR_3} floors	upstream-cut
+MatchCall_BattlePyramidText4	I heard you scaled {STR_VAR_3} floors	upstream-cut
+MatchCall_BattlePyramidText5	I heard you climbed {STR_VAR_3} floors	upstream-cut
+MatchCall_BattlePyramidText6	{STR_VAR_3} floors in the {STR_VAR_2}.	upstream-cut
+MatchCall_BattlePyramidText7	and won your way up {STR_VAR_3} floors?	upstream-cut
+MatchCall_BattlePyramidText8	{STR_VAR_3} floors in the {STR_VAR_2}.	upstream-cut
+MatchCall_BattlePyramidText9	{STR_VAR_3} floors in the {STR_VAR_2}!	upstream-cut
+MatchCall_PersonalizedText18	Lala, {STR_VAR_2} and {STR_VAR_1},	upstream-cut
+MatchCall_PersonalizedText28	It's {STR_VAR_1} from the FAN CLUB!	upstream-cut
+MatchCall_PersonalizedText28	Oh, my sweet {STR_VAR_2} is begging	upstream-cut
+MatchCall_PersonalizedText29	It's about my darling {STR_VAR_2}.	upstream-unresolved
+MatchCall_PersonalizedText29	This is {STR_VAR_1}! I can't wait to	upstream-cut
+MatchCall_PersonalizedText42	My {STR_VAR_2} has grown even more	upstream-cut
+MatchCall_WildBattleText2	I tried to catch a nice {STR_VAR_2}	upstream-cut
+MatchCall_WildBattleText3	this {STR_VAR_2}, but it took off.	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_CheckedClockStory	{STR_VAR_3} must be a punctual TRAINER	upstream-cut
+MauvilleCity_PokemonCenter_1F_Text_EggsHatchedStory	This TRAINER hatched {STR_VAR_1} POKéMON	upstream-cut
+MauvilleCity_PokemonCenter_1F_Text_PokemonEvolvedStory	This TRAINER made {STR_VAR_1} POKéMON	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_SafariGamesStory	{STR_VAR_3} is a TRAINER whose wild side	upstream-cut
+MauvilleCity_PokemonCenter_1F_Text_SlotJackpotsStory	{STR_VAR_3} is a TRAINER who was lucky	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_TrainerBattlesStory	This TRAINER battled {STR_VAR_1} times!	upstream-cut
+MauvilleCity_PokemonCenter_1F_Text_TrainerBattlesStory	{STR_VAR_3} must be a TRAINER who can	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_UsedCutStory	{STR_VAR_3} is a TRAINER who just must	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_UsedPokemonCenterStory	{STR_VAR_1} times at POKéMON CENTERS!	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_UsedSplashStory	{STR_VAR_3} is a TRAINER who must love	upstream-unresolved
+MauvilleCity_PokemonCenter_1F_Text_YouveNoRoomForThis	You've got all the {STR_VAR_2}S that can	upstream-cut
+MossdeepCity_SpaceCenter_1F_Text_HaywireButSuccessfulLaunchNumber	That's successful launch no. {STR_VAR_1}!	upstream-cut
+MossdeepCity_SpaceCenter_1F_Text_SuccessfulLaunchNumber	That's successful launch no. {STR_VAR_1}!	upstream-cut
+RivalsHouse_1F_Text_OhYoureTheNewNeighbor	Our {STR_VAR_1} was excited about making	upstream-cut
+Route11_EastEntrance_2F_Text_GiveItemfinderIfCaught30	on {STR_VAR_1} species, I'm supposed to	upstream-cut
+Route15_WestEntrance_2F_Text_GiveItemIfCaughtEnough	on {STR_VAR_1} species, I'm supposed to	upstream-cut
+Route36_Text_Tips2	any place.	upstream-cut
+Route45_Text_HikerParryGivesIron	last met.	upstream-cut
+Route46_Text_PicnickerErin2Beaten	me again and again.	upstream-cut
+Route5_PokemonDayCare_Text_OweMeXForMonsReturn	You owe me ¥{STR_VAR_2} for the return	upstream-unresolved
+RuinsOfAlph_Outside_Text_Scientist	more.	upstream-cut
+SSAqua_RoomNE_Text_PokemaniacEthanAfterBattle	I want to check	upstream-cut
+SSAqua_RoomNE_Text_PokemaniacEthanAfterBattle	out JOHTO's radio	upstream-cut
+SSAqua_RoomNE_Text_PokemaniacEthanAfterBattle	programs!	upstream-cut
+SafariZoneGate_SafariZoneEntrance_Text_BaobaWelcome	What do you think?	upstream-cut
+SecretBase_Text_BattleTowerShield	A shield of {STR_VAR_2} that marks winning	upstream-cut
+SecretBase_Text_BattleTowerShield	{STR_VAR_1} times in a row at the BATTLE TOWER.	upstream-cut
+SlateportCity_PokemonFanClub_Text_LikenMonToSomethingYouLike	Your {STR_VAR_1} is cared for lovingly.	upstream-unresolved
+SmartShopper_Text_ClerkMax	Recently, a TRAINER named {STR_VAR_1}	upstream-unresolved
+SmartShopper_Text_ClerkMax	would ever need so many {STR_VAR_2}S.	upstream-unresolved
+SmartShopper_Text_ClerkMax	{STR_VAR_1} must be a special shopper!	upstream-unresolved
+SmartShopper_Text_ClerkNormal	named {STR_VAR_1} bought {STR_VAR_3}.	upstream-cut
+SmartShopper_Text_OutroMax	Still, {STR_VAR_1} is certainly an enigma…	upstream-cut
+SmartShopper_Text_OutroNormal	INTERVIEWER: Hmm… {STR_VAR_1} sounds like	upstream-cut
+SmartShopper_Text_OutroNormal	In total, {STR_VAR_1}'s purchases came to…	upstream-cut
+SmartShopper_Text_RandomComment1	If I may say so, {STR_VAR_1} must have	upstream-unresolved
+SmartShopper_Text_RandomComment1	{STR_VAR_3} {STR_VAR_2}S? That's a haul!	upstream-cut
+SmartShopper_Text_RandomComment2	{STR_VAR_2}, I just bought {STR_VAR_3} of	upstream-cut
+SmartShopper_Text_SecondItem	CLERK: {STR_VAR_1} also bought the item	upstream-cut
+SmartShopper_Text_SecondItem	{STR_VAR_2} in bulk, taking {STR_VAR_3}.	upstream-cut
+SmartShopper_Text_ThirdItem	{STR_VAR_3} of the item {STR_VAR_2}.	upstream-unresolved
+SootopolisCity_LotadAndSeedotHouse_Text_BiggestLotadInHistory	{STR_VAR_2}'s {STR_VAR_3} colossus!	upstream-unresolved
+TVSecretBaseSecrets_Text_Intro	Oh? It looks like {STR_VAR_2} has come	upstream-unresolved
+TVSecretBaseSecrets_Text_PlayerEnjoyedBase	{STR_VAR_1}'s SECRET BASE thoroughly.	upstream-unresolved
+TVSecretBaseSecrets_Text_TookXStepsBeforeLeaving	In the end, {STR_VAR_2} took {STR_VAR_3} steps	upstream-cut
+TVSpotTheCuties_Text_RibbonEffort	{STR_VAR_2} and the Hard Worker RIBBON!	upstream-cut
+TVSpotTheCuties_Text_RibbonsMid	It speaks volumes about {STR_VAR_1}'s	upstream-unresolved
+Text_AllAboardSeagallopNum	All aboard SEAGALLOP HI-SPEED {STR_VAR_1}!	upstream-cut
+Text_PlayerIsPlayingRightNowGoForIt_Frlg	It appears as if {STR_VAR_1} is playing	upstream-unresolved
+TrainerHill_Entrance_Text_ChallengeTime	{STR_VAR_1} min. {STR_VAR_2}.{STR_VAR_3} sec.	upstream-cut
+TrainerTower_Text_XMinYZSec	{STR_VAR_1} min. {STR_VAR_2}.{STR_VAR_3} sec.	upstream-cut
+TrendWatcher_Text_FemaleTaughtMePhrase	was what {STR_VAR_3} from LITTLEROOT	upstream-unresolved
+TrendWatcher_Text_MaleTaughtMePhrase	was what {STR_VAR_3} from LITTLEROOT	upstream-unresolved
+VioletCity_TrainerSchool_Text_Notebook3	trainers.	upstream-cut
+WhirlIslands_LugiaChamber_Text_Kimono_Closing1	{PLAYER}, don't you see?	upstream-cut
+gControlsGuide_Text_DPad	headings.	upstream-cut
+gControlsGuide_Text_LRButtons	press the L or R Button.	upstream-cut
+gPokeNewsTextGameCorner_Upcoming	here in just this many days: {STR_VAR_1}!	upstream-cut
+gPokeNewsTextLilycove_Upcoming	will be in just this many days: {STR_VAR_1}!	upstream-cut
+gPokeNewsTextSlateport_Upcoming	it in just this many days: {STR_VAR_1}!”	upstream-unresolved
+gTV3CheersForPokeblocksText01	GULPIN says it tastes “{STR_VAR_2}!”	upstream-unresolved
+gTV3CheersForPokeblocksText01	MC: And the verdict is very {STR_VAR_1}!	upstream-unresolved
+gTV3CheersForPokeblocksText03	GULPIN says it tastes “{STR_VAR_2}!”	upstream-unresolved
+gTVBravoTrainerText00	Now, this POKéMON boasts a {STR_VAR_3}	upstream-unresolved
+gTVBravoTrainerText03	Well, sure, {STR_VAR_1}'s POKéMON came in	upstream-cut
+gTVBravoTrainerText03	{STR_VAR_1} happily replied with a huge	upstream-unresolved
+gTVBravoTrainerText04	Well, sure, {STR_VAR_1}'s POKéMON came in	upstream-cut
+gTVBravoTrainerText04	{STR_VAR_1}'s disappointment comes across	upstream-cut
+gTVBravoTrainerText05	That's what the concept of {STR_VAR_2}	upstream-unresolved
+gTVBravoTrainerText05	{STR_VAR_1} imagines {STR_VAR_2} to be?	upstream-cut
+gTVBravoTrainerText07	{STR_VAR_1} scale even greater heights!	upstream-cut
+gTVBravoTrainerText08	Introducing the TRAINER's {STR_VAR_1}!	upstream-unresolved
+gTVBreakingNewsText02	When {STR_VAR_1} encountered the rare	upstream-unresolved
+gTVBreakingNewsText03	BALLS thrown by the TRAINER was {STR_VAR_1}.	upstream-cut
+gTVBreakingNewsText06	When {STR_VAR_1} encountered the rare	upstream-unresolved
+gTVBreakingNewsText08	echoed with {STR_VAR_1}'s shrieks of	upstream-unresolved
+gTVBreakingNewsText09	echoed with {STR_VAR_1}'s shrieks of	upstream-unresolved
+gTVBreakingNewsText09	the battle with the rare {STR_VAR_2}.	upstream-unresolved
+gTVBreakingNewsText10	echoed with {STR_VAR_1}'s shrieks of	upstream-unresolved
+gTVFanClubOpinionsText00	say about {STR_VAR_3} the {STR_VAR_2}.	upstream-cut
+gTVFanClubOpinionsText01	laid eyes on your {STR_VAR_2}, what was	upstream-unresolved
+gTVFanClubOpinionsText03	The TRAINER's love for the {STR_VAR_2}	upstream-unresolved
+gTVFanClubOpinionsText04	We asked {STR_VAR_1}, “What do POKéMON	upstream-unresolved
+gTVFanClubText00	It's a letter from {STR_VAR_1} about a	upstream-unresolved
+gTVFanClubText00	can express love for the {STR_VAR_2}!	upstream-unresolved
+gTVFindThatGamerText01	CORNER and play the {STR_VAR_2} game.	upstream-unresolved
+gTVFindThatGamerText01	like {STR_VAR_1} if you visit the GAME	upstream-unresolved
+gTVFindThatGamerText01	{STR_VAR_1} played the {STR_VAR_2} game	upstream-cut
+gTVFindThatGamerText02	{STR_VAR_1} played the {STR_VAR_2} game	upstream-cut
+gTVFindThatGamerText03	CORNER and play the {STR_VAR_2} game.	upstream-unresolved
+gTVFindThatGamerText03	like {STR_VAR_1} if you visit the GAME	upstream-unresolved
+gTVMassOutbreakText00	outbreak of {STR_VAR_2} in the vicinity	upstream-unresolved
+gTVNameRaterText00	the nickname {STR_VAR_3} of {STR_VAR_1}'s	upstream-cut
+gTVNameRaterText09	letter “{STR_VAR_2},” which gives it a solid sense	upstream-cut
+gTVNameRaterText10	The presence of the letters “{STR_VAR_2}” and	upstream-cut
+gTVNameRaterText10	“{STR_VAR_3}”--now that is remarkably good!	upstream-cut
+gTVNameRaterText11	The flow from the initial letter “{STR_VAR_2}” to	upstream-cut
+gTVNameRaterText11	“{STR_VAR_3}” is especially wonderful.	upstream-unresolved
+gTVNameRaterText13	TRAINER name of {STR_VAR_1}, and end	upstream-unresolved
+gTVNameRaterText13	up with the fine nickname {STR_VAR_2}{STR_VAR_3}.	upstream-cut
+gTVNameRaterText14	The nickname {STR_VAR_2}{STR_VAR_3} would also work	upstream-cut
+gTVNameRaterText15	for making the nickname {STR_VAR_1}{STR_VAR_3}.	upstream-cut
+gTVNameRaterText15	{STR_VAR_2} could be used as the basis	upstream-unresolved
+gTVNameRaterText16	{STR_VAR_1}{STR_VAR_3} would also be an effective	upstream-cut
+gTVNameRaterText17	{STR_VAR_2} to make the nickname {STR_VAR_1}{STR_VAR_3}.	upstream-cut
+gTVPokemonAnglerText00	But there {STR_VAR_1} waits. No giving up.	upstream-cut
+gTVPokemonAnglerText00	That's the law for catching {STR_VAR_2}.	upstream-cut
+gTVPokemonBattleUpdateText03	{STR_VAR_1}'s {STR_VAR_2} had a weak	upstream-unresolved
+gTVPokemonBattleUpdateText05	The teams of TRAINERS {STR_VAR_1} and	upstream-unresolved
+gTVPokemonBattleUpdateText07	As for the defeated {STR_VAR_2}'s team,	upstream-cut
+gTVPokemonLotteryWinnerFlashReportText00	{STR_VAR_1} won the {STR_VAR_2} prize	upstream-cut
+gTVPokemonNewsBattleFrontierText01	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText02	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText03	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText04	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText05	{STR_VAR_2}-championship-streak record	upstream-cut
+gTVPokemonNewsBattleFrontierText06	{STR_VAR_2}-championship-streak record	upstream-cut
+gTVPokemonNewsBattleFrontierText07	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText08	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText09	record of clearing {STR_VAR_2} rooms	upstream-unresolved
+gTVPokemonNewsBattleFrontierText10	{STR_VAR_2}-win-streak record while	upstream-unresolved
+gTVPokemonNewsBattleFrontierText11	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText12	{STR_VAR_2}-win-streak record while on	upstream-unresolved
+gTVPokemonNewsBattleFrontierText13	record of clearing {STR_VAR_2} floors	upstream-unresolved
+gTVPokemonNewsBattleFrontierText14	And to the three POKéMON, {STR_VAR_1},	upstream-unresolved
+gTVPokemonNewsBattleFrontierText18	feats from {STR_VAR_1} and the loyal	upstream-unresolved
+gTVPokemonTodayFailedText00	Today, we're going to look at {STR_VAR_1}'s	upstream-cut
+gTVPokemonTodayFailedText01	{STR_VAR_1}, who was trying to catch the	upstream-cut
+gTVPokemonTodayFailedText02	of frustration on {STR_VAR_1}'s face when	upstream-cut
+gTVPokemonTodayFailedText03	of stunned dismay on {STR_VAR_1}'s face	upstream-cut
+gTVPokemonTodaySuccessfulText00	Today, we're going to look at {STR_VAR_1}'s	upstream-cut
+gTVPokemonTodaySuccessfulText01	BIG SIS: {STR_VAR_1} gave the nickname	upstream-unresolved
+gTVPokemonTodaySuccessfulText02	many POKé BALLS to catch it: {STR_VAR_3}!	upstream-cut
+gTVPokemonTodaySuccessfulText03	{STR_VAR_1} and the {STR_VAR_2} together!	upstream-cut
+gTVPokemonTodaySuccessfulText05	BIG SIS: {STR_VAR_1}'s {STR_VAR_2} is a	upstream-cut
+gTVPokemonTodaySuccessfulText09	given the nickname {STR_VAR_2} to their	upstream-cut
+gTVPokemonTodaySuccessfulText10	I should give it the name {STR_VAR_2}.	upstream-unresolved
+gTVPokemonTodaySuccessfulText10	I'll use the nickname {STR_VAR_2}, too!	upstream-unresolved
+gTVRecentHappeningsText00	What did {STR_VAR_1} experience recently?	upstream-cut
+gTVRecentHappeningsText01	{STR_VAR_1} has experienced recently.	upstream-unresolved
+gTVRecentHappeningsText05	And now {STR_VAR_1}'s tale is indelibly	upstream-unresolved
+gTVRecentHappeningsText05	{STR_VAR_1} has recounted a wonderful	upstream-unresolved
+gTVSafariFanClubText05	managed to catch {STR_VAR_2} POKéMON.	upstream-unresolved
+gTVSecretBaseVisitText09	They gave ample proof of {STR_VAR_1}'s	upstream-unresolved
+gTVSecretBaseVisitText10	They gave ample proof of {STR_VAR_1}'s	upstream-unresolved
+gTVSecretBaseVisitText11	They gave ample proof of {STR_VAR_1}'s	upstream-unresolved
+gTVThePokemonBattleSeminarText00	Today's case study is on {STR_VAR_1}'s	upstream-unresolved
+gTVTodaysRivalTrainerText05	Our rival has collected {STR_VAR_1} Battle	upstream-cut
+gTVTrainerFanClubSpecialText00	the fans of {STR_VAR_1} all over HOENN!	upstream-unresolved
+gTVTrainerFanClubSpecialText00	{STR_VAR_2} also scored {STR_VAR_1}'s	upstream-cut
+gTVTrainerFanClubText00	the hyper-popular TRAINER {STR_VAR_1}!	upstream-cut
+gTVWhatsNo1InHoennTodayText01	In one day, {STR_VAR_1} spun the SLOTS	upstream-unresolved
+gTVWhatsNo1InHoennTodayText01	at the GAME CORNER {STR_VAR_2} times.	upstream-unresolved
+gTVWhatsNo1InHoennTodayText04	the BERRY BLENDER {STR_VAR_2} times!	upstream-unresolved
+gTVWorldOfMastersText00	that day reached an impressive {STR_VAR_3}!	upstream-cut
+gTVWorldOfMastersText00	{STR_VAR_1}'s quest for POKéMON depends	upstream-cut
+gText_ApprenticeChallenge0	Um, I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+gText_ApprenticeChallenge1	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+gText_ApprenticeChallenge10	Actually, I'm no. {STR_VAR_2}! Here goes!	upstream-cut
+gText_ApprenticeChallenge11	Yeah, I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+gText_ApprenticeChallenge12	{STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+gText_ApprenticeChallenge13	Cough! I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+gText_ApprenticeChallenge14	I'm the no. {STR_VAR_2} apprentice of {STR_VAR_1}.	upstream-cut
+gText_ApprenticeChallenge15	I am {STR_VAR_1}'s no. {STR_VAR_2} apprentice,	upstream-cut
+gText_ApprenticeChallenge2	I'm the no. {STR_VAR_2} apprentice of {STR_VAR_1}!	upstream-cut
+gText_ApprenticeChallenge3	Um… I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice…	upstream-cut
+gText_ApprenticeChallenge4	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+gText_ApprenticeChallenge5	to be {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+gText_ApprenticeChallenge6	I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+gText_ApprenticeChallenge7	I serve as {STR_VAR_1}'s no. {STR_VAR_2} apprentice.	upstream-cut
+gText_ApprenticeChallenge8	Eek! I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+gText_ApprenticeChallenge9	Yeehaw! I'm {STR_VAR_1}'s no. {STR_VAR_2} apprentice!	upstream-cut
+gText_ApprenticeHoldNothing5	my {STR_VAR_1} doesn't need anything?	upstream-unresolved
+gText_ApprenticeItemAlreadyRecommended13	So your suggestion is my {STR_VAR_2}	upstream-unresolved
+gText_ApprenticeItemAlreadyRecommended5	my {STR_VAR_2} doesn't need anything?	upstream-unresolved
+gText_ApprenticeMonFirstThanks10	Okay, so it's my {STR_VAR_1} you chose?	upstream-unresolved
+gText_ApprenticeMonFirstThanks5	my {STR_VAR_1} at the head of the line!	upstream-unresolved
+gText_ApprenticePleaseTeach5	Call me {STR_VAR_1}! Glad to meet you!	upstream-unresolved
+gText_ApprenticeThanksHeldItem0	I think I have that {STR_VAR_1}, too.	upstream-unresolved
+gText_ApprenticeWhatHeldItem15	I have here my {STR_VAR_1} that I wish	upstream-unresolved
+gText_ApprenticeWhichMon11	{STR_VAR_1} and {STR_VAR_2}, you see.	upstream-unresolved
+gText_ApprenticeWhichMon12	It's either {STR_VAR_1} or {STR_VAR_2}.	upstream-cut
+gText_ApprenticeWhichMon15	{STR_VAR_1} and {STR_VAR_2}, which is	upstream-unresolved
+gText_ApprenticeWhichMon2	raise one {STR_VAR_1} or {STR_VAR_2}.	upstream-unresolved
+gText_ApprenticeWhichMon3	{STR_VAR_1} and {STR_VAR_2}, but that's	upstream-cut
+gText_ApprenticeWhichMon5	You know how {STR_VAR_1} look strong?	upstream-unresolved
+gText_ApprenticeWhichMon6	and the choices were one {STR_VAR_1}	upstream-unresolved
+gText_ApprenticeWhichMon9	for me, one {STR_VAR_1} or {STR_VAR_2}?	upstream-cut
+gText_PlayerFoundItems	{PLAYER} found {STR_VAR_1} {STR_VAR_2}!	upstream-cut
+gText_PlayerFoundOneItem	{PLAYER} found one {STR_VAR_2}!	upstream-cut
+gText_PlayerFoundOneTMHM	{PLAYER} found one {STR_VAR_1}	upstream-unresolved
+gText_PlayerFoundTMHMs	{PLAYER} found {STR_VAR_3} {STR_VAR_1}	upstream-cut
+gText_PutItemInPocket	{PLAYER} put away the {STR_VAR_2}	upstream-cut

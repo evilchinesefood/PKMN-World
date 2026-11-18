@@ -453,7 +453,7 @@ BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice5Mon2Ask::
 
 BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice5Accept::
 	.string "Okay, glad to join you!\n"
-	.string "I hope you won't mess things up for me!\l"
+	.string "I hope you won't mess it up for me!\l"
 	.string "I'll do my registration now.$"
 
 BattleFrontier_BattleTowerMultiPartnerRoom_Text_Apprentice5Reject::

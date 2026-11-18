@@ -302,7 +302,9 @@
       "x": 14,
       "y": 6,
       "respawn_map": "MAP_ONE_ISLAND_POKEMON_CENTER_1F",
-      "respawn_npc": "LOCALID_ONE_ISLAND_NURSE"
+      "respawn_npc": "LOCALID_ONE_ISLAND_NURSE",
+      "respawn_x": 5,
+      "respawn_y": 4
     },
     {
       "id": "HEAL_LOCATION_TWO_ISLAND",

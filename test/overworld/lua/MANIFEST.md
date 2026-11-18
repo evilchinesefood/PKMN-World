@@ -128,6 +128,7 @@ is clean; keep it that way.
 | [`AzaleaGymRide.lua`](#azaleagymridelua) | fresh new game | Azalea Gym Ariados ride carriers are species graphics, not a generic Lass. |
 | [`DayCareFlowers.lua`](#daycareflowerslua) | fresh new game | Route 34 Day Care and Goldenrod Flower Shop flower tiles actually animate. |
 | [`DaycareFullPartyEgg.lua`](#daycarefullpartyegglua) | fresh new game | A Route 34 daycare egg with a full party of 6 does not overwrite slot 5. |
+| [`JohtoTradeOddEgg.lua`](#johtotradeoddegglua) | fresh new game | Blackthorn's Emy trades her own Mr. Mime for a Dodrio; the Route 34 Odd Egg goes only to one of the seven answers, and the answer picks the baby. |
 | [`EncountersIncenseLink.lua`](#encountersincenselinklua) | fresh new game | Flat wild tables, Route 123 Roselia, Rose Incense mart, quest compile-out, Center 2F sealed. |
 | [`EncountersIncenseLink_MainMenu.lua`](#encountersincenselink_mainmenulua) | fresh new game | Mystery Gift is compiled out of the title/main menu even with the flag set. |
 | [`FollowerOutdoors.lua`](#followeroutdoorslua) | fresh new game | Grass/Bug followers comment on the outdoors (sniff / breeze / deep breath). |
@@ -4231,3 +4232,20 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+
+### `JohtoTradeOddEgg.lua`
+
+Two Johto gifts ported from pokemonHnS, with real input. **Blackthorn House 2:** Emy's script names
+`INGAME_TRADE_MR_MIME`, which is also FRLG's Route 2 trade, so she asked for an Abra and handed over a
+second copy of REYLEY's Kanto Mr. Mime. HnS has her trade MIMIEN (OT EMY, Smoke Ball) for a Dodrio, now
+`INGAME_TRADE_MR_MIME_EMY`. With an Abra and a Dodrio in the party, talking, Yes and the box chooser pick
+the Dodrio: it must become a Mr. Mime with trainer ID 10283, the Abra must stay, her flag must be set and a
+second talk must not trade. **Route 34 Day Care:** the couple's son gives the Odd Egg only for one of seven
+four-word answers (BABE POKEMON, then a type word and an ability word from the bookshelves), and the answer
+picks the baby. HnS's matcher was never ported, so any changed phrase gave a Pichu Egg; the answer now uses
+its own Easy Chat type (`EASY_CHAT_TYPE_ODD_EGG`, matched like the Berry Master's wife) and no longer writes
+into TV show slot 0. A one-word answer picked on the real word screen (A on the first slot, first group,
+first word) must be refused with no Egg; the Elekid answer, written into the open screen's phrase as the
+word picker would and confirmed with Start and Yes, must give an Elekid Egg knowing Dizzy Punch; a third
+talk gives nothing. **Discrimination:** unfixed 13/19 (Emy asked for an Abra and traded nothing; the one-word
+answer got a Pichu Egg, so the Elekid answer never ran), fixed 20/20.

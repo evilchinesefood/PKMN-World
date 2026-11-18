@@ -3848,3 +3848,27 @@ Santos's gift (row 6, Saturday), warps to Mahogany for its first visit, and asks
 the elder stops the player before the Den, nobody stands on Clair's (29,14), and the bag holds one Spell
 Tag after the second talk. **Discrimination:** unfixed 13/16 (walks into the Den, Clair present, a second
 Spell Tag), fixed 16/16.
+
+### `SkyCharmSeams.lua`
+
+The Sky Charm crossed two map seams that walkers never reach. Route 28 joins Route 26 North by a seam
+behind cliffs, and the Reception Gate's guard (obj 2, shown until the Johto Hall of Fame sets
+`FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD`, the flag the Hub's Mt. Silver arrival also reads) is the only way
+in on foot. With Johto's Storm Badge a flier reached Route 28, Mt. Silver, its Center and the summit,
+where Red's first win runs `GameClear`: the Hall of Fame save, champion ribbons, `FLAG_SYS_GAME_CLEAR` and
+the DexNav detector, with no League beaten. Routes 5 to 8 connect to `SaffronCity_Connection_Frlg`, the
+real city's middle without its gatehouse rim, drawn so the routes can see Saffron. It has no people,
+doors or warps. A flier entered it, and so did a walker stepping off the sealed pockets those routes keep
+beside each seam; every way out on foot ends in a pocket or a wall, and Route 6's seam is offset 0 one way
+and 12 the other, so going north and back moved the player 12 tiles west. A player may no longer cross
+into the stand-in, or from Route 26 North into Route 28 while the guard stands, flying or on foot
+(`IsConnectionClosedAt` in `src/field_player_avatar.c`). With Johto badges 1-5 and the Sky Charm
+registered, the suite flies west from Route 26 North, lands below the gate and flies south into Route 26
+(an open seam). From Mt. Silver Outside it flies east over Route 28 into Route 26 North, the way home for a
+save that flew in before. With Kanto's third badge it flies at the stand-in from Routes 5, 6, 7 and 8,
+lands in the Route 5, 7 and 8 pockets and walks at the seam. Last it runs the Hall of Fame's own
+first-clear subroutine and flies into Route 28, Mt. Silver and its Center. **Oracle:** each closed flight
+stops on the edge row or column it took off toward, in the same column on Route 6; each pocket walk ends
+on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
+unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
+stand-in; Route 6 came back at (0,0)), fixed 33/33.

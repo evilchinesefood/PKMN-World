@@ -34,7 +34,7 @@ SafariZoneGate_PokemonCenter_Text_Boy::
 
 SafariZoneGate_PokemonCenter_Text_NPC1:
 	.string "Those who come to a POKéMON CENTER\n"
-	.string "often take good care of their POKéMON.\p"
+	.string "often take good care of POKéMON.\p"
 	.string "Wouldn't you agree?$"
 
 SafariZoneGate_PokemonCenter_Text_NPC2:

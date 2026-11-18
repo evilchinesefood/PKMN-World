@@ -110,8 +110,8 @@ AquaHideout_B2F_Text_MattPostBattle:
 	.string "Our BOSS has already gone on his way to\n"
 	.string "some cave under the sea!\p"
 	.string "If you're going to give chase, you'd\n"
-	.string "better search the big, wide sea beyond\l"
-	.string "LILYCOVE.\p"
+	.string "better search the big, wide sea\l"
+	.string "beyond LILYCOVE.\p"
 	.string "But will you find it then?\n"
 	.string "Hehehe!$"
 

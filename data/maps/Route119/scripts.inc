@@ -496,8 +496,8 @@ Route119_Text_MayPresentForYou:
 
 Route119_Text_MayExplainFly:
 	.string "MAY: Use FLY, and your POKéMON will\n"
-	.string "instantly carry you to any town you've\l"
-	.string "already visited.\p"
+	.string "instantly carry you to any town\l"
+	.string "you've already visited.\p"
 	.string "But, to use FLY, you have to get\n"
 	.string "the GYM BADGE from FORTREE CITY.\l"
 	.string "That's important, so don't forget.\p"

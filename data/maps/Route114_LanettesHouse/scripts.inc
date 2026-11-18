@@ -104,8 +104,8 @@ Route114_LanettesHouse_Text_ResearchNotesPage3:
 	.string "If that BOX is full, the received\n"
 	.string "POKéMON is stored in the next BOX.\p"
 	.string "In other words, when a BOX is examined,\n"
-	.string "it is automatically selected as the BOX\l"
-	.string "to which POKéMON are sent.$"
+	.string "it is automatically selected as the\l"
+	.string "BOX to which POKéMON are sent.$"
 
 Route114_LanettesHouse_Text_ClosedTheNotebook:
 	.string "{PLAYER} closed the notebook.$"

@@ -251,7 +251,7 @@ BattleFrontier_BattleFactoryBattleRoom_Text_NolandImFactoryHead:
 	.string "You seem to have the right idea,\n"
 	.string "but you're still square in your head!\p"
 	.string "Listen up, okay? Knowledge isn't only\n"
-	.string "about reading books or doing desk work.\p"
+	.string "about reading books or desk work.\p"
 	.string "Just doing that sort of thing…\n"
 	.string "It may as well be useless!\p"
 	.string "You have to experience things with\n"

@@ -295,9 +295,9 @@ MossdeepCity_SpaceCenter_1F_Text_HaywireButSuccessfulLaunchNumber:
 
 MossdeepCity_SpaceCenter_1F_Text_RocketLaunchDemandsPerfection:
 	.string "A rocket launch demands perfection.\n"
-	.string "Not even a 1% margin of error is allowed.\p"
+	.string "Not even a 1% error margin is allowed.\p"
 	.string "Even if it's 99% okay, the whole thing\n"
-	.string "is useless if 1% happens to be no good.\p"
+	.string "is useless if 1% turns out no good.\p"
 	.string "Despite that, we never stop trying.\n"
 	.string "Why? It's a dream that never ends.$"
 

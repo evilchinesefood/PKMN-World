@@ -672,8 +672,8 @@ RuinsOfAlph_Lab_Text_DeviceToVisualizePokemonDreams:
 	.string "But it's not going well.$"
 
 RuinsOfAlph_Lab_Text_DevelopDeviceToResurrectFossils:
-	.string "I've been trying to develop a device\n"
-	.string "that resurrects POKéMON from fossils…\p"
+	.string "I've been trying to build a device that\n"
+	.string "resurrects POKéMON from fossils…\p"
 	.string "And, it's working!$"
 
 RuinsOfAlph_Lab_Text_WantToBringFossilBackToLife:

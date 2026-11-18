@@ -1453,7 +1453,7 @@ SootopolisCity_Text_DoYouKnowMonNames:
 SootopolisCity_Text_GreenOneSettlesThings:
 	.string "I was wondering which one would win,\n"
 	.string "the red one or the blue one, but, oh no,\l"
-	.string "it's the green one that settles things!\p"
+	.string "it's the green one that settles it!\p"
 	.string "Talk about a huge turn of events!$"
 
 SootopolisCity_Text_SeeingLegendWithOwnEyes:
@@ -1492,7 +1492,7 @@ SootopolisCity_Text_SootopolisDidntGetWrecked:
 
 SootopolisCity_Text_NoOrdinaryTourist:
 	.string "Hm!\n"
-	.string "You've come all the way to SOOTOPOLIS?\l"
+	.string "You came all the way to SOOTOPOLIS?\l"
 	.string "You're no ordinary tourist.\p"
 	.string "But I suppose that doesn't make you\n"
 	.string "an extraordinary tourist, either.$"

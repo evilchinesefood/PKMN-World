@@ -81,8 +81,8 @@ VerdanturfTown_Text_AirCleanHere:
 	.string "The way the winds blow, volcanic ash\n"
 	.string "is never blown in this direction.\p"
 	.string "The air is clean and delicious here.\n"
-	.string "Living here should do wonders for even\l"
-	.string "frail and sickly people.$"
+	.string "Living here should do wonders for\l"
+	.string "even frail and sickly people.$"
 
 VerdanturfTown_Text_MakeBattleTentDebut:
 	.string "My POKéMON and I, we've been riding\n"

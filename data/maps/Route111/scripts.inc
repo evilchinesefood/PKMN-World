@@ -624,8 +624,8 @@ Route111_Text_VickyPostBattle:
 
 Route111_Text_ToughToKeepWinningUpTheRanks:
 	.string "If you don't raise your POKéMON some\n"
-	.string "more, it could be tough to keep winning\l"
-	.string "up through the ranks.\p"
+	.string "more, it could be tough to keep\l"
+	.string "winning up through the ranks.\p"
 	.string "I've heard the POKéMON LEAGUE's\n"
 	.string "ELITE FOUR are far stronger than\l"
 	.string "any GYM LEADER.$"

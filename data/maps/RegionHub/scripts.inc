@@ -492,8 +492,8 @@ RegionHub_Text_TravelFrontier:
 
 RegionHub_Text_FrontierLocked:
 	.string "The BATTLE FRONTIER opens to TRAINERS\n"
-	.string "who've conquered at least one region's\l"
-	.string "POKéMON LEAGUE.\p"
+	.string "who've conquered at least one\l"
+	.string "region's POKéMON LEAGUE.\p"
 	.string "Become a CHAMPION, then return.$"
 
 @ F1: Sky Charm giver. Hands out the overworld free-flight key item once the player

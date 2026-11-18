@@ -299,7 +299,7 @@ Route119_WeatherInstitute_2F_Text_PokemonChangesWithWeather:
 
 Route119_WeatherInstitute_2F_Text_ChangingWeatherRidiculous:
 	.string "I've been researching rain for many\n"
-	.string "years, but it's ridiculous to think that\l"
+	.string "years, but it's absurd to think that\l"
 	.string "humans can freely change the weather.$"
 
 Route119_WeatherInstitute_2F_Text_GroudonWeather:

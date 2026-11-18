@@ -11,7 +11,7 @@ gPokeNewsTextSlateport_Upcoming::
 	.string "ENERGY GURU advised, “Save up your\l"
 	.string "money. That'll be good…”\p"
 	.string "It sounds like a trip to SLATEPORT\n"
-	.string "would be well worth your while that day.\p"
+	.string "would be worth your while that day.\p"
 	.string "That's the news on POKéMON NEWS.$"
 
 gPokeNewsTextSlateport_Ongoing::

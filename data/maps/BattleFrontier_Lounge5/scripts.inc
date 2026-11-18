@@ -78,8 +78,8 @@ BattleFrontier_Lounge5_Text_NatureGirlDefenseHighAttackLow::
 BattleFrontier_Lounge5_Text_NatureGirlDefenseHighDefenseLow::
 	.string "Hmhm…\p"
 	.string "This one says it looks after itself!\n"
-	.string "It says it worries about itself whether\l"
-	.string "or not it has a lot of ouchies!$"
+	.string "It says it worries about itself\l"
+	.string "whether or not it has a lot of ouchies!$"
 
 BattleFrontier_Lounge5_Text_NatureGirlDefenseHighSupportLow::
 	.string "Hmhm…\p"

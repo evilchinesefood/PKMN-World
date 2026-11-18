@@ -1131,7 +1131,7 @@ LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "POKéMON now…\l"
 	.string "Your father will be overjoyed.\p"
 	.string "…But please be careful.\n"
-	.string "If anything happens, you can come home.\p"
+	.string "If anything happens, just come home.\p"
 	.string "Go on, go get them, honey!$"
 
 LittlerootTown_Text_CanUsePCToStoreItems:

@@ -16,8 +16,8 @@ FallarborTown_BattleTentLobby_Text_ExplainFallarborTent:
 	.string "we undertake the Set KO Tourney.\p"
 	.string "All participants enter with a team of\n"
 	.string "three POKéMON.\p"
-	.string "The three POKéMON must be lined up\n"
-	.string "in the order that they are to appear in.\p"
+	.string "The three POKéMON must be lined up in\n"
+	.string "the order that they are to appear in.\p"
 	.string "During battle, the POKéMON will appear\n"
 	.string "one at a time in the preset order.\p"
 	.string "Once a POKéMON enters battle, it must\n"
@@ -135,8 +135,8 @@ VerdanturfTown_BattleTentLobby_Text_ExplainVerdanturfTent:
 	.string "their POKéMON in and out.\p"
 	.string "TRAINERS are otherwise forbidden to\n"
 	.string "command their POKéMON.\p"
-	.string "The POKéMON are to behave according\n"
-	.string "to their nature and battle on their own.\p"
+	.string "The POKéMON are to behave according to\n"
+	.string "their nature and battle on their own.\p"
 	.string "You must put your trust in your\n"
 	.string "POKéMON and watch over them.\p"
 	.string "If you achieve the honor of beating\n"
@@ -297,7 +297,7 @@ SlateportCity_BattleTentLobby_Text_BeenWaitingForYou:
 
 SlateportCity_BattleTentLobby_Text_DidntSaveBeforeQuitting:
 	.string "I'm sorry to say this, but you didn't\n"
-	.string "save before you quit playing last time.\p"
+	.string "save before you quit last time.\p"
 	.string "As a result, you have been disqualified\n"
 	.string "from your challenge.$"
 
@@ -383,8 +383,8 @@ VerdanturfTown_BattleTentLobby_Text_ExplainNatureRules:
 	.string "Yet another may enjoy vexing or\n"
 	.string "confounding its foes.\p"
 	.string "Depending on its nature, a POKéMON\n"
-	.string "will have favorite moves that it is good\l"
-	.string "at using.\p"
+	.string "will have favorite moves that it is\l"
+	.string "good at using.\p"
 	.string "It may also dislike certain moves that\n"
 	.string "it has trouble using.$"
 
@@ -405,8 +405,8 @@ VerdanturfTown_BattleTentLobby_Text_ExplainMoveRules:
 @ Unused
 VerdanturfTown_BattleTentLobby_Text_ExplainUnderpoweredRules:
 	.string "When not under command by its TRAINER,\n"
-	.string "a POKéMON may be unable to effectively\l"
-	.string "use certain moves.\p"
+	.string "a POKéMON may be unable to\l"
+	.string "effectively use certain moves.\p"
 	.string "A POKéMON is not good at using any\n"
 	.string "move that it dislikes.\p"
 	.string "If a POKéMON only knows moves that\n"
@@ -416,8 +416,8 @@ VerdanturfTown_BattleTentLobby_Text_ExplainUnderpoweredRules:
 @ Unused
 VerdanturfTown_BattleTentLobby_Text_ExplainWhenInDangerRules:
 	.string "Depending on its nature, a POKéMON may\n"
-	.string "start using moves that don't match its\l"
-	.string "nature when it is in trouble.\p"
+	.string "start using moves that don't match\l"
+	.string "its nature when it is in trouble.\p"
 	.string "If a POKéMON begins behaving oddly\n"
 	.string "in a pinch, watch it carefully.$"
 

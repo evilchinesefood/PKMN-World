@@ -18,7 +18,7 @@ MoveRelearner_Text_SeeYa:
 	.string "See ya!$"
 
 MoveRelearner_Text_AnythingElse:
-	.string "Is there anything else I may do for you?$"
+	.string "May I do anything else for you?$"
 
 MoveRelearner_Text_ChoosePkmn:
 	.string "Please choose your Pokémon.$"

@@ -2563,6 +2563,15 @@ Arcanine), the Pidgey is byte-identical in species, personality and level, the i
 contest mode is off. **Fix:** `KeepBugContestLead` writes the contest lead over the parked slot 0
 before every restore (the end and the full-box PC detour). **Discrimination:** unfixed **20/23** (both
 leads came back unevolved), fixed **23/23**.
+Three more scenarios level a Nincada 19 lead into Ninjask with a Bag Rare Candy and one Poke Ball,
+stand a debug-given Caterpie in for the catch and pick it in the judging party menu. **Oracle:** the
+Shedinja the evolution makes is owned exactly once after the end, in the team when it has room (team
+of 2 becomes 3) and in the PC when the team is full; with a full team and full boxes no Shedinja is
+made and the Poke Ball stays; the judged Caterpie reaches the PC once and the team is otherwise
+untouched. **Fix:** `CreateShedinja` hands a contest-born Shedinja to `KeepBugContestNewMon`, which
+puts it in the parked team or the PC, and skips it when neither has room. **Discrimination:** unfixed
+**59/67** (the Shedinja vanished with its Poke Ball spent; full boxes stalled the judging in the PC
+detour), fixed **67/67**.
 `--env PW_LEAD_ONLY=<text>` runs matching scenarios.
 
 ### `EggSummaryPageTabs.lua`

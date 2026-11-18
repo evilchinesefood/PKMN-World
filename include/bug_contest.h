@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+struct Pokemon;
+
 #define BUG_CONTEST_TIME_LIMIT_FRAMES (60 * 60 * 8) // 8 minutes at 60 FPS
 
 void EnterBugContestMode(void);
@@ -12,6 +14,8 @@ bool32 GetBugContestFlag(void);
 bool8 JudgeBugContestMon(void);
 bool8 TransferBugContestMon(void);
 void KeepBugContestLead(void);
+bool32 CanKeepBugContestNewMon(void);
+void KeepBugContestNewMon(struct Pokemon *mon);
 void CB2_EndBugContestBattle(void);
 void BugContestRetirePrompt(void);
 bool8 RemoveSafariBalls(void);

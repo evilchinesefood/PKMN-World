@@ -4231,3 +4231,21 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+### `MrStoneMatchCallGate.lua`
+
+Johto's PokeGear is Emerald's PokeNav, and Emerald lists MR. STONE with no flag because he hands the
+device over. A Johto-first player found Devon's president in the PokeGear the moment their mother gave
+it to them, talking about a letter for STEVEN in DEWFORD, and calling him set
+`FLAG_ENABLE_MR_STONE_POKENAV`; once Elm registered his number, MR. STONE still headed the list. Gating
+MR. STONE alone left a Match Call list with nobody in it, which draws stray tiles and calls whatever
+the unwritten first entry holds. The suite crosses the hub's Johto gate and plays the clock and the
+mother's PokeGear scene with real input, steps outdoors and opens the PokeNav from the Start menu (and,
+if Match Call is offered, the list, mashing A, Up and Down). Then Elm's first directions register his
+number and the list opens again; then Devon's 3F scene gives the PokeNav. From a fresh-boot savestate,
+a Hoenn-first player plays Devon's scene and the Rustboro scientist's tutorial (pick POKeNAV, call MR.
+STONE), then calls him from the list. **Oracle:** the live main menu type and Match Call list; the
+PokeGear lists no MR. STONE and offers Match Call only with a contact; Elm's PROF. BIRCH entry heads the
+list and answers; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKENAV`; the Hoenn
+tutorial call is his first line and the next is the letter errand. **Discrimination:** unfixed 45/51
+(MR. STONE listed and called from New Bark, listed above Elm, and Elm's slot answered as MR. STONE),
+MR. STONE gated without the menu change 50/51 (Match Call offered with 0 contacts), fixed 51/51.

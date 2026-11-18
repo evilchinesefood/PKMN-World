@@ -226,6 +226,8 @@ WANT = [
     "gPlayerOutfitPicker", "Task_OutfitPicker",
     # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
     "CB2_Pokedex", "RunCollection",
+    # BaobaMatchCall.lua reads the PokeNav Match Call list and waits for a call to end.
+    "gPokenavResources", "CB2_HandleMatchCallInput",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
     # InputSpamStress confirms Dig's "Escape from here?" before its mash.
     "Task_HandleFieldMoveExitAreaYesNoInput",

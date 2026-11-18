@@ -175,10 +175,12 @@ class Reach:
             self.conn[mid] = [c for c in (m.get("connections") or []) if c["map"] in self.world.maps]
         self.warps = self.warp_table()
         # SkyCharmGaps narrows the search to one region at one badge count: the field moves that
-        # badge count has not unlocked, cells an obstacle stands on, and the region's maps.
+        # badge count has not unlocked, cells an obstacle stands on, the region's maps, and the maps
+        # whose seams the player may not cross into.
         self.locked = frozenset()
         self.walls = set()
         self.maps_in = None
+        self.closed = set()
 
     def neighbour(self, mid, x, y, d):
         dx, dy = DIRS[d]
@@ -187,6 +189,8 @@ class Reach:
         if 0 <= nx < w and 0 <= ny < h:
             return mid, nx, ny
         for c in self.conn[mid]:
+            if c["map"] in self.closed:
+                continue
             cw, ch = self.cells.size(c["map"])
             off, cd = c["offset"], c["direction"]
             if cd == "down" and ny == h and 0 <= nx - off < cw:
@@ -325,7 +329,7 @@ class Reach:
                 comp, stack = {start}, [start]
                 while stack:
                     for c in self.conn[stack.pop()]:
-                        if c["map"] in outdoor and c["map"] not in comp:
+                        if c["map"] in outdoor and c["map"] not in comp and c["map"] not in self.closed:
                             comp.add(c["map"])
                             stack.append(c["map"])
                 for mid in comp - done:

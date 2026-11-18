@@ -73,6 +73,8 @@ Use debug setup to reach the scene, then trigger the behavior under test with pl
 For a regression, run the same suite against the original and fixed ROMs, each with its matching
 ELF. For input-mash failures, record the seed and scenario order so a timing change can be
 replayed. For visual changes, compare screenshots after the fade or weather transition settles.
+A campaign's beat shots can be re-shot settled from its checkpoints with `settled_shots.lua`
+([playthrough README](johto-playthrough/README.md#reviewing-the-screenshots)).
 
 On the integrated build, run the full Lua battery, `make check`, the host validators
 (`python3 test/validate-host.py`), and both [world campaign orders](world-playthrough/README.md#post-game)

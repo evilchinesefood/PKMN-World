@@ -53,6 +53,24 @@ retries. These runs use the debug party and may use logged debug warps to return
 (default `_pwtest/johto-play/`). Each beat writes a checkpoint there. Resume with `--from`
 and `--resume-dir` naming that previous case directory; new evidence stays separate. The evidence run is the one without `--from`.
 
+### Reviewing the screenshots
+
+Each beat's screenshot is taken the frame its goal is met, so some catch a warp still fading in, a
+cave exit fading from white or a lightning flash. On the 396-assertion world B run, 21 of 253 beat
+shots were mid-transition (Hub arrivals, both Elite Fours' rooms, the Seafloor Cavern rooms, Fiery
+Path's exits, Lake of Rage's thunder) and every one read as a dark or washed-out map. Before
+judging a palette, re-shoot the run from its checkpoints:
+
+```sh
+python3 test/overworld/johto-playthrough/run.py --campaign world --suite settled_shots.lua \
+  --rom <that run's ROM> --elf <its ELF> --resume-dir <that run's case dir> [--from B] [--to B]
+```
+
+`settled_shots.lua` loads every `ckpt_<beat>.ss` in logged order, waits 300 frames and shoots
+`<n>_<beat>`. Its last log line names the beats whose background palettes were still moving; judge
+those from the settled shot. A checkpoint loads only on the ROM that wrote it. The world B run
+re-shoots in about 40 seconds.
+
 ## How it plays
 
 - `nav.lua` reads the live map and presses buttons. It reads collision, elevation, metatile

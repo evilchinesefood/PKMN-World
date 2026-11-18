@@ -2,7 +2,12 @@
 .set LOCALID_INDIGOJUNCTION_JANINE, 4
 
 ReceptionGate_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, ReceptionGate_OnTransition
 	.byte 0
+
+ReceptionGate_OnTransition::
+	call_if_eq VAR_ROUTE27_STATE, 0, Route27_EventScript_FirstStepsState
+	end
 
 ReceptionGate_EventScript_Janine::
     lock

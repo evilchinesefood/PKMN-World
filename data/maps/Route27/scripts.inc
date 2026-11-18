@@ -19,7 +19,6 @@ Route27_EventScript_BaobaCall::
 Route27_EventScript_FirstSteps::
     lock
     playse SE_PIN
-    setflag FLAG_VISITED_KANTO
     applymovement2 LOCALID_ROUTE27_FATMAN, Common_Movement_ExclamationMark
     turnobject LOCALID_ROUTE27_FATMAN, DIR_WEST
     delay 30
@@ -31,8 +30,14 @@ Route27_EventScript_FirstSteps::
     msgbox Route27_Text_FisherMessage, MSGBOX_DEFAULT
     closemessage
     turnobject LOCALID_ROUTE27_FATMAN, DIR_SOUTH
+    call Route27_EventScript_FirstStepsState
+    release
+    end
 
-    @integrated flagheap
+@ The Reception Gate runs this too, for a Sky Charm flier who crossed Route 27 above the trigger:
+@ VAR_ROUTE27_STATE 1 arms the gate's badge check and hides the League's Black Belt.
+Route27_EventScript_FirstStepsState::
+    setflag FLAG_VISITED_KANTO
     setflag FLAG_HIDE_VICTORY_ROAD_SILVER
     setflag FLAG_HIDE_INDIGO_PLATEAU_SILVER
     setflag FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK
@@ -42,14 +47,10 @@ Route27_EventScript_FirstSteps::
     @ The Hall of Fame already clears this flag to bring him back, which only makes sense if
     @ clearing the League approach set it, exactly as it does for Silver two lines above.
     setflag FLAG_HIDE_LEAGUE_BLACKBELT
-    
-    clearflag FLAG_GOT_TM_SANDSTORM
     clearflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD
     clearflag FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD
-
     setvar VAR_ROUTE27_STATE, 1
-    release
-    end
+    return
 
 Route27_EventScript_FirstStepsWalkTop::
     applymovement2 LOCALID_ROUTE27_FATMAN, Route27_Movement_WalkTop

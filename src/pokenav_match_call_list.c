@@ -272,6 +272,24 @@ bool32 IsRematchEntryRegistered(int rematchIndex)
     return FALSE;
 }
 
+// The same entries LoopedTask_BuildMatchCallList lists.
+bool32 HasMatchCallContacts(void)
+{
+    int i;
+
+    for (i = 0; i < MC_HEADER_COUNT; i++)
+    {
+        if (MatchCall_GetEnabled(i))
+            return TRUE;
+    }
+    for (i = 0; i < REMATCH_TABLE_ENTRIES; i++)
+    {
+        if (!MatchCall_HasRematchId(i) && IsRematchEntryRegistered(i))
+            return TRUE;
+    }
+    return FALSE;
+}
+
 int IsMatchCallListInitFinished(void)
 {
     struct Pokenav_MatchCallMenu *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);

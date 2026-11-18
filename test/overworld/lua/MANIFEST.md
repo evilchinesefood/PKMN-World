@@ -4607,3 +4607,24 @@ list and answers; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKEN
 tutorial call is his first line and the next is the letter errand. **Discrimination:** unfixed 45/51
 (MR. STONE listed and called from New Bark, listed above Elm, and Elm's slot answered as MR. STONE),
 MR. STONE gated without the menu change 50/51 (Match Call offered with 0 contacts), fixed 51/51.
+### `PalaceLobbyCancel.lua`
+
+Every cancel at the Battle Palace lobby attendants, singles and doubles, with a follower out. The
+party-restoring cancel (`LoadPartyAndCancelChallenge`) is reached by backing out of the party pick
+with none chosen and with three chosen (B, then YES), and by NO and B at the save prompt; the plain
+cancel by CANCEL and B at the first menu and at the level menu. The pick chooses slots 3, 2, 1, so a
+party reordered to the pick would put Venusaur ahead of the Charizard follower. The base saves the
+game from the Start menu, which also writes the party copy `SavePlayerParty` keeps in
+`SaveBlock1.playerParty`; the "stale" cases then gain a fifth Pokemon without saving, so that copy lags
+the live party the way it does after any earlier save or challenge, and the suite asserts it is the old
+four before cancelling at the save prompt and at the pick. **Oracle:** control returns in the lobby,
+the player walks, the party is byte-identical to the one that walked in, the frontier status is 0, and
+the follower is the lead on release and walks behind the player. **Discrimination:** this guards the
+cancel path's line, which read `callnative LoadPlayerParty` (a typo in the 2022 follower port, still on
+upstream expansion) where every other lobby runs `callnative UpdateFollowingPokemon`. No defect was
+observable: the second load copies the same buffer again, the Attendant's `SavePlayerParty` refreshes
+that buffer before any cancel, and returning from the party screen respawns the follower
+(`ReturnToFieldLocal`), so the unfixed ROM passes 172/172 and the fixed ROM 172/172. A tamper control
+that drops the Attendant's `SavePlayerParty` and removes the follower on that cancel fails 144/172:
+both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks on the
+party-restoring cancels fail.

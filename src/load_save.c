@@ -662,6 +662,9 @@ STATIC_ASSERT(offsetof(struct SaveBlock1, dexCaught) == 14029, SaveBlock1DexCaug
 STATIC_ASSERT(offsetof(struct SaveBlock1, roamer) == 13792, SaveBlock1RoamerMoved_RegenLuaSymbols);
 // PokeblockFeedScene.lua writes the Pokeblock Case here. Probe-verified under the repo CFLAGS.
 STATIC_ASSERT(offsetof(struct SaveBlock1, pokeblocks) == 2924, SaveBlock1PokeblocksMoved_RegenLuaSymbols);
+// PalaceLobbyCancel.lua reads the party SavePlayerParty keeps here to prove it is stale.
+STATIC_ASSERT(offsetof(struct SaveBlock1, playerPartyCount) == 564, SaveBlock1PlayerPartyCountMoved_RegenLuaSymbols);
+STATIC_ASSERT(offsetof(struct SaveBlock1, playerParty) == 568, SaveBlock1PlayerPartyMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

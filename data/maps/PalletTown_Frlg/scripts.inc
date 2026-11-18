@@ -80,7 +80,7 @@ PalletTown_EventScript_OakRatingScene::
 	goto_if_lt VAR_0x8009, 60, PalletTown_EventScript_NotEnoughMonsForNationalDex
 	msgbox PalletTown_Text_CaughtXImpressiveFollowMe
 	closemessage
-	playbgm MUS_FOLLOW_ME, 0
+	playbgm MUS_RG_FOLLOW_ME, 0
 	applymovement LOCALID_PLAYER, PalletTown_Movement_PlayerWalkToLabFromHouse
 	applymovement LOCALID_PALLET_PROF_OAK, PalletTown_Movement_OakWalkToLabFromHouse
 	waitmovement 0

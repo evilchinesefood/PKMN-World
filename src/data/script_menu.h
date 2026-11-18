@@ -122,6 +122,16 @@ static const struct MenuAction MultichoiceList_StatusInfo[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_TrainerSchoolWhiteboard[] =
+{
+    {COMPOUND_STRING("SLP")},
+    {COMPOUND_STRING("PSN")},
+    {COMPOUND_STRING("PAR")},
+    {COMPOUND_STRING("BRN")},
+    {COMPOUND_STRING("FRZ")},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_BrineyOffDewford[] =
 {
     {COMPOUND_STRING("DEWFORD")},
@@ -1561,6 +1571,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_REGIONAL_TEAM] = MULTICHOICE(MultichoiceList_RegionalTeam),
     [MULTI_REGIONAL_ARRIVAL] = MULTICHOICE(MultichoiceList_RegionalArrival),
     [MULTI_JOHTO_FOSSIL] = MULTICHOICE(MultichoiceList_JohtoFossil),
+    [MULTI_TRAINER_SCHOOL_WHITEBOARD] = MULTICHOICE(MultichoiceList_TrainerSchoolWhiteboard),
 };
 
 const u8 *const gStdStrings[] =

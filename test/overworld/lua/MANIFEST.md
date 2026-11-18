@@ -2775,6 +2775,16 @@ party and boxes full, and no item quantity grew. Measured **82/82** with the def
 `PW_SMASH_SEED=0xA11CE` and `0xBEEF7`; the mash found the two-stack sort refusal fixed in
 `BagSortTwoItems`. `PW_SMASH_SEED=<n>` reseeds, `PW_SMASH_ONLY=<text>` runs matching scenarios and
 `PW_SMASH_SAVE=<dir>` keeps a savestate of a battle that does not end.
+
+Forced switch in the double (stress pass 9). `PW_SMASH_SEED=65537` left `trainer_double_2` on the
+in-battle party screen (`CB2_UpdatePartyMenu`, battler 0 in `WaitForMonSelection`) after the left
+Machop fainted: **80/82**. The menu had opened on the fainted Machop with its Send Out / Summary /
+Cancel box up, and the finisher's B, B, Start, A cycle never moves the cursor, while the forced
+switch rightly refuses B. From the kept savestate, B, Down, Down, A, A sends out the healthy Machop
+and the battle resumes. The finisher now steers `gPartyMenu.slotId` to the first live non-Egg member
+off the field, alternating B (closes the box) with Down, then A and A. From that savestate the old
+finisher was still on the party screen after 12,000 frames and the new one won the battle in 5,514.
+Measured **82/82** at seed 65537.
 ### `JohtoPlaceNames.lua`
 
 Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and

@@ -1165,6 +1165,14 @@ opened, **12/12** for the scenario. Alternating B with Down, as the Singles fini
 the voluntary switch in "trainer double down to one" (B is refused only on a forced switch) and
 failed its 13 checks on every seed.
 
+Mash finisher (stress pass 9). `PW_DBL_SEED` 1, 48879 and 65537 left "mash debug" and "mash past
+intro" at their 40,000-frame budget, four of five in the Bag (`CB2_BagMenuRun`), which ignores B
+while a pocket switch animates. An exhausted mash now hands over to steered keys (B in the Bag,
+the forced-switch key on the party screen, RUN where running is an allowed outcome, else the fight
+keys) and logs how long they took: 167 to 240 frames to the field each time. A first try with fight
+keys alone left a level 50 debug party pressing A on whatever move the mash had selected, never
+damaging the 1 HP foe. Measured **331/331** at `PW_DBL_SEED` 0, 1, 777, 48879 and 65537.
+
 ### `BugContestFullPC.lua`
 
 The Bug-Catching Contest's judging with every PC box full, which no earlier suite reached: the

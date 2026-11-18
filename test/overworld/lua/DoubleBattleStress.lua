@@ -792,6 +792,22 @@ F.run(function()
         return t
       end,
     })
+    if res == "budget" then
+      -- The Bag ignores B while a pocket switch animates, and a mash holding Left or Right half the
+      -- time can keep one animating for the whole budget. Steered keys then prove the battle can end:
+      -- RUN where running is an allowed outcome, since a pressed A uses whatever move the mash left.
+      local canRun = false
+      for _, o in ipairs(cfg.outcomes) do if o == OUT_RAN then canRun = true end end
+      res, at = drive(name .. " finish", 12000, {
+        frame = cfg.assist or assistWin,
+        key = function(b, kind, n)
+          if F.cb2() == (S.CB2_BagMenuRun & ~1) then return "B" end
+          if F.cb2() == (S.CB2_UpdatePartyMenu & ~1) then return partyKey() end
+          return (canRun and runKey or fightKey)(b, kind, n)
+        end,
+      })
+      F.L(string.format("  %s: the mash ran out its budget; steered keys then reached %s in %d frames", name, res, at))
+    end
     checkBattleEnd(name, res, at, cfg.outcomes)
     local after = census()
     F.check(name .. ": no Pokemon duplicated", after.dups == 0, "dups=" .. after.dups)

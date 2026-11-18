@@ -37,9 +37,10 @@
 --             record made before turn seeding) and plays it. The trace must equal that ROM's own
 --             playback; PW_EXPECT_TRACE and PW_EXPECT_CHOICES override it for another fixture.
 --   overflow  Battle Tower singles. The first battle is recorded from the battle room's Record option;
---             the second is stretched past the record buffer with both sides' HP held, cancelled move
---             and switch menus every turn, then lost. The lobby must not offer to record it, and the
---             Frontier Pass must still play the first battle.
+--             the second is stretched past the record buffer with both sides' HP held and cancelled
+--             move and switch menus, then finished with the foes held at 1 HP (a one-hit KO can still
+--             lose it). Neither the battle room nor the lobby may offer to record it, and the Frontier
+--             Pass must still play the first battle.
 -- PW_SEED varies the mashes (default 1). PW_TEXT sets the text speed (0 slow .. 3 instant).
 -- Run via: test/overworld/mgba-run.sh test/overworld/lua/FrontierRecordedBattle.lua <rom.gba>
 
@@ -234,6 +235,9 @@ local function steerBattle(f, honest)
       slot = (f // 20) % 2
     end
     moveCursor(slot)
+  elseif choosingAction(0) then
+    -- A stray d-pad press can leave the cursor on POKEMON; A must choose FIGHT.
+    F.press("Up", 2); F.idle(4); F.press("Left", 2); F.idle(4)
   end
   F.press("A", 2)
 end
@@ -294,23 +298,23 @@ local function steerEncore(f)
 end
 
 -- Overflow: hold both sides' HP and fill the player's record with moves, cancelled menus and
--- switches until it overflows, then let the player's Pokemon fall.
+-- switches until it overflows, then hold the foes at 1 HP and win.
 local stall = { turns = 0, phase = "fill", cancelledMove = false, cancelSwitch = false, switchNext = false,
   overflowTurn = nil, accounting = {}, attempts = 0 }
 local function steerStall(f)
   local hp = S.BattlePokemon.hp
   local foeMax = F.r16(mon(1) + S.BattlePokemon.maxHP)
-  if foeMax > 0 then F.w16(mon(1) + hp, foeMax) end
-  local mx = F.r16(mon(0) + S.BattlePokemon.maxHP)
   if stall.phase == "fill" then
-    if mx > 0 and F.r16(mon(0) + hp) > 0 then F.w16(mon(0) + hp, mx) end
-  elseif F.r16(mon(0) + hp) > 1 then
-    F.w16(mon(0) + hp, 1)
+    if foeMax > 0 then F.w16(mon(1) + hp, foeMax) end
+  elseif F.r16(mon(1) + hp) > 1 then
+    F.w16(mon(1) + hp, 1)
   end
+  local mx = F.r16(mon(0) + S.BattlePokemon.maxHP)
+  if mx > 0 and F.r16(mon(0) + hp) > 0 then F.w16(mon(0) + hp, mx) end
   if choosingAction(0) then
-    if stall.phase == "fill" and stall.turns % 6 == 5 and not stall.cancelSwitch and not stall.switchNext then
-      -- POKEMON, then B out of the party menu.
-      stall.cancelSwitch = true
+    if stall.phase == "fill" and stall.turns % 6 == 5 and stall.switchTurn ~= stall.turns and not stall.switchNext then
+      -- POKEMON, then B out of the party menu, once this turn.
+      stall.switchTurn, stall.cancelSwitch = stall.turns, true
       F.press("Up", 2); F.idle(4); F.press("Left", 2); F.idle(4); F.press("Down", 2); F.idle(4)
       F.press("A", 2); F.idle(20)
     elseif stall.phase == "fill" and stall.switchNext then
@@ -333,11 +337,11 @@ local function steerStall(f)
       return
     end
     stall.attempts = stall.attempts + 1
-    moveCursor((stall.turns + stall.attempts) % 4)
+    moveCursor(stall.phase == "fill" and (stall.turns + stall.attempts) % 4 or (stall.attempts - 1) % 4)
     F.press("A", 2); F.idle(8)
     return
   end
-  if f % 20 == 0 then F.press("A", 2) else F.idle(1) end
+  if f % 5 == 0 then F.press("A", 2) else F.idle(1) end
 end
 local function stallTurnEnded()
   stall.turns = stall.turns + 1
@@ -346,8 +350,8 @@ local function stallTurnEnded()
   local full = recordSize(0) >= BATTLER_RECORD_SIZE
   if full and not stall.overflowTurn then stall.overflowTurn = stall.turns end
   if stall.overflowTurn and stall.turns >= stall.overflowTurn + 6 and stall.phase == "fill" then
-    stall.phase = "lose"
-    F.L(string.format("  overflow: record full on turn %d, dropped %d, letting the party fall on turn %d",
+    stall.phase = "win"
+    F.L(string.format("  overflow: record full on turn %d, dropped %d, finishing the foes from turn %d",
       stall.overflowTurn, dropped(0), stall.turns))
   end
   if stall.turns % 10 == 0 then
@@ -526,10 +530,11 @@ F.run(function()
   local original, playback = { choices = {} }, { choices = {} }
   local battles, inB, last, ended = 0, false, nil, false
   local tradeSpecies
-  local recordedFromRoom, lobbyPrompts, swept, rigged = false, 0, false, false
+  local recordedFromRoom, lobbyPrompts, swept, rigged, roomOptions = false, 0, false, false, nil
+  local partyVisits = 0
   for f = 1, 300000 do
     if F.reportCrash("challenge_" .. f) then break end
-    if f % 20000 == 0 then
+    if f % 5000 == 0 then
       F.L(string.format("  frame %d: cb2=%08X battles=%d map=%d/%d stall turns=%d record=%d/%d", f, F.cb2(), battles,
         F.grp(), F.mapn(), stall.turns, recordSize(0), recordSize(1)))
       F.shot("progress")
@@ -547,6 +552,7 @@ F.run(function()
     elseif facility == "dome" and inPartyMenu() and not inB then
       pickSlots({ 0, 1 })
     elseif inBattle() then
+      partyVisits = 0
       if not inB then
         inB, battles = true, battles + 1
         stalling = facility == "overflow" and battles == 2
@@ -573,16 +579,28 @@ F.run(function()
         for _ = 1, 120 do F.idle(1); if choosingAction(0) then break end end
         stall.accounting[#stall.accounting + 1] = { size = recordSize(0), before = before, after = recordSize(0) + dropped(0) }
       else
-        -- The menu lists the battle order, so try each bench slot until one is sent out.
-        local first = case.doubles and 2 or 1
-        for slot = first, F.r8(S.gPartiesCount) - 1 do
-          for _ = 1, 6 do
-            if partySlot() == slot then break end
-            F.press(partySlot() > slot and "Up" or "Down", 2); F.idle(12)
+        -- One bench slot per visit: those with HP in party order first (the menu lists the battle
+        -- order, which a switch can change), then every slot. A refusal is dismissed with B, and a
+        -- menu opened by choice that nothing can leave from is backed out of.
+        local first, count = case.doubles and 2 or 1, F.r8(S.gPartiesCount)
+        local order = {}
+        for slot = first, count - 1 do
+          if F.r16(S.gParties + slot * S.Pokemon.size + S.Pokemon.hp) > 0 then order[#order + 1] = slot end
+        end
+        for slot = first, count - 1 do order[#order + 1] = slot end
+        partyVisits = partyVisits + 1
+        local slot = order[(partyVisits - 1) % #order + 1]
+        for _ = 1, 6 do
+          if partySlot() == slot then break end
+          F.press(partySlot() > slot and "Up" or "Down", 2); F.idle(12)
+        end
+        F.press("A", 2); F.idle(40); F.press("A", 2); F.idle(60)
+        if inPartyMenu() then F.press("B", 2); F.idle(40) end
+        if partyVisits > #order + 2 then
+          for _ = 1, 4 do
+            if not inPartyMenu() then break end
+            F.press("B", 2); F.idle(40)
           end
-          F.press("A", 2); F.idle(40); F.press("A", 2); F.idle(60)
-          if not inPartyMenu() then break end
-          F.press("B", 2); F.idle(30); F.press("B", 2); F.idle(30)
         end
       end
     else
@@ -602,6 +620,11 @@ F.run(function()
           -- Battle room after the first battle: Record it once, then go on.
           choose(recordedFromRoom and 0 or 1)
           recordedFromRoom = true
+        elseif facility == "overflow" and battles == 2 and not inLobby and lastOption >= 2 then
+          -- Battle room after the overflowing win: Go on, [Record,] Rest, Retire.
+          roomOptions = lastOption + 1
+          F.shot("overflow_room_menu")
+          choose(lastOption)
         elseif facility == "overflow" and battles == 2 and inLobby then
           lobbyPrompts = lobbyPrompts + 1
           F.shot("overflow_record_prompt")
@@ -645,6 +668,12 @@ F.run(function()
     end
     F.check("every cancelled menu removed exactly its one action byte", #stall.accounting > 0 and #bad == 0,
       string.format("%d cancels, bad: %s", #stall.accounting, table.concat(bad, " ")))
+    -- A held foe can still KO a held Pokemon in one hit, so battle 2 is sometimes lost and the room is skipped.
+    if roomOptions then
+      F.check("the battle room dropped Record after the overflowing battle", roomOptions == 3, "options=" .. roomOptions)
+    else
+      F.L("  battle 2 was lost, so the battle room's menu did not come up")
+    end
     F.check("the lobby did not offer to record the overflowing battle", lobbyPrompts == 0, "prompts=" .. lobbyPrompts)
   end
   if not last then F.finish(); return end

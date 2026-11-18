@@ -405,6 +405,9 @@ def johto_maps():
 
 
 def snapshot(hns_root):
+    for need in ("data/maps", "data/scripts", "data/event_scripts.s", "asm/macros", "include/constants", "src/data"):
+        if not os.path.exists(os.path.join(hns_root, need)):
+            sys.exit(f"{hns_root} has no {need}; widen the sparse checkout before taking a snapshot")
     ours = johto_maps()
     hns_names = {m: HNS_MAP_FROM_OURS.get(m, m) for m in ours}
     used = map_scripts(hns_root, hns_names.values())

@@ -1552,6 +1552,15 @@ without `PW_SPAM_LOAD`, and a `PW_SPAM_SAVE` directory it cannot write. The rese
 passed `PW_SPAM_SEED`, which only the replay path reads, so its three seeds were one run. Its
 "alone" runs passed `PW_SPAM_GENDER=1 PW_SPAM_TEXT=1` as one value, so they ran as the boy at
 Instant.
+
+A real reseed (the girl at Mid text, `PW_SPAM_BASE` 9101, 31337 and 271828) then missed two more
+goal checks, both harness. At base 271828 the Dig arming left the cursor on Dig, but the mash's
+first key was Down, and its A picked Flash ("Can't use that here.") and then Ivysaur's Cut; the
+arming now checks the cursor and confirms Dig itself. At base 9101 the whiteout's forfeit keys ran
+an identical 360-frame loop 13 times: A on POKéMON, the party screen, back out, A on POKéMON again.
+Each trip took 15 keys, and the action menu's key was picked by count, so it came round to A every
+time. The battle keys now steer the action menu and the Yes/No by their cursors, as
+`LanceMultiOutcome` does.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after

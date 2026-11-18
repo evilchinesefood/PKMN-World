@@ -122,21 +122,20 @@ local function actionMenu()
   return false
 end
 
--- The key that walks a battle toward its end: on the action menu, Right and Down reach RUN
--- (flee a wild battle, or the forfeit prompt in a trainer battle), the prompt takes Up for Yes
--- and then A, B leaves the move list, and A advances text. Off the battle screen (Bag, party,
+-- The key that walks a battle toward its end: on the action menu, Right and Down steer the cursor
+-- to RUN (flee a wild battle, or the forfeit prompt in a trainer battle), the prompt takes Up to
+-- Yes and then A, B leaves the move list, and A advances text. Off the battle screen (Bag, party,
 -- summary) B backs out, with Down and A for the forced switch after a faint, which refuses B.
-local atPrompt = false
+-- Both menus steer by their cursor: a key picked by count alone locked into pressing A on POKEMON
+-- every turn when each trip through the party screen took a multiple of three keys.
 local function battleKey(n)
   if inBattle() then
     local fn = controller()
-    if fn == (S.PlayerHandleYesNoInput & ~1) then
-      local key = atPrompt and "A" or "Up"
-      atPrompt = not atPrompt
-      return key
+    if fn == (S.PlayerHandleYesNoInput & ~1) then return F.r8(S.gMultiUsePlayerCursor) == 0 and "A" or "Up" end
+    if actionMenu() then
+      local cur = F.r8(S.gActionSelectionCursor)
+      return cur == 3 and "A" or (cur % 2 == 0 and "Right" or "Down")
     end
-    atPrompt = false
-    if actionMenu() then return ({ "Right", "Down", "A" })[n % 3 + 1] end
     if fn == (S.HandleInputChooseMove & ~1) then return "B" end
     return "A"
   end
@@ -513,9 +512,13 @@ F.run(function()
     leadLast()
     F.press("Start", 2); F.idle(60)
     if not F.selectStartIcon(1) then return "skip", 0 end
-    -- Summary heads the action list, so the field moves sit one and two rows down.
+    -- Summary heads the action list, so the field moves sit one and two rows down. A confirms Dig
+    -- before the mash starts; a mashed Up or Down before the first A picks Teleport or Flash, which
+    -- the cave refuses.
     F.press("A", 2); F.idle(120); F.press("A", 2); F.idle(60)
     F.press("Down", 2); F.idle(10); F.press("Down", 2); F.idle(10)
+    F.check("dig mash: the cursor rests on Dig", F.cb2() == S.CB2_UpdatePartyMenu and F.mcur() == 2, state())
+    F.press("A", 2)
     local result, at = mash("dig", 1800, { A = 40, B = 4, Start = 2, dir = 20 })
     F.L(string.format("  dig: ended at %d/%d", F.grp(), F.mapn()))
     F.check("dig mash: Dig left Granite Cave", not (F.grp() == 24 and F.mapn() == 7))

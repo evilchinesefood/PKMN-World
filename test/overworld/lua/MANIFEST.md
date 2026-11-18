@@ -2512,6 +2512,20 @@ Start menu, presses R, and counts the lead's action rows through `sMenu` (Summar
 Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
 with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
 
+### `BugContestLeadKeeps.lua`
+
+The Bug-Catching Contest's lead is the player's own Pokemon, so what the Bag does to it during the
+contest must survive the contest's end. The attendant parks the team with `SavePlayerParty` and every
+end restores it with `LoadPlayerParty`, while the contest start menu keeps the Bag: a Rare Candy or an
+evolution stone used on the lead was spent and its level or evolution undone (HGSS keeps both). Each
+scenario gives a lead and a Pidgey with the debug Give menu and one item, enters through the real
+attendant, opens the Bag, picks Use and the lead, drives the evolution with A, then retires at the
+exit. **Oracle:** back at the gate the team has its old size, the lead is the evolved species at its
+new level (Bulbasaur 15 with a Rare Candy into Ivysaur 16, Growlithe 20 with a Fire Stone into
+Arcanine), the Pidgey is byte-identical in species, personality and level, the item is spent and
+contest mode is off. **Discrimination:** unfixed **20/23** (both leads came back unevolved).
+`--env PW_LEAD_ONLY=<text>` runs matching scenarios.
+
 ### `EggSummaryPageTabs.lua`
 
 An Egg's summary cannot turn pages (`ChangePage` returns for an Egg), but its header still drew the

@@ -3811,3 +3811,22 @@ basement grunts beaten, the player walks to him and talks with real input; the o
 key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
 Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
 two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.
+
+### `SkyCharmReceptionGate.lua`
+
+Route 27's first-steps trigger at (25,24)/(25,25) was the only writer of `VAR_ROUTE27_STATE` 1. That
+value arms the Reception Gate's eight-badge trigger (it matches only 1), and the Indigo Plateau Center
+hides the Black Belt standing on (32,3), the one tile in front of Will's door, once the state is at
+least 1. Route 27 is open water east of New Bark Town and the Sky Charm (Johto's Storm Badge) flies
+over coord events, so a flier reached Route 26 with the state at 0: five badges walked through the gate
+to Victory Road, and with all eight the League stayed shut. `SkyCharmGaps.py` lists this trigger as a
+gate a flier skips. The Reception Gate now runs the first-steps state on entry while it is 0. With
+Johto badges 1-5 and the Sky Charm registered, the suite takes off in New Bark Town, flies across
+Route 27 over the trigger, east onto Route 26 and north to (12,7) on Route 26 North, lands, and walks
+into the gate and north. Then badges 6-8 and theater state 8 are written, the gate is walked again,
+and a debug warp to the Plateau Center is followed by a real walk to Will's door. A control re-arms
+the trigger and walks onto it from Tohjo Falls' mouth. **Oracle:** five badges are turned back at
+(11,14) and never reach Victory Road; eight pass; nobody stands on Silver's (32,8) and the door at
+(32,2) leads into Will's room; the walker still meets the fisherman and the state becomes 1.
+**Discrimination:** unfixed 16/20 (five badges reach Johto Victory Road, Silver waits in the Center,
+the Black Belt blocks Will's door), fixed 20/20.

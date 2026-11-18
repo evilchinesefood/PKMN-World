@@ -21,6 +21,8 @@
 #include "party_menu.h"
 #include "pokeball.h"
 #include "pokemon.h"
+#include "random.h"
+#include "recorded_battle.h"
 #include "reshow_battle_screen.h"
 #include "sound.h"
 #include "string_util.h"
@@ -116,8 +118,17 @@ static void PlayerPartnerBufferRunCommand(enum BattlerId battler)
 {
     if (IsBattleControllerActiveOnLocal(battler))
     {
-        if (gBattleResources->bufferA[battler][0] < ARRAY_COUNT(sPlayerPartnerBufferCommands))
-            sPlayerPartnerBufferCommands[gBattleResources->bufferA[battler][0]](battler);
+        u32 command = gBattleResources->bufferA[battler][0];
+        if (command == CONTROLLER_CHOOSEPOKEMON && RecordedBattle_IsFrontierRecording())
+        {
+            // Playback replays this mid-turn choice without the AI, so its draws must not move the battle RNG.
+            rng_value_t rng = gRngValue;
+            PlayerPartnerHandleChoosePokemon(battler);
+            gRngValue = rng;
+            return;
+        }
+        if (command < ARRAY_COUNT(sPlayerPartnerBufferCommands))
+            sPlayerPartnerBufferCommands[command](battler);
         else
             BtlController_Complete(battler);
     }

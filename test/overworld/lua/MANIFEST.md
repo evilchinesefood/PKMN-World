@@ -3071,9 +3071,11 @@ the earlier cases still pass: Arena **15/15**, Palace **16/16**, Factory **16/16
   battle RNG, so the rest of turn 1 rolled differently in the battle and in the replay. Measured on
   rec8 without the partner fix **16/19**: at turn 2 the battle had Snorlax at 201 HP and Wooper at 148,
   the replay Snorlax at 227 and Wooper at 89 (Vital Throw's 59), and playback quit after turn 5.
-  **19/19** fixed. The battle also covers the partner's second choice (Spheal back in for Wooper on
-  turn 2) and both opponents' replacements. Faint replacements run at `ENDTURN_FAINTED_MON_ACTIONS`,
-  after every end-turn effect, so the partner's draws there reach only a replacement's switch-in ability.
+  **19/19** fixed. At `PW_TEXT=3` the challenge draws another battle (Hoothoot passing to Hoppip):
+  rec8 **16/19** (Hoppip at 35 HP recorded, 55 replayed), fixed **19/19**. The battle also covers
+  the partner's second choice (Spheal back in for Wooper on turn 2) and both opponents' replacements.
+  Faint replacements run at `ENDTURN_FAINTED_MON_ACTIONS`, after every end-turn effect, so the
+  partner's draws there reach only a replacement's switch-in ability.
 
 ### `KantoPropsStress.lua`
 

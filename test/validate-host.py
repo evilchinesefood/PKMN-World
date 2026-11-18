@@ -36,6 +36,7 @@ CHECKS = (
     ("ValidateCelioGifts.py",),
     ("ValidateGreedyGifts.py",),
     ("AuditDupKeyGifts.py",),
+    ("AuditHideFlags.py",),
     ("TestChampionshipPrizes.py",),
     ("special-pokemon/sources.py",),
     ("special-pokemon/mechanics_audit.py",),

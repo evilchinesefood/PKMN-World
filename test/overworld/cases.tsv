@@ -327,3 +327,4 @@ MessageBoxFit	lua/MessageBoxFit.lua	fresh	0	required
 IndigoVictoryRoadExits	lua/IndigoVictoryRoadExits.lua	fresh	0	required
 SkyCharmSeams	lua/SkyCharmSeams.lua	fresh	0	required
 PhoneRayquazaCallStory	lua/PhoneRayquazaCallStory.lua	fresh	0	required
+PhoneMatchCallRegions	lua/PhoneMatchCallRegions.lua	fresh	0	manual

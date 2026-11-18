@@ -4245,3 +4245,17 @@ Johto's Violet City with a seeded mash of every button under the call (`PW_PHONE
 returns control to a walkable field with party and money unchanged; Story still reads `hoenn.dive` after
 it, opened from the Start menu. `test/overworld/story-progress/hoenn_cases.inc` checks the same case
 natively. **Discrimination:** unfixed 30/32 (Story read `hoenn.space_center` after both calls), fixed 32/32.
+
+### `PhoneMatchCallRegions.lua`
+
+Manual (it walks thousands of steps): `test/overworld/mgba-run.sh test/overworld/lua/PhoneMatchCallRegions.lua
+pokemonworld.gba --env PW_MAX_FRAMES=2000000 --timeout 3000`. Random Match Calls from Hoenn trainers
+(`TryStartMatchCall`: every tenth step, once per ten RTC minutes, a 30% roll or 60% behind Lightning Rod)
+ring in every region, and no suite had let one ring. The suite leaves the state the Rustboro PokeNav scene
+and five registrations leave (`FLAG_HAS_MATCH_CALL`, registered-trainer flags 0 to 4) over five Hoenn
+badges, leads with a Lightning Rod Rhyhorn, takes the first call in Mossdeep, then paces Violet City and
+Viridian City until a timed call rings in each, with a seeded mash of every button under the Violet call
+(`PW_PHONE_SEED`, default 9101). **Oracle:** each call rings, returns control to a walkable field on the
+same map, and leaves the party (compared from the ring), money and registrations unchanged, with no crash
+screen. **Result:** no defect found. 24/24 at the default clock and at a night clock (`--rtc 1704171600`,
+seed 31337); the Johto and Kanto calls came after 1,546 to 7,026 steps.

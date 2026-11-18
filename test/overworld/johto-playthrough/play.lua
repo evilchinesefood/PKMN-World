@@ -27,12 +27,36 @@ N.knowMove(C.MOVE_DRAGON_CLAW, C.TYPE_DRAGON, 80)
 N.knowMove(C.MOVE_EXTREME_SPEED, C.TYPE_NORMAL, 80)
 N.knowMove(C.MOVE_THUNDERBOLT, C.TYPE_ELECTRIC, 90)
 
+-- A beat often ends on the frame a warp lands, so its screenshot caught the fade-in: dark rooms,
+-- white routes and missing night tint that sheet reviewers then chased as bugs. Shoot from a branch
+-- of the timeline once palette RAM stops changing, then rewind, so the run itself is unchanged.
+local function settledShot(tag)
+  local function palette()
+    local t = {}
+    for a = 0x05000000, 0x050003FC, 4 do t[#t + 1] = F.r32(a) end
+    return table.concat(t, ' ')
+  end
+  local branch = F.out .. 'settle.ss'
+  if not client.savestate(branch) then return F.shot(tag) end
+  local last, still, waited = palette(), 0, 0
+  while still < 8 and waited < 120 do
+    F.idle(1); waited = waited + 1
+    local now = palette()
+    still = now == last and still + 1 or 0
+    last = now
+  end
+  if waited > 8 then L(string.format('  shot %s waited %d frames for the palette to settle', tag, waited)) end
+  F.shot(tag)
+  client.loadstate(branch)
+  os.remove(branch)
+end
+
 local function log(tag)
   local x, y = F.pos()
   local m = N.partyMon(0)
   L(string.format('== %s: %s (%d,%d) party=%d lead=L%d %d/%d steps=%d battles=%d/%d', tag, N.mapName(), x, y,
     N.partyCount(), m.level, m.hp, m.maxHP, N.steps, N.battles.trainer, N.battles.wild))
-  F.shot(tag)
+  settledShot(tag)
 end
 
 -- Heal between beats when the lead is worn down (a documented concession, see README).

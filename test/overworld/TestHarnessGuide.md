@@ -426,6 +426,11 @@ overwrite a longer previous run's shots**. That cuts both ways: stale screenshot
 survive and mislead — a blue-screen shot from an aborted run was misread as a fresh failure this way.
 Clear `_pwtest/` between runs, or check the log's shot list for what this run actually wrote.
 
+A campaign beat often ends on the frame a warp lands, mid fade-in. `play.lua` therefore takes each beat's
+screenshot on a savestate branch once palette RAM has held still for 8 frames (at most 120), then rewinds,
+so the run's own frames are unchanged. The log says `shot <beat> waited N frames` when it had to wait. Any
+other `F.shot` is raw: a dark or washed-out frame there is a fade, not a palette bug.
+
 `F.objdump()` dumps live object events to prove spawn/despawn. `OBJECT_EVENTS_COUNT = 16` including
 the player **and** an active follower → ~14 map objects usable, and the spawn window is ~20 wide ×
 17 tall, so on a dense map objects can silently fail to spawn. Walking the map and dumping counts is

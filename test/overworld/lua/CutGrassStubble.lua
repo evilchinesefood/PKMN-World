@@ -25,6 +25,9 @@
 --     drawn on the top layer under sprites), Route 37 (the pink apricorn tree's grass), Mt. Silver
 --     (frosty stubble);
 --   * seam: Mt. Silver's outside grass beside Route 28, carried across the seam and back.
+--   * view edge: Route 120's long grass cut, then a save and Continue with the cut's bottom row on the
+--     last row of the saved map view. Continue reloads the row below from the layout, so the roots
+--     there come back unless FixLongGrassMetatilesWindowBottom cuts them again as Cut left them.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/CutGrassStubble.lua
 -- --env PW_CUT_CASE=<substring> runs only the matching cases.
@@ -61,6 +64,12 @@ local CASES = {
 }
 local SEAMS = {
   { "seam_mt_silver_outside", 97, 0, 42, 16, { [0x00D] = 0x27E }, "Right" },
+}
+-- { tag, grp, map, x, y, { grass = stubble }, roots, walk to the save spot, save x, save y, { [x,y] = tile after Continue } }
+local VIEW_EDGES = {
+  { "route120_view_edge", 0, 35, 25, 86, CASES[2][6], CASES[2][7],
+    { "Up", "Up", "Up", "Left", "Left", "Left", "Left", "Left", "Up", "Up" }, 20, 81,
+    { ["24,88"] = 0x2A9, ["25,88"] = 0x2A9, ["26,88"] = 0x2A9 } },
 }
 local AWAY = { HUB_GROUP, 0, 16, 4 }
 
@@ -419,6 +428,53 @@ local function runSeam(c)
   F.shot(tag .. "_back")
 end
 
+-- The tiles around the save spot, as far as the saved map view reaches and one row past it.
+local function region(x, y)
+  local t = {}
+  for dy = -8, 7 do for dx = -7, 7 do t[(x + dx) .. "," .. (y + dy)] = metatileAt(x + dx, y + dy) end end
+  return t
+end
+
+local function runViewEdge(c)
+  local tag, grp, map, x, y, cuts, roots, steps, sx, sy, want = table.unpack(c)
+  if not F.check(tag .. ": arrives", warpToCoords(grp, map, x, y, tag)) then return end
+  F.idle(30)
+  cutAndCheck(tag, x, y, cuts, roots)
+  for _, dir in ipairs(steps) do
+    local x0, y0 = F.pos()
+    for _ = 1, 6 do
+      if walk(dir) == "battle" then runAway() end
+      local qx, qy = F.pos()
+      if qx ~= x0 or qy ~= y0 then break end
+      F.idle(20)
+    end
+  end
+  local px, py = F.pos()
+  if not F.check(tag .. ": walks to the save spot with the cut on the saved view's last row", px == sx and py == sy,
+    string.format("at %d,%d", px, py)) then return end
+  local left = region(sx, sy)
+  for k, v in pairs(want) do
+    F.check(tag .. ": " .. k .. " is the stubble Cut left before saving", left[k] == v, string.format("%#x", left[k]))
+  end
+  local status = driveSave()
+  F.check(tag .. ": saved", status == "done", status)
+  softReset(); F.idle(60)
+  if not F.check(tag .. ": Continue reaches the field", F.boot(nil, true) and F.grp() == grp and F.mapn() == map) then return end
+  waitControl()
+  local now, changed = region(sx, sy), {}
+  for k, v in pairs(left) do
+    if now[k] ~= v then changed[#changed + 1] = string.format("(%s) %#x->%#x", k, v, now[k]) end
+  end
+  table.sort(changed)
+  F.check(tag .. ": Continue restores every tile the player left, the row below the view included", #changed == 0,
+    table.concat(changed, "; "))
+  for _, dir in ipairs({ "Down", "Down" }) do
+    if walk(dir) == "battle" then runAway() end
+  end
+  F.idle(30)
+  F.shot(tag .. "_continue")
+end
+
 F.run(function()
   if not F.boot(HUB_GROUP) then F.check("boot", false); F.finish(); return end
   giveMon(SPECIES_MARSHTOMP)
@@ -430,6 +486,9 @@ F.run(function()
   end
   for _, c in ipairs(SEAMS) do
     if not only or c[1]:find(only, 1, true) then runSeam(c) end
+  end
+  for _, c in ipairs(VIEW_EDGES) do
+    if not only or c[1]:find(only, 1, true) then runViewEdge(c) end
   end
   F.finish()
 end)

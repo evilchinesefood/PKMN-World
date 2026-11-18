@@ -4501,3 +4501,20 @@ and MOM still answer. Every call ends back on the list and the field is walkable
 **Discrimination:** unfixed 29/33 (the list stays at three contacts and no call answers as BAOBA),
 fixed 35/35. Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
 mash, `PW_INSTANT=1` sets Instant text.
+
+### `PyramidSummaryRelearn.lua`
+
+The Summary's move relearner while a Battle Pyramid challenge or the Battle Tower multi partner room
+holds the party. Both keep the real party in SaveBlock1's copy, and every resume of the field (closing
+the party screen included) runs `RestorePyramidPlayerParty`, which writes each challenge Pokemon back
+over its saved copy after replacing any move the copy did not know with Sketch: vanilla has no way to
+change moves there, so a new move is treated as a cheat. The party screen opens the Summary in
+`SUMMARY_MODE_NORMAL`, whose moves page offered the relearner (Start). The suite gives six level 50
+Pokemon, takes each real Lv. 50 challenge with real input (the Pyramid's first floor, the multi partner
+room), opens the lead's Summary from the Start menu's party screen and presses Start on the moves page;
+if the relearner opens it teaches the first move over the first slot. **Oracle:** the relearner does not
+open, the lead and its saved copy know no Sketch back on the field, and after Retire (Pyramid) or quitting
+at the room attendant (multi) the lead has exactly the four moves it entered with. **Discrimination:**
+unfixed 17/25 (in both rooms the relearner taught Vine Whip over Synthesis, the field turned it into
+Sketch in the challenge party and the saved copy, and the player's Ivysaur left with Sketch), fixed 25/25.
+A control opens the relearner the same way in the hub first.

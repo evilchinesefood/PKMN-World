@@ -339,3 +339,4 @@ JohtoPortedMenus	lua/JohtoPortedMenus.lua	fresh	0	required
 JohtoPostgameCameos	lua/JohtoPostgameCameos.lua	fresh	0	required
 BaobaMatchCall	lua/BaobaMatchCall.lua	fresh	0	required
 DiplomaRegionName	lua/DiplomaRegionName.lua	fresh	0	required
+PyramidSummaryRelearn	lua/PyramidSummaryRelearn.lua	fresh	0	required

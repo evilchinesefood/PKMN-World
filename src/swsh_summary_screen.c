@@ -6,6 +6,8 @@
 #include "battle_message.h"
 #include "battle_tent.h"
 #include "battle_factory.h"
+#include "battle_pike.h"
+#include "battle_pyramid.h"
 #include "bg.h"
 #include "swsh_summary_screen.h"
 #include "contest.h"
@@ -16,6 +18,7 @@
 #include "dynamic_placeholder_text_util.h"
 #include "egg_hatch.h"
 #include "event_data.h"
+#include "field_specials.h"
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -51,6 +54,7 @@
 #include "window.h"
 #include "constants/abilities.h"
 #include "constants/battle_move_effects.h"
+#include "constants/battle_pyramid.h"
 #include "constants/characters.h"
 #include "constants/hold_effects.h"
 #include "constants/items.h"
@@ -6730,6 +6734,9 @@ static u8 FormatTextByWidth(u8 *result, s32 maxWidth, u8 fontId, const u8 *str, 
     return fontId;
 }
 
+// The Pike, the Pyramid and the multi partner room hold the challenge party until it ends. The
+// Pike's end reloads the saved party, and the Pyramid and the partner room write each Pokemon back
+// with any move the saved party did not know turned into Sketch (RestorePyramidPlayerParty).
 static inline bool32 ShouldShowMoveRelearner(void)
 {
     return (P_SUMMARY_SCREEN_MOVE_RELEARNER
@@ -6737,7 +6744,10 @@ static inline bool32 ShouldShowMoveRelearner(void)
          && sMonSummaryScreen->mode != SUMMARY_MODE_BOX_CURSOR
          && sMonSummaryScreen->hasRelearnableMoves
          && !InBattleFactory()
-         && !InSlateportBattleTent());
+         && !InSlateportBattleTent()
+         && !InBattlePike()
+         && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE
+         && !InMultiPartnerRoom());
 }
 
 static void RefreshRelearnModePrompt(void)

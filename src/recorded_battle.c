@@ -173,6 +173,11 @@ bool32 RecordedBattle_IsFrontierPlayback(void)
     return (gBattleTypeFlags & BATTLE_TYPE_RECORDED) && sUseTurnSeeds;
 }
 
+bool32 RecordedBattle_IsFrontierRecording(void)
+{
+    return sRecordMode == B_RECORD_MODE_RECORDING && sUseTurnSeeds;
+}
+
 // Legacy Palace recordings stored only the action and recomputed the move on playback.
 bool32 RecordedBattle_UsesLegacyPalaceMoves(void)
 {

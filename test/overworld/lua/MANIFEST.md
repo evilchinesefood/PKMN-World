@@ -4598,3 +4598,21 @@ list and answers; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKEN
 tutorial call is his first line and the next is the letter errand. **Discrimination:** unfixed 45/51
 (MR. STONE listed and called from New Bark, listed above Elm, and Elm's slot answered as MR. STONE),
 MR. STONE gated without the menu change 50/51 (Match Call offered with 0 contacts), fixed 51/51.
+
+### `BirchContactRegions.lua`
+
+Elm's first directions give PROF. BIRCH's number and set `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`, so a
+Johto-first player meets the PokeNav's PROF. BIRCH contact in New Bark Town. A stress pass read it as
+Elm's contact showing a Hoenn location. It is Birch's contact by design (Elm's line and
+`RevisedHintLines.lua` name him, the call is Birch's Pokedex rating), and Emerald's
+`MatchCall_GetMapSec_Birch` prints UNKNOWN for him in every region. pokemonHnS names the contact PROF.ELM
+but also prints UNKNOWN, because its `MAPSEC_NEW_BARK_TOWN` header field is never read. The suite plays
+Elm's directions with a seeded A/B mash, opens the Match Call list from the Start menu in New Bark Town,
+moves onto the PROF. BIRCH row, opens its options and calls him, then does the same in Littleroot Town.
+**Oracle:** the row's header and map section read from the live menu, an FNV hash of the location
+window's drawn pixels, and the call text from `gStringVar4`. Johto must match Hoenn on all three, every
+call must end back on the list, and the field must be walkable after each visit. **Result:** no defect
+found. 19/19 at seeds 1, 3 (Instant), 7 (`--rtc 1704171600`) and 11 (Instant). Both regions show PROF.
+BIRCH, {PKMN} PROF., UNKNOWN, and CALL and CANCEL with no CHECK. **Discrimination:** a tamper build whose
+`MatchCall_GetMapSec_Birch` returned `MAPSEC_NEW_BARK_TOWN` in Johto scored 17/19, failing the map
+section and pixel checks while its screenshot showed PROF. BIRCH in NEW BARK TOWN.

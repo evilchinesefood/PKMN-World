@@ -343,3 +343,4 @@ DiplomaRegionName	lua/DiplomaRegionName.lua	fresh	0	required
 PyramidSummaryRelearn	lua/PyramidSummaryRelearn.lua	fresh	0	required
 KantoPortedScenes	lua/KantoPortedScenes.lua	fresh	0	required
 MrStoneMatchCallGate	lua/MrStoneMatchCallGate.lua	fresh	0	required
+BirchContactRegions	lua/BirchContactRegions.lua	fresh	0	required

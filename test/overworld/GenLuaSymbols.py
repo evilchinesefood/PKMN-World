@@ -108,6 +108,8 @@ WANT = [
     "gStringVar1", "gStringVar2",
     # HatchMetLocation.lua reads the SwSh summary memo's encounter line (BufferMonEncounter).
     "gStringVar3",
+    # JohtoPortedMenus.lua reads the open multichoice's option texts, to pick a row by its label.
+    "sMultichoiceLists",
     # RelearnerLongLearnset.lua reads the relearner's list and its cursor.
     "sMoveRelearnerStruct", "sMoveRelearnerScrollState",
     # HatchMetLocation.lua counts the turns an OHKO takes to see a traded Pokemon disobey.

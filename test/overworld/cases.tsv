@@ -335,3 +335,4 @@ PhoneRayquazaCallStory	lua/PhoneRayquazaCallStory.lua	fresh	0	required
 PhoneMatchCallRegions	lua/PhoneMatchCallRegions.lua	fresh	0	manual
 FishingAcrossRegions	lua/FishingAcrossRegions.lua	fresh	0	required
 WaterFieldMoves	lua/WaterFieldMoves.lua	fresh	0	required
+JohtoPortedMenus	lua/JohtoPortedMenus.lua	fresh	0	required

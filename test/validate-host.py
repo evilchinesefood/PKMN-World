@@ -33,6 +33,7 @@ CHECKS = (
     ("ValidateTilesetAnimBounds.py",),
     ("ValidateTilesetPalettes.py",),
     ("HnsMetatileBehaviors.py",),
+    ("AuditHnsPortSymbols.py",),
     ("SavePatch.py", "--check"),
     ("ValidateCelioGifts.py",),
     ("ValidateGreedyGifts.py",),

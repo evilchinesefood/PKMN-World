@@ -119,6 +119,7 @@ is clean; keep it that way.
 | [`JohtoHeadbuttTutor.lua`](#johtoheadbutttutorlua) | fresh new game | The Ilex Forest Headbutt tutor can teach Headbutt (his menu marked every Pokemon NOT ABLE) and sets `FLAG_GET_HEADBUTT`. |
 | [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
 | [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
+| [`JohtoPortedMenus.lua`](#johtoportedmenuslua) | fresh new game | The weekday siblings take their own day and the Alph researcher offers all five fossils: the HnS scripts' `MULTI_*` rows mean the same choice here. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
 | [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
@@ -2751,6 +2752,20 @@ handed out), collects the Omanyte at Alph, hands a Root Fossil in at Devon, chec
 greets and hands out nothing, and collects the Lileep at Devon. Last, a Kabuto pending in the shared
 pair (the only form a save from before the split can hold) must come back at Alph. **20/24** on the
 unfixed ROM, **24/24** with the fix.
+
+### `JohtoPortedMenus.lua`
+
+Two Johto menus whose scripts came from pokemonHnS resolved `MULTI_*` to this tree's list. The weekday
+siblings ("Can you guess my favorite day?") branch on HnS's `MULTI_DAYS_OF_WEEK` rows, which start on
+SUNDAY; this tree's list started on MONDAY, so the right day was refused ("WESLEY: Not exactly...")
+and the day after won. The Ruins of Alph researcher, offered two fossils, branches Claw, Root, Helix,
+Dome, Old Amber, Exit over `MULTI_FOSSIL`, which here is Devon's CLAW / ROOT / Exit list: Helix, Dome
+and Old Amber could not be chosen and Exit handed the Helix Fossil over. The suite reads the open
+menu's labels from `sMultichoiceLists` and steers the cursor to the row by label: WEDNESDAY to Wesley
+(Black Belt), SATURDAY to Santos (Spell Tag), then with a Helix Fossil and Old Amber in the bag, EXIT
+(both kept) and OLD AMBER (the Amber handed in, the Helix kept). Setup is a warp and the two items;
+talks, the Yes/No and the menus are real input. Found by `AuditHnsPortSymbols.py`. **Discrimination:**
+unfixed 11/16, fixed 16/16.
 
 ### `StarterIndexPerRegion.lua`
 

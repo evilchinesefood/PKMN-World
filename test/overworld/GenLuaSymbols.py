@@ -316,6 +316,8 @@ WANT = [
     "EventScript_PC", "EventScript_AccessHallOfFame", "EventScript_TV", "EventScript_UseFlash",
     # StartOptionsStateStress.lua: the runtime state of a DexNav search, a fishing chain, the
     # Safari Zone and the Bug-Catching Contest, and the Flash window's scanline buffers.
+    # FishingAcrossRegions.lua reads the rod task's step (data[0]) to reel in on the bite.
+    "Task_Fishing",
     "sDexNavSearchDataPtr", "gChainFishingDexNavStreak", "EnterSafariMode",
     "gScanlineEffectRegBuffers", "sBugContestStartTime", "sBugContestTimerActive",
     # PC storage screen state (src/swsh_storage_system.c): the cursor, the Pokemon or item in hand.

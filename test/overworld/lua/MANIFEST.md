@@ -147,6 +147,8 @@ is clean; keep it that way.
 | [`InstantTextStress.lua`](#instanttextstresslua) | fresh new game | Instant text mashed through nurses in all three regions, building PCs, the Pokedex, Trainer Card, PokeNav, Name Raters, Move Relearners, a Day Care, TV, a catch with nickname, Cut, Rock Smash, Strength and Flash, Safari Zone time's up and Bug-Catching Contest judging. |
 | [`StartOptionsStateStress.lua`](#startoptionsstatestresslua) | fresh new game | Start-menu Options during a DexNav search, in a Flash-dark cave before and after Flash, on both bikes, mid fishing chain, in both Safari Zones, in the Bug-Catching Contest and a Frontier lobby, restoring each state. |
 | [`ContinueOddMoments.lua`](#continueoddmomentslua) | fresh new game | Save then Continue (soft reset or power cut) while surfing with a follower, underwater, next to a visible wild Pokemon, aboard the S.S. Anne and S.S. Aqua, and in the hub after a Hub Pass fired from Surf: same map, tile, party, region, whiteout point and avatar state, and control returns. |
+| [`FishingAcrossRegions.lua`](#fishingacrossregionslua) | fresh new game | Old, Good and Super Rod through SELECT in New Bark, Vermilion and Route 104 (a battle against a species from the map's fishing table), "Not even a nibble" on three maps with fishable water and no table, seeded mash casts, casts while surfing, and the region's own adviser (Oak, Elm, Dad) for a rod facing land. |
+| [`WaterFieldMoves.lua`](#waterfieldmoveslua) | fresh new game | Surf on and off ten times with a follower (sprite slots, tile VRAM and palette tags stay flat), Waterfall up and back down in all three regions, no Dive on Route 41's deep water, and Dive and emerge on Route 124. |
 | [`ContinueDarkCave.lua`](#continuedarkcavelua) | fresh new game | Save then Continue in Flash-dark Dark Cave on the arrow warp the player arrived on, and again after FLASH: tile, facing, song, follower and flash state come back, and the warp still leaves. |
 | [`ItemBallFullPocket.lua`](#itemballfullpocketlua) | fresh new game | An item ball with a full Items pocket and 999 Potions: refused and left alone; with one free slot, taken onto a new stack. |
 | [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
@@ -4231,3 +4233,40 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+
+### `FishingAcrossRegions.lua`
+
+Fishing in all three regions through the SELECT key-item path. Each cast warps to a shore cell, faces
+the water, registers one rod and presses SELECT; the suite reads `Task_Fishing`'s step and presses A on
+"Oh! A bite!" (step 9: `I_FISHING_MINIGAME` is `GEN_2`, so the rod waits for A with no timeout) and on
+"A POKéMON's on the hook!", then flees with a level-100 Lapras. **Oracle:** a cast ends in a battle whose
+foe (`gBattleMons[1]`) is in that map's `fishing_mons`, or in "Not even a nibble"; the rod is put away
+(player graphics restored), the field unlocks, a step away from the shore lands and the follower walks
+out beside the player. New Bark Town, Vermilion City and Route 104 must start at least one fishing
+battle across the three rods; Kanto Route 18, the Johto Safari Zone's `SafariZone1` and the Battle
+Frontier's west side have fishable water and no fishing table (the same in pokefirered, pokemonHnS and
+pokeemerald), so every rod there says "Not even a nibble". Eight seeded mash casts (`PW_FISH_SEED`,
+default 9001) press A, B, Start, Select, L, R and the D-pad through each cast, and four Super Rod casts
+run while surfing. Last, a rod used facing land must show the region's own line and give control back:
+the "time and place" message was Emerald's "DAD's advice…" everywhere, while pokefirered says "OAK:
+{PLAYER}! This isn't the time to use that!" and pokemonHnS "ELM's advice…". `DisplayDadsAdviceCannotUseItemMessage`
+now picks the line by `GetCurrentRegion()`. **Discrimination:** unfixed 164/166 (New Bark and
+Vermilion read `DAD's`), fixed 166/166. Needs `--timeout 1800`.
+
+### `WaterFieldMoves.lua`
+
+Surf, Waterfall and Dive with a follower, by real input after a debug warp to a coordinate. **Surf
+cycles:** on Route 32's pier, A and YES ten times, stepping back onto land each time; the follower must
+come out beside the player after one step, and the live sprite count, `sSpriteTileAllocBitmap` and
+`sSpritePaletteTags` must match the first cycle (the Surf mount is the party mon's own overworld sprite
+since #9, loaded through the follower graphics path). **Waterfall:** Johto Route 47, Kanto Cape Brink and
+Hoenn Route 119: A and YES below the falls carries the player to the top still surfing, and surfing south
+lands back in the pool. Route 47's row under its falls (metatile 0x137) is `MB_NORMAL` at elevation 1 in
+pokemonHnS too, so the case starts one row lower. **Dive:** A on Route 41's deep water (no dive connection)
+must not dive; on Route 124, A and YES dives and B and YES emerges on the same tile. No defect found:
+71/71 on the pass 9 build. `AuditWaterEncounters.py` is the static half: it floods every map with
+`ValidateReachability`'s rules and lists maps where the player can surf, fish, smash or headbutt with no
+matching table, tables no reachable terrain uses, and (with `--hns DIR`) Johto tables that differ from
+pokemonHnS. On the pass 9 tree every missing table matched its source game and every Johto difference was
+a deliberate species swap.
+

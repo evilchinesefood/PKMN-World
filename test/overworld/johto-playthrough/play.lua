@@ -29,17 +29,20 @@ N.knowMove(C.MOVE_THUNDERBOLT, C.TYPE_ELECTRIC, 90)
 
 -- A beat often ends on the frame a warp lands, so its screenshot caught the fade-in: dark rooms,
 -- white routes and missing night tint that sheet reviewers then chased as bugs. Shoot from a branch
--- of the timeline once palette RAM stops changing, then rewind, so the run itself is unchanged.
+-- of the timeline once the palette fade has ended and palette RAM stops changing, then rewind, so
+-- the run itself is unchanged. Stillness alone is not enough: a slow fade holds each step longer
+-- than the window, which left Sootopolis's white fade-in after the Rayquaza scene washed out.
 local function settledShot(tag)
   local function palette()
     local t = {}
     for a = 0x05000000, 0x050003FC, 4 do t[#t + 1] = F.r32(a) end
     return table.concat(t, ' ')
   end
+  local function fading() return (F.r32(S.gPaletteFade + S.PaletteFade.activeWord) >> 31) == 1 end
   local branch = F.out .. 'settle.ss'
   if not client.savestate(branch) then return F.shot(tag) end
   local last, still, waited = palette(), 0, 0
-  while still < 8 and waited < 120 do
+  while (still < 8 or fading()) and waited < 120 do
     F.idle(1); waited = waited + 1
     local now = palette()
     still = now == last and still + 1 or 0

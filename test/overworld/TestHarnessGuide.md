@@ -427,8 +427,9 @@ survive and mislead — a blue-screen shot from an aborted run was misread as a 
 Clear `_pwtest/` between runs, or check the log's shot list for what this run actually wrote.
 
 A campaign beat often ends on the frame a warp lands, mid fade-in. `play.lua` therefore takes each beat's
-screenshot on a savestate branch once palette RAM has held still for 8 frames (at most 120), then rewinds,
-so the run's own frames are unchanged. The log says `shot <beat> waited N frames` when it had to wait. Any
+screenshot on a savestate branch once `gPaletteFade` is idle and palette RAM has held still for 8 frames
+(at most 120), then rewinds, so the run's own frames are unchanged. Stillness alone misses slow fades: a
+delay-8 `FadeScreen` (the white fade-in after Sootopolis's Rayquaza scene) holds each step for 18 frames. The log says `shot <beat> waited N frames` when it had to wait. Any
 other `F.shot` is raw: a dark or washed-out frame there is a fade, not a palette bug.
 
 `F.objdump()` dumps live object events to prove spawn/despawn. `OBJECT_EVENTS_COUNT = 16` including

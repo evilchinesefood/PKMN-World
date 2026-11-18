@@ -2347,6 +2347,24 @@ frame loads it with the "previous save loaded" status, and only the completed wr
 save. The registered default samples every third frame plus the frame after the write and scores
 **198/198**. No defect found.
 
+### `SaveResetStress.lua`
+
+A save interrupted by a reset must load as the old save or the new one. Each round marks the money
+and the lead's nickname, saves from the Start menu and resets at a chosen moment: a power cut on
+frames spread over the measured flash write (253 frames), the soft reset at the save prompt, during
+the write, in the hub after a save, during a warp's fade, mid gate crossing (the party already
+boxed) and after a battle. The reboot continues the file and compares money, party bytes and
+location against the two snapshots the round straddles.
+
+The soft reset during the write used to press A+B+Start+Select for 20 frames from the write's
+first frame. The Start-menu save writes every sector inside one pass of the main loop, which reads
+the keys only after the write returns, so that chord was released before it could be seen: a probe
+on the eighth pass measured no reset at all (`vblankCounter1` never fell, the game went on to
+"saved the game"), and the check passed because the session that made the save was still running.
+The round now presses the chord on ten frames spread over the write and holds it until
+`vblankCounter1` falls, and requires that the reset landed, that it landed after the write's last
+frame and that the new file loads. Every reset landed 264 or 265 frames after the write began.
+Measured **149/149**; no defect found.
 ### `HubWardrobeSprite.lua`
 
 The World Transit wardrobe (`OBJ_EVENT_GFX_WARDROBE`, local id 15 at (7,7)) drew only its shadow.
@@ -2846,6 +2864,24 @@ cracked ice metatiles and the `VAR_TEMP_8`..`A` ice rows must come back, and the
 on: off the bridge both ways but not down into the river, riding across and dismounting, and onto
 the next ice tile. Measured **57/57**; no defect found. `--env PW_OSS_ONLY=<text>` runs matching
 cases.
+
+The eighth stress pass added the region (`gCurrentRegion`) to every comparison and nine more
+cases, each reached the same way. **Ledge landing** (Route 2, soft reset): Start is pressed from
+the frame the player lands below the ledge, so the save holds the Lapras follower still on the
+ledge top two tiles back; after Continue the ledge stays one-way and two steps on the follower has
+jumped down and walks right behind. **Ash** (Route 113, power cut): three walked ash tiles stay
+cleared, the ash keeps falling, and the next step still clears ash (the ON_RESUME step callback
+came back). **Desert** (Route 111, soft reset): in through the Go-Goggles trigger and the sandstorm
+trigger, with the sandstorm and `MUS_DESERT` restored. **Sevii fog** (Five Island's Lost Cave Room
+2), the **Trainer Hill lobby** (power cut) and **Mahogany Gym ice**: saved at rest against the wall
+after a slide, the next step north still slides to the far wall. **Two saves in a row** move
+`gSaveCounter` by two and Continue loads the second; then eight seeded mashes of A (weighted),
+B, Up, Down and nothing through the save prompt, the overwrite prompt and the saved message end in
+a save (3) or a cancel (5), leave the field free, and every second one resets and must Continue
+into the last completed save. **Bug-Catching Contest**: saved beside the attendant, in through her,
+the park's Start menu has no SAVE, and a soft reset inside continues in the gate on the saved tile
+with the whole team, contest mode off, the gate's contest state and no Safari Balls, after which
+the attendant runs the contest again. Measured **201/201**; no defect found.
 ### `TrickHouseRewards.lua`
 
 The Trick House loop for all eight levels. Each level walks in from Route 110, finds the Trick

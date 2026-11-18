@@ -70,12 +70,12 @@ Route34_DayCare_EventScript_Clerk::
 	goto_if_eq VAR_RESULT, PARTY_SIZE, Route34_DayCare_EventScript_ClerkPartyFull
 	msgbox Route34_DayCare_Text_ClerkQuestion, MSGBOX_DEFAULT
 	closemessage
-	setvar VAR_0x8004, EASY_CHAT_TYPE_INTERVIEW
-	setvar VAR_0x8005, 0
+	setvar VAR_0x8004, EASY_CHAT_TYPE_ODD_EGG
 	call Common_ShowEasyChatScreen
 	lock
 	faceplayer
-	switch VAR_RESULT
+	goto_if_eq VAR_RESULT, FALSE, Route34_DayCare_EventScript_ClerkRejection
+	switch VAR_0x8004
 	case 0, Route34_DayCare_EventScript_ClerkRejection
 	case 1, Route34_DayCare_EventScript_GivePichu
 	case 2, Route34_DayCare_EventScript_GiveCleffa

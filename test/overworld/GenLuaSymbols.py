@@ -117,6 +117,9 @@ WANT = [
     # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
     "sSpecialPokemonMenu",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
+    # JohtoTradeOddEgg.lua: the Easy Chat screen the Route 34 Odd Egg question opens, and its
+    # struct (currentPhrase at 0x3C) where the word picker leaves the chosen words.
+    "CB2_EasyChatScreen", "sEasyChatScreen",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
     # MoneySinkEdges.lua: the Day Care withdrawal fee GetDaycareCostAndPrepareString leaves for
     # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.

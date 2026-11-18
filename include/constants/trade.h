@@ -25,6 +25,7 @@ enum InGameTradeID
     INGAME_TRADE_MACHOP,
     INGAME_TRADE_VOLTORB,
     INGAME_TRADE_ONIX,
+    INGAME_TRADE_MR_MIME_EMY,
 };
 
 // Return values for CanTradeSelectedMon and CanSpinTradeMon

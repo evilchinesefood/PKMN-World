@@ -15,13 +15,27 @@ import pathlib
 import sys
 
 
+# za.json has no form keys and files these species' Alolan or Galarian form under the base name.
+# These are the moves its entry adds that only the regional form learns in any other game.
+REGIONAL_FORM_MOVES = {
+    "za": {
+        "MAROWAK": {"MOVE_SHADOW_BALL", "MOVE_THUNDER", "MOVE_THUNDERBOLT"},
+        "MEOWTH": {"MOVE_BRICK_BREAK", "MOVE_METRONOME", "MOVE_SWORDS_DANCE"},
+        "SLOWBRO": {"MOVE_SLUDGE_BOMB"},
+        "SLOWKING": {"MOVE_SLUDGE_BOMB", "MOVE_TAUNT"},
+    },
+}
+
+
 def from_single(fname: pathlib.Path) -> dict[str, set[str]]:
+    excluded = REGIONAL_FORM_MOVES.get(fname.stem, {})
     with open(fname, "r") as fp:
         return {
-            species: set([level_up["Move"] for level_up in by_method["LevelMoves"]])
-            | set([move for move in by_method["TMMoves"]])
-            | set([move for move in by_method["EggMoves"]])
-            | set([move for move in by_method["TutorMoves"]])
+            species: (set([level_up["Move"] for level_up in by_method["LevelMoves"]])
+                      | set([move for move in by_method["TMMoves"]])
+                      | set([move for move in by_method["EggMoves"]])
+                      | set([move for move in by_method["TutorMoves"]]))
+            - excluded.get(species, set())
             for species, by_method in json.load(fp).items()
         }
 

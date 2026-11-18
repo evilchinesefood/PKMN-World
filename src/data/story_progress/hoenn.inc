@@ -360,13 +360,17 @@ static const struct StoryObjective *ResolveHoenn(void)
 {
     // Later regional scenes are durable evidence even in migrated saves whose
     // earlier variables were not copied. Shared HMs and items are not evidence.
+    // The rival's Rayquaza call clears FLAG_DEFEATED_MAGMA_SPACE_CENTER, which only arms that
+    // call; the Space Center's own scene state stays at 3.
+    bool32 spaceCenter = F(FLAG_DEFEATED_MAGMA_SPACE_CENTER)
+        || V(VAR_MOSSDEEP_SPACE_CENTER_STATE) >= 3;
     bool32 crisis = F(FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN)
         || V(VAR_SOOTOPOLIS_CITY_STATE) != 0
         || F(FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE);
     bool32 ocean = crisis || F(FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE)
         || F(FLAG_MET_TEAM_AQUA_HARBOR)
         || F(FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT)
-        || F(FLAG_DEFEATED_MAGMA_SPACE_CENTER)
+        || spaceCenter
         || V(VAR_MT_PYRE_STATE) != 0;
     bool32 east = ocean || V(VAR_WEATHER_INSTITUTE_STATE) != 0
         || F(FLAG_RECEIVED_DEVON_SCOPE) || B(REGION_HOENN, 5);
@@ -464,23 +468,23 @@ static const struct StoryObjective *ResolveHoenn(void)
         if (!F(FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT)
             && !F(FLAG_MET_TEAM_AQUA_HARBOR)
             && !F(FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE)
-            && !F(FLAG_DEFEATED_MAGMA_SPACE_CENTER))
+            && !spaceCenter)
         {
             if (!F(FLAG_RECEIVED_HM_STRENGTH) && !I(ITEM_HM_STRENGTH))
                 return &sHoennStrength;
             return &sHoennMagmaHideout;
         }
         if (!F(FLAG_MET_TEAM_AQUA_HARBOR) && !F(FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE)
-            && !F(FLAG_DEFEATED_MAGMA_SPACE_CENTER))
+            && !spaceCenter)
             return &sHoennSlateportHarbor;
-        if (!F(FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE) && !F(FLAG_DEFEATED_MAGMA_SPACE_CENTER))
+        if (!F(FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE) && !spaceCenter)
             return &sHoennAquaHideout;
     }
     if (!B(REGION_HOENN, 6))
         return &sHoennTateLiza;
     if (!crisis)
     {
-        if (!F(FLAG_DEFEATED_MAGMA_SPACE_CENTER))
+        if (!spaceCenter)
             return &sHoennSpaceCenter;
         if (!F(FLAG_RECEIVED_HM_SURF) && !I(ITEM_HM_SURF))
             return &sHoennSurf;

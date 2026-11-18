@@ -11,7 +11,9 @@
 -- Dragon's Den and Mt. Silver the hatched Togepi must record the section (or MAPSEC_SPECIAL_AREA),
 -- met level 0 and 120 friendship, and its SwSh summary memo must say it hatched there. A Protein used
 -- from the Bag on the spot must add 3 friendship, plus the met-location bonus of 1 only where the
--- stored met location is the section the player stands in and not a special code.
+-- stored met location is the section the player stands in and neither a special code nor
+-- MAPSEC_SPECIAL_AREA. A sixth Togepi hatched in Ice Path gets its Protein in the Region Hub 2F,
+-- whose own section is MAPSEC_SPECIAL_AREA: no bonus there either.
 -- Gift: a createmon gift (the command `givemon` runs) on Mt. Silver and in Dragon's Den must record
 -- MAPSEC_SPECIAL_AREA at the gift's level and the memo must say it was met there.
 -- OT name: the player's name is seven letters. A Lapras whose OT name is a prefix of it (same ID) is an
@@ -277,6 +279,8 @@ local HATCHES = {
   { tag = "Ice Path", g = 94, m = 7, w = 1, dir = "Left", met = MAPSEC_SPECIAL_AREA, place = "SPECIAL AREA" },
   { tag = "Dragon's Den", g = 94, m = 12, w = 0, dir = "Left", met = MAPSEC_SPECIAL_AREA, place = "SPECIAL AREA" },
   { tag = "Mt. Silver", g = 97, m = 0, w = 0, dir = "Left", met = MAPSEC_SPECIAL_AREA, place = "SPECIAL AREA" },
+  { tag = "Ice Path, Protein in the Region Hub 2F", g = 94, m = 7, w = 1, dir = "Left", met = MAPSEC_SPECIAL_AREA,
+    place = "SPECIAL AREA", proteinIn = { 100, 1, 0 } },
 }
 
 local function hatchHere(c)
@@ -310,10 +314,17 @@ local function hatchHere(c)
   F.check(tag .. ": the summary memo says it hatched at " .. c.place,
     memo:find("Hatched from an egg", 1, true) ~= nil and memo:upper():find(c.place, 1, true) ~= nil, memo)
 
+  -- RegionHub_2F's own section is MAPSEC_SPECIAL_AREA, the value stored for every unrepresentable
+  -- section, so a special-area Pokemon must not count as met there.
+  if c.proteinIn then
+    if not warp(c.proteinIn[1], c.proteinIn[2], c.proteinIn[3], "protein_map") then F.check(tag .. ": warp for the Protein", false) end
+    mapsec = currentMapsec()
+  end
   local before = info(0).friendship
   local used = useProtein(tag:gsub("%W", "_"))
   local after = info(0).friendship
-  local bonus = (m.metLocation < METLOC_SPECIAL_EGG and m.metLocation == mapsec) and 1 or 0
+  local bonus = (m.metLocation < METLOC_SPECIAL_EGG and m.metLocation ~= MAPSEC_SPECIAL_AREA
+    and m.metLocation == mapsec) and 1 or 0
   F.check(string.format("%s: a Protein here adds %d friendship", tag, 3 + bonus), used and after - before == 3 + bonus,
     string.format("friendship %d -> %d, met=0x%02X mapsec=0x%03X", before, after, m.metLocation, mapsec))
   F.check(tag .. ": no crash screen", not F.crashScreen())

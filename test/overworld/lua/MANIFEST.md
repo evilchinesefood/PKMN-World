@@ -152,7 +152,7 @@ is clean; keep it that way.
 | [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
 | [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
 | [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
-| [`HatchMetLocation.lua`](#hatchmetlocationlua) | fresh new game | Eggs hatched in Ecruteak and in four Johto sections at or past 0xFD record the right met location, summary memo and Protein friendship bonus; gifts there read SPECIAL AREA; an OT that is a prefix of a seven-letter player name is an outsider (EXP, obedience, memo). |
+| [`HatchMetLocation.lua`](#hatchmetlocationlua) | fresh new game | Eggs hatched in Ecruteak and in four Johto sections at or past 0xFD record the right met location, summary memo and Protein friendship bonus; no bonus for a special area, even in the Hub 2F; gifts there read SPECIAL AREA; an OT that is a prefix of a seven-letter player name is an outsider (EXP, obedience, memo). |
 | [`RelearnerLongLearnset.lua`](#relearnerlonglearnsetlua) | fresh new game | Fallarbor's relearner lists all 29 of Gallade's and 24 of Zangoose's relearnable moves, scrolls to both ends, survives a mash and teaches the last one into a full moveset. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
@@ -3830,16 +3830,19 @@ the Day Care step counter one short, take one real step on the map and drive the
 Togepi must record the section (or `MAPSEC_SPECIAL_AREA`), met level 0 and 120 friendship; its SwSh
 summary memo (`gStringVar3` while the memo page is up) must say it hatched there; and a Protein used
 from the Bag on the spot must add 3 friendship plus the met-location bonus only where the stored
-location is the player's section and not a special code. Two gift cases (`createmon`, the command
+location is the player's section and neither a special code nor `MAPSEC_SPECIAL_AREA`. A sixth Togepi
+hatches in Ice Path and gets its Protein in the Region Hub 2F, whose own section is
+`MAPSEC_SPECIAL_AREA`: `CalculateFriendshipBonuses` counted it as met there and added the bonus
+(120 -> 124), so the sentinel for every unrepresentable section matched the Hub 2F and the link rooms. Two gift cases (`createmon`, the command
 `givemon` runs) on Mt. Silver and in Dragon's Den must record `MAPSEC_SPECIAL_AREA` at the gift's
 level, and the memo must read "Met when it was Lv. 15 / Location: SPECIAL AREA". The OT case sets a
 seven-letter player name and gives Lapras whose OT name is a four-letter prefix of it with the
 player's ID: in a scripted wild battle it must gain 1.5 times an identical own Lapras's EXP; at
 level 100 with a met level of 5 the own Lapras must knock its foe out on the first turn three times
 while the prefix one must disobey under the no-badge cap (obedience here is the Gen 8+ rule, met level
-for one's own Pokemon); and its memo must say it only "seems to have met" there. Measured **57/57**;
-no defect found. Against the parent of ce646ce30b, before the met-location and `IsOtherTrainer`
-changes, it scores **44/57**: Route 46, Ice Path and Dragon's Den store their raw sections (0xFD, 0xFE,
+for one's own Pokemon); and its memo must say it only "seems to have met" there. Measured **65/66** on
+ce646ce30b (the Hub 2F bonus) and **66/66** with the fix. Against the parent of ce646ce30b, before the
+met-location and `IsOtherTrainer` changes, it scores **51/66**: Route 46, Ice Path and Dragon's Den store their raw sections (0xFD, 0xFE,
 0xFF, the special met codes), the memos name those places, the Protein adds the bonus on a special
 code, and the prefix Lapras gets no EXP boost and obeys.
 

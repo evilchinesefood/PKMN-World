@@ -4990,8 +4990,10 @@ s32 CalculateFriendshipBonuses(struct Pokemon *mon, s32 modifier, enum HoldEffec
     if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_LUXURY)
         bonus += ITEM_FRIENDSHIP_LUXURY_BONUS;
 
+    // MAPSEC_SPECIAL_AREA stands in for every section a u8 met location cannot hold (CreateBoxMon),
+    // so it names no one place, least of all the link rooms and Hub 2F whose own section it is.
     u32 metLocation = GetMonData(mon, MON_DATA_MET_LOCATION);
-    if (metLocation < METLOC_SPECIAL_EGG && metLocation == GetCurrentRegionMapSectionId())
+    if (metLocation < METLOC_SPECIAL_EGG && metLocation != MAPSEC_SPECIAL_AREA && metLocation == GetCurrentRegionMapSectionId())
         bonus += ITEM_FRIENDSHIP_MAPSEC_BONUS;
 
     return bonus;

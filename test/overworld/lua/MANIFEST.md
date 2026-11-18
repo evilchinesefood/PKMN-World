@@ -152,6 +152,7 @@ is clean; keep it that way.
 | [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
 | [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
 | [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
+| [`IndigoVictoryRoadExits.lua`](#indigovictoryroadexitslua) | fresh new game | Victory Road's top exit and the league town above it join both ways on foot in Johto, Kanto and Hoenn; the Johto Indigo Plateau's south stairs lead down Route 23 to the cave mouth. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3811,3 +3812,17 @@ basement grunts beaten, the player walks to him and talks with real input; the o
 key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
 Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
 two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.
+
+### `IndigoVictoryRoadExits.lua`
+
+Johto Victory Road 1F's top exit (39,5) put the player on the Johto Indigo Plateau's south stairs at
+(11,18). That cell is `MB_ROCK_STAIRS`, which fires no warp, and the stairs end one row lower at a map
+edge with no connection, so no walk led back into the cave. pokemonHnS joins the plateau's south edge
+to Route 23, which holds the cave mouth; the Johto League port left Route 23 out. A debug warp sets the
+player on Victory Road's top exit and everything after is real input: Down leaves the cave, the player
+walks on to the plateau and to the stair foot, then walks down the stairs and on to the cave mouth, Up
+enters Victory Road (it must land on the top exit), and Down leaves again (it must land on the first
+landing). The first landing, Route 23's path at (20,12) and the stair foot are shot at 14:30 and 22:30. Kanto (the plateau's stairs
+onto Route 23, Victory Road 2F's exit and the cave mouth back) and Hoenn (Victory Road 1F's top exit
+into Ever Grande City and back) are controls that pass on both ROMs. Measured **15/20** on the unfixed
+ROM, stuck at (11,19), and **20/20** fixed.

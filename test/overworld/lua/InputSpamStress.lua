@@ -514,11 +514,20 @@ F.run(function()
     if not F.selectStartIcon(1) then return "skip", 0 end
     -- Summary heads the action list, so the field moves sit one and two rows down. A confirms Dig
     -- before the mash starts; a mashed Up or Down before the first A picks Teleport or Flash, which
-    -- the cave refuses.
+    -- the cave refuses. Dig then asks "Escape from here?", and a mashed Down or B answers NO, so the
+    -- arming also takes the YES the prompt rests on.
     F.press("A", 2); F.idle(120); F.press("A", 2); F.idle(60)
     F.press("Down", 2); F.idle(10); F.press("Down", 2); F.idle(10)
     F.check("dig mash: the cursor rests on Dig", F.cb2() == S.CB2_UpdatePartyMenu and F.mcur() == 2, state())
     F.press("A", 2)
+    local asked = false
+    for _ = 1, 1200 do
+      asked = F.taskLive(S.Task_HandleFieldMoveExitAreaYesNoInput)
+      if asked then break end
+      F.idle(1)
+    end
+    F.check("dig mash: Dig asks to escape from here", asked, state())
+    F.idle(10); F.press("A", 2)
     local result, at = mash("dig", 1800, { A = 40, B = 4, Start = 2, dir = 20 })
     F.L(string.format("  dig: ended at %d/%d", F.grp(), F.mapn()))
     F.check("dig mash: Dig left Granite Cave", not (F.grp() == 24 and F.mapn() == 7))

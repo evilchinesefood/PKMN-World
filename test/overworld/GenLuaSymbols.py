@@ -225,6 +225,8 @@ WANT = [
     # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
     "CB2_Pokedex", "RunCollection",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
+    # InputSpamStress confirms Dig's "Escape from here?" before its mash.
+    "Task_HandleFieldMoveExitAreaYesNoInput",
     "Task_HandleDaycareLevelMenuInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
     # The PC storage screen's release confirmation (StorageReleaseHeldItem.lua).

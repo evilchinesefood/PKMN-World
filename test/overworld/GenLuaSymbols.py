@@ -295,6 +295,9 @@ WANT = [
     "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
     "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
     "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
+    # DoubleBattleStress.lua opens the forced switch's Send Out box on the fainted Pokemon: the
+    # party list's input task, then the box's.
+    "Task_HandleChooseMonInput", "Task_HandleSelectionMenuInput",
     # DefaultBoxCatchMessages.lua: the givecaughtmon step, where "add it to your party?" waits.
     "BattleScript_GiveCaughtMonAfterNick",
     # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and

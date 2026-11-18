@@ -26,7 +26,8 @@
 -- on in dev builds and SELECT there opens the battle debug menu, which edits the battle directly.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/DoubleBattleStress.lua <rom>
--- PW_DBL_ONLY=<text> (runner --env) runs only the scenarios whose name contains <text>.
+-- PW_DBL_ONLY=<text> (runner --env) runs only the scenarios whose name contains <text>, and
+-- PW_DBL_SEED=<n> reseeds the mashes (XORed into each mash case's own seed).
 
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
@@ -35,6 +36,7 @@ local F = require("lib").new(S, "DoubleBattleStress")
 
 local HUB_GROUP = 100
 local ONLY = os.getenv("PW_DBL_ONLY")
+local SEED = tonumber(os.getenv("PW_DBL_SEED") or "0")
 
 local B_DOUBLE, B_TRAINER = 1 << 0, 1 << 3
 local OUT_WON, OUT_LOST, OUT_RAN, OUT_CAUGHT = 1, 2, 4, 7
@@ -791,7 +793,7 @@ F.run(function()
     if not F.check(name .. ": the battle started", cfg.start()) then return end
     F.check(name .. ": it is a double", (F.battleFlags() & B_DOUBLE) ~= 0 and F.battlers() == 4,
       string.format("flags=0x%X battlers=%d", F.battleFlags(), F.battlers()))
-    local seed, seenMenu = cfg.seed, false
+    local seed, seenMenu = cfg.seed ~ SEED, false
     local res, at = drive(name, 40000, {
       gap = 1,
       frame = cfg.assist or assistWin,
@@ -1241,6 +1243,62 @@ F.run(function()
     F.check("both faint: the two Magikarp are still fainted, the bench is not",
       monHp(0) == 0 and monHp(1) == 0 and monHp(2) > 0 and monHp(3) > 0,
       string.format("hp=%d,%d,%d,%d", monHp(0), monHp(1), monHp(2), monHp(3)))
+  end)
+
+  -- The forced switch with its Send Out / Summary / Cancel box opened on the fainted Pokemon, by
+  -- A on the slot the menu opens on. The box takes Down for its own cursor and the list refuses
+  -- B, so the replacement goes out only after the box is closed and the cursor moved.
+  scenario("forced switch from the fainted Pokemon's box", function()
+    ensureParty(function()
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_TACKLE })
+      scriptGiveMon(SPECIES_POOCHYENA, 10, { MOVE_TACKLE })
+    end)
+    fastBattles(true)
+    if not F.check("fainted box: a wild double started", startWildDouble("faintbox", SPECIES_POOCHYENA, 8, SPECIES_ZIGZAGOON, 8)) then return end
+    local live, boxAt, boxDetail, sentAt = false, nil, "", nil
+    local res, at = drive("faintbox", 30000, {
+      frame = function()
+        if not live or not inBattle() then return end
+        if boxAt and not sentAt and partyIndex(0) == 2 then sentAt = emu.framecount() end
+        if emu.framecount() % 5 ~= 0 then return end
+        if partyIndex(0) == 0 and bhp(0) > 1 then setBhp(0, 1) end
+        if partyIndex(0) == 2 and bhp(0) > 0 then setBhp(0, bmax(0)) end
+        if bhp(2) > 0 then setBhp(2, bmax(2)) end
+        for _, b in ipairs({ 1, 3 }) do
+          if not sentAt and bhp(b) > 0 then setBhp(b, bmax(b)) end
+          if sentAt and bhp(b) > 1 then setBhp(b, 1) end
+        end
+      end,
+      stop = function() return boxAt ~= nil and sentAt == nil and emu.framecount() - boxAt > 6000 end,
+      key = function(b, kind, n)
+        if kind == "action" then live = true; return steer(b, 0) end
+        if kind == "move" then return moveTo(b, 0) end
+        if kind == "yesno" then return "A" end
+        if kind ~= "screen" then return fightKey(b, kind, n) end
+        if boxAt == nil and F.cb2() == (S.CB2_UpdatePartyMenu & ~1) then
+          local slot = F.rs8(S.gPartyMenu + PARTY_MENU_SLOT)
+          if F.taskLive(S.Task_HandleSelectionMenuInput) then
+            boxAt = emu.framecount()
+            boxDetail = string.format("slot %d hp %d", slot, monHp(slot))
+            F.shot("faintbox_open")
+          elseif F.taskLive(S.Task_HandleChooseMonInput) then
+            return monHp(slot) == 0 and "A" or nil
+          else
+            return nil
+          end
+        end
+        return partyKey()
+      end,
+    })
+    F.check("fainted box: the Send Out box opened on the fainted Pokemon", boxAt ~= nil and boxDetail:find("hp 0$") ~= nil,
+      boxDetail)
+    F.check("fainted box: the bench Pokemon went out after the box was closed", sentAt ~= nil,
+      sentAt and string.format("%d frames after the box", sentAt - boxAt)
+        or string.format("%s at %d cb2=%08X slot=%d", res, at, F.cb2(), F.rs8(S.gPartyMenu + PARTY_MENU_SLOT)))
+    checkBattleEnd("fainted box", res, at, { OUT_WON })
+    F.check("fainted box: Magikarp is still fainted and the count held", partyCount() == 3 and monHp(0) == 0,
+      string.format("n=%d hp=%d", partyCount(), monHp(0)))
   end)
 
   -- The left Pokemon fainted with nobody to replace it, so the right-hand one throws: the ball

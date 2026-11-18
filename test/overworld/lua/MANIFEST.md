@@ -174,12 +174,13 @@ is clean; keep it that way.
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
 | [`HoennHofHome.lua`](#hoennhofhomelua) | fresh new game | After the Hoenn Hall of Fame, Continue lands outside Brendan's or May's own door; Birch's scene, Mom calling the champion home once, then the S.S. Ticket scene from the front door, the stairs or a whiteout, never in the rival's house. |
+| [`MomCallFromRoute101.lua`](#momcallfromroute101lua) | fresh new game | After the first Hoenn Hall of Fame, a champion who leaves the lab some other way and walks back in from Route 101 still gets Mom's call: she appears once at their own door, the current map stays Littleroot and the camera inside it, and the camera ends on the player. |
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
-| [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map, crosses a map seam while on screen, and the grass grows back after leaving and returning. |
+| [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -3674,6 +3675,29 @@ both house states at 3) and after a whiteout, which respawns the player beside M
 (two checks that need an earlier step are skipped): it lands in the bedroom, and entering by the door
 walks the player off the bottom of the map. With the doorstep landing alone (`1343e33`) the current
 suite scores **77/91**: no call, and the Hall of Fame arms state 3. With Mom's call **91/91**.
+### `MomCallFromRoute101.lua`
+
+Mom's call after the Hoenn Hall of Fame (house state 6) fires the first time the champion has
+control in Littleroot. Birch's scene takes them from the doorstep straight into the lab, so the call
+can wait while they leave another way (the Hub Pass works indoors) and walk back in from Route 101.
+`LittlerootTown_EventScript_MomCallsFromAcrossTown` panned the camera along a fixed path written for
+the lab's door (seven tiles up, then along to the door). From Route 101's entrance at the top of town
+those seven tiles crossed the seam: Route 101 became the current map mid-scene, `addobject` and
+`removeobject` acted on Route 101's local id 4, the camera object (spawned in Littleroot) was no longer
+found so the pan back never ran, and `RemoveCameraObject` left the camera on Route 101 seven rows above
+the player until the next warp. The pan now moves one tile at a time from wherever the player stands,
+along their column to the row below the doors and along that row, and back the same way, so it never
+leaves Littleroot (it costs two frames per tile over the old single movement).
+
+For each gender the suite seeds Littleroot as the intro leaves it, runs the Hall of Fame room's
+ceremony with A presses, continues, lets Birch's scene end in the lab with the call pending, and uses
+a debug warp to Route 101 as the stand-in for leaving through the Hub. The player walks down into town
+(Brendan at x 10, May at x 11). Through the call the current map must stay Littleroot and the camera
+inside it; Mom must appear once at the player's own door; afterwards the house state is 3, the player
+has control and the camera is on the player, and still is one step later. `PW_HOME_ONLY=male|female`
+runs one gender. **Discrimination:** master **15/23** (both genders: the map became Route 101 on the
+21st frame, Mom was never shown, the camera stayed seven rows above the player), fixed **23/23**.
+`HoennHofHome.lua` (the lab's door) stays **91/91**.
 ### `FrostyGrassFieldEffect.lua`
 
 Mt. Silver's snowy map (`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but the rustle
@@ -3762,6 +3786,16 @@ the unfixed ROM (#664's head: every case cut to bare ground, so no stubble lay b
 encounter walk could not run), **183/183** with the change. Tamper control: with Route 101's stubble
 0x02A given `MB_TALL_GRASS` in the ROM, the walk fails "no step on the stubble starts a wild battle"
 (2 battles).
+
+The view edge case (`route120_view_edge`) cuts Route 120's long grass at (25,86), walks with real input
+to (20,81) so the cut's bottom row is the last row of the saved map view, then saves, soft resets and
+continues. Continue reloads the row below the view from the layout and `LoadSavedMapView` repairs it
+with `FixLongGrassMetatilesWindowBottom` (`src/fldeff_cut.c`). That repair still keyed on
+`METATILE_General_Grass`, what Cut left before stubble, so the long grass roots under the cut came back
+(0x208 under the stubble 0x05C, long grass tips hanging under cut ground). It now cuts them again
+exactly as `SetCutGrassMetatiles` does. Every tile in the view and the row below must be what the
+player left. **Discrimination:** the case alone scores 14/15 on master (24..26,88 came back 0x2A9 to
+0x208); the whole suite scores **197/197** with the fix.
 
 ### `DupKeyGiftScenes.lua`
 

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "event_data.h"
 #include "pokedex.h"
+#include "regions.h"
 #include "test/battle.h"
 
 ASSUMPTIONS
@@ -66,6 +67,19 @@ WILD_BATTLE_TEST("Capture: Low level catch bonus apply correcly with all gen con
     }
 }
 
+static void SetCaptureTestBadges(u32 count)
+{
+    enum Region region = GetCurrentRegion();
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        u16 flag = GetBadgeFlag(region, i);
+        if (i < count)
+            FlagSet(flag);
+        else
+            FlagClear(flag);
+    }
+}
+
 WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
 {
     u32 expectedOdds = 0;
@@ -83,13 +97,7 @@ WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
     PARAMETRIZE(expectedOdds = 50, playerLevel = 21, numBadges = 8);
 
     GIVEN {
-        for (u32 j = 0; j < 8; j++)
-        {
-            if (j < numBadges)
-                FlagSet(FLAG_BADGE01_GET + j);
-            else
-                FlagClear(FLAG_BADGE01_GET + j);
-        }
+        SetCaptureTestBadges(numBadges);
         WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_8);
         PLAYER(SPECIES_WOBBUFFET) {Level(playerLevel);}
         OPPONENT(SPECIES_CLEFFA);
@@ -120,13 +128,7 @@ WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 9")
     PARAMETRIZE(expectedOdds = 128, level = 40, numBadges = 0);
 
     GIVEN {
-        for (u32 j = 0; j < 8; j++)
-        {
-            if (j < numBadges)
-                FlagSet(FLAG_BADGE01_GET + j);
-            else
-                FlagClear(FLAG_BADGE01_GET + j);
-        }
+        SetCaptureTestBadges(numBadges);
         WITH_CONFIG(B_MISSING_BADGE_CATCH_MALUS, GEN_9);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_CLEFFA)  {Level(level);};

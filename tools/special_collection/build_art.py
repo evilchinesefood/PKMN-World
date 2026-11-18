@@ -29,6 +29,13 @@ GREEN=(64,160,88,255)
 PINK=(248,136,184,255)
 
 
+def asset_digest(path):
+    data = path.read_bytes()
+    if path.suffix == '.pal':
+        data = data.replace(b'\r\n', b'\n')
+    return hashlib.sha256(data).hexdigest()
+
+
 def palette(path):
     return [tuple(map(int,row.split())) for row in path.read_text().splitlines()[3:19]]
 
@@ -454,7 +461,7 @@ def declarations(entries):
 def main():
     OUT.mkdir(parents=True,exist_ok=True);entries=[build(row) for row in ROWS];declarations(entries)
     for e in entries:
-        e['files']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((OUT/e['key']).iterdir()) if p.suffix in ('.png','.pal')}
+        e['files']={p.name:asset_digest(p) for p in sorted((OUT/e['key']).iterdir()) if p.suffix in ('.png','.pal')}
     (OUT/'manifest.json').write_text(json.dumps(entries,indent=2)+'\n')
     print('Built all seven native collection sprite sets.')
 

@@ -6,21 +6,10 @@ import json
 from pathlib import Path
 from PIL import Image
 
+from build_art import ROWS, asset_digest, colors_for, palette
+
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / 'graphics/pokemon/special_collection'
-VARIANTS = (
-    ('classic_cap', 'ClassicCap', False, False),
-    ('surfboard', 'Surfboard', False, False),
-    ('balloons', 'Balloons', False, False),
-    ('squad', 'Squad', False, False),
-    ('firefighter', 'Firefighter', False, False),
-    ('flower_crown', 'FlowerCrown', False, False),
-    ('pirate', 'Pirate', False, True),
-)
-
-
-def palette_file(path):
-    return [tuple(map(int, row.split())) for row in path.read_text().splitlines()[3:19]]
 
 
 def save_palette(path, colors):
@@ -42,16 +31,6 @@ def fit_cell(sheet, row, col, rows, size):
     result = Image.new('RGBA', (size, size))
     result.alpha_composite(cell, ((size - cell.width) // 2, size - 2 - cell.height))
     return result
-
-
-def colors_for(images):
-    pixels = [pixel[:3] for image in images for pixel in image.getdata() if pixel[3] >= 128]
-    sample = Image.new('RGB', (len(pixels), 1))
-    sample.putdata(pixels)
-    quantized = sample.quantize(colors=15, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
-    palette = quantized.getpalette()
-    colors = [tuple(palette[i:i + 3]) for i in range(0, 45, 3)]
-    return [(0, 0, 0)] + colors
 
 
 def indexed(image, colors):
@@ -82,16 +61,7 @@ def stack(images, horizontal=False):
     return result
 
 
-def best_icon_palette(images):
-    palettes = [palette_file(ROOT / f'graphics/pokemon/icon_palettes/pal{i}.pal') for i in range(6)]
-    pixels = {pixel[:3] for image in images for pixel in image.getdata() if pixel[3] >= 128}
-    def error(colors):
-        return sum(min(sum((rgb[c] - color[c]) ** 2 for c in range(3)) for color in colors[1:]) for rgb in pixels)
-    index = min(range(6), key=lambda i: error(palettes[i]))
-    return index, palettes[index]
-
-
-def import_variant(key, symbol, female, asymmetric):
+def import_variant(key, symbol, base, icon_index, female, asymmetric):
     source = ASSETS / 'source' / f'{key}.png'
     sheet = Image.open(source).convert('RGBA')
     if sheet.getextrema()[3][0] == 255:
@@ -107,7 +77,7 @@ def import_variant(key, symbol, female, asymmetric):
         frames['overworld' + gender] = [fit_cell(sheet, row, col, rows, 32) for row, col in positions]
     battle = colors_for([image for name, images in frames.items() if name.startswith(('anim_', 'back')) for image in images])
     overworld = colors_for([image for name, images in frames.items() if name.startswith('overworld') for image in images])
-    icon_index, icon_colors = best_icon_palette([image for name, images in frames.items() if name.startswith('icon') for image in images])
+    icon_colors = palette(ROOT / f'graphics/pokemon/icon_palettes/pal{icon_index}.pal')
     target = ASSETS / key
     target.mkdir(parents=True, exist_ok=True)
     for name, images in frames.items():
@@ -115,7 +85,7 @@ def import_variant(key, symbol, female, asymmetric):
         indexed(stack(images, name.startswith('overworld')), colors).save(target / f'{name}.png', bits=4, transparency=0)
     save_palette(target / 'normal.pal', battle)
     save_palette(target / 'overworld_normal.pal', overworld)
-    return {'key': key, 'symbol': symbol, 'female': female, 'asymmetric': asymmetric, 'icon_palette': icon_index,
+    return {'key': key, 'symbol': symbol, 'base': base, 'female': female, 'asymmetric': asymmetric, 'icon_palette': icon_index,
             'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(), 'follower_frames': 8 if asymmetric else 6}
 
 
@@ -139,21 +109,23 @@ def declarations(entries):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--key', choices=[v[0] for v in VARIANTS])
+    parser.add_argument('--key', choices=[v[0] for v in ROWS])
     args = parser.parse_args()
-    entries = []
-    for variant in VARIANTS:
-        if args.key is None or variant[0] == args.key:
-            entries.append(import_variant(*variant))
+    manifest = ASSETS / 'manifest.json'
+    entries = {entry['key']: entry for entry in json.loads(manifest.read_text())} if args.key else {}
+    for variant in ROWS:
+        key = variant[0]
+        if args.key is not None and key != args.key:
+            continue
+        entry = import_variant(*variant)
+        entry['files'] = {path.name: asset_digest(path)
+                          for path in sorted((ASSETS / key).iterdir()) if path.suffix in ('.png', '.pal')}
+        entries[key] = entry
     if args.key is None:
-        declarations(entries)
-        # verify_art.py reads these hashes; build_art.py writes the same map.
-        for entry in entries:
-            entry['files'] = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
-                              for path in sorted((ASSETS / entry['key']).iterdir()) if path.suffix in ('.png', '.pal')}
-        (ASSETS / 'manifest.json').write_text(json.dumps(entries, indent=2) + '\n')
+        declarations(entries.values())
     else:
-        print(json.dumps(entries, indent=2))
+        print(json.dumps([entries[args.key]], indent=2))
+    manifest.write_text(json.dumps(list(entries.values()), indent=2) + '\n')
 
 
 if __name__ == '__main__':

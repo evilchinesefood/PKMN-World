@@ -1,4 +1,5 @@
 #include "global.h"
+#include "recorded_battle.h"
 #include "battle.h"
 #include "battle_ai_switch.h"
 #include "battle_ai_util.h"
@@ -122,8 +123,12 @@ static void OpponentBufferRunCommand(enum BattlerId battler)
 {
     if (IsBattleControllerActiveOnLocal(battler))
     {
-        if (gBattleResources->bufferA[battler][0] < ARRAY_COUNT(sOpponentBufferCommands))
-            sOpponentBufferCommands[gBattleResources->bufferA[battler][0]](battler);
+        u32 command = gBattleResources->bufferA[battler][0];
+        // Local recordings use the facility trainer's normal graphics and the recorded opponent's decisions.
+        if (RecordedBattle_IsFrontierPlayback() && RecordedOpponent_TryReplayInput(battler, command))
+            return;
+        if (command < ARRAY_COUNT(sOpponentBufferCommands))
+            sOpponentBufferCommands[command](battler);
         else
             BtlController_Complete(battler);
     }

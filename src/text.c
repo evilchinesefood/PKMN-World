@@ -1051,9 +1051,9 @@ static void PrintGlyph(struct TextPrinter *textPrinter)
         if (textPrinter->minLetterSpacing)
         {
             textPrinter->printerTemplate.currentX += gCurGlyph.width;
-            u32 width = textPrinter->minLetterSpacing - gCurGlyph.width;
-            if (width > 0)
+            if (textPrinter->minLetterSpacing > gCurGlyph.width)
             {
+                u32 width = textPrinter->minLetterSpacing - gCurGlyph.width;
                 ClearTextSpan(textPrinter, width);
                 textPrinter->printerTemplate.currentX += width;
             }
@@ -1950,6 +1950,15 @@ s32 GetGlyphWidth(u16 glyphId, bool32 isJapanese, u8 fontId)
     return func(glyphId, isJapanese);
 }
 
+static u32 GetMeasuredGlyphWidth(u32 glyphWidth, u32 minWidth, u8 fontId, s16 spacing)
+{
+    if (minWidth)
+        return max(glyphWidth, minWidth);
+    if (IsOutlinedFont(fontId))
+        return glyphWidth - (glyphWidth > 0 && glyphWidth < 16);
+    return glyphWidth + spacing;
+}
+
 s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
 {
     bool32 isJapanese;
@@ -2007,27 +2016,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
             while (*bufferPointer != EOS)
             {
                 glyphWidth = func(*bufferPointer++, isJapanese);
-                if (minGlyphWidth > 0)
-                {
-                    if (glyphWidth < minGlyphWidth)
-                        glyphWidth = minGlyphWidth;
-                    lineWidth += glyphWidth;
-                }
-                else
-                {
-                    lineWidth += glyphWidth;
-                    /*
-                    if (isJapanese && str[1] != EOS)
-                        lineWidth += localLetterSpacing;
-                    */
-                    if (str[1] != EOS)
-                    {
-                        if (isJapanese)
-                            lineWidth += localLetterSpacing;
-                        else if (IsOutlinedFont(fontId))
-                            lineWidth--;
-                    }
-                }
+                lineWidth += GetMeasuredGlyphWidth(glyphWidth, minGlyphWidth, fontId, isJapanese && str[1] != EOS ? localLetterSpacing : 0);
             }
             bufferPointer = 0;
             break;
@@ -2089,71 +2078,21 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
             }
             break;
         case CHAR_KEYPAD_ICON:
+            lineWidth += GetKeypadIconWidth(*++str) + (s8)localLetterSpacing;
+            break;
         case CHAR_EXTRA_SYMBOL:
-            if (*str == CHAR_EXTRA_SYMBOL)
-                glyphWidth = func(*++str | 0x100, isJapanese);
-            else
-                glyphWidth = GetKeypadIconWidth(*++str);
-
-            if (minGlyphWidth > 0)
-            {
-                if (glyphWidth < minGlyphWidth)
-                    glyphWidth = minGlyphWidth;
-                lineWidth += glyphWidth;
-            }
-            else
-            {
-                lineWidth += glyphWidth;
-                /*
-                if (isJapanese && str[1] != EOS)
-                    lineWidth += localLetterSpacing;
-                */
-                if (str[1] != EOS)
-                {
-                    if (isJapanese)
-                        lineWidth += localLetterSpacing;
-                    else if (IsOutlinedFont(fontId))
-                        lineWidth--;
-                }
-            }
+            glyphWidth = func(*++str | 0x100, isJapanese);
+            lineWidth += GetMeasuredGlyphWidth(glyphWidth, minGlyphWidth, fontId, isJapanese && str[1] != EOS ? localLetterSpacing : 0);
             break;
         case CHAR_PROMPT_SCROLL:
         case CHAR_PROMPT_CLEAR:
             break;
         default:
             glyphWidth = func(*str, isJapanese);
-            if (minGlyphWidth > 0)
-            {
-                if (glyphWidth < minGlyphWidth)
-                    glyphWidth = minGlyphWidth;
-                lineWidth += glyphWidth;
-            }
-            else
-            {
-                lineWidth += glyphWidth;
-                /*
-                if (isJapanese && str[1] != EOS)
-                    lineWidth += localLetterSpacing;
-                */
-                if (str[1] != EOS)
-                {
-                    if (isJapanese)
-                        lineWidth += localLetterSpacing;
-                    else if (IsOutlinedFont(fontId))
-                        lineWidth--;
-                }
-            }
+            lineWidth += GetMeasuredGlyphWidth(glyphWidth, minGlyphWidth, fontId, isJapanese && str[1] != EOS ? localLetterSpacing : 0);
             break;
         }
         ++str;
-    }
-
-    // decrement the last character width as well
-    if (IsOutlinedFont(fontId))
-    {
-        lineWidth--;
-        if (width)
-            width--;
     }
 
     if (lineWidth > width)
@@ -2799,7 +2738,7 @@ static void DecompressGlyph_Outlined(u16 glyphId, bool32 isJapanese)
 
 static u32 GetGlyphWidth_Outlined(u16 glyphId, bool32 isJapanese)
 {
-    return isJapanese ? 8 : gFontOutlinedLatinGlyphWidths[glyphId];
+    return gFontOutlinedLatinGlyphWidths[glyphId];
 }
 
 static void DecompressGlyph_OutlinedNarrow(u16 glyphId, bool32 isJapanese)
@@ -2826,7 +2765,7 @@ static void DecompressGlyph_OutlinedNarrow(u16 glyphId, bool32 isJapanese)
 
 static u32 GetGlyphWidth_OutlinedNarrow(u16 glyphId, bool32 isJapanese)
 {
-    return isJapanese ? 8 : gFontOutlinedNarrowLatinGlyphWidths[glyphId];
+    return gFontOutlinedNarrowLatinGlyphWidths[glyphId];
 }
 
 static void DecompressGlyph_BattleUIElements(u16 glyphId, bool32 isJapanese)

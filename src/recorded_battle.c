@@ -2,6 +2,7 @@
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
+#include "battle_gfx_sfx_util.h"
 #include "recorded_battle.h"
 #include "main.h"
 #include "pokemon.h"
@@ -37,9 +38,12 @@ EWRAM_DATA rng_value_t gRecordedBattleRngSeed = RNG_VALUE_EMPTY;
 EWRAM_DATA rng_value_t gBattlePalaceMoveSelectionRngValue = RNG_VALUE_EMPTY;
 EWRAM_DATA static u8 sBattleRecords[MAX_BATTLERS_COUNT][BATTLER_RECORD_SIZE] = {0};
 EWRAM_DATA static u16 sBattlerRecordSizes[MAX_BATTLERS_COUNT] = {0};
+EWRAM_DATA static u32 sDroppedRecordBytes[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA static u16 sBattlerPrevRecordSizes[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA static u16 sBattlerSavedRecordSizes[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA static u8 sRecordMode = 0;
+EWRAM_DATA static bool8 sUseTurnSeeds = FALSE;
+EWRAM_DATA static rng_value_t sTurnSeeds = RNG_VALUE_EMPTY;
 EWRAM_DATA static u8 sLvlMode = 0;
 EWRAM_DATA static u8 sFrontierFacility = 0;
 EWRAM_DATA static u8 sFrontierBrainSymbol = 0;
@@ -81,6 +85,7 @@ void RecordedBattle_Init(u8 mode)
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
         sBattlerRecordSizes[i] = 0;
+        sDroppedRecordBytes[i] = 0;
         sBattlerPrevRecordSizes[i] = 0;
         sBattlerSavedRecordSizes[i] = 0;
 
@@ -101,6 +106,8 @@ void RecordedBattle_SetTrainerInfo(void)
     if (sRecordMode == B_RECORD_MODE_RECORDING)
     {
         gRecordedBattleRngSeed = gRngValue;
+        sUseTurnSeeds = (gBattleTypeFlags & (BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_DOME | BATTLE_TYPE_PALACE | BATTLE_TYPE_ARENA | BATTLE_TYPE_FACTORY))
+                     && !(gBattleTypeFlags & BATTLE_TYPE_LINK);
         sFrontierFacility = VarGet(VAR_FRONTIER_FACILITY);
         sFrontierBrainSymbol = GetFronterBrainSymbol();
     }
@@ -108,6 +115,7 @@ void RecordedBattle_SetTrainerInfo(void)
     {
         gRngValue = gRecordedBattleRngSeed;
     }
+    sTurnSeeds = gRecordedBattleRngSeed;
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
@@ -153,23 +161,91 @@ void RecordedBattle_SetTrainerInfo(void)
     }
 }
 
+void RecordedBattle_StartTurnActions(void)
+{
+    // The live AI and the player's menu timing consume RNG that playback never sees.
+    if (sUseTurnSeeds)
+        gRngValue = LocalRandomSeed(LocalRandom32(&sTurnSeeds));
+}
+
+bool32 RecordedBattle_IsFrontierPlayback(void)
+{
+    return (gBattleTypeFlags & BATTLE_TYPE_RECORDED) && sUseTurnSeeds;
+}
+
+// Legacy Palace recordings stored only the action and recomputed the move on playback.
+bool32 RecordedBattle_UsesLegacyPalaceMoves(void)
+{
+    return (gBattleTypeFlags & BATTLE_TYPE_PALACE) && !sUseTurnSeeds;
+}
+
+#define RECORDED_PALACE_UNABLE (1 << 7)
+
+void RecordedBattle_SetMove(enum BattlerId battler, u8 moveSlot, u8 target)
+{
+    if (RecordedBattle_UsesLegacyPalaceMoves())
+        return;
+    if ((gBattleTypeFlags & BATTLE_TYPE_PALACE) && gProtectStructs[battler].palaceUnableToUseMove)
+        target |= RECORDED_PALACE_UNABLE;
+    RecordedBattle_SetBattlerAction(battler, moveSlot);
+    RecordedBattle_SetBattlerAction(battler, target);
+}
+
+u16 RecordedBattle_GetMove(enum BattlerId battler)
+{
+    if (RecordedBattle_UsesLegacyPalaceMoves())
+        return ChooseMoveAndTargetInBattlePalace(battler);
+
+    u8 moveSlot = RecordedBattle_GetBattlerAction(RECORDED_MOVE_SLOT, battler);
+    u8 target = RecordedBattle_GetBattlerAction(RECORDED_MOVE_TARGET, battler);
+    if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
+    {
+        gProtectStructs[battler].palaceUnableToUseMove = (target & RECORDED_PALACE_UNABLE) != 0;
+        target &= ~RECORDED_PALACE_UNABLE;
+    }
+    return moveSlot | (target << 8);
+}
+
+void RecordedBattle_StopPlayback(void)
+{
+    gSpecialVar_Result = gBattleOutcome = B_OUTCOME_PLAYER_TELEPORTED;
+    gMain.callback1 = NULL;
+    ResetPaletteFadeControl();
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+    SetMainCallback2(CB2_QuitRecordedBattle);
+}
+
 void RecordedBattle_SetBattlerAction(enum BattlerId battler, u8 action)
 {
-    if (sBattlerRecordSizes[battler] < BATTLER_RECORD_SIZE && sRecordMode != B_RECORD_MODE_PLAYBACK)
+    if (sRecordMode == B_RECORD_MODE_PLAYBACK)
+        return;
+    if (sBattlerRecordSizes[battler] < BATTLER_RECORD_SIZE)
         sBattleRecords[battler][sBattlerRecordSizes[battler]++] = action;
+    else if (sUseTurnSeeds)
+        sDroppedRecordBytes[battler]++;
 }
 
 void RecordedBattle_ClearBattlerAction(enum BattlerId battler, u8 bytesToClear)
 {
-    s32 i;
-
-    for (i = 0; i < bytesToClear; i++)
+    // A cancelled selection may include bytes that did not fit after the last saved byte.
+    u32 dropped = min(bytesToClear, sDroppedRecordBytes[battler]);
+    sDroppedRecordBytes[battler] -= dropped;
+    bytesToClear -= dropped;
+    while (bytesToClear > 0 && sBattlerRecordSizes[battler] > 0)
     {
-        sBattlerRecordSizes[battler]--;
-        sBattleRecords[battler][sBattlerRecordSizes[battler]] = 0xFF;
-        if (sBattlerRecordSizes[battler] == 0)
-            break;
+        sBattleRecords[battler][--sBattlerRecordSizes[battler]] = 0xFF;
+        bytesToClear--;
     }
+}
+
+bool32 RecordedBattle_IsIncomplete(void)
+{
+    for (u32 i = 0; i < MAX_BATTLERS_COUNT; i++)
+    {
+        if (sDroppedRecordBytes[i] != 0)
+            return TRUE;
+    }
+    return FALSE;
 }
 
 u8 RecordedBattle_GetBattlerAction(u32 actionType, enum BattlerId battler)
@@ -180,10 +256,7 @@ u8 RecordedBattle_GetBattlerAction(u32 actionType, enum BattlerId battler)
     // Trying to read past array or invalid action byte, battle is over.
     if (sBattlerRecordSizes[battler] >= BATTLER_RECORD_SIZE || sBattleRecords[battler][sBattlerRecordSizes[battler]] == 0xFF)
     {
-        gSpecialVar_Result = gBattleOutcome = B_OUTCOME_PLAYER_TELEPORTED; // hah
-        ResetPaletteFadeControl();
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-        SetMainCallback2(CB2_QuitRecordedBattle);
+        RecordedBattle_StopPlayback();
         return B_ACTION_NONE;
     }
     else
@@ -293,6 +366,9 @@ bool32 MoveRecordedBattleToSaveData(void)
     struct RecordedBattleSave *battleSave, *savSection;
     u8 saveAttempts;
 
+    if (RecordedBattle_IsIncomplete())
+        return FALSE;
+
     saveAttempts = 0;
     battleSave = AllocZeroed(sizeof(struct RecordedBattleSave));
     savSection = AllocZeroed(SECTOR_SIZE);
@@ -315,6 +391,7 @@ bool32 MoveRecordedBattleToSaveData(void)
     }
 
     battleSave->rngSeed = gRecordedBattleRngSeed;
+    battleSave->useTurnSeeds = sUseTurnSeeds;
 
     if (sBattleFlags & BATTLE_TYPE_LINK)
     {
@@ -526,6 +603,7 @@ void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
     }
 
     gRecordedBattleRngSeed = src->rngSeed;
+    sUseTurnSeeds = src->useTurnSeeds;
     gBattleTypeFlags = src->battleFlags | BATTLE_TYPE_RECORDED;
     TRAINER_BATTLE_PARAM.opponentA = src->opponentA;
     TRAINER_BATTLE_PARAM.opponentB = src->opponentB;
@@ -669,7 +747,7 @@ void RecordedBattle_CheckMovesetChanges(u8 mode)
 {
     s32 j, k;
 
-    if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+    if (mode != sRecordMode || gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
         return;
 
     for (enum BattlerId battler = 0; battler < gBattlersCount; battler++)
@@ -704,7 +782,7 @@ void RecordedBattle_CheckMovesetChanges(u8 mode)
             }
             else // B_RECORD_MODE_PLAYBACK
             {
-                if (sBattleRecords[battler][sBattlerRecordSizes[battler]] == ACTION_MOVE_CHANGE)
+                if (sBattlerRecordSizes[battler] < BATTLER_RECORD_SIZE && sBattleRecords[battler][sBattlerRecordSizes[battler]] == ACTION_MOVE_CHANGE)
                 {
                     u8 ppBonuses[MAX_MON_MOVES];
                     u8 moveSlots[MAX_MON_MOVES];
@@ -722,6 +800,11 @@ void RecordedBattle_CheckMovesetChanges(u8 mode)
                     for (j = 0; j < MAX_MON_MOVES; j++)
                     {
                         moveSlots[j] = RecordedBattle_GetBattlerAction(RECORDED_BYTE, battler);
+                        if (moveSlots[j] >= MAX_MON_MOVES)
+                        {
+                            RecordedBattle_StopPlayback();
+                            return;
+                        }
                         movePP.moves[j] = gBattleMons[battler].moves[moveSlots[j]];
                         movePP.currentPP[j] = gBattleMons[battler].pp[moveSlots[j]];
                         movePP.maxPP[j] = ppBonuses[moveSlots[j]];

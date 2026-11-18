@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
@@ -54,13 +55,14 @@ def source_snapshot(destination):
     for name in names:
         source = ROOT / name
         tree.update(name.encode() + b'\0')
+        if source.is_symlink():
+            raise ValueError(f'source snapshot refuses symbolic link: {name}')
         if not source.exists():
             missing.append(name)
             tree.update(b'deleted\0')
             continue
-        if source.is_symlink():
-            raise ValueError(f'source snapshot refuses symbolic link: {name}')
         data = source.read_bytes()
+        tree.update(stat.S_IMODE(source.stat().st_mode).to_bytes(2, 'big'))
         tree.update(hashlib.sha256(data).digest())
         target = destination / name
         target.parent.mkdir(parents=True, exist_ok=True)

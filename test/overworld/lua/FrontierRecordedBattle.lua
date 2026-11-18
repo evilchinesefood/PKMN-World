@@ -13,6 +13,8 @@
 -- Battle Record and plays the record: both leads at the start of playback must be the ones that
 -- fought, and playback must return to the Frontier Pass.
 --
+-- Passing --env PW_CASE=palace checks the autonomous move and target chosen in the first Palace battle.
+-- Passing --env PW_CASE=factory records the second Factory battle after swapping the lead rental for the first opponent.
 -- Run via: test/overworld/mgba-run.sh test/overworld/lua/FrontierRecordedBattle.lua <rom.gba>
 
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
@@ -20,7 +22,16 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "FrontierRecordedBattle")
 
-local FRONTIER, ARENA = 26, 28
+local FRONTIER = 26
+local facility = os.getenv("PW_CASE") or "arena"
+local palace, factory = facility == "palace", facility == "factory"
+local cases = {
+  arena = { lobby = 28, bout = 7, attendant = { { 7, 11 }, { 7, 8 } } },
+  palace = { lobby = 22, bout = 1, attendant = { { 12, 10 }, { 5, 10 }, { 5, 7 } } },
+  factory = { lobby = 31, bout = 2, attendant = { { 9, 9 }, { 4, 9 }, { 4, 8 } } },
+}
+local case = assert(cases[facility], "Unknown recording case: " .. facility)
+local rentals = require("frontier_rentals")
 local FLAG_SYS_FRONTIER_PASS = 0x948 + 0x72
 local USM_ICO_TRAINER = 5
 
@@ -121,29 +132,57 @@ local function settleLeads()
 end
 
 local function steerBattle(f, honest)
-  if honest then
-    if f % 20 == 0 then
-      if (F.r32(S.gBattlerControllerFuncs) & ~1) == (S.HandleInputChooseMove & ~1) then
-        F.press("Up", 2); F.idle(4); F.press("Left", 2); F.idle(4)
-      end
-      F.press("A", 2)
-    else F.idle(1) end
-    return
+  if not honest then
+    for b = 1, 3, 2 do
+      local a = S.gBattleMons + b * S.BattlePokemon.size
+      if F.r16(a + S.BattlePokemon.hp) > 1 then F.w16(a + S.BattlePokemon.hp, 1) end
+    end
+    local a = S.gBattleMons
+    local mx = F.r16(a + S.BattlePokemon.maxHP)
+    if F.r16(a + S.BattlePokemon.hp) > 0 and mx > 0 then F.w16(a + S.BattlePokemon.hp, mx) end
   end
-  for b = 1, 3, 2 do
-    local a = S.gBattleMons + b * S.BattlePokemon.size
-    if F.r16(a + S.BattlePokemon.hp) > 1 then F.w16(a + S.BattlePokemon.hp, 1) end
-  end
-  local a = S.gBattleMons
-  local mx = F.r16(a + S.BattlePokemon.maxHP)
-  if F.r16(a + S.BattlePokemon.hp) > 0 and mx > 0 then F.w16(a + S.BattlePokemon.hp, mx) end
   if f % 20 ~= 0 then F.idle(1); return end
   if (F.r32(S.gBattlerControllerFuncs) & ~1) == (S.HandleInputChooseMove & ~1) then
-    local slot = (f // 20) % 2
+    local slot = 0
+    if factory then
+      slot = (f // 20) % 4
+    elseif not honest then
+      slot = (f // 20) % 2
+    end
     F.press("Up", 2); F.idle(4); F.press("Left", 2); F.idle(4)
-    if slot == 1 then F.press("Right", 2); F.idle(4) end
+    if slot % 2 == 1 then F.press("Right", 2); F.idle(4) end
+    if slot >= 2 then F.press("Down", 2); F.idle(4) end
   end
   F.press("A", 2)
+end
+
+local trace
+local frameadvance = emu.frameadvance
+emu.frameadvance = function()
+  if trace and cb(S.CB2_QuitRecordedBattle) then trace.quit = true end
+  if trace and inBattle() then
+    local ordering = (F.r32(S.gBattleMainFunc) & ~1) == S.SetActionsAndBattlersTurnOrder
+    if ordering and not trace.ordering then
+      local p = S.gBattleMons
+      local e = p + S.BattlePokemon.size
+      if palace then
+        local flags = S.ProtectStruct
+        local unable = F.r16(S.gProtectStructs) & flags.palaceUnableToUseMove
+        local foeUnable = F.r16(S.gProtectStructs + flags.size) & flags.palaceUnableToUseMove
+        trace.choices[#trace.choices + 1] = string.format("%d:%d/%d:%d", F.r16(S.gChosenMoveByBattler), unable,
+          F.r16(S.gChosenMoveByBattler + 2), foeUnable)
+      elseif factory then
+        trace.choices[#trace.choices + 1] = string.format("%d/%d", F.r16(S.gChosenMoveByBattler),
+          F.r16(S.gChosenMoveByBattler + 2))
+      end
+      trace[#trace + 1] = string.format("%d:%d/%d:%d", F.r16(p), F.r16(p + S.BattlePokemon.hp),
+        F.r16(e), F.r16(e + S.BattlePokemon.hp))
+    end
+    trace.ordering = ordering
+    local outcome = F.r8(S.gBattleOutcome)
+    if #trace > 0 and outcome ~= 0 then trace.outcome = outcome end
+  end
+  return frameadvance()
 end
 
 F.run(function()
@@ -151,41 +190,69 @@ F.run(function()
   giveMon(6, { 53, 89 }); giveMon(9, { 57, 58 }); giveMon(3, { 202, 89 }); giveMon(25, { 85 })
   F.check("four Pokemon in the party", F.r8(S.gPartiesCount) == 4, "n=" .. F.r8(S.gPartiesCount))
   setFlag(FLAG_SYS_FRONTIER_PASS)
-  assert(F.warpTo(0, 2, 6, 0, 2, 8, 0, 0, 0, FRONTIER, ARENA, "arena"), "Arena warp failed")
+  local lobby, bout = case.lobby, case.bout
+  assert(F.warpTo(0, 2, 6, 0, lobby // 10, lobby % 10, 0, 0, 0, FRONTIER, lobby, "lobby"), "lobby warp failed")
   F.idle(60)
-  F.check("walked to the Arena attendant", F.route({ { 7, 11 }, { 7, 8 } }, "attendant"))
+  F.check("walked to the facility attendant", F.route(case.attendant, "attendant"))
   F.face("Up"); F.press("A", 2); F.idle(30)
-  F.check("took the Lv. 50 challenge with Venusaur, Blastoise, Charizard",
-    menu(0, "challenge") and menu(0, "lv50") and pickReversed() and menu(0, "save"))
+  F.check("took the Lv. 50 challenge",
+    menu(0, "challenge") and menu(0, "lv50") and (factory or pickReversed()) and menu(0, "save"))
 
+  local original, playback = { choices = {} }, { choices = {} }
   local battles, inB, last, ended = 0, false, nil, false
+  local tradeSpecies
   for f = 1, 120000 do
     if F.reportCrash("challenge_" .. f) then break end
-    if inBattle() then
+    if factory and cb(S.CB2_SelectScreen) then
+      rentals.rentThree(F)
+    elseif factory and cb(S.Swap_CB2) then
+      rentals.swapFirst(F)
+    elseif inBattle() then
       if not inB then
         inB, battles = true, battles + 1
-        if battles == 7 then last = settleLeads(); F.L("  seventh battle: " .. fmt(last)) end
+        if battles == bout then trace = original; last = settleLeads(); F.L("  recorded battle: " .. fmt(last)) end
       end
-      steerBattle(f, battles == 7)
+      if factory and battles == 1 and not tradeSpecies then
+        local foe = S.gBattleMons + S.BattlePokemon.size
+        if F.r16(foe + S.BattlePokemon.hp) > 0 then tradeSpecies = F.r16(foe) end
+      end
+      steerBattle(f, battles == bout)
     elseif inPartyMenu() then
-      F.idle(60); F.press("Down", 2); F.idle(30); F.press("A", 2); F.idle(40); F.press("A", 2); F.idle(60)
+      F.idle(60)
+      for slot = 1, 2 do
+        if F.r16(S.gParties + slot * S.Pokemon.size + S.Pokemon.hp) > 0 then
+          for _ = 1, 6 do
+            if F.rs8(S.gPartyMenu + 9) == slot then break end
+            F.press("Down", 2); F.idle(12)
+          end
+          F.press("A", 2); F.idle(40); F.press("A", 2); F.idle(60)
+          break
+        end
+      end
     else
       if inB and F.ow() then inB = false end
       if liveMenu() then
-        F.idle(20); choose(0)   -- Go On between battles, Yes to the record prompt
+        F.idle(20)
+        local lastOption = F.r8(S.sMenu + S.Menu.maxCursorPos)
+        -- After the tested bout, return to the lobby to save its record.
+        choose((palace or factory) and battles == bout and lastOption >= 2 and lastOption or 0)
       elseif f % 30 == 0 then
         F.press("A", 2)
       else
         F.idle(1)
       end
-      if battles >= 7 and F.grp() == FRONTIER and F.mapn() == ARENA and F.ow() and scriptIdle() and not liveMenu() then
+      if battles >= bout and F.grp() == FRONTIER and F.mapn() == lobby and F.ow() and scriptIdle() and not liveMenu() then
         F.idle(240)
         if scriptIdle() and not liveMenu() then ended = true; break end
       end
     end
   end
-  F.check("fought seven battles and came back to the lobby", ended and battles == 7, "battles=" .. battles)
-  F.check("the seventh battle led with Venusaur", last ~= nil and last.player.species == 3, last and fmt(last) or "none")
+  trace = nil
+  F.check("completed the expected battle and came back to the lobby", ended and battles == bout, "battles=" .. battles)
+  local expectedLead = 3
+  if factory then expectedLead = tradeSpecies end
+  F.check(factory and "the traded rental led the recorded battle" or "the recorded battle led with Venusaur",
+    last ~= nil and last.player.species == expectedLead, last and fmt(last) or "none")
   if not last then F.finish(); return end
 
   F.press("Start", 2); F.idle(60)
@@ -199,7 +266,8 @@ F.run(function()
   F.press("A", 2)
 
   local played, back = nil, false
-  for f = 1, 30000 do
+  trace = playback
+  for f = 1, (factory and 150000 or 30000) do
     if F.reportCrash("playback_" .. f) then break end
     if not played and inBattle() then
       played = settleLeads()
@@ -208,11 +276,12 @@ F.run(function()
     end
     if played and not inBattle() and f % 60 == 0 then
       F.idle(240)
-      back = not inBattle() and not F.ow()
+      back = cb(S.CB2_FrontierPass)
       break
     end
     F.idle(1)
   end
+  trace = nil
   F.shot("after_playback")
   F.check("the record plays", played ~= nil)
   F.check("playback leads with the Pokemon that fought", played ~= nil and played.player.species == last.player.species
@@ -220,6 +289,18 @@ F.run(function()
   F.check("playback's opponent is the one that fought", played ~= nil and played.foe.species == last.foe.species
     and played.foe.maxHP == last.foe.maxHP and last.foe.species ~= 0, played and fmt(played) or "no playback")
   F.check("playback returns to the Frontier Pass", back, string.format("cb2=%08X", F.cb2()))
+  F.check("the same Pokemon and HP start every recorded turn",
+    #original > 0 and table.concat(original, ",") == table.concat(playback, ","),
+    table.concat(original, ",") .. " vs " .. table.concat(playback, ","))
+  if palace or factory then
+    F.check(palace and "the Palace keeps both selected moves and inability flags on every turn"
+      or "the Factory replays both trainers' chosen moves on every turn",
+      #original.choices > 0 and table.concat(original.choices, ",") == table.concat(playback.choices, ","),
+      table.concat(original.choices, ",") .. " vs " .. table.concat(playback.choices, ","))
+  end
+  F.check("the replay ends with the original battle outcome",
+    not playback.quit and (original.outcome == 1 or original.outcome == 2 or original.outcome == 3) and original.outcome == playback.outcome,
+    tostring(original.outcome) .. " vs " .. tostring(playback.outcome) .. (playback.quit and " (quit)" or ""))
   F.check("no crash screen", not F.crashScreen())
   F.finish()
 end)

@@ -369,7 +369,6 @@ static void AddHatchedMonToParty(u8 id)
     enum NationalDexOrder nationalDexNum;
     u8 name[POKEMON_NAME_LENGTH + 1];
     u16 metLevel;
-    metloc_u8_t metLocation;
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][id];
 
     CreateHatchedMon(mon, &gParties[B_TRAINER_OPPONENT_A][0]);
@@ -388,14 +387,6 @@ static void AddHatchedMonToParty(u8 id)
     // A met level of 0 is interpreted on the summary screen as "hatched at"
     metLevel = 0;
     SetMonData(mon, MON_DATA_MET_LEVEL, &metLevel);
-
-    {
-        mapsec_u8_t rawMapSec = GetCurrentRegionMapSectionId(); // mapsec_u8_t is a u16
-        // task 18a: u8 metLocation can't hold a MAPSEC >= 256 (Mt Silver 259, Tohjo Falls 263...);
-        // truncation would show a wrong town, so store one neutral sentinel for those areas.
-        metLocation = (rawMapSec > 0xFF) ? MAPSEC_SPECIAL_AREA : rawMapSec;
-    }
-    SetMonData(mon, MON_DATA_MET_LOCATION, &metLocation);
 
     MonRestorePP(mon);
     CalculateMonStats(mon);

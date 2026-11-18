@@ -171,6 +171,9 @@ F.run(function()
   if not F.boot(100) then F.check("boot", false); F.finish(); return end
   instantText(); fastBattles()
   F.dbg(); F.idle(30); F.bOut(4)
+  local badge = 0x956 -- Hoenn BADGE08_GET makes the level-80 party obey in the hub.
+  local badgeByte = F.sb1() + S.SaveBlock1.flags + badge // 8
+  F.w8(badgeByte, F.r8(badgeByte) | (1 << (badge % 8)))
   clearParty()
   F.check("setup: two Pokemon", giveMon(SPECIES_MEWTWO, 80, { MOVE_PSYCHIC, MOVE_SPLASH })
     and giveMon(SPECIES_MEWTWO, 80, { MOVE_PSYCHIC, MOVE_SPLASH }))
@@ -206,7 +209,9 @@ F.run(function()
     string.format("start=%d after rounds=%s", balls0, table.concat(grew, ",")))
 
   -- Control: a Potion on the hurt left Pokemon is taken by the Bag, so the cancel gives it back.
-  F.w16(S.gBattleMons + BM.hp, bhp(0) // 2)
+  local injuredHp = bhp(0) // 2
+  F.w16(S.gBattleMons + BM.hp, injuredHp)
+  F.w16(S.gParties + S.Pokemon.hp, injuredHp)
   local pot0 = qty(ITEM_POTION)
   local ok = useFromBag("potion", POCKET_ITEMS, true)
   F.check("control: the Potion was accepted", ok)

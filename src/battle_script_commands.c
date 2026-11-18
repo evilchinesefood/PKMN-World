@@ -4992,7 +4992,14 @@ static void Cmd_getswitchedmondata(void)
         return;
 
     enum BattleTrainer trainer = GetBattlerTrainer(battler);
-    assertf(IsValidSwitchIn(trainer, gBattleStruct->monToSwitchIntoId[battler]))
+    bool32 validSwitch = IsValidSwitchIn(trainer, gBattleStruct->monToSwitchIntoId[battler]);
+    if (!validSwitch && (gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !gTestRunnerEnabled)
+    {
+        RecordedBattle_StopPlayback();
+        return;
+    }
+
+    assertf(validSwitch)
     {
         gBattleStruct->monToSwitchIntoId[battler] = GetArbitraryValidSwitchIn(trainer);
     }
@@ -7042,7 +7049,8 @@ static void Cmd_tryhealhalfhealth(void)
     if (cmd->battler == BS_ATTACKER)
         gBattlerTarget = gBattlerAttacker;
 
-    SetHealAmount(gBattlerTarget, GetNonDynamaxMaxHP(gBattlerTarget) / 2);
+    u32 maxHp = GetNonDynamaxMaxHP(gBattlerTarget);
+    SetHealAmount(gBattlerTarget, (maxHp + (B_UPDATED_MOVE_DATA >= GEN_5)) / 2);
     if (gBattleMons[gBattlerTarget].hp == gBattleMons[gBattlerTarget].maxHP)
         gBattlescriptCurrInstr = failInstr;
     else

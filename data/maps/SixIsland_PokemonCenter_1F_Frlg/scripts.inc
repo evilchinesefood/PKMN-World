@@ -85,12 +85,11 @@ SixIsland_PokemonCenter_1F_Text_SomethingHiddenOnThisIsland::
 	.string "something hidden on this island.$"
 
 SixIsland_PokemonCenter_1F_Text_SomeMonsEvolveByTradingWithHeldItem::
-	.string "You know of POKéMON that evolve\n"
-	.string "only upon trading, yes?\p"
-	.string "But did you know that there are\n"
-	.string "still others?\p"
-	.string "Some POKéMON evolve only when\n"
-	.string "traded while holding specific items.$"
+	.string "Have you tried using a LINKING\n"
+	.string "CORD on a KADABRA?\p"
+	.string "It'll evolve into ALAKAZAM!\p"
+	.string "You can do the same with ONIX.\n"
+	.string "Use a METAL COAT instead.$"
 
 SixIsland_PokemonCenter_1F_Text_RivalImpossibleToGetAllMonsAroundHere::
 	.string "{RIVAL}: Hey, {PLAYER}!\n"

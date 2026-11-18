@@ -270,7 +270,7 @@ endif
 LEARNSET_HELPERS_DIR := $(TOOLS_DIR)/learnset_helpers
 LEARNSET_HELPERS_DATA_DIR := $(LEARNSET_HELPERS_DIR)/porymoves_files
 LEARNSET_HELPERS_BUILD_DIR := $(LEARNSET_HELPERS_DIR)/build
-ALL_LEARNABLES_JSON := $(DATA_SRC_SUBDIR)/pokemon/all_learnables.json
+ALL_LEARNABLES_JSON := $(LEARNSET_HELPERS_BUILD_DIR)/all_learnables.json
 ALL_TUTORS_JSON := $(LEARNSET_HELPERS_BUILD_DIR)/all_tutors.json
 ALL_TEACHING_TYPES_JSON := $(LEARNSET_HELPERS_BUILD_DIR)/all_teaching_types.json
 
@@ -298,7 +298,7 @@ MAKEFLAGS += --no-print-directory
 # Delete files that weren't built properly
 .DELETE_ON_ERROR:
 
-RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidycheck tidyrelease generated clean-generated clean-teachables clean-teachables_intermediates
+RULES_NO_SCAN += validate libagbsyscall clean clean-assets tidy tidymodern tidycheck tidyrelease generated clean-generated clean-teachables clean-teachables_intermediates
 .PHONY: all rom agbcc modern check validate obstacles debug release symbols
 .PHONY: $(RULES_NO_SCAN)
 
@@ -471,36 +471,7 @@ check: $(TESTELF)
 # fails when a mart sells one that does not: Gen 4+ families are stripped, yet four marts sold the
 # Dusk Stone, Electirizer and Oval Stone. A dead item with a held battle effect is only a warning.
 validate:
-	python3 test/overworld/ValidateRegionalCenters.py
-	python3 test/overworld/TestRegionalTravelMigration.py
-	python3 test/overworld/TestFamilyOptionsMigration.py
-	python3 test/overworld/TestXRegionSaveRepair.py
-	python3 test/overworld/MakeRegionalTravelFixture.py --check
-	python3 test/overworld/story-progress/run.py
-	python3 test/overworld/ValidateGen13.py
-	python3 test/overworld/ValidateScripts.py
-	python3 test/overworld/ValidateOwMonPlacements.py
-	python3 test/overworld/ValidateMapEvents.py
-	python3 test/overworld/ValidateMetatileBounds.py
-	python3 test/overworld/ValidateBorderTerrain.py
-	python3 test/overworld/ValidateReachability.py
-	python3 test/overworld/ValidateAmbientBlockers.py
-	python3 test/overworld/GenObstacleTable.py --check
-	python3 test/overworld/SavePatch.py --check
-	python3 test/overworld/ValidateDoorAnims.py --max 0
-	python3 test/overworld/ValidateTilesetPalettes.py
-	python3 test/overworld/HnsMetatileBehaviors.py
-	python3 test/overworld/ValidateCelioGifts.py
-	python3 test/overworld/ValidateGreedyGifts.py
-	python3 test/overworld/ValidateRegionMap.py
-	python3 test/overworld/ValidateLanceMultiBattle.py
-	python3 test/overworld/ValidateZoneStructure.py
-	python3 test/overworld/ValidateRegionText.py
-	python3 test/overworld/ValidateConfigRules.py
-	python3 test/overworld/ValidateDeadEvoItems.py
-	python3 test/overworld/TestVerificationModes.py
-	python3 test/overworld/ValidateRoute41Surf.py
-	python3 test/overworld/ValidateTilesetAnimBounds.py
+	python3 test/validate-host.py
 
 # Regenerate the committed cut-tree / smashable-rock index table from data/maps/ (issue #16).
 # The outputs are COMMITTED, not build artifacts: the array index IS the save bit index, so the
@@ -632,7 +603,6 @@ clean-generated: clean-teachables_intermediates
 	@echo "rm -f <AUTO_GEN_TARGETS>"
 
 clean-teachables: clean-teachables_intermediates
-	rm -f $(ALL_LEARNABLES_JSON)
 	@touch $(C_SUBDIR)/pokemon.c
 
 $(C_BUILDDIR)/librfu_intr.o: CFLAGS := -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast
@@ -756,19 +726,24 @@ TEACHABLE_DEPS := $(ALL_LEARNABLES_JSON) $(INCLUDE_DIRS)/constants/tms_hms.h $(I
 $(LEARNSET_HELPERS_BUILD_DIR):
 	@mkdir -p $@
 
-$(ALL_LEARNABLES_JSON):
+$(ALL_LEARNABLES_JSON): $(wildcard $(LEARNSET_HELPERS_DATA_DIR)/*.json) $(LEARNSET_HELPERS_DATA_DIR) $(LEARNSET_HELPERS_DIR)/make_learnables.py | $(LEARNSET_HELPERS_BUILD_DIR)
 	python3 $(LEARNSET_HELPERS_DIR)/make_learnables.py $(LEARNSET_HELPERS_DATA_DIR) $@
 
-$(ALL_TUTORS_JSON): $(shell find data/ -type f -name '*.inc')  $(LEARNSET_HELPERS_DIR)/make_tutors.py | $(LEARNSET_HELPERS_BUILD_DIR)
+# Directory mtimes catch removed scripts and newly added map folders.
+TUTOR_SCRIPT_DIRS := data/scripts data/maps $(wildcard data/maps/*/)
+TUTOR_SCRIPTS := $(wildcard data/scripts/*.inc data/maps/*/scripts.inc)
+SPECIES_INFO_DIR := $(DATA_SRC_SUBDIR)/pokemon/species_info
+
+$(ALL_TUTORS_JSON): $(TUTOR_SCRIPT_DIRS) $(TUTOR_SCRIPTS) $(INCLUDE_DIRS)/config/pokemon.h $(LEARNSET_HELPERS_DIR)/make_tutors.py | $(LEARNSET_HELPERS_BUILD_DIR)
 	python3 $(LEARNSET_HELPERS_DIR)/make_tutors.py $@
 
-$(ALL_TEACHING_TYPES_JSON): $(wildcard $(DATA_SRC_SUBDIR)/pokemon/species_info/*_families.h)  $(LEARNSET_HELPERS_DIR)/make_teaching_types.py | $(LEARNSET_HELPERS_BUILD_DIR)
+$(ALL_TEACHING_TYPES_JSON): $(SPECIES_INFO_DIR) $(SPECIES_INFO_DIR).h $(wildcard $(SPECIES_INFO_DIR)/*_families.h) $(INCLUDE_DIRS)/config/pokemon.h $(LEARNSET_HELPERS_DIR)/make_teaching_types.py | $(LEARNSET_HELPERS_BUILD_DIR)
 	python3 $(LEARNSET_HELPERS_DIR)/make_teaching_types.py $@
 
-$(DATA_SRC_SUBDIR)/pokemon/teachable_learnsets.h: $(TEACHABLE_DEPS) | $(ALL_TUTORS_JSON) $(ALL_TEACHING_TYPES_JSON)
-	python3 $(LEARNSET_HELPERS_DIR)/make_teachables.py $(LEARNSET_HELPERS_BUILD_DIR)
+$(DATA_SRC_SUBDIR)/pokemon/teachable_learnsets.h: $(TEACHABLE_DEPS) $(ALL_TUTORS_JSON) $(ALL_TEACHING_TYPES_JSON)
+	python3 $(LEARNSET_HELPERS_DIR)/make_teachables.py --learnsets $(LEARNSET_HELPERS_BUILD_DIR)
 
-$(DATA_SRC_SUBDIR)/tutor_moves.h: $(DATA_SRC_SUBDIR)/pokemon/special_movesets.json | $(ALL_TUTORS_JSON)
+$(DATA_SRC_SUBDIR)/tutor_moves.h: $(DATA_SRC_SUBDIR)/pokemon/special_movesets.json $(ALL_TUTORS_JSON) $(LEARNSET_HELPERS_DIR)/make_teachables.py $(INCLUDE_DIRS)/config/pokemon.h
 	python3 $(LEARNSET_HELPERS_DIR)/make_teachables.py  --tutors $(LEARNSET_HELPERS_BUILD_DIR)
 
 # Linker script

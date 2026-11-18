@@ -15,10 +15,26 @@
 #include "constants/abilities.h"
 #include "constants/battle.h"
 #include "constants/battle_string_ids.h"
+#include "constants/characters.h"
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "../src/data/map_group_count.h"
 #include "test/overworld_script.h"
+
+TEST("Outlined text measures the widest line and handles empty lines")
+{
+    u32 width = GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("WW"), 0);
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("WW\nI"), 0), width);
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("WW\n"), 0), width);
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING(""), 0), 0);
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("{JPN}WW"), 0), width);
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("{L_BUTTON}"), 0), 16);
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("{A_BUTTON}"), 0), 8);
+    static const u8 sPadded[] = { EXT_CTRL_CODE_BEGIN, EXT_CTRL_CODE_MIN_LETTER_SPACING, 16, CHAR_W, EOS };
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, sPadded, 0), 16);
+    StringCopy(gStringVar1, COMPOUND_STRING("WW"));
+    EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("{STR_VAR_1}"), 0), width);
+}
 
 TEST("Move names fit on Pokemon Summary Screen")
 {
@@ -250,7 +266,7 @@ TEST("Species names fit on Battle Screen HP box")
             PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
         }
     }
-    if (gSpeciesInfo[i].genderRatio != MON_GENDERLESS)
+    if (gSpeciesInfo[species].genderRatio != MON_GENDERLESS)
         EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0) - genderWidthPx, widthPx);
     else
         EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
@@ -479,7 +495,7 @@ TEST("Species names fit on Battle Screen HP box for vanilla mons with the defaul
             PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
         }
     }
-    if (gSpeciesInfo[i].genderRatio != MON_GENDERLESS)
+    if (gSpeciesInfo[species].genderRatio != MON_GENDERLESS)
         EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0) - genderWidthPx, widthPx);
     else
         EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);

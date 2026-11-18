@@ -207,7 +207,7 @@ def read_inventory():
     suites = [row['suite'] for row in rows]
     if len(names) != len(set(names)) or len(suites) != len(set(suites)) or not names:
         raise ValueError('canonical case names and suite paths must be nonempty and unique')
-    helpers = {'lib.lua', 'mgba_shim.lua', 'symbols.lua', 'frontier_facility.lua'}
+    helpers = {'lib.lua', 'mgba_shim.lua', 'symbols.lua', 'frontier_facility.lua', 'frontier_rentals.lua'}
     discovered = {'lua/' + p.name for p in (HERE / 'lua').glob('*.lua') if p.name not in helpers}
     if set(suites) != discovered:
         raise ValueError(f'canonical inventory mismatch: unclassified={sorted(discovered - set(suites))}; missing={sorted(set(suites) - discovered)}')

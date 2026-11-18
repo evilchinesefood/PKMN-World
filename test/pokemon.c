@@ -4,10 +4,12 @@
 #include "event_data.h"
 #include "new_game.h"
 #include "pokemon.h"
+#include "string_util.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
 #include "constants/characters.h"
 #include "constants/daycare.h"
+#include "constants/maps.h"
 #include "constants/move_relearner.h"
 
 TEST("Nature independent from Hidden Nature")
@@ -109,6 +111,59 @@ TEST("Shininess set on an Egg persists after hatching")
 
     EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_IS_EGG), FALSE);
     EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_IS_SHINY), TRUE);
+}
+
+TEST("A traded Pokemon with a shorter original trainer name is still an outsider")
+{
+    static const u8 sOtName[PLAYER_NAME_LENGTH + 1] = _("RED");
+    struct Pokemon mon;
+    u8 savedName[sizeof(gSaveBlock2Ptr->playerName)];
+    memcpy(savedName, gSaveBlock2Ptr->playerName, sizeof(savedName));
+    StringCopy(gSaveBlock2Ptr->playerName, COMPOUND_STRING("REDWOOD"));
+    CreateMon(&mon, SPECIES_EEVEE, 5, 0, OTID_STRUCT_PLAYER_ID);
+    EXPECT(!IsTradedMon(&mon));
+    SetMonData(&mon, MON_DATA_OT_NAME, sOtName);
+    EXPECT(IsTradedMon(&mon));
+    memcpy(gSaveBlock2Ptr->playerName, savedName, sizeof(savedName));
+}
+
+TEST("Met locations on caught and hatched Pokemon never collide with special encounter codes")
+{
+    u16 map = 0, expected = 0;
+    PARAMETRIZE { map = MAP_ROUTE45; expected = MAPSEC_ROUTE_45; }
+    PARAMETRIZE { map = MAP_ROUTE46; expected = MAPSEC_SPECIAL_AREA; }
+    PARAMETRIZE { map = MAP_ICE_PATH_1F; expected = MAPSEC_SPECIAL_AREA; }
+    PARAMETRIZE { map = MAP_DRAGONS_DEN_CAVERN; expected = MAPSEC_SPECIAL_AREA; }
+    PARAMETRIZE { map = MAP_MT_SILVER_OUTSIDE; expected = MAPSEC_SPECIAL_AREA; }
+    struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][0];
+    bool8 isEgg = TRUE;
+
+    struct WarpData savedLocation = gSaveBlock1Ptr->location;
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(map);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(map);
+    CreateMon(mon, SPECIES_TOGEPI, EGG_HATCH_LEVEL, 0, OTID_STRUCT_PLAYER_ID);
+    EXPECT_EQ(GetMonData(mon, MON_DATA_MET_LOCATION), expected);
+
+    u8 eggLocation = METLOC_SPECIAL_EGG;
+    SetMonData(mon, MON_DATA_MET_LOCATION, &eggLocation);
+    SetMonData(mon, MON_DATA_IS_EGG, &isEgg);
+    gSpecialVar_0x8004 = 0;
+    ScriptHatchMon();
+    EXPECT_EQ(GetMonData(mon, MON_DATA_MET_LOCATION), expected);
+    gSaveBlock1Ptr->location = savedLocation;
+}
+
+TEST("In-game trades receive no met-location friendship bonus in Ice Path")
+{
+    struct Pokemon mon;
+    u8 metLocation = METLOC_IN_GAME_TRADE;
+    struct WarpData savedLocation = gSaveBlock1Ptr->location;
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_ICE_PATH_1F);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_ICE_PATH_1F);
+    CreateMon(&mon, SPECIES_EEVEE, 5, 0, OTID_STRUCT_PLAYER_ID);
+    SetMonData(&mon, MON_DATA_MET_LOCATION, &metLocation);
+    EXPECT_EQ(CalculateFriendshipBonuses(&mon, 1, HOLD_EFFECT_NONE), 1);
+    gSaveBlock1Ptr->location = savedLocation;
 }
 
 TEST("Hyper Training increases stats without affecting IVs")
@@ -519,22 +574,31 @@ TEST("createmon [simple]")
 
 TEST("Pokémon level up learnsets fit within MAX_LEVEL_UP_MOVES and MAX_RELEARNER_MOVES")
 {
-    KNOWN_FAILING;
-
     u32 j, count, species = 0;
     const struct LevelUpMove *learnset;
 
-    for(j = 0; j < SPECIES_EGG; j++)
+    for (j = 1; j < SPECIES_EGG; j++)
     {
-        PARAMETRIZE { species = j; }
+        if (IsSpeciesEnabled(j))
+        {
+            PARAMETRIZE { species = j; }
+        }
     }
 
     learnset = GetSpeciesLevelUpLearnset(species);
     count = 0;
     for (j = 0; learnset[j].move != LEVEL_UP_MOVE_END; j++)
         count++;
-    EXPECT_LT(count, MAX_LEVEL_UP_MOVES);
+    EXPECT_LE(count, MAX_LEVEL_UP_MOVES);
     EXPECT_LT(count, MAX_RELEARNER_MOVES - 1); // - 1 because at least one move is already known
+}
+
+TEST("Snorlax can pass on its last level-up move")
+{
+    u16 moves[MAX_LEVEL_UP_MOVES];
+    u8 count = GetLevelUpMovesBySpecies(SPECIES_SNORLAX, moves);
+    EXPECT(count > 0);
+    EXPECT_EQ(moves[count - 1], MOVE_GIGA_IMPACT);
 }
 
 TEST("Optimised GetMonData")

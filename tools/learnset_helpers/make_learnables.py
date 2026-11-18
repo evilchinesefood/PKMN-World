@@ -55,7 +55,7 @@ def main():
         for species, learnables in from_batch(INPUTS_DIR).items()
     }
     with open(OUTPUT_FILE, "w") as fp:
-        json.dump(batch, fp, indent=2)
+        json.dump(batch, fp, indent=2, sort_keys=True)
 
 
 if __name__ == "__main__":

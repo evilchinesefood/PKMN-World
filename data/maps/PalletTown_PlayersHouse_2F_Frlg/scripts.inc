@@ -38,7 +38,7 @@ PalletTown_PlayersHouse_2F_EventScript_NES::
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_Sign::
-	msgbox PalletTown_PlayersHouse_2F_Text_PressLRForHelp, MSGBOX_SIGN
+	msgbox PalletTown_PlayersHouse_2F_Text_CheckStory, MSGBOX_SIGN
 	end
 
 PalletTown_PlayersHouse_2F_Text_PlayedWithNES::
@@ -46,8 +46,8 @@ PalletTown_PlayersHouse_2F_Text_PlayedWithNES::
 	.string "…Okay!\n"
 	.string "It's time to go!$"
 
-PalletTown_PlayersHouse_2F_Text_PressLRForHelp::
+PalletTown_PlayersHouse_2F_Text_CheckStory::
 	.string "It's a posted notice…\p"
-	.string "If you're confused, ask for HELP!\n"
-	.string "Press the L or R Button!$"
+	.string "Wondering where to go next?\n"
+	.string "Press START and choose STORY.$"
 

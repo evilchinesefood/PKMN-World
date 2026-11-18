@@ -1791,10 +1791,7 @@ void BattleMainCB2(void)
     if (JOY_HELD(B_BUTTON) && gBattleTypeFlags & BATTLE_TYPE_RECORDED && RecordedBattle_CanStopPlayback())
     {
         // Player pressed B during recorded battle playback, end battle
-        gSpecialVar_Result = gBattleOutcome = B_OUTCOME_PLAYER_TELEPORTED;
-        ResetPaletteFadeControl();
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-        SetMainCallback2(CB2_QuitRecordedBattle);
+        RecordedBattle_StopPlayback();
     }
 }
 
@@ -4171,7 +4168,7 @@ static void HandleTurnActionSelectionState(void)
             RecordedBattle_CopyBattlerMoves(battler);
             gBattleCommunication[battler] = STATE_BEFORE_ACTION_CHOSEN;
             bool32 isAiBattler = (gBattleTypeFlags & BATTLE_TYPE_HAS_AI || IsWildMonSmart()) && (BattlerHasAi(battler) && !(gBattleTypeFlags & BATTLE_TYPE_PALACE));
-            if (isAiBattler)
+            if (isAiBattler && !RecordedBattle_IsFrontierPlayback())
             {
                 ComputeAiBattlerDecisions(battler); // Do AI score computations here so we can use them in AI_TrySwitchOrUseItem
             }
@@ -4384,7 +4381,7 @@ static void HandleTurnActionSelectionState(void)
                              && gChosenActionByBattler[GetPartnerBattler(battler)] == B_ACTION_USE_MOVE)
                     {
                         gRngValue = gBattlePalaceMoveSelectionRngValue;
-                        RecordedBattle_ClearBattlerAction(GetPartnerBattler(battler), 1);
+                        RecordedBattle_ClearBattlerAction(GetPartnerBattler(battler), RecordedBattle_UsesLegacyPalaceMoves() ? 1 : 3);
                     }
                     else
                     {
@@ -4481,11 +4478,7 @@ static void HandleTurnActionSelectionState(void)
                         }
                         else
                         {
-                            if (!(gBattleTypeFlags & BATTLE_TYPE_PALACE))
-                            {
-                                RecordedBattle_SetBattlerAction(battler, gBattleResources->bufferB[battler][2]);
-                                RecordedBattle_SetBattlerAction(battler, gBattleResources->bufferB[battler][3]);
-                            }
+                            RecordedBattle_SetMove(battler, gBattleResources->bufferB[battler][2], gBattleResources->bufferB[battler][3]);
 
                             // Get the chosen move position (and thus the chosen move) and target from the returned buffer.
                             gBattleStruct->chosenMovePositions[battler] = gBattleResources->bufferB[battler][2] & ~RET_GIMMICK;
@@ -4994,6 +4987,8 @@ static void SetActionsAndBattlersTurnOrder(void)
 {
     s32 turnOrderId = 0;
     enum BattlerId battler, battler2;
+
+    RecordedBattle_StartTurnActions();
 
     if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
     {

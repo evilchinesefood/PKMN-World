@@ -101,7 +101,7 @@ def prepare_output(all_learnables: dict[str, set[str]], tms: list[str], tutors: 
             if teaching_type == "TM_ILLITERATE":
                 learnables = all_learnables[species_upper]
                 if not tm_litteracy_config:
-                    learnables = filter(lambda m: m not in special_movesets["universalMoves"], learnables)
+                    learnables = set(learnables).difference(special_movesets["universalMoves"])
             else:
                 learnables = all_learnables[species_upper] + special_movesets["universalMoves"]
             part1 = list(filter(lambda m: m in learnables, tms))
@@ -178,25 +178,23 @@ def make_move_tutors(build_dir, special_movesets):
         repo_tutors = json.load(fp)
 
     repo_tutors = sorted(list(set(repo_tutors + special_movesets["extraTutors"])))
-    create_tutor_moves_array(repo_tutors)
-
     return repo_tutors
 
 def main():
     if not enabled():
         quit()
 
-    tutor_mode = False
+    mode = None
     if len(sys.argv) < 2 or len(sys.argv) > 3:
         print("Invalid number of arguments", file=sys.stderr)
         print(__doc__, file=sys.stderr)
         quit(1)
 
     if len(sys.argv) == 3:
-        if sys.argv[1] != "--tutors":
+        mode = sys.argv[1]
+        if mode not in ("--tutors", "--learnsets"):
             print("Unknown make_teachables mode", file=sys.stderr)
             quit(1)
-        tutor_mode = True
 
     SOURCE_DIR = pathlib.Path(sys.argv[-1])
 
@@ -204,10 +202,12 @@ def main():
         special_movesets = json.load(file)
 
     repo_tutors = make_move_tutors(SOURCE_DIR, special_movesets)
-    if tutor_mode:
-        quit(0)
+    if mode != "--learnsets":
+        create_tutor_moves_array(repo_tutors)
+    if mode == "--tutors":
+        return
 
-    SOURCE_LEARNSETS_JSON = pathlib.Path("./src/data/pokemon/all_learnables.json")
+    SOURCE_LEARNSETS_JSON = SOURCE_DIR / "all_learnables.json"
     SOURCE_TEACHING_TYPES_JSON = SOURCE_DIR / "all_teaching_types.json"
 
     assert SOURCE_LEARNSETS_JSON.exists(), f"{SOURCE_LEARNSETS_JSON=} does not exist"

@@ -1006,7 +1006,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     SetBoxMonData(boxMon, MON_DATA_EXP, &gExperienceTables[gSpeciesInfo[species].growthRate][level]);
     SetBoxMonData(boxMon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].friendship);
     value = GetCurrentRegionMapSectionId();
-    if (value > 0xFF) // task 18a: u8 metLocation truncates a MAPSEC >= 256 to a wrong town; sentinel
+    if (value >= METLOC_SPECIAL_EGG) // The final three bytes are reserved for special encounters.
         value = MAPSEC_SPECIAL_AREA;
     SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
     SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
@@ -4990,7 +4990,8 @@ s32 CalculateFriendshipBonuses(struct Pokemon *mon, s32 modifier, enum HoldEffec
     if (GetMonData(mon, MON_DATA_POKEBALL) == BALL_LUXURY)
         bonus += ITEM_FRIENDSHIP_LUXURY_BONUS;
 
-    if (GetMonData(mon, MON_DATA_MET_LOCATION) == GetCurrentRegionMapSectionId())
+    u32 metLocation = GetMonData(mon, MON_DATA_MET_LOCATION);
+    if (metLocation < METLOC_SPECIAL_EGG && metLocation == GetCurrentRegionMapSectionId())
         bonus += ITEM_FRIENDSHIP_MAPSEC_BONUS;
 
     return bonus;
@@ -5479,16 +5480,7 @@ bool8 IsTradedMon(struct Pokemon *mon)
 
 bool8 IsOtherTrainer(u32 otId, u8 *otName)
 {
-    if (otId == READ_OTID_FROM_SAVE)
-    {
-        int i;
-        for (i = 0; otName[i] != EOS; i++)
-            if (otName[i] != gSaveBlock2Ptr->playerName[i])
-                return TRUE;
-        return FALSE;
-    }
-
-    return TRUE;
+    return otId != READ_OTID_FROM_SAVE || StringCompareN(otName, gSaveBlock2Ptr->playerName, PLAYER_NAME_LENGTH) != 0;
 }
 
 void MonRestorePP(struct Pokemon *mon)

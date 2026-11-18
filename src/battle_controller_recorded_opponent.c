@@ -121,6 +121,21 @@ static void RecordedOpponentBufferRunCommand(enum BattlerId battler)
     }
 }
 
+bool32 RecordedOpponent_TryReplayInput(enum BattlerId battler, u32 command)
+{
+    switch (command)
+    {
+    case CONTROLLER_CHOOSEACTION:
+    case CONTROLLER_CHOOSEMOVE:
+    case CONTROLLER_OPENBAG:
+    case CONTROLLER_CHOOSEPOKEMON:
+        sRecordedOpponentBufferCommands[command](battler);
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
 void RecordedOpponentBufferExecCompleted(enum BattlerId battler)
 {
     gBattlerControllerFuncs[battler] = RecordedOpponentBufferRunCommand;
@@ -338,17 +353,7 @@ static void RecordedOpponentHandleChooseAction(enum BattlerId battler)
 
 static void RecordedOpponentHandleChooseMove(enum BattlerId battler)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
-    {
-        BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, ChooseMoveAndTargetInBattlePalace(battler));
-    }
-    else
-    {
-        u8 moveId = RecordedBattle_GetBattlerAction(RECORDED_MOVE_SLOT, battler);
-        u8 target = RecordedBattle_GetBattlerAction(RECORDED_MOVE_TARGET, battler);
-        BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, moveId | (target << 8));
-    }
-
+    BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, RecordedBattle_GetMove(battler));
     BtlController_Complete(battler);
 }
 

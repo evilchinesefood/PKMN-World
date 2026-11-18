@@ -453,6 +453,7 @@ void WallyBufferExecCompleted(enum BattlerId battler);
 // recorded opponent controller
 void SetControllerToRecordedOpponent(enum BattlerId battler);
 void RecordedOpponentBufferExecCompleted(enum BattlerId battler);
+bool32 RecordedOpponent_TryReplayInput(enum BattlerId battler, u32 command);
 
 // link opponent
 void SetControllerToLinkOpponent(enum BattlerId battler);

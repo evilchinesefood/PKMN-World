@@ -219,7 +219,8 @@ RadioTower1F_Text_QuizQuestion2:
     .string "Correct!\n"
     .string "Question 2:\p"
     .string "Is this statement correct?\p"
-    .string "You can't buy a BERRY at a MART.$"
+    .string "The GOLDENROD DEPT.STORE sells\n"
+    .string "LUM BERRIES.$"
 
 RadioTower1F_Text_QuizQuestion3:
     .string "Bull's-eye!\n"

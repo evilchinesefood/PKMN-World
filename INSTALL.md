@@ -40,8 +40,7 @@ progressively much slower and are not supported here.
 
 ### Linux (Debian / Ubuntu)
 
-This is the set CI installs, so it is the one that is continuously proven
-(`.github/workflows/Check.yml`):
+The manual [Verify workflow](.github/workflows/Verify.yml) uses the Ubuntu toolchain listed in its [installer](.github/scripts/install-toolchain.sh). For a local build, install these packages.
 
 ```console
 sudo apt update
@@ -65,8 +64,7 @@ sudo dnf install -y make gcc gcc-c++ arm-none-eabi-gcc-cs arm-none-eabi-newlib \
     libpng-devel python3 git
 ```
 
-> The Arch and Fedora package names are best-effort — only the Debian/Ubuntu list above is
-> exercised by CI on every push.
+> The Arch and Fedora package names are best-effort. Automatic pull request and master checks run host validation on Ubuntu.
 
 ### Windows (WSL2)
 
@@ -286,22 +284,7 @@ see §2. Confirm with `pkg-config --cflags libpng`, then export `PKG_CONFIG_PATH
 That is not the real error. Something failed while building the host tools — most often the
 libpng problem above — and everything downstream then fails for the missing tool.
 
-The Makefile *tries* to stop cleanly here (`Makefile:301-303` raises
-`Errors occurred while building tools`), but that guard reads `.SHELLSTATUS`, which GNU Make
-only sets from 4.2 onward. On macOS's bundled make it never fires:
-
-```console
-$ make --version | head -1
-GNU Make 3.81
-$ printf 'X := $(shell false)\n$(info [$(.SHELLSTATUS)])\nall: ;@true\n' > /tmp/t.mk && make -f /tmp/t.mk
-[]
-```
-
-So on macOS the build sails past the failed tools step and floods the terminal, and under `-j`
-the one line that matters has long since scrolled away.
-
-**Always diagnose with `make tools` on its own.** It is a small serial build with nothing to
-drown out the first error.
+The Makefile stops when the tool sub-build fails. Look above `Errors occurred while building tools` for the first compiler error. Run `make tools` on its own to isolate that error.
 
 ### `fatal: no git history found`
 
@@ -340,13 +323,7 @@ PATH=/path/to/toolchain/bin:$PATH make modern -j8
 
 ## 8. Pulling upstream expansion updates (optional)
 
-This is a single, master-only project — there are no project branches to choose between. To pull
-in newer pokeemerald-expansion changes, add RH-Hideout as a remote and merge (expect conflicts):
-
-```console
-git remote add RHH https://github.com/rh-hideout/pokeemerald-expansion
-git pull RHH master
-```
+Pokémon World imported the expansion as a source snapshot. Its Git history has a different root. To review an upstream update, identify the last imported upstream revision and compare it with the proposed revision in the expansion repository. Apply the relevant changes on a project branch. [The previous import](https://github.com/evilchinesefood/PKMN-World/commit/7cfe27d867) records the base revision, excluded files and conflicts.
 
 ---
 

@@ -35,10 +35,9 @@ GoldenrodDeptStore2_EventScript_Sign::
 	end
 
 GoldenrodDeptStore_Text_2FYoungster:
-    .string "POKéNAV can store up to 25 phone\n"
-    .string "numbers.\p"
-    .string "It's hard to decide which numbers\n"
-    .string "to keep.$"
+    .string "I like looking through the names\n"
+    .string "in my POKéNAV.\p"
+    .string "Who should I call today?$"
 
 GoldenrodDeptStore_Text_2FCooltrainerF:
     .string "I got my ABRA at the GAME CORNER.\p"

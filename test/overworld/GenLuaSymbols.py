@@ -50,7 +50,8 @@ WANT = [
     # fatals at window.c:51 when its buffer alloc fails, so "is the heap draining as you play"
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
-    "BattleMainCB2",
+    "BattleMainCB2", "SetActionsAndBattlersTurnOrder", "CB2_QuitRecordedBattle", "CB2_FrontierPass",
+    "gProtectStructs", "gChosenMoveByBattler",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
     # Issue #120 playtests A/B. gDisplayedStringBattle is the expanded battle line
     # (u8[425]); CatchTutorial pokeStrs it for "old man" vs "WALLY". gNumSafariBalls
@@ -349,6 +350,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- src/special_pokemon_menu.c, offsetof probe
                                                             --   with the modern CFLAGS.
   BoxPokemon   = { size = 80 },
+  ProtectStruct= { size = 12, palaceUnableToUseMove = 0x4000 },
   BattlePokemon= { size = 140, attack = 2, spAttack = 8, moves = 12, pp = 37, hp = 42, maxHP = 46, status1 = 80 },
   BattleScripting = { battleStyle = 29 },
   BattlePresentation = { dayPalette = 16, tintWithTime = 22, time = 24 },

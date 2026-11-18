@@ -52,7 +52,7 @@
 // Region merge (Johto+Kanto+Hoenn): MAPSEC count exceeds 256, so this is widened
 // to u16 (regionMapSectionId / landmarks must hold values >= 256). Name kept for
 // minimal churn. Met Locations stay u8 (decoupled below) since metLocation storage
-// in BoxPokemon is a raw u8 and no caught-mon met-loc reaches 256.
+// in BoxPokemon is a raw u8. Unrepresentable map sections use MAPSEC_SPECIAL_AREA.
 typedef u16 mapsec_u8_t;
 typedef u16 mapsec_u16_t;
 typedef s16 mapsec_s16_t;

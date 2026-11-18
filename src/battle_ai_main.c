@@ -538,7 +538,9 @@ void AI_TrySwitchOrUseItem(enum BattlerId battler)
 u32 BattleAI_ChooseMoveIndex(enum BattlerId battler)
 {
     u32 chosenMoveIndex;
+    struct ProtectStruct savedProtect[MAX_BATTLERS_COUNT];
 
+    memcpy(savedProtect, gProtectStructs, sizeof(savedProtect));
     SetAIUsingGimmick(battler, USE_GIMMICK);
     SetupRandomRollsForAIMoveSelection(battler);
 
@@ -550,9 +552,11 @@ u32 BattleAI_ChooseMoveIndex(enum BattlerId battler)
     if (gBattleStruct->gimmick.usableGimmick[battler] != GIMMICK_NONE)
         ReconsiderGimmick(battler, gBattlerTarget, gBattleMons[battler].moves[chosenMoveIndex]);
 
-    // Clear protect structures, some flags may be set during AI calcs
-    // e.g. pranksterElevated from GetBattleMovePriority
-    memset(&gProtectStructs, 0, MAX_BATTLERS_COUNT * sizeof(struct ProtectStruct));
+    // Scoring can set flags such as pranksterElevated. Keep decisions made before this simulation.
+    if (RecordedBattle_UsesLegacyPalaceMoves())
+        memset(gProtectStructs, 0, sizeof(savedProtect));
+    else
+        memcpy(gProtectStructs, savedProtect, sizeof(savedProtect));
     #if TESTING
     TestRunner_Battle_CheckAiMoveScores(battler);
     #endif // TESTING

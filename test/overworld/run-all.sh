@@ -6,7 +6,7 @@ ROM="$REPO/pokemonworld.gba"
 if [[ $# -gt 0 && "$1" != --* ]]; then ROM="$1"; shift; fi
 PROFILE=full
 OUT="${PW_OUT:-$REPO/_pwtest}"
-ELF="${PW_ELF:-${ROM%.gba}.elf}"
+ELF="${PW_ELF:-}"
 SYMBOLS="${PW_SYMBOLS:-}"
 BUNDLE=
 while [[ $# -gt 0 ]]; do
@@ -26,7 +26,7 @@ echo "sweep-dir: $RUN"
 python3 "$HERE/NativeRunner.py" inventory --profile "$PROFILE" --out "$RUN" > "$RUN/selected.tsv"
 if [[ -z "$BUNDLE" ]]; then
   BUNDLE="$RUN/bundle"
-  args=(--rom "$ROM" --elf "$ELF" --out "$BUNDLE")
+  args=(--rom "$ROM" --elf "${ELF:-${ROM%.gba}.elf}" --out "$BUNDLE")
   [[ -z "$SYMBOLS" ]] || args+=(--symbols "$SYMBOLS")
   python3 "$HERE/NativeRunner.py" bundle "${args[@]}"
 fi
@@ -37,6 +37,8 @@ while IFS=$'\t' read -r name suite fixture; do
   selected=$((selected + 1))
   args=("$suite" "$ROM")
   [[ "$fixture" == - ]] || args+=("$fixture")
+  [[ -z "$ELF" ]] || args+=(--elf "$ELF")
+  [[ -z "$SYMBOLS" ]] || args+=(--symbols "$SYMBOLS")
   if "$HERE/mgba-run.sh" "${args[@]}" --bundle "$BUNDLE" --out "$RUN" --case-name "$name" > "$RUN/$name.log" 2>&1; then
     passed=$((passed + 1))
     echo "PASS $name"

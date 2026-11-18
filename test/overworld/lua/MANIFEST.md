@@ -3008,6 +3008,12 @@ battle's start and the prompt is answered Yes. The Frontier Pass is opened from 
 cursor moved onto Battle Record and the record played: both leads must match, and playback must
 return to the pass. Measured **11/11** fixed and **9/11** on the unfixed ROM (playback led with
 Charizard against species 0 with 0 HP).
+
+The suite also compares both sides' HP, species and battle outcome throughout playback.
+Pass `--env PW_CASE=palace` to compare autonomous move choices and inability-to-move flags.
+Pass `--env PW_CASE=factory` to trade the first rental for the first opponent and record the
+second battle. The Factory case compares both trainers' chosen moves on every turn.
+
 ### `KantoPropsStress.lua`
 
 Kanto story props with a level 50 Venusaur follower out, real input after the setup warps. **Draw

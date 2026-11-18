@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate native frame layout, palette ownership and generated artifact hashes."""
 from pathlib import Path
-import hashlib
+from build_art import asset_digest
 import json
 import re
 from PIL import Image
@@ -24,7 +24,7 @@ def main():
         assert int(icon_bindings[entry['symbol']])==entry['icon_palette'], (entry['key'], 'runtime icon palette mismatch')
         folder=ASSETS/entry['key']
         for name,digest in entry['files'].items():
-            p=folder/name;assert hashlib.sha256(p.read_bytes()).hexdigest()==digest,(p,'manifest is stale')
+            p=folder/name;assert asset_digest(p)==digest,(p,'manifest is stale')
             if p.suffix!='.png':continue
             im=Image.open(p);assert im.mode=='P' and max(im.getdata())<16,p
             view='overworld' if name.startswith('overworld') else 'icon' if name.startswith('icon') else 'anim_front' if name.startswith('anim_front') else 'back'

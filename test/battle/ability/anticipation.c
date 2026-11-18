@@ -321,20 +321,22 @@ SINGLE_BATTLE_TEST("Anticipation does not consider ate-abilities")
 
 SINGLE_BATTLE_TEST("Anticipation treats Hidden Power as its dynamic type (Gen6+)")
 {
-    KNOWN_FAILING;
+    u16 iv;
+    PARAMETRIZE { iv = 0; }  // Fighting
+    PARAMETRIZE { iv = 31; } // Dark
     GIVEN {
-        ASSUME(GetSpeciesType(SPECIES_EEVEE, 0) == TYPE_NORMAL);
-        ASSUME(GetSpeciesType(SPECIES_EEVEE, 1) == TYPE_NORMAL);
-        PLAYER(SPECIES_EEVEE) { Ability(ABILITY_ANTICIPATION); Item(ITEM_CHOPLE_BERRY); }
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_HIDDEN_POWER, MOVE_SCRATCH, MOVE_POUND, MOVE_CELEBRATE); HPIV(30); AttackIV(2); DefenseIV(31); SpAttackIV(30); SpDefenseIV(30); SpeedIV(30); }
+        PLAYER(SPECIES_EEVEE) { Ability(ABILITY_ANTICIPATION); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_HIDDEN_POWER); HPIV(iv); AttackIV(iv); DefenseIV(iv); SpAttackIV(iv); SpDefenseIV(iv); SpeedIV(iv); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_HIDDEN_POWER); }
     } SCENE {
-        ABILITY_POPUP(player, ABILITY_ANTICIPATION);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent); // Check that the item is triggered
+        if (iv == 0 && B_UPDATED_ABILITY_DATA >= GEN_6) {
+            ABILITY_POPUP(player, ABILITY_ANTICIPATION);
+        } else {
+            NOT ABILITY_POPUP(player, ABILITY_ANTICIPATION);
+        }
         ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, opponent);
-        HP_BAR(opponent);
-        MESSAGE("It's super effective!");
+        HP_BAR(player);
     }
 }
 

@@ -11,9 +11,7 @@
 # then fault (or just read as broken) later. They are
 # source-only and take seconds -- no ROM build required.
 #
-# Invoked directly rather than through `make validate`: that target is not in RULES_NO_SCAN, so
-# going through make would trigger the full dependency scan for a check that reads only tracked
-# data files. Same reasoning as the Check.yml validate job.
+# Run the fast pre-push subset here. CI runs the full host-validation inventory.
 set -uo pipefail
 
 cd "$(git rev-parse --show-toplevel)" || exit 1

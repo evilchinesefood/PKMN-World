@@ -1046,7 +1046,7 @@ struct moveWithPP {
 #define MovesWithPP(movewithpp1, ...) MovesWithPP_(__LINE__, (struct moveWithPP[MAX_MON_MOVES]) {movewithpp1, __VA_ARGS__})
 #define Friendship(friendship) Friendship_(__LINE__, friendship)
 #define Status1(status1) Status1_(__LINE__, status1)
-#define OTName(otName) do {static const u8 otName_[] = _(otName); OTName_(__LINE__, otName_);} while (0)
+#define OTName(otName) do {static const u8 otName_[PLAYER_NAME_LENGTH + 1] = _(otName); OTName_(__LINE__, otName_);} while (0)
 #define DynamaxLevel(dynamaxLevel) DynamaxLevel_(__LINE__, dynamaxLevel)
 #define GigantamaxFactor(gigantamaxFactor) GigantamaxFactor_(__LINE__, gigantamaxFactor)
 #define TeraType(teraType) TeraType_(__LINE__, teraType)

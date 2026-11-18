@@ -568,8 +568,11 @@ static void Task_SlidingPuzzle_HandleInput(u8 taskId)
     }
 
     if (JOY_NEW(B_BUTTON))
+    {
         ExitSlidingPuzzle(taskId);
-    else if (JOY_NEW(DPAD_LEFT))
+        return;
+    }
+    if (JOY_NEW(DPAD_LEFT))
         MoveCursor(-1,  0);
     else if (JOY_NEW(DPAD_RIGHT))
         MoveCursor( 1,  0);
@@ -599,7 +602,10 @@ static void Task_SlidingPuzzle_HandleInput(u8 taskId)
         {
             DrawInstructionsBar(INSTRUCTION_SWAP);
             if (JOY_NEW(A_BUTTON))
+            {
                 SelectTile();
+                return;
+            }
         }
         else if (CursorIsOnImmovableTile())
         {
@@ -609,7 +615,10 @@ static void Task_SlidingPuzzle_HandleInput(u8 taskId)
         {
             DrawInstructionsBar(INSTRUCTION_PLACE);
             if (JOY_NEW(A_BUTTON))
+            {
                 PlaceTile();
+                return;
+            }
         }
 
         if (JOY_NEW(L_BUTTON))
@@ -882,15 +891,17 @@ static void RotateTile(u8 rotDir)
 
 static void CheckForSolution(void)
 {
-    u8 row, col, tile;
+    u8 row, col;
     for (row = 0; row < NUM_SLIDING_PUZZLE_ROWS; row++)
     {
         for (col = 0; col < NUM_SLIDING_PUZZLE_COLS; col++)
         {
-            struct Sprite *tile = &gSprites[sSlidingPuzzle->tiles[row][col]];
+            u8 spriteId = sSlidingPuzzle->tiles[row][col];
             u8 tileId = sPuzzleLayouts[SLIDING_PUZZLE_SOLVED][row][col];
 
-            if (tile->sTileId != tileId || tile->sOrientation != ORIENTATION_0)
+            if (spriteId == __ && tileId == __)
+                continue;
+            if (spriteId == __ || gSprites[spriteId].sTileId != tileId || gSprites[spriteId].sOrientation != ORIENTATION_0)
             {
                 sSlidingPuzzle->solved = FALSE;
                 return;

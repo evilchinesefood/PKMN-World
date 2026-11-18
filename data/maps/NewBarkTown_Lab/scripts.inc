@@ -733,9 +733,8 @@ NewBarkTown_Lab_Text_ElmDirections1:
 	.string "city over.\p"
 	.string "It's almost a direct route\n"
 	.string "there, so you can't miss it.\p"
-	.string "But just in case, you have my\n"
-	.string "phone number. Call me if\l"
-	.string "anything comes up!$"
+	.string "Here, take PROF. BIRCH's number.\n"
+	.string "He's a good friend of mine!$"
 
 
 NewBarkTown_Lab_Text_ElmLetYourMonBattle:
@@ -1001,5 +1000,5 @@ NewBarkTown_Lab_Text_Officer2:
 NewBarkTown_Lab_Text_Elm_CallMe:
 	.string "Ah, {PLAYER}!\p"
 	.string "How's your POKéDEX coming along?\n"
-	.string "I'm busy now, but call me sometime\l"
-	.string "and I can check your progress!$"
+	.string "Give PROF. BIRCH a call. He can\l"
+	.string "check your progress!$"

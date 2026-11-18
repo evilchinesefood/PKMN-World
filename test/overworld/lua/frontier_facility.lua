@@ -6,6 +6,7 @@ return function(suiteName, CASES)
 local S = require("symbols")
 local F = require("lib").new(S, suiteName)
 
+local rentals = require("frontier_rentals")
 local FRONTIER = 26
 local STATUS = S.SaveBlock2.frontierChallengeStatus
 local CHALLENGE_STATUS_PAUSED = 2
@@ -128,29 +129,6 @@ local function steerBattle(f)
   F.press("A", 2)
 end
 
--- Rental screen: rent the first three Pokemon (A, Down to RENT, A, Right), then confirm.
-local function rentThree()
-  F.idle(120); F.shot("rental_screen")
-  for _ = 1, 3 do
-    F.press("A", 2); F.idle(60)
-    F.press("Down", 2); F.idle(30); F.press("A", 2); F.idle(60)
-    F.press("Right", 2); F.idle(30)
-  end
-  F.idle(60); F.shot("rental_confirm")
-  F.press("A", 2); F.idle(120)
-end
-
--- Swap screen: trade the first rental for the opponent's first Pokemon. Choosing an opponent's
--- Pokemon opens its picture before the Yes/No, which ignores input until the picture is up.
-local function swapFirst()
-  F.idle(120); F.shot("swap_screen")
-  F.press("A", 2); F.idle(60)
-  F.press("Down", 2); F.idle(30); F.press("A", 2); F.idle(150)
-  F.press("A", 2); F.idle(150)
-  F.shot("swap_accept")
-  F.press("A", 2); F.idle(150)
-end
-
 local function softReset(tag)
   F.shot("reset_" .. tag)
   for _ = 1, 10 do joypad.set({ A = true, B = true, Start = true, Select = true }); emu.frameadvance() end
@@ -187,7 +165,7 @@ local function runCase(c, base)
   for f = 1, 150000 do
     if F.reportCrash(tag .. "_" .. f) then break end
     if cb(S.CB2_SelectScreen) then
-      rentThree()
+      rentals.rentThree(F)
       rented = personalities()
     elseif cb(S.Swap_CB2) then
       if c.mode == "reset" then softReset("swap"); resetDone = true
@@ -198,7 +176,7 @@ local function runCase(c, base)
           return table.concat(t, ",")
         end
         swapped = { before = slot0() }
-        swapFirst()
+        rentals.swapFirst(F)
       else
         F.idle(120); F.press("B", 2); F.idle(60); F.press("A", 2); F.idle(120)
       end

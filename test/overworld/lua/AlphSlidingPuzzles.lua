@@ -153,6 +153,11 @@ F.run(function()
     F.check("kabuto: reopened after quitting", openPuzzle(k))
     local r1, c1 = find(6)
     F.check("kabuto: the board starts fresh", r1 == r0 and c1 == c0, string.format("(%d,%d) vs (%d,%d)", r1, c1, r0, c0))
+    moveTo(r1, c1); press("A")
+    joypad.set({ A = true, R = true }); emu.frameadvance(); F.idle(30)
+    F.check("kabuto: placing and rotating together leaves the tile on the board", held() == 0 and cell(r1, c1) ~= 0)
+    local cursor = F.r8(board() + 25)
+    F.check("kabuto: placement leaves the cursor upright", sdata(cursor, 5) == 0)
   end
 
   for _, p in ipairs(PUZZLES) do

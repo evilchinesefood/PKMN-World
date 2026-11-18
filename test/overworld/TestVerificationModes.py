@@ -95,6 +95,21 @@ note('loss', region=region, beat=beat)
                 assert next(r for r in rows if r['name'] == 'lua')['profile'] == mode
             assert all('TRUE' in (source / 'include/config' / header).read_text() for header in HEADERS)
             print(f'PASS {mode}: exact scope, isolated flags, ignored inherited build selectors')
+        verify_path = source / 'test/verify.py'
+        snapshots = [json.loads(path.read_text()) for path in (tmp / 'runs').glob('*/summary.json')]
+        baseline_hashes = {snapshot['source_sha256'] for snapshot in snapshots}
+        assert len(baseline_hashes) == 1
+        verify_path.chmod(verify_path.stat().st_mode ^ 0o100)
+        def snapshot_build():
+            return subprocess.run([sys.executable, str(verify_path), 'build', '--out', str(tmp / 'identity')],
+                                  env=env, text=True, capture_output=True)
+        changed = snapshot_build()
+        assert changed.returncode == 0, changed.stderr
+        summary = next((tmp / 'identity').glob('*/summary.json'))
+        assert json.loads(summary.read_text())['source_sha256'] not in baseline_hashes
+        (source / 'dangling-link').symlink_to('missing-file')
+        refused = snapshot_build()
+        assert refused.returncode != 0 and 'refuses symbolic link: dangling-link' in refused.stderr
     print('Mode command checks: 3/3 passed. Instrumented commands are not gameplay evidence.')
     return 0
 

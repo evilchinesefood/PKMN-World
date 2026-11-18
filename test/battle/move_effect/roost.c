@@ -63,22 +63,19 @@ SINGLE_BATTLE_TEST("Roost fails if the user is under the effects of Heal Block")
 
 SINGLE_BATTLE_TEST("Roost recovers 50% of the user's Max HP")
 {
-    u16 hp;
-
-    KNOWN_FAILING; // All healing is currently rounded down
+    u16 maxHP;
+    PARAMETRIZE { maxHP = 99; }
+    PARAMETRIZE { maxHP = 100; }
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { HP(1); MaxHP(99); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(1); MaxHP(maxHP); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_ROOST); }
+        TURN { MOVE(player, MOVE_ROOST); MOVE(opponent, MOVE_CELEBRATE); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ROOST, player);
-        HP_BAR(player, captureHP: &hp);
+        HP_BAR(player);
     } THEN {
-        //if (B_UPDATED_MOVE_DATA >= GEN_5)
-            EXPECT(hp == 51); // Rounds up
-        //else
-        //    EXPECT(hp == 50); // Rounds down
+        EXPECT_EQ(player->hp, 1 + (maxHP + (B_UPDATED_MOVE_DATA >= GEN_5)) / 2);
     }
 }
 

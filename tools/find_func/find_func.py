@@ -56,11 +56,11 @@ found = False
 closest_before = None
 closest_after = None
 for symbol in symbols:
-    if symbol.address_start <= args.address < symbol.address_end:
+    if args.address == symbol.address_start or symbol.address_start < args.address < symbol.address_end:
         print("{} (offset {})".format(symbol.name, hex(args.address - symbol.address_start)))
         found = True
     elif not found:
-        if args.address > symbol.address_end and (not closest_before or symbol.address_end > closest_before.address_end):
+        if args.address >= symbol.address_end and (not closest_before or symbol.address_end > closest_before.address_end):
             closest_before = symbol
         if args.address < symbol.address_start and (not closest_after or symbol.address_start < closest_after.address_start):
             closest_after = symbol

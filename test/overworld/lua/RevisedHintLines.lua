@@ -37,6 +37,7 @@ local FLAG_ENABLE_PROF_BIRCH_MATCH_CALL = 0x119
 local FLAG_ENABLE_RADIO = 0x6000 + 0xC5
 local FLAG_JOHTO_STARTER_CHOSEN = 0x6000 + 0x38
 local FLAG_SHOWN_ELM_TOGEPI = 0x6000 + 0x23
+local VAR_NEWBARK_TOWN_STATE = 0xA080
 local VAR_NEWBARKTOWN_LABSTATE = 0xA081
 local VAR_GOLDENROD_CITY_STATE = 0xA083
 local VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F = 0xA062
@@ -238,6 +239,24 @@ F.run(function()
     F.check("elm: the Togepi follow-up hands control back", ok)
     F.check("elm: the Togepi follow-up points to PROF. BIRCH",
       has(heard(), "Give PROF. BIRCH a call", "check your progress") and lacks(heard(), "I'm busy"), heard())
+  end
+
+  -- New Bark lass after the starter: Johto's Mom is never registered on the POKeNAV (only the
+  -- Littleroot house sets FLAG_ENABLE_MOM_MATCH_CALL), so the lass must not send the player there.
+  var(VAR_NEWBARK_TOWN_STATE, 5)
+  -- The debug warps skipped the Johto gate, so New Bark plays its first-visit narration on arrival.
+  local arrived = warp(75, 0, 9, 17)
+  if not arrived and mashOut("lass_arrival") then
+    local px, py = F.pos()
+    arrived = F.grp() == 75 and F.mapn() == 0 and px == 9 and py == 17
+  end
+  if F.check("lass: below the New Bark lass", arrived) then
+    for i = 1, 2 do
+      local ok = talk("Up", "lass_" .. i)
+      F.check("lass: the lass hands control back (" .. i .. ")", ok)
+      F.check("lass: the lass does not promise a POKeNAV call (" .. i .. ")",
+        has(heard(), "Visit your mom", "how you're doing") and lacks(heard(), "POKeNAV", "Call your mom"), heard())
+    end
   end
 
   -- Goldenrod Bike Shop.

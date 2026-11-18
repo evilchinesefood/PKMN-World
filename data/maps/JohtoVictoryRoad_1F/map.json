@@ -144,8 +144,8 @@
       "x": 39,
       "y": 5,
       "elevation": 3,
-      "dest_map": "MAP_JOHTO_INDIGO_PLATEAU",
-      "dest_warp_id": "1"
+      "dest_map": "MAP_JOHTO_ROUTE23",
+      "dest_warp_id": "0"
     },
     {
       "x": 21,

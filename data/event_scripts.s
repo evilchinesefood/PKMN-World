@@ -1279,6 +1279,7 @@ gStdScripts_End::
 	.include "data/maps/JohtoVictoryRoad_B2F/scripts.inc"
 	.include "data/maps/JohtoIndigoPlateau/scripts.inc"
 	.include "data/maps/JohtoIndigoPlateau_PokemonCenter/scripts.inc"
+	.include "data/maps/JohtoRoute23/scripts.inc"
 	.include "data/maps/JohtoPokemonLeague_WillsRoom/scripts.inc"
 	.include "data/maps/JohtoPokemonLeague_KogasRoom/scripts.inc"
 	.include "data/maps/JohtoPokemonLeague_BrunosRoom/scripts.inc"

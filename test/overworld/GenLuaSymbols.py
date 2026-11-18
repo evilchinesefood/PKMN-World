@@ -149,6 +149,9 @@ WANT = [
     # the hardware copy, but VBlank restores from faded, so the buffer is the
     # discriminating read.
     "gTimeBlend", "gPlttBufferFaded", "gPlttBufferUnfaded",
+    # play.lua's settled beat screenshot waits for gPaletteFade.active to clear: a delay-8
+    # FadeScreen holds each step for 18 frames, longer than any fixed stillness window.
+    "gPaletteFade",
     # BattleBgFloors.lua compares the battlefield's BG palette banks 2-4 with the authored
     # background palette the trainer class or map scene should select.
     "gBattleEnvironmentPalette_StadiumLeader", "gBattleEnvironmentPalette_BuildingGym",
@@ -406,6 +409,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             -- sentinel CreateSprite* returns on
                                                             -- exhaustion before fataling.
   SpritePalette= { count = 16, free = 0xFFFF },             -- sSpritePaletteTags, TAG_NONE = free
+  PaletteFade  = { activeWord = 12 },                       -- gPaletteFade.active is bit 31 of the
+                                                            --   u32 at +12 (include/palette.h)
   ObjectEvent  = { stride = 0x24, x = 0x10, y = 0x12, localId = 0x08, facing = 0x18, flags1 = 0x01,
                    graphicsId = 0x04 },
                                                             -- graphicsId is u16; for a follower it is

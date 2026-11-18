@@ -14,10 +14,13 @@
 #include "overworld.h"
 #include "menu.h"
 #include "pokedex.h"
+#include "regions.h"
 #include "constants/rgb.h"
 
 extern const u8 gText_DexNational[];
 extern const u8 gText_DexHoenn[];
+extern const u8 gText_Kanto[];
+extern const u8 gText_Johto[];
 extern const u8 gText_PokedexDiploma[];
 
 static void MainCB2(void);
@@ -125,6 +128,7 @@ static void Task_DiplomaFadeOut(u8 taskId)
     }
 }
 
+// Celadon's designer certifies the Kanto Pokedex, as in FireRed; Lilycove's the Hoenn one.
 static void DisplayDiplomaText(void)
 {
     if (HasAllMons())
@@ -135,7 +139,18 @@ static void DisplayDiplomaText(void)
     else
     {
         SetGpuReg(REG_OFFSET_BG1HOFS, 0);
-        StringCopy(gStringVar1, gText_DexHoenn);
+        switch (GetCurrentRegion())
+        {
+        case REGION_KANTO:
+            StringCopy(gStringVar1, gText_Kanto);
+            break;
+        case REGION_JOHTO:
+            StringCopy(gStringVar1, gText_Johto);
+            break;
+        default:
+            StringCopy(gStringVar1, gText_DexHoenn);
+            break;
+        }
     }
     StringExpandPlaceholders(gStringVar4, gText_PokedexDiploma);
     PrintDiplomaText(gStringVar4, 0, 1);

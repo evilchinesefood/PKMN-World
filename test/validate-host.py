@@ -50,6 +50,7 @@ CHECKS = (
     ("ValidateEllipsis.py",),
     ("ValidateTextWidth.py",),
     ("ValidateConfigRules.py",),
+    ("AuditEngineRegionText.py", "--check"),
     ("ValidateDeadEvoItems.py",),
     ("ValidateBattleScenes.py",),
     ("ValidateFrostyGrass.py",),

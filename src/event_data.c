@@ -81,10 +81,11 @@ void ClearDailyFlags(void)
 {
     memset(&gSaveBlock1Ptr->flags[DAILY_FLAGS_START / 8], 0, DAILY_FLAGS_SIZE);
     // Johto-bank dailies live outside the window above - without these the haircut
-    // brothers (and any future bug-contest daily gate) lock permanently after one use.
+    // brothers, the bug contest and Silver's Indigo Plateau rematch lock permanently after one use.
     FlagClear(FLAG_DAILY_HAIRCUT1_RECEIVED);
     FlagClear(FLAG_DAILY_HAIRCUT2_RECEIVED);
     FlagClear(FLAG_DAILY_BUG_CONTEST_COMPLETED);
+    FlagClear(FLAG_DAILY_BEAT_SILVER);
 }
 
 void DisableNationalPokedex(void)

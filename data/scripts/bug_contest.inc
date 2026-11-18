@@ -86,6 +86,7 @@ BugContest_EventScript_PrizeBagFull::
 BugContest_EventScript_NeedBoxSpace::
 	msgbox BugContest_Text_BoxesFullMakeRoom, MSGBOX_DEFAULT
 	closemessage
+	special KeepBugContestLead
 	special LoadPlayerParty
 	special ShowPokemonStorageSystemPC
 	special SavePlayerParty
@@ -144,6 +145,7 @@ BugContest_EventScript_End::
 	@ so the contest and its prizes could be repeated without limit in one day.
 	setflag FLAG_DAILY_BUG_CONTEST_COMPLETED
 	special HealPlayerParty
+	special KeepBugContestLead
 	special LoadPlayerParty
 	special ExitBugContestMode
 	setvar VAR_BUG_CONTEST_STATE, 0

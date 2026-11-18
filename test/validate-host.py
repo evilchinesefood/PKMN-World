@@ -53,6 +53,7 @@ CHECKS = (
     ("ValidateConfigRules.py",),
     ("AuditEngineRegionText.py", "--check"),
     ("ValidateDeadEvoItems.py",),
+    ("ValidateEvoRoutes.py",),
     ("ValidateBattleScenes.py",),
     ("ValidateFrostyGrass.py",),
     ("ValidateCutGrass.py",),

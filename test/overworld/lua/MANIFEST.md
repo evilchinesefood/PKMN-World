@@ -2549,6 +2549,22 @@ Start menu, presses R, and counts the lead's action rows through `sMenu` (Summar
 Control: after retiring at the exit, the same R opens the PC. Measured **8/8** on master and **6/8**
 with `0829014ec0`'s contest gates reverted (the PC opened and the lead had five rows).
 
+### `BugContestLeadKeeps.lua`
+
+The Bug-Catching Contest's lead is the player's own Pokemon, so what the Bag does to it during the
+contest must survive the contest's end. The attendant parks the team with `SavePlayerParty` and every
+end restores it with `LoadPlayerParty`, while the contest start menu keeps the Bag: a Rare Candy or an
+evolution stone used on the lead was spent and its level or evolution undone (HGSS keeps both). Each
+scenario gives a lead and a Pidgey with the debug Give menu and one item, enters through the real
+attendant, opens the Bag, picks Use and the lead, drives the evolution with A, then retires at the
+exit. **Oracle:** back at the gate the team has its old size, the lead is the evolved species at its
+new level (Bulbasaur 15 with a Rare Candy into Ivysaur 16, Growlithe 20 with a Fire Stone into
+Arcanine), the Pidgey is byte-identical in species, personality and level, the item is spent and
+contest mode is off. **Fix:** `KeepBugContestLead` writes the contest lead over the parked slot 0
+before every restore (the end and the full-box PC detour). **Discrimination:** unfixed **20/23** (both
+leads came back unevolved), fixed **23/23**.
+`--env PW_LEAD_ONLY=<text>` runs matching scenarios.
+
 ### `EggSummaryPageTabs.lua`
 
 An Egg's summary cannot turn pages (`ChangePage` returns for an Egg), but its header still drew the
@@ -2687,7 +2703,8 @@ and a local time of 23:38 through `localTimeOffset`), then plays three contests 
 attendant: one retired with a catch before midnight; one after saving in the gate, waiting there
 until the RTC passes midnight and continuing the pre-midnight save; and one started at 23:57 on a
 clock wound two days on, so midnight rolls over while it runs. The last two walk until "Time's up",
-which must ring at 8 minutes of frames. Each contest must return the parked party unchanged, put
+which must ring at 8 minutes of frames. Each contest must return the parked party (the same members
+by personality, OT id and nickname; the lead keeps the friendship its contest walk earned), put
 one prize in the bag, take the Safari Balls, set the day's flag and leave the attendant refusing a
 second contest; Continue on the new day must clear the flag and record the day. Measured **37/37**,
 and **9/13** with `0829014ec0`'s `setflag FLAG_DAILY_BUG_CONTEST_COMPLETED` removed (a second
@@ -3165,6 +3182,16 @@ and reads `sMartInfo`'s item list (Mahogany needs `VAR_MAHOGANY_TOWN_STATE` 14, 
 hideout leaves). **Oracle:** no dead item is for sale, while the Fire Stone, the Linking Cord and,
 where it was sold, the Razor Claw (kept for its held critical-hit boost) still are.
 **Discrimination:** unfixed 12/16 (24, 24, 28 and 4 dead items for sale), fixed 16/16.
+
+[`ValidateEvoRoutes.py`](../ValidateEvoRoutes.py) (in `validate-host.py`) requires every evolution
+between two obtainable species to have a route this world can satisfy: no link trade, every region a
+condition names is Kanto, Johto or Hoenn (the Hub and the Frontier report one of the three), every
+named map, map section and weather exists, every named party species is obtainable, and every item the
+route needs is sold, hidden, given or held by a wild Pokemon somewhere (item aliases such as
+`ITEM_UP_GRADE` resolved). It lists the routes that depend on the clock, a place or the region (today
+only five `IF_NOT_REGION` Alola, Galar and Hisui rows, true everywhere here) and tabulates each
+evolution item's shops per region. On master it finds 184 evolutions over 205 routes and 15 items, all
+satisfiable. Changing Pikachu's Thunder Stone row to `IF_REGION, REGION_ALOLA` makes it fail.
 ### `TmAdviceReusable.lua`
 
 TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,

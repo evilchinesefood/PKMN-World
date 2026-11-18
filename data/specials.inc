@@ -721,3 +721,4 @@ gSpecials::
 	def_special GetStarterGiveResult
 	def_special BuyGameCornerCoins
 	def_special GetIntendedDepositBox
+	def_special KeepBugContestLead

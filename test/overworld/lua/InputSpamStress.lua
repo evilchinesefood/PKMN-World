@@ -114,13 +114,15 @@ local function free()
   return false
 end
 
-local function controller() return F.r32(S.gBattlerControllerFuncs) & ~1 end
+local function controller(b) return F.r32(S.gBattlerControllerFuncs + b * 4) & ~1 end
 
-local function actionMenu()
-  local fn = controller()
+local function actionMenu(b)
+  local fn = controller(b)
   for _, p in ipairs(S.ActionInputFunctions) do if fn == (p & ~1) then return true end end
   return false
 end
+
+local function absent(b) return (F.r8(S.gAbsentBattlerFlags) >> b) & 1 ~= 0 end
 
 -- The key that walks a battle toward its end: on the action menu, Right and Down steer the cursor
 -- to RUN (flee a wild battle, or the forfeit prompt in a trainer battle), the prompt takes Up to
@@ -128,15 +130,21 @@ end
 -- summary) B backs out, with Down and A for the forced switch after a faint, which refuses B.
 -- Both menus steer by their cursor: a key picked by count alone locked into pressing A on POKEMON
 -- every turn when each trip through the party screen took a multiple of three keys.
+-- In a double the menu may belong to the right-hand Pokemon (battler 2), which cannot run: B there
+-- hands the choice back to the left one, unless the left one is gone. Reading battler 0 alone
+-- pressed A on battler 2's menu wherever its cursor sat, and on BAG that reopened the Bag forever.
 local function battleKey(n)
   if inBattle() then
-    local fn = controller()
-    if fn == (S.PlayerHandleYesNoInput & ~1) then return F.r8(S.gMultiUsePlayerCursor) == 0 and "A" or "Up" end
-    if actionMenu() then
-      local cur = F.r8(S.gActionSelectionCursor)
-      return cur == 3 and "A" or (cur % 2 == 0 and "Right" or "Down")
+    for b = 0, math.min(F.battlers() - 1, 2), 2 do
+      local fn = controller(b)
+      if fn == (S.PlayerHandleYesNoInput & ~1) then return F.r8(S.gMultiUsePlayerCursor) == 0 and "A" or "Up" end
+      if actionMenu(b) then
+        if b == 2 and not absent(0) then return "B" end
+        local cur = F.r8(S.gActionSelectionCursor + b)
+        return cur == 3 and "A" or (cur % 2 == 0 and "Right" or "Down")
+      end
+      if fn == (S.HandleInputChooseMove & ~1) then return "B" end
     end
-    if fn == (S.HandleInputChooseMove & ~1) then return "B" end
     return "A"
   end
   return ({ "B", "B", "Down", "A", "A" })[n % 5 + 1]

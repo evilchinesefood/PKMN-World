@@ -1583,6 +1583,16 @@ an identical 360-frame loop 13 times: A on POKéMON, the party screen, back out,
 Each trip took 15 keys, and the action menu's key was picked by count, so it came round to A every
 time. The battle keys now steer the action menu and the Yes/No by their cursors, as
 `LanceMultiOutcome` does.
+
+Tate and Liza at Fast text (stress pass 9). `PW_SPAM_BASE=1618033 PW_SPAM_TEXT=3` stranded the trainer
+double in the in-battle Bag (`CB2_BagMenuRun`, `Task_BagMenu_HandleInput`), 90/91, on every replay.
+From the kept savestate one B closes the Bag, so the game was fine. The battle keys read only battler
+0's controller, and battler 0 had already chosen, so they pressed A on battler 2's action menu,
+whose cursor sat on BAG; the Bag's back-out keys closed it and the next A opened it again, a
+120-frame loop for the whole recovery budget. The pass 5 Mid-text strand of the same battle was
+this loop. The keys now steer whichever player battler holds the menu, and on battler 2's menu
+press B to hand the choice back to battler 0, which can forfeit (battler 2 steers to RUN only when
+battler 0 is gone). Measured **91/91** at base 1618033 Fast text, **90/91** before.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
@@ -2800,6 +2810,16 @@ party and boxes full, and no item quantity grew. Measured **82/82** with the def
 `PW_SMASH_SEED=0xA11CE` and `0xBEEF7`; the mash found the two-stack sort refusal fixed in
 `BagSortTwoItems`. `PW_SMASH_SEED=<n>` reseeds, `PW_SMASH_ONLY=<text>` runs matching scenarios and
 `PW_SMASH_SAVE=<dir>` keeps a savestate of a battle that does not end.
+
+Forced switch in the double (stress pass 9). `PW_SMASH_SEED=65537` left `trainer_double_2` on the
+in-battle party screen (`CB2_UpdatePartyMenu`, battler 0 in `WaitForMonSelection`) after the left
+Machop fainted: **80/82**. The menu had opened on the fainted Machop with its Send Out / Summary /
+Cancel box up, and the finisher's B, B, Start, A cycle never moves the cursor, while the forced
+switch rightly refuses B. From the kept savestate, B, Down, Down, A, A sends out the healthy Machop
+and the battle resumes. The finisher now steers `gPartyMenu.slotId` to the first live non-Egg member
+off the field, alternating B (closes the box) with Down, then A and A. From that savestate the old
+finisher was still on the party screen after 12,000 frames and the new one won the battle in 5,514.
+Measured **82/82** at seed 65537.
 ### `JohtoPlaceNames.lua`
 
 Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and

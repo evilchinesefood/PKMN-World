@@ -180,7 +180,9 @@ static const struct MatchCallStructNPC sMrStoneMatchCallHeader =
 {
     .type = MC_TYPE_NPC,
     .mapSec = MAPSEC_RUSTBORO_CITY,
-    .flag = 0xFFFF,
+    // Emerald lists him unconditionally because he hands over the PokeNav. Johto's PokeGear is the
+    // same device and arrives first for a Johto-first player, so wait for his own gift in Rustboro.
+    .flag = FLAG_RECEIVED_POKENAV,
     .desc = COMPOUND_STRING("DEVON PRES"),
     .name = COMPOUND_STRING("MR. STONE"),
     .textData = (const match_call_text_data_t[]) {

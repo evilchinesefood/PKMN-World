@@ -7812,7 +7812,9 @@ static inline s32 DoMoveDamageCalc(struct DamageContext *ctx)
     if (dmg != INT32_MAX)
         return dmg;
 
-    ctx->isCrit = IsCriticalHit(ctx);
+    // Estimates (updateFlags FALSE) keep the caller's isCrit; rolling here spends battle RNG.
+    if (ctx->updateFlags)
+        ctx->isCrit = IsCriticalHit(ctx);
     return DoMoveDamageCalcVars(ctx);
 }
 
@@ -8117,6 +8119,8 @@ s32 CalculateMoveDamage(struct DamageContext *ctx)
     else
         damage = DoMoveDamageCalc(ctx);
 
+    if (!ctx->updateFlags)
+        return damage;
     return GetAdjustedDamage(ctx, damage);
 }
 

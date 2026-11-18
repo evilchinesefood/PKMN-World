@@ -3093,6 +3093,53 @@ Pass `--env PW_CASE=palace` to compare autonomous move choices and inability-to-
 Pass `--env PW_CASE=factory` to trade the first rental for the first opponent and record the
 second battle. The Factory case compares both trainers' chosen moves on every turn.
 
+Stress pass 8 added cases for the turn-seeded recordings (`ce646ce30b`). Every case also leaves the
+pass for the field and checks the party bytes against the ones from before playback. On the fixed ROM
+the earlier cases still pass: Arena **15/15**, Palace **16/16**, Factory **16/16**.
+
+- `tower`: the first Battle Tower singles battle. The lobby's record prompt is saved as a savestate
+  and replayed with a soft reset 0, 1, 2, 4, 8, 16, 40 and 90 frames after Yes and with two seeded
+  mashes; each Continue must land in a walkable lobby. Playback is mashed with every button but B,
+  then watched again and quit with B after two turns. **26/26** fixed.
+- `dome`: the first round of a Battle Dome tourney. **15/15** fixed.
+- `encore`: Battle Tower doubles. Clefable Encores its ally Jolteon on turn 1; on turn 2 Clefable's
+  action menu is cancelled with B after Jolteon chose. Gen 5+ Encore still sends Jolteon through
+  move and target selection, so three bytes were recorded, but the partner cancel cleared one. The
+  record shifted by two bytes and playback quit on turn 3. Measured **13/17** on master
+  (`turn 2 cancel: Jolteon's record 6 -> 5 bytes`), **17/17** fixed.
+- `seminar`: Tower singles led by Snorlax, whose Body Slam is not very effective against the
+  default seed's Geodude. The effectiveness message makes Battle TV's seminar estimate four damage
+  calcs; `CalculateMoveDamage` rolled a crit for each one (and could roll the endure check), but
+  only the live player controller updates TV data, so the recording spent four RNG values playback
+  never did. Geodude's damage roll that turn differed (Snorlax at 125 HP recorded, 97 replayed) and
+  playback quit. Measured **13/15** on master, **15/15** fixed.
+- `batonpass`: the seminar battle with the opponent's lead rewritten during the battle transition
+  to know only Baton Pass, so the trainer AI picks a replacement mid-turn after Snorlax moved.
+  **15/15** fixed.
+- `batonslow`: the same, but Snorlax uses Vital Throw (priority -1), so Geodude's Baton Pass and the
+  AI's replacement choice come first. The live opponent controller's `GetMostSuitableMonToSwitchInto`
+  and `SetBattlerAiData` draw battle RNG (`AI_DecideKnownAbilityForTurn`, `RandomRollDmg`, found
+  with a GDB watchpoint on `gRngValue`), but playback replays the choice from the record without
+  the AI, so Vital Throw's damage roll differed (Taillow at 44 HP recorded, 39 replayed). Measured
+  **14/15** with the encore and seminar fixes only, **15/15** fixed.
+- `overflow`: Tower singles at Instant text with the battle scene off. Battle 1 is recorded from the
+  battle room's Record option. Battle 2 is stretched past the 388-byte buffer with both sides' HP
+  held, a cancelled move menu every turn, a cancelled switch every sixth turn and a real switch every
+  eleventh, then finished with the foes held at 1 HP. Every cancel must remove exactly one byte (stored
+  or dropped), the battle room must drop its Record option, the lobby must not offer a record, and
+  the pass must still play battle 1 turn for turn. A held foe can still KO a held Pokemon in one hit,
+  so battle 2 may be lost; the room check is then skipped and logged. Fixed ROM: **19/19** (record
+  full on turn 134, 149 cancels, battle 2 won, room menu Go On/Rest/Retire). On `3557e2bab6`, before
+  `ce646ce30b`, the revision before this one's party-menu handling scored **10/19**: the room
+  offered Record, the lobby offered it, the overflowed record replaced battle 1's, and its playback
+  stopped on `battle_script_commands.c:4995` (`IsValidSwitchIn`).
+- `legacy`: continues a save whose Palace record was made by the ROM before turn seeding
+  (`fixtures/palace_legacy_record.srm`) and plays it. The fixture was recorded by this suite's
+  `palace` case on `3557e2bab6`, whose own playback already drifted from the battle and quit after
+  turn 5; the turn trace and Palace choices must match that playback exactly (**5/5** fixed). Run it with
+  `mgba-run.sh test/overworld/lua/FrontierRecordedBattle.lua pokemonworld.gba
+  test/overworld/lua/fixtures/palace_legacy_record.srm --env PW_CASE=legacy`.
+
 ### `KantoPropsStress.lua`
 
 Kanto story props with a level 50 Venusaur follower out, real input after the setup warps. **Draw

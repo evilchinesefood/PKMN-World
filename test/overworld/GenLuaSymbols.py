@@ -51,6 +51,8 @@ WANT = [
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
     "BattleMainCB2", "SetActionsAndBattlersTurnOrder", "CB2_QuitRecordedBattle", "CB2_FrontierPass",
+    # FrontierRecordedBattle.lua: each battler's recorded byte count and the bytes that did not fit.
+    "sBattlerRecordSizes", "sDroppedRecordBytes",
     "gProtectStructs", "gChosenMoveByBattler",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
     # Issue #120 playtests A/B. gDisplayedStringBattle is the expanded battle line
@@ -342,6 +344,7 @@ OPTIONAL = {
     "sUsmState",  # PW_GRAPHICAL_START_MENU
     "sUsmMemory",  # PW_GRAPHICAL_START_MENU
     "gFieldEffectObjectPicTable_SmallLight",  # absent before the street-lamp light existed
+    "sDroppedRecordBytes",  # absent before Frontier recordings counted overflow
 }
 
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,

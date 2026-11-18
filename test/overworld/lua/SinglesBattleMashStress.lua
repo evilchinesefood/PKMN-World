@@ -207,26 +207,8 @@ local function moveSteer(b)
 end
 
 -- The forced switch after a faint refuses B, and the menu opens on the fainted Pokemon, so a fixed
--- key cycle never leaves it. Steer gPartyMenu.slotId (struct PartyMenu +9) to the first live
--- non-Egg member off the field (slots 0 and 1 in a double, 0 in a single), then A for the
--- Send Out / Summary / Cancel menu and A for Send Out. The mash can leave that menu open on the
--- fainted Pokemon, where Down moves its cursor instead of the slot, so B (refused on the list,
--- closes the menu) alternates with Down.
-local PARTY_MENU_SLOT = 9
-local partyPending, partyStep = false, 0
-local function partyKey()
-  local first = (F.battlers() > 2) and 2 or 1
-  local target
-  for t = first, partyCount() - 1 do
-    local m = monAt(partyAddr(t))
-    if m.present and not m.egg and F.r16(partyAddr(t) + S.Pokemon.hp) > 0 then target = t; break end
-  end
-  if partyPending then partyPending = false; return "A" end
-  if target == nil then return "B" end
-  if F.rs8(S.gPartyMenu + PARTY_MENU_SLOT) == target then partyPending = true; return "A" end
-  partyStep = partyStep + 1
-  return (partyStep % 2 == 1) and "B" or "Down"
-end
+-- key cycle never leaves it; the mash can also leave its Send Out box open there.
+local partyKey = F.forcedSwitchKeys()
 
 local fin = 0
 local SAVE_DIR = os.getenv("PW_SMASH_SAVE")

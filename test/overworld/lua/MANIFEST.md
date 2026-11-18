@@ -1146,12 +1146,24 @@ faints down to one with voluntary and forced switches (B refused on the forced m
 up (summary box) and evolves while the end is mashed; the same level-up and evolution on the
 right-hand Pokemon with the left slot empty, and a benched four-move Pokemon learning a move
 through SHARED EXP. Party, PC and Bag are checked by decoding every slot (checksum, species,
-HP, count) and counting personality values. `PW_DBL_ONLY=<text>` runs a subset and
-`PW_DBL_TRACE=1` logs every input decision. Two checks discriminate against fixes made with the
+HP, count) and counting personality values. `PW_DBL_ONLY=<text>` runs a subset,
+`PW_DBL_SEED=<n>` reseeds the mash cases and `PW_DBL_TRACE=1` logs every input decision. Two checks discriminate against fixes made with the
 suite: the Egg-only scripted refusal failed (script left waiting, controls locked) before the
 deferred release in `RefuseScriptedWildBattleIfPartyless`, and "R shortcut after the display fell
 back" failed (no throw, display stuck on a ball the Bag no longer held) before
 `TryAddLastUsedBallItemSprites` re-pointed the display at the last thrown ball.
+
+Forced switch from the fainted Pokemon's box (stress pass 9). The suite's forced-switch key steered
+`gPartyMenu.slotId` with Down alone, the strand `SinglesBattleMashStress` hit at seed 65537. The
+scenario faints the left Magikarp of a wild double and presses A on the slot the party menu opens
+on, which opens the Send Out / Summary / Cancel box over the fainted Magikarp (screenshot checked),
+then hands the menu to the key. With Down alone the box's cursor moved and the slot stayed 0 for
+the 6,000-frame limit, **8/12**. Both suites now use `lib.lua`'s `forcedSwitchKeys`, which steers
+the slot to the first live non-Egg member off the field, then A and A, and presses B only while the
+box (`Task_HandleSelectionMenuInput`) is open: the bench Pokemon went out 118 frames after the box
+opened, **12/12** for the scenario. Alternating B with Down, as the Singles finisher did, cancelled
+the voluntary switch in "trainer double down to one" (B is refused only on a forced switch) and
+failed its 13 checks on every seed.
 
 ### `BugContestFullPC.lua`
 
@@ -2882,7 +2894,8 @@ switch rightly refuses B. From the kept savestate, B, Down, Down, A, A sends out
 and the battle resumes. The finisher now steers `gPartyMenu.slotId` to the first live non-Egg member
 off the field, alternating B (closes the box) with Down, then A and A. From that savestate the old
 finisher was still on the party screen after 12,000 frames and the new one won the battle in 5,514.
-Measured **82/82** at seed 65537.
+Measured **82/82** at seed 65537. The key now lives in `lib.lua` as `forcedSwitchKeys`, shared with
+`DoubleBattleStress`.
 ### `JohtoPlaceNames.lua`
 
 Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and

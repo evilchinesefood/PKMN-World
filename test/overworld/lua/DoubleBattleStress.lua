@@ -455,24 +455,8 @@ end
 -- live party member for a forced switch, which refuses B.
 local function screenKey(n) return ({ "Down", "A", "A", "B" })[n % 4 + 1] end
 
--- The in-battle party menu, driven by its cursor (gPartyMenu.slotId, struct PartyMenu +9). While
--- it is open gParties is in battle order, so slots 0 and 1 are the two on the field in a double;
--- the target is the first later slot holding a live non-Egg member. A on it opens
--- Shift / Summary / Cancel, and a second A takes Shift.
-local PARTY_MENU_SLOT = 9
-local partyPending = false
-local function partyKey()
-  local slot = F.rs8(S.gPartyMenu + PARTY_MENU_SLOT)
-  local target
-  for t = 2, partyCount() - 1 do
-    local m = monAt(partyAddr(t))
-    if m.present and not m.egg and monHp(t) > 0 then target = t; break end
-  end
-  if partyPending then partyPending = false; return "A" end
-  if target == nil then return "B" end
-  if slot == target then partyPending = true; return "A" end
-  return "Down"
-end
+local PARTY_MENU_SLOT = 9   -- gPartyMenu.slotId
+local partyKey = F.forcedSwitchKeys()
 
 local function fightKey(b, kind, n)
   if kind == "action" then return steer(b, 0) end

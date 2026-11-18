@@ -178,6 +178,28 @@ function M.new(S, name, opts)
   self.battleFlags = function() return r32(S.gBattleTypeFlags) end
   self.outcome = function() return r8(S.gBattleOutcome) end
 
+  -- A key function for the in-battle party menu, made for the forced switch after a faint, which
+  -- refuses B and opens on the fainted Pokemon. It steers gPartyMenu.slotId (struct PartyMenu +9)
+  -- to the first live non-Egg member off the field (the menu holds gParties in battle order, so
+  -- slots 0 and 1 are on the field in a double, 0 in a single), then A for Send Out / Summary /
+  -- Cancel and A for Send Out. A box open on any other slot takes Down for its own cursor, so B
+  -- closes it first; B on the list itself would cancel a voluntary switch.
+  self.forcedSwitchKeys = function()
+    local pending = false
+    return function()
+      if pending then pending = false; return "A" end
+      local target
+      for t = (r8(S.gBattlersCount) > 2) and 2 or 1, r8(S.gPartiesCount) - 1 do
+        local a = S.gParties + t * S.Pokemon.size
+        -- BoxPokemon flags byte: bit 1 hasSpecies, bit 2 isEgg.
+        if (r8(a + 19) & 6) == 2 and r16(a + S.Pokemon.hp) > 0 then target = t; break end
+      end
+      if target == nil then return "B" end
+      if rs8(S.gPartyMenu + 9) == target then pending = true; return "A" end
+      return self.taskLive(S.Task_HandleSelectionMenuInput) and "B" or "Down"
+    end
+  end
+
   -- money / BP (money is XORed with the SaveBlock2 encryption key)
   self.money = function() return r32(sb1() + S.SaveBlock1.money) ~ r32(sb2() + S.SaveBlock2.encryptionKey) end
   self.bp = function() return r16(sb2() + S.SaveBlock2.bp) end

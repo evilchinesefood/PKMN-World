@@ -1,5 +1,6 @@
 #include "global.h"
 #include "regional_travel.h"
+#include "regions.h"
 #include "item_use.h"
 #include "battle.h"
 #include "battle_anim.h"
@@ -243,9 +244,24 @@ static void DisplayCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKeyIte
     }
 }
 
+// Each region keeps its source game's line: FireRed's Oak, pokemonHnS's Elm, Emerald's Dad.
 void DisplayDadsAdviceCannotUseItemMessage(u8 taskId, bool8 isUsingRegisteredKeyItemOnField)
 {
-    DisplayCannotUseItemMessage(taskId, isUsingRegisteredKeyItemOnField, gText_DadsAdvice);
+    const u8 *str;
+
+    switch (GetCurrentRegion())
+    {
+    case REGION_KANTO:
+        str = gText_OakForbidsUseOfItemHere;
+        break;
+    case REGION_JOHTO:
+        str = gText_ElmsAdvice;
+        break;
+    default:
+        str = gText_DadsAdvice;
+        break;
+    }
+    DisplayCannotUseItemMessage(taskId, isUsingRegisteredKeyItemOnField, str);
 }
 
 static void DisplayCannotDismountBikeMessage(u8 taskId, bool8 isUsingRegisteredKeyItemOnField)

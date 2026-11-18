@@ -3825,4 +3825,4 @@ east into Ever Grande below the waterfall, lands at (18,6) in front of the Leagu
 to the left guard from (9,3); then it adds badges 7 and 8 and talks again. **Oracle:** the six-badge
 talk leaves `FLAG_ENTERED_ELITE_FOUR` clear and both guards on (9,2)/(10,2); the eight-badge talk sets
 the flag and moves them aside. **Discrimination:** unfixed 14/16 (admitted at six badges, guards on
-(8,2)/(11,2), so the eight-badge talk finds no guard in front).
+(8,2)/(11,2), so the eight-badge talk finds no guard in front), fixed 16/16.

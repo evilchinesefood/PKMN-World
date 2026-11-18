@@ -92,6 +92,7 @@ BirthIsland_Exterior_EventScript_Deoxys::
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, BirthIsland_Exterior_EventScript_DefeatedDeoxys
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, BirthIsland_Exterior_EventScript_RanFromDeoxys
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, BirthIsland_Exterior_EventScript_RanFromDeoxys
+	goto_if_eq VAR_RESULT, B_OUTCOME_MON_TELEPORTED, BirthIsland_Exterior_EventScript_RanFromDeoxys
 	setflag FLAG_BATTLED_DEOXYS
 	release
 	end

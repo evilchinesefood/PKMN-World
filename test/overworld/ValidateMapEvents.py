@@ -257,6 +257,7 @@ SHARED_STATE_OK = {
     "FLAG_HIDE_LUGIA": "one Lugia per world; each site recomputes it on entry",
     "FLAG_HIDE_HO_OH": "one Ho-Oh per world; each site recomputes it on entry",
     "FLAG_DEFEATED_DEOXYS": "one Deoxys per world; Hall of Fame respawn",
+    "FLAG_BATTLED_DEOXYS": "one Deoxys per world: a catch on either Birth Island hides both",
     "FLAG_HIDE_DEOXYS": "one Deoxys per world (Birth Island in Hoenn and Kanto)",
     "FLAG_DEOXYS_ROCK_COMPLETE": "one Deoxys per world (Birth Island in Hoenn and Kanto)",
     "VAR_DEOXYS_ROCK_STEP_COUNT": "one Deoxys per world (Birth Island in Hoenn and Kanto)",

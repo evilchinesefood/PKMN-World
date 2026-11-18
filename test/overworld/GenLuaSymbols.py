@@ -295,6 +295,9 @@ WANT = [
     "gBallToDisplay", "gLastThrownBall", "gLastUsedBallMenuPresent",
     "gAbsentBattlerFlags", "gChosenActionByBattler", "CB2_EvolutionSceneUpdate",
     "BattleScript_BallThrow", "ScrCmd_createmon", "gPartyMenu",
+    # DoubleBattleStress.lua opens the forced switch's Send Out box on the fainted Pokemon: the
+    # party list's input task, then the box's.
+    "Task_HandleChooseMonInput", "Task_HandleSelectionMenuInput",
     # DefaultBoxCatchMessages.lua: the givecaughtmon step, where "add it to your party?" waits.
     "BattleScript_GiveCaughtMonAfterNick",
     # AutosaveStress.lua. The QoL #7 autosave is armed by CB2_LoadMap (sAutosaveSettleTimer) and
@@ -550,7 +553,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "dexCaught", "roamer", "gameStats", "pokeblocks"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "dexCaught", "roamer", "gameStats", "pokeblocks", "playerPartyCount", "playerParty"]
 
 
 def load_save_src(root):

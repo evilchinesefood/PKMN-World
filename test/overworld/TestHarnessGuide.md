@@ -359,6 +359,10 @@ Two things that make `sMenu` bite:
 Read the battle state instead of trusting the screen — `F.battleFlags()`, `F.battlers()`,
 `F.outcome()` wrap `gBattleTypeFlags`, `gBattlersCount`, `gBattleOutcome`.
 
+A forced switch after a faint refuses B and opens on the fainted Pokemon, so a fixed key cycle can
+stay on it, and Down alone strands once its Send Out box is open. Drive the party screen with
+`local partyKey = F.forcedSwitchKeys()` and press what `partyKey()` returns each poll.
+
 A genuine solo player-vs-two-trainers double is `gBattleTypeFlags == 0x800D`
 (`DOUBLE|TWO_OPPONENTS|TRAINER`), `gBattlersCount == 4`, **PARTNER bit (`0x400000`) clear**.
 

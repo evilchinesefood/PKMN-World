@@ -130,6 +130,25 @@ void KeepBugContestLead(void)
     SavePlayerPartyMon(0, &gParties[B_TRAINER_PLAYER][0]);
 }
 
+// The contest's end throws the contest party away, so a Pokemon born in it (a Shedinja from a
+// Nincada lead) joins the parked team, or the PC when that team is full, as GiveMonToPlayer would.
+bool32 CanKeepBugContestNewMon(void)
+{
+    return *GetSavedPlayerPartyCount() < PARTY_SIZE || CheckFreePokemonStorageSpace();
+}
+
+void KeepBugContestNewMon(struct Pokemon *mon)
+{
+    u8 *parkedCount = GetSavedPlayerPartyCount();
+
+    if (*parkedCount < PARTY_SIZE)
+        SavePlayerPartyMon((*parkedCount)++, mon);
+    else
+        CopyMonToPC(mon);
+    ZeroMonData(mon);
+    CalculatePlayerPartyCount();
+}
+
 bool8 JudgeBugContestMon(void)
 {
     //Scyther max hp: 53

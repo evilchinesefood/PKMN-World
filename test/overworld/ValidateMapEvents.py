@@ -305,9 +305,6 @@ SHARED_STATE_OK = {
     "VAR_FOSSIL_RESURRECTION_STATE": "#576: Alph adopts a Johto fossil left in Devon's regenerator",
     "VAR_WHICH_FOSSIL_REVIVED": "#576: Alph adopts a Johto fossil left in Devon's regenerator",
     "FLAG_RECEIVED_REVIVED_FOSSIL_MON": "Hoenn's Fossil Maniac only remarks that a fossil was revived somewhere",
-    # Owner call: Elm registers his number in the PokeGear's one professor entry, which is named
-    # PROF. BIRCH; a Johto-first player then skips Birch's registration scene in Hoenn.
-    "FLAG_ENABLE_PROF_BIRCH_MATCH_CALL": "the PokeNav's professor entry doubles as Elm's number",
 }
 # Collisions that a pull request fixes but that may not have landed with this check. They are
 # printed, never failed; delete each entry once its fix is on master.

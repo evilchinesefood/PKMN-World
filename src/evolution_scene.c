@@ -3,6 +3,7 @@
 #include "battle.h"
 #include "battle_message.h"
 #include "bg.h"
+#include "bug_contest.h"
 #include "data.h"
 #include "decompress.h"
 #include "event_data.h"
@@ -564,6 +565,7 @@ static void CreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpeci
         if (evolutions[i].method == EVO_SPLIT_FROM_EVO
          && evolutions[i].param == postEvoSpecies
          && gPartiesCount[B_TRAINER_PLAYER] < PARTY_SIZE
+         && (!GetBugContestFlag() || CanKeepBugContestNewMon())
          && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_SIZE, NULL, CHECK_EVO))
         {
             s32 j;
@@ -602,6 +604,8 @@ static void CreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpeci
                 && GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NINJASK)
                     SetMonData(shedinja, MON_DATA_NICKNAME, sText_ShedinjaJapaneseName);
 
+            if (GetBugContestFlag())
+                KeepBugContestNewMon(shedinja);
         }
     }
 }

@@ -6,12 +6,15 @@
 -- Johto first: crosses the hub's Johto gate, gets out of bed, sets the clock and walks downstairs
 -- for the mother's PokeGear scene, then opens Match Call from the Start menu with real input and
 -- mashes A, Up and Down on the list. Oracle: the live Match Call list holds no MR. STONE, nothing
--- crashes, control returns, and FLAG_ENABLE_MR_STONE_POKENAV stays clear. Then the same player plays
--- Devon's 3F scene in Rustboro, and the list must show MR. STONE.
+-- crashes, control returns, and FLAG_ENABLE_MR_STONE_POKENAV stays clear. Then Elm's first
+-- directions after the starter play out: Elm gives no number (the owner removed Johto's PROF. BIRCH
+-- contact), so FLAG_ENABLE_PROF_BIRCH_MATCH_CALL stays clear and the PokeGear's main menu still has
+-- no Match Call entry however the cursor is mashed. Then the same player plays Devon's 3F scene in
+-- Rustboro, and the list must show MR. STONE; Birch's Route 110 scene then registers PROF. BIRCH.
 -- Hoenn first (restored from a fresh-boot savestate): plays Devon's 3F scene and the Rustboro
 -- scientist's Match Call tutorial (pick POKeNAV, call MR. STONE) with real input. Oracle: the
 -- tutorial call lands on MR. STONE's first line, then the list opens with MR. STONE on top and his
--- next call is the letter errand.
+-- next call is the letter errand. Birch's Route 110 scene registers him, and his call answers.
 --
 -- Knobs: PW_SEED=<n> reseeds the list mash.
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/MrStoneMatchCallGate.lua <rom>
@@ -27,6 +30,8 @@ local NEWBARK = { 75, 0 }
 local ELM_LAB = { 76, 0 }
 local DEVON_3F = { 11, 2 }
 local RUSTBORO = { 0, 3 }
+local ROUTE110 = { 0, 25 }
+local VAR_REGISTER_BIRCH_STATE = 0x40DA
 local VAR_NEWBARK_TOWN_STATE = 0xA080
 local VAR_DEVON_CORP_3F_STATE = 0x408F
 local FLAG_SYS_POKENAV_GET = 0x94A
@@ -44,7 +49,9 @@ local USM_ICO_POKENAV = 3
 local SUBSTRUCT_MAIN_MENU_HANDLER = 1
 local SUBSTRUCT_MATCH_CALL_MAIN = 5
 local MENU_TYPE_UNLOCK_MC, MENU_TYPE_UNLOCK_MC_RIBBONS = 1, 2
+local MENUITEM_MATCH_CALL = 2
 local MC_HEADER_PROF_BIRCH = 1
+-- PokenavMatchCallEntry is 6 bytes of fields, but -mabi=apcs-gnu rounds every struct up to 4 bytes.
 local MC = { numRegistered = 10, initFinished = 16, callback = 24, entries = 28, entrySize = 8, special = 0, headerId = 4 }
 local CONTEXT_RUNNING = 0
 
@@ -238,13 +245,15 @@ local function describe(rows)
   return #rows .. " [" .. table.concat(t, " ") .. "]"
 end
 
-local function mainMenuType()
+local function mainMenu()
   local res = F.r32(S.gPokenavResources)
-  if res < 0x02000000 or res >= 0x02040000 then return -1 end
+  if res < 0x02000000 or res >= 0x02040000 then return nil end
   local p = F.r32(res + 16 + SUBSTRUCT_MAIN_MENU_HANDLER * 4)
-  if p < 0x02000000 or p >= 0x02040000 then return -1 end
-  return F.r16(p)
+  if p < 0x02000000 or p >= 0x02040000 then return nil end
+  return p
 end
+local function mainMenuType() local p = mainMenu(); return p and F.r16(p) or -1 end
+local function mainMenuItem() local p = mainMenu(); return p and F.r16(p + 4) or -1 end
 
 -- Opens the PokeNav from the Start menu; returns whether its main menu offers Match Call.
 local function openPokenav(tag)
@@ -358,6 +367,36 @@ local function devonScene(tag)
   F.check(tag .. ": control returned after Devon's scene", drain(), where())
 end
 
+-- Hoenn's own registration: walking north into Route 110's trigger after the Oceanic Museum brings
+-- Birch out to register his number. The museum's var is set directly; the scene is real input.
+local function birchRoute110(tag)
+  F.check(tag .. ": PROF. BIRCH is not registered yet", not flagGet(FLAG_ENABLE_PROF_BIRCH_MATCH_CALL))
+  setVar(VAR_REGISTER_BIRCH_STATE, 1)
+  F.check(tag .. ": south of Birch's Route 110 trigger", warpXY(ROUTE110, 8, 86), where())
+  F.press("Up", 20)
+  for _ = 1, 900 do
+    if getVar(VAR_REGISTER_BIRCH_STATE) == 2 and hasControl() then break end
+    if F.reportCrash(tag .. "_birch") then break end
+    F.press("A", 2); F.idle(14)
+  end
+  F.shot(tag .. "_birch_done")
+  F.check(tag .. ": Birch's Route 110 scene registered him",
+    getVar(VAR_REGISTER_BIRCH_STATE) == 2 and flagGet(FLAG_ENABLE_PROF_BIRCH_MATCH_CALL), where())
+  F.check(tag .. ": control returned after Birch's scene", drain(), where())
+  if openMatchCall(tag .. "_birch") then
+    local rows = listHeaders()
+    F.L("  " .. tag .. " after Birch: " .. describe(rows))
+    local at
+    for i, r in ipairs(rows) do if r.special and r.header == MC_HEADER_PROF_BIRCH then at = i end end
+    if F.check(tag .. ": PROF. BIRCH is listed", at ~= nil, describe(rows)) then
+      for _ = 2, at do F.press("Down", 2); F.idle(30) end
+      local text = callFirst(tag .. "_birch")
+      F.check(tag .. ": PROF. BIRCH answers", text:find("PROF. BIRCH:", 1, true) == 1, text)
+    end
+    closePokenav(tag .. "_birch")
+  end
+end
+
 -- Leaving Devon puts the player at its door with the scientist's Match Call tutorial on the next frame.
 local function scientistTutorial(tag)
   F.check(tag .. ": out of Devon's door", warp(RUSTBORO, 5, tag .. "_rustboro"), where())
@@ -431,23 +470,27 @@ F.run(function()
   F.check("johto: calling from the PokeGear never reaches MR. STONE", not flagGet(FLAG_ENABLE_MR_STONE_POKENAV))
   closePokenav("johto")
 
-  -- Elm's first directions after the starter register his number (PROF. BIRCH's contact).
+  -- Elm's first directions after the starter. Elm gives no number, so the PokeGear still has no one
+  -- to call and offers no Match Call; the main menu is mashed to catch a hidden or stray entry.
   setVar(VAR_NEWBARKTOWN_LABSTATE, 1)
   flagSet(FLAG_JOHTO_STARTER_CHOSEN)
   flagClear(FLAG_SHOWN_ELM_TOGEPI)
   F.check("elm: in front of Elm after the starter", warpXY(ELM_LAB, 6, 4), where())
   F.check("elm: the directions hand control back", talk("Up", "elm_directions"), where())
-  F.check("elm: Elm registered his number", flagGet(FLAG_ENABLE_PROF_BIRCH_MATCH_CALL))
+  F.check("elm: Elm registers no PROF. BIRCH contact", not flagGet(FLAG_ENABLE_PROF_BIRCH_MATCH_CALL))
   F.check("elm: out of the front door", warp(NEWBARK, 1, "newbark_elm") and drain(), where())
-  if openMatchCall("elm") then
-    rows = listHeaders()
-    F.L("  elm list: " .. describe(rows))
-    F.check("elm: Elm's contact heads the list", rows[1] and rows[1].special and rows[1].header == MC_HEADER_PROF_BIRCH, describe(rows))
-    F.check("elm: MR. STONE is still not listed", not hasStone(rows), describe(rows))
-    local text = callFirst("elm")
-    F.check("elm: Elm's contact answers", text:find("PROF. BIRCH:", 1, true) == 1, text)
-    closePokenav("elm")
+  local elmOffered = openPokenav("elm")
+  F.check("elm: the PokeGear offers no Match Call with no one to call", not elmOffered)
+  local items, sawMatchCall = {}, false
+  for _ = 1, 16 do
+    F.press(rand(3) == 0 and "Up" or "Down", 2); F.idle(20)
+    local item = mainMenuItem()
+    items[#items + 1] = tostring(item)
+    sawMatchCall = sawMatchCall or item == MENUITEM_MATCH_CALL
   end
+  F.shot("elm_menu_mash")
+  F.check("elm: the cursor never lands on Match Call", not sawMatchCall, table.concat(items, " "))
+  closePokenav("elm")
   F.check("elm: MR. STONE was never called", not flagGet(FLAG_ENABLE_MR_STONE_POKENAV))
 
   devonScene("johto_devon")
@@ -457,6 +500,7 @@ F.run(function()
     F.check("johto_devon: MR. STONE is listed once Devon gave the PokeNav", hasStone(rows), describe(rows))
     closePokenav("johto_devon")
   end
+  birchRoute110("johto_hoenn")
 
   client.loadstate(fresh)
   F.idle(30)
@@ -473,5 +517,6 @@ F.run(function()
       text:find("MR. STONE:", 1, true) == 1 and text:find("deliver my letter", 1, true) ~= nil, text)
     closePokenav("hoenn")
   end
+  birchRoute110("hoenn")
   F.finish()
 end)

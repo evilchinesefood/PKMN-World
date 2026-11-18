@@ -113,12 +113,6 @@ resumed to the end at 251/251: the 17 post-League island beats, the remaining cr
 Halls of Fame and every post-game detour. The first resume failed at `k_to_victory_road` with
 `no route from OneIsland_PokemonCenter_1F_Frlg`, which is the sail-home fix above.
 
-## Not covered
-
-`FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`
-is set in Elm's lab, so a Johto-first player may never get Birch's phone registration. That is from
-reading the scripts, and it was not checked in play.
-
 ## Historical stress passes
 
 Each row records the final integration run for that pass. World columns count campaign checks

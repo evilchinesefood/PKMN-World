@@ -1146,12 +1146,32 @@ faints down to one with voluntary and forced switches (B refused on the forced m
 up (summary box) and evolves while the end is mashed; the same level-up and evolution on the
 right-hand Pokemon with the left slot empty, and a benched four-move Pokemon learning a move
 through SHARED EXP. Party, PC and Bag are checked by decoding every slot (checksum, species,
-HP, count) and counting personality values. `PW_DBL_ONLY=<text>` runs a subset and
-`PW_DBL_TRACE=1` logs every input decision. Two checks discriminate against fixes made with the
+HP, count) and counting personality values. `PW_DBL_ONLY=<text>` runs a subset,
+`PW_DBL_SEED=<n>` reseeds the mash cases and `PW_DBL_TRACE=1` logs every input decision. Two checks discriminate against fixes made with the
 suite: the Egg-only scripted refusal failed (script left waiting, controls locked) before the
 deferred release in `RefuseScriptedWildBattleIfPartyless`, and "R shortcut after the display fell
 back" failed (no throw, display stuck on a ball the Bag no longer held) before
 `TryAddLastUsedBallItemSprites` re-pointed the display at the last thrown ball.
+
+Forced switch from the fainted Pokemon's box (stress pass 9). The suite's forced-switch key steered
+`gPartyMenu.slotId` with Down alone, the strand `SinglesBattleMashStress` hit at seed 65537. The
+scenario faints the left Magikarp of a wild double and presses A on the slot the party menu opens
+on, which opens the Send Out / Summary / Cancel box over the fainted Magikarp (screenshot checked),
+then hands the menu to the key. With Down alone the box's cursor moved and the slot stayed 0 for
+the 6,000-frame limit, **8/12**. Both suites now use `lib.lua`'s `forcedSwitchKeys`, which steers
+the slot to the first live non-Egg member off the field, then A and A, and presses B only while the
+box (`Task_HandleSelectionMenuInput`) is open: the bench Pokemon went out 118 frames after the box
+opened, **12/12** for the scenario. Alternating B with Down, as the Singles finisher did, cancelled
+the voluntary switch in "trainer double down to one" (B is refused only on a forced switch) and
+failed its 13 checks on every seed.
+
+Mash finisher (stress pass 9). `PW_DBL_SEED` 1, 48879 and 65537 left "mash debug" and "mash past
+intro" at their 40,000-frame budget, four of five in the Bag (`CB2_BagMenuRun`), which ignores B
+while a pocket switch animates. An exhausted mash now hands over to steered keys (B in the Bag,
+the forced-switch key on the party screen, RUN where running is an allowed outcome, else the fight
+keys) and logs how long they took: 167 to 240 frames to the field each time. A first try with fight
+keys alone left a level 50 debug party pressing A on whatever move the mash had selected, never
+damaging the 1 HP foe. Measured **331/331** at `PW_DBL_SEED` 0, 1, 777, 48879 and 65537.
 
 ### `BugContestFullPC.lua`
 
@@ -2563,6 +2583,15 @@ Arcanine), the Pidgey is byte-identical in species, personality and level, the i
 contest mode is off. **Fix:** `KeepBugContestLead` writes the contest lead over the parked slot 0
 before every restore (the end and the full-box PC detour). **Discrimination:** unfixed **20/23** (both
 leads came back unevolved), fixed **23/23**.
+Three more scenarios level a Nincada 19 lead into Ninjask with a Bag Rare Candy and one Poke Ball,
+stand a debug-given Caterpie in for the catch and pick it in the judging party menu. **Oracle:** the
+Shedinja the evolution makes is owned exactly once after the end, in the team when it has room (team
+of 2 becomes 3) and in the PC when the team is full; with a full team and full boxes no Shedinja is
+made and the Poke Ball stays; the judged Caterpie reaches the PC once and the team is otherwise
+untouched. **Fix:** `CreateShedinja` hands a contest-born Shedinja to `KeepBugContestNewMon`, which
+puts it in the parked team or the PC, and skips it when neither has room. **Discrimination:** unfixed
+**59/67** (the Shedinja vanished with its Poke Ball spent; full boxes stalled the judging in the PC
+detour), fixed **67/67**.
 `--env PW_LEAD_ONLY=<text>` runs matching scenarios.
 
 ### `EggSummaryPageTabs.lua`
@@ -2882,7 +2911,8 @@ switch rightly refuses B. From the kept savestate, B, Down, Down, A, A sends out
 and the battle resumes. The finisher now steers `gPartyMenu.slotId` to the first live non-Egg member
 off the field, alternating B (closes the box) with Down, then A and A. From that savestate the old
 finisher was still on the party screen after 12,000 frames and the new one won the battle in 5,514.
-Measured **82/82** at seed 65537.
+Measured **82/82** at seed 65537. The key now lives in `lib.lua` as `forcedSwitchKeys`, shared with
+`DoubleBattleStress`.
 ### `JohtoPlaceNames.lua`
 
 Three Johto lines named Hoenn places. Goldenrod Game Corner's coin clerk runs Mauville's script and
@@ -4171,8 +4201,9 @@ ce646ce30b it scores **76/100**: all four boards rotate the cursor sprite on an 
 
 The six NPC and sign scripts whose lines ce646ce30b rewrote, each driven through its real trigger
 with a seeded A/B mash, Yes/No answers steered by the menu cursor. Elm's first directions after the
-starter must give PROF. BIRCH's number and set `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`; later visits repeat
-them, and after Togepi he points to PROF. BIRCH. The Goldenrod bike clerk is refused (no bike, flag
+starter must promise no phone number and leave `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL` clear (the owner
+removed Johto's PROF. BIRCH contact); later visits repeat them, and after Togepi he asks about the
+POKeDEX without sending the player to a phone (unfixed 57/62, fixed 62/62). The Goldenrod bike clerk is refused (no bike, flag
 clear), accepted with a full Key Items pocket (the debug fill leaves 7 of 99 slots free, so the suite
 tops them up and swaps out any Mach Bike stack: the BAG is full line, no bike, flag clear) and accepted
 with room (one Mach Bike, flag set); his thanks and the second clerk's line must name the Mach Bike
@@ -4552,16 +4583,15 @@ Warden Baoba's Route 39 scene says "{PLAYER} registered BAOBA in the POKéNAV!" 
 `FLAG_ENABLE_BAOBA_MATCH_CALL`, but no Match Call contact read that flag, so the number he gave could
 not be seen or called. pokemonHnS defines the contact (an NPC header, "SAFARI WARDEN", Safari Zone
 Gate, two call lines with the second gated on `FLAG_AMPHAROS_HEALED`), and `MC_HEADER_BAOBA` now
-carries it. With the PokeGear, Match Call, Elm's contact (the PROF. BIRCH flag Elm's lab sets) and MOM's
-flag set, the suite warps to Route 39 and opens the Match Call list from the Start menu with real
+carries it. With the PokeGear, Match Call and MOM's flag set (so the list opens before Baoba), the suite warps to Route 39 and opens the Match Call list from the Start menu with real
 input, then walks into the shadow trigger and plays the scene with a seeded mash of A, B and Down
 (B at the Gold/Silver choice asks again). It opens the list again and calls every contact, then
 calls once more after Ampharos is healed. **Oracle:** the contact list read from the live Match Call
 menu and each call's text from `gStringVar4`: no BAOBA before the scene, exactly one after, the list
-one longer, his call says the Safari Zone is nearly ready and later that it is open, and PROF. BIRCH
-and MOM still answer. Every call ends back on the list and the field is walkable after each visit.
+one longer, his call says the Safari Zone is nearly ready and later that it is open, MOM still
+answers, and no PROF. BIRCH is listed (Elm no longer registers him). Every call ends back on the list and the field is walkable after each visit.
 **Discrimination:** unfixed 29/33 (the list stays at three contacts and no call answers as BAOBA),
-fixed 35/35. Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
+fixed 35/35 (29/29 once Elm stopped registering PROF. BIRCH, one call fewer per visit). Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
 mash, `PW_INSTANT=1` sets Instant text.
 
 ### `PyramidSummaryRelearn.lua`
@@ -4589,12 +4619,37 @@ it to them, talking about a letter for STEVEN in DEWFORD, and calling him set
 MR. STONE alone left a Match Call list with nobody in it, which draws stray tiles and calls whatever
 the unwritten first entry holds. The suite crosses the hub's Johto gate and plays the clock and the
 mother's PokeGear scene with real input, steps outdoors and opens the PokeNav from the Start menu (and,
-if Match Call is offered, the list, mashing A, Up and Down). Then Elm's first directions register his
-number and the list opens again; then Devon's 3F scene gives the PokeNav. From a fresh-boot savestate,
+if Match Call is offered, the list, mashing A, Up and Down). Then Elm's first directions play out:
+he gives no number, so the PokeGear still offers no Match Call while its main menu cursor is mashed.
+Then Devon's 3F scene gives the PokeNav, and Birch's Route 110 scene registers PROF. BIRCH. From a fresh-boot savestate,
 a Hoenn-first player plays Devon's scene and the Rustboro scientist's tutorial (pick POKeNAV, call MR.
-STONE), then calls him from the list. **Oracle:** the live main menu type and Match Call list; the
-PokeGear lists no MR. STONE and offers Match Call only with a contact; Elm's PROF. BIRCH entry heads the
-list and answers; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKENAV`; the Hoenn
+STONE), then calls him from the list and plays Birch's Route 110 scene. **Oracle:** the live main menu type and Match Call list; the
+PokeGear lists no MR. STONE and offers Match Call only with a contact; after Elm's directions
+`FLAG_ENABLE_PROF_BIRCH_MATCH_CALL` is clear and the cursor never reaches Match Call; Birch's Route 110
+scene registers him in both orders and his call answers as PROF. BIRCH; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKENAV`; the Hoenn
 tutorial call is his first line and the next is the letter errand. **Discrimination:** unfixed 45/51
 (MR. STONE listed and called from New Bark, listed above Elm, and Elm's slot answered as MR. STONE),
 MR. STONE gated without the menu change 50/51 (Match Call offered with 0 contacts), fixed 51/51.
+### `PalaceLobbyCancel.lua`
+
+Every cancel at the Battle Palace lobby attendants, singles and doubles, with a follower out. The
+party-restoring cancel (`LoadPartyAndCancelChallenge`) is reached by backing out of the party pick
+with none chosen and with three chosen (B, then YES), and by NO and B at the save prompt; the plain
+cancel by CANCEL and B at the first menu and at the level menu. The pick chooses slots 3, 2, 1, so a
+party reordered to the pick would put Venusaur ahead of the Charizard follower. The base saves the
+game from the Start menu, which also writes the party copy `SavePlayerParty` keeps in
+`SaveBlock1.playerParty`; the "stale" cases then gain a fifth Pokemon without saving, so that copy lags
+the live party the way it does after any earlier save or challenge, and the suite asserts it is the old
+four before cancelling at the save prompt and at the pick. **Oracle:** control returns in the lobby,
+the player walks, the party is byte-identical to the one that walked in, the frontier status is 0, and
+the follower is the lead on release and walks behind the player. **Discrimination:** this guards the
+cancel path's line, which read `callnative LoadPlayerParty` (a typo in the 2022 follower port, still on
+upstream expansion) where every other lobby runs `callnative UpdateFollowingPokemon`. No defect was
+observable: the second load copies the same buffer again, the Attendant's `SavePlayerParty` refreshes
+that buffer before any cancel, and returning from the party screen respawns the follower
+(`ReturnToFieldLocal`), so the unfixed ROM passes 172/172 and the fixed ROM 172/172. A tamper control
+that drops the Attendant's `SavePlayerParty` and removes the follower on that cancel fails 144/172:
+both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks on the
+party-restoring cancels fail.
+Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
+with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.

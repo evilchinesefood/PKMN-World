@@ -63,6 +63,15 @@ SSAqua_1F_EventScript_StayAboard::
 @ (non-hub) variant: it sets the region WITHOUT boxing the party, which is what Johto -> Kanto
 @ needs — HG/SS treats the two as one continuous campaign with one team.
 SSAqua_1F_EventScript_LeaveBoat::
+	@ HnS shows the gym leaders' post-League cameos on landing in KANTO (new_game.c hides them).
+	@ They are JOHTO's own objects, so this is not the HG/SS Kanto flagheap the note above refuses.
+	clearflag FLAG_HIDE_DEPTSTORE_WHITNEY
+	clearflag FLAG_HIDE_BELLCHIME_MORTY
+	clearflag FLAG_HIDE_CAFE_JASMINE
+	clearflag FLAG_HIDE_OLIVINE_SABRINA
+	clearflag FLAG_HIDE_LAKE_PRYCE
+	clearflag FLAG_HIDE_DEN_CLAIR
+	clearflag FLAG_HIDE_ROUTE22_JANINE
 	setvar VAR_RESULT, 0 @ 0 = REGION_KANTO
 	callnative RegionHub_ScrSetCurrentRegion
 	setrespawn HEAL_LOCATION_VERMILION_CITY

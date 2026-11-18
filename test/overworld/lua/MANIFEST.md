@@ -4266,4 +4266,5 @@ and must not bring back the four already met (Whitney stays out of the 6F).
 seven flags clear, all four cameos and Oak visible, Oak blocking (8,15) and his scene setting
 `FLAG_SYS_NATIONAL_DEX`), with it 45/45. This version on stress9/hide9 c5902380c9 (cameos shown only by the
 boat landing) 61/77: after the Hall of Fame and the Hub round trip all seven flags are still set and all
-four cameos absent, then the landing brings the four back (Whitney visible at (20,9)).
+four cameos absent, then the landing brings the four back (Whitney visible at (20,9)). With the Hall of
+Fame reveal and the reworded lines 101/101.

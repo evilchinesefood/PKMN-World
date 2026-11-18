@@ -23,9 +23,9 @@ DragonsDen_EventScript_ClairRematch::
 
 DragonsDen_Text_Clair:
     .string "{PLAYER}… So you're here.\p"
-	.string "If you think you can keep up,\n"
-	.string "with me, come to the FIGHTING\l"
-	.string "DOJO in SAFFRON.$"
+	.string "If you think you can keep up\n"
+	.string "with me, come to my GYM in\l"
+	.string "BLACKTHORN.$"
 
 DragonsDen_Cavern_Trigger_ClairLeft::
 	lock

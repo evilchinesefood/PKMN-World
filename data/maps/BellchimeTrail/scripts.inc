@@ -24,7 +24,7 @@ BellchimeTrail_Text_Morty:
 	.string "I will continue my training until I\n"
 	.string "discover a new future for me.\p"
 	.string "If you seek another battle, find\n"
-	.string "me at the FIGHTING DOJO.$"
+	.string "me at my GYM in ECRUTEAK.$"
 
 EcruteakBellchimeTrail_EventScript_Item_BigMushroom::
 	finditem ITEM_BIG_MUSHROOM

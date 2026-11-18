@@ -69,6 +69,16 @@ JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags::
 	setvar VAR_LEAGUE_STATE, 1
 	setvar VAR_NEWBARK_TOWN_STATE, 6
 	setvar VAR_SSAQUA_STATE, 0
+	@ The gym leaders' post-League cameos (new_game.c hides them). HnS shows them when the S.S. Aqua
+	@ lands in Vermilion, its only way to Kanto; here the Hub reaches Kanto too and the boat is
+	@ optional, so winning the title shows them. Their lines point at the gym rematches the title opens.
+	clearflag FLAG_HIDE_DEPTSTORE_WHITNEY
+	clearflag FLAG_HIDE_BELLCHIME_MORTY
+	clearflag FLAG_HIDE_CAFE_JASMINE
+	clearflag FLAG_HIDE_OLIVINE_SABRINA
+	clearflag FLAG_HIDE_LAKE_PRYCE
+	clearflag FLAG_HIDE_DEN_CLAIR
+	clearflag FLAG_HIDE_ROUTE22_JANINE
 	@ Unchosen beast is VAR_COMPLETED_* = 3 (Theater). Without this, first Johto
 	@ clear never writes 4, and the chamber ON_TRANSITION re-hides it every entry.
 	call_if_unset FLAG_CAUGHT_LUGIA, JohtoHoF_RespawnLugia

@@ -3,6 +3,7 @@
 #include "egg_hatch.h"
 #include "event_data.h"
 #include "new_game.h"
+#include "overworld.h"
 #include "pokemon.h"
 #include "string_util.h"
 #include "test/overworld_script.h"
@@ -162,6 +163,26 @@ TEST("In-game trades receive no met-location friendship bonus in Ice Path")
     gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_ICE_PATH_1F);
     CreateMon(&mon, SPECIES_EEVEE, 5, 0, OTID_STRUCT_PLAYER_ID);
     SetMonData(&mon, MON_DATA_MET_LOCATION, &metLocation);
+    EXPECT_EQ(CalculateFriendshipBonuses(&mon, 1, HOLD_EFFECT_NONE), 1);
+    gSaveBlock1Ptr->location = savedLocation;
+}
+
+TEST("Met-location friendship bonus applies where the Pokemon was met, never for a special area")
+{
+    struct Pokemon mon;
+    struct WarpData savedLocation = gSaveBlock1Ptr->location;
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_ROUTE45);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_ROUTE45);
+    CreateMon(&mon, SPECIES_EEVEE, 5, 0, OTID_STRUCT_PLAYER_ID);
+    EXPECT_EQ(CalculateFriendshipBonuses(&mon, 1, HOLD_EFFECT_NONE), 2);
+
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_MT_SILVER_OUTSIDE);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_MT_SILVER_OUTSIDE);
+    CreateMon(&mon, SPECIES_EEVEE, 5, 0, OTID_STRUCT_PLAYER_ID);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_MET_LOCATION), MAPSEC_SPECIAL_AREA);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_REGION_HUB_2F);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_REGION_HUB_2F);
+    EXPECT_EQ(GetCurrentRegionMapSectionId(), MAPSEC_SPECIAL_AREA);
     EXPECT_EQ(CalculateFriendshipBonuses(&mon, 1, HOLD_EFFECT_NONE), 1);
     gSaveBlock1Ptr->location = savedLocation;
 }

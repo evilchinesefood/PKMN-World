@@ -155,6 +155,8 @@ is clean; keep it that way.
 | [`TextWidthTour.lua`](#textwidthtourlua) | fresh new game | One fixed-input pass over 211 screenshots of the screens that centre or size text with `GetStringWidth`, for pixel-diffing two builds; the BW battle action labels (normal, Hoenn Safari, Kanto Safari) are centred in their buttons. |
 | [`AlphSlidingPuzzleMash.lua`](#alphslidingpuzzlemashlua) | fresh new game | Seeded mashes on all four Ruins of Alph sliding puzzles keep every board invariant; B beats A on one frame; a final placement with A and L leaves the cursor upright and the board solved. |
 | [`RevisedHintLines.lua`](#revisedhintlineslua) | fresh new game | The six rewritten NPC and sign lines (Elm, both Goldenrod bike clerks, the 2F youngster, the Radio Tower quiz, the Pallet notice, the Six Island old man) through their real triggers, with the bike gift's refuse, bag-full and accept branches. |
+| [`HatchMetLocation.lua`](#hatchmetlocationlua) | fresh new game | Eggs hatched in Ecruteak and in four Johto sections at or past 0xFD record the right met location, summary memo and Protein friendship bonus; no bonus for a special area, even in the Hub 2F; gifts there read SPECIAL AREA; an OT that is a prefix of a seven-letter player name is an outsider (EXP, obedience, memo). |
+| [`RelearnerLongLearnset.lua`](#relearnerlonglearnsetlua) | fresh new game | Fallarbor's relearner lists all 29 of Gallade's and 24 of Zangoose's relearnable moves, scrolls to both ends, survives a mash and teaches the last one into a full moveset. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -1559,7 +1561,11 @@ candy with four moves and every prompt accepted (both offered, in order), one ca
 prompt cancelled with B (both offered, old moveset untouched), and three candies from level 13
 that cross 15 and evolve into Ivysaur at 16 (both learned, three candies spent). Before the fix
 the step moved to the next level after any learned move, so Sleep Powder was never offered:
-**16/22** on the unfixed ROM, **22/22** with the fix.
+**16/22** on the unfixed ROM, **22/22** with the fix. A fifth case uses eight candies at once on a
+level 40 Cradily with four moves and accepts every prompt: the jump crosses level 43, which teaches
+three moves, and level 48, so Stockpile, Spit Up, Swallow and Energy Ball must be offered in that
+order, Energy Ball must end in the first slot and the other three moves must be untouched (5/5, no
+defect found).
 ### `BagGiveOverMail.lua`
 
 Giving an item from the Bag to a Pokemon that holds Mail must be refused, as the party menu's
@@ -3943,3 +3949,46 @@ Island old man repeat twice. Every talk must hand control back, and every line r
 `PW_TEXT=instant|fast|mid` picks the text speed. Measured **53/53** at Instant (seed 1), Fast (seed
 31) and Mid (seed 7); no defect found. Against a ROM with the six `scripts.inc` files reverted it
 scores **39/53**, every failure a line still carrying the old wording.
+
+### `HatchMetLocation.lua`
+
+Where a Pokemon was met, as hatching, gifts and OT names record it. Met location is a u8, but
+Johto's map sections run past 255 and three of them sit on the special met codes: Route 46 is 0xFD
+(`METLOC_SPECIAL_EGG`), Ice Path 0xFE (`METLOC_IN_GAME_TRADE`) and Dragon's Den 0xFF
+(`METLOC_FATEFUL_ENCOUNTER`). `CreateBoxMon` stores `MAPSEC_SPECIAL_AREA` for any section from 0xFD
+up, and the hatch takes its met location from that call. Five hatch cases (Ecruteak, Route 46, Ice
+Path, Dragon's Den, Mt. Silver) give a Togepi Egg with the `giveegg` command, leave it no cycles and
+the Day Care step counter one short, take one real step on the map and drive the scene with B. The
+Togepi must record the section (or `MAPSEC_SPECIAL_AREA`), met level 0 and 120 friendship; its SwSh
+summary memo (`gStringVar3` while the memo page is up) must say it hatched there; and a Protein used
+from the Bag on the spot must add 3 friendship plus the met-location bonus only where the stored
+location is the player's section and neither a special code nor `MAPSEC_SPECIAL_AREA`. A sixth Togepi
+hatches in Ice Path and gets its Protein in the Region Hub 2F, whose own section is
+`MAPSEC_SPECIAL_AREA`: `CalculateFriendshipBonuses` counted it as met there and added the bonus
+(120 -> 124), so the sentinel for every unrepresentable section matched the Hub 2F and the link rooms. Two gift cases (`createmon`, the command
+`givemon` runs) on Mt. Silver and in Dragon's Den must record `MAPSEC_SPECIAL_AREA` at the gift's
+level, and the memo must read "Met when it was Lv. 15 / Location: SPECIAL AREA". The OT case sets a
+seven-letter player name and gives Lapras whose OT name is a four-letter prefix of it with the
+player's ID: in a scripted wild battle it must gain 1.5 times an identical own Lapras's EXP; at
+level 100 with a met level of 5 the own Lapras must knock its foe out on the first turn three times
+while the prefix one must disobey under the no-badge cap (obedience here is the Gen 8+ rule, met level
+for one's own Pokemon); and its memo must say it only "seems to have met" there. Measured **65/66** on
+ce646ce30b (the Hub 2F bonus) and **66/66** with the fix. Against the parent of ce646ce30b, before the
+met-location and `IsOtherTrainer` changes, it scores **51/66**: Route 46, Ice Path and Dragon's Den store their raw sections (0xFD, 0xFE,
+0xFF, the special met codes), the memos name those places, the Protein adds the bonus on a special
+code, and the prefix Lapras gets no EXP boost and obeys.
+
+### `RelearnerLongLearnset.lua`
+
+The Move Relearner must list the whole level-up learnset of the longest learnsets.
+`MAX_LEVEL_UP_MOVES` caps how far `GetRelearnerLevelUpMoves` walks a learnset; it was 20, which hid
+the tail of 33 enabled species' learnsets, and is 33 now (Gallade's, the longest). Each case
+gives the Pokemon with its default moveset, warps into the Fallarbor relearner's house with Heart
+Scales and drives the real script: talk, YES, pick the lead in the chooser. The list read from
+`sMoveRelearnerStruct` must hold exactly the expected moves in learnset order, then Cancel (Gallade
+100: 29 ending in Swords Dance and Psycho Cut; Zangoose 50: 24 ending in Switcheroo and Detect). The
+cursor is driven to Cancel and back to the top, the list is mashed for 900 frames with a seeded mix of
+B, L, R, Select and the D-pad (no A), and then the last move is taught with A into the full moveset:
+it must replace the first slot at full PP, leave the other three alone and spend one Heart Scale,
+and the field must come back. Measured **24/24**; no defect found. Against the parent of ce646ce30b
+it scores **18/24**: both lists stop at 20 moves, so Psycho Cut and Detect are never offered. `PW_RELEARN_ONLY` and `PW_RELEARN_SEED` select cases and reseed the mash.

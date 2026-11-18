@@ -4231,3 +4231,17 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+
+### `PhoneRayquazaCallStory.lua`
+
+May's or Brendan's Rayquaza call rings 250 steps after the Space Center battle (`ShouldDoRivalRayquazaCall`)
+and clears `FLAG_DEFEATED_MAGMA_SPACE_CENTER`, which Emerald sets only to arm that call. The Story resolver
+read the same flag as proof the Space Center was saved, so after the phone rang Story said "Help Steven
+against Magma" again until the Seafloor Cavern crisis. The suite leaves the state the Space Center's
+victory script leaves (`VAR_MOSSDEEP_SPACE_CENTER_STATE` 3, the flag, Steven's house 1) over seven Hoenn
+badges and Surf, then walks real steps until the call rings: once in Mossdeep with A answering it, once in
+Johto's Violet City with a seeded mash of every button under the call (`PW_PHONE_SEED`, default 9101).
+**Oracle:** Story reads `hoenn.dive` before the call; the call rings on its step count, clears its flag,
+returns control to a walkable field with party and money unchanged; Story still reads `hoenn.dive` after
+it, opened from the Start menu. `test/overworld/story-progress/hoenn_cases.inc` checks the same case
+natively. **Discrimination:** unfixed 30/32 (Story read `hoenn.space_center` after both calls), fixed 32/32.

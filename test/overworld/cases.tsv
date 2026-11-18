@@ -319,3 +319,5 @@ RevisedHintLines	lua/RevisedHintLines.lua	fresh	0	required
 HatchMetLocation	lua/HatchMetLocation.lua	fresh	0	required
 RelearnerLongLearnset	lua/RelearnerLongLearnset.lua	fresh	0	required
 SkyCharmLeagueGate	lua/SkyCharmLeagueGate.lua	fresh	0	required
+CapacityArrivals	lua/CapacityArrivals.lua	fresh	0	required
+BattleNetShardEdges	lua/BattleNetShardEdges.lua	fresh	0	required

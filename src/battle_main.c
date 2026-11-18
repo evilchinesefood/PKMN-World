@@ -4373,7 +4373,7 @@ static void HandleTurnActionSelectionState(void)
                     }
                     else if (gChosenActionByBattler[GetPartnerBattler(battler)] == B_ACTION_USE_MOVE
                              && (gProtectStructs[GetPartnerBattler(battler)].noValidMoves
-                                || gBattleMons[GetPartnerBattler(battler)].volatiles.encoredMove))
+                                || (GetConfig(B_ENCORE_TARGET) < GEN_5 && gBattleMons[GetPartnerBattler(battler)].volatiles.encoredMove)))
                     {
                         RecordedBattle_ClearBattlerAction(GetPartnerBattler(battler), 1);
                     }

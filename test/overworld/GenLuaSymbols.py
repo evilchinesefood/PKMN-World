@@ -104,6 +104,12 @@ WANT = [
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
     "gStringVar1", "gStringVar2",
+    # HatchMetLocation.lua reads the SwSh summary memo's encounter line (BufferMonEncounter).
+    "gStringVar3",
+    # RelearnerLongLearnset.lua reads the relearner's list and its cursor.
+    "sMoveRelearnerStruct", "sMoveRelearnerScrollState",
+    # HatchMetLocation.lua counts the turns an OHKO takes to see a traded Pokemon disobey.
+    "gBattleTurnCounter",
     # ResortGorgeousRequest.lua reads a requested species' enabled bit, base form and dex number.
     "gSpeciesInfo",
     # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
@@ -403,7 +409,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                    optionsU16 = 0x14, ratesU16 = 0x16, encounterMask = 0x00C0, moneyLossMask = 0x0300,
                    currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
                    followerSlot = 0x93, bp = 3768, berryPowder = 0x1F4,
-                   playerGender = 8, localTimeOffset = 0x98,
+                   playerName = 0, playerGender = 8, localTimeOffset = 0x98,
                    frontierChallengeStatus = 0xCA8 },
                                                             -- berryPowder: berryCrush (0x1EC) + 8, the
                                                             --   u32 XORed with encryptionKey
@@ -455,7 +461,11 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   from BGxCNT, never assumed), which is
                                                             --   how a suite reads the palette indices a
                                                             --   window was actually drawn with.
-  MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12 },
+  MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12, regionMapSectionId = 0x14 },
+  MoveRelearner= { movesToLearn = 16, menuItems = 136, menuItemStride = 8, numMenuChoices = 625 },
+                                                            -- sMoveRelearnerStruct's anonymous struct
+                                                            --   (src/move_relearner.c), probe-verified
+                                                            --   with the build's ABI.
   MapLayout    = { width = 0x00, height = 0x04, border = 0x08, map = 0x0C,
                    primaryTileset = 0x10, secondaryTileset = 0x14,
                    isFrlg = 0x18, borderWidth = 0x19, borderHeight = 0x1A, isJohto = 0x1B },

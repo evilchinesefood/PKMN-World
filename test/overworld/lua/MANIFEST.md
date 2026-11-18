@@ -2860,6 +2860,24 @@ cracked ice metatiles and the `VAR_TEMP_8`..`A` ice rows must come back, and the
 on: off the bridge both ways but not down into the river, riding across and dismounting, and onto
 the next ice tile. Measured **57/57**; no defect found. `--env PW_OSS_ONLY=<text>` runs matching
 cases.
+
+The eighth stress pass added the region (`gCurrentRegion`) to every comparison and nine more
+cases, each reached the same way. **Ledge landing** (Route 2, soft reset): Start is pressed from
+the frame the player lands below the ledge, so the save holds the Lapras follower still on the
+ledge top two tiles back; after Continue the ledge stays one-way and two steps on the follower has
+jumped down and walks right behind. **Ash** (Route 113, power cut): three walked ash tiles stay
+cleared, the ash keeps falling, and the next step still clears ash (the ON_RESUME step callback
+came back). **Desert** (Route 111, soft reset): in through the Go-Goggles trigger and the sandstorm
+trigger, with the sandstorm and `MUS_DESERT` restored. **Sevii fog** (Five Island's Lost Cave Room
+2), the **Trainer Hill lobby** (power cut) and **Mahogany Gym ice**: saved at rest against the wall
+after a slide, the next step north still slides to the far wall. **Two saves in a row** move
+`gSaveCounter` by two and Continue loads the second; then eight seeded mashes of A (weighted),
+B, Up, Down and nothing through the save prompt, the overwrite prompt and the saved message end in
+a save (3) or a cancel (5), leave the field free, and every second one resets and must Continue
+into the last completed save. **Bug-Catching Contest**: saved beside the attendant, in through her,
+the park's Start menu has no SAVE, and a soft reset inside continues in the gate on the saved tile
+with the whole team, contest mode off, the gate's contest state and no Safari Balls, after which
+the attendant runs the contest again. Measured **201/201**; no defect found.
 ### `TrickHouseRewards.lua`
 
 The Trick House loop for all eight levels. Each level walks in from Route 110, finds the Trick

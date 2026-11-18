@@ -4360,3 +4360,31 @@ be clear and Silver must battle again. The Center's ON_TRANSITION now shows Silv
 save that became champion before the change sees him too. **Discrimination:** unfixed 8/9 (no Silver
 object at (32,8), hide flag still set), with only `FLAG_DAILY_BEAT_SILVER` left out of `ClearDailyFlags`
 22/25 (the flag stayed set the next day and Silver started no battle), fixed 25/25.
+
+### `PhoneRayquazaCallStory.lua`
+
+May's or Brendan's Rayquaza call rings 250 steps after the Space Center battle (`ShouldDoRivalRayquazaCall`)
+and clears `FLAG_DEFEATED_MAGMA_SPACE_CENTER`, which Emerald sets only to arm that call. The Story resolver
+read the same flag as proof the Space Center was saved, so after the phone rang Story said "Help Steven
+against Magma" again until the Seafloor Cavern crisis. The suite leaves the state the Space Center's
+victory script leaves (`VAR_MOSSDEEP_SPACE_CENTER_STATE` 3, the flag, Steven's house 1) over seven Hoenn
+badges and Surf, then walks real steps until the call rings: once in Mossdeep with A answering it, once in
+Johto's Violet City with a seeded mash of every button under the call (`PW_PHONE_SEED`, default 9101).
+**Oracle:** Story reads `hoenn.dive` before the call; the call rings on its step count, clears its flag,
+returns control to a walkable field with party and money unchanged; Story still reads `hoenn.dive` after
+it, opened from the Start menu. `test/overworld/story-progress/hoenn_cases.inc` checks the same case
+natively. **Discrimination:** unfixed 30/32 (Story read `hoenn.space_center` after both calls), fixed 32/32.
+
+### `PhoneMatchCallRegions.lua`
+
+Manual (it walks thousands of steps): `test/overworld/mgba-run.sh test/overworld/lua/PhoneMatchCallRegions.lua
+pokemonworld.gba --env PW_MAX_FRAMES=2000000 --timeout 3000`. Random Match Calls from Hoenn trainers
+(`TryStartMatchCall`: every tenth step, once per ten RTC minutes, a 30% roll or 60% behind Lightning Rod)
+ring in every region, and no suite had let one ring. The suite leaves the state the Rustboro PokeNav scene
+and five registrations leave (`FLAG_HAS_MATCH_CALL`, registered-trainer flags 0 to 4) over five Hoenn
+badges, leads with a Lightning Rod Rhyhorn, takes the first call in Mossdeep, then paces Violet City and
+Viridian City until a timed call rings in each, with a seeded mash of every button under the Violet call
+(`PW_PHONE_SEED`, default 9101). **Oracle:** each call rings, returns control to a walkable field on the
+same map, and leaves the party (compared from the ring), money and registrations unchanged, with no crash
+screen. **Result:** no defect found. 24/24 at the default clock and at a night clock (`--rtc 1704171600`,
+seed 31337); the Johto and Kanto calls came after 1,546 to 7,026 steps.

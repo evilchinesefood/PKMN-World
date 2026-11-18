@@ -331,3 +331,5 @@ OneIslandWhiteout	lua/OneIslandWhiteout.lua	fresh	0	required
 JohtoTradeOddEgg	lua/JohtoTradeOddEgg.lua	fresh	0	required
 IndigoSilverDaily	lua/IndigoSilverDaily.lua	fresh	0	required
 LegendWorldGuards	lua/LegendWorldGuards.lua	fresh	0	required
+PhoneRayquazaCallStory	lua/PhoneRayquazaCallStory.lua	fresh	0	required
+PhoneMatchCallRegions	lua/PhoneMatchCallRegions.lua	fresh	0	manual

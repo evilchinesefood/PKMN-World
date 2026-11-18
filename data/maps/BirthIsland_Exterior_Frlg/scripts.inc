@@ -25,6 +25,7 @@ BirthIsland_Exterior_Frlg_EventScript_HideDeoxysAndPuzzle::
 	return
 
 BirthIsland_Exterior_Frlg_EventScript_TryShowDeoxysPuzzle::
+	goto_if_set FLAG_BATTLED_DEOXYS, BirthIsland_Exterior_Frlg_EventScript_HideDeoxysAndPuzzle
 	goto_if_set FLAG_DEOXYS_FLEW_AWAY, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_BIRTH_ISLAND_METEORITE
 	clearflag FLAG_DEOXYS_ROCK_COMPLETE
@@ -91,7 +92,9 @@ BirthIsland_Exterior_Frlg_EventScript_Deoxys::
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, BirthIsland_Exterior_Frlg_EventScript_DefeatedDeoxys
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, BirthIsland_Exterior_Frlg_EventScript_RanFromDeoxys
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, BirthIsland_Exterior_Frlg_EventScript_RanFromDeoxys
+	goto_if_eq VAR_RESULT, B_OUTCOME_MON_TELEPORTED, BirthIsland_Exterior_Frlg_EventScript_RanFromDeoxys
 	setflag FLAG_FOUGHT_DEOXYS
+	setflag FLAG_BATTLED_DEOXYS @ one Deoxys per world: Hoenn's Birth Island hides on it
 	release
 	end
 

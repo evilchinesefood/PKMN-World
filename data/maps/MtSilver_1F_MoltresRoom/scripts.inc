@@ -21,6 +21,7 @@ MtSilver_1F_MoltresRoom_EventScript_Moltres::
 	waitstate
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, MtSilver_1F_MoltresRoom_EventScript_MoltresRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, MtSilver_1F_MoltresRoom_EventScript_MoltresRan
 	fadescreenswapbuffers FADE_TO_BLACK
 	removeobject LOCALID_MTSILVER_MOLTRES
 	setflag FLAG_HIDE_MOLTRES

@@ -61,6 +61,7 @@ NavelRock_Base_Frlg_EventScript_Lugia::
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NavelRock_Base_Frlg_EventScript_RanFromLugia
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NavelRock_Base_Frlg_EventScript_RanFromLugia
 	setflag FLAG_FOUGHT_LUGIA
+	setflag FLAG_CAUGHT_LUGIA @ one Lugia per world: Hoenn's Navel Rock and the Johto Hall of Fame read it
 	release
 	end
 

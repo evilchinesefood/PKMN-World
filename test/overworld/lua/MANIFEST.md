@@ -3811,3 +3811,19 @@ basement grunts beaten, the player walks to him and talks with real input; the o
 key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
 Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
 two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.
+
+### `MessageBoxFit.lua`
+
+Message lines must fit the SwSh message box. `SWSH_MESSAGE_BOX` narrowed every 27-tile message window
+to 26 tiles (208 px) and draws the "more text" arrow in the window's bottom-right 8x16 corner, filling
+that corner with the background first, so a line that waits on `\p` or `\l` from the bottom row loses
+whatever it printed past x = 200. `test/overworld/ValidateTextWidth.py` (a host check) measures every
+line; this suite plays four lines it caught with real input, a seven-letter player name (every
+naming-screen glyph is 6 px, so "MMMMMMM" is the widest name) and Instant text: the Hub's Frontier
+attendant (a Hub line), the Route 116 tunneler (Emerald), the Rustboro Gym guide (Emerald) and the
+Safari Zone gate Pokemon Center caretaker (a pokemonHnS line). At every prompt it reads the field
+text printer's `currentX`/`currentY` (+15/+16 on this build; the suite first asserts the font, x and y
+bytes beside them read 1, 0, 1, so a layout change fails instead of passing) and screenshots the box.
+Oracle: no bottom-row prompt line inks past 200 px and none past 208 px. On the unfixed ROM the lines
+end at 201, 207, 204 and 203 px (the tunneler's "machinery." shows as "machiner" under the arrow).
+Measured **16/20** on the unfixed ROM and **20/20** fixed.

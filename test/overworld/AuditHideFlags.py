@@ -205,6 +205,10 @@ PENDING = {
 }
 
 
+# Tracked constants headers that include a header `make` generates.
+GENERATED_HEADERS = ("constants/map_event_ids.h", "map_groups.h")
+
+
 def resolve_ids(root, names):
     """Constant name -> int, through every tracked include/constants header with ALL_REGIONS."""
     try:
@@ -219,9 +223,15 @@ def resolve_ids(root, names):
         path = os.path.join(td, "ids.c")
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(src)
+        # CI runs on a clean checkout, where `make`'s generated headers do not exist. Empty stand-ins,
+        # searched first, keep the result the same with or without a build.
+        stub = os.path.join(td, "stub")
+        os.makedirs(os.path.join(stub, "constants"))
+        for gen in GENERATED_HEADERS:
+            open(os.path.join(stub, gen), "w").close()
         cc = os.environ.get("HOSTCC", "cc")
-        out = subprocess.run([cc, "-E", "-P", "-w", "-DALL_REGIONS=1", "-DMODERN=1", "-iquote", "include",
-                              "-Iinclude", path], cwd=root, capture_output=True, text=True)
+        out = subprocess.run([cc, "-E", "-P", "-w", "-DALL_REGIONS=1", "-DMODERN=1", "-iquote", stub,
+                              "-iquote", "include", "-Iinclude", path], cwd=root, capture_output=True, text=True)
     if out.returncode:
         sys.exit(f"AuditHideFlags: preprocessing the constants headers failed:\n{out.stderr[-2000:]}")
     ids = {}
@@ -256,12 +266,25 @@ def literal(expr, ids):
     return None
 
 
+def tracked(root, *patterns):
+    """Tracked files matching the globs. A build adds generated .inc and headers (every MAP_ id, warp
+    tables) that would make a local run see more than CI's clean checkout."""
+    try:
+        out = subprocess.run(["git", "ls-files", "--", *patterns], cwd=root, capture_output=True,
+                             text=True, check=True).stdout.split()
+        return [os.path.join(root, p) for p in out]
+    except (OSError, subprocess.CalledProcessError):
+        # Git pathspecs let `*` cross directories; `**` makes glob do the same.
+        return [p for pat in patterns
+                for p in glob.glob(os.path.join(root, pat.replace("/*.", "/**/*.")), recursive=True)]
+
+
 class Tree:
     def __init__(self, root):
         vme.ROOT = root
         self.root = root
         self.maps = {}
-        for path in sorted(glob.glob(os.path.join(root, "data/maps/*/map.json"))):
+        for path in sorted(tracked(root, "data/maps/*/map.json")):
             with open(path, encoding="utf-8") as fh:
                 d = json.load(fh)
             d["_dir"] = os.path.basename(os.path.dirname(path))
@@ -277,8 +300,7 @@ class Tree:
     def load_scripts(self):
         """label -> body lines, file order per file, `.set` aliases, owning map."""
         self.bodies, self.owner, self.next_label, self.aliases = {}, {}, {}, {}
-        files = glob.glob(os.path.join(self.root, "data/**/*.inc"), recursive=True)
-        files += glob.glob(os.path.join(self.root, "data/**/*.s"), recursive=True)
+        files = tracked(self.root, "data/*.inc", "data/*.s")
         for path in sorted(files):
             rel = os.path.relpath(path, self.root)
             m = re.match(r"data/maps/([^/]+)/scripts\.inc$", rel)
@@ -307,9 +329,7 @@ class Tree:
         self.c_var = collections.defaultdict(set)
         self.c_var_wild = set()
         self.c_flag_refs = collections.defaultdict(set)
-        paths = glob.glob(os.path.join(self.root, "src/**/*.c"), recursive=True)
-        paths += glob.glob(os.path.join(self.root, "src/**/*.h"), recursive=True)
-        paths += glob.glob(os.path.join(self.root, "include/**/*.h"), recursive=True)
+        paths = tracked(self.root, "src/*.c", "src/*.h", "include/*.h")
         for path in sorted(paths):
             rel = os.path.relpath(path, self.root)
             if rel == "src/debug.c":
@@ -705,8 +725,7 @@ def unwritten_vars(tree, live, ids):
 def source_index(root):
     """Flag sets and clears in a source decomp, its new-game reset kept apart."""
     sets, clears, newgame = collections.defaultdict(set), collections.defaultdict(set), set()
-    files = glob.glob(os.path.join(root, "data/**/*.inc"), recursive=True)
-    files += glob.glob(os.path.join(root, "data/**/*.s"), recursive=True)
+    files = tracked(root, "data/*.inc", "data/*.s")
     for path in sorted(files):
         rel = os.path.relpath(path, root)
         label = None
@@ -725,7 +744,7 @@ def source_index(root):
                         newgame.add(m.group(2))
                     continue
                 (sets if m.group(1) == "setflag" else clears)[m.group(2)].add(rel)
-    for path in sorted(glob.glob(os.path.join(root, "src/**/*.c"), recursive=True)):
+    for path in sorted(tracked(root, "src/*.c")):
         rel = os.path.relpath(path, root)
         with open(path, encoding="utf-8", errors="replace") as fh:
             text = strip_c_comments(fh.read())

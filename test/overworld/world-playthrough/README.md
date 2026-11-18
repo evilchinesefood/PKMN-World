@@ -123,7 +123,7 @@ reading the scripts, and it was not checked in play.
 
 Each row records the final integration run for that pass. World columns count campaign checks
 passed in each order. The Lua sweep and host columns count passing suites and validators.
-All four battle-test runs recorded zero failures.
+All five battle-test runs recorded zero failures.
 
 | Pass | Landing PR | World A | World B | Lua sweep | Host | Battle tests passed |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
@@ -131,6 +131,12 @@ All four battle-test runs recorded zero failures.
 | 5 | [#572](https://github.com/evilchinesefood/PKMN-World/pull/572) | 439/439 | 421/421 | 215/215 | 27/27 | 5,191 |
 | 6 | [#632](https://github.com/evilchinesefood/PKMN-World/pull/632) | 439/439 | 423/423 | 274/274 | 32/32 | 5,191 |
 | 7 | [#670](https://github.com/evilchinesefood/PKMN-World/pull/670) | 440/440 | 423/423 | 309/309 | 39/39 | 5,191 |
+| 8 | [#688](https://github.com/evilchinesefood/PKMN-World/pull/688) | 439/439 | 396/396 | 323/323 | 41/41 | 5,208 |
 
 Both pass 7 campaigns finished with zero retries on integration commit `ddc15fd8e1`
 (ROM SHA-256 `52ff4af450253f91e33ee5dd70ac78f67ab9c695275548494352928ca1be805e`).
+
+Both pass 8 campaigns finished with zero retries on integration commit `a4a00957a4`
+(ROM SHA-256 `6be3b21aff8da4e7218274e9c37058e417864cf4281a14cbc0ff98f2fa36cadf`). Pass 8 played world A with `--postgame --sevii` as the girl at
+Instant text, and world B with `--postgame` only, so its world B count is not comparable with the
+earlier rows. Before any fix, master `ce646ce30b` scored 440/440 (A, night clock) and 396/396 (B).

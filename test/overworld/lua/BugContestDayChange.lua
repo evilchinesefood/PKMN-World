@@ -100,12 +100,14 @@ local function bagQty(id)
 end
 local function prizes() local n = 0; for _, id in ipairs(PRIZES) do n = n + bagQty(id) end; return n end
 
--- The parked party, identified by each member's first 32 bytes (personality, OT, nickname).
+-- The parked party, identified by each member's personality, OT id and nickname (the first 20
+-- bytes). Not the checksum after them: the contest lead is the player's own Pokemon and keeps what
+-- the contest did to it (a timed-out contest walks it far enough to raise its friendship).
 local function partyPrint()
   local t = { tostring(count()) }
   for i = 0, count() - 1 do
     local b = S.gParties + i * S.Pokemon.size
-    for k = 0, 28, 4 do t[#t + 1] = string.format("%08X", F.r32(b + k)) end
+    for k = 0, 16, 4 do t[#t + 1] = string.format("%08X", F.r32(b + k)) end
   end
   return table.concat(t, ":")
 end

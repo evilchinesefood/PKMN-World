@@ -11,6 +11,7 @@ bool8 BugContestCheckTimeLimit(void);
 bool32 GetBugContestFlag(void);
 bool8 JudgeBugContestMon(void);
 bool8 TransferBugContestMon(void);
+void KeepBugContestLead(void);
 void CB2_EndBugContestBattle(void);
 void BugContestRetirePrompt(void);
 bool8 RemoveSafariBalls(void);

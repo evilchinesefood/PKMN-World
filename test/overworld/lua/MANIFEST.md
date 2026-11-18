@@ -2523,7 +2523,9 @@ attendant, opens the Bag, picks Use and the lead, drives the evolution with A, t
 exit. **Oracle:** back at the gate the team has its old size, the lead is the evolved species at its
 new level (Bulbasaur 15 with a Rare Candy into Ivysaur 16, Growlithe 20 with a Fire Stone into
 Arcanine), the Pidgey is byte-identical in species, personality and level, the item is spent and
-contest mode is off. **Discrimination:** unfixed **20/23** (both leads came back unevolved).
+contest mode is off. **Fix:** `KeepBugContestLead` writes the contest lead over the parked slot 0
+before every restore (the end and the full-box PC detour). **Discrimination:** unfixed **20/23** (both
+leads came back unevolved), fixed **23/23**.
 `--env PW_LEAD_ONLY=<text>` runs matching scenarios.
 
 ### `EggSummaryPageTabs.lua`
@@ -2642,7 +2644,8 @@ and a local time of 23:38 through `localTimeOffset`), then plays three contests 
 attendant: one retired with a catch before midnight; one after saving in the gate, waiting there
 until the RTC passes midnight and continuing the pre-midnight save; and one started at 23:57 on a
 clock wound two days on, so midnight rolls over while it runs. The last two walk until "Time's up",
-which must ring at 8 minutes of frames. Each contest must return the parked party unchanged, put
+which must ring at 8 minutes of frames. Each contest must return the parked party (the same members
+by personality, OT id and nickname; the lead keeps the friendship its contest walk earned), put
 one prize in the bag, take the Safari Balls, set the day's flag and leave the attendant refusing a
 second contest; Continue on the new day must clear the flag and record the day. Measured **37/37**,
 and **9/13** with `0829014ec0`'s `setflag FLAG_DAILY_BUG_CONTEST_COMPLETED` removed (a second

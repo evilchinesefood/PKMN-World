@@ -153,6 +153,8 @@ is clean; keep it that way.
 | [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
 | [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
 | [`TextWidthTour.lua`](#textwidthtourlua) | fresh new game | One fixed-input pass over 211 screenshots of the screens that centre or size text with `GetStringWidth`, for pixel-diffing two builds; the BW battle action labels (normal, Hoenn Safari, Kanto Safari) are centred in their buttons. |
+| [`AlphSlidingPuzzleMash.lua`](#alphslidingpuzzlemashlua) | fresh new game | Seeded mashes on all four Ruins of Alph sliding puzzles keep every board invariant; B beats A on one frame; a final placement with A and L leaves the cursor upright and the board solved. |
+| [`RevisedHintLines.lua`](#revisedhintlineslua) | fresh new game | The six rewritten NPC and sign lines (Elm, both Goldenrod bike clerks, the 2F youngster, the Radio Tower quiz, the Pallet notice, the Six Island old man) through their real triggers, with the bike gift's refuse, bag-full and accept branches. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3834,3 +3836,40 @@ right=5`). Measured **79/80** on master at ce646ce30b, **80/80** with the glyph 
 on master with `src/text.c` reverted to ce646ce30b^. Diffing the reverted build against master over 211
 pairs changed only the Hoenn Safari action box and the main menu's version string.
 
+
+### `AlphSlidingPuzzleMash.lua`
+
+The Ruins of Alph sliding puzzles under seeded input mashes, on all four boards. After every input of
+a 700-input mash of the D-pad, A, L, R and same-frame chords (A+R, A+L, L+R, Start, Select), the live
+board must hold each of the 16 tile sprites exactly once on the board or in hand, the held tile must
+ride the cursor, the immovable tiles (found by trying to lift each tile with A) must not move, the
+cursor sprite must never carry a tile id or a rotation, and `sSlidingPuzzle->solved` must agree with
+an independent read of the board. A second mash adds B and B+A; when the puzzle closes, the completion
+flag must match the board it left. Then B and A on one frame over a tile must quit with nothing lifted.
+A seeded solver that turns tiles through either direction (sometimes a full extra turn) and swaps
+tiles onto occupied slots brings each board to its last tile; A and B on that frame must quit with
+the flag clear. On a fresh board the last tile goes down with A and L on one frame: the board must
+read solved with the cursor upright, 70 frames of A+B and chords through the glow must not close it,
+and the floor must drop the player to B1F with the flag set. Last, the Kabuto sign shows the solved
+picture (no cursor sprite) and closes. `PW_SEED=<n>` reseeds every mash. Measured **100/100** on
+seeds 1, 2 and 3; no defect found. Against a ROM with `src/sliding_puzzle.c` reverted to before
+ce646ce30b it scores **76/100**: all four boards rotate the cursor sprite on an A+R or A+L placement
+(found at inputs 63 to 121 of seed 1), and all four count the last tile placed with A+B as solved.
+
+### `RevisedHintLines.lua`
+
+The six NPC and sign scripts whose lines ce646ce30b rewrote, each driven through its real trigger
+with a seeded A/B mash, Yes/No answers steered by the menu cursor. Elm's first directions after the
+starter must give PROF. BIRCH's number and set `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`; later visits repeat
+them, and after Togepi he points to PROF. BIRCH. The Goldenrod bike clerk is refused (no bike, flag
+clear), accepted with a full Key Items pocket (the debug fill leaves 7 of 99 slots free, so the suite
+tops them up and swaps out any Mach Bike stack: the BAG is full line, no bike, flag clear) and accepted
+with room (one Mach Bike, flag set); his thanks and the second clerk's line must name the Mach Bike
+and SELECT. The 2F clerk's live `sMartInfo` stock must hold `ITEM_LUM_BERRY`, which is what makes YES
+the true answer to the quiz's new question 2; NO there must be a wrong answer that enables nothing,
+and YES must reach question 3 and a win that sets `FLAG_ENABLE_RADIO`. The Pallet notice and the Six
+Island old man repeat twice. Every talk must hand control back, and every line read from
+`gStringVar4` must carry the new wording and none of the old. `PW_SEED=<n>` reseeds the mash and
+`PW_TEXT=instant|fast|mid` picks the text speed. Measured **53/53** at Instant (seed 1), Fast (seed
+31) and Mid (seed 7); no defect found. Against a ROM with the six `scripts.inc` files reverted it
+scores **39/53**, every failure a line still carrying the old wording.

@@ -340,6 +340,52 @@ SINGLE_BATTLE_TEST("Anticipation treats Hidden Power as its dynamic type (Gen6+)
     }
 }
 
+SINGLE_BATTLE_TEST("Anticipation ignores the type of the move that knocked the previous Pokemon out with an Eject Button")
+{
+    enum Move move;
+    PARAMETRIZE { move = MOVE_CELEBRATE; }
+    PARAMETRIZE { move = MOVE_EMBER; }
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_WEATHER_BALL) == EFFECT_WEATHER_BALL);
+        ASSUME(GetMoveType(MOVE_WEATHER_BALL) == TYPE_NORMAL);
+        ASSUME(GetMoveType(MOVE_EMBER) == TYPE_FIRE);
+        ASSUME(GetItemHoldEffect(ITEM_EJECT_BUTTON) == HOLD_EFFECT_EJECT_BUTTON);
+        PLAYER(SPECIES_WOBBUFFET) { MaxHP(999); HP(999); Item(ITEM_EJECT_BUTTON); Moves(MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WORMADAM_PLANT) { Ability(ABILITY_ANTICIPATION); }
+        OPPONENT(SPECIES_TORKOAL) { Ability(ABILITY_DROUGHT); Moves(MOVE_WEATHER_BALL, move); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE); MOVE(opponent, MOVE_WEATHER_BALL); SEND_OUT(player, 1); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_WEATHER_BALL, opponent);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
+        if (move == MOVE_EMBER)
+            ABILITY_POPUP(player, ABILITY_ANTICIPATION);
+        else
+            NOT ABILITY_POPUP(player, ABILITY_ANTICIPATION);
+    }
+}
+
+DOUBLE_BATTLE_TEST("Anticipation reads Hidden Power's type from the opponent that knows it (Gen6+)")
+{
+    u16 iv;
+    PARAMETRIZE { iv = 0; }  // Fighting
+    PARAMETRIZE { iv = 31; } // Dark
+    GIVEN {
+        ASSUME(GetSpeciesType(SPECIES_EEVEE, 0) == TYPE_NORMAL);
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_EEVEE) { Ability(ABILITY_ANTICIPATION); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
+        OPPONENT(SPECIES_WYNAUT) { Moves(MOVE_HIDDEN_POWER, MOVE_CELEBRATE); HPIV(iv); AttackIV(iv); DefenseIV(iv); SpAttackIV(iv); SpDefenseIV(iv); SpeedIV(iv); }
+    } WHEN {
+        TURN {}
+    } SCENE {
+        if (iv == 0 && B_UPDATED_ABILITY_DATA >= GEN_6)
+            ABILITY_POPUP(playerRight, ABILITY_ANTICIPATION);
+        else
+            NOT ABILITY_POPUP(playerRight, ABILITY_ANTICIPATION);
+    }
+}
+
 SINGLE_BATTLE_TEST("Anticipation considers Inverse Battle types")
 {
     GIVEN {

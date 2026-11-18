@@ -4231,3 +4231,21 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+
+### `EscapeRopeExits.lua`
+
+Escape Rope and Dig out of Viridian Forest, Ilex Forest and Mt. Silver. `UpdateEscapeWarp` kept
+Emerald's rule, the warp cell plus one row south. pokefirered adds the row only when the player is
+not facing south, since an arrow warp entered facing south leaves the player on the warp cell with
+the wall below, and it skips Viridian Forest, an outdoor map that allows escaping, so walking out of
+the forest into a gate never names the forest as the way out. The port dropped both. Entering
+Viridian Forest from Route 2 put the rope's landing on the gate roof at (5,14); leaving the forest
+north and walking back in made the rope land inside the forest at (5,10); Route 34's gate put Ilex
+Forest's rope and Dig in the cliff at (31,68); and Mt. Silver 2F entered from the snowfield's south
+arrow landed in the snowfield's rock at (24,18). The rule now follows pokefirered and skips any map
+that allows escaping (Ilex Forest and Mt. Silver's slopes have the same shape as Viridian Forest).
+Each case debug-warps beside a real entrance, walks through it and uses the Bag or the party menu;
+each landing must be the expected cell and the player must be able to step off it and back.
+**Discrimination:** unfixed 13/22 (all five landings and four walkability checks), fixed 22/22.
+`MtSilverEscape` 21/21, `TravelSaveContinue` 292/292 and `RegionMapAnywhereStress` 48/48 pass on
+the fixed build.

@@ -4286,3 +4286,23 @@ first word) must be refused with no Egg; the Elekid answer, written into the ope
 word picker would and confirmed with Start and Yes, must give an Elekid Egg knowing Dizzy Punch; a third
 talk gives nothing. **Discrimination:** unfixed 13/19 (Emy asked for an Abra and traded nothing; the one-word
 answer got a Pichu Egg, so the Elekid answer never ran), fixed 20/20.
+### `IndigoSilverDaily.lua`
+
+Silver's once-a-day rematch in the Johto Indigo Plateau Pokemon Center, which no suite reached. Route 27's
+first steps hide him (`FLAG_HIDE_INDIGO_PLATEAU_SILVER`); upstream pokemonHnS shows him again after a
+post-League battle in its own Mt. Moon, which this game's FRLG Kanto does not have, so the object, its
+`TRAINER_RIVAL_*_7` teams and the rematch were unreachable. His script records the win in
+`FLAG_DAILY_BEAT_SILVER`, which lives in the Johto flag bank outside the window `ClearDailyFlags` wipes
+(the haircut brothers and the Bug-Catching Contest were added there by hand), so a shown Silver would also
+have refused every rematch after the first. From a fresh game the suite leaves Silver hidden as Route 27
+does and sets the wall clock as New Bark's does, checks he is absent before the League, then plays the
+Johto Hall of Fame from its own ON_FRAME scene to the title and continues at New Bark. In the Center,
+looking from (32,12) because (32,8) is outside the spawn window from the door, Silver must stand at (32,8).
+Talking to him with real input starts a battle (the foe's HP is zeroed until it ends; the battle is not under
+test), the win sets the daily flag, and a second talk the same day starts none. With the clock wound to
+23:56 the emulator's RTC runs five minutes past midnight, the player leaves the Center
+(`DoTimeBasedEvents` never runs inside one) and returns: `VAR_DAYS` must record the new day, the flag must
+be clear and Silver must battle again. The Center's ON_TRANSITION now shows Silver for a Johto champion, so a
+save that became champion before the change sees him too. **Discrimination:** unfixed 8/9 (no Silver
+object at (32,8), hide flag still set), with only `FLAG_DAILY_BEAT_SILVER` left out of `ClearDailyFlags`
+22/25 (the flag stayed set the next day and Silver started no battle), fixed 25/25.

@@ -132,6 +132,7 @@ All five battle-test runs recorded zero failures.
 | 6 | [#632](https://github.com/evilchinesefood/PKMN-World/pull/632) | 439/439 | 423/423 | 274/274 | 32/32 | 5,191 |
 | 7 | [#670](https://github.com/evilchinesefood/PKMN-World/pull/670) | 440/440 | 423/423 | 309/309 | 39/39 | 5,191 |
 | 8 | [#688](https://github.com/evilchinesefood/PKMN-World/pull/688) | 439/439 | 396/396 | 323/323 | 41/41 | 5,208 |
+| 9 | [#706](https://github.com/evilchinesefood/PKMN-World/pull/706) | 439/439 | 397/397 | 339/339 | 48/48 | 5,208 |
 
 Both pass 7 campaigns finished with zero retries on integration commit `ddc15fd8e1`
 (ROM SHA-256 `52ff4af450253f91e33ee5dd70ac78f67ab9c695275548494352928ca1be805e`).
@@ -140,3 +141,8 @@ Both pass 8 campaigns finished with zero retries on integration commit `a4a00957
 (ROM SHA-256 `6be3b21aff8da4e7218274e9c37058e417864cf4281a14cbc0ff98f2fa36cadf`). Pass 8 played world A with `--postgame --sevii` as the girl at
 Instant text, and world B with `--postgame` only, so its world B count is not comparable with the
 earlier rows. Before any fix, master `ce646ce30b` scored 440/440 (A, night clock) and 396/396 (B).
+
+Pass 9 campaigns ran on integration commit `487a2e0963` (ROM MD5 `2c15aa760043124c2ecf867e271b5268`). World A
+used `--postgame --sevii` as the girl at an afternoon clock with Instant text and finished with zero retries.
+World B used `--postgame` as the boy at a night clock, with one bot retry: a wild encounter met the Dive press.
+Before any fix, master `06307536b6` scored 440/440 (A, night clock) and 396/396 (B, morning clock).

@@ -33,6 +33,8 @@ WANT = [
     "sPokedexAreaScreen",
     # MultiHalfTeamSummary.lua: the summary's mon index, in the interleaved multi order.
     "gLastViewedMonIndex",
+    # PyramidSummaryRelearn.lua: the Summary's move relearner screen is open.
+    "CB2_MoveRelearnerMain",
     # UsmDarkPopupIcons.lua opens the Start menu while the map-name pop-up task is still running.
     "Task_MapNamePopUpWindow",
     "gMain", "gSaveBlock1Ptr", "gSaveBlock2Ptr", "gSaveblock3",

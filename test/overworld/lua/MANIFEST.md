@@ -865,6 +865,16 @@ Gen 1-3 evolutions with no route that works without a link cable, and NPC claims
 levels and held items against the species table. A rule runs only while its toggle still diverges.
 `--list` prints the audited toggles and the ones checked and cleared.
 
+[`AuditEngineRegionText.py`](../AuditEngineRegionText.py) `--check` reads every string literal under
+`src/` that names one region's character, place or device (DAD, BIRCH, OAK, ELM, LANETTE, POKéNAV, a
+town, a region) and every use of it, following tables up to the code that reads them. A use picks by
+region when its function calls `GetCurrentRegion()` or a friend, calls a helper that does
+(`GetPcCreator()`), or the string sits in a table indexed by `REGION_*`. It fails on a string with an
+unpicked use that `REVIEWED` or a `SCOPED` file does not explain; each entry says why the line is right
+in every region that shows it, checked against pokeemerald, pokefirered and pokemonHnS. An entry that
+stops matching fails as stale. It found the item refusal's "DAD's advice" (#695) and the Kanto diploma's
+"HOENN" (`DiplomaRegionName.lua`). Run it without `--check` for the full report.
+
 Builds, Lua suites, battle checks, and feature-off builds run only through explicit local
 commands or [Verify on demand](../../../.github/workflows/Verify.yml). Smoke and Full can run
 on Linux CI or local macOS. There are no schedules and no build-output uploads. The
@@ -3267,6 +3277,16 @@ stat; Roxanne is talked to and battled (the win is forced once the battle starts
 flags are set) and her STONE BADGE speech must quote level 20 and no ATTACK boost. Text is read
 from `gStringVar4`. Measured **11/21** on the unfixed ROM (every row promised a stat boost) and
 **21/21** fixed. `ValidateConfigRules.py` covers the other leaders' lines.
+### `DiplomaRegionName.lua`
+
+The Pokedex diploma must name the Pokedex of the region that awards it. Celadon's game designer
+(Kanto, after `HasAllKantoMons`) and Lilycove's (Hoenn, after `HasAllHoennMons`) both call
+`Special_ShowDiploma`, and `DisplayDiplomaText` printed Emerald's "HOENN" for both; pokefirered prints
+"KANTO" there. Each designer is talked to with real input with every species caught but one from
+outside the region (Chikorita, Bulbasaur), so the region completes and the National Dex does not; the
+diploma text is read from `gStringVar4` and each diploma is shot, then a step proves control. Measured
+**9/10** on the unfixed ROM (Celadon certified a HOENN POKéDEX) and **10/10** fixed.
+`AuditEngineRegionText.py` lists the other engine strings that name a region.
 ### `FieldPoisonText.lua`
 
 Field-poison advice must match `OW_POISON_DAMAGE` (`GEN_LATEST`: no damage outside battle). A party

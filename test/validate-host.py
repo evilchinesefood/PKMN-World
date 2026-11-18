@@ -39,6 +39,7 @@ CHECKS = (
     ("ValidateGreedyGifts.py",),
     ("AuditDupKeyGifts.py",),
     ("AuditLegends.py", "--check"),
+    ("AuditHideFlags.py",),
     ("TestChampionshipPrizes.py",),
     ("special-pokemon/sources.py",),
     ("special-pokemon/mechanics_audit.py",),

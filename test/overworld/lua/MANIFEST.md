@@ -848,6 +848,18 @@ wall clock, the event-island ferries, and so on), and an entry that stops firing
 an open PR fixes sit in `SHARED_STATE_PENDING`, printed as notes and never failed; delete each once
 its fix is on master.
 
+[`AuditLegends.py`](../AuditLegends.py) `--check` lists every map script that starts a scripted wild
+battle: species, level, the object and its hide flag, the flags written before the battle and on each
+outcome, and every other script, map or C file that touches them, by region (run it without `--check`
+for that census). It fails on three shapes: running or a player's Roar setting a fought/caught flag or
+an unrestored hide flag; a Pokemon whose default moves (Gen 9 learnsets at its encounter level) include
+Teleport, Roar, Whirlwind, Dragon Tail or Circle Throw while `B_OUTCOME_MON_TELEPORTED` falls through to
+the catch path; and a twin site in another region (sharing the object's hide flag) that reads nothing a
+catch here sets, directly or through the script that writes what its entry script reads. Leads read
+against pokeemerald, pokefirered or pokemonHnS and kept as designed sit in `TRIAGED` with the reason
+(fleeing an Electrode counts as beating it, the Route 12 Snorlax leaves before its battle, and so on); a
+stale entry fails. Before `LegendWorldGuards.lua`'s fixes it printed the seven leads behind them.
+
 [`ValidateTilesetAnimBounds.py`](../ValidateTilesetAnimBounds.py) checks every
 `AppendTilesetAnimToBuffer` call in `src/tileset_anims.c` against the frames its table can select:
 the copy's offset plus size must fit in each frame, whose size comes from its PNG header (or the PNGs
@@ -2560,6 +2572,28 @@ and the first touch of the new visit must climb to level 1. Kanto's Birth Island
 rebased `VAR_DEOXYS_INTERACTION_*` copies, which nothing reads, so the stone kept its old level and
 the first touch failed on the steps walked since. Hoenn's island is the control. Measured **23/23**
 fixed and **20/23** on the unfixed ROM.
+
+### `LegendWorldGuards.lua`
+
+The legendaries with a twin in another region, and two battle endings the scripts did not route,
+played with real input. Deoxys knows Teleport at level 30 under the Gen 9 learnsets, so it often
+teleports away (`B_OUTCOME_MON_TELEPORTED`), which both Birth Islands treated as a catch: Deoxys stayed
+on screen, the caught marker was set and the puzzle never came back. Faraway Island already routes
+that outcome for Mew. A Roar from the player ends a wild battle with `B_OUTCOME_PLAYER_TELEPORTED`,
+which Mt. Silver's Moltres treated as a catch and set `FLAG_FOUGHT_MOLTRES`, so Moltres was gone from
+both Mt. Silver and Mt. Ember with no Hall of Fame return; Mt. Ember treats it as running. And the
+one-legendary-per-world guards ran one way: a Kanto Navel Rock catch set only Kanto's
+`FLAG_FOUGHT_HO_OH`/`FLAG_FOUGHT_LUGIA`, which neither Hoenn's Navel Rock nor the Johto Hall of Fame
+respawn reads, and the two Birth Islands read only their own caught flag, so one Mystic or Aurora
+Ticket gave two of each. The suite roars a level 50 Moltres away and walks out and back; on each
+Birth Island it solves the puzzle rock by rock, celebrates until Deoxys teleports (2 to 8 turns
+measured), walks out and back, solves it again, catches Deoxys with the R-button Master Ball and
+visits the other region's island; it catches Kanto's Ho-Oh and Lugia with a full party (the catch
+goes to the PC) and visits Hoenn's Navel Rock summit and bottom, walking onto the Ho-Oh trigger.
+**Oracle:** after the Roar or the teleport the Pokemon is unmarked and offered again on the next visit,
+and after a catch the twin offers nothing. **Discrimination:** unfixed 49/65 (all 16 failures are the
+four defects or follow from them), fixed 65/65, and 65/65 again with `--rtc 1795000000`.
+[`AuditLegends.py`](../AuditLegends.py) is the static side.
 
 ### `BirthIslandRockPalette.lua`
 

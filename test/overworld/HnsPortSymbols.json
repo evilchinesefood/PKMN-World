@@ -1,0 +1,8514 @@
+{
+ "fingerprints": {
+  "ctype": {
+   "EASY_CHAT_TYPE_INTERVIEW": "HandleEasyChatInput_ConfirmWordsYesNo SetSpecialEasyChatResult ShowEasyChatScreen"
+  },
+  "item": {
+   "ITEM_AMULET_COIN": "AMULETCOIN",
+   "ITEM_ANTIDOTE": "ANTIDOTE",
+   "ITEM_ASPEAR_BERRY": "ASPEARBERRY",
+   "ITEM_AURORA_TICKET": "AURORATICKET",
+   "ITEM_AWAKENING": "AWAKENING",
+   "ITEM_BASEMENT_KEY": "BASEMENTKEY",
+   "ITEM_BIG_MUSHROOM": "BIGMUSHROOM",
+   "ITEM_BIG_NUGGET": "BIGNUGGET",
+   "ITEM_BLACK_BELT": "BLACKBELT",
+   "ITEM_BLACK_FLUTE": "BLACKFLUTE",
+   "ITEM_BLACK_GLASSES": "BLACKGLASSES",
+   "ITEM_BRIGHT_POWDER": "BRIGHTPOWDER",
+   "ITEM_CALCIUM": "CALCIUM",
+   "ITEM_CARBOS": "CARBOS",
+   "ITEM_CARD_KEY": "CARDKEY",
+   "ITEM_CHARCOAL": "CHARCOAL",
+   "ITEM_CHERI_BERRY": "CHERIBERRY",
+   "ITEM_CHESTO_BERRY": "CHESTOBERRY",
+   "ITEM_CLAW_FOSSIL": "CLAWFOSSIL",
+   "ITEM_CLEAR_BELL": "CLEARBELL",
+   "ITEM_COIN_CASE": "COINCASE",
+   "ITEM_DIRE_HIT": "DIREHIT",
+   "ITEM_DOME_FOSSIL": "DOMEFOSSIL",
+   "ITEM_DRAGON_FANG": "DRAGONFANG",
+   "ITEM_DRAGON_SCALE": "DRAGONSCALE",
+   "ITEM_ELIXIR": "ELIXIR",
+   "ITEM_ENERGY_POWDER": "ENERGYPOWDER",
+   "ITEM_ENERGY_ROOT": "ENERGYROOT",
+   "ITEM_EON_TICKET": "EONTICKET",
+   "ITEM_ESCAPE_ROPE": "ESCAPEROPE",
+   "ITEM_ETHER": "ETHER",
+   "ITEM_EVERSTONE": "EVERSTONE",
+   "ITEM_EXP_SHARE_SMALL": "EXPSHARES",
+   "ITEM_FAST_BALL": "FASTBALL",
+   "ITEM_FRIEND_BALL": "FRIENDBALL",
+   "ITEM_FULL_HEAL": "FULLHEAL",
+   "ITEM_FULL_RESTORE": "FULLRESTORE",
+   "ITEM_GOOD_ROD": "GOODROD",
+   "ITEM_GREAT_BALL": "GREATBALL",
+   "ITEM_GS_BALL": "GSBALL",
+   "ITEM_GUARD_SPEC": "GUARDSPEC",
+   "ITEM_HARD_STONE": "HARDSTONE",
+   "ITEM_HEAL_POWDER": "HEALPOWDER",
+   "ITEM_HEART_SCALE": "HEARTSCALE",
+   "ITEM_HEAVY_BALL": "HEAVYBALL",
+   "ITEM_HELIX_FOSSIL": "HELIXFOSSIL",
+   "ITEM_HM_CUT": "HM01",
+   "ITEM_HM_FLASH": "HM05",
+   "ITEM_HM_FLY": "HM02",
+   "ITEM_HM_ROCK_SMASH": "HM06",
+   "ITEM_HM_STRENGTH": "HM04",
+   "ITEM_HM_SURF": "HM03",
+   "ITEM_HM_WATERFALL": "HM07",
+   "ITEM_HM_WHIRLPOOL": "HM08",
+   "ITEM_HP_UP": "HPUP",
+   "ITEM_HYPER_POTION": "HYPERPOTION",
+   "ITEM_ICE_HEAL": "ICEHEAL",
+   "ITEM_IRON": "IRON",
+   "ITEM_KINGS_ROCK": "KINGSROCK",
+   "ITEM_LAX_INCENSE": "LAXINCENSE",
+   "ITEM_LEVEL_BALL": "LEVELBALL",
+   "ITEM_LOVE_BALL": "LOVEBALL",
+   "ITEM_LUCKY_PUNCH": "LUCKYPUNCH",
+   "ITEM_LUM_BERRY": "LUMBERRY",
+   "ITEM_LURE_BALL": "LUREBALL",
+   "ITEM_MACH_BIKE": "BIKE",
+   "ITEM_MAGNET": "MAGNET",
+   "ITEM_MASTER_BALL": "MASTERBALL",
+   "ITEM_MAX_ELIXIR": "MAXELIXIR",
+   "ITEM_MAX_ETHER": "MAXETHER",
+   "ITEM_MAX_POTION": "MAXPOTION",
+   "ITEM_MAX_REPEL": "MAXREPEL",
+   "ITEM_MAX_REVIVE": "MAXREVIVE",
+   "ITEM_METAL_COAT": "METALCOAT",
+   "ITEM_MIRACLE_SEED": "MIRACLESEED",
+   "ITEM_MODEST_MINT": "MODESTMINT",
+   "ITEM_MOOMOO_MILK": "MOOMOOMILK",
+   "ITEM_MOON_BALL": "MOONBALL",
+   "ITEM_MOON_STONE": "MOONSTONE",
+   "ITEM_MYSTERY_EGG": "MYSTERYEGG",
+   "ITEM_MYSTIC_WATER": "MYSTICWATER",
+   "ITEM_NEVER_MELT_ICE": "NEVERMELTICE",
+   "ITEM_NONE": null,
+   "ITEM_NUGGET": "NUGGET",
+   "ITEM_OLD_AMBER": "OLDAMBER",
+   "ITEM_OLD_ROD": "OLDROD",
+   "ITEM_OLD_SEA_MAP": "OLDSEAMAP",
+   "ITEM_ORAN_BERRY": "ORANBERRY",
+   "ITEM_PARALYZE_HEAL": "PARLYZHEAL",
+   "ITEM_PASS": "PASS",
+   "ITEM_PEARL": "PEARL",
+   "ITEM_PECHA_BERRY": "PECHABERRY",
+   "ITEM_PERSIM_BERRY": "PERSIMBERRY",
+   "ITEM_POISON_BARB": "POISONBARB",
+   "ITEM_POKEBLOCK_CASE": "POKEBLOCKCASE",
+   "ITEM_POKE_BALL": "POKEBALL",
+   "ITEM_POTION": "POTION",
+   "ITEM_PP_MAX": "PPMAX",
+   "ITEM_PP_UP": "PPUP",
+   "ITEM_PROTEIN": "PROTEIN",
+   "ITEM_QUICK_CLAW": "QUICKCLAW",
+   "ITEM_RADIO": "RADIO",
+   "ITEM_RAGE_CANDY_BAR": "RAGECANDYBAR",
+   "ITEM_RAINBOW_WING": "RAINBOWWING",
+   "ITEM_RARE_CANDY": "RARECANDY",
+   "ITEM_RAWST_BERRY": "RAWSTBERRY",
+   "ITEM_RED_FLUTE": "REDFLUTE",
+   "ITEM_RED_SCALE": "REDSCALE",
+   "ITEM_REVIVE": "REVIVE",
+   "ITEM_ROOT_FOSSIL": "ROOTFOSSIL",
+   "ITEM_SACRED_ASH": "SACREDASH",
+   "ITEM_SAFARI_BALL": "SAFARIBALL",
+   "ITEM_SECRET_POTION": "SECRETPOTION",
+   "ITEM_SHARP_BEAK": "SHARPBEAK",
+   "ITEM_SILK_SCARF": "SILKSCARF",
+   "ITEM_SILVER_WING": "SILVERWING",
+   "ITEM_SITRUS_BERRY": "SITRUSBERRY",
+   "ITEM_SMOKE_BALL": "SMOKEBALL",
+   "ITEM_SOFT_SAND": "SOFTSAND",
+   "ITEM_SOOTHE_BELL": "SOOTHEBELL",
+   "ITEM_SPELL_TAG": "SPELLTAG",
+   "ITEM_SQUIRT_BOTTLE": "SQUIRTBOTTLE",
+   "ITEM_SS_TICKET": "SSTICKET",
+   "ITEM_STARDUST": "STARDUST",
+   "ITEM_STAR_PIECE": "STARPIECE",
+   "ITEM_SUPER_POTION": "SUPERPOTION",
+   "ITEM_TIDAL_BELL": "TIDALBELL",
+   "ITEM_TM_ATTRACT": "TM45",
+   "ITEM_TM_BLIZZARD": "TM14",
+   "ITEM_TM_BRICK_BREAK": "TM31",
+   "ITEM_TM_BULK_UP": "TM08",
+   "ITEM_TM_BULLET_SEED": "TM09",
+   "ITEM_TM_CALM_MIND": "TM04",
+   "ITEM_TM_DIG": "TM28",
+   "ITEM_TM_DOUBLE_TEAM": "TM32",
+   "ITEM_TM_DRAGON_CLAW": "TM02",
+   "ITEM_TM_FOCUS_PUNCH": "TM01",
+   "ITEM_TM_FRUSTRATION": "TM21",
+   "ITEM_TM_HAIL": "TM07",
+   "ITEM_TM_HIDDEN_POWER": "TM10",
+   "ITEM_TM_IRON_TAIL": "TM23",
+   "ITEM_TM_RAIN_DANCE": "TM18",
+   "ITEM_TM_RETURN": "TM27",
+   "ITEM_TM_ROAR": "TM05",
+   "ITEM_TM_ROCK_TOMB": "TM39",
+   "ITEM_TM_SANDSTORM": "TM37",
+   "ITEM_TM_SECRET_POWER": "TM43",
+   "ITEM_TM_SHADOW_BALL": "TM30",
+   "ITEM_TM_SHOCK_WAVE": "TM34",
+   "ITEM_TM_SKILL_SWAP": "TM48",
+   "ITEM_TM_SLUDGE_BOMB": "TM36",
+   "ITEM_TM_SNATCH": "TM49",
+   "ITEM_TM_SOLAR_BEAM": "TM22",
+   "ITEM_TM_STEEL_WING": "TM47",
+   "ITEM_TM_SUNNY_DAY": "TM11",
+   "ITEM_TM_TAUNT": "TM12",
+   "ITEM_TM_THIEF": "TM46",
+   "ITEM_TM_TORMENT": "TM41",
+   "ITEM_ULTRA_BALL": "ULTRABALL",
+   "ITEM_WATER_STONE": "WATERSTONE",
+   "ITEM_WHITE_FLUTE": "WHITEFLUTE",
+   "ITEM_X_ATTACK": "XATTACK",
+   "ITEM_X_DEFEND": "XDEFEND"
+  },
+  "label": {
+   "BugContestEventScript_Judging": "msgbox BugContest_Text_Judging1, MSGBOX_DEFAULT ; closemessage ; special JudgeBugContestMon ; call_if_eq VAR_RESULT, 1, BugContest_EventScript_First ; call_if_eq VAR_RESULT, 2, BugContest_EventScript_Second ; call_if_eq VAR_RESULT, 3, BugContest_EventScript_Third ; special TransferBugContestMon ; delay 20 ; giveitem VAR_0x8005 ; msgbox BugContest_Text_TransferAndReturn, MSGBOX_DEFAULT ; playse SE_SUCCESS ; waitse ; msgbox BugContest_Text_TakePartInFuture, MSGBOX_DEFAULT ; closemessage ; goto BugContest_EventScript_End ; end",
+   "BugContest_EventScript_TimesUp": "lockall ; playse SE_DING_DONG ; msgbox BugContest_Text_TimesUp, MSGBOX_DEFAULT ; closemessage ; waitse ; getpartysize ; goto_if_eq VAR_RESULT, 1, BugContest_EventScript_Didntcatch ; fadescreen FADE_TO_BLACK ; setvar VAR_BUG_CONTEST_STATE, 3 ; msgbox BugContest_Text_Judging0, MSGBOX_DEFAULT ; closemessage ; BugContest_EventScript_TimesUp2:: ; special ChoosePartyMon ; waitstate ; copyvar VAR_0x800A, VAR_0x8004 ; goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, BugContest_EventScript_WrongChoiceMon ; goto_if_eq VAR_0x8004, 0, BugContest_EventScript_WrongChoiceMon ; fadescreen FADE_TO_BLACK ; warp MAP_NATIONAL_PARK_BUG_CONTEST, 5 ; delay 90 ; end",
+   "Common_EventScript_BagIsFull": "msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT ; return",
+   "Common_EventScript_GetGiftMonPartySlot": "getpartysize ; subvar VAR_RESULT, 1 ; copyvar VAR_0x8004, VAR_RESULT ; return",
+   "Common_EventScript_GiftMon": "call_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Common_EventScript_RecieveMonParty ; call_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Common_EventScript_ReceiveMonPC ; return",
+   "Common_EventScript_GiftMonNamed": "call_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Common_EventScript_RecieveMonPartyNamed ; call_if_eq VAR_RESULT, MON_CANT_GIVE, Common_EventScript_PartyIsFull ; return",
+   "Common_EventScript_NameReceivedBoxMon": "fadescreen FADE_TO_BLACK ; special ChangeBoxPokemonNickname ; waitstate ; lock ; faceplayer ; return",
+   "Common_EventScript_NameReceivedPartyMon": "fadescreen FADE_TO_BLACK ; special ChangePokemonNickname ; waitstate ; return",
+   "Common_EventScript_NoMoreRoomForPokemon": "msgbox gText_NoMoreRoomForPokemon, MSGBOX_DEFAULT ; release ; end",
+   "Common_EventScript_OutOfCenterPartyHeal": "fadescreenswapbuffers FADE_TO_BLACK ; playfanfare MUS_HEAL ; waitfanfare ; special HealPlayerParty ; callnative UpdateFollowingPokemon ; fadescreenswapbuffers FADE_FROM_BLACK ; return",
+   "Common_EventScript_PlayGymBadgeFanfare": "playfanfare MUS_OBTAIN_BADGE ; waitfanfare ; return",
+   "Common_EventScript_SetGymTrainers": "switch VAR_0x8008 ; case 1, VioletCity_Gym_SetGymTrainers ; case 2, AzaleaTown_Gym_SetGymTrainers ; case 3, GoldenrodCity_Gym_SetGymTrainers ; case 4, EcruteakCity_Gym_SetGymTrainers ; case 5, CianwoodCity_Gym_SetGymTrainers ; case 6, OlivineCity_Gym_SetGymTrainers ; case 7, MahoganyTown_Gym_SetGymTrainers ; case 8, BlackthornCity_Gym_SetGymTrainers ; case 9, PewterCity_Gym_SetGymTrainers ; case 10, CeruleanCity_Gym_SetGymTrainers ; case 11, VermilionCity_Gym_SetGymTrainers ; case 12, CeladonCity_Gym_SetGymTrainers ; case 13, SaffronCity_Gym_SetGymTrainers ; case 14, FuchsiaCity_Gym_SetGymTrainers ; case 15, CinnabarIsland_Gym_SetGymTrainers ; case 16, ViridianCity_Gym_SetGymTrainers ; end",
+   "Common_EventScript_ShowBagIsFull": "msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT ; release ; end",
+   "Common_EventScript_TransferredToPC": "bufferboxname STR_VAR_1, VAR_PC_BOX_TO_SEND_MON ; bufferspeciesname STR_VAR_2, VAR_TEMP_TRANSFERRED_SPECIES ; call_if_unset FLAG_SYS_PC_BILL, EventScript_TransferredSomeonesPC ; call_if_set FLAG_SYS_PC_BILL, EventScript_TransferredBillsPC ; return",
+   "Common_Movement_Delay48": "delay_16 ; delay_16 ; delay_16 ; step_end",
+   "Common_Movement_ExclamationMark": "emote_exclamation_mark ; step_end",
+   "Common_Movement_FaceOriginalDirection": "face_original_direction ; step_end",
+   "Common_Movement_FacePlayer": "face_player ; step_end",
+   "Common_Movement_JumpDown1": "jump_down ; step_end",
+   "Common_Movement_JumpUp1": "jump_up ; step_end",
+   "Common_Movement_QuestionMark": "emote_question_mark ; step_end",
+   "Common_Movement_WalkDown1": "walk_down ; step_end",
+   "Common_Movement_WalkInPlaceFasterRight": "walk_in_place_faster_right ; step_end",
+   "Common_Movement_WalkInPlaceFasterUp": "walk_in_place_faster_up ; step_end",
+   "Common_Movement_WalkLeft1": "walk_left ; step_end",
+   "Common_Movement_WalkRight1": "walk_right ; step_end",
+   "Common_Movement_WalkUp": "walk_up ; step_end",
+   "Common_Movement_WalkUp1": "walk_up ; step_end",
+   "Common_ShowEasyChatScreen": "fadescreen FADE_TO_BLACK ; special ShowEasyChatScreen ; fadescreen FADE_FROM_BLACK ; return",
+   "ContestHall_Movement_Heart": "emote_heart ; step_end",
+   "DisableStaticRandomizer": null,
+   "EcruteakCity_Gym_EventScript_GymGuy2": "msgbox EcruteakCity_GymGuideWinText, MSGBOX_DEFAULT ; release ; end",
+   "EcruteakCity_Theater_Movement_EastCorrection": null,
+   "EcruteakCity_Theater_Movement_SouthCorrection": null,
+   "EcruteakCity_Theater_Movement_WestCorrection": null,
+   "EnableStaticRandomizer": null,
+   "EventScript_RockSmashHeartscale": "giveitem ITEM_HEART_SCALE ; return",
+   "FollowerDance": "lock_facing_direction ; jump_in_place_up ; unlock_facing_direction ; walk_in_place_fast_up ; walk_in_place_fast_left ; walk_in_place_fast_down ; walk_in_place_fast_right ; walk_in_place_fast_up ; walk_in_place_fast_left ; walk_in_place_fast_down ; walk_in_place_fast_right ; jump_in_place_up ; jump_in_place_down ; jump_in_place_up ; face_player ; step_end",
+   "FollowerLookAway": "face_away_player ; delay_16 ; delay_16 ; step_end",
+   "MauvilleCity_GameCorner_EventScript_NeedCoinCase": "msgbox MauvilleCity_GameCorner_Text_NeedCoinCaseForCoins, MSGBOX_DEFAULT ; release ; end",
+   "MoveTutor_EventScript_CanOnlyBeLearnedOnceFinite": "msgbox MoveTutor_Text_ThisMoveCanOnlyBeLearnedOnceFinite, MSGBOX_YESNO ; return",
+   "MoveTutor_EventScript_OpenPartyMenu": "special ChooseMonForMoveTutor ; waitstate ; lock ; faceplayer ; return",
+   "Movement_SmashRock": "rock_smash_break ; step_end",
+   "OldaleTown_Movement_PlayerStepBack": "delay_8 ; walk_right ; step_end",
+   "OlivineCity_MapScript_ClearWeather": "setweather WEATHER_NONE ; end",
+   "PlayersHouse_1F_EventScript_MomHealsParty": "specialvar VAR_RESULT, IsPokecenterChallengeActivated ; goto_if_eq VAR_RESULT, TRUE, PlayersHouse_1F_EventScript_MomHealsParty_PokecenterChallenge ; msgbox PlayersHouse_1F_Text_YouShouldRestABit, MSGBOX_DEFAULT ; goto PlayersHouse_1F_EventScript_HealParty ; end",
+   "PlayersHouse_2F_EventScript_SetWallClock": "fadescreen FADE_TO_BLACK ; special StartWallClock ; waitstate ; return",
+   "Route42_MapScript_HideTrigger": "setvar VAR_TEMP_0, 1 ; return",
+   "RustboroCity_DevonCorp_2F_EventScript_SetFossilReady": "setvar VAR_FOSSIL_RESURRECTION_STATE, 2 ; return",
+   "SetTimeBasedEncounters": null,
+   "UpdateFollowingPokemon": null,
+   "VAR_0x8004": null,
+   "VAR_0x8005": null,
+   "VAR_0x8006": null,
+   "VAR_0x8009": null
+  },
+  "macro": {
+   "EcruteakCity_Theater_Movement_EastCorrection": null,
+   "EcruteakCity_Theater_Movement_SouthCorrection": null,
+   "EcruteakCity_Theater_Movement_WestCorrection": null,
+   "ITEM_ANTIDOTE": null,
+   "ITEM_CALCIUM": null,
+   "ITEM_CARBOS": null,
+   "ITEM_DRAGON_SCALE": null,
+   "ITEM_HP_UP": null,
+   "ITEM_IRON": null,
+   "ITEM_KINGS_ROCK": null,
+   "ITEM_LAX_INCENSE": null,
+   "ITEM_METAL_COAT": null,
+   "ITEM_NEVER_MELT_ICE": null,
+   "ITEM_NONE": null,
+   "ITEM_POTION": null,
+   "ITEM_PROTEIN": null,
+   "ITEM_SEA_INCENSE": null,
+   "ITEM_SPELL_TAG": null,
+   "ITEM_TM_HIDDEN_POWER": null,
+   "ITEM_TM_SECRET_POWER": null,
+   "ITEM_UP_GRADE": null,
+   "ITEM_ZINC": null,
+   "PLAYSE": null,
+   "SetObjectSubpriority": null,
+   "additem": "2 :: .2byte .2byte",
+   "addmoney": "2 :: .4byte .byte",
+   "addobject": "2 :: .ifb .byte .2byte .else .byte .2byte map .endif",
+   "addvar": "2 :: .byte .byte",
+   "align": null,
+   "applymovement": "3 :: .ifb .byte .2byte .4byte .else .byte .2byte .4byte map .endif",
+   "applymovement2": "3 :: .ifb .byte .2byte .4byte .else .byte .2byte .4byte map .endif",
+   "baobacheckmon": "1 :: .2byte",
+   "bufferitemname": "2 :: stringvar .2byte",
+   "buffermoncategory": "2 :: stringvar .2byte",
+   "bufferspeciesname": "2 :: stringvar .2byte",
+   "byte": null,
+   "call": "1 :: .4byte",
+   "call_if_eq": "3 :: trycompare",
+   "call_if_ge": "3 :: trycompare",
+   "call_if_lt": "3 :: trycompare",
+   "call_if_ne": "3 :: trycompare",
+   "call_if_set": "2 :: checkflag call_if",
+   "call_if_unset": "2 :: checkflag call_if",
+   "case": "2 :: compare goto_if_eq",
+   "checkcoins": "1 :: .2byte",
+   "checkitem": "2 :: .2byte .2byte",
+   "checkmoney": "2 :: .4byte .byte",
+   "checkpartymove": "1 :: .2byte",
+   "checkrandomizer": "0 :: .byte",
+   "chooseitem": "1 :: setvar fadescreen special waitstate",
+   "clearflag": "1 :: .2byte",
+   "closedoor": "2 :: .2byte .2byte",
+   "closemessage": "0 :: ",
+   "copyvar": "2 :: .2byte .2byte",
+   "delay": "1 :: .2byte",
+   "delay_16": null,
+   "delay_2": null,
+   "delay_4": null,
+   "delay_8": null,
+   "dofieldeffect": "1 :: .2byte",
+   "dotimebasedevents": "0 :: ",
+   "doweather": "0 :: ",
+   "dowildbattle": "0 :: ",
+   "end": "0 :: ",
+   "face_down": null,
+   "face_left": null,
+   "face_player": null,
+   "face_right": null,
+   "face_up": null,
+   "faceplayer": "0 :: ",
+   "fadedefaultbgm": "0 :: ",
+   "fadescreen": "1 :: .byte",
+   "fadescreenspeed": "2 :: .byte .byte",
+   "fadescreenswapbuffers": "2 :: .byte .byte",
+   "finditem": "2 :: setorcopyvar setorcopyvar callstd",
+   "frontier_saveparty": "0 :: setvar special",
+   "frontier_set": "2 :: setvar setvar .if .elseif copyvar .else setvar .endif special",
+   "getpartysize": "0 :: ",
+   "getplayerxy": "2 :: .2byte .2byte",
+   "givebp": "1 :: .2byte",
+   "giveegg": "1 :: .2byte",
+   "giveitem": "2 :: setorcopyvar setorcopyvar callstd",
+   "givemon": "3 :: .2byte .byte .2byte .4byte .4byte .byte",
+   "givenamedmon": "1 :: .2byte",
+   "giveoddegg": "1 :: .2byte",
+   "goto": "1 :: .4byte",
+   "goto_if_eq": "3 :: trycompare",
+   "goto_if_ge": "3 :: trycompare",
+   "goto_if_lt": "3 :: trycompare",
+   "goto_if_ne": "3 :: trycompare",
+   "goto_if_set": "2 :: checkflag goto_if",
+   "goto_if_unset": "2 :: checkflag goto_if",
+   "hidecoinsbox": "2 :: .byte .byte",
+   "hidemoneybox": "0 :: .byte .byte",
+   "hidemonpic": "0 :: ",
+   "incrementgamestat": "1 :: .byte",
+   "jump_2_down": null,
+   "jump_2_left": null,
+   "jump_2_right": null,
+   "jump_2_up": null,
+   "jump_down": null,
+   "jump_in_place_down": null,
+   "jump_in_place_left": null,
+   "jump_in_place_left_right": null,
+   "jump_in_place_right": null,
+   "jump_in_place_right_left": null,
+   "jump_in_place_up": null,
+   "jump_left": null,
+   "jump_right": null,
+   "lock": "0 :: ",
+   "lock_anim": null,
+   "lock_facing_direction": null,
+   "lockall": "0 :: ",
+   "map_script": "2 :: .4byte",
+   "map_script_2": "3 :: .2byte .2byte .4byte",
+   "message": "1 :: .4byte",
+   "msgbox": "2 :: loadword callstd",
+   "multichoice": "4 :: .byte .byte .byte .byte",
+   "opendoor": "2 :: .2byte .2byte",
+   "playbgm": "2 :: .2byte .byte",
+   "playfanfare": "1 :: .2byte",
+   "playfirstmoncry": null,
+   "playmoncry": "2 :: .2byte .2byte",
+   "playse": "1 :: .2byte",
+   "pokemart": "1 :: .4byte",
+   "pokenavcall": "1 :: .4byte",
+   "random": "1 :: .2byte",
+   "release": "0 :: ",
+   "releaseall": "0 :: ",
+   "remove5mons": "0 :: ",
+   "removecoins": "1 :: .2byte",
+   "removegenericmon": "1 :: .2byte",
+   "removeitem": "2 :: .2byte .2byte",
+   "removemoney": "2 :: .4byte .byte",
+   "removenamedmon": "1 :: .2byte",
+   "removeobject": "2 :: .ifb .byte .2byte .else .byte .2byte map .endif",
+   "resetobjectsubpriority": "2 :: .2byte map",
+   "return": "0 :: ",
+   "set_invisible": null,
+   "set_visible": null,
+   "setdynamicwarp": "4 :: formatwarp",
+   "setescapewarp": "4 :: formatwarp",
+   "seteventmon": "3 :: setvar setvar setvar special",
+   "setflag": "1 :: .2byte",
+   "setholewarp": "4 :: formatwarp",
+   "setmaplayoutindex": "1 :: .2byte",
+   "setmetatile": "4 :: .2byte .2byte .2byte .2byte",
+   "setobjectmovementtype": "2 :: .2byte .byte",
+   "setobjectxyperm": "3 :: .2byte .2byte .2byte",
+   "setrespawn": "1 :: .2byte",
+   "setstepcallback": "1 :: .byte",
+   "setvar": "2 :: .byte .2byte",
+   "setweather": "1 :: .2byte",
+   "setwildbattle": "3 :: .2byte .byte .2byte",
+   "setwildbattleshiny": "3 :: .2byte .byte .2byte",
+   "showcoinsbox": "2 :: .byte .byte",
+   "showmoneybox": "3 :: .byte .byte .byte",
+   "showmonpic": "3 :: .2byte .byte .byte",
+   "slide_down": null,
+   "slide_left": null,
+   "slide_right": null,
+   "slide_up": null,
+   "step_end": null,
+   "subvar": "2 :: .2byte .2byte",
+   "switch": "1 :: copyvar",
+   "trainerbattle": "7 :: .byte .2byte .2byte .if .4byte .4byte .elseif .4byte .4byte .4byte .elseif .4byte .4byte .4byte .elseif .4byte .elseif .4byte .4byte .4byte .elseif .4byte .4byte .elseif .4byte .4byte .4byte .4byte .elseif .4byte .4byte .4byte .elseif .4byte .4byte .4byte .4byte .elseif .4byte .4byte .elseif .4byte .4byte .elseif .4byte .4byte .elseif .4byte .4byte .endif",
+   "trainerbattle_double": "6 :: .if trainerbattle .elseif trainerbattle .else trainerbattle .endif",
+   "trainerbattle_no_intro": "2 :: trainerbattle",
+   "trainerbattle_single": "5 :: .if trainerbattle .elseif trainerbattle .else trainerbattle .endif",
+   "turnobject": "2 :: .2byte .byte",
+   "unlock_anim": null,
+   "unlock_facing_direction": null,
+   "updatecoinsbox": "2 :: .byte .byte",
+   "updatemoneybox": "1 :: .byte .byte .byte",
+   "waitbuttonpress": "0 :: ",
+   "waitdooranim": "0 :: ",
+   "waitfanfare": "0 :: ",
+   "waitfieldeffect": "1 :: .2byte",
+   "waitmessage": "0 :: ",
+   "waitmoncry": "0 :: ",
+   "waitmovement": "2 :: .ifb .byte .2byte .else .byte .2byte map .endif",
+   "waitse": "0 :: ",
+   "waitstate": "0 :: ",
+   "walk_down": null,
+   "walk_fast_down": null,
+   "walk_fast_left": null,
+   "walk_fast_right": null,
+   "walk_fast_up": null,
+   "walk_faster_down": null,
+   "walk_faster_left": null,
+   "walk_faster_right": null,
+   "walk_faster_up": null,
+   "walk_in_place_down": null,
+   "walk_in_place_fast_down": null,
+   "walk_in_place_fast_left": null,
+   "walk_in_place_fast_right": null,
+   "walk_in_place_fast_up": null,
+   "walk_in_place_left": null,
+   "walk_in_place_right": null,
+   "walk_in_place_up": null,
+   "walk_left": null,
+   "walk_right": null,
+   "walk_slow_down": null,
+   "walk_slow_left": null,
+   "walk_slow_right": null,
+   "walk_slow_up": null,
+   "walk_up": null,
+   "warp": "4 :: formatwarp",
+   "warphole": "1 :: map",
+   "warpsilent": "4 :: formatwarp",
+   "warpteleport": "4 :: formatwarp"
+  },
+  "map": {
+   "MAP_AZALEA_TOWN_GYM": "AzaleaTown_Gym",
+   "MAP_AZALEA_TOWN_KURTS_HOUSE": "AzaleaTown_KurtsHouse",
+   "MAP_BATTLE_FRONTIER_OUTSIDE_WEST": "BattleFrontier_OutsideWest",
+   "MAP_BELLCHIME_TRAIL": "BellchimeTrail",
+   "MAP_BIRTH_ISLAND_EXTERIOR": "BirthIsland_Exterior",
+   "MAP_BURNED_TOWER_B1F": "BurnedTower_B1F",
+   "MAP_CELADON_CITY_DEPARTMENT_STORE_1F": "CeladonCity_DepartmentStore_1F",
+   "MAP_CELADON_CITY_DEPARTMENT_STORE_2F": "CeladonCity_DepartmentStore_2F",
+   "MAP_CELADON_CITY_DEPARTMENT_STORE_3F": "CeladonCity_DepartmentStore_3F",
+   "MAP_CELADON_CITY_DEPARTMENT_STORE_4F": "CeladonCity_DepartmentStore_4F",
+   "MAP_CELADON_CITY_DEPARTMENT_STORE_5F": "CeladonCity_DepartmentStore_5F",
+   "MAP_FARAWAY_ISLAND_ENTRANCE": "FarawayIsland_Entrance",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_1F": "GoldenrodCity_DepartmentStore_1F",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_2F": "GoldenrodCity_DepartmentStore_2F",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_3F": "GoldenrodCity_DepartmentStore_3F",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_4F": "GoldenrodCity_DepartmentStore_4F",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_5F": "GoldenrodCity_DepartmentStore_5F",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_6F": "GoldenrodCity_DepartmentStore_6F",
+   "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_BASEMENT": "GoldenrodCity_DepartmentStoreBasement",
+   "MAP_ICE_PATH_B1F": "IcePath_B1F",
+   "MAP_ICE_PATH_B2F": "IcePath_B2F",
+   "MAP_MT_SILVER_OUTSIDE": "MtSilver_Outside",
+   "MAP_NATIONAL_PARK_BUG_CONTEST": "NationalPark_BugContest",
+   "MAP_NEW_BARK_TOWN": "NewBarkTown",
+   "MAP_POKEMON_LEAGUE_HALL_OF_FAME": "JohtoPokemonLeague_HallOfFame",
+   "MAP_RUINS_OF_ALPH_B1F": "RuinsOfAlph_B1F",
+   "MAP_SAFARI_ZONE_ENTERANCE": "SafariZone_Enterance",
+   "MAP_SAFFRON_CITY_TRAIN_STATION": "SaffronCity_TrainStation",
+   "MAP_SCRIPT_ON_FRAME_TABLE": null,
+   "MAP_SCRIPT_ON_LOAD": null,
+   "MAP_SCRIPT_ON_RESUME": null,
+   "MAP_SCRIPT_ON_TRANSITION": null,
+   "MAP_SOUTHERN_ISLAND_EXTERIOR": "SouthernIsland_Exterior",
+   "MAP_SSAQUA_1F": "SSAqua_1F",
+   "MAP_SSAQUA_ROOM_SSE": "SSAqua_RoomSSE",
+   "MAP_TIN_TOWER_1F": "TinTower_1F",
+   "MAP_TIN_TOWER_ROOF_DAY": "TinTower_RoofDay",
+   "MAP_TIN_TOWER_ROOF_NIGHT": "TinTower_RoofNight",
+   "MAP_VERMILION_CITY_PORT_INSIDE": "VermilionCity_PortInside"
+  },
+  "multi": {
+   "MULTI_5FLOORS": "Floor 5 | Floor 4 | Floor 3 | Floor 2 | Floor 1 | EXIT",
+   "MULTI_7FLOORS": "Floor 6 | Floor 5 | Floor 4 | Floor 3 | Floor 2 | Floor 1 | Floor 0 | EXIT",
+   "MULTI_B_PRESSED": null,
+   "MULTI_DAYS_OF_WEEK": "SUNDAY | MONDAY | TUESDAY | WEDNESDAY | THURSDAY | FRIDAY | SATURDAY | EXIT",
+   "MULTI_ELDERQUIIZ1": "Pal | Underling | Friend",
+   "MULTI_ELDERQUIIZ2": "Strategy | Training | Cheating",
+   "MULTI_ELDERQUIIZ3": "Weak person | Tough person | Anybody",
+   "MULTI_ELDERQUIIZ4": "Love | Violence | Knowledge",
+   "MULTI_ELDERQUIIZ5": "Tough | Weak | Both",
+   "MULTI_FOSSIL": "CLAW FOSSIL | ROOT FOSSIL | HELIX FOSSIL | DOME FOSSIL | OLD AMBER | EXIT",
+   "MULTI_GOLDSILVER": "GOLD | SILVER",
+   "MULTI_KURT_BALLS": "LOVE    / PECHA  / (FRY/PSY) | LURE    / RAWST  / (WTR/DRG) | FRIEND / CHERI  / (BUG/GRS) | HEAVY   / ORAN   / (RCK/GND/STL) | MOON    / CHESTO / (DRK/GST/PSN) | FAST    / ASPEAR / (ELC/FIG/FIR) | LEVEL  / PERSIM / (NRM/FLY/ICE) | EXIT",
+   "MULTI_OLIVINE_HARBOR": "VERMILION | SOUTHERN ISLAND | BIRTH ISLAND | FARAWAY ISLAND | BATTLE FRONTIER | EXIT",
+   "MULTI_PRIZE_MONS": "ABRA{CLEAR_TO 0x40}120 COINS | CLEFAIRY{CLEAR_TO 0x40}500 COINS | MUNCHLAX{CLEAR_TO 0x40}2,800 COINS | DRATINI{CLEAR_TO 0x40}5,500 COINS | PORYGON{CLEAR_TO 0x40}6,500 COINS | EXIT"
+  },
+  "special": {
+   "BattleSetup_StartLegendaryBattle": "",
+   "BufferLottoTicketNumber": "Result",
+   "BufferMonNickname": "0x8004",
+   "BufferMoveDeleterNicknameAndMove": "0x8004 0x8005",
+   "CalculatePlayerPartyCount": "",
+   "CheckAerodactyl": "",
+   "CheckCelebi": "",
+   "CheckDaycareMonReceivedMail": "0x8004",
+   "CheckHooh": "",
+   "CheckKabuto": "",
+   "CheckOmanyte": "",
+   "CheckTogepi": "",
+   "ChooseHalfPartyForBattle": "",
+   "ChooseMonForMoveRelearner": "",
+   "ChoosePartyMon": "",
+   "ChooseSendDaycareMon": "",
+   "CountPartyAliveNonEggMons": "",
+   "CountPartyAliveNonEggMons_IgnoreVar0x8004Slot": "0x8004",
+   "CountPartyNonEggMons": "",
+   "CreateInGameTradePokemon": "0x8004 0x8005",
+   "DisableStaticRandomizer": "",
+   "DoInGameTradeScene": "",
+   "DoPokemonLeagueLightingEffect": "",
+   "DoSlidingPuzzle": "",
+   "DoSpecialTrainerBattle": "0x8004",
+   "DrawWholeMapView": "",
+   "EnableNationalPokedex": "",
+   "EnableStaticRandomizer": "",
+   "EnterBugContestMode": "",
+   "EnterSafariMode": "",
+   "ExitSafariMode": "",
+   "GameClear": "",
+   "GetBattleOutcome": "",
+   "GetDaycareCost": "0x8004 0x8005",
+   "GetDaycareMonNicknames": "",
+   "GetDaycareState": "",
+   "GetInGameTradeSpeciesInfo": "0x8004",
+   "GetLeadMonFriendshipScore": "",
+   "GetMaxPartySize": "",
+   "GetNumLevelsGainedFromDaycare": "0x8004",
+   "GetNumMovesSelectedMonHas": "0x8004 Result",
+   "GetPlayerBigGuyGirlString": "",
+   "GetSelectedMonNicknameAndSpecies": "",
+   "GetTradeSpecies": "0x8005",
+   "GiveEggFromDaycare": "",
+   "HaircutBrother1": "0x8004",
+   "InitRoamer": "0x8004",
+   "IsEnoughForCostInVar0x8005": "0x8005",
+   "IsLastMonThatKnowsSurf": "0x8004 0x8005 Result",
+   "IsNuzlockeNicknamingActive": "",
+   "IsPokecenterChallengeActivated": "",
+   "IsRandomMovesActivated": "",
+   "IsSelectedMonEgg": "0x8004 Result",
+   "LoadPlayerParty": "",
+   "LoopWingFlapSE": "",
+   "MoveDeleterChooseMoveToForget": "0x8004",
+   "MoveDeleterForgetMove": "0x8004 0x8005",
+   "NameRival": "",
+   "PickLotteryCornerTicket": "0x8004 0x8005 0x8006 Result",
+   "ReducePlayerPartyToSelectedMons": "",
+   "RejectEggFromDayCare": "",
+   "RemoveCameraObject": "",
+   "RetrieveLotteryNumber": "Result",
+   "SavePlayerParty": "",
+   "ScriptCheckFreePokemonStorageSpace": "",
+   "ScriptGetPartyMonSpecies": "0x8004",
+   "SetCB2WhiteOut": "",
+   "SetDaycareCompatibilityString": "Result",
+   "SetTimeBasedEncounters": "",
+   "ShakeCamera": "0x8004 0x8005 0x8006 0x8007",
+   "ShowBugContestChosenMon": "0x8004 Result",
+   "ShowDaycareLevelMenu": "",
+   "ShowFieldMessageStringVar4": "",
+   "SpawnCameraObject": "",
+   "StoreSelectedPokemonInDaycare": "",
+   "SubtractMoneyFromVar0x8005": "0x8005",
+   "TakePokemonFromDaycare": "0x8004",
+   "TeachMoveRelearnerMove": "",
+   "ToggleShinyColors": "",
+   "TryPutLotteryWinnerReportOnAir": "0x8004 0x8005",
+   "TryPutNameRaterShowOnTheAir": "0x8004 Result",
+   "UpdateFollowingPokemon": "",
+   "UpdateShoalTideFlag": ""
+  },
+  "trade": {
+   "INGAME_TRADE_MACHOP": "SPECIES_MACHOP SPECIES_DROWZEE",
+   "INGAME_TRADE_MR_MIME": "SPECIES_MR_MIME SPECIES_DODRIO",
+   "INGAME_TRADE_ONIX": "SPECIES_ONIX SPECIES_BELLSPROUT",
+   "INGAME_TRADE_VOLTORB": "SPECIES_VOLTORB SPECIES_KRABBY"
+  },
+  "trainer": {
+   "TRAINER_AARON": "AARON: CHARMELEON IVYSAUR WARTORTLE",
+   "TRAINER_ABE": "ABE: SPEAROW",
+   "TRAINER_AL": "AL: BUTTERFREE METAPOD",
+   "TRAINER_ALAN": "ALAN: GROWLITHE TANGELA",
+   "TRAINER_ALBERT": "ALBERT: SENTRET ZUBAT",
+   "TRAINER_ALFRED": "ALFRED: NOCTOWL",
+   "TRAINER_ALLEN": "ALLEN: CHARMELEON ELECTABUZZ",
+   "TRAINER_AMY_AND_MAY": "AMY&MAY: LEDYBA SPINARAK",
+   "TRAINER_ANDRE": "ANDRE: GYARADOS",
+   "TRAINER_ANDREW": "ANDREW: MAROWAK",
+   "TRAINER_ANN_AND_ANNE": "ANN&ANNE: CLEFAIRY FURRET",
+   "TRAINER_ANTHONY": "ANTHONY: GEODUDE MACHOP",
+   "TRAINER_ARCHER": "ARCHER: GYARADOS HOUNDOOM PORYGON_Z SLOWBRO TAUROS",
+   "TRAINER_ARIANA_1": "ARIANA: ARBOK PERSIAN VILEPLUME",
+   "TRAINER_ARIANA_2": "ARIANA: ARBOK GYARADOS MURKROW PERSIAN VILEPLUME",
+   "TRAINER_ARNIE": "ARNIE: VENONAT YANMA",
+   "TRAINER_BAILEY": "BAILEY: GOLEM",
+   "TRAINER_BATTLE_SET_TRAINER_A": null,
+   "TRAINER_BATTLE_SET_TRAINER_B": null,
+   "TRAINER_BEN": "BEN: SLOWBRO WARTORTLE",
+   "TRAINER_BENJAMIN": "BENJAMIN: DUGTRIO GRAVELER",
+   "TRAINER_BENNY": "BENNY: BEEDRILL KAKUNA",
+   "TRAINER_BERKE": "BERKE: QWILFISH",
+   "TRAINER_BETH": "BETH: AMPHAROS GENGAR LANTURN MILTANK RAPIDASH",
+   "TRAINER_BEVERLY": "BEVERLY: SNUBBULL",
+   "TRAINER_BILL": "BILL: GROWLITHE",
+   "TRAINER_BLAKE": "BLAKE: EXEGGUTOR MAGNETON PILOSWINE QUAGSIRE",
+   "TRAINER_BRAD": "BRAD: SNEASEL SWINUB",
+   "TRAINER_BRANDON": "BRANDON: SNUBBULL",
+   "TRAINER_BRENT": "BRENT: IVYSAUR LICKITUNG",
+   "TRAINER_BRIAN": "BRIAN: SANDSLASH SCIZOR SNEASEL URSARING",
+   "TRAINER_BRIDGET": "BRIDGET: AIPOM MUNCHLAX",
+   "TRAINER_BROOKE": "BROOKE: PIKACHU",
+   "TRAINER_BRUNO_1": "BRUNO: HERACROSS HITMONCHAN HITMONLEE MACHAMP STEELIX",
+   "TRAINER_BRUNO_2": "BRUNO: HARIYAMA HERACROSS HITMONTOP MACHAMP POLIWRATH STEELIX",
+   "TRAINER_BRYAN": "BRYAN: PIDGEOTTO PIDGEY SPEAROW",
+   "TRAINER_BUGSY_1": "BUGSY: LEDIAN PINECO SCYTHER",
+   "TRAINER_CALVIN": "CALVIN: KANGASKHAN",
+   "TRAINER_CARA": "CARA: GYARADOS SEADRA",
+   "TRAINER_CAROL": "CAROL: ELECTRODE NINETALES STARMIE",
+   "TRAINER_CARRIE": "CARRIE: HAPPINY",
+   "TRAINER_CASSIE": "CASSIE: JYNX VILEPLUME",
+   "TRAINER_CHAD": "CHAD: MAGNEMITE MR_MIME",
+   "TRAINER_CHARLIE": "CHARLIE: CLOYSTER TENTACRUEL",
+   "TRAINER_CHOW": "CHOW: BELLSPROUT SUNKERN",
+   "TRAINER_CHUCK_1": "CHUCK: HITMONTOP POLIWRATH PRIMEAPE SUDOWOODO",
+   "TRAINER_CHUCK_1_2": "CHUCK: HITMONTOP PINSIR POLIWRATH PRIMEAPE SUDOWOODO",
+   "TRAINER_CHUCK_1_3": "CHUCK: ANNIHILAPE HITMONTOP PINSIR POLIWRATH SUDOWOODO",
+   "TRAINER_CLAIR_1": "CLAIR: DRAGONAIR DUDUNSPARCE GYARADOS KINGDRA LAPRAS",
+   "TRAINER_CLARISSA": "CLARISSA: DEWGONG",
+   "TRAINER_CLYDE": "CLYDE: ELECTABUZZ",
+   "TRAINER_CODY": "CODY: DRAGONAIR GOLDUCK SEADRA",
+   "TRAINER_COLIN": "COLIN: DELIBIRD",
+   "TRAINER_CONNIE": "CONNIE: PONYTA WEEPINBELL",
+   "TRAINER_COREY": "COREY: KOFFING MAGMAR",
+   "TRAINER_CYBIL": "CYBIL: BELLOSSOM BUTTERFREE QUAGSIRE",
+   "TRAINER_DANA": "DANA: FLAAFFY PSYDUCK",
+   "TRAINER_DANIEL": "DANIEL: ONIX",
+   "TRAINER_DARIN": "DARIN: DRAGONAIR",
+   "TRAINER_DEBRA": "DEBRA: SEAKING",
+   "TRAINER_DENIS": "DENIS: FEAROW PIDGEOTTO",
+   "TRAINER_DENISE": "DENISE: LAPRAS",
+   "TRAINER_DEREK": "DEREK: PIKACHU PONYTA",
+   "TRAINER_DEVIN": "DEVIN: DUDUNSPARCE DUNSPARCE",
+   "TRAINER_DIRK": "DIRK: GROWLITHE HOUNDOUR",
+   "TRAINER_DON": "DON: LEDYBA SPINARAK",
+   "TRAINER_DONALD": "DONALD: SLOWPOKE",
+   "TRAINER_DOUGLAS": "DOUGLAS: CLOYSTER SEEL SHELLDER",
+   "TRAINER_DUFF_AND_EDA": "DUFF & EDA: CLOYSTER ONIX",
+   "TRAINER_DUNCAN": "DUNCAN: DELIBIRD MAGMAR",
+   "TRAINER_EDDIE": "EDDIE: ARCANINE WEEZING",
+   "TRAINER_EDGAR": "EDGAR: GYARADOS OCTILLERY SEAKING",
+   "TRAINER_EDMOND": "EDMOND: BELLSPROUT",
+   "TRAINER_EDWARD": "EDWARD: PERSIAN",
+   "TRAINER_ELAINE": "ELAINE: STARMIE",
+   "TRAINER_ELLIOT": "ELLIOT: MARILL SANDSHREW",
+   "TRAINER_EMMA": "EMMA: POLIWHIRL",
+   "TRAINER_ERIC": "ERIC: CUBONE GRIMER",
+   "TRAINER_ERIK": "ERIK: GOLEM KANGASKHAN MACHOKE",
+   "TRAINER_ERIN": "ERIN: NIDOQUEEN RAICHU RAPIDASH",
+   "TRAINER_ERNEST": "ERNEST: MACHOP POLIWHIRL QUAGSIRE",
+   "TRAINER_ETHAN": "ETHAN: HAUNTER RHYDON",
+   "TRAINER_ETO": "ETO: ELEKID MAGBY SMOOCHUM",
+   "TRAINER_ETO_2": "ETO: ELECTABUZZ JYNX MAGMAR POLIWHIRL",
+   "TRAINER_ETO_3": "ETO: ELECTABUZZ JYNX MAGMAR POLIWRATH RHYDON",
+   "TRAINER_EUGENE": "EUGENE: POLIWHIRL TAUROS",
+   "TRAINER_EUSINE": "EUSINE: ELECTRODE HYPNO POLITOED",
+   "TRAINER_FALKNER_1": "FALKNER: NOCTOWL PIDGEY",
+   "TRAINER_FRAN": "FRAN: DRAGONAIR GYARADOS SEADRA",
+   "TRAINER_FRITZ": "FRITZ: MACHOKE MAGMAR MR_MIME",
+   "TRAINER_GARRETT": "GARRETT: KINGLER",
+   "TRAINER_GAVEN": "GAVEN: DONPHAN DRAGONAIR FLAREON KINGLER VICTREEBEL",
+   "TRAINER_GEORGE": "GEORGE: REMORAID STARYU TENTACOOL",
+   "TRAINER_GILBERT": "GILBERT: EXEGGUTOR GIRAFARIG XATU",
+   "TRAINER_GINA": "GINA: BULBASAUR SKIPLOOM",
+   "TRAINER_GIOVANNI": "GIOVANNI: HONCHKROW KANGASKHAN NIDOKING NIDOQUEEN PERSIAN URSALUNA",
+   "TRAINER_GORDON": "GORDON: WOOPER",
+   "TRAINER_GRACE": "GRACE: HAUNTER MURKROW",
+   "TRAINER_GRANT": "GRANT: MARILL SKIPLOOM",
+   "TRAINER_GREG": "GREG: STANTLER",
+   "TRAINER_GRUNT_10": "GRUNT: GOLBAT MUK",
+   "TRAINER_GRUNT_11": "GRUNT: GOLBAT WEEZING",
+   "TRAINER_GRUNT_12": "GRUNT: GLIGAR HYPNO WEEZING",
+   "TRAINER_GRUNT_13": "GRUNT: KANGASKHAN",
+   "TRAINER_GRUNT_14": "GRUNT: GOLBAT",
+   "TRAINER_GRUNT_15": "GRUNT: GOLBAT GRIMER RATICATE",
+   "TRAINER_GRUNT_16": "GRUNT: VENOMOTH",
+   "TRAINER_GRUNT_17": "GRUNT: DROWZEE GLIGAR",
+   "TRAINER_GRUNT_18": "GRUNT: ARIADOS GOLBAT RATICATE",
+   "TRAINER_GRUNT_19": "GRUNT: WEEZING",
+   "TRAINER_GRUNT_2": "GRUNT: RATICATE",
+   "TRAINER_GRUNT_20": "GRUNT: ARBOK GOLBAT",
+   "TRAINER_GRUNT_21": "GRUNT: RATTATA",
+   "TRAINER_GRUNT_22": "GRUNT: RATTATA ZUBAT",
+   "TRAINER_GRUNT_23": "GRUNT: ARBOK GOLBAT",
+   "TRAINER_GRUNT_26": "GRUNT: ARBOK GLOOM",
+   "TRAINER_GRUNT_27": "GRUNT: ARBOK MURKROW PINSIR VILEPLUME",
+   "TRAINER_GRUNT_28": "GRUNT: ARBOK ARIADOS GLOOM VILEPLUME",
+   "TRAINER_GRUNT_29": "GRUNT: ARBOK SNEASEL",
+   "TRAINER_GRUNT_3": "GRUNT: MUK WEEZING",
+   "TRAINER_GRUNT_33": "GRUNT: KOFFING",
+   "TRAINER_GRUNT_4": "GRUNT: AIPOM KOFFING",
+   "TRAINER_GRUNT_5": "GRUNT: GLIGAR HYPNO",
+   "TRAINER_GRUNT_6": "GRUNT: AIPOM FORRETRESS MURKROW",
+   "TRAINER_GRUNT_7": "GRUNT: MUK VENOMOTH",
+   "TRAINER_GRUNT_8": "GRUNT: SLOWBRO TAUROS",
+   "TRAINER_GRUNT_9": "GRUNT: ELECTABUZZ ELECTRODE EXEGGUTOR",
+   "TRAINER_GWEN": "GWEN: EEVEE FLAREON JOLTEON VAPOREON",
+   "TRAINER_HARRY": "HARRY: QUAGSIRE",
+   "TRAINER_HENRY": "HENRY: MARILL POLIWAG",
+   "TRAINER_HUEY": "HUEY: MACHOP POLIWHIRL",
+   "TRAINER_HUGH": "HUGH: SEADRA",
+   "TRAINER_IAN": "IAN: DIGLETT MANKEY",
+   "TRAINER_IRENE": "IRENE: GOLDEEN SEAKING",
+   "TRAINER_IRWIN": "IRWIN: PINECO VOLTORB",
+   "TRAINER_ISSAC": "ISSAC: LICKITUNG",
+   "TRAINER_IVAN": "IVAN: DIGLETT EEVEE",
+   "TRAINER_JACK": "JACK: SUNFLORA VOLTORB",
+   "TRAINER_JAKE": "JAKE: ALAKAZAM ARCANINE CLOYSTER JOLTEON PIDGEOT",
+   "TRAINER_JAMIE": "JAIME: UMBREON",
+   "TRAINER_JASMINE_1": "JASMINE: CORSOLA MAGNETON SCIZOR SKARMORY STEELIX",
+   "TRAINER_JASMINE_1_2": "JASMINE: CORSOLA MAGNETON SCIZOR SKARMORY STEELIX",
+   "TRAINER_JASMINE_1_3": "JASMINE: CORSOLA MAGNEZONE SCIZOR SKARMORY STEELIX",
+   "TRAINER_JED": "JED: MAGNEMITE PORYGON",
+   "TRAINER_JEFF": "JEFF: FURRET RATICATE",
+   "TRAINER_JEFFREY": "JEFFREY: GASTLY HAUNTER MURKROW",
+   "TRAINER_JENN": "JENN: STARMIE STARYU",
+   "TRAINER_JIN": "JIN: BELLSPROUT",
+   "TRAINER_JOEY": "JOEY: RATTATA",
+   "TRAINER_JONAH": "JONAH: CLOYSTER OCTILLERY REMORAID SHELLDER",
+   "TRAINER_JOSE": "JOSE: DODRIO FARFETCHD FEAROW PIDGEOT",
+   "TRAINER_JOSH": "JOSH: YANMA",
+   "TRAINER_JOYCE": "JOYCE: BLASTOISE JUMPLUFF RAICHU RHYDON TAUROS",
+   "TRAINER_JUSTIN": "JUSTIN: TENTACOOL",
+   "TRAINER_KARA": "KARA: HORSEA STARMIE",
+   "TRAINER_KAREN_1": "KAREN: GENGAR HONCHKROW HOUNDOOM UMBREON VILEPLUME",
+   "TRAINER_KAREN_2": "KAREN: ABSOL HONCHKROW HOUNDOOM PERSIAN UMBREON WEAVILE",
+   "TRAINER_KATE": "KATE: CLOYSTER SHELLDER",
+   "TRAINER_KAYLEE": "KAYLEE: LANTURN QUAGSIRE SEAKING",
+   "TRAINER_KEITH": "KEITH: GROWLITHE",
+   "TRAINER_KELLY": "KELLY: AMPHAROS BLASTOISE TANGELA TOGETIC",
+   "TRAINER_KEN": "KEN: ARIADOS PINSIR",
+   "TRAINER_KENJI": "KENJI: HITMONLEE MACHAMP ONIX STEELIX",
+   "TRAINER_KENNETH": "KENNETH: MACHAMP MACHOKE MACHOP POLIWRATH",
+   "TRAINER_KENT": "KENT: CHINCHOU SHELLDER",
+   "TRAINER_KIM": "KIM: VULPIX",
+   "TRAINER_KIRK": "KIRK: GYARADOS",
+   "TRAINER_KIYO": "KIYO: HITMONCHAN HITMONLEE",
+   "TRAINER_KOGA_1": "KOGA: ARIADOS CROBAT MUK QWILFISH VENOMOTH",
+   "TRAINER_KOGA_2": "KOGA: CROBAT MUK NIDOKING SWALOT TENTACRUEL VENOMOTH",
+   "TRAINER_KRISE": "KRISE: CUBONE SKIPLOOM",
+   "TRAINER_KUNI": "KUNI: VAPOREON",
+   "TRAINER_LANCE_1": "LANCE: AERODACTYL CHARIZARD DRAGONITE GYARADOS",
+   "TRAINER_LANCE_2": "LANCE: AERODACTYL ALTARIA CHARIZARD DRAGONITE GYARADOS SALAMENCE",
+   "TRAINER_LAO": "LAO: HITMONCHAN",
+   "TRAINER_LARRY": "LARRY: LARVITAR",
+   "TRAINER_LEA_AND_PIA": "LEA&PIA: DRAGONAIR GYARADOS",
+   "TRAINER_LEONARD": "LEONARD: GEODUDE MACHOP",
+   "TRAINER_LI": "LI: BELLSPROUT ODDISH SUNKERN",
+   "TRAINER_LIZ": "LIZ: NIDORAN_F",
+   "TRAINER_LOIS": "LOIS: NINETALES SKIPLOOM",
+   "TRAINER_LOLA": "LOLA: DRAGONAIR LANTURN MANTINE",
+   "TRAINER_LUNG": "LUNG: MACHOKE MANKEY PRIMEAPE",
+   "TRAINER_LYLE": "LYLE: FLAREON NINETALES WEEZING",
+   "TRAINER_MARC": "MARC: OMASTAR",
+   "TRAINER_MARK": "MARK: ABRA KADABRA",
+   "TRAINER_MARKUS": "MARKUS: SLOWPOKE",
+   "TRAINER_MARTHA": "MARTHA: HAUNTER HOUNDOUR",
+   "TRAINER_MARVIN": "MARVIN: GYARADOS",
+   "TRAINER_MATHEW": "MATHEW: KRABBY QWILFISH",
+   "TRAINER_MEGAN": "MEGAN: BELLOSSOM TANGELA VENUSAUR VICTREEBEL",
+   "TRAINER_MEG_AND_PEG": "MEG&PEG: DONPHAN URSARING",
+   "TRAINER_MICHAEL": "MICHAEL: DONPHAN GOLEM RHYHORN",
+   "TRAINER_MIKE": "MIKE: DRAGONAIR GYARADOS VAPOREON",
+   "TRAINER_MIKEY": "MIKEY: HOOTHOOT SENTRET",
+   "TRAINER_MIKI": "MIKI: FLAREON",
+   "TRAINER_MILLER": "MILLER: NIDOKING NIDOQUEEN",
+   "TRAINER_MITCH": "MITCH: ELECTRODE",
+   "TRAINER_MORTY_1": "MORTY: GENGAR HAUNTER MISDREAVUS STANTLER",
+   "TRAINER_NAOKO": "NAOKO: ESPEON",
+   "TRAINER_NARD": "NARD: CHARMELEON",
+   "TRAINER_NATE": "NATE: EXEGGUTOR LEDIAN",
+   "TRAINER_NATHAN": "NATHAN: GIRAFARIG",
+   "TRAINER_NEAL": "NEAL: BELLSPROUT",
+   "TRAINER_NICK": "NICK: BULBASAUR CHARMANDER SQUIRTLE",
+   "TRAINER_NICO": "NICO: BELLSPROUT HOPPIP",
+   "TRAINER_NOB": "NOB: MACHOKE MACHOP",
+   "TRAINER_NOLAND": "NOLAND: GOLEM SANDSLASH",
+   "TRAINER_NORMAN": "NORMAN: SLOWPOKE",
+   "TRAINER_OLIVIA": "OLIVIA: CORSOLA",
+   "TRAINER_PARRY": "PARRY: DUGTRIO PILOSWINE STEELIX",
+   "TRAINER_PAUL": "PAUL: DRAGONAIR DRATINI",
+   "TRAINER_PAULA": "PAULA: SHELLDER STARYU",
+   "TRAINER_PETER": "PETER: NATU SPEAROW",
+   "TRAINER_PETREL_1": "PETREL: CLOYSTER LARVITAR MAGCARGO PINECO",
+   "TRAINER_PETREL_2": "PETREL: CLOYSTER FORRETRESS MAGCARGO PUPITAR",
+   "TRAINER_PHIL": "PHIL: GIRAFARIG KADABRA XATU",
+   "TRAINER_PHILLIP": "PHILLIP: GEODUDE GRAVELER",
+   "TRAINER_PING": "PING: MISDREAVUS",
+   "TRAINER_PRESTON": "PRESTON: GROWLITHE VULPIX",
+   "TRAINER_PROTON_1": "PROTON: HOUNDOUR KOFFING SLOWPOKE",
+   "TRAINER_PROTON_2": "PROTON: MUK NIDOKING NIDOQUEEN RHYDON WEEZING",
+   "TRAINER_PRYCE_1": "PRYCE: DEWGONG JYNX PILOSWINE SNEASEL",
+   "TRAINER_PRYCE_1_2": "PRYCE: CLOYSTER DEWGONG JYNX PILOSWINE SNEASEL",
+   "TRAINER_PRYCE_1_3": "PRYCE: CLOYSTER DEWGONG JYNX MAMOSWINE SNEASEL",
+   "TRAINER_QUENTIN": "QUENTIN: FEAROW PRIMEAPE RAICHU TAUROS",
+   "TRAINER_RALPH": "RALPH: GOLDEEN",
+   "TRAINER_RANDALL": "RANDALL: SHELLDER WARTORTLE",
+   "TRAINER_RAY": "RAY: VULPIX",
+   "TRAINER_RAYMOND": "RAYMOND: VAPOREON",
+   "TRAINER_RED_2": "RED: BLASTOISE CHARIZARD ESPEON PIKACHU SNORLAX VENUSAUR",
+   "TRAINER_REENA": "REENA: ELECTRODE NIDOQUEEN STARMIE VILEPLUME",
+   "TRAINER_RICH": "RICH: PORYGON",
+   "TRAINER_RICHARD": "RICHARD: ESPEON MR_MIME SLOWKING",
+   "TRAINER_RICHARDO": "RICHARDO: GROWLITHE KOFFING",
+   "TRAINER_RICKY": "RICKY: AIPOM DITTO",
+   "TRAINER_RIVAL_CHIKORITA_1": "???: CHIKORITA",
+   "TRAINER_RIVAL_CHIKORITA_2": "{B_RIVAL_NAME}: BAYLEEF LARVITAR ZUBAT",
+   "TRAINER_RIVAL_CHIKORITA_3": "{B_RIVAL_NAME}: BAYLEEF GOLBAT LARVITAR REMORAID",
+   "TRAINER_RIVAL_CHIKORITA_4": "{B_RIVAL_NAME}: GOLBAT HOUNDOOM MEGANIUM OCTILLERY PUPITAR",
+   "TRAINER_RIVAL_CHIKORITA_5": "{B_RIVAL_NAME}: GOLBAT HOUNDOOM MEGANIUM OCTILLERY TYRANITAR URSARING",
+   "TRAINER_RIVAL_CHIKORITA_7": "{B_RIVAL_NAME}: CROBAT HOUNDOOM MEGANIUM OCTILLERY TYRANITAR URSALUNA_BLOODMOON",
+   "TRAINER_RIVAL_CYNDAQUIL_1": "???: CYNDAQUIL",
+   "TRAINER_RIVAL_CYNDAQUIL_2": "{B_RIVAL_NAME}: LARVITAR QUILAVA ZUBAT",
+   "TRAINER_RIVAL_CYNDAQUIL_3": "{B_RIVAL_NAME}: GOLBAT LARVITAR QUILAVA WEEPINBELL",
+   "TRAINER_RIVAL_CYNDAQUIL_4": "{B_RIVAL_NAME}: GOLBAT OCTILLERY PUPITAR TYPHLOSION VICTREEBEL",
+   "TRAINER_RIVAL_CYNDAQUIL_5": "{B_RIVAL_NAME}: GOLBAT OCTILLERY TYPHLOSION TYRANITAR URSARING VICTREEBEL",
+   "TRAINER_RIVAL_CYNDAQUIL_7": "{B_RIVAL_NAME}: CROBAT OCTILLERY TYPHLOSION TYRANITAR URSALUNA_BLOODMOON VICTREEBEL",
+   "TRAINER_RIVAL_TOTODILE_1": "???: TOTODILE",
+   "TRAINER_RIVAL_TOTODILE_2": "{B_RIVAL_NAME}: CROCONAW LARVITAR ZUBAT",
+   "TRAINER_RIVAL_TOTODILE_3": "{B_RIVAL_NAME}: CROCONAW GOLBAT HOUNDOUR LARVITAR",
+   "TRAINER_RIVAL_TOTODILE_4": "{B_RIVAL_NAME}: FERALIGATR GOLBAT HOUNDOOM PUPITAR VICTREEBEL",
+   "TRAINER_RIVAL_TOTODILE_5": "{B_RIVAL_NAME}: FERALIGATR GOLBAT HOUNDOOM TYRANITAR URSARING VICTREEBEL",
+   "TRAINER_RIVAL_TOTODILE_7": "{B_RIVAL_NAME}: CROBAT FERALIGATR HOUNDOOM TYRANITAR URSALUNA_BLOODMOON VICTREEBEL",
+   "TRAINER_ROD": "ROD: NATU PIDGEY",
+   "TRAINER_ROLAND": "ROLAND: NIDORAN_M",
+   "TRAINER_RON": "RON: CHARMELEON NIDOKING",
+   "TRAINER_RONALD": "RONALD: DELIBIRD DEWGONG",
+   "TRAINER_ROSS": "ROSS: KOFFING RAICHU",
+   "TRAINER_ROXANNE": "ROXANNE: JYNX",
+   "TRAINER_RUSSELL": "RUSSELL: CUBONE GEODUDE",
+   "TRAINER_RUTH": "RUTH: PIKACHU",
+   "TRAINER_RYAN": "RYAN: ELECTABUZZ MAGMAR PIDGEOT",
+   "TRAINER_SAMANTHA": "SAMANTHA: MEOWTH",
+   "TRAINER_SAMUEL": "SAMUEL: SANDSHREW SPEAROW TEDDIURSA",
+   "TRAINER_SAYO": "SAYO: JOLTEON",
+   "TRAINER_SCOTT": "SCOTT: GYARADOS QUAGSIRE QWILFISH SEAKING",
+   "TRAINER_SEAN": "SEAN: FLAREON TANGELA TAUROS",
+   "TRAINER_SHANE": "SHANE: NIDOKING NIDORINO",
+   "TRAINER_SHIRLEY": "SHIRLEY: JIGGLYPUFF WIGGLYTUFF",
+   "TRAINER_SIMON": "SIMON: TENTACOOL",
+   "TRAINER_SPENCER": "SPENCER: GOLBAT SANDSLASH",
+   "TRAINER_STAN": "STAN: GRIMER",
+   "TRAINER_STANLY": "STANLY: GOLDUCK MACHOKE QWILFISH",
+   "TRAINER_SUSIE": "SUSIE: PSYDUCK SEAKING",
+   "TRAINER_TED": "TED: NIDOKING PRIMEAPE URSARING",
+   "TRAINER_TERRELL": "TERRELL: POLIWHIRL",
+   "TRAINER_TERU": "TERU: MAGNEMITE PORYGON VOLTORB",
+   "TRAINER_THEO": "THEO: MURKROW",
+   "TRAINER_THOM_AND_KAE": "THOM & KAE: ELECTABUZZ MAGMAR",
+   "TRAINER_TIFFANY": "TIFFANY: CLEFABLE WIGGLYTUFF",
+   "TRAINER_TIMOTHY": "TIMOTHY: DUGTRIO GLIGAR GRAVELER",
+   "TRAINER_TOBY": "TOBY: DODUO",
+   "TRAINER_TODD": "TODD: AZUMARILL",
+   "TRAINER_TROY": "TROY: BELLSPROUT HOPPIP",
+   "TRAINER_TULLY": "TULLY: QWILFISH",
+   "TRAINER_VALERIE": "VALERIE: MILTANK SKIPLOOM",
+   "TRAINER_VANCE": "VANCE: MURKROW PIDGEOT SKARMORY XATU",
+   "TRAINER_VICTORIA": "VICTORIA: FURRET TEDDIURSA",
+   "TRAINER_WADE": "WADE: PINECO WEEDLE",
+   "TRAINER_WAI": "WAI: MACHAMP MACHOKE",
+   "TRAINER_WALT": "WALT: MAGMAR",
+   "TRAINER_WAYNE": "WAYNE: ODDISH PARAS",
+   "TRAINER_WENDY": "WENDY: HORSEA SEADRA",
+   "TRAINER_WHITNEY_1": "WHITNEY: CLEFAIRY MILTANK TEDDIURSA",
+   "TRAINER_WILLIAM": "WILLIAM: RAICHU",
+   "TRAINER_WILL_1": "WILL: ESPEON GIRAFARIG SLOWBRO SLOWKING XATU",
+   "TRAINER_WILL_2": "WILL: EXEGGUTOR GARDEVOIR GRUMPIG JYNX SLOWBRO XATU",
+   "TRAINER_WILTON": "WILTON: OCTILLERY QWILFISH SEAKING",
+   "TRAINER_YOSHI": "YOSHI: HITMONLEE",
+   "TRAINER_ZACH": "ZACH: HERACROSS PUPITAR RHYDON",
+   "TRAINER_ZUKI": "ZUKI: UMBREON"
+  }
+ },
+ "maps": {
+  "AzaleaTown": {
+   "item": [
+    "ITEM_GS_BALL",
+    "ITEM_HM_SURF"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closedoor",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "opendoor",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeitem",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitdooranim",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_up",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "trainer": [
+    "TRAINER_RIVAL_CHIKORITA_2",
+    "TRAINER_RIVAL_CYNDAQUIL_2",
+    "TRAINER_RIVAL_TOTODILE_2"
+   ]
+  },
+  "AzaleaTown_Gym": {
+   "item": [
+    "ITEM_TM_BULLET_SEED"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers",
+    "Common_Movement_JumpDown1",
+    "Common_Movement_JumpUp1"
+   ],
+   "macro": [
+    "SetObjectSubpriority",
+    "addobject",
+    "addvar",
+    "applymovement",
+    "byte",
+    "call",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_8",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "lock_anim",
+    "lock_facing_direction",
+    "map_script",
+    "message",
+    "msgbox",
+    "playse",
+    "release",
+    "removeobject",
+    "resetobjectsubpriority",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_double",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "unlock_anim",
+    "unlock_facing_direction",
+    "waitmessage",
+    "waitmovement",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up"
+   ],
+   "map": [
+    "MAP_AZALEA_TOWN_GYM",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "GetPlayerBigGuyGirlString"
+   ],
+   "trainer": [
+    "TRAINER_AL",
+    "TRAINER_AMY_AND_MAY",
+    "TRAINER_BENNY",
+    "TRAINER_BUGSY_1",
+    "TRAINER_JOSH"
+   ]
+  },
+  "AzaleaTown_House1": {
+   "item": [
+    "ITEM_CHARCOAL"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "setflag",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "AzaleaTown_KurtsHouse": {
+   "item": [
+    "ITEM_ASPEAR_BERRY",
+    "ITEM_CHERI_BERRY",
+    "ITEM_CHESTO_BERRY",
+    "ITEM_FAST_BALL",
+    "ITEM_FRIEND_BALL",
+    "ITEM_GS_BALL",
+    "ITEM_HEAVY_BALL",
+    "ITEM_LEVEL_BALL",
+    "ITEM_LOVE_BALL",
+    "ITEM_LURE_BALL",
+    "ITEM_MOON_BALL",
+    "ITEM_ORAN_BERRY",
+    "ITEM_PECHA_BERRY",
+    "ITEM_PERSIM_BERRY",
+    "ITEM_RAWST_BERRY"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull",
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "applymovement",
+    "bufferitemname",
+    "byte",
+    "call_if_unset",
+    "case",
+    "checkitem",
+    "closemessage",
+    "delay",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_set",
+    "goto_if_unset",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "multichoice",
+    "playse",
+    "release",
+    "removeitem",
+    "removeobject",
+    "return",
+    "setflag",
+    "setobjectmovementtype",
+    "setvar",
+    "step_end",
+    "switch",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmessage",
+    "waitmovement",
+    "waitse",
+    "walk_fast_down",
+    "walk_in_place_fast_up",
+    "walk_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_KURT_BALLS"
+   ]
+  },
+  "AzaleaTown_Mart": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "AzaleaTown_PokemonCenter": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "BellchimeTrail": {
+   "item": [
+    "ITEM_BIG_MUSHROOM"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closedoor",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "finditem",
+    "lock",
+    "msgbox",
+    "opendoor",
+    "release",
+    "removeobject",
+    "setflag",
+    "slide_up",
+    "step_end",
+    "waitdooranim",
+    "waitmovement",
+    "warp"
+   ],
+   "map": [
+    "MAP_TIN_TOWER_1F"
+   ]
+  },
+  "BlackthornCity": {
+   "item": [
+    "ITEM_SPELL_TAG"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_WalkDown1",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "case",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "goto_if_unset",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "multichoice",
+    "pokenavcall",
+    "release",
+    "setflag",
+    "setobjectxyperm",
+    "setvar",
+    "switch",
+    "turnobject",
+    "waitmessage",
+    "waitmovement"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "BlackthornCity_Gym": {
+   "label": [
+    "Common_EventScript_SetGymTrainers",
+    "EcruteakCity_Gym_EventScript_GymGuy2"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "call_if_eq",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "return",
+    "setmetatile",
+    "setvar",
+    "trainerbattle_no_intro",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "DrawWholeMapView"
+   ],
+   "trainer": [
+    "TRAINER_CLAIR_1",
+    "TRAINER_CODY",
+    "TRAINER_FRAN",
+    "TRAINER_LOLA",
+    "TRAINER_MIKE",
+    "TRAINER_PAUL"
+   ]
+  },
+  "BlackthornCity_House1": {
+   "macro": [
+    "byte",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "BlackthornCity_House2": {
+   "label": [
+    "VAR_0x8004",
+    "VAR_0x8009"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "closemessage",
+    "copyvar",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "releaseall",
+    "setflag",
+    "setvar",
+    "waitstate"
+   ],
+   "special": [
+    "ChoosePartyMon",
+    "CreateInGameTradePokemon",
+    "DoInGameTradeScene",
+    "GetInGameTradeSpeciesInfo",
+    "GetTradeSpecies"
+   ],
+   "trade": [
+    "INGAME_TRADE_MR_MIME"
+   ]
+  },
+  "BlackthornCity_House3": {
+   "item": [
+    "ITEM_HEART_SCALE"
+   ],
+   "label": [
+    "Common_Movement_FacePlayer",
+    "VAR_0x8004",
+    "VAR_0x8005"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "case",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "fadescreen",
+    "goto",
+    "goto_if_eq",
+    "goto_if_set",
+    "lockall",
+    "msgbox",
+    "playfanfare",
+    "releaseall",
+    "removeitem",
+    "setflag",
+    "switch",
+    "waitfanfare",
+    "waitmovement",
+    "waitstate"
+   ],
+   "special": [
+    "BufferMoveDeleterNicknameAndMove",
+    "ChooseMonForMoveRelearner",
+    "ChoosePartyMon",
+    "GetNumMovesSelectedMonHas",
+    "IsLastMonThatKnowsSurf",
+    "IsRandomMovesActivated",
+    "IsSelectedMonEgg",
+    "MoveDeleterChooseMoveToForget",
+    "MoveDeleterForgetMove",
+    "TeachMoveRelearnerMove"
+   ]
+  },
+  "BlackthornCity_Mart": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox"
+   ]
+  },
+  "BlackthornCity_PokemonCenter": {
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "msgbox",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "BurnedTower_1F": {
+   "item": [
+    "ITEM_ETHER",
+    "ITEM_HP_UP"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "finditem",
+    "goto_if_ge",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setmetatile",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "waitmessage",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_up",
+    "warphole"
+   ],
+   "map": [
+    "MAP_BURNED_TOWER_B1F",
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "DrawWholeMapView",
+    "SetTimeBasedEncounters",
+    "ShakeCamera",
+    "SpawnCameraObject"
+   ],
+   "trainer": [
+    "TRAINER_NARD",
+    "TRAINER_RICHARDO",
+    "TRAINER_RIVAL_CHIKORITA_3",
+    "TRAINER_RIVAL_CYNDAQUIL_3",
+    "TRAINER_RIVAL_TOTODILE_3"
+   ]
+  },
+  "BurnedTower_B1F": {
+   "item": [
+    "ITEM_TM_TAUNT",
+    "ITEM_ULTRA_BALL"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "delay",
+    "delay_8",
+    "end",
+    "finditem",
+    "jump_2_down",
+    "jump_2_left",
+    "jump_2_right",
+    "jump_down",
+    "jump_in_place_down",
+    "jump_in_place_right_left",
+    "jump_left",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "turnobject",
+    "waitmovement",
+    "waitse",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "InitRoamer",
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "CherrygroveCity": {
+   "item": [
+    "ITEM_MYSTIC_WATER"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closedoor",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "msgbox",
+    "opendoor",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitdooranim",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_RIVAL_CHIKORITA_1",
+    "TRAINER_RIVAL_CYNDAQUIL_1",
+    "TRAINER_RIVAL_TOTODILE_1"
+   ]
+  },
+  "CherrygroveCity_House1": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "CherrygroveCity_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "CherrygroveCity_House3": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "CherrygroveCity_Mart": {
+   "macro": [
+    "ITEM_ANTIDOTE",
+    "ITEM_NONE",
+    "ITEM_POTION",
+    "align",
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "message",
+    "msgbox",
+    "pokemart",
+    "release",
+    "waitmessage"
+   ]
+  },
+  "CherrygroveCity_PokemonCenter": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "setrespawn",
+    "waitmoncry"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "CianwoodCity": {
+   "item": [
+    "ITEM_HM_FLY"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "EventScript_RockSmashHeartscale",
+    "OlivineCity_MapScript_ClearWeather",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "call_if_set",
+    "checkitem",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "jump_2_down",
+    "jump_2_right",
+    "jump_down",
+    "jump_in_place_right_left",
+    "jump_right",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "random",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_fast_down",
+    "walk_fast_up",
+    "walk_left",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_EUSINE"
+   ]
+  },
+  "CianwoodGym": {
+   "item": [
+    "ITEM_TM_FOCUS_PUNCH"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers",
+    "Movement_SmashRock"
+   ],
+   "macro": [
+    "addvar",
+    "applymovement",
+    "byte",
+    "call",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto",
+    "goto_if_set",
+    "goto_if_unset",
+    "jump_in_place_left",
+    "jump_in_place_right",
+    "lock",
+    "message",
+    "msgbox",
+    "playse",
+    "release",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmessage",
+    "waitmovement"
+   ],
+   "trainer": [
+    "TRAINER_CHUCK_1",
+    "TRAINER_CHUCK_1_2",
+    "TRAINER_CHUCK_1_3",
+    "TRAINER_LAO",
+    "TRAINER_LUNG",
+    "TRAINER_NOB",
+    "TRAINER_YOSHI"
+   ]
+  },
+  "CianwoodHouse1": {
+   "item": [
+    "ITEM_CLEAR_BELL",
+    "ITEM_TIDAL_BELL"
+   ],
+   "macro": [
+    "byte",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "CianwoodHouse2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "CianwoodHouse3": {
+   "label": [
+    "Common_EventScript_GiftMonNamed",
+    "UpdateFollowingPokemon"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "givenamedmon",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "playse",
+    "release",
+    "removenamedmon",
+    "setvar",
+    "waitse"
+   ],
+   "special": [
+    "UpdateFollowingPokemon"
+   ]
+  },
+  "CianwoodPokecenter": {
+   "label": [
+    "Common_EventScript_GiftMon",
+    "DisableStaticRandomizer",
+    "EnableStaticRandomizer"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "checkpartymove",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "givemon",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setflag",
+    "setrespawn",
+    "setvar"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "DisableStaticRandomizer",
+    "EnableStaticRandomizer"
+   ]
+  },
+  "CianwoodShop": {
+   "item": [
+    "ITEM_SECRET_POTION"
+   ],
+   "macro": [
+    "byte",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "msgbox",
+    "release",
+    "setvar"
+   ]
+  },
+  "CliffEdgeCave": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "CliffEdgeGate": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "DarkCave_NorthSide": {
+   "item": [
+    "ITEM_BLACK_FLUTE",
+    "ITEM_BLACK_GLASSES",
+    "ITEM_STAR_PIECE"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setflag"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "DarkCave_SouthSide": {
+   "item": [
+    "ITEM_ELIXIR",
+    "ITEM_MAX_REVIVE",
+    "ITEM_POTION",
+    "ITEM_REVIVE"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem"
+   ]
+  },
+  "DragonsDen_Cavern": {
+   "item": [
+    "ITEM_DRAGON_FANG",
+    "ITEM_MAX_POTION",
+    "ITEM_PP_MAX",
+    "ITEM_TM_DRAGON_CLAW"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "applymovement",
+    "applymovement2",
+    "byte",
+    "call",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_up",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "finditem",
+    "giveitem",
+    "lock",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "releaseall",
+    "removeobject",
+    "return",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "step_end",
+    "trainerbattle_double",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmovement",
+    "walk_fast_down",
+    "walk_right",
+    "walk_up"
+   ],
+   "special": [
+    "GetPlayerBigGuyGirlString"
+   ],
+   "trainer": [
+    "TRAINER_CARA",
+    "TRAINER_DARIN",
+    "TRAINER_LEA_AND_PIA"
+   ]
+  },
+  "DragonsDen_Entrance": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "DragonsDen_Shrine": {
+   "label": [
+    "Common_EventScript_GiftMon",
+    "Common_EventScript_GiftMonNamed",
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "addobject",
+    "addvar",
+    "applymovement2",
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "case",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "face_right",
+    "faceplayer",
+    "givemon",
+    "givenamedmon",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "lock_facing_direction",
+    "lockall",
+    "map_script_2",
+    "message",
+    "msgbox",
+    "multichoice",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "switch",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmessage",
+    "waitmovement",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_left",
+    "walk_right",
+    "walk_slow_left",
+    "walk_slow_right",
+    "walk_up"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_ELDERQUIIZ1",
+    "MULTI_ELDERQUIIZ2",
+    "MULTI_ELDERQUIIZ3",
+    "MULTI_ELDERQUIIZ4",
+    "MULTI_ELDERQUIIZ5"
+   ]
+  },
+  "EcruteakCity": {
+   "item": [
+    "ITEM_RARE_CANDY"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closedoor",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "end",
+    "faceplayer",
+    "fadedefaultbgm",
+    "finditem",
+    "goto_if_set",
+    "lock",
+    "lock_facing_direction",
+    "lockall",
+    "map_script",
+    "message",
+    "msgbox",
+    "opendoor",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "release",
+    "releaseall",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitdooranim",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "EcruteakCity_Gym": {
+   "item": [
+    "ITEM_TM_SHADOW_BALL"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers"
+   ],
+   "macro": [
+    "addvar",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "message",
+    "msgbox",
+    "release",
+    "setflag",
+    "setvar",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "waitmessage"
+   ],
+   "trainer": [
+    "TRAINER_GRACE",
+    "TRAINER_JEFFREY",
+    "TRAINER_MARTHA",
+    "TRAINER_MORTY_1",
+    "TRAINER_PING"
+   ]
+  },
+  "EcruteakCity_House1": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "EcruteakCity_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "EcruteakCity_Mart": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "EcruteakCity_PokemonCenter": {
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setrespawn",
+    "step_end",
+    "turnobject",
+    "waitmovement",
+    "walk_down",
+    "walk_left",
+    "walk_right"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "EcruteakCity_SageOffice1": {
+   "item": [
+    "ITEM_CLEAR_BELL"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "checkitem",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "setflag",
+    "setobjectxyperm",
+    "step_end",
+    "waitmessage",
+    "waitmovement",
+    "waitse",
+    "walk_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "EcruteakCity_SageOffice2": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "EcruteakCity_Theater": {
+   "item": [
+    "ITEM_CLEAR_BELL",
+    "ITEM_HM_SURF",
+    "ITEM_TIDAL_BELL"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1",
+    "EcruteakCity_Theater_Movement_EastCorrection",
+    "EcruteakCity_Theater_Movement_SouthCorrection",
+    "EcruteakCity_Theater_Movement_WestCorrection"
+   ],
+   "macro": [
+    "EcruteakCity_Theater_Movement_EastCorrection",
+    "EcruteakCity_Theater_Movement_SouthCorrection",
+    "EcruteakCity_Theater_Movement_WestCorrection",
+    "addobject",
+    "applymovement",
+    "applymovement2",
+    "bufferspeciesname",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_2",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_unset",
+    "jump_2_down",
+    "lock",
+    "lock_facing_direction",
+    "lockall",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "releaseall",
+    "removeobject",
+    "return",
+    "setflag",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "slide_down",
+    "slide_up",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up",
+    "walk_in_place_down",
+    "walk_in_place_left",
+    "walk_in_place_right",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "RemoveCameraObject",
+    "ShakeCamera",
+    "SpawnCameraObject"
+   ],
+   "trainer": [
+    "TRAINER_GRUNT_33",
+    "TRAINER_KUNI",
+    "TRAINER_MIKI",
+    "TRAINER_NAOKO",
+    "TRAINER_SAYO",
+    "TRAINER_ZUKI"
+   ]
+  },
+  "EmbeddedTower": {
+   "macro": [
+    "byte",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "goto_if_eq",
+    "lock",
+    "playmoncry",
+    "release",
+    "removeobject",
+    "seteventmon",
+    "setflag",
+    "waitmoncry"
+   ],
+   "special": [
+    "BattleSetup_StartLegendaryBattle",
+    "GetBattleOutcome"
+   ]
+  },
+  "Gate_AzaleaTown_IlexForest": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Gate_EcruteakCity_Route38": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Gate_EcruteakCity_Route42": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Gate_GoldenrodCity_Route35": {
+   "item": [
+    "ITEM_HP_UP"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull",
+    "Common_EventScript_GiftMonNamed"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "givenamedmon",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setvar"
+   ]
+  },
+  "Gate_IlexForest_Route34": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "Gate_MahoganyTown_Route43": {
+   "macro": [
+    "byte",
+    "end",
+    "goto_if_ge",
+    "msgbox"
+   ]
+  },
+  "Gate_NationalPark": {
+   "item": [
+    "ITEM_SAFARI_BALL"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "getpartysize",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "lockall",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "playse",
+    "release",
+    "releaseall",
+    "remove5mons",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "waitfanfare",
+    "waitmovement",
+    "waitstate",
+    "walk_down",
+    "walk_in_place_left",
+    "walk_left",
+    "walk_right",
+    "walk_up",
+    "warp"
+   ],
+   "map": [
+    "MAP_NATIONAL_PARK_BUG_CONTEST"
+   ],
+   "special": [
+    "EnterBugContestMode",
+    "LoadPlayerParty",
+    "SavePlayerParty"
+   ]
+  },
+  "Gate_Route29_Route46": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Gate_Route31_VioletCity": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Gate_Route40_TrainerHill_Courtyard": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "Gate_Route43": {
+   "item": [
+    "ITEM_TM_SLUDGE_BOMB"
+   ],
+   "macro": [
+    "byte",
+    "checkmoney",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "hidemoneybox",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "removemoney",
+    "setflag",
+    "setvar",
+    "showmoneybox",
+    "updatemoneybox"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ]
+  },
+  "Gate_RuinsOfAlph_Route32": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Gate_RuinsOfAlph_Route36": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "GoldenrodCity": {
+   "label": [
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "PLAYSE",
+    "applymovement",
+    "byte",
+    "call_if_unset",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "goto_if_ge",
+    "goto_if_lt",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "pokenavcall",
+    "release",
+    "return",
+    "setflag",
+    "setvar",
+    "turnobject",
+    "waitmessage",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "GoldenrodCity_BikeShop": {
+   "item": [
+    "ITEM_MACH_BIKE"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag"
+   ]
+  },
+  "GoldenrodCity_BillsHouse": {
+   "label": [
+    "Common_EventScript_GiftMonNamed"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "givenamedmon",
+    "goto_if_eq",
+    "goto_if_set",
+    "goto_if_unset",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag",
+    "setvar"
+   ]
+  },
+  "GoldenrodCity_DepartmentStoreBasement": {
+   "item": [
+    "ITEM_AMULET_COIN",
+    "ITEM_CARD_KEY",
+    "ITEM_ETHER",
+    "ITEM_EXP_SHARE_SMALL",
+    "ITEM_ULTRA_BALL"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_set",
+    "checkitem",
+    "closemessage",
+    "delay_8",
+    "end",
+    "face_up",
+    "faceplayer",
+    "finditem",
+    "goto_if_eq",
+    "goto_if_unset",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "return",
+    "setflag",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "slide_left",
+    "slide_right",
+    "step_end",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_left",
+    "walk_right"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD"
+   ]
+  },
+  "GoldenrodCity_DepartmentStoreElevator": {
+   "label": [
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "case",
+    "closedoor",
+    "closemessage",
+    "delay",
+    "end",
+    "fadescreen",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "multichoice",
+    "opendoor",
+    "playse",
+    "release",
+    "setvar",
+    "switch",
+    "turnobject",
+    "waitdooranim",
+    "waitmovement",
+    "waitse",
+    "warp"
+   ],
+   "map": [
+    "MAP_CELADON_CITY_DEPARTMENT_STORE_1F",
+    "MAP_CELADON_CITY_DEPARTMENT_STORE_2F",
+    "MAP_CELADON_CITY_DEPARTMENT_STORE_3F",
+    "MAP_CELADON_CITY_DEPARTMENT_STORE_4F",
+    "MAP_CELADON_CITY_DEPARTMENT_STORE_5F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_1F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_2F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_3F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_4F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_5F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_6F",
+    "MAP_GOLDENROD_CITY_DEPARTMENT_STORE_BASEMENT",
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "multi": [
+    "MULTI_5FLOORS",
+    "MULTI_7FLOORS",
+    "MULTI_B_PRESSED"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_1F": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_2F": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_3F": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_4F": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_5F": {
+   "item": [
+    "ITEM_TM_FRUSTRATION",
+    "ITEM_TM_RETURN"
+   ],
+   "macro": [
+    "byte",
+    "call_if_unset",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto",
+    "goto_if_ge",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "return",
+    "setflag"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "special": [
+    "GetLeadMonFriendshipScore"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_6F": {
+   "label": [
+    "VAR_0x8004",
+    "VAR_0x8009"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "copyvar",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "special": [
+    "ChoosePartyMon",
+    "CreateInGameTradePokemon",
+    "DoInGameTradeScene",
+    "GetInGameTradeSpeciesInfo",
+    "GetTradeSpecies"
+   ],
+   "trade": [
+    "INGAME_TRADE_MACHOP"
+   ]
+  },
+  "GoldenrodCity_DepartmentStore_7F": {
+   "label": [
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "PLAYSE",
+    "applymovement",
+    "byte",
+    "call_if_set",
+    "call_if_unset",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "return",
+    "setmaplayoutindex",
+    "turnobject"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "GoldenrodCity_FlowerShop": {
+   "item": [
+    "ITEM_SQUIRT_BOTTLE"
+   ],
+   "macro": [
+    "addobject",
+    "byte",
+    "call_if_set",
+    "call_if_unset",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "removeobject",
+    "return",
+    "setflag"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "GoldenrodCity_GameCorner": {
+   "item": [
+    "ITEM_COIN_CASE"
+   ],
+   "label": [
+    "Common_EventScript_GetGiftMonPartySlot",
+    "Common_EventScript_NameReceivedBoxMon",
+    "Common_EventScript_NameReceivedPartyMon",
+    "Common_EventScript_TransferredToPC",
+    "DisableStaticRandomizer",
+    "EnableStaticRandomizer",
+    "MauvilleCity_GameCorner_EventScript_NeedCoinCase"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "case",
+    "checkcoins",
+    "checkitem",
+    "closemessage",
+    "copyvar",
+    "end",
+    "faceplayer",
+    "getpartysize",
+    "givemon",
+    "goto",
+    "goto_if_eq",
+    "goto_if_lt",
+    "hidecoinsbox",
+    "lock",
+    "message",
+    "msgbox",
+    "multichoice",
+    "playfanfare",
+    "playse",
+    "release",
+    "removecoins",
+    "setvar",
+    "showcoinsbox",
+    "subvar",
+    "switch",
+    "updatecoinsbox",
+    "waitfanfare",
+    "waitmessage"
+   ],
+   "multi": [
+    "MULTI_PRIZE_MONS"
+   ],
+   "special": [
+    "DisableStaticRandomizer",
+    "EnableStaticRandomizer",
+    "IsNuzlockeNicknamingActive"
+   ]
+  },
+  "GoldenrodCity_Gym": {
+   "item": [
+    "ITEM_TM_ATTRACT"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "addvar",
+    "applymovement",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "message",
+    "msgbox",
+    "release",
+    "setflag",
+    "setvar",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmessage",
+    "waitmovement"
+   ],
+   "trainer": [
+    "TRAINER_BRIDGET",
+    "TRAINER_CARRIE",
+    "TRAINER_SAMANTHA",
+    "TRAINER_VICTORIA",
+    "TRAINER_WHITNEY_1"
+   ]
+  },
+  "GoldenrodCity_House1": {
+   "label": [
+    "Common_EventScript_NameReceivedPartyMon",
+    "VAR_0x8004"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ne",
+    "lock",
+    "msgbox",
+    "release",
+    "waitstate"
+   ],
+   "special": [
+    "BufferMonNickname",
+    "ChoosePartyMon",
+    "NameRival",
+    "ScriptGetPartyMonSpecies",
+    "ToggleShinyColors",
+    "TryPutNameRaterShowOnTheAir"
+   ]
+  },
+  "GoldenrodCity_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "GoldenrodCity_House3": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "GoldenrodCity_PokemonCenter": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "GoldenrodCity_RadioTower_1F": {
+   "item": [
+    "ITEM_NONE",
+    "ITEM_RADIO"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_FacePlayer",
+    "Common_Movement_WalkInPlaceFasterRight",
+    "VAR_0x8004",
+    "VAR_0x8006"
+   ],
+   "macro": [
+    "applymovement",
+    "applymovement2",
+    "bufferitemname",
+    "byte",
+    "call_if_eq",
+    "closemessage",
+    "copyvar",
+    "delay",
+    "dotimebasedevents",
+    "end",
+    "face_left",
+    "faceplayer",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "goto_if_unset",
+    "incrementgamestat",
+    "lock",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "waitfanfare",
+    "waitmessage",
+    "waitmovement",
+    "walk_down",
+    "walk_in_place_down",
+    "walk_in_place_right",
+    "walk_left"
+   ],
+   "special": [
+    "BufferLottoTicketNumber",
+    "PickLotteryCornerTicket",
+    "RetrieveLotteryNumber",
+    "TryPutLotteryWinnerReportOnAir"
+   ],
+   "trainer": [
+    "TRAINER_GRUNT_2"
+   ]
+  },
+  "GoldenrodCity_RadioTower_2F": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "trainerbattle_single",
+    "waitmoncry",
+    "waitse"
+   ],
+   "trainer": [
+    "TRAINER_GRUNT_26",
+    "TRAINER_GRUNT_3",
+    "TRAINER_GRUNT_4",
+    "TRAINER_GRUNT_5"
+   ]
+  },
+  "GoldenrodCity_RadioTower_3F": {
+   "item": [
+    "ITEM_CARD_KEY",
+    "ITEM_TM_SKILL_SWAP"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "call_if_set",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "return",
+    "setflag",
+    "setmetatile",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "DrawWholeMapView"
+   ],
+   "trainer": [
+    "TRAINER_GRUNT_6",
+    "TRAINER_GRUNT_7",
+    "TRAINER_GRUNT_8",
+    "TRAINER_MARC"
+   ]
+  },
+  "GoldenrodCity_RadioTower_4F": {
+   "item": [
+    "ITEM_BRIGHT_POWDER"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_unset",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "setflag",
+    "trainerbattle_single",
+    "waitmoncry",
+    "waitse"
+   ],
+   "trainer": [
+    "TRAINER_GRUNT_28",
+    "TRAINER_GRUNT_9",
+    "TRAINER_PROTON_2",
+    "TRAINER_RICH"
+   ]
+  },
+  "GoldenrodCity_RadioTower_5F": {
+   "item": [
+    "ITEM_BASEMENT_KEY",
+    "ITEM_RAINBOW_WING",
+    "ITEM_SILVER_WING"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_2",
+    "delay_4",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadescreen",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmovement",
+    "walk_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "trainer": [
+    "TRAINER_ARCHER",
+    "TRAINER_ARIANA_2",
+    "TRAINER_PETREL_2"
+   ]
+  },
+  "GoldenrodCity_TrainStation": {
+   "item": [
+    "ITEM_PASS"
+   ],
+   "label": [
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "checkitem",
+    "closemessage",
+    "delay",
+    "end",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadescreen",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "setvar",
+    "slide_left",
+    "slide_right",
+    "slide_up",
+    "step_end",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_left",
+    "walk_right",
+    "walk_up",
+    "warp"
+   ],
+   "map": [
+    "MAP_SAFFRON_CITY_TRAIN_STATION",
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "special": [
+    "RemoveCameraObject",
+    "SpawnCameraObject"
+   ]
+  },
+  "GoldenrodCity_UndergroundEntrance": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "GoldenrodCity_UndergroundStorage": {
+   "item": [
+    "ITEM_CARD_KEY",
+    "ITEM_MAX_ETHER",
+    "ITEM_TM_CALM_MIND",
+    "ITEM_ULTRA_BALL"
+   ],
+   "macro": [
+    "byte",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "giveitem",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_ETO_3",
+    "TRAINER_GRUNT_12",
+    "TRAINER_GRUNT_19"
+   ]
+  },
+  "GoldenrodCity_UndergroundSwitches": {
+   "item": [
+    "ITEM_MAX_POTION",
+    "ITEM_MAX_REVIVE",
+    "ITEM_SMOKE_BALL"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call",
+    "call_if_eq",
+    "call_if_set",
+    "clearflag",
+    "closemessage",
+    "end",
+    "face_right",
+    "fadedefaultbgm",
+    "finditem",
+    "goto_if_set",
+    "goto_if_unset",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "DrawWholeMapView"
+   ],
+   "trainer": [
+    "TRAINER_DUNCAN",
+    "TRAINER_EDDIE",
+    "TRAINER_GRUNT_10",
+    "TRAINER_GRUNT_11",
+    "TRAINER_GRUNT_20",
+    "TRAINER_GRUNT_27",
+    "TRAINER_RIVAL_CHIKORITA_4",
+    "TRAINER_RIVAL_CYNDAQUIL_4",
+    "TRAINER_RIVAL_TOTODILE_4"
+   ]
+  },
+  "GoldenrodCity_UndergroundTunnel": {
+   "item": [
+    "ITEM_ANTIDOTE",
+    "ITEM_BASEMENT_KEY",
+    "ITEM_COIN_CASE",
+    "ITEM_PARALYZE_HEAL",
+    "ITEM_SUPER_POTION"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkUp1",
+    "VAR_0x8004"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "checkitem",
+    "checkmoney",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "fadescreen",
+    "finditem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "hidemoneybox",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playfanfare",
+    "playse",
+    "release",
+    "releaseall",
+    "removemoney",
+    "removeobject",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "showmoneybox",
+    "step_end",
+    "trainerbattle_single",
+    "updatemoneybox",
+    "waitfanfare",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_left",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "BufferMonNickname",
+    "ChoosePartyMon",
+    "DrawWholeMapView",
+    "HaircutBrother1",
+    "ScriptGetPartyMonSpecies"
+   ],
+   "trainer": [
+    "TRAINER_DONALD",
+    "TRAINER_ERIC",
+    "TRAINER_ISSAC",
+    "TRAINER_TERU"
+   ]
+  },
+  "IcePath_1F": {
+   "item": [
+    "ITEM_HM_WATERFALL",
+    "ITEM_PP_UP",
+    "ITEM_PROTEIN"
+   ],
+   "label": [
+    "Common_Movement_WalkUp1",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "end",
+    "face_up",
+    "fadedefaultbgm",
+    "finditem",
+    "goto_if_eq",
+    "jump_in_place_down",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "slide_down",
+    "step_end",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_in_place_fast_down",
+    "walk_in_place_fast_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "IcePath_B1F": {
+   "item": [
+    "ITEM_IRON",
+    "ITEM_REVIVE"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "copyvar",
+    "end",
+    "finditem",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setholewarp",
+    "setstepcallback",
+    "warp"
+   ],
+   "map": [
+    "MAP_ICE_PATH_B1F",
+    "MAP_ICE_PATH_B2F",
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "IcePath_B2F": {
+   "item": [
+    "ITEM_CARBOS",
+    "ITEM_FULL_HEAL",
+    "ITEM_MAX_POTION"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "IcePath_B3F": {
+   "item": [
+    "ITEM_ASPEAR_BERRY",
+    "ITEM_TM_BLIZZARD"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "chooseitem",
+    "closemessage",
+    "delay",
+    "doweather",
+    "end",
+    "face_left",
+    "faceplayer",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "jump_2_up",
+    "jump_in_place_left",
+    "jump_in_place_left_right",
+    "jump_in_place_up",
+    "lock_facing_direction",
+    "lockall",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "releaseall",
+    "removeitem",
+    "return",
+    "setflag",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "setweather",
+    "step_end",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_left",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "IcePath_B4F": {
+   "item": [
+    "ITEM_NEVER_MELT_ICE"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "IlexForest": {
+   "item": [
+    "ITEM_ETHER",
+    "ITEM_FULL_HEAL",
+    "ITEM_HM_CUT",
+    "ITEM_SUPER_POTION",
+    "ITEM_TM_SUNNY_DAY"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull",
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkUp",
+    "MoveTutor_EventScript_CanOnlyBeLearnedOnceFinite",
+    "MoveTutor_EventScript_OpenPartyMenu",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "applymovement2",
+    "byte",
+    "call",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "fadescreenswapbuffers",
+    "finditem",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_set",
+    "jump_2_down",
+    "jump_2_up",
+    "jump_in_place_left",
+    "jump_in_place_right",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playfirstmoncry",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "seteventmon",
+    "setflag",
+    "setobjectxyperm",
+    "setvar",
+    "step_end",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "BattleSetup_StartLegendaryBattle",
+    "GetBattleOutcome",
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_WAYNE"
+   ]
+  },
+  "JohtoIndigoPlateau": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox"
+   ]
+  },
+  "JohtoIndigoPlateau_PokemonCenter": {
+   "macro": [
+    "applymovement2",
+    "byte",
+    "call_if_eq",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreen",
+    "goto_if_eq",
+    "goto_if_set",
+    "jump_in_place_right",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "release",
+    "return",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "warpteleport"
+   ],
+   "map": [
+    "MAP_NEW_BARK_TOWN",
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "trainer": [
+    "TRAINER_RIVAL_CHIKORITA_7",
+    "TRAINER_RIVAL_CYNDAQUIL_7",
+    "TRAINER_RIVAL_TOTODILE_7"
+   ]
+  },
+  "JohtoPokemonLeague_BrunosRoom": {
+   "macro": [
+    "byte",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "trainerbattle_no_intro",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME"
+   ],
+   "special": [
+    "DoPokemonLeagueLightingEffect",
+    "DrawWholeMapView",
+    "ShakeCamera"
+   ],
+   "trainer": [
+    "TRAINER_BRUNO_1",
+    "TRAINER_BRUNO_2"
+   ]
+  },
+  "JohtoPokemonLeague_ChampionsRoom": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_2",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "goto",
+    "goto_if_set",
+    "lock",
+    "lock_facing_direction",
+    "lockall",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "releaseall",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_fast_right",
+    "walk_fast_up",
+    "walk_in_place_fast_down",
+    "walk_in_place_fast_right",
+    "walk_left",
+    "walk_right",
+    "walk_up",
+    "warpsilent"
+   ],
+   "map": [
+    "MAP_POKEMON_LEAGUE_HALL_OF_FAME",
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME"
+   ],
+   "special": [
+    "DoPokemonLeagueLightingEffect",
+    "DrawWholeMapView",
+    "ShakeCamera",
+    "SpawnCameraObject"
+   ],
+   "trainer": [
+    "TRAINER_LANCE_1",
+    "TRAINER_LANCE_2"
+   ]
+  },
+  "JohtoPokemonLeague_HallOfFame": {
+   "label": [
+    "Common_Movement_WalkInPlaceFasterUp"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call",
+    "call_if_ge",
+    "call_if_set",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "dofieldeffect",
+    "end",
+    "face_left",
+    "face_right",
+    "fadescreenspeed",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "releaseall",
+    "return",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "step_end",
+    "waitfieldeffect",
+    "waitmovement",
+    "waitstate",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "special": [
+    "GameClear",
+    "InitRoamer"
+   ]
+  },
+  "JohtoPokemonLeague_KarensRoom": {
+   "macro": [
+    "byte",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "trainerbattle_no_intro",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME"
+   ],
+   "special": [
+    "DoPokemonLeagueLightingEffect",
+    "DrawWholeMapView",
+    "ShakeCamera"
+   ],
+   "trainer": [
+    "TRAINER_KAREN_1",
+    "TRAINER_KAREN_2"
+   ]
+  },
+  "JohtoPokemonLeague_KogasRoom": {
+   "macro": [
+    "byte",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "trainerbattle_no_intro",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME"
+   ],
+   "special": [
+    "DoPokemonLeagueLightingEffect",
+    "DrawWholeMapView",
+    "ShakeCamera"
+   ],
+   "trainer": [
+    "TRAINER_KOGA_1",
+    "TRAINER_KOGA_2"
+   ]
+  },
+  "JohtoPokemonLeague_WillsRoom": {
+   "label": [
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "trainerbattle_no_intro",
+    "waitmovement",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD",
+    "MAP_SCRIPT_ON_RESUME"
+   ],
+   "special": [
+    "DoPokemonLeagueLightingEffect",
+    "DrawWholeMapView",
+    "ShakeCamera"
+   ],
+   "trainer": [
+    "TRAINER_WILL_1",
+    "TRAINER_WILL_2"
+   ]
+  },
+  "JohtoRoute23": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "JohtoVictoryRoad_1F": {
+   "item": [
+    "ITEM_MAX_ETHER",
+    "ITEM_RARE_CANDY",
+    "ITEM_ULTRA_BALL"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement2",
+    "byte",
+    "call_if_eq",
+    "closemessage",
+    "delay",
+    "end",
+    "fadedefaultbgm",
+    "finditem",
+    "getplayerxy",
+    "lock",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "waitmovement",
+    "walk_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "trainer": [
+    "TRAINER_RIVAL_CHIKORITA_5",
+    "TRAINER_RIVAL_CYNDAQUIL_5",
+    "TRAINER_RIVAL_TOTODILE_5"
+   ]
+  },
+  "JohtoVictoryRoad_B1F": {
+   "item": [
+    "ITEM_FULL_RESTORE",
+    "ITEM_HP_UP",
+    "ITEM_MAX_REVIVE"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem"
+   ]
+  },
+  "JohtoVictoryRoad_B2F": {
+   "item": [
+    "ITEM_FULL_HEAL",
+    "ITEM_MAX_REVIVE",
+    "ITEM_POTION"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem"
+   ]
+  },
+  "LakeOfRage": {
+   "item": [
+    "ITEM_BLACK_BELT",
+    "ITEM_FULL_RESTORE",
+    "ITEM_MAX_REVIVE",
+    "ITEM_RED_FLUTE",
+    "ITEM_RED_SCALE"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_lt",
+    "case",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_8",
+    "dowildbattle",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "finditem",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_lt",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "multichoice",
+    "playmoncry",
+    "random",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmaplayoutindex",
+    "setobjectxyperm",
+    "setvar",
+    "setweather",
+    "setwildbattleshiny",
+    "step_end",
+    "switch",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "GetBattleOutcome",
+    "UpdateShoalTideFlag"
+   ],
+   "trainer": [
+    "TRAINER_AARON",
+    "TRAINER_ANDRE",
+    "TRAINER_LOIS",
+    "TRAINER_RAYMOND"
+   ]
+  },
+  "LakeOfRageLowTide": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox"
+   ]
+  },
+  "LakeOfRage_House1": {
+   "item": [
+    "ITEM_TM_HIDDEN_POWER"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag"
+   ]
+  },
+  "LakeOfRage_House2": {
+   "label": [
+    "VAR_0x8004"
+   ],
+   "macro": [
+    "addmoney",
+    "byte",
+    "closemessage",
+    "copyvar",
+    "end",
+    "faceplayer",
+    "getpartysize",
+    "goto_if_eq",
+    "goto_if_ge",
+    "hidemoneybox",
+    "lock",
+    "msgbox",
+    "playse",
+    "release",
+    "removegenericmon",
+    "setvar",
+    "showmoneybox",
+    "updatemoneybox",
+    "waitse",
+    "waitstate"
+   ],
+   "special": [
+    "ChoosePartyMon"
+   ]
+  },
+  "MahoganyHideout_B1F": {
+   "item": [
+    "ITEM_BIG_NUGGET",
+    "ITEM_HYPER_POTION",
+    "ITEM_REVIVE"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call",
+    "call_if_eq",
+    "clearflag",
+    "delay",
+    "end",
+    "fadescreenswapbuffers",
+    "finditem",
+    "getplayerxy",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmovement",
+    "walk_fast_left",
+    "walk_fast_right"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "DrawWholeMapView"
+   ],
+   "trainer": [
+    "TRAINER_GRUNT_13",
+    "TRAINER_GRUNT_17",
+    "TRAINER_GRUNT_18",
+    "TRAINER_JED"
+   ]
+  },
+  "MahoganyHideout_B2F": {
+   "item": [
+    "ITEM_HM_WHIRLPOOL",
+    "ITEM_TM_THIEF"
+   ],
+   "label": [
+    "Common_EventScript_OutOfCenterPartyHeal",
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkInPlaceFasterUp",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "addobject",
+    "addvar",
+    "applymovement",
+    "applymovement2",
+    "byte",
+    "call",
+    "call_if_eq",
+    "call_if_ge",
+    "call_if_set",
+    "case",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_2",
+    "delay_8",
+    "dowildbattle",
+    "end",
+    "face_down",
+    "face_right",
+    "face_up",
+    "fadescreen",
+    "fadescreenswapbuffers",
+    "finditem",
+    "frontier_saveparty",
+    "frontier_set",
+    "getplayerxy",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ne",
+    "jump_in_place_left",
+    "jump_in_place_right",
+    "jump_in_place_up",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "setwildbattle",
+    "step_end",
+    "switch",
+    "trainerbattle",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "ChooseHalfPartyForBattle",
+    "DoSpecialTrainerBattle",
+    "DrawWholeMapView",
+    "GetBattleOutcome",
+    "LoadPlayerParty",
+    "ReducePlayerPartyToSelectedMons",
+    "SavePlayerParty",
+    "SetCB2WhiteOut"
+   ],
+   "trainer": [
+    "TRAINER_ARIANA_1",
+    "TRAINER_BATTLE_SET_TRAINER_A",
+    "TRAINER_BATTLE_SET_TRAINER_B",
+    "TRAINER_GRUNT_14",
+    "TRAINER_GRUNT_15",
+    "TRAINER_GRUNT_16",
+    "TRAINER_GRUNT_23"
+   ]
+  },
+  "MahoganyHideout_B3F": {
+   "item": [
+    "ITEM_FULL_HEAL",
+    "ITEM_GUARD_SPEC",
+    "ITEM_HYPER_POTION",
+    "ITEM_ICE_HEAL",
+    "ITEM_PROTEIN"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_QuestionMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "addobject",
+    "addvar",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "call_if_set",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_2",
+    "delay_4",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "finditem",
+    "goto_if_eq",
+    "goto_if_set",
+    "goto_if_unset",
+    "jump_in_place_down",
+    "jump_in_place_left",
+    "jump_in_place_right",
+    "jump_in_place_up",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_right",
+    "walk_faster_down",
+    "walk_faster_left",
+    "walk_faster_right",
+    "walk_faster_up",
+    "walk_left",
+    "walk_right",
+    "walk_slow_left",
+    "walk_slow_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "DrawWholeMapView"
+   ],
+   "trainer": [
+    "TRAINER_ETO_2",
+    "TRAINER_GRUNT_29",
+    "TRAINER_MITCH",
+    "TRAINER_PETREL_1",
+    "TRAINER_ROSS"
+   ]
+  },
+  "MahoganyTown_Gym": {
+   "item": [
+    "ITEM_TM_HAIL"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers"
+   ],
+   "macro": [
+    "addvar",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto",
+    "goto_if_set",
+    "lock",
+    "message",
+    "msgbox",
+    "release",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "waitmessage"
+   ],
+   "trainer": [
+    "TRAINER_BRAD",
+    "TRAINER_CLARISSA",
+    "TRAINER_DOUGLAS",
+    "TRAINER_PRYCE_1",
+    "TRAINER_PRYCE_1_2",
+    "TRAINER_PRYCE_1_3",
+    "TRAINER_RONALD",
+    "TRAINER_ROXANNE"
+   ]
+  },
+  "MahoganyTown_House1": {
+   "macro": [
+    "byte",
+    "end",
+    "goto_if_lt",
+    "msgbox"
+   ]
+  },
+  "MahoganyTown_PokemonCenter": {
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "msgbox",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "MahoganyTown_Shop": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_QuestionMark",
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "ITEM_DRAGON_SCALE",
+    "ITEM_KINGS_ROCK",
+    "ITEM_METAL_COAT",
+    "ITEM_NEVER_MELT_ICE",
+    "ITEM_NONE",
+    "ITEM_SPELL_TAG",
+    "ITEM_UP_GRADE",
+    "align",
+    "applymovement",
+    "byte",
+    "closemessage",
+    "delay",
+    "delay_2",
+    "end",
+    "face_down",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "message",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "pokemart",
+    "release",
+    "removeobject",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "slide_right",
+    "step_end",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_faster_left",
+    "walk_faster_right",
+    "walk_faster_up",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "DrawWholeMapView",
+    "ShakeCamera"
+   ]
+  },
+  "Mahoganytown": {
+   "item": [
+    "ITEM_RAGE_CANDY_BAR"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull",
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkLeft1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "call_if_ge",
+    "checkmoney",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "getplayerxy",
+    "giveitem",
+    "goto_if_eq",
+    "hidemoneybox",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "pokenavcall",
+    "release",
+    "removemoney",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "showmoneybox",
+    "step_end",
+    "turnobject",
+    "updatemoneybox",
+    "waitmessage",
+    "waitmovement",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_LOAD"
+   ]
+  },
+  "MtMortar_1F_North": {
+   "item": [
+    "ITEM_ESCAPE_ROPE",
+    "ITEM_KINGS_ROCK",
+    "ITEM_MAX_POTION",
+    "ITEM_MAX_REPEL",
+    "ITEM_NUGGET",
+    "ITEM_REVIVE",
+    "ITEM_ULTRA_BALL"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_MARKUS",
+    "TRAINER_MILLER"
+   ]
+  },
+  "MtMortar_1F_South": {
+   "item": [
+    "ITEM_ELIXIR",
+    "ITEM_REVIVE"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtMortar_2F": {
+   "item": [
+    "ITEM_DRAGON_SCALE",
+    "ITEM_ELIXIR",
+    "ITEM_ETHER",
+    "ITEM_IRON",
+    "ITEM_MAX_REVIVE",
+    "ITEM_RARE_CANDY"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_HUGH"
+   ]
+  },
+  "MtMortar_B1F": {
+   "item": [
+    "ITEM_CARBOS",
+    "ITEM_HYPER_POTION",
+    "ITEM_MAX_ETHER",
+    "ITEM_MAX_REVIVE",
+    "ITEM_PP_UP"
+   ],
+   "label": [
+    "Common_EventScript_GiftMon",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "givemon",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setflag",
+    "setvar",
+    "trainerbattle_no_intro"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_KIYO"
+   ]
+  },
+  "MtSilver_1F_ItemRoom": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "MtSilver_1F_MoltresRoom": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "removeobject",
+    "seteventmon",
+    "setflag",
+    "waitmoncry",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "BattleSetup_StartLegendaryBattle",
+    "GetBattleOutcome",
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_1F_WaterfallRoom": {
+   "item": [
+    "ITEM_DIRE_HIT",
+    "ITEM_FULL_RESTORE",
+    "ITEM_MAX_POTION",
+    "ITEM_SPELL_TAG",
+    "ITEM_ULTRA_BALL"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_2F": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_3F": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "setescapewarp"
+   ],
+   "map": [
+    "MAP_MT_SILVER_OUTSIDE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_MountainSide": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_Outside": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "msgbox",
+    "setflag"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_PokemonCenter": {
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "msgbox",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "MtSilver_Snow": {
+   "item": [
+    "ITEM_NEVER_MELT_ICE",
+    "ITEM_RARE_CANDY"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "MtSilver_SummitDay": {
+   "macro": [
+    "byte",
+    "call_if_set",
+    "call_if_unset",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreenspeed",
+    "fadescreenswapbuffers",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "releaseall",
+    "removeobject",
+    "return",
+    "setescapewarp",
+    "setflag",
+    "setmaplayoutindex",
+    "setrespawn",
+    "setvar",
+    "trainerbattle_no_intro",
+    "waitstate"
+   ],
+   "map": [
+    "MAP_MT_SILVER_OUTSIDE",
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "GameClear"
+   ],
+   "trainer": [
+    "TRAINER_RED_2"
+   ]
+  },
+  "NationalPark_BugContest": {
+   "label": [
+    "BugContestEventScript_Judging",
+    "BugContest_EventScript_TimesUp",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "goto",
+    "goto_if_eq",
+    "lock",
+    "lockall",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "release",
+    "releaseall",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "step_end",
+    "turnobject",
+    "waitmovement",
+    "walk_in_place_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "ShowBugContestChosenMon"
+   ]
+  },
+  "NationalPark_Normal": {
+   "item": [
+    "ITEM_QUICK_CLAW",
+    "ITEM_SOOTHE_BELL",
+    "ITEM_TM_DIG"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull",
+    "Common_EventScript_OutOfCenterPartyHeal",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "setflag",
+    "trainerbattle_single",
+    "waitmoncry",
+    "waitse"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BEVERLY",
+    "TRAINER_JACK",
+    "TRAINER_KRISE",
+    "TRAINER_WILLIAM"
+   ]
+  },
+  "NewBarkTown": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_FaceOriginalDirection",
+    "OldaleTown_Movement_PlayerStepBack",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "face_up",
+    "faceplayer",
+    "givebp",
+    "goto_if_eq",
+    "jump_2_down",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "pokenavcall",
+    "release",
+    "return",
+    "setflag",
+    "setobjectxyperm",
+    "setvar",
+    "step_end",
+    "unlock_facing_direction",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "NewBarkTown_House1": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "NewBarkTown_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "NewBarkTown_Lab": {
+   "item": [
+    "ITEM_EVERSTONE",
+    "ITEM_MASTER_BALL",
+    "ITEM_MYSTERY_EGG",
+    "ITEM_POKE_BALL",
+    "ITEM_POTION",
+    "ITEM_SS_TICKET"
+   ],
+   "label": [
+    "Common_EventScript_NameReceivedPartyMon",
+    "Common_EventScript_OutOfCenterPartyHeal",
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_FaceOriginalDirection",
+    "Common_Movement_QuestionMark",
+    "Common_Movement_WalkInPlaceFasterUp",
+    "DisableStaticRandomizer",
+    "EnableStaticRandomizer",
+    "UpdateFollowingPokemon"
+   ],
+   "macro": [
+    "applymovement",
+    "buffermoncategory",
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "call_if_eq",
+    "call_if_unset",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "giveitem",
+    "givemon",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "hidemonpic",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeitem",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "showmonpic",
+    "step_end",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitfanfare",
+    "waitmessage",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_fast_down",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_fast_up",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "CheckTogepi",
+    "DisableStaticRandomizer",
+    "EnableStaticRandomizer",
+    "IsNuzlockeNicknamingActive",
+    "NameRival",
+    "UpdateFollowingPokemon"
+   ]
+  },
+  "NewBarkTown_PlayersHouse_1F": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "PlayersHouse_1F_EventScript_MomHealsParty"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_8",
+    "end",
+    "face_left",
+    "face_right",
+    "faceplayer",
+    "goto",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "playse",
+    "release",
+    "releaseall",
+    "return",
+    "setflag",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "step_end",
+    "waitfanfare",
+    "waitmessage",
+    "waitmovement",
+    "walk_down",
+    "walk_left",
+    "walk_right"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "NewBarkTown_PlayersHouse_2F": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "PlayersHouse_2F_EventScript_SetWallClock"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call",
+    "delay",
+    "delay_8",
+    "end",
+    "lock",
+    "msgbox",
+    "playse",
+    "releaseall",
+    "setflag",
+    "setvar",
+    "step_end",
+    "waitmovement",
+    "walk_right",
+    "walk_up"
+   ]
+  },
+  "OlivineCity": {
+   "item": [
+    "ITEM_AURORA_TICKET",
+    "ITEM_TM_SHOCK_WAVE"
+   ],
+   "label": [
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkUp1",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "checkitem",
+    "clearflag",
+    "closedoor",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadedefaultbgm",
+    "finditem",
+    "getplayerxy",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "opendoor",
+    "playbgm",
+    "playmoncry",
+    "pokenavcall",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "setweather",
+    "step_end",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "OlivineCity_Cafe": {
+   "item": [
+    "ITEM_HM_STRENGTH"
+   ],
+   "macro": [
+    "byte",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "removeobject",
+    "setflag"
+   ]
+  },
+  "OlivineCity_Gym": {
+   "item": [
+    "ITEM_TM_IRON_TAIL"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers",
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "addvar",
+    "applymovement",
+    "byte",
+    "call",
+    "call_if_eq",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "getplayerxy",
+    "giveitem",
+    "goto",
+    "goto_if_lt",
+    "goto_if_set",
+    "lock",
+    "message",
+    "msgbox",
+    "playse",
+    "release",
+    "return",
+    "setflag",
+    "setvar",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "waitmessage",
+    "waitmovement"
+   ],
+   "trainer": [
+    "TRAINER_JASMINE_1",
+    "TRAINER_JASMINE_1_2",
+    "TRAINER_JASMINE_1_3"
+   ]
+  },
+  "OlivineCity_House1": {
+   "label": [
+    "VAR_0x8004",
+    "VAR_0x8009"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "closemessage",
+    "copyvar",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag",
+    "setvar",
+    "waitstate"
+   ],
+   "special": [
+    "ChoosePartyMon",
+    "CreateInGameTradePokemon",
+    "DoInGameTradeScene",
+    "GetInGameTradeSpeciesInfo",
+    "GetTradeSpecies"
+   ],
+   "trade": [
+    "INGAME_TRADE_VOLTORB"
+   ]
+  },
+  "OlivineCity_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "OlivineCity_House3": {
+   "item": [
+    "ITEM_GOOD_ROD"
+   ],
+   "macro": [
+    "byte",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "OlivineCity_Lighthouse": {
+   "item": [
+    "ITEM_ETHER",
+    "ITEM_HYPER_POTION",
+    "ITEM_PROTEIN",
+    "ITEM_RARE_CANDY",
+    "ITEM_SECRET_POTION",
+    "ITEM_TM_BULK_UP"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "face_player",
+    "faceplayer",
+    "fadescreen",
+    "finditem",
+    "goto_if_eq",
+    "goto_if_lt",
+    "jump_in_place_down",
+    "jump_in_place_left",
+    "jump_in_place_right",
+    "jump_in_place_up",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeitem",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_up"
+   ],
+   "trainer": [
+    "TRAINER_ALFRED",
+    "TRAINER_CONNIE",
+    "TRAINER_DENIS",
+    "TRAINER_ERNEST",
+    "TRAINER_HUEY",
+    "TRAINER_KENT",
+    "TRAINER_PRESTON",
+    "TRAINER_TERRELL",
+    "TRAINER_THEO"
+   ]
+  },
+  "OlivineCity_Mart": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "OlivineCity_PokemonCenter": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "OlivineCity_PortInside": {
+   "item": [
+    "ITEM_AURORA_TICKET",
+    "ITEM_EON_TICKET",
+    "ITEM_OLD_SEA_MAP",
+    "ITEM_SS_TICKET"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "applymovement",
+    "applymovement2",
+    "bufferitemname",
+    "byte",
+    "call",
+    "case",
+    "checkitem",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_right",
+    "faceplayer",
+    "fadedefaultbgm",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "message",
+    "msgbox",
+    "multichoice",
+    "playbgm",
+    "playfanfare",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "step_end",
+    "switch",
+    "turnobject",
+    "waitfanfare",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_in_place_down",
+    "walk_in_place_up",
+    "walk_left",
+    "walk_right",
+    "walk_up",
+    "warpsilent"
+   ],
+   "map": [
+    "MAP_BATTLE_FRONTIER_OUTSIDE_WEST",
+    "MAP_BIRTH_ISLAND_EXTERIOR",
+    "MAP_FARAWAY_ISLAND_ENTRANCE",
+    "MAP_SOUTHERN_ISLAND_EXTERIOR",
+    "MAP_SSAQUA_1F",
+    "MAP_VERMILION_CITY_PORT_INSIDE"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_OLIVINE_HARBOR"
+   ],
+   "special": [
+    "EnableNationalPokedex",
+    "SpawnCameraObject"
+   ]
+  },
+  "OlivineCity_PortOutside": {
+   "macro": [
+    "byte",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "removeobject",
+    "setflag"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "ReceptionGate": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "goto_if_lt",
+    "goto_if_unset",
+    "lock",
+    "msgbox",
+    "playse",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "waitmovement"
+   ]
+  },
+  "Route26": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BETH",
+    "TRAINER_GAVEN",
+    "TRAINER_JAKE",
+    "TRAINER_JOYCE",
+    "TRAINER_RICHARD"
+   ]
+  },
+  "Route26North": {
+   "macro": [
+    "byte",
+    "end",
+    "setflag",
+    "setvar"
+   ]
+  },
+  "Route26_House1": {
+   "label": [
+    "Common_EventScript_OutOfCenterPartyHeal"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Route26_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "Route27": {
+   "item": [
+    "ITEM_MOON_STONE",
+    "ITEM_RARE_CANDY",
+    "ITEM_REVIVE",
+    "ITEM_TM_SOLAR_BEAM"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement2",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_left",
+    "finditem",
+    "getplayerxy",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "pokenavcall",
+    "release",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmessage",
+    "waitmovement",
+    "walk_down",
+    "walk_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BLAKE",
+    "TRAINER_BRIAN",
+    "TRAINER_GILBERT",
+    "TRAINER_JOSE",
+    "TRAINER_MEGAN",
+    "TRAINER_REENA",
+    "TRAINER_SCOTT"
+   ]
+  },
+  "Route27_House": {
+   "item": [
+    "ITEM_TM_SANDSTORM"
+   ],
+   "label": [
+    "Common_Movement_QuestionMark",
+    "ContestHall_Movement_Heart",
+    "FollowerDance",
+    "FollowerLookAway"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_ge",
+    "goto_if_unset",
+    "jump_in_place_down",
+    "lock",
+    "msgbox",
+    "playfirstmoncry",
+    "release",
+    "setflag",
+    "step_end",
+    "waitmovement"
+   ],
+   "special": [
+    "GetLeadMonFriendshipScore"
+   ]
+  },
+  "Route28": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "map_script",
+    "msgbox"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "Route28_House": {
+   "item": [
+    "ITEM_TM_STEEL_WING"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag"
+   ]
+  },
+  "Route29": {
+   "item": [
+    "ITEM_POTION",
+    "ITEM_SILK_SCARF"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkUp1",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement2",
+    "byte",
+    "case",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "message",
+    "msgbox",
+    "multichoice",
+    "release",
+    "setflag",
+    "switch",
+    "waitbuttonpress",
+    "waitmessage",
+    "waitmovement"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "RemoveCameraObject",
+    "SetTimeBasedEncounters",
+    "SpawnCameraObject"
+   ]
+  },
+  "Route30": {
+   "label": [
+    "Common_Movement_QuestionMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "pokenavcall",
+    "release",
+    "setvar",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmessage",
+    "waitmoncry",
+    "waitse"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_DON",
+    "TRAINER_JOEY",
+    "TRAINER_MIKEY"
+   ]
+  },
+  "Route30_House": {
+   "item": [
+    "ITEM_CHERI_BERRY"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag"
+   ]
+  },
+  "Route30_MrPokemonsHouse": {
+   "item": [
+    "ITEM_EXP_SHARE_SMALL",
+    "ITEM_MYSTERY_EGG",
+    "ITEM_RED_SCALE"
+   ],
+   "label": [
+    "Common_EventScript_OutOfCenterPartyHeal",
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call",
+    "call_if_eq",
+    "checkitem",
+    "checkrandomizer",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_left",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "giveitem",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "message",
+    "msgbox",
+    "playbgm",
+    "playfanfare",
+    "playse",
+    "release",
+    "removeitem",
+    "removeobject",
+    "return",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "step_end",
+    "turnobject",
+    "waitfanfare",
+    "waitmovement",
+    "walk_down",
+    "walk_in_place_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "special": [
+    "EnableNationalPokedex"
+   ]
+  },
+  "Route31": {
+   "item": [
+    "ITEM_ANTIDOTE",
+    "ITEM_POKE_BALL",
+    "ITEM_TM_TORMENT"
+   ],
+   "label": [
+    "SetTimeBasedEncounters",
+    "UpdateFollowingPokemon"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "finditem",
+    "giveitem",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "removenamedmon",
+    "setvar",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters",
+    "UpdateFollowingPokemon"
+   ],
+   "trainer": [
+    "TRAINER_WADE"
+   ]
+  },
+  "Route32": {
+   "item": [
+    "ITEM_GREAT_BALL",
+    "ITEM_MIRACLE_SEED",
+    "ITEM_POISON_BARB",
+    "ITEM_POTION",
+    "ITEM_SUPER_POTION",
+    "ITEM_TM_ROAR"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkLeft1",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "case",
+    "checkitem",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "finditem",
+    "getplayerxy",
+    "giveitem",
+    "goto",
+    "goto_if_eq",
+    "goto_if_set",
+    "goto_if_unset",
+    "lock",
+    "map_script",
+    "msgbox",
+    "multichoice",
+    "playse",
+    "release",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "switch",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmovement",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ALBERT",
+    "TRAINER_GORDON",
+    "TRAINER_HENRY",
+    "TRAINER_JUSTIN",
+    "TRAINER_LIZ",
+    "TRAINER_PETER",
+    "TRAINER_RALPH",
+    "TRAINER_ROLAND"
+   ]
+  },
+  "Route32_PokemonCenter": {
+   "item": [
+    "ITEM_OLD_ROD"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull"
+   ],
+   "macro": [
+    "byte",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "Route33": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ANTHONY"
+   ]
+  },
+  "Route34": {
+   "item": [
+    "ITEM_RARE_CANDY",
+    "ITEM_SOFT_SAND",
+    "ITEM_SUPER_POTION"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "call_if_eq",
+    "closemessage",
+    "end",
+    "finditem",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "return",
+    "setobjectxyperm",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "GetDaycareState",
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BRANDON",
+    "TRAINER_GINA",
+    "TRAINER_IAN",
+    "TRAINER_IRENE",
+    "TRAINER_JENN",
+    "TRAINER_KATE",
+    "TRAINER_KEITH",
+    "TRAINER_SAMUEL",
+    "TRAINER_TODD"
+   ]
+  },
+  "Route34_DayCare": {
+   "ctype": [
+    "EASY_CHAT_TYPE_INTERVIEW"
+   ],
+   "label": [
+    "Common_ShowEasyChatScreen",
+    "UpdateFollowingPokemon",
+    "VAR_0x8004"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "call_if_eq",
+    "call_if_ne",
+    "case",
+    "clearflag",
+    "closemessage",
+    "copyvar",
+    "delay",
+    "delay_16",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadescreen",
+    "getpartysize",
+    "giveoddegg",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "incrementgamestat",
+    "lock",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "playmoncry",
+    "playse",
+    "release",
+    "return",
+    "set_invisible",
+    "set_visible",
+    "setflag",
+    "setvar",
+    "step_end",
+    "switch",
+    "waitbuttonpress",
+    "waitfanfare",
+    "waitmessage",
+    "waitmoncry",
+    "waitse",
+    "waitstate",
+    "walk_slow_down",
+    "walk_slow_up"
+   ],
+   "special": [
+    "CalculatePlayerPartyCount",
+    "CheckDaycareMonReceivedMail",
+    "ChooseSendDaycareMon",
+    "CountPartyAliveNonEggMons",
+    "CountPartyAliveNonEggMons_IgnoreVar0x8004Slot",
+    "CountPartyNonEggMons",
+    "GetDaycareCost",
+    "GetDaycareMonNicknames",
+    "GetDaycareState",
+    "GetMaxPartySize",
+    "GetNumLevelsGainedFromDaycare",
+    "GetSelectedMonNicknameAndSpecies",
+    "GiveEggFromDaycare",
+    "IsEnoughForCostInVar0x8005",
+    "RejectEggFromDayCare",
+    "SetDaycareCompatibilityString",
+    "ShowDaycareLevelMenu",
+    "ShowFieldMessageStringVar4",
+    "StoreSelectedPokemonInDaycare",
+    "SubtractMoneyFromVar0x8005",
+    "TakePokemonFromDaycare",
+    "UpdateFollowingPokemon"
+   ]
+  },
+  "Route35": {
+   "item": [
+    "ITEM_BIG_NUGGET",
+    "ITEM_PARALYZE_HEAL",
+    "ITEM_TM_ROCK_TOMB"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "finditem",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ARNIE",
+    "TRAINER_BROOKE",
+    "TRAINER_BRYAN",
+    "TRAINER_DIRK",
+    "TRAINER_ELLIOT",
+    "TRAINER_IRWIN",
+    "TRAINER_IVAN",
+    "TRAINER_KIM",
+    "TRAINER_WALT"
+   ]
+  },
+  "Route36": {
+   "item": [
+    "ITEM_HARD_STONE",
+    "ITEM_HM_ROCK_SMASH",
+    "ITEM_SQUIRT_BOTTLE"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "case",
+    "checkitem",
+    "closemessage",
+    "delay",
+    "delay_2",
+    "delay_8",
+    "dowildbattle",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "jump_in_place_left",
+    "lock",
+    "map_script",
+    "msgbox",
+    "multichoice",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "setwildbattle",
+    "step_end",
+    "switch",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "GetBattleOutcome",
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ALAN",
+    "TRAINER_MARK"
+   ]
+  },
+  "Route37": {
+   "item": [
+    "ITEM_MAGNET"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "case",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "multichoice",
+    "release",
+    "setflag",
+    "switch",
+    "trainerbattle_double",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "GetPlayerBigGuyGirlString",
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ANN_AND_ANNE",
+    "TRAINER_GREG"
+   ]
+  },
+  "Route38": {
+   "item": [
+    "ITEM_LAX_INCENSE"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "finditem",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_CHAD",
+    "TRAINER_DANA",
+    "TRAINER_HARRY",
+    "TRAINER_OLIVIA",
+    "TRAINER_TOBY",
+    "TRAINER_VALERIE"
+   ]
+  },
+  "Route39": {
+   "item": [
+    "ITEM_BIG_NUGGET",
+    "ITEM_TM_BRICK_BREAK"
+   ],
+   "label": [
+    "Common_Movement_QuestionMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "case",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "finditem",
+    "getplayerxy",
+    "goto",
+    "lock",
+    "map_script",
+    "msgbox",
+    "multichoice",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "slide_down",
+    "step_end",
+    "switch",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_GOLDSILVER"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_DEREK",
+    "TRAINER_EUGENE",
+    "TRAINER_JAMIE",
+    "TRAINER_NORMAN",
+    "TRAINER_RUTH"
+   ]
+  },
+  "Route39_Barn": {
+   "item": [
+    "ITEM_ORAN_BERRY"
+   ],
+   "macro": [
+    "byte",
+    "call_if_eq",
+    "checkitem",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "playfanfare",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeitem",
+    "setvar",
+    "waitfanfare",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "Route39_FarmHouse": {
+   "item": [
+    "ITEM_MOOMOO_MILK",
+    "ITEM_TM_SNATCH"
+   ],
+   "macro": [
+    "additem",
+    "byte",
+    "checkmoney",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_lt",
+    "goto_if_set",
+    "hidemoneybox",
+    "lock",
+    "msgbox",
+    "playse",
+    "release",
+    "removemoney",
+    "setflag",
+    "showmoneybox",
+    "updatemoneybox"
+   ]
+  },
+  "Route40": {
+   "item": [
+    "ITEM_SHARP_BEAK"
+   ],
+   "label": [
+    "Common_EventScript_ShowBagIsFull",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "case",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "multichoice",
+    "release",
+    "setflag",
+    "setweather",
+    "switch",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_DAYS_OF_WEEK"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ELAINE",
+    "TRAINER_PAULA",
+    "TRAINER_RANDALL",
+    "TRAINER_SIMON"
+   ]
+  },
+  "Route41": {
+   "item": [
+    "ITEM_NONE"
+   ],
+   "label": [
+    "OlivineCity_MapScript_ClearWeather"
+   ],
+   "macro": [
+    "addvar",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "dowildbattle",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "setflag",
+    "setvar",
+    "setwildbattle",
+    "trainerbattle_single",
+    "waitmessage",
+    "waitmoncry",
+    "waitse"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "trainer": [
+    "TRAINER_BERKE",
+    "TRAINER_CHARLIE",
+    "TRAINER_DENISE",
+    "TRAINER_GEORGE",
+    "TRAINER_KARA",
+    "TRAINER_KAYLEE",
+    "TRAINER_KIRK",
+    "TRAINER_MATHEW",
+    "TRAINER_SUSIE",
+    "TRAINER_WENDY"
+   ]
+  },
+  "Route42": {
+   "item": [
+    "ITEM_MODEST_MINT",
+    "ITEM_SUPER_POTION",
+    "ITEM_ULTRA_BALL"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "call_if_set",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_2",
+    "end",
+    "face_right",
+    "face_up",
+    "finditem",
+    "jump_2_left",
+    "jump_2_right",
+    "jump_2_up",
+    "jump_in_place_right_left",
+    "jump_in_place_up",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_single",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_fast_right",
+    "walk_left"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BENJAMIN",
+    "TRAINER_SHANE",
+    "TRAINER_TULLY"
+   ]
+  },
+  "Route43": {
+   "item": [
+    "ITEM_MAX_ETHER"
+   ],
+   "label": [
+    "Route42_MapScript_HideTrigger",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "call_if_set",
+    "end",
+    "finditem",
+    "map_script",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BEN",
+    "TRAINER_BRENT",
+    "TRAINER_MARVIN",
+    "TRAINER_RON",
+    "TRAINER_SPENCER",
+    "TRAINER_TIFFANY"
+   ]
+  },
+  "Route44": {
+   "item": [
+    "ITEM_ELIXIR",
+    "ITEM_MAX_REPEL",
+    "ITEM_ULTRA_BALL"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_ALLEN",
+    "TRAINER_CYBIL",
+    "TRAINER_EDGAR",
+    "TRAINER_PHIL",
+    "TRAINER_VANCE",
+    "TRAINER_WILTON",
+    "TRAINER_ZACH"
+   ]
+  },
+  "Route45": {
+   "item": [
+    "ITEM_ELIXIR",
+    "ITEM_FULL_HEAL",
+    "ITEM_MAX_POTION",
+    "ITEM_NUGGET"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_ERIK",
+    "TRAINER_KELLY",
+    "TRAINER_KENJI",
+    "TRAINER_MICHAEL",
+    "TRAINER_PARRY",
+    "TRAINER_QUENTIN",
+    "TRAINER_RYAN",
+    "TRAINER_TIMOTHY"
+   ]
+  },
+  "Route46": {
+   "item": [
+    "ITEM_REVIVE"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "finditem",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_BAILEY",
+    "TRAINER_ERIN",
+    "TRAINER_TED"
+   ]
+  },
+  "Route47": {
+   "item": [
+    "ITEM_LUCKY_PUNCH",
+    "ITEM_PEARL",
+    "ITEM_REVIVE",
+    "ITEM_STARDUST",
+    "ITEM_WHITE_FLUTE"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "trainerbattle_double",
+    "trainerbattle_single",
+    "waitmoncry",
+    "waitse"
+   ],
+   "special": [
+    "GetPlayerBigGuyGirlString"
+   ],
+   "trainer": [
+    "TRAINER_DEVIN",
+    "TRAINER_DUFF_AND_EDA",
+    "TRAINER_GRANT",
+    "TRAINER_THOM_AND_KAE"
+   ]
+  },
+  "Route48": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "RuinsOfAlph_B1F": {
+   "item": [
+    "ITEM_DOME_FOSSIL",
+    "ITEM_GS_BALL",
+    "ITEM_HELIX_FOSSIL",
+    "ITEM_OLD_AMBER"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "release",
+    "setvar"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ]
+  },
+  "RuinsOfAlph_Lab": {
+   "item": [
+    "ITEM_CLAW_FOSSIL",
+    "ITEM_DOME_FOSSIL",
+    "ITEM_HELIX_FOSSIL",
+    "ITEM_OLD_AMBER",
+    "ITEM_ROOT_FOSSIL"
+   ],
+   "label": [
+    "Common_EventScript_GetGiftMonPartySlot",
+    "Common_EventScript_NameReceivedBoxMon",
+    "Common_EventScript_NameReceivedPartyMon",
+    "Common_EventScript_NoMoreRoomForPokemon",
+    "Common_EventScript_TransferredToPC",
+    "Common_Movement_Delay48",
+    "Common_Movement_ExclamationMark",
+    "RustboroCity_DevonCorp_2F_EventScript_SetFossilReady"
+   ],
+   "macro": [
+    "applymovement",
+    "bufferitemname",
+    "bufferspeciesname",
+    "byte",
+    "call",
+    "call_if_eq",
+    "call_if_set",
+    "call_if_unset",
+    "case",
+    "checkitem",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "givemon",
+    "goto",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "message",
+    "msgbox",
+    "multichoice",
+    "playfanfare",
+    "playse",
+    "release",
+    "removeitem",
+    "return",
+    "setflag",
+    "setvar",
+    "switch",
+    "waitfanfare",
+    "waitmessage",
+    "waitmovement"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "multi": [
+    "MULTI_B_PRESSED",
+    "MULTI_FOSSIL"
+   ],
+   "special": [
+    "IsNuzlockeNicknamingActive"
+   ]
+  },
+  "RuinsOfAlph_Outside": {
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "trainerbattle_single",
+    "waitmoncry",
+    "waitse"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_NATHAN",
+    "TRAINER_STAN"
+   ]
+  },
+  "RuinsOfAlph_PuzzleAndRewardChambers": {
+   "item": [
+    "ITEM_CHARCOAL",
+    "ITEM_ENERGY_POWDER",
+    "ITEM_ENERGY_ROOT",
+    "ITEM_HEAL_POWDER",
+    "ITEM_LUM_BERRY",
+    "ITEM_MAX_REVIVE",
+    "ITEM_MOON_STONE",
+    "ITEM_ORAN_BERRY",
+    "ITEM_PECHA_BERRY",
+    "ITEM_SACRED_ASH",
+    "ITEM_SITRUS_BERRY",
+    "ITEM_STARDUST",
+    "ITEM_STAR_PIECE",
+    "ITEM_WATER_STONE"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_set",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreen",
+    "finditem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setmetatile",
+    "setvar",
+    "step_end",
+    "waitstate",
+    "walk_in_place_fast_up",
+    "warphole"
+   ],
+   "map": [
+    "MAP_RUINS_OF_ALPH_B1F",
+    "MAP_SCRIPT_ON_LOAD"
+   ],
+   "special": [
+    "CheckAerodactyl",
+    "CheckHooh",
+    "CheckKabuto",
+    "CheckOmanyte",
+    "DoSlidingPuzzle",
+    "DrawWholeMapView",
+    "ShakeCamera",
+    "SpawnCameraObject"
+   ]
+  },
+  "RuinsOfAlph_WordsRoom1": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "RuinsOfAlph_WordsRoom2": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "RuinsOfAlph_WordsRoom3": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "RuinsOfAlph_WordsRoom4": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SSAqua_1F": {
+   "label": [
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "end",
+    "face_left",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "getplayerxy",
+    "goto_if_eq",
+    "goto_if_ge",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "removeobject",
+    "return",
+    "setflag",
+    "setvar",
+    "step_end",
+    "unlock_facing_direction",
+    "waitmovement",
+    "waitstate",
+    "walk_fast_down",
+    "walk_fast_right",
+    "warp"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_VERMILION_CITY_PORT_INSIDE"
+   ],
+   "special": [
+    "ShakeCamera"
+   ]
+  },
+  "SSAqua_B1F": {
+   "label": [
+    "Common_Movement_WalkDown1"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_lt",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmovement"
+   ],
+   "trainer": [
+    "TRAINER_DEBRA",
+    "TRAINER_FRITZ",
+    "TRAINER_GARRETT",
+    "TRAINER_JEFF",
+    "TRAINER_JONAH",
+    "TRAINER_KENNETH",
+    "TRAINER_NATE",
+    "TRAINER_RICKY",
+    "TRAINER_SHIRLEY",
+    "TRAINER_WAI"
+   ]
+  },
+  "SSAqua_CaptainsRoom": {
+   "label": [
+    "Common_Movement_QuestionMark"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreen",
+    "goto_if_eq",
+    "jump_in_place_right",
+    "lock",
+    "msgbox",
+    "playse",
+    "release",
+    "setflag",
+    "setvar",
+    "step_end",
+    "turnobject",
+    "waitmovement",
+    "warp"
+   ],
+   "map": [
+    "MAP_SSAQUA_ROOM_SSE"
+   ]
+  },
+  "SSAqua_PlayersRoom": {
+   "label": [
+    "Common_EventScript_OutOfCenterPartyHeal"
+   ],
+   "macro": [
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "goto_if_eq",
+    "lockall",
+    "msgbox",
+    "releaseall"
+   ],
+   "special": [
+    "IsPokecenterChallengeActivated"
+   ]
+  },
+  "SSAqua_RoomNE": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_ETHAN",
+    "TRAINER_NOLAND"
+   ]
+  },
+  "SSAqua_RoomNNE": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_CAROL",
+    "TRAINER_SEAN"
+   ]
+  },
+  "SSAqua_RoomNW": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "goto_if_ge",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playse",
+    "removeobject",
+    "setobjectxyperm",
+    "setvar",
+    "trainerbattle_no_intro",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "trainer": [
+    "TRAINER_COREY",
+    "TRAINER_EDWARD",
+    "TRAINER_STANLY"
+   ]
+  },
+  "SSAqua_RoomSE": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox",
+    "trainerbattle_double",
+    "trainerbattle_single"
+   ],
+   "special": [
+    "GetPlayerBigGuyGirlString"
+   ],
+   "trainer": [
+    "TRAINER_COLIN",
+    "TRAINER_MEG_AND_PEG"
+   ]
+  },
+  "SSAqua_RoomSSE": {
+   "item": [
+    "ITEM_METAL_COAT"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_ge",
+    "lock",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "playse",
+    "release",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "step_end",
+    "turnobject",
+    "waitmovement",
+    "walk_left",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "SSAqua_RoomSSW": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_KEN",
+    "TRAINER_LYLE"
+   ]
+  },
+  "SSAqua_RoomSW": {
+   "macro": [
+    "byte",
+    "end",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_CASSIE",
+    "TRAINER_CLYDE"
+   ]
+  },
+  "SafariZone1": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone2": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone3": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZoneGate": {
+   "macro": [
+    "ITEM_CALCIUM",
+    "ITEM_CARBOS",
+    "ITEM_HP_UP",
+    "ITEM_IRON",
+    "ITEM_LAX_INCENSE",
+    "ITEM_NONE",
+    "ITEM_PROTEIN",
+    "ITEM_SEA_INCENSE",
+    "ITEM_TM_HIDDEN_POWER",
+    "ITEM_TM_SECRET_POWER",
+    "ITEM_ZINC",
+    "align",
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_set",
+    "lock",
+    "message",
+    "msgbox",
+    "playmoncry",
+    "pokemart",
+    "release",
+    "setflag",
+    "setvar",
+    "waitmessage",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "SafariZoneGate_PokemonCenter": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setrespawn"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "SafariZoneGate_SafariZoneEntrance": {
+   "item": [
+    "ITEM_POKEBLOCK_CASE"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkUp1",
+    "VAR_0x8004"
+   ],
+   "macro": [
+    "addmoney",
+    "applymovement",
+    "baobacheckmon",
+    "byte",
+    "call",
+    "checkitem",
+    "checkmoney",
+    "clearflag",
+    "closemessage",
+    "copyvar",
+    "delay",
+    "end",
+    "faceplayer",
+    "getpartysize",
+    "giveitem",
+    "givemon",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ge",
+    "goto_if_ne",
+    "hidemoneybox",
+    "lock",
+    "lockall",
+    "map_script",
+    "map_script_2",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "playse",
+    "release",
+    "releaseall",
+    "removemoney",
+    "return",
+    "setflag",
+    "setvar",
+    "showmoneybox",
+    "step_end",
+    "turnobject",
+    "updatemoneybox",
+    "waitfanfare",
+    "waitmovement",
+    "waitstate",
+    "walk_down",
+    "walk_left",
+    "walk_right",
+    "walk_up",
+    "warp"
+   ],
+   "map": [
+    "MAP_SAFARI_ZONE_ENTERANCE",
+    "MAP_SCRIPT_ON_FRAME_TABLE"
+   ],
+   "special": [
+    "ChoosePartyMon",
+    "EnterSafariMode",
+    "ExitSafariMode",
+    "ScriptCheckFreePokemonStorageSpace"
+   ]
+  },
+  "SafariZoneIndoor": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Enterance": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Low_Left": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Low_Mid": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Low_Right": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Top_Left": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Top_Mid": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SafariZone_Top_Right": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "SlowpokeWell_B1F": {
+   "item": [
+    "ITEM_FULL_HEAL",
+    "ITEM_GREAT_BALL",
+    "ITEM_SUPER_POTION"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "faceplayer",
+    "fadescreen",
+    "finditem",
+    "lock",
+    "msgbox",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "turnobject",
+    "waitmovement",
+    "walk_left",
+    "walk_up",
+    "warp"
+   ],
+   "map": [
+    "MAP_AZALEA_TOWN_KURTS_HOUSE"
+   ],
+   "special": [
+    "DrawWholeMapView"
+   ],
+   "trainer": [
+    "TRAINER_ETO",
+    "TRAINER_GRUNT_21",
+    "TRAINER_GRUNT_22",
+    "TRAINER_PROTON_1"
+   ]
+  },
+  "SlowpokeWell_B2F": {
+   "item": [
+    "ITEM_KINGS_ROCK",
+    "ITEM_TM_RAIN_DANCE"
+   ],
+   "label": [
+    "Common_EventScript_BagIsFull"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "delay",
+    "delay_8",
+    "doweather",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "faceplayer",
+    "finditem",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "lock_facing_direction",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "setflag",
+    "setweather",
+    "step_end",
+    "unlock_facing_direction",
+    "waitmoncry",
+    "waitmovement",
+    "walk_fast_left",
+    "walk_fast_right",
+    "walk_in_place_fast_left",
+    "walk_in_place_fast_right"
+   ]
+  },
+  "SproutTower_1F": {
+   "item": [
+    "ITEM_PARALYZE_HEAL"
+   ],
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "finditem",
+    "lock",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_CHOW"
+   ]
+  },
+  "SproutTower_2F": {
+   "item": [
+    "ITEM_X_DEFEND"
+   ],
+   "label": [
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "trainerbattle_single"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_EDMOND",
+    "TRAINER_NICO"
+   ]
+  },
+  "SproutTower_3F": {
+   "item": [
+    "ITEM_ESCAPE_ROPE",
+    "ITEM_HM_FLASH",
+    "ITEM_POTION"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "fadescreen",
+    "finditem",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "waitmovement",
+    "walk_down",
+    "walk_fast_up",
+    "walk_right"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "DrawWholeMapView",
+    "SetTimeBasedEncounters"
+   ],
+   "trainer": [
+    "TRAINER_JIN",
+    "TRAINER_LI",
+    "TRAINER_NEAL",
+    "TRAINER_TROY"
+   ]
+  },
+  "TinTower_1F": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "lock",
+    "map_script",
+    "msgbox",
+    "release",
+    "setescapewarp"
+   ],
+   "map": [
+    "MAP_BELLCHIME_TRAIL",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_2F": {
+   "macro": [
+    "byte",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_3F": {
+   "item": [
+    "ITEM_BIG_NUGGET",
+    "ITEM_CARBOS",
+    "ITEM_ESCAPE_ROPE",
+    "ITEM_FULL_HEAL",
+    "ITEM_FULL_RESTORE",
+    "ITEM_MAX_ELIXIR",
+    "ITEM_MAX_POTION",
+    "ITEM_MAX_REVIVE",
+    "ITEM_RARE_CANDY",
+    "ITEM_ULTRA_BALL"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_4F": {
+   "macro": [
+    "byte",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_5F": {
+   "macro": [
+    "byte",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_6F": {
+   "macro": [
+    "byte",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_7F": {
+   "macro": [
+    "byte",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_8F": {
+   "macro": [
+    "byte",
+    "end",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "release",
+    "setdynamicwarp"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION",
+    "MAP_TIN_TOWER_ROOF_DAY",
+    "MAP_TIN_TOWER_ROOF_NIGHT"
+   ]
+  },
+  "TinTower_9F": {
+   "macro": [
+    "byte",
+    "map_script"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "TinTower_RoofDay": {
+   "macro": [
+    "applymovement",
+    "bufferspeciesname",
+    "byte",
+    "call_if_eq",
+    "call_if_set",
+    "call_if_unset",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_8",
+    "doweather",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "fadescreenswapbuffers",
+    "goto_if_eq",
+    "goto_if_unset",
+    "lockall",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "releaseall",
+    "removeobject",
+    "return",
+    "seteventmon",
+    "setflag",
+    "setmaplayoutindex",
+    "setobjectxyperm",
+    "setvar",
+    "setweather",
+    "step_end",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_in_place_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "BattleSetup_StartLegendaryBattle",
+    "GetBattleOutcome",
+    "LoopWingFlapSE",
+    "RemoveCameraObject",
+    "SpawnCameraObject"
+   ]
+  },
+  "TohjoFalls_Cavern": {
+   "item": [
+    "ITEM_HEART_SCALE"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem"
+   ]
+  },
+  "TohjoFalls_GiovanniRoom": {
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "Common_Movement_QuestionMark",
+    "Common_Movement_WalkDown1",
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1",
+    "Common_Movement_WalkUp1"
+   ],
+   "macro": [
+    "addobject",
+    "applymovement2",
+    "byte",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "end",
+    "face_down",
+    "fadedefaultbgm",
+    "fadescreen",
+    "goto",
+    "goto_if_eq",
+    "goto_if_ne",
+    "jump_in_place_up",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playse",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "trainerbattle_no_intro",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_in_place_down",
+    "walk_left",
+    "walk_slow_right",
+    "walk_slow_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "CheckCelebi"
+   ],
+   "trainer": [
+    "TRAINER_GIOVANNI"
+   ]
+  },
+  "UnionCave_1F": {
+   "item": [
+    "ITEM_AWAKENING",
+    "ITEM_GREAT_BALL",
+    "ITEM_POTION",
+    "ITEM_X_ATTACK"
+   ],
+   "label": [
+    "Common_Movement_WalkLeft1",
+    "Common_Movement_WalkRight1"
+   ],
+   "macro": [
+    "applymovement2",
+    "byte",
+    "closemessage",
+    "end",
+    "finditem",
+    "message",
+    "msgbox",
+    "trainerbattle_single",
+    "waitbuttonpress",
+    "waitmovement"
+   ],
+   "special": [
+    "RemoveCameraObject",
+    "SpawnCameraObject"
+   ],
+   "trainer": [
+    "TRAINER_BILL",
+    "TRAINER_DANIEL",
+    "TRAINER_LARRY",
+    "TRAINER_RAY",
+    "TRAINER_RUSSELL"
+   ]
+  },
+  "UnionCave_B1F": {
+   "item": [
+    "ITEM_TM_SECRET_POWER",
+    "ITEM_X_DEFEND"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem",
+    "msgbox",
+    "trainerbattle_single"
+   ],
+   "trainer": [
+    "TRAINER_ANDREW",
+    "TRAINER_CALVIN",
+    "TRAINER_LEONARD",
+    "TRAINER_PHILLIP"
+   ]
+  },
+  "UnionCave_B2F": {
+   "item": [
+    "ITEM_ETHER",
+    "ITEM_HYPER_POTION",
+    "ITEM_MAX_REVIVE"
+   ],
+   "macro": [
+    "byte",
+    "dowildbattle",
+    "end",
+    "faceplayer",
+    "fadescreenswapbuffers",
+    "finditem",
+    "goto_if_eq",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "removeobject",
+    "setflag",
+    "setwildbattle",
+    "trainerbattle_single",
+    "waitmoncry"
+   ],
+   "special": [
+    "GetBattleOutcome"
+   ],
+   "trainer": [
+    "TRAINER_EMMA",
+    "TRAINER_GWEN",
+    "TRAINER_NICK"
+   ]
+  },
+  "VioletCity": {
+   "item": [
+    "ITEM_HYPER_POTION",
+    "ITEM_PECHA_BERRY",
+    "ITEM_RARE_CANDY"
+   ],
+   "label": [
+    "Common_Movement_ExclamationMark",
+    "SetTimeBasedEncounters"
+   ],
+   "macro": [
+    "applymovement",
+    "byte",
+    "case",
+    "clearflag",
+    "closedoor",
+    "closemessage",
+    "delay",
+    "delay_8",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "faceplayer",
+    "fadedefaultbgm",
+    "finditem",
+    "goto",
+    "goto_if_eq",
+    "lock",
+    "lock_facing_direction",
+    "map_script",
+    "map_script_2",
+    "msgbox",
+    "opendoor",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "pokenavcall",
+    "release",
+    "removeobject",
+    "setflag",
+    "setvar",
+    "step_end",
+    "switch",
+    "turnobject",
+    "unlock_facing_direction",
+    "waitdooranim",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "walk_down",
+    "walk_fast_right",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_FRAME_TABLE",
+    "MAP_SCRIPT_ON_RESUME",
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "SetTimeBasedEncounters"
+   ]
+  },
+  "VioletCity_Gym": {
+   "item": [
+    "ITEM_TM_DOUBLE_TEAM"
+   ],
+   "label": [
+    "Common_EventScript_PlayGymBadgeFanfare",
+    "Common_EventScript_SetGymTrainers"
+   ],
+   "macro": [
+    "addvar",
+    "byte",
+    "call",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "giveitem",
+    "goto_if_set",
+    "lock",
+    "message",
+    "msgbox",
+    "release",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "trainerbattle_no_intro",
+    "trainerbattle_single",
+    "waitmessage"
+   ],
+   "trainer": [
+    "TRAINER_ABE",
+    "TRAINER_FALKNER_1",
+    "TRAINER_ROD"
+   ]
+  },
+  "VioletCity_House1": {
+   "label": [
+    "VAR_0x8004",
+    "VAR_0x8009"
+   ],
+   "macro": [
+    "bufferspeciesname",
+    "byte",
+    "closemessage",
+    "copyvar",
+    "end",
+    "faceplayer",
+    "goto_if_eq",
+    "goto_if_ne",
+    "goto_if_set",
+    "lock",
+    "msgbox",
+    "release",
+    "setflag",
+    "setvar",
+    "waitstate"
+   ],
+   "special": [
+    "ChoosePartyMon",
+    "CreateInGameTradePokemon",
+    "DoInGameTradeScene",
+    "GetInGameTradeSpeciesInfo",
+    "GetTradeSpecies"
+   ],
+   "trade": [
+    "INGAME_TRADE_ONIX"
+   ]
+  },
+  "VioletCity_House2": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "playmoncry",
+    "release",
+    "waitmoncry",
+    "waitse"
+   ]
+  },
+  "VioletCity_Mart": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "message",
+    "msgbox",
+    "pokemart",
+    "release",
+    "waitmessage"
+   ]
+  },
+  "VioletCity_PokemonCenter": {
+   "item": [
+    "ITEM_EXP_SHARE_SMALL"
+   ],
+   "macro": [
+    "byte",
+    "clearflag",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "getpartysize",
+    "giveegg",
+    "giveitem",
+    "goto_if_eq",
+    "goto_if_set",
+    "lock",
+    "map_script",
+    "message",
+    "msgbox",
+    "playfanfare",
+    "release",
+    "setflag",
+    "setrespawn",
+    "setvar",
+    "waitfanfare"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ]
+  },
+  "VioletCity_TrainerSchool": {
+   "macro": [
+    "byte",
+    "closemessage",
+    "end",
+    "faceplayer",
+    "lock",
+    "msgbox",
+    "release"
+   ]
+  },
+  "WhirlIslands_1F": {
+   "item": [
+    "ITEM_FULL_RESTORE",
+    "ITEM_GUARD_SPEC",
+    "ITEM_RARE_CANDY",
+    "ITEM_ULTRA_BALL"
+   ],
+   "macro": [
+    "byte",
+    "end",
+    "finditem"
+   ]
+  },
+  "WhirlIslands_B1F": {
+   "item": [
+    "ITEM_BIG_NUGGET",
+    "ITEM_CALCIUM",
+    "ITEM_CARBOS",
+    "ITEM_ESCAPE_ROPE",
+    "ITEM_FULL_RESTORE"
+   ],
+   "macro": [
+    "byte",
+    "doweather",
+    "end",
+    "finditem",
+    "setweather"
+   ]
+  },
+  "WhirlIslands_B1F_Inner": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "WhirlIslands_B2F": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "WhirlIslands_B3F": {
+   "macro": [
+    "byte"
+   ]
+  },
+  "WhirlIslands_Descent": {
+   "item": [
+    "ITEM_FULL_RESTORE",
+    "ITEM_MAX_REVIVE",
+    "ITEM_PP_MAX"
+   ],
+   "macro": [
+    "byte",
+    "doweather",
+    "end",
+    "finditem",
+    "setweather"
+   ]
+  },
+  "WhirlIslands_LugiaChamber": {
+   "macro": [
+    "applymovement",
+    "bufferspeciesname",
+    "byte",
+    "call_if_eq",
+    "clearflag",
+    "closemessage",
+    "delay",
+    "delay_16",
+    "delay_8",
+    "doweather",
+    "end",
+    "face_down",
+    "face_left",
+    "face_right",
+    "face_up",
+    "fadescreenswapbuffers",
+    "goto_if_eq",
+    "goto_if_unset",
+    "lockall",
+    "map_script",
+    "msgbox",
+    "playbgm",
+    "playmoncry",
+    "playse",
+    "releaseall",
+    "removeobject",
+    "return",
+    "seteventmon",
+    "setflag",
+    "setobjectmovementtype",
+    "setobjectxyperm",
+    "setvar",
+    "setweather",
+    "step_end",
+    "waitmessage",
+    "waitmoncry",
+    "waitmovement",
+    "waitse",
+    "waitstate",
+    "walk_down",
+    "walk_in_place_down",
+    "walk_left",
+    "walk_right",
+    "walk_up"
+   ],
+   "map": [
+    "MAP_SCRIPT_ON_TRANSITION"
+   ],
+   "special": [
+    "BattleSetup_StartLegendaryBattle",
+    "GetBattleOutcome",
+    "LoopWingFlapSE",
+    "RemoveCameraObject",
+    "SpawnCameraObject"
+   ]
+  }
+ }
+}

@@ -1,0 +1,37 @@
+# Known differences between a name in a ported Johto script and the same name in pokemonHnS.
+# kind	name (fnmatch pattern)	why the difference is right here
+trade	INGAME_TRADE_MR_MIME	pending #690: Emy trades INGAME_TRADE_MR_MIME_EMY; this row goes stale when it lands
+ctype	EASY_CHAT_TYPE_INTERVIEW	pending #690: the Odd Egg question uses EASY_CHAT_TYPE_ODD_EGG; this row goes stale when it lands
+trainer	TRAINER_RIVAL_*_[234]	the Johto rival is GARY here, not a player-named Silver (82e2b52ff6, #8)
+trainer	TRAINER_RIVAL_*_7	johto_compat_ids.h points the daily rematch at TRAINER_RIVAL_INDIGO_* parties
+trainer	TRAINER_CARRIE	party choice: Chansey for HnS's Happiny, same trainer
+item	ITEM_HM_WHIRLPOOL	deliberate: Lance gives HM08 Dive and his text says so (johto_compat_ids.h)
+item	ITEM_X_DEFEND	the same item: an enum alias of ITEM_X_DEFENSE, renamed in Gen VI
+multi	MULTI_7FLOORS	HnS's "Floor 0" is the basement; this list says B1F
+multi	MULTI_PRIZE_MONS	Wobbuffet replaces Munchlax, and the script's third case gives Wobbuffet
+special	GetSelectedMonNicknameAndSpecies	HnS read the party cursor; ChooseSendDaycareMon puts the same slot in VAR_0x8004, which the script checks
+special	StoreSelectedPokemonInDaycare	HnS read the party cursor; ChooseSendDaycareMon puts the same slot in VAR_0x8004, which the script checks
+macro	applymovement2	HnS's variant kept the follower out; here it is applymovement (cosmetic)
+macro	copyvar	the same command with an assembler warning for non-VAR arguments
+macro	waitstate	the same command with an optional implicit-wait flag
+macro	givemon	the expansion's long form; species, level and item keep their positions
+macro	setwildbattle	the expansion's form adds an optional second species for doubles; the first three keep their positions
+macro	baobacheckmon	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	buffermoncategory	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	checkrandomizer	HnS randomizer check; the randomizer is not ported, the callnative is a stub
+macro	givenamedmon	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	giveoddegg	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	remove5mons	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	removegenericmon	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	removenamedmon	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+macro	setwildbattleshiny	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
+label	BugContestEventScript_Judging	the Bug-Catching Contest was rebuilt in src/bug_contest.c; its scripts follow it
+label	BugContest_EventScript_TimesUp	the Bug-Catching Contest was rebuilt in src/bug_contest.c; its scripts follow it
+label	Common_EventScript_NameReceivedBoxMon	this tree's version: ChangePokemonNickname takes a PC slot through VAR_0x8004
+label	Common_EventScript_NameReceivedPartyMon	this tree's shared script, which every region calls; HnS added a waitstate
+label	MoveTutor_EventScript_OpenPartyMenu	this tree's shared script, which every region calls; HnS added a waitstate
+label	PlayersHouse_2F_EventScript_SetWallClock	this tree's own script; HnS added a waitstate
+label	Common_EventScript_TransferredToPC	this tree's own script builds the PC message natively
+label	PlayersHouse_1F_EventScript_MomHealsParty	HnS's Pokemon Center challenge mode is not ported
+label	Common_Movement_JumpDown1	johto_compat.h aliases it to a walk (cosmetic, Azalea Gym)
+label	Common_Movement_JumpUp1	johto_compat.h aliases it to a walk (cosmetic, Azalea Gym)

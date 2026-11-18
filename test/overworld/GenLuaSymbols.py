@@ -245,6 +245,8 @@ WANT = [
     # still holds it" without stepping the player. sOWESpawnCountdown is zeroed to spawn an
     # encounter now; the debug Give Egg task's input is where the suite writes the species.
     "sLockFieldControls", "sOWESpawnCountdown", "DebugAction_Give_Pokemon_SelectId",
+    # lib.lua's warpTo types its spinner keys only once the debug menu's input task is live.
+    "DebugTask_HandleMenuInput_General",
     # RegisteredItemDecline.lua: the `lock` wait that a frozen, mid-animation follower never ends.
     "Task_FreezeSelectedObjectAndPlayer",
     # WhiteoutEveryCenter.lua walks the heal-location table and its parallel whiteout respawn
@@ -491,6 +493,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   Thumb pointer, so compare it to a symbol
                                                             --   address with the low bit masked off.
   ScriptCtx    = { scriptPtr = 8 },                         -- struct ScriptContext
+  PlayerAvatar = { tileTransitionState = 3 },               -- struct PlayerAvatar, global.fieldmap.h;
+                                                            --   0 (T_NOT_MOVING) between steps.
   Hours        = { MORNING_BEGIN = 6, MORNING_END = 10, DAY_BEGIN = 10, DAY_END = 19,
                    EVENING_BEGIN = 19, EVENING_END = 20, NIGHT_BEGIN = 20, NIGHT_END = 6 },
                                                             -- OW_TIMES_OF_DAY = GEN_LATEST. Only TIME_NIGHT

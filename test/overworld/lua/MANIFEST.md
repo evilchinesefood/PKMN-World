@@ -1429,6 +1429,14 @@ lowered to 5 (at met level 100 it disobeys and naps through every battle). `PW_F
 `PW_FUZZ_ACTIONS` reseed and lengthen it (pass them with `--env`). Seed 777 found the Start menu
 sprite exhaustion pinned by `StartMenuSpriteLoad`.
 
+Seed 31337 (stress pass 8) failed all six Route 40 warps, a harness fault. The last Route 41 action
+handed back control while the player was still finishing a step, so R+Start opened nothing, and
+`F.warpTo` typed its spinner keys into the field: the player surfed onto the beach, walked, and
+accepted a Surf prompt, and each later attempt's R+Start landed inside that Surf mount. Each mount
+and dismount handed control back, so a player is never stranded there. `F.warpTo` now waits for a
+standing player and types only into an open debug menu. Seeds 31337, 9101, 271828 and the default
+measured 18/18 each on ROM 755E3B58, where seed 31337 was 13/15 before.
+
 ### `DoubleKoWhiteout.lua`
 
 Battles that end with both sides down, with one Pokemon in front of two Eggs, at Instant text and

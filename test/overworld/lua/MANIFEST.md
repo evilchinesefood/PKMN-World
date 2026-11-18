@@ -3992,3 +3992,18 @@ B, L, R, Select and the D-pad (no A), and then the last move is taught with A in
 it must replace the first slot at full PP, leave the other three alone and spend one Heart Scale,
 and the field must come back. Measured **24/24**; no defect found. Against the parent of ce646ce30b
 it scores **18/24**: both lists stop at 20 moves, so Psycho Cut and Detect are never offered. `PW_RELEARN_ONLY` and `PW_RELEARN_SEED` select cases and reseed the mash.
+
+### `SkyCharmLeagueGate.lua`
+
+The Hoenn League's door guards checked only the Feather Badge. Emerald could rely on the map for the
+rest: Ever Grande sits above a waterfall that needs the Rain Badge, and Juan's gym needs Dive, which
+needs the Mind Badge. The Sky Charm needs only the Feather Badge in Hoenn and flies over the waterfall,
+so a six-badge player could land at the League door and walk in. Once that player is champion, Tate
+and Liza hand over Calm Mind and offer only rematches, so the Mind Badge, the Space Center scene,
+Steven's Dive and the rest of Hoenn's story are gone for good. With Hoenn badges 1 to 6 and the Sky
+Charm registered, the suite takes off in Mossdeep, flies south through Route 127 into Route 128 and
+east into Ever Grande below the waterfall, lands at (18,6) in front of the League, walks in and talks
+to the left guard from (9,3); then it adds badges 7 and 8 and talks again. **Oracle:** the six-badge
+talk leaves `FLAG_ENTERED_ELITE_FOUR` clear and both guards on (9,2)/(10,2); the eight-badge talk sets
+the flag and moves them aside. **Discrimination:** unfixed 14/16 (admitted at six badges, guards on
+(8,2)/(11,2), so the eight-badge talk finds no guard in front), fixed 16/16.

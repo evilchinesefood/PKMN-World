@@ -311,9 +311,9 @@ Route110_TrickHouseEnd_Text_DefeatedMePreferWhichTent:
 	.string "But that has nothing to do with my\n"
 	.string "losing!\p"
 	.string "In recognition of the friendship\n"
-	.string "between you, the driven, and the genius\l"
-	.string "that is myself, I demand that you take\l"
-	.string "this keepsake!\p"
+	.string "between you, the driven, and the\l"
+	.string "genius that is myself, I demand that\l"
+	.string "you take this keepsake!\p"
 	.string "Actually there are two--\n"
 	.string "a RED TENT and a BLUE TENT.\l"
 	.string "Which do you prefer?$"
@@ -344,7 +344,7 @@ Route110_TrickHouseEnd_Text_NoRoomForThis:
 
 Route110_TrickHouseEnd_Text_MakeNewTricksToStumpYou:
 	.string "Scrub that smug smirk from your face!\n"
-	.string "It's much too early to think you've won!\p"
+	.string "It's far too early to think you've won!\p"
 	.string "I'll make new tricks to stump you, I will.\n"
 	.string "You may mock me only when you're done.\p"
 	.string "Come back for the next exciting\n"

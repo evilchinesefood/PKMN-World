@@ -570,7 +570,7 @@ BattleFrontier_BattleArenaBattleRoom_Text_IsThatRight:
 
 BattleFrontier_BattleArenaBattleRoom_Text_YouLookWeakTakeThingsEasy:
 	.string "I don't know how to say it, but…\n"
-	.string "To put it bluntly, you look pretty weak.\l"
+	.string "To put it bluntly, you look quite weak.\l"
 	.string "Are you sure you're up for me?\p"
 	.string "Hmm…\p"
 	.string "Well, all right!\n"

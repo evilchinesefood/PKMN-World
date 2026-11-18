@@ -1940,8 +1940,8 @@ Route114_Text_TyraPostBattle:
 
 Route114_Text_TyraNotEnoughMons:
 	.string "TYRA: Giggle…\n"
-	.string "If you want to battle with us, just one\l"
-	.string "POKéMON isn't enough!$"
+	.string "If you want to battle with us, just\l"
+	.string "one POKéMON isn't enough!$"
 
 Route114_Text_IvyIntro:
 	.string "IVY: Who taught you about POKéMON?$"
@@ -2810,7 +2810,7 @@ Route119_Text_CatherinePostBattle:
 
 Route119_Text_CatherineRegister:
 	.string "Do you have a POKéNAV?\n"
-	.string "It's a must-have tool for any TRAINER.\p"
+	.string "It's a must-have for any TRAINER.\p"
 	.string "Oh, you do have one!\n"
 	.string "Let's register each other, then!$"
 
@@ -4432,8 +4432,8 @@ Route131_Text_ReliDefeat:
 
 Route131_Text_ReliPostBattle:
 	.string "RELI: The people of PACIFIDLOG are\n"
-	.string "together with the sea and POKéMON from\l"
-	.string "the time they are born.$"
+	.string "together with the sea and POKéMON\l"
+	.string "from the time they are born.$"
 
 Route131_Text_ReliNotEnoughMons:
 	.string "RELI: You don't have two POKéMON?\n"

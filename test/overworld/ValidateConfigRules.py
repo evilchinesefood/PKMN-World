@@ -399,6 +399,27 @@ def check_relearner_result_vars(ctx):
     return out
 
 
+NICKNAME_SLOT = re.compile(r"^\s*(setvar|copyvar)\s+VAR_0x8004\b|^\s*call\s+Common_EventScript_GetGiftMonPartySlot\b", re.M)
+
+
+def check_nickname_target(ctx):
+    """A script that opens the nickname screen itself must first say whose name it is.
+
+    ChangePokemonNickname renames the party slot in VAR_0x8004, or the PC slot the last deposit
+    recorded when VAR_0x8004 is PC_MON_CHOSEN. FRLG named a boxed gift with ChangeBoxPokemonNickname,
+    which needed neither, so a ported PC branch that kept only the special renamed whatever VAR_0x8004
+    last held: a party Pokemon, or memory past gParties, while the gift kept its name.
+    """
+    out = []
+    for name, lab in ctx.corpus.labels.items():
+        body = "\n".join(re.split(r"@|//", ln)[0] for ln in lab.body.split("\n") if ".string" not in ln)
+        m = re.search(r"^\s*special\s+ChangePokemonNickname\b", body, re.M)
+        if m and name != "Common_EventScript_NameReceivedPartyMon" and not NICKNAME_SLOT.search(body[:m.start()]):
+            out.append(Finding("nickname target", f"{lab.path}:{name}",
+                               "opens the nickname screen without setting VAR_0x8004 (a party slot or PC_MON_CHOSEN)"))
+    return out
+
+
 def obedience_table():
     src = read("src/battle_util.c")
     body = src[src.index("GetAttackerObedienceForAction(void)"):]
@@ -531,6 +552,10 @@ RULES = [
          "the relearner reports a lesson in VAR_RESULT and leaves VAR_0x8004 as the chosen slot",
          "Emerald and FRLG zeroed VAR_0x8004 on a give-up and counted relearnable moves in VAR_0x8005",
          check_relearner_result_vars),
+    Rule("nickname target", "ChangePokemonNickname in src/tv.c", lambda c: True,
+         "the nickname screen renames the slot VAR_0x8004 names, PC_MON_CHOSEN for a boxed gift",
+         "FRLG named a boxed gift with ChangeBoxPokemonNickname, which read the deposit slot itself",
+         check_nickname_target),
     Rule("sellable item taken without checkitem", "I_KEY_FOSSILS", lambda c: c.value("I_KEY_FOSSILS") >= GENS["GEN_4"],
          "fossils are Items-pocket goods a mart buys", "fossils are Key Items that never leave the bag",
          check_sellable_removed_unchecked),

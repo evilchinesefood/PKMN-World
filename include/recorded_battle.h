@@ -66,6 +66,7 @@ void RecordedBattle_SetMove(enum BattlerId battler, u8 moveSlot, u8 target);
 u16 RecordedBattle_GetMove(enum BattlerId battler);
 bool32 RecordedBattle_UsesLegacyPalaceMoves(void);
 bool32 RecordedBattle_IsFrontierPlayback(void);
+bool32 RecordedBattle_IsFrontierRecording(void);
 bool32 RecordedBattle_IsIncomplete(void);
 void RecordedBattle_SetBattlerAction(enum BattlerId battler, u8 action);
 void RecordedBattle_ClearBattlerAction(enum BattlerId battler, u8 bytesToClear);

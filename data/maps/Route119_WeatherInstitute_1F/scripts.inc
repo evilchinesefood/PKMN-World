@@ -93,7 +93,7 @@ Route119_WeatherInstitute_1F_Text_Grunt4Defeat:
 
 Route119_WeatherInstitute_1F_Text_Grunt4PostBattle:
 	.string "Oh, no…\n"
-	.string "I'll catch an earful for losing to a kid…\p"
+	.string "I'll get an earful for losing to a kid…\p"
 	.string "I should just take a nap in the bed…$"
 
 Route119_WeatherInstitute_1F_Text_EveryoneWentUpstairs:

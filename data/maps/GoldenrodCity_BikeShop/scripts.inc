@@ -65,10 +65,9 @@ GoldenrodCity_BikeShop_Text_BorrowedBicycle:
 
 GoldenrodCity_BikeShop_Text_Mainshop:
 	.string "Business has been hard to come\n"
-	.string "by since we moved from KANTO.\l"
-	.string "We appreciate your help!\p"
-	.string "Take our MACH BIKE for a spin!\n"
-	.string "Let folks see how fast it goes!$"
+	.string "by since we moved from KANTO.\p"
+	.string "Every BIKE out on the road helps!\n"
+	.string "Ride yours where folks can see!$"
 
 GoldenrodCity_BikeShop_Text_Refused:
     .string "…sigh… Oh, for the kindness of\n"

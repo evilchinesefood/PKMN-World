@@ -1279,6 +1279,7 @@ gStdScripts_End::
 	.include "data/maps/JohtoVictoryRoad_B2F/scripts.inc"
 	.include "data/maps/JohtoIndigoPlateau/scripts.inc"
 	.include "data/maps/JohtoIndigoPlateau_PokemonCenter/scripts.inc"
+	.include "data/maps/JohtoRoute23/scripts.inc"
 	.include "data/maps/JohtoPokemonLeague_WillsRoom/scripts.inc"
 	.include "data/maps/JohtoPokemonLeague_KogasRoom/scripts.inc"
 	.include "data/maps/JohtoPokemonLeague_BrunosRoom/scripts.inc"
@@ -1909,8 +1910,8 @@ gText_PokerusExplanation::
 	.string "Your POKéMON may be infected with\n"
 	.string "POKéRUS.\p"
 	.string "Little is known about the POKéRUS\n"
-	.string "except that they are microscopic life-\l"
-	.string "forms that attach to POKéMON.\p"
+	.string "except that they are microscopic\l"
+	.string "life-forms that attach to POKéMON.\p"
 	.string "While infected, POKéMON are said to\n"
 	.string "grow exceptionally well.$"
 

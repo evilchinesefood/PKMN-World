@@ -349,8 +349,8 @@ BattleFrontier_ReceptionGate_Text_BattleTowerInfo:
 	.string "It is the gigantic tower considered\n"
 	.string "to be the BATTLE FRONTIER's symbol.\p"
 	.string "There are four kinds of BATTLE ROOMS\n"
-	.string "in the tower for SINGLE, DOUBLE, MULTI,\l"
-	.string "and LINK MULTI BATTLES.$"
+	.string "in the tower for SINGLE, DOUBLE,\l"
+	.string "MULTI, and LINK MULTI BATTLES.$"
 
 BattleFrontier_ReceptionGate_Text_BattleDomeInfo:
 	.string "The BATTLE DOME is the large building\n"
@@ -408,14 +408,14 @@ BattleFrontier_ReceptionGate_Text_ExchangeCornerInfo:
 	.string "The EXCHANGE SERVICE CORNER is near\n"
 	.string "the BATTLE TOWER.\p"
 	.string "The Battle Points you have earned in\n"
-	.string "the BATTLE FRONTIER may be exchanged\l"
-	.string "for fabulous prizes there.$"
+	.string "the BATTLE FRONTIER may be\l"
+	.string "exchanged for fabulous prizes there.$"
 
 BattleFrontier_ReceptionGate_Text_YourGuideToRules:
 	.string "I'm your guide to the basic rules that\n"
 	.string "are common to all the challenges\l"
-	.string "offered by the facilities in the BATTLE\l"
-	.string "FRONTIER.$"
+	.string "offered by the facilities in the\l"
+	.string "BATTLE FRONTIER.$"
 
 BattleFrontier_ReceptionGate_Text_LearnAboutWhat:
 	.string "What would you like to learn about?$"
@@ -478,8 +478,8 @@ BattleFrontier_ReceptionGate_Text_SymbolsInfo:
 	.string "their abilities may be rewarded with\l"
 	.string "symbols from each of the facilities.\p"
 	.string "To earn a symbol, TRAINERS may need\n"
-	.string "to defeat other TRAINERS in a row,\l"
-	.string "and may need to win events repeatedly.\p"
+	.string "to defeat other TRAINERS in a row, and\l"
+	.string "may need to win events repeatedly.\p"
 	.string "It's certainly not easy to win symbols.\n"
 	.string "I wish you the best of luck!$"
 

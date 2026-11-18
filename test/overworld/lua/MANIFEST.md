@@ -152,6 +152,14 @@ is clean; keep it that way.
 | [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
 | [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
 | [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
+| [`TextWidthTour.lua`](#textwidthtourlua) | fresh new game | One fixed-input pass over 211 screenshots of the screens that centre or size text with `GetStringWidth`, for pixel-diffing two builds; the BW battle action labels (normal, Hoenn Safari, Kanto Safari) are centred in their buttons. |
+| [`AlphSlidingPuzzleMash.lua`](#alphslidingpuzzlemashlua) | fresh new game | Seeded mashes on all four Ruins of Alph sliding puzzles keep every board invariant; B beats A on one frame; a final placement with A and L leaves the cursor upright and the board solved. |
+| [`RevisedHintLines.lua`](#revisedhintlineslua) | fresh new game | The six rewritten NPC and sign lines (Elm, both Goldenrod bike clerks, the 2F youngster, the Radio Tower quiz, the Pallet notice, the Six Island old man) through their real triggers, with the bike gift's refuse, bag-full and accept branches. |
+| [`HatchMetLocation.lua`](#hatchmetlocationlua) | fresh new game | Eggs hatched in Ecruteak and in four Johto sections at or past 0xFD record the right met location, summary memo and Protein friendship bonus; no bonus for a special area, even in the Hub 2F; gifts there read SPECIAL AREA; an OT that is a prefix of a seven-letter player name is an outsider (EXP, obedience, memo). |
+| [`RelearnerLongLearnset.lua`](#relearnerlonglearnsetlua) | fresh new game | Fallarbor's relearner lists all 29 of Gallade's and 24 of Zangoose's relearnable moves, scrolls to both ends, survives a mash and teaches the last one into a full moveset. |
+| [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Fourteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
+| [`BattleNetShardEdges.lua`](#battlenetshardedgeslua) | fresh new game | The Battle Net BP clerk, stone vendor and Director at short, exact and full-pocket balances, and menu mashes that must conserve BP and shards. |
+| [`IndigoVictoryRoadExits.lua`](#indigovictoryroadexitslua) | fresh new game | Victory Road's top exit and the league town above it join both ways on foot in Johto, Kanto and Hoenn; the Johto Indigo Plateau's south stairs lead down Route 23 to the cave mouth. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -171,12 +179,13 @@ is clean; keep it that way.
 | [`DroughtNightTint.lua`](#droughtnighttintlua) | fresh new game | Drought keeps the day/night tint: Sootopolis's abnormal weather at 22:30 is darker than at 14:30 at every drought stage, and the drought fade-in never outshines the settled night palette. |
 | [`HubPassReCross.lua`](#hubpassrecrosslua) | fresh new game | The Hoenn hub gate seeds Littleroot ONCE on **both** gender branches; re-crossing does not rewind; `hoennIntroDone` only latches arrival narration, while the Stone Badge alone unlocks Slateport. |
 | [`HoennHofHome.lua`](#hoennhofhomelua) | fresh new game | After the Hoenn Hall of Fame, Continue lands outside Brendan's or May's own door; Birch's scene, Mom calling the champion home once, then the S.S. Ticket scene from the front door, the stairs or a whiteout, never in the rival's house. |
+| [`MomCallFromRoute101.lua`](#momcallfromroute101lua) | fresh new game | After the first Hoenn Hall of Fame, a champion who leaves the lab some other way and walks back in from Route 101 still gets Mom's call: she appears once at their own door, the current map stays Littleroot and the camera inside it, and the camera ends on the player. |
 | [`HofCreditsMash.lua`](#hofcreditsmashlua) | fresh new game | The Hall of Fame in all three regions mashed to the title (no credits roll by design), Continue lands on each region's respawn with control, and soft resets during the Hoenn ceremony's save. |
 | [`FrontEndSoftReset.lua`](#frontendsoftresetlua) | fresh boot | A+B+Start+Select on the copyright screen, intro, title, main menu, new-game speech, gender choice, naming screen, field and between CONTINUE and the field; every Continue lands on the saved tile. |
 | [`MapPopupStress.lua`](#mappopupstresslua) | fresh new game | Gen 8 map-name pop-ups thrashed across seams in all three regions, a door warp mid pop-up and pop-ups over rain, thunder and ash; the window registers return to the field's. |
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
-| [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map, crosses a map seam while on screen, and the grass grows back after leaving and returning. |
+| [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
 | [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
 | [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
 | [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
@@ -1429,6 +1438,14 @@ lowered to 5 (at met level 100 it disobeys and naps through every battle). `PW_F
 `PW_FUZZ_ACTIONS` reseed and lengthen it (pass them with `--env`). Seed 777 found the Start menu
 sprite exhaustion pinned by `StartMenuSpriteLoad`.
 
+Seed 31337 (stress pass 8) failed all six Route 40 warps, a harness fault. The last Route 41 action
+handed back control while the player was still finishing a step, so R+Start opened nothing, and
+`F.warpTo` typed its spinner keys into the field: the player surfed onto the beach, walked, and
+accepted a Surf prompt, and each later attempt's R+Start landed inside that Surf mount. Each mount
+and dismount handed control back, so a player is never stranded there. `F.warpTo` now waits for a
+standing player and types only into an open debug menu. Seeds 31337, 9101, 271828 and the default
+measured 18/18 each on ROM 755E3B58, where seed 31337 was 13/15 before.
+
 ### `DoubleKoWhiteout.lua`
 
 Battles that end with both sides down, with one Pokemon in front of two Eggs, at Instant text and
@@ -1530,6 +1547,29 @@ a mash committed a move, or the mash spent all 15,000 frames in the Bag, party a
 the lead's attacking stats are now held at 1, and after 8,000 frames without a defeat the battle
 keys back out and forfeit. Both scenarios now pass on the integ2 and integ3 builds at the default
 base and at `PW_SPAM_BASE` 1 to 4.
+
+Hub Pass at Mid text (stress pass 8). "The mash reached the hub" failed at Mid text with either
+gender, alone or in the battery, and passed at Slow, Fast and Instant. The arming pressed Select,
+A, A and Up on fixed frame counts, and at Mid text all of them landed while the confirm was still
+printing, so the Yes/No came up on its default NO. Over 3,000 frames the mash fired the pass 12
+times and answered every Yes/No with A or B within five frames, always NO, and control came back
+each time. The pass was never refused, used up or unregistered, and a NO default is the intended
+guard against a mashed one-way warp. The arming now presses A until the Yes/No task is live,
+checks that Up put the cursor on YES, and confirms; the mash rides the announcement, the warp and
+the arrival. The suite also refuses a `PW_SPAM_*` number that does not parse, `PW_SPAM_SEED`
+without `PW_SPAM_LOAD`, and a `PW_SPAM_SAVE` directory it cannot write. The reseed that found this
+passed `PW_SPAM_SEED`, which only the replay path reads, so its three seeds were one run. Its
+"alone" runs passed `PW_SPAM_GENDER=1 PW_SPAM_TEXT=1` as one value, so they ran as the boy at
+Instant.
+
+A real reseed (the girl at Mid text, `PW_SPAM_BASE` 9101, 31337 and 271828) then missed two more
+goal checks, both harness. At base 271828 the Dig arming left the cursor on Dig, but the mash's
+first key was Down, and its A picked Flash ("Can't use that here.") and then Ivysaur's Cut; the
+arming now checks the cursor and confirms Dig itself. At base 9101 the whiteout's forfeit keys ran
+an identical 360-frame loop 13 times: A on POKéMON, the party screen, back out, A on POKéMON again.
+Each trip took 15 keys, and the action menu's key was picked by count, so it came round to A every
+time. The battle keys now steer the action menu and the Yes/No by their cursors, as
+`LanceMultiOutcome` does.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after
@@ -1555,7 +1595,11 @@ candy with four moves and every prompt accepted (both offered, in order), one ca
 prompt cancelled with B (both offered, old moveset untouched), and three candies from level 13
 that cross 15 and evolve into Ivysaur at 16 (both learned, three candies spent). Before the fix
 the step moved to the next level after any learned move, so Sleep Powder was never offered:
-**16/22** on the unfixed ROM, **22/22** with the fix.
+**16/22** on the unfixed ROM, **22/22** with the fix. A fifth case uses eight candies at once on a
+level 40 Cradily with four moves and accepts every prompt: the jump crosses level 43, which teaches
+three moves, and level 48, so Stockpile, Spit Up, Swallow and Energy Ball must be offered in that
+order, Energy Ball must end in the first slot and the other three moves must be untouched (5/5, no
+defect found).
 ### `BagGiveOverMail.lua`
 
 Giving an item from the Bag to a Pokemon that holds Mail must be refused, as the party menu's
@@ -2343,6 +2387,24 @@ frame loads it with the "previous save loaded" status, and only the completed wr
 save. The registered default samples every third frame plus the frame after the write and scores
 **198/198**. No defect found.
 
+### `SaveResetStress.lua`
+
+A save interrupted by a reset must load as the old save or the new one. Each round marks the money
+and the lead's nickname, saves from the Start menu and resets at a chosen moment: a power cut on
+frames spread over the measured flash write (253 frames), the soft reset at the save prompt, during
+the write, in the hub after a save, during a warp's fade, mid gate crossing (the party already
+boxed) and after a battle. The reboot continues the file and compares money, party bytes and
+location against the two snapshots the round straddles.
+
+The soft reset during the write used to press A+B+Start+Select for 20 frames from the write's
+first frame. The Start-menu save writes every sector inside one pass of the main loop, which reads
+the keys only after the write returns, so that chord was released before it could be seen: a probe
+on the eighth pass measured no reset at all (`vblankCounter1` never fell, the game went on to
+"saved the game"), and the check passed because the session that made the save was still running.
+The round now presses the chord on ten frames spread over the write and holds it until
+`vblankCounter1` falls, and requires that the reset landed, that it landed after the write's last
+frame and that the new file loads. Every reset landed 264 or 265 frames after the write began.
+Measured **149/149**; no defect found.
 ### `HubWardrobeSprite.lua`
 
 The World Transit wardrobe (`OBJ_EVENT_GFX_WARDROBE`, local id 15 at (7,7)) drew only its shadow.
@@ -2842,6 +2904,24 @@ cracked ice metatiles and the `VAR_TEMP_8`..`A` ice rows must come back, and the
 on: off the bridge both ways but not down into the river, riding across and dismounting, and onto
 the next ice tile. Measured **57/57**; no defect found. `--env PW_OSS_ONLY=<text>` runs matching
 cases.
+
+The eighth stress pass added the region (`gCurrentRegion`) to every comparison and nine more
+cases, each reached the same way. **Ledge landing** (Route 2, soft reset): Start is pressed from
+the frame the player lands below the ledge, so the save holds the Lapras follower still on the
+ledge top two tiles back; after Continue the ledge stays one-way and two steps on the follower has
+jumped down and walks right behind. **Ash** (Route 113, power cut): three walked ash tiles stay
+cleared, the ash keeps falling, and the next step still clears ash (the ON_RESUME step callback
+came back). **Desert** (Route 111, soft reset): in through the Go-Goggles trigger and the sandstorm
+trigger, with the sandstorm and `MUS_DESERT` restored. **Sevii fog** (Five Island's Lost Cave Room
+2), the **Trainer Hill lobby** (power cut) and **Mahogany Gym ice**: saved at rest against the wall
+after a slide, the next step north still slides to the far wall. **Two saves in a row** move
+`gSaveCounter` by two and Continue loads the second; then eight seeded mashes of A (weighted),
+B, Up, Down and nothing through the save prompt, the overwrite prompt and the saved message end in
+a save (3) or a cancel (5), leave the field free, and every second one resets and must Continue
+into the last completed save. **Bug-Catching Contest**: saved beside the attendant, in through her,
+the park's Start menu has no SAVE, and a soft reset inside continues in the gate on the saved tile
+with the whole team, contest mode off, the gate's contest state and no Safari Balls, after which
+the attendant runs the contest again. Measured **201/201**; no defect found.
 ### `TrickHouseRewards.lua`
 
 The Trick House loop for all eight levels. Each level walks in from Route 110, finds the Trick
@@ -3013,6 +3093,69 @@ The suite also compares both sides' HP, species and battle outcome throughout pl
 Pass `--env PW_CASE=palace` to compare autonomous move choices and inability-to-move flags.
 Pass `--env PW_CASE=factory` to trade the first rental for the first opponent and record the
 second battle. The Factory case compares both trainers' chosen moves on every turn.
+
+Stress pass 8 added cases for the turn-seeded recordings (`ce646ce30b`). Every case also leaves the
+pass for the field and checks the party bytes against the ones from before playback. On the fixed ROM
+the earlier cases still pass: Arena **15/15**, Palace **16/16**, Factory **16/16**.
+
+- `tower`: the first Battle Tower singles battle. The lobby's record prompt is saved as a savestate
+  and replayed with a soft reset 0, 1, 2, 4, 8, 16, 40 and 90 frames after Yes and with two seeded
+  mashes; each Continue must land in a walkable lobby. Playback is mashed with every button but B,
+  then watched again and quit with B after two turns. **26/26** fixed.
+- `dome`: the first round of a Battle Dome tourney. **15/15** fixed.
+- `encore`: Battle Tower doubles. Clefable Encores its ally Jolteon on turn 1; on turn 2 Clefable's
+  action menu is cancelled with B after Jolteon chose. Gen 5+ Encore still sends Jolteon through
+  move and target selection, so three bytes were recorded, but the partner cancel cleared one. The
+  record shifted by two bytes and playback quit on turn 3. Measured **13/17** on master
+  (`turn 2 cancel: Jolteon's record 6 -> 5 bytes`), **17/17** fixed.
+- `seminar`: Tower singles led by Snorlax, whose Body Slam is not very effective against the
+  default seed's Geodude. The effectiveness message makes Battle TV's seminar estimate four damage
+  calcs; `CalculateMoveDamage` rolled a crit for each one (and could roll the endure check), but
+  only the live player controller updates TV data, so the recording spent four RNG values playback
+  never did. Geodude's damage roll that turn differed (Snorlax at 125 HP recorded, 97 replayed) and
+  playback quit. Measured **13/15** on master, **15/15** fixed.
+- `batonpass`: the seminar battle with the opponent's lead rewritten during the battle transition
+  to know only Baton Pass, so the trainer AI picks a replacement mid-turn after Snorlax moved.
+  **15/15** fixed.
+- `batonslow`: the same, but Snorlax uses Vital Throw (priority -1), so Geodude's Baton Pass and the
+  AI's replacement choice come first. The live opponent controller's `GetMostSuitableMonToSwitchInto`
+  and `SetBattlerAiData` draw battle RNG (`AI_DecideKnownAbilityForTurn`, `RandomRollDmg`, found
+  with a GDB watchpoint on `gRngValue`), but playback replays the choice from the record without
+  the AI, so Vital Throw's damage roll differed (Taillow at 44 HP recorded, 39 replayed). Measured
+  **14/15** with the encore and seminar fixes only, **15/15** fixed.
+- `overflow`: Tower singles at Instant text with the battle scene off. Battle 1 is recorded from the
+  battle room's Record option. Battle 2 is stretched past the 388-byte buffer with both sides' HP
+  held, a cancelled move menu every turn, a cancelled switch every sixth turn and a real switch every
+  eleventh, then finished with the foes held at 1 HP. Every cancel must remove exactly one byte (stored
+  or dropped), the battle room must drop its Record option, the lobby must not offer a record, and
+  the pass must still play battle 1 turn for turn. A held foe can still KO a held Pokemon in one hit,
+  so battle 2 may be lost; the room check is then skipped and logged. Fixed ROM: **19/19** (record
+  full on turn 134, 149 cancels, battle 2 won, room menu Go On/Rest/Retire). On `3557e2bab6`, before
+  `ce646ce30b`, the revision before this one's party-menu handling scored **10/19**: the room
+  offered Record, the lobby offered it, the overflowed record replaced battle 1's, and its playback
+  stopped on `battle_script_commands.c:4995` (`IsValidSwitchIn`).
+- `legacy`: continues a save whose Palace record was made by the ROM before turn seeding
+  (`fixtures/palace_legacy_record.srm`) and plays it. The fixture was recorded by this suite's
+  `palace` case on `3557e2bab6`, whose own playback already drifted from the battle and quit after
+  turn 5; the turn trace and Palace choices must match that playback exactly (**5/5** fixed). Run it with
+  `mgba-run.sh test/overworld/lua/FrontierRecordedBattle.lua pokemonworld.gba
+  test/overworld/lua/fixtures/palace_legacy_record.srm --env PW_CASE=legacy`.
+- `multi`: Battle Tower multi beside partner 5 from the partner room, the suite's first recording
+  with an AI partner. Playback replays the partner (battler 2) from the record, while the recording
+  runs the partner AI live. During the battle transition the partner's lead is rewritten to know
+  only Baton Pass and hold a Lum Berry (without it, Duskull's Confuse Ray made the pass fail until
+  turn 3), so on turn 1 the partner's AI chooses the Pokemon it passes to in the middle of the turn.
+  Snorlax's turn 1 Vital Throw (priority -1) is aimed at the partner's slot; Snorlax then fights the
+  foes and takes its next move when one is refused (Disable, no PP). `PlayerPartnerHandleChoosePokemon`
+  runs `GetMostSuitableMonToSwitchInto`, whose switch-in damage simulation rolls `RandomRollDmg` on the
+  battle RNG, so the rest of turn 1 rolled differently in the battle and in the replay. Measured on
+  rec8 without the partner fix **16/19**: at turn 2 the battle had Snorlax at 201 HP and Wooper at 148,
+  the replay Snorlax at 227 and Wooper at 89 (Vital Throw's 59), and playback quit after turn 5.
+  **19/19** fixed. At `PW_TEXT=3` the challenge draws another battle (Hoothoot passing to Hoppip):
+  rec8 **16/19** (Hoppip at 35 HP recorded, 55 replayed), fixed **19/19**. The battle also covers
+  the partner's second choice (Spheal back in for Wooper on turn 2) and both opponents' replacements.
+  Faint replacements run at `ENDTURN_FAINTED_MON_ACTIONS`, after every end-turn effect, so the
+  partner's draws there reach only a replacement's switch-in ability.
 
 ### `KantoPropsStress.lua`
 
@@ -3671,6 +3814,29 @@ both house states at 3) and after a whiteout, which respawns the player beside M
 (two checks that need an earlier step are skipped): it lands in the bedroom, and entering by the door
 walks the player off the bottom of the map. With the doorstep landing alone (`1343e33`) the current
 suite scores **77/91**: no call, and the Hall of Fame arms state 3. With Mom's call **91/91**.
+### `MomCallFromRoute101.lua`
+
+Mom's call after the Hoenn Hall of Fame (house state 6) fires the first time the champion has
+control in Littleroot. Birch's scene takes them from the doorstep straight into the lab, so the call
+can wait while they leave another way (the Hub Pass works indoors) and walk back in from Route 101.
+`LittlerootTown_EventScript_MomCallsFromAcrossTown` panned the camera along a fixed path written for
+the lab's door (seven tiles up, then along to the door). From Route 101's entrance at the top of town
+those seven tiles crossed the seam: Route 101 became the current map mid-scene, `addobject` and
+`removeobject` acted on Route 101's local id 4, the camera object (spawned in Littleroot) was no longer
+found so the pan back never ran, and `RemoveCameraObject` left the camera on Route 101 seven rows above
+the player until the next warp. The pan now moves one tile at a time from wherever the player stands,
+along their column to the row below the doors and along that row, and back the same way, so it never
+leaves Littleroot (it costs two frames per tile over the old single movement).
+
+For each gender the suite seeds Littleroot as the intro leaves it, runs the Hall of Fame room's
+ceremony with A presses, continues, lets Birch's scene end in the lab with the call pending, and uses
+a debug warp to Route 101 as the stand-in for leaving through the Hub. The player walks down into town
+(Brendan at x 10, May at x 11). Through the call the current map must stay Littleroot and the camera
+inside it; Mom must appear once at the player's own door; afterwards the house state is 3, the player
+has control and the camera is on the player, and still is one step later. `PW_HOME_ONLY=male|female`
+runs one gender. **Discrimination:** master **15/23** (both genders: the map became Route 101 on the
+21st frame, Mom was never shown, the camera stayed seven rows above the player), fixed **23/23**.
+`HoennHofHome.lua` (the lab's door) stays **91/91**.
 ### `FrostyGrassFieldEffect.lua`
 
 Mt. Silver's snowy map (`MAP_MT_SILVER_SNOW`) draws its tall grass white and pale blue, but the rustle
@@ -3760,6 +3926,16 @@ encounter walk could not run), **183/183** with the change. Tamper control: with
 0x02A given `MB_TALL_GRASS` in the ROM, the walk fails "no step on the stubble starts a wild battle"
 (2 battles).
 
+The view edge case (`route120_view_edge`) cuts Route 120's long grass at (25,86), walks with real input
+to (20,81) so the cut's bottom row is the last row of the saved map view, then saves, soft resets and
+continues. Continue reloads the row below the view from the layout and `LoadSavedMapView` repairs it
+with `FixLongGrassMetatilesWindowBottom` (`src/fldeff_cut.c`). That repair still keyed on
+`METATILE_General_Grass`, what Cut left before stubble, so the long grass roots under the cut came back
+(0x208 under the stubble 0x05C, long grass tips hanging under cut ground). It now cuts them again
+exactly as `SetCutGrassMetatiles` does. Every tile in the view and the row below must be what the
+player left. **Discrimination:** the case alone scores 14/15 on master (24..26,88 came back 0x2A9 to
+0x208); the whole suite scores **197/197** with the fix.
+
 ### `DupKeyGiftScenes.lua`
 
 A key item the player already owns from another region must not break the scene that gives it.
@@ -3811,3 +3987,247 @@ basement grunts beaten, the player walks to him and talks with real input; the o
 key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
 Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
 two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.
+
+### `TextWidthTour.lua`
+
+The lever for text measurement changes (ce646ce30b refactored `GetStringWidth` and `PrintGlyph`). Every input
+is a fixed frame count, so two builds that differ only in text code screenshot the same frames under the same
+names: title and main menu, both Options screens, the graphical and classic Start menus, every Bag pocket, the
+hub mart at 999,999 and at 7 money, the party menu and six summary pages, the Pokedex list and pages, both
+Trainer Card sides, Story pages, the PC menus and box, the naming screen, the Move Relearner, a field message
+with keypad icons, the BW battle UI (singles with Intimidate, doubles with Intimidate and Drizzle pop-ups,
+move grids, Hoenn and Kanto Safari), the Frontier Pass and the Hall of Fame. Compare two runs with
+`python3 test/overworld/TextWidthDiff.py <run-a> <run-b> --out <dir>`; it lists each differing pair with
+its pixel count and bounding box and writes before, after and change mask side by side.
+
+On its own the suite asserts each scene opens and returns to the field with no crash screen, and that every
+BW action-box label is centred in its button: the label's pixels are wherever `B_WIN_ACTION_MENU` differs
+from `sBWBattleUI_ActionBox`, and its left and right margins in the 48 px cell must agree within 1 px.
+ce646ce30b stopped subtracting the outline pixel from 16 px glyphs, which exposed `CHAR_BLOCK_1` claiming 16 px
+for 11 px of art: the Hoenn Safari POKeBLOCK label measured 48 instead of 42 and sat flush left (`left=0
+right=5`). Measured **79/80** on master at ce646ce30b, **80/80** with the glyph width fixed, and **80/80**
+on master with `src/text.c` reverted to ce646ce30b^. Diffing the reverted build against master over 211
+pairs changed only the Hoenn Safari action box and the main menu's version string.
+
+
+### `AlphSlidingPuzzleMash.lua`
+
+The Ruins of Alph sliding puzzles under seeded input mashes, on all four boards. After every input of
+a 700-input mash of the D-pad, A, L, R and same-frame chords (A+R, A+L, L+R, Start, Select), the live
+board must hold each of the 16 tile sprites exactly once on the board or in hand, the held tile must
+ride the cursor, the immovable tiles (found by trying to lift each tile with A) must not move, the
+cursor sprite must never carry a tile id or a rotation, and `sSlidingPuzzle->solved` must agree with
+an independent read of the board. A second mash adds B and B+A; when the puzzle closes, the completion
+flag must match the board it left. Then B and A on one frame over a tile must quit with nothing lifted.
+A seeded solver that turns tiles through either direction (sometimes a full extra turn) and swaps
+tiles onto occupied slots brings each board to its last tile; A and B on that frame must quit with
+the flag clear. On a fresh board the last tile goes down with A and L on one frame: the board must
+read solved with the cursor upright, 70 frames of A+B and chords through the glow must not close it,
+and the floor must drop the player to B1F with the flag set. Last, the Kabuto sign shows the solved
+picture (no cursor sprite) and closes. `PW_SEED=<n>` reseeds every mash. Measured **100/100** on
+seeds 1, 2 and 3; no defect found. Against a ROM with `src/sliding_puzzle.c` reverted to before
+ce646ce30b it scores **76/100**: all four boards rotate the cursor sprite on an A+R or A+L placement
+(found at inputs 63 to 121 of seed 1), and all four count the last tile placed with A+B as solved.
+
+### `RevisedHintLines.lua`
+
+The six NPC and sign scripts whose lines ce646ce30b rewrote, each driven through its real trigger
+with a seeded A/B mash, Yes/No answers steered by the menu cursor. Elm's first directions after the
+starter must give PROF. BIRCH's number and set `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`; later visits repeat
+them, and after Togepi he points to PROF. BIRCH. The Goldenrod bike clerk is refused (no bike, flag
+clear), accepted with a full Key Items pocket (the debug fill leaves 7 of 99 slots free, so the suite
+tops them up and swaps out any Mach Bike stack: the BAG is full line, no bike, flag clear) and accepted
+with room (one Mach Bike, flag set); his thanks and the second clerk's line must name the Mach Bike
+and SELECT. The 2F clerk's live `sMartInfo` stock must hold `ITEM_LUM_BERRY`, which is what makes YES
+the true answer to the quiz's new question 2; NO there must be a wrong answer that enables nothing,
+and YES must reach question 3 and a win that sets `FLAG_ENABLE_RADIO`. The Pallet notice and the Six
+Island old man repeat twice. Every talk must hand control back, and every line read from
+`gStringVar4` must carry the new wording and none of the old. `PW_SEED=<n>` reseeds the mash and
+`PW_TEXT=instant|fast|mid` picks the text speed. Measured **53/53** at Instant (seed 1), Fast (seed
+31) and Mid (seed 7); no defect found. Against a ROM with the six `scripts.inc` files reverted it
+scores **39/53**, every failure a line still carrying the old wording.
+
+### `HatchMetLocation.lua`
+
+Where a Pokemon was met, as hatching, gifts and OT names record it. Met location is a u8, but
+Johto's map sections run past 255 and three of them sit on the special met codes: Route 46 is 0xFD
+(`METLOC_SPECIAL_EGG`), Ice Path 0xFE (`METLOC_IN_GAME_TRADE`) and Dragon's Den 0xFF
+(`METLOC_FATEFUL_ENCOUNTER`). `CreateBoxMon` stores `MAPSEC_SPECIAL_AREA` for any section from 0xFD
+up, and the hatch takes its met location from that call. Five hatch cases (Ecruteak, Route 46, Ice
+Path, Dragon's Den, Mt. Silver) give a Togepi Egg with the `giveegg` command, leave it no cycles and
+the Day Care step counter one short, take one real step on the map and drive the scene with B. The
+Togepi must record the section (or `MAPSEC_SPECIAL_AREA`), met level 0 and 120 friendship; its SwSh
+summary memo (`gStringVar3` while the memo page is up) must say it hatched there; and a Protein used
+from the Bag on the spot must add 3 friendship plus the met-location bonus only where the stored
+location is the player's section and neither a special code nor `MAPSEC_SPECIAL_AREA`. A sixth Togepi
+hatches in Ice Path and gets its Protein in the Region Hub 2F, whose own section is
+`MAPSEC_SPECIAL_AREA`: `CalculateFriendshipBonuses` counted it as met there and added the bonus
+(120 -> 124), so the sentinel for every unrepresentable section matched the Hub 2F and the link rooms. Two gift cases (`createmon`, the command
+`givemon` runs) on Mt. Silver and in Dragon's Den must record `MAPSEC_SPECIAL_AREA` at the gift's
+level, and the memo must read "Met when it was Lv. 15 / Location: SPECIAL AREA". The OT case sets a
+seven-letter player name and gives Lapras whose OT name is a four-letter prefix of it with the
+player's ID: in a scripted wild battle it must gain 1.5 times an identical own Lapras's EXP; at
+level 100 with a met level of 5 the own Lapras must knock its foe out on the first turn three times
+while the prefix one must disobey under the no-badge cap (obedience here is the Gen 8+ rule, met level
+for one's own Pokemon); and its memo must say it only "seems to have met" there. Measured **65/66** on
+ce646ce30b (the Hub 2F bonus) and **66/66** with the fix. Against the parent of ce646ce30b, before the
+met-location and `IsOtherTrainer` changes, it scores **51/66**: Route 46, Ice Path and Dragon's Den store their raw sections (0xFD, 0xFE,
+0xFF, the special met codes), the memos name those places, the Protein adds the bonus on a special
+code, and the prefix Lapras gets no EXP boost and obeys.
+
+### `RelearnerLongLearnset.lua`
+
+The Move Relearner must list the whole level-up learnset of the longest learnsets.
+`MAX_LEVEL_UP_MOVES` caps how far `GetRelearnerLevelUpMoves` walks a learnset; it was 20, which hid
+the tail of 33 enabled species' learnsets, and is 33 now (Gallade's, the longest). Each case
+gives the Pokemon with its default moveset, warps into the Fallarbor relearner's house with Heart
+Scales and drives the real script: talk, YES, pick the lead in the chooser. The list read from
+`sMoveRelearnerStruct` must hold exactly the expected moves in learnset order, then Cancel (Gallade
+100: 29 ending in Swords Dance and Psycho Cut; Zangoose 50: 24 ending in Switcheroo and Detect). The
+cursor is driven to Cancel and back to the top, the list is mashed for 900 frames with a seeded mix of
+B, L, R, Select and the D-pad (no A), and then the last move is taught with A into the full moveset:
+it must replace the first slot at full PP, leave the other three alone and spend one Heart Scale,
+and the field must come back. Measured **24/24**; no defect found. Against the parent of ce646ce30b
+it scores **18/24**: both lists stop at 20 moves, so Psycho Cut and Detect are never offered. `PW_RELEARN_ONLY` and `PW_RELEARN_SEED` select cases and reseed the mash.
+
+### `SkyCharmLeagueGate.lua`
+
+The Hoenn League's door guards checked only the Feather Badge. Emerald could rely on the map for the
+rest: Ever Grande sits above a waterfall that needs the Rain Badge, and Juan's gym needs Dive, which
+needs the Mind Badge. The Sky Charm needs only the Feather Badge in Hoenn and flies over the waterfall,
+so a six-badge player could land at the League door and walk in. Once that player is champion, Tate
+and Liza hand over Calm Mind and offer only rematches, so the Mind Badge, the Space Center scene,
+Steven's Dive and the rest of Hoenn's story are gone for good. With Hoenn badges 1 to 6 and the Sky
+Charm registered, the suite takes off in Mossdeep, flies south through Route 127 into Route 128 and
+east into Ever Grande below the waterfall, lands at (18,6) in front of the League, walks in and talks
+to the left guard from (9,3); then it adds badges 7 and 8 and talks again. **Oracle:** the six-badge
+talk leaves `FLAG_ENTERED_ELITE_FOUR` clear and both guards on (9,2)/(10,2); the eight-badge talk sets
+the flag and moves them aside. **Discrimination:** unfixed 14/16 (admitted at six badges, guards on
+(8,2)/(11,2), so the eight-badge talk finds no guard in front), fixed 16/16.
+
+### `CapacityArrivals.lua`
+
+Pokémon arrivals with six in the party and all 420 box slots full, through each giver's own script:
+Castform, Beldum, Devon's Lileep, Birch's Cyndaquil, the Lavaridge Egg, the Silph Lapras, the Route 4
+Magikarp sale, the Celadon Eevee, the Dojo Hitmonlee, the Cianwood Tentacool, Kiyo's Tyrogue, the Ruins
+of Alph Kabuto, the Goldenrod Abra prize and Elm's aide's Togepi Egg. `AuditCapacity.py` proves each
+script tests its result; this plays the path it cannot see. Setup gives six Pokémon with `createmon`,
+fills the boxes with debug Fill PC Boxes Fast, seeds the story state each giver waits on and warps next
+to the giver; facing the giver, every press is real input. Each giver is talked to with A answering
+every prompt and under a seeded mash (only while the script runs), at Instant and Mid text: the giver
+must say there is no room, give nothing, record nothing, leave its ball on the table, take no money or
+coins, hand control back with a walkable field, and leave every party and box slot byte for byte. Then
+one box slot (a party slot for the Eggs) is freed and the gift taken with YES to the nickname and one
+letter typed: it must land in that slot, once, as the right species, with the letter in its nickname
+and no other slot changed. Before the Magikarp, the Route 4 Center's PC is switched on and off, which
+leaves `VAR_0x8004` at `PC_LOCATION_OTHER`. The Magikarp's PC branch opened the nickname screen without
+naming its target, so it renamed party slot `VAR_0x8004` ("Pidgey's nickname?") and the boxed Magikarp
+kept its name; with any other leftover above 5 it wrote the name past the party. **492/494** on the
+unfixed ROM (both Magikarp naming checks), **494/494** fixed. `ValidateConfigRules.py` now fails a
+script that opens the nickname screen without setting `VAR_0x8004`. `PW_CAP_ONLY=<text>` runs matching
+givers, `PW_CAP_SEED=<n>` reseeds the mashes.
+
+### `BattleNetShardEdges.lua`
+
+The Battle Net floor's currencies at their edges, through the real BP clerk, stone vendor and Director
+(`TryBuyBattleNetShard`, `GetBattleNetShardCount` and `DeductBattleNetShards` were only reviewed by hand
+in `AuditCapacity.py`). BP and the Items pocket are written in RAM and the counter reached by warp; every
+row, Yes/No and mash is real input. The clerk refuses 3 BP, turns exactly 4 into one shard, refuses a
+full pocket and a full 999 stack with the BP kept, and tops a 998 stack. The vendor refuses 34 mixed
+shards for a 35-shard stone, takes exactly 35 across four colours, sells the second page's 20-shard
+Pinsirite, buys nothing through Back then Exit, and refuses a full pocket with the shards kept. The
+Director gives the Mega Ring once, keeps the starter stone claimable when the pocket is full, gives it
+once with room and never again. Three seeded mashes each of the clerk and the vendor must conserve
+value: BP spent is 4 per shard, shards spent are each stone's listed price. Measured **85/85** with the
+default seed and `PW_BNET_SEED=777`; no defect found. `PW_BNET_ONLY=<text>` runs matching scenarios.
+
+### `SkyCharmReceptionGate.lua`
+
+Route 27's first-steps trigger at (25,24)/(25,25) was the only writer of `VAR_ROUTE27_STATE` 1. That
+value arms the Reception Gate's eight-badge trigger (it matches only 1), and the Indigo Plateau Center
+hides the Black Belt standing on (32,3), the one tile in front of Will's door, once the state is at
+least 1. Route 27 is open water east of New Bark Town and the Sky Charm (Johto's Storm Badge) flies
+over coord events, so a flier reached Route 26 with the state at 0: five badges walked through the gate
+to Victory Road, and with all eight the League stayed shut. `SkyCharmGaps.py` lists this trigger as a
+gate a flier skips. The Reception Gate now runs the first-steps state on entry while it is 0. With
+Johto badges 1-5 and the Sky Charm registered, the suite takes off in New Bark Town, flies across
+Route 27 over the trigger, east onto Route 26 and north to (12,7) on Route 26 North, lands, and walks
+into the gate and north. Then badges 6-8 and theater state 8 are written, the gate is walked again,
+and a debug warp to the Plateau Center is followed by a real walk to Will's door. A control re-arms
+the trigger and walks onto it from Tohjo Falls' mouth. **Oracle:** five badges are turned back at
+(11,14) and never reach Victory Road; eight pass; nobody stands on Silver's (32,8) and the door at
+(32,2) leads into Will's room; the walker still meets the fisherman and the state becomes 1.
+**Discrimination:** unfixed 16/20 (five badges reach Johto Victory Road, Silver waits in the Center,
+the Black Belt blocks Will's door), fixed 20/20.
+
+### `SkyCharmBlackthornSetup.lua`
+
+Eastern Johto's first-visit setup (`MahoganyTown_EventScript_TownTrigger`) hides Clair, Lance and Silver
+in Dragon's Den until their scenes, sets `VAR_BLACKTHORN_CITY_STATE` 1 (which arms the elder's trigger in
+front of the Den), and resets Santos's Spell Tag, the Ice Path Kimono scene and other gifts to their
+starting state. It ran from Route 42's east edge and Mahogany's transition only. Route 46 meets Route 29
+and climbs to Route 45 over one-way ledges, so walkers always reach Mahogany first, but the Sky Charm
+(Johto's Storm Badge) flies up them into Blackthorn City. A flier found the Den open, Clair waiting in
+it, and anything taken in Blackthorn was handed out again at the first Mahogany visit. Blackthorn's
+transition now runs the setup while Mahogany is unvisited, and Mahogany's own transition sets
+`FLAG_VISITED_MAHOGANY_TOWN`, so a Blackthorn entry does not unlock flying to it. With Johto badges 1-5
+and the Sky Charm registered, the suite takes off on Route 46, flies up it and Route 45 into Blackthorn,
+lands at (26,14) and walks north to the Den door; a debug warp then looks inside the Den. It takes
+Santos's gift (row 6, Saturday), warps to Mahogany for its first visit, and asks Santos again. **Oracle:**
+the elder stops the player before the Den, nobody stands on Clair's (29,14), and the bag holds one Spell
+Tag after the second talk. **Discrimination:** unfixed 13/16 (walks into the Den, Clair present, a second
+Spell Tag), fixed 16/16.
+
+### `MessageBoxFit.lua`
+
+Message lines must fit the SwSh message box. `SWSH_MESSAGE_BOX` narrowed every 27-tile message window
+to 26 tiles (208 px) and draws the "more text" arrow in the window's bottom-right 8x16 corner, filling
+that corner with the background first, so a line that waits on `\p` or `\l` from the bottom row loses
+whatever it printed past x = 200. `test/overworld/ValidateTextWidth.py` (a host check) measures every
+line; this suite plays four lines it caught with real input, a seven-letter player name (every
+naming-screen glyph is 6 px, so "MMMMMMM" is the widest name) and Instant text: the Hub's Frontier
+attendant (a Hub line), the Route 116 tunneler (Emerald), the Rustboro Gym guide (Emerald) and the
+Safari Zone gate Pokemon Center caretaker (a pokemonHnS line). At every prompt it reads the field
+text printer's `currentX`/`currentY` (+15/+16 on this build; the suite first asserts the font, x and y
+bytes beside them read 1, 0, 1, so a layout change fails instead of passing) and screenshots the box.
+Oracle: no bottom-row prompt line inks past 200 px and none past 208 px. On the unfixed ROM the lines
+end at 201, 207, 204 and 203 px (the tunneler's "machinery." shows as "machiner" under the arrow).
+Measured **16/20** on the unfixed ROM and **20/20** fixed.
+
+### `IndigoVictoryRoadExits.lua`
+
+Johto Victory Road 1F's top exit (39,5) put the player on the Johto Indigo Plateau's south stairs at
+(11,18). That cell is `MB_ROCK_STAIRS`, which fires no warp, and the stairs end one row lower at a map
+edge with no connection, so no walk led back into the cave. pokemonHnS joins the plateau's south edge
+to Route 23, which holds the cave mouth; the Johto League port left Route 23 out. A debug warp sets the
+player on Victory Road's top exit and everything after is real input: Down leaves the cave, the player
+walks on to the plateau and to the stair foot, then walks down the stairs and on to the cave mouth, Up
+enters Victory Road (it must land on the top exit), and Down leaves again (it must land on the first
+landing). The first landing, Route 23's path at (20,12) and the stair foot are shot at 14:30 and 22:30. Kanto (the plateau's stairs
+onto Route 23, Victory Road 2F's exit and the cave mouth back) and Hoenn (Victory Road 1F's top exit
+into Ever Grande City and back) are controls that pass on both ROMs. Measured **15/20** on the unfixed
+ROM, stuck at (11,19), and **20/20** fixed.
+
+### `SkyCharmSeams.lua`
+
+The Sky Charm crossed two map seams that walkers never reach. Route 28 joins Route 26 North by a seam
+behind cliffs, and the Reception Gate's guard (obj 2, shown until the Johto Hall of Fame sets
+`FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD`, the flag the Hub's Mt. Silver arrival also reads) is the only way
+in on foot. With Johto's Storm Badge a flier reached Route 28, Mt. Silver, its Center and the summit,
+where Red's first win runs `GameClear`: the Hall of Fame save, champion ribbons, `FLAG_SYS_GAME_CLEAR` and
+the DexNav detector, with no League beaten. Routes 5 to 8 connect to `SaffronCity_Connection_Frlg`, the
+real city's middle without its gatehouse rim, drawn so the routes can see Saffron. It has no people,
+doors or warps. A flier entered it, and so did a walker stepping off the sealed pockets those routes keep
+beside each seam; every way out on foot ends in a pocket or a wall, and Route 6's seam is offset 0 one way
+and 12 the other, so going north and back moved the player 12 tiles west. A player may no longer cross
+into the stand-in, or from Route 26 North into Route 28 while the guard stands, flying or on foot
+(`IsConnectionClosedAt` in `src/field_player_avatar.c`). With Johto badges 1-5 and the Sky Charm
+registered, the suite flies west from Route 26 North, lands below the gate and flies south into Route 26
+(an open seam). From Mt. Silver Outside it flies east over Route 28 into Route 26 North, the way home for a
+save that flew in before. With Kanto's third badge it flies at the stand-in from Routes 5, 6, 7 and 8,
+lands in the Route 5, 7 and 8 pockets and walks at the seam. Last it runs the Hall of Fame's own
+first-clear subroutine and flies into Route 28, Mt. Silver and its Center. **Oracle:** each closed flight
+stops on the edge row or column it took off toward, in the same column on Route 6; each pocket walk ends
+on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
+unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
+stand-in; Route 6 came back at (0,0)), fixed 33/33.

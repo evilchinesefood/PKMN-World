@@ -358,8 +358,8 @@ OldaleTown_Text_ThisIsAPokemonMart:
 
 OldaleTown_Text_PotionExplanation:
 	.string "A POTION can be used anytime, so it's\n"
-	.string "even more useful than a POKéMON CENTER\l"
-	.string "in certain situations.$"
+	.string "even more useful than a POKéMON\l"
+	.string "CENTER in certain situations.$"
 
 OldaleTown_Text_WaitDontComeInHere:
 	.string "Aaaaah! Wait!\n"

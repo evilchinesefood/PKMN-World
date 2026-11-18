@@ -13559,6 +13559,19 @@
       "border_filepath": "data/layouts/BattleFrontier_BattleTowerElevator/border.bin",
       "blockdata_filepath": "data/layouts/BattleFrontier_BattleTowerElevator/map.bin",
       "layout_version": "johto"
+    },
+    {
+      "id": "LAYOUT_JOHTO_ROUTE23",
+      "name": "JohtoRoute23_Layout",
+      "width": 24,
+      "height": 32,
+      "border_width": 0,
+      "border_height": 0,
+      "primary_tileset": "gTileset_Johto_General",
+      "secondary_tileset": "gTileset_JohtoIndigoPlateau",
+      "border_filepath": "data/layouts/JohtoRoute23/border.bin",
+      "blockdata_filepath": "data/layouts/JohtoRoute23/map.bin",
+      "layout_version": "johto"
     }
   ]
 }

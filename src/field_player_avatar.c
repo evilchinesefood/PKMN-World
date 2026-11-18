@@ -1273,9 +1273,31 @@ static void SpriteCB_FlightMount(struct Sprite *sprite)
 
 #undef sBobTimer
 
-// Guardrail 1: only the map border stops flight - stepping where there is no
-// connection is blocked exactly as on foot (GetCollisionAtCoords uses the same
-// GetMapBorderIdAt test); everything else (walls, ledges, water, elevation,
+// Seams walkers never reach. The Sky Charm flies over the walls in front of them, and the Saffron
+// routes keep sealed pockets beside theirs that a flier can land in. Saffron's stand-in is scenery
+// the routes draw in place of the walled city, with no people, doors or warps. Route 28 lies past
+// the Reception Gate's guard, who stands until the Johto Hall of Fame; Route 26 North is his side.
+static bool32 IsConnectionClosedAt(s16 x, s16 y)
+{
+    const struct MapConnection *connection = GetMapConnectionAtPos(x, y);
+    u16 here = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+
+    if (connection == NULL)
+        return FALSE;
+    switch (connection->mapNum | (connection->mapGroup << 8))
+    {
+    case MAP_SAFFRON_CITY_CONNECTION:
+        return TRUE;
+    case MAP_ROUTE28:
+        return here == MAP_ROUTE26NORTH && !FlagGet(FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD);
+    default:
+        return FALSE;
+    }
+}
+
+// Guardrail 1: only the map border and a closed seam stop flight - stepping where
+// there is no connection is blocked exactly as on foot (GetCollisionAtCoords uses
+// the same GetMapBorderIdAt test); everything else (walls, ledges, water, elevation,
 // object events) is passed over.
 static enum Collision CheckForPlayerAvatarFlyingCollision(enum Direction direction)
 {
@@ -1284,7 +1306,8 @@ static enum Collision CheckForPlayerAvatarFlyingCollision(enum Direction directi
     s16 y = playerObjEvent->currentCoords.y;
 
     MoveCoords(direction, &x, &y);
-    if (GetMapBorderIdAt(x, y) == CONNECTION_INVALID || !CanCameraMoveInDirection(direction))
+    if (GetMapBorderIdAt(x, y) == CONNECTION_INVALID || !CanCameraMoveInDirection(direction)
+     || IsConnectionClosedAt(x, y))
         return COLLISION_IMPASSABLE;
     return COLLISION_NONE;
 }
@@ -1316,7 +1339,11 @@ static void MovePlayerFlying(enum Direction direction)
 
 enum Collision CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, enum Direction direction, u8 metatileBehavior)
 {
-    enum Collision collision = GetCollisionAtCoords(objectEvent, x, y, direction);
+    enum Collision collision;
+
+    if (IsConnectionClosedAt(x, y))
+        return COLLISION_IMPASSABLE;
+    collision = GetCollisionAtCoords(objectEvent, x, y, direction);
 
     if (collision == COLLISION_ELEVATION_MISMATCH && CanStopSurfing(x, y, direction))
         return COLLISION_STOP_SURFING;

@@ -405,7 +405,7 @@ BattleFrontier_BattleFactoryLobby_Text_WaitingForYouToResume:
 
 BattleFrontier_BattleFactoryLobby_Text_DidntSaveBeforeQuitting:
 	.string "I'm sorry to say this, but you didn't\n"
-	.string "save before you quit playing last time.\p"
+	.string "save before you quit last time.\p"
 	.string "As a result, you have been disqualified\n"
 	.string "from your challenge.$"
 
@@ -493,8 +493,8 @@ BattleFrontier_BattleFactoryLobby_Text_NeedToCheckOpponentsMons:
 	.string "they're any good.$"
 
 BattleFrontier_BattleFactoryLobby_Text_CantFigureOutStaffHints:
-	.string "You know how the staff here give you\n"
-	.string "a few hints about your next opponent?\p"
+	.string "You know how the staff here give you a\n"
+	.string "few hints about your next opponent?\p"
 	.string "Well, I'm a full-grown man, but I have\n"
 	.string "trouble figuring out their hints.$"
 

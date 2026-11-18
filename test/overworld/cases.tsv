@@ -305,6 +305,7 @@ ItemBallFullPocket	lua/ItemBallFullPocket.lua	fresh	0	required
 BattleBgFrostGrass	lua/BattleBgFrostGrass.lua	fresh	0	required
 MauvilleGymFollowerBarrier	lua/MauvilleGymFollowerBarrier.lua	fresh	0	required
 HoennHofHome	lua/HoennHofHome.lua	fresh	0	required
+MomCallFromRoute101	lua/MomCallFromRoute101.lua	fresh	0	required
 FrostyGrassFieldEffect	lua/FrostyGrassFieldEffect.lua	fresh	0	required
 CutGrassKantoJohto	lua/CutGrassKantoJohto.lua	fresh	0	required
 CutGrassStubble	lua/CutGrassStubble.lua	fresh	0	required
@@ -312,3 +313,16 @@ DupKeyGiftScenes	lua/DupKeyGiftScenes.lua	fresh	0	required
 RadioDirectorCardKey	lua/RadioDirectorCardKey.lua	fresh	0	required
 CianwoodFlyGate	lua/CianwoodFlyGate.lua	fresh	0	required
 CardKeyDescription	lua/CardKeyDescription.lua	fresh	0	required
+TextWidthTour	lua/TextWidthTour.lua	fresh	0	required
+AlphSlidingPuzzleMash	lua/AlphSlidingPuzzleMash.lua	fresh	0	required
+RevisedHintLines	lua/RevisedHintLines.lua	fresh	0	required
+HatchMetLocation	lua/HatchMetLocation.lua	fresh	0	required
+RelearnerLongLearnset	lua/RelearnerLongLearnset.lua	fresh	0	required
+SkyCharmLeagueGate	lua/SkyCharmLeagueGate.lua	fresh	0	required
+CapacityArrivals	lua/CapacityArrivals.lua	fresh	0	required
+BattleNetShardEdges	lua/BattleNetShardEdges.lua	fresh	0	required
+SkyCharmReceptionGate	lua/SkyCharmReceptionGate.lua	fresh	0	required
+SkyCharmBlackthornSetup	lua/SkyCharmBlackthornSetup.lua	fresh	0	required
+MessageBoxFit	lua/MessageBoxFit.lua	fresh	0	required
+IndigoVictoryRoadExits	lua/IndigoVictoryRoadExits.lua	fresh	0	required
+SkyCharmSeams	lua/SkyCharmSeams.lua	fresh	0	required

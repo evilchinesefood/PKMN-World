@@ -389,13 +389,40 @@ function M.new(S, name, opts)
     press("A", 2); idle(45)
   end
   self.spin = spin
+  -- The field reads Start only from a standing player with unlocked controls, so R+Start during a
+  -- step, a Surf mount or a scene's message opens nothing, and the spinner keys after it walk the
+  -- player instead. While it waits, B every 10 frames pages a scene's messages without saying YES;
+  -- the first Frontier visit holds the field for about 2,300 frames.
+  local function standing()
+    return ow() and r8(S.sLockFieldControls) == 0 and r8(S.gPlayerAvatar + S.PlayerAvatar.tileTransitionState) == 0
+  end
+  local function taskLive(fn)
+    for i = 0, S.Task.count - 1 do
+      local t = S.gTasks + i * S.Task.stride
+      if r8(t + S.Task.isActive) ~= 0 and (r32(t + S.Task.func) & ~1) == (fn & ~1) then return true end
+    end
+    return false
+  end
+  self.taskLive = taskLive
   -- self-verifying warp: Utilities(0) -> Warp to map warp(1) -> (group,num,warp) spinners; retries
   local function warpTo(gh, gt, go, mh, mt, mo, wh, wt, wo, eg, em, tag)
-    for _ = 1, 6 do
-      dbg(); sel(0); sel(1); idle(20)
-      spin(gh, gt, go); spin(mh, mt, mo); spin(wh, wt, wo)
-      idle(200)
-      if grp() == eg and mapn() == em then local x, y = pos(); L(string.format("  WARP %s ok (%d,%d)", tag, x, y)); idle(40); return true end
+    for attempt = 1, 6 do
+      local waited = 0
+      while waited < 2400 and not standing() do
+        if waited % 10 == 9 then press("B", 2); waited = waited + 2 else idle(1); waited = waited + 1 end
+      end
+      if waited > 0 then L(string.format("  WARP %s waited %d frames for a standing player", tag, waited)) end
+      dbg()
+      if taskLive(S.DebugTask_HandleMenuInput_General) then
+        sel(0); sel(1); idle(20)
+        spin(gh, gt, go); spin(mh, mt, mo); spin(wh, wt, wo)
+        idle(200)
+        if grp() == eg and mapn() == em then local x, y = pos(); L(string.format("  WARP %s ok (%d,%d)", tag, x, y)); idle(40); return true end
+      else
+        local x, y = pos()
+        L(string.format("  WARP %s attempt %d: no debug menu (cb2=%08X lock=%d at %d/%d (%d,%d))", tag, attempt, cb2(),
+          r8(S.sLockFieldControls), grp(), mapn(), x, y))
+      end
       for _ = 1, 5 do press("B", 2); idle(20) end
     end
     shot(tag .. "_warpfail"); return false

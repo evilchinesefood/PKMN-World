@@ -214,7 +214,7 @@ BattleFrontier_Lounge3_Text_YouLookToughExplainGambling::
 	.string "First, we pick one of the facilities\n"
 	.string "in the BATTLE FRONTIER.\p"
 	.string "Then, we each pick a different TRAINER\n"
-	.string "who's taking that facility's challenge,\l"
+	.string "who's taking the facility's challenge,\l"
 	.string "and bet with our Battle Points.\p"
 	.string "The guy who bet on the TRAINER with\n"
 	.string "the best record takes all the Battle\l"
@@ -294,8 +294,8 @@ BattleFrontier_Lounge3_Text_ChallengeBattleArena::
 
 BattleFrontier_Lounge3_Text_ChallengeBattlePike::
 	.string "What I'm looking for is a TRAINER who's\n"
-	.string "going to be entering the BATTLE PIKE's\l"
-	.string "Battle Choice.\p"
+	.string "going to be entering the BATTLE\l"
+	.string "PIKE's Battle Choice.\p"
 	.string "But so far, I haven't seen a TRAINER\n"
 	.string "that has that winning quality.$"
 

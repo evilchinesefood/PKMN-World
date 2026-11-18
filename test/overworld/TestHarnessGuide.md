@@ -294,6 +294,15 @@ A warp immediately after Give-Pokémon / Clear-Party can desync (the menu closes
 walks the player). `F.warpTo` confirms arrival and retries. Flush debug state before the first warp
 by opening the menu once and B-ing out.
 
+R+Start opens nothing during a step, a Surf mount or anything else that holds the field controls.
+`F.warpTo` waits up to 2,400 frames for a standing player with unlocked controls, and types the
+spinner keys only once the debug menu's input task (`DebugTask_HandleMenuInput_General`) is live.
+Before that check, a missed R+Start sent the spinner's D-pad keys to the player, who walked off and
+started a Surf prompt that swallowed the next attempt too (`OweSurfLedgeFuzz`, seed 31337). While it
+waits it presses B every 10 frames, which pages a scene's messages (the first Frontier visit in
+`ArtisanCaveDeparture`) without answering a Yes/No with YES; the spinner's A presses used to do that
+by accident. A warp that has to wait logs `WARP <tag> waited N frames`.
+
 ### Flags/vars you cannot set from the editor
 
 The editor's cap is `FLAGS_COUNT - 1` = **`0x102F`** (`include/constants/flags.h:4187`).
@@ -416,6 +425,11 @@ when scanning for map-placed overworld Pokémon.
 overwrite a longer previous run's shots**. That cuts both ways: stale screenshots from a killed run
 survive and mislead — a blue-screen shot from an aborted run was misread as a fresh failure this way.
 Clear `_pwtest/` between runs, or check the log's shot list for what this run actually wrote.
+
+A campaign beat often ends on the frame a warp lands, mid fade-in. `play.lua` therefore takes each beat's
+screenshot on a savestate branch once palette RAM has held still for 8 frames (at most 120), then rewinds,
+so the run's own frames are unchanged. The log says `shot <beat> waited N frames` when it had to wait. Any
+other `F.shot` is raw: a dark or washed-out frame there is a fade, not a palette bug.
 
 `F.objdump()` dumps live object events to prove spawn/despawn. `OBJECT_EVENTS_COUNT = 16` including
 the player **and** an active follower → ~14 map objects usable, and the spawn window is ~20 wide ×

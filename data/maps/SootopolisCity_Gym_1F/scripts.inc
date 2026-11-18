@@ -343,7 +343,7 @@ SootopolisCity_Gym_1F_Text_JuanRematchNeedTwoMons:
 	.string "But our young typhoon has returned\n"
 	.string "to put us to the test again!\p"
 	.string "Well, my friend, most certainly!\n"
-	.string "I shall be delighted to dance with you…\p"
+	.string "I'd be delighted to dance with you…\p"
 	.string "Ah, no, no, no.\n"
 	.string "You have with you but one POKéMON.\p"
 	.string "I wish that you would return with\n"

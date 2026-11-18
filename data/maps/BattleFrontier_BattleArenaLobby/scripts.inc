@@ -543,8 +543,8 @@ BattleFrontier_BattleArenaLobby_Text_ExplainMindRules:
 
 BattleFrontier_BattleArenaLobby_Text_ExplainSkillRules:
 	.string "The second judging factor is “Skill.”\n"
-	.string "This factor evaluates how effectively\l"
-	.string "POKéMON moves were used.\p"
+	.string "This factor evaluates how\l"
+	.string "effectively POKéMON moves were used.\p"
 	.string "If a move worked successfully,\n"
 	.string "the Skill rating goes up.\p"
 	.string "If a move failed, the Skill rating\n"
@@ -557,8 +557,8 @@ BattleFrontier_BattleArenaLobby_Text_ExplainSkillRules:
 	.string "moves such as PROTECT and DETECT.\p"
 	.string "If the opponent used PROTECT or\n"
 	.string "DETECT, and your POKéMON failed to\l"
-	.string "hit with a move, its Skill rating will not\l"
-	.string "go down.$"
+	.string "hit with a move, its Skill rating will\l"
+	.string "not go down.$"
 
 BattleFrontier_BattleArenaLobby_Text_ExplainBodyRules:
 	.string "The third judging factor is “Body.”\n"

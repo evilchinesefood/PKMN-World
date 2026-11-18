@@ -141,8 +141,8 @@ SootopolisCity_Gym_B1F_Text_TiffanyDefeat:
 
 SootopolisCity_Gym_B1F_Text_TiffanyPostBattle:
 	.string "This is really obvious, but how strong\n"
-	.string "you are as a TRAINER has nothing to do\l"
-	.string "with how young or old you are.$"
+	.string "you are as a TRAINER has nothing to\l"
+	.string "do with how young or old you are.$"
 
 SootopolisCity_Gym_B1F_Text_BethanyIntro:
 	.string "When I'm with my POKéMON, the time\n"

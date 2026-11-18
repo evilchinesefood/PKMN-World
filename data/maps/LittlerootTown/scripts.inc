@@ -282,11 +282,18 @@ LittlerootTown_EventScript_MomCallsPlayerHome::
 	releaseall
 	end
 
-@ The player is out of sight of the door (leaving the lab), so the camera goes to Mom.
+@ The player is out of sight of the door (leaving the lab, or walking in from Route 101), so the camera
+@ goes to Mom: along the player's column to the row below the doors, along that row, and back the
+@ same way. It moves a tile at a time from wherever the player stands, so it stays in Littleroot;
+@ panning into Route 101 would make that the current map in the middle of the scene.
 LittlerootTown_EventScript_MomCallsFromAcrossTown::
 	special SpawnCameraObject
-	call_if_eq VAR_0x8009, 5, LittlerootTown_EventScript_PanToBrendansDoor
-	call_if_eq VAR_0x8009, 14, LittlerootTown_EventScript_PanToMaysDoor
+	copyvar VAR_0x8006, VAR_0x8004
+	copyvar VAR_0x8007, VAR_0x8005
+	copyvar VAR_0x8000, VAR_0x8009
+	setvar VAR_0x8001, 10
+	call LittlerootTown_EventScript_PanCameraY
+	call LittlerootTown_EventScript_PanCameraX
 	opendoor VAR_0x8009, VAR_0x800A
 	waitdooranim
 	addobject LOCALID_LITTLEROOT_MOM
@@ -305,95 +312,53 @@ LittlerootTown_EventScript_MomCallsFromAcrossTown::
 	removeobject LOCALID_LITTLEROOT_MOM
 	closedoor VAR_0x8009, VAR_0x800A
 	waitdooranim
-	call_if_eq VAR_0x8009, 5, LittlerootTown_EventScript_PanBackFromBrendansDoor
-	call_if_eq VAR_0x8009, 14, LittlerootTown_EventScript_PanBackFromMaysDoor
+	copyvar VAR_0x8000, VAR_0x8006
+	copyvar VAR_0x8001, VAR_0x8007
+	call LittlerootTown_EventScript_PanCameraX
+	call LittlerootTown_EventScript_PanCameraY
 	special RemoveCameraObject
 	releaseall
 	end
 
-LittlerootTown_EventScript_PanToBrendansDoor::
-	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanToBrendansDoor
-	waitmovement 0
+@ Moves the camera from (VAR_0x8004, VAR_0x8005) to the column VAR_0x8000 or the row VAR_0x8001.
+LittlerootTown_EventScript_PanCameraX::
+	goto_if_lt VAR_0x8004, VAR_0x8000, LittlerootTown_EventScript_PanCameraRight
+	goto_if_gt VAR_0x8004, VAR_0x8000, LittlerootTown_EventScript_PanCameraLeft
 	return
 
-LittlerootTown_EventScript_PanToMaysDoor::
-	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanToMaysDoor
+LittlerootTown_EventScript_PanCameraRight::
+	applymovement LOCALID_CAMERA, Common_Movement_WalkRightFast
 	waitmovement 0
+	addvar VAR_0x8004, 1
+	goto LittlerootTown_EventScript_PanCameraX
+
+LittlerootTown_EventScript_PanCameraLeft::
+	applymovement LOCALID_CAMERA, Common_Movement_WalkLeftFast
+	waitmovement 0
+	subvar VAR_0x8004, 1
+	goto LittlerootTown_EventScript_PanCameraX
+
+LittlerootTown_EventScript_PanCameraY::
+	goto_if_lt VAR_0x8005, VAR_0x8001, LittlerootTown_EventScript_PanCameraDown
+	goto_if_gt VAR_0x8005, VAR_0x8001, LittlerootTown_EventScript_PanCameraUp
 	return
 
-LittlerootTown_EventScript_PanBackFromBrendansDoor::
-	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanBackFromBrendansDoor
+LittlerootTown_EventScript_PanCameraDown::
+	applymovement LOCALID_CAMERA, Common_Movement_WalkDownFast
 	waitmovement 0
-	return
+	addvar VAR_0x8005, 1
+	goto LittlerootTown_EventScript_PanCameraY
 
-LittlerootTown_EventScript_PanBackFromMaysDoor::
-	applymovement LOCALID_CAMERA, LittlerootTown_Movement_PanBackFromMaysDoor
+LittlerootTown_EventScript_PanCameraUp::
+	applymovement LOCALID_CAMERA, Common_Movement_WalkUpFast
 	waitmovement 0
-	return
+	subvar VAR_0x8005, 1
+	goto LittlerootTown_EventScript_PanCameraY
 
 LittlerootTown_Movement_MomStepBackInside:
 	face_up
 	delay_8
 	set_invisible
-	step_end
-
-@ From the lab's door (7,17) to below the player's house, and back.
-LittlerootTown_Movement_PanToBrendansDoor:
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_left
-	walk_fast_left
-	step_end
-
-LittlerootTown_Movement_PanBackFromBrendansDoor:
-	walk_fast_right
-	walk_fast_right
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	step_end
-
-LittlerootTown_Movement_PanToMaysDoor:
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	step_end
-
-LittlerootTown_Movement_PanBackFromMaysDoor:
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
-	walk_fast_down
 	step_end
 
 LittlerootTown_OnWarp:
@@ -1131,7 +1096,7 @@ LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "POKéMON now…\l"
 	.string "Your father will be overjoyed.\p"
 	.string "…But please be careful.\n"
-	.string "If anything happens, you can come home.\p"
+	.string "If anything happens, just come home.\p"
 	.string "Go on, go get them, honey!$"
 
 LittlerootTown_Text_CanUsePCToStoreItems:

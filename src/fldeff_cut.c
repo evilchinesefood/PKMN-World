@@ -605,31 +605,12 @@ void FixLongGrassMetatilesWindowTop(s16 x, s16 y)
     }
 }
 
+// Continue reloads the row below the saved map view from the layout, so roots under long grass cut
+// on the view's last row come back. Cut them again, as SetCutGrassMetatiles did.
 void FixLongGrassMetatilesWindowBottom(s16 x, s16 y)
 {
-    if (MapGridGetMetatileIdAt(x, y) == METATILE_General_Grass)
-    {
-        u8 metatileBehavior = MapGridGetMetatileBehaviorAt(x, y + 1);
-        if (MetatileBehavior_IsLongGrassSouthEdge(metatileBehavior))
-        {
-            s32 metatileId = MapGridGetMetatileIdAt(x, y + 1);
-            switch (metatileId)
-            {
-            case METATILE_Fortree_LongGrass_Root:
-                MapGridSetMetatileIdAt(x, y + 1, METATILE_General_Grass);
-                break;
-            case METATILE_Fortree_SecretBase_LongGrass_BottomLeft:
-                MapGridSetMetatileIdAt(x, y + 1, METATILE_Fortree_SecretBase_LongGrass_TopLeft);
-                break;
-            case METATILE_Fortree_SecretBase_LongGrass_BottomMid:
-                MapGridSetMetatileIdAt(x, y + 1, METATILE_Fortree_SecretBase_LongGrass_TopMid);
-                break;
-            case METATILE_Fortree_SecretBase_LongGrass_BottomRight:
-                MapGridSetMetatileIdAt(x, y + 1, METATILE_Fortree_SecretBase_LongGrass_TopRight);
-                break;
-            }
-        }
-    }
+    if (GetLongGrassCaseAt(x, y) == LONG_GRASS_FIELD)
+        CutLongGrassRootAt(x, y + 1);
 }
 
 static void StartCutTreeFieldEffect(void)

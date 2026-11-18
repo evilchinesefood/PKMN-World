@@ -211,7 +211,7 @@ BattleFrontier_ScottsHouse_EventScript_ScottFaceAwayWest::
 
 BattleFrontier_ScottsHouse_Text_WelcomeToBattleFrontier:
 	.string "SCOTT: Well, hello and welcome!\n"
-	.string "Heheh… Sorry about the cramped space.\p"
+	.string "Heheh… Sorry about the cramped room.\p"
 	.string "Anyway, {PLAYER}{KUN}, let me formally\n"
 	.string "welcome you to the BATTLE FRONTIER.\p"
 	.string "This is my dream come true.\n"
@@ -307,7 +307,7 @@ BattleFrontier_ScottsHouse_Text_YouveCollectedAllGoldSymbols:
 	.string "You've gathered up the full set\l"
 	.string "of gold symbols!\p"
 	.string "That's more than stupendous!\n"
-	.string "You're incredible, just as I suspected!\p"
+	.string "You're incredible, just as I thought!\p"
 	.string "… … … … … …\p"
 	.string "{PLAYER}, you've got to accept this!\p"
 	.string "I think you will be able to\n"
@@ -332,7 +332,7 @@ BattleFrontier_ScottsHouse_Text_Beat50TrainersInARow:
 
 BattleFrontier_ScottsHouse_Text_Beat100TrainersInARow:
 	.string "SCOTT: Oh, my! I heard about you!\n"
-	.string "How you overwhelmed the BATTLE TOWER!\l"
+	.string "How you dominated the BATTLE TOWER!\l"
 	.string "You beat over 100 TRAINERS in a row?\p"
 	.string "That's ridiculously spectacular!\n"
 	.string "You've got to have this!$"

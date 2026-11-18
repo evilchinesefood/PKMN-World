@@ -51,6 +51,8 @@ WANT = [
     # is the measurable form of the most plausible overworld red screen.
     "gHeap",
     "BattleMainCB2", "SetActionsAndBattlersTurnOrder", "CB2_QuitRecordedBattle", "CB2_FrontierPass",
+    # FrontierRecordedBattle.lua: each battler's recorded byte count and the bytes that did not fit.
+    "sBattlerRecordSizes", "sDroppedRecordBytes",
     "gProtectStructs", "gChosenMoveByBattler",
     "gBattleTypeFlags", "gBattlersCount", "gBattleOutcome", "gBattleMons", "gBattleHistory",
     # Issue #120 playtests A/B. gDisplayedStringBattle is the expanded battle line
@@ -104,6 +106,12 @@ WANT = [
     # OlivineHarborBoard.lua, which seeds EOS into byte 0 first so the check cannot pass on a
     # stale buffer).
     "gStringVar1", "gStringVar2",
+    # HatchMetLocation.lua reads the SwSh summary memo's encounter line (BufferMonEncounter).
+    "gStringVar3",
+    # RelearnerLongLearnset.lua reads the relearner's list and its cursor.
+    "sMoveRelearnerStruct", "sMoveRelearnerScrollState",
+    # HatchMetLocation.lua counts the turns an OHKO takes to see a traded Pokemon disobey.
+    "gBattleTurnCounter",
     # ResortGorgeousRequest.lua reads a requested species' enabled bit, base form and dex number.
     "gSpeciesInfo",
     # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
@@ -219,6 +227,8 @@ WANT = [
     # DexMenuChord.lua tells the Pokedex screen from the Special Pokemon checklist by CB2.
     "CB2_Pokedex", "RunCollection",
     "Task_CallYesOrNoCallback", "Task_HandleYesNoInput", "Task_HandleMultichoiceInput",
+    # InputSpamStress confirms Dig's "Escape from here?" before its mash.
+    "Task_HandleFieldMoveExitAreaYesNoInput",
     "Task_HandleDaycareLevelMenuInput",
     "Task_OakSpeech_LetsGo", "Task_EvIvChangerHandleInput",
     # The PC storage screen's release confirmation (StorageReleaseHeldItem.lua).
@@ -230,6 +240,7 @@ WANT = [
     "TohjoFalls_EventScript_GiovanniSceneLeft",
     "TohjoFalls_EventScript_GiovanniSceneRight",
     "JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags",
+    "JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags",
     "gSaveAttemptStatus", "gSaveCounter",
     "gReadWriteSector", "gDamagedSaveSectors", "gLastWrittenSector",
     "sGlobalScriptContextStatus",
@@ -245,6 +256,8 @@ WANT = [
     # still holds it" without stepping the player. sOWESpawnCountdown is zeroed to spawn an
     # encounter now; the debug Give Egg task's input is where the suite writes the species.
     "sLockFieldControls", "sOWESpawnCountdown", "DebugAction_Give_Pokemon_SelectId",
+    # lib.lua's warpTo types its spinner keys only once the debug menu's input task is live.
+    "DebugTask_HandleMenuInput_General",
     # RegisteredItemDecline.lua: the `lock` wait that a frozen, mid-animation follower never ends.
     "Task_FreezeSelectedObjectAndPlayer",
     # WhiteoutEveryCenter.lua walks the heal-location table and its parallel whiteout respawn
@@ -312,6 +325,11 @@ WANT = [
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
     # AlphSlidingPuzzles.lua: the Ruins of Alph sliding puzzle's live board (src/sliding_puzzle.c).
     "sSlidingPuzzle", "CB2_SlidingPuzzle",
+    # TextWidthTour.lua opens the classic Start menu, a Safari battle with a scripted wild Pokemon,
+    # and the nickname screen the way their callers do.
+    "ShowStartMenu", "BattleSetup_StartWildBattle", "ChangePokemonNickname",
+    # The BW action box art under the four labels; the label pixels are the window's differences.
+    "sBWBattleUI_ActionBox",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPokemonStorage"]
@@ -327,6 +345,7 @@ OPTIONAL = {
     "sUsmState",  # PW_GRAPHICAL_START_MENU
     "sUsmMemory",  # PW_GRAPHICAL_START_MENU
     "gFieldEffectObjectPicTable_SmallLight",  # absent before the street-lamp light existed
+    "sDroppedRecordBytes",  # absent before Frontier recordings counted overflow
 }
 
 # Struct offsets are ABI-fixed (they only change if the struct changes, which is a source edit,
@@ -403,7 +422,7 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                    optionsU16 = 0x14, ratesU16 = 0x16, encounterMask = 0x00C0, moneyLossMask = 0x0300,
                    currentRegion = 0x90, saveVersion = 0x91, introDoneBits = 0x92,
                    followerSlot = 0x93, bp = 3768, berryPowder = 0x1F4,
-                   playerGender = 8, localTimeOffset = 0x98,
+                   playerName = 0, playerGender = 8, localTimeOffset = 0x98,
                    frontierChallengeStatus = 0xCA8 },
                                                             -- berryPowder: berryCrush (0x1EC) + 8, the
                                                             --   u32 XORed with encryptionKey
@@ -455,7 +474,11 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   from BGxCNT, never assumed), which is
                                                             --   how a suite reads the palette indices a
                                                             --   window was actually drawn with.
-  MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12 },
+  MapHeader    = { mapLayout = 0x00, mapLayoutId = 0x12, regionMapSectionId = 0x14 },
+  MoveRelearner= { movesToLearn = 16, menuItems = 136, menuItemStride = 8, numMenuChoices = 625 },
+                                                            -- sMoveRelearnerStruct's anonymous struct
+                                                            --   (src/move_relearner.c), probe-verified
+                                                            --   with the build's ABI.
   MapLayout    = { width = 0x00, height = 0x04, border = 0x08, map = 0x0C,
                    primaryTileset = 0x10, secondaryTileset = 0x14,
                    isFrlg = 0x18, borderWidth = 0x19, borderHeight = 0x1A, isJohto = 0x1B },
@@ -491,6 +514,8 @@ OFFSETS_LUA = """  -- struct offsets (ABI-fixed; verify with an offsetof probe i
                                                             --   Thumb pointer, so compare it to a symbol
                                                             --   address with the low bit masked off.
   ScriptCtx    = { scriptPtr = 8 },                         -- struct ScriptContext
+  PlayerAvatar = { tileTransitionState = 3 },               -- struct PlayerAvatar, global.fieldmap.h;
+                                                            --   0 (T_NOT_MOVING) between steps.
   Hours        = { MORNING_BEGIN = 6, MORNING_END = 10, DAY_BEGIN = 10, DAY_END = 19,
                    EVENING_BEGIN = 19, EVENING_END = 20, NIGHT_BEGIN = 20, NIGHT_END = 6 },
                                                             -- OW_TIMES_OF_DAY = GEN_LATEST. Only TIME_NIGHT

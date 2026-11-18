@@ -1059,7 +1059,7 @@ SlateportCity_Text_SaysSomethingLikeSeaIsEndless:
 SlateportCity_Text_ShouldveBroughtMyGameBoy:
 	.string "Grumble…\p"
 	.string "I should've brought my Game Boy\n"
-	.string "Advance so I wouldn't get bored in line…\p"
+	.string "Advance so I wouldn't get bored here…\p"
 	.string "Grumble…$"
 
 SlateportCity_Text_HotSpringsAfterOperation:
@@ -1263,7 +1263,7 @@ SlateportCity_Text_ExplainBerries:
 
 SlateportCity_Text_ExplainBerryPowder:
 	.string "I recently had machines installed at\n"
-	.string "POKéMON CENTERS for crushing BERRIES.\p"
+	.string "POKéMON CENTERS to crush BERRIES.\p"
 	.string "The BERRY CRUSH machines are at\n"
 	.string "the DIRECT CORNER upstairs.\p"
 	.string "Did you know?\p"

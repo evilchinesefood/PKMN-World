@@ -127,6 +127,14 @@ static void OpponentBufferRunCommand(enum BattlerId battler)
         // Local recordings use the facility trainer's normal graphics and the recorded opponent's decisions.
         if (RecordedBattle_IsFrontierPlayback() && RecordedOpponent_TryReplayInput(battler, command))
             return;
+        if (command == CONTROLLER_CHOOSEPOKEMON && RecordedBattle_IsFrontierRecording())
+        {
+            // Playback replays this mid-turn choice without the AI, so its draws must not move the battle RNG.
+            rng_value_t rng = gRngValue;
+            OpponentHandleChoosePokemon(battler);
+            gRngValue = rng;
+            return;
+        }
         if (command < ARRAY_COUNT(sOpponentBufferCommands))
             sOpponentBufferCommands[command](battler);
         else

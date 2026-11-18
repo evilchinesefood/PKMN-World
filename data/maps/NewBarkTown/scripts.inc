@@ -250,8 +250,8 @@ NewBarkTown_Text_LassState4:
 	.string "you are leaving.$"
 
 NewBarkTown_Text_LassState5:
-	.string "Call your mom on your POKéNAV\n"
-	.string "to let her know how you're doing.$\p"
+	.string "Visit your mom now and then\n"
+	.string "to let her know how you're doing.$"
 
 NewBarkTown_Text_Silver1:
 	.string ". . .\p"

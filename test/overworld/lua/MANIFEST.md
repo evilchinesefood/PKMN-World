@@ -152,6 +152,7 @@ is clean; keep it that way.
 | [`MauvilleGymFollowerBarrier.lua`](#mauvillegymfollowerbarrierlua) | fresh new game | Mauville Gym switch 2 pressed from the tiles its barriers cover: the follower goes into its ball instead of standing in the beam, and comes back out on the next step. |
 | [`CianwoodFlyGate.lua`](#cianwoodflygatelua) | fresh new game | Chuck's wife follows `VAR_GETFLY`, not a held HM02: no "lost to you" before Chuck, the already-have line on the give, then the repeat line. |
 | [`CardKeyDescription.lua`](#cardkeydescriptionlua) | fresh new game | The Radio Tower Director's CARD KEY obtain box names no Silph Co.; Bag shots of the CARD KEY and BASEMENT KEY descriptions. |
+| [`TextWidthTour.lua`](#textwidthtourlua) | fresh new game | One fixed-input pass over 211 screenshots of the screens that centre or size text with `GetStringWidth`, for pixel-diffing two builds; the BW battle action labels (normal, Hoenn Safari, Kanto Safari) are centred in their buttons. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -3811,3 +3812,25 @@ basement grunts beaten, the player walks to him and talks with real input; the o
 key. The Bag's Key Items pocket is then opened on the CARD KEY and on a BASEMENT KEY (Wattson in Hoenn,
 Petrel in Johto; it named New Mauville) for screenshots; the Bag formats into a stack buffer, so those
 two are visual proof only. Measured **12/13** on the unfixed ROM and **13/13** fixed.
+
+### `TextWidthTour.lua`
+
+The lever for text measurement changes (ce646ce30b refactored `GetStringWidth` and `PrintGlyph`). Every input
+is a fixed frame count, so two builds that differ only in text code screenshot the same frames under the same
+names: title and main menu, both Options screens, the graphical and classic Start menus, every Bag pocket, the
+hub mart at 999,999 and at 7 money, the party menu and six summary pages, the Pokedex list and pages, both
+Trainer Card sides, Story pages, the PC menus and box, the naming screen, the Move Relearner, a field message
+with keypad icons, the BW battle UI (singles with Intimidate, doubles with Intimidate and Drizzle pop-ups,
+move grids, Hoenn and Kanto Safari), the Frontier Pass and the Hall of Fame. Compare two runs with
+`python3 test/overworld/TextWidthDiff.py <run-a> <run-b> --out <dir>`; it lists each differing pair with
+its pixel count and bounding box and writes before, after and change mask side by side.
+
+On its own the suite asserts each scene opens and returns to the field with no crash screen, and that every
+BW action-box label is centred in its button: the label's pixels are wherever `B_WIN_ACTION_MENU` differs
+from `sBWBattleUI_ActionBox`, and its left and right margins in the 48 px cell must agree within 1 px.
+ce646ce30b stopped subtracting the outline pixel from 16 px glyphs, which exposed `CHAR_BLOCK_1` claiming 16 px
+for 11 px of art: the Hoenn Safari POKeBLOCK label measured 48 instead of 42 and sat flush left (`left=0
+right=5`). Measured **79/80** on master at ce646ce30b, **80/80** with the glyph width fixed, and **80/80**
+on master with `src/text.c` reverted to ce646ce30b^. Diffing the reverted build against master over 211
+pairs changed only the Hoenn Safari action box and the main menu's version string.
+

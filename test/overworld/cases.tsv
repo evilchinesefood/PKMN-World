@@ -312,3 +312,4 @@ DupKeyGiftScenes	lua/DupKeyGiftScenes.lua	fresh	0	required
 RadioDirectorCardKey	lua/RadioDirectorCardKey.lua	fresh	0	required
 CianwoodFlyGate	lua/CianwoodFlyGate.lua	fresh	0	required
 CardKeyDescription	lua/CardKeyDescription.lua	fresh	0	required
+TextWidthTour	lua/TextWidthTour.lua	fresh	0	required

@@ -36,6 +36,13 @@ TEST("Outlined text measures the widest line and handles empty lines")
     EXPECT_EQ(GetStringWidth(FONT_OUTLINED, COMPOUND_STRING("{STR_VAR_1}"), 0), width);
 }
 
+TEST("Safari POKEBLOCK action label measures its art")
+{
+    // One 43 px picture cut into PO, KE and BLOCK_1 (16 + 16 + 11 px); BLOCK_2 and BLOCK_3 draw nothing.
+    // Like every outlined string, the width leaves out the last outline column.
+    EXPECT_EQ(GetStringWidth(FONT_BATTLE_UI_ELEMENTS, COMPOUND_STRING("{POKEBLOCK}"), 0), 42);
+}
+
 TEST("Move names fit on Pokemon Summary Screen")
 {
     u32 i;

@@ -312,6 +312,11 @@ WANT = [
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
     # AlphSlidingPuzzles.lua: the Ruins of Alph sliding puzzle's live board (src/sliding_puzzle.c).
     "sSlidingPuzzle", "CB2_SlidingPuzzle",
+    # TextWidthTour.lua opens the classic Start menu, a Safari battle with a scripted wild Pokemon,
+    # and the nickname screen the way their callers do.
+    "ShowStartMenu", "BattleSetup_StartWildBattle", "ChangePokemonNickname",
+    # The BW action box art under the four labels; the label pixels are the window's differences.
+    "sBWBattleUI_ActionBox",
 ]
 # name -> emitted as <name>_size, the ELF symbol size in bytes, so a suite can walk a table.
 SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPokemonStorage"]

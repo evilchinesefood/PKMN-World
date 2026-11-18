@@ -1570,6 +1570,16 @@ an identical 360-frame loop 13 times: A on POKéMON, the party screen, back out,
 Each trip took 15 keys, and the action menu's key was picked by count, so it came round to A every
 time. The battle keys now steer the action menu and the Yes/No by their cursors, as
 `LanceMultiOutcome` does.
+
+Tate and Liza at Fast text (stress pass 9). `PW_SPAM_BASE=1618033 PW_SPAM_TEXT=3` stranded the trainer
+double in the in-battle Bag (`CB2_BagMenuRun`, `Task_BagMenu_HandleInput`), 90/91, on every replay.
+From the kept savestate one B closes the Bag, so the game was fine. The battle keys read only battler
+0's controller, and battler 0 had already chosen, so they pressed A on battler 2's action menu,
+whose cursor sat on BAG; the Bag's back-out keys closed it and the next A opened it again, a
+120-frame loop for the whole recovery budget. The pass 5 Mid-text strand of the same battle was
+this loop. The keys now steer whichever player battler holds the menu, and on battler 2's menu
+press B to hand the choice back to battler 0, which can forfeit (battler 2 steers to RUN only when
+battler 0 is gone). Measured **91/91** at base 1618033 Fast text, **90/91** before.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after

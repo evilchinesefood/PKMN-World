@@ -4201,8 +4201,9 @@ ce646ce30b it scores **76/100**: all four boards rotate the cursor sprite on an 
 
 The six NPC and sign scripts whose lines ce646ce30b rewrote, each driven through its real trigger
 with a seeded A/B mash, Yes/No answers steered by the menu cursor. Elm's first directions after the
-starter must give PROF. BIRCH's number and set `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL`; later visits repeat
-them, and after Togepi he points to PROF. BIRCH. The Goldenrod bike clerk is refused (no bike, flag
+starter must promise no phone number and leave `FLAG_ENABLE_PROF_BIRCH_MATCH_CALL` clear (the owner
+removed Johto's PROF. BIRCH contact); later visits repeat them, and after Togepi he asks about the
+POKeDEX without sending the player to a phone (unfixed 57/62, fixed 62/62). The Goldenrod bike clerk is refused (no bike, flag
 clear), accepted with a full Key Items pocket (the debug fill leaves 7 of 99 slots free, so the suite
 tops them up and swaps out any Mach Bike stack: the BAG is full line, no bike, flag clear) and accepted
 with room (one Mach Bike, flag set); his thanks and the second clerk's line must name the Mach Bike
@@ -4582,16 +4583,15 @@ Warden Baoba's Route 39 scene says "{PLAYER} registered BAOBA in the POKéNAV!" 
 `FLAG_ENABLE_BAOBA_MATCH_CALL`, but no Match Call contact read that flag, so the number he gave could
 not be seen or called. pokemonHnS defines the contact (an NPC header, "SAFARI WARDEN", Safari Zone
 Gate, two call lines with the second gated on `FLAG_AMPHAROS_HEALED`), and `MC_HEADER_BAOBA` now
-carries it. With the PokeGear, Match Call, Elm's contact (the PROF. BIRCH flag Elm's lab sets) and MOM's
-flag set, the suite warps to Route 39 and opens the Match Call list from the Start menu with real
+carries it. With the PokeGear, Match Call and MOM's flag set (so the list opens before Baoba), the suite warps to Route 39 and opens the Match Call list from the Start menu with real
 input, then walks into the shadow trigger and plays the scene with a seeded mash of A, B and Down
 (B at the Gold/Silver choice asks again). It opens the list again and calls every contact, then
 calls once more after Ampharos is healed. **Oracle:** the contact list read from the live Match Call
 menu and each call's text from `gStringVar4`: no BAOBA before the scene, exactly one after, the list
-one longer, his call says the Safari Zone is nearly ready and later that it is open, and PROF. BIRCH
-and MOM still answer. Every call ends back on the list and the field is walkable after each visit.
+one longer, his call says the Safari Zone is nearly ready and later that it is open, MOM still
+answers, and no PROF. BIRCH is listed (Elm no longer registers him). Every call ends back on the list and the field is walkable after each visit.
 **Discrimination:** unfixed 29/33 (the list stays at three contacts and no call answers as BAOBA),
-fixed 35/35. Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
+fixed 35/35 (29/29 once Elm stopped registering PROF. BIRCH, one call fewer per visit). Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
 mash, `PW_INSTANT=1` sets Instant text.
 
 ### `PyramidSummaryRelearn.lua`
@@ -4619,12 +4619,14 @@ it to them, talking about a letter for STEVEN in DEWFORD, and calling him set
 MR. STONE alone left a Match Call list with nobody in it, which draws stray tiles and calls whatever
 the unwritten first entry holds. The suite crosses the hub's Johto gate and plays the clock and the
 mother's PokeGear scene with real input, steps outdoors and opens the PokeNav from the Start menu (and,
-if Match Call is offered, the list, mashing A, Up and Down). Then Elm's first directions register his
-number and the list opens again; then Devon's 3F scene gives the PokeNav. From a fresh-boot savestate,
+if Match Call is offered, the list, mashing A, Up and Down). Then Elm's first directions play out:
+he gives no number, so the PokeGear still offers no Match Call while its main menu cursor is mashed.
+Then Devon's 3F scene gives the PokeNav, and Birch's Route 110 scene registers PROF. BIRCH. From a fresh-boot savestate,
 a Hoenn-first player plays Devon's scene and the Rustboro scientist's tutorial (pick POKeNAV, call MR.
-STONE), then calls him from the list. **Oracle:** the live main menu type and Match Call list; the
-PokeGear lists no MR. STONE and offers Match Call only with a contact; Elm's PROF. BIRCH entry heads the
-list and answers; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKENAV`; the Hoenn
+STONE), then calls him from the list and plays Birch's Route 110 scene. **Oracle:** the live main menu type and Match Call list; the
+PokeGear lists no MR. STONE and offers Match Call only with a contact; after Elm's directions
+`FLAG_ENABLE_PROF_BIRCH_MATCH_CALL` is clear and the cursor never reaches Match Call; Birch's Route 110
+scene registers him in both orders and his call answers as PROF. BIRCH; MR. STONE appears once Devon's scene sets `FLAG_RECEIVED_POKENAV`; the Hoenn
 tutorial call is his first line and the next is the letter errand. **Discrimination:** unfixed 45/51
 (MR. STONE listed and called from New Bark, listed above Elm, and Elm's slot answered as MR. STONE),
 MR. STONE gated without the menu change 50/51 (Match Call offered with 0 contacts), fixed 51/51.
@@ -4649,3 +4651,5 @@ that buffer before any cancel, and returning from the party screen respawns the 
 that drops the Attendant's `SavePlayerParty` and removes the follower on that cancel fails 144/172:
 both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks on the
 party-restoring cancels fail.
+Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
+with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.

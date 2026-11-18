@@ -290,7 +290,6 @@ NewBarkTown_Lab_EventScript_MrPokemon::
 	setvar VAR_NEWBARKTOWN_LABSTATE, 2
 	setvar VAR_NEWBARK_TOWN_STATE, 3
 	msgbox NewBarkTown_Lab_Text_ElmDirections1, MSGBOX_DEFAULT
-	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
 	msgbox NewBarkTown_Lab_Text_ElmDirections2, MSGBOX_DEFAULT
 	closemessage
 	goto_if_eq VAR_FACING, DIR_EAST, NewBarkTown_Lab_EventScript_MrPokemonMovementSafe
@@ -732,9 +731,7 @@ NewBarkTown_Lab_Text_ElmDirections1:
 	.string "beyond CHERRYGROVE, the next\l"
 	.string "city over.\p"
 	.string "It's almost a direct route\n"
-	.string "there, so you can't miss it.\p"
-	.string "Here, take PROF. BIRCH's number.\n"
-	.string "He's a good friend of mine!$"
+	.string "there, so you can't miss it.$"
 
 
 NewBarkTown_Lab_Text_ElmLetYourMonBattle:
@@ -1000,5 +997,5 @@ NewBarkTown_Lab_Text_Officer2:
 NewBarkTown_Lab_Text_Elm_CallMe:
 	.string "Ah, {PLAYER}!\p"
 	.string "How's your POKéDEX coming along?\n"
-	.string "Give PROF. BIRCH a call. He can\l"
-	.string "check your progress!$"
+	.string "Every POKéMON you catch helps\l"
+	.string "my research!$"

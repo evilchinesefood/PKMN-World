@@ -1,8 +1,9 @@
 -- The six NPC and sign scripts whose lines were rewritten so their advice matches this game, each
 -- driven through its real trigger with a seeded A/B mash (Yes/No boxes steered by the cursor).
 --
--- New Bark lab: Elm's first directions give PROF. BIRCH's number and set his match-call flag,
--- later visits repeat the directions, and after Togepi Elm says to call PROF. BIRCH.
+-- New Bark lab: Elm's first directions promise no phone number and leave PROF. BIRCH's match-call
+-- flag clear, later visits repeat the directions, and after Togepi Elm asks about the POKeDEX
+-- without sending the player to a phone.
 -- Goldenrod Bike Shop: the clerk refused (No), then accepted with a full Key Items pocket (bag
 -- full, no bike, flag clear), then accepted with room (Mach Bike, flag set). Talking again shows
 -- a line that fits either shop bike, also for a Hoenn-first rider holding only Rydel's Acro Bike,
@@ -222,23 +223,24 @@ F.run(function()
   if F.check("elm: in front of Elm after the starter", warp(76, 0, 6, 4)) then
     local ok = talk("Up", "elm_first")
     F.check("elm: the first directions hand control back", ok)
-    F.check("elm: the first directions give PROF. BIRCH's number",
-      has(heard(), "take PROF. BIRCH's number", "good friend") and lacks(heard(), "you have my"), heard())
-    F.check("elm: PROF. BIRCH's match call is registered", flagGet(FLAG_ENABLE_PROF_BIRCH_MATCH_CALL))
+    F.check("elm: the first directions promise no number",
+      has(heard(), "can't miss it") and lacks(heard(), "number", "PROF. BIRCH", "call me"), heard())
+    F.check("elm: PROF. BIRCH's match call stays unregistered", not flagGet(FLAG_ENABLE_PROF_BIRCH_MATCH_CALL))
   end
   if F.check("elm: back at Elm's computer", warp(84, 0, 4, 6) and warp(76, 0, 3, 3)) then
     for i = 1, 2 do
       local ok = talk("Up", "elm_again_" .. i)
       F.check("elm: the repeated directions hand control back (" .. i .. ")", ok)
-      F.check("elm: the repeated directions still name PROF. BIRCH (" .. i .. ")", has(heard(), "PROF. BIRCH"), heard())
+      F.check("elm: the repeated directions promise no number (" .. i .. ")",
+        has(heard(), "can't miss it") and lacks(heard(), "number", "PROF. BIRCH"), heard())
     end
   end
   flag(FLAG_SHOWN_ELM_TOGEPI, true)
   if F.check("elm: at Elm's computer after Togepi", warp(84, 0, 4, 6) and warp(76, 0, 3, 3)) then
     local ok = talk("Up", "elm_callme")
     F.check("elm: the Togepi follow-up hands control back", ok)
-    F.check("elm: the Togepi follow-up points to PROF. BIRCH",
-      has(heard(), "Give PROF. BIRCH a call", "check your progress") and lacks(heard(), "I'm busy"), heard())
+    F.check("elm: the Togepi follow-up asks about the POKeDEX without a phone",
+      has(heard(), "coming along", "helps my research") and lacks(heard(), "PROF. BIRCH", "call", "I'm busy"), heard())
   end
 
   -- New Bark lass after the starter: Johto's Mom is never registered on the POKeNAV (only the

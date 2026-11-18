@@ -159,6 +159,7 @@ is clean; keep it that way.
 | [`RelearnerLongLearnset.lua`](#relearnerlonglearnsetlua) | fresh new game | Fallarbor's relearner lists all 29 of Gallade's and 24 of Zangoose's relearnable moves, scrolls to both ends, survives a mash and teaches the last one into a full moveset. |
 | [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Fourteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
 | [`BattleNetShardEdges.lua`](#battlenetshardedgeslua) | fresh new game | The Battle Net BP clerk, stone vendor and Director at short, exact and full-pocket balances, and menu mashes that must conserve BP and shards. |
+| [`IndigoVictoryRoadExits.lua`](#indigovictoryroadexitslua) | fresh new game | Victory Road's top exit and the league town above it join both ways on foot in Johto, Kanto and Hoenn; the Johto Indigo Plateau's south stairs lead down Route 23 to the cave mouth. |
 | [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
@@ -4192,3 +4193,17 @@ bytes beside them read 1, 0, 1, so a layout change fails instead of passing) and
 Oracle: no bottom-row prompt line inks past 200 px and none past 208 px. On the unfixed ROM the lines
 end at 201, 207, 204 and 203 px (the tunneler's "machinery." shows as "machiner" under the arrow).
 Measured **16/20** on the unfixed ROM and **20/20** fixed.
+
+### `IndigoVictoryRoadExits.lua`
+
+Johto Victory Road 1F's top exit (39,5) put the player on the Johto Indigo Plateau's south stairs at
+(11,18). That cell is `MB_ROCK_STAIRS`, which fires no warp, and the stairs end one row lower at a map
+edge with no connection, so no walk led back into the cave. pokemonHnS joins the plateau's south edge
+to Route 23, which holds the cave mouth; the Johto League port left Route 23 out. A debug warp sets the
+player on Victory Road's top exit and everything after is real input: Down leaves the cave, the player
+walks on to the plateau and to the stair foot, then walks down the stairs and on to the cave mouth, Up
+enters Victory Road (it must land on the top exit), and Down leaves again (it must land on the first
+landing). The first landing, Route 23's path at (20,12) and the stair foot are shot at 14:30 and 22:30. Kanto (the plateau's stairs
+onto Route 23, Victory Road 2F's exit and the cave mouth back) and Hoenn (Victory Road 1F's top exit
+into Ever Grande City and back) are controls that pass on both ROMs. Measured **15/20** on the unfixed
+ROM, stuck at (11,19), and **20/20** fixed.

@@ -240,6 +240,7 @@ WANT = [
     "TohjoFalls_EventScript_GiovanniSceneLeft",
     "TohjoFalls_EventScript_GiovanniSceneRight",
     "JohtoPokemonLeague_HallOfFame_EventScript_SetGameClearFlags",
+    "JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags",
     "gSaveAttemptStatus", "gSaveCounter",
     "gReadWriteSector", "gDamagedSaveSectors", "gLastWrittenSector",
     "sGlobalScriptContextStatus",

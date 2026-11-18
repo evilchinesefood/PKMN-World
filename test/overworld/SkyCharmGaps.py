@@ -13,7 +13,8 @@ Strength boulders and whirlpools are walls. It walks from the region's arrival p
 maps. A gate is a coord event, or a stationary scripted object that is not an item ball, trainer,
 berry tree or field-move obstacle; gates sharing a map and a script form one group. The walk treats
 every gate as a wall. Then the Sky Charm lands on every allowed cell of the region's outdoor maps
-joined by connections, and the player walks on from there.
+joined by connections, and the player walks on from there. Neither crosses a seam into a map that
+IsConnectionClosedAt (src/field_player_avatar.c) names, from any side and whatever its condition.
 
 Two kinds of flight-only area print:
 
@@ -66,6 +67,13 @@ def badge_table(root):
     whirl = re.search(r"EventScript_Whirlpool::.*?goto_if_unset FLAG_JOHTO_BADGE_(\d)", scripts, re.S)
     out["JOHTO"]["whirlpool"] = int(whirl.group(1)) - 1
     return out
+
+
+def closed_seams(root):
+    """The maps IsConnectionClosedAt keeps the player from crossing into."""
+    text = read(root, "src/field_player_avatar.c")
+    body = re.search(r"\bIsConnectionClosedAt\(s16 x, s16 y\)\n\{(.*?)\n\}", text, re.S).group(1)
+    return set(re.findall(r"case (MAP_\w+):", body))
 
 
 def mapsec_regions(root):
@@ -205,14 +213,14 @@ def analyse(reach, region, badges, region_of):
     locked = frozenset(move for move, b in table.items() if b > fly)
     terrain, cell_group, label = walls(reach, region_maps, locked)
 
-    reach.maps_in, reach.locked = region_maps, locked
+    reach.maps_in, reach.locked, reach.closed = region_maps, locked, closed_seams(reach.root)
     seeds = [s for s in reach.seeds() if s[0] in ARRIVALS[region]]
     reach.walls = terrain
     paths = gate_paths(reach, seeds, cell_group)
     reach.walls = terrain | set(cell_group)
     strict = reach.flood(seeds, set())
     gap = {s[:3] for s in reach.sky(set(strict))} - {s[:3] for s in strict}
-    reach.maps_in, reach.locked, reach.walls = None, frozenset(), set()
+    reach.maps_in, reach.locked, reach.walls, reach.closed = None, frozenset(), set(), set()
 
     fewest = {}
     for s, path in paths.items():

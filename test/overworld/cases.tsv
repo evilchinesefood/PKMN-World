@@ -325,3 +325,4 @@ SkyCharmReceptionGate	lua/SkyCharmReceptionGate.lua	fresh	0	required
 SkyCharmBlackthornSetup	lua/SkyCharmBlackthornSetup.lua	fresh	0	required
 MessageBoxFit	lua/MessageBoxFit.lua	fresh	0	required
 IndigoVictoryRoadExits	lua/IndigoVictoryRoadExits.lua	fresh	0	required
+SkyCharmSeams	lua/SkyCharmSeams.lua	fresh	0	required

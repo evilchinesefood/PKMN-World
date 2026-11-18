@@ -41,6 +41,12 @@
 --             move and switch menus, then finished with the foes held at 1 HP (a one-hit KO can still
 --             lose it). Neither the battle room nor the lobby may offer to record it, and the Frontier
 --             Pass must still play the first battle.
+--   multi     Battle Tower multi beside partner 5 from the partner room; playback replays the partner
+--             from the record. The partner's lead is rewritten during the battle transition to know
+--             only Baton Pass and to hold a Lum Berry (a confused lead could fail to pass), so the
+--             partner's AI chooses the Pokemon it passes to in the middle of turn 1. Snorlax's turn 1
+--             Vital Throw (priority -1) is aimed at the partner's slot and rolls its damage on that
+--             incoming Pokemon. Snorlax then fights the foes; a refused move takes the next slot.
 -- PW_SEED varies the mashes (default 1). PW_TEXT sets the text speed (0 slow .. 3 instant).
 -- Run via: test/overworld/mgba-run.sh test/overworld/lua/FrontierRecordedBattle.lua <rom.gba>
 
@@ -57,6 +63,8 @@ local textSpeed = tonumber(os.getenv("PW_TEXT") or "")
 
 local STARTERS = { { 6, { 53, 89 } }, { 9, { 57, 58 } }, { 3, { 202, 89 } }, { 25, { 85 } } }
 local TOWER_SINGLES = { { 12, 6 }, { 6, 6 } }
+local TOWER_MULTIS = { { 12, 8 }, { 14, 8 }, { 14, 6 } }
+local PARTNER_ROOM = 15
 local cases = {
   arena = { lobby = 28, bout = 7, attendant = { { 7, 11 }, { 7, 8 } }, party = STARTERS, pick = { 2, 1, 0 } },
   palace = { lobby = 22, bout = 1, attendant = { { 12, 10 }, { 5, 10 }, { 5, 7 } }, party = STARTERS,
@@ -80,6 +88,8 @@ local cases = {
     expectChoices = "202:0/41:0,202:0/97:0,202:0/97:0,202:0/97:0,202:16384/283:0" },
   overflow = { lobby = 5, bout = 2, saved = 1, attendant = TOWER_SINGLES, battleSceneOff = true, text = 3,
     party = { { 373, { 337, 89, 150, 45 } }, { 376, { 309, 89, 150, 45 } }, { 248, { 157, 242, 150, 45 } } }, pick = { 0, 1, 2 } },
+  multi = { lobby = 5, bout = 1, attendant = TOWER_MULTIS, multi = true, retire = true,
+    party = { { 143, { 233, 242 } }, { 9, { 57, 58 } } }, pick = { 0, 1 } },
 }
 local case = assert(cases[facility], "Unknown recording case: " .. facility)
 local factory, palace = facility == "factory", facility == "palace" or facility == "legacy"
@@ -218,6 +228,7 @@ local function moveCursor(slot)
   if slot >= 2 then F.press("Down", 2); F.idle(4) end
 end
 
+local moveAttempts, allyAimed = 0, false
 local function steerBattle(f, honest)
   if not honest then
     for b = 1, 3, 2 do
@@ -231,11 +242,22 @@ local function steerBattle(f, honest)
     local slot = 0
     if factory then
       slot = (f // 20) % 4
+    elseif case.multi then
+      -- A refused move (disabled, out of PP) returns to this menu, so the next try takes the next slot.
+      slot = moveAttempts % 2
+      moveAttempts = moveAttempts + 1
     elseif not honest then
       slot = (f // 20) % 2
     end
     moveCursor(slot)
+  elseif case.multi and choosingTarget(0) and not allyAimed then
+    for _ = 1, 6 do
+      if F.r8(S.gMultiUsePlayerCursor) == 2 then break end
+      F.press("Left", 2); F.idle(8)
+    end
+    allyAimed = F.r8(S.gMultiUsePlayerCursor) == 2
   elseif choosingAction(0) then
+    moveAttempts = 0
     -- A stray d-pad press can leave the cursor on POKEMON; A must choose FIGHT.
     F.press("Up", 2); F.idle(4); F.press("Left", 2); F.idle(4)
   end
@@ -244,11 +266,13 @@ end
 
 local trace
 
--- The opponent's lead knows only Baton Pass, so the trainer's AI picks the Pokemon it passes to in
--- the middle of the turn. Written while the battle transition runs, before the record copies the parties.
-local BATTLE_TYPE_BATTLE_TOWER, MOVE_BATON_PASS = 1 << 8, 226
-local function foeLeadBatonPassOnly()
-  local a = S.gParties + 6 * S.Pokemon.size
+-- A lead that knows only Baton Pass makes its trainer's AI pick the Pokemon it passes to in the
+-- middle of the turn. Written while the battle transition runs, before the record copies the parties.
+local BATTLE_TYPE_BATTLE_TOWER, BATTLE_TYPE_INGAME_PARTNER, MOVE_BATON_PASS = 1 << 8, 0x400000, 226
+local B_TRAINER_OPPONENT_A, B_TRAINER_PARTNER, ITEM_LUM_BERRY = 1, 2, 522
+local function partyLead(trainer) return S.gParties + trainer * 6 * S.Pokemon.size end
+local function leadBatonPassOnly(trainer, heldItem)
+  local a = partyLead(trainer)
   local personality = F.r32(a)
   if personality == 0 then return false end
   local key = personality ~ F.r32(a + 4)
@@ -256,6 +280,10 @@ local function foeLeadBatonPassOnly()
   for i = 0, 11 do w[i] = F.r32(a + 32 + i * 4) ~ key end
   local o = F.r8(S.sSubstructOffsets + 24 + personality % 24) * 3
   w[o], w[o + 1], w[o + 2] = MOVE_BATON_PASS, 0, 40
+  if heldItem then
+    local g = F.r8(S.sSubstructOffsets + personality % 24) * 3
+    w[g] = (w[g] & ~(0x3FF << 16)) | (heldItem << 16)
+  end
   local sum = 0
   for i = 0, 11 do sum = sum + w[i] + (w[i] >> 16) end
   F.w16(a + 28, sum & 0xFFFF)
@@ -377,7 +405,7 @@ emu.frameadvance = function()
           local foeUnable = F.r16(S.gProtectStructs + flags.size) & flags.palaceUnableToUseMove
           trace.choices[#trace.choices + 1] = string.format("%d:%d/%d:%d", F.r16(S.gChosenMoveByBattler), unable,
             F.r16(S.gChosenMoveByBattler + 2), foeUnable)
-        elseif factory or case.doubles then
+        elseif factory or case.doubles or case.multi then
           local moves = {}
           for b = 0, F.r8(S.gBattlersCount) - 1 do moves[#moves + 1] = F.r16(S.gChosenMoveByBattler + b * 2) end
           trace.choices[#trace.choices + 1] = table.concat(moves, "/")
@@ -531,7 +559,7 @@ F.run(function()
   local battles, inB, last, ended = 0, false, nil, false
   local tradeSpecies
   local recordedFromRoom, lobbyPrompts, swept, rigged, roomOptions = false, 0, false, false, nil
-  local partyVisits = 0
+  local partyVisits, partnered = 0, false
   for f = 1, 300000 do
     if F.reportCrash("challenge_" .. f) then break end
     if f % 5000 == 0 then
@@ -539,11 +567,26 @@ F.run(function()
         F.grp(), F.mapn(), stall.turns, recordSize(0), recordSize(1)))
       F.shot("progress")
     end
-    if case.foeBatonPass and not rigged and not inBattle() and (F.r32(S.gBattleTypeFlags) & BATTLE_TYPE_BATTLE_TOWER) ~= 0 then
-      rigged = foeLeadBatonPassOnly()
+    local towerFlags = F.r32(S.gBattleTypeFlags)
+    if case.foeBatonPass and not rigged and not inBattle() and (towerFlags & BATTLE_TYPE_BATTLE_TOWER) ~= 0 then
+      rigged = leadBatonPassOnly(B_TRAINER_OPPONENT_A)
       if rigged then F.L("  the opponent's lead now knows only Baton Pass") end
     end
-    if factory and cb(S.CB2_SelectScreen) then
+    if case.multi and not rigged and not inBattle() and (towerFlags & BATTLE_TYPE_INGAME_PARTNER) ~= 0 then
+      rigged = leadBatonPassOnly(B_TRAINER_PARTNER, ITEM_LUM_BERRY)
+      if rigged then F.L("  the partner's lead now knows only Baton Pass and holds a Lum Berry") end
+    end
+    if case.multi and not partnered and F.grp() == FRONTIER and F.mapn() == PARTNER_ROOM and F.ow() and scriptIdle()
+      and not liveMenu() then
+      if F.ensureFree() then
+        -- Partner 5 stands still at (10,11) facing up; ask from the tile above it.
+        F.check("walked above partner 5 in the partner room", F.leg(10, 10))
+        F.face("Down"); F.shot("partner_room"); F.press("A", 2); F.idle(40)
+        partnered = true
+      else
+        F.press("A", 2); F.idle(30)
+      end
+    elseif factory and cb(S.CB2_SelectScreen) then
       rentals.rentThree(F)
     elseif factory and cb(S.Swap_CB2) then
       rentals.swapFirst(F)
@@ -659,6 +702,14 @@ F.run(function()
     F.check("cancelling Clefable's action removed all three of Jolteon's recorded bytes",
       c ~= nil and c.before - c.after == 3, c and string.format("%d -> %d", c.before, c.after) or "no cancel on turn 2")
   end
+  if case.multi then
+    local function partnerSpecies(turn) return tonumber((original[turn] or ""):match("^[^/]*/[^/]*/(%d+):")) end
+    F.check("Snorlax aimed its turn 1 Vital Throw at the partner's slot", allyAimed)
+    F.check("the partner's lead Baton Passed on turn 1",
+      (original.choices[1] or ""):match("^%d+/%d+/(%d+)") == tostring(MOVE_BATON_PASS) and partnerSpecies(2) ~= nil
+      and partnerSpecies(2) ~= partnerSpecies(1), string.format("turn 1 %s, partner %s then %s",
+      tostring(original.choices[1]), tostring(partnerSpecies(1)), tostring(partnerSpecies(2))))
+  end
   if facility == "overflow" then
     F.check("the stalled battle filled the player's record", stall.overflowTurn ~= nil,
       string.format("turns=%d record=%d dropped=%d", stall.turns, recordSize(0), dropped(0)))
@@ -693,7 +744,7 @@ F.run(function()
   F.check("the same Pokemon and HP start every recorded turn",
     #original > 0 and table.concat(original, ",") == table.concat(playback, ","),
     table.concat(original, ",") .. " vs " .. table.concat(playback, ","))
-  if case.choices or case.doubles then
+  if case.choices or case.doubles or case.multi then
     F.check("both trainers' chosen moves replay on every turn",
       #original.choices > 0 and table.concat(original.choices, ",") == table.concat(playback.choices, ","),
       table.concat(original.choices, ",") .. " vs " .. table.concat(playback.choices, ","))

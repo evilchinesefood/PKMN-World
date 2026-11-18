@@ -3060,6 +3060,20 @@ the earlier cases still pass: Arena **15/15**, Palace **16/16**, Factory **16/16
   turn 5; the turn trace and Palace choices must match that playback exactly (**5/5** fixed). Run it with
   `mgba-run.sh test/overworld/lua/FrontierRecordedBattle.lua pokemonworld.gba
   test/overworld/lua/fixtures/palace_legacy_record.srm --env PW_CASE=legacy`.
+- `multi`: Battle Tower multi beside partner 5 from the partner room, the suite's first recording
+  with an AI partner. Playback replays the partner (battler 2) from the record, while the recording
+  runs the partner AI live. During the battle transition the partner's lead is rewritten to know
+  only Baton Pass and hold a Lum Berry (without it, Duskull's Confuse Ray made the pass fail until
+  turn 3), so on turn 1 the partner's AI chooses the Pokemon it passes to in the middle of the turn.
+  Snorlax's turn 1 Vital Throw (priority -1) is aimed at the partner's slot; Snorlax then fights the
+  foes and takes its next move when one is refused (Disable, no PP). `PlayerPartnerHandleChoosePokemon`
+  runs `GetMostSuitableMonToSwitchInto`, whose switch-in damage simulation rolls `RandomRollDmg` on the
+  battle RNG, so the rest of turn 1 rolled differently in the battle and in the replay. Measured on
+  rec8 without the partner fix **16/19**: at turn 2 the battle had Snorlax at 201 HP and Wooper at 148,
+  the replay Snorlax at 227 and Wooper at 89 (Vital Throw's 59), and playback quit after turn 5.
+  **19/19** fixed. The battle also covers the partner's second choice (Spheal back in for Wooper on
+  turn 2) and both opponents' replacements. Faint replacements run at `ENDTURN_FAINTED_MON_ACTIONS`,
+  after every end-turn effect, so the partner's draws there reach only a replacement's switch-in ability.
 
 ### `KantoPropsStress.lua`
 

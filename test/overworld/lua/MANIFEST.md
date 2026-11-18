@@ -3064,6 +3064,16 @@ and reads `sMartInfo`'s item list (Mahogany needs `VAR_MAHOGANY_TOWN_STATE` 14, 
 hideout leaves). **Oracle:** no dead item is for sale, while the Fire Stone, the Linking Cord and,
 where it was sold, the Razor Claw (kept for its held critical-hit boost) still are.
 **Discrimination:** unfixed 12/16 (24, 24, 28 and 4 dead items for sale), fixed 16/16.
+
+[`ValidateEvoRoutes.py`](../ValidateEvoRoutes.py) (in `validate-host.py`) requires every evolution
+between two obtainable species to have a route this world can satisfy: no link trade, every region a
+condition names is Kanto, Johto or Hoenn (the Hub and the Frontier report one of the three), every
+named map, map section and weather exists, every named party species is obtainable, and every item the
+route needs is sold, hidden, given or held by a wild Pokemon somewhere (item aliases such as
+`ITEM_UP_GRADE` resolved). It lists the routes that depend on the clock, a place or the region (today
+only five `IF_NOT_REGION` Alola, Galar and Hisui rows, true everywhere here) and tabulates each
+evolution item's shops per region. On master it finds 184 evolutions over 205 routes and 15 items, all
+satisfiable. Changing Pikachu's Thunder Stone row to `IF_REGION, REGION_ALOLA` makes it fail.
 ### `TmAdviceReusable.lua`
 
 TM advice must match reusable TMs. `I_REUSABLE_TMS` is `TRUE`, so every TM keeps teaching its move,

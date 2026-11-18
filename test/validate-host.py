@@ -47,6 +47,7 @@ CHECKS = (
     ("ValidateTextWidth.py",),
     ("ValidateConfigRules.py",),
     ("ValidateDeadEvoItems.py",),
+    ("ValidateEvoRoutes.py",),
     ("ValidateBattleScenes.py",),
     ("ValidateFrostyGrass.py",),
     ("ValidateCutGrass.py",),

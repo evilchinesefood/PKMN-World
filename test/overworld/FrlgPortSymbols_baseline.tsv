@@ -1,0 +1,52 @@
+# Known differences between a name in a ported Kanto or Sevii script and the same name in pokefirered.
+# kind	name (fnmatch pattern)	why the difference is right here
+trainer	TRAINER_RIVAL_*	the Kanto rival is BLUE here; FRLG stores TERRY and shows the player-chosen name
+trainer	TRAINER_CHAMPION_*	the Kanto rival is BLUE here; FRLG stores TERRY and shows the player-chosen name
+item	ITEM_BICYCLE	the same item: the expansion spells it Bike
+item	ITEM_ITEMFINDER	the same item: renamed Dowsing Machine in Gen V
+item	ITEM_X_DEFEND	the same item: an enum alias of ITEM_X_DEFENSE, renamed in Gen VI
+item	ITEM_X_SPECIAL	the same item: an enum alias of ITEM_X_SP_ATK, renamed in Gen VI
+multi	MULTI_GAME_CORNER_COIN_PURCHASE_COUNTER	adds a 5,000-coin row; the script's cases 0-2 buy and 3 exits
+multi	MULTI_GAME_CORNER_POKEMON_PRIZES	FRLG's list holds FireRed's and LeafGreen's prizes under #if; this is FireRed's half
+multi	MULTI_LINKED_DIRECT_UNION	EXIT for QUIT on the last row; the script's case 3 still exits
+song	MUS_CREDITS	the Indigo Plateau farewell scene that plays it is unreachable: hall_of_fame_frlg.c skips the credits
+song	MUS_LEVEL_UP	FRLG's version of this jingle is not in this tree; every region plays Emerald's
+song	MUS_EVOLVED	FRLG's version of this jingle is not in this tree; every region plays Emerald's
+song	MUS_OBTAIN_ITEM	FRLG's version of this jingle is not in this tree; every region plays Emerald's
+song	SE_M_STRENGTH	FRLG's version of this sound is not in this tree; every region plays Emerald's
+song	SE_SHOP	FRLG's version of this sound is not in this tree; every region plays Emerald's
+std	MSGBOX_SIGN	the expansion's sign box also holds the follower still while it reads
+macro	copyvar	the same command with an assembler warning for non-VAR arguments
+macro	setvar	the same command with an assembler warning for VAR-like values
+macro	waitstate	the same command with an optional implicit-wait flag
+macro	givemon	the expansion's long form; species, level and item keep their positions
+macro	setwildbattle	the expansion's form adds an optional second species for doubles; the first three keep their positions
+special	ChangePokemonNickname	reads VAR_0x8004 one call deeper than the audit follows (GetSelectedBoxMonFromPcOrParty); the scripts set it
+special	CompareHeracrossSize	the party slot comes from ChoosePartyMon's VAR_0x8004 (GetSelectedBoxMonFromPcOrParty), which the script also copies to VAR_RESULT
+special	CompareMagikarpSize	the party slot comes from ChoosePartyMon's VAR_0x8004 (GetSelectedBoxMonFromPcOrParty), which the script also copies to VAR_RESULT
+special	GetSelectedMonNicknameAndSpecies	FRLG read the party cursor; ChooseSendDaycareMon puts the same slot in VAR_0x8004, which the script checks
+special	StoreSelectedPokemonInDaycare	FRLG read the party cursor; ChooseSendDaycareMon puts the same slot in VAR_0x8004, which the script checks
+special	SetDaycareCompatibilityString	a callee also sets VAR_RESULT; the script prints gStringVar4 and never reads it
+special	OpenMuseumFossilPic	stubbed in the expansion (script_menu.c): the Pewter Museum shows its text without the fossil picture
+special	CheckAddCoins	this tree's shared obtain_item.inc, which every region calls, passes the count in VAR_0x8009
+special	ChooseMonForMoveTutor	the expansion's party menu reads the tutor move from VAR_0x8005 deeper than the audit follows; move_tutors_frlg.inc sets it
+special	GetInGameTradeSpeciesInfo	the expansion's trade specials take the trade in VAR_0x8005 and the party slot in VAR_0x8004; event_scripts.s sets them so
+special	GetTradeSpecies	the expansion's trade specials take the trade in VAR_0x8005 and the party slot in VAR_0x8004; event_scripts.s sets them so
+special	ShowEasyChatScreen	VAR_0x8006 is read only for Hoenn TV and contest types; the questionnaire and profile pass VAR_0x8004/0x8005 as in FRLG
+ctype	EASY_CHAT_TYPE_PROFILE	this tree's easy chat, which every region shares; it also reports the result through SetSpecialEasyChatResult
+ctype	EASY_CHAT_TYPE_QUESTIONNAIRE	this tree's easy chat, which every region shares; it also reports the result through SetSpecialEasyChatResult
+label	CableClub_EventScript_*Attendant	link services are closed in this tree; every region's attendants say so
+label	EventScript_AwakenSnorlax	FRLG's Poke Flute fanfare is MUS_RG_POKE_FLUTE here
+label	EventScript_BagIsFull	the same line from this tree's shared strings
+label	EventScript_ChooseMonForInGameTrade	the expansion's trade convention (slot in VAR_0x8004, trade in VAR_0x8005); ChoosePartyMon waits implicitly
+label	EventScript_DoInGameTrade	the expansion's trade convention (slot in VAR_0x8004, trade in VAR_0x8005), plus the mail-to-PC notice
+label	EventScript_GetInGameTradeSpecies	the expansion's trade convention (slot in VAR_0x8004, trade in VAR_0x8005)
+label	EventScript_GetInGameTradeSpeciesInfo	the expansion's trade convention (slot in VAR_0x8004, trade in VAR_0x8005)
+label	EventScript_*Tutor	this tree's Kanto tutors teach by move id and can be revisited (move_tutors_frlg.inc)
+label	EventScript_MonFlewAway	fadescreenswapbuffers is the expansion's fade that keeps the field palette
+label	EventScript_RemoveStaticMon	fadescreenswapbuffers is the expansion's fade that keeps the field palette
+label	EventScript_SetDefeatedEliteFourFlagsVars	also records the Kanto championship and its difficulty step for this tree's region select
+label	EventScript_SetSail	FRLG's Quest Log is not ported
+label	PokedexRating_EventScript_RateInPerson	FRLG's Quest Log is not ported
+label	EventScript_TryDarkenRuins	the same no-op return under this tree's name
+label	PokemonLeague_EventScript_OpenDoor*	FRLG's SE_RS_DOOR is Emerald's door sound, SE_DOOR here

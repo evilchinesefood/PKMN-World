@@ -110,6 +110,8 @@ WANT = [
     "gStringVar3",
     # JohtoPortedMenus.lua reads the open multichoice's option texts, to pick a row by its label.
     "sMultichoiceLists",
+    # KantoPortedScenes.lua reads the whiteboard grid's list id from its script and waits on its task.
+    "ViridianCity_School_EventScript_ChooseBlackboardTopic", "Task_HandleMultichoiceGridInput",
     # RelearnerLongLearnset.lua reads the relearner's list and its cursor.
     "sMoveRelearnerStruct", "sMoveRelearnerScrollState",
     # HatchMetLocation.lua counts the turns an OHKO takes to see a traded Pokemon disobey.

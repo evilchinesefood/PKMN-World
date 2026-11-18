@@ -120,6 +120,7 @@ is clean; keep it that way.
 | [`JohtoGiftReceipts.lua`](#johtogiftreceiptslua) | fresh new game | Bill's Eevee, Kirk's Shuckie, Randy's Kenya, the Karate King's Tyrogue and both Dragon's Den Dratini print "received", and a gift a full party sends to a box says which PC. |
 | [`AlphFossilLab.lua`](#alphfossillablua) | fresh new game | The Ruins of Alph lab and Devon's lab revive fossils on separate machines; a pre-split save's pending Johto fossil still comes back at Alph. |
 | [`JohtoPortedMenus.lua`](#johtoportedmenuslua) | fresh new game | The weekday siblings take their own day and the Alph researcher offers all five fossils: the HnS scripts' `MULTI_*` rows mean the same choice here. |
+| [`KantoPortedScenes.lua`](#kantoportedsceneslua) | fresh new game | The Viridian school whiteboard explains the condition its cell names, the Pewter gym guide and Jigglypuff scenes play FRLG's songs, and the Route 12 fishing guru's brother calls the record Magikarp the same size: the pokefirered scripts' names mean the same thing here. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
 | [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
@@ -2719,6 +2720,24 @@ menu's labels from `sMultichoiceLists` and steers the cursor to the row by label
 (both kept) and OLD AMBER (the Amber handed in, the Helix kept). Setup is a warp and the two items;
 talks, the Yes/No and the menus are real input. Found by `AuditHnsPortSymbols.py`. **Discrimination:**
 unfixed 11/16, fixed 16/16.
+
+### `KantoPortedScenes.lua`
+
+Kanto scenes whose pokefirered scripts name a list or song that means something else here. The Viridian
+school whiteboard branches Sleep, Poison, Paralysis, Burn, Freeze on FRLG's rows (SLP first) but showed
+this tree's `MULTI_STATUS_INFO` (Rustboro's PSN, PAR, SLP list), so the PSN cell explained sleep, SLP
+explained paralysis and PAR explained poison. `MUS_FOLLOW_ME` and `MUS_POKE_CENTER` are Emerald's songs
+here, so the Pewter gym guide led the way to Hoenn's guide theme and Jigglypuff's song in the Pewter
+Pokemon Center handed back to Hoenn's Center theme. The Route 12 fishing guru's brother branches
+not-a-Magikarp, smaller, new record and tie (1 to 4) on FRLG's `CompareMagikarpSize`, which here
+returned Emerald's three results, so the record Magikarp shown again "doesn't measure up to the 2'00"
+one you brought before". The suite picks whiteboard cells by the label the grid shows (the list id read
+from the script, the labels from `sMultichoiceLists`) and checks the line the board prints; it talks
+to the guide and Jigglypuff and records every song on the BGM and SE2 players until control returns;
+with a lone Magikarp in the party it takes the Super Rod, sets the record and shows the same Magikarp
+again, reading every line the message box prints. Setup is warps and the Magikarp; the grid, the
+talks, the Yes/No and the party menu are real input. Found by `AuditHnsPortSymbols.py --source frlg`
+and its special triage. **Discrimination:** unfixed 30/39, fixed 39/39.
 
 ### `StarterIndexPerRegion.lua`
 

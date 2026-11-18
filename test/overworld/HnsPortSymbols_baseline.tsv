@@ -13,6 +13,7 @@ special	GetSelectedMonNicknameAndSpecies	HnS read the party cursor; ChooseSendDa
 special	StoreSelectedPokemonInDaycare	HnS read the party cursor; ChooseSendDaycareMon puts the same slot in VAR_0x8004, which the script checks
 macro	applymovement2	HnS's variant kept the follower out; here it is applymovement (cosmetic)
 macro	copyvar	the same command with an assembler warning for non-VAR arguments
+macro	setvar	the same command with an assembler warning for VAR-like values
 macro	waitstate	the same command with an optional implicit-wait flag
 macro	givemon	the expansion's long form; species, level and item keep their positions
 macro	setwildbattle	the expansion's form adds an optional second species for doubles; the first three keep their positions

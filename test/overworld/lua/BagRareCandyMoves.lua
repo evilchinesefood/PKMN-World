@@ -11,7 +11,10 @@
 --   3. one candy at level 14 with four moves, every prompt cancelled with B: both offered,
 --      neither learned, the old moveset untouched;
 --   4. three candies at level 13 with two free slots: both powders learned on the way, then the
---      evolution into Ivysaur at 16 runs from the Bag.
+--      evolution into Ivysaur at 16 runs from the Bag;
+--   5. eight candies at once on a level 40 Cradily with four moves, every prompt accepted: the jump
+--      crosses level 43, which teaches three moves (Stockpile, Spit Up, Swallow), and level 48
+--      (Energy Ball); all four are offered in learnset order and the last one ends in slot 1.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/BagRareCandyMoves.lua <rom>
 -- PW_CANDY_ONLY=<text> (runner --env) runs only the scenarios whose tag contains <text>.
@@ -29,6 +32,8 @@ local USM_ICO_BAG = 2
 local POCKET_ITEMS = 0
 
 local BULBASAUR, IVYSAUR = 1, 2
+local CRADILY = 346
+local MOVE_STOCKPILE, MOVE_SPIT_UP, MOVE_SWALLOW, MOVE_ENERGY_BALL = 254, 255, 256, 412
 local ITEM_RARE_CANDY = 102
 local MOVE_VINE_WHIP, MOVE_GROWTH, MOVE_LEECH_SEED, MOVE_RAZOR_LEAF = 22, 74, 73, 75
 local MOVE_POISON_POWDER, MOVE_SLEEP_POWDER = 77, 79
@@ -213,10 +218,10 @@ local function scenario(tag, body)
   end
 end
 
--- Give the Bulbasaur, set the candies, open the Bag and pick Use on slot 0. Returns false if any
+-- Give the Pokemon, set the candies, open the Bag and pick Use on slot 0. Returns false if any
 -- step of the setup did not land.
-local function useCandiesOnBulbasaur(tag, level, candies, uses, twoMoves)
-  if not giveMon(BULBASAUR, level) then F.check(tag .. ": the debug Give made the Bulbasaur", false, describe(0)); return false end
+local function useCandiesOn(species, tag, level, candies, uses, twoMoves)
+  if not giveMon(species, level) then F.check(tag .. ": the debug Give made the Pokemon", false, describe(0)); return false end
   if twoMoves then keepTwoMoves(0) end
   F.L("  before " .. describe(0))
   setPocket(POCKET_ITEMS, ITEM_RARE_CANDY, candies)
@@ -238,7 +243,7 @@ F.run(function()
   instantText()
 
   scenario("one candy, two free slots", function(tag)
-    if not useCandiesOnBulbasaur(tag, 14, 1, 1, true) then return end
+    if not useCandiesOn(BULBASAUR, tag, 14, 1, 1, true) then return end
     local r = drive(tag, "A", 1500)
     local m = decode(slotAddr(0))
     F.L("  after " .. describe(0))
@@ -253,7 +258,7 @@ F.run(function()
   end)
 
   scenario("one candy, four moves, accept", function(tag)
-    if not useCandiesOnBulbasaur(tag, 14, 1, 1, false) then return end
+    if not useCandiesOn(BULBASAUR, tag, 14, 1, 1, false) then return end
     local r = drive(tag, "A", 2400)
     local m = decode(slotAddr(0))
     F.L("  after " .. describe(0))
@@ -267,7 +272,7 @@ F.run(function()
   end)
 
   scenario("one candy, four moves, cancel", function(tag)
-    if not useCandiesOnBulbasaur(tag, 14, 1, 1, false) then return end
+    if not useCandiesOn(BULBASAUR, tag, 14, 1, 1, false) then return end
     local before = decode(slotAddr(0)).moves
     local r = drive(tag, "B", 700)
     local m = decode(slotAddr(0))
@@ -282,7 +287,7 @@ F.run(function()
   end)
 
   scenario("three candies through 15 into Ivysaur", function(tag)
-    if not useCandiesOnBulbasaur(tag, 13, 5, 3, true) then return end
+    if not useCandiesOn(BULBASAUR, tag, 13, 5, 3, true) then return end
     local r = drive(tag, "A", 4000)
     local m = decode(slotAddr(0))
     F.L("  after " .. describe(0))
@@ -296,6 +301,24 @@ F.run(function()
     F.check(tag .. ": the moveset is unique with sane PP", ok and m.checksumOk, why)
     F.check(tag .. ": exactly three candies spent", countItem(ITEM_RARE_CANDY) == 2,
       "candies=" .. countItem(ITEM_RARE_CANDY))
+  end)
+
+  scenario("eight candies through Cradily's three level 43 moves", function(tag)
+    if not useCandiesOn(CRADILY, tag, 40, 8, 8, false) then return end
+    local before = decode(slotAddr(0)).moves
+    local r = drive(tag, "A", 6000)
+    local m = decode(slotAddr(0))
+    F.L("  after " .. describe(0))
+    F.check(tag .. ": no crash screen", not r.crash)
+    F.check(tag .. ": Stockpile, Spit Up, Swallow and Energy Ball were offered in that order",
+      r.order[1] == MOVE_STOCKPILE and r.order[2] == MOVE_SPIT_UP and r.order[3] == MOVE_SWALLOW
+      and r.order[4] == MOVE_ENERGY_BALL and #r.order == 4, "offered=" .. r.list)
+    F.check(tag .. ": Cradily is level 48 with Energy Ball in slot 1 and the rest untouched",
+      m.species == CRADILY and m.level == 48 and m.moves[1] == MOVE_ENERGY_BALL and m.moves[2] == before[2]
+      and m.moves[3] == before[3] and m.moves[4] == before[4], describe(0))
+    local ok, why = movesetSane(m)
+    F.check(tag .. ": the moveset is unique with sane PP", ok and m.checksumOk, why)
+    F.check(tag .. ": all eight candies spent", countItem(ITEM_RARE_CANDY) == 0, "candies=" .. countItem(ITEM_RARE_CANDY))
   end)
 
   F.finish()

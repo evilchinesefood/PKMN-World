@@ -23,8 +23,7 @@ OlivineCity_Cafe_Text_Jasmine:
 	.string "Actually, the person who sat here\n"
 	.string "before me ate a lot…\p"
 	.string "If you'd like to battle again,\n"
-	.string "please visit me at the FIGHTING\l"
-	.string "DOJO in SAFFRON CITY.$"
+	.string "please visit me at my GYM.$"
 
 OlivineCity_EventScript_SailorA::
 	lock

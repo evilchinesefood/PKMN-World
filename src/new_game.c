@@ -330,9 +330,9 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_2);
     FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_3);
     FlagSet(FLAG_HIDE_ILEX_FOREST_FARFETCHD_4);
-    // HnS's new-game reset hides the gym leaders' post-League cameos too; the S.S. Aqua's arrival
-    // in Vermilion shows them (SSAqua_1F_EventScript_LeaveBoat). Unregistered, all seven stood in
-    // the world from turn one with their after-the-League lines.
+    // HnS's new-game reset hides the gym leaders' post-League cameos too; the Johto Hall of Fame
+    // shows them (JohtoPokemonLeague_HallOfFame_EventScript_SetFirstGameClearFlags). Unregistered,
+    // all seven stood in the world from turn one with their after-the-League lines.
     FlagSet(FLAG_HIDE_DEPTSTORE_WHITNEY);
     FlagSet(FLAG_HIDE_BELLCHIME_MORTY);
     FlagSet(FLAG_HIDE_CAFE_JASMINE);

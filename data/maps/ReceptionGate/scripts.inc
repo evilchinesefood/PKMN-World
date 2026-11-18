@@ -26,9 +26,7 @@ ReceptionGate_Text_Janine:
     .string "house to give him his lunch.\p"
     .string "The ELITE FOUR has no time to rest\n"
     .string "day or night. It's such hard work,\l"
-    .string "you know?\p"
-    .string "If you're ready for another battle,\n"
-    .string "I'll be at the DOJO later.$"
+    .string "you know?$"
 
 
 ReceptionGate_EventScript_Officer::

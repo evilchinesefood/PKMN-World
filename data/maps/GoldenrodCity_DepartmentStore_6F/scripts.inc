@@ -21,7 +21,7 @@ GoldenrodDeptStore6_Text_Whitney:
 	.string "I'm picking up something for\n"
 	.string "my MILTANK.\p"
 	.string "If you want another battle, come to\n"
-	.string "the FIGHTING DOJO!$"
+	.string "my GYM!$"
 
 GoldenrodCity_DepartmentStore_6F_EventScript_Jose::
 	lock

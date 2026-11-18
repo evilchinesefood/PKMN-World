@@ -333,3 +333,5 @@ IndigoSilverDaily	lua/IndigoSilverDaily.lua	fresh	0	required
 LegendWorldGuards	lua/LegendWorldGuards.lua	fresh	0	required
 PhoneRayquazaCallStory	lua/PhoneRayquazaCallStory.lua	fresh	0	required
 PhoneMatchCallRegions	lua/PhoneMatchCallRegions.lua	fresh	0	manual
+FishingAcrossRegions	lua/FishingAcrossRegions.lua	fresh	0	required
+WaterFieldMoves	lua/WaterFieldMoves.lua	fresh	0	required

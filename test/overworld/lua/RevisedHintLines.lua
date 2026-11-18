@@ -5,7 +5,8 @@
 -- later visits repeat the directions, and after Togepi Elm says to call PROF. BIRCH.
 -- Goldenrod Bike Shop: the clerk refused (No), then accepted with a full Key Items pocket (bag
 -- full, no bike, flag clear), then accepted with room (Mach Bike, flag set). Talking again shows
--- the new MACH BIKE line, and the second clerk shows the new SELECT and speed line.
+-- a line that fits either shop bike, also for a Hoenn-first rider holding only Rydel's Acro Bike,
+-- and the second clerk shows the new SELECT and speed line.
 -- Goldenrod Dept. Store 2F: the youngster's POKeNAV line, twice, and the clerk's live stock holds
 -- LUM BERRIES. Radio Tower 1F: NO at the new Lum Berry question is a wrong answer and enables
 -- nothing; retaken with YES the quiz goes on to question 3 and the win enables the radio.
@@ -29,6 +30,7 @@ local TEXT_SPEED = SPEEDS[os.getenv("PW_TEXT") or "instant"] or 3
 local CONTEXT_RUNNING, CONTEXT_SHUTDOWN = 0, 2
 local BUF = S.gStringVar4 + 900
 local ITEM_MACH_BIKE = 707
+local ITEM_ACRO_BIKE = 708
 local ITEM_LUM_BERRY = 522
 local FLAG_RECEIVED_BIKE = 0x5A
 local FLAG_ENABLE_PROF_BIRCH_MATCH_CALL = 0x119
@@ -269,10 +271,22 @@ F.run(function()
     for i = 1, 2 do
       ok = talk("Up", "bike_after_" .. i)
       F.check("bike: the clerk's thanks hand control back (" .. i .. ")", ok)
-      F.check("bike: the clerk's thanks name the MACH BIKE (" .. i .. ")",
-        has(heard(), "MACH BIKE for a spin", "how fast it goes") and lacks(heard(), "gear", "pressing R"), heard())
+      F.check("bike: the clerk's thanks fit any shop bike (" .. i .. ")",
+        has(heard(), "Every BIKE out on the road", "where folks can see") and lacks(heard(), "gear", "pressing R", "MACH BIKE"), heard())
     end
     F.check("bike: talking again gives no second bike", keyQty(ITEM_MACH_BIKE) == 1)
+
+    -- FLAG_RECEIVED_BIKE is also Rydel's, so a Hoenn-first player arrives with his Acro Bike and the
+    -- flag set, never having helped this clerk.
+    clearBag()
+    runScript({ 0x44, ITEM_ACRO_BIKE & 0xFF, ITEM_ACRO_BIKE >> 8, 1, 0, 0x02 })
+    F.idle(30)
+    F.check("bike: holding only Rydel's Acro Bike", keyQty(ITEM_ACRO_BIKE) == 1 and keyQty(ITEM_MACH_BIKE) == 0)
+    ok = talk("Up", "bike_acro")
+    F.check("bike: an Acro Bike rider's talk hands control back", ok)
+    F.check("bike: an Acro Bike rider is not thanked for a MACH BIKE",
+      has(heard(), "Every BIKE out on the road") and lacks(heard(), "MACH BIKE", "your help"), heard())
+    F.check("bike: an Acro Bike rider gets no Mach Bike", keyQty(ITEM_MACH_BIKE) == 0)
   end
   if F.check("bike: in front of the second clerk", warp(84, 0, 2, 7)) then
     local ok = talk("Up", "bike_clerk2")

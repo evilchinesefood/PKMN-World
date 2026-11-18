@@ -4241,14 +4241,29 @@ to him handed over the National Pokedex before the League. Seven gym-leader came
 stood in Goldenrod's Department Store 6F (Whitney), Bellchime Trail (Morty), the Olivine Cafe (Jasmine,
 while the story has her at the Lighthouse), Olivine's pier (Sabrina), the Lake of Rage (Pryce), Dragon's
 Den (a second Clair) and the Reception Gate (Janine). HnS shows Oak when Elm hands over the S.S. Ticket and
-the seven when the S.S. Aqua lands in Vermilion. `test/overworld/AuditHideFlags.py --source ...` found
-them (UNREGISTERED). From a fresh game the suite checks the seven cameo flags are set and that Whitney,
-Jasmine, Sabrina and Janine (the cameos within a warp's spawn window) are absent, then walks the port
-corridor to Oak's tile with real input and asserts no National Pokedex. Oak's flag stays clear at new game
-(the port's ON_TRANSITION hides him until `VAR_NEWBARKTOWN_LABSTATE` 11), so this fresh game is also the
-state of a save made before the change. It then leaves `VAR_NEWBARKTOWN_LABSTATE` 10 as Elm's League call
-does, talks to Elm for the ticket, and Oak must stand at (8,16) and give the dex. Last it leaves
-`VAR_SSAQUA_STATE` 5 as the voyage's Metal Coat scene does, takes the S.S. Aqua door sailor's YES from
-(28,2), lands in Vermilion, and the seven flags must be clear, Whitney must stand at (20,9), and talking to
-her must send her away. **Discrimination:** unfixed 31/45 (the seven flags clear, all four cameos and Oak
-visible, Oak blocking (8,15) and his scene setting `FLAG_SYS_NATIONAL_DEX`), fixed 45/45.
+the seven when the S.S. Aqua lands in Vermilion, its only way to Kanto. Here the Region Hub reaches Kanto
+too and the boat is optional, so a Johto champion who never boarded never met them: the Johto Hall of Fame
+shows them instead. Every line also sent the player to the FIGHTING DOJO, whose gym-leader roster was cut
+(#101); they now name each leader's own GYM, where a Johto champion gets a rematch, and Janine (no battle
+anywhere) just runs her errand. `test/overworld/AuditHideFlags.py --source ...` found the eight
+(UNREGISTERED).
+
+The suite enters Johto through the Hub's JOHTO gate (the HUB PASS), checks the seven cameo flags are set at
+new game and that Whitney, Jasmine, Sabrina and Janine (the cameos within a warp's spawn window) are absent,
+then walks the port corridor to Oak's tile with real input and asserts no National Pokedex. Oak's flag
+stays clear at new game (the port's ON_TRANSITION hides him until `VAR_NEWBARKTOWN_LABSTATE` 11), so this
+fresh game is also the state of a save made before the change. It then plays Lance's Hall of Fame ceremony
+(`VAR_LEAGUE_STATE` 6) to the title, continues the file in New Bark, takes the HUB PASS to the Hub, crosses
+the KANTO gate, comes back with the HUB PASS and the JOHTO gate's defaults (the remembered team), and the
+seven flags must be clear. Each of the four cameos in reach must stand on her tile, her line (read from
+`gStringVar4`) must name her GYM (Janine: her lunch errand) and never the DOJO, and she must leave. It then
+leaves `VAR_NEWBARKTOWN_LABSTATE` 10 as Elm's League call does, talks to Elm for the ticket, and Oak must
+stand at (8,16) and give the dex. Last it leaves `VAR_SSAQUA_STATE` 5 as the voyage's Metal Coat scene does
+and takes the S.S. Aqua door sailor's YES from (28,2): the landing must leave the three unmet cameos shown
+and must not bring back the four already met (Whitney stays out of the 6F).
+
+**Discrimination.** The first version (no Hall of Fame or Hub legs): before the new-game hide 31/45 (the
+seven flags clear, all four cameos and Oak visible, Oak blocking (8,15) and his scene setting
+`FLAG_SYS_NATIONAL_DEX`), with it 45/45. This version on stress9/hide9 c5902380c9 (cameos shown only by the
+boat landing) 61/77: after the Hall of Fame and the Hub round trip all seven flags are still set and all
+four cameos absent, then the landing brings the four back (Whitney visible at (20,9)).

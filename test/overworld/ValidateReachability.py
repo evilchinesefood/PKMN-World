@@ -29,8 +29,8 @@ and `setmaplayoutindex` the map's scripts (and the shared scripts they jump into
 alternative for the cells it touches, and tries objects that `setobjectxyperm`/`setobjectxy`
 moves at their new cells; a subject reached there is reported with that mechanism. RUNTIME
 names the maps C code or coord-event movement changes instead. The Sky Charm tier lets the
-player land, as CanLandOverworldFlight allows, on any free, dry, non-ledge cell of an outdoor
-map joined by connections to one the player stands on. A subject only that tier reaches fails
+player land, as CanLandOverworldFlight allows, on any free, dry, non-ledge cell at a ground
+elevation (not 0, 1 or 15) of an outdoor map joined by connections to one the player stands on. A subject only that tier reaches fails
 the check: no source game needs flight, and Olivine's Shock Wave ball was reachable only by
 landing on a mis-tagged sea tile and walking on water. Anything else unreached and not on a
 RUNTIME map fails too.
@@ -174,6 +174,11 @@ class Reach:
         for mid, m in self.world.maps.items():
             self.conn[mid] = [c for c in (m.get("connections") or []) if c["map"] in self.world.maps]
         self.warps = self.warp_table()
+        # SkyCharmGaps narrows the search to one region at one badge count: the field moves that
+        # badge count has not unlocked, cells an obstacle stands on, and the region's maps.
+        self.locked = frozenset()
+        self.walls = set()
+        self.maps_in = None
 
     def neighbour(self, mid, x, y, d):
         dx, dy = DIRS[d]
@@ -228,6 +233,11 @@ class Reach:
         return [s for s in (self.arrival(*c) for c in cells if c[0] in self.world.maps) if s]
 
     def moves(self, state):
+        for nxt in self.all_moves(state):
+            if nxt[:3] not in self.walls and (self.maps_in is None or nxt[0] in self.maps_in):
+                yield nxt
+
+    def all_moves(self, state):
         mid, x, y, elev, mode = state
         r = self.rules
         here = self.cells.options(mid, x, y)
@@ -248,16 +258,17 @@ class Reach:
                             yield land + (elevation_after(cur[1], self.cells.base(*land)[1], elev), mode)
                     if not blocked and not off_level:
                         yield t + (elevation_after(cur[1], telev, elev), mode)
-                    if (mode == FOOT and elev == 3 and off_level and tbeh in r.surf_onto):
+                    if (mode == FOOT and elev == 3 and off_level and tbeh in r.surf_onto
+                            and "surf" not in self.locked):
                         yield t + (elevation_after(cur[1], telev, elev), SURF)
-                    if mode == SURF and d == "N" and tbeh == r.waterfall:
+                    if mode == SURF and d == "N" and tbeh == r.waterfall and "waterfall" not in self.locked:
                         top, last = t, nxt
                         while top and self.cells.base(*top)[2] == r.waterfall:
                             last = self.cells.base(*top)
                             top = self.neighbour(*top, "N")
                         if top:
                             yield top + (elevation_after(last[1], self.cells.base(*top)[1], elev), SURF)
-        for cur in here:
+        for cur in here if "dive" not in self.locked else ():
             if mode == SURF and cur[2] in r.diveable:
                 for c in self.conn[mid]:
                     if c["direction"] == "dive":
@@ -294,14 +305,16 @@ class Reach:
         for y in range(h):
             for x in range(w):
                 for coll, elev, beh in self.cells.options(mid, x, y):
-                    if coll == 0 and beh not in r.surfable and beh != r.waterfall and beh not in r.ledge:
-                        out.append((mid, x, y, 0 if elev == 15 else elev, FOOT))
+                    if coll == 0 and elev not in (0, 1, 15) and beh not in r.surfable and beh != r.waterfall \
+                            and beh not in r.ledge and (mid, x, y) not in self.walls:
+                        out.append((mid, x, y, elev, FOOT))
                         break
         return out
 
     def sky(self, seen):
         """Add Sky Charm landings until nothing new is reached."""
-        outdoor = {mid for mid, m in self.world.maps.items() if m.get("map_type") in OUTDOOR}
+        outdoor = {mid for mid, m in self.world.maps.items() if m.get("map_type") in OUTDOOR
+                   and (self.maps_in is None or mid in self.maps_in)}
         done = set()
         while True:
             takeoff = {s[0] for s in seen if s[4] == FOOT and s[0] in outdoor} - done

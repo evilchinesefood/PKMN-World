@@ -6,9 +6,11 @@ Mahoganytown_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, Mahoganytown_OnFrame
 	.byte 0
 
-@ The first-visit setup also runs from Route 42's east edge, but the Sky Charm (sixth badge) flies
-@ over coord events, so entering the town runs it too, before the town's objects spawn.
+@ The first-visit setup also runs from Route 42's east edge, but the Sky Charm flies over coord
+@ events, so entering the town runs it too, before the town's objects spawn. Blackthorn City runs
+@ it as well, for a flier who climbs Route 45's one-way ledges from Route 46.
 Mahoganytown_OnTransition::
+	setflag FLAG_VISITED_MAHOGANY_TOWN
 	goto_if_eq VAR_MAHOGANY_TOWN_STATE, 0, MahoganyTown_EventScript_TownTrigger
 	end
 
@@ -59,7 +61,6 @@ MahoganyTown_EventScript_TownTrigger::
 	clearflag FLAG_GOT_HIDDEN_POWER
 	clearflag FLAG_HIDE_ICE_PATH_KIMONO
 
-	setflag FLAG_VISITED_MAHOGANY_TOWN
 	setflag FLAG_HIDE_LAKE_OF_RAGE_LANCE
 	setflag FLAG_HIDE_MAHOGANY_TOWN_SHOP_NPCS
 	setflag FLAG_HIDE_MAHOGANY_COP

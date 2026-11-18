@@ -321,3 +321,5 @@ RelearnerLongLearnset	lua/RelearnerLongLearnset.lua	fresh	0	required
 SkyCharmLeagueGate	lua/SkyCharmLeagueGate.lua	fresh	0	required
 CapacityArrivals	lua/CapacityArrivals.lua	fresh	0	required
 BattleNetShardEdges	lua/BattleNetShardEdges.lua	fresh	0	required
+SkyCharmReceptionGate	lua/SkyCharmReceptionGate.lua	fresh	0	required
+SkyCharmBlackthornSetup	lua/SkyCharmBlackthornSetup.lua	fresh	0	required

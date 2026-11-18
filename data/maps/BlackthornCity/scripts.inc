@@ -24,6 +24,7 @@ BlackthornCity_OnFrame::
 
 BlackthornCity_EventScript_CityEnter:: 
 	setflag FLAG_VISITED_BLACKTHORN_CITY
+	goto_if_eq VAR_MAHOGANY_TOWN_STATE, 0, MahoganyTown_EventScript_TownTrigger
 	end
 
 BlackthornCity_EventScript_Call::

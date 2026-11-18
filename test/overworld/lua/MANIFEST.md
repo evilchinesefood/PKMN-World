@@ -4231,3 +4231,24 @@ stops on the edge row or column it took off toward, in the same column on Route 
 on its route; the Route 26 seam, the flight home and the champion's flight cross. **Discrimination:**
 unfixed 24/33 (each of the five closed flights and the three pocket walks entered Route 28 or the
 stand-in; Route 6 came back at (0,0)), fixed 33/33.
+
+### `JohtoPostgameCameos.lua`
+
+Eight Johto objects that pokemonHnS hides at new game (its `data/scripts/new_game.inc`) stood in the world
+from turn one, because the port never registered their hide flags and nothing outside each object's own
+script sets them. Prof. Oak filled the one-tile corridor to the sailor in Olivine's port hall, and talking
+to him handed over the National Pokedex before the League. Seven gym-leader cameos with post-League lines
+stood in Goldenrod's Department Store 6F (Whitney), Bellchime Trail (Morty), the Olivine Cafe (Jasmine,
+while the story has her at the Lighthouse), Olivine's pier (Sabrina), the Lake of Rage (Pryce), Dragon's
+Den (a second Clair) and the Reception Gate (Janine). HnS shows Oak when Elm hands over the S.S. Ticket and
+the seven when the S.S. Aqua lands in Vermilion. `test/overworld/AuditHideFlags.py --source ...` found
+them (UNREGISTERED). From a fresh game the suite checks the seven cameo flags are set and that Whitney,
+Jasmine, Sabrina and Janine (the cameos within a warp's spawn window) are absent, then walks the port
+corridor to Oak's tile with real input and asserts no National Pokedex. Oak's flag stays clear at new game
+(the port's ON_TRANSITION hides him until `VAR_NEWBARKTOWN_LABSTATE` 11), so this fresh game is also the
+state of a save made before the change. It then leaves `VAR_NEWBARKTOWN_LABSTATE` 10 as Elm's League call
+does, talks to Elm for the ticket, and Oak must stand at (8,16) and give the dex. Last it leaves
+`VAR_SSAQUA_STATE` 5 as the voyage's Metal Coat scene does, takes the S.S. Aqua door sailor's YES from
+(28,2), lands in Vermilion, and the seven flags must be clear, Whitney must stand at (20,9), and talking to
+her must send her away. **Discrimination:** unfixed 31/45 (the seven flags clear, all four cameos and Oak
+visible, Oak blocking (8,15) and his scene setting `FLAG_SYS_NATIONAL_DEX`), fixed 45/45.

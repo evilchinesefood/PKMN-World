@@ -3830,3 +3830,21 @@ the trigger and walks onto it from Tohjo Falls' mouth. **Oracle:** five badges a
 (32,2) leads into Will's room; the walker still meets the fisherman and the state becomes 1.
 **Discrimination:** unfixed 16/20 (five badges reach Johto Victory Road, Silver waits in the Center,
 the Black Belt blocks Will's door), fixed 20/20.
+
+### `SkyCharmBlackthornSetup.lua`
+
+Eastern Johto's first-visit setup (`MahoganyTown_EventScript_TownTrigger`) hides Clair, Lance and Silver
+in Dragon's Den until their scenes, sets `VAR_BLACKTHORN_CITY_STATE` 1 (which arms the elder's trigger in
+front of the Den), and resets Santos's Spell Tag, the Ice Path Kimono scene and other gifts to their
+starting state. It ran from Route 42's east edge and Mahogany's transition only. Route 46 meets Route 29
+and climbs to Route 45 over one-way ledges, so walkers always reach Mahogany first, but the Sky Charm
+(Johto's Storm Badge) flies up them into Blackthorn City. A flier found the Den open, Clair waiting in
+it, and anything taken in Blackthorn was handed out again at the first Mahogany visit. Blackthorn's
+transition now runs the setup while Mahogany is unvisited, and Mahogany's own transition sets
+`FLAG_VISITED_MAHOGANY_TOWN`, so a Blackthorn entry does not unlock flying to it. With Johto badges 1-5
+and the Sky Charm registered, the suite takes off on Route 46, flies up it and Route 45 into Blackthorn,
+lands at (26,14) and walks north to the Den door; a debug warp then looks inside the Den. It takes
+Santos's gift (row 6, Saturday), warps to Mahogany for its first visit, and asks Santos again. **Oracle:**
+the elder stops the player before the Den, nobody stands on Clair's (29,14), and the bag holds one Spell
+Tag after the second talk. **Discrimination:** unfixed 13/16 (walks into the Den, Clair present, a second
+Spell Tag), fixed 16/16.

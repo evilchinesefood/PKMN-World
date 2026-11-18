@@ -166,6 +166,20 @@ local function recover(tag, budget)
 end
 
 local SAVE_DIR = os.getenv("PW_SPAM_SAVE")
+local function keepState(name)
+  local path = SAVE_DIR .. "/" .. name
+  assert(client.savestate(path), "PW_SPAM_SAVE: cannot write " .. path .. " (the directory must exist)")
+end
+
+-- A knob that does not parse silently runs the default battery: two settings passed as one --env
+-- value, or a seed meant for the replay path.
+for _, k in ipairs({ "PW_SPAM_BASE", "PW_SPAM_SEED", "PW_SPAM_TEXT", "PW_SPAM_GENDER", "PW_SPAM_OUTFIT",
+                     "PW_SPAM_ICON", "PW_SPAM_FRAMES" }) do
+  local v = os.getenv(k)
+  assert(v == nil or tonumber(v), k .. " is not a number: " .. tostring(v))
+end
+assert(not os.getenv("PW_SPAM_SEED") or os.getenv("PW_SPAM_LOAD"),
+  "PW_SPAM_SEED replays a PW_SPAM_LOAD state; PW_SPAM_BASE reseeds the battery")
 
 local TEXT = tonumber(os.getenv("PW_SPAM_TEXT") or "")
 local GENDER = tonumber(os.getenv("PW_SPAM_GENDER") or "")
@@ -186,9 +200,9 @@ local function scenario(tag, body)
   if ONLY and not tag:find(ONLY, 1, true) then return end
   if not os.getenv("PW_SPAM_LOAD") then seed = scenarioSeed(tag) end
   F.L(string.format("== %s == seed=%d", tag, seed))
-  if SAVE_DIR then client.savestate(SAVE_DIR .. "/" .. tag:gsub("%W", "_") .. ".ss") end
+  if SAVE_DIR then keepState(tag:gsub("%W", "_") .. ".ss") end
   local result, at = body()
-  if SAVE_DIR then client.savestate(SAVE_DIR .. "/" .. tag:gsub("%W", "_") .. "_after.ss") end
+  if SAVE_DIR then keepState(tag:gsub("%W", "_") .. "_after.ss") end
   F.check(tag .. ": the scenario reached its subject", result ~= "skip", state())
   local crashed = result == "crash"
   F.check(tag .. ": no crash while mashing", not crashed, "at frame " .. tostring(at) .. " " .. state())
@@ -523,14 +537,24 @@ F.run(function()
   end)
   toHub()
 
-  -- The Hub Pass registered to Select: the mash fires it, answers its Yes/No and rides the warp.
+  -- The Hub Pass registered to Select: Select fires it, YES confirms the one-way warp, and the mash
+  -- rides the announcement, the warp and the arrival, where Select fires it again. Its Yes/No rests
+  -- on NO, so the confirm waits for the menu itself: at Mid text, fixed frame counts pressed Up
+  -- while the question was still printing, and every Yes/No the mash then met took NO.
   scenario("registered hub pass mash", function()
     if not warpMap(0, 0, 0, "petalburg_pass") then return "skip", 0 end
     addItem(893, 1)
     F.w16(F.sb1() + S.SaveBlock1.registeredItem, 893)
-    -- Arm it up to the Yes/No with the cursor moved to YES, so the mash confirms and rides the warp.
-    F.press("Select", 2); F.idle(120)
-    F.press("A", 2); F.idle(60); F.press("A", 2); F.idle(60); F.press("Up", 2); F.idle(10)
+    F.press("Select", 2)
+    local asked = false
+    for _ = 1, 120 do
+      asked = F.taskLive(S.Task_CallYesOrNoCallback)
+      if asked then break end
+      F.press("A", 2); F.idle(10)
+    end
+    F.press("Up", 2); F.idle(4)
+    F.check("registered hub pass mash: Select asked to confirm and Up chose YES", asked and F.mcur() == 0, state())
+    F.press("A", 2)
     local reached = false
     local result, at = mash("hub_pass", 3000, { A = 35, B = 15, Start = 2, Select = 40, dir = 50 }, function()
       if F.grp() == HUB_GROUP then reached = true end

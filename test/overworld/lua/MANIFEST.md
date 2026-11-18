@@ -1538,6 +1538,20 @@ a mash committed a move, or the mash spent all 15,000 frames in the Bag, party a
 the lead's attacking stats are now held at 1, and after 8,000 frames without a defeat the battle
 keys back out and forfeit. Both scenarios now pass on the integ2 and integ3 builds at the default
 base and at `PW_SPAM_BASE` 1 to 4.
+
+Hub Pass at Mid text (stress pass 8). "The mash reached the hub" failed at Mid text with either
+gender, alone or in the battery, and passed at Slow, Fast and Instant. The arming pressed Select,
+A, A and Up on fixed frame counts, and at Mid text all of them landed while the confirm was still
+printing, so the Yes/No came up on its default NO. Over 3,000 frames the mash fired the pass 12
+times and answered every Yes/No with A or B within five frames, always NO, and control came back
+each time. The pass was never refused, used up or unregistered, and a NO default is the intended
+guard against a mashed one-way warp. The arming now presses A until the Yes/No task is live,
+checks that Up put the cursor on YES, and confirms; the mash rides the announcement, the warp and
+the arrival. The suite also refuses a `PW_SPAM_*` number that does not parse, `PW_SPAM_SEED`
+without `PW_SPAM_LOAD`, and a `PW_SPAM_SAVE` directory it cannot write. The reseed that found this
+passed `PW_SPAM_SEED`, which only the replay path reads, so its three seeds were one run. Its
+"alone" runs passed `PW_SPAM_GENDER=1 PW_SPAM_TEXT=1` as one value, so they ran as the boy at
+Instant.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after

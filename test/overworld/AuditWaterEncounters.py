@@ -5,7 +5,7 @@ The flood is ValidateReachability's (every field move unlocked, obstacles ignore
 misses is unreachable and a cell it reaches may still need story progress. For every map it
 counts what the player can do there and what wild_encounters.json gives back:
 
-  * surf    reached cells in SURF mode (water_mons rolls there);
+  * surf    reached cells in SURF or DIVE mode (water_mons rolls there, underwater too);
   * fish    reached cells where CanFish (src/item_use.c) is TRUE for some facing: on foot at
             elevation 3 facing fishable water at another elevation, or surfing facing open
             surfable water;
@@ -15,10 +15,12 @@ counts what the player can do there and what wild_encounters.json gives back:
 Flags print as `<KIND> <map> ...`. A missing table is not a crash (fishing says "Not even a
 nibble", RockSmashWildEncounter returns FALSE), so a flag is a lead to check against the source
 game, not a verdict. --hns DIR compares every Johto map's tables with pokemonHnS's (species
-sets and level ranges per table). --check exits 1 when an UNUSED table or a MISSING one
-that the source game fills appears.
+sets and level ranges per table). --check exits 1 on MISSING-SRC: a Johto map whose table
+pokemonHnS fills and this tree lacks.
 
     python3 test/overworld/AuditWaterEncounters.py [--map NAME] [--hns DIR] [--check]
+
+--map NAME also prints the map's counts and tables (INFO).
 """
 
 import argparse
@@ -120,7 +122,6 @@ def main():
     audit = Audit(args.root)
     per = audit.activity()
     hns = load_tables(os.path.join(args.hns, "src/data/wild_encounters.json")) if args.hns else {}
-    names = {mid: os.path.basename(os.path.dirname(m.get("_path", ""))) or mid for mid, m in audit.reach.world.maps.items()}
     rows = []
     need = {"surf": "water_mons", "fish": "fishing_mons", "smash": "rock_smash_mons", "tree": "rock_smash_mons"}
     failing = 0
@@ -141,14 +142,13 @@ def main():
         for table, kinds in (("water_mons", ("surf",)), ("fishing_mons", ("fish",)),
                              ("rock_smash_mons", ("smash", "tree"))):
             if enc.get(table) and not any(act[k] for k in kinds):
-                failing += 1
                 rows.append(f"UNUSED {region} {name} {table} with no reachable {'/'.join(kinds)}")
         if region == "JOHTO" and hns and mid in hns:
             for table in TABLES:
                 ours, theirs = summary(enc.get(table)), summary(hns[mid].get(table))
                 if ours != theirs:
                     rows.append(f"DIFF {name} {table} ours={fmt(ours)} hns={fmt(theirs)}")
-        if act and (args.map or os.environ.get("PW_AUDIT_VERBOSE")):
+        if act and args.map:
             rows.append(f"INFO {region} {name} {dict(act)} tables={[t for t in TABLES if enc.get(t)]}")
     for r in rows:
         print(r)

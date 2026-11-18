@@ -1437,6 +1437,14 @@ lowered to 5 (at met level 100 it disobeys and naps through every battle). `PW_F
 `PW_FUZZ_ACTIONS` reseed and lengthen it (pass them with `--env`). Seed 777 found the Start menu
 sprite exhaustion pinned by `StartMenuSpriteLoad`.
 
+Seed 31337 (stress pass 8) failed all six Route 40 warps, a harness fault. The last Route 41 action
+handed back control while the player was still finishing a step, so R+Start opened nothing, and
+`F.warpTo` typed its spinner keys into the field: the player surfed onto the beach, walked, and
+accepted a Surf prompt, and each later attempt's R+Start landed inside that Surf mount. Each mount
+and dismount handed control back, so a player is never stranded there. `F.warpTo` now waits for a
+standing player and types only into an open debug menu. Seeds 31337, 9101, 271828 and the default
+measured 18/18 each on ROM 755E3B58, where seed 31337 was 13/15 before.
+
 ### `DoubleKoWhiteout.lua`
 
 Battles that end with both sides down, with one Pokemon in front of two Eggs, at Instant text and
@@ -1538,6 +1546,29 @@ a mash committed a move, or the mash spent all 15,000 frames in the Bag, party a
 the lead's attacking stats are now held at 1, and after 8,000 frames without a defeat the battle
 keys back out and forfeit. Both scenarios now pass on the integ2 and integ3 builds at the default
 base and at `PW_SPAM_BASE` 1 to 4.
+
+Hub Pass at Mid text (stress pass 8). "The mash reached the hub" failed at Mid text with either
+gender, alone or in the battery, and passed at Slow, Fast and Instant. The arming pressed Select,
+A, A and Up on fixed frame counts, and at Mid text all of them landed while the confirm was still
+printing, so the Yes/No came up on its default NO. Over 3,000 frames the mash fired the pass 12
+times and answered every Yes/No with A or B within five frames, always NO, and control came back
+each time. The pass was never refused, used up or unregistered, and a NO default is the intended
+guard against a mashed one-way warp. The arming now presses A until the Yes/No task is live,
+checks that Up put the cursor on YES, and confirms; the mash rides the announcement, the warp and
+the arrival. The suite also refuses a `PW_SPAM_*` number that does not parse, `PW_SPAM_SEED`
+without `PW_SPAM_LOAD`, and a `PW_SPAM_SAVE` directory it cannot write. The reseed that found this
+passed `PW_SPAM_SEED`, which only the replay path reads, so its three seeds were one run. Its
+"alone" runs passed `PW_SPAM_GENDER=1 PW_SPAM_TEXT=1` as one value, so they ran as the boy at
+Instant.
+
+A real reseed (the girl at Mid text, `PW_SPAM_BASE` 9101, 31337 and 271828) then missed two more
+goal checks, both harness. At base 271828 the Dig arming left the cursor on Dig, but the mash's
+first key was Down, and its A picked Flash ("Can't use that here.") and then Ivysaur's Cut; the
+arming now checks the cursor and confirms Dig itself. At base 9101 the whiteout's forfeit keys ran
+an identical 360-frame loop 13 times: A on POKéMON, the party screen, back out, A on POKéMON again.
+Each trip took 15 keys, and the action menu's key was picked by count, so it came round to A every
+time. The battle keys now steer the action menu and the Yes/No by their cursors, as
+`LanceMultiOutcome` does.
 ### `OakPokeBallsFullPocket.lua`
 
 Oak's five POKé BALLS when the 16-slot POKé BALLS pocket is full. A player who starts Kanto after

@@ -305,6 +305,7 @@ ItemBallFullPocket	lua/ItemBallFullPocket.lua	fresh	0	required
 BattleBgFrostGrass	lua/BattleBgFrostGrass.lua	fresh	0	required
 MauvilleGymFollowerBarrier	lua/MauvilleGymFollowerBarrier.lua	fresh	0	required
 HoennHofHome	lua/HoennHofHome.lua	fresh	0	required
+MomCallFromRoute101	lua/MomCallFromRoute101.lua	fresh	0	required
 FrostyGrassFieldEffect	lua/FrostyGrassFieldEffect.lua	fresh	0	required
 CutGrassKantoJohto	lua/CutGrassKantoJohto.lua	fresh	0	required
 CutGrassStubble	lua/CutGrassStubble.lua	fresh	0	required

@@ -4249,3 +4249,22 @@ each landing must be the expected cell and the player must be able to step off i
 **Discrimination:** unfixed 13/22 (all five landings and four walkability checks), fixed 22/22.
 `MtSilverEscape` 21/21, `TravelSaveContinue` 292/292 and `RegionMapAnywhereStress` 48/48 pass on
 the fixed build.
+
+### `OneIslandWhiteout.lua`
+
+A whiteout after healing at One Island must land in front of the nurse. One Island's Center is the
+one FRLG Center whose nurse stands at x=5, and pokefirered's `SetWhiteoutRespawnWarpAndHealerNpc`
+puts the player at (5,4) there. `heal_locations.json` carried pokefirered's Indigo Plateau and Pallet
+cells but not One Island's, so the default (7,4) put the player on the Battle Girl standing there,
+two cells right of the nurse, and the first step off could not come back. The suite walks into the
+Center through its door (its `ON_TRANSITION` sets the respawn point), loses a debug battle on One
+Island and follows the whiteout. The player must stand on (5,4), share the cell with no object,
+regain control, be healed and walk. **Discrimination:** unfixed 7/10 (`64/0 (7,4)`, sharing
+`localId=6`, the step back blocked), fixed 10/10. `JohtoWhiteoutHeal` 56/56 passes on the fixed build.
+
+`test/overworld/ValidateLandings.py` (host check) lists every cell Fly, Teleport, a whiteout, an
+Escape Rope or Dig can put the player on: each heal location, each whiteout cell and each escape
+point `UpdateEscapeWarp` can record before an escape-allowing map. A cell with collision, a ledge,
+no walkable step off it, or an object standing on it fails, and water fails for heal and whiteout
+cells only. Escape points follow the fixed `UpdateEscapeWarp` rule. It flagged this whiteout cell;
+the one KNOWN entry is a dead Route 26 warp no walk reaches.

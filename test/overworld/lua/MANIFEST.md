@@ -2343,6 +2343,24 @@ frame loads it with the "previous save loaded" status, and only the completed wr
 save. The registered default samples every third frame plus the frame after the write and scores
 **198/198**. No defect found.
 
+### `SaveResetStress.lua`
+
+A save interrupted by a reset must load as the old save or the new one. Each round marks the money
+and the lead's nickname, saves from the Start menu and resets at a chosen moment: a power cut on
+frames spread over the measured flash write (253 frames), the soft reset at the save prompt, during
+the write, in the hub after a save, during a warp's fade, mid gate crossing (the party already
+boxed) and after a battle. The reboot continues the file and compares money, party bytes and
+location against the two snapshots the round straddles.
+
+The soft reset during the write used to press A+B+Start+Select for 20 frames from the write's
+first frame. The Start-menu save writes every sector inside one pass of the main loop, which reads
+the keys only after the write returns, so that chord was released before it could be seen: a probe
+on the eighth pass measured no reset at all (`vblankCounter1` never fell, the game went on to
+"saved the game"), and the check passed because the session that made the save was still running.
+The round now presses the chord on ten frames spread over the write and holds it until
+`vblankCounter1` falls, and requires that the reset landed, that it landed after the write's last
+frame and that the new file loads. Every reset landed 264 or 265 frames after the write began.
+Measured **149/149**; no defect found.
 ### `HubWardrobeSprite.lua`
 
 The World Transit wardrobe (`OBJ_EVENT_GFX_WARDROBE`, local id 15 at (7,7)) drew only its shadow.

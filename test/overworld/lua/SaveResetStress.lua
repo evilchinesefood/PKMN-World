@@ -84,6 +84,8 @@ local function driveSave(hook)
   return "timeout", writing
 end
 
+local function vblank() return F.r32(S.gMain + 0x20) end
+
 local function softReset(frames)
   for _ = 1, frames or 8 do
     joypad.set({ A = true, B = true, Start = true, Select = true }); emu.frameadvance()
@@ -180,17 +182,39 @@ F.run(function()
     F.check("soft reset at the prompt keeps the old file", which == "old", which)
   end
 
-  -- Soft reset held through the write: the write cannot be interrupted, the new file must load.
-  k = k + 1; mark(k)
-  new = snapshot()
-  status = driveSave(function(_, started)
-    if started then softReset(20); return true end
-    return false
-  end)
-  if reboot("soft reset during the write") then
-    local which = verifyLoad("soft reset during the write", saved, new)
-    F.check("soft reset during the write keeps the new file", which == "new", which)
-    if which == "new" then saved = new end
+  -- The A+B+Start+Select chord pressed on a frame of the write and held until the machine resets.
+  -- The write runs inside one pass of the main loop, which reads the keys only after it returns, so
+  -- the reset lands after the last sector and the new file must load. A soft reset zeroes
+  -- vblankCounter1, which is how the hook sees it land: a chord released before the write ends is
+  -- never read at all.
+  local soft = {}
+  for o = 0, span, math.max(1, span // 8) do soft[#soft + 1] = o end
+  soft[#soft + 1] = span + 1
+  for _, off in ipairs(soft) do
+    k = k + 1; mark(k)
+    new = snapshot()
+    local tag = "soft reset held from frame " .. off .. " of the write"
+    local seen, landed = -1, -1
+    status = driveSave(function(_, started)
+      if not started then return false end
+      seen = seen + 1
+      if seen < off then return false end
+      local v0 = vblank()
+      for i = 1, 900 do
+        joypad.set({ A = true, B = true, Start = true, Select = true }); emu.frameadvance()
+        if vblank() < v0 then landed = off + i; break end
+      end
+      joypad.set({})
+      return true
+    end)
+    F.L(string.format("  %s: the reset landed %d frames after the write began (span %d)", tag, landed, span))
+    F.check(tag .. ": the reset landed", landed >= 0, "status=" .. status)
+    F.check(tag .. ": the reset waited for the write", landed >= span, "landed=" .. landed)
+    if reboot(tag) then
+      local which = verifyLoad(tag, saved, new)
+      F.check(tag .. ": the new file loads", which == "new", which)
+      if which == "new" then saved = new end
+    end
   end
 
   -- Soft reset in the Hub right after a completed save.

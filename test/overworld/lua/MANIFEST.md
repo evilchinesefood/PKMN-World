@@ -4463,3 +4463,21 @@ does, talks to Elm for the ticket, and Oak must stand at (8,16) and give the dex
 (28,2), lands in Vermilion, and the seven flags must be clear, Whitney must stand at (20,9), and talking to
 her must send her away. **Discrimination:** unfixed 31/45 (the seven flags clear, all four cameos and Oak
 visible, Oak blocking (8,15) and his scene setting `FLAG_SYS_NATIONAL_DEX`), fixed 45/45.
+
+### `BaobaMatchCall.lua`
+
+Warden Baoba's Route 39 scene says "{PLAYER} registered BAOBA in the POKéNAV!" and sets
+`FLAG_ENABLE_BAOBA_MATCH_CALL`, but no Match Call contact read that flag, so the number he gave could
+not be seen or called. pokemonHnS defines the contact (an NPC header, "SAFARI WARDEN", Safari Zone
+Gate, two call lines with the second gated on `FLAG_AMPHAROS_HEALED`), and `MC_HEADER_BAOBA` now
+carries it. With the PokeGear, Match Call, Elm's contact (the PROF. BIRCH flag Elm's lab sets) and MOM's
+flag set, the suite warps to Route 39 and opens the Match Call list from the Start menu with real
+input, then walks into the shadow trigger and plays the scene with a seeded mash of A, B and Down
+(B at the Gold/Silver choice asks again). It opens the list again and calls every contact, then
+calls once more after Ampharos is healed. **Oracle:** the contact list read from the live Match Call
+menu and each call's text from `gStringVar4`: no BAOBA before the scene, exactly one after, the list
+one longer, his call says the Safari Zone is nearly ready and later that it is open, and PROF. BIRCH
+and MOM still answer. Every call ends back on the list and the field is walkable after each visit.
+**Discrimination:** unfixed 29/33 (the list stays at three contacts and no call answers as BAOBA),
+fixed 35/35. Seeds 1, 3, 7 and 11, and seed 5 with Instant text, pass. `PW_SEED=<n>` reseeds the
+mash, `PW_INSTANT=1` sets Instant text.

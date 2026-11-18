@@ -337,3 +337,4 @@ FishingAcrossRegions	lua/FishingAcrossRegions.lua	fresh	0	required
 WaterFieldMoves	lua/WaterFieldMoves.lua	fresh	0	required
 JohtoPortedMenus	lua/JohtoPortedMenus.lua	fresh	0	required
 JohtoPostgameCameos	lua/JohtoPostgameCameos.lua	fresh	0	required
+BaobaMatchCall	lua/BaobaMatchCall.lua	fresh	0	required

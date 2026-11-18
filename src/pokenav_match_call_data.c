@@ -252,6 +252,20 @@ static const struct MatchCallStructNPC sMomMatchCallHeader =
     }
 };
 
+static const struct MatchCallStructNPC sBaobaMatchCallHeader =
+{
+    .type = MC_TYPE_NPC,
+    .mapSec = MAPSEC_SAFARI_ZONE_GATE,
+    .flag = FLAG_ENABLE_BAOBA_MATCH_CALL,
+    .desc = COMPOUND_STRING("SAFARI WARDEN"),
+    .name = COMPOUND_STRING("BAOBA"),
+    .textData = (const match_call_text_data_t[]) {
+        { MatchCall_Text_Baoba1, ALWAYS_AVAILABLE,     NO_FLAG_TO_SET },
+        { MatchCall_Text_Baoba2, FLAG_AMPHAROS_HEALED, NO_FLAG_TO_SET },
+        MATCH_CALL_TEXT_END
+    }
+};
+
 static const struct MatchCallStructNPC sStevenMatchCallHeader =
 {
     .type = MC_TYPE_NPC,
@@ -570,6 +584,7 @@ static const match_call_t sMatchCallHeaders[] = {
     [MC_HEADER_WALLY]      = {.wally  = &sWallyMatchCallHeader},
     [MC_HEADER_NORMAN]     = {.leader = &sNormanMatchCallHeader},
     [MC_HEADER_MOM]        = {.npc    = &sMomMatchCallHeader},
+    [MC_HEADER_BAOBA]      = {.npc    = &sBaobaMatchCallHeader},
     [MC_HEADER_STEVEN]     = {.npc    = &sStevenMatchCallHeader},
     [MC_HEADER_SCOTT]      = {.npc    = &sScottMatchCallHeader},
     [MC_HEADER_ROXANNE]    = {.leader = &sRoxanneMatchCallHeader},

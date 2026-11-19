@@ -45,6 +45,10 @@ return function(F, N, C)
       if F.grp() ~= g0 or F.mapn() ~= m0 then break end
       if N.activeTask(P.Task_HandleYesNoInput) then
         N.noteMessage(); N.idle(20); N.press('A'); N.idle(30); quiet = 0
+      elseif N.inBattle() then
+        -- A wild encounter can take the field-move input. Finish it before pressing again.
+        if not N.settle() or F.grp() ~= g0 or F.mapn() ~= m0 then return false end
+        N.press(key); N.idle(20); quiet = 0
       elseif F.ow() and N.scriptBusy() then
         N.noteMessage(); N.press('A'); N.idle(16); quiet = 0
       elseif not F.ow() then

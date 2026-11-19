@@ -217,6 +217,7 @@ return function(F, N, C, log)
       enter = enter, snapshot = snapshot, restore = restore, keepParty = keepParty, restoreParty = restoreParty,
       checkRecall = checkRecall, stashOf = function(region) return stash[region] or loadParty(region) end, hasMemory = function(region) return (stash[region] or loadParty(region)) ~= nil end,
       regions = REGIONS, gates = { johto = 16, kanto = 11, hoenn = 21 },
+      finalRegion = last, routeRegions = seen,
     })
   end
   return B

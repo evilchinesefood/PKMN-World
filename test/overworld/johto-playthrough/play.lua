@@ -253,7 +253,8 @@ F.run(function()
     assert(not TO or known[name] <= known[TO], 'selected loss is after requested stop: ' .. name)
     assert(not FROM or known[name] > known[FROM], 'selected loss is before resumed start: ' .. name)
   end
-  local reachedStop = not TO
+  local stopIndex = TO and known[TO] or #BEATS
+  local reachedStop = false
   local start = 1
   if FROM then
     for i, b in ipairs(BEATS) do if b.name == FROM then start = i + 1 end end
@@ -321,11 +322,10 @@ F.run(function()
     topUp()
     N.checkpoint(b.name)
     if Nat then Nat.saveCheckpoint(b.name) end
-    if TO and b.name == TO then reachedStop = true; break end
+    if i == stopIndex then reachedStop = true; break end
   end
   F.check('requested stop reached', reachedStop, TO or 'complete campaign')
-  -- Resuming from the last beat, or a filter that drops every detour, leaves nothing to play.
-  F.check('at least one beat ran', beatsRun > 0, FROM and ('nothing follows ' .. FROM) or 'no beats')
+  F.check('at least one beat ran', beatsRun > 0, tostring(beatsRun))
   for name, loss in pairs(LOSE) do
     F.check('selected loss ' .. name .. ' completed', loss.state == 'completed', loss.state)
   end

@@ -69,11 +69,13 @@ python3 test/overworld/johto-playthrough/run.py --campaign world --world J --pos
 ```
 
 Each Hall of Fame checks `VAR_DIFFICULTY`, the Hub tickets for that many champions, the Frontier
-and World Championship gates, and every gate there and back. After the last Hall, `--world A` plays
-Battle Net rematches (a stone with room, a stone with a full bag, then claiming it), a gate
+and World Championship gates, and every gate there and back. On orders A and B, the Hoenn Hall
+checks Roxanne's reward and Brock's full bag, including claiming the stone later. At each order's
+final story checkpoint (Hoenn for A, Johto for B and J), the run checks Falkner's rematch, a gate
 swap with a PC one slot short and one with exact room (nothing lost or cloned), the Battle Tower from entry to a win, retire and rest-and-resume, and the Exchange Corner
-with a full bag. `--world J` plays Elm's ticket, the S.S. Aqua in both directions and obedience by
-badges. `--world B` sails from the Frontier with the active region's tier set by a non-champion
+with a full bag. Only `--world J` plays Elm's ticket, the S.S. Aqua in both directions and obedience by
+badges. Orders A and B check Fly from the Frontier to Mauville after visiting it in Hoenn.
+`--world B` sails from the Frontier with the active region's tier set by a non-champion
 region.
 
 Debug setup, used only where it doesn't bypass what is under test: warps to gyms, `VAR_SSAQUA_STATE`

@@ -5,6 +5,8 @@ return function(F, N, C, log, B, ctx)
   local L, S = F.L, F.S
   local P, O, MAPS = require('pwsym'), require('pwoff'), require('pwmaps')
 
+  local FINAL, FINAL_REGION = B[#B].name, ctx.finalRegion
+  local johtoOnly = ctx.routeRegions.johto and not ctx.routeRegions.kanto and not ctx.routeRegions.hoenn
   local NORMAL, HARD = 1, 2
   local REGION = { kanto = 1, johto = 2, hoenn = 3 }
   local ITEM_POCKET, BALL_POCKET = 0, 1
@@ -254,12 +256,13 @@ return function(F, N, C, log, B, ctx)
     return F.r8(P.gParties + C.B_TRAINER_OPPONENT_A * 6 * O.mon_size + O.mon_level)
   end
   local LEADERS = {
-    roxanne = { map = 'RustboroCity_Gym', at = { 5, 2 }, shard = 'ITEM_GREEN_SHARD', stone = 'ITEM_AGGRONITE', stoneIdx = 0, beatenIdx = 0, shards = 1 },
-    brock = { map = 'PewterCity_Gym_Frlg', at = { 6, 5 }, shard = 'ITEM_GREEN_SHARD', stone = 'ITEM_AERODACTYLITE', stoneIdx = 22, beatenIdx = 26, shards = 1 },
-    falkner = { map = 'VioletCity_Gym', at = { 9, 4 }, shard = 'ITEM_BLUE_SHARD', stone = 'ITEM_PIDGEOTITE', stoneIdx = 13, beatenIdx = 13, shards = 1 },
+    roxanne = { region = 'hoenn', map = 'RustboroCity_Gym', at = { 5, 2 }, shard = 'ITEM_GREEN_SHARD', stone = 'ITEM_AGGRONITE', stoneIdx = 0, beatenIdx = 0, shards = 1 },
+    brock = { region = 'kanto', map = 'PewterCity_Gym_Frlg', at = { 6, 5 }, shard = 'ITEM_GREEN_SHARD', stone = 'ITEM_AERODACTYLITE', stoneIdx = 22, beatenIdx = 26, shards = 1 },
+    falkner = { region = 'johto', map = 'VioletCity_Gym', at = { 9, 4 }, shard = 'ITEM_BLUE_SHARD', stone = 'ITEM_PIDGEOTITE', stoneIdx = 13, beatenIdx = 13, shards = 1 },
   }
   local function rematch(who)
     local l = LEADERS[who]
+    assert(champion(l.region), who .. ' rematch requires the ' .. l.region .. ' championship')
     if N.mapName() ~= l.map then warpMap(l.map) end
     N.settle()
     local battles = N.battles.trainer
@@ -272,8 +275,7 @@ return function(F, N, C, log, B, ctx)
   local function stoneFlag(who) return C.FLAG_BNET_STONE_BASE + LEADERS[who].stoneIdx end
   local function beatenFlag(who) return C.FLAG_BNET_BEATEN_BASE + LEADERS[who].beatenIdx end
 
-  local function rewardRoom(who, region)
-    if not champion(region) then L('  not a ' .. region .. ' champion; skipped'); return end
+  local function rewardRoom(who)
     local l = LEADERS[who]
     local shardId, stoneId = C[l.shard], C[l.stone]
     local before = quantity(shardId)
@@ -567,7 +569,7 @@ return function(F, N, C, log, B, ctx)
   -- Fly off the Frontier, which is a Hoenn map to the region map whatever region the player brought.
   local function frontierFly(anchor, region)
     detour(anchor, region .. '_frontier_fly', region, function()
-      if not FL('FLAG_VISITED_MAUVILLE_CITY') then L('  Mauville not visited; skipped'); return end
+      assert(FL('FLAG_VISITED_MAUVILLE_CITY'), 'Frontier Fly requires a previous visit to Mauville')
       N.useHubPass()
       N.crossGate(4)
       N.settle()
@@ -619,12 +621,14 @@ return function(F, N, C, log, B, ctx)
   afterHall('k_home', 'kanto')
   afterHall('j_lance_and_hall_of_fame', 'johto')
   afterHall('h_home', 'hoenn')
-  frontierFly('k_home', 'kanto')
-  frontierFly('j_lance_and_hall_of_fame', 'johto')
+  if ctx.routeRegions.hoenn then
+    frontierFly('k_home', 'kanto')
+    frontierFly('j_lance_and_hall_of_fame', 'johto')
+  end
 
   -- A Johto champion who has never been to Kanto: Elm's ticket, the ferry, and back.
-  detour('j_lance_and_hall_of_fame', 'johto_ferry', 'johto', function()
-    if champions() ~= 1 then L('  not a Johto-only champion; skipped'); return end
+  local function johtoFerry()
+    assert(champion('johto') and champions() == 1, 'maiden voyage requires Johto as the only championship')
     assert(N.travel('NewBarkTown_Lab'))
     local from = talkAt(6, 3, 1)
     F.check('elm gives the S.S. Ticket', N.itemCount(C.ITEM_SS_TICKET) == 1, table.concat(N.transcript, ' | ', from + 1))
@@ -667,7 +671,8 @@ return function(F, N, C, log, B, ctx)
     F.check('repeat crossing lands in Vermilion', N.mapName() == 'VermilionCity_PortInside', N.mapName())
     tier('repeat crossing', 'kanto')
     F.check('repeat crossing: party not boxed', N.partyCount() == n1, N.partyCount())
-  end)
+  end
+  if johtoOnly then detour('j_lance_and_hall_of_fame', 'johto_ferry', 'johto', johtoFerry) end
 
   detour('h_home', 'ferry_slateport_from_johto_party', 'hoenn', function()
     enterFrontier('johto')
@@ -678,18 +683,15 @@ return function(F, N, C, log, B, ctx)
     ferryFrontier(1, 'LilycoveCity_Harbor', 'hoenn')()
   end)
 
-  local JOHTO_ONLY = os.getenv('PW_WORLD') == 'J'
-  local FINAL, FINAL_REGION = JOHTO_ONLY and 'j_lance_and_hall_of_fame' or 'h_home', JOHTO_ONLY and 'johto' or 'hoenn'
-
-  detour('h_home', 'bnet_roxanne', 'hoenn', function() rewardRoom('roxanne', 'hoenn') end)
+  detour('h_home', 'bnet_roxanne', 'hoenn', function() rewardRoom('roxanne') end)
   detour('h_home', 'bnet_brock_full_bag', 'hoenn', function()
     crossFor('kanto')
     tier('rematch in kanto', 'kanto')
     rewardFullBag('brock')
   end)
   detour(FINAL, 'bnet_falkner', FINAL_REGION, function()
-    crossFor('johto')
-    rewardRoom('falkner', 'johto')
+    if FINAL_REGION ~= 'johto' then crossFor('johto') end
+    rewardRoom('falkner')
   end)
 
   -- A gate swaps teams through the PC (#377): the remembered team comes out as the departing one
@@ -708,7 +710,7 @@ return function(F, N, C, log, B, ctx)
     local before = occupied()
     ctx.enter(other)
     -- With no remembered team to swap out (an unplayed region), the PC must take the whole party.
-    if JOHTO_ONLY and spare < N.partyCount() then
+    if johtoOnly and spare < N.partyCount() then
       F.check(tag .. ': gate refuses with no team to swap out', not N.crossGate(ctx.gates[other], true), N.mapName() .. ' with ' .. left .. ' free slots')
       F.check(tag .. ': every Pokemon kept, none cloned', occupied() == before, before .. ' -> ' .. occupied())
       return

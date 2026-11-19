@@ -119,6 +119,7 @@ is clean; keep it that way.
 | [`KantoPortedScenes.lua`](#kantoportedsceneslua) | fresh new game | The Viridian school whiteboard explains the condition its cell names, the Pewter gym guide and Jigglypuff scenes play FRLG's songs, and the Route 12 fishing guru's brother calls the record Magikarp the same size: the pokefirered scripts' names mean the same thing here. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
+| [`GoldenrodNameRaterShelves.lua`](#goldenrodnameratershelveslua) | fresh new game | The Name Rater house shelves read as bookshelves and no longer offer a Unique Shiny Colors setting or a Challenge Viewer, neither of which exists. |
 | [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
@@ -2863,6 +2864,16 @@ Mauville's coin-desk refusal ("Okay, you wanted some COINS for the games?..."), 
 then with one: 0 and 119 coins must refuse Abra and keep the coins, exactly 120 must buy it, a NO at
 "is what you want?" must charge nothing, and with a full party a Dratini must cost 5,500 and go to
 box 1 with the PC notice. **28/30** on the unfixed ROM, **30/30** with the fix.
+### `GoldenrodNameRaterShelves.lua`
+
+The two bookshelves in Goldenrod's Name Rater house asked "Would you like to toggle the Unique Shiny
+Colors setting?" and on YES said "Shiny Colors Toggled! View your setting at the CHALLENGE VIEWER at
+any PC." pokemonHnS wired them to its randomizer's `ToggleShinyColors`; this game has neither the
+setting nor a Challenge Viewer, the special was a no-op stub, and the legacy-content removal deleted
+the call but kept the offer. With real input the suite reads each shelf from the floor below it,
+answers YES to any Yes/No box, reads the right shelf again at Instant text, and requires every line
+to be the shared bookshelf text with control returned. Measured **5/14** on the unfixed ROM (and on
+the pre-removal ROM), **14/14** with the fix.
 ### `HofSharedCap.lua`
 
 The Hall of Fame records are one save buffer that two induction screens and two PC viewers share:

@@ -241,10 +241,6 @@ bool8 UpdateVsSeekerStepCounter(void)
     // byte (IncrementRematchStepCounter) and the seeker's recharge simply pauses.
     if (GetCurrentRegion() != REGION_KANTO) return FALSE;
 
-    // Sanitize a Match-Call-inflated low byte (Match Call counts 0..255 in
-    // Hoenn/Johto; the seeker's in-bag charge caps at VSSEEKER_RECHARGE_STEPS).
-    if ((gSaveBlock1Ptr->trainerRematchStepCounter & 0xFF) > VSSEEKER_RECHARGE_STEPS)
-        gSaveBlock1Ptr->trainerRematchStepCounter &= 0xFF00;
     if (CheckBagHasItem(ITEM_VS_SEEKER, 1))
     {
         if ((gSaveBlock1Ptr->trainerRematchStepCounter & 0xFF) < VSSEEKER_RECHARGE_STEPS)
@@ -277,12 +273,6 @@ void MapResetTrainerRematches(u16 mapGroup, u16 mapNum)
 
     FlagClear(I_VS_SEEKER_CHARGING);
     VsSeekerResetChargingStepCounter();
-#if FREE_MATCH_CALL == FALSE
-    // Runs on every map load (any region): normalize a Match-Call-inflated low byte
-    // so CanUseVsSeeker() never reports a bogus "X more steps" count in Kanto.
-    if ((gSaveBlock1Ptr->trainerRematchStepCounter & 0xFF) > VSSEEKER_RECHARGE_STEPS)
-        gSaveBlock1Ptr->trainerRematchStepCounter &= 0xFF00;
-#endif //FREE_MATCH_CALL
     ClearAllTrainerRematchStates();
     ResetMovementOfRematchableTrainers();
 }
@@ -456,12 +446,14 @@ static void GatherNearbyTrainerInfo(void)
 static u8 CanUseVsSeeker(void)
 {
 #if FREE_MATCH_CALL == FALSE
+    // Match Call counts the same byte to 255 outside Kanto, so anything past the
+    // recharge mark is a full charge.
     u8 vsSeekerChargeSteps = gSaveBlock1Ptr->trainerRematchStepCounter;
 
-    if ((vsSeekerChargeSteps == VSSEEKER_RECHARGE_STEPS) && !HasFightableTrainers())
+    if ((vsSeekerChargeSteps >= VSSEEKER_RECHARGE_STEPS) && !HasFightableTrainers())
         return VSSEEKER_NO_ONE_IN_RANGE;
 
-    if (vsSeekerChargeSteps == VSSEEKER_RECHARGE_STEPS)
+    if (vsSeekerChargeSteps >= VSSEEKER_RECHARGE_STEPS)
         return VSSEEKER_CAN_USE;
 
     ConvertIntToDecimalStringN(gStringVar1, (VSSEEKER_RECHARGE_STEPS - vsSeekerChargeSteps), STR_CONV_MODE_LEFT_ALIGN, 3);

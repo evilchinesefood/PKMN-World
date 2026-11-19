@@ -4946,7 +4946,8 @@ Continue: the offers and charging window are cleared (as on any map load), the s
 and 100 steps later both are offered again. `PW_INSTANT=1` sets Instant text.
 **Discrimination:** unfixed 53/55 (the hub's steps pushed the shared rematch byte past 100 and the
 next map load zeroed it, so the seeker said "The battery isn't charged enough" and found nobody; the
-empty-party block needs that offer and is skipped).
+empty-party block needs that offer and is skipped), fixed 60/60, and 60/60 at Instant text, seed
+31337 and a night clock (`--rtc 1704171600`).
 
 ### `MatchCallRematch.lua`
 
@@ -4961,7 +4962,8 @@ then fought: `ROXANNE_1`'s Hard team (level 59), control back, and her request c
 call no longer says the gym is ready. Last, all 64 Hoenn trainers and 8 leaders are registered and the
 72-contact list is walked with a seeded mash (`PW_SEED`, default 5113). `PW_INSTANT=1` sets Instant
 text. **Discrimination:** unfixed 29/32 (the step count read 1 after Petalburg's map load; Roxanne's
-request stayed set and her call still said "My GYM is ready!" after the champion rematch).
+request stayed set and her call still said "My GYM is ready!" after the champion rematch), 30/32 with
+only the step count fixed.
 
 ### `LeaderRematchRegions.lua`
 

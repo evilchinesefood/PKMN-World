@@ -2296,8 +2296,8 @@ static bool32 HasEnoughBadgesForRematch(void)
 // 0..VSSEEKER_RECHARGE_STEPS) and reuses the low byte as its in-bag charge steps
 // (0..VSSEEKER_RECHARGE_STEPS) in UpdateVsSeekerStepCounter(). The two tickers never
 // advance on the same step because each is gated to its region - crossing regions
-// simply pauses the other side's counter. A Match-Call-inflated low byte (> 100) is
-// sanitized when the seeker side next runs in Kanto (vs_seeker.c).
+// simply pauses the other side's counter. The seeker reads a low byte past
+// VSSEEKER_RECHARGE_STEPS as fully charged (vs_seeker.c), so neither side clears it.
 void IncrementRematchStepCounter(void)
 {
 #if FREE_MATCH_CALL == FALSE

@@ -213,13 +213,53 @@ local function rnd(n)
 end
 local MASH = { "A", "A", "A", "B", "Up", "Down", "Left", "Right", "L", "R", "Start" }
 
+local function adjacentDir(localId)
+  local px, py = F.pos()
+  for i = 0, 15 do
+    local b = S.gObjectEvents + i * S.ObjectEvent.stride
+    if (F.r8(b) & 1) == 1 and F.r8(b + S.ObjectEvent.localId) == localId then
+      local dx, dy = F.rs16(b + S.ObjectEvent.x) - 7 - px, F.rs16(b + S.ObjectEvent.y) - 7 - py
+      if dx == 0 and dy == -1 then return "Up" end
+      if dx == 0 and dy == 1 then return "Down" end
+      if dx == -1 and dy == 0 then return "Left" end
+      if dx == 1 and dy == 0 then return "Right" end
+    end
+  end
+end
+
+-- A giver who wanders (`chase` = local id) is talked to only once they stand next to the player,
+-- and again if they stepped away before the A landed.
+local function approach(site)
+  if not site.chase then
+    F.face(site.face)
+    F.w8(S.gStringVar4, 0xFF)
+    F.press("A", 2)
+    return
+  end
+  for _ = 1, 20 do
+    local dir
+    for _ = 1, 900 do
+      dir = adjacentDir(site.chase)
+      if dir then break end
+      F.idle(2)
+    end
+    if dir then
+      F.face(dir)
+      F.w8(S.gStringVar4, 0xFF)
+      F.press("A", 2)
+      for _ = 1, 20 do
+        if F.r8(S.sGlobalScriptContextStatus) ~= CONTEXT_SHUTDOWN then return end
+        F.idle(1)
+      end
+    end
+  end
+end
+
 -- "accept": A through every line and YES, B on the nickname question.
 -- "name": the same, but YES to the nickname and one letter typed.
 -- "mash": a seeded mash of every button but Select, only while the giver's script runs.
 local function talk(site, mode, shoot)
-  F.face(site.face)
-  F.w8(S.gStringVar4, 0xFF)
-  F.press("A", 2)
+  approach(site)
   local said, last, crashed, started, named = {}, nil, false, false, false
   for i = 1, 9000 do
     if i % 30 == 0 and F.reportCrash(site.tag .. "_" .. mode) then crashed = true; break end
@@ -338,6 +378,32 @@ local SITES = {
     refusal = "MAKE ROOM IN YOUR PARTY", partyOnly = true,
     prep = function() clearflag(0x6016); clearflag(0x602F) end,
     given = function() return flag(0x602F) end },
+  { tag = "anorith", region = REGION_HOENN, g = 11, n = 1, at = { 13, 8 }, face = "Right", species = 347,
+    refusal = "NO MORE ROOM", walk = "Left",
+    prep = function() setvar(0x40C4, 2); setvar(0x40C5, 2) end,
+    given = function() return var(0x40C4) ~= 2 end },
+  { tag = "alph_aerodactyl", region = REGION_JOHTO, g = 79, n = 3, at = { 7, 3 }, face = "Up", species = 142,
+    refusal = "NO MORE ROOM", walk = "Left",
+    prep = function() setvar(0xA0BC, 2); setvar(0xA0BD, 5) end,
+    given = function() return var(0xA0BC) ~= 2 end },
+  -- The scientist wanders around (12,3); the revival is seeded as his own script leaves it (state 2,
+  -- Helix), so the talk goes straight to the hand-over.
+  { tag = "cinnabar_omanyte", region = REGION_KANTO, g = 46, n = 4, at = { 12, 4 }, chase = 2, species = 138,
+    refusal = "NO MORE ROOM", walk = { "Left", "Right" },
+    prep = function() setvar(0xA043, 2); setvar(0xA042, 1); clearflag(0xD2D); clearflag(0xD2E) end,
+    given = function() return flag(0xD2D) end },
+  -- A missed quiz answer (VAR_DRAGONS_DEN_QUIZ 1) earns the plain Dratini, given by givemon to the
+  -- party or the PC; the named one only ever goes to the party (NamedGiftFullParty).
+  { tag = "dratini_basic", region = REGION_JOHTO, g = 94, n = 14, at = { 6, 10 }, face = "Up", species = 147,
+    refusal = "NO MORE ROOM",
+    prep = function() setvar(0xA0AB, 4); setvar(0xA0AD, 1); clearflag(0x6162) end,
+    given = function() return flag(0x6162) end },
+  -- FLAG_NO_ROOM_FOR_TOGEPI_EGG is how his script remembers an offer a full party turned down; with
+  -- it set he skips the lead's friendship check and goes straight to the party-size test.
+  { tag = "togepi_egg_sevii", region = REGION_KANTO, g = 37, n = 51, at = { 14, 12 }, face = "Up", species = 175,
+    refusal = "SPACE FOR THIS IN YOUR PARTY", partyOnly = true,
+    prep = function() clearflag(0xD1A); setflag(0xD1B) end,
+    given = function() return flag(0xD1A) end },
 }
 
 -- ---- one giver ----------------------------------------------------------------------------------
@@ -367,7 +433,11 @@ local function fullStorageTalk(site, speed, mode)
     F.check(tag .. ": the giver says there is no room", saidAny(said, site.refusal), table.concat(said, " | "))
   end
   local away = site.walk or (site.face == "Down" and "Up" or "Down")
-  F.check(tag .. ": the field is walkable", F.step(away), where())
+  local walked = false
+  for _, dir in ipairs(type(away) == "table" and away or { away }) do
+    if F.step(dir) then walked = true; break end
+  end
+  F.check(tag .. ": the field is walkable", walked, where())
 end
 
 local function controlTalk(site, filler)

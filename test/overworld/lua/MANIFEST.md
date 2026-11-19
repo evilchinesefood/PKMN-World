@@ -158,7 +158,7 @@ is clean; keep it that way.
 | [`RevisedHintLines.lua`](#revisedhintlineslua) | fresh new game | The six rewritten NPC and sign lines (Elm, both Goldenrod bike clerks, the 2F youngster, the Radio Tower quiz, the Pallet notice, the Six Island old man) through their real triggers, with the bike gift's refuse, bag-full and accept branches. |
 | [`HatchMetLocation.lua`](#hatchmetlocationlua) | fresh new game | Eggs hatched in Ecruteak and in four Johto sections at or past 0xFD record the right met location, summary memo and Protein friendship bonus; no bonus for a special area, even in the Hub 2F; gifts there read SPECIAL AREA; an OT that is a prefix of a seven-letter player name is an outsider (EXP, obedience, memo). |
 | [`RelearnerLongLearnset.lua`](#relearnerlonglearnsetlua) | fresh new game | Fallarbor's relearner lists all 29 of Gallade's and 24 of Zangoose's relearnable moves, scrolls to both ends, survives a mash and teaches the last one into a full moveset. |
-| [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Fourteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
+| [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Nineteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
 | [`BattleNetShardEdges.lua`](#battlenetshardedgeslua) | fresh new game | The Battle Net BP clerk, stone vendor and Director at short, exact and full-pocket balances, and menu mashes that must conserve BP and shards. |
 | [`IndigoVictoryRoadExits.lua`](#indigovictoryroadexitslua) | fresh new game | Victory Road's top exit and the league town above it join both ways on foot in Johto, Kanto and Hoenn; the Johto Indigo Plateau's south stairs lead down Route 23 to the cave mouth. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
@@ -4130,20 +4130,28 @@ the flag and moves them aside. **Discrimination:** unfixed 14/16 (admitted at si
 Pokémon arrivals with six in the party and all 420 box slots full, through each giver's own script:
 Castform, Beldum, Devon's Lileep, Birch's Cyndaquil, the Lavaridge Egg, the Silph Lapras, the Route 4
 Magikarp sale, the Celadon Eevee, the Dojo Hitmonlee, the Cianwood Tentacool, Kiyo's Tyrogue, the Ruins
-of Alph Kabuto, the Goldenrod Abra prize and Elm's aide's Togepi Egg. `AuditCapacity.py` proves each
+of Alph Kabuto, the Goldenrod Abra prize, Elm's aide's Togepi Egg, Devon's Anorith, the Ruins of Alph
+Aerodactyl, the Cinnabar Lab's Omanyte, the Dragon's Den elder's plain Dratini (a missed quiz answer)
+and the Five Island Water Labyrinth Togepi Egg. `AuditCapacity.py` proves each
 script tests its result; this plays the path it cannot see. Setup gives six Pokémon with `createmon`,
 fills the boxes with debug Fill PC Boxes Fast, seeds the story state each giver waits on and warps next
 to the giver; facing the giver, every press is real input. Each giver is talked to with A answering
 every prompt and under a seeded mash (only while the script runs), at Instant and Mid text: the giver
 must say there is no room, give nothing, record nothing, leave its ball on the table, take no money or
-coins, hand control back with a walkable field, and leave every party and box slot byte for byte. Then
+coins, hand control back with a walkable field, and leave every party and box slot byte for byte. The
+Cinnabar scientist wanders, so he is talked to whenever he stands next to the player; the Water
+Labyrinth gentleman starts from `FLAG_NO_ROOM_FOR_TOGEPI_EGG`, the state his own refusal leaves, so
+the lead's friendship check is skipped. Then
 one box slot (a party slot for the Eggs) is freed and the gift taken with YES to the nickname and one
 letter typed: it must land in that slot, once, as the right species, with the letter in its nickname
 and no other slot changed. Before the Magikarp, the Route 4 Center's PC is switched on and off, which
 leaves `VAR_0x8004` at `PC_LOCATION_OTHER`. The Magikarp's PC branch opened the nickname screen without
 naming its target, so it renamed party slot `VAR_0x8004` ("Pidgey's nickname?") and the boxed Magikarp
 kept its name; with any other leftover above 5 it wrote the name past the party. **492/494** on the
-unfixed ROM (both Magikarp naming checks), **494/494** fixed. `ValidateConfigRules.py` now fails a
+unfixed ROM (both Magikarp naming checks), **494/494** fixed. With the five later givers the suite runs
+**663/663** on the v14 ROM (no defect found). A mutant build that drops each new giver's refusal branch
+(the `NoMoreRoomForPokemon` jump, or the Water Labyrinth party-size test) fails 33 of their 189 checks:
+the gift recorded with storage full and no refusal line, in every accept and mash run. `ValidateConfigRules.py` now fails a
 script that opens the nickname screen without setting `VAR_0x8004`. `PW_CAP_ONLY=<text>` runs matching
 givers, `PW_CAP_SEED=<n>` reseeds the mashes.
 

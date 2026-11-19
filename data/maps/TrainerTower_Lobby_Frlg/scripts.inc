@@ -206,14 +206,6 @@ TrainerTower_Lobby_Movement_WalkDown::
 	walk_down
 	step_end
 
-TrainerTower_Lobby_EventScript_ShowRecords::
-	lockall
-	fadescreen FADE_TO_BLACK
-	setvar VAR_0x8004, 1
-	special ShowTrainerHillRecords
-	releaseall
-	end
-
 TrainerTower_Lobby_EventScript_CooltrainerF::
 	msgbox TrainerTower_Lobby_Text_WonderWhatKindsOfTrainers, MSGBOX_NPC
 	end

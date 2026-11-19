@@ -47,7 +47,6 @@ struct TrainerTowerState
     /* 0x0004 */ struct EReaderTrainerTowerSet data;
 };
 
-void PrintTrainerTowerRecords(void);
 void InitTrainerTowerBattleStruct(void);
 void FreeTrainerTowerBattleStruct(void);
 u8 GetTrainerTowerTrainerFrontSpriteId(void);

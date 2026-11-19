@@ -89,6 +89,7 @@ static bool32 IsPlayerDefeated(u32 battleOutcome);
 static u16 GetRematchTrainerId(u16 trainerId);
 #endif //FREE_MATCH_CALL
 static void RegisterTrainerInMatchCall(void);
+static void ClearTrainerWantRematchState(const struct RematchTrainer *table, u16 firstBattleTrainerId);
 static void HandleRematchVarsOnBattleEnd(void);
 static const u8 *GetIntroSpeechOfApproachingTrainer(void);
 static const u8 *GetTrainerCantBattleSpeech(void);
@@ -1737,6 +1738,9 @@ static void CB2_EndTrainerBattle(void)
         {
             RegisterTrainerInMatchCall();
             SetBattledTrainersFlags();
+            // A champion's gym rematch is an ordinary battle against the leader's first team,
+            // and it answers the request UpdateGymLeaderRematch posted to the PokeNav.
+            ClearTrainerWantRematchState(gRematchTable, TRAINER_BATTLE_PARAM.opponentA);
         }
     }
 }

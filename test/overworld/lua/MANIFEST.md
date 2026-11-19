@@ -4963,7 +4963,8 @@ call no longer says the gym is ready. Last, all 64 Hoenn trainers and 8 leaders 
 72-contact list is walked with a seeded mash (`PW_SEED`, default 5113). `PW_INSTANT=1` sets Instant
 text. **Discrimination:** unfixed 29/32 (the step count read 1 after Petalburg's map load; Roxanne's
 request stayed set and her call still said "My GYM is ready!" after the champion rematch), 30/32 with
-only the step count fixed.
+only the step count fixed, fixed 32/32 (her call goes back to "I need some more time"), and 32/32 at
+Instant text, seed 31337 and a night clock.
 
 ### `LeaderRematchRegions.lua`
 

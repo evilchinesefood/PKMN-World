@@ -89,6 +89,7 @@ static bool32 IsPlayerDefeated(u32 battleOutcome);
 static u16 GetRematchTrainerId(u16 trainerId);
 #endif //FREE_MATCH_CALL
 static void RegisterTrainerInMatchCall(void);
+static void ClearTrainerWantRematchState(const struct RematchTrainer *table, u16 firstBattleTrainerId);
 static void HandleRematchVarsOnBattleEnd(void);
 static const u8 *GetIntroSpeechOfApproachingTrainer(void);
 static const u8 *GetTrainerCantBattleSpeech(void);
@@ -1737,6 +1738,9 @@ static void CB2_EndTrainerBattle(void)
         {
             RegisterTrainerInMatchCall();
             SetBattledTrainersFlags();
+            // A champion's gym rematch is an ordinary battle against the leader's first team,
+            // and it answers the request UpdateGymLeaderRematch posted to the PokeNav.
+            ClearTrainerWantRematchState(gRematchTable, TRAINER_BATTLE_PARAM.opponentA);
         }
     }
 }
@@ -2296,8 +2300,8 @@ static bool32 HasEnoughBadgesForRematch(void)
 // 0..VSSEEKER_RECHARGE_STEPS) and reuses the low byte as its in-bag charge steps
 // (0..VSSEEKER_RECHARGE_STEPS) in UpdateVsSeekerStepCounter(). The two tickers never
 // advance on the same step because each is gated to its region - crossing regions
-// simply pauses the other side's counter. A Match-Call-inflated low byte (> 100) is
-// sanitized when the seeker side next runs in Kanto (vs_seeker.c).
+// simply pauses the other side's counter. The seeker reads a low byte past
+// VSSEEKER_RECHARGE_STEPS as fully charged (vs_seeker.c), so neither side clears it.
 void IncrementRematchStepCounter(void)
 {
 #if FREE_MATCH_CALL == FALSE

@@ -131,6 +131,11 @@ WANT = [
     # struct (currentPhrase at 0x3C) where the word picker leaves the chosen words.
     "CB2_EasyChatScreen", "sEasyChatScreen",
     "gSpecialVar_Result", "gSpecialVar_0x8004",
+    # VsSeekerRematch.lua / MatchCallRematch.lua: the trainer a battle was set up for, the Kanto
+    # rematch states held in EWRAM (table ids >= MAX_REMATCH_ENTRIES), and the seeker's tasks.
+    "gTrainerBattleParameter", "sKantoRematches", "sMatchCallState",
+    "Task_InitVsSeekerAndCheckForTrainersOnScreen", "Task_VsSeeker_ShowResponseToPlayer",
+    "EventScript_VsSeekerChargingDone",
     # MoneySinkEdges.lua: the Day Care withdrawal fee GetDaycareCostAndPrepareString leaves for
     # IsEnoughForCostInVar0x8005 and SubtractMoneyFromVar0x8005.
     "gSpecialVar_0x8005",
@@ -570,7 +575,7 @@ SB3_FIELDS = ["regionVars", "johtoFlags", "usmSaved", "kantoTrainerFlags",
 # hardcoded in the table above and silently rotted across save format v7: flags moved 4728 -> 5524
 # and vars 5246 -> 6042, so a suite writing a flag wrote into neighbouring save data, read its own
 # write back, and agreed with itself while the game saw nothing.
-SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "dexCaught", "roamer", "gameStats", "pokeblocks", "playerPartyCount", "playerParty"]
+SB1_FIELDS = ["flags", "vars", "money", "berryTrees", "daycare", "mail", "dexSeen", "dexCaught", "roamer", "gameStats", "pokeblocks", "playerPartyCount", "playerParty", "trainerRematchStepCounter", "trainerRematches"]
 
 
 def load_save_src(root):

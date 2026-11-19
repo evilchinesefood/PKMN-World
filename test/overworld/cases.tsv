@@ -356,3 +356,6 @@ ServiceNpcStress	lua/ServiceNpcStress.lua	fresh	0	required
 SecretBaseTerrains	lua/SecretBaseTerrains.lua	fresh	0	required
 TrickHouseOddPaths	lua/TrickHouseOddPaths.lua	fresh	0	required
 MirageOddPaths	lua/MirageOddPaths.lua	fresh	0	required
+VsSeekerRematch	lua/VsSeekerRematch.lua	fresh	0	required
+MatchCallRematch	lua/MatchCallRematch.lua	fresh	0	required
+LeaderRematchRegions	lua/LeaderRematchRegions.lua	fresh	0	required

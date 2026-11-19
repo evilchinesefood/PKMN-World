@@ -3668,7 +3668,14 @@ while the door was still closed (`MB_SKY_PILLAR_CLOSED_DOOR`, a solid block), be
 into the pillar skipped `FLAG_WALLACE_GOES_TO_SKY_PILLAR`. In the game the Cave of Origin sets that
 flag before anyone can enter, and the door opens on load from then on, so the setup now sets it.
 Replayed from its savestate with only that flag set, the location walks out through the open door and
-passes. Manual because the noise makes the route a function of every frame count, so any
+passes. `PW_CHAOS_BASE=99991` scored **81/83**: the walk ended on Route 6 just after a ledge jump,
+with the follower on the ledge top two tiles back. The follower waits there until the player's next
+step and then jumps the ledge, as in pokeemerald-expansion, so the check now accepts a follower two
+tiles straight back across a ledge that jumps toward the player. From that frame it still fails a
+follower frozen there through the next step, one on the ledge tile, one two tiles along the row and
+one three tiles back. With both changes the default seed, 104729, 7, 31337, 1618033, 99991 and
+8675309 all score **82/82** on that ROM. Manual because the noise makes the route a function of
+every frame count, so any
 build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
 `PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
 one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.

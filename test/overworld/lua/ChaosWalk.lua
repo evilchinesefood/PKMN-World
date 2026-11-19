@@ -11,8 +11,9 @@
 -- mouths with menus, the bike and the flight toggling over the fades. After every map change,
 -- walk and landing it waits for the field and checks: no crash screen, the game keeps running
 -- (play time advances), the player object sits on the saved tile and on a passable block, and a
--- shown follower stands next to the player on a passable block. Battles the walk starts are ended
--- by the mash (foes at 1 HP).
+-- shown follower stands next to the player on a passable block, or waits on the ledge top two
+-- tiles back after the player jumped down. Battles the walk starts are ended by the mash (foes at
+-- 1 HP).
 --
 -- PW_CHAOS_ONLY=<text> runs matching locations, PW_CHAOS_BASE=<n> reseeds, PW_CHAOS_HOPS=<n> sets
 -- the transitions per location (default 8) and PW_CHAOS_FRAMES=<n> its frame budget (12000).
@@ -36,6 +37,7 @@ local ITEM_MACH_BIKE = 707
 local ITEM_SKY_CHARM = 891
 local AVATAR_BIKES = 0x06
 local FLAG_WALLACE_GOES_TO_SKY_PILLAR = 0x137
+local MB_JUMP = { [0x38] = { 1, 0 }, [0x39] = { -1, 0 }, [0x3A] = { 0, -1 }, [0x3B] = { 0, 1 } }  -- MB_JUMP_EAST..SOUTH
 
 local seed = BASE
 local function rnd()
@@ -162,6 +164,28 @@ local function blockAt(x, y)
   return F.r16(p + 2 * ((x + 7) + (y + 7) * w))
 end
 local function passable(x, y) local b = blockAt(x, y); return b >= 0 and ((b >> 10) & 3) == 0 end
+-- The behavior MapGridGetMetatileBehaviorAt reads. Kanto and Johto layouts split the tilesets at
+-- 640, and a tileset with FRLG attributes stores them as u32.
+local function behaviorAt(x, y)
+  local id = blockAt(x, y) & S.Metatiles.idMask
+  local layout = F.r32(S.gMapHeader + S.MapHeader.mapLayout)
+  local split = (F.r8(layout + S.MapLayout.isFrlg) ~= 0 or F.r8(layout + S.MapLayout.isJohto) ~= 0)
+    and S.Metatiles.inPrimaryFrlg or S.Metatiles.inPrimary
+  local tileset = F.r32(layout + (id < split and S.MapLayout.primaryTileset or S.MapLayout.secondaryTileset))
+  local attrs, n = F.r32(tileset + S.Tileset.metatileAttributes), id < split and id or id - split
+  if (F.r8(tileset + S.Tileset.flags1) & S.Tileset.hasFrlgAttributesBit) ~= 0 then
+    return F.r32(attrs + n * 4) & S.Metatiles.behaviorMaskFrlg
+  end
+  return F.r16(attrs + n * 2) & S.Metatiles.behaviorMask
+end
+-- When the player jumps a ledge, the follower walks onto the ledge top and waits there, two tiles
+-- back, until the player's next step, which it follows with its own jump.
+local function waitsOnLedgeTop(fx, fy, x, y)
+  local dx, dy = x - fx, y - fy
+  if math.abs(dx) + math.abs(dy) ~= 2 or (dx ~= 0 and dy ~= 0) then return false end
+  local jump = MB_JUMP[behaviorAt(fx + dx // 2, fy + dy // 2)]
+  return jump ~= nil and jump[1] == dx // 2 and jump[2] == dy // 2
+end
 local function flying() return F.r8(S.sFlightActive) ~= 0 end
 
 local function warps()
@@ -255,7 +279,7 @@ local function settleAndCheck(tag)
     local fb = blockAt(fx, fy)
     local dist = math.abs(fx - x) + math.abs(fy - y)
     local walled = ((fb >> 10) & 3) ~= 0 and dist ~= 0
-    if dist > 1 or walled then
+    if (dist > 1 and not waitsOnLedgeTop(fx, fy, x, y)) or walled then
       issues = issues + 1
       F.shot(tag .. "_follower")
       F.check(tag .. ": a shown follower stands next to the player on a passable block", false,

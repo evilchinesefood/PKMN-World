@@ -244,6 +244,11 @@ CinnabarFossilNeedsFossil	lua/CinnabarFossilNeedsFossil.lua	fresh	0	required
 PcOwnerName	lua/PcOwnerName.lua	fresh	0	required
 FrontierFacilityStress	lua/FrontierFacilityStress.lua	fresh	0	required
 FactoryRentalStress	lua/FactoryRentalStress.lua	fresh	0	required
+FactoryModesStress	lua/FactoryModesStress.lua	fresh	0	required
+ArenaJudgeStress	lua/ArenaJudgeStress.lua	fresh	0	required
+FrontierFollowerChoice	lua/FrontierFollowerChoice.lua	fresh	0	required
+PikeFollowerChoice	lua/PikeFollowerChoice.lua	fresh	0	required
+PikeChallengeStress	lua/PikeChallengeStress.lua	fresh	0	required
 HofDexNumbers	lua/HofDexNumbers.lua	fresh	0	required
 KurtBallFullBag	lua/KurtBallFullBag.lua	fresh	0	required
 KantoTutorRepeatPrompt	lua/KantoTutorRepeatPrompt.lua	fresh	0	required

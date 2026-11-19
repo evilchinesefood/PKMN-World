@@ -3033,6 +3033,81 @@ rentals must replace the party, the swap must change the first party slot by the
 the challenge must end with the party byte-identical, streak 7, 3 BP and the follower back. A soft
 reset on the swap screen with no save must end the streak with the party restored and no BP.
 Measured **26/26**; no defect found.
+### `FactoryModesStress.lua`
+
+The Battle Factory's other modes on the `FrontierFacilityStress` driver: a Lv. 50 doubles challenge
+that answers NO to every swap offer until the one before the seventh battle, and an Open Level
+singles challenge with a Rest and Continue after the first win. Both rent three Pokemon and win all
+seven battles with real input (the driver now steers both of the player's battlers in a double).
+Each must end in the lobby with the party byte-identical, the frontier status cleared, the mode's
+own streak at 7 (doubles `factoryWinStreaks[1][0]`, Open `[0][1]`), its first Battle Point award
+(doubles 4, singles 3) and the follower back; the doubles swap must land after battle 6 and change
+the first party slot by battle 7. Measured **27/27**; no defect found.
+
+### `ArenaJudgeStress.lua`
+
+Battle Arena Lv. 50 challenges on the `FrontierFacilityStress` driver where matchups run their
+three turns to the referee. In judge mode every battler is held at full HP instead of putting the
+foes at 1 HP, so Mind, Skill and Body decide; the judgments fall where the AI and the referee put
+them, and the challenge ends at the first lost battle or the seventh win. The second case runs at
+Instant text speed. The third (`judge = "weak"`) holds only the foes, so the player's Pokemon take
+damage, lose judgments, faint and are replaced through the in-battle party screen. Judgments are
+counted from `gBattlescriptCurrInstr` inside `BattleScript_ArenaDoJudgment` and its two losing
+branches, and the judgment window and the text box after `erasearenareftextbox` are screenshotted.
+Each case must end in the lobby with the party byte-identical, the status cleared, the streak equal
+to the battles won, Battle Points only for a won challenge, the follower back, and at least one
+judgment per battle on average. Measured **29/29** (one run: 7 wins with 12 judgments and 4 draws;
+7 wins at Instant text; a weak run of 3 wins, one lost judgment, then a lost battle); no defect
+found, and the screenshots show the SwSh referee box and the restored battle box intact.
+
+### `FrontierFollowerChoice.lua`
+
+The Pokemon the player chose with the party menu's Follow must still follow after a Battle Arena or
+Battle Factory challenge. `SaveBlock2.followerSlot` names a party slot and `GetFollowerSlot` tracks
+the chosen Pokemon's identity, but it treated the Frontier's stand-in party (the three entered
+Pokemon, or the rentals) as the real one: the chosen Pokemon was missing from it, so the choice was
+cleared, and the lobby's restored party then followed its lead. Setup writes `followerSlot = 4`
+(Pikachu, as after a Continue) on the shared driver's base party; the challenge enters Charizard,
+Blastoise and Venusaur (or rents three), wins one battle and retires through the real menus.
+After the lobby restores the party, Pikachu must walk behind the player and `followerSlot` must
+still be 4. Measured **15/19** unfixed (both cases: Charizard follows, `followerSlot=0`) and
+**19/19** fixed.
+
+### `PikeFollowerChoice.lua`
+
+The same follower choice through Battle Pike challenges, on the shared driver `pike_challenge.lua`
+(see `PikeChallengeStress.lua`). `open_follower` does not enter the chosen Pikachu, so it is missing
+from the party for the whole Open Level challenge. `pause_resume` picks Pikachu first, so the
+stand-in party holds it in slot 1 and `GetFollowerSlot` moved the index there; after the second room
+the three-path attendant's save and quit loads the real party and writes it, and the saved index
+then named the real party's slot 1. Continue must resume the challenge in the three-path room with
+the paused save holding all six Pokemon. Both cases then play all seven rooms and must end with
+Pikachu following and `followerSlot` back at 4. Measured **24/28** unfixed (`open_follower`:
+`followerSlot=0`; `pause_resume`: `followerSlot=1`, Charizard follows) and **28/28** fixed. A tamper
+build without `SyncFollowerSlotForSave` fails only `pause_resume` (26/28).
+
+### `PikeChallengeStress.lua`
+
+Full Battle Pike challenges with real input, on the shared driver `pike_challenge.lua`. Setup gives
+six distinct Lv. 50 Pokemon with distinct held items on the entered three (Leftovers, Quick Claw,
+Shell Bell, and a Lum Berry on the fourth). Each case takes the challenge at the lobby attendant
+(party screen steered by `gPartyMenu.slotId`, save), then walks a seeded door in each three-path
+room by a breadth-first path over the layout walls and the live object tiles, and lets each room's
+own script run: single, double and hard battles, the full and partial heal rooms (the partial one is
+talked to), the status room, the wild grass and the Pike Queen. The entry rows whose coord events
+turn the player back are walkable only before the room is entered, and the field counts as free
+when the script context is not running (a grass battle leaves it waiting). Battles are won on the
+real move menu with the foes at 1 HP. `lv50_doors` plays seven rooms; `queen` starts from the streak
+one won challenge leaves (14, streak flag set), so the seventh room is Lucy's; `reset_in_room` soft
+resets with no save after the second room, with the chosen follower entered second. A played-out
+case must end in the lobby with control, seven rooms played, the party byte-identical (held items
+included), the status cleared, the streak up by 14, the record and total updated, the award added
+(1 BP, or 11 with the Queen) and the follower back; the Queen must give the silver symbol. The reset
+must Continue in the lobby, whose attendant ends the challenge as unsaved: party byte-identical,
+streak 0, record, total and Battle Points unchanged, and the chosen follower still chosen.
+Measured **38/38**; no defect found. `--env PW_PIKE_SEED=<n>` reseeds the doors and `--env PW_PIKE_TRACE=1` logs the field
+state every 2,000 frames.
+
 ### `HofDexNumbers.lua`
 
 The "No." line in both Hall of Fame PC viewers. The National Pokedex is switched on by the special

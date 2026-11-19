@@ -75,6 +75,10 @@ WANT = [
     "gLevelUpStartLevels", "sLevelUpSummaryState",
     # FrontierFacilityStress.lua: the Battle Factory rental and swap screens and the Dome tourney tree.
     "CB2_SelectScreen", "Swap_CB2", "CB2_TourneyTree",
+    # PikeChallengeStress.lua: the room type the last Battle Pike door chose (battle_pike.c).
+    "sRoomType",
+    # ArenaJudgeStress.lua: the referee's judgment and its two losing branches (battle_scripts_1.s).
+    "BattleScript_ArenaDoJudgment", "BattleScript_ArenaJudgmentPlayerLoses", "BattleScript_ArenaJudgmentDraw",
     # ExchangeCornerPurchases.lua / MasterRankMuseum.lua: the scrollable prize list, the decoration
     # inventories, the contest's move-select task and the contest and painting screens.
     "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",

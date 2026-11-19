@@ -4504,3 +4504,62 @@ both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks
 party-restoring cancels fail.
 Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
 with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.
+### `SecretBaseTerrains.lua`
+
+Secret bases in the red, brown and yellow caves (SecretBaseMoveStress covers the blue cave, the tree
+and the shrub), with the debug lead out as a follower throughout. The Route 118 red cave base is made
+with SECRET POWER chosen from the SwSh party menu, a path no suite drove; the PC's top menu must hold
+three rows (no REGISTRY: other players' bases came only from record mixing, which the removal commit
+deleted); a SMALL DESK is placed through PC > Decoration > Decorate, then the game is saved inside, soft
+reset and continued. The desk must still be drawn, the player must stand on the saved tile with
+control and the follower beside them, and the exit's south arrow warp must use the saved dynamic warp
+to put the player back below the entrance. A SELECT-registered HUB PASS then leaves from inside the
+base; the open entrance must lead back into the same base with the desk. The base then moves to the
+Route 114 brown cave (the party-menu SECRET POWER is refused first, as `SetUpFieldMove_SecretPower`
+does once a base exists) and the Route 111 yellow cave, and ends with PACK UP. On every route visited
+only the player's own entrance may draw differently from the layout's own block
+(`gMapHeader.mapLayout`), so a phantom base would show as an extra open entrance. Setup is the debug
+party, `setmonmove`, `additem` and `adddecoration` scripts and debug warps onto the approach tiles;
+every talk, YES, menu choice, save and walk is real input. `PW_SB_GENDER=1` plays May,
+`PW_SB_TEXT=<0..3>` sets the text speed. Coverage, no defect found: **63/63** (Brendan at the default
+clock, and May with instant text at `--rtc 1704157200`).
+### `TrickHouseOddPaths.lua`
+
+The Trick House by odd paths, with a Machop follower out. **1:** level 8 with all 30 ORNAMENT slots
+full, reaching the end room through puzzle 8's scroll, door and stairs: the end room says there is no
+room, the 'mechadoll' waits at the entrance (state 6, kept across a save and Continue), a talk with
+the slots still full keeps the tent pending, and once a slot is freed it hands over the tent exactly
+once. **2:** puzzle 3 (a rock smashed with real input) and puzzle 4 (a boulder pushed with Strength):
+out through the start door, back in, then save, soft reset and Continue in the room. The rock stays
+gone (this tree persists cleared obstacles), the boulder is wherever the game restores it, the
+follower is clear of every obstacle and the room is walkable; puzzle 3's first button raises a door on
+the follower's tile and the follower returns to its ball and comes back out. **3:** Dig and Teleport
+from the party menu and an Escape Rope from the Bag in puzzle 8 and the end room are refused with
+nothing changed. **4:** puzzle 8's slippery floor and puzzle 6's rotating gates walked with the
+follower (it hides while sliding, as upstream's `IsFollowerVisible` does). **5:** a seeded mash of
+every button through a hiding-spot discovery, the reward text and the exit spin (`PW_TRICK_SEED`).
+**6:** save and Continue with the Trick Master hiding and in the end room before and after the
+reward. **7:** the gates between puzzles, walked into without and then with the next gate's flag:
+badge 3 before puzzle 2, and the Hoenn championship before puzzle 8 with `FLAG_SYS_GAME_CLEAR` set
+(this tree's gate; upstream reads game clear, which another region's Hall of Fame sets).
+`PW_TRICK_ONLY=<n>` runs one scenario, `PW_TRICK_TEXT` sets the text speed. Coverage, no defect found:
+**207/207** (seed 1109, instant text); scenarios 1 to 6 also measured 187/187 at seed 31337 with slow
+text, and a scratch copy that freed a slot before the reward failed 13 checks.
+### `MirageOddPaths.lua`
+
+Mirage Island and Mirage Tower by odd paths, with the lead following. **island:**
+`VAR_MIRAGE_RND_H` is set to the lead's personality low half, then the player surfs from Route 129
+across the connection so ON_TRANSITION picks the layout; the island, its beach and the berry tree must
+be there and walkable, a save and Continue on it keeps it, and after the matching Pokemon is deposited
+through the PC (another save and Continue) a surf out and back leaves only surfable water where it
+stood. The island persisting across Continue until the next map load matches upstream (Continue does
+not rerun ON_TRANSITION). **tower_escape:** Dig from 4F (party menu) and an Escape Rope from 2F (Bag)
+land on (19,59) with control, the tower still drawn and the follower beside the player; then a save
+and Continue on Route 111 and a walk back into the tower. **tower_floor:** the follower smashes the 3F
+rock, the player falls through 3F and 2F cracked floors with a save and Continue on each floor.
+**fossil:** with a full party, full boxes and a full Items pocket both fossils are refused and the
+tower stays; with a slot free the collapse runs. `island_save` then `nextday` (opt-in, see the file
+header) measure a day change through `--rtc`: 13/13, and the same save on the same day fails 5.
+`PW_MIRAGE_SEED`, `PW_MIRAGE_TEXT`, `PW_MIRAGE_FEMALE=1` and `PW_MIRAGE_ONLY` are knobs. Coverage, no
+defect found: **106/106** at seed 0x5EED; 105/105 at seeds 24301, 7, 99991 and 31337 (the last as the
+female character with slow text at 22:00) before the final tower check was added.

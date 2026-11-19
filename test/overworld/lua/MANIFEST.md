@@ -4504,3 +4504,42 @@ both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks
 party-restoring cancels fail.
 Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
 with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.
+
+### `CeladonCoinCaseRegions.lua`
+
+The Celadon Game Corner with a COIN CASE from another region. The player finds the case in the
+Goldenrod Underground with real input and never meets the Celadon restaurant man; only the wallet
+and the coin balance are seeded. The coin clerk must sell 50 coins for 1,000, refuse an empty wallet,
+fill a 9,990-coin case charging only for the 9 coins that fit (180), refuse a full case and a wallet
+one short of 5,000 coins' price, and survive a seeded mash (`PW_COIN_SEED`, default 10) in which
+every coin gained costs exactly 20. A hidden coin spot must pay 10, the fisher 10, slot machine 5 must
+start, and the Pokemon, TM and item prize clerks must open their lists (Abra is bought for 180).
+Every talk hands control back with no crash and a walkable field. Every Celadon coin service checked
+`FLAG_GOT_COIN_CASE`, which only the restaurant man sets, so a Hoenn or Johto COIN CASE was told
+"You don't have a COIN CASE." **Measured:** unfixed **24/32** (clerk, edge fill, hidden coins, fisher,
+slots and all three prize clerks refused); fixed **32/32** at seeds 10 and 31337, and at seed 4242
+with a night clock (`--rtc 1704171600`).
+
+### `GameCornerOwnedTms.lua`
+
+TM prizes the player already owns at the Mauville, Goldenrod and Celadon TM counters. TMs are
+reusable and important here, so a second copy can never be used, sold or tossed, and the Poke Mart
+already marks an owned TM SOLD OUT. With the Coin Case seeded (and the restaurant flag set) and real
+menu input, each counter's first purchase must take the coins and add the TM, a second request for
+the same TM must keep the coins and the count, and a seeded mash with a full case (`PW_TM_SEED`,
+default 7) may spend coins only on TMs the bag did not hold, at their prices, one copy each.
+**Measured:** unfixed **19/25** (each counter charged 1,500, 3,500 or 4,000 coins for a second copy,
+and the mash bought duplicates); fixed **25/25** at seeds 7, 31337 and 99 (seed 99 bought a new
+TM35 in Mauville for 4,000).
+
+### `KantoTrainerCardExtras.lua`
+
+The two Kanto NPCs that promised something on the Trainer Card. This game's card is always the
+Emerald card, which draws neither FRLG's party photo icons nor its stickers, yet Celadon's POKéMON
+PRINTER charged 50 for "a print of your POKéMON on the back of your TRAINER CARD" and Four Island's
+sticker man said "The HALL OF FAME STICKER was applied to the TRAINER CARD." Each is played with real
+input (one Hall of Fame entry seeded for the brag), then the card is opened from the Start menu and
+flipped. **Oracle:** the printer may charge only if the card back draws icon tiles (BG3 224 to 319),
+and the sticker man may announce a sticker only if the back draws one (BG3 320 to 331); both talks
+must hand control back. **Measured:** unfixed **6/8** (charged 50 with 0 icon cells; the sticker
+line printed with 0 sticker cells); fixed **8/8**, also with a night clock.

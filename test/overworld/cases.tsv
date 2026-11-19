@@ -336,3 +336,6 @@ PyramidSummaryRelearn	lua/PyramidSummaryRelearn.lua	fresh	0	required
 KantoPortedScenes	lua/KantoPortedScenes.lua	fresh	0	required
 MrStoneMatchCallGate	lua/MrStoneMatchCallGate.lua	fresh	0	required
 PalaceLobbyCancel	lua/PalaceLobbyCancel.lua	fresh	0	required
+CeladonCoinCaseRegions	lua/CeladonCoinCaseRegions.lua	fresh	0	required
+GameCornerOwnedTms	lua/GameCornerOwnedTms.lua	fresh	0	required
+KantoTrainerCardExtras	lua/KantoTrainerCardExtras.lua	fresh	0	required

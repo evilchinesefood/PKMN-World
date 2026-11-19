@@ -14,8 +14,11 @@ python3 test/overworld/johto-playthrough/run.py --campaign world --world B   # H
 Beats are prefixed by region (`j_`, `k_`, `h_`), and crossings are `cross<n>_to_<region>`, so
 `--from`, `--to` and `--lose` take names like `k_to_cerulean`.
 
-Each crossing checks that money and Poke Balls carry over, the region's team comes back, the player
-lands in the right region, and the whiteout respawn points into that region.
+Each crossing compares the wallet balance and total number of Poké Balls before departure and
+after arrival. On a first visit the crossing spans two beats, so it checks both arrival at the Hub
+and arrival in the new region. Return visits also check the remembered team, landing and whiteout
+respawn. Runs before this quantity check counted occupied Poké Ball stacks and stopped the
+first-visit supply check at the Hub.
 
 ## Concessions
 

@@ -155,14 +155,23 @@ return function(F, N, C, log)
     return checkpoint(name)
   end
 
+  local function checkedCrossing(travel)
+    return function()
+      local money, balls = N.money(), N.itemQty(C.ITEM_POKE_BALL)
+      travel()
+      local arrivedMoney, arrivedBalls = N.money(), N.itemQty(C.ITEM_POKE_BALL)
+      L(string.format('  travel supplies: money %d -> %d, Poke Balls %d -> %d', money, arrivedMoney, balls, arrivedBalls))
+      assert(arrivedMoney == money and arrivedBalls == balls, 'regional travel changed money or Poke Balls')
+    end
+  end
+
   local B, nextSlice, current, crossings = {}, {}, nil, 0
   local function cross(to)
     crossings = crossings + 1
-    local from, first, money, balls = current, not seen[to], 0, 0
+    local from, first = current, not seen[to]
     local name = 'cross' .. crossings .. '_to_' .. to
-    B[#B + 1] = { name = name, run = function()
+    B[#B + 1] = { name = name, run = checkedCrossing(function()
       enter(from)
-      money, balls = N.money(), N.itemCount(C.ITEM_POKE_BALL)
       keepParty(from)
       N.useHubPass()
       assert(N.mapName() == 'RegionHub', 'Hub Pass reached the Hub from ' .. N.mapName())
@@ -172,12 +181,10 @@ return function(F, N, C, log)
         L(string.format('  landed at %s party=%d', N.mapName(), N.partyCount()))
         assert(checkRecall(to, stash[from]), 'the gate should recall ' .. to .. "'s team and box the departing one")
       end
-    end, done = function()
+    end), done = function()
       local heal = F.r8(F.sb1() + F.S.SaveBlock1.lastHealLocation)
-      local same = N.money() == money and N.itemCount(C.ITEM_POKE_BALL) == balls
-      if not same then L(string.format('  shared state changed: money %d -> %d, balls %d -> %d', money, N.money(), balls, N.itemCount(C.ITEM_POKE_BALL))) end
-      if first then return same and N.mapName() == 'RegionHub' end
-      local good = same and F.ow() and N.free() and inRegion(F.grp(), to) and inRegion(heal, to) and N.partyCount() == stash[to].count
+      if first then return N.mapName() == 'RegionHub' end
+      local good = F.ow() and N.free() and inRegion(F.grp(), to) and inRegion(heal, to) and N.partyCount() == stash[to].count
       if not good then L(string.format('  landed: %s group %d, respawn group %d, party %d', N.mapName(), F.grp(), heal, N.partyCount())) end
       return good
     end }
@@ -197,6 +204,9 @@ return function(F, N, C, log)
     if region == 'kanto' and n == 2 and last == 'kanto' then s = { 'mt_moon_fossil', 'misty' } end
     for i = assert(r.index[s[1]], s[1]), assert(r.index[s[2]], s[2]) do
       local b = r.beats[i]
+      -- A first visit boards at the start of the destination's own arrival beat.
+      local run = b.run
+      if last and b.name == 'to_' .. region then run = checkedCrossing(run) end
       local loss = b.loss
       if loss and loss.replayFrom then
         local copy = {}
@@ -207,7 +217,7 @@ return function(F, N, C, log)
       B[#B + 1] = { name = r.prefix .. '_' .. b.name, run = function()
         enter(region)
         if N.beatSetup then N.beatSetup() end   -- a region re-entered from its gate needs its field moves
-        b.run()
+        run()
       end, done = b.done, loss = loss }
     end
     last = region

@@ -341,3 +341,6 @@ MrStoneMatchCallGate	lua/MrStoneMatchCallGate.lua	fresh	0	required
 PalaceLobbyCancel	lua/PalaceLobbyCancel.lua	fresh	0	required
 TrimmedJohtoScenes	lua/TrimmedJohtoScenes.lua	fresh	0	required
 LinkEraRemnants	lua/LinkEraRemnants.lua	fresh	0	required
+HofEggRecord	lua/HofEggRecord.lua	fresh	0	required
+InGameTradeSweep	lua/InGameTradeSweep.lua	fresh	0	required
+TrainerTowerLobby	lua/TrainerTowerLobby.lua	fresh	0	required

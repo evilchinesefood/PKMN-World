@@ -4611,3 +4611,53 @@ line), fixed 116/116. The doorstep, maniac and berry man checks also measured 92
 31337 and 99 across mid, fast and instant text and three clocks. The board checks pass on both builds; a
 tamper control that empties `ShowPokemonJumpRecords` leaves the Mossdeep board's script waiting and
 fails 114/116.
+
+### `TrainerTowerLobby.lua`
+
+The Sevii Trainer Tower lobby, closed for renovations. Its time board ran `ShowTrainerHillRecords`
+with `VAR_0x8004` 1, and that special's Trainer Tower branch (`PrintTrainerTowerRecords`) is
+compiled out, so reading the board faded to an empty records frame. The board's sign event, its
+script and the dead branch are gone; Route 111's Trainer Hill board keeps the records screen. The
+suite walks in through the Seven Island door with a fainted lead and 0 money and plays every lobby
+event with real input under a seeded mash of A, B, Start, L, R and the D-pad (never Select): the
+board must open no blank records screen (window 0's ink after the fade), the entry trigger must
+walk the player back below the counter, the nurse must heal across her counter, the clerk's mart
+must take nothing from an empty wallet, the floors stay sealed and the door returns to Seven Island.
+Control: the Trainer Hill board still prints its TIME BOARD (6,373 inked pixels). Unfixed **27/28**
+(the blank board, also on the pre-removal ROM), fixed **28/28**. `PW_TOWER_BASE=<n>` reseeds.
+
+### `HofEggRecord.lua`
+
+A Hall of Fame team with an Egg and a fainted Pokemon, after 5ac8745870 retired the loader that
+rewrote an older build's Egg value (Classic Cap Pikachu) and folded both induction screens' record
+loading into one condition. The party is a level 70 Mewtwo, a Togepi Egg from `giveegg` and a level
+30 Pidgey at 0 HP. Each region's room script inducts it under a seeded mash until the soft reset;
+Continue must return the same three members, the Egg still an Egg, and the game clear heals Pidgey
+as in Emerald (it is knocked out again before the next induction). HALL OF FAME is then opened at
+the Viridian PC (Kanto viewer) and the Oldale PC (Emerald viewer) with real input: three records of
+Mewtwo, the Egg and Pidgey, the Egg recorded as `SPECIES_EGG` rather than Togepi, and on every
+record's Egg page window 0's "No." line is blank while Mewtwo's and Pidgey's print one. A soft reset
+inside the viewer must Continue at the last save (New Bark Town) with the party intact. Coverage; no
+defect found: **48/48** on master and on the pre-removal ROM. A tamper build of the pre-removal tree
+(its induction code matches master) whose inductions store
+`MON_DATA_SPECIES` instead of `MON_DATA_SPECIES_OR_EGG` scores **41/48**: the Egg is recorded as
+Togepi and all six Egg pages print a "No." line.
+`PW_HOFEGG_BASE=<n>` reseeds.
+
+### `InGameTradeSweep.lua`
+
+Every in-game trade through its own NPC: four in Hoenn, nine in Kanto (the table 5ac8745870 trimmed
+to the FireRed rows) and four in Johto. Each case warps beside the trader with Magikarp, an Egg of
+the requested species, two Magikarp, the requested species and a Magikarp. With real input it
+declines once, offers the Egg, offers a Magikarp, then offers the requested Pokemon and mashes A, B,
+Start, L, R and the D-pad through the trade scene. Kanto's traders pick from the party menu; the
+`ingame_trade` macro's pick from the storage screen's party column (`OW_CHOOSE_FROM_PC_AND_PARTY`),
+steered by `sCursorArea` and `sCursorPosition`. Declining and both wrong offers must leave the party
+and the trade flag untouched; the trade must put the promised species in slot 5 with a valid
+checksum, keep the other five members (the Egg still an Egg), set the flag and return control; a
+second talk must open no picker. Coverage; no defect found: **324/324** on master (the
+pre-removal ROM passed all 307 checks the suite had before its per-case control check). A tamper build of the pre-removal tree (its trade code matches master) without
+`GetTradeSpecies`'s Egg check scores **8/27**: Seedot's
+trader takes the Egg, control does not come back within 600 B presses, and the later cases
+cannot start.
+`PW_TRADE_ONLY=<text>` runs matching trades; run it with `--env PW_MAX_FRAMES=2000000`.

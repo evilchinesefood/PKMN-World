@@ -852,10 +852,6 @@ static void ValidateOrResetCurTrainerTowerRecord(void)
 {
 }
 
-void PrintTrainerTowerRecords(void)
-{
-}
-
 void ResetTrainerTowerResults(void)
 {
 }

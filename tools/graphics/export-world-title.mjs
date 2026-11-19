@@ -1,5 +1,5 @@
 // Convert the finished artwork into native GBA title resources.
-// Run: node tools/export-world-title.mjs
+// Run: node tools/graphics/export-world-title.mjs
 // Requires Node.js, ImageMagick (`magick`), and this repo's tools/gbagfx/gbagfx.
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 
-const repo = join(dirname(fileURLToPath(import.meta.url)), '..');
+const repo = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const root = join(repo, 'graphics/branding');
 const out = join(repo, 'graphics/title_screen/world');
 mkdirSync(out, { recursive: true });

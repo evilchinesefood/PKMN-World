@@ -3,7 +3,7 @@
 
 The Johto tilesets were imported from pokemonHnS byte for byte, but HnS numbers 45 behaviours
 differently from this tree: HnS 0xA1 is MB_HEADBUTT_TREE, here it is MB_INDIGO_PLATEAU_SIGN_1.
-HnsMetatileBehaviors.h is HnS's own header, so the translation goes by NAME. An HnS behaviour
+reference/HnsMetatileBehaviors.h is HnS's own header, so the translation goes by NAME. An HnS behaviour
 becomes this tree's behaviour of the same name; an HnS MB_UNUSED_*, or a value HnS never
 defines, becomes MB_NORMAL; NO_EQUIVALENT names the rest.
 
@@ -32,7 +32,7 @@ import sys
 
 import ValidateOwMonPlacements as maps
 
-HNS_HEADER = "test/overworld/HnsMetatileBehaviors.h"
+HNS_HEADER = "test/overworld/reference/HnsMetatileBehaviors.h"
 HNS_NAMES = {
     "goldenrod_department_store": "department_store",
     "goldenrod_game_corner": "game_corner",

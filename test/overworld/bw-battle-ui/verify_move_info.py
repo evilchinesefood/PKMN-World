@@ -12,7 +12,7 @@ p.add_argument('--out', type=Path, required=True)
 a = p.parse_args()
 before = Image.open(a.before).convert('RGB')
 after = Image.open(a.after).convert('RGB')
-frame = Image.open(Path(__file__).resolve().parents[3] / 'graphics/text_window/swsh/1.png')
+frame = Image.open(Path(__file__).resolve().parents[3] / 'graphics/text_window/swsh/window_frame.png')
 assert frame.mode == 'P' and frame.size == (24, 24)
 checked = changed = 0
 for y in range(48, 112):

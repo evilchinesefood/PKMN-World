@@ -5,7 +5,7 @@
 -- party (full AI flags, held Mega Stones, Full Restores, Tate & Liza's six-member double). The
 -- campaigns fight only a few of them (Johto's eight leaders, Roxanne, Brock). This fights all 42,
 -- with the champion flags set as the three Hall of Fame scripts leave them, through the debug
--- Trainers > Try Battle path (the same difficulty-driven party build, see TestHarnessGuide.md),
+-- Trainers > Try Battle path (the same difficulty-driven party build, see test/overworld/README.md),
 -- and checks for a crash, a hang, a party that did not load the HARD tier, and a tier left changed.
 -- A loss is allowed: the whiteout path is part of what it exercises.
 --

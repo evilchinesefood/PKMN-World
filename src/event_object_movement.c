@@ -608,7 +608,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPaletteLight2,             OBJ_EVENT_PAL_TAG_LIGHT_2},
     {gObjectEventPaletteEmotes,             OBJ_EVENT_PAL_TAG_EMOTES},
     {gObjectEventPaletteNeonLight,          OBJ_EVENT_PAL_TAG_NEON_LIGHT},
-#include "data/player_outfit_palettes_entries.h"
+#include "data/player_outfits/object_palette_entries.h"
 #ifdef BUGFIX
     {NULL,                                  OBJ_EVENT_PAL_TAG_NONE},
 #else
@@ -1945,7 +1945,7 @@ static bool32 IsObstacleGraphicsId(u16 graphicsId)
         || graphicsId == OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG;
 }
 
-#include "data/cleared_obstacles.h" // generated sClearedObstacleKeys[]; see test/overworld/GenObstacleTable.py
+#include "data/cleared_obstacles.h" // generated sClearedObstacleKeys[]; see tools/mapjson/GenObstacleTable.py
 
 // Map {mapGroup, mapNum, localId} -> its generated save-bit index, or -1 if this obstacle is not
 // in the table (a newly placed one on a tree that predates a regeneration, or a non-obstacle).

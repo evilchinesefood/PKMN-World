@@ -24,7 +24,7 @@ F.run(function()
   F.check('Conditions DMA stopped '..cycle,F.r8(U.gScanlineEffect+21)==0)
   for n=1,8 do tap(n%2==0 and 'Left' or 'Right',1,4);tap('Down',1,4) end
   F.idle(180)
-  for _,fn in ipairs({'Task_PrintConditionsPage','Task_PrintInfoPage','Task_PrintSkillsPage','Task_PrintBattleMoves','Task_PrintContestMoves','Task_PrintMemoPage'}) do
+  for _,fn in ipairs({'Task_PrintConditionsPage','Task_PrintInfoPage','Task_PrintSkillsPage','Task_PrintMoves','Task_PrintMemoPage'}) do
    F.check('single printer '..cycle..' '..fn,tasks(U[fn])<=1)
   end
   close('summary '..cycle);summaryClean('summary '..cycle)

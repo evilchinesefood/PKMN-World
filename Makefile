@@ -455,7 +455,7 @@ validate:
 # Regenerating after a map edit that adds/removes an obstacle changes CLEARED_OBSTACLE_TABLE_HASH,
 # which makes every existing save's obstacles regrow once — intended, and self-healing.
 obstacles:
-	python3 test/overworld/GenObstacleTable.py
+	python3 tools/mapjson/GenObstacleTable.py
 
 # Regenerate the headless mGBA Lua test symbol table from the freshly built ELF. Addresses move every
 # rebuild, so the promoted suites in test/overworld/lua/ `require("symbols")` instead of hardcoding them.

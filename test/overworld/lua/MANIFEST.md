@@ -7,7 +7,7 @@ coverage; historical assertion counts below are observations, not the current re
 
 The suites run under pinned, patched headless mGBA on Linux and macOS. See the
 [native verification guide](../mgba/README.md) for setup and explicit Build, Smoke, and Full modes.
-[TestHarnessGuide.md](../TestHarnessGuide.md) documents boot signals, the debug menu, warp byte order,
+[README.md](../README.md) documents boot signals, the debug menu, warp byte order,
 and collision checks used by the suites.
 
 ## Coverage and shared files
@@ -32,7 +32,7 @@ Hoenn, and the hub, then saves, reboots, and Continues. Its companion host check
 ```sh
 make modern -j8
 test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua pokemonworld.gba
-test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
+test/overworld/mgba-run.sh test/overworld/lua/RefuseOldSave.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
 test/overworld/run-all.sh pokemonworld.gba
 ```
 
@@ -186,7 +186,7 @@ is clean; keep it that way.
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
 | [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
-| [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
+| [`RefuseOldSave.lua`](#refuseoldsavelua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
 discrimination check was run it is recorded in the entry. (The other tier the harness
@@ -728,7 +728,7 @@ south onto the door mat.
 so #195's only persisted observable was unreadable) and `SaveBlock1.registeredItem = 0x496`, both in
 `test/overworld/GenLuaSymbols.py`. Regenerating `symbols.lua` from the same ELF is otherwise byte-identical.
 
-### `MigrateFixtures.lua`
+### `RefuseOldSave.lua`
 
 The sweep runs this suite against two raw 128 KiB flash images. Each must reach New Game with the TOO_OLD reason, the current version stamp and clean region banks.
 
@@ -753,7 +753,7 @@ start game build setup.
 handlers where one button's branch changes state (task func, main callback, fade, destroyed menu or
 window, state variable) and a later, non-`else` button read can still run on the same frame, the
 shape behind `DexMenuChord.lua`, `EvoMoveLearnChord.lua` and `BagSortChord.lua`. It fails on a
-conflict that [`input_chord_allowlist.tsv`](../input_chord_allowlist.tsv) does not name; each row
+conflict that [`input_chord_allowlist.tsv`](../reference/input_chord_allowlist.tsv) does not name; each row
 there records why that site is safe or which PR fixes it. A fixed site's row is reported as stale
 rather than failing, so the row can be removed after the fix lands. Reproduce a new site with the
 two buttons in one `joypad.set` before allowlisting it.
@@ -823,7 +823,7 @@ playtests that had a PASS on a fresh (or freshly-seeded) game now live in this d
 remains in `_pwtest/` is run output (logs, screenshots, sentinels) plus one-offs that still
 cannot satisfy the "runs on a fresh build" bar — including `Route41Whirlpool.lua`, which has no
 PASS. Do not send anyone to a `_pwtest/*.lua` path; the durable techniques all live in `lib.lua`
-and [`../TestHarnessGuide.md`](../TestHarnessGuide.md), and the suites in this directory are the
+and [`../README.md`](../README.md), and the suites in this directory are the
 reference implementations.
 
 ## Instrumentation probes (Route 37 red crash — open, unreproduced)
@@ -931,7 +931,7 @@ first that the measurement can physically exhibit the thing you are ruling out.
 
 The next move is not another probe. It is the crash screenshot, which names its own assert site:
 `F.crashScreen()` decodes `FILE.C:LINE` straight out of VRAM. Never key off the screen's colour;
-that palette is broken (see [`../TestHarnessGuide.md`](../TestHarnessGuide.md)).
+that palette is broken (see [`../README.md`](../README.md)).
 
 
 ### `RegionalTravel.lua`
@@ -2586,7 +2586,7 @@ Teleport, Dig, Escape Rope and a whiteout). Measured **16/16** fixed and **14/16
 The PokéNav's map option, its help line and the region map's left header said HOENN MAP in every
 region. They now name the region the map shows (`GetCurrentRegion()`, as `region_map.c` picks the
 map): JOHTO MAP and KANTO MAP labels are drawn from the Hoenn art by
-`tools/pokenav/region_map_labels.py` and appended to the options sheet. With the PokéNav flag set,
+`tools/graphics/generate-pokenav-region-labels.py` and appended to the options sheet. With the PokéNav flag set,
 the suite opens the PokéNav from the Start menu with real input on Route 106, in Goldenrod City and
 in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
 0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed

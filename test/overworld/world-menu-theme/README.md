@@ -16,7 +16,7 @@ Battle Commands retain their original uppercase labels and font. Battle Move Sel
 
 Development build succeeds. Initial implementation: 16/16 emulator checks and 9/9 rendered-motion checks. Main Menu refinement: 4/4 emulator checks and 3/3 rendered-motion checks. Checks cover selecting entries, returning from Options, no-save boot, lower settings/frame preview, relearning confirmation/cancel/contest details, battle return, scrolling backgrounds and stationary foregrounds. Screenshots use synthetic data and isolated ROM/save copies; no personal save is used. This is targeted verification, not exhaustive state coverage.
 
-[Capture hashes and results](manifest.json). Images are native, unretouched emulator output; WebP files encode 32 frames captured at two-frame intervals.
+[Capture hashes and results](https://github.com/evilchinesefood/PKMN-World/blob/5ac874587072dd6e2e4c50ef011187aff4b2b928/test/overworld/world-menu-theme/manifest.json). Images are native, unretouched emulator output; WebP files encode 32 frames captured at two-frame intervals.
 
 ## Reproduce
 

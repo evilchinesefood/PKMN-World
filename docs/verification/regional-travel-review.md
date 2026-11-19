@@ -81,4 +81,4 @@ python3 test/overworld/NativeRunner.py bundle --rom pokemonworld.gba --elf pokem
 python3 test/overworld/NativeRunner.py run test/overworld/lua/RegionalTravelBoundaries.lua /tmp/travel-bundle/pokemonworld.gba --bundle /tmp/travel-bundle --out /tmp/travel-boundaries --emulator /path/to/mgba-headless
 ```
 
-The suite is registered in `cases.tsv` for the explicit Full profile. No new automatic gameplay workflow was introduced. Source review also checked the supported input movement paths and current connection geometry; this does not claim interception of every scripted movement in the engine.
+The suite is registered in `test/overworld/cases.tsv` for the explicit Full profile. No new automatic gameplay workflow was introduced. Source review also checked the supported input movement paths and current connection geometry; this does not claim interception of every scripted movement in the engine.

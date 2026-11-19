@@ -14,7 +14,7 @@ owners = {
     'battle_controller_player': 'HandleInputChooseAction',
     'gpu_regs': 'sGpuRegBuffer',
     'pokemon_storage_system': 'sReturnToPartyCallback',
-    'swsh_summary_screen': 'sMonSummaryScreen sTextPrinterTasks Task_PrintConditionsPage Task_PrintInfoPage Task_PrintSkillsPage Task_PrintBattleMoves Task_PrintContestMoves Task_PrintMemoPage Task_ShowEffectTilemap',
+    'swsh_summary_screen': 'sMonSummaryScreen sTextPrinterTasks Task_PrintConditionsPage Task_PrintInfoPage Task_PrintSkillsPage Task_PrintMoves Task_PrintMemoPage Task_ShowEffectTilemap',
     'swsh_storage_system': 'sStorage sCursorArea sCursorPosition Task_PCMainMenu sSwShStorage_Pal',
     'swsh_item_menu': 'sMoveInfoMode sBerryInfoMode sHPBarWindowMapped sMultiFullPage Task_BagMenu_HandleInput Task_HandleSwappingItemsInput',
 }

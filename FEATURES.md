@@ -301,7 +301,7 @@ on:
   Coverage and controls: [`docs/story-progress/README.md`](docs/story-progress/README.md).
 - **Pokémon World title screen** — native logo, island panorama and centered
   PRESS START. SELECT no longer skips to a new game (the quickstart code was removed). Branding source and exporter live
-  under `graphics/branding/` and `tools/export-world-title.mjs`.
+  under `graphics/branding/` and `tools/graphics/export-world-title.mjs`.
 - **World Panels** — Main Menu, Options and Relearn Moves share light moving
   diagonal backgrounds, white panels and red headers. Main Menu save details
   use dark readable text; text-rendered action labels use title case. Battle

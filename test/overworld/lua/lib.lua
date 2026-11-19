@@ -9,7 +9,7 @@
 --   local F = T.new(S, "MySuite")         -- one handle carrying the log + screenshot dir
 --
 -- Everything that was empirically load-bearing is preserved with its rationale; see
--- test/overworld/TestHarnessGuide.md for the full field guide.
+-- test/overworld/README.md for the full field guide.
 
 local M = {}
 
@@ -18,7 +18,7 @@ local M = {}
 -- The previous comment here claimed this "CANNOT be derived portably inside BizHawk: the main
 -- --lua chunk is named 'main' (debug.getinfo gives no file path)". That is true of the MAIN chunk
 -- but lib.lua is not the main chunk — it is require()d, so debug.getinfo(1,"S") gives ITS path.
--- Both suites already prove the technique works: SmokeBoot.lua and MigrateFixtures.lua each
+-- Both suites already prove the technique works: SmokeBoot.lua and RefuseOldSave.lua each
 -- bootstrap package.path off exactly this call, and if it returned nothing require("symbols")
 -- would fail outright. lib.lua sits in <repo>/test/overworld/lua/, so ../../../ is the repo root.
 --
@@ -33,7 +33,7 @@ local DEFAULT_OUT = here .. ".." .. package.config:sub(1, 1) .. ".." .. package.
 -- frames against whatever EmuHawk loaded, and the shipped save profile puts SAVE at wheel slot 2
 -- of 4 — Start,A,A,A is literally the deliberate save sequence of the old fixture harvester. BizHawk flushes
 -- SaveRAM on exit, so pointing a suite at the real ROM/save is a live clobber path, and
--- TestHarnessGuide.md records that accident already happening once. Prose in a doc cannot stop it;
+-- test/overworld/README.md records that accident already happening once. Prose in a doc cannot stop it;
 -- this can. Override deliberately with opts.allowAnyRom = true.
 local ROM_ALLOWLIST = { "^Verify", "^MigChk", "^FixGen" }
 

@@ -84,6 +84,10 @@ __pycache__
 # Engineering audit/budget records (E5/E6/E7) and SDD scratch — kept local, not tracked
 docs/*
 !docs/story-progress/
+!docs/verification/
+docs/verification/*
+!docs/verification/ambient-pokemon-placement.md
+!docs/verification/regional-travel-review.md
 .superpowers/
 
 # Local dev/migration tooling — renamed with a leading dot and kept local, not tracked

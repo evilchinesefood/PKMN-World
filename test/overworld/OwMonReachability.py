@@ -105,7 +105,7 @@ def census(root, layouts, rows, names):
 
 def validate(root, layouts, rows, names):
     unreachable, dry, _, _ = census(root, layouts, rows, names)
-    baseline = json.loads((Path(root) / 'test/overworld/OwMonReachabilityBaseline.json').read_text())
+    baseline = json.loads((Path(root) / 'test/overworld/reference/OwMonReachabilityBaseline.json').read_text())
     errors = []
     for name in sorted(unreachable.keys() | baseline.keys()):
         actual, allowed = len(unreachable.get(name, [])), baseline.get(name, 0)

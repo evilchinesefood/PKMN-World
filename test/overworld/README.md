@@ -22,6 +22,8 @@ Companion docs:
 - **[`test/overworld/lua/MANIFEST.md`](lua/MANIFEST.md)** — what each suite proves, the fixtures, and how
   to run the whole battery.
 - **[`test/overworld/mgba/README.md`](mgba/README.md)** — building `mgba-headless`, the patch, determinism.
+- [Ambient Pokémon placement](../../docs/verification/ambient-pokemon-placement.md) describes the reachability checks and their limits.
+- [Regional travel review](../../docs/verification/regional-travel-review.md) records the travel safety checks.
 
 Everything below was verified empirically against real runs. Where a technique has a known failure
 mode it is called out — most of the pain in this project has come from harness quirks, not game bugs.
@@ -52,7 +54,7 @@ script, and never reuse a savestate across builds.
 
 ```bash
 test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua
-test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
+test/overworld/mgba-run.sh test/overworld/lua/RefuseOldSave.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
 ```
 
 Arguments are `<suite.lua> [rom.gba] [save.srm]`; the ROM defaults to the repo build. Exit code is
@@ -97,7 +99,7 @@ the name `Verify1.gba` and copies any explicitly selected save fixture beside it
 2. **Throwaway-ROM allowlist** — the ROM basename must match `^Verify`, `^MigChk` or `^FixGen`
    (`lib.lua:38`). Override deliberately with `opts.allowAnyRom = true`.
 
-MigrateFixtures exercises the supported-format boundary using copies of the tracked v3 and v13 flash images.
+RefuseOldSave.lua exercises the supported-format boundary using copies of the tracked v3 and v13 flash images.
 
 > A raw `.srm` battery save is 131072 bytes and is already mGBA's `.sav` format — converting one is
 > a rename. A blank save is all `0xFF`. mGBA may append a 16-byte RTC trailer to a `.sav` it wrote;

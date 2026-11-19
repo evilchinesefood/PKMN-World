@@ -2,7 +2,7 @@
 
 > **Note.** The run output this page cites (logs, screenshots and review pages) was removed from the repository in November 2026. It is still in git history before that removal. The results below are the record.
 
-The five-minute review page was removed on 2026-11-16. Implementation: `59214f5b6b`; baseline: `45e1bf82ca5c2728910127863b926e627d4f18fc`. The tested delivery ROM SHA-256 is `4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3`. [Checksums and results](delivery.json).
+The five-minute review page was removed on 2026-11-16. Implementation: `59214f5b6b`; baseline: `45e1bf82ca5c2728910127863b926e627d4f18fc`. The tested delivery ROM SHA-256 is `4bf80320a7294ec7df22a4e8b4097c3f56493b8968412777e4ed49e6882697d3`. [Checksums and results](https://github.com/evilchinesefood/PKMN-World/blob/246a47b6df1dc3ad46842d7b1b187566eae76181/test/overworld/visual-features/delivery.json).
 
 ## Delivered behavior
 
@@ -31,7 +31,7 @@ The owner rejected the Fuchsia tileset and compact-digit proposals (#331 and #33
 | Prepared synthetic save on the unmodified delivery ROM | **8/8**: boot, walk, open/rearrange/close wheel | Results |
 | Builds / validators | Development, release-mode and isolated alternate configuration compile; validators pass with the same 7 pre-existing region-map mismatches | Development, release, controls, validators |
 
-The full sweep covers existing prompt/EV-IV, Bag/PC, Fly/Teleport, day/night, overworld Pokémon, followers, surfing, intro/catch tutorial, healthboxes and incompatible-save refusal. FRAME2 and FRAME20 Options captures are pixel-identical to baseline. [Pixel differences](pixel-differences.json) are descriptive, not automated aesthetic judgments. A timing-sensitive BnetTerminal1F test was corrected to use eight-frame A presses with its original approximately 9,600-frame timeout; the former two-frame pattern stopped at a continue prompt. Both baseline and changed builds accept normal longer presses, and the corrected full sweep passes.
+The full sweep covers existing prompt/EV-IV, Bag/PC, Fly/Teleport, day/night, overworld Pokémon, followers, surfing, intro/catch tutorial, healthboxes and incompatible-save refusal. FRAME2 and FRAME20 Options captures are pixel-identical to baseline. [Pixel differences](https://github.com/evilchinesefood/PKMN-World/blob/5ac874587072dd6e2e4c50ef011187aff4b2b928/test/overworld/visual-features/pixel-differences.json) are descriptive, not automated aesthetic judgments. A timing-sensitive BnetTerminal1F test was corrected to use eight-frame A presses with its original approximately 9,600-frame timeout; the former two-frame pattern stopped at a continue prompt. Both baseline and changed builds accept normal longer presses, and the corrected full sweep passes.
 
 No live multiplayer/link session or physical GBA performance profiling was performed. The rain animation samples native frames at 15 fps for a 30-second presentation; the logged VBlank counter is a harness diagnostic, not proof that every game update meets a hardware frame budget. Link-card suppression is preserved by the existing `isLink` guard. Unchanged specialized map callbacks were source-audited; the 50-cycle test is not a claim that every map in the game was visited.
 
@@ -41,7 +41,7 @@ The nine-tile SwSh border uses indices 1/2/14; binding `std_menu.pal` to it woul
 
 The dex's six list/detail arrays each contain 48 colors. Lists/details use bank 0; info/caught text uses auxiliary bank 3. Active windows use 0/8/9/15, and the area map reloads its own map banks. The search menu has a separate four-bank loader. Light palette edits are restricted to entries 1–4; entry 5 and chromatic entries are preserved. After RGB5 quantization, the actual dex differences are entry 2 (28,28,28 → 27,27,27) and entry 3 (25,25,25 → 26,26,25). The Fly frame's entries 3/4 use (21,21,21)/(27,27,27); land/water geography colors are untouched.
 
-[Index-use masks](palette-index-usage.png) and [pixel counts](palette-index-usage.json) show the affected raw indices on the source tile sheets. These are diagnostic plots; the native runtime captures above verify the palettes after composition.
+[Index-use masks](https://github.com/evilchinesefood/PKMN-World/blob/5ac874587072dd6e2e4c50ef011187aff4b2b928/test/overworld/visual-features/palette-index-usage.png) and [pixel counts](https://github.com/evilchinesefood/PKMN-World/blob/5ac874587072dd6e2e4c50ef011187aff4b2b928/test/overworld/visual-features/palette-index-usage.json) show the affected raw indices on the source tile sheets. These are diagnostic plots; the native runtime captures above verify the palettes after composition.
 
 ## Reproduce and final playtest
 

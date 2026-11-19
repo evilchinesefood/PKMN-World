@@ -58,7 +58,7 @@ COMMON_DATA struct PokemonStorage *gPokemonStoragePtr = NULL;
 
 // Bind the saved obstacle bits to the generated table they were written under (issue #16).
 //
-// The bit index for a cut tree comes from test/overworld/GenObstacleTable.py's build-time enumeration of
+// The bit index for a cut tree comes from tools/mapjson/GenObstacleTable.py's build-time enumeration of
 // data/maps/, so adding or removing ANY obstacle renumbers every obstacle after it. Without this,
 // a map edit would silently re-point saved bits at different trees — some regrowing, others
 // pre-cleared, with nothing anywhere to explain it. Comparing the stored hash turns that into a

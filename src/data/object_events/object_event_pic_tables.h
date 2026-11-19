@@ -3310,4 +3310,4 @@ static const struct SpriteFrameImage sPicTable_MomFrlg[] = {
     overworld_frame(gObjectEventPic_MomFrlg, 2, 4, 2),
 };
 
-#include "../player_outfit_pics.h"
+#include "../player_outfits/object_frame_tables.h"

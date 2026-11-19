@@ -24,7 +24,7 @@ CHECKS = (
     ("ValidateReachability.py",),
     ("ValidateLandings.py",),
     ("ValidateAmbientBlockers.py",),
-    ("GenObstacleTable.py", "--check"),
+    ("../../tools/mapjson/GenObstacleTable.py", "--check"),
     ("ValidateDoorAnims.py", "--max", "0"),
     ("ValidateTilesetAnimBounds.py",),
     ("ValidateTilesetPalettes.py",),

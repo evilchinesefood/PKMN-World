@@ -3,7 +3,7 @@
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
-local F = require("lib").new(S, os.getenv("PW_CASE_NAME") or "MigrateFixtures")
+local F = require("lib").new(S, os.getenv("PW_CASE_NAME") or "RefuseOldSave")
 
 F.run(function()
   -- Stop at the selectable menu before pressing A on its first row. Seeing an

@@ -1,7 +1,7 @@
-static const u32 sKabutoPuzzle_Gfx[]     = INCBIN_U32("graphics/sliding_puzzle/puzzles/kabuto/tiles.4bpp.lz");
-static const u32 sOmanytePuzzle_Gfx[]    = INCBIN_U32("graphics/sliding_puzzle/puzzles/omanyte/tiles.4bpp.lz");
-static const u32 sAerodactylPuzzle_Gfx[] = INCBIN_U32("graphics/sliding_puzzle/puzzles/aerodactyl/tiles.4bpp.lz");
-static const u32 sHoOhPuzzle_Gfx[]       = INCBIN_U32("graphics/sliding_puzzle/puzzles/ho_oh/tiles.4bpp.lz");
+static const u32 sKabutoPuzzle_Gfx[]     = INCBIN_U32("graphics/sliding_puzzle/puzzles/kabuto.4bpp.lz");
+static const u32 sOmanytePuzzle_Gfx[]    = INCBIN_U32("graphics/sliding_puzzle/puzzles/omanyte.4bpp.lz");
+static const u32 sAerodactylPuzzle_Gfx[] = INCBIN_U32("graphics/sliding_puzzle/puzzles/aerodactyl.4bpp.lz");
+static const u32 sHoOhPuzzle_Gfx[]       = INCBIN_U32("graphics/sliding_puzzle/puzzles/ho_oh.4bpp.lz");
 
 static const struct CompressedSpriteSheet sSpriteSheet_Tiles[SLIDING_PUZZLE_COUNT] =
 {

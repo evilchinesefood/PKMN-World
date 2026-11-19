@@ -9,7 +9,7 @@ PRESS START remains centered on the screen independently.
 After editing the master, run:
 
 ```sh
-node tools/export-world-title.mjs
+node tools/graphics/export-world-title.mjs
 make modern -j8
 test/overworld/mgba-run.sh test/overworld/lua/WorldTitle.lua
 ```

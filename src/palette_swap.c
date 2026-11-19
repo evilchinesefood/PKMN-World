@@ -5,7 +5,7 @@
 #include "constants/vars.h"
 #include "palette_swap.h"
 #include "player_outfit.h"
-#include "data/player_outfit_palettes.h"
+#include "data/player_outfits/clothing_palettes.h"
 
 u8 GetPlayerOutfit(void)
 {

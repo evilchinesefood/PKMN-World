@@ -183,7 +183,7 @@ static const u16 sIconPal[] = INCBIN_U16("graphics/unbound_start_menu/sprites/ic
 
 static const u32 sUsmBgTiles[] = INCBIN_U32("graphics/unbound_start_menu/bg/tiles.4bpp.smol");
 static const u32 sUsmBgTilemap[] = INCBIN_U32("graphics/unbound_start_menu/bg/map.bin.smolTM");
-static const u16 sUsmBgPalette[] = INCBIN_U16("graphics/unbound_start_menu/bg/14.gbapal");
+static const u16 sUsmBgPalette[] = INCBIN_U16("graphics/unbound_start_menu/bg/background_bank14.gbapal");
 
 enum FontColor {
     FONT_WHITE,

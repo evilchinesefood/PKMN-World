@@ -10,7 +10,7 @@ films, and they are not part of `run-all.sh` or the canonical case inventory.
 ## Requirements
 
 - A built `pokemonworld.gba` and `pokemonworld.elf` at the repo root.
-- The patched `mgba-headless` that the Lua suites use (see `../TestHarnessGuide.md`).
+- The patched `mgba-headless` that the Lua suites use (see `../README.md`).
 - `ffmpeg` and Python with Pillow.
 
 ## Usage

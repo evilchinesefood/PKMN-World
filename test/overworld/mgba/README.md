@@ -79,7 +79,7 @@ After a normal build, run a single suite or the canonical sweep without rebuildi
 
 ```sh
 test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua pokemonworld.gba
-test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
+test/overworld/mgba-run.sh test/overworld/lua/RefuseOldSave.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
 test/overworld/run-all.sh pokemonworld.gba
 ```
 

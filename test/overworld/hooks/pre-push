@@ -34,7 +34,7 @@ run "Event-script pointer arguments" test/overworld/ValidateScripts.py
 run "Overworld-Pokemon placements"   test/overworld/ValidateOwMonPlacements.py
 run "Map object-event consistency"   test/overworld/ValidateMapEvents.py
 run "Map metatile bounds"            test/overworld/ValidateMetatileBounds.py
-run "Cleared-obstacle table"         test/overworld/GenObstacleTable.py --check
+run "Cleared-obstacle table"         tools/mapjson/GenObstacleTable.py --check
 run "Save-format constants"          test/overworld/SavePatch.py --check
 run "Animated doors registered"      test/overworld/ValidateDoorAnims.py --max 0
 run "Tileset palette array bounds"   test/overworld/ValidateTilesetPalettes.py

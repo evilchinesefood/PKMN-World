@@ -64,8 +64,8 @@ DayNightTint	lua/DayNightTint.lua	fresh	0	required
 RainPaletteSlots	lua/RainPaletteSlots.lua	fresh	0	required
 DroughtNightTint	lua/DroughtNightTint.lua	fresh	0	required
 UnderfootHiddenItem	lua/UnderfootHiddenItem.lua	fresh	0	required
-MigrateFixtures	lua/MigrateFixtures.lua	lua/fixtures/v3.srm	0	required
-RefuseV13	lua/MigrateFixtures.lua	lua/fixtures/v13.srm	1	required
+MigrateFixtures	lua/RefuseOldSave.lua	lua/fixtures/v3.srm	0	required
+RefuseV13	lua/RefuseOldSave.lua	lua/fixtures/v13.srm	1	required
 LanceMultiBattle	lua/LanceMultiBattle.lua	fresh	0	required
 LanceMultiOutcome	lua/LanceMultiOutcome.lua	fresh	0	required
 DayNightCrossingProbe	lua/DayNightCrossingProbe.lua	fresh	0	required

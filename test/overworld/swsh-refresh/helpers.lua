@@ -45,7 +45,7 @@ return function(name)
   F.check(tag..' visible text tiles intact',checked>0 and bad==0,'windows='..checked..' mismatched bytes='..bad)
  end
  local function summaryClean(tag)
-  for _,n in ipairs({'Task_PrintConditionsPage','Task_PrintInfoPage','Task_PrintSkillsPage','Task_PrintBattleMoves','Task_PrintContestMoves','Task_PrintMemoPage','Task_ShowEffectTilemap'}) do
+  for _,n in ipairs({'Task_PrintConditionsPage','Task_PrintInfoPage','Task_PrintSkillsPage','Task_PrintMoves','Task_PrintMemoPage','Task_ShowEffectTilemap'}) do
    F.check(tag..' no '..n,tasks(U[n])==0)
   end
   F.check(tag..' summary state freed',F.r32(U.sMonSummaryScreen)==0)

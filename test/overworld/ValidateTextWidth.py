@@ -43,7 +43,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ValidateBattleScenes import png_pixels  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
-BASELINE = ROOT / "test/overworld/text_width_baseline.tsv"
+BASELINE = ROOT / "test/overworld/reference/text_width_baseline.tsv"
 INITIAL_COMMIT = "ac9e6927bc"
 
 EOS, NEWLINE, SCROLL, PARAGRAPH = 0xFF, 0xFE, 0xFA, 0xFB

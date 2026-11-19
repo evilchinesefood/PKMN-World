@@ -32,9 +32,9 @@ static const u8 sTextWindowFrame20_Gfx[] = INCGFX_U8("graphics/text_window/20.pn
 
 const u16 gTextWindowFrame1_Pal[] = INCGFX_U16("graphics/text_window/1.png", ".gbapal");
 #if SWSH_MESSAGE_BOX
-static const u8 sSwShWindowFrame_Gfx[] = INCGFX_U8("graphics/text_window/swsh/1.png", ".4bpp");
+static const u8 sSwShWindowFrame_Gfx[] = INCGFX_U8("graphics/text_window/swsh/window_frame.png", ".4bpp");
 // This nine-tile frame uses indices 1/2/14, unlike std_menu's text palette.
-static const u16 sSwShWindowFrame_Pal[] = INCGFX_U16("graphics/text_window/swsh/1.png", ".gbapal");
+static const u16 sSwShWindowFrame_Pal[] = INCGFX_U16("graphics/text_window/swsh/window_frame.png", ".gbapal");
 #endif
 static const u16 sTextWindowFrame2_Pal[] = INCGFX_U16("graphics/text_window/2.png", ".gbapal");
 static const u16 sTextWindowFrame3_Pal[] = INCGFX_U16("graphics/text_window/3.png", ".gbapal");

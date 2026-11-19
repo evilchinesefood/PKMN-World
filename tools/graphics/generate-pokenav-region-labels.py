@@ -7,7 +7,7 @@ in colour 1, a colour 2 shadow to the right, below and below-right. This rewrite
 of HOENN as JOHTO or KANTO and keeps " MAP". Glyphs come from the labels themselves (T from
 MATCH CALL); the art has no J or K, so those two bodies are drawn here in the same style.
 
-Run from the repository root: python3 tools/pokenav/region_map_labels.py
+Run from the repository root: python3 tools/graphics/generate-pokenav-region-labels.py
 """
 from pathlib import Path
 from PIL import Image

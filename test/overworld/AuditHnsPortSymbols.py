@@ -61,6 +61,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
+REFERENCE = os.path.join(HERE, "reference")
 
 # Our Johto map -> its HnS original, where the port renamed the map so it would not collide with
 # the FRLG map of the same name. Everything else keeps its HnS name.
@@ -595,7 +596,7 @@ def snapshot(src, root):
                  for ours, h in pairs.items() if h in used},
         "fingerprints": {k: {n: fps[k][o] for (kk, n), o in original.items() if kk == k} for k in src.kinds},
     }
-    path = os.path.join(HERE, src.snapshot)
+    path = os.path.join(REFERENCE, src.snapshot)
     with open(path, "w") as f:
         json.dump(data, f, indent=1, sort_keys=True)
         f.write("\n")
@@ -605,7 +606,7 @@ def snapshot(src, root):
 
 def load_baseline(src):
     out = {}
-    path = os.path.join(HERE, src.baseline)
+    path = os.path.join(REFERENCE, src.baseline)
     if os.path.exists(path):
         for line in read(path).splitlines():
             if line.strip() and not line.startswith("#"):
@@ -615,7 +616,7 @@ def load_baseline(src):
 
 
 def audit(src, report):
-    snap = json.loads(read(os.path.join(HERE, src.snapshot)))
+    snap = json.loads(read(os.path.join(REFERENCE, src.snapshot)))
     ours_used = map_scripts(ROOT, snap["maps"].keys())
     wanted = {k: set() for k in KINDS}
     shared = {}

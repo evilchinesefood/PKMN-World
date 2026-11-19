@@ -24,7 +24,7 @@ control flow are invisible. Each row is a candidate to read, not a verdict.
     python3 test/overworld/ScanInputChords.py --check    # fail on a conflict not in the allowlist
 
 A conflict is a pair where both branches change state. The allowlist
-(input_chord_allowlist.tsv) keys a site by file, function and the two button sets (`*` for
+(reference/input_chord_allowlist.tsv) keys a site by file, function and the two button sets (`*` for
 any), so it survives line drift; every row carries the reason it is safe. A row that matches
 nothing is reported as stale but does not fail the check.
 """
@@ -35,7 +35,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-ALLOWLIST = Path(__file__).resolve().parent / "input_chord_allowlist.tsv"
+ALLOWLIST = Path(__file__).resolve().parent / "reference/input_chord_allowlist.tsv"
 
 TOKEN = re.compile(r"[A-Za-z_]\w*|\d[\w.]*|->|\+\+|--|<<=|>>=|&&|\|\||<<|>>|[-+*/%&|^!=<>]=|\S")
 INPUT = re.compile(r"\bJOY_(?:NEW|REPEAT|HELD|NEW_AND_REPEATED|HELD_RAW|NEW_RAW)\b"

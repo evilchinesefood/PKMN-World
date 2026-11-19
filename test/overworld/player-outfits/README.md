@@ -63,7 +63,7 @@ are superseded by the shared wardrobe tests above.
 The old non-red outfits flattened several accent pairs and recolored Brendan's
 shared hair/ink shades. The five new colorways use separate RGB5 ramps for each
 gender and each live sprite layout. The C tables in
-[`src/data/player_outfit_palettes.h`](../../../src/data/player_outfit_palettes.h)
+[`src/data/player_outfits/clothing_palettes.h`](../../../src/data/player_outfits/clothing_palettes.h)
 are the hand-authored source of truth; no external generator is needed.
 
 Open `review/index.html` through a local web server for the

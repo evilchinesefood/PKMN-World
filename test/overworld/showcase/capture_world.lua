@@ -1,6 +1,6 @@
 -- Capture unmodified production ROM scenes on a disposable fresh game.
 local here=(debug.getinfo(1,'S').source:sub(2)):match('^(.*[/\\])') or ''
-package.path=here..'../../test/overworld/lua/?.lua;'..package.path
+package.path=here..'../lua/?.lua;'..package.path
 local S=require('symbols');local F=require('lib').new(S,'ShowcaseWorld')
 local scenes={
   {name="RegionHub",group=100,map=0,warp=0},

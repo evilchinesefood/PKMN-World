@@ -15,7 +15,7 @@ STYLES = ('original', 'kanto', 'johto', 'hoenn')
 
 
 def read_tables(root):
-    text = (root/'src/data/player_outfit_palettes.h').read_text()
+    text = (root/'src/data/player_outfits/clothing_palettes.h').read_text()
     result = {}
     for gender in GENDERS:
         actor = 'brendan' if gender == 'Male' else 'may'

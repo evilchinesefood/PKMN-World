@@ -344,3 +344,6 @@ LinkEraRemnants	lua/LinkEraRemnants.lua	fresh	0	required
 HofEggRecord	lua/HofEggRecord.lua	fresh	0	required
 InGameTradeSweep	lua/InGameTradeSweep.lua	fresh	0	required
 TrainerTowerLobby	lua/TrainerTowerLobby.lua	fresh	0	required
+CeladonCoinCaseRegions	lua/CeladonCoinCaseRegions.lua	fresh	0	required
+GameCornerOwnedTms	lua/GameCornerOwnedTms.lua	fresh	0	required
+KantoTrainerCardExtras	lua/KantoTrainerCardExtras.lua	fresh	0	required

@@ -1079,6 +1079,29 @@ asserted exact (5 to 25 HP). Two game mutations in the partner-cancel refund
 Potions (Bag 4 after the cancel, 3 at the end) and refunding none (2, then 1). Measured **331/331** at `PW_DBL_SEED`
 2718281, 7919, 104729, 4242, 65537 and 1618033.
 
+Fixed-turn faints (stress pass 10). At `PW_DBL_SEED` 8675309 on the integrated build "both faint in
+one turn" scored 327/331. A per-turn HP trace showed a suite fault. In the first turn the wild
+Zigzagoon used Growl, so only one Magikarp fell. The game asked for its replacement, as it did after
+each later faint while a bench Pokemon remained. HP top-ups do not undo Howl and Tail Whip, so after eight turns a
+Tackle knocked out a full-HP bench Pokemon and the battle was lost. Both Magikarp now faint
+themselves with Final Gambit in the first turn against Magikarp that only Splash, and the refill
+check wants two different bench slots. The same audit took four more scenarios off a wild Pokemon's
+move choice: the left Pokemon faints itself with Final Gambit in "forced switch from the fainted
+Pokemon's box" and "right-hand Pokemon levels and evolves alone" (both against Splash-only
+Magikarp), "catch by the right-hand Pokemon" and the second half of "instant run shortcut in a
+double". In scenario-only runs each fails under a game mutation of what it guards: no replacement
+when both player battlers are down (`HasNoMonsToSwitch`), 7/12; Cancel on the forced-switch box
+leaving input on the closed box (`CursorCb_Cancel1`), 8/12; the R ball shortcut throwing only from
+the left battler, 6/11; B on the right-hand menu always cancelling to the absent left battler, 14/17;
+the EXP update dropped while battler 0 is absent (`Cmd_getexp`), 10/13. Unmutated they score 12/12,
+12/12, 11/11, 17/17 and 13/13. Left as they were: the mashes (seeded on purpose, every outcome
+allowed), the Poke Ball catches (each shake result is an allowed outcome), "white out in a double"
+(Beldum knows only Tackle, so both 1 HP Magikarp fall within two turns), the one-usable, Bag and run
+scenarios (a wild Sand Attack only delays a win the held HP guarantees, and the runner always
+outspeeds the foe it runs from) and "trainer double down to one" (with Geodude forced onto Rollout,
+Caterpie still survived, 21/21). Measured **331/331** at `PW_DBL_SEED` 8675309, 2718281, 104729,
+31415, 7919, 4242, 65537, 1618033 and the default.
+
 ### `BugContestFullPC.lua`
 
 The Bug-Catching Contest's judging with every PC box full, which no earlier suite reached: the

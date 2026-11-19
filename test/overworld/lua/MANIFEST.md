@@ -4504,3 +4504,17 @@ both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks
 party-restoring cancels fail.
 Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
 with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.
+
+### `TrainerTowerLobby.lua`
+
+The Sevii Trainer Tower lobby, closed for renovations. Its time board ran `ShowTrainerHillRecords`
+with `VAR_0x8004` 1, and that special's Trainer Tower branch (`PrintTrainerTowerRecords`) is
+compiled out, so reading the board faded to an empty records frame. The board's sign event, its
+script and the dead branch are gone; Route 111's Trainer Hill board keeps the records screen. The
+suite walks in through the Seven Island door with a fainted lead and 0 money and plays every lobby
+event with real input under a seeded mash of A, B, Start, L, R and the D-pad (never Select): the
+board must open no blank records screen (window 0's ink after the fade), the entry trigger must
+walk the player back below the counter, the nurse must heal across her counter, the clerk's mart
+must take nothing from an empty wallet, the floors stay sealed and the door returns to Seven Island.
+Control: the Trainer Hill board still prints its TIME BOARD (6,373 inked pixels). Unfixed **27/28**
+(the blank board, also on the pre-removal ROM), fixed **28/28**. `PW_TOWER_BASE=<n>` reseeds.

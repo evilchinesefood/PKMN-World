@@ -4519,4 +4519,4 @@ the doorsteps and the sign text behind them; no MULTI-LINK day and every other m
 days; a berry and no BERRY CRUSH. Every talk hands control back, the field is walkable and no crash
 screen appears. PW_SEED reseeds the mash and PW_TEXT picks the text speed. **Discrimination:**
 unfixed 85/92 (four link tables, the MULTI-LINK day and its missing rotation slot, the BERRY CRUSH
-line).
+line), fixed 92/92 at seeds 1, 7, 31337 and 99 across instant, fast and mid text and four clocks.

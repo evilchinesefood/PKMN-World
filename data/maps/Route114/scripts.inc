@@ -24,11 +24,11 @@ Route114_EventScript_Man::
 	faceplayer
 	dotimebasedevents
 	goto_if_set FLAG_DAILY_ROUTE_114_RECEIVED_BERRY, Route114_EventScript_ReceivedBerry
-	msgbox Route114_Text_LoveUsingBerryCrushShareBerry, MSGBOX_DEFAULT
+	msgbox Route114_Text_LoveUsingBerryBlenderShareBerry, MSGBOX_DEFAULT
 	giverandomberry BERRY_ID_RAZZ, BERRY_ID_PINAP
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_DAILY_ROUTE_114_RECEIVED_BERRY
-	msgbox Route114_Text_TryBerryCrushWithFriends, MSGBOX_DEFAULT
+	msgbox Route114_Text_TryBerryBlendersAtContestHall, MSGBOX_DEFAULT
 	release
 	end
 

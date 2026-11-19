@@ -19,6 +19,7 @@
 #include "wild_encounter_ow.h"
 #include "gba/flash_internal.h"
 #include "decoration_inventory.h"
+#include "event_object_movement.h"
 #include "agb_flash.h"
 #include "event_data.h"
 #include "constants/event_objects.h"
@@ -396,6 +397,7 @@ void LoadObjectEvents(void)
 
 void CopyPartyAndObjectsToSave(void)
 {
+    SyncFollowerSlotForSave();
     SavePlayerParty();
     SaveObjectEvents();
     // Every save path in src/save.c funnels through here, which makes it the one place a

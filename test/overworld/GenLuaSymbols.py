@@ -75,6 +75,10 @@ WANT = [
     "gLevelUpStartLevels", "sLevelUpSummaryState",
     # FrontierFacilityStress.lua: the Battle Factory rental and swap screens and the Dome tourney tree.
     "CB2_SelectScreen", "Swap_CB2", "CB2_TourneyTree",
+    # PikeChallengeStress.lua: the room type the last Battle Pike door chose (battle_pike.c).
+    "sRoomType",
+    # ArenaJudgeStress.lua: the referee's judgment and its two losing branches (battle_scripts_1.s).
+    "BattleScript_ArenaDoJudgment", "BattleScript_ArenaJudgmentPlayerLoses", "BattleScript_ArenaJudgmentDraw",
     # ExchangeCornerPurchases.lua / MasterRankMuseum.lua: the scrollable prize list, the decoration
     # inventories, the contest's move-select task and the contest and painting screens.
     "ScrollableMultichoice_ProcessInput", "gDecorationInventories", "Task_HandleMoveSelectInput",
@@ -228,6 +232,8 @@ WANT = [
     "gFieldEffectObjectTemplate_UnusedGrass", "sSpriteTemplate_CutGrass",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
     "Task_DisplayMainMenu", "Task_HandleMainMenuInput", "gSaveFileStatus", "gSaveVersionRefusal",
+    # SaveGateStress.lua: the main menu's save-error window and the flash slot layout it forges.
+    "Task_WaitForSaveFileErrorWindow", "gRamSaveSectorLocations", "gRegionSaveCorrupt",
     "sCurrItemAndOptionMenuCheck", "sGpuRegBuffer",
     "MainCB2_WorldTitleScreen", "gBattle_BG1_Y", "gScanlineEffect",
     "CB2_InitClearSaveDataScreen", "CB2_InitResetRtcScreen",
@@ -342,6 +348,8 @@ WANT = [
     # SummaryMoveCancelRace.lua: the SwSh summary's move-select input, the effect panel's
     # slide-in task, and the move category icon's template (src/swsh_summary_screen.c).
     "Task_HandleInput_MoveSelect", "Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
+    # ServiceNpcStress.lua: the move list a tutor, relearner or Move Deleter opens to pick a move to forget.
+    "Task_HandleReplaceMoveInput",
     # AlphSlidingPuzzles.lua: the Ruins of Alph sliding puzzle's live board (src/sliding_puzzle.c).
     "sSlidingPuzzle", "CB2_SlidingPuzzle",
     # TextWidthTour.lua opens the classic Start menu, a Safari battle with a scripted wild Pokemon,
@@ -359,7 +367,8 @@ SIZED = {"sMenu": 12, "sMessageWindowSpriteIds": 6}
 # Private probes only exist in their renderer. Use the linked entry point so the
 # export follows this ELF even when the source checkout is configured differently.
 RENDERER_PROBES = {
-    "ShowPokemonSummaryScreen_SwSh": ("Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons"),
+    "ShowPokemonSummaryScreen_SwSh": ("Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons",
+                                      "Task_HandleReplaceMoveInput"),
     "ShowPokemonStorageSystemPC_SwSh": ("sMessageWindowSpriteIds",),
     "Usm_InitStartMenu": ("sUsmSavedIcon", "sUsmSavedOffset"),
 }

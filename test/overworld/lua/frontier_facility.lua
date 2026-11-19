@@ -1,6 +1,7 @@
--- Shared driver for FrontierFacilityStress.lua and FactoryRentalStress.lua: full Battle Frontier
--- challenges with real input, a Rest with Continue in the middle, and a soft reset with no save.
--- See FrontierFacilityStress.lua for what each case asserts.
+-- Shared driver for FrontierFacilityStress.lua, FactoryRentalStress.lua, FactoryModesStress.lua,
+-- ArenaJudgeStress.lua and FrontierFollowerChoice.lua: full Battle Frontier challenges with real
+-- input, a Rest with Continue in the middle, a soft reset with no save, a Retire, and Arena matchups
+-- run to the referee. See FrontierFacilityStress.lua for what each case asserts.
 
 return function(suiteName, CASES)
 local S = require("symbols")
@@ -20,7 +21,8 @@ local FOLLOWER = 0xFE
 local FACILITIES = {
   arena   = { map = 28, digits = { 0, 2, 8 }, walk = { { 7, 11 }, { 7, 8 } }, pick = 3, streak = 0xDDA, battles = 7, streakAfter = 7, bp = 1 },
   palace  = { map = 22, digits = { 0, 2, 2 }, walk = { { 12, 10 }, { 5, 10 }, { 5, 7 } }, pick = 3, streak = 0xDC8, battles = 7, streakAfter = 7, bp = 4 },
-  factory = { map = 31, digits = { 0, 3, 1 }, walk = { { 9, 9 }, { 4, 9 }, { 4, 8 } }, pick = 0, streak = 0xDE2, battles = 7, streakAfter = 7, bp = 3 },
+  factory = { map = 31, digits = { 0, 3, 1 }, walk = { { 9, 9 }, { 4, 9 }, { 4, 8 } }, pick = 0, streak = 0xDE2, battles = 7, streakAfter = 7, bp = 3, factory = true },
+  factory_doubles = { map = 31, digits = { 0, 3, 1 }, walk = { { 9, 9 }, { 14, 9 }, { 14, 8 } }, pick = 0, streak = 0xDE6, battles = 7, streakAfter = 7, bp = 4, factory = true },
   dome    = { map = 18, digits = { 0, 1, 8 }, walk = { { 11, 12 }, { 5, 12 }, { 5, 11 } }, pick = 3, streak = 0xD0C, battles = 4, streakAfter = 1, bp = 1 },
 }
 
@@ -110,16 +112,27 @@ local function pickMons(n)
   return not inPartyMenu()
 end
 
-local function steerBattle(f)
+-- judge: every battler is held at full HP, so each Arena matchup runs its three turns to the referee.
+-- judge == "weak" holds only the foes there and leaves the player's Pokemon to take their damage.
+local function steerBattle(f, judge)
   for b = 1, 3, 2 do
     local a = S.gBattleMons + b * S.BattlePokemon.size
-    if F.r16(a + S.BattlePokemon.hp) > 1 then F.w16(a + S.BattlePokemon.hp, 1) end
+    local mx = F.r16(a + S.BattlePokemon.maxHP)
+    if judge then
+      if F.r16(a + S.BattlePokemon.hp) > 0 and mx > 0 then F.w16(a + S.BattlePokemon.hp, mx) end
+    elseif F.r16(a + S.BattlePokemon.hp) > 1 then F.w16(a + S.BattlePokemon.hp, 1) end
   end
-  local a = S.gBattleMons
-  local mx = F.r16(a + S.BattlePokemon.maxHP)
-  if F.r16(a + S.BattlePokemon.hp) > 0 and mx > 0 then F.w16(a + S.BattlePokemon.hp, mx) end
+  for b = 0, 2, 2 do
+    local a = S.gBattleMons + b * S.BattlePokemon.size
+    local mx = F.r16(a + S.BattlePokemon.maxHP)
+    if judge ~= "weak" and F.r16(a + S.BattlePokemon.hp) > 0 and mx > 0 then F.w16(a + S.BattlePokemon.hp, mx) end
+  end
   if f % 20 ~= 0 then F.idle(1); return end
-  if cb(S.BattleMainCB2) and (F.r32(S.gBattlerControllerFuncs) & ~1) == (S.HandleInputChooseMove & ~1) then
+  local choosing = false
+  for b = 0, math.min(F.r8(S.gBattlersCount), 4) - 1, 2 do
+    if (F.r32(S.gBattlerControllerFuncs + 4 * b) & ~1) == (S.HandleInputChooseMove & ~1) then choosing = true end
+  end
+  if cb(S.BattleMainCB2) and choosing then
     -- Walk the cursor over all four moves so an immunity or an evasion loop cannot stall the bot.
     local slot = (f // 20) % 4
     F.press("Up", 2); F.idle(4); F.press("Left", 2); F.idle(4)
@@ -148,19 +161,38 @@ local function runCase(c, base)
   local fac = FACILITIES[c.fac]
   local tag = c.name
   client.loadstate(base); F.idle(10)
+  -- As after a Continue: the save names the chosen follower's party slot (setup, not under test).
+  if c.follow then F.w8(F.sb2() + S.SaveBlock2.followerSlot, c.follow) end
+  if c.instant then
+    local opt = F.r16(F.sb2() + S.SaveBlock2.optionsU16)
+    F.w16(F.sb2() + S.SaveBlock2.optionsU16, (opt & ~7) | 3)
+  end
   assert(F.warpTo(0, 2, 6, fac.digits[1], fac.digits[2], fac.digits[3], 0, 0, 0, FRONTIER, fac.map, tag), "lobby warp failed")
   F.idle(60)
   local party0 = partyBytes()
   local follower0 = follower()
+  F.L(string.format("  %s: followerSlot=%d follower gfx=%s", tag, F.r8(F.sb2() + S.SaveBlock2.followerSlot),
+    follower0 and string.format("%04X", follower0.gfx) or "none"))
   local bp0 = F.r16(F.sb2() + BP)
   if not F.check(tag .. ": walked to the attendant", F.route(fac.walk, tag), where()) then return end
   F.face("Up"); F.press("A", 2); F.idle(30)
-  local took = menu(0, tag .. "_challenge") and menu(0, tag .. "_lv50")
+  -- Open Level is the level menu's second row; its streaks follow the Lv. 50 ones (u16 [mode][level]).
+  local lvl = c.open and 1 or 0
+  local took = menu(0, tag .. "_challenge") and menu(lvl, tag .. "_level")
   if took and fac.pick > 0 then took = pickMons(fac.pick) end
   took = took and menu(0, tag .. "_save")
-  if not F.check(tag .. ": took the Lv. 50 singles challenge", took) then return end
+  if not F.check(tag .. ": took the challenge", took) then return end
 
   local battles, inB, rented, swapped, resumed, ended, resetDone = 0, false, nil, nil, false, false, false
+  local retired, wins = false, 0
+  local partyKey = F.forcedSwitchKeys()
+  local judging, judged, judgeLost, judgeDrew, judgeShots, judgedIn, afterJudge = false, 0, 0, 0, 0, {}, nil
+  local function judgeAt()
+    local pc = F.r32(S.gBattlescriptCurrInstr)
+    if pc >= S.BattleScript_ArenaJudgmentDraw and pc < S.BattleScript_ArenaJudgmentDraw + 0x40 then return "draw" end
+    if pc >= S.BattleScript_ArenaJudgmentPlayerLoses and pc < S.BattleScript_ArenaJudgmentDraw then return "lost" end
+    if pc >= S.BattleScript_ArenaDoJudgment and pc < S.BattleScript_ArenaJudgmentPlayerLoses then return "judge" end
+  end
   local domeMenus = 0
   for f = 1, 150000 do
     if F.reportCrash(tag .. "_" .. f) then break end
@@ -175,7 +207,7 @@ local function runCase(c, base)
           for i = 0, S.Pokemon.size - 1 do t[#t + 1] = F.r8(S.gParties + i) end
           return table.concat(t, ",")
         end
-        swapped = { before = slot0() }
+        swapped = { before = slot0(), battle = battles }
         rentals.swapFirst(F)
       else
         F.idle(120); F.press("B", 2); F.idle(60); F.press("A", 2); F.idle(120)
@@ -185,6 +217,8 @@ local function runCase(c, base)
       else F.idle(90); F.shot(tag .. "_tree"); F.press("B", 2); F.idle(60) end
     elseif inPartyMenu() and not inB then
       pickMons(2)
+    elseif inPartyMenu() and c.judge then
+      F.press(partyKey(), 2); F.idle(20)
     elseif inPartyMenu() then
       F.idle(60); F.press("Down", 2); F.idle(30); F.press("A", 2); F.idle(40); F.press("A", 2); F.idle(60)
     elseif inBattle() then
@@ -197,7 +231,24 @@ local function runCase(c, base)
           swapped.after = table.concat(t, ",")
         end
       end
-      steerBattle(f)
+      steerBattle(f, c.judge)
+      if c.judge then
+        local j = judgeAt()
+        if j == "judge" and not judging then
+          judging, judged = true, judged + 1
+          judgedIn[battles] = (judgedIn[battles] or 0) + 1
+        elseif j == "lost" and judging then judging, judgeLost = false, judgeLost + 1
+        elseif j == "draw" and judging then judging, judgeDrew = false, judgeDrew + 1
+        elseif j == nil and judging then judging, afterJudge = false, f end
+        -- The referee's box has been erased by now and the battle's own text box is back.
+        if afterJudge and f == afterJudge + 90 and judgeShots < 6 then
+          judgeShots = judgeShots + 1; F.shot(tag .. "_after_judgment")
+        end
+        -- The window holds all six marks once Task state 7 has run (gBattleCommunication[0] == 8).
+        if judging and judgeShots < 2 and F.r8(S.gBattleCommunication) == 8 then
+          judgeShots = judgeShots + 1; F.shot(tag .. "_judgment")
+        end
+      end
     elseif atTitle() then
       F.shot(tag .. "_title")
       local booted = F.boot(nil, true)
@@ -211,7 +262,10 @@ local function runCase(c, base)
         F.check(tag .. ": Continue lands in the lobby", booted and F.grp() == FRONTIER and F.mapn() == fac.map, where())
       end
     else
-      if inB and F.ow() then inB = false end
+      if inB and F.ow() then
+        inB = false
+        if F.r8(S.gBattleOutcome) == 1 then wins = wins + 1 end
+      end
       local k = liveMenu()
       if k then
         F.idle(20)
@@ -224,6 +278,10 @@ local function runCase(c, base)
           if c.mode == "rest" and battles == 1 and not resumed then want = mx - 1 end
         elseif k == "multi" and mx >= 2 and c.mode == "rest" and battles == 1 and not resumed then
           want = mx - 1
+        elseif k == "multi" and mx >= 2 and c.mode == "retire" and battles == 1 then
+          want, retired = mx, true
+        elseif k == "yesno" and c.swapLast and battles >= 1 and battles < fac.battles - 1 then
+          want = 1 -- "Would you like to swap?" NO until the last battle
         end
         choose(want)
       elseif f % 30 == 0 then
@@ -231,7 +289,7 @@ local function runCase(c, base)
       else
         F.idle(1)
       end
-      local over = battles >= fac.battles or resetDone
+      local over = battles >= fac.battles or resetDone or retired or (c.judge and battles >= 1)
       if over and F.grp() == FRONTIER and F.mapn() == fac.map and F.ow() and scriptIdle() and not liveMenu() then
         F.idle(240)
         if scriptIdle() and not liveMenu() then ended = true; break end
@@ -240,27 +298,47 @@ local function runCase(c, base)
   end
   F.shot(tag .. "_end")
 
-  local streak = F.r16(F.sb2() + fac.streak)
+  local streak = F.r16(F.sb2() + fac.streak + 2 * lvl)
   local status = F.r8(F.sb2() + STATUS)
   local bp = F.r16(F.sb2() + BP)
   F.check(tag .. ": back in the lobby with control", ended and F.grp() == FRONTIER and F.mapn() == fac.map, where())
   F.check(tag .. ": the party is byte-identical to the one that entered", partyBytes() == party0,
     "now " .. personalities())
   F.check(tag .. ": frontier status cleared", status == 0, "status=" .. status)
-  if c.fac == "factory" then
+  if fac.factory then
     F.check(tag .. ": three rentals replaced the party", rented ~= nil and not rented:find(string.format("%08X", F.r32(S.gParties)), 1, true),
       tostring(rented))
   end
-  if c.mode == "rest" then
-    F.check(tag .. ": Rest went through the title and Continue", resumed)
+  if c.mode == "rest" or c.mode == "full" then
+    if c.mode == "rest" then F.check(tag .. ": Rest went through the title and Continue", resumed) end
     F.check(tag .. ": every battle was won", battles == fac.battles, "battles=" .. battles)
     F.check(tag .. ": the win streak counts the challenge", streak == fac.streakAfter, "streak=" .. streak)
     F.check(tag .. ": first Battle Point award added", bp - bp0 == fac.bp, string.format("%d -> %d", bp0, bp))
-    if c.fac == "factory" then
+    if fac.factory then
       -- Rentals' personalities repeat (they follow the nature), so compare the whole slot.
       F.check(tag .. ": the swap traded the first rental", swapped ~= nil and swapped.before ~= swapped.after,
         swapped and "slot 0 unchanged at the next battle" or "no swap screen")
+      if c.swapLast then
+        F.check(tag .. ": the swap came before the last battle", swapped ~= nil and swapped.battle == fac.battles - 1,
+          swapped and ("after battle " .. tostring(swapped.battle)) or "no swap screen")
+      end
     end
+  elseif c.judge then
+    local per = {}
+    for b = 1, battles do per[#per + 1] = tostring(judgedIn[b] or 0) end
+    F.L(string.format("  %s: %d battles, %d won; %d judgments (%d lost, %d drawn); per battle %s", tag, battles,
+      wins, judged, judgeLost, judgeDrew, table.concat(per, ",")))
+    -- A strong hit can still knock out a full-HP foe, so not every matchup reaches the referee.
+    F.check(tag .. ": the referee judged at least one matchup per battle on average", battles > 0 and judged >= battles,
+      string.format("%d judgments in %d battles", judged, battles))
+    F.check(tag .. ": the win streak counts the battles won", streak == wins, string.format("streak=%d wins=%d", streak, wins))
+    if wins == fac.battles then
+      F.check(tag .. ": the won challenge paid its Battle Points", bp - bp0 == fac.bp, string.format("%d -> %d", bp0, bp))
+    else
+      F.check(tag .. ": a lost challenge pays no Battle Points", bp == bp0, string.format("%d -> %d", bp0, bp))
+    end
+  elseif c.mode == "retire" then
+    F.check(tag .. ": retired after the first win", retired and battles == 1, "battles=" .. battles)
   else
     F.check(tag .. ": soft reset hit its screen", resetDone)
     F.check(tag .. ": the unsaved run ended the streak", streak == 0, "streak=" .. streak)
@@ -270,6 +348,10 @@ local function runCase(c, base)
   local fol = follower()
   F.check(tag .. ": the follower walks behind the player again", fol ~= nil and fol.visible and follower0 ~= nil
     and fol.gfx == follower0.gfx, fol and string.format("gfx=%04X visible=%s", fol.gfx, tostring(fol.visible)) or "none")
+  if c.follow then
+    local slot = F.r8(F.sb2() + S.SaveBlock2.followerSlot)
+    F.check(tag .. ": the chosen follower is still chosen", slot == c.follow, "followerSlot=" .. slot)
+  end
 end
 
 F.run(function()

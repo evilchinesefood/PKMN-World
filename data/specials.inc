@@ -643,8 +643,8 @@ gSpecials::
 	def_special CallTrainerTowerFunc
 	def_special ForcePlayerToStartSurfing
 	def_special SeafoamIslandsB4F_CurrentDumpsPlayerOnLand
-	def_special UpdateTrainerCardPhotoIcons
-	def_special StickerManGetBragFlags
+	def_special UpdateTrainerCardPhotoIcons, target=Special_Unused
+	def_special StickerManGetBragFlags, target=Special_Unused
 	def_special CheckAddCoins
 	@ Keep these rows unconditional so special numbers agree in the ROM and tests.
 	def_special PokevialGetDose

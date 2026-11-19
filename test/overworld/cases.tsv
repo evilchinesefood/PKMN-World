@@ -193,6 +193,7 @@ GoldenrodSceneStress	lua/GoldenrodSceneStress.lua	fresh	0	required
 HubPassLeagueRooms	lua/HubPassLeagueRooms.lua	fresh	0	required
 FrontierSavePowerCut	lua/FrontierSavePowerCut.lua	fresh	0	required
 SaveWritePowerCut	lua/SaveWritePowerCut.lua	fresh	0	required
+SaveGateStress	lua/SaveGateStress.lua	fresh	0	required
 HubWardrobeSprite	lua/HubWardrobeSprite.lua	fresh	0	required
 SummaryDexNumberNoDex	lua/SummaryDexNumberNoDex.lua	fresh	0	required
 PokedexAreaAfterBattle	lua/PokedexAreaAfterBattle.lua	fresh	0	required
@@ -231,6 +232,8 @@ WorldChampionshipFinal	lua/WorldChampionshipFinal.lua	fresh	0	required
 StoryMapIslandTitles	lua/StoryMapIslandTitles.lua	fresh	0	required
 FrontierIneligibleText	lua/FrontierIneligibleText.lua	fresh	0	required
 GoldenrodPrizeClerk	lua/GoldenrodPrizeClerk.lua	fresh	0	required
+GoldenrodNameRaterShelves	lua/GoldenrodNameRaterShelves.lua	fresh	0	required
+GoldenrodElevatorRides	lua/GoldenrodElevatorRides.lua	fresh	0	required
 HofSharedCap	lua/HofSharedCap.lua	fresh	0	required
 CeladonSlotsPrizes	lua/CeladonSlotsPrizes.lua	fresh	0	required
 AlphSlidingPuzzles	lua/AlphSlidingPuzzles.lua	fresh	0	required
@@ -244,6 +247,11 @@ CinnabarFossilNeedsFossil	lua/CinnabarFossilNeedsFossil.lua	fresh	0	required
 PcOwnerName	lua/PcOwnerName.lua	fresh	0	required
 FrontierFacilityStress	lua/FrontierFacilityStress.lua	fresh	0	required
 FactoryRentalStress	lua/FactoryRentalStress.lua	fresh	0	required
+FactoryModesStress	lua/FactoryModesStress.lua	fresh	0	required
+ArenaJudgeStress	lua/ArenaJudgeStress.lua	fresh	0	required
+FrontierFollowerChoice	lua/FrontierFollowerChoice.lua	fresh	0	required
+PikeFollowerChoice	lua/PikeFollowerChoice.lua	fresh	0	required
+PikeChallengeStress	lua/PikeChallengeStress.lua	fresh	0	required
 HofDexNumbers	lua/HofDexNumbers.lua	fresh	0	required
 KurtBallFullBag	lua/KurtBallFullBag.lua	fresh	0	required
 KantoTutorRepeatPrompt	lua/KantoTutorRepeatPrompt.lua	fresh	0	required
@@ -336,3 +344,15 @@ PyramidSummaryRelearn	lua/PyramidSummaryRelearn.lua	fresh	0	required
 KantoPortedScenes	lua/KantoPortedScenes.lua	fresh	0	required
 MrStoneMatchCallGate	lua/MrStoneMatchCallGate.lua	fresh	0	required
 PalaceLobbyCancel	lua/PalaceLobbyCancel.lua	fresh	0	required
+TrimmedJohtoScenes	lua/TrimmedJohtoScenes.lua	fresh	0	required
+LinkEraRemnants	lua/LinkEraRemnants.lua	fresh	0	required
+HofEggRecord	lua/HofEggRecord.lua	fresh	0	required
+InGameTradeSweep	lua/InGameTradeSweep.lua	fresh	0	required
+TrainerTowerLobby	lua/TrainerTowerLobby.lua	fresh	0	required
+CeladonCoinCaseRegions	lua/CeladonCoinCaseRegions.lua	fresh	0	required
+GameCornerOwnedTms	lua/GameCornerOwnedTms.lua	fresh	0	required
+KantoTrainerCardExtras	lua/KantoTrainerCardExtras.lua	fresh	0	required
+ServiceNpcStress	lua/ServiceNpcStress.lua	fresh	0	required
+SecretBaseTerrains	lua/SecretBaseTerrains.lua	fresh	0	required
+TrickHouseOddPaths	lua/TrickHouseOddPaths.lua	fresh	0	required
+MirageOddPaths	lua/MirageOddPaths.lua	fresh	0	required

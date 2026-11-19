@@ -119,6 +119,8 @@ is clean; keep it that way.
 | [`KantoPortedScenes.lua`](#kantoportedsceneslua) | fresh new game | The Viridian school whiteboard explains the condition its cell names, the Pewter gym guide and Jigglypuff scenes play FRLG's songs, and the Route 12 fishing guru's brother calls the record Magikarp the same size: the pokefirered scripts' names mean the same thing here. |
 | [`JohtoPlaceNames.lua`](#johtoplacenameslua) | fresh new game | Goldenrod's coin clerk, the Johto Safari Zone's welcome attendant and Victory Road's Owen name Johto places, not Mauville, Hoenn and Petalburg. |
 | [`GoldenrodPrizeClerk.lua`](#goldenrodprizeclerklua) | fresh new game | Goldenrod's Pokemon prize clerk: her own no-Coin-Case line, refusals at 0 and 119 coins, Abra at exactly 120, no charge for a NO, and a full-party Dratini to box 1 with the PC notice. |
+| [`GoldenrodNameRaterShelves.lua`](#goldenrodnameratershelveslua) | fresh new game | The Name Rater house shelves read as bookshelves and no longer offer a Unique Shiny Colors setting or a Challenge Viewer, neither of which exists. |
+| [`GoldenrodElevatorRides.lua`](#goldenrodelevatorrideslua) | fresh new game | The Goldenrod Department Store elevator to every floor and the basement, the current floor, both cancels, and seeded mashes through the doors and fades. |
 | [`AlphSlidingPuzzles.lua`](#alphslidingpuzzleslua) | fresh new game | All four Ruins of Alph sliding puzzles solved with real input: quit-and-retry, the floor drop to B1F, each reward picked up, and the Kabuto sensor and reward-room door. |
 | [`JohtoHeadbuttTrees.lua`](#johtoheadbutttreeslua) | fresh new game | A Johto tree answers A: the small-tree refusal without the Headbutt flag or a Pokemon that could know Headbutt, then "used Headbutt!" and a wild battle from the map's Headbutt table. |
 | [`JohtoViridianIndigoTiles.lua`](#johtoviridianindigotileslua) | fresh new game | Route 28, Route 26 North and the Johto Indigo Plateau draw pokemonHnS's art, and their window glass is blue by day and amber at night. |
@@ -158,7 +160,7 @@ is clean; keep it that way.
 | [`RevisedHintLines.lua`](#revisedhintlineslua) | fresh new game | The six rewritten NPC and sign lines (Elm, both Goldenrod bike clerks, the 2F youngster, the Radio Tower quiz, the Pallet notice, the Six Island old man) through their real triggers, with the bike gift's refuse, bag-full and accept branches. |
 | [`HatchMetLocation.lua`](#hatchmetlocationlua) | fresh new game | Eggs hatched in Ecruteak and in four Johto sections at or past 0xFD record the right met location, summary memo and Protein friendship bonus; no bonus for a special area, even in the Hub 2F; gifts there read SPECIAL AREA; an OT that is a prefix of a seven-letter player name is an outsider (EXP, obedience, memo). |
 | [`RelearnerLongLearnset.lua`](#relearnerlonglearnsetlua) | fresh new game | Fallarbor's relearner lists all 29 of Gallade's and 24 of Zangoose's relearnable moves, scrolls to both ends, survives a mash and teaches the last one into a full moveset. |
-| [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Fourteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
+| [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Nineteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
 | [`BattleNetShardEdges.lua`](#battlenetshardedgeslua) | fresh new game | The Battle Net BP clerk, stone vendor and Director at short, exact and full-pocket balances, and menu mashes that must conserve BP and shards. |
 | [`IndigoVictoryRoadExits.lua`](#indigovictoryroadexitslua) | fresh new game | Victory Road's top exit and the league town above it join both ways on foot in Johto, Kanto and Hoenn; the Johto Indigo Plateau's south stairs lead down Route 23 to the cave mouth. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
@@ -186,7 +188,10 @@ is clean; keep it that way.
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
 | [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
+| [`LinkEraRemnants.lua`](#linkeraremnantslua) | fresh new game | No reachable tile, NPC or daily line still offers the retired link features (the Johto gym-sign doorsteps, the Frontier Maniac's daily rotation, the Route 114 berry man), and the kept records boards open and close. |
 | [`RefuseOldSave.lua`](#refuseoldsavelua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
+| [`TrimmedJohtoScenes.lua`](#trimmedjohtosceneslua) | fresh new game | The hub Curator, Mr. Pokemon's egg scene, Olivine's ticket woman, the S.S. Aqua cabin bed and the Safari Zone Gate incense clerk under seeded mashes, after 5ac8745870 cut their dead branches. |
+| [`SaveGateStress.lua`](#savegatestresslua) | fresh new game | Forged flash images (older, newer, damaged) each get their own main menu verdict, and NEW GAME over a refused cart replaces it cleanly, power cuts included. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
 discrimination check was run it is recorded in the entry. (The other tier the harness
@@ -737,6 +742,39 @@ The sweep runs this suite against two raw 128 KiB flash images. Each must reach 
 
 When a release requires a clean save, raise the layout floor and capture a refusal fixture on the outgoing build before changing it. Preserve the historical fixture hashes in NativeRunner.
 
+### `SaveGateStress.lua`
+
+Save format v14's load gate, played through the main menu. A fresh game saves twice in the hub and
+its own flash bytes are forged into images, which the suite swaps into the cartridge with
+`client.loadsave` (a `mgba_shim.lua` wrapper for mGBA's `loadSaveFile`) before a reset. Each
+image must get its own load status, version refusal, error window and menu rows: intact (OK), the
+newest slot with a bad checksum, a cleared signature, the wrong counter parity, a duplicated sector
+or a damaged PC sector (the previous save loads), both slots damaged (erased), all 0x00 and all
+0xFF (blank), a damaged Hall of Fame (OK), the version byte above `SAVE_FORMAT_VERSION` (newer), a
+v13 slot newer than the v14 one (older) or older than it (OK), and the tracked v3 and v13 images
+(older). Alternate cases page the error window with screenshots; the rest mash it with A, B,
+Start and Select. Surviving slots Continue onto their own tile. Then NEW GAME over refused carts:
+text speed set on the title Options of a refused v13 cart reaches the new game, whose first save
+loads cleanly; a v3 cart saved twice; a v3 cart saved once with its first save cut between each
+pair of sectors; and a power cut in a normal v14 save, which must load the save before it.
+
+Two bugs. A v3 cart saved twice kept its other slot through the new game's first save, and that
+old layout fails today's chunk checksums, so the next boot said "The save file is corrupted. The
+previous save file will be loaded." A v3 cart saved once has counter 1 at rotation 1, and a cart
+refused through `IsIntactOlderSlot` restarts at counter 0, so the new game's first save used the
+same counter and rotation: a cut after sector 4 left a slot that validated with the old PC
+sectors, loaded as OK, and Continue showed the old cartridge's box wallpaper. The first save of a
+new game now erases both slots when the cartridge was refused. A reset at a frame edge reaches the
+gap between two sectors only when the sector timing lines up (a probe reproduced it at frames 90,
+91, 109, 127, ..., 235 of a 253-frame write), so the suite rebuilds each such cut from the
+cartridge's own flash: the image at the write's first frame plus the sectors written before the
+cut. Measured **52/52** fixed and **49/52** on the unfixed ROM (the twice-saved reboot, and cuts
+after sectors 4 to 12 loading with the old wallpaper).
+
+The refusal messages also lost their warning. "will erase this save file." was a third row in the
+two-row window, so it never drew; `ValidateTextWidth.py` now checks the main menu's save-error
+strings and caught both.
+
 ## Host-side validators
 
 `python3 test/validate-host.py` directly runs the current Python/content validators and the
@@ -1067,6 +1105,40 @@ the forced-switch key on the party screen, RUN where running is an allowed outco
 keys) and logs how long they took: 167 to 240 frames to the field each time. A first try with fight
 keys alone left a level 50 debug party pressing A on whatever move the mash had selected, never
 damaging the 1 HP foe. Measured **331/331** at `PW_DBL_SEED` 0, 1, 777, 48879 and 65537.
+
+Potion foes (stress pass 10). At `PW_DBL_SEED` 2718281 "potion then cancel partner" scored 326/331.
+The refund had passed (Bag at 3 after the partner's B). The left Zigzagoon is held at 5 HP through
+the FIGHT turn after the cancel, and the wild Wurmple and Zigzagoon fainted it there, so it never
+got the menu to pick the Potion again. The trace shows the battle still turning: Magikarp Splashed
+until its 40 PP ran out, then Struggled, until the 20,000-frame budget ended. The wild pair are now
+level 3 Magikarp, which know only Splash, so no damage roll decides the scenario, and the heal is
+asserted exact (5 to 25 HP). Two game mutations in the partner-cancel refund
+(`HandleInputChooseAction`) each fail two potion checks, 329/331 at seed 2718281: refunding two
+Potions (Bag 4 after the cancel, 3 at the end) and refunding none (2, then 1). Measured **331/331** at `PW_DBL_SEED`
+2718281, 7919, 104729, 4242, 65537 and 1618033.
+
+Fixed-turn faints (stress pass 10). At `PW_DBL_SEED` 8675309 on the integrated build "both faint in
+one turn" scored 327/331. A per-turn HP trace showed a suite fault. In the first turn the wild
+Zigzagoon used Growl, so only one Magikarp fell. The game asked for its replacement, as it did after
+each later faint while a bench Pokemon remained. HP top-ups do not undo Howl and Tail Whip, so after eight turns a
+Tackle knocked out a full-HP bench Pokemon and the battle was lost. Both Magikarp now faint
+themselves with Final Gambit in the first turn against Magikarp that only Splash, and the refill
+check wants two different bench slots. The same audit took four more scenarios off a wild Pokemon's
+move choice: the left Pokemon faints itself with Final Gambit in "forced switch from the fainted
+Pokemon's box" and "right-hand Pokemon levels and evolves alone" (both against Splash-only
+Magikarp), "catch by the right-hand Pokemon" and the second half of "instant run shortcut in a
+double". In scenario-only runs each fails under a game mutation of what it guards: no replacement
+when both player battlers are down (`HasNoMonsToSwitch`), 7/12; Cancel on the forced-switch box
+leaving input on the closed box (`CursorCb_Cancel1`), 8/12; the R ball shortcut throwing only from
+the left battler, 6/11; B on the right-hand menu always cancelling to the absent left battler, 14/17;
+the EXP update dropped while battler 0 is absent (`Cmd_getexp`), 10/13. Unmutated they score 12/12,
+12/12, 11/11, 17/17 and 13/13. Left as they were: the mashes (seeded on purpose, every outcome
+allowed), the Poke Ball catches (each shake result is an allowed outcome), "white out in a double"
+(Beldum knows only Tackle, so both 1 HP Magikarp fall within two turns), the one-usable, Bag and run
+scenarios (a wild Sand Attack only delays a win the held HP guarantees, and the runner always
+outspeeds the foe it runs from) and "trainer double down to one" (with Geodude forced onto Rollout,
+Caterpie still survived, 21/21). Measured **331/331** at `PW_DBL_SEED` 8675309, 2718281, 104729,
+31415, 7919, 4242, 65537, 1618033 and the default.
 
 ### `BugContestFullPC.lua`
 
@@ -1737,10 +1809,11 @@ salesman (500); Safari Zone entry in Kanto, Hoenn and Johto (500 for Safari mode
 zone); every drink in the Lilycove and Celadon vending machines (200, 300, 350); the Route 109
 Seashore House Soda Pop (300); the Mt. Chimney Lava Cookie (200); the Slateport and Pewter museum
 fees (50); the Mahogany RageCandyBar merchant when talked to and when he stops the player (300);
-Route 39 Moomoo Milk (500, where a second bottle meets the emptied wallet); the Celadon photo
-printer (50) and all three coin desk rows (1,000, 10,000, 100,000); and the Goldenrod haircut
+Route 39 Moomoo Milk (500, where a second bottle meets the emptied wallet); all three Celadon coin
+desk rows (1,000, 10,000, 100,000), with the COIN CASE in the Bag; and the Goldenrod haircut
 brothers by day and by night (500, 300). The Route 43 toll, the Hub mart and the Mauville coin desk
-are covered by `Route43Toll` and `EconomyStress`. Measured **405/405**; no defect found. With the
+are covered by `Route43Toll` and `EconomyStress`. The Celadon photo printer is out of order
+(`KantoTrainerCardExtras`). Measured **389/389** (405/405 while the printer still charged); no defect found. With the
 Magikarp salesman's `checkmoney` lowered to 499 the suite failed on that sink alone, **402/405**:
 499 bought a Magikarp and left 0, and that extra Magikarp filled the party so the comfortable
 purchase went to the PC. `--env PW_SINK_ONLY=<text>` runs matching sinks (`daycare`, `safari`).
@@ -2863,6 +2936,28 @@ Mauville's coin-desk refusal ("Okay, you wanted some COINS for the games?..."), 
 then with one: 0 and 119 coins must refuse Abra and keep the coins, exactly 120 must buy it, a NO at
 "is what you want?" must charge nothing, and with a full party a Dratini must cost 5,500 and go to
 box 1 with the PC notice. **28/30** on the unfixed ROM, **30/30** with the fix.
+### `GoldenrodNameRaterShelves.lua`
+
+The two bookshelves in Goldenrod's Name Rater house asked "Would you like to toggle the Unique Shiny
+Colors setting?" and on YES said "Shiny Colors Toggled! View your setting at the CHALLENGE VIEWER at
+any PC." pokemonHnS wired them to its randomizer's `ToggleShinyColors`; this game has neither the
+setting nor a Challenge Viewer, the special was a no-op stub, and the legacy-content removal deleted
+the call but kept the offer. With real input the suite reads each shelf from the floor below it,
+answers YES to any Yes/No box, reads the right shelf again at Instant text, and requires every line
+to be the shared bookshelf text with control returned. Measured **5/14** on the unfixed ROM (and on
+the pre-removal ROM), **14/14** with the fix.
+### `GoldenrodElevatorRides.lua`
+
+The Goldenrod Department Store elevator, which no suite rode. Every floor's (9,5) trigger and the
+basement's (10,7) run one shared script, and each floor's ON_FRAME table walks the player out while
+`VAR_ELEVATOR` is 1. With real input the suite rides from 1F to 6F, the basement and back up, picks
+the floor it is on, cancels from the list and with B, and mashes seeded keys (`PW_SEED`) through the
+doors and the warp fade. Each ride must open the floor list, land on the chosen floor below its door
+(the basement's is at (10,8)) and return control with no crash screen. A plain warp onto 4F
+afterwards must leave the player where it put them. No defect found: **62/62** on the current ROM
+for seeds 1 to 3 and on the pre-removal ROM. **Discrimination:** with the exit script's
+`setvar VAR_ELEVATOR, 0` deleted, the exit walk re-runs every time it ends, the first ride stops 66
+tiles below the 6F door, and the suite scores **6/18**.
 ### `HofSharedCap.lua`
 
 The Hall of Fame records are one save buffer that two induction screens and two PC viewers share:
@@ -3033,6 +3128,81 @@ rentals must replace the party, the swap must change the first party slot by the
 the challenge must end with the party byte-identical, streak 7, 3 BP and the follower back. A soft
 reset on the swap screen with no save must end the streak with the party restored and no BP.
 Measured **26/26**; no defect found.
+### `FactoryModesStress.lua`
+
+The Battle Factory's other modes on the `FrontierFacilityStress` driver: a Lv. 50 doubles challenge
+that answers NO to every swap offer until the one before the seventh battle, and an Open Level
+singles challenge with a Rest and Continue after the first win. Both rent three Pokemon and win all
+seven battles with real input (the driver now steers both of the player's battlers in a double).
+Each must end in the lobby with the party byte-identical, the frontier status cleared, the mode's
+own streak at 7 (doubles `factoryWinStreaks[1][0]`, Open `[0][1]`), its first Battle Point award
+(doubles 4, singles 3) and the follower back; the doubles swap must land after battle 6 and change
+the first party slot by battle 7. Measured **27/27**; no defect found.
+
+### `ArenaJudgeStress.lua`
+
+Battle Arena Lv. 50 challenges on the `FrontierFacilityStress` driver where matchups run their
+three turns to the referee. In judge mode every battler is held at full HP instead of putting the
+foes at 1 HP, so Mind, Skill and Body decide; the judgments fall where the AI and the referee put
+them, and the challenge ends at the first lost battle or the seventh win. The second case runs at
+Instant text speed. The third (`judge = "weak"`) holds only the foes, so the player's Pokemon take
+damage, lose judgments, faint and are replaced through the in-battle party screen. Judgments are
+counted from `gBattlescriptCurrInstr` inside `BattleScript_ArenaDoJudgment` and its two losing
+branches, and the judgment window and the text box after `erasearenareftextbox` are screenshotted.
+Each case must end in the lobby with the party byte-identical, the status cleared, the streak equal
+to the battles won, Battle Points only for a won challenge, the follower back, and at least one
+judgment per battle on average. Measured **29/29** (one run: 7 wins with 12 judgments and 4 draws;
+7 wins at Instant text; a weak run of 3 wins, one lost judgment, then a lost battle); no defect
+found, and the screenshots show the SwSh referee box and the restored battle box intact.
+
+### `FrontierFollowerChoice.lua`
+
+The Pokemon the player chose with the party menu's Follow must still follow after a Battle Arena or
+Battle Factory challenge. `SaveBlock2.followerSlot` names a party slot and `GetFollowerSlot` tracks
+the chosen Pokemon's identity, but it treated the Frontier's stand-in party (the three entered
+Pokemon, or the rentals) as the real one: the chosen Pokemon was missing from it, so the choice was
+cleared, and the lobby's restored party then followed its lead. Setup writes `followerSlot = 4`
+(Pikachu, as after a Continue) on the shared driver's base party; the challenge enters Charizard,
+Blastoise and Venusaur (or rents three), wins one battle and retires through the real menus.
+After the lobby restores the party, Pikachu must walk behind the player and `followerSlot` must
+still be 4. Measured **15/19** unfixed (both cases: Charizard follows, `followerSlot=0`) and
+**19/19** fixed.
+
+### `PikeFollowerChoice.lua`
+
+The same follower choice through Battle Pike challenges, on the shared driver `pike_challenge.lua`
+(see `PikeChallengeStress.lua`). `open_follower` does not enter the chosen Pikachu, so it is missing
+from the party for the whole Open Level challenge. `pause_resume` picks Pikachu first, so the
+stand-in party holds it in slot 1 and `GetFollowerSlot` moved the index there; after the second room
+the three-path attendant's save and quit loads the real party and writes it, and the saved index
+then named the real party's slot 1. Continue must resume the challenge in the three-path room with
+the paused save holding all six Pokemon. Both cases then play all seven rooms and must end with
+Pikachu following and `followerSlot` back at 4. Measured **24/28** unfixed (`open_follower`:
+`followerSlot=0`; `pause_resume`: `followerSlot=1`, Charizard follows) and **28/28** fixed. A tamper
+build without `SyncFollowerSlotForSave` fails only `pause_resume` (26/28).
+
+### `PikeChallengeStress.lua`
+
+Full Battle Pike challenges with real input, on the shared driver `pike_challenge.lua`. Setup gives
+six distinct Lv. 50 Pokemon with distinct held items on the entered three (Leftovers, Quick Claw,
+Shell Bell, and a Lum Berry on the fourth). Each case takes the challenge at the lobby attendant
+(party screen steered by `gPartyMenu.slotId`, save), then walks a seeded door in each three-path
+room by a breadth-first path over the layout walls and the live object tiles, and lets each room's
+own script run: single, double and hard battles, the full and partial heal rooms (the partial one is
+talked to), the status room, the wild grass and the Pike Queen. The entry rows whose coord events
+turn the player back are walkable only before the room is entered, and the field counts as free
+when the script context is not running (a grass battle leaves it waiting). Battles are won on the
+real move menu with the foes at 1 HP. `lv50_doors` plays seven rooms; `queen` starts from the streak
+one won challenge leaves (14, streak flag set), so the seventh room is Lucy's; `reset_in_room` soft
+resets with no save after the second room, with the chosen follower entered second. A played-out
+case must end in the lobby with control, seven rooms played, the party byte-identical (held items
+included), the status cleared, the streak up by 14, the record and total updated, the award added
+(1 BP, or 11 with the Queen) and the follower back; the Queen must give the silver symbol. The reset
+must Continue in the lobby, whose attendant ends the challenge as unsaved: party byte-identical,
+streak 0, record, total and Battle Points unchanged, and the chosen follower still chosen.
+Measured **38/38**; no defect found. `--env PW_PIKE_SEED=<n>` reseeds the doors and `--env PW_PIKE_TRACE=1` logs the field
+state every 2,000 frames.
+
 ### `HofDexNumbers.lua`
 
 The "No." line in both Hall of Fame PC viewers. The National Pokedex is switched on by the special
@@ -3652,7 +3822,30 @@ passable block, and a shown follower stands next to the player on a passable blo
 spin-tile follower freeze (`SpinTileFollowerMenu`, #645): master `d3b55bb` scores **26/27** (the
 game frozen in Viridian Gym) and the battery stops there; with the fix it scores **82/82**. It also
 found a follower left standing in a Mauville Gym barrier that a switch turned on behind the player
-(`MauvilleGymFollowerBarrier`); that case now fails like any other walled follower. Manual because the noise makes the route a function of every frame count, so any
+(`MauvilleGymFollowerBarrier`); that case now fails like any other walled follower. Each location
+ends by waiting up to 30,000 frames for the field with control. It presses B to close what is open
+and presses A only after three B presses have changed nothing. The old wait (8,000 frames, A on every
+fourth press) failed games that were still running. With `PW_CHAOS_BASE=104729` the walk met Rose and
+Deandre's double on Route 118 on its last step, and the battle needed 8,477 frames to hand back the
+field. The old wait ran out in Rose's defeat text (**81/82**, the pre-removal ROM too). The longer
+wait alone scores **82/82**, and freezing the text printers once that battle is won still fails the
+check. Elsewhere the A cadence locked into a 120-frame loop: A opened the Bag from the start menu, B
+closed it, and the next B fell in the fade before the start menu came back. The default seed scored
+**81/82** (Silph Co) and `PW_CHAOS_BASE=31337` **78/82**. With both changes the default seed, 104729,
+7 and 31337 all score **82/82** on master `ab414c43dd`. On the pass-10 integration ROM
+`PW_CHAOS_BASE=1618033` scored **81/84**: the walk left Sky Pillar 1F onto the outside door at (14,5)
+while the door was still closed (`MB_SKY_PILLAR_CLOSED_DOOR`, a solid block), because the debug warp
+into the pillar skipped `FLAG_WALLACE_GOES_TO_SKY_PILLAR`. In the game the Cave of Origin sets that
+flag before anyone can enter, and the door opens on load from then on, so the setup now sets it.
+Replayed from its savestate with only that flag set, the location walks out through the open door and
+passes. `PW_CHAOS_BASE=99991` scored **81/83**: the walk ended on Route 6 just after a ledge jump,
+with the follower on the ledge top two tiles back. The follower waits there until the player's next
+step and then jumps the ledge, as in pokeemerald-expansion, so the check now accepts a follower two
+tiles straight back across a ledge that jumps toward the player. From that frame it still fails a
+follower frozen there through the next step, one on the ledge tile, one two tiles along the row and
+one three tiles back. With both changes the default seed, 104729, 7, 31337, 1618033, 99991 and
+8675309 all score **82/82** on that ROM. Manual because the noise makes the route a function of
+every frame count, so any
 build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
 `PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
 one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.
@@ -4048,6 +4241,15 @@ seeds 1, 2 and 3; no defect found. Against a ROM with `src/sliding_puzzle.c` rev
 ce646ce30b it scores **76/100**: all four boards rotate the cursor sprite on an A+R or A+L placement
 (found at inputs 63 to 121 of seed 1), and all four count the last tile placed with A+B as solved.
 
+The solver drops a tile knocked out by a swap on a free edge slot, and on any free slot when the
+edges are full. The Ho-Oh board starts with all eight edge slots taken. Before that fallback, a solve
+whose first pick was slot (3,2) lifted tile 14 from (0,2), swapped it for tile 5 and had nowhere to
+put 5, so the solve and its four follow-on checks failed at 95/100. That hit about one seed in five
+(seeds 7, 27 and 104729 among them), on master and on the pre-removal tree `5ac8745870^` alike. A
+board dump at seed 104729 showed a consistent game, with 15 tiles placed, tile 5 in hand and nine
+middle slots empty. With the fallback, seeds 1, 2, 3, 7, 27, 7919, 104729 and 2718281 score
+**100/100**. Against the same reverted ROM, seeds 1 and 104729 still score **76/100**.
+
 ### `RevisedHintLines.lua`
 
 The six NPC and sign scripts whose lines ce646ce30b rewrote, each driven through its real trigger
@@ -4130,20 +4332,28 @@ the flag and moves them aside. **Discrimination:** unfixed 14/16 (admitted at si
 Pokémon arrivals with six in the party and all 420 box slots full, through each giver's own script:
 Castform, Beldum, Devon's Lileep, Birch's Cyndaquil, the Lavaridge Egg, the Silph Lapras, the Route 4
 Magikarp sale, the Celadon Eevee, the Dojo Hitmonlee, the Cianwood Tentacool, Kiyo's Tyrogue, the Ruins
-of Alph Kabuto, the Goldenrod Abra prize and Elm's aide's Togepi Egg. `AuditCapacity.py` proves each
+of Alph Kabuto, the Goldenrod Abra prize, Elm's aide's Togepi Egg, Devon's Anorith, the Ruins of Alph
+Aerodactyl, the Cinnabar Lab's Omanyte, the Dragon's Den elder's plain Dratini (a missed quiz answer)
+and the Five Island Water Labyrinth Togepi Egg. `AuditCapacity.py` proves each
 script tests its result; this plays the path it cannot see. Setup gives six Pokémon with `createmon`,
 fills the boxes with debug Fill PC Boxes Fast, seeds the story state each giver waits on and warps next
 to the giver; facing the giver, every press is real input. Each giver is talked to with A answering
 every prompt and under a seeded mash (only while the script runs), at Instant and Mid text: the giver
 must say there is no room, give nothing, record nothing, leave its ball on the table, take no money or
-coins, hand control back with a walkable field, and leave every party and box slot byte for byte. Then
+coins, hand control back with a walkable field, and leave every party and box slot byte for byte. The
+Cinnabar scientist wanders, so he is talked to whenever he stands next to the player; the Water
+Labyrinth gentleman starts from `FLAG_NO_ROOM_FOR_TOGEPI_EGG`, the state his own refusal leaves, so
+the lead's friendship check is skipped. Then
 one box slot (a party slot for the Eggs) is freed and the gift taken with YES to the nickname and one
 letter typed: it must land in that slot, once, as the right species, with the letter in its nickname
 and no other slot changed. Before the Magikarp, the Route 4 Center's PC is switched on and off, which
 leaves `VAR_0x8004` at `PC_LOCATION_OTHER`. The Magikarp's PC branch opened the nickname screen without
 naming its target, so it renamed party slot `VAR_0x8004` ("Pidgey's nickname?") and the boxed Magikarp
 kept its name; with any other leftover above 5 it wrote the name past the party. **492/494** on the
-unfixed ROM (both Magikarp naming checks), **494/494** fixed. `ValidateConfigRules.py` now fails a
+unfixed ROM (both Magikarp naming checks), **494/494** fixed. With the five later givers the suite runs
+**663/663** on the v14 ROM (no defect found). A mutant build that drops each new giver's refusal branch
+(the `NoMoreRoomForPokemon` jump, or the Water Labyrinth party-size test) fails 33 of their 189 checks:
+the gift recorded with storage full and no refusal line, in every accept and mash run. `ValidateConfigRules.py` now fails a
 script that opens the nickname screen without setting `VAR_0x8004`. `PW_CAP_ONLY=<text>` runs matching
 givers, `PW_CAP_SEED=<n>` reseeds the mashes.
 
@@ -4504,3 +4714,215 @@ both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks
 party-restoring cancels fail.
 Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
 with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.
+### `TrimmedJohtoScenes.lua`
+
+The reachable Johto and hub scripts whose bodies 5ac8745870 rewrote and that no other suite plays.
+`test/overworld/ScriptRemovalDiff.py 5ac8745870^ 5ac8745870` lists every surviving label whose body
+changed, every removed label, macro, flag, special and opcode with its uses in scripts the old tree
+could reach, and the map event changes by index; with `--elf` it resolves `gScriptCmdTable` and
+`gSpecials` by index on two builds. Each cut branch sat behind a stub that returned FALSE, a flag
+nothing sets, or state a new game cannot hold. The suite plays what is left with real input and a
+seeded mash (`PW_TRIM_SEED`): the Curator twice after the declined arrival tour (control returns,
+one Hub Pass unless the mash replays the tour, the guide is home at (22,7), the tour flag stays set);
+walking into Mr. Pokemon's house with `VAR_CHERRYGROVE_CITY_STATE` 1 (one Mystery Egg, the egg and
+Pokedex flags, Cherrygrove 2 and lab 4); Olivine's ticket woman for a Kanto champion (one Aurora
+Ticket and the Birth Island ship flag, nothing more on a second talk); the S.S. Aqua cabin bed (a
+Pokemon at 1 HP is healed); the Safari Zone Gate incense clerk (the BUY list opens, B leaves, money
+unchanged). Every scene ends with a walkable field. **Discrimination:** no defect was found, so
+there is no unfixed build. The same suite on the pre-removal ROM (run from a worktree at
+`5ac8745870^`, whose own `GenLuaSymbols.py` matches its SaveBlock3 layout) and on master scored
+32/32, 35/35 and 35/35 for seeds 1, 77 and 31337 on both builds; seed 1 replays the tour on both.
+### `LinkEraRemnants.lua`
+
+Link-era features retired by the single-player merge, reached through every entry point the player
+still has. The floor tile in front of the Olivine, Cianwood, Mahogany and Blackthorn gym signs is a
+pokemonHnS metatile tagged `MB_CABLE_BOX_RESULTS_1`, the Cable Club's results monitor, so pressing A
+at it opened the LINK BATTLE RESULTS table on the street. The suite walks up to each tile and presses
+A, then steps onto it and reads the sign as the positive control. The Frontier Maniac in Lounge 2
+names one Battle Tower mode or facility per day; nine real `UpdatePerDay` runs (VAR_DAYS one behind
+the clock at each map load) and nine talks follow his rotation from Battle Tower MULTI. The Route 114
+berry man gives his daily berry. The records boards kept for the retired minigames and link modes
+(Pokemon Jump and Dodrio Berry Picking at Mossdeep, the Berry Crush rankings at Slateport and
+Cerulean, the Lilycove blender speed and link contest boards) each open from their sign; their
+viewers were cut down in 5ac8745870 and their specials wait on the window task. **Oracle:** `gStringVar4` across each talk: no WIN/LOSE/DRAW table at
+the doorsteps and the sign text behind them; no MULTI-LINK day and every other mode named once in nine
+days; a berry and no BERRY CRUSH; each board takes control and gives it back. Every talk hands control back, the field is walkable and no crash
+screen appears. PW_SEED reseeds the mash and PW_TEXT picks the text speed. **Discrimination:**
+unfixed 109/116 (four link tables, the MULTI-LINK day and its missing rotation slot, the BERRY CRUSH
+line), fixed 116/116. The doorstep, maniac and berry man checks also measured 92/92 fixed at seeds 7,
+31337 and 99 across mid, fast and instant text and three clocks. The board checks pass on both builds; a
+tamper control that empties `ShowPokemonJumpRecords` leaves the Mossdeep board's script waiting and
+fails 114/116.
+
+### `TrainerTowerLobby.lua`
+
+The Sevii Trainer Tower lobby, closed for renovations. Its time board ran `ShowTrainerHillRecords`
+with `VAR_0x8004` 1, and that special's Trainer Tower branch (`PrintTrainerTowerRecords`) is
+compiled out, so reading the board faded to an empty records frame. The board's sign event, its
+script and the dead branch are gone; Route 111's Trainer Hill board keeps the records screen. The
+suite walks in through the Seven Island door with a fainted lead and 0 money and plays every lobby
+event with real input under a seeded mash of A, B, Start, L, R and the D-pad (never Select): the
+board must open no blank records screen (window 0's ink after the fade), the entry trigger must
+walk the player back below the counter, the nurse must heal across her counter, the clerk's mart
+must take nothing from an empty wallet, the floors stay sealed and the door returns to Seven Island.
+Control: the Trainer Hill board still prints its TIME BOARD (6,373 inked pixels). Unfixed **27/28**
+(the blank board, also on the pre-removal ROM), fixed **28/28**. `PW_TOWER_BASE=<n>` reseeds.
+
+### `HofEggRecord.lua`
+
+A Hall of Fame team with an Egg and a fainted Pokemon, after 5ac8745870 retired the loader that
+rewrote an older build's Egg value (Classic Cap Pikachu) and folded both induction screens' record
+loading into one condition. The party is a level 70 Mewtwo, a Togepi Egg from `giveegg` and a level
+30 Pidgey at 0 HP. Each region's room script inducts it under a seeded mash until the soft reset;
+Continue must return the same three members, the Egg still an Egg, and the game clear heals Pidgey
+as in Emerald (it is knocked out again before the next induction). HALL OF FAME is then opened at
+the Viridian PC (Kanto viewer) and the Oldale PC (Emerald viewer) with real input: three records of
+Mewtwo, the Egg and Pidgey, the Egg recorded as `SPECIES_EGG` rather than Togepi, and on every
+record's Egg page window 0's "No." line is blank while Mewtwo's and Pidgey's print one. A soft reset
+inside the viewer must Continue at the last save (New Bark Town) with the party intact. Coverage; no
+defect found: **48/48** on master and on the pre-removal ROM. A tamper build of the pre-removal tree
+(its induction code matches master) whose inductions store
+`MON_DATA_SPECIES` instead of `MON_DATA_SPECIES_OR_EGG` scores **41/48**: the Egg is recorded as
+Togepi and all six Egg pages print a "No." line.
+`PW_HOFEGG_BASE=<n>` reseeds.
+
+### `InGameTradeSweep.lua`
+
+Every in-game trade through its own NPC: four in Hoenn, nine in Kanto (the table 5ac8745870 trimmed
+to the FireRed rows) and four in Johto. Each case warps beside the trader with Magikarp, an Egg of
+the requested species, two Magikarp, the requested species and a Magikarp. With real input it
+declines once, offers the Egg, offers a Magikarp, then offers the requested Pokemon and mashes A, B,
+Start, L, R and the D-pad through the trade scene. Kanto's traders pick from the party menu; the
+`ingame_trade` macro's pick from the storage screen's party column (`OW_CHOOSE_FROM_PC_AND_PARTY`),
+steered by `sCursorArea` and `sCursorPosition`. Declining and both wrong offers must leave the party
+and the trade flag untouched; the trade must put the promised species in slot 5 with a valid
+checksum, keep the other five members (the Egg still an Egg), set the flag and return control; a
+second talk must open no picker. Coverage; no defect found: **324/324** on master (the
+pre-removal ROM passed all 307 checks the suite had before its per-case control check). A tamper build of the pre-removal tree (its trade code matches master) without
+`GetTradeSpecies`'s Egg check scores **8/27**: Seedot's
+trader takes the Egg, control does not come back within 600 B presses, and the later cases
+cannot start.
+`PW_TRADE_ONLY=<text>` runs matching trades; run it with `--env PW_MAX_FRAMES=2000000`.
+
+### `CeladonCoinCaseRegions.lua`
+
+The Celadon Game Corner with a COIN CASE from another region. The player finds the case in the
+Goldenrod Underground with real input and never meets the Celadon restaurant man; only the wallet
+and the coin balance are seeded. The coin clerk must sell 50 coins for 1,000, refuse an empty wallet,
+fill a 9,990-coin case charging only for the 9 coins that fit (180), refuse a full case and a wallet
+one short of 5,000 coins' price, and survive a seeded mash (`PW_COIN_SEED`, default 10) in which
+every coin gained costs exactly 20. A hidden coin spot must pay 10, the fisher 10, slot machine 5 must
+start, and the Pokemon, TM and item prize clerks must open their lists (Abra is bought for 180).
+Every talk hands control back with no crash and a walkable field. Every Celadon coin service checked
+`FLAG_GOT_COIN_CASE`, which only the restaurant man sets, so a Hoenn or Johto COIN CASE was told
+"You don't have a COIN CASE." **Measured:** unfixed **24/32** (clerk, edge fill, hidden coins, fisher,
+slots and all three prize clerks refused); fixed **32/32** at seeds 10 and 31337, and at seed 4242
+with a night clock (`--rtc 1704171600`).
+
+### `GameCornerOwnedTms.lua`
+
+TM prizes the player already owns at the Mauville, Goldenrod and Celadon TM counters. TMs are
+reusable and important here, so a second copy can never be used, sold or tossed, and the Poke Mart
+already marks an owned TM SOLD OUT. With the Coin Case seeded (and the restaurant flag set) and real
+menu input, each counter's first purchase must take the coins and add the TM, a second request for
+the same TM must keep the coins and the count, and a seeded mash with a full case (`PW_TM_SEED`,
+default 7) may spend coins only on TMs the bag did not hold, at their prices, one copy each.
+**Measured:** unfixed **19/25** (each counter charged 1,500, 3,500 or 4,000 coins for a second copy,
+and the mash bought duplicates); fixed **25/25** at seeds 7, 31337 and 99 (seed 99 bought a new
+TM35 in Mauville for 4,000).
+
+### `KantoTrainerCardExtras.lua`
+
+The two Kanto NPCs that promised something on the Trainer Card. This game's card is always the
+Emerald card, which draws neither FRLG's party photo icons nor its stickers, yet Celadon's POKéMON
+PRINTER charged 50 for "a print of your POKéMON on the back of your TRAINER CARD" and Four Island's
+sticker man said "The HALL OF FAME STICKER was applied to the TRAINER CARD." Each is played with real
+input (one Hall of Fame entry seeded for the brag), then the card is opened from the Start menu and
+flipped. **Oracle:** the printer may charge only if the card back draws icon tiles (BG3 224 to 319),
+and the sticker man may announce a sticker only if the back draws one (BG3 320 to 331); both talks
+must hand control back. **Measured:** unfixed **6/8** (charged 50 with 0 icon cells; the sticker
+line printed with 0 sticker cells); fixed **8/8**, also with a night clock.
+
+### `ServiceNpcStress.lua`
+
+The service NPCs that inspect and change a Pokemon, in all three regions, with real input at Instant
+text: Hoenn's Fury Cutter and Rollout tutors and Kanto's Seismic Toss tutor, the Lilycove, Fuchsia and
+Blackthorn Move Deleters, the Fallarbor, Two Island and Blackthorn Move Relearners, and the Slateport,
+Lavender and Goldenrod Name Raters. Mew comes from the debug Give menu with its moves, PP, PP Ups, OT
+and nickname written into the party or a PC box; fees come from an additem script. **Tutors** teach
+into a full moveset over a Psychic with three PP Ups (16 PP), over a Metronome with no PP left, and
+for a boxed Mew picked in the storage chooser; **relearners** over the same Psychic. **Deleters:** NO at
+the offer, B in the chooser, an Egg, a one-move Mew, B mashed on the move list, NO at the final
+question, deleting the second move, deleting Surf (an HM: all three source games and
+`P_CAN_FORGET_HIDDEN_MOVE` allow it), and in Lilycove a boxed Mew. **Name Raters:** the Egg, NO to a
+better name, a twelve-letter nickname, an empty one, and a Mew traded in from another OT, which
+Slateport and Lavender refuse and Goldenrod offers to rename (pokemonHnS commented that check out).
+**Oracle:** the new move has its base PP and that slot's PP Ups are cleared; a deleted move's
+followers move up with their own PP and PP Ups; the nickname bytes, all twelve, are the typed ones and
+an empty entry keeps them; exactly one fee is taken; every other slot keeps its moves, PP, PP Ups,
+nickname, OT and checksum; the NPC printed the expected lines; no crash; control returns.
+**Discrimination:** the Hoenn tutors resume their learning task after the summary screen
+(`Task_ReturnToFieldWhileLearningMove`, `src/field_specials.c`), and the resumed task lost
+`tRecoverPp`, so `LearnMove` kept the forgotten move's PP whenever it was not above the new move's
+base PP. Unfixed 411/414 (Fury Cutter 16/20, Rollout 0/20, the boxed Mew's Fury Cutter 16/20), fixed
+414/414. The Kanto tutor (party menu, `SetMonMoveSlot`) and the relearners (which set the bit on every
+init) are the controls and pass both ways.
+### `SecretBaseTerrains.lua`
+
+Secret bases in the red, brown and yellow caves (SecretBaseMoveStress covers the blue cave, the tree
+and the shrub), with the debug lead out as a follower throughout. The Route 118 red cave base is made
+with SECRET POWER chosen from the SwSh party menu, a path no suite drove; the PC's top menu must hold
+three rows (no REGISTRY: other players' bases came only from record mixing, which the removal commit
+deleted); a SMALL DESK is placed through PC > Decoration > Decorate, then the game is saved inside, soft
+reset and continued. The desk must still be drawn, the player must stand on the saved tile with
+control and the follower beside them, and the exit's south arrow warp must use the saved dynamic warp
+to put the player back below the entrance. A SELECT-registered HUB PASS then leaves from inside the
+base; the open entrance must lead back into the same base with the desk. The base then moves to the
+Route 114 brown cave (the party-menu SECRET POWER is refused first, as `SetUpFieldMove_SecretPower`
+does once a base exists) and the Route 111 yellow cave, and ends with PACK UP. On every route visited
+only the player's own entrance may draw differently from the layout's own block
+(`gMapHeader.mapLayout`), so a phantom base would show as an extra open entrance. Setup is the debug
+party, `setmonmove`, `additem` and `adddecoration` scripts and debug warps onto the approach tiles;
+every talk, YES, menu choice, save and walk is real input. `PW_SB_GENDER=1` plays May,
+`PW_SB_TEXT=<0..3>` sets the text speed. Coverage, no defect found: **63/63** (Brendan at the default
+clock, and May with instant text at `--rtc 1704157200`).
+### `TrickHouseOddPaths.lua`
+
+The Trick House by odd paths, with a Machop follower out. **1:** level 8 with all 30 ORNAMENT slots
+full, reaching the end room through puzzle 8's scroll, door and stairs: the end room says there is no
+room, the 'mechadoll' waits at the entrance (state 6, kept across a save and Continue), a talk with
+the slots still full keeps the tent pending, and once a slot is freed it hands over the tent exactly
+once. **2:** puzzle 3 (a rock smashed with real input) and puzzle 4 (a boulder pushed with Strength):
+out through the start door, back in, then save, soft reset and Continue in the room. The rock stays
+gone (this tree persists cleared obstacles), the boulder is wherever the game restores it, the
+follower is clear of every obstacle and the room is walkable; puzzle 3's first button raises a door on
+the follower's tile and the follower returns to its ball and comes back out. **3:** Dig and Teleport
+from the party menu and an Escape Rope from the Bag in puzzle 8 and the end room are refused with
+nothing changed. **4:** puzzle 8's slippery floor and puzzle 6's rotating gates walked with the
+follower (it hides while sliding, as upstream's `IsFollowerVisible` does). **5:** a seeded mash of
+every button through a hiding-spot discovery, the reward text and the exit spin (`PW_TRICK_SEED`).
+**6:** save and Continue with the Trick Master hiding and in the end room before and after the
+reward. **7:** the gates between puzzles, walked into without and then with the next gate's flag:
+badge 3 before puzzle 2, and the Hoenn championship before puzzle 8 with `FLAG_SYS_GAME_CLEAR` set
+(this tree's gate; upstream reads game clear, which another region's Hall of Fame sets).
+`PW_TRICK_ONLY=<n>` runs one scenario, `PW_TRICK_TEXT` sets the text speed. Coverage, no defect found:
+**207/207** (seed 1109, instant text); scenarios 1 to 6 also measured 187/187 at seed 31337 with slow
+text, and a scratch copy that freed a slot before the reward failed 13 checks.
+### `MirageOddPaths.lua`
+
+Mirage Island and Mirage Tower by odd paths, with the lead following. **island:**
+`VAR_MIRAGE_RND_H` is set to the lead's personality low half, then the player surfs from Route 129
+across the connection so ON_TRANSITION picks the layout; the island, its beach and the berry tree must
+be there and walkable, a save and Continue on it keeps it, and after the matching Pokemon is deposited
+through the PC (another save and Continue) a surf out and back leaves only surfable water where it
+stood. The island persisting across Continue until the next map load matches upstream (Continue does
+not rerun ON_TRANSITION). **tower_escape:** Dig from 4F (party menu) and an Escape Rope from 2F (Bag)
+land on (19,59) with control, the tower still drawn and the follower beside the player; then a save
+and Continue on Route 111 and a walk back into the tower. **tower_floor:** the follower smashes the 3F
+rock, the player falls through 3F and 2F cracked floors with a save and Continue on each floor.
+**fossil:** with a full party, full boxes and a full Items pocket both fossils are refused and the
+tower stays; with a slot free the collapse runs. `island_save` then `nextday` (opt-in, see the file
+header) measure a day change through `--rtc`: 13/13, and the same save on the same day fails 5.
+`PW_MIRAGE_SEED`, `PW_MIRAGE_TEXT`, `PW_MIRAGE_FEMALE=1` and `PW_MIRAGE_ONLY` are knobs. Coverage, no
+defect found: **106/106** at seed 0x5EED; 105/105 at seeds 24301, 7, 99991 and 31337 (the last as the
+female character with slow text at 22:00) before the final tower check was added.

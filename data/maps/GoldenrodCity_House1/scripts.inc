@@ -1,28 +1,6 @@
 GoldenrodCity_House1_MapScripts::
 	.byte 0
 
-GoldenrodCity_NameRatersHouse_EventScript_ToggleShinies::
-	lock
-	msgbox GoldenrodCity_NameRatersHouse_Text_AskToggleShinies, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_NameRatersHouse_EventScript_ToggleShiniesRefused
-	msgbox GoldenrodCity_NameRatersHouse_Text_ToggleShinies, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-
-GoldenrodCity_NameRatersHouse_EventScript_ToggleShiniesRefused::
-	release
-	end
-
-GoldenrodCity_NameRatersHouse_Text_AskToggleShinies:
-	.string "Would you like to toggle the Unique\n"
-	.string "Shiny Colors setting?$"
-
-GoldenrodCity_NameRatersHouse_Text_ToggleShinies:
-	.string "Shiny Colors Toggled!\p"
-	.string "View your setting at the CHALLENGE\n"
-	.string "VIEWER at any PC.$"
-
 GoldenrodCity_NameRatersHouse_EventScript_RenameRival::
 	lock
 	msgbox GoldenrodCity_NameRatersHouse_Text_RenameRival, MSGBOX_DEFAULT

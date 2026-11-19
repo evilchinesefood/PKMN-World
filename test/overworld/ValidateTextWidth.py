@@ -9,7 +9,7 @@ SWSH_MESSAGE_BOX narrowed every 27-tile message window to 26 tiles (216 to 208 p
 "more text" arrow to the window's bottom-right corner. TextPrinterDrawDownArrow fills that 8x16
 corner with the background before it draws the arrow, so a line that waits on \\p or \\l from
 the bottom row loses whatever it drew past width - 8. A line printed below the last row is not
-drawn at all.
+drawn at all. The main menu's save-error window is two rows deep, so a third row there is lost.
 
 Placeholders take their widest value at each call site. {PLAYER} is PLAYER_NAME_LENGTH of the
 widest glyphs the naming screen offers, {RIVAL} the widest name ExpandPlaceholder_RivalName can
@@ -269,6 +269,8 @@ def windows():
     story = int(story.group(1)) * 8
     intro = re.search(r"Dedicated textbox for the Pikachu.*?\.width = (\d+),\s*\.height = (\d+)", read("src/oak_speech.c"), re.S)
     message = (now if swsh else old) * 8
+    main = read("src/main_menu.c")
+    error_w, error_h = (int(re.search(rf"#define MENU_{k}_ERROR (\d+)", main).group(1)) for k in ("WIDTH", "HEIGHT"))
     return {
         "message": Window("message", message, rows, old * 8, arrow=arrow),
         "battle": Window("battle", battle, rows, battle, arrow=arrow),
@@ -276,6 +278,7 @@ def windows():
         "storage": Window("storage", store, 1, store),
         "story": Window("story", story, 3, story, origin=8, font="FONT_SMALL"),
         "intro": Window("intro", int(intro.group(1)) * 8, int(intro.group(2)) // 2, int(intro.group(1)) * 8, origin=3),
+        "main_menu": Window("main_menu", error_w * 8, error_h // 2, error_w * 8, arrow=arrow),
     }
 
 
@@ -541,8 +544,15 @@ def add_script_uses(messages, values):
 
 
 def c_messages(charmap, values):
-    """Story pages and storage messages: project text printed from C."""
+    """Story pages, storage messages and the main menu's save errors: project text printed from C."""
     out = []
+    rel = "src/main_menu.c"
+    body = read(rel)
+    for name in sorted(set(re.findall(r"CreateMainMenuErrorWindow\((gText_\w+)\)", body))):
+        lineno = body[:body.index(name + "[]")].count("\n") + 1
+        msg = Message(rel, name, [(s, b, lineno) for s, b in charmap.tokens(values.cstrings[name] + "$")])
+        msg.uses.append(("main_menu", {}, None))
+        out.append(msg)
     literal = r'"((?:[^"\\]|\\.)*)"'
     for rel in ["src/story_progress.c"] + sorted(str(p.relative_to(ROOT)) for p in (ROOT / "src/data/story_progress").glob("*.inc")):
         body = read(rel)

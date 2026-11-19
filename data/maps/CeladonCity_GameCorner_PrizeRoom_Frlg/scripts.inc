@@ -12,7 +12,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_OldMan::
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkMons::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	showcoinsbox 1, 1
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon
@@ -180,7 +181,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TransferredToPC::
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkTMs::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	showcoinsbox 1, 1
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeTM
@@ -236,9 +238,17 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TM35::
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeTM::
+	checkitem VAR_TEMP_1
+	goto_if_eq VAR_RESULT, TRUE, CeladonCity_GameCorner_PrizeRoom_EventScript_AlreadyHaveTM
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_YouWantTM, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize
+	end
+
+CeladonCity_GameCorner_PrizeRoom_EventScript_AlreadyHaveTM::
+	bufferitemname STR_VAR_1, VAR_TEMP_1
+	msgbox CeladonCity_GameCorner_PrizeRoom_Text_AlreadyHaveTM
+	goto CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeItem::
@@ -270,7 +280,8 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull::
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkItems::
 	lock
 	faceplayer
-	goto_if_unset FLAG_GOT_COIN_CASE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
+	checkitem ITEM_COIN_CASE
+	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_PrizeRoom_EventScript_NeedCoinCase
 	showcoinsbox 1, 1
 	msgbox CeladonCity_GameCorner_PrizeRoom_Text_WeExchangeCoinsForPrizes
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeItem
@@ -343,6 +354,10 @@ CeladonCity_GameCorner_PrizeRoom_Text_YouWantPrize::
 CeladonCity_GameCorner_PrizeRoom_Text_YouWantTM::
 	.string "Okay, a TM of {STR_VAR_2}\n"
 	.string "is what you want?$"
+
+CeladonCity_GameCorner_PrizeRoom_Text_AlreadyHaveTM::
+	.string "You already have {STR_VAR_1}.\n"
+	.string "A TM can be used again and again.$"
 
 CeladonCity_GameCorner_PrizeRoom_Text_NeedMoreCoins::
 	.string "Sorry, you'll need more COINS\n"

@@ -4108,6 +4108,15 @@ seeds 1, 2 and 3; no defect found. Against a ROM with `src/sliding_puzzle.c` rev
 ce646ce30b it scores **76/100**: all four boards rotate the cursor sprite on an A+R or A+L placement
 (found at inputs 63 to 121 of seed 1), and all four count the last tile placed with A+B as solved.
 
+The solver drops a tile knocked out by a swap on a free edge slot, and on any free slot when the
+edges are full. The Ho-Oh board starts with all eight edge slots taken. Before that fallback, a solve
+whose first pick was slot (3,2) lifted tile 14 from (0,2), swapped it for tile 5 and had nowhere to
+put 5, so the solve and its four follow-on checks failed at 95/100. That hit about one seed in five
+(seeds 7, 27 and 104729 among them), on master and on the pre-removal tree `5ac8745870^` alike. A
+board dump at seed 104729 showed a consistent game, with 15 tiles placed, tile 5 in hand and nine
+middle slots empty. With the fallback, seeds 1, 2, 3, 7, 27, 7919, 104729 and 2718281 score
+**100/100**. Against the same reverted ROM, seeds 1 and 104729 still score **76/100**.
+
 ### `RevisedHintLines.lua`
 
 The six NPC and sign scripts whose lines ce646ce30b rewrote, each driven through its real trigger

@@ -10,6 +10,9 @@
 -- BATTLE ROOM, and the rotation must still reach every other mode.
 -- Route 114 berry man: his daily berry still comes, and his lines no longer send the player to the
 -- retired BERRY CRUSH machine.
+-- Records boards kept for the retired minigames and link modes (Pokemon Jump and Dodrio Berry
+-- Picking at Mossdeep, the Berry Crush rankings at Slateport and Cerulean, the Lilycove blender
+-- speed and link contest boards): each opens from its sign and closes again.
 -- Every talk must hand control back with the field walkable and no crash screen.
 --
 -- PW_SEED=<n> reseeds the mash (default 1). PW_TEXT=instant|fast|mid picks the text speed
@@ -227,6 +230,25 @@ local function berryMan()
   F.check("route114: the field is walkable", walkable("route114"))
 end
 
+local BOARDS = {
+  { name = "mossdeep_dodrio", g = 14, n = 11, x = 0, y = 1 },
+  { name = "mossdeep_jump", g = 14, n = 11, x = 1, y = 1 },
+  { name = "slateport_crush", g = 0, n = 1, x = 10, y = 36 },
+  { name = "cerulean_crush", g = 41, n = 4, x = 3, y = 1 },
+  { name = "lilycove_blender", g = 13, n = 4, x = 30, y = 1 },
+  { name = "lilycove_link_contest", g = 13, n = 4, x = 18, y = 3 },
+}
+
+local function recordsBoard(b)
+  local tag = "board_" .. b.name
+  if not F.check(tag .. ": below the board", warp(b.g, b.n, b.x, b.y + 1)) then return end
+  F.face("Up")
+  local ran, back = pressA(tag)
+  F.check(tag .. ": the board opens", ran)
+  F.check(tag .. ": the board closes and hands control back", back)
+  F.check(tag .. ": the field is walkable", walkable(tag))
+end
+
 F.run(function()
   if not F.boot(100) then F.check("boot", false); F.finish(); return end
   F.w16(F.sb2() + S.SaveBlock2.optionsU16, (F.r16(F.sb2() + S.SaveBlock2.optionsU16) & ~7) | TEXT_SPEED)
@@ -234,6 +256,7 @@ F.run(function()
   for _, t in ipairs(SIGNS) do gymSign(t) end
   frontierManiac()
   berryMan()
+  for _, b in ipairs(BOARDS) do recordsBoard(b) end
   F.check("no crash screen", not F.reportCrash("end"))
   F.finish()
 end)
